@@ -31,9 +31,17 @@ import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import ConceptPage, {
   Props as ConceptPageProps,
 } from '@weco/content/views/pages/concepts/concept';
+import { makeConceptConfig } from '@weco/content/views/pages/concepts/concept/concept.config';
+import ConceptContext from '@weco/content/views/pages/concepts/concept/concept.context';
 
 export const Page: NextPage<ConceptPageProps> = props => {
-  return <ConceptPage {...props} />;
+  const config = makeConceptConfig(props.conceptResponse);
+
+  return (
+    <ConceptContext.Provider value={{ config }}>
+      <ConceptPage {...props} />
+    </ConceptContext.Provider>
+  );
 };
 
 function createApiToolbarLinks(concept: ConceptType): ApiToolbarLink[] {

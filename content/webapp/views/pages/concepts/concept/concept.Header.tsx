@@ -104,7 +104,6 @@ const ThemeHeader: FunctionComponent<{
         <>
           {config?.fieldOrArea?.display && (
             <RelatedConceptsGroup
-              concept={concept}
               dataGtmTriggerName="field_of_work"
               label={config.fieldOrArea.label || 'Field of work'}
               labelType="inline"
@@ -114,7 +113,6 @@ const ThemeHeader: FunctionComponent<{
 
           {config?.partOf?.display && (
             <RelatedConceptsGroup
-              concept={concept}
               label={config.partOf.label || 'Part of'}
               labelType="inline"
               relatedConcepts={narrowerThan}
@@ -124,19 +122,16 @@ const ThemeHeader: FunctionComponent<{
           {themePagesAllFields && (
             <>
               <RelatedConceptsGroup
-                concept={concept}
                 label="Notable people in this field"
                 labelType="heading"
                 relatedConcepts={people}
               />
               <RelatedConceptsGroup
-                concept={concept}
                 label="Related to"
                 labelType="heading"
                 relatedConcepts={relatedTo}
               />
               <RelatedConceptsGroup
-                concept={concept}
                 label="Broader than"
                 labelType="heading"
                 relatedConcepts={broaderThan}

@@ -408,7 +408,6 @@ const ConceptPage: NextPage<Props> = ({
                   }}
                 >
                   <RelatedConceptsGroup
-                    concept={conceptResponse}
                     dataGtmTriggerName="related_topics"
                     label={relatedConceptsGroupLabel}
                     labelType="heading"
@@ -433,8 +432,8 @@ const ConceptPage: NextPage<Props> = ({
       </CataloguePageLayout>
 
       {/* https://frontendmasters.com/blog/containers-context/
-      A Safari bug is forcing this to live here instead of its parent, ImageResults. 
-      The bug got fixed in Safari 18.2 (I think) but we support the latest two versions. 
+      A Safari bug is forcing this to live here instead of its parent, ImageResults.
+      The bug got fixed in Safari 18.2 (I think) but we support the latest two versions.
       It would be nice to move it back inside ImageResults once we're two versions ahead. */}
       <ImageModal
         images={allImages}
