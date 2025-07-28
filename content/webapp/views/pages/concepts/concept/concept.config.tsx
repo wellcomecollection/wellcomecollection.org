@@ -22,10 +22,7 @@ type ConceptConfig = {
   contributors: ConceptSection & {
     maxCount?: number;
   };
-  relatedTopics: {
-    display: boolean;
-    excludedTopics?: ConceptType[];
-  };
+  relatedTopics: ConceptSection & { excludedTopics?: ConceptType[] };
 };
 
 // The API response hasn't been curated for the front-end in order to make as much content available to
