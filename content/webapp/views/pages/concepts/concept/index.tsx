@@ -40,7 +40,7 @@ import WorksSearchResults from '@weco/content/views/components/WorksSearchResult
 import CataloguePageLayout from '@weco/content/views/layouts/CataloguePageLayout';
 
 import Collaborators from './concept.Collaborators';
-import { makeConceptConfig } from './concept.config';
+import { useConceptPageContext } from './concept.context';
 import Header from './concept.Header';
 import {
   getThemeSectionHeading,
@@ -236,7 +236,7 @@ const ConceptPage: NextPage<Props> = ({
   const { newThemePages, themePagesAllFields } = useToggles();
   const { isEnhanced } = useAppContext();
   const [expandedImage, setExpandedImage] = useExpandedImage(allImages);
-  const config = makeConceptConfig(conceptResponse);
+  const { config } = useConceptPageContext();
 
   const pathname = usePathname();
   const worksTabs = themeTabOrder
@@ -393,10 +393,7 @@ const ConceptPage: NextPage<Props> = ({
                       properties: ['margin-top', 'margin-bottom'],
                     }}
                   >
-                    <Collaborators
-                      concept={conceptResponse}
-                      concepts={frequentCollaborators}
-                    />
+                    <Collaborators concepts={frequentCollaborators} />
                   </Space>
                 </>
               )}

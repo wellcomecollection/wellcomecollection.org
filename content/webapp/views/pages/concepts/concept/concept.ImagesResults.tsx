@@ -17,6 +17,7 @@ import CatalogueImageGallery from '@weco/content/views/components/CatalogueImage
 import MoreLink from '@weco/content/views/components/MoreLink';
 import { toLink as toImagesLink } from '@weco/content/views/components/SearchPagesLink/Images';
 
+import { useConceptPageContext } from './concept.context';
 import {
   getImagesSectionHeading,
   getThemeSectionHeading,
@@ -62,6 +63,7 @@ const ImageSection: FunctionComponent<Props> = ({
   concept,
   type,
 }) => {
+  const { config } = useConceptPageContext();
   const pathname = usePathname();
   const firstTenImages = useMemo(
     () => singleSectionData?.pageResults.slice(0, 10) || [],
@@ -79,7 +81,7 @@ const ImageSection: FunctionComponent<Props> = ({
       data-id={`images-${type}`}
     >
       <SectionHeading id={`images-${type}`}>
-        {getImagesSectionHeading(type, concept)}
+        {getImagesSectionHeading(type, config)}
       </SectionHeading>
       <CatalogueImageGallery
         // Show the first 10 images, unless the total is 12 or fewer, in which case show all images

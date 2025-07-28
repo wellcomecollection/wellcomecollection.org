@@ -25,6 +25,8 @@ import {
   ThemeTabType,
 } from '@weco/content/views/pages/concepts/concept/concept.helpers';
 
+import { useConceptPageContext } from './concept.context';
+
 const WorksCount = styled(Space).attrs({
   as: 'p',
   className: font('intr', 6),
@@ -53,6 +55,7 @@ type Props = {
 };
 
 const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
+  const { config } = useConceptPageContext();
   const tabs = themeTabOrder
     .filter(
       tabType =>
@@ -61,7 +64,7 @@ const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
     )
     .map(tabType => ({
       id: tabType,
-      text: getWorksTabHeading(tabType, concept),
+      text: getWorksTabHeading(tabType, config),
     }));
 
   const [selectedTab, setSelectedTab] = useState<ThemeTabType | null>(

@@ -13,7 +13,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import SourcedDescription from '@weco/content/views/components/SourcedDescription';
 
-import { makeConceptConfig } from './concept.config';
+import { useConceptPageContext } from './concept.context';
 import RelatedConceptsGroup from './concept.RelatedConceptsGroup';
 
 const ConceptHero = styled(Space).attrs({
@@ -73,7 +73,7 @@ const ThemeHeader: FunctionComponent<{
   concept: Concept;
 }> = ({ concept }) => {
   const { themePagesAllFields } = useToggles();
-  const config = makeConceptConfig(concept);
+  const { config } = useConceptPageContext();
 
   const { narrowerThan, fieldsOfWork, people, relatedTo, broaderThan } =
     concept.relatedConcepts || {};

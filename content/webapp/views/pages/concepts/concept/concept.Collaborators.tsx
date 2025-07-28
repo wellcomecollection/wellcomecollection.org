@@ -4,13 +4,12 @@ import styled from 'styled-components';
 import { organisation, user } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import {
-  Concept,
   ConceptType,
   RelatedConcept,
 } from '@weco/content/services/wellcome/catalogue/types';
 
 import CollaboratorCard from './concept.Collaborators.Card';
-import { makeConceptConfig } from './concept.config';
+import { useConceptPageContext } from './concept.context';
 
 const COLLABORATOR_COUNT_LIMIT = 3;
 
@@ -30,14 +29,13 @@ const iconFromConceptType = (type: ConceptType) => {
 };
 
 const Collaborators: FunctionComponent<{
-  concept: Concept;
   concepts?: RelatedConcept[];
-}> = ({ concept, concepts }) => {
+}> = ({ concepts }) => {
+  const { config } = useConceptPageContext();
+
   if (!concepts || concepts.length === 0) {
     return null;
   }
-
-  const config = makeConceptConfig(concept);
 
   return (
     <section data-id="frequent-collaborators">

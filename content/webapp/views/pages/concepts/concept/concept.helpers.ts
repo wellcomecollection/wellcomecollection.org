@@ -7,7 +7,7 @@ import {
 } from '@weco/content/services/wellcome/catalogue/types';
 import { conceptTypeDisplayName } from '@weco/content/utils/concepts';
 
-import { makeConceptConfig } from './concept.config';
+import { ConceptConfig } from './concept.config';
 
 export type ThemeTabType = 'by' | 'in' | 'about';
 export const themeTabOrder: ThemeTabType[] = ['by', 'in', 'about'];
@@ -47,9 +47,8 @@ export const getThemeSectionHeading = (
 
 export function getImagesSectionHeading(
   tabType: ThemeTabType,
-  concept: Concept
+  config?: ConceptConfig
 ) {
-  const config = makeConceptConfig(concept);
   switch (tabType) {
     case 'by':
       return config?.imagesBy.label;
@@ -62,8 +61,10 @@ export function getImagesSectionHeading(
   }
 }
 
-export function getWorksTabHeading(tabType: ThemeTabType, concept: Concept) {
-  const config = makeConceptConfig(concept);
+export function getWorksTabHeading(
+  tabType: ThemeTabType,
+  config?: ConceptConfig
+) {
   switch (tabType) {
     case 'by':
       return config?.worksBy.label;
