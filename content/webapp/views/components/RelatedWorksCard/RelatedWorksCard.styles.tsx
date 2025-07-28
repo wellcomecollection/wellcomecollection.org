@@ -1,11 +1,6 @@
-import { FunctionComponent } from 'react';
 import styled, { css } from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
-import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
-import LabelsList from '@weco/common/views/components/LabelsList';
-import WorkLink from '@weco/content/views/components/WorkLink';
-import { ContentAPILinkedWork } from '@weco/content/views/pages/stories/story/tempMockData';
 
 const clampLineStyles = css<{ $linesToClamp: number }>`
   display: -webkit-box;
@@ -15,7 +10,7 @@ const clampLineStyles = css<{ $linesToClamp: number }>`
   -webkit-line-clamp: ${props => props.$linesToClamp};
 `;
 
-const Card = styled.a`
+export const Card = styled.a`
   display: flex;
   padding: ${props => props.theme.spacingUnits['3']}px;
   background-color: ${props => props.theme.color('white')};
@@ -35,7 +30,7 @@ const Card = styled.a`
   `}
 `;
 
-const TextWrapper = styled.div`
+export const TextWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -65,7 +60,7 @@ const TextWrapper = styled.div`
   }
 `;
 
-const Title = styled.h2.attrs({
+export const Title = styled.h2.attrs({
   className: font('intb', 5),
 })<{ $linesToClamp: number }>`
   ${clampLineStyles};
@@ -76,11 +71,11 @@ const Title = styled.h2.attrs({
   }
 `;
 
-const LineClamp = styled.div<{ $linesToClamp: number }>`
+export const LineClamp = styled.div<{ $linesToClamp: number }>`
   ${clampLineStyles};
 `;
 
-const ImageWrapper = styled.div`
+export const ImageWrapper = styled.div`
   width: 100%;
   max-height: 250px;
   order: -1;
@@ -129,57 +124,8 @@ const ImageWrapper = styled.div`
   `}
 `;
 
-const MetaContainer = styled.div.attrs({
+export const MetaContainer = styled.div.attrs({
   className: font('intr', 6),
 })`
   color: ${props => props.theme.color('neutral.600')};
 `;
-
-type LinkedWorkCardProps = {
-  work: ContentAPILinkedWork;
-  parentId: string;
-};
-
-const LinkedWorkCard: FunctionComponent<LinkedWorkCardProps> = ({
-  work,
-  parentId,
-}: LinkedWorkCardProps) => {
-  return (
-    <WorkLink id={work.id} source={`story_featured_${parentId}`} passHref>
-      <Card>
-        <TextWrapper>
-          <div>
-            <LabelsList
-              labels={work.labels}
-              defaultLabelColor="warmNeutral.300"
-            />
-            <Title $linesToClamp={3}>{work.title}</Title>
-          </div>
-
-          <MetaContainer>
-            {work.mainContributor && (
-              <LineClamp $linesToClamp={1}>{work.mainContributor}</LineClamp>
-            )}
-            {work.date && (
-              <LineClamp $linesToClamp={1}>Date: {work.date}</LineClamp>
-            )}
-          </MetaContainer>
-        </TextWrapper>
-
-        {work.thumbnailUrl && (
-          <ImageWrapper>
-            <img
-              src={convertIiifImageUri(work.thumbnailUrl, 120)}
-              alt={work.title}
-              loading="lazy"
-              width="200"
-              height="200"
-            />
-          </ImageWrapper>
-        )}
-      </Card>
-    </WorkLink>
-  );
-};
-
-export default LinkedWorkCard;

@@ -5,10 +5,9 @@ import { font } from '@weco/common/utils/classnames';
 import { ContaineredLayout } from '@weco/common/views/components/Layout';
 import { SizeMap } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
+import RelatedWorksCard from '@weco/content/views/components/RelatedWorksCard';
 import ScrollContainer from '@weco/content/views/components/ScrollContainer';
 import { ContentAPILinkedWork } from '@weco/content/views/pages/stories/story/tempMockData';
-
-import LinkedWorkCard from './ContentPage.LinkedWorks.Card';
 
 const FullWidthRow = styled(Space).attrs({
   $v: { size: 'l', properties: ['padding-bottom'] },
@@ -112,9 +111,17 @@ const LinkedWorks: FunctionComponent<LinkedWorkProps> = ({
         gridSizes={gridSizes}
       >
         <Shim $gridValues={gridValues}></Shim>
-        {linkedWorks.map(work => (
+        {linkedWorks.map((work, i) => (
           <ListItem key={work.id}>
-            <LinkedWorkCard work={work} parentId={parentId} />
+            <RelatedWorksCard
+              work={work}
+              source={`story_featured_${parentId}`}
+              gtmData={{
+                trigger: 'work-link-component',
+                id: work.id,
+                'position-in-list': `${i + 1}`,
+              }}
+            />
           </ListItem>
         ))}
       </ScrollContainer>
