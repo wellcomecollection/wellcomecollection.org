@@ -56,8 +56,10 @@ type ConceptConfig = {
     fieldOrArea: ConceptSection;
     imagesBy: ConceptSection;
     imagesAbout: ConceptSection;
+    imagesIn: ConceptSection;
     worksBy: ConceptSection;
     worksAbout: ConceptSection;
+    worksIn: ConceptSection;
     contributors: {
       maxCount: number;
       label?: string;
@@ -96,9 +98,15 @@ export const conceptsConfig: ConceptsConfig = {
       display: true,
       label: 'Images featuring',
     },
+    imagesIn: {
+      display: false,
+    },
     worksBy: {
       display: true,
       label: 'Works by this person',
+    },
+    worksIn: {
+      display: false,
     },
     worksAbout: {
       display: true,
@@ -136,6 +144,9 @@ export const conceptsConfig: ConceptsConfig = {
       display: true,
       label: 'Images referencing',
     },
+    imagesIn: {
+      display: false,
+    },
     worksBy: {
       display: true,
       label: 'Works by this person/group',
@@ -143,6 +154,9 @@ export const conceptsConfig: ConceptsConfig = {
     worksAbout: {
       display: true,
       label: 'Works referencing this person/group',
+    },
+    worksIn: {
+      display: false,
     },
     contributors: {
       maxCount: 12,
@@ -175,6 +189,9 @@ export const conceptsConfig: ConceptsConfig = {
       display: true,
       label: 'Images referencing',
     },
+    imagesIn: {
+      display: false,
+    },
     worksBy: {
       display: true,
       label: 'Works by this organisation',
@@ -182,6 +199,9 @@ export const conceptsConfig: ConceptsConfig = {
     worksAbout: {
       display: true,
       label: 'Works referencing this organisation',
+    },
+    worksIn: {
+      display: false,
     },
     contributors: {
       maxCount: 12,
@@ -213,6 +233,9 @@ export const conceptsConfig: ConceptsConfig = {
       display: true,
       label: 'Images referencing',
     },
+    imagesIn: {
+      display: false,
+    },
     worksBy: {
       display: true,
       label: 'Works produced by this place',
@@ -220,6 +243,9 @@ export const conceptsConfig: ConceptsConfig = {
     worksAbout: {
       display: true,
       label: 'Works referencing this place',
+    },
+    worksIn: {
+      display: false,
     },
     contributors: {
       maxCount: 0,
@@ -244,11 +270,17 @@ export const conceptsConfig: ConceptsConfig = {
     imagesBy: {
       display: false,
     },
+    imagesIn: {
+      display: false,
+    },
     imagesAbout: {
       display: true,
       label: 'Images about',
     },
     worksBy: {
+      display: false,
+    },
+    worksIn: {
       display: false,
     },
     worksAbout: {
@@ -278,20 +310,26 @@ export const conceptsConfig: ConceptsConfig = {
       display: false,
     },
     imagesBy: {
-      display: true,
-      label: 'Images of',
+      display: false,
     },
     imagesAbout: {
       display: true,
       label: 'Images about',
     },
-    worksBy: {
+    imagesIn: {
       display: true,
-      label: 'Works using this type/technique',
+      label: 'Images of',
+    },
+    worksBy: {
+      display: false,
     },
     worksAbout: {
       display: true,
       label: 'Works about this type/technique',
+    },
+    worksIn: {
+      display: true,
+      label: 'Works using this type/technique',
     },
     contributors: {
       maxCount: 4,
@@ -324,6 +362,9 @@ export const conceptsConfig: ConceptsConfig = {
       display: true,
       label: 'Images referencing',
     },
+    imagesIn: {
+      display: false,
+    },
     worksBy: {
       display: true,
       label: 'Works by this topic',
@@ -331,6 +372,9 @@ export const conceptsConfig: ConceptsConfig = {
     worksAbout: {
       display: true,
       label: 'Works referencing this topic',
+    },
+    worksIn: {
+      display: false,
     },
     contributors: {
       maxCount: 0,
