@@ -69,7 +69,9 @@ const CopyContent: FunctionComponent<Props> = ({
         <ButtonContainer>
           <Button
             variant="ButtonSolid"
-            dataGtmTrigger="copy_content"
+            dataGtmProps={{
+              trigger: 'copy_content',
+            }}
             colors={themeValues.buttonColors.pumiceTransparentCharcoal}
             size="small"
             aria-live="assertive"

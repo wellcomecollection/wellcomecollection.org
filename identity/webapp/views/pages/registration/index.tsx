@@ -218,7 +218,9 @@ const RegistrationPage: NextPage<Props> = ({
                       <FullWidthButton>
                         <Button
                           variant="ButtonSolid"
-                          dataGtmTrigger="create_library_account"
+                          dataGtmProps={{
+                            trigger: 'create_library_account',
+                          }}
                           type={ButtonTypes.submit}
                           text="Create library account"
                         />

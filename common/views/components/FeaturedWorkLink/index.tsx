@@ -12,9 +12,9 @@ const WorkLinkWithIcon = styled.a`
 
     background-image: url('https://i.wellcomecollection.org/assets/icons/favicon-32x32.png');
     background-repeat: no-repeat;
-    background-size: 1em;
+    background-size: 14px; /* 14px is the smallest size it should be and we want them all to be the same */
     background-position: center;
-    padding-right: 1.25em;
+    padding-right: 18px;
   }
 `;
 

@@ -9,6 +9,7 @@ import {
 import styled, { css } from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
+import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Space from '@weco/common/views/components/styled/Space';
 import { SourceOntology } from '@weco/content/services/wellcome/catalogue/types';
 
@@ -36,7 +37,7 @@ const SourceBoxContainer = styled.div<{ $marginLeft: number }>`
     visibility 200ms ease,
     opacity 200ms ease;
   visibility: hidden;
-  z-index: 3;
+  z-index: 4;
 `;
 
 const showSourceBox = css`
@@ -194,7 +195,7 @@ const SourcedDescription: FunctionComponent<{
           {getReadableSource(source)}
         </SourceLabel>
         <SourceBoxContainer $marginLeft={sourceBoxMarginLeft}>
-          <SourceBox>
+          <SourceBox {...dataGtmPropsToAttributes({ trigger: 'source_box' })}>
             <span className={font('intm', 6)}>Source:</span>
             <SourceLink>
               {source === 'wikidata' && <WikidataLogo width={16} />}

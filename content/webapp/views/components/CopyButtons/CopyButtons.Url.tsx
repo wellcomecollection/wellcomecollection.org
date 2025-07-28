@@ -70,7 +70,9 @@ const CopyUrl: FunctionComponent<Props> = ({
         >
           <Button
             variant="ButtonSolid"
-            dataGtmTrigger="copy_url"
+            dataGtmProps={{
+              trigger: 'copy_url',
+            }}
             colors={themeValues.buttonColors.pumiceTransparentCharcoal}
             size="small"
             aria-live="assertive"
