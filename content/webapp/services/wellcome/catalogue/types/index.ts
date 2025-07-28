@@ -127,6 +127,7 @@ export type SourceOntology =
 
 export type ConceptType =
   | 'Subject'
+  | 'Agent'
   | 'Meeting'
   | 'Organisation'
   | 'Person'
