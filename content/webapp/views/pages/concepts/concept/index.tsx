@@ -8,11 +8,7 @@ import { pageDescriptionConcepts } from '@weco/common/data/microcopy';
 import { ImagesLinkSource } from '@weco/common/data/segment-values';
 import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
-import {
-  capitalize,
-  dasherize,
-  formatNumber,
-} from '@weco/common/utils/grammar';
+import { capitalize, formatNumber } from '@weco/common/utils/grammar';
 import { ReturnedResults } from '@weco/common/utils/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Container } from '@weco/common/views/components/styled/Container';
@@ -44,6 +40,7 @@ import WorksSearchResults from '@weco/content/views/components/WorksSearchResult
 import CataloguePageLayout from '@weco/content/views/layouts/CataloguePageLayout';
 
 import Collaborators from './concept.Collaborators';
+import { makeConceptConfig } from './concept.config';
 import Header from './concept.Header';
 import {
   getThemeSectionHeading,
@@ -239,6 +236,7 @@ const ConceptPage: NextPage<Props> = ({
   const { newThemePages, themePagesAllFields } = useToggles();
   const { isEnhanced } = useAppContext();
   const [expandedImage, setExpandedImage] = useExpandedImage(allImages);
+  const config = makeConceptConfig(conceptResponse);
 
   const pathname = usePathname();
   const worksTabs = themeTabOrder
@@ -298,7 +296,8 @@ const ConceptPage: NextPage<Props> = ({
 
   const { frequentCollaborators, relatedTopics } =
     conceptResponse.relatedConcepts || {};
-  const relatedConceptsGroupLabel = 'Related topics';
+  const relatedConceptsGroupLabel =
+    config?.relatedTopics.label || 'Related topics';
   const personOrAllFields =
     conceptResponse.type === 'Person' || themePagesAllFields;
   const buildNavLinks = () => {
@@ -331,7 +330,7 @@ const ConceptPage: NextPage<Props> = ({
     if (relatedTopics?.length && personOrAllFields) {
       links.push({
         text: relatedConceptsGroupLabel,
-        url: `#${dasherize(relatedConceptsGroupLabel)}`,
+        url: `#related-topics`,
       });
     }
 
@@ -386,7 +385,7 @@ const ConceptPage: NextPage<Props> = ({
                 sectionsData={sectionsData}
               />
 
-              {(conceptResponse.type === 'Person' || themePagesAllFields) && (
+              {config?.collaborators.display && (
                 <>
                   <Space
                     $v={{
@@ -394,25 +393,31 @@ const ConceptPage: NextPage<Props> = ({
                       properties: ['margin-top', 'margin-bottom'],
                     }}
                   >
-                    <Collaborators concepts={frequentCollaborators} />
-                  </Space>
-                  <Space
-                    $v={{
-                      size: 'xl',
-                      properties: ['margin-top', 'margin-bottom'],
-                    }}
-                  >
-                    <RelatedConceptsGroup
-                      dataGtmTriggerName="related_topics"
-                      label={relatedConceptsGroupLabel}
-                      labelType="heading"
-                      relatedConcepts={relatedTopics}
-                      buttonColors={
-                        themeValues.buttonColors.silverTransparentBlack
-                      }
+                    <Collaborators
+                      concept={conceptResponse}
+                      concepts={frequentCollaborators}
                     />
                   </Space>
                 </>
+              )}
+              {config?.relatedTopics.display && (
+                <Space
+                  $v={{
+                    size: 'xl',
+                    properties: ['margin-top', 'margin-bottom'],
+                  }}
+                >
+                  <RelatedConceptsGroup
+                    concept={conceptResponse}
+                    dataGtmTriggerName="related_topics"
+                    label={relatedConceptsGroupLabel}
+                    labelType="heading"
+                    relatedConcepts={relatedTopics}
+                    buttonColors={
+                      themeValues.buttonColors.silverTransparentBlack
+                    }
+                  />
+                </Space>
               )}
               {
                 // This is a placeholder for the Hotjar embedded survey to be injected

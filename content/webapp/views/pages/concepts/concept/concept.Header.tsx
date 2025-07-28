@@ -13,6 +13,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import SourcedDescription from '@weco/content/views/components/SourcedDescription';
 
+import { makeConceptConfig } from './concept.config';
 import RelatedConceptsGroup from './concept.RelatedConceptsGroup';
 
 const ConceptHero = styled(Space).attrs({
@@ -72,6 +73,7 @@ const ThemeHeader: FunctionComponent<{
   concept: Concept;
 }> = ({ concept }) => {
   const { themePagesAllFields } = useToggles();
+  const config = makeConceptConfig(concept);
 
   const { narrowerThan, fieldsOfWork, people, relatedTo, broaderThan } =
     concept.relatedConcepts || {};
@@ -87,7 +89,7 @@ const ThemeHeader: FunctionComponent<{
             />
           )}
         </Layout>
-        {concept.description && (
+        {concept.description && config?.sourcedDescription.display && (
           <Layout gridSizes={gridSize8(false)}>
             <ThemeDescription>
               <SourcedDescription
@@ -100,32 +102,41 @@ const ThemeHeader: FunctionComponent<{
         )}
 
         <>
-          {(concept.type === 'Person' || themePagesAllFields) && (
+          {config?.fieldOrArea?.display && (
             <RelatedConceptsGroup
+              concept={concept}
               dataGtmTriggerName="field_of_work"
-              label="Field of work"
+              label={config.fieldOrArea.label || 'Field of work'}
               labelType="inline"
               relatedConcepts={fieldsOfWork}
             />
           )}
+
+          {config?.partOf?.display && (
+            <RelatedConceptsGroup
+              concept={concept}
+              label={config.partOf.label || 'Part of'}
+              labelType="inline"
+              relatedConcepts={narrowerThan}
+            />
+          )}
+
           {themePagesAllFields && (
             <>
               <RelatedConceptsGroup
-                label="Part of"
-                labelType="inline"
-                relatedConcepts={narrowerThan}
-              />
-              <RelatedConceptsGroup
+                concept={concept}
                 label="Notable people in this field"
                 labelType="heading"
                 relatedConcepts={people}
               />
               <RelatedConceptsGroup
+                concept={concept}
                 label="Related to"
                 labelType="heading"
                 relatedConcepts={relatedTo}
               />
               <RelatedConceptsGroup
+                concept={concept}
                 label="Broader than"
                 labelType="heading"
                 relatedConcepts={broaderThan}

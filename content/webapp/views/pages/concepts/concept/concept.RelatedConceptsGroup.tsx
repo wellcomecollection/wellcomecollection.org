@@ -6,7 +6,12 @@ import { dasherize } from '@weco/common/utils/grammar';
 import Button, { ButtonColors } from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
-import { RelatedConcept } from '@weco/content/services/wellcome/catalogue/types';
+import {
+  Concept,
+  RelatedConcept,
+} from '@weco/content/services/wellcome/catalogue/types';
+
+import { makeConceptConfig } from './concept.config';
 
 const RelatedConceptsContainer = styled.div.attrs({
   className: font('intm', 5),
@@ -31,6 +36,7 @@ const SectionHeading = styled.h2.attrs({
 })``;
 
 type Props = {
+  concept: Concept;
   label: string;
   labelType: 'inline' | 'heading';
   relatedConcepts?: RelatedConcept[];
@@ -39,6 +45,7 @@ type Props = {
 };
 
 const RelatedConceptsGroup: FunctionComponent<Props> = ({
+  concept,
   label,
   labelType,
   relatedConcepts,
@@ -48,6 +55,11 @@ const RelatedConceptsGroup: FunctionComponent<Props> = ({
   if (!relatedConcepts || relatedConcepts.length === 0) {
     return null;
   }
+
+  const config = makeConceptConfig(concept);
+  const displayRelatedConcepts = relatedConcepts.filter(
+    c => !config?.relatedTopics.excludedTopics?.includes(c.conceptType)
+  );
 
   return (
     <Space
@@ -60,7 +72,7 @@ const RelatedConceptsGroup: FunctionComponent<Props> = ({
       )}
       <RelatedConceptsContainer>
         {labelType === 'inline' && <span>{label}</span>}
-        {relatedConcepts.map((item, index) => (
+        {displayRelatedConcepts.map((item, index) => (
           <RelatedConceptItem
             key={item.id}
             $isFullWidth={

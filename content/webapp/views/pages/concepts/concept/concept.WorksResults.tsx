@@ -18,7 +18,7 @@ import { toLink as toWorksLink } from '@weco/content/views/components/SearchPage
 import Tabs from '@weco/content/views/components/Tabs';
 import WorksSearchResults from '@weco/content/views/components/WorksSearchResults';
 import {
-  getThemeSectionHeading,
+  getWorksTabHeading,
   SectionData,
   ThemePageSectionsData,
   themeTabOrder,
@@ -61,7 +61,7 @@ const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
     )
     .map(tabType => ({
       id: tabType,
-      text: capitalize(getThemeSectionHeading(tabType, concept)),
+      text: getWorksTabHeading(tabType, concept),
     }));
 
   const [selectedTab, setSelectedTab] = useState<ThemeTabType | null>(

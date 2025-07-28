@@ -18,6 +18,7 @@ import MoreLink from '@weco/content/views/components/MoreLink';
 import { toLink as toImagesLink } from '@weco/content/views/components/SearchPagesLink/Images';
 
 import {
+  getImagesSectionHeading,
   getThemeSectionHeading,
   SectionData,
   ThemePageSectionsData,
@@ -78,7 +79,7 @@ const ImageSection: FunctionComponent<Props> = ({
       data-id={`images-${type}`}
     >
       <SectionHeading id={`images-${type}`}>
-        Images {getThemeSectionHeading(type, concept, true)}
+        {getImagesSectionHeading(type, concept)}
       </SectionHeading>
       <CatalogueImageGallery
         // Show the first 10 images, unless the total is 12 or fewer, in which case show all images

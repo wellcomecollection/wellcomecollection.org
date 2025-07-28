@@ -8,7 +8,7 @@ type ConceptSection = {
   label?: string;
 };
 
-type ConceptConfig = {
+export type ConceptConfig = {
   displayName: ConceptSection;
   partOf: ConceptSection;
   sourcedDescription: ConceptSection;
@@ -19,7 +19,7 @@ type ConceptConfig = {
   worksBy: ConceptSection;
   worksAbout: ConceptSection;
   worksIn: ConceptSection;
-  contributors: ConceptSection & {
+  collaborators: ConceptSection & {
     maxCount?: number;
   };
   relatedTopics: ConceptSection & { excludedTopics?: ConceptType[] };
@@ -44,7 +44,7 @@ export function makeConceptConfig(concept: Concept): ConceptConfig | undefined {
         },
         fieldOrArea: {
           display: true,
-          label: 'Field',
+          label: 'Field of work',
         },
         imagesBy: {
           display: true,
@@ -68,7 +68,7 @@ export function makeConceptConfig(concept: Concept): ConceptConfig | undefined {
           display: true,
           label: 'Works featuring this person',
         },
-        contributors: {
+        collaborators: {
           display: true,
           label: 'Frequent collaborators',
           maxCount: 12,
@@ -93,7 +93,7 @@ export function makeConceptConfig(concept: Concept): ConceptConfig | undefined {
         },
         fieldOrArea: {
           display: true,
-          label: 'Field',
+          label: 'Field of work',
         },
         imagesBy: {
           display: true,
@@ -117,7 +117,7 @@ export function makeConceptConfig(concept: Concept): ConceptConfig | undefined {
         worksIn: {
           display: false,
         },
-        contributors: {
+        collaborators: {
           display: true,
           label: 'Frequent collaborators',
           maxCount: 12,
@@ -141,7 +141,7 @@ export function makeConceptConfig(concept: Concept): ConceptConfig | undefined {
         },
         fieldOrArea: {
           display: true,
-          label: 'Area',
+          label: 'Area of work',
         },
         imagesBy: {
           display: true,
@@ -165,7 +165,7 @@ export function makeConceptConfig(concept: Concept): ConceptConfig | undefined {
         worksIn: {
           display: false,
         },
-        contributors: {
+        collaborators: {
           display: true,
           label: 'Frequent collaborators',
           maxCount: 12,
@@ -212,7 +212,7 @@ export function makeConceptConfig(concept: Concept): ConceptConfig | undefined {
         worksIn: {
           display: false,
         },
-        contributors: {
+        collaborators: {
           display: false,
         },
         relatedTopics: {
@@ -254,7 +254,7 @@ export function makeConceptConfig(concept: Concept): ConceptConfig | undefined {
           display: true,
           label: 'Works about this subject',
         },
-        contributors: {
+        collaborators: {
           display: true,
           label: `Top contributors to the collections in ${concept.displayLabel || concept.label}`,
           maxCount: 4,
@@ -301,7 +301,7 @@ export function makeConceptConfig(concept: Concept): ConceptConfig | undefined {
           display: true,
           label: 'Works using this type/technique',
         },
-        contributors: {
+        collaborators: {
           display: true,
           label:
             'Top contributors to the collections using this type/technique',
@@ -350,7 +350,7 @@ export function makeConceptConfig(concept: Concept): ConceptConfig | undefined {
         worksIn: {
           display: false,
         },
-        contributors: {
+        collaborators: {
           display: false,
         },
         relatedTopics: {
