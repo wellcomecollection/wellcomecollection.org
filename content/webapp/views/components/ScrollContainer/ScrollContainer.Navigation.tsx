@@ -10,16 +10,16 @@ import useSwipeable, {
 } from '@weco/content/views/components/CatalogueImageGallery/useSwipeable';
 
 const ScrollButtonsContainer = styled(Space)<{
-  $isDarkMode?: boolean;
+  $hasDarkBackground?: boolean;
   $hasLeftOffset?: boolean;
 }>`
   display: flex;
   justify-content: flex-end;
   ${props => (props.$hasLeftOffset ? props.theme.pageGridOffset('left') : '')};
 
-  /* Set CSS variables based on $isDarkMode */
+  /* Set CSS variables based on $hasDarkBackground */
   --button-color: ${props =>
-    props.theme.color(props.$isDarkMode ? 'white' : 'black')};
+    props.theme.color(props.$hasDarkBackground ? 'white' : 'black')};
 `;
 
 const ScrollButton = styled('button').attrs({
@@ -37,13 +37,13 @@ const ScrollButton = styled('button').attrs({
 `;
 type Props = {
   containerRef: RefObject<HTMLElement | null>;
-  isDarkMode?: boolean;
+  hasDarkBackground?: boolean;
   hasLeftOffset?: boolean;
 };
 
 const ScrollableNavigation: FunctionComponent<Props> = ({
   containerRef,
-  isDarkMode,
+  hasDarkBackground,
   hasLeftOffset,
 }: Props) => {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -110,7 +110,7 @@ const ScrollableNavigation: FunctionComponent<Props> = ({
 
   return (
     <ScrollButtonsContainer
-      $isDarkMode={isDarkMode}
+      $hasDarkBackground={hasDarkBackground}
       $hasLeftOffset={hasLeftOffset}
     >
       <ScrollButton

@@ -20,9 +20,9 @@ const ScrollButtonsContainer = styled(Space).attrs({
 
 const Label = styled(Space).attrs({
   className: font('intr', 6),
-})<{ $isDarkMode?: boolean }>`
+})<{ $hasDarkBackground?: boolean }>`
   color: ${props =>
-    props.theme.color(props.$isDarkMode ? 'neutral.400' : 'black')};
+    props.theme.color(props.$hasDarkBackground ? 'neutral.400' : 'black')};
 `;
 
 const ContentContainer = styled(PlainList)`
@@ -34,14 +34,14 @@ const ContentContainer = styled(PlainList)`
 
 type Props = PropsWithChildren<{
   label?: string;
-  isDarkMode?: boolean;
+  hasDarkBackground?: boolean;
   gridSizes?: SizeMap;
   hasLeftOffset?: boolean;
 }>;
 
 const ScrollContainer: FunctionComponent<Props> = ({
   label,
-  isDarkMode,
+  hasDarkBackground,
   gridSizes,
   hasLeftOffset,
   children,
@@ -59,11 +59,13 @@ const ScrollContainer: FunctionComponent<Props> = ({
         )}
       >
         <ScrollButtonsContainer>
-          {label && <Label $isDarkMode={isDarkMode}>{label}</Label>}
+          {label && (
+            <Label $hasDarkBackground={hasDarkBackground}>{label}</Label>
+          )}
 
           <ScrollableNavigation
             containerRef={scrollContainerRef}
-            isDarkMode={isDarkMode}
+            hasDarkBackground={hasDarkBackground}
             hasLeftOffset={hasLeftOffset}
           />
         </ScrollButtonsContainer>
