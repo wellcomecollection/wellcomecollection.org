@@ -35,6 +35,7 @@ type Props = {
   labelType: 'inline' | 'heading';
   relatedConcepts?: RelatedConcept[];
   buttonColors?: ButtonColors;
+  dataGtmTriggerName?: string;
 };
 
 const RelatedConceptsGroup: FunctionComponent<Props> = ({
@@ -42,6 +43,7 @@ const RelatedConceptsGroup: FunctionComponent<Props> = ({
   labelType,
   relatedConcepts,
   buttonColors,
+  dataGtmTriggerName,
 }: Props) => {
   if (!relatedConcepts || relatedConcepts.length === 0) {
     return null;
@@ -67,10 +69,12 @@ const RelatedConceptsGroup: FunctionComponent<Props> = ({
           >
             <Space className={font('intr', 5)}>
               <Button
-                dataGtmProps={{
-                  trigger: 'field_of_work',
-                  'position-in-list': `${index + 1}`,
-                }}
+                {...(dataGtmTriggerName && {
+                  dataGtmProps: {
+                    trigger: dataGtmTriggerName,
+                    'position-in-list': `${index + 1}`,
+                  },
+                })}
                 variant="ButtonSolidLink"
                 colors={
                   buttonColors || themeValues.buttonColors.slateTransparentBlack
