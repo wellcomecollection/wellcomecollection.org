@@ -5,15 +5,18 @@ import {
   FunctionComponent,
   useEffect,
   useId,
+  useMemo,
   useRef,
   useState,
 } from 'react';
+import { createPortal } from 'react-dom';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { useActiveAnchor } from '@weco/common/hooks/useActiveAnchor';
 import { cross } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
+import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
 import { Link } from '@weco/content/types/link';
 
@@ -45,10 +48,31 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
   const InPageNavigationStickyRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const listId = useId();
-  const { isEnhanced } = useAppContext();
+  const { isEnhanced, windowSize } = useAppContext();
   const [hasStuck, setHasStuck] = useState(false);
   const [isListActive, setIsListActive] = useState(false);
   const [scrollPosition, setScrollposition] = useState(0);
+  const prevHasStuckRef = useRef(false);
+
+  const shouldLockScroll = useMemo(() => {
+    return windowSize !== 'large' && isListActive && hasStuck;
+  }, [windowSize, isListActive, hasStuck]);
+
+  useEffect(() => {
+    // We close the mobile nav if it's open when we're going from !hasStuck to hasStuck
+
+    if (hasStuck && !prevHasStuckRef.current && isListActive) {
+      setIsListActive(false);
+    }
+    prevHasStuckRef.current = hasStuck;
+  }, [hasStuck, isListActive]);
+
+  useEffect(() => {
+    // We close the mobile nav if the user resizes their window to the large bp
+    if (windowSize === 'large' && hasStuck && isListActive) {
+      setIsListActive(false);
+    }
+  }, [windowSize, hasStuck, isListActive]);
 
   useEffect(() => {
     if (!buttonRef.current) return;
@@ -127,11 +151,19 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
 
   return (
     <>
-      {isListActive && hasStuck && (
-        <BackgroundOverlay
-          data-lock-scroll={true}
-          onClick={() => setIsListActive(false)}
-        />
+      {shouldLockScroll && (
+        <>
+          {/* https://github.com/wellcomecollection/wellcomecollection.org/pull/12171
+          This portal is required because of an older version of Safari, 
+          consider removing once moved to v21 */}
+          {createPortal(
+            <BackgroundOverlay
+              data-lock-scroll={true}
+              onClick={() => setIsListActive(false)}
+            />,
+            document.body
+          )}
+        </>
       )}
       <div ref={InPageNavigationStickyRef}></div>
       <FocusTrap
@@ -220,7 +252,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
           </MobileNavButton>
 
           <InPageNavList ref={listRef} id={listId} $isOnWhite={!!isOnWhite}>
-            {links.map((link: Link) => {
+            {links.map((link: Link, index) => {
               const id = link.url.replace('#', '');
               const isActive = activeId === id;
               return (
@@ -236,7 +268,11 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
                         $hasStuck={hasStuck}
                         $isActive={isActive}
                         $isOnWhite={!!isOnWhite}
-                        data-gtm-trigger="link_click_page_position"
+                        {...dataGtmPropsToAttributes({
+                          trigger: 'link_click_page_position',
+                          'position-in-list': `${index + 1}`,
+                          label: id,
+                        })}
                         onClick={() => {
                           setClickedId(id);
                           setIsListActive(false);

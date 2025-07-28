@@ -8,10 +8,12 @@ import { themeValues } from '@weco/common/views/themes/config';
 const leftOffset = '12px';
 
 export const InPageNavList = styled(PlainList)<{ $isOnWhite: boolean }>`
+  padding-bottom: ${themeValues.spacingUnits['4']}px;
   border-bottom: 1px solid
     ${props => props.theme.color(props.$isOnWhite ? 'neutral.300' : 'white')};
 
   ${props => props.theme.media('large')`
+    padding-bottom: 0;
     border-bottom: 0;
   `}
 `;
@@ -23,7 +25,6 @@ export const BackgroundOverlay = styled.div`
   bottom: 0;
   background-color: ${props => props.theme.color('black')};
   opacity: 0.7;
-  z-index: 10;
 `;
 
 export const ListItem = styled.li<{ $hasStuck: boolean; $isOnWhite: boolean }>`

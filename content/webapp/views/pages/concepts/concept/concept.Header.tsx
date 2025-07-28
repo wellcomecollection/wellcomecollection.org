@@ -102,6 +102,7 @@ const ThemeHeader: FunctionComponent<{
         <>
           {(concept.type === 'Person' || themePagesAllFields) && (
             <RelatedConceptsGroup
+              dataGtmTriggerName="field_of_work"
               label="Field of work"
               labelType="inline"
               relatedConcepts={fieldsOfWork}

@@ -170,7 +170,9 @@ const NewsletterPromo: FunctionComponent = () => {
 
                 <Button
                   variant="ButtonSolid"
-                  dataGtmTrigger="newsletter_promo_subscribe"
+                  dataGtmProps={{
+                    trigger: 'newsletter_promo_subscribe',
+                  }}
                   text={isSubmitting ? 'Sending…' : 'Subscribe'}
                   disabled={isSubmitting}
                 />

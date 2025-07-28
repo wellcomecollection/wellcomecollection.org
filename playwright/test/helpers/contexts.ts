@@ -84,9 +84,14 @@ const stageApiToggleCookie = createCookie({
   value: 'true',
 });
 
+const newThemePagesCookie = createCookie({
+  name: 'toggle_newThemePages',
+  value: 'true',
+});
+
 export const requiredCookies = useStageApis
-  ? [acceptCookieCookie, stageApiToggleCookie]
-  : [acceptCookieCookie];
+  ? [acceptCookieCookie, stageApiToggleCookie, newThemePagesCookie]
+  : [acceptCookieCookie, newThemePagesCookie];
 
 const multiVolumeItem = async (
   context: BrowserContext,

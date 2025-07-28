@@ -55,7 +55,9 @@ const EventbriteButtons: FunctionComponent<Props> = ({ event }) => {
                     variant="ButtonSolidLink"
                     link={`https://www.eventbrite.com/e/${event.eventbriteId}`}
                     icon={ticket}
-                    dataGtmTrigger="click_to_book"
+                    dataGtmProps={{
+                      trigger: 'click_to_book',
+                    }}
                     text={
                       isHybridEvent ? 'In-venue tickets' : 'Check for tickets'
                     }
@@ -79,7 +81,9 @@ const EventbriteButtons: FunctionComponent<Props> = ({ event }) => {
                     variant="ButtonSolidLink"
                     link={`https://www.eventbrite.com/e/${event.onlineEventbriteId}`}
                     icon={ticket}
-                    dataGtmTrigger="click_to_book"
+                    dataGtmProps={{
+                      trigger: 'click_to_book',
+                    }}
                     text={
                       isHybridEvent ? 'Online tickets' : 'Check for tickets'
                     }
