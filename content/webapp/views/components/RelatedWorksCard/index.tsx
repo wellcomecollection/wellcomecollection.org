@@ -48,6 +48,7 @@ const RelatedWorksCard: FunctionComponent<Props> = ({
 
   return (
     <WorkLink
+      data-component="related-works-card"
       id={work.id}
       source={source || `works_search_result_${work.id}`}
       passHref

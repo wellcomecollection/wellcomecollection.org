@@ -38,7 +38,7 @@ export const mockArticle: {
       labels: [{ text: 'Books' }, { text: 'Online' }],
     },
     {
-      id: 'a2239muq',
+      id: 'b2239acsq',
       title:
         'Ueber den Krebs der Nasenhöhle ... / vorgelegt von Hermann Wolter.',
       type: 'Work',
@@ -49,7 +49,7 @@ export const mockArticle: {
       labels: [{ text: 'Books' }],
     },
     {
-      id: 'a2239muq',
+      id: 'c3239muq',
       title:
         'Ueber den Krebs der Nasenhöhle ... / vorgelegt von Hermann Wolter.',
       type: 'Work',
@@ -60,7 +60,7 @@ export const mockArticle: {
       labels: [{ text: 'Pictures' }, { text: 'Online' }],
     },
     {
-      id: 'a2239muq',
+      id: 'b02l9muq',
       title:
         'Ueber den Krebs der Nasenhöhle ... / vorgelegt von Hermann Wolter.',
       type: 'Work',

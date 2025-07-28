@@ -111,11 +111,16 @@ const LinkedWorks: FunctionComponent<LinkedWorkProps> = ({
         gridSizes={gridSizes}
       >
         <Shim $gridValues={gridValues}></Shim>
-        {linkedWorks.map(work => (
+        {linkedWorks.map((work, i) => (
           <ListItem key={work.id}>
             <RelatedWorksCard
               work={work}
               source={`story_featured_${parentId}`}
+              gtmData={{
+                trigger: 'work-link-component',
+                id: work.id,
+                'position-in-list': `${i + 1}`,
+              }}
             />
           </ListItem>
         ))}
