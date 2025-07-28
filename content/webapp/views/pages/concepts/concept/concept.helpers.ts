@@ -49,340 +49,305 @@ type ConceptSection = {
 };
 
 type ConceptConfig = {
-  [key: string]: {
-    displayName: ConceptSection;
-    partOf: ConceptSection;
-    sourcedDescription: ConceptSection;
-    fieldOrArea: ConceptSection;
-    imagesBy: ConceptSection;
-    imagesAbout: ConceptSection;
-    imagesIn: ConceptSection;
-    worksBy: ConceptSection;
-    worksAbout: ConceptSection;
-    worksIn: ConceptSection;
-    contributors: {
-      maxCount: number;
-      label?: string;
-    };
-    relatedTopics: {
-      display: boolean;
-      excludedTopics?: ConceptType[];
-    };
+  displayName: ConceptSection;
+  partOf: ConceptSection;
+  sourcedDescription: ConceptSection;
+  fieldOrArea: ConceptSection;
+  imagesBy: ConceptSection;
+  imagesAbout: ConceptSection;
+  imagesIn: ConceptSection;
+  worksBy: ConceptSection;
+  worksAbout: ConceptSection;
+  worksIn: ConceptSection;
+  contributors: {
+    maxCount: number;
+    label?: string;
+  };
+  relatedTopics: {
+    display: boolean;
+    excludedTopics?: ConceptType[];
   };
 };
 
-type ConceptsConfig = {
-  [key in ConceptType]?: ConceptConfig[key];
-};
+export function makeConceptsConfig(
+  concept: Concept
+): ConceptConfig | undefined {
+  switch (concept.type) {
+    case 'Person':
+      return {
+        displayName: {
+          display: false,
+        },
+        sourcedDescription: {
+          display: true,
+        },
+        partOf: {
+          display: false,
+        },
+        fieldOrArea: {
+          display: true,
+          label: 'Field',
+        },
+        imagesBy: {
+          display: true,
+          label: `Images by ${concept.displayLabel || concept.label}`,
+        },
+        imagesAbout: {
+          display: true,
+          label: `Images featuring ${concept.displayLabel || concept.label}`,
+        },
+        imagesIn: {
+          display: false,
+        },
+        worksBy: {
+          display: true,
+          label: 'Works by this person',
+        },
+        worksIn: {
+          display: false,
+        },
+        worksAbout: {
+          display: true,
+          label: 'Works featuring this person',
+        },
+        contributors: {
+          maxCount: 12,
+          label: 'Frequent collaborators',
+        },
+        relatedTopics: {
+          display: true,
+          excludedTopics: ['Person', 'Organisation', 'Agent'],
+        },
+      };
 
-export function makeConceptsConfig(concept: Concept): ConceptsConfig {
-  return {
-    Person: {
-      displayName: {
-        display: false,
-      },
-      sourcedDescription: {
-        display: true,
-      },
-      partOf: {
-        display: false,
-      },
-      fieldOrArea: {
-        display: true,
-        label: 'Field',
-      },
-      imagesBy: {
-        display: true,
-        label: `Images by ${concept.displayLabel || concept.label}`,
-      },
-      imagesAbout: {
-        display: true,
-        label: `Images featuring ${concept.displayLabel || concept.label}`,
-      },
-      imagesIn: {
-        display: false,
-      },
-      worksBy: {
-        display: true,
-        label: 'Works by this person',
-      },
-      worksIn: {
-        display: false,
-      },
-      worksAbout: {
-        display: true,
-        label: 'Works featuring this person',
-      },
-      contributors: {
-        maxCount: 12,
-        label: 'Frequent collaborators',
-      },
-      relatedTopics: {
-        display: true,
-        excludedTopics: ['Person', 'Organisation', 'Agent'],
-      },
-    },
-    Agent: {
-      displayName: {
-        display: true,
-        label: 'Person/group',
-      },
-      sourcedDescription: {
-        display: true,
-      },
-      partOf: {
-        display: false,
-      },
-      fieldOrArea: {
-        display: true,
-        label: 'Field',
-      },
-      imagesBy: {
-        display: true,
-        label: `Images by ${concept.displayLabel || concept.label}`,
-      },
-      imagesAbout: {
-        display: true,
-        label: `Images referencing ${concept.displayLabel || concept.label}`,
-      },
-      imagesIn: {
-        display: false,
-      },
-      worksBy: {
-        display: true,
-        label: 'Works by this person/group',
-      },
-      worksAbout: {
-        display: true,
-        label: 'Works referencing this person/group',
-      },
-      worksIn: {
-        display: false,
-      },
-      contributors: {
-        maxCount: 12,
-        label: 'Frequent collaborators',
-      },
-      relatedTopics: {
-        display: true,
-        excludedTopics: ['Person', 'Organisation', 'Agent'],
-      },
-    },
-    Organisation: {
-      displayName: {
-        display: false,
-      },
-      sourcedDescription: {
-        display: true,
-      },
-      partOf: {
-        display: false,
-      },
-      fieldOrArea: {
-        display: true,
-        label: 'Area',
-      },
-      imagesBy: {
-        display: true,
-        label: `Images produced by ${concept.displayLabel || concept.label}`,
-      },
-      imagesAbout: {
-        display: true,
-        label: `Images referencing ${concept.displayLabel || concept.label}`,
-      },
-      imagesIn: {
-        display: false,
-      },
-      worksBy: {
-        display: true,
-        label: 'Works by this organisation',
-      },
-      worksAbout: {
-        display: true,
-        label: 'Works referencing this organisation',
-      },
-      worksIn: {
-        display: false,
-      },
-      contributors: {
-        maxCount: 12,
-        label: 'Frequent collaborators',
-      },
-      relatedTopics: {
-        display: true,
-        excludedTopics: ['Person', 'Organisation', 'Agent'],
-      },
-    },
-    Place: {
-      displayName: {
-        display: false,
-      },
-      sourcedDescription: {
-        display: true,
-      },
-      partOf: {
-        display: false,
-      },
-      fieldOrArea: {
-        display: false,
-      },
-      imagesBy: {
-        display: true,
-        label: `Images produced by ${concept.displayLabel || concept.label}`,
-      },
-      imagesAbout: {
-        display: true,
-        label: `Images referencing ${concept.displayLabel || concept.label}`,
-      },
-      imagesIn: {
-        display: false,
-      },
-      worksBy: {
-        display: true,
-        label: 'Works produced by this place',
-      },
-      worksAbout: {
-        display: true,
-        label: 'Works referencing this place',
-      },
-      worksIn: {
-        display: false,
-      },
-      contributors: {
-        maxCount: 0,
-      },
-      relatedTopics: {
-        display: true,
-      },
-    },
-    Subject: {
-      displayName: {
-        display: false,
-      },
-      sourcedDescription: {
-        display: false,
-      },
-      partOf: {
-        display: true,
-      },
-      fieldOrArea: {
-        display: false,
-      },
-      imagesBy: {
-        display: false,
-      },
-      imagesIn: {
-        display: false,
-      },
-      imagesAbout: {
-        display: true,
-        label: `Images about ${concept.displayLabel || concept.label}`,
-      },
-      worksBy: {
-        display: false,
-      },
-      worksIn: {
-        display: false,
-      },
-      worksAbout: {
-        display: true,
-        label: 'Works about this subject',
-      },
-      contributors: {
-        maxCount: 4,
-        label: `Top contributors to the collections in ${concept.displayLabel || concept.label}`,
-      },
-      relatedTopics: {
-        display: true,
-      },
-    },
-    Genre: {
-      displayName: {
-        display: true,
-        label: 'Type/technique',
-      },
-      sourcedDescription: {
-        display: true,
-      },
-      partOf: {
-        display: false,
-      },
-      fieldOrArea: {
-        display: false,
-      },
-      imagesBy: {
-        display: false,
-      },
-      imagesAbout: {
-        display: true,
-        label: `Images about ${concept.displayLabel || concept.label}`,
-      },
-      imagesIn: {
-        display: true,
-        label: `Images of ${concept.displayLabel || concept.label}`,
-      },
-      worksBy: {
-        display: false,
-      },
-      worksAbout: {
-        display: true,
-        label: 'Works about this type/technique',
-      },
-      worksIn: {
-        display: true,
-        label: 'Works using this type/technique',
-      },
-      contributors: {
-        maxCount: 4,
-        label: 'Top contributors to the collections using this type/technique',
-      },
-      relatedTopics: {
-        display: true,
-        excludedTopics: ['Person', 'Organisation', 'Agent'],
-      },
-    },
-    Concept: {
-      displayName: {
-        display: true,
-        label: 'Topic',
-      },
-      sourcedDescription: {
-        display: true,
-      },
-      partOf: {
-        display: false,
-      },
-      fieldOrArea: {
-        display: false,
-      },
-      imagesBy: {
-        display: true,
-        label: `Images produced by ${concept.displayLabel || concept.label}`,
-      },
-      imagesAbout: {
-        display: true,
-        label: `Images referencing ${concept.displayLabel || concept.label}`,
-      },
-      imagesIn: {
-        display: false,
-      },
-      worksBy: {
-        display: true,
-        label: 'Works by this topic',
-      },
-      worksAbout: {
-        display: true,
-        label: 'Works referencing this topic',
-      },
-      worksIn: {
-        display: false,
-      },
-      contributors: {
-        maxCount: 0,
-      },
-      relatedTopics: {
-        display: false,
-      },
-    },
-  };
+    case 'Agent':
+      return {
+        displayName: {
+          display: true,
+          label: 'Person/group',
+        },
+        sourcedDescription: {
+          display: true,
+        },
+        partOf: {
+          display: false,
+        },
+        fieldOrArea: {
+          display: true,
+          label: 'Field',
+        },
+        imagesBy: {
+          display: true,
+          label: `Images by ${concept.displayLabel || concept.label}`,
+        },
+        imagesAbout: {
+          display: true,
+          label: `Images referencing ${concept.displayLabel || concept.label}`,
+        },
+        imagesIn: {
+          display: false,
+        },
+        worksBy: {
+          display: true,
+          label: 'Works by this person/group',
+        },
+        worksAbout: {
+          display: true,
+          label: 'Works referencing this person/group',
+        },
+        worksIn: {
+          display: false,
+        },
+        contributors: {
+          maxCount: 12,
+          label: 'Frequent collaborators',
+        },
+        relatedTopics: {
+          display: true,
+          excludedTopics: ['Person', 'Organisation', 'Agent'],
+        },
+      };
+
+    case 'Organisation':
+      return {
+        displayName: {
+          display: false,
+        },
+        sourcedDescription: {
+          display: true,
+        },
+        partOf: {
+          display: false,
+        },
+        fieldOrArea: {
+          display: true,
+          label: 'Area',
+        },
+        imagesBy: {
+          display: true,
+          label: `Images produced by ${concept.displayLabel || concept.label}`,
+        },
+        imagesAbout: {
+          display: true,
+          label: `Images referencing ${concept.displayLabel || concept.label}`,
+        },
+        imagesIn: {
+          display: false,
+        },
+        worksBy: {
+          display: true,
+          label: 'Works by this organisation',
+        },
+        worksAbout: {
+          display: true,
+          label: 'Works referencing this organisation',
+        },
+        worksIn: {
+          display: false,
+        },
+        contributors: {
+          maxCount: 12,
+          label: 'Frequent collaborators',
+        },
+        relatedTopics: {
+          display: true,
+          excludedTopics: ['Person', 'Organisation', 'Agent'],
+        },
+      };
+
+    case 'Place':
+      return {
+        displayName: {
+          display: false,
+        },
+        sourcedDescription: {
+          display: true,
+        },
+        partOf: {
+          display: false,
+        },
+        fieldOrArea: {
+          display: false,
+        },
+        imagesBy: {
+          display: true,
+          label: `Images produced by ${concept.displayLabel || concept.label}`,
+        },
+        imagesAbout: {
+          display: true,
+          label: `Images referencing ${concept.displayLabel || concept.label}`,
+        },
+        imagesIn: {
+          display: false,
+        },
+        worksBy: {
+          display: true,
+          label: 'Works produced by this place',
+        },
+        worksAbout: {
+          display: true,
+          label: 'Works referencing this place',
+        },
+        worksIn: {
+          display: false,
+        },
+        contributors: {
+          maxCount: 0,
+        },
+        relatedTopics: {
+          display: true,
+        },
+      };
+
+    case 'Subject':
+      return {
+        displayName: {
+          display: false,
+        },
+        sourcedDescription: {
+          display: false,
+        },
+        partOf: {
+          display: true,
+        },
+        fieldOrArea: {
+          display: false,
+        },
+        imagesBy: {
+          display: false,
+        },
+        imagesIn: {
+          display: false,
+        },
+        imagesAbout: {
+          display: true,
+          label: `Images about ${concept.displayLabel || concept.label}`,
+        },
+        worksBy: {
+          display: false,
+        },
+        worksIn: {
+          display: false,
+        },
+        worksAbout: {
+          display: true,
+          label: 'Works about this subject',
+        },
+        contributors: {
+          maxCount: 4,
+          label: `Top contributors to the collections in ${concept.displayLabel || concept.label}`,
+        },
+        relatedTopics: {
+          display: true,
+        },
+      };
+
+    case 'Genre':
+      return {
+        displayName: {
+          display: true,
+          label: 'Type/technique',
+        },
+        sourcedDescription: {
+          display: true,
+        },
+        partOf: {
+          display: false,
+        },
+        fieldOrArea: {
+          display: false,
+        },
+        imagesBy: {
+          display: false,
+        },
+        imagesAbout: {
+          display: true,
+          label: `Images about ${concept.displayLabel || concept.label}`,
+        },
+        imagesIn: {
+          display: true,
+          label: `Images of ${concept.displayLabel || concept.label}`,
+        },
+        worksBy: {
+          display: false,
+        },
+        worksAbout: {
+          display: true,
+          label: 'Works about this type/technique',
+        },
+        worksIn: {
+          display: true,
+          label: 'Works using this type/technique',
+        },
+        contributors: {
+          maxCount: 4,
+          label:
+            'Top contributors to the collections using this type/technique',
+        },
+        relatedTopics: {
+          display: true,
+          excludedTopics: ['Person', 'Organisation', 'Agent'],
+        },
+      };
+  }
 }
