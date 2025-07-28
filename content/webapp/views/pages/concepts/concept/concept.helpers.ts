@@ -51,8 +51,8 @@ type ConceptSection = {
 type ConceptConfig = {
   [key: string]: {
     displayName: ConceptSection;
-    showPartOf: boolean;
-    sourcedDescription: boolean;
+    partOf: ConceptSection;
+    sourcedDescription: ConceptSection;
     fieldOrArea: ConceptSection;
     imagesBy: ConceptSection;
     imagesAbout: ConceptSection;
@@ -78,8 +78,12 @@ export const conceptsConfig: ConceptsConfig = {
     displayName: {
       display: false,
     },
-    sourcedDescription: true,
-    showPartOf: false,
+    sourcedDescription: {
+      display: true,
+    },
+    partOf: {
+      display: false,
+    },
     fieldOrArea: {
       display: true,
       label: 'Field',
@@ -114,8 +118,12 @@ export const conceptsConfig: ConceptsConfig = {
       display: true,
       label: 'Person/group',
     },
-    sourcedDescription: true,
-    showPartOf: false,
+    sourcedDescription: {
+      display: true,
+    },
+    partOf: {
+      display: false,
+    },
     fieldOrArea: {
       display: true,
       label: 'Field',
@@ -149,8 +157,12 @@ export const conceptsConfig: ConceptsConfig = {
     displayName: {
       display: false,
     },
-    sourcedDescription: true,
-    showPartOf: false,
+    sourcedDescription: {
+      display: true,
+    },
+    partOf: {
+      display: false,
+    },
     fieldOrArea: {
       display: true,
       label: 'Area',
@@ -184,8 +196,12 @@ export const conceptsConfig: ConceptsConfig = {
     displayName: {
       display: false,
     },
-    sourcedDescription: true,
-    showPartOf: false,
+    sourcedDescription: {
+      display: true,
+    },
+    partOf: {
+      display: false,
+    },
     fieldOrArea: {
       display: false,
     },
@@ -216,8 +232,12 @@ export const conceptsConfig: ConceptsConfig = {
     displayName: {
       display: false,
     },
-    sourcedDescription: false,
-    showPartOf: true,
+    sourcedDescription: {
+      display: false,
+    },
+    partOf: {
+      display: true,
+    },
     fieldOrArea: {
       display: false,
     },
@@ -248,8 +268,12 @@ export const conceptsConfig: ConceptsConfig = {
       display: true,
       label: 'Type/technique',
     },
-    sourcedDescription: true,
-    showPartOf: false,
+    sourcedDescription: {
+      display: true,
+    },
+    partOf: {
+      display: false,
+    },
     fieldOrArea: {
       display: false,
     },
@@ -283,8 +307,12 @@ export const conceptsConfig: ConceptsConfig = {
       display: true,
       label: 'Topic',
     },
-    sourcedDescription: true,
-    showPartOf: false,
+    sourcedDescription: {
+      display: true,
+    },
+    partOf: {
+      display: false,
+    },
     fieldOrArea: {
       display: false,
     },
