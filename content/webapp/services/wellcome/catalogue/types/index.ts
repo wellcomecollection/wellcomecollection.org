@@ -134,7 +134,6 @@ export type ConceptType =
   | 'Concept'
   | 'Period'
   | 'Place'
-  | 'Type/technique'
   | 'Genre';
 
 export type RelatedConcept = {

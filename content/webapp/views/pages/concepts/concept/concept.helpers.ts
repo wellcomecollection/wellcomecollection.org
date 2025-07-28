@@ -50,12 +50,12 @@ type ConceptSection = {
 
 type ConceptConfig = {
   [key: string]: {
-    displayName?: string;
+    displayName: ConceptSection;
     showPartOf: boolean;
     sourcedDescription: boolean;
     fieldOrArea: ConceptSection;
     imagesBy: ConceptSection;
-    imagesAbout?: ConceptSection;
+    imagesAbout: ConceptSection;
     worksBy: ConceptSection;
     worksAbout: ConceptSection;
     contributors: {
@@ -75,6 +75,9 @@ type ConceptsConfig = {
 
 export const conceptsConfig: ConceptsConfig = {
   Person: {
+    displayName: {
+      display: false,
+    },
     sourcedDescription: true,
     showPartOf: false,
     fieldOrArea: {
@@ -107,7 +110,10 @@ export const conceptsConfig: ConceptsConfig = {
     },
   },
   Agent: {
-    displayName: 'Person/group',
+    displayName: {
+      display: true,
+      label: 'Person/group',
+    },
     sourcedDescription: true,
     showPartOf: false,
     fieldOrArea: {
@@ -140,6 +146,9 @@ export const conceptsConfig: ConceptsConfig = {
     },
   },
   Organisation: {
+    displayName: {
+      display: false,
+    },
     sourcedDescription: true,
     showPartOf: false,
     fieldOrArea: {
@@ -172,6 +181,9 @@ export const conceptsConfig: ConceptsConfig = {
     },
   },
   Place: {
+    displayName: {
+      display: false,
+    },
     sourcedDescription: true,
     showPartOf: false,
     fieldOrArea: {
@@ -201,6 +213,9 @@ export const conceptsConfig: ConceptsConfig = {
     },
   },
   Subject: {
+    displayName: {
+      display: false,
+    },
     sourcedDescription: false,
     showPartOf: true,
     fieldOrArea: {
@@ -228,7 +243,11 @@ export const conceptsConfig: ConceptsConfig = {
       display: true,
     },
   },
-  'Type/technique': {
+  Genre: {
+    displayName: {
+      display: true,
+      label: 'Type/technique',
+    },
     sourcedDescription: true,
     showPartOf: false,
     fieldOrArea: {
@@ -260,7 +279,10 @@ export const conceptsConfig: ConceptsConfig = {
     },
   },
   Concept: {
-    displayName: 'Topic',
+    displayName: {
+      display: true,
+      label: 'Topic',
+    },
     sourcedDescription: true,
     showPartOf: false,
     fieldOrArea: {
