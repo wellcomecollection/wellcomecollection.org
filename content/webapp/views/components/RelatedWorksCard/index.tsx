@@ -2,6 +2,7 @@ import { FunctionComponent } from 'react';
 
 import { WorkLinkSource } from '@weco/common/data/segment-values';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
+import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import WorkLink from '@weco/content/views/components/WorkLink';
@@ -19,12 +20,7 @@ import {
 type Props = {
   work: WorkBasic | ContentAPILinkedWork; // Supports both Catalogue and Content API works
   source?: WorkLinkSource; // Optional source for Segment tracking
-  gtmData?: {
-    cardIndex: number;
-    category: string;
-    categoryName: string;
-    categoryPosition: number;
-  };
+  gtmData?: DataGtmProps;
 };
 
 const RelatedWorksCard: FunctionComponent<Props> = ({
@@ -57,16 +53,12 @@ const RelatedWorksCard: FunctionComponent<Props> = ({
       passHref
     >
       <Card
-        // TODO use {...dataGtmPropsToAttributes(dataGtmProps)}
-
-        {...(!!gtmData && {
-          'data-gtm-trigger': 'related_card_result',
-          'data-gtm-id': work.id,
-          'data-gtm-category-label': gtmData.categoryName,
-          'data-gtm-category': gtmData.category,
-          'data-gtm-category-position-in-list': gtmData.categoryPosition,
-          'data-gtm-position-in-list': gtmData.cardIndex,
-        })}
+        {...(gtmData &&
+          dataGtmPropsToAttributes({
+            ...gtmData,
+            id: work.id,
+            trigger: 'related_card_result',
+          }))}
       >
         <TextWrapper>
           <div>

@@ -160,10 +160,10 @@ const RelatedWorks = ({
                   <RelatedWorksCard
                     work={result}
                     gtmData={{
-                      cardIndex: i + 1,
                       category: value.category,
-                      categoryName: value.label,
-                      categoryPosition: tabIndex + 1,
+                      'category-label': value.label,
+                      'category-position-in-list': `${tabIndex + 1}`,
+                      'position-in-list': `${i + 1}`,
                     }}
                   />
                 </GridCell>
