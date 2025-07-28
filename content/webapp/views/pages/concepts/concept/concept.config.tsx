@@ -315,5 +315,50 @@ export function makeConceptConfig(concept: Concept): ConceptConfig | undefined {
           excludedTopics: ['Person', 'Organisation', 'Agent'],
         },
       };
+
+    case 'Concept':
+      return {
+        displayName: {
+          display: true,
+          label: 'Topic',
+        },
+        sourcedDescription: {
+          display: true,
+        },
+        partOf: {
+          display: false,
+        },
+        fieldOrArea: {
+          display: false,
+        },
+        imagesBy: {
+          display: true,
+          label: `Images produced by ${concept.displayLabel || concept.label}`,
+        },
+        imagesAbout: {
+          display: true,
+          label: `Images referencing ${concept.displayLabel || concept.label}`,
+        },
+        imagesIn: {
+          display: false,
+        },
+        worksBy: {
+          display: true,
+          label: 'Works by this topic',
+        },
+        worksAbout: {
+          display: true,
+          label: 'Works referencing this topic',
+        },
+        worksIn: {
+          display: false,
+        },
+        contributors: {
+          display: false,
+        },
+        relatedTopics: {
+          display: false,
+        },
+      };
   }
 }
