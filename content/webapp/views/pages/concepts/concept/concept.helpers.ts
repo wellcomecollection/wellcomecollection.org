@@ -69,9 +69,7 @@ type ConceptConfig = {
   };
 };
 
-export function makeConceptsConfig(
-  concept: Concept
-): ConceptConfig | undefined {
+export function makeConceptConfig(concept: Concept): ConceptConfig | undefined {
   switch (concept.type) {
     case 'Person':
       return {
