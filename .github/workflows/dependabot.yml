@@ -3,6 +3,8 @@ name: Add Dependabot PRs to Project Board
 on:
   pull_request:
     types: [opened]
+    branches:
+      - dependabot/npm_and_yarn/all-356ce9e7fe
 
 jobs:
   add-to-project:
