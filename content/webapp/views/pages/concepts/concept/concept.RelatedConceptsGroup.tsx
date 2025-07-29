@@ -8,7 +8,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
 import { useConceptPageContext } from '@weco/content/contexts/ConceptPageContext';
 import { RelatedConcept } from '@weco/content/services/wellcome/catalogue/types';
-// test to see if stylelint no longer cares about flex being longhand
+
 const RelatedConceptsContainer = styled.div.attrs({
   className: font('intm', 5),
 })`
