@@ -9,11 +9,18 @@ type Props = {
   url: string | LinkProps;
   name: string;
   colors?: ButtonColors;
+  ariaLabel?: string;
 };
 
-const MoreLink: FunctionComponent<Props> = ({ url, name, colors }) => {
+const MoreLink: FunctionComponent<Props> = ({
+  url,
+  name,
+  colors,
+  ariaLabel,
+}) => {
   return (
     <Button
+      ariaLabel={ariaLabel}
       variant="ButtonSolidLink"
       colors={colors || themeValues.buttonColors.charcoalTransparentCharcoal}
       isIconAfter

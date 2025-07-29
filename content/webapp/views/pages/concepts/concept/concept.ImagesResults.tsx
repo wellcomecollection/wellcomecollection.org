@@ -20,7 +20,6 @@ import { toLink as toImagesLink } from '@weco/content/views/components/SearchPag
 
 import {
   getSectionTypeLabel,
-  getThemeSectionHeading,
   SectionData,
   ThemePageSectionsData,
   themeTabOrder,
@@ -96,7 +95,8 @@ const ImageSection: FunctionComponent<Props> = ({
       <Space $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
         {labelBasedCount > singleSectionData.pageResults.length && (
           <MoreLink
-            name={`All images ${getThemeSectionHeading(type, concept)}`}
+            ariaLabel={`View all ${getSectionTypeLabel(type, config, 'images')}`}
+            name="View all"
             url={getAllImagesLink(type, concept, pathname)}
             colors={theme.buttonColors.greenGreenWhite}
           />
