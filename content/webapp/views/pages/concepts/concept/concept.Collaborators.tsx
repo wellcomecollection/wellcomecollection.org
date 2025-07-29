@@ -40,11 +40,11 @@ const Collaborators: FunctionComponent<{
   return (
     <section data-id="frequent-collaborators">
       <h2 className={font('intsb', 2)} id="frequent-collaborators">
-        {config?.collaborators.label || 'Frequent collaborators'}
+        {config.collaborators.label || 'Frequent collaborators'}
       </h2>
       <CollaboratorsWrapper>
         {concepts
-          .slice(0, config?.collaborators.maxCount || COLLABORATOR_COUNT_LIMIT)
+          .slice(0, config.collaborators.maxCount || COLLABORATOR_COUNT_LIMIT)
           .map((concept, index) => (
             <CollaboratorCard
               dataGtmProps={{

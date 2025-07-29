@@ -53,7 +53,7 @@ const RelatedConceptsGroup: FunctionComponent<Props> = ({
   }
 
   const displayRelatedConcepts = relatedConcepts.filter(
-    c => !config?.relatedTopics.excludedTopics?.includes(c.conceptType)
+    c => !config.relatedTopics.excludedTopics?.includes(c.conceptType)
   );
 
   return (

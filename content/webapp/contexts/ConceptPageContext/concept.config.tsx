@@ -25,7 +25,7 @@ export type ConceptConfig = {
   relatedTopics: ConceptSection & { excludedTopics?: ConceptType[] };
 };
 
-const defaultConceptConfig: ConceptConfig = {
+export const defaultConceptConfig: ConceptConfig = {
   displayName: {
     display: false,
   },

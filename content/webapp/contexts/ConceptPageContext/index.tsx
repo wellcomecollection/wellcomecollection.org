@@ -1,13 +1,13 @@
 import { createContext, useContext } from 'react';
 
-import { ConceptConfig } from './concept.config';
+import { ConceptConfig, defaultConceptConfig } from './concept.config';
 
 type Props = {
-  config?: ConceptConfig;
+  config: ConceptConfig;
 };
 
 const ConceptPageContext = createContext<Props>({
-  config: undefined,
+  config: defaultConceptConfig,
 });
 
 export function useConceptPageContext(): Props {

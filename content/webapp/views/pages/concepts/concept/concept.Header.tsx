@@ -89,7 +89,7 @@ const ThemeHeader: FunctionComponent<{
             />
           )}
         </Layout>
-        {concept.description && config?.sourcedDescription.display && (
+        {concept.description && config.sourcedDescription.display && (
           <Layout gridSizes={gridSize8(false)}>
             <ThemeDescription>
               <SourcedDescription
@@ -102,7 +102,7 @@ const ThemeHeader: FunctionComponent<{
         )}
 
         <>
-          {config?.fieldOrArea?.display && (
+          {config.fieldOrArea.display && (
             <RelatedConceptsGroup
               dataGtmTriggerName="field_of_work"
               label={config.fieldOrArea.label || 'Field of work'}
@@ -111,7 +111,7 @@ const ThemeHeader: FunctionComponent<{
             />
           )}
 
-          {config?.partOf?.display && (
+          {config.partOf.display && (
             <RelatedConceptsGroup
               label={config.partOf.label || 'Part of'}
               labelType="inline"

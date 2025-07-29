@@ -46,15 +46,15 @@ export const getThemeSectionHeading = (
 
 export function getImagesSectionHeading(
   tabType: ThemeTabType,
-  config?: ConceptConfig
+  config: ConceptConfig
 ) {
   switch (tabType) {
     case 'by':
-      return config?.imagesBy.label;
+      return config.imagesBy.label;
     case 'about':
-      return config?.imagesAbout.label;
+      return config.imagesAbout.label;
     case 'in':
-      return config?.imagesIn.label;
+      return config.imagesIn.label;
     default:
       return '';
   }
@@ -62,15 +62,15 @@ export function getImagesSectionHeading(
 
 export function getWorksTabHeading(
   tabType: ThemeTabType,
-  config?: ConceptConfig
+  config: ConceptConfig
 ) {
   switch (tabType) {
     case 'by':
-      return config?.worksBy.label;
+      return config.worksBy.label;
     case 'about':
-      return config?.worksAbout.label;
+      return config.worksAbout.label;
     case 'in':
-      return config?.worksIn.label;
+      return config.worksIn.label;
     default:
       return '';
   }

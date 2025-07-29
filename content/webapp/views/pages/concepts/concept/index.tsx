@@ -297,7 +297,7 @@ const ConceptPage: NextPage<Props> = ({
   const { frequentCollaborators, relatedTopics } =
     conceptResponse.relatedConcepts || {};
   const relatedConceptsGroupLabel =
-    config?.relatedTopics.label || 'Related topics';
+    config.relatedTopics.label || 'Related topics';
   const buildNavLinks = () => {
     const links: Link[] = [];
 
@@ -317,7 +317,7 @@ const ConceptPage: NextPage<Props> = ({
     }
 
     // Add frequent collaborators
-    if (frequentCollaborators?.length && config?.collaborators.display) {
+    if (frequentCollaborators?.length && config.collaborators.display) {
       links.push({
         text: 'Frequent collaborators',
         url: '#frequent-collaborators',
@@ -325,7 +325,7 @@ const ConceptPage: NextPage<Props> = ({
     }
 
     // Add related topics
-    if (relatedTopics?.length && config?.relatedTopics.display) {
+    if (relatedTopics?.length && config.relatedTopics.display) {
       links.push({
         text: relatedConceptsGroupLabel,
         url: `#related-topics`,
@@ -383,7 +383,7 @@ const ConceptPage: NextPage<Props> = ({
                 sectionsData={sectionsData}
               />
 
-              {config?.collaborators.display && (
+              {config.collaborators.display && (
                 <>
                   <Space
                     $v={{
@@ -395,7 +395,7 @@ const ConceptPage: NextPage<Props> = ({
                   </Space>
                 </>
               )}
-              {config?.relatedTopics.display && (
+              {config.relatedTopics.display && (
                 <Space
                   $v={{
                     size: 'xl',
