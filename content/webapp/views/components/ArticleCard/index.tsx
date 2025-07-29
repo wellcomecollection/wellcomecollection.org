@@ -45,6 +45,7 @@ const ArticleCard: FunctionComponent<Props> = ({
 
   return (
     <CompactCard
+      data-component="article-card"
       url={url}
       title={article.title}
       partNumber={partNumber}

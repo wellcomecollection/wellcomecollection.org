@@ -151,7 +151,7 @@ const LabelsWrapper = styled.div`
 export const CardLabels: FunctionComponent<{ labels: LabelType[] }> = ({
   labels,
 }) => (
-  <LabelsWrapper>
+  <LabelsWrapper data-component="card">
     <LabelsList labels={labels} />
   </LabelsWrapper>
 );

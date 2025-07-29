@@ -6,7 +6,7 @@ import MediaObjectBase, {
 
 // TODO why is this a separate component..???
 const CompactCard: FunctionComponent<MediaObjectBaseProps> = props => (
-  <MediaObjectBase {...props} />
+  <MediaObjectBase {...props} data-component="compact-card" />
 );
 
 export default CompactCard;
