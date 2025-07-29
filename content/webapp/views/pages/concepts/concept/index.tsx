@@ -328,7 +328,7 @@ const ConceptPage: NextPage<Props> = ({
     if (relatedTopics?.length && config.relatedTopics.display) {
       links.push({
         text: relatedConceptsGroupLabel,
-        url: `#related-topics`,
+        url: `#related-topics`, // The hashes should remain consistent for tracking
       });
     }
 
