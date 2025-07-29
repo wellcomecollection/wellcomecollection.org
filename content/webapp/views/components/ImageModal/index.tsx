@@ -214,6 +214,7 @@ const ImageModal: FunctionComponent<Props> = ({
 
   return (
     <Modal
+      data-component="image-modal"
       id="expanded-image-dialog"
       dataTestId="image-modal"
       isActive={isActive}

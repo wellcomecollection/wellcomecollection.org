@@ -74,6 +74,7 @@ const ContentPage = ({
   return (
     <ContentPageContext.Provider
       value={{ pageBackgroundColor: isCreamy ? 'warmNeutral.300' : 'white' }}
+      data-component="content-page"
     >
       <article data-wio-id={id}>
         {sectionLevelPages.includes(id) ? (

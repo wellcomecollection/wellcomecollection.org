@@ -81,6 +81,7 @@ const HeightRestrictedPrismicImage: FunctionComponent<Props> = ({
 
   return (
     <PrismicImage
+      data-component="height-restricted-prismic-image"
       width={image.width}
       height={image.height}
       src={image.contentUrl}
