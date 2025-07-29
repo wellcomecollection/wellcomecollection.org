@@ -17,17 +17,11 @@ export class ConceptPage {
   readonly worksAboutTab: Locator;
   readonly worksByTab: Locator;
   readonly worksInTab: Locator;
-  readonly imagesAboutTab: Locator;
-  readonly imagesByTab: Locator;
-  readonly imagesInTab: Locator;
   readonly worksAboutTabPanel: Locator;
   readonly worksByTabPanel: Locator;
   readonly worksFeaturingTab: Locator;
   readonly worksFeaturingTabPanel: Locator;
   readonly worksInTabPanel: Locator;
-  readonly imagesAboutTabPanel: Locator;
-  readonly imagesByTabPanel: Locator;
-  readonly imagesInTabPanel: Locator;
 
   constructor(page: Page, conceptTypeLabel: string) {
     this.page = page;
@@ -54,86 +48,23 @@ export class ConceptPage {
     this.imagesTabGroup = page.getByRole('tablist', {
       name: 'images',
     });
-    this.worksAboutTab = this.tab(
-      this.worksTabGroup,
-      `About this ${this.conceptTypeLabel}`
-    );
-    this.worksByTab = this.tab(
-      this.worksTabGroup,
-      `By this ${this.conceptTypeLabel}`
-    );
-    this.worksInTab = this.tab(
-      this.worksTabGroup,
-      `Using this ${this.conceptTypeLabel}`
-    );
-    this.imagesAboutTab = this.tab(
-      this.imagesTabGroup,
-      `About this ${this.conceptTypeLabel}`
-    );
-    this.imagesByTab = this.tab(
-      this.imagesTabGroup,
-      `By this ${this.conceptTypeLabel}`
-    );
-    this.imagesInTab = this.tab(
-      this.worksTabGroup,
-      `Using this ${this.conceptTypeLabel}`
-    );
-    this.worksAboutTab = this.tab(
-      this.worksTabGroup,
-      `About this ${this.conceptTypeLabel}`
-    );
-    this.worksFeaturingTab = this.tab(
-      this.worksTabGroup,
-      `Featuring this ${this.conceptTypeLabel}`
-    );
-    this.worksByTab = this.tab(
-      this.worksTabGroup,
-      `By this ${this.conceptTypeLabel}`
-    );
-    this.worksInTab = this.tab(
-      this.worksTabGroup,
-      `In this ${this.conceptTypeLabel}`
-    );
-    this.imagesAboutTab = this.tab(
-      this.imagesTabGroup,
-      `About this ${this.conceptTypeLabel}`
-    );
-    this.imagesByTab = this.tab(
-      this.imagesTabGroup,
-      `By this ${this.conceptTypeLabel}`
-    );
-    this.imagesInTab = this.tab(
-      this.imagesTabGroup,
-      `Using this ${this.conceptTypeLabel}`
-    );
+    // Define labels based on concept type to match makeConceptConfig
+    const labels = this.getLabelsForConceptType(this.conceptTypeLabel);
+
+    this.worksAboutTab = this.tab(this.worksTabGroup, labels.worksAbout);
+    this.worksByTab = this.tab(this.worksTabGroup, labels.worksBy);
+    this.worksInTab = this.tab(this.worksTabGroup, labels.worksIn);
+    this.worksFeaturingTab = this.tab(this.worksTabGroup, labels.worksAbout);
     this.worksAboutTabPanel = this.tabPanel(
       this.worksSection,
-      `About this ${this.conceptTypeLabel}`
+      labels.worksAbout
     );
     this.worksFeaturingTabPanel = this.tabPanel(
       this.worksSection,
-      `Featuring this ${this.conceptTypeLabel}`
+      labels.worksAbout
     );
-    this.worksByTabPanel = this.tabPanel(
-      this.worksSection,
-      `By this ${this.conceptTypeLabel}`
-    );
-    this.worksInTabPanel = this.tabPanel(
-      this.worksSection,
-      `In this ${this.conceptTypeLabel}`
-    );
-    this.imagesAboutTabPanel = this.tabPanel(
-      this.imagesSection,
-      `About this ${this.conceptTypeLabel}`
-    );
-    this.imagesByTabPanel = this.tabPanel(
-      this.imagesSection,
-      `By this ${this.conceptTypeLabel}`
-    );
-    this.imagesInTabPanel = this.tabPanel(
-      this.imagesSection,
-      `Using this ${this.conceptTypeLabel}`
-    );
+    this.worksByTabPanel = this.tabPanel(this.worksSection, labels.worksBy);
+    this.worksInTabPanel = this.tabPanel(this.worksSection, labels.worksIn);
   }
 
   allRecordsLink = (recordType: string) => {
@@ -155,15 +86,42 @@ export class ConceptPage {
     return allRecords;
   };
 
-  tab = (tabGroup: Locator, tabName: string) =>
+  tab = (tabGroup: Locator, tabName?: string) =>
     tabGroup.getByRole('tab', {
       name: tabName,
       exact: false, // The text is expected to be followed by a count of the matching records
     });
 
-  tabPanel = (section: Locator, tabName: string) =>
+  tabPanel = (section: Locator, tabName?: string) =>
     section.getByRole('tabpanel', {
       name: tabName,
       exact: false, // The text is expected to be followed by a count of the matching records
     });
+
+  getLabelsForConceptType(conceptTypeLabel: string) {
+    switch (conceptTypeLabel) {
+      case 'person':
+        return {
+          worksBy: 'Works by this person',
+          worksAbout: 'Works featuring this person',
+        };
+      case 'organisation':
+        return {
+          worksBy: 'Works by this organisation',
+          worksAbout: 'Works referencing this organisation',
+        };
+      case 'type/technique':
+        return {
+          worksBy: 'Works by this type/technique',
+          worksAbout: 'Works about this type/technique',
+          worksIn: 'Works using this type/technique',
+        };
+      default:
+        return {
+          worksBy: `Works by this ${conceptTypeLabel}`,
+          worksAbout: `Works about this ${conceptTypeLabel}`,
+          worksIn: `Works using this ${conceptTypeLabel}`,
+        };
+    }
+  }
 }
