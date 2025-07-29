@@ -3,11 +3,7 @@ import styled from 'styled-components';
 
 import { WorksLinkSource } from '@weco/common/data/segment-values';
 import { font } from '@weco/common/utils/classnames';
-import {
-  capitalize,
-  formatNumber,
-  pluralize,
-} from '@weco/common/utils/grammar';
+import { capitalize, pluralize } from '@weco/common/utils/grammar';
 import Space from '@weco/common/views/components/styled/Space';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import theme from '@weco/common/views/themes/default';
@@ -79,9 +75,6 @@ const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
     return null;
 
   const labelBasedCount = activePanel.totalResults.works;
-  const formattedLabelBasedCount = formatNumber(labelBasedCount, {
-    isCompact: true,
-  });
 
   return (
     <>
@@ -126,7 +119,8 @@ const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
             {labelBasedCount > activePanel.works.pageResults.length && (
               <Space $v={{ size: 'l', properties: ['padding-top'] }}>
                 <MoreLink
-                  name={`All works (${formattedLabelBasedCount})`}
+                  ariaLabel={`View all works for ${concept.label}`}
+                  name="View all"
                   url={getAllWorksLink(selectedTab, concept)}
                   colors={theme.buttonColors.greenGreenWhite}
                 />

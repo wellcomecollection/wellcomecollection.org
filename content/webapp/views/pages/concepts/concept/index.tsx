@@ -43,7 +43,7 @@ import CataloguePageLayout from '@weco/content/views/layouts/CataloguePageLayout
 import Collaborators from './concept.Collaborators';
 import Header from './concept.Header';
 import {
-  getThemeSectionHeading,
+  getSectionTypeLabel,
   SectionData,
   ThemePageSectionsData,
   themeTabOrder,
@@ -305,7 +305,7 @@ const ConceptPage: NextPage<Props> = ({
     for (const section of themeTabOrder) {
       if (sectionsData[section].images?.totalResults) {
         links.push({
-          text: `Images ${getThemeSectionHeading(section, conceptResponse, true)}`,
+          text: getSectionTypeLabel(section, config, 'images') || 'Images',
           url: `#images-${section}`,
         });
       }
