@@ -1,9 +1,6 @@
 name: Dependabot assignment
 
 on:
-  push:
-    branches:
-      - dependabot/npm_and_yarn/all-356ce9e7fe
   pull_request:
     types: [opened]
 
