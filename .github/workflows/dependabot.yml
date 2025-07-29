@@ -16,7 +16,7 @@ jobs:
         uses: pozil/auto-assign-issue@v1
         with:
           assignees: gestchild,davidpmccormick,rcantin-w
-          numOfAssignees: 1
+          numOfAssignee: 1
       - name: Add PR to project board
         uses: actions/add-to-project@v0.4.0
         with:
