@@ -17,7 +17,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import { themeValues } from '@weco/common/views/themes/config';
 import theme from '@weco/common/views/themes/default';
-import { useConceptPageContext } from '@weco/content/contexts/concepts/concept';
+import { useConceptPageContext } from '@weco/content/contexts/ConceptPageContext';
 import {
   Concept as ConceptType,
   Image as ImageType,

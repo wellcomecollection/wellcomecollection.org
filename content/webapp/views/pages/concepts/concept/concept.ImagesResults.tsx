@@ -8,7 +8,7 @@ import { capitalize, pluralize } from '@weco/common/utils/grammar';
 import { ReturnedResults } from '@weco/common/utils/search';
 import Space from '@weco/common/views/components/styled/Space';
 import theme from '@weco/common/views/themes/default';
-import { useConceptPageContext } from '@weco/content/contexts/concepts/concept';
+import { useConceptPageContext } from '@weco/content/contexts/ConceptPageContext';
 import {
   Concept,
   Image,

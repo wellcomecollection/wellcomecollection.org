@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { organisation, user } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
-import { useConceptPageContext } from '@weco/content/contexts/concepts/concept';
+import { useConceptPageContext } from '@weco/content/contexts/ConceptPageContext';
 import {
   ConceptType,
   RelatedConcept,

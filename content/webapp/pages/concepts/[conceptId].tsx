@@ -9,8 +9,8 @@ import {
   ServerSideProps,
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
-import ConceptContext from '@weco/content/contexts/concepts/concept';
-import { makeConceptConfig } from '@weco/content/contexts/concepts/concept/concept.config';
+import ConceptContext from '@weco/content/contexts/ConceptPageContext';
+import { makeConceptConfig } from '@weco/content/contexts/ConceptPageContext/concept.config';
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import { getConcept } from '@weco/content/services/wellcome/catalogue/concepts';

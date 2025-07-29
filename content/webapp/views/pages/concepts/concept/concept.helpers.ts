@@ -1,5 +1,5 @@
 import { ReturnedResults } from '@weco/common/utils/search';
-import { ConceptConfig } from '@weco/content/contexts/concepts/concept/concept.config';
+import { ConceptConfig } from '@weco/content/contexts/ConceptPageContext/concept.config';
 import {
   Concept,
   ConceptType,

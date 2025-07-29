@@ -10,7 +10,7 @@ import Layout, {
 } from '@weco/common/views/components/Layout';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
-import { useConceptPageContext } from '@weco/content/contexts/concepts/concept';
+import { useConceptPageContext } from '@weco/content/contexts/ConceptPageContext';
 import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import SourcedDescription from '@weco/content/views/components/SourcedDescription';
 

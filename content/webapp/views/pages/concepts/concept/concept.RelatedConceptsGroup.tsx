@@ -6,7 +6,7 @@ import { dasherize } from '@weco/common/utils/grammar';
 import Button, { ButtonColors } from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
-import { useConceptPageContext } from '@weco/content/contexts/concepts/concept';
+import { useConceptPageContext } from '@weco/content/contexts/ConceptPageContext';
 import { RelatedConcept } from '@weco/content/services/wellcome/catalogue/types';
 
 const RelatedConceptsContainer = styled.div.attrs({
