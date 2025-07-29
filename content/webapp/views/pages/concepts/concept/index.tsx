@@ -233,7 +233,7 @@ const ConceptPage: NextPage<Props> = ({
         .flat(),
     [sectionsData]
   );
-  const { newThemePages, themePagesAllFields } = useToggles();
+  const { newThemePages } = useToggles();
   const { isEnhanced } = useAppContext();
   const [expandedImage, setExpandedImage] = useExpandedImage(allImages);
   const { config } = useConceptPageContext();
@@ -298,8 +298,6 @@ const ConceptPage: NextPage<Props> = ({
     conceptResponse.relatedConcepts || {};
   const relatedConceptsGroupLabel =
     config?.relatedTopics.label || 'Related topics';
-  const personOrAllFields =
-    conceptResponse.type === 'Person' || themePagesAllFields;
   const buildNavLinks = () => {
     const links: Link[] = [];
 
@@ -319,7 +317,7 @@ const ConceptPage: NextPage<Props> = ({
     }
 
     // Add frequent collaborators
-    if (frequentCollaborators?.length && personOrAllFields) {
+    if (frequentCollaborators?.length && config?.collaborators.display) {
       links.push({
         text: 'Frequent collaborators',
         url: '#frequent-collaborators',
@@ -327,7 +325,7 @@ const ConceptPage: NextPage<Props> = ({
     }
 
     // Add related topics
-    if (relatedTopics?.length && personOrAllFields) {
+    if (relatedTopics?.length && config?.relatedTopics.display) {
       links.push({
         text: relatedConceptsGroupLabel,
         url: `#related-topics`,
