@@ -17,8 +17,3 @@ jobs:
         with:
           assignees: gestchild,davidpmccormick,rcantin-w
           numOfAssignee: 1
-      - name: Add PR to project board
-        uses: actions/add-to-project@v0.4.0
-        with:
-          project-url: https://github.com/orgs/wellcomecollection/projects/18
-          github-token: ${{ secrets.GITHUB_TOKEN }}
