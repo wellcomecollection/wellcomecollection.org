@@ -44,34 +44,19 @@ export const getThemeSectionHeading = (
   return `${tabLabel} this ${conceptTypeLabel}`;
 };
 
-export function getImagesSectionHeading(
+export function getSectionTypeLabel(
   tabType: ThemeTabType,
-  config: ConceptConfig
-) {
+  config: ConceptConfig,
+  sectionType: 'images' | 'works'
+): string | undefined {
   switch (tabType) {
     case 'by':
-      return config.imagesBy.label;
+      return config[`${sectionType}By`].label;
     case 'about':
-      return config.imagesAbout.label;
+      return config[`${sectionType}About`].label;
     case 'in':
-      return config.imagesIn.label;
+      return config[`${sectionType}In`].label;
     default:
-      return '';
-  }
-}
-
-export function getWorksTabHeading(
-  tabType: ThemeTabType,
-  config: ConceptConfig
-) {
-  switch (tabType) {
-    case 'by':
-      return config.worksBy.label;
-    case 'about':
-      return config.worksAbout.label;
-    case 'in':
-      return config.worksIn.label;
-    default:
-      return '';
+      return undefined;
   }
 }
