@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   add-to-project:
-    if: github.actor == 'dependabot[bot]' || github.actor == 'rcantin-w'
+    if: github.actor == 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
       - name: Auto-assign PR to a rotating user
