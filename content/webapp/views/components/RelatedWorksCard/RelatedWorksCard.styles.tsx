@@ -1,13 +1,6 @@
 import styled, { css } from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
-import Space from '@weco/common/views/components/styled/Space';
-
-export const FullWidthRow = styled(Space).attrs({
-  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-})`
-  background-color: ${props => props.theme.color('warmNeutral.300')};
-`;
 
 const clampLineStyles = css<{ $linesToClamp: number }>`
   display: -webkit-box;

@@ -9,10 +9,23 @@ import useSwipeable, {
   SwipeDirection,
 } from '@weco/content/views/components/CatalogueImageGallery/useSwipeable';
 
+const ScrollButtonsContainer = styled(Space)<{
+  $hasDarkBackground?: boolean;
+  $hasLeftOffset?: boolean;
+}>`
+  display: flex;
+  justify-content: flex-end;
+  ${props => (props.$hasLeftOffset ? props.theme.pageGridOffset('left') : '')};
+
+  /* Set CSS variables based on $hasDarkBackground */
+  --button-color: ${props =>
+    props.theme.color(props.$hasDarkBackground ? 'white' : 'black')};
+`;
+
 const ScrollButton = styled('button').attrs({
   className: font('intr', 6),
 })`
-  color: ${props => props.theme.color('white')};
+  color: var(--button-color);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -22,19 +35,16 @@ const ScrollButton = styled('button').attrs({
     color: ${props => props.theme.color('neutral.500')};
   }
 `;
-
-const ScrollButtonsContainer = styled(Space)`
-  display: flex;
-  justify-content: flex-end;
-  ${props => props.theme.pageGridOffset('left')};
-`;
-
 type Props = {
   containerRef: RefObject<HTMLElement | null>;
+  hasDarkBackground?: boolean;
+  hasLeftOffset?: boolean;
 };
 
-const ScrollableGalleryButtons: FunctionComponent<Props> = ({
+const ScrollableNavigation: FunctionComponent<Props> = ({
   containerRef,
+  hasDarkBackground,
+  hasLeftOffset,
 }: Props) => {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
@@ -99,7 +109,10 @@ const ScrollableGalleryButtons: FunctionComponent<Props> = ({
   if (!canScrollLeft && !canScrollRight) return null;
 
   return (
-    <ScrollButtonsContainer>
+    <ScrollButtonsContainer
+      $hasDarkBackground={hasDarkBackground}
+      $hasLeftOffset={hasLeftOffset}
+    >
       <ScrollButton
         disabled={!canScrollLeft}
         onClick={() => scrollByChildImageWidth('left')}
@@ -118,4 +131,4 @@ const ScrollableGalleryButtons: FunctionComponent<Props> = ({
     </ScrollButtonsContainer>
   );
 };
-export default ScrollableGalleryButtons;
+export default ScrollableNavigation;

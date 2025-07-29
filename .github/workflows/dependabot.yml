@@ -1,0 +1,20 @@
+name: Add Dependabot PRs to Project Board
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  add-to-project:
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Auto-assign PR to a rotating user
+        uses: pozil/auto-assign-issue@v1
+        with:
+          assignees: gestchild,davidpmccormick,rcantin-w 
+      - name: Add PR to project board
+        uses: actions/add-to-project@v0.4.0
+        with:
+          project-url: https://github.com/orgs/wellcomecollection/projects/18
+          github-token: ${{ secrets.GITHUB_TOKEN }}

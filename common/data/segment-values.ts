@@ -66,6 +66,7 @@ export type ItemLinkSource =
   | 'search_within_result';
 
 export type WorkLinkSource =
+  | `story_featured_${string}`
   | `works_search_result_${string}`
   | `images_search_result_${string}`
   | 'item_auth_modal_back_to_work_link'

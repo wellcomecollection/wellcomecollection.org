@@ -1,5 +1,11 @@
-
-type DataGtmAttr = 'trigger' | 'position-in-list' | 'label';
+type DataGtmAttr =
+  | 'category'
+  | 'category-label'
+  | 'category-position-in-list'
+  | 'id'
+  | 'label'
+  | 'position-in-list'
+  | 'trigger';
 export type DataGtmProps = Partial<Record<DataGtmAttr, string>>;
 
 export function dataGtmPropsToAttributes(
