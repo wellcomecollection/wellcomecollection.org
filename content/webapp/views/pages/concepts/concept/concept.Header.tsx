@@ -10,10 +10,10 @@ import Layout, {
 } from '@weco/common/views/components/Layout';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
+import { useConceptPageContext } from '@weco/content/contexts/concepts/concept';
 import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import SourcedDescription from '@weco/content/views/components/SourcedDescription';
 
-import { useConceptPageContext } from './concept.context';
 import RelatedConceptsGroup from './concept.RelatedConceptsGroup';
 
 const ConceptHero = styled(Space).attrs({

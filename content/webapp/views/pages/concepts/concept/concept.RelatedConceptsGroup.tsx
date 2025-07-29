@@ -6,8 +6,8 @@ import { dasherize } from '@weco/common/utils/grammar';
 import Button, { ButtonColors } from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
+import { useConceptPageContext } from '@weco/content/contexts/concepts/concept';
 import { RelatedConcept } from '@weco/content/services/wellcome/catalogue/types';
-import { useConceptPageContext } from '@weco/content/views/pages/concepts/concept/concept.context';
 
 const RelatedConceptsContainer = styled.div.attrs({
   className: font('intm', 5),

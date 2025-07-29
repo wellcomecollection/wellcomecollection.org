@@ -8,6 +8,7 @@ import { capitalize, pluralize } from '@weco/common/utils/grammar';
 import { ReturnedResults } from '@weco/common/utils/search';
 import Space from '@weco/common/views/components/styled/Space';
 import theme from '@weco/common/views/themes/default';
+import { useConceptPageContext } from '@weco/content/contexts/concepts/concept';
 import {
   Concept,
   Image,
@@ -17,7 +18,6 @@ import CatalogueImageGallery from '@weco/content/views/components/CatalogueImage
 import MoreLink from '@weco/content/views/components/MoreLink';
 import { toLink as toImagesLink } from '@weco/content/views/components/SearchPagesLink/Images';
 
-import { useConceptPageContext } from './concept.context';
 import {
   getImagesSectionHeading,
   getThemeSectionHeading,

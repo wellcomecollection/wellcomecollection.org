@@ -17,6 +17,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import { themeValues } from '@weco/common/views/themes/config';
 import theme from '@weco/common/views/themes/default';
+import { useConceptPageContext } from '@weco/content/contexts/concepts/concept';
 import {
   Concept as ConceptType,
   Image as ImageType,
@@ -40,7 +41,6 @@ import WorksSearchResults from '@weco/content/views/components/WorksSearchResult
 import CataloguePageLayout from '@weco/content/views/layouts/CataloguePageLayout';
 
 import Collaborators from './concept.Collaborators';
-import { useConceptPageContext } from './concept.context';
 import Header from './concept.Header';
 import {
   getThemeSectionHeading,

@@ -9,6 +9,8 @@ import {
   ServerSideProps,
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
+import ConceptContext from '@weco/content/contexts/concepts/concept';
+import { makeConceptConfig } from '@weco/content/contexts/concepts/concept/concept.config';
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import { getConcept } from '@weco/content/services/wellcome/catalogue/concepts';
@@ -31,8 +33,6 @@ import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import ConceptPage, {
   Props as ConceptPageProps,
 } from '@weco/content/views/pages/concepts/concept';
-import { makeConceptConfig } from '@weco/content/views/pages/concepts/concept/concept.config';
-import ConceptContext from '@weco/content/views/pages/concepts/concept/concept.context';
 
 export const Page: NextPage<ConceptPageProps> = props => {
   const config = makeConceptConfig(props.conceptResponse);

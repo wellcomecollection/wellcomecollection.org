@@ -3,13 +3,13 @@ import styled from 'styled-components';
 
 import { organisation, user } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
+import { useConceptPageContext } from '@weco/content/contexts/concepts/concept';
 import {
   ConceptType,
   RelatedConcept,
 } from '@weco/content/services/wellcome/catalogue/types';
 
 import CollaboratorCard from './concept.Collaborators.Card';
-import { useConceptPageContext } from './concept.context';
 
 const COLLABORATOR_COUNT_LIMIT = 3;
 

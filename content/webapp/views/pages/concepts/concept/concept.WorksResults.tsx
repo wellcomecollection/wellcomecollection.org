@@ -11,6 +11,7 @@ import {
 import Space from '@weco/common/views/components/styled/Space';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import theme from '@weco/common/views/themes/default';
+import { useConceptPageContext } from '@weco/content/contexts/concepts/concept';
 import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { allRecordsLinkParams } from '@weco/content/utils/concepts';
 import MoreLink from '@weco/content/views/components/MoreLink';
@@ -24,8 +25,6 @@ import {
   themeTabOrder,
   ThemeTabType,
 } from '@weco/content/views/pages/concepts/concept/concept.helpers';
-
-import { useConceptPageContext } from './concept.context';
 
 const WorksCount = styled(Space).attrs({
   as: 'p',

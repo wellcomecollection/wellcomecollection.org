@@ -1,4 +1,5 @@
 import { ReturnedResults } from '@weco/common/utils/search';
+import { ConceptConfig } from '@weco/content/contexts/concepts/concept/concept.config';
 import {
   Concept,
   ConceptType,
@@ -6,8 +7,6 @@ import {
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
 import { conceptTypeDisplayName } from '@weco/content/utils/concepts';
-
-import { ConceptConfig } from './concept.config';
 
 export type ThemeTabType = 'by' | 'in' | 'about';
 export const themeTabOrder: ThemeTabType[] = ['by', 'in', 'about'];
