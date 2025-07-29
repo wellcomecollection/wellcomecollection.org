@@ -25,11 +25,54 @@ export type ConceptConfig = {
   relatedTopics: ConceptSection & { excludedTopics?: ConceptType[] };
 };
 
+const defaultConceptConfig: ConceptConfig = {
+  displayName: {
+    display: false,
+  },
+  partOf: {
+    display: false,
+  },
+  sourcedDescription: {
+    display: false,
+  },
+  fieldOrArea: {
+    display: false,
+  },
+  imagesBy: {
+    display: true,
+    label: 'Images by this concept',
+  },
+  imagesAbout: {
+    display: true,
+    label: 'Images about this concept',
+  },
+  imagesIn: {
+    display: false,
+  },
+  worksBy: {
+    display: true,
+    label: 'Works by this concept',
+  },
+  worksAbout: {
+    display: true,
+    label: 'Works about this concept',
+  },
+  worksIn: {
+    display: false,
+  },
+  collaborators: {
+    display: false,
+  },
+  relatedTopics: {
+    display: false,
+  },
+};
+
 // The API response hasn't been curated for the front-end in order to make as much content available to
 // the wider public as possible. Here we define a config for each of the individual displayed concept types
 // to simplify the front end templates (fewer hard-to-read conditionals). This will hopefully also help
 // with explaining to non-devs how and why different concepts are expected to appear
-export function makeConceptConfig(concept: Concept): ConceptConfig | undefined {
+export function makeConceptConfig(concept: Concept): ConceptConfig {
   switch (concept.type) {
     case 'Person':
       return {
@@ -357,5 +400,8 @@ export function makeConceptConfig(concept: Concept): ConceptConfig | undefined {
           display: false,
         },
       };
+
+    default:
+      return defaultConceptConfig;
   }
 }
