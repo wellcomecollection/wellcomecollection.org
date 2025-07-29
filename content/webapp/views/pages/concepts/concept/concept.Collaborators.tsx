@@ -12,7 +12,7 @@ import {
 import CollaboratorCard from './concept.Collaborators.Card';
 
 const COLLABORATOR_COUNT_LIMIT = 3;
-//
+
 const CollaboratorsWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
