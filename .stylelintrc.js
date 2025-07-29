@@ -8,7 +8,7 @@ module.exports = {
     "color-function-notation": "legacy",
     "declaration-block-no-redundant-longhand-properties": [
       true,
-      { "ignoreShorthands": ["inset, /flex/"]}
+      { "ignoreShorthands": ["inset", "flex-flow"]}
     ],
     "declaration-empty-line-before": null,
     "declaration-property-value-no-unknown": true,
