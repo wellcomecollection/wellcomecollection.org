@@ -7,8 +7,8 @@ module.exports = {
     "alpha-value-notation": "number",
     "color-function-notation": "legacy",
     "declaration-block-no-redundant-longhand-properties": [
-      true, 
-      { "ignoreShorthands": ["inset"]}
+      true,
+      { "ignoreShorthands": ["inset, /flex/"]}
     ],
     "declaration-empty-line-before": null,
     "declaration-property-value-no-unknown": true,
