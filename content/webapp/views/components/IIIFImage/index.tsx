@@ -90,6 +90,7 @@ const IIIFImage: FunctionComponent<Props> = ({
 
   return (
     <StyledImageContainer
+      data-component="i-i-i-f-image"
       $background={background}
       style={{ height: image.height }} // to not have styledComponents generate too many classes
     >

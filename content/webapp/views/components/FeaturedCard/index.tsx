@@ -131,6 +131,7 @@ const FeaturedCardArticle: FunctionComponent<FeaturedCardArticleProps> = ({
 
   return (
     <FeaturedCardBasic
+      data-component="featured-card"
       {...rest}
       image={image}
       link={link}
@@ -159,6 +160,7 @@ const FeaturedCardExhibition: FunctionComponent<
 
   return (
     <FeaturedCardBasic
+      data-component="featured-card"
       {...rest}
       {...props}
       background={background}
@@ -199,7 +201,7 @@ const FeaturedCard: FunctionComponent<
     return <FeaturedCardExhibition {...props} />;
   }
 
-  return <FeaturedCardBasic {...props} />;
+  return <FeaturedCardBasic data-component="featured-card" {...props} />;
 };
 
 export default FeaturedCard;

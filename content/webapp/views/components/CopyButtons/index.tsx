@@ -11,13 +11,13 @@ const CopyButtons: FunctionComponent<Props> = props => {
   const { variant } = props;
 
   return (
-    <>
+    <div data-component="copy-buttons">
       {variant === 'content' ? (
         <CopyContent {...props} />
       ) : (
         <CopyUrl {...props} />
       )}
-    </>
+    </div>
   );
 };
 

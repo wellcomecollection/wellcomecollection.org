@@ -53,7 +53,7 @@ const TableRow = ({
   plain,
 }: TableRowProps) => {
   return (
-    <TableTr $withBorder={withBorder}>
+    <TableTr $withBorder={withBorder} data-component="table">
       {items.map((item, index) => (
         <Fragment key={index}>
           {hasHeader && index === 0 ? (

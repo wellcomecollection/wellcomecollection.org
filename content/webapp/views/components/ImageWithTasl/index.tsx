@@ -25,7 +25,7 @@ const ImageWithTasl: FunctionComponent<ImageWithTaslProps> = ({
   displayWorkLink,
 }) => {
   return (
-    <>
+    <div data-component="image-with-tasl">
       <div style={{ position: 'relative' }}>
         {Image}
         {tasl && <Tasl {...tasl} />}
@@ -40,7 +40,7 @@ const ImageWithTasl: FunctionComponent<ImageWithTaslProps> = ({
           <FeaturedWorkLink link={tasl.sourceLink} />
         </Space>
       )}
-    </>
+    </div>
   );
 };
 
