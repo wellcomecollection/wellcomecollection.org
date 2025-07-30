@@ -303,7 +303,17 @@ const ConceptPage: NextPage<Props> = ({
 
     // Add image sections
     for (const section of themeTabOrder) {
-      if (sectionsData[section].images?.totalResults) {
+      const showSection = () => {
+        switch (section) {
+          case 'by':
+            return config.imagesBy.display;
+          case 'in':
+            return config.imagesIn.display;
+          case 'about':
+            return config.imagesAbout.display;
+        }
+      };
+      if (sectionsData[section].images?.totalResults && showSection()) {
         links.push({
           text: `Images ${getThemeSectionHeading(section, conceptResponse, true)}`,
           url: `#images-${section}`,
