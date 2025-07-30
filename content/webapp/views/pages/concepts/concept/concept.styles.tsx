@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import { GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
-import { themeValues } from '@weco/common/views/themes/config';
+import { PaletteColor, themeValues } from '@weco/common/views/themes/config';
 
 export const MobileNavBackground = styled(Space).attrs({
   className: 'is-hidden-l is-hidden-xl',
@@ -12,6 +12,13 @@ export const MobileNavBackground = styled(Space).attrs({
   display: block;
   background-color: ${props =>
     props.theme.color(props.$isOnWhite ? 'white' : 'neutral.700')};
+`;
+
+export const FromCollectionsHeading = styled.h2.attrs({
+  className: font('wb', 2),
+})<{ $color: PaletteColor }>`
+  color: ${props => props.theme.color(props.$color)};
+  margin-bottom: 0;
 `;
 
 export const NavGridCell = styled(GridCell)<{

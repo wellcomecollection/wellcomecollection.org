@@ -26,6 +26,8 @@ import {
   ThemeTabType,
 } from '@weco/content/views/pages/concepts/concept/concept.helpers';
 
+import { FromCollectionsHeading } from './concept.styles';
+
 const WorksCount = styled(Space).attrs({
   as: 'p',
   className: font('intr', 6),
@@ -93,9 +95,11 @@ const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
         as="section"
         data-id="works"
       >
-        <h2 id="works" className={font('intsb', 2)}>
-          Works
-        </h2>
+        <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
+          <FromCollectionsHeading id="works" $color="black">
+            Works from the collections
+          </FromCollectionsHeading>
+        </Space>
         {tabs.length > 1 && (
           <Tabs
             label="Works tabs"
