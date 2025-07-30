@@ -26,14 +26,16 @@ export function getSectionTypeLabel(
   config: ConceptConfig,
   sectionType: 'images' | 'works'
 ): string | undefined {
+  const capitalisedSectionType = sectionType === 'images' ? 'Images' : 'Works';
+
   switch (tabType) {
     case 'by':
-      return config[`${sectionType}By`].label;
+      return config[`${sectionType}By`].label || capitalisedSectionType;
     case 'about':
-      return config[`${sectionType}About`].label;
+      return config[`${sectionType}About`].label || capitalisedSectionType;
     case 'in':
-      return config[`${sectionType}In`].label;
+      return config[`${sectionType}In`].label || capitalisedSectionType;
     default:
-      return undefined;
+      return capitalisedSectionType;
   }
 }

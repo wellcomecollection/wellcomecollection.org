@@ -233,7 +233,7 @@ const ConceptPage: NextPage<Props> = ({
         .flat(),
     [sectionsData]
   );
-  const { newThemePages } = useToggles();
+  const { newThemePages, themePagesAllFields } = useToggles();
   const { isEnhanced } = useAppContext();
   const [expandedImage, setExpandedImage] = useExpandedImage(allImages);
   const { config } = useConceptPageContext();
@@ -303,7 +303,17 @@ const ConceptPage: NextPage<Props> = ({
 
     // Add image sections
     for (const section of themeTabOrder) {
-      if (sectionsData[section].images?.totalResults) {
+      const showSection = () => {
+        switch (section) {
+          case 'by':
+            return config.imagesBy.display;
+          case 'in':
+            return config.imagesIn.display;
+          case 'about':
+            return config.imagesAbout.display;
+        }
+      };
+      if (sectionsData[section].images?.totalResults && showSection()) {
         links.push({
           text: getSectionTypeLabel(section, config, 'images') || 'Images',
           url: `#images-${section}`,
@@ -312,7 +322,12 @@ const ConceptPage: NextPage<Props> = ({
     }
 
     // Add works section
-    if (hasWorks) {
+    if (
+      hasWorks &&
+      (config.worksBy.display ||
+        config.worksIn.display ||
+        config.worksAbout.display)
+    ) {
       links.push({ text: 'Works', url: '#works' });
     }
 
@@ -383,7 +398,7 @@ const ConceptPage: NextPage<Props> = ({
                 sectionsData={sectionsData}
               />
 
-              {config.collaborators.display && (
+              {(config.collaborators.display || themePagesAllFields) && (
                 <>
                   <Space
                     $v={{
@@ -395,7 +410,7 @@ const ConceptPage: NextPage<Props> = ({
                   </Space>
                 </>
               )}
-              {config.relatedTopics.display && (
+              {(config.relatedTopics.display || themePagesAllFields) && (
                 <Space
                   $v={{
                     size: 'xl',
