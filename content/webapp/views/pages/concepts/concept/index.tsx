@@ -312,7 +312,12 @@ const ConceptPage: NextPage<Props> = ({
     }
 
     // Add works section
-    if (hasWorks) {
+    if (
+      hasWorks &&
+      (config.worksBy.display ||
+        config.worksIn.display ||
+        config.worksAbout.display)
+    ) {
       links.push({ text: 'Works', url: '#works' });
     }
 
