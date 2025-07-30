@@ -233,7 +233,7 @@ const ConceptPage: NextPage<Props> = ({
         .flat(),
     [sectionsData]
   );
-  const { newThemePages } = useToggles();
+  const { newThemePages, themePagesAllFields } = useToggles();
   const { isEnhanced } = useAppContext();
   const [expandedImage, setExpandedImage] = useExpandedImage(allImages);
   const { config } = useConceptPageContext();
@@ -398,7 +398,7 @@ const ConceptPage: NextPage<Props> = ({
                 sectionsData={sectionsData}
               />
 
-              {config.collaborators.display && (
+              {(config.collaborators.display || themePagesAllFields) && (
                 <>
                   <Space
                     $v={{
@@ -410,7 +410,7 @@ const ConceptPage: NextPage<Props> = ({
                   </Space>
                 </>
               )}
-              {config.relatedTopics.display && (
+              {(config.relatedTopics.display || themePagesAllFields) && (
                 <Space
                   $v={{
                     size: 'xl',
