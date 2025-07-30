@@ -1,4 +1,5 @@
 import { ReturnedResults } from '@weco/common/utils/search';
+import { ConceptConfig } from '@weco/content/contexts/ConceptPageContext/concept.config';
 import {
   Concept,
   ConceptType,
@@ -42,3 +43,22 @@ export const getThemeSectionHeading = (
 
   return `${tabLabel} this ${conceptTypeLabel}`;
 };
+
+export function getSectionTypeLabel(
+  tabType: ThemeTabType,
+  config: ConceptConfig,
+  sectionType: 'images' | 'works'
+): string | undefined {
+  const capitalisedSectionType = sectionType === 'images' ? 'Images' : 'Works';
+
+  switch (tabType) {
+    case 'by':
+      return config[`${sectionType}By`].label || capitalisedSectionType;
+    case 'about':
+      return config[`${sectionType}About`].label || capitalisedSectionType;
+    case 'in':
+      return config[`${sectionType}In`].label || capitalisedSectionType;
+    default:
+      return capitalisedSectionType;
+  }
+}

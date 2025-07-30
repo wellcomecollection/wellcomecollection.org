@@ -8,6 +8,7 @@ import { capitalize, pluralize } from '@weco/common/utils/grammar';
 import { ReturnedResults } from '@weco/common/utils/search';
 import Space from '@weco/common/views/components/styled/Space';
 import theme from '@weco/common/views/themes/default';
+import { useConceptPageContext } from '@weco/content/contexts/ConceptPageContext';
 import {
   Concept,
   Image,
@@ -18,6 +19,7 @@ import MoreLink from '@weco/content/views/components/MoreLink';
 import { toLink as toImagesLink } from '@weco/content/views/components/SearchPagesLink/Images';
 
 import {
+  getSectionTypeLabel,
   getThemeSectionHeading,
   SectionData,
   ThemePageSectionsData,
@@ -61,6 +63,7 @@ const ImageSection: FunctionComponent<Props> = ({
   concept,
   type,
 }) => {
+  const { config } = useConceptPageContext();
   const pathname = usePathname();
   const firstTenImages = useMemo(
     () => singleSectionData?.pageResults.slice(0, 10) || [],
@@ -78,7 +81,7 @@ const ImageSection: FunctionComponent<Props> = ({
       data-id={`images-${type}`}
     >
       <SectionHeading id={`images-${type}`}>
-        Images {getThemeSectionHeading(type, concept, true)}
+        {getSectionTypeLabel(type, config, 'images')}
       </SectionHeading>
       <CatalogueImageGallery
         // Show the first 10 images, unless the total is 12 or fewer, in which case show all images

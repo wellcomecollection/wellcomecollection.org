@@ -11,6 +11,7 @@ import {
 import Space from '@weco/common/views/components/styled/Space';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import theme from '@weco/common/views/themes/default';
+import { useConceptPageContext } from '@weco/content/contexts/ConceptPageContext';
 import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { allRecordsLinkParams } from '@weco/content/utils/concepts';
 import MoreLink from '@weco/content/views/components/MoreLink';
@@ -18,7 +19,7 @@ import { toLink as toWorksLink } from '@weco/content/views/components/SearchPage
 import Tabs from '@weco/content/views/components/Tabs';
 import WorksSearchResults from '@weco/content/views/components/WorksSearchResults';
 import {
-  getThemeSectionHeading,
+  getSectionTypeLabel,
   SectionData,
   ThemePageSectionsData,
   themeTabOrder,
@@ -53,6 +54,7 @@ type Props = {
 };
 
 const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
+  const { config } = useConceptPageContext();
   const tabs = themeTabOrder
     .filter(
       tabType =>
@@ -61,7 +63,7 @@ const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
     )
     .map(tabType => ({
       id: tabType,
-      text: capitalize(getThemeSectionHeading(tabType, concept)),
+      text: getSectionTypeLabel(tabType, config, 'works'),
     }));
 
   const [selectedTab, setSelectedTab] = useState<ThemeTabType | null>(

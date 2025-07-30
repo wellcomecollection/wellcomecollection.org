@@ -8,11 +8,7 @@ import { pageDescriptionConcepts } from '@weco/common/data/microcopy';
 import { ImagesLinkSource } from '@weco/common/data/segment-values';
 import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
-import {
-  capitalize,
-  dasherize,
-  formatNumber,
-} from '@weco/common/utils/grammar';
+import { capitalize, formatNumber } from '@weco/common/utils/grammar';
 import { ReturnedResults } from '@weco/common/utils/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Container } from '@weco/common/views/components/styled/Container';
@@ -21,6 +17,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import { themeValues } from '@weco/common/views/themes/config';
 import theme from '@weco/common/views/themes/default';
+import { useConceptPageContext } from '@weco/content/contexts/ConceptPageContext';
 import {
   Concept as ConceptType,
   Image as ImageType,
@@ -239,6 +236,7 @@ const ConceptPage: NextPage<Props> = ({
   const { newThemePages, themePagesAllFields } = useToggles();
   const { isEnhanced } = useAppContext();
   const [expandedImage, setExpandedImage] = useExpandedImage(allImages);
+  const { config } = useConceptPageContext();
 
   const pathname = usePathname();
   const worksTabs = themeTabOrder
@@ -298,15 +296,24 @@ const ConceptPage: NextPage<Props> = ({
 
   const { frequentCollaborators, relatedTopics } =
     conceptResponse.relatedConcepts || {};
-  const relatedConceptsGroupLabel = 'Related topics';
-  const personOrAllFields =
-    conceptResponse.type === 'Person' || themePagesAllFields;
+  const relatedConceptsGroupLabel =
+    config.relatedTopics.label || 'Related topics';
   const buildNavLinks = () => {
     const links: Link[] = [];
 
     // Add image sections
     for (const section of themeTabOrder) {
-      if (sectionsData[section].images?.totalResults) {
+      const showSection = () => {
+        switch (section) {
+          case 'by':
+            return config.imagesBy.display;
+          case 'in':
+            return config.imagesIn.display;
+          case 'about':
+            return config.imagesAbout.display;
+        }
+      };
+      if (sectionsData[section].images?.totalResults && showSection()) {
         links.push({
           text: `Images ${getThemeSectionHeading(section, conceptResponse, true)}`,
           url: `#images-${section}`,
@@ -315,12 +322,17 @@ const ConceptPage: NextPage<Props> = ({
     }
 
     // Add works section
-    if (hasWorks) {
+    if (
+      hasWorks &&
+      (config.worksBy.display ||
+        config.worksIn.display ||
+        config.worksAbout.display)
+    ) {
       links.push({ text: 'Works', url: '#works' });
     }
 
     // Add frequent collaborators
-    if (frequentCollaborators?.length && personOrAllFields) {
+    if (frequentCollaborators?.length && config.collaborators.display) {
       links.push({
         text: 'Frequent collaborators',
         url: '#frequent-collaborators',
@@ -328,10 +340,10 @@ const ConceptPage: NextPage<Props> = ({
     }
 
     // Add related topics
-    if (relatedTopics?.length && personOrAllFields) {
+    if (relatedTopics?.length && config.relatedTopics.display) {
       links.push({
         text: relatedConceptsGroupLabel,
-        url: `#${dasherize(relatedConceptsGroupLabel)}`,
+        url: `#related-topics`, // The hashes should remain consistent for tracking
       });
     }
 
@@ -386,7 +398,7 @@ const ConceptPage: NextPage<Props> = ({
                 sectionsData={sectionsData}
               />
 
-              {(conceptResponse.type === 'Person' || themePagesAllFields) && (
+              {(config.collaborators.display || themePagesAllFields) && (
                 <>
                   <Space
                     $v={{
@@ -396,23 +408,25 @@ const ConceptPage: NextPage<Props> = ({
                   >
                     <Collaborators concepts={frequentCollaborators} />
                   </Space>
-                  <Space
-                    $v={{
-                      size: 'xl',
-                      properties: ['margin-top', 'margin-bottom'],
-                    }}
-                  >
-                    <RelatedConceptsGroup
-                      dataGtmTriggerName="related_topics"
-                      label={relatedConceptsGroupLabel}
-                      labelType="heading"
-                      relatedConcepts={relatedTopics}
-                      buttonColors={
-                        themeValues.buttonColors.silverTransparentBlack
-                      }
-                    />
-                  </Space>
                 </>
+              )}
+              {(config.relatedTopics.display || themePagesAllFields) && (
+                <Space
+                  $v={{
+                    size: 'xl',
+                    properties: ['margin-top', 'margin-bottom'],
+                  }}
+                >
+                  <RelatedConceptsGroup
+                    dataGtmTriggerName="related_topics"
+                    label={relatedConceptsGroupLabel}
+                    labelType="heading"
+                    relatedConcepts={relatedTopics}
+                    buttonColors={
+                      themeValues.buttonColors.silverTransparentBlack
+                    }
+                  />
+                </Space>
               )}
               {
                 // This is a placeholder for the Hotjar embedded survey to be injected
@@ -428,8 +442,8 @@ const ConceptPage: NextPage<Props> = ({
       </CataloguePageLayout>
 
       {/* https://frontendmasters.com/blog/containers-context/
-      A Safari bug is forcing this to live here instead of its parent, ImageResults. 
-      The bug got fixed in Safari 18.2 (I think) but we support the latest two versions. 
+      A Safari bug is forcing this to live here instead of its parent, ImageResults.
+      The bug got fixed in Safari 18.2 (I think) but we support the latest two versions.
       It would be nice to move it back inside ImageResults once we're two versions ahead. */}
       <ImageModal
         images={allImages}

@@ -6,6 +6,7 @@ import { dasherize } from '@weco/common/utils/grammar';
 import Button, { ButtonColors } from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
+import { useConceptPageContext } from '@weco/content/contexts/ConceptPageContext';
 import { RelatedConcept } from '@weco/content/services/wellcome/catalogue/types';
 
 const RelatedConceptsContainer = styled.div.attrs({
@@ -45,9 +46,15 @@ const RelatedConceptsGroup: FunctionComponent<Props> = ({
   buttonColors,
   dataGtmTriggerName,
 }: Props) => {
+  const { config } = useConceptPageContext();
+
   if (!relatedConcepts || relatedConcepts.length === 0) {
     return null;
   }
+
+  const displayRelatedConcepts = relatedConcepts.filter(
+    c => !config.relatedTopics.excludedTopics?.includes(c.conceptType)
+  );
 
   return (
     <Space
@@ -60,7 +67,7 @@ const RelatedConceptsGroup: FunctionComponent<Props> = ({
       )}
       <RelatedConceptsContainer>
         {labelType === 'inline' && <span>{label}</span>}
-        {relatedConcepts.map((item, index) => (
+        {displayRelatedConcepts.map((item, index) => (
           <RelatedConceptItem
             key={item.id}
             $isFullWidth={

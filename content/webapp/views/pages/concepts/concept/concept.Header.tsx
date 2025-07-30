@@ -10,6 +10,7 @@ import Layout, {
 } from '@weco/common/views/components/Layout';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
+import { useConceptPageContext } from '@weco/content/contexts/ConceptPageContext';
 import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import SourcedDescription from '@weco/content/views/components/SourcedDescription';
 
@@ -72,6 +73,7 @@ const ThemeHeader: FunctionComponent<{
   concept: Concept;
 }> = ({ concept }) => {
   const { themePagesAllFields } = useToggles();
+  const { config } = useConceptPageContext();
 
   const { narrowerThan, fieldsOfWork, people, relatedTo, broaderThan } =
     concept.relatedConcepts || {};
@@ -87,7 +89,7 @@ const ThemeHeader: FunctionComponent<{
             />
           )}
         </Layout>
-        {concept.description && (
+        {concept.description && config.sourcedDescription.display && (
           <Layout gridSizes={gridSize8(false)}>
             <ThemeDescription>
               <SourcedDescription
@@ -100,21 +102,25 @@ const ThemeHeader: FunctionComponent<{
         )}
 
         <>
-          {(concept.type === 'Person' || themePagesAllFields) && (
+          {config.fieldOrArea.display && (
             <RelatedConceptsGroup
               dataGtmTriggerName="field_of_work"
-              label="Field of work"
+              label={config.fieldOrArea.label || 'Field of work'}
               labelType="inline"
               relatedConcepts={fieldsOfWork}
             />
           )}
+
+          {config.partOf.display && (
+            <RelatedConceptsGroup
+              label={config.partOf.label || 'Part of'}
+              labelType="inline"
+              relatedConcepts={narrowerThan}
+            />
+          )}
+
           {themePagesAllFields && (
             <>
-              <RelatedConceptsGroup
-                label="Part of"
-                labelType="inline"
-                relatedConcepts={narrowerThan}
-              />
               <RelatedConceptsGroup
                 label="Notable people in this field"
                 labelType="heading"

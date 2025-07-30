@@ -9,6 +9,8 @@ import {
   ServerSideProps,
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
+import ConceptContext from '@weco/content/contexts/ConceptPageContext';
+import { makeConceptConfig } from '@weco/content/contexts/ConceptPageContext/concept.config';
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import { getConcept } from '@weco/content/services/wellcome/catalogue/concepts';
@@ -33,7 +35,13 @@ import ConceptPage, {
 } from '@weco/content/views/pages/concepts/concept';
 
 export const Page: NextPage<ConceptPageProps> = props => {
-  return <ConceptPage {...props} />;
+  const config = makeConceptConfig(props.conceptResponse);
+
+  return (
+    <ConceptContext.Provider value={{ config }}>
+      <ConceptPage {...props} />
+    </ConceptContext.Provider>
+  );
 };
 
 function createApiToolbarLinks(concept: ConceptType): ApiToolbarLink[] {
