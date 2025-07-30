@@ -8,7 +8,6 @@ export class ConceptPage {
   readonly worksSection: Locator;
   readonly imagesSection: Locator;
   readonly allWorksLink: Locator;
-  readonly allImagesLink: Locator;
   readonly allImagesByLink: Locator;
   readonly allImagesAboutLink: Locator;
   readonly allImagesInLink: Locator;
