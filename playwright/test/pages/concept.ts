@@ -8,7 +8,6 @@ export class ConceptPage {
   readonly worksSection: Locator;
   readonly imagesSection: Locator;
   readonly allWorksLink: Locator;
-  readonly allImagesLink: Locator;
   readonly allImagesByLink: Locator;
   readonly allImagesAboutLink: Locator;
   readonly allImagesInLink: Locator;
@@ -37,8 +36,7 @@ export class ConceptPage {
     this.worksSection = page.getByTestId('works-section');
     this.imagesSection = page.getByTestId('images-section');
 
-    this.allWorksLink = this.allRecordsLink('works');
-    this.allImagesLink = this.allRecordsLink('images');
+    this.allWorksLink = this.allRecordsLink();
     this.allImagesByLink = this.allRecordsByAboutInLink('images', 'by');
     this.allImagesAboutLink = this.allRecordsByAboutInLink('images', 'about');
     this.allImagesInLink = this.allRecordsByAboutInLink('images', 'in');
@@ -67,9 +65,9 @@ export class ConceptPage {
     this.worksInTabPanel = this.tabPanel(this.worksSection, labels.worksIn);
   }
 
-  allRecordsLink = (recordType: string) => {
+  allRecordsLink = () => {
     const allRecords = this.page.getByRole('link', {
-      name: new RegExp(`^All ${recordType} \\([0-9,\\.K]+\\)`),
+      name: /^View all works.*/,
       exact: false, // match substring, the actual link also includes the right-arrow.
     });
     return allRecords;
@@ -79,9 +77,25 @@ export class ConceptPage {
     recordType: string,
     qualifier: 'by' | 'about' | 'in'
   ) => {
+    const possibleWordsForQualifier = () => {
+      switch (qualifier) {
+        case 'by':
+          return '(by|produced by)';
+        case 'about':
+          return '(featuring|referencing|about)';
+        case 'in':
+          return '(of)';
+        default:
+          throw new Error(`Unknown qualifier: ${qualifier}`);
+      }
+    };
     const allRecords = this.page.getByRole('link', {
-      name: new RegExp(`^All ${recordType} ${qualifier}`),
-      exact: false, // match substring, the actual link also includes the right-arrow.
+      name: new RegExp(
+        `^View all ${recordType} ${possibleWordsForQualifier()}.*`,
+        'i'
+      ),
+      exact: false,
+      // match substring, the actual link also includes the right-arrow.
     });
     return allRecords;
   };
