@@ -16,9 +16,9 @@ export type ConceptConfig = {
   worksBy: ConceptSection;
   worksAbout: ConceptSection;
   worksIn: ConceptSection;
-  collaborators: ConceptSection & {
-    maxCount?: number;
-  };
+  collaborators: ConceptSection
+  relatedTopics: ConceptSection;
+  collaborators: ConceptSection;
   relatedTopics: ConceptSection;
 };
 
@@ -111,7 +111,6 @@ export function makeConceptConfig(concept: Concept): ConceptConfig {
         collaborators: {
           display: true,
           label: 'Frequent collaborators',
-          maxCount: 12,
         },
         relatedTopics: {
           display: true,
@@ -159,7 +158,6 @@ export function makeConceptConfig(concept: Concept): ConceptConfig {
         collaborators: {
           display: true,
           label: 'Frequent collaborators',
-          maxCount: 12,
         },
         relatedTopics: {
           display: true,
@@ -206,7 +204,6 @@ export function makeConceptConfig(concept: Concept): ConceptConfig {
         collaborators: {
           display: true,
           label: 'Frequent collaborators',
-          maxCount: 12,
         },
         relatedTopics: {
           display: true,
@@ -294,7 +291,6 @@ export function makeConceptConfig(concept: Concept): ConceptConfig {
         collaborators: {
           display: true,
           label: `Top contributors to the collections in ${concept.displayLabel || concept.label}`,
-          maxCount: 4,
         },
         relatedTopics: {
           display: true,
@@ -342,7 +338,6 @@ export function makeConceptConfig(concept: Concept): ConceptConfig {
           display: true,
           label:
             'Top contributors to the collections using this type/technique',
-          maxCount: 4,
         },
         relatedTopics: {
           display: true,
