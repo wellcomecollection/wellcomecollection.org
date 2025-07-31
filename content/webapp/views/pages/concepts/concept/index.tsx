@@ -301,15 +301,12 @@ const ConceptPage: NextPage<Props> = ({
     const links: Link[] = [];
 
     // Add image sections
-    const showImagesSection = () => {
-      return (
+    const showImagesSection =
         config.imagesAbout.display ||
         config.imagesBy.display ||
         config.imagesIn.display
-      );
-    };
 
-    if (showImagesSection()) {
+    if (showImagesSection) {
       links.push({
         text: `Images from the collections`,
         url: `#images`,
