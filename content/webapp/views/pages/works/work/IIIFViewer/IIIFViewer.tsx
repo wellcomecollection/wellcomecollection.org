@@ -233,6 +233,8 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const currentCanvas =
     transformedManifest?.canvases[queryParamToArrayIndex(canvas)];
   const mainImageService = { '@id': currentCanvas?.imageServiceId };
+  // We only want to use the IIIF image location if we don't have an image service on the current canvas
+  const shouldUseIifImageLocation = !currentCanvas?.imageServiceId;
   const urlTemplate =
     (iiifImageLocation && iiifImageTemplate(iiifImageLocation.url)) ||
     (mainImageService['@id'] && iiifImageTemplate(mainImageService['@id']));
@@ -333,7 +335,11 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         </Sidebar>
         <Topbar>
           <DelayVisibility>
-            <ViewerTopBar iiifImageLocation={iiifImageLocation} />
+            <ViewerTopBar
+              iiifImageLocation={
+                shouldUseIifImageLocation ? iiifImageLocation : undefined
+              }
+            />
           </DelayVisibility>
         </Topbar>
         <Main
@@ -366,7 +372,11 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         </Main>
         {showZoomed && isFullSupportBrowser && (
           <Zoom>
-            <ZoomedImage iiifImageLocation={iiifImageLocation} />
+            <ZoomedImage
+              iiifImageLocation={
+                shouldUseIifImageLocation ? iiifImageLocation : undefined
+              }
+            />
           </Zoom>
         )}
         {isFullSupportBrowser && (
