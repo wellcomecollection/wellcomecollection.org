@@ -12,7 +12,7 @@ const Tabs: FunctionComponent<Props> = props => {
   const { tabBehaviour } = props;
 
   return (
-    <Wrapper>
+    <Wrapper data-component="tabs">
       {tabBehaviour === 'navigate' ? (
         <TabsNavigate {...props} />
       ) : (

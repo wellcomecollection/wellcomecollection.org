@@ -36,6 +36,7 @@ const ExhibitionsAndEvents: FunctionComponent<Props> = ({
 
   return (
     <CardGrid
+      data-component="exhibitions-and-events"
       items={items}
       itemsPerRow={3}
       links={links}

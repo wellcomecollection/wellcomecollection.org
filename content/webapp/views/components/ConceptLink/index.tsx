@@ -32,7 +32,11 @@ const ConceptLink: FunctionComponent<Props> = ({
   ...props
 }) => {
   return (
-    <NextLink {...toLink(props, source)} legacyBehavior>
+    <NextLink
+      {...toLink(props, source)}
+      legacyBehavior
+      data-component="concept-link"
+    >
       {children}
     </NextLink>
   );

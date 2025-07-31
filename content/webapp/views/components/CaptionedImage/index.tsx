@@ -85,7 +85,7 @@ const CaptionedImage: FunctionComponent<CaptionedImageProps> = ({
   // See https://wellcome.slack.com/archives/C8X9YKM5X/p1653466941113029
 
   return (
-    <CaptionedImageFigure $isBody={isBody}>
+    <CaptionedImageFigure $isBody={isBody} data-component="captioned-image">
       <ImageContainerInner
         $aspectRatio={image.width / image.height}
         $hasRoundedCorners={hasRoundedCorners}

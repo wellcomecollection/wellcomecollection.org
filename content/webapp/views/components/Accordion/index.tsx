@@ -122,7 +122,7 @@ const Accordion: FunctionComponent<Props> = ({
   items,
 }) => {
   return (
-    <>
+    <div data-component="accordion">
       {items.map(item => (
         // `name` is an allowed attribute on a `details` element, but our TS
         // (possibly NextJS's TS) setup is unhappy with it
@@ -143,7 +143,7 @@ const Accordion: FunctionComponent<Props> = ({
           <div className="spaced-text body-text">{item.content}</div>
         </Details>
       ))}
-    </>
+    </div>
   );
 };
 

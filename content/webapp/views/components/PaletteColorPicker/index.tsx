@@ -169,7 +169,7 @@ const PaletteColorPicker: FunctionComponent<PaletteColorPickerProps> = ({
   }, [colorState]);
 
   return (
-    <Wrapper>
+    <Wrapper data-component="palette-color-picker">
       {!isEnhanced && (
         <input
           form={form}

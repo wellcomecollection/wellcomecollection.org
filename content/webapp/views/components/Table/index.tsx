@@ -53,7 +53,7 @@ const TableRow = ({
   plain,
 }: TableRowProps) => {
   return (
-    <TableTr $withBorder={withBorder}>
+    <TableTr $withBorder={withBorder} data-component="table">
       {items.map((item, index) => (
         <Fragment key={index}>
           {hasHeader && index === 0 ? (
@@ -186,7 +186,7 @@ const Table: FunctionComponent<Props> = ({
   }, []);
 
   return (
-    <>
+    <div data-component="table">
       {caption && (
         <h2 className={font('wb', 3)} aria-hidden="true">
           {caption}
@@ -253,7 +253,7 @@ const Table: FunctionComponent<Props> = ({
           </TableTable>
         </TableWrap>
       </ControlsWrap>
-    </>
+    </div>
   );
 };
 

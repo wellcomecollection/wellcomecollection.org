@@ -5,6 +5,7 @@ const sharedPlugins = [
   'jest',
   'prettier',
   'standard',
+  'weco-components',
 ];
 
 const sharedExtends = [
@@ -119,6 +120,36 @@ module.exports = {
         // This rule does not support FunctionComponent<Props> and so
         // makes using (eg) children props more of a pain than it should be
         'react/prop-types': 'off',
+      },
+    },
+    // Components in the views/components directory should have data-component attributes
+    {
+      files: ['content/webapp/views/components/*/index.tsx'],
+      parser: '@typescript-eslint/parser',
+      plugins: [...sharedPlugins, '@typescript-eslint'],
+      extends: [
+        ...sharedExtends,
+        'plugin:@typescript-eslint/recommended',
+        'plugin:jest-playwright/recommended',
+      ],
+      rules: {
+        ...sharedRules,
+        'no-use-before-define': 'off',
+        '@typescript-eslint/array-type': ['error'],
+        '@typescript-eslint/no-use-before-define': [
+          'error',
+          { functions: false },
+        ],
+        '@typescript-eslint/no-unused-vars': [
+          'error',
+          { ignoreRestSiblings: true },
+        ],
+        'jest/no-standalone-expect': [
+          'error',
+          { additionalTestBlockFunctions: ['each.test'] },
+        ],
+        'react/prop-types': 'off',
+        'weco-components/require-data-component': 'error',
       },
     },
     // Some directories don't have an absolute import equivalent so ignoring

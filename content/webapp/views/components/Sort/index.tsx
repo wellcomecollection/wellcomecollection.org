@@ -64,7 +64,7 @@ const Sort: FunctionComponent<Props> = ({
   }, [sortOrder, sortType]);
 
   return (
-    <Wrapper>
+    <Wrapper data-component="sort">
       {/* If the user has JavaScript disabled, we only get the values from the form fields. 
       We need two query parameters for sorting, so we have two select inputs. */}
       <noscript>

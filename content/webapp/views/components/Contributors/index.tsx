@@ -73,7 +73,7 @@ const Contributors: FunctionComponent<Props> = ({
   );
 
   return (
-    <>
+    <div data-component="contributors">
       <h2 className={font('wb', 3)}>
         {isNotUndefined(titleOverride)
           ? titleOverride
@@ -96,7 +96,7 @@ const Contributors: FunctionComponent<Props> = ({
           />
         </Space>
       ))}
-    </>
+    </div>
   );
 };
 

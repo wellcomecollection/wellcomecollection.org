@@ -15,13 +15,13 @@ const StoryPromo: FunctionComponent<Props> = props => {
   const { variant } = props;
 
   return (
-    <>
+    <div data-component="story-promo">
       {variant === 'prismic' ? (
         <StoryPromoPrismic {...props} />
       ) : (
         <StoryPromoContent {...props} />
       )}
-    </>
+    </div>
   );
 };
 

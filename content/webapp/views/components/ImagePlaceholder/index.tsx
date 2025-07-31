@@ -42,7 +42,7 @@ export const placeholderBackgroundColor = (
 };
 
 const ImagePlaceholder: FunctionComponent<Props> = ({ backgroundColor }) => (
-  <Wrapper $backgroundColor={backgroundColor || 'accent.purple'}>
+  <Wrapper $backgroundColor={backgroundColor || 'accent.purple'} data-component="image-placeholder">
     <img src={transparentGif} alt="" width="1" height="1" />
     <Pattern />
   </Wrapper>

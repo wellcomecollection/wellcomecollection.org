@@ -57,7 +57,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue }) => {
   const isFeatured = venue.isFeatured;
 
   return (
-    <>
+    <div data-component="venue-hours">
       {isFeatured && (
         <>
           <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
@@ -135,7 +135,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue }) => {
           <MoreLink url={venue.url} name={venue.linkText} />
         )}
       </Space>
-    </>
+    </div>
   );
 };
 

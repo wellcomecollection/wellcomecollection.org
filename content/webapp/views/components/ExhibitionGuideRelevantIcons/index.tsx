@@ -24,7 +24,7 @@ const RelevantGuideIcons = ({ types }: { types: ExhibitionGuideType[] }) => {
   ];
 
   return (
-    <IconsWrapper>
+    <IconsWrapper data-component="exhibition-guide-relevant-icons">
       {sortedTypes.map((type, i) => {
         const getIcon = () => {
           switch (type) {

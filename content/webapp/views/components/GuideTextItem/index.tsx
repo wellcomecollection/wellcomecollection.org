@@ -24,6 +24,7 @@ const GuideTextItem: FunctionComponent<{
 }> = ({ number, title, tombstone, caption, additionalNotes, transcript }) => {
   return (
     <Space
+      data-component="guide-text-item"
       id={number ? `stop-${number}` : undefined}
       as="article"
       $v={{ size: 'xl', properties: ['margin-bottom'] }}

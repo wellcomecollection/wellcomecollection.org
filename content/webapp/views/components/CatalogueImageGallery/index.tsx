@@ -15,13 +15,13 @@ const CatalogueImageGallery: FunctionComponent<Props> = props => {
   const { variant } = props;
 
   return (
-    <>
+    <div data-component="catalogue-image-gallery">
       {variant === 'justified' ? (
         <CatalogueImageGalleryJustified {...props} />
       ) : (
         <CatalogueImageGalleryScrollable {...props} />
       )}
-    </>
+    </div>
   );
 };
 

@@ -23,6 +23,7 @@ const WorkLink: FunctionComponent<Props> = ({
   const pathname = usePathname();
   return (
     <NextLink
+      data-component="work-link"
       href={{
         pathname: '/works/[workId]',
         query: {

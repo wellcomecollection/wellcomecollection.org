@@ -15,13 +15,13 @@ const SearchResults: FunctionComponent<Props> = props => {
   const { variant } = props;
 
   return (
-    <>
+    <div data-component="search-results">
       {variant === 'default' ? (
         <SearchResultsDefault {...props} />
       ) : (
         <AsyncSearchResults {...props} />
       )}
-    </>
+    </div>
   );
 };
 

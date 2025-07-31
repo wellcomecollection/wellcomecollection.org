@@ -37,7 +37,7 @@ const FacilityPromo: FunctionComponent<FacilityPromoType> = ({
   metaIcon,
 }) => {
   return (
-    <CardOuter data-component="FacilityPromo" id={id} href={url}>
+    <CardOuter data-component="facility-promo" id={id} href={url}>
       <div>
         <ImageWrapper>
           <PrismicImage
