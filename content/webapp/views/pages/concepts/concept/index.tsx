@@ -302,9 +302,9 @@ const ConceptPage: NextPage<Props> = ({
 
     // Add image sections
     const showImagesSection =
-        config.imagesAbout.display ||
-        config.imagesBy.display ||
-        config.imagesIn.display
+      config.imagesAbout.display ||
+      config.imagesBy.display ||
+      config.imagesIn.display;
 
     if (showImagesSection) {
       links.push({

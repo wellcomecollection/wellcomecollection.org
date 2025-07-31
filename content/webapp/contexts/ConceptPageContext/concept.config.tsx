@@ -1,7 +1,4 @@
-import {
-  Concept,
-  ConceptType,
-} from '@weco/content/services/wellcome/catalogue/types';
+import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 
 type ConceptSection = {
   display: boolean;
@@ -19,8 +16,8 @@ export type ConceptConfig = {
   worksBy: ConceptSection;
   worksAbout: ConceptSection;
   worksIn: ConceptSection;
+  relatedTopics: ConceptSection;
   collaborators: ConceptSection;
-  relatedTopics: ConceptSection & { excludedTopics?: ConceptType[] };
 };
 
 export const defaultConceptConfig: ConceptConfig = {
@@ -115,7 +112,6 @@ export function makeConceptConfig(concept: Concept): ConceptConfig {
         },
         relatedTopics: {
           display: true,
-          excludedTopics: ['Person', 'Organisation', 'Agent'],
         },
       };
 
@@ -163,7 +159,6 @@ export function makeConceptConfig(concept: Concept): ConceptConfig {
         },
         relatedTopics: {
           display: true,
-          excludedTopics: ['Person', 'Organisation', 'Agent'],
         },
       };
 
@@ -210,7 +205,6 @@ export function makeConceptConfig(concept: Concept): ConceptConfig {
         },
         relatedTopics: {
           display: true,
-          excludedTopics: ['Person', 'Organisation', 'Agent'],
         },
       };
 
@@ -345,7 +339,6 @@ export function makeConceptConfig(concept: Concept): ConceptConfig {
         },
         relatedTopics: {
           display: true,
-          excludedTopics: ['Person', 'Organisation', 'Agent'],
         },
       };
 
