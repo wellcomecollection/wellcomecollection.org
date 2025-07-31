@@ -43,7 +43,6 @@ import CataloguePageLayout from '@weco/content/views/layouts/CataloguePageLayout
 import Collaborators from './concept.Collaborators';
 import Header from './concept.Header';
 import {
-  getThemeSectionHeading,
   SectionData,
   ThemePageSectionsData,
   themeTabOrder,
@@ -302,23 +301,19 @@ const ConceptPage: NextPage<Props> = ({
     const links: Link[] = [];
 
     // Add image sections
-    for (const section of themeTabOrder) {
-      const showSection = () => {
-        switch (section) {
-          case 'by':
-            return config.imagesBy.display;
-          case 'in':
-            return config.imagesIn.display;
-          case 'about':
-            return config.imagesAbout.display;
-        }
-      };
-      if (sectionsData[section].images?.totalResults && showSection()) {
-        links.push({
-          text: `Images ${getThemeSectionHeading(section, conceptResponse, true)}`,
-          url: `#images-${section}`,
-        });
-      }
+    const showImagesSection = () => {
+      return (
+        config.imagesAbout.display ||
+        config.imagesBy.display ||
+        config.imagesIn.display
+      );
+    };
+
+    if (showImagesSection()) {
+      links.push({
+        text: `Images from the collections`,
+        url: `#images`,
+      });
     }
 
     // Add works section
@@ -328,7 +323,7 @@ const ConceptPage: NextPage<Props> = ({
         config.worksIn.display ||
         config.worksAbout.display)
     ) {
-      links.push({ text: 'Works', url: '#works' });
+      links.push({ text: 'Works from the collections', url: '#works' });
     }
 
     // Add frequent collaborators

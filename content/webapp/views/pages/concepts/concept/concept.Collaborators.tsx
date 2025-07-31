@@ -39,7 +39,7 @@ const Collaborators: FunctionComponent<{
 
   return (
     <section data-id="frequent-collaborators">
-      <h2 className={font('intsb', 2)} id="frequent-collaborators">
+      <h2 className={font('wb', 2)} id="frequent-collaborators">
         {config.collaborators.label || 'Frequent collaborators'}
       </h2>
       <CollaboratorsWrapper>
