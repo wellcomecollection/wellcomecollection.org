@@ -30,6 +30,14 @@ const SectionHeading = styled.h2.attrs({
   className: font('intsb', 2),
 })``;
 
+const InlineLabel = styled.div`
+  width: 100%;
+
+  ${props => props.theme.media('medium')`
+    width: auto;
+  `}
+`;
+
 type Props = {
   label: string;
   labelType: 'inline' | 'heading';
@@ -59,7 +67,7 @@ const RelatedConceptsGroup: FunctionComponent<Props> = ({
         <SectionHeading id={dasherize(label)}>{label}</SectionHeading>
       )}
       <RelatedConceptsContainer>
-        {labelType === 'inline' && <span>{label}</span>}
+        {labelType === 'inline' && <InlineLabel>{label}</InlineLabel>}
         {relatedConcepts.map((item, index) => (
           <RelatedConceptItem
             key={item.id}
