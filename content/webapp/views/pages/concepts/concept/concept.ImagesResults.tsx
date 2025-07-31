@@ -38,6 +38,9 @@ const SectionHeading = styled(Space).attrs({
   $v: { size: 's', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('white')};
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 `;
 
 const getAllImagesLink = (

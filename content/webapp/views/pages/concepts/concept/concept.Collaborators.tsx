@@ -11,7 +11,7 @@ import {
 
 import CollaboratorCard from './concept.Collaborators.Card';
 
-const COLLABORATOR_COUNT_LIMIT = 3;
+const COLLABORATOR_COUNT_LIMIT = 4;
 
 const CollaboratorsWrapper = styled.div`
   display: flex;
@@ -43,20 +43,18 @@ const Collaborators: FunctionComponent<{
         {config.collaborators.label || 'Frequent collaborators'}
       </h2>
       <CollaboratorsWrapper>
-        {concepts
-          .slice(0, config.collaborators.maxCount || COLLABORATOR_COUNT_LIMIT)
-          .map((concept, index) => (
-            <CollaboratorCard
-              dataGtmProps={{
-                trigger: 'frequent_collaborators',
-                'position-in-list': `${index + 1}`,
-              }}
-              key={concept.id}
-              href={`/concepts/${concept.id}`}
-              icon={iconFromConceptType(concept.conceptType)}
-              label={concept.label}
-            />
-          ))}
+        {concepts.slice(0, COLLABORATOR_COUNT_LIMIT).map((concept, index) => (
+          <CollaboratorCard
+            dataGtmProps={{
+              trigger: 'frequent_collaborators',
+              'position-in-list': `${index + 1}`,
+            }}
+            key={concept.id}
+            href={`/concepts/${concept.id}`}
+            icon={iconFromConceptType(concept.conceptType)}
+            label={concept.label}
+          />
+        ))}
       </CollaboratorsWrapper>
     </section>
   );
