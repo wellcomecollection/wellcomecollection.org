@@ -16,10 +16,8 @@ export type ConceptConfig = {
   worksBy: ConceptSection;
   worksAbout: ConceptSection;
   worksIn: ConceptSection;
-  collaborators: ConceptSection
   relatedTopics: ConceptSection;
   collaborators: ConceptSection;
-  relatedTopics: ConceptSection;
 };
 
 export const defaultConceptConfig: ConceptConfig = {
