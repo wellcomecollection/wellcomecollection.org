@@ -35,22 +35,22 @@ export const defaultConceptConfig: ConceptConfig = {
   },
   imagesBy: {
     display: true,
-    label: 'Images by this concept',
+    label: 'Images by this topic',
   },
   imagesAbout: {
     display: true,
-    label: 'Images about this concept',
+    label: 'Images about this topic',
   },
   imagesIn: {
     display: false,
   },
   worksBy: {
     display: true,
-    label: 'Works by this concept',
+    label: 'Works by this topic',
   },
   worksAbout: {
     display: true,
-    label: 'Works about this concept',
+    label: 'Works about this topic',
   },
   worksIn: {
     display: false,
@@ -59,7 +59,7 @@ export const defaultConceptConfig: ConceptConfig = {
     display: false,
   },
   relatedTopics: {
-    display: false,
+    display: true,
   },
 };
 
@@ -358,8 +358,7 @@ export function makeConceptConfig(concept: Concept): ConceptConfig {
           display: false,
         },
         imagesBy: {
-          display: true,
-          label: `Images produced by ${concept.displayLabel || concept.label}`,
+          display: false,
         },
         imagesAbout: {
           display: true,
@@ -383,7 +382,7 @@ export function makeConceptConfig(concept: Concept): ConceptConfig {
           display: false,
         },
         relatedTopics: {
-          display: false,
+          display: true,
         },
       };
 
