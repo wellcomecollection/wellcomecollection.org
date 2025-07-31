@@ -27,7 +27,7 @@ const RelatedConceptItem = styled.div.attrs<{ $isFullWidth: boolean }>({
 `;
 
 const SectionHeading = styled.h2.attrs({
-  className: font('intsb', 2),
+  className: font('wb', 2),
 })``;
 
 const InlineLabel = styled.div`

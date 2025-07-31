@@ -25,15 +25,17 @@ import {
   themeTabOrder,
   ThemeTabType,
 } from './concept.helpers';
+import { FromCollectionsHeading } from './concept.styles';
 
 const ThemeImagesWrapper = styled(Space).attrs({
   $v: { size: 'xl', properties: ['padding-bottom'] },
 })`
   background-color: ${props => props.theme.color('neutral.700')};
 `;
+
 const SectionHeading = styled(Space).attrs({
   as: 'h3',
-  className: font('intsb', 2),
+  className: font('intsb', 3),
   $v: { size: 's', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('white')};
@@ -77,11 +79,7 @@ const ImageSection: FunctionComponent<Props> = ({
   }
 
   return (
-    <Space
-      $v={{ size: 'l', properties: ['padding-top'] }}
-      as="section"
-      data-id={`images-${type}`}
-    >
+    <Space $v={{ size: 'l', properties: ['padding-top'] }}>
       <SectionHeading id={`images-${type}`}>
         {getSectionTypeLabel(type, config, 'images')}
       </SectionHeading>
@@ -123,7 +121,16 @@ const ImagesResults: FunctionComponent<{
 
   return (
     <>
-      <ThemeImagesWrapper data-testid="images-section">
+      <ThemeImagesWrapper
+        as="section"
+        data-testid="images-section"
+        data-id="images"
+      >
+        <Space $v={{ size: 'm', properties: ['padding-top'] }}>
+          <FromCollectionsHeading $color="white" id="images">
+            Images from the collections
+          </FromCollectionsHeading>
+        </Space>
         {themeTabOrder.map(tabType => (
           <ImageSection
             key={tabType}
