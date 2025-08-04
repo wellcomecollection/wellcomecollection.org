@@ -138,6 +138,7 @@ test.describe('a Concept representing a Genre with works and images both about a
   test('has both works and image sections, each with about and using tabs', async ({
     statisticsPage,
   }) => {
+    const title = encodeURIComponent('"Statistics"');
     // It has two tabs (works)
     await expect(statisticsPage.worksAboutTab).toBeVisible();
     await expect(statisticsPage.worksInTab).toBeVisible();
@@ -155,23 +156,23 @@ test.describe('a Concept representing a Genre with works and images both about a
     await statisticsPage.worksInTab.click();
     await expect(statisticsPage.allWorksLink).toHaveAttribute(
       'href',
-      `/search/works?genres.label=${encodeURIComponent('"Songs"')}`
+      `/search/works?genres.label=${title}`
     );
 
     await statisticsPage.worksAboutTab.click();
     await expect(statisticsPage.allWorksLink).toHaveAttribute(
       'href',
-      `/search/works?subjects.label=${encodeURIComponent('"Songs"')}`
+      `/search/works?subjects.label=${title}`
     );
 
     await expect(statisticsPage.allImagesInLink).toHaveAttribute(
       'href',
-      `/search/images?source.genres.label=${encodeURIComponent('"Songs"')}`
+      `/search/images?source.genres.label=${title}`
     );
 
     await expect(statisticsPage.allImagesAboutLink).toHaveAttribute(
       'href',
-      `/search/images?source.subjects.label=${encodeURIComponent('"Songs"')}`
+      `/search/images?source.subjects.label=${title}`
     );
   });
 });
