@@ -1,3 +1,4 @@
+// eslint-data-component: intentionally omitted
 import debounce from 'lodash.debounce';
 import {
   FunctionComponent,

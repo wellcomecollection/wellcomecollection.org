@@ -1,3 +1,4 @@
+// eslint-data-component: intentionally omitted
 import * as prismic from '@prismicio/client';
 import { JSXFunctionSerializer, PrismicRichText } from '@prismicio/react';
 import { FunctionComponent } from 'react';
