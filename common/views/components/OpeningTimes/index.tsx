@@ -21,7 +21,7 @@ const VenueName = styled.div`
 `;
 
 const OpeningTimes: FunctionComponent<Props> = ({ venues }) => (
-  <PlainList data-chromatic="ignore">
+  <PlainList data-chromatic="ignore" data-component="opening-times">
     {venues.map(venue => {
       const todaysHours = getTodaysVenueHours(venue);
       return (

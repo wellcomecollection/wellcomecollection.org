@@ -37,7 +37,12 @@ const FeaturedWorkLink = ({
   if (!(link && hasLinkedWork(link))) return null;
 
   return (
-    <WorkLinkWithIcon href={link} data-gtm-id="work-link-component" {...rest}>
+    <WorkLinkWithIcon
+      href={link}
+      data-component="featured-work-link"
+      data-gtm-id="work-link-component"
+      {...rest}
+    >
       {children || 'View in catalogue'}
     </WorkLinkWithIcon>
   );

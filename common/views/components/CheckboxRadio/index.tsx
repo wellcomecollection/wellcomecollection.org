@@ -116,7 +116,11 @@ const CheckboxRadio: FunctionComponent<CheckboxRadioProps> = ({
   ...inputProps
 }: CheckboxRadioProps): ReactElement<CheckboxRadioProps> => {
   return (
-    <CheckboxRadioLabel htmlFor={id} $isDisabled={disabled}>
+    <CheckboxRadioLabel
+      data-component={type}
+      htmlFor={id}
+      $isDisabled={disabled}
+    >
       <CheckBoxWrapper>
         <CheckboxRadioInput
           id={id}
