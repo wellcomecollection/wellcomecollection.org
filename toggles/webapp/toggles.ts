@@ -92,14 +92,6 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'newThemePages',
-      title: 'New theme pages',
-      initialValue: false,
-      description:
-        'Show new theme pages, with data populated from the catalogue graph.',
-      type: 'experimental',
-    },
-    {
       id: 'themePagesAllFields',
       title: 'Show all fields on theme pages',
       initialValue: false,
