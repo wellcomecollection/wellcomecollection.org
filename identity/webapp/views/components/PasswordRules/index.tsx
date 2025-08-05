@@ -66,7 +66,7 @@ const PasswordRules: FunctionComponent<PasswordRulesProps> = ({
   hasNumbers,
 }) => {
   return (
-    <RulesListWrapper>
+    <RulesListWrapper data-component="password-rules">
       <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
         Your password must contain:
       </Space>
