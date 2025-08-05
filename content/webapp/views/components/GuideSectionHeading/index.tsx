@@ -22,7 +22,10 @@ const GuideSectionHeading: FunctionComponent<{
   if (!title && !subtitle && !text) return null;
 
   return (
-    <div id={number ? `stop-${number}` : undefined}>
+    <div
+      data-component="guide-section-heading"
+      id={number ? `stop-${number}` : undefined}
+    >
       {title && (
         <Container>
           <div style={{ display: 'flex', flexWrap: 'wrap' }}>

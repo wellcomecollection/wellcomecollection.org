@@ -119,7 +119,7 @@ const ZoomedPrismicImage: FunctionComponent<ZoomedPrismicImageProps> = ({
   }
 
   return canShowZoom ? (
-    <>
+    <div data-component="zoomed-prismic-image">
       <ZoomButton
         data-gtm-trigger="zoom_prismic_image_button"
         onClick={openDialog}
@@ -151,7 +151,7 @@ const ZoomedPrismicImage: FunctionComponent<ZoomedPrismicImageProps> = ({
           </>
         )}
       </StyledDialog>
-    </>
+    </div>
   ) : null;
 };
 

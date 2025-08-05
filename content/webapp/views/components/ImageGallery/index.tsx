@@ -129,7 +129,7 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
   };
 
   return (
-    <>
+    <div data-component="image-gallery">
       {!isStandalone && !isFrames && (
         <ContaineredLayout gridSizes={gridSize8()}>
           <GalleryTitle>
@@ -272,7 +272,7 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
           </Space>
         </ContaineredLayout>
       </Gallery>
-    </>
+    </div>
   );
 };
 

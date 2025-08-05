@@ -11,7 +11,7 @@ export type Props = {
 
 const TagsGroup: FunctionComponent<Props> = ({ tags, title }: Props) => {
   return (
-    <>
+    <div data-component="tags-group">
       {title && (
         <Space
           as="h2"
@@ -22,7 +22,7 @@ const TagsGroup: FunctionComponent<Props> = ({ tags, title }: Props) => {
         </Space>
       )}
       <Tags tags={tags} isFirstPartBold={false} />
-    </>
+    </div>
   );
 };
 export default TagsGroup;

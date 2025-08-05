@@ -109,6 +109,7 @@ export const Pagination: FunctionComponent<Props> = ({
 
   return (
     <Container
+      data-component="pagination"
       {...(!isHiddenMobile && { 'data-testid': 'pagination' })} // This ensures that we only target the version of component that is also visible on mobile
       aria-label={ariaLabel}
       $isHiddenMobile={isHiddenMobile}
