@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useEffect } from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
@@ -97,11 +97,29 @@ const LinkedWorks: FunctionComponent<LinkedWorkProps> = ({
   gridSizes,
   parentId,
 }: LinkedWorkProps) => {
-  if (!linkedWorks || linkedWorks.length === 0) return null;
+  const hasLinkedWorks = linkedWorks && linkedWorks.length > 0;
+
+  useEffect(() => {
+    // Only do this if there are results to display
+    console.log(hasLinkedWorks);
+    if (hasLinkedWorks) {
+      const dataLayerEvent = {
+        event: 'featured_works_displayed',
+        relatedWorks: linkedWorks.map((work, i) => ({
+          workId: work.id,
+          positionInList: i + 1,
+        })),
+      };
+      console.log('push');
+      window.dataLayer?.push(dataLayerEvent);
+    }
+  }, []);
+
+  if (!hasLinkedWorks) return null;
   const gridValues = Object.values(gridSizes).map(v => v[0]);
 
   return (
-    <FullWidthRow>
+    <FullWidthRow data-gtm-trigger="featured-works-carousel">
       <ContaineredLayout gridSizes={gridSizes as SizeMap}>
         <h2 className={font('wb', 3)}>Featured in this article</h2>
       </ContaineredLayout>
