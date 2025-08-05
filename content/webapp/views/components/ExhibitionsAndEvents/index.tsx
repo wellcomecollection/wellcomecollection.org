@@ -1,3 +1,4 @@
+// eslint-data-component: intentionally omitted
 import { FunctionComponent } from 'react';
 
 import AccessibilityProvision from '@weco/common/views/components/AccessibilityProvision';
