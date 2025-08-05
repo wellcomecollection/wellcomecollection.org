@@ -6,8 +6,8 @@ module.exports = function () {
       {
         ssr: true,
         displayName: true,
-        // Add meaningful class names for GTM targeting
-        minify: false,
+        // For GTM targeting
+        transpileTemplateLiterals: false,
       },
     ],
   ];
