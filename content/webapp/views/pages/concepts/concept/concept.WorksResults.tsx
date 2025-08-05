@@ -3,14 +3,11 @@ import styled from 'styled-components';
 
 import { WorksLinkSource } from '@weco/common/data/segment-values';
 import { font } from '@weco/common/utils/classnames';
-import {
-  capitalize,
-  formatNumber,
-  pluralize,
-} from '@weco/common/utils/grammar';
+import { capitalize, pluralize } from '@weco/common/utils/grammar';
 import Space from '@weco/common/views/components/styled/Space';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import theme from '@weco/common/views/themes/default';
+import { useConceptPageContext } from '@weco/content/contexts/ConceptPageContext';
 import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { allRecordsLinkParams } from '@weco/content/utils/concepts';
 import MoreLink from '@weco/content/views/components/MoreLink';
@@ -18,12 +15,14 @@ import { toLink as toWorksLink } from '@weco/content/views/components/SearchPage
 import Tabs from '@weco/content/views/components/Tabs';
 import WorksSearchResults from '@weco/content/views/components/WorksSearchResults';
 import {
-  getThemeSectionHeading,
+  getSectionTypeLabel,
   SectionData,
   ThemePageSectionsData,
   themeTabOrder,
   ThemeTabType,
 } from '@weco/content/views/pages/concepts/concept/concept.helpers';
+
+import { FromCollectionsHeading } from './concept.styles';
 
 const WorksCount = styled(Space).attrs({
   as: 'p',
@@ -53,6 +52,7 @@ type Props = {
 };
 
 const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
+  const { config } = useConceptPageContext();
   const tabs = themeTabOrder
     .filter(
       tabType =>
@@ -61,7 +61,7 @@ const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
     )
     .map(tabType => ({
       id: tabType,
-      text: capitalize(getThemeSectionHeading(tabType, concept)),
+      text: getSectionTypeLabel(tabType, config, 'works'),
     }));
 
   const [selectedTab, setSelectedTab] = useState<ThemeTabType | null>(
@@ -77,9 +77,6 @@ const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
     return null;
 
   const labelBasedCount = activePanel.totalResults.works;
-  const formattedLabelBasedCount = formatNumber(labelBasedCount, {
-    isCompact: true,
-  });
 
   return (
     <>
@@ -91,9 +88,11 @@ const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
         as="section"
         data-id="works"
       >
-        <h2 id="works" className={font('intsb', 2)}>
-          Works
-        </h2>
+        <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
+          <FromCollectionsHeading id="works" $color="black">
+            Works from the collections
+          </FromCollectionsHeading>
+        </Space>
         {tabs.length > 1 && (
           <Tabs
             label="Works tabs"
@@ -124,7 +123,8 @@ const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
             {labelBasedCount > activePanel.works.pageResults.length && (
               <Space $v={{ size: 'l', properties: ['padding-top'] }}>
                 <MoreLink
-                  name={`All works (${formattedLabelBasedCount})`}
+                  ariaLabel={`View all works for ${concept.label}`}
+                  name="View all"
                   url={getAllWorksLink(selectedTab, concept)}
                   colors={theme.buttonColors.greenGreenWhite}
                 />

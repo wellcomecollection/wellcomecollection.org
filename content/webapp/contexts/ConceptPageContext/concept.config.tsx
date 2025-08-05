@@ -1,14 +1,11 @@
-import {
-  Concept,
-  ConceptType,
-} from '@weco/content/services/wellcome/catalogue/types';
+import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 
 type ConceptSection = {
   display: boolean;
   label?: string;
 };
 
-type ConceptConfig = {
+export type ConceptConfig = {
   displayName: ConceptSection;
   partOf: ConceptSection;
   sourcedDescription: ConceptSection;
@@ -19,17 +16,58 @@ type ConceptConfig = {
   worksBy: ConceptSection;
   worksAbout: ConceptSection;
   worksIn: ConceptSection;
-  contributors: ConceptSection & {
-    maxCount?: number;
-  };
-  relatedTopics: ConceptSection & { excludedTopics?: ConceptType[] };
+  relatedTopics: ConceptSection;
+  collaborators: ConceptSection;
+};
+
+export const defaultConceptConfig: ConceptConfig = {
+  displayName: {
+    display: false,
+  },
+  partOf: {
+    display: false,
+  },
+  sourcedDescription: {
+    display: false,
+  },
+  fieldOrArea: {
+    display: false,
+  },
+  imagesBy: {
+    display: true,
+    label: 'Images by this topic',
+  },
+  imagesAbout: {
+    display: true,
+    label: 'Images about this topic',
+  },
+  imagesIn: {
+    display: false,
+  },
+  worksBy: {
+    display: true,
+    label: 'Works by this topic',
+  },
+  worksAbout: {
+    display: true,
+    label: 'Works about this topic',
+  },
+  worksIn: {
+    display: false,
+  },
+  collaborators: {
+    display: false,
+  },
+  relatedTopics: {
+    display: true,
+  },
 };
 
 // The API response hasn't been curated for the front-end in order to make as much content available to
 // the wider public as possible. Here we define a config for each of the individual displayed concept types
 // to simplify the front end templates (fewer hard-to-read conditionals). This will hopefully also help
 // with explaining to non-devs how and why different concepts are expected to appear
-export function makeConceptConfig(concept: Concept): ConceptConfig | undefined {
+export function makeConceptConfig(concept: Concept): ConceptConfig {
   switch (concept.type) {
     case 'Person':
       return {
@@ -44,7 +82,7 @@ export function makeConceptConfig(concept: Concept): ConceptConfig | undefined {
         },
         fieldOrArea: {
           display: true,
-          label: 'Field',
+          label: 'Field of work',
         },
         imagesBy: {
           display: true,
@@ -68,14 +106,12 @@ export function makeConceptConfig(concept: Concept): ConceptConfig | undefined {
           display: true,
           label: 'Works featuring this person',
         },
-        contributors: {
+        collaborators: {
           display: true,
           label: 'Frequent collaborators',
-          maxCount: 12,
         },
         relatedTopics: {
           display: true,
-          excludedTopics: ['Person', 'Organisation', 'Agent'],
         },
       };
 
@@ -93,7 +129,7 @@ export function makeConceptConfig(concept: Concept): ConceptConfig | undefined {
         },
         fieldOrArea: {
           display: true,
-          label: 'Field',
+          label: 'Field of work',
         },
         imagesBy: {
           display: true,
@@ -117,14 +153,12 @@ export function makeConceptConfig(concept: Concept): ConceptConfig | undefined {
         worksIn: {
           display: false,
         },
-        contributors: {
+        collaborators: {
           display: true,
           label: 'Frequent collaborators',
-          maxCount: 12,
         },
         relatedTopics: {
           display: true,
-          excludedTopics: ['Person', 'Organisation', 'Agent'],
         },
       };
 
@@ -141,7 +175,7 @@ export function makeConceptConfig(concept: Concept): ConceptConfig | undefined {
         },
         fieldOrArea: {
           display: true,
-          label: 'Area',
+          label: 'Area of work',
         },
         imagesBy: {
           display: true,
@@ -165,14 +199,12 @@ export function makeConceptConfig(concept: Concept): ConceptConfig | undefined {
         worksIn: {
           display: false,
         },
-        contributors: {
+        collaborators: {
           display: true,
           label: 'Frequent collaborators',
-          maxCount: 12,
         },
         relatedTopics: {
           display: true,
-          excludedTopics: ['Person', 'Organisation', 'Agent'],
         },
       };
 
@@ -212,7 +244,7 @@ export function makeConceptConfig(concept: Concept): ConceptConfig | undefined {
         worksIn: {
           display: false,
         },
-        contributors: {
+        collaborators: {
           display: false,
         },
         relatedTopics: {
@@ -254,10 +286,9 @@ export function makeConceptConfig(concept: Concept): ConceptConfig | undefined {
           display: true,
           label: 'Works about this subject',
         },
-        contributors: {
+        collaborators: {
           display: true,
           label: `Top contributors to the collections in ${concept.displayLabel || concept.label}`,
-          maxCount: 4,
         },
         relatedTopics: {
           display: true,
@@ -301,15 +332,13 @@ export function makeConceptConfig(concept: Concept): ConceptConfig | undefined {
           display: true,
           label: 'Works using this type/technique',
         },
-        contributors: {
+        collaborators: {
           display: true,
           label:
             'Top contributors to the collections using this type/technique',
-          maxCount: 4,
         },
         relatedTopics: {
           display: true,
-          excludedTopics: ['Person', 'Organisation', 'Agent'],
         },
       };
 
@@ -329,8 +358,7 @@ export function makeConceptConfig(concept: Concept): ConceptConfig | undefined {
           display: false,
         },
         imagesBy: {
-          display: true,
-          label: `Images produced by ${concept.displayLabel || concept.label}`,
+          display: false,
         },
         imagesAbout: {
           display: true,
@@ -350,12 +378,15 @@ export function makeConceptConfig(concept: Concept): ConceptConfig | undefined {
         worksIn: {
           display: false,
         },
-        contributors: {
+        collaborators: {
           display: false,
         },
         relatedTopics: {
-          display: false,
+          display: true,
         },
       };
+
+    default:
+      return defaultConceptConfig;
   }
 }
