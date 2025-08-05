@@ -99,7 +99,7 @@ const EventPromo: FunctionComponent<Props> = ({
 
   return (
     <CardOuter
-      data-component="EventPromo"
+      data-component="event-promo"
       data-component-state={JSON.stringify({ position })}
       href={(event.promo && event.promo.link) || linkResolver(event)}
     >

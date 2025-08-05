@@ -43,7 +43,7 @@ const ExhibitionPromo: FunctionComponent<Props> = ({
 
   return (
     <CardOuter
-      data-component="ExhibitionPromo"
+      data-component="exhibition-promo"
       data-component-state={JSON.stringify({ position })}
       id={exhibition.id}
       href={url}
