@@ -101,7 +101,6 @@ const LinkedWorks: FunctionComponent<LinkedWorkProps> = ({
 
   useEffect(() => {
     // Only do this if there are results to display
-    console.log(hasLinkedWorks);
     if (hasLinkedWorks) {
       const dataLayerEvent = {
         event: 'featured_works_displayed',
