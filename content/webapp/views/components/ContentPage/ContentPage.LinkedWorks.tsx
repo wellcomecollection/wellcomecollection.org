@@ -109,7 +109,6 @@ const LinkedWorks: FunctionComponent<LinkedWorkProps> = ({
           positionInList: i + 1,
         })),
       };
-      console.log('push');
       window.dataLayer?.push(dataLayerEvent);
     }
   }, []);
