@@ -119,7 +119,7 @@ const LinkedWorks: FunctionComponent<LinkedWorkProps> = ({
   const gridValues = Object.values(gridSizes).map(v => v[0]);
 
   return (
-    <FullWidthRow data-gtm-trigger="featured-works-carousel">
+    <FullWidthRow>
       <ContaineredLayout gridSizes={gridSizes as SizeMap}>
         <h2 className={font('wb', 3)}>Featured in this article</h2>
       </ContaineredLayout>
