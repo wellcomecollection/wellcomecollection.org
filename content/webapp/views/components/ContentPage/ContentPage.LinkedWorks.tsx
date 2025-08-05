@@ -105,7 +105,7 @@ const LinkedWorks: FunctionComponent<LinkedWorkProps> = ({
     if (hasLinkedWorks) {
       const dataLayerEvent = {
         event: 'featured_works_displayed',
-        relatedWorks: linkedWorks.map((work, i) => ({
+        featuredWorks: linkedWorks.map((work, i) => ({
           workId: work.id,
           positionInList: i + 1,
         })),
