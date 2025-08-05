@@ -32,7 +32,10 @@ const LabelsList: FunctionComponent<Props> = ({
   labels,
   defaultLabelColor = 'yellow',
 }: Props) => (
-  <Space $h={{ size: 'm', properties: ['padding-right'] }}>
+  <Space
+    data-component="labels-list"
+    $h={{ size: 'm', properties: ['padding-right'] }}
+  >
     <List as="ul">
       {labels.filter(Boolean).map((label, i) => (
         <li key={`${label.text}-${i}`}>

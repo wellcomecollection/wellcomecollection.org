@@ -71,6 +71,7 @@ const Icon: FunctionComponent<Props> = ({
   attrs = {},
 }: Props) => (
   <Wrapper
+    data-component="icon"
     aria-hidden={title ? true : undefined}
     $rotate={rotate}
     $iconColor={iconColor}

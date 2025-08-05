@@ -1,3 +1,4 @@
+// eslint-data-component: intentionally omitted
 import { LinkProps } from 'next/link';
 import { FunctionComponent } from 'react';
 

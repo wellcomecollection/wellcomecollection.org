@@ -13,7 +13,7 @@ const PartNumberIndicator: FunctionComponent<Props> = ({
   description = 'Part',
   ...numberProps
 }) => (
-  <div className={font('wb', 5)}>
+  <div data-component="part-number-indicator" className={font('wb', 5)}>
     {description}
     <Number {...numberProps} />
   </div>

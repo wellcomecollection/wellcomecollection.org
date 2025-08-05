@@ -136,7 +136,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
   }
 
   return shouldRender ? (
-    <>
+    <div data-component="popup-dialog">
       <PopupDialogOpen
         title="open dialog"
         ref={openDialogRef}
@@ -209,7 +209,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
           {linkText}
         </PopupDialogCTA>
       </PopupDialogWindow>
-    </>
+    </div>
   ) : null;
 };
 

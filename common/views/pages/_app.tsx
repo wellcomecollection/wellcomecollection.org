@@ -26,8 +26,8 @@ import {
 } from '@weco/common/services/conversion/track';
 import { deserialiseProps } from '@weco/common/utils/json';
 import CivicUK from '@weco/common/views/components/CivicUK';
-import ErrorPage from '@weco/common/views/components/ErrorPage';
 import LoadingIndicator from '@weco/common/views/components/LoadingIndicator';
+import ErrorPage from '@weco/common/views/layouts/ErrorPage';
 import theme, { GlobalStyle } from '@weco/common/views/themes/default';
 
 // Error pages can't send anything via the data fetching methods as

@@ -15,11 +15,21 @@ const InPageNavigation: FunctionComponent<Props> = props => {
   const { variant } = props;
 
   if (variant === 'simple') {
-    return <InPageNavigationSimple {...props} />;
+    return (
+      <InPageNavigationSimple
+        data-component="in-page-navigation-simple"
+        {...props}
+      />
+    );
   }
 
   if (variant === 'sticky') {
-    return <InPageNavigationSticky {...props} />;
+    return (
+      <InPageNavigationSticky
+        data-component="in-page-navigation-sticky"
+        {...props}
+      />
+    );
   }
 };
 

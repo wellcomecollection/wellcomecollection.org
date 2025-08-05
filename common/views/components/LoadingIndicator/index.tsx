@@ -57,7 +57,7 @@ const LoadingIndicator: FunctionComponent = () => {
     parent: '.loading-indicator-wrapper',
   });
 
-  return <LoadingIndicatorWrapper />;
+  return <LoadingIndicatorWrapper data-component="loading-indicator" />;
 };
 
 export default LoadingIndicator;

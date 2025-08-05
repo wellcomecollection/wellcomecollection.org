@@ -51,7 +51,7 @@ const ExpandableList: FunctionComponent<Props> = ({
   }, [isShowingRemainingListItems]);
 
   return listItems.length > 0 ? (
-    <>
+    <div data-component="expandable-list">
       <PlainList>
         {firstListItems.map(
           (
@@ -86,7 +86,7 @@ const ExpandableList: FunctionComponent<Props> = ({
             : `+ ${remainingListItems.length} more`}
         </ShowHideButton>
       )}
-    </>
+    </div>
   ) : null;
 };
 

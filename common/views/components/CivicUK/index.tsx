@@ -1,3 +1,4 @@
+// eslint-data-component: intentionally omitted
 import cookies from '@weco/common/data/cookies';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { font } from '@weco/common/utils/classnames';

@@ -17,9 +17,9 @@ const StoryPromo: FunctionComponent<Props> = props => {
   return (
     <>
       {variant === 'prismic' ? (
-        <StoryPromoPrismic {...props} />
+        <StoryPromoPrismic data-component="story-promo-prismic" {...props} />
       ) : (
-        <StoryPromoContent {...props} />
+        <StoryPromoContent data-component="story-promo-content" {...props} />
       )}
     </>
   );

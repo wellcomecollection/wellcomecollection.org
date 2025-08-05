@@ -5,6 +5,7 @@ const sharedPlugins = [
   'jest',
   'prettier',
   'standard',
+  'local-rules',
 ];
 
 const sharedExtends = [
@@ -39,6 +40,7 @@ const sharedRules = {
       'newlines-between': 'always',
     },
   ],
+  'local-rules/data-component-declared': 'warn',
   'no-mixed-operators': 'warn',
   'no-multi-spaces': 'warn',
   'no-multi-str': 'off',
@@ -89,6 +91,7 @@ module.exports = {
     react: {
       version: 'detect',
     },
+    'local-rules': './eslint-rules',
   },
   overrides: [
     {

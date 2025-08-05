@@ -210,6 +210,7 @@ const BaseControl: ForwardRefRenderFunction<HTMLButtonElement, Props> = (
 
   return (
     <>
+      {/* If a link is provided, render as an anchor tag, otherwise render as a button */}
       {link ? (
         <NextLink
           {...link}
@@ -219,12 +220,12 @@ const BaseControl: ForwardRefRenderFunction<HTMLButtonElement, Props> = (
           passHref
           legacyBehavior
         >
-          <Wrapper as="a" ref={ref} {...attrs}>
+          <Wrapper data-component="control" as="a" ref={ref} {...attrs}>
             <InnerControl text={text} icon={icon} />
           </Wrapper>
         </NextLink>
       ) : (
-        <Wrapper ref={ref} {...attrs}>
+        <Wrapper data-component="control" ref={ref} {...attrs}>
           <InnerControl text={text} icon={icon} />
         </Wrapper>
       )}

@@ -108,7 +108,7 @@ export type Props = {
 
 const ComicPreviousNext: FunctionComponent<Props> = ({ previous, next }) => {
   return (
-    <Root>
+    <Root data-component="comic-previous-next">
       {previous && (
         <Link href={`/articles/${previous.id}`} $isNext={false}>
           <Inner $isNext={false}>

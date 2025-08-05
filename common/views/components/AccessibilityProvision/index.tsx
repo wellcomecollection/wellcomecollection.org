@@ -45,7 +45,10 @@ const AccessibilityProvision: FunctionComponent<Props> = ({
   showText = true,
 }) => {
   return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', rowGap: '10px' }}>
+    <div
+      data-component="accessibility-provision"
+      style={{ display: 'flex', flexWrap: 'wrap', rowGap: '10px' }}
+    >
       <IconsContainer
         $showText={showText}
         aria-hidden={showText ? 'true' : 'false'}

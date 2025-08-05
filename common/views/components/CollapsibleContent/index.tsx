@@ -78,7 +78,7 @@ const CollapsibleContent: FunctionComponent<Props> = ({
   }, []);
 
   return (
-    <div>
+    <div data-component="collapsible-content">
       {isEnhanced && (
         <Control
           aria-controls={id}

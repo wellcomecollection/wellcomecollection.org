@@ -28,7 +28,7 @@ const EventbriteButtons: FunctionComponent<Props> = ({ event }) => {
   if (!event.eventbriteId && !event.onlineEventbriteId) return null;
   const isHybridEvent = event.eventbriteId && event.onlineEventbriteId;
   return (
-    <div>
+    <div data-component="eventbrite-buttons">
       {event.isCompletelySoldOut ? (
         <Button variant="ButtonSolid" disabled={true} text="Fully booked" />
       ) : (

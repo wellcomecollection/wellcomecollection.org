@@ -67,7 +67,7 @@ const ListWithHeadingItem = styled(Space).attrs({
 
 const LinkLabels: FunctionComponent<Props> = ({ items, heading, icon }) =>
   heading ? (
-    <ListWithHeading>
+    <ListWithHeading data-component="link-labels-with-heading">
       <ListWithHeadingItem>
         {icon && (
           <Space as="span" $h={{ size: 's', properties: ['margin-right'] }}>
@@ -85,7 +85,7 @@ const LinkLabels: FunctionComponent<Props> = ({ items, heading, icon }) =>
       ))}
     </ListWithHeading>
   ) : (
-    <PlainItemList>
+    <PlainItemList data-component="link-labels">
       {items.map(({ url, text }, i) => (
         <li key={`${url || text}-${i}`}>
           <ItemText $url={url} $addBorder={i !== 0}>

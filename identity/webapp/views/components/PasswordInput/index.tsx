@@ -44,7 +44,7 @@ export const PasswordInput: FunctionComponent<PasswordInputProps> = props => {
   }, [field.value, updateInput]);
 
   return (
-    <>
+    <div data-component="password-input">
       <TextInputLabel htmlFor={props.id}>{props.label}</TextInputLabel>
       <TextInputWrap $status={fieldState.invalid ? 'error' : undefined}>
         <TextInputPassword
@@ -59,6 +59,6 @@ export const PasswordInput: FunctionComponent<PasswordInputProps> = props => {
           <Icon icon={isVisible ? a11YVisual : eye} iconColor="neutral.500" />
         </ShowPasswordButton>
       </TextInputWrap>
-    </>
+    </div>
   );
 };

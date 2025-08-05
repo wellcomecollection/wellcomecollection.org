@@ -1,3 +1,4 @@
+// eslint-data-component: intentionally omitted
 import { Children, ReactElement, ReactNode } from 'react';
 import styled from 'styled-components';
 

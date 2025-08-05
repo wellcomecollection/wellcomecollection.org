@@ -1,3 +1,4 @@
+// eslint-data-component: intentionally omitted
 import { FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
 

@@ -1,3 +1,4 @@
+// eslint-data-component: intentionally omitted
 import { FunctionComponent } from 'react';
 
 import { DateRange as DateRangeProps } from '@weco/common/model/date-range';

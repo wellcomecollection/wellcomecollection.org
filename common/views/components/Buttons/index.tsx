@@ -28,12 +28,12 @@ const Button: ForwardRefRenderFunction<HTMLButtonElement, ButtonProps> = (
 
   switch (variant) {
     case 'DropdownButton':
-      return <DropdownButton {...props} />;
+      return <DropdownButton {...props} data-component="dropdown-button" />;
     case 'ButtonSolidLink':
-      return <ButtonSolidLink {...props} />;
+      return <ButtonSolidLink {...props} data-component="button-solid-link" />;
     case 'ButtonSolid':
     default:
-      return <ButtonSolid ref={ref} {...props} />;
+      return <ButtonSolid ref={ref} {...props} data-component="button-solid" />;
   }
 };
 

@@ -1,3 +1,4 @@
+// eslint-data-component: intentionally omitted
 import { FunctionComponent, ReactElement, ReactNode } from 'react';
 
 type Props = {

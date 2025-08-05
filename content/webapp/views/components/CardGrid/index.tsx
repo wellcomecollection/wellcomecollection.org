@@ -46,7 +46,7 @@ const CardGrid: FunctionComponent<Props> = ({
 }: Props) => {
   const gridColumns = itemsPerRow === 4 ? 3 : 4;
   return (
-    <div>
+    <div data-component="card-grid">
       <Container>
         <Grid>
           {items.map((item, i) => (

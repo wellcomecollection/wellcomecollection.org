@@ -179,7 +179,7 @@ const SourcedDescription: FunctionComponent<{
   }, []);
 
   return (
-    <>
+    <div data-component="sourced-description">
       <Paragraph>{description}</Paragraph>
       <SourcePill
         tabIndex={0}
@@ -209,7 +209,7 @@ const SourcedDescription: FunctionComponent<{
           </SourceBox>
         </SourceBoxContainer>
       </SourcePill>
-    </>
+    </div>
   );
 };
 

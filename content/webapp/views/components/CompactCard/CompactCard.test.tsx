@@ -12,7 +12,7 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import { GridCell, SizeMap } from '@weco/common/views/components/styled/Grid';
 
-import MediaObjectBase, { HasImageProps } from './CompactCard.MediaObjectBase';
+import CompactCard, { HasImageProps } from '.';
 
 const getBaseTitleClass = number => {
   return font('wb', number);
@@ -70,7 +70,7 @@ const extraClass = 'my_extra_extra_class';
 describe('MediaObjectBase', () => {
   it('renders image', () => {
     const componentWithImage = renderWithTheme(
-      <MediaObjectBase
+      <CompactCard
         title={mockData.title}
         Image={
           <PrismicImage
@@ -98,7 +98,7 @@ describe('MediaObjectBase', () => {
 
   it('calls mock callback function when clicking on component', async () => {
     const componentWithImage = renderWithTheme(
-      <MediaObjectBase
+      <CompactCard
         title={mockData.title}
         Image={
           <PrismicImage
@@ -128,7 +128,7 @@ describe('MediaObjectBase', () => {
   describe('Description', () => {
     it('renders description in a p tag if description is type text', () => {
       const componentWithImage = renderWithTheme(
-        <MediaObjectBase
+        <CompactCard
           title={mockData.title}
           Image={
             <PrismicImage
@@ -164,7 +164,7 @@ describe('MediaObjectBase', () => {
       );
 
       const component = renderWithTheme(
-        <MediaObjectBase
+        <CompactCard
           title={mockData.title}
           description={Description}
           primaryLabels={[]}
@@ -182,7 +182,7 @@ describe('MediaObjectBase', () => {
 
   it('adds additional classNames to space wrapper', () => {
     const componentWithImage = renderWithTheme(
-      <MediaObjectBase
+      <CompactCard
         title={mockData.title}
         Image={
           <PrismicImage
@@ -214,7 +214,7 @@ describe('MediaObjectBase', () => {
     describe('Existing Grid styles', () => {
       it('renders the default grid styles image (3) and title (12) no Image', () => {
         const componentWithoutImage = renderWithTheme(
-          <MediaObjectBase
+          <CompactCard
             title={mockData.title}
             description={mockData.text}
             primaryLabels={[]}
@@ -231,7 +231,7 @@ describe('MediaObjectBase', () => {
     describe('Override styles', () => {
       it('overrides text, title and base styles of MediaObjectBase', () => {
         const component = renderWithTheme(
-          <MediaObjectBase
+          <CompactCard
             title={mockData.title}
             Image={
               <PrismicImage

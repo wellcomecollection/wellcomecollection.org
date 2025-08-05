@@ -80,7 +80,7 @@ const Contact: FunctionComponent<Props> = ({
   link,
 }: Props): ReactElement => {
   return (
-    <Wrapper>
+    <Wrapper data-component="contact">
       {(title || subtitle) && (
         <TitleWrapper>
           {title && <Title>{title}</Title>}

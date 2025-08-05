@@ -101,6 +101,7 @@ const NewsletterPromo: FunctionComponent = () => {
 
   return (
     <Space
+      data-component="newsletter-promo"
       className="is-hidden-print"
       style={{ backgroundColor: theme.color('lightYellow') }}
       $v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}

@@ -1,3 +1,4 @@
+// eslint-data-component: intentionally omitted
 import { FunctionComponent } from 'react';
 
 import { font } from '@weco/common/utils/classnames';

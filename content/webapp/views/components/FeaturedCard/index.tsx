@@ -192,14 +192,21 @@ const FeaturedCard: FunctionComponent<
   | (FeaturedCardExhibitionProps & { type: 'exhibition' })
 > = props => {
   if (props.type === 'article') {
-    return <FeaturedCardArticle {...props} />;
+    return (
+      <FeaturedCardArticle data-component="featured-card-article" {...props} />
+    );
   }
 
   if (props.type === 'exhibition') {
-    return <FeaturedCardExhibition {...props} />;
+    return (
+      <FeaturedCardExhibition
+        data-component="featured-card-exhibition"
+        {...props}
+      />
+    );
   }
 
-  return <FeaturedCardBasic {...props} />;
+  return <FeaturedCardBasic data-component="featured-card-basic" {...props} />;
 };
 
 export default FeaturedCard;

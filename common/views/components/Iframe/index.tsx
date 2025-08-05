@@ -118,7 +118,7 @@ class Iframe extends Component<Props, State> {
     };
 
     return (
-      <IframeContainer>
+      <IframeContainer data-component="iframe">
         {image.contentUrl && (
           <>
             {!this.state.iframeShowing && (

@@ -96,6 +96,7 @@ const DownloadLink: FunctionComponent<Props> = ({
       target="_blank"
       rel="noopener noreferrer"
       href={href}
+      data-component="download-link"
       data-gtm-trigger="download_link"
       data-gtm-mime-type={mimeType}
       onClick={() => {

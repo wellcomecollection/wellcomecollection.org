@@ -40,6 +40,7 @@ const Number: FunctionComponent<Props> = ({
   backgroundColor,
 }: Props): ReactElement<Props> => (
   <Wrapper
+    data-component="number"
     as="span"
     className={font('wb', 5)}
     $h={{ size: 's', properties: ['margin-left'] }}

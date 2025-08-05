@@ -106,6 +106,7 @@ const Header: FunctionComponent<Props> = ({
     >
       <header
         className="is-hidden-print"
+        data-component="header"
         data-lock-scroll={searchDropdownIsActive || burgerMenuIsActive}
       >
         <Wrapper $isBurgerOpen={burgerMenuIsActive}>

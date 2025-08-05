@@ -1,3 +1,4 @@
+// eslint-data-component: intentionally omitted
 import { setCookie } from 'cookies-next';
 import { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';

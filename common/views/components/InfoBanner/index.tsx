@@ -17,9 +17,12 @@ const InfoBanner: FunctionComponent<Props> = props => {
   return (
     <>
       {variant === 'websiteIssues' ? (
-        <WebsiteIssuesBanner {...props} />
+        <WebsiteIssuesBanner
+          data-component="website-issues-banner"
+          {...props}
+        />
       ) : (
-        <InfoBannerDefault {...props} />
+        <InfoBannerDefault data-component="info-banner" {...props} />
       )}
     </>
   );
