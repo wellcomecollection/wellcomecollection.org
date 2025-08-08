@@ -51,11 +51,7 @@ const StoriesLink: FunctionComponent<Props> = ({
   children,
   ...props
 }: Props) => {
-  return (
-    <NextLink {...toSearchStories(props)} legacyBehavior>
-      {children}
-    </NextLink>
-  );
+  return <NextLink {...toSearchStories(props)}>{children}</NextLink>;
 };
 export default StoriesLink;
 export { toSearchStories, toQuery, fromQuery, emptyStoriesProps };

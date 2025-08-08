@@ -22,7 +22,7 @@ const ThumbnailsContainer = styled.div`
   `}
 `;
 
-const ThumbnailLink = styled.a`
+const ThumbnailLink = styled(NextLink)`
   display: block;
   text-decoration: none;
   padding: 12px;
@@ -48,8 +48,9 @@ export const Thumbnails = () => {
           const canvasParam =
             thumbnailsPageSize * queryParamToArrayIndex(query.page) + (i + 1);
           return (
-            <NextLink
+            <ThumbnailLink
               key={canvas.id}
+              aria-current={canvasParam === query.canvas}
               {...toWorksItemLink({
                 workId: work.id,
                 props: {
@@ -61,16 +62,9 @@ export const Thumbnails = () => {
               })}
               scroll={false}
               replace
-              passHref
-              legacyBehavior
             >
-              <ThumbnailLink aria-current={canvasParam === query.canvas}>
-                <IIIFCanvasThumbnail
-                  canvas={canvas}
-                  thumbNumber={canvasParam}
-                />
-              </ThumbnailLink>
-            </NextLink>
+              <IIIFCanvasThumbnail canvas={canvas} thumbNumber={canvasParam} />
+            </ThumbnailLink>
           );
         })}
     </ThumbnailsContainer>

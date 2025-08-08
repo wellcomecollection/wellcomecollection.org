@@ -1,3 +1,4 @@
+import NextLink from 'next/link';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
@@ -84,7 +85,10 @@ export const ListItem = styled.li<{ $hasStuck: boolean; $isOnWhite: boolean }>`
 `;
 
 // If used elsewhere, this could be extracted to a shared styled component
-const AnimatedLink = styled.a<{ $hasStuck: boolean; $isOnWhite: boolean }>`
+const AnimatedLink = styled(NextLink)<{
+  $hasStuck: boolean;
+  $isOnWhite: boolean;
+}>`
   --line-color: ${props =>
     props.theme.color(
       props.$hasStuck ? 'black' : props.$isOnWhite ? 'black' : 'white'

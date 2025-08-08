@@ -83,11 +83,7 @@ function toSearchWorksLink(partialProps: Partial<WorksProps>): LinkProps {
 
 type Props = LinkFrom<WorksProps>;
 const WorksLink: FunctionComponent<Props> = ({ children, ...props }: Props) => {
-  return (
-    <NextLink {...toSearchWorksLink(props)} legacyBehavior>
-      {children}
-    </NextLink>
-  );
+  return <NextLink {...toSearchWorksLink(props)}>{children}</NextLink>;
 };
 
 export default WorksLink;
