@@ -2,7 +2,6 @@ import NextLink from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
 import { FunctionComponent } from 'react';
 
-import { EventsLinkSource } from '@weco/common/data/segment-values';
 import { LinkProps } from '@weco/common/model/link-props';
 import {
   booleanCodec,
@@ -42,10 +41,7 @@ const fromQuery: (params: ParsedUrlQuery) => EventsProps = params => {
 const toQuery: (props: EventsProps) => ParsedUrlQuery = props => {
   return encodeQuery<EventsProps>(props, codecMap);
 };
-function toLink(
-  partialProps: Partial<EventsProps>,
-  source: EventsLinkSource
-): LinkProps {
+function toSearchEventsLink(partialProps: Partial<EventsProps>): LinkProps {
   const pathname = '/search/events';
   const props: EventsProps = {
     ...emptyEventsProps,
@@ -55,25 +51,20 @@ function toLink(
   return {
     href: {
       pathname,
-      query: { ...query, source },
-    },
-    as: {
-      pathname,
       query,
     },
   };
 }
-type Props = LinkFrom<EventsProps> & { source: EventsLinkSource };
+type Props = LinkFrom<EventsProps>;
 const EventsLink: FunctionComponent<Props> = ({
   children,
-  source,
   ...props
 }: Props) => {
   return (
-    <NextLink {...toLink(props, source)} legacyBehavior>
+    <NextLink {...toSearchEventsLink(props)} legacyBehavior>
       {children}
     </NextLink>
   );
 };
 export default EventsLink;
-export { toLink, toQuery, fromQuery, emptyEventsProps };
+export { toSearchEventsLink, toQuery, fromQuery, emptyEventsProps };

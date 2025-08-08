@@ -69,16 +69,6 @@ export type ElementFromComponent<C extends FunctionComponent> = ReactElement<
   ComponentProps<C>
 >;
 
-/** Allows you to set a string type that requires a certain prefix
- * e.g.
- * ```
- * type TMP = Prefix<'tmp/'>
- * const inTmp: TMP = 'tmp/bingo' // <= valid
- * const outTmp: TMP = 'tmpo/bongo' // <= error
- * ```
- */
-export type Prefix<S extends string> = `${S}${string}`;
-
 /**
  * {@link https://stackoverflow.com/questions/41285211/overriding-interface-property-type-defined-in-typescript-d-ts-file}
  *

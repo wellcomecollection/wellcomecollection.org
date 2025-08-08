@@ -8,7 +8,6 @@ export type Url = Omit<UrlObject, 'query'> & {
   query?: ParsedUrlQueryInput;
 };
 
-export type LinkProps = Omit<NextLinkProps, 'href' | 'as'> & {
+export type LinkProps = Omit<NextLinkProps, 'href'> & {
   href: Url;
-  as: Url;
 };

@@ -1,10 +1,11 @@
+import NextLink from 'next/link';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 
-export const WorksLink = styled.a.attrs({
+export const WorksLink = styled(NextLink).attrs({
   className: font('intr', 6),
 })`
   border: 2px solid;
