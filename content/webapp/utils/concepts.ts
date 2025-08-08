@@ -16,12 +16,6 @@ export function getDisplayIdentifierType(
   }
 }
 
-export const conceptTypeDisplayName = (conceptResponse: ConceptType) => {
-  return conceptResponse.type === 'Genre'
-    ? 'Type/Technique'
-    : conceptResponse.type;
-};
-
 // In order to preserve the existing behaviour of search page filters,
 // the All (Works|Images) links lead to a search for the label corresponding to
 // the genre.

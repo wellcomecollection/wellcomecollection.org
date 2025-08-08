@@ -8,6 +8,7 @@ import { capitalize, pluralize } from '@weco/common/utils/grammar';
 import { ReturnedResults } from '@weco/common/utils/search';
 import Space from '@weco/common/views/components/styled/Space';
 import theme from '@weco/common/views/themes/default';
+import { useConceptPageContext } from '@weco/content/contexts/ConceptPageContext';
 import {
   Concept,
   Image,
@@ -18,24 +19,29 @@ import MoreLink from '@weco/content/views/components/MoreLink';
 import { toLink as toImagesLink } from '@weco/content/views/components/SearchPagesLink/Images';
 
 import {
-  getThemeSectionHeading,
+  getSectionTypeLabel,
   SectionData,
   ThemePageSectionsData,
   themeTabOrder,
   ThemeTabType,
 } from './concept.helpers';
+import { FromCollectionsHeading } from './concept.styles';
 
 const ThemeImagesWrapper = styled(Space).attrs({
   $v: { size: 'xl', properties: ['padding-bottom'] },
 })`
   background-color: ${props => props.theme.color('neutral.700')};
 `;
+
 const SectionHeading = styled(Space).attrs({
   as: 'h3',
-  className: font('intsb', 2),
+  className: font('intsb', 3),
   $v: { size: 's', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('white')};
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 `;
 
 const getAllImagesLink = (
@@ -61,6 +67,7 @@ const ImageSection: FunctionComponent<Props> = ({
   concept,
   type,
 }) => {
+  const { config } = useConceptPageContext();
   const pathname = usePathname();
   const firstTenImages = useMemo(
     () => singleSectionData?.pageResults.slice(0, 10) || [],
@@ -72,13 +79,9 @@ const ImageSection: FunctionComponent<Props> = ({
   }
 
   return (
-    <Space
-      $v={{ size: 'l', properties: ['padding-top'] }}
-      as="section"
-      data-id={`images-${type}`}
-    >
+    <Space $v={{ size: 'l', properties: ['padding-top'] }}>
       <SectionHeading id={`images-${type}`}>
-        Images {getThemeSectionHeading(type, concept, true)}
+        {getSectionTypeLabel(type, config, 'images')}
       </SectionHeading>
       <CatalogueImageGallery
         // Show the first 10 images, unless the total is 12 or fewer, in which case show all images
@@ -93,7 +96,8 @@ const ImageSection: FunctionComponent<Props> = ({
       <Space $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
         {labelBasedCount > singleSectionData.pageResults.length && (
           <MoreLink
-            name={`All images ${getThemeSectionHeading(type, concept)}`}
+            ariaLabel={`View all ${getSectionTypeLabel(type, config, 'images')}`}
+            name="View all"
             url={getAllImagesLink(type, concept, pathname)}
             colors={theme.buttonColors.greenGreenWhite}
           />
@@ -117,7 +121,16 @@ const ImagesResults: FunctionComponent<{
 
   return (
     <>
-      <ThemeImagesWrapper data-testid="images-section">
+      <ThemeImagesWrapper
+        as="section"
+        data-testid="images-section"
+        data-id="images"
+      >
+        <Space $v={{ size: 'm', properties: ['padding-top'] }}>
+          <FromCollectionsHeading $color="white" id="images">
+            Images from the collections
+          </FromCollectionsHeading>
+        </Space>
         {themeTabOrder.map(tabType => (
           <ImageSection
             key={tabType}

@@ -9,6 +9,8 @@ import {
   ServerSideProps,
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
+import ConceptContext from '@weco/content/contexts/ConceptPageContext';
+import { makeConceptConfig } from '@weco/content/contexts/ConceptPageContext/concept.config';
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import { getConcept } from '@weco/content/services/wellcome/catalogue/concepts';
@@ -23,7 +25,6 @@ import {
 import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
 import {
   allRecordsLinkParams,
-  conceptTypeDisplayName,
   getDisplayIdentifierType,
   queryParams,
 } from '@weco/content/utils/concepts';
@@ -31,9 +32,16 @@ import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import ConceptPage, {
   Props as ConceptPageProps,
 } from '@weco/content/views/pages/concepts/concept';
+import { ThemePageSectionsData } from '@weco/content/views/pages/concepts/concept/concept.helpers';
 
 export const Page: NextPage<ConceptPageProps> = props => {
-  return <ConceptPage {...props} />;
+  const config = makeConceptConfig(props.conceptResponse);
+
+  return (
+    <ConceptContext.Provider value={{ config }}>
+      <ConceptPage {...props} />
+    </ConceptContext.Provider>
+  );
 };
 
 function createApiToolbarLinks(concept: ConceptType): ApiToolbarLink[] {
@@ -74,7 +82,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   }
 
   const serverData = await getServerData(context);
-  const newThemePages = serverData.toggles.newThemePages.value;
 
   const conceptResponse = await getConcept({
     id: conceptId,
@@ -112,13 +119,13 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         getImages({
           params: queryParams(sectionName, conceptResponse),
           toggles: serverData.toggles,
-          pageSize: newThemePages ? 12 : 5,
+          pageSize: 12,
         }),
       byLabel: (sectionName: string) =>
         getImages({
           params: allRecordsLinkParams(sectionName, conceptResponse),
           toggles: serverData.toggles,
-          pageSize: newThemePages ? 12 : 5,
+          pageSize: 12,
         }),
     },
   };
@@ -278,11 +285,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   const apiToolbarLinks = createApiToolbarLinks(conceptResponse);
 
-  const conceptTypeName = conceptTypeDisplayName(conceptResponse).toLowerCase();
-
-  const sectionsData = {
+  const sectionsData: ThemePageSectionsData = {
     about: {
-      label: `About this ${conceptTypeName}`,
       works: worksAbout && {
         ...worksAbout,
         pageResults: worksAbout.pageResults.map(toWorkBasic),
@@ -294,7 +298,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       },
     },
     by: {
-      label: `By this ${conceptTypeName}`,
       works: worksBy && {
         ...worksBy,
         pageResults: worksBy.pageResults.map(toWorkBasic),
@@ -306,7 +309,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       },
     },
     in: {
-      label: `Using this ${conceptTypeName}`,
       works: worksIn && {
         ...worksIn,
         pageResults: worksIn.pageResults.map(toWorkBasic),
