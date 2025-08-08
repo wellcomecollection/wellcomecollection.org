@@ -20,6 +20,7 @@
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "14.6.1",
     "@weco/toggles": "1.0.0",
+    "@wellcometrust/design-tokens-2025": "^1.0.11",
     "babel-plugin-dynamic-import-node": "^2.3.3",
     "babel-plugin-styled-components": "^2.1.4",
     "cookies-next": "^4.1.1",
