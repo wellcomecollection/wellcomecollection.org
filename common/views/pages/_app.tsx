@@ -8,7 +8,10 @@ import { AppContextProvider } from '@weco/common/contexts/AppContext';
 import { SearchContextProvider } from '@weco/common/contexts/SearchContext';
 import { UserContextProvider } from '@weco/common/contexts/UserContext';
 import useIsFontsLoaded from '@weco/common/hooks/useIsFontsLoaded';
-import { ServerDataContext } from '@weco/common/server-data/Context';
+import {
+  ServerDataContext,
+  useToggles,
+} from '@weco/common/server-data/Context';
 import {
   defaultServerData,
   isServerData,
@@ -25,6 +28,7 @@ import {
   trackPageview,
 } from '@weco/common/services/conversion/track';
 import { deserialiseProps } from '@weco/common/utils/json';
+import newTheme from '@weco/common/views//themes/newDefault';
 import CivicUK from '@weco/common/views/components/CivicUK';
 import ErrorPage from '@weco/common/views/components/ErrorPage';
 import LoadingIndicator from '@weco/common/views/components/LoadingIndicator';
@@ -82,6 +86,7 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
   // You can set `skipServerData: true` to explicitly bypass this
   // e.g. for error pages
   const isServerDataSet = isServerData(pageProps.serverData);
+  const { newDesignSystem } = useToggles();
 
   // On first load, needs to get current state of consent
   const [hasAnalyticsConsent, setHasAnalyticsConsent] = useState(
@@ -182,7 +187,7 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
           <UserContextProvider>
             <AppContextProvider>
               <SearchContextProvider>
-                <ThemeProvider theme={theme}>
+                <ThemeProvider theme={!newDesignSystem ? newTheme : theme}>
                   <GlobalStyle
                     toggles={serverData.toggles}
                     isFontsLoaded={useIsFontsLoaded()}

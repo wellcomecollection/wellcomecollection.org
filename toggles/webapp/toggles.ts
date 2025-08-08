@@ -121,6 +121,14 @@ const toggles = {
         'Adds features in displaying featured works in the Content part of the website',
       type: 'experimental',
     },
+    {
+      id: 'newDesignSystem',
+      title: 'New design system',
+      initialValue: false,
+      description:
+        'Enables the new design system, which is based on the Wellcome Design System.',
+      type: 'experimental',
+    },
   ] as const,
   // We have to include a reference to any test toggles here as well as in the cache dir
   // because they are deployed separately and consequently can't share a source of truth
