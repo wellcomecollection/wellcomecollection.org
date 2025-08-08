@@ -43,9 +43,9 @@ const WorkSearchResult: FunctionComponent<Props> = ({
   } = work;
 
   return (
-    <WorkLink id={work.id} passHref>
+    // TODO remove styles
+    <WorkLink id={work.id}>
       <Wrapper
-        as="a"
         data-gtm-trigger="works_search_result"
         data-gtm-position-in-list={resultPosition + 1}
       >

@@ -251,19 +251,18 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
         )}
 
         <Space $v={{ size: 'm', properties: ['margin-top'] }}>
-          <WorkLink id={work.id}>
-            <a
-              className={font('intr', 5)}
+          <WorkLink
+            id={work.id}
+            className={font('intr', 5)}
+            style={{ display: 'flex', alignItems: 'center' }}
+          >
+            Catalogue details
+            <Space
+              $h={{ size: 's', properties: ['margin-left'] }}
               style={{ display: 'flex', alignItems: 'center' }}
             >
-              Catalogue details
-              <Space
-                $h={{ size: 's', properties: ['margin-left'] }}
-                style={{ display: 'flex', alignItems: 'center' }}
-              >
-                <Icon icon={arrow} matchText={true} iconColor="white" />
-              </Space>
-            </a>
+              <Icon icon={arrow} matchText={true} iconColor="white" />
+            </Space>
           </WorkLink>
         </Space>
       </Inner>

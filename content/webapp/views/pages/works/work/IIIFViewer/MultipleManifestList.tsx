@@ -23,6 +23,7 @@ const MultipleManifestList: FunctionComponent = () => {
             $isActive={i === queryParamToArrayIndex(query.manifest)}
           >
             <NextLink
+              data-gtm-trigger="volumes_nav_link"
               replace={true}
               {...toWorksItemLink({
                 workId: work.id,
@@ -32,24 +33,18 @@ const MultipleManifestList: FunctionComponent = () => {
                   manifest: i + 1,
                 },
               })}
-              passHref={true}
-              legacyBehavior
+              aria-current={
+                i === queryParamToArrayIndex(query.manifest)
+                  ? 'page'
+                  : undefined
+              }
+              onClick={() => {
+                setIsMobileSidebarActive(false);
+              }}
             >
-              <a
-                data-gtm-trigger="volumes_nav_link"
-                aria-current={
-                  i === queryParamToArrayIndex(query.manifest)
-                    ? 'page'
-                    : undefined
-                }
-                onClick={() => {
-                  setIsMobileSidebarActive(false);
-                }}
-              >
-                {(manifest.label &&
-                  getMultiVolumeLabel(manifest.label, work?.title || '')) ||
-                  'Unknown'}
-              </a>
+              {(manifest.label &&
+                getMultiVolumeLabel(manifest.label, work?.title || '')) ||
+                'Unknown'}
             </NextLink>
           </Item>
         ))}

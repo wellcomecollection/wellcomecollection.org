@@ -263,9 +263,7 @@ const WorkItemPage: NextPage<Props> = ({
             >
               <Button
                 variant="ButtonSolid"
-                dataGtmProps={{
-                  trigger: 'show_the_content',
-                }}
+                dataGtmProps={{ trigger: 'show_the_content' }}
                 text="Show the content"
                 clickHandler={() => {
                   const authServiceWindow = window.open(
@@ -279,9 +277,7 @@ const WorkItemPage: NextPage<Props> = ({
               />
             </Space>
           )}
-          <WorkLink id={workId}>
-            <a>Take me back to the item page</a>
-          </WorkLink>
+          <WorkLink id={workId}>Take me back to the item page</WorkLink>
         </div>
       </Modal>
 

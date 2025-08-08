@@ -41,7 +41,7 @@ const RelatedWorksCard: FunctionComponent<Props> = ({ work, gtmData }) => {
     : work.mainContributor;
 
   return (
-    <WorkLink data-component="related-works-card" id={work.id} passHref>
+    <WorkLink data-component="related-works-card" id={work.id}>
       <Card
         {...(gtmData &&
           dataGtmPropsToAttributes({

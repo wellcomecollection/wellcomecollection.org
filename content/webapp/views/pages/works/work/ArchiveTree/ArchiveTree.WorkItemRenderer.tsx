@@ -5,7 +5,7 @@ import { useAppContext } from '@weco/common/contexts/AppContext';
 import { chevron } from '@weco/common/icons';
 import { classNames, font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
-import WorkLink from '@weco/content/views/components/WorkLink';
+import { toWorksLink } from '@weco/content/views/components/WorkLink';
 import WorkTitle from '@weco/content/views/components/WorkTitle';
 import { UiTreeNode } from '@weco/content/views/pages/works/work/work.types';
 
@@ -56,28 +56,28 @@ const WorkItem: FunctionComponent<WorkItemRendererProps> = ({
           <Icon rotate={item.openStatus ? undefined : 270} icon={chevron} />
         </TreeControl>
       )}
-      <WorkLink id={item.work.id} scroll={false} passHref>
-        <StyledLink
-          className={classNames({
-            [font('intb', 6)]: level === 1,
-            [font('intr', 6)]: level > 1,
-          })}
-          tabIndex={isEnhanced ? (isSelected ? 0 : -1) : 0}
-          $isCurrent={currentWorkId === item.work.id}
-          $hasControl={hasControl}
-          data-gtm-trigger="tree_link"
-          data-gtm-data-tree-level={level}
-          onClick={event => {
-            // We don't want to open the branch, when the work link is activated
-            event.stopPropagation();
-          }}
-        >
-          <WorkTitle title={item.work.title} />
-          {isRelatedWork(item.work) && (
-            <RefNumber>{item.work.referenceNumber}</RefNumber>
-          )}
-        </StyledLink>
-      </WorkLink>
+      {/* TODO remove styles */}
+      <StyledLink
+        {...toWorksLink({ id: item.work.id, scroll: false })}
+        className={classNames({
+          [font('intb', 6)]: level === 1,
+          [font('intr', 6)]: level > 1,
+        })}
+        tabIndex={isEnhanced ? (isSelected ? 0 : -1) : 0}
+        $isCurrent={currentWorkId === item.work.id}
+        $hasControl={hasControl}
+        data-gtm-trigger="tree_link"
+        data-gtm-data-tree-level={level}
+        onClick={event => {
+          // We don't want to open the branch, when the work link is activated
+          event.stopPropagation();
+        }}
+      >
+        <WorkTitle title={item.work.title} />
+        {isRelatedWork(item.work) && (
+          <RefNumber>{item.work.referenceNumber}</RefNumber>
+        )}
+      </StyledLink>
     </div>
   );
 };

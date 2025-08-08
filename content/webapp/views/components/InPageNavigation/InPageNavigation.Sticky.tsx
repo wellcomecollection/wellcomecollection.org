@@ -1,5 +1,4 @@
 import { FocusTrap } from 'focus-trap-react';
-import NextLink from 'next/link';
 import {
   Fragment,
   FunctionComponent,
@@ -258,34 +257,28 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
               return (
                 <Fragment key={link.url}>
                   <ListItem $hasStuck={hasStuck} $isOnWhite={!!isOnWhite}>
-                    <NextLink
-                      passHref
-                      legacyBehavior
-                      style={{ textDecoration: 'none' }}
+                    <InPageNavAnimatedLink
                       href={link.url}
+                      $hasStuck={hasStuck}
+                      $isActive={isActive}
+                      $isOnWhite={!!isOnWhite}
+                      {...dataGtmPropsToAttributes({
+                        trigger: 'link_click_page_position',
+                        'position-in-list': `${index + 1}`,
+                        label: id,
+                      })}
+                      onClick={() => {
+                        setClickedId(id);
+                        setIsListActive(false);
+                        const el = document.getElementById(id);
+                        if (el) {
+                          el.tabIndex = -1;
+                          el.focus();
+                        }
+                      }}
                     >
-                      <InPageNavAnimatedLink
-                        $hasStuck={hasStuck}
-                        $isActive={isActive}
-                        $isOnWhite={!!isOnWhite}
-                        {...dataGtmPropsToAttributes({
-                          trigger: 'link_click_page_position',
-                          'position-in-list': `${index + 1}`,
-                          label: id,
-                        })}
-                        onClick={() => {
-                          setClickedId(id);
-                          setIsListActive(false);
-                          const el = document.getElementById(id);
-                          if (el) {
-                            el.tabIndex = -1;
-                            el.focus();
-                          }
-                        }}
-                      >
-                        <span>{link.text}</span>
-                      </InPageNavAnimatedLink>
-                    </NextLink>
+                      <span>{link.text}</span>
+                    </InPageNavAnimatedLink>
                   </ListItem>
                 </Fragment>
               );

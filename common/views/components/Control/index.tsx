@@ -1,6 +1,6 @@
 import NextLink from 'next/link';
 import { forwardRef, ForwardRefRenderFunction, JSX } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { IconSvg } from '@weco/common/icons';
 import { LinkProps } from '@weco/common/model/link-props';
@@ -13,10 +13,10 @@ const ControlInner = styled.div`
   width: 100%;
   height: 100%;
 `;
-
-const Wrapper = styled.button.attrs<{ $extraClasses?: string }>(props => ({
-  className: props.$extraClasses || undefined,
-}))<{ $colorScheme?: 'light' | 'dark' | 'on-black' | 'black-on-white' }>`
+type ColorSchemeType = {
+  $colorScheme?: 'light' | 'dark' | 'on-black' | 'black-on-white';
+};
+const ButtonStyles = css<ColorSchemeType>`
   display: inline-block;
   border-radius: 50%;
   padding: 0;
@@ -127,6 +127,20 @@ const Wrapper = styled.button.attrs<{ $extraClasses?: string }>(props => ({
   `}
 `;
 
+const Wrapper = styled.button.attrs<{ $extraClasses?: string }>(props => ({
+  className: props.$extraClasses || undefined,
+}))<ColorSchemeType>`
+  ${ButtonStyles}
+`;
+
+const NextLinkWrapper = styled(NextLink).attrs<{ $extraClasses?: string }>(
+  props => ({
+    className: props.$extraClasses || undefined,
+  })
+)<ColorSchemeType>`
+  ${ButtonStyles}
+`;
+
 type CommonProps = {
   link?: LinkProps;
   scroll?: boolean;
@@ -211,18 +225,16 @@ const BaseControl: ForwardRefRenderFunction<HTMLButtonElement, Props> = (
   return (
     <>
       {link ? (
-        <NextLink
+        <NextLinkWrapper
           {...link}
           scroll={scroll}
           replace={replace}
           prefetch={prefetch}
-          passHref
-          legacyBehavior
+          ref={ref}
+          {...attrs}
         >
-          <Wrapper as="a" ref={ref} {...attrs}>
-            <InnerControl text={text} icon={icon} />
-          </Wrapper>
-        </NextLink>
+          <InnerControl text={text} icon={icon} />
+        </NextLinkWrapper>
       ) : (
         <Wrapper ref={ref} {...attrs}>
           <InnerControl text={text} icon={icon} />

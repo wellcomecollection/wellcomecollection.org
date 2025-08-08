@@ -188,10 +188,8 @@ const ItemPageLink = ({
             wrapper={children =>
               itemUrl && (
                 <NextLink
-                  style={{
-                    display: 'inline-block',
-                  }}
                   href={itemUrl.href}
+                  style={{ display: 'inline-block' }}
                 >
                   {children}
                 </NextLink>

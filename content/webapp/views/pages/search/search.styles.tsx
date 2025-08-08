@@ -61,7 +61,7 @@ export const CatalogueSectionTitle = styled(Space).attrs<{
   ${props => !props.$isSmallGallery && `margin-bottom: 0;`}
 `;
 
-export const AllLink = styled.a.attrs({
+export const AllLink = styled(NextLink).attrs({
   className: font('intsb', 5),
 })`
   display: inline-flex;

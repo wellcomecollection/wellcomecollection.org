@@ -1,4 +1,3 @@
-import NextLink from 'next/link';
 import {
   Dispatch,
   FunctionComponent,
@@ -220,20 +219,18 @@ const ImageModal: FunctionComponent<Props> = ({
           <ImageInfoWrapper>
             {iiifImageLocation && expandedImageLink && (
               <ImageWrapper>
-                <NextLink {...expandedImageLink} passHref legacyBehavior>
-                  <ImageLink>
-                    <IIIFImage
-                      layout="raw"
-                      image={{
-                        contentUrl: iiifImageLocation.url,
-                        width: 400,
-                        height: 400,
-                        alt: '',
-                      }}
-                      width={400}
-                    />
-                  </ImageLink>
-                </NextLink>
+                <ImageLink {...expandedImageLink}>
+                  <IIIFImage
+                    layout="raw"
+                    image={{
+                      contentUrl: iiifImageLocation.url,
+                      width: 400,
+                      height: 400,
+                      alt: '',
+                    }}
+                    width={400}
+                  />
+                </ImageLink>
               </ImageWrapper>
             )}
 

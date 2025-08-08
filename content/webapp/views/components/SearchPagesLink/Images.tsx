@@ -80,11 +80,7 @@ const ImagesLink: FunctionComponent<Props> = ({
   children,
   ...props
 }: Props) => {
-  return (
-    <NextLink {...toSearchImagesLink(props)} legacyBehavior>
-      {children}
-    </NextLink>
-  );
+  return <NextLink {...toSearchImagesLink(props)}>{children}</NextLink>;
 };
 
 export default ImagesLink;

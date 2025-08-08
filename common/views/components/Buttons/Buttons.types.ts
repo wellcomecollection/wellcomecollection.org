@@ -1,12 +1,13 @@
 import { ReactNode } from 'react';
 
 import { IconSvg } from '@weco/common/icons';
+import { Url } from '@weco/common/model/link-props';
 import { DataGtmProps } from '@weco/common/utils/gtm';
 import { PaletteColor } from '@weco/common/views/themes/config';
 export type ButtonSize = 'small' | 'medium';
 
 export type SolidButtonStyledProps = {
-  href?: string;
+  href?: string | Url;
   $ariaLabel?: string;
   $size?: ButtonSize;
   $colors?: ButtonColors;

@@ -31,7 +31,10 @@ const Container = styled.nav.attrs({
   `)}
 `;
 
-const ChevronWrapper = styled.a<{ $prev?: boolean; $hasDarkBg?: boolean }>`
+const ChevronWrapper = styled(Link)<{
+  $isPrev?: boolean;
+  $hasDarkBg?: boolean;
+}>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -57,14 +60,14 @@ const ChevronWrapper = styled.a<{ $prev?: boolean; $hasDarkBg?: boolean }>`
       props.theme.color(props.$hasDarkBg ? 'neutral.300' : 'neutral.500')};
   }
 
-  ${props => props.$prev && `margin: 0 1rem 0 0;`}
+  ${props => props.$isPrev && `margin: 0 1rem 0 0;`}
 
   ${props => `
     color: ${props.theme.color(props.$hasDarkBg ? 'white' : 'black')};
     border: 1px solid ${props.theme.color(
       props.$hasDarkBg ? 'neutral.400' : 'neutral.600'
     )};
-    transform: rotate(${props.$prev ? '90' : '270'}deg);
+    transform: rotate(${props.$isPrev ? '90' : '270'}deg);
 
     &:hover {
       background-color: ${props.theme.color(
@@ -114,18 +117,16 @@ export const Pagination: FunctionComponent<Props> = ({
       $isHiddenMobile={isHiddenMobile}
     >
       {showPrev && (
-        <Link
-          passHref
+        <ChevronWrapper
           href={{ pathname, query: { ...query, page: currentPage - 1 } }}
-          legacyBehavior
+          $hasDarkBg={hasDarkBg}
+          $isPrev
         >
-          <ChevronWrapper $hasDarkBg={hasDarkBg} $prev>
-            <Icon icon={chevron} />
-            <span className="visually-hidden">
-              {`Previous (page ${currentPage - 1})`}
-            </span>
-          </ChevronWrapper>
-        </Link>
+          <Icon icon={chevron} />
+          <span className="visually-hidden">
+            {`Previous (page ${currentPage - 1})`}
+          </span>
+        </ChevronWrapper>
       )}
 
       <span>
@@ -134,18 +135,15 @@ export const Pagination: FunctionComponent<Props> = ({
       </span>
 
       {showNext && (
-        <Link
-          passHref
+        <ChevronWrapper
           href={{ pathname, query: { ...query, page: currentPage + 1 } }}
-          legacyBehavior
+          $hasDarkBg={hasDarkBg}
         >
-          <ChevronWrapper $hasDarkBg={hasDarkBg}>
-            <Icon icon={chevron} />
-            <span className="visually-hidden">
-              {`Next (page ${currentPage + 1})`}
-            </span>
-          </ChevronWrapper>
-        </Link>
+          <Icon icon={chevron} />
+          <span className="visually-hidden">
+            {`Next (page ${currentPage + 1})`}
+          </span>
+        </ChevronWrapper>
       )}
     </Container>
   );

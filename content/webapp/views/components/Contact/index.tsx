@@ -92,16 +92,11 @@ const Contact: FunctionComponent<Props> = ({
         <WithIconWrapper>
           <Icon icon={linkIcon} />
           <NextLink
-            href={{
-              pathname: link.url,
-            }}
-            as={{ pathname: link.url }}
-            passHref
-            legacyBehavior
+            href={{ pathname: link.url }}
+            style={{ display: 'block' }}
+            className={font('intr', 4)}
           >
-            <a style={{ display: 'block' }} className={font('intr', 4)}>
-              {link.text}
-            </a>
+            {link.text}
           </NextLink>
         </WithIconWrapper>
       )}

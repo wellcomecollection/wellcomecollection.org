@@ -48,11 +48,7 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
     <ConditionalWrapper
       condition={isNextLink}
       wrapper={children =>
-        typeof link === 'object' && (
-          <NextLink {...link} passHref legacyBehavior>
-            {children}
-          </NextLink>
-        )
+        typeof link === 'object' && <NextLink {...link}>{children}</NextLink>
       }
     >
       <StyledButton
