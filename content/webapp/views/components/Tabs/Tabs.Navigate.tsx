@@ -45,7 +45,6 @@ const TabsNavigate: FunctionComponent<Props> = ({
               scroll={false}
               passHref
               href={typeof item.url === 'string' ? item.url : item.url.href}
-              as={typeof item.url === 'string' ? undefined : item.url.as}
             >
               <NavItemInner
                 $selected={isSelected}

@@ -2,7 +2,7 @@ import NextLink from 'next/link';
 import styled from 'styled-components';
 
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
-import { toLink as itemLink } from '@weco/content/views/components/ItemLink';
+import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
 
 import { queryParamToArrayIndex } from '.';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
@@ -50,7 +50,7 @@ export const Thumbnails = () => {
           return (
             <NextLink
               key={canvas.id}
-              {...itemLink({
+              {...toWorksItemLink({
                 workId: work.id,
                 props: {
                   canvas: canvasParam,
@@ -58,7 +58,6 @@ export const Thumbnails = () => {
                   manifest: query.manifest,
                   query: query.query,
                 },
-                source: 'viewer/paginator',
               })}
               scroll={false}
               replace

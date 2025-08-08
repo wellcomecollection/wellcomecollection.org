@@ -1,7 +1,6 @@
 import { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
 
-import { WorksLinkSource } from '@weco/common/data/segment-values';
 import { font } from '@weco/common/utils/classnames';
 import { capitalize, pluralize } from '@weco/common/utils/grammar';
 import Space from '@weco/common/views/components/styled/Space';
@@ -11,7 +10,7 @@ import { useConceptPageContext } from '@weco/content/contexts/ConceptPageContext
 import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { allRecordsLinkParams } from '@weco/content/utils/concepts';
 import MoreLink from '@weco/content/views/components/MoreLink';
-import { toLink as toWorksLink } from '@weco/content/views/components/SearchPagesLink/Works';
+import { toSearchWorksLink } from '@weco/content/views/components/SearchPagesLink/Works';
 import Tabs from '@weco/content/views/components/Tabs';
 import WorksSearchResults from '@weco/content/views/components/WorksSearchResults';
 import {
@@ -41,9 +40,8 @@ const WobblyEdgeWrapper = styled.div`
 `;
 
 const getAllWorksLink = (tab: ThemeTabType, concept: Concept) => {
-  const linkSource = `concept/works_${tab}` as WorksLinkSource;
   const sectionName = `works${capitalize(tab)}`;
-  return toWorksLink(allRecordsLinkParams(sectionName, concept), linkSource);
+  return toSearchWorksLink(allRecordsLinkParams(sectionName, concept));
 };
 
 type Props = {
