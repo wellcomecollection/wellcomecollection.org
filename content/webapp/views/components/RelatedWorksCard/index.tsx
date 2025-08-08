@@ -1,10 +1,11 @@
+import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
 
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
-import WorkLink from '@weco/content/views/components/WorkLink';
+import { toWorkLink } from '@weco/content/views/components/WorkLink';
 import { ContentAPILinkedWork } from '@weco/content/views/pages/stories/story/tempMockData';
 
 import {
@@ -41,7 +42,11 @@ const RelatedWorksCard: FunctionComponent<Props> = ({ work, gtmData }) => {
     : work.mainContributor;
 
   return (
-    <WorkLink data-component="related-works-card" id={work.id}>
+    <NextLink
+      {...toWorkLink({ id: work.id })}
+      data-component="related-works-card"
+      style={{ textDecoration: 'none' }}
+    >
       <Card
         {...(gtmData &&
           dataGtmPropsToAttributes({
@@ -76,7 +81,7 @@ const RelatedWorksCard: FunctionComponent<Props> = ({ work, gtmData }) => {
           </ImageWrapper>
         )}
       </Card>
-    </WorkLink>
+    </NextLink>
   );
 };
 

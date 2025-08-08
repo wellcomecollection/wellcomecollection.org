@@ -13,7 +13,7 @@ type Props = PropsWithChildren<{
   Omit<LinkProps, 'href'> &
   AnchorHTMLAttributes<HTMLAnchorElement>;
 
-function toWorksLink(props: Props): LinkProps {
+function toWorkLink(props: Props): LinkProps {
   return {
     href: {
       pathname: '/works/[workId]',
@@ -24,8 +24,8 @@ function toWorksLink(props: Props): LinkProps {
 }
 
 const WorkLink: FunctionComponent<Props> = ({ children, ...props }) => {
-  return <NextLink {...toWorksLink(props)}>{children}</NextLink>;
+  return <NextLink {...toWorkLink(props)}>{children}</NextLink>;
 };
 
 export default WorkLink;
-export { toWorksLink };
+export { toWorkLink };

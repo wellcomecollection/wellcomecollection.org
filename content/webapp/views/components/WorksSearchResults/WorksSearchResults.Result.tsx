@@ -1,3 +1,4 @@
+import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
 
 import { DigitalLocation } from '@weco/common/model/catalogue';
@@ -5,7 +6,7 @@ import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
-import WorkLink from '@weco/content/views/components/WorkLink';
+import { toWorkLink } from '@weco/content/views/components/WorkLink';
 import WorkTitle from '@weco/content/views/components/WorkTitle';
 
 import {
@@ -43,8 +44,10 @@ const WorkSearchResult: FunctionComponent<Props> = ({
   } = work;
 
   return (
-    // TODO remove styles
-    <WorkLink id={work.id}>
+    <NextLink
+      {...toWorkLink({ id: work.id })}
+      style={{ textDecoration: 'none' }}
+    >
       <Wrapper
         data-gtm-trigger="works_search_result"
         data-gtm-position-in-list={resultPosition + 1}
@@ -106,7 +109,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
           </Details>
         </Container>
       </Wrapper>
-    </WorkLink>
+    </NextLink>
   );
 };
 export default WorkSearchResult;

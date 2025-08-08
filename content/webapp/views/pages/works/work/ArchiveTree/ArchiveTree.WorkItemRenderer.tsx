@@ -5,7 +5,7 @@ import { useAppContext } from '@weco/common/contexts/AppContext';
 import { chevron } from '@weco/common/icons';
 import { classNames, font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
-import { toWorksLink } from '@weco/content/views/components/WorkLink';
+import { toWorkLink } from '@weco/content/views/components/WorkLink';
 import WorkTitle from '@weco/content/views/components/WorkTitle';
 import { UiTreeNode } from '@weco/content/views/pages/works/work/work.types';
 
@@ -56,9 +56,8 @@ const WorkItem: FunctionComponent<WorkItemRendererProps> = ({
           <Icon rotate={item.openStatus ? undefined : 270} icon={chevron} />
         </TreeControl>
       )}
-      {/* TODO remove styles */}
       <StyledLink
-        {...toWorksLink({ id: item.work.id, scroll: false })}
+        {...toWorkLink({ id: item.work.id, scroll: false })}
         className={classNames({
           [font('intb', 6)]: level === 1,
           [font('intr', 6)]: level > 1,
