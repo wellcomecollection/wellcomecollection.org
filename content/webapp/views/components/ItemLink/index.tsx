@@ -1,6 +1,7 @@
 import { ParsedUrlQuery } from 'querystring';
 
 import { LinkProps } from '@weco/common/model/link-props';
+import { removeUndefinedProps } from '@weco/common/utils/json';
 import {
   booleanCodec,
   decodeQuery,
@@ -43,17 +44,18 @@ type ToLinkProps = {
   props: Partial<ItemProps>;
 };
 
-function toWorksItemLink({ props }: ToLinkProps): LinkProps {
+function toWorksItemLink({ workId, props }: ToLinkProps): LinkProps {
   const itemProps: ItemProps = {
     ...emptyItemProps,
     ...props,
   };
-  const query = toQuery(itemProps);
+  const urlQuery = toQuery(itemProps);
+  const { canvas, manifest, page, query } = urlQuery;
 
   return {
     href: {
-      pathname: '/works/[workId]/items',
-      query,
+      pathname: `/works/${workId}/items`,
+      query: removeUndefinedProps({ canvas, manifest, query, page }),
     },
   };
 }
