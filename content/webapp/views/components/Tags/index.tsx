@@ -1,9 +1,10 @@
+import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { LinkProps } from '@weco/common/model/link-props';
 import { font } from '@weco/common/utils/classnames';
-import Buttons from '@weco/common/views/components/Buttons';
+import { StyledButton } from '@weco/common/views/components/Buttons';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
@@ -63,12 +64,12 @@ const Tags: FunctionComponent<Props> = ({
         {tags.map(({ textParts, linkAttributes }, i) => {
           return (
             <LinkWrapper as="li" key={i}>
-              <Buttons
-                variant="ButtonSolidLink"
-                link={linkAttributes}
-                size="small"
-                colors={themeValues.buttonColors.pumiceTransparentCharcoal}
-                text={
+              <NextLink href={linkAttributes.href}>
+                <StyledButton
+                  $isNextLink
+                  $size="small"
+                  $colors={themeValues.buttonColors.pumiceTransparentCharcoal}
+                >
                   <TagInner>
                     {textParts.map((part, i, arr) => (
                       <PartWithSeparator
@@ -87,8 +88,8 @@ const Tags: FunctionComponent<Props> = ({
                       </PartWithSeparator>
                     ))}
                   </TagInner>
-                }
-              ></Buttons>
+                </StyledButton>
+              </NextLink>
             </LinkWrapper>
           );
         })}

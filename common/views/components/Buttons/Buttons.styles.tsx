@@ -74,11 +74,11 @@ const getPadding = (size: ButtonSize = 'medium') => {
 
 export const StyledButton = styled(BasicButton).attrs<SolidButtonStyledProps>(
   props => ({
+    as: props.$isNextLink ? 'span' : 'button',
     'aria-label': props.$ariaLabel,
     className: classNames({
       'link-reset': !!props.href,
     }),
-    href: props.href,
   })
 )<SolidButtonStyledProps>`
   padding: ${props => getPadding(props.$size)};
