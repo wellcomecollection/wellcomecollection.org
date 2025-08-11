@@ -73,7 +73,11 @@ const ImageLink: FunctionComponent<Props> = ({
   ...props
 }: Props) => {
   return (
-    <NextLink {...toLink(props, source)} legacyBehavior>
+    <NextLink
+      data-component="image-link"
+      {...toLink(props, source)}
+      legacyBehavior
+    >
       {children}
     </NextLink>
   );

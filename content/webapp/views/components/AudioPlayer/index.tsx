@@ -176,7 +176,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
   };
 
   return (
-    <>
+    <div data-component="audio-player">
       <AudioPlayerWrapper $isDark={!!isDark}>
         {title && (
           <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
@@ -297,7 +297,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
           </CollapsibleContent>
         </Space>
       )}
-    </>
+    </div>
   );
 };
 

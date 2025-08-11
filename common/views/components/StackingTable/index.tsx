@@ -139,7 +139,11 @@ const StackingTable: FunctionComponent<Props> = ({
   const bodyRows = rows.slice(1);
 
   return (
-    <StyledTable $maxWidth={maxWidth} $useFixedWidth={columnWidths.length > 0}>
+    <StyledTable
+      data-component="stacking-table"
+      $maxWidth={maxWidth}
+      $useFixedWidth={columnWidths.length > 0}
+    >
       <thead>
         <tr>
           {headerRow.map((data, index) => (

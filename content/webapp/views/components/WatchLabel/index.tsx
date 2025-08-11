@@ -39,7 +39,7 @@ type Props = {
 };
 
 const WatchLabel: FunctionComponent<Props> = ({ text }) => (
-  <Wrapper>
+  <Wrapper data-component="watch-label">
     <WatchIconWrapper>
       <Icon icon={play} matchText={true} />
     </WatchIconWrapper>

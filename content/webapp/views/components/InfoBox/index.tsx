@@ -39,7 +39,7 @@ const InfoBox: FunctionComponent<Props> = ({
   children,
 }) => {
   return (
-    <>
+    <div data-component="info-box">
       <h2 className={headingClasses}>{title}</h2>
       <InfoContainer>
         {items.map(({ title, description, icon }, i) => (
@@ -62,7 +62,7 @@ const InfoBox: FunctionComponent<Props> = ({
         ))}
         {children}
       </InfoContainer>
-    </>
+    </div>
   );
 };
 

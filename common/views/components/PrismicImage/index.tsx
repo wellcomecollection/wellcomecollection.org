@@ -117,6 +117,7 @@ const PrismicImage: FunctionComponent<Props> = ({
 
   return (
     <StyledImage
+      data-component="prismic-image"
       width={image.width}
       height={image.height}
       src={image.contentUrl}

@@ -1,3 +1,4 @@
+// eslint-data-component: intentionally omitted
 import Image from 'next/image';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';

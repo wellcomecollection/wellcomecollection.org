@@ -16,7 +16,7 @@ const Wrapper = styled(Space).attrs({
 export type Props = ComponentPropsWithoutRef<typeof PrismicHtmlBlock>;
 
 const PageHeaderStandfirst: FunctionComponent<Props> = props => (
-  <Wrapper>
+  <Wrapper data-component="page-header-standfirst">
     <PrismicHtmlBlock {...props} />
   </Wrapper>
 );

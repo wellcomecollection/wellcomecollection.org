@@ -23,7 +23,7 @@ const TextWithDot: FunctionComponent<Props> = ({
   text,
   className,
 }) => (
-  <Wrapper className={className}>
+  <Wrapper data-component="text-with-dot" className={className}>
     <DotWrapper>
       <Dot $dotColor={dotColor} />
     </DotWrapper>

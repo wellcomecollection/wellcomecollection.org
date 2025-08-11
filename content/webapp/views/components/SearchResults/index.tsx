@@ -17,9 +17,12 @@ const SearchResults: FunctionComponent<Props> = props => {
   return (
     <>
       {variant === 'default' ? (
-        <SearchResultsDefault {...props} />
+        <SearchResultsDefault
+          data-component="search-results-default"
+          {...props}
+        />
       ) : (
-        <AsyncSearchResults {...props} />
+        <AsyncSearchResults data-component="search-results-async" {...props} />
       )}
     </>
   );
