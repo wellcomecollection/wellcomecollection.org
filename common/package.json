@@ -44,6 +44,6 @@
   },
   "devDependencies": {
     "@slicemachine/adapter-next": "^0.3.36",
-    "slice-machine-ui": "^2.17.1"
+    "slice-machine-ui": "^2.18.0"
   }
 }
