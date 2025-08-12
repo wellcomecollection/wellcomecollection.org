@@ -6,10 +6,9 @@ import { PaletteColor } from '@weco/common/views/themes/config';
 export type ButtonSize = 'small' | 'medium';
 
 export type SolidButtonStyledProps = (
-  | (AnchorHTMLAttributes<HTMLAnchorElement> & { $isAnchorLink: true })
+  | (AnchorHTMLAttributes<HTMLAnchorElement> & { href: string })
   | (ButtonHTMLAttributes<HTMLButtonElement> & { $isAnchorLink?: false })
 ) & {
-  href?: string;
   $ariaLabel?: string;
   $size?: ButtonSize;
   $colors?: ButtonColors;

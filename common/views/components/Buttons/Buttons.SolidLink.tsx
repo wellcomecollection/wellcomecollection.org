@@ -54,15 +54,10 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
         $size={size}
         $colors={colors}
         $isPill={isPill}
-        $isAnchorLink
       >
         <BaseButtonInner $isPill={isPill} $isInline={size === 'small'}>
           {isIconAfter && (
-            <span
-              className={classNames({
-                'visually-hidden': !!isTextHidden,
-              })}
-            >
+            <span className={classNames({ 'visually-hidden': !!isTextHidden })}>
               {text}
             </span>
           )}

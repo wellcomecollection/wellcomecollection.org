@@ -59,7 +59,6 @@ const ErrorPage: NextPage<Props> = ({ errorDescription }) => {
                   href="mailto:library@wellcomecollection.org"
                   target="_blank"
                   rel="noopener noreferrer"
-                  $isAnchorLink
                   $colors={themeValues.buttonColors.greenTransparentGreen}
                 >
                   Contact us
