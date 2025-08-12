@@ -50,6 +50,7 @@ const LinkWrapper = styled(Space).attrs({
 `;
 
 const StyledLink = styled(NextLink)<SolidButtonStyledProps>`
+  display: block;
   ${StyledButtonCSS}
 `;
 
