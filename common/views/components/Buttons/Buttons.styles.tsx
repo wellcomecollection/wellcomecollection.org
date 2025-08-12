@@ -31,8 +31,11 @@ export const ButtonIconWrapper = styled(Space).attrs({
   margin-top: 0;
 `;
 
-export const BasicButton = styled.button.attrs<{ href?: string }>(props => ({
-  as: props.href ? 'a' : 'button',
+export const BasicButton = styled.button.attrs<{
+  href?: string;
+  $isAnchorLink?: boolean;
+}>(props => ({
+  as: props.href || props.$isAnchorLink ? 'a' : 'button',
 }))`
   align-items: center;
   display: inline-flex;
@@ -74,11 +77,8 @@ const getPadding = (size: ButtonSize = 'medium') => {
 
 export const StyledButton = styled(BasicButton).attrs<SolidButtonStyledProps>(
   props => ({
-    as: props.$isNextLink ? 'span' : 'button',
     'aria-label': props.$ariaLabel,
-    className: classNames({
-      'link-reset': !!props.href,
-    }),
+    className: classNames({ 'link-reset': !!props.href }),
   })
 )<SolidButtonStyledProps>`
   padding: ${props => getPadding(props.$size)};

@@ -66,7 +66,7 @@ const Tags: FunctionComponent<Props> = ({
             <LinkWrapper as="li" key={i}>
               <NextLink href={linkAttributes.href}>
                 <StyledButton
-                  $isNextLink
+                  $isAnchorLink
                   $size="small"
                   $colors={themeValues.buttonColors.pumiceTransparentCharcoal}
                 >

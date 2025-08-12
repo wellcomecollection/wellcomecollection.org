@@ -1,5 +1,5 @@
 import NextLink, { LinkProps } from 'next/link';
-import { FunctionComponent, SyntheticEvent } from 'react';
+import { FunctionComponent } from 'react';
 
 import { classNames } from '@weco/common/utils/classnames';
 import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
@@ -14,7 +14,6 @@ import {
 } from '.';
 
 export type ButtonSolidLinkProps = ButtonSolidBaseProps & {
-  clickHandler?: (event: SyntheticEvent<HTMLButtonElement>) => void;
   link: LinkProps | string;
   ariaLabel?: string;
 };
@@ -28,7 +27,6 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
   link,
   icon,
   isTextHidden,
-  clickHandler,
   ariaControls,
   ariaExpanded,
   dataGtmProps,
@@ -38,10 +36,6 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
   isIconAfter,
   isPill,
 }) => {
-  function handleClick(event: SyntheticEvent<HTMLButtonElement>): void {
-    clickHandler && clickHandler(event);
-  }
-
   const isNextLink = typeof link === 'object';
 
   return (
@@ -55,12 +49,12 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
         {...dataGtmPropsToAttributes(dataGtmProps)}
         aria-controls={ariaControls}
         aria-expanded={ariaExpanded}
-        onClick={handleClick}
         href={getHref(link)}
         $ariaLabel={ariaLabel}
         $size={size}
         $colors={colors}
         $isPill={isPill}
+        $isAnchorLink
       >
         <BaseButtonInner $isPill={isPill} $isInline={size === 'small'}>
           {isIconAfter && (

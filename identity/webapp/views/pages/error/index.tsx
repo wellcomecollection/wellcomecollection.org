@@ -56,15 +56,13 @@ const ErrorPage: NextPage<Props> = ({ errorDescription }) => {
             <Wrapper>
               <CustomError errorDescription={errorDescription}>
                 <StyledButton
+                  href="mailto:library@wellcomecollection.org"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  $isAnchorLink
                   $colors={themeValues.buttonColors.greenTransparentGreen}
                 >
-                  <a
-                    href="mailto:library@wellcomecollection.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Contact us
-                  </a>
+                  Contact us
                 </StyledButton>
               </CustomError>
             </Wrapper>
