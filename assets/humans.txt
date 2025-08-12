@@ -9,7 +9,6 @@ Digital Production (digitisation):
  Christy Henshaw
  Branwen Lloyd-Evans
  Holly Peel
- Rosie Curran
  Cassidy Phillips
  Emilie Bell
  Daila Malafronte
@@ -101,6 +100,7 @@ Digital Platform:
  Kate Quarry
  Helen Babbs
  Kasia Bruzda
+ Rosie Curran
 
 /* THANKS */
 
