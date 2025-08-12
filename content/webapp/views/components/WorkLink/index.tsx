@@ -14,12 +14,14 @@ type Props = PropsWithChildren<{
   AnchorHTMLAttributes<HTMLAnchorElement>;
 
 function toWorkLink(props: Props): LinkProps {
+  const { id, ...rest } = props;
+
   return {
     href: {
       pathname: '/works/[workId]',
-      query: { workId: props.id },
+      query: { workId: id },
     },
-    ...props,
+    ...rest,
   };
 }
 
