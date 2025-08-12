@@ -103,7 +103,7 @@ const Modal: FunctionComponent<Props> = ({
       active={isActive && hasAcknowledgedCookieBanner}
       focusTrapOptions={{ preventScroll: true }}
     >
-      <div>
+      <div data-component="modal">
         {isActive && showOverlay && (
           <Overlay
             data-lock-scroll="true"

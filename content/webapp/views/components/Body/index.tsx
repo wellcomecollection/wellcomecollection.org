@@ -300,6 +300,7 @@ const Body: FunctionComponent<Props> = ({
 
   return (
     <BodyWrapper
+      data-component="body"
       className={`content-type-${contentType}`}
       $splitBackground={isShortFilm}
     >

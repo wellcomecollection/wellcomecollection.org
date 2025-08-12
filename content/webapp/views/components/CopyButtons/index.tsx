@@ -13,9 +13,9 @@ const CopyButtons: FunctionComponent<Props> = props => {
   return (
     <>
       {variant === 'content' ? (
-        <CopyContent {...props} />
+        <CopyContent data-component="copy-content" {...props} />
       ) : (
-        <CopyUrl {...props} />
+        <CopyUrl data-component="copy-url" {...props} />
       )}
     </>
   );

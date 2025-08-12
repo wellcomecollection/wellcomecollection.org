@@ -112,7 +112,7 @@ const VideoEmbed: FunctionComponent<Props> = ({
       : undefined;
 
   return (
-    <>
+    <div data-component="video-embed">
       <VideoEmbedWrapper data-chromatic="ignore">
         <IframeContainer>
           {isActive && videoSrc ? (
@@ -150,7 +150,7 @@ const VideoEmbed: FunctionComponent<Props> = ({
           <PrismicHtmlBlock html={transcript} />
         </CollapsibleContent>
       )}
-    </>
+    </div>
   );
 };
 

@@ -200,7 +200,10 @@ const PageHeader: FunctionComponent<Props> = ({
 
   return (
     <>
-      <Container $backgroundTexture={backgroundTexture}>
+      <Container
+        data-component="page-header"
+        $backgroundTexture={backgroundTexture}
+      >
         {Background}
         <ContaineredLayout
           gridSizes={

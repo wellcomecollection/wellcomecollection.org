@@ -40,7 +40,7 @@ export type Props = {
 };
 
 const TitledTextList: FunctionComponent<Props> = ({ items }) => (
-  <List>
+  <List data-component="titled-text-list">
     {items.map((item, i) => (
       <Space $v={{ size: 'l', properties: ['margin-bottom'] }} as="li" key={i}>
         <HeadingLinkWrapper>

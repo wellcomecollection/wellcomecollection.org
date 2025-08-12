@@ -62,6 +62,7 @@ const Button: ForwardRefRenderFunction<
 ) => {
   return (
     <BorderlessClickableStyle
+      data-component="borderless-clickable"
       as={as}
       $isActive={isActive}
       ref={ref}
