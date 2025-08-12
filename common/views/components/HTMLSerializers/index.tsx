@@ -1,3 +1,4 @@
+// eslint-data-component: intentionally omitted
 import * as prismic from '@prismicio/client';
 import { JSXFunctionSerializer } from '@prismicio/react';
 import { Fragment } from 'react';

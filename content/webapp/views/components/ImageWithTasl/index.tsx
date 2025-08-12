@@ -25,7 +25,7 @@ const ImageWithTasl: FunctionComponent<ImageWithTaslProps> = ({
   displayWorkLink,
 }) => {
   return (
-    <>
+    <div data-component="image-with-tasl">
       <div style={{ position: 'relative' }}>
         {Image}
         {tasl && <Tasl {...tasl} />}
@@ -40,7 +40,7 @@ const ImageWithTasl: FunctionComponent<ImageWithTaslProps> = ({
           <FeaturedWorkLink link={tasl.sourceLink} />
         </Space>
       )}
-    </>
+    </div>
   );
 };
 
@@ -54,12 +54,7 @@ function getFeaturedPictureWithTasl(editorialImage: RawEditorialImageSlice) {
       Image={
         <PrismicImage
           image={image}
-          sizes={{
-            xlarge: 1,
-            large: 1,
-            medium: 1,
-            small: 1,
-          }}
+          sizes={{ xlarge: 1, large: 1, medium: 1, small: 1 }}
           quality="low"
         />
       }

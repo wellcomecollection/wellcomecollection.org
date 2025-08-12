@@ -52,7 +52,10 @@ const GuideStopCard: FunctionComponent<Props> = ({
   const croppedImage = getCrop(image, '16:9');
 
   return (
-    <GridCell $sizeMap={threeUpGridSizesMap.default[0]}>
+    <GridCell
+      data-component="guide-stop-card"
+      $sizeMap={threeUpGridSizesMap.default[0]}
+    >
       <CardOuter
         href={link}
         style={{ minHeight: '0', viewTransitionName: `player-${number}` }}

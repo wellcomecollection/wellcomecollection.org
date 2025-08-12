@@ -36,7 +36,6 @@ const ExhibitionGuidePromo: FunctionComponent<Props> = ({
 }) => {
   return (
     <CardOuter
-      data-component="ExhibitionGuidePromo"
       href={exhibitionGuide.promo?.link || linkResolver(exhibitionGuide)}
     >
       {exhibitionGuide.promo?.image && (

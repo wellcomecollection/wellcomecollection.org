@@ -1,3 +1,4 @@
+// eslint-data-component: intentionally omitted
 import NextLink from 'next/link';
 import {
   Dispatch,

@@ -11,6 +11,7 @@ type Props = PropsWithChildren<{
 const WorkLink: FunctionComponent<Props> = ({ id, children, ...linkProps }) => {
   return (
     <NextLink
+      data-component="work-link"
       href={{
         pathname: '/works/[workId]',
         query: { workId: id },

@@ -97,7 +97,7 @@ const TextAndImageOrIcons: FunctionComponent<Props> = ({ item }) => {
   }
 
   return (
-    <DividingLine>
+    <DividingLine data-component="text-and-image-or-icons">
       <MediaAndTextWrap>
         {item.type === 'icons' && icons.length > 0 && (
           <ImageOrIcons $isIcons={true}>

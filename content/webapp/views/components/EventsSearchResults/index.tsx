@@ -66,7 +66,7 @@ const EventsSearchResults: FunctionComponent<Props> = ({
   isInPastListing,
 }: Props) => {
   return (
-    <EventsContainer>
+    <EventsContainer data-component="events-search-results">
       {events.map((event, index) => {
         const image = transformImage(event.image);
         const croppedImage = getCrop(image, '16:9');

@@ -31,7 +31,7 @@ type Props = {
 };
 
 const FindUs: FunctionComponent<Props> = ({ hideAccessibility }) => (
-  <>
+  <div data-component="find-us">
     <Space $v={{ size: 'm', properties: ['margin-bottom'] }} as="p">
       <PlainLink href={wellcomeCollectionAddress.addressMap}>
         {wellcomeCollectionAddress.streetAddress}
@@ -67,7 +67,7 @@ const FindUs: FunctionComponent<Props> = ({ hideAccessibility }) => (
         </Space>
       )}
     </PlainList>
-  </>
+  </div>
 );
 
 export default FindUs;

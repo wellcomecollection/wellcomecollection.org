@@ -49,7 +49,7 @@ const ScrollContainer: FunctionComponent<Props> = ({
   const scrollContainerRef = useRef<HTMLUListElement>(null);
 
   return (
-    <>
+    <div data-component="scroll-container">
       <ConditionalWrapper
         condition={!!gridSizes}
         wrapper={children => (
@@ -72,7 +72,7 @@ const ScrollContainer: FunctionComponent<Props> = ({
       </ConditionalWrapper>
 
       <ContentContainer ref={scrollContainerRef}>{children}</ContentContainer>
-    </>
+    </div>
   );
 };
 

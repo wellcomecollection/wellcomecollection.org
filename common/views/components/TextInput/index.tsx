@@ -195,7 +195,7 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
   }
 
   return (
-    <div>
+    <div data-component="text-input">
       <TextInputLabel htmlFor={id}>{label}</TextInputLabel>
 
       {hintCopy && (
