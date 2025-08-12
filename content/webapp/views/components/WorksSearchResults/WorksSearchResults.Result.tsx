@@ -1,4 +1,3 @@
-import { usePathname } from 'next/navigation';
 import { FunctionComponent } from 'react';
 
 import { DigitalLocation } from '@weco/common/model/catalogue';
@@ -42,15 +41,9 @@ const WorkSearchResult: FunctionComponent<Props> = ({
     cardLabels,
     primaryContributorLabel,
   } = work;
-  const pathname = usePathname();
 
   return (
-    <WorkLink
-      id={work.id}
-      resultPosition={resultPosition}
-      source={`works_search_result_${pathname}`}
-      passHref
-    >
+    <WorkLink id={work.id} passHref>
       <Wrapper
         as="a"
         data-gtm-trigger="works_search_result"

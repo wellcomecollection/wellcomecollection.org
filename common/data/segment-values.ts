@@ -15,8 +15,6 @@
  * before you do -- so the change can be coordinated with their reports.
  */
 
-import { Prefix } from '@weco/common/utils/utility-types';
-
 export type PageviewName =
   | 'concept'
   | 'event'
@@ -31,67 +29,3 @@ export type PageviewName =
   | 'work'
   | 'works'
   | 'visual-story';
-
-export type ConceptLinkSource =
-  | `work_details/contributors_${string}`
-  | `work_details/subjects_${string}`
-  | `work_details/genres_${string}`;
-
-export type ImageLinkSource =
-  | `images_search_result_${string}`
-  | `viewer/paginator_${string}`;
-
-export type ImagesLinkSource =
-  | 'search/paginator'
-  | 'canonical_link'
-  | `concept/images_about_${string}`
-  | `concept/images_by_${string}`
-  | `concept/images_in_${string}`
-  | `images_all_${string}`
-  | 'images_search_context'
-  | 'work_details/images'
-  | 'unknown';
-
-export type ItemLinkSource =
-  | `work_${string}`
-  | `images_search_result_${string}`
-  | 'viewer/paginator'
-  | 'viewer/thumbnail'
-  | 'viewer/scroll'
-  | 'viewer/resize'
-  | 'manifests_navigation'
-  | 'contents_nav'
-  | 'search_within_submit'
-  | 'search_within_clear'
-  | 'search_within_result';
-
-export type WorkLinkSource =
-  | `story_featured_${string}`
-  | `works_search_result_${string}`
-  | `images_search_result_${string}`
-  | 'item_auth_modal_back_to_work_link'
-  | 'archive_tree'
-  | 'viewer_back_link'
-  | 'viewer_credit';
-
-export type WorksLinkSource =
-  | 'search_form'
-  | 'canonical_link'
-  | 'meta_link'
-  | `search/paginator_${string}`
-  | 'concept/works_about'
-  | 'concept/works_by'
-  | 'concept/works_in'
-  | `works_search_context_${string}`
-  | `works_workType_${string}`
-  | `works_all_${string}`
-  | `work_details/contributors_${string}`
-  | 'work_details/genres'
-  | `work_details/subjects_${string}`
-  | `work_details/partOf_${string}`
-  | `work_details/languages_${string}`
-  | Prefix<'cancel_filter/'>
-  | 'unknown';
-
-export type StoriesLinkSource = 'unknown';
-export type EventsLinkSource = 'unknown';

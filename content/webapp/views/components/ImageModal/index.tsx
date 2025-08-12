@@ -1,6 +1,5 @@
 // eslint-data-component: intentionally omitted
 import NextLink from 'next/link';
-import { usePathname } from 'next/navigation';
 import {
   Dispatch,
   FunctionComponent,
@@ -25,8 +24,8 @@ import {
   getProductionDates,
 } from '@weco/content/utils/works';
 import IIIFImage from '@weco/content/views/components/IIIFImage';
-import { toLink as imageLink } from '@weco/content/views/components/ImageLink';
-import { toLink as itemLink } from '@weco/content/views/components/ItemLink';
+import { toWorksImagesLink } from '@weco/content/views/components/ImageLink';
+import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
 
 import {
   Container,
@@ -47,8 +46,6 @@ type Props = {
   expandedImage?: Image;
   setExpandedImage: Dispatch<SetStateAction<Image | undefined>>;
 };
-
-const trackingSource = 'images_search_result';
 
 const ImageModal: FunctionComponent<Props> = ({
   images,
@@ -73,8 +70,6 @@ const ImageModal: FunctionComponent<Props> = ({
   );
 
   const workId = expandedImage?.source.id;
-
-  const pathname = usePathname();
 
   useEffect(() => {
     // We want this fired only if there is a workId (not on initial load),
@@ -193,20 +188,16 @@ const ImageModal: FunctionComponent<Props> = ({
 
   const expandedImageLink =
     expandedImage && !canvasDeeplink
-      ? imageLink(
-          {
-            workId,
-            id: expandedImage.id,
-            resultPosition,
-          },
-          `${trackingSource}_${pathname}`
-        )
+      ? toWorksImagesLink({
+          workId,
+          id: expandedImage.id,
+          resultPosition,
+        })
       : detailedWork &&
         workId &&
-        itemLink({
+        toWorksItemLink({
           workId,
           props: { resultPosition, ...(canvasDeeplink || {}) },
-          source: `${trackingSource}_${pathname}`,
         });
 
   const productionDates = detailedWork ? getProductionDates(detailedWork) : [];

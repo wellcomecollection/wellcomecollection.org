@@ -192,7 +192,6 @@ const ItemPageLink = ({
                     display: 'inline-block',
                   }}
                   href={itemUrl.href}
-                  as={itemUrl.as}
                 >
                   {children}
                 </NextLink>

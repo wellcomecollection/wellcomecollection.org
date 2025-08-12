@@ -1,7 +1,6 @@
 // eslint-data-component: intentionally omitted
 import { ParsedUrlQuery } from 'querystring';
 
-import { ItemLinkSource } from '@weco/common/data/segment-values';
 import { LinkProps } from '@weco/common/model/link-props';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import {
@@ -44,26 +43,22 @@ const toQuery: (props: ItemProps) => ParsedUrlQuery = props => {
 type ToLinkProps = {
   workId: string;
   props: Partial<ItemProps>;
-  source: ItemLinkSource;
 };
 
-function toLink({ workId, props, source }: ToLinkProps): LinkProps {
+function toWorksItemLink({ workId, props }: ToLinkProps): LinkProps {
   const itemProps: ItemProps = {
     ...emptyItemProps,
     ...props,
   };
   const urlQuery = toQuery(itemProps);
   const { canvas, manifest, page, query } = urlQuery;
+
   return {
     href: {
-      pathname: '/works/[workId]/items',
-      query: { ...urlQuery, source },
-    },
-    as: {
       pathname: `/works/${workId}/items`,
       query: removeUndefinedProps({ canvas, manifest, query, page }),
     },
   };
 }
 
-export { toLink, fromQuery, emptyItemProps };
+export { toWorksItemLink, fromQuery, emptyItemProps };

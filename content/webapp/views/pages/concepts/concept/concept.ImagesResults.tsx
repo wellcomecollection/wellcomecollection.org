@@ -1,8 +1,6 @@
-import { usePathname } from 'next/navigation';
 import { FunctionComponent, useMemo } from 'react';
 import styled from 'styled-components';
 
-import { ImagesLinkSource } from '@weco/common/data/segment-values';
 import { font } from '@weco/common/utils/classnames';
 import { capitalize, pluralize } from '@weco/common/utils/grammar';
 import { ReturnedResults } from '@weco/common/utils/search';
@@ -16,7 +14,7 @@ import {
 import { allRecordsLinkParams } from '@weco/content/utils/concepts';
 import CatalogueImageGallery from '@weco/content/views/components/CatalogueImageGallery';
 import MoreLink from '@weco/content/views/components/MoreLink';
-import { toLink as toImagesLink } from '@weco/content/views/components/SearchPagesLink/Images';
+import { toSearchImagesLink } from '@weco/content/views/components/SearchPagesLink/Images';
 
 import {
   getSectionTypeLabel,
@@ -44,14 +42,9 @@ const SectionHeading = styled(Space).attrs({
   overflow: hidden;
 `;
 
-const getAllImagesLink = (
-  tab: ThemeTabType,
-  concept: Concept,
-  pathname: string
-) => {
-  const linkSource = `concept/images_${tab}_${pathname}` as ImagesLinkSource;
+const getAllImagesLink = (tab: ThemeTabType, concept: Concept) => {
   const sectionName = `images${capitalize(tab)}`;
-  return toImagesLink(allRecordsLinkParams(sectionName, concept), linkSource);
+  return toSearchImagesLink(allRecordsLinkParams(sectionName, concept));
 };
 
 type Props = {
@@ -68,7 +61,6 @@ const ImageSection: FunctionComponent<Props> = ({
   type,
 }) => {
   const { config } = useConceptPageContext();
-  const pathname = usePathname();
   const firstTenImages = useMemo(
     () => singleSectionData?.pageResults.slice(0, 10) || [],
     [singleSectionData]
@@ -98,7 +90,7 @@ const ImageSection: FunctionComponent<Props> = ({
           <MoreLink
             ariaLabel={`View all ${getSectionTypeLabel(type, config, 'images')}`}
             name="View all"
-            url={getAllImagesLink(type, concept, pathname)}
+            url={getAllImagesLink(type, concept)}
             colors={theme.buttonColors.greenGreenWhite}
           />
         )}

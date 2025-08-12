@@ -56,7 +56,7 @@ const WorkItem: FunctionComponent<WorkItemRendererProps> = ({
           <Icon rotate={item.openStatus ? undefined : 270} icon={chevron} />
         </TreeControl>
       )}
-      <WorkLink id={item.work.id} source="archive_tree" scroll={false} passHref>
+      <WorkLink id={item.work.id} scroll={false} passHref>
         <StyledLink
           className={classNames({
             [font('intb', 6)]: level === 1,
