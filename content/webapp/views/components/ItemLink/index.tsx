@@ -1,3 +1,4 @@
+// eslint-data-component: intentionally omitted
 import { ParsedUrlQuery } from 'querystring';
 
 import { LinkProps } from '@weco/common/model/link-props';

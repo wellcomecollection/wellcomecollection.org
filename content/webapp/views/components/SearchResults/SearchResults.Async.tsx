@@ -44,7 +44,6 @@ class AsyncSearchResults extends Component<Props, State> {
         {!(this.state.items && this.state.items.length > 0) && (
           // TODO: this should be display: none until enhanced
           <div
-            data-component="ContentListItems"
             className="component-list-placeholder"
             data-endpoint={
               '/async/search?query=' + encodeURIComponent(this.props.query)

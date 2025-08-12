@@ -52,6 +52,7 @@ const SearchForm = ({
   };
   return (
     <form
+      data-component="search-form"
       action={formAction(searchCategory)}
       id={`search-form-${searchCategory}`}
       onSubmit={event => {

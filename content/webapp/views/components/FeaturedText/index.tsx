@@ -6,7 +6,10 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 type Props = ComponentPropsWithoutRef<typeof PrismicHtmlBlock>;
 
 const FeaturedText: FunctionComponent<Props> = props => (
-  <div className={`body-text ${font('intr', 4)}`}>
+  <div
+    data-component="featured-text"
+    className={`body-text ${font('intr', 4)}`}
+  >
     <PrismicHtmlBlock {...props} />
   </div>
 );

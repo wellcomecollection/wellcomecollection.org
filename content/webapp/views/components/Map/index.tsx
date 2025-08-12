@@ -87,7 +87,7 @@ const Map: FunctionComponent<Props> = ({
     };
   }, [loader]);
 
-  return <MapContainer ref={mapContainer} />;
+  return <MapContainer data-component="map" ref={mapContainer} />;
 };
 
 export default Map;

@@ -28,7 +28,7 @@ export const Picture: FunctionComponent<Props> = ({
   const { tasl } = lastImage;
 
   return (
-    <Figure>
+    <Figure data-component="picture">
       <picture>
         {images.map(image => {
           if (image.width) {

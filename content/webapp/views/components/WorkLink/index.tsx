@@ -26,7 +26,13 @@ function toWorkLink(props: Props): LinkProps {
 }
 
 const WorkLink: FunctionComponent<Props> = ({ children, ...props }) => {
-  return <NextLink {...toWorkLink(props)}>{children}</NextLink>;
+  const { id, ...rest } = props;
+
+  return (
+    <NextLink data-component="work-link" {...toWorkLink(props)} {...rest}>
+      {children}
+    </NextLink>
+  );
 };
 
 export default WorkLink;

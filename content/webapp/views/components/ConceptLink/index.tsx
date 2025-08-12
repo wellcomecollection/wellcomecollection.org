@@ -21,7 +21,11 @@ const ConceptLink: FunctionComponent<LinkFrom<ConceptLinkProps>> = ({
   children,
   ...props
 }) => {
-  return <NextLink {...toConceptLink(props)}>{children}</NextLink>;
+  return (
+    <NextLink data-component="concept-link" {...toConceptLink(props)}>
+      {children}
+    </NextLink>
+  );
 };
 
 export default ConceptLink;

@@ -55,7 +55,11 @@ function toWorksImagesLink(partialProps: Partial<ImageProps>): LinkProps {
 type Props = LinkFrom<ImageProps>;
 
 const ImageLink: FunctionComponent<Props> = ({ children, ...props }: Props) => {
-  return <NextLink {...toWorksImagesLink(props)}>{children}</NextLink>;
+  return (
+    <NextLink data-component="image-link" {...toWorksImagesLink(props)}>
+      {children}
+    </NextLink>
+  );
 };
 
 export default ImageLink;

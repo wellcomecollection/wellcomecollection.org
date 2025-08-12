@@ -18,7 +18,7 @@ type Props = { message: string | ReactNode };
 const BetaMessage: FunctionComponent<Props> = ({
   message,
 }: Props): ReactElement => (
-  <StyledBetaMessage>
+  <StyledBetaMessage data-component="beta-message">
     <Space $h={{ size: 's', properties: ['margin-right'] }}>
       <Icon icon={underConstruction} />
     </Space>

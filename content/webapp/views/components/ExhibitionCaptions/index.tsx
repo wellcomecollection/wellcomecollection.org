@@ -22,7 +22,7 @@ const ExhibitionCaptions: FunctionComponent<Props> = ({ stops }) => {
   };
 
   return (
-    <article>
+    <article data-component="exhibition-captions">
       {stops.map((stop, index) => {
         const hasStandaloneTitle = includesStandaloneTitle(stop);
 

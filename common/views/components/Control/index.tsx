@@ -224,9 +224,11 @@ const BaseControl: ForwardRefRenderFunction<HTMLButtonElement, Props> = (
 
   return (
     <>
+      {/* If a link is provided, render as an anchor tag, otherwise render as a button */}
       {link ? (
         <NextLinkWrapper
           {...link}
+          data-component="control"
           scroll={scroll}
           replace={replace}
           prefetch={prefetch}
@@ -236,7 +238,7 @@ const BaseControl: ForwardRefRenderFunction<HTMLButtonElement, Props> = (
           <InnerControl text={text} icon={icon} />
         </NextLinkWrapper>
       ) : (
-        <Wrapper ref={ref} {...attrs}>
+        <Wrapper data-component="control" ref={ref} {...attrs}>
           <InnerControl text={text} icon={icon} />
         </Wrapper>
       )}

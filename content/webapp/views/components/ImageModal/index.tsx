@@ -1,3 +1,4 @@
+// eslint-data-component: intentionally omitted
 import {
   Dispatch,
   FunctionComponent,

@@ -66,7 +66,10 @@ const Tags: FunctionComponent<Props> = ({
   separator = '–',
 }) => {
   return (
-    <Space $v={{ size: 's', negative: true, properties: ['margin-bottom'] }}>
+    <Space
+      data-component="tags"
+      $v={{ size: 's', negative: true, properties: ['margin-bottom'] }}
+    >
       <PlainList>
         {/* Have to use index for key because some LCSH and MSH are the same and therefore textParts aren't unique */}
         {tags.map(({ textParts, linkAttributes }, i) => {

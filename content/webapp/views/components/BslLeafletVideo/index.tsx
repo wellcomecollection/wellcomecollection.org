@@ -54,7 +54,7 @@ const BslLeafletVideo: FunctionComponent<Props> = ({
   setIsModalActive,
 }) => {
   return (
-    <>
+    <div data-component="bsl-leaflet-video">
       <Modal
         id="bsl-leaflet-video-modal"
         isActive={isModalActive}
@@ -107,7 +107,7 @@ const BslLeafletVideo: FunctionComponent<Props> = ({
           </ContaineredLayout>
         </Space>
       </Space>
-    </>
+    </div>
   );
 };
 

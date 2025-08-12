@@ -176,7 +176,7 @@ const GifVideo: FunctionComponent<Props> = ({
   }, [autoPlayDisabled]);
 
   return (
-    <Figure>
+    <Figure data-component="gif-video">
       <Wrapper>
         <Video
           ref={videoRef}
