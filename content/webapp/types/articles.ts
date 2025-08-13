@@ -1,7 +1,6 @@
 import { ImageType } from '@weco/common/model/image';
 import { Label } from '@weco/common/model/labels';
 import { ArticleFormatId } from '@weco/content/data/content-format-ids';
-import { ContentApiLinkedWork } from '@weco/content/services/wellcome/content/types/api';
 
 import { ColorSelection } from './color-selections';
 import { Contributor } from './contributors';
@@ -42,8 +41,6 @@ export type Article = GenericContentFields & {
     uid?: string;
     type: 'articles' | 'exhibitions';
   };
-  // TODO: remove before merge as we want to load this client side... do we??
-  linkedWorks: ContentApiLinkedWork[];
 };
 
 /** Given an article in a serial, return its part number.

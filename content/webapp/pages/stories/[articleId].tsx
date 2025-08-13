@@ -46,15 +46,17 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       toggles: serverData.toggles,
     });
 
-    const article = transformArticle(
-      articleDocument,
-      contentAPIArticle.type !== 'Error' ? contentAPIArticle.linkedWorks : []
-    );
+    const article = transformArticle(articleDocument);
     const jsonLd = articleLd(article);
 
     return {
       props: serialiseProps<Props>({
         article,
+        // TODO: remove before merge as we want to load this client side... do we??
+        linkedWorks:
+          contentAPIArticle.type !== 'Error'
+            ? contentAPIArticle.linkedWorks
+            : [],
         jsonLd,
         serverData,
         pageview: {

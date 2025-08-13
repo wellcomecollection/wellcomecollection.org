@@ -15,7 +15,7 @@ import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { ArticleFormatIds } from '@weco/content/data/content-format-ids';
 import {
   Article as ContentAPIArticle,
-  // ContentApiLinkedWork,
+  ContentApiLinkedWork,
 } from '@weco/content/services/wellcome/content/types/api';
 import {
   Article,
@@ -48,6 +48,7 @@ const RelatedStoryContainer = styled.div`
 
 export type Props = {
   article: Article;
+  linkedWorks: ContentApiLinkedWork[]; // TODO remove as we want client-side
   jsonLd: JsonLdObj;
   serverData: SimplifiedServerData;
 };
@@ -57,7 +58,12 @@ export type ArticleSeriesList = {
   articles: ArticleBasic[];
 }[];
 
-const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
+const ArticlePage: NextPage<Props> = ({
+  article,
+  linkedWorks,
+  serverData,
+  jsonLd,
+}) => {
   const [listOfSeries, setListOfSeries] = useState<ArticleSeriesList>();
   const [relatedDocument, setRelatedDocument] = useState<
     ExhibitionBasic | ContentAPIArticle | undefined
@@ -217,7 +223,7 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
         contributors={article.contributors}
         seasons={article.seasons}
         // TODO: adjust before merge as we want to load this client side... do we??
-        linkedWorks={!isInPicturesFormat ? article.linkedWorks : []}
+        linkedWorks={!isInPicturesFormat ? linkedWorks : []}
       />
 
       {article.exploreMoreDocument && relatedDocument && (

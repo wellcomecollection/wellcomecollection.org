@@ -10,7 +10,6 @@ import {
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { ArticleFormatId } from '@weco/content/data/content-format-ids';
-import { ContentApiLinkedWork } from '@weco/content/services/wellcome/content/types/api';
 import { Article, ArticleBasic } from '@weco/content/types/articles';
 import { Format } from '@weco/content/types/format';
 import { Series } from '@weco/content/types/series';
@@ -85,8 +84,7 @@ export const isArticle = (
 };
 
 export function transformArticle(
-  document: RawArticlesDocument | RawWebcomicsDocument,
-  linkedWorks: ContentApiLinkedWork[]
+  document: RawArticlesDocument | RawWebcomicsDocument
 ): Article {
   const { data } = document;
   const genericFields = transformGenericFields(document);
@@ -140,7 +138,5 @@ export function transformArticle(
         )
       : [],
     exploreMoreDocument,
-    // TODO: remove before merge as we want to load this client side... do we??
-    linkedWorks,
   };
 }
