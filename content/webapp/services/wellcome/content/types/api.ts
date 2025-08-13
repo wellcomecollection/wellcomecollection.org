@@ -5,6 +5,7 @@ import {
   WellcomeAggregation,
   WellcomeResultList,
 } from '@weco/content/services/wellcome';
+import { ContentAPILinkedWork } from '@weco/content/views/pages/stories/story/tempMockData';
 
 export type ContentApiTimeField = {
   startDateTime?: Date;
@@ -165,6 +166,7 @@ export type Addressable = {
   dates?: { start: string; end?: string };
   tags?: string[];
   highlightTourType?: 'audio' | 'bsl';
+  linkedWorks: ContentAPILinkedWork[];
 };
 
 // Results

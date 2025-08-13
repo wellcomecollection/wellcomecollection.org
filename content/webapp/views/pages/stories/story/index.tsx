@@ -31,8 +31,13 @@ import FeaturedCard from '@weco/content/views/components/FeaturedCard';
 import PartNumberIndicator from '@weco/content/views/components/PartNumberIndicator';
 
 import ContentTypeInfo from './story.ContentTypeInfo';
-import { getNextUp, getRelatedDoc, setSeries } from './story.helpers';
-import { mockArticle } from './tempMockData';
+import {
+  getLinkedWorks,
+  getNextUp,
+  getRelatedDoc,
+  setSeries,
+} from './story.helpers';
+import { ContentAPILinkedWork } from './tempMockData';
 
 const RelatedStoryContainer = styled.div`
   ${props => props.theme.makeSpacePropertyValues('l', ['margin-top'])};
@@ -55,6 +60,30 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
   const [relatedDocument, setRelatedDocument] = useState<
     ExhibitionBasic | ContentAPIArticle | undefined
   >();
+  const [linkedWorks, setLinkedWorks] = useState<
+    ContentAPILinkedWork[] | undefined
+  >();
+
+  async function fetchLinkedWorks() {
+    try {
+      // setIsLoadingWorks(true);
+
+      const linkedWorksResults = await getLinkedWorks({
+        id: `${article.id}.articles`,
+        serverData,
+      });
+
+      setLinkedWorks(() => {
+        // setIsLoadingWorks(false);
+        console.log(linkedWorksResults);
+        return linkedWorksResults;
+      });
+    } catch (e) {
+      // setIsLoadingWorks(false);
+
+      return undefined;
+    }
+  }
 
   useEffect(() => {
     setSeries(article, setListOfSeries);
@@ -63,6 +92,10 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
       getRelatedDoc(article, setRelatedDocument, serverData);
     }
   }, []);
+
+  useEffect(() => {
+    fetchLinkedWorks();
+  }, [article.id]);
 
   const extraBreadcrumbs = [
     // GOTCHA: we only take the first of the series list as the data is being
@@ -181,7 +214,7 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
         RelatedContent={Siblings}
         contributors={article.contributors}
         seasons={article.seasons}
-        linkedWorks={!isInPicturesFormat ? mockArticle.linkedWorks : []}
+        linkedWorks={!isInPicturesFormat ? linkedWorks : []}
       />
 
       {article.exploreMoreDocument && relatedDocument && (
