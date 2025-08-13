@@ -13,14 +13,16 @@ import {
 } from '@weco/content/services/prismic/transformers/exhibitions';
 import { getAddressable } from '@weco/content/services/wellcome/content/all';
 import { getArticle } from '@weco/content/services/wellcome/content/article';
-import { Article as ContentAPIArticle } from '@weco/content/services/wellcome/content/types/api';
+import {
+  Article as ContentAPIArticle,
+  ContentApiLinkedWork,
+} from '@weco/content/services/wellcome/content/types/api';
 import { Article, ArticleBasic } from '@weco/content/types/articles';
 import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 import { Series } from '@weco/content/types/series';
 
 import { ArticleSeriesList } from '.';
 import SeriesNavigation from './story.SeriesNavigation';
-import { ContentAPILinkedWork } from './tempMockData';
 
 export const setSeries = async (
   article: Article,
@@ -89,7 +91,7 @@ export const getRelatedDoc = async (
       id: article.exploreMoreDocument.id,
       toggles: serverData.toggles,
     });
-    
+
     if (relatedArticle?.type === 'Article') {
       setRelatedDocument(relatedArticle);
     }
@@ -102,7 +104,7 @@ export const getLinkedWorks = async ({
 }: {
   id: string;
   serverData: SimplifiedServerData;
-}): Promise<ContentAPILinkedWork[]> => {
+}): Promise<ContentApiLinkedWork[]> => {
   const addressable = await getAddressable({
     id,
     toggles: serverData.toggles,

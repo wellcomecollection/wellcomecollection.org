@@ -5,7 +5,6 @@ import {
   WellcomeAggregation,
   WellcomeResultList,
 } from '@weco/content/services/wellcome';
-import { ContentAPILinkedWork } from '@weco/content/views/pages/stories/story/tempMockData';
 
 export type ContentApiTimeField = {
   startDateTime?: Date;
@@ -142,6 +141,16 @@ export type EventAggregations = BasicAggregations & {
   timespan: WellcomeAggregation;
 };
 
+export type ContentApiLinkedWork = {
+  id: string;
+  title: string;
+  type: 'Work';
+  workType: string;
+  thumbnailUrl: string;
+  date: string;
+  mainContributor: string;
+};
+
 type AddressableType =
   | 'Article'
   | 'Book'
@@ -166,7 +175,7 @@ export type Addressable = {
   dates?: { start: string; end?: string };
   tags?: string[];
   highlightTourType?: 'audio' | 'bsl';
-  linkedWorks: ContentAPILinkedWork[];
+  linkedWorks: ContentApiLinkedWork[];
 };
 
 // Results

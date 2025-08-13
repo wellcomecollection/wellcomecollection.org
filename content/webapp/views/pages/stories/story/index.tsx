@@ -13,7 +13,10 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { ArticleFormatIds } from '@weco/content/data/content-format-ids';
-import { Article as ContentAPIArticle } from '@weco/content/services/wellcome/content/types/api';
+import {
+  Article as ContentAPIArticle,
+  // ContentApiLinkedWork,
+} from '@weco/content/services/wellcome/content/types/api';
 import {
   Article,
   ArticleBasic,
@@ -32,12 +35,11 @@ import PartNumberIndicator from '@weco/content/views/components/PartNumberIndica
 
 import ContentTypeInfo from './story.ContentTypeInfo';
 import {
-  getLinkedWorks,
+  // getLinkedWorks,
   getNextUp,
   getRelatedDoc,
   setSeries,
 } from './story.helpers';
-import { ContentAPILinkedWork } from './tempMockData';
 
 const RelatedStoryContainer = styled.div`
   ${props => props.theme.makeSpacePropertyValues('l', ['margin-top'])};
@@ -60,30 +62,30 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
   const [relatedDocument, setRelatedDocument] = useState<
     ExhibitionBasic | ContentAPIArticle | undefined
   >();
-  const [linkedWorks, setLinkedWorks] = useState<
-    ContentAPILinkedWork[] | undefined
-  >();
+  // const [linkedWorks, setLinkedWorks] = useState<
+  //   ContentApiLinkedWork[] | undefined
+  // >();
 
-  async function fetchLinkedWorks() {
-    try {
-      // setIsLoadingWorks(true);
+  // async function fetchLinkedWorks() {
+  //   try {
+  //     // setIsLoadingWorks(true);
 
-      const linkedWorksResults = await getLinkedWorks({
-        id: `${article.id}.articles`,
-        serverData,
-      });
+  //     const linkedWorksResults = await getLinkedWorks({
+  //       id: `${article.id}.articles`,
+  //       serverData,
+  //     });
 
-      setLinkedWorks(() => {
-        // setIsLoadingWorks(false);
-        console.log(linkedWorksResults);
-        return linkedWorksResults;
-      });
-    } catch (e) {
-      // setIsLoadingWorks(false);
+  //     setLinkedWorks(() => {
+  //       // setIsLoadingWorks(false);
+  //       console.log(linkedWorksResults);
+  //       return linkedWorksResults;
+  //     });
+  //   } catch (e) {
+  //     // setIsLoadingWorks(false);
 
-      return undefined;
-    }
-  }
+  //     return undefined;
+  //   }
+  // }
 
   useEffect(() => {
     setSeries(article, setListOfSeries);
@@ -93,9 +95,9 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
     }
   }, []);
 
-  useEffect(() => {
-    fetchLinkedWorks();
-  }, [article.id]);
+  // useEffect(() => {
+  //   fetchLinkedWorks();
+  // }, [article.id]);
 
   const extraBreadcrumbs = [
     // GOTCHA: we only take the first of the series list as the data is being

@@ -10,6 +10,7 @@ import {
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { ArticleFormatId } from '@weco/content/data/content-format-ids';
+import { ContentApiLinkedWork } from '@weco/content/services/wellcome/content/types/api';
 import { Article, ArticleBasic } from '@weco/content/types/articles';
 import { Format } from '@weco/content/types/format';
 import { Series } from '@weco/content/types/series';
@@ -17,7 +18,6 @@ import {
   calculateReadingTime,
   showReadingTime,
 } from '@weco/content/utils/reading-time';
-import { ContentAPILinkedWork } from '@weco/content/views/pages/stories/story/tempMockData';
 
 import {
   transformGenericFields,
@@ -86,7 +86,7 @@ export const isArticle = (
 
 export function transformArticle(
   document: RawArticlesDocument | RawWebcomicsDocument,
-  linkedWorks: ContentAPILinkedWork[]
+  linkedWorks: ContentApiLinkedWork[]
 ): Article {
   const { data } = document;
   const genericFields = transformGenericFields(document);

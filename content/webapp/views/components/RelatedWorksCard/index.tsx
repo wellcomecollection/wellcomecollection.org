@@ -6,8 +6,8 @@ import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
+import { ContentApiLinkedWork } from '@weco/content/services/wellcome/content/types/api';
 import WorkLink from '@weco/content/views/components/WorkLink';
-import { ContentAPILinkedWork } from '@weco/content/views/pages/stories/story/tempMockData';
 
 import {
   Card,
@@ -19,7 +19,7 @@ import {
 } from './RelatedWorksCard.styles';
 
 type Props = {
-  work: WorkBasic | ContentAPILinkedWork; // Supports both Catalogue and Content API works
+  work: WorkBasic | ContentApiLinkedWork; // Supports both Catalogue and Content API works
   source?: WorkLinkSource; // Optional source for Segment tracking
   gtmData?: DataGtmProps;
 };
