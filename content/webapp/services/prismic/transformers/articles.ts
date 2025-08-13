@@ -17,6 +17,7 @@ import {
   calculateReadingTime,
   showReadingTime,
 } from '@weco/content/utils/reading-time';
+import { ContentAPILinkedWork } from '@weco/content/views/pages/stories/story/tempMockData';
 
 import {
   transformGenericFields,
@@ -84,7 +85,8 @@ export const isArticle = (
 };
 
 export function transformArticle(
-  document: RawArticlesDocument | RawWebcomicsDocument
+  document: RawArticlesDocument | RawWebcomicsDocument,
+  linkedWorks: ContentAPILinkedWork[]
 ): Article {
   const { data } = document;
   const genericFields = transformGenericFields(document);
@@ -138,5 +140,7 @@ export function transformArticle(
         )
       : [],
     exploreMoreDocument,
+    // TODO: remove before merge as we want to load this client side... do we??
+    linkedWorks,
   };
 }

@@ -1,13 +1,11 @@
-// TODO delete file
-
-import { Label } from '@weco/common/model/labels';
+// TODO delete file/move type
 
 export type ContentAPILinkedWork = {
   id: string;
   title: string;
   type: 'Work';
+  workType: string;
   thumbnailUrl: string;
   date: string;
   mainContributor: string;
-  labels: Label[];
 };

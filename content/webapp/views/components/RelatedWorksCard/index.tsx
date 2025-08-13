@@ -1,6 +1,7 @@
 import { FunctionComponent } from 'react';
 
 import { WorkLinkSource } from '@weco/common/data/segment-values';
+import { Label } from '@weco/common/model/labels';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import LabelsList from '@weco/common/views/components/LabelsList';
@@ -40,7 +41,16 @@ const RelatedWorksCard: FunctionComponent<Props> = ({
       : undefined
     : work.date;
 
-  const labels = isCatalogueWork ? work.cardLabels : work.labels || [];
+  const labels = isCatalogueWork
+    ? work.cardLabels
+    : work.workType
+      ? ([
+          {
+            text: work.workType,
+            labelColor: 'warmNeutral.300',
+          },
+        ] as Label[])
+      : [];
 
   const mainContributor = isCatalogueWork
     ? work.primaryContributorLabel

@@ -214,7 +214,8 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
         RelatedContent={Siblings}
         contributors={article.contributors}
         seasons={article.seasons}
-        linkedWorks={!isInPicturesFormat ? linkedWorks : []}
+        // TODO: adjust before merge as we want to load this client side... do we??
+        linkedWorks={!isInPicturesFormat ? article.linkedWorks : []}
       />
 
       {article.exploreMoreDocument && relatedDocument && (

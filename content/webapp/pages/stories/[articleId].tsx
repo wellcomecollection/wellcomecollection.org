@@ -17,6 +17,8 @@ import ArticlePage, {
   Props as ArticlePageProps,
 } from '@weco/content/views/pages/stories/story';
 
+import { getAddressable } from '@weco/content/services/wellcome/content/all';
+
 const Page: NextPage<ArticlePageProps> = props => {
   return <ArticlePage {...props} />;
 };
@@ -38,7 +40,14 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   if (isNotUndefined(articleDocument)) {
     const serverData = await getServerData(context);
-    const article = transformArticle(articleDocument);
+
+    // TODO: remove before merge as we want to load this client side... do we??
+    const contentAPIArticle = await getAddressable({
+      id: articleId + '.articles',
+      toggles: serverData.toggles,
+    });
+
+    const article = transformArticle(articleDocument, contentAPIArticle.type !== 'Error' ? contentAPIArticle.linkedWorks : []);
     const jsonLd = articleLd(article);
 
     return {
