@@ -530,6 +530,7 @@ export const contentAPIAddressableArticle: Addressable = {
   title: 'The stuck tampon',
   description:
     'Dorothée King was on holiday when she experienced the awkward, uncomfortable and panicky situation all tampon users dread.',
+  linkedWorks: [],
 };
 
 export const contentAPIAddressableEvent: Addressable = {
@@ -545,6 +546,7 @@ export const contentAPIAddressableEvent: Addressable = {
     end: '2025-02-04T14:00:00.000Z',
   },
   contributors: 'Joe Bloggs',
+  linkedWorks: [],
 };
 
 export const contentAPIAddressableExhibition: Addressable = {
@@ -559,4 +561,5 @@ export const contentAPIAddressableExhibition: Addressable = {
     start: '2022-11-24T00:00:00+0000',
     end: '2033-04-22T23:00:00+0000',
   },
+  linkedWorks: [],
 };

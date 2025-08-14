@@ -13,7 +13,10 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { ArticleFormatIds } from '@weco/content/data/content-format-ids';
-import { Article as ContentAPIArticle } from '@weco/content/services/wellcome/content/types/api';
+import {
+  Article as ContentAPIArticle,
+  ContentApiLinkedWork,
+} from '@weco/content/services/wellcome/content/types/api';
 import {
   Article,
   ArticleBasic,
@@ -31,8 +34,12 @@ import FeaturedCard from '@weco/content/views/components/FeaturedCard';
 import PartNumberIndicator from '@weco/content/views/components/PartNumberIndicator';
 
 import ContentTypeInfo from './story.ContentTypeInfo';
-import { getNextUp, getRelatedDoc, setSeries } from './story.helpers';
-import { mockArticle } from './tempMockData';
+import {
+  // getLinkedWorks,
+  getNextUp,
+  getRelatedDoc,
+  setSeries,
+} from './story.helpers';
 
 const RelatedStoryContainer = styled.div`
   ${props => props.theme.makeSpacePropertyValues('l', ['margin-top'])};
@@ -41,6 +48,7 @@ const RelatedStoryContainer = styled.div`
 
 export type Props = {
   article: Article;
+  linkedWorks: ContentApiLinkedWork[]; // TODO remove as we want client-side
   jsonLd: JsonLdObj;
   serverData: SimplifiedServerData;
 };
@@ -50,11 +58,40 @@ export type ArticleSeriesList = {
   articles: ArticleBasic[];
 }[];
 
-const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
+const ArticlePage: NextPage<Props> = ({
+  article,
+  linkedWorks,
+  serverData,
+  jsonLd,
+}) => {
   const [listOfSeries, setListOfSeries] = useState<ArticleSeriesList>();
   const [relatedDocument, setRelatedDocument] = useState<
     ExhibitionBasic | ContentAPIArticle | undefined
   >();
+  // const [linkedWorks, setLinkedWorks] = useState<
+  //   ContentApiLinkedWork[] | undefined
+  // >();
+
+  // async function fetchLinkedWorks() {
+  //   try {
+  //     // setIsLoadingWorks(true);
+
+  //     const linkedWorksResults = await getLinkedWorks({
+  //       id: `${article.id}.articles`,
+  //       serverData,
+  //     });
+
+  //     setLinkedWorks(() => {
+  //       // setIsLoadingWorks(false);
+  //       console.log(linkedWorksResults);
+  //       return linkedWorksResults;
+  //     });
+  //   } catch (e) {
+  //     // setIsLoadingWorks(false);
+
+  //     return undefined;
+  //   }
+  // }
 
   useEffect(() => {
     setSeries(article, setListOfSeries);
@@ -63,6 +100,10 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
       getRelatedDoc(article, setRelatedDocument, serverData);
     }
   }, []);
+
+  // useEffect(() => {
+  //   fetchLinkedWorks();
+  // }, [article.id]);
 
   const extraBreadcrumbs = [
     // GOTCHA: we only take the first of the series list as the data is being
@@ -181,7 +222,8 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
         RelatedContent={Siblings}
         contributors={article.contributors}
         seasons={article.seasons}
-        linkedWorks={!isInPicturesFormat ? mockArticle.linkedWorks : []}
+        // TODO: adjust before merge as we want to load this client side... do we??
+        linkedWorks={!isInPicturesFormat ? linkedWorks : []}
       />
 
       {article.exploreMoreDocument && relatedDocument && (

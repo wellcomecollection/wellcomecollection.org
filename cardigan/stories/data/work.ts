@@ -1,5 +1,5 @@
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
-import { ContentAPILinkedWork } from '@weco/content/views/pages/stories/story/tempMockData';
+import { ContentApiLinkedWork } from '@weco/content/services/wellcome/content/types/api';
 
 export const workBasic: WorkBasic = {
   id: 'c55smg5w',
@@ -30,13 +30,13 @@ export const workBasic: WorkBasic = {
   archiveLabels: { reference: 'B30609446' },
 };
 
-export const contentAPILinkedWork: ContentAPILinkedWork = {
+export const contentAPILinkedWork: ContentApiLinkedWork = {
   id: 'a2239muq',
   title: 'Ueber den Krebs der Nasenhöhle ... / vorgelegt von Hermann Wolter.',
   type: 'Work',
+  workType: 'Books',
   thumbnailUrl:
     'https://iiif.wellcomecollection.org/thumbs/b30598977_0001.jp2/full/!200,200/0/default.jpg',
   date: '1900',
   mainContributor: 'Wolter, Hermann (Wilhelm Victor Hermann), 1868-',
-  labels: [{ text: 'Books' }, { text: 'Online' }],
 };

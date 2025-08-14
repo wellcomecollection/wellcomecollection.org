@@ -5,9 +5,9 @@ import { font } from '@weco/common/utils/classnames';
 import { ContaineredLayout } from '@weco/common/views/components/Layout';
 import { SizeMap } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
+import { ContentApiLinkedWork } from '@weco/content/services/wellcome/content/types/api';
 import RelatedWorksCard from '@weco/content/views/components/RelatedWorksCard';
 import ScrollContainer from '@weco/content/views/components/ScrollContainer';
-import { ContentAPILinkedWork } from '@weco/content/views/pages/stories/story/tempMockData';
 
 const FullWidthRow = styled(Space).attrs({
   $v: { size: 'l', properties: ['padding-bottom'] },
@@ -87,7 +87,7 @@ const ListItem = styled.li`
 `;
 
 type LinkedWorkProps = {
-  linkedWorks: ContentAPILinkedWork[];
+  linkedWorks: ContentApiLinkedWork[];
   gridSizes: SizeMap;
   parentId: string;
 };
