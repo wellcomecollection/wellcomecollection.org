@@ -163,7 +163,7 @@ const Header: FunctionComponent<Props> = ({
                   {!isMinimalHeader && (
                     <>
                       {!isEnhanced ? (
-                        <NextLink href="/search" passHref>
+                        <NextLink href="/search">
                           <NoJSIconWrapper>
                             <Icon
                               icon={searchDropdownIsActive ? cross : search}

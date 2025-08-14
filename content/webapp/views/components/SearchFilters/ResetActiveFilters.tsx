@@ -72,7 +72,6 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
       .map(option => (
         <NextLink
           key={`cancel-${option.id}`}
-          passHref
           {...linkResolver({
             ...router.query,
             page: '1',
@@ -93,7 +92,6 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
       .map(option => (
         <NextLink
           key={`cancel-${option.id}`}
-          passHref
           {...linkResolver({
             ...router.query,
             page: '1',
@@ -110,7 +108,6 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
       f: DateRangeFilter['from'] | DateRangeFilter['to']
     ) => (
       <NextLink
-        passHref
         {...linkResolver({
           ...router.query,
           page: '1',
@@ -132,7 +129,6 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
     filter.color ? (
       <Fragment key={`cancel-${filter.id}`}>
         <NextLink
-          passHref
           {...linkResolver({
             ...router.query,
             page: '1',
@@ -155,7 +151,6 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
     filter.isSelected ? (
       <NextLink
         key={filter.id}
-        passHref
         {...linkResolver({
           ...router.query,
           page: '1',
@@ -189,7 +184,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
             return null;
         }
       })}
-      <NextLink passHref {...resetFilters}>
+      <NextLink {...resetFilters}>
         <CancelFilter text="Reset filters" />
       </NextLink>
     </div>
