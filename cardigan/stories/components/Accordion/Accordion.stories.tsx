@@ -57,6 +57,11 @@ export const Basic: Story = {
   name: 'Accordion',
   render: Template,
   argTypes: {
+    id: {
+      table: {
+        disable: true,
+      },
+    },
     items: {
       table: {
         disable: true,
