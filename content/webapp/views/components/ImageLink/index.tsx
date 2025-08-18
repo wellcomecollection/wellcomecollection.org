@@ -56,11 +56,7 @@ type Props = LinkFrom<ImageProps>;
 
 const ImageLink: FunctionComponent<Props> = ({ children, ...props }: Props) => {
   return (
-    <NextLink
-      data-component="image-link"
-      {...toWorksImagesLink(props)}
-      legacyBehavior
-    >
+    <NextLink data-component="image-link" {...toWorksImagesLink(props)}>
       {children}
     </NextLink>
   );

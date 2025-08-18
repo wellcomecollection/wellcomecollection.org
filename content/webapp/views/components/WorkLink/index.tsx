@@ -1,27 +1,39 @@
 import NextLink, { LinkProps } from 'next/link';
-import { FunctionComponent, PropsWithChildren } from 'react';
+import {
+  AnchorHTMLAttributes,
+  FunctionComponent,
+  PropsWithChildren,
+} from 'react';
 
-// We remove `href` and `as` because we contruct those ourselves
+// We remove `href` because we contruct those ourselves
 // in the component.
 type Props = PropsWithChildren<{
   id: string;
 }> &
-  Omit<LinkProps, 'href'>;
+  Omit<LinkProps, 'href'> &
+  AnchorHTMLAttributes<HTMLAnchorElement>;
 
-const WorkLink: FunctionComponent<Props> = ({ id, children, ...linkProps }) => {
+function toWorkLink(props: Props): LinkProps {
+  const { id, ...rest } = props;
+
+  return {
+    href: {
+      pathname: '/works/[workId]',
+      query: { workId: id },
+    },
+    ...rest,
+  };
+}
+
+const WorkLink: FunctionComponent<Props> = ({ children, ...props }) => {
+  const { id, ...rest } = props;
+
   return (
-    <NextLink
-      data-component="work-link"
-      href={{
-        pathname: '/works/[workId]',
-        query: { workId: id },
-      }}
-      {...linkProps}
-      legacyBehavior
-    >
+    <NextLink data-component="work-link" {...toWorkLink(props)} {...rest}>
       {children}
     </NextLink>
   );
 };
 
 export default WorkLink;
+export { toWorkLink };

@@ -1,5 +1,4 @@
 import { NextPage } from 'next';
-import NextLink from 'next/link';
 import { useContext, useEffect, useMemo, useState } from 'react';
 
 import { useSearchContext } from '@weco/common/contexts/SearchContext';
@@ -296,16 +295,13 @@ const SearchPage: NextPage<Props> = withSearchLayout(
                             ))}
                         </CatalogueLinks>
 
-                        <NextLink
+                        <AllLink
                           {...toSearchWorksLink({ query: queryString })}
-                          passHref
-                          legacyBehavior
+                          data-gtm-trigger="all-catalogue-results"
                         >
-                          <AllLink data-gtm-trigger="all-catalogue-results">
-                            {`All catalogue results (${formatNumber(totalWorksResults, { isCompact: true })})`}
-                            <Icon icon={arrow} iconColor="black" rotate={360} />
-                          </AllLink>
-                        </NextLink>
+                          {`All catalogue results (${formatNumber(totalWorksResults, { isCompact: true })})`}
+                          <Icon icon={arrow} iconColor="black" rotate={360} />
+                        </AllLink>
                       </CatalogueResultsSection>
                     )}
 
@@ -348,20 +344,13 @@ const SearchPage: NextPage<Props> = withSearchLayout(
                           />
                         </ImageLinks>
                         <CatalogueResultsSection>
-                          <NextLink
+                          <AllLink
+                            data-gtm-trigger="all-image-results"
                             {...toSearchImagesLink({ query: queryString })}
-                            passHref
-                            legacyBehavior
                           >
-                            <AllLink data-gtm-trigger="all-image-results">
-                              {`All image results (${formatNumber(totalImagesResults, { isCompact: true })})`}
-                              <Icon
-                                icon={arrow}
-                                iconColor="black"
-                                rotate={360}
-                              />
-                            </AllLink>
-                          </NextLink>
+                            {`All image results (${formatNumber(totalImagesResults, { isCompact: true })})`}
+                            <Icon icon={arrow} iconColor="black" rotate={360} />
+                          </AllLink>
                         </CatalogueResultsSection>
                       </>
                     )}

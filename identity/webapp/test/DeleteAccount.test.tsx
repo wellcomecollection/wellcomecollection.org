@@ -55,9 +55,7 @@ describe('DeleteAccount', () => {
     renderComponent({ onCancel });
 
     await userEvent.click(
-      screen.getByRole('link', {
-        name: /no, go back to my account/i,
-      })
+      screen.getByRole('button', { name: /no, go back to my account/i })
     );
 
     expect(onCancel).toHaveBeenCalled();

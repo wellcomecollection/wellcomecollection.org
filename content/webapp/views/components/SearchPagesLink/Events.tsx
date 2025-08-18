@@ -60,11 +60,7 @@ const EventsLink: FunctionComponent<Props> = ({
   children,
   ...props
 }: Props) => {
-  return (
-    <NextLink {...toSearchEventsLink(props)} legacyBehavior>
-      {children}
-    </NextLink>
-  );
+  return <NextLink {...toSearchEventsLink(props)}>{children}</NextLink>;
 };
 export default EventsLink;
 export { toSearchEventsLink, toQuery, fromQuery, emptyEventsProps };
