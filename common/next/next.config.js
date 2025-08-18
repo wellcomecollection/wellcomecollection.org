@@ -34,7 +34,6 @@ const createConfig =
         isProd && prodSubdomain
           ? `https://${prodSubdomain}.wellcomecollection.org`
           : undefined,
-      // Moved from experimental in Next.js 15
       outputFileTracingRoot: path.join(__dirname, '../../'),
       // Enable standalone output for Docker deployments
       output: 'standalone',
@@ -101,6 +100,7 @@ const createConfig =
 
       experimental: {
         ...validDefaultConfig.experimental,
+        bundlePagesRouterDependencies: true,
         mdxRs: true,
 
         // This forces Next to use the SWC compiler, which is significantly faster
