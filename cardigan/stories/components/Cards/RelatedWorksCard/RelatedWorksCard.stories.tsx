@@ -37,11 +37,6 @@ const meta: Meta<RelatedWorksCardStoryProps> = {
         disable: true,
       },
     },
-    source: {
-      table: {
-        disable: true,
-      },
-    },
   },
 };
 

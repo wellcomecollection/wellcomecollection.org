@@ -81,7 +81,6 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                 ({ selected, value }) => selected && value !== option.value
               )
               .map(({ value }) => value),
-            source: `cancel_filter/${filter.id}`,
           })}
         >
           <CancelFilter text={option.label} />
@@ -99,7 +98,6 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
             ...router.query,
             page: '1',
             [filter.id]: '',
-            source: `cancel_filter/${filter.id}`,
           })}
         >
           <CancelFilter text={option.label} />
@@ -117,7 +115,6 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
           ...router.query,
           page: '1',
           [f.id]: undefined,
-          source: `cancel_filter/${f.id}`,
         })}
       >
         <CancelFilter text={`${prefix} ${f.value}`} />
@@ -140,7 +137,6 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
             ...router.query,
             page: '1',
             [filter.id]: undefined,
-            source: `cancel_filter/${filter.id}`,
           })}
         >
           <CancelFilter>
@@ -164,7 +160,6 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
           ...router.query,
           page: '1',
           [filter.id]: undefined,
-          source: `cancel_filter/${filter.id}`,
         })}
       >
         <CancelFilter text={filter.label} />

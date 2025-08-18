@@ -279,7 +279,7 @@ const WorkItemPage: NextPage<Props> = ({
               />
             </Space>
           )}
-          <WorkLink id={workId} source="item_auth_modal_back_to_work_link">
+          <WorkLink id={workId}>
             <a>Take me back to the item page</a>
           </WorkLink>
         </div>

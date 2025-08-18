@@ -7,7 +7,7 @@ import { imageSizes } from '@weco/common/utils/image-sizes';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import useOnScreen from '@weco/content/hooks/useOnScreen';
 import useSkipInitialEffect from '@weco/content/hooks/useSkipInitialEffect';
-import { toLink as itemLink } from '@weco/content/views/components/ItemLink';
+import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
 
 import { arrayIndexToQueryParam, queryParamToArrayIndex } from '.';
 import IIIFViewerImage from './IIIFViewerImage';
@@ -115,7 +115,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   // we update the canvas param to match
   useSkipInitialEffect(() => {
     if (isOnScreen && transformedManifest) {
-      const link = itemLink({
+      const link = toWorksItemLink({
         workId: work.id,
         props: {
           manifest: query.manifest,
@@ -123,9 +123,8 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
           canvas: arrayIndexToQueryParam(index),
           shouldScrollToCanvas: false,
         },
-        source: 'viewer/scroll',
       });
-      Router.replace(link.href, link.as);
+      Router.replace(link.href);
     }
   }, [isOnScreen]);
 
