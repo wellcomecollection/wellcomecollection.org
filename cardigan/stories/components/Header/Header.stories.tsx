@@ -9,6 +9,14 @@ const meta: Meta<typeof Header> = {
   component: Header,
   args: {
     siteSection: 'stories',
+    isMinimalHeader: false,
+  },
+  argTypes: {
+    customNavLinks: { table: { disable: true } },
+    siteSection: {
+      control: 'radio',
+      options: ['visit-us', 'stories', 'collections', 'about-us'],
+    },
   },
 };
 
@@ -17,13 +25,16 @@ export default meta;
 type Story = StoryObj<typeof Header>;
 
 export const Basic: Story = {
-  name: 'Default',
-};
+  name: 'Header',
+  render: args => {
+    const { isMinimalHeader, ...rest } = args;
 
-export const ExhibitionGuides: Story = {
-  name: 'Exhibition guides',
-  args: {
-    customNavLinks: exhibitionGuidesLinks,
-    isMinimalHeader: true,
+    return (
+      <Header
+        customNavLinks={isMinimalHeader ? exhibitionGuidesLinks : undefined}
+        isMinimalHeader={isMinimalHeader}
+        {...rest}
+      />
+    );
   },
 };

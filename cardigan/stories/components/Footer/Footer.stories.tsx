@@ -11,6 +11,9 @@ const meta: Meta<typeof Footer> = {
   args: {
     venues,
   },
+  argTypes: {
+    venues: { table: { disable: true } },
+  },
 };
 
 export default meta;

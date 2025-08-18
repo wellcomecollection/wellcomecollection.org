@@ -41,8 +41,9 @@ const BackgroundGrid = styled(Grid).attrs({})<BackgroundGridProps>`
 
 const GreySpace = styled(Space).attrs({
   $v: { size: 'l', properties: ['height'] },
-})`
-  background-color: ${props => props.theme.color('neutral.700')};
+})<{ $topColor?: PaletteColor }>`
+  background-color: ${props =>
+    props.theme.color(props.$topColor ?? 'neutral.700')};
 `;
 
 const InPageNavigationInColsContext: FunctionComponent<{
@@ -60,7 +61,10 @@ const InPageNavigationInColsContext: FunctionComponent<{
         title="Sticky On This Page Anchors"
         sectionLevelPage={true}
       />
-      <GreySpace $v={{ size: 'l', properties: ['height'] }} />
+      <GreySpace
+        $topColor={args.topColor}
+        $v={{ size: 'l', properties: ['height'] }}
+      />
       <BackgroundGrid $percent={40} $topColor={args.topColor}>
         <NavGridCell $sizeMap={{ s: [12], m: [12], l: [3], xl: [3] }}>
           <InPageNavigation {...fixedArgs} variant="sticky" />
