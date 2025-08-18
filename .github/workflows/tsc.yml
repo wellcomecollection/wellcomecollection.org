@@ -10,7 +10,7 @@ jobs:
     name: tsc
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - name: install Node
       # https://github.com/actions/setup-node?tab=readme-ov-file#usage
       # The node-version input is optional. If not supplied, the node version from PATH will be used.
