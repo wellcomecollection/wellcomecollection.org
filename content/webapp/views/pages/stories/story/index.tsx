@@ -68,21 +68,16 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
 
   async function fetchLinkedWorks() {
     try {
-      // setIsLoadingWorks(true);
-
       const linkedWorksResults = await getLinkedWorks({
         id: `${article.id}.articles`,
         serverData,
       });
 
       setLinkedWorks(() => {
-        // setIsLoadingWorks(false);
-        console.log(linkedWorksResults);
         return linkedWorksResults;
       });
     } catch (e) {
-      // setIsLoadingWorks(false);
-
+      console.error('Failed getting linked works', e);
       return undefined;
     }
   }
@@ -216,7 +211,6 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
         RelatedContent={Siblings}
         contributors={article.contributors}
         seasons={article.seasons}
-        // TODO: adjust before merge as we want to load this client side... do we??
         linkedWorks={!isInPicturesFormat ? linkedWorks : []}
       />
 

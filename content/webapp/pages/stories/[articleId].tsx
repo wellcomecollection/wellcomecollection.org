@@ -38,7 +38,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   if (isNotUndefined(articleDocument)) {
     const serverData = await getServerData(context);
-
     const article = transformArticle(articleDocument);
     const jsonLd = articleLd(article);
 
