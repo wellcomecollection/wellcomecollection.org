@@ -62,9 +62,7 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
   const [relatedDocument, setRelatedDocument] = useState<
     ExhibitionBasic | ContentAPIArticle | undefined
   >();
-  const [linkedWorks, setLinkedWorks] = useState<
-    ContentApiLinkedWork[] | undefined
-  >();
+  const [linkedWorks, setLinkedWorks] = useState<ContentApiLinkedWork[]>([]);
 
   async function fetchLinkedWorks() {
     try {
