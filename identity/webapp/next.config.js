@@ -1,4 +1,5 @@
 const withBundleAnalyzer = require('@next/bundle-analyzer');
+const path = require('path');
 
 const apmConfig = require('@weco/common/services/apm/apmConfig');
 
@@ -40,6 +41,8 @@ const config = function () {
     // We handle compression in the nginx sidecar
     // Are you having problems with this? Make sure CloudFront is forwarding Accept-Encoding headers to our apps!
     compress: false,
+    output: 'standalone',
+    outputFileTracingRoot: path.join(__dirname, '../../'),
     publicRuntimeConfig: { apmConfig: apmConfig.client('identity-webapp') },
     async redirects() {
       return [
