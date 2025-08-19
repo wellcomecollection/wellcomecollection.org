@@ -90,6 +90,9 @@ const CaptionedImage: FunctionComponent<CaptionedImageProps> = ({
         $aspectRatio={image.width / image.height}
         $hasRoundedCorners={hasRoundedCorners}
       >
+        {/* If this is true and displayed, the image won't have rounded corners */}
+        {isZoomable && <ZoomedPrismicImage image={image} />}
+
         <ImageWithTasl
           Image={<HeightRestrictedPrismicImage image={image} quality="high" />}
           tasl={{
@@ -98,8 +101,6 @@ const CaptionedImage: FunctionComponent<CaptionedImageProps> = ({
           }}
           displayWorkLink={displayWorkLink}
         />
-
-        {isZoomable && <ZoomedPrismicImage image={image} />}
 
         {caption.length > 0 && (
           <ConditionalWrapper
