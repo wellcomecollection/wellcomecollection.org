@@ -49,6 +49,12 @@ const meta: Meta<typeof EventDateRange> = {
   args: {
     eventTimes,
   },
+  argTypes: {
+    eventTimes: { table: { disable: true } },
+    fromDate: { table: { disable: true } },
+    isInPastListing: { table: { disable: true } },
+    splitTime: { table: { disable: true } },
+  },
 };
 
 export default meta;
