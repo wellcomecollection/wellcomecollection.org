@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Button from '@weco/common/views/components/Buttons';
 import Modal from '@weco/common/views/components/Modal';
 
-const Template = () => {
+const Template = args => {
   const [isActive, setIsActive] = useState(false);
   const openButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -13,6 +13,18 @@ const Template = () => {
       openButtonRef.current.click();
     }
   }, []);
+
+  useEffect(() => {
+    if (isActive) {
+      setIsActive(false);
+
+      setTimeout(() => {
+        if (openButtonRef.current) {
+          openButtonRef.current.click();
+        }
+      }, 200);
+    }
+  }, [args.maxWidth]);
 
   return (
     <div style={{ padding: '50px' }}>
@@ -23,7 +35,7 @@ const Template = () => {
         clickHandler={() => setIsActive(true)}
       />
       <Modal
-        id="test"
+        {...args}
         openButtonRef={openButtonRef}
         isActive={isActive}
         setIsActive={setIsActive}
@@ -42,6 +54,22 @@ const meta: Meta<typeof Modal> = {
       delay: 500, // Allow the button to get clicked
     },
   },
+  args: {
+    id: 'test',
+    showOverlay: true,
+  },
+  argTypes: {
+    maxWidth: { control: 'radio', options: ['80%', '250px', undefined] },
+    children: { table: { disable: true } },
+    isActive: { table: { disable: true } },
+    dataTestId: { table: { disable: true } },
+    id: { table: { disable: true } },
+    modalStyle: { table: { disable: true } },
+    openButtonRef: { table: { disable: true } },
+    removeCloseButton: { table: { disable: true } },
+    setIsActive: { table: { disable: true } },
+    width: { table: { disable: true } },
+  },
 };
 
 export default meta;
@@ -50,5 +78,7 @@ type Story = StoryObj<typeof Modal>;
 
 export const Basic: Story = {
   name: 'Modal',
-  render: Template,
+  render: args => {
+    return <Template {...args} />;
+  },
 };

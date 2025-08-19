@@ -20,7 +20,18 @@ const meta: Meta<typeof ImageGallery> = {
   args: {
     items: images,
     id: 'image-gallery',
+    title: 'Image Gallery',
     isStandalone: false,
+    isFrames: false,
+  },
+  argTypes: {
+    title: {
+      control: 'radio',
+      options: ['Image Gallery', undefined],
+    },
+    items: { table: { disable: true } },
+    id: { table: { disable: true } },
+    comicPreviousNext: { table: { disable: true } },
   },
 };
 
@@ -28,23 +39,6 @@ export default meta;
 
 type Story = StoryObj<typeof ImageGallery>;
 
-export const Inline: Story = {
-  name: 'Inline',
-  args: {
-    isStandalone: false,
-  },
-};
-
-export const Standalone: Story = {
-  name: 'Standalone',
-  args: {
-    isStandalone: true,
-  },
-};
-
-export const Frames: Story = {
-  name: 'Frames',
-  args: {
-    isFrames: true,
-  },
+export const Basic: Story = {
+  name: 'ImageGallery',
 };

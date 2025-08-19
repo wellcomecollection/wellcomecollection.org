@@ -16,6 +16,9 @@ const meta: Meta<typeof FeaturedText> = {
       },
     ],
   },
+  argTypes: {
+    html: { table: { disable: true } },
+  },
 };
 
 export default meta;

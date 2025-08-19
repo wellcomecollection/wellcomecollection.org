@@ -10,6 +10,11 @@ const meta: Meta<typeof Map> = {
     latitude: 51.526053,
     longitude: -0.1333271,
   },
+  argTypes: {
+    title: { table: { disable: true } },
+    latitude: { table: { disable: true } },
+    longitude: { table: { disable: true } },
+  },
 };
 
 export default meta;
