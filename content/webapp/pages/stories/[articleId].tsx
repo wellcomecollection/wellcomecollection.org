@@ -12,7 +12,6 @@ import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchArticle } from '@weco/content/services/prismic/fetch/articles';
 import { transformArticle } from '@weco/content/services/prismic/transformers/articles';
 import { articleLd } from '@weco/content/services/prismic/transformers/json-ld';
-import { getAddressable } from '@weco/content/services/wellcome/content/all';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import ArticlePage, {
   Props as ArticlePageProps,
@@ -40,23 +39,12 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   if (isNotUndefined(articleDocument)) {
     const serverData = await getServerData(context);
 
-    // TODO: remove before merge as we want to load this client side... do we??
-    const contentAPIArticle = await getAddressable({
-      id: articleId + '.articles',
-      toggles: serverData.toggles,
-    });
-
     const article = transformArticle(articleDocument);
     const jsonLd = articleLd(article);
 
     return {
       props: serialiseProps<Props>({
         article,
-        // TODO: remove before merge as we want to load this client side... do we??
-        linkedWorks:
-          contentAPIArticle.type !== 'Error'
-            ? contentAPIArticle.linkedWorks
-            : [],
         jsonLd,
         serverData,
         pageview: {
