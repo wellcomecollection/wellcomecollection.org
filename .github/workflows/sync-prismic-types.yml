@@ -2,7 +2,7 @@ name: Sync Prismic Types to Content API
 
 on:
   push:
-    branches: [sync-prismic-types]
+    branches: [main]
     paths:
       - 'common/prismicio-types.d.ts'
 
