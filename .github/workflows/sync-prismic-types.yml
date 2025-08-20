@@ -9,6 +9,9 @@ on:
 jobs:
   sync-prismic-types:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
 
     steps:
       - name: Generate GitHub App Token
