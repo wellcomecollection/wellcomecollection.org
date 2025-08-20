@@ -35,8 +35,6 @@ const createConfig =
           ? `https://${prodSubdomain}.wellcomecollection.org`
           : undefined,
       outputFileTracingRoot: path.join(__dirname, '../../'),
-      // Enable standalone output for Docker deployments
-      output: 'standalone',
       publicRuntimeConfig: {
         apmConfig: apmConfig.client(`${options.applicationName}-webapp`),
       },
