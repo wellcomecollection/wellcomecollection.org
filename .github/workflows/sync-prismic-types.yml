@@ -54,8 +54,9 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # Create and switch to new branch
-          BRANCH_NAME="auto-sync/prismic-types"
+          # Create and switch to new branch with timestamp
+          TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+          BRANCH_NAME="auto-sync/prismic-types-$TIMESTAMP"
           git checkout -b $BRANCH_NAME
 
           # Commit changes
