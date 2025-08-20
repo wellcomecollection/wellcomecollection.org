@@ -141,6 +141,16 @@ export type EventAggregations = BasicAggregations & {
   timespan: WellcomeAggregation;
 };
 
+export type ContentApiLinkedWork = {
+  id: string;
+  title: string;
+  type: string;
+  workType?: string;
+  thumbnailUrl?: string;
+  date?: string;
+  mainContributor?: string;
+};
+
 type AddressableType =
   | 'Article'
   | 'Book'
@@ -165,6 +175,7 @@ export type Addressable = {
   dates?: { start: string; end?: string };
   tags?: string[];
   highlightTourType?: 'audio' | 'bsl';
+  linkedWorks: ContentApiLinkedWork[];
 };
 
 // Results
