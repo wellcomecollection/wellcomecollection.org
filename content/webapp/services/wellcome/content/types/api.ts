@@ -144,11 +144,11 @@ export type EventAggregations = BasicAggregations & {
 export type ContentApiLinkedWork = {
   id: string;
   title: string;
-  type: 'Work';
-  workType: string;
-  thumbnailUrl: string;
-  date: string;
-  mainContributor: string;
+  type: string;
+  workType?: string;
+  thumbnailUrl?: string;
+  date?: string;
+  mainContributor?: string;
 };
 
 type AddressableType =
