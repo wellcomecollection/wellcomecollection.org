@@ -2,7 +2,6 @@ import NextLink from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
 import { FunctionComponent } from 'react';
 
-import { WorksLinkSource } from '@weco/common/data/segment-values';
 import { LinkProps } from '@weco/common/model/link-props';
 import {
   csvCodec,
@@ -66,10 +65,7 @@ const toQuery: (props: WorksProps) => ParsedUrlQuery = props => {
   return encodeQuery<WorksProps>(props, codecMap);
 };
 
-function toLink(
-  partialProps: Partial<WorksProps>,
-  source: WorksLinkSource
-): LinkProps {
+function toSearchWorksLink(partialProps: Partial<WorksProps>): LinkProps {
   const pathname = '/search/works';
   const props: WorksProps = {
     ...emptyWorksProps,
@@ -80,29 +76,15 @@ function toLink(
   return {
     href: {
       pathname,
-      query: { ...query, source },
-    },
-    as: {
-      pathname,
       query,
     },
   };
 }
 
-type Props = LinkFrom<WorksProps> & {
-  source: WorksLinkSource;
-};
-const WorksLink: FunctionComponent<Props> = ({
-  children,
-  source,
-  ...props
-}: Props) => {
-  return (
-    <NextLink {...toLink(props, source)} legacyBehavior>
-      {children}
-    </NextLink>
-  );
+type Props = LinkFrom<WorksProps>;
+const WorksLink: FunctionComponent<Props> = ({ children, ...props }: Props) => {
+  return <NextLink {...toSearchWorksLink(props)}>{children}</NextLink>;
 };
 
 export default WorksLink;
-export { toLink, toQuery, fromQuery, emptyWorksProps };
+export { toSearchWorksLink, toQuery, fromQuery, emptyWorksProps };

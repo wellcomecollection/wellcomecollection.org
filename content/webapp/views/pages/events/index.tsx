@@ -79,7 +79,7 @@ const EventsPage: NextPage<Props> = props => {
       pathname: router.pathname,
     });
 
-    return router.push(link.href, link.as);
+    return router.push(link.href);
   };
 
   const { events, query } = props;

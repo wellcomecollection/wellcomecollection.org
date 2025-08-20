@@ -317,9 +317,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
         </FiltersScrollable>
 
         <FiltersFooter>
-          <NextLink passHref {...linkResolver({ query })}>
-            Reset filters
-          </NextLink>
+          <NextLink {...linkResolver({ query })}>Reset filters</NextLink>
 
           <Button
             variant="ButtonSolid"

@@ -34,6 +34,7 @@ const createConfig =
         isProd && prodSubdomain
           ? `https://${prodSubdomain}.wellcomecollection.org`
           : undefined,
+      outputFileTracingRoot: path.join(__dirname, '../../'),
       publicRuntimeConfig: {
         apmConfig: apmConfig.client(`${options.applicationName}-webapp`),
       },
@@ -97,8 +98,8 @@ const createConfig =
 
       experimental: {
         ...validDefaultConfig.experimental,
+        bundlePagesRouterDependencies: true,
         mdxRs: true,
-        outputFileTracingRoot: path.join(__dirname, '../../'),
 
         // This forces Next to use the SWC compiler, which is significantly faster
         // than Babel.  By default it disables SWC with the error message:

@@ -98,7 +98,7 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
       pathname: router.pathname,
     });
 
-    return router.push(link.href, link.as);
+    return router.push(link.href);
   };
 
   const tabItems = [

@@ -1,4 +1,4 @@
-import { FunctionComponent, PropsWithChildren } from 'react';
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { archive, folder } from '@weco/common/icons';
@@ -81,20 +81,6 @@ const ArchiveBreadcrumbNav = styled.nav`
   /* stylelint-enable no-descending-specificity */
 `;
 
-type ArchiveWorkLinkProps = PropsWithChildren<{
-  id: string;
-}>;
-const ArchiveWorkLink: FunctionComponent<ArchiveWorkLinkProps> = ({
-  id,
-  children,
-}) => {
-  return (
-    <WorkLink id={id} source="archive_tree">
-      {children}
-    </WorkLink>
-  );
-};
-
 type Props = {
   work: Work;
 };
@@ -118,14 +104,13 @@ const ArchiveBreadcrumb: FunctionComponent<Props> = ({ work }) => {
         {firstCrumb && (
           <li style={{ display: 'flex' }}>
             <Icon matchText={true} icon={archive} />
-            <ArchiveWorkLink id={firstCrumb.id}>
-              <a
-                className="crumb-inner"
-                data-gtm-trigger="work_breadcrumb_link"
-              >
-                <WorkTitle title={firstCrumb.title} />
-              </a>
-            </ArchiveWorkLink>
+            <WorkLink
+              id={firstCrumb.id}
+              className="crumb-inner"
+              data-gtm-trigger="work_breadcrumb_link"
+            >
+              <WorkTitle title={firstCrumb.title} />
+            </WorkLink>
           </li>
         )}
         {middleCrumbs.length > 1 && (
@@ -142,16 +127,15 @@ const ArchiveBreadcrumb: FunctionComponent<Props> = ({ work }) => {
                     return (
                       <li key={crumb.id} style={{ display: 'flex' }}>
                         <Icon matchText={true} icon={folder} />
-                        <ArchiveWorkLink id={crumb.id}>
-                          <a
-                            className="crumb-inner"
-                            data-gtm-trigger="work_breadcrumb_link"
-                          >
-                            <WorkTitle
-                              title={`${crumb.title} ${crumb.referenceNumber}`}
-                            />
-                          </a>
-                        </ArchiveWorkLink>
+                        <WorkLink
+                          id={crumb.id}
+                          className="crumb-inner"
+                          data-gtm-trigger="work_breadcrumb_link"
+                        >
+                          <WorkTitle
+                            title={`${crumb.title} ${crumb.referenceNumber}`}
+                          />
+                        </WorkLink>
                       </li>
                     );
                   })}
@@ -166,20 +150,17 @@ const ArchiveBreadcrumb: FunctionComponent<Props> = ({ work }) => {
               return (
                 <li key={crumb.id} style={{ display: 'flex' }}>
                   <Icon matchText={true} icon={folder} />
-                  <ArchiveWorkLink id={crumb.id}>
-                    <a
-                      className="crumb-inner"
-                      data-gtm-trigger="work_breadcrumb_link"
-                    >
-                      <WorkTitle
-                        title={`${crumb.title}${
-                          crumb.referenceNumber
-                            ? ` ${crumb.referenceNumber}`
-                            : ''
-                        }`}
-                      />
-                    </a>
-                  </ArchiveWorkLink>
+                  <WorkLink
+                    id={crumb.id}
+                    className="crumb-inner"
+                    data-gtm-trigger="work_breadcrumb_link"
+                  >
+                    <WorkTitle
+                      title={`${crumb.title}${
+                        crumb.referenceNumber ? ` ${crumb.referenceNumber}` : ''
+                      }`}
+                    />
+                  </WorkLink>
                 </li>
               );
             })}
