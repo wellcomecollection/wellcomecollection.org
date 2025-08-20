@@ -1,0 +1,78 @@
+name: Sync Prismic Types to Content API
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'common/prismicio-types.d.ts'
+
+jobs:
+  sync-prismic-types:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Generate GitHub App Token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ vars.SYNC_APP_ID }}
+          private-key: ${{ secrets.SYNC_APP_PRIVATE_KEY }}
+          repositories: content-api
+
+      - name: Checkout wellcomecollection.org
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout content-api repository
+        uses: actions/checkout@v4
+        with:
+          repository: wellcomecollection/content-api
+          token: ${{ steps.app-token.outputs.token }}
+          path: content-api
+
+      - name: Copy Prismic types file
+        run: |
+          cp common/prismicio-types.d.ts content-api/pipeline/src/types/prismic/prismicio-types.d.ts
+
+      - name: Check for changes
+        id: changes
+        run: |
+          cd content-api
+          if git diff --quiet; then
+            echo "changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create Pull Request
+        if: steps.changes.outputs.changes == 'true'
+        run: |
+          cd content-api
+
+          # Configure git
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Create and switch to new branch
+          BRANCH_NAME="auto-sync/prismic-types"
+          git checkout -b $BRANCH_NAME
+
+          # Commit changes
+          git add .
+          git commit -m "Update Prismic types from wellcomecollection.org"
+
+          # Push branch
+          git push origin $BRANCH_NAME
+
+          # Create pull request using GitHub API
+          curl -X POST \
+            -H "Authorization: Bearer ${{ steps.app-token.outputs.token }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/wellcomecollection/content-api/pulls \
+            -d '{
+              "title": "🤖 Auto-sync: Update Prismic types",
+              "head": "'$BRANCH_NAME'",
+              "base": "main",
+              "body": "This PR syncs the Prismic types from wellcomecollection.org, which have changed.\n\n**Source:** `wellcomecollection.org/common/prismicio-types.d.ts`\n**Target:** `content-api/pipeline/src/types/prismic/prismicio-types.d.ts`\n\n**Triggered by commit:** ${{ github.sha }}\n\nPlease review the changes and merge if everything looks correct."
+            }'
