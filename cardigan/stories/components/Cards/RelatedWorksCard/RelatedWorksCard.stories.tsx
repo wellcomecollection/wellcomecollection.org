@@ -52,6 +52,7 @@ type Story = StoryObj<RelatedWorksCardStoryProps>;
 export const Basic: Story = {
   args: {
     work: workBasic,
+    variant: 'default',
   },
 
   name: 'RelatedWorksCard',

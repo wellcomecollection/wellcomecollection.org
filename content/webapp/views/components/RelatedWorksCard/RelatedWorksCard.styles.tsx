@@ -10,7 +10,7 @@ const clampLineStyles = css<{ $linesToClamp: number }>`
   -webkit-line-clamp: ${props => props.$linesToClamp};
 `;
 
-export const Card = styled.a`
+export const Card = styled.a<{ $isHover?: boolean }>`
   display: flex;
   padding: ${props => props.theme.spacingUnits['3']}px;
   background-color: ${props => props.theme.color('white')};
@@ -18,16 +18,24 @@ export const Card = styled.a`
   flex-wrap: wrap;
   text-decoration: none;
 
+  ${props =>
+    props.$isHover &&
+    `
+    height: 6rem;
+    width: 30rem;
+  `}
+
   ${props => props.theme.media('medium')`
     max-height: 10rem;
     flex-wrap: nowrap;
     justify-content: space-between;
   `}
 
-  ${props => props.theme.media('large')`
+  ${props =>
+    props.theme.media('large')(`
     max-height: unset;
-    height: 10rem;
-  `}
+    height: ${props.$isHover ? '6rem' : '10rem'};
+  `)}
 `;
 
 export const TextWrapper = styled.div`
@@ -60,9 +68,9 @@ export const TextWrapper = styled.div`
   }
 `;
 
-export const Title = styled.h2.attrs({
-  className: font('intb', 5),
-})<{ $linesToClamp: number }>`
+export const Title = styled.h2.attrs<{ $isHover?: boolean }>(props => ({
+  className: font(props.$isHover ? 'intr' : 'intb', 5),
+}))<{ $linesToClamp: number }>`
   ${clampLineStyles};
   margin-top: ${props => props.theme.spacingUnits['1']}px;
 
@@ -75,7 +83,7 @@ export const LineClamp = styled.div<{ $linesToClamp: number }>`
   ${clampLineStyles};
 `;
 
-export const ImageWrapper = styled.div`
+export const ImageWrapper = styled.div<{ $isHover?: boolean }>`
   width: 100%;
   max-height: 250px;
   order: -1;
@@ -93,8 +101,8 @@ export const ImageWrapper = styled.div`
 
     ${props =>
       props.theme.media('medium')(`
-      margin-left: ${props.theme.spacingUnits['3']}px;
-      margin-right: unset;
+      margin-left: ${props.$isHover ? '0' : props.theme.spacingUnits['3']}px;
+      margin-right: ${props.$isHover ? props.theme.spacingUnits['3'] + 'px' : 'unset'};
       width: unset;
       height: 100%;
 
