@@ -35,6 +35,7 @@ const createConfig =
           ? `https://${prodSubdomain}.wellcomecollection.org`
           : undefined,
       outputFileTracingRoot: path.join(__dirname, '../../'),
+      output: 'standalone',
       publicRuntimeConfig: {
         apmConfig: apmConfig.client(`${options.applicationName}-webapp`),
       },
