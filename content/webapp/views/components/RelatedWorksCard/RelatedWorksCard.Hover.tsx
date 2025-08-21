@@ -65,6 +65,8 @@ const RelatedWorksCard: FunctionComponent<Props> = ({
               src={convertIiifImageUri(thumbnailUrl, 120)}
               alt={work.title}
               loading="lazy"
+              width="200"
+              height="200"
             />
           </ImageWrapper>
         )}

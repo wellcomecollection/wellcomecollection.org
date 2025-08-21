@@ -22,7 +22,7 @@ export const Card = styled.a<{ $isHover?: boolean }>`
     props.$isHover &&
     `
     height: 6rem;
-    width: 30rem;
+    width: 22rem;
   `}
 
   ${props => props.theme.media('medium')`
