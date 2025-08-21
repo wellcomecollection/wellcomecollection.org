@@ -121,6 +121,13 @@ const toggles = {
         'Adds features in displaying featured works in the Content part of the website',
       type: 'experimental',
     },
+    {
+      id: 'collectionsLanding',
+      title: 'Collections landing alternative page',
+      initialValue: false,
+      description: `Displays the new Collections landing page as it's being built.`,
+      type: 'experimental',
+    },
   ] as const,
   // We have to include a reference to any test toggles here as well as in the cache dir
   // because they are deployed separately and consequently can't share a source of truth
