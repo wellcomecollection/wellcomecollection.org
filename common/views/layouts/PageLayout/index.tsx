@@ -66,7 +66,6 @@ export type Props = PropsWithChildren<{
   apiToolbarLinks?: (ApiToolbarLink | undefined)[];
   skipToContentLinks?: SkipToContentLink[];
   clipOverflowX?: boolean; // See pageGridOffset
-  isNoIndex?: boolean;
 }>;
 
 const PageLayoutComponent: NextPage<Props> = ({
@@ -87,7 +86,6 @@ const PageLayoutComponent: NextPage<Props> = ({
   apiToolbarLinks = [],
   skipToContentLinks = [],
   clipOverflowX = false,
-  isNoIndex = false,
 }) => {
   const { apiToolbar, issuesBanner } = useToggles();
   const urlString = convertUrlToString(url);
@@ -216,8 +214,6 @@ const PageLayoutComponent: NextPage<Props> = ({
           name="viewport"
           content="width=device-width, initial-scale=1"
         />
-
-        {isNoIndex && <meta name="robots" content="noindex" />}
 
         {rssUrl && (
           <link
