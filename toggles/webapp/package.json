@@ -9,7 +9,7 @@
     "setDefaultValueFor": "tsx ./scripts/setDefaultValueFor"
   },
   "devDependencies": {
-    "@aws-sdk/client-s3": "^3.839.0",
+    "@aws-sdk/client-s3": "^3.873.0",
     "@babel/preset-typescript": "^7.21.4",
     "@types/aws-lambda": "^8.10.115",
     "@types/node": "22.13.10",
@@ -19,7 +19,7 @@
     "tsx": "^4.20.3"
   },
   "dependencies": {
-    "@aws-sdk/client-cloudfront": "^3.839.0",
+    "@aws-sdk/client-cloudfront": "^3.873.0",
     "yargs": "^17.2.1"
   }
 }
