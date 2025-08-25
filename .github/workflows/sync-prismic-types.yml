@@ -16,19 +16,19 @@ jobs:
     steps:
       - name: Generate GitHub App Token
         id: app-token
-        uses: actions/create-github-app-token@v1
+        uses: actions/create-github-app-token@v2
         with:
           app-id: ${{ vars.SYNC_APP_ID }}
           private-key: ${{ secrets.SYNC_APP_PRIVATE_KEY }}
           repositories: content-api
 
       - name: Checkout wellcomecollection.org
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Checkout content-api repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: wellcomecollection/content-api
           token: ${{ steps.app-token.outputs.token }}
