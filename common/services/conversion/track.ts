@@ -94,19 +94,15 @@ function trackPageview({
   properties,
   eventGroup = 'conversion',
 }: EventProps): void {
-  // Source is passed in the querystring in the app, but not the client.
-  // e.g. /common/views/component/WorkLink/WorkLink.tsx
-  const { source, ...query } = Router.query;
   pageName = name;
 
   const conversion: Conversion = {
     type: 'pageview',
-    source: source?.toString() || 'unknown',
     eventGroup,
     page: {
       path: Router.asPath,
       name,
-      query,
+      query: Router.query,
     },
     properties,
   };

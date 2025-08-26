@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
-import ButtonSolidLink from '@weco/common/views/components/Buttons/Buttons.SolidLink';
+import Buttons from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 
 import QuestionMark from './events.NoEvents.QuestionMark';
@@ -43,7 +43,8 @@ const NoEvents: FunctionComponent<Props> = ({ isPastListing, hasFilters }) => {
       {hasFilters && (
         <>
           <ClearFiltersText>Clear your filters and try again</ClearFiltersText>
-          <ButtonSolidLink
+          <Buttons
+            variant="ButtonSolidLink"
             link={`/events${isPastListing ? '/past' : ''}`}
             text="Clear all filters"
           />

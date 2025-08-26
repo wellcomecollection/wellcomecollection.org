@@ -21,8 +21,8 @@ const MoreLink: FunctionComponent<Props> = ({
 }) => {
   return (
     <Button
-      ariaLabel={ariaLabel}
       variant="ButtonSolidLink"
+      ariaLabel={ariaLabel}
       colors={colors || themeValues.buttonColors.charcoalTransparentCharcoal}
       isIconAfter
       text={name}

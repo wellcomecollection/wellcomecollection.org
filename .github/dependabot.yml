@@ -13,8 +13,6 @@ updates:
       - dependency-name: '*'
         update-types: ['version-update:semver-patch'] # Ignore all patch updates for version updates only
       # Shouldn't get flagged as we will undertake these in a conscious manner when planned in
-      - dependency-name: 'next'
-      - dependency-name: '@next/bundle-analyzer'
       - dependency-name: 'typescript'
       - dependency-name: '@typescript*'
       # Dependent on higher versions of the list above, remove from here once the upgrade it depends on has been done.

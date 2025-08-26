@@ -272,7 +272,6 @@ export function transformTagListSlice(
         textParts: item.linkText ? [item.linkText] : [],
         linkAttributes: {
           href: { pathname: transformLink(item.link) },
-          as: { pathname: transformLink(item.link) },
         },
       })),
     },

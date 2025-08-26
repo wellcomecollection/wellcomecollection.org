@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { bornDigitalWarning } from '@weco/common/data/microcopy';
 import { file, pdf } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
-import ButtonSolidLink from '@weco/common/views/components/Buttons/Buttons.SolidLink';
+import Buttons from '@weco/common/views/components/Buttons';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { getFileLabel } from '@weco/content/utils/works';
@@ -66,7 +66,8 @@ const IIIFItemDownload: FunctionComponent<Props> = ({
       {showWarning && (
         <div className={font('intr', 6)}>{bornDigitalWarning}</div>
       )}
-      <ButtonSolidLink
+      <Buttons
+        variant="ButtonSolidLink"
         link={src}
         text="Open"
         ariaLabel={`Open ${(displayLabel !== substituteTitle && label) || 'document'}`}
