@@ -1,3 +1,4 @@
+// eslint-data-component: intentionally omitted
 import { Children, ReactElement, ReactNode } from 'react';
 import styled from 'styled-components';
 
@@ -16,11 +17,11 @@ import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import ContentPageContext from '@weco/content/contexts/ContentPageContext';
+import { ContentApiLinkedWork } from '@weco/content/services/wellcome/content/types/api';
 import { Contributor } from '@weco/content/types/contributors';
 import { Season } from '@weco/content/types/seasons';
 import { Props as BodyProps } from '@weco/content/views/components/Body';
 import Contributors from '@weco/content/views/components/Contributors';
-import { ContentAPILinkedWork } from '@weco/content/views/pages/stories/story/tempMockData';
 
 import BannerCard from './ContentPage.BannerCard';
 import LinkedWorks from './ContentPage.LinkedWorks';
@@ -37,7 +38,7 @@ type Props = {
   contributors?: Contributor[];
   contributorTitle?: string;
   hideContributors?: true;
-  linkedWorks?: ContentAPILinkedWork[];
+  linkedWorks?: ContentApiLinkedWork[];
 };
 
 const Wrapper = styled.div<{ $isCreamy: boolean }>`

@@ -39,7 +39,7 @@ const ChangeDetailsModal: FunctionComponent<ChangeDetailsModalProps> = ({
   const close = () => setIsActive(false);
 
   return (
-    <>
+    <div data-component="change-details-modal">
       <Button
         variant="ButtonSolid"
         colors={themeValues.buttonColors.greenTransparentGreen}
@@ -61,7 +61,7 @@ const ChangeDetailsModal: FunctionComponent<ChangeDetailsModalProps> = ({
           setIsModalLoading,
         })}
       </Modal>
-    </>
+    </div>
   );
 };
 

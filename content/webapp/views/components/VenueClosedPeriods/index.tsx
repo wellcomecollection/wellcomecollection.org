@@ -21,7 +21,7 @@ const VenueClosedPeriods: FunctionComponent<Props> = ({ venue }) => {
 
   return groupedConsectiveClosedDays[0] &&
     groupedConsectiveClosedDays[0].length > 0 ? (
-    <div className="body-text">
+    <div data-component="venue-closed-periods" className="body-text">
       <h2>{getNameFromCollectionVenue(venue.id)} closures</h2>
       {venue.id === collectionVenueId.libraries.id && (
         <p style={{ marginBottom: 0 }}>

@@ -17,6 +17,7 @@ export const Card = styled.a<{ $isHover?: boolean }>`
   border-radius: ${props => props.theme.borderRadiusUnit}px;
   flex-wrap: wrap;
   text-decoration: none;
+  height: 100%;
 
   ${props =>
     props.$isHover &&
@@ -41,6 +42,7 @@ export const Card = styled.a<{ $isHover?: boolean }>`
 export const TextWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   width: 100%;
   container-type: inline-size;
   container-name: text-wrapper;

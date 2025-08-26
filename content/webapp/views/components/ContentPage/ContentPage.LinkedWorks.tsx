@@ -1,13 +1,13 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useEffect } from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import { ContaineredLayout } from '@weco/common/views/components/Layout';
 import { SizeMap } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
+import { ContentApiLinkedWork } from '@weco/content/services/wellcome/content/types/api';
 import RelatedWorksCard from '@weco/content/views/components/RelatedWorksCard';
 import ScrollContainer from '@weco/content/views/components/ScrollContainer';
-import { ContentAPILinkedWork } from '@weco/content/views/pages/stories/story/tempMockData';
 
 const FullWidthRow = styled(Space).attrs({
   $v: { size: 'l', properties: ['padding-bottom'] },
@@ -87,7 +87,7 @@ const ListItem = styled.li`
 `;
 
 type LinkedWorkProps = {
-  linkedWorks: ContentAPILinkedWork[];
+  linkedWorks: ContentApiLinkedWork[];
   gridSizes: SizeMap;
   parentId: string;
 };
@@ -97,7 +97,23 @@ const LinkedWorks: FunctionComponent<LinkedWorkProps> = ({
   gridSizes,
   parentId,
 }: LinkedWorkProps) => {
-  if (!linkedWorks || linkedWorks.length === 0) return null;
+  const hasLinkedWorks = linkedWorks && linkedWorks.length > 0;
+
+  useEffect(() => {
+    // Only do this if there are results to display
+    if (hasLinkedWorks) {
+      const dataLayerEvent = {
+        event: 'featured_works_displayed',
+        featuredWorks: linkedWorks.map((work, i) => ({
+          workId: work.id,
+          positionInList: i + 1,
+        })),
+      };
+      window.dataLayer?.push(dataLayerEvent);
+    }
+  }, []);
+
+  if (!hasLinkedWorks) return null;
   const gridValues = Object.values(gridSizes).map(v => v[0]);
 
   return (

@@ -77,7 +77,10 @@ const IIIFImage: FunctionComponent<Props> = ({
   // We may be able to use this in future but, until then, render our own img element.
   if (layout === 'raw') {
     return (
-      <StyledImageContainer $background={background}>
+      <StyledImageContainer
+        data-component="iiif-image"
+        $background={background}
+      >
         <img
           src={convertIiifImageUri(image.contentUrl, width)}
           srcSet=""
@@ -90,6 +93,7 @@ const IIIFImage: FunctionComponent<Props> = ({
 
   return (
     <StyledImageContainer
+      data-component="iiif-image"
       $background={background}
       style={{ height: image.height }} // to not have styledComponents generate too many classes
     >

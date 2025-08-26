@@ -1,3 +1,4 @@
+// eslint-data-component: intentionally omitted
 import { ParsedUrlQuery } from 'querystring';
 
 import { ItemLinkSource } from '@weco/common/data/segment-values';

@@ -26,6 +26,7 @@ const VideoPlayer: FunctionComponent<Props> = ({
   const { trackPlay, trackEnded, trackTimeUpdate } = useAVTracking('video');
   return (
     <video
+      data-component="video-player"
       onPlay={event => {
         trackPlay(event);
       }}
@@ -37,7 +38,7 @@ const VideoPlayer: FunctionComponent<Props> = ({
       poster={placeholderId}
     >
       <source src={video.id} type={video.format} />
-      {`Sorry, your browser doesn't support embedded video.`}
+      Sorry, your browser doesn&apos;t support embedded video.
     </video>
   );
 };

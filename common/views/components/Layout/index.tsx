@@ -1,3 +1,4 @@
+// eslint-data-component: intentionally omitted
 import { FunctionComponent, PropsWithChildren } from 'react';
 
 import { Container } from '@weco/common/views/components/styled/Container';

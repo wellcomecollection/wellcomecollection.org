@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
 
-import ErrorPage from '@weco/common/views/components/ErrorPage';
+import ErrorPage from '@weco/common/views/layouts/ErrorPage';
 
 type Props = { statusCode?: number };
 

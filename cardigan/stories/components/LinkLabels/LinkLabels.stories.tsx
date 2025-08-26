@@ -8,6 +8,11 @@ import Readme from '@weco/content/views/components/LinkLabels/README.mdx';
 const meta: Meta<typeof LinkLabels> = {
   title: 'Components/LinkLabels',
   component: LinkLabels,
+  argTypes: {
+    items: { table: { disable: true } },
+    icon: { table: { disable: true } },
+    heading: { table: { disable: true } },
+  },
   render: args => (
     <ReadmeDecorator
       WrappedComponent={LinkLabels}

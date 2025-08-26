@@ -27,11 +27,19 @@ export default meta;
 
 type Story = StoryObj<typeof ImagePlaceholder>;
 
+const WrappedPlaceholder = args => {
+  return (
+    <div style={{ maxWidth: '400px' }}>
+      <ImagePlaceholder {...args} />
+    </div>
+  );
+};
+
 export const Basic: Story = {
   name: 'ImagePlaceholder',
   render: args => (
     <ReadmeDecorator
-      WrappedComponent={ImagePlaceholder}
+      WrappedComponent={WrappedPlaceholder}
       args={args}
       Readme={Readme}
     />

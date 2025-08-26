@@ -114,36 +114,3 @@ export const HotJarPlaceholder = styled.div`
     }
   `)}
 `;
-
-export const ConceptHero = styled(Space).attrs({
-  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-})`
-  background-color: ${props => props.theme.color('lightYellow')};
-`;
-
-export const HeroTitle = styled.h1.attrs({ className: font('intb', 1) })`
-  margin-bottom: 1rem;
-`;
-
-export const TypeLabel = styled.span.attrs({ className: font('intb', 6) })`
-  background-color: ${props => props.theme.color('warmNeutral.300')};
-  padding: 5px;
-`;
-
-export const ConceptImages = styled(Space).attrs({
-  $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
-})`
-  background-color: ${props => props.theme.color('black')};
-
-  /* The class is necessary because the image modals styles get overwritten otherwise */
-  .sectionTitle {
-    color: ${props => props.theme.color('white')};
-  }
-`;
-
-export const ConceptWorksHeader = styled(Space).attrs({
-  $v: { size: 'xl', properties: ['padding-top'] },
-})<{ $hasWorksTabs: boolean }>`
-  background-color: ${({ $hasWorksTabs, theme }) =>
-    theme.color($hasWorksTabs ? 'warmNeutral.300' : 'white')};
-`;

@@ -92,14 +92,6 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'newThemePages',
-      title: 'New theme pages',
-      initialValue: false,
-      description:
-        'Show new theme pages, with data populated from the catalogue graph.',
-      type: 'experimental',
-    },
-    {
       id: 'themePagesAllFields',
       title: 'Show all fields on theme pages',
       initialValue: false,
@@ -127,6 +119,13 @@ const toggles = {
       initialValue: false,
       description:
         'Adds features in displaying featured works in the Content part of the website',
+      type: 'experimental',
+    },
+    {
+      id: 'collectionsLanding',
+      title: 'Collections landing alternative page',
+      initialValue: false,
+      description: `Displays the new Collections landing page as it's being built.`,
       type: 'experimental',
     },
   ] as const,

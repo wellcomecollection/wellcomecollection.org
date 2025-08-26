@@ -22,6 +22,9 @@ const meta: Meta<typeof InfoBlock> = {
       },
     ],
   },
+  argTypes: {
+    text: { table: { disable: true } },
+  },
 };
 
 export default meta;

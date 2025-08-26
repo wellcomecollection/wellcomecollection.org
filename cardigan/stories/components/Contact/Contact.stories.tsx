@@ -17,6 +17,13 @@ const meta: Meta<typeof Contact> = {
       url: '/visit-us',
     },
   },
+  argTypes: {
+    link: {
+      table: {
+        disable: true,
+      },
+    },
+  },
 };
 
 export default meta;

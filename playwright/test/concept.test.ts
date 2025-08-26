@@ -6,7 +6,7 @@ import { ConceptPage } from './pages/concept';
 const test = base.extend<{
   armyPage: ConceptPage;
   mohPage: ConceptPage;
-  songsPage: ConceptPage;
+  statisticsPage: ConceptPage;
   thackrahPage: ConceptPage;
 }>({
   armyPage: async ({ context, page }, use) => {
@@ -23,11 +23,11 @@ const test = base.extend<{
     await use(mohPage);
   },
 
-  songsPage: async ({ context, page }, use) => {
+  statisticsPage: async ({ context, page }, use) => {
     // A Genre chosen because it has works and images both about and using the technique
-    await concept('vb3xq295', context, page);
-    const songsPage = new ConceptPage(page, 'type/technique');
-    await use(songsPage);
+    await concept('y2yes53w', context, page);
+    const statisticsPage = new ConceptPage(page, 'type/technique');
+    await use(statisticsPage);
   },
 
   thackrahPage: async ({ context, page }, use) => {
@@ -136,42 +136,43 @@ test.describe('a Concept representing an Agent with Works and Images both about 
 
 test.describe('a Concept representing a Genre with works and images both about and using them', () => {
   test('has both works and image sections, each with about and using tabs', async ({
-    songsPage,
+    statisticsPage,
   }) => {
+    const title = encodeURIComponent('"Statistics"');
     // It has two tabs (works)
-    await expect(songsPage.worksAboutTab).toBeVisible();
-    await expect(songsPage.worksInTab).toBeVisible();
+    await expect(statisticsPage.worksAboutTab).toBeVisible();
+    await expect(statisticsPage.worksInTab).toBeVisible();
 
     // It has images
-    await expect(songsPage.imagesSection).toBeVisible();
+    await expect(statisticsPage.imagesSection).toBeVisible();
 
     // The "works in" panel should be visible initially
-    await expect(songsPage.worksInTabPanel).toBeVisible();
+    await expect(statisticsPage.worksInTabPanel).toBeVisible();
     await expect(
-      songsPage.worksInTabPanel.getByRole('listitem')
+      statisticsPage.worksInTabPanel.getByRole('listitem')
     ).not.toHaveCount(0);
 
     // It has links to filtered searches
-    await songsPage.worksInTab.click();
-    await expect(songsPage.allWorksLink).toHaveAttribute(
+    await statisticsPage.worksInTab.click();
+    await expect(statisticsPage.allWorksLink).toHaveAttribute(
       'href',
-      `/search/works?genres.label=${encodeURIComponent('"Songs"')}`
+      `/search/works?genres.label=${title}`
     );
 
-    await songsPage.worksAboutTab.click();
-    await expect(songsPage.allWorksLink).toHaveAttribute(
+    await statisticsPage.worksAboutTab.click();
+    await expect(statisticsPage.allWorksLink).toHaveAttribute(
       'href',
-      `/search/works?subjects.label=${encodeURIComponent('"Songs"')}`
+      `/search/works?subjects.label=${title}`
     );
 
-    await expect(songsPage.allImagesInLink).toHaveAttribute(
+    await expect(statisticsPage.allImagesInLink).toHaveAttribute(
       'href',
-      `/search/images?source.genres.label=${encodeURIComponent('"Songs"')}`
+      `/search/images?source.genres.label=${title}`
     );
 
-    await expect(songsPage.allImagesAboutLink).toHaveAttribute(
+    await expect(statisticsPage.allImagesAboutLink).toHaveAttribute(
       'href',
-      `/search/images?source.subjects.label=${encodeURIComponent('"Songs"')}`
+      `/search/images?source.subjects.label=${title}`
     );
   });
 });

@@ -85,11 +85,12 @@ const CaptionedImage: FunctionComponent<CaptionedImageProps> = ({
   // See https://wellcome.slack.com/archives/C8X9YKM5X/p1653466941113029
 
   return (
-    <CaptionedImageFigure $isBody={isBody}>
+    <CaptionedImageFigure data-component="captioned-image" $isBody={isBody}>
       <ImageContainerInner
         $aspectRatio={image.width / image.height}
         $hasRoundedCorners={hasRoundedCorners}
       >
+        {/* If this is true and displayed, the image won't have rounded corners */}
         {isZoomable && <ZoomedPrismicImage image={image} />}
 
         <ImageWithTasl

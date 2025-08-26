@@ -15,6 +15,23 @@ const meta: Meta<typeof CollapsibleContent> = {
     },
     children: <PrismicHtmlBlock html={prismicRichTextMultiline} />,
   },
+  argTypes: {
+    id: {
+      table: {
+        disable: true,
+      },
+    },
+    controlText: {
+      table: {
+        disable: true,
+      },
+    },
+    children: {
+      table: {
+        disable: true,
+      },
+    },
+  },
 };
 
 export default meta;

@@ -9,18 +9,19 @@ Digital Production (digitisation):
  Christy Henshaw
  Branwen Lloyd-Evans
  Holly Peel
- Rosie Curran
  Cassidy Phillips
  Emilie Bell
  Daila Malafronte
  Ashley Ray
  Ezra Little
  Georgia E Whitney
+ Eszter Bonyi
 
 Digital Editorial Content:
  Grace Brewer
  Lalita Kaplish
  Vanesha Singh
+ Nicola Williams
 
 Photography:
  Richard Everett
@@ -28,7 +29,6 @@ Photography:
  Thomas S G Farnetti
  Laurie Auchterlonie
  Steven Pocock
- Eszter Bonyi
  Kathleen Arundell
 
 Digital Platform:
@@ -100,6 +100,7 @@ Digital Platform:
  Kate Quarry
  Helen Babbs
  Kasia Bruzda
+ Rosie Curran
 
 /* THANKS */
 

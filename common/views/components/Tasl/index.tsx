@@ -42,7 +42,11 @@ const Tasl: FunctionComponent<Props> = ({
   const idWithSuffix = `${id}${idSuffix}`;
 
   return [title, sourceName, copyrightHolder].some(_ => _) ? (
-    <StyledTasl $positionAtTop={positionTop} $isEnhanced={isEnhanced}>
+    <StyledTasl
+      data-component="tasl"
+      $positionAtTop={positionTop}
+      $isEnhanced={isEnhanced}
+    >
       <TaslButton
         onClick={toggleWithAnalytics}
         $positionAtTop={positionTop}
