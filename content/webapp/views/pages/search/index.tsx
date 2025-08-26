@@ -1,6 +1,4 @@
 import { NextPage } from 'next';
-import NextLink from 'next/link';
-import { usePathname } from 'next/navigation';
 import { useContext, useEffect, useMemo, useState } from 'react';
 
 import { useSearchContext } from '@weco/common/contexts/SearchContext';
@@ -29,8 +27,8 @@ import { Query } from '@weco/content/types/search';
 import CatalogueImageGallery from '@weco/content/views/components/CatalogueImageGallery';
 import ContentSearchResult from '@weco/content/views/components/ContentSearchResult';
 import Pagination from '@weco/content/views/components/Pagination';
-import { toLink as imagesLink } from '@weco/content/views/components/SearchPagesLink/Images';
-import { toLink as worksLink } from '@weco/content/views/components/SearchPagesLink/Works';
+import { toSearchImagesLink } from '@weco/content/views/components/SearchPagesLink/Images';
+import { toSearchWorksLink } from '@weco/content/views/components/SearchPagesLink/Works';
 import { withSearchLayout } from '@weco/content/views/layouts/SearchPageLayout';
 
 import {
@@ -89,7 +87,6 @@ const SearchPage: NextPage<Props> = withSearchLayout(
     const totalResults = totalContentResults + totalCatalogueResults;
     const isSmallGallery =
       clientSideImages && clientSideImages.results.length < 3;
-    const pathname = usePathname();
 
     useMemo(() => {
       setIsCatalogueLoading(true);
@@ -282,44 +279,29 @@ const SearchPage: NextPage<Props> = withSearchLayout(
                           {clientSideWorkTypes.workTypeBuckets
                             ?.slice(0, 6)
                             .map((bucket, i) => (
-                              <NextLink
+                              <WorksLink
                                 key={i}
-                                {...worksLink(
-                                  {
-                                    query: queryString,
-                                    workType: [bucket.data.id],
-                                  },
-                                  `works_workType_${pathname}`
-                                )}
-                                passHref
-                                legacyBehavior
+                                {...toSearchWorksLink({
+                                  query: queryString,
+                                  workType: [bucket.data.id],
+                                })}
                               >
-                                <WorksLink>
-                                  {bucket.data.label} (
-                                  {formatNumber(bucket.count, {
-                                    isCompact: true,
-                                  })}
-                                  )
-                                </WorksLink>
-                              </NextLink>
+                                {bucket.data.label} (
+                                {formatNumber(bucket.count, {
+                                  isCompact: true,
+                                })}
+                                )
+                              </WorksLink>
                             ))}
                         </CatalogueLinks>
 
-                        <NextLink
-                          {...worksLink(
-                            {
-                              query: queryString,
-                            },
-                            `works_all_${pathname}`
-                          )}
-                          passHref
-                          legacyBehavior
+                        <AllLink
+                          {...toSearchWorksLink({ query: queryString })}
+                          data-gtm-trigger="all-catalogue-results"
                         >
-                          <AllLink data-gtm-trigger="all-catalogue-results">
-                            {`All catalogue results (${formatNumber(totalWorksResults, { isCompact: true })})`}
-                            <Icon icon={arrow} iconColor="black" rotate={360} />
-                          </AllLink>
-                        </NextLink>
+                          {`All catalogue results (${formatNumber(totalWorksResults, { isCompact: true })})`}
+                          <Icon icon={arrow} iconColor="black" rotate={360} />
+                        </AllLink>
                       </CatalogueResultsSection>
                     )}
 
@@ -362,25 +344,13 @@ const SearchPage: NextPage<Props> = withSearchLayout(
                           />
                         </ImageLinks>
                         <CatalogueResultsSection>
-                          <NextLink
-                            {...imagesLink(
-                              {
-                                query: queryString,
-                              },
-                              `images_all_${pathname}`
-                            )}
-                            passHref
-                            legacyBehavior
+                          <AllLink
+                            data-gtm-trigger="all-image-results"
+                            {...toSearchImagesLink({ query: queryString })}
                           >
-                            <AllLink data-gtm-trigger="all-image-results">
-                              {`All image results (${formatNumber(totalImagesResults, { isCompact: true })})`}
-                              <Icon
-                                icon={arrow}
-                                iconColor="black"
-                                rotate={360}
-                              />
-                            </AllLink>
-                          </NextLink>
+                            {`All image results (${formatNumber(totalImagesResults, { isCompact: true })})`}
+                            <Icon icon={arrow} iconColor="black" rotate={360} />
+                          </AllLink>
                         </CatalogueResultsSection>
                       </>
                     )}

@@ -4,7 +4,10 @@ import styled from 'styled-components';
 
 import { LinkProps } from '@weco/common/model/link-props';
 import { font } from '@weco/common/utils/classnames';
-import { StyledButton } from '@weco/common/views/components/Buttons';
+import {
+  SolidButtonStyledProps,
+  StyledButtonCSS,
+} from '@weco/common/views/components/Buttons';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
@@ -46,6 +49,11 @@ const LinkWrapper = styled(Space).attrs({
   display: inline-block;
 `;
 
+const StyledLink = styled(NextLink)<SolidButtonStyledProps>`
+  display: block;
+  ${StyledButtonCSS}
+`;
+
 export type Props = {
   tags: TagType[];
   isFirstPartBold?: boolean;
@@ -67,32 +75,30 @@ const Tags: FunctionComponent<Props> = ({
         {tags.map(({ textParts, linkAttributes }, i) => {
           return (
             <LinkWrapper as="li" key={i}>
-              <NextLink {...linkAttributes} passHref legacyBehavior>
-                <StyledButton
-                  $size="small"
-                  $colors={themeValues.buttonColors.pumiceTransparentCharcoal}
-                >
-                  <TagInner>
-                    {textParts.map((part, i, arr) => (
-                      <PartWithSeparator
-                        key={part}
-                        $separator={i === 0 ? '|' : separator}
-                        $isLast={i === arr.length - 1}
+              <StyledLink
+                href={linkAttributes.href}
+                $size="small"
+                $colors={themeValues.buttonColors.pumiceTransparentCharcoal}
+              >
+                <TagInner>
+                  {textParts.map((part, i, arr) => (
+                    <PartWithSeparator
+                      key={part}
+                      $separator={i === 0 ? '|' : separator}
+                      $isLast={i === arr.length - 1}
+                    >
+                      <span
+                        className={font(
+                          i === 0 && isFirstPartBold ? 'intb' : 'intr',
+                          5
+                        )}
                       >
-                        <span
-                          className={
-                            i === 0 && isFirstPartBold
-                              ? font('intb', 5)
-                              : font('intr', 5)
-                          }
-                        >
-                          {part}
-                        </span>
-                      </PartWithSeparator>
-                    ))}
-                  </TagInner>
-                </StyledButton>
-              </NextLink>
+                        {part}
+                      </span>
+                    </PartWithSeparator>
+                  ))}
+                </TagInner>
+              </StyledLink>
             </LinkWrapper>
           );
         })}
