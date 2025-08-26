@@ -6,6 +6,7 @@ const meta: Meta<typeof Breadcrumb> = {
   title: 'Components/Breadcrumb',
   component: Breadcrumb,
   args: {
+    noHomeLink: false,
     items: [
       {
         text: 'Content type',
@@ -17,6 +18,16 @@ const meta: Meta<typeof Breadcrumb> = {
         url: '/part-of/this',
       },
     ],
+  },
+  argTypes: {
+    noHomeLink: {
+      name: 'Remove Home link',
+    },
+    items: {
+      table: {
+        disable: true,
+      },
+    },
   },
 };
 

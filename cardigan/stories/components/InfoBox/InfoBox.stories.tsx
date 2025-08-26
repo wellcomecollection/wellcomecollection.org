@@ -80,6 +80,11 @@ const meta: Meta<typeof InfoBox> = {
       },
     ],
   },
+  argTypes: {
+    children: { table: { disable: true } },
+    items: { table: { disable: true } },
+    headingClasses: { table: { disable: true } },
+  },
 };
 
 export default meta;

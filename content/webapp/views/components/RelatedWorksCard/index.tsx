@@ -1,12 +1,13 @@
 import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
 
+import { Label } from '@weco/common/model/labels';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
+import { ContentApiLinkedWork } from '@weco/content/services/wellcome/content/types/api';
 import { toWorkLink } from '@weco/content/views/components/WorkLink';
-import { ContentAPILinkedWork } from '@weco/content/views/pages/stories/story/tempMockData';
 
 import {
   Card,
@@ -18,7 +19,7 @@ import {
 } from './RelatedWorksCard.styles';
 
 type Props = {
-  work: WorkBasic | ContentAPILinkedWork; // Supports both Catalogue and Content API works
+  work: WorkBasic | ContentApiLinkedWork; // Supports both Catalogue and Content API works
   gtmData?: DataGtmProps;
 };
 
@@ -35,7 +36,16 @@ const RelatedWorksCard: FunctionComponent<Props> = ({ work, gtmData }) => {
       : undefined
     : work.date;
 
-  const labels = isCatalogueWork ? work.cardLabels : work.labels || [];
+  const labels = isCatalogueWork
+    ? work.cardLabels
+    : work.workType
+      ? ([
+          {
+            text: work.workType,
+            labelColor: 'warmNeutral.300',
+          },
+        ] as Label[])
+      : [];
 
   const mainContributor = isCatalogueWork
     ? work.primaryContributorLabel

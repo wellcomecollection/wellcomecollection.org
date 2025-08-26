@@ -1,8 +1,10 @@
 import * as prismic from '@prismicio/client';
 
+import { PagesDocumentDataBodySlice } from '@weco/common/prismicio-types';
+
 import { darkCloudImageUrl, florenceWinterfloodImageUrl } from './images';
 
-const untransformedbody = [
+const untransformedbody: prismic.SliceZone<PagesDocumentDataBodySlice> = [
   {
     variation: 'default',
     version: 'initial',
@@ -59,23 +61,6 @@ const untransformedbody = [
       ],
     },
     id: 'text$1a312e97-47ec-4099-b222-b04ab3f56d87',
-    slice_type: 'text',
-    slice_label: null,
-  },
-  {
-    variation: 'default',
-    version: 'initial',
-    items: [],
-    primary: {
-      text: [
-        {
-          type: 'paragraph',
-          text: 'I started my career in 2011. And although I’d worked with patients from many cultures, even spending some time working in South Africa, I was often a minority in the genetic workforce: I was the only Black woman practising as a genetic counsellor in South Africa and the United Kingdom for many years. ',
-          spans: [],
-        },
-      ],
-    },
-    id: 'text$1df95ec9-5fc9-46ba-be24-b3b9533f9ac3',
     slice_type: 'text',
     slice_label: null,
   },
@@ -173,51 +158,6 @@ const untransformedbody = [
       text: [
         {
           type: 'paragraph',
-          text: 'This is true across the globe. Indigenous and minoritised communities often face disparity and inequality, and because of cultural challenges and systemic injustice. Genetic practice isn’t always inclusive for those with rare diseases, disability or impairment. This means the burden of diagnosis and adequate treatment is too often more significant for those communities who are also most underserved.  ',
-          spans: [
-            {
-              start: 31,
-              end: 41,
-              type: 'hyperlink',
-              data: {
-                link_type: 'Web',
-                url: 'https://muse.jhu.edu/pub/1/article/873964/summary',
-              },
-            },
-            {
-              start: 196,
-              end: 205,
-              type: 'hyperlink',
-              data: {
-                link_type: 'Web',
-                url: 'https://www.cghjournal.org/article/S1542-3565(20)31721-3/fulltext',
-              },
-            },
-            {
-              start: 221,
-              end: 234,
-              type: 'hyperlink',
-              data: {
-                link_type: 'Web',
-                url: 'https://www.gov.uk/government/publications/uk-rare-diseases-framework/the-uk-rare-diseases-framework',
-              },
-            },
-          ],
-        },
-      ],
-    },
-    id: 'text$d470ecf0-ebfb-4c50-81df-0b5f40f45527',
-    slice_type: 'text',
-    slice_label: null,
-  },
-  {
-    variation: 'default',
-    version: 'initial',
-    items: [],
-    primary: {
-      text: [
-        {
-          type: 'paragraph',
           text: 'I have seen patients who couldn’t afford the journey to a genetic clinic, people who have been incorrectly told genetic testing was not for them based on ethnicity, and people who have received information about their healthcare in a language they could not understand.',
           spans: [],
         },
@@ -242,42 +182,6 @@ const untransformedbody = [
     },
     id: 'text$02619a30-ad88-4dc1-bd62-475230f7c1a7',
     slice_type: 'text',
-    slice_label: null,
-  },
-  {
-    variation: 'default',
-    version: 'initial',
-    items: [],
-    primary: {
-      text: [
-        {
-          type: 'paragraph',
-          text: 'In England, around 2018, I remember sitting in a large meeting discussing the training of genetic counsellors and how the lack of diversity in our profession, both cultural and socioeconomic, could be due to biases in recruitment. After an awkward silence, my concerns were dismissed. “Bias would always exist” was the response, with a hurried apology for the gender disparity, and the meeting quickly moved on to other matters.  ',
-          spans: [],
-        },
-      ],
-    },
-    id: 'text$834a0407-cc61-4e4b-ab2f-568947b54934',
-    slice_type: 'text',
-    slice_label: null,
-  },
-  {
-    variation: 'default',
-    version: 'initial',
-    items: [],
-    primary: {
-      text: [
-        {
-          type: 'paragraph',
-          text: 'There was comfort in that moment of solidarity and connection, a glimmer of hope that the value of Black lives was at the forefront of discussions. ',
-          spans: [],
-        },
-      ],
-      citation: [],
-      isPullOrReview: true,
-    },
-    id: 'quote$708ec09e-5ae9-4b5b-b74b-eb0ba4ac9d51',
-    slice_type: 'quote',
     slice_label: null,
   },
   {
@@ -321,40 +225,6 @@ const untransformedbody = [
       ],
     },
     id: 'text$825ccf87-d448-4625-8a28-245b2a642e50',
-    slice_type: 'text',
-    slice_label: null,
-  },
-  {
-    variation: 'default',
-    version: 'initial',
-    items: [],
-    primary: {
-      text: [
-        {
-          type: 'paragraph',
-          text: 'In the months that followed, I became more determined to address the inequalities in clinical genetics and health that I had witnessed. I began speaking at genetic conferences on the topic, working with senior-level colleagues and health professionals across my hospital trust to address the inequalities exposed by the pandemic. I even expanded my teaching of cross-cultural communication skills to be more inclusive in my practise. ',
-          spans: [],
-        },
-      ],
-    },
-    id: 'text$71850120-20f8-4d61-952c-60f5d904bae6',
-    slice_type: 'text',
-    slice_label: null,
-  },
-  {
-    variation: 'default',
-    version: 'initial',
-    items: [],
-    primary: {
-      text: [
-        {
-          type: 'paragraph',
-          text: 'And through this, I made connections with others in the field for whom issues of equity and social justice are important and urgent.  ',
-          spans: [],
-        },
-      ],
-    },
-    id: 'text$fe011576-8967-4055-9f94-4d0728cc3d03',
     slice_type: 'text',
     slice_label: null,
   },
@@ -503,6 +373,163 @@ const untransformedbody = [
     slice_type: 'editorialImage',
     slice_label: null,
   },
-] as unknown as prismic.Slice[];
+  // Needed for the isLanding version
+  {
+    variation: 'default',
+    version: 'initial',
+    items: [
+      {
+        content: {
+          id: 'Wuw2MSIAACtd3Ssg',
+          type: 'pages',
+          tags: ['get-involved'],
+          lang: 'en-gb',
+          slug: 'young-people',
+          uid: 'young-people',
+          data: {
+            promo: [
+              {
+                primary: {
+                  caption: [
+                    {
+                      type: 'paragraph',
+                      text: 'We have a range of free activities for you to try if you’re aged 14 to 19 years old. ',
+                      spans: [],
+                    },
+                  ],
+                  image: {
+                    dimensions: { width: 4000, height: 2250 },
+                    alt: 'Photograph of a young man and woman using an iPad in the Medicine Man gallery to film each other talking to camera.',
+                    copyright:
+                      'Saturday Studio video journalism | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |',
+                    url: 'https://images.prismic.io/wellcomecollection%2F8ea8bf8a-4a9f-4c04-9926-de4b978848dc_btg180517200023.jpg?auto=format,compress',
+                    id: 'WypmzyYAAIxc07Hn',
+                    edit: { x: 0, y: 0, zoom: 1, background: '#fff' },
+                    '32:15': {
+                      dimensions: { width: 3200, height: 1500 },
+                      alt: 'Photograph of a young man and woman using an iPad in the Medicine Man gallery to film each other talking to camera.',
+                      copyright:
+                        'Saturday Studio video journalism | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |',
+                      url: 'https://images.prismic.io/wellcomecollection%2F8ea8bf8a-4a9f-4c04-9926-de4b978848dc_btg180517200023.jpg?auto=format,compress',
+                      id: 'WypmzyYAAIxc07Hn',
+                      edit: { x: 0, y: -150, zoom: 0.8, background: '#fff' },
+                    },
+                    '16:9': {
+                      dimensions: { width: 3200, height: 1800 },
+                      alt: 'Photograph of a young man and woman using an iPad in the Medicine Man gallery to film each other talking to camera.',
+                      copyright:
+                        'Saturday Studio video journalism | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |',
+                      url: 'https://images.prismic.io/wellcomecollection%2F8ea8bf8a-4a9f-4c04-9926-de4b978848dc_btg180517200023.jpg?auto=format,compress',
+                      id: 'WypmzyYAAIxc07Hn',
+                      edit: { x: 0, y: 0, zoom: 0.8, background: '#fff' },
+                    },
+                    square: {
+                      dimensions: { width: 3200, height: 3200 },
+                      alt: 'Photograph of a young man and woman using an iPad in the Medicine Man gallery to film each other talking to camera.',
+                      copyright:
+                        'Saturday Studio video journalism | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |',
+                      url: 'https://images.prismic.io/wellcomecollection%2F8ea8bf8a-4a9f-4c04-9926-de4b978848dc_btg180517200023.jpg?auto=format,compress',
+                      id: 'WypmzyYAAIxc07Hn',
+                      edit: {
+                        x: -1244,
+                        y: 0,
+                        zoom: 1.4222222222222223,
+                        background: '#fff',
+                      },
+                    },
+                  },
+                },
+                items: [],
+                id: 'editorialImage$45d64a1d-b928-4274-afd1-9f92804dc227',
+                slice_type: 'editorialImage',
+              },
+            ],
+            title: [{ type: 'heading1', text: 'Young people', spans: [] }],
+          },
+          link_type: 'Document',
+          isBroken: false,
+        },
+      },
+      {
+        content: {
+          id: 'Wuw2MSIAACtd3StS',
+          type: 'pages',
+          tags: ['from_drupal', 'get-involved'],
+          lang: 'en-gb',
+          slug: 'schools',
+          uid: 'schools',
+          data: {
+            promo: [
+              {
+                primary: {
+                  caption: [
+                    {
+                      type: 'paragraph',
+                      text: 'We’ve got a range of things on offer to support teachers, from free study days at Wellcome Collection to downloadable resources for your 14 to 19-year-old students.',
+                      spans: [],
+                    },
+                  ],
+                  image: {
+                    dimensions: { width: 4000, height: 2250 },
+                    alt: 'Photograph of young students examining a skeleton as part of a Wellcome Collection school study day.',
+                    copyright:
+                      'School study day at Wellcome Collection  | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |',
+                    url: 'https://images.prismic.io/wellcomecollection%2F104acf6e-b667-4989-88e5-cf00985863af_c0093071.jpg?auto=format,compress',
+                    id: 'W1s5-CYAACUAvgbP',
+                    edit: { x: 0, y: 0, zoom: 1, background: '#fff' },
+                    '32:15': {
+                      dimensions: { width: 3200, height: 1500 },
+                      alt: 'Photograph of young students examining a skeleton as part of a Wellcome Collection school study day.',
+                      copyright:
+                        'School study day at Wellcome Collection  | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |',
+                      url: 'https://images.prismic.io/wellcomecollection%2F104acf6e-b667-4989-88e5-cf00985863af_c0093071.jpg?auto=format,compress',
+                      id: 'W1s5-CYAACUAvgbP',
+                      edit: { x: 0, y: -150, zoom: 0.8, background: '#fff' },
+                    },
+                    '16:9': {
+                      dimensions: { width: 3200, height: 1800 },
+                      alt: 'Photograph of young students examining a skeleton as part of a Wellcome Collection school study day.',
+                      copyright:
+                        'School study day at Wellcome Collection  | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |',
+                      url: 'https://images.prismic.io/wellcomecollection%2F104acf6e-b667-4989-88e5-cf00985863af_c0093071.jpg?auto=format,compress',
+                      id: 'W1s5-CYAACUAvgbP',
+                      edit: { x: 0, y: 0, zoom: 0.8, background: '#fff' },
+                    },
+                    square: {
+                      dimensions: { width: 3200, height: 3200 },
+                      alt: 'Photograph of young students examining a skeleton as part of a Wellcome Collection school study day.',
+                      copyright:
+                        'School study day at Wellcome Collection  | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |',
+                      url: 'https://images.prismic.io/wellcomecollection%2F104acf6e-b667-4989-88e5-cf00985863af_c0093071.jpg?auto=format,compress',
+                      id: 'W1s5-CYAACUAvgbP',
+                      edit: {
+                        x: -1244,
+                        y: 0,
+                        zoom: 1.4222222222222223,
+                        background: '#fff',
+                      },
+                    },
+                  },
+                },
+                items: [],
+                id: 'editorialImage$e3d81d54-e008-4dfd-b609-159ac8b1900f',
+                slice_type: 'editorialImage',
+              },
+            ],
+            title: [{ type: 'heading1', text: 'Schools', spans: [] }],
+          },
+          link_type: 'Document',
+          isBroken: false,
+        },
+      },
+    ],
+    primary: {
+      title: [],
+    },
+    id: 'contentList$c56d982f-d747-4b03-89ee-2b684445fe2c',
+    slice_type: 'contentList',
+    slice_label: null,
+  },
+];
 
 export default untransformedbody;

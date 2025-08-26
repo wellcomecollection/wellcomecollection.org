@@ -38,7 +38,6 @@ import ContentPage from '@weco/content/views/components/ContentPage';
 import Contributors from '@weco/content/views/components/Contributors';
 import EventbriteButtons from '@weco/content/views/components/EventbriteButtons';
 import EventDateRange from '@weco/content/views/components/EventDateRange';
-import EventSchedule from '@weco/content/views/components/EventSchedule';
 import InfoBox from '@weco/content/views/components/InfoBox';
 import Message from '@weco/content/views/components/Message';
 import {
@@ -56,6 +55,7 @@ import {
   getDescription,
   showTicketSalesStart,
 } from './event.helpers';
+import EventSchedule from './EventSchedule';
 
 const DateWrapper = styled.div.attrs({
   className: 'body-text',

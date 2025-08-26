@@ -33,7 +33,7 @@ export const image = (
     title: 'The title of the image',
     author: 'The author',
     sourceName: 'Wellcome Collection',
-    sourceLink: 'https://wellcomecollection.org/works',
+    sourceLink: 'https://wellcomecollection.org/works/gqhkfsft',
     license: 'CC-BY-NC' as LicenseType,
   },
   ...extraProps,
@@ -52,18 +52,29 @@ export const squareImage = (
     title: 'The title of the image',
     author: 'The author',
     sourceName: 'Wellcome Collection',
-    sourceLink: 'https://wellcomecollection.org/works',
+    sourceLink: 'https://wellcomecollection.org/works/gqhkfsft',
     license: 'CC-BY-NC' as LicenseType,
   },
 });
 
-export const captionedImage = (): CaptionedImageProps => ({
-  image: image(),
+export const captionedImage = (extraProps?: string): CaptionedImageProps => ({
+  image: image(extraProps),
   caption: [
     {
       type: 'paragraph',
       text: 'Etiam pellentesque dui tellus, quis dictum turpis blandit id. Etiam.',
-      spans: [],
+      spans: [
+        {
+          start: 19,
+          end: 29,
+          type: 'hyperlink',
+          data: {
+            link_type: 'Web',
+            url: 'https://wellcomecollection.org/works/gqhkfsft',
+            target: '_blank',
+          },
+        },
+      ],
     },
   ],
   hasRoundedCorners: false,
