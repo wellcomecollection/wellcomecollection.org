@@ -5,6 +5,7 @@ const WorkLinkWithIcon = styled.a`
   text-decoration-style: dotted;
   text-underline-offset: 26%;
   text-decoration-thickness: 8%;
+  position: relative;
 
   &::before {
     content: '';
@@ -15,6 +16,10 @@ const WorkLinkWithIcon = styled.a`
     background-size: 14px; /* 14px is the smallest size it should be and we want them all to be the same */
     background-position: center;
     padding-right: 18px;
+  }
+
+  [data-portal-id] {
+    position: absolute;
   }
 `;
 

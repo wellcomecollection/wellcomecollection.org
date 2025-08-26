@@ -1,4 +1,5 @@
-import { FunctionComponent, useEffect } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
@@ -98,6 +99,12 @@ const LinkedWorks: FunctionComponent<LinkedWorkProps> = ({
 }: LinkedWorkProps) => {
   const hasLinkedWorks = linkedWorks && linkedWorks.length > 0;
 
+  const [portals, setPortals] = useState<NodeListOf<HTMLElement> | null>(null);
+
+  useEffect(() => {
+    setPortals(document.querySelectorAll(`[data-portal-id]`));
+  }, [linkedWorks]);
+
   useEffect(() => {
     // Only do this if there are results to display
     if (hasLinkedWorks) {
@@ -126,19 +133,34 @@ const LinkedWorks: FunctionComponent<LinkedWorkProps> = ({
         gridSizes={gridSizes}
       >
         <Shim $gridValues={gridValues}></Shim>
-        {linkedWorks.map((work, i) => (
-          <ListItem key={work.id}>
-            <RelatedWorksCard
-              variant="default"
-              work={work}
-              gtmData={{
-                trigger: 'work-link-component',
-                id: work.id,
-                'position-in-list': `${i + 1}`,
-              }}
-            />
-          </ListItem>
-        ))}
+
+        {linkedWorks.map((work, i) => {
+          const portalsForWork =
+            portals && [...portals].filter(p => p.dataset.portalId === work.id);
+
+          return (
+            <>
+              {portalsForWork?.map((p, i) => {
+                return createPortal(
+                  <RelatedWorksCard variant="hover" work={work} key={i} />,
+                  p
+                );
+              })}
+              <ListItem key={work.id}>
+                <RelatedWorksCard
+                  variant="default"
+                  work={work}
+                  gtmData={{
+                    trigger: 'work-link-component',
+                    id: work.id,
+                    'position-in-list': `${i + 1}`,
+                  }}
+                />
+              </ListItem>
+            </>
+          );
+        })}
+        <Shim $gridValues={gridValues}></Shim>
       </ScrollContainer>
     </FullWidthRow>
   );

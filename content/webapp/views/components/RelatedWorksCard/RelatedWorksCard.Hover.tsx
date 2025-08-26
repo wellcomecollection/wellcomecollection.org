@@ -1,11 +1,9 @@
-import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
 
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
-import { toWorkLink } from '@weco/content/views/components/WorkLink';
-import { ContentAPILinkedWork } from '@weco/content/views/pages/stories/story/tempMockData';
+import { ContentApiLinkedWork } from '@weco/content/services/wellcome/content/types/api';
 
 import {
   Card,
@@ -17,7 +15,7 @@ import {
 } from './RelatedWorksCard.styles';
 
 type Props = {
-  work: WorkBasic | ContentAPILinkedWork; // Supports both Catalogue and Content API works
+  work: WorkBasic | ContentApiLinkedWork; // Supports both Catalogue and Content API works
   gtmData?: DataGtmProps;
 };
 
@@ -39,12 +37,9 @@ const RelatedWorksCard: FunctionComponent<Props> = ({ work, gtmData }) => {
     : work.mainContributor;
 
   return (
-    <NextLink
-      {...toWorkLink({ id: work.id })}
-      data-component="related-works-card"
-      style={{ textDecoration: 'none' }}
-    >
+    <div>
       <Card
+        as="span"
         $isHover={true}
         {...(gtmData &&
           dataGtmPropsToAttributes({
@@ -65,7 +60,7 @@ const RelatedWorksCard: FunctionComponent<Props> = ({ work, gtmData }) => {
           </ImageWrapper>
         )}
         <TextWrapper>
-          <Title $isHover={true} $linesToClamp={1}>
+          <Title as="span" $isHover={true} $linesToClamp={1}>
             {work.title}
           </Title>
 
@@ -77,7 +72,7 @@ const RelatedWorksCard: FunctionComponent<Props> = ({ work, gtmData }) => {
           </MetaContainer>
         </TextWrapper>
       </Card>
-    </NextLink>
+    </div>
   );
 };
 

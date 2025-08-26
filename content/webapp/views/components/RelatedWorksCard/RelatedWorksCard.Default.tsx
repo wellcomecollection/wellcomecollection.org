@@ -58,6 +58,7 @@ const RelatedWorksCard: FunctionComponent<Props> = ({ work, gtmData }) => {
       style={{ textDecoration: 'none' }}
     >
       <Card
+        as="span"
         {...(gtmData &&
           dataGtmPropsToAttributes({
             ...gtmData,
