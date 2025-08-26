@@ -95,10 +95,10 @@ const createConfig =
       compiler: {
         styledComponents: true,
       },
+      bundlePagesRouterDependencies: true,
 
       experimental: {
         ...validDefaultConfig.experimental,
-        bundlePagesRouterDependencies: true,
         mdxRs: true,
 
         // This forces Next to use the SWC compiler, which is significantly faster
