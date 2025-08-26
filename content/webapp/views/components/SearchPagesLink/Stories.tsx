@@ -2,7 +2,6 @@ import NextLink from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
 import { FunctionComponent } from 'react';
 
-import { StoriesLinkSource } from '@weco/common/data/segment-values';
 import { LinkProps } from '@weco/common/model/link-props';
 import {
   csvCodec,
@@ -33,10 +32,7 @@ const fromQuery: (params: ParsedUrlQuery) => StoriesProps = params => {
 const toQuery: (props: StoriesProps) => ParsedUrlQuery = props => {
   return encodeQuery<StoriesProps>(props, codecMap);
 };
-function toLink(
-  partialProps: Partial<StoriesProps>,
-  source: StoriesLinkSource
-): LinkProps {
+function toSearchStories(partialProps: Partial<StoriesProps>): LinkProps {
   const pathname = '/search/stories';
   const props: StoriesProps = {
     ...emptyStoriesProps,
@@ -46,25 +42,16 @@ function toLink(
   return {
     href: {
       pathname,
-      query: { ...query, source },
-    },
-    as: {
-      pathname,
       query,
     },
   };
 }
-type Props = LinkFrom<StoriesProps> & { source: StoriesLinkSource };
+type Props = LinkFrom<StoriesProps>;
 const StoriesLink: FunctionComponent<Props> = ({
   children,
-  source,
   ...props
 }: Props) => {
-  return (
-    <NextLink {...toLink(props, source)} legacyBehavior>
-      {children}
-    </NextLink>
-  );
+  return <NextLink {...toSearchStories(props)}>{children}</NextLink>;
 };
 export default StoriesLink;
-export { toLink, toQuery, fromQuery, emptyStoriesProps };
+export { toSearchStories, toQuery, fromQuery, emptyStoriesProps };

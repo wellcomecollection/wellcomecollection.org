@@ -1,4 +1,3 @@
-import { usePathname } from 'next/navigation';
 import { FunctionComponent, useMemo } from 'react';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
@@ -30,11 +29,11 @@ import {
   getHoldings,
   getItemsWithPhysicalLocation,
 } from '@weco/content/utils/works';
-import { toLink as conceptLink } from '@weco/content/views/components/ConceptLink';
+import { toConceptLink } from '@weco/content/views/components/ConceptLink';
 import CopyButtons from '@weco/content/views/components/CopyButtons';
-import { toLink as itemLink } from '@weco/content/views/components/ItemLink';
-import { toLink as imagesLink } from '@weco/content/views/components/SearchPagesLink/Images';
-import { toLink as worksLink } from '@weco/content/views/components/SearchPagesLink/Works';
+import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
+import { toSearchImagesLink } from '@weco/content/views/components/SearchPagesLink/Images';
+import { toSearchWorksLink } from '@weco/content/views/components/SearchPagesLink/Works';
 
 import WorkDetailsAvailableOnline from './WorkDetails.AvailableOnline';
 import WorkDetailsHoldings from './WorkDetails.Holdings';
@@ -68,7 +67,6 @@ const WorkDetails: FunctionComponent<Props> = ({
   const { canvases, rendering, itemsStatus } = {
     ...transformedManifest,
   };
-  const pathname = usePathname();
 
   // Works can have a DigitalLocation of type iiif-presentation and/or iiif-image.
   // For a iiif-presentation DigitalLocation we get the download options from the manifest to which it points.
@@ -179,9 +177,8 @@ const WorkDetails: FunctionComponent<Props> = ({
             ...iiifImageDownloadOptions,
             ...canvasDownloadOptions,
           ]}
-          itemUrl={itemLink({
+          itemUrl={toWorksItemLink({
             workId: work.id,
-            source: `work_${pathname}`,
             props: {},
           })}
           shouldShowItemLink={shouldShowItemLink}
@@ -207,12 +204,7 @@ const WorkDetails: FunctionComponent<Props> = ({
                 ? `View ${work.images.length} images`
                 : 'View 1 image'
             }
-            link={imagesLink(
-              {
-                query: work.id,
-              },
-              'work_details/images'
-            )}
+            link={toSearchImagesLink({ query: work.id })}
           />
         </WorkDetailsSection>
       )}
@@ -282,12 +274,9 @@ const WorkDetails: FunctionComponent<Props> = ({
             title="Series"
             tags={seriesPartOfs.map(partOf => ({
               textParts: [partOf.title],
-              linkAttributes: worksLink(
-                {
-                  'partOf.title': partOf.title,
-                },
-                `work_details/partOf_${pathname}`
-              ),
+              linkAttributes: toSearchWorksLink({
+                'partOf.title': partOf.title,
+              }),
             }))}
           />
         )}
@@ -306,19 +295,15 @@ const WorkDetails: FunctionComponent<Props> = ({
               return contributor.agent.id
                 ? {
                     textParts,
-                    linkAttributes: conceptLink(
-                      { conceptId: contributor.agent.id },
-                      `work_details/contributors_${pathname}`
-                    ),
+                    linkAttributes: toConceptLink({
+                      conceptId: contributor.agent.id,
+                    }),
                   }
                 : {
                     textParts,
-                    linkAttributes: worksLink(
-                      {
-                        'contributors.agent.label': [contributor.agent.label],
-                      },
-                      `work_details/contributors_${pathname}`
-                    ),
+                    linkAttributes: toSearchWorksLink({
+                      'contributors.agent.label': [contributor.agent.label],
+                    }),
                   };
             })}
             separator=""
@@ -379,10 +364,9 @@ const WorkDetails: FunctionComponent<Props> = ({
               return {
                 textParts: genre.concepts.map(c => c.label),
 
-                linkAttributes: conceptLink(
-                  { conceptId: genre.concepts[0].id as string },
-                  `work_details/genres_${pathname}`
-                ),
+                linkAttributes: toConceptLink({
+                  conceptId: genre.concepts[0].id as string,
+                }),
               };
             })}
           />
@@ -394,12 +378,9 @@ const WorkDetails: FunctionComponent<Props> = ({
             tags={work.languages.map(lang => {
               return {
                 textParts: [lang.label],
-                linkAttributes: worksLink(
-                  {
-                    languages: [lang.id],
-                  },
-                  `work_details/languages_${pathname}`
-                ),
+                linkAttributes: toSearchWorksLink({
+                  languages: [lang.id],
+                }),
               };
             })}
           />
@@ -418,19 +399,13 @@ const WorkDetails: FunctionComponent<Props> = ({
                     textParts: [s.concepts[0].label].concat(
                       s.concepts.slice(1).map(c => c.label)
                     ),
-                    linkAttributes: conceptLink(
-                      { conceptId: s.id },
-                      `work_details/subjects_${pathname}`
-                    ),
+                    linkAttributes: toConceptLink({ conceptId: s.id }),
                   }
                 : {
                     textParts: s.concepts.map(c => c.label),
-                    linkAttributes: worksLink(
-                      {
-                        'subjects.label': [s.label],
-                      },
-                      `work_details/subjects_${pathname}`
-                    ),
+                    linkAttributes: toSearchWorksLink({
+                      'subjects.label': [s.label],
+                    }),
                   };
             })}
           />

@@ -2,7 +2,7 @@ import NextLink from 'next/link';
 import styled from 'styled-components';
 
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
-import { toLink as itemLink } from '@weco/content/views/components/ItemLink';
+import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
 
 import { queryParamToArrayIndex } from '.';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
@@ -22,7 +22,7 @@ const ThumbnailsContainer = styled.div`
   `}
 `;
 
-const ThumbnailLink = styled.a`
+const ThumbnailLink = styled(NextLink)`
   display: block;
   text-decoration: none;
   padding: 12px;
@@ -48,9 +48,10 @@ export const Thumbnails = () => {
           const canvasParam =
             thumbnailsPageSize * queryParamToArrayIndex(query.page) + (i + 1);
           return (
-            <NextLink
+            <ThumbnailLink
               key={canvas.id}
-              {...itemLink({
+              aria-current={canvasParam === query.canvas}
+              {...toWorksItemLink({
                 workId: work.id,
                 props: {
                   canvas: canvasParam,
@@ -58,20 +59,12 @@ export const Thumbnails = () => {
                   manifest: query.manifest,
                   query: query.query,
                 },
-                source: 'viewer/paginator',
               })}
               scroll={false}
               replace
-              passHref
-              legacyBehavior
             >
-              <ThumbnailLink aria-current={canvasParam === query.canvas}>
-                <IIIFCanvasThumbnail
-                  canvas={canvas}
-                  thumbNumber={canvasParam}
-                />
-              </ThumbnailLink>
-            </NextLink>
+              <IIIFCanvasThumbnail canvas={canvas} thumbNumber={canvasParam} />
+            </ThumbnailLink>
           );
         })}
     </ThumbnailsContainer>

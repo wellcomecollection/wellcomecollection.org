@@ -299,10 +299,8 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
                 <NextLink
                   href={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
                   as={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
-                  passHref
-                  legacyBehavior
                 >
-                  <EmailTeamCopy as="a">
+                  <EmailTeamCopy>
                     <span>{event.bookingEnquiryTeam.email}</span>
                   </EmailTeamCopy>
                 </NextLink>

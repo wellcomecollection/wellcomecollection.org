@@ -18,7 +18,7 @@ import {
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { searchWithinLabel } from '@weco/content/text/aria-labels';
 import { TransformedCanvas } from '@weco/content/types/manifest';
-import { toLink as itemLink } from '@weco/content/views/components/ItemLink';
+import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
 import { arrayIndexToQueryParam } from '@weco/content/views/pages/works/work/IIIFViewer';
 import { thumbnailsPageSize } from '@weco/content/views/pages/works/work/IIIFViewer/Paginators';
 
@@ -150,17 +150,16 @@ const IIIFSearchWithin: FunctionComponent = () => {
   const { searchService, canvases } = { ...transformedManifest };
 
   function handleClearResults() {
-    const link = itemLink({
+    const link = toWorksItemLink({
       workId: work.id,
       props: {
         manifest: query.manifest,
         canvas: query.canvas,
         page: query.page,
       },
-      source: 'search_within_clear',
     });
     setSearchResults && setSearchResults(results);
-    router.replace(link.href, link.as);
+    router.replace(link.href);
   }
 
   async function getSearchResults() {
@@ -191,7 +190,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
         action={router.asPath}
         onSubmit={event => {
           event.preventDefault();
-          const link = itemLink({
+          const link = toWorksItemLink({
             workId: work.id,
             props: {
               canvas: query.canvas,
@@ -199,9 +198,8 @@ const IIIFSearchWithin: FunctionComponent = () => {
               query: value,
               page: query.page,
             },
-            source: 'search_within_submit',
           });
-          router.replace(link.href, link.as);
+          router.replace(link.href);
         }}
       >
         <input type="hidden" name="canvas" value={query.canvas} />
@@ -268,7 +266,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
               <ListItem key={i}>
                 <NextLink
                   replace={true}
-                  {...itemLink({
+                  {...toWorksItemLink({
                     workId: work.id,
                     props: {
                       manifest: query.manifest,
@@ -278,7 +276,6 @@ const IIIFSearchWithin: FunctionComponent = () => {
                         arrayIndexToQueryParam(index || 0) / thumbnailsPageSize
                       ),
                     },
-                    source: 'search_within_result',
                   })}
                   onClick={() => setIsMobileSidebarActive(false)}
                 >

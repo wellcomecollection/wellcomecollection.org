@@ -60,9 +60,7 @@ const IIIFClickthrough: FunctionComponent<Props> = ({
             <Space as="span" $h={{ size: 'm', properties: ['margin-right'] }}>
               <Button
                 variant="ButtonSolid"
-                dataGtmProps={{
-                  trigger: 'show_the_content',
-                }}
+                dataGtmProps={{ trigger: 'show_the_content' }}
                 text="Show the content"
                 clickHandler={() => {
                   const authServiceWindow = window.open(
