@@ -1,3 +1,4 @@
+import NextLink from 'next/link';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
@@ -50,7 +51,7 @@ export const ImageWrapper = styled(Space).attrs({
   `};
 `;
 
-export const ImageLink = styled.a`
+export const ImageLink = styled(NextLink)`
   display: flex;
   align-items: center;
   justify-content: center;

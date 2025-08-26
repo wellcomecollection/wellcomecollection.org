@@ -66,7 +66,6 @@ const IIIFItemAudioVideoLink = ({ canvas, item, i, itemUrl, isRestricted }) => {
               link={{
                 ...itemUrl,
                 href: { ...itemUrl.href, query: viewerQuery },
-                as: { ...itemUrl.as, query: viewerQuery },
               }}
             />
           )}

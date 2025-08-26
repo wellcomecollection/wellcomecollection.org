@@ -1,6 +1,5 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
-import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 import styled from 'styled-components';
 
@@ -23,7 +22,7 @@ import { getActiveFiltersLabel, hasFilters } from '@weco/content/utils/search';
 import Pagination from '@weco/content/views/components/Pagination';
 import SearchFilters from '@weco/content/views/components/SearchFilters';
 import {
-  toLink,
+  toSearchWorksLink,
   WorksProps as WorksRouteProps,
 } from '@weco/content/views/components/SearchPagesLink/Works';
 import Sort from '@weco/content/views/components/Sort';
@@ -49,12 +48,8 @@ const WorksSearchPage: NextPage<Props> = withSearchLayout(
     const { query: queryString } = query;
 
     const { setLink } = useSearchContext();
-    const pathname = usePathname();
     useEffect(() => {
-      const link = toLink(
-        { ...worksRouteProps },
-        `works_search_context_${pathname}`
-      );
+      const link = toSearchWorksLink({ ...worksRouteProps });
       setLink(link);
     }, [worksRouteProps]);
 
@@ -80,10 +75,10 @@ const WorksSearchPage: NextPage<Props> = withSearchLayout(
             <link
               rel="prev"
               href={convertUrlToString(
-                toLink(
-                  { ...worksRouteProps, page: (worksRouteProps.page || 1) - 1 },
-                  `search/paginator_${pathname}`
-                ).as
+                toSearchWorksLink({
+                  ...worksRouteProps,
+                  page: (worksRouteProps.page || 1) - 1,
+                }).href
               )}
             />
           )}
@@ -91,10 +86,10 @@ const WorksSearchPage: NextPage<Props> = withSearchLayout(
             <link
               rel="next"
               href={convertUrlToString(
-                toLink(
-                  { ...worksRouteProps, page: worksRouteProps.page + 1 },
-                  `search/paginator_${pathname}`
-                ).as
+                toSearchWorksLink({
+                  ...worksRouteProps,
+                  page: worksRouteProps.page + 1,
+                }).href
               )}
             />
           )}

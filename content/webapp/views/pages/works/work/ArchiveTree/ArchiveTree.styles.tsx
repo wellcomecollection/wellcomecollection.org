@@ -1,3 +1,4 @@
+import NextLink from 'next/link';
 import styled from 'styled-components';
 
 import Space from '@weco/common/views/components/styled/Space';
@@ -106,7 +107,7 @@ type StyledLinkProps = {
   'data-gtm-data-tree-level': number;
 };
 
-export const StyledLink = styled.a<StyledLinkProps>`
+export const StyledLink = styled(NextLink)<StyledLinkProps>`
   display: inline-block;
   min-height: ${controlDimensions.controlHeight}px;
   line-height: 1;

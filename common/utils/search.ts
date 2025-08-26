@@ -1,5 +1,3 @@
-import { ParsedUrlQuery } from 'querystring';
-
 import { propsToQuery } from './routes';
 
 export type DefaultSortValuesType = {
@@ -105,22 +103,10 @@ export const linkResolver = ({
 }) => {
   const queryWithSource = propsToQuery(params);
 
-  // `source` is used in Segment to show how a person got to the page
-  // but we don't want it to display in the URL
-  /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-  const { source = undefined, ...queryWithoutSource } = {
-    ...queryWithSource,
+  return {
+    href: {
+      pathname,
+      query: queryWithSource,
+    },
   };
-
-  const as = {
-    pathname,
-    query: queryWithoutSource as ParsedUrlQuery,
-  };
-
-  const href = {
-    pathname,
-    query: queryWithSource,
-  };
-
-  return { href, as };
 };
