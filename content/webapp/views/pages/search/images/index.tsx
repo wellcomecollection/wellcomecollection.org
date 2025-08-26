@@ -25,7 +25,7 @@ import Pagination from '@weco/content/views/components/Pagination';
 import SearchFilters from '@weco/content/views/components/SearchFilters';
 import {
   ImagesProps,
-  toLink,
+  toSearchImagesLink,
 } from '@weco/content/views/components/SearchPagesLink/Images';
 import Sort from '@weco/content/views/components/Sort';
 import { withSearchLayout } from '@weco/content/views/layouts/SearchPageLayout';
@@ -70,7 +70,7 @@ const ImagesSearchPage: NextPage<Props> = withSearchLayout(
     const { setLink } = useSearchContext();
 
     useEffect(() => {
-      const link = toLink({ ...imagesRouteProps }, 'images_search_context');
+      const link = toSearchImagesLink({ ...imagesRouteProps });
       setLink(link);
     }, [imagesRouteProps]);
 
@@ -96,13 +96,10 @@ const ImagesSearchPage: NextPage<Props> = withSearchLayout(
             <link
               rel="prev"
               href={convertUrlToString(
-                toLink(
-                  {
-                    ...imagesRouteProps,
-                    page: (imagesRouteProps.page || 1) - 1,
-                  },
-                  'search/paginator'
-                ).as
+                toSearchImagesLink({
+                  ...imagesRouteProps,
+                  page: (imagesRouteProps.page || 1) - 1,
+                }).href
               )}
             />
           )}
@@ -110,10 +107,10 @@ const ImagesSearchPage: NextPage<Props> = withSearchLayout(
             <link
               rel="next"
               href={convertUrlToString(
-                toLink(
-                  { ...imagesRouteProps, page: imagesRouteProps.page + 1 },
-                  'search/paginator'
-                ).as
+                toSearchImagesLink({
+                  ...imagesRouteProps,
+                  page: imagesRouteProps.page + 1,
+                }).href
               )}
             />
           )}

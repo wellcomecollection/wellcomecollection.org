@@ -18,7 +18,7 @@ import {
   Title,
 } from './RelatedWorksCard.styles';
 
-type Props = {
+export type Props = {
   work: WorkBasic | ContentApiLinkedWork; // Supports both Catalogue and Content API works
   gtmData?: DataGtmProps;
 };

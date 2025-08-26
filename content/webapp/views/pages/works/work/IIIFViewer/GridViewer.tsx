@@ -18,7 +18,7 @@ import useScrollVelocity from '@weco/content/hooks/useScrollVelocity';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { ItemViewerQuery } from '@weco/content/types/item-viewer';
 import { TransformedCanvas } from '@weco/content/types/manifest';
-import { toLink as itemLink } from '@weco/content/views/components/ItemLink';
+import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
 
 import { arrayIndexToQueryParam, queryParamToArrayIndex } from '.';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
@@ -86,14 +86,13 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
           <ThumbnailSpacer>
             <NextLink
               replace={true}
-              {...itemLink({
+              {...toWorksItemLink({
                 workId,
                 props: {
                   manifest: query.manifest,
                   query: query.query,
                   canvas: arrayIndexToQueryParam(canvasIndex),
                 },
-                source: 'viewer/thumbnail',
               })}
               aria-current={
                 canvasIndex === queryParamToArrayIndex(query.canvas)

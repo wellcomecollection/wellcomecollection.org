@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { classNames, font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
@@ -31,7 +31,9 @@ export const ButtonIconWrapper = styled(Space).attrs({
   margin-top: 0;
 `;
 
-export const BasicButton = styled.button.attrs<{ href?: string }>(props => ({
+export const BasicButton = styled.button.attrs<{
+  href?: string;
+}>(props => ({
   as: props.href ? 'a' : 'button',
 }))`
   align-items: center;
@@ -72,14 +74,7 @@ const getPadding = (size: ButtonSize = 'medium') => {
   }
 };
 
-export const StyledButton = styled(BasicButton).attrs<SolidButtonStyledProps>(
-  props => ({
-    'aria-label': props.$ariaLabel,
-    className: classNames({
-      'link-reset': !!props.href,
-    }),
-  })
-)<SolidButtonStyledProps>`
+export const StyledButtonCSS = css<SolidButtonStyledProps>`
   padding: ${props => getPadding(props.$size)};
   ${props => `
     background:
@@ -124,4 +119,13 @@ export const StyledButton = styled(BasicButton).attrs<SolidButtonStyledProps>(
           border: 2px solid ${props.theme.color('black')};
         }
       `};
+`;
+
+export const StyledButton = styled(BasicButton).attrs<SolidButtonStyledProps>(
+  props => ({
+    'aria-label': props.$ariaLabel,
+    className: classNames({ 'link-reset': !!props.href }),
+  })
+)<SolidButtonStyledProps>`
+  ${StyledButtonCSS}
 `;

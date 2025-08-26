@@ -1,10 +1,10 @@
+import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
 
-import { WorkLinkSource } from '@weco/common/data/segment-values';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
-import WorkLink from '@weco/content/views/components/WorkLink';
+import { toWorkLink } from '@weco/content/views/components/WorkLink';
 import { ContentAPILinkedWork } from '@weco/content/views/pages/stories/story/tempMockData';
 
 import {
@@ -18,15 +18,10 @@ import {
 
 type Props = {
   work: WorkBasic | ContentAPILinkedWork; // Supports both Catalogue and Content API works
-  source?: WorkLinkSource; // Optional source for Segment tracking
   gtmData?: DataGtmProps;
 };
 
-const RelatedWorksCard: FunctionComponent<Props> = ({
-  work,
-  source,
-  gtmData,
-}) => {
+const RelatedWorksCard: FunctionComponent<Props> = ({ work, gtmData }) => {
   const isCatalogueWork = 'notes' in work;
 
   const thumbnailUrl = isCatalogueWork
@@ -44,11 +39,10 @@ const RelatedWorksCard: FunctionComponent<Props> = ({
     : work.mainContributor;
 
   return (
-    <WorkLink
+    <NextLink
+      {...toWorkLink({ id: work.id })}
       data-component="related-works-card"
-      id={work.id}
-      source={source || `works_search_result_${work.id}`}
-      passHref
+      style={{ textDecoration: 'none' }}
     >
       <Card
         $isHover={true}
@@ -83,7 +77,7 @@ const RelatedWorksCard: FunctionComponent<Props> = ({
           </MetaContainer>
         </TextWrapper>
       </Card>
-    </WorkLink>
+    </NextLink>
   );
 };
 

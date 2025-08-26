@@ -95,7 +95,6 @@ type LinkedWorkProps = {
 const LinkedWorks: FunctionComponent<LinkedWorkProps> = ({
   linkedWorks,
   gridSizes,
-  parentId,
 }: LinkedWorkProps) => {
   const hasLinkedWorks = linkedWorks && linkedWorks.length > 0;
 
@@ -132,7 +131,6 @@ const LinkedWorks: FunctionComponent<LinkedWorkProps> = ({
             <RelatedWorksCard
               variant="default"
               work={work}
-              source={`story_featured_${parentId}`}
               gtmData={{
                 trigger: 'work-link-component',
                 id: work.id,
