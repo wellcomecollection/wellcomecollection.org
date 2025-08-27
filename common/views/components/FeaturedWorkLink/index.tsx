@@ -1,4 +1,11 @@
-import { HTMLAttributes, ReactNode, useEffect, useRef, useState } from 'react';
+import {
+  HTMLAttributes,
+  ReactNode,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+} from 'react';
 import styled from 'styled-components';
 
 const WorkLinkWithIcon = styled.a`
@@ -66,6 +73,8 @@ const FeaturedWorkLink = ({
     y: 0,
   });
 
+  const id = useId();
+
   useEffect(() => {
     if (!portalRef.current) return;
 
@@ -115,7 +124,7 @@ const FeaturedWorkLink = ({
       {...rest}
     >
       {children || 'View in catalogue'}
-      <span ref={portalRef} data-portal-id={workId} />
+      <span id={id} ref={portalRef} data-portal-id={workId} />
     </WorkLinkWithIcon>
   );
 };

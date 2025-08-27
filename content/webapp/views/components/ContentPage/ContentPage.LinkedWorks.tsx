@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from 'react';
+import { Fragment, FunctionComponent, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 
@@ -139,14 +139,18 @@ const LinkedWorks: FunctionComponent<LinkedWorkProps> = ({
             portals && [...portals].filter(p => p.dataset.portalId === work.id);
 
           return (
-            <>
+            <Fragment key={work.id}>
               {portalsForWork?.map((p, i) => {
                 return createPortal(
-                  <RelatedWorksCard variant="hover" work={work} key={i} />,
+                  <RelatedWorksCard
+                    variant="hover"
+                    work={work}
+                    key={`${work.id}-${p.dataset.portalId}-${i}`}
+                  />,
                   p
                 );
               })}
-              <ListItem key={work.id}>
+              <ListItem>
                 <RelatedWorksCard
                   variant="default"
                   work={work}
@@ -157,7 +161,7 @@ const LinkedWorks: FunctionComponent<LinkedWorkProps> = ({
                   }}
                 />
               </ListItem>
-            </>
+            </Fragment>
           );
         })}
         <Shim $gridValues={gridValues}></Shim>
