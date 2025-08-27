@@ -92,6 +92,12 @@ export const ImageWrapper = styled.div<{ $isHover?: boolean }>`
   margin-bottom: ${props => props.theme.spacingUnits['5']}px;
   display: flex;
 
+  ${props =>
+    props.$isHover &&
+    `
+      flex: 1;
+    `}
+
   img {
     display: block;
     object-fit: contain;
@@ -119,6 +125,13 @@ export const ImageWrapper = styled.div<{ $isHover?: boolean }>`
       */
       @supports (-webkit-appearance: none) and (stroke-color: transparent) {
         max-width: 100%;
+
+        ${
+          props.$isHover &&
+          `
+          min-width: 60px;
+        `
+        }
       }
     `)}
   }
