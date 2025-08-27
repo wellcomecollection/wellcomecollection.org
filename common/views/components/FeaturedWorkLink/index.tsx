@@ -148,8 +148,6 @@ const FeaturedWorkLink = ({
     <WorkLinkWithIcon
       onMouseEnter={event => {
         setHoverPostion({ x: event.clientX, y: event.clientY });
-        // You can access mouseDirection.current here to know the direction
-        console.log(`Mouse was moving: ${mouseDirection.current}`);
       }}
       href={link}
       data-component="featured-work-link"
