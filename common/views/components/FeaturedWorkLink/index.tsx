@@ -64,8 +64,8 @@ const FeaturedWorkLink = ({
   const { portalRef, handleMouseEnter, mouseDirection } = useHoverPortal({
     portalWidth: 362,
     portalHeight: 96,
-    defaultOffset: 10,
-    downwardOffset: 20,
+    defaultOffset: 4,
+    downwardOffset: 26,
   });
 
   if (!(link && hasLinkedWork(link))) return null;
