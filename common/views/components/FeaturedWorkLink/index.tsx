@@ -1,7 +1,7 @@
 import { HTMLAttributes, ReactNode, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-const WorkLinkWithIcon = styled.a<{ $portalRight: boolean }>`
+const WorkLinkWithIcon = styled.a`
   text-decoration-style: dotted;
   text-underline-offset: 26%;
   text-decoration-thickness: 8%;
@@ -19,21 +19,11 @@ const WorkLinkWithIcon = styled.a<{ $portalRight: boolean }>`
   }
 
   [data-portal-id] {
-    position: absolute;
-    bottom: calc(100% + 5px);
-    left: -10px;
+    position: fixed;
     pointer-events: none;
-    opacity: 0;
     z-index: 2;
+    opacity: 0;
     transition: opacity ${props => props.theme.transitionProperties};
-
-    ${props =>
-      props.$portalRight
-        ? `
-      right: -10px;
-      left: auto;
-      `
-        : ''}
   }
 
   &:hover {
@@ -70,44 +60,45 @@ const FeaturedWorkLink = ({
   children?: ReactNode;
 } & HTMLAttributes<HTMLAnchorElement>) => {
   const portalRef = useRef<HTMLSpanElement>(null);
-  const [portalRight, setPortalRight] = useState(false);
+
+  const [hoverPosition, setHoverPostion] = useState<{ x: number; y: number }>({
+    x: 0,
+    y: 0,
+  });
 
   useEffect(() => {
-    // After the cards are portaled in to the data-portal-id element
-    // we check that there's enough space for it. If not, we position it using
-    // right instead of left. And we re-check this if the window is resized.
-    const checkPosition = (element: HTMLElement) => {
-      const viewportWidth = document.documentElement.clientWidth;
-      const right = element.getBoundingClientRect().right;
+    if (!portalRef.current) return;
 
-      setPortalRight(right > viewportWidth);
-    };
+    const portal = portalRef.current;
+    const viewportWidth = document.documentElement.clientWidth;
+    const viewportHeight = document.documentElement.clientHeight;
 
-    const observer = new MutationObserver(([entry]) => {
-      const insertedElement = entry.addedNodes[0] as HTMLElement;
+    // Default position: below the hover point with some offset
+    let topPosition = hoverPosition.y + 10;
+    // Center horizontally around the hover position
+    const portalWidth = 362;
+    let leftPosition = hoverPosition.x - portalWidth / 2;
 
-      checkPosition(insertedElement);
-    });
+    // Check if there's enough space below the hover point
+    const portalHeight = 96;
 
-    const handleResize = () => {
-      if (portalRef.current) {
-        checkPosition(portalRef.current);
-      }
-    };
-
-    if (portalRef.current) {
-      observer.observe(portalRef.current, {
-        childList: true,
-      });
+    if (topPosition + portalHeight > viewportHeight) {
+      // Not enough space below, position above the hover point
+      topPosition = hoverPosition.y - portalHeight - 10;
     }
 
-    window.addEventListener('resize', handleResize);
+    // Ensure the portal doesn't go off the left or right edge
+    if (leftPosition + portalWidth > viewportWidth) {
+      leftPosition = viewportWidth - portalWidth - 10;
+    }
 
-    return () => {
-      observer.disconnect();
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
+    if (leftPosition < 10) {
+      leftPosition = 10;
+    }
+
+    portal.style.top = `${Math.max(10, topPosition)}px`;
+    portal.style.left = `${leftPosition}px`;
+  }, [hoverPosition]);
 
   if (!(link && hasLinkedWork(link))) return null;
 
@@ -115,7 +106,9 @@ const FeaturedWorkLink = ({
 
   return (
     <WorkLinkWithIcon
-      $portalRight={portalRight}
+      onMouseEnter={event =>
+        setHoverPostion({ x: event.clientX, y: event.clientY })
+      }
       href={link}
       data-component="featured-work-link"
       data-gtm-id="work-link-component"
