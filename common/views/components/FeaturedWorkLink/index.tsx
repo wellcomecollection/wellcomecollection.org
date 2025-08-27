@@ -38,7 +38,6 @@ const WorkLinkWithIcon = styled.a<{ $portalRight: boolean }>`
   &:hover {
     [data-portal-id] {
       opacity: 1;
-      pointer-events: auto;
     }
   }
 
@@ -73,15 +72,19 @@ const FeaturedWorkLink = ({
   const [portalRight, setPortalRight] = useState(false);
 
   useEffect(() => {
+    // After the cards are portaled in to the data-portal-id element
+    // we check that there's enough space for it. If not, we position it using
+    // right instead of left. And we re-check this if the window is resized.
     const checkPosition = (element: HTMLElement) => {
       const viewportWidth = document.documentElement.clientWidth;
       const right = element.getBoundingClientRect().right;
-      console.log({ right, viewportWidth });
+
       setPortalRight(right > viewportWidth);
     };
 
     const observer = new MutationObserver(([entry]) => {
       const insertedElement = entry.addedNodes[0] as HTMLElement;
+
       checkPosition(insertedElement);
     });
 
