@@ -67,6 +67,11 @@ const FeaturedWorkLink = ({
   children?: ReactNode;
 } & HTMLAttributes<HTMLAnchorElement>) => {
   const portalRef = useRef<HTMLSpanElement>(null);
+  const previousMousePosition = useRef<{ x: number; y: number }>({
+    x: 0,
+    y: 0,
+  });
+  const mouseDirection = useRef<'up' | 'down' | 'none'>('none');
 
   const [hoverPosition, setHoverPostion] = useState<{ x: number; y: number }>({
     x: 0,
@@ -76,6 +81,29 @@ const FeaturedWorkLink = ({
   const id = useId();
 
   useEffect(() => {
+    const handleMouseMove = (event: MouseEvent) => {
+      const currentY = event.clientY;
+      const previousY = previousMousePosition.current.y;
+
+      if (previousY !== 0) {
+        if (currentY > previousY) {
+          mouseDirection.current = 'down';
+        } else if (currentY < previousY) {
+          mouseDirection.current = 'up';
+        }
+      }
+
+      previousMousePosition.current = { x: event.clientX, y: event.clientY };
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+
+  useEffect(() => {
     if (!portalRef.current) return;
 
     const portal = portalRef.current;
@@ -83,7 +111,9 @@ const FeaturedWorkLink = ({
     const viewportHeight = document.documentElement.clientHeight;
 
     // Default position: below the hover point with some offset
-    let topPosition = hoverPosition.y + 10;
+    // Increase offset when mouse was moving down
+    const baseOffset = mouseDirection.current === 'down' ? 26 : 4;
+    let topPosition = hoverPosition.y + baseOffset;
     // Center horizontally around the hover position
     const portalWidth = 362;
     let leftPosition = hoverPosition.x - portalWidth / 2;
@@ -91,8 +121,9 @@ const FeaturedWorkLink = ({
     // Check if there's enough space below the hover point
     const portalHeight = 96;
 
+    // Check if the portal would go below the viewport with the calculated position
     if (topPosition + portalHeight > viewportHeight) {
-      // Not enough space below, position above the hover point
+      // Not enough space below, position above the hover point regardless of direction
       topPosition = hoverPosition.y - portalHeight - 10;
     }
 
@@ -115,9 +146,11 @@ const FeaturedWorkLink = ({
 
   return (
     <WorkLinkWithIcon
-      onMouseEnter={event =>
-        setHoverPostion({ x: event.clientX, y: event.clientY })
-      }
+      onMouseEnter={event => {
+        setHoverPostion({ x: event.clientX, y: event.clientY });
+        // You can access mouseDirection.current here to know the direction
+        console.log(`Mouse was moving: ${mouseDirection.current}`);
+      }}
       href={link}
       data-component="featured-work-link"
       data-gtm-id="work-link-component"
