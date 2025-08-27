@@ -1,12 +1,7 @@
-import {
-  HTMLAttributes,
-  ReactNode,
-  useEffect,
-  useId,
-  useRef,
-  useState,
-} from 'react';
+import { HTMLAttributes, ReactNode } from 'react';
 import styled from 'styled-components';
+
+import { useHoverPortal } from '@weco/common/hooks/useHoverPortal';
 
 const WorkLinkWithIcon = styled.a`
   text-decoration-style: dotted;
@@ -66,79 +61,12 @@ const FeaturedWorkLink = ({
   link?: string;
   children?: ReactNode;
 } & HTMLAttributes<HTMLAnchorElement>) => {
-  const portalRef = useRef<HTMLSpanElement>(null);
-  const previousMousePosition = useRef<{ x: number; y: number }>({
-    x: 0,
-    y: 0,
+  const { portalRef, handleMouseEnter, mouseDirection } = useHoverPortal({
+    portalWidth: 362,
+    portalHeight: 96,
+    defaultOffset: 10,
+    downwardOffset: 20,
   });
-  const mouseDirection = useRef<'up' | 'down' | 'none'>('none');
-
-  const [hoverPosition, setHoverPostion] = useState<{ x: number; y: number }>({
-    x: 0,
-    y: 0,
-  });
-
-  const id = useId();
-
-  useEffect(() => {
-    const handleMouseMove = (event: MouseEvent) => {
-      const currentY = event.clientY;
-      const previousY = previousMousePosition.current.y;
-
-      if (previousY !== 0) {
-        if (currentY > previousY) {
-          mouseDirection.current = 'down';
-        } else if (currentY < previousY) {
-          mouseDirection.current = 'up';
-        }
-      }
-
-      previousMousePosition.current = { x: event.clientX, y: event.clientY };
-    };
-
-    document.addEventListener('mousemove', handleMouseMove);
-
-    return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!portalRef.current) return;
-
-    const portal = portalRef.current;
-    const viewportWidth = document.documentElement.clientWidth;
-    const viewportHeight = document.documentElement.clientHeight;
-
-    // Default position: below the hover point with some offset
-    // Increase offset when mouse was moving down
-    const baseOffset = mouseDirection.current === 'down' ? 26 : 4;
-    let topPosition = hoverPosition.y + baseOffset;
-    // Center horizontally around the hover position
-    const portalWidth = 362;
-    let leftPosition = hoverPosition.x - portalWidth / 2;
-
-    // Check if there's enough space below the hover point
-    const portalHeight = 96;
-
-    // Check if the portal would go below the viewport with the calculated position
-    if (topPosition + portalHeight > viewportHeight) {
-      // Not enough space below, position above the hover point regardless of direction
-      topPosition = hoverPosition.y - portalHeight - 10;
-    }
-
-    // Ensure the portal doesn't go off the left or right edge
-    if (leftPosition + portalWidth > viewportWidth) {
-      leftPosition = viewportWidth - portalWidth - 10;
-    }
-
-    if (leftPosition < 10) {
-      leftPosition = 10;
-    }
-
-    portal.style.top = `${Math.max(10, topPosition)}px`;
-    portal.style.left = `${leftPosition}px`;
-  }, [hoverPosition]);
 
   if (!(link && hasLinkedWork(link))) return null;
 
@@ -147,7 +75,9 @@ const FeaturedWorkLink = ({
   return (
     <WorkLinkWithIcon
       onMouseEnter={event => {
-        setHoverPostion({ x: event.clientX, y: event.clientY });
+        handleMouseEnter(event);
+        // You can still access mouseDirection here if needed
+        console.log(`Mouse was moving: ${mouseDirection}`);
       }}
       href={link}
       data-component="featured-work-link"
@@ -155,7 +85,7 @@ const FeaturedWorkLink = ({
       {...rest}
     >
       {children || 'View in catalogue'}
-      <span id={id} ref={portalRef} data-portal-id={workId} />
+      <span ref={portalRef} data-portal-id={workId} />
     </WorkLinkWithIcon>
   );
 };
