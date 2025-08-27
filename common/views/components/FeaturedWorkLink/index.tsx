@@ -38,6 +38,7 @@ const WorkLinkWithIcon = styled.a<{ $portalRight: boolean }>`
   &:hover {
     [data-portal-id] {
       opacity: 1;
+      pointer-events: auto;
     }
   }
 
@@ -68,20 +69,27 @@ const FeaturedWorkLink = ({
   link?: string;
   children?: ReactNode;
 } & HTMLAttributes<HTMLAnchorElement>) => {
-  const portalRef = useRef(null);
+  const portalRef = useRef<HTMLSpanElement>(null);
   const [portalRight, setPortalRight] = useState(false);
 
   useEffect(() => {
+    const checkPosition = (element: HTMLElement) => {
+      const viewportWidth = document.documentElement.clientWidth;
+      const right = element.getBoundingClientRect().right;
+      console.log({ right, viewportWidth });
+      setPortalRight(right > viewportWidth);
+    };
+
     const observer = new MutationObserver(([entry]) => {
       const insertedElement = entry.addedNodes[0] as HTMLElement;
-      const viewportWidth = document.documentElement.clientWidth;
-      const right = insertedElement.getBoundingClientRect().right;
-
-      if (right > viewportWidth) {
-        // prevent the card from going off screen
-        setPortalRight(true);
-      }
+      checkPosition(insertedElement);
     });
+
+    const handleResize = () => {
+      if (portalRef.current) {
+        checkPosition(portalRef.current);
+      }
+    };
 
     if (portalRef.current) {
       observer.observe(portalRef.current, {
@@ -89,10 +97,13 @@ const FeaturedWorkLink = ({
       });
     }
 
+    window.addEventListener('resize', handleResize);
+
     return () => {
       observer.disconnect();
+      window.removeEventListener('resize', handleResize);
     };
-  }, [portalRef.current]);
+  }, []);
 
   if (!(link && hasLinkedWork(link))) return null;
 
