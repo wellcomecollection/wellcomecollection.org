@@ -112,19 +112,17 @@ export const defaultSerializer: JSXFunctionSerializer = (
       const isWorkLink = linkUrl.match(
         /^https:\/\/wellcomecollection.org\/works/i
       );
-      const workId = isWorkLink ? linkUrl.split('/').pop() : null;
 
       const fileExtension = linkUrl.match(/\.[0-9a-z]+$/i);
 
       const documentType =
         fileExtension && fileExtension[0].substring(1).toUpperCase();
 
-      if (isWorkLink && workId) {
+      if (isWorkLink) {
         return (
           <FeaturedWorkLink className="link-reset" link={linkUrl}>
             {children}
             <span className="visually-hidden">(view in catalogue)</span>
-            <span data-portal-id={workId}></span>
           </FeaturedWorkLink>
         );
       }
