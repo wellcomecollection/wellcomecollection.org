@@ -102,7 +102,11 @@ const LinkedWorks: FunctionComponent<LinkedWorkProps> = ({
   const [portals, setPortals] = useState<NodeListOf<HTMLElement> | null>(null);
 
   useEffect(() => {
-    setPortals(document.querySelectorAll(`[data-portal-id]`));
+    setTimeout(() => {
+      window.requestAnimationFrame(() => {
+        setPortals(document.querySelectorAll(`[data-portal-id]`));
+      });
+    });
   }, [linkedWorks]);
 
   useEffect(() => {
