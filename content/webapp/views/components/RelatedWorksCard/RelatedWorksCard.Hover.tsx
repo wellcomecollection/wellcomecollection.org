@@ -37,7 +37,7 @@ const RelatedWorksCard: FunctionComponent<Props> = ({ work, gtmData }) => {
     : work.mainContributor;
 
   return (
-    <div>
+    <div style={{ textAlign: 'left' }}>
       <Card
         as="span"
         $isHover={true}

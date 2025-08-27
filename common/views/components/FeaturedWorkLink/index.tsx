@@ -24,6 +24,7 @@ const WorkLinkWithIcon = styled.a<{ $portalRight: boolean }>`
     left: -10px;
     pointer-events: none;
     opacity: 0;
+    z-index: 2;
     transition: opacity ${props => props.theme.transitionProperties};
 
     ${props =>
