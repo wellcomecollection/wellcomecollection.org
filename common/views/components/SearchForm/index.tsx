@@ -27,10 +27,12 @@ const SearchForm = ({
   searchCategory = 'overview',
   location = 'header',
   inputRef = undefined,
+  showTypewriter = false,
 }: {
   searchCategory?: SearchCategory;
   location?: ValidLocations;
   inputRef?: RefObject<HTMLInputElement | null> | undefined;
+  showTypewriter?: boolean;
 }): ReactElement => {
   const router = useRouter();
   const routerQuery = getQueryPropertyValue(router?.query?.query);
@@ -67,6 +69,7 @@ const SearchForm = ({
         placeholder={searchLabelText[searchCategory]}
         inputRef={inputRef}
         location={location}
+        showTypewriter={showTypewriter}
       />
     </form>
   );
