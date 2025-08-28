@@ -68,11 +68,11 @@ const meta: Meta<typeof PageHeader> = {
         disable: true,
       },
     },
-    sectionLevelPage: {
-      table: {
-        disable: true,
-      },
-    },
+    // sectionLevelPage: {
+    //   table: {
+    //     disable: true,
+    //   },
+    // },
     highlightHeading: {
       table: {
         disable: true,
