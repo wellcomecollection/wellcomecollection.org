@@ -18,7 +18,6 @@ import { themeValues } from '@weco/common/views/themes/config';
 const Container = styled.div`
   display: flex;
   align-items: flex-end;
-  border-bottom: 4px solid ${props => props.theme.color('accent.salmon')};
 `;
 
 const Typewriter = styled.div.attrs({
@@ -27,7 +26,7 @@ const Typewriter = styled.div.attrs({
   position: absolute;
   pointer-events: none;
   top: calc(16px + 50%);
-  left: 1rem;
+  left: 1em;
   transform: translateY(-50%);
   z-index: 1;
   color: ${props => props.theme.color('neutral.500')};
@@ -41,6 +40,7 @@ const SearchInputWrapper = styled.div`
 
   input {
     border: none;
+    height: 45px;
   }
 
   .search-query {
@@ -56,7 +56,7 @@ const SearchInputWrapper = styled.div`
 
 const SearchButtonWrapper = styled.div`
   button {
-    height: 100%;
+    height: 53px;
   }
 `;
 
@@ -67,6 +67,7 @@ type Props = {
   form: string;
   inputRef?: RefObject<HTMLInputElement | null>;
   location: ValidLocations;
+  showTypewriter?: boolean;
 };
 
 export type ValidLocations = 'header' | 'search' | 'page';
@@ -78,6 +79,7 @@ const SearchBar: FunctionComponent<Props> = ({
   form,
   inputRef,
   location,
+  showTypewriter,
 }) => {
   const defaultInputRef = useRef<HTMLInputElement>(null);
   const typewriterRef = useRef<HTMLDivElement>(null);
@@ -87,15 +89,18 @@ const SearchBar: FunctionComponent<Props> = ({
     if (typewriterRef.current) {
       const typed = new Typed(typewriterRef.current, {
         strings: [
-          'Florence Nightingale',
+          'Florence Nightingale letters',
           'Medical history',
-          'Contemporary art',
-          'Archives and manuscripts',
+          'Charles Darwin',
+          'Amulets',
+          'Wood engravings',
+          'Graphite sketches',
+          'Zines',
         ]
           .map(value => ({ value, sort: Math.random() }))
           .sort((a, b) => a.sort - b.sort)
           .map(({ value }) => value),
-        typeSpeed: 50,
+        typeSpeed: 100,
         backSpeed: 25,
         backDelay: 2000,
         loop: true,
@@ -113,7 +118,7 @@ const SearchBar: FunctionComponent<Props> = ({
       <GridCell $sizeMap={{ s: [12], m: [10], l: [10], xl: [10] }}>
         <Container data-component="search-bar" className="is-hidden-print">
           <SearchInputWrapper>
-            <Typewriter ref={typewriterRef} />
+            {showTypewriter && <Typewriter ref={typewriterRef} />}
             <TextInput
               id={`${location}-searchbar`}
               label={placeholder}
@@ -124,7 +129,7 @@ const SearchBar: FunctionComponent<Props> = ({
               ref={inputRef || defaultInputRef}
               form={form}
               hasClearButton
-              isBorderless={true}
+              isNewSearchBar={true}
               placeholder=" " // This empty placeholder is required for the :placeholder-shown CSS selector to work
             />
           </SearchInputWrapper>

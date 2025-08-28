@@ -28,7 +28,11 @@ const Page: NextPage<page.Props> = props => {
       staticContent={
         <ContaineredLayout gridSizes={gridSize12()}>
           <SpacingSection>
-            <SearchForm searchCategory="works" location="page" />
+            <SearchForm
+              searchCategory="works"
+              location="page"
+              showTypewriter={true}
+            />
           </SpacingSection>
         </ContaineredLayout>
       }

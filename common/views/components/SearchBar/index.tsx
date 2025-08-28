@@ -43,6 +43,7 @@ type Props = {
   form: string;
   inputRef?: RefObject<HTMLInputElement | null>;
   location: ValidLocations;
+  showTypewriter?: boolean;
 };
 
 export type ValidLocations = 'header' | 'search' | 'page';
@@ -54,6 +55,7 @@ const SearchBar: FunctionComponent<Props> = ({
   form,
   inputRef,
   location,
+  showTypewriter,
 }) => {
   const { newSearchBar } = useToggles();
   const defaultInputRef = useRef<HTMLInputElement>(null);
@@ -66,6 +68,7 @@ const SearchBar: FunctionComponent<Props> = ({
       form={form}
       inputRef={inputRef}
       location={location}
+      showTypewriter={showTypewriter}
     />
   ) : (
     <Container data-component="search-bar" className="is-hidden-print">
