@@ -61,7 +61,7 @@ const FeaturedWorkLink = ({
   link?: string;
   children?: ReactNode;
 } & HTMLAttributes<HTMLAnchorElement>) => {
-  const { portalRef, handleMouseEnter, mouseDirection } = useHoverPortal({
+  const { portalRef, handleMouseEnter } = useHoverPortal({
     portalWidth: 362,
     portalHeight: 96,
     defaultOffset: 4,
@@ -74,11 +74,7 @@ const FeaturedWorkLink = ({
 
   return (
     <WorkLinkWithIcon
-      onMouseEnter={event => {
-        handleMouseEnter(event);
-        // You can still access mouseDirection here if needed
-        console.log(`Mouse was moving: ${mouseDirection}`);
-      }}
+      onMouseEnter={handleMouseEnter}
       href={link}
       data-component="featured-work-link"
       data-gtm-id="work-link-component"
