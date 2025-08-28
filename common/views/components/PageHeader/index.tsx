@@ -1,127 +1,28 @@
-import {
-  ComponentProps,
-  FunctionComponent,
-  ReactElement,
-  ReactNode,
-} from 'react';
-import styled from 'styled-components';
+import { ComponentProps, FunctionComponent, ReactElement } from 'react';
 
-import { font } from '@weco/common/utils/classnames';
-import AccessibilityProvision from '@weco/common/views/components/AccessibilityProvision';
-import Breadcrumb from '@weco/common/views/components/Breadcrumb';
-import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground';
 import LabelsList from '@weco/common/views/components/LabelsList';
-import {
-  ContaineredLayout,
-  gridSize10,
-  gridSize12,
-} from '@weco/common/views/components/Layout';
 import { Picture } from '@weco/common/views/components/Picture';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import { SizeMap } from '@weco/common/views/components/styled/Grid';
-import Space from '@weco/common/views/components/styled/Space';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed';
-import {
-  WobblyBottom,
-  WobblyEdge,
-} from '@weco/common/views/components/WobblyEdge';
-import { PaletteColor } from '@weco/common/views/themes/config';
 
-const Container = styled.div<{ $backgroundTexture?: string }>`
-  position: relative;
-  background-image: ${props =>
-    props.$backgroundTexture
-      ? `url(${props.$backgroundTexture})`
-      : 'undefined'};
-  background-size: ${props =>
-    props.$backgroundTexture ? 'cover' : 'undefined'};
-`;
-
-const Wrapper = styled(Space)`
-  @media print {
-    margin: 0;
-    padding: 0;
-  }
-`;
-
-const Heading = styled(Space)`
-  background-color: ${props => props.theme.color('white')};
-  display: inline;
-  line-height: calc(1.1em + 12px);
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
-`;
-
-const HighlightedHeading: FunctionComponent<{ text: string }> = ({
-  text,
-}: {
-  text: string;
-}) => {
-  return (
-    <h1 className={font('wb', 2)}>
-      <Heading
-        $v={{
-          size: 's',
-          properties: ['padding-top', 'padding-bottom'],
-        }}
-        $h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-      >
-        {text}
-      </Heading>
-    </h1>
-  );
-};
-
-export const SectionPageHeader = styled.h1.attrs<{
-  $sectionLevelPage: boolean;
-}>(props => ({
-  className: font('wb', props.$sectionLevelPage ? 0 : 1),
-}))`
-  display: inline-block;
-  margin: 0 !important;
-`;
-
-// The `bottom` values here are coupled to the space
-// beneath the Header in ContentPage.tsx
-export const headerSpaceSize = 'l';
-const HeroPictureBackground = styled.div.attrs({
-  className: 'is-hidden-print',
-})<{ $bgColor: PaletteColor }>`
-  position: absolute;
-  background-color: ${props => props.theme.color(props.$bgColor)};
-  height: 50%;
-  width: 100%;
-  bottom: -${props => props.theme.spaceAtBreakpoints.small[headerSpaceSize]}px;
-
-  ${props =>
-    props.theme.media('medium')(
-      `bottom: -${props.theme.spaceAtBreakpoints.medium[headerSpaceSize]}px;`
-    )}
-
-  ${props =>
-    props.theme.media('large')(
-      `bottom: -${props.theme.spaceAtBreakpoints.large[headerSpaceSize]}px;`
-    )}
-`;
-
-const HeroPictureContainer = styled.div`
-  max-width: 1450px;
-  margin: 0 auto;
-
-  ${props =>
-    props.theme.media('medium')`
-      padding-left: 24px;
-      padding-right: 24px;
-    `}
-`;
+import LandingPageHeader, { Props as LandingProps } from './PageHeader.Landing';
+import BasicPageHeader, { Props as BasicProps } from './PagerHeader.Basic';
 
 export type FeaturedMedia =
   | ReactElement<typeof PrismicImage>
   | ReactElement<typeof VideoEmbed>
   | ReactElement<typeof Picture>;
 
-type BackgroundType = ReactElement<typeof HeaderBackground>;
+export type BackgroundType = ReactElement<typeof HeaderBackground>;
+
+export const pageGridLayout: SizeMap = {
+  s: [12],
+  m: [12],
+  l: [10],
+  xl: [10],
+};
 
 function addFreeLabel(labelListProps) {
   const freeLabel = {
@@ -134,179 +35,34 @@ function addFreeLabel(labelListProps) {
 }
 
 type Props = {
-  breadcrumbs: ComponentProps<typeof Breadcrumb>;
-  labels?: ComponentProps<typeof LabelsList>;
-  title: string;
-  ContentTypeInfo?: ReactNode;
-  Background?: BackgroundType;
-  FeaturedMedia?: FeaturedMedia;
-  HeroPicture?: ReactElement<typeof Picture>;
   isFree?: boolean;
-  heroImageBgColor?: 'warmNeutral.300' | 'white';
-  backgroundTexture?: string;
-  highlightHeading?: boolean;
-  isContentTypeInfoBeforeMedia?: boolean;
-  SerialPartNumber?: ReactNode;
-  sectionLevelPage?: boolean;
-  isSlim?: boolean;
-  fullWidth?: boolean;
-  includeAccessibilityProvision?: boolean;
-};
+  labels?: ComponentProps<typeof LabelsList>;
+} & (
+  | BasicProps
+  | (LandingProps & {
+      sectionLevelPage: true;
+    })
+);
 
-const sectionLevelPageGridLayout: SizeMap = {
-  s: [12],
-  m: [12],
-  l: [10],
-  xl: [10],
-};
-const PageHeader: FunctionComponent<Props> = ({
-  title,
-  breadcrumbs,
-  labels,
-  ContentTypeInfo,
-  Background,
-  HeroPicture,
-  FeaturedMedia,
-  isFree = false,
-  isContentTypeInfoBeforeMedia = false,
-  // Not a massive fan of this, but it feels overkill to make a new component
-  // for it as it's only used on articles and exhibitions
-  heroImageBgColor = 'white',
-  backgroundTexture,
-  highlightHeading,
-  SerialPartNumber,
-  sectionLevelPage,
-  isSlim,
-  fullWidth,
-  includeAccessibilityProvision,
-}) => {
-  const Heading =
-    highlightHeading && !sectionLevelPage ? (
-      <HighlightedHeading text={title} />
-    ) : (
-      <SectionPageHeader $sectionLevelPage={sectionLevelPage ?? false}>
-        {title}
-      </SectionPageHeader>
-    );
-
-  const hasMedia = FeaturedMedia || HeroPicture;
+const PageHeader: FunctionComponent<Props> = (props: Props) => {
+  const { isFree, labels } = props;
   const amendedLabels = isFree ? addFreeLabel(labels) : labels;
 
-  // As <Breadcrumb> will automatically add "Home" as the first breadcrumb unless "noHomeLink" is true
-  // This checks whether or not there are actually any items.
-  const hasBreadcrumbItems =
-    breadcrumbs.items.length > 0 ||
-    !(breadcrumbs.items.length === 0 && breadcrumbs.noHomeLink);
+  if ('sectionLevelPage' in props)
+    return (
+      <LandingPageHeader
+        data-component="section-page-header"
+        amendedLabels={amendedLabels}
+        {...props}
+      />
+    );
 
   return (
-    <>
-      <Container
-        data-component="page-header"
-        $backgroundTexture={backgroundTexture}
-      >
-        {Background}
-        <ContaineredLayout
-          gridSizes={
-            sectionLevelPage || fullWidth
-              ? gridSize12()
-              : sectionLevelPageGridLayout
-          }
-        >
-          <Wrapper
-            $v={{
-              size: isSlim ? 'xs' : 'l',
-              properties:
-                isContentTypeInfoBeforeMedia || hasMedia || sectionLevelPage
-                  ? ['margin-bottom']
-                  : ['margin-bottom', 'padding-bottom'],
-            }}
-          >
-            {!sectionLevelPage && hasBreadcrumbItems && (
-              // We need to keep some space below the breadcrumbs to prevent
-              // 'highlighted' headings from being partially concealed
-              <Space
-                $v={{
-                  size: 'm',
-                  properties: ['margin-top', 'margin-bottom'],
-                  overrides: { large: 4 },
-                }}
-              >
-                <Breadcrumb {...breadcrumbs} />
-              </Space>
-            )}
-            <ConditionalWrapper
-              condition={sectionLevelPage || !hasBreadcrumbItems}
-              wrapper={children => (
-                <Space $v={{ size: 'l', properties: ['margin-top'] }}>
-                  {children}
-                </Space>
-              )}
-            >
-              {SerialPartNumber}
-              {Heading}
-            </ConditionalWrapper>
-            {isContentTypeInfoBeforeMedia && ContentTypeInfo && (
-              <Space
-                $v={{ size: 'm', properties: ['margin-bottom'] }}
-                className={font('intr', 4)}
-              >
-                {ContentTypeInfo}
-              </Space>
-            )}
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'end',
-              }}
-            >
-              {amendedLabels && amendedLabels.labels.length > 0 && (
-                <LabelsList {...amendedLabels} />
-              )}
-
-              {includeAccessibilityProvision && (
-                <div style={{ marginLeft: 'auto' }}>
-                  <AccessibilityProvision showText={false} />
-                </div>
-              )}
-            </div>
-          </Wrapper>
-        </ContaineredLayout>
-
-        {FeaturedMedia && (
-          <ContaineredLayout gridSizes={gridSize10()}>
-            <div style={{ position: 'relative' }}>{FeaturedMedia}</div>
-          </ContaineredLayout>
-        )}
-
-        {HeroPicture && (
-          <div style={{ position: 'relative', height: '100%' }}>
-            <HeroPictureBackground $bgColor={heroImageBgColor} />
-
-            <HeroPictureContainer>
-              <WobblyBottom backgroundColor={heroImageBgColor}>
-                {HeroPicture}
-              </WobblyBottom>
-            </HeroPictureContainer>
-          </div>
-        )}
-      </Container>
-
-      {!hasMedia &&
-        !isContentTypeInfoBeforeMedia &&
-        !sectionLevelPage &&
-        !isSlim && <WobblyEdge backgroundColor="white" />}
-
-      {!isContentTypeInfoBeforeMedia && ContentTypeInfo && (
-        <ContaineredLayout gridSizes={sectionLevelPageGridLayout}>
-          <Space
-            $v={{ size: 'l', properties: ['margin-top'] }}
-            className={font('intb', 4)}
-          >
-            {ContentTypeInfo}
-          </Space>
-        </ContaineredLayout>
-      )}
-    </>
+    <BasicPageHeader
+      data-component="basic-page-header"
+      amendedLabels={amendedLabels}
+      {...props}
+    />
   );
 };
 

@@ -43,7 +43,6 @@ const meta: Meta<typeof PageHeader> = {
     isSlim: false,
     isContentTypeInfoBeforeMedia: false,
     highlightHeading: false,
-    sectionLevelPage: false,
     fullWidth: false,
     includeAccessibilityProvision: false,
     heroImageBgColor: 'white',
@@ -68,11 +67,11 @@ const meta: Meta<typeof PageHeader> = {
         disable: true,
       },
     },
-    sectionLevelPage: {
-      table: {
-        disable: true,
-      },
-    },
+    // sectionLevelPage: {
+    //   table: {
+    //     disable: true,
+    //   },
+    // },
     highlightHeading: {
       table: {
         disable: true,
