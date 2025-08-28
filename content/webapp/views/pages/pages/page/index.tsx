@@ -146,7 +146,8 @@ export const PagePage: NextPage<Props> = ({
 
   const Header = (
     <PageHeader
-      breadcrumbs={breadcrumbs}
+      {...(sectionLevelPage && { sectionLevelPage: true })}
+      {...(!sectionLevelPage && { breadcrumbs })}
       labels={labels}
       title={page.title}
       FeaturedMedia={featuredMedia}
@@ -157,7 +158,6 @@ export const PagePage: NextPage<Props> = ({
       }
       highlightHeading={true}
       isContentTypeInfoBeforeMedia={false}
-      sectionLevelPage={sectionLevelPage}
     />
   );
 

@@ -43,7 +43,6 @@ const meta: Meta<typeof PageHeader> = {
     isSlim: false,
     isContentTypeInfoBeforeMedia: false,
     highlightHeading: false,
-    sectionLevelPage: false,
     fullWidth: false,
     includeAccessibilityProvision: false,
     heroImageBgColor: 'white',

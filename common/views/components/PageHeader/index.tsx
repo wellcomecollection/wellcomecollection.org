@@ -7,12 +7,8 @@ import PrismicImage from '@weco/common/views/components/PrismicImage';
 import { SizeMap } from '@weco/common/views/components/styled/Grid';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed';
 
-import LandingPageHeader, {
-  Props as LandingPageHeaderProps,
-} from './PageHeader.Landing';
-import BasicPageHeader, {
-  Props as BasicPageHeaderProps,
-} from './PagerHeader.Basic';
+import LandingPageHeader, { Props as LandingProps } from './PageHeader.Landing';
+import BasicPageHeader, { Props as BasicProps } from './PagerHeader.Basic';
 
 export type FeaturedMedia =
   | ReactElement<typeof PrismicImage>
@@ -42,28 +38,22 @@ type Props = {
   isFree?: boolean;
   labels?: ComponentProps<typeof LabelsList>;
 } & (
-  | (BasicPageHeaderProps & {
-      sectionLevelPage: undefined | false;
-    })
-  | (LandingPageHeaderProps & {
+  | BasicProps
+  | (LandingProps & {
       sectionLevelPage: true;
     })
 );
 
-const PageHeader: FunctionComponent<Props> = ({
-  sectionLevelPage,
-  isFree = false,
-  labels,
-  ...rest
-}) => {
+const PageHeader: FunctionComponent<Props> = (props: Props) => {
+  const { isFree, labels } = props;
   const amendedLabels = isFree ? addFreeLabel(labels) : labels;
 
-  if (sectionLevelPage)
+  if ('sectionLevelPage' in props)
     return (
       <LandingPageHeader
         data-component="section-page-header"
         amendedLabels={amendedLabels}
-        {...rest}
+        {...props}
       />
     );
 
@@ -71,7 +61,7 @@ const PageHeader: FunctionComponent<Props> = ({
     <BasicPageHeader
       data-component="basic-page-header"
       amendedLabels={amendedLabels}
-      {...rest}
+      {...props}
     />
   );
 };

@@ -62,7 +62,7 @@ const HighlightedHeading: FunctionComponent<{ text: string }> = ({
 
 export type Props = {
   title: string;
-  breadcrumbs: ComponentProps<typeof Breadcrumb>;
+  breadcrumbs?: ComponentProps<typeof Breadcrumb>;
   amendedLabels?: ComponentProps<typeof LabelsList>;
   ContentTypeInfo?: ReactNode;
   Background?: BackgroundType;
@@ -108,8 +108,9 @@ const BasicPageHeader: FunctionComponent<Props> = ({
   // As <Breadcrumb> will automatically add "Home" as the first breadcrumb unless "noHomeLink" is true
   // This checks whether or not there are actually any items.
   const hasBreadcrumbItems =
-    breadcrumbs.items.length > 0 ||
-    !(breadcrumbs.items.length === 0 && breadcrumbs.noHomeLink);
+    breadcrumbs &&
+    (breadcrumbs.items.length > 0 ||
+      !(breadcrumbs.items.length === 0 && breadcrumbs.noHomeLink));
 
   return (
     <>
