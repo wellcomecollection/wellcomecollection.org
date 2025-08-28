@@ -22,8 +22,7 @@ const WorkLinkWithIcon = styled.a`
 
   [data-portal-id] {
     position: fixed;
-    pointer-events: none;
-    z-index: 2;
+    z-index: -1;
     opacity: 0;
     transition: opacity ${props => props.theme.transitionProperties};
   }
@@ -31,6 +30,7 @@ const WorkLinkWithIcon = styled.a`
   &:hover {
     [data-portal-id] {
       opacity: 1;
+      z-index: 2;
     }
   }
 
@@ -81,7 +81,7 @@ const FeaturedWorkLink = ({
       {...rest}
     >
       {children || 'View in catalogue'}
-      <span ref={portalRef} data-portal-id={workId} />
+      <span aria-hidden="true" ref={portalRef} data-portal-id={workId} />
     </WorkLinkWithIcon>
   );
 };
