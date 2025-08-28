@@ -7,9 +7,12 @@ import {
 } from 'react';
 import styled from 'styled-components';
 
+import { useToggles } from '@weco/common/server-data/Context';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import TextInput from '@weco/common/views/components/TextInput';
 import { themeValues } from '@weco/common/views/themes/config';
+
+import SearchBarNew from './new';
 
 const Container = styled.div`
   display: flex;
@@ -52,9 +55,19 @@ const SearchBar: FunctionComponent<Props> = ({
   inputRef,
   location,
 }) => {
+  const { newSearchBar } = useToggles();
   const defaultInputRef = useRef<HTMLInputElement>(null);
 
-  return (
+  return newSearchBar ? (
+    <SearchBarNew
+      inputValue={inputValue}
+      setInputValue={setInputValue}
+      placeholder={placeholder}
+      form={form}
+      inputRef={inputRef}
+      location={location}
+    />
+  ) : (
     <Container data-component="search-bar" className="is-hidden-print">
       <SearchInputWrapper>
         <TextInput

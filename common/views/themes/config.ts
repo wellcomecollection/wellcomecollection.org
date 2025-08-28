@@ -178,6 +178,11 @@ const greenGreenWhite: ButtonColors = {
   background: 'accent.green',
   text: 'white',
 };
+const redRedBlack: ButtonColors = {
+  border: 'accent.salmon',
+  background: 'accent.salmon',
+  text: 'black',
+};
 
 const whiteTransparentWhite: ButtonColors = {
   border: 'white',
@@ -340,6 +345,7 @@ export const themeValues = {
     silverTransparentBlack,
     slateTransparentBlack,
     greenGreenWhite,
+    redRedBlack,
   },
   spacedTextTopMargin: '1.55em',
 };

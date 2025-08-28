@@ -24,6 +24,7 @@ export const TextInputLabel = styled.label.attrs({
 type TextInputWrapProps = {
   $status?: 'error' | 'success';
   $isDisabled?: boolean;
+  $isBorderless?: boolean;
 };
 export const TextInputWrap = styled(Space).attrs({
   className: font('intr', 4),
@@ -32,7 +33,7 @@ export const TextInputWrap = styled(Space).attrs({
   display: flex;
   position: relative;
   border-width: 1px;
-  border-style: solid;
+  border-style: ${props => (props.$isBorderless ? 'none' : 'solid')};
   border-color: ${props =>
     props.$status
       ? props.$status === 'error'
@@ -42,7 +43,11 @@ export const TextInputWrap = styled(Space).attrs({
 
   &:focus-within {
     box-shadow: 0 0 0 6px ${props => props.theme.color('focus.yellow')};
-    outline: 3px solid ${props => props.theme.color('black')};
+    ${props =>
+      !props.$isBorderless &&
+      `
+      outline:  3px solid ${props.theme.color('black')};
+    `}
   }
 
   overflow: hidden;
@@ -141,6 +146,7 @@ type Props = {
   form?: string;
   hasClearButton?: boolean;
   clearHandler?: () => void;
+  isBorderless?: boolean;
 };
 
 const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
@@ -168,6 +174,7 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
     form,
     hasClearButton,
     clearHandler,
+    isBorderless,
   }: Props,
   ref: RefObject<HTMLInputElement | null>
 ) => {
@@ -205,6 +212,7 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
       )}
 
       <TextInputWrap
+        $isBorderless={isBorderless}
         $isDisabled={disabled}
         $status={
           !isValid && showValidity
