@@ -25,7 +25,7 @@ const Typewriter = styled.div.attrs({
 })`
   position: absolute;
   pointer-events: none;
-  top: calc(16px + 50%);
+  top: 50px;
   left: 1em;
   transform: translateY(-50%);
   z-index: 1;
