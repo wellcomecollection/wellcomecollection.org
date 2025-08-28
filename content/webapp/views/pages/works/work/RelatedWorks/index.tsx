@@ -158,6 +158,7 @@ const RelatedWorks = ({
                   $sizeMap={{ s: [12], m: [12], l: [6], xl: [4] }}
                 >
                   <RelatedWorksCard
+                    variant="default"
                     work={result}
                     gtmData={{
                       category: value.category,

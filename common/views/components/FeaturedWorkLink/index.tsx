@@ -1,10 +1,13 @@
 import { HTMLAttributes, ReactNode } from 'react';
 import styled from 'styled-components';
 
-const WorkLinkWithIcon = styled.a`
+import { useHoverPortal } from '@weco/common/hooks/useHoverPortal';
+
+const WorkLinkWithIcon = styled.a<{ $isPortalVisible: boolean }>`
   text-decoration-style: dotted;
   text-underline-offset: 26%;
   text-decoration-thickness: 8%;
+  position: relative;
 
   &::before {
     content: '';
@@ -16,6 +19,23 @@ const WorkLinkWithIcon = styled.a`
     background-position: center;
     padding-right: 18px;
   }
+
+  [data-portal-id] {
+    position: fixed;
+    z-index: ${props => (props.$isPortalVisible ? '2' : '-1')};
+    opacity: ${props => (props.$isPortalVisible ? '1' : '0')};
+    transition: opacity ${props => props.theme.transitionProperties};
+  }
+
+  ${props =>
+    props.theme.mediaBetween(
+      'small',
+      'medium'
+    )(`
+    [data-portal-id] {
+      display: none;
+    }
+  `)}
 `;
 
 // Only returns true if the link is a link from our catalogue
@@ -34,16 +54,34 @@ const FeaturedWorkLink = ({
   link?: string;
   children?: ReactNode;
 } & HTMLAttributes<HTMLAnchorElement>) => {
+  const {
+    portalRef,
+    isVisible,
+    handleTriggerMouseEnter,
+    handleTriggerMouseLeave,
+  } = useHoverPortal({
+    portalWidth: 362,
+    portalHeight: 96,
+    defaultOffset: 4,
+    downwardOffset: 26,
+  });
+
   if (!(link && hasLinkedWork(link))) return null;
+
+  const workId = link.split('/').pop();
 
   return (
     <WorkLinkWithIcon
+      onMouseEnter={handleTriggerMouseEnter}
+      onMouseLeave={handleTriggerMouseLeave}
       href={link}
       data-component="featured-work-link"
       data-gtm-id="work-link-component"
+      $isPortalVisible={isVisible}
       {...rest}
     >
       {children || 'View in catalogue'}
+      <span aria-hidden="true" ref={portalRef} data-portal-id={workId} />
     </WorkLinkWithIcon>
   );
 };

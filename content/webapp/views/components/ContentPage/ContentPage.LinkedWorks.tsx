@@ -1,4 +1,5 @@
-import { FunctionComponent, useEffect } from 'react';
+import { Fragment, FunctionComponent, useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
@@ -51,7 +52,7 @@ const Shim = styled.li<{ $gridValues: number[] }>`
 
   ${props =>
     props.theme.media('xlarge')(`
-      /* Considers margin: 0 auto at the largest side */ 
+      /* Considers margin: 0 auto at the largest side */
       --container-padding: ${props.theme.containerPadding.xlarge}px;
       --container-width: calc(${props.theme.sizes.xlarge}px - (var(--container-padding) * 2));
       --left-margin-width: calc((100% - ${props.theme.sizes.xlarge}px) / 2);
@@ -98,6 +99,16 @@ const LinkedWorks: FunctionComponent<LinkedWorkProps> = ({
 }: LinkedWorkProps) => {
   const hasLinkedWorks = linkedWorks && linkedWorks.length > 0;
 
+  const [portals, setPortals] = useState<NodeListOf<HTMLElement> | null>(null);
+
+  useEffect(() => {
+    setTimeout(() => {
+      window.requestAnimationFrame(() => {
+        setPortals(document.querySelectorAll(`[data-portal-id]`));
+      });
+    });
+  }, [linkedWorks]);
+
   useEffect(() => {
     // Only do this if there are results to display
     if (hasLinkedWorks) {
@@ -126,18 +137,38 @@ const LinkedWorks: FunctionComponent<LinkedWorkProps> = ({
         gridSizes={gridSizes}
       >
         <Shim $gridValues={gridValues}></Shim>
-        {linkedWorks.map((work, i) => (
-          <ListItem key={work.id}>
-            <RelatedWorksCard
-              work={work}
-              gtmData={{
-                trigger: 'work-link-component',
-                id: work.id,
-                'position-in-list': `${i + 1}`,
-              }}
-            />
-          </ListItem>
-        ))}
+
+        {linkedWorks.map((work, i) => {
+          const portalsForWork =
+            portals && [...portals].filter(p => p.dataset.portalId === work.id);
+
+          return (
+            <Fragment key={work.id}>
+              {portalsForWork?.map((p, i) => {
+                return createPortal(
+                  <RelatedWorksCard
+                    variant="hover"
+                    work={work}
+                    key={`${work.id}-${p.dataset.portalId}-${i}`}
+                  />,
+                  p
+                );
+              })}
+              <ListItem>
+                <RelatedWorksCard
+                  variant="default"
+                  work={work}
+                  gtmData={{
+                    trigger: 'work-link-component',
+                    id: work.id,
+                    'position-in-list': `${i + 1}`,
+                  }}
+                />
+              </ListItem>
+            </Fragment>
+          );
+        })}
+        <Shim $gridValues={gridValues}></Shim>
       </ScrollContainer>
     </FullWidthRow>
   );
