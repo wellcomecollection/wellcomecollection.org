@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { useHoverPortal } from '@weco/common/hooks/useHoverPortal';
 
-const WorkLinkWithIcon = styled.a`
+const WorkLinkWithIcon = styled.a<{ $isPortalVisible: boolean }>`
   text-decoration-style: dotted;
   text-underline-offset: 26%;
   text-decoration-thickness: 8%;
@@ -22,16 +22,9 @@ const WorkLinkWithIcon = styled.a`
 
   [data-portal-id] {
     position: fixed;
-    z-index: -1;
-    opacity: 0;
+    z-index: ${props => (props.$isPortalVisible ? '2' : '-1')};
+    opacity: ${props => (props.$isPortalVisible ? '1' : '0')};
     transition: opacity ${props => props.theme.transitionProperties};
-  }
-
-  &:hover {
-    [data-portal-id] {
-      opacity: 1;
-      z-index: 2;
-    }
   }
 
   ${props =>
@@ -61,7 +54,12 @@ const FeaturedWorkLink = ({
   link?: string;
   children?: ReactNode;
 } & HTMLAttributes<HTMLAnchorElement>) => {
-  const { portalRef, handleMouseEnter } = useHoverPortal({
+  const {
+    portalRef,
+    isVisible,
+    handleTriggerMouseEnter,
+    handleTriggerMouseLeave,
+  } = useHoverPortal({
     portalWidth: 362,
     portalHeight: 96,
     defaultOffset: 4,
@@ -74,10 +72,12 @@ const FeaturedWorkLink = ({
 
   return (
     <WorkLinkWithIcon
-      onMouseEnter={handleMouseEnter}
+      onMouseEnter={handleTriggerMouseEnter}
+      onMouseLeave={handleTriggerMouseLeave}
       href={link}
       data-component="featured-work-link"
       data-gtm-id="work-link-component"
+      $isPortalVisible={isVisible}
       {...rest}
     >
       {children || 'View in catalogue'}
