@@ -89,7 +89,9 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
   }, []);
 
   useEffect(() => {
-    fetchLinkedWorks();
+    if (article.hasLinkedWorks) {
+      fetchLinkedWorks();
+    }
   }, [article.id]);
 
   const extraBreadcrumbs = [
