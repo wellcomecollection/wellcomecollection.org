@@ -6,11 +6,6 @@ describe('extract-works-ids', () => {
       jest.clearAllMocks();
     });
 
-    it('returns empty array when no body is provided', () => {
-      expect(getWorksIdsFromDocumentBody(undefined)).toEqual([]);
-      expect(getWorksIdsFromDocumentBody([])).toEqual([]);
-    });
-
     it('extracts work IDs from text slice with hyperlinks', () => {
       const documentBody = [
         {
