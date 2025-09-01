@@ -1,4 +1,5 @@
 import { Meta, StoryObj } from '@storybook/react';
+import { ComponentProps } from 'react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import {
@@ -67,11 +68,6 @@ const meta: Meta<typeof PageHeader> = {
         disable: true,
       },
     },
-    // sectionLevelPage: {
-    //   table: {
-    //     disable: true,
-    //   },
-    // },
     highlightHeading: {
       table: {
         disable: true,
@@ -122,7 +118,11 @@ const meta: Meta<typeof PageHeader> = {
 
 export default meta;
 
-type Story = StoryObj<typeof PageHeader>;
+type Story = StoryObj<
+  ComponentProps<typeof PageHeader> & {
+    isLanding?: boolean;
+  }
+>;
 
 const ContentTypeInfo = (
   <>
@@ -491,12 +491,23 @@ export const Page: Story = {
         disable: true,
       },
     },
+    isLanding: {
+      type: 'boolean',
+    },
   },
   args: {
     title: 'Venue hire terms and conditions',
     backgroundTexture: headerBackgroundLs,
     highlightHeading: true,
     breadcrumbs: { items: [{ text: 'Get involved', url: '#' }] },
+    isLanding: false,
+  },
+  render: args => {
+    const { isLanding, ...rest } = args;
+
+    return (
+      <PageHeader {...(isLanding && { sectionLevelPage: true })} {...rest} />
+    );
   },
 };
 
