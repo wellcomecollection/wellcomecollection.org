@@ -25,17 +25,17 @@ const WorkLinkWithIcon = styled.a<{ $isPortalVisible: boolean }>`
     z-index: ${props => (props.$isPortalVisible ? '2' : '-1')};
     opacity: ${props => (props.$isPortalVisible ? '1' : '0')};
     transition: opacity ${props => props.theme.transitionProperties};
-  }
 
-  ${props =>
-    props.theme.mediaBetween(
-      'small',
-      'medium'
-    )(`
-    [data-portal-id] {
-      display: none;
-    }
-  `)}
+    ${props =>
+      props.theme.mediaBetween(
+        'small',
+        'medium'
+      )(`
+      & {
+        display: none;
+      }
+    `)}
+  }
 `;
 
 // Only returns true if the link is a link from our catalogue
