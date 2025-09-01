@@ -38,10 +38,9 @@ const RelatedWorksCard: FunctionComponent<Props> = ({ work, gtmData }) => {
         {thumbnailUrl && (
           <ImageWrapper $isHover={true}>
             <img
-              src={convertIiifImageUri(thumbnailUrl, 120)}
+              src={convertIiifImageUri(thumbnailUrl, 250)}
               alt={work.title}
               loading="lazy"
-              width="200"
               height="200"
             />
           </ImageWrapper>
