@@ -63,6 +63,11 @@ const meta: Meta<typeof PageHeader> = {
       control: 'boolean',
       name: 'Has content before the Featured media ("isContentTypeInfoBeforeMedia")',
     },
+    variant: {
+      table: {
+        disable: true,
+      },
+    },
     isFree: {
       table: {
         disable: true,
@@ -237,6 +242,7 @@ export const Article: Story = {
     },
   },
   args: {
+    variant: 'basic',
     title: 'How the magician’s assistant creates the illusion',
     breadcrumbs: {
       items: [{ text: 'Stories', url: '#' }],
@@ -372,6 +378,7 @@ export const Event: Story = {
     },
   },
   args: {
+    variant: 'basic',
     title: 'DNA, Diversity and Difference',
     breadcrumbs: { items: [{ text: 'Events', url: '#' }] },
     FeaturedMedia: <EventFeaturedMedia />,
@@ -411,6 +418,7 @@ export const Exhibition: Story = {
     },
   },
   args: {
+    variant: 'basic',
     title: 'Being Human',
     breadcrumbs: { items: [{ text: 'Exhibitions', url: '#' }] },
     labels: { labels: [{ text: 'Permanent exhibition' }] },
@@ -458,6 +466,7 @@ export const List: Story = {
     },
   },
   args: {
+    variant: 'basic',
     title: 'Books',
     backgroundTexture: headerBackgroundLs,
     breadcrumbs: { items: [] },
@@ -549,6 +558,7 @@ export const Book: Story = {
     },
   },
   args: {
+    variant: 'basic',
     title: 'Together',
     ContentTypeInfo: <BookContentTypeInfo />,
     isContentTypeInfoBeforeMedia: true,
