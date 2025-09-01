@@ -74,6 +74,7 @@ export const Title = styled.h2.attrs<{ $isHover?: boolean }>(props => ({
   className: font(props.$isHover ? 'intr' : 'intb', 5),
 }))<{ $linesToClamp: number }>`
   ${clampLineStyles};
+  color: ${props => props.theme.color('black')};
   margin-top: ${props => props.theme.spacingUnits['1']}px;
 
   ${Card}:hover & {
