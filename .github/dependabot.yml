@@ -28,6 +28,10 @@ updates:
       - dependency-name: '@auth0/nextjs-auth0'
       # Needs Node >= 20.15, update when we get there.
       - dependency-name: 'lint-staged'
+      - dependency-name: '@faker-js/faker'
+      # Storybook packages - major version updates require manual migration
+      - dependency-name: '@storybook/*'
+        update-types: ['version-update:semver-major']
     groups:
       all:
         patterns: ['*']
