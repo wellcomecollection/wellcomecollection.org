@@ -1,6 +1,7 @@
 import { NextPage } from 'next';
 import styled from 'styled-components';
 
+import { SimplifiedServerData } from '@weco/common/server-data/types';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font } from '@weco/common/utils/classnames';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
@@ -31,12 +32,10 @@ const Subtitle = styled.p.attrs({
 
 export type Props = {
   book: Book;
+  serverData: SimplifiedServerData;
 };
 
-const BookPage: NextPage<Props> = props => {
-  if (!('book' in props)) return null;
-
-  const { book } = props;
+const BookPage: NextPage<Props> = ({ book, serverData }) => {
   const FeaturedMedia = book.cover && (
     <Space $v={{ size: 'xl', properties: ['margin-top', 'padding-top'] }}>
       <ContaineredLayout gridSizes={gridSize8()}>
@@ -85,6 +84,7 @@ const BookPage: NextPage<Props> = props => {
     >
       <ContentPage
         id={book.id}
+        serverData={serverData}
         Header={Header}
         Body={
           <Body untransformedBody={book.untransformedBody} pageId={book.id} />

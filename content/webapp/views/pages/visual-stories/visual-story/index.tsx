@@ -1,5 +1,6 @@
 import { NextPage } from 'next';
 
+import { SimplifiedServerData } from '@weco/common/server-data/types';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
@@ -26,12 +27,14 @@ export type Props = {
   visualStory: VisualStoryProps;
   visualStories: VisualStoryBasic[];
   jsonLd: JsonLdObj;
+  serverData: SimplifiedServerData;
 };
 
 const VisualStoryPage: NextPage<Props> = ({
   visualStory,
   visualStories,
   jsonLd,
+  serverData,
 }) => {
   const { relatedDocument } = visualStory;
 
@@ -97,6 +100,7 @@ const VisualStoryPage: NextPage<Props> = ({
     >
       <ContentPage
         id={visualStory.id}
+        serverData={serverData}
         Header={Header}
         Body={
           <Body

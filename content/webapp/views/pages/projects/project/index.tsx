@@ -1,6 +1,7 @@
 import { NextPage } from 'next';
 import { ReactElement } from 'react';
 
+import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
@@ -21,12 +22,14 @@ export type Props = {
   project: ProjectType;
   staticContent: ReactElement | null;
   jsonLd: JsonLdObj;
+  serverData: SimplifiedServerData;
 };
 
 export const ProjectPage: NextPage<Props> = ({
   project,
   staticContent,
   jsonLd,
+  serverData,
 }) => {
   const featuredPicture =
     project.untransformedBody.length > 1 &&
@@ -80,6 +83,7 @@ export const ProjectPage: NextPage<Props> = ({
     >
       <ContentPage
         id={project.id}
+        serverData={serverData}
         Header={Header}
         Body={
           <Body

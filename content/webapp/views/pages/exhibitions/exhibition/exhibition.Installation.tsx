@@ -1,6 +1,7 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
+import { SimplifiedServerData } from '@weco/common/server-data/types';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font } from '@weco/common/utils/classnames';
 import { isPast } from '@weco/common/utils/dates';
@@ -34,9 +35,14 @@ import { getInfoItems } from './exhibition.helpers';
 type Props = {
   installation: InstallationType;
   pages: PageType[];
+  serverData: SimplifiedServerData;
 };
 
-const Installation: FunctionComponent<Props> = ({ installation, pages }) => {
+const Installation: FunctionComponent<Props> = ({
+  installation,
+  pages,
+  serverData,
+}) => {
   const [partOf, setPartOf] = useState<InstallationType>();
   const [exhibitionOfs, setExhibitionOfs] = useState<ExhibitionOf>([]);
   const [exhibitionAbouts, setExhibitionAbouts] = useState<ExhibitionAbout[]>(
@@ -123,6 +129,7 @@ const Installation: FunctionComponent<Props> = ({ installation, pages }) => {
   return (
     <ContentPage
       id={installation.id}
+      serverData={serverData}
       Header={Header}
       Body={
         <Body

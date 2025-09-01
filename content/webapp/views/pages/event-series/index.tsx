@@ -1,5 +1,6 @@
 import { NextPage } from 'next';
 
+import { SimplifiedServerData } from '@weco/common/server-data/types';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { font } from '@weco/common/utils/classnames';
@@ -24,6 +25,7 @@ export type Props = {
   pastEvents: PaginatedResults<EventBasic>;
   upcomingEvents: EventBasic[];
   page: number;
+  serverData: SimplifiedServerData;
 };
 
 const EventSeriesPage: NextPage<Props> = ({
@@ -32,6 +34,7 @@ const EventSeriesPage: NextPage<Props> = ({
   pastEvents,
   upcomingEvents,
   page,
+  serverData,
 }) => {
   const breadcrumbs = {
     items: [
@@ -71,6 +74,7 @@ const EventSeriesPage: NextPage<Props> = ({
     >
       <ContentPage
         id={series.id}
+        serverData={serverData}
         Header={Header}
         Body={
           page === 1 ? (
