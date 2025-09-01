@@ -40,15 +40,27 @@ export const TextInputWrap = styled(Space).attrs({
         ? props.theme.color('validation.red')
         : props.theme.color('validation.green')
       : props.theme.color(
-          props.$isNewSearchBar ? 'accent.salmon' : 'neutral.600'
+          props.$isNewSearchBar ? 'accent.green' : 'neutral.600'
         )};
 
+  &:has(:focus-visible) {
+    outline: 3px solid ${props => props.theme.color('yellow')};
+
+    input {
+      outline: none;
+    }
+  }
+
   &:focus-within {
-    box-shadow: 0 0 0 6px ${props => props.theme.color('focus.yellow')};
     ${props =>
       !props.$isNewSearchBar &&
       `
       outline:  3px solid ${props.theme.color('black')};
+    `}
+    ${props =>
+      props.$isNewSearchBar &&
+      `
+      border-color: ${props.theme.color('black')};
     `}
   }
 

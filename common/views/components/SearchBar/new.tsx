@@ -57,6 +57,11 @@ const SearchInputWrapper = styled.div`
 const SearchButtonWrapper = styled.div`
   button {
     height: 53px;
+
+    &:focus {
+      position: relative;
+      z-index: 1;
+    }
   }
 `;
 
@@ -139,7 +144,7 @@ const SearchBar: FunctionComponent<Props> = ({
               text="Search"
               type={ButtonTypes.submit}
               form={form}
-              colors={themeValues.buttonColors.redRedBlack}
+              colors={themeValues.buttonColors.greenGreenWhite}
               icon={search}
             />
           </SearchButtonWrapper>
