@@ -42,12 +42,12 @@ export const Card = styled.a<{ $isHover?: boolean }>`
 export const TextWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   width: 100%;
   container-type: inline-size;
   container-name: text-wrapper;
 
   ${props => props.theme.media('medium')`
+    justify-content: space-between;
     padding-top: 0;
   `}
 
@@ -89,7 +89,7 @@ export const LineClamp = styled.div<{ $linesToClamp: number }>`
 
 export const ImageWrapper = styled.div<{ $isHover?: boolean }>`
   width: 100%;
-  max-height: 250px;
+  max-height: 160px;
   order: -1;
   margin-bottom: ${props => props.theme.spacingUnits['5']}px;
   display: flex;
@@ -104,7 +104,6 @@ export const ImageWrapper = styled.div<{ $isHover?: boolean }>`
     display: block;
     object-fit: contain;
     width: 100%;
-    max-width: 200px; /* The size of the IIIF thumbnails */
     margin-left: auto;
     margin-right: auto;
     filter: url('#border-radius-mask');
