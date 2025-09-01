@@ -5,6 +5,7 @@ import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import { ContentApiLinkedWork } from '@weco/content/services/wellcome/content/types/api';
 
+import { transformCardData } from './helpers';
 import {
   Card,
   ImageWrapper,
@@ -20,21 +21,7 @@ type Props = {
 };
 
 const RelatedWorksCard: FunctionComponent<Props> = ({ work, gtmData }) => {
-  const isCatalogueWork = 'notes' in work;
-
-  const thumbnailUrl = isCatalogueWork
-    ? work.thumbnail?.url
-    : work.thumbnailUrl;
-
-  const date = isCatalogueWork
-    ? work.productionDates.length > 0
-      ? work.productionDates[0]
-      : undefined
-    : work.date;
-
-  const mainContributor = isCatalogueWork
-    ? work.primaryContributorLabel
-    : work.mainContributor;
+  const { thumbnailUrl, date, mainContributor } = transformCardData(work);
 
   return (
     <div style={{ textAlign: 'left' }}>

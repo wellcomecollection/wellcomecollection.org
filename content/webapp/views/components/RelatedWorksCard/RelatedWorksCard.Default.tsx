@@ -1,7 +1,6 @@
 import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
 
-import { Label } from '@weco/common/model/labels';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import LabelsList from '@weco/common/views/components/LabelsList';
@@ -9,6 +8,7 @@ import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import { ContentApiLinkedWork } from '@weco/content/services/wellcome/content/types/api';
 import { toWorkLink } from '@weco/content/views/components/WorkLink';
 
+import { transformCardData } from './helpers';
 import {
   Card,
   ImageWrapper,
@@ -24,32 +24,8 @@ export type Props = {
 };
 
 const RelatedWorksCard: FunctionComponent<Props> = ({ work, gtmData }) => {
-  const isCatalogueWork = 'notes' in work;
-
-  const thumbnailUrl = isCatalogueWork
-    ? work.thumbnail?.url
-    : work.thumbnailUrl;
-
-  const date = isCatalogueWork
-    ? work.productionDates.length > 0
-      ? work.productionDates[0]
-      : undefined
-    : work.date;
-
-  const labels = isCatalogueWork
-    ? work.cardLabels
-    : work.workType
-      ? ([
-          {
-            text: work.workType,
-            labelColor: 'warmNeutral.300',
-          },
-        ] as Label[])
-      : [];
-
-  const mainContributor = isCatalogueWork
-    ? work.primaryContributorLabel
-    : work.mainContributor;
+  const { thumbnailUrl, date, mainContributor, labels } =
+    transformCardData(work);
 
   return (
     <NextLink
