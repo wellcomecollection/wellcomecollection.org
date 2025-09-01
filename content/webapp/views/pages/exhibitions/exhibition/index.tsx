@@ -4,6 +4,7 @@ import {
   ExhibitionHighlightToursDocument,
   ExhibitionTextsDocument,
 } from '@weco/common/prismicio-types';
+import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
@@ -21,6 +22,7 @@ export type Props = {
   accessResourceLinks: (Link & { type: string })[];
   exhibitionTexts: ExhibitionTextsDocument[];
   exhibitionHighlightTours: ExhibitionHighlightToursDocument[];
+  serverData: SimplifiedServerData;
 };
 
 /**
@@ -35,6 +37,7 @@ const ExhibitionPage: NextPage<Props> = ({
   exhibitionTexts,
   exhibitionHighlightTours,
   jsonLd,
+  serverData,
 }) => {
   return (
     <PageLayout
@@ -50,7 +53,11 @@ const ExhibitionPage: NextPage<Props> = ({
       apiToolbarLinks={[createPrismicLink(exhibition.id)]}
     >
       {exhibition.format && exhibition.format.title === 'Installation' ? (
-        <Installation installation={exhibition} pages={pages} />
+        <Installation
+          installation={exhibition}
+          pages={pages}
+          serverData={serverData}
+        />
       ) : (
         <Exhibition
           exhibition={exhibition}
@@ -58,6 +65,7 @@ const ExhibitionPage: NextPage<Props> = ({
           accessResourceLinks={accessResourceLinks}
           exhibitionTexts={exhibitionTexts}
           exhibitionHighlightTours={exhibitionHighlightTours}
+          serverData={serverData}
         />
       )}
     </PageLayout>
