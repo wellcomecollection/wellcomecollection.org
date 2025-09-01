@@ -83,6 +83,7 @@ export const ProjectPage: NextPage<Props> = ({
     >
       <ContentPage
         id={project.id}
+        contentApiType="projects"
         serverData={serverData}
         Header={Header}
         Body={

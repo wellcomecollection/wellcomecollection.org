@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { sectionLevelPages } from '@weco/common/data/hardcoded-ids';
 import { useToggles } from '@weco/common/server-data/Context';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
+import { ContentApiType } from '@weco/common/services/prismic/content-types';
 import { ElementFromComponent } from '@weco/common/utils/utility-types';
 import {
   ContaineredLayout,
@@ -43,7 +44,7 @@ type Props = {
   hideContributors?: true;
   serverData: SimplifiedServerData;
   showStaticLinkedWorks?: boolean;
-  contentApiType?: string;
+  contentApiType?: ContentApiType;
 };
 
 const Wrapper = styled.div<{ $isCreamy: boolean }>`
@@ -69,13 +70,15 @@ const ContentPage = ({
   hideContributors,
   showStaticLinkedWorks,
   serverData,
-  contentApiType = 'articles',
+  contentApiType,
 }: Props): ReactElement => {
   const { featuredWorksInAddressables } = useToggles();
 
   const [linkedWorks, setLinkedWorks] = useState<ContentApiLinkedWork[]>([]);
 
   async function fetchLinkedWorks() {
+    if (!contentApiType) return;
+
     try {
       const linkedWorksResults = await getLinkedWorks({
         id: `${id}.${contentApiType}`,
