@@ -58,6 +58,7 @@ export const ProjectPage: NextPage<Props> = ({
 
   const Header = (
     <PageHeader
+      variant="basic"
       breadcrumbs={getBreadcrumbItems(project.siteSection)}
       labels={makeLabels(project.format?.title)}
       title={project.title}

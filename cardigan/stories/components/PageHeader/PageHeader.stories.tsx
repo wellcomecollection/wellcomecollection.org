@@ -291,6 +291,7 @@ export const ShortFilm: ShortFilmStory = {
     isCreamy: true,
     Header: (
       <PageHeader
+        variant="basic"
         isContentTypeInfoBeforeMedia={true}
         ContentTypeInfo={ContentTypeInfo}
         labels={{ labels: [{ text: 'Short film' }] }}
@@ -506,7 +507,15 @@ export const Page: Story = {
     const { isLanding, ...rest } = args;
 
     return (
-      <PageHeader {...(isLanding && { sectionLevelPage: true })} {...rest} />
+      <PageHeader
+        {...(isLanding
+          ? {
+              sectionLevelPage: true,
+              variant: 'legacyLanding',
+            }
+          : { variant: 'basic' })}
+        {...rest}
+      />
     );
   },
 };

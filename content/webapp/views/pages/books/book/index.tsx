@@ -64,6 +64,7 @@ const BookPage: NextPage<Props> = props => {
 
   const Header = (
     <PageHeader
+      variant="basic"
       breadcrumbs={breadcrumbs}
       title={book.title}
       FeaturedMedia={FeaturedMedia}
