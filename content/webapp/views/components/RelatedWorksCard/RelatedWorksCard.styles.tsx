@@ -22,7 +22,7 @@ export const Card = styled.a<{ $isHover?: boolean }>`
   ${props =>
     props.$isHover &&
     `
-    height: 6rem;
+    height: 5.25rem;
     width: 22rem;
   `}
 
@@ -35,7 +35,7 @@ export const Card = styled.a<{ $isHover?: boolean }>`
   ${props =>
     props.theme.media('large')(`
     max-height: unset;
-    height: ${props.$isHover ? '6rem' : '10rem'};
+    height: ${props.$isHover ? '5.25rem' : '10rem'};
   `)}
 `;
 
@@ -75,7 +75,8 @@ export const Title = styled.h2.attrs<{ $isHover?: boolean }>(props => ({
 }))<{ $linesToClamp: number }>`
   ${clampLineStyles};
   color: ${props => props.theme.color('black')};
-  margin-top: ${props => props.theme.spacingUnits['1']}px;
+  margin-top: ${props =>
+    props.$isHover ? 0 : props.theme.spacingUnits['1']}px;
 
   ${Card}:hover & {
     text-decoration: underline;
