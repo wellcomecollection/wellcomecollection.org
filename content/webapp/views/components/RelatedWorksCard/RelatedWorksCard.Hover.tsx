@@ -1,7 +1,6 @@
 import { FunctionComponent } from 'react';
 
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
-import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import { ContentApiLinkedWork } from '@weco/content/services/wellcome/content/types/api';
 
@@ -17,24 +16,14 @@ import {
 
 type Props = {
   work: WorkBasic | ContentApiLinkedWork; // Supports both Catalogue and Content API works
-  gtmData?: DataGtmProps;
 };
 
-const RelatedWorksCard: FunctionComponent<Props> = ({ work, gtmData }) => {
+const RelatedWorksCard: FunctionComponent<Props> = ({ work }) => {
   const { thumbnailUrl, date, mainContributor } = transformCardData(work);
 
   return (
     <div style={{ textAlign: 'left' }}>
-      <Card
-        as="span"
-        $isHover={true}
-        {...(gtmData &&
-          dataGtmPropsToAttributes({
-            ...gtmData,
-            id: work.id,
-            trigger: 'related_card_result',
-          }))}
-      >
+      <Card as="span" $isHover={true}>
         {thumbnailUrl && (
           <ImageWrapper $isHover={true}>
             <img

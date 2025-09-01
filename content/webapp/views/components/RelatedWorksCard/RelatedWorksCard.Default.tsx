@@ -32,16 +32,14 @@ const RelatedWorksCard: FunctionComponent<Props> = ({ work, gtmData }) => {
       {...toWorkLink({ id: work.id })}
       data-component="related-works-card"
       style={{ textDecoration: 'none' }}
+      {...(gtmData &&
+        dataGtmPropsToAttributes({
+          ...gtmData,
+          id: work.id,
+          trigger: 'related_card_result',
+        }))}
     >
-      <Card
-        as="span"
-        {...(gtmData &&
-          dataGtmPropsToAttributes({
-            ...gtmData,
-            id: work.id,
-            trigger: 'related_card_result',
-          }))}
-      >
+      <Card as="span">
         <TextWrapper>
           <div>
             <LabelsList labels={labels} defaultLabelColor="warmNeutral.300" />
