@@ -11,7 +11,6 @@ import {
 } from '@weco/common/views/components/Layout';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
-import { themeValues } from '@weco/common/views/themes/config';
 
 import { TitleWrapper, Wrapper } from './PageHeader.styles';
 
@@ -32,7 +31,7 @@ const SimpleLandingPageHeader: FunctionComponent<Props> = ({
         {introText && introText.length > 0 && (
           <Space
             $v={{ size: 's', properties: ['margin-top'] }}
-            style={{ maxWidth: `${themeValues.sizes.medium}px` }}
+            style={{ maxWidth: '700px' }}
             className={font('intr', 2)}
           >
             <PrismicHtmlBlock
