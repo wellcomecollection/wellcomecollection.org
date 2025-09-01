@@ -60,7 +60,7 @@ const SearchBar: FunctionComponent<Props> = ({
   const { newSearchBar } = useToggles();
   const defaultInputRef = useRef<HTMLInputElement>(null);
 
-  return newSearchBar ? (
+  return true ? (
     <SearchBarNew
       inputValue={inputValue}
       setInputValue={setInputValue}

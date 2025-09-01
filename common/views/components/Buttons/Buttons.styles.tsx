@@ -114,6 +114,10 @@ export const StyledButtonCSS = css<SolidButtonStyledProps>`
         &:not([disabled]):hover {
           text-decoration: underline;
         }
+
+        &:focus-visible {
+          border: 2px solid ${props.theme.color('black')};
+        }
       `};
 `;
 

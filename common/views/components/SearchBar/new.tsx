@@ -62,6 +62,10 @@ const SearchButtonWrapper = styled.div`
       position: relative;
       z-index: 1;
     }
+
+    &:focus-visible {
+      border-color: transparent;
+    }
   }
 `;
 

@@ -55,6 +55,7 @@ export const TextInputWrap = styled(Space).attrs({
     ${props =>
       !props.$isNewSearchBar &&
       `
+      box-shadow: 0 0 0 6px ${props.theme.color('focus.yellow')};
       outline:  3px solid ${props.theme.color('black')};
     `}
     ${props =>
