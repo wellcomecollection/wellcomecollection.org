@@ -43,6 +43,7 @@ type Props = {
   hideContributors?: true;
   serverData: SimplifiedServerData;
   showStaticLinkedWorks?: boolean;
+  contentApiType?: string;
 };
 
 const Wrapper = styled.div<{ $isCreamy: boolean }>`
@@ -68,6 +69,7 @@ const ContentPage = ({
   hideContributors,
   showStaticLinkedWorks,
   serverData,
+  contentApiType = 'articles',
 }: Props): ReactElement => {
   const { featuredWorksInAddressables } = useToggles();
 
@@ -76,7 +78,7 @@ const ContentPage = ({
   async function fetchLinkedWorks() {
     try {
       const linkedWorksResults = await getLinkedWorks({
-        id: `${id}.articles`,
+        id: `${id}.${contentApiType}`,
         serverData,
       });
 
