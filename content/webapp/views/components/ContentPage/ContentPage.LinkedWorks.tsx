@@ -1,5 +1,4 @@
-import { Fragment, FunctionComponent, useEffect, useState } from 'react';
-import { createPortal } from 'react-dom';
+import { FunctionComponent, useEffect } from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
