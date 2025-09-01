@@ -3,14 +3,15 @@
 import * as prismic from '@prismicio/client';
 import { FunctionComponent } from 'react';
 
+import { font } from '@weco/common/utils/classnames';
 import { defaultSerializer } from '@weco/common/views/components/HTMLSerializers';
 import {
   ContaineredLayout,
   gridSize12,
-  gridSize8,
 } from '@weco/common/views/components/Layout';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
+import { themeValues } from '@weco/common/views/themes/config';
 
 import { TitleWrapper, Wrapper } from './PageHeader.styles';
 
@@ -25,22 +26,20 @@ const SimpleLandingPageHeader: FunctionComponent<Props> = ({
 }) => {
   return (
     <ContaineredLayout gridSizes={gridSize12()}>
-      <Wrapper $v={{ size: 'l', properties: ['margin-bottom'] }}>
-        <Space $v={{ size: 'l', properties: ['margin-top'] }}>
-          <TitleWrapper $sectionLevelPage>{title}</TitleWrapper>
-        </Space>
+      <Wrapper $v={{ size: 'xl', properties: ['margin-bottom', 'margin-top'] }}>
+        <TitleWrapper $sectionLevelPage>{title}</TitleWrapper>
 
         {introText && introText.length > 0 && (
-          <ContaineredLayout gridSizes={gridSize8(false)}>
-            <div className="body-text spaced-text">
-              <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
-                <PrismicHtmlBlock
-                  html={introText}
-                  htmlSerializer={defaultSerializer}
-                />
-              </Space>
-            </div>
-          </ContaineredLayout>
+          <Space
+            $v={{ size: 's', properties: ['margin-top'] }}
+            style={{ maxWidth: `${themeValues.sizes.medium}px` }}
+            className={font('intr', 2)}
+          >
+            <PrismicHtmlBlock
+              html={introText}
+              htmlSerializer={defaultSerializer}
+            />
+          </Space>
         )}
       </Wrapper>
     </ContaineredLayout>
