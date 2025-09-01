@@ -63,13 +63,13 @@ export const PagePage: NextPage<Props> = ({
   jsonLd,
 }) => {
   const DateInfo = page.datePublished && <HTMLDate date={page.datePublished} />;
-  const isLanding = page.format && page.format.id === PageFormatIds.Landing;
+  const isLandingPage = page.format && page.format.id === PageFormatIds.Landing;
   const labels =
-    !isLanding && page.format?.title
+    !isLandingPage && page.format?.title
       ? makeLabels(page.format?.title)
       : undefined;
 
-  const backgroundTexture = isLanding
+  const backgroundTexture = isLandingPage
     ? landingHeaderBackgroundLs
     : headerBackgroundLs;
 
@@ -103,7 +103,7 @@ export const PagePage: NextPage<Props> = ({
   const sectionLevelPage = sectionLevelPages.includes(page.uid);
 
   function getBreadcrumbText(siteSection: string): string {
-    return isLanding
+    return isLandingPage
       ? '\u200b'
       : links.find(link => link.siteSection === siteSection)?.title ||
           siteSection;
@@ -140,13 +140,17 @@ export const PagePage: NextPage<Props> = ({
     featuredMedia && !sectionLevelPage ? (
       <HeaderBackground
         backgroundTexture={backgroundTexture}
-        hasWobblyEdge={!isLanding}
+        hasWobblyEdge={!isLandingPage}
       />
     ) : undefined;
 
   const Header = (
     <PageHeader
-      {...(sectionLevelPage && { sectionLevelPage: true })}
+      {...(sectionLevelPage && {
+        sectionLevelPage: true,
+        isLandingPage: true,
+        introText: page.introText,
+      })}
       {...(!sectionLevelPage && { breadcrumbs })}
       labels={labels}
       title={page.title}
@@ -234,7 +238,7 @@ export const PagePage: NextPage<Props> = ({
             introText={page.introText}
             onThisPage={page.onThisPage}
             showOnThisPage={page.showOnThisPage}
-            isLanding={isLanding}
+            isLandingPage={isLandingPage}
             sectionLevelPage={sectionLevelPage}
             staticContent={staticContent}
           />

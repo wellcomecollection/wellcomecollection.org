@@ -90,7 +90,7 @@ export type Props = {
   isDropCapped?: boolean;
   pageId: string;
   minWidth?: 10 | 8;
-  isLanding?: boolean;
+  isLandingPage?: boolean;
   sectionLevelPage?: boolean;
   staticContent?: ReactElement | null;
   comicPreviousNext?: ComicPreviousNextProps;
@@ -128,7 +128,7 @@ export type SliceZoneContext = {
   comicPreviousNext?: ComicPreviousNextProps;
   isShortFilm: boolean;
   pageId: string;
-  isLanding: boolean;
+  isLandingPage: boolean;
   isDropCapped: boolean;
   contentType?: 'short-film' | 'visual-story' | 'standalone-image-gallery';
 };
@@ -140,7 +140,7 @@ export const defaultContext: SliceZoneContext = {
   comicPreviousNext: undefined,
   isShortFilm: false,
   pageId: '',
-  isLanding: false,
+  isLandingPage: false,
   isDropCapped: false,
   contentType: undefined,
 };
@@ -153,7 +153,7 @@ const Body: FunctionComponent<Props> = ({
   isDropCapped,
   pageId,
   minWidth = 8,
-  isLanding = false,
+  isLandingPage = false,
   sectionLevelPage = false,
   staticContent = null,
   comicPreviousNext,
@@ -304,7 +304,7 @@ const Body: FunctionComponent<Props> = ({
       className={`content-type-${contentType}`}
       $splitBackground={isShortFilm}
     >
-      {introText && (
+      {!isLandingPage && introText && introText.length > 0 && (
         <ContaineredLayout gridSizes={gridSize8(!sectionLevelPage)}>
           <div className="body-text spaced-text">
             <Space
@@ -332,7 +332,7 @@ const Body: FunctionComponent<Props> = ({
         </SpacingComponent>
       )}
 
-      {isLanding && <LandingPageSections sections={sections} />}
+      {isLandingPage && <LandingPageSections sections={sections} />}
 
       <SliceZone
         slices={filteredUntransformedBody}
@@ -343,7 +343,7 @@ const Body: FunctionComponent<Props> = ({
           isVisualStory,
           comicPreviousNext,
           pageId,
-          isLanding,
+          isLandingPage,
           isDropCapped,
           contentType,
           isShortFilm,
