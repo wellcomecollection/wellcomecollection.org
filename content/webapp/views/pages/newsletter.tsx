@@ -34,6 +34,7 @@ const NewsletterPage: NextPage<Props> = ({ result }) => {
       }}
     >
       <PageHeader
+        variant="basic"
         breadcrumbs={{ items: [] }}
         title="Newsletters"
         backgroundTexture={landingHeaderBackgroundLs}
