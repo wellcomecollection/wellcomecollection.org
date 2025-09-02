@@ -10,7 +10,7 @@ import {
 } from '@weco/common/model/opening-hours';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
-import { SectionPageHeader } from '@weco/common/views/components/PageHeader';
+import { TitleWrapper } from '@weco/common/views/components/PageHeader/PageHeader.styles';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
@@ -55,9 +55,7 @@ const Header: FunctionComponent<HeaderProps> = ({
             }}
           >
             <OpeningTimesWrapper>
-              <SectionPageHeader $sectionLevelPage={true}>
-                What’s on
-              </SectionPageHeader>
+              <TitleWrapper $sectionLevelPage>What’s on</TitleWrapper>
               <OpeningTimes>
                 {todaysOpeningHours && (
                   <div style={{ display: 'flex', alignItems: 'center' }}>
