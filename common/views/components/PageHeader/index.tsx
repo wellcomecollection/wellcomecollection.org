@@ -51,7 +51,7 @@ const PageHeader: FunctionComponent<Props> = (props: Props) => {
   if ('sectionLevelPage' in props)
     return (
       <LandingPageHeader
-        data-component="section-page-header"
+        data-component="landing-page-header"
         amendedLabels={amendedLabels}
         {...props}
       />

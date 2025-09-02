@@ -64,10 +64,15 @@ export const getNameFromCollectionVenue = id => {
   }
 };
 
+// TODO: check if it works with their ID and not just their UID
+// TODO: only use this and not the page format? Or the other way around?
 export const sectionLevelPages = [
   prismicPageIds.visitUs,
+  prismicPageIds.whatsOn,
+  'stories',
   prismicPageIds.collections,
   prismicPageIds.getInvolved,
+  prismicPageIds.aboutUs,
 ];
 
 // The only series ("webcomic series") that uses the `webcomics` type.

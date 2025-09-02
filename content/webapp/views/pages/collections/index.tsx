@@ -49,9 +49,9 @@ const CollectionsLandingPage: NextPage<PagePageProps> = ({
       hideNewsletterPromo
     >
       <PageHeader
+        isLandingPage
         title={page.title}
-        breadcrumbs={{ items: [], noHomeLink: true }} // TODO
-        Background={<HeaderBackground />}
+        // Background={<HeaderBackground />}
       />
       {page.introText && (
         <ContaineredLayout gridSizes={gridSize8(false)}>

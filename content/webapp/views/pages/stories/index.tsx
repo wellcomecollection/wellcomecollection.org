@@ -5,12 +5,10 @@ import { pageDescriptions } from '@weco/common/data/microcopy';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb';
-import { defaultSerializer } from '@weco/common/views/components/HTMLSerializers';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import {
   ContaineredLayout,
   gridSize12,
-  gridSize8,
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
@@ -28,7 +26,6 @@ import { SeriesBasic } from '@weco/content/types/series';
 import { StoriesLanding } from '@weco/content/types/stories-landing';
 import CardGrid from '@weco/content/views/components/CardGrid';
 import FeaturedCard from '@weco/content/views/components/FeaturedCard';
-import FeaturedText from '@weco/content/views/components/FeaturedText';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
 import StoryPromo from '@weco/content/views/components/StoryPromo';
 
@@ -102,20 +99,10 @@ const StoriesPage: NextPage<Props> = ({
         breadcrumbs={getBreadcrumbItems('stories')}
         title="Stories"
         isContentTypeInfoBeforeMedia={false}
-        sectionLevelPage={true}
+        sectionLevelPage
+        isLandingPage
+        introText={introText}
       />
-      {introText && (
-        <ContaineredLayout gridSizes={gridSize8(false)}>
-          <div className="body-text spaced-text">
-            <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
-              <FeaturedText
-                html={introText}
-                htmlSerializer={defaultSerializer}
-              />
-            </Space>
-          </div>
-        </ContaineredLayout>
-      )}
 
       <SpacingSection>
         <ArticlesContainer className="row--has-wobbly-background">

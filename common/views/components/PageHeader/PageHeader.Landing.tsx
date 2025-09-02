@@ -1,3 +1,4 @@
+import * as prismic from '@prismicio/client';
 import {
   ComponentProps,
   FunctionComponent,
@@ -6,7 +7,9 @@ import {
 } from 'react';
 
 import { font } from '@weco/common/utils/classnames';
+import ConditionalWrapper from '@weco/common/views/components//ConditionalWrapper';
 import AccessibilityProvision from '@weco/common/views/components/AccessibilityProvision';
+import { defaultSerializer } from '@weco/common/views/components/HTMLSerializers';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import {
   ContaineredLayout,
@@ -14,6 +17,7 @@ import {
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import { Picture } from '@weco/common/views/components/Picture';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
 import { WobblyBottom } from '@weco/common/views/components/WobblyEdge';
 
@@ -38,6 +42,8 @@ export type Props = {
   backgroundTexture?: string;
   SerialPartNumber?: ReactNode;
   isSlim?: boolean;
+  isLandingPage?: boolean;
+  introText?: prismic.RichTextField;
   includeAccessibilityProvision?: boolean;
 };
 
@@ -55,18 +61,50 @@ const LandingPageHeader: FunctionComponent<Props> = ({
   backgroundTexture,
   SerialPartNumber,
   isSlim,
+  isLandingPage,
+  introText,
   includeAccessibilityProvision,
 }) => {
-  return (
+  const hasIntroText = !!(introText && introText.length > 0);
+
+  return isLandingPage ? (
+    <Container $backgroundTexture={backgroundTexture}>
+      {Background}
+      <ContaineredLayout gridSizes={gridSize12()}>
+        <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+          <ConditionalWrapper
+            condition={hasIntroText}
+            wrapper={children => (
+              <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
+                {children}
+              </Space>
+            )}
+          >
+            <TitleWrapper $sectionLevelPage>{title}</TitleWrapper>
+          </ConditionalWrapper>
+
+          {hasIntroText && (
+            <Space
+              $v={{ size: 'xl', properties: ['margin-bottom'] }}
+              className={font('intr', 3)}
+              style={{ maxWidth: '960px' }}
+            >
+              <PrismicHtmlBlock
+                html={introText}
+                htmlSerializer={defaultSerializer}
+              />
+            </Space>
+          )}
+        </Space>
+      </ContaineredLayout>
+    </Container>
+  ) : (
     <>
       <Container $backgroundTexture={backgroundTexture}>
         {Background}
         <ContaineredLayout gridSizes={gridSize12()}>
           <Wrapper
-            $v={{
-              size: isSlim ? 'xs' : 'l',
-              properties: ['margin-bottom'],
-            }}
+            $v={{ size: isSlim ? 'xs' : 'l', properties: ['margin-bottom'] }}
           >
             <Space $v={{ size: 'l', properties: ['margin-top'] }}>
               {SerialPartNumber}
@@ -81,12 +119,7 @@ const LandingPageHeader: FunctionComponent<Props> = ({
                 {ContentTypeInfo}
               </Space>
             )}
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'end',
-              }}
-            >
+            <div style={{ display: 'flex', alignItems: 'end' }}>
               {amendedLabels && amendedLabels.labels.length > 0 && (
                 <LabelsList {...amendedLabels} />
               )}
