@@ -139,6 +139,7 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
 
   const Header = (
     <PageHeader
+      variant="basic"
       breadcrumbs={getBreadcrumbItems('stories', extraBreadcrumbs)}
       labels={{ labels: article.labels }}
       title={article.title}
