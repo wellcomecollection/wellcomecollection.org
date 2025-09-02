@@ -10,6 +10,7 @@ import {
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
+import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 
 import { TitleWrapper, Wrapper } from './PageHeader.styles';
@@ -29,16 +30,19 @@ const SimpleLandingPageHeader: FunctionComponent<Props> = ({
         <TitleWrapper $sectionLevelPage>{title}</TitleWrapper>
 
         {introText && introText.length > 0 && (
-          <Space
-            $v={{ size: 's', properties: ['margin-top'] }}
-            style={{ maxWidth: '700px' }}
-            className={font('intr', 2)}
-          >
-            <PrismicHtmlBlock
-              html={introText}
-              htmlSerializer={defaultSerializer}
-            />
-          </Space>
+          <Grid>
+            <GridCell $sizeMap={{ s: [12], m: [10], l: [8], xl: [7] }}>
+              <Space
+                $v={{ size: 's', properties: ['margin-top'] }}
+                className={font('intr', 2)}
+              >
+                <PrismicHtmlBlock
+                  html={introText}
+                  htmlSerializer={defaultSerializer}
+                />
+              </Space>
+            </GridCell>
+          </Grid>
         )}
       </Wrapper>
     </ContaineredLayout>
