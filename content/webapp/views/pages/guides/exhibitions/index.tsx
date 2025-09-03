@@ -47,6 +47,7 @@ const ExhibitionGuidesPage: NextPage<Props> = props => {
     >
       <SpacingSection>
         <PageHeader
+          variant="basic"
           breadcrumbs={{ items: [], noHomeLink: true }}
           title="Digital Guides"
           backgroundTexture={headerBackgroundLs}

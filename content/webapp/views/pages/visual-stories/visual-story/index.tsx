@@ -46,6 +46,7 @@ const VisualStoryPage: NextPage<Props> = ({
 
   const Header = (
     <PageHeader
+      variant="basic"
       breadcrumbs={{
         items:
           relatedDocument && relatedDocument.title

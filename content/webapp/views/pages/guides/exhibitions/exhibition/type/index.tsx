@@ -112,6 +112,7 @@ const ExhibitionGuideTypePage: NextPage<Props> = ({
       skipToContentLinks={skipToContentLinks}
     >
       <PageHeader
+        variant="basic"
         title={exhibitionGuide.title}
         breadcrumbs={{
           items: [

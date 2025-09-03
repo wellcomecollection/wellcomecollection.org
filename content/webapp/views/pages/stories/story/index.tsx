@@ -89,7 +89,9 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
   }, []);
 
   useEffect(() => {
-    fetchLinkedWorks();
+    if (article.hasLinkedWorks) {
+      fetchLinkedWorks();
+    }
   }, [article.id]);
 
   const extraBreadcrumbs = [
@@ -137,6 +139,7 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
 
   const Header = (
     <PageHeader
+      variant="basic"
       breadcrumbs={getBreadcrumbItems('stories', extraBreadcrumbs)}
       labels={{ labels: article.labels }}
       title={article.title}

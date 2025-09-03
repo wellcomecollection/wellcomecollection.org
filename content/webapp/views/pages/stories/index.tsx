@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb';
 import { defaultSerializer } from '@weco/common/views/components/HTMLSerializers';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import {
@@ -99,10 +98,10 @@ const StoriesPage: NextPage<Props> = ({
       apiToolbarLinks={[createPrismicLink(storiesLanding.id)]}
     >
       <PageHeader
-        breadcrumbs={getBreadcrumbItems('stories')}
+        variant="legacyLanding"
+        sectionLevelPage
         title="Stories"
         isContentTypeInfoBeforeMedia={false}
-        sectionLevelPage={true}
       />
       {introText && (
         <ContaineredLayout gridSizes={gridSize8(false)}>
