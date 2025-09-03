@@ -113,6 +113,7 @@ const Exhibition: FunctionComponent<Props> = ({
   const Header = (
     <>
       <PageHeader
+        variant="basic"
         breadcrumbs={getBreadcrumbItems('whats-on', extraBreadcrumbs)}
         labels={{ labels: exhibition.labels }}
         title={exhibition.title}

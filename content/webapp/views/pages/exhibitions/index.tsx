@@ -68,6 +68,7 @@ const ExhibitionsPage: NextPage<Props> = props => {
       image={firstExhibition && firstExhibition.image}
     >
       <PageHeader
+        variant="basic"
         breadcrumbs={getBreadcrumbItems('whats-on')}
         title={title}
         ContentTypeInfo={
