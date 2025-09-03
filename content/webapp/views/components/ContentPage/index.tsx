@@ -142,9 +142,11 @@ const ContentPage = ({
               ))}
             </SpacingSection>
           )}
-          {true && linkedWorks && linkedWorks.length > 0 && (
-            <HoverLinkedWorks linkedWorks={linkedWorks} />
-          )}
+          {featuredWorksInAddressables &&
+            linkedWorks &&
+            linkedWorks.length > 0 && (
+              <HoverLinkedWorks linkedWorks={linkedWorks} />
+            )}
           {featuredWorksInAddressables &&
             showStaticLinkedWorks &&
             linkedWorks &&
