@@ -25,9 +25,8 @@ const Typewriter = styled.div.attrs({
 })`
   position: absolute;
   pointer-events: none;
-  top: 50px;
+  top: 38px;
   left: 1em;
-  transform: translateY(-50%);
   z-index: 1;
   color: ${props => props.theme.color('neutral.500')};
 `;
@@ -47,7 +46,8 @@ const SearchInputWrapper = styled.div`
     height: ${props => 10 * props.theme.spacingUnit}px;
   }
 
-  &:has(input:not(:placeholder-shown)) {
+  &:has(input:not(:placeholder-shown)),
+  &:focus-within {
     ${Typewriter} {
       display: none;
     }
