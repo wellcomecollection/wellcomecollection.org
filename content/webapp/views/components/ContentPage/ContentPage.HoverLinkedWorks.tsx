@@ -14,11 +14,32 @@ const HoverLinkedWorks: FunctionComponent<Props> = ({ linkedWorks }: Props) => {
   const [portals, setPortals] = useState<NodeListOf<HTMLElement> | null>(null);
 
   useEffect(() => {
-    setTimeout(() => {
+    const updatePortals = () => {
       window.requestAnimationFrame(() => {
         setPortals(document.querySelectorAll(`[data-portal-id]`));
       });
+    };
+
+    updatePortals();
+
+    const observer = new MutationObserver(mutations => {
+      const hasNewNodes = mutations.some(
+        mutation =>
+          mutation.type === 'childList' &&
+          (mutation.addedNodes.length > 0 || mutation.removedNodes.length > 0)
+      );
+
+      if (hasNewNodes) {
+        updatePortals();
+      }
     });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
+
+    return () => observer.disconnect();
   }, [linkedWorks]);
 
   if (!hasLinkedWorks) return null;
