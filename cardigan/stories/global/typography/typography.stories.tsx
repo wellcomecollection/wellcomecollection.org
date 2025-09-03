@@ -111,7 +111,7 @@ const MiscTemplate = () => (
         <div></div>
       </div>
     </div>
-    <StarPlusStar>
+    <StarPlusStar className="spaced-text">
       <div>
         <h3>Usage</h3>
         <p>Used to indicate a link to more content of a similar theme/type.</p>
