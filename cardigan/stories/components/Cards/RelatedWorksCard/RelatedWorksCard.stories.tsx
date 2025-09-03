@@ -66,28 +66,6 @@ export const Basic: Story = {
         }}
       >
         <RelatedWorksCard {...rest} />
-        <svg
-          style={{ position: 'absolute', visibility: 'hidden' }}
-          width="0"
-          height="0"
-        >
-          <defs>
-            <filter id="border-radius-mask">
-              <feGaussianBlur
-                in="SourceGraphic"
-                stdDeviation="2"
-                result="blur"
-              />
-              <feColorMatrix
-                in="blur"
-                mode="matrix"
-                values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 100 -50"
-                result="mask"
-              />
-              <feComposite in="SourceGraphic" in2="mask" operator="atop" />
-            </filter>
-          </defs>
-        </svg>
       </div>
     );
   },
