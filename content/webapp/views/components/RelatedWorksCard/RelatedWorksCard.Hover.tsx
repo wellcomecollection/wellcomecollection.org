@@ -22,7 +22,10 @@ const RelatedWorksCard: FunctionComponent<Props> = ({ work }) => {
   const { thumbnailUrl, date, mainContributor } = transformCardData(work);
 
   return (
-    <div style={{ textAlign: 'left' }}>
+    <div
+      style={{ textAlign: 'left' }}
+      data-component="related-works-card-hover"
+    >
       <Card as="span" $isHover={true}>
         {thumbnailUrl && (
           <ImageWrapper $isHover={true}>
