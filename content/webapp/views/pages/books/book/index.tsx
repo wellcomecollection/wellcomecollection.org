@@ -63,6 +63,7 @@ const BookPage: NextPage<Props> = ({ book, serverData }) => {
 
   const Header = (
     <PageHeader
+      variant="basic"
       breadcrumbs={breadcrumbs}
       title={book.title}
       FeaturedMedia={FeaturedMedia}

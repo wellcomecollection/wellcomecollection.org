@@ -3,7 +3,6 @@ import { NextPage } from 'next';
 import { SiteSection } from '@weco/common/model/site-section';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import PageHeader from '@weco/common/views/components/PageHeader';
-import { Container } from '@weco/common/views/components/styled/Container';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { Props as PagePageProps } from '@weco/content/views/pages/pages/page';
 
@@ -31,13 +30,10 @@ const CollectionsLandingPage: NextPage<PagePageProps> = ({
       hideNewsletterPromo
     >
       <PageHeader
+        variant="simpleLanding"
         title={page.title}
-        breadcrumbs={{ items: [] }} // TODO
+        introText={page.introText}
       />
-
-      <Container>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-      </Container>
     </PageLayout>
   );
 };

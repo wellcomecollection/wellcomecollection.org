@@ -53,6 +53,7 @@ const EventSeriesPage: NextPage<Props> = ({
   const FeaturedMedia = getFeaturedMedia(series);
   const Header = (
     <PageHeader
+      variant="basic"
       breadcrumbs={breadcrumbs}
       labels={{ labels: series.labels }}
       title={series.title}

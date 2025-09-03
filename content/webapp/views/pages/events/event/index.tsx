@@ -165,6 +165,7 @@ const EventPage: NextPage<Props> = ({
   const Header = (
     <>
       <PageHeader
+        variant="basic"
         breadcrumbs={getBreadcrumbItems('whats-on', extraBreadcrumbs)}
         labels={labels}
         title={event.title}

@@ -69,6 +69,7 @@ export const Guide: FunctionComponent<Props> = ({
 
   const Header = (
     <PageHeader
+      variant="basic"
       breadcrumbs={getBreadcrumbItems(guide.siteSection)}
       labels={makeLabels(guide.format?.title)}
       title={guide.title}
