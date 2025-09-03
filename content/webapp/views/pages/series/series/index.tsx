@@ -1,7 +1,6 @@
 import { NextPage } from 'next';
 import styled from 'styled-components';
 
-import { SimplifiedServerData } from '@weco/common/server-data/types';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
@@ -33,11 +32,10 @@ export type Props = {
   series: Series;
   articles: PaginatedResults<ArticleBasic>;
   scheduledItems: ArticleScheduleItem[];
-  serverData: SimplifiedServerData;
 };
 
 const ArticleSeriesPage: NextPage<Props> = props => {
-  const { series, articles, scheduledItems, serverData } = props;
+  const { series, articles, scheduledItems } = props;
   const breadcrumbs = {
     items: [
       {

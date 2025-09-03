@@ -2,7 +2,6 @@ import { NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { SimplifiedServerData } from '@weco/common/server-data/types';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font } from '@weco/common/utils/classnames';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
@@ -41,7 +40,6 @@ const RelatedStoryContainer = styled.div`
 export type Props = {
   article: Article;
   jsonLd: JsonLdObj;
-  serverData: SimplifiedServerData;
 };
 
 export type ArticleSeriesList = {
@@ -49,7 +47,7 @@ export type ArticleSeriesList = {
   articles: ArticleBasic[];
 }[];
 
-const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
+const ArticlePage: NextPage<Props> = ({ article, jsonLd }) => {
   const [listOfSeries, setListOfSeries] = useState<ArticleSeriesList>();
   const [relatedDocument, setRelatedDocument] = useState<
     ExhibitionBasic | ContentAPIArticle | undefined

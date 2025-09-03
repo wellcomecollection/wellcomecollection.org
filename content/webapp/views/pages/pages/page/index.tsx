@@ -6,7 +6,6 @@ import {
   sectionLevelPages,
 } from '@weco/common/data/hardcoded-ids';
 import { SiteSection } from '@weco/common/model/site-section';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import {
   headerBackgroundLs,
@@ -43,7 +42,6 @@ export type Props = {
   ordersInParents: OrderInParent[];
   staticContent: ReactElement | null;
   jsonLd: JsonLdObj;
-  serverData: SimplifiedServerData;
 };
 
 export type OrderInParent = {

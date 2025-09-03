@@ -1,7 +1,6 @@
 import { FunctionComponent } from 'react';
 
 import { SiteSection } from '@weco/common/model/site-section';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
@@ -23,14 +22,9 @@ import { getFeaturedPictureWithTasl } from '@weco/content/views/components/Image
 export type Props = {
   guide: GuideType;
   jsonLd: JsonLdObj;
-  serverData: SimplifiedServerData;
 };
 
-export const Guide: FunctionComponent<Props> = ({
-  guide,
-  jsonLd,
-  serverData,
-}) => {
+export const Guide: FunctionComponent<Props> = ({ guide, jsonLd }) => {
   const DateInfo = guide.datePublished && (
     <HTMLDate date={guide.datePublished} />
   );

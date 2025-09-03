@@ -5,7 +5,6 @@ import {
   ExhibitionHighlightToursDocument,
   ExhibitionTextsDocument,
 } from '@weco/common/prismicio-types';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font } from '@weco/common/utils/classnames';
 import { isPast } from '@weco/common/utils/dates';
@@ -47,7 +46,6 @@ type Props = {
   accessResourceLinks: (Link & { type: string })[];
   exhibitionTexts: ExhibitionTextsDocument[];
   exhibitionHighlightTours: ExhibitionHighlightToursDocument[];
-  serverData: SimplifiedServerData;
 };
 
 export type ExhibitionOf = (ExhibitionType | EventBasic)[];
@@ -58,7 +56,6 @@ const Exhibition: FunctionComponent<Props> = ({
   accessResourceLinks,
   exhibitionTexts,
   exhibitionHighlightTours,
-  serverData,
 }) => {
   const [exhibitionOfs, setExhibitionOfs] = useState<ExhibitionOf>([]);
   const [exhibitionAbouts, setExhibitionAbouts] = useState<ExhibitionAbout[]>(

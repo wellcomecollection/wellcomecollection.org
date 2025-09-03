@@ -11,7 +11,6 @@ import {
 } from '@weco/common/data/hardcoded-ids';
 import { a11y } from '@weco/common/data/microcopy';
 import { arrow, email, ticket } from '@weco/common/icons';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { font } from '@weco/common/utils/classnames';
@@ -83,7 +82,6 @@ export type Props = {
   event: Event;
   accessResourceLinks?: (Link & { type: string })[];
   jsonLd: JsonLdObj[];
-  serverData: SimplifiedServerData;
 };
 
 /**
@@ -91,12 +89,7 @@ export type Props = {
  * but instead are rewritten to the index file. Please observe
  * this setup in the next.config file for this app
  */
-const EventPage: NextPage<Props> = ({
-  event,
-  accessResourceLinks,
-  jsonLd,
-  serverData,
-}) => {
+const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
   const [scheduledIn, setScheduledIn] = useState<EventBasic>();
   const [isModalActive, setIsModalActive] = useState(false);
 

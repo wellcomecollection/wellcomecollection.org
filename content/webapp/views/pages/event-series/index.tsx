@@ -25,7 +25,6 @@ export type Props = {
   pastEvents: PaginatedResults<EventBasic>;
   upcomingEvents: EventBasic[];
   page: number;
-  serverData: SimplifiedServerData;
 };
 
 const EventSeriesPage: NextPage<Props> = ({
@@ -34,7 +33,6 @@ const EventSeriesPage: NextPage<Props> = ({
   pastEvents,
   upcomingEvents,
   page,
-  serverData,
 }) => {
   const breadcrumbs = {
     items: [

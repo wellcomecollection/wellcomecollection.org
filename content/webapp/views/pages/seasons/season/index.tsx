@@ -1,6 +1,5 @@
 import { ReactElement } from 'react';
 
-import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
@@ -30,7 +29,6 @@ export type Props = {
   projects: Project[];
   series: Series[];
   jsonLd: JsonLdObj;
-  serverData: SimplifiedServerData;
 };
 
 const SeasonPage = ({
@@ -43,7 +41,6 @@ const SeasonPage = ({
   projects,
   books,
   jsonLd,
-  serverData,
 }: Props): ReactElement => {
   const allItems = [
     ...exhibitions,
