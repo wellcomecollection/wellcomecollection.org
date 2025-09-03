@@ -62,6 +62,14 @@ const SearchButtonWrapper = styled.div`
   button {
     height: 53px;
 
+    span:not(:first-child) {
+      display: none;
+
+      ${props => props.theme.media('medium')`
+        display: unset;
+      `}
+    }
+
     &:focus {
       position: relative;
       z-index: 1;
