@@ -142,7 +142,6 @@ const LinkedWorks: FunctionComponent<LinkedWorkProps> = ({
             </ListItem>
           );
         })}
-        <Shim $gridValues={gridValues}></Shim>
       </ScrollContainer>
     </FullWidthRow>
   );
