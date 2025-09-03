@@ -40,7 +40,10 @@ export const useHoverPortal = ({
   const isHoveringTrigger = useRef(false);
   const isHoveringPortal = useRef(false);
 
-  const [hoverPosition, setHoverPosition] = useState<{ x: number; y: number }>({
+  const [initialHoverPosition, setInitialHoverPosition] = useState<{
+    x: number;
+    y: number;
+  }>({
     x: 0,
     y: 0,
   });
@@ -110,22 +113,22 @@ export const useHoverPortal = ({
     }
   }, [isVisible]);
 
-  // Update portal position when hover position changes
+  // Update portal position only when it first becomes visible
   useEffect(() => {
-    if (!portalRef.current) return;
+    if (!portalRef.current || !isVisible) return;
 
     const portal = portalRef.current;
     const viewportWidth = document.documentElement.clientWidth;
     const viewportHeight = document.documentElement.clientHeight;
 
-    // Center horizontally around the hover position
-    let leftPosition = hoverPosition.x - portalWidth / 2;
-    let topPosition = hoverPosition.y + defaultOffset;
+    // Center horizontally around the initial hover position
+    let leftPosition = initialHoverPosition.x - portalWidth / 2;
+    let topPosition = initialHoverPosition.y + defaultOffset;
 
     // Check if the portal would go below the viewport
     if (topPosition + portalHeight > viewportHeight) {
       // Not enough space below, position above the hover point
-      topPosition = hoverPosition.y - portalHeight - defaultOffset;
+      topPosition = initialHoverPosition.y - portalHeight - defaultOffset;
     }
 
     // Ensure the portal doesn't go off the left or right edge
@@ -140,7 +143,8 @@ export const useHoverPortal = ({
     portal.style.top = `${Math.max(viewportPadding, topPosition)}px`;
     portal.style.left = `${leftPosition}px`;
   }, [
-    hoverPosition,
+    isVisible,
+    initialHoverPosition,
     portalWidth,
     portalHeight,
     defaultOffset,
@@ -151,11 +155,13 @@ export const useHoverPortal = ({
     (event: ReactMouseEvent) => {
       isHoveringTrigger.current = true;
       clearHideTimeout();
-      // Track mouse position for positioning relative to trigger element
-      setHoverPosition({ x: event.clientX, y: event.clientY });
-      setIsVisible(true);
+      // Only capture initial hover position if portal is not already visible
+      if (!isVisible) {
+        setInitialHoverPosition({ x: event.clientX, y: event.clientY });
+        setIsVisible(true);
+      }
     },
-    [clearHideTimeout]
+    [clearHideTimeout, isVisible]
   );
 
   const handleTriggerMouseLeave = useCallback(() => {
@@ -173,7 +179,7 @@ export const useHoverPortal = ({
   return {
     portalRef,
     triggerRef,
-    hoverPosition,
+    hoverPosition: initialHoverPosition,
     isVisible,
     handleTriggerMouseEnter,
     handleTriggerMouseLeave,
