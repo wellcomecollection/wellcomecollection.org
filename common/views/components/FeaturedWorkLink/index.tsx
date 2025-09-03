@@ -21,7 +21,7 @@ const WorkLinkWithIcon = styled.a<{ $isPortalVisible: boolean }>`
   }
 
   [data-portal-id] {
-    position: fixed;
+    position: absolute;
     z-index: ${props => (props.$isPortalVisible ? '2' : '-1')};
     opacity: ${props => (props.$isPortalVisible ? '1' : '0')};
     transition: opacity ${props => props.theme.transitionProperties};
@@ -56,6 +56,7 @@ const FeaturedWorkLink = ({
 } & HTMLAttributes<HTMLAnchorElement>) => {
   const {
     portalRef,
+    triggerRef,
     isVisible,
     handleTriggerMouseEnter,
     handleTriggerMouseLeave,
@@ -63,7 +64,6 @@ const FeaturedWorkLink = ({
     portalWidth: 362,
     portalHeight: 96,
     defaultOffset: 4,
-    downwardOffset: 26,
   });
 
   if (!(link && hasLinkedWork(link))) return null;
@@ -72,6 +72,7 @@ const FeaturedWorkLink = ({
 
   return (
     <WorkLinkWithIcon
+      ref={triggerRef}
       onMouseEnter={handleTriggerMouseEnter}
       onMouseLeave={handleTriggerMouseLeave}
       href={link}
