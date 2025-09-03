@@ -11,7 +11,6 @@ type UseHoverPortalOptions = {
   portalWidth?: number;
   portalHeight?: number;
   defaultOffset?: number;
-  downwardOffset?: number;
   viewportPadding?: number;
   hideDelay?: number;
   triggerRef?: RefObject<HTMLAnchorElement | null>;
@@ -30,7 +29,6 @@ export const useHoverPortal = ({
   portalWidth = 362,
   portalHeight = 96,
   defaultOffset = 10,
-  downwardOffset = 20,
   viewportPadding = 10,
   hideDelay = 300,
   triggerRef: externalTriggerRef,
@@ -96,56 +94,64 @@ export const useHoverPortal = ({
     };
   }, [isVisible, clearHideTimeout, scheduleHide]);
 
+  // Hide portal when user scrolls
+  useEffect(() => {
+    const handleScroll = () => {
+      if (isVisible) {
+        setIsVisible(false);
+      }
+    };
+
+    if (isVisible) {
+      document.addEventListener('scroll', handleScroll, true);
+      return () => {
+        document.removeEventListener('scroll', handleScroll, true);
+      };
+    }
+  }, [isVisible]);
+
   // Update portal position when hover position changes
   useEffect(() => {
-    if (!portalRef.current || !triggerRef.current) return;
+    if (!portalRef.current) return;
 
     const portal = portalRef.current;
-    const trigger = triggerRef.current;
-    const triggerRect = trigger.getBoundingClientRect();
     const viewportWidth = document.documentElement.clientWidth;
     const viewportHeight = document.documentElement.clientHeight;
 
-    // Position relative to the trigger element
-    let topPosition = triggerRect.height + defaultOffset;
-    let leftPosition = (triggerRect.width - portalWidth) / 2;
+    // Center horizontally around the hover position
+    let leftPosition = hoverPosition.x - portalWidth / 2;
+    let topPosition = hoverPosition.y + defaultOffset;
 
-    // Check if the portal would go below the viewport when positioned absolutely
-    const absoluteTop = triggerRect.top + topPosition;
-    if (absoluteTop + portalHeight > viewportHeight) {
-      // Not enough space below, position above the trigger
-      topPosition = -portalHeight - defaultOffset;
+    // Check if the portal would go below the viewport
+    if (topPosition + portalHeight > viewportHeight) {
+      // Not enough space below, position above the hover point
+      topPosition = hoverPosition.y - portalHeight - defaultOffset;
     }
 
-    // Check if the portal would go off the right edge
-    const absoluteLeft = triggerRect.left + leftPosition;
-    if (absoluteLeft + portalWidth > viewportWidth) {
-      leftPosition =
-        viewportWidth - triggerRect.left - portalWidth - viewportPadding;
+    // Ensure the portal doesn't go off the left or right edge
+    if (leftPosition + portalWidth > viewportWidth) {
+      leftPosition = viewportWidth - portalWidth - viewportPadding;
     }
 
-    // Check if the portal would go off the left edge
-    if (absoluteLeft < viewportPadding) {
-      leftPosition = viewportPadding - triggerRect.left;
+    if (leftPosition < viewportPadding) {
+      leftPosition = viewportPadding;
     }
 
-    portal.style.top = `${topPosition}px`;
+    portal.style.top = `${Math.max(viewportPadding, topPosition)}px`;
     portal.style.left = `${leftPosition}px`;
   }, [
     hoverPosition,
     portalWidth,
     portalHeight,
     defaultOffset,
-    downwardOffset,
     viewportPadding,
-    triggerRef,
   ]);
 
   const handleTriggerMouseEnter = useCallback(
     (event: ReactMouseEvent) => {
       isHoveringTrigger.current = true;
       clearHideTimeout();
-      // For absolute positioning, we still track mouse position for direction detection
+      // Track mouse position for positioning relative to trigger element
       setHoverPosition({ x: event.clientX, y: event.clientY });
       setIsVisible(true);
     },

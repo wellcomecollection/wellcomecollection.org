@@ -72,7 +72,7 @@ const ContentPage = ({
   serverData,
   contentApiType,
 }: Props): ReactElement => {
-  const { featuredWorksInAddressables, hoverFeaturedWorks } = useToggles();
+  const { featuredWorksInAddressables } = useToggles();
 
   const [linkedWorks, setLinkedWorks] = useState<ContentApiLinkedWork[]>([]);
 
@@ -142,7 +142,7 @@ const ContentPage = ({
               ))}
             </SpacingSection>
           )}
-          {hoverFeaturedWorks && linkedWorks && linkedWorks.length > 0 && (
+          {true && linkedWorks && linkedWorks.length > 0 && (
             <HoverLinkedWorks linkedWorks={linkedWorks} />
           )}
           {featuredWorksInAddressables &&

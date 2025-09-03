@@ -114,14 +114,6 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'hoverFeaturedWorks',
-      title: 'Show featured works on hover',
-      initialValue: false,
-      description:
-        'Displays featured work cards when hovering over collection links in the text of a page',
-      type: 'experimental',
-    },
-    {
       id: 'featuredWorksInAddressables',
       title: 'Featured works in addressables',
       initialValue: false,
