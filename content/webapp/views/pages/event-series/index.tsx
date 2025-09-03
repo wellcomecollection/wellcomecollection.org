@@ -74,7 +74,6 @@ const EventSeriesPage: NextPage<Props> = ({
     >
       <ContentPage
         id={series.id}
-        serverData={serverData}
         Header={Header}
         Body={
           page === 1 ? (

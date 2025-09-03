@@ -92,7 +92,6 @@ const ArticleSeriesPage: NextPage<Props> = props => {
     >
       <ContentPage
         id={series.id}
-        serverData={serverData}
         Header={Header}
         Body={
           <Body
@@ -101,7 +100,6 @@ const ArticleSeriesPage: NextPage<Props> = props => {
           />
         }
         contributors={series.contributors}
-        seasons={series.seasons}
       >
         <>
           {articles.results.map((article, index) => (

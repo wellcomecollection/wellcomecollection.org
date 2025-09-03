@@ -94,7 +94,6 @@ export const Guide: FunctionComponent<Props> = ({
     >
       <ContentPage
         id={guide.id}
-        serverData={serverData}
         Header={Header}
         Body={
           <Body

@@ -129,7 +129,6 @@ const Installation: FunctionComponent<Props> = ({
   return (
     <ContentPage
       id={installation.id}
-      serverData={serverData}
       Header={Header}
       Body={
         <Body

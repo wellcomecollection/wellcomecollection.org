@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 import { sectionLevelPages } from '@weco/common/data/hardcoded-ids';
 import { useToggles } from '@weco/common/server-data/Context';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { ContentApiType } from '@weco/common/services/prismic/content-types';
 import { ElementFromComponent } from '@weco/common/utils/utility-types';
 import {
@@ -42,7 +41,6 @@ type Props = {
   contributors?: Contributor[];
   contributorTitle?: string;
   hideContributors?: true;
-  serverData: SimplifiedServerData;
   showStaticLinkedWorks?: boolean;
   contentApiType?: ContentApiType;
 };
@@ -69,10 +67,9 @@ const ContentPage = ({
   contributorTitle,
   hideContributors,
   showStaticLinkedWorks,
-  serverData,
   contentApiType,
 }: Props): ReactElement => {
-  const { featuredWorksInAddressables } = useToggles();
+  const { featuredWorksInAddressables, stagingApi } = useToggles();
 
   const [linkedWorks, setLinkedWorks] = useState<ContentApiLinkedWork[]>([]);
 
@@ -82,7 +79,7 @@ const ContentPage = ({
     try {
       const linkedWorksResults = await getLinkedWorks({
         id: `${id}.${contentApiType}`,
-        serverData,
+        useStaging: stagingApi || false,
       });
 
       setLinkedWorks(() => {

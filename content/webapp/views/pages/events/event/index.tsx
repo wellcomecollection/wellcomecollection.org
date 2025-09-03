@@ -226,7 +226,6 @@ const EventPage: NextPage<Props> = ({
       <ContentPage
         id={event.id}
         contentApiType="events"
-        serverData={serverData}
         Header={Header}
         Body={<Body untransformedBody={untransformedBody} pageId={event.id} />}
         seasons={event.seasons}

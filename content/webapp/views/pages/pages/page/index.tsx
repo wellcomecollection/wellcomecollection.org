@@ -230,7 +230,6 @@ export const PagePage: NextPage<Props> = ({
       <ContentPage
         id={page.id}
         contentApiType="pages"
-        serverData={serverData}
         Header={Header}
         Body={
           <Body

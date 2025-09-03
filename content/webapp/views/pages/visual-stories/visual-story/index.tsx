@@ -101,7 +101,6 @@ const VisualStoryPage: NextPage<Props> = ({
       <ContentPage
         id={visualStory.id}
         contentApiType="visual-stories"
-        serverData={serverData}
         Header={Header}
         Body={
           <Body

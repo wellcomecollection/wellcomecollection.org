@@ -85,7 +85,6 @@ const BookPage: NextPage<Props> = ({ book, serverData }) => {
       <ContentPage
         id={book.id}
         contentApiType="books"
-        serverData={serverData}
         Header={Header}
         Body={
           <Body untransformedBody={book.untransformedBody} pageId={book.id} />
