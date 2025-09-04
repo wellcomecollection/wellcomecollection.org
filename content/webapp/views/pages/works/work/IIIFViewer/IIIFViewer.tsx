@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { FunctionComponent, useEffect, useRef, useState } from 'react';
+import { FunctionComponent, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
@@ -215,7 +215,13 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     manifest = 1,
     shouldScrollToCanvas = true,
     query = '',
-  } = fromQuery(router.query);
+  } = useMemo(() => {
+    const parsed = fromQuery(router.query);
+    return {
+      ...parsed,
+      shouldScrollToCanvas: true,
+    };
+  }, [router.query]);
   const { extendedViewer } = useToggles();
   const [gridVisible, setGridVisible] = useState(false);
   const { isFullSupportBrowser } = useAppContext();
