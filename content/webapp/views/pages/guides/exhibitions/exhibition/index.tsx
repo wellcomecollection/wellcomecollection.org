@@ -94,6 +94,7 @@ const ExhibitionGuidePage: NextPage<Props> = ({
       hideNewsletterPromo={true}
     >
       <PageHeader
+        variant="basic"
         title={`${pageTitle} digital guides`}
         breadcrumbs={{
           items: [
