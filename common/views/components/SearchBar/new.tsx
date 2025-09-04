@@ -84,6 +84,17 @@ const SearchButtonWrapper = styled.div`
       `)}
     }
 
+    span .icon {
+      ${props =>
+        props.theme.mediaBetween(
+          'small',
+          'medium'
+        )(`
+        width: 34px;
+        height: 34px;
+        `)}
+    }
+
     &:focus {
       position: relative;
       z-index: 1;
@@ -179,6 +190,7 @@ const SearchBar: FunctionComponent<Props> = ({
               form={form}
               colors={themeValues.buttonColors.greenGreenWhite}
               icon={search}
+              isNewSearchBar={true}
             />
           </SearchButtonWrapper>
         </Container>
