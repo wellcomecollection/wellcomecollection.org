@@ -20,6 +20,7 @@ export type ButtonSolidProps = ButtonSolidBaseProps & {
   disabled?: boolean;
   clickHandler?: (event: SyntheticEvent<HTMLButtonElement>) => void;
   isPill?: boolean;
+  isNewSearchBar?: boolean;
 };
 
 const Button: ForwardRefRenderFunction<HTMLButtonElement, ButtonSolidProps> = (
@@ -40,6 +41,7 @@ const Button: ForwardRefRenderFunction<HTMLButtonElement, ButtonSolidProps> = (
     isIconAfter,
     form,
     isPill,
+    isNewSearchBar,
   }: ButtonSolidProps,
   ref: ForwardedRef<HTMLButtonElement>
 ) => {
@@ -65,7 +67,11 @@ const Button: ForwardRefRenderFunction<HTMLButtonElement, ButtonSolidProps> = (
       $hasIcon={!!icon}
       $isIconAfter={isIconAfter}
     >
-      <BaseButtonInner $isInline={size === 'small'} $isPill={isPill}>
+      <BaseButtonInner
+        $isNewSearchBar={isNewSearchBar}
+        $isInline={size === 'small'}
+        $isPill={isPill}
+      >
         {isIconAfter && (
           <span
             className={classNames({
