@@ -4,6 +4,8 @@ import {
   forwardRef,
   ForwardRefRenderFunction,
   RefObject,
+  useEffect,
+  useState,
 } from 'react';
 import styled from 'styled-components';
 
@@ -216,6 +218,24 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
     setShowValidity && setShowValidity(!!value && true);
   }
 
+  // Calculate text width for positioning clear button when isNewSearchBar is true
+  const [textWidth, setTextWidth] = useState(0);
+
+  useEffect(() => {
+    if (isNewSearchBar && ref?.current && value) {
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
+      if (context) {
+        const computedStyle = window.getComputedStyle(ref.current);
+        context.font = `${computedStyle.fontSize} ${computedStyle.fontFamily}`;
+        const metrics = context.measureText(value);
+        setTextWidth(metrics.width);
+      }
+    } else {
+      setTextWidth(0);
+    }
+  }, [value, isNewSearchBar, ref]);
+
   return (
     <div data-component="text-input">
       <TextInputLabel htmlFor={id}>{label}</TextInputLabel>
@@ -261,7 +281,8 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
             inputRef={ref}
             clickHandler={clearHandler}
             setValue={setValue}
-            right={10}
+            right={isNewSearchBar ? undefined : 10}
+            left={isNewSearchBar ? 32 + textWidth : undefined}
           />
         )}
       </TextInputWrap>
