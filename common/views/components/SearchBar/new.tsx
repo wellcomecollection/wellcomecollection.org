@@ -44,7 +44,11 @@ const SearchInputWrapper = styled.div`
 
   input {
     border: none;
-    height: 45px;
+    height: 55px;
+
+    ${props => props.theme.media('medium')`
+      height: 65px;
+    `}
   }
 
   .search-query {
@@ -61,7 +65,11 @@ const SearchInputWrapper = styled.div`
 
 const SearchButtonWrapper = styled.div`
   button {
-    height: 53px;
+    height: 63px;
+
+    ${props => props.theme.media('medium')`
+      height: 73px;
+    `}
 
     span:not(:first-child) {
       ${props =>
