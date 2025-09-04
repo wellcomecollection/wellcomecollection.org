@@ -155,6 +155,7 @@ const Exhibition: FunctionComponent<Props> = ({
   return (
     <ContentPage
       id={exhibition.id}
+      contentApiType="exhibitions"
       Header={Header}
       Body={
         <Body

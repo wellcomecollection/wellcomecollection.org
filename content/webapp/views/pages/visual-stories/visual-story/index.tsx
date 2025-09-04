@@ -98,6 +98,7 @@ const VisualStoryPage: NextPage<Props> = ({
     >
       <ContentPage
         id={visualStory.id}
+        contentApiType="visual-stories"
         Header={Header}
         Body={
           <Body

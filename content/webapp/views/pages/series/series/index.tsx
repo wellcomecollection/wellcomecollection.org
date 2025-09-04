@@ -99,7 +99,6 @@ const ArticleSeriesPage: NextPage<Props> = props => {
           />
         }
         contributors={series.contributors}
-        seasons={series.seasons}
       >
         <>
           {articles.results.map((article, index) => (

@@ -51,7 +51,7 @@ const Shim = styled.li<{ $gridValues: number[] }>`
 
   ${props =>
     props.theme.media('xlarge')(`
-      /* Considers margin: 0 auto at the largest side */ 
+      /* Considers margin: 0 auto at the largest side */
       --container-padding: ${props.theme.containerPadding.xlarge}px;
       --container-width: calc(${props.theme.sizes.xlarge}px - (var(--container-padding) * 2));
       --left-margin-width: calc((100% - ${props.theme.sizes.xlarge}px) / 2);
@@ -126,18 +126,22 @@ const LinkedWorks: FunctionComponent<LinkedWorkProps> = ({
         gridSizes={gridSizes}
       >
         <Shim $gridValues={gridValues}></Shim>
-        {linkedWorks.map((work, i) => (
-          <ListItem key={work.id}>
-            <RelatedWorksCard
-              work={work}
-              gtmData={{
-                trigger: 'work-link-component',
-                id: work.id,
-                'position-in-list': `${i + 1}`,
-              }}
-            />
-          </ListItem>
-        ))}
+
+        {linkedWorks.map((work, i) => {
+          return (
+            <ListItem key={work.id}>
+              <RelatedWorksCard
+                variant="default"
+                work={work}
+                gtmData={{
+                  trigger: 'work-link-component',
+                  id: work.id,
+                  'position-in-list': `${i + 1}`,
+                }}
+              />
+            </ListItem>
+          );
+        })}
       </ScrollContainer>
     </FullWidthRow>
   );

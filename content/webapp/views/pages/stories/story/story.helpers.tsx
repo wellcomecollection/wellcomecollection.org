@@ -100,14 +100,14 @@ export const getRelatedDoc = async (
 
 export const getLinkedWorks = async ({
   id,
-  serverData,
+  useStaging = false,
 }: {
   id: string;
-  serverData: SimplifiedServerData;
+  useStaging?: boolean;
 }): Promise<ContentApiLinkedWork[]> => {
   const addressable = await getAddressable({
     id,
-    toggles: serverData.toggles,
+    useStaging,
   });
 
   if (addressable.type !== 'Error') {

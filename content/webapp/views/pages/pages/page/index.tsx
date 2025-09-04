@@ -232,6 +232,7 @@ export const PagePage: NextPage<Props> = ({
     >
       <ContentPage
         id={page.id}
+        contentApiType="pages"
         Header={getHeader()}
         Body={
           <Body

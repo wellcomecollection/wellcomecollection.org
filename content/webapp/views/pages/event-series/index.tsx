@@ -1,5 +1,6 @@
 import { NextPage } from 'next';
 
+import { SimplifiedServerData } from '@weco/common/server-data/types';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { font } from '@weco/common/utils/classnames';

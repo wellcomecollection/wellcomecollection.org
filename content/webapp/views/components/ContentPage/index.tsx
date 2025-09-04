@@ -1,9 +1,10 @@
 // eslint-data-component: intentionally omitted
-import { Children, ReactElement, ReactNode } from 'react';
+import { Children, ReactElement, ReactNode, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { sectionLevelPages } from '@weco/common/data/hardcoded-ids';
 import { useToggles } from '@weco/common/server-data/Context';
+import { ContentApiType } from '@weco/common/services/prismic/content-types';
 import { ElementFromComponent } from '@weco/common/utils/utility-types';
 import {
   ContaineredLayout,
@@ -21,8 +22,10 @@ import { Contributor } from '@weco/content/types/contributors';
 import { Season } from '@weco/content/types/seasons';
 import { Props as BodyProps } from '@weco/content/views/components/Body';
 import Contributors from '@weco/content/views/components/Contributors';
+import { getLinkedWorks } from '@weco/content/views/pages/stories/story/story.helpers';
 
 import BannerCard from './ContentPage.BannerCard';
+import HoverLinkedWorks from './ContentPage.HoverLinkedWorks';
 import LinkedWorks from './ContentPage.LinkedWorks';
 
 type Props = {
@@ -37,7 +40,8 @@ type Props = {
   contributors?: Contributor[];
   contributorTitle?: string;
   hideContributors?: true;
-  linkedWorks?: ContentApiLinkedWork[];
+  showStaticLinkedWorks?: boolean;
+  contentApiType?: ContentApiType;
 };
 
 const Wrapper = styled.div<{ $isCreamy: boolean }>`
@@ -61,9 +65,34 @@ const ContentPage = ({
   contributors,
   contributorTitle,
   hideContributors,
-  linkedWorks,
+  showStaticLinkedWorks,
+  contentApiType,
 }: Props): ReactElement => {
-  const { featuredWorksInAddressables } = useToggles();
+  const { featuredWorksInAddressables, stagingApi } = useToggles();
+
+  const [linkedWorks, setLinkedWorks] = useState<ContentApiLinkedWork[]>([]);
+
+  async function fetchLinkedWorks() {
+    if (!contentApiType) return;
+
+    try {
+      const linkedWorksResults = await getLinkedWorks({
+        id: `${id}.${contentApiType}`,
+        useStaging: stagingApi || false,
+      });
+
+      setLinkedWorks(() => {
+        return linkedWorksResults;
+      });
+    } catch (e) {
+      console.error('Failed getting linked works', e);
+      return undefined;
+    }
+  }
+
+  useEffect(() => {
+    fetchLinkedWorks();
+  }, [id]);
 
   // We don't want to add a spacing unit if there's nothing to render
   // in the body (we don't render the 'standfirst' here anymore).
@@ -109,8 +138,13 @@ const ContentPage = ({
               ))}
             </SpacingSection>
           )}
-
           {featuredWorksInAddressables &&
+            linkedWorks &&
+            linkedWorks.length > 0 && (
+              <HoverLinkedWorks linkedWorks={linkedWorks} />
+            )}
+          {featuredWorksInAddressables &&
+            showStaticLinkedWorks &&
             linkedWorks &&
             linkedWorks.length > 0 && (
               <LinkedWorks
@@ -119,7 +153,6 @@ const ContentPage = ({
                 parentId={id}
               />
             )}
-
           {!hideContributors && contributors && contributors.length > 0 && (
             <SpacingSection>
               <ContaineredLayout gridSizes={gridSize8()}>
