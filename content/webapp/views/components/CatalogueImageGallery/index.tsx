@@ -9,7 +9,10 @@ import CatalogueImageGalleryScrollable, {
 
 type Props =
   | (CatalogueImageGalleryJustifiedProps & { variant: 'justified' })
-  | (CatalogueImageGalleryScrollableProps & { variant: 'scrollable' });
+  | (CatalogueImageGalleryScrollableProps & {
+      variant: 'scrollable';
+      scrollButtonsAfter?: boolean;
+    });
 
 const CatalogueImageGallery: FunctionComponent<Props> = props => {
   const { variant } = props;
