@@ -8,6 +8,7 @@ describe('getPartNumberInSeries', () => {
       type: 'articles',
       id: 'Y_iu0RQAACYAwp8A',
       uid: 'cataloguing-audrey',
+      hasLinkedWorks: false,
       series: [
         {
           id: 'Y_OGkRQAACgAq4ui',
@@ -49,6 +50,7 @@ describe('getPartNumberInSeries', () => {
       type: 'articles',
       id: 'Y-0A1hQAACUAjrjg',
       uid: 'stones-for-healing',
+      hasLinkedWorks: false,
       series: [
         {
           id: 'WsSUrR8AAL3KGFPF',

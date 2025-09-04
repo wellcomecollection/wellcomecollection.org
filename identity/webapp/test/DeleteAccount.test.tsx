@@ -47,7 +47,7 @@ describe('DeleteAccount', () => {
       screen.getByRole('button', { name: /yes, delete my account/i })
     );
 
-    await waitFor(() => expect(onComplete).toBeCalled());
+    await waitFor(() => expect(onComplete).toHaveBeenCalled());
   });
 
   it('allows the user to cancel the operation', async () => {
