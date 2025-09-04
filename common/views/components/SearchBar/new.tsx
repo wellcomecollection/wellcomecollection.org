@@ -108,18 +108,21 @@ const SearchBar: FunctionComponent<Props> = ({
   const defaultInputRef = useRef<HTMLInputElement>(null);
   const typewriterRef = useRef<HTMLDivElement>(null);
 
-  // Set up the typewriter effect
   useEffect(() => {
     if (typewriterRef.current) {
       const typed = new Typed(typewriterRef.current, {
         strings: [
           'Florence Nightingale letters',
-          'Medical history',
-          'Charles Darwin',
-          'Amulets',
-          'Wood engravings',
-          'Graphite sketches',
-          'Zines',
+          'Cookery and medical recipe book',
+          'Medical officer of health 1938',
+          'Magic',
+          'David Beales archives',
+          'Chinese medicine',
+          'India',
+          'Manuscripts',
+          'Oil paintings',
+          'Vaccines',
+          'Easter',
         ]
           .map(value => ({ value, sort: Math.random() }))
           .sort((a, b) => a.sort - b.sort)
