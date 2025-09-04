@@ -39,6 +39,7 @@ const BooksPage: NextPage<Props> = ({ books }) => {
     >
       <SpacingSection>
         <PageHeader
+          variant="basic"
           breadcrumbs={getBreadcrumbItems('stories')}
           title="Books"
           ContentTypeInfo={

@@ -113,6 +113,7 @@ const EventsPage: NextPage<Props> = props => {
     >
       <SpacingSection>
         <PageHeader
+          variant="basic"
           breadcrumbs={getBreadcrumbItems('whats-on')}
           title="Events"
           isSlim={true}
