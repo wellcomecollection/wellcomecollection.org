@@ -5,6 +5,8 @@ const WorkLinkWithIcon = styled.a`
   text-decoration-style: dotted;
   text-underline-offset: 26%;
   text-decoration-thickness: 8%;
+  display: inline-block;
+  margin-top: 0;
 
   &::before {
     content: '';
