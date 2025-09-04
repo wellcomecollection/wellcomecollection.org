@@ -14,6 +14,7 @@ import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import TextInput from '@weco/common/views/components/TextInput';
 import { themeValues } from '@weco/common/views/themes/config';
+import { visuallyHiddenStyles } from '@weco/common/views/themes/utility-classes';
 
 const Container = styled.div`
   display: flex;
@@ -63,11 +64,13 @@ const SearchButtonWrapper = styled.div`
     height: 53px;
 
     span:not(:first-child) {
-      display: none;
-
-      ${props => props.theme.media('medium')`
-        display: unset;
-      `}
+      ${props =>
+        props.theme.mediaBetween(
+          'small',
+          'medium'
+        )(`
+        ${visuallyHiddenStyles};
+      `)}
     }
 
     &:focus {
