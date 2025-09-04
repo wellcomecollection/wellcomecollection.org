@@ -83,7 +83,7 @@ describe('ChangeEmail', () => {
     );
 
     await waitFor(() =>
-      expect(onComplete).toBeCalledWith(
+      expect(onComplete).toHaveBeenCalledWith(
         expect.objectContaining({
           ...mockUser,
           email: 'clarkkent@dailybugle.com',
