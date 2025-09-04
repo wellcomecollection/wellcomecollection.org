@@ -26,7 +26,8 @@ const Typewriter = styled.div.attrs({
 })`
   position: absolute;
   pointer-events: none;
-  top: 38px;
+  top: calc(50% + 16px);
+  transform: translateY(-50%);
   left: 1em;
   z-index: 1;
   color: ${props => props.theme.color('neutral.500')};
