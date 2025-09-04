@@ -12,10 +12,11 @@ import ScrollableNavigation from './ScrollContainer.Navigation';
 
 const ScrollButtonsContainer = styled(Space).attrs({
   $v: { size: 'm', properties: ['margin-bottom'] },
-})`
+})<{ $hasLabel?: boolean }>`
   display: flex;
-  justify-content: space-between;
+  justify-content: ${props => (props.$hasLabel ? 'space-between' : 'flex-end')};
   gap: ${props => props.theme.spacingUnits['3']}px;
+  align-items: center;
 `;
 
 const Label = styled(Space).attrs({
@@ -37,6 +38,7 @@ type Props = PropsWithChildren<{
   hasDarkBackground?: boolean;
   gridSizes?: SizeMap;
   hasLeftOffset?: boolean;
+  scrollButtonsAfter?: boolean;
 }>;
 
 const ScrollContainer: FunctionComponent<Props> = ({
@@ -44,34 +46,37 @@ const ScrollContainer: FunctionComponent<Props> = ({
   hasDarkBackground,
   gridSizes,
   hasLeftOffset,
+  scrollButtonsAfter = false,
   children,
 }) => {
   const scrollContainerRef = useRef<HTMLUListElement>(null);
 
+  const scrollButtons = (
+    <ConditionalWrapper
+      condition={!!gridSizes}
+      wrapper={children => (
+        <ContaineredLayout gridSizes={gridSizes as SizeMap}>
+          {children}
+        </ContaineredLayout>
+      )}
+    >
+      <ScrollButtonsContainer $hasLabel={!!label}>
+        {label && <Label $hasDarkBackground={hasDarkBackground}>{label}</Label>}
+
+        <ScrollableNavigation
+          containerRef={scrollContainerRef}
+          hasDarkBackground={hasDarkBackground}
+          hasLeftOffset={hasLeftOffset}
+        />
+      </ScrollButtonsContainer>
+    </ConditionalWrapper>
+  );
+
   return (
     <div data-component="scroll-container">
-      <ConditionalWrapper
-        condition={!!gridSizes}
-        wrapper={children => (
-          <ContaineredLayout gridSizes={gridSizes as SizeMap}>
-            {children}
-          </ContaineredLayout>
-        )}
-      >
-        <ScrollButtonsContainer>
-          {label && (
-            <Label $hasDarkBackground={hasDarkBackground}>{label}</Label>
-          )}
-
-          <ScrollableNavigation
-            containerRef={scrollContainerRef}
-            hasDarkBackground={hasDarkBackground}
-            hasLeftOffset={hasLeftOffset}
-          />
-        </ScrollButtonsContainer>
-      </ConditionalWrapper>
-
+      {!scrollButtonsAfter && scrollButtons}
       <ContentContainer ref={scrollContainerRef}>{children}</ContentContainer>
+      {scrollButtonsAfter && scrollButtons}
     </div>
   );
 };
