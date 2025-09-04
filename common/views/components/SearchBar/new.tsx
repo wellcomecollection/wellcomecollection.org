@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import Typed from 'typed.js';
 
 import { search } from '@weco/common/icons';
+import { font } from '@weco/common/utils/classnames';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import TextInput from '@weco/common/views/components/TextInput';
@@ -22,13 +23,14 @@ const Container = styled.div`
 `;
 
 const Typewriter = styled.div.attrs({
+  className: font('intr', 2),
   'aria-hidden': 'true',
 })`
   position: absolute;
   pointer-events: none;
-  top: calc(50% + 16px);
+  top: calc(50% + 14px);
   transform: translateY(-50%);
-  left: 1em;
+  left: 20px;
   z-index: 1;
   color: ${props => props.theme.color('neutral.500')};
   width: calc(100% - 32px);

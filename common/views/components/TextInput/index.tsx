@@ -28,10 +28,10 @@ type TextInputWrapProps = {
   $isDisabled?: boolean;
   $isNewSearchBar?: boolean;
 };
-export const TextInputWrap = styled(Space).attrs({
-  className: font('intr', 4),
+export const TextInputWrap = styled(Space).attrs<TextInputWrapProps>(props => ({
+  className: font('intr', props.$isNewSearchBar ? 2 : 4),
   $v: { size: 's', properties: ['margin-top'] },
-})<TextInputWrapProps>`
+}))<TextInputWrapProps>`
   display: flex;
   position: relative;
   border-width: ${props => (props.$isNewSearchBar ? '4px' : '1px')};
