@@ -67,4 +67,7 @@ export const contentApiTypeMap = {
   Project: 'projects',
   Article: 'articles',
   Season: 'seasons',
-};
+} as const;
+
+export type ContentApiType =
+  (typeof contentApiTypeMap)[keyof typeof contentApiTypeMap];

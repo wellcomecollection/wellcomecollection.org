@@ -10,7 +10,7 @@ const clampLineStyles = css<{ $linesToClamp: number }>`
   -webkit-line-clamp: ${props => props.$linesToClamp};
 `;
 
-export const Card = styled.a`
+export const Card = styled.a<{ $isHover?: boolean }>`
   display: flex;
   padding: ${props => props.theme.spacingUnits['3']}px;
   background-color: ${props => props.theme.color('white')};
@@ -19,16 +19,24 @@ export const Card = styled.a`
   text-decoration: none;
   height: 100%;
 
+  ${props =>
+    props.$isHover &&
+    `
+    height: 5.25rem;
+    width: 22rem;
+  `}
+
   ${props => props.theme.media('medium')`
     max-height: 10rem;
     flex-wrap: nowrap;
     justify-content: space-between;
   `}
 
-  ${props => props.theme.media('large')`
+  ${props =>
+    props.theme.media('large')(`
     max-height: unset;
-    height: 10rem;
-  `}
+    height: ${props.$isHover ? '5.25rem' : '10rem'};
+  `)}
 `;
 
 export const TextWrapper = styled.div`
@@ -62,11 +70,13 @@ export const TextWrapper = styled.div`
   }
 `;
 
-export const Title = styled.h2.attrs({
-  className: font('intb', 5),
-})<{ $linesToClamp: number }>`
+export const Title = styled.h2.attrs<{ $isHover?: boolean }>(props => ({
+  className: font(props.$isHover ? 'intr' : 'intb', 5),
+}))<{ $linesToClamp: number }>`
   ${clampLineStyles};
-  margin-top: ${props => props.theme.spacingUnits['1']}px;
+  color: ${props => props.theme.color('black')};
+  margin-top: ${props =>
+    props.$isHover ? 0 : props.theme.spacingUnits['1']}px;
 
   ${Card}:hover & {
     text-decoration: underline;
@@ -77,12 +87,18 @@ export const LineClamp = styled.div<{ $linesToClamp: number }>`
   ${clampLineStyles};
 `;
 
-export const ImageWrapper = styled.div`
+export const ImageWrapper = styled.div<{ $isHover?: boolean }>`
   width: 100%;
   max-height: 160px;
   order: -1;
   margin-bottom: ${props => props.theme.spacingUnits['5']}px;
   display: flex;
+
+  ${props =>
+    props.$isHover &&
+    `
+      flex: 1;
+    `}
 
   img {
     display: block;
@@ -94,8 +110,8 @@ export const ImageWrapper = styled.div`
 
     ${props =>
       props.theme.media('medium')(`
-      margin-left: ${props.theme.spacingUnits['3']}px;
-      margin-right: unset;
+      margin-left: ${props.$isHover ? '0' : props.theme.spacingUnits['3']}px;
+      margin-right: ${props.$isHover ? props.theme.spacingUnits['3'] + 'px' : 'unset'};
       width: unset;
       height: 100%;
 
@@ -110,6 +126,13 @@ export const ImageWrapper = styled.div`
       */
       @supports (-webkit-appearance: none) and (stroke-color: transparent) {
         max-width: 100%;
+
+        ${
+          props.$isHover &&
+          `
+          min-width: 60px;
+        `
+        }
       }
     `)}
   }

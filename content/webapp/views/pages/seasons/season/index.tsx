@@ -41,7 +41,7 @@ const SeasonPage = ({
   projects,
   books,
   jsonLd,
-}: Props): ReactElement<Props> => {
+}: Props): ReactElement => {
   const allItems = [
     ...exhibitions,
     ...events,
@@ -65,6 +65,7 @@ const SeasonPage = ({
     >
       <ContentPage
         id={season.id}
+        contentApiType="seasons"
         Header={<SeasonsHeader season={season} />}
         Body={
           <Body
