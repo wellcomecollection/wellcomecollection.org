@@ -462,7 +462,7 @@ const MainViewer: FunctionComponent = () => {
         mainAreaWidth,
       });
     }
-  }, [canvas, shouldScrollToCanvas, currentCanvas, mainAreaWidth]);
+  }, [canvas]);
 
   const displayItems = currentCanvas ? getDisplayItems(currentCanvas) : [];
   const useFixedSizeList = !hasNonImages(canvases);
