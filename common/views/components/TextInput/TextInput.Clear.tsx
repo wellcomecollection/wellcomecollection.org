@@ -17,17 +17,25 @@ type Props = {
   setValue: Dispatch<SetStateAction<string>>;
   clickHandler?: () => void;
   right?: number;
+  left?: number;
 };
 
 const ClearSearch: FunctionComponent<Props> = ({
   inputRef,
   setValue,
   right,
+  left,
   clickHandler,
 }: Props) => {
   return (
     <Button
-      style={right ? { right: `${right}px` } : undefined}
+      style={
+        right !== undefined
+          ? { right: `${right}px` }
+          : left !== undefined
+            ? { left: `${left}px` }
+            : undefined
+      }
       onClick={() => {
         setValue('');
         clickHandler && clickHandler();
