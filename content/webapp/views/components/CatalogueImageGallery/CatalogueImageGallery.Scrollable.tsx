@@ -12,16 +12,23 @@ const IMAGE_HEIGHT = 200;
 export type Props = {
   images: Image[];
   label?: string;
+  scrollButtonsAfter?: boolean;
 };
 
 const CatalogueImageGalleryScrollable: FunctionComponent<Props> = ({
   images,
   label,
+  scrollButtonsAfter,
 }: Props) => {
   const [, setExpandedImage] = useExpandedImage(images);
 
   return (
-    <ScrollContainer label={label} hasDarkBackground hasLeftOffset>
+    <ScrollContainer
+      label={label}
+      hasDarkBackground
+      hasLeftOffset
+      scrollButtonsAfter={scrollButtonsAfter}
+    >
       {images.map((image, index) => (
         <li key={image.id} style={{ maxWidth: '90vw' }}>
           <Space $h={{ size: 'm', properties: ['margin-right'] }}>
