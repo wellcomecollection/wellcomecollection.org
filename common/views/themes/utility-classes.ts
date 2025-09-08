@@ -2,6 +2,18 @@ import { css } from 'styled-components';
 
 import { GlobalStyleProps } from './default';
 
+export const visuallyHiddenStyles = css`
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  white-space: nowrap;
+`;
+
 // Spring 2023: we went through utility classes and decided to only
 // keep the ones that had to do with display status/visibility.
 export const utilityClasses = css<GlobalStyleProps>`
@@ -56,15 +68,7 @@ export const utilityClasses = css<GlobalStyleProps>`
   /* Removes the element from the flow,
   as well as its visibility */
   .visually-hidden {
-    border: 0;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
-    white-space: nowrap;
+    ${visuallyHiddenStyles};
   }
 
   .visually-hidden-focusable {
