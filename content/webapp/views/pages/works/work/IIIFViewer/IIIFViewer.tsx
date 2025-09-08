@@ -215,13 +215,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     manifest = 1,
     shouldScrollToCanvas = true,
     query = '',
-  } = useMemo(() => {
-    const parsed = fromQuery(router.query);
-    return {
-      ...parsed,
-      shouldScrollToCanvas: true,
-    };
-  }, [router.query]);
+  } = useMemo(() => fromQuery(router.query), [router.query]);
   const { extendedViewer } = useToggles();
   const [gridVisible, setGridVisible] = useState(false);
   const { isFullSupportBrowser } = useAppContext();
