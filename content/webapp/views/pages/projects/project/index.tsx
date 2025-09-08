@@ -81,6 +81,7 @@ export const ProjectPage: NextPage<Props> = ({
     >
       <ContentPage
         id={project.id}
+        contentApiType="projects"
         Header={Header}
         Body={
           <Body
@@ -89,8 +90,8 @@ export const ProjectPage: NextPage<Props> = ({
             staticContent={staticContent}
           />
         }
-        seasons={project.seasons}
         contributors={project.contributors}
+        seasons={project.seasons}
       />
     </PageLayout>
   );
