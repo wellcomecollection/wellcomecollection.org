@@ -37,7 +37,7 @@ const ImageElement = styled.img`
   height: 100%;
   object-fit: cover;
   display: block;
-  transform: scale(1.3);
+  transform: scale(1.2);
 `;
 
 export type Props = {
