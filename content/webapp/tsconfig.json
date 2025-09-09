@@ -5,6 +5,10 @@
     "module": "esnext",
     "moduleResolution": "node" // Forced by NextJs on build
   },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx"
+  ],
   "ts-node": {
     "preferTsExts": true
   }

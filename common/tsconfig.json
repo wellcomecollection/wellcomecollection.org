@@ -4,5 +4,9 @@
     "composite": true,
     "module": "esnext",
     "moduleResolution": "bundler",
-  }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx"
+  ]
 }
