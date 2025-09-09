@@ -34,7 +34,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
   introText,
   insideOurCollectionsCards,
 }) => {
-  const { data: collectionStats, loading, error } = useCollectionStats();
+  const { data: collectionStats, loading } = useCollectionStats();
 
   return (
     <PageLayout
@@ -76,11 +76,12 @@ const CollectionsLandingPage: NextPage<Props> = ({
       </Space>
 
       <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-        <SectionHeader title="Types of materials" gridSize={gridSize12()} />
+        <SectionHeader
+          title="Types of materials in the collections"
+          gridSize={gridSize12()}
+        />
         <ContaineredLayout gridSizes={gridSize12()}>
-          {error && <p>Error loading collection statistics: {error}</p>}
           <div>
-            <h3>Types of materials in the collections</h3>
             <ul>
               <li>
                 {(loading ||
