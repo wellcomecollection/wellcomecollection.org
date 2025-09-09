@@ -6,6 +6,11 @@ import { fontSizesAtBreakpoints } from '@weco/common/views/themes/typography';
 import MoreLink from '@weco/content/views/components/MoreLink';
 import Table from '@weco/content/views/components/Table';
 
+const StarPlusStar = styled.div`
+  * + * {
+    margin-top: 1.55em;
+  }
+`;
 const Font = styled.div`
   padding: 10px 0 25px;
   border-bottom: 1px solid ${props => props.theme.color('neutral.500')};
@@ -106,7 +111,7 @@ const MiscTemplate = () => (
         <div></div>
       </div>
     </div>
-    <div className="spaced-text">
+    <StarPlusStar className="spaced-text">
       <div>
         <h3>Usage</h3>
         <p>Used to indicate a link to more content of a similar theme/type.</p>
@@ -143,7 +148,7 @@ const MiscTemplate = () => (
           happens are author descriptions and image captions.
         </p>
       </div>
-    </div>
+    </StarPlusStar>
   </>
 );
 export const misc = MiscTemplate.bind({});

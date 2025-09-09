@@ -26,6 +26,7 @@ import {
 } from '@weco/common/services/conversion/track';
 import { deserialiseProps } from '@weco/common/utils/json';
 import CivicUK from '@weco/common/views/components/CivicUK';
+import GlobalSvgDefinitions from '@weco/common/views/components/GlobalSvgDefinitions';
 import LoadingIndicator from '@weco/common/views/components/LoadingIndicator';
 import ErrorPage from '@weco/common/views/layouts/ErrorPage';
 import theme, { GlobalStyle } from '@weco/common/views/themes/default';
@@ -188,6 +189,7 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
                     isFontsLoaded={useIsFontsLoaded()}
                   />
 
+                  <GlobalSvgDefinitions />
                   <LoadingIndicator />
 
                   {displayCookieBanner && <CivicUK apiKey={civicUkApiKey} />}

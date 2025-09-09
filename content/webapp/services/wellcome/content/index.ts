@@ -33,7 +33,7 @@ export async function contentListQuery<Params, Result extends ResultType>(
 
 export async function contentDocumentQuery<Result extends ResultType>(
   endpoint: string,
-  { toggles }: { toggles: Toggles }
+  { toggles }: { toggles?: Toggles }
 ): Promise<Result | WellcomeApiError> {
   const apiOptions = globalApiOptions(toggles);
 
