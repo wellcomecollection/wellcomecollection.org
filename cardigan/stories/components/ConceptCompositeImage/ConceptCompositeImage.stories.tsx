@@ -53,7 +53,24 @@ const fetchConceptImages = async (
 
       const imagesBy = imagesByData.results || [];
       const imagesFeatured = imagesFeaturedData.results || [];
-      const imagesGenre = imagesGenreData.results || [];
+      let imagesGenre = imagesGenreData.results || [];
+
+      // If no genre results with main label, try alternative labels
+      if (imagesGenre.length === 0 && conceptData.alternativeLabels) {
+        for (const altLabel of conceptData.alternativeLabels) {
+          const altGenreResponse = await fetch(
+            `https://api.wellcomecollection.org/catalogue/v2/images?source.genres.label=${encodeURIComponent(
+              altLabel
+            )}`
+          );
+          const altGenreData = await altGenreResponse.json();
+          const altGenreResults = altGenreData.results || [];
+          if (altGenreResults.length > 0) {
+            imagesGenre = altGenreResults;
+            break; // Use first alternative label that returns results
+          }
+        }
+      }
 
       // Combine all arrays, removing duplicates by id
       // Prioritize images by the concept first, then featured, then genre
@@ -103,6 +120,7 @@ const meta: Meta = {
       options: {
         Amulets: 'am28s7jx',
         'Photographic postcards': 't45bb9qg',
+        'Mezzotint engraving': 'kayu55xf',
         Science: 'np8ek677',
         Technology: 'jr7tc6ky',
         Tuberculosis: 'kak297z4',
