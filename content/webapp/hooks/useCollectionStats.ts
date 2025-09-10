@@ -8,7 +8,6 @@ import {
 
 export type UseCollectionStatsReturn = {
   data: CollectionStats;
-  loading: boolean;
   error: string | null;
 };
 
@@ -19,7 +18,6 @@ export function useCollectionStats(): UseCollectionStatsReturn {
   const [data, setData] = useState<CollectionStats>(
     createDefaultCollectionStats()
   );
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -27,7 +25,6 @@ export function useCollectionStats(): UseCollectionStatsReturn {
 
     const fetchData = async () => {
       try {
-        setLoading(true);
         setError(null);
 
         const stats = await fetchCollectionStats();
@@ -43,10 +40,6 @@ export function useCollectionStats(): UseCollectionStatsReturn {
               : 'An unknown error occurred while fetching collection statistics'
           );
         }
-      } finally {
-        if (isMounted) {
-          setLoading(false);
-        }
       }
     };
 
@@ -57,5 +50,5 @@ export function useCollectionStats(): UseCollectionStatsReturn {
     };
   }, []);
 
-  return { data, loading, error };
+  return { data, error };
 }

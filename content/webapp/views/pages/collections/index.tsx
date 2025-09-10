@@ -1,6 +1,5 @@
 import * as prismic from '@prismicio/client';
 import { NextPage } from 'next';
-import styled from 'styled-components';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { ImageType } from '@weco/common/model/image';
@@ -16,17 +15,6 @@ import { useCollectionStats } from '@weco/content/hooks/useCollectionStats';
 import { MultiContent } from '@weco/content/types/multi-content';
 import CardGrid from '@weco/content/views/components/CardGrid';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
-import WorkTypesList from '@weco/content/views/components/WorkTypesList';
-
-const WorkTypesSection = styled.div`
-  background-color: ${props => props.theme.color('warmNeutral.300')};
-  padding: ${props => props.theme.spacingUnit * 4}px 0;
-
-  ${props =>
-    props.theme.media('medium')(`
-    padding: ${props.theme.spacingUnit * 6}px 0;
-  `)}
-`;
 
 export type Props = {
   pageMeta: {
@@ -46,7 +34,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
   introText,
   insideOurCollectionsCards,
 }) => {
-  const { data: collectionStats, loading } = useCollectionStats();
+  const { data: collectionStats } = useCollectionStats();
 
   return (
     <PageLayout
@@ -87,22 +75,68 @@ const CollectionsLandingPage: NextPage<Props> = ({
         </Space>
       </Space>
 
-      <WorkTypesSection>
-        <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-          <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-            <SectionHeader
-              title="Types of materials in the collections"
-              gridSize={gridSize12()}
-            />
-          </Space>
-          <ContaineredLayout gridSizes={gridSize12()}>
-            <WorkTypesList
-              collectionStats={collectionStats}
-              loading={loading}
-            />
-          </ContaineredLayout>
-        </Space>
-      </WorkTypesSection>
+      <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+        <SectionHeader
+          title="Types of materials in the collections"
+          gridSize={gridSize12()}
+        />
+        <ContaineredLayout gridSizes={gridSize12()}>
+          <div>
+            <ul>
+              <li>
+                <div>
+                  <strong>
+                    {collectionStats.booksAndJournals.count !== null
+                      ? collectionStats.booksAndJournals.count.toLocaleString()
+                      : `${collectionStats.booksAndJournals.fallbackCount.toLocaleString()}+`}
+                  </strong>
+                </div>
+                <div>{collectionStats.booksAndJournals.label}</div>
+              </li>
+              <li>
+                <div>
+                  <strong>
+                    {collectionStats.images.count !== null
+                      ? collectionStats.images.count.toLocaleString()
+                      : `${collectionStats.images.fallbackCount.toLocaleString()}+`}
+                  </strong>
+                </div>
+                <div>{collectionStats.images.label}</div>
+              </li>
+              <li>
+                <div>
+                  <strong>
+                    {collectionStats.archivesAndManuscripts.count !== null
+                      ? collectionStats.archivesAndManuscripts.count.toLocaleString()
+                      : `${collectionStats.archivesAndManuscripts.fallbackCount.toLocaleString()}+`}
+                  </strong>
+                </div>
+                <div>{collectionStats.archivesAndManuscripts.label}</div>
+              </li>
+              <li>
+                <div>
+                  <strong>
+                    {collectionStats.audioAndVideo.count !== null
+                      ? collectionStats.audioAndVideo.count.toLocaleString()
+                      : `${collectionStats.audioAndVideo.fallbackCount.toLocaleString()}+`}
+                  </strong>
+                </div>
+                <div>{collectionStats.audioAndVideo.label}</div>
+              </li>
+              <li>
+                <div>
+                  <strong>
+                    {collectionStats.ephemera.count !== null
+                      ? collectionStats.ephemera.count.toLocaleString()
+                      : `${collectionStats.ephemera.fallbackCount.toLocaleString()}+`}
+                  </strong>
+                </div>
+                <div>{collectionStats.ephemera.label}</div>
+              </li>
+            </ul>
+          </div>
+        </ContaineredLayout>
+      </Space>
     </PageLayout>
   );
 };
