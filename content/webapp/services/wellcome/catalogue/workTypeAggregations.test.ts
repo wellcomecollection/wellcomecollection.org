@@ -230,7 +230,7 @@ describe('workTypeAggregations', () => {
         aggregations: {
           workType: mockWorkTypeAggregation,
         },
-      } as any);
+      } as unknown as ReturnType<typeof catalogueQuery>);
 
       const result = await fetchWorksAggregations();
 
