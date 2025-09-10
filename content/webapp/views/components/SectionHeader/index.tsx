@@ -12,7 +12,7 @@ import { SizeMap } from '@weco/common/views/components/styled/Grid';
 const YellowBox = styled.div`
   display: block;
   width: 60px;
-  height: 18px;
+  height: 16px;
   background: ${props => props.theme.color('yellow')};
 
   ${props => props.theme.media('medium')`
@@ -21,7 +21,6 @@ const YellowBox = styled.div`
 
   ${props => props.theme.media('large')`
     width: 64px;
-    height: 19px;
   `}
 `;
 
