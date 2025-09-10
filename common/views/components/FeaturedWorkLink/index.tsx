@@ -2,6 +2,7 @@ import {
   HTMLAttributes,
   ReactNode,
   useCallback,
+  useEffect,
   useRef,
   useState,
 } from 'react';
@@ -67,9 +68,11 @@ const FeaturedWorkLink = ({
   );
   const [isVisible, setIsVisible] = useState(false);
   const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const isHoveringTrigger = useRef(false);
+  const isHoveringPopper = useRef(false);
 
   const { styles, attributes } = usePopper(referenceElement, popperElement, {
-    placement: 'bottom',
+    placement: 'bottom-start',
     modifiers: [
       {
         name: 'preventOverflow',
@@ -80,13 +83,7 @@ const FeaturedWorkLink = ({
       {
         name: 'flip',
         options: {
-          fallbackPlacements: [
-            'top',
-            'bottom-start',
-            'bottom-end',
-            'top-start',
-            'top-end',
-          ],
+          fallbackPlacements: ['top-start', 'bottom-end', 'top-end'],
         },
       },
       {
@@ -108,16 +105,66 @@ const FeaturedWorkLink = ({
   const scheduleHide = useCallback(() => {
     clearHideTimeout();
     hideTimeoutRef.current = setTimeout(() => {
-      setIsVisible(false);
+      if (!isHoveringTrigger.current && !isHoveringPopper.current) {
+        setIsVisible(false);
+      }
     }, 300);
   }, [clearHideTimeout]);
 
+  // Global mouse tracking to detect hover over portal content
+  useEffect(() => {
+    if (!isVisible || !link || !hasLinkedWork(link)) return;
+
+    const currentWorkId = link.split('/').pop();
+    if (!currentWorkId) return;
+
+    const handleGlobalMouseMove = (event: MouseEvent) => {
+      // Find all elements with our portal ID
+      const portalElements = document.querySelectorAll(
+        `[data-portal-id="${currentWorkId}"]`
+      );
+      let isOverAnyPortal = false;
+
+      portalElements.forEach(portalElement => {
+        // Check if the portal element has rendered content
+        const hasContent = portalElement.children.length > 0;
+        if (hasContent) {
+          const rect = portalElement.getBoundingClientRect();
+          const isOverPortal =
+            event.clientX >= rect.left &&
+            event.clientX <= rect.right &&
+            event.clientY >= rect.top &&
+            event.clientY <= rect.bottom;
+
+          if (isOverPortal) {
+            isOverAnyPortal = true;
+          }
+        }
+      });
+
+      if (isOverAnyPortal && !isHoveringPopper.current) {
+        isHoveringPopper.current = true;
+        clearHideTimeout();
+      } else if (!isOverAnyPortal && isHoveringPopper.current) {
+        isHoveringPopper.current = false;
+        scheduleHide();
+      }
+    };
+
+    document.addEventListener('mousemove', handleGlobalMouseMove);
+    return () => {
+      document.removeEventListener('mousemove', handleGlobalMouseMove);
+    };
+  }, [isVisible, link, clearHideTimeout, scheduleHide]);
+
   const handleMouseEnter = useCallback(() => {
+    isHoveringTrigger.current = true;
     clearHideTimeout();
     setIsVisible(true);
   }, [clearHideTimeout]);
 
   const handleMouseLeave = useCallback(() => {
+    isHoveringTrigger.current = false;
     scheduleHide();
   }, [scheduleHide]);
 
