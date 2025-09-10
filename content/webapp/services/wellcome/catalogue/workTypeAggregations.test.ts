@@ -1,5 +1,6 @@
 import { WellcomeAggregation } from '@weco/content/services/wellcome';
 
+import { catalogueQuery } from '.';
 import {
   createDefaultCollectionStats,
   fetchImagesCount,
@@ -7,16 +8,14 @@ import {
   transformWorkTypeAggregations,
 } from './workTypeAggregations';
 
-// Mock types for test responses
-type MockResponse = {
-  ok: boolean;
-  json: jest.Mock;
-  statusText?: string;
-};
+// Mock catalogueQuery
+jest.mock('.', () => ({
+  catalogueQuery: jest.fn(),
+}));
 
-// Mock fetch globally
-global.fetch = jest.fn();
-const mockFetch = fetch as jest.MockedFunction<typeof fetch>;
+const mockCatalogueQuery = catalogueQuery as jest.MockedFunction<
+  typeof catalogueQuery
+>;
 
 describe('workTypeAggregations', () => {
   beforeEach(() => {
@@ -70,26 +69,31 @@ describe('workTypeAggregations', () => {
           id: 'books-journals',
           label: 'Books and Journals',
           count: 102000, // 100000 + 2000
+          fallbackCount: 550000,
         },
         archivesAndManuscripts: {
           id: 'archives-manuscripts',
           label: 'Archives and manuscripts',
           count: 15000,
+          fallbackCount: 260000,
         },
         audioAndVideo: {
           id: 'audio-video',
           label: 'Audio and video',
           count: 1000,
+          fallbackCount: 10000,
         },
         ephemera: {
           id: 'ephemera',
           label: 'Ephemera',
           count: 3000,
+          fallbackCount: 20000,
         },
         images: {
           id: 'images',
           label: 'Images',
-          count: 0,
+          count: null,
+          fallbackCount: 120000,
         },
       });
     });
@@ -110,27 +114,32 @@ describe('workTypeAggregations', () => {
         booksAndJournals: {
           id: 'books-journals',
           label: 'Books and Journals',
-          count: 0,
+          count: null,
+          fallbackCount: 550000,
         },
         archivesAndManuscripts: {
           id: 'archives-manuscripts',
           label: 'Archives and manuscripts',
-          count: 0,
+          count: null,
+          fallbackCount: 260000,
         },
         audioAndVideo: {
           id: 'audio-video',
           label: 'Audio and video',
-          count: 0,
+          count: null,
+          fallbackCount: 10000,
         },
         ephemera: {
           id: 'ephemera',
           label: 'Ephemera',
-          count: 0,
+          count: null,
+          fallbackCount: 20000,
         },
         images: {
           id: 'images',
           label: 'Images',
-          count: 0,
+          count: null,
+          fallbackCount: 120000,
         },
       });
     });
@@ -138,29 +147,35 @@ describe('workTypeAggregations', () => {
 
   describe('fetchImagesCount', () => {
     it('should fetch images count successfully', async () => {
-      const mockResponse: MockResponse = {
-        ok: true,
-        json: jest.fn().mockResolvedValue({
-          totalResults: 3800000,
-        }),
-      };
-      mockFetch.mockResolvedValue(mockResponse as unknown as Response);
+      mockCatalogueQuery.mockResolvedValue({
+        type: 'ResultList',
+        totalResults: 3800000,
+        totalPages: 1,
+        pageSize: 1,
+        prevPage: null,
+        nextPage: null,
+        results: [],
+        _requestUrl: 'https://api.example.com/test',
+      });
 
       const result = await fetchImagesCount();
 
-      expect(mockFetch).toHaveBeenCalledWith(
-        'https://api.wellcomecollection.org/catalogue/v2/images?pageSize=1'
-      );
+      expect(mockCatalogueQuery).toHaveBeenCalledWith('images', {
+        toggles: {},
+        pageSize: 1,
+        params: {},
+      });
       expect(result).toBe(3800000);
     });
 
     it('should return fallback count on API error', async () => {
-      const mockResponse: MockResponse = {
-        ok: false,
-        statusText: 'Internal Server Error',
-        json: jest.fn(),
-      };
-      mockFetch.mockResolvedValue(mockResponse as unknown as Response);
+      mockCatalogueQuery.mockResolvedValue({
+        errorType: 'http',
+        httpStatus: 500,
+        label: 'Internal Server Error',
+        description: 'API error',
+        type: 'Error',
+      });
 
       const result = await fetchImagesCount();
 
@@ -168,7 +183,7 @@ describe('workTypeAggregations', () => {
     });
 
     it('should return fallback count on network error', async () => {
-      mockFetch.mockRejectedValue(new Error('Network error'));
+      mockCatalogueQuery.mockRejectedValue(new Error('Network error'));
 
       const result = await fetchImagesCount();
 
@@ -178,21 +193,27 @@ describe('workTypeAggregations', () => {
 
   describe('fetchWorksAggregations', () => {
     it('should fetch collection stats successfully', async () => {
-      const mockWorksResponse: MockResponse = {
-        ok: true,
-        json: jest.fn().mockResolvedValue({
-          aggregations: {
-            workType: {
-              buckets: [
-                { data: { id: 'a', label: 'Books' }, count: 1000000 },
-                { data: { id: 'd', label: 'Journals' }, count: 20000 },
-              ],
-            },
+      const mockWorkTypeAggregation = {
+        buckets: [
+          {
+            data: { id: 'a', label: 'Books', type: 'WorkType' },
+            count: 1000000,
+            type: 'AggregationBucket' as const,
           },
-        }),
+          {
+            data: { id: 'd', label: 'Journals', type: 'WorkType' },
+            count: 20000,
+            type: 'AggregationBucket' as const,
+          },
+        ],
+        type: 'Aggregation' as const,
       };
 
-      mockFetch.mockResolvedValueOnce(mockWorksResponse as unknown as Response);
+      mockCatalogueQuery.mockResolvedValue({
+        aggregations: {
+          workType: mockWorkTypeAggregation,
+        },
+      } as any);
 
       const result = await fetchWorksAggregations();
 
@@ -203,12 +224,13 @@ describe('workTypeAggregations', () => {
     });
 
     it('should return null on API error', async () => {
-      const mockResponse: MockResponse = {
-        ok: false,
-        statusText: 'Internal Server Error',
-        json: jest.fn(),
-      };
-      mockFetch.mockResolvedValue(mockResponse as unknown as Response);
+      mockCatalogueQuery.mockResolvedValue({
+        errorType: 'http',
+        httpStatus: 500,
+        label: 'Internal Server Error',
+        description: 'API error',
+        type: 'Error',
+      });
 
       const result = await fetchWorksAggregations();
 
