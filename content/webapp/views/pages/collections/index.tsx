@@ -34,7 +34,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
   introText,
   insideOurCollectionsCards,
 }) => {
-  const { data: collectionStats, loading } = useCollectionStats();
+  const { data: collectionStats } = useCollectionStats();
 
   return (
     <PageLayout
@@ -84,67 +84,53 @@ const CollectionsLandingPage: NextPage<Props> = ({
           <div>
             <ul>
               <li>
-                {(loading ||
-                  collectionStats.booksAndJournals.count !== null) && (
-                  <div>
-                    <strong>
-                      {loading
-                        ? '...'
-                        : collectionStats.booksAndJournals.count!.toLocaleString()}
-                    </strong>
-                  </div>
-                )}
+                <div>
+                  <strong>
+                    {collectionStats.booksAndJournals.count !== null
+                      ? collectionStats.booksAndJournals.count.toLocaleString()
+                      : `${collectionStats.booksAndJournals.fallbackCount.toLocaleString()}+`}
+                  </strong>
+                </div>
                 <div>{collectionStats.booksAndJournals.label}</div>
               </li>
               <li>
-                {(loading || collectionStats.images.count !== null) && (
-                  <div>
-                    <strong>
-                      {loading
-                        ? '...'
-                        : collectionStats.images.count === 120000
-                          ? '120,000+'
-                          : collectionStats.images.count!.toLocaleString()}
-                    </strong>
-                  </div>
-                )}
+                <div>
+                  <strong>
+                    {collectionStats.images.count !== null
+                      ? collectionStats.images.count.toLocaleString()
+                      : `${collectionStats.images.fallbackCount.toLocaleString()}+`}
+                  </strong>
+                </div>
                 <div>{collectionStats.images.label}</div>
               </li>
               <li>
-                {(loading ||
-                  collectionStats.archivesAndManuscripts.count !== null) && (
-                  <div>
-                    <strong>
-                      {loading
-                        ? '...'
-                        : collectionStats.archivesAndManuscripts.count!.toLocaleString()}
-                    </strong>
-                  </div>
-                )}
+                <div>
+                  <strong>
+                    {collectionStats.archivesAndManuscripts.count !== null
+                      ? collectionStats.archivesAndManuscripts.count.toLocaleString()
+                      : `${collectionStats.archivesAndManuscripts.fallbackCount.toLocaleString()}+`}
+                  </strong>
+                </div>
                 <div>{collectionStats.archivesAndManuscripts.label}</div>
               </li>
               <li>
-                {(loading || collectionStats.audioAndVideo.count !== null) && (
-                  <div>
-                    <strong>
-                      {loading
-                        ? '...'
-                        : collectionStats.audioAndVideo.count!.toLocaleString()}
-                    </strong>
-                  </div>
-                )}
+                <div>
+                  <strong>
+                    {collectionStats.audioAndVideo.count !== null
+                      ? collectionStats.audioAndVideo.count.toLocaleString()
+                      : `${collectionStats.audioAndVideo.fallbackCount.toLocaleString()}+`}
+                  </strong>
+                </div>
                 <div>{collectionStats.audioAndVideo.label}</div>
               </li>
               <li>
-                {(loading || collectionStats.ephemera.count !== null) && (
-                  <div>
-                    <strong>
-                      {loading
-                        ? '...'
-                        : collectionStats.ephemera.count!.toLocaleString()}
-                    </strong>
-                  </div>
-                )}
+                <div>
+                  <strong>
+                    {collectionStats.ephemera.count !== null
+                      ? collectionStats.ephemera.count.toLocaleString()
+                      : `${collectionStats.ephemera.fallbackCount.toLocaleString()}+`}
+                  </strong>
+                </div>
                 <div>{collectionStats.ephemera.label}</div>
               </li>
             </ul>
