@@ -168,7 +168,24 @@ describe('workTypeAggregations', () => {
       expect(result).toBe(3800000);
     });
 
-    it('should return fallback count on API error', async () => {
+    it('should return null when totalResults is falsy', async () => {
+      mockCatalogueQuery.mockResolvedValue({
+        type: 'ResultList',
+        totalResults: 0,
+        totalPages: 1,
+        pageSize: 1,
+        prevPage: null,
+        nextPage: null,
+        results: [],
+        _requestUrl: 'https://api.example.com/test',
+      });
+
+      const result = await fetchImagesCount();
+
+      expect(result).toBeNull();
+    });
+
+    it('should return null on API error', async () => {
       mockCatalogueQuery.mockResolvedValue({
         errorType: 'http',
         httpStatus: 500,
@@ -179,15 +196,15 @@ describe('workTypeAggregations', () => {
 
       const result = await fetchImagesCount();
 
-      expect(result).toBe(120000);
+      expect(result).toBeNull();
     });
 
-    it('should return fallback count on network error', async () => {
+    it('should return null on network error', async () => {
       mockCatalogueQuery.mockRejectedValue(new Error('Network error'));
 
       const result = await fetchImagesCount();
 
-      expect(result).toBe(120000);
+      expect(result).toBeNull();
     });
   });
 

@@ -71,14 +71,12 @@ export function createDefaultCollectionStats(): CollectionStats {
   };
 }
 
-/**
- * Transforms workType aggregations from the catalogue API into grouped collection statistics
- */
+// Transforms workType aggregations from the catalogue API into grouped collection statistics
 export function transformWorkTypeAggregations(
   workTypeAggregation: WellcomeAggregation,
   collectionStats: CollectionStats
 ): CollectionStats {
-  // Sum up counts for each category
+  // Sum counts for each category
   // Note: images count is handled separately in fetchCollectionStats
   workTypeAggregation.buckets.forEach(bucket => {
     const workTypeId = bucket.data.id;
@@ -128,8 +126,9 @@ export async function fetchWorksAggregations(
   }
 }
 
-export async function fetchImagesCount(toggles: Toggles = {}): Promise<number> {
-  const fallbackCount = 120000; // Fallback estimate if API fails
+export async function fetchImagesCount(
+  toggles: Toggles = {}
+): Promise<number | null> {
   try {
     const result = await catalogueQuery('images', {
       toggles,
@@ -139,13 +138,13 @@ export async function fetchImagesCount(toggles: Toggles = {}): Promise<number> {
 
     if ('type' in result && result.type === 'Error') {
       console.error('Failed to fetch images count:', result.description);
-      return fallbackCount;
+      return null;
     }
 
-    return result.totalResults || fallbackCount;
+    return result.totalResults || null;
   } catch (error) {
     console.error('Error fetching images count:', error);
-    return fallbackCount;
+    return null;
   }
 }
 
@@ -170,8 +169,7 @@ export async function fetchCollectionStats(
       );
     }
 
-    // Update images count if available, otherwise keep fallback
-    if (imagesResult.status === 'fulfilled') {
+    if (imagesResult.status === 'fulfilled' && imagesResult.value !== null) {
       collectionStats.images.count = imagesResult.value;
     } else {
       console.warn(
