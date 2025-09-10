@@ -1,5 +1,6 @@
 import * as prismic from '@prismicio/client';
 import { NextPage } from 'next';
+import styled from 'styled-components';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { ImageType } from '@weco/common/model/image';
@@ -15,6 +16,17 @@ import { useCollectionStats } from '@weco/content/hooks/useCollectionStats';
 import { MultiContent } from '@weco/content/types/multi-content';
 import CardGrid from '@weco/content/views/components/CardGrid';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
+import WorkTypesList from '@weco/content/views/components/WorkTypesList';
+
+const WorkTypesSection = styled.div`
+  background-color: ${props => props.theme.color('warmNeutral.300')};
+  padding: ${props => props.theme.spacingUnit * 4}px 0;
+
+  ${props =>
+    props.theme.media('medium')(`
+    padding: ${props.theme.spacingUnit * 6}px 0;
+  `)}
+`;
 
 export type Props = {
   pageMeta: {
@@ -75,82 +87,22 @@ const CollectionsLandingPage: NextPage<Props> = ({
         </Space>
       </Space>
 
-      <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-        <SectionHeader
-          title="Types of materials in the collections"
-          gridSize={gridSize12()}
-        />
-        <ContaineredLayout gridSizes={gridSize12()}>
-          <div>
-            <ul>
-              <li>
-                {(loading ||
-                  collectionStats.booksAndJournals.count !== null) && (
-                  <div>
-                    <strong>
-                      {loading
-                        ? '...'
-                        : collectionStats.booksAndJournals.count!.toLocaleString()}
-                    </strong>
-                  </div>
-                )}
-                <div>{collectionStats.booksAndJournals.label}</div>
-              </li>
-              <li>
-                {(loading || collectionStats.images.count !== null) && (
-                  <div>
-                    <strong>
-                      {loading
-                        ? '...'
-                        : collectionStats.images.count === 120000
-                          ? '120,000+'
-                          : collectionStats.images.count!.toLocaleString()}
-                    </strong>
-                  </div>
-                )}
-                <div>{collectionStats.images.label}</div>
-              </li>
-              <li>
-                {(loading ||
-                  collectionStats.archivesAndManuscripts.count !== null) && (
-                  <div>
-                    <strong>
-                      {loading
-                        ? '...'
-                        : collectionStats.archivesAndManuscripts.count!.toLocaleString()}
-                    </strong>
-                  </div>
-                )}
-                <div>{collectionStats.archivesAndManuscripts.label}</div>
-              </li>
-              <li>
-                {(loading || collectionStats.audioAndVideo.count !== null) && (
-                  <div>
-                    <strong>
-                      {loading
-                        ? '...'
-                        : collectionStats.audioAndVideo.count!.toLocaleString()}
-                    </strong>
-                  </div>
-                )}
-                <div>{collectionStats.audioAndVideo.label}</div>
-              </li>
-              <li>
-                {(loading || collectionStats.ephemera.count !== null) && (
-                  <div>
-                    <strong>
-                      {loading
-                        ? '...'
-                        : collectionStats.ephemera.count!.toLocaleString()}
-                    </strong>
-                  </div>
-                )}
-                <div>{collectionStats.ephemera.label}</div>
-              </li>
-            </ul>
-          </div>
-        </ContaineredLayout>
-      </Space>
+      <WorkTypesSection>
+        <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+            <SectionHeader
+              title="Types of materials in the collections"
+              gridSize={gridSize12()}
+            />
+          </Space>
+          <ContaineredLayout gridSizes={gridSize12()}>
+            <WorkTypesList
+              collectionStats={collectionStats}
+              loading={loading}
+            />
+          </ContaineredLayout>
+        </Space>
+      </WorkTypesSection>
     </PageLayout>
   );
 };

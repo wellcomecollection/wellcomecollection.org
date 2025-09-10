@@ -81,7 +81,7 @@ export function transformWorkTypeAggregations(
 export async function fetchWorksAggregations(): Promise<WellcomeAggregation | null> {
   try {
     const response = await fetch(
-      'https://api.wellcomecollection.org/catalogue/v2/works?pageSize=1&aggregations=workType'
+      'https://api.wellcomecollection.org/catalogued/v2/works?pageSize=1&aggregations=workType'
     );
 
     if (!response.ok) {
