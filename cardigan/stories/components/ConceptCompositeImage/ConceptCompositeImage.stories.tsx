@@ -8,8 +8,13 @@ import ConceptCompositeImage from './ConceptCompositeImage';
 // Fetch images for a concept from production API
 const fetchConceptImages = async (
   conceptId: string,
-  useQueryOnly: boolean = false,
-  preferPortrait: boolean = true
+  options: {
+    includeContributors: boolean;
+    includeSubjects: boolean;
+    includeGenres: boolean;
+    includeQuery: boolean;
+    preferPortrait: boolean;
+  }
 ): Promise<Image[]> => {
   try {
     // First, fetch the concept details to get its label for genre search
@@ -19,76 +24,106 @@ const fetchConceptImages = async (
     const conceptData = await conceptResponse.json();
     const conceptLabel = conceptData.label || '';
 
-    let allImages: Image[] = [];
+    const allImages: Image[] = [];
 
-    if (useQueryOnly && conceptLabel) {
-      // Query-only mode: use free-text search
-      const queryResponse = await fetch(
-        `https://api.wellcomecollection.org/catalogue/v2/images?query=${encodeURIComponent(
-          conceptLabel
-        )}`
+    // Build array of fetch promises based on enabled options
+    const fetchPromises: Promise<Response>[] = [];
+    const fetchTypes: string[] = [];
+
+    if (options.includeContributors) {
+      fetchPromises.push(
+        fetch(
+          `https://api.wellcomecollection.org/catalogue/v2/images?source.contributors.agent=${conceptId}&pageSize=10`
+        )
       );
-      const queryData = await queryResponse.json();
-      allImages = queryData.results || [];
-    } else {
-      // Relationship-based mode: use specific API endpoints
-      const [imagesByResponse, imagesFeaturedResponse, imagesGenreResponse] =
-        await Promise.all([
-          fetch(
-            `https://api.wellcomecollection.org/catalogue/v2/images?source.contributors.agent=${conceptId}`
-          ),
-          fetch(
-            `https://api.wellcomecollection.org/catalogue/v2/images?source.subjects=${conceptId}`
-          ),
-          fetch(
-            `https://api.wellcomecollection.org/catalogue/v2/images?source.genres.label=${encodeURIComponent(
-              conceptLabel
-            )}`
-          ),
-        ]);
+      fetchTypes.push('contributors');
+    }
 
-      const imagesByData = await imagesByResponse.json();
-      const imagesFeaturedData = await imagesFeaturedResponse.json();
-      const imagesGenreData = await imagesGenreResponse.json();
+    if (options.includeSubjects) {
+      fetchPromises.push(
+        fetch(
+          `https://api.wellcomecollection.org/catalogue/v2/images?source.subjects=${conceptId}&pageSize=10`
+        )
+      );
+      fetchTypes.push('subjects');
+    }
 
-      const imagesBy = imagesByData.results || [];
-      const imagesFeatured = imagesFeaturedData.results || [];
-      let imagesGenre = imagesGenreData.results || [];
+    if (options.includeGenres) {
+      fetchPromises.push(
+        fetch(
+          `https://api.wellcomecollection.org/catalogue/v2/images?source.genres.label=${encodeURIComponent(
+            conceptLabel
+          )}&pageSize=10`
+        )
+      );
+      fetchTypes.push('genres');
+    }
 
-      // If no genre results with main label, try alternative labels
-      if (imagesGenre.length === 0 && conceptData.alternativeLabels) {
-        for (const altLabel of conceptData.alternativeLabels) {
-          const altGenreResponse = await fetch(
-            `https://api.wellcomecollection.org/catalogue/v2/images?source.genres.label=${encodeURIComponent(
-              altLabel
-            )}`
-          );
-          const altGenreData = await altGenreResponse.json();
-          const altGenreResults = altGenreData.results || [];
-          if (altGenreResults.length > 0) {
-            imagesGenre = altGenreResults;
-            break; // Use first alternative label that returns results
-          }
+    if (options.includeQuery && conceptLabel) {
+      fetchPromises.push(
+        fetch(
+          `https://api.wellcomecollection.org/catalogue/v2/images?query=${encodeURIComponent(
+            conceptLabel
+          )}&pageSize=15`
+        )
+      );
+      fetchTypes.push('query');
+    }
+
+    if (fetchPromises.length === 0) {
+      return allImages; // No endpoints selected
+    }
+
+    // Execute all selected API calls
+    const responses = await Promise.all(fetchPromises);
+    const results = await Promise.all(responses.map(r => r.json()));
+
+    // Process each result set
+    const imageSets: { [key: string]: Image[] } = {};
+
+    for (let i = 0; i < fetchTypes.length; i++) {
+      const fetchType = fetchTypes[i];
+      const data = results[i];
+      imageSets[fetchType] = data.results || [];
+    }
+
+    // Handle genre alternative labels fallback if needed
+    if (
+      options.includeGenres &&
+      imageSets.genres &&
+      imageSets.genres.length === 0 &&
+      conceptData.alternativeLabels
+    ) {
+      for (const altLabel of conceptData.alternativeLabels) {
+        const altGenreResponse = await fetch(
+          `https://api.wellcomecollection.org/catalogue/v2/images?source.genres.label=${encodeURIComponent(
+            altLabel
+          )}&pageSize=10`
+        );
+        const altGenreData = await altGenreResponse.json();
+        const altGenreResults = altGenreData.results || [];
+        if (altGenreResults.length > 0) {
+          imageSets.genres = altGenreResults;
+          break; // Use first alternative label that returns results
         }
       }
+    }
 
-      // Combine all arrays, removing duplicates by id
-      // Prioritize images by the concept first, then featured, then genre
-      allImages = [...imagesBy];
-      imagesFeatured.forEach(image => {
-        if (!allImages.some(existing => existing.id === image.id)) {
-          allImages.push(image);
-        }
-      });
-      imagesGenre.forEach(image => {
-        if (!allImages.some(existing => existing.id === image.id)) {
-          allImages.push(image);
-        }
-      });
+    // Combine results in priority order: contributors -> subjects -> genres -> query
+    const priorityOrder = ['contributors', 'subjects', 'genres', 'query'];
+
+    for (const fetchType of priorityOrder) {
+      if (imageSets[fetchType]) {
+        imageSets[fetchType].forEach(image => {
+          if (!allImages.some(existing => existing.id === image.id)) {
+            allImages.push(image);
+          }
+        });
+      }
     }
 
     // Sort to prefer portrait aspect ratios (aspectRatio < 1) while maintaining priority order
-    if (preferPortrait) {
+    if (options.preferPortrait) {
       allImages.sort((a, b) => {
         const aIsPortrait = (a.aspectRatio || 1) < 1;
         const bIsPortrait = (b.aspectRatio || 1) < 1;
@@ -111,7 +146,10 @@ const meta: Meta = {
   component: ConceptCompositeImage,
   args: {
     conceptId: 'patspgf3',
-    useQueryOnly: false,
+    includeContributors: true,
+    includeSubjects: true,
+    includeGenres: true,
+    includeQuery: false,
     preferPortrait: true,
   },
   argTypes: {
@@ -128,10 +166,22 @@ const meta: Meta = {
       },
       description: 'Concept to fetch images from',
     },
-    useQueryOnly: {
+    includeContributors: {
+      control: 'boolean',
+      description: 'Include images where the concept is a contributor/creator',
+    },
+    includeSubjects: {
+      control: 'boolean',
+      description: 'Include images where the concept is a subject/topic',
+    },
+    includeGenres: {
+      control: 'boolean',
+      description: 'Include images where the concept defines the genre/format',
+    },
+    includeQuery: {
       control: 'boolean',
       description:
-        'Search mode: Query-only (free-text search) or Relationship-based (genre + contributors + subjects)',
+        'Include images from free-text search using the concept label',
     },
     preferPortrait: {
       control: 'boolean',
@@ -160,12 +210,18 @@ type Story = StoryObj<typeof ConceptCompositeImage>;
 
 const ConceptImageLoader = ({
   conceptId,
-  useQueryOnly,
+  includeContributors,
+  includeSubjects,
+  includeGenres,
+  includeQuery,
   preferPortrait,
   args,
 }: {
   conceptId: string;
-  useQueryOnly: boolean;
+  includeContributors: boolean;
+  includeSubjects: boolean;
+  includeGenres: boolean;
+  includeQuery: boolean;
   preferPortrait: boolean;
   args: any;
 }) => {
@@ -175,13 +231,24 @@ const ConceptImageLoader = ({
   useEffect(() => {
     setLoading(true);
     setImages([]);
-    fetchConceptImages(conceptId, useQueryOnly, preferPortrait).then(
-      fetchedImages => {
-        setImages(fetchedImages);
-        setLoading(false);
-      }
-    );
-  }, [conceptId, useQueryOnly, preferPortrait]);
+    fetchConceptImages(conceptId, {
+      includeContributors,
+      includeSubjects,
+      includeGenres,
+      includeQuery,
+      preferPortrait,
+    }).then(fetchedImages => {
+      setImages(fetchedImages);
+      setLoading(false);
+    });
+  }, [
+    conceptId,
+    includeContributors,
+    includeSubjects,
+    includeGenres,
+    includeQuery,
+    preferPortrait,
+  ]);
 
   if (loading) {
     return <div>Loading concept images...</div>;
@@ -206,9 +273,12 @@ export const Basic: Story = {
   render: args => {
     return (
       <ConceptImageLoader
-        key={`${args.conceptId}-${args.useQueryOnly}-${args.preferPortrait}`}
+        key={`${args.conceptId}-${args.includeContributors}-${args.includeSubjects}-${args.includeGenres}-${args.includeQuery}-${args.preferPortrait}`}
         conceptId={args.conceptId}
-        useQueryOnly={args.useQueryOnly}
+        includeContributors={args.includeContributors}
+        includeSubjects={args.includeSubjects}
+        includeGenres={args.includeGenres}
+        includeQuery={args.includeQuery}
         preferPortrait={args.preferPortrait}
         args={args}
       />
