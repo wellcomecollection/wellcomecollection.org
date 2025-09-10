@@ -8,6 +8,7 @@ export type WorkTypeStats = {
   id: string;
   label: string;
   count: number | null;
+  fallbackCount: number;
 };
 
 export type CollectionStats = {
@@ -163,25 +164,26 @@ export async function fetchCollectionStats(
       const worksAggregation = worksResult.value;
       transformWorkTypeAggregations(worksAggregation, collectionStats);
     } else {
-      console.error(
-        'Failed to fetch work type aggregations, using default counts'
+      console.warn(
+        'Failed to fetch work type aggregations, using fallback counts:',
+        worksResult.status === 'rejected' ? worksResult.reason : 'null result'
       );
     }
 
-    // Only update images count if works data is available
-    // It would be odd to show just the images count
-    if (worksResult.status === 'fulfilled' && worksResult.value !== null) {
-      // Works succeeded, so show images count (fetchImagesCount already handles fallback)
-      if (imagesResult.status === 'fulfilled') {
-        collectionStats.images.count = imagesResult.value;
-      }
+    // Update images count if available, otherwise keep fallback
+    if (imagesResult.status === 'fulfilled') {
+      collectionStats.images.count = imagesResult.value;
+    } else {
+      console.warn(
+        'Failed to fetch images count, using fallback count:',
+        imagesResult.status === 'rejected'
+          ? imagesResult.reason
+          : 'unknown error'
+      );
     }
-    // If works failed, images.count stays null (no number displayed)
-
     return collectionStats;
   } catch (error) {
     console.error('Error fetching collection statistics:', error);
-    // If error occurs, show labels with no counts
     return collectionStats;
   }
 }

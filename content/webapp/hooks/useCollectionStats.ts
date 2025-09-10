@@ -13,7 +13,6 @@ export type UseCollectionStatsReturn = {
 
 /**
  * Provides collection stats from work type aggregations and images
- * Shows fallback counts immediately, then updates with real data when available
  */
 export function useCollectionStats(): UseCollectionStatsReturn {
   const [data, setData] = useState<CollectionStats>(
