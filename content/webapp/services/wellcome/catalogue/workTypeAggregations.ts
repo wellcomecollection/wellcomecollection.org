@@ -1,7 +1,4 @@
-import {
-  WellcomeAggregation,
-  WellcomeApiError,
-} from '@weco/content/services/wellcome';
+import { WellcomeAggregation } from '@weco/content/services/wellcome';
 import { Toggles } from '@weco/toggles';
 
 import { catalogueQuery } from '.';
