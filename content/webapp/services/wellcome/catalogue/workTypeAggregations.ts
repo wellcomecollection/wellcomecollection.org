@@ -41,15 +41,32 @@ export function createDefaultCollectionStats(): CollectionStats {
       id: 'books-journals',
       label: 'Books and Journals',
       count: null,
+      fallbackCount: 550000,
     },
-    images: { id: 'images', label: 'Images', count: null },
+    images: {
+      id: 'images',
+      label: 'Images',
+      count: null,
+      fallbackCount: 120000,
+    },
     archivesAndManuscripts: {
       id: 'archives-manuscripts',
       label: 'Archives and manuscripts',
       count: null,
+      fallbackCount: 260000,
     },
-    audioAndVideo: { id: 'audio-video', label: 'Audio and video', count: null },
-    ephemera: { id: 'ephemera', label: 'Ephemera', count: null },
+    audioAndVideo: {
+      id: 'audio-video',
+      label: 'Audio and video',
+      count: null,
+      fallbackCount: 10000,
+    },
+    ephemera: {
+      id: 'ephemera',
+      label: 'Ephemera',
+      count: null,
+      fallbackCount: 20000,
+    },
   };
 }
 
@@ -60,14 +77,8 @@ export function transformWorkTypeAggregations(
   workTypeAggregation: WellcomeAggregation,
   collectionStats: CollectionStats
 ): CollectionStats {
-  // Initialize counts to 0 for aggregation (we're processing real data)
-  collectionStats.booksAndJournals.count = 0;
-  collectionStats.archivesAndManuscripts.count = 0;
-  collectionStats.audioAndVideo.count = 0;
-  collectionStats.ephemera.count = 0;
-  collectionStats.images.count = 0;
-
   // Sum up counts for each category
+  // Note: images count is handled separately in fetchCollectionStats
   workTypeAggregation.buckets.forEach(bucket => {
     const workTypeId = bucket.data.id;
     const category =
