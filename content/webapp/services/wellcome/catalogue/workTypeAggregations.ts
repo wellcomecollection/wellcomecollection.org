@@ -1,4 +1,11 @@
-import { WellcomeAggregation } from '@weco/content/services/wellcome';
+import {
+  WellcomeAggregation,
+  WellcomeApiError,
+} from '@weco/content/services/wellcome';
+import { Toggles } from '@weco/toggles';
+
+import { catalogueQuery } from '.';
+import { WorkAggregations } from './types/aggregations';
 
 export type WorkTypeStats = {
   id: string;
@@ -78,61 +85,70 @@ export function transformWorkTypeAggregations(
   return collectionStats;
 }
 
-export async function fetchWorksAggregations(): Promise<WellcomeAggregation | null> {
+export async function fetchWorksAggregations(
+  toggles: Toggles = {}
+): Promise<WellcomeAggregation | null> {
   try {
-    const response = await fetch(
-      'https://api.wellcomecollection.org/catalogue/v2/works?pageSize=1&aggregations=workType'
-    );
+    const result = await catalogueQuery('works', {
+      toggles,
+      pageSize: 1,
+      params: {
+        aggregations: 'workType',
+      },
+    });
 
-    if (!response.ok) {
+    if ('type' in result && result.type === 'Error') {
       console.error(
         'Failed to fetch work type aggregations:',
-        response.statusText
+        result.description
       );
       return null;
     }
 
-    const worksData = await response.json();
-
-    if (!worksData.aggregations?.workType) {
+    // Cast to works result since we know we're querying works with workType aggregation
+    const worksResult = result as { aggregations?: WorkAggregations };
+    if (!worksResult.aggregations?.workType) {
       console.error('No workType aggregations found in response');
       return null;
     }
 
-    return worksData.aggregations.workType;
+    return worksResult.aggregations.workType;
   } catch (error) {
     console.error('Error fetching work type aggregations:', error);
     return null;
   }
 }
 
-export async function fetchImagesCount(): Promise<number> {
+export async function fetchImagesCount(toggles: Toggles = {}): Promise<number> {
   const fallbackCount = 120000; // Fallback estimate if API fails
   try {
-    const response = await fetch(
-      'https://api.wellcomecollection.org/catalogue/v2/images?pageSize=1'
-    );
+    const result = await catalogueQuery('images', {
+      toggles,
+      pageSize: 1,
+      params: {},
+    });
 
-    if (!response.ok) {
-      console.error('Failed to fetch images count:', response.statusText);
+    if ('type' in result && result.type === 'Error') {
+      console.error('Failed to fetch images count:', result.description);
       return fallbackCount;
     }
 
-    const data = await response.json();
-    return data.totalResults || fallbackCount;
+    return result.totalResults || fallbackCount;
   } catch (error) {
     console.error('Error fetching images count:', error);
     return fallbackCount;
   }
 }
 
-export async function fetchCollectionStats(): Promise<CollectionStats> {
+export async function fetchCollectionStats(
+  toggles: Toggles = {}
+): Promise<CollectionStats> {
   const collectionStats = createDefaultCollectionStats();
 
   try {
     const [worksResult, imagesResult] = await Promise.allSettled([
-      fetchWorksAggregations(),
-      fetchImagesCount(),
+      fetchWorksAggregations(toggles),
+      fetchImagesCount(toggles),
     ]);
 
     if (worksResult.status === 'fulfilled' && worksResult.value !== null) {
