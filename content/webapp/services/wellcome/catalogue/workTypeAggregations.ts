@@ -71,14 +71,12 @@ export function createDefaultCollectionStats(): CollectionStats {
   };
 }
 
-/**
- * Transforms workType aggregations from the catalogue API into grouped collection statistics
- */
+// Transforms workType aggregations from the catalogue API into grouped collection statistics
 export function transformWorkTypeAggregations(
   workTypeAggregation: WellcomeAggregation,
   collectionStats: CollectionStats
 ): CollectionStats {
-  // Sum up counts for each category
+  // Sum counts for each category
   // Note: images count is handled separately in fetchCollectionStats
   workTypeAggregation.buckets.forEach(bucket => {
     const workTypeId = bucket.data.id;
