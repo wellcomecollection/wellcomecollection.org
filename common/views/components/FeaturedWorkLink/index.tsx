@@ -1,5 +1,6 @@
 import {
   HTMLAttributes,
+  MouseEvent as ReactMouseEvent,
   ReactNode,
   useCallback,
   useEffect,
@@ -70,9 +71,10 @@ const FeaturedWorkLink = ({
   const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const isHoveringTrigger = useRef(false);
   const isHoveringPopper = useRef(false);
+  const [mouseOffset, setMouseOffset] = useState(0);
 
   const { styles, attributes } = usePopper(referenceElement, popperElement, {
-    placement: 'bottom-start',
+    placement: 'bottom',
     modifiers: [
       {
         name: 'preventOverflow',
@@ -83,13 +85,19 @@ const FeaturedWorkLink = ({
       {
         name: 'flip',
         options: {
-          fallbackPlacements: ['top-start', 'bottom-end', 'top-end'],
+          fallbackPlacements: [
+            'top',
+            'bottom-start',
+            'bottom-end',
+            'top-start',
+            'top-end',
+          ],
         },
       },
       {
         name: 'offset',
         options: {
-          offset: [0, 4],
+          offset: [mouseOffset, 4],
         },
       },
     ],
@@ -157,11 +165,24 @@ const FeaturedWorkLink = ({
     };
   }, [isVisible, link, clearHideTimeout, scheduleHide]);
 
-  const handleMouseEnter = useCallback(() => {
-    isHoveringTrigger.current = true;
-    clearHideTimeout();
-    setIsVisible(true);
-  }, [clearHideTimeout]);
+  const handleMouseEnter = useCallback(
+    (event: ReactMouseEvent) => {
+      isHoveringTrigger.current = true;
+      clearHideTimeout();
+
+      if (referenceElement) {
+        const linkRect = referenceElement.getBoundingClientRect();
+        const linkCenter = linkRect.left + linkRect.width / 2;
+        const rawOffset = event.clientX - linkCenter;
+
+        const offsetX = Math.max(-200, Math.min(200, rawOffset));
+        setMouseOffset(offsetX);
+      }
+
+      setIsVisible(true);
+    },
+    [clearHideTimeout, referenceElement]
+  );
 
   const handleMouseLeave = useCallback(() => {
     isHoveringTrigger.current = false;
