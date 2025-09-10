@@ -84,30 +84,27 @@ const TextContainer = styled.div`
 `;
 
 type WorkTypeItemProps = {
-  icon: React.ReactNode;
+  icon: React.ReactElement;
   stats: WorkTypeStats;
-  loading: boolean;
 };
 
-const WorkTypeItem: React.FC<WorkTypeItemProps> = ({
-  icon,
-  stats,
-  loading,
-}) => (
+// Helper function to determine what count to display
+const getDisplayCount = (stats: WorkTypeStats): string => {
+  if (stats.count !== null) {
+    return stats.count.toLocaleString();
+  } else if (stats.fallbackCount !== null) {
+    return `${stats.fallbackCount.toLocaleString()}+`;
+  }
+  return '...';
+};
+
+const WorkTypeItem: React.FC<WorkTypeItemProps> = ({ icon, stats }) => (
   <StyledListItem data-component="work-type-item">
     <IconContainer>{icon}</IconContainer>
     <TextContainer>
-      {(loading || stats.count !== null) && (
-        <div>
-          <strong>
-            {loading
-              ? '...'
-              : stats.count === 120000
-                ? '120,000+'
-                : stats.count!.toLocaleString()}
-          </strong>
-        </div>
-      )}
+      <div>
+        <strong>{getDisplayCount(stats)}</strong>
+      </div>
       <div>{stats.label}</div>
     </TextContainer>
   </StyledListItem>
@@ -162,40 +159,25 @@ type WorkTypesListProps = {
     audioAndVideo: WorkTypeStats;
     ephemera: WorkTypeStats;
   };
-  loading: boolean;
 };
 
-const WorkTypesList: React.FC<WorkTypesListProps> = ({
-  collectionStats,
-  loading,
-}) => (
+const WorkTypesList: React.FC<WorkTypesListProps> = ({ collectionStats }) => (
   <div data-component="work-types-list">
     <StyledList>
       <WorkTypeItem
         icon={<BookIcon />}
         stats={collectionStats.booksAndJournals}
-        loading={loading}
       />
-      <WorkTypeItem
-        icon={<ImageIcon />}
-        stats={collectionStats.images}
-        loading={loading}
-      />
+      <WorkTypeItem icon={<ImageIcon />} stats={collectionStats.images} />
       <WorkTypeItem
         icon={<ArchivesIcon />}
         stats={collectionStats.archivesAndManuscripts}
-        loading={loading}
       />
       <WorkTypeItem
         icon={<VideoAudioIcon />}
         stats={collectionStats.audioAndVideo}
-        loading={loading}
       />
-      <WorkTypeItem
-        icon={<EphemeraIcon />}
-        stats={collectionStats.ephemera}
-        loading={loading}
-      />
+      <WorkTypeItem icon={<EphemeraIcon />} stats={collectionStats.ephemera} />
     </StyledList>
   </div>
 );
