@@ -169,8 +169,7 @@ export async function fetchCollectionStats(
       );
     }
 
-    // Update images count if available, otherwise keep fallback
-    if (imagesResult.status === 'fulfilled') {
+    if (imagesResult.status === 'fulfilled' && imagesResult.value !== null) {
       collectionStats.images.count = imagesResult.value;
     } else {
       console.warn(
