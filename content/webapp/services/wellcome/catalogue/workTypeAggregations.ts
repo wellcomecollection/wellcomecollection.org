@@ -126,8 +126,9 @@ export async function fetchWorksAggregations(
   }
 }
 
-export async function fetchImagesCount(toggles: Toggles = {}): Promise<number> {
-  const fallbackCount = 120000; // Fallback estimate if API fails
+export async function fetchImagesCount(
+  toggles: Toggles = {}
+): Promise<number | null> {
   try {
     const result = await catalogueQuery('images', {
       toggles,
@@ -137,13 +138,13 @@ export async function fetchImagesCount(toggles: Toggles = {}): Promise<number> {
 
     if ('type' in result && result.type === 'Error') {
       console.error('Failed to fetch images count:', result.description);
-      return fallbackCount;
+      return null;
     }
 
-    return result.totalResults || fallbackCount;
+    return result.totalResults || null;
   } catch (error) {
     console.error('Error fetching images count:', error);
-    return fallbackCount;
+    return null;
   }
 }
 
