@@ -9,7 +9,6 @@ import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import theme from '@weco/common/views/themes/default';
 
 import wellcomeTheme from './wellcome-theme';
-import { Container } from '@weco/common/views/components/styled/Container';
 
 export const decorators = [
   (Story, context) => {
