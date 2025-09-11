@@ -312,56 +312,6 @@ const WorkTypeItem: React.FC<WorkTypeItemProps> = ({
   );
 };
 
-const BookIcon = ({ tiltIndex }: { tiltIndex: number }) => (
-  <StyledImage
-    src="/icons/book.svg"
-    alt=""
-    width={120}
-    height={120}
-    $tiltIndex={tiltIndex}
-  />
-);
-
-const ImageIcon = ({ tiltIndex }: { tiltIndex: number }) => (
-  <StyledImage
-    src="/icons/image.svg"
-    alt=""
-    width={120}
-    height={120}
-    $tiltIndex={tiltIndex}
-  />
-);
-
-const ArchivesIcon = ({ tiltIndex }: { tiltIndex: number }) => (
-  <StyledImage
-    src="/icons/archives.svg"
-    alt=""
-    width={120}
-    height={120}
-    $tiltIndex={tiltIndex}
-  />
-);
-
-const VideoAudioIcon = ({ tiltIndex }: { tiltIndex: number }) => (
-  <StyledImage
-    src="/icons/video-audio.svg"
-    alt=""
-    width={120}
-    height={120}
-    $tiltIndex={tiltIndex}
-  />
-);
-
-const EphemeraIcon = ({ tiltIndex }: { tiltIndex: number }) => (
-  <StyledImage
-    src="/icons/ephemera.svg"
-    alt=""
-    width={120}
-    height={120}
-    $tiltIndex={tiltIndex}
-  />
-);
-
 type WorkTypesListProps = {
   collectionStats: {
     booksAndJournals: WorkTypeStats;
@@ -370,33 +320,89 @@ type WorkTypesListProps = {
     audioAndVideo: WorkTypeStats;
     ephemera: WorkTypeStats;
   };
+  icons?: {
+    book: string;
+    image: string;
+    archives: string;
+    videoAudio: string;
+    ephemera: string;
+  };
 };
 
-const WorkTypesList: React.FC<WorkTypesListProps> = ({ collectionStats }) => (
+const WorkTypesList: React.FC<WorkTypesListProps> = ({
+  collectionStats,
+  icons = {
+    book: '/icons/book.svg',
+    image: '/icons/image.svg',
+    archives: '/icons/archives.svg',
+    videoAudio: '/icons/video-audio.svg',
+    ephemera: '/icons/ephemera.svg',
+  },
+}) => (
   <div data-component="work-types-list">
     <StyledList>
       <WorkTypeItem
-        icon={<BookIcon tiltIndex={0} />}
+        icon={
+          <StyledImage
+            src={icons.book}
+            alt=""
+            width={120}
+            height={120}
+            $tiltIndex={0}
+          />
+        }
         stats={collectionStats.booksAndJournals}
         animationIndex={0}
       />
       <WorkTypeItem
-        icon={<ImageIcon tiltIndex={1} />}
+        icon={
+          <StyledImage
+            src={icons.image}
+            alt=""
+            width={120}
+            height={120}
+            $tiltIndex={1}
+          />
+        }
         stats={collectionStats.images}
         animationIndex={1}
       />
       <WorkTypeItem
-        icon={<ArchivesIcon tiltIndex={2} />}
+        icon={
+          <StyledImage
+            src={icons.archives}
+            alt=""
+            width={120}
+            height={120}
+            $tiltIndex={2}
+          />
+        }
         stats={collectionStats.archivesAndManuscripts}
         animationIndex={2}
       />
       <WorkTypeItem
-        icon={<VideoAudioIcon tiltIndex={3} />}
+        icon={
+          <StyledImage
+            src={icons.videoAudio}
+            alt=""
+            width={120}
+            height={120}
+            $tiltIndex={3}
+          />
+        }
         stats={collectionStats.audioAndVideo}
         animationIndex={3}
       />
       <WorkTypeItem
-        icon={<EphemeraIcon tiltIndex={4} />}
+        icon={
+          <StyledImage
+            src={icons.ephemera}
+            alt=""
+            width={120}
+            height={120}
+            $tiltIndex={4}
+          />
+        }
         stats={collectionStats.ephemera}
         animationIndex={4}
         description="For example leaflets, labels and stamps"
