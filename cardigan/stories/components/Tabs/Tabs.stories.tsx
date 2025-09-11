@@ -22,7 +22,7 @@ const TabsContainer = ({ items, isWhite, isPill, tabBehaviour, ...rest }) => {
 
   return (
     <Container>
-      <Wrapper $backgroundColor={isWhite ? 'black' : 'white'}>
+      <Wrapper $backgroundColor={!isPill && isWhite ? 'black' : 'white'}>
         {tabBehaviour === 'navigate' && !isPill ? (
           <Tabs
             tabBehaviour="navigate"

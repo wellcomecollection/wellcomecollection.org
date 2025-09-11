@@ -148,7 +148,7 @@ const TabsSwitch: FunctionComponent<Props> = ({
           <Tab
             key={item.id}
             $selected={isSelected}
-            $isWhite={isWhite}
+            $isWhite={!isPill && isWhite}
             $hideBorder={hideBorder}
             $isPill={isPill}
             onClick={e => {
