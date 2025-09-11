@@ -35,7 +35,8 @@ const StyledImage = styled(Image)<{ $tiltIndex: number }>`
 
 const StyledList = styled.ul`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
   gap: ${props => props.theme.spaceAtBreakpoints.small.l}px;
   align-items: stretch;
   list-style: none;
@@ -43,11 +44,30 @@ const StyledList = styled.ul`
   margin: 0;
   width: 100%;
 
+  /* 2 items per row on small screens */
+  & > li {
+    flex: 0 0
+      calc(50% - ${props => props.theme.spaceAtBreakpoints.small.l / 2}px);
+  }
+
+  /* Center the 5th item (last item) on small screens */
+  & > li:nth-child(5) {
+    margin: 0 auto;
+  }
+
   ${props =>
     props.theme.media('medium')(`
-    flex-direction: row;
+    flex-wrap: nowrap;
     justify-content: space-between;
     min-width: 0;
+    
+    & > li {
+      flex: 1;
+    }
+    
+    & > li:nth-child(5) {
+      margin: 0;
+    }
   `)}
 
   ${props =>
@@ -83,7 +103,7 @@ const IconContainer = styled(Space).attrs({
 const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   flex-grow: 1;
 
   ${props =>
@@ -95,7 +115,7 @@ const TextContainer = styled.div`
 const CountDisplayContainer = styled.div`
   font-variant-numeric: tabular-nums;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
 
   ${props =>
@@ -111,10 +131,10 @@ const DescriptionText = styled.div`
 
 const StyledLink = styled(NextLink)<{ $tiltIndex?: number }>`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  text-align: left;
-  gap: ${props => props.theme.spacingUnit * 2}px;
+  text-align: center;
+  gap: ${props => props.theme.spacingUnit}px;
   flex: 1;
   text-decoration: none;
   color: inherit;
