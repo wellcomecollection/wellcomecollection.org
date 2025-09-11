@@ -2,7 +2,6 @@ import {
   Dispatch,
   FunctionComponent,
   KeyboardEvent,
-  ReactNode,
   SetStateAction,
   useRef,
 } from 'react';
@@ -11,6 +10,7 @@ import { useAppContext } from '@weco/common/contexts/AppContext';
 import { IconSvg } from '@weco/common/icons';
 import { trackSegmentEvent } from '@weco/common/services/conversion/track';
 import { toSnakeCase } from '@weco/common/utils/grammar';
+import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
@@ -23,7 +23,7 @@ import {
   TabButton,
   TabsContainer,
 } from './Tabs.styles';
-import InnerPillButton from './Tabs.Switch.Pills';
+import TabButtonPill from './Tabs.Switch.Pills';
 
 type SendEventProps = {
   id: string;
@@ -44,7 +44,7 @@ function sendSegmentEvent({ id, trackWithSegment }: SendEventProps) {
 
 export type SwitchSelectableTextLink = {
   id: string;
-  text: ReactNode;
+  text: string;
   url?: string;
   icon?: IconSvg;
   gtmData?: {
@@ -132,15 +132,25 @@ const TabsSwitch: FunctionComponent<Props> = ({
       role={isEnhanced ? 'tablist' : undefined}
       ref={tabListRef}
       aria-label={label}
+      $isPill={isPill}
     >
       {items.map(item => {
         const isSelected = isEnhanced && selectedTab === item.id;
+
+        const gtmData = dataGtmPropsToAttributes({
+          trigger: `tab_${toSnakeCase(label)}`,
+          label: item.text,
+          category: item.gtmData?.category,
+          'position-in-list': `${items.indexOf(item) + 1}`,
+        });
+
         return (
           <Tab
             key={item.id}
             $selected={isSelected}
             $isWhite={isWhite}
             $hideBorder={hideBorder}
+            $isPill={isPill}
             onClick={e => {
               if (!(item.id === selectedTab)) {
                 (e.target as HTMLButtonElement).scrollIntoView({
@@ -162,22 +172,20 @@ const TabsSwitch: FunctionComponent<Props> = ({
               tabIndex={item.id === selectedTab ? 0 : -1}
               aria-controls={`tabpanel-${item.id}`}
               aria-selected={item.id === selectedTab}
+              $isPill={isPill}
+              $itemIndex={items.indexOf(item) + 1}
             >
               {isPill ? (
-                <InnerPillButton
-                  label={label}
+                <TabButtonPill
                   item={item}
-                  itemIndex={items.indexOf(item)}
                   isSelected={isSelected}
+                  {...gtmData}
                 />
               ) : (
                 <NavItemInner
                   $selected={isSelected}
                   $isWhite={isWhite}
-                  data-gtm-trigger={`tab_${toSnakeCase(label)}`}
-                  data-gtm-label={item.text}
-                  data-gtm-category={item.gtmData?.category}
-                  data-gtm-position-in-list={items.indexOf(item) + 1}
+                  {...gtmData}
                 >
                   <NavItemShim>{item.text}</NavItemShim>
                   <ConditionalWrapper

@@ -2,48 +2,45 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
-import { toSnakeCase } from '@weco/common/utils/grammar';
-import Buttons from '@weco/common/views/components/Buttons';
+import {
+  SolidButtonStyledProps,
+  StyledButtonCSS,
+} from '@weco/common/views/components/Buttons';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
+import { themeValues } from '@weco/common/views/themes/config';
 
 import { IconWrapper, NavItemShim } from './Tabs.styles';
 import { SwitchSelectableTextLink } from './Tabs.Switch';
 
-const PillButton = styled(Buttons).attrs<{ $selected: boolean }>(props => ({
-  colors: props.$selected
-    ? props.theme.buttonColors.charcoalTransparentCharcoal
-    : props.theme.buttonColors.silverTransparentBlack,
-}))`
-  z-index: 1;
+const PillButton = styled.span<SolidButtonStyledProps>`
+  display: block;
+  cursor: pointer;
+  ${StyledButtonCSS}
 `;
 
 type Props = {
-  label: string;
   item: SwitchSelectableTextLink;
-  itemIndex: number;
   isSelected: boolean;
 };
 
 const InnerPillButton: FunctionComponent<Props> = ({
-  label,
   item,
-  itemIndex,
   isSelected,
+  ...gtmData
 }: Props) => {
   const { isEnhanced } = useAppContext();
 
   return (
     <PillButton
-      variant="ButtonSolid"
-      isPill
-      text={item.text}
-      $selected={isSelected}
-      data-gtm-trigger={`tab_${toSnakeCase(label)}`}
-      data-gtm-label={item.text}
-      data-gtm-category={item.gtmData?.category}
-      data-gtm-position-in-list={itemIndex + 1}
+      $isPill
+      $colors={
+        isSelected
+          ? themeValues.buttonColors.blackCharcoalWhite
+          : themeValues.buttonColors.charcoalTransparentCharcoal
+      }
+      {...gtmData}
     >
       <NavItemShim>{item.text}</NavItemShim>
       <ConditionalWrapper

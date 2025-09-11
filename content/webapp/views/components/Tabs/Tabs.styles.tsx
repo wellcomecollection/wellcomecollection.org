@@ -23,22 +23,23 @@ export const Wrapper = styled.div`
   `}
 `;
 
-export const TabsContainer = styled.div`
+export const TabsContainer = styled.div<{ $isPill?: boolean }>`
   display: flex;
   list-style: none;
   padding: 0;
   margin: 0;
   overflow-x: auto;
-  padding-left: ${props => props.theme.containerPadding.small}px;
+  padding-left: ${props =>
+    props.$isPill ? 0 : props.theme.containerPadding.small}px;
 
   ${props => `
     ${props.theme.media('medium')(`
-      padding-left: calc(${props.theme.containerPadding.medium}px - 1rem);
-  `)}
+      ${props.$isPill ? '' : `padding-left: calc(${props.theme.containerPadding.medium}px - 1rem);`}
+    `)}
 
-  ${props.theme.media('large')(`
-    padding-left: calc(${props.theme.containerPadding.large}px - 1rem);
-  `)}
+    ${props.theme.media('large')(`
+      ${props.$isPill ? '' : `padding-left: calc(${props.theme.containerPadding.large}px - 1rem);`}
+    `)}
   `}
 `;
 
@@ -48,27 +49,31 @@ type NavItemProps = {
   $hideBorder?: boolean;
 };
 
-export const Tab = styled.div.attrs<{ $selected?: boolean }>(props => ({
-  className: font(props.$selected ? 'intsb' : 'intm', 5),
-}))<NavItemProps>`
+export const Tab = styled.div.attrs<{ $selected?: boolean; $isPill?: boolean }>(
+  props => ({
+    className: font(props.$selected ? 'intsb' : 'intm', 5),
+  })
+)<NavItemProps>`
   padding: 0;
   margin: 0;
   flex-shrink: 0;
   border-bottom: ${props =>
-    props.$selected
-      ? `3px solid ${props.theme.color('yellow')}`
-      : `1px solid ${props.theme.color(
-          props.$hideBorder
-            ? 'transparent'
-            : props.$isWhite
-              ? 'neutral.600'
-              : 'neutral.300'
-        )}`};
+    props.$isPill
+      ? 'none'
+      : props.$selected
+        ? `3px solid ${props.theme.color('yellow')}`
+        : `1px solid ${props.theme.color(
+            props.$hideBorder
+              ? 'transparent'
+              : props.$isWhite
+                ? 'neutral.600'
+                : 'neutral.300'
+          )}`};
 
   a {
     text-decoration: none;
 
-    /* For Tab.Anchor */
+    /* For Tab.Navigate */
     &:focus-visible {
       display: block;
       box-shadow:
@@ -79,8 +84,18 @@ export const Tab = styled.div.attrs<{ $selected?: boolean }>(props => ({
   }
 `;
 
-export const TabButton = styled.div`
-  /* For Tab.Tab */
+export const TabButton = styled.div<{ $isPill?: boolean; $itemIndex?: number }>`
+  /* For Tab.Switch */
+  ${props =>
+    props.$isPill
+      ? `
+          display: block;
+          padding: 4px;
+          border-radius: 20px; 
+          margin-left: ${props.$itemIndex === 1 ? '' : props.theme.containerPadding.small + 'px'};
+          `
+      : ''}
+
   &:focus-visible {
     box-shadow:
       0 0 0 3px ${props => props.theme.color('focus.yellow')} inset,

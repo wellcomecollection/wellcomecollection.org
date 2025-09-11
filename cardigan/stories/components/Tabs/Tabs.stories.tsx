@@ -17,16 +17,16 @@ const Wrapper = styled(Space).attrs({
     `background-color: ${props.theme.color(props.$backgroundColor)}`};
 `;
 
-const TabsContainer = ({ items, isWhite, tabBehaviour, ...rest }) => {
+const TabsContainer = ({ items, isWhite, isPill, tabBehaviour, ...rest }) => {
   const [selectedTab, setSelectedTab] = useState(items[0].id);
 
   return (
     <Container>
       <Wrapper $backgroundColor={isWhite ? 'black' : 'white'}>
-        {tabBehaviour === 'navigate' ? (
+        {tabBehaviour === 'navigate' && !isPill ? (
           <Tabs
-            tabBehaviour={tabBehaviour}
-            label="bla"
+            tabBehaviour="navigate"
+            label="navigate-behaviour-tab"
             items={items}
             isWhite={isWhite}
             currentSection={selectedTab}
@@ -34,10 +34,11 @@ const TabsContainer = ({ items, isWhite, tabBehaviour, ...rest }) => {
           />
         ) : (
           <Tabs
-            tabBehaviour={tabBehaviour}
-            label="bla"
+            tabBehaviour="switch"
+            label="browse-behaviour-tab"
             items={items}
             isWhite={isWhite}
+            isPill={isPill}
             selectedTab={selectedTab}
             setSelectedTab={setSelectedTab}
             {...rest}
@@ -54,6 +55,7 @@ const meta: Meta<typeof Tabs> = {
   args: {
     tabBehaviour: 'switch',
     isWhite: false,
+    isPill: false,
     hideBorder: false,
     items: [
       {
@@ -74,6 +76,21 @@ const meta: Meta<typeof Tabs> = {
     ],
   },
   argTypes: {
+    isWhite: {
+      control: 'boolean',
+      name: 'Dark mode',
+    },
+    hideBorder: {
+      control: 'boolean',
+      name: 'Has no bottom border',
+    },
+    isPill: {
+      control: 'boolean',
+      name: 'Pill style (switch)',
+    },
+    tabBehaviour: {
+      table: { disable: true },
+    },
     items: {
       table: { disable: true },
     },
