@@ -14,10 +14,17 @@ import { themeValues } from '@weco/common/views/themes/config';
 import { IconWrapper, NavItemShim } from './Tabs.styles';
 import { SwitchSelectableTextLink } from './Tabs.Switch';
 
-const PillButton = styled.span<SolidButtonStyledProps>`
+const PillButton = styled.span<
+  SolidButtonStyledProps & { $isSelected: boolean }
+>`
   display: block;
   cursor: pointer;
   ${StyledButtonCSS}
+
+  &:hover {
+    background-color: ${props => props.theme.color('warmNeutral.400')};
+    ${props => props.$isSelected && `color: ${props.theme.color('black')};`}
+  }
 `;
 
 type Props = {
@@ -35,6 +42,7 @@ const InnerPillButton: FunctionComponent<Props> = ({
   return (
     <PillButton
       $isPill
+      $isSelected={isSelected}
       $colors={
         isSelected
           ? themeValues.buttonColors.blackCharcoalWhite

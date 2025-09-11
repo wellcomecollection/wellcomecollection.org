@@ -3,9 +3,11 @@ import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 
-export const Wrapper = styled.div`
+export const Wrapper = styled.div<{ $isPill?: boolean }>`
   ${props =>
-    `
+    props.$isPill
+      ? ''
+      : `
       margin: 0 -${props.theme.containerPadding.small}px;
       transition: margin ${props => props.theme.transitionProperties};
 

@@ -15,6 +15,8 @@ import { MultiContent } from '@weco/content/types/multi-content';
 import CardGrid from '@weco/content/views/components/CardGrid';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
 
+import BrowseByTheme from './collections.BrowseByTheme';
+
 export type Props = {
   pageMeta: {
     id: string;
@@ -48,8 +50,15 @@ const CollectionsLandingPage: NextPage<Props> = ({
     >
       <PageHeader variant="simpleLanding" title={title} introText={introText} />
 
+      <ContaineredLayout gridSizes={gridSize12()}>
+        <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
+          <BrowseByTheme />
+        </Space>
+      </ContaineredLayout>
+
       <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
         <SectionHeader title="Inside our collections" gridSize={gridSize12()} />
+
         <ContaineredLayout gridSizes={gridSize12()}>
           <p>
             Explore stories inspired by the objects, manuscripts and archives in

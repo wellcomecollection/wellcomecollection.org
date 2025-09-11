@@ -12,13 +12,17 @@ const Tabs: FunctionComponent<Props> = props => {
   const { tabBehaviour } = props;
 
   return (
-    <Wrapper data-component="tabs">
+    <>
       {tabBehaviour === 'navigate' ? (
-        <TabsNavigate {...props} />
+        <Wrapper data-component="tabs">
+          <TabsNavigate {...props} />
+        </Wrapper>
       ) : (
-        <TabsSwitch {...props} />
+        <Wrapper data-component="tabs" $isPill={props.isPill}>
+          <TabsSwitch {...props} />
+        </Wrapper>
       )}
-    </Wrapper>
+    </>
   );
 };
 
