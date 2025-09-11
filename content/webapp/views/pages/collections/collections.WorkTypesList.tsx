@@ -1,6 +1,12 @@
 import Image from 'next/image';
 import NextLink from 'next/link';
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  ReactElement,
+  ReactNode,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
@@ -156,7 +162,7 @@ const getSearchLinkForCategory = (categoryId: string) => {
 };
 
 type WorkTypeItemProps = {
-  icon: React.ReactElement;
+  icon: ReactElement;
   stats: WorkTypeStats;
   animationIndex: number;
   description?: string;
@@ -253,7 +259,7 @@ const WorkTypeItem: React.FC<WorkTypeItemProps> = ({
     }
   }, [isInView, stats.count, stats.fallbackCount, animationIndex]);
 
-  const formatDisplayCount = (): React.ReactNode => {
+  const formatDisplayCount = (): ReactNode => {
     const numberPart = displayCount.toLocaleString();
     const shouldShowPlus = stats.count === null || showPlus;
 
