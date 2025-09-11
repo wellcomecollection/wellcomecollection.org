@@ -18,10 +18,10 @@ import CardGrid from '@weco/content/views/components/CardGrid';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
 import WorkTypesList from '@weco/content/views/components/WorkTypesList';
 
-const MaterialsSection = styled.div`
+const MaterialsSection = styled(Space).attrs({
+  $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
+})`
   background-color: ${props => props.theme.color('warmNeutral.300')};
-  padding-top: ${props => props.theme.spacingUnit * 4}px;
-  padding-bottom: ${props => props.theme.spacingUnit * 4}px;
 `;
 
 export type Props = {
@@ -89,8 +89,10 @@ const CollectionsLandingPage: NextPage<Props> = ({
             title="Types of materials in the collections"
             gridSize={gridSize12()}
           />
-          <WorkTypesList collectionStats={collectionStats} />
         </Space>
+        <ContaineredLayout gridSizes={gridSize12()}>
+          <WorkTypesList collectionStats={collectionStats} />
+        </ContaineredLayout>
       </MaterialsSection>
     </PageLayout>
   );
