@@ -92,6 +92,7 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
                   manifest: query.manifest,
                   query: query.query,
                   canvas: arrayIndexToQueryParam(canvasIndex),
+                  shouldScrollToCanvas: true,
                 },
               })}
               aria-current={
