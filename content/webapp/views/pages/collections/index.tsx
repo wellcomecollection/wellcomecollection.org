@@ -16,8 +16,7 @@ import { useCollectionStats } from '@weco/content/hooks/useCollectionStats';
 import { MultiContent } from '@weco/content/types/multi-content';
 import CardGrid from '@weco/content/views/components/CardGrid';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
-
-import WorkTypesList from './collections.WorkTypesList';
+import WorkTypesList from '@weco/content/views/pages/collections/collections.WorkTypesList';
 
 const MaterialsSection = styled(Space).attrs({
   $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
