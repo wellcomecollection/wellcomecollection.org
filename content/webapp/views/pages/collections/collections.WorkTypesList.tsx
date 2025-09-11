@@ -9,9 +9,15 @@ import { WorkTypeStats } from '@weco/content/services/wellcome/catalogue/workTyp
 import { toSearchImagesLink } from '@weco/content/views/components/SearchPagesLink/Images';
 import { toSearchWorksLink } from '@weco/content/views/components/SearchPagesLink/Works';
 
-const StyledImage = styled(Image)`
+const StyledImage = styled(Image)<{ $tiltIndex: number }>`
   width: 80px;
   height: 80px;
+  transform: rotate(
+    ${props => (props.$tiltIndex % 2 === 0 ? '-2deg' : '2deg')}
+  );
+  transition:
+    transform 0.2s ease-out,
+    filter 0.2s ease-out;
 
   ${props =>
     props.theme.media('medium')(`
@@ -97,7 +103,7 @@ const DescriptionText = styled.div`
   color: ${props => props.theme.color('neutral.600')};
 `;
 
-const StyledLink = styled(NextLink)`
+const StyledLink = styled(NextLink)<{ $tiltIndex?: number }>`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -109,6 +115,18 @@ const StyledLink = styled(NextLink)`
 
   &:hover {
     text-decoration: none;
+  }
+
+  &:hover img,
+  &:focus img {
+    transform: rotate(
+        ${props =>
+          typeof props.$tiltIndex === 'number' && props.$tiltIndex % 2 === 0
+            ? '2deg'
+            : '-2deg'}
+      )
+      scale(1.1);
+    filter: drop-shadow(4px 4px 2px rgba(0, 0, 0, 0.25));
   }
 
   ${props =>
@@ -266,7 +284,7 @@ const WorkTypeItem: React.FC<WorkTypeItemProps> = ({
 
   return (
     <StyledListItem ref={itemRef} data-component="work-type-item">
-      <StyledLink {...searchLink}>
+      <StyledLink {...searchLink} $tiltIndex={animationIndex}>
         <IconContainer>{icon}</IconContainer>
         <TextContainer>
           <div>
@@ -288,24 +306,54 @@ const WorkTypeItem: React.FC<WorkTypeItemProps> = ({
   );
 };
 
-const BookIcon = () => (
-  <StyledImage src="/icons/book.svg" alt="" width={120} height={120} />
+const BookIcon = ({ tiltIndex }: { tiltIndex: number }) => (
+  <StyledImage
+    src="/icons/book.svg"
+    alt=""
+    width={120}
+    height={120}
+    $tiltIndex={tiltIndex}
+  />
 );
 
-const ImageIcon = () => (
-  <StyledImage src="/icons/image.svg" alt="" width={120} height={120} />
+const ImageIcon = ({ tiltIndex }: { tiltIndex: number }) => (
+  <StyledImage
+    src="/icons/image.svg"
+    alt=""
+    width={120}
+    height={120}
+    $tiltIndex={tiltIndex}
+  />
 );
 
-const ArchivesIcon = () => (
-  <StyledImage src="/icons/archives.svg" alt="" width={120} height={120} />
+const ArchivesIcon = ({ tiltIndex }: { tiltIndex: number }) => (
+  <StyledImage
+    src="/icons/archives.svg"
+    alt=""
+    width={120}
+    height={120}
+    $tiltIndex={tiltIndex}
+  />
 );
 
-const VideoAudioIcon = () => (
-  <StyledImage src="/icons/video-audio.svg" alt="" width={120} height={120} />
+const VideoAudioIcon = ({ tiltIndex }: { tiltIndex: number }) => (
+  <StyledImage
+    src="/icons/video-audio.svg"
+    alt=""
+    width={120}
+    height={120}
+    $tiltIndex={tiltIndex}
+  />
 );
 
-const EphemeraIcon = () => (
-  <StyledImage src="/icons/ephemera.svg" alt="" width={120} height={120} />
+const EphemeraIcon = ({ tiltIndex }: { tiltIndex: number }) => (
+  <StyledImage
+    src="/icons/ephemera.svg"
+    alt=""
+    width={120}
+    height={120}
+    $tiltIndex={tiltIndex}
+  />
 );
 
 type WorkTypesListProps = {
@@ -322,27 +370,27 @@ const WorkTypesList: React.FC<WorkTypesListProps> = ({ collectionStats }) => (
   <div data-component="work-types-list">
     <StyledList>
       <WorkTypeItem
-        icon={<BookIcon />}
+        icon={<BookIcon tiltIndex={0} />}
         stats={collectionStats.booksAndJournals}
         animationIndex={0}
       />
       <WorkTypeItem
-        icon={<ImageIcon />}
+        icon={<ImageIcon tiltIndex={1} />}
         stats={collectionStats.images}
         animationIndex={1}
       />
       <WorkTypeItem
-        icon={<ArchivesIcon />}
+        icon={<ArchivesIcon tiltIndex={2} />}
         stats={collectionStats.archivesAndManuscripts}
         animationIndex={2}
       />
       <WorkTypeItem
-        icon={<VideoAudioIcon />}
+        icon={<VideoAudioIcon tiltIndex={3} />}
         stats={collectionStats.audioAndVideo}
         animationIndex={3}
       />
       <WorkTypeItem
-        icon={<EphemeraIcon />}
+        icon={<EphemeraIcon tiltIndex={4} />}
         stats={collectionStats.ephemera}
         animationIndex={4}
         description="For example leaflets, labels and stamps"
