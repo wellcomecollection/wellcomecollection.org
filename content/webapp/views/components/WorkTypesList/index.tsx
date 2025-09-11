@@ -3,6 +3,7 @@ import NextLink from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
+import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import { WorkTypeStats } from '@weco/content/services/wellcome/catalogue/workTypeAggregations';
 import { toSearchImagesLink } from '@weco/content/views/components/SearchPagesLink/Images';
@@ -79,7 +80,7 @@ const TextContainer = styled.div`
   `)}
 `;
 
-const CountDisplay = styled.strong`
+const CountDisplayContainer = styled.div`
   font-variant-numeric: tabular-nums;
   display: flex;
   justify-content: flex-start;
@@ -91,6 +92,10 @@ const CountDisplay = styled.strong`
     justify-content: center;
     min-width: 100px;
   `)}
+`;
+
+const DescriptionText = styled.div`
+  color: ${props => props.theme.color('neutral.600')};
 `;
 
 const StyledLink = styled(NextLink)`
@@ -137,12 +142,14 @@ type WorkTypeItemProps = {
   icon: React.ReactElement;
   stats: WorkTypeStats;
   animationIndex: number;
+  description?: string;
 };
 
 const WorkTypeItem: React.FC<WorkTypeItemProps> = ({
   icon,
   stats,
   animationIndex,
+  description,
 }) => {
   const [displayCount, setDisplayCount] = useState<number>(stats.fallbackCount);
   const [showPlus, setShowPlus] = useState<boolean>(true);
@@ -278,13 +285,18 @@ const WorkTypeItem: React.FC<WorkTypeItemProps> = ({
         <IconContainer>{icon}</IconContainer>
         <TextContainer>
           <div>
-            <CountDisplay aria-hidden="true">
+            <CountDisplayContainer aria-hidden="true" className={font('wb', 3)}>
               {formatDisplayCount()}
-            </CountDisplay>
+            </CountDisplayContainer>
             {/* Screen reader only text with stable count */}
             <span className="visually-hidden">{accessibleCountText}</span>
           </div>
-          <div>{stats.label}</div>
+          <div className={font('intr', 3)}>{stats.label}</div>
+          {description && (
+            <DescriptionText className={font('intr', 4)}>
+              {description}
+            </DescriptionText>
+          )}
         </TextContainer>
       </StyledLink>
     </StyledListItem>
@@ -349,6 +361,7 @@ const WorkTypesList: React.FC<WorkTypesListProps> = ({ collectionStats }) => (
         icon={<EphemeraIcon />}
         stats={collectionStats.ephemera}
         animationIndex={4}
+        description="For example leaflets, labels and stamps"
       />
     </StyledList>
   </div>
