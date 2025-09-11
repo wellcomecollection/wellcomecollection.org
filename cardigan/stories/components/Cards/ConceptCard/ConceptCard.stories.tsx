@@ -1,9 +1,8 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { useEffect, useState } from 'react';
 
+import ConceptCard from '@weco/common/views/components/ConceptCard';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
-
-import ConceptCompositeImage from './ConceptCompositeImage';
 
 // Fetch images for a concept from production API
 const fetchConceptImages = async (
@@ -141,57 +140,65 @@ const fetchConceptImages = async (
   }
 };
 
-const meta: Meta = {
-  title: 'Components/ConceptCompositeImage',
-  component: ConceptCompositeImage,
+// Fetch concept details to get label for title
+const fetchConceptDetails = async (conceptId: string) => {
+  try {
+    const response = await fetch(
+      `https://api.wellcomecollection.org/catalogue/v2/concepts/${conceptId}`
+    );
+    const data = await response.json();
+
+    // Handle description which might be an object or string
+    let description = 'Collection items related to this concept';
+    if (data.description) {
+      if (typeof data.description === 'string') {
+        description = data.description;
+      } else if (data.description.text) {
+        description = data.description.text;
+      }
+    }
+
+    return {
+      label: data.label || 'Concept',
+      description,
+    };
+  } catch (error) {
+    console.error('Failed to fetch concept details:', error);
+    return {
+      label: 'Concept',
+      description: 'Collection items related to this concept',
+    };
+  }
+};
+
+type StoryArgs = {
+  conceptId: string;
+  url: string;
+};
+
+const meta: Meta<StoryArgs> = {
+  title: 'Components/Cards/ConceptCard',
   args: {
-    conceptId: 'patspgf3',
-    includeContributors: true,
-    includeSubjects: true,
-    includeGenres: true,
-    includeQuery: false,
-    preferPortrait: true,
+    conceptId: 'am28s7jx',
+    url: '#',
   },
   argTypes: {
     conceptId: {
-      control: 'select',
-      options: {
-        Amulets: 'am28s7jx',
-        'Photographic postcards': 't45bb9qg',
-        'Mezzotint engraving': 'kayu55xf',
-        Science: 'np8ek677',
-        Technology: 'jr7tc6ky',
-        Tuberculosis: 'kak297z4',
-        Death: 'rxa2pk4j',
-      },
+      control: { type: 'select' },
+      options: [
+        's7d7wjf3',
+        't45bb9qg',
+        'kayu55xf',
+        'np8ek677',
+        'jr7tc6ky',
+        'kak297z4',
+        'rxa2pk4j',
+      ],
       description: 'Concept to fetch images from',
     },
-    includeContributors: {
-      control: 'boolean',
-      description: 'Include images where the concept is a contributor/creator',
-    },
-    includeSubjects: {
-      control: 'boolean',
-      description: 'Include images where the concept is a subject/topic',
-    },
-    includeGenres: {
-      control: 'boolean',
-      description: 'Include images where the concept defines the genre/format',
-    },
-    includeQuery: {
-      control: 'boolean',
-      description:
-        'Include images from free-text search using the concept label',
-    },
-    preferPortrait: {
-      control: 'boolean',
-      description:
-        'Whether to prioritize portrait aspect ratio images (height > width) in the selection',
-    },
-    images: {
-      table: {
-        disable: true,
-      },
+    url: {
+      control: 'text',
+      description: 'URL for the card link',
     },
   },
   parameters: {
@@ -206,52 +213,43 @@ const meta: Meta = {
 
 export default meta;
 
-type Story = StoryObj<typeof ConceptCompositeImage>;
+type Story = StoryObj<StoryArgs>;
 
-const ConceptImageLoader = ({
+const ConceptCardLoader = ({
   conceptId,
-  includeContributors,
-  includeSubjects,
-  includeGenres,
-  includeQuery,
-  preferPortrait,
-  args,
+  url,
 }: {
   conceptId: string;
-  includeContributors: boolean;
-  includeSubjects: boolean;
-  includeGenres: boolean;
-  includeQuery: boolean;
-  preferPortrait: boolean;
-  args: any;
+  url: string;
 }) => {
   const [images, setImages] = useState<Image[]>([]);
+  const [conceptDetails, setConceptDetails] = useState({
+    label: '',
+    description: '',
+  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setLoading(true);
     setImages([]);
-    fetchConceptImages(conceptId, {
-      includeContributors,
-      includeSubjects,
-      includeGenres,
-      includeQuery,
-      preferPortrait,
-    }).then(fetchedImages => {
+    Promise.all([
+      fetchConceptImages(conceptId, {
+        includeContributors: true,
+        includeSubjects: true,
+        includeGenres: true,
+        includeQuery: false,
+        preferPortrait: true,
+      }),
+      fetchConceptDetails(conceptId),
+    ]).then(([fetchedImages, details]) => {
       setImages(fetchedImages);
+      setConceptDetails(details);
       setLoading(false);
     });
-  }, [
-    conceptId,
-    includeContributors,
-    includeSubjects,
-    includeGenres,
-    includeQuery,
-    preferPortrait,
-  ]);
+  }, [conceptId]);
 
   if (loading) {
-    return <div>Loading concept images...</div>;
+    return <div>Loading concept card...</div>;
   }
 
   if (images.length < 4) {
@@ -265,22 +263,24 @@ const ConceptImageLoader = ({
   // Take first 4 images
   const selectedImages = images.slice(0, 4) as [Image, Image, Image, Image];
 
-  return <ConceptCompositeImage {...args} images={selectedImages} />;
+  return (
+    <ConceptCard
+      images={selectedImages}
+      title={conceptDetails.label}
+      description={conceptDetails.description}
+      url={url}
+    />
+  );
 };
 
 export const Basic: Story = {
-  name: 'ConceptCompositeImage',
+  name: 'ConceptCard',
   render: args => {
     return (
-      <ConceptImageLoader
-        key={`${args.conceptId}-${args.includeContributors}-${args.includeSubjects}-${args.includeGenres}-${args.includeQuery}-${args.preferPortrait}`}
+      <ConceptCardLoader
+        key={args.conceptId}
         conceptId={args.conceptId}
-        includeContributors={args.includeContributors}
-        includeSubjects={args.includeSubjects}
-        includeGenres={args.includeGenres}
-        includeQuery={args.includeQuery}
-        preferPortrait={args.preferPortrait}
-        args={args}
+        url={args.url}
       />
     );
   },
