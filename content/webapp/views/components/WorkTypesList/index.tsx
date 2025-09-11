@@ -3,6 +3,7 @@ import NextLink from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
+import Space from '@weco/common/views/components/styled/Space';
 import { WorkTypeStats } from '@weco/content/services/wellcome/catalogue/workTypeAggregations';
 import { toSearchImagesLink } from '@weco/content/views/components/SearchPagesLink/Images';
 import { toSearchWorksLink } from '@weco/content/views/components/SearchPagesLink/Works';
@@ -22,7 +23,7 @@ const StyledImage = styled(Image)`
 const StyledList = styled.ul`
   display: flex;
   flex-direction: column;
-  gap: ${props => props.theme.spacingUnit * 3}px;
+  gap: ${props => props.theme.spaceAtBreakpoints.small.l}px;
   align-items: stretch;
   list-style: none;
   padding: 0;
@@ -33,8 +34,12 @@ const StyledList = styled.ul`
     props.theme.media('medium')(`
     flex-direction: row;
     justify-content: space-between;
-    gap: ${props.theme.spacingUnit * 2}px;
     min-width: 0;
+  `)}
+
+  ${props =>
+    props.theme.media('large')(`
+    gap: ${props.theme.spaceAtBreakpoints.large.l}px;
   `)}
 `;
 
@@ -44,20 +49,20 @@ const StyledListItem = styled.li`
   list-style: none;
 `;
 
-const IconContainer = styled.div`
+const IconContainer = styled(Space).attrs({
+  $v: { size: 's', properties: ['margin-bottom'] },
+})`
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 80px;
   max-width: 80px;
-  margin-bottom: 0;
   flex-shrink: 0;
 
   ${props =>
     props.theme.media('medium')(`
     min-height: 120px;
     max-width: 100%;
-    margin-bottom: ${props.theme.spacingUnit}px;
     flex-shrink: 1;
   `)}
 `;
