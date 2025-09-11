@@ -173,6 +173,11 @@ const WorkTypeItem: React.FC<WorkTypeItemProps> = ({
   useEffect(() => {
     if (!isInView) return;
 
+    // Check if user prefers reduced motion
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
+
     // If we have a real count, animate from fallback to real count
     if (stats.count !== null && stats.count !== stats.fallbackCount) {
       const startCount = stats.fallbackCount;
@@ -180,43 +185,55 @@ const WorkTypeItem: React.FC<WorkTypeItemProps> = ({
       const duration = 2000; // 2 seconds
       const staggerDelay = animationIndex * 750; // 750ms delay between each item
 
-      const startAnimation = () => {
-        // Hide the plus when animation starts
+      if (prefersReducedMotion) {
+        // Skip animation - immediately show final state
+        setDisplayCount(endCount);
         setShowPlus(false);
-        const startTime = Date.now();
+      } else {
+        const startAnimation = () => {
+          // Hide the plus when animation starts
+          setShowPlus(false);
+          const startTime = Date.now();
 
-        const animate = () => {
-          const elapsed = Date.now() - startTime;
-          const progress = Math.min(elapsed / duration, 1);
+          const animate = () => {
+            const elapsed = Date.now() - startTime;
+            const progress = Math.min(elapsed / duration, 1);
 
-          // Custom easing function that slows down dramatically at the end
-          const easeOutCustom = 1 - Math.pow(1 - progress, 6);
+            // Custom easing function that slows down dramatically at the end
+            const easeOutCustom = 1 - Math.pow(1 - progress, 6);
 
-          const currentCount = Math.round(
-            startCount + (endCount - startCount) * easeOutCustom
-          );
+            const currentCount = Math.round(
+              startCount + (endCount - startCount) * easeOutCustom
+            );
 
-          setDisplayCount(currentCount);
+            setDisplayCount(currentCount);
 
-          if (progress < 1) {
-            requestAnimationFrame(animate);
-          } else {
-            // Animation complete
-            setDisplayCount(endCount);
-          }
+            if (progress < 1) {
+              requestAnimationFrame(animate);
+            } else {
+              // Animation complete
+              setDisplayCount(endCount);
+            }
+          };
+
+          requestAnimationFrame(animate);
         };
 
-        requestAnimationFrame(animate);
-      };
-
-      // Start animation after staggered delay
-      setTimeout(startAnimation, staggerDelay);
+        // Start animation after staggered delay
+        setTimeout(startAnimation, staggerDelay);
+      }
     } else if (stats.count !== null) {
       // If count equals fallback, just remove the plus
-      setTimeout(() => {
-        setDisplayCount(stats.count!);
+      if (prefersReducedMotion) {
+        // Skip delay - immediately show final state
+        setDisplayCount(stats.count);
         setShowPlus(false);
-      }, animationIndex * 750);
+      } else {
+        setTimeout(() => {
+          setDisplayCount(stats.count!);
+          setShowPlus(false);
+        }, animationIndex * 750);
+      }
     }
   }, [isInView, stats.count, stats.fallbackCount, animationIndex]);
 
