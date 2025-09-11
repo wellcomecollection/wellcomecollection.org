@@ -2,7 +2,6 @@ import {
   Dispatch,
   FunctionComponent,
   KeyboardEvent,
-  ReactNode,
   SetStateAction,
   useRef,
 } from 'react';
@@ -11,6 +10,7 @@ import { useAppContext } from '@weco/common/contexts/AppContext';
 import { IconSvg } from '@weco/common/icons';
 import { trackSegmentEvent } from '@weco/common/services/conversion/track';
 import { toSnakeCase } from '@weco/common/utils/grammar';
+import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
@@ -23,6 +23,7 @@ import {
   TabButton,
   TabsContainer,
 } from './Tabs.styles';
+import TabButtonPill from './Tabs.Switch.Pills';
 
 type SendEventProps = {
   id: string;
@@ -41,9 +42,9 @@ function sendSegmentEvent({ id, trackWithSegment }: SendEventProps) {
   }
 }
 
-type SwitchSelectableTextLink = {
+export type SwitchSelectableTextLink = {
   id: string;
-  text: ReactNode;
+  text: string;
   url?: string;
   icon?: IconSvg;
   gtmData?: {
@@ -58,6 +59,7 @@ export type Props = {
   selectedTab: string;
   setSelectedTab: Dispatch<SetStateAction<string>>;
   isWhite?: boolean;
+  isPill?: boolean;
   trackWithSegment?: boolean;
 };
 
@@ -68,6 +70,7 @@ const TabsSwitch: FunctionComponent<Props> = ({
   selectedTab,
   setSelectedTab,
   isWhite,
+  isPill,
   trackWithSegment = false,
 }: Props) => {
   const { isEnhanced } = useAppContext();
@@ -129,15 +132,25 @@ const TabsSwitch: FunctionComponent<Props> = ({
       role={isEnhanced ? 'tablist' : undefined}
       ref={tabListRef}
       aria-label={label}
+      $isPill={isPill}
     >
       {items.map(item => {
         const isSelected = isEnhanced && selectedTab === item.id;
+
+        const gtmData = dataGtmPropsToAttributes({
+          trigger: `tab_${toSnakeCase(label)}`,
+          label: item.text,
+          category: item.gtmData?.category,
+          'position-in-list': `${items.indexOf(item) + 1}`,
+        });
+
         return (
           <Tab
             key={item.id}
             $selected={isSelected}
-            $isWhite={isWhite}
+            $isWhite={!isPill && isWhite}
             $hideBorder={hideBorder}
+            $isPill={isPill}
             onClick={e => {
               if (!(item.id === selectedTab)) {
                 (e.target as HTMLButtonElement).scrollIntoView({
@@ -159,33 +172,40 @@ const TabsSwitch: FunctionComponent<Props> = ({
               tabIndex={item.id === selectedTab ? 0 : -1}
               aria-controls={`tabpanel-${item.id}`}
               aria-selected={item.id === selectedTab}
+              $isPill={isPill}
+              $itemIndex={items.indexOf(item) + 1}
             >
-              <NavItemInner
-                $selected={isSelected}
-                $isWhite={isWhite}
-                data-gtm-trigger={`tab_${toSnakeCase(label)}`}
-                data-gtm-label={item.text}
-                data-gtm-category={item.gtmData?.category}
-                data-gtm-position-in-list={items.indexOf(item) + 1}
-              >
-                <NavItemShim>{item.text}</NavItemShim>
-                <ConditionalWrapper
-                  condition={Boolean(item.url && !isEnhanced)}
-                  wrapper={children => <a href={item.url}>{children}</a>}
+              {isPill ? (
+                <TabButtonPill
+                  item={item}
+                  isSelected={isSelected}
+                  {...gtmData}
+                />
+              ) : (
+                <NavItemInner
+                  $selected={isSelected}
+                  $isWhite={isWhite}
+                  {...gtmData}
                 >
-                  {item.icon && (
-                    <Space
-                      as="span"
-                      $h={{ size: 's', properties: ['margin-right'] }}
-                    >
-                      <IconWrapper>
-                        <Icon icon={item.icon} />
-                      </IconWrapper>
-                    </Space>
-                  )}
-                  {item.text}
-                </ConditionalWrapper>
-              </NavItemInner>
+                  <NavItemShim>{item.text}</NavItemShim>
+                  <ConditionalWrapper
+                    condition={Boolean(item.url && !isEnhanced)}
+                    wrapper={children => <a href={item.url}>{children}</a>}
+                  >
+                    {item.icon && (
+                      <Space
+                        as="span"
+                        $h={{ size: 's', properties: ['margin-right'] }}
+                      >
+                        <IconWrapper>
+                          <Icon icon={item.icon} />
+                        </IconWrapper>
+                      </Space>
+                    )}
+                    {item.text}
+                  </ConditionalWrapper>
+                </NavItemInner>
+              )}
             </TabButton>
           </Tab>
         );

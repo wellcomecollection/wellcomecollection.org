@@ -167,6 +167,12 @@ const charcoalWhiteCharcoal: ButtonColors = {
   text: 'neutral.700', // legacy charcoal color
 };
 
+const blackCharcoalWhite: ButtonColors = {
+  border: 'black',
+  background: 'neutral.700',
+  text: 'white',
+};
+
 const greenTransparentGreen: ButtonColors = {
   border: 'accent.green',
   background: 'transparent',
@@ -329,6 +335,7 @@ export const themeValues = {
     default: defaultButtonColors,
     danger: dangerButtonColors,
     charcoalWhiteCharcoal,
+    blackCharcoalWhite,
     greenTransparentGreen,
     whiteTransparentWhite,
     pumiceTransparentCharcoal,
