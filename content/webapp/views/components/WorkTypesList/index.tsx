@@ -1,8 +1,11 @@
 import Image from 'next/image';
-import React from 'react';
+import NextLink from 'next/link';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { WorkTypeStats } from '@weco/content/services/wellcome/catalogue/workTypeAggregations';
+import { toSearchImagesLink } from '@weco/content/views/components/SearchPagesLink/Images';
+import { toSearchWorksLink } from '@weco/content/views/components/SearchPagesLink/Works';
 
 const StyledImage = styled(Image)`
   width: 80px;
@@ -37,20 +40,8 @@ const StyledList = styled.ul`
 
 const StyledListItem = styled.li`
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  text-align: left;
-  gap: ${props => props.theme.spacingUnit * 2}px;
   flex: 1;
-
-  ${props =>
-    props.theme.media('medium')(`
-    flex-direction: column;
-    text-align: center;
-    gap: 0;
-    min-width: 0;
-    flex: 1 1 0;
-  `)}
+  list-style: none;
 `;
 
 const IconContainer = styled.div`
@@ -83,32 +74,188 @@ const TextContainer = styled.div`
   `)}
 `;
 
+const CountDisplay = styled.strong`
+  font-variant-numeric: tabular-nums;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  min-width: 90px; /* Fixed width to accommodate longest numbers */
+
+  ${props =>
+    props.theme.media('medium')(`
+    justify-content: center;
+    min-width: 100px;
+  `)}
+`;
+
+const StyledLink = styled(NextLink)`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: left;
+  gap: ${props => props.theme.spacingUnit * 2}px;
+  flex: 1;
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  ${props =>
+    props.theme.media('medium')(`
+    flex-direction: column;
+    text-align: center;
+    gap: 0;
+    min-width: 0;
+    flex: 1 1 0;
+  `)}
+`;
+const getSearchLinkForCategory = (categoryId: string) => {
+  switch (categoryId) {
+    case 'books-journals':
+      return toSearchWorksLink({ workType: ['a', 'd'] });
+    case 'images':
+      return toSearchImagesLink({});
+    case 'archives-manuscripts':
+      return toSearchWorksLink({ workType: ['h', 'b', 'hdig'] });
+    case 'audio-video':
+      return toSearchWorksLink({ workType: ['g', 'i', 'n', 'c'] });
+    case 'ephemera':
+      return toSearchWorksLink({ workType: ['l'] });
+    default:
+      return toSearchWorksLink({});
+  }
+};
+
 type WorkTypeItemProps = {
   icon: React.ReactElement;
   stats: WorkTypeStats;
+  animationIndex: number;
 };
 
-// Helper function to determine what count to display
-const getDisplayCount = (stats: WorkTypeStats): string => {
-  if (stats.count !== null) {
-    return stats.count.toLocaleString();
-  } else if (stats.fallbackCount !== null) {
-    return `${stats.fallbackCount.toLocaleString()}+`;
-  }
-  return '...';
-};
+const WorkTypeItem: React.FC<WorkTypeItemProps> = ({
+  icon,
+  stats,
+  animationIndex,
+}) => {
+  const [displayCount, setDisplayCount] = useState<number>(stats.fallbackCount);
+  const [showPlus, setShowPlus] = useState<boolean>(true);
+  const [isInView, setIsInView] = useState<boolean>(false);
+  const itemRef = useRef<HTMLLIElement>(null);
 
-const WorkTypeItem: React.FC<WorkTypeItemProps> = ({ icon, stats }) => (
-  <StyledListItem data-component="work-type-item">
-    <IconContainer>{icon}</IconContainer>
-    <TextContainer>
-      <div>
-        <strong>{getDisplayCount(stats)}</strong>
-      </div>
-      <div>{stats.label}</div>
-    </TextContainer>
-  </StyledListItem>
-);
+  // Intersection Observer to detect when component is in view
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+        }
+      },
+      {
+        threshold: 0.1, // Trigger when 10% of the component is visible
+        rootMargin: '0px 0px -50px 0px', // Trigger slightly before fully in view
+      }
+    );
+
+    if (itemRef.current) {
+      observer.observe(itemRef.current);
+    }
+
+    return () => {
+      if (itemRef.current) {
+        observer.unobserve(itemRef.current);
+      }
+    };
+  }, []);
+
+  // Animation effect - only triggers when in view
+  useEffect(() => {
+    if (!isInView) return;
+
+    // If we have a real count, animate from fallback to real count
+    if (stats.count !== null && stats.count !== stats.fallbackCount) {
+      const startCount = stats.fallbackCount;
+      const endCount = stats.count;
+      const duration = 2000; // 2 seconds
+      const staggerDelay = animationIndex * 750; // 750ms delay between each item
+
+      const startAnimation = () => {
+        // Hide the plus when animation starts
+        setShowPlus(false);
+        const startTime = Date.now();
+
+        const animate = () => {
+          const elapsed = Date.now() - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+
+          // Custom easing function that slows down dramatically at the end
+          const easeOutCustom = 1 - Math.pow(1 - progress, 6);
+
+          const currentCount = Math.round(
+            startCount + (endCount - startCount) * easeOutCustom
+          );
+
+          setDisplayCount(currentCount);
+
+          if (progress < 1) {
+            requestAnimationFrame(animate);
+          } else {
+            // Animation complete
+            setDisplayCount(endCount);
+          }
+        };
+
+        requestAnimationFrame(animate);
+      };
+
+      // Start animation after staggered delay
+      setTimeout(startAnimation, staggerDelay);
+    } else if (stats.count !== null) {
+      // If count equals fallback, just remove the plus
+      setTimeout(() => {
+        setDisplayCount(stats.count!);
+        setShowPlus(false);
+      }, animationIndex * 750);
+    }
+  }, [isInView, stats.count, stats.fallbackCount, animationIndex]);
+
+  const formatDisplayCount = (): React.ReactNode => {
+    const numberPart = displayCount.toLocaleString();
+    const shouldShowPlus = stats.count === null || showPlus;
+
+    return (
+      <span style={{ position: 'relative' }}>
+        {numberPart}
+        <span
+          style={{
+            visibility: shouldShowPlus ? 'visible' : 'hidden',
+            position: 'absolute',
+            right: '-0.8em',
+          }}
+        >
+          +
+        </span>
+      </span>
+    );
+  };
+
+  const searchLink = getSearchLinkForCategory(stats.id);
+
+  return (
+    <StyledListItem ref={itemRef} data-component="work-type-item">
+      <StyledLink {...searchLink}>
+        <IconContainer>{icon}</IconContainer>
+        <TextContainer>
+          <div>
+            <CountDisplay>{formatDisplayCount()}</CountDisplay>
+          </div>
+          <div>{stats.label}</div>
+        </TextContainer>
+      </StyledLink>
+    </StyledListItem>
+  );
+};
 
 // SVG Icon Components
 const BookIcon = () => (
@@ -167,17 +314,28 @@ const WorkTypesList: React.FC<WorkTypesListProps> = ({ collectionStats }) => (
       <WorkTypeItem
         icon={<BookIcon />}
         stats={collectionStats.booksAndJournals}
+        animationIndex={0}
       />
-      <WorkTypeItem icon={<ImageIcon />} stats={collectionStats.images} />
+      <WorkTypeItem
+        icon={<ImageIcon />}
+        stats={collectionStats.images}
+        animationIndex={1}
+      />
       <WorkTypeItem
         icon={<ArchivesIcon />}
         stats={collectionStats.archivesAndManuscripts}
+        animationIndex={2}
       />
       <WorkTypeItem
         icon={<VideoAudioIcon />}
         stats={collectionStats.audioAndVideo}
+        animationIndex={3}
       />
-      <WorkTypeItem icon={<EphemeraIcon />} stats={collectionStats.ephemera} />
+      <WorkTypeItem
+        icon={<EphemeraIcon />}
+        stats={collectionStats.ephemera}
+        animationIndex={4}
+      />
     </StyledList>
   </div>
 );
