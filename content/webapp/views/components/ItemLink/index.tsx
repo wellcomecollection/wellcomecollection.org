@@ -51,12 +51,18 @@ function toWorksItemLink({ workId, props }: ToLinkProps): LinkProps {
     ...props,
   };
   const urlQuery = toQuery(itemProps);
-  const { canvas, manifest, page, query } = urlQuery;
+  const { canvas, manifest, page, query, shouldScrollToCanvas } = urlQuery;
 
   return {
     href: {
       pathname: `/works/${workId}/items`,
-      query: removeUndefinedProps({ canvas, manifest, query, page }),
+      query: removeUndefinedProps({
+        canvas,
+        manifest,
+        query,
+        page,
+        shouldScrollToCanvas,
+      }),
     },
   };
 }
