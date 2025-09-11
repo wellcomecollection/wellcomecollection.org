@@ -259,13 +259,25 @@ const WorkTypeItem: React.FC<WorkTypeItemProps> = ({
 
   const searchLink = getSearchLinkForCategory(stats.id);
 
+  // For screen readers, use the final count if available, otherwise fallback
+  const accessibleCount =
+    stats.count !== null ? stats.count : stats.fallbackCount;
+  const accessibleCountText =
+    stats.count !== null
+      ? `${accessibleCount.toLocaleString()}`
+      : `approximately ${accessibleCount.toLocaleString()}`;
+
   return (
     <StyledListItem ref={itemRef} data-component="work-type-item">
       <StyledLink {...searchLink}>
         <IconContainer>{icon}</IconContainer>
         <TextContainer>
           <div>
-            <CountDisplay>{formatDisplayCount()}</CountDisplay>
+            <CountDisplay aria-hidden="true">
+              {formatDisplayCount()}
+            </CountDisplay>
+            {/* Screen reader only text with stable count */}
+            <span className="visually-hidden">{accessibleCountText}</span>
           </div>
           <div>{stats.label}</div>
         </TextContainer>
@@ -276,43 +288,23 @@ const WorkTypeItem: React.FC<WorkTypeItemProps> = ({
 
 // SVG Icon Components
 const BookIcon = () => (
-  <StyledImage
-    src="/icons/book.svg"
-    alt="Books and Journals"
-    width={120}
-    height={120}
-  />
+  <StyledImage src="/icons/book.svg" alt="" width={120} height={120} />
 );
 
 const ImageIcon = () => (
-  <StyledImage src="/icons/image.svg" alt="Images" width={120} height={120} />
+  <StyledImage src="/icons/image.svg" alt="" width={120} height={120} />
 );
 
 const ArchivesIcon = () => (
-  <StyledImage
-    src="/icons/archives.svg"
-    alt="Archives and Manuscripts"
-    width={120}
-    height={120}
-  />
+  <StyledImage src="/icons/archives.svg" alt="" width={120} height={120} />
 );
 
 const VideoAudioIcon = () => (
-  <StyledImage
-    src="/icons/video-audio.svg"
-    alt="Audio and Video"
-    width={120}
-    height={120}
-  />
+  <StyledImage src="/icons/video-audio.svg" alt="" width={120} height={120} />
 );
 
 const EphemeraIcon = () => (
-  <StyledImage
-    src="/icons/ephemera.svg"
-    alt="Ephemera"
-    width={120}
-    height={120}
-  />
+  <StyledImage src="/icons/ephemera.svg" alt="" width={120} height={120} />
 );
 
 type WorkTypesListProps = {
