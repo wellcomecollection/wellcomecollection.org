@@ -15,6 +15,8 @@ import { WorkTypeStats } from '@weco/content/services/wellcome/catalogue/workTyp
 import { toSearchImagesLink } from '@weco/content/views/components/SearchPagesLink/Images';
 import { toSearchWorksLink } from '@weco/content/views/components/SearchPagesLink/Works';
 
+const containerBreakpoint = '620px';
+
 const StyledImage = styled(Image)<{ $tiltIndex: number }>`
   width: 80px;
   height: 80px;
@@ -25,12 +27,11 @@ const StyledImage = styled(Image)<{ $tiltIndex: number }>`
     transform 0.2s ease-out,
     filter 0.2s ease-out;
 
-  ${props =>
-    props.theme.media('medium')(`
+  @container work-types-list (min-width: ${containerBreakpoint}) {
     width: 100%;
     height: auto;
     max-width: 120px;
-  `)}
+  }
 `;
 
 const StyledList = styled.ul`
@@ -43,37 +44,35 @@ const StyledList = styled.ul`
   padding: 0;
   margin: 0;
   width: 100%;
+  container-type: inline-size;
+  container-name: work-types-list;
 
-  /* 2 items per row on small screens */
+  /* 2 items per row on small containers */
   & > li {
     flex: 0 0
       calc(50% - ${props => props.theme.spaceAtBreakpoints.small.l / 2}px);
   }
 
-  /* Center the 5th item (last item) on small screens */
+  /* Center the 5th item (last item) on small containers */
   & > li:nth-child(5) {
     margin: 0 auto;
   }
 
-  ${props =>
-    props.theme.media('medium')(`
+  /* Large container: single row layout */
+  @container work-types-list (min-width: ${containerBreakpoint}) {
     flex-wrap: nowrap;
     justify-content: space-between;
     min-width: 0;
-    
+    gap: ${props => props.theme.spaceAtBreakpoints.large.l}px;
+
     & > li {
       flex: 1;
     }
-    
+
     & > li:nth-child(5) {
       margin: 0;
     }
-  `)}
-
-  ${props =>
-    props.theme.media('large')(`
-    gap: ${props.theme.spaceAtBreakpoints.large.l}px;
-  `)}
+  }
 `;
 
 const StyledListItem = styled.li`
@@ -92,12 +91,11 @@ const IconContainer = styled(Space).attrs({
   max-width: 80px;
   flex-shrink: 0;
 
-  ${props =>
-    props.theme.media('medium')(`
+  @container work-types-list (min-width: ${containerBreakpoint}) {
     min-height: 120px;
     max-width: 100%;
     flex-shrink: 1;
-  `)}
+  }
 `;
 
 const TextContainer = styled.div`
@@ -106,10 +104,9 @@ const TextContainer = styled.div`
   align-items: center;
   flex-grow: 1;
 
-  ${props =>
-    props.theme.media('medium')(`
+  @container work-types-list (min-width: ${containerBreakpoint}) {
     align-items: center;
-  `)}
+  }
 `;
 
 const CountDisplayContainer = styled.div`
@@ -118,11 +115,10 @@ const CountDisplayContainer = styled.div`
   justify-content: center;
   align-items: center;
 
-  ${props =>
-    props.theme.media('medium')(`
+  @container work-types-list (min-width: ${containerBreakpoint}) {
     justify-content: center;
     min-width: 100px;
-  `)}
+  }
 `;
 
 const DescriptionText = styled.div`
@@ -155,14 +151,13 @@ const StyledLink = styled(NextLink)<{ $tiltIndex?: number }>`
     filter: drop-shadow(4px 4px 2px rgba(0, 0, 0, 0.25));
   }
 
-  ${props =>
-    props.theme.media('medium')(`
+  @container work-types-list (min-width: ${containerBreakpoint}) {
     flex-direction: column;
     text-align: center;
     gap: 0;
     min-width: 0;
     flex: 1 1 0;
-  `)}
+  }
 `;
 const getSearchLinkForCategory = (categoryId: string) => {
   switch (categoryId) {
