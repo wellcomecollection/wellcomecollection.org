@@ -85,7 +85,6 @@ const CountDisplayContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  min-width: 90px; /* Fixed width to accommodate longest numbers */
 
   ${props =>
     props.theme.media('medium')(`
@@ -156,7 +155,6 @@ const WorkTypeItem: React.FC<WorkTypeItemProps> = ({
   const [isInView, setIsInView] = useState<boolean>(false);
   const itemRef = useRef<HTMLLIElement>(null);
 
-  // Intersection Observer to detect when component is in view
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -165,8 +163,8 @@ const WorkTypeItem: React.FC<WorkTypeItemProps> = ({
         }
       },
       {
-        threshold: 0.1, // Trigger when 10% of the component is visible
-        rootMargin: '0px 0px -50px 0px', // Trigger slightly before fully in view
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px',
       }
     );
 
@@ -181,39 +179,31 @@ const WorkTypeItem: React.FC<WorkTypeItemProps> = ({
     };
   }, []);
 
-  // Animation effect - only triggers when in view
   useEffect(() => {
     if (!isInView) return;
 
-    // Check if user prefers reduced motion
     const prefersReducedMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)'
     ).matches;
 
-    // If we have a real count, animate from fallback to real count
     if (stats.count !== null && stats.count !== stats.fallbackCount) {
       const startCount = stats.fallbackCount;
       const endCount = stats.count;
-      const duration = 2000; // 2 seconds
-      const staggerDelay = animationIndex * 750; // 750ms delay between each item
+      const duration = 2000;
+      const staggerDelay = animationIndex * 750;
 
       if (prefersReducedMotion) {
-        // Skip animation - immediately show final state
         setDisplayCount(endCount);
         setShowPlus(false);
       } else {
         const startAnimation = () => {
-          // Hide the plus when animation starts
           setShowPlus(false);
           const startTime = Date.now();
 
           const animate = () => {
             const elapsed = Date.now() - startTime;
             const progress = Math.min(elapsed / duration, 1);
-
-            // Custom easing function that slows down dramatically at the end
             const easeOutCustom = 1 - Math.pow(1 - progress, 6);
-
             const currentCount = Math.round(
               startCount + (endCount - startCount) * easeOutCustom
             );
@@ -223,7 +213,6 @@ const WorkTypeItem: React.FC<WorkTypeItemProps> = ({
             if (progress < 1) {
               requestAnimationFrame(animate);
             } else {
-              // Animation complete
               setDisplayCount(endCount);
             }
           };
@@ -231,13 +220,10 @@ const WorkTypeItem: React.FC<WorkTypeItemProps> = ({
           requestAnimationFrame(animate);
         };
 
-        // Start animation after staggered delay
         setTimeout(startAnimation, staggerDelay);
       }
     } else if (stats.count !== null) {
-      // If count equals fallback, just remove the plus
       if (prefersReducedMotion) {
-        // Skip delay - immediately show final state
         setDisplayCount(stats.count);
         setShowPlus(false);
       } else {
@@ -271,7 +257,6 @@ const WorkTypeItem: React.FC<WorkTypeItemProps> = ({
 
   const searchLink = getSearchLinkForCategory(stats.id);
 
-  // For screen readers, use the final count if available, otherwise fallback
   const accessibleCount =
     stats.count !== null ? stats.count : stats.fallbackCount;
   const accessibleCountText =
@@ -303,7 +288,6 @@ const WorkTypeItem: React.FC<WorkTypeItemProps> = ({
   );
 };
 
-// SVG Icon Components
 const BookIcon = () => (
   <StyledImage src="/icons/book.svg" alt="" width={120} height={120} />
 );
