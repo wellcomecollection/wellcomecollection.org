@@ -23,6 +23,7 @@ import {
   TabButton,
   TabsContainer,
 } from './Tabs.styles';
+import InnerPillButton from './Tabs.Switch.Pills';
 
 type SendEventProps = {
   id: string;
@@ -41,7 +42,7 @@ function sendSegmentEvent({ id, trackWithSegment }: SendEventProps) {
   }
 }
 
-type SwitchSelectableTextLink = {
+export type SwitchSelectableTextLink = {
   id: string;
   text: ReactNode;
   url?: string;
@@ -58,6 +59,7 @@ export type Props = {
   selectedTab: string;
   setSelectedTab: Dispatch<SetStateAction<string>>;
   isWhite?: boolean;
+  isPill?: boolean;
   trackWithSegment?: boolean;
 };
 
@@ -68,6 +70,7 @@ const TabsSwitch: FunctionComponent<Props> = ({
   selectedTab,
   setSelectedTab,
   isWhite,
+  isPill,
   trackWithSegment = false,
 }: Props) => {
   const { isEnhanced } = useAppContext();
@@ -160,32 +163,41 @@ const TabsSwitch: FunctionComponent<Props> = ({
               aria-controls={`tabpanel-${item.id}`}
               aria-selected={item.id === selectedTab}
             >
-              <NavItemInner
-                $selected={isSelected}
-                $isWhite={isWhite}
-                data-gtm-trigger={`tab_${toSnakeCase(label)}`}
-                data-gtm-label={item.text}
-                data-gtm-category={item.gtmData?.category}
-                data-gtm-position-in-list={items.indexOf(item) + 1}
-              >
-                <NavItemShim>{item.text}</NavItemShim>
-                <ConditionalWrapper
-                  condition={Boolean(item.url && !isEnhanced)}
-                  wrapper={children => <a href={item.url}>{children}</a>}
+              {isPill ? (
+                <InnerPillButton
+                  label={label}
+                  item={item}
+                  itemIndex={items.indexOf(item)}
+                  isSelected={isSelected}
+                />
+              ) : (
+                <NavItemInner
+                  $selected={isSelected}
+                  $isWhite={isWhite}
+                  data-gtm-trigger={`tab_${toSnakeCase(label)}`}
+                  data-gtm-label={item.text}
+                  data-gtm-category={item.gtmData?.category}
+                  data-gtm-position-in-list={items.indexOf(item) + 1}
                 >
-                  {item.icon && (
-                    <Space
-                      as="span"
-                      $h={{ size: 's', properties: ['margin-right'] }}
-                    >
-                      <IconWrapper>
-                        <Icon icon={item.icon} />
-                      </IconWrapper>
-                    </Space>
-                  )}
-                  {item.text}
-                </ConditionalWrapper>
-              </NavItemInner>
+                  <NavItemShim>{item.text}</NavItemShim>
+                  <ConditionalWrapper
+                    condition={Boolean(item.url && !isEnhanced)}
+                    wrapper={children => <a href={item.url}>{children}</a>}
+                  >
+                    {item.icon && (
+                      <Space
+                        as="span"
+                        $h={{ size: 's', properties: ['margin-right'] }}
+                      >
+                        <IconWrapper>
+                          <Icon icon={item.icon} />
+                        </IconWrapper>
+                      </Space>
+                    )}
+                    {item.text}
+                  </ConditionalWrapper>
+                </NavItemInner>
+              )}
             </TabButton>
           </Tab>
         );
