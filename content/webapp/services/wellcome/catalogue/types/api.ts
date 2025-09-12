@@ -50,5 +50,6 @@ export type CatalogueImagesApiProps = {
 };
 
 export type CatalogueConceptsApiProps = {
+  query?: string;
   page?: number;
 };
