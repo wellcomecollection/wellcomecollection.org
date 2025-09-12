@@ -127,6 +127,17 @@ const SearchLayout: FunctionComponent<SearchLayoutProps> = ({
           },
         });
         break;
+      case 'concepts':
+        setPageLayoutMetadata({
+          ...basePageMetadata,
+          description: pageDescriptions.search.concepts,
+          title: `${queryStringTitle}Themes search`,
+          url: {
+            ...basePageMetadata.url,
+            pathname: '/search/concepts',
+          },
+        });
+        break;
 
       default:
         break;
