@@ -3,7 +3,6 @@ import { ThemeProvider } from 'styled-components';
 
 import { useSearchContext } from '@weco/common/contexts/SearchContext';
 import theme from '@weco/common/views/themes/default';
-
 import SearchLayout from '@weco/content/views/layouts/SearchPageLayout';
 
 // Mock the dependencies
@@ -19,7 +18,10 @@ const mockUseSearchContext = useSearchContext as jest.MockedFunction<
 
 const mockSetExtraApiToolbarLinks = jest.fn();
 
-const renderSearchLayout = (pathname: string, query: Record<string, any> = {}) => {
+const renderSearchLayout = (
+  pathname: string,
+  query: Record<string, any> = {}
+) => {
   mockUseRouter.mockReturnValue({
     pathname,
     query,
@@ -71,28 +73,32 @@ describe('SearchLayout metadata handling', () => {
   });
 
   it('sets correct metadata for concepts search', () => {
-    const { container } = renderSearchLayout('/search/concepts', { query: 'test query' });
-    
+    const { container } = renderSearchLayout('/search/concepts', {
+      query: 'test query',
+    });
+
     // The component should render without errors
     expect(container).toBeInTheDocument();
-    
+
     // Verify that the router was called with the correct pathname
     expect(mockUseRouter).toHaveBeenCalled();
   });
 
   it('sets correct metadata for concepts search without query', () => {
     const { container } = renderSearchLayout('/search/concepts');
-    
+
     // The component should render without errors
     expect(container).toBeInTheDocument();
-    
+
     // Verify that the router was called with the correct pathname
     expect(mockUseRouter).toHaveBeenCalled();
   });
 
   it('handles other search categories correctly', () => {
-    const { container } = renderSearchLayout('/search/works', { query: 'test query' });
-    
+    const { container } = renderSearchLayout('/search/works', {
+      query: 'test query',
+    });
+
     // The component should render without errors
     expect(container).toBeInTheDocument();
   });

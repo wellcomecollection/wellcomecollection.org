@@ -1,6 +1,5 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
-import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 
 import { useSearchContext } from '@weco/common/contexts/SearchContext';
@@ -10,16 +9,16 @@ import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Container } from '@weco/common/views/components/styled/Container';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
-import { 
+import {
   CatalogueResultsList,
-  Concept 
+  Concept,
 } from '@weco/content/services/wellcome/catalogue/types';
 import { Query } from '@weco/content/types/search';
 import ConceptsSearchResults from '@weco/content/views/components/ConceptsSearchResults';
 import Pagination from '@weco/content/views/components/Pagination';
 import {
-  toLink,
   ConceptsProps as ConceptsRouteProps,
+  toLink,
 } from '@weco/content/views/components/SearchPagesLink/Concepts';
 import { withSearchLayout } from '@weco/content/views/layouts/SearchPageLayout';
 import SearchNoResults from '@weco/content/views/pages/search/search.NoResults';
@@ -36,12 +35,8 @@ const ConceptsSearchPage: NextPage<Props> = withSearchLayout(
     const { query: queryString } = query;
 
     const { setLink } = useSearchContext();
-    const pathname = usePathname();
     useEffect(() => {
-      const link = toLink(
-        { ...conceptsRouteProps },
-        `concepts_search_context_${pathname}`
-      );
+      const link = toLink({ ...conceptsRouteProps });
       setLink(link);
     }, [conceptsRouteProps]);
 
@@ -54,10 +49,10 @@ const ConceptsSearchPage: NextPage<Props> = withSearchLayout(
             <link
               rel="prev"
               href={convertUrlToString(
-                toLink(
-                  { ...conceptsRouteProps, page: (conceptsRouteProps.page || 1) - 1 },
-                  `search/paginator_${pathname}`
-                ).as
+                toLink({
+                  ...conceptsRouteProps,
+                  page: (conceptsRouteProps.page || 1) - 1,
+                }).href
               )}
             />
           )}
@@ -65,10 +60,10 @@ const ConceptsSearchPage: NextPage<Props> = withSearchLayout(
             <link
               rel="next"
               href={convertUrlToString(
-                toLink(
-                  { ...conceptsRouteProps, page: conceptsRouteProps.page + 1 },
-                  `search/paginator_${pathname}`
-                ).as
+                toLink({
+                  ...conceptsRouteProps,
+                  page: conceptsRouteProps.page + 1,
+                }).href
               )}
             />
           )}
@@ -77,10 +72,7 @@ const ConceptsSearchPage: NextPage<Props> = withSearchLayout(
         <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
           <Container>
             {hasNoResults ? (
-              <SearchNoResults
-                query={queryString}
-                hasFilters={false}
-              />
+              <SearchNoResults query={queryString} hasFilters={false} />
             ) : (
               <>
                 <PaginationWrapper $verticalSpacing="l">

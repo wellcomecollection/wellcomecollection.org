@@ -2,7 +2,6 @@ import NextLink from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
 import { FunctionComponent } from 'react';
 
-import { ConceptsLinkSource } from '@weco/common/data/segment-values';
 import { LinkProps } from '@weco/common/model/link-props';
 import {
   decodeQuery,
@@ -33,10 +32,7 @@ const toQuery: (props: ConceptsProps) => ParsedUrlQuery = props => {
   return encodeQuery<ConceptsProps>(props, codecMap);
 };
 
-function toLink(
-  partialProps: Partial<ConceptsProps>,
-  source: ConceptsLinkSource
-): LinkProps {
+function toLink(partialProps: Partial<ConceptsProps>): LinkProps {
   const pathname = '/search/concepts';
   const props: ConceptsProps = {
     ...emptyConceptsProps,
@@ -47,7 +43,7 @@ function toLink(
   return {
     href: {
       pathname,
-      query: { ...query, source },
+      query: { ...query },
     },
     as: {
       pathname,
@@ -56,16 +52,13 @@ function toLink(
   };
 }
 
-type Props = LinkFrom<ConceptsProps> & {
-  source: ConceptsLinkSource;
-};
+type Props = LinkFrom<ConceptsProps>;
 const ConceptsLink: FunctionComponent<Props> = ({
   children,
-  source,
   ...props
 }: Props) => {
   return (
-    <NextLink {...toLink(props, source)} legacyBehavior>
+    <NextLink {...toLink(props)} legacyBehavior>
       {children}
     </NextLink>
   );

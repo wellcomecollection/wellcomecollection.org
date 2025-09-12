@@ -35,5 +35,6 @@ export const conceptsApiResponse = {
   aggregations: {
     type: 'Aggregations' as const,
   },
-  _requestUrl: 'https://api.wellcomecollection.org/catalogue/v2/concepts?query=test',
+  _requestUrl:
+    'https://api.wellcomecollection.org/catalogue/v2/concepts?query=test',
 };

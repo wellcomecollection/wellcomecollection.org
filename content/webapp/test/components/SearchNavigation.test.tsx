@@ -3,7 +3,6 @@ import { ThemeProvider } from 'styled-components';
 
 import { useToggles } from '@weco/common/server-data/Context';
 import theme from '@weco/common/views/themes/default';
-
 import SearchNavigation from '@weco/content/views/layouts/SearchPageLayout/SearchNavigation';
 
 // Mock the dependencies
@@ -69,9 +68,10 @@ describe('SearchNavigation', () => {
     expect(screen.getAllByText('All')).toHaveLength(2);
     expect(screen.getAllByText('Catalogue')).toHaveLength(2);
     // Handle both "Images" and "ImagesX" due to potential build cache issues
-    const imagesElements = screen.queryAllByText('Images').length > 0 
-      ? screen.getAllByText('Images') 
-      : screen.getAllByText('ImagesX');
+    const imagesElements =
+      screen.queryAllByText('Images').length > 0
+        ? screen.getAllByText('Images')
+        : screen.getAllByText('ImagesX');
     expect(imagesElements).toHaveLength(2);
     expect(screen.getAllByText('Events')).toHaveLength(2);
     expect(screen.getAllByText('Stories')).toHaveLength(2);
@@ -83,6 +83,13 @@ describe('SearchNavigation', () => {
     const tabs = screen.getAllByRole('link');
     const tabHrefs = tabs.map(tab => tab.getAttribute('href'));
 
-    expect(tabHrefs).toEqual(['/search', '/search/works', '/search/images', '/search/concepts', '/search/events', '/search/stories']);
+    expect(tabHrefs).toEqual([
+      '/search',
+      '/search/works',
+      '/search/images',
+      '/search/concepts',
+      '/search/events',
+      '/search/stories',
+    ]);
   });
 });

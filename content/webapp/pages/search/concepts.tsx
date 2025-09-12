@@ -27,7 +27,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 > = async context => {
   setCacheControl(context.res, cacheTTL.search);
   const serverData = await getServerData(context);
-  
+
   // Redirect to main search page if concepts search toggle is disabled
   if (!serverData.toggles.conceptsSearch?.value) {
     return {
@@ -37,7 +37,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       },
     };
   }
-  
+
   const query = context.query;
   const params = fromQuery(query);
 

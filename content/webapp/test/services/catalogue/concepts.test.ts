@@ -1,5 +1,8 @@
-import { getConcept, getConcepts } from '@weco/content/services/wellcome/catalogue/concepts';
 import { catalogueQuery } from '@weco/content/services/wellcome/catalogue';
+import {
+  getConcept,
+  getConcepts,
+} from '@weco/content/services/wellcome/catalogue/concepts';
 import { conceptsApiResponse } from '@weco/content/test/fixtures/catalogueApi/concept';
 
 // Mock the catalogueQuery function
@@ -8,7 +11,9 @@ jest.mock('@weco/content/services/wellcome/catalogue', () => ({
   catalogueQuery: jest.fn(),
 }));
 
-const mockCatalogueQuery = catalogueQuery as jest.MockedFunction<typeof catalogueQuery>;
+const mockCatalogueQuery = catalogueQuery as jest.MockedFunction<
+  typeof catalogueQuery
+>;
 
 describe('getConcept', () => {
   it('returns a 404 Not Found for a concept ID that is not alphanumeric', () => {
