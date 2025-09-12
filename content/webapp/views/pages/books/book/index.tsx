@@ -33,10 +33,7 @@ export type Props = {
   book: Book;
 };
 
-const BookPage: NextPage<Props> = props => {
-  if (!('book' in props)) return null;
-
-  const { book } = props;
+const BookPage: NextPage<Props> = ({ book }) => {
   const FeaturedMedia = book.cover && (
     <Space $v={{ size: 'xl', properties: ['margin-top', 'padding-top'] }}>
       <ContaineredLayout gridSizes={gridSize8()}>
@@ -64,6 +61,7 @@ const BookPage: NextPage<Props> = props => {
 
   const Header = (
     <PageHeader
+      variant="basic"
       breadcrumbs={breadcrumbs}
       title={book.title}
       FeaturedMedia={FeaturedMedia}
@@ -85,6 +83,7 @@ const BookPage: NextPage<Props> = props => {
     >
       <ContentPage
         id={book.id}
+        contentApiType="books"
         Header={Header}
         Body={
           <Body untransformedBody={book.untransformedBody} pageId={book.id} />

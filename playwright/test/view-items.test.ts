@@ -271,3 +271,57 @@ test('(21) | An item with a mix of non-restricted and open access items will dis
   await expect(page.getByText('Show the content')).toBeVisible();
   await expect(page.getByTestId('image-0')).toBeHidden();
 });
+
+test('(22) | Clicking thumbnail grid items updates the main viewer', async ({
+  page,
+  context,
+}) => {
+  await multiVolumeItem(context, page);
+
+  // Get the initial canvas number from the URL
+  const initialUrl = page.url();
+  expect(initialUrl).toContain('/works/mg56yqa4/items');
+
+  // Open the thumbnail grid by clicking the Grid button
+  const gridButton = page.getByRole('button', { name: 'Grid' });
+  await expect(gridButton).toBeVisible();
+  await gridButton.click();
+
+  // Wait for thumbnail grid to appear - it slides up with CSS animation
+  await page.waitForTimeout(1000);
+
+  // Look for NextLink elements that are actually in the grid overlay
+  // These will be link elements that contain canvas parameters and are currently visible
+  const allCanvasLinks = page.locator('a[href*="canvas="]');
+
+  // Filter to only visible links (grid links become visible after animation)
+  const visibleCanvasLinks = allCanvasLinks.filter({
+    has: page.locator('img'),
+  });
+
+  await expect(visibleCanvasLinks.first()).toBeVisible();
+
+  // Get count of available thumbnails
+  const thumbnailCount = await visibleCanvasLinks.count();
+
+  // Ensure we have at least 2 thumbnails
+  expect(thumbnailCount).toBeGreaterThanOrEqual(2);
+
+  // Click the 2nd thumbnail (index 1) to navigate to canvas=3
+  await visibleCanvasLinks.nth(1).click();
+
+  // Wait for URL to update with canvas parameter (should be canvas=3)
+  await page.waitForURL(/.*canvas=3.*/);
+
+  // Verify the URL has been updated with the correct canvas parameter
+  const updatedUrl = page.url();
+  expect(updatedUrl).toContain('canvas=3');
+
+  // Verify the active canvas indicator shows the correct number
+  if (!isMobile(page)) {
+    await expect(page.getByTestId('active-index')).toHaveText('3');
+  }
+
+  // Verify the correct image is now in the viewport (canvas 3 = image index 2)
+  await expect(page.getByTestId('image-2')).toBeInViewport();
+});

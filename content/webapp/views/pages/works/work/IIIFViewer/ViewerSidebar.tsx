@@ -251,19 +251,18 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
         )}
 
         <Space $v={{ size: 'm', properties: ['margin-top'] }}>
-          <WorkLink id={work.id} source="viewer_back_link">
-            <a
-              className={font('intr', 5)}
+          <WorkLink
+            id={work.id}
+            className={font('intr', 5)}
+            style={{ display: 'flex', alignItems: 'center' }}
+          >
+            Catalogue details
+            <Space
+              $h={{ size: 's', properties: ['margin-left'] }}
               style={{ display: 'flex', alignItems: 'center' }}
             >
-              Catalogue details
-              <Space
-                $h={{ size: 's', properties: ['margin-left'] }}
-                style={{ display: 'flex', alignItems: 'center' }}
-              >
-                <Icon icon={arrow} matchText={true} iconColor="white" />
-              </Space>
-            </a>
+              <Icon icon={arrow} matchText={true} iconColor="white" />
+            </Space>
           </WorkLink>
         </Space>
       </Inner>
@@ -283,11 +282,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
             <p>
               <strong>Credit:</strong> {removeTrailingFullStop(work.title)}.{' '}
               {digitalLocation?.credit && <>{digitalLocation?.credit}. </>}
-              Source:{' '}
-              <WorkLink id={work.id} source="viewer_credit">
-                Wellcome Collection
-              </WorkLink>
-              .
+              Source: <WorkLink id={work.id}>Wellcome Collection</WorkLink>.
             </p>
 
             {locationOfWork && (

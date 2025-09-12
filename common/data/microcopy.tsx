@@ -19,6 +19,8 @@ export const pageDescriptions = {
     'Our words and pictures explore the connections between science, medicine, life and art. Dive into one no matter where in the world you are.',
   books:
     'We publish thought-provoking books exploring health and human experiences.',
+  collections:
+    'Over 1.1 million items exploring art, health, culture and what it means to be human',
   events:
     'Our events take place both online and in our building. Choose from an inspiring range of free talks, discussions and more.',
   exhibitionGuides:

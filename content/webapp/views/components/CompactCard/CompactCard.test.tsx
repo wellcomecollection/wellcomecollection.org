@@ -122,7 +122,7 @@ describe('MediaObjectBase', () => {
       />
     );
     await userEvent.click(componentWithImage.getByRole('link'));
-    expect(mockOnClick).toBeCalledTimes(1);
+    expect(mockOnClick).toHaveBeenCalledTimes(1);
   });
 
   describe('Description', () => {

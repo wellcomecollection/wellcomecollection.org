@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { classNames, font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
@@ -8,8 +8,12 @@ import { ButtonSize, SolidButtonStyledProps } from './Buttons.types';
 export const BaseButtonInner = styled.span.attrs<{
   $isInline?: boolean;
   $isPill?: boolean;
+  $isNewSearchBar?: boolean;
 }>(props => ({
-  className: font(props.$isInline ? 'intr' : 'intb', props.$isPill ? 6 : 5),
+  className: font(
+    props.$isInline ? 'intr' : 'intb',
+    props.$isPill ? 6 : props.$isNewSearchBar ? 4 : 5
+  ),
 }))`
   display: flex;
   align-items: center;
@@ -31,7 +35,9 @@ export const ButtonIconWrapper = styled(Space).attrs({
   margin-top: 0;
 `;
 
-export const BasicButton = styled.button.attrs<{ href?: string }>(props => ({
+export const BasicButton = styled.button.attrs<{
+  href?: string;
+}>(props => ({
   as: props.href ? 'a' : 'button',
 }))`
   align-items: center;
@@ -63,7 +69,10 @@ export const BasicButton = styled.button.attrs<{ href?: string }>(props => ({
 `;
 
 // Default to medium button
-const getPadding = (size: ButtonSize = 'medium') => {
+const getPadding = (size: ButtonSize = 'medium', isNewSearchBar?: boolean) => {
+  if (isNewSearchBar) {
+    return '13px 14px';
+  }
   switch (size) {
     case 'small':
       return '8px 12px';
@@ -72,15 +81,8 @@ const getPadding = (size: ButtonSize = 'medium') => {
   }
 };
 
-export const StyledButton = styled(BasicButton).attrs<SolidButtonStyledProps>(
-  props => ({
-    'aria-label': props.$ariaLabel,
-    className: classNames({
-      'link-reset': !!props.href,
-    }),
-  })
-)<SolidButtonStyledProps>`
-  padding: ${props => getPadding(props.$size)};
+export const StyledButtonCSS = css<SolidButtonStyledProps>`
+  padding: ${props => getPadding(props.$size, props.$isNewSearchBar)};
   ${props => `
     background:
       ${props.theme.color(
@@ -124,4 +126,13 @@ export const StyledButton = styled(BasicButton).attrs<SolidButtonStyledProps>(
           border: 2px solid ${props.theme.color('black')};
         }
       `};
+`;
+
+export const StyledButton = styled(BasicButton).attrs<SolidButtonStyledProps>(
+  props => ({
+    'aria-label': props.$ariaLabel,
+    className: classNames({ 'link-reset': !!props.href }),
+  })
+)<SolidButtonStyledProps>`
+  ${StyledButtonCSS}
 `;

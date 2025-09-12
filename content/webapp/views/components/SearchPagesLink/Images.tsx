@@ -2,7 +2,6 @@ import NextLink from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
 import { FunctionComponent } from 'react';
 
-import { ImagesLinkSource } from '@weco/common/data/segment-values';
 import { LinkProps } from '@weco/common/model/link-props';
 import {
   csvCodec,
@@ -60,40 +59,29 @@ const toQuery: (props: ImagesProps) => ParsedUrlQuery = props => {
   return encodeQuery<ImagesProps>(props, codecMap);
 };
 
-function toLink(
-  partialProps: Partial<ImagesProps>,
-  source: ImagesLinkSource
-): LinkProps {
+function toSearchImagesLink(partialProps: Partial<ImagesProps>): LinkProps {
   const pathname = '/search/images';
   const props: ImagesProps = {
     ...emptyImagesProps,
     ...partialProps,
   };
   const query = toQuery(props);
+
   return {
     href: {
-      pathname,
-      query: { ...query, source },
-    },
-    as: {
       pathname,
       query,
     },
   };
 }
 
-type Props = LinkFrom<ImagesProps> & { source: ImagesLinkSource };
+type Props = LinkFrom<ImagesProps>;
 const ImagesLink: FunctionComponent<Props> = ({
   children,
-  source,
   ...props
 }: Props) => {
-  return (
-    <NextLink {...toLink(props, source)} legacyBehavior>
-      {children}
-    </NextLink>
-  );
+  return <NextLink {...toSearchImagesLink(props)}>{children}</NextLink>;
 };
 
 export default ImagesLink;
-export { toLink, toQuery, fromQuery, emptyImagesProps };
+export { toSearchImagesLink, toQuery, fromQuery, emptyImagesProps };

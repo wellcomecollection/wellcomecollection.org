@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import { ReactElement, RefObject, useEffect, useState } from 'react';
 
-import { useSearchContext } from '@weco/common/contexts/SearchContext';
 import { searchLabelText } from '@weco/common/data/microcopy';
 import { formDataAsUrlQuery } from '@weco/common/utils/forms';
 import { getQueryPropertyValue, linkResolver } from '@weco/common/utils/search';
@@ -28,16 +27,16 @@ const SearchForm = ({
   searchCategory = 'overview',
   location = 'header',
   inputRef = undefined,
+  showTypewriter = false,
 }: {
   searchCategory?: SearchCategory;
   location?: ValidLocations;
   inputRef?: RefObject<HTMLInputElement | null> | undefined;
+  showTypewriter?: boolean;
 }): ReactElement => {
   const router = useRouter();
   const routerQuery = getQueryPropertyValue(router?.query?.query);
-  const { link: searchLink } = useSearchContext();
-  const initialValue =
-    routerQuery || searchLink.as.query?.query?.toString() || '';
+  const initialValue = routerQuery || '';
   const [inputValue, setInputValue] = useState(initialValue);
 
   useEffect(() => {
@@ -51,7 +50,7 @@ const SearchForm = ({
       pathname: formAction(searchCategory),
     });
 
-    return router.push(link.href, link.as);
+    return router.push(link.href);
   };
   return (
     <form
@@ -70,6 +69,7 @@ const SearchForm = ({
         placeholder={searchLabelText[searchCategory]}
         inputRef={inputRef}
         location={location}
+        showTypewriter={showTypewriter}
       />
     </form>
   );

@@ -79,7 +79,7 @@ const EventsPage: NextPage<Props> = props => {
       pathname: router.pathname,
     });
 
-    return router.push(link.href, link.as);
+    return router.push(link.href);
   };
 
   const { events, query } = props;
@@ -113,6 +113,7 @@ const EventsPage: NextPage<Props> = props => {
     >
       <SpacingSection>
         <PageHeader
+          variant="basic"
           breadcrumbs={getBreadcrumbItems('whats-on')}
           title="Events"
           isSlim={true}

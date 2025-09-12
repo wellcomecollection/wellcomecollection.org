@@ -19,7 +19,7 @@ import {
   isCanvas,
   isRange,
 } from '@weco/content/utils/iiif/v3';
-import { toLink as itemLink } from '@weco/content/views/components/ItemLink';
+import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
 
 import { arrayIndexToQueryParam } from '.';
 import { thumbnailsPageSize } from './Paginators';
@@ -96,7 +96,7 @@ const Structures: FunctionComponent<Props> = ({
               wrapper={children => (
                 <NextLink
                   replace={true}
-                  {...itemLink({
+                  {...toWorksItemLink({
                     workId: work.id,
                     props: {
                       manifest: query.manifest,
@@ -106,7 +106,6 @@ const Structures: FunctionComponent<Props> = ({
                         arrayIndexToQueryParam(canvasIndex) / thumbnailsPageSize
                       ),
                     },
-                    source: 'contents_nav',
                   })}
                   data-gtm-trigger="contents_nav"
                   aria-current={

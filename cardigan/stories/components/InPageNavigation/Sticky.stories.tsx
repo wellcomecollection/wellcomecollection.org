@@ -57,9 +57,9 @@ const InPageNavigationInColsContext: FunctionComponent<{
   return (
     <div>
       <PageHeader
-        breadcrumbs={{ items: [] }}
+        variant="legacyLanding"
+        sectionLevelPage
         title="Sticky On This Page Anchors"
-        sectionLevelPage={true}
       />
       <GreySpace
         $topColor={args.topColor}

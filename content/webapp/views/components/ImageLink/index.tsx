@@ -2,7 +2,6 @@ import NextLink from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
 import { FunctionComponent } from 'react';
 
-import { ImageLinkSource } from '@weco/common/data/segment-values';
 import { LinkProps } from '@weco/common/model/link-props';
 import {
   decodeQuery,
@@ -35,10 +34,7 @@ const toQuery: (props: ImageProps) => ParsedUrlQuery = props => {
   return encodeQuery<ImageProps>(props, codecMap);
 };
 
-function toLink(
-  partialProps: Partial<ImageProps>,
-  source: ImageLinkSource
-): LinkProps {
+function toWorksImagesLink(partialProps: Partial<ImageProps>): LinkProps {
   const props: ImageProps = {
     ...emptyImageProps,
     ...partialProps,
@@ -51,37 +47,20 @@ function toLink(
       query: {
         workId: props.workId,
         ...query,
-        source,
-      },
-    },
-    as: {
-      pathname: `/works/${props.workId}/images`,
-      query: {
-        id: props.id,
       },
     },
   };
 }
 
-type Props = LinkFrom<ImageProps> & {
-  source: ImageLinkSource;
-};
+type Props = LinkFrom<ImageProps>;
 
-const ImageLink: FunctionComponent<Props> = ({
-  children,
-  source,
-  ...props
-}: Props) => {
+const ImageLink: FunctionComponent<Props> = ({ children, ...props }: Props) => {
   return (
-    <NextLink
-      data-component="image-link"
-      {...toLink(props, source)}
-      legacyBehavior
-    >
+    <NextLink data-component="image-link" {...toWorksImagesLink(props)}>
       {children}
     </NextLink>
   );
 };
 
 export default ImageLink;
-export { toLink, fromQuery, emptyImageProps };
+export { toWorksImagesLink, fromQuery, emptyImageProps };

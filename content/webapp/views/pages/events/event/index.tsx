@@ -158,6 +158,7 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
   const Header = (
     <>
       <PageHeader
+        variant="basic"
         breadcrumbs={getBreadcrumbItems('whats-on', extraBreadcrumbs)}
         labels={labels}
         title={event.title}
@@ -218,6 +219,7 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
     >
       <ContentPage
         id={event.id}
+        contentApiType="events"
         Header={Header}
         Body={<Body untransformedBody={untransformedBody} pageId={event.id} />}
         seasons={event.seasons}
@@ -299,10 +301,8 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
                 <NextLink
                   href={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
                   as={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
-                  passHref
-                  legacyBehavior
                 >
-                  <EmailTeamCopy as="a">
+                  <EmailTeamCopy>
                     <span>{event.bookingEnquiryTeam.email}</span>
                   </EmailTeamCopy>
                 </NextLink>

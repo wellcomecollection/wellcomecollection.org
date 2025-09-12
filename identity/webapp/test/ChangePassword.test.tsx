@@ -71,7 +71,7 @@ describe('ChangePassword', () => {
       screen.getByRole('button', { name: /update password/i })
     );
 
-    await waitFor(() => expect(onComplete).toBeCalled());
+    await waitFor(() => expect(onComplete).toHaveBeenCalled());
   });
 
   it('resets when modal closes', async () => {

@@ -24,6 +24,7 @@ export type ArticleBasic = {
   datePublished: Date;
   labels: Label[];
   color?: ColorSelection;
+  hasLinkedWorks: boolean;
 };
 
 export type Article = GenericContentFields & {
@@ -41,6 +42,7 @@ export type Article = GenericContentFields & {
     uid?: string;
     type: 'articles' | 'exhibitions';
   };
+  hasLinkedWorks: boolean;
 };
 
 /** Given an article in a serial, return its part number.

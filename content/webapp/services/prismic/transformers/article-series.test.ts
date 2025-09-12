@@ -66,6 +66,7 @@ describe('sortSeriesItems', () => {
         type: 'articles',
         id: 'Y0-8rxEAAA1CBr3a',
         uid: 'how-can-we-prevent-violence',
+        hasLinkedWorks: false,
         title: 'How can we prevent violence?',
         series: [],
         datePublished: new Date('2022-10-27T09:00:00.000Z'),
@@ -75,6 +76,7 @@ describe('sortSeriesItems', () => {
         type: 'articles',
         id: 'Y0Uv0REAAImM14IP',
         uid: 'what-is-structural-violence',
+        hasLinkedWorks: false,
         series: [],
         title: 'What is structural violence?',
         datePublished: new Date('2022-10-20T09:00:00.000Z'),
@@ -83,6 +85,7 @@ describe('sortSeriesItems', () => {
       {
         type: 'articles',
         id: 'Yz1IdhEAABfUtA8u',
+        hasLinkedWorks: false,
         series: [],
         uid: 'why-do-victims-become-violent',
         title: 'Why do victims become violent?',

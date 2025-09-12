@@ -1,18 +1,21 @@
-import { ReactNode } from 'react';
+import { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'react';
 
 import { IconSvg } from '@weco/common/icons';
 import { DataGtmProps } from '@weco/common/utils/gtm';
 import { PaletteColor } from '@weco/common/views/themes/config';
 export type ButtonSize = 'small' | 'medium';
 
-export type SolidButtonStyledProps = {
-  href?: string;
+export type SolidButtonStyledProps = (
+  | (AnchorHTMLAttributes<HTMLAnchorElement> & { href: string })
+  | (ButtonHTMLAttributes<HTMLButtonElement> & { $isAnchorLink?: false })
+) & {
   $ariaLabel?: string;
   $size?: ButtonSize;
   $colors?: ButtonColors;
   $isPill?: boolean;
   $hasIcon?: boolean;
   $isIconAfter?: boolean;
+  $isNewSearchBar?: boolean;
 };
 
 export type ButtonColors = {

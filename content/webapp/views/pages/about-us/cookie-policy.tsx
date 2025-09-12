@@ -55,6 +55,7 @@ const CookiePolicyPage: NextPage<page.Props> = props => {
       siteSection={props.page.siteSection}
     >
       <PageHeader
+        variant="basic"
         breadcrumbs={{ items: [] }}
         title={props.page.title}
         backgroundTexture={landingHeaderBackgroundLs}

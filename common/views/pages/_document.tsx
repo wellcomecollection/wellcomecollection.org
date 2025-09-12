@@ -11,10 +11,8 @@ import { ServerStyleSheet } from 'styled-components';
 
 import { ConsentStatusProps } from '@weco/common/server-data/types';
 import {
-  CoreWebVitalsScript,
   Ga4DataLayer,
   GoogleTagManager,
-  PerformanceTimingTrackingScript,
 } from '@weco/common/services/app/analytics-scripts';
 import { getErrorPageConsent } from '@weco/common/services/app/civic-uk';
 import { Toggles } from '@weco/toggles';
@@ -76,12 +74,6 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
             https://github.com/wellcomecollection/wellcomecollection.org/pull/10685#discussion_r1516298683
             Let's keep an eye on this issue and consider moving it next to the Segment script when it's fixed */}
             <GoogleTagManager />
-
-            {/* https://github.com/wellcomecollection/wellcomecollection.org/issues/10090 */}
-            <PerformanceTimingTrackingScript />
-
-            {/* https://github.com/wellcomecollection/wellcomecollection.org/issues/9286 */}
-            <CoreWebVitalsScript />
           </>
         </Head>
         <body>

@@ -11,7 +11,7 @@ export type QueryTo<Props> = (
   query: ParsedUrlQuery
 ) => OptionalToUndefined<Props>;
 export type LinkFrom<Props> = PropsWithChildren<Props> &
-  Omit<LinkProps, 'as' | 'href'>;
+  Omit<LinkProps, 'href'>;
 
 type Codec<T> = {
   decode: (p: QueryParam) => T;

@@ -58,6 +58,7 @@ export const ProjectPage: NextPage<Props> = ({
 
   const Header = (
     <PageHeader
+      variant="basic"
       breadcrumbs={getBreadcrumbItems(project.siteSection)}
       labels={makeLabels(project.format?.title)}
       title={project.title}
@@ -80,6 +81,7 @@ export const ProjectPage: NextPage<Props> = ({
     >
       <ContentPage
         id={project.id}
+        contentApiType="projects"
         Header={Header}
         Body={
           <Body
@@ -88,8 +90,8 @@ export const ProjectPage: NextPage<Props> = ({
             staticContent={staticContent}
           />
         }
-        seasons={project.seasons}
         contributors={project.contributors}
+        seasons={project.seasons}
       />
     </PageLayout>
   );

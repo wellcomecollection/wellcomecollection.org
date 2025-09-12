@@ -47,7 +47,7 @@ describe('DeleteAccount', () => {
       screen.getByRole('button', { name: /yes, delete my account/i })
     );
 
-    await waitFor(() => expect(onComplete).toBeCalled());
+    await waitFor(() => expect(onComplete).toHaveBeenCalled());
   });
 
   it('allows the user to cancel the operation', async () => {
@@ -55,9 +55,7 @@ describe('DeleteAccount', () => {
     renderComponent({ onCancel });
 
     await userEvent.click(
-      screen.getByRole('link', {
-        name: /no, go back to my account/i,
-      })
+      screen.getByRole('button', { name: /no, go back to my account/i })
     );
 
     expect(onCancel).toHaveBeenCalled();

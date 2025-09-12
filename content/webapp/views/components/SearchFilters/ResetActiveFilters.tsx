@@ -72,7 +72,6 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
       .map(option => (
         <NextLink
           key={`cancel-${option.id}`}
-          passHref
           {...linkResolver({
             ...router.query,
             page: '1',
@@ -81,7 +80,6 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                 ({ selected, value }) => selected && value !== option.value
               )
               .map(({ value }) => value),
-            source: `cancel_filter/${filter.id}`,
           })}
         >
           <CancelFilter text={option.label} />
@@ -94,12 +92,10 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
       .map(option => (
         <NextLink
           key={`cancel-${option.id}`}
-          passHref
           {...linkResolver({
             ...router.query,
             page: '1',
             [filter.id]: '',
-            source: `cancel_filter/${filter.id}`,
           })}
         >
           <CancelFilter text={option.label} />
@@ -112,12 +108,10 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
       f: DateRangeFilter['from'] | DateRangeFilter['to']
     ) => (
       <NextLink
-        passHref
         {...linkResolver({
           ...router.query,
           page: '1',
           [f.id]: undefined,
-          source: `cancel_filter/${f.id}`,
         })}
       >
         <CancelFilter text={`${prefix} ${f.value}`} />
@@ -135,12 +129,10 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
     filter.color ? (
       <Fragment key={`cancel-${filter.id}`}>
         <NextLink
-          passHref
           {...linkResolver({
             ...router.query,
             page: '1',
             [filter.id]: undefined,
-            source: `cancel_filter/${filter.id}`,
           })}
         >
           <CancelFilter>
@@ -159,12 +151,10 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
     filter.isSelected ? (
       <NextLink
         key={filter.id}
-        passHref
         {...linkResolver({
           ...router.query,
           page: '1',
           [filter.id]: undefined,
-          source: `cancel_filter/${filter.id}`,
         })}
       >
         <CancelFilter text={filter.label} />
@@ -194,7 +184,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
             return null;
         }
       })}
-      <NextLink passHref {...resetFilters}>
+      <NextLink {...resetFilters}>
         <CancelFilter text="Reset filters" />
       </NextLink>
     </div>

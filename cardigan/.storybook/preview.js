@@ -3,6 +3,8 @@ import { DocsContainer } from '@storybook/addon-docs';
 import { ContextDecorator } from '@weco/cardigan/config/decorators';
 import { AppContextProvider } from '@weco/common/contexts/AppContext';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
+import GlobalSvgDefinitions from '@weco/common/views/components/GlobalSvgDefinitions';
+import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import theme from '@weco/common/views/themes/default';
 
@@ -13,14 +15,17 @@ export const decorators = [
     return (
       <ContextDecorator>
         <AppContextProvider>
+          <GlobalSvgDefinitions />
           <ConditionalWrapper
             condition={context?.parameters?.gridSizes}
             wrapper={children => (
-              <Grid>
-                <GridCell $sizeMap={context.parameters.gridSizes}>
-                  {children}
-                </GridCell>
-              </Grid>
+              <Container>
+                <Grid>
+                  <GridCell $sizeMap={context.parameters.gridSizes}>
+                    {children}
+                  </GridCell>
+                </Grid>
+              </Container>
             )}
           >
             <Story {...context} />

@@ -18,9 +18,8 @@ import {
   ContaineredLayout,
   gridSize8,
 } from '@weco/common/views/components/Layout';
-import PageHeader, {
-  headerSpaceSize,
-} from '@weco/common/views/components/PageHeader';
+import PageHeader from '@weco/common/views/components/PageHeader';
+import { headerSpaceSize } from '@weco/common/views/components/PageHeader/PageHeader.styles';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
@@ -181,6 +180,7 @@ const ErrorPage: NextPage<Props> = ({ statusCode = 500, title }) => {
     >
       <Space $v={{ size: headerSpaceSize, properties: ['padding-bottom'] }}>
         <PageHeader
+          variant="basic"
           breadcrumbs={{ items: [] }}
           labels={undefined}
           title={errorMessage}
