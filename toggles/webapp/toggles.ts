@@ -136,6 +136,14 @@ const toggles = {
         'Displays the new search bar created as part of the Collections landing page update',
       type: 'experimental',
     },
+    {
+      id: 'conceptsSearch',
+      title: 'Concepts search',
+      initialValue: false,
+      description:
+        'Enables the concepts search tab and functionality in the search interface',
+      type: 'experimental',
+    },
   ] as const,
   // We have to include a reference to any test toggles here as well as in the cache dir
   // because they are deployed separately and consequently can't share a source of truth
