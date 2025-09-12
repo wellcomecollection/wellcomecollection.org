@@ -57,7 +57,7 @@ export const AlternativeLabels = styled(Space).attrs({
   $v: { size: 's', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.600')};
-  
+
   strong {
     font-weight: 600;
   }
@@ -68,7 +68,7 @@ export const ConceptInformation = styled(Space).attrs({
   $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.600')};
-  
+
   .searchable-selector {
     font-weight: 500;
   }
