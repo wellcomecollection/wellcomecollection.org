@@ -3,8 +3,7 @@ import styled from 'styled-components';
 
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import { Concept } from '@weco/content/services/wellcome/catalogue/types';
-
-import ConceptSearchResult from '../ConceptSearchResult';
+import ConceptSearchResult from '@weco/content/views/components/ConceptSearchResult';
 
 type Props = {
   concepts: Concept[];
@@ -34,12 +33,15 @@ const SearchResultListItem = styled.li`
 
 const ConceptsSearchResults: FunctionComponent<Props> = ({ concepts }) => {
   return (
-    <SearchResultUnorderedList 
+    <SearchResultUnorderedList
       data-component="concepts-search-results"
       data-testid="concepts-search-results"
     >
       {concepts.map((result, i) => (
-        <SearchResultListItem data-testid="concept-search-result" key={result.id}>
+        <SearchResultListItem
+          data-testid="concept-search-result"
+          key={result.id}
+        >
           <ConceptSearchResult concept={result} resultPosition={i} />
         </SearchResultListItem>
       ))}

@@ -17,6 +17,7 @@
 
 export type PageviewName =
   | 'concept'
+  | 'concepts'
   | 'event'
   | 'events'
   | 'exhibition'
