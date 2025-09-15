@@ -1758,7 +1758,7 @@
     pirates "^4.0.6"
     source-map-support "^0.5.16"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.12.5", "@babel/runtime@^7.24.4", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.7":
+"@babel/runtime@^7.12.5", "@babel/runtime@^7.24.4", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.7":
   version "7.28.4"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.28.4.tgz#a70226016fabe25c5783b2f22d3e1c9bc5ca3326"
   integrity sha512-Q/N6JNWvIvPnLDvjlE1OUBLPQHH6l3CltCEsHIujp45zQUSSh8K+gHnaEX45yAT1nyngnINhvWtzN+Nb9D8RAQ==
@@ -10496,11 +10496,6 @@ memfs@^3.4.1, memfs@^3.4.12:
   dependencies:
     fs-monkey "^1.0.4"
 
-"memoize-one@>=3.1.1 <6":
-  version "5.2.1"
-  resolved "https://registry.yarnpkg.com/memoize-one/-/memoize-one-5.2.1.tgz#8337aa3c4335581839ec01c3d594090cebe8f00e"
-  integrity sha512-zYiwtZUcYyXKo/np96AGZAckk+FWWsUdJ3cHGGmld7+AhvcWmQyGCYUh1hc4Q/pkOhb65dQR/pqCyK0cOaHz4Q==
-
 memoizerific@^1.11.3:
   version "1.11.3"
   resolved "https://registry.yarnpkg.com/memoizerific/-/memoizerific-1.11.3.tgz#7c87a4646444c32d75438570905f2dbd1b1a805a"
@@ -12019,13 +12014,10 @@ react-transition-group@^4.4.5:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
-react-window@^1.8.8:
-  version "1.8.11"
-  resolved "https://registry.yarnpkg.com/react-window/-/react-window-1.8.11.tgz#a857b48fa85bd77042d59cc460964ff2e0648525"
-  integrity sha512-+SRbUVT2scadgFSWx+R1P754xHPEqvcfSfVX10QYg6POOz+WNgkN48pS+BtZNIMGiL1HYrSEiCkwsMS15QogEQ==
-  dependencies:
-    "@babel/runtime" "^7.0.0"
-    memoize-one ">=3.1.1 <6"
+react-window@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/react-window/-/react-window-2.1.0.tgz#66f175398bb864dc21d70af55d53ec677032158a"
+  integrity sha512-STMrsd6t3pN/XFa5cblpwTLpsEDtrtdeNY+71QsEaY0m7Fhbn9R4XXYzYAyKDpeYbjmBpAflqHBdDDKW928m3Q==
 
 "react@^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", react@^19.1.0:
   version "19.1.1"
@@ -13993,10 +13985,10 @@ utils-merge@1.0.1:
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   integrity sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==
 
-uuid@^11.1.0:
-  version "11.1.0"
-  resolved "https://registry.yarnpkg.com/uuid/-/uuid-11.1.0.tgz#9549028be1753bb934fc96e2bca09bb4105ae912"
-  integrity sha512-0/A9rDy9P7cJ+8w1c9WD9V//9Wj15Ce2MPz8Ri6032usz+NfePxx5AcN3bN+r6ZL6jEo066/yNYB3tn4pQEx+A==
+uuid@^13.0.0:
+  version "13.0.0"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-13.0.0.tgz#263dc341b19b4d755eb8fe36b78d95a6b65707e8"
+  integrity sha512-XQegIaBTVUjSHliKqcnFqYypAd4S+WCYt5NIeRs6w/UAry7z8Y9j5ZwRRL4kzq9U3sD6v+85er9FvkEaBpji2w==
 
 uuid@^9.0.0, uuid@^9.0.1:
   version "9.0.1"
