@@ -4,7 +4,16 @@ import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import Space from '@weco/common/views/components/styled/Space';
+import { PaletteColor } from '@weco/common/views/themes/config';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
+
+// Palette colors for placeholder rectangles
+const placeholderColors = [
+  'accent.salmon',
+  'accent.purple',
+  'yellow',
+  'accent.green',
+];
 
 const CardWrapper = styled.a`
   position: relative;
@@ -18,23 +27,63 @@ const CardWrapper = styled.a`
   }
 `;
 
-const CompositeGrid = styled.div`
+const CompositeGrid = styled.div<{ $imageCount: number }>`
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
   gap: 2cqw;
   width: 100%;
-  aspect-ratio: 2 / 3;
   background-color: ${props => props.theme.color('neutral.700')};
   overflow: hidden;
+
+  ${props => {
+    switch (props.$imageCount) {
+      case 0:
+        return `
+          grid-template-columns: 1fr;
+          grid-template-rows: 1fr;
+          aspect-ratio: 2 / 3;
+        `;
+      case 1:
+        return `
+          grid-template-columns: 1fr;
+          grid-template-rows: 1fr;
+          aspect-ratio: 2 / 3;
+        `;
+      case 2:
+        return `
+          grid-template-columns: 1fr 1fr;
+          grid-template-rows: 1fr;
+          aspect-ratio: 2 / 1;
+        `;
+      case 3:
+        return `
+          grid-template-columns: 1fr 1fr;
+          grid-template-rows: 1fr 1fr;
+          aspect-ratio: 2 / 3;
+
+          & > div:first-child {
+            grid-column: 1 / -1;
+          }
+        `;
+      case 4:
+      default:
+        return `
+          grid-template-columns: 1fr 1fr;
+          grid-template-rows: 1fr 1fr;
+          aspect-ratio: 2 / 3;
+        `;
+    }
+  }}
 `;
 
-const ImageContainer = styled.div`
+const ImageContainer = styled.div<{ $placeholderColor?: PaletteColor }>`
   position: relative;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-color: ${props => props.theme.color('neutral.300')};
+  background-color: ${props =>
+    props.$placeholderColor
+      ? props.theme.color(props.$placeholderColor)
+      : props.theme.color('neutral.300')};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -85,7 +134,7 @@ const Description = styled.p.attrs({
 `;
 
 export type ConceptCardProps = {
-  images: [Image, Image, Image, Image];
+  images: [Image?, Image?, Image?, Image?];
   title: string;
   description: string;
   url: string;
@@ -97,16 +146,36 @@ const ConceptCard: FunctionComponent<ConceptCardProps> = ({
   description,
   url,
 }) => {
+  // Create array of slots, some with images, some with placeholder colors
+  const slots = Array.from({ length: 4 }, (_, index) => {
+    if (index < images.length && images[index]) {
+      return { type: 'image' as const, image: images[index]! };
+    }
+    return {
+      type: 'placeholder' as const,
+      color: placeholderColors[
+        index % placeholderColors.length
+      ] as PaletteColor,
+    };
+  });
+
   return (
     <CardWrapper data-component="concept-card" href={url}>
-      <CompositeGrid>
-        {images.map((image, index) => (
-          <ImageContainer key={index}>
-            <ImageElement
-              src={convertImageUri(image.locations[0].url, 250)}
-              alt={image.source?.title || 'Collection image'}
-              loading="lazy"
-            />
+      <CompositeGrid $imageCount={slots.length}>
+        {slots.map((slot, index) => (
+          <ImageContainer
+            key={index}
+            $placeholderColor={
+              slot.type === 'placeholder' ? slot.color : undefined
+            }
+          >
+            {slot.type === 'image' && slot.image ? (
+              <ImageElement
+                src={convertImageUri(slot.image.locations[0].url, 250)}
+                alt=""
+                loading="lazy"
+              />
+            ) : null}
           </ImageContainer>
         ))}
       </CompositeGrid>
