@@ -145,15 +145,26 @@ const SearchBar: FunctionComponent<Props> = ({
           'Oil paintings',
           'Vaccines',
           'Easter',
-        ]
-          .map(value => ({ value, sort: Math.random() }))
-          .sort((a, b) => a.sort - b.sort)
-          .map(({ value }) => value),
+        ],
         typeSpeed: 100,
-        backSpeed: 25,
-        backDelay: 2000,
+        fadeOut: true,
+        fadeOutDelay: 0,
+        fadeOutClass: '', // prevent fade completely
+        shuffle: true,
         loop: true,
         showCursor: false,
+        onStringTyped: async (_, self) => {
+          // There isn't an option to delay between strings, so we implement it here
+          // https://github.com/mattboldt/typed.js/issues/617
+          const delay = (ms: number) =>
+            new Promise(resolve => setTimeout(resolve, ms));
+
+          self.stop();
+          await delay(3000);
+          self.destroy();
+          await delay(1000);
+          self.start();
+        },
       });
 
       return () => {
