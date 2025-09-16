@@ -1,16 +1,10 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
 import type { Concept } from '@weco/content/pages/collections';
 
 const BrowseByThemesWrapper = styled.section`
   margin: ${props => props.theme.spaceAtBreakpoints.small.xl}px 0;
-`;
-
-const Title = styled.h2`
-  ${font('wb', 3)};
-  margin-bottom: ${props => props.theme.spaceAtBreakpoints.small.l}px;
 `;
 
 export type BrowseByThemeProps = {
