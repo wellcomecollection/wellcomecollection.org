@@ -35,11 +35,7 @@ const Page: NextPage<
       staticContent={
         <ContaineredLayout gridSizes={gridSize12()}>
           <SpacingSection>
-            <SearchForm
-              searchCategory="works"
-              location="page"
-              showTypewriter={true}
-            />
+            <SearchForm searchCategory="works" location="page" />
           </SpacingSection>
         </ContaineredLayout>
       }

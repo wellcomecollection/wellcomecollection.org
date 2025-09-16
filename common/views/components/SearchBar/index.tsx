@@ -7,12 +7,9 @@ import {
 } from 'react';
 import styled from 'styled-components';
 
-import { useToggles } from '@weco/common/server-data/Context';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import TextInput from '@weco/common/views/components/TextInput';
 import { themeValues } from '@weco/common/views/themes/config';
-
-import SearchBarNew from './new';
 
 const Container = styled.div`
   display: flex;
@@ -43,7 +40,6 @@ type Props = {
   form: string;
   inputRef?: RefObject<HTMLInputElement | null>;
   location: ValidLocations;
-  showTypewriter?: boolean;
 };
 
 export type ValidLocations = 'header' | 'search' | 'page';
@@ -55,22 +51,10 @@ const SearchBar: FunctionComponent<Props> = ({
   form,
   inputRef,
   location,
-  showTypewriter,
 }) => {
-  const { newSearchBar } = useToggles();
   const defaultInputRef = useRef<HTMLInputElement>(null);
 
-  return newSearchBar ? (
-    <SearchBarNew
-      inputValue={inputValue}
-      setInputValue={setInputValue}
-      placeholder={placeholder}
-      form={form}
-      inputRef={inputRef}
-      location={location}
-      showTypewriter={showTypewriter}
-    />
-  ) : (
+  return (
     <Container data-component="search-bar" className="is-hidden-print">
       <SearchInputWrapper>
         <TextInput
@@ -91,7 +75,7 @@ const SearchBar: FunctionComponent<Props> = ({
           text="Search"
           type={ButtonTypes.submit}
           form={form}
-          colors={themeValues.buttonColors.yellowYellowBlack}
+          colors={themeValues.buttonColors.greenGreenWhite}
         />
       </SearchButtonWrapper>
     </Container>
