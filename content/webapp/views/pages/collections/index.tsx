@@ -13,9 +13,11 @@ import PageHeader from '@weco/common/views/components/PageHeader';
 import Space from '@weco/common/views/components/styled/Space';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { useCollectionStats } from '@weco/content/hooks/useCollectionStats';
+import type { Concept } from '@weco/content/pages/collections';
 import { MultiContent } from '@weco/content/types/multi-content';
 import CardGrid from '@weco/content/views/components/CardGrid';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
+import BrowseByThemes from '@weco/content/views/pages/collections/collections.BrowseByThemes';
 import WorkTypesList from '@weco/content/views/pages/collections/collections.WorkTypesList';
 
 const MaterialsSection = styled(Space).attrs({
@@ -33,6 +35,7 @@ export type Props = {
   title: string;
   introText: prismic.RichTextField;
   insideOurCollectionsCards: MultiContent[];
+  featuredConcepts: Concept[];
   // jsonLd: JsonLdObj[]; ??
 };
 
@@ -41,6 +44,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
   title,
   introText,
   insideOurCollectionsCards,
+  featuredConcepts,
 }) => {
   const { data: collectionStats } = useCollectionStats();
 
@@ -58,6 +62,13 @@ const CollectionsLandingPage: NextPage<Props> = ({
       hideNewsletterPromo
     >
       <PageHeader variant="simpleLanding" title={title} introText={introText} />
+
+      <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+        <SectionHeader title="Browse by theme" gridSize={gridSize12()} />
+        <ContaineredLayout gridSizes={gridSize12()}>
+          <BrowseByThemes featuredConcepts={featuredConcepts} />
+        </ContaineredLayout>
+      </Space>
 
       <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
         <SectionHeader title="Inside our collections" gridSize={gridSize12()} />
