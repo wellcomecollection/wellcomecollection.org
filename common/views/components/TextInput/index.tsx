@@ -29,7 +29,7 @@ type TextInputWrapProps = {
   $isNewSearchBar?: boolean;
 };
 export const TextInputWrap = styled(Space).attrs<TextInputWrapProps>(props => ({
-  className: font('intr', props.$isNewSearchBar ? 2 : 4),
+  className: font('intr', props.$isNewSearchBar ? 3 : 4),
   $v: { size: 's', properties: ['margin-top'] },
 }))<TextInputWrapProps>`
   display: flex;
@@ -70,7 +70,8 @@ export const TextInputWrap = styled(Space).attrs<TextInputWrapProps>(props => ({
   overflow: hidden;
 
   &:hover {
-    border-color: ${props => props.theme.color('black')};
+    border-color: ${props =>
+      !props.$isNewSearchBar && props.theme.color('black')};
   }
 
   ${props =>
