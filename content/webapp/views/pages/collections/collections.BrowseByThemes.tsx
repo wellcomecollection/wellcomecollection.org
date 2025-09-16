@@ -1,16 +1,39 @@
 import Link from 'next/link';
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
 
+import { useThemeConcepts } from '@weco/content/hooks/useThemeConcepts';
+import { getConcepts } from '@weco/content/services/wellcome/catalogue/concepts';
 import type { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { toConceptLink } from '@weco/content/views/components/ConceptLink';
+
+import type { ThemeCategory, ThemeConfig } from './themeBlockCategories';
+const CategoryLinks = styled.div`
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+`;
+
+const CategoryLink = styled.button<{ selected: boolean }>`
+  background: none;
+  border: none;
+  color: ${({ selected }) => (selected ? '#007d7e' : '#222')};
+  font-weight: ${({ selected }) => (selected ? 'bold' : 'normal')};
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-bottom: 2px solid
+    ${({ selected }) => (selected ? '#007d7e' : 'transparent')};
+  transition: border-color 0.2s;
+`;
 
 const BrowseByThemesWrapper = styled.section`
   margin: ${props => props.theme.spaceAtBreakpoints.small.xl}px 0;
 `;
 
 export type BrowseByThemeProps = {
-  featuredConcepts: Concept[];
+  themeConfig: ThemeConfig;
+  initialConcepts: Concept[];
 };
 
 const ConceptList = styled.ul`
@@ -45,14 +68,53 @@ const ConceptDescription = styled.p`
   font-size: 0.95rem;
 `;
 
+const getConceptsByIds = async (ids: string[]) => {
+  if (ids.length === 0) return [];
+  const result = await getConcepts({
+    params: { id: ids.join(',') },
+    toggles: {},
+  });
+  if ('results' in result) {
+    return result.results;
+  }
+  return [];
+};
+
 const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
-  featuredConcepts,
+  themeConfig,
+  initialConcepts,
 }) => {
+  const [selectedCategory, setSelectedCategory] = useState(
+    themeConfig.categories[0]
+  );
+  const { concepts, loading, error, fetchConcepts } = useThemeConcepts(
+    initialConcepts,
+    getConceptsByIds
+  );
+
+  const handleCategoryClick = (category: ThemeCategory) => {
+    setSelectedCategory(category);
+    fetchConcepts(category);
+  };
+
   return (
     <BrowseByThemesWrapper data-component="BrowseByTheme">
+      <CategoryLinks>
+        {themeConfig.categories.map(category => (
+          <CategoryLink
+            key={category.label}
+            selected={category.label === selectedCategory.label}
+            onClick={() => handleCategoryClick(category)}
+            disabled={loading && category.label === selectedCategory.label}
+          >
+            {category.label}
+          </CategoryLink>
+        ))}
+      </CategoryLinks>
+      {error && <div style={{ color: 'red' }}>{error}</div>}
       <ConceptList>
-        {featuredConcepts.map(concept => {
-          const linkProps = toConceptLink({ conceptId: concept.id! });
+        {concepts.map(concept => {
+          const linkProps = toConceptLink({ conceptId: concept.id });
           return (
             <Link key={concept.id} href={linkProps.href} passHref>
               <ConceptCard>
@@ -69,6 +131,7 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
           );
         })}
       </ConceptList>
+      {loading && <div>Loading…</div>}
     </BrowseByThemesWrapper>
   );
 };

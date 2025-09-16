@@ -19,6 +19,7 @@ import CardGrid from '@weco/content/views/components/CardGrid';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
 import BrowseByThemes from '@weco/content/views/pages/collections/collections.BrowseByThemes';
 import WorkTypesList from '@weco/content/views/pages/collections/collections.WorkTypesList';
+import { themeBlockCategories } from '@weco/content/views/pages/collections/themeBlockCategories';
 
 const MaterialsSection = styled(Space).attrs({
   $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
@@ -66,7 +67,10 @@ const CollectionsLandingPage: NextPage<Props> = ({
       <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
         <SectionHeader title="Browse by theme" gridSize={gridSize12()} />
         <ContaineredLayout gridSizes={gridSize12()}>
-          <BrowseByThemes featuredConcepts={featuredConcepts} />
+          <BrowseByThemes
+            themeConfig={themeBlockCategories}
+            initialConcepts={featuredConcepts}
+          />
         </ContaineredLayout>
       </Space>
 
