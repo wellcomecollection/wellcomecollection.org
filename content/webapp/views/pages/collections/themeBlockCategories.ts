@@ -23,15 +23,15 @@ export const themeBlockCategories: ThemeConfig = {
     },
     {
       label: 'Techniques',
-      concepts: ['a224tns9', 'a224tns9'],
+      concepts: ['a224tns9', 'uxms5dmz'],
     },
     {
       label: 'Subjects',
-      concepts: ['a224tns9', 'a224tns9'],
+      concepts: ['a224tns9', 'gyh3qjn3'],
     },
     {
       label: 'Places',
-      concepts: ['a224tns9', 'a224tns9'],
+      concepts: ['a224tns9', 's7d7wjf3'],
     },
   ],
 };
