@@ -35,7 +35,10 @@ export const TextInputWrap = styled(Space).attrs<TextInputWrapProps>(props => ({
   display: flex;
   position: relative;
   border-width: ${props => (props.$isNewSearchBar ? '4px' : '1px')};
-  border-style: solid;
+  ${props =>
+    props.$isNewSearchBar
+      ? `border-bottom-style: solid;`
+      : `border-style: solid;`}
   border-color: ${props =>
     props.$status
       ? props.$status === 'error'
@@ -59,11 +62,6 @@ export const TextInputWrap = styled(Space).attrs<TextInputWrapProps>(props => ({
       `
       box-shadow: 0 0 0 6px ${props.theme.color('focus.yellow')};
       outline:  3px solid ${props.theme.color('black')};
-    `}
-    ${props =>
-      props.$isNewSearchBar &&
-      `
-      border-color: ${props.theme.color('black')};
     `}
   }
 
