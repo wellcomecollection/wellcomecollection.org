@@ -61,8 +61,8 @@ const ImageElement = styled.img`
 `;
 
 const TextContent = styled(Space).attrs({
-  $v: { size: 'l', properties: ['padding-bottom'] },
-  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'm', properties: ['padding-bottom'] },
+  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 })`
   padding-top: 4rem;
   position: absolute;
