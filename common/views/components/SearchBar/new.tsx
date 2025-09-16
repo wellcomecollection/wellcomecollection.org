@@ -12,7 +12,6 @@ import Typed from 'typed.js';
 import { search } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
-import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import TextInput from '@weco/common/views/components/TextInput';
 import { themeValues } from '@weco/common/views/themes/config';
 import { visuallyHiddenStyles } from '@weco/common/views/themes/utility-classes';
@@ -113,7 +112,6 @@ type Props = {
   form: string;
   inputRef?: RefObject<HTMLInputElement | null>;
   location: ValidLocations;
-  showTypewriter?: boolean;
 };
 
 export type ValidLocations = 'header' | 'search' | 'page';
@@ -125,7 +123,6 @@ const SearchBar: FunctionComponent<Props> = ({
   form,
   inputRef,
   location,
-  showTypewriter,
 }) => {
   const defaultInputRef = useRef<HTMLInputElement>(null);
   const typewriterRef = useRef<HTMLDivElement>(null);
@@ -175,39 +172,35 @@ const SearchBar: FunctionComponent<Props> = ({
   }, [typewriterRef.current]);
 
   return (
-    <Grid>
-      <GridCell $sizeMap={{ s: [12], m: [10], l: [10], xl: [10] }}>
-        <Container data-component="search-bar" className="is-hidden-print">
-          <SearchInputWrapper>
-            {showTypewriter && <Typewriter ref={typewriterRef} />}
-            <TextInput
-              id={`${location}-searchbar`}
-              label={placeholder}
-              name="query"
-              type="search"
-              value={inputValue}
-              setValue={setInputValue}
-              ref={inputRef || defaultInputRef}
-              form={form}
-              hasClearButton
-              isNewSearchBar={true}
-              placeholder=" " // This empty placeholder is required for the :placeholder-shown CSS selector to work
-            />
-          </SearchInputWrapper>
-          <SearchButtonWrapper>
-            <Button
-              variant="ButtonSolid"
-              text="Search"
-              type={ButtonTypes.submit}
-              form={form}
-              colors={themeValues.buttonColors.greenGreenWhite}
-              icon={search}
-              isNewSearchBar={true}
-            />
-          </SearchButtonWrapper>
-        </Container>
-      </GridCell>
-    </Grid>
+    <Container data-component="search-bar" className="is-hidden-print">
+      <SearchInputWrapper>
+        <Typewriter ref={typewriterRef} />
+        <TextInput
+          id={`${location}-searchbar`}
+          label={placeholder}
+          name="query"
+          type="search"
+          value={inputValue}
+          setValue={setInputValue}
+          ref={inputRef || defaultInputRef}
+          form={form}
+          hasClearButton
+          isNewSearchBar={true}
+          placeholder=" " // This empty placeholder is required for the :placeholder-shown CSS selector to work
+        />
+      </SearchInputWrapper>
+      <SearchButtonWrapper>
+        <Button
+          variant="ButtonSolid"
+          text="Search"
+          type={ButtonTypes.submit}
+          form={form}
+          colors={themeValues.buttonColors.greenGreenWhite}
+          icon={search}
+          isNewSearchBar={true}
+        />
+      </SearchButtonWrapper>
+    </Container>
   );
 };
 
