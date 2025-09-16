@@ -27,52 +27,15 @@ const CardWrapper = styled.a`
   }
 `;
 
-const CompositeGrid = styled.div<{ $imageCount: number }>`
+const CompositeGrid = styled.div`
   display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
   gap: 2cqw;
   width: 100%;
+  aspect-ratio: 2 / 3;
   background-color: ${props => props.theme.color('neutral.700')};
   overflow: hidden;
-
-  ${props => {
-    switch (props.$imageCount) {
-      case 0:
-        return `
-          grid-template-columns: 1fr;
-          grid-template-rows: 1fr;
-          aspect-ratio: 2 / 3;
-        `;
-      case 1:
-        return `
-          grid-template-columns: 1fr;
-          grid-template-rows: 1fr;
-          aspect-ratio: 2 / 3;
-        `;
-      case 2:
-        return `
-          grid-template-columns: 1fr 1fr;
-          grid-template-rows: 1fr;
-          aspect-ratio: 2 / 1;
-        `;
-      case 3:
-        return `
-          grid-template-columns: 1fr 1fr;
-          grid-template-rows: 1fr 1fr;
-          aspect-ratio: 2 / 3;
-
-          & > div:first-child {
-            grid-column: 1 / -1;
-          }
-        `;
-      case 4:
-      default:
-        return `
-          grid-template-columns: 1fr 1fr;
-          grid-template-rows: 1fr 1fr;
-          aspect-ratio: 2 / 3;
-        `;
-    }
-  }}
 `;
 
 const ImageContainer = styled.div<{ $placeholderColor?: PaletteColor }>`
@@ -161,7 +124,7 @@ const ConceptCard: FunctionComponent<ConceptCardProps> = ({
 
   return (
     <CardWrapper data-component="concept-card" href={url}>
-      <CompositeGrid $imageCount={slots.length}>
+      <CompositeGrid>
         {slots.map((slot, index) => (
           <ImageContainer
             key={index}
