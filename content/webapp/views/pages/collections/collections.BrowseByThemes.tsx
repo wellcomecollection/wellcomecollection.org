@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import type { Concept } from '@weco/content/pages/collections';
+import type { Concept } from '@weco/content/services/wellcome/catalogue/types';
 
 const BrowseByThemesWrapper = styled.section`
   margin: ${props => props.theme.spaceAtBreakpoints.small.xl}px 0;
