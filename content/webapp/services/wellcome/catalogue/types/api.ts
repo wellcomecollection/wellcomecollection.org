@@ -51,4 +51,5 @@ export type CatalogueImagesApiProps = {
 
 export type CatalogueConceptsApiProps = {
   page?: number;
+  id?: string;
 };
