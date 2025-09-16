@@ -146,22 +146,23 @@ const SearchBar: FunctionComponent<Props> = ({
           'Vaccines',
           'Easter',
         ],
-        typeSpeed: 100,
-        fadeOut: true,
+        typeSpeed: 50,
         fadeOutDelay: 0,
         fadeOutClass: '', // prevent fade completely
         shuffle: true,
         loop: true,
         showCursor: false,
         onStringTyped: async (_, self) => {
-          // There isn't an option to delay between strings, so we implement it here
+          // There isn't an option to delay between strings, so we implement it
           // https://github.com/mattboldt/typed.js/issues/617
           const delay = (ms: number) =>
             new Promise(resolve => setTimeout(resolve, ms));
 
           self.stop();
           await delay(3000);
-          self.destroy();
+          // @ts-expect-error - accessing private method
+          // https://mattboldt.github.io/typed.js/docs/class/src/typed.js~Typed.html
+          self.initFadeOut();
           await delay(1000);
           self.start();
         },
