@@ -19,29 +19,14 @@ import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchPage } from '@weco/content/services/prismic/fetch/pages';
 import { getInsideOurCollectionsCards } from '@weco/content/services/prismic/transformers/collections-landing';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
+import { getConcepts } from '@weco/content/services/wellcome/catalogue/concepts';
+import type { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import CollectionsLandingPage, {
   Props as CollectionsLandingPageProps,
 } from '@weco/content/views/pages/collections';
 
-export type Concept = {
-  id: string;
-  label: string;
-  displayLabel?: string;
-  description?: {
-    text: string;
-    sourceLabel?: string;
-    sourceUrl?: string;
-  };
-  // ...other fields are available
-};
-
-type ConceptsApiResponse = {
-  results: Concept[];
-  totalResults: number;
-};
-
-type ThemeCategory = {
+export type ThemeCategory = {
   label: string;
   concepts: string[];
 };
@@ -50,32 +35,16 @@ type ThemeConfig = {
   categories: ThemeCategory[];
 };
 
-async function fetchConceptsByIds(conceptIds: string[]): Promise<Concept[]> {
-  if (conceptIds.length === 0) {
-    return [];
+async function getConceptsByIds(ids: string[]): Promise<Concept[]> {
+  if (ids.length === 0) return [];
+  const result = await getConcepts({
+    params: { id: ids.join(',') },
+    toggles: {},
+  });
+  if ('results' in result) {
+    return result.results;
   }
-
-  try {
-    const idsParam = conceptIds.join(',');
-    const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/concepts?id=${idsParam}`;
-
-    console.log(`Fetching concepts from: ${apiUrl}`);
-
-    const response = await fetch(apiUrl);
-
-    if (!response.ok) {
-      throw new Error(
-        `Failed to fetch concepts: ${response.status} ${response.statusText}`
-      );
-    }
-
-    const data: ConceptsApiResponse = await response.json();
-
-    return data.results || [];
-  } catch (error) {
-    console.error('Error fetching concepts by IDs:', error);
-    return [];
-  }
+  return [];
 }
 
 // TODO need the real concept ids to use
@@ -115,7 +84,7 @@ async function fetchFeaturedConcepts(): Promise<Concept[]> {
       return [];
     }
 
-    return fetchConceptsByIds(featuredCategory.concepts);
+    return getConceptsByIds(featuredCategory.concepts);
   } catch (error) {
     console.error('Error fetching featured concepts:', error);
     return [];
@@ -200,4 +169,5 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     params: { siteSection: 'collections' },
   });
 };
+
 export default Page;
