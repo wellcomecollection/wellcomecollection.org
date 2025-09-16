@@ -144,7 +144,7 @@ export type RelatedConcept = {
 };
 
 export type Concept = {
-  id?: string;
+  id: string;
   identifiers?: Identifier[];
   label: string;
   displayLabel?: string;
