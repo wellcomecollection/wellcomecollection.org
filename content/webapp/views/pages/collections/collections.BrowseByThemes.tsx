@@ -1,7 +1,9 @@
+import Link from 'next/link';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import type { Concept } from '@weco/content/services/wellcome/catalogue/types';
+import { toConceptLink } from '@weco/content/views/components/ConceptLink';
 
 const BrowseByThemesWrapper = styled.section`
   margin: ${props => props.theme.spaceAtBreakpoints.small.xl}px 0;
@@ -49,18 +51,23 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
   return (
     <BrowseByThemesWrapper data-component="BrowseByTheme">
       <ConceptList>
-        {featuredConcepts.map(concept => (
-          <ConceptCard key={concept.id}>
-            <ConceptTitle>
-              {concept.label || concept.displayLabel || concept.id}
-            </ConceptTitle>
-            {concept.description && concept.description.text && (
-              <ConceptDescription>
-                {concept.description.text}
-              </ConceptDescription>
-            )}
-          </ConceptCard>
-        ))}
+        {featuredConcepts.map(concept => {
+          const linkProps = toConceptLink({ conceptId: concept.id! });
+          return (
+            <Link key={concept.id} href={linkProps.href} passHref>
+              <ConceptCard>
+                <ConceptTitle>
+                  {concept.label || concept.displayLabel || concept.id}
+                </ConceptTitle>
+                {concept.description && concept.description.text && (
+                  <ConceptDescription>
+                    {concept.description.text}
+                  </ConceptDescription>
+                )}
+              </ConceptCard>
+            </Link>
+          );
+        })}
       </ConceptList>
     </BrowseByThemesWrapper>
   );
