@@ -1,12 +1,15 @@
 // TODO:
 // make hover line reusable
-// keyboard nav for multi select
 // aria-live on content change
 // Consider NO JS
 // Submit button required????? We don't have on in filters on desktop.
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+
+import AnimatedUnderlineCSS, {
+  AnimatedUnderlineProps,
+} from '@weco/common/views/components/styled/AnimatedUnderline';
 
 type Tag = {
   id: string;
@@ -25,10 +28,12 @@ const TagsWrapper = styled.div`
   gap: 8px 16px;
 `;
 
-const StyledInput = styled.label<{ $isSelected: boolean }>`
-  --line-color: ${props =>
-    props.theme.color(props.$isSelected ? 'white' : 'black')};
-  position: relative;
+const StyledInput = styled.label<
+  AnimatedUnderlineProps & {
+    $isSelected: boolean;
+  }
+>`
+  ${AnimatedUnderlineCSS}
 
   display: inline-block;
   border: 1px solid ${props => props.theme.color('black')};
@@ -36,44 +41,30 @@ const StyledInput = styled.label<{ $isSelected: boolean }>`
     props.theme.color(props.$isSelected ? 'black' : 'transparent')};
   color: ${props => props.theme.color(props.$isSelected ? 'white' : 'black')};
   padding: 8px 16px;
-  border-radius: 20px;
+  border-radius: 100px;
   cursor: pointer;
-
-  &:focus-visible,
-  &:focus,
-  &:target,
-  &:active {
-    box-shadow: ${props => props.theme.focusBoxShadow};
-    outline: ${props => props.theme.highContrastOutlineFix};
-  }
-
-  & > span {
-    background-image: linear-gradient(
-      0deg,
-      var(--line-color) 0%,
-      var(--line-color) 100%
-    );
-    background-position: 0% 100%;
-    background-repeat: no-repeat;
-    background-size: var(--background-size, 0%) 1.4px;
-    transition: background-size ${props => props.theme.transitionProperties};
-    line-height: 20px;
-    transform: translateZ(0);
-    padding-bottom: 2px;
-  }
 
   &:hover {
     background-color: ${props =>
       props.theme.color(props.$isSelected ? 'black' : 'warmNeutral.400')};
     color: ${props => props.theme.color(props.$isSelected ? 'white' : 'black')};
+  }
+`;
 
-    --background-size: 100%;
+const InputField = styled.input`
+  position: absolute;
+  opacity: 0;
+  z-index: 1;
+  height: 0;
+  width: 0;
+
+  &:focus-visible ~ ${StyledInput}, &:focus ~ ${StyledInput} {
+    box-shadow: ${props => props.theme.focusBoxShadow};
+    outline: ${props => props.theme.highContrastOutlineFix};
   }
 
-  input {
-    position: absolute;
-    opacity: 0;
-    z-index: 1;
+  &:focus ~ ${StyledInput}:not(:focus-visible ~ ${StyledInput}) {
+    box-shadow: none;
   }
 `;
 
@@ -83,6 +74,10 @@ export const SelectableTags: React.FC<SelectableTagsProps> = ({
   onChange,
 }) => {
   const [selected, setSelected] = useState<string[]>([tags[0]?.id]);
+
+  useEffect(() => {
+    setSelected([tags[0]?.id]);
+  }, [isMultiSelect]);
 
   if (tags.length === 0) return null;
 
@@ -113,34 +108,41 @@ export const SelectableTags: React.FC<SelectableTagsProps> = ({
   return (
     <div data-component="selectable-tags">
       <TagsWrapper>
-        {tags.map(tag => (
-          <StyledInput
-            key={tag.id}
-            htmlFor={tag.id}
-            $isSelected={selected.includes(tag.id)}
-          >
-            {isMultiSelect ? (
-              <input
-                id={tag.id}
-                type="checkbox"
-                value={tag.id}
-                checked={selected.includes(tag.id)}
-                onChange={() => handleTagClick(tag.id)}
-              />
-            ) : (
-              <input
-                id={tag.id}
-                type="radio"
-                name="selectable-tags"
-                value={tag.id}
-                checked={selected.includes(tag.id)}
-                onChange={() => handleTagClick(tag.id)}
-              />
-            )}
-
-            <span>{tag.label}</span>
-          </StyledInput>
-        ))}
+        {tags.map(tag => {
+          const isSelected = selected.includes(tag.id);
+          return (
+            <div key={tag.id}>
+              {isMultiSelect ? (
+                <InputField
+                  id={tag.id}
+                  type="checkbox"
+                  value={tag.id}
+                  checked={isSelected}
+                  onChange={() => handleTagClick(tag.id)}
+                />
+              ) : (
+                <InputField
+                  id={tag.id}
+                  type="radio"
+                  name="selectable-tags"
+                  value={tag.id}
+                  checked={isSelected}
+                  onChange={() => handleTagClick(tag.id)}
+                />
+              )}
+              <StyledInput
+                as="label"
+                key={tag.id}
+                htmlFor={tag.id}
+                $isSelected={!!isSelected}
+                $lineColor={isSelected ? 'white' : 'black'}
+                $lineThickness={1.4}
+              >
+                <span>{tag.label}</span>
+              </StyledInput>
+            </div>
+          );
+        })}
       </TagsWrapper>
     </div>
   );
