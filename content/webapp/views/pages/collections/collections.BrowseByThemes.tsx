@@ -2,12 +2,14 @@ import Link from 'next/link';
 import { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
 
+import { useConceptImageUrls } from '@weco/content/hooks/useConceptImageUrls';
 import { useThemeConcepts } from '@weco/content/hooks/useThemeConcepts';
 import { getConcepts } from '@weco/content/services/wellcome/catalogue/concepts';
 import type { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { toConceptLink } from '@weco/content/views/components/ConceptLink';
 
 import type { ThemeCategory, ThemeConfig } from './themeBlockCategories';
+
 const CategoryLinks = styled.div`
   display: flex;
   gap: 1rem;
@@ -68,6 +70,53 @@ const ConceptDescription = styled.p`
   font-size: 0.95rem;
 `;
 
+const ImageGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0.25rem;
+  width: 100%;
+  margin-bottom: 0.75rem;
+  overflow: hidden;
+`;
+
+const ThemeConceptCard: FunctionComponent<{ concept: Concept }> = ({
+  concept,
+}) => {
+  const linkProps = toConceptLink({ conceptId: concept.id });
+  const imageUrls = useConceptImageUrls(concept);
+  return (
+    <Link key={concept.id} href={linkProps.href} passHref>
+      <ConceptCard>
+        {imageUrls.length > 0 && (
+          <ImageGrid>
+            {imageUrls.slice(0, 4).map((url, i) => (
+              <img
+                key={url + i}
+                src={url}
+                alt=""
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  borderRadius: '4px',
+                  display: 'block',
+                }}
+              />
+            ))}
+          </ImageGrid>
+        )}
+        <ConceptTitle>
+          {concept.label || concept.displayLabel || concept.id}
+        </ConceptTitle>
+        {concept.description && concept.description.text && (
+          <ConceptDescription>{concept.description.text}</ConceptDescription>
+        )}
+      </ConceptCard>
+    </Link>
+  );
+};
+
 const getConceptsByIds = async (ids: string[]) => {
   if (ids.length === 0) return [];
   const result = await getConcepts({
@@ -80,14 +129,14 @@ const getConceptsByIds = async (ids: string[]) => {
   return [];
 };
 
-const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
+const BrowseByThemes: React.FC<BrowseByThemeProps> = ({
   themeConfig,
   initialConcepts,
 }) => {
   const [selectedCategory, setSelectedCategory] = useState(
     themeConfig.categories[0]
   );
-  const { concepts, loading, error, fetchConcepts } = useThemeConcepts(
+  const { concepts, loading, fetchConcepts } = useThemeConcepts(
     initialConcepts,
     getConceptsByIds
   );
@@ -111,25 +160,10 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
           </CategoryLink>
         ))}
       </CategoryLinks>
-      {error && <div style={{ color: 'red' }}>{error}</div>}
       <ConceptList>
-        {concepts.map(concept => {
-          const linkProps = toConceptLink({ conceptId: concept.id });
-          return (
-            <Link key={concept.id} href={linkProps.href} passHref>
-              <ConceptCard>
-                <ConceptTitle>
-                  {concept.label || concept.displayLabel || concept.id}
-                </ConceptTitle>
-                {concept.description && concept.description.text && (
-                  <ConceptDescription>
-                    {concept.description.text}
-                  </ConceptDescription>
-                )}
-              </ConceptCard>
-            </Link>
-          );
-        })}
+        {concepts.map(concept => (
+          <ThemeConceptCard key={concept.id} concept={concept} />
+        ))}
       </ConceptList>
       {loading && <div>Loading…</div>}
     </BrowseByThemesWrapper>
