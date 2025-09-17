@@ -129,7 +129,7 @@ const getConceptsByIds = async (ids: string[]) => {
   return [];
 };
 
-const BrowseByThemes: React.FC<BrowseByThemeProps> = ({
+const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
   themeConfig,
   initialConcepts,
 }) => {
