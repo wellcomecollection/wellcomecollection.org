@@ -32,7 +32,7 @@ const toQuery: (props: ConceptsProps) => ParsedUrlQuery = props => {
   return encodeQuery<ConceptsProps>(props, codecMap);
 };
 
-function toLink(partialProps: Partial<ConceptsProps>): LinkProps {
+function toSearchConceptsLink(partialProps: Partial<ConceptsProps>): LinkProps {
   const pathname = '/search/concepts';
   const props: ConceptsProps = {
     ...emptyConceptsProps,
@@ -45,10 +45,6 @@ function toLink(partialProps: Partial<ConceptsProps>): LinkProps {
       pathname,
       query: { ...query },
     },
-    as: {
-      pathname,
-      query,
-    },
   };
 }
 
@@ -57,12 +53,8 @@ const ConceptsLink: FunctionComponent<Props> = ({
   children,
   ...props
 }: Props) => {
-  return (
-    <NextLink {...toLink(props)} legacyBehavior>
-      {children}
-    </NextLink>
-  );
+  return <NextLink {...toSearchConceptsLink(props)}>{children}</NextLink>;
 };
 
 export default ConceptsLink;
-export { toLink, toQuery, fromQuery, emptyConceptsProps };
+export { toSearchConceptsLink, toQuery, fromQuery, emptyConceptsProps };

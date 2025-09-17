@@ -1,7 +1,15 @@
+import NextLink from 'next/link';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
+import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
+
+export const Link = styled(NextLink)`
+  text-decoration: none;
+  color: inherit;
+  display: block;
+`;
 
 export const Container = styled.div`
   display: flex;
@@ -68,8 +76,26 @@ export const ConceptInformation = styled(Space).attrs({
   $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.600')};
+`;
 
-  .searchable-selector {
-    font-weight: 500;
+export const SearchResultUnorderedList = styled(PlainList)`
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+export const SearchResultListItem = styled.li`
+  flex-basis: 100%;
+  max-width: 100%;
+
+  &:first-child {
+    border-top: 0;
+
+    & > a {
+      padding-top: 0;
+    }
+  }
+
+  &:last-child a {
+    padding-bottom: 0;
   }
 `;

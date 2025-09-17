@@ -14,14 +14,15 @@ import {
   Concept,
 } from '@weco/content/services/wellcome/catalogue/types';
 import { Query } from '@weco/content/types/search';
-import ConceptsSearchResults from '@weco/content/views/components/ConceptsSearchResults';
 import Pagination from '@weco/content/views/components/Pagination';
 import {
   ConceptsProps as ConceptsRouteProps,
-  toLink,
+  toSearchConceptsLink,
 } from '@weco/content/views/components/SearchPagesLink/Concepts';
 import { withSearchLayout } from '@weco/content/views/layouts/SearchPageLayout';
 import SearchNoResults from '@weco/content/views/pages/search/search.NoResults';
+
+import ConceptsSearchResults from './concepts.SearchResults';
 
 export type Props = {
   concepts: CatalogueResultsList<Concept>;
@@ -36,7 +37,7 @@ const ConceptsSearchPage: NextPage<Props> = withSearchLayout(
 
     const { setLink } = useSearchContext();
     useEffect(() => {
-      const link = toLink({ ...conceptsRouteProps });
+      const link = toSearchConceptsLink({ ...conceptsRouteProps });
       setLink(link);
     }, [conceptsRouteProps]);
 
@@ -49,7 +50,7 @@ const ConceptsSearchPage: NextPage<Props> = withSearchLayout(
             <link
               rel="prev"
               href={convertUrlToString(
-                toLink({
+                toSearchConceptsLink({
                   ...conceptsRouteProps,
                   page: (conceptsRouteProps.page || 1) - 1,
                 }).href
@@ -60,7 +61,7 @@ const ConceptsSearchPage: NextPage<Props> = withSearchLayout(
             <link
               rel="next"
               href={convertUrlToString(
-                toLink({
+                toSearchConceptsLink({
                   ...conceptsRouteProps,
                   page: conceptsRouteProps.page + 1,
                 }).href

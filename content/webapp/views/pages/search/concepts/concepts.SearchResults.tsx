@@ -1,6 +1,6 @@
-import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
 
+import { font } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
 import { Concept } from '@weco/content/services/wellcome/catalogue/types';
@@ -13,34 +13,28 @@ import {
   ConceptTitleHeading,
   Container,
   Details,
+  Link,
+  SearchResultListItem,
+  SearchResultUnorderedList,
   Wrapper,
-} from './ConceptSearchResult.styles';
+} from './concepts.SearchResults.styles';
 
-type Props = {
+const ConceptSearchResult: FunctionComponent<{
   concept: Concept;
-  resultPosition: number;
-};
+}> = ({ concept }) => {
+  if (!concept.id) return null;
 
-const ConceptSearchResult: FunctionComponent<Props> = ({
-  concept,
-  resultPosition,
-}) => {
   // Create a label for the concept type
   const typeLabel = {
     text: concept.type,
     labelColor: 'warmNeutral.300' as const,
   };
 
-  const linkProps = toConceptLink({ conceptId: concept.id as string });
+  const linkProps = toConceptLink({ conceptId: concept.id });
 
   return (
-    <NextLink {...linkProps} legacyBehavior passHref>
-      <Wrapper
-        as="a"
-        data-gtm-trigger="concepts_search_result"
-        data-gtm-position-in-list={resultPosition + 1}
-        aria-label={`View concept: ${concept.displayLabel || concept.label}`}
-      >
+    <Link {...linkProps}>
+      <Wrapper>
         <Container>
           <Details>
             <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
@@ -69,7 +63,7 @@ const ConceptSearchResult: FunctionComponent<Props> = ({
               )}
 
             <ConceptInformation>
-              <span className="searchable-selector">Type: {concept.type}</span>
+              <span className={font('intm', 5)}>Type: {concept.type}</span>
               {concept.id && (
                 <>
                   <span aria-hidden> | </span>
@@ -80,8 +74,30 @@ const ConceptSearchResult: FunctionComponent<Props> = ({
           </Details>
         </Container>
       </Wrapper>
-    </NextLink>
+    </Link>
   );
 };
 
-export default ConceptSearchResult;
+const ConceptsSearchResults: FunctionComponent<{ concepts: Concept[] }> = ({
+  concepts,
+}) => {
+  if (concepts.length === 0) return null;
+
+  return (
+    <SearchResultUnorderedList
+      data-component="concepts-search-results"
+      data-testid="concepts-search-results"
+    >
+      {concepts.map(result => (
+        <SearchResultListItem
+          data-testid="concept-search-result"
+          key={result.id}
+        >
+          <ConceptSearchResult concept={result} />
+        </SearchResultListItem>
+      ))}
+    </SearchResultUnorderedList>
+  );
+};
+
+export default ConceptsSearchResults;
