@@ -1,11 +1,21 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
+import { useAppContext } from '@weco/common/contexts/AppContext';
+import LL from '@weco/common/views/components/styled/LL';
 import SelectableTags from '@weco/content/views/components/SelectableTags';
 
 const BrowseByTheme = () => {
   const [selectedTheme, setSelectedTheme] = useState<string[]>(['featured']);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const { isEnhanced } = useAppContext();
 
-  return (
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
+
+  if (!isLoaded && !isEnhanced) return <LL $small />;
+
+  return isEnhanced ? (
     <>
       <SelectableTags
         tags={[
@@ -17,6 +27,7 @@ const BrowseByTheme = () => {
           { id: 'objects', label: 'Objects' },
         ]}
         onChange={setSelectedTheme}
+        isMultiSelect
       />
 
       {selectedTheme.length > 0 && (
@@ -58,6 +69,13 @@ const BrowseByTheme = () => {
           )}
         </div>
       )}
+    </>
+  ) : (
+    <>
+      <h3>Featured</h3>
+      <div id="featured">
+        <p>Featured</p>
+      </div>
     </>
   );
 };
