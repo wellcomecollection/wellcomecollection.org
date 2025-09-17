@@ -102,6 +102,7 @@ export const workFixture: Work = {
       label: 'AIDS (Disease)',
       concepts: [
         {
+          id: 'concept-1',
           label: 'AIDS (Disease)',
           type: 'Concept',
         },
@@ -124,6 +125,7 @@ export const workFixture: Work = {
       label: 'Condoms.',
       concepts: [
         {
+          id: 'concept-2',
           label: 'Condoms.',
           type: 'Concept',
         },
@@ -146,6 +148,7 @@ export const workFixture: Work = {
       label: 'Sun.',
       concepts: [
         {
+          id: 'concept-3',
           label: 'Sun.',
           type: 'Place',
         },
@@ -168,6 +171,7 @@ export const workFixture: Work = {
       label: 'Germany.',
       concepts: [
         {
+          id: 'concept-4',
           label: 'Germany.',
           type: 'Place',
         },
@@ -180,6 +184,7 @@ export const workFixture: Work = {
       label: 'Posters.',
       concepts: [
         {
+          id: 'concept-5',
           label: 'Posters.',
           type: 'Concept',
         },
@@ -190,6 +195,7 @@ export const workFixture: Work = {
       label: 'Lithographs.',
       concepts: [
         {
+          id: 'concept-6',
           label: 'Lithographs.',
           type: 'Concept',
         },
