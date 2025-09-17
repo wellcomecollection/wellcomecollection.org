@@ -1,0 +1,65 @@
+import { useState } from 'react';
+
+import SelectableTags from '@weco/content/views/components/SelectableTags';
+
+const BrowseByTheme = () => {
+  const [selectedTheme, setSelectedTheme] = useState<string[]>(['featured']);
+
+  return (
+    <>
+      <SelectableTags
+        tags={[
+          { id: 'featured', label: 'Featured' },
+          { id: 'new', label: 'New' },
+          { id: 'manuscripts', label: 'Manuscripts' },
+          { id: 'archives', label: 'Archives' },
+          { id: 'books', label: 'Books' },
+          { id: 'objects', label: 'Objects' },
+        ]}
+        onChange={setSelectedTheme}
+      />
+
+      {selectedTheme.length > 0 && (
+        <div aria-live="polite">
+          {selectedTheme.includes('featured') && (
+            <div id="featured">
+              <p>Featured</p>
+            </div>
+          )}
+
+          {selectedTheme.includes('new') && (
+            <div id="new">
+              <p>New</p>
+            </div>
+          )}
+
+          {selectedTheme.includes('manuscripts') && (
+            <div id="manuscripts">
+              <p>Manuscripts</p>
+            </div>
+          )}
+
+          {selectedTheme.includes('archives') && (
+            <div id="archives">
+              <p>Archives</p>
+            </div>
+          )}
+
+          {selectedTheme.includes('books') && (
+            <div id="books">
+              <p>Books</p>
+            </div>
+          )}
+
+          {selectedTheme.includes('objects') && (
+            <div id="objects">
+              <p>Objects</p>
+            </div>
+          )}
+        </div>
+      )}
+    </>
+  );
+};
+
+export default BrowseByTheme;

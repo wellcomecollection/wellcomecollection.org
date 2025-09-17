@@ -31,7 +31,6 @@ const AnimatedUnderlineCSS = css<AnimatedUnderlineProps>`
     background-size: var(--background-size, 0%)
       ${props => props.$lineThickness || 2}px;
     transition: background-size ${props => props.theme.transitionProperties};
-    line-height: 20px;
     transform: translateZ(0);
     padding-bottom: 2px;
   }

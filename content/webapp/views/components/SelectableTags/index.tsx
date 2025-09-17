@@ -1,25 +1,18 @@
-// TODO:
-// make hover line reusable
-// aria-live on content change
-// Consider NO JS
-// Submit button required????? We don't have on in filters on desktop.
-
-import { useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+import { font } from '@weco/common/utils/classnames';
 import AnimatedUnderlineCSS, {
   AnimatedUnderlineProps,
 } from '@weco/common/views/components/styled/AnimatedUnderline';
 
-type Tag = {
-  id: string;
-  label: string;
-};
-
 type SelectableTagsProps = {
-  tags: Tag[];
+  tags: {
+    id: string;
+    label: string;
+  }[];
   isMultiSelect?: boolean;
-  onChange?: (selectedIds: string[]) => void;
+  onChange?: (selected: string[]) => void;
 };
 
 const TagsWrapper = styled.div`
@@ -68,7 +61,7 @@ const InputField = styled.input`
   }
 `;
 
-export const SelectableTags: React.FC<SelectableTagsProps> = ({
+export const SelectableTags: FunctionComponent<SelectableTagsProps> = ({
   tags,
   isMultiSelect,
   onChange,
@@ -81,33 +74,37 @@ export const SelectableTags: React.FC<SelectableTagsProps> = ({
 
   if (tags.length === 0) return null;
 
-  // In a multi-choice, the last one selected cannot be unselected
-  // (there must always be at least one selected)
   const isLastSelected = (id: string) =>
     isMultiSelect && selected.length === 1 && selected[0] === id;
 
   const handleTagClick = (id: string) => {
-    if (isMultiSelect) {
-      const isSelected = selected.includes(id);
-      const newSelected = isSelected
-        ? isLastSelected(id)
-          ? [id]
-          : selected.filter(tagId => tagId !== id)
-        : [...selected, id];
+    const isSelected = selected.includes(id);
 
-      setSelected(newSelected);
-
-      if (onChange) {
-        onChange(newSelected);
-      }
+    let newSelected: string[];
+    // Single-select mode: always select only the clicked tag
+    if (!isMultiSelect) {
+      newSelected = [id];
+    } else if (isSelected) {
+      // If it's the last selected tag, don't allow unselecting (must always have one selected)
+      newSelected = isLastSelected(id)
+        ? [id]
+        : // Otherwise, remove the tag from the selection
+          selected.filter(tagId => tagId !== id);
     } else {
-      setSelected([id]);
+      // Multi-select mode: tag is not selected, so add it to the selection
+      newSelected = [...selected, id];
+    }
+
+    setSelected(newSelected);
+
+    if (onChange) {
+      onChange(newSelected);
     }
   };
 
   return (
     <div data-component="selectable-tags">
-      <TagsWrapper>
+      <TagsWrapper className={font('intm', 5)}>
         {tags.map(tag => {
           const isSelected = selected.includes(tag.id);
           return (
