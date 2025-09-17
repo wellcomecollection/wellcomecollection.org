@@ -17,7 +17,7 @@ import type { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { MultiContent } from '@weco/content/types/multi-content';
 import CardGrid from '@weco/content/views/components/CardGrid';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
-import BrowseByThemes from '@weco/content/views/pages/collections/collections.BrowseByThemes';
+import BrowseByThemesData from '@weco/content/views/pages/collections/collections.BrowseByThemesData';
 import WorkTypesList from '@weco/content/views/pages/collections/collections.WorkTypesList';
 import { themeBlockCategories } from '@weco/content/views/pages/collections/themeBlockCategories';
 
@@ -67,7 +67,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
       <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
         <SectionHeader title="Browse by theme" gridSize={gridSize12()} />
         <ContaineredLayout gridSizes={gridSize12()}>
-          <BrowseByThemes
+          <BrowseByThemesData
             themeConfig={themeBlockCategories}
             initialConcepts={featuredConcepts}
           />
