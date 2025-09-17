@@ -8,7 +8,7 @@ updates:
   - package-ecosystem: 'npm' # See documentation for possible values
     directory: '/' # Location of package manifests
     schedule:
-      interval: 'weekly' # Check for updates every month
+      interval: 'monthly'
     ignore:
       - dependency-name: '*'
         update-types: ['version-update:semver-patch'] # Ignore all patch updates for version updates only
@@ -38,7 +38,7 @@ updates:
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
-      interval: 'weekly'
+      interval: 'monthly'
     groups:
       all:
         patterns: ['*']
