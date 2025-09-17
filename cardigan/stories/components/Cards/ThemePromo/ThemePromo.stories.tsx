@@ -1,7 +1,8 @@
 import { Meta, StoryObj } from '@storybook/react';
 
 import mockImages from '@weco/cardigan/stories/components/CatalogueImageGallery/mock-images';
-import ConceptCard from '@weco/common/views/components/ConceptCard';
+import ThemePromo from '@weco/common/views/components/ThemePromo';
+import { Image } from '@weco/content/services/wellcome/catalogue/types';
 
 type StoryArgs = {
   imageCount: number;
@@ -12,8 +13,8 @@ type StoryArgs = {
 };
 
 const meta: Meta<StoryArgs> = {
-  title: 'Components/Cards/ConceptCard',
-  component: ConceptCard,
+  title: 'Components/Cards/ThemePromo',
+  component: ThemePromo,
   argTypes: {
     images: {
       table: {
@@ -40,7 +41,7 @@ export default meta;
 type Story = StoryObj<StoryArgs>;
 
 export const Basic: Story = {
-  name: 'ConceptCard',
+  name: 'ThemePromo',
   args: {
     title: 'Photography',
     description:
@@ -55,6 +56,11 @@ export const Basic: Story = {
       Math.max(0, Math.min(4, imageCount))
     );
 
-    return <ConceptCard {...componentProps} images={selectedImages} />;
+    return (
+      <ThemePromo
+        {...componentProps}
+        images={selectedImages as [Image?, Image?, Image?, Image?]}
+      />
+    );
   },
 };

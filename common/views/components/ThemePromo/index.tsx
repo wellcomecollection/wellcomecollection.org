@@ -96,14 +96,14 @@ const Description = styled.p.attrs({
   margin-bottom: 0;
 `;
 
-export type ConceptCardProps = {
+export type ThemePromoProps = {
   images: [Image?, Image?, Image?, Image?];
   title: string;
   description: string;
   url: string;
 };
 
-const ConceptCard: FunctionComponent<ConceptCardProps> = ({
+const ThemePromo: FunctionComponent<ThemePromoProps> = ({
   images,
   title,
   description,
@@ -123,7 +123,7 @@ const ConceptCard: FunctionComponent<ConceptCardProps> = ({
   });
 
   return (
-    <CardWrapper data-component="concept-card" href={url}>
+    <CardWrapper data-component="theme-promo" href={url}>
       <CompositeGrid>
         {slots.map((slot, index) => (
           <ImageContainer
@@ -150,4 +150,4 @@ const ConceptCard: FunctionComponent<ConceptCardProps> = ({
   );
 };
 
-export default ConceptCard;
+export default ThemePromo;
