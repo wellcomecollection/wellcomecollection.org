@@ -27,7 +27,7 @@ export const themeBlockCategories: ThemeConfig = {
     },
     {
       label: 'Subjects',
-      concepts: ['a224tns9', 'gyh3qjn3'],
+      concepts: ['a224tns9', 'gyh3qjn3', 'rxa2pk4j'],
     },
     {
       label: 'Places',
