@@ -61,6 +61,7 @@ const SearchForm = ({
       }}
     >
       <SearchBar
+        variant="default"
         inputValue={inputValue}
         setInputValue={setInputValue}
         form={`search-form-${searchCategory}`}
