@@ -15,6 +15,12 @@ const placeholderColors = [
   'accent.green',
 ];
 
+const Title = styled(Space).attrs({
+  className: font('wb', 3),
+  as: 'h3',
+  $v: { size: 's', properties: ['margin-bottom'] },
+})``;
+
 const CardWrapper = styled.a`
   position: relative;
   width: 100%;
@@ -22,7 +28,7 @@ const CardWrapper = styled.a`
   color: ${props => props.theme.color('white')};
   container-type: inline-size;
 
-  &:hover h3 {
+  &:hover ${Title} {
     text-decoration: underline;
   }
 `;
@@ -143,7 +149,7 @@ const ThemePromo: FunctionComponent<ThemePromoProps> = ({
         ))}
       </CompositeGrid>
       <TextContent>
-        <h3 className={font('wb', 3)}>{title}</h3>
+        <Title>{title}</Title>
         <Description>{description}</Description>
       </TextContent>
     </CardWrapper>
