@@ -70,6 +70,7 @@ const TextContent = styled(Space).attrs({
   $v: { size: 'm', properties: ['padding-bottom'] },
   $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 })`
+  min-height: 30%;
   padding-top: 4rem;
   position: absolute;
   z-index: 2;
