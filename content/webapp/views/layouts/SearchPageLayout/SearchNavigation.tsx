@@ -147,6 +147,7 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
           $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
         >
           <SearchBar
+            variant="default"
             inputValue={inputValue}
             setInputValue={setInputValue}
             placeholder={searchLabelText[currentSearchCategory]}

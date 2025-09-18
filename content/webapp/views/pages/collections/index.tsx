@@ -12,7 +12,7 @@ import {
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
-import SearchBar from '@weco/common/views/components/SearchBar/new';
+import SearchBar from '@weco/common/views/components/SearchBar';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
@@ -77,6 +77,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
         <ContaineredLayout gridSizes={gridSize10(false)}>
           <form id="collections-search" onSubmit={handleSearch}>
             <SearchBar
+              variant="new"
               inputValue={searchValue}
               setInputValue={setSearchValue}
               placeholder="Search our collections"

@@ -105,7 +105,7 @@ const SearchButtonWrapper = styled.div`
   }
 `;
 
-type Props = {
+export type Props = {
   inputValue: string;
   setInputValue: Dispatch<SetStateAction<string>>;
   placeholder: string;
@@ -172,7 +172,7 @@ const SearchBar: FunctionComponent<Props> = ({
   }, [typewriterRef.current]);
 
   return (
-    <Container data-component="search-bar" className="is-hidden-print">
+    <Container className="is-hidden-print">
       <SearchInputWrapper>
         <Typewriter ref={typewriterRef} />
         <TextInput

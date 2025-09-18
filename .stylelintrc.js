@@ -10,7 +10,7 @@ module.exports = {
       },
     ],
     'color-function-notation': 'legacy',
-    'color-function-alias-notation': 'legacy',
+    'color-function-alias-notation': null,
     'declaration-block-no-redundant-longhand-properties': [
       true,
       { ignoreShorthands: ['inset', 'flex-flow'] },

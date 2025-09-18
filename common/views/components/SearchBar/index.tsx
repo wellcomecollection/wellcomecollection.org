@@ -1,91 +1,27 @@
-import {
-  Dispatch,
-  FunctionComponent,
-  RefObject,
-  SetStateAction,
-  useRef,
-} from 'react';
-import styled from 'styled-components';
+import { FunctionComponent } from 'react';
 
-import { useToggles } from '@weco/common/server-data/Context';
-import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
-import TextInput from '@weco/common/views/components/TextInput';
-import { themeValues } from '@weco/common/views/themes/config';
+import SearchBarDefault, {
+  Props as SearchBarDefaultProps,
+} from './SearchBar.Default';
+import SearchBarNew, { Props as SearchBarNewProps } from './SearchBar.New';
 
-const Container = styled.div`
-  display: flex;
-  align-items: flex-end;
-`;
-const SearchInputWrapper = styled.div`
-  flex: 1 1 auto;
+type Props =
+  | (SearchBarDefaultProps & { variant: 'default' })
+  | (SearchBarNewProps & { variant: 'new' });
 
-  position: relative;
-  font-size: 20px;
-  margin-right: 10px;
-
-  .search-query {
-    height: ${props => 10 * props.theme.spacingUnit}px;
-  }
-`;
-
-const SearchButtonWrapper = styled.div`
-  button {
-    height: 100%;
-  }
-`;
-
-type Props = {
-  inputValue: string;
-  setInputValue: Dispatch<SetStateAction<string>>;
-  placeholder: string;
-  form: string;
-  inputRef?: RefObject<HTMLInputElement | null>;
-  location: ValidLocations;
-};
-
-export type ValidLocations = 'header' | 'search' | 'page';
-
-const SearchBar: FunctionComponent<Props> = ({
-  inputValue,
-  setInputValue,
-  placeholder,
-  form,
-  inputRef,
-  location,
-}) => {
-  const defaultInputRef = useRef<HTMLInputElement>(null);
-  const { collectionsLanding } = useToggles();
-
-  const buttonColors = collectionsLanding
-    ? themeValues.buttonColors.greenGreenWhite
-    : themeValues.buttonColors.yellowYellowBlack;
+const SearchBar: FunctionComponent<Props> = props => {
+  const { variant, ...restProps } = props;
 
   return (
-    <Container data-component="search-bar" className="is-hidden-print">
-      <SearchInputWrapper>
-        <TextInput
-          id={`${location}-searchbar`}
-          label={placeholder}
-          name="query"
-          type="search"
-          value={inputValue}
-          setValue={setInputValue}
-          ref={inputRef || defaultInputRef}
-          form={form}
-          hasClearButton
-        />
-      </SearchInputWrapper>
-      <SearchButtonWrapper>
-        <Button
-          variant="ButtonSolid"
-          text="Search"
-          type={ButtonTypes.submit}
-          form={form}
-          colors={buttonColors}
-        />
-      </SearchButtonWrapper>
-    </Container>
+    <div data-component="search-bar">
+      {variant === 'new' ? (
+        <SearchBarNew {...restProps} />
+      ) : (
+        <SearchBarDefault {...restProps} />
+      )}
+    </div>
   );
 };
 
 export default SearchBar;
+export type { ValidLocations } from './SearchBar.Default';
