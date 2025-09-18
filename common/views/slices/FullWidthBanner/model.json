@@ -50,7 +50,7 @@
             "label": "Supporting Text",
             "placeholder": "",
             "allowTargetBlank": false,
-            "single": "paragraph"
+            "single": "paragraph,hyperlink"
           }
         }
       },

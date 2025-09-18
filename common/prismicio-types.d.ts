@@ -3778,6 +3778,7 @@ export type PageFormatsDocument<Lang extends string = string> =
   >;
 
 type PagesDocumentDataBodySlice =
+  | FullWidthBannerSlice
   | GifVideoSlice
   | IframeSlice
   | EditorialImageSlice
