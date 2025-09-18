@@ -24,6 +24,8 @@ const Title = styled(Space).attrs({
 const CardWrapper = styled.a`
   position: relative;
   width: 100%;
+  max-width: 25rem;
+  margin: 0 auto;
   display: block;
   color: ${props => props.theme.color('white')};
   container-type: inline-size;
