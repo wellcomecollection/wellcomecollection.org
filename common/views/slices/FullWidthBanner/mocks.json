@@ -129,8 +129,8 @@
 				"__TYPE__": "ImageContent"
 			},
 			"first_link": {
-				"__TYPE__": "LinkContent",
 				"key": "5bc191cf-6978-41ab-8eae-43b41d8dacd9",
+				"__TYPE__": "LinkContent",
 				"value": {
 					"__TYPE__": "ExternalLink",
 					"url": "http://google.com",
@@ -138,8 +138,8 @@
 				}
 			},
 			"second_link": {
-				"__TYPE__": "LinkContent",
 				"key": "ba934081-9afe-48a6-ab22-8d0248db5de8",
+				"__TYPE__": "LinkContent",
 				"value": {
 					"__TYPE__": "ExternalLink",
 					"url": "https://prismic.io",

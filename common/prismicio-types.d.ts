@@ -6099,173 +6099,6 @@ export type ContentListSlice = prismic.SharedSlice<
 >;
 
 /**
- * Primary content in *FullWidthBanner → Default → Primary*
- */
-export interface FullWidthBannerSliceDefaultPrimary {
-  /**
-   * Title field in *FullWidthBanner → Default → Primary*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: fullWidthBanner.default.primary.title
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
-   */
-  title: prismic.RichTextField;
-
-  /**
-   * Description field in *FullWidthBanner → Default → Primary*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: fullWidthBanner.default.primary.description
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
-   */
-  description: prismic.RichTextField;
-
-  /**
-   * Feature Image field in *FullWidthBanner → Default → Primary*
-   *
-   * - **Field Type**: Image
-   * - **Placeholder**: *None*
-   * - **API ID Path**: fullWidthBanner.default.primary.image
-   * - **Documentation**: https://prismic.io/docs/fields/image
-   */
-  image: prismic.ImageField<never>;
-
-  /**
-   * Call to Action Button field in *FullWidthBanner → Default → Primary*
-   *
-   * - **Field Type**: Link
-   * - **Placeholder**: *None*
-   * - **API ID Path**: fullWidthBanner.default.primary.button
-   * - **Documentation**: https://prismic.io/docs/fields/link
-   */
-  button: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
-
-  /**
-   * Supporting Text field in *FullWidthBanner → Default → Primary*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: fullWidthBanner.default.primary.support_text
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
-   */
-  support_text: prismic.RichTextField;
-}
-
-/**
- * Default variation for FullWidthBanner Slice
- *
- * - **API ID**: `default`
- * - **Description**: Default layout with headline, description, button, feature image, and optional supporting text.
- * - **Documentation**: https://prismic.io/docs/slices
- */
-export type FullWidthBannerSliceDefault = prismic.SharedSliceVariation<
-  'default',
-  Simplify<FullWidthBannerSliceDefaultPrimary>,
-  never
->;
-
-/**
- * Primary content in *FullWidthBanner → Two links → Primary*
- */
-export interface FullWidthBannerSliceTwoLinksPrimary {
-  /**
-   * Title field in *FullWidthBanner → Two links → Primary*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: fullWidthBanner.twoLinks.primary.title
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
-   */
-  title: prismic.RichTextField;
-
-  /**
-   * Description field in *FullWidthBanner → Two links → Primary*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: fullWidthBanner.twoLinks.primary.description
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
-   */
-  description: prismic.RichTextField;
-
-  /**
-   * Feature Image field in *FullWidthBanner → Two links → Primary*
-   *
-   * - **Field Type**: Image
-   * - **Placeholder**: *None*
-   * - **API ID Path**: fullWidthBanner.twoLinks.primary.image
-   * - **Documentation**: https://prismic.io/docs/fields/image
-   */
-  image: prismic.ImageField<never>;
-
-  /**
-   * First link field in *FullWidthBanner → Two links → Primary*
-   *
-   * - **Field Type**: Link
-   * - **Placeholder**: *None*
-   * - **API ID Path**: fullWidthBanner.twoLinks.primary.first_link
-   * - **Documentation**: https://prismic.io/docs/fields/link
-   */
-  first_link: prismic.LinkField<
-    string,
-    string,
-    unknown,
-    prismic.FieldState,
-    never
-  >;
-
-  /**
-   * Second link field in *FullWidthBanner → Two links → Primary*
-   *
-   * - **Field Type**: Link
-   * - **Placeholder**: *None*
-   * - **API ID Path**: fullWidthBanner.twoLinks.primary.second_link
-   * - **Documentation**: https://prismic.io/docs/fields/link
-   */
-  second_link: prismic.LinkField<
-    string,
-    string,
-    unknown,
-    prismic.FieldState,
-    never
-  >;
-}
-
-/**
- * Two links variation for FullWidthBanner Slice
- *
- * - **API ID**: `twoLinks`
- * - **Description**: Default layout with headline, description, button, feature image, and optional supporting text.
- * - **Documentation**: https://prismic.io/docs/slices
- */
-export type FullWidthBannerSliceTwoLinks = prismic.SharedSliceVariation<
-  'twoLinks',
-  Simplify<FullWidthBannerSliceTwoLinksPrimary>,
-  never
->;
-
-/**
- * Slice variation for *FullWidthBanner*
- */
-type FullWidthBannerSliceVariation =
-  | FullWidthBannerSliceDefault
-  | FullWidthBannerSliceTwoLinks;
-
-/**
- * FullWidthBanner Shared Slice
- *
- * - **API ID**: `fullWidthBanner`
- * - **Description**: *None*
- * - **Documentation**: https://prismic.io/docs/slices
- */
-export type FullWidthBannerSlice = prismic.SharedSlice<
-  'fullWidthBanner',
-  FullWidthBannerSliceVariation
->;
-
-/**
  * Primary content in *EditorialImage → Default → Primary*
  */
 export interface EditorialImageSliceDefaultPrimary {
@@ -6484,6 +6317,173 @@ type EmbedSliceVariation = EmbedSliceDefault;
  * - **Documentation**: https://prismic.io/docs/slices
  */
 export type EmbedSlice = prismic.SharedSlice<'embed', EmbedSliceVariation>;
+
+/**
+ * Primary content in *FullWidthBanner → Default → Primary*
+ */
+export interface FullWidthBannerSliceDefaultPrimary {
+  /**
+   * Title field in *FullWidthBanner → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: fullWidthBanner.default.primary.title
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  title: prismic.RichTextField;
+
+  /**
+   * Description field in *FullWidthBanner → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: fullWidthBanner.default.primary.description
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  description: prismic.RichTextField;
+
+  /**
+   * Feature Image field in *FullWidthBanner → Default → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: fullWidthBanner.default.primary.image
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  image: prismic.ImageField<never>;
+
+  /**
+   * Call to Action Button field in *FullWidthBanner → Default → Primary*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: fullWidthBanner.default.primary.button
+   * - **Documentation**: https://prismic.io/docs/fields/link
+   */
+  button: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+
+  /**
+   * Supporting Text field in *FullWidthBanner → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: fullWidthBanner.default.primary.support_text
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  support_text: prismic.RichTextField;
+}
+
+/**
+ * Default variation for FullWidthBanner Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default layout with headline, description, button, feature image, and optional supporting text.
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type FullWidthBannerSliceDefault = prismic.SharedSliceVariation<
+  'default',
+  Simplify<FullWidthBannerSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Primary content in *FullWidthBanner → Two links → Primary*
+ */
+export interface FullWidthBannerSliceTwoLinksPrimary {
+  /**
+   * Title field in *FullWidthBanner → Two links → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: fullWidthBanner.twoLinks.primary.title
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  title: prismic.RichTextField;
+
+  /**
+   * Description field in *FullWidthBanner → Two links → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: fullWidthBanner.twoLinks.primary.description
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  description: prismic.RichTextField;
+
+  /**
+   * Feature Image field in *FullWidthBanner → Two links → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: fullWidthBanner.twoLinks.primary.image
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  image: prismic.ImageField<never>;
+
+  /**
+   * First link field in *FullWidthBanner → Two links → Primary*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: fullWidthBanner.twoLinks.primary.first_link
+   * - **Documentation**: https://prismic.io/docs/fields/link
+   */
+  first_link: prismic.LinkField<
+    string,
+    string,
+    unknown,
+    prismic.FieldState,
+    never
+  >;
+
+  /**
+   * Second link field in *FullWidthBanner → Two links → Primary*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: fullWidthBanner.twoLinks.primary.second_link
+   * - **Documentation**: https://prismic.io/docs/fields/link
+   */
+  second_link: prismic.LinkField<
+    string,
+    string,
+    unknown,
+    prismic.FieldState,
+    never
+  >;
+}
+
+/**
+ * Two links variation for FullWidthBanner Slice
+ *
+ * - **API ID**: `twoLinks`
+ * - **Description**: Default layout with headline, description, button, feature image, and optional supporting text.
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type FullWidthBannerSliceTwoLinks = prismic.SharedSliceVariation<
+  'twoLinks',
+  Simplify<FullWidthBannerSliceTwoLinksPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *FullWidthBanner*
+ */
+type FullWidthBannerSliceVariation =
+  | FullWidthBannerSliceDefault
+  | FullWidthBannerSliceTwoLinks;
+
+/**
+ * FullWidthBanner Shared Slice
+ *
+ * - **API ID**: `fullWidthBanner`
+ * - **Description**: *None*
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type FullWidthBannerSlice = prismic.SharedSlice<
+  'fullWidthBanner',
+  FullWidthBannerSliceVariation
+>;
 
 /**
  * Primary content in *GifVideo → Default → Primary*
@@ -7732,12 +7732,6 @@ declare module '@prismicio/client' {
       ContentListSliceDefaultItem,
       ContentListSliceVariation,
       ContentListSliceDefault,
-      FullWidthBannerSlice,
-      FullWidthBannerSliceDefaultPrimary,
-      FullWidthBannerSliceTwoLinksPrimary,
-      FullWidthBannerSliceVariation,
-      FullWidthBannerSliceDefault,
-      FullWidthBannerSliceTwoLinks,
       EditorialImageSlice,
       EditorialImageSliceDefaultPrimary,
       EditorialImageSliceVariation,
@@ -7751,6 +7745,12 @@ declare module '@prismicio/client' {
       EmbedSliceDefaultPrimary,
       EmbedSliceVariation,
       EmbedSliceDefault,
+      FullWidthBannerSlice,
+      FullWidthBannerSliceDefaultPrimary,
+      FullWidthBannerSliceTwoLinksPrimary,
+      FullWidthBannerSliceVariation,
+      FullWidthBannerSliceDefault,
+      FullWidthBannerSliceTwoLinks,
       GifVideoSlice,
       GifVideoSliceDefaultPrimary,
       GifVideoSliceVariation,
