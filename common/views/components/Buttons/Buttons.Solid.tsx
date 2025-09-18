@@ -66,6 +66,7 @@ const Button: ForwardRefRenderFunction<HTMLButtonElement, ButtonSolidProps> = (
       $isPill={isPill}
       $hasIcon={!!icon}
       $isIconAfter={isIconAfter}
+      $isNewSearchBar={isNewSearchBar}
     >
       <BaseButtonInner
         $isNewSearchBar={isNewSearchBar}
