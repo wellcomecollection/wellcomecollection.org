@@ -129,14 +129,6 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'newSearchBar',
-      title: 'Use the new search bar style',
-      initialValue: false,
-      description:
-        'Displays the new search bar created as part of the Collections landing page update',
-      type: 'experimental',
-    },
-    {
       id: 'conceptsSearch',
       title: 'Concepts search',
       initialValue: false,

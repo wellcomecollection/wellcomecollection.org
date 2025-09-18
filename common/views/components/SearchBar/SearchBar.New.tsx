@@ -12,7 +12,6 @@ import Typed from 'typed.js';
 import { search } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
-import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import TextInput from '@weco/common/views/components/TextInput';
 import { themeValues } from '@weco/common/views/themes/config';
 import { visuallyHiddenStyles } from '@weco/common/views/themes/utility-classes';
@@ -23,7 +22,7 @@ const Container = styled.div`
 `;
 
 const Typewriter = styled.div.attrs({
-  className: font('intr', 2),
+  className: font('intr', 3),
   'aria-hidden': 'true',
 })`
   position: absolute;
@@ -106,14 +105,13 @@ const SearchButtonWrapper = styled.div`
   }
 `;
 
-type Props = {
+export type Props = {
   inputValue: string;
   setInputValue: Dispatch<SetStateAction<string>>;
   placeholder: string;
   form: string;
   inputRef?: RefObject<HTMLInputElement | null>;
   location: ValidLocations;
-  showTypewriter?: boolean;
 };
 
 export type ValidLocations = 'header' | 'search' | 'page';
@@ -125,7 +123,6 @@ const SearchBar: FunctionComponent<Props> = ({
   form,
   inputRef,
   location,
-  showTypewriter,
 }) => {
   const defaultInputRef = useRef<HTMLInputElement>(null);
   const typewriterRef = useRef<HTMLDivElement>(null);
@@ -145,15 +142,27 @@ const SearchBar: FunctionComponent<Props> = ({
           'Oil paintings',
           'Vaccines',
           'Easter',
-        ]
-          .map(value => ({ value, sort: Math.random() }))
-          .sort((a, b) => a.sort - b.sort)
-          .map(({ value }) => value),
-        typeSpeed: 100,
-        backSpeed: 25,
-        backDelay: 2000,
+        ],
+        typeSpeed: 50,
+        fadeOutDelay: 0,
+        fadeOutClass: '', // prevent fade completely
+        shuffle: true,
         loop: true,
         showCursor: false,
+        onStringTyped: async (_, self) => {
+          // There isn't an option to delay between strings, so we implement it
+          // https://github.com/mattboldt/typed.js/issues/617
+          const delay = (ms: number) =>
+            new Promise(resolve => setTimeout(resolve, ms));
+
+          self.stop();
+          await delay(3000);
+          // @ts-expect-error - accessing private method
+          // https://mattboldt.github.io/typed.js/docs/class/src/typed.js~Typed.html
+          self.initFadeOut();
+          await delay(1000);
+          self.start();
+        },
       });
 
       return () => {
@@ -163,39 +172,35 @@ const SearchBar: FunctionComponent<Props> = ({
   }, [typewriterRef.current]);
 
   return (
-    <Grid>
-      <GridCell $sizeMap={{ s: [12], m: [10], l: [10], xl: [10] }}>
-        <Container data-component="search-bar" className="is-hidden-print">
-          <SearchInputWrapper>
-            {showTypewriter && <Typewriter ref={typewriterRef} />}
-            <TextInput
-              id={`${location}-searchbar`}
-              label={placeholder}
-              name="query"
-              type="search"
-              value={inputValue}
-              setValue={setInputValue}
-              ref={inputRef || defaultInputRef}
-              form={form}
-              hasClearButton
-              isNewSearchBar={true}
-              placeholder=" " // This empty placeholder is required for the :placeholder-shown CSS selector to work
-            />
-          </SearchInputWrapper>
-          <SearchButtonWrapper>
-            <Button
-              variant="ButtonSolid"
-              text="Search"
-              type={ButtonTypes.submit}
-              form={form}
-              colors={themeValues.buttonColors.greenGreenWhite}
-              icon={search}
-              isNewSearchBar={true}
-            />
-          </SearchButtonWrapper>
-        </Container>
-      </GridCell>
-    </Grid>
+    <Container className="is-hidden-print">
+      <SearchInputWrapper>
+        <Typewriter ref={typewriterRef} />
+        <TextInput
+          id={`${location}-searchbar`}
+          label={placeholder}
+          name="query"
+          type="search"
+          value={inputValue}
+          setValue={setInputValue}
+          ref={inputRef || defaultInputRef}
+          form={form}
+          hasClearButton
+          isNewSearchBar={true}
+          placeholder=" " // This empty placeholder is required for the :placeholder-shown CSS selector to work
+        />
+      </SearchInputWrapper>
+      <SearchButtonWrapper>
+        <Button
+          variant="ButtonSolid"
+          text="Search"
+          type={ButtonTypes.submit}
+          form={form}
+          colors={themeValues.buttonColors.greenGreenWhite}
+          icon={search}
+          isNewSearchBar={true}
+        />
+      </SearchButtonWrapper>
+    </Container>
   );
 };
 
