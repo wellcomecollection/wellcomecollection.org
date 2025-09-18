@@ -1,7 +1,7 @@
 import * as prismic from '@prismicio/client';
 import styled from 'styled-components';
 
-import { arrowSmall } from '@weco/common/icons';
+import { arrowSmall, web } from '@weco/common/icons';
 import { ImageType } from '@weco/common/model/image';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
@@ -9,6 +9,7 @@ import {
   ContaineredLayout,
   gridSize12,
 } from '@weco/common/views/components/Layout';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
@@ -44,6 +45,18 @@ const ImageSection = styled.div`
     order: 2;
     margin-bottom: 0;
   `}
+`;
+
+const SupportText = styled(Space).attrs({
+  className: font('intr', 5),
+  $v: { size: 'l', properties: ['margin-top'] },
+})`
+  display: flex;
+
+  p {
+    margin-bottom: 0;
+    margin-left: 10px;
+  }
 `;
 
 type SharedProps = {
@@ -126,13 +139,11 @@ const FullWidthBanner = (props: Props) => {
                 )}
 
                 {props.supportText && (
-                  <Space
-                    className={font('intm', 5)}
-                    $v={{ size: 'l', properties: ['margin-top'] }}
-                    dangerouslySetInnerHTML={{
-                      __html: prismic.asHTML(props.supportText),
-                    }}
-                  />
+                  <SupportText>
+                    <Icon icon={web} />
+
+                    <PrismicHtmlBlock html={props.supportText} />
+                  </SupportText>
                 )}
               </>
             )}
