@@ -19,6 +19,7 @@ import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchPage } from '@weco/content/services/prismic/fetch/pages';
 import { getInsideOurCollectionsCards } from '@weco/content/services/prismic/transformers/collections-landing';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
+import { isFullWidthBanner } from '@weco/content/types/body';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import CollectionsLandingPage, {
   Props as CollectionsLandingPageProps,
@@ -72,6 +73,17 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     const insideOurCollectionsCards =
       getInsideOurCollectionsCards(collectionsPage);
 
+    const bannerOne = collectionsPage.untransformedBody.find(
+      slice => slice.slice_type === 'fullWidthBanner'
+    );
+
+    const bannerTwo = collectionsPage.untransformedBody.find(
+      slice =>
+        slice.slice_type === 'fullWidthBanner' && slice.id !== bannerOne?.id
+    );
+
+    const fullWidthBanners = [bannerOne, bannerTwo].filter(isFullWidthBanner);
+
     return {
       props: serialiseProps({
         hasNewPageToggle: true,
@@ -83,6 +95,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         title: collectionsPage.title,
         introText: collectionsPage.introText ?? [],
         insideOurCollectionsCards,
+        fullWidthBanners,
         serverData,
       }),
     };
