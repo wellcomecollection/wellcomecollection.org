@@ -27,7 +27,6 @@ const BrowseByTheme = () => {
           { id: 'objects', label: 'Objects' },
         ]}
         onChange={setSelectedTheme}
-        isMultiSelect
       />
 
       {selectedTheme.length > 0 && (
