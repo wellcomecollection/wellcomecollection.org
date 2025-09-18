@@ -1,4 +1,5 @@
 import * as prismic from '@prismicio/client';
+import styled from 'styled-components';
 
 import { arrowSmall } from '@weco/common/icons';
 import { ImageType } from '@weco/common/model/image';
@@ -14,6 +15,36 @@ import { themeValues } from '@weco/common/views/themes/config';
 import CaptionedImage from '@weco/content/views/components/CaptionedImage';
 import MoreLink from '@weco/content/views/components/MoreLink';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
+
+const ContentContainer = styled(Space)`
+  display: flex;
+  flex-direction: column;
+
+  ${props => props.theme.media('medium')`
+    flex-direction: row;
+  `}
+`;
+
+const CopySection = styled.div`
+  flex: 1 1 50%;
+  order: 1;
+  margin-right: 0;
+
+  ${props => props.theme.media('medium')`
+    margin-right: 2rem;
+  `}
+`;
+
+const ImageSection = styled.div`
+  flex: 1 1 50%;
+  order: 0;
+  margin-bottom: 2rem;
+
+  ${props => props.theme.media('medium')`
+    order: 2;
+    margin-bottom: 0;
+  `}
+`;
 
 type SharedProps = {
   title?: string;
@@ -66,6 +97,7 @@ export type Props = DefaultProps | TwoLinksProps;
 const FullWidthBanner = (props: Props) => {
   const { variant } = props;
   const isDefaultVariant = variant === 'default';
+  const isTwoLinksVariant = variant === 'twoLinks';
 
   return (
     <div
@@ -77,11 +109,10 @@ const FullWidthBanner = (props: Props) => {
       }}
     >
       <ContaineredLayout gridSizes={gridSize12()}>
-        <Space
-          style={{ display: 'flex' }}
+        <ContentContainer
           $v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
         >
-          <div style={{ flex: '1 1 50%' }}>
+          <CopySection>
             {props.title && <SectionHeader title={props.title}></SectionHeader>}
             {props.description && <p>{props.description}</p>}
 
@@ -106,7 +137,7 @@ const FullWidthBanner = (props: Props) => {
               </>
             )}
 
-            {variant === 'twoLinks' &&
+            {isTwoLinksVariant &&
               (props.links.firstLink || props.links.secondLink) && (
                 <PlainList>
                   {props.links.firstLink && (
@@ -127,18 +158,18 @@ const FullWidthBanner = (props: Props) => {
                   )}
                 </PlainList>
               )}
-          </div>
+          </CopySection>
 
           {props.image && (
-            <div style={{ flex: '1 1 50%' }}>
+            <ImageSection>
               <CaptionedImage
                 image={props.image}
                 hasRoundedCorners={false}
                 caption={[]}
               />
-            </div>
+            </ImageSection>
           )}
-        </Space>
+        </ContentContainer>
       </ContaineredLayout>
     </div>
   );
