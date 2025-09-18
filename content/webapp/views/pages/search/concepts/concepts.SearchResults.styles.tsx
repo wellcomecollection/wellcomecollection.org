@@ -47,17 +47,13 @@ export const Details = styled.div`
 
 export const ConceptTitleHeading = styled.h3.attrs({
   className: font('intb', 4),
-})`
-  margin-bottom: 0.5rem;
-  color: ${props => props.theme.color('black')};
-`;
+})``;
 
 export const ConceptDescription = styled(Space).attrs({
   className: font('intr', 5),
   $v: { size: 's', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.700')};
-  line-height: 1.4;
 `;
 
 export const AlternativeLabels = styled(Space).attrs({
