@@ -35,11 +35,11 @@ const CardWrapper = styled.a`
   }
 `;
 
-const CompositeGrid = styled.div`
+const CompositeGrid = styled.div<{ $isSingleImage?: boolean }>`
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  gap: 2cqw;
+  grid-template-columns: ${props => (props.$isSingleImage ? '1fr' : '1fr 1fr')};
+  grid-template-rows: ${props => (props.$isSingleImage ? '1fr' : '1fr 1fr')};
+  gap: ${props => (props.$isSingleImage ? '0' : '2cqw')};
   width: 100%;
   aspect-ratio: 2 / 3;
   background-color: ${props => props.theme.color('neutral.700')};
@@ -118,8 +118,11 @@ const ThemePromo: FunctionComponent<ThemePromoProps> = ({
   description,
   url,
 }) => {
+  const imageCount = images.filter(Boolean).length;
+  const isSingleImage = imageCount === 1;
+
   // Create array of slots, some with images, some with placeholder colors
-  const slots = Array.from({ length: 4 }, (_, index) => {
+  const slots = Array.from({ length: isSingleImage ? 1 : 4 }, (_, index) => {
     if (index < images.length && images[index]) {
       return { type: 'image' as const, image: images[index]! };
     }
@@ -133,7 +136,7 @@ const ThemePromo: FunctionComponent<ThemePromoProps> = ({
 
   return (
     <CardWrapper data-component="theme-promo" href={url}>
-      <CompositeGrid>
+      <CompositeGrid $isSingleImage={isSingleImage}>
         {slots.map((slot, index) => (
           <ImageContainer
             key={index}
@@ -143,7 +146,10 @@ const ThemePromo: FunctionComponent<ThemePromoProps> = ({
           >
             {slot.type === 'image' && slot.image ? (
               <ImageElement
-                src={convertImageUri(slot.image.locations[0].url, 250)}
+                src={convertImageUri(
+                  slot.image.locations[0].url,
+                  isSingleImage ? 500 : 250
+                )}
                 alt=""
                 loading="lazy"
               />
