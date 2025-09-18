@@ -14,6 +14,7 @@ import {
   EventsDocument as RawEventsDocument,
   EventSeriesDocument as RawEventSeriesDocument,
   ExhibitionsDocument as RawExhibitionsDocument,
+  FullWidthBannerSlice as RawFullWidthBannerSlice,
   GifVideoSlice as RawGifVideoSlice,
   GuidesDocument as RawGuidesDocument,
   IframeSlice as RawIframeSlice,
@@ -46,6 +47,7 @@ import { ContentListProps, Slice } from '@weco/content/types/body';
 import { AudioPlayerProps } from '@weco/content/views/components/AudioPlayer';
 import { CaptionedImageProps } from '@weco/content/views/components/CaptionedImage';
 import { Props as ContactProps } from '@weco/content/views/components/Contact';
+import { Props as FullWidthBannerProps } from '@weco/content/views/components/FullWidthBanner';
 import { Props as GifVideoProps } from '@weco/content/views/components/GifVideo';
 import { Props as ImageGalleryProps } from '@weco/content/views/components/ImageGallery';
 import { Props as InfoBlockProps } from '@weco/content/views/components/InfoBlock';
@@ -168,6 +170,42 @@ export function transformEditorialImageGallerySlice(
       isFrames: slice.primary.isFrames,
     },
   };
+}
+
+export function transformFullWidthBanner(
+  slice: RawFullWidthBannerSlice
+): Slice<'fullWidthBanner', FullWidthBannerProps> {
+  function isTwoLinksVariation(slice: {
+    variation?: string;
+  }): slice is { variation: 'twoLinks' } {
+    return slice.variation === 'twoLinks';
+  }
+
+  return isTwoLinksVariation(slice)
+    ? {
+        type: 'fullWidthBanner',
+        value: {
+          variant: 'twoLinks',
+          title: asText(slice.primary.title),
+          image: transformImage(slice.primary.image),
+          description: asText(slice.primary.description),
+          links: {
+            firstLink: slice.primary.first_link,
+            secondLink: slice.primary.second_link,
+          },
+        },
+      }
+    : {
+        type: 'fullWidthBanner',
+        value: {
+          variant: 'default',
+          title: asText(slice.primary.title),
+          image: transformImage(slice.primary.image),
+          description: asText(slice.primary.description),
+          callToAction: slice.primary.button,
+          supportText: asRichText(slice.primary.support_text),
+        },
+      };
 }
 
 export function transformGifVideoSlice(
