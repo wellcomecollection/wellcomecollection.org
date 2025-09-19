@@ -19,12 +19,16 @@ const BrowseByTheme = () => {
     <>
       <SelectableTags
         tags={[
-          { id: 'featured', label: 'Featured' },
-          { id: 'new', label: 'New' },
-          { id: 'manuscripts', label: 'Manuscripts' },
-          { id: 'archives', label: 'Archives' },
-          { id: 'books', label: 'Books' },
-          { id: 'objects', label: 'Objects' },
+          { id: 'featured', label: 'Featured', controls: 'featured-results' },
+          { id: 'new', label: 'New', controls: 'new-results' },
+          {
+            id: 'manuscripts',
+            label: 'Manuscripts',
+            controls: 'manuscripts-results',
+          },
+          { id: 'archives', label: 'Archives', controls: 'archives-results' },
+          { id: 'books', label: 'Books', controls: 'books-results' },
+          { id: 'objects', label: 'Objects', controls: 'objects-results' },
         ]}
         onChange={setSelectedTheme}
       />
@@ -32,37 +36,37 @@ const BrowseByTheme = () => {
       {selectedTheme.length > 0 && (
         <div aria-live="polite">
           {selectedTheme.includes('featured') && (
-            <div id="featured">
+            <div id="featured-results">
               <p>Featured</p>
             </div>
           )}
 
           {selectedTheme.includes('new') && (
-            <div id="new">
+            <div id="new-results">
               <p>New</p>
             </div>
           )}
 
           {selectedTheme.includes('manuscripts') && (
-            <div id="manuscripts">
+            <div id="manuscripts-results">
               <p>Manuscripts</p>
             </div>
           )}
 
           {selectedTheme.includes('archives') && (
-            <div id="archives">
+            <div id="archives-results">
               <p>Archives</p>
             </div>
           )}
 
           {selectedTheme.includes('books') && (
-            <div id="books">
+            <div id="books-results">
               <p>Books</p>
             </div>
           )}
 
           {selectedTheme.includes('objects') && (
-            <div id="objects">
+            <div id="objects-results">
               <p>Objects</p>
             </div>
           )}

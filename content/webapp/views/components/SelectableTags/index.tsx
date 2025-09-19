@@ -10,6 +10,7 @@ type SelectableTagsProps = {
   tags: {
     id: string;
     label: string;
+    controls?: string;
   }[];
   isMultiSelect?: boolean;
   onChange?: (selected: string[]) => void;
@@ -116,6 +117,7 @@ export const SelectableTags: FunctionComponent<SelectableTagsProps> = ({
                   value={tag.id}
                   checked={isSelected}
                   onChange={() => handleTagClick(tag.id)}
+                  {...(tag.controls && { 'aria-controls': tag.controls })}
                 />
               ) : (
                 <InputField
@@ -125,6 +127,7 @@ export const SelectableTags: FunctionComponent<SelectableTagsProps> = ({
                   value={tag.id}
                   checked={isSelected}
                   onChange={() => handleTagClick(tag.id)}
+                  {...(tag.controls && { 'aria-controls': tag.controls })}
                 />
               )}
               <StyledInput
