@@ -262,6 +262,9 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
                       $hasStuck={hasStuck}
                       $isActive={isActive}
                       $isOnWhite={!!isOnWhite}
+                      $lineColor={
+                        hasStuck ? 'black' : isOnWhite ? 'black' : 'white'
+                      }
                       {...dataGtmPropsToAttributes({
                         trigger: 'link_click_page_position',
                         'position-in-list': `${index + 1}`,
