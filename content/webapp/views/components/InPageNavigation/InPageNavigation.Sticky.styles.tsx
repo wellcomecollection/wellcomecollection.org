@@ -2,6 +2,9 @@ import NextLink from 'next/link';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
+import AnimatedUnderlineCSS, {
+  AnimatedUnderlineProps,
+} from '@weco/common/views/components/styled/AnimatedUnderline';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
@@ -84,17 +87,9 @@ export const ListItem = styled.li<{ $hasStuck: boolean; $isOnWhite: boolean }>`
     `)}
 `;
 
-// If used elsewhere, this could be extracted to a shared styled component
-const AnimatedLink = styled(NextLink)<{
-  $hasStuck: boolean;
-  $isOnWhite: boolean;
-}>`
-  --line-color: ${props =>
-    props.theme.color(
-      props.$hasStuck ? 'black' : props.$isOnWhite ? 'black' : 'white'
-    )};
+const AnimatedLink = styled(NextLink)<AnimatedUnderlineProps>`
+  ${AnimatedUnderlineCSS}
   text-decoration: none;
-  position: relative;
 
   ${props =>
     props.theme.media('large')(`
@@ -102,23 +97,8 @@ const AnimatedLink = styled(NextLink)<{
     `)}
 
   & > span {
-    background-image: linear-gradient(
-      0deg,
-      var(--line-color) 0%,
-      var(--line-color) 100%
-    );
-    background-position: 0% 100%;
-    background-repeat: no-repeat;
-    background-size: var(--background-size, 0%) 2px;
-    transition: background-size ${props => props.theme.transitionProperties};
     font-size: 14px;
     line-height: 20px;
-    transform: translateZ(0);
-    padding-bottom: 2px;
-  }
-
-  &:hover {
-    --background-size: 100%;
   }
 `;
 

@@ -71,7 +71,7 @@ export const BasicButton = styled.button.attrs<{
 // Default to medium button
 const getPadding = (size: ButtonSize = 'medium', isNewSearchBar?: boolean) => {
   if (isNewSearchBar) {
-    return '13px 14px';
+    return '13px 16px';
   }
   switch (size) {
     case 'small':

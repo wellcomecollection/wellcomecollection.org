@@ -1,6 +1,7 @@
 import * as prismic from '@prismicio/client';
 import { SliceZone } from '@prismicio/react';
 import { NextPage } from 'next';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
@@ -8,10 +9,13 @@ import { ImageType } from '@weco/common/model/image';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import {
   ContaineredLayout,
+  gridSize10,
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
+import SearchBar from '@weco/common/views/components/SearchBar';
 import Space from '@weco/common/views/components/styled/Space';
+import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { components } from '@weco/common/views/slices';
 import { useCollectionStats } from '@weco/content/hooks/useCollectionStats';
@@ -19,6 +23,8 @@ import { MultiContent } from '@weco/content/types/multi-content';
 import CardGrid from '@weco/content/views/components/CardGrid';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
 import WorkTypesList from '@weco/content/views/pages/collections/collections.WorkTypesList';
+
+import BrowseByTheme from './collections.BrowseByTheme';
 
 const MaterialsSection = styled(Space).attrs({
   $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
@@ -47,6 +53,14 @@ const CollectionsLandingPage: NextPage<Props> = ({
   fullWidthBanners,
 }) => {
   const { data: collectionStats } = useCollectionStats();
+  const [searchValue, setSearchValue] = useState('');
+
+  const handleSearch = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (searchValue.trim()) {
+      window.location.href = `/search/works?query=${encodeURIComponent(searchValue.trim())}`;
+    }
+  };
 
   return (
     <PageLayout
@@ -62,6 +76,27 @@ const CollectionsLandingPage: NextPage<Props> = ({
       hideNewsletterPromo
     >
       <PageHeader variant="simpleLanding" title={title} introText={introText} />
+
+      <SpacingSection>
+        <ContaineredLayout gridSizes={gridSize10(false)}>
+          <form id="collections-search" onSubmit={handleSearch}>
+            <SearchBar
+              variant="new"
+              inputValue={searchValue}
+              setInputValue={setSearchValue}
+              placeholder="Search our collections"
+              form="collections-search"
+              location="page"
+            />
+          </form>
+        </ContaineredLayout>
+      </SpacingSection>
+
+      <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+        <ContaineredLayout gridSizes={gridSize12()}>
+          <BrowseByTheme />
+        </ContaineredLayout>
+      </Space>
 
       {fullWidthBanners?.[0] && (
         <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>

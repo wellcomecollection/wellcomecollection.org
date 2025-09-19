@@ -10,6 +10,7 @@ const Button = styled.button`
   top: 50%;
   transform: translateY(-50%);
   padding: 0;
+  display: flex;
 `;
 
 type Props = {

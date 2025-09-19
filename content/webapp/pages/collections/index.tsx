@@ -4,6 +4,7 @@ import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { PagesDocument as RawPagesDocument } from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
 import { serialiseProps } from '@weco/common/utils/json';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
   ContaineredLayout,
   gridSize12,
@@ -36,11 +37,7 @@ const Page: NextPage<
       staticContent={
         <ContaineredLayout gridSizes={gridSize12()}>
           <SpacingSection>
-            <SearchForm
-              searchCategory="works"
-              location="page"
-              showTypewriter={true}
-            />
+            <SearchForm searchCategory="works" location="page" />
           </SpacingSection>
         </ContaineredLayout>
       }
@@ -82,7 +79,9 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         slice.slice_type === 'fullWidthBanner' && slice.id !== bannerOne?.id
     );
 
-    const fullWidthBanners = [bannerOne, bannerTwo].filter(isFullWidthBanner);
+    const fullWidthBanners = [bannerOne, bannerTwo]
+      .filter(isNotUndefined)
+      .filter(isFullWidthBanner);
 
     return {
       props: serialiseProps({
