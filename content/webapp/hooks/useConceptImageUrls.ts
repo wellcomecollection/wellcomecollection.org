@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 
-import type { DigitalLocation } from '@weco/common/model/catalogue';
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import type {
   Concept,
