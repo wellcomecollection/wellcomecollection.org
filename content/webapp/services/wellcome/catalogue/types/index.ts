@@ -166,7 +166,7 @@ export type Concept = {
     relatedTopics?: RelatedConcept[];
   };
   alternativeLabels?: string[];
-  posterImage?: string; // This hasn't been implemented yet: https://github.com/wellcomecollection/platform/issues/6132
+  posterImage?: Image; // This hasn't been implemented yet upstream: https://github.com/wellcomecollection/platform/issues/6132
 };
 
 type Availability = {
