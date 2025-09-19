@@ -28,6 +28,12 @@ export function isContentList(
   return slice.slice_type === 'contentList';
 }
 
+export function isFullWidthBanner(
+  slice: prismic.Slice
+): slice is prismic.Slice<'fullWidthBanner'> {
+  return slice.slice_type === 'fullWidthBanner';
+}
+
 export function isVideoEmbed(slice: prismic.Slice): slice is RawEmbedSlice {
   return slice.primary.provider_name === 'youtube';
 }

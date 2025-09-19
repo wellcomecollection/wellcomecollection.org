@@ -1,4 +1,5 @@
 import * as prismic from '@prismicio/client';
+import { SliceZone } from '@prismicio/react';
 import { NextPage } from 'next';
 import { useState } from 'react';
 import styled from 'styled-components';
@@ -16,6 +17,7 @@ import SearchBar from '@weco/common/views/components/SearchBar';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
+import { components } from '@weco/common/views/slices';
 import { useCollectionStats } from '@weco/content/hooks/useCollectionStats';
 import { MultiContent } from '@weco/content/types/multi-content';
 import CardGrid from '@weco/content/views/components/CardGrid';
@@ -39,6 +41,7 @@ export type Props = {
   title: string;
   introText: prismic.RichTextField;
   insideOurCollectionsCards: MultiContent[];
+  fullWidthBanners?: prismic.Slice<'fullWidthBanner'>[];
   // jsonLd: JsonLdObj[]; ??
 };
 
@@ -47,6 +50,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
   title,
   introText,
   insideOurCollectionsCards,
+  fullWidthBanners,
 }) => {
   const { data: collectionStats } = useCollectionStats();
   const [searchValue, setSearchValue] = useState('');
@@ -94,6 +98,12 @@ const CollectionsLandingPage: NextPage<Props> = ({
         </ContaineredLayout>
       </Space>
 
+      {fullWidthBanners?.[0] && (
+        <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <SliceZone slices={[fullWidthBanners[0]]} components={components} />
+        </Space>
+      )}
+
       <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
         <SectionHeader title="Inside our collections" gridSize={gridSize12()} />
         <ContaineredLayout gridSizes={gridSize12()}>
@@ -129,6 +139,10 @@ const CollectionsLandingPage: NextPage<Props> = ({
           <WorkTypesList collectionStats={collectionStats} />
         </ContaineredLayout>
       </MaterialsSection>
+
+      {fullWidthBanners?.[1] && (
+        <SliceZone slices={[fullWidthBanners[1]]} components={components} />
+      )}
     </PageLayout>
   );
 };

@@ -14,6 +14,7 @@ import {
   EventsDocument as RawEventsDocument,
   EventSeriesDocument as RawEventSeriesDocument,
   ExhibitionsDocument as RawExhibitionsDocument,
+  FullWidthBannerSlice as RawFullWidthBannerSlice,
   GifVideoSlice as RawGifVideoSlice,
   GuidesDocument as RawGuidesDocument,
   IframeSlice as RawIframeSlice,
@@ -46,6 +47,7 @@ import { ContentListProps, Slice } from '@weco/content/types/body';
 import { AudioPlayerProps } from '@weco/content/views/components/AudioPlayer';
 import { CaptionedImageProps } from '@weco/content/views/components/CaptionedImage';
 import { Props as ContactProps } from '@weco/content/views/components/Contact';
+import { Props as FullWidthBannerProps } from '@weco/content/views/components/FullWidthBanner';
 import { Props as GifVideoProps } from '@weco/content/views/components/GifVideo';
 import { Props as ImageGalleryProps } from '@weco/content/views/components/ImageGallery';
 import { Props as InfoBlockProps } from '@weco/content/views/components/InfoBlock';
@@ -168,6 +170,51 @@ export function transformEditorialImageGallerySlice(
       isFrames: slice.primary.isFrames,
     },
   };
+}
+
+export function transformFullWidthBanner(
+  slice: RawFullWidthBannerSlice
+): Slice<'fullWidthBanner', FullWidthBannerProps> {
+  function isDefaultVariation(slice: {
+    variation?: string;
+  }): slice is { variation: 'default' } {
+    return slice.variation === 'default';
+  }
+  const getLinks = linkFields => {
+    if (!linkFields) return undefined;
+
+    return linkFields
+      .map(linkField => {
+        const link = transformLink(linkField);
+        return link ? { text: linkField.text, url: link } : undefined;
+      })
+      .filter(isNotUndefined);
+  };
+
+  if (isDefaultVariation(slice)) {
+    return {
+      type: 'fullWidthBanner',
+      value: {
+        variant: 'default',
+        title: asText(slice.primary.title),
+        image: transformImage(slice.primary.image),
+        description: asText(slice.primary.description),
+        link: getLinks([slice.primary.button])?.[0],
+        supportText: asRichText(slice.primary.support_text),
+      },
+    };
+  } else {
+    return {
+      type: 'fullWidthBanner',
+      value: {
+        variant: 'twoLinks',
+        title: asText(slice.primary.title),
+        image: transformImage(slice.primary.image),
+        description: asText(slice.primary.description),
+        links: getLinks([slice.primary.first_link, slice.primary.second_link]),
+      },
+    };
+  }
 }
 
 export function transformGifVideoSlice(
