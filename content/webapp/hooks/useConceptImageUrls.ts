@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
 
-import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
+import type { DigitalLocation } from '@weco/common/model/catalogue';
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
-import type { Concept } from '@weco/content/services/wellcome/catalogue/types';
+import type {
+  Concept,
+  Image,
+} from '@weco/content/services/wellcome/catalogue/types';
 import { queryParams } from '@weco/content/utils/concepts';
 
 /**
@@ -10,36 +13,24 @@ import { queryParams } from '@weco/content/utils/concepts';
  * fetch up to 4 images related to the concept.
  * If posterImage is present, it will be used as the only image.
  */
-// TODO need to discuss with David to make sure it is doing what is needed
-export function useConceptImageUrls(concept: Concept) {
-  const [imageUrls, setImageUrls] = useState<string[]>([]);
+export function useConceptImageUrls(concept: Concept): Image[] {
+  const [images, setImages] = useState<Image[]>([]);
 
   useEffect(() => {
     let isMounted = true;
     async function fetchImages() {
-      if (concept.posterImage) {
-        if (isMounted) setImageUrls([concept.posterImage]);
-        return;
-      }
-      let urls: string[] = [];
-      const params = queryParams('imagesAbout', concept); // or imagesOf or both or something else?
-      const result = await getImages({ params, toggles: {}, pageSize: 4 });
-      if ('results' in result && result.results.length > 0) {
-        const fetchedUrls = result.results
-          .map(img => {
-            const thumbUrl = img.thumbnail?.url;
-            if (thumbUrl) {
-              return thumbUrl.includes('/info.json')
-                ? convertIiifImageUri(thumbUrl, 400)
-                : thumbUrl;
-            }
-            return undefined;
-          })
-          .filter(Boolean) as string[];
-        urls = fetchedUrls.slice(0, 4);
-      }
       if (isMounted) {
-        setImageUrls(urls);
+        if (concept.posterImage) {
+          setImages([concept.posterImage]);
+          return;
+        }
+        let fetchedImages: Image[] = [];
+        const params = queryParams('imagesAbout', concept); // or imagesOf or both or something else?
+        const result = await getImages({ params, toggles: {}, pageSize: 4 });
+        if ('results' in result && result.results.length > 0) {
+          fetchedImages = result.results.slice(0, 4);
+        }
+        setImages(fetchedImages);
       }
     }
     fetchImages();
@@ -48,5 +39,5 @@ export function useConceptImageUrls(concept: Concept) {
     };
   }, [concept.id, concept.posterImage]);
 
-  return imageUrls;
+  return images;
 }
