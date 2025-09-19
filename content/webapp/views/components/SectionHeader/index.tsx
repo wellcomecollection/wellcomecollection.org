@@ -8,11 +8,8 @@ import {
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import { SizeMap } from '@weco/common/views/components/styled/Grid';
-import Space from '@weco/common/views/components/styled/Space';
 
-const YellowBox = styled(Space).attrs({
-  $v: { size: 's', properties: ['margin-bottom'] },
-})`
+const YellowBox = styled.div`
   display: block;
   width: 60px;
   height: 16px;

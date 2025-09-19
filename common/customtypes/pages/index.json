@@ -56,9 +56,6 @@
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
-            "fullWidthBanner": {
-              "type": "SharedSlice"
-            },
             "gifVideo": {
               "type": "SharedSlice"
             },

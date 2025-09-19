@@ -10,7 +10,6 @@ export const components = {
   editorialImage: dynamic(() => import('./EditorialImage')),
   editorialImageGallery: dynamic(() => import('./EditorialImageGallery')),
   embed: dynamic(() => import('./Embed')),
-  fullWidthBanner: dynamic(() => import('./FullWidthBanner')),
   gifVideo: dynamic(() => import('./GifVideo')),
   guide_section_heading: dynamic(() => import('./GuideSectionHeading')),
   guide_stop: dynamic(() => import('./GuideStop')),
