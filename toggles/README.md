@@ -63,9 +63,17 @@ You can change a toggle's `defaultValue` via:
 yarn setDefaultValueFor --{toggle_id}=true
 ```
 
+## Preset links
+Query params were added to allow automatic turning on/off of toggles (e.g. when sharing with other teams). The format is as follow:
+- Enable: `https://dash.wellcomecollection.org/toggles/?enableToggle={toggle_id}`
+- Disable: `https://dash.wellcomecollection.org/toggles/?disableToggle={toggle_id}`
+- Reset all: `https://dash.wellcomecollection.org/toggles/?resetToggles`
+
+
 ## Useful links
 - ["Feature Toggles (aka Feature Flags)" - by Martin Fowler][martin-fowler-feature-toggles]
 - [Toggles Dashboard](https://dash.wellcomecollection.org/toggles)
 - [Toggles JSON](https://toggles.wellcomecollection.org/toggles.json)
 
 [martin-fowler-feature-toggles]: https://martinfowler.com/articles/feature-toggles.html
+
