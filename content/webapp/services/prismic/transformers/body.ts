@@ -175,37 +175,46 @@ export function transformEditorialImageGallerySlice(
 export function transformFullWidthBanner(
   slice: RawFullWidthBannerSlice
 ): Slice<'fullWidthBanner', FullWidthBannerProps> {
-  function isTwoLinksVariation(slice: {
+  function isDefaultVariation(slice: {
     variation?: string;
-  }): slice is { variation: 'twoLinks' } {
-    return slice.variation === 'twoLinks';
+  }): slice is { variation: 'default' } {
+    return slice.variation === 'default';
   }
+  const getLinks = linkFields => {
+    if (!linkFields) return undefined;
 
-  return isTwoLinksVariation(slice)
-    ? {
-        type: 'fullWidthBanner',
-        value: {
-          variant: 'twoLinks',
-          title: asText(slice.primary.title),
-          image: transformImage(slice.primary.image),
-          description: asText(slice.primary.description),
-          links: {
-            firstLink: slice.primary.first_link,
-            secondLink: slice.primary.second_link,
-          },
-        },
-      }
-    : {
-        type: 'fullWidthBanner',
-        value: {
-          variant: 'default',
-          title: asText(slice.primary.title),
-          image: transformImage(slice.primary.image),
-          description: asText(slice.primary.description),
-          callToAction: slice.primary.button,
-          supportText: asRichText(slice.primary.support_text),
-        },
-      };
+    return linkFields
+      .map(linkField => {
+        const link = transformLink(linkField);
+        return link ? { text: linkField.text, url: link } : undefined;
+      })
+      .filter(isNotUndefined);
+  };
+
+  if (isDefaultVariation(slice)) {
+    return {
+      type: 'fullWidthBanner',
+      value: {
+        variant: 'default',
+        title: asText(slice.primary.title),
+        image: transformImage(slice.primary.image),
+        description: asText(slice.primary.description),
+        link: getLinks([slice.primary.button])?.[0],
+        supportText: asRichText(slice.primary.support_text),
+      },
+    };
+  } else {
+    return {
+      type: 'fullWidthBanner',
+      value: {
+        variant: 'twoLinks',
+        title: asText(slice.primary.title),
+        image: transformImage(slice.primary.image),
+        description: asText(slice.primary.description),
+        links: getLinks([slice.primary.first_link, slice.primary.second_link]),
+      },
+    };
+  }
 }
 
 export function transformGifVideoSlice(

@@ -1,4 +1,5 @@
 import * as prismic from '@prismicio/client';
+import NextLink from 'next/link';
 import styled from 'styled-components';
 
 import { arrowSmall, web } from '@weco/common/icons';
@@ -59,53 +60,51 @@ const SupportText = styled(Space).attrs({
   }
 `;
 
+const IconWrapper = styled.span`
+  display: inline-flex;
+  align-self: center;
+  margin-left: 4px;
+`;
+
+const LinksWithArrow = ({ links }: { links: Link[] }) => {
+  return links.map(link => (
+    <li key={link.url}>
+      <NextLink
+        href={link.url}
+        style={{ display: 'flex', marginBottom: '1rem' }}
+      >
+        {link.text || 'Find out more'}
+        <IconWrapper>
+          <Icon icon={arrowSmall} />
+        </IconWrapper>
+      </NextLink>
+    </li>
+  ));
+};
+
 type SharedProps = {
   title?: string;
   description?: string;
   image?: ImageType;
 };
 
-type DefaultProps = SharedProps & {
-  variant: 'default';
-  callToAction?: {
-    text: string;
-    url: string;
-  };
-  supportText?: prismic.RichTextField;
+type Link = {
+  text?: string;
+  url: string;
 };
 
-type TwoLinksProps = SharedProps & {
-  variant: 'twoLinks';
-  links: {
-    firstLink?: {
-      text: string;
-      url: string;
-    };
-    secondLink?: {
-      text: string;
-      url: string;
-    };
-  };
-};
-
-const LinkWithArrow = ({ text, url }) => {
-  return (
-    <a href={url} style={{ display: 'flex', marginBottom: '1rem' }}>
-      {text}
-      <span
-        style={{
-          display: 'inline-flex',
-          alignSelf: 'center',
-          marginLeft: '4px',
-        }}
-      >
-        <Icon icon={arrowSmall} />
-      </span>
-    </a>
+export type Props = SharedProps &
+  (
+    | {
+        variant: 'default';
+        link?: Link;
+        supportText?: prismic.RichTextField;
+      }
+    | {
+        variant: 'twoLinks';
+        links: Link[];
+      }
   );
-};
-
-export type Props = DefaultProps | TwoLinksProps;
 
 const FullWidthBanner = (props: Props) => {
   const { variant } = props;
@@ -131,10 +130,10 @@ const FullWidthBanner = (props: Props) => {
 
             {isDefaultVariant && (
               <>
-                {props.callToAction && (
+                {props.link && (
                   <MoreLink
-                    name={props.callToAction.text}
-                    url={props.callToAction.url}
+                    name={props.link.text || 'Find out more'}
+                    url={props.link.url}
                   />
                 )}
 
@@ -148,27 +147,11 @@ const FullWidthBanner = (props: Props) => {
               </>
             )}
 
-            {isTwoLinksVariant &&
-              (props.links.firstLink || props.links.secondLink) && (
-                <PlainList>
-                  {props.links.firstLink && (
-                    <li>
-                      <LinkWithArrow
-                        text={props.links.firstLink.text}
-                        url={props.links.firstLink.url}
-                      />
-                    </li>
-                  )}
-                  {props.links.secondLink && (
-                    <li>
-                      <LinkWithArrow
-                        text={props.links.secondLink.text}
-                        url={props.links.secondLink.url}
-                      />
-                    </li>
-                  )}
-                </PlainList>
-              )}
+            {isTwoLinksVariant && props.links?.length > 0 && (
+              <PlainList>
+                <LinksWithArrow links={props.links} />
+              </PlainList>
+            )}
           </CopySection>
 
           {props.image && (
