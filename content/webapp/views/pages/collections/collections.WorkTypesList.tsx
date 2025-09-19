@@ -229,7 +229,6 @@ const WorkTypeItem: React.FC<WorkTypeItemProps> = ({
       const startCount = stats.fallbackCount;
       const endCount = stats.count;
       const duration = 2000;
-      const staggerDelay = animationIndex * 750;
 
       if (prefersReducedMotion) {
         setDisplayCount(endCount);
@@ -259,17 +258,15 @@ const WorkTypeItem: React.FC<WorkTypeItemProps> = ({
           requestAnimationFrame(animate);
         };
 
-        setTimeout(startAnimation, staggerDelay);
+        startAnimation();
       }
     } else if (stats.count !== null) {
       if (prefersReducedMotion) {
         setDisplayCount(stats.count);
         setShowPlus(false);
       } else {
-        setTimeout(() => {
-          setDisplayCount(stats.count!);
-          setShowPlus(false);
-        }, animationIndex * 750);
+        setDisplayCount(stats.count!);
+        setShowPlus(false);
       }
     }
   }, [isInView, stats.count, stats.fallbackCount, animationIndex]);
