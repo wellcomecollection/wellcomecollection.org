@@ -6,12 +6,12 @@ import FullWidthBanner from '@weco/content/views/components/FullWidthBanner';
 
 const supportTextCopy =
   'Visit the Reading Room to see items from our collection up close.';
-const callToActionCopy = 'Explore our collections';
+const linkCopy = 'Explore our collections';
 
 type StoryProps = ComponentProps<typeof FullWidthBanner> & {
   linkNumber?: number;
   supportTextCopy?: string;
-  callToActionCopy?: string;
+  linkCopy?: string;
 };
 
 const meta: Meta<StoryProps> = {
@@ -23,11 +23,11 @@ const meta: Meta<StoryProps> = {
     description:
       'Explore the stories behind our collections, including highlights from our archives and library, and find out how to access them.',
     image: imageWithCrops,
-    callToAction: {
-      text: callToActionCopy,
+    link: {
+      text: linkCopy,
       url: '#',
     },
-    callToActionCopy,
+    linkCopy,
     supportText: [
       {
         type: 'paragraph',
@@ -46,8 +46,8 @@ const meta: Meta<StoryProps> = {
     image: { table: { disable: true } },
     supportText: { table: { disable: true } },
     links: { table: { disable: true } },
-    callToAction: { table: { disable: true } },
-    callToActionCopy: {
+    link: { table: { disable: true } },
+    linkCopy: {
       name: 'CTA copy',
       type: 'string',
       if: { arg: 'variant', eq: 'default' },
@@ -80,28 +80,28 @@ export const Basic: Story = {
     let finalArgs = args;
 
     if (variant === 'twoLinks') {
+      const links: { text: string; url: string }[] = [];
+      if (args.linkNumber > 0) {
+        links.push({
+          text: 'Visit the Reading Room',
+          url: '#',
+        });
+      }
+      if (args.linkNumber > 1) {
+        links.push({
+          text: 'Explore our collections',
+          url: '#',
+        });
+      }
       finalArgs = {
         ...args,
-        links: {
-          ...(args.linkNumber > 0 && {
-            firstLink: {
-              text: 'Visit the Reading Room',
-              url: '#',
-            },
-          }),
-          ...(args.linkNumber > 1 && {
-            secondLink: {
-              text: 'Explore our collections',
-              url: '#',
-            },
-          }),
-        },
+        links,
       };
     } else {
       finalArgs = {
         ...args,
-        callToAction: {
-          text: args.callToActionCopy,
+        link: {
+          text: args.linkCopy,
           url: '#',
         },
         supportText: [
