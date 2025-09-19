@@ -103,12 +103,6 @@ const CollectionsLandingPage: NextPage<Props> = ({
         </ContaineredLayout>
       </Space>
 
-      {fullWidthBanners?.[0] && (
-        <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-          <SliceZone slices={[fullWidthBanners[0]]} components={components} />
-        </Space>
-      )}
-
       <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
         <SectionHeader title="Browse by theme" gridSize={gridSize12()} />
         <ContaineredLayout gridSizes={gridSize12()}>
@@ -118,6 +112,12 @@ const CollectionsLandingPage: NextPage<Props> = ({
           />
         </ContaineredLayout>
       </Space>
+
+      {fullWidthBanners?.[0] && (
+        <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <SliceZone slices={[fullWidthBanners[0]]} components={components} />
+        </Space>
+      )}
 
       <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
         <SectionHeader title="Inside our collections" gridSize={gridSize12()} />
