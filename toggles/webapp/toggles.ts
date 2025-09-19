@@ -35,6 +35,14 @@ const toggles = {
       type: 'permanent',
     },
     {
+      id: 'conceptsSearch',
+      title: 'Concepts search',
+      initialValue: false,
+      description:
+        'Enables the concepts search tab and functionality in the search interface',
+      type: 'permanent',
+    },
+    {
       id: 'disableRequesting',
       title: 'Disables requesting functionality',
       description:

@@ -294,7 +294,7 @@ const IndexPage: FunctionComponent = () => {
     }
   }, [enableToggle, disableToggle, resetToggles, handleToggle, reset]);
 
-  const generalToggleIds = ['apiToolbar'];
+  const generalToggleIds = ['apiToolbar', 'conceptsSearch'];
   const generalToggles = toggles.filter(t => generalToggleIds.includes(t.id));
   const restOfPermanentToggles = toggles
     .filter(t => t.type === 'permanent')

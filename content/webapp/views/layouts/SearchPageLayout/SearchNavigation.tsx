@@ -47,7 +47,7 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
   currentQueryValue: queryValue,
 }) => {
   const router = useRouter();
-  const toggles = useToggles();
+  const { conceptsSearch } = useToggles();
 
   // Variable naming note:
   //
@@ -118,7 +118,7 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
       url: getURL('/search/images'),
       text: 'Images',
     },
-    ...(toggles.conceptsSearch
+    ...(conceptsSearch
       ? [
           {
             id: 'concepts',
