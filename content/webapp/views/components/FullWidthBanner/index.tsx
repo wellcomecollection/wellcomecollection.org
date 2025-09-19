@@ -2,7 +2,7 @@ import * as prismic from '@prismicio/client';
 import NextLink from 'next/link';
 import styled from 'styled-components';
 
-import { arrowSmall, web } from '@weco/common/icons';
+import { arrowSmall, web, zoomIn } from '@weco/common/icons';
 import { ImageType } from '@weco/common/model/image';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
@@ -13,10 +13,10 @@ import {
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
-import { themeValues } from '@weco/common/views/themes/config';
 import CaptionedImage from '@weco/content/views/components/CaptionedImage';
 import MoreLink from '@weco/content/views/components/MoreLink';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
+import WShape from '@weco/content/views/components/WShape';
 
 const ContentContainer = styled(Space)`
   display: flex;
@@ -66,6 +66,27 @@ const IconWrapper = styled.span`
   margin-left: 4px;
 `;
 
+const MainBackground = styled.div<{ $isDefaultVariant: boolean }>`
+  position: relative;
+  overflow: hidden;
+  background-color: ${props =>
+    props.theme.color(
+      props.$isDefaultVariant ? 'accent.lightBlue' : 'accent.lightPurple'
+    )};
+`;
+
+const WShapeWrapper = styled.div<{ $isDefaultVariant: boolean }>`
+  position: absolute;
+  z-index: 0;
+  color: ${props =>
+    props.theme.color(
+      props.$isDefaultVariant ? 'accent.salmon' : 'accent.turquoise'
+    )};
+  top: -20%;
+  right: -10%;
+  width: 70%;
+`;
+
 const LinksWithArrow = ({ links }: { links: Link[] }) => {
   return links.map(link => (
     <li key={link.url}>
@@ -112,60 +133,63 @@ const FullWidthBanner = (props: Props) => {
   const isTwoLinksVariant = variant === 'twoLinks';
 
   return (
-    <div
+    <MainBackground
       data-component="full-width-banner"
-      style={{
-        backgroundColor: themeValues.color(
-          isDefaultVariant ? 'accent.lightBlue' : 'accent.lightPurple'
-        ),
-      }}
+      $isDefaultVariant={isDefaultVariant}
     >
-      <ContaineredLayout gridSizes={gridSize12()}>
-        <ContentContainer
-          $v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
-        >
-          <CopySection>
-            {props.title && <SectionHeader title={props.title}></SectionHeader>}
-            {props.description && <p>{props.description}</p>}
+      <WShapeWrapper $isDefaultVariant={isDefaultVariant}>
+        <WShape variant={isDefaultVariant ? '3' : '2'} />
+      </WShapeWrapper>
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        <ContaineredLayout gridSizes={gridSize12()}>
+          <ContentContainer
+            $v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
+          >
+            <CopySection>
+              {props.title && (
+                <SectionHeader title={props.title}></SectionHeader>
+              )}
+              {props.description && <p>{props.description}</p>}
 
-            {isDefaultVariant && (
-              <>
-                {props.link && (
-                  <MoreLink
-                    name={props.link.text || 'Find out more'}
-                    url={props.link.url}
-                  />
-                )}
+              {isDefaultVariant && (
+                <>
+                  {props.link && (
+                    <MoreLink
+                      name={props.link.text || 'Find out more'}
+                      url={props.link.url}
+                    />
+                  )}
 
-                {props.supportText && (
-                  <SupportText>
-                    <Icon icon={web} />
+                  {props.supportText && (
+                    <SupportText>
+                      <Icon icon={web} />
 
-                    <PrismicHtmlBlock html={props.supportText} />
-                  </SupportText>
-                )}
-              </>
+                      <PrismicHtmlBlock html={props.supportText} />
+                    </SupportText>
+                  )}
+                </>
+              )}
+
+              {isTwoLinksVariant && props.links?.length > 0 && (
+                <PlainList>
+                  <LinksWithArrow links={props.links} />
+                </PlainList>
+              )}
+            </CopySection>
+
+            {props.image && (
+              <ImageSection>
+                <CaptionedImage
+                  image={props.image}
+                  hasRoundedCorners={false}
+                  caption={[]}
+                />
+              </ImageSection>
             )}
-
-            {isTwoLinksVariant && props.links?.length > 0 && (
-              <PlainList>
-                <LinksWithArrow links={props.links} />
-              </PlainList>
-            )}
-          </CopySection>
-
-          {props.image && (
-            <ImageSection>
-              <CaptionedImage
-                image={props.image}
-                hasRoundedCorners={false}
-                caption={[]}
-              />
-            </ImageSection>
-          )}
-        </ContentContainer>
-      </ContaineredLayout>
-    </div>
+          </ContentContainer>
+        </ContaineredLayout>
+      </div>
+    </MainBackground>
   );
 };
 
