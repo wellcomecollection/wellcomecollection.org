@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import NextLink from 'next/link';
-import React, {
+import {
+  FunctionComponent,
   ReactElement,
   ReactNode,
   useEffect,
@@ -97,7 +98,6 @@ const IconContainer = styled(Space).attrs({
     flex-shrink: 1;
   }
 `;
-
 const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -108,7 +108,6 @@ const TextContainer = styled.div`
     align-items: center;
   }
 `;
-
 const CountDisplayContainer = styled.div`
   font-variant-numeric: tabular-nums;
   display: flex;
@@ -180,96 +179,88 @@ type WorkTypeItemProps = {
   icon: ReactElement;
   stats: WorkTypeStats;
   animationIndex: number;
+  startAnimations?: boolean;
   description?: string;
+  registerNumberRef?: (el: HTMLElement | null) => void;
 };
 
-const WorkTypeItem: React.FC<WorkTypeItemProps> = ({
+const WorkTypeItem: FunctionComponent<WorkTypeItemProps> = ({
   icon,
   stats,
   animationIndex,
+  startAnimations,
   description,
+  registerNumberRef,
 }) => {
-  const [displayCount, setDisplayCount] = useState<number>(stats.fallbackCount);
+  const initialCount =
+    stats.count !== null ? Math.max(0, stats.count - 10) : stats.fallbackCount;
+  const [displayCount, setDisplayCount] = useState<number>(initialCount);
   const [showPlus, setShowPlus] = useState<boolean>(true);
-  const [isInView, setIsInView] = useState<boolean>(false);
-  const itemRef = useRef<HTMLLIElement>(null);
+  const countContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsInView(true);
-        }
-      },
-      {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px',
-      }
-    );
+    if (startAnimations) return;
 
-    if (itemRef.current) {
-      observer.observe(itemRef.current);
+    const newInitial =
+      stats.count !== null
+        ? Math.max(0, stats.count - 50)
+        : stats.fallbackCount;
+
+    if (displayCount !== newInitial) {
+      setDisplayCount(newInitial);
+      // Show the plus if we don't have a real count yet
+      setShowPlus(stats.count === null);
+    }
+  }, [stats.count, stats.fallbackCount, startAnimations]);
+
+  useEffect(() => {
+    if (!startAnimations) return;
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const endCount = stats.count ?? stats.fallbackCount;
+
+    if (prefersReducedMotion) {
+      setDisplayCount(endCount);
+      setShowPlus(false);
+      return;
     }
 
-    return () => {
-      if (itemRef.current) {
-        observer.unobserve(itemRef.current);
+    // Pure JS animation using requestAnimationFrame. We don't rely on any CSS
+    // custom properties so the counter effect remains visible across
+    // environments. Duration and easing exponent chosen to slow near the end.
+    const startCount = initialCount;
+    const duration = 5000; // ms - slower, as requested
+
+    let rafId: number | null = null;
+    let startTime: number | null = null;
+
+    setShowPlus(false);
+
+    const step = (timestamp: number) => {
+      if (startTime === null) startTime = timestamp;
+      const elapsed = Math.min(timestamp - startTime, duration);
+      const rawProgress = Math.max(0, Math.min(1, elapsed / duration));
+
+      // easeOutExpo: fast at start, slows sharply near the end
+      const eased = rawProgress === 1 ? 1 : 1 - Math.pow(2, -10 * rawProgress);
+      const current = Math.round(startCount + (endCount - startCount) * eased);
+      setDisplayCount(current);
+
+      if (rawProgress < 1) {
+        rafId = requestAnimationFrame(step);
+      } else {
+        setDisplayCount(endCount);
       }
     };
-  }, []);
 
-  useEffect(() => {
-    if (!isInView) return;
+    rafId = requestAnimationFrame(step);
 
-    const prefersReducedMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)'
-    ).matches;
-
-    if (stats.count !== null && stats.count !== stats.fallbackCount) {
-      const startCount = stats.fallbackCount;
-      const endCount = stats.count;
-      const duration = 2000;
-
-      if (prefersReducedMotion) {
-        setDisplayCount(endCount);
-        setShowPlus(false);
-      } else {
-        const startAnimation = () => {
-          setShowPlus(false);
-          const startTime = Date.now();
-
-          const animate = () => {
-            const elapsed = Date.now() - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            const easeOutCustom = 1 - Math.pow(1 - progress, 6);
-            const currentCount = Math.round(
-              startCount + (endCount - startCount) * easeOutCustom
-            );
-
-            setDisplayCount(currentCount);
-
-            if (progress < 1) {
-              requestAnimationFrame(animate);
-            } else {
-              setDisplayCount(endCount);
-            }
-          };
-
-          requestAnimationFrame(animate);
-        };
-
-        startAnimation();
-      }
-    } else if (stats.count !== null) {
-      if (prefersReducedMotion) {
-        setDisplayCount(stats.count);
-        setShowPlus(false);
-      } else {
-        setDisplayCount(stats.count!);
-        setShowPlus(false);
-      }
-    }
-  }, [isInView, stats.count, stats.fallbackCount, animationIndex]);
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  }, [startAnimations, stats.count, stats.fallbackCount]);
 
   const formatDisplayCount = (): ReactNode => {
     const numberPart = displayCount.toLocaleString();
@@ -301,12 +292,20 @@ const WorkTypeItem: React.FC<WorkTypeItemProps> = ({
       : `approximately ${accessibleCount.toLocaleString()}`;
 
   return (
-    <StyledListItem ref={itemRef} data-component="work-type-item">
+    <StyledListItem data-component="work-type-item">
       <StyledLink {...searchLink} $tiltIndex={animationIndex}>
         <IconContainer>{icon}</IconContainer>
         <TextContainer>
           <div>
-            <CountDisplayContainer aria-hidden="true" className={font('wb', 3)}>
+            <CountDisplayContainer
+              aria-hidden="true"
+              className={font('wb', 3)}
+              ref={el => {
+                countContainerRef.current = el as HTMLDivElement | null;
+                if (registerNumberRef)
+                  registerNumberRef(el as HTMLElement | null);
+              }}
+            >
               {formatDisplayCount()}
             </CountDisplayContainer>
             {/* Screen reader only text with stable count */}
@@ -350,77 +349,122 @@ const WorkTypesList: React.FC<WorkTypesListProps> = ({
     videoAudio: '/icons/video-audio.svg',
     ephemera: '/icons/ephemera.svg',
   },
-}) => (
-  <div data-component="work-types-list">
-    <StyledList>
-      <WorkTypeItem
-        icon={
-          <StyledImage
-            src={icons.book}
-            alt=""
-            width={120}
-            height={120}
-            $tiltIndex={0}
-          />
+}) => {
+  const [startAnimations, setStartAnimations] = useState(false);
+
+  // Observe number elements directly so animations start when the numbers
+  // scroll into view. Store elements in a Set to avoid duplicates.
+  const numberEls = useRef<Set<Element>>(new Set());
+  const observerRef = useRef<IntersectionObserver | null>(null);
+
+  useEffect(() => {
+    if (startAnimations) return;
+
+    observerRef.current = new IntersectionObserver(
+      entries => {
+        if (entries.some(e => e.isIntersecting)) {
+          setStartAnimations(true);
+          observerRef.current?.disconnect();
         }
-        stats={collectionStats.booksAndJournals}
-        animationIndex={0}
-      />
-      <WorkTypeItem
-        icon={
-          <StyledImage
-            src={icons.image}
-            alt=""
-            width={120}
-            height={120}
-            $tiltIndex={1}
-          />
-        }
-        stats={collectionStats.images}
-        animationIndex={1}
-      />
-      <WorkTypeItem
-        icon={
-          <StyledImage
-            src={icons.archives}
-            alt=""
-            width={120}
-            height={120}
-            $tiltIndex={2}
-          />
-        }
-        stats={collectionStats.archivesAndManuscripts}
-        animationIndex={2}
-      />
-      <WorkTypeItem
-        icon={
-          <StyledImage
-            src={icons.videoAudio}
-            alt=""
-            width={120}
-            height={120}
-            $tiltIndex={3}
-          />
-        }
-        stats={collectionStats.audioAndVideo}
-        animationIndex={3}
-      />
-      <WorkTypeItem
-        icon={
-          <StyledImage
-            src={icons.ephemera}
-            alt=""
-            width={120}
-            height={120}
-            $tiltIndex={4}
-          />
-        }
-        stats={collectionStats.ephemera}
-        animationIndex={4}
-        description="For example leaflets, labels and stamps"
-      />
-    </StyledList>
-  </div>
-);
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -30px 0px' }
+    );
+
+    numberEls.current.forEach(el => observerRef.current?.observe(el));
+
+    return () => observerRef.current?.disconnect();
+  }, [startAnimations]);
+
+  const registerNumberRef = (el: HTMLElement | null) => {
+    if (!el) return;
+    if (!numberEls.current.has(el)) {
+      numberEls.current.add(el);
+      if (observerRef.current) observerRef.current.observe(el);
+    }
+  };
+
+  return (
+    <div data-component="work-types-list">
+      <StyledList>
+        <WorkTypeItem
+          icon={
+            <StyledImage
+              src={icons.book}
+              alt=""
+              width={120}
+              height={120}
+              $tiltIndex={0}
+            />
+          }
+          stats={collectionStats.booksAndJournals}
+          animationIndex={0}
+          startAnimations={startAnimations}
+          registerNumberRef={registerNumberRef}
+        />
+        <WorkTypeItem
+          icon={
+            <StyledImage
+              src={icons.image}
+              alt=""
+              width={120}
+              height={120}
+              $tiltIndex={1}
+            />
+          }
+          stats={collectionStats.images}
+          animationIndex={1}
+          startAnimations={startAnimations}
+          registerNumberRef={registerNumberRef}
+        />
+        <WorkTypeItem
+          icon={
+            <StyledImage
+              src={icons.archives}
+              alt=""
+              width={120}
+              height={120}
+              $tiltIndex={2}
+            />
+          }
+          stats={collectionStats.archivesAndManuscripts}
+          animationIndex={2}
+          startAnimations={startAnimations}
+          registerNumberRef={registerNumberRef}
+        />
+        <WorkTypeItem
+          icon={
+            <StyledImage
+              src={icons.videoAudio}
+              alt=""
+              width={120}
+              height={120}
+              $tiltIndex={3}
+            />
+          }
+          stats={collectionStats.audioAndVideo}
+          animationIndex={3}
+          startAnimations={startAnimations}
+          registerNumberRef={registerNumberRef}
+        />
+        <WorkTypeItem
+          icon={
+            <StyledImage
+              src={icons.ephemera}
+              alt=""
+              width={120}
+              height={120}
+              $tiltIndex={4}
+            />
+          }
+          stats={collectionStats.ephemera}
+          animationIndex={4}
+          startAnimations={startAnimations}
+          description="For example leaflets, labels and stamps"
+          registerNumberRef={registerNumberRef}
+        />
+      </StyledList>
+    </div>
+  );
+};
 
 export default WorkTypesList;
