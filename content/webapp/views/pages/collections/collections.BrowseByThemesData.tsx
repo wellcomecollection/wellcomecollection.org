@@ -2,13 +2,19 @@ import Link from 'next/link';
 import { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
 
+import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import { useConceptImageUrls } from '@weco/content/hooks/useConceptImageUrls';
 import { useThemeConcepts } from '@weco/content/hooks/useThemeConcepts';
 import { Concept } from '@weco/content/services/wellcome/catalogue/types';
+import type { Image } from '@weco/content/services/wellcome/catalogue/types';
 import { toConceptLink } from '@weco/content/views/components/ConceptLink';
 
-import type { BrowseByThemeProps } from './collections.BrowseByThemes';
-import type { ThemeCategory } from './themeBlockCategories';
+import type { ThemeCategory, ThemeConfig } from './themeBlockCategories';
+
+type BrowseByThemeProps = {
+  themeConfig: ThemeConfig;
+  initialConcepts: Concept[];
+};
 
 const CategoryLinks = styled.div`
   display: flex;
@@ -68,13 +74,22 @@ const ImageGrid = styled.div`
   overflow: hidden;
 `;
 
-// (removed duplicate import)
-
 const ThemeConceptCard: FunctionComponent<{ concept: Concept }> = ({
   concept,
 }) => {
   const linkProps = toConceptLink({ conceptId: concept.id });
-  const imageUrls = useConceptImageUrls(concept);
+  const images = useConceptImageUrls(concept);
+
+  const toImageUrl = (img?: Image) => {
+    if (!img) return '';
+    const raw = img.thumbnail?.url || img.locations?.[0]?.url || '';
+    try {
+      return convertIiifImageUri(raw, 250);
+    } catch (e) {
+      return raw;
+    }
+  };
+
   return (
     <ConceptCard>
       <Link
@@ -84,20 +99,23 @@ const ThemeConceptCard: FunctionComponent<{ concept: Concept }> = ({
         style={{ display: 'block', width: '100%' }}
       >
         <ImageGrid>
-          {imageUrls.map((url, i) => (
-            <img
-              key={url + i}
-              src={url}
-              alt=""
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                borderRadius: '4px',
-                display: 'block',
-              }}
-            />
-          ))}
+          {images.map((img, i) => {
+            const url = toImageUrl(img);
+            return (
+              <img
+                key={(url || img.id) + i}
+                src={url}
+                alt=""
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  borderRadius: '4px',
+                  display: 'block',
+                }}
+              />
+            );
+          })}
         </ImageGrid>
       </Link>
       <ConceptTitle>
@@ -125,7 +143,7 @@ const getConceptsByIds = async (ids: string[]) => {
   return [];
 };
 
-const BrowseByThemesData: React.FC<BrowseByThemeProps> = ({
+const BrowseByThemesData: FunctionComponent<BrowseByThemeProps> = ({
   themeConfig,
   initialConcepts,
 }) => {
