@@ -36,22 +36,6 @@ const ViewerContainer = styled.div`
   height: 100%;
   width: 100%;
 
-  /* Override clover-iiif styles to ensure full height */
-  [data-clover-viewer] {
-    height: 100% !important;
-  }
-
-  /* Make the painting area fill the full width */
-  [data-clover-viewer] [data-clover-viewer-painting] {
-    width: 100% !important;
-    margin-right: 0 !important;
-  }
-
-  /* Ensure the viewer content takes full space */
-  [data-clover-viewer] [data-clover-viewer-content] {
-    display: block !important;
-  }
-
   .openseadragon-container {
     height: 100% !important;
     width: 100% !important;
@@ -148,12 +132,10 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
       try {
         setIsLoading(true);
 
-        // First fetch the image info
         const infoResponse = await fetch(zoomInfoUrl);
         const infoData = await infoResponse.json();
         setImageInfo(infoData);
 
-        // Helper function to dynamically import clover-iiif
         const dynamicImport = () => {
           return import('@samvera/clover-iiif' as string);
         };
@@ -428,9 +410,9 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
                 openSeadragon: {
                   visibilityRatio: 1,
                   minZoomLevel: 0.5,
-                  defaultZoomLevel: 1.2,
+                  defaultZoomLevel: 1,
                   homeFillsViewer: false,
-                  animationTime: 0.3,
+                  animationTime: 1,
                   showNavigationControl: false,
                   showNavigator: false,
                   showZoomControl: false,
