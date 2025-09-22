@@ -75,27 +75,23 @@ const meta: Meta<Props & StoryProps> = {
     addMoreContent: false,
   },
   argTypes: {
+    caption: { control: 'text', name: 'Caption' },
     vAlign: {
+      name: 'Vertical align',
       options: ['top', 'middle', 'bottom'],
       control: { type: 'radio' },
     },
-    plain: { control: 'boolean' },
-    withBorder: { control: 'boolean' },
+    plain: { name: 'Plain', control: 'boolean' },
+    withBorder: { name: 'With border', control: 'boolean' },
     headerPosition: {
+      name: 'Header position',
       options: ['row', 'column'],
       control: { type: 'radio' },
     },
-    rows: {
-      table: {
-        disable: true,
-      },
-    },
-    hasRowHeaders: {
-      table: {
-        disable: true,
-      },
-    },
-    addMoreContent: { control: 'boolean' },
+    addMoreContent: { name: 'Add more content', control: 'boolean' },
+    hasSmallerCopy: { name: 'Smaller copy', control: 'boolean' },
+    rows: { table: { disable: true } },
+    hasRowHeaders: { table: { disable: true } },
   },
 };
 

@@ -4,6 +4,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import TitledTextList from '@weco/content/views/components/TitledTextList';
 import Readme from '@weco/content/views/components/TitledTextList/README.mdx';
+
 const items = [
   {
     title: '17th-18th century Burney Collection newspapers',
@@ -42,6 +43,9 @@ const meta: Meta<typeof TitledTextList> = {
   component: TitledTextList,
   args: {
     items,
+  },
+  argTypes: {
+    items: { table: { disable: true } },
   },
 };
 

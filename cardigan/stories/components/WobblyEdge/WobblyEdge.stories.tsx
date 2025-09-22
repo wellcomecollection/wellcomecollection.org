@@ -6,6 +6,33 @@ import PrismicImage from '@weco/common/views/components/PrismicImage';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import Readme from '@weco/common/views/components/WobblyEdge/README.mdx';
 
+const meta: Meta<typeof WobblyEdge> = {
+  title: 'Components/WobblyEdge/WobblyEdge',
+  component: WobblyEdge,
+  args: {
+    backgroundColor: 'warmNeutral.300',
+    isValley: false,
+    isRotated: false,
+    intensity: 50,
+    points: 5,
+    isStatic: false,
+  },
+  argTypes: {
+    backgroundColor: {
+      options: ['warmNeutral.300', 'white'],
+      control: { type: 'radio' },
+    },
+    intensity: {
+      control: {
+        type: 'number',
+        min: 0,
+        max: 100,
+        step: 10,
+      },
+    },
+  },
+};
+
 const Template = args => {
   const { isRotated } = args;
 
@@ -35,33 +62,6 @@ const Template = args => {
       <ReadMeInfo Readme={Readme} />
     </>
   );
-};
-
-const meta: Meta<typeof WobblyEdge> = {
-  title: 'Components/WobblyEdge/WobblyEdge',
-  component: WobblyEdge,
-  args: {
-    backgroundColor: 'warmNeutral.300',
-    isValley: false,
-    isRotated: false,
-    intensity: 50,
-    points: 5,
-    isStatic: false,
-  },
-  argTypes: {
-    backgroundColor: {
-      options: ['warmNeutral.300', 'white'],
-      control: { type: 'radio' },
-    },
-    intensity: {
-      control: {
-        type: 'number',
-        min: 0,
-        max: 100,
-        step: 10,
-      },
-    },
-  },
 };
 
 export default meta;
