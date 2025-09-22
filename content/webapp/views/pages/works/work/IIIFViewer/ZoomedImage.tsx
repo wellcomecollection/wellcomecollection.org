@@ -58,7 +58,7 @@ type ZoomedImageProps = OptionalToUndefined<{
   iiifImageLocation?: DigitalLocation;
 }>;
 
-interface OpenSeaDragonViewer {
+type OpenSeaDragonViewer = {
   viewport: {
     getZoom(): number;
     zoomTo(zoom: number): void;
@@ -68,7 +68,7 @@ interface OpenSeaDragonViewer {
     setRotation(degrees: number): void;
     goHome(): void;
   };
-}
+};
 
 // Custom control plugin component that exposes the OpenSeaDragon viewer
 const ViewerControlsPlugin = ({
