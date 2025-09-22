@@ -1,7 +1,6 @@
-import openseadragon from 'openseadragon';
 import {
+  createElement,
   FunctionComponent,
-  MutableRefObject,
   useEffect,
   useRef,
   useState,
@@ -27,15 +26,36 @@ const ZoomedImageContainer = styled.div`
 `;
 
 const Controls = styled.div`
-  /* TODO position controls at the bottom on small devices, having issues with iPhone so skipping for now */
   position: absolute;
   top: 0;
   right: 0;
   z-index: 2;
 `;
 
-const Image = styled.div`
+const ViewerContainer = styled.div`
   height: 100%;
+  width: 100%;
+
+  /* Override clover-iiif styles to ensure full height */
+  [data-clover-viewer] {
+    height: 100% !important;
+  }
+
+  /* Make the painting area fill the full width */
+  [data-clover-viewer] [data-clover-viewer-painting] {
+    width: 100% !important;
+    margin-right: 0 !important;
+  }
+
+  /* Ensure the viewer content takes full space */
+  [data-clover-viewer] [data-clover-viewer-content] {
+    display: block !important;
+  }
+
+  .openseadragon-container {
+    height: 100% !important;
+    width: 100% !important;
+  }
 `;
 
 const ErrorMessage = () => (
@@ -44,9 +64,47 @@ const ErrorMessage = () => (
   </div>
 );
 
+const LoadingMessage = () => (
+  <div>
+    <p>Loading image viewer...</p>
+  </div>
+);
+
 type ZoomedImageProps = OptionalToUndefined<{
   iiifImageLocation?: DigitalLocation;
 }>;
+
+interface OpenSeaDragonViewer {
+  viewport: {
+    getZoom(): number;
+    zoomTo(zoom: number): void;
+    getMaxZoom(): number;
+    getMinZoom(): number;
+    getRotation(): number;
+    setRotation(degrees: number): void;
+    goHome(): void;
+  };
+}
+
+// Custom control plugin component that exposes the OpenSeaDragon viewer
+const ViewerControlsPlugin = ({
+  useViewerState,
+  onViewerReady,
+}: {
+  useViewerState: () => { openSeadragonViewer?: OpenSeaDragonViewer };
+  onViewerReady: (viewer: OpenSeaDragonViewer) => void;
+}) => {
+  const viewerState = useViewerState();
+
+  useEffect(() => {
+    if (viewerState?.openSeadragonViewer) {
+      onViewerReady(viewerState.openSeadragonViewer);
+    }
+  }, [viewerState?.openSeadragonViewer, onViewerReady]);
+
+  // Return null as we don't want to render anything in the controls area
+  return null;
+};
 
 const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
   iiifImageLocation,
@@ -60,136 +118,214 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
   const zoomInfoUrl = iiifImageLocation
     ? iiifImageLocation.url
     : convertRequestUriToInfoUri(mainImageService['@id']);
+
   const [scriptError, setScriptError] = useState(false);
-  const [viewer, setViewer] = useState(null);
-  const viewerRef: MutableRefObject<{ destroy: () => void } | null> =
-    useRef(null);
-  const zoomStep = 0.5;
+  const [isLoading, setIsLoading] = useState(true);
+  const [CloverViewer, setCloverViewer] = useState<React.ComponentType<
+    Record<string, unknown>
+  > | null>(null);
+  const [imageInfo, setImageInfo] = useState<{
+    '@context': string;
+    '@id': string;
+    '@type': string;
+    profile: string[];
+    protocol: string;
+    width: number;
+    height: number;
+    tiles: {
+      width: number;
+      height: number;
+      scaleFactors: number[];
+    }[];
+  } | null>(null);
+  const [viewer, setViewer] = useState<OpenSeaDragonViewer | null>(null);
   const firstControl = useRef<HTMLButtonElement>(null);
   const lastControl = useRef<HTMLButtonElement>(null);
   const zoomedImage = useRef<HTMLDivElement>(null);
-  const hasInitialised = useRef(false);
-
-  function setupViewer(imageInfoSrc: string, viewerId: string) {
-    // We use this to prevent the creation of two `.openseadragon-container`s
-    // which would otherwise happen in development with strict mode turned on
-    // (which in turn would break tests)
-    hasInitialised.current = true;
-    fetch(imageInfoSrc)
-      .then(response => response.json())
-      .then(response => {
-        const osdViewer = openseadragon({
-          id: `image-viewer-${viewerId}`,
-          showNavigationControl: false,
-          visibilityRatio: 1,
-          tileSources: [
-            {
-              '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': response['@id'],
-              height: response.height,
-              width: response.width,
-              profile: ['http://iiif.io/api/image/2/level2.json'],
-              protocol: 'http://iiif.io/api/image',
-              tiles: [
-                {
-                  scaleFactors: [1, 2, 4, 8, 16, 32],
-                  width: 400,
-                },
-              ],
-            },
-          ],
-        });
-        osdViewer.addOnceHandler('tile-loaded', () => {
-          doZoomIn(osdViewer);
-        });
-        osdViewer.addHandler('tile-loaded', () => {
-          // Prevent NVDA arrow key events escaping the viewer (https://stackoverflow.com/a/41523306)
-          osdViewer.container.setAttribute('role', 'toolbar');
-          osdViewer.container.setAttribute(
-            'aria-description',
-            'use arrow keys to pan the image'
-          );
-        });
-        setViewer(osdViewer);
-        viewerRef.current = osdViewer;
-      })
-      .catch(() => {
-        setScriptError(true);
-      });
-  }
 
   useEffect(() => {
-    !hasInitialised.current && setupViewer(zoomInfoUrl, 'zoomedImage');
-    lastControl?.current && lastControl.current.focus();
+    const loadCloverViewer = async () => {
+      try {
+        setIsLoading(true);
 
-    return () => viewerRef.current?.destroy();
-  }, []);
+        // First fetch the image info
+        const infoResponse = await fetch(zoomInfoUrl);
+        const infoData = await infoResponse.json();
+        setImageInfo(infoData);
 
-  function doZoomIn(viewer) {
-    if (!viewer) {
-      return;
+        // Helper function to dynamically import clover-iiif
+        const dynamicImport = () => {
+          return import('@samvera/clover-iiif' as string);
+        };
+
+        const cloverModule = await dynamicImport();
+        const LoadedCloverViewer =
+          cloverModule.CloverViewer || cloverModule.default;
+
+        if (!LoadedCloverViewer) {
+          throw new Error('CloverViewer component not found in module');
+        }
+
+        setCloverViewer(() => LoadedCloverViewer);
+        setIsLoading(false);
+
+        // Focus the first control after loading
+        setTimeout(() => {
+          firstControl?.current?.focus();
+        }, 500);
+      } catch (error) {
+        console.error('Failed to load clover-iiif:', error);
+        setScriptError(true);
+        setIsLoading(false);
+      }
+    };
+
+    loadCloverViewer();
+  }, [zoomInfoUrl]);
+
+  const handleViewerReady = (osdViewer: OpenSeaDragonViewer) => {
+    setViewer(osdViewer);
+  };
+
+  const handleZoomIn = () => {
+    if (viewer) {
+      const currentZoom = viewer.viewport.getZoom();
+      const maxZoom = viewer.viewport.getMaxZoom();
+      const newZoom = Math.min(currentZoom * 1.5, maxZoom);
+      viewer.viewport.zoomTo(newZoom);
     }
-    const max = viewer.viewport.getMaxZoom();
-    const nextMax = viewer.viewport.getZoom() + zoomStep;
-    const newMax = nextMax <= max ? nextMax : max;
+  };
 
-    viewer.viewport.zoomTo(newMax);
-  }
-
-  function doZoomOut(viewer) {
-    if (!viewer) return;
-    const min = viewer.viewport.getMinZoom();
-    const nextMin = viewer.viewport.getZoom() - zoomStep;
-    const newMin = nextMin >= min ? nextMin : min;
-
-    viewer.viewport.zoomTo(newMin);
-  }
-
-  function handleZoomIn(viewer) {
-    if (!viewer) return;
-
-    if (viewer.isOpen()) {
-      doZoomIn(viewer);
+  const handleZoomOut = () => {
+    if (viewer) {
+      const currentZoom = viewer.viewport.getZoom();
+      const minZoom = viewer.viewport.getMinZoom();
+      const newZoom = Math.max(currentZoom / 1.5, minZoom);
+      viewer.viewport.zoomTo(newZoom);
     }
-  }
+  };
 
-  function handleZoomOut(viewer) {
-    if (!viewer) return;
-    if (viewer.isOpen()) {
-      doZoomOut(viewer);
+  const handleRotate = () => {
+    if (viewer) {
+      const currentRotation = viewer.viewport.getRotation();
+      viewer.viewport.setRotation(currentRotation + 90);
     }
-  }
+  };
 
-  function handleRotate(viewer) {
-    if (!viewer) return;
-    viewer.viewport.setRotation(viewer.viewport.getRotation() + 90);
-  }
-
-  function handleTrapStartKeyDown(event) {
-    if (event.shiftKey && event.keyCode === 9) {
+  function handleTrapStartKeyDown(event: React.KeyboardEvent) {
+    if (event.shiftKey && event.key === 'Tab') {
       event.preventDefault();
-      (
-        zoomedImage?.current?.querySelector(
-          '.openseadragon-canvas'
-        ) as HTMLDivElement
-      ).focus();
+      const canvas = zoomedImage?.current?.querySelector(
+        'canvas'
+      ) as HTMLCanvasElement;
+      if (canvas) {
+        canvas.focus();
+      }
     }
   }
 
-  function handleTrapEndKeyDown(event) {
-    if (!event.shiftKey && event.keyCode === 9) {
+  function handleTrapEndKeyDown(event: React.KeyboardEvent) {
+    if (!event.shiftKey && event.key === 'Tab') {
       event.preventDefault();
       firstControl?.current?.focus();
     }
   }
 
-  function handleKeyDown(event) {
+  function handleKeyDown(event: React.KeyboardEvent) {
     if (event.target === firstControl.current) {
       handleTrapStartKeyDown(event);
     }
-    if (event.target.classList.contains('openseadragon-canvas')) {
+    if ((event.target as HTMLElement)?.tagName === 'CANVAS') {
       handleTrapEndKeyDown(event);
     }
+
+    // Handle escape key to close viewer
+    if (event.key === 'Escape') {
+      setShowZoomed(false);
+    }
+  }
+
+  // Create a proper IIIF manifest based on the fetched image info
+  const manifest =
+    CloverViewer && imageInfo
+      ? {
+          '@context': 'http://iiif.io/api/presentation/3/context.json',
+          id: `${imageInfo['@id']}/manifest`,
+          type: 'Manifest',
+          label: { en: ['Image Viewer'] },
+          items: [
+            {
+              id: `${imageInfo['@id']}/canvas`,
+              type: 'Canvas',
+              height: imageInfo.height || 3962,
+              width: imageInfo.width || 2394,
+              items: [
+                {
+                  id: `${imageInfo['@id']}/annotation-page`,
+                  type: 'AnnotationPage',
+                  items: [
+                    {
+                      id: `${imageInfo['@id']}/annotation`,
+                      type: 'Annotation',
+                      motivation: 'painting',
+                      body: {
+                        id: `${imageInfo['@id']}/full/max/0/default.jpg`,
+                        type: 'Image',
+                        format: 'image/jpeg',
+                        service: [
+                          {
+                            '@context': imageInfo['@context'],
+                            '@id': imageInfo['@id'],
+                            '@type': imageInfo['@type'],
+                            profile: imageInfo.profile,
+                            protocol: imageInfo.protocol,
+                            width: imageInfo.width,
+                            height: imageInfo.height,
+                            tiles: imageInfo.tiles,
+                          },
+                        ],
+                      },
+                      target: `${imageInfo['@id']}/canvas`,
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        }
+      : null;
+
+  // Plugin configuration to access the OpenSeaDragon viewer
+  const plugins = CloverViewer
+    ? [
+        {
+          id: 'wellcome-viewer-controls',
+          imageViewer: {
+            controls: {
+              component: ViewerControlsPlugin,
+              componentProps: {
+                onViewerReady: handleViewerReady,
+              },
+            },
+          },
+        },
+      ]
+    : [];
+
+  if (scriptError) {
+    return (
+      <ZoomedImageContainer>
+        <ErrorMessage />
+      </ZoomedImageContainer>
+    );
+  }
+
+  if (isLoading || !imageInfo) {
+    return (
+      <ZoomedImageContainer>
+        <LoadingMessage />
+      </ZoomedImageContainer>
+    );
   }
 
   return (
@@ -217,9 +353,7 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
               colorScheme="black-on-white"
               text="Zoom in"
               icon={plus}
-              clickHandler={() => {
-                handleZoomIn(viewer);
-              }}
+              clickHandler={handleZoomIn}
             />
           </Space>
           <Space
@@ -233,9 +367,7 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
               colorScheme="black-on-white"
               text="Zoom out"
               icon={minus}
-              clickHandler={() => {
-                handleZoomOut(viewer);
-              }}
+              clickHandler={handleZoomOut}
             />
           </Space>
           <Space
@@ -249,9 +381,7 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
               colorScheme="black-on-white"
               text="Rotate"
               icon={rotateRight}
-              clickHandler={() => {
-                handleRotate(viewer);
-              }}
+              clickHandler={handleRotate}
             />
           </Space>
           <Space
@@ -273,9 +403,50 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
           </Space>
         </Space>
       </Controls>
-      <Image id="image-viewer-zoomedImage">
-        {scriptError && <ErrorMessage />}
-      </Image>
+      <ViewerContainer>
+        {CloverViewer &&
+          manifest &&
+          (() => {
+            return createElement(CloverViewer, {
+              iiifContent: manifest,
+              plugins,
+              options: {
+                canvasHeight: '100%',
+                showNavigationControl: false,
+                showTitle: false,
+                showInformationToggle: false,
+                showIIIFBadge: false,
+                showDownload: false,
+                informationPanel: {
+                  open: false,
+                  renderToggle: false,
+                  renderAbout: false,
+                  renderAnnotation: false,
+                  renderSupplementing: false,
+                  renderContentSearch: false,
+                },
+                openSeadragon: {
+                  visibilityRatio: 1,
+                  minZoomLevel: 0.5,
+                  defaultZoomLevel: 1.2,
+                  homeFillsViewer: false,
+                  animationTime: 0.3,
+                  showNavigationControl: false,
+                  showNavigator: false,
+                  showZoomControl: false,
+                  showHomeControl: false,
+                  showFullPageControl: false,
+                  showRotationControl: false,
+                  showSequenceControl: false,
+                  gestureSettingsMouse: {
+                    clickToZoom: false,
+                    dblClickToZoom: true,
+                  },
+                },
+              },
+            });
+          })()}
+      </ViewerContainer>
     </ZoomedImageContainer>
   );
 };
