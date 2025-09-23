@@ -151,8 +151,8 @@ const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
   ${row}
   ${inlineFonts}
   ${fonts}
-  ${makeFontSizeClasses()}
-  ${makeFontSizeOverrideClasses()}
+  ${props => makeFontSizeClasses(props.toggles?.containerQueryFont?.value)}
+  ${props => makeFontSizeOverrideClasses(props.toggles?.containerQueryFont?.value)}
   ${typography}
 `;
 
