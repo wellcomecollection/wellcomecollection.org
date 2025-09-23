@@ -29,10 +29,7 @@ import CivicUK from '@weco/common/views/components/CivicUK';
 import GlobalSvgDefinitions from '@weco/common/views/components/GlobalSvgDefinitions';
 import LoadingIndicator from '@weco/common/views/components/LoadingIndicator';
 import ErrorPage from '@weco/common/views/layouts/ErrorPage';
-import theme, {
-  createTheme,
-  GlobalStyle,
-} from '@weco/common/views/themes/default';
+import { createTheme, GlobalStyle } from '@weco/common/views/themes/default';
 
 // Error pages can't send anything via the data fetching methods as
 // the page needs to be rendered as soon as the error happens.
