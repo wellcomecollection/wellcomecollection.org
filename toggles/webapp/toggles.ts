@@ -152,6 +152,14 @@ const toggles = {
         'Enables the concepts search tab and functionality in the search interface',
       type: 'experimental',
     },
+    {
+      id: 'containerQueryFont',
+      title: 'Container query font sizing',
+      initialValue: false,
+      description:
+        'Use container queries instead of media queries for responsive typography. Provides better containment for typography sizing in components.',
+      type: 'experimental',
+    },
   ] as const,
   // We have to include a reference to any test toggles here as well as in the cache dir
   // because they are deployed separately and consequently can't share a source of truth

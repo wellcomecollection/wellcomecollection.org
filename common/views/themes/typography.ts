@@ -77,10 +77,11 @@ const fontFamilies = {
   },
 };
 
-const fontSizeMixin = size => {
+const fontSizeMixin = (size: number, useContainerQueries = false) => {
   return breakpointNames
     .map(name => {
-      return `@media (min-width: ${themeValues.sizes[name]}px) {
+      const queryType = useContainerQueries ? '@container' : '@media';
+      return `${queryType} (min-width: ${themeValues.sizes[name]}px) {
       font-size: ${fontSizesAtBreakpoints[name][size]}rem;
     }`;
     })
@@ -145,13 +146,17 @@ export const typography = css<GlobalStyleProps>`
 
   body {
     ${fontFamilyMixin('intr', true)}
-    ${fontSizeMixin(4)}
+    ${props => fontSizeMixin(4, props.toggles?.containerQueryFont?.value)}
     line-height: 1.5;
     color: ${themeValues.color('black')};
     font-variant-ligatures: no-common-ligatures;
     -webkit-font-smoothing: antialiased;
     -moz-font-smoothing: antialiased;
     -o-font-smoothing: antialiased;
+    ${props =>
+      props.toggles?.containerQueryFont?.value
+        ? 'container-type: inline-size;'
+        : ''}
   }
 
   h1,
@@ -243,12 +248,12 @@ export const typography = css<GlobalStyleProps>`
 
     h1 {
       ${fontFamilyMixin('wb', true)}
-      ${fontSizeMixin(1)}
+      ${props => fontSizeMixin(1, props.toggles?.containerQueryFont?.value)}
     }
 
     h2 {
       ${fontFamilyMixin('wb', true)}
-      ${fontSizeMixin(2)}
+      ${props => fontSizeMixin(2, props.toggles?.containerQueryFont?.value)}
     }
 
     /* Visual stories have their own h2 styling that involves more space and a border above */
@@ -265,7 +270,7 @@ export const typography = css<GlobalStyleProps>`
 
     h3 {
       ${fontFamilyMixin('intb', true)}
-      ${fontSizeMixin(3)}
+      ${props => fontSizeMixin(3, props.toggles?.containerQueryFont?.value)}
     }
 
     *::selection {
@@ -362,10 +367,11 @@ export const typography = css<GlobalStyleProps>`
   }
 `;
 
-export function makeFontSizeClasses(): string {
+export function makeFontSizeClasses(useContainerQueries = false): string {
+  const queryType = useContainerQueries ? '@container' : '@media';
   return breakpointNames
     .map(bp => {
-      return `@media (min-width: ${themeValues.sizes[bp]}px) {
+      return `${queryType} (min-width: ${themeValues.sizes[bp]}px) {
       ${Object.entries(fontSizesAtBreakpoints[bp])
         .map(([key, value]) => {
           return `.font-size-${key} {font-size: ${value}rem}`;
@@ -384,7 +390,10 @@ function overridesAtBreakpoint(bp: string) {
     .join(' ');
 }
 
-export function makeFontSizeOverrideClasses(): string {
+export function makeFontSizeOverrideClasses(
+  useContainerQueries = false
+): string {
+  const queryType = useContainerQueries ? '@container' : '@media';
   return breakpointNames
     .map(bp => {
       const minMax =
@@ -395,13 +404,13 @@ export function makeFontSizeOverrideClasses(): string {
             : ['large'];
 
       if (minMax.length === 2) {
-        return `@media (min-width: ${
+        return `${queryType} (min-width: ${
           themeValues.sizes[minMax[0]]
         }px) and (max-width: ${themeValues.sizes[minMax[1]]}px) {
         ${overridesAtBreakpoint(bp)}
       }`;
       } else {
-        return `@media (min-width: ${themeValues.sizes[minMax[0]]}px) {
+        return `${queryType} (min-width: ${themeValues.sizes[minMax[0]]}px) {
         ${overridesAtBreakpoint(bp)}
       }`;
       }
