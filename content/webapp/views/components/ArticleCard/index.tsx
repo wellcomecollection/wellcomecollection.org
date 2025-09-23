@@ -4,7 +4,7 @@ import { FunctionComponent } from 'react';
 import { getCrop } from '@weco/common/model/image';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { isNotUndefined, isUndefined } from '@weco/common/utils/type-guards';
-import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
+import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
 import { ArticleFormatIds } from '@weco/content/data/content-format-ids';
@@ -79,7 +79,9 @@ const ArticleCard: FunctionComponent<Props> = ({
       postTitleChildren={
         isPodcast ? (
           <Space $v={{ size: 's', properties: ['margin-top'] }}>
-            <WatchLabel text={<HTMLDate date={publicationDate} />} />
+            <WatchLabel
+              text={<HTMLDateAndTime variant="date" date={publicationDate} />}
+            />
           </Space>
         ) : undefined
       }

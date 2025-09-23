@@ -1,7 +1,7 @@
 import { FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
 
-import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
+import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import { Book } from '@weco/content/types/books';
@@ -57,7 +57,7 @@ const BookMetadata: FunctionComponent<{ book: Book }> = ({ book }) => (
       {book.datePublished && (
         <Metadata
           label="Date published"
-          value={<HTMLDate date={book.datePublished} />}
+          value={<HTMLDateAndTime variant="date" date={book.datePublished} />}
         />
       )}
       <Metadata label="Format" value={book.format} />

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font } from '@weco/common/utils/classnames';
-import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
+import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
 import Space from '@weco/common/views/components/styled/Space';
 import DateRange from '@weco/content/views/components/DateRange';
 import { formatDateRangeWithMessage } from '@weco/content/views/components/StatusIndicator';
@@ -102,7 +102,7 @@ const ContentSearchResult: FunctionComponent<Props> = ({
             </DatesContributors>
           ) : dates?.start ? (
             <DatesContributors>
-              <HTMLDate date={new Date(dates.start)} />
+              <HTMLDateAndTime variant="date" date={new Date(dates.start)} />
             </DatesContributors>
           ) : null}
           {times ? (

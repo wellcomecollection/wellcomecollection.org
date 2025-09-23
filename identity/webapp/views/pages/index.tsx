@@ -12,7 +12,7 @@ import {
 } from '@weco/common/model/user';
 import { font } from '@weco/common/utils/classnames';
 import { allowedRequests } from '@weco/common/values/requests';
-import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
+import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
 import Icon from '@weco/common/views/components/Icon';
 import {
   ContaineredLayout,
@@ -301,7 +301,8 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                                         ] ?? result.status.label}
                                       </ItemStatus>,
                                       result.pickupDate ? (
-                                        <HTMLDate
+                                        <HTMLDateAndTime
+                                          variant="date"
                                           date={new Date(result.pickupDate)}
                                         />
                                       ) : (

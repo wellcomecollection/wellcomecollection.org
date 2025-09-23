@@ -7,7 +7,7 @@ import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font } from '@weco/common/utils/classnames';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import Divider from '@weco/common/views/components/Divider';
-import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
+import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
 import Icon from '@weco/common/views/components/Icon';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
@@ -146,8 +146,13 @@ const EventPromo: FunctionComponent<Props> = ({
           )}
           {isPast && event.times.length > 1 && (
             <DateInfo>
-              <HTMLDate date={dateRanges[0].range.startDateTime} /> -{' '}
-              <HTMLDate
+              <HTMLDateAndTime
+                variant="date"
+                date={dateRanges[0].range.startDateTime}
+              />{' '}
+              -{' '}
+              <HTMLDateAndTime
+                variant="date"
                 date={dateRanges[dateRanges.length - 1].range.endDateTime}
               />
             </DateInfo>
