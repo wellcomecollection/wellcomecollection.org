@@ -127,13 +127,38 @@ const colors = {
   'focus.yellow': '#ffea00',
 };
 
-const getColor = (name: PaletteColor): string => {
+const getColor = (name: PaletteColor, useCustomProperties = false): string => {
   // In some cases, these get passed in, see ButtonColors for example.
   // But better not to use it if possible.
   if (['currentColor', 'transparent', 'inherit'].includes(name)) return name;
 
+  if (useCustomProperties) {
+    return `var(--color-${name.replace(/\./g, '-')})`;
+  }
+
   return colors[name];
 };
+
+// Generate CSS custom properties from the colors object
+const generateColorCustomProperties = (): string => {
+  return Object.entries(colors)
+    .map(([key, value]) => `--color-${key.replace(/\./g, '-')}: ${value};`)
+    .join('\n  ');
+};
+
+// Theme factory that creates a theme with appropriate color function based on toggles
+export const createThemeValues = (useCustomProperties = false) => {
+  const colorFunction = (name: PaletteColor) =>
+    getColor(name, useCustomProperties);
+
+  return {
+    ...baseThemeValues,
+    color: colorFunction,
+  };
+};
+
+// Default theme values for backward compatibility
+export const themeValues = createThemeValues(false);
 
 export const sizes = {
   small: 0,
@@ -253,7 +278,7 @@ const mediaBetween =
     }`;
   };
 
-export const themeValues = {
+const baseThemeValues = {
   spacingUnit: 6,
   borderRadiusUnit: 6,
   transitionProperties: '150ms ease',

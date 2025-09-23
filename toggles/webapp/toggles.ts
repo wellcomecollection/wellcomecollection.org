@@ -152,6 +152,14 @@ const toggles = {
         'Enables the concepts search tab and functionality in the search interface',
       type: 'experimental',
     },
+    {
+      id: 'colorCustomProperties',
+      title: 'CSS custom properties for colors',
+      initialValue: false,
+      description:
+        'Uses CSS custom properties (--color-name) instead of hex values for theme colors, enabling better theming and runtime color changes',
+      type: 'experimental',
+    },
   ] as const,
   // We have to include a reference to any test toggles here as well as in the cache dir
   // because they are deployed separately and consequently can't share a source of truth
