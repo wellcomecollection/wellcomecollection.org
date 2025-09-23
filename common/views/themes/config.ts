@@ -146,20 +146,6 @@ const generateColorCustomProperties = (): string => {
     .join('\n  ');
 };
 
-// Theme factory that creates a theme with appropriate color function based on toggles
-export const createThemeValues = (useCustomProperties = false) => {
-  const colorFunction = (name: PaletteColor) =>
-    getColor(name, useCustomProperties);
-
-  return {
-    ...baseThemeValues,
-    color: colorFunction,
-  };
-};
-
-// Default theme values for backward compatibility
-export const themeValues = createThemeValues(false);
-
 export const sizes = {
   small: 0,
   medium: 600,
@@ -347,6 +333,7 @@ const baseThemeValues = {
   grid,
   colors,
   color: getColor,
+  generateColorCustomProperties,
   minCardHeight: 385,
   media,
   mediaBetween,
@@ -376,3 +363,17 @@ export type PaletteColor =
   | 'transparent'
   | 'inherit'
   | 'currentColor';
+
+// Theme factory that creates a theme with appropriate color function based on toggles
+export const createThemeValues = (useCustomProperties = false) => {
+  const colorFunction = (name: PaletteColor) =>
+    getColor(name, useCustomProperties);
+
+  return {
+    ...baseThemeValues,
+    color: colorFunction,
+  };
+};
+
+// Default theme values for backward compatibility
+export const themeValues = createThemeValues(false);
