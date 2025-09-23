@@ -1,19 +1,11 @@
 import { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
 
-// Build a URL that enables a toggle and copy it to the clipboard.
-// Dev dashboard only: we assume modern browsers so no legacy fallback.
-export const copyEnableLink = async (toggleId: string): Promise<boolean> => {
-  if (typeof window === 'undefined') return false;
+export const copyEnableLink = async (toggleId: string): Promise<void> => {
   const url = `${window.location.origin}${window.location.pathname}?enableToggle=${encodeURIComponent(
     toggleId
   )}`;
-  try {
-    await navigator.clipboard.writeText(url);
-    return true;
-  } catch {
-    return false;
-  }
+  await navigator.clipboard.writeText(url);
 };
 
 const IconButton = styled.button`
@@ -69,11 +61,9 @@ const CopyLinkIcon: FunctionComponent<CopyLinkIconProps> = ({
   const [copied, setCopied] = useState(false);
 
   const onCopy = async () => {
-    const ok = await copyEnableLink(toggleId);
-    if (ok) {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
+    await copyEnableLink(toggleId);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
