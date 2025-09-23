@@ -140,7 +140,7 @@ const getColor = (name: PaletteColor, useCustomProperties = false): string => {
 };
 
 // Generate CSS custom properties from the colors object
-const generateColorCustomProperties = (): string => {
+export const generateColorCustomProperties = (): string => {
   return Object.entries(colors)
     .map(([key, value]) => `--color-${key.replace(/\./g, '-')}: ${value};`)
     .join('\n  ');
@@ -333,7 +333,6 @@ const baseThemeValues = {
   grid,
   colors,
   color: getColor,
-  generateColorCustomProperties,
   minCardHeight: 385,
   media,
   mediaBetween,

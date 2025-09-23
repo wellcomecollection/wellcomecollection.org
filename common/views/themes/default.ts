@@ -13,7 +13,13 @@ import { layout } from './base/layout';
 import { normalize } from './base/normalize';
 import { row } from './base/row';
 import { wellcomeNormalize } from './base/wellcome-normalize';
-import { createThemeValues, Size, spacingUnits, themeValues } from './config';
+import {
+  createThemeValues,
+  generateColorCustomProperties,
+  Size,
+  spacingUnits,
+  themeValues,
+} from './config';
 import {
   makeFontSizeClasses,
   makeFontSizeOverrideClasses,
@@ -121,7 +127,7 @@ export type GlobalStyleProps = {
 
 const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
   :root {
-    ${props => props.theme.generateColorCustomProperties()}
+    ${generateColorCustomProperties()}
   }
   ${css`
     .${cls.displayBlock} {
