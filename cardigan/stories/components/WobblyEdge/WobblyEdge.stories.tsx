@@ -19,17 +19,31 @@ const meta: Meta<typeof WobblyEdge> = {
   },
   argTypes: {
     backgroundColor: {
+      name: 'Background color',
       options: ['warmNeutral.300', 'white'],
       control: { type: 'radio' },
     },
     intensity: {
+      name: 'Intensity',
       control: {
-        type: 'number',
+        type: 'range',
         min: 0,
         max: 100,
         step: 10,
       },
     },
+    isValley: { name: 'Is valley', control: 'boolean' },
+    points: {
+      name: 'Number of points',
+      control: {
+        type: 'range',
+        min: 2,
+        max: 10,
+        step: 1,
+      },
+    },
+    isStatic: { name: 'Static (no animation)', control: 'boolean' },
+    isRotated: { name: 'Rotate (for top edges)', control: 'boolean' },
   },
 };
 
@@ -39,20 +53,10 @@ const Template = args => {
   return (
     <>
       <div
-        style={{
-          maxWidth: '500px',
-          padding: '20px 0',
-          position: 'relative',
-        }}
+        style={{ maxWidth: '500px', padding: '20px 0', position: 'relative' }}
       >
         {isRotated && (
-          <div
-            style={{
-              position: 'absolute',
-              top: '20px',
-              width: '100%',
-            }}
-          >
+          <div style={{ position: 'absolute', top: '20px', width: '100%' }}>
             <WobblyEdge {...args} />
           </div>
         )}

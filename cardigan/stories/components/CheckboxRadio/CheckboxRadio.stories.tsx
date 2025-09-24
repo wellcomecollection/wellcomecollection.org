@@ -15,14 +15,17 @@ const meta: Meta<typeof CheckboxRadio> = {
   },
   argTypes: {
     text: {
+      name: 'Text',
       control: 'text',
     },
     type: {
+      name: 'Type',
       options: ['checkbox', 'radio'],
       control: { type: 'radio' },
     },
-    checked: { control: 'boolean' },
-    hasErrorBorder: { control: 'boolean' },
+    checked: { name: 'Is checked', control: 'boolean' },
+    disabled: { name: 'Is disabled', control: 'boolean' },
+    hasErrorBorder: { name: 'Has error border', control: 'boolean' },
     id: { table: { disable: true } },
     onChange: { table: { disable: true } },
     ariaLabel: { table: { disable: true } },

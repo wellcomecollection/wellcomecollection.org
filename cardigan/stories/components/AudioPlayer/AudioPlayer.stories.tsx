@@ -1,11 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { ComponentProps } from 'react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { prismicRichTextMultiline } from '@weco/cardigan/stories/data/text';
 import AudioPlayer from '@weco/content/views/components/AudioPlayer';
 import Readme from '@weco/content/views/components/AudioPlayer/README.mdx';
 
-const meta: Meta<typeof AudioPlayer> = {
+type StoryProps = ComponentProps<typeof AudioPlayer> & {
+  hasTranscript: boolean;
+};
+
+const meta: Meta<StoryProps> = {
   title: 'Components/AudioPlayer',
   component: AudioPlayer,
   args: {
@@ -14,39 +19,42 @@ const meta: Meta<typeof AudioPlayer> = {
     title: 'Mat Fraser: interview 1',
     isDark: true,
     transcript: prismicRichTextMultiline,
+    hasTranscript: true,
   },
   argTypes: {
-    titleProps: {
-      table: {
-        disable: true,
-      },
-    },
-    transcript: {
-      table: {
-        disable: true,
-      },
-    },
+    audioFile: { control: 'text', name: 'Audio file URL' },
+    isDark: { control: 'boolean', name: 'Dark theme' },
+    hasTranscript: { control: 'boolean', name: 'Has transcript' },
+    title: { control: 'text', name: 'Title' },
+    titleProps: { table: { disable: true } },
+    transcript: { table: { disable: true } },
   },
 };
 
 export default meta;
 
-type Story = StoryObj<typeof AudioPlayer>;
+type Story = StoryObj<StoryProps>;
 
 export const Basic: Story = {
   name: 'AudioPlayer',
   render: args => (
     <ReadmeDecorator
-      WrappedComponent={args => (
-        <div
-          style={{
-            padding: '20px',
-            background: args.isDark ? '#111' : 'white',
-          }}
-        >
-          <AudioPlayer {...args} />
-        </div>
-      )}
+      WrappedComponent={args => {
+        const { hasTranscript, ...rest } = args;
+        return (
+          <div
+            style={{
+              padding: '20px',
+              background: args.isDark ? '#111' : 'white',
+            }}
+          >
+            <AudioPlayer
+              {...rest}
+              transcript={hasTranscript ? args.transcript : []}
+            />
+          </div>
+        );
+      }}
       args={args}
       Readme={Readme}
     />

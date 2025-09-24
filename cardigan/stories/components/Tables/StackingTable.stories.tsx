@@ -3,7 +3,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import StackingTable from '@weco/common/views/components/StackingTable';
 
 const meta: Meta<typeof StackingTable> = {
-  title: 'Components/StackingTable',
+  title: 'Components/Tables/StackingTable',
   component: StackingTable,
   args: {
     columnWidths: [1, 2, 1],

@@ -16,23 +16,23 @@ const meta: Meta = {
     scrollButtonsAfter: false,
   },
   argTypes: {
+    label: { name: 'Label', control: 'text' },
     imageCount: {
+      name: 'Number of images',
       control: 'select',
       options: [1, 2, 5, 10],
     },
     variant: {
+      name: 'Variant',
       control: 'select',
       options: ['scrollable', 'justified'],
     },
     scrollButtonsAfter: {
+      name: 'Scroll buttons after images',
       control: 'boolean',
       if: { arg: 'variant', eq: 'scrollable' },
     },
-    images: {
-      table: {
-        disable: true,
-      },
-    },
+    images: { table: { disable: true } },
   },
 };
 

@@ -4,10 +4,13 @@ import { libraryVenue } from '@weco/common/test/fixtures/components/library-venu
 import VenueClosedPeriods from '@weco/content/views/components/VenueClosedPeriods';
 
 const meta: Meta<typeof VenueClosedPeriods> = {
-  title: 'Components/VenueClosedPeriods',
+  title: 'Components/VenueHours/VenueClosedPeriods',
   component: VenueClosedPeriods,
   args: {
     venue: libraryVenue,
+  },
+  argTypes: {
+    venue: { table: { disable: true } },
   },
 };
 

@@ -15,6 +15,7 @@ const meta: Meta<typeof WobblyBottom> = {
   },
   argTypes: {
     backgroundColor: {
+      name: 'Background color',
       options: ['warmNeutral.300', 'white'],
       control: { type: 'radio' },
     },

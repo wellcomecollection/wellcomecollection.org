@@ -14,6 +14,7 @@ const meta: Meta<Props> = {
   argTypes: {
     link: { table: { disable: true } },
     children: {
+      name: 'Link text type',
       control: { type: 'select' },
       options: ['Default', 'Node'],
       mapping: {

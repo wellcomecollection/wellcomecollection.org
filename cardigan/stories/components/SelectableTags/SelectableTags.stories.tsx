@@ -29,7 +29,9 @@ const meta: Meta<StoryProps> = {
   argTypes: {
     tags: { table: { disable: true } },
     onChange: { table: { disable: true } },
+    isMultiSelect: { control: 'boolean', name: 'Allow multiple selection' },
     numberOfTags: {
+      name: 'Number of tags to display',
       control: {
         type: 'range',
         min: 1,

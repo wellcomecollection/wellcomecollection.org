@@ -64,7 +64,7 @@ type StoryProps = {
 };
 
 const meta: Meta<Props & StoryProps> = {
-  title: 'Components/Table',
+  title: 'Components/Tables/Table',
   component: Table,
   args: {
     caption: 'Delivery schedule',
@@ -73,6 +73,7 @@ const meta: Meta<Props & StoryProps> = {
     vAlign: 'middle',
     headerPosition: 'column',
     addMoreContent: false,
+    hasSmallerCopy: false,
   },
   argTypes: {
     caption: { control: 'text', name: 'Caption' },
@@ -88,7 +89,7 @@ const meta: Meta<Props & StoryProps> = {
       options: ['row', 'column'],
       control: { type: 'radio' },
     },
-    addMoreContent: { name: 'Add more content', control: 'boolean' },
+    addMoreContent: { name: 'Add longer content', control: 'boolean' },
     hasSmallerCopy: { name: 'Smaller copy', control: 'boolean' },
     rows: { table: { disable: true } },
     hasRowHeaders: { table: { disable: true } },

@@ -1,4 +1,5 @@
 import { Meta, StoryObj } from '@storybook/react';
+import { themeColors } from '@weco/cardigan/.storybook/preview';
 import { ComponentProps, useEffect, useState } from 'react';
 
 import * as Icons from '@weco/common/icons';
@@ -23,7 +24,7 @@ const meta: Meta<StoryProps> = {
     rotate: { control: 'number', name: 'Rotation (degrees)' },
     iconColor: {
       control: { type: 'select' },
-      options: ['black', 'accent.turquoise', 'accent.purple', 'accent.blue'],
+      options: themeColors.map(c => c.name),
       name: 'Icon color',
     },
     matchText: { control: 'boolean', name: 'Match surrounding text size' },

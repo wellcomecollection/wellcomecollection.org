@@ -20,7 +20,7 @@ const meta: Meta<typeof Picture> = {
   },
   argTypes: {
     images: { table: { disable: true } },
-    isFull: { control: 'boolean', name: 'Tasl to display at the top' },
+    isFull: { control: 'boolean', name: 'Display Tasl at the top' },
   },
 };
 

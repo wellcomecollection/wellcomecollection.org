@@ -24,33 +24,15 @@ const meta: Meta<CaptionedImageStoryProps> = {
     isBody: false,
   },
   argTypes: {
-    image: {
-      table: {
-        disable: true,
-      },
-    },
-    hasCaption: {
-      name: 'Has caption',
-    },
-    displayWorkLink: {
-      name: 'Display work link under image',
-    },
-    caption: {
-      table: {
-        disable: true,
-      },
-    },
-    hasPreCaptionNode: {
-      name: 'Has pre-caption content',
-    },
-    preCaptionNode: {
-      table: {
-        disable: true,
-      },
-    },
-    isBody: {
-      name: 'Is in body; changes some styles',
-    },
+    image: { table: { disable: true } },
+    caption: { table: { disable: true } },
+    preCaptionNode: { table: { disable: true } },
+    isZoomable: { name: 'Is zoomable' },
+    hasRoundedCorners: { name: 'Has rounded corners' },
+    hasCaption: { name: 'Has caption' },
+    displayWorkLink: { name: 'Display work link under image' },
+    hasPreCaptionNode: { name: 'Has pre-caption content' },
+    isBody: { name: 'Is in body; changes some styles' },
   },
 };
 

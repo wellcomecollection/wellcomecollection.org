@@ -12,6 +12,7 @@ const meta: Meta<typeof ImagePlaceholder> = {
   },
   argTypes: {
     backgroundColor: {
+      name: 'Background color',
       control: 'select',
       options: [
         'accent.blue',
