@@ -7,16 +7,16 @@ const meta: Meta<typeof Loading> = {
   component: Loading,
   parameters: {
     chromatic: {
-      delay: 1000,
+      delay: 800,
     },
   },
-  args: {
-    variant: 'inline',
-  },
+  args: {},
   argTypes: {
     variant: {
       control: 'radio',
-      options: ['inline', undefined],
+      options: ['default', 'inline'],
+      mapping: { default: undefined, inline: 'inline' },
+      name: 'Variant',
     },
   },
 };
