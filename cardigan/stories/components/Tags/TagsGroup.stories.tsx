@@ -5,7 +5,7 @@ import TagsGroup from '@weco/content/views/components/TagsGroup';
 import Readme from '@weco/content/views/components/TagsGroup/README.mdx';
 
 const meta: Meta<typeof TagsGroup> = {
-  title: 'Components/TagsGroup',
+  title: 'Components/Tags/TagsGroup',
   component: TagsGroup,
   args: {
     title: 'Listen or subscribe on',
@@ -48,11 +48,8 @@ const meta: Meta<typeof TagsGroup> = {
     ],
   },
   argTypes: {
-    tags: {
-      table: {
-        disable: true,
-      },
-    },
+    tags: { table: { disable: true } },
+    title: { control: 'text', name: 'Title' },
   },
 };
 

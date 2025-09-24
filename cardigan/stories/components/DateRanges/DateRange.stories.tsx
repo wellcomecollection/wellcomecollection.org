@@ -18,7 +18,7 @@ const oneWeekFromNow = new Date('2022-03-01T13:15:00Z');
 oneWeekFromNow.setHours(now.getHours() + 168);
 
 const meta: Meta<DateRangeStoryProps> = {
-  title: 'Components/DateRange',
+  title: 'Components/DateRanges/DateRange',
   component: DateRange,
   args: {
     start: now,

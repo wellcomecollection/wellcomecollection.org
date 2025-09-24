@@ -6,19 +6,11 @@ import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font } from '@weco/common/utils/classnames';
 import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
 import Space from '@weco/common/views/components/styled/Space';
+import { Addressable } from '@weco/content/services/wellcome/content/types/api';
 import DateRange from '@weco/content/views/components/DateRange';
 import { formatDateRangeWithMessage } from '@weco/content/views/components/StatusIndicator';
 
-type Props = {
-  uid: string | null;
-  type: string;
-  title: string;
-  description?: string;
-  highlightTourType?: 'audio' | 'bsl';
-  tags?: string[];
-  dates?: { start: string; end?: string };
-  times?: { start: string; end: string };
-  contributors?: string;
+type Props = Addressable & {
   positionInList: number;
 };
 

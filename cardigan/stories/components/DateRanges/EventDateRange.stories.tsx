@@ -44,7 +44,7 @@ const eventTimes = [
 ];
 
 const meta: Meta<typeof EventDateRange> = {
-  title: 'Components/EventDateRange',
+  title: 'Components/DateRanges/EventDateRange',
   component: EventDateRange,
   args: {
     eventTimes,

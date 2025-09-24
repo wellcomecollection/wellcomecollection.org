@@ -13,6 +13,7 @@ const meta: Meta<typeof ContentSearchResult> = {
   component: ContentSearchResult,
   args: contentAPIAddressableEvent,
   argTypes: {
+    id: { table: { disable: true } },
     uid: { table: { disable: true } },
     dates: { table: { disable: true } },
     times: { table: { disable: true } },
@@ -20,10 +21,15 @@ const meta: Meta<typeof ContentSearchResult> = {
     highlightTourType: { table: { disable: true } },
     tags: { table: { disable: true } },
     type: {
+      name: 'Content type',
       options: ['Event', 'Exhibition', 'Article'],
       control: { type: 'select' },
     },
     contributors: { table: { disable: true } },
+    linkedWorks: { table: { disable: true } },
+    title: { table: { disable: true } },
+    description: { table: { disable: true } },
+    format: { table: { disable: true } },
   },
 };
 
