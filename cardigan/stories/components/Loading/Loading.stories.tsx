@@ -7,7 +7,7 @@ const meta: Meta<typeof Loading> = {
   component: Loading,
   parameters: {
     chromatic: {
-      delay: 500,
+      delay: 1000,
     },
   },
   args: {
