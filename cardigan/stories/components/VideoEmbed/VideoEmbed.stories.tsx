@@ -94,7 +94,7 @@ const meta: Meta<StoryProps> = {
   title: 'Components/VideoEmbed',
   component: VideoEmbed,
   args: {
-    ...transformEmbedSlice(videoEmbedSlice(youtube)).value,
+    ...transformEmbedSlice(videoEmbedSlice(youtube))?.value,
     hasFullSizePoster: true,
     hasTranscript: true,
     hasCaption: true,
@@ -130,7 +130,7 @@ export const Basic: Story = {
       ...args,
       ...transformEmbedSlice(
         videoEmbedSlice(args.videoProvider === 'YouTube' ? youtube : vimeo)
-      ).value,
+      )?.value,
       transcript: args.hasTranscript
         ? args.transcript
         : ([] as prismic.RichTextField),
