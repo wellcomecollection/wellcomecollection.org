@@ -5,6 +5,11 @@ import Loading from '@weco/identity/views/components/Loading';
 const meta: Meta<typeof Loading> = {
   title: 'Components/Loading',
   component: Loading,
+  parameters: {
+    chromatic: {
+      delay: 500,
+    },
+  },
   args: {
     variant: 'inline',
   },
