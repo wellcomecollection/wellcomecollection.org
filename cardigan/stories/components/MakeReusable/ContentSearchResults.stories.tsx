@@ -5,7 +5,7 @@ import {
   contentAPIAddressableArticle,
   contentAPIAddressableEvent,
   contentAPIAddressableExhibition,
-} from '@weco/cardigan/stories/data/content';
+} from '@weco/cardigan/stories/data/contentAPI.content';
 import ContentSearchResult from '@weco/content/views/components/ContentSearchResult';
 
 const meta: Meta<typeof ContentSearchResult> = {
