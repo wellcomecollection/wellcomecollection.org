@@ -45,6 +45,7 @@ const CardGrid: FunctionComponent<Props> = ({
   isInPastListing,
 }: Props) => {
   const gridColumns = itemsPerRow === 4 ? 3 : 4;
+
   return (
     <div data-component="card-grid">
       <Container>

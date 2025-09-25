@@ -1,22 +1,15 @@
 import { Meta, StoryObj } from '@storybook/react';
-import { ComponentProps, useEffect, useState } from 'react';
+import { ComponentProps } from 'react';
 
-import {
-  articleBasic,
-  event,
-  exhibitionBasic,
-} from '@weco/cardigan/stories/data/content';
+import { event } from '@weco/cardigan/stories/data/content';
 import { contentAPIArticle } from '@weco/cardigan/stories/data/contentAPI.content';
-import { Article } from '@weco/content/services/wellcome/content/types/api';
-import { MultiContent } from '@weco/content/types/multi-content';
 import CardGrid from '@weco/content/views/components/CardGrid';
 
-const sources = ['Prismic', 'ContentAPI'] as const;
-const types = ['Article', 'Exhibition', 'Event'] as const;
-
 type StoryProps = ComponentProps<typeof CardGrid> & {
-  dataSource: (typeof sources)[number];
-  contentType: (typeof types)[number];
+  numberOfCards: number;
+  contentType: 'event' | 'article';
+  hasLink: boolean;
+  hasOptionalComponent: boolean;
 };
 
 const meta: Meta<StoryProps> = {
@@ -24,23 +17,49 @@ const meta: Meta<StoryProps> = {
   component: CardGrid,
   args: {
     itemsPerRow: 3,
-    dataSource: 'Prismic',
-    contentType: 'Article',
+    numberOfCards: 1,
+    contentType: 'event',
+    hidePromoText: false,
+    itemsHaveTransparentBackground: true,
+    hasLink: false,
+    links: [{ text: 'See all events', url: '/events' }],
+    isInPastListing: false,
+    hasOptionalComponent: false,
   },
   argTypes: {
     items: { table: { disable: true } },
-    dataSource: {
-      control: { type: 'radio' },
-      options: sources,
-      name: 'Data source',
-      if: { arg: 'contentType', eq: 'Article' },
-    },
+    links: { table: { disable: true } },
+    fromDate: { table: { disable: true } },
+    optionalComponent: { table: { disable: true } },
     contentType: {
-      control: { type: 'select' },
-      options: types,
       name: 'Content type',
+      options: ['event', 'article'],
+      control: { type: 'radio' },
     },
-    itemsPerRow: { control: 'number', name: 'Items per row' },
+    numberOfCards: {
+      control: { type: 'range', min: 1, max: 6, step: 1 },
+      name: 'Number of cards',
+    },
+    itemsPerRow: { control: 'radio', name: 'Items per row', options: [3, 4] },
+    hidePromoText: {
+      control: 'boolean',
+      if: { arg: 'contentType', eq: 'article' },
+    },
+    itemsHaveTransparentBackground: {
+      name: 'Transparent background',
+      control: 'boolean',
+    },
+    hasLink: { name: 'Has CTA', control: 'boolean' },
+    isInPastListing: {
+      name: 'Is in past listing',
+      control: 'boolean',
+      if: { arg: 'contentType', eq: 'event' },
+    },
+    hasOptionalComponent: {
+      name: 'Has optional component',
+      control: 'boolean',
+      if: { arg: 'hasLink', eq: true },
+    },
   },
 };
 
@@ -48,28 +67,23 @@ export default meta;
 
 type Story = StoryObj<StoryProps>;
 
-const getContent = (
-  source: (typeof sources)[number],
-  type: (typeof types)[number]
-): MultiContent[] | Article[] => {
-  if (type === 'Article')
-    return source === 'ContentAPI' ? [contentAPIArticle] : [articleBasic];
-
-  if (type === 'Exhibition') return [exhibitionBasic];
-
-  if (type === 'Event') return [event];
-
-  return [];
-};
-
 const Template = args => {
-  const [items, setItems] = useState<readonly MultiContent[] | Article[]>([]);
-
-  useEffect(() => {
-    setItems(getContent(args.dataSource, args.contentType));
-  }, [args.dataSource, args.contentType]);
-
-  return <CardGrid {...args} items={items} />;
+  return (
+    <CardGrid
+      {...args}
+      links={args.hasLink ? args.links : undefined}
+      optionalComponent={
+        args.hasOptionalComponent ? (
+          <div>Optional component, could be any HTML</div>
+        ) : undefined
+      }
+      items={Array.from({ length: args.numberOfCards }).map((_, i) =>
+        args.contentType === 'event'
+          ? { ...event, id: `${event.id}-${i}` }
+          : { ...contentAPIArticle, id: `${contentAPIArticle.id}-${i}` }
+      )}
+    />
+  );
 };
 
 export const Basic: Story = {
