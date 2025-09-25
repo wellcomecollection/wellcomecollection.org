@@ -20,7 +20,7 @@ const ContactSlice: FunctionComponent<ContactProps> = ({ slice, context }) => {
   if (transformedSlice) {
     return (
       <SpacingComponent $sliceType={transformedSlice.type}>
-        <LayoutWidth width={context.minWidth}>
+        <LayoutWidth width={context?.minWidth || 12}>
           <Contact {...transformedSlice.value} />
         </LayoutWidth>
       </SpacingComponent>

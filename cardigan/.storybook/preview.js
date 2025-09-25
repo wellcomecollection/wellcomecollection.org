@@ -50,7 +50,10 @@ export const parameters = {
         'Cardigan',
         'Components',
         ['Banners', 'Buttons', ['Basics', 'Alternates'], 'Cards'],
+        
+        'To be made reusable',
 
+        'Slices',
         'Global',
       ],
     },

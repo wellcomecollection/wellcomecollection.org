@@ -22,7 +22,7 @@ const AudioPlayerSlice: FunctionComponent<AudioPlayerProps> = ({
   const transformedSlice = transformAudioPlayerSlice(slice);
   return (
     <SpacingComponent $sliceType={transformedSlice.type}>
-      <LayoutWidth width={context.minWidth}>
+      <LayoutWidth width={context?.minWidth || 12}>
         <AudioPlayer {...transformedSlice.value} />
       </LayoutWidth>
     </SpacingComponent>

@@ -1,8 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { ComponentProps } from 'react';
 
-import { EmbedSlice as RawEmbedSlice } from '@weco/common/prismicio-types';
-import { transformEmbedSlice } from '@weco/content/services/prismic/transformers/body';
+import { transformedSoundCloudEmbed } from '@weco/cardigan/stories/data/media';
 import SoundCloudEmbed from '@weco/content/views/components/SoundCloudEmbed';
 
 type StoryProps = ComponentProps<typeof SoundCloudEmbed> & {
@@ -10,42 +9,11 @@ type StoryProps = ComponentProps<typeof SoundCloudEmbed> & {
   hasTranscript: boolean;
 };
 
-const soundCloudEmbedSlice: RawEmbedSlice = {
-  variation: 'default',
-  version: 'initial',
-  items: [],
-  primary: {
-    embed: {
-      embed_url:
-        'https://soundcloud.com/wellcomecollection/giving-shape-to-sound-by-jamie-hale/s-LcDFmzwpGWX',
-      provider_name: 'SoundCloud',
-      provider_url: 'https://soundcloud.com',
-      version: '1.0',
-      type: 'rich',
-      height: 400,
-      width: 100,
-      title: 'Giving shape to sound by Jamie Hale by Wellcome Collection',
-      description: '',
-      thumbnail_url: 'https://soundcloud.com/images/fb_placeholder.png',
-      html: '<iframe width="100%" height="400" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?visual=true&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F885555574&show_artwork=true&secret_token=s-LcDFmzwpGWX"></iframe>',
-      author_name: 'Wellcome Collection',
-      author_url: 'https://soundcloud.com/wellcomecollection',
-    },
-    caption: [],
-    transcript: [],
-  },
-  id: 'embed$a3387972-d505-49e2-9dd4-839ef70c7b1a',
-  slice_type: 'embed',
-  slice_label: null,
-};
-
-const transformedSlice = transformEmbedSlice(soundCloudEmbedSlice)!;
-
 const meta: Meta<StoryProps> = {
   title: 'Components/SoundCloudEmbed',
   component: SoundCloudEmbed,
   args: {
-    ...transformedSlice.value,
+    ...transformedSoundCloudEmbed,
     hasCaption: false,
     hasTranscript: false,
   },

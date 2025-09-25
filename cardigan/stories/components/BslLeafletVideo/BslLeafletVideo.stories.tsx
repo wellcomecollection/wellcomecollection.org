@@ -4,7 +4,7 @@ import { ComponentProps, useState } from 'react';
 import {
   transformedVimeoEmbed,
   transformedYoutubeEmbed,
-} from '@weco/cardigan/stories/data/videos';
+} from '@weco/cardigan/stories/data/media';
 import BslLeafletVideo from '@weco/content/views/components/BslLeafletVideo';
 
 type StoryProps = ComponentProps<typeof BslLeafletVideo> & {

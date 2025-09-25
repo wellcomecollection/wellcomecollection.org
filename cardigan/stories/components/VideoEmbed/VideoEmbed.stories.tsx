@@ -5,7 +5,7 @@ import { ComponentProps } from 'react';
 import {
   transformedVimeoEmbed,
   transformedYoutubeEmbed,
-} from '@weco/cardigan/stories/data/videos';
+} from '@weco/cardigan/stories/data/media';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed';
 
 type StoryProps = ComponentProps<typeof VideoEmbed> & {
