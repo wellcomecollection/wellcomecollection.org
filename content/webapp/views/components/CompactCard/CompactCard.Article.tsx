@@ -16,7 +16,7 @@ import {
 import CompactCard from '@weco/content/views/components/CompactCard';
 import WatchLabel from '@weco/content/views/components/WatchLabel';
 
-type Props = {
+export type Props = {
   article: ArticleBasic;
   showPosition: boolean;
   xOfY: {
@@ -33,7 +33,7 @@ const ArticleCard: FunctionComponent<Props> = ({
   const url = linkResolver(article);
   const image = getCrop(article.image, 'square');
 
-  const isSerial = article.series.some(series => series.schedule.length > 0);
+  const isSerial = article.series.some(series => series.schedule?.length > 0);
   const isPodcast = article.format?.id === ArticleFormatIds.Podcast;
 
   const labels = [article.format?.title, isSerial ? 'Serial' : undefined]
@@ -79,6 +79,7 @@ const ArticleCard: FunctionComponent<Props> = ({
       postTitleChildren={
         isPodcast ? (
           <Space $v={{ size: 's', properties: ['margin-top'] }}>
+            sadds
             <WatchLabel
               text={<HTMLDateAndTime variant="date" date={publicationDate} />}
             />
