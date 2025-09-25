@@ -5,7 +5,7 @@ import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
-import { FacilityPromo as FacilityPromoType } from '@weco/content/types/facility-promo';
+import { FacilityCard as FacilityCardType } from '@weco/content/types/facility';
 import { CardBody, CardOuter } from '@weco/content/views/components/Card';
 
 const ImageWrapper = styled.div`
@@ -27,7 +27,7 @@ const Meta = styled.div.attrs({
   align-items: center;
 `;
 
-const FacilityPromo: FunctionComponent<FacilityPromoType> = ({
+const FacilityCard: FunctionComponent<FacilityCardType> = ({
   id,
   url,
   title,
@@ -78,4 +78,4 @@ const FacilityPromo: FunctionComponent<FacilityPromoType> = ({
     </CardOuter>
   );
 };
-export default FacilityPromo;
+export default FacilityCard;

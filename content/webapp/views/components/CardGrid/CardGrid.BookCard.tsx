@@ -57,7 +57,7 @@ type Props = {
   book: BookBasic;
 };
 
-const BookPromo: FunctionComponent<Props> = ({ book }) => {
+const BookCard: FunctionComponent<Props> = ({ book }) => {
   const { title, subtitle, promo, cover } = book;
   return (
     <LinkSpace $url={linkResolver(book)}>
@@ -114,4 +114,4 @@ const BookPromo: FunctionComponent<Props> = ({ book }) => {
   );
 };
 
-export default BookPromo;
+export default BookCard;

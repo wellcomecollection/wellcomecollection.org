@@ -13,15 +13,15 @@ import { convertItemToCardProps } from '@weco/content/types/card';
 import { Link } from '@weco/content/types/link';
 import { MultiContent } from '@weco/content/types/multi-content';
 import Card from '@weco/content/views/components/Card';
-import EventPromo from '@weco/content/views/components/EventPromo';
+import EventCard from '@weco/content/views/components/EventCard';
 import MoreLink from '@weco/content/views/components/MoreLink';
-import StoryPromo from '@weco/content/views/components/StoryPromo';
+import StoryCard from '@weco/content/views/components/StoryCard';
 
-import BookPromo from './CardGrid.BookPromo';
-import DailyTourPromo from './CardGrid.DailyTourPromo';
-import ExhibitionGuideLinksPromo from './CardGrid.ExhibitionGuideLinksPromo';
-import ExhibitionGuidePromo from './CardGrid.ExhibitionGuidePromo';
-import ExhibitionPromo from './CardGrid.ExhibitionPromo';
+import BookCard from './CardGrid.BookCard';
+import DailyTourCard from './CardGrid.DailyTourCard';
+import ExhibitionCard from './CardGrid.ExhibitionCard';
+import ExhibitionGuideCard from './CardGrid.ExhibitionGuideCard';
+import ExhibitionGuideLinksCard from './CardGrid.ExhibitionGuideLinksCard';
 
 type Props = {
   items: readonly MultiContent[] | Article[];
@@ -63,13 +63,13 @@ const CardGrid: FunctionComponent<Props> = ({
                 xl: [gridColumns],
               }}
             >
-              {item.id === 'tours' && <DailyTourPromo />}
+              {item.id === 'tours' && <DailyTourCard />}
 
               {item.type === 'exhibitions' && (
-                <ExhibitionPromo exhibition={item} position={i} />
+                <ExhibitionCard exhibition={item} position={i} />
               )}
               {item.id !== 'tours' && item.type === 'events' && (
-                <EventPromo
+                <EventCard
                   event={item}
                   position={i}
                   fromDate={fromDate}
@@ -77,14 +77,14 @@ const CardGrid: FunctionComponent<Props> = ({
                 />
               )}
               {item.type === 'Article' && (
-                <StoryPromo
+                <StoryCard
                   variant="contentApi"
                   article={item}
                   hidePromoText={hidePromoText}
                 />
               )}
               {item.type === 'articles' && (
-                <StoryPromo
+                <StoryCard
                   variant="prismic"
                   article={item}
                   hidePromoText={hidePromoText}
@@ -93,12 +93,12 @@ const CardGrid: FunctionComponent<Props> = ({
               {(item.type === 'exhibition-guides' ||
                 item.type === 'exhibition-highlight-tours' ||
                 item.type === 'exhibition-texts') && (
-                <ExhibitionGuidePromo exhibitionGuide={item} />
+                <ExhibitionGuideCard exhibitionGuide={item} />
               )}
               {item.type === 'exhibition-guides-links' && (
-                <ExhibitionGuideLinksPromo exhibitionGuide={item} />
+                <ExhibitionGuideLinksCard exhibitionGuide={item} />
               )}
-              {item.type === 'books' && <BookPromo book={item} />}
+              {item.type === 'books' && <BookCard book={item} />}
               {(item.type === 'pages' ||
                 item.type === 'series' ||
                 item.type === 'projects' ||

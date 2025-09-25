@@ -39,7 +39,7 @@ export type Props = {
   sizesQueries?: string;
 };
 
-const StoryPromo: FunctionComponent<Props> = ({
+const StoryCard: FunctionComponent<Props> = ({
   article,
   hidePromoText = false,
 }) => {
@@ -107,4 +107,4 @@ const StoryPromo: FunctionComponent<Props> = ({
   );
 };
 
-export default StoryPromo;
+export default StoryCard;

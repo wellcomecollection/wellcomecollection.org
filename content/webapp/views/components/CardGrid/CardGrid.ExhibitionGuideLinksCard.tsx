@@ -28,7 +28,7 @@ type Props = {
 
 // We use this Promo for Exhibition Guides when we want to link to the individual types within a guide
 // and not just the guide itself
-const ExhibitionGuideLinksPromo: FunctionComponent<Props> = ({
+const ExhibitionGuideLinksCard: FunctionComponent<Props> = ({
   exhibitionGuide,
 }) => {
   const links: { url: string; text: string }[] = [];
@@ -95,4 +95,4 @@ const ExhibitionGuideLinksPromo: FunctionComponent<Props> = ({
   );
 };
 
-export default ExhibitionGuideLinksPromo;
+export default ExhibitionGuideLinksCard;

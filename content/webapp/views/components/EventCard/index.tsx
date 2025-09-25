@@ -83,7 +83,7 @@ const LocationWrapper = styled(Space).attrs({
   align-items: center;
 `;
 
-const EventPromo: FunctionComponent<Props> = ({
+const EventCard: FunctionComponent<Props> = ({
   event,
   position = 0,
   dateString,
@@ -225,4 +225,4 @@ const EventPromo: FunctionComponent<Props> = ({
   );
 };
 
-export default EventPromo;
+export default EventCard;

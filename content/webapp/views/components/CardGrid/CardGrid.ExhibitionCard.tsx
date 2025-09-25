@@ -29,7 +29,7 @@ type Props = {
   position?: number;
 };
 
-const ExhibitionPromo: FunctionComponent<Props> = ({
+const ExhibitionCard: FunctionComponent<Props> = ({
   exhibition,
   position = 0,
 }) => {
@@ -93,4 +93,4 @@ const ExhibitionPromo: FunctionComponent<Props> = ({
   );
 };
 
-export default ExhibitionPromo;
+export default ExhibitionCard;
