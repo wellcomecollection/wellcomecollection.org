@@ -170,7 +170,8 @@ const FeaturedWorkLink = ({
       isHoveringTrigger.current = true;
       clearHideTimeout();
 
-      if (referenceElement) {
+      // Only calculate mouse offset if the card is not already visible
+      if (!isVisible && referenceElement) {
         const linkRect = referenceElement.getBoundingClientRect();
         const linkCenter = linkRect.left + linkRect.width / 2;
         const rawOffset = event.clientX - linkCenter;
@@ -181,7 +182,7 @@ const FeaturedWorkLink = ({
 
       setIsVisible(true);
     },
-    [clearHideTimeout, referenceElement]
+    [clearHideTimeout, referenceElement, isVisible]
   );
 
   const handleMouseLeave = useCallback(() => {
