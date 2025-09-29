@@ -31,9 +31,7 @@ const getAvailableTypes = availableTypes => {
   return availableTypesArray;
 };
 
-const ExhibitionGuidePromo: FunctionComponent<Props> = ({
-  exhibitionGuide,
-}) => {
+const ExhibitionGuideCard: FunctionComponent<Props> = ({ exhibitionGuide }) => {
   return (
     <CardOuter
       href={exhibitionGuide.promo?.link || linkResolver(exhibitionGuide)}
@@ -86,4 +84,4 @@ const ExhibitionGuidePromo: FunctionComponent<Props> = ({
   );
 };
 
-export default ExhibitionGuidePromo;
+export default ExhibitionGuideCard;

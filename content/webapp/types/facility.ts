@@ -1,7 +1,7 @@
 import { IconSvg } from '@weco/common/icons';
 import { ImageType } from '@weco/common/model/image';
 
-export type FacilityPromo = {
+export type FacilityCard = {
   id: string;
   url: string;
   title: string;

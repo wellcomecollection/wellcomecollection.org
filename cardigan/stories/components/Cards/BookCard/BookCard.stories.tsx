@@ -2,11 +2,11 @@ import { Meta, StoryObj } from '@storybook/react';
 
 import { bookImageUrl, image } from '@weco/cardigan/stories/data/images';
 import { singleLineOfText } from '@weco/cardigan/stories/data/text';
-import BookPromo from '@weco/content/views/components/CardGrid/CardGrid.BookPromo';
+import BookCard from '@weco/content/views/components/CardGrid/CardGrid.BookCard';
 
-const meta: Meta<typeof BookPromo> = {
-  title: 'Components/Cards/BookPromo',
-  component: BookPromo,
+const meta: Meta<typeof BookCard> = {
+  title: 'Components/Cards/BookCard',
+  component: BookCard,
   args: {
     book: {
       id: 'cardigan',
@@ -17,6 +17,9 @@ const meta: Meta<typeof BookPromo> = {
       title: singleLineOfText(),
       subtitle: singleLineOfText(),
     },
+  },
+  argTypes: {
+    book: { table: { disable: true } },
   },
   parameters: {
     gridSizes: {
@@ -30,8 +33,8 @@ const meta: Meta<typeof BookPromo> = {
 
 export default meta;
 
-type Story = StoryObj<typeof BookPromo>;
+type Story = StoryObj<typeof BookCard>;
 
 export const Basic: Story = {
-  name: 'BookPromo',
+  name: 'BookCard',
 };

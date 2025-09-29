@@ -2,12 +2,12 @@ import { Meta, StoryObj } from '@storybook/react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { event } from '@weco/cardigan/stories/data/content';
-import EventPromo from '@weco/content/views/components/EventPromo';
-import Readme from '@weco/content/views/components/EventPromo/README.mdx';
+import EventCard from '@weco/content/views/components/EventCard';
+import Readme from '@weco/content/views/components/EventCard/README.mdx';
 
-const meta: Meta<typeof EventPromo> = {
-  title: 'Components/Cards/EventPromo',
-  component: EventPromo,
+const meta: Meta<typeof EventCard> = {
+  title: 'Components/Cards/EventCard',
+  component: EventCard,
   args: {
     position: 0,
     event,
@@ -24,16 +24,16 @@ const meta: Meta<typeof EventPromo> = {
 
 export default meta;
 
-type Story = StoryObj<typeof EventPromo>;
+type Story = StoryObj<typeof EventCard>;
 
 const Template = args => (
   <div style={{ maxWidth: '400px' }}>
-    <EventPromo {...args} />
+    <EventCard {...args} />
   </div>
 );
 
 export const Basic: Story = {
-  name: 'EventPromo',
+  name: 'EventCard',
   render: args => {
     return (
       <ReadmeDecorator

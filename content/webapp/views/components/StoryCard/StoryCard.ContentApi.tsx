@@ -35,7 +35,7 @@ export type Props = {
   sizesQueries?: string;
 };
 
-const StoryPromoContentApi: FunctionComponent<Props> = ({
+const StoryCardContentApi: FunctionComponent<Props> = ({
   article,
   hidePromoText = false,
 }) => {
@@ -87,4 +87,4 @@ const StoryPromoContentApi: FunctionComponent<Props> = ({
   );
 };
 
-export default StoryPromoContentApi;
+export default StoryCardContentApi;

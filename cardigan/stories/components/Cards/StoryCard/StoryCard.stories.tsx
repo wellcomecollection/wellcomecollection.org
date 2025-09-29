@@ -1,15 +1,13 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { useEffect, useState } from 'react';
 
-import {
-  articleBasic,
-  contentAPIArticle,
-} from '@weco/cardigan/stories/data/content';
-import StoryPromo from '@weco/content/views/components/StoryPromo';
+import { articleBasic } from '@weco/cardigan/stories/data/content';
+import { contentAPIArticle } from '@weco/cardigan/stories/data/contentAPI.content';
+import StoryCard from '@weco/content/views/components/StoryCard';
 
-const meta: Meta<typeof StoryPromo> = {
-  title: 'Components/Cards/StoryPromo',
-  component: StoryPromo,
+const meta: Meta<typeof StoryCard> = {
+  title: 'Components/Cards/StoryCard',
+  component: StoryCard,
   args: {
     variant: 'contentApi',
     article: contentAPIArticle,
@@ -44,9 +42,9 @@ const meta: Meta<typeof StoryPromo> = {
 
 export default meta;
 
-type Story = StoryObj<typeof StoryPromo>;
+type Story = StoryObj<typeof StoryCard>;
 
-const StoryPromoStory = args => {
+const StoryCardStory = args => {
   const { variant } = args;
   const [finalArgs, setFinalArgs] = useState({
     variant,
@@ -62,10 +60,10 @@ const StoryPromoStory = args => {
     });
   }, [args]);
 
-  return <StoryPromo {...finalArgs} />;
+  return <StoryCard {...finalArgs} />;
 };
 
 export const Basic: Story = {
-  name: 'StoryPromo',
-  render: args => <StoryPromoStory {...args} />,
+  name: 'StoryCard',
+  render: args => <StoryCardStory {...args} />,
 };

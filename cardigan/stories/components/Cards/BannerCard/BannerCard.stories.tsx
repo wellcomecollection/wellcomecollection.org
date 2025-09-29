@@ -9,6 +9,9 @@ const meta: Meta<typeof BannerCard> = {
   args: {
     item: bannerCardItem,
   },
+  argTypes: {
+    item: { table: { disable: true } },
+  },
 };
 
 export default meta;

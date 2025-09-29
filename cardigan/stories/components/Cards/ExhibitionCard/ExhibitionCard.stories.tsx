@@ -1,11 +1,11 @@
 import { Meta, StoryObj } from '@storybook/react';
 
 import { exhibitionBasic } from '@weco/cardigan/stories/data/content';
-import ExhibitionPromo from '@weco/content/views/components/CardGrid/CardGrid.ExhibitionPromo';
+import ExhibitionCard from '@weco/content/views/components/CardGrid/CardGrid.ExhibitionCard';
 
-const meta: Meta<typeof ExhibitionPromo> = {
-  title: 'Components/Cards/ExhibitionPromo',
-  component: ExhibitionPromo,
+const meta: Meta<typeof ExhibitionCard> = {
+  title: 'Components/Cards/ExhibitionCard',
+  component: ExhibitionCard,
   args: {
     exhibition: exhibitionBasic,
   },
@@ -21,8 +21,8 @@ const meta: Meta<typeof ExhibitionPromo> = {
 
 export default meta;
 
-type Story = StoryObj<typeof ExhibitionPromo>;
+type Story = StoryObj<typeof ExhibitionCard>;
 
 export const Basic: Story = {
-  name: 'ExhibitionPromo',
+  name: 'ExhibitionCard',
 };

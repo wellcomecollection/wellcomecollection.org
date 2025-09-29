@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { EventBasic } from '@weco/content/types/events';
-import EventPromo from '@weco/content/views/components/EventPromo';
+import EventCard from '@weco/content/views/components/EventCard';
 
 const image = {
   contentUrl:
@@ -35,11 +35,11 @@ export const data: EventBasic = {
   type: 'events',
 };
 
-const DailyTourPromo: FunctionComponent = () => (
-  <EventPromo
+const DailyTourCard: FunctionComponent = () => (
+  <EventCard
     event={data}
     dateString="Tuesday–Sunday"
     timeString="11:45, 14:45 and 15:45"
   />
 );
-export default DailyTourPromo;
+export default DailyTourCard;

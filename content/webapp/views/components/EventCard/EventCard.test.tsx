@@ -14,7 +14,7 @@ import {
 } from '@weco/content/__mocks__/events';
 import { Event } from '@weco/content/types/events';
 
-import EventPromo, { getLocationText } from '.';
+import EventCard, { getLocationText } from '.';
 
 jest
   .spyOn(Context, 'usePrismicData')
@@ -25,12 +25,12 @@ jest
 const renderComponent = (event: Event) => {
   return render(
     <ThemeProvider theme={theme}>
-      <EventPromo event={event} />
+      <EventCard event={event} />
     </ThemeProvider>
   );
 };
 
-describe('EventPromo', () => {
+describe('EventCard', () => {
   it('Shows a specific location when it is the only location for an event', () => {
     renderComponent(eventWithOneLocation);
     expect(screen.getByText('Reading Room'));
