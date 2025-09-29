@@ -30,9 +30,12 @@ const WorkLinkWithIcon = styled.a<{ $isPortalVisible: boolean }>`
   }
 
   [data-portal-id] {
-    z-index: ${props => (props.$isPortalVisible ? '2' : '-1')};
-    opacity: ${props => (props.$isPortalVisible ? '1' : '0')};
-    transition: opacity ${props => props.theme.transitionProperties};
+    pointer-events: ${props => (props.$isPortalVisible ? 'auto' : 'none')};
+
+    > div {
+      opacity: ${props => (props.$isPortalVisible ? '1' : '0')};
+      transition: opacity ${props => props.theme.transitionProperties};
+    }
 
     ${props =>
       props.theme.mediaBetween(
