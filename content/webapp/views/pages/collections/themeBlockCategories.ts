@@ -1,5 +1,4 @@
 // Theme block categories config for collections landing page
-// Shared between server and client
 // TODO need the real concept ids to use
 
 export type ThemeCategory = {
