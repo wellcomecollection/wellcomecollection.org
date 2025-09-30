@@ -1,11 +1,14 @@
 import * as prismic from '@prismicio/client';
 import { SliceZone } from '@prismicio/react';
 import { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import styled from 'styled-components';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { ImageType } from '@weco/common/model/image';
+import { formDataAsUrlQuery } from '@weco/common/utils/forms';
+import { linkResolver } from '@weco/common/utils/search';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import {
   ContaineredLayout,
@@ -52,14 +55,18 @@ const CollectionsLandingPage: NextPage<Props> = ({
   insideOurCollectionsCards,
   fullWidthBanners,
 }) => {
+  const router = useRouter();
   const { data: collectionStats } = useCollectionStats();
   const [searchValue, setSearchValue] = useState('');
 
-  const handleSearch = (event: React.FormEvent) => {
+  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (searchValue.trim()) {
-      window.location.href = `/search/works?query=${encodeURIComponent(searchValue.trim())}`;
-    }
+    const formValues = formDataAsUrlQuery(event.currentTarget);
+    const link = linkResolver({
+      params: formValues,
+      pathname: '/search/works',
+    });
+    return router.push(link.href);
   };
 
   return (
