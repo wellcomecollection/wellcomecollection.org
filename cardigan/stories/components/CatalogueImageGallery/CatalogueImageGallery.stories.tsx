@@ -13,6 +13,7 @@ const meta: Meta = {
     variant: 'scrollable',
     label: 'Hello there, this is some text',
     imageCount: 10,
+    scrollButtonsAfter: false,
   },
   argTypes: {
     imageCount: {
@@ -22,6 +23,10 @@ const meta: Meta = {
     variant: {
       control: 'select',
       options: ['scrollable', 'justified'],
+    },
+    scrollButtonsAfter: {
+      control: 'boolean',
+      if: { arg: 'variant', eq: 'scrollable' },
     },
     images: {
       table: {

@@ -8,6 +8,9 @@ import { SizeMap } from '@weco/common/views/components/styled/Grid';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed';
 
 import LandingPageHeader, { Props as LandingProps } from './PageHeader.Landing';
+import SimpleLandingPageHeader, {
+  Props as SimpleLandingProps,
+} from './PageHeader.SimpleLanding';
 import BasicPageHeader, { Props as BasicProps } from './PagerHeader.Basic';
 
 export type FeaturedMedia =
@@ -38,17 +41,24 @@ type Props = {
   isFree?: boolean;
   labels?: ComponentProps<typeof LabelsList>;
 } & (
-  | BasicProps
+  | (BasicProps & { variant: 'basic' })
   | (LandingProps & {
       sectionLevelPage: true;
+      variant: 'legacyLanding';
+    })
+  | (SimpleLandingProps & {
+      variant: 'simpleLanding';
     })
 );
 
 const PageHeader: FunctionComponent<Props> = (props: Props) => {
-  const { isFree, labels } = props;
+  const { isFree, labels, variant } = props;
   const amendedLabels = isFree ? addFreeLabel(labels) : labels;
 
-  if ('sectionLevelPage' in props)
+  if (variant === 'simpleLanding')
+    return <SimpleLandingPageHeader {...props} />;
+
+  if (variant === 'legacyLanding')
     return (
       <LandingPageHeader
         data-component="landing-page-header"
@@ -57,13 +67,14 @@ const PageHeader: FunctionComponent<Props> = (props: Props) => {
       />
     );
 
-  return (
-    <BasicPageHeader
-      data-component="basic-page-header"
-      amendedLabels={amendedLabels}
-      {...props}
-    />
-  );
+  if (variant === 'basic')
+    return (
+      <BasicPageHeader
+        data-component="basic-page-header"
+        amendedLabels={amendedLabels}
+        {...props}
+      />
+    );
 };
 
 export default PageHeader;

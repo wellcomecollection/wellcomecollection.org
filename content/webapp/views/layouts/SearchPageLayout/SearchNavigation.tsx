@@ -3,6 +3,7 @@ import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { searchLabelText } from '@weco/common/data/microcopy';
+import { useToggles } from '@weco/common/server-data/Context';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import { formDataAsUrlQuery } from '@weco/common/utils/forms';
 import { capitalize } from '@weco/common/utils/grammar';
@@ -15,7 +16,6 @@ import {
 import SearchBar from '@weco/common/views/components/SearchBar';
 import Space from '@weco/common/views/components/styled/Space';
 import Tabs from '@weco/content/views/components/Tabs';
-
 const SearchBarContainer = styled(Space)`
   ${props => props.theme.media('medium', 'max-width')`
     margin-bottom:0;
@@ -47,6 +47,7 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
   currentQueryValue: queryValue,
 }) => {
   const router = useRouter();
+  const { conceptsSearch } = useToggles();
 
   // Variable naming note:
   //
@@ -117,6 +118,15 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
       url: getURL('/search/images'),
       text: 'Images',
     },
+    ...(conceptsSearch
+      ? [
+          {
+            id: 'concepts',
+            url: getURL('/search/concepts'),
+            text: 'Themes',
+          },
+        ]
+      : []),
     {
       id: 'events',
       url: getURL('/search/events'),
@@ -148,6 +158,7 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
           $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
         >
           <SearchBar
+            variant="default"
             inputValue={inputValue}
             setInputValue={setInputValue}
             placeholder={searchLabelText[currentSearchCategory]}

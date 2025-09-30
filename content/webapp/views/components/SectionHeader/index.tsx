@@ -10,10 +10,12 @@ import {
 import { SizeMap } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 
-const YellowBox = styled.div`
-  display: inline-block;
+const YellowBox = styled(Space).attrs({
+  $v: { size: 's', properties: ['margin-bottom'] },
+})`
+  display: block;
   width: 60px;
-  height: 18px;
+  height: 16px;
   background: ${props => props.theme.color('yellow')};
 
   ${props => props.theme.media('medium')`
@@ -22,17 +24,10 @@ const YellowBox = styled.div`
 
   ${props => props.theme.media('large')`
     width: 64px;
-    height: 19px;
   `}
 `;
 
-const TitleWrapper = styled(Space).attrs({
-  $h: { size: 's', properties: ['margin-left'] },
-})`
-  display: inline;
-`;
-
-const Title = styled.span`
+const Title = styled.h2`
   .bg-dark & {
     color: ${props => props.theme.color('white')};
   }
@@ -54,10 +49,10 @@ const SectionHeader: FunctionComponent<Props> = ({ title, gridSize }) => {
           </ContaineredLayout>
         )}
       >
-        <YellowBox />
-        <TitleWrapper as="h2">
+        <div>
+          <YellowBox />
           <Title>{title}</Title>
-        </TitleWrapper>
+        </div>
       </ConditionalWrapper>
     </div>
   );

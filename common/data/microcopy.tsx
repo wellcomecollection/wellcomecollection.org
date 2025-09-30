@@ -19,6 +19,8 @@ export const pageDescriptions = {
     'Our words and pictures explore the connections between science, medicine, life and art. Dive into one no matter where in the world you are.',
   books:
     'We publish thought-provoking books exploring health and human experiences.',
+  collections:
+    'Over 1.1 million items exploring art, health, culture and what it means to be human',
   events:
     'Our events take place both online and in our building. Choose from an inspiring range of free talks, discussions and more.',
   exhibitionGuides:
@@ -45,6 +47,8 @@ export const pageDescriptions = {
       'Search for images about health and human experience. Our collections include paintings, photographs, engravings, etchings, illustrations and more.',
     works:
       'Search our collections about health and human experience. Our collections include books, manuscripts, visual materials, journals and unpublished archives.',
+    concepts:
+      'Search for themes related to health and human experience. Discover subjects, people, places and themes that connect our collections.',
     events:
       'Search for past and up-coming events to discover our range of free tours, talks, workshops and more.',
   },
@@ -169,6 +173,7 @@ export const searchLabelText = {
   stories: 'Search for stories',
   images: 'Search for images',
   works: 'Search the catalogue',
+  concepts: 'Search for themes',
   events: 'Search for events',
 };
 

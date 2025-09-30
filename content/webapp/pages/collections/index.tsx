@@ -1,8 +1,10 @@
 import { NextPage } from 'next';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
+import { PagesDocument as RawPagesDocument } from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
-import { useToggles } from '@weco/common/server-data/Context';
+import { serialiseProps } from '@weco/common/utils/json';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
   ContaineredLayout,
   gridSize12,
@@ -14,13 +16,20 @@ import {
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
 import * as page from '@weco/content/pages/pages/[pageId]';
+import { createClient } from '@weco/content/services/prismic/fetch';
+import { fetchPage } from '@weco/content/services/prismic/fetch/pages';
+import { getInsideOurCollectionsCards } from '@weco/content/services/prismic/transformers/collections-landing';
+import { transformPage } from '@weco/content/services/prismic/transformers/pages';
+import { isFullWidthBanner } from '@weco/content/types/body';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import CollectionsLandingPage from '@weco/content/views/pages/collections';
+import CollectionsLandingPage, {
+  Props as CollectionsLandingPageProps,
+} from '@weco/content/views/pages/collections';
 
-const Page: NextPage<page.Props> = props => {
-  const { collectionsLanding } = useToggles();
-
-  return collectionsLanding ? (
+const Page: NextPage<
+  page.Props | (CollectionsLandingPageProps & { hasNewPageToggle: true })
+> = props => {
+  return 'hasNewPageToggle' in props ? (
     <CollectionsLandingPage {...props} />
   ) : (
     <page.Page
@@ -36,7 +45,9 @@ const Page: NextPage<page.Props> = props => {
   );
 };
 
-type Props = ServerSideProps<page.Props>;
+type Props = ServerSideProps<
+  page.Props | (CollectionsLandingPageProps & { hasNewPageToggle: true })
+>;
 
 export const getServerSideProps: ServerSidePropsOrAppError<
   Props
@@ -44,7 +55,50 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   setCacheControl(context.res);
   const serverData = await getServerData(context);
 
+  const client = createClient(context);
   const newCollectionsLanding = serverData.toggles.collectionsLanding.value;
+
+  if (newCollectionsLanding) {
+    const collectionsPagePromise = await fetchPage(
+      client,
+      prismicPageIds.newCollections
+    );
+    const collectionsPage = transformPage(
+      collectionsPagePromise as RawPagesDocument
+    );
+
+    const insideOurCollectionsCards =
+      getInsideOurCollectionsCards(collectionsPage);
+
+    const bannerOne = collectionsPage.untransformedBody.find(
+      slice => slice.slice_type === 'fullWidthBanner'
+    );
+
+    const bannerTwo = collectionsPage.untransformedBody.find(
+      slice =>
+        slice.slice_type === 'fullWidthBanner' && slice.id !== bannerOne?.id
+    );
+
+    const fullWidthBanners = [bannerOne, bannerTwo]
+      .filter(isNotUndefined)
+      .filter(isFullWidthBanner);
+
+    return {
+      props: serialiseProps({
+        hasNewPageToggle: true,
+        pageMeta: {
+          id: collectionsPage.id,
+          image: collectionsPage.promo?.image,
+          description: collectionsPage.promo?.caption,
+        },
+        title: collectionsPage.title,
+        introText: collectionsPage.introText ?? [],
+        insideOurCollectionsCards,
+        fullWidthBanners,
+        serverData,
+      }),
+    };
+  }
 
   return page.getServerSideProps({
     ...context,

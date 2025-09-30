@@ -158,6 +158,7 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
   const Header = (
     <>
       <PageHeader
+        variant="basic"
         breadcrumbs={getBreadcrumbItems('whats-on', extraBreadcrumbs)}
         labels={labels}
         title={event.title}
@@ -218,6 +219,7 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
     >
       <ContentPage
         id={event.id}
+        contentApiType="events"
         Header={Header}
         Body={<Body untransformedBody={untransformedBody} pageId={event.id} />}
         seasons={event.seasons}

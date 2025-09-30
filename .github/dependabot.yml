@@ -8,7 +8,7 @@ updates:
   - package-ecosystem: 'npm' # See documentation for possible values
     directory: '/' # Location of package manifests
     schedule:
-      interval: 'weekly' # Check for updates every month
+      interval: 'monthly'
     ignore:
       - dependency-name: '*'
         update-types: ['version-update:semver-patch'] # Ignore all patch updates for version updates only
@@ -26,6 +26,7 @@ updates:
       - dependency-name: 'node-fetch'
       - dependency-name: '@types/node'
       - dependency-name: '@auth0/nextjs-auth0'
+      - dependency-name: 'react-window'
       # Needs Node >= 20.15, update when we get there.
       - dependency-name: 'lint-staged'
       - dependency-name: '@faker-js/faker'
@@ -38,7 +39,7 @@ updates:
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
-      interval: 'weekly'
+      interval: 'monthly'
     groups:
       all:
         patterns: ['*']

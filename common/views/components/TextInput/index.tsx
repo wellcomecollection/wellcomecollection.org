@@ -4,6 +4,8 @@ import {
   forwardRef,
   ForwardRefRenderFunction,
   RefObject,
+  useEffect,
+  useState,
 } from 'react';
 import styled from 'styled-components';
 
@@ -24,31 +26,50 @@ export const TextInputLabel = styled.label.attrs({
 type TextInputWrapProps = {
   $status?: 'error' | 'success';
   $isDisabled?: boolean;
+  $isNewSearchBar?: boolean;
 };
-export const TextInputWrap = styled(Space).attrs({
-  className: font('intr', 4),
+export const TextInputWrap = styled(Space).attrs<TextInputWrapProps>(props => ({
+  className: font('intr', props.$isNewSearchBar ? 3 : 4),
   $v: { size: 's', properties: ['margin-top'] },
-})<TextInputWrapProps>`
+}))<TextInputWrapProps>`
   display: flex;
   position: relative;
-  border-width: 1px;
-  border-style: solid;
+  border-width: ${props => (props.$isNewSearchBar ? '4px' : '1px')};
+  ${props =>
+    props.$isNewSearchBar
+      ? `border-bottom-style: solid;`
+      : `border-style: solid;`}
   border-color: ${props =>
     props.$status
       ? props.$status === 'error'
         ? props.theme.color('validation.red')
         : props.theme.color('validation.green')
-      : props.theme.color('neutral.600')};
+      : props.theme.color(
+          props.$isNewSearchBar ? 'accent.green' : 'neutral.600'
+        )};
+
+  &:has(:focus-visible) {
+    outline: 3px solid ${props => props.theme.color('yellow')};
+
+    input {
+      outline: none;
+    }
+  }
 
   &:focus-within {
-    box-shadow: 0 0 0 6px ${props => props.theme.color('focus.yellow')};
-    outline: 3px solid ${props => props.theme.color('black')};
+    ${props =>
+      !props.$isNewSearchBar &&
+      `
+      box-shadow: 0 0 0 6px ${props.theme.color('focus.yellow')};
+      outline:  3px solid ${props.theme.color('black')};
+    `}
   }
 
   overflow: hidden;
 
   &:hover {
-    border-color: ${props => props.theme.color('black')};
+    border-color: ${props =>
+      !props.$isNewSearchBar && props.theme.color('black')};
   }
 
   ${props =>
@@ -141,6 +162,7 @@ type Props = {
   form?: string;
   hasClearButton?: boolean;
   clearHandler?: () => void;
+  isNewSearchBar?: boolean;
 };
 
 const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
@@ -168,6 +190,7 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
     form,
     hasClearButton,
     clearHandler,
+    isNewSearchBar,
   }: Props,
   ref: RefObject<HTMLInputElement | null>
 ) => {
@@ -194,6 +217,24 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
     setShowValidity && setShowValidity(!!value && true);
   }
 
+  // Calculate text width for positioning clear button when isNewSearchBar is true
+  const [textWidth, setTextWidth] = useState(0);
+
+  useEffect(() => {
+    if (isNewSearchBar && ref?.current && value) {
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
+      if (context) {
+        const computedStyle = window.getComputedStyle(ref.current);
+        context.font = `${computedStyle.fontSize} ${computedStyle.fontFamily}`;
+        const metrics = context.measureText(value);
+        setTextWidth(metrics.width);
+      }
+    } else {
+      setTextWidth(0);
+    }
+  }, [value, isNewSearchBar, ref]);
+
   return (
     <div data-component="text-input">
       <TextInputLabel htmlFor={id}>{label}</TextInputLabel>
@@ -205,6 +246,7 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
       )}
 
       <TextInputWrap
+        $isNewSearchBar={isNewSearchBar}
         $isDisabled={disabled}
         $status={
           !isValid && showValidity
@@ -238,7 +280,8 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
             inputRef={ref}
             clickHandler={clearHandler}
             setValue={setValue}
-            right={10}
+            right={isNewSearchBar ? undefined : 10}
+            left={isNewSearchBar ? 32 + textWidth : undefined}
           />
         )}
       </TextInputWrap>

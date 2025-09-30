@@ -13,6 +13,7 @@ import { ArticleFormatId } from '@weco/content/data/content-format-ids';
 import { Article, ArticleBasic } from '@weco/content/types/articles';
 import { Format } from '@weco/content/types/format';
 import { Series } from '@weco/content/types/series';
+import { getWorksIdsFromDocumentBody } from '@weco/content/utils/extract-works-ids';
 import {
   calculateReadingTime,
   showReadingTime,
@@ -43,6 +44,7 @@ export function transformArticleToArticleBasic(article: Article): ArticleBasic {
     datePublished,
     labels,
     color,
+    hasLinkedWorks,
   }) => ({
     type,
     id,
@@ -61,6 +63,7 @@ export function transformArticleToArticleBasic(article: Article): ArticleBasic {
     datePublished,
     labels,
     color,
+    hasLinkedWorks,
     // We only use the square crop of an image in the <ArticleCard> component,
     // so we can omit sending any other crops.
     image: image && {
@@ -109,6 +112,9 @@ export function transformArticle(
 
   const contributors = transformContributors(document);
 
+  const workIds = getWorksIdsFromDocumentBody(data.body);
+  const hasLinkedWorks = workIds.length > 0;
+
   // The content will be fetched client side later on
   const exploreMoreDocument =
     'exploreMoreDocument' in data &&
@@ -138,5 +144,6 @@ export function transformArticle(
         )
       : [],
     exploreMoreDocument,
+    hasLinkedWorks,
   };
 }

@@ -1,4 +1,5 @@
 import { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
@@ -30,6 +31,7 @@ import {
   hasOriginalPdf,
 } from '@weco/content/utils/iiif/v3';
 import { removeIdiomaticTextTags } from '@weco/content/utils/string';
+import { fromQuery } from '@weco/content/views/components/ItemLink';
 import WorkLink from '@weco/content/views/components/WorkLink';
 import CataloguePageLayout from '@weco/content/views/layouts/CataloguePageLayout';
 import IIIFItemList from '@weco/content/views/pages/works/work/IIIFItemList';
@@ -77,10 +79,22 @@ const WorkItemPage: NextPage<Props> = ({
   iiifImageLocation,
   iiifPresentationLocation,
   apiToolbarLinks,
-  canvas,
+  canvas: serverCanvas,
   serverSearchResults,
   parentManifest,
 }) => {
+  const router = useRouter();
+  const [routerCanvas, setRouterCanvas] = useState<number | undefined>(
+    undefined
+  );
+
+  useEffect(() => {
+    const parsed = fromQuery(router.query);
+    setRouterCanvas(parsed.canvas);
+  }, [router.asPath, router.query]);
+
+  const canvas = routerCanvas || serverCanvas;
+
   const { userIsStaffWithRestricted } = useUserContext();
   const { authV2, extendedViewer } = useToggles();
   const transformedManifest =

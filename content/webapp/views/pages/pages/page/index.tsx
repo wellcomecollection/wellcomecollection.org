@@ -144,26 +144,33 @@ export const PagePage: NextPage<Props> = ({
       />
     ) : undefined;
 
-  const Header = (
-    <PageHeader
-      {...(sectionLevelPage && {
-        sectionLevelPage: true,
-        isLandingPage: true,
-        introText: page.introText,
-      })}
-      {...(!sectionLevelPage && { breadcrumbs })}
-      labels={labels}
-      title={page.title}
-      FeaturedMedia={featuredMedia}
-      Background={displayBackground}
-      ContentTypeInfo={DateInfo}
-      backgroundTexture={
-        !featuredMedia && !sectionLevelPage ? backgroundTexture : undefined
-      }
-      highlightHeading={true}
-      isContentTypeInfoBeforeMedia={false}
-    />
-  );
+  const getHeader = () => {
+    const sharedProps = {
+      backgroundTexture:
+        !featuredMedia && !sectionLevelPage ? backgroundTexture : undefined,
+      labels,
+      title: page.title,
+      FeaturedMedia: featuredMedia,
+      Background: displayBackground,
+      ContentTypeInfo: DateInfo,
+    };
+
+    return sectionLevelPage ? (
+      <PageHeader
+        variant="simpleLanding"
+        // sectionLevelPage
+        introText={page.introText}
+        {...sharedProps}
+      />
+    ) : (
+      <PageHeader
+        variant="basic"
+        breadcrumbs={breadcrumbs}
+        highlightHeading
+        {...sharedProps}
+      />
+    );
+  };
 
   // Find the items that have an 'order' property, and sort by those first,
   // Then any remaining will be added to the end in the order they
@@ -230,7 +237,8 @@ export const PagePage: NextPage<Props> = ({
     >
       <ContentPage
         id={page.id}
-        Header={Header}
+        contentApiType="pages"
+        Header={getHeader()}
         Body={
           <Body
             untransformedBody={untransformedBody}

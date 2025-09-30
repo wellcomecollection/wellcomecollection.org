@@ -8,8 +8,12 @@ import { ButtonSize, SolidButtonStyledProps } from './Buttons.types';
 export const BaseButtonInner = styled.span.attrs<{
   $isInline?: boolean;
   $isPill?: boolean;
+  $isNewSearchBar?: boolean;
 }>(props => ({
-  className: font(props.$isInline ? 'intr' : 'intb', props.$isPill ? 6 : 5),
+  className: font(
+    props.$isInline ? 'intr' : 'intb',
+    props.$isPill ? 6 : props.$isNewSearchBar ? 4 : 5
+  ),
 }))`
   display: flex;
   align-items: center;
@@ -65,7 +69,10 @@ export const BasicButton = styled.button.attrs<{
 `;
 
 // Default to medium button
-const getPadding = (size: ButtonSize = 'medium') => {
+const getPadding = (size: ButtonSize = 'medium', isNewSearchBar?: boolean) => {
+  if (isNewSearchBar) {
+    return '13px 16px';
+  }
   switch (size) {
     case 'small':
       return '8px 12px';
@@ -75,7 +82,7 @@ const getPadding = (size: ButtonSize = 'medium') => {
 };
 
 export const StyledButtonCSS = css<SolidButtonStyledProps>`
-  padding: ${props => getPadding(props.$size)};
+  padding: ${props => getPadding(props.$size, props.$isNewSearchBar)};
   ${props => `
     background:
       ${props.theme.color(

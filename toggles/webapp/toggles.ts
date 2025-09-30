@@ -35,6 +35,14 @@ const toggles = {
       type: 'permanent',
     },
     {
+      id: 'conceptsSearch',
+      title: 'Concepts search',
+      initialValue: false,
+      description:
+        'Enables the concepts search tab and functionality in the search interface',
+      type: 'permanent',
+    },
+    {
       id: 'disableRequesting',
       title: 'Disables requesting functionality',
       description:
@@ -126,6 +134,22 @@ const toggles = {
       title: 'Collections landing alternative page',
       initialValue: false,
       description: `Displays the new Collections landing page as it's being built.`,
+      type: 'experimental',
+    },
+    {
+      id: 'newSearchBar',
+      title: 'Use the new search bar style',
+      initialValue: false,
+      description:
+        'Displays the new search bar created as part of the Collections landing page update',
+      type: 'experimental',
+    },
+    {
+      id: 'conceptsSearch',
+      title: 'Concepts search',
+      initialValue: false,
+      description:
+        'Enables the concepts search tab and functionality in the search interface',
       type: 'experimental',
     },
   ] as const,

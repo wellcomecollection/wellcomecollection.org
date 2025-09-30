@@ -1,69 +1,147 @@
+import * as prismic from '@prismicio/client';
+import { SliceZone } from '@prismicio/react';
 import { NextPage } from 'next';
+import { useState } from 'react';
 import styled from 'styled-components';
 
-import { SiteSection } from '@weco/common/model/site-section';
+import { pageDescriptions } from '@weco/common/data/microcopy';
+import { ImageType } from '@weco/common/model/image';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import { defaultSerializer } from '@weco/common/views/components/HTMLSerializers';
 import {
   ContaineredLayout,
-  gridSize8,
+  gridSize10,
+  gridSize12,
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
+import SearchBar from '@weco/common/views/components/SearchBar';
 import Space from '@weco/common/views/components/styled/Space';
+import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
-import FeaturedText from '@weco/content/views/components/FeaturedText';
-import { Props as PagePageProps } from '@weco/content/views/pages/pages/page';
+import { components } from '@weco/common/views/slices';
+import { useCollectionStats } from '@weco/content/hooks/useCollectionStats';
+import { MultiContent } from '@weco/content/types/multi-content';
+import CardGrid from '@weco/content/views/components/CardGrid';
+import SectionHeader from '@weco/content/views/components/SectionHeader';
+import WorkTypesList from '@weco/content/views/pages/collections/collections.WorkTypesList';
 
-const HeaderBackground = styled.div`
-  position: absolute;
-  top: 100px;
-  bottom: 0;
-  width: 100%;
-  overflow: hidden;
-  z-index: -1;
+import BrowseByTheme from './collections.BrowseByTheme';
 
-  background-color: ${props => props.theme.color('accent.lightBlue')};
+const MaterialsSection = styled(Space).attrs({
+  $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
+})`
+  background-color: ${props => props.theme.color('warmNeutral.300')};
 `;
 
-const CollectionsLandingPage: NextPage<PagePageProps> = ({
-  page,
-  // siblings,
-  // children,
-  // ordersInParents,
-  // staticContent,
-  jsonLd,
+export type Props = {
+  pageMeta: {
+    id: string;
+    image?: ImageType;
+    description?: string;
+  };
+  title: string;
+  introText: prismic.RichTextField;
+  insideOurCollectionsCards: MultiContent[];
+  fullWidthBanners?: prismic.Slice<'fullWidthBanner'>[];
+  // jsonLd: JsonLdObj[]; ??
+};
+
+const CollectionsLandingPage: NextPage<Props> = ({
+  pageMeta,
+  title,
+  introText,
+  insideOurCollectionsCards,
+  fullWidthBanners,
 }) => {
+  const { data: collectionStats } = useCollectionStats();
+  const [searchValue, setSearchValue] = useState('');
+
+  const handleSearch = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (searchValue.trim()) {
+      window.location.href = `/search/works?query=${encodeURIComponent(searchValue.trim())}`;
+    }
+  };
+
   return (
     <PageLayout
-      title={page.title}
-      description={page.metadataDescription || page.promo?.caption || ''}
-      url={{
-        pathname: `${page?.siteSection ? '/' + page.siteSection : ''}/${page.uid}`,
-      }}
-      jsonLd={jsonLd}
+      title="Collections"
+      description={pageMeta.description || pageDescriptions.collections}
+      url={{ pathname: '/collections' }}
+      jsonLd={[]} // TODO?
       openGraphType="website"
-      siteSection={page?.siteSection as SiteSection}
-      image={page.image}
-      apiToolbarLinks={[createPrismicLink(page.id)]}
+      siteSection="collections"
+      image={pageMeta.image}
+      apiToolbarLinks={[createPrismicLink(pageMeta.id)]}
       isNoIndex // TODO remove when this becomes the page
       hideNewsletterPromo
     >
-      <PageHeader
-        isLandingPage
-        title={page.title}
-        // Background={<HeaderBackground />}
-      />
-      {page.introText && (
-        <ContaineredLayout gridSizes={gridSize8(false)}>
-          <div className="body-text spaced-text">
-            <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
-              <FeaturedText
-                html={page.introText}
-                htmlSerializer={defaultSerializer}
-              />
-            </Space>
-          </div>
+      <PageHeader variant="simpleLanding" title={title} introText={introText} />
+
+      <SpacingSection>
+        <ContaineredLayout gridSizes={gridSize10(false)}>
+          <form id="collections-search" onSubmit={handleSearch}>
+            <SearchBar
+              variant="new"
+              inputValue={searchValue}
+              setInputValue={setSearchValue}
+              placeholder="Search our collections"
+              form="collections-search"
+              location="page"
+            />
+          </form>
         </ContaineredLayout>
+      </SpacingSection>
+
+      <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+        <ContaineredLayout gridSizes={gridSize12()}>
+          <BrowseByTheme />
+        </ContaineredLayout>
+      </Space>
+
+      {fullWidthBanners?.[0] && (
+        <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <SliceZone slices={[fullWidthBanners[0]]} components={components} />
+        </Space>
+      )}
+
+      <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+        <SectionHeader title="Inside our collections" gridSize={gridSize12()} />
+        <ContaineredLayout gridSizes={gridSize12()}>
+          <p>
+            Explore stories inspired by the objects, manuscripts and archives in
+            our collection
+          </p>
+        </ContaineredLayout>
+
+        <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
+          <CardGrid
+            items={insideOurCollectionsCards}
+            itemsPerRow={3}
+            itemsHaveTransparentBackground
+            links={[
+              {
+                text: 'Read all stories',
+                url: '/series/inside-our-collections',
+              },
+            ]}
+          />
+        </Space>
+      </Space>
+
+      <MaterialsSection>
+        <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <SectionHeader
+            title="Types of materials in the collections"
+            gridSize={gridSize12()}
+          />
+        </Space>
+        <ContaineredLayout gridSizes={gridSize12()}>
+          <WorkTypesList collectionStats={collectionStats} />
+        </ContaineredLayout>
+      </MaterialsSection>
+
+      {fullWidthBanners?.[1] && (
+        <SliceZone slices={[fullWidthBanners[1]]} components={components} />
       )}
     </PageLayout>
   );

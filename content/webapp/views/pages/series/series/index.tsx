@@ -62,6 +62,7 @@ const ArticleSeriesPage: NextPage<Props> = props => {
   const FeaturedMedia = getFeaturedMedia(series);
   const Header = (
     <PageHeader
+      variant="basic"
       breadcrumbs={breadcrumbs}
       labels={{ labels: series.labels }}
       title={series.title}
@@ -98,7 +99,6 @@ const ArticleSeriesPage: NextPage<Props> = props => {
           />
         }
         contributors={series.contributors}
-        seasons={series.seasons}
       >
         <>
           {articles.results.map((article, index) => (

@@ -3,3 +3,4 @@
 /**/_next/
 /**/dist/
 !.storybook/
+!.stylelintrc.js

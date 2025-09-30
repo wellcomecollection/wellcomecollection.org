@@ -15,6 +15,7 @@ export type SolidButtonStyledProps = (
   $isPill?: boolean;
   $hasIcon?: boolean;
   $isIconAfter?: boolean;
+  $isNewSearchBar?: boolean;
 };
 
 export type ButtonColors = {

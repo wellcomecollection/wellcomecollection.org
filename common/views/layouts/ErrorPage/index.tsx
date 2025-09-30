@@ -180,6 +180,7 @@ const ErrorPage: NextPage<Props> = ({ statusCode = 500, title }) => {
     >
       <Space $v={{ size: headerSpaceSize, properties: ['padding-bottom'] }}>
         <PageHeader
+          variant="basic"
           breadcrumbs={{ items: [] }}
           labels={undefined}
           title={errorMessage}

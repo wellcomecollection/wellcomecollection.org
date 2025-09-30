@@ -270,6 +270,7 @@ export const article: TransformedPrismicArticle = {
   id: 'YLoCLhAAACEAfyuO',
   uid: 'a-dark-cloud',
   title: 'A dark cloud',
+  hasLinkedWorks: false,
   contributors: [
     {
       role: {
@@ -460,6 +461,7 @@ export const articleBasic: ArticleBasic = {
   title: article.title,
   datePublished: article.datePublished,
   labels: [],
+  hasLinkedWorks: false,
 };
 
 export const exhibitionBasic: ExhibitionBasic = {
