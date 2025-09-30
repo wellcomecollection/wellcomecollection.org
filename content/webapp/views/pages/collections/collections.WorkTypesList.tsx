@@ -234,11 +234,9 @@ const WorkTypeItem: FunctionComponent<WorkTypeItemProps> = ({
       return;
     }
 
-    // Pure JS animation using requestAnimationFrame. We don't rely on any CSS
-    // custom properties so the counter effect remains visible across
-    // environments. Duration and easing exponent chosen to slow near the end.
+    // Duration and easing exponent chosen to slow near the end.
     const startCount = initialCount;
-    const duration = 5000; // ms - slower, as requested
+    const duration = 5000;
 
     let rafId: number | null = null;
     let startTime: number | null = null;
@@ -358,9 +356,6 @@ const WorkTypesList: React.FC<WorkTypesListProps> = ({
   },
 }) => {
   const [startAnimations, setStartAnimations] = useState(false);
-
-  // Observe number elements directly so animations start when the numbers
-  // scroll into view. Store elements in a Set to avoid duplicates.
   const numberEls = useRef<Set<Element>>(new Set());
   const observerRef = useRef<IntersectionObserver | null>(null);
 
