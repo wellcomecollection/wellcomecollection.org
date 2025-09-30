@@ -25,11 +25,16 @@ export function useConceptImageUrls(concept: Concept): Image[] {
         }
         let fetchedImages: Image[] = [];
         const params = queryParams('imagesAbout', concept); // or imagesOf or both or something else?
-        const result = await getImages({ params, toggles: {}, pageSize: 4 });
-        if ('results' in result && result.results.length > 0) {
-          fetchedImages = result.results.slice(0, 4);
+        try {
+          const result = await getImages({ params, toggles: {}, pageSize: 4 });
+          if ('results' in result && result.results.length > 0) {
+            fetchedImages = result.results.slice(0, 4);
+          }
+          setImages(fetchedImages);
+        } catch (error) {
+          console.error('Failed to fetch concept images:', error);
+          setImages([]);
         }
-        setImages(fetchedImages);
       }
     }
     fetchImages();
