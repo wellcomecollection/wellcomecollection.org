@@ -34,15 +34,13 @@ export type ThemeCategory = {
   concepts: string[];
 };
 
-async function getConceptsByIds(ids: string[]): Promise<Concept[]> {
-  if (ids.length === 0) return [];
-  const result = await getConcepts({
-    params: { id: ids.join(',') },
-    toggles: {},
-  });
-  if ('results' in result) {
-    return result.results;
-  }
+export async function getConceptsByIds(ids: string[]): Promise<Concept[]> {
+  if (!ids || ids.length === 0) return [];
+
+  const result = await getConcepts({ params: { id: ids.join(',') }, toggles: {} });
+
+  if ('results' in result) return result.results;
+
   return [];
 }
 
