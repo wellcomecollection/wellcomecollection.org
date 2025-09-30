@@ -5,10 +5,12 @@ import styled from 'styled-components';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import { useConceptImageUrls } from '@weco/content/hooks/useConceptImageUrls';
 import { useThemeConcepts } from '@weco/content/hooks/useThemeConcepts';
+
+import { getConceptsByIds } from '@weco/content/pages/collections';
 import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import type { Image } from '@weco/content/services/wellcome/catalogue/types';
-import { toConceptLink } from '@weco/content/views/components/ConceptLink';
 
+import { toConceptLink } from '@weco/content/views/components/ConceptLink';
 import type { ThemeCategory, ThemeConfig } from './themeBlockCategories';
 
 type BrowseByThemeProps = {
@@ -126,21 +128,6 @@ const ThemeConceptCard: FunctionComponent<{ concept: Concept }> = ({
       )}
     </ConceptCard>
   );
-};
-
-const getConceptsByIds = async (ids: string[]) => {
-  if (ids.length === 0) return [];
-  const { getConcepts } = await import(
-    '@weco/content/services/wellcome/catalogue/concepts'
-  );
-  const result = await getConcepts({
-    params: { id: ids.join(',') },
-    toggles: {},
-  });
-  if ('results' in result) {
-    return result.results;
-  }
-  return [];
 };
 
 const BrowseByThemesData: FunctionComponent<BrowseByThemeProps> = ({
