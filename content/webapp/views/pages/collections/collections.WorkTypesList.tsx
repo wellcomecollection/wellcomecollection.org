@@ -148,7 +148,7 @@ const StyledLink = styled(NextLink)<{ $tiltIndex?: number }>`
             : '-2deg'}
       )
       scale(1.1);
-    filter: drop-shadow(4px 4px 2px rgba(0, 0, 0, 0.25));
+    filter: drop-shadow(4px 4px 2px #00000040);
   }
 
   @container work-types-list (min-width: ${containerBreakpoint}) {
