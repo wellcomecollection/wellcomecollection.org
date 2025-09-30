@@ -23,9 +23,7 @@ const TagsWrapper = styled.div`
 `;
 
 const StyledInput = styled.label<
-  AnimatedUnderlineProps & {
-    $isSelected: boolean;
-  }
+  AnimatedUnderlineProps & { $isSelected: boolean }
 >`
   ${AnimatedUnderlineCSS}
 
@@ -57,7 +55,8 @@ const InputField = styled.input`
     outline: ${props => props.theme.highContrastOutlineFix};
   }
 
-  &:focus ~ ${StyledInput}:not(:focus-visible ~ ${StyledInput}) {
+  &:focus ~ ${StyledInput}:not(:focus-visible ~ ${StyledInput}),
+  &:active ~ ${StyledInput} {
     box-shadow: none;
   }
 `;

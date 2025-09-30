@@ -33,9 +33,7 @@ const SourceBoxContainer = styled.div<{ $marginLeft: number }>`
   margin-left: ${props => props.$marginLeft}px;
   width: ${SOURCE_BOX_WIDTH}px;
   opacity: 0;
-  transition:
-    visibility 200ms ease,
-    opacity 200ms ease;
+  transition: opacity ${props => props.theme.transitionProperties};
   visibility: hidden;
   z-index: 4;
 `;
