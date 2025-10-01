@@ -2,7 +2,7 @@ import * as prismic from '@prismicio/client';
 import NextLink from 'next/link';
 import styled from 'styled-components';
 
-import { arrowSmall, web, zoomIn } from '@weco/common/icons';
+import { arrowSmall, web } from '@weco/common/icons';
 import { ImageType } from '@weco/common/model/image';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
@@ -82,9 +82,27 @@ const WShapeWrapper = styled.div<{ $isDefaultVariant: boolean }>`
     props.theme.color(
       props.$isDefaultVariant ? 'accent.salmon' : 'accent.turquoise'
     )};
-  top: -20%;
-  right: -10%;
-  width: 70%;
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+
+  svg {
+    grid-column: 1 / span 12;
+    height: 105%;
+    left: -20%;
+    right: -20%;
+    transform: translateY(-50%);
+    position: relative;
+
+    ${props => props.theme.media('medium')`
+      grid-column: 5 / span 8;
+      height: 140%;
+      top: 50%;
+      right: -20%;
+      left: auto;
+    `}
+  }
 `;
 
 const LinksWithArrow = ({ links }: { links: Link[] }) => {
@@ -140,6 +158,7 @@ const FullWidthBanner = (props: Props) => {
       <WShapeWrapper $isDefaultVariant={isDefaultVariant}>
         <WShape variant={isDefaultVariant ? '3' : '2'} />
       </WShapeWrapper>
+
       <div style={{ position: 'relative', zIndex: 1 }}>
         <ContaineredLayout gridSizes={gridSize12()}>
           <ContentContainer
