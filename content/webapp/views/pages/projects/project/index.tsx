@@ -88,6 +88,7 @@ export const ProjectPage: NextPage<Props> = ({
           <Body
             untransformedBody={untransformedBody}
             pageId={project.id}
+            pageUid={project.uid}
             staticContent={staticContent}
           />
         }

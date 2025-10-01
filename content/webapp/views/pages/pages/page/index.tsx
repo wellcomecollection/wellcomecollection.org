@@ -2,8 +2,8 @@ import { NextPage } from 'next';
 import { ReactElement } from 'react';
 
 import {
+  officialLandingPagesUid,
   prismicPageIds,
-  sectionLevelPages,
 } from '@weco/common/data/hardcoded-ids';
 import { SiteSection } from '@weco/common/model/site-section';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
@@ -101,7 +101,7 @@ export const PagePage: NextPage<Props> = ({
     <VideoEmbed {...transformFeaturedVideo.value} />
   ) : undefined;
 
-  const sectionLevelPage = sectionLevelPages.includes(page.uid);
+  const isOfficialLandingPage = officialLandingPagesUid.includes(page.uid);
 
   function getBreadcrumbText(siteSection: string): string {
     return hasLandingPageFormat
@@ -138,7 +138,7 @@ export const PagePage: NextPage<Props> = ({
   };
 
   const displayBackground =
-    featuredMedia && !sectionLevelPage ? (
+    featuredMedia && !isOfficialLandingPage ? (
       <HeaderBackground
         backgroundTexture={backgroundTexture}
         hasWobblyEdge={!hasLandingPageFormat}
@@ -148,7 +148,7 @@ export const PagePage: NextPage<Props> = ({
   const getHeader = () => {
     const sharedProps = {
       backgroundTexture:
-        !featuredMedia && !sectionLevelPage ? backgroundTexture : undefined,
+        !featuredMedia && !hasLandingPageFormat ? backgroundTexture : undefined,
       labels,
       title: page.title,
       FeaturedMedia: featuredMedia,
@@ -156,7 +156,7 @@ export const PagePage: NextPage<Props> = ({
       ContentTypeInfo: DateInfo,
     };
 
-    return sectionLevelPage ? (
+    return isOfficialLandingPage ? (
       <PageHeader
         variant="landing"
         introText={page.introText}
@@ -244,11 +244,12 @@ export const PagePage: NextPage<Props> = ({
           <Body
             untransformedBody={untransformedBody}
             pageId={page.id}
+            pageUid={page.uid}
             introText={page.introText}
             onThisPage={page.onThisPage}
             showOnThisPage={page.showOnThisPage}
             hasLandingPageFormat={hasLandingPageFormat}
-            sectionLevelPage={sectionLevelPage}
+            isOfficialLandingPage={isOfficialLandingPage}
             staticContent={staticContent}
           />
         }

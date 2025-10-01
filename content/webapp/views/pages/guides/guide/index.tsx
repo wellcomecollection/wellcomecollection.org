@@ -95,6 +95,7 @@ export const Guide: FunctionComponent<Props> = ({ guide, jsonLd }) => {
           <Body
             untransformedBody={untransformedBody}
             pageId={guide.id}
+            pageUid={guide.uid}
             onThisPage={guide.onThisPage}
             showOnThisPage={guide.showOnThisPage}
           />

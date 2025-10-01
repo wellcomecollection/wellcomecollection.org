@@ -79,6 +79,7 @@ const EventSeriesPage: NextPage<Props> = ({
             <Body
               untransformedBody={series.untransformedBody}
               pageId={series.id}
+              pageUid={series.uid}
             />
           ) : undefined
         }

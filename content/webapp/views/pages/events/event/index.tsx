@@ -222,7 +222,13 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
         uid={event.uid}
         contentApiType="events"
         Header={Header}
-        Body={<Body untransformedBody={untransformedBody} pageId={event.id} />}
+        Body={
+          <Body
+            untransformedBody={untransformedBody}
+            pageId={event.id}
+            pageUid={event.uid}
+          />
+        }
         seasons={event.seasons}
         // We hide contributors as we render them higher up the page on events
         hideContributors={true}

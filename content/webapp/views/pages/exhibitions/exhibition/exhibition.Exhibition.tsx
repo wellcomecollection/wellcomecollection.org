@@ -162,6 +162,7 @@ const Exhibition: FunctionComponent<Props> = ({
         <Body
           untransformedBody={exhibition.untransformedBody}
           pageId={exhibition.id}
+          pageUid={exhibition.uid}
         />
       }
       seasons={exhibition.seasons}

@@ -8,6 +8,7 @@ import {
 } from 'react';
 import styled from 'styled-components';
 
+import { officialLandingPagesUid } from '@weco/common/data/hardcoded-ids';
 import { ContentListSlice as RawContentListSlice } from '@weco/common/prismicio-types';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { defaultSerializer } from '@weco/common/views/components/HTMLSerializers';
@@ -36,7 +37,7 @@ import FeaturedText from '@weco/content/views/components/FeaturedText';
 import InPageNavigation from '@weco/content/views/components/InPageNavigation';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
 
-import GridFactory, { sectionLevelPageGrid } from './GridFactory';
+import GridFactory, { landingPageGrid } from './GridFactory';
 
 const BodyWrapper = styled.div<{ $splitBackground: boolean }>`
   ${props =>
@@ -89,9 +90,10 @@ export type Props = {
   showOnThisPage?: boolean;
   isDropCapped?: boolean;
   pageId: string;
+  pageUid: string;
   minWidth?: 10 | 8;
   hasLandingPageFormat?: boolean;
-  sectionLevelPage?: boolean;
+  isOfficialLandingPage?: boolean;
   staticContent?: ReactElement | null;
   comicPreviousNext?: ComicPreviousNextProps;
   contentType?: 'short-film' | 'visual-story' | 'standalone-image-gallery';
@@ -152,9 +154,10 @@ const Body: FunctionComponent<Props> = ({
   showOnThisPage,
   isDropCapped,
   pageId,
+  pageUid,
   minWidth = 8,
   hasLandingPageFormat = false,
-  sectionLevelPage = false,
+  isOfficialLandingPage = false,
   staticContent = null,
   comicPreviousNext,
   contentType,
@@ -268,7 +271,9 @@ const Body: FunctionComponent<Props> = ({
                 <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
                   <SectionHeader
                     title={section.value.title}
-                    gridSize={sectionLevelPage ? gridSize12() : gridSize8()}
+                    gridSize={
+                      isOfficialLandingPage ? gridSize12() : gridSize8()
+                    }
                   />
                 </Space>
               )}
@@ -283,7 +288,7 @@ const Body: FunctionComponent<Props> = ({
                 <GridFactory
                   items={cards}
                   overrideGridSizes={
-                    sectionLevelPage ? sectionLevelPageGrid : undefined
+                    isOfficialLandingPage ? landingPageGrid : undefined
                   }
                 />
               )}
@@ -304,23 +309,25 @@ const Body: FunctionComponent<Props> = ({
       className={`content-type-${contentType}`}
       $splitBackground={isShortFilm}
     >
-      {!hasLandingPageFormat && introText && introText.length > 0 && (
-        <ContaineredLayout gridSizes={gridSize8(!sectionLevelPage)}>
-          <div className="body-text spaced-text">
-            <Space
-              $v={{
-                size: sectionLevelPage ? 'xl' : 'l',
-                properties: ['margin-bottom'],
-              }}
-            >
-              <FeaturedText
-                html={introText}
-                htmlSerializer={defaultSerializer}
-              />
-            </Space>
-          </div>
-        </ContaineredLayout>
-      )}
+      {!officialLandingPagesUid.includes(pageUid) &&
+        introText &&
+        introText.length > 0 && (
+          <ContaineredLayout gridSizes={gridSize8(!isOfficialLandingPage)}>
+            <div className="body-text spaced-text">
+              <Space
+                $v={{
+                  size: isOfficialLandingPage ? 'xl' : 'l',
+                  properties: ['margin-bottom'],
+                }}
+              >
+                <FeaturedText
+                  html={introText}
+                  htmlSerializer={defaultSerializer}
+                />
+              </Space>
+            </div>
+          </ContaineredLayout>
+        )}
 
       {staticContent}
 

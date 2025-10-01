@@ -170,6 +170,7 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
             }
             isDropCapped={true}
             pageId={article.id}
+            pageUid={article.uid}
             minWidth={isPodcast ? 10 : 8}
             contentType={
               isShortFilmFormat

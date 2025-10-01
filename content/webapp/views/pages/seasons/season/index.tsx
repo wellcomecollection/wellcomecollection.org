@@ -72,6 +72,7 @@ const SeasonPage = ({
           <Body
             untransformedBody={season.untransformedBody}
             pageId={season.id}
+            pageUid={season.uid}
           />
         }
         hideContributors={true}

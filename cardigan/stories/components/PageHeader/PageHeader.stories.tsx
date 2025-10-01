@@ -343,6 +343,7 @@ export const ShortFilm: ShortFilmStory = {
           } as RawEmbedSlice,
         ]}
         pageId="test"
+        pageUid="test"
       />
     ),
   },
@@ -517,12 +518,7 @@ export const Page: Story = {
 
     return (
       <PageHeader
-        {...(hasLandingPageFormat
-          ? {
-              sectionLevelPage: true,
-              variant: 'landing',
-            }
-          : { variant: 'basic' })}
+        variant={hasLandingPageFormat ? 'landing' : 'basic'}
         {...rest}
       />
     );

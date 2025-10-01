@@ -105,6 +105,7 @@ const VisualStoryPage: NextPage<Props> = ({
           <Body
             untransformedBody={visualStory.untransformedBody}
             pageId={visualStory.id}
+            pageUid={visualStory.uid}
             onThisPage={onThisPageLinks}
             showOnThisPage={visualStory.showOnThisPage}
             contentType="visual-story"

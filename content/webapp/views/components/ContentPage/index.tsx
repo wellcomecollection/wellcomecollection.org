@@ -2,7 +2,7 @@
 import { Children, ReactElement, ReactNode, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { sectionLevelPages } from '@weco/common/data/hardcoded-ids';
+import { officialLandingPagesUid } from '@weco/common/data/hardcoded-ids';
 import { useToggles } from '@weco/common/server-data/Context';
 import { ContentApiType } from '@weco/common/services/prismic/content-types';
 import { ElementFromComponent } from '@weco/common/utils/utility-types';
@@ -73,7 +73,7 @@ const ContentPage = ({
   const { featuredWorksInAddressables, stagingApi } = useToggles();
 
   const [linkedWorks, setLinkedWorks] = useState<ContentApiLinkedWork[]>([]);
-
+  console.log(Header, Body);
   async function fetchLinkedWorks() {
     if (!contentApiType) return;
 
@@ -114,7 +114,7 @@ const ContentPage = ({
       value={{ pageBackgroundColor: isCreamy ? 'warmNeutral.300' : 'white' }}
     >
       <article data-wio-id={id}>
-        {sectionLevelPages.includes(uid) ? (
+        {officialLandingPagesUid.includes(uid) ? (
           Header
         ) : (
           // This space is coupled to the `bottom` value in PageHeader.js

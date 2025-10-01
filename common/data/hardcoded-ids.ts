@@ -64,9 +64,10 @@ export const getNameFromCollectionVenue = id => {
   }
 };
 
-// TODO: check if it works with their ID and not just their UID
-// TODO: only use this and not the page format? Or the other way around?
-export const sectionLevelPages = [
+// This is different to hasLandingPageFormat on the page model,
+// which is true if there is a content list to display on the page.
+// This is a hardcoded list of pages that we want to control the layout and Header of
+export const officialLandingPagesUid = [
   prismicPageIds.visitUs,
   prismicPageIds.whatsOn,
   'stories',
