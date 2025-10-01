@@ -1,14 +1,10 @@
 import * as prismic from '@prismicio/client';
 import { SliceZone } from '@prismicio/react';
 import { NextPage } from 'next';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
 import styled from 'styled-components';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { ImageType } from '@weco/common/model/image';
-import { formDataAsUrlQuery } from '@weco/common/utils/forms';
-import { linkResolver } from '@weco/common/utils/search';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import {
   ContaineredLayout,
@@ -16,7 +12,7 @@ import {
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
-import SearchBar from '@weco/common/views/components/SearchBar';
+import SearchForm from '@weco/common/views/components/SearchForm';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
@@ -55,19 +51,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
   insideOurCollectionsCards,
   fullWidthBanners,
 }) => {
-  const router = useRouter();
   const { data: collectionStats } = useCollectionStats();
-  const [searchValue, setSearchValue] = useState('');
-
-  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formValues = formDataAsUrlQuery(event.currentTarget);
-    const link = linkResolver({
-      params: formValues,
-      pathname: '/search/works',
-    });
-    return router.push(link.href);
-  };
 
   return (
     <PageLayout
@@ -86,16 +70,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
 
       <SpacingSection>
         <ContaineredLayout gridSizes={gridSize10(false)}>
-          <form id="collections-search" onSubmit={handleSearch}>
-            <SearchBar
-              variant="new"
-              inputValue={searchValue}
-              setInputValue={setSearchValue}
-              placeholder="Search our collections"
-              form="collections-search"
-              location="page"
-            />
-          </form>
+          <SearchForm searchCategory="works" location="page" isNew={true} />
         </ContaineredLayout>
       </SpacingSection>
 
