@@ -271,7 +271,7 @@ export const themeValues = {
     large: 30,
     xlarge: 30,
   },
-  basicBoxShadow: `0 2px 8px 0 rgb(0, 0, 0, 0.4)`,
+  basicBoxShadow: `0 2px 8px 0 rgb(18, 18, 18, 0.4)`,
   focusBoxShadow: `0 0 0 3px ${colors['focus.yellow']}`,
   // Problem: https://github.com/wellcomecollection/wellcomecollection.org/issues/10237
   // Solution: https://benmyers.dev/blog/whcm-outlines/
