@@ -22,6 +22,8 @@ export const Card = styled.a<{ $isHover?: boolean }>`
   ${props =>
     props.$isHover &&
     `
+    border: 1px solid ${props.theme.color('neutral.300')};
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
     height: 5.25rem;
     width: 22rem;
   `}
