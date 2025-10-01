@@ -7,6 +7,7 @@ import { useThemeConcepts } from '@weco/content/hooks/useThemeConcepts';
 import { getConceptsByIds } from '@weco/content/pages/collections';
 import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { toConceptLink } from '@weco/content/views/components/ConceptLink';
+import ScrollContainer from '@weco/content/views/components/ScrollContainer';
 
 import type { ThemeCategory, ThemeConfig } from './themeBlockCategories';
 
@@ -14,6 +15,24 @@ type BrowseByThemeProps = {
   themeConfig: ThemeConfig;
   initialConcepts: Concept[];
 };
+
+const ListItem = styled.li`
+  --container-padding: ${props => props.theme.containerPadding.small}px;
+  flex: 0 0 90%;
+  max-width: 420px;
+
+  padding-left: var(--container-padding);
+
+  &:last-child {
+    padding-right: var(--container-padding);
+  }
+
+  ${props =>
+    props.theme.media('medium')(`
+      flex: 0 0 50%;
+      padding: 0 var(--container-padding) 0 0;
+    `)}
+`;
 
 const CategoryLinks = styled.div`
   display: flex;
@@ -34,13 +53,6 @@ const CategoryLink = styled.button<{ selected: boolean }>`
 `;
 const BrowseByThemesWrapper = styled.section`
   margin: ${({ theme }) => theme.spaceAtBreakpoints.small.xl}px 0;
-`;
-const ConceptList = styled.ul`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  list-style: none;
-  padding: 0;
 `;
 
 const Theme: FunctionComponent<{ concept: Concept }> = ({ concept }) => {
@@ -89,12 +101,13 @@ const BrowseByThemesData: FunctionComponent<BrowseByThemeProps> = ({
           </CategoryLink>
         ))}
       </CategoryLinks>
-      <ConceptList>
+      <ScrollContainer scrollButtonsAfter={true}>
         {concepts.map(concept => (
-          <Theme key={concept.id} concept={concept} />
+          <ListItem key={concept.id}>
+            <Theme concept={concept} />
+          </ListItem>
         ))}
-      </ConceptList>
-      {loading && <div>Loading…</div>}
+      </ScrollContainer>
     </BrowseByThemesWrapper>
   );
 };
