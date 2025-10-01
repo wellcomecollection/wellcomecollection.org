@@ -90,7 +90,7 @@ export type Props = {
   isDropCapped?: boolean;
   pageId: string;
   minWidth?: 10 | 8;
-  isLandingPage?: boolean;
+  hasLandingPageFormat?: boolean;
   sectionLevelPage?: boolean;
   staticContent?: ReactElement | null;
   comicPreviousNext?: ComicPreviousNextProps;
@@ -128,7 +128,7 @@ export type SliceZoneContext = {
   comicPreviousNext?: ComicPreviousNextProps;
   isShortFilm: boolean;
   pageId: string;
-  isLandingPage: boolean;
+  hasLandingPageFormat: boolean;
   isDropCapped: boolean;
   contentType?: 'short-film' | 'visual-story' | 'standalone-image-gallery';
 };
@@ -140,7 +140,7 @@ export const defaultContext: SliceZoneContext = {
   comicPreviousNext: undefined,
   isShortFilm: false,
   pageId: '',
-  isLandingPage: false,
+  hasLandingPageFormat: false,
   isDropCapped: false,
   contentType: undefined,
 };
@@ -153,7 +153,7 @@ const Body: FunctionComponent<Props> = ({
   isDropCapped,
   pageId,
   minWidth = 8,
-  isLandingPage = false,
+  hasLandingPageFormat = false,
   sectionLevelPage = false,
   staticContent = null,
   comicPreviousNext,
@@ -304,7 +304,7 @@ const Body: FunctionComponent<Props> = ({
       className={`content-type-${contentType}`}
       $splitBackground={isShortFilm}
     >
-      {!isLandingPage && introText && introText.length > 0 && (
+      {!hasLandingPageFormat && introText && introText.length > 0 && (
         <ContaineredLayout gridSizes={gridSize8(!sectionLevelPage)}>
           <div className="body-text spaced-text">
             <Space
@@ -332,7 +332,7 @@ const Body: FunctionComponent<Props> = ({
         </SpacingComponent>
       )}
 
-      {isLandingPage && <LandingPageSections sections={sections} />}
+      {hasLandingPageFormat && <LandingPageSections sections={sections} />}
 
       <SliceZone
         slices={filteredUntransformedBody}
@@ -343,7 +343,7 @@ const Body: FunctionComponent<Props> = ({
           isVisualStory,
           comicPreviousNext,
           pageId,
-          isLandingPage,
+          hasLandingPageFormat,
           isDropCapped,
           contentType,
           isShortFilm,

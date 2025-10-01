@@ -94,14 +94,7 @@ const StoriesPage: NextPage<Props> = ({
       rssUrl="https://rss.wellcomecollection.org/stories"
       apiToolbarLinks={[createPrismicLink(storiesLanding.id)]}
     >
-      <PageHeader
-        variant="simpleLanding"
-        // sectionLevelPage
-        title="Stories"
-        // isContentTypeInfoBeforeMedia={false}
-        // isLandingPage
-        introText={introText}
-      />
+      <PageHeader variant="landing" title="Stories" introText={introText} />
 
       <SpacingSection>
         <ArticlesContainer className="row--has-wobbly-background">

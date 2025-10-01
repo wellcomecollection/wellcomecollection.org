@@ -8,9 +8,6 @@ import { SizeMap } from '@weco/common/views/components/styled/Grid';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed';
 
 import LandingPageHeader, { Props as LandingProps } from './PageHeader.Landing';
-import SimpleLandingPageHeader, {
-  Props as SimpleLandingProps,
-} from './PageHeader.SimpleLanding';
 import BasicPageHeader, { Props as BasicProps } from './PagerHeader.Basic';
 
 export type FeaturedMedia =
@@ -43,11 +40,7 @@ type Props = {
 } & (
   | (BasicProps & { variant: 'basic' })
   | (LandingProps & {
-      sectionLevelPage: true;
-      variant: 'legacyLanding';
-    })
-  | (SimpleLandingProps & {
-      variant: 'simpleLanding';
+      variant: 'landing';
     })
 );
 
@@ -55,17 +48,7 @@ const PageHeader: FunctionComponent<Props> = (props: Props) => {
   const { isFree, labels, variant } = props;
   const amendedLabels = isFree ? addFreeLabel(labels) : labels;
 
-  if (variant === 'simpleLanding')
-    return <SimpleLandingPageHeader {...props} />;
-
-  if (variant === 'legacyLanding')
-    return (
-      <LandingPageHeader
-        data-component="landing-page-header"
-        amendedLabels={amendedLabels}
-        {...props}
-      />
-    );
+  if (variant === 'landing') return <LandingPageHeader {...props} />;
 
   if (variant === 'basic')
     return (

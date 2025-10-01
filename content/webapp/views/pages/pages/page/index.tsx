@@ -63,13 +63,14 @@ export const PagePage: NextPage<Props> = ({
   jsonLd,
 }) => {
   const DateInfo = page.datePublished && <HTMLDate date={page.datePublished} />;
-  const isLandingPage = page.format && page.format.id === PageFormatIds.Landing;
+  const hasLandingPageFormat =
+    page.format && page.format.id === PageFormatIds.Landing;
   const labels =
-    !isLandingPage && page.format?.title
+    !hasLandingPageFormat && page.format?.title
       ? makeLabels(page.format?.title)
       : undefined;
 
-  const backgroundTexture = isLandingPage
+  const backgroundTexture = hasLandingPageFormat
     ? landingHeaderBackgroundLs
     : headerBackgroundLs;
 
@@ -103,7 +104,7 @@ export const PagePage: NextPage<Props> = ({
   const sectionLevelPage = sectionLevelPages.includes(page.uid);
 
   function getBreadcrumbText(siteSection: string): string {
-    return isLandingPage
+    return hasLandingPageFormat
       ? '\u200b'
       : links.find(link => link.siteSection === siteSection)?.title ||
           siteSection;
@@ -140,7 +141,7 @@ export const PagePage: NextPage<Props> = ({
     featuredMedia && !sectionLevelPage ? (
       <HeaderBackground
         backgroundTexture={backgroundTexture}
-        hasWobblyEdge={!isLandingPage}
+        hasWobblyEdge={!hasLandingPageFormat}
       />
     ) : undefined;
 
@@ -157,8 +158,7 @@ export const PagePage: NextPage<Props> = ({
 
     return sectionLevelPage ? (
       <PageHeader
-        variant="simpleLanding"
-        // sectionLevelPage
+        variant="landing"
         introText={page.introText}
         {...sharedProps}
       />
@@ -237,6 +237,7 @@ export const PagePage: NextPage<Props> = ({
     >
       <ContentPage
         id={page.id}
+        uid={page.uid}
         contentApiType="pages"
         Header={getHeader()}
         Body={
@@ -246,7 +247,7 @@ export const PagePage: NextPage<Props> = ({
             introText={page.introText}
             onThisPage={page.onThisPage}
             showOnThisPage={page.showOnThisPage}
-            isLandingPage={isLandingPage}
+            hasLandingPageFormat={hasLandingPageFormat}
             sectionLevelPage={sectionLevelPage}
             staticContent={staticContent}
           />

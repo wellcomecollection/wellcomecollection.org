@@ -88,7 +88,7 @@ const meta: Meta<BodyStoryProps> = {
     showOnThisPage: {
       name: 'Show in page navigation',
     },
-    isLanding: {
+    hasLandingPageFormat: {
       name: 'Is landing: display a content list if there is one',
     },
     minWidth: {

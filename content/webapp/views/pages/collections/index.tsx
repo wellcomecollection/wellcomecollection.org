@@ -75,7 +75,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
       isNoIndex // TODO remove when this becomes the page
       hideNewsletterPromo
     >
-      <PageHeader variant="simpleLanding" title={title} introText={introText} />
+      <PageHeader variant="landing" title={title} introText={introText} />
 
       <SpacingSection>
         <ContaineredLayout gridSizes={gridSize10(false)}>

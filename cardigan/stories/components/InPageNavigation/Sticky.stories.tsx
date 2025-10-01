@@ -56,11 +56,7 @@ const InPageNavigationInColsContext: FunctionComponent<{
 
   return (
     <div>
-      <PageHeader
-        variant="legacyLanding"
-        sectionLevelPage
-        title="Sticky On This Page Anchors"
-      />
+      <PageHeader variant="landing" title="Sticky On This Page Anchors" />
       <GreySpace
         $topColor={args.topColor}
         $v={{ size: 'l', properties: ['height'] }}

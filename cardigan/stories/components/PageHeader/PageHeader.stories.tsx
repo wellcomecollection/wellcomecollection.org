@@ -125,7 +125,7 @@ export default meta;
 
 type Story = StoryObj<
   ComponentProps<typeof PageHeader> & {
-    isLanding?: boolean;
+    hasLandingPageFormat?: boolean;
   }
 >;
 
@@ -501,7 +501,7 @@ export const Page: Story = {
         disable: true,
       },
     },
-    isLanding: {
+    hasLandingPageFormat: {
       type: 'boolean',
     },
   },
@@ -510,17 +510,17 @@ export const Page: Story = {
     backgroundTexture: headerBackgroundLs,
     highlightHeading: true,
     breadcrumbs: { items: [{ text: 'Get involved', url: '#' }] },
-    isLanding: false,
+    hasLandingPageFormat: false,
   },
   render: args => {
-    const { isLanding, ...rest } = args;
+    const { hasLandingPageFormat, ...rest } = args;
 
     return (
       <PageHeader
-        {...(isLanding
+        {...(hasLandingPageFormat
           ? {
               sectionLevelPage: true,
-              variant: 'legacyLanding',
+              variant: 'landing',
             }
           : { variant: 'basic' })}
         {...rest}
