@@ -19,10 +19,13 @@ import SpacingSection from '@weco/common/views/components/styled/SpacingSection'
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { components } from '@weco/common/views/slices';
 import { useCollectionStats } from '@weco/content/hooks/useCollectionStats';
+import type { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { MultiContent } from '@weco/content/types/multi-content';
 import CardGrid from '@weco/content/views/components/CardGrid';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
+import BrowseByThemesData from '@weco/content/views/pages/collections/collections.BrowseByThemesData';
 import WorkTypesList from '@weco/content/views/pages/collections/collections.WorkTypesList';
+import { themeBlockCategories } from '@weco/content/views/pages/collections/themeBlockCategories';
 
 import BrowseByTheme from './collections.BrowseByTheme';
 
@@ -41,6 +44,7 @@ export type Props = {
   title: string;
   introText: prismic.RichTextField;
   insideOurCollectionsCards: MultiContent[];
+  featuredConcepts: Concept[];
   fullWidthBanners?: prismic.Slice<'fullWidthBanner'>[];
   // jsonLd: JsonLdObj[]; ??
 };
@@ -50,6 +54,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
   title,
   introText,
   insideOurCollectionsCards,
+  featuredConcepts,
   fullWidthBanners,
 }) => {
   const { data: collectionStats } = useCollectionStats();
@@ -95,6 +100,16 @@ const CollectionsLandingPage: NextPage<Props> = ({
       <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
         <ContaineredLayout gridSizes={gridSize12()}>
           <BrowseByTheme />
+        </ContaineredLayout>
+      </Space>
+
+      <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+        <SectionHeader title="Browse by theme" gridSize={gridSize12()} />
+        <ContaineredLayout gridSizes={gridSize12()}>
+          <BrowseByThemesData
+            themeConfig={themeBlockCategories}
+            initialConcepts={featuredConcepts}
+          />
         </ContaineredLayout>
       </Space>
 
