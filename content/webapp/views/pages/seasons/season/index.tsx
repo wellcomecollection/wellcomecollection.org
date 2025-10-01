@@ -65,6 +65,7 @@ const SeasonPage = ({
     >
       <ContentPage
         id={season.id}
+        uid={season.uid}
         contentApiType="seasons"
         Header={<SeasonsHeader season={season} />}
         Body={

@@ -30,6 +30,7 @@ import LinkedWorks from './ContentPage.LinkedWorks';
 
 type Props = {
   id: string;
+  uid: string;
   isCreamy?: boolean;
   Header: ElementFromComponent<typeof PageHeader>;
   Body?: ReactElement<BodyProps>;
@@ -56,6 +57,7 @@ const Wrapper = styled.div<{ $isCreamy: boolean }>`
 
 const ContentPage = ({
   id,
+  uid,
   isCreamy = false,
   Header,
   Body,
@@ -112,7 +114,7 @@ const ContentPage = ({
       value={{ pageBackgroundColor: isCreamy ? 'warmNeutral.300' : 'white' }}
     >
       <article data-wio-id={id}>
-        {sectionLevelPages.includes(id) ? (
+        {sectionLevelPages.includes(uid) ? (
           Header
         ) : (
           // This space is coupled to the `bottom` value in PageHeader.js

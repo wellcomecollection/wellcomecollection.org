@@ -219,6 +219,7 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
     >
       <ContentPage
         id={event.id}
+        uid={event.uid}
         contentApiType="events"
         Header={Header}
         Body={<Body untransformedBody={untransformedBody} pageId={event.id} />}

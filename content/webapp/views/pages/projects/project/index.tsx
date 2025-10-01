@@ -81,6 +81,7 @@ export const ProjectPage: NextPage<Props> = ({
     >
       <ContentPage
         id={project.id}
+        uid={project.uid}
         contentApiType="projects"
         Header={Header}
         Body={

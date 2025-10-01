@@ -91,6 +91,7 @@ const ArticleSeriesPage: NextPage<Props> = props => {
     >
       <ContentPage
         id={series.id}
+        uid={series.uid}
         Header={Header}
         Body={
           <Body

@@ -158,6 +158,7 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
     >
       <ContentPage
         id={article.id}
+        uid={article.uid}
         isCreamy={!isPodcast}
         contentApiType="articles"
         Header={Header}

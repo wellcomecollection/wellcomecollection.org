@@ -124,6 +124,7 @@ const Installation: FunctionComponent<Props> = ({ installation, pages }) => {
   return (
     <ContentPage
       id={installation.id}
+      uid={installation.uid}
       Header={Header}
       Body={
         <Body
