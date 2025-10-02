@@ -83,7 +83,7 @@ export type Props = {
   isStatic?: boolean;
 };
 
-export const WobblyEdgeDefault: FunctionComponent<Props> = ({
+const WobblyEdge: FunctionComponent<Props> = ({
   backgroundColor,
   isRotated,
   intensity = 50,
@@ -173,6 +173,8 @@ export const WobblyBottom: FunctionComponent<
 > = ({ backgroundColor, children }) => (
   <WobblyEdgeWrapper>
     {children}
-    <WobblyEdgeDefault backgroundColor={backgroundColor} />
+    <WobblyEdge backgroundColor={backgroundColor} />
   </WobblyEdgeWrapper>
 );
+
+export default WobblyEdge;

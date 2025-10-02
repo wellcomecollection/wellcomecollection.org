@@ -2,12 +2,12 @@ import { Meta, StoryObj } from '@storybook/react';
 
 import { ReadMeInfo } from '@weco/cardigan/config/decorators';
 import { image as contentImage } from '@weco/cardigan/stories/data/images';
+import { WobblyBottom } from '@weco/common/views/components/DecorativeEdge';
+import Readme from '@weco/common/views/components/DecorativeEdge/README.mdx';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
-import { WobblyBottom } from '@weco/common/views/components/WobblyEdge';
-import Readme from '@weco/common/views/components/WobblyEdge/README.mdx';
 
 const meta: Meta<typeof WobblyBottom> = {
-  title: 'Components/WobblyEdge/WobblyBottom',
+  title: 'Components/DecorativeEdge/WobblyBottom',
   component: WobblyBottom,
   args: {
     backgroundColor: 'warmNeutral.300',
@@ -22,6 +22,7 @@ const meta: Meta<typeof WobblyBottom> = {
     children: { table: { disable: true } },
   },
 };
+export default meta;
 
 const Template = args => (
   <>
@@ -31,8 +32,6 @@ const Template = args => (
     <ReadMeInfo Readme={Readme} />
   </>
 );
-
-export default meta;
 
 type Story = StoryObj<typeof WobblyBottom>;
 
