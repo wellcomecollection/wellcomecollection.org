@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
+import { getWShapePoints } from '@weco/common/views/components/WShape';
 import { PaletteColor } from '@weco/common/views/themes/config';
-import { getWShapePoints } from '@weco/content/views/components/WShape';
 
 export type Props = {
   color: PaletteColor;
