@@ -15,7 +15,7 @@ import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { links } from '@weco/common/views/components/Header';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground';
-import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
+import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import { makeLabels } from '@weco/common/views/components/LabelsList';
 import { gridSize12 } from '@weco/common/views/components/Layout';
@@ -62,7 +62,9 @@ export const PagePage: NextPage<Props> = ({
   staticContent,
   jsonLd,
 }) => {
-  const DateInfo = page.datePublished && <HTMLDate date={page.datePublished} />;
+  const DateInfo = page.datePublished && (
+    <HTMLDateAndTime variant="date" date={page.datePublished} />
+  );
   const isLanding = page.format && page.format.id === PageFormatIds.Landing;
   const labels =
     !isLanding && page.format?.title

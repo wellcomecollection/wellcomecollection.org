@@ -8,6 +8,9 @@ const meta: Meta<typeof BetaMessage> = {
   args: {
     message: 'We are working to make this item available online by July 2022.',
   },
+  argTypes: {
+    message: { control: 'text', name: 'Message' },
+  },
 };
 
 export default meta;
