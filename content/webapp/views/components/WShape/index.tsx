@@ -20,6 +20,7 @@ const WShape = ({
         <svg
           viewBox="0 0 1675 972"
           xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
           {...(styles && { style: styles })}
         >
           <path
@@ -33,6 +34,7 @@ const WShape = ({
         <svg
           viewBox="0 0 1010 849"
           xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
           {...(styles && { style: styles })}
         >
           <path
@@ -46,6 +48,7 @@ const WShape = ({
         <svg
           viewBox="0 0 870 822"
           xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
           {...(styles && { style: styles })}
         >
           <path
@@ -59,6 +62,7 @@ const WShape = ({
         <svg
           viewBox="0 0 1256 127"
           xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
           {...(styles && { style: styles })}
         >
           <path
@@ -72,6 +76,7 @@ const WShape = ({
         <svg
           viewBox="0 0 1440 68"
           xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
           {...(styles && { style: styles })}
         >
           <path
