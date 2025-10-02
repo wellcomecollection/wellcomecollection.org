@@ -16,8 +16,10 @@ import PageHeader from '@weco/common/views/components/PageHeader';
 import SearchBar from '@weco/common/views/components/SearchBar';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
+import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { components } from '@weco/common/views/slices';
+import { themeValues } from '@weco/common/views/themes/config';
 import { useCollectionStats } from '@weco/content/hooks/useCollectionStats';
 import { MultiContent } from '@weco/content/types/multi-content';
 import CardGrid from '@weco/content/views/components/CardGrid';
@@ -93,9 +95,13 @@ const CollectionsLandingPage: NextPage<Props> = ({
       </SpacingSection>
 
       <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-        <ContaineredLayout gridSizes={gridSize12()}>
-          <BrowseByTheme />
-        </ContaineredLayout>
+        <WobblyEdge variant="w" color="accent.lightBlue" />
+
+        <div style={{ backgroundColor: themeValues.color('accent.lightBlue') }}>
+          <ContaineredLayout gridSizes={gridSize12()}>
+            <BrowseByTheme />
+          </ContaineredLayout>
+        </div>
       </Space>
 
       {fullWidthBanners?.[0] && (
