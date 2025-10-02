@@ -75,7 +75,9 @@ const MainBackground = styled.div<{ $isDefaultVariant: boolean }>`
     )};
 `;
 
-const WShapeWrapper = styled.div<{ $isDefaultVariant: boolean }>`
+const WShapeWrapper = styled.div.attrs({ 'aria-hidden': 'true' })<{
+  $isDefaultVariant: boolean;
+}>`
   position: absolute;
   z-index: 0;
   color: ${props =>
@@ -88,7 +90,7 @@ const WShapeWrapper = styled.div<{ $isDefaultVariant: boolean }>`
   grid-template-columns: repeat(12, 1fr);
 
   svg {
-    grid-column: 1 / span 12;
+    grid-column: 1 / -1;
     height: 105%;
     left: -20%;
     right: -20%;
