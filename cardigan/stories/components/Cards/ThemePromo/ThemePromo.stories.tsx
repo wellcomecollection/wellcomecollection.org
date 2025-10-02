@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import mockImages from '@weco/cardigan/stories/components/CatalogueImageGallery/mock-images';
+import mockImages from '@weco/cardigan/stories/data/mock-iiif-images';
 import ThemePromo from '@weco/common/views/components/ThemePromo';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
 
