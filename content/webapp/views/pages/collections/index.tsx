@@ -15,7 +15,6 @@ import PageHeader from '@weco/common/views/components/PageHeader';
 import SearchForm from '@weco/common/views/components/SearchForm';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { components } from '@weco/common/views/slices';
 import { themeValues } from '@weco/common/views/themes/config';
@@ -24,6 +23,7 @@ import type { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { MultiContent } from '@weco/content/types/multi-content';
 import CardGrid from '@weco/content/views/components/CardGrid';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
+import WShape from '@weco/content/views/components/WShape';
 import BrowseByThemesData from '@weco/content/views/pages/collections/collections.BrowseByThemesData';
 import WorkTypesList from '@weco/content/views/pages/collections/collections.WorkTypesList';
 import { themeBlockCategories } from '@weco/content/views/pages/collections/themeBlockCategories';
@@ -82,7 +82,11 @@ const CollectionsLandingPage: NextPage<Props> = ({
       </SpacingSection>
 
       <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-        <WobblyEdge variant="w" color="accent.lightBlue" />
+        <WShape
+          variant="edge-1"
+          color="accent.lightBlue"
+          styles={{ display: 'block', bottom: '-1px', position: 'relative' }}
+        />
 
         <div style={{ backgroundColor: themeValues.color('accent.lightBlue') }}>
           <ContaineredLayout gridSizes={gridSize12()}>

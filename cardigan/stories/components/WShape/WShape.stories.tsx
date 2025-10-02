@@ -13,7 +13,7 @@ const meta: Meta<StoryProps> = {
   title: 'Components/WShape',
   component: WShape,
   args: {
-    variant: '1',
+    variant: 'full-1',
     color: 'black',
   },
   argTypes: {
