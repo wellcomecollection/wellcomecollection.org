@@ -94,11 +94,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
           <WShape
             variant="edge-1"
             color="accent.lightBlue"
-            styles={{
-              display: 'block',
-              bottom: '-1px',
-              position: 'relative',
-            }}
+            styles={{ display: 'block', bottom: '-1px', position: 'relative' }}
           />
         </WShapeContainer>
       </ContaineredLayout>
@@ -108,7 +104,12 @@ const CollectionsLandingPage: NextPage<Props> = ({
           <Space
             $v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
           >
-            <SearchForm searchCategory="works" location="page" isNew={true} />
+            <SearchForm
+              searchCategory="works"
+              location="page"
+              isNew
+              hasAvailableOnlineOnly
+            />
           </Space>
         </ContaineredLayout>
 
