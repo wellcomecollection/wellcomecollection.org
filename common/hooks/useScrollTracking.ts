@@ -1,12 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
 
-declare global {
-  interface Window {
-    dataLayer?: Record<string, unknown>[];
-  }
-}
-
 export function useScrollTracking() {
   const router = useRouter();
   const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
