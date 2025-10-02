@@ -2,6 +2,7 @@
 // https://github.com/wellcomecollection/wellcomecollection.org/pull/12253
 import * as prismic from '@prismicio/client';
 import { FunctionComponent } from 'react';
+import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import { defaultSerializer } from '@weco/common/views/components/HTMLSerializers';
@@ -14,6 +15,15 @@ import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 
 import { TitleWrapper, Wrapper } from './PageHeader.styles';
+
+const ContentWrapper = styled(Space).attrs({
+  $v: { size: 's', properties: ['margin-top'] },
+  className: font('intr', 2),
+})`
+  p:last-child {
+    margin-bottom: 0;
+  }
+`;
 
 export type Props = {
   title: string;
@@ -36,10 +46,12 @@ const SimpleLandingPageHeader: FunctionComponent<Props> = ({
                 $v={{ size: 's', properties: ['margin-top'] }}
                 className={font('intr', 2)}
               >
-                <PrismicHtmlBlock
-                  html={introText}
-                  htmlSerializer={defaultSerializer}
-                />
+                <ContentWrapper>
+                  <PrismicHtmlBlock
+                    html={introText}
+                    htmlSerializer={defaultSerializer}
+                  />
+                </ContentWrapper>
               </Space>
             </GridCell>
           </Grid>
