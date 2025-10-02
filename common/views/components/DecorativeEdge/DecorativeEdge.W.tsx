@@ -1,14 +1,15 @@
 import styled from 'styled-components';
 
 import { PaletteColor } from '@weco/common/views/themes/config';
-import { getPolygonPoints } from '@weco/content/views/components/WShape';
+import { getWShapePoints } from '@weco/content/views/components/WShape';
 
 export type Props = {
   color: PaletteColor;
+  shape: 'edge-1' | 'edge-2';
 };
 
 export const Edge = styled.div<{
-  $variant: 'edge-1' | 'edge-2';
+  $clipPath: string;
   $color: PaletteColor;
 }>`
   height: 10vw;
@@ -19,14 +20,17 @@ export const Edge = styled.div<{
 
   @supports ((clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0))) {
     display: block;
-    clip-path: ${getPolygonPoints('edge-1')};
+    clip-path: ${props => props.$clipPath};
   }
 
   background: ${props => props.theme.color(props.$color)};
 `;
 
-const WEdge = ({ color }: Props) => {
-  return <Edge $variant="edge-1" $color={color} />;
+const WEdge = ({ color, shape }: Props) => {
+  const clipPath = getWShapePoints(shape);
+  if (!clipPath) return null;
+
+  return <Edge $clipPath={clipPath} $color={color} />;
 };
 
 export default WEdge;

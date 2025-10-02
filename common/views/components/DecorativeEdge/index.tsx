@@ -14,7 +14,8 @@ type Props =
 const DecorativeEdge: FunctionComponent<Props> = (
   props: Props
 ): ReactElement => {
-  if (props.variant === 'w') return <WEdge color={props.color} />;
+  if (props.variant === 'w')
+    return <WEdge color={props.color} shape={props.shape} />;
 
   const { variant, ...rest } = props;
 
