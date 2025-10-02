@@ -15,7 +15,7 @@ type Review = {
 
 export type BookBasic = {
   // this is a mix of props from GenericContentFields and Book
-  // and is only what is required to render BookPromos and json-ld
+  // and is only what is required to render BookCards and json-ld
   type: 'books';
   id: string;
   uid: string;

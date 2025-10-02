@@ -5,7 +5,7 @@ import { getCrop } from '@weco/common/model/image';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import { font } from '@weco/common/utils/classnames';
-import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
+import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import PrismicImage, {
   BreakpointSizes,
@@ -139,7 +139,10 @@ const StoriesGrid: FunctionComponent<Props> = ({
                   <StoryInformation>
                     {article.publicationDate && (
                       <StoryInformationItem className="searchable-selector">
-                        <HTMLDate date={new Date(article.publicationDate)} />
+                        <HTMLDateAndTime
+                          variant="date"
+                          date={new Date(article.publicationDate)}
+                        />
                       </StoryInformationItem>
                     )}
                     {!!article.contributors.length && (

@@ -45,6 +45,14 @@ const meta: Meta<typeof Accordion> = {
       },
     ],
   },
+  argTypes: {
+    closeOthersOnOpen: {
+      control: 'boolean',
+      name: 'Close other items when one is opened',
+    },
+    id: { table: { disable: true } },
+    items: { table: { disable: true } },
+  },
 };
 
 export default meta;

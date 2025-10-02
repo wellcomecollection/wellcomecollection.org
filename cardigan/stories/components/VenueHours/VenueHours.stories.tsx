@@ -68,7 +68,7 @@ const Template = args => (
 );
 
 const meta: Meta<typeof VenueHours> = {
-  title: 'Components/VenueHours',
+  title: 'Components/VenueHours/VenueHours',
   component: VenueHours,
   args: {
     venue: galleriesVenue,

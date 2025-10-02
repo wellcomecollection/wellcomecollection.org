@@ -15,7 +15,7 @@ type InfoBoxItem = LabelField & {
 type Props = PropsWithChildren<{
   title: string;
   items: InfoBoxItem[];
-  headingClasses?: string;
+  hasBiggerHeading?: boolean;
 }>;
 
 const InfoContainer = styled(Space).attrs({
@@ -35,12 +35,13 @@ export const InfoIconWrapper = styled(Space).attrs({
 const InfoBox: FunctionComponent<Props> = ({
   title,
   items,
-  headingClasses = font('wb', 3),
+  hasBiggerHeading,
   children,
 }) => {
   return (
     <div data-component="info-box">
-      <h2 className={headingClasses}>{title}</h2>
+      <h2 className={font('wb', hasBiggerHeading ? 2 : 3)}>{title}</h2>
+
       <InfoContainer>
         {items.map(({ title, description, icon }, i) => (
           <div key={i}>

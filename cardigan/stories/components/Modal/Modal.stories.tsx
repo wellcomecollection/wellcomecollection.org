@@ -59,7 +59,12 @@ const meta: Meta<typeof Modal> = {
     showOverlay: true,
   },
   argTypes: {
-    maxWidth: { control: 'radio', options: ['80%', '250px', undefined] },
+    maxWidth: {
+      name: 'Max width',
+      control: 'radio',
+      options: ['80%', '250px', undefined],
+    },
+    showOverlay: { name: 'Show overlay', control: 'boolean' },
     children: { table: { disable: true } },
     isActive: { table: { disable: true } },
     dataTestId: { table: { disable: true } },

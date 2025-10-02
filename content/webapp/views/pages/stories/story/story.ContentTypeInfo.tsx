@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
-import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
+import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
 import Space from '@weco/common/views/components/styled/Space';
 import Standfirst from '@weco/common/views/slices/Standfirst';
 import { Article } from '@weco/content/types/articles';
@@ -67,7 +67,7 @@ const ContentTypeInfo = (article: Article) => (
           {article.contributors.length > 0 && ' '}
 
           <HTMLDateWrapper>
-            <HTMLDate date={article.datePublished} />
+            <HTMLDateAndTime variant="date" date={article.datePublished} />
           </HTMLDateWrapper>
         </ContentTypeText>
       </Space>

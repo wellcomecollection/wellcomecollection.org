@@ -9,16 +9,31 @@ import {
 
 type Props = {
   date: Date;
+  variant: 'date' | 'dayDate' | 'time';
 };
 
-export const HTMLDate: FunctionComponent<Props> = ({ date }) => (
-  <time dateTime={date.toISOString()}>{formatDate(date)}</time>
-);
+const DateVariant = ({ date, variant }: Props) => {
+  switch (variant) {
+    case 'date':
+      return <>{formatDate(date)}</>;
+    case 'dayDate':
+      return <>{formatDayDate(date)}</>;
+    case 'time':
+      return <>{formatTime(date)}</>;
+    default:
+      return null;
+  }
+};
 
-export const HTMLDayDate: FunctionComponent<Props> = ({ date }) => (
-  <time dateTime={date.toISOString()}>{formatDayDate(date)}</time>
-);
+const HTMLDateAndTime: FunctionComponent<Props> = ({
+  date,
+  variant,
+}: Props) => {
+  return (
+    <time dateTime={date.toISOString()}>
+      <DateVariant date={date} variant={variant} />
+    </time>
+  );
+};
 
-export const HTMLTime: FunctionComponent<Props> = ({ date }) => (
-  <time dateTime={date.toISOString()}>{formatTime(date)}</time>
-);
+export default HTMLDateAndTime;
