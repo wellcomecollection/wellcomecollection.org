@@ -14,7 +14,6 @@ import {
 import PageHeader from '@weco/common/views/components/PageHeader';
 import SearchForm from '@weco/common/views/components/SearchForm';
 import Space from '@weco/common/views/components/styled/Space';
-import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { components } from '@weco/common/views/slices';
 import { themeValues } from '@weco/common/views/themes/config';
@@ -34,6 +33,21 @@ const MaterialsSection = styled(Space).attrs({
   $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
 })`
   background-color: ${props => props.theme.color('warmNeutral.300')};
+`;
+
+const WShapeContainer = styled.div`
+  margin-left: -${themeValues.containerPadding.small}px;
+  margin-top: -${themeValues.containerPadding.small}px;
+
+  ${themeValues.media('medium')(`
+    margin-left: -${themeValues.containerPadding.medium}px;
+    margin-top: -${themeValues.containerPadding.medium}px;
+  `)}
+
+  ${themeValues.media('large')(`
+    margin-left: -${themeValues.containerPadding.large}px;
+    margin-top: -${themeValues.containerPadding.large}px;
+  `)}
 `;
 
 export type Props = {
@@ -75,25 +89,37 @@ const CollectionsLandingPage: NextPage<Props> = ({
     >
       <PageHeader variant="simpleLanding" title={title} introText={introText} />
 
-      <SpacingSection>
+      <ContaineredLayout gridSizes={gridSize12()}>
+        <WShapeContainer>
+          <WShape
+            variant="edge-1"
+            color="accent.lightBlue"
+            styles={{
+              display: 'block',
+              bottom: '-1px',
+              position: 'relative',
+            }}
+          />
+        </WShapeContainer>
+      </ContaineredLayout>
+
+      <div style={{ backgroundColor: themeValues.color('accent.lightBlue') }}>
         <ContaineredLayout gridSizes={gridSize10(false)}>
-          <SearchForm searchCategory="works" location="page" isNew={true} />
+          <Space
+            $v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
+          >
+            <SearchForm searchCategory="works" location="page" isNew={true} />
+          </Space>
         </ContaineredLayout>
-      </SpacingSection>
 
-      <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-        <WShape
-          variant="edge-1"
-          color="accent.lightBlue"
-          styles={{ display: 'block', bottom: '-1px', position: 'relative' }}
-        />
-
-        <div style={{ backgroundColor: themeValues.color('accent.lightBlue') }}>
+        <Space
+          $v={{ size: 'xl', properties: ['padding-top', 'margin-bottom'] }}
+        >
           <ContaineredLayout gridSizes={gridSize12()}>
             <BrowseByTheme />
           </ContaineredLayout>
-        </div>
-      </Space>
+        </Space>
+      </div>
 
       <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
         <SectionHeader title="Browse by theme" gridSize={gridSize12()} />
