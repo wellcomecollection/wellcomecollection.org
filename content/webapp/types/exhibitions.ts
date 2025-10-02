@@ -24,7 +24,7 @@ export type ExhibitionFormat = {
 
 export type ExhibitionBasic = {
   // this is a mix of props from GenericContentFields and Exhibition
-  // and is only what is required to render ExhibitionPromos and json-ld
+  // and is only what is required to render ExhibitionCards and json-ld
   type: 'exhibitions';
   id: string;
   uid: string;

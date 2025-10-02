@@ -26,8 +26,10 @@ export const Basic: Story = {
   },
   argTypes: {
     lineColor: {
+      name: 'Line color',
       control: 'select',
       options: themeColors.map(c => c.name),
     },
+    isStub: { name: 'Is stub line', control: 'boolean' },
   },
 };

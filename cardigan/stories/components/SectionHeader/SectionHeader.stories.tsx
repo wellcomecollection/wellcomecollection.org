@@ -28,10 +28,8 @@ const meta: Meta<typeof SectionHeader> = {
     gridSize: undefined,
   },
   argTypes: {
-    gridSize: {
-      options: ['12', undefined],
-      control: { type: 'radio' },
-    },
+    title: { name: 'Title' },
+    gridSize: { table: { disable: true } },
   },
 };
 

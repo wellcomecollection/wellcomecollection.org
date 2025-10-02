@@ -105,10 +105,7 @@ export async function fetchWorksAggregations(
     });
 
     if ('type' in result && result.type === 'Error') {
-      console.error(
-        'Failed to fetch work type aggregations:',
-        result.description
-      );
+      console.error('Failed to fetch work type aggregations:', result);
       return null;
     }
 
@@ -137,7 +134,7 @@ export async function fetchImagesCount(
     });
 
     if ('type' in result && result.type === 'Error') {
-      console.error('Failed to fetch images count:', result.description);
+      console.error('Failed to fetch images count:', result);
       return null;
     }
 

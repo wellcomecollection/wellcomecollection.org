@@ -161,7 +161,7 @@ export function transformExhibition(
 export function transformExhibitionToExhibitionBasic(
   exhibition: Exhibition
 ): ExhibitionBasic {
-  // returns what is required to render ExhibitionPromos and exhibition JSON-LD
+  // returns what is required to render ExhibitionCards and exhibition JSON-LD
   return (({
     type,
     id,
