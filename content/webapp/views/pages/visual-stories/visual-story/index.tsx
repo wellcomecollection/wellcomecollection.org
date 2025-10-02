@@ -98,12 +98,14 @@ const VisualStoryPage: NextPage<Props> = ({
     >
       <ContentPage
         id={visualStory.id}
+        uid={visualStory.uid}
         contentApiType="visual-stories"
         Header={Header}
         Body={
           <Body
             untransformedBody={visualStory.untransformedBody}
             pageId={visualStory.id}
+            pageUid={visualStory.uid}
             onThisPage={onThisPageLinks}
             showOnThisPage={visualStory.showOnThisPage}
             contentType="visual-story"

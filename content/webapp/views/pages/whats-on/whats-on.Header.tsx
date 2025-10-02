@@ -55,7 +55,7 @@ const Header: FunctionComponent<HeaderProps> = ({
             }}
           >
             <OpeningTimesWrapper>
-              <TitleWrapper $sectionLevelPage>What’s on</TitleWrapper>
+              <TitleWrapper $isOfficialLandingPage>What’s on</TitleWrapper>
               <OpeningTimes>
                 {todaysOpeningHours && (
                   <div style={{ display: 'flex', alignItems: 'center' }}>

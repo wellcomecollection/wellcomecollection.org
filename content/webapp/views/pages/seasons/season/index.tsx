@@ -65,12 +65,14 @@ const SeasonPage = ({
     >
       <ContentPage
         id={season.id}
+        uid={season.uid}
         contentApiType="seasons"
         Header={<SeasonsHeader season={season} />}
         Body={
           <Body
             untransformedBody={season.untransformedBody}
             pageId={season.id}
+            pageUid={season.uid}
           />
         }
         hideContributors={true}

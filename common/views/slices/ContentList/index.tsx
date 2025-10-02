@@ -24,7 +24,7 @@ const ContentListSlice: FunctionComponent<ContentListProps> = ({
   const options = { ...defaultContext, ...context };
 
   const transformedSlice = transformContentListSlice(slice);
-  if (!options.isLanding) {
+  if (!options.hasLandingPageFormat) {
     return (
       <SpacingComponent $sliceType={transformedSlice.type}>
         <LayoutWidth width={context.minWidth}>

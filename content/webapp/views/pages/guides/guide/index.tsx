@@ -89,11 +89,13 @@ export const Guide: FunctionComponent<Props> = ({ guide, jsonLd }) => {
     >
       <ContentPage
         id={guide.id}
+        uid={guide.uid}
         Header={Header}
         Body={
           <Body
             untransformedBody={untransformedBody}
             pageId={guide.id}
+            pageUid={guide.uid}
             onThisPage={guide.onThisPage}
             showOnThisPage={guide.showOnThisPage}
           />

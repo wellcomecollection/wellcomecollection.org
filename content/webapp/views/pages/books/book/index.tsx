@@ -83,10 +83,15 @@ const BookPage: NextPage<Props> = ({ book }) => {
     >
       <ContentPage
         id={book.id}
+        uid={book.uid}
         contentApiType="books"
         Header={Header}
         Body={
-          <Body untransformedBody={book.untransformedBody} pageId={book.id} />
+          <Body
+            untransformedBody={book.untransformedBody}
+            pageId={book.id}
+            pageUid={book.uid}
+          />
         }
         contributors={book.contributors}
         seasons={book.seasons}
