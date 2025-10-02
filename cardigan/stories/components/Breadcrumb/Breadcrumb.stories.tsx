@@ -23,11 +23,7 @@ const meta: Meta<typeof Breadcrumb> = {
     noHomeLink: {
       name: 'Remove Home link',
     },
-    items: {
-      table: {
-        disable: true,
-      },
-    },
+    items: { table: { disable: true } },
   },
 };
 

@@ -29,7 +29,7 @@ import CardGrid from '@weco/content/views/components/CardGrid';
 import FeaturedCard from '@weco/content/views/components/FeaturedCard';
 import FeaturedText from '@weco/content/views/components/FeaturedText';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
-import StoryPromo from '@weco/content/views/components/StoryPromo';
+import StoryCard from '@weco/content/views/components/StoryCard';
 
 export type Props = {
   articles: Article[];
@@ -42,7 +42,7 @@ const ArticlesContainer = styled.div`
   background-color: ${props => props.theme.color('warmNeutral.300')};
 `;
 
-const StoryPromoContainer = styled(Container)`
+const StoryCardContainer = styled(Container)`
   -webkit-overflow-scrolling: touch;
 
   /* former .container--scroll */
@@ -129,7 +129,7 @@ const StoriesPage: NextPage<Props> = ({
             </ContaineredLayout>
           </Space>
           <div className="row__wobbly-background" />
-          <StoryPromoContainer>
+          <StoryCardContainer>
             <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
               <GridScroll className="card-theme card-theme--transparent">
                 {articles.slice(1, 5).map(article => {
@@ -139,14 +139,14 @@ const StoriesPage: NextPage<Props> = ({
                       $sizeMap={{ m: [6], l: [3], xl: [3] }}
                     >
                       <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
-                        <StoryPromo variant="contentApi" article={article} />
+                        <StoryCard variant="contentApi" article={article} />
                       </Space>
                     </GridCellScroll>
                   );
                 })}
               </GridScroll>
             </Space>
-          </StoryPromoContainer>
+          </StoryCardContainer>
         </ArticlesContainer>
       </SpacingSection>
 

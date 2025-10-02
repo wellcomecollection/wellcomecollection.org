@@ -82,7 +82,7 @@ export type HasTimes = {
 
 export type EventBasic = HasTimes & {
   // this is a mix of props from GenericContentFields and Event
-  // and is only what is required to render EventPromos and json-ld
+  // and is only what is required to render EventCards and json-ld
   type: 'events';
   id: string;
   uid: string;

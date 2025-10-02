@@ -33,17 +33,17 @@ import {
 import { enrichTryTheseTooPromos } from '@weco/content/services/prismic/transformers/whats-on';
 import { EventBasic } from '@weco/content/types/events';
 import { ExhibitionBasic } from '@weco/content/types/exhibitions';
-import { FacilityPromo as FacilityPromoType } from '@weco/content/types/facility-promo';
+import { FacilityCard as FacilityCardType } from '@weco/content/types/facility';
 import { FeaturedText as FeaturedTextType } from '@weco/content/types/text';
 import CardGrid from '@weco/content/views/components/CardGrid';
 import ExhibitionsAndEvents from '@weco/content/views/components/ExhibitionsAndEvents';
-import FacilityPromo from '@weco/content/views/components/FacilityPromo';
 import FeaturedCard from '@weco/content/views/components/FeaturedCard';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
 
 import ClosedMessage from './whats-on.ClosedMessage';
 import DateRange from './whats-on.DateRange';
 import EventsByMonth from './whats-on.EventsByMonth';
+import FacilityCard from './whats-on.FacilityCard';
 import Header from './whats-on.Header';
 
 export const tabItems = [
@@ -72,7 +72,7 @@ export type Props = {
   period: Period;
   dateRange: { start: Date; end?: Date };
   featuredText?: FeaturedTextType;
-  tryTheseToo: FacilityPromoType[];
+  tryTheseToo: FacilityCardType[];
   jsonLd: JsonLdObj[];
 };
 
@@ -90,7 +90,7 @@ const WhatsOnPage: NextPage<Props> = props => {
   } = props;
 
   const tryTheseToo = enrichTryTheseTooPromos(basicTryTheseTooPromos);
-
+  console.log(tryTheseToo[0]);
   const firstExhibition = exhibitions[0];
 
   const extraTitleText = tabItems.find(item => item.id === period);
@@ -276,7 +276,7 @@ const WhatsOnPage: NextPage<Props> = props => {
                       xl: [4],
                     }}
                   >
-                    <FacilityPromo {...promo} />
+                    <FacilityCard {...promo} />
                   </GridCell>
                 ))}
               </Grid>

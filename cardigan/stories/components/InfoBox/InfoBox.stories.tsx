@@ -1,4 +1,5 @@
 import { Meta, StoryObj } from '@storybook/react';
+import { ComponentProps } from 'react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
@@ -12,11 +13,16 @@ import {
 import InfoBox from '@weco/content/views/components/InfoBox';
 import Readme from '@weco/content/views/components/InfoBox/README.mdx';
 
-const meta: Meta<typeof InfoBox> = {
+type StoryProps = ComponentProps<typeof InfoBox> & {
+  hasChildContent?: boolean;
+};
+
+const meta: Meta<StoryProps> = {
   title: 'Components/InfoBox',
   component: InfoBox,
   args: {
     title: 'Visit us',
+    hasBiggerHeading: false,
     items: [
       {
         description: [
@@ -79,21 +85,49 @@ const meta: Meta<typeof InfoBox> = {
         icon: a11YVisual,
       },
     ],
+    children: (
+      <p>Here is some extra content, it can be whatever HTML you want.</p>
+    ),
+    hasChildContent: false,
   },
   argTypes: {
     children: { table: { disable: true } },
     items: { table: { disable: true } },
-    headingClasses: { table: { disable: true } },
+    hasBiggerHeading: {
+      name: 'Use larger heading',
+      control: 'boolean',
+    },
+    hasChildContent: {
+      name: 'Has child content',
+      control: 'boolean',
+    },
   },
 };
 
 export default meta;
 
-type Story = StoryObj<typeof InfoBox>;
+type Story = StoryObj<StoryProps>;
 
+const Template = (args: StoryProps) => {
+  const { hasChildContent, ...rest } = args;
+
+  return (
+    <InfoBox {...rest}>
+      {hasChildContent ? (
+        <p>Here is some extra content, it can be whatever HTML you want.</p>
+      ) : undefined}
+    </InfoBox>
+  );
+};
 export const Basic: Story = {
   name: 'InfoBox',
-  render: args => (
-    <ReadmeDecorator WrappedComponent={InfoBox} args={args} Readme={Readme} />
-  ),
+  render: args => {
+    return (
+      <ReadmeDecorator
+        WrappedComponent={Template}
+        args={args}
+        Readme={Readme}
+      />
+    );
+  },
 };

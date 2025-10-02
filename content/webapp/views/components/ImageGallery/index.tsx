@@ -21,10 +21,10 @@ import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import { sizes } from '@weco/common/views/themes/config';
 import { useContentPageContext } from '@weco/content/contexts/ContentPageContext';
 import CaptionedImage from '@weco/content/views/components/CaptionedImage';
+
 import ComicPreviousNext, {
   Props as ComicPreviousNextProps,
-} from '@weco/content/views/components/ComicPreviousNext';
-
+} from './ImageGallery.ComicPreviousNext';
 import {
   ButtonContainer,
   CloseWrapper,

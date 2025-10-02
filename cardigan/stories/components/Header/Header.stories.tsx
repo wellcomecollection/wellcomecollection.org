@@ -13,7 +13,9 @@ const meta: Meta<typeof Header> = {
   },
   argTypes: {
     customNavLinks: { table: { disable: true } },
+    isMinimalHeader: { name: 'Is minimal header', control: 'boolean' },
     siteSection: {
+      name: 'Selected site section',
       control: 'radio',
       options: ['visit-us', 'stories', 'collections', 'about-us'],
     },
