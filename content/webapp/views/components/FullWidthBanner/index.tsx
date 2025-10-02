@@ -13,10 +13,10 @@ import {
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
-import { themeValues } from '@weco/common/views/themes/config';
 import CaptionedImage from '@weco/content/views/components/CaptionedImage';
 import MoreLink from '@weco/content/views/components/MoreLink';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
+import WShape from '@weco/content/views/components/WShape';
 
 const ContentContainer = styled(Space)`
   display: flex;
@@ -66,6 +66,47 @@ const IconWrapper = styled.span`
   margin-left: 4px;
 `;
 
+const MainBackground = styled.div<{ $isDefaultVariant: boolean }>`
+  position: relative;
+  overflow: hidden;
+  background-color: ${props =>
+    props.theme.color(
+      props.$isDefaultVariant ? 'accent.lightBlue' : 'accent.lightPurple'
+    )};
+`;
+
+const WShapeWrapper = styled.div.attrs({ 'aria-hidden': 'true' })<{
+  $isDefaultVariant: boolean;
+}>`
+  position: absolute;
+  z-index: 0;
+  color: ${props =>
+    props.theme.color(
+      props.$isDefaultVariant ? 'accent.salmon' : 'accent.turquoise'
+    )};
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+
+  svg {
+    grid-column: 1 / -1;
+    height: 105%;
+    left: -20%;
+    right: -20%;
+    transform: translateY(-50%);
+    position: relative;
+
+    ${props => props.theme.media('medium')`
+      grid-column: 5 / span 8;
+      height: 140%;
+      top: 50%;
+      right: -20%;
+      left: auto;
+    `}
+  }
+`;
+
 const LinksWithArrow = ({ links }: { links: Link[] }) => {
   return links.map(link => (
     <li key={link.url}>
@@ -112,60 +153,64 @@ const FullWidthBanner = (props: Props) => {
   const isTwoLinksVariant = variant === 'twoLinks';
 
   return (
-    <div
+    <MainBackground
       data-component="full-width-banner"
-      style={{
-        backgroundColor: themeValues.color(
-          isDefaultVariant ? 'accent.lightBlue' : 'accent.lightPurple'
-        ),
-      }}
+      $isDefaultVariant={isDefaultVariant}
     >
-      <ContaineredLayout gridSizes={gridSize12()}>
-        <ContentContainer
-          $v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
-        >
-          <CopySection>
-            {props.title && <SectionHeader title={props.title}></SectionHeader>}
-            {props.description && <p>{props.description}</p>}
+      <WShapeWrapper $isDefaultVariant={isDefaultVariant}>
+        <WShape variant={isDefaultVariant ? 'full-3' : 'full-2'} />
+      </WShapeWrapper>
 
-            {isDefaultVariant && (
-              <>
-                {props.link && (
-                  <MoreLink
-                    name={props.link.text || 'Find out more'}
-                    url={props.link.url}
-                  />
-                )}
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        <ContaineredLayout gridSizes={gridSize12()}>
+          <ContentContainer
+            $v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
+          >
+            <CopySection>
+              {props.title && (
+                <SectionHeader title={props.title}></SectionHeader>
+              )}
+              {props.description && <p>{props.description}</p>}
 
-                {props.supportText && (
-                  <SupportText>
-                    <Icon icon={web} />
+              {isDefaultVariant && (
+                <>
+                  {props.link && (
+                    <MoreLink
+                      name={props.link.text || 'Find out more'}
+                      url={props.link.url}
+                    />
+                  )}
 
-                    <PrismicHtmlBlock html={props.supportText} />
-                  </SupportText>
-                )}
-              </>
+                  {props.supportText && (
+                    <SupportText>
+                      <Icon icon={web} />
+
+                      <PrismicHtmlBlock html={props.supportText} />
+                    </SupportText>
+                  )}
+                </>
+              )}
+
+              {isTwoLinksVariant && props.links?.length > 0 && (
+                <PlainList>
+                  <LinksWithArrow links={props.links} />
+                </PlainList>
+              )}
+            </CopySection>
+
+            {props.image && (
+              <ImageSection>
+                <CaptionedImage
+                  image={props.image}
+                  hasRoundedCorners={false}
+                  caption={[]}
+                />
+              </ImageSection>
             )}
-
-            {isTwoLinksVariant && props.links?.length > 0 && (
-              <PlainList>
-                <LinksWithArrow links={props.links} />
-              </PlainList>
-            )}
-          </CopySection>
-
-          {props.image && (
-            <ImageSection>
-              <CaptionedImage
-                image={props.image}
-                hasRoundedCorners={false}
-                caption={[]}
-              />
-            </ImageSection>
-          )}
-        </ContentContainer>
-      </ContaineredLayout>
-    </div>
+          </ContentContainer>
+        </ContaineredLayout>
+      </div>
+    </MainBackground>
   );
 };
 

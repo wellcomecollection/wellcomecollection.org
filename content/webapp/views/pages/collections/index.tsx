@@ -14,14 +14,15 @@ import {
 import PageHeader from '@weco/common/views/components/PageHeader';
 import SearchForm from '@weco/common/views/components/SearchForm';
 import Space from '@weco/common/views/components/styled/Space';
-import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { components } from '@weco/common/views/slices';
+import { themeValues } from '@weco/common/views/themes/config';
 import { useCollectionStats } from '@weco/content/hooks/useCollectionStats';
 import type { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { MultiContent } from '@weco/content/types/multi-content';
 import CardGrid from '@weco/content/views/components/CardGrid';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
+import WShape from '@weco/content/views/components/WShape';
 import BrowseByThemesData from '@weco/content/views/pages/collections/collections.BrowseByThemesData';
 import WorkTypesList from '@weco/content/views/pages/collections/collections.WorkTypesList';
 import { themeBlockCategories } from '@weco/content/views/pages/collections/themeBlockCategories';
@@ -30,6 +31,21 @@ const MaterialsSection = styled(Space).attrs({
   $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
 })`
   background-color: ${props => props.theme.color('warmNeutral.300')};
+`;
+
+const WShapeContainer = styled.div`
+  margin-left: -${themeValues.containerPadding.small}px;
+  margin-top: -${themeValues.containerPadding.small}px;
+
+  ${themeValues.media('medium')(`
+    margin-left: -${themeValues.containerPadding.medium}px;
+    margin-top: -${themeValues.containerPadding.medium}px;
+  `)}
+
+  ${themeValues.media('large')(`
+    margin-left: -${themeValues.containerPadding.large}px;
+    margin-top: -${themeValues.containerPadding.large}px;
+  `)}
 `;
 
 export type Props = {
@@ -71,11 +87,29 @@ const CollectionsLandingPage: NextPage<Props> = ({
     >
       <PageHeader variant="simpleLanding" title={title} introText={introText} />
 
-      <SpacingSection>
+      <ContaineredLayout gridSizes={gridSize12()}>
+        <WShapeContainer>
+          <WShape
+            variant="edge-1"
+            color="accent.lightBlue"
+            styles={{
+              display: 'block',
+              bottom: '-1px',
+              position: 'relative',
+            }}
+          />
+        </WShapeContainer>
+      </ContaineredLayout>
+
+      <div style={{ backgroundColor: themeValues.color('accent.lightBlue') }}>
         <ContaineredLayout gridSizes={gridSize10(false)}>
-          <SearchForm searchCategory="works" location="page" isNew={true} />
+          <Space
+            $v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
+          >
+            <SearchForm searchCategory="works" location="page" isNew={true} />
+          </Space>
         </ContaineredLayout>
-      </SpacingSection>
+      </div>
 
       <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
         <SectionHeader title="Browse by theme" gridSize={gridSize12()} />
