@@ -99,7 +99,12 @@ const CollectionsLandingPage: NextPage<Props> = ({
           <Space
             $v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
           >
-            <SearchForm searchCategory="works" location="page" isNew={true} />
+            <SearchForm
+              searchCategory="works"
+              location="page"
+              isNew
+              hasAvailableOnlineOnly
+            />
           </Space>
         </ContaineredLayout>
 
