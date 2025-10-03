@@ -43,6 +43,7 @@ const CopySection = styled.div`
 
 const ImageSection = styled.div`
   flex: 1 1 50%;
+  width: 100%;
   order: 0;
   margin-bottom: 2rem;
 
