@@ -27,6 +27,17 @@ import BrowseByThemesData from '@weco/content/views/pages/collections/collection
 import WorkTypesList from '@weco/content/views/pages/collections/collections.WorkTypesList';
 import { themeBlockCategories } from '@weco/content/views/pages/collections/themeBlockCategories';
 
+const MainBackground = styled.div<{ $isDefaultVariant: boolean }>`
+  position: relative;
+  overflow: hidden;
+
+  /* split background: top half the chosen colour, bottom half transparent */
+  background: ${props =>
+    `linear-gradient(to bottom, ${props.theme.color(
+      props.$isDefaultVariant ? 'accent.lightBlue' : 'accent.lightPurple'
+    )} 65%, transparent 65%)`};
+`;
+
 const MaterialsSection = styled(Space).attrs({
   $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
 })`
@@ -111,15 +122,20 @@ const CollectionsLandingPage: NextPage<Props> = ({
         </ContaineredLayout>
       </div>
 
-      <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-        <SectionHeader title="Browse by theme" gridSize={gridSize12()} />
-        <ContaineredLayout gridSizes={gridSize12()}>
-          <BrowseByThemesData
-            themeConfig={themeBlockCategories}
-            initialConcepts={featuredConcepts}
-          />
-        </ContaineredLayout>
-      </Space>
+      <MainBackground
+        data-component="full-width-banner"
+        $isDefaultVariant={true}
+      >
+        <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <SectionHeader title="Browse by theme" gridSize={gridSize12()} />
+          <ContaineredLayout gridSizes={gridSize12()}>
+            <BrowseByThemesData
+              themeConfig={themeBlockCategories}
+              initialConcepts={featuredConcepts}
+            />
+          </ContaineredLayout>
+        </Space>
+      </MainBackground>
 
       {fullWidthBanners?.[0] && (
         <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
