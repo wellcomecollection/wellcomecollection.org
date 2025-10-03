@@ -42,7 +42,7 @@ const Theme: FunctionComponent<{ concept: Concept }> = ({ concept }) => {
   ) : null;
 };
 
-const BrowseByThemesData: FunctionComponent<BrowseByThemeProps> = ({
+const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
   themeConfig,
   initialConcepts,
 }) => {
@@ -54,7 +54,7 @@ const BrowseByThemesData: FunctionComponent<BrowseByThemeProps> = ({
   const [displayedConcepts, setDisplayedConcepts] =
     useState<Concept[]>(initialConcepts);
 
-  // Set the cache with the first category and displayed it
+  // Set the cache with the first category and display it
   useEffect(() => {
     const firstLabel = themeConfig.categories[0]?.label;
     if (firstLabel) setCache(firstLabel, initialConcepts);
@@ -80,7 +80,7 @@ const BrowseByThemesData: FunctionComponent<BrowseByThemeProps> = ({
   return (
     <Space
       $v={{ size: 'm', properties: ['margin-top'] }}
-      data-component="BrowseByTheme"
+      data-component="BrowseByThemes"
     >
       <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
         <SelectableTags
@@ -100,4 +100,4 @@ const BrowseByThemesData: FunctionComponent<BrowseByThemeProps> = ({
   );
 };
 
-export default BrowseByThemesData;
+export default BrowseByThemes;
