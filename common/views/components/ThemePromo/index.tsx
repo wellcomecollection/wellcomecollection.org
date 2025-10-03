@@ -108,7 +108,7 @@ const Description = styled.p.attrs({
 export type ThemePromoProps = {
   images: [Image?, Image?, Image?, Image?];
   title: string;
-  description: string;
+  description?: string;
   url: string;
 };
 
@@ -159,7 +159,7 @@ const ThemePromo: FunctionComponent<ThemePromoProps> = ({
       </CompositeGrid>
       <TextContent>
         <Title>{title}</Title>
-        <Description>{description}</Description>
+        {description && <Description>{description}</Description>}
       </TextContent>
     </CardWrapper>
   );

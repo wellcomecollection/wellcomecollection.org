@@ -58,16 +58,16 @@ const BrowseByThemesWrapper = styled.section`
 const Theme: FunctionComponent<{ concept: Concept }> = ({ concept }) => {
   const linkProps = toConceptLink({ conceptId: concept.id });
   const images = useConceptImageUrls(concept);
-
-  return (
-    // TODO fix typing issues
+  const url = linkProps.href.pathname;
+  const title = concept.displayLabel || concept.label;
+  return url && title ? (
     <ThemePromo
       images={images}
-      title={concept.label || concept.displayLabel}
+      title={title}
       description={concept.description?.text}
-      url={linkProps.href.pathname} // TODO make it take a Link?
+      url={url}
     />
-  );
+  ) : null;
 };
 
 const BrowseByThemesData: FunctionComponent<BrowseByThemeProps> = ({
