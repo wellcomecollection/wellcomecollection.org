@@ -1,6 +1,7 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+import Space from '@weco/common/views/components/styled/Space';
 import ThemePromo from '@weco/common/views/components/ThemePromo';
 import { themeValues } from '@weco/common/views/themes/config';
 import { useConceptImageUrls } from '@weco/content/hooks/useConceptImageUrls';
@@ -17,10 +18,6 @@ type BrowseByThemeProps = {
   themeConfig: ThemeConfig;
   initialConcepts: Concept[];
 };
-
-const BrowseByThemesWrapper = styled.section`
-  margin: ${({ theme }) => theme.spaceAtBreakpoints.small.xl}px 0;
-`;
 
 const ListItem = styled.li`
   --gap: ${themeValues.gutter.medium}px;
@@ -81,12 +78,17 @@ const BrowseByThemesData: FunctionComponent<BrowseByThemeProps> = ({
   }));
 
   return (
-    <BrowseByThemesWrapper data-component="BrowseByTheme">
-      <SelectableTags
-        tags={tagData}
-        isMultiSelect={false}
-        onChange={handleCategoryChange}
-      />
+    <Space
+      $v={{ size: 'm', properties: ['margin-top'] }}
+      data-component="BrowseByTheme"
+    >
+      <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
+        <SelectableTags
+          tags={tagData}
+          isMultiSelect={false}
+          onChange={handleCategoryChange}
+        />
+      </Space>
       <ScrollContainer scrollButtonsAfter={true}>
         {displayedConcepts.map(concept => (
           <ListItem key={concept.id}>
@@ -94,7 +96,7 @@ const BrowseByThemesData: FunctionComponent<BrowseByThemeProps> = ({
           </ListItem>
         ))}
       </ScrollContainer>
-    </BrowseByThemesWrapper>
+    </Space>
   );
 };
 

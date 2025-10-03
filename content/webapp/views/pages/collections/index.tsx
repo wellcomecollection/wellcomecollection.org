@@ -126,15 +126,13 @@ const CollectionsLandingPage: NextPage<Props> = ({
         data-component="full-width-banner"
         $isDefaultVariant={true}
       >
-        <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-          <SectionHeader title="Browse by theme" gridSize={gridSize12()} />
-          <ContaineredLayout gridSizes={gridSize12()}>
-            <BrowseByThemesData
-              themeConfig={themeBlockCategories}
-              initialConcepts={featuredConcepts}
-            />
-          </ContaineredLayout>
-        </Space>
+        <SectionHeader title="Browse by theme" gridSize={gridSize12()} />
+        <ContaineredLayout gridSizes={gridSize12()}>
+          <BrowseByThemesData
+            themeConfig={themeBlockCategories}
+            initialConcepts={featuredConcepts}
+          />
+        </ContaineredLayout>
       </MainBackground>
 
       {fullWidthBanners?.[0] && (
