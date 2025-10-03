@@ -12,7 +12,9 @@ import { queryParams } from '@weco/content/utils/concepts';
  * fetch up to 4 images related to the concept.
  * If posterImage is present, it will be used as the only image.
  */
-export function useConceptImageUrls(concept: Concept): Image[] {
+export function useConceptImageUrls(
+  concept: Concept
+): [Image?, Image?, Image?, Image?] {
   const [images, setImages] = useState<Image[]>([]);
 
   useEffect(() => {
