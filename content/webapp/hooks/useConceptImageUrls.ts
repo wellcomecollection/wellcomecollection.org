@@ -45,5 +45,10 @@ export function useConceptImageUrls(
     };
   }, [concept.id, concept.posterImage]);
 
-  return images;
+  return [images[0], images[1], images[2], images[3]] as [
+    Image?,
+    Image?,
+    Image?,
+    Image?,
+  ];
 }
