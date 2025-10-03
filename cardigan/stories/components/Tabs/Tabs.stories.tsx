@@ -74,9 +74,10 @@ const meta: Meta<typeof Tabs> = {
     ],
   },
   argTypes: {
-    items: {
-      table: { disable: true },
-    },
+    items: { table: { disable: true } },
+    tabBehaviour: { table: { disable: true } },
+    isWhite: { control: 'boolean', name: 'Is white' },
+    hideBorder: { control: 'boolean', name: 'Hide border' },
   },
   parameters: {
     chromatic: { delay: 1000 },

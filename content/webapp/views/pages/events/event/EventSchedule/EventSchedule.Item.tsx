@@ -5,7 +5,7 @@ import { eventPolicyIds } from '@weco/common/data/hardcoded-ids';
 import { font } from '@weco/common/utils/classnames';
 import { isPast } from '@weco/common/utils/dates';
 import { formatDayDate, formatTime } from '@weco/common/utils/format-date';
-import { HTMLTime } from '@weco/common/views/components/HTMLDateAndTime';
+import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
@@ -173,9 +173,9 @@ const EventScheduleItem: FunctionComponent<Props> = ({
                 key={`${event.title} ${startTimeString}`}
                 className={font('intb', 5)}
               >
-                <HTMLTime date={t.range.startDateTime} />
+                <HTMLDateAndTime variant="time" date={t.range.startDateTime} />
                 {' – '}
-                <HTMLTime date={t.range.endDateTime} />
+                <HTMLDateAndTime variant="time" date={t.range.endDateTime} />
               </h4>
             );
           })}

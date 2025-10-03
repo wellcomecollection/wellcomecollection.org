@@ -11,6 +11,7 @@ import {
 } from 'react';
 import styled from 'styled-components';
 
+import CopyLinkIcon from '../components/CopyLinkIcon';
 import Header from '../components/Header';
 
 const fontFamily = 'Gadget, sans-serif';
@@ -111,10 +112,18 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
             }}
           >
             <h4
-              style={{ marginRight: '6px', marginBottom: '5px' }}
+              style={{
+                marginRight: '6px',
+                marginBottom: '5px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                flexWrap: 'wrap',
+              }}
               id={`toggle-${toggle.id}`}
             >
-              {toggle.title}
+              <span>{toggle.title}</span>
+              <CopyLinkIcon toggleId={toggle.id} title={toggle.title} />
             </h4>
             <div
               style={{

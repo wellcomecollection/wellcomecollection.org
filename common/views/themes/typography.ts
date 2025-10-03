@@ -152,6 +152,7 @@ export const typography = css<GlobalStyleProps>`
     -webkit-font-smoothing: antialiased;
     -moz-font-smoothing: antialiased;
     -o-font-smoothing: antialiased;
+    text-wrap-style: pretty;
   }
 
   h1,
@@ -162,6 +163,7 @@ export const typography = css<GlobalStyleProps>`
   h6 {
     font-size: 1em;
     margin: 0 0 0.6em;
+    text-wrap-style: balance;
   }
 
   /*

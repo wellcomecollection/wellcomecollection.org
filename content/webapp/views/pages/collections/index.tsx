@@ -1,7 +1,6 @@
 import * as prismic from '@prismicio/client';
 import { SliceZone } from '@prismicio/react';
 import { NextPage } from 'next';
-import { useState } from 'react';
 import styled from 'styled-components';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
@@ -13,16 +12,20 @@ import {
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
-import SearchBar from '@weco/common/views/components/SearchBar';
+import SearchForm from '@weco/common/views/components/SearchForm';
 import Space from '@weco/common/views/components/styled/Space';
-import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { components } from '@weco/common/views/slices';
+import { themeValues } from '@weco/common/views/themes/config';
 import { useCollectionStats } from '@weco/content/hooks/useCollectionStats';
+import type { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { MultiContent } from '@weco/content/types/multi-content';
 import CardGrid from '@weco/content/views/components/CardGrid';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
+import WShape from '@weco/content/views/components/WShape';
+import BrowseByThemesData from '@weco/content/views/pages/collections/collections.BrowseByThemesData';
 import WorkTypesList from '@weco/content/views/pages/collections/collections.WorkTypesList';
+import { themeBlockCategories } from '@weco/content/views/pages/collections/themeBlockCategories';
 
 import BrowseByTheme from './collections.BrowseByTheme';
 
@@ -30,6 +33,21 @@ const MaterialsSection = styled(Space).attrs({
   $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
 })`
   background-color: ${props => props.theme.color('warmNeutral.300')};
+`;
+
+const WShapeContainer = styled.div`
+  margin-left: -${themeValues.containerPadding.small}px;
+  margin-top: -${themeValues.containerPadding.small}px;
+
+  ${themeValues.media('medium')(`
+    margin-left: -${themeValues.containerPadding.medium}px;
+    margin-top: -${themeValues.containerPadding.medium}px;
+  `)}
+
+  ${themeValues.media('large')(`
+    margin-left: -${themeValues.containerPadding.large}px;
+    margin-top: -${themeValues.containerPadding.large}px;
+  `)}
 `;
 
 export type Props = {
@@ -41,6 +59,7 @@ export type Props = {
   title: string;
   introText: prismic.RichTextField;
   insideOurCollectionsCards: MultiContent[];
+  featuredConcepts: Concept[];
   fullWidthBanners?: prismic.Slice<'fullWidthBanner'>[];
   // jsonLd: JsonLdObj[]; ??
 };
@@ -50,17 +69,10 @@ const CollectionsLandingPage: NextPage<Props> = ({
   title,
   introText,
   insideOurCollectionsCards,
+  featuredConcepts,
   fullWidthBanners,
 }) => {
   const { data: collectionStats } = useCollectionStats();
-  const [searchValue, setSearchValue] = useState('');
-
-  const handleSearch = (event: React.FormEvent) => {
-    event.preventDefault();
-    if (searchValue.trim()) {
-      window.location.href = `/search/works?query=${encodeURIComponent(searchValue.trim())}`;
-    }
-  };
 
   return (
     <PageLayout
@@ -77,24 +89,45 @@ const CollectionsLandingPage: NextPage<Props> = ({
     >
       <PageHeader variant="simpleLanding" title={title} introText={introText} />
 
-      <SpacingSection>
+      <ContaineredLayout gridSizes={gridSize12()}>
+        <WShapeContainer>
+          <WShape
+            variant="edge-1"
+            color="accent.lightBlue"
+            styles={{
+              display: 'block',
+              bottom: '-1px',
+              position: 'relative',
+            }}
+          />
+        </WShapeContainer>
+      </ContaineredLayout>
+
+      <div style={{ backgroundColor: themeValues.color('accent.lightBlue') }}>
         <ContaineredLayout gridSizes={gridSize10(false)}>
-          <form id="collections-search" onSubmit={handleSearch}>
-            <SearchBar
-              variant="new"
-              inputValue={searchValue}
-              setInputValue={setSearchValue}
-              placeholder="Search our collections"
-              form="collections-search"
-              location="page"
-            />
-          </form>
+          <Space
+            $v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
+          >
+            <SearchForm searchCategory="works" location="page" isNew={true} />
+          </Space>
         </ContaineredLayout>
-      </SpacingSection>
+
+        <Space
+          $v={{ size: 'xl', properties: ['padding-top', 'margin-bottom'] }}
+        >
+          <ContaineredLayout gridSizes={gridSize12()}>
+            <BrowseByTheme />
+          </ContaineredLayout>
+        </Space>
+      </div>
 
       <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+        <SectionHeader title="Browse by theme" gridSize={gridSize12()} />
         <ContaineredLayout gridSizes={gridSize12()}>
-          <BrowseByTheme />
+          <BrowseByThemesData
+            themeConfig={themeBlockCategories}
+            initialConcepts={featuredConcepts}
+          />
         </ContaineredLayout>
       </Space>
 

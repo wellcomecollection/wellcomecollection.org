@@ -27,12 +27,12 @@ import { isContentList } from '@weco/content/types/body';
 import { convertItemToCardProps } from '@weco/content/types/card';
 import { Link } from '@weco/content/types/link';
 import Card from '@weco/content/views/components/Card';
-import { Props as ComicPreviousNextProps } from '@weco/content/views/components/ComicPreviousNext';
 import FeaturedCard, {
   convertCardToFeaturedCardProps,
   convertItemToFeaturedCardProps,
 } from '@weco/content/views/components/FeaturedCard';
 import FeaturedText from '@weco/content/views/components/FeaturedText';
+import { Props as ComicPreviousNextProps } from '@weco/content/views/components/ImageGallery/ImageGallery.ComicPreviousNext';
 import InPageNavigation from '@weco/content/views/components/InPageNavigation';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
 

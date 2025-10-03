@@ -27,10 +27,12 @@ const SearchForm = ({
   searchCategory = 'overview',
   location = 'header',
   inputRef = undefined,
+  isNew = false,
 }: {
   searchCategory?: SearchCategory;
   location?: ValidLocations;
   inputRef?: RefObject<HTMLInputElement | null> | undefined;
+  isNew?: boolean;
 }): ReactElement => {
   const router = useRouter();
   const routerQuery = getQueryPropertyValue(router?.query?.query);
@@ -61,7 +63,7 @@ const SearchForm = ({
       }}
     >
       <SearchBar
-        variant="default"
+        variant={isNew ? 'new' : 'default'}
         inputValue={inputValue}
         setInputValue={setInputValue}
         form={`search-form-${searchCategory}`}

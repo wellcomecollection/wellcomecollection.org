@@ -10,6 +10,14 @@ const meta: Meta<typeof ToolbarSegmentedControl> = {
   args: {
     hideLabels: true,
   },
+  argTypes: {
+    activeId: { table: { disable: true } },
+    items: { table: { disable: true } },
+    hideLabels: {
+      control: 'boolean',
+      name: 'Hide labels',
+    },
+  },
 };
 
 export default meta;

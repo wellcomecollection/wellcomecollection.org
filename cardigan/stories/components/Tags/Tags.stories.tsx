@@ -43,11 +43,9 @@ const meta: Meta<typeof Tags> = {
     ],
   },
   argTypes: {
-    tags: {
-      table: {
-        disable: true,
-      },
-    },
+    tags: { table: { disable: true } },
+    isFirstPartBold: { name: 'First part bold', control: 'boolean' },
+    separator: { control: 'text', name: 'Separator character' },
   },
 };
 

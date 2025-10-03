@@ -29,7 +29,7 @@ import {
   CardTitle,
 } from '@weco/content/views/components/Card';
 import EventDateRange from '@weco/content/views/components/EventDateRange';
-import { getLocationText } from '@weco/content/views/components/EventPromo';
+import { getLocationText } from '@weco/content/views/components/EventCard';
 import TextWithDot from '@weco/content/views/components/TextWithDot';
 import WatchLabel from '@weco/content/views/components/WatchLabel';
 
@@ -59,7 +59,7 @@ const LocationWrapper = styled(Space).attrs({
   align-items: center;
 `;
 
-// Pretty much the equivalent to EventPromo component, but as the data is structured differently, it felt easier to copy here.
+// Pretty much the equivalent to EventCard component, but as the data is structured differently, it felt easier to copy here.
 // Should we merge them and make it more complex? As the goal is to only use the Content API at some point, I'm wondering if it's worth the effort?
 const EventsSearchResults: FunctionComponent<Props> = ({
   events,

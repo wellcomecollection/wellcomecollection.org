@@ -3,7 +3,7 @@ import { FunctionComponent } from 'react';
 
 import { DateRange as DateRangeType } from '@weco/common/model/date-range';
 import { isSameDayOrBefore, today } from '@weco/common/utils/dates';
-import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
+import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
 import { EventTime } from '@weco/content/types/events';
 import DateRange from '@weco/content/views/components/DateRange';
 
@@ -73,8 +73,8 @@ const EventDateRange: FunctionComponent<Props> = ({
   if (isInPastListing && dateRanges.length > 1) {
     return (
       <>
-        <HTMLDate date={earliestDate.start} /> -{' '}
-        <HTMLDate date={latestDate.end} />
+        <HTMLDateAndTime variant="date" date={earliestDate.start} /> -{' '}
+        <HTMLDateAndTime variant="date" date={latestDate.end} />
       </>
     );
   }

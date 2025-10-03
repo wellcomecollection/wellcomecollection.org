@@ -50,18 +50,21 @@ export const Basic: Story = {
     variant: {
       options: ['ButtonSolid', 'ButtonSolidLink'],
       control: { type: 'radio' },
+      name: 'Variant',
     },
     size: {
       options: ['small', 'medium'],
       control: { type: 'radio' },
+      name: 'Size',
     },
-    isIconAfter: { control: 'boolean' },
-    isTextHidden: { control: 'boolean' },
-    disabled: { control: 'boolean' },
-    showIcon: { control: 'boolean' },
+    isIconAfter: { control: 'boolean', name: 'Icon after text' },
+    isTextHidden: { control: 'boolean', name: 'Text hidden' },
+    disabled: { control: 'boolean', name: 'Disabled' },
+    showIcon: { control: 'boolean', name: 'Show icon' },
     storyColors: {
       options: ['Default', 'Green border', 'Yellow', 'White', 'White border'],
       control: 'select',
+      name: 'Colors',
     },
   },
   render: args => {
@@ -104,9 +107,9 @@ export const DropdownButton: Story = {
     isTight: false,
   },
   argTypes: {
-    isOnDark: { control: 'boolean' },
-    hasNoOptions: { control: 'boolean' },
-    isTight: { control: 'boolean' },
+    isOnDark: { control: 'boolean', name: 'Is on dark background' },
+    hasNoOptions: { control: 'boolean', name: 'Has no options' },
+    isTight: { control: 'boolean', name: 'Has a tighter dropdown menu' },
   },
   render: args => (
     <div
