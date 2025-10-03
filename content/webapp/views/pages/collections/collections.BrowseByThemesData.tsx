@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import ThemePromo from '@weco/common/views/components/ThemePromo';
@@ -18,16 +18,16 @@ type BrowseByThemeProps = {
   initialConcepts: Concept[];
 };
 
+const BrowseByThemesWrapper = styled.section`
+  margin: ${({ theme }) => theme.spaceAtBreakpoints.small.xl}px 0;
+`;
+
 const ListItem = styled.li`
   --gap: ${themeValues.gutter.medium}px;
   flex: 0 0 auto;
   width: 400px;
   max-width: 90vw;
   margin-right: var(--gap);
-`;
-
-const BrowseByThemesWrapper = styled.section`
-  margin: ${({ theme }) => theme.spaceAtBreakpoints.small.xl}px 0;
 `;
 
 const Theme: FunctionComponent<{ concept: Concept }> = ({ concept }) => {
@@ -49,18 +49,29 @@ const BrowseByThemesData: FunctionComponent<BrowseByThemeProps> = ({
   themeConfig,
   initialConcepts,
 }) => {
-  const { concepts, fetchConcepts } = useThemeConcepts(
+  const { fetchConcepts, setCache } = useThemeConcepts(
     initialConcepts,
     getConceptsByIds
   );
 
-  const handleCategoryChange = (selectedIds: string[]) => {
+  const [displayedConcepts, setDisplayedConcepts] =
+    useState<Concept[]>(initialConcepts);
+
+  // Set the cache with the first category and displayed it
+  useEffect(() => {
+    const firstLabel = themeConfig.categories[0]?.label;
+    if (firstLabel) setCache(firstLabel, initialConcepts);
+    setDisplayedConcepts(initialConcepts);
+  }, [initialConcepts, themeConfig.categories, setCache]);
+
+  const handleCategoryChange = async (selectedIds: string[]) => {
     const selectedCategoryId = selectedIds[0];
     const category = themeConfig.categories.find(
       cat => cat.label === selectedCategoryId
     );
     if (category) {
-      fetchConcepts(category);
+      const result = await fetchConcepts(category);
+      setDisplayedConcepts(result);
     }
   };
 
@@ -77,7 +88,7 @@ const BrowseByThemesData: FunctionComponent<BrowseByThemeProps> = ({
         onChange={handleCategoryChange}
       />
       <ScrollContainer scrollButtonsAfter={true}>
-        {concepts.map(concept => (
+        {displayedConcepts.map(concept => (
           <ListItem key={concept.id}>
             <Theme concept={concept} />
           </ListItem>
