@@ -74,7 +74,7 @@ function randomIntFromInterval(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-type WobblyEdgeProps = {
+export type Props = {
   backgroundColor: PaletteColor;
   isRotated?: boolean;
   intensity?: number;
@@ -83,14 +83,14 @@ type WobblyEdgeProps = {
   isStatic?: boolean;
 };
 
-export const WobblyEdge: FunctionComponent<WobblyEdgeProps> = ({
+const WobblyEdge: FunctionComponent<Props> = ({
   backgroundColor,
   isRotated,
   intensity = 50,
   points = 5,
   isValley,
   isStatic,
-}: WobblyEdgeProps): ReactElement => {
+}: Props): ReactElement => {
   const [isActive, setIsActive] = useState(false);
   const [styleObject, setStyleObject] = useState(
     prefixedPropertyStyleObject('clipPath', makePolygonPoints(0, 0))
@@ -176,3 +176,5 @@ export const WobblyBottom: FunctionComponent<
     <WobblyEdge backgroundColor={backgroundColor} />
   </WobblyEdgeWrapper>
 );
+
+export default WobblyEdge;

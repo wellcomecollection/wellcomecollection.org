@@ -12,6 +12,7 @@ import {
 } from '@weco/common/model/user';
 import { font } from '@weco/common/utils/classnames';
 import { allowedRequests } from '@weco/common/values/requests';
+import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
 import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
 import Icon from '@weco/common/views/components/Icon';
 import {
@@ -21,7 +22,6 @@ import {
 } from '@weco/common/views/components/Layout';
 import StackingTable from '@weco/common/views/components/StackingTable';
 import Space from '@weco/common/views/components/styled/Space';
-import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import { themeValues } from '@weco/common/views/themes/config';
 import { useRequestedItems } from '@weco/identity/hooks/useRequestedItems';
 import { useSendVerificationEmail } from '@weco/identity/hooks/useSendVerificationEmail';
@@ -172,7 +172,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
           </Space>
         </ContaineredLayout>
         <div className="is-hidden-s">
-          <WobblyEdge backgroundColor="warmNeutral.300" />
+          <DecorativeEdge variant="wobbly" backgroundColor="warmNeutral.300" />
         </div>
       </Space>
       <ContaineredLayout gridSizes={gridSize10()}>

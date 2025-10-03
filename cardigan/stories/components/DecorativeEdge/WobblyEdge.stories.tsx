@@ -2,13 +2,13 @@ import { Meta, StoryObj } from '@storybook/react';
 
 import { ReadMeInfo } from '@weco/cardigan/config/decorators';
 import { image as contentImage } from '@weco/cardigan/stories/data/images';
+import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
+import Readme from '@weco/common/views/components/DecorativeEdge/README.mdx';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
-import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
-import Readme from '@weco/common/views/components/WobblyEdge/README.mdx';
 
-const meta: Meta<typeof WobblyEdge> = {
-  title: 'Components/WobblyEdge/WobblyEdge',
-  component: WobblyEdge,
+const meta: Meta<typeof DecorativeEdge> = {
+  title: 'Components/DecorativeEdge/WobblyEdge',
+  component: DecorativeEdge,
   args: {
     backgroundColor: 'warmNeutral.300',
     isValley: false,
@@ -57,11 +57,11 @@ const Template = args => {
       >
         {isRotated && (
           <div style={{ position: 'absolute', top: '20px', width: '100%' }}>
-            <WobblyEdge {...args} />
+            <DecorativeEdge {...args} />
           </div>
         )}
         <PrismicImage image={contentImage()} quality="low" />
-        {!isRotated && <WobblyEdge {...args} />}
+        {!isRotated && <DecorativeEdge {...args} />}
       </div>
       <ReadMeInfo Readme={Readme} />
     </>
@@ -70,7 +70,7 @@ const Template = args => {
 
 export default meta;
 
-type Story = StoryObj<typeof WobblyEdge>;
+type Story = StoryObj<typeof DecorativeEdge>;
 
 export const Basic: Story = {
   name: 'WobblyEdge',

@@ -5,10 +5,10 @@ import { useAppContext } from '@weco/common/contexts/AppContext';
 import { pageDescriptionConcepts } from '@weco/common/data/microcopy';
 import { useToggles } from '@weco/common/server-data/Context';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
+import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
-import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import { themeValues } from '@weco/common/views/themes/config';
 import { useConceptPageContext } from '@weco/content/contexts/ConceptPageContext';
 import { Concept as ConceptType } from '@weco/content/services/wellcome/catalogue/types';
@@ -132,7 +132,10 @@ const ConceptPage: NextPage<Props> = ({
         <Header concept={conceptResponse} />
 
         <>
-          <WobblyEdge backgroundColor={hasImages ? 'neutral.700' : 'white'} />
+          <DecorativeEdge
+            variant="wobbly"
+            backgroundColor={hasImages ? 'neutral.700' : 'white'}
+          />
           <MobileNavBackground $isOnWhite={!hasImages} />
         </>
 

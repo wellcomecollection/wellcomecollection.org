@@ -3,7 +3,7 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { landingHeaderBackgroundLs } from '@weco/common/utils/backgrounds';
-import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
+import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
 
 type Props = {
   backgroundTexture?: string;
@@ -47,7 +47,12 @@ const HeaderBackground: FunctionComponent<Props> = ({
     <Background $texture={texture}>
       {hasWobblyEdge && (
         <WobblyEdgeContainer>
-          <WobblyEdge isValley={true} intensity={100} backgroundColor="white" />
+          <DecorativeEdge
+            variant="wobbly"
+            isValley={true}
+            intensity={100}
+            backgroundColor="white"
+          />
         </WobblyEdgeContainer>
       )}
     </Background>

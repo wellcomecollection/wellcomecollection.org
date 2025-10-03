@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { ImageType } from '@weco/common/model/image';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
 import {
   ContaineredLayout,
   gridSize10,
@@ -22,7 +23,6 @@ import type { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { MultiContent } from '@weco/content/types/multi-content';
 import CardGrid from '@weco/content/views/components/CardGrid';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
-import WShape from '@weco/content/views/components/WShape';
 import BrowseByThemesData from '@weco/content/views/pages/collections/collections.BrowseByThemesData';
 import WorkTypesList from '@weco/content/views/pages/collections/collections.WorkTypesList';
 import { themeBlockCategories } from '@weco/content/views/pages/collections/themeBlockCategories';
@@ -35,18 +35,17 @@ const MaterialsSection = styled(Space).attrs({
   background-color: ${props => props.theme.color('warmNeutral.300')};
 `;
 
-const WShapeContainer = styled.div`
+const WShapeContainer = styled(Space).attrs({
+  $v: { size: 'xl', properties: ['margin-top'] },
+})`
   margin-left: -${themeValues.containerPadding.small}px;
-  margin-top: -${themeValues.containerPadding.small}px;
 
   ${themeValues.media('medium')(`
     margin-left: -${themeValues.containerPadding.medium}px;
-    margin-top: -${themeValues.containerPadding.medium}px;
   `)}
 
   ${themeValues.media('large')(`
     margin-left: -${themeValues.containerPadding.large}px;
-    margin-top: -${themeValues.containerPadding.large}px;
   `)}
 `;
 
@@ -91,11 +90,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
 
       <ContaineredLayout gridSizes={gridSize12()}>
         <WShapeContainer>
-          <WShape
-            variant="edge-1"
-            color="accent.lightBlue"
-            styles={{ display: 'block', bottom: '-1px', position: 'relative' }}
-          />
+          <DecorativeEdge variant="w" shape="edge-1" color="accent.lightBlue" />
         </WShapeContainer>
       </ContaineredLayout>
 

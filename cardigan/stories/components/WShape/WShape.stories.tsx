@@ -2,8 +2,8 @@ import { Meta, StoryObj } from '@storybook/react';
 import { themeColors } from '@weco/cardigan/.storybook/preview';
 import { ComponentProps } from 'react';
 
+import WShape from '@weco/common/views/components/WShape';
 import { PaletteColor, themeValues } from '@weco/common/views/themes/config';
-import WShape from '@weco/content/views/components/WShape';
 
 type StoryProps = ComponentProps<typeof WShape> & {
   color: PaletteColor;
