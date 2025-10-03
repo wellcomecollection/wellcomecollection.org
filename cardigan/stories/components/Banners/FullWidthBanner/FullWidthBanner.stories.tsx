@@ -89,7 +89,7 @@ export const Basic: Story = {
       }
       if (args.linkNumber > 1) {
         links.push({
-          text: 'Explore our collections',
+          text: 'History and context of our collections',
           url: '#',
         });
       }
