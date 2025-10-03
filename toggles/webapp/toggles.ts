@@ -122,14 +122,6 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'featuredWorksInAddressables',
-      title: 'Featured works in addressables',
-      initialValue: false,
-      description:
-        'Adds features in displaying featured works in the Content part of the website',
-      type: 'experimental',
-    },
-    {
       id: 'collectionsLanding',
       title: 'Collections landing alternative page',
       initialValue: false,
