@@ -107,18 +107,21 @@ const WShapeWrapper = styled.div.attrs({ 'aria-hidden': 'true' })<{
 `;
 
 const StyledLink = styled(NextLink)<AnimatedUnderlineProps>`
-  display: block;
-  margin-bottom: 1rem;
-
   ${AnimatedUnderlineCSS}
   text-decoration: none;
+
+  & > span {
+    vertical-align: text-bottom;
+  }
 `;
 
 const IconWrapper = styled.span`
   display: inline-block;
-  vertical-align: text-bottom;
   margin-left: 4px;
   max-height: 1lh;
+
+  /* Removes the underline animation from the icon */
+  background-image: none !important;
 
   & > span {
     display: block;
@@ -127,14 +130,12 @@ const IconWrapper = styled.span`
 
 const LinksWithArrow = ({ links }: { links: Link[] }) => {
   return links.map(link => (
-    <li key={link.url}>
+    <li key={link.url} style={{ marginBottom: '1rem' }}>
       <StyledLink $lineColor="black" href={link.url}>
-        <span>
-          {link.text || 'Find out more'}
-          <IconWrapper>
-            <Icon icon={arrowSmall} />
-          </IconWrapper>
-        </span>
+        <span>{link.text || 'Find out more'}</span>
+        <IconWrapper>
+          <Icon icon={arrowSmall} />
+        </IconWrapper>
       </StyledLink>
     </li>
   ));
