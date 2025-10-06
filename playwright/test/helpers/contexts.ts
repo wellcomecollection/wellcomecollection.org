@@ -79,14 +79,18 @@ const createCookie = ({
 };
 
 const acceptCookieCookie = createCookie({ name: 'CookieControl', value: '{}' });
+const collectionsLandingCookie = createCookie({
+  name: 'toggle_collectionsLanding',
+  value: 'true',
+});
 const stageApiToggleCookie = createCookie({
   name: 'toggle_stagingApi',
   value: 'true',
 });
 
 export const requiredCookies = useStageApis
-  ? [acceptCookieCookie, stageApiToggleCookie]
-  : [acceptCookieCookie];
+  ? [acceptCookieCookie, collectionsLandingCookie, stageApiToggleCookie]
+  : [acceptCookieCookie, collectionsLandingCookie];
 
 const multiVolumeItem = async (
   context: BrowserContext,
