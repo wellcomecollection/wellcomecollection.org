@@ -32,7 +32,7 @@ const WorksCount = styled(Space).attrs({
   border-top: 1px solid ${props => props.theme.color('warmNeutral.300')};
 `;
 
-const WobblyEdgeWrapper = styled.div`
+const DecorativeEdgeWrapper = styled.div`
   z-index: 0;
   position: relative;
   margin-left: calc((100vw - 100%) * -1);
@@ -78,9 +78,9 @@ const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
 
   return (
     <>
-      <WobblyEdgeWrapper>
+      <DecorativeEdgeWrapper>
         <DecorativeEdge variant="wobbly" backgroundColor="white" />
-      </WobblyEdgeWrapper>
+      </DecorativeEdgeWrapper>
       <Space
         $v={{ size: 'xl', properties: ['margin-top'] }}
         as="section"

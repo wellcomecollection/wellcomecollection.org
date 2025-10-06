@@ -29,13 +29,13 @@ import {
   ButtonContainer,
   CloseWrapper,
   ControlContainer,
+  DecorativeEdgeWrapper,
   FrameGrid,
   FrameGridWrap,
   FrameItem,
   Gallery,
   GalleryTitle,
   StandaloneWobblyEdge,
-  WobblyEdgeWrapper,
 } from './ImageGallery.styles';
 
 function makeSizesForFrames(isThreeUp: boolean) {
@@ -181,12 +181,12 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
               </StandaloneWobblyEdge>
             )}
             {!isActive && (
-              <WobblyEdgeWrapper>
+              <DecorativeEdgeWrapper>
                 <DecorativeEdge
                   variant="wobbly"
                   backgroundColor={pageBackgroundColor}
                 />
-              </WobblyEdgeWrapper>
+              </DecorativeEdgeWrapper>
             )}
 
             {!isStandalone && !isFrames && (
