@@ -23,11 +23,20 @@ import type { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { MultiContent } from '@weco/content/types/multi-content';
 import CardGrid from '@weco/content/views/components/CardGrid';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
-import BrowseByThemesData from '@weco/content/views/pages/collections/collections.BrowseByThemesData';
+import BrowseByThemes from '@weco/content/views/pages/collections/collections.BrowseByThemes';
 import WorkTypesList from '@weco/content/views/pages/collections/collections.WorkTypesList';
 import { themeBlockCategories } from '@weco/content/views/pages/collections/themeBlockCategories';
 
-import BrowseByTheme from './collections.BrowseByTheme';
+const MainBackground = styled.div<{ $isDefaultVariant: boolean }>`
+  position: relative;
+  overflow: hidden;
+
+  /* split background: top half the chosen colour, bottom half transparent */
+  background: ${props =>
+    `linear-gradient(to bottom, ${props.theme.color(
+      props.$isDefaultVariant ? 'accent.lightBlue' : 'accent.lightPurple'
+    )} 65%, transparent 65%)`};
+`;
 
 const MaterialsSection = styled(Space).attrs({
   $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
@@ -35,7 +44,7 @@ const MaterialsSection = styled(Space).attrs({
   background-color: ${props => props.theme.color('warmNeutral.300')};
 `;
 
-const WShapeContainer = styled(Space).attrs({
+const DecorativeEdgeContainer = styled(Space).attrs({
   $v: { size: 'xl', properties: ['margin-top'] },
 })`
   margin-left: -${themeValues.containerPadding.small}px;
@@ -89,9 +98,9 @@ const CollectionsLandingPage: NextPage<Props> = ({
       <PageHeader variant="simpleLanding" title={title} introText={introText} />
 
       <ContaineredLayout gridSizes={gridSize12()}>
-        <WShapeContainer>
+        <DecorativeEdgeContainer>
           <DecorativeEdge variant="w" shape="edge-1" color="accent.lightBlue" />
-        </WShapeContainer>
+        </DecorativeEdgeContainer>
       </ContaineredLayout>
 
       <div style={{ backgroundColor: themeValues.color('accent.lightBlue') }}>
@@ -107,25 +116,20 @@ const CollectionsLandingPage: NextPage<Props> = ({
             />
           </Space>
         </ContaineredLayout>
-
-        <Space
-          $v={{ size: 'xl', properties: ['padding-top', 'margin-bottom'] }}
-        >
-          <ContaineredLayout gridSizes={gridSize12()}>
-            <BrowseByTheme />
-          </ContaineredLayout>
-        </Space>
       </div>
 
-      <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+      <MainBackground
+        data-component="full-width-banner"
+        $isDefaultVariant={true}
+      >
         <SectionHeader title="Browse by theme" gridSize={gridSize12()} />
         <ContaineredLayout gridSizes={gridSize12()}>
-          <BrowseByThemesData
+          <BrowseByThemes
             themeConfig={themeBlockCategories}
             initialConcepts={featuredConcepts}
           />
         </ContaineredLayout>
-      </Space>
+      </MainBackground>
 
       {fullWidthBanners?.[0] && (
         <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>

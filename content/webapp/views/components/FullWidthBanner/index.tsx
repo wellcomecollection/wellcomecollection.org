@@ -11,6 +11,9 @@ import {
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
+import AnimatedUnderlineCSS, {
+  AnimatedUnderlineProps,
+} from '@weco/common/views/components/styled/AnimatedUnderline';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import WShape from '@weco/common/views/components/WShape';
@@ -18,13 +21,16 @@ import CaptionedImage from '@weco/content/views/components/CaptionedImage';
 import MoreLink from '@weco/content/views/components/MoreLink';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
 
+const customBreakpoint = '768px';
+
 const ContentContainer = styled(Space)`
   display: flex;
   flex-direction: column;
+  align-items: center;
 
-  ${props => props.theme.media('medium')`
+  @media (min-width: ${customBreakpoint}) {
     flex-direction: row;
-  `}
+  }
 `;
 
 const CopySection = styled.div`
@@ -32,20 +38,21 @@ const CopySection = styled.div`
   order: 1;
   margin-right: 0;
 
-  ${props => props.theme.media('medium')`
+  @media (min-width: ${customBreakpoint}) {
     margin-right: 2rem;
-  `}
+  }
 `;
 
 const ImageSection = styled.div`
   flex: 1 1 50%;
+  width: 100%;
   order: 0;
   margin-bottom: 2rem;
 
-  ${props => props.theme.media('medium')`
+  @media (min-width: ${customBreakpoint}) {
     order: 2;
     margin-bottom: 0;
-  `}
+  }
 `;
 
 const SupportText = styled(Space).attrs({
@@ -58,12 +65,6 @@ const SupportText = styled(Space).attrs({
     margin-bottom: 0;
     margin-left: 10px;
   }
-`;
-
-const IconWrapper = styled.span`
-  display: inline-flex;
-  align-self: center;
-  margin-left: 4px;
 `;
 
 const MainBackground = styled.div<{ $isDefaultVariant: boolean }>`
@@ -87,7 +88,7 @@ const WShapeWrapper = styled.div.attrs({ 'aria-hidden': 'true' })<{
   height: 100%;
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
+  grid-template-columns: repeat(24, 1fr);
 
   svg {
     grid-column: 1 / -1;
@@ -97,28 +98,47 @@ const WShapeWrapper = styled.div.attrs({ 'aria-hidden': 'true' })<{
     transform: translateY(-50%);
     position: relative;
 
-    ${props => props.theme.media('medium')`
-      grid-column: 5 / span 8;
+    @media (min-width: ${customBreakpoint}) {
+      grid-column: 10 / span 14;
       height: 140%;
       top: 50%;
       right: -20%;
       left: auto;
-    `}
+    }
+  }
+`;
+
+const StyledLink = styled(NextLink)<AnimatedUnderlineProps>`
+  ${AnimatedUnderlineCSS}
+  text-decoration: none;
+
+  & > span {
+    vertical-align: text-bottom;
+  }
+`;
+
+const IconWrapper = styled.span`
+  display: inline-block;
+  margin-left: 4px;
+  max-height: 1lh;
+
+  /* Removes the underline animation from the icon */
+  background-image: none !important;
+
+  & > span {
+    display: block;
   }
 `;
 
 const LinksWithArrow = ({ links }: { links: Link[] }) => {
   return links.map(link => (
-    <li key={link.url}>
-      <NextLink
-        href={link.url}
-        style={{ display: 'flex', marginBottom: '1rem' }}
-      >
-        {link.text || 'Find out more'}
+    <li key={link.url} style={{ marginBottom: '1rem' }}>
+      <StyledLink $lineColor="black" href={link.url}>
+        <span>{link.text || 'Find out more'}</span>
         <IconWrapper>
           <Icon icon={arrowSmall} />
         </IconWrapper>
-      </NextLink>
+      </StyledLink>
     </li>
   ));
 };
