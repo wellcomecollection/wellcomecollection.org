@@ -38,9 +38,7 @@ export function useScrollTracking() {
 
           window.dataLayer?.push({
             event: 'wc_scroll_depth',
-            scroll_depth_threshold: value,
-            scroll_depth_units: 'percent',
-            scroll_direction: 'vertical',
+            wc_scroll_depth_threshold: value,
           });
         }
       });
