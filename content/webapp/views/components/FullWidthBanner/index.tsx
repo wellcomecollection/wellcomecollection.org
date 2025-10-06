@@ -178,7 +178,7 @@ const FullWidthBanner = (props: Props) => {
       $isDefaultVariant={isDefaultVariant}
     >
       <WShapeWrapper $isDefaultVariant={isDefaultVariant}>
-        <WShape variant={isDefaultVariant ? 'full-2' : 'full-1'} />
+        <WShape variant={isDefaultVariant ? 'full-1' : 'full-2'} />
       </WShapeWrapper>
 
       <div style={{ position: 'relative', zIndex: 1 }}>
