@@ -6,6 +6,23 @@ import PrismicImage from '@weco/common/views/components/PrismicImage';
 import { WobblyBottom } from '@weco/common/views/components/WobblyEdge';
 import Readme from '@weco/common/views/components/WobblyEdge/README.mdx';
 
+const meta: Meta<typeof WobblyBottom> = {
+  title: 'Components/WobblyEdge/WobblyBottom',
+  component: WobblyBottom,
+  args: {
+    backgroundColor: 'warmNeutral.300',
+    children: <PrismicImage image={contentImage()} quality="low" />,
+  },
+  argTypes: {
+    backgroundColor: {
+      name: 'Background color',
+      options: ['warmNeutral.300', 'white'],
+      control: { type: 'radio' },
+    },
+    children: { table: { disable: true } },
+  },
+};
+
 const Template = args => (
   <>
     <div style={{ maxWidth: '500px' }}>
@@ -14,15 +31,6 @@ const Template = args => (
     <ReadMeInfo Readme={Readme} />
   </>
 );
-
-const meta: Meta<typeof WobblyBottom> = {
-  title: 'Components/WobblyEdge/WobblyBottom',
-  component: WobblyBottom,
-  args: {
-    backgroundColor: 'warmNeutral.300',
-    children: <PrismicImage image={contentImage()} quality="low" />,
-  },
-};
 
 export default meta;
 

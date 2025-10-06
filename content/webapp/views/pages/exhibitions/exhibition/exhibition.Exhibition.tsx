@@ -10,7 +10,7 @@ import { font } from '@weco/common/utils/classnames';
 import { isPast } from '@weco/common/utils/dates';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb';
-import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
+import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
@@ -93,7 +93,7 @@ const Exhibition: FunctionComponent<Props> = ({
   const DateInfo = exhibition.end ? (
     <DateRange start={exhibition.start} end={exhibition.end} />
   ) : (
-    <HTMLDate date={exhibition.start} />
+    <HTMLDateAndTime variant="date" date={exhibition.start} />
   );
 
   // This is for content that we don't have the crops for in Prismic.

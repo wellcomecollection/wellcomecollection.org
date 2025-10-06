@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
 
-const BookPromoImageContainer = styled.div`
+const BookCardImageContainer = styled.div`
   position: relative;
   background-color: ${props => props.theme.color('warmNeutral.300')};
   height: 0;
@@ -12,7 +12,7 @@ const BookPromoImageContainer = styled.div`
   transform: rotate(-2deg);
 `;
 
-const BookPromoImage = styled(Space)`
+const BookCardImage = styled(Space)`
   position: absolute;
   width: 66%;
   left: 50%;
@@ -23,11 +23,11 @@ type Props = ComponentProps<typeof PrismicImage>;
 
 const BookImage: FunctionComponent<Props> = props => {
   return (
-    <BookPromoImageContainer data-component="book-image">
-      <BookPromoImage $v={{ size: 'l', properties: ['bottom'] }}>
+    <BookCardImageContainer data-component="book-image">
+      <BookCardImage $v={{ size: 'l', properties: ['bottom'] }}>
         <PrismicImage {...props} />
-      </BookPromoImage>
-    </BookPromoImageContainer>
+      </BookCardImage>
+    </BookCardImageContainer>
   );
 };
 

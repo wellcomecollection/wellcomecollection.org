@@ -23,6 +23,16 @@ aWeekAgo.setHours(now.getHours() - 168);
 const meta: Meta<typeof StatusIndicator> = {
   title: 'Components/StatusIndicator',
   component: StatusIndicator,
+  args: {
+    isLarge: false,
+    statusOverride: '',
+  },
+  argTypes: {
+    isLarge: { control: 'boolean', name: 'Is large' },
+    statusOverride: { control: 'text', name: 'Override copy' },
+    start: { table: { disable: true } },
+    end: { table: { disable: true } },
+  },
   render: args => (
     <ReadmeDecorator
       WrappedComponent={StatusIndicator}

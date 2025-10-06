@@ -3,15 +3,12 @@ import { FunctionComponent } from 'react';
 
 import { DateRange as DateRangeProps } from '@weco/common/model/date-range';
 import { isSameDay } from '@weco/common/utils/dates';
-import {
-  HTMLDate,
-  HTMLDayDate,
-  HTMLTime,
-} from '@weco/common/views/components/HTMLDateAndTime';
+import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
 
 const TimeRange = ({ start, end }: DateRangeProps) => (
   <>
-    <HTMLTime date={start} /> – <HTMLTime date={end} />
+    <HTMLDateAndTime variant="time" date={start} /> –{' '}
+    <HTMLDateAndTime variant="time" date={end} />
   </>
 );
 
@@ -38,7 +35,7 @@ type Props = {
 const DateRange: FunctionComponent<Props> = ({ start, end, splitTime }) => {
   return isSameDay(start, end) ? (
     <>
-      <HTMLDayDate date={start} />
+      <HTMLDateAndTime variant="dayDate" date={start} />
       {!splitTime && ', '}
       <span style={splitTime ? { display: 'block' } : undefined}>
         <TimeRange start={start} end={end} />
@@ -46,7 +43,8 @@ const DateRange: FunctionComponent<Props> = ({ start, end, splitTime }) => {
     </>
   ) : (
     <>
-      <HTMLDate date={start} /> – <HTMLDate date={end} />
+      <HTMLDateAndTime variant="date" date={start} /> –{' '}
+      <HTMLDateAndTime variant="date" date={end} />
     </>
   );
 };

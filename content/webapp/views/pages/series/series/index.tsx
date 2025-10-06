@@ -14,8 +14,8 @@ import { ArticleScheduleItem } from '@weco/content/types/article-schedule-items'
 import { ArticleBasic } from '@weco/content/types/articles';
 import { Series } from '@weco/content/types/series';
 import { getFeaturedMedia } from '@weco/content/utils/page-header';
-import ArticleCard from '@weco/content/views/components/ArticleCard';
 import Body from '@weco/content/views/components/Body';
+import CompactCard from '@weco/content/views/components/CompactCard';
 import ContentPage from '@weco/content/views/components/ContentPage';
 import Pagination from '@weco/content/views/components/Pagination';
 
@@ -105,7 +105,8 @@ const ArticleSeriesPage: NextPage<Props> = props => {
         <>
           {articles.results.map((article, index) => (
             <SeriesItem key={index} $isFirst={index === 0}>
-              <ArticleCard
+              <CompactCard
+                variant="article"
                 article={article}
                 showPosition={true}
                 xOfY={{

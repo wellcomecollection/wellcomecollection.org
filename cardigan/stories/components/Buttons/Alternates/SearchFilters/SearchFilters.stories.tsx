@@ -54,6 +54,14 @@ const meta: Meta<typeof SearchFilters> = {
       },
     ],
   },
+  argTypes: {
+    filters: { table: { disable: true } },
+    query: { table: { disable: true } },
+    searchFormId: { table: { disable: true } },
+    changeHandler: { table: { disable: true } },
+    linkResolver: { table: { disable: true } },
+    hasNoResults: { control: 'boolean', name: 'Has no results' },
+  },
 };
 
 export default meta;

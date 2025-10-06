@@ -17,7 +17,7 @@ import { transformPromoToCaptionedImage } from './images';
 import { transformSeason } from './seasons';
 
 export function transformBookToBookBasic(book: Book): BookBasic {
-  // returns what is required to render BookPromos and book JSON-LD
+  // returns what is required to render BookCards and book JSON-LD
   return (({ type, id, uid, title, subtitle, cover, promo, labels }) => ({
     type,
     id,

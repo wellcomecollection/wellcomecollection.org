@@ -10,7 +10,6 @@ import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import { Card } from '@weco/content/types/card';
 import { MultiContent } from '@weco/content/types/multi-content';
-import ArticleCard from '@weco/content/views/components/ArticleCard';
 import CompactCard from '@weco/content/views/components/CompactCard';
 
 import EventCard from './SearchResults.EventCard';
@@ -133,7 +132,8 @@ const SearchResults: FunctionComponent<Props> = ({
                 />
               )}
               {item.type === 'articles' && (
-                <ArticleCard
+                <CompactCard
+                  variant="article"
                   article={item}
                   showPosition={showPosition}
                   xOfY={xOfY}

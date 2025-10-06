@@ -36,9 +36,7 @@ const meta: Meta<typeof PageHeader> = {
     chromatic: { diffThreshold: 0.2, delay: 1000 },
   },
   args: {
-    breadcrumbs: {
-      items: [],
-    },
+    breadcrumbs: { items: [] },
     title: '',
     isFree: false,
     isSlim: false,
@@ -63,61 +61,17 @@ const meta: Meta<typeof PageHeader> = {
       control: 'boolean',
       name: 'Has content before the Featured media ("isContentTypeInfoBeforeMedia")',
     },
-    variant: {
-      table: {
-        disable: true,
-      },
-    },
-    isFree: {
-      table: {
-        disable: true,
-      },
-    },
-    highlightHeading: {
-      table: {
-        disable: true,
-      },
-    },
-    heroImageBgColor: {
-      table: {
-        disable: true,
-      },
-    },
-    title: {
-      table: {
-        disable: true,
-      },
-    },
-    labels: {
-      table: {
-        disable: true,
-      },
-    },
-    FeaturedMedia: {
-      table: {
-        disable: true,
-      },
-    },
-    Background: {
-      table: {
-        disable: true,
-      },
-    },
-    ContentTypeInfo: {
-      table: {
-        disable: true,
-      },
-    },
-    HeroPicture: {
-      table: {
-        disable: true,
-      },
-    },
-    breadcrumbs: {
-      table: {
-        disable: true,
-      },
-    },
+    variant: { table: { disable: true } },
+    isFree: { table: { disable: true } },
+    highlightHeading: { table: { disable: true } },
+    heroImageBgColor: { table: { disable: true } },
+    title: { table: { disable: true } },
+    labels: { table: { disable: true } },
+    FeaturedMedia: { table: { disable: true } },
+    Background: { table: { disable: true } },
+    ContentTypeInfo: { table: { disable: true } },
+    HeroPicture: { table: { disable: true } },
+    breadcrumbs: { table: { disable: true } },
   },
 };
 
@@ -161,51 +115,11 @@ const ContentTypeInfo = (
   </>
 );
 
-const EventContentTypeInfo = () => (
-  <>
-    <Space
-      $v={{ size: 's', properties: ['margin-bottom'] }}
-      style={{ display: 'flex', flexWrap: 'wrap' }}
-    >
-      Saturday 8 February 2020, 13:00 – 16:00
-    </Space>
-    <div style={{ display: 'flex' }}>
-      <TextWithDot
-        className={font('intb', 5)}
-        dotColor="neutral.500"
-        text="Past"
-      />
-    </div>
-  </>
-);
-
-const ExhibitionContentTypeInfo = () => (
-  <div style={{ display: 'flex' }}>
-    <TextWithDot
-      className={font('intb', 5)}
-      dotColor="neutral.500"
-      text="Closed"
-    />
-  </div>
-);
-
-const BookContentTypeInfo = () => (
-  <p className={font('intb', 3)} style={{ marginBottom: 0 }}>
-    Loneliness, Health & What Happens When We Find Connection
-  </p>
-);
-
-const EventFeaturedMedia = () => (
-  <PrismicImage
-    image={image(florenceWinterfloodImageUrl('3200x1800'))}
-    quality="low"
-  />
-);
-
 export const Article: Story = {
   name: 'Article',
   argTypes: {
     SerialPartNumber: {
+      name: 'Part number indicator',
       control: 'radio',
       mapping: {
         None: undefined,
@@ -220,26 +134,10 @@ export const Article: Story = {
       },
       options: ['None', 'Part of series'],
     },
-    backgroundTexture: {
-      table: {
-        disable: true,
-      },
-    },
-    isSlim: {
-      table: {
-        disable: true,
-      },
-    },
-    includeAccessibilityProvision: {
-      table: {
-        disable: true,
-      },
-    },
-    fullWidth: {
-      table: {
-        disable: true,
-      },
-    },
+    backgroundTexture: { table: { disable: true } },
+    isSlim: { table: { disable: true } },
+    includeAccessibilityProvision: { table: { disable: true } },
+    fullWidth: { table: { disable: true } },
   },
   args: {
     variant: 'basic',
@@ -265,125 +163,124 @@ export const Article: Story = {
   },
 };
 
-type ShortFilmStory = StoryObj<typeof ContentPage>;
-
-export const ShortFilm: ShortFilmStory = {
+export const ShortFilm: Story = {
   name: 'Short film',
-  render: args => (
-    <ReadmeDecorator
-      WrappedComponent={ContentPage}
-      args={args}
-      Readme={ShortFilmPageHeaderReadme}
-    />
-  ),
   argTypes: {
-    Body: {
-      table: {
-        disable: true,
-      },
+    isSlim: { name: 'Is slim', control: 'boolean' },
+    fullWidth: { name: 'Full width', control: 'boolean' },
+    includeAccessibilityProvision: {
+      name: 'Include accessibility provision',
+      control: 'boolean',
     },
-    Header: {
-      table: {
-        disable: true,
-      },
-    },
-    isCreamy: {
-      table: {
-        disable: true,
-      },
-    },
+    backgroundTexture: { table: { disable: true } },
+    isContentTypeInfoBeforeMedia: { table: { disable: true } },
   },
-  args: {
-    isCreamy: true,
-    Header: (
-      <PageHeader
-        variant="basic"
-        isContentTypeInfoBeforeMedia={true}
-        ContentTypeInfo={ContentTypeInfo}
-        labels={{ labels: [{ text: 'Short film' }] }}
-        title="Audrey's archivist"
-        breadcrumbs={{
-          items: [{ text: 'Stories', url: '#' }],
-        }}
+  render: args => {
+    return (
+      <ReadmeDecorator
+        Readme={ShortFilmPageHeaderReadme}
+        WrappedComponent={() => (
+          <ContentPage
+            uid="123"
+            id="123"
+            isCreamy
+            Header={
+              <PageHeader
+                {...args}
+                variant="basic"
+                isContentTypeInfoBeforeMedia={true}
+                ContentTypeInfo={ContentTypeInfo}
+                labels={{ labels: [{ text: 'Short film' }] }}
+                title="Audrey's archivist"
+                breadcrumbs={{
+                  items: [{ text: 'Stories', url: '#' }],
+                }}
+              />
+            }
+            Body={
+              <Body
+                contentType="short-film"
+                untransformedBody={[
+                  {
+                    variation: 'default',
+                    version: 'initial',
+                    items: [],
+                    primary: {
+                      embed: {
+                        embed_url:
+                          'https://www.youtube.com/embed/l0A8-DmX0Z0?feature=oembed',
+                        provider_name: 'YouTube',
+                        provider_url: 'https://www.youtube.com/',
+                        title: 'Archiving Audrey Amiss',
+                        author_name: 'Wellcome Collection',
+                        author_url:
+                          'https://www.youtube.com/@WellcomeCollection',
+                        type: 'video',
+                        height: 315,
+                        width: 560,
+                        version: '1.0',
+                        thumbnail_height: 360,
+                        thumbnail_width: 480,
+                        thumbnail_url:
+                          'https://i.ytimg.com/vi/l0A8-DmX0Z0/hqdefault.jpg',
+                        html: '<iframe width="200" height="113" src="https://www.youtube.com/embed/l0A8-DmX0Z0?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen title="Archiving Audrey Amiss"></iframe>',
+                      },
+                      caption: [],
+                      transcript: [],
+                    },
+                    id: 'embed$b78e29a9-2dcc-4633-b923-7c01475cd647',
+                    slice_type: 'embed',
+                    slice_label: null,
+                  } as RawEmbedSlice,
+                ]}
+                pageId="test"
+                pageUid="test"
+              />
+            }
+          ></ContentPage>
+        )}
+        args={args}
       />
-    ),
-    Body: (
-      <Body
-        contentType="short-film"
-        untransformedBody={[
-          {
-            variation: 'default',
-            version: 'initial',
-            items: [],
-            primary: {
-              embed: {
-                embed_url:
-                  'https://www.youtube.com/embed/l0A8-DmX0Z0?feature=oembed',
-                provider_name: 'YouTube',
-                provider_url: 'https://www.youtube.com/',
-                title: 'Archiving Audrey Amiss',
-                author_name: 'Wellcome Collection',
-                author_url: 'https://www.youtube.com/@WellcomeCollection',
-                type: 'video',
-                height: 315,
-                width: 560,
-                version: '1.0',
-                thumbnail_height: 360,
-                thumbnail_width: 480,
-                thumbnail_url:
-                  'https://i.ytimg.com/vi/l0A8-DmX0Z0/hqdefault.jpg',
-                html: '<iframe width="200" height="113" src="https://www.youtube.com/embed/l0A8-DmX0Z0?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen title="Archiving Audrey Amiss"></iframe>',
-              },
-              caption: [],
-              transcript: [],
-            },
-            id: 'embed$b78e29a9-2dcc-4633-b923-7c01475cd647',
-            slice_type: 'embed',
-            slice_label: null,
-          } as RawEmbedSlice,
-        ]}
-        pageId="test"
-        pageUid="test"
-      />
-    ),
+    );
   },
 };
 
 export const Event: Story = {
   name: 'Event',
   argTypes: {
-    SerialPartNumber: {
-      table: {
-        disable: true,
-      },
-    },
-    backgroundTexture: {
-      table: {
-        disable: true,
-      },
-    },
-    isSlim: {
-      table: {
-        disable: true,
-      },
-    },
-    includeAccessibilityProvision: {
-      table: {
-        disable: true,
-      },
-    },
-    fullWidth: {
-      table: {
-        disable: true,
-      },
-    },
+    SerialPartNumber: { table: { disable: true } },
+    backgroundTexture: { table: { disable: true } },
+    isSlim: { table: { disable: true } },
+    includeAccessibilityProvision: { table: { disable: true } },
+    fullWidth: { table: { disable: true } },
   },
   args: {
     variant: 'basic',
     title: 'DNA, Diversity and Difference',
     breadcrumbs: { items: [{ text: 'Events', url: '#' }] },
-    FeaturedMedia: <EventFeaturedMedia />,
-    ContentTypeInfo: <EventContentTypeInfo />,
+    FeaturedMedia: (
+      <PrismicImage
+        image={image(florenceWinterfloodImageUrl('3200x1800'))}
+        quality="low"
+      />
+    ),
+    ContentTypeInfo: (
+      <>
+        <Space
+          $v={{ size: 's', properties: ['margin-bottom'] }}
+          style={{ display: 'flex', flexWrap: 'wrap' }}
+        >
+          Saturday 8 February 2020, 13:00 – 16:00
+        </Space>
+        <div style={{ display: 'flex' }}>
+          <TextWithDot
+            className={font('intb', 5)}
+            dotColor="neutral.500"
+            text="Past"
+          />
+        </div>
+      </>
+    ),
     isContentTypeInfoBeforeMedia: true,
     Background: (
       <HeaderBackground
@@ -397,26 +294,15 @@ export const Event: Story = {
 export const Exhibition: Story = {
   name: 'Exhibition',
   argTypes: {
-    SerialPartNumber: {
-      table: {
-        disable: true,
-      },
+    includeAccessibilityProvision: {
+      name: 'Include accessibility provision',
+      control: 'boolean',
     },
-    backgroundTexture: {
-      table: {
-        disable: true,
-      },
-    },
-    isContentTypeInfoBeforeMedia: {
-      table: {
-        disable: true,
-      },
-    },
-    isSlim: {
-      table: {
-        disable: true,
-      },
-    },
+    fullWidth: { table: { disable: true } },
+    SerialPartNumber: { table: { disable: true } },
+    backgroundTexture: { table: { disable: true } },
+    isContentTypeInfoBeforeMedia: { table: { disable: true } },
+    isSlim: { table: { disable: true } },
   },
   args: {
     variant: 'basic',
@@ -434,7 +320,15 @@ export const Exhibition: Story = {
         isFull={true}
       />
     ),
-    ContentTypeInfo: <ExhibitionContentTypeInfo />,
+    ContentTypeInfo: (
+      <div style={{ display: 'flex' }}>
+        <TextWithDot
+          className={font('intb', 5)}
+          dotColor="neutral.500"
+          text="Closed"
+        />
+      </div>
+    ),
     isContentTypeInfoBeforeMedia: true,
     isFree: true,
     includeAccessibilityProvision: true,
@@ -445,26 +339,10 @@ export const Exhibition: Story = {
 export const List: Story = {
   name: 'List',
   argTypes: {
-    isSlim: {
-      table: {
-        disable: true,
-      },
-    },
-    SerialPartNumber: {
-      table: {
-        disable: true,
-      },
-    },
-    includeAccessibilityProvision: {
-      table: {
-        disable: true,
-      },
-    },
-    fullWidth: {
-      table: {
-        disable: true,
-      },
-    },
+    isSlim: { table: { disable: true } },
+    SerialPartNumber: { table: { disable: true } },
+    includeAccessibilityProvision: { table: { disable: true } },
+    fullWidth: { table: { disable: true } },
   },
   args: {
     variant: 'basic',
@@ -480,31 +358,17 @@ export const List: Story = {
 export const Page: Story = {
   argTypes: {
     isSlim: {
+      name: 'Is slim',
       control: 'boolean',
     },
-    SerialPartNumber: {
-      table: {
-        disable: true,
-      },
-    },
-    isContentTypeInfoBeforeMedia: {
-      table: {
-        disable: true,
-      },
-    },
-    includeAccessibilityProvision: {
-      table: {
-        disable: true,
-      },
-    },
-    fullWidth: {
-      table: {
-        disable: true,
-      },
-    },
     hasLandingPageFormat: {
+      name: 'Is landing page',
       type: 'boolean',
     },
+    SerialPartNumber: { table: { disable: true } },
+    isContentTypeInfoBeforeMedia: { table: { disable: true } },
+    includeAccessibilityProvision: { table: { disable: true } },
+    fullWidth: { table: { disable: true } },
   },
   args: {
     title: 'Venue hire terms and conditions',
@@ -527,36 +391,20 @@ export const Page: Story = {
 
 export const Book: Story = {
   argTypes: {
-    SerialPartNumber: {
-      table: {
-        disable: true,
-      },
-    },
-    backgroundTexture: {
-      table: {
-        disable: true,
-      },
-    },
-    isSlim: {
-      table: {
-        disable: true,
-      },
-    },
-    includeAccessibilityProvision: {
-      table: {
-        disable: true,
-      },
-    },
-    fullWidth: {
-      table: {
-        disable: true,
-      },
-    },
+    SerialPartNumber: { table: { disable: true } },
+    backgroundTexture: { table: { disable: true } },
+    isSlim: { table: { disable: true } },
+    includeAccessibilityProvision: { table: { disable: true } },
+    fullWidth: { table: { disable: true } },
   },
   args: {
     variant: 'basic',
     title: 'Together',
-    ContentTypeInfo: <BookContentTypeInfo />,
+    ContentTypeInfo: (
+      <p className={font('intb', 3)} style={{ marginBottom: 0 }}>
+        Loneliness, Health & What Happens When We Find Connection
+      </p>
+    ),
     isContentTypeInfoBeforeMedia: true,
     breadcrumbs: { items: [{ text: 'Books', url: '#' }] },
     FeaturedMedia: (

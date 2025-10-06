@@ -27,7 +27,7 @@ const NavGridCell = styled(GridCell)`
   `)}
 `;
 
-const BackgroundGrid = styled(Grid).attrs({})<BackgroundGridProps>`
+const BackgroundGrid = styled(Grid)<BackgroundGridProps>`
   padding: 0 20px;
   background: linear-gradient(
     5deg,
@@ -116,6 +116,7 @@ export const SideBar: Story = {
   },
   argTypes: {
     topColor: {
+      name: 'Top background color',
       control: 'select',
       options: themeColors.map(c => c.name),
       description: 'Color used for the top background',

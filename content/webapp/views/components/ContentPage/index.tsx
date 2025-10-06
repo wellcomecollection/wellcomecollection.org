@@ -70,10 +70,10 @@ const ContentPage = ({
   showStaticLinkedWorks,
   contentApiType,
 }: Props): ReactElement => {
-  const { featuredWorksInAddressables, stagingApi } = useToggles();
+  const { stagingApi } = useToggles();
 
   const [linkedWorks, setLinkedWorks] = useState<ContentApiLinkedWork[]>([]);
-  console.log(Header, Body);
+
   async function fetchLinkedWorks() {
     if (!contentApiType) return;
 
@@ -140,21 +140,16 @@ const ContentPage = ({
               ))}
             </SpacingSection>
           )}
-          {featuredWorksInAddressables &&
-            linkedWorks &&
-            linkedWorks.length > 0 && (
-              <HoverLinkedWorks linkedWorks={linkedWorks} />
-            )}
-          {featuredWorksInAddressables &&
-            showStaticLinkedWorks &&
-            linkedWorks &&
-            linkedWorks.length > 0 && (
-              <LinkedWorks
-                linkedWorks={linkedWorks}
-                gridSizes={gridSize8()}
-                parentId={id}
-              />
-            )}
+          {linkedWorks && linkedWorks.length > 0 && (
+            <HoverLinkedWorks linkedWorks={linkedWorks} />
+          )}
+          {showStaticLinkedWorks && linkedWorks && linkedWorks.length > 0 && (
+            <LinkedWorks
+              linkedWorks={linkedWorks}
+              gridSizes={gridSize8()}
+              parentId={id}
+            />
+          )}
           {!hideContributors && contributors && contributors.length > 0 && (
             <SpacingSection>
               <ContaineredLayout gridSizes={gridSize8()}>

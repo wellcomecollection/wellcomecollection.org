@@ -7,15 +7,16 @@ import { mockIcons } from '@weco/common/test/fixtures/components/text-and-icons'
 import TextAndImageOrIcons from '@weco/content/views/components/TextAndImageOrIcons';
 import Readme from '@weco/content/views/components/TextAndImageOrIcons/README.mdx';
 
+const Template = args => <TextAndImageOrIcons {...args} />;
+
 const meta: Meta<typeof TextAndImageOrIcons> = {
   title: 'Components/TextAndImageOrIcons',
   component: TextAndImageOrIcons,
+  argTypes: {
+    item: { table: { disable: true } },
+  },
   render: args => (
-    <ReadmeDecorator
-      WrappedComponent={TextAndImageOrIcons}
-      args={args}
-      Readme={Readme}
-    />
+    <ReadmeDecorator WrappedComponent={Template} args={args} Readme={Readme} />
   ),
 };
 

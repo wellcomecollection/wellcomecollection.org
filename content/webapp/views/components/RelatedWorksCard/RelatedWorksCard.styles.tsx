@@ -22,6 +22,9 @@ export const Card = styled.a<{ $isHover?: boolean }>`
   ${props =>
     props.$isHover &&
     `
+    box-shadow: ${props.theme.basicBoxShadow};
+
+
     height: 5.25rem;
     width: 22rem;
   `}

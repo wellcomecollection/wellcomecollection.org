@@ -6,7 +6,7 @@ import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground';
-import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
+import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import { makeLabels } from '@weco/common/views/components/LabelsList';
 import PageHeader from '@weco/common/views/components/PageHeader';
@@ -26,7 +26,7 @@ export type Props = {
 
 export const Guide: FunctionComponent<Props> = ({ guide, jsonLd }) => {
   const DateInfo = guide.datePublished && (
-    <HTMLDate date={guide.datePublished} />
+    <HTMLDateAndTime variant="date" date={guide.datePublished} />
   );
 
   const featuredPicture =
