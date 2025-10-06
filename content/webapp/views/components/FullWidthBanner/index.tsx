@@ -21,12 +21,14 @@ import MoreLink from '@weco/content/views/components/MoreLink';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
 import WShape from '@weco/content/views/components/WShape';
 
+const customBreakpoint = '768px';
+
 const ContentContainer = styled(Space)`
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  @media (min-width: 768px) {
+  @media (min-width: ${customBreakpoint}) {
     flex-direction: row;
   }
 `;
@@ -36,7 +38,7 @@ const CopySection = styled.div`
   order: 1;
   margin-right: 0;
 
-  @media (min-width: 768px) {
+  @media (min-width: ${customBreakpoint}) {
     margin-right: 2rem;
   }
 `;
@@ -47,7 +49,7 @@ const ImageSection = styled.div`
   order: 0;
   margin-bottom: 2rem;
 
-  @media (min-width: 768px) {
+  @media (min-width: ${customBreakpoint}) {
     order: 2;
     margin-bottom: 0;
   }
@@ -96,7 +98,7 @@ const WShapeWrapper = styled.div.attrs({ 'aria-hidden': 'true' })<{
     transform: translateY(-50%);
     position: relative;
 
-    @media (min-width: 768px) {
+    @media (min-width: ${customBreakpoint}) {
       grid-column: 10 / span 14;
       height: 140%;
       top: 50%;
