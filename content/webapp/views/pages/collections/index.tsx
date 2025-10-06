@@ -24,6 +24,7 @@ import CardGrid from '@weco/content/views/components/CardGrid';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
 import WShape from '@weco/content/views/components/WShape';
 import BrowseByThemes from '@weco/content/views/pages/collections/collections.BrowseByThemes';
+import NewOnline from '@weco/content/views/pages/collections/collections.NewOnline';
 import WorkTypesList from '@weco/content/views/pages/collections/collections.WorkTypesList';
 import { themeBlockCategories } from '@weco/content/views/pages/collections/themeBlockCategories';
 
@@ -135,6 +136,13 @@ const CollectionsLandingPage: NextPage<Props> = ({
           />
         </ContaineredLayout>
       </MainBackground>
+
+      <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+        <SectionHeader title="New online" gridSize={gridSize12()} />
+        <ContaineredLayout gridSizes={gridSize12()}>
+          <NewOnline />
+        </ContaineredLayout>
+      </Space>
 
       {fullWidthBanners?.[0] && (
         <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
