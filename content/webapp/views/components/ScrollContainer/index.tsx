@@ -40,6 +40,7 @@ type Props = PropsWithChildren<{
   hasLeftOffset?: boolean;
   scrollButtonsAfter?: boolean;
   customScrollDistance?: number;
+  containerRef?: React.RefObject<HTMLUListElement | null>;
 }>;
 
 const ScrollContainer: FunctionComponent<Props> = ({
@@ -49,9 +50,11 @@ const ScrollContainer: FunctionComponent<Props> = ({
   hasLeftOffset,
   scrollButtonsAfter = false,
   customScrollDistance,
+  containerRef,
   children,
 }) => {
-  const scrollContainerRef = useRef<HTMLUListElement>(null);
+  const fallbackRef = useRef<HTMLUListElement>(null);
+  const scrollContainerRef = containerRef || fallbackRef;
 
   const scrollButtons = (
     <ConditionalWrapper
