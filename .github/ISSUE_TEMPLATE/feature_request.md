@@ -9,11 +9,7 @@ projects: ['wellcomecollection/18']
 
 ## What?
 
-<!-- What is being requested -->
-
 ## Why?
-
-<!-- Why is this being suggested? What isn't working? What has been observed? What could be improved? -->
 
 ## Definition of ready
 
