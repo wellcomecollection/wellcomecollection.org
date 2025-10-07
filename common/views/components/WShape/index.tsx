@@ -46,6 +46,7 @@ const WShape = ({
           />
         </svg>
       );
+
     case 'full-2':
       return (
         <svg
@@ -60,6 +61,7 @@ const WShape = ({
           />
         </svg>
       );
+
     case 'full-3':
       return (
         <svg
@@ -74,6 +76,7 @@ const WShape = ({
           />
         </svg>
       );
+
     case 'edge-1':
       return (
         <svg
@@ -88,6 +91,7 @@ const WShape = ({
           />
         </svg>
       );
+
     case 'edge-2':
       return (
         <svg
