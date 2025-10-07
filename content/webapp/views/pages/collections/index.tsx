@@ -123,12 +123,11 @@ const CollectionsLandingPage: NextPage<Props> = ({
         $isDefaultVariant={true}
       >
         <SectionHeader title="Browse by theme" gridSize={gridSize12()} />
-        <ContaineredLayout gridSizes={gridSize12()}>
-          <BrowseByThemes
-            themeConfig={themeBlockCategories}
-            initialConcepts={featuredConcepts}
-          />
-        </ContaineredLayout>
+        <BrowseByThemes
+          themeConfig={themeBlockCategories}
+          initialConcepts={featuredConcepts}
+          gridSizes={gridSize12()}
+        />
       </MainBackground>
 
       {fullWidthBanners?.[0] && (
