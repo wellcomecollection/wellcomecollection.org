@@ -1,6 +1,11 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+import {
+  ContaineredLayout,
+  gridSize12,
+} from '@weco/common/views/components/Layout';
+import { SizeMap } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import ThemePromo from '@weco/common/views/components/ThemePromo';
 import { themeValues } from '@weco/common/views/themes/config';
