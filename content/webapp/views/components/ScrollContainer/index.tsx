@@ -39,6 +39,7 @@ type Props = PropsWithChildren<{
   gridSizes?: SizeMap;
   hasLeftOffset?: boolean;
   scrollButtonsAfter?: boolean;
+  customScrollDistance?: number;
 }>;
 
 const ScrollContainer: FunctionComponent<Props> = ({
@@ -47,6 +48,7 @@ const ScrollContainer: FunctionComponent<Props> = ({
   gridSizes,
   hasLeftOffset,
   scrollButtonsAfter = false,
+  customScrollDistance,
   children,
 }) => {
   const scrollContainerRef = useRef<HTMLUListElement>(null);
@@ -67,6 +69,7 @@ const ScrollContainer: FunctionComponent<Props> = ({
           containerRef={scrollContainerRef}
           hasDarkBackground={hasDarkBackground}
           hasLeftOffset={hasLeftOffset}
+          customScrollDistance={customScrollDistance}
         />
       </ScrollButtonsContainer>
     </ConditionalWrapper>

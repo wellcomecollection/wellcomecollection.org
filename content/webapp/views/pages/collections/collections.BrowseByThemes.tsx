@@ -151,7 +151,11 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
           />
         </Space>
       </ContaineredLayout>
-      <ScrollContainer scrollButtonsAfter={true} gridSizes={gridSizes}>
+      <ScrollContainer
+        scrollButtonsAfter={true}
+        gridSizes={gridSizes}
+        customScrollDistance={424} // 400px card width + 24px gap
+      >
         <Shim $gridValues={gridValues}></Shim>
         {displayedConcepts.map(concept => (
           <ListItem key={concept.id}>
