@@ -2,6 +2,7 @@ import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
+import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import AnimatedUnderlineCSS, {
   AnimatedUnderlineProps,
 } from '@weco/common/views/components/styled/AnimatedUnderline';
@@ -105,7 +106,7 @@ export const SelectableTags: FunctionComponent<SelectableTagsProps> = ({
   return (
     <div data-component="selectable-tags">
       <TagsWrapper className={font('intm', 5)}>
-        {tags.map(tag => {
+        {tags.map((tag, index) => {
           const isSelected = selected.includes(tag.id);
           return (
             <div key={tag.id}>
@@ -116,6 +117,11 @@ export const SelectableTags: FunctionComponent<SelectableTagsProps> = ({
                   value={tag.id}
                   checked={isSelected}
                   onChange={() => handleTagClick(tag.id)}
+                  {...dataGtmPropsToAttributes({
+                    trigger: 'selectable_tag',
+                    'position-in-list': String(index + 1),
+                    label: tag.id,
+                  })}
                   {...(tag.controls && { 'aria-controls': tag.controls })}
                 />
               ) : (
@@ -126,6 +132,11 @@ export const SelectableTags: FunctionComponent<SelectableTagsProps> = ({
                   value={tag.id}
                   checked={isSelected}
                   onChange={() => handleTagClick(tag.id)}
+                  {...dataGtmPropsToAttributes({
+                    trigger: 'selectable_tag',
+                    'position-in-list': String(index + 1),
+                    label: tag.id,
+                  })}
                   {...(tag.controls && { 'aria-controls': tag.controls })}
                 />
               )}

@@ -27,7 +27,12 @@ const ListItem = styled.li`
   margin-right: var(--gap);
 `;
 
-const Theme: FunctionComponent<{ concept: Concept }> = ({ concept }) => {
+const Theme: FunctionComponent<{
+  concept: Concept;
+  categoryLabel: string;
+  categoryPosition: number;
+  positionInList: number;
+}> = ({ concept, categoryLabel, categoryPosition, positionInList }) => {
   const linkProps = toConceptLink({ conceptId: concept.id });
   const images = useConceptImageUrls(concept);
   const url = linkProps.href.pathname;
@@ -38,6 +43,13 @@ const Theme: FunctionComponent<{ concept: Concept }> = ({ concept }) => {
       title={title}
       description={concept.description?.text}
       url={url}
+      dataGtmProps={{
+        trigger: 'theme_promo_card',
+        'category-label': categoryLabel,
+        'category-position-in-list': String(categoryPosition),
+        id: concept.id,
+        'position-in-list': String(positionInList),
+      }}
     />
   ) : null;
 };
@@ -53,11 +65,17 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
 
   const [displayedConcepts, setDisplayedConcepts] =
     useState<Concept[]>(initialConcepts);
+  const [selectedCategoryLabel, setSelectedCategoryLabel] = useState<string>(
+    themeConfig.categories[0]?.label || ''
+  );
 
   // Set the cache with the first category and display it
   useEffect(() => {
     const firstLabel = themeConfig.categories[0]?.label;
-    if (firstLabel) setCache(firstLabel, initialConcepts);
+    if (firstLabel) {
+      setCache(firstLabel, initialConcepts);
+      setSelectedCategoryLabel(firstLabel);
+    }
     setDisplayedConcepts(initialConcepts);
   }, [initialConcepts, themeConfig.categories, setCache]);
 
@@ -67,6 +85,7 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
       cat => cat.label === selectedCategoryId
     );
     if (category) {
+      setSelectedCategoryLabel(category.label);
       const result = await fetchConcepts(category);
       setDisplayedConcepts(result);
     }
@@ -76,6 +95,11 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
     id: category.label,
     label: category.label,
   }));
+
+  const selectedCategoryPosition =
+    themeConfig.categories.findIndex(
+      cat => cat.label === selectedCategoryLabel
+    ) + 1;
 
   return (
     <Space
@@ -90,9 +114,14 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
         />
       </Space>
       <ScrollContainer scrollButtonsAfter={true}>
-        {displayedConcepts.map(concept => (
+        {displayedConcepts.map((concept, index) => (
           <ListItem key={concept.id}>
-            <Theme concept={concept} />
+            <Theme
+              concept={concept}
+              categoryLabel={selectedCategoryLabel}
+              categoryPosition={selectedCategoryPosition}
+              positionInList={index + 1}
+            />
           </ListItem>
         ))}
       </ScrollContainer>
