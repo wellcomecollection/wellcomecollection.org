@@ -56,7 +56,7 @@
     "@types/lodash.debounce": "^4.0.7",
     "@types/node": "20.2.3",
     "@types/prompts": "^2.4.4",
-    "@types/react": "19.1.8",
+    "@types/react": "19.2.2",
     "@types/react-window": "^1.8.5",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
@@ -99,7 +99,7 @@
   },
   "resolutions": {
     "@prismicio/client": "7.8.0",
-    "@types/react": "19.1.8"
+    "@types/react": "19.2.2"
   },
   "private": true,
   "workspaces": [
