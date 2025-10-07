@@ -34,16 +34,15 @@ const ListItem = styled.li`
 `;
 
 const Theme: FunctionComponent<{ concept: Concept }> = ({ concept }) => {
-  const linkProps = toConceptLink({ conceptId: concept.id });
   const images = useConceptImageUrls(concept);
-  const url = linkProps.href.pathname;
+  const linkProps = toConceptLink({ conceptId: concept.id });
   const title = concept.displayLabel || concept.label;
-  return url && title ? (
+  return linkProps && title ? (
     <ThemePromo
       images={images}
       title={title}
       description={concept.description?.text}
-      url={url}
+      linkProps={linkProps}
     />
   ) : null;
 };
