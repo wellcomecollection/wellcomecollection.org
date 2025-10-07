@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
@@ -60,12 +60,14 @@ const ImageContainer = styled.div<{ $placeholderColor?: PaletteColor }>`
   justify-content: center;
 `;
 
-const ImageElement = styled.img`
+const ImageElement = styled.img<{ $isLoaded?: boolean }>`
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
   transform: scale(1.2);
+  opacity: ${props => (props.$isLoaded ? 1 : 0)};
+  transition: opacity 0.7s ease-in-out;
 `;
 
 const TextContent = styled(Space).attrs({
@@ -121,6 +123,13 @@ const ThemePromo: FunctionComponent<ThemePromoProps> = ({
   const imageCount = images.filter(Boolean).length;
   const isSingleImage = imageCount === 1;
 
+  // Track which images have loaded
+  const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set());
+
+  const handleImageLoad = (index: number) => {
+    setLoadedImages(prev => new Set(prev).add(index));
+  };
+
   // Create array of slots, some with images, some with placeholder colors
   const slots = Array.from({ length: isSingleImage ? 1 : 4 }, (_, index) => {
     if (index < images.length && images[index]) {
@@ -152,6 +161,8 @@ const ThemePromo: FunctionComponent<ThemePromoProps> = ({
                 )}
                 alt=""
                 loading="lazy"
+                $isLoaded={loadedImages.has(index)}
+                onLoad={() => handleImageLoad(index)}
               />
             ) : null}
           </ImageContainer>
