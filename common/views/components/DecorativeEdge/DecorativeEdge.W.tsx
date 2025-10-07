@@ -18,6 +18,11 @@ export const Edge = styled.div<{
   top: 2px;
   z-index: 2;
 
+  ${props => props.theme.media('large')`
+    height: 125px;
+    margin-top: -125px;
+  `}
+
   @supports ((clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0))) {
     display: block;
     clip-path: ${props => props.$clipPath};
