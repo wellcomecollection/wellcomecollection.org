@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
 
+import { LinkProps } from '@weco/common/model/link-props';
 import { font } from '@weco/common/utils/classnames';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import Space from '@weco/common/views/components/styled/Space';
@@ -113,7 +114,7 @@ export type ThemePromoProps = {
   images: [Image?, Image?, Image?, Image?];
   title: string;
   description?: string;
-  linkProps: { href: { pathname: string; query: { [key: string]: string } } };
+  linkProps: LinkProps;
 };
 
 const ThemePromo: FunctionComponent<ThemePromoProps> = ({
