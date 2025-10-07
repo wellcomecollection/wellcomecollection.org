@@ -11,6 +11,7 @@ import styled from 'styled-components';
 import { officialLandingPagesUid } from '@weco/common/data/hardcoded-ids';
 import { ContentListSlice as RawContentListSlice } from '@weco/common/prismicio-types';
 import { classNames, font } from '@weco/common/utils/classnames';
+import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
 import { defaultSerializer } from '@weco/common/views/components/HTMLSerializers';
 import {
   ContaineredLayout,
@@ -20,7 +21,6 @@ import {
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
-import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import { components } from '@weco/common/views/slices';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import { transformContentListSlice } from '@weco/content/services/prismic/transformers/body';
@@ -249,7 +249,8 @@ const Body: FunctionComponent<Props> = ({
         return (
           <Fragment key={index}>
             {!isFirst && (
-              <WobblyEdge
+              <DecorativeEdge
+                variant="wobbly"
                 backgroundColor={sectionTheme.rowBackground}
                 isStatic
               />
@@ -293,7 +294,13 @@ const Body: FunctionComponent<Props> = ({
                 />
               )}
             </Wrapper>
-            {!isLast && <WobblyEdge backgroundColor="white" isStatic />}
+            {!isLast && (
+              <DecorativeEdge
+                variant="wobbly"
+                backgroundColor="white"
+                isStatic
+              />
+            )}
           </Fragment>
         );
       })}

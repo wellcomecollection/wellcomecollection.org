@@ -16,10 +16,10 @@ import AnimatedUnderlineCSS, {
 } from '@weco/common/views/components/styled/AnimatedUnderline';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
+import WShape from '@weco/common/views/components/WShape';
 import CaptionedImage from '@weco/content/views/components/CaptionedImage';
 import MoreLink from '@weco/content/views/components/MoreLink';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
-import WShape from '@weco/content/views/components/WShape';
 
 const customBreakpoint = '768px';
 
@@ -178,7 +178,7 @@ const FullWidthBanner = (props: Props) => {
       $isDefaultVariant={isDefaultVariant}
     >
       <WShapeWrapper $isDefaultVariant={isDefaultVariant}>
-        <WShape variant={isDefaultVariant ? 'full-3' : 'full-2'} />
+        <WShape variant={isDefaultVariant ? 'full-1' : 'full-2'} />
       </WShapeWrapper>
 
       <div style={{ position: 'relative', zIndex: 1 }}>

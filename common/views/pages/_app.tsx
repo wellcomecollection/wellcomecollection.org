@@ -8,6 +8,7 @@ import { AppContextProvider } from '@weco/common/contexts/AppContext';
 import { SearchContextProvider } from '@weco/common/contexts/SearchContext';
 import { UserContextProvider } from '@weco/common/contexts/UserContext';
 import useIsFontsLoaded from '@weco/common/hooks/useIsFontsLoaded';
+import { useScrollTracking } from '@weco/common/hooks/useScrollTracking';
 import { ServerDataContext } from '@weco/common/server-data/Context';
 import {
   defaultServerData,
@@ -83,6 +84,8 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
   // You can set `skipServerData: true` to explicitly bypass this
   // e.g. for error pages
   const isServerDataSet = isServerData(pageProps.serverData);
+
+  useScrollTracking();
 
   // On first load, needs to get current state of consent
   const [hasAnalyticsConsent, setHasAnalyticsConsent] = useState(

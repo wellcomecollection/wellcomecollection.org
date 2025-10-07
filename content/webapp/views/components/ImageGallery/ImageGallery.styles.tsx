@@ -171,7 +171,7 @@ export const StandaloneWobblyEdge = styled.div`
   z-index: 2;
 `;
 
-export const WobblyEdgeWrapper = styled.div`
+export const DecorativeEdgeWrapper = styled.div`
   position: absolute;
   bottom: -2px;
   width: 100%;

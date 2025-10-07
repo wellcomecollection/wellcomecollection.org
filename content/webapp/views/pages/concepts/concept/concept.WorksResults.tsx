@@ -3,8 +3,8 @@ import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import { capitalize, pluralize } from '@weco/common/utils/grammar';
+import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
 import Space from '@weco/common/views/components/styled/Space';
-import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import theme from '@weco/common/views/themes/default';
 import { useConceptPageContext } from '@weco/content/contexts/ConceptPageContext';
 import { Concept } from '@weco/content/services/wellcome/catalogue/types';
@@ -32,7 +32,7 @@ const WorksCount = styled(Space).attrs({
   border-top: 1px solid ${props => props.theme.color('warmNeutral.300')};
 `;
 
-const WobblyEdgeWrapper = styled.div`
+const DecorativeEdgeWrapper = styled.div`
   z-index: 0;
   position: relative;
   margin-left: calc((100vw - 100%) * -1);
@@ -78,9 +78,9 @@ const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
 
   return (
     <>
-      <WobblyEdgeWrapper>
-        <WobblyEdge backgroundColor="white" />
-      </WobblyEdgeWrapper>
+      <DecorativeEdgeWrapper>
+        <DecorativeEdge variant="wobbly" backgroundColor="white" />
+      </DecorativeEdgeWrapper>
       <Space
         $v={{ size: 'xl', properties: ['margin-top'] }}
         as="section"

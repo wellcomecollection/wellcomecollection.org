@@ -37,7 +37,10 @@ export type ThemeCategory = {
 export async function getConceptsByIds(ids: string[]): Promise<Concept[]> {
   if (!ids || ids.length === 0) return [];
 
-  const result = await getConcepts({ params: { id: ids.join(',') }, toggles: {} });
+  const result = await getConcepts({
+    params: { id: ids.join(',') },
+    toggles: {},
+  });
 
   if ('results' in result) return result.results;
 

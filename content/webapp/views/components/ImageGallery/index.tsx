@@ -7,6 +7,7 @@ import { font } from '@weco/common/utils/classnames';
 import { dasherize, pluralize } from '@weco/common/utils/grammar';
 import Button from '@weco/common/views/components/Buttons';
 import Control from '@weco/common/views/components/Control';
+import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
 import Icon from '@weco/common/views/components/Icon';
 import {
   ContaineredLayout,
@@ -17,7 +18,6 @@ import {
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
 import Tasl from '@weco/common/views/components/Tasl';
-import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import { sizes } from '@weco/common/views/themes/config';
 import { useContentPageContext } from '@weco/content/contexts/ContentPageContext';
 import CaptionedImage from '@weco/content/views/components/CaptionedImage';
@@ -29,13 +29,13 @@ import {
   ButtonContainer,
   CloseWrapper,
   ControlContainer,
+  DecorativeEdgeWrapper,
   FrameGrid,
   FrameGridWrap,
   FrameItem,
   Gallery,
   GalleryTitle,
   StandaloneWobblyEdge,
-  WobblyEdgeWrapper,
 } from './ImageGallery.styles';
 
 function makeSizesForFrames(isThreeUp: boolean) {
@@ -173,13 +173,20 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
           >
             {(isStandalone || isFrames) && (
               <StandaloneWobblyEdge>
-                <WobblyEdge isRotated={true} backgroundColor="white" />
+                <DecorativeEdge
+                  variant="wobbly"
+                  isRotated={true}
+                  backgroundColor="white"
+                />
               </StandaloneWobblyEdge>
             )}
             {!isActive && (
-              <WobblyEdgeWrapper>
-                <WobblyEdge backgroundColor={pageBackgroundColor} />
-              </WobblyEdgeWrapper>
+              <DecorativeEdgeWrapper>
+                <DecorativeEdge
+                  variant="wobbly"
+                  backgroundColor={pageBackgroundColor}
+                />
+              </DecorativeEdgeWrapper>
             )}
 
             {!isStandalone && !isFrames && (

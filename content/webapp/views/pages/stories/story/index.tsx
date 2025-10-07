@@ -7,10 +7,10 @@ import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font } from '@weco/common/utils/classnames';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb';
+import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import { Container } from '@weco/common/views/components/styled/Container';
-import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { ArticleFormatIds } from '@weco/content/data/content-format-ids';
 import { Article as ContentAPIArticle } from '@weco/content/services/wellcome/content/types/api';
@@ -189,7 +189,11 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
 
       {article.exploreMoreDocument && relatedDocument && (
         <>
-          <WobblyEdge isRotated backgroundColor="warmNeutral.300" />
+          <DecorativeEdge
+            variant="wobbly"
+            isRotated
+            backgroundColor="warmNeutral.300"
+          />
           <Container>
             <RelatedStoryContainer>
               {relatedDocument.type === 'Article' ? (
