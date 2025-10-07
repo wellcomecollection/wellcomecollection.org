@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import NoEvents from '@weco/content/views/pages/events/events.NoEvents';
 
 const meta: Meta<typeof NoEvents> = {
-  title: 'Components/NoEvents',
+  title: 'To be made reusable/NoEvents',
   component: NoEvents,
 };
 
@@ -16,5 +16,10 @@ export const Basic: Story = {
   name: 'NoEvents',
   args: {
     isPastListing: true,
+    hasFilters: false,
+  },
+  argTypes: {
+    isPastListing: { control: 'boolean', name: 'Past events listing' },
+    hasFilters: { control: 'boolean', name: 'With active filters' },
   },
 };

@@ -6,7 +6,7 @@ import {
 } from '@weco/common/data/hardcoded-ids';
 import { Venue } from '@weco/common/model/opening-hours';
 import { groupConsecutiveExceptionalDays } from '@weco/common/services/prismic/opening-times';
-import { HTMLDayDate } from '@weco/common/views/components/HTMLDateAndTime';
+import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
 
 type Props = {
   venue: Venue;
@@ -40,11 +40,11 @@ const VenueClosedPeriods: FunctionComponent<Props> = ({ venue }) => {
           return (
             closedGroup.length > 0 && (
               <li key={i}>
-                <HTMLDayDate date={firstDate} />
+                <HTMLDateAndTime variant="dayDate" date={firstDate} />
                 {lastDate && (
                   <>
                     &ndash;
-                    <HTMLDayDate date={lastDate} />
+                    <HTMLDateAndTime variant="dayDate" date={lastDate} />
                   </>
                 )}
               </li>

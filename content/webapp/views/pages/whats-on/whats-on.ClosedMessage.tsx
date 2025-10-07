@@ -16,7 +16,7 @@ const ClosedMessage = () => (
   >
     <InfoBox
       title="Exhibitions are closed today"
-      headingClasses={font('wb', 2)}
+      hasBiggerHeading={true}
       items={[]}
     >
       <InfoIconWrapper>

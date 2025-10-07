@@ -30,7 +30,7 @@ import { transformSeason } from './seasons';
 import { transformSeries, transformSeriesToSeriesBasic } from './series';
 
 export function transformArticleToArticleBasic(article: Article): ArticleBasic {
-  // returns what is required to render StoryPromos and story JSON-LD
+  // returns what is required to render StoryCards and story JSON-LD
 
   return (({
     type,

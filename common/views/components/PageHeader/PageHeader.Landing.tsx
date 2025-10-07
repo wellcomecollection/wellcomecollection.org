@@ -7,6 +7,7 @@ import {
 
 import { font } from '@weco/common/utils/classnames';
 import AccessibilityProvision from '@weco/common/views/components/AccessibilityProvision';
+import { WobblyBottom } from '@weco/common/views/components/DecorativeEdge';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import {
   ContaineredLayout,
@@ -15,7 +16,6 @@ import {
 } from '@weco/common/views/components/Layout';
 import { Picture } from '@weco/common/views/components/Picture';
 import Space from '@weco/common/views/components/styled/Space';
-import { WobblyBottom } from '@weco/common/views/components/WobblyEdge';
 
 import { BackgroundType, FeaturedMedia, pageGridLayout } from '.';
 import {

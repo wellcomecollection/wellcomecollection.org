@@ -4,7 +4,7 @@ import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { transformContentListSlice } from '@weco/content/services/prismic/transformers/body';
 import { isContentList } from '@weco/content/types/body';
-import { FacilityPromo as FacilityPromoType } from '@weco/content/types/facility-promo';
+import { FacilityCard as FacilityCardType } from '@weco/content/types/facility';
 import { Page as PageType } from '@weco/content/types/pages';
 
 /** The What's On page in Prismic includes a content list which is used to pick
@@ -17,7 +17,7 @@ import { Page as PageType } from '@weco/content/types/pages';
 
 export function getTryTheseTooPromos(
   whatsOnPage: PageType
-): FacilityPromoType[] {
+): FacilityCardType[] {
   const contentLists = whatsOnPage.untransformedBody
     .filter(isContentList)
     .map(transformContentListSlice);
@@ -39,8 +39,8 @@ export function getTryTheseTooPromos(
 }
 
 export function enrichTryTheseTooPromos(
-  promos: FacilityPromoType[]
-): FacilityPromoType[] {
+  promos: FacilityCardType[]
+): FacilityCardType[] {
   const facilityPromoMetas = {
     [collectionVenueId.readingRoom.id]: {
       metaIcon: clock,

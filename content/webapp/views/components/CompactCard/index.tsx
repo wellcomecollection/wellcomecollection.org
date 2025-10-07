@@ -19,7 +19,10 @@ import ImagePlaceholder from '@weco/content/views/components/ImagePlaceholder';
 import PartNumberIndicator from '@weco/content/views/components/PartNumberIndicator';
 import StatusIndicator from '@weco/content/views/components/StatusIndicator';
 
-export type Props = {
+import ArticleCard, { Props as ArticleCardProps } from './CompactCard.Article';
+
+export type CompactCardProps = {
+  variant?: 'default';
   url?: string;
   title: string;
   primaryLabels: Label[];
@@ -41,6 +44,12 @@ export type Props = {
   onClick?: () => void;
   postTitleChildren?: ReactElement;
 };
+
+type CompactArticleProps = ArticleCardProps & {
+  variant: 'article';
+};
+
+export type Props = CompactCardProps | CompactArticleProps;
 
 const BaseTitleWrapper = styled.h3.attrs({
   className: font('wb', 3),
@@ -71,28 +80,42 @@ const LinkOrDivSpace = styled(Space).attrs<LinkOrDivSpaceAttrs>(props => ({
   }
 `;
 
-const CompactCard: FunctionComponent<Props> = ({
-  url,
-  title,
-  primaryLabels,
-  secondaryLabels,
-  description,
-  urlOverride,
-  extraClasses,
-  partNumber,
-  partDescription,
-  partNumberColor,
-  Image,
-  DateInfo,
-  StatusIndicator,
-  ExtraInfo,
-  xOfY,
-  OverrideImageWrapper,
-  OverrideTextWrapper,
-  OverrideTitleWrapper,
-  onClick,
-  postTitleChildren,
-}: Props): ReactElement<Props> => {
+const CompactCard: FunctionComponent<Props> = (
+  props: Props
+): ReactElement<Props> => {
+  if (props.variant === 'article') {
+    return (
+      <ArticleCard
+        article={props.article}
+        showPosition={props.showPosition}
+        xOfY={props.xOfY}
+      />
+    );
+  }
+
+  const {
+    url,
+    title,
+    primaryLabels,
+    secondaryLabels,
+    description,
+    urlOverride,
+    extraClasses,
+    partNumber,
+    partDescription,
+    partNumberColor,
+    Image,
+    DateInfo,
+    StatusIndicator,
+    ExtraInfo,
+    xOfY,
+    OverrideImageWrapper,
+    OverrideTextWrapper,
+    OverrideTitleWrapper,
+    onClick,
+    postTitleChildren,
+  } = props;
+
   const { x, y } = xOfY || {};
   const ImageWrapper = OverrideImageWrapper || GridCell;
   const TextWrapper = OverrideTextWrapper || GridCell;
@@ -132,7 +155,7 @@ const CompactCard: FunctionComponent<Props> = ({
           }
           $hasImage={Boolean(Image)}
         >
-          {primaryLabels.length > 0 && (
+          {primaryLabels?.length > 0 && (
             <Space
               $v={{ size: 's', properties: ['margin-bottom'] }}
               style={{ display: 'flex' }}
@@ -158,7 +181,7 @@ const CompactCard: FunctionComponent<Props> = ({
               {descriptionIsString ? <p>{description}</p> : description}
             </div>
           )}
-          {secondaryLabels.length > 0 && (
+          {secondaryLabels?.length > 0 && (
             <Space
               $v={{ size: 's', properties: ['margin-top'] }}
               style={{ display: 'flex' }}

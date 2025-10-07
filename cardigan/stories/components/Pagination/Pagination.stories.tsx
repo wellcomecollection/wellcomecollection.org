@@ -20,15 +20,13 @@ const meta: Meta<typeof Pagination> = {
   render: Template,
   argTypes: {
     totalPages: {
+      name: 'Total pages',
       options: [5, 10, 250],
       control: { type: 'radio' },
     },
-    hasDarkBg: { control: 'boolean' },
-    ariaLabel: {
-      table: {
-        disable: true,
-      },
-    },
+    hasDarkBg: { name: 'Has dark background', control: 'boolean' },
+    ariaLabel: { table: { disable: true } },
+    isHiddenMobile: { table: { disable: true } },
   },
 };
 
@@ -45,8 +43,11 @@ export const Start: Story = {
   },
   argTypes: {
     totalPages: {
+      name: 'Total pages',
+      control: { type: 'select' },
       options: [1, 5, 10, 250],
     },
+    isHiddenMobile: { table: { disable: true } },
   },
 };
 
@@ -56,6 +57,9 @@ export const Midway: Story = {
     totalPages: 10,
     hasDarkBg: false,
     isHiddenMobile: false,
+  },
+  argTypes: {
+    isHiddenMobile: { table: { disable: true } },
   },
   parameters: {
     nextjs: {
