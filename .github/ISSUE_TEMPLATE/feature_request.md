@@ -15,18 +15,16 @@ projects: ['wellcomecollection/18']
 
 <!-- Why is this being suggested? What isn't working? What has been observed? What could be improved? -->
 
-## Background
-
-<!-- What information or research has imformed this request? -->
-
-## Ready when
+## Definition of ready
 
 - [ ]
-- [ ]
-- [ ] 
 
-## Done when
+## Definition of done
 
-- [ ]
-- [ ]
 - [ ] Documentation updated
+
+## Instructions for QA
+
+### Where
+
+### How to test
