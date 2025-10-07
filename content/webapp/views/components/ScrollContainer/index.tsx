@@ -1,4 +1,4 @@
-import { FunctionComponent, PropsWithChildren, useRef } from 'react';
+import React, { FunctionComponent, PropsWithChildren, useRef } from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
@@ -9,6 +9,7 @@ import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 
 import ScrollableNavigation from './ScrollContainer.Navigation';
+import ScrollShim from './ScrollContainer.styles';
 
 const ScrollButtonsContainer = styled(Space).attrs({
   $v: { size: 'm', properties: ['margin-bottom'] },
@@ -39,6 +40,9 @@ type Props = PropsWithChildren<{
   gridSizes?: SizeMap;
   hasLeftOffset?: boolean;
   scrollButtonsAfter?: boolean;
+  customScrollDistance?: number;
+  containerRef?: React.RefObject<HTMLUListElement | null>;
+  useShim?: boolean;
 }>;
 
 const ScrollContainer: FunctionComponent<Props> = ({
@@ -47,9 +51,15 @@ const ScrollContainer: FunctionComponent<Props> = ({
   gridSizes,
   hasLeftOffset,
   scrollButtonsAfter = false,
+  customScrollDistance,
+  containerRef,
+  useShim = false,
   children,
 }) => {
-  const scrollContainerRef = useRef<HTMLUListElement>(null);
+  const fallbackRef = useRef<HTMLUListElement>(null);
+  const scrollContainerRef = containerRef || fallbackRef;
+
+  const gridValues = gridSizes ? Object.values(gridSizes).map(v => v[0]) : [];
 
   const scrollButtons = (
     <ConditionalWrapper
@@ -67,6 +77,7 @@ const ScrollContainer: FunctionComponent<Props> = ({
           containerRef={scrollContainerRef}
           hasDarkBackground={hasDarkBackground}
           hasLeftOffset={hasLeftOffset}
+          customScrollDistance={customScrollDistance}
         />
       </ScrollButtonsContainer>
     </ConditionalWrapper>
@@ -75,7 +86,10 @@ const ScrollContainer: FunctionComponent<Props> = ({
   return (
     <div data-component="scroll-container">
       {!scrollButtonsAfter && scrollButtons}
-      <ContentContainer ref={scrollContainerRef}>{children}</ContentContainer>
+      <ContentContainer ref={scrollContainerRef}>
+        {useShim && gridSizes && <ScrollShim $gridValues={gridValues} />}
+        {children}
+      </ContentContainer>
       {scrollButtonsAfter && scrollButtons}
     </div>
   );

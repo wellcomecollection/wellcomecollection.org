@@ -1,4 +1,5 @@
-import { FunctionComponent } from 'react';
+import Link from 'next/link';
+import { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
@@ -21,7 +22,7 @@ const Title = styled(Space).attrs({
   $v: { size: 's', properties: ['margin-bottom'] },
 })``;
 
-const CardWrapper = styled.a`
+const CardWrapper = styled.div`
   position: relative;
   width: 100%;
   max-width: 25rem;
@@ -29,6 +30,7 @@ const CardWrapper = styled.a`
   display: block;
   color: ${props => props.theme.color('white')};
   container-type: inline-size;
+  cursor: pointer;
 
   &:hover ${Title} {
     text-decoration: underline;
@@ -60,12 +62,14 @@ const ImageContainer = styled.div<{ $placeholderColor?: PaletteColor }>`
   justify-content: center;
 `;
 
-const ImageElement = styled.img`
+const ImageElement = styled.img<{ $isLoaded?: boolean }>`
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
   transform: scale(1.2);
+  opacity: ${props => (props.$isLoaded ? 1 : 0)};
+  transition: opacity 0.7s ease-in-out;
 `;
 
 const TextContent = styled(Space).attrs({
@@ -109,17 +113,24 @@ export type ThemePromoProps = {
   images: [Image?, Image?, Image?, Image?];
   title: string;
   description?: string;
-  url: string;
+  linkProps: { href: { pathname: string; query: { [key: string]: string } } };
 };
 
 const ThemePromo: FunctionComponent<ThemePromoProps> = ({
   images,
   title,
   description,
-  url,
+  linkProps,
 }) => {
   const imageCount = images.filter(Boolean).length;
   const isSingleImage = imageCount === 1;
+
+  // Track which images have loaded
+  const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set());
+
+  const handleImageLoad = (index: number) => {
+    setLoadedImages(prev => new Set(prev).add(index));
+  };
 
   // Create array of slots, some with images, some with placeholder colors
   const slots = Array.from({ length: isSingleImage ? 1 : 4 }, (_, index) => {
@@ -135,33 +146,37 @@ const ThemePromo: FunctionComponent<ThemePromoProps> = ({
   });
 
   return (
-    <CardWrapper data-component="theme-promo" href={url}>
-      <CompositeGrid $isSingleImage={isSingleImage}>
-        {slots.map((slot, index) => (
-          <ImageContainer
-            key={index}
-            $placeholderColor={
-              slot.type === 'placeholder' ? slot.color : undefined
-            }
-          >
-            {slot.type === 'image' && slot.image ? (
-              <ImageElement
-                src={convertImageUri(
-                  slot.image.locations[0].url,
-                  isSingleImage ? 500 : 250
-                )}
-                alt=""
-                loading="lazy"
-              />
-            ) : null}
-          </ImageContainer>
-        ))}
-      </CompositeGrid>
-      <TextContent>
-        <Title>{title}</Title>
-        {description && <Description>{description}</Description>}
-      </TextContent>
-    </CardWrapper>
+    <Link {...linkProps}>
+      <CardWrapper data-component="theme-promo">
+        <CompositeGrid $isSingleImage={isSingleImage}>
+          {slots.map((slot, index) => (
+            <ImageContainer
+              key={index}
+              $placeholderColor={
+                slot.type === 'placeholder' ? slot.color : undefined
+              }
+            >
+              {slot.type === 'image' && slot.image ? (
+                <ImageElement
+                  src={convertImageUri(
+                    slot.image.locations[0].url,
+                    isSingleImage ? 500 : 250
+                  )}
+                  alt=""
+                  loading="lazy"
+                  $isLoaded={loadedImages.has(index)}
+                  onLoad={() => handleImageLoad(index)}
+                />
+              ) : null}
+            </ImageContainer>
+          ))}
+        </CompositeGrid>
+        <TextContent>
+          <Title>{title}</Title>
+          {description && <Description>{description}</Description>}
+        </TextContent>
+      </CardWrapper>
+    </Link>
   );
 };
 
