@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import {
@@ -109,6 +109,7 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
     getConceptsByIds
   );
 
+  const scrollContainerRef = useRef<HTMLUListElement>(null);
   const [displayedConcepts, setDisplayedConcepts] =
     useState<Concept[]>(initialConcepts);
 
@@ -129,6 +130,13 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
       setDisplayedConcepts(result);
     }
   };
+
+  // Reset scroll position when a new theme category is selected
+  useEffect(() => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollLeft = 0;
+    }
+  }, [displayedConcepts]);
 
   const tagData = themeConfig.categories.map(category => ({
     id: category.label,
@@ -155,6 +163,7 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
         scrollButtonsAfter={true}
         gridSizes={gridSizes}
         customScrollDistance={424} // 400px card width + 24px gap
+        containerRef={scrollContainerRef}
       >
         <Shim $gridValues={gridValues}></Shim>
         {displayedConcepts.map(concept => (
