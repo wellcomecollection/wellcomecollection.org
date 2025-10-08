@@ -36,6 +36,10 @@ const Typewriter = styled.div.attrs({
   overflow: hidden;
   text-wrap: nowrap;
   text-overflow: ellipsis;
+
+  @media (prefers-reduced-motion: reduce) {
+    display: none;
+  }
 `;
 
 const SearchInputWrapper = styled.div`
