@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/react';
+import { Meta } from '@storybook/react';
 import { ComponentProps } from 'react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
@@ -61,7 +61,6 @@ const meta: Meta<typeof PageHeader> = {
       control: 'boolean',
       name: 'Has content before the Featured media ("isContentTypeInfoBeforeMedia")',
     },
-    variant: { table: { disable: true } },
     isFree: { table: { disable: true } },
     highlightHeading: { table: { disable: true } },
     heroImageBgColor: { table: { disable: true } },
@@ -76,12 +75,6 @@ const meta: Meta<typeof PageHeader> = {
 };
 
 export default meta;
-
-type Story = StoryObj<
-  ComponentProps<typeof PageHeader> & {
-    hasLandingPageFormat?: boolean;
-  }
->;
 
 const ContentTypeInfo = (
   <>
@@ -115,8 +108,7 @@ const ContentTypeInfo = (
   </>
 );
 
-export const Article: Story = {
-  name: 'Article',
+export const Article: Meta<typeof PageHeader> = {
   argTypes: {
     SerialPartNumber: {
       name: 'Part number indicator',
@@ -134,6 +126,7 @@ export const Article: Story = {
       },
       options: ['None', 'Part of series'],
     },
+    variant: { table: { disable: true } },
     backgroundTexture: { table: { disable: true } },
     isSlim: { table: { disable: true } },
     includeAccessibilityProvision: { table: { disable: true } },
@@ -163,8 +156,7 @@ export const Article: Story = {
   },
 };
 
-export const ShortFilm: Story = {
-  name: 'Short film',
+export const ShortFilm: Meta<typeof PageHeader> = {
   argTypes: {
     isSlim: { name: 'Is slim', control: 'boolean' },
     fullWidth: { name: 'Full width', control: 'boolean' },
@@ -172,6 +164,7 @@ export const ShortFilm: Story = {
       name: 'Include accessibility provision',
       control: 'boolean',
     },
+    variant: { table: { disable: true } },
     backgroundTexture: { table: { disable: true } },
     isContentTypeInfoBeforeMedia: { table: { disable: true } },
   },
@@ -245,9 +238,9 @@ export const ShortFilm: Story = {
   },
 };
 
-export const Event: Story = {
-  name: 'Event',
+export const Event: Meta<typeof PageHeader> = {
   argTypes: {
+    variant: { table: { disable: true } },
     SerialPartNumber: { table: { disable: true } },
     backgroundTexture: { table: { disable: true } },
     isSlim: { table: { disable: true } },
@@ -291,13 +284,13 @@ export const Event: Story = {
   },
 };
 
-export const Exhibition: Story = {
-  name: 'Exhibition',
+export const Exhibition: Meta<typeof PageHeader> = {
   argTypes: {
     includeAccessibilityProvision: {
       name: 'Include accessibility provision',
       control: 'boolean',
     },
+    variant: { table: { disable: true } },
     fullWidth: { table: { disable: true } },
     SerialPartNumber: { table: { disable: true } },
     backgroundTexture: { table: { disable: true } },
@@ -336,9 +329,9 @@ export const Exhibition: Story = {
   },
 };
 
-export const List: Story = {
-  name: 'List',
+export const List: Meta<typeof PageHeader> = {
   argTypes: {
+    variant: { table: { disable: true } },
     isSlim: { table: { disable: true } },
     SerialPartNumber: { table: { disable: true } },
     includeAccessibilityProvision: { table: { disable: true } },
@@ -355,42 +348,66 @@ export const List: Story = {
   },
 };
 
-export const Page: Story = {
+type PageStory = ComponentProps<typeof PageHeader> & {
+  introTextCopy?: string;
+};
+
+export const Page: Meta<PageStory> = {
   argTypes: {
+    variant: {
+      name: 'Variant',
+      options: ['basic', 'landing'],
+      control: 'select',
+    },
+    backgroundTexture: {
+      name: 'Background texture',
+      if: { arg: 'variant', eq: 'basic' },
+    },
     isSlim: {
       name: 'Is slim',
       control: 'boolean',
+      if: { arg: 'variant', eq: 'basic' },
     },
-    hasLandingPageFormat: {
-      name: 'Is landing page',
-      type: 'boolean',
+    introTextCopy: {
+      control: 'text',
+      if: { arg: 'variant', eq: 'landing' },
     },
+    introText: { table: { disable: true } },
     SerialPartNumber: { table: { disable: true } },
     isContentTypeInfoBeforeMedia: { table: { disable: true } },
     includeAccessibilityProvision: { table: { disable: true } },
     fullWidth: { table: { disable: true } },
   },
   args: {
+    variant: 'basic',
     title: 'Venue hire terms and conditions',
     backgroundTexture: headerBackgroundLs,
     highlightHeading: true,
     breadcrumbs: { items: [{ text: 'Get involved', url: '#' }] },
-    hasLandingPageFormat: false,
+    introTextCopy: 'This is the intro text for the landing page.',
   },
   render: args => {
-    const { hasLandingPageFormat, ...rest } = args;
+    const { variant } = args;
 
-    return (
-      <PageHeader
-        variant={hasLandingPageFormat ? 'landing' : 'basic'}
-        {...rest}
-      />
-    );
+    if (variant === 'landing') {
+      args.introText = [
+        {
+          type: 'paragraph',
+          text:
+            args.introTextCopy ||
+            'This is the intro text for the landing page.',
+          spans: [],
+        },
+      ];
+    }
+
+    return <PageHeader {...args} />;
   },
 };
 
-export const Book: Story = {
+export const Book: Meta<typeof PageHeader> = {
   argTypes: {
+    variant: { table: { disable: true } },
     SerialPartNumber: { table: { disable: true } },
     backgroundTexture: { table: { disable: true } },
     isSlim: { table: { disable: true } },

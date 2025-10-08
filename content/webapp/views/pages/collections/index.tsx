@@ -69,7 +69,6 @@ export type Props = {
   insideOurCollectionsCards: MultiContent[];
   featuredConcepts: Concept[];
   fullWidthBanners?: prismic.Slice<'fullWidthBanner'>[];
-  // jsonLd: JsonLdObj[]; ??
 };
 
 const CollectionsLandingPage: NextPage<Props> = ({
@@ -87,7 +86,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
       title="Collections"
       description={pageMeta.description || pageDescriptions.collections}
       url={{ pathname: '/collections' }}
-      jsonLd={[]} // TODO?
+      jsonLd={[]} 
       openGraphType="website"
       siteSection="collections"
       image={pageMeta.image}
