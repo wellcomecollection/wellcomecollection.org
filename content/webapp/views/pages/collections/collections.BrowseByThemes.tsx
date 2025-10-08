@@ -53,6 +53,7 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
 
   const [displayedConcepts, setDisplayedConcepts] =
     useState<Concept[]>(initialConcepts);
+  const [announcement, setAnnouncement] = useState('');
 
   // Set the cache with the first category and display it
   useEffect(() => {
@@ -69,6 +70,9 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
     if (category) {
       const result = await fetchConcepts(category);
       setDisplayedConcepts(result);
+      setAnnouncement(
+        `Showing ${result.length} ${category.label.toLowerCase()} ${result.length === 1 ? 'theme' : 'themes'}`
+      );
     }
   };
 
@@ -82,6 +86,9 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
       $v={{ size: 'm', properties: ['margin-top'] }}
       data-component="BrowseByThemes"
     >
+      <div className="visually-hidden" aria-live="polite">
+        {announcement}
+      </div>
       <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
         <SelectableTags
           tags={tagData}
