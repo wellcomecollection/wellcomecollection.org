@@ -118,7 +118,8 @@ const ScrollableNavigation: FunctionComponent<Props> = ({
         onClick={() => scrollByChildImageWidth('left')}
       >
         <Icon icon={arrowSmall} rotate={180} />
-        Prev
+        <span aria-hidden="true">Prev</span>
+        <span className="visually-hidden">Previous</span>
       </ScrollButton>
 
       <ScrollButton
