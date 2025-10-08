@@ -90,7 +90,7 @@ const WhatsOnPage: NextPage<Props> = props => {
   } = props;
 
   const tryTheseToo = enrichTryTheseTooPromos(basicTryTheseTooPromos);
-  console.log(tryTheseToo[0]);
+
   const firstExhibition = exhibitions[0];
 
   const extraTitleText = tabItems.find(item => item.id === period);

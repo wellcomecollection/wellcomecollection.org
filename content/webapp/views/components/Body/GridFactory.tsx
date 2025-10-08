@@ -31,7 +31,7 @@ const s12m6l6xl6: SizeMap = {
   xl: [6],
 }; // 2-up on desktop
 
-export const sectionLevelPageGrid: GridMap = {
+export const landingPageGrid: GridMap = {
   1: [{ s: [12], m: [12], l: [12], xl: [12] }],
   2: [
     { s: [12], m: [6], l: [5], xl: [5] },
