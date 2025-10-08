@@ -60,6 +60,9 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
   const scrollContainerRef = useRef<HTMLUListElement>(null);
   const [displayedConcepts, setDisplayedConcepts] =
     useState<Concept[]>(initialConcepts);
+  const [selectedCategory, setSelectedCategory] = useState<string>(
+    themeConfig.categories[0]?.label || ''
+  );
 
   // Set the cache with the first category and display it
   useEffect(() => {
@@ -74,6 +77,7 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
       cat => cat.label === selectedCategoryId
     );
     if (category) {
+      setSelectedCategory(selectedCategoryId);
       const result = await fetchConcepts(category);
       setDisplayedConcepts(result);
     }
@@ -113,7 +117,7 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
         useShim={true}
       >
         {displayedConcepts.map(concept => (
-          <ListItem key={concept.id}>
+          <ListItem key={`${selectedCategory}-${concept.id}`}>
             <Theme concept={concept} />
           </ListItem>
         ))}
