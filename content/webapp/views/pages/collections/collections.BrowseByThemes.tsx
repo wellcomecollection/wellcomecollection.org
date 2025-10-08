@@ -86,7 +86,7 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
       $v={{ size: 'm', properties: ['margin-top'] }}
       data-component="BrowseByThemes"
     >
-      <div className="visually-hidden" aria-live="polite" aria-atomic="true">
+      <div className="visually-hidden" aria-live="polite">
         {announcement}
       </div>
       <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
