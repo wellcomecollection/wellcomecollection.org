@@ -2,8 +2,8 @@ import { NextPage } from 'next';
 import { ReactElement } from 'react';
 
 import {
+  officialLandingPagesUid,
   prismicPageIds,
-  sectionLevelPages,
 } from '@weco/common/data/hardcoded-ids';
 import { SiteSection } from '@weco/common/model/site-section';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
@@ -65,13 +65,14 @@ export const PagePage: NextPage<Props> = ({
   const DateInfo = page.datePublished && (
     <HTMLDateAndTime variant="date" date={page.datePublished} />
   );
-  const isLanding = page.format && page.format.id === PageFormatIds.Landing;
+  const hasLandingPageFormat =
+    page.format && page.format.id === PageFormatIds.Landing;
   const labels =
-    !isLanding && page.format?.title
+    !hasLandingPageFormat && page.format?.title
       ? makeLabels(page.format?.title)
       : undefined;
 
-  const backgroundTexture = isLanding
+  const backgroundTexture = hasLandingPageFormat
     ? landingHeaderBackgroundLs
     : headerBackgroundLs;
 
@@ -102,10 +103,10 @@ export const PagePage: NextPage<Props> = ({
     <VideoEmbed {...transformFeaturedVideo.value} />
   ) : undefined;
 
-  const sectionLevelPage = sectionLevelPages.includes(page.uid);
+  const isOfficialLandingPage = officialLandingPagesUid.includes(page.uid);
 
   function getBreadcrumbText(siteSection: string): string {
-    return isLanding
+    return hasLandingPageFormat
       ? '\u200b'
       : links.find(link => link.siteSection === siteSection)?.title ||
           siteSection;
@@ -139,17 +140,17 @@ export const PagePage: NextPage<Props> = ({
   };
 
   const displayBackground =
-    featuredMedia && !sectionLevelPage ? (
+    featuredMedia && !isOfficialLandingPage ? (
       <HeaderBackground
         backgroundTexture={backgroundTexture}
-        hasWobblyEdge={!isLanding}
+        hasWobblyEdge={!hasLandingPageFormat}
       />
     ) : undefined;
 
   const getHeader = () => {
     const sharedProps = {
       backgroundTexture:
-        !featuredMedia && !sectionLevelPage ? backgroundTexture : undefined,
+        !featuredMedia && !hasLandingPageFormat ? backgroundTexture : undefined,
       labels,
       title: page.title,
       FeaturedMedia: featuredMedia,
@@ -157,8 +158,12 @@ export const PagePage: NextPage<Props> = ({
       ContentTypeInfo: DateInfo,
     };
 
-    return sectionLevelPage ? (
-      <PageHeader variant="legacyLanding" sectionLevelPage {...sharedProps} />
+    return isOfficialLandingPage ? (
+      <PageHeader
+        variant="landing"
+        introText={page.introText}
+        {...sharedProps}
+      />
     ) : (
       <PageHeader
         variant="basic"
@@ -234,17 +239,19 @@ export const PagePage: NextPage<Props> = ({
     >
       <ContentPage
         id={page.id}
+        uid={page.uid}
         contentApiType="pages"
         Header={getHeader()}
         Body={
           <Body
             untransformedBody={untransformedBody}
             pageId={page.id}
+            pageUid={page.uid}
             introText={page.introText}
             onThisPage={page.onThisPage}
             showOnThisPage={page.showOnThisPage}
-            isLanding={isLanding}
-            sectionLevelPage={sectionLevelPage}
+            hasLandingPageFormat={hasLandingPageFormat}
+            isOfficialLandingPage={isOfficialLandingPage}
             staticContent={staticContent}
           />
         }

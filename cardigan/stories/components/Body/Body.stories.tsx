@@ -28,7 +28,7 @@ const meta: Meta<BodyStoryProps> = {
     onThisPage: transformOnThisPage(untransformedBody),
     showOnThisPage: true,
     isDropCapped: false,
-    sectionLevelPage: false,
+    isOfficialLandingPage: false,
     hasStaticContent: false,
     staticContent: (
       <>
@@ -82,14 +82,14 @@ const meta: Meta<BodyStoryProps> = {
     hasStaticContent: {
       name: 'Has static content to inject',
     },
-    sectionLevelPage: {
-      name: 'Section level pages changes affects width in various parts',
+    isOfficialLandingPage: {
+      name: 'Official landing page: applies specific layout styles such as Header',
     },
     showOnThisPage: {
       name: 'Show in page navigation',
     },
-    isLanding: {
-      name: 'Is landing: display a content list if there is one',
+    hasLandingPageFormat: {
+      name: 'Displays a content list if there is one',
     },
     minWidth: {
       name: 'Minimum grid',
