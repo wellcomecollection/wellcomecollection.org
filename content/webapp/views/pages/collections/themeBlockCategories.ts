@@ -29,7 +29,6 @@ export const themeBlockCategories: ThemeConfig = {
         'bun3pg62',
         'dujvfptt',
         'u33bzxsb',
-        'd4r983x6',
       ],
     },
     {
@@ -42,7 +41,6 @@ export const themeBlockCategories: ThemeConfig = {
         'qj5kj8rz',
         'e8kur96g',
         'a4wyrvq2',
-        'qj5kj8rz',
         'ky24m9en',
         'pestkwqm',
       ],
