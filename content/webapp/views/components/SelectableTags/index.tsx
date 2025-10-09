@@ -108,6 +108,11 @@ export const SelectableTags: FunctionComponent<SelectableTagsProps> = ({
       <TagsWrapper className={font('intm', 5)}>
         {tags.map((tag, index) => {
           const isSelected = selected.includes(tag.id);
+          const gtmAttributes = dataGtmPropsToAttributes({
+            trigger: 'selectable_tag',
+            'position-in-list': String(index + 1),
+            label: tag.id,
+          });
           return (
             <div key={tag.id}>
               {isMultiSelect ? (
@@ -117,11 +122,7 @@ export const SelectableTags: FunctionComponent<SelectableTagsProps> = ({
                   value={tag.id}
                   checked={isSelected}
                   onChange={() => handleTagClick(tag.id)}
-                  {...dataGtmPropsToAttributes({
-                    trigger: 'selectable_tag',
-                    'position-in-list': String(index + 1),
-                    label: tag.id,
-                  })}
+                  {...gtmAttributes}
                   {...(tag.controls && { 'aria-controls': tag.controls })}
                 />
               ) : (
@@ -132,11 +133,7 @@ export const SelectableTags: FunctionComponent<SelectableTagsProps> = ({
                   value={tag.id}
                   checked={isSelected}
                   onChange={() => handleTagClick(tag.id)}
-                  {...dataGtmPropsToAttributes({
-                    trigger: 'selectable_tag',
-                    'position-in-list': String(index + 1),
-                    label: tag.id,
-                  })}
+                  {...gtmAttributes}
                   {...(tag.controls && { 'aria-controls': tag.controls })}
                 />
               )}
