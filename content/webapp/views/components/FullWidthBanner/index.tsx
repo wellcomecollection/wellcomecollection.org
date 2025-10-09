@@ -48,6 +48,7 @@ const ImageSection = styled.div`
   width: 100%;
   order: 0;
   margin-bottom: 2rem;
+  position: relative;
 
   @media (min-width: ${customBreakpoint}) {
     order: 2;
@@ -76,35 +77,29 @@ const MainBackground = styled.div<{ $isDefaultVariant: boolean }>`
     )};
 `;
 
-const WShapeWrapper = styled.div.attrs({ 'aria-hidden': 'true' })<{
+const ImageWShapeWrapper = styled.div.attrs({ 'aria-hidden': 'true' })<{
   $isDefaultVariant: boolean;
 }>`
   position: absolute;
-  z-index: 0;
+  z-index: -1;
   color: ${props =>
     props.theme.color(
       props.$isDefaultVariant ? 'accent.salmon' : 'accent.turquoise'
     )};
-  height: 100%;
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(24, 1fr);
+  display: flex;
+  width: 180%;
+  height: 180%;
+  transform: translate(-5%, -37%);
+
+  @media (min-width: ${customBreakpoint}) {
+    height: 230%;
+    max-height: 100cqh;
+  }
 
   svg {
-    grid-column: 1 / -1;
-    height: 105%;
-    left: -20%;
-    right: -20%;
-    transform: translateY(-50%);
-    position: relative;
-
-    @media (min-width: ${customBreakpoint}) {
-      grid-column: 10 / span 14;
-      height: 140%;
-      top: 50%;
-      right: -20%;
-      left: auto;
-    }
+    height: auto;
+    max-height: 100%;
+    object-fit: contain;
   }
 `;
 
@@ -177,10 +172,6 @@ const FullWidthBanner = (props: Props) => {
       data-component="full-width-banner"
       $isDefaultVariant={isDefaultVariant}
     >
-      <WShapeWrapper $isDefaultVariant={isDefaultVariant}>
-        <WShape variant={isDefaultVariant ? 'full-1' : 'full-2'} />
-      </WShapeWrapper>
-
       <div style={{ position: 'relative', zIndex: 1 }}>
         <ContaineredLayout gridSizes={gridSize12()}>
           <ContentContainer
@@ -220,6 +211,9 @@ const FullWidthBanner = (props: Props) => {
 
             {props.image && (
               <ImageSection>
+                <ImageWShapeWrapper $isDefaultVariant={isDefaultVariant}>
+                  <WShape variant={isDefaultVariant ? 'full-1' : 'full-2'} />
+                </ImageWShapeWrapper>
                 <CaptionedImage
                   image={props.image}
                   hasRoundedCorners={false}
