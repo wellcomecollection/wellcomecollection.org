@@ -10,7 +10,7 @@ projects: ['wellcomecollection/18']
 ## Description
 *Write a brief description of the feature or fix you are asking for a QA check. This should give the reader a brief overview of the feature/fix being implemented, as well as some context as to why it is necessary.*
 
-- Link to original [GitHub ticket](URL)
+- Link to [milestone](URL)
 - Link to [design file](URL)
 
 ## QA steps
