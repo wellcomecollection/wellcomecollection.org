@@ -1,81 +1,93 @@
 import { FunctionComponent } from 'react';
 
+import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import type { BookBasic } from '@weco/content/types/books';
-import CardGrid from '@weco/content/views/components/CardGrid';
+import TbcCard from '@weco/content/views/components/tbcCard';
 
+const items: BookBasic[] = [
+  {
+    // url: https://wellcomecollection.org/works/a3cyqwec
+    type: 'books',
+    id: 'scans',
+    uid: 'scans-of-drawings-used-as-newsletter-covers',
+    title: 'Scans of drawings used as newsletter covers',
+    subtitle: undefined,
+    cover: {
+      contentUrl: 'https://placehold.co/400x300/000000/FFFFFF/png',
+      width: 400,
+      height: 300,
+      alt: 'Scans of drawings used as newsletter covers',
+    },
+    promo: undefined,
+    labels: [{ text: 'Born-digital archives' }],
+    meta: 'Part of: David Beales: archive',
+  },
+  {
+    // https://wellcomecollection.org/works/ecgby5kb
+    type: 'books',
+    id: 'the-life-of',
+    uid: 'the-life-of-florence-nightingale',
+    title: 'The life of Florence Nightingale (1904, including illustrations)',
+    subtitle: undefined,
+    cover: {
+      contentUrl: 'https://placehold.co/200x309/000000/FFFFFF/png',
+      width: 200,
+      height: 309,
+      alt: 'The life of Florence Nightingale',
+    },
+    promo: undefined,
+    labels: [{ text: 'Book' }],
+  },
+  {
+    // 'https://wellcomecollection.org/works/fmvhyt82'
+    type: 'books',
+    id: 'Wampole',
+    uid: 'Wampole-preparation-tonic-and-stimulant-for-all-ages',
+    title:
+      "Wampole's Preparation: tonic and stimulant for all ages (1930s ephemera)",
+    subtitle: undefined,
+    cover: {
+      contentUrl: 'https://placehold.co/400x340/000000/FFFFFF/png',
+      width: 400,
+      height: 340,
+      alt: "Wampole's Preparation ephemera",
+    },
+    promo: undefined,
+    labels: [{ text: 'Ephemera' }],
+  },
+  {
+    // https://wellcomecollection.org/works/c2yce27k
+    type: 'books',
+    id: 'limit',
+    uid: 'thats-the-limit',
+    title: 'That’s the Limit: a guide to sensible drinking',
+    subtitle: undefined,
+    cover: {
+      contentUrl: 'https://placehold.co/200x285/000000/FFFFFF/png',
+      width: 200,
+      height: 285,
+      alt: 'That’s the Limit: a guide to sensible drinking',
+    },
+    promo: undefined,
+    labels: [{ text: 'Archives and manuscripts' }],
+  },
+];
+
+// TODO reuse bookImage but call that something else
 const NewOnline: FunctionComponent = () => {
-  // Construct four mock BookBasic items so CardGrid will render BookCard for them.
-  const items: BookBasic[] = [
-    {
-      type: 'books',
-      id: 'new-online-book-1',
-      uid: 'new-online-book-1',
-      title: 'Placeholder Book One',
-      subtitle: 'An introduction',
-      cover: {
-        contentUrl:
-          'https://via.placeholder.com/400x600.png?text=Placeholder+Book+1',
-        width: 400,
-        height: 600,
-        alt: 'Placeholder book 1',
-      },
-      promo: undefined,
-      labels: [{ text: 'Book' }],
-    },
-    {
-      type: 'books',
-      id: 'new-online-book-2',
-      uid: 'new-online-book-2',
-      title: 'Placeholder Book Two',
-      subtitle: 'Further reading',
-      cover: {
-        contentUrl:
-          'https://via.placeholder.com/400x600.png?text=Placeholder+Book+2',
-        width: 400,
-        height: 600,
-        alt: 'Placeholder book 2',
-      },
-      promo: undefined,
-      labels: [{ text: 'Book' }],
-    },
-    {
-      type: 'books',
-      id: 'new-online-book-3',
-      uid: 'new-online-book-3',
-      title: 'Placeholder Book Three',
-      subtitle: 'A deeper dive',
-      cover: {
-        contentUrl:
-          'https://via.placeholder.com/400x600.png?text=Placeholder+Book+3',
-        width: 400,
-        height: 600,
-        alt: 'Placeholder book 3',
-      },
-      promo: undefined,
-      labels: [{ text: 'Book' }],
-    },
-    {
-      type: 'books',
-      id: 'new-online-book-4',
-      uid: 'new-online-book-4',
-      title: 'Placeholder Book Four',
-      subtitle: 'Curator picks',
-      cover: {
-        contentUrl:
-          'https://via.placeholder.com/400x600.png?text=Placeholder+Book+4',
-        width: 400,
-        height: 600,
-        alt: 'Placeholder book 4',
-      },
-      promo: undefined,
-      labels: [{ text: 'Book' }],
-    },
-  ];
-
   return (
     <Space $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}>
-      <CardGrid items={items} itemsPerRow={4} />
+      <Grid>
+        {items.map(book => (
+          <GridCell
+            key={book.id}
+            $sizeMap={{ s: [12], m: [6], l: [3], xl: [3] }}
+          >
+            <TbcCard book={book} />
+          </GridCell>
+        ))}
+      </Grid>
     </Space>
   );
 };
