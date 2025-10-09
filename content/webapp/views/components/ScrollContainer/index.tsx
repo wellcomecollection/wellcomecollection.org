@@ -1,4 +1,9 @@
-import React, { FunctionComponent, PropsWithChildren, useRef } from 'react';
+import React, {
+  FunctionComponent,
+  PropsWithChildren,
+  RefObject,
+  useRef,
+} from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
@@ -40,7 +45,7 @@ type Props = PropsWithChildren<{
   gridSizes?: SizeMap;
   hasLeftOffset?: boolean;
   scrollButtonsAfter?: boolean;
-  containerRef?: React.RefObject<HTMLUListElement | null>;
+  containerRef?: RefObject<HTMLUListElement | null>;
   useShim?: boolean;
 }>;
 
