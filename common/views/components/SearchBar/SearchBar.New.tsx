@@ -31,11 +31,15 @@ const Typewriter = styled.div.attrs({
   transform: translateY(-50%);
   left: 20px;
   z-index: 1;
-  color: ${props => props.theme.color('neutral.500')};
+  color: ${props => props.theme.color('neutral.600')};
   width: calc(100% - 32px);
   overflow: hidden;
   text-wrap: nowrap;
   text-overflow: ellipsis;
+
+  @media (prefers-reduced-motion: reduce) {
+    display: none;
+  }
 `;
 
 const SearchInputWrapper = styled.div`

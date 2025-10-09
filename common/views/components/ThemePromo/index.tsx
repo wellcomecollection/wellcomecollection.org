@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { LinkProps } from '@weco/common/model/link-props';
 import { font } from '@weco/common/utils/classnames';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
+import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
@@ -115,6 +116,7 @@ export type ThemePromoProps = {
   title: string;
   description?: string;
   linkProps: LinkProps;
+  dataGtmProps?: DataGtmProps;
 };
 
 const ThemePromo: FunctionComponent<ThemePromoProps> = ({
@@ -122,6 +124,7 @@ const ThemePromo: FunctionComponent<ThemePromoProps> = ({
   title,
   description,
   linkProps,
+  dataGtmProps,
 }) => {
   const imageCount = images.filter(Boolean).length;
   const isSingleImage = imageCount === 1;
@@ -147,7 +150,7 @@ const ThemePromo: FunctionComponent<ThemePromoProps> = ({
   });
 
   return (
-    <Link {...linkProps}>
+    <Link {...linkProps} {...dataGtmPropsToAttributes(dataGtmProps)}>
       <CardWrapper data-component="theme-promo">
         <CompositeGrid $isSingleImage={isSingleImage}>
           {slots.map((slot, index) => (
