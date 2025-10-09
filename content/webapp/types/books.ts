@@ -24,6 +24,7 @@ export type BookBasic = {
   cover?: ImageType;
   promo?: ImagePromo | undefined;
   labels: Label[];
+  meta?: string; // TODO contrib, date
 };
 
 export type Book = GenericContentFields & {
