@@ -6,24 +6,23 @@ import { arrowSmall, web } from '@weco/common/icons';
 import { ImageType } from '@weco/common/model/image';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
-import {
-  ContaineredLayout,
-  gridSize12,
-} from '@weco/common/views/components/Layout';
+import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
+import PrismicImage from '@weco/common/views/components/PrismicImage';
 import AnimatedUnderlineCSS, {
   AnimatedUnderlineProps,
 } from '@weco/common/views/components/styled/AnimatedUnderline';
+import { Container } from '@weco/common/views/components/styled/Container';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import WShape from '@weco/common/views/components/WShape';
-import CaptionedImage from '@weco/content/views/components/CaptionedImage';
+import { themeValues } from '@weco/common/views/themes/config';
 import MoreLink from '@weco/content/views/components/MoreLink';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
 
 const customBreakpoint = '768px';
 
-const ContentContainer = styled(Space)`
+const BannerContentWrapper = styled(Space)`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -33,27 +32,44 @@ const ContentContainer = styled(Space)`
   }
 `;
 
-const CopySection = styled.div`
+const CopySectionContainer = styled.div`
   flex: 1 1 50%;
+  padding: 0 ${themeValues.containerPadding.small}px;
   align-self: flex-start;
   order: 1;
-  margin-right: 0;
+  z-index: 3;
 
   @media (min-width: ${customBreakpoint}) {
-    margin-right: 2rem;
+    padding: 0 ${themeValues.containerPadding.medium}px;
   }
+
+  ${themeValues.media('large')(`
+    padding: 0 0 0 ${themeValues.containerPadding.large}px;
+    margin-right: 2rem;
+  `)}
 `;
 
-const ImageSection = styled.div`
+const ImageSectionContainer = styled(Container)`
   flex: 1 1 50%;
   width: 100%;
   order: 0;
   margin-bottom: 2rem;
+  padding: 0 ${themeValues.containerPadding.small}px;
+
+  img {
+    z-index: 4;
+    position: relative;
+  }
 
   @media (min-width: ${customBreakpoint}) {
+    padding: 0 ${themeValues.containerPadding.medium}px 0 0;
     order: 2;
     margin-bottom: 0;
   }
+
+  ${themeValues.media('large')(`
+    padding: 0 ${themeValues.containerPadding.large}px 0 0;
+  `)}
 `;
 
 const SupportText = styled(Space).attrs({
@@ -81,6 +97,8 @@ const WShapeWrapper = styled.div.attrs({ 'aria-hidden': 'true' })<{
   $isDefaultVariant: boolean;
 }>`
   position: absolute;
+  top: 0;
+  left: 0;
   z-index: 0;
   color: ${props =>
     props.theme.color(
@@ -93,15 +111,17 @@ const WShapeWrapper = styled.div.attrs({ 'aria-hidden': 'true' })<{
 
   svg {
     grid-column: 1 / -1;
-    height: 105%;
+    width: 140%;
     left: -20%;
     right: -20%;
-    transform: translateY(-50%);
+    transform: translateY(-40%);
     position: relative;
 
     @media (min-width: ${customBreakpoint}) {
       grid-column: 10 / span 14;
+      transform: translateY(-50%);
       height: 140%;
+      width: auto;
       top: 50%;
       right: -20%;
       left: auto;
@@ -178,16 +198,19 @@ const FullWidthBanner = (props: Props) => {
       data-component="full-width-banner"
       $isDefaultVariant={isDefaultVariant}
     >
-      <WShapeWrapper $isDefaultVariant={isDefaultVariant}>
-        <WShape variant={isDefaultVariant ? 'full-1' : 'full-2'} />
-      </WShapeWrapper>
-
-      <div style={{ position: 'relative', zIndex: 1 }}>
-        <ContaineredLayout gridSizes={gridSize12()}>
-          <ContentContainer
+      <div
+        style={{
+          position: 'relative',
+          maxWidth: `${themeValues.sizes.xlarge}px`,
+          margin: '0 auto',
+          zIndex: 1,
+        }}
+      >
+        <Layout gridSizes={gridSize12()}>
+          <BannerContentWrapper
             $v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
           >
-            <CopySection>
+            <CopySectionContainer>
               {props.title && (
                 <SectionHeader title={props.title}></SectionHeader>
               )}
@@ -217,19 +240,22 @@ const FullWidthBanner = (props: Props) => {
                   <LinksWithArrow links={props.links} />
                 </PlainList>
               )}
-            </CopySection>
+            </CopySectionContainer>
 
-            {props.image && (
-              <ImageSection>
-                <CaptionedImage
-                  image={props.image}
-                  hasRoundedCorners={false}
-                  caption={[]}
+            <ImageSectionContainer>
+              <WShapeWrapper $isDefaultVariant={isDefaultVariant}>
+                <WShape variant={isDefaultVariant ? 'full-1' : 'full-2'} />
+              </WShapeWrapper>
+
+              {props.image && (
+                <PrismicImage
+                  image={{ ...props.image, alt: '' }}
+                  quality="high"
                 />
-              </ImageSection>
-            )}
-          </ContentContainer>
-        </ContaineredLayout>
+              )}
+            </ImageSectionContainer>
+          </BannerContentWrapper>
+        </Layout>
       </div>
     </MainBackground>
   );
