@@ -19,6 +19,30 @@ import SelectableTags from '@weco/content/views/components/SelectableTags';
 
 import type { ThemeConfig } from './themeBlockCategories';
 
+function useResponsiveScrollDistance() {
+  const [scrollDistance, setScrollDistance] = useState(400);
+
+  useEffect(() => {
+    const updateScrollDistance = () => {
+      const width = window.innerWidth;
+
+      if (width < 600) {
+        // Small screens: use 90vw (max-width constraint)
+        setScrollDistance(Math.min(400, window.innerWidth * 0.9));
+      } else {
+        // Medium screens and above: use full card width
+        setScrollDistance(400);
+      }
+    };
+
+    updateScrollDistance();
+    window.addEventListener('resize', updateScrollDistance);
+    return () => window.removeEventListener('resize', updateScrollDistance);
+  }, []);
+
+  return scrollDistance;
+}
+
 type BrowseByThemeProps = {
   themeConfig: ThemeConfig;
   initialConcepts: Concept[];
@@ -26,11 +50,20 @@ type BrowseByThemeProps = {
 };
 
 const ListItem = styled.li`
-  --gap: ${themeValues.gutter.medium}px;
+  --small-gap: ${themeValues.gutter.small}px;
   flex: 0 0 auto;
   width: 400px;
   max-width: 90vw;
-  margin-right: var(--gap);
+  padding-left: var(--small-gap);
+
+  /* &:last-child {
+    padding-right: var(--small-gap);
+  } */
+
+  ${props =>
+    props.theme.media('medium')(`
+      padding: 0 ${themeValues.gutter.medium}px 0 0;
+    `)}
 `;
 
 const Theme: FunctionComponent<{ concept: Concept }> = ({ concept }) => {
@@ -56,6 +89,7 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
     initialConcepts,
     getConceptsByIds
   );
+  const scrollDistance = useResponsiveScrollDistance();
 
   const scrollContainerRef = useRef<HTMLUListElement>(null);
   const [displayedConcepts, setDisplayedConcepts] =
@@ -112,7 +146,7 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
       <ScrollContainer
         scrollButtonsAfter={true}
         gridSizes={gridSizes}
-        customScrollDistance={424} // 400px card width + 24px gap
+        customScrollDistance={scrollDistance}
         containerRef={scrollContainerRef}
         useShim={true}
       >
