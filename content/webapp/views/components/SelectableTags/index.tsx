@@ -2,8 +2,8 @@ import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
-import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import { toHtmlId } from '@weco/common/utils/grammar';
+import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import AnimatedUnderlineCSS, {
   AnimatedUnderlineProps,
 } from '@weco/common/views/components/styled/AnimatedUnderline';
