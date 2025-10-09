@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
+import { toHtmlId } from '@weco/common/utils/grammar';
 import AnimatedUnderlineCSS, {
   AnimatedUnderlineProps,
 } from '@weco/common/views/components/styled/AnimatedUnderline';
@@ -117,7 +118,7 @@ export const SelectableTags: FunctionComponent<SelectableTagsProps> = ({
             <div key={tag.id}>
               {isMultiSelect ? (
                 <InputField
-                  id={tag.id}
+                  id={toHtmlId(tag.id)}
                   type="checkbox"
                   value={tag.id}
                   checked={isSelected}
@@ -127,7 +128,7 @@ export const SelectableTags: FunctionComponent<SelectableTagsProps> = ({
                 />
               ) : (
                 <InputField
-                  id={tag.id}
+                  id={toHtmlId(tag.id)}
                   type="radio"
                   name="selectable-tags"
                   value={tag.id}
@@ -140,7 +141,7 @@ export const SelectableTags: FunctionComponent<SelectableTagsProps> = ({
               <StyledInput
                 as="label"
                 key={tag.id}
-                htmlFor={tag.id}
+                htmlFor={toHtmlId(tag.id)}
                 $isSelected={!!isSelected}
                 $lineColor={isSelected ? 'white' : 'black'}
                 $lineThickness={1.4}

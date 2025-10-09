@@ -81,12 +81,14 @@ export const ProjectPage: NextPage<Props> = ({
     >
       <ContentPage
         id={project.id}
+        uid={project.uid}
         contentApiType="projects"
         Header={Header}
         Body={
           <Body
             untransformedBody={untransformedBody}
             pageId={project.id}
+            pageUid={project.uid}
             staticContent={staticContent}
           />
         }
