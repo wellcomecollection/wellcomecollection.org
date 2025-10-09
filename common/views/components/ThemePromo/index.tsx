@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
+import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
@@ -110,6 +111,7 @@ export type ThemePromoProps = {
   title: string;
   description?: string;
   url: string;
+  dataGtmProps?: DataGtmProps;
 };
 
 const ThemePromo: FunctionComponent<ThemePromoProps> = ({
@@ -117,6 +119,7 @@ const ThemePromo: FunctionComponent<ThemePromoProps> = ({
   title,
   description,
   url,
+  dataGtmProps,
 }) => {
   const imageCount = images.filter(Boolean).length;
   const isSingleImage = imageCount === 1;
@@ -135,7 +138,11 @@ const ThemePromo: FunctionComponent<ThemePromoProps> = ({
   });
 
   return (
-    <CardWrapper data-component="theme-promo" href={url}>
+    <CardWrapper
+      data-component="theme-promo"
+      href={url}
+      {...dataGtmPropsToAttributes(dataGtmProps)}
+    >
       <CompositeGrid $isSingleImage={isSingleImage}>
         {slots.map((slot, index) => (
           <ImageContainer
