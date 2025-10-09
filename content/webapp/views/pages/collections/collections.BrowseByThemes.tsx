@@ -19,30 +19,6 @@ import SelectableTags from '@weco/content/views/components/SelectableTags';
 
 import type { ThemeConfig } from './themeBlockCategories';
 
-function useResponsiveScrollDistance() {
-  const [scrollDistance, setScrollDistance] = useState(400);
-
-  useEffect(() => {
-    const updateScrollDistance = () => {
-      const width = window.innerWidth;
-
-      if (width < 600) {
-        // Small screens: use 90vw (max-width constraint)
-        setScrollDistance(Math.min(400, window.innerWidth * 0.9));
-      } else {
-        // Medium screens and above: use full card width
-        setScrollDistance(400);
-      }
-    };
-
-    updateScrollDistance();
-    window.addEventListener('resize', updateScrollDistance);
-    return () => window.removeEventListener('resize', updateScrollDistance);
-  }, []);
-
-  return scrollDistance;
-}
-
 type BrowseByThemeProps = {
   themeConfig: ThemeConfig;
   initialConcepts: Concept[];
@@ -89,7 +65,6 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
     initialConcepts,
     getConceptsByIds
   );
-  const scrollDistance = useResponsiveScrollDistance();
 
   const scrollContainerRef = useRef<HTMLUListElement>(null);
   const [displayedConcepts, setDisplayedConcepts] =
@@ -146,7 +121,6 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
       <ScrollContainer
         scrollButtonsAfter={true}
         gridSizes={gridSizes}
-        customScrollDistance={scrollDistance}
         containerRef={scrollContainerRef}
         useShim={true}
       >
