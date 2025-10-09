@@ -70,7 +70,6 @@ export type Props = {
   insideOurCollectionsCards: MultiContent[];
   featuredConcepts: Concept[];
   fullWidthBanners?: prismic.Slice<'fullWidthBanner'>[];
-  // jsonLd: JsonLdObj[]; ??
 };
 
 const CollectionsLandingPage: NextPage<Props> = ({
@@ -88,7 +87,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
       title="Collections"
       description={pageMeta.description || pageDescriptions.collections}
       url={{ pathname: '/collections' }}
-      jsonLd={[]} // TODO?
+      jsonLd={[]} 
       openGraphType="website"
       siteSection="collections"
       image={pageMeta.image}
@@ -96,7 +95,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
       isNoIndex // TODO remove when this becomes the page
       hideNewsletterPromo
     >
-      <PageHeader variant="simpleLanding" title={title} introText={introText} />
+      <PageHeader variant="landing" title={title} introText={introText} />
 
       <ContaineredLayout gridSizes={gridSize12()}>
         <DecorativeEdgeContainer>

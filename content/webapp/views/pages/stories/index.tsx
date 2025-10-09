@@ -4,12 +4,10 @@ import styled from 'styled-components';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import { defaultSerializer } from '@weco/common/views/components/HTMLSerializers';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import {
   ContaineredLayout,
   gridSize12,
-  gridSize8,
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
@@ -27,7 +25,6 @@ import { SeriesBasic } from '@weco/content/types/series';
 import { StoriesLanding } from '@weco/content/types/stories-landing';
 import CardGrid from '@weco/content/views/components/CardGrid';
 import FeaturedCard from '@weco/content/views/components/FeaturedCard';
-import FeaturedText from '@weco/content/views/components/FeaturedText';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
 import StoryCard from '@weco/content/views/components/StoryCard';
 
@@ -97,24 +94,7 @@ const StoriesPage: NextPage<Props> = ({
       rssUrl="https://rss.wellcomecollection.org/stories"
       apiToolbarLinks={[createPrismicLink(storiesLanding.id)]}
     >
-      <PageHeader
-        variant="legacyLanding"
-        sectionLevelPage
-        title="Stories"
-        isContentTypeInfoBeforeMedia={false}
-      />
-      {introText && (
-        <ContaineredLayout gridSizes={gridSize8(false)}>
-          <div className="body-text spaced-text">
-            <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
-              <FeaturedText
-                html={introText}
-                htmlSerializer={defaultSerializer}
-              />
-            </Space>
-          </div>
-        </ContaineredLayout>
-      )}
+      <PageHeader variant="landing" title="Stories" introText={introText} />
 
       <SpacingSection>
         <ArticlesContainer className="row--has-wobbly-background">

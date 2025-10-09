@@ -373,7 +373,7 @@ const untransformedbody: prismic.SliceZone<PagesDocumentDataBodySlice> = [
     slice_type: 'editorialImage',
     slice_label: null,
   },
-  // Needed for the isLanding version
+  // Needed for the hasLandingPageFormat version
   {
     variation: 'default',
     version: 'initial',

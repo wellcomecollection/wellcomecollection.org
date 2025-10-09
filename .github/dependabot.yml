@@ -31,7 +31,9 @@ updates:
       - dependency-name: 'lint-staged'
       - dependency-name: '@faker-js/faker'
       # Storybook packages - major version updates require manual migration
+      # Please also unignore webback once storybook gets upgraded - it currently has to be locked
       - dependency-name: '@storybook/*'
+      - dependency-name: 'webpack'
         update-types: ['version-update:semver-major']
     groups:
       all:

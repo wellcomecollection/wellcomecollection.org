@@ -91,11 +91,13 @@ const ArticleSeriesPage: NextPage<Props> = props => {
     >
       <ContentPage
         id={series.id}
+        uid={series.uid}
         Header={Header}
         Body={
           <Body
             untransformedBody={series.untransformedBody}
             pageId={series.id}
+            pageUid={series.uid}
           />
         }
         contributors={series.contributors}
