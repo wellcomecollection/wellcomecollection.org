@@ -93,7 +93,8 @@ const ImageWShapeWrapper = styled.div.attrs({ 'aria-hidden': 'true' })<{
 
   @media (min-width: ${customBreakpoint}) {
     height: 230%;
-    max-height: 100cqh;
+    max-height: 80cqh;
+    transform: translate(-5%, calc(7vw - 34%));
   }
 
   svg {
