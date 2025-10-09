@@ -123,12 +123,11 @@ const CollectionsLandingPage: NextPage<Props> = ({
       >
         <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
           <SectionHeader title="Browse by theme" gridSize={gridSize12()} />
-          <ContaineredLayout gridSizes={gridSize12()}>
-            <BrowseByThemes
-              themeConfig={themeBlockCategories}
-              initialConcepts={featuredConcepts}
-            />
-          </ContaineredLayout>
+          <BrowseByThemes
+            themeConfig={themeBlockCategories}
+            initialConcepts={featuredConcepts}
+            gridSizes={gridSize12()}
+          />
         </Space>
       </MainBackground>
 

@@ -1,6 +1,11 @@
-import { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
+import {
+  ContaineredLayout,
+  gridSize12,
+} from '@weco/common/views/components/Layout';
+import { SizeMap } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import ThemePromo from '@weco/common/views/components/ThemePromo';
 import { themeValues } from '@weco/common/views/themes/config';
@@ -17,14 +22,24 @@ import type { ThemeConfig } from './themeBlockCategories';
 type BrowseByThemeProps = {
   themeConfig: ThemeConfig;
   initialConcepts: Concept[];
+  gridSizes: SizeMap;
 };
 
 const ListItem = styled.li`
-  --gap: ${themeValues.gutter.medium}px;
+  --small-gap: ${themeValues.gutter.small}px;
   flex: 0 0 auto;
   width: 400px;
   max-width: 90vw;
-  margin-right: var(--gap);
+  padding-left: var(--small-gap);
+
+  /* &:last-child {
+    padding-right: var(--small-gap);
+  } */
+
+  ${props =>
+    props.theme.media('medium')(`
+      padding: 0 ${themeValues.gutter.medium}px 0 0;
+    `)}
 `;
 
 const Theme: FunctionComponent<{
@@ -33,16 +48,15 @@ const Theme: FunctionComponent<{
   categoryPosition: number;
   positionInList: number;
 }> = ({ concept, categoryLabel, categoryPosition, positionInList }) => {
-  const linkProps = toConceptLink({ conceptId: concept.id });
   const images = useConceptImageUrls(concept);
-  const url = linkProps.href.pathname;
+  const linkProps = toConceptLink({ conceptId: concept.id });
   const title = concept.displayLabel || concept.label;
-  return url && title ? (
+  return linkProps && title ? (
     <ThemePromo
       images={images}
       title={title}
       description={concept.description?.text}
-      url={url}
+      linkProps={linkProps}
       dataGtmProps={{
         trigger: 'theme_promo_card',
         'category-label': categoryLabel,
@@ -57,12 +71,14 @@ const Theme: FunctionComponent<{
 const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
   themeConfig,
   initialConcepts,
+  gridSizes,
 }) => {
   const { fetchConcepts, setCache } = useThemeConcepts(
     initialConcepts,
     getConceptsByIds
   );
 
+  const scrollContainerRef = useRef<HTMLUListElement>(null);
   const [displayedConcepts, setDisplayedConcepts] =
     useState<Concept[]>(initialConcepts);
   const [selectedCategoryLabel, setSelectedCategoryLabel] = useState<string>(
@@ -95,6 +111,13 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
     }
   };
 
+  // Reset scroll position when a new theme category is selected
+  useEffect(() => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollLeft = 0;
+    }
+  }, [displayedConcepts]);
+
   const tagData = themeConfig.categories.map(category => ({
     id: category.label,
     label: category.label,
@@ -110,19 +133,26 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
       $v={{ size: 'm', properties: ['margin-top'] }}
       data-component="BrowseByThemes"
     >
-      <div className="visually-hidden" aria-live="polite">
-        {announcement}
-      </div>
-      <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
-        <SelectableTags
-          tags={tagData}
-          isMultiSelect={false}
-          onChange={handleCategoryChange}
-        />
-      </Space>
-      <ScrollContainer scrollButtonsAfter={true}>
+      <ContaineredLayout gridSizes={gridSize12()}>
+        <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
+          <div className="visually-hidden" aria-live="polite">
+            {announcement}
+          </div>
+          <SelectableTags
+            tags={tagData}
+            isMultiSelect={false}
+            onChange={handleCategoryChange}
+          />
+        </Space>
+      </ContaineredLayout>
+      <ScrollContainer
+        scrollButtonsAfter={true}
+        gridSizes={gridSizes}
+        containerRef={scrollContainerRef}
+        useShim={true}
+      >
         {displayedConcepts.map((concept, index) => (
-          <ListItem key={concept.id}>
+          <ListItem key={`${selectedCategoryLabel}-${concept.id}`}>
             <Theme
               concept={concept}
               categoryLabel={selectedCategoryLabel}
