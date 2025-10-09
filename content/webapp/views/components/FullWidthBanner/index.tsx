@@ -35,6 +35,7 @@ const ContentContainer = styled(Space)`
 
 const CopySection = styled.div`
   flex: 1 1 50%;
+  align-self: flex-start;
   order: 1;
   margin-right: 0;
 
