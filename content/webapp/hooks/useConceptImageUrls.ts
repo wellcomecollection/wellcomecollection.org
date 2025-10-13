@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 
+import {
+  convertImageUri,
+  iiifImageTemplate,
+} from '@weco/common/utils/convert-image-uri';
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
-import type {
-  Concept,
-  Image,
-} from '@weco/content/services/wellcome/catalogue/types';
+import type { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { queryParams } from '@weco/content/utils/concepts';
 
 /**
@@ -12,12 +13,12 @@ import { queryParams } from '@weco/content/utils/concepts';
  * fetch up to 4 images related to the concept.
  */
 
-const imagesCache: Map<string, Image[]> = new Map();
+const imagesCache: Map<string, string[]> = new Map();
 
-export function useConceptImageUrls(
-  concept: Concept
-): [Image?, Image?, Image?, Image?] {
-  const [images, setImages] = useState<Image[]>([]);
+export type ConceptImagesArray = [string?, string?, string?, string?];
+
+export function useConceptImageUrls(concept: Concept): ConceptImagesArray {
+  const [images, setImages] = useState<string[]>([]);
 
   const cacheKey = concept.id;
 
@@ -35,17 +36,31 @@ export function useConceptImageUrls(
       if (!isMounted) return;
 
       if (concept.displayImages.length > 0) {
-        imagesCache.set(cacheKey, concept.displayImages);
-        setImages(concept.displayImages);
+        const transformedImages = await Promise.all(
+          concept.displayImages.map(async location =>
+            iiifImageTemplate(location.url)({
+              size: concept.displayImages.length === 1 ? '500,' : '250,',
+            })
+          )
+        );
+        imagesCache.set(cacheKey, transformedImages);
+        setImages(transformedImages);
         return;
       }
 
-      let fetchedImages: Image[] = [];
+      let fetchedImages: string[] = [];
       const params = queryParams('imagesAbout', concept);
       try {
         const result = await getImages({ params, toggles: {}, pageSize: 4 });
         if ('results' in result && result.results.length > 0) {
-          fetchedImages = result.results.slice(0, 4);
+          fetchedImages = result.results
+            .slice(0, 4)
+            .map(image =>
+              convertImageUri(
+                image.locations[0].url,
+                result.results.length === 1 ? 500 : 250
+              )
+            );
         }
 
         imagesCache.set(cacheKey, fetchedImages);
@@ -66,10 +81,5 @@ export function useConceptImageUrls(
     };
   }, [cacheKey, concept.displayImages]);
 
-  return [images[0], images[1], images[2], images[3]] as [
-    Image?,
-    Image?,
-    Image?,
-    Image?,
-  ];
+  return [images[0], images[1], images[2], images[3]] as ConceptImagesArray;
 }

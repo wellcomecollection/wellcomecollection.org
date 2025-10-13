@@ -147,7 +147,7 @@ export type Concept = {
   id: string;
   label: string;
   type: ConceptType;
-  displayImages: Image[];
+  displayImages: DigitalLocation[];
   identifiers?: Identifier[];
   displayLabel?: string;
   sameAs?: string[];

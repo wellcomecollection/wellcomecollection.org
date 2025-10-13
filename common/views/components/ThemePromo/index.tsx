@@ -4,11 +4,10 @@ import styled from 'styled-components';
 
 import { LinkProps } from '@weco/common/model/link-props';
 import { font } from '@weco/common/utils/classnames';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
-import { Image } from '@weco/content/services/wellcome/catalogue/types';
+import { ConceptImagesArray } from '@weco/content/hooks/useConceptImageUrls';
 
 // Palette colors for placeholder rectangles
 const placeholderColors = [
@@ -112,7 +111,7 @@ const Description = styled.p.attrs({
 `;
 
 export type ThemePromoProps = {
-  images: [Image?, Image?, Image?, Image?];
+  images: ConceptImagesArray;
   title: string;
   description?: string;
   linkProps: LinkProps;
@@ -162,10 +161,7 @@ const ThemePromo: FunctionComponent<ThemePromoProps> = ({
             >
               {slot.type === 'image' && slot.image ? (
                 <ImageElement
-                  src={convertImageUri(
-                    slot.image.locations[0].url,
-                    isSingleImage ? 500 : 250
-                  )}
+                  src={slot.image}
                   alt=""
                   loading="lazy"
                   $isLoaded={loadedImages.has(index)}
