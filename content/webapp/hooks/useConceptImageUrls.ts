@@ -34,7 +34,7 @@ export function useConceptImageUrls(
     async function fetchImages() {
       if (!isMounted) return;
 
-      if (concept.displayImages?.length > 0) {
+      if (concept.displayImages.length > 0) {
         imagesCache.set(cacheKey, concept.displayImages);
         setImages(concept.displayImages);
         return;
@@ -60,6 +60,7 @@ export function useConceptImageUrls(
     }
 
     fetchImages();
+
     return () => {
       isMounted = false;
     };
