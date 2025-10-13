@@ -11,13 +11,13 @@ import {
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
+import PrismicImage from '@weco/common/views/components/PrismicImage';
 import AnimatedUnderlineCSS, {
   AnimatedUnderlineProps,
 } from '@weco/common/views/components/styled/AnimatedUnderline';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import WShape from '@weco/common/views/components/WShape';
-import CaptionedImage from '@weco/content/views/components/CaptionedImage';
 import MoreLink from '@weco/content/views/components/MoreLink';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
 
@@ -96,12 +96,6 @@ const ImageWShapeWrapper = styled.div.attrs({ 'aria-hidden': 'true' })<{
     height: 230%;
     max-height: 80cqh;
     transform: translate(-5%, calc(7vw - 34%));
-  }
-
-  svg {
-    height: auto;
-    max-height: 100%;
-    object-fit: contain;
   }
 `;
 
@@ -216,10 +210,9 @@ const FullWidthBanner = (props: Props) => {
                 <ImageWShapeWrapper $isDefaultVariant={isDefaultVariant}>
                   <WShape variant={isDefaultVariant ? 'full-1' : 'full-2'} />
                 </ImageWShapeWrapper>
-                <CaptionedImage
-                  image={props.image}
-                  hasRoundedCorners={false}
-                  caption={[]}
+                <PrismicImage
+                  image={{ ...props.image, alt: '' }}
+                  quality="high"
                 />
               </ImageSection>
             )}
