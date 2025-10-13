@@ -8,9 +8,8 @@ import type {
 import { queryParams } from '@weco/content/utils/concepts';
 
 /**
- * If the optional posterImage property is not present on the concept,
+ * If the optional displayImages property is not present on the concept,
  * fetch up to 4 images related to the concept.
- * If posterImage is present, it will be used as the only image.
  */
 
 const imagesCache: Map<string, Image[]> = new Map();
@@ -35,24 +34,26 @@ export function useConceptImageUrls(
     async function fetchImages() {
       if (!isMounted) return;
 
-      if (concept.posterImage) {
-        const posterArr = [concept.posterImage];
-        imagesCache.set(cacheKey, posterArr);
-        setImages(posterArr);
+      if (concept.displayImages?.length > 0) {
+        imagesCache.set(cacheKey, concept.displayImages);
+        setImages(concept.displayImages);
         return;
       }
 
       let fetchedImages: Image[] = [];
-      const params = queryParams('imagesAbout', concept); // or imagesOf or both or something else?
+      const params = queryParams('imagesAbout', concept);
       try {
         const result = await getImages({ params, toggles: {}, pageSize: 4 });
         if ('results' in result && result.results.length > 0) {
           fetchedImages = result.results.slice(0, 4);
         }
+
         imagesCache.set(cacheKey, fetchedImages);
+
         if (isMounted) setImages(fetchedImages);
       } catch (error) {
         console.error('Failed to fetch concept images:', error);
+
         imagesCache.set(cacheKey, []);
         if (isMounted) setImages([]);
       }
@@ -62,7 +63,7 @@ export function useConceptImageUrls(
     return () => {
       isMounted = false;
     };
-  }, [cacheKey, concept.posterImage]);
+  }, [cacheKey, concept.displayImages]);
 
   return [images[0], images[1], images[2], images[3]] as [
     Image?,

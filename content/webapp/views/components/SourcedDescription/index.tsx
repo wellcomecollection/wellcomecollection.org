@@ -118,10 +118,10 @@ const SourceLabel = styled.span`
 `;
 
 const SourcedDescription: FunctionComponent<{
-  source: SourceOntology;
   description: string;
   href: string;
-}> = ({ description, source, href }) => {
+  source?: SourceOntology;
+}> = ({ description, href, source }) => {
   const sourcePillRef = useRef<HTMLDivElement>(null);
   const sourcePillContainerRef = useRef<HTMLDivElement>(null);
   const [sourceBoxMarginLeft, setSourceBoxMarginLeft] = useState(0);
@@ -179,34 +179,38 @@ const SourcedDescription: FunctionComponent<{
   return (
     <div data-component="sourced-description">
       <Paragraph>{description}</Paragraph>
-      <SourcePill
-        tabIndex={0}
-        onMouseEnter={updateSourceBoxPosition}
-        onFocus={updateSourceBoxPosition}
-        ref={sourcePillContainerRef}
-      >
-        <SourceLabel
-          ref={sourcePillRef}
-          // On touch screens, clicking on the pill while the source box is visible should hide it
-          onTouchEnd={toggleSourceBoxFocus}
+
+      {source && (
+        <SourcePill
+          tabIndex={0}
+          onMouseEnter={updateSourceBoxPosition}
+          onFocus={updateSourceBoxPosition}
+          ref={sourcePillContainerRef}
         >
-          {getReadableSource(source)}
-        </SourceLabel>
-        <SourceBoxContainer $marginLeft={sourceBoxMarginLeft}>
-          <SourceBox {...dataGtmPropsToAttributes({ trigger: 'source_box' })}>
-            <span className={font('intm', 6)}>Source:</span>
-            <SourceLink>
-              {source === 'wikidata' && <WikidataLogo width={16} />}
-              {source === 'nlm-mesh' && (
-                <Image src={MeshLogo} alt="MeSH logo" />
-              )}
-              <a href={href} target="_blank" rel="noopener noreferrer">
-                {getReadableSource(source)}
-              </a>
-            </SourceLink>
-          </SourceBox>
-        </SourceBoxContainer>
-      </SourcePill>
+          <SourceLabel
+            ref={sourcePillRef}
+            // On touch screens, clicking on the pill while the source box is visible should hide it
+            onTouchEnd={toggleSourceBoxFocus}
+          >
+            {getReadableSource(source)}
+          </SourceLabel>
+
+          <SourceBoxContainer $marginLeft={sourceBoxMarginLeft}>
+            <SourceBox {...dataGtmPropsToAttributes({ trigger: 'source_box' })}>
+              <span className={font('intm', 6)}>Source:</span>
+              <SourceLink>
+                {source === 'wikidata' && <WikidataLogo width={16} />}
+                {source === 'nlm-mesh' && (
+                  <Image src={MeshLogo} alt="MeSH logo" />
+                )}
+                <a href={href} target="_blank" rel="noopener noreferrer">
+                  {getReadableSource(source)}
+                </a>
+              </SourceLink>
+            </SourceBox>
+          </SourceBoxContainer>
+        </SourcePill>
+      )}
     </div>
   );
 };
