@@ -78,7 +78,11 @@ const SearchForm = ({
         inputValue={inputValue}
         setInputValue={setInputValue}
         form={formId}
-        placeholder={searchLabelText[searchCategory]}
+        placeholder={
+          isNew
+            ? 'Search for books, artworks, images, videos, archives and more'
+            : searchLabelText[searchCategory]
+        }
         inputRef={inputRef}
         location={location}
       />
