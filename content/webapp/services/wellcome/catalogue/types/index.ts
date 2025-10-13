@@ -166,7 +166,7 @@ export type Concept = {
     relatedTopics?: RelatedConcept[];
   };
   alternativeLabels?: string[];
-  displayImages: Image[];
+  displayImages: Image[]; // TODO: is this always there?
 };
 
 type Availability = {
