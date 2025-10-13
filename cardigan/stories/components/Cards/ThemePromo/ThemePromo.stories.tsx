@@ -1,6 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 
 import mockImages from '@weco/cardigan/stories/data/mock-iiif-images';
+import { LinkProps } from '@weco/common/model/link-props';
 import ThemePromo from '@weco/common/views/components/ThemePromo';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
 
@@ -8,7 +9,7 @@ type StoryArgs = {
   imageCount: number;
   title: string;
   description: string;
-  url: string;
+  linkProps: LinkProps;
   images?: never; // Hidden prop
 };
 
@@ -46,7 +47,14 @@ export const Basic: Story = {
     title: 'Photography',
     description:
       'The art and science of creating images using light and cameras',
-    url: '#',
+    linkProps: {
+      href: {
+        pathname: '#',
+        query: {
+          conceptId: 'abc123',
+        },
+      },
+    },
     imageCount: 4,
   },
   render: args => {

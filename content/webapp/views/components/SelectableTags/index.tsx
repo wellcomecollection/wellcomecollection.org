@@ -32,7 +32,7 @@ const StyledInput = styled.label<
   display: inline-block;
   border: 1px solid ${props => props.theme.color('black')};
   background-color: ${props =>
-    props.theme.color(props.$isSelected ? 'black' : 'transparent')};
+    props.theme.color(props.$isSelected ? 'neutral.700' : 'transparent')};
   color: ${props => props.theme.color(props.$isSelected ? 'white' : 'black')};
   padding: 8px 16px;
   border-radius: 100px;
@@ -40,7 +40,7 @@ const StyledInput = styled.label<
 
   &:hover {
     background-color: ${props =>
-      props.theme.color(props.$isSelected ? 'black' : 'warmNeutral.400')};
+      props.theme.color(props.$isSelected ? 'neutral.700' : 'warmNeutral.400')};
     color: ${props => props.theme.color(props.$isSelected ? 'white' : 'black')};
   }
 `;

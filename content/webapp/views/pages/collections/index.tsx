@@ -86,7 +86,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
       title="Collections"
       description={pageMeta.description || pageDescriptions.collections}
       url={{ pathname: '/collections' }}
-      jsonLd={[]} 
+      jsonLd={[]}
       openGraphType="website"
       siteSection="collections"
       image={pageMeta.image}
@@ -105,7 +105,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
       <div style={{ backgroundColor: themeValues.color('accent.lightBlue') }}>
         <ContaineredLayout gridSizes={gridSize10(false)}>
           <Space
-            $v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
+            $v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
           >
             <SearchForm
               searchCategory="works"
@@ -121,22 +121,23 @@ const CollectionsLandingPage: NextPage<Props> = ({
         data-component="full-width-banner"
         $isDefaultVariant={true}
       >
-        <SectionHeader title="Browse by theme" gridSize={gridSize12()} />
-        <ContaineredLayout gridSizes={gridSize12()}>
+        <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
+          <SectionHeader title="Browse by theme" gridSize={gridSize12()} />
           <BrowseByThemes
             themeConfig={themeBlockCategories}
             initialConcepts={featuredConcepts}
+            gridSizes={gridSize12()}
           />
-        </ContaineredLayout>
+        </Space>
       </MainBackground>
 
       {fullWidthBanners?.[0] && (
-        <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+        <Space $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}>
           <SliceZone slices={[fullWidthBanners[0]]} components={components} />
         </Space>
       )}
 
-      <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+      <Space $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}>
         <SectionHeader title="Inside our collections" gridSize={gridSize12()} />
         <ContaineredLayout gridSizes={gridSize12()}>
           <p>
@@ -145,19 +146,17 @@ const CollectionsLandingPage: NextPage<Props> = ({
           </p>
         </ContaineredLayout>
 
-        <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
-          <CardGrid
-            items={insideOurCollectionsCards}
-            itemsPerRow={3}
-            itemsHaveTransparentBackground
-            links={[
-              {
-                text: 'Read all stories',
-                url: '/series/inside-our-collections',
-              },
-            ]}
-          />
-        </Space>
+        <CardGrid
+          items={insideOurCollectionsCards}
+          itemsPerRow={3}
+          itemsHaveTransparentBackground
+          links={[
+            {
+              text: 'Read all stories',
+              url: '/series/inside-our-collections',
+            },
+          ]}
+        />
       </Space>
 
       <MaterialsSection>
@@ -167,6 +166,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
             gridSize={gridSize12()}
           />
         </Space>
+
         <ContaineredLayout gridSizes={gridSize12()}>
           <WorkTypesList collectionStats={collectionStats} />
         </ContaineredLayout>
