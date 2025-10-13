@@ -138,7 +138,13 @@ const ThemePromo: FunctionComponent<ThemePromoProps> = ({
   // Create array of slots, some with images, some with placeholder colors
   const slots = Array.from({ length: isSingleImage ? 1 : 4 }, (_, index) => {
     if (index < images.length && images[index]) {
-      return { type: 'image' as const, image: images[index]! };
+      return {
+        type: 'image' as const,
+        image: images[index]!,
+        color: placeholderColors[
+          index % placeholderColors.length
+        ] as PaletteColor,
+      };
     }
     return {
       type: 'placeholder' as const,
@@ -153,12 +159,7 @@ const ThemePromo: FunctionComponent<ThemePromoProps> = ({
       <CardWrapper data-component="theme-promo">
         <CompositeGrid $isSingleImage={isSingleImage}>
           {slots.map((slot, index) => (
-            <ImageContainer
-              key={index}
-              $placeholderColor={
-                slot.type === 'placeholder' ? slot.color : undefined
-              }
-            >
+            <ImageContainer key={index} $placeholderColor={slot.color}>
               {slot.type === 'image' && slot.image ? (
                 <ImageElement
                   src={slot.image}
