@@ -63,7 +63,7 @@ type Props = {
   item: TbcItem;
 };
 
-const BookCard: FunctionComponent<Props> = ({ item }) => {
+const TbcCard: FunctionComponent<Props> = ({ item }) => {
   const { url, title, image, labels, meta } = item;
   return (
     <LinkSpace $url={url}>
@@ -113,4 +113,4 @@ const BookCard: FunctionComponent<Props> = ({ item }) => {
   );
 };
 
-export default BookCard;
+export default TbcCard;
