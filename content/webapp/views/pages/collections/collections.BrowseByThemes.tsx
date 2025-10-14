@@ -26,14 +26,28 @@ type BrowseByThemeProps = {
 };
 
 const ListItem = styled.li`
-  --gap: ${themeValues.gutter.medium}px;
+  --small-gap: ${themeValues.gutter.small}px;
   flex: 0 0 auto;
   width: 400px;
   max-width: 90vw;
-  margin-right: var(--gap);
+  padding-left: var(--small-gap);
+
+  /* &:last-child {
+    padding-right: var(--small-gap);
+  } */
+
+  ${props =>
+    props.theme.media('medium')(`
+      padding: 0 ${themeValues.gutter.medium}px 0 0;
+    `)}
 `;
 
-const Theme: FunctionComponent<{ concept: Concept }> = ({ concept }) => {
+const Theme: FunctionComponent<{
+  concept: Concept;
+  categoryLabel: string;
+  categoryPosition: number;
+  positionInList: number;
+}> = ({ concept, categoryLabel, categoryPosition, positionInList }) => {
   const images = useConceptImageUrls(concept);
   const linkProps = toConceptLink({ conceptId: concept.id });
   const title = concept.displayLabel || concept.label;
@@ -43,6 +57,13 @@ const Theme: FunctionComponent<{ concept: Concept }> = ({ concept }) => {
       title={title}
       description={concept.description?.text}
       linkProps={linkProps}
+      dataGtmProps={{
+        trigger: 'theme_promo_card',
+        'category-label': categoryLabel,
+        'category-position-in-list': String(categoryPosition),
+        id: concept.id,
+        'position-in-list': String(positionInList),
+      }}
     />
   ) : null;
 };
@@ -60,14 +81,18 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
   const scrollContainerRef = useRef<HTMLUListElement>(null);
   const [displayedConcepts, setDisplayedConcepts] =
     useState<Concept[]>(initialConcepts);
-  const [selectedCategory, setSelectedCategory] = useState<string>(
+  const [selectedCategoryLabel, setSelectedCategoryLabel] = useState<string>(
     themeConfig.categories[0]?.label || ''
   );
+  const [announcement, setAnnouncement] = useState('');
 
   // Set the cache with the first category and display it
   useEffect(() => {
     const firstLabel = themeConfig.categories[0]?.label;
-    if (firstLabel) setCache(firstLabel, initialConcepts);
+    if (firstLabel) {
+      setCache(firstLabel, initialConcepts);
+      setSelectedCategoryLabel(firstLabel);
+    }
     setDisplayedConcepts(initialConcepts);
   }, [initialConcepts, themeConfig.categories, setCache]);
 
@@ -77,9 +102,12 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
       cat => cat.label === selectedCategoryId
     );
     if (category) {
-      setSelectedCategory(selectedCategoryId);
+      setSelectedCategoryLabel(category.label);
       const result = await fetchConcepts(category);
       setDisplayedConcepts(result);
+      setAnnouncement(
+        `Showing ${result.length} ${category.label.toLowerCase()} ${result.length === 1 ? 'theme' : 'themes'}`
+      );
     }
   };
 
@@ -95,6 +123,11 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
     label: category.label,
   }));
 
+  const selectedCategoryPosition =
+    themeConfig.categories.findIndex(
+      cat => cat.label === selectedCategoryLabel
+    ) + 1;
+
   return (
     <Space
       $v={{ size: 'm', properties: ['margin-top'] }}
@@ -102,6 +135,9 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
     >
       <ContaineredLayout gridSizes={gridSize12()}>
         <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
+          <div className="visually-hidden" aria-live="polite">
+            {announcement}
+          </div>
           <SelectableTags
             tags={tagData}
             isMultiSelect={false}
@@ -112,13 +148,17 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
       <ScrollContainer
         scrollButtonsAfter={true}
         gridSizes={gridSizes}
-        customScrollDistance={424} // 400px card width + 24px gap
         containerRef={scrollContainerRef}
         useShim={true}
       >
-        {displayedConcepts.map(concept => (
-          <ListItem key={`${selectedCategory}-${concept.id}`}>
-            <Theme concept={concept} />
+        {displayedConcepts.map((concept, index) => (
+          <ListItem key={`${selectedCategoryLabel}-${concept.id}`}>
+            <Theme
+              concept={concept}
+              categoryLabel={selectedCategoryLabel}
+              categoryPosition={selectedCategoryPosition}
+              positionInList={index + 1}
+            />
           </ListItem>
         ))}
       </ScrollContainer>

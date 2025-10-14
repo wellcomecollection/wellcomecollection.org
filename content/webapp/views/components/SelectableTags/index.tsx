@@ -2,6 +2,8 @@ import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
+import { toHtmlId } from '@weco/common/utils/grammar';
+import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import AnimatedUnderlineCSS, {
   AnimatedUnderlineProps,
 } from '@weco/common/views/components/styled/AnimatedUnderline';
@@ -30,7 +32,7 @@ const StyledInput = styled.label<
   display: inline-block;
   border: 1px solid ${props => props.theme.color('black')};
   background-color: ${props =>
-    props.theme.color(props.$isSelected ? 'black' : 'transparent')};
+    props.theme.color(props.$isSelected ? 'neutral.700' : 'transparent')};
   color: ${props => props.theme.color(props.$isSelected ? 'white' : 'black')};
   padding: 8px 16px;
   border-radius: 100px;
@@ -38,7 +40,7 @@ const StyledInput = styled.label<
 
   &:hover {
     background-color: ${props =>
-      props.theme.color(props.$isSelected ? 'black' : 'warmNeutral.400')};
+      props.theme.color(props.$isSelected ? 'neutral.700' : 'warmNeutral.400')};
     color: ${props => props.theme.color(props.$isSelected ? 'white' : 'black')};
   }
 `;
@@ -105,34 +107,41 @@ export const SelectableTags: FunctionComponent<SelectableTagsProps> = ({
   return (
     <div data-component="selectable-tags">
       <TagsWrapper className={font('intm', 5)}>
-        {tags.map(tag => {
+        {tags.map((tag, index) => {
           const isSelected = selected.includes(tag.id);
+          const gtmAttributes = dataGtmPropsToAttributes({
+            trigger: 'selectable_tag',
+            'position-in-list': String(index + 1),
+            label: tag.id,
+          });
           return (
             <div key={tag.id}>
               {isMultiSelect ? (
                 <InputField
-                  id={tag.id}
+                  id={toHtmlId(tag.id)}
                   type="checkbox"
                   value={tag.id}
                   checked={isSelected}
                   onChange={() => handleTagClick(tag.id)}
+                  {...gtmAttributes}
                   {...(tag.controls && { 'aria-controls': tag.controls })}
                 />
               ) : (
                 <InputField
-                  id={tag.id}
+                  id={toHtmlId(tag.id)}
                   type="radio"
                   name="selectable-tags"
                   value={tag.id}
                   checked={isSelected}
                   onChange={() => handleTagClick(tag.id)}
+                  {...gtmAttributes}
                   {...(tag.controls && { 'aria-controls': tag.controls })}
                 />
               )}
               <StyledInput
                 as="label"
                 key={tag.id}
-                htmlFor={tag.id}
+                htmlFor={toHtmlId(tag.id)}
                 $isSelected={!!isSelected}
                 $lineColor={isSelected ? 'white' : 'black'}
                 $lineThickness={1.4}

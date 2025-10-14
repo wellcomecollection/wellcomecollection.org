@@ -1,4 +1,9 @@
-import React, { FunctionComponent, PropsWithChildren, useRef } from 'react';
+import React, {
+  FunctionComponent,
+  PropsWithChildren,
+  RefObject,
+  useRef,
+} from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
@@ -40,8 +45,7 @@ type Props = PropsWithChildren<{
   gridSizes?: SizeMap;
   hasLeftOffset?: boolean;
   scrollButtonsAfter?: boolean;
-  customScrollDistance?: number;
-  containerRef?: React.RefObject<HTMLUListElement | null>;
+  containerRef?: RefObject<HTMLUListElement | null>;
   useShim?: boolean;
 }>;
 
@@ -51,7 +55,6 @@ const ScrollContainer: FunctionComponent<Props> = ({
   gridSizes,
   hasLeftOffset,
   scrollButtonsAfter = false,
-  customScrollDistance,
   containerRef,
   useShim = false,
   children,
@@ -77,7 +80,6 @@ const ScrollContainer: FunctionComponent<Props> = ({
           containerRef={scrollContainerRef}
           hasDarkBackground={hasDarkBackground}
           hasLeftOffset={hasLeftOffset}
-          customScrollDistance={customScrollDistance}
         />
       </ScrollButtonsContainer>
     </ConditionalWrapper>

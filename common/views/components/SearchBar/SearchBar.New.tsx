@@ -27,15 +27,19 @@ const Typewriter = styled.div.attrs({
 })`
   position: absolute;
   pointer-events: none;
-  top: calc(50% + 14px);
+  top: calc(50% + 12px);
   transform: translateY(-50%);
   left: 20px;
   z-index: 1;
-  color: ${props => props.theme.color('neutral.500')};
+  color: ${props => props.theme.color('neutral.600')};
   width: calc(100% - 32px);
   overflow: hidden;
   text-wrap: nowrap;
   text-overflow: ellipsis;
+
+  @media (prefers-reduced-motion: reduce) {
+    display: none;
+  }
 `;
 
 const SearchInputWrapper = styled.div`
@@ -46,10 +50,10 @@ const SearchInputWrapper = styled.div`
 
   input {
     border: none;
-    height: 55px;
+    height: 58px;
 
     ${props => props.theme.media('medium')`
-      height: 65px;
+      height: 68px;
     `}
   }
 

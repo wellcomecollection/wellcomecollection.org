@@ -39,14 +39,12 @@ type Props = {
   containerRef: RefObject<HTMLElement | null>;
   hasDarkBackground?: boolean;
   hasLeftOffset?: boolean;
-  customScrollDistance?: number;
 };
 
 const ScrollableNavigation: FunctionComponent<Props> = ({
   containerRef,
   hasDarkBackground,
   hasLeftOffset,
-  customScrollDistance,
 }: Props) => {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
@@ -78,22 +76,6 @@ const ScrollableNavigation: FunctionComponent<Props> = ({
     const container = containerRef.current;
     if (!container) return;
 
-    // use customScrollDistance for scrolling, when available
-    if (customScrollDistance) {
-      const currScrollLeft = Math.round(container.scrollLeft);
-      const newScrollLeft =
-        direction === 'right'
-          ? currScrollLeft + customScrollDistance
-          : currScrollLeft - customScrollDistance;
-
-      container.scrollTo({
-        left: Math.max(0, newScrollLeft), // Ensure we don't scroll past the beginning
-        behavior: 'smooth',
-      });
-      return;
-    }
-
-    // Logic for when customScrollDistance is not available
     // Math.round is required because Chrome Android does not round numbers,
     // and this causes the scroll to not work correctly.
     const currScrollLeft = Math.round(container.scrollLeft);
@@ -136,7 +118,8 @@ const ScrollableNavigation: FunctionComponent<Props> = ({
         onClick={() => scrollByChildImageWidth('left')}
       >
         <Icon icon={arrowSmall} rotate={180} />
-        Prev
+        <span aria-hidden="true">Prev</span>
+        <span className="visually-hidden">Previous</span>
       </ScrollButton>
 
       <ScrollButton
