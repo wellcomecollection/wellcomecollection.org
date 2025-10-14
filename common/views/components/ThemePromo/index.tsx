@@ -4,11 +4,10 @@ import styled from 'styled-components';
 
 import { LinkProps } from '@weco/common/model/link-props';
 import { font } from '@weco/common/utils/classnames';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
-import { Image } from '@weco/content/services/wellcome/catalogue/types';
+import { ConceptImagesArray } from '@weco/content/hooks/useConceptImageUrls';
 
 // Palette colors for placeholder rectangles
 const placeholderColors = [
@@ -112,7 +111,7 @@ const Description = styled.p.attrs({
 `;
 
 export type ThemePromoProps = {
-  images: [Image?, Image?, Image?, Image?];
+  images: ConceptImagesArray;
   title: string;
   description?: string;
   linkProps: LinkProps;
@@ -139,7 +138,13 @@ const ThemePromo: FunctionComponent<ThemePromoProps> = ({
   // Create array of slots, some with images, some with placeholder colors
   const slots = Array.from({ length: isSingleImage ? 1 : 4 }, (_, index) => {
     if (index < images.length && images[index]) {
-      return { type: 'image' as const, image: images[index]! };
+      return {
+        type: 'image' as const,
+        image: images[index]!,
+        color: placeholderColors[
+          index % placeholderColors.length
+        ] as PaletteColor,
+      };
     }
     return {
       type: 'placeholder' as const,
@@ -154,18 +159,10 @@ const ThemePromo: FunctionComponent<ThemePromoProps> = ({
       <CardWrapper data-component="theme-promo">
         <CompositeGrid $isSingleImage={isSingleImage}>
           {slots.map((slot, index) => (
-            <ImageContainer
-              key={index}
-              $placeholderColor={
-                slot.type === 'placeholder' ? slot.color : undefined
-              }
-            >
+            <ImageContainer key={index} $placeholderColor={slot.color}>
               {slot.type === 'image' && slot.image ? (
                 <ImageElement
-                  src={convertImageUri(
-                    slot.image.locations[0].url,
-                    isSingleImage ? 500 : 250
-                  )}
+                  src={slot.image}
                   alt=""
                   loading="lazy"
                   $isLoaded={loadedImages.has(index)}

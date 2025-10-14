@@ -145,10 +145,11 @@ export type RelatedConcept = {
 
 export type Concept = {
   id: string;
-  identifiers?: Identifier[];
   label: string;
-  displayLabel?: string;
   type: ConceptType;
+  displayImages: DigitalLocation[];
+  identifiers?: Identifier[];
+  displayLabel?: string;
   sameAs?: string[];
   description?: {
     sourceLabel: SourceOntology;
@@ -166,7 +167,6 @@ export type Concept = {
     relatedTopics?: RelatedConcept[];
   };
   alternativeLabels?: string[];
-  posterImage?: Image; // This hasn't been implemented yet upstream: https://github.com/wellcomecollection/platform/issues/6132
 };
 
 type Availability = {

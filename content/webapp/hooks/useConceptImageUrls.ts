@@ -1,24 +1,24 @@
 import { useEffect, useState } from 'react';
 
+import {
+  convertIiifImageUri,
+  iiifImageTemplate,
+} from '@weco/common/utils/convert-image-uri';
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
-import type {
-  Concept,
-  Image,
-} from '@weco/content/services/wellcome/catalogue/types';
+import type { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { queryParams } from '@weco/content/utils/concepts';
 
 /**
- * If the optional posterImage property is not present on the concept,
+ * If the optional displayImages property is not present on the concept,
  * fetch up to 4 images related to the concept.
- * If posterImage is present, it will be used as the only image.
  */
 
-const imagesCache: Map<string, Image[]> = new Map();
+const imagesCache: Map<string, string[]> = new Map();
 
-export function useConceptImageUrls(
-  concept: Concept
-): [Image?, Image?, Image?, Image?] {
-  const [images, setImages] = useState<Image[]>([]);
+export type ConceptImagesArray = [string?, string?, string?, string?];
+
+export function useConceptImageUrls(concept: Concept): ConceptImagesArray {
+  const [images, setImages] = useState<string[]>([]);
 
   const cacheKey = concept.id;
 
@@ -35,39 +35,51 @@ export function useConceptImageUrls(
     async function fetchImages() {
       if (!isMounted) return;
 
-      if (concept.posterImage) {
-        const posterArr = [concept.posterImage];
-        imagesCache.set(cacheKey, posterArr);
-        setImages(posterArr);
+      if (concept.displayImages.length > 0) {
+        const transformedImages = await Promise.all(
+          concept.displayImages.map(async location =>
+            iiifImageTemplate(location.url)({
+              size: concept.displayImages.length === 1 ? '500,' : '250,',
+            })
+          )
+        );
+        imagesCache.set(cacheKey, transformedImages);
+        setImages(transformedImages);
         return;
       }
 
-      let fetchedImages: Image[] = [];
-      const params = queryParams('imagesAbout', concept); // or imagesOf or both or something else?
+      let fetchedImages: string[] = [];
+      const params = queryParams('imagesAbout', concept);
       try {
         const result = await getImages({ params, toggles: {}, pageSize: 4 });
         if ('results' in result && result.results.length > 0) {
-          fetchedImages = result.results.slice(0, 4);
+          fetchedImages = result.results
+            .slice(0, 4)
+            .map(image =>
+              convertIiifImageUri(
+                image.locations[0].url,
+                result.results.length === 1 ? 500 : 250
+              )
+            );
         }
+
         imagesCache.set(cacheKey, fetchedImages);
+
         if (isMounted) setImages(fetchedImages);
       } catch (error) {
         console.error('Failed to fetch concept images:', error);
+
         imagesCache.set(cacheKey, []);
         if (isMounted) setImages([]);
       }
     }
 
     fetchImages();
+
     return () => {
       isMounted = false;
     };
-  }, [cacheKey, concept.posterImage]);
+  }, [cacheKey, concept.displayImages]);
 
-  return [images[0], images[1], images[2], images[3]] as [
-    Image?,
-    Image?,
-    Image?,
-    Image?,
-  ];
+  return [images[0], images[1], images[2], images[3]] as ConceptImagesArray;
 }

@@ -11,6 +11,7 @@ export const concept: Concept = {
     text: 'A test concept for unit testing',
   },
   alternativeLabels: ['Alternative Label 1', 'Alternative Label 2'],
+  displayImages: [],
   identifiers: [
     {
       identifierType: {
