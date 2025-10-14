@@ -60,7 +60,7 @@ const items: TbcItem[] = [
 
 const NewOnline: FunctionComponent = () => {
   return (
-    <Space $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}>
+    <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
       <Grid>
         {items.map(item => (
           <GridCell
