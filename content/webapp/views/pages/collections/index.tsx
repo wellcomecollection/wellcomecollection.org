@@ -142,7 +142,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
         <ContaineredLayout gridSizes={gridSize12()}>
           <p>
             Explore stories inspired by the objects, manuscripts and archives in
-            our collection
+            our collection.
           </p>
         </ContaineredLayout>
 
