@@ -1,11 +1,9 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
-import { BookBasic } from '@weco/content/types/books';
 import BookImage from '@weco/content/views/components/BookImage';
 
 type LinkSpaceAttrs = {
@@ -35,20 +33,7 @@ const LinkSpace = styled(Space).attrs<LinkSpaceAttrs>(props => ({
 `;
 
 const Title = styled.h3.attrs({
-  className: font('wb', 4),
-})`
-  margin: 0;
-`;
-
-const Subtitle = styled(Space).attrs({
   className: font('intb', 5),
-  $v: { size: 's', properties: ['margin-top'] },
-})`
-  margin: 0;
-`;
-
-const Caption = styled.p.attrs({
-  className: font('intr', 5),
 })`
   margin: 0;
 `;
@@ -58,22 +43,34 @@ const Meta = styled.p.attrs({
 })`
   color: ${props => props.theme.color('neutral.600')};
   margin: 0;
+  white-space: nowrap;
 `;
 
 type Props = {
-  book: BookBasic;
+  item: {
+    url: string;
+    title: string;
+    image?: {
+      contentUrl: string;
+      width: number;
+      height: number;
+      alt?: string;
+    };
+    labels: { text: string }[];
+    meta?: string;
+  };
 };
 
-const BookCard: FunctionComponent<Props> = ({ book }) => {
-  const { title, subtitle, promo, cover, meta } = book;
+const BookCard: FunctionComponent<Props> = ({ item }) => {
+  const { url, title, image, labels, meta } = item;
   return (
-    <LinkSpace $url={linkResolver(book)}>
+    <LinkSpace $url={url}>
       <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
         <BookImage
           image={{
-            contentUrl: cover?.contentUrl || '',
-            width: cover?.width || 0,
-            height: cover?.height || 0,
+            contentUrl: image?.contentUrl || '',
+            width: image?.width || 0,
+            height: image?.height || 0,
             // We intentionally omit the alt text on promos, so screen reader
             // users don't have to listen to the alt text before hearing the
             // title of the item in the list.
@@ -103,19 +100,11 @@ const BookCard: FunctionComponent<Props> = ({ book }) => {
                 negative: true,
               }}
             >
-              <LabelsList labels={[{ text: 'Book' }]} />
+              <LabelsList labels={labels} />
             </Space>
           </Space>
           <Title>{title}</Title>
-
-          {subtitle && <Subtitle as="h4">{subtitle}</Subtitle>}
-
-          {promo?.caption && (
-            <Space $v={{ size: 's', properties: ['margin-top'] }}>
-              <Caption>{promo.caption}</Caption>
-            </Space>
-          )}
-          {meta && <Meta>extra stuff here</Meta>}
+          {meta && <Meta>{meta}</Meta>}
         </Space>
       </Space>
     </LinkSpace>
