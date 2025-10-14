@@ -24,7 +24,7 @@ const TagsWrapper = styled.div`
   gap: 8px 12px;
 
   ${props => props.theme.media('medium')`
-    gap: 8px 16px;
+    column-gap: 16px;
   `}
 `;
 
