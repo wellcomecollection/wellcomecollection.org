@@ -2,89 +2,72 @@ import { FunctionComponent } from 'react';
 
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
-import type { BookBasic } from '@weco/content/types/books';
-import TbcCard from '@weco/content/views/components/tbcCard';
+import TbcCard, { TbcItem } from '@weco/content/views/components/tbcCard';
 
-const items: BookBasic[] = [
+const items: TbcItem[] = [
   {
-    // url: https://wellcomecollection.org/works/a3cyqwec
-    type: 'books',
-    id: 'scans',
-    uid: 'scans-of-drawings-used-as-newsletter-covers',
+    url: 'https://wellcomecollection.org/works/ptfqa2te',
     title: 'Scans of drawings used as newsletter covers',
-    subtitle: undefined,
-    cover: {
-      contentUrl: 'https://placehold.co/400x300/000000/FFFFFF/png',
-      width: 400,
-      height: 300,
-      alt: 'Scans of drawings used as newsletter covers',
+    image: {
+      contentUrl:
+        'https://iiif.wellcomecollection.org/thumbs/PPDBL_A_7---DAYCENTRE2.BMP/full/291,400/0/default.jpg',
+      width: 291,
+      height: 400,
+      alt: '',
     },
-    promo: undefined,
     labels: [{ text: 'Born-digital archives' }],
     meta: 'Part of: David Beales: archive',
   },
   {
-    // https://wellcomecollection.org/works/ecgby5kb
-    type: 'books',
-    id: 'the-life-of',
-    uid: 'the-life-of-florence-nightingale',
+    url: 'https://wellcomecollection.org/works/ecgby5kb',
     title: 'The life of Florence Nightingale (1904, including illustrations)',
-    subtitle: undefined,
-    cover: {
-      contentUrl: 'https://placehold.co/200x309/000000/FFFFFF/png',
-      width: 200,
-      height: 309,
+    image: {
+      contentUrl:
+        'https://iiif.wellcomecollection.org/thumbs/b33396607_0004_0007.jp2/full/252,400/0/default.jpg',
+      width: 252,
+      height: 400,
       alt: 'The life of Florence Nightingale',
     },
-    promo: undefined,
     labels: [{ text: 'Book' }],
+    meta: undefined,
   },
   {
-    // 'https://wellcomecollection.org/works/fmvhyt82'
-    type: 'books',
-    id: 'Wampole',
-    uid: 'Wampole-preparation-tonic-and-stimulant-for-all-ages',
+    url: 'https://wellcomecollection.org/works/fmvhyt82',
     title:
       "Wampole's Preparation: tonic and stimulant for all ages (1930s ephemera)",
-    subtitle: undefined,
-    cover: {
-      contentUrl: 'https://placehold.co/400x340/000000/FFFFFF/png',
-      width: 400,
-      height: 340,
+    image: {
+      contentUrl:
+        'https://iiif.wellcomecollection.org/thumbs/b16637367_0001.jp2/full/324,400/0/default.jpg',
+      width: 324,
+      height: 400,
       alt: "Wampole's Preparation ephemera",
     },
-    promo: undefined,
     labels: [{ text: 'Ephemera' }],
   },
   {
-    // https://wellcomecollection.org/works/c2yce27k
-    type: 'books',
-    id: 'limit',
-    uid: 'thats-the-limit',
+    url: 'https://wellcomecollection.org/works/c2yce27k',
     title: 'That’s the Limit: a guide to sensible drinking',
-    subtitle: undefined,
-    cover: {
-      contentUrl: 'https://placehold.co/200x285/000000/FFFFFF/png',
+    image: {
+      contentUrl:
+        'https://iiif.wellcomecollection.org/thumbs/b32198292_0001.jp2/full/200,190/0/default.jpg',
       width: 200,
-      height: 285,
+      height: 190,
       alt: 'That’s the Limit: a guide to sensible drinking',
     },
-    promo: undefined,
     labels: [{ text: 'Archives and manuscripts' }],
   },
 ];
 
-// TODO reuse bookImage but call that something else
 const NewOnline: FunctionComponent = () => {
   return (
     <Space $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}>
       <Grid>
-        {items.map(book => (
+        {items.map(item => (
           <GridCell
-            key={book.id}
+            key={item.url}
             $sizeMap={{ s: [12], m: [6], l: [3], xl: [3] }}
           >
-            <TbcCard book={book} />
+            <TbcCard item={item} />
           </GridCell>
         ))}
       </Grid>
