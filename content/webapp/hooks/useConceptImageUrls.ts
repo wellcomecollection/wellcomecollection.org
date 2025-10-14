@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import {
-  convertImageUri,
+  convertIiifImageUri,
   iiifImageTemplate,
 } from '@weco/common/utils/convert-image-uri';
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
@@ -56,7 +56,7 @@ export function useConceptImageUrls(concept: Concept): ConceptImagesArray {
           fetchedImages = result.results
             .slice(0, 4)
             .map(image =>
-              convertImageUri(
+              convertIiifImageUri(
                 image.locations[0].url,
                 result.results.length === 1 ? 500 : 250
               )
