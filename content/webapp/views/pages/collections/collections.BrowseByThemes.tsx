@@ -157,6 +157,7 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
           />
         </Space>
       </ContaineredLayout>
+
       <ScrollContainer
         scrollButtonsAfter={true}
         gridSizes={gridSizes}
