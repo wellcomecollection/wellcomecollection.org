@@ -2,16 +2,16 @@ import { Meta, StoryObj } from '@storybook/react';
 import { ComponentProps } from 'react';
 
 import { mockIIIFImagesUrls } from '@weco/cardigan/stories/data/mock-iiif-images';
-import ThemePromo from '@weco/common/views/components/ThemePromo';
+import ThemeCard from '@weco/common/views/components/ThemeCard';
 import { ConceptImagesArray } from '@weco/content/hooks/useConceptImageUrls';
 
-type StoryProps = ComponentProps<typeof ThemePromo> & {
+type StoryProps = ComponentProps<typeof ThemeCard> & {
   imageCount: number;
 };
 
 const meta: Meta<StoryProps> = {
-  title: 'Components/Cards/ThemePromo',
-  component: ThemePromo,
+  title: 'Components/Cards/ThemeCard',
+  component: ThemeCard,
   argTypes: {
     images: { table: { disable: true } },
     linkProps: { table: { disable: true } },
@@ -36,7 +36,7 @@ export default meta;
 type Story = StoryObj<StoryProps>;
 
 export const Basic: Story = {
-  name: 'ThemePromo',
+  name: 'ThemeCard',
   args: {
     title: 'Photography',
     description:
@@ -59,7 +59,7 @@ export const Basic: Story = {
     );
 
     return (
-      <ThemePromo
+      <ThemeCard
         {...componentProps}
         images={selectedImages as ConceptImagesArray}
       />

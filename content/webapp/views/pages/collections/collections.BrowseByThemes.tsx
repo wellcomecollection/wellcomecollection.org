@@ -7,7 +7,7 @@ import {
 } from '@weco/common/views/components/Layout';
 import { SizeMap } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
-import ThemePromo from '@weco/common/views/components/ThemePromo';
+import ThemeCard from '@weco/common/views/components/ThemeCard';
 import { themeValues } from '@weco/common/views/themes/config';
 import { useConceptImageUrls } from '@weco/content/hooks/useConceptImageUrls';
 import { useThemeConcepts } from '@weco/content/hooks/useThemeConcepts';
@@ -64,7 +64,7 @@ const Theme: FunctionComponent<{
   const linkProps = toConceptLink({ conceptId: concept.id });
   const title = concept.displayLabel || concept.label;
   return linkProps && title ? (
-    <ThemePromo
+    <ThemeCard
       images={images}
       title={title}
       description={concept.description?.text}
