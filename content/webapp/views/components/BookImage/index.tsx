@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
 
-// Ensures the image areatakes up the same amount of vertical space
-// regardless of image height
+// Ensures the image container takes up the same amount of vertical space
+// regardless of the image height
 const Shim = styled.div`
   height: 0;
   padding-top: 100%;
