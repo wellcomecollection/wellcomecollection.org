@@ -46,19 +46,21 @@ const Meta = styled.p.attrs({
   white-space: nowrap;
 `;
 
-type Props = {
-  item: {
-    url: string;
-    title: string;
-    image?: {
-      contentUrl: string;
-      width: number;
-      height: number;
-      alt?: string;
-    };
-    labels: { text: string }[];
-    meta?: string;
+export type TbcItem = {
+  url: string;
+  title: string;
+  image?: {
+    contentUrl: string;
+    width: number;
+    height: number;
+    alt?: string;
   };
+  labels: { text: string }[];
+  meta?: string;
+};
+
+type Props = {
+  item: TbcItem;
 };
 
 const BookCard: FunctionComponent<Props> = ({ item }) => {
