@@ -7,13 +7,17 @@ import Space from '@weco/common/views/components/styled/Space';
 // Ensures the image container takes up the same amount of vertical space
 // regardless of the image height
 const Shim = styled.div`
-  height: 0;
-  padding-top: 100%;
   position: relative;
+  ${props => props.theme.media('medium')`
+    height: 0;
+    padding-top: 100%;
+  `}
 `;
 
-const BookCardImageContainer = styled.div<{ $aspectRatio?: number }>`
-  position: absolute;
+const PopoutCardImageContainer = styled.div<{ $aspectRatio?: number }>`
+  ${props => props.theme.media('medium')`
+    position: absolute;
+  `}
   background-color: ${props => props.theme.color('warmNeutral.300')};
   width: 100%;
   padding-top: ${props =>
@@ -22,7 +26,7 @@ const BookCardImageContainer = styled.div<{ $aspectRatio?: number }>`
   transform: rotate(-2deg);
 `;
 
-const BookCardImage = styled(Space).attrs({
+const PopoutCardImage = styled(Space).attrs({
   $v: { size: 'l', properties: ['bottom'] },
 })`
   position: absolute;
@@ -38,14 +42,14 @@ const PopoutImage: FunctionComponent<Props> = props => {
 
   return (
     <Shim>
-      <BookCardImageContainer
+      <PopoutCardImageContainer
         data-component="book-image"
         $aspectRatio={aspectRatio}
       >
-        <BookCardImage>
+        <PopoutCardImage>
           <PrismicImage {...props} />
-        </BookCardImage>
-      </BookCardImageContainer>
+        </PopoutCardImage>
+      </PopoutCardImageContainer>
     </Shim>
   );
 };
