@@ -6,7 +6,7 @@ import { font } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
 import { BookBasic } from '@weco/content/types/books';
-import BookImage from '@weco/content/views/components/BookImage';
+import PopoutImage from '@weco/content/views/components/PopoutImage';
 
 type LinkSpaceAttrs = {
   $url: string;
@@ -62,7 +62,7 @@ const BookCard: FunctionComponent<Props> = ({ book }) => {
   return (
     <LinkSpace $url={linkResolver(book)}>
       <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-        <BookImage
+        <PopoutImage
           image={{
             contentUrl: cover?.contentUrl || '',
             width: cover?.width || 0,

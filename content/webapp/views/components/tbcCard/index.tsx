@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
-import BookImage from '@weco/content/views/components/BookImage';
+import PopoutImage from '@weco/content/views/components/PopoutImage';
 
 type LinkSpaceAttrs = {
   $url: string;
@@ -68,7 +68,7 @@ const TbcCard: FunctionComponent<Props> = ({ item }) => {
   return (
     <LinkSpace $url={url}>
       <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-        <BookImage
+        <PopoutImage
           image={{
             contentUrl: image?.contentUrl || '',
             width: image?.width || 0,

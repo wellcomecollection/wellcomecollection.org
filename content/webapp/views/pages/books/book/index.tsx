@@ -14,8 +14,8 @@ import Space from '@weco/common/views/components/styled/Space';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { Book } from '@weco/content/types/books';
 import Body from '@weco/content/views/components/Body';
-import BookImage from '@weco/content/views/components/BookImage';
 import ContentPage from '@weco/content/views/components/ContentPage';
+import PopoutImage from '@weco/content/views/components/PopoutImage';
 
 import BookMetadata from './book.Metadata';
 
@@ -37,7 +37,7 @@ const BookPage: NextPage<Props> = ({ book }) => {
   const FeaturedMedia = book.cover && (
     <Space $v={{ size: 'xl', properties: ['margin-top', 'padding-top'] }}>
       <ContaineredLayout gridSizes={gridSize8()}>
-        <BookImage
+        <PopoutImage
           image={{ ...book.cover }}
           sizes={{ xlarge: 1 / 3, large: 1 / 3, medium: 1 / 3, small: 1 }}
           quality="low"

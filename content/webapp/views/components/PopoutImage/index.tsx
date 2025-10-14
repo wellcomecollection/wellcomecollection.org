@@ -33,7 +33,7 @@ const BookCardImage = styled(Space).attrs({
 
 type Props = ComponentProps<typeof PrismicImage>;
 
-const BookImage: FunctionComponent<Props> = props => {
+const PopoutImage: FunctionComponent<Props> = props => {
   const aspectRatio = props.image.height / props.image.width;
 
   return (
@@ -50,4 +50,4 @@ const BookImage: FunctionComponent<Props> = props => {
   );
 };
 
-export default BookImage;
+export default PopoutImage;
