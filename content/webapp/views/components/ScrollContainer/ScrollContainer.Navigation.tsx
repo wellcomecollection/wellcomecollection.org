@@ -80,28 +80,60 @@ const ScrollableNavigation: FunctionComponent<Props> = ({
     // and this causes the scroll to not work correctly.
     const currScrollLeft = Math.round(container.scrollLeft);
     const children = Array.from(container.children) as HTMLElement[];
-
     const containerPaddingLeft = parseFloat(
       window.getComputedStyle(container).paddingLeft
     );
 
-    // When scrolling right, scroll to the first child whose left offset is higher than the current left scroll.
-    // Otherwise, scroll to the last child chose left offset is lower than the current left scroll.
-    const child =
-      direction === 'right'
-        ? children.find(
-            child => child.offsetLeft > currScrollLeft + containerPaddingLeft
-          )
-        : children.findLast(
-            child => child.offsetLeft < currScrollLeft + containerPaddingLeft
-          );
+    const containerRect = container.getBoundingClientRect();
+    const visibleWidth = containerRect.width;
+    const visibleLeft = currScrollLeft + containerPaddingLeft;
+    const visibleRight = currScrollLeft + visibleWidth;
 
-    if (!child) return;
+    if (direction === 'right') {
+      // Find the first item that's not fully visible on the right
+      const targetChild = children.find(child => {
+        const childRect = child.getBoundingClientRect();
+        const childLeft = child.offsetLeft;
+        const childRight = childLeft + childRect.width;
 
-    container.scrollTo({
-      left: child.offsetLeft - containerPaddingLeft,
-      behavior: 'smooth',
-    });
+        // Item is not fully visible if it's cut off or completely hidden on the right
+        return childRight > visibleRight;
+      });
+
+      if (!targetChild) return;
+
+      const targetLeft = targetChild.offsetLeft;
+
+      // Move the target item to the left edge, which will show it plus as many following items as possible
+      const newScrollLeft = targetLeft - containerPaddingLeft;
+
+      container.scrollTo({
+        left: Math.max(0, newScrollLeft),
+        behavior: 'smooth',
+      });
+    } else {
+      // Find the first item that's not fully visible on the left
+      const targetChild = children.findLast(child => {
+        const childLeft = child.offsetLeft;
+
+        // Item is not fully visible if it's cut off or completely hidden on the left
+        return childLeft < visibleLeft;
+      });
+
+      if (!targetChild) return;
+
+      const targetRect = targetChild.getBoundingClientRect();
+      const targetLeft = targetChild.offsetLeft;
+      const targetRight = targetLeft + targetRect.width;
+
+      // Position so the target item is at the right edge, showing as many items to the left as possible
+      const newScrollLeft = targetRight - visibleWidth;
+
+      container.scrollTo({
+        left: Math.max(0, newScrollLeft),
+        behavior: 'smooth',
+      });
+    }
   };
 
   useSwipeable(containerRef, scrollByChildImageWidth);
