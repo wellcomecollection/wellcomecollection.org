@@ -49,7 +49,7 @@ const Meta = styled.p.attrs({
 export type WorkItem = {
   url: string;
   title: string;
-  image?: {
+  image: {
     contentUrl: string;
     width: number;
     height: number;
@@ -70,9 +70,9 @@ const WorkCard: FunctionComponent<Props> = ({ item }) => {
       <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
         <PopoutImage
           image={{
-            contentUrl: image?.contentUrl || '',
-            width: image?.width || 0,
-            height: image?.height || 0,
+            contentUrl: image.contentUrl || '',
+            width: image.width || 0,
+            height: image.height || 0,
             // We intentionally omit the alt text on promos, so screen reader
             // users don't have to listen to the alt text before hearing the
             // title of the item in the list.
