@@ -21,7 +21,11 @@ type SelectableTagsProps = {
 const TagsWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 8px 16px;
+  gap: 8px 12px;
+
+  ${props => props.theme.media('medium')`
+    gap: 8px 16px;
+  `}
 `;
 
 const StyledInput = styled.label<
