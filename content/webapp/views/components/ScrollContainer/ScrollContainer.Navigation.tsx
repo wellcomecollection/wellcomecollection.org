@@ -24,18 +24,12 @@ const ScrollButtonsContainer = styled(Space)<{
 
 const ScrollButton = styled('button').attrs({
   className: font('intr', 6),
-})<{ $align: 'left' | 'right' }>`
+})`
   color: var(--button-color);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: ${props =>
-    props.$align === 'left' ? 'flex-start' : 'flex-end'};
-
-  .icon {
-    ${props =>
-      props.$align === 'left' ? 'margin-left: -3px;' : 'margin-right: -3px;'}
-  }
+  align-items: center;
 
   &:disabled {
     color: ${props => props.theme.color('neutral.500')};
@@ -154,7 +148,6 @@ const ScrollableNavigation: FunctionComponent<Props> = ({
       <ScrollButton
         disabled={!canScrollLeft}
         onClick={() => scrollByChildImageWidth('left')}
-        $align="left"
       >
         <Icon icon={arrowSmall} rotate={180} />
         <span aria-hidden="true">Prev</span>
@@ -164,7 +157,6 @@ const ScrollableNavigation: FunctionComponent<Props> = ({
       <ScrollButton
         disabled={!canScrollRight}
         onClick={() => scrollByChildImageWidth('right')}
-        $align="right"
       >
         <Icon icon={arrowSmall} />
         Next
