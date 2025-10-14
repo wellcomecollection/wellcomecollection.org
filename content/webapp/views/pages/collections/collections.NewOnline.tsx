@@ -2,9 +2,9 @@ import { FunctionComponent } from 'react';
 
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
-import TbcCard, { TbcItem } from '@weco/content/views/components/tbcCard';
+import WorkCard, { WorkItem } from '@weco/content/views/components/WorkCard';
 
-const items: TbcItem[] = [
+const items: WorkItem[] = [
   {
     url: 'https://wellcomecollection.org/works/ptfqa2te',
     title: 'Scans of drawings used as newsletter covers',
@@ -67,7 +67,7 @@ const NewOnline: FunctionComponent = () => {
             key={item.url}
             $sizeMap={{ s: [12], m: [6], l: [3], xl: [3] }}
           >
-            <TbcCard item={item} />
+            <WorkCard item={item} />
           </GridCell>
         ))}
       </Grid>

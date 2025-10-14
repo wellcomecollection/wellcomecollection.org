@@ -46,7 +46,7 @@ const Meta = styled.p.attrs({
   white-space: nowrap;
 `;
 
-export type TbcItem = {
+export type WorkItem = {
   url: string;
   title: string;
   image?: {
@@ -60,10 +60,10 @@ export type TbcItem = {
 };
 
 type Props = {
-  item: TbcItem;
+  item: WorkItem;
 };
 
-const TbcCard: FunctionComponent<Props> = ({ item }) => {
+const WorkCard: FunctionComponent<Props> = ({ item }) => {
   const { url, title, image, labels, meta } = item;
   return (
     <LinkSpace $url={url}>
@@ -113,4 +113,4 @@ const TbcCard: FunctionComponent<Props> = ({ item }) => {
   );
 };
 
-export default TbcCard;
+export default WorkCard;
