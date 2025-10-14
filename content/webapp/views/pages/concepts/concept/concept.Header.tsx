@@ -89,17 +89,20 @@ const ThemeHeader: FunctionComponent<{
             />
           )}
         </Layout>
-        {concept.description && config.sourcedDescription.display && (
-          <Layout gridSizes={gridSize8(false)}>
-            <ThemeDescription>
-              <SourcedDescription
-                description={capitalize(concept.description.text)}
-                source={concept.description.sourceLabel}
-                href={concept.description.sourceUrl}
-              />
-            </ThemeDescription>
-          </Layout>
-        )}
+
+        {concept.description &&
+          (config.sourcedDescription.display ||
+            concept.description.sourceLabel === 'weco-authority') && (
+            <Layout gridSizes={gridSize8(false)}>
+              <ThemeDescription>
+                <SourcedDescription
+                  description={capitalize(concept.description.text)}
+                  source={concept.description.sourceLabel}
+                  href={concept.description.sourceUrl}
+                />
+              </ThemeDescription>
+            </Layout>
+          )}
 
         <>
           {config.fieldOrArea.display && (
