@@ -1,11 +1,12 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import WorkCard from '@weco/content/views/components/WorkCard';
+import WorkCard, { WorkItem } from '@weco/content/views/components/WorkCard';
 
 type StoryArgs = {
   title: string;
   labels: string;
   meta: string;
+  item?: WorkItem;
 };
 
 const meta: Meta<StoryArgs> = {
@@ -30,7 +31,8 @@ const meta: Meta<StoryArgs> = {
       name: 'Meta',
       control: { type: 'text' },
     },
-argTypes: { item: { table: { disable: true } } },
+    item: { table: { disable: true } },
+  },
   render: args => {
     const labelsArray = args.labels
       ? args.labels.split(',').map(label => ({ text: label.trim() }))
