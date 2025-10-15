@@ -1,5 +1,6 @@
 {
   "files": [],
+  "includes": ["config/global.d.ts"],
   "references": [
     {
       "path": "./identity/webapp"
