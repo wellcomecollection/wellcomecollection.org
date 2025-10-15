@@ -30,7 +30,7 @@ const meta: Meta<StoryArgs> = {
       name: 'Meta',
       control: { type: 'text' },
     },
-  },
+argTypes: { item: { table: { disable: true } } },
   render: args => {
     const labelsArray = args.labels
       ? args.labels.split(',').map(label => ({ text: label.trim() }))
