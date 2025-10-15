@@ -7,7 +7,7 @@ import {
 import PopoutImage from '@weco/content/views/components/PopoutImage';
 
 const meta: Meta<typeof PopoutImage> = {
-  title: 'Components/Images/BookImage',
+  title: 'Components/Images/PopoutImage',
   component: PopoutImage,
   args: {
     image: contentImage(bookImageUrl),
