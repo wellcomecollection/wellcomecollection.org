@@ -138,7 +138,6 @@ const SearchBar: FunctionComponent<Props> = ({
   const [animationTrigger, setAnimationTrigger] = useState(0);
   const wasOutOfViewport = useRef(false);
 
-  // Shuffle the strings array once on mount using Fisher-Yates algorithm
   const shuffledStrings = useRef<string[]>([]);
 
   if (shuffledStrings.current.length === 0) {
@@ -156,7 +155,6 @@ const SearchBar: FunctionComponent<Props> = ({
       'Easter',
     ];
 
-    // Fisher-Yates shuffle
     const shuffled = [...strings];
     for (let i = shuffled.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
