@@ -142,16 +142,22 @@ const SearchBar: FunctionComponent<Props> = ({
   useEffect(() => {
     if (!containerRef.current) return;
 
+    let reentryTimeout: NodeJS.Timeout;
+
     const observer = new IntersectionObserver(
       entries => {
         entries.forEach(entry => {
           if (!entry.isIntersecting) {
             // Element has left the viewport
             wasOutOfViewport.current = true;
+            clearTimeout(reentryTimeout);
           } else if (wasOutOfViewport.current && entry.isIntersecting) {
             // Element has re-entered the viewport after being out
-            wasOutOfViewport.current = false;
-            setAnimationTrigger(prev => prev + 1);
+            // Wait 1 second before triggering the animation
+            reentryTimeout = setTimeout(() => {
+              wasOutOfViewport.current = false;
+              setAnimationTrigger(prev => prev + 1);
+            }, 1000);
           }
         });
       },
@@ -161,6 +167,7 @@ const SearchBar: FunctionComponent<Props> = ({
     observer.observe(containerRef.current);
 
     return () => {
+      clearTimeout(reentryTimeout);
       observer.disconnect();
     };
   }, []);
