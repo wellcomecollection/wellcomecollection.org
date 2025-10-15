@@ -184,7 +184,6 @@ const SearchBar: FunctionComponent<Props> = ({
       const randomString = strings[Math.floor(Math.random() * strings.length)];
 
       const element = typewriterRef.current;
-      let fadeTimeout: NodeJS.Timeout;
 
       // Reset opacity before starting animation
       element.style.opacity = '1';
@@ -197,16 +196,9 @@ const SearchBar: FunctionComponent<Props> = ({
         shuffle: false,
         loop: false,
         showCursor: false,
-        onComplete: () => {
-          fadeTimeout = setTimeout(() => {
-            element.style.transition = 'opacity 1s ease-out';
-            element.style.opacity = '0';
-          }, 2000);
-        },
       });
 
       return () => {
-        clearTimeout(fadeTimeout);
         typed.destroy();
       };
     }
