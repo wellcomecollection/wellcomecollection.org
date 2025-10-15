@@ -207,39 +207,22 @@ const SearchBar: FunctionComponent<Props> = ({
         ];
 
       const element = typewriterRef.current;
-      const isFirstAnimation = animationTrigger === 0;
 
       // Reset opacity before starting animation
       element.style.opacity = '1';
       element.style.transition = '';
 
-      let typed: Typed;
-      let initTimeout: NodeJS.Timeout;
-
-      const initTyped = () => {
-        typed = new Typed(element, {
-          strings: [selectedString],
-          startDelay: 1000,
-          typeSpeed: 50,
-          shuffle: false,
-          loop: false,
-          showCursor: false,
-        });
-      };
-
-      if (isFirstAnimation) {
-        // First animation: start immediately with its own startDelay
-        initTyped();
-      } else {
-        // Subsequent animations: wait 1 second before initialising Typed
-        initTimeout = setTimeout(initTyped, 1000);
-      }
+      const typed = new Typed(element, {
+        strings: [selectedString],
+        startDelay: 1000,
+        typeSpeed: 50,
+        shuffle: false,
+        loop: false,
+        showCursor: false,
+      });
 
       return () => {
-        clearTimeout(initTimeout);
-        if (typed) {
-          typed.destroy();
-        }
+        typed.destroy();
       };
     }
   }, [animationTrigger]);
