@@ -43,7 +43,7 @@ const PopoutImage: FunctionComponent<Props> = props => {
   return (
     <Shim>
       <PopoutCardImageContainer
-        data-component="book-image"
+        data-component="popout-image"
         $aspectRatio={aspectRatio}
       >
         <PopoutCardImage>
