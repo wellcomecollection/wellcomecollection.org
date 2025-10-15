@@ -16,5 +16,5 @@
     "target": "es6"
   },
   "exclude": ["/**/node_modules"],
-  "include": ["/**/*.ts", "/**/*.tsx", "window.d.ts", "png.d.ts"]
+  "include": ["/**/*.ts", "/**/*.tsx", "global.d.ts", "png.d.ts"]
 }
