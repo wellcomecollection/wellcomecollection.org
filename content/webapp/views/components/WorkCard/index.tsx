@@ -5,22 +5,8 @@ import { font } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
 
-// Ensures the image container takes up the same amount of vertical space
-// regardless of the image height
-const Shim = styled.div`
-  position: relative;
-  ${props => props.theme.media('medium')`
-    height: 0;
-    padding-top: 100%;
-  `}
-`;
-
 const PopoutCardImageContainer = styled.div<{ $aspectRatio?: number }>`
   position: relative;
-  ${props => props.theme.media('medium')`
-    position: absolute;
-    bottom: 0;
-  `}
   width: 100%;
   background-color: ${props => props.theme.color('neutral.300')};
   padding-top: ${props =>
@@ -103,22 +89,20 @@ const WorkCard: FunctionComponent<Props> = ({ item }) => {
   return (
     <LinkSpace $url={url} data-component="work-card">
       <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-        <Shim>
-          <PopoutCardImageContainer
-            data-component="popout-image"
-            $aspectRatio={aspectRatio}
-          >
-            <PopoutCardImage>
-              <img
-                src={image.contentUrl}
-                alt=""
-                loading="lazy"
-                height={image.height}
-                width={image.width}
-              />
-            </PopoutCardImage>
-          </PopoutCardImageContainer>
-        </Shim>
+        <PopoutCardImageContainer
+          data-component="popout-image"
+          $aspectRatio={aspectRatio}
+        >
+          <PopoutCardImage>
+            <img
+              src={image.contentUrl}
+              alt=""
+              loading="lazy"
+              height={image.height}
+              width={image.width}
+            />
+          </PopoutCardImage>
+        </PopoutCardImageContainer>
         <Space
           $v={{ size: 's', properties: ['margin-bottom'] }}
           style={{ position: 'relative' }}
