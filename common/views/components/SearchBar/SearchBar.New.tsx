@@ -138,6 +138,33 @@ const SearchBar: FunctionComponent<Props> = ({
   const [animationTrigger, setAnimationTrigger] = useState(0);
   const wasOutOfViewport = useRef(false);
 
+  // Shuffle the strings array once on mount using Fisher-Yates algorithm
+  const shuffledStrings = useRef<string[]>([]);
+
+  if (shuffledStrings.current.length === 0) {
+    const strings = [
+      'Florence Nightingale letters',
+      'Cookery and medical recipe book',
+      'Medical officer of health 1938',
+      'Magic',
+      'David Beales archives',
+      'Chinese medicine',
+      'India',
+      'Manuscripts',
+      'Oil paintings',
+      'Vaccines',
+      'Easter',
+    ];
+
+    // Fisher-Yates shuffle
+    const shuffled = [...strings];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    shuffledStrings.current = shuffled;
+  }
+
   // Track visibility of SearchBar in the viewport
   useEffect(() => {
     if (!containerRef.current) return;
@@ -174,39 +201,47 @@ const SearchBar: FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (typewriterRef.current) {
-      const strings = [
-        'Florence Nightingale letters',
-        'Cookery and medical recipe book',
-        'Medical officer of health 1938',
-        'Magic',
-        'David Beales archives',
-        'Chinese medicine',
-        'India',
-        'Manuscripts',
-        'Oil paintings',
-        'Vaccines',
-        'Easter',
-      ];
-
-      const randomString = strings[Math.floor(Math.random() * strings.length)];
+      // Get the next string from the shuffled array
+      // This ensures no repeats and random order per page load
+      const selectedString =
+        shuffledStrings.current[
+          animationTrigger % shuffledStrings.current.length
+        ];
 
       const element = typewriterRef.current;
+      const isFirstAnimation = animationTrigger === 0;
 
       // Reset opacity before starting animation
       element.style.opacity = '1';
       element.style.transition = '';
 
-      const typed = new Typed(element, {
-        strings: [randomString],
-        startDelay: 1000,
-        typeSpeed: 50,
-        shuffle: false,
-        loop: false,
-        showCursor: false,
-      });
+      let typed: Typed;
+      let initTimeout: NodeJS.Timeout;
+
+      const initTyped = () => {
+        typed = new Typed(element, {
+          strings: [selectedString],
+          startDelay: 1000,
+          typeSpeed: 50,
+          shuffle: false,
+          loop: false,
+          showCursor: false,
+        });
+      };
+
+      if (isFirstAnimation) {
+        // First animation: start immediately with its own startDelay
+        initTyped();
+      } else {
+        // Subsequent animations: wait 1 second before initialising Typed
+        initTimeout = setTimeout(initTyped, 1000);
+      }
 
       return () => {
-        typed.destroy();
+        clearTimeout(initTimeout);
+        if (typed) {
+          typed.destroy();
+        }
       };
     }
   }, [animationTrigger]);
