@@ -13,10 +13,13 @@ type LinkSpaceAttrs = {
 const LinkSpace = styled(Space).attrs<LinkSpaceAttrs>(props => ({
   as: 'a',
   href: props.$url,
-  $v: { size: 'xl', properties: ['padding-top'] },
-  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 }))<LinkSpaceAttrs>`
   display: block;
+  margin-top: 40px;
+
+  ${props => props.theme.media('medium')`
+    margin-top: 0;
+  `}
 
   &,
   &:link,
@@ -65,6 +68,7 @@ type Props = {
 
 const WorkCard: FunctionComponent<Props> = ({ item }) => {
   const { url, title, image, labels, meta } = item;
+
   return (
     <LinkSpace $url={url}>
       <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
@@ -89,25 +93,15 @@ const WorkCard: FunctionComponent<Props> = ({ item }) => {
           quality="low"
         />
         <Space
-          $h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}
+          $v={{ size: 's', properties: ['margin-bottom'] }}
+          style={{ position: 'relative' }}
         >
-          <Space
-            $v={{ size: 's', properties: ['margin-bottom'] }}
-            style={{ position: 'relative' }}
-          >
-            <Space
-              $v={{
-                size: 'm',
-                properties: ['margin-top'],
-                negative: true,
-              }}
-            >
-              <LabelsList labels={labels} />
-            </Space>
+          <Space $v={{ size: 'm', properties: ['margin-top'], negative: true }}>
+            <LabelsList labels={labels} />
           </Space>
-          <Title>{title}</Title>
-          {meta && <Meta>{meta}</Meta>}
         </Space>
+        <Title>{title}</Title>
+        {meta && <Meta>{meta}</Meta>}
       </Space>
     </LinkSpace>
   );
