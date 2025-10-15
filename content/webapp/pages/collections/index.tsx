@@ -102,45 +102,50 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       client,
       prismicPageIds.newCollections
     );
-    const collectionsPage = transformPage(
-      collectionsPagePromise as RawPagesDocument
-    );
 
-    const insideOurCollectionsCards =
-      getInsideOurCollectionsCards(collectionsPage);
+    if (isNotUndefined(collectionsPagePromise)) {
+      const collectionsPage = transformPage(
+        collectionsPagePromise as RawPagesDocument
+      );
 
-    // Fetch featured concepts for the theme block
-    const featuredConcepts = await fetchFeaturedConcepts();
+      const insideOurCollectionsCards =
+        getInsideOurCollectionsCards(collectionsPage);
 
-    const bannerOne = collectionsPage.untransformedBody.find(
-      slice => slice.slice_type === 'fullWidthBanner'
-    );
+      // Fetch featured concepts for the theme block
+      const featuredConcepts = await fetchFeaturedConcepts();
 
-    const bannerTwo = collectionsPage.untransformedBody.find(
-      slice =>
-        slice.slice_type === 'fullWidthBanner' && slice.id !== bannerOne?.id
-    );
+      const bannerOne = collectionsPage.untransformedBody.find(
+        slice => slice.slice_type === 'fullWidthBanner'
+      );
 
-    const fullWidthBanners = [bannerOne, bannerTwo]
-      .filter(isNotUndefined)
-      .filter(isFullWidthBanner);
+      const bannerTwo = collectionsPage.untransformedBody.find(
+        slice =>
+          slice.slice_type === 'fullWidthBanner' && slice.id !== bannerOne?.id
+      );
 
-    return {
-      props: serialiseProps({
-        hasNewPageToggle: true,
-        pageMeta: {
-          id: collectionsPage.id,
-          image: collectionsPage.promo?.image,
-          description: collectionsPage.promo?.caption,
-        },
-        title: collectionsPage.title,
-        introText: collectionsPage.introText ?? [],
-        insideOurCollectionsCards,
-        featuredConcepts,
-        fullWidthBanners,
-        serverData,
-      }),
-    };
+      const fullWidthBanners = [bannerOne, bannerTwo]
+        .filter(isNotUndefined)
+        .filter(isFullWidthBanner);
+
+      return {
+        props: serialiseProps({
+          hasNewPageToggle: true,
+          pageMeta: {
+            id: collectionsPage.id,
+            image: collectionsPage.promo?.image,
+            description: collectionsPage.promo?.caption,
+          },
+          title: collectionsPage.title,
+          introText: collectionsPage.introText ?? [],
+          insideOurCollectionsCards,
+          featuredConcepts,
+          fullWidthBanners,
+          serverData,
+        }),
+      };
+    } else {
+      return { notFound: true };
+    }
   }
 
   return page.getServerSideProps({

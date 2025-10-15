@@ -1,27 +1,21 @@
 import { Meta, StoryObj } from '@storybook/react';
+import { ComponentProps } from 'react';
 
-import mockImages from '@weco/cardigan/stories/data/mock-iiif-images';
-import { LinkProps } from '@weco/common/model/link-props';
-import ThemePromo from '@weco/common/views/components/ThemePromo';
-import { Image } from '@weco/content/services/wellcome/catalogue/types';
+import { mockIIIFImagesUrls } from '@weco/cardigan/stories/data/mock-iiif-images';
+import ThemeCard from '@weco/common/views/components/ThemeCard';
+import { ConceptImagesArray } from '@weco/content/hooks/useConceptImageUrls';
 
-type StoryArgs = {
+type StoryProps = ComponentProps<typeof ThemeCard> & {
   imageCount: number;
-  title: string;
-  description: string;
-  linkProps: LinkProps;
-  images?: never; // Hidden prop
 };
 
-const meta: Meta<StoryArgs> = {
-  title: 'Components/Cards/ThemePromo',
-  component: ThemePromo,
+const meta: Meta<StoryProps> = {
+  title: 'Components/Cards/ThemeCard',
+  component: ThemeCard,
   argTypes: {
-    images: {
-      table: {
-        disable: true,
-      },
-    },
+    images: { table: { disable: true } },
+    linkProps: { table: { disable: true } },
+    dataGtmProps: { table: { disable: true } },
     imageCount: {
       control: { type: 'range', min: 0, max: 4, step: 1 },
       description: 'Number of images to display (0-4)',
@@ -39,10 +33,10 @@ const meta: Meta<StoryArgs> = {
 
 export default meta;
 
-type Story = StoryObj<StoryArgs>;
+type Story = StoryObj<StoryProps>;
 
 export const Basic: Story = {
-  name: 'ThemePromo',
+  name: 'ThemeCard',
   args: {
     title: 'Photography',
     description:
@@ -59,15 +53,15 @@ export const Basic: Story = {
   },
   render: args => {
     const { imageCount = 4, ...componentProps } = args;
-    const selectedImages = mockImages.slice(
+    const selectedImages = mockIIIFImagesUrls.slice(
       0,
       Math.max(0, Math.min(4, imageCount))
     );
 
     return (
-      <ThemePromo
+      <ThemeCard
         {...componentProps}
-        images={selectedImages as [Image?, Image?, Image?, Image?]}
+        images={selectedImages as ConceptImagesArray}
       />
     );
   },

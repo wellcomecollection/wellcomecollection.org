@@ -1,5 +1,12 @@
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
 
+const mockIIIFImagesUrls: string[] = [
+  'https://iiif.wellcomecollection.org/image/L0033444/full/250%2C/0/default.jpg',
+  'https://iiif.wellcomecollection.org/image/V0014957/full/250%2C/0/default.jpg',
+  'https://iiif.wellcomecollection.org/image/V0011886/full/250%2C/0/default.jpg',
+  'https://iiif.wellcomecollection.org/image/L0085865/full/250%2C/0/default.jpg',
+];
+
 const mockImages: Image[] = [
   {
     locations: [
@@ -759,3 +766,4 @@ const mockImages: Image[] = [
 ];
 
 export default mockImages;
+export { mockIIIFImagesUrls };

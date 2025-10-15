@@ -16,9 +16,14 @@ import Space from '@weco/common/views/components/styled/Space';
 import ScrollableNavigation from './ScrollContainer.Navigation';
 import ScrollShim from './ScrollContainer.styles';
 
-const ScrollButtonsContainer = styled(Space).attrs({
-  $v: { size: 'm', properties: ['margin-bottom'] },
-})<{ $hasLabel?: boolean }>`
+const ScrollButtonsContainer = styled(Space).attrs<{
+  $scrollButtonsAfter?: boolean;
+}>(props => ({
+  $v: {
+    size: 'm',
+    properties: [props.$scrollButtonsAfter ? 'margin-top' : 'margin-bottom'],
+  },
+}))<{ $hasLabel?: boolean }>`
   display: flex;
   justify-content: ${props => (props.$hasLabel ? 'space-between' : 'flex-end')};
   gap: ${props => props.theme.spacingUnits['3']}px;
@@ -73,7 +78,10 @@ const ScrollContainer: FunctionComponent<Props> = ({
         </ContaineredLayout>
       )}
     >
-      <ScrollButtonsContainer $hasLabel={!!label}>
+      <ScrollButtonsContainer
+        $hasLabel={!!label}
+        $scrollButtonsAfter={scrollButtonsAfter}
+      >
         {label && <Label $hasDarkBackground={hasDarkBackground}>{label}</Label>}
 
         <ScrollableNavigation
@@ -88,10 +96,12 @@ const ScrollContainer: FunctionComponent<Props> = ({
   return (
     <div data-component="scroll-container">
       {!scrollButtonsAfter && scrollButtons}
+
       <ContentContainer ref={scrollContainerRef}>
         {useShim && gridSizes && <ScrollShim $gridValues={gridValues} />}
         {children}
       </ContentContainer>
+
       {scrollButtonsAfter && scrollButtons}
     </div>
   );

@@ -4,19 +4,9 @@ import styled from 'styled-components';
 
 import { LinkProps } from '@weco/common/model/link-props';
 import { font } from '@weco/common/utils/classnames';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Space from '@weco/common/views/components/styled/Space';
-import { PaletteColor } from '@weco/common/views/themes/config';
-import { Image } from '@weco/content/services/wellcome/catalogue/types';
-
-// Palette colors for placeholder rectangles
-const placeholderColors = [
-  'accent.salmon',
-  'accent.purple',
-  'yellow',
-  'accent.green',
-];
+import { ConceptImagesArray } from '@weco/content/hooks/useConceptImageUrls';
 
 const Title = styled(Space).attrs({
   className: font('wb', 3),
@@ -50,15 +40,12 @@ const CompositeGrid = styled.div<{ $isSingleImage?: boolean }>`
   overflow: hidden;
 `;
 
-const ImageContainer = styled.div<{ $placeholderColor?: PaletteColor }>`
+const ImageContainer = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-color: ${props =>
-    props.$placeholderColor
-      ? props.theme.color(props.$placeholderColor)
-      : props.theme.color('neutral.300')};
+  background-color: ${props => props.theme.color('neutral.700')};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -111,15 +98,15 @@ const Description = styled.p.attrs({
   margin-bottom: 0;
 `;
 
-export type ThemePromoProps = {
-  images: [Image?, Image?, Image?, Image?];
+export type ThemeCardProps = {
+  images: ConceptImagesArray;
   title: string;
   description?: string;
   linkProps: LinkProps;
   dataGtmProps?: DataGtmProps;
 };
 
-const ThemePromo: FunctionComponent<ThemePromoProps> = ({
+const ThemeCard: FunctionComponent<ThemeCardProps> = ({
   images,
   title,
   description,
@@ -136,16 +123,16 @@ const ThemePromo: FunctionComponent<ThemePromoProps> = ({
     setLoadedImages(prev => new Set(prev).add(index));
   };
 
-  // Create array of slots, some with images, some with placeholder colors
+  // Create array of slots, some with images
   const slots = Array.from({ length: isSingleImage ? 1 : 4 }, (_, index) => {
     if (index < images.length && images[index]) {
-      return { type: 'image' as const, image: images[index]! };
+      return {
+        type: 'image' as const,
+        image: images[index]!,
+      };
     }
     return {
       type: 'placeholder' as const,
-      color: placeholderColors[
-        index % placeholderColors.length
-      ] as PaletteColor,
     };
   });
 
@@ -154,18 +141,10 @@ const ThemePromo: FunctionComponent<ThemePromoProps> = ({
       <CardWrapper data-component="theme-promo">
         <CompositeGrid $isSingleImage={isSingleImage}>
           {slots.map((slot, index) => (
-            <ImageContainer
-              key={index}
-              $placeholderColor={
-                slot.type === 'placeholder' ? slot.color : undefined
-              }
-            >
+            <ImageContainer key={index}>
               {slot.type === 'image' && slot.image ? (
                 <ImageElement
-                  src={convertImageUri(
-                    slot.image.locations[0].url,
-                    isSingleImage ? 500 : 250
-                  )}
+                  src={slot.image}
                   alt=""
                   loading="lazy"
                   $isLoaded={loadedImages.has(index)}
@@ -175,6 +154,7 @@ const ThemePromo: FunctionComponent<ThemePromoProps> = ({
             </ImageContainer>
           ))}
         </CompositeGrid>
+
         <TextContent>
           <Title>{title}</Title>
           {description && <Description>{description}</Description>}
@@ -184,4 +164,4 @@ const ThemePromo: FunctionComponent<ThemePromoProps> = ({
   );
 };
 
-export default ThemePromo;
+export default ThemeCard;

@@ -27,8 +27,7 @@ const Typewriter = styled.div.attrs({
 })`
   position: absolute;
   pointer-events: none;
-  top: calc(50% + 12px);
-  transform: translateY(-50%);
+  bottom: 18px;
   left: 20px;
   z-index: 1;
   color: ${props => props.theme.color('neutral.600')};
@@ -36,6 +35,10 @@ const Typewriter = styled.div.attrs({
   overflow: hidden;
   text-wrap: nowrap;
   text-overflow: ellipsis;
+
+  ${props => props.theme.media('medium')`
+    bottom: 22px;
+  `}
 
   @media (prefers-reduced-motion: reduce) {
     display: none;
