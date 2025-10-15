@@ -29,7 +29,6 @@ const items: WorkItem[] = [
       alt: 'The life of Florence Nightingale',
     },
     labels: [{ text: 'Book' }],
-    meta: undefined,
   },
   {
     url: 'https://wellcomecollection.org/works/fmvhyt82',
