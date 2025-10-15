@@ -5,6 +5,7 @@ import {
   SetStateAction,
   useEffect,
   useRef,
+  useState,
 } from 'react';
 import styled from 'styled-components';
 import Typed from 'typed.js';
@@ -133,53 +134,86 @@ const SearchBar: FunctionComponent<Props> = ({
 }) => {
   const defaultInputRef = useRef<HTMLInputElement>(null);
   const typewriterRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [animationTrigger, setAnimationTrigger] = useState(0);
+  const wasOutOfViewport = useRef(false);
+
+  // Track visibility of SearchBar in the viewport
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) {
+            // Element has left the viewport
+            wasOutOfViewport.current = true;
+          } else if (wasOutOfViewport.current && entry.isIntersecting) {
+            // Element has re-entered the viewport after being out
+            wasOutOfViewport.current = false;
+            setAnimationTrigger(prev => prev + 1);
+          }
+        });
+      },
+      { threshold: 1.0 }
+    );
+
+    observer.observe(containerRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     if (typewriterRef.current) {
-      const typed = new Typed(typewriterRef.current, {
-        strings: [
-          'Florence Nightingale letters',
-          'Cookery and medical recipe book',
-          'Medical officer of health 1938',
-          'Magic',
-          'David Beales archives',
-          'Chinese medicine',
-          'India',
-          'Manuscripts',
-          'Oil paintings',
-          'Vaccines',
-          'Easter',
-        ],
-        typeSpeed: 50,
-        fadeOutDelay: 0,
-        fadeOutClass: '', // prevent fade completely
-        shuffle: true,
-        loop: true,
-        showCursor: false,
-        onStringTyped: async (_, self) => {
-          // There isn't an option to delay between strings, so we implement it
-          // https://github.com/mattboldt/typed.js/issues/617
-          const delay = (ms: number) =>
-            new Promise(resolve => setTimeout(resolve, ms));
+      const strings = [
+        'Florence Nightingale letters',
+        'Cookery and medical recipe book',
+        'Medical officer of health 1938',
+        'Magic',
+        'David Beales archives',
+        'Chinese medicine',
+        'India',
+        'Manuscripts',
+        'Oil paintings',
+        'Vaccines',
+        'Easter',
+      ];
 
-          self.stop();
-          await delay(3000);
-          // @ts-expect-error - accessing private method
-          // https://mattboldt.github.io/typed.js/docs/class/src/typed.js~Typed.html
-          self.initFadeOut();
-          await delay(1000);
-          self.start();
+      const randomString = strings[Math.floor(Math.random() * strings.length)];
+
+      const element = typewriterRef.current;
+      let fadeTimeout: NodeJS.Timeout;
+
+      // Reset opacity before starting animation
+      element.style.opacity = '1';
+      element.style.transition = '';
+
+      const typed = new Typed(element, {
+        strings: [randomString],
+        startDelay: 1000,
+        typeSpeed: 50,
+        shuffle: false,
+        loop: false,
+        showCursor: false,
+        onComplete: () => {
+          fadeTimeout = setTimeout(() => {
+            element.style.transition = 'opacity 1s ease-out';
+            element.style.opacity = '0';
+          }, 2000);
         },
       });
 
       return () => {
+        clearTimeout(fadeTimeout);
         typed.destroy();
       };
     }
-  }, [typewriterRef.current]);
+  }, [animationTrigger]);
 
   return (
-    <Container className="is-hidden-print">
+    <Container className="is-hidden-print" ref={containerRef}>
       <SearchInputWrapper>
         <Typewriter ref={typewriterRef} />
         <TextInput
