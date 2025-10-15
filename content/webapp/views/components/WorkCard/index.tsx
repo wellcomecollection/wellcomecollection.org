@@ -4,7 +4,23 @@ import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
-import PopoutImage from '@weco/content/views/components/PopoutImage';
+
+const PopoutCardImageContainer = styled.div`
+  position: relative;
+  background-color: ${props => props.theme.color('neutral.300')};
+  height: 0;
+  padding-top: 100%;
+  transform: rotate(-2deg);
+`;
+
+const PopoutCardImage = styled(Space).attrs({
+  $v: { size: 'l', properties: ['bottom'] },
+})`
+  position: absolute;
+  width: 66%;
+  left: 50%;
+  transform: translateX(-50%) rotate(2deg);
+`;
 
 type LinkSpaceAttrs = {
   $url: string;
@@ -72,26 +88,17 @@ const WorkCard: FunctionComponent<Props> = ({ item }) => {
   return (
     <LinkSpace $url={url} data-component="work-card">
       <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-        <PopoutImage
-          image={{
-            contentUrl: image.contentUrl || '',
-            width: image.width || 0,
-            height: image.height || 0,
-            // We intentionally omit the alt text on promos, so screen reader
-            // users don't have to listen to the alt text before hearing the
-            // title of the item in the list.
-            //
-            // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-            alt: '',
-          }}
-          sizes={{
-            xlarge: 1 / 6,
-            large: 1 / 6,
-            medium: 1 / 3,
-            small: 1,
-          }}
-          quality="low"
-        />
+        <PopoutCardImageContainer data-component="popout-image">
+          <PopoutCardImage>
+            <img
+              src={image.contentUrl}
+              alt=""
+              loading="lazy"
+              height={image.height}
+              width={image.width}
+            />
+          </PopoutCardImage>
+        </PopoutCardImageContainer>
         <Space
           $v={{ size: 's', properties: ['margin-bottom'] }}
           style={{ position: 'relative' }}
