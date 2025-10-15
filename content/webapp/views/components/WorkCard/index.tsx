@@ -70,7 +70,7 @@ const WorkCard: FunctionComponent<Props> = ({ item }) => {
   const { url, title, image, labels, meta } = item;
 
   return (
-    <LinkSpace $url={url}>
+    <LinkSpace $url={url} data-component="work-card">
       <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
         <PopoutImage
           image={{
