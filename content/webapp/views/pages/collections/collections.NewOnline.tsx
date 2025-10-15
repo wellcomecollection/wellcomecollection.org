@@ -60,7 +60,7 @@ const items: WorkItem[] = [
 const NewOnline: FunctionComponent = () => {
   return (
     <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
-      <Grid>
+      <Grid $alignItems="baseline">
         {items.map(item => (
           <GridCell
             key={item.url}
