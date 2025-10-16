@@ -33,6 +33,7 @@ const ListItem = styled.li`
   padding-left: var(--gutter-size);
 
   &:last-child {
+    width: calc(400px + var(--gutter-size));
     max-width: calc(90vw + var(--gutter-size));
     padding-right: var(--gutter-size);
   }
