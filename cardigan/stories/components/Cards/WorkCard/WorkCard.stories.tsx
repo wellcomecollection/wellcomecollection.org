@@ -2,47 +2,55 @@ import { Meta, StoryObj } from '@storybook/react';
 
 import WorkCard, { WorkItem } from '@weco/content/views/components/WorkCard';
 
-type StoryArgs = {
-  title: string;
-  labels: string;
-  meta: string;
-  item?: WorkItem;
+type StoryProps = Omit<WorkItem, 'labels'> & {
+  labelsList: string;
+  item: WorkItem;
 };
 
-const meta: Meta<StoryArgs> = {
+const meta: Meta<StoryProps> = {
   title: 'Components/Cards/WorkCard',
   component: WorkCard,
   args: {
     title: 'Scans of drawings used as newsletter covers',
-    labels: 'Born-digital archives',
-    meta: 'Part of: David Beales: archive',
+    labelsList: 'Born-digital archives',
+    partOf: 'David Beales: archive',
+    contributor: 'Tooley, Sarah A., 1857-',
+    date: 'c.1990s-c.2000s',
   },
   argTypes: {
+    item: { table: { disable: true } },
     title: {
       name: 'Title',
       control: { type: 'text' },
     },
-    labels: {
+    labelsList: {
       name: 'Labels',
       control: { type: 'text' },
       description: 'Comma-separated list of labels',
     },
-    meta: {
-      name: 'Meta',
+    partOf: {
+      name: 'Part of',
       control: { type: 'text' },
     },
-    item: { table: { disable: true } },
+    contributor: {
+      name: 'Contributor',
+      control: { type: 'text' },
+    },
+    date: {
+      name: 'Date',
+      control: { type: 'text' },
+    },
   },
   render: args => {
-    const labelsArray = args.labels
-      ? args.labels.split(',').map(label => ({ text: label.trim() }))
+    const labelsArray = args.labelsList
+      ? args.labelsList.split(',').map(label => ({ text: label.trim() }))
       : [];
 
     return (
       <WorkCard
         item={{
+          ...args,
           url: 'https://wellcomecollection.org/works/ptfqa2te',
-          title: args.title,
           image: {
             contentUrl:
               'https://iiif.wellcomecollection.org/thumbs/PPDBL_A_7---DAYCENTRE2.BMP/full/291,400/0/default.jpg',
@@ -51,7 +59,6 @@ const meta: Meta<StoryArgs> = {
             alt: 'Scans of drawings used as newsletter covers',
           },
           labels: labelsArray,
-          meta: args.meta,
         }}
       />
     );
@@ -74,7 +81,7 @@ const meta: Meta<StoryArgs> = {
 
 export default meta;
 
-type Story = StoryObj<StoryArgs>;
+type Story = StoryObj<StoryProps>;
 
 export const Default: Story = {
   name: 'WorkCard',
