@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import { useToggles } from '@weco/common/server-data/Context';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import Divider from '@weco/common/views/components/Divider';
 import SearchForm from '@weco/common/views/components/SearchForm';
@@ -58,7 +57,6 @@ export const WorkPage: NextPage<Props> = ({
   apiUrl,
   transformedManifest,
 }) => {
-  const { relatedContentOnWorks } = useToggles();
   const { userIsStaffWithRestricted } = useUserContext();
   const isArchive = !!(
     work.parts.length ||
@@ -195,7 +193,7 @@ export const WorkPage: NextPage<Props> = ({
         )}
 
         {/* If the work has no subjects, it's not worth adding this component */}
-        {relatedContentOnWorks && hasAtLeastOneSubject(work.subjects) && (
+        {hasAtLeastOneSubject(work.subjects) && (
           <RelatedWorks
             workId={work.id}
             subjects={work.subjects}
