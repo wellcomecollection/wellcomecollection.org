@@ -132,10 +132,12 @@ const CollectionsLandingPage: NextPage<Props> = ({
         </Space>
       </MainBackground>
 
-      <SectionHeader title="New online" gridSize={gridSize12()} />
-      <ContaineredLayout gridSizes={gridSize12()}>
-        <NewOnline />
-      </ContaineredLayout>
+      <Space $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}>
+        <SectionHeader title="New online" gridSize={gridSize12()} />
+        <ContaineredLayout gridSizes={gridSize12()}>
+          <NewOnline />
+        </ContaineredLayout>
+      </Space>
 
       {fullWidthBanners?.[0] && (
         <Space $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}>
