@@ -115,13 +115,6 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'relatedContentOnWorks',
-      title: 'Related content on works',
-      initialValue: false,
-      description: 'Shows related content on works pages',
-      type: 'experimental',
-    },
-    {
       id: 'collectionsLanding',
       title: 'Collections landing alternative page',
       initialValue: false,
