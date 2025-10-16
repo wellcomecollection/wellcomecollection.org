@@ -23,9 +23,9 @@ import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
 import theme from '@weco/common/views/themes/default';
 import Body from '@weco/content/views/components/Body';
-import BookImage from '@weco/content/views/components/BookImage';
 import ContentPage from '@weco/content/views/components/ContentPage';
 import PartNumberIndicator from '@weco/content/views/components/PartNumberIndicator';
+import PopoutImage from '@weco/content/views/components/PopoutImage';
 import TextWithDot from '@weco/content/views/components/TextWithDot';
 
 const meta: Meta<typeof PageHeader> = {
@@ -427,7 +427,7 @@ export const Book: Meta<typeof PageHeader> = {
     FeaturedMedia: (
       <Space $v={{ size: 'xl', properties: ['margin-top', 'padding-top'] }}>
         <Layout gridSizes={gridSize8()}>
-          <BookImage
+          <PopoutImage
             image={image(bookImageUrl, 1659, 1800)}
             sizes={{ xlarge: 1 / 3, large: 1 / 3, medium: 1 / 3, small: 1 }}
             quality="low"

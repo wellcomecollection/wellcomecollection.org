@@ -4,11 +4,11 @@ import {
   bookImageUrl,
   image as contentImage,
 } from '@weco/cardigan/stories/data/images';
-import BookImage from '@weco/content/views/components/BookImage';
+import PopoutImage from '@weco/content/views/components/PopoutImage';
 
-const meta: Meta<typeof BookImage> = {
-  title: 'Components/Images/BookImage',
-  component: BookImage,
+const meta: Meta<typeof PopoutImage> = {
+  title: 'Components/Images/PopoutImage',
+  component: PopoutImage,
   args: {
     image: contentImage(bookImageUrl),
     sizes: {
@@ -30,13 +30,13 @@ const meta: Meta<typeof BookImage> = {
 
 export default meta;
 
-type Story = StoryObj<typeof BookImage>;
+type Story = StoryObj<typeof PopoutImage>;
 
 export const Basic: Story = {
-  name: 'BookImage',
+  name: 'PopoutImage',
   render: args => (
     <div style={{ maxWidth: '400px' }}>
-      <BookImage {...args} />
+      <PopoutImage {...args} />
     </div>
   ),
 };
