@@ -15,7 +15,6 @@ type LinkSpaceAttrs = {
 const LinkSpace = styled(Space).attrs<LinkSpaceAttrs>(props => ({
   as: 'a',
   href: props.$url,
-  $v: { size: 'xl', properties: ['padding-top'] },
   $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 }))<LinkSpaceAttrs>`
   display: block;
