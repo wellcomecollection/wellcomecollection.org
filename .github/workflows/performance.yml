@@ -29,7 +29,7 @@ jobs:
       # However, it is recommended to always specify Node.js version and don't rely on the system one.
       - uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: 24
       - uses: preactjs/compressed-size-action@v2
         with:
           build-script: "build-webapps"
