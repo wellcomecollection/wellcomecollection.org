@@ -16,11 +16,13 @@ const items: WorkItem[] = [
       alt: '',
     },
     labels: [{ text: 'Born-digital archives' }],
-    meta: 'Part of: David Beales: archive',
+    partOf: 'David Beales: archive',
+    date: 'c.1990s-c.2000s',
   },
   {
     url: 'https://wellcomecollection.org/works/ecgby5kb',
-    title: 'The life of Florence Nightingale (1904, including illustrations)',
+    title:
+      'The life of Florence Nightingale / by Sarah A. Tooley, with 22 illustrations.',
     image: {
       contentUrl:
         'https://iiif.wellcomecollection.org/thumbs/b33396607_0004_0007.jp2/full/252,400/0/default.jpg',
@@ -28,12 +30,14 @@ const items: WorkItem[] = [
       height: 400,
       alt: 'The life of Florence Nightingale',
     },
-    labels: [{ text: 'Book' }],
+    labels: [{ text: 'Books' }],
+    contributor: 'Tooley, Sarah A., 1857-',
+    date: '1904',
   },
   {
     url: 'https://wellcomecollection.org/works/fmvhyt82',
     title:
-      "Wampole's Preparation: tonic and stimulant for all ages (1930s ephemera)",
+      "Wampole's Preparation : tonic and stimulant for all ages / Leon P. DuPlessis.",
     image: {
       contentUrl:
         'https://iiif.wellcomecollection.org/thumbs/b16637367_0001.jp2/full/324,400/0/default.jpg',
@@ -42,6 +46,8 @@ const items: WorkItem[] = [
       alt: "Wampole's Preparation ephemera",
     },
     labels: [{ text: 'Ephemera' }],
+    contributor: 'DuPlessis, Leon P.',
+    date: '[between 1930 and 1939?]',
   },
   {
     url: 'https://wellcomecollection.org/works/c2yce27k',
@@ -54,6 +60,8 @@ const items: WorkItem[] = [
       alt: 'That’s the Limit: a guide to sensible drinking',
     },
     labels: [{ text: 'Archives and manuscripts' }],
+    contributor: 'Health Education Council',
+    date: '1970s-1990s',
   },
 ];
 

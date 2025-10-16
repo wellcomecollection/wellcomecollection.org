@@ -123,7 +123,8 @@ export type SourceOntology =
   | 'nlm-mesh'
   | 'wikidata'
   | 'lc-names'
-  | 'lc-subjects';
+  | 'lc-subjects'
+  | 'weco-authority';
 
 export type ConceptType =
   | 'Subject'

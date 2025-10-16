@@ -83,7 +83,9 @@ export type WorkItem = {
     alt?: string;
   };
   labels: { text: string }[];
-  meta?: string;
+  partOf?: string;
+  contributor?: string;
+  date?: string;
 };
 
 type Props = {
@@ -91,7 +93,7 @@ type Props = {
 };
 
 const WorkCard: FunctionComponent<Props> = ({ item }) => {
-  const { url, title, image, labels, meta } = item;
+  const { url, title, image, labels, partOf, contributor, date } = item;
   return (
     <LinkSpace $url={url} data-component="work-card">
       <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
@@ -113,7 +115,10 @@ const WorkCard: FunctionComponent<Props> = ({ item }) => {
           </Space>
         </Space>
         <Title>{title}</Title>
-        {meta && <Meta>{meta}</Meta>}
+
+        {partOf && <Meta>Part of: {partOf}</Meta>}
+        {contributor && <Meta>{contributor}</Meta>}
+        {date && <Meta>Date: {date}</Meta>}
       </Space>
     </LinkSpace>
   );
