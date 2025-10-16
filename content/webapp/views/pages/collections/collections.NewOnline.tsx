@@ -28,7 +28,7 @@ const items: WorkItem[] = [
       height: 400,
       alt: 'The life of Florence Nightingale',
     },
-    labels: [{ text: 'Book' }],
+    labels: [{ text: 'Books' }],
   },
   {
     url: 'https://wellcomecollection.org/works/fmvhyt82',
