@@ -2,6 +2,7 @@ import { ComponentProps, FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import PrismicImage from '@weco/common/views/components/PrismicImage';
+import IIIFImage from '@weco/content/views/components/IIIFImage';
 
 export const PopoutCardImageContainer = styled.div`
   display: block;
@@ -28,12 +29,20 @@ export const PopoutCardImageContainer = styled.div`
   }
 `;
 
-type Props = ComponentProps<typeof PrismicImage>;
+type Props =
+  | (ComponentProps<typeof PrismicImage> & { variant: 'prismic' })
+  | (ComponentProps<typeof IIIFImage> & { variant: 'iiif' });
 
 const PopoutImage: FunctionComponent<Props> = props => {
   return (
     <PopoutCardImageContainer data-component="popout-image">
-      <PrismicImage {...props} />
+      <>
+        {props.variant === 'prismic' ? (
+          <PrismicImage {...props} />
+        ) : (
+          <IIIFImage {...props} layout="raw" />
+        )}
+      </>
     </PopoutCardImageContainer>
   );
 };
