@@ -80,6 +80,7 @@ const BookCard: FunctionComponent<Props> = ({ book }) => {
             small: 1,
           }}
           quality="low"
+          variant="prismic"
         />
         <Space
           $h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}

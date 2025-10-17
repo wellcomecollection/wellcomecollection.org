@@ -41,6 +41,7 @@ const BookPage: NextPage<Props> = ({ book }) => {
           image={{ ...book.cover }}
           sizes={{ xlarge: 1 / 3, large: 1 / 3, medium: 1 / 3, small: 1 }}
           quality="low"
+          variant="prismic"
         />
       </ContaineredLayout>
     </Space>
