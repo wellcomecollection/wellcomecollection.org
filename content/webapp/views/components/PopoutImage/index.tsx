@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 
-const PopoutCardImageContainer = styled.div`
+export const PopoutCardImageContainer = styled.div`
   display: block;
   position: relative;
 
