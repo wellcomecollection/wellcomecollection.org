@@ -40,7 +40,7 @@ const PopoutImage: FunctionComponent<Props> = props => {
         {props.variant === 'prismic' ? (
           <PrismicImage {...props} />
         ) : (
-          <IIIFImage {...props} layout="raw" />
+          <IIIFImage {...props} />
         )}
       </>
     </PopoutCardImageContainer>

@@ -73,12 +73,7 @@ const WorkCard: FunctionComponent<Props> = ({ item }) => {
   return (
     <LinkSpace $url={url} data-component="work-card">
       <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-        <PopoutImage
-          image={{ ...image }}
-          sizes={{ xlarge: 1 / 3, large: 1 / 3, medium: 1 / 3, small: 1 }}
-          quality="low"
-          variant="iiif"
-        />
+        <PopoutImage image={{ ...image }} variant="iiif" layout="raw" />
         <Space
           $v={{ size: 's', properties: ['margin-bottom'] }}
           style={{ position: 'relative' }}
