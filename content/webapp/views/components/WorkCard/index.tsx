@@ -5,36 +5,29 @@ import { font } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
 
-// Ensures the image container takes up the same amount of vertical space
-// regardless of the image height
-const Shim = styled.div`
+const PopoutCardImageContainer = styled.div`
+  display: block;
   position: relative;
-  ${props => props.theme.media('medium')`
-    height: 0;
-    padding-top: 100%;
-  `}
-`;
 
-const PopoutCardImageContainer = styled.div<{ $aspectRatio?: number }>`
-  position: relative;
-  ${props => props.theme.media('medium')`
+  &::before {
+    content: '';
     position: absolute;
     bottom: 0;
-  `}
-  width: 100%;
-  background-color: ${props => props.theme.color('neutral.300')};
-  padding-top: ${props =>
-    props.$aspectRatio ? `${props.$aspectRatio * 66}%` : '100%'};
-  transform: rotate(-2deg);
-`;
+    left: 0;
+    right: 0;
+    height: 80%;
+    background-color: ${props => props.theme.color('neutral.300')};
+    transform: rotate(-2deg);
+    z-index: -1;
+  }
 
-const PopoutCardImage = styled(Space).attrs({
-  $v: { size: 'l', properties: ['bottom'] },
-})`
-  position: absolute;
-  width: 66%;
-  left: 50%;
-  transform: translateX(-50%) rotate(2deg);
+  img {
+    display: block;
+    margin: auto;
+    width: 66%;
+    height: auto;
+    padding-bottom: ${props => `${props.theme.gutter.medium}px`};
+  }
 `;
 
 type LinkSpaceAttrs = {
@@ -101,27 +94,18 @@ type Props = {
 
 const WorkCard: FunctionComponent<Props> = ({ item }) => {
   const { url, title, image, labels, partOf, contributor, date } = item;
-  const aspectRatio = image.height / image.width;
-
   return (
     <LinkSpace $url={url} data-component="work-card">
       <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-        <Shim>
-          <PopoutCardImageContainer
-            data-component="popout-image"
-            $aspectRatio={aspectRatio}
-          >
-            <PopoutCardImage>
-              <img
-                src={image.contentUrl}
-                alt=""
-                loading="lazy"
-                height={image.height}
-                width={image.width}
-              />
-            </PopoutCardImage>
-          </PopoutCardImageContainer>
-        </Shim>
+        <PopoutCardImageContainer>
+          <img
+            src={image.contentUrl}
+            alt=""
+            loading="lazy"
+            height={image.height}
+            width={image.width}
+          />
+        </PopoutCardImageContainer>
         <Space
           $v={{ size: 's', properties: ['margin-bottom'] }}
           style={{ position: 'relative' }}
