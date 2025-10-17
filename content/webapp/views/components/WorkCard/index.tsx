@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
-import { PopoutCardImageContainer } from '@weco/content/views/components/PopoutImage';
+import PopoutImage from '@weco/content/views/components/PopoutImage';
 
 type LinkSpaceAttrs = {
   $url: string;
@@ -73,15 +73,12 @@ const WorkCard: FunctionComponent<Props> = ({ item }) => {
   return (
     <LinkSpace $url={url} data-component="work-card">
       <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-        <PopoutCardImageContainer>
-          <img
-            src={image.contentUrl}
-            alt=""
-            loading="lazy"
-            height={image.height}
-            width={image.width}
-          />
-        </PopoutCardImageContainer>
+        <PopoutImage
+          image={{ ...image }}
+          sizes={{ xlarge: 1 / 3, large: 1 / 3, medium: 1 / 3, small: 1 }}
+          quality="low"
+          variant="iiif"
+        />
         <Space
           $v={{ size: 's', properties: ['margin-bottom'] }}
           style={{ position: 'relative' }}
