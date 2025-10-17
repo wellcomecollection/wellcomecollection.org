@@ -56,7 +56,7 @@ export type WorkItem = {
     contentUrl: string;
     width: number;
     height: number;
-    alt?: string;
+    alt: string | null;
   };
   labels: { text: string }[];
   partOf?: string;
