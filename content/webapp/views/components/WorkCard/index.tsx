@@ -4,31 +4,7 @@ import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
-
-const PopoutCardImageContainer = styled.div`
-  display: block;
-  position: relative;
-
-  &::before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 80%;
-    background-color: ${props => props.theme.color('neutral.300')};
-    transform: rotate(-2deg);
-    z-index: -1;
-  }
-
-  img {
-    display: block;
-    margin: auto;
-    width: 66%;
-    height: auto;
-    padding-bottom: ${props => `${props.theme.gutter.medium}px`};
-  }
-`;
+import { PopoutCardImageContainer } from '@weco/content/views/components/PopoutImage';
 
 type LinkSpaceAttrs = {
   $url: string;
