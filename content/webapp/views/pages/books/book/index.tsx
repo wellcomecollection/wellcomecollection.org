@@ -35,12 +35,13 @@ export type Props = {
 
 const BookPage: NextPage<Props> = ({ book }) => {
   const FeaturedMedia = book.cover && (
-    <Space $v={{ size: 'xl', properties: ['margin-top', 'padding-top'] }}>
+    <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
       <ContaineredLayout gridSizes={gridSize8()}>
         <PopoutImage
           image={{ ...book.cover }}
           sizes={{ xlarge: 1 / 3, large: 1 / 3, medium: 1 / 3, small: 1 }}
           quality="low"
+          variant="prismic"
         />
       </ContaineredLayout>
     </Space>

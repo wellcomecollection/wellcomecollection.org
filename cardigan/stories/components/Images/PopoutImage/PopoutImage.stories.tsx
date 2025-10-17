@@ -18,6 +18,7 @@ const meta: Meta<typeof PopoutImage> = {
       small: 1,
     },
     quality: 'low',
+    variant: 'prismic',
   },
   argTypes: {
     image: { table: { disable: true } },
@@ -25,6 +26,7 @@ const meta: Meta<typeof PopoutImage> = {
     maxWidth: { table: { disable: true } },
     imgSizes: { table: { disable: true } },
     quality: { table: { disable: true } },
+    variant: { table: { disable: true } },
   },
 };
 

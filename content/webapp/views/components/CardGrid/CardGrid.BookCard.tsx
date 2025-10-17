@@ -15,7 +15,6 @@ type LinkSpaceAttrs = {
 const LinkSpace = styled(Space).attrs<LinkSpaceAttrs>(props => ({
   as: 'a',
   href: props.$url,
-  $v: { size: 'xl', properties: ['padding-top'] },
   $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 }))<LinkSpaceAttrs>`
   display: block;
@@ -81,6 +80,7 @@ const BookCard: FunctionComponent<Props> = ({ book }) => {
             small: 1,
           }}
           quality="low"
+          variant="prismic"
         />
         <Space
           $h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}

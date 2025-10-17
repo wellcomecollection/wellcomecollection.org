@@ -4,31 +4,7 @@ import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
-
-const PopoutCardImageContainer = styled.div`
-  display: block;
-  position: relative;
-
-  &::before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 80%;
-    background-color: ${props => props.theme.color('neutral.300')};
-    transform: rotate(-2deg);
-    z-index: -1;
-  }
-
-  img {
-    display: block;
-    margin: auto;
-    width: 66%;
-    height: auto;
-    padding-bottom: ${props => `${props.theme.gutter.medium}px`};
-  }
-`;
+import PopoutImage from '@weco/content/views/components/PopoutImage';
 
 type LinkSpaceAttrs = {
   $url: string;
@@ -80,7 +56,7 @@ export type WorkItem = {
     contentUrl: string;
     width: number;
     height: number;
-    alt?: string;
+    alt: string | null;
   };
   labels: { text: string }[];
   partOf?: string;
@@ -97,15 +73,7 @@ const WorkCard: FunctionComponent<Props> = ({ item }) => {
   return (
     <LinkSpace $url={url} data-component="work-card">
       <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-        <PopoutCardImageContainer>
-          <img
-            src={image.contentUrl}
-            alt=""
-            loading="lazy"
-            height={image.height}
-            width={image.width}
-          />
-        </PopoutCardImageContainer>
+        <PopoutImage image={{ ...image }} variant="iiif" layout="raw" />
         <Space
           $v={{ size: 's', properties: ['margin-bottom'] }}
           style={{ position: 'relative' }}
