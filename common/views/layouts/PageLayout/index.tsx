@@ -89,7 +89,7 @@ const PageLayoutComponent: NextPage<Props> = ({
   clipOverflowX = false,
   isNoIndex = false,
 }) => {
-  const { apiToolbar, issuesBanner } = useToggles();
+  const { apiToolbar } = useToggles();
   const urlString = convertUrlToString(url);
   const fullTitle =
     title !== ''
@@ -289,7 +289,7 @@ const PageLayoutComponent: NextPage<Props> = ({
           Skip to main content
         </a>
         {!hideHeader && <Header siteSection={siteSection} {...headerProps} />}
-        {issuesBanner && <InfoBanner variant="websiteIssues" />}
+        <InfoBanner variant="websiteIssues" />
         {globalAlert.data.isShown === 'show' &&
           (!globalAlert.data.routeRegex ||
             urlString.match(new RegExp(globalAlert.data.routeRegex))) && (
