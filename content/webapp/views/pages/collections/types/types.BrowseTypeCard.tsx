@@ -37,6 +37,13 @@ const ImageContainer = styled.div`
   background-color: ${props => props.theme.color('neutral.700')};
 `;
 
+const Image = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+`;
+
 const ContentWrapper = styled(Space).attrs({
   $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
@@ -79,7 +86,11 @@ const BrowseTypeCard: FunctionComponent<Props> = ({ type }) => {
   return (
     <CardLink href={url} data-component="browse-type-card">
       <ImageContainer>
-        <ImagePlaceholder color="neutral.700" />
+        {type.imageUrl ? (
+          <Image src={type.imageUrl} alt="" loading="lazy" />
+        ) : (
+          <ImagePlaceholder color="neutral.700" />
+        )}
       </ImageContainer>
 
       <ContentWrapper>

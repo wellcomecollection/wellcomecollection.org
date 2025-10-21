@@ -4,6 +4,7 @@ export type BrowseType = {
   description: string;
   slug: string;
   imageUrl?: string;
+  imageUrls?: string[];
   workCount: number;
   size: 'large' | 'medium' | 'small';
   conceptId?: string;
@@ -70,6 +71,12 @@ export const types: BrowseType[] = [
     description:
       'Browse our extensive collection of photographs, prints, drawings, and paintings.',
     slug: 'pictures',
+    imageUrls: [
+      'https://iiif.wellcomecollection.org/image/V0006724.jpg/full/512,/0/default.jpg',
+      'https://iiif.wellcomecollection.org/image/L0035391.jpg/full/512,/0/default.jpg',
+      'https://iiif.wellcomecollection.org/image/V0011379.jpg/full/512,/0/default.jpg',
+      'https://iiif.wellcomecollection.org/image/L0074488.jpg/full/512,/0/default.jpg',
+    ],
     workCount: 35000,
     size: 'medium',
     conceptId: 'p9q2r5t8',
@@ -88,6 +95,12 @@ export const types: BrowseType[] = [
     description:
       'Explore pamphlets, leaflets, posters, and other printed materials not intended to be kept.',
     slug: 'ephemera',
+    imageUrls: [
+      'https://iiif.wellcomecollection.org/image/L0074713.jpg/full/512,/0/default.jpg',
+      'https://iiif.wellcomecollection.org/image/L0035542.jpg/full/512,/0/default.jpg',
+      'https://iiif.wellcomecollection.org/image/L0040340.jpg/full/512,/0/default.jpg',
+      'https://iiif.wellcomecollection.org/image/L0025779.jpg/full/512,/0/default.jpg',
+    ],
     workCount: 28000,
     size: 'medium',
     conceptId: 'e4f7g9h1',
@@ -101,35 +114,17 @@ export const types: BrowseType[] = [
     ],
   },
   {
-    id: 'archives',
-    label: 'Archives & manuscripts',
-    description:
-      'Discover unique archival collections and manuscript materials documenting the history of medicine and healthcare.',
-    slug: 'archives',
-    imageUrl:
-      'https://iiif.wellcomecollection.org/image/B0010760.jpg/full/512,/0/default.jpg',
-    workCount: 45000,
-    size: 'large',
-    conceptId: 'x7j5k8m2',
-    workType: 'h',
-    subTypes: [
-      { id: 'personal-papers', label: 'Personal papers', workCount: 4500 },
-      {
-        id: 'organisational-archives',
-        label: 'Organisational archives',
-        workCount: 3200,
-      },
-      { id: 'correspondence', label: 'Correspondence', workCount: 5600 },
-      { id: 'diaries', label: 'Diaries', workCount: 890 },
-      { id: 'notebooks', label: 'Notebooks', workCount: 1100 },
-    ],
-  },
-  {
     id: 'journals',
     label: 'Journals',
     description:
       'Access medical and scientific journals, periodicals, and serial publications.',
     slug: 'journals',
+    imageUrls: [
+      'https://iiif.wellcomecollection.org/image/L0023394.jpg/full/512,/0/default.jpg',
+      'https://iiif.wellcomecollection.org/image/L0020670.jpg/full/512,/0/default.jpg',
+      'https://iiif.wellcomecollection.org/image/L0021859.jpg/full/512,/0/default.jpg',
+      'https://iiif.wellcomecollection.org/image/L0029673.jpg/full/512,/0/default.jpg',
+    ],
     workCount: 25000,
     size: 'medium',
     conceptId: 'j3k6l9m2',
@@ -156,8 +151,14 @@ export const types: BrowseType[] = [
     description:
       'Discover materials created in digital format, including websites, databases, and digital records.',
     slug: 'born-digital',
+    imageUrls: [
+      'https://iiif.wellcomecollection.org/image/B0000385.jpg/full/512,/0/default.jpg',
+      'https://iiif.wellcomecollection.org/image/B0000386.jpg/full/512,/0/default.jpg',
+      'https://iiif.wellcomecollection.org/image/B0001643.jpg/full/512,/0/default.jpg',
+      'https://iiif.wellcomecollection.org/image/L0028351.jpg/full/512,/0/default.jpg',
+    ],
     workCount: 8500,
-    size: 'small',
+    size: 'medium',
     conceptId: 'b5c8d1e4',
     workType: 'hdig',
     subTypes: [
@@ -168,11 +169,37 @@ export const types: BrowseType[] = [
     ],
   },
   {
+    id: 'archives',
+    label: 'Archives & manuscripts',
+    description:
+      'Discover unique archival collections and manuscript materials documenting the history of medicine and healthcare.',
+    slug: 'archives',
+    imageUrl:
+      'https://iiif.wellcomecollection.org/image/L0028543.jpg/full/512,/0/default.jpg',
+    workCount: 45000,
+    size: 'large',
+    conceptId: 'x7j5k8m2',
+    workType: 'h',
+    subTypes: [
+      { id: 'personal-papers', label: 'Personal papers', workCount: 4500 },
+      {
+        id: 'organisational-archives',
+        label: 'Organisational archives',
+        workCount: 3200,
+      },
+      { id: 'correspondence', label: 'Correspondence', workCount: 5600 },
+      { id: 'diaries', label: 'Diaries', workCount: 890 },
+      { id: 'notebooks', label: 'Notebooks', workCount: 1100 },
+    ],
+  },
+  {
     id: 'audio',
     label: 'Audio',
     description:
       'Listen to oral histories, lectures, interviews, and sound recordings.',
     slug: 'audio',
+    imageUrl:
+      'https://iiif.wellcomecollection.org/image/V0025355.jpg/full/512,/0/default.jpg',
     workCount: 7200,
     size: 'small',
     conceptId: 'a7b9c2d5',
@@ -190,6 +217,8 @@ export const types: BrowseType[] = [
     description:
       'Watch medical films, documentaries, and moving image materials.',
     slug: 'film',
+    imageUrl:
+      'https://iiif.wellcomecollection.org/image/L0025313.jpg/full/512,/0/default.jpg',
     workCount: 6800,
     size: 'small',
     conceptId: 'f1g4h7j9',
@@ -207,6 +236,8 @@ export const types: BrowseType[] = [
     description:
       'Read student dissertations and theses on medical and health-related topics.',
     slug: 'dissertations',
+    imageUrl:
+      'https://iiif.wellcomecollection.org/image/L0000054.jpg/full/512,/0/default.jpg',
     workCount: 5400,
     size: 'small',
     conceptId: 'd2e5f8g1',
@@ -227,8 +258,10 @@ export const types: BrowseType[] = [
     description:
       'Explore medical instruments, anatomical models, and three-dimensional objects.',
     slug: '3d-objects',
+    imageUrl:
+      'https://iiif.wellcomecollection.org/image/L0004647.jpg/full/512,/0/default.jpg',
     workCount: 4200,
-    size: 'small',
+    size: 'large',
     conceptId: 't3d6h9j2',
     workType: 'r',
     subTypes: [

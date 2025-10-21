@@ -3,6 +3,7 @@ import { FunctionComponent } from 'react';
 
 import { getServerData } from '@weco/common/server-data';
 import { appError, AppErrorProps } from '@weco/common/services/app';
+import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { serialiseProps } from '@weco/common/utils/json';
 import {
   ContaineredLayout,
@@ -70,6 +71,7 @@ const BrowseTypesPage: FunctionComponent<Props> = ({ types }) => {
         FeaturedMedia={null}
         HeroPicture={null}
         highlightHeading={true}
+        backgroundTexture={headerBackgroundLs}
       />
 
       <ContaineredLayout gridSizes={gridSize12()}>
