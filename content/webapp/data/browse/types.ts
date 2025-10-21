@@ -7,6 +7,7 @@ export type BrowseType = {
   workCount: number;
   size: 'large' | 'medium' | 'small';
   conceptId?: string;
+  workType: string;
   subTypes: SubType[];
 };
 
@@ -29,6 +30,7 @@ export const types: BrowseType[] = [
     workCount: 50000,
     size: 'large',
     conceptId: 'zwvck64v',
+    workType: 'a',
     subTypes: [
       {
         id: 'biographies',
@@ -71,6 +73,7 @@ export const types: BrowseType[] = [
     workCount: 35000,
     size: 'medium',
     conceptId: 'p9q2r5t8',
+    workType: 'k',
     subTypes: [
       { id: 'photographs', label: 'Photographs', workCount: 12000 },
       { id: 'prints', label: 'Prints', workCount: 8500 },
@@ -88,6 +91,7 @@ export const types: BrowseType[] = [
     workCount: 28000,
     size: 'medium',
     conceptId: 'e4f7g9h1',
+    workType: 'l',
     subTypes: [
       { id: 'posters', label: 'Posters', workCount: 4500 },
       { id: 'pamphlets', label: 'Pamphlets', workCount: 8900 },
@@ -107,6 +111,7 @@ export const types: BrowseType[] = [
     workCount: 45000,
     size: 'large',
     conceptId: 'x7j5k8m2',
+    workType: 'h',
     subTypes: [
       { id: 'personal-papers', label: 'Personal papers', workCount: 4500 },
       {
@@ -128,6 +133,7 @@ export const types: BrowseType[] = [
     workCount: 25000,
     size: 'medium',
     conceptId: 'j3k6l9m2',
+    workType: 'd',
     subTypes: [
       { id: 'medical-journals', label: 'Medical journals', workCount: 8500 },
       {
@@ -153,6 +159,7 @@ export const types: BrowseType[] = [
     workCount: 8500,
     size: 'small',
     conceptId: 'b5c8d1e4',
+    workType: 'hdig',
     subTypes: [
       { id: 'websites', label: 'Websites', workCount: 450 },
       { id: 'databases', label: 'Databases', workCount: 380 },
@@ -169,6 +176,7 @@ export const types: BrowseType[] = [
     workCount: 7200,
     size: 'small',
     conceptId: 'a7b9c2d5',
+    workType: 'i',
     subTypes: [
       { id: 'oral-histories', label: 'Oral histories', workCount: 1800 },
       { id: 'lectures', label: 'Lectures', workCount: 2100 },
@@ -185,6 +193,7 @@ export const types: BrowseType[] = [
     workCount: 6800,
     size: 'small',
     conceptId: 'f1g4h7j9',
+    workType: 'n',
     subTypes: [
       { id: 'documentaries', label: 'Documentaries', workCount: 1200 },
       { id: 'educational-films', label: 'Educational films', workCount: 2400 },
@@ -201,6 +210,7 @@ export const types: BrowseType[] = [
     workCount: 5400,
     size: 'small',
     conceptId: 'd2e5f8g1',
+    workType: 'w',
     subTypes: [
       { id: 'phd-theses', label: 'PhD theses', workCount: 2100 },
       { id: 'masters-theses', label: "Master's theses", workCount: 1800 },
@@ -220,6 +230,7 @@ export const types: BrowseType[] = [
     workCount: 4200,
     size: 'small',
     conceptId: 't3d6h9j2',
+    workType: 'r',
     subTypes: [
       {
         id: 'medical-instruments',

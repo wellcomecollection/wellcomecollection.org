@@ -14,12 +14,13 @@ import {
 import PageHeader from '@weco/common/views/components/PageHeader';
 import Space from '@weco/common/views/components/styled/Space';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
-import {
-  ServerSideProps,
-  ServerSidePropsOrAppError,
-} from '@weco/common/views/pages/_app';
+import { ServerSideProps } from '@weco/common/views/pages/_app';
 import { BrowseType, types } from '@weco/content/data/browse/types';
 import { getWorksForSubType } from '@weco/content/data/browse/works';
+import {
+  fetchTopGenresForWorkType,
+  fetchWorksByTypeAndGenre,
+} from '@weco/content/services/wellcome/catalogue/browse';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import RelatedWorksCard from '@weco/content/views/components/RelatedWorksCard';
@@ -74,12 +75,6 @@ const WorkItem = styled.li`
       flex: 0 0 50%;
       padding: 0 var(--container-padding) 0 0;
     `)}
-`;
-
-const TypeTitle = styled.h1.attrs({
-  className: font('wb', 1),
-})`
-  margin: 0 0 ${props => props.theme.spacingUnit * 2}px 0;
 `;
 
 const IntroText = styled.p.attrs({
@@ -216,20 +211,78 @@ export const getServerSideProps: GetServerSideProps<
       };
     }
 
-    const worksBySubType: Record<string, WorkBasic[]> = {};
+    console.log(
+      `[Browse Types] Loading page for: ${type.label} (workType: ${type.workType})`
+    );
 
-    type.subTypes.forEach(subType => {
-      worksBySubType[subType.id] = getWorksForSubType(subType.id);
-    });
+    const worksBySubType: Record<string, WorkBasic[]> = {};
+    let typeToRender: BrowseType = type;
+
+    try {
+      // Try to fetch real data from API
+      console.log(
+        `[Browse Types] Fetching top genres for workType: ${type.workType}`
+      );
+      const topGenres = await fetchTopGenresForWorkType(
+        type.workType,
+        serverData.toggles
+      );
+
+      console.log(`[Browse Types] Fetched ${topGenres.length} genres`);
+
+      if (topGenres.length > 0) {
+        // Fetch works for each genre
+        console.log(`[Browse Types] Fetching works for each genre...`);
+        await Promise.all(
+          topGenres.map(async genre => {
+            const works = await fetchWorksByTypeAndGenre(
+              type.workType,
+              genre.label,
+              10,
+              serverData.toggles
+            );
+            worksBySubType[genre.id] = works;
+            console.log(
+              `[Browse Types] Fetched ${works.length} works for genre: ${genre.label}`
+            );
+          })
+        );
+
+        // Update type with real genres data
+        typeToRender = {
+          ...type,
+          subTypes: topGenres.map(genre => ({
+            id: genre.id,
+            label: genre.label,
+            workCount: genre.count,
+          })),
+        };
+
+        console.log(`[Browse Types] Successfully loaded real data`);
+      } else {
+        console.warn(
+          `[Browse Types] No genres found, falling back to dummy data`
+        );
+        throw new Error('No genres found');
+      }
+    } catch (apiError) {
+      // Fall back to dummy data if API fails
+      console.warn(`[Browse Types] API error, using dummy data:`, apiError);
+
+      type.subTypes.forEach(subType => {
+        worksBySubType[subType.id] = getWorksForSubType(subType.id);
+      });
+    }
 
     return {
       props: serialiseProps({
-        type,
+        type: typeToRender,
         worksBySubType,
         serverData,
       }),
     };
   } catch (error) {
+    console.error('Error in type detail page getServerSideProps:', error);
     return appError(context, 500, error instanceof Error ? error : undefined);
   }
 };
