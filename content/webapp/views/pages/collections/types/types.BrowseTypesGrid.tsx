@@ -6,19 +6,8 @@ import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import ThemeCard from '@weco/common/views/components/ThemeCard';
 import { BrowseType } from '@weco/content/data/browse/types';
 import FeaturedCard from '@weco/content/views/components/FeaturedCard';
-import ImagePlaceholder from '@weco/content/views/components/ImagePlaceholder';
 
 import BrowseTypeCard from './types.BrowseTypeCard';
-
-const GridContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: ${props => props.theme.spacingUnit * 3}px;
-
-  ${props => props.theme.media('medium')`
-    gap: ${props.theme.spacingUnit * 4}px;
-  `}
-`;
 
 type Props = {
   types: BrowseType[];
@@ -40,8 +29,14 @@ const BrowseTypesGrid: FunctionComponent<Props> = ({ types }) => {
             {type.size === 'large' ? (
               <FeaturedCard
                 type="card"
-                background="warmNeutral.300"
-                textColor="black"
+                background={
+                  type.id === 'books'
+                    ? 'accent.salmon'
+                    : type.id === '3d-objects'
+                      ? 'accent.blue'
+                      : 'warmNeutral.300'
+                }
+                textColor={type.id === '3d-objects' ? 'white' : 'black'}
                 isReversed={type.id === 'archives'}
                 image={
                   type.imageUrl
