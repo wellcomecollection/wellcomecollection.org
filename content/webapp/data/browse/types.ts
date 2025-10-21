@@ -27,7 +27,7 @@ export const types: BrowseType[] = [
       'Explore our collection of printed books, rare volumes, and e-books covering medical history, science, and health.',
     slug: 'books',
     imageUrl:
-      'https://iiif.wellcomecollection.org/image/L0035391.jpg/full/512,/0/default.jpg',
+      'https://iiif.wellcomecollection.org/image/b16553974_0001.jp2/full/512,/0/default.jpg',
     workCount: 50000,
     size: 'large',
     conceptId: 'zwvck64v',
