@@ -17,6 +17,8 @@ const shimHeight = '21px';
 export const FeaturedCardWrap = styled.div`
   margin-left: -${props => props.theme.gutter.small}px;
   margin-right: -${props => props.theme.gutter.small}px;
+  max-height: 400px;
+  overflow: hidden;
 
   ${props => props.theme.media('medium')`
     margin-left: 0;

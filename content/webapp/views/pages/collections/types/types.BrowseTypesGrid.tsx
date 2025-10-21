@@ -41,6 +41,7 @@ const BrowseTypesGrid: FunctionComponent<Props> = ({ types }) => {
                 type="card"
                 background="warmNeutral.300"
                 textColor="black"
+                isReversed={type.id === 'archives'}
                 image={
                   type.imageUrl
                     ? {

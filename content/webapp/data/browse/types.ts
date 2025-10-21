@@ -103,7 +103,7 @@ export const types: BrowseType[] = [
       'Discover unique archival collections and manuscript materials documenting the history of medicine and healthcare.',
     slug: 'archives',
     imageUrl:
-      'https://iiif.wellcomecollection.org/image/L0074488.jpg/full/512,/0/default.jpg',
+      'https://iiif.wellcomecollection.org/image/B0010760.jpg/full/512,/0/default.jpg',
     workCount: 45000,
     size: 'large',
     conceptId: 'x7j5k8m2',

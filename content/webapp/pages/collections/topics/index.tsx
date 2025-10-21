@@ -49,6 +49,7 @@ const BrowseTopicsPage: FunctionComponent<Props> = ({ topics }) => {
       hideNewsletterPromo
     >
       <PageHeader
+        variant="basic"
         breadcrumbs={{
           items: [
             {

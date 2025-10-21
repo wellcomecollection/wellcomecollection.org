@@ -49,6 +49,7 @@ const BrowseTypesPage: FunctionComponent<Props> = ({ types }) => {
       hideNewsletterPromo
     >
       <PageHeader
+        variant="basic"
         breadcrumbs={{
           items: [
             {

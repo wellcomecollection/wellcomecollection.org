@@ -22,8 +22,13 @@ import { BrowseType, types } from '@weco/content/data/browse/types';
 import { getWorksForSubType } from '@weco/content/data/browse/works';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import FeaturedWorkCard from '@weco/content/views/components/FeaturedWorkCard';
+import RelatedWorksCard from '@weco/content/views/components/RelatedWorksCard';
 import ScrollContainer from '@weco/content/views/components/ScrollContainer';
+
+const ContentSection = styled.div`
+  background-color: ${props => props.theme.color('warmNeutral.300')};
+  padding-top: ${props => props.theme.spacingUnit * 4}px;
+`;
 
 const SubTypeSection = styled.div``;
 
@@ -54,12 +59,21 @@ const SubTypeLink = styled(Link).attrs({
 `;
 
 const WorkItem = styled.li`
-  flex-shrink: 0;
-  margin-right: ${props => props.theme.spacingUnit * 3}px;
+  --container-padding: ${props => props.theme.containerPadding.small}px;
+  flex: 0 0 90%;
+  max-width: 420px;
+
+  padding-left: var(--container-padding);
 
   &:last-child {
-    margin-right: 0;
+    padding-right: var(--container-padding);
   }
+
+  ${props =>
+    props.theme.media('medium')(`
+      flex: 0 0 50%;
+      padding: 0 var(--container-padding) 0 0;
+    `)}
 `;
 
 const TypeTitle = styled.h1.attrs({
@@ -104,6 +118,7 @@ const TypeDetailPage: FunctionComponent<Props> = ({ type, worksBySubType }) => {
       hideNewsletterPromo
     >
       <PageHeader
+        variant="basic"
         breadcrumbs={{
           items: [
             {
@@ -138,47 +153,48 @@ const TypeDetailPage: FunctionComponent<Props> = ({ type, worksBySubType }) => {
         highlightHeading={true}
       />
 
-      <ContaineredLayout gridSizes={gridSize12()}>
-        <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-          <TypeTitle>{type.label}</TypeTitle>
-          <IntroText>{type.description}</IntroText>
+      <ContentSection>
+        <ContaineredLayout gridSizes={gridSize12()}>
+          <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+            <IntroText>{type.description}</IntroText>
 
-          <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
-            {type.subTypes.map(subType => {
-              const works = worksBySubType[subType.id] || [];
+            <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
+              {type.subTypes.map(subType => {
+                const works = worksBySubType[subType.id] || [];
 
-              if (works.length === 0) return null;
+                if (works.length === 0) return null;
 
-              return (
-                <SubTypeSection key={subType.id}>
-                  <SubTypeHeader>
-                    {subType.conceptId ? (
-                      <SubTypeLink href={`/concepts/${subType.conceptId}`}>
-                        {subType.label}
-                      </SubTypeLink>
-                    ) : (
-                      <SubTypeTitle>{subType.label}</SubTypeTitle>
-                    )}
-                  </SubTypeHeader>
+                return (
+                  <SubTypeSection key={subType.id}>
+                    <SubTypeHeader>
+                      {subType.conceptId ? (
+                        <SubTypeLink href={`/concepts/${subType.conceptId}`}>
+                          {subType.label}
+                        </SubTypeLink>
+                      ) : (
+                        <SubTypeTitle>{subType.label}</SubTypeTitle>
+                      )}
+                    </SubTypeHeader>
 
-                  <ScrollContainer
-                    scrollButtonsAfter={true}
-                    gridSizes={gridSize12()}
-                  >
-                    {works.map(work => (
-                      <WorkItem key={work.id}>
-                        <FeaturedWorkCard work={work} />
-                      </WorkItem>
-                    ))}
-                  </ScrollContainer>
+                    <ScrollContainer
+                      scrollButtonsAfter={true}
+                      gridSizes={gridSize12()}
+                    >
+                      {works.map(work => (
+                        <WorkItem key={work.id}>
+                          <RelatedWorksCard work={work} variant="default" />
+                        </WorkItem>
+                      ))}
+                    </ScrollContainer>
 
-                  <Space $v={{ size: 'xl', properties: ['margin-top'] }} />
-                </SubTypeSection>
-              );
-            })}
+                    <Space $v={{ size: 'xl', properties: ['margin-top'] }} />
+                  </SubTypeSection>
+                );
+              })}
+            </Space>
           </Space>
-        </Space>
-      </ContaineredLayout>
+        </ContaineredLayout>
+      </ContentSection>
     </PageLayout>
   );
 };
