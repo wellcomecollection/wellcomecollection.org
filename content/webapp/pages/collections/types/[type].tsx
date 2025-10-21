@@ -13,6 +13,7 @@ import {
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import Space from '@weco/common/views/components/styled/Space';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
 import {
   ServerSideProps,
   ServerSidePropsOrAppError,
@@ -39,16 +40,32 @@ const SubTypeTitle = styled.h2.attrs({
   margin: 0;
 `;
 
-const WorksList = styled.ul`
-  list-style: none;
+const SubTypeLink = styled(Link).attrs({
+  className: font('wb', 3),
+})`
   margin: 0;
-  padding: 0;
-  display: flex;
-  gap: ${props => props.theme.spacingUnit * 3}px;
+  text-decoration: none;
+  color: ${props => props.theme.color('black')};
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
 `;
 
 const WorkItem = styled.li`
   flex-shrink: 0;
+  margin-right: ${props => props.theme.spacingUnit * 3}px;
+
+  &:last-child {
+    margin-right: 0;
+  }
+`;
+
+const TypeTitle = styled.h1.attrs({
+  className: font('wb', 1),
+})`
+  margin: 0 0 ${props => props.theme.spacingUnit * 2}px 0;
 `;
 
 const IntroText = styled.p.attrs({
@@ -77,7 +94,15 @@ type Props = {
 
 const TypeDetailPage: FunctionComponent<Props> = ({ type, worksBySubType }) => {
   return (
-    <>
+    <PageLayout
+      title={`${type.label} - Browse collections by type`}
+      description={type.description}
+      url={{ pathname: `/collections/types/${type.slug}` }}
+      jsonLd={[]}
+      openGraphType="website"
+      siteSection="collections"
+      hideNewsletterPromo
+    >
       <PageHeader
         breadcrumbs={{
           items: [
@@ -115,6 +140,7 @@ const TypeDetailPage: FunctionComponent<Props> = ({ type, worksBySubType }) => {
 
       <ContaineredLayout gridSizes={gridSize12()}>
         <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <TypeTitle>{type.label}</TypeTitle>
           <IntroText>{type.description}</IntroText>
 
           <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
@@ -126,20 +152,24 @@ const TypeDetailPage: FunctionComponent<Props> = ({ type, worksBySubType }) => {
               return (
                 <SubTypeSection key={subType.id}>
                   <SubTypeHeader>
-                    <SubTypeTitle>{subType.label}</SubTypeTitle>
+                    {subType.conceptId ? (
+                      <SubTypeLink href={`/concepts/${subType.conceptId}`}>
+                        {subType.label}
+                      </SubTypeLink>
+                    ) : (
+                      <SubTypeTitle>{subType.label}</SubTypeTitle>
+                    )}
                   </SubTypeHeader>
 
                   <ScrollContainer
                     scrollButtonsAfter={true}
                     gridSizes={gridSize12()}
                   >
-                    <WorksList>
-                      {works.map(work => (
-                        <WorkItem key={work.id}>
-                          <FeaturedWorkCard work={work} />
-                        </WorkItem>
-                      ))}
-                    </WorksList>
+                    {works.map(work => (
+                      <WorkItem key={work.id}>
+                        <FeaturedWorkCard work={work} />
+                      </WorkItem>
+                    ))}
                   </ScrollContainer>
 
                   <Space $v={{ size: 'xl', properties: ['margin-top'] }} />
@@ -149,7 +179,7 @@ const TypeDetailPage: FunctionComponent<Props> = ({ type, worksBySubType }) => {
           </Space>
         </Space>
       </ContaineredLayout>
-    </>
+    </PageLayout>
   );
 };
 

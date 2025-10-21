@@ -11,6 +11,7 @@ import {
 import PageHeader from '@weco/common/views/components/PageHeader';
 import Space from '@weco/common/views/components/styled/Space';
 import Tabs, { Tab } from '@weco/common/views/components/Tabs';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
 import {
   ServerSideProps,
   ServerSidePropsOrAppError,
@@ -38,7 +39,15 @@ const BrowseTopicsPage: FunctionComponent<Props> = ({ topics }) => {
   ];
 
   return (
-    <>
+    <PageLayout
+      title="Browse the collections by topic"
+      description="Explore our collections organised by topic"
+      url={{ pathname: '/collections/topics' }}
+      jsonLd={[]}
+      openGraphType="website"
+      siteSection="collections"
+      hideNewsletterPromo
+    >
       <PageHeader
         breadcrumbs={{
           items: [
@@ -71,7 +80,7 @@ const BrowseTopicsPage: FunctionComponent<Props> = ({ topics }) => {
           </Tabs>
         </Space>
       </ContaineredLayout>
-    </>
+    </PageLayout>
   );
 };
 

@@ -14,6 +14,7 @@ export type SubType = {
   id: string;
   label: string;
   workCount: number;
+  conceptId?: string;
 };
 
 export const types: BrowseType[] = [
@@ -23,36 +24,42 @@ export const types: BrowseType[] = [
     description:
       'Explore our collection of printed books, rare volumes, and e-books covering medical history, science, and health.',
     slug: 'books',
+    imageUrl:
+      'https://iiif.wellcomecollection.org/image/L0035391.jpg/full/512,/0/default.jpg',
     workCount: 50000,
     size: 'large',
     conceptId: 'zwvck64v',
     subTypes: [
-      { id: 'biographies', label: 'Biographies', workCount: 1200 },
-      { id: 'zines', label: 'Zines', workCount: 350 },
-      { id: 'academic', label: 'Academic texts', workCount: 8500 },
-      { id: 'fiction', label: 'Fiction', workCount: 2100 },
-      { id: 'reference', label: 'Reference works', workCount: 3400 },
-    ],
-  },
-  {
-    id: 'archives',
-    label: 'Archives & manuscripts',
-    description:
-      'Discover unique archival collections and manuscript materials documenting the history of medicine and healthcare.',
-    slug: 'archives',
-    workCount: 45000,
-    size: 'large',
-    conceptId: 'x7j5k8m2',
-    subTypes: [
-      { id: 'personal-papers', label: 'Personal papers', workCount: 4500 },
       {
-        id: 'organisational-archives',
-        label: 'Organisational archives',
-        workCount: 3200,
+        id: 'biographies',
+        label: 'Biographies',
+        workCount: 1200,
+        conceptId: 'biographies-concept',
       },
-      { id: 'correspondence', label: 'Correspondence', workCount: 5600 },
-      { id: 'diaries', label: 'Diaries', workCount: 890 },
-      { id: 'notebooks', label: 'Notebooks', workCount: 1100 },
+      {
+        id: 'zines',
+        label: 'Zines',
+        workCount: 350,
+        conceptId: 'zines-concept',
+      },
+      {
+        id: 'academic',
+        label: 'Academic texts',
+        workCount: 8500,
+        conceptId: 'academic-concept',
+      },
+      {
+        id: 'fiction',
+        label: 'Fiction',
+        workCount: 2100,
+        conceptId: 'fiction-concept',
+      },
+      {
+        id: 'reference',
+        label: 'Reference works',
+        workCount: 3400,
+        conceptId: 'reference-concept',
+      },
     ],
   },
   {
@@ -87,6 +94,29 @@ export const types: BrowseType[] = [
       { id: 'leaflets', label: 'Leaflets', workCount: 6200 },
       { id: 'programmes', label: 'Programmes', workCount: 1800 },
       { id: 'advertisements', label: 'Advertisements', workCount: 3400 },
+    ],
+  },
+  {
+    id: 'archives',
+    label: 'Archives & manuscripts',
+    description:
+      'Discover unique archival collections and manuscript materials documenting the history of medicine and healthcare.',
+    slug: 'archives',
+    imageUrl:
+      'https://iiif.wellcomecollection.org/image/L0074488.jpg/full/512,/0/default.jpg',
+    workCount: 45000,
+    size: 'large',
+    conceptId: 'x7j5k8m2',
+    subTypes: [
+      { id: 'personal-papers', label: 'Personal papers', workCount: 4500 },
+      {
+        id: 'organisational-archives',
+        label: 'Organisational archives',
+        workCount: 3200,
+      },
+      { id: 'correspondence', label: 'Correspondence', workCount: 5600 },
+      { id: 'diaries', label: 'Diaries', workCount: 890 },
+      { id: 'notebooks', label: 'Notebooks', workCount: 1100 },
     ],
   },
   {

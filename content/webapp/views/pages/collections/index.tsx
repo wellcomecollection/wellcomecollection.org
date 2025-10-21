@@ -1,13 +1,13 @@
 import * as prismic from '@prismicio/client';
 import { SliceZone } from '@prismicio/react';
 import { NextPage } from 'next';
-import Link from 'next/link';
 import styled from 'styled-components';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
+import { arrowSmall } from '@weco/common/icons';
 import { ImageType } from '@weco/common/model/image';
-import { font } from '@weco/common/utils/classnames';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import Button from '@weco/common/views/components/Buttons';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
 import {
   ContaineredLayout,
@@ -67,23 +67,6 @@ const BrowseButtonWrapper = styled.div`
   margin-bottom: ${themeValues.spacingUnit * 4}px;
 `;
 
-const BrowseButton = styled(Link).attrs({
-  className: font('intb', 5),
-})`
-  display: inline-block;
-  padding: ${themeValues.spacingUnit * 2}px ${themeValues.spacingUnit * 4}px;
-  background-color: ${props => props.theme.color('accent.lightBlue')};
-  color: ${props => props.theme.color('black')};
-  text-decoration: none;
-  border-radius: 2px;
-  transition: background-color 200ms ease;
-
-  &:hover,
-  &:focus {
-    background-color: ${props => props.theme.color('accent.blue')};
-  }
-`;
-
 export type Props = {
   pageMeta: {
     id: string;
@@ -123,11 +106,6 @@ const CollectionsLandingPage: NextPage<Props> = ({
       <PageHeader variant="landing" title={title} introText={introText} />
 
       <ContaineredLayout gridSizes={gridSize12()}>
-        <BrowseButtonWrapper>
-          <BrowseButton href="/collections/types">
-            Browse types and topics
-          </BrowseButton>
-        </BrowseButtonWrapper>
         <DecorativeEdgeContainer>
           <DecorativeEdge variant="w" shape="edge-1" color="accent.lightBlue" />
         </DecorativeEdgeContainer>
@@ -161,6 +139,19 @@ const CollectionsLandingPage: NextPage<Props> = ({
           />
         </Space>
       </MainBackground>
+
+      <ContaineredLayout gridSizes={gridSize12()}>
+        <BrowseButtonWrapper>
+          <Button
+            variant="ButtonSolidLink"
+            colors={themeValues.buttonColors.charcoalTransparentCharcoal}
+            isIconAfter
+            text="Browse types and topics"
+            link="/collections/types"
+            icon={arrowSmall}
+          />
+        </BrowseButtonWrapper>
+      </ContaineredLayout>
 
       {fullWidthBanners?.[0] && (
         <Space $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}>

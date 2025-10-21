@@ -14,6 +14,7 @@ import {
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import Space from '@weco/common/views/components/styled/Space';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
 import {
   ServerSideProps,
   ServerSidePropsOrAppError,
@@ -45,16 +46,26 @@ const SubTopicTitle = styled.h2.attrs({
   margin: 0;
 `;
 
-const WorksList = styled.ul`
-  list-style: none;
+const SubTopicLink = styled(Link).attrs({
+  className: font('wb', 3),
+})`
   margin: 0;
-  padding: 0;
-  display: flex;
-  gap: ${props => props.theme.spacingUnit * 3}px;
+  text-decoration: none;
+  color: ${props => props.theme.color('black')};
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
 `;
 
 const WorkItem = styled.li`
   flex-shrink: 0;
+  margin-right: ${props => props.theme.spacingUnit * 3}px;
+
+  &:last-child {
+    margin-right: 0;
+  }
 `;
 
 const CollaboratorsWrapper = styled.div`
@@ -75,6 +86,12 @@ const CollaboratorsList = styled.div`
   ${props => props.theme.media('medium')`
     grid-template-columns: repeat(3, 1fr);
   `}
+`;
+
+const TopicTitle = styled.h1.attrs({
+  className: font('wb', 1),
+})`
+  margin: 0 0 ${props => props.theme.spacingUnit * 2}px 0;
 `;
 
 const IntroText = styled.p.attrs({
@@ -106,7 +123,15 @@ const TopicDetailPage: FunctionComponent<Props> = ({
   worksBySubTopic,
 }) => {
   return (
-    <>
+    <PageLayout
+      title={`${topic.label} - Browse collections by topic`}
+      description={topic.description}
+      url={{ pathname: `/collections/topics/${topic.slug}` }}
+      jsonLd={[]}
+      openGraphType="website"
+      siteSection="collections"
+      hideNewsletterPromo
+    >
       <PageHeader
         breadcrumbs={{
           items: [
@@ -140,6 +165,7 @@ const TopicDetailPage: FunctionComponent<Props> = ({
 
       <ContaineredLayout gridSizes={gridSize12()}>
         <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <TopicTitle>{topic.label}</TopicTitle>
           <IntroText>{topic.description}</IntroText>
 
           <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
@@ -151,20 +177,24 @@ const TopicDetailPage: FunctionComponent<Props> = ({
               return (
                 <SubTopicSection key={subTopic.id}>
                   <SubTopicHeader>
-                    <SubTopicTitle>{subTopic.label}</SubTopicTitle>
+                    {subTopic.conceptId ? (
+                      <SubTopicLink href={`/concepts/${subTopic.conceptId}`}>
+                        {subTopic.label}
+                      </SubTopicLink>
+                    ) : (
+                      <SubTopicTitle>{subTopic.label}</SubTopicTitle>
+                    )}
                   </SubTopicHeader>
 
                   <ScrollContainer
                     scrollButtonsAfter={true}
                     gridSizes={gridSize12()}
                   >
-                    <WorksList>
-                      {works.map(work => (
-                        <WorkItem key={work.id}>
-                          <FeaturedWorkCard work={work} />
-                        </WorkItem>
-                      ))}
-                    </WorksList>
+                    {works.map(work => (
+                      <WorkItem key={work.id}>
+                        <FeaturedWorkCard work={work} />
+                      </WorkItem>
+                    ))}
                   </ScrollContainer>
 
                   {subTopic.collaborators &&
@@ -191,7 +221,7 @@ const TopicDetailPage: FunctionComponent<Props> = ({
           </Space>
         </Space>
       </ContaineredLayout>
-    </>
+    </PageLayout>
   );
 };
 

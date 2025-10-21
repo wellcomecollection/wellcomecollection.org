@@ -8,6 +8,7 @@ export type SubTopic = {
   id: string;
   label: string;
   workCount: number;
+  conceptId?: string;
   collaborators: Collaborator[];
 };
 
@@ -34,6 +35,7 @@ export const topics: BrowseTopic[] = [
         id: 'sanitation',
         label: 'Sanitation',
         workCount: 1850,
+        conceptId: 'sanitation-concept',
         collaborators: [
           { id: 'p1', label: 'John Snow', conceptId: 'c-john-snow' },
           {
@@ -48,6 +50,7 @@ export const topics: BrowseTopic[] = [
         id: 'disease-outbreaks',
         label: 'Diseases and outbreaks',
         workCount: 2400,
+        conceptId: 'disease-outbreaks-concept',
         collaborators: [
           { id: 'p4', label: 'Edward Jenner', conceptId: 'c-jenner' },
           { id: 'p5', label: 'Louis Pasteur', conceptId: 'c-pasteur' },
@@ -58,6 +61,7 @@ export const topics: BrowseTopic[] = [
         id: 'epidemiology',
         label: 'Epidemiology',
         workCount: 1650,
+        conceptId: 'epidemiology-concept',
         collaborators: [
           { id: 'p7', label: 'William Farr', conceptId: 'c-farr' },
           { id: 'p8', label: 'Janet Lane-Claypon', conceptId: 'c-claypon' },
@@ -69,8 +73,7 @@ export const topics: BrowseTopic[] = [
   {
     id: 'genetics',
     label: 'Genetics',
-    description:
-      'Discover materials on heredity, genes, and genetic research.',
+    description: 'Discover materials on heredity, genes, and genetic research.',
     slug: 'genetics',
     conceptId: 'g4d5e6f',
     subTopics: [
