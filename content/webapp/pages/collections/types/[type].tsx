@@ -1,6 +1,6 @@
 import { GetServerSideProps, NextPage } from 'next';
 import Link from 'next/link';
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 import { getServerData } from '@weco/common/server-data';
@@ -32,7 +32,20 @@ const ContentSection = styled.div`
   padding-top: ${props => props.theme.spacingUnit * 4}px;
 `;
 
-const SubTypeSection = styled.div``;
+const SubTypeSection = styled.div<{ $index: number }>`
+  opacity: 0;
+  transform: translateX(
+    ${props => (props.$index % 2 === 0 ? '-50px' : '50px')}
+  );
+  transition:
+    opacity 0.6s ease-out,
+    transform 0.6s ease-out;
+
+  &.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
 
 const SubTypeHeader = styled.div`
   display: flex;
@@ -103,6 +116,34 @@ type Props = {
 };
 
 const TypeDetailPage: FunctionComponent<Props> = ({ type, worksBySubType }) => {
+  const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px',
+      }
+    );
+
+    sectionRefs.current.forEach(section => {
+      if (section) {
+        observer.observe(section);
+      }
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [type.subTypes]);
+
   return (
     <PageLayout
       title={`${type.label} - Browse collections by type`}
@@ -155,13 +196,19 @@ const TypeDetailPage: FunctionComponent<Props> = ({ type, worksBySubType }) => {
             <IntroText>{type.description}</IntroText>
 
             <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
-              {type.subTypes.map(subType => {
+              {type.subTypes.map((subType, index) => {
                 const works = worksBySubType[subType.id] || [];
 
                 if (works.length === 0) return null;
 
                 return (
-                  <SubTypeSection key={subType.id}>
+                  <SubTypeSection
+                    key={subType.id}
+                    $index={index}
+                    ref={el => {
+                      sectionRefs.current[index] = el;
+                    }}
+                  >
                     <SubTypeHeader>
                       {subType.conceptId ? (
                         <SubTypeLink href={`/concepts/${subType.conceptId}`}>
@@ -224,10 +271,10 @@ export const getServerSideProps: GetServerSideProps<
       console.log(
         `[Browse Types] Fetching top genres for workType: ${type.workType}`
       );
-      const topGenres = await fetchTopGenresForWorkType(
-        type.workType,
-        serverData.toggles
-      );
+      const [topGenres, typeConceptId] = await Promise.all([
+        fetchTopGenresForWorkType(type.workType, serverData.toggles),
+        fetchConceptIdByLabel(type.label, serverData.toggles),
+      ]);
 
       console.log(`[Browse Types] Fetched ${topGenres.length} genres`);
 
@@ -256,6 +303,7 @@ export const getServerSideProps: GetServerSideProps<
         // Update type with real genres data
         typeToRender = {
           ...type,
+          conceptId: typeConceptId,
           subTypes: topGenres.map(genre => ({
             id: genre.id,
             label: genre.label,

@@ -1,6 +1,7 @@
 import * as prismic from '@prismicio/client';
 import { SliceZone } from '@prismicio/react';
 import { NextPage } from 'next';
+import { useRef } from 'react';
 import styled from 'styled-components';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
@@ -65,6 +66,114 @@ const BrowseButtonWrapper = styled.div`
   justify-content: flex-start;
   margin-top: ${themeValues.spacingUnit * 4}px;
   margin-bottom: ${themeValues.spacingUnit * 4}px;
+
+  a {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(
+      45deg,
+      #ff0000,
+      #ff7f00,
+      #ffff00,
+      #00ff00,
+      #0000ff,
+      #4b0082,
+      #9400d3,
+      #ff0000
+    );
+    background-size: 400% 400%;
+    animation:
+      rainbowShift 3s ease infinite,
+      buttonBounce 2s ease-in-out infinite;
+    border: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
+    padding: ${themeValues.spacingUnit * 3}px ${themeValues.spacingUnit * 6}px;
+    font-size: 24px;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+      );
+      transform: rotate(45deg);
+      animation: shine 3s ease-in-out infinite;
+    }
+
+    &:hover {
+      transform: scale(1.1) rotate(2deg);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+      animation:
+        rainbowShift 1.5s ease infinite,
+        buttonWiggle 0.5s ease infinite;
+    }
+
+    span {
+      position: relative;
+      z-index: 1;
+      color: white;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      font-weight: bold;
+    }
+
+    svg {
+      position: relative;
+      z-index: 1;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    }
+  }
+
+  @keyframes rainbowShift {
+    0%,
+    100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  @keyframes buttonBounce {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes buttonWiggle {
+    0%,
+    100% {
+      transform: scale(1.1) rotate(0deg);
+    }
+    25% {
+      transform: scale(1.1) rotate(-3deg);
+    }
+    75% {
+      transform: scale(1.1) rotate(3deg);
+    }
+  }
+
+  @keyframes shine {
+    0% {
+      left: -50%;
+    }
+    100% {
+      left: 150%;
+    }
+  }
 `;
 
 export type Props = {
@@ -89,6 +198,55 @@ const CollectionsLandingPage: NextPage<Props> = ({
   fullWidthBanners,
 }) => {
   const { data: collectionStats } = useCollectionStats();
+  const audioContextRef = useRef<AudioContext | null>(null);
+
+  const playHornSound = () => {
+    try {
+      // Initialize AudioContext on first hover if needed
+      if (!audioContextRef.current) {
+        audioContextRef.current = new (window.AudioContext ||
+          (window as any).webkitAudioContext)();
+      }
+
+      const audioContext = audioContextRef.current;
+
+      // Resume context if it was suspended (Safari requirement)
+      if (audioContext.state === 'suspended') {
+        audioContext.resume();
+      }
+
+      // Create oscillator for each note in sequence
+      const notes = [261.63, 329.63, 392.0, 523.25]; // C4, E4, G4, C5 - jazzy ascending pattern
+      const noteDuration = 0.1;
+      const currentTime = audioContext.currentTime;
+
+      notes.forEach((frequency, index) => {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        oscillator.type = 'sawtooth'; // Brass-like timbre
+        oscillator.frequency.value = frequency;
+
+        const startTime = currentTime + index * noteDuration;
+        const endTime = startTime + noteDuration;
+
+        // Volume envelope for more natural sound
+        gainNode.gain.setValueAtTime(0, startTime);
+        gainNode.gain.linearRampToValueAtTime(0.15, startTime + 0.01);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, endTime);
+
+        oscillator.start(startTime);
+        oscillator.stop(endTime);
+      });
+
+      console.log('Horn sound triggered!');
+    } catch (error) {
+      console.error('Error playing horn sound:', error);
+    }
+  };
 
   return (
     <PageLayout
@@ -141,7 +299,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
       </MainBackground>
 
       <ContaineredLayout gridSizes={gridSize12()}>
-        <BrowseButtonWrapper>
+        <BrowseButtonWrapper onMouseEnter={playHornSound}>
           <Button
             variant="ButtonSolidLink"
             colors={themeValues.buttonColors.charcoalTransparentCharcoal}
