@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
+import IIIFImage from '@weco/content/views/components/IIIFImage';
 
 // Ensures the image container takes up the same amount of vertical space
 // regardless of the image height
@@ -112,13 +113,7 @@ const WorkCard: FunctionComponent<Props> = ({ item }) => {
             $aspectRatio={aspectRatio}
           >
             <PopoutCardImage>
-              <img
-                src={image.contentUrl}
-                alt=""
-                loading="lazy"
-                height={image.height}
-                width={image.width}
-              />
+              <IIIFImage image={image} layout="raw" />
             </PopoutCardImage>
           </PopoutCardImageContainer>
         </Shim>
