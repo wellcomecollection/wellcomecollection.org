@@ -134,13 +134,6 @@ const CollectionsLandingPage: NextPage<Props> = ({
         </Space>
       </MainBackground>
 
-      <Space $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}>
-        <SectionHeader title="New online" gridSize={gridSize12()} />
-        <ContaineredLayout gridSizes={gridSize12()}>
-          <NewOnline />
-        </ContaineredLayout>
-      </Space>
-
       {toggles.browseCollections && (
         <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
           <CardGrid
@@ -156,6 +149,13 @@ const CollectionsLandingPage: NextPage<Props> = ({
           />
         </Space>
       )}
+
+      <Space $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}>
+        <SectionHeader title="New online" gridSize={gridSize12()} />
+        <ContaineredLayout gridSizes={gridSize12()}>
+          <NewOnline />
+        </ContaineredLayout>
+      </Space>
 
       {fullWidthBanners?.[0] && (
         <Space $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}>
