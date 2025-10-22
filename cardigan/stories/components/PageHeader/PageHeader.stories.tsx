@@ -431,7 +431,6 @@ export const Book: Meta<typeof PageHeader> = {
             image={image(bookImageUrl, 1659, 1800)}
             sizes={{ xlarge: 1 / 3, large: 1 / 3, medium: 1 / 3, small: 1 }}
             quality="low"
-            variant="prismic"
           />
         </Layout>
       </Space>
