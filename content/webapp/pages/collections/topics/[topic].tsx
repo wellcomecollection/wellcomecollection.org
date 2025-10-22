@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { FunctionComponent, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
-import { person as personIcon } from '@weco/common/icons';
+import { user as personIcon } from '@weco/common/icons';
 import { getServerData } from '@weco/common/server-data';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { font } from '@weco/common/utils/classnames';
