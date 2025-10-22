@@ -12,6 +12,7 @@ import {
 import PageHeader from '@weco/common/views/components/PageHeader';
 import Space from '@weco/common/views/components/styled/Space';
 import Tabs, { Tab } from '@weco/common/views/components/Tabs';
+import WShape from '@weco/common/views/components/WShape';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import {
   ServerSideProps,
@@ -73,6 +74,17 @@ const BrowseTypesPage: FunctionComponent<Props> = ({ types }) => {
         highlightHeading={true}
         backgroundTexture={headerBackgroundLs}
       />
+
+      <div
+        style={{
+          position: 'absolute',
+          inset: '27% 1% 0',
+          zIndex: -1,
+          overflow: 'hidden',
+        }}
+      >
+        <WShape color="accent.lightBlue" variant="full-1" />
+      </div>
 
       <ContaineredLayout gridSizes={gridSize12()}>
         <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
