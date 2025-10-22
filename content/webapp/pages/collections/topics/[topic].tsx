@@ -116,6 +116,22 @@ const IntroText = styled.p.attrs({
   max-width: 60ch;
 `;
 
+const PageTitle = styled.h1.attrs({
+  className: font('wb', 1),
+})`
+  margin: 0 0 ${props => props.theme.spacingUnit * 4}px 0;
+`;
+
+const ConceptLink = styled(Link)`
+  text-decoration: none;
+  color: ${props => props.theme.color('black')};
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+`;
+
 type Props = {
   concept: Concept;
   worksBySubTopic: Record<string, WorkBasic[]>;
@@ -189,7 +205,7 @@ const TopicDetailPage: FunctionComponent<Props> = ({
           ],
         }}
         labels={{ labels: [] }}
-        title={concept.label}
+        title=""
         ContentTypeInfo={null}
         Background={undefined}
         FeaturedMedia={undefined}
@@ -200,6 +216,11 @@ const TopicDetailPage: FunctionComponent<Props> = ({
       <ContentSection>
         <ContaineredLayout gridSizes={gridSize12()}>
           <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+            <PageTitle>
+              <ConceptLink href={`/concepts/${concept.id}`}>
+                {concept.label}
+              </ConceptLink>
+            </PageTitle>
             <IntroText>{topicDescriptions[concept.label]}</IntroText>
             <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
               {allSubTopics.map((subTopic, index) => {

@@ -98,6 +98,22 @@ const IntroText = styled.p.attrs({
   max-width: 60ch;
 `;
 
+const PageTitle = styled.h1.attrs({
+  className: font('wb', 1),
+})`
+  margin: 0 0 ${props => props.theme.spacingUnit * 4}px 0;
+`;
+
+const ConceptLink = styled(Link)`
+  text-decoration: none;
+  color: ${props => props.theme.color('black')};
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+`;
+
 type Props = {
   type: BrowseType;
   worksBySubType: Record<string, WorkBasic[]>;
@@ -162,7 +178,7 @@ const TypeDetailPage: FunctionComponent<Props> = ({ type, worksBySubType }) => {
           ],
         }}
         labels={{ labels: [] }}
-        title={type.label}
+        title=""
         ContentTypeInfo={null}
         Background={undefined}
         FeaturedMedia={undefined}
@@ -173,6 +189,15 @@ const TypeDetailPage: FunctionComponent<Props> = ({ type, worksBySubType }) => {
       <ContentSection>
         <ContaineredLayout gridSizes={gridSize12()}>
           <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+            <PageTitle>
+              {type.conceptId ? (
+                <ConceptLink href={`/concepts/${type.conceptId}`}>
+                  {type.label}
+                </ConceptLink>
+              ) : (
+                type.label
+              )}
+            </PageTitle>
             <IntroText>{type.description}</IntroText>
 
             <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
