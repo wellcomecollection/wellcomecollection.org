@@ -1,12 +1,12 @@
 import * as prismic from '@prismicio/client';
 import { SliceZone } from '@prismicio/react';
 import { NextPage } from 'next';
-import { useRef } from 'react';
 import styled from 'styled-components';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { arrowSmall } from '@weco/common/icons';
 import { ImageType } from '@weco/common/model/image';
+import { useToggles } from '@weco/common/server-data/Context';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import Button from '@weco/common/views/components/Buttons';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
@@ -61,132 +61,6 @@ const DecorativeEdgeContainer = styled(Space).attrs({
   `)}
 `;
 
-const BrowseButtonWrapper = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  margin-top: ${themeValues.spacingUnit * 4}px;
-  margin-bottom: ${themeValues.spacingUnit * 4}px;
-
-  a {
-    position: relative;
-    overflow: hidden;
-    background: linear-gradient(
-        45deg,
-        #ff0000,
-        #ff7f00,
-        #ffff00,
-        #00ff00,
-        #0000ff,
-        #4b0082,
-        #9400d3,
-        #ff0000
-      )
-      border-box;
-    background-size: 400% 400%;
-    animation:
-      rainbowShift 3s ease infinite,
-      buttonBounce 2s ease-in-out infinite;
-    border: 3px solid transparent;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    transition:
-      transform 0.3s ease,
-      box-shadow 0.3s ease;
-    padding: ${themeValues.spacingUnit * 3}px ${themeValues.spacingUnit * 6}px;
-    font-size: 24px;
-    text-decoration: none !important;
-
-    &::before {
-      content: '';
-      position: absolute;
-      inset: 3px;
-      z-index: 0;
-      background: white;
-      border-radius: inherit;
-    }
-
-    &::after {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(
-        45deg,
-        transparent,
-        rgba(255, 255, 255, 0.3),
-        transparent
-      );
-      transform: rotate(45deg);
-      animation: shine 3s ease-in-out infinite;
-      pointer-events: none;
-    }
-
-    &:hover,
-    &:focus {
-      transform: scale(1.1) rotate(2deg);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-      animation: buttonWiggle 0.5s ease infinite;
-      text-decoration: none !important;
-    }
-
-    span {
-      position: relative;
-      z-index: 2;
-      color: black;
-      font-weight: bold;
-      text-decoration: none !important;
-    }
-
-    svg {
-      position: relative;
-      z-index: 2;
-    }
-  }
-
-  @keyframes rainbowShift {
-    0%,
-    100% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-  }
-
-  @keyframes buttonBounce {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
-  }
-
-  @keyframes buttonWiggle {
-    0%,
-    100% {
-      transform: scale(1.1) rotate(0deg);
-    }
-    25% {
-      transform: scale(1.1) rotate(-3deg);
-    }
-    75% {
-      transform: scale(1.1) rotate(3deg);
-    }
-  }
-
-  @keyframes shine {
-    0% {
-      left: -50%;
-    }
-    100% {
-      left: 150%;
-    }
-  }
-`;
-
 export type Props = {
   pageMeta: {
     id: string;
@@ -209,55 +83,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
   fullWidthBanners,
 }) => {
   const { data: collectionStats } = useCollectionStats();
-  const audioContextRef = useRef<AudioContext | null>(null);
-
-  const playHornSound = () => {
-    try {
-      // Initialize AudioContext on first hover if needed
-      if (!audioContextRef.current) {
-        audioContextRef.current = new (window.AudioContext ||
-          (window as any).webkitAudioContext)();
-      }
-
-      const audioContext = audioContextRef.current;
-
-      // Resume context if it was suspended (Safari requirement)
-      if (audioContext.state === 'suspended') {
-        audioContext.resume();
-      }
-
-      // Create oscillator for each note in sequence
-      const notes = [261.63, 329.63, 392.0, 523.25]; // C4, E4, G4, C5 - jazzy ascending pattern
-      const noteDuration = 0.1;
-      const currentTime = audioContext.currentTime;
-
-      notes.forEach((frequency, index) => {
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
-
-        oscillator.connect(gainNode);
-        gainNode.connect(audioContext.destination);
-
-        oscillator.type = 'sawtooth'; // Brass-like timbre
-        oscillator.frequency.value = frequency;
-
-        const startTime = currentTime + index * noteDuration;
-        const endTime = startTime + noteDuration;
-
-        // Volume envelope for more natural sound
-        gainNode.gain.setValueAtTime(0, startTime);
-        gainNode.gain.linearRampToValueAtTime(0.15, startTime + 0.01);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, endTime);
-
-        oscillator.start(startTime);
-        oscillator.stop(endTime);
-      });
-
-      console.log('Horn sound triggered!');
-    } catch (error) {
-      console.error('Error playing horn sound:', error);
-    }
-  };
+  const toggles = useToggles();
 
   return (
     <PageLayout
@@ -309,18 +135,21 @@ const CollectionsLandingPage: NextPage<Props> = ({
         </Space>
       </MainBackground>
 
-      <ContaineredLayout gridSizes={gridSize12()}>
-        <BrowseButtonWrapper onMouseEnter={playHornSound}>
-          <Button
-            variant="ButtonSolidLink"
-            colors={themeValues.buttonColors.charcoalTransparentCharcoal}
-            isIconAfter
-            text="Browse types and topics"
-            link="/collections/types"
-            icon={arrowSmall}
+      {toggles.browseCollections && (
+        <Space $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}>
+          <CardGrid
+            items={[]}
+            itemsPerRow={3}
+            itemsHaveTransparentBackground
+            links={[
+              {
+                text: 'Browse types and topics',
+                url: '/collections/types',
+              },
+            ]}
           />
-        </BrowseButtonWrapper>
-      </ContaineredLayout>
+        </Space>
+      )}
 
       {fullWidthBanners?.[0] && (
         <Space $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}>

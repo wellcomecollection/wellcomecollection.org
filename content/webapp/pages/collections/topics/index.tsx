@@ -11,7 +11,6 @@ import {
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import Space from '@weco/common/views/components/styled/Space';
-import WShape from '@weco/common/views/components/WShape';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import {
   ServerSideProps,
@@ -77,18 +76,6 @@ const BrowseTopicsPage: FunctionComponent<Props> = ({ topics }) => {
         backgroundTexture={headerBackgroundLs}
       />
 
-      <div
-        style={{
-          position: 'absolute',
-          inset: '27% 1% 0',
-          zIndex: -1,
-          overflow: 'hidden',
-          transform: 'scaleX(-1)',
-        }}
-      >
-        <WShape color="accent.lightGreen" variant="full-1" />
-      </div>
-
       <ContaineredLayout gridSizes={gridSize12()}>
         <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
           <TabsNavigate
@@ -110,6 +97,13 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 > = async context => {
   setCacheControl(context.res);
   const serverData = await getServerData(context);
+
+  // Return 404 if the browseCollections toggle is not enabled
+  if (!serverData.toggles.browseCollections) {
+    return {
+      notFound: true,
+    };
+  }
 
   try {
     return {

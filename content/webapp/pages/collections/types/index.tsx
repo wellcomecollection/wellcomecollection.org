@@ -11,7 +11,6 @@ import {
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import Space from '@weco/common/views/components/styled/Space';
-import WShape from '@weco/common/views/components/WShape';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import {
   ServerSideProps,
@@ -70,23 +69,12 @@ const BrowseTypesPage: FunctionComponent<Props> = ({ types }) => {
         labels={{ labels: [] }}
         title="Browse the collections"
         ContentTypeInfo={null}
-        Background={null}
-        FeaturedMedia={null}
-        HeroPicture={null}
+        Background={undefined}
+        FeaturedMedia={undefined}
+        HeroPicture={undefined}
         highlightHeading={true}
         backgroundTexture={headerBackgroundLs}
       />
-
-      <div
-        style={{
-          position: 'absolute',
-          inset: '27% 1% 0',
-          zIndex: -1,
-          overflow: 'hidden',
-        }}
-      >
-        <WShape color="accent.lightBlue" variant="full-1" />
-      </div>
 
       <ContaineredLayout gridSizes={gridSize12()}>
         <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
@@ -109,6 +97,13 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 > = async context => {
   setCacheControl(context.res);
   const serverData = await getServerData(context);
+
+  // Return 404 if the browseCollections toggle is not enabled
+  if (!serverData.toggles.browseCollections) {
+    return {
+      notFound: true,
+    };
+  }
 
   try {
     return {

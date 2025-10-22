@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { FunctionComponent, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
-import { person as personIcon } from '@weco/common/icons';
+import { user as userIcon } from '@weco/common/icons';
 import { getServerData } from '@weco/common/server-data';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { font } from '@weco/common/utils/classnames';
@@ -114,35 +114,6 @@ const CollaboratorsList = styled.div`
 
   a {
     background-color: ${props => props.theme.color('white')};
-    transition: all 0.3s ease;
-    border-radius: 8px;
-    overflow: hidden;
-    position: relative;
-
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(
-        90deg,
-        transparent 0%,
-        ${props => props.theme.color('accent.purple')}20 50%,
-        transparent 100%
-      );
-      transition: left 0.5s ease;
-    }
-
-    &:hover {
-      transform: scale(1.02);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-
-      &::before {
-        left: 100%;
-      }
-    }
   }
 `;
 
@@ -168,59 +139,6 @@ const ConceptLink = styled(Link).attrs({
   &:hover,
   &:focus {
     text-decoration: underline;
-  }
-`;
-
-const FloatingShapes = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: -1;
-  overflow: hidden;
-
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    border-radius: 50%;
-    background: linear-gradient(
-      135deg,
-      ${props => props.theme.color('accent.purple')}10 0%,
-      ${props => props.theme.color('accent.salmon')}10 100%
-    );
-    animation: float 20s ease-in-out infinite;
-  }
-
-  &::before {
-    width: 300px;
-    height: 300px;
-    top: -150px;
-    right: -150px;
-    animation-delay: 0s;
-  }
-
-  &::after {
-    width: 200px;
-    height: 200px;
-    bottom: -100px;
-    left: -100px;
-    animation-delay: -10s;
-  }
-
-  @keyframes float {
-    0%,
-    100% {
-      transform: translate(0, 0) rotate(0deg);
-    }
-    33% {
-      transform: translate(30px, -30px) rotate(120deg);
-    }
-    66% {
-      transform: translate(-20px, 20px) rotate(240deg);
-    }
   }
 `;
 
@@ -362,7 +280,7 @@ const TopicDetailPage: FunctionComponent<Props> = ({
                                 key={person.id}
                                 href={`/concepts/${person.id}`}
                                 label={person.label}
-                                icon={personIcon}
+                                icon={userIcon}
                               />
                             ))}
                           </CollaboratorsList>
@@ -386,6 +304,13 @@ export const getServerSideProps: GetServerSideProps<
 > = async context => {
   setCacheControl(context.res);
   const serverData = await getServerData(context);
+
+  // Return 404 if the browseCollections toggle is not enabled
+  if (!serverData.toggles.browseCollections) {
+    return {
+      notFound: true,
+    };
+  }
 
   const { topic: topicSlug } = context.params as { topic: string };
 

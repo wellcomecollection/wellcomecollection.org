@@ -248,6 +248,13 @@ export const getServerSideProps: GetServerSideProps<
   setCacheControl(context.res);
   const serverData = await getServerData(context);
 
+  // Return 404 if the browseCollections toggle is not enabled
+  if (!serverData.toggles.browseCollections) {
+    return {
+      notFound: true,
+    };
+  }
+
   const { type: typeSlug } = context.params as { type: string };
 
   try {
