@@ -153,9 +153,8 @@ export const types: BrowseType[] = [
     slug: 'born-digital',
     imageUrls: [
       'https://iiif.wellcomecollection.org/image/B0000385.jpg/full/512,/0/default.jpg',
-      'https://iiif.wellcomecollection.org/image/B0000386.jpg/full/512,/0/default.jpg',
-      'https://iiif.wellcomecollection.org/image/B0001643.jpg/full/512,/0/default.jpg',
       'https://iiif.wellcomecollection.org/image/L0028351.jpg/full/512,/0/default.jpg',
+      'https://iiif.wellcomecollection.org/image/B0001643.jpg/full/512,/0/default.jpg',
     ],
     workCount: 8500,
     size: 'medium',
