@@ -42,6 +42,14 @@ module.exports = createConfig({
   images: {
     deviceSizes: [600, 880, 960, 1024, 1338],
     imageSizes: [16, 32, 48, 64, 96, 128, 160, 180, 282, 320, 420],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'iiif.wellcomecollection.org',
+        port: '',
+        pathname: '/image/**',
+      },
+    ],
   },
   rewriteEntries,
 });

@@ -3,6 +3,8 @@ import { Toggles } from '@weco/toggles';
 import { catalogueQuery } from '.';
 import { toWorkBasic, Work, WorkBasic } from './types';
 import { WorkAggregations } from './types/aggregations';
+import { getConcepts } from '@weco/content/services/wellcome/catalogue/concepts';
+import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 
 export type GenreWithCount = {
   id: string;
@@ -90,4 +92,21 @@ export async function fetchWorksByTypeAndGenre(
     console.error('Error fetching works by type and genre:', error);
     return [];
   }
+}
+
+/**
+ * Fetch concepts (topics) from the concepts API
+ * Returns concepts that can be used for browse topics
+ */
+export async function getConceptsByIds(ids: string[]): Promise<Concept[]> {
+  if (!ids || ids.length === 0) return [];
+
+  const result = await getConcepts({
+    params: { id: ids.join(',') },
+    toggles: {},
+  });
+
+  if ('results' in result) return result.results;
+
+  return [];
 }

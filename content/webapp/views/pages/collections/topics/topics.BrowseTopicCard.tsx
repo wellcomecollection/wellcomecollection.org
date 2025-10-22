@@ -4,8 +4,10 @@ import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
-import { BrowseTopic } from '@weco/content/data/browse/topics';
 import ImagePlaceholder from '@weco/content/views/components/ImagePlaceholder';
+import Image from 'next/image';
+import { Concept } from '../../../../services/wellcome/catalogue/types';
+import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 
 const CardLink = styled(Link)`
   display: flex;
@@ -62,21 +64,51 @@ const Description = styled.p.attrs({
 `;
 
 type Props = {
-  topic: BrowseTopic;
+  topic: Concept;
 };
 
 const BrowseTopicCard: FunctionComponent<Props> = ({ topic }) => {
-  const url = `/collections/topics/${topic.slug}`;
+  const url = `/collections/topics/${topic.id}`;
+  // Check if topic has image data (added dynamically in BrowseTopicsGrid)
+  const hasImage = (topic as any).image && (topic as any).image.locations && (topic as any).image.locations.length > 0;
+  
+  // Convert IIIF image URL to proper format
+  const getImageSrc = () => {
+    if (!hasImage) return null;
+    
+    const imageLocation = (topic as any).image.locations[0];
+    if (imageLocation.url.includes('/info.json')) {
+      // Use iiifImageTemplate for IIIF images
+      const imageTemplate = iiifImageTemplate(imageLocation.url);
+      return imageTemplate({
+        size: '400,',
+        quality: 'default',
+        format: 'jpg'
+      });
+    }
+    return imageLocation.url;
+  };
 
+  const imageSrc = getImageSrc();
+  
   return (
     <CardLink href={url} data-component="browse-topic-card">
       <ImageContainer>
-        <ImagePlaceholder color="neutral.700" />
+        {imageSrc ? (
+          <Image
+            src={imageSrc}
+            alt={(topic as any).image?.alternativeText || topic.label}
+            fill
+            style={{ objectFit: 'cover' }}
+          />
+        ) : (
+          <ImagePlaceholder backgroundColor="neutral.700" />
+        )}
       </ImageContainer>
 
       <ContentWrapper>
         <Title>{topic.label}</Title>
-        <Description>{topic.description}</Description>
+        <Description>{topic.description?.text || "No description available."}</Description>
       </ContentWrapper>
     </CardLink>
   );

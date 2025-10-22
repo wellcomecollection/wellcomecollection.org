@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { personSolid } from '@weco/common/icons';
 import { getServerData } from '@weco/common/server-data';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { font } from '@weco/common/utils/classnames';
@@ -19,17 +18,14 @@ import {
   ServerSideProps,
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
-import {
-  BrowseTopic,
-  SubTopic,
-  topics,
-} from '@weco/content/data/browse/topics';
-import { getWorksForSubType } from '@weco/content/data/browse/works';
-import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
+import { Concept, WorkBasic, Work, toWorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
+import { getConceptsByIds } from '@weco/content/services/wellcome/catalogue/browse';
+import { catalogueQuery } from '@weco/content/services/wellcome/catalogue';
 import RelatedWorksCard from '@weco/content/views/components/RelatedWorksCard';
 import ScrollContainer from '@weco/content/views/components/ScrollContainer';
 import CollaboratorCard from '@weco/content/views/pages/concepts/concept/concept.Collaborators.Card';
+import { person as personIcon } from '@weco/common/icons';
 
 const ContentSection = styled.div`
   background-color: ${props => props.theme.color('warmNeutral.300')};
@@ -90,6 +86,7 @@ const CollaboratorsTitle = styled.h3.attrs({
   className: font('wb', 5),
 })`
   margin: 0 0 ${props => props.theme.spacingUnit * 2}px 0;
+  color: ${props => props.theme.color('black')};
 `;
 
 const CollaboratorsList = styled.div`
@@ -99,6 +96,33 @@ const CollaboratorsList = styled.div`
 
   a {
     background-color: ${props => props.theme.color('white')};
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, 
+        transparent 0%, 
+        ${props => props.theme.color('accent.purple')}20 50%, 
+        transparent 100%);
+      transition: left 0.5s ease;
+    }
+    
+    &:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      
+      &::before {
+        left: 100%;
+      }
+    }
   }
 `;
 
@@ -120,27 +144,78 @@ const ConceptLink = styled(Link).attrs({
 })`
   text-decoration: none;
   color: ${props => props.theme.color('black')};
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
 
   &:hover,
   &:focus {
-    text-decoration: underline;
+    text-decoration: none;
+    color: ${props => props.theme.color('accent.purple')};
+    transform: scale(1.05);
+  }
+`;
+
+const FloatingShapes = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+  
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    background: linear-gradient(135deg, 
+      ${props => props.theme.color('accent.purple')}10 0%, 
+      ${props => props.theme.color('accent.salmon')}10 100%);
+    animation: float 20s ease-in-out infinite;
+  }
+  
+  &::before {
+    width: 300px;
+    height: 300px;
+    top: -150px;
+    right: -150px;
+    animation-delay: 0s;
+  }
+  
+  &::after {
+    width: 200px;
+    height: 200px;
+    bottom: -100px;
+    left: -100px;
+    animation-delay: -10s;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(30px, -30px) rotate(120deg); }
+    66% { transform: translate(-20px, 20px) rotate(240deg); }
   }
 `;
 
 type Props = {
-  topic: BrowseTopic;
+  concept: Concept;
   worksBySubTopic: Record<string, WorkBasic[]>;
+  peopleBySubTopic: Record<string, Concept[]>;
 };
 
 const TopicDetailPage: FunctionComponent<Props> = ({
-  topic,
+  concept,
   worksBySubTopic,
+  peopleBySubTopic,
 }) => {
   return (
     <PageLayout
-      title={`${topic.label} - Browse collections by topic`}
-      description={topic.description}
-      url={{ pathname: `/collections/topics/${topic.slug}` }}
+      title={`${concept.label} - Browse collections by topic`}
+      description={concept.description && concept.description.text || ""}
+      url={{ pathname: `/collections/topics/${concept.id}` }}
       jsonLd={[]}
       openGraphType="website"
       siteSection="collections"
@@ -159,16 +234,16 @@ const TopicDetailPage: FunctionComponent<Props> = ({
               url: '/collections/topics',
             },
             {
-              text: topic.label,
-              url: `/collections/topics/${topic.slug}`,
+              text: concept.label,
+              url: `/collections/topics/${concept.id}`,
               isHidden: true,
             },
           ],
         }}
         labels={{ labels: [] }}
         title={
-          <ConceptLink href={`/concepts/${topic.conceptId}`}>
-            {topic.label}
+          <ConceptLink href={`/concepts/${concept.id}`}>
+            {concept.label}
           </ConceptLink>
         }
         ContentTypeInfo={null}
@@ -181,24 +256,24 @@ const TopicDetailPage: FunctionComponent<Props> = ({
       <ContentSection>
         <ContaineredLayout gridSizes={gridSize12()}>
           <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-            <IntroText>{topic.description}</IntroText>
-
+            <IntroText>{concept.description?.text || "No description available"}</IntroText>
             <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
-              {topic.subTopics.map(subTopic => {
+              {[
+                ...(concept.relatedConcepts?.broaderThan || []),
+                ...(concept.relatedConcepts?.relatedTopics || [])
+              ].map(subTopic => {
                 const works = worksBySubTopic[subTopic.id] || [];
 
-                if (works.length === 0) return null;
+                console.log(`Subtopic: ${subTopic.label}, Works found: ${works.length}`);
+                // Show subtopic even if no works for debugging
+                // if (works.length === 0) return null;
 
                 return (
                   <SubTopicSection key={subTopic.id}>
                     <SubTopicHeader>
-                      {subTopic.conceptId ? (
-                        <SubTopicLink href={`/concepts/${subTopic.conceptId}`}>
-                          {subTopic.label}
-                        </SubTopicLink>
-                      ) : (
-                        <SubTopicTitle>{subTopic.label}</SubTopicTitle>
-                      )}
+                      <SubTopicLink href={`/concepts/${subTopic.id}`}>
+                        {subTopic.label}
+                      </SubTopicLink>
                     </SubTopicHeader>
 
                     <ScrollContainer
@@ -212,24 +287,25 @@ const TopicDetailPage: FunctionComponent<Props> = ({
                       ))}
                     </ScrollContainer>
 
-                    {subTopic.collaborators &&
-                      subTopic.collaborators.length > 0 && (
+                    {peopleBySubTopic[subTopic.id] &&
+                      peopleBySubTopic[subTopic.id].length > 0 && (
                         <CollaboratorsWrapper>
                           <CollaboratorsTitle>
                             Notable people
                           </CollaboratorsTitle>
                           <CollaboratorsList>
-                            {subTopic.collaborators.map(collaborator => (
+                            {peopleBySubTopic[subTopic.id].map(person => (
                               <CollaboratorCard
-                                key={collaborator.id}
-                                href={`/concepts/${collaborator.conceptId}`}
-                                label={collaborator.label}
-                                icon={personSolid}
+                                key={person.id}
+                                href={`/concepts/${person.id}`}
+                                label={person.label}
+                                icon={personIcon}
                               />
                             ))}
                           </CollaboratorsList>
                         </CollaboratorsWrapper>
-                      )}
+                      )} 
+                   
 
                     <Space $v={{ size: 'xl', properties: ['margin-top'] }} />
                   </SubTopicSection>
@@ -252,38 +328,135 @@ export const getServerSideProps: GetServerSideProps<
   const { topic: topicSlug } = context.params as { topic: string };
 
   try {
-    const topic = topics.find(t => t.slug === topicSlug);
+    console.log('Fetching concept with ID:', topicSlug);
+    
+    // Fetch concept by ID (the topicSlug is actually the concept ID)
+    const concepts = await getConceptsByIds([topicSlug]);
+    
+    const concept = concepts[0];
 
-    if (!topic) {
+    if (!concept) {
+      console.log('Concept not found, returning 404');
       return {
         notFound: true,
       };
     }
 
     const worksBySubTopic: Record<string, WorkBasic[]> = {};
+    const peopleBySubTopic: Record<string, Concept[]> = {};
 
-    topic.subTopics.forEach(subTopic => {
-      worksBySubTopic[subTopic.id] = getWorksForSubType(subTopic.id);
-    });
+    // Get works for each broader concept (subtopic) and related topics
+    const allSubTopics = [
+      ...(concept.relatedConcepts?.broaderThan || []),
+      ...(concept.relatedConcepts?.relatedTopics || [])
+    ];
+
+    if (allSubTopics.length > 0) {
+      // Fetch full concept data for each subtopic
+      const subTopicIds = allSubTopics.map(subTopic => subTopic.id);
+      const fullSubTopicConcepts = await getConceptsByIds(subTopicIds);
+      
+      // Collect all people concept IDs from the subtopics
+      const allPeopleIds = new Set<string>();
+      fullSubTopicConcepts.forEach(concept => {
+        // Add people from the people field
+        concept.relatedConcepts?.people?.forEach(person => allPeopleIds.add(person.id));
+        // Add Person-type concepts from relatedTo field
+        concept.relatedConcepts?.relatedTo?.forEach(related => {
+          if (related.conceptType === 'Person') {
+            allPeopleIds.add(related.id);
+          }
+        });
+        // Add people from frequentCollaborators field
+        concept.relatedConcepts?.frequentCollaborators?.forEach(collaborator => allPeopleIds.add(collaborator.id));
+      });
+      
+      // Fetch all the people concepts
+      const peopleConceptIds = Array.from(allPeopleIds);
+      const peopleConcepts = peopleConceptIds.length > 0 ? await getConceptsByIds(peopleConceptIds) : [];
+      
+      // Create a map of concept ID to full concept data (subtopics + people)
+      const conceptsById = [...fullSubTopicConcepts, ...peopleConcepts].reduce((acc, concept) => {
+        acc[concept.id] = concept;
+        return acc;
+      }, {} as Record<string, Concept>);
+
+      await Promise.all(
+        allSubTopics.map(async (subTopic) => {
+          try {
+            console.log(`Fetching works for subtopic: ${subTopic.label} (ID: ${subTopic.id})`);
+            
+            const worksResult = await catalogueQuery('works', {
+              toggles: {},
+              pageSize: 10,
+              params: {
+                query: subTopic.label,
+                include: ['production', 'contributors'],
+              },
+            });
+
+            if ('type' in worksResult && worksResult.type === 'Error') {
+              console.error(`Failed to fetch works for subtopic ${subTopic.id}:`, worksResult);
+              worksBySubTopic[subTopic.id] = [];
+            } else {
+              const works = worksResult.results || [];
+              console.log(`Found ${works.length} works for subtopic: ${subTopic.label}`);
+              // Transform Work objects to WorkBasic
+              const workBasics = works
+                .filter((work): work is Work => 'title' in work) // Filter out concepts if any
+                .map(work => toWorkBasic(work));
+              worksBySubTopic[subTopic.id] = workBasics;
+            }
+
+            // Get people (Person concepts) related to this subtopic
+            const fullConcept = conceptsById[subTopic.id];
+            const allPeopleRefs = [
+              ...(fullConcept?.relatedConcepts?.people || []),
+              ...(fullConcept?.relatedConcepts?.relatedTo?.filter(concept => concept.conceptType === 'Person') || []),
+              ...(fullConcept?.relatedConcepts?.frequentCollaborators || [])
+            ];
+            
+            if (allPeopleRefs.length > 0) {
+              // Remove duplicates by ID
+              const uniquePeopleRefs = allPeopleRefs.filter((person, index, array) => 
+                array.findIndex(p => p.id === person.id) === index
+              );
+              
+              peopleBySubTopic[subTopic.id] = uniquePeopleRefs
+                .map(personRef => conceptsById[personRef.id])
+                .filter(Boolean); // Remove any undefined concepts
+            } else {
+              peopleBySubTopic[subTopic.id] = [];
+            }
+          } catch (error) {
+            console.error(`Error fetching works for subtopic ${subTopic.id}:`, error);
+            worksBySubTopic[subTopic.id] = [];
+            peopleBySubTopic[subTopic.id] = [];
+          }
+        })
+      );
+    }
 
     return {
       props: serialiseProps({
-        topic,
+        concept,
         worksBySubTopic,
+        peopleBySubTopic,
         serverData,
       }),
     };
   } catch (error) {
-    return appError(context, 500, error instanceof Error ? error : undefined);
+    return appError(context, 500, error instanceof Error ? error.message : 'Unknown error');
   }
 };
 
-const Page: NextPage<Props | AppErrorProps> = props => {
+const Page: NextPage<ServerSideProps<Props> | AppErrorProps> = props => {
   if ('statusCode' in props) {
     return null;
   }
 
-  return <TopicDetailPage {...props} />;
+  const { concept, worksBySubTopic, peopleBySubTopic } = props as ServerSideProps<Props>;
+  return <TopicDetailPage concept={concept} worksBySubTopic={worksBySubTopic} peopleBySubTopic={peopleBySubTopic} />;
 };
 
 export default Page;
