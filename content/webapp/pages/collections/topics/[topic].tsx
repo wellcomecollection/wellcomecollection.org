@@ -15,10 +15,7 @@ import {
 import PageHeader from '@weco/common/views/components/PageHeader';
 import Space from '@weco/common/views/components/styled/Space';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
-import {
-  ServerSideProps,
-  ServerSidePropsOrAppError,
-} from '@weco/common/views/pages/_app';
+import { ServerSideProps } from '@weco/common/views/pages/_app';
 import { catalogueQuery } from '@weco/content/services/wellcome/catalogue';
 import { getConceptsByIds } from '@weco/content/services/wellcome/catalogue/browse';
 import {
@@ -57,12 +54,6 @@ const SubTopicHeader = styled.div`
   justify-content: space-between;
   align-items: baseline;
   margin-bottom: ${props => props.theme.spacingUnit * 2}px;
-`;
-
-const SubTopicTitle = styled.h2.attrs({
-  className: font('wb', 3),
-})`
-  margin: 0;
 `;
 
 const SubTopicLink = styled(Link).attrs({
@@ -115,12 +106,6 @@ const CollaboratorsList = styled.div`
   a {
     background-color: ${props => props.theme.color('white')};
   }
-`;
-
-const TopicTitle = styled.h1.attrs({
-  className: font('wb', 1),
-})`
-  margin: 0 0 ${props => props.theme.spacingUnit * 2}px 0;
 `;
 
 const IntroText = styled.p.attrs({

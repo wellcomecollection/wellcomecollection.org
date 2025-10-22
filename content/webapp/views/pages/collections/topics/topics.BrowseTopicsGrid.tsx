@@ -1,10 +1,10 @@
-import { FunctionComponent, useState, useEffect } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 
+import { dasherize } from '@weco/common/utils/grammar';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import { BrowseTopic, randomTopicPool } from '@weco/content/data/browse/topics';
-import { getConceptsByIds } from '@weco/content/services/wellcome/catalogue/browse';
 import { catalogueQuery } from '@weco/content/services/wellcome/catalogue';
-import { dasherize } from '@weco/common/utils/grammar';
+import { getConceptsByIds } from '@weco/content/services/wellcome/catalogue/browse';
 
 import BrowseTopicCard from './topics.BrowseTopicCard';
 import SurpriseMeCard from './topics.SurpriseMeCard';
@@ -15,14 +15,14 @@ type Props = {
 };
 
 const conceptIds = [
-  "ta34s6m4",
-  "hk965y34",
-  "cwbamw59",
-  "h9x3nny4",
-  "uj4hz4ct",
-  "u33bzxsb",
-  "grhw4z78",
-  "wyjyu7gv"
+  'ta34s6m4',
+  'hk965y34',
+  'cwbamw59',
+  'h9x3nny4',
+  'uj4hz4ct',
+  'u33bzxsb',
+  'grhw4z78',
+  'wyjyu7gv',
 ];
 
 const BrowseTopicsGrid: FunctionComponent<Props> = ({ topics }) => {
@@ -35,13 +35,13 @@ const BrowseTopicsGrid: FunctionComponent<Props> = ({ topics }) => {
     const fetchConceptsAndImages = async () => {
       try {
         setLoading(true);
-        
+
         // Fetch concepts
         const fetchedConcepts = await getConceptsByIds(conceptIds);
         setConcepts(fetchedConcepts);
 
         // Fetch images for each concept
-        const imagePromises = fetchedConcepts.map(async (concept) => {
+        const imagePromises = fetchedConcepts.map(async concept => {
           try {
             console.log(`Fetching image for concept: ${concept.label}`);
             const imagesResult = await catalogueQuery('images', {
@@ -53,7 +53,10 @@ const BrowseTopicsGrid: FunctionComponent<Props> = ({ topics }) => {
             });
 
             if ('type' in imagesResult && imagesResult.type === 'Error') {
-              console.error(`Failed to fetch image for concept ${concept.id}:`, imagesResult);
+              console.error(
+                `Failed to fetch image for concept ${concept.id}:`,
+                imagesResult
+              );
               return { conceptId: concept.id, image: null };
             } else {
               const images = imagesResult.results || [];
@@ -61,20 +64,23 @@ const BrowseTopicsGrid: FunctionComponent<Props> = ({ topics }) => {
               return { conceptId: concept.id, image: firstImage };
             }
           } catch (error) {
-            console.error(`Error fetching image for concept ${concept.id}:`, error);
+            console.error(
+              `Error fetching image for concept ${concept.id}:`,
+              error
+            );
             return { conceptId: concept.id, image: null };
           }
         });
 
         // Wait for all image requests to complete
         const imageResults = await Promise.all(imagePromises);
-        
+
         // Store images by concept ID
         const imagesMap: Record<string, any> = {};
         imageResults.forEach(({ conceptId, image }) => {
           imagesMap[conceptId] = image;
         });
-        
+
         setConceptImages(imagesMap);
       } catch (error) {
         console.error('Error fetching concepts and images:', error);
@@ -101,11 +107,14 @@ const BrowseTopicsGrid: FunctionComponent<Props> = ({ topics }) => {
         const topicImage = conceptImages[topic.id];
         const topicWithImage = {
           ...topic,
-          image: topicImage
+          image: topicImage,
         };
-        
+
         return (
-          <GridCell key={topic.id} $sizeMap={{ s: [12], m: [6], l: [4], xl: [4] }}>
+          <GridCell
+            key={topic.id}
+            $sizeMap={{ s: [12], m: [6], l: [4], xl: [4] }}
+          >
             <BrowseTopicCard topic={topicWithImage} />
           </GridCell>
         );

@@ -62,13 +62,7 @@ export const dummyWorksBySubType: Record<string, WorkBasic[]> = {
       '1950',
       'Book'
     ),
-    generateDummyWork(
-      7,
-      'The Double Helix',
-      'James Watson',
-      '1968',
-      'Book'
-    ),
+    generateDummyWork(7, 'The Double Helix', 'James Watson', '1968', 'Book'),
     generateDummyWork(
       8,
       'Rosalind Franklin: The Dark Lady of DNA',
@@ -76,13 +70,7 @@ export const dummyWorksBySubType: Record<string, WorkBasic[]> = {
       '2002',
       'Book'
     ),
-    generateDummyWork(
-      9,
-      'A Life in Medicine',
-      'Robert Coles',
-      '1991',
-      'Book'
-    ),
+    generateDummyWork(9, 'A Life in Medicine', 'Robert Coles', '1991', 'Book'),
     generateDummyWork(
       10,
       'The Immortal Life of Henrietta Lacks',
@@ -92,13 +80,7 @@ export const dummyWorksBySubType: Record<string, WorkBasic[]> = {
     ),
   ],
   zines: [
-    generateDummyWork(
-      11,
-      'AIDS Treatment News',
-      'John James',
-      '1986',
-      'Zine'
-    ),
+    generateDummyWork(11, 'AIDS Treatment News', 'John James', '1986', 'Zine'),
     generateDummyWork(
       12,
       'Fat Girl: A Zine for Fat Dykes',
@@ -127,13 +109,7 @@ export const dummyWorksBySubType: Record<string, WorkBasic[]> = {
       '2008',
       'Zine'
     ),
-    generateDummyWork(
-      16,
-      'Disability Rag',
-      'Mary Johnson',
-      '1982',
-      'Zine'
-    ),
+    generateDummyWork(16, 'Disability Rag', 'Mary Johnson', '1982', 'Zine'),
     generateDummyWork(
       17,
       'Hysteria: Women and Mental Health',
@@ -148,20 +124,8 @@ export const dummyWorksBySubType: Record<string, WorkBasic[]> = {
       '1996',
       'Zine'
     ),
-    generateDummyWork(
-      19,
-      'Sickly Zine',
-      'Various',
-      '2012',
-      'Zine'
-    ),
-    generateDummyWork(
-      20,
-      'Chronic Illness Cat',
-      'Anonymous',
-      '2015',
-      'Zine'
-    ),
+    generateDummyWork(19, 'Sickly Zine', 'Various', '2012', 'Zine'),
+    generateDummyWork(20, 'Chronic Illness Cat', 'Anonymous', '2015', 'Zine'),
   ],
   academic: [
     generateDummyWork(

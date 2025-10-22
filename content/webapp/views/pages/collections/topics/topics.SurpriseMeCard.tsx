@@ -73,7 +73,9 @@ const SurpriseMeCard: FunctionComponent<Props> = ({
     >
       <Title>Surprise me</Title>
       <Instructions>
-        {currentTopic ? 'Click again for another topic' : 'Click to explore a random topic'}
+        {currentTopic
+          ? 'Click again for another topic'
+          : 'Click to explore a random topic'}
       </Instructions>
       {currentTopic && <TopicDisplay>{currentTopic}</TopicDisplay>}
     </CardButton>

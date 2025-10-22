@@ -1,13 +1,14 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
+import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import Space from '@weco/common/views/components/styled/Space';
 import ImagePlaceholder from '@weco/content/views/components/ImagePlaceholder';
-import Image from 'next/image';
+
 import { Concept } from '../../../../services/wellcome/catalogue/types';
-import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 
 const CardLink = styled(Link)`
   display: flex;
@@ -70,12 +71,15 @@ type Props = {
 const BrowseTopicCard: FunctionComponent<Props> = ({ topic }) => {
   const url = `/collections/topics/${topic.id}`;
   // Check if topic has image data (added dynamically in BrowseTopicsGrid)
-  const hasImage = (topic as any).image && (topic as any).image.locations && (topic as any).image.locations.length > 0;
-  
+  const hasImage =
+    (topic as any).image &&
+    (topic as any).image.locations &&
+    (topic as any).image.locations.length > 0;
+
   // Convert IIIF image URL to proper format
   const getImageSrc = () => {
     if (!hasImage) return null;
-    
+
     const imageLocation = (topic as any).image.locations[0];
     if (imageLocation.url.includes('/info.json')) {
       // Use iiifImageTemplate for IIIF images
@@ -83,14 +87,14 @@ const BrowseTopicCard: FunctionComponent<Props> = ({ topic }) => {
       return imageTemplate({
         size: '400,',
         quality: 'default',
-        format: 'jpg'
+        format: 'jpg',
       });
     }
     return imageLocation.url;
   };
 
   const imageSrc = getImageSrc();
-  
+
   return (
     <CardLink href={url} data-component="browse-topic-card">
       <ImageContainer>
@@ -108,7 +112,9 @@ const BrowseTopicCard: FunctionComponent<Props> = ({ topic }) => {
 
       <ContentWrapper>
         <Title>{topic.label}</Title>
-        <Description>{topic.description?.text || "No description available."}</Description>
+        <Description>
+          {topic.description?.text || 'No description available.'}
+        </Description>
       </ContentWrapper>
     </CardLink>
   );

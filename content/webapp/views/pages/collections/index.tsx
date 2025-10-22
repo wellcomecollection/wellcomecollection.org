@@ -4,11 +4,9 @@ import { NextPage } from 'next';
 import styled from 'styled-components';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
-import { arrowSmall } from '@weco/common/icons';
 import { ImageType } from '@weco/common/model/image';
 import { useToggles } from '@weco/common/server-data/Context';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import Button from '@weco/common/views/components/Buttons';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
 import {
   ContaineredLayout,
