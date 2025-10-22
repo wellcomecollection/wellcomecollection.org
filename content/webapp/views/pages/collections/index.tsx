@@ -71,29 +71,40 @@ const BrowseButtonWrapper = styled.div`
     position: relative;
     overflow: hidden;
     background: linear-gradient(
-      45deg,
-      #ff0000,
-      #ff7f00,
-      #ffff00,
-      #00ff00,
-      #0000ff,
-      #4b0082,
-      #9400d3,
-      #ff0000
-    );
+        45deg,
+        #ff0000,
+        #ff7f00,
+        #ffff00,
+        #00ff00,
+        #0000ff,
+        #4b0082,
+        #9400d3,
+        #ff0000
+      )
+      border-box;
     background-size: 400% 400%;
     animation:
       rainbowShift 3s ease infinite,
       buttonBounce 2s ease-in-out infinite;
-    border: none;
+    border: 3px solid transparent;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     transition:
       transform 0.3s ease,
       box-shadow 0.3s ease;
     padding: ${themeValues.spacingUnit * 3}px ${themeValues.spacingUnit * 6}px;
     font-size: 24px;
+    text-decoration: none !important;
 
     &::before {
+      content: '';
+      position: absolute;
+      inset: 3px;
+      z-index: 0;
+      background: white;
+      border-radius: inherit;
+    }
+
+    &::after {
       content: '';
       position: absolute;
       top: -50%;
@@ -108,28 +119,28 @@ const BrowseButtonWrapper = styled.div`
       );
       transform: rotate(45deg);
       animation: shine 3s ease-in-out infinite;
+      pointer-events: none;
     }
 
-    &:hover {
+    &:hover,
+    &:focus {
       transform: scale(1.1) rotate(2deg);
       box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-      animation:
-        rainbowShift 1.5s ease infinite,
-        buttonWiggle 0.5s ease infinite;
+      animation: buttonWiggle 0.5s ease infinite;
+      text-decoration: none !important;
     }
 
     span {
       position: relative;
-      z-index: 1;
-      color: white;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      z-index: 2;
+      color: black;
       font-weight: bold;
+      text-decoration: none !important;
     }
 
     svg {
       position: relative;
-      z-index: 1;
-      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+      z-index: 2;
     }
   }
 
