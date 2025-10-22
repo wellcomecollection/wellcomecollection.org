@@ -3,6 +3,7 @@ import { FunctionComponent } from 'react';
 
 import { getServerData } from '@weco/common/server-data';
 import { appError, AppErrorProps } from '@weco/common/services/app';
+import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { serialiseProps } from '@weco/common/utils/json';
 import {
   ContaineredLayout,
@@ -10,7 +11,7 @@ import {
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import Space from '@weco/common/views/components/styled/Space';
-import Tabs, { Tab } from '@weco/common/views/components/Tabs';
+import WShape from '@weco/common/views/components/WShape';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import {
   ServerSideProps,
@@ -18,6 +19,9 @@ import {
 } from '@weco/common/views/pages/_app';
 import { BrowseType, types } from '@weco/content/data/browse/types';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
+import TabsNavigate, {
+  NavigateSelectableTextLink,
+} from '@weco/content/views/components/Tabs/Tabs.Navigate';
 import BrowseTypesGrid from '@weco/content/views/pages/collections/types/types.BrowseTypesGrid';
 
 type Props = {
@@ -25,16 +29,16 @@ type Props = {
 };
 
 const BrowseTypesPage: FunctionComponent<Props> = ({ types }) => {
-  const tabs: Tab[] = [
+  const tabs: NavigateSelectableTextLink[] = [
     {
-      label: 'By type',
-      href: '/collections/types',
-      isActive: true,
+      id: 'types',
+      text: 'By type',
+      url: '/collections/types',
     },
     {
-      label: 'By topic',
-      href: '/collections/topics',
-      isActive: false,
+      id: 'topics',
+      text: 'By topic',
+      url: '/collections/topics',
     },
   ];
 
@@ -70,15 +74,30 @@ const BrowseTypesPage: FunctionComponent<Props> = ({ types }) => {
         FeaturedMedia={null}
         HeroPicture={null}
         highlightHeading={true}
+        backgroundTexture={headerBackgroundLs}
       />
+
+      <div
+        style={{
+          position: 'absolute',
+          inset: '27% 1% 0',
+          zIndex: -1,
+          overflow: 'hidden',
+        }}
+      >
+        <WShape color="accent.lightBlue" variant="full-1" />
+      </div>
 
       <ContaineredLayout gridSizes={gridSize12()}>
         <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-          <Tabs tabs={tabs} ariaLabel="Browse collections by type or topic">
-            <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
-              <BrowseTypesGrid types={types} />
-            </Space>
-          </Tabs>
+          <TabsNavigate
+            items={tabs}
+            currentSection="types"
+            label="Browse collections by type or topic"
+          />
+          <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
+            <BrowseTypesGrid types={types} />
+          </Space>
         </Space>
       </ContaineredLayout>
     </PageLayout>

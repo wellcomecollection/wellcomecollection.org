@@ -62,7 +62,7 @@ const DecorativeEdgeContainer = styled(Space).attrs({
 
 const BrowseButtonWrapper = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   margin-top: ${themeValues.spacingUnit * 4}px;
   margin-bottom: ${themeValues.spacingUnit * 4}px;
 `;
