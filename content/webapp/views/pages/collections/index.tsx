@@ -134,7 +134,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
       </MainBackground>
 
       {toggles.browseCollections && (
-        <Space $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}>
+        <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
           <CardGrid
             items={[]}
             itemsPerRow={3}
