@@ -8,7 +8,6 @@ import { getConceptsByIds } from '@weco/content/services/wellcome/catalogue/brow
 
 import BrowseTopicCard from './topics.BrowseTopicCard';
 import SurpriseMeCard from './topics.SurpriseMeCard';
-import { concept } from '../../../../test/fixtures/catalogueApi/concept';
 
 type Props = {
   topics: BrowseTopic[];
@@ -21,12 +20,15 @@ const conceptIds = [
   'h9x3nny4',
   'uj4hz4ct',
   'u33bzxsb',
-  'grhw4z78',
+  'wmurzwwx',
   'wyjyu7gv',
 ];
 
 const BrowseTopicsGrid: FunctionComponent<Props> = ({ topics }) => {
-  const [surpriseTopic, setSurpriseTopic] = useState<string | null>(null);
+  const [surpriseTopic, setSurpriseTopic] = useState<{
+    label: string;
+    id: string;
+  } | null>(null);
   const [concepts, setConcepts] = useState<any[]>([]);
   const [conceptImages, setConceptImages] = useState<Record<string, any>>({});
   const [loading, setLoading] = useState(true);
@@ -96,7 +98,6 @@ const BrowseTopicsGrid: FunctionComponent<Props> = ({ topics }) => {
     const randomIndex = Math.floor(Math.random() * randomTopicPool.length);
     setSurpriseTopic(randomTopicPool[randomIndex]);
   };
-
   if (loading) {
     return <div>Loading topics...</div>;
   }

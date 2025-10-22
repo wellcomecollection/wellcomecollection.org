@@ -1,5 +1,6 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
+import Link from 'next/link';
 
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
@@ -27,6 +28,7 @@ const CardButton = styled.button`
   &:focus {
     transform: translateY(-2px);
     background-color: ${props => props.theme.color('accent.blue')};
+    color: ${props => props.theme.color('white')};
   }
 `;
 
@@ -48,16 +50,44 @@ const TopicDisplay = styled.p.attrs({
   justify-content: center;
 `;
 
+const TopicLink = styled(Link).attrs({
+  className: font('wb', 3),
+})`
+  margin: ${props => props.theme.spacingUnit * 2}px 0 0 0;
+  text-align: center;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: inherit;
+  
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+  
+  ${CardButton}:hover &,
+  ${CardButton}:focus & {
+    color: ${props => props.theme.color('white')};
+  }
+`;
+
 const Instructions = styled.p.attrs({
   className: font('intr', 5),
 })`
   margin: 0;
   text-align: center;
   color: ${props => props.theme.color('neutral.700')};
+  
+  ${CardButton}:hover &,
+  ${CardButton}:focus & {
+    color: ${props => props.theme.color('white')};
+  }
 `;
 
 type Props = {
-  currentTopic: string | null;
+  currentTopic: { label: string; id: string; } | null;
   onSurpriseMe: () => void;
 };
 
@@ -77,7 +107,11 @@ const SurpriseMeCard: FunctionComponent<Props> = ({
           ? 'Click again for another topic'
           : 'Click to explore a random topic'}
       </Instructions>
-      {currentTopic && <TopicDisplay>{currentTopic}</TopicDisplay>}
+      {currentTopic && (
+        <TopicLink href={`/concepts/${currentTopic.id}`} onClick={(e) => e.stopPropagation()}>
+          {currentTopic.label}
+        </TopicLink>
+      )}
     </CardButton>
   );
 };

@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import Space from '@weco/common/views/components/styled/Space';
+import { topicDescriptions } from '@weco/content/data/browse/topics';
 import ImagePlaceholder from '@weco/content/views/components/ImagePlaceholder';
 
 import { Concept } from '../../../../services/wellcome/catalogue/types';
@@ -112,12 +113,10 @@ const BrowseTopicCard: FunctionComponent<Props> = ({ topic }) => {
 
       <ContentWrapper>
         <Title>{topic.label}</Title>
-        <Description>
-          {topic.description?.text || 'No description available.'}
-        </Description>
+        <Description>{topicDescriptions[topic.label]}</Description>
       </ContentWrapper>
     </CardLink>
   );
 };
-
+// do it here
 export default BrowseTopicCard;

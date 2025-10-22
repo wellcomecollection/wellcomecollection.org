@@ -16,6 +16,7 @@ import PageHeader from '@weco/common/views/components/PageHeader';
 import Space from '@weco/common/views/components/styled/Space';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { ServerSideProps } from '@weco/common/views/pages/_app';
+import { topicDescriptions } from '@weco/content/data/browse/topics';
 import { catalogueQuery } from '@weco/content/services/wellcome/catalogue';
 import { getConceptsByIds } from '@weco/content/services/wellcome/catalogue/browse';
 import {
@@ -161,7 +162,7 @@ const TopicDetailPage: FunctionComponent<Props> = ({
   return (
     <PageLayout
       title={`${concept.label} - Browse collections by topic`}
-      description={(concept.description && concept.description.text) || ''}
+      description={topicDescriptions[concept.label]}
       url={{ pathname: `/collections/topics/${concept.id}` }}
       jsonLd={[]}
       openGraphType="website"
@@ -199,9 +200,7 @@ const TopicDetailPage: FunctionComponent<Props> = ({
       <ContentSection>
         <ContaineredLayout gridSizes={gridSize12()}>
           <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-            <IntroText>
-              {concept.description?.text || 'No description available'}
-            </IntroText>
+            <IntroText>{topicDescriptions[concept.label]}</IntroText>
             <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
               {allSubTopics.map((subTopic, index) => {
                 const works = worksBySubTopic[subTopic.id] || [];
