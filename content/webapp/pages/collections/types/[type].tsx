@@ -51,12 +51,12 @@ const SubTypeLink = styled(Link).attrs({
   className: font('wb', 3),
 })`
   margin: 0;
-  text-decoration: none;
+  text-decoration: underline;
   color: ${props => props.theme.color('black')};
 
   &:hover,
   &:focus {
-    text-decoration: underline;
+    text-decoration: none;
   }
 `;
 
