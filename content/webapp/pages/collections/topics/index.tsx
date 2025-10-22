@@ -10,7 +10,6 @@ import {
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import Space from '@weco/common/views/components/styled/Space';
-import Tabs, { Tab } from '@weco/common/views/components/Tabs';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import {
   ServerSideProps,
@@ -18,6 +17,9 @@ import {
 } from '@weco/common/views/pages/_app';
 import { BrowseTopic, topics } from '@weco/content/data/browse/topics';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
+import TabsNavigate, {
+  NavigateSelectableTextLink,
+} from '@weco/content/views/components/Tabs/Tabs.Navigate';
 import BrowseTopicsGrid from '@weco/content/views/pages/collections/topics/topics.BrowseTopicsGrid';
 
 type Props = {
@@ -25,16 +27,16 @@ type Props = {
 };
 
 const BrowseTopicsPage: FunctionComponent<Props> = ({ topics }) => {
-  const tabs: Tab[] = [
+  const tabs: NavigateSelectableTextLink[] = [
     {
-      label: 'By type',
-      href: '/collections/types',
-      isActive: false,
+      id: 'types',
+      text: 'By type',
+      url: '/collections/types',
     },
     {
-      label: 'By topic',
-      href: '/collections/topics',
-      isActive: true,
+      id: 'topics',
+      text: 'By topic',
+      url: '/collections/topics',
     },
   ];
 
@@ -74,11 +76,14 @@ const BrowseTopicsPage: FunctionComponent<Props> = ({ topics }) => {
 
       <ContaineredLayout gridSizes={gridSize12()}>
         <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-          <Tabs tabs={tabs} ariaLabel="Browse collections by type or topic">
-            <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
-              <BrowseTopicsGrid topics={topics} />
-            </Space>
-          </Tabs>
+          <TabsNavigate
+            items={tabs}
+            currentSection="topics"
+            label="Browse collections by type or topic"
+          />
+          <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
+            <BrowseTopicsGrid topics={topics} />
+          </Space>
         </Space>
       </ContaineredLayout>
     </PageLayout>
