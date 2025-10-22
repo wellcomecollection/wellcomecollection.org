@@ -8,6 +8,8 @@ import ImagePlaceholder from '@weco/content/views/components/ImagePlaceholder';
 import Image from 'next/image';
 import { Concept } from '../../../../services/wellcome/catalogue/types';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
+import { topicDescriptions } from '@weco/content/data/browse/topics';
+
 
 const CardLink = styled(Link)`
   display: flex;
@@ -108,10 +110,10 @@ const BrowseTopicCard: FunctionComponent<Props> = ({ topic }) => {
 
       <ContentWrapper>
         <Title>{topic.label}</Title>
-        <Description>{topic.description?.text || "No description available."}</Description>
+        <Description>{topicDescriptions[topic.label]}</Description>
       </ContentWrapper>
     </CardLink>
   );
 };
-
+// do it here
 export default BrowseTopicCard;

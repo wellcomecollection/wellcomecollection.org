@@ -31,6 +31,7 @@ import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import RelatedWorksCard from '@weco/content/views/components/RelatedWorksCard';
 import ScrollContainer from '@weco/content/views/components/ScrollContainer';
 import CollaboratorCard from '@weco/content/views/pages/concepts/concept/concept.Collaborators.Card';
+import { topicDescriptions } from '@weco/content/data/browse/topics';
 
 const ContentSection = styled.div`
   background-color: ${props => props.theme.color('warmNeutral.300')};
@@ -270,7 +271,7 @@ const TopicDetailPage: FunctionComponent<Props> = ({
   return (
     <PageLayout
       title={`${concept.label} - Browse collections by topic`}
-      description={(concept.description && concept.description.text) || ''}
+      description={topicDescriptions[concept.label]}
       url={{ pathname: `/collections/topics/${concept.id}` }}
       jsonLd={[]}
       openGraphType="website"
@@ -313,7 +314,7 @@ const TopicDetailPage: FunctionComponent<Props> = ({
         <ContaineredLayout gridSizes={gridSize12()}>
           <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
             <IntroText>
-              {concept.description?.text || 'No description available'}
+              {topicDescriptions[concept.label]}
             </IntroText>
             <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
               {allSubTopics.map((subTopic, index) => {

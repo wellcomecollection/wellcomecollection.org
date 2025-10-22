@@ -24,6 +24,42 @@ export type BrowseTopic = {
   subTopics: SubTopic[];
 };
 
+export const topicDescriptions = {
+  'Sexual Health': 'Explore materials relating to sexual health, the body, family planning, safe sex and sex education.',
+  'Religion': 'Discover books, artefacts and images which explore the relationship between religion, health and healing through time, from astrology to witchcraft.',
+  'Anatomy': 'Explore books, manuscripts, paintings, and illustrations that explore human anatomy, from historical texts to modern illustrations',
+  'Medicine': 'Explore the history of medicine, including materials relating to drugs, disease treatments, surgery and other medical practices through time.',
+  'Public Health': 'Our collections are particularly strong in public health materials, including recipe cards, advertisements, public health posters, and history of sanitation systems.',
+  'Mental Health': 'Items tracing the development of our understanding of mental health including personal expressions of mental illness.',
+  'Genetics': 'Explore the history of modern genetics through historical books, medical photographs and artist\'s experiences.',
+  'Plants': 'Explore our collections relating to plants and their role in health and healing including botanical paintings and books on medicinal plants.'
+};
+
+export const randomTopicPool = [
+  { label: 'Music', id: 'p3z68rrs' },
+  { label: 'Death', id: 'rxa2pk4j' },
+  { label: 'Architecture', id: 'vvettj6k' },
+  { label: 'Centenarians', id: 'axw6ek5r' },
+  { label: 'Famine', id: 'mbe7rw8t' },
+  { label: 'Orange', id: 'y5k3c2se' },
+  { label: 'Skeletons', id: 'ae2fkamd' },
+  { label: 'Hermits', id: 'vm98r42m' },
+  { label: 'AIDS', id: 'rc5gxage' },
+  { label: 'Cake', id: 'ynf5axua' },
+  { label: 'Heart', id: 'q8esy2j2' },
+  { label: 'Tobacco', id: 'rzrtajqa' },
+  { label: 'Sex education', id: 'rrbrpjx3' },
+  { label: 'Psychotropic Drugs', id: 'u4rk4a6g' },
+  { label: 'Magic', id: 'c8w3e37q' },
+  { label: 'Skin', id: 'z46wh7sx' },
+  { label: 'Brain', id: 'c4b96w5t' },
+  { label: 'Art', id: 'cvaz2hcw' },
+  { label: 'Forensic Sciences', id: 'ycummu9g' },
+  { label: 'Electricity', id: 'c2kamxbj' },
+];
+
+// hard coded data, not used but keeping for now
+
 // export const topics: BrowseTopic[] = [
 //   {
 //     id: 'public-health',
@@ -366,26 +402,3 @@ export type BrowseTopic = {
 //     ],
 //   },
 // ];
-
-export const randomTopicPool = [
-  { label: 'Music', id: 'p3z68rrs' },
-  { label: 'Death', id: 'rxa2pk4j' },
-  { label: 'Architecture', id: 'vvettj6k' },
-  { label: 'Centenarians', id: 'axw6ek5r' },
-  { label: 'Famine', id: 'mbe7rw8t' },
-  { label: 'Orange', id: 'y5k3c2se' },
-  { label: 'Skeletons', id: 'ae2fkamd' },
-  { label: 'Hermits', id: 'vm98r42m' },
-  { label: 'AIDS', id: 'rc5gxage' },
-  { label: 'Cake', id: 'ynf5axua' },
-  { label: 'Heart', id: 'q8esy2j2' },
-  { label: 'Tobacco', id: 'rzrtajqa' },
-  { label: 'Sex education', id: 'rrbrpjx3' },
-  { label: 'Psychotropic Drugs', id: 'u4rk4a6g' },
-  { label: 'Magic', id: 'c8w3e37q' },
-  { label: 'Skin', id: 'z46wh7sx' },
-  { label: 'Brain', id: 'c4b96w5t' },
-  { label: 'Art', id: 'cvaz2hcw' },
-  { label: 'Forensic Sciences', id: 'ycummu9g' },
-  { label: 'Electricity', id: 'c2kamxbj' },
-];
