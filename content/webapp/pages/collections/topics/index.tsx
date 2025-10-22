@@ -69,9 +69,9 @@ const BrowseTopicsPage: FunctionComponent<Props> = ({ topics }) => {
         labels={{ labels: [] }}
         title="Browse the collections"
         ContentTypeInfo={null}
-        Background={null}
-        FeaturedMedia={null}
-        HeroPicture={null}
+        Background={undefined}
+        FeaturedMedia={undefined}
+        HeroPicture={undefined}
         highlightHeading={true}
         backgroundTexture={headerBackgroundLs}
       />
@@ -113,7 +113,11 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       }),
     };
   } catch (error) {
-    return appError(context, 500, error instanceof Error ? error : undefined);
+    return appError(
+      context,
+      500,
+      error instanceof Error ? error.message : 'Unknown error'
+    );
   }
 };
 
@@ -122,7 +126,7 @@ const Page: NextPage<Props | AppErrorProps> = props => {
     return null;
   }
 
-  return <BrowseTopicsPage {...props} />;
+  return <BrowseTopicsPage {...(props as Props)} />;
 };
 
 export default Page;

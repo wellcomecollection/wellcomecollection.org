@@ -367,6 +367,8 @@ export type BrowseTopic = {
 //   },
 // ];
 
+export const topics: BrowseTopic[] = [];
+
 export const randomTopicPool = [
   'Traditional Chinese medicine',
   'Alchemy',

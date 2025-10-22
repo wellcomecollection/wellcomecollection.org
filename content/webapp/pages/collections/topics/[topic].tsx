@@ -115,18 +115,6 @@ const IntroText = styled.p.attrs({
   max-width: 60ch;
 `;
 
-const ConceptLink = styled(Link).attrs({
-  className: font('wb', 1),
-})`
-  text-decoration: none;
-  color: ${props => props.theme.color('black')};
-
-  &:hover,
-  &:focus {
-    text-decoration: underline;
-  }
-`;
-
 type Props = {
   concept: Concept;
   worksBySubTopic: Record<string, WorkBasic[]>;
@@ -200,15 +188,11 @@ const TopicDetailPage: FunctionComponent<Props> = ({
           ],
         }}
         labels={{ labels: [] }}
-        title={
-          <ConceptLink href={`/concepts/${concept.id}`}>
-            {concept.label}
-          </ConceptLink>
-        }
+        title={concept.label}
         ContentTypeInfo={null}
-        Background={null}
-        FeaturedMedia={null}
-        HeroPicture={null}
+        Background={undefined}
+        FeaturedMedia={undefined}
+        HeroPicture={undefined}
         highlightHeading={true}
       />
 

@@ -174,19 +174,11 @@ const TypeDetailPage: FunctionComponent<Props> = ({ type, worksBySubType }) => {
           ],
         }}
         labels={{ labels: [] }}
-        title={
-          type.conceptId ? (
-            <ConceptLink href={`/concepts/${type.conceptId}`}>
-              {type.label}
-            </ConceptLink>
-          ) : (
-            type.label
-          )
-        }
+        title={type.label}
         ContentTypeInfo={null}
-        Background={null}
-        FeaturedMedia={null}
-        HeroPicture={null}
+        Background={undefined}
+        FeaturedMedia={undefined}
+        HeroPicture={undefined}
         highlightHeading={true}
       />
 
@@ -344,7 +336,11 @@ export const getServerSideProps: GetServerSideProps<
     };
   } catch (error) {
     console.error('Error in type detail page getServerSideProps:', error);
-    return appError(context, 500, error instanceof Error ? error : undefined);
+    return appError(
+      context,
+      500,
+      error instanceof Error ? error.message : 'Unknown error'
+    );
   }
 };
 
@@ -353,7 +349,7 @@ const Page: NextPage<Props | AppErrorProps> = props => {
     return null;
   }
 
-  return <TypeDetailPage {...props} />;
+  return <TypeDetailPage {...(props as Props)} />;
 };
 
 export default Page;
