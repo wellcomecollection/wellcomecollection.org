@@ -4,7 +4,39 @@ import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
-import PopoutImage from '@weco/content/views/components/PopoutImage';
+import IIIFImage from '@weco/content/views/components/IIIFImage';
+
+// Ensures the image container takes up the same amount of vertical space
+// regardless of the image height
+const Shim = styled.div`
+  position: relative;
+  ${props => props.theme.media('medium')`
+    height: 0;
+    padding-top: 100%;
+  `}
+`;
+
+const PopoutCardImageContainer = styled.div<{ $aspectRatio?: number }>`
+  position: relative;
+  ${props => props.theme.media('medium')`
+    position: absolute;
+    bottom: 0;
+  `}
+  width: 100%;
+  background-color: ${props => props.theme.color('neutral.300')};
+  padding-top: ${props =>
+    props.$aspectRatio ? `${props.$aspectRatio * 66}%` : '100%'};
+  transform: rotate(-2deg);
+`;
+
+const PopoutCardImage = styled(Space).attrs({
+  $v: { size: 'l', properties: ['bottom'] },
+})`
+  position: absolute;
+  width: 66%;
+  left: 50%;
+  transform: translateX(-50%) rotate(2deg);
+`;
 
 type LinkSpaceAttrs = {
   $url: string;
@@ -70,10 +102,21 @@ type Props = {
 
 const WorkCard: FunctionComponent<Props> = ({ item }) => {
   const { url, title, image, labels, partOf, contributor, date } = item;
+  const aspectRatio = image.height / image.width;
+
   return (
     <LinkSpace $url={url} data-component="work-card">
       <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-        <PopoutImage image={{ ...image }} variant="iiif" layout="raw" />
+        <Shim>
+          <PopoutCardImageContainer
+            data-component="popout-image"
+            $aspectRatio={aspectRatio}
+          >
+            <PopoutCardImage>
+              <IIIFImage image={image} layout="raw" />
+            </PopoutCardImage>
+          </PopoutCardImageContainer>
+        </Shim>
         <Space
           $v={{ size: 's', properties: ['margin-bottom'] }}
           style={{ position: 'relative' }}

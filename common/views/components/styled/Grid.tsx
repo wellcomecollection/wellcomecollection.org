@@ -5,27 +5,27 @@ import { themeValues } from '@weco/common/views/themes/config';
 type StartSpan = [span: number, start?: number];
 export type SizeMap = Record<string, StartSpan>;
 
-export const Grid = styled.div<{ $noGap?: boolean; $alignItems?: string }>`
+export const Grid = styled.div<{ $noGap?: boolean }>`
   display: grid;
-
   grid-template-columns: repeat(12, minmax(0, 1fr));
 
-  ${props => props.$alignItems && `align-items: ${props.$alignItems};`};
   ${props =>
     !props.$noGap &&
     `
     gap: ${themeValues.gutter.small}px;
   `}
+
   ${props =>
     !props.$noGap &&
     props.theme.media('medium')(`
     gap: ${themeValues.gutter.medium}px;
   `)}
-    ${props =>
+
+  ${props =>
     !props.$noGap &&
     props.theme.media('large')(`
     gap: ${themeValues.gutter.large}px;
-  `)};
+  `)}
 `;
 
 // If a SizeMap has a key with only one item e.g. { s: [4] } the cell
