@@ -213,14 +213,17 @@ const TopicDetailPage: FunctionComponent<Props> = ({
         highlightHeading={true}
       />
 
+      <ContaineredLayout gridSizes={gridSize12()}>
+        <PageTitle>
+          <ConceptLink href={`/concepts/${concept.id}`}>
+            {concept.label}
+          </ConceptLink>
+        </PageTitle>
+      </ContaineredLayout>
+
       <ContentSection>
         <ContaineredLayout gridSizes={gridSize12()}>
           <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-            <PageTitle>
-              <ConceptLink href={`/concepts/${concept.id}`}>
-                {concept.label}
-              </ConceptLink>
-            </PageTitle>
             <IntroText>{topicDescriptions[concept.label]}</IntroText>
             <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
               {allSubTopics.map((subTopic, index) => {

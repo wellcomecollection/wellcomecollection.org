@@ -186,18 +186,21 @@ const TypeDetailPage: FunctionComponent<Props> = ({ type, worksBySubType }) => {
         highlightHeading={true}
       />
 
+      <ContaineredLayout gridSizes={gridSize12()}>
+        <PageTitle>
+          {type.conceptId ? (
+            <ConceptLink href={`/concepts/${type.conceptId}`}>
+              {type.label}
+            </ConceptLink>
+          ) : (
+            type.label
+          )}
+        </PageTitle>
+      </ContaineredLayout>
+
       <ContentSection>
         <ContaineredLayout gridSizes={gridSize12()}>
           <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-            <PageTitle>
-              {type.conceptId ? (
-                <ConceptLink href={`/concepts/${type.conceptId}`}>
-                  {type.label}
-                </ConceptLink>
-              ) : (
-                type.label
-              )}
-            </PageTitle>
             <IntroText>{type.description}</IntroText>
 
             <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
