@@ -180,7 +180,7 @@ const SourcedDescription: FunctionComponent<{
     <div data-component="sourced-description">
       <Paragraph>{description}</Paragraph>
 
-      {source && (
+      {source && source !== 'weco-authority' && (
         <SourcePill
           tabIndex={0}
           onMouseEnter={updateSourceBoxPosition}
