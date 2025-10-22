@@ -1,15 +1,16 @@
+import { getConcepts } from '@weco/content/services/wellcome/catalogue/concepts';
+import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { Toggles } from '@weco/toggles';
 
 import { catalogueQuery } from '.';
 import { toWorkBasic, Work, WorkBasic } from './types';
 import { WorkAggregations } from './types/aggregations';
-import { getConcepts } from '@weco/content/services/wellcome/catalogue/concepts';
-import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 
 export type GenreWithCount = {
   id: string;
   label: string;
   count: number;
+  conceptId?: string;
 };
 
 /**
@@ -91,6 +92,31 @@ export async function fetchWorksByTypeAndGenre(
   } catch (error) {
     console.error('Error fetching works by type and genre:', error);
     return [];
+  }
+}
+
+/**
+ * Fetch concept ID by searching for a label
+ * Returns the first matching concept ID or undefined
+ */
+export async function fetchConceptIdByLabel(
+  label: string,
+  toggles: Toggles = {}
+): Promise<string | undefined> {
+  try {
+    const result = await getConcepts({
+      params: { query: label },
+      toggles,
+    });
+
+    if ('results' in result && result.results.length > 0) {
+      return result.results[0].id;
+    }
+
+    return undefined;
+  } catch (error) {
+    console.error(`Error fetching concept ID for label: ${label}`, error);
+    return undefined;
   }
 }
 

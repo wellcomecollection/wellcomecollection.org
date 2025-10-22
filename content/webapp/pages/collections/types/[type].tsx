@@ -18,6 +18,7 @@ import { ServerSideProps } from '@weco/common/views/pages/_app';
 import { BrowseType, types } from '@weco/content/data/browse/types';
 import { getWorksForSubType } from '@weco/content/data/browse/works';
 import {
+  fetchConceptIdByLabel,
   fetchTopGenresForWorkType,
   fetchWorksByTypeAndGenre,
 } from '@weco/content/services/wellcome/catalogue/browse';
@@ -231,19 +232,23 @@ export const getServerSideProps: GetServerSideProps<
       console.log(`[Browse Types] Fetched ${topGenres.length} genres`);
 
       if (topGenres.length > 0) {
-        // Fetch works for each genre
+        // Fetch works and concept IDs for each genre
         console.log(`[Browse Types] Fetching works for each genre...`);
         await Promise.all(
           topGenres.map(async genre => {
-            const works = await fetchWorksByTypeAndGenre(
-              type.workType,
-              genre.label,
-              10,
-              serverData.toggles
-            );
+            const [works, conceptId] = await Promise.all([
+              fetchWorksByTypeAndGenre(
+                type.workType,
+                genre.label,
+                10,
+                serverData.toggles
+              ),
+              fetchConceptIdByLabel(genre.label, serverData.toggles),
+            ]);
             worksBySubType[genre.id] = works;
+            genre.conceptId = conceptId;
             console.log(
-              `[Browse Types] Fetched ${works.length} works for genre: ${genre.label}`
+              `[Browse Types] Fetched ${works.length} works for genre: ${genre.label}${conceptId ? ` (concept: ${conceptId})` : ''}`
             );
           })
         );
@@ -255,6 +260,7 @@ export const getServerSideProps: GetServerSideProps<
             id: genre.id,
             label: genre.label,
             workCount: genre.count,
+            conceptId: genre.conceptId,
           })),
         };
 
