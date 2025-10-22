@@ -98,18 +98,6 @@ const IntroText = styled.p.attrs({
   max-width: 60ch;
 `;
 
-const ConceptLink = styled(Link).attrs({
-  className: font('wb', 1),
-})`
-  text-decoration: none;
-  color: ${props => props.theme.color('black')};
-
-  &:hover,
-  &:focus {
-    text-decoration: underline;
-  }
-`;
-
 type Props = {
   type: BrowseType;
   worksBySubType: Record<string, WorkBasic[]>;
