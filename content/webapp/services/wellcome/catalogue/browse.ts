@@ -74,7 +74,7 @@ export async function fetchWorksByTypeAndGenre(
       params: {
         workType,
         'genres.label': genre,
-        include: ['production', 'contributors'],
+        include: ['production', 'contributors', 'images'],
       },
     });
 
