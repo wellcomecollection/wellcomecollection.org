@@ -151,6 +151,7 @@ const TypeDetailPage: FunctionComponent<Props> = ({ type, worksBySubType }) => {
       openGraphType="website"
       siteSection="collections"
       hideNewsletterPromo
+      isNoIndex
     >
       <PageHeader
         variant="basic"

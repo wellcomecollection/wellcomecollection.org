@@ -178,6 +178,7 @@ const TopicDetailPage: FunctionComponent<Props> = ({
       openGraphType="website"
       siteSection="collections"
       hideNewsletterPromo
+      isNoIndex
     >
       <PageHeader
         variant="basic"

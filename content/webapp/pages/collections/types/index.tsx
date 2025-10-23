@@ -50,6 +50,7 @@ const BrowseTypesPage: FunctionComponent<Props> = ({ types }) => {
       openGraphType="website"
       siteSection="collections"
       hideNewsletterPromo
+      isNoIndex
     >
       <PageHeader
         variant="basic"

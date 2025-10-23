@@ -50,6 +50,7 @@ const BrowseTopicsPage: FunctionComponent<Props> = ({ topics }) => {
       openGraphType="website"
       siteSection="collections"
       hideNewsletterPromo
+      isNoIndex
     >
       <PageHeader
         variant="basic"
