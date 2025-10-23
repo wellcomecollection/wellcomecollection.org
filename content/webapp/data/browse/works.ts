@@ -14,6 +14,10 @@ const generateDummyWork = (
   cardLabels: [{ text: workType }],
   primaryContributorLabel: contributor,
   notes: [],
+  languageId: undefined,
+  thumbnail: undefined,
+  referenceNumber: undefined,
+  archiveLabels: undefined,
 });
 
 // Generate dummy works for different sub-types

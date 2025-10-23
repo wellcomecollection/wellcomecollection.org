@@ -89,7 +89,7 @@ const BrowseTypeCard: FunctionComponent<Props> = ({ type }) => {
         {type.imageUrl ? (
           <Image src={type.imageUrl} alt="" loading="lazy" />
         ) : (
-          <ImagePlaceholder color="neutral.700" />
+          <ImagePlaceholder backgroundColor="accent.purple" />
         )}
       </ImageContainer>
 

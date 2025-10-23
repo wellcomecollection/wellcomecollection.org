@@ -107,7 +107,7 @@ const BrowseTopicCard: FunctionComponent<Props> = ({ topic }) => {
             style={{ objectFit: 'cover' }}
           />
         ) : (
-          <ImagePlaceholder backgroundColor="neutral.700" />
+          <ImagePlaceholder backgroundColor="accent.purple" />
         )}
       </ImageContainer>
 

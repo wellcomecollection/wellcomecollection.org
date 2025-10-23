@@ -17,7 +17,7 @@ const BrowseTypesGrid: FunctionComponent<Props> = ({ types }) => {
   return (
     <Grid>
       {types.map(type => {
-        const sizeMap =
+        const sizeMap: import('@weco/common/views/components/styled/Grid').SizeMap =
           type.size === 'large'
             ? { s: [12], m: [12], l: [12], xl: [12] }
             : type.size === 'medium'
@@ -60,11 +60,16 @@ const BrowseTypesGrid: FunctionComponent<Props> = ({ types }) => {
             ) : type.size === 'medium' ? (
               type.imageUrls ? (
                 <ThemeCard
-                  images={type.imageUrls}
+                  images={[
+                    type.imageUrls[0],
+                    type.imageUrls[1],
+                    type.imageUrls[2],
+                    type.imageUrls[3],
+                  ]}
                   title={type.label}
                   description={type.description}
                   linkProps={{
-                    href: `/collections/types/${type.slug}`,
+                    href: { pathname: `/collections/types/${type.slug}` },
                   }}
                 />
               ) : (
@@ -73,7 +78,7 @@ const BrowseTypesGrid: FunctionComponent<Props> = ({ types }) => {
                   title={type.label}
                   description={type.description}
                   linkProps={{
-                    href: `/collections/types/${type.slug}`,
+                    href: { pathname: `/collections/types/${type.slug}` },
                   }}
                 />
               )
