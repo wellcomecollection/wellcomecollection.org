@@ -11,7 +11,6 @@ export function useScrollTracking() {
       tracked50: false,
       tracked75: false,
       tracked90: false,
-      tracked100: false,
     };
 
     const handleScroll = () => {
@@ -29,7 +28,6 @@ export function useScrollTracking() {
         { value: 50, key: 'tracked50' as const },
         { value: 75, key: 'tracked75' as const },
         { value: 90, key: 'tracked90' as const },
-        { value: 100, key: 'tracked100' as const },
       ];
 
       thresholds.forEach(({ value, key }) => {
@@ -59,7 +57,6 @@ export function useScrollTracking() {
         tracked50: false,
         tracked75: false,
         tracked90: false,
-        tracked100: false,
       };
     };
 
