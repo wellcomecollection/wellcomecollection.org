@@ -21,8 +21,8 @@ export const readingRoomClockImageUrl = `${imagesBaseUrl}/reading-room-clock-320
 
 export const image = (
   contentUrl = readingRoomImageUrl,
-  width = 640,
-  height = 360,
+  width = 472,
+  height = 726,
   extraProps = {}
 ): Picture => ({
   contentUrl,
