@@ -1,6 +1,6 @@
 import { GetServerSideProps, NextPage } from 'next';
 import type { AppProps } from 'next/app';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { ThemeProvider } from 'styled-components';
 
 import { ApmContextProvider } from '@weco/common/contexts/ApmContext';
@@ -17,14 +17,8 @@ import {
   SimplifiedServerData,
 } from '@weco/common/server-data/types';
 import { AppErrorProps } from '@weco/common/services/app';
-import { SegmentScript } from '@weco/common/services/app/analytics-scripts';
-import { getConsentState } from '@weco/common/services/app/civic-uk';
 import useMaintainPageHeight from '@weco/common/services/app/useMaintainPageHeight';
 import usePrismicPreview from '@weco/common/services/app/usePrismicPreview';
-import {
-  Pageview,
-  trackPageview,
-} from '@weco/common/services/conversion/track';
 import { deserialiseProps } from '@weco/common/utils/json';
 import CivicUK from '@weco/common/views/components/CivicUK';
 import GlobalSvgDefinitions from '@weco/common/views/components/GlobalSvgDefinitions';
@@ -53,7 +47,6 @@ const civicUkApiKey = process.env.NEXT_PUBLIC_CIVICUK_API_KEY;
 
 type GlobalProps = {
   serverData: ServerData;
-  pageview?: Pageview;
 } & Partial<AppErrorProps>;
 
 type WecoAppProps = Omit<AppProps, 'pageProps'> & {
@@ -70,11 +63,9 @@ export type ServerSideProps<T = NonNullable<unknown>> = [T] extends [
 ]
   ? {
       serverData: SimplifiedServerData;
-      pageview?: Pageview;
     }
   : NotAny<T> & {
       serverData: SimplifiedServerData;
-      pageview?: Pageview;
     };
 
 export type ServerSidePropsOrAppError<T extends ServerSideProps<unknown>> =
@@ -86,11 +77,6 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
   const isServerDataSet = isServerData(pageProps.serverData);
 
   useScrollTracking();
-
-  // On first load, needs to get current state of consent
-  const [hasAnalyticsConsent, setHasAnalyticsConsent] = useState(
-    pageProps.serverData?.consentStatus?.analytics
-  );
 
   // We allow error pages through as they don't need, and can't set
   // serverData as they don't have data fetching methods.exi
@@ -127,17 +113,10 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
         ad_user_data: event.detail.marketingConsent,
       }),
     });
-
-    // Ensures relevant scripts are updated based on user preferences
-    if (event.detail.analyticsConsent !== undefined) {
-      setHasAnalyticsConsent(event.detail.analyticsConsent === 'granted');
-    }
   };
 
   useEffect(() => {
     document.documentElement.classList.add('enhanced');
-
-    setHasAnalyticsConsent(getConsentState('analytics'));
 
     window.addEventListener('consentChanged', onConsentChanged);
 
@@ -153,20 +132,6 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
       event: 'custom_pageview',
     });
   }, [router.pathname]);
-
-  useEffect(() => {
-    if (pageProps.pageview) {
-      trackPageview({
-        name: pageProps.pageview.name,
-        properties: pageProps.pageview.properties,
-        eventGroup: pageProps.pageview.eventGroup,
-      });
-    }
-  }, [pageProps.pageview, hasAnalyticsConsent]);
-  // pageProps.pageview is updated by getServerSideProps
-  // getServerSideProps is run when the page is requested directly
-  // or when requested client-side through next/link or next/router
-  // i.e. everything that we consider to be a page view
 
   usePrismicPreview(() => Boolean(document.cookie.match('isPreview=true')));
 
@@ -206,8 +171,6 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
                       title={pageProps.err.message}
                     />
                   )}
-
-                  <SegmentScript hasAnalyticsConsent={hasAnalyticsConsent} />
                 </ThemeProvider>
               </SearchContextProvider>
             </AppContextProvider>

@@ -327,10 +327,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       sectionsData,
       apiToolbarLinks,
       serverData,
-      pageview: {
-        name: 'concept',
-        properties: {},
-      },
     }),
   };
 };

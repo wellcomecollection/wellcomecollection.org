@@ -13,9 +13,7 @@ const meta: Meta<typeof DownloadLink> = {
   },
   argTypes: {
     href: { table: { disable: true } },
-    trackingTags: { table: { disable: true } },
     isTabbable: { table: { disable: true } },
-    width: { table: { disable: true } },
     mimeType: { table: { disable: true } },
     linkText: {
       name: 'Text',
@@ -37,9 +35,6 @@ export default meta;
 type Story = StoryObj<typeof DownloadLink>;
 
 export const Basic: Story = {
-  args: {
-    width: 30,
-  },
   name: 'DownloadLink',
   render: args => {
     return (

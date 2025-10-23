@@ -50,12 +50,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       props: serialiseProps<Props>({
         ...defaultProps,
         storyResponseList: emptyResultList(),
-        pageview: {
-          name: 'stories',
-          properties: {
-            looksLikeSpam: 'true',
-          },
-        },
         apiToolbarLinks: [],
       }),
     };
@@ -86,12 +80,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     props: serialiseProps<Props>({
       ...defaultProps,
       storyResponseList,
-      pageview: {
-        name: 'stories',
-        properties: {
-          totalResults: storyResponseList?.totalResults ?? 0,
-        },
-      },
       apiToolbarLinks: [
         {
           id: 'content-api',

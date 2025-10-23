@@ -49,12 +49,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     return {
       props: serialiseProps<Props>({
         ...defaultProps,
-        pageview: {
-          name: 'images',
-          properties: {
-            looksLikeSpam: 'true',
-          },
-        },
         images: emptyResultList(),
         apiToolbarLinks: [],
       }),
@@ -98,10 +92,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     props: serialiseProps<Props>({
       ...defaultProps,
       images,
-      pageview: {
-        name: 'images',
-        properties: { totalResults: images.totalResults },
-      },
       apiToolbarLinks: [
         {
           id: 'catalogue-api',

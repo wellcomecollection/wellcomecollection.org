@@ -98,7 +98,6 @@ const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
             selectedTab={selectedTab}
             items={tabs}
             setSelectedTab={tab => setSelectedTab(tab as ThemeTabType)}
-            trackWithSegment
             hideBorder
           />
         )}

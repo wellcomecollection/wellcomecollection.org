@@ -91,10 +91,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         exhibitionHighlightTours,
         jsonLd,
         serverData,
-        pageview: {
-          name: 'exhibition',
-          properties: {},
-        },
       }),
     };
   }

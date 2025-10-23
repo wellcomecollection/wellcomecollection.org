@@ -138,10 +138,6 @@ export const returnVisualStoryProps = ({
         visualStories,
         serverData,
         jsonLd,
-        pageview: {
-          name: 'visual-story',
-          properties: {},
-        },
       }),
     };
   }

@@ -58,12 +58,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       props: serialiseProps<Props>({
         ...defaultProps,
         eventResponseList: emptyResultList(),
-        pageview: {
-          name: 'events',
-          properties: {
-            looksLikeSpam: 'true',
-          },
-        },
         apiToolbarLinks: [],
       }),
     };
@@ -107,12 +101,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     props: serialiseProps<Props>({
       ...defaultProps,
       eventResponseList,
-      pageview: {
-        name: 'events',
-        properties: {
-          totalResults: eventResponseList?.totalResults ?? 0,
-        },
-      },
       apiToolbarLinks: [
         {
           id: 'content-api',

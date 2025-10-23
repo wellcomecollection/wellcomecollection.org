@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package.json yarn.lock ./
 COPY common ./common
 COPY toggles/webapp ./toggles/webapp
-COPY config/tsconfig-base.json ./config/
+COPY config/ ./config/
 
 WORKDIR content/webapp
 COPY content/webapp/package.json ./

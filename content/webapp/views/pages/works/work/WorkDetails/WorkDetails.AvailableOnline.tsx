@@ -465,7 +465,6 @@ const WorkDetailsAvailableOnline = ({
                           linkText={label || 'Download'}
                           format={getFormatString(rendering.format)}
                           mimeType={rendering.format || ''}
-                          trackingTags={['annotation']}
                         />
                       </Space>
                     );

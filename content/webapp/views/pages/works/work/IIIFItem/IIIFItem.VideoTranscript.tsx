@@ -33,7 +33,6 @@ const VideoTranscript: FunctionComponent<Props> = ({
                 linkText="Transcript of video"
                 format={getFormatString(displayItem.format)}
                 mimeType={displayItem.format || ''}
-                trackingTags={['annotation']}
                 isDark={isDark}
               />
             </Space>

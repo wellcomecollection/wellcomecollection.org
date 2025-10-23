@@ -2,7 +2,6 @@ import { FunctionComponent, ReactNode } from 'react';
 import styled from 'styled-components';
 
 import { download } from '@weco/common/icons';
-import { trackSegmentEvent } from '@weco/common/services/conversion/track';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
@@ -71,9 +70,7 @@ type Props = {
   isTabbable?: boolean;
   href: string;
   format?: string;
-  width?: 'full' | number;
   mimeType: string;
-  trackingTags?: string[];
   isDark?: boolean;
 } & DisplayText;
 const DownloadLink: FunctionComponent<Props> = ({
@@ -81,9 +78,7 @@ const DownloadLink: FunctionComponent<Props> = ({
   href,
   linkText,
   format,
-  width,
   mimeType,
-  trackingTags = [],
   children,
   isDark,
 }: Props) => {
@@ -99,12 +94,6 @@ const DownloadLink: FunctionComponent<Props> = ({
       data-component="download-link"
       data-gtm-trigger="download_link"
       data-gtm-mime-type={mimeType}
-      onClick={() => {
-        trackSegmentEvent({
-          name: 'download',
-          properties: { width, mimeType, tags: trackingTags },
-        });
-      }}
     >
       <span
         style={

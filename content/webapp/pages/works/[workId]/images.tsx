@@ -126,10 +126,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
           link: `https://main.d33vyuqnhij7au.amplifyapp.com/?workId=${work.id}`,
         },
       ].filter(isNotUndefined),
-      pageview: {
-        name: 'image',
-        properties: {},
-      },
       serverData,
     }),
   };

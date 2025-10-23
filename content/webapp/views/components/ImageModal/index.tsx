@@ -8,7 +8,6 @@ import {
 } from 'react';
 
 import { eye } from '@weco/common/icons';
-import { trackSegmentEvent } from '@weco/common/services/conversion/track';
 import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
 import Button from '@weco/common/views/components/Buttons';
 import Modal from '@weco/common/views/components/Modal';
@@ -69,39 +68,6 @@ const ImageModal: FunctionComponent<Props> = ({
   );
 
   const workId = expandedImage?.source.id;
-
-  useEffect(() => {
-    // We want this fired only if there is a workId (not on initial load),
-    // but not everytime it changes, so excluding it from dependency array
-    if (workId) {
-      // Send reporting events
-      if (!isActive) {
-        trackSegmentEvent({
-          name: 'Close image modal',
-          eventGroup: 'similarity',
-          properties: {
-            imageId: undefined, // Isn't active so image is undefined
-          },
-        });
-      } else {
-        trackSegmentEvent({
-          name: 'Open image modal',
-          eventGroup: 'similarity',
-          properties: {
-            imageId: expandedImage?.id,
-          },
-        });
-
-        trackSegmentEvent({
-          name: 'Open image modal',
-          eventGroup: 'conversion',
-          properties: {
-            imageId: expandedImage?.id,
-          },
-        });
-      }
-    }
-  }, [isActive]);
 
   useEffect(() => {
     if (workId && workId !== currentImageId) {

@@ -54,7 +54,6 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
                 selectedTab={activeId || monthsWithEvents[0].id}
                 items={monthsWithEvents}
                 setSelectedTab={setActiveId}
-                trackWithSegment
               />
             </GridCell>
           </Grid>

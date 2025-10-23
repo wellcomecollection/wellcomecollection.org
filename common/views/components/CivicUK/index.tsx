@@ -128,9 +128,6 @@ const CivicUK = ({ apiKey }: { apiKey: string }) => (
                     name: 'Google Analytics', optOutLink: 'http://tools.google.com/dlpage/gaoptout'
                   },
                   {
-                    name: 'Twilio Segment', optOutLink: 'https://www.twilio.com/en-us/legal/privacy'
-                  },
-                  {
                     name: 'Hotjar', optOutLink: 'https://help.hotjar.com/hc/en-us/articles/360002735873-How-to-Stop-Hotjar-From-Collecting-your-Data'
                   },
                   {

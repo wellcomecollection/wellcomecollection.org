@@ -2,7 +2,6 @@ import { FunctionComponent, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { ServerDataContext } from '@weco/common/server-data/Context';
-import { trackSegmentEvent } from '@weco/common/services/conversion/track';
 import { font } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
 import { plainListStyles } from '@weco/common/views/components/styled/PlainList';
@@ -107,16 +106,6 @@ const VisuallySimilarImages: FunctionComponent<Props> = ({
                   },
                 });
                 onClickImage(related);
-
-                trackSegmentEvent({
-                  name: 'Click visually similar image',
-                  eventGroup: 'similarity',
-                  properties: {
-                    sourceImageId: originalId,
-                    imageId: related?.id,
-                    siblingImageIds: similarImages.map(s => s.id),
-                  },
-                });
               }}
             >
               <IIIFImage

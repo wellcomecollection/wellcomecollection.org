@@ -46,10 +46,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         article,
         jsonLd,
         serverData,
-        pageview: {
-          name: 'story',
-          properties: { type: articleDocument.type },
-        },
       }),
     };
   }

@@ -13,8 +13,8 @@ import InPageNavigation from '@weco/content/views/components/InPageNavigation';
 
 type BackgroundGridProps = {
   $percent?: number;
-  $topColor?: string;
-  $bottomColor?: string;
+  $topColor?: PaletteColor;
+  $bottomColor?: PaletteColor;
 };
 
 const NavGridCell = styled(GridCell)`
@@ -33,9 +33,9 @@ const BackgroundGrid = styled(Grid)<BackgroundGridProps>`
     5deg,
     ${props => props.$bottomColor ?? 'white'} 0%,
     ${props => props.$bottomColor ?? 'white'} ${props => props.$percent ?? 40}%,
-    ${props => props.theme.color(props.$topColor) ?? 'black'}
+    ${props => props.theme.color(props.$topColor ?? 'black')}
       ${props => props.$percent ?? 40}%,
-    ${props => props.theme.color(props.$topColor) ?? 'black'} 100%
+    ${props => props.theme.color(props.$topColor ?? 'black')} 100%
   );
 `;
 
@@ -43,7 +43,7 @@ const GreySpace = styled(Space).attrs({
   $v: { size: 'l', properties: ['height'] },
 })<{ $topColor?: PaletteColor }>`
   background-color: ${props =>
-    props.theme.color(props.$topColor ?? 'neutral.700')};
+    props.theme.color(props.$topColor || 'neutral.700')};
 `;
 
 const InPageNavigationInColsContext: FunctionComponent<{

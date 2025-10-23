@@ -9,7 +9,6 @@ import {
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { IconSvg } from '@weco/common/icons';
-import { trackSegmentEvent } from '@weco/common/services/conversion/track';
 import { toSnakeCase } from '@weco/common/utils/grammar';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import Icon from '@weco/common/views/components/Icon';
@@ -23,23 +22,6 @@ import {
   TabButton,
   TabsContainer,
 } from './Tabs.styles';
-
-type SendEventProps = {
-  id: string;
-  trackWithSegment: boolean;
-};
-
-function sendSegmentEvent({ id, trackWithSegment }: SendEventProps) {
-  if (trackWithSegment) {
-    trackSegmentEvent({
-      name: 'Click tab nav',
-      eventGroup: 'conversion',
-      properties: {
-        tabId: id,
-      },
-    });
-  }
-}
 
 type SwitchSelectableTextLink = {
   id: string;
@@ -58,7 +40,6 @@ export type Props = {
   selectedTab: string;
   setSelectedTab: Dispatch<SetStateAction<string>>;
   isWhite?: boolean;
-  trackWithSegment?: boolean;
 };
 
 const TabsSwitch: FunctionComponent<Props> = ({
@@ -68,7 +49,6 @@ const TabsSwitch: FunctionComponent<Props> = ({
   selectedTab,
   setSelectedTab,
   isWhite,
-  trackWithSegment = false,
 }: Props) => {
   const { isEnhanced } = useAppContext();
   const tabListRef = useRef<HTMLDivElement>(null);
@@ -102,25 +82,21 @@ const TabsSwitch: FunctionComponent<Props> = ({
     if (LEFT.includes(key)) {
       setSelectedTab(items[prevIndex].id);
       focusTabAtIndex(prevIndex);
-      sendSegmentEvent({ id: items[prevIndex].id, trackWithSegment });
     }
 
     if (RIGHT.includes(key)) {
       setSelectedTab(items[nextIndex].id);
       focusTabAtIndex(nextIndex);
-      sendSegmentEvent({ id: items[nextIndex].id, trackWithSegment });
     }
 
     if (HOME.includes(key)) {
       setSelectedTab(items[0].id);
       focusTabAtIndex(0);
-      sendSegmentEvent({ id: items[0].id, trackWithSegment });
     }
 
     if (END.includes(key)) {
       setSelectedTab(items[items.length - 1].id);
       focusTabAtIndex(items.length - 1);
-      sendSegmentEvent({ id: items[items.length - 1].id, trackWithSegment });
     }
   };
 
@@ -147,8 +123,6 @@ const TabsSwitch: FunctionComponent<Props> = ({
                 });
 
                 setSelectedTab(item.id);
-
-                sendSegmentEvent({ id: item.id, trackWithSegment });
               }
             }}
             onKeyDown={handleKeyDown}

@@ -79,10 +79,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         accessResourceLinks: visualStoriesLinks,
         jsonLd,
         serverData,
-        pageview: {
-          name: 'event',
-          properties: {},
-        },
       }),
     };
   }
