@@ -3,28 +3,30 @@ import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import { ContentApiLinkedWork } from '@weco/content/services/wellcome/content/types/api';
 
 export function transformCardData(work: WorkBasic | ContentApiLinkedWork) {
-  const isCatalogueWork = 'notes' in work;
+  // Type guard - check for catalogue-specific fields
+  const isCatalogueWork =
+    'productionDates' in work || 'cardLabels' in work || 'thumbnail' in work;
 
   const thumbnailUrl = isCatalogueWork
-    ? work.thumbnail?.url
-    : work.thumbnailUrl;
+    ? (work as WorkBasic).thumbnail?.url
+    : (work as ContentApiLinkedWork).thumbnailUrl;
 
   const date = isCatalogueWork
-    ? work.productionDates.length > 0
-      ? work.productionDates[0]
+    ? (work as WorkBasic).productionDates.length > 0
+      ? (work as WorkBasic).productionDates[0]
       : undefined
-    : work.date;
+    : (work as ContentApiLinkedWork).date;
 
   const mainContributor = isCatalogueWork
-    ? work.primaryContributorLabel
-    : work.mainContributor;
+    ? (work as WorkBasic).primaryContributorLabel
+    : (work as ContentApiLinkedWork).mainContributor;
 
   const labels = isCatalogueWork
-    ? work.cardLabels
-    : work.workType
+    ? (work as WorkBasic).cardLabels
+    : (work as ContentApiLinkedWork).workType
       ? ([
           {
-            text: work.workType,
+            text: (work as ContentApiLinkedWork).workType,
             labelColor: 'warmNeutral.300',
           },
         ] as Label[])

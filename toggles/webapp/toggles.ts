@@ -121,6 +121,14 @@ const toggles = {
       description: `Displays the new Collections landing page as it's being built.`,
       type: 'experimental',
     },
+    {
+      id: 'browseCollections',
+      title: 'Browse collections by type and topic',
+      initialValue: false,
+      description:
+        'Enables the new browse collections pages at /collections/types and /collections/topics',
+      type: 'experimental',
+    },
   ] as const,
   // We have to include a reference to any test toggles here as well as in the cache dir
   // because they are deployed separately and consequently can't share a source of truth
