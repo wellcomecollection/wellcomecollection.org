@@ -513,7 +513,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
       and_statement {
         statement {
           geo_match_statement {
-            country_codes = ["CN", "SG"]
+            country_codes = ["CN", "SG", "TW"]
           }
         }
         statement {
