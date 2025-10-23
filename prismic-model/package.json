@@ -16,7 +16,7 @@
     "@aws-sdk/client-s3": "^3.899.0",
     "@aws-sdk/client-secrets-manager": "^3.899.0",
     "@aws-sdk/client-sts": "^3.899.0",
-    "@types/node": "^22.13.10",
+    "@types/node": "^24.8.0",
     "@types/yargs": "^17.0.5",
     "@weco/common": "1.0.0",
     "@weco/ts-aws": "^1.0.1",
