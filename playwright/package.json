@@ -18,7 +18,7 @@
     "commander": "^9.3.0",
     "log-update": "4",
     "p-limit": "3.1.0",
-    "playwright": "^1.46.0",
+    "playwright": "^1.55.1",
     "tsx": "^4.19.1",
     "typescript": "^5.8.3"
   }
