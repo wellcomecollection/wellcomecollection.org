@@ -2,7 +2,6 @@ import { NextPage } from 'next';
 
 import { getServerData } from '@weco/common/server-data';
 import { appError } from '@weco/common/services/app';
-import { Pageview } from '@weco/common/services/conversion/track';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
@@ -29,15 +28,9 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const serverData = await getServerData(context);
   const query = context.query;
 
-  const pageview: Pageview = {
-    name: 'search',
-    properties: {},
-  };
-
   const defaultProps = {
     serverData,
     query,
-    pageview,
   };
 
   // If the request looks like spam, return a 400 error and skip actually fetching
@@ -51,15 +44,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   if (looksLikeSpam(query.query)) {
     context.res.statusCode = 400;
     return {
-      props: serialiseProps<Props>({
-        ...defaultProps,
-        pageview: {
-          name: 'search',
-          properties: {
-            looksLikeSpam: 'true',
-          },
-        },
-      }),
+      props: serialiseProps<Props>(defaultProps),
     };
   }
 

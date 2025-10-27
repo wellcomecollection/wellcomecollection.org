@@ -77,18 +77,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       transformedManifest,
       apiUrl: url,
       serverData,
-      pageview: {
-        name: 'work',
-        // we shouldn't overload this
-        // these metrics allow us to report back on breadth of collection accessed
-        properties: {
-          workType: workResponse.workType?.id,
-          identifiers: workResponse.identifiers.map(id => id.value),
-          identifierTypes: workResponse.identifiers.map(
-            id => id.identifierType.id
-          ),
-        },
-      },
     }),
   };
 };
