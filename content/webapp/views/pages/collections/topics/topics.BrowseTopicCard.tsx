@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
@@ -7,9 +6,8 @@ import { font } from '@weco/common/utils/classnames';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import Space from '@weco/common/views/components/styled/Space';
 import { topicDescriptions } from '@weco/content/data/browse/topics';
+import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import ImagePlaceholder from '@weco/content/views/components/ImagePlaceholder';
-
-import { Concept } from '../../../../services/wellcome/catalogue/types';
 
 const CardLink = styled(Link)`
   display: flex;
@@ -38,6 +36,16 @@ const ImageContainer = styled.div`
   width: 100%;
   aspect-ratio: 16 / 9;
   background-color: ${props => props.theme.color('neutral.700')};
+`;
+
+const Image = styled.img`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 `;
 
 const ContentWrapper = styled(Space).attrs({
@@ -103,8 +111,7 @@ const BrowseTopicCard: FunctionComponent<Props> = ({ topic }) => {
           <Image
             src={imageSrc}
             alt={(topic as any).image?.alternativeText || topic.label}
-            fill
-            style={{ objectFit: 'cover' }}
+            loading="lazy"
           />
         ) : (
           <ImagePlaceholder backgroundColor="accent.purple" />
@@ -118,5 +125,5 @@ const BrowseTopicCard: FunctionComponent<Props> = ({ topic }) => {
     </CardLink>
   );
 };
-// do it here
+
 export default BrowseTopicCard;
