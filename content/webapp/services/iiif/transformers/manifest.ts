@@ -1,4 +1,4 @@
-import { Collection, Manifest } from '@iiif/presentation-3';
+import { AuthAccessService2, Collection, Manifest } from '@iiif/presentation-3';
 
 import { TransformedManifest } from '@weco/content/types/manifest';
 import {
@@ -61,7 +61,9 @@ export function transformManifest(
     getExternalAuthAccessService(authAccessServices); // equivalent of restrictedService
   const activeAccessService = getActiveAuthAccessService(authAccessServices); // equivalent of clickThroughService
   const v2TokenService = getV2TokenService(
-    externalAccessService || externalAccessService
+    (activeAccessService || externalAccessService) as
+      | AuthAccessService2
+      | undefined
   ); // equivalent of tokenService
 
   // We should default to using the v2 services (TODO work in progress).
