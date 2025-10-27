@@ -46,8 +46,14 @@ module.exports = createConfig({
       {
         protocol: 'https',
         hostname: 'iiif.wellcomecollection.org',
-        port: '',
-        pathname: '/image/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.prismic.io',
+      },
+      {
+        protocol: 'https',
+        hostname: 'wellcomecollection.cdn.prismic.io',
       },
     ],
   },
