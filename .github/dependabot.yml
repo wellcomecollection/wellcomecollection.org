@@ -24,7 +24,6 @@ updates:
       - dependency-name: 'openseadragon'
       - dependency-name: '@prismicio/*'
       - dependency-name: 'node-fetch'
-      - dependency-name: '@types/node'
       - dependency-name: '@auth0/nextjs-auth0'
       - dependency-name: 'react-window'
       # Needs Node >= 20.15, update when we get there.
