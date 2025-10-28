@@ -34,13 +34,13 @@ echo "Building Lambda package..."
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Use the shared build script that Terraform uses
-"$SCRIPT_DIR/build-lambda.sh" "$LAMBDA_CODE_FILE"
+"$SCRIPT_DIR/build-lambda.sh" "$SCRIPT_DIR/$LAMBDA_CODE_FILE"
 
 # Deploy Lambda
 echo "Updating Lambda function code..."
 AWS_PROFILE=experience-developer aws lambda update-function-code \
     --function-name "$LAMBDA_NAME" \
-    --zip-file "fileb://$LAMBDA_CODE_FILE"
+    --zip-file "fileb://$SCRIPT_DIR/$LAMBDA_CODE_FILE"
 
 echo "Waiting for update to complete..."
 AWS_PROFILE=experience-developer aws lambda wait function-updated --function-name "$LAMBDA_NAME"
@@ -57,7 +57,7 @@ echo "Last Modified: $LAST_MODIFIED"
 echo "Code Size: $(numfmt --to=iec --suffix=B $CODE_SIZE)"
 
 # Cleanup
-rm -f "$LAMBDA_CODE_FILE"
+rm -f "$SCRIPT_DIR/$LAMBDA_CODE_FILE"
 
 echo ""
 echo "Test the deployment:"

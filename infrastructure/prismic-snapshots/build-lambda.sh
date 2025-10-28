@@ -36,6 +36,7 @@ cd "$TEMP_DIR"
 npm install --production --silent
 
 # Create deployment package
-zip -r "$OUTPUT_FILE" . > /dev/null
+cd "$TEMP_DIR"
+zip -r "$SCRIPT_DIR/$OUTPUT_FILE" . > /dev/null
 
 echo "Lambda package created: $OUTPUT_FILE"
