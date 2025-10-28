@@ -37,3 +37,6 @@ Some tests require you to run both `content` & `identity` apps at the same time,
 ```console
 $ ./scripts/run-concurrently.sh
 ```
+
+> [!IMPORTANT]
+> Remember to update the [Dockerfile](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/playwright/Dockerfile#L1) to use the appropriate image when updating Playwright in package.json
