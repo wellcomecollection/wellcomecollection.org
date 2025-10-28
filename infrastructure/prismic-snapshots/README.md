@@ -2,6 +2,10 @@
 
 This directory contains Terraform infrastructure for daily Prismic content snapshots.
 
+## Purpose
+
+Maintains 14 days of rolling snapshots for all Prismic document content. Snapshots are generated at 11 PM UTC.
+
 ## File Structure
 
 ```
@@ -11,13 +15,9 @@ infrastructure/prismic-snapshots/
 ├── outputs.tf               # Terraform outputs
 ├── README.md                # This file
 ├── lambda/
-│   └── prismic_snapshot.js   # Lambda function code
+│   └── prismic_snapshot.js   # Lambda function code for creating snapshots
 └── prismic_snapshot_lambda.zip # Generated zip file
 ```
-
-## Purpose
-
-Maintains 14 days of rolling snapshots for all Prismic document content. Snapshots are generated at 11 PM UTC.
 
 ## Architecture
 
