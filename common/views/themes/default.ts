@@ -13,7 +13,13 @@ import { layout } from './base/layout';
 import { normalize } from './base/normalize';
 import { row } from './base/row';
 import { wellcomeNormalize } from './base/wellcome-normalize';
-import { Size, spacingUnits, themeValues } from './config';
+import {
+  createThemeValues,
+  generateColorCustomProperties,
+  Size,
+  spacingUnits,
+  themeValues,
+} from './config';
 import {
   makeFontSizeClasses,
   makeFontSizeOverrideClasses,
@@ -120,6 +126,9 @@ export type GlobalStyleProps = {
 };
 
 const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
+  :root {
+    ${generateColorCustomProperties()}
+  }
   ${css`
     .${cls.displayBlock} {
       display: block;
@@ -155,6 +164,18 @@ const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
   ${makeFontSizeOverrideClasses()}
   ${typography}
 `;
+
+// Factory function to create theme with toggles
+export const createTheme = (toggles?: Toggles) => {
+  const useCustomProperties = toggles?.colorCustomProperties?.value ?? false;
+  const themeWithToggles = createThemeValues(useCustomProperties);
+
+  return {
+    ...themeWithToggles,
+    makeSpacePropertyValues,
+    pageGridOffset,
+  };
+};
 
 export default theme;
 export { GlobalStyle, cls };
