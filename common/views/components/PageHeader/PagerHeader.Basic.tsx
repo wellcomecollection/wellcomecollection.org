@@ -39,10 +39,10 @@ const Heading = styled(Space)`
   box-decoration-break: clone;
 `;
 
-const HighlightedHeading: FunctionComponent<{ text: string | ReactNode }> = ({
+const HighlightedHeading: FunctionComponent<{ text: string }> = ({
   text,
 }: {
-  text: string | ReactNode;
+  text: string;
 }) => {
   return (
     <h1 className={font('wb', 2)}>
@@ -60,7 +60,7 @@ const HighlightedHeading: FunctionComponent<{ text: string | ReactNode }> = ({
 };
 
 export type Props = {
-  title: string | ReactNode;
+  title: string;
   breadcrumbs?: ComponentProps<typeof Breadcrumb>;
   amendedLabels?: ComponentProps<typeof LabelsList>;
   ContentTypeInfo?: ReactNode;

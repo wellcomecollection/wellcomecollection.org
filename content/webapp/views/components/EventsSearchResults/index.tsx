@@ -28,8 +28,8 @@ import {
   CardPostBody,
   CardTitle,
 } from '@weco/content/views/components/Card';
-import { getLocationText } from '@weco/content/views/components/EventCard';
 import EventDateRange from '@weco/content/views/components/EventDateRange';
+import { getLocationText } from '@weco/content/views/components/EventCard';
 import TextWithDot from '@weco/content/views/components/TextWithDot';
 import WatchLabel from '@weco/content/views/components/WatchLabel';
 

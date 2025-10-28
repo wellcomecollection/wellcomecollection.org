@@ -34,6 +34,7 @@ export async function catalogueQuery<Params, Result extends ResultType>(
   const searchParams = new URLSearchParams(
     propsToQuery(extendedParams)
   ).toString();
+
   const url = `${rootUris[apiOptions.env.catalogue]}/catalogue/v2/${endpoint}?${searchParams}`;
 
   return wellcomeApiQuery(url) as unknown as
