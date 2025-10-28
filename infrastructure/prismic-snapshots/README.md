@@ -69,7 +69,8 @@ Adjust in `main.tf` if needed based on Prismic content size.
 
 1. **AWS CLI configured** with appropriate permissions
 2. **Terraform installed** (>= 0.12)
-3. **Prismic access token** stored in AWS Secrets Manager
+3. **Node.js and npm installed** (for building Lambda package)
+4. **Prismic access token** stored in AWS Secrets Manager
 
 N.B. The Prismic access token is already stored in AWS Secrets Manager as `prismic-model/prod/access-token` and is used by other services. You can verify it exists:
 

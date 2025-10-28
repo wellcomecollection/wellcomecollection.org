@@ -136,15 +136,32 @@ resource "aws_lambda_function" "prismic_snapshot" {
   }
 }
 
-# Create a zip file for the Lambda function
+# Create a zip file for the Lambda function with dependencies
+resource "null_resource" "lambda_build" {
+  triggers = {
+    # Rebuild when the Lambda code changes
+    lambda_code = filemd5("${path.module}/lambda/prismic_snapshot.js")
+    # Rebuild when the build script changes
+    build_script = filemd5("${path.module}/build-lambda.sh")
+  }
+
+  provisioner "local-exec" {
+    command = "${path.module}/build-lambda.sh ${path.module}/prismic_snapshot_lambda.zip"
+  }
+}
+
 data "archive_file" "prismic_snapshot_lambda_zip" {
   type        = "zip"
   output_path = "${path.module}/prismic_snapshot_lambda.zip"
-
+  
+  # This creates a minimal zip if the build script hasn't run yet
   source {
-    content  = file("${path.module}/lambda/prismic_snapshot.js")
+    content  = "// Placeholder - will be replaced by build script"
     filename = "index.js"
   }
+
+  # Depend on the build to ensure it runs first
+  depends_on = [null_resource.lambda_build]
 }
 
 # EventBridge Scheduler for daily execution at 11 PM UTC
