@@ -18,13 +18,13 @@ fi
 # Check if Prismic secret exists
 echo "Checking for Prismic access token in Secrets Manager..."
 if ! AWS_PROFILE=experience-developer aws secretsmanager describe-secret --secret-id "prismic-model/prod/access-token" > /dev/null 2>&1; then
-    echo "   Prismic access token not found in Secrets Manager."
-    echo "   This secret should already exist (used by other services)."
-    echo "   If it's missing, please create it:"
-    echo "   aws secretsmanager create-secret \\"
-    echo "     --name \"prismic-model/prod/access-token\" \\"
-    echo "     --description \"Access token for Prismic API\" \\"
-    echo "     --secret-string \"your-prismic-access-token-here\""
+    echo "Prismic access token not found in Secrets Manager."
+    echo "This secret should already exist (used by other services)."
+    echo "If it's missing, please create it:"
+    echo "aws secretsmanager create-secret \\"
+    echo "--name \"prismic-model/prod/access-token\" \\"
+    echo "--description \"Access token for Prismic API\" \\"
+    echo "--secret-string \"your-prismic-access-token-here\""
     exit 1
 fi
 
@@ -32,21 +32,21 @@ echo "Prismic access token found (shared with other services)"
 
 # Initialize Terraform if needed
 if [ ! -f ".terraform/terraform.tfstate" ]; then
-    echo "🔧 Initializing Terraform..."
+    echo "Initializing Terraform..."
     terraform init
 fi
 
 # Plan the deployment
-echo "📋 Planning deployment..."
+echo "Planning deployment..."
 terraform plan -out=tfplan
 
 # Ask for confirmation
 echo ""
-read -p "🤔 Deploy the above infrastructure? (y/N) " -n 1 -r
+read -p "Deploy the above infrastructure? (y/N) " -n 1 -r
 echo ""
 
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-    echo "🚀 Deploying infrastructure..."
+    echo "Deploying infrastructure..."
     terraform apply tfplan
 
     echo ""
@@ -57,10 +57,10 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 
     echo ""
     echo "Test the deployment:"
-    echo "   AWS_PROFILE=experience-developer aws lambda invoke --function-name prismic-snapshot --payload '{}' response.json"
+    echo "AWS_PROFILE=experience-developer aws lambda invoke --function-name prismic-snapshot --payload '{}' response.json"
     echo ""
-    echo "📁 View snapshots:"
-    echo "   AWS_PROFILE=experience-developer aws s3 ls s3://wellcomecollection-prismic-snapshots/"
+    echo "View snapshots:"
+    echo "AWS_PROFILE=experience-developer aws s3 ls s3://wellcomecollection-prismic-snapshots/"
 
 else
     echo "Deployment cancelled"
