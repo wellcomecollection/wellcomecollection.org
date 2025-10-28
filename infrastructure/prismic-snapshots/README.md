@@ -14,9 +14,12 @@ infrastructure/prismic-snapshots/
 ├── main.tf                   # Main infrastructure
 ├── outputs.tf               # Terraform outputs
 ├── README.md                # This file
+├── build-lambda.sh          # Script to build Lambda package with dependencies
+├── deploy.sh                # Full infrastructure deployment
+├── deploy-code.sh           # Code-only deployment script
 ├── lambda/
-│   └── prismic_snapshot.js   # Lambda function code for creating snapshots
-└── prismic_snapshot_lambda.zip # Generated zip file
+│   └── prismic_snapshot.js   # Lambda function code
+└── prismic_snapshot_lambda.zip # Generated deployment package
 ```
 
 ## Architecture
