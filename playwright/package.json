@@ -10,15 +10,15 @@
     "url-checker": "tsx url-checker/cli.ts"
   },
   "dependencies": {
-    "@playwright/test": "^1.46.0",
-    "@tsconfig/node20": "^20.1.4",
+    "@playwright/test": "^1.56.1",
+    "@tsconfig/node22": "^22.0.0",
     "@types/node": "^22.2.0",
     "chalk": "^4.1.2",
     "cli-table3": "^0.6.5",
     "commander": "^9.3.0",
     "log-update": "4",
     "p-limit": "3.1.0",
-    "playwright": "^1.46.0",
+    "playwright": "^1.56.1",
     "tsx": "^4.19.1",
     "typescript": "^5.8.3"
   }
