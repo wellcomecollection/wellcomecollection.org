@@ -46,42 +46,45 @@ describe('fetchExhibitions', () => {
           // e.g. Being Human ends in 2090
           return a.end > b.end ? 1 : -1;
         })
-        .slice(0, 6); // Slicing so we don't have to keep adding new exhibitions.
+        .slice(0, 6) // Slicing so we don't have to keep adding new exhibitions.
+        .sort((a, b) => (a.id > b.id ? 1 : -1)); // Sort by ID for stable comparison
 
       // Of these exhibitions, three closed on 23 April 2023:
       // Objects in Stereo, The Archive of an Unseen, and the Healing Pavilion
-      expect(closingDayExhibitions).toStrictEqual([
-        {
-          id: 'Yzv9ChEAABfUrkVp',
-          title: 'The Healing Pavilion',
-          end: '2023-04-22T23:00:00+0000',
-        },
-        {
-          id: 'Y0QhIxEAAA__0sMb',
-          title: 'Objects in Stereo',
-          end: '2023-04-22T23:00:00+0000',
-        },
-        {
-          id: 'Y3zI8hAAAGXXcMua',
-          title: 'The Archive of an Unseen',
-          end: '2023-04-22T23:00:00+0000',
-        },
-        {
-          id: 'Y8VNbhEAAPJM-oki',
-          title: 'Milk',
-          end: '2023-09-09T23:00:00+0000',
-        },
-        {
-          id: 'ZAW0PxQAACcG-pX8',
-          title: 'Genetic Automata',
-          end: '2024-02-11T00:00:00+0000',
-        },
-        {
-          id: 'ZJ1zCxAAACMAczPA',
-          title: 'The Cult of Beauty',
-          end: '2024-04-27T23:00:00+0000',
-        },
-      ]);
+      expect(closingDayExhibitions).toStrictEqual(
+        [
+          {
+            id: 'Yzv9ChEAABfUrkVp',
+            title: 'The Healing Pavilion',
+            end: '2023-04-22T23:00:00+0000',
+          },
+          {
+            id: 'Y0QhIxEAAA__0sMb',
+            title: 'Objects in Stereo',
+            end: '2023-04-22T23:00:00+0000',
+          },
+          {
+            id: 'Y3zI8hAAAGXXcMua',
+            title: 'The Archive of an Unseen',
+            end: '2023-04-22T23:00:00+0000',
+          },
+          {
+            id: 'Y8VNbhEAAPJM-oki',
+            title: 'Milk',
+            end: '2023-09-09T23:00:00+0000',
+          },
+          {
+            id: 'ZAW0PxQAACcG-pX8',
+            title: 'Genetic Automata',
+            end: '2024-02-11T00:00:00+0000',
+          },
+          {
+            id: 'ZJ1zCxAAACMAczPA',
+            title: 'The Cult of Beauty',
+            end: '2024-04-27T23:00:00+0000',
+          },
+        ].sort((a, b) => (a.id > b.id ? 1 : -1))
+      );
 
       mockToday({ as: new Date('2023-04-24T12:00:00Z') });
 
