@@ -7,7 +7,6 @@ import {
 } from '@weco/common/model/catalogue';
 import { getServerData } from '@weco/common/server-data';
 import { appError } from '@weco/common/services/app';
-import { Pageview } from '@weco/common/services/conversion/track';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
@@ -69,11 +68,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   if (!looksLikeCanonicalId(context.query.workId)) {
     return { notFound: true };
   }
-
-  const pageview: Pageview = {
-    name: 'item',
-    properties: {},
-  };
 
   const work = await getWork({
     id: context.query.workId,
@@ -182,7 +176,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         iiifImageLocation,
         iiifPresentationLocation,
         apiToolbarLinks,
-        pageview,
         serverData,
         serverSearchResults,
         work: {
@@ -221,7 +214,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         iiifImageLocation,
         iiifPresentationLocation,
         apiToolbarLinks,
-        pageview,
         serverData,
         serverSearchResults: null,
       }),

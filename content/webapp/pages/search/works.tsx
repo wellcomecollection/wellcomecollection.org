@@ -51,12 +51,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       props: serialiseProps<Props>({
         ...defaultProps,
         works: emptyResultList(),
-        pageview: {
-          name: 'works',
-          properties: {
-            looksLikeSpam: 'true',
-          },
-        },
         apiToolbarLinks: [],
       }),
     };
@@ -98,10 +92,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       works: {
         ...works,
         results: works.results.map(toWorkBasic),
-      },
-      pageview: {
-        name: 'works',
-        properties: { totalResults: works.totalResults },
       },
       apiToolbarLinks: [
         {

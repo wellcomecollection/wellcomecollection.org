@@ -61,12 +61,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       props: serialiseProps<Props>({
         ...defaultProps,
         concepts: emptyResultList(),
-        pageview: {
-          name: 'concepts',
-          properties: {
-            looksLikeSpam: 'true',
-          },
-        },
         apiToolbarLinks: [],
       }),
     };
@@ -90,10 +84,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     props: serialiseProps<Props>({
       ...defaultProps,
       concepts,
-      pageview: {
-        name: 'concepts',
-        properties: { totalResults: concepts.totalResults },
-      },
       apiToolbarLinks: [
         {
           id: 'catalogue-api',
