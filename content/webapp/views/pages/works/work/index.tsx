@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
+import { useToggles } from '@weco/common/server-data/Context';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import Divider from '@weco/common/views/components/Divider';
 import SearchForm from '@weco/common/views/components/SearchForm';
@@ -30,6 +31,7 @@ import RelatedWorks, { hasAtLeastOneSubject } from './RelatedWorks';
 import ArchiveBreadcrumb from './work.ArchiveBreadcrumb';
 import BackToResults from './work.BackToResults';
 import WorkHeader from './work.Header';
+import WorkStoriesOnWorks from './work.StoriesOnWorks';
 import WorkDetails from './WorkDetails';
 
 const ArchiveDetailsContainer = styled.div`
@@ -58,6 +60,7 @@ export const WorkPage: NextPage<Props> = ({
   transformedManifest,
 }) => {
   const { userIsStaffWithRestricted } = useUserContext();
+  const { storiesOnWorks } = useToggles();
   const isArchive = !!(
     work.parts.length ||
     (work.partOf.length > 0 && work.partOf[0].totalParts)
@@ -132,7 +135,6 @@ export const WorkPage: NextPage<Props> = ({
             <BackToResults />
           </Space>
         </Container>
-
         {isArchive ? (
           <>
             <Container>
@@ -191,7 +193,6 @@ export const WorkPage: NextPage<Props> = ({
             />
           </>
         )}
-
         {/* If the work has no subjects, it's not worth adding this component */}
         {hasAtLeastOneSubject(work.subjects) && (
           <RelatedWorks
@@ -201,6 +202,9 @@ export const WorkPage: NextPage<Props> = ({
             date={work.production[0]?.dates[0]?.label}
           />
         )}
+        {/* Show content that references this work */}
+        {/* TODO remove ! once toggle available */}
+        {!storiesOnWorks && <WorkStoriesOnWorks workId={work.id} />}
       </CataloguePageLayout>
     </IsArchiveContext.Provider>
   );

@@ -129,6 +129,14 @@ const toggles = {
         'Enables the new browse collections pages at /collections/types and /collections/topics',
       type: 'experimental',
     },
+    {
+      id: 'storiesOnWorks',
+      title: 'Stories on work pages',
+      initialValue: false,
+      description:
+        'Shows stories (and potentially other content types) that reference the current work on work pages',
+      type: 'experimental',
+    },
   ] as const,
   // We have to include a reference to any test toggles here as well as in the cache dir
   // because they are deployed separately and consequently can't share a source of truth
