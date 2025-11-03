@@ -1,7 +1,15 @@
 import { keyframes } from 'styled-components';
 
 import { ButtonColors } from '@weco/common/views/components/Buttons';
+import {
+  HorizontalSpaceProperty,
+  SpaceOverrides,
+  VerticalSpaceProperty,
+} from '@weco/common/views/components/styled/Space';
 import { Toggles } from '@weco/toggles';
+
+type SpaceSize = 'xs' | 's' | 'm' | 'l' | 'xl';
+type SpaceProperty = HorizontalSpaceProperty | VerticalSpaceProperty;
 
 export type ColumnKey =
   | 's'
@@ -254,17 +262,91 @@ const mediaBetween =
     }`;
   };
 
+const breakpointNames = ['small', 'medium', 'large'];
+
+const containerPadding = {
+  small: 18,
+  medium: 42,
+  large: 60,
+  xlarge: 60,
+};
+
+const spaceAtBreakpoints = {
+  small: {
+    xs: spacingUnits['1'],
+    s: spacingUnits['2'],
+    m: spacingUnits['3'],
+    l: spacingUnits['5'],
+    xl: spacingUnits['7'],
+  },
+  medium: {
+    xs: spacingUnits['1'],
+    s: spacingUnits['2'],
+    m: spacingUnits['4'],
+    l: spacingUnits['6'],
+    xl: spacingUnits['9'],
+  },
+  large: {
+    xs: spacingUnits['1'],
+    s: spacingUnits['3'],
+    m: spacingUnits['5'],
+    l: spacingUnits['8'],
+    xl: spacingUnits['10'],
+  },
+};
+
+// When using this vw calc approach (e.g. in [conceptId]) the scrollbar width is not taken into account resulting in
+// possible horizontal scroll. The simplest solution to get around this is to use pageGridOffset in conjunction
+// with the hideOverflowX prop on PageLayout
+function pageGridOffset(property: string): string {
+  return `
+  position: relative;
+  ${property}: -${containerPadding.small}px;
+
+  ${media('medium')(`
+    ${property}: -${containerPadding.medium}px;
+    `)}
+
+  ${media('large')(`
+    ${property}: -${containerPadding.large}px;
+    `)}
+
+  ${media('xlarge')(`
+    ${property}: calc((100vw - ${sizes.xlarge}px) / 2 * -1 - ${containerPadding.xlarge}px);
+  `)};
+  `;
+}
+
+function makeSpacePropertyValues(
+  size: SpaceSize,
+  properties: SpaceProperty[],
+  negative?: boolean,
+  overrides?: SpaceOverrides
+): string {
+  return breakpointNames
+    .map(bp => {
+      return `@media (min-width: ${sizes[bp]}px) {
+      ${properties
+        .map(
+          p =>
+            `${p}: ${negative ? '-' : ''}${
+              overrides && overrides[bp]
+                ? spacingUnits[overrides[bp]]
+                : spaceAtBreakpoints[bp][size]
+            }px;`
+        )
+        .join('')}
+    }`;
+    })
+    .join('');
+}
+
 export const baseThemeValues = {
   spacingUnit: 6,
   borderRadiusUnit: 6,
   transitionProperties: '150ms ease',
   iconDimension: 24,
-  containerPadding: {
-    small: 18,
-    medium: 42,
-    large: 60,
-    xlarge: 60,
-  },
+  containerPadding,
   sizes,
   gutter: {
     small: 18,
@@ -295,29 +377,7 @@ export const baseThemeValues = {
       `,
   },
   spacingUnits,
-  spaceAtBreakpoints: {
-    small: {
-      xs: spacingUnits['1'],
-      s: spacingUnits['2'],
-      m: spacingUnits['3'],
-      l: spacingUnits['5'],
-      xl: spacingUnits['7'],
-    },
-    medium: {
-      xs: spacingUnits['1'],
-      s: spacingUnits['2'],
-      m: spacingUnits['4'],
-      l: spacingUnits['6'],
-      xl: spacingUnits['9'],
-    },
-    large: {
-      xs: spacingUnits['1'],
-      s: spacingUnits['3'],
-      m: spacingUnits['5'],
-      l: spacingUnits['8'],
-      xl: spacingUnits['10'],
-    },
-  },
+  spaceAtBreakpoints,
   navHeight: 85,
   fontVerticalOffset: '0.15em',
   grid,
@@ -326,6 +386,8 @@ export const baseThemeValues = {
   minCardHeight: 385,
   media,
   mediaBetween,
+  makeSpacePropertyValues,
+  pageGridOffset,
   buttonColors: {
     default: defaultButtonColors,
     danger: dangerButtonColors,

@@ -1,10 +1,5 @@
 import { createGlobalStyle, css } from 'styled-components';
 
-import {
-  HorizontalSpaceProperty,
-  SpaceOverrides,
-  VerticalSpaceProperty,
-} from '@weco/common/views/components/styled/Space';
 import { Toggles } from '@weco/toggles';
 
 import { fonts } from './base/fonts';
@@ -13,80 +8,13 @@ import { layout } from './base/layout';
 import { normalize } from './base/normalize';
 import { row } from './base/row';
 import { wellcomeNormalize } from './base/wellcome-normalize';
-import { createThemeValues, Size, spacingUnits, themeValues } from './config';
+import { Size, themeValues } from './config';
 import {
   makeFontSizeClasses,
   makeFontSizeOverrideClasses,
   typography,
 } from './typography';
 import { utilityClasses } from './utility-classes';
-
-type SpaceSize = 'xs' | 's' | 'm' | 'l' | 'xl';
-type SpaceProperty = HorizontalSpaceProperty | VerticalSpaceProperty;
-
-const breakpointNames = ['small', 'medium', 'large'];
-
-// When using this vw calc approach (e.g. in [conceptId]) the scrollbar width is not taken into account resulting in
-// possible horizontal scroll. The simplest solution to get around this is to use pageGridOffset in conjuction
-// with the hideOverflowX prop on PageLayout
-function pageGridOffset(property: string): string {
-  return `
-  position: relative;
-  ${property}: -${themeValues.containerPadding.small}px;
-
-  ${themeValues.media('medium')(`
-    ${property}: -${themeValues.containerPadding.medium}px;
-    `)}
-
-  ${themeValues.media('large')(`
-    ${property}: -${themeValues.containerPadding.large}px;
-    `)}
-
-  ${themeValues.media('xlarge')(`
-    ${property}: calc((100vw - ${themeValues.sizes.xlarge}px) / 2 * -1 - ${themeValues.containerPadding.xlarge}px);
-  `)};
-  `;
-}
-
-function makeSpacePropertyValues(
-  size: SpaceSize,
-  properties: SpaceProperty[],
-  negative?: boolean,
-  overrides?: SpaceOverrides
-): string {
-  return breakpointNames
-    .map(bp => {
-      return `@media (min-width: ${themeValues.sizes[bp]}px) {
-      ${properties
-        .map(
-          p =>
-            `${p}: ${negative ? '-' : ''}${
-              overrides && overrides[bp]
-                ? spacingUnits[overrides[bp]]
-                : themeValues.spaceAtBreakpoints[bp][size]
-            }px;`
-        )
-        .join('')}
-    }`;
-    })
-    .join('');
-}
-
-const theme = {
-  ...themeValues,
-  makeSpacePropertyValues,
-  pageGridOffset,
-};
-
-export function createTheme(toggles: Toggles) {
-  const themeWithToggles = createThemeValues(toggles);
-
-  return {
-    ...themeWithToggles,
-    makeSpacePropertyValues,
-    pageGridOffset,
-  };
-}
 
 type Classes = typeof classes;
 const classes = {
@@ -166,5 +94,5 @@ const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
   ${typography}
 `;
 
-export default theme;
+export default themeValues;
 export { GlobalStyle, cls };
