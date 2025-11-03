@@ -74,7 +74,6 @@ const Download: FunctionComponent<Props> = ({
                           : option.label
                       }
                       format={format}
-                      width={option.width}
                       mimeType={option.format}
                     />
                   </li>

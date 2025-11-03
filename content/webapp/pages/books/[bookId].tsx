@@ -42,10 +42,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       props: serialiseProps<Props>({
         book,
         serverData,
-        pageview: {
-          name: 'story',
-          properties: { type: bookDocument.type },
-        },
       }),
     };
   }

@@ -30,9 +30,6 @@ const cookies = {
   // This remembers when somebody has dismissed the banner you get when
   // you've been redirected from Wellcome Images.
   wellcomeImagesRedirect: 'WC_wellcomeImagesRedirect',
-
-  // Causes Segment session info to be logged to the dev console.
-  analyticsDebug: 'WC_analyticsDebug',
 };
 
 export const cookiesTableCopy = {
@@ -108,11 +105,6 @@ export const cookiesTableCopy = {
     [
       'Google Analytics',
       'With your permission, we use Google Analytics to to collect data about how you use the website. This information helps us to improve the website.<br />Google Analytics stores information about what pages you visit, how long you are on the site, how you got here and what you click., <br /><a href="https://support.google.com/analytics/answer/6004245" target="_blank" rel="noopener noreferrer">Visit Google to see a full list of cookies and their uses</a>.',
-    ],
-
-    [
-      'Twilio Segment',
-      'With your permission, we use Segment to collect data about how you use the website. This information helps us to improve the website, such as improving our website search.<br /><a href="https://www.twilio.com/en-us/legal/privacy" target="_blank" rel="noopener noreferrer">Visit Segment&apos;s privacy statement</a>.',
     ],
     [
       'Hotjar',

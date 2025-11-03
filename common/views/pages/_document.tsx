@@ -39,13 +39,13 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
 
       const initialProps = await Document.getInitialProps(ctx);
 
-      const consentStatus = pageProps.serverData
+      const consentStatus = pageProps?.serverData
         ? pageProps.serverData?.consentStatus
         : getErrorPageConsent({ req: ctx.req, res: ctx.res });
 
       return {
         ...initialProps,
-        toggles: pageProps.serverData?.toggles,
+        toggles: pageProps?.serverData?.toggles,
         consentStatus,
         styles: (
           <>
@@ -72,7 +72,7 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
 
             {/* Removing/readding this script on consent changes causes issues with meta tag duplicates
             https://github.com/wellcomecollection/wellcomecollection.org/pull/10685#discussion_r1516298683
-            Let's keep an eye on this issue and consider moving it next to the Segment script when it's fixed */}
+            Let's keep an eye on this issue and consider moving it when it's fixed */}
             <GoogleTagManager />
           </>
         </Head>

@@ -123,10 +123,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       },
       scheduledItems,
       serverData,
-      pageview: {
-        name: 'story',
-        properties: { type: series.type },
-      },
     }),
   };
 };

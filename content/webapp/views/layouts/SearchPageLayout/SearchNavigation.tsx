@@ -143,6 +143,7 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
     <>
       <form
         role="search"
+        data-gtm-trigger={SEARCH_PAGES_FORM_ID}
         id={SEARCH_PAGES_FORM_ID}
         onSubmit={event => {
           event.preventDefault();
