@@ -114,13 +114,18 @@ const WorksSearchPage: NextPage<Props> = withSearchLayout(
                     changeHandler={() => {
                       const form =
                         document.getElementById(SEARCH_PAGES_FORM_ID);
-                      form &&
+                      if (form) {
+                        // Set data attribute to indicate this is a filter change, not a query change
+                        form.dataset.gtmIsFilterChange = 'true';
                         form.dispatchEvent(
                           new window.Event('submit', {
                             cancelable: true,
                             bubbles: true,
                           })
                         );
+                        // Remove the attribute after dispatch
+                        delete form.dataset.gtmIsFilterChange;
+                      }
                     }}
                     filters={filters}
                     hasNoResults={hasNoResults}
