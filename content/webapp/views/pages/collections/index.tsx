@@ -94,7 +94,6 @@ const CollectionsLandingPage: NextPage<Props> = ({
       siteSection="collections"
       image={pageMeta.image}
       apiToolbarLinks={[createPrismicLink(pageMeta.id)]}
-      isNoIndex // TODO remove when this becomes the page
       hideNewsletterPromo
     >
       <PageHeader variant="landing" title={title} introText={introText} />
