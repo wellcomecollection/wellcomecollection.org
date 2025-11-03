@@ -187,6 +187,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
   return (
     <>
       <SearchForm
+        id="form-search-within"
         action={router.asPath}
         onSubmit={event => {
           event.preventDefault();
