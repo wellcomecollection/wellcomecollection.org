@@ -142,6 +142,18 @@ AWS_PROFILE=experience-developer aws logs describe-log-groups --log-group-name-p
 AWS_PROFILE=experience-developer aws logs tail /aws/lambda/prismic-snapshot --follow
 ```
 
+### CloudWatch Alarms
+
+There are CloudWatch alarms to monitor Lambda function health:
+
+#### Where to Find Alarms
+
+1. **AWS Console** > **CloudWatch** > **Alarms**
+2. Look for alarms named:
+   - `prismic-snapshot-errors`
+   - `prismic-snapshot-duration-warning`
+   - `prismic-snapshot-missing-invocations`
+
 ## Cleanup/Destruction\*\*
 
 To completely remove all infrastructure:
