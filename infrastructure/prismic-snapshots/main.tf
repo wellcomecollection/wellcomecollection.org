@@ -257,6 +257,7 @@ resource "aws_cloudwatch_metric_alarm" "prismic_snapshot_errors" {
   statistic           = "Sum"
   threshold           = "1"
   alarm_description   = "This metric monitors errors for the Prismic snapshot Lambda function"
+  alarm_actions       = [data.terraform_remote_state.platform_monitoring.outputs.chatbot_topic_arn]
 
   dimensions = {
     FunctionName = aws_lambda_function.prismic_snapshot.function_name
@@ -281,6 +282,7 @@ resource "aws_cloudwatch_metric_alarm" "prismic_snapshot_duration" {
   threshold           = "720000" # 12 minutes (warn before 15min timeout)
   alarm_description   = "This metric monitors duration for the Prismic snapshot Lambda function"
   treat_missing_data  = "notBreaching" # Don't alarm when no data (most of the time)
+  alarm_actions       = [data.terraform_remote_state.platform_monitoring.outputs.chatbot_topic_arn]
 
   dimensions = {
     FunctionName = aws_lambda_function.prismic_snapshot.function_name
@@ -305,6 +307,7 @@ resource "aws_cloudwatch_metric_alarm" "prismic_snapshot_missing_invocations" {
   threshold           = "1"
   alarm_description   = "This metric monitors if the Prismic snapshot Lambda function is being invoked daily"
   treat_missing_data  = "breaching"
+  alarm_actions       = [data.terraform_remote_state.platform_monitoring.outputs.chatbot_topic_arn]
 
   dimensions = {
     FunctionName = aws_lambda_function.prismic_snapshot.function_name
