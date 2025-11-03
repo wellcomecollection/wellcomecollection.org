@@ -115,13 +115,6 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'collectionsLanding',
-      title: 'Collections landing alternative page',
-      initialValue: false,
-      description: `Displays the new Collections landing page as it's being built.`,
-      type: 'experimental',
-    },
-    {
       id: 'browseCollections',
       title: 'Browse collections by type and topic',
       initialValue: false,
