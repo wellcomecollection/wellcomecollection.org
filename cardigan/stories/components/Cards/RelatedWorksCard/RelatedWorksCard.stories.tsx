@@ -1,11 +1,11 @@
 import { Meta, StoryObj } from '@storybook/react';
-import { ComponentProps } from 'react';
+import { ComponentProps, FunctionComponent } from 'react';
+import { useTheme } from 'styled-components';
 
 import {
   contentAPILinkedWork,
   workBasic,
 } from '@weco/cardigan/stories/data/work';
-import { themeValues } from '@weco/common/views/themes/config';
 import RelatedWorksCard from '@weco/content/views/components/RelatedWorksCard';
 
 // Extend the story type with seeOnDarkBackground
@@ -44,6 +44,27 @@ export default meta;
 
 type Story = StoryObj<RelatedWorksCardStoryProps>;
 
+const RelatedWorksCardStory: FunctionComponent<
+  RelatedWorksCardStoryProps
+> = args => {
+  const { seeOnDarkBackground, ...rest } = args;
+  const theme = useTheme();
+
+  return (
+    <div
+      style={{
+        backgroundColor: theme.color(
+          seeOnDarkBackground ? 'neutral.700' : 'white'
+        ),
+        padding: seeOnDarkBackground ? '20px' : '0',
+        maxWidth: '420px',
+      }}
+    >
+      <RelatedWorksCard {...rest} />
+    </div>
+  );
+};
+
 export const Basic: Story = {
   args: {
     work: workBasic,
@@ -52,21 +73,5 @@ export const Basic: Story = {
 
   name: 'RelatedWorksCard',
 
-  render: args => {
-    const { seeOnDarkBackground, ...rest } = args;
-
-    return (
-      <div
-        style={{
-          backgroundColor: themeValues.color(
-            seeOnDarkBackground ? 'neutral.700' : 'white'
-          ),
-          padding: seeOnDarkBackground ? '20px' : '0',
-          maxWidth: '420px',
-        }}
-      >
-        <RelatedWorksCard {...rest} />
-      </div>
-    );
-  },
+  render: args => <RelatedWorksCardStory {...args} />,
 };

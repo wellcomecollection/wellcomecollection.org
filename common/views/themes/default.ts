@@ -8,7 +8,7 @@ import { layout } from './base/layout';
 import { normalize } from './base/normalize';
 import { row } from './base/row';
 import { wellcomeNormalize } from './base/wellcome-normalize';
-import { Size, themeValues } from './config';
+import { Size, sizes, themeValues } from './config';
 import {
   makeFontSizeClasses,
   makeFontSizeOverrideClasses,
@@ -28,7 +28,7 @@ type SizedClasses = {
   xlarge: Classes;
 };
 
-const sizesClasses = Object.keys(themeValues.sizes).reduce((acc, size) => {
+const sizesClasses = Object.keys(sizes).reduce((acc, size) => {
   const o = Object.entries(classes).reduce((acc, [key, val]) => {
     return {
       ...acc,
@@ -67,7 +67,7 @@ const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
     }
   `}
   ${css`
-    ${Object.keys(themeValues.sizes).map(
+    ${Object.keys(sizes).map(
       size => css`
         .${cls[size as Size].displayNone} {
           ${props => props.theme.media(size as Size)`

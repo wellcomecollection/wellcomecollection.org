@@ -7,12 +7,10 @@ import AnimatedUnderlineCSS, {
 } from '@weco/common/views/components/styled/AnimatedUnderline';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
-import { themeValues } from '@weco/common/views/themes/config';
-
 const leftOffset = '12px';
 
 export const InPageNavList = styled(PlainList)<{ $isOnWhite: boolean }>`
-  padding-bottom: ${themeValues.spacingUnits['4']}px;
+  padding-bottom: ${props => props.theme.spacingUnits['4']}px;
   border-bottom: 1px solid
     ${props => props.theme.color(props.$isOnWhite ? 'neutral.300' : 'white')};
 
@@ -39,25 +37,27 @@ export const ListItem = styled.li<{ $hasStuck: boolean; $isOnWhite: boolean }>`
     ${props =>
       props.theme.color(props.$hasStuck ? 'neutral.300' : 'transparent')};
 
-  margin-left: -${themeValues.containerPadding.small}px;
-  margin-right: -${themeValues.containerPadding.small}px;
-  padding-left: calc(${themeValues.containerPadding.small}px + ${leftOffset});
+  margin-left: -${props => props.theme.containerPadding.small}px;
+  margin-right: -${props => props.theme.containerPadding.small}px;
+  padding-left: calc(
+    ${props => props.theme.containerPadding.small}px + ${leftOffset}
+  );
   /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties */
-  padding-right: ${themeValues.containerPadding.small}px;
+  padding-right: ${props => props.theme.containerPadding.small}px;
 
   ${props =>
     props.theme.media('medium')(`
-    margin-left: -${themeValues.containerPadding.medium}px;
-    margin-right: -${themeValues.containerPadding.medium}px;
-    padding-left: calc(${themeValues.containerPadding.medium}px + ${leftOffset});
-    padding-right: ${themeValues.containerPadding.medium}px;
+    margin-left: -${props.theme.containerPadding.medium}px;
+    margin-right: -${props.theme.containerPadding.medium}px;
+    padding-left: calc(${props.theme.containerPadding.medium}px + ${leftOffset});
+    padding-right: ${props.theme.containerPadding.medium}px;
   `)}
 
   &::before {
     content: '';
     display: ${props => (props.$hasStuck ? 'none' : 'block')};
     position: absolute;
-    left: calc(${themeValues.containerPadding.small}px + 1px);
+    left: calc(${props => props.theme.containerPadding.small}px + 1px);
     top: 0;
     bottom: 0;
     width: 1px;
@@ -69,7 +69,7 @@ export const ListItem = styled.li<{ $hasStuck: boolean; $isOnWhite: boolean }>`
   ${props =>
     props.theme.media('medium')(`
       &::before {
-        left: calc(${themeValues.containerPadding.medium}px + 1px);
+        left: calc(${props.theme.containerPadding.medium}px + 1px);
       }
     `)}
 
@@ -176,10 +176,10 @@ export const Root = styled(Space).attrs<{
       'small',
       'medium'
     )(`
-      margin-left: -${themeValues.containerPadding.small}px;
-      margin-right: -${themeValues.containerPadding.small}px;
-      padding-left: ${themeValues.containerPadding.small}px;
-      padding-right: ${themeValues.containerPadding.small}px;
+      margin-left: -${props.theme.containerPadding.small}px;
+      margin-right: -${props.theme.containerPadding.small}px;
+      padding-left: ${props.theme.containerPadding.small}px;
+      padding-right: ${props.theme.containerPadding.small}px;
 
     `)}
 
@@ -188,8 +188,8 @@ export const Root = styled(Space).attrs<{
       'medium',
       'large'
     )(`
-      margin-left: -${themeValues.containerPadding.medium}px;
-      margin-right: -${themeValues.containerPadding.medium}px;
+      margin-left: -${props.theme.containerPadding.medium}px;
+      margin-right: -${props.theme.containerPadding.medium}px;
       padding-left: ${props.theme.containerPadding.medium}px;
       padding-right: ${props.theme.containerPadding.medium}px;
     `)}

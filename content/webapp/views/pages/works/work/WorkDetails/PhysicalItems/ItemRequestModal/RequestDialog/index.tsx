@@ -1,5 +1,5 @@
 import { FormEvent, FunctionComponent, useEffect } from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 import { itemRequestDialog } from '@weco/common/data/microcopy';
 import { font } from '@weco/common/utils/classnames';
@@ -7,7 +7,6 @@ import { formatDayMonth, formatDayName } from '@weco/common/utils/format-date';
 import { allowedRequests } from '@weco/common/values/requests';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
-import { themeValues } from '@weco/common/views/themes/config';
 import {
   PhysicalItem,
   Work,
@@ -97,6 +96,7 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
   pickUpDate,
   setPickUpDate,
 }) => {
+  const theme = useTheme();
   const firstAvailableDate =
     item.availableDates &&
     `${formatDayName(new Date(item.availableDates[0].from))} ${formatDayMonth(
@@ -198,7 +198,7 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
         </ConfirmRequestButtonWrapper>
         <Button
           variant="ButtonSolid"
-          colors={themeValues.buttonColors.greenTransparentGreen}
+          colors={theme.buttonColors.greenTransparentGreen}
           type={ButtonTypes.button}
           text="Cancel"
           clickHandler={() => setIsActive(false)}

@@ -1,10 +1,10 @@
 // eslint-data-component: intentionally omitted
 import { LinkProps } from 'next/link';
 import { FunctionComponent } from 'react';
+import { useTheme } from 'styled-components';
 
 import { arrowSmall } from '@weco/common/icons';
 import Button, { ButtonColors } from '@weco/common/views/components/Buttons';
-import { themeValues } from '@weco/common/views/themes/config';
 
 type Props = {
   url: string | LinkProps;
@@ -19,11 +19,13 @@ const MoreLink: FunctionComponent<Props> = ({
   colors,
   ariaLabel,
 }) => {
+  const theme = useTheme();
+
   return (
     <Button
       variant="ButtonSolidLink"
       ariaLabel={ariaLabel}
-      colors={colors || themeValues.buttonColors.charcoalTransparentCharcoal}
+      colors={colors || theme.buttonColors.charcoalTransparentCharcoal}
       isIconAfter
       text={name}
       link={url}

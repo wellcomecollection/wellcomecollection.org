@@ -1,6 +1,5 @@
 import { css } from 'styled-components';
 
-import { themeValues } from './config';
 import { GlobalStyleProps } from './default';
 
 const breakpointNames = ['small', 'medium', 'large'];
@@ -77,15 +76,15 @@ const fontFamilies = {
   },
 };
 
-const fontSizeMixin = size => {
-  return breakpointNames
-    .map(name => {
-      return `@media (min-width: ${themeValues.sizes[name]}px) {
-      font-size: ${fontSizesAtBreakpoints[name][size]}rem;
-    }`;
-    })
-    .join(' ');
-};
+const fontSizeMixin = size => css`
+  ${breakpointNames.map(
+    name => css`
+      @media (min-width: ${props => props.theme.sizes[name]}px) {
+        font-size: ${fontSizesAtBreakpoints[name][size]}rem;
+      }
+    `
+  )}
+`;
 
 type FontFamily = keyof typeof fontFamilies;
 
@@ -147,7 +146,7 @@ export const typography = css<GlobalStyleProps>`
     ${fontFamilyMixin('intr', true)}
     ${fontSizeMixin(4)}
     line-height: 1.5;
-    color: ${themeValues.color('black')};
+    color: ${props => props.theme.color('black')};
     font-variant-ligatures: no-common-ligatures;
     -webkit-font-smoothing: antialiased;
     -moz-font-smoothing: antialiased;
@@ -174,9 +173,9 @@ export const typography = css<GlobalStyleProps>`
     /* Enough space to clear the sticky header */
     scroll-margin-top: 3rem;
 
-    @media (min-width: ${themeValues.sizes.large}px) {
+    @media (min-width: ${props => props.theme.sizes.large}px) {
       /* Align the top of the heading with the top of the side navigation */
-      scroll-margin-top: ${themeValues.spaceAtBreakpoints.large.l}px;
+      scroll-margin-top: ${props => props.theme.spaceAtBreakpoints.large.l}px;
     }
   }
 
@@ -203,7 +202,7 @@ export const typography = css<GlobalStyleProps>`
   }
 
   .more-link {
-    color: ${themeValues.color('accent.green')};
+    color: ${props => props.theme.color('accent.green')};
     text-decoration: none;
 
     &:hover,
@@ -221,7 +220,7 @@ export const typography = css<GlobalStyleProps>`
     }
 
     > * + * {
-      margin-top: ${themeValues.spacedTextTopMargin};
+      margin-top: ${props => props.theme.spacedTextTopMargin};
     }
 
     li + li {
@@ -271,7 +270,7 @@ export const typography = css<GlobalStyleProps>`
     }
 
     *::selection {
-      background: ${themeValues.color('accent.turquoise')}4d;
+      background: ${props => props.theme.color('accent.turquoise')}4d;
     }
 
     /* stylelint-disable no-descending-specificity */
@@ -301,10 +300,10 @@ export const typography = css<GlobalStyleProps>`
     a:visited:not(.link-reset) {
       text-decoration: underline;
       text-underline-offset: 0.1em;
-      transition: color ${themeValues.transitionProperties};
+      transition: color ${props => props.theme.transitionProperties};
 
       &:hover {
-        color: ${themeValues.color('accent.green')};
+        color: ${props => props.theme.color('accent.green')};
         text-decoration-color: transparent;
       }
     }
@@ -318,7 +317,7 @@ export const typography = css<GlobalStyleProps>`
   .drop-cap {
     ${fontFamilyMixin('wb', true)}
     font-size: 3em;
-    color: ${themeValues.color('black')};
+    color: ${props => props.theme.color('black')};
     float: left;
     line-height: 1em;
     padding-right: 0.1em;
@@ -328,7 +327,7 @@ export const typography = css<GlobalStyleProps>`
 
   /* stylelint-disable no-descending-specificity */
   .quote {
-    border-left: 12px solid ${themeValues.color('warmNeutral.400')};
+    border-left: 12px solid ${props => props.theme.color('warmNeutral.400')};
     padding-left: 0.9em;
 
     p {
@@ -351,7 +350,7 @@ export const typography = css<GlobalStyleProps>`
       ${fontFamilyMixin('wb', true)}
       position: absolute;
       content: '“';
-      color: ${themeValues.color('accent.blue')};
+      color: ${props => props.theme.color('accent.blue')};
       left: -14px;
       top: 0.12em;
       font-size: 2em;
@@ -364,19 +363,19 @@ export const typography = css<GlobalStyleProps>`
   }
 `;
 
-export function makeFontSizeClasses(): string {
-  return breakpointNames
-    .map(bp => {
-      return `@media (min-width: ${themeValues.sizes[bp]}px) {
-      ${Object.entries(fontSizesAtBreakpoints[bp])
-        .map(([key, value]) => {
-          return `.font-size-${key} {font-size: ${value}rem}`;
-        })
-        .join(' ')}
-    }`;
-    })
-    .join(' ');
-}
+export const makeFontSizeClasses = () => css`
+  ${breakpointNames.map(
+    bp => css`
+      @media (min-width: ${props => props.theme.sizes[bp]}px) {
+        ${Object.entries(fontSizesAtBreakpoints[bp])
+          .map(([key, value]) => {
+            return `.font-size-${key} {font-size: ${value}rem}`;
+          })
+          .join(' ')}
+      }
+    `
+  )}
+`;
 
 function overridesAtBreakpoint(bp: string) {
   return Object.entries(fontSizeUnits)
@@ -386,27 +385,28 @@ function overridesAtBreakpoint(bp: string) {
     .join(' ');
 }
 
-export function makeFontSizeOverrideClasses(): string {
-  return breakpointNames
-    .map(bp => {
-      const minMax =
-        bp === 'small'
-          ? ['small', 'medium']
-          : bp === 'medium'
-            ? ['medium', 'large']
-            : ['large'];
+export const makeFontSizeOverrideClasses = () => css`
+  ${props =>
+    breakpointNames
+      .map(bp => {
+        const minMax =
+          bp === 'small'
+            ? ['small', 'medium']
+            : bp === 'medium'
+              ? ['medium', 'large']
+              : ['large'];
 
-      if (minMax.length === 2) {
-        return `@media (min-width: ${
-          themeValues.sizes[minMax[0]]
-        }px) and (max-width: ${themeValues.sizes[minMax[1]]}px) {
-        ${overridesAtBreakpoint(bp)}
-      }`;
-      } else {
-        return `@media (min-width: ${themeValues.sizes[minMax[0]]}px) {
-        ${overridesAtBreakpoint(bp)}
-      }`;
-      }
-    })
-    .join(' ');
-}
+        if (minMax.length === 2) {
+          return `@media (min-width: ${
+            props.theme.sizes[minMax[0]]
+          }px) and (max-width: ${props.theme.sizes[minMax[1]]}px) {
+          ${overridesAtBreakpoint(bp)}
+        }`;
+        } else {
+          return `@media (min-width: ${props.theme.sizes[minMax[0]]}px) {
+          ${overridesAtBreakpoint(bp)}
+        }`;
+        }
+      })
+      .join(' ')}
+`;

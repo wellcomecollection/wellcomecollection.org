@@ -8,7 +8,6 @@ import {
 import { SizeMap } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import ThemeCard from '@weco/common/views/components/ThemeCard';
-import { themeValues } from '@weco/common/views/themes/config';
 import { useConceptImageUrls } from '@weco/content/hooks/useConceptImageUrls';
 import { useThemeConcepts } from '@weco/content/hooks/useThemeConcepts';
 import { getConceptsByIds } from '@weco/content/pages/collections';
@@ -26,7 +25,7 @@ type BrowseByThemeProps = {
 };
 
 const ListItem = styled.li`
-  --gutter-size: ${themeValues.gutter.small}px;
+  --gutter-size: ${props => props.theme.gutter.small}px;
   flex: 0 0 auto;
   width: 400px;
   max-width: 90vw;
@@ -40,7 +39,7 @@ const ListItem = styled.li`
 
   ${props =>
     props.theme.media('medium')(`
-      --gutter-size: ${themeValues.gutter.medium}px;
+      --gutter-size: ${props.theme.gutter.medium}px;
       /* 6 columns of 12 at medium breakpoint */
       /* Formula: ((100vw - 84px padding) - (11 × 24px gutters)) / 12 × 6 + (6 × 24px gutters) */
       /* The 6th gutter accounts for the gap after the card, matching grid behaviour */
@@ -61,7 +60,7 @@ const ListItem = styled.li`
 
   ${props =>
     props.theme.media('large')(`
-      --gutter-size: ${themeValues.gutter.large}px;
+      --gutter-size: ${props.theme.gutter.large}px;
       /* 4 columns of 12 at large breakpoint */
       /* Formula: ((100vw - 120px padding) - (11 × 30px gutters)) / 12 × 4 + (4 × 30px gutters) */
       /* The 4th gutter accounts for the gap after the card, matching grid behaviour */
@@ -69,17 +68,17 @@ const ListItem = styled.li`
       width: calc(33.333vw - 30px);
 
       /* Max-width at xlarge: ((1338px - 120px - 330px) / 12 × 4) + 120px = 416px */
-      max-width: ${((themeValues.sizes.xlarge - 120 - 330) / 12) * 4 + 120}px;
+      max-width: 416px;
 
       &:nth-child(2){
         width: calc(33.333vw - (30px + var(--gutter-size)));
-        max-width: ${((themeValues.sizes.xlarge - 120 - 330) / 12) * 4 + 90}px;
+        max-width: 386px;
       }
 
       &:last-child {
         padding-right: var(--gutter-size);
         width: calc(33.333vw - (30px - var(--gutter-size)));
-        max-width: ${((themeValues.sizes.xlarge - 120 - 330) / 12) * 4 + 150}px;
+        max-width: 446px;
       }
     `)}
 `;

@@ -1,5 +1,6 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
+import { useTheme } from 'styled-components';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
@@ -23,7 +24,6 @@ import PaginationWrapper from '@weco/common/views/components/styled/PaginationWr
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
-import { themeValues } from '@weco/common/views/themes/config';
 import { eventsFilters } from '@weco/content/services/wellcome/common/filters';
 import {
   ContentResultsList,
@@ -52,6 +52,7 @@ const EVENTS_LISTING_FORM_ID = 'events-listing-form';
 const EventsPage: NextPage<Props> = props => {
   const { period, jsonLd } = props;
   const router = useRouter();
+  const theme = useTheme();
 
   const isInPastListing = period === 'past';
 
@@ -132,7 +133,7 @@ const EventsPage: NextPage<Props> = props => {
         <ContaineredLayout gridSizes={gridSize12()}>
           <div
             style={{
-              borderBottom: `1px solid ${themeValues.color('neutral.300')}`,
+              borderBottom: `1px solid ${theme.color('neutral.300')}`,
             }}
           >
             <Tabs

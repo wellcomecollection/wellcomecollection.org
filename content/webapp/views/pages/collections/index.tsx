@@ -1,7 +1,7 @@
 import * as prismic from '@prismicio/client';
 import { SliceZone } from '@prismicio/react';
 import { NextPage } from 'next';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { ImageType } from '@weco/common/model/image';
@@ -18,7 +18,6 @@ import SearchForm from '@weco/common/views/components/SearchForm';
 import Space from '@weco/common/views/components/styled/Space';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { components } from '@weco/common/views/slices';
-import { themeValues } from '@weco/common/views/themes/config';
 import { useCollectionStats } from '@weco/content/hooks/useCollectionStats';
 import type { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { MultiContent } from '@weco/content/types/multi-content';
@@ -49,14 +48,16 @@ const MaterialsSection = styled(Space).attrs({
 const DecorativeEdgeContainer = styled(Space).attrs({
   $v: { size: 'xl', properties: ['margin-top'] },
 })`
-  margin-left: -${themeValues.containerPadding.small}px;
+  margin-left: -${props => props.theme.containerPadding.small}px;
 
-  ${themeValues.media('medium')(`
-    margin-left: -${themeValues.containerPadding.medium}px;
+  ${props =>
+    props.theme.media('medium')(`
+    margin-left: -${props.theme.containerPadding.medium}px;
   `)}
 
-  ${themeValues.media('large')(`
-    margin-left: -${themeValues.containerPadding.large}px;
+  ${props =>
+    props.theme.media('large')(`
+    margin-left: -${props.theme.containerPadding.large}px;
   `)}
 `;
 
@@ -83,6 +84,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
 }) => {
   const { data: collectionStats } = useCollectionStats();
   const toggles = useToggles();
+  const theme = useTheme();
 
   return (
     <PageLayout
@@ -104,7 +106,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
         </DecorativeEdgeContainer>
       </ContaineredLayout>
 
-      <div style={{ backgroundColor: themeValues.color('accent.lightBlue') }}>
+      <div style={{ backgroundColor: theme.color('accent.lightBlue') }}>
         <ContaineredLayout gridSizes={gridSize10(false)}>
           <Space
             $v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}

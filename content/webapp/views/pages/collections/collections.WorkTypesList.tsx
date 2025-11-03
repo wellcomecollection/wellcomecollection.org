@@ -12,13 +12,12 @@ import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
-import { themeValues } from '@weco/common/views/themes/config';
 import { WorkTypeStats } from '@weco/content/services/wellcome/catalogue/workTypeAggregations';
 import { toSearchImagesLink } from '@weco/content/views/components/SearchPagesLink/Images';
 import { toSearchWorksLink } from '@weco/content/views/components/SearchPagesLink/Works';
 
-const smallContainerBreakpoint = `${themeValues.sizes.medium}px`;
-const largeContainerBreakpoint = `${themeValues.sizes.large}px`;
+const smallContainerBreakpoint = '960px'; // themeValues.sizes.medium
+const largeContainerBreakpoint = '1338px'; // themeValues.sizes.large
 
 const StyledImage = styled(Image)<{ $tiltIndex: number }>`
   width: 80px;

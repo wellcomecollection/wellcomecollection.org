@@ -1,6 +1,6 @@
 import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 import { LinkProps } from '@weco/common/model/link-props';
 import { font } from '@weco/common/utils/classnames';
@@ -10,7 +10,6 @@ import {
 } from '@weco/common/views/components/Buttons';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
-import { themeValues } from '@weco/common/views/themes/config';
 
 export type TagType = {
   textParts: string[];
@@ -65,6 +64,8 @@ const Tags: FunctionComponent<Props> = ({
   isFirstPartBold = true,
   separator = '–',
 }) => {
+  const theme = useTheme();
+
   return (
     <Space
       data-component="tags"
@@ -78,7 +79,7 @@ const Tags: FunctionComponent<Props> = ({
               <StyledLink
                 href={linkAttributes.href}
                 $size="small"
-                $colors={themeValues.buttonColors.pumiceTransparentCharcoal}
+                $colors={theme.buttonColors.pumiceTransparentCharcoal}
               >
                 <TagInner>
                   {textParts.map((part, i, arr) => (
