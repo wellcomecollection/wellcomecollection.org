@@ -154,6 +154,27 @@ There are CloudWatch alarms to monitor Lambda function health:
    - `prismic-snapshot-duration-warning`
    - `prismic-snapshot-missing-invocations`
 
+#### Alarm Details
+
+| Alarm Name | Triggers When | Purpose |
+|------------|---------------|---------|
+| `prismic-snapshot-errors` | Any unhandled exception occurs | Catch Lambda failures immediately |
+| `prismic-snapshot-duration-warning` | Execution takes >12 minutes | Early warning before reaching the 15min timeout limit |
+| `prismic-snapshot-missing-invocations` | No invocations in 24 hours | Detect if scheduled job stops running |
+
+#### Notifications
+
+**Slack Integration**: All alarms automatically post to the **#wc-platform-alerts** Slack channel via the platform chatbot.
+
+**Manual Checking**:
+```bash
+# Check alarm status via CLI
+AWS_PROFILE=experience-developer aws cloudwatch describe-alarms --alarm-names "prismic-snapshot-errors" "prismic-snapshot-duration-warning" "prismic-snapshot-missing-invocations"
+
+# Get alarm history
+AWS_PROFILE=experience-developer aws cloudwatch describe-alarm-history --alarm-name "prismic-snapshot-errors"
+```
+
 ## Cleanup/Destruction\*\*
 
 To completely remove all infrastructure:
