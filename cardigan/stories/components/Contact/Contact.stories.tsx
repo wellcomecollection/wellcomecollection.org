@@ -18,11 +18,7 @@ const meta: Meta<typeof Contact> = {
     },
   },
   argTypes: {
-    link: {
-      table: {
-        disable: true,
-      },
-    },
+    link: { table: { disable: true } },
   },
 };
 

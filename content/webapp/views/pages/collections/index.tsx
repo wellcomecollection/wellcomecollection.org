@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { ImageType } from '@weco/common/model/image';
+import { useToggles } from '@weco/common/server-data/Context';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
 import {
@@ -81,6 +82,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
   fullWidthBanners,
 }) => {
   const { data: collectionStats } = useCollectionStats();
+  const toggles = useToggles();
 
   return (
     <PageLayout
@@ -92,7 +94,6 @@ const CollectionsLandingPage: NextPage<Props> = ({
       siteSection="collections"
       image={pageMeta.image}
       apiToolbarLinks={[createPrismicLink(pageMeta.id)]}
-      isNoIndex // TODO remove when this becomes the page
       hideNewsletterPromo
     >
       <PageHeader variant="landing" title={title} introText={introText} />
@@ -131,6 +132,22 @@ const CollectionsLandingPage: NextPage<Props> = ({
           />
         </Space>
       </MainBackground>
+
+      {toggles.browseCollections && (
+        <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
+          <CardGrid
+            items={[]}
+            itemsPerRow={3}
+            itemsHaveTransparentBackground
+            links={[
+              {
+                text: 'Browse types and topics',
+                url: '/collections/types',
+              },
+            ]}
+          />
+        </Space>
+      )}
 
       <Space $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}>
         <SectionHeader title="New online" gridSize={gridSize12()} />

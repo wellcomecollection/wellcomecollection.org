@@ -49,7 +49,17 @@ export const parameters = {
       order: [
         'Cardigan',
         'Components',
-        ['Banners', 'Buttons', ['Basics', 'Alternates'], 'Cards', 'Images', 'Inputs', 'Links', 'Media', 'Tags'],
+        [
+          'Banners',
+          'Buttons',
+          ['Basics', 'Alternates'],
+          'Cards',
+          'Images',
+          'Inputs',
+          'Links',
+          'Media',
+          'Tags',
+        ],
         'To be made reusable',
 
         'Global',
