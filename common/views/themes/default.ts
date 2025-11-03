@@ -13,7 +13,7 @@ import { layout } from './base/layout';
 import { normalize } from './base/normalize';
 import { row } from './base/row';
 import { wellcomeNormalize } from './base/wellcome-normalize';
-import { Size, spacingUnits, themeValues } from './config';
+import { createThemeValues, Size, spacingUnits, themeValues } from './config';
 import {
   makeFontSizeClasses,
   makeFontSizeOverrideClasses,
@@ -77,6 +77,16 @@ const theme = {
   makeSpacePropertyValues,
   pageGridOffset,
 };
+
+export function createTheme(toggles: Toggles) {
+  const themeWithToggles = createThemeValues(toggles);
+
+  return {
+    ...themeWithToggles,
+    makeSpacePropertyValues,
+    pageGridOffset,
+  };
+}
 
 type Classes = typeof classes;
 const classes = {

@@ -1,6 +1,7 @@
 import { keyframes } from 'styled-components';
 
 import { ButtonColors } from '@weco/common/views/components/Buttons';
+import { Toggles } from '@weco/toggles';
 
 export type ColumnKey =
   | 's'
@@ -253,7 +254,7 @@ const mediaBetween =
     }`;
   };
 
-export const themeValues = {
+export const baseThemeValues = {
   spacingUnit: 6,
   borderRadiusUnit: 6,
   transitionProperties: '150ms ease',
@@ -343,6 +344,18 @@ export const themeValues = {
   },
   spacedTextTopMargin: '1.55em',
 };
+
+// Theme factory that creates a theme with appropriate color function based on toggles
+export const createThemeValues = (toggles: Toggles) => {
+  console.log(toggles);
+
+  return {
+    ...baseThemeValues,
+  };
+};
+
+// Default theme values for backward compatibility
+export const themeValues = createThemeValues({});
 
 export type Breakpoint = keyof typeof sizes;
 
