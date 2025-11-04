@@ -6,15 +6,15 @@ set -euo pipefail
 
 # Configuration
 LAMBDA_NAME="prismic-snapshot"
-SOURCE_DIR="prismic-model"
 LAMBDA_CODE_FILE="lambda-deployment.zip"
 
 echo "Deploying Prismic Snapshot Lambda Code"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-# Check if we're in the right directory
-if [ ! -d "$SOURCE_DIR" ]; then
-    echo "Expected to be run from repository root (missing $SOURCE_DIR directory)"
+# Verify required files exist
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [ ! -f "$SCRIPT_DIR/lambda/prismic_snapshot.js" ]; then
+    echo "Missing expected Lambda source: $SCRIPT_DIR/lambda/prismic_snapshot.js"
     exit 1
 fi
 
@@ -29,9 +29,6 @@ fi
 echo "Lambda function '$LAMBDA_NAME' found"
 
 echo "Building Lambda package..."
-
-# Get the directory where this script is located
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Use the shared build script that Terraform uses
 "$SCRIPT_DIR/build-lambda.sh" "$SCRIPT_DIR/$LAMBDA_CODE_FILE"
