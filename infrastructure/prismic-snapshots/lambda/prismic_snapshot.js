@@ -1,9 +1,4 @@
-const {
-  S3Client,
-  PutObjectCommand,
-  ListObjectsV2Command,
-  DeleteObjectCommand,
-} = require('@aws-sdk/client-s3');
+const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
 const { createClient, getRepositoryEndpoint } = require('@prismicio/client');
 
 const s3Client = new S3Client({
@@ -23,50 +18,6 @@ function createPrismicClient() {
   return createClient(endpoint, {
     accessToken,
   });
-}
-
-async function cleanupOldSnapshots() {
-  try {
-    console.log('Cleaning up old snapshots...');
-
-    // List all objects in the bucket
-    const listCommand = new ListObjectsV2Command({
-      Bucket: BUCKET_NAME,
-      Prefix: 'snapshot.',
-    });
-
-    const response = await s3Client.send(listCommand);
-
-    if (!response.Contents || response.Contents.length <= 14) {
-      console.log(
-        `Found ${response.Contents?.length || 0} snapshots, no cleanup needed`
-      );
-      return;
-    }
-
-    // Sort by LastModified date (oldest first)
-    const sortedObjects = response.Contents.sort(
-      (a, b) => new Date(a.LastModified) - new Date(b.LastModified)
-    );
-
-    // Delete objects beyond the 14 most recent
-    const objectsToDelete = sortedObjects.slice(0, sortedObjects.length - 14);
-
-    console.log(`Deleting ${objectsToDelete.length} old snapshots`);
-
-    for (const obj of objectsToDelete) {
-      const deleteCommand = new DeleteObjectCommand({
-        Bucket: BUCKET_NAME,
-        Key: obj.Key,
-      });
-
-      await s3Client.send(deleteCommand);
-      console.log(`Deleted ${obj.Key}`);
-    }
-  } catch (error) {
-    console.error('Error cleaning up old snapshots:', error);
-    // Don't fail the main operation if cleanup fails
-  }
 }
 
 async function downloadPrismicSnapshot() {
@@ -107,9 +58,6 @@ async function downloadPrismicSnapshot() {
     console.log(
       `Successfully uploaded snapshot to s3://${BUCKET_NAME}/${filename}`
     );
-
-    // Clean up old snapshots (keep only 14 most recent)
-    await cleanupOldSnapshots();
 
     return {
       statusCode: 200,
