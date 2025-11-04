@@ -68,17 +68,17 @@ const ListItem = styled.li`
       width: calc(33.333vw - 30px);
 
       /* Max-width at xlarge: ((1338px - 120px - 330px) / 12 × 4) + 120px = 416px */
-      max-width: 416px;
+      max-width: ${((props.theme.sizes.xlarge - 120 - 330) / 12) * 4 + 120}px;
 
       &:nth-child(2){
         width: calc(33.333vw - (30px + var(--gutter-size)));
-        max-width: 386px;
+        max-width: ${((props.theme.sizes.xlarge - 120 - 330) / 12) * 4 + 90}px;
       }
 
       &:last-child {
         padding-right: var(--gutter-size);
         width: calc(33.333vw - (30px - var(--gutter-size)));
-        max-width: 446px;
+        max-width: ${((props.theme.sizes.xlarge - 120 - 330) / 12) * 4 + 150}px;
       }
     `)}
 `;
