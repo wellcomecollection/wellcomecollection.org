@@ -1,8 +1,14 @@
 import { Meta, StoryObj } from '@storybook/react';
+import { FunctionComponent } from 'react';
+import { useTheme } from 'styled-components';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import MoreLink from '@weco/content/views/components/MoreLink';
 import Readme from '@weco/content/views/components/MoreLink/README.mdx';
+
+type MoreLinkStoryProps = React.ComponentProps<typeof MoreLink> & {
+  colors?: string;
+};
 
 const meta: Meta<typeof MoreLink> = {
   title: 'Components/Buttons/Alternates/MoreLink',
@@ -14,22 +20,44 @@ const meta: Meta<typeof MoreLink> = {
   argTypes: {
     url: { table: { disable: true } },
     ariaLabel: { table: { disable: true } },
+    colors: {
+      control: 'select',
+      options: [
+        'default',
+        'danger',
+        'charcoalWhiteCharcoal',
+        'charcoalTransparentCharcoal',
+        'greenGreenWhite',
+        'marbleWhiteCharcoal',
+        'yellowYellowBlack',
+      ],
+    },
   },
 };
 
 export default meta;
 
-type Story = StoryObj<typeof MoreLink>;
+type Story = StoryObj<MoreLinkStoryProps>;
+
+const MoreLinkStory: FunctionComponent<MoreLinkStoryProps> = args => {
+  const { colors, ...rest } = args;
+  const theme = useTheme();
+
+  return (
+    <ReadmeDecorator
+      WrappedComponent={MoreLink}
+      args={{
+        ...rest,
+        ...(colors && {
+          colors: theme.buttonColors[colors as keyof typeof theme.buttonColors],
+        }),
+      }}
+      Readme={Readme}
+    />
+  );
+};
 
 export const Basic: Story = {
   name: 'MoreLink',
-  render: args => {
-    return (
-      <ReadmeDecorator
-        WrappedComponent={MoreLink}
-        args={args}
-        Readme={Readme}
-      />
-    );
-  },
+  render: args => <MoreLinkStory {...args} />,
 };
