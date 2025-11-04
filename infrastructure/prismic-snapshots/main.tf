@@ -131,7 +131,6 @@ resource "aws_lambda_function" "prismic_snapshot" {
     ignore_changes = [
       filename,
       source_code_hash,
-      last_modified,
     ]
   }
 }
