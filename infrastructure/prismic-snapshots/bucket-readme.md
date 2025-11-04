@@ -8,13 +8,13 @@ These snapshots are complete exports of all content from our Prismic CMS in JSON
 
 ## File naming convention
 
-Files are named with ISO 8601 timestamps:
+Files are named with the Prismic ref and an ISO 8601 timestamp:
 
 ```
-prismic-snapshot-YYYY-MM-DDTHH-MM-SSZ.json
+prismic-snapshot-<prismic-ref>-YYYY-MM-DDTHH-MM-SSZ.json
 ```
 
-For example: `prismic-snapshot-2025-11-03T23-00-00Z.json`
+For example: `prismic-snapshot-ref123-2025-11-03T23-00-00Z.json`
 
 ## File format
 
@@ -40,14 +40,18 @@ These backups serve as:
 
 ## Retention
 
-Snapshots are retainedfor 14 days.
+Snapshots are retained for 14 days.
 
 ## Access
 
-To download a snapshot:
+To download a snapshot (use the Prismic ref or a wildcard):
 
 ```bash
-aws s3 cp s3://wellcomecollection-prismic-snapshots/prismic-snapshot-YYYY-MM-DDTHH-MM-SSZ.json .
+# exact file
+aws s3 cp s3://wellcomecollection-prismic-snapshots/prismic-snapshot-masterref123-2025-11-03T23-00-00Z.json .
+
+# or using a wildcard for the timestamp/ref
+aws s3 cp s3://wellcomecollection-prismic-snapshots/prismic-snapshot-* . --recursive
 ```
 
 To list all available snapshots:
