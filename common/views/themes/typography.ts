@@ -88,7 +88,9 @@ const fontFamilies = {
   },
 };
 
-const fontSizeMixin = (size: 0 | 1 | 2 | 3 | 4 | 5 | 6) => css<GlobalStyleProps>`
+const fontSizeMixin = (
+  size: 0 | 1 | 2 | 3 | 4 | 5 | 6
+) => css<GlobalStyleProps>`
   ${props =>
     props.toggles?.designSystemFontSizes?.value
       ? css`
