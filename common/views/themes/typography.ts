@@ -1,3 +1,4 @@
+import { theme as designSystemTheme } from '@wellcometrust/wellcome-design-system/theme';
 import { css } from 'styled-components';
 
 import { GlobalStyleProps } from './default';
@@ -49,6 +50,17 @@ export const fontSizesAtBreakpoints = {
   },
 };
 
+// Map existing font size indexes to design system clamp-based sizes
+const designSystemFontSizes = {
+  0: designSystemTheme.font.size.f6, // Largest
+  1: designSystemTheme.font.size.f5,
+  2: designSystemTheme.font.size.f4,
+  3: designSystemTheme.font.size.f2,
+  4: designSystemTheme.font.size.f0, // Body text
+  5: designSystemTheme.font.size['f-1'],
+  6: designSystemTheme.font.size['f-2'], // Smallest
+};
+
 const fontFamilies = {
   intr: {
     base: `Inter, sans-serif;`,
@@ -76,14 +88,19 @@ const fontFamilies = {
   },
 };
 
-const fontSizeMixin = size => css`
-  ${breakpointNames.map(
-    name => css`
-      @media (min-width: ${props => props.theme.sizes[name]}px) {
-        font-size: ${fontSizesAtBreakpoints[name][size]}rem;
-      }
-    `
-  )}
+const fontSizeMixin = (size: number) => css<GlobalStyleProps>`
+  ${props =>
+    props.toggles?.designSystemFontSizes?.value
+      ? css`
+          font-size: ${designSystemFontSizes[size]};
+        `
+      : breakpointNames.map(
+          name => css`
+            @media (min-width: ${props.theme.sizes[name]}px) {
+              font-size: ${fontSizesAtBreakpoints[name][size]}rem;
+            }
+          `
+        )}
 `;
 
 type FontFamily = keyof typeof fontFamilies;
@@ -363,18 +380,25 @@ export const typography = css<GlobalStyleProps>`
   }
 `;
 
-export const makeFontSizeClasses = () => css`
-  ${breakpointNames.map(
-    bp => css`
-      @media (min-width: ${props => props.theme.sizes[bp]}px) {
-        ${Object.entries(fontSizesAtBreakpoints[bp])
+export const makeFontSizeClasses = () => css<GlobalStyleProps>`
+  ${props =>
+    props.toggles?.designSystemFontSizes?.value
+      ? Object.entries(designSystemFontSizes)
           .map(([key, value]) => {
-            return `.font-size-${key} {font-size: ${value}rem}`;
+            return `.font-size-${key} {font-size: ${value}}`;
           })
-          .join(' ')}
-      }
-    `
-  )}
+          .join(' ')
+      : breakpointNames.map(
+          bp => css`
+            @media (min-width: ${props.theme.sizes[bp]}px) {
+              ${Object.entries(fontSizesAtBreakpoints[bp])
+                .map(([key, value]) => {
+                  return `.font-size-${key} {font-size: ${value}rem}`;
+                })
+                .join(' ')}
+            }
+          `
+        )}
 `;
 
 function overridesAtBreakpoint(bp: string) {
