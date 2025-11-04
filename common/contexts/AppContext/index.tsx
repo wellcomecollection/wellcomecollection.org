@@ -7,6 +7,7 @@ import {
   useEffect,
   useState,
 } from 'react';
+import { useTheme } from 'styled-components';
 
 import useIsomorphicLayoutEffect from '@weco/common/hooks/useIsomorphicLayoutEffect';
 import {
@@ -14,7 +15,6 @@ import {
   COOKIE_BANNER_PARENT_ID,
 } from '@weco/common/services/app/civic-uk';
 import { Size } from '@weco/common/views/themes/config';
-import theme from '@weco/common/views/themes/default';
 
 type AppContextProps = {
   isEnhanced: boolean;
@@ -63,22 +63,23 @@ function checkForMobileOrTabletDevice(): boolean {
   );
 }
 
-function getWindowSize(): Size {
-  switch (true) {
-    case window.innerWidth < theme.sizes.medium:
-      return 'small';
-    case window.innerWidth < theme.sizes.large:
-      return 'medium';
-    case window.innerWidth < theme.sizes.xlarge:
-      return 'large';
-    default:
-      return 'xlarge';
-  }
-}
-
 export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
   children,
 }) => {
+  const theme = useTheme();
+
+  function getWindowSize(): Size {
+    switch (true) {
+      case window.innerWidth < theme.sizes.medium:
+        return 'small';
+      case window.innerWidth < theme.sizes.large:
+        return 'medium';
+      case window.innerWidth < theme.sizes.xlarge:
+        return 'large';
+      default:
+        return 'xlarge';
+    }
+  }
   const [isEnhanced, setIsEnhanced] = useState(appContextDefaults.isEnhanced);
   const [isFullSupportBrowser, setIsFullSupportBrowser] = useState(
     appContextDefaults.isFullSupportBrowser

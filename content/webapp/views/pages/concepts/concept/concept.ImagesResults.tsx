@@ -1,11 +1,10 @@
 import { FunctionComponent, useMemo } from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import { capitalize, pluralize } from '@weco/common/utils/grammar';
 import { ReturnedResults } from '@weco/common/utils/search';
 import Space from '@weco/common/views/components/styled/Space';
-import theme from '@weco/common/views/themes/default';
 import { useConceptPageContext } from '@weco/content/contexts/ConceptPageContext';
 import {
   Concept,
@@ -60,6 +59,7 @@ const ImageSection: FunctionComponent<Props> = ({
   concept,
   type,
 }) => {
+  const theme = useTheme();
   const { config } = useConceptPageContext();
   const firstTenImages = useMemo(
     () => singleSectionData?.pageResults.slice(0, 10) || [],
