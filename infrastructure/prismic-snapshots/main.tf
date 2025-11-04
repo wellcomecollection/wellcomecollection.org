@@ -319,3 +319,20 @@ resource "aws_cloudwatch_metric_alarm" "prismic_snapshot_missing_invocations" {
     Purpose     = "monitoring"
   }
 }
+
+# Upload README to S3 bucket for documentation
+resource "aws_s3_object" "bucket_readme" {
+  bucket       = aws_s3_bucket.prismic_snapshots.bucket
+  key          = "README.md"
+  source       = "${path.module}/bucket-readme.md"
+  content_type = "text/markdown"
+
+  # Update when the README content changes
+  etag = filemd5("${path.module}/bucket-readme.md")
+
+  tags = {
+    Name        = "Prismic Snapshots Bucket README"
+    Environment = "production"
+    Purpose     = "documentation"
+  }
+}

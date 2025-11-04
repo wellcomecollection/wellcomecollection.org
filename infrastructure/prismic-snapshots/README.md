@@ -66,6 +66,28 @@ Lambda is configured with:
 
 Adjust in `main.tf` if needed based on Prismic content size.
 
+## Snapshot Storage
+
+### S3 Bucket Location
+
+**Bucket**: `wellcomecollection-prismic-snapshots`
+
+### Filename Structure
+
+Snapshots are stored with ISO 8601 timestamp filenames:
+
+```
+prismic-snapshot-YYYY-MM-DDTHH-MM-SSZ.json
+```
+
+**Examples**:
+- `prismic-snapshot-2025-11-03T23-00-15Z.json` (daily backup at 11 PM UTC)
+- `prismic-snapshot-2025-11-04T23-00-22Z.json` (next day's backup)
+
+### File Content
+
+Each snapshot contains the complete prismic repository content data for wellcomecollection.org in JSON format
+
 ## Deployment
 
 ### Prerequisites
