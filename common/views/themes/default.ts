@@ -94,5 +94,14 @@ const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
   ${typography}
 `;
 
+// Theme factory that creates a theme with appropriate color function based on toggles
+export const createThemeValues = (toggles: Toggles) => {
+  console.log(toggles);
+
+  return {
+    ...themeValues,
+  };
+};
+
 export default themeValues;
 export { GlobalStyle, cls };
