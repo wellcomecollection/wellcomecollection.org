@@ -153,7 +153,7 @@ resource "null_resource" "lambda_build" {
 data "archive_file" "prismic_snapshot_lambda_zip" {
   type        = "zip"
   output_path = "${path.module}/prismic_snapshot_lambda.zip"
-  
+
   # This creates a minimal zip if the build script hasn't run yet
   source {
     content  = "// Placeholder - will be replaced by build script"
@@ -232,4 +232,21 @@ resource "aws_lambda_permission" "allow_scheduler" {
 resource "aws_cloudwatch_log_group" "prismic_snapshot_lambda_logs" {
   name              = "/aws/lambda/${local.lambda_name}"
   retention_in_days = 14
+}
+
+# Upload README to S3 bucket for documentation
+resource "aws_s3_object" "bucket_readme" {
+  bucket       = aws_s3_bucket.prismic_snapshots.bucket
+  key          = "README.md"
+  source       = "${path.module}/bucket-readme.md"
+  content_type = "text/markdown"
+
+  # Update when the README content changes
+  etag = filemd5("${path.module}/bucket-readme.md")
+
+  tags = {
+    Name        = "Prismic Snapshots Bucket README"
+    Environment = "production"
+    Purpose     = "documentation"
+  }
 }
