@@ -95,13 +95,19 @@ const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
 `;
 
 // Theme factory that creates a theme with appropriate color function based on toggles
-export const createThemeValues = (toggles: Toggles) => {
-  console.log(toggles);
+export const createThemeValues = (
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  toggles: Toggles
+) => {
+  // Manipulate themeValues with toggles here
 
   return {
     ...themeValues,
   };
 };
 
+// Static theme instance for backward compatibility
+// Used by: TypeScript type definitions (styled.d.ts), test utilities, and Storybook configuration
+// Production code should use ThemeProvider with createThemeValues(toggles) for toggle-aware themes
 export default themeValues;
 export { GlobalStyle, cls };

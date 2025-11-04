@@ -151,10 +151,10 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
     <>
       <ApmContextProvider>
         <ServerDataContext.Provider value={serverData}>
-          <UserContextProvider>
-            <AppContextProvider>
-              <SearchContextProvider>
-                <ThemeProvider theme={createThemeValues(serverData.toggles)}>
+          <ThemeProvider theme={createThemeValues(serverData.toggles)}>
+            <UserContextProvider>
+              <AppContextProvider>
+                <SearchContextProvider>
                   <GlobalStyle
                     toggles={serverData.toggles}
                     isFontsLoaded={useIsFontsLoaded()}
@@ -174,10 +174,10 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
                       title={pageProps.err.message}
                     />
                   )}
-                </ThemeProvider>
-              </SearchContextProvider>
-            </AppContextProvider>
-          </UserContextProvider>
+                </SearchContextProvider>
+              </AppContextProvider>
+            </UserContextProvider>
+          </ThemeProvider>
         </ServerDataContext.Provider>
       </ApmContextProvider>
     </>
