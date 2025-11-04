@@ -33,6 +33,10 @@ resource "aws_s3_bucket_lifecycle_configuration" "prismic_snapshots" {
     id     = "delete_old_snapshots"
     status = "Enabled"
 
+    filter {
+      prefix = "prismic-snapshot-"
+    }
+
     expiration {
       days = 14
     }
