@@ -34,7 +34,7 @@ const StyledImage = styled(Image)<{ $tiltIndex: number }>`
   }
 
   @container work-types-list (min-width: ${props =>
-    props.theme.sizes.xlarge}px) {
+    props.theme.sizes.large}px) {
     width: 100%;
     height: auto;
     max-width: 120px;
