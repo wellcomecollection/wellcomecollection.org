@@ -1,6 +1,15 @@
 terraform {
   required_version = ">= 0.12"
 
+  backend "s3" {
+    role_arn = "arn:aws:iam::130871440101:role/experience-developer"
+    bucket   = "wellcomecollection-infra"
+    key      = "build-state/prismic-snapshots.tfstate"
+    region   = "eu-west-1"
+
+    dynamodb_table = "terraform-locktable"
+  }
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
