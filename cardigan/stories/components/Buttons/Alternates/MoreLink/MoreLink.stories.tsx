@@ -3,6 +3,7 @@ import { FunctionComponent } from 'react';
 import { useTheme } from 'styled-components';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
+import theme from '@weco/common/views/themes/default';
 import MoreLink from '@weco/content/views/components/MoreLink';
 import Readme from '@weco/content/views/components/MoreLink/README.mdx';
 
@@ -22,15 +23,7 @@ const meta: Meta<typeof MoreLink> = {
     ariaLabel: { table: { disable: true } },
     colors: {
       control: 'select',
-      options: [
-        'default',
-        'danger',
-        'charcoalWhiteCharcoal',
-        'charcoalTransparentCharcoal',
-        'greenGreenWhite',
-        'marbleWhiteCharcoal',
-        'yellowYellowBlack',
-      ],
+      options: Object.keys(theme.buttonColors),
     },
   },
 };
