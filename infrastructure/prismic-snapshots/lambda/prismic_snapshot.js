@@ -39,7 +39,7 @@ async function downloadPrismicSnapshot() {
 
     // Create filename with timestamp and ref
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const filename = `snapshot.${refId}.${timestamp}.json`;
+    const filename = `prismic-snapshot-${refId}-${timestamp}.json`;
 
     // Upload to S3
     const uploadCommand = new PutObjectCommand({
