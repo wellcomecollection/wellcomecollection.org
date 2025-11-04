@@ -52,10 +52,10 @@ export const fontSizesAtBreakpoints = {
 
 // Map existing font size indexes to design system clamp-based sizes
 const designSystemFontSizes = {
-  0: designSystemTheme.font.size.f6, // Largest
-  1: designSystemTheme.font.size.f5,
-  2: designSystemTheme.font.size.f4,
-  3: designSystemTheme.font.size.f2,
+  0: designSystemTheme.font.size.f5, // Largest
+  1: designSystemTheme.font.size.f4,
+  2: designSystemTheme.font.size.f2,
+  3: designSystemTheme.font.size.f1,
   4: designSystemTheme.font.size.f0, // Body text
   5: designSystemTheme.font.size['f-1'],
   6: designSystemTheme.font.size['f-2'], // Smallest
