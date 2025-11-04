@@ -1,11 +1,11 @@
-import { ReactElement } from 'react';
+import { FunctionComponent } from 'react';
+import { useTheme } from 'styled-components';
 
 import { getCrop } from '@weco/common/model/image';
 import { FeaturedMedia } from '@weco/common/views/components/PageHeader';
 import Picture from '@weco/common/views/components/Picture';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed';
-import { sizes } from '@weco/common/views/themes/config';
 import { transformEmbedSlice } from '@weco/content/services/prismic/transformers/body';
 import { isVideoEmbed } from '@weco/content/types/body';
 import { GenericContentFields } from '@weco/content/types/generic-content-fields';
@@ -63,22 +63,24 @@ export function getFeaturedMedia(
   return featuredMedia;
 }
 
-export function getHeroPicture(
-  fields: GenericContentFields
-): ReactElement<typeof Picture> | undefined {
+export const HeroPicture: FunctionComponent<{
+  fields: GenericContentFields;
+}> = ({ fields }) => {
+  const theme = useTheme();
   const squareImage = getCrop(fields.image, 'square');
   const widescreenImage = getCrop(fields.image, '16:9');
 
+  if (!squareImage || !widescreenImage) {
+    return null;
+  }
+
   return (
-    squareImage &&
-    widescreenImage && (
-      <Picture
-        images={[
-          { ...widescreenImage, minWidth: `${sizes.medium}px` },
-          squareImage,
-        ]}
-        isFull={true}
-      />
-    )
+    <Picture
+      images={[
+        { ...widescreenImage, minWidth: `${theme.sizes.medium}px` },
+        squareImage,
+      ]}
+      isFull={true}
+    />
   );
-}
+};
