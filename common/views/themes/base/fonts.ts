@@ -74,6 +74,20 @@ export const fonts = css<GlobalStyleProps>`
     font-style: normal;
   }
 
+  @font-face {
+    font-family: 'IBM Plex Mono';
+    src: url('https://i.wellcomecollection.org/assets/fonts/IBMPlexMono-Regular.woff2');
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'IBM Plex Mono';
+    src: url('https://i.wellcomecollection.org/assets/fonts/IBMPlexMono-SemiBold.woff2');
+    font-weight: 600;
+    font-style: normal;
+  }
+
   /*
  * Legal Disclaimer
  *
