@@ -62,6 +62,18 @@ export const fonts = css<GlobalStyleProps>`
     font-style: normal;
   }
 
+  /* This is a duplicate declation of the block above, but with the font-family changed to match what's exported from the design system */
+  @font-face {
+    font-family: 'Wellcome';
+    src:
+      url('https://i.wellcomecollection.org/assets/fonts/wellcome-bold.woff2')
+        format('woff2'),
+      url('https://i.wellcomecollection.org/assets/fonts/wellcome-bold.woff')
+        format('woff');
+    font-weight: bold;
+    font-style: normal;
+  }
+
   /*
  * Legal Disclaimer
  *
