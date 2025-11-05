@@ -136,6 +136,7 @@ const Hit: FunctionComponent<HitProps> = ({
 const IIIFSearchWithin: FunctionComponent = () => {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
   const {
     transformedManifest,
     searchResults,
@@ -150,6 +151,11 @@ const IIIFSearchWithin: FunctionComponent = () => {
   const { searchService, canvases } = { ...transformedManifest };
 
   function handleClearResults() {
+    // Set data attribute to prevent GTM trigger from firing
+    if (formRef.current) {
+      formRef.current.dataset.gtmIsClearing = 'true';
+    }
+
     const link = toWorksItemLink({
       workId: work.id,
       props: {
@@ -160,6 +166,11 @@ const IIIFSearchWithin: FunctionComponent = () => {
     });
     setSearchResults && setSearchResults(results);
     router.replace(link.href);
+
+    // Remove the attribute after navigation
+    if (formRef.current) {
+      delete formRef.current.dataset.gtmIsClearing;
+    }
   }
 
   async function getSearchResults() {
@@ -187,6 +198,8 @@ const IIIFSearchWithin: FunctionComponent = () => {
   return (
     <>
       <SearchForm
+        ref={formRef}
+        data-gtm-trigger="form-search-within"
         action={router.asPath}
         onSubmit={event => {
           event.preventDefault();

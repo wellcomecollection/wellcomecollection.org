@@ -68,6 +68,7 @@ const SearchForm = ({
       data-component="search-form"
       action={formAction(searchCategory)}
       id={formId}
+      data-gtm-trigger={formId}
       onSubmit={event => {
         event.preventDefault();
         updateUrl(event.currentTarget);
