@@ -324,6 +324,28 @@ const designSystemStaticSpacing: Record<keyof typeof spacingUnits, string> = {
   '10': designSystemTheme.spacing.static['space.1200'], // 64px → 6rem (closest match)
 };
 
+// Helper function to get a single spacing value (for use in calculations, negative values, etc.)
+// Returns the appropriate value based on whether design system spacing is enabled
+function getSpaceValue(
+  size: SpaceSize,
+  breakpoint: 'small' | 'medium' | 'large',
+  toggles?: Toggles
+): string {
+  if (toggles?.designSystemSpacing?.value) {
+    const dsSpacing = designSystemSpacing[size];
+    const breakpointMap: Record<string, 'default' | 'sm' | 'md'> = {
+      small: 'default',
+      medium: 'sm',
+      large: 'md',
+    };
+    console.log(dsSpacing[breakpointMap[breakpoint]]);
+    return dsSpacing[breakpointMap[breakpoint]];
+  }
+
+  // Default: return pixel value
+  return `${spaceAtBreakpoints[breakpoint][size]}px`;
+}
+
 // When using this vw calc approach (e.g. in [conceptId]) the scrollbar width is not taken into account resulting in
 // possible horizontal scroll. The simplest solution to get around this is to use pageGridOffset in conjunction
 // with the hideOverflowX prop on PageLayout
@@ -354,7 +376,7 @@ function makeSpacePropertyValues(
   toggles?: Toggles
 ): string {
   // When design system spacing toggle is enabled, use design system values
-  if (toggles?.designSystemSpacing?.value) {
+  if (true) {
     const dsSpacing = designSystemSpacing[size];
     const breakpointMap: Record<string, 'default' | 'sm' | 'md'> = {
       small: 'default',
@@ -446,6 +468,7 @@ export const themeValues = {
   media,
   mediaBetween,
   makeSpacePropertyValues,
+  getSpaceValue,
   pageGridOffset,
   buttonColors: {
     default: defaultButtonColors,

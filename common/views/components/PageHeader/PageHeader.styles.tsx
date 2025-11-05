@@ -40,16 +40,16 @@ export const HeroPictureBackground = styled.div.attrs({
   background-color: ${props => props.theme.color(props.$bgColor)};
   height: 50%;
   width: 100%;
-  bottom: -${props => props.theme.spaceAtBreakpoints.small[headerSpaceSize]}px;
+  bottom: -${props => props.theme.getSpaceValue(headerSpaceSize, 'small')};
 
   ${props =>
     props.theme.media('medium')(
-      `bottom: -${props.theme.spaceAtBreakpoints.medium[headerSpaceSize]}px;`
+      `bottom: -${props.theme.getSpaceValue(headerSpaceSize, 'medium')};`
     )}
 
   ${props =>
     props.theme.media('large')(
-      `bottom: -${props.theme.spaceAtBreakpoints.large[headerSpaceSize]}px;`
+      `bottom: -${props.theme.getSpaceValue(headerSpaceSize, 'large')};`
     )}
 `;
 

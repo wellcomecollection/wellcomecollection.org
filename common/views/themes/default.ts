@@ -114,6 +114,11 @@ export const createThemeValues = (toggles: Toggles) => {
         overrides,
         toggles
       ),
+    // Override getSpaceValue to include toggles
+    getSpaceValue: (
+      size: Parameters<typeof themeValues.getSpaceValue>[0],
+      breakpoint: Parameters<typeof themeValues.getSpaceValue>[1]
+    ) => themeValues.getSpaceValue(size, breakpoint, toggles),
   };
 };
 
