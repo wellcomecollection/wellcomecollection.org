@@ -1,3 +1,7 @@
+import {
+  theme as designSystemTheme,
+  ResponsiveSpaceValue,
+} from '@wellcometrust/wellcome-design-system/theme';
 import { keyframes } from 'styled-components';
 
 import { ButtonColors } from '@weco/common/views/components/Buttons';
@@ -6,6 +10,7 @@ import {
   SpaceOverrides,
   VerticalSpaceProperty,
 } from '@weco/common/views/components/styled/Space';
+import { Toggles } from '@weco/toggles';
 
 type SpaceSize = 'xs' | 's' | 'm' | 'l' | 'xl';
 type SpaceProperty = HorizontalSpaceProperty | VerticalSpaceProperty;
@@ -294,6 +299,31 @@ const spaceAtBreakpoints = {
   },
 };
 
+// Map current space sizes to design system responsive spacing
+// xs → space.2xs, s → space.xs, m → space.sm, l → space.lg, xl → space.xl
+const designSystemSpacing: Record<SpaceSize, ResponsiveSpaceValue> = {
+  xs: designSystemTheme.spacing.responsive['space.2xs'],
+  s: designSystemTheme.spacing.responsive['space.xs'],
+  m: designSystemTheme.spacing.responsive['space.sm'],
+  l: designSystemTheme.spacing.responsive['space.lg'],
+  xl: designSystemTheme.spacing.responsive['space.xl'],
+};
+
+// Map spacingUnits to design system static spacing values
+// Used for overrides parameter
+const designSystemStaticSpacing: Record<keyof typeof spacingUnits, string> = {
+  '1': designSystemTheme.spacing.static['space.050'], // 4px → 0.25rem
+  '2': designSystemTheme.spacing.static['space.075'], // 6px → 0.375rem
+  '3': designSystemTheme.spacing.static['space.100'], // 8px → 0.5rem
+  '4': designSystemTheme.spacing.static['space.150'], // 12px → 0.75rem
+  '5': designSystemTheme.spacing.static['space.200'], // 16px → 1rem
+  '6': designSystemTheme.spacing.static['space.300'], // 24px → 1.5rem
+  '7': designSystemTheme.spacing.static['space.400'], // 30px → 2rem (closest match)
+  '8': designSystemTheme.spacing.static['space.400'], // 32px → 2rem (closest match)
+  '9': designSystemTheme.spacing.static['space.600'], // 46px → 3rem (closest match)
+  '10': designSystemTheme.spacing.static['space.1200'], // 64px → 6rem (closest match)
+};
+
 // When using this vw calc approach (e.g. in [conceptId]) the scrollbar width is not taken into account resulting in
 // possible horizontal scroll. The simplest solution to get around this is to use pageGridOffset in conjunction
 // with the hideOverflowX prop on PageLayout
@@ -320,8 +350,38 @@ function makeSpacePropertyValues(
   size: SpaceSize,
   properties: SpaceProperty[],
   negative?: boolean,
-  overrides?: SpaceOverrides
+  overrides?: SpaceOverrides,
+  toggles?: Toggles
 ): string {
+  // When design system spacing toggle is enabled, use design system values
+  if (toggles?.designSystemSpacing?.value) {
+    const dsSpacing = designSystemSpacing[size];
+    const breakpointMap: Record<string, 'default' | 'sm' | 'md'> = {
+      small: 'default',
+      medium: 'sm',
+      large: 'md',
+    };
+
+    return breakpointNames
+      .map(bp => {
+        const bpKey = breakpointMap[bp];
+        // Use override if provided, otherwise use responsive spacing
+        const spaceValue =
+          overrides && overrides[bp]
+            ? designSystemStaticSpacing[overrides[bp]]
+            : dsSpacing[bpKey];
+        return `@media (min-width: ${sizes[bp]}px) {
+      ${properties
+        .map(
+          p => `${p}: ${negative ? `calc(-1 * ${spaceValue})` : spaceValue};`
+        )
+        .join('')}
+    }`;
+      })
+      .join('');
+  }
+
+  // Default behavior: use existing spaceAtBreakpoints with px values
   return breakpointNames
     .map(bp => {
       return `@media (min-width: ${sizes[bp]}px) {

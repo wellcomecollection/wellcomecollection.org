@@ -1,4 +1,10 @@
 declare module '@wellcometrust/wellcome-design-system/theme' {
+  export type ResponsiveSpaceValue = {
+    default: string;
+    sm: string;
+    md: string;
+  };
+
   export const theme: {
     breakpoints: {
       xs: string;
@@ -33,7 +39,31 @@ declare module '@wellcometrust/wellcome-design-system/theme' {
         bold: string;
       };
     };
-    spacing: Record<string, unknown>;
+    spacing: {
+      static: {
+        'space.0': string;
+        'space.050': string;
+        'space.075': string;
+        'space.100': string;
+        'space.150': string;
+        'space.200': string;
+        'space.300': string;
+        'space.400': string;
+        'space.600': string;
+        'space.800': string;
+        'space.900': string;
+        'space.1200': string;
+      };
+      responsive: {
+        'space.2xs': ResponsiveSpaceValue;
+        'space.xs': ResponsiveSpaceValue;
+        'space.sm': ResponsiveSpaceValue;
+        'space.md': ResponsiveSpaceValue;
+        'space.lg': ResponsiveSpaceValue;
+        'space.xl': ResponsiveSpaceValue;
+        'space.2xl': ResponsiveSpaceValue;
+      };
+    };
     'letter-spacing': Record<string, string>;
     'line-height': Record<string, string>;
     'text-transform': Record<string, string>;
