@@ -123,11 +123,11 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'designSystemFontSizes',
-      title: 'Design system font sizes',
+      id: 'designSystemFonts',
+      title: 'Design system fonts',
       initialValue: false,
       description:
-        'Use the new design system clamp-based fluid font sizes instead of breakpoint-based sizes',
+        'Use the design system font sizing, weights, and families instead of custom values',
       type: 'experimental',
     },
     {
