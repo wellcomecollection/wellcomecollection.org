@@ -65,26 +65,32 @@ const fontFamilies = {
   intr: {
     base: `Inter, sans-serif;`,
     full: `Inter, sans-serif;`,
+    designSystem: designSystemTheme.font.family.sans,
   },
   intm: {
     base: `Inter, sans-serif;`,
     full: `Inter, sans-serif;`,
+    designSystem: designSystemTheme.font.family.sans,
   },
   intsb: {
     base: `Inter, sans-serif;`,
     full: `Inter, sans-serif;`,
+    designSystem: designSystemTheme.font.family.sans,
   },
   intb: {
     base: `Inter, sans-serif;`,
     full: `Inter, sans-serif;`,
+    designSystem: designSystemTheme.font.family.sans,
   },
   wb: {
     base: `'Wellcome Bold Web Subset', 'Arial Black', sans-serif;`,
     full: `'Wellcome Bold Web', 'Wellcome Bold Web Subset', 'Arial Black', sans-serif;`,
+    designSystem: designSystemTheme.font.family.brand,
   },
   lr: {
     base: `'Courier New', Courier, Monospace;`,
     full: `'Lettera Regular Web', 'Courier New', Courier, Monospace;`,
+    designSystem: designSystemTheme.font.family.mono,
   },
 };
 
@@ -109,8 +115,12 @@ type FontFamily = keyof typeof fontFamilies;
 
 export const fontFamilyMixin = (
   family: FontFamily,
-  isFull: boolean
+  isFull: boolean,
+  useDesignSystem?: boolean
 ): string => {
+  if (useDesignSystem) {
+    return `font-family: ${fontFamilies[family].designSystem}`;
+  }
   return `font-family: ${fontFamilies[family][isFull ? 'full' : 'base']}`;
 };
 
@@ -145,27 +155,27 @@ export const typography = css<GlobalStyleProps>`
 
   ${props => `
     .font-intb {
-      ${fontFamilyMixin('intb', !!props.isFontsLoaded)};
+      ${fontFamilyMixin('intb', !!props.isFontsLoaded, props.toggles?.designSystemFontSizes?.value)};
     }
 
     .font-intsb {
-      ${fontFamilyMixin('intsb', !!props.isFontsLoaded)};
+      ${fontFamilyMixin('intsb', !!props.isFontsLoaded, props.toggles?.designSystemFontSizes?.value)};
     }
 
     .font-intm {
-      ${fontFamilyMixin('intm', !!props.isFontsLoaded)};
+      ${fontFamilyMixin('intm', !!props.isFontsLoaded, props.toggles?.designSystemFontSizes?.value)};
     }
 
     .font-intr {
-      ${fontFamilyMixin('intr', !!props.isFontsLoaded)};
+      ${fontFamilyMixin('intr', !!props.isFontsLoaded, props.toggles?.designSystemFontSizes?.value)};
     }
 
     .font-wb {
-      ${fontFamilyMixin('wb', !!props.isFontsLoaded)};
+      ${fontFamilyMixin('wb', !!props.isFontsLoaded, props.toggles?.designSystemFontSizes?.value)};
     }
 
     .font-lr {
-      ${fontFamilyMixin('lr', !!props.isFontsLoaded)};
+      ${fontFamilyMixin('lr', !!props.isFontsLoaded, props.toggles?.designSystemFontSizes?.value)};
     }
   `}
 
