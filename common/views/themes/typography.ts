@@ -98,7 +98,7 @@ const fontSizeMixin = (
   size: 0 | 1 | 2 | 3 | 4 | 5 | 6
 ) => css<GlobalStyleProps>`
   ${props =>
-    props.toggles?.designSystemFontSizes?.value
+    props.toggles?.designSystemFonts?.value
       ? css`
           font-size: ${designSystemFontSizes[size]};
         `
@@ -127,55 +127,55 @@ export const fontFamilyMixin = (
 export const typography = css<GlobalStyleProps>`
   .font-intb {
     font-weight: ${props =>
-      props.toggles?.designSystemFontSizes?.value
+      props.toggles?.designSystemFonts?.value
         ? designSystemTheme.font.weight.bold
         : '700'};
   }
 
   .font-intsb {
     font-weight: ${props =>
-      props.toggles?.designSystemFontSizes?.value
+      props.toggles?.designSystemFonts?.value
         ? designSystemTheme.font.weight.semibold
         : '600'};
   }
 
   .font-intm {
     font-weight: ${props =>
-      props.toggles?.designSystemFontSizes?.value
+      props.toggles?.designSystemFonts?.value
         ? designSystemTheme.font.weight.medium
         : '500'};
   }
 
   .font-intr {
     font-weight: ${props =>
-      props.toggles?.designSystemFontSizes?.value
+      props.toggles?.designSystemFonts?.value
         ? designSystemTheme.font.weight.regular
         : '400'};
   }
 
   ${props => `
     .font-intb {
-      ${fontFamilyMixin('intb', !!props.isFontsLoaded, props.toggles?.designSystemFontSizes?.value)};
+      ${fontFamilyMixin('intb', !!props.isFontsLoaded, props.toggles?.designSystemFonts?.value)};
     }
 
     .font-intsb {
-      ${fontFamilyMixin('intsb', !!props.isFontsLoaded, props.toggles?.designSystemFontSizes?.value)};
+      ${fontFamilyMixin('intsb', !!props.isFontsLoaded, props.toggles?.designSystemFonts?.value)};
     }
 
     .font-intm {
-      ${fontFamilyMixin('intm', !!props.isFontsLoaded, props.toggles?.designSystemFontSizes?.value)};
+      ${fontFamilyMixin('intm', !!props.isFontsLoaded, props.toggles?.designSystemFonts?.value)};
     }
 
     .font-intr {
-      ${fontFamilyMixin('intr', !!props.isFontsLoaded, props.toggles?.designSystemFontSizes?.value)};
+      ${fontFamilyMixin('intr', !!props.isFontsLoaded, props.toggles?.designSystemFonts?.value)};
     }
 
     .font-wb {
-      ${fontFamilyMixin('wb', !!props.isFontsLoaded, props.toggles?.designSystemFontSizes?.value)};
+      ${fontFamilyMixin('wb', !!props.isFontsLoaded, props.toggles?.designSystemFonts?.value)};
     }
 
     .font-lr {
-      ${fontFamilyMixin('lr', !!props.isFontsLoaded, props.toggles?.designSystemFontSizes?.value)};
+      ${fontFamilyMixin('lr', !!props.isFontsLoaded, props.toggles?.designSystemFonts?.value)};
     }
   `}
 
@@ -406,7 +406,7 @@ export const typography = css<GlobalStyleProps>`
 
 export const makeFontSizeClasses = () => css<GlobalStyleProps>`
   ${props =>
-    props.toggles?.designSystemFontSizes?.value
+    props.toggles?.designSystemFonts?.value
       ? Object.entries(designSystemFontSizes)
           .map(([key, value]) => {
             return `.font-size-${key} {font-size: ${value}}`;
