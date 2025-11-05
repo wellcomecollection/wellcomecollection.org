@@ -116,19 +116,31 @@ export const fontFamilyMixin = (
 
 export const typography = css<GlobalStyleProps>`
   .font-intb {
-    font-weight: 700;
+    font-weight: ${props =>
+      props.toggles?.designSystemFontSizes?.value
+        ? designSystemTheme.font.weight.bold
+        : '700'};
   }
 
   .font-intsb {
-    font-weight: 600;
+    font-weight: ${props =>
+      props.toggles?.designSystemFontSizes?.value
+        ? designSystemTheme.font.weight.semibold
+        : '600'};
   }
 
   .font-intm {
-    font-weight: 500;
+    font-weight: ${props =>
+      props.toggles?.designSystemFontSizes?.value
+        ? designSystemTheme.font.weight.medium
+        : '500'};
   }
 
   .font-intr {
-    font-weight: 400;
+    font-weight: ${props =>
+      props.toggles?.designSystemFontSizes?.value
+        ? designSystemTheme.font.weight.regular
+        : '400'};
   }
 
   ${props => `
