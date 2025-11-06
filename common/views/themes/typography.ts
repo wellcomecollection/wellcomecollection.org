@@ -124,11 +124,14 @@ export const fontFamilyMixin = (
   return `font-family: ${fontFamilies[family][isFull ? 'full' : 'base']}`;
 };
 
+// NOTE: intb, intsb and intm are all deliberately mapped to font-weight: 600
+// which is the semibold weight as we're trying to rationalise our Inter
+// weights down from 4 to 2
 export const typography = css<GlobalStyleProps>`
   .font-intb {
     font-weight: ${props =>
       props.toggles?.designSystemFonts?.value
-        ? designSystemTheme.font.weight.bold
+        ? designSystemTheme.font.weight.semibold
         : '700'};
   }
 
@@ -142,7 +145,7 @@ export const typography = css<GlobalStyleProps>`
   .font-intm {
     font-weight: ${props =>
       props.toggles?.designSystemFonts?.value
-        ? designSystemTheme.font.weight.medium
+        ? designSystemTheme.font.weight.semibold
         : '500'};
   }
 
