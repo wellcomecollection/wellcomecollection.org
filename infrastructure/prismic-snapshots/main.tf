@@ -3,18 +3,6 @@ locals {
   bucket_name = "wellcomecollection-prismic-snapshots"
 }
 
-# Access platform monitoring infrastructure for Slack notifications
-data "terraform_remote_state" "platform_monitoring" {
-  backend = "s3"
-
-  config = {
-    role_arn = "arn:aws:iam::760097843905:role/platform-read_only"
-    bucket   = "wellcomecollection-platform-infra"
-    key      = "terraform/monitoring.tfstate"
-    region   = "eu-west-1"
-  }
-}
-
 # Source of Prismic access token
 data "aws_secretsmanager_secret_version" "prismic_access_token" {
   secret_id = "prismic-model/prod/access-token"
