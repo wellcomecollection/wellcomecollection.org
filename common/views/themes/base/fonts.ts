@@ -62,7 +62,7 @@ export const fonts = css<GlobalStyleProps>`
     font-style: normal;
   }
 
-  /* This is a duplicate declation of the block above, but with the font-family changed to match what's exported from the design system */
+  /* This is a duplicate declaration of the block above, but with the font-family changed to match what's exported from the design system */
   @font-face {
     font-family: 'Wellcome';
     src:
