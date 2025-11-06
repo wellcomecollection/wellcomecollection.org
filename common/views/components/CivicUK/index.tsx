@@ -1,50 +1,12 @@
 // eslint-data-component: intentionally omitted
+import { useTheme } from 'styled-components';
+
 import cookies from '@weco/common/data/cookies';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { font } from '@weco/common/utils/classnames';
-import theme from '@weco/common/views/themes/default';
 
 const headingStyles =
   'style="font-weight: 500; font-family: Inter, sans-serif;"';
-
-const notifyTitleStyles = `
-  class="${font('intm', 3)}"
-  style="display: block; margin: ${theme.spacingUnits['4']}px 0;"
-`;
-
-const branding = {
-  removeIcon: true,
-  removeAbout: true,
-  fontFamily: 'Inter, sans-serif',
-  fontSize: '0.9375rem',
-  fontSizeHeaders: '1.175rem',
-  fontColor: theme.color('black'),
-  backgroundColor: theme.color('warmNeutral.200'),
-  acceptText: theme.color('black'),
-  acceptBackground: theme.color('yellow'),
-  rejectText: theme.color('black'),
-  toggleColor: '#0055cc',
-  toggleBackground: theme.color('neutral.300'),
-  toggleText: theme.color('black'),
-};
-
-const text = {
-  title: `<h1 class="${font('intm', 2)}">Manage cookies</h1>`,
-  intro:
-    "We use cookies to make our website work. To help us make our marketing and website better, we'd like your consent to use cookies on behalf of third parties too.",
-  necessaryTitle: `<h2 ${headingStyles}>Essential cookies</h2>`,
-  necessaryDescription:
-    'These cookies are necessary for our website to function and therefore always need to be on.',
-  notifyTitle: `<span ${notifyTitleStyles}>Our website uses cookies</span>`,
-  notifyDescription:
-    "We use cookies to make our website work. To help us make our marketing and website better, we'd like your consent to use cookies on behalf of third parties too.",
-  closeLabel: '<span style="font-weight: normal;">Save and close</span>',
-  settings: 'Manage cookies',
-  accept: 'Accept all',
-  acceptSettings: 'Accept all',
-  reject: 'Essential only',
-  rejectSettings: 'Essential only',
-};
 
 // This format is required by Civic UK
 export const policyUpdatedDate = '04/06/2025';
@@ -88,15 +50,57 @@ const necessaryCookies = () => {
 
 const analyticsCookies = ['_gid', '_gat', '_ga*', 'ajs_anonymous_id'];
 
-const CivicUK = ({ apiKey }: { apiKey: string }) => (
-  <>
-    <script
-      src="https://cc.cdn.civiccomputing.com/9/cookieControl-9.x.min.js"
-      type="text/javascript"
-    ></script>
-    <script
-      dangerouslySetInnerHTML={{
-        __html: `CookieControl.load({
+const CivicUK = ({ apiKey }: { apiKey: string }) => {
+  const theme = useTheme();
+
+  const notifyTitleStyles = `
+  class="${font('intm', 3)}"
+  style="display: block; margin: ${theme.spacingUnits['4']}px 0;"
+`;
+
+  const branding = {
+    removeIcon: true,
+    removeAbout: true,
+    fontFamily: 'Inter, sans-serif',
+    fontSize: '0.9375rem',
+    fontSizeHeaders: '1.175rem',
+    fontColor: theme.color('black'),
+    backgroundColor: theme.color('warmNeutral.200'),
+    acceptText: theme.color('black'),
+    acceptBackground: theme.color('yellow'),
+    rejectText: theme.color('black'),
+    toggleColor: '#0055cc',
+    toggleBackground: theme.color('neutral.300'),
+    toggleText: theme.color('black'),
+  };
+
+  const text = {
+    title: `<h1 class="${font('intm', 2)}">Manage cookies</h1>`,
+    intro:
+      "We use cookies to make our website work. To help us make our marketing and website better, we'd like your consent to use cookies on behalf of third parties too.",
+    necessaryTitle: `<h2 ${headingStyles}>Essential cookies</h2>`,
+    necessaryDescription:
+      'These cookies are necessary for our website to function and therefore always need to be on.',
+    notifyTitle: `<span ${notifyTitleStyles}>Our website uses cookies</span>`,
+    notifyDescription:
+      "We use cookies to make our website work. To help us make our marketing and website better, we'd like your consent to use cookies on behalf of third parties too.",
+    closeLabel: '<span style="font-weight: normal;">Save and close</span>',
+    settings: 'Manage cookies',
+    accept: 'Accept all',
+    acceptSettings: 'Accept all',
+    reject: 'Essential only',
+    rejectSettings: 'Essential only',
+  };
+
+  return (
+    <>
+      <script
+        src="https://cc.cdn.civiccomputing.com/9/cookieControl-9.x.min.js"
+        type="text/javascript"
+      ></script>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `CookieControl.load({
             product: 'PRO_MULTISITE',
             apiKey: '${apiKey}',
             initialState: 'notify',
@@ -114,7 +118,7 @@ const CivicUK = ({ apiKey }: { apiKey: string }) => (
                 label: '<h2 ${headingStyles}>Measure website use</h2>',
                 description:
                   '<ul><li>We use these cookies to recognise you, to count your visits to the website, and to see how you move around it.</li><li>They help us to provide you with a good experience while you browse, for example by helping to make sure you can find what you need.</li><li>They also allows us to improve the way the website works.</li></ul>',
-                cookies: ${JSON.stringify(analyticsCookies)}, 
+                cookies: ${JSON.stringify(analyticsCookies)},
                 onAccept: function () {
                   const event = new CustomEvent('consentChanged', { detail: { analyticsConsent: 'granted' }});
                   window.dispatchEvent(event);
@@ -167,14 +171,15 @@ const CivicUK = ({ apiKey }: { apiKey: string }) => (
                   },
                 ],
               },
-            ],   
+            ],
             statement: ${JSON.stringify(statement)},
             branding: ${JSON.stringify(branding)},
             text: ${JSON.stringify(text)}
           });`,
-      }}
-    />
-  </>
-);
+        }}
+      />
+    </>
+  );
+};
 
 export default CivicUK;

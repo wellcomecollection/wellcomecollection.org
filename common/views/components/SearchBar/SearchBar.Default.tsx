@@ -5,11 +5,10 @@ import {
   SetStateAction,
   useRef,
 } from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import TextInput from '@weco/common/views/components/TextInput';
-import { themeValues } from '@weco/common/views/themes/config';
 
 const Container = styled.div`
   display: flex;
@@ -52,6 +51,7 @@ const SearchBar: FunctionComponent<Props> = ({
   inputRef,
   location,
 }) => {
+  const theme = useTheme();
   const defaultInputRef = useRef<HTMLInputElement>(null);
 
   return (
@@ -75,7 +75,7 @@ const SearchBar: FunctionComponent<Props> = ({
           text="Search"
           type={ButtonTypes.submit}
           form={form}
-          colors={themeValues.buttonColors.greenGreenWhite}
+          colors={theme.buttonColors.greenGreenWhite}
         />
       </SearchButtonWrapper>
     </Container>

@@ -1,7 +1,8 @@
 // eslint-data-component: intentionally omitted
 import { CSSProperties } from 'react';
+import { useTheme } from 'styled-components';
 
-import { PaletteColor, themeValues } from '@weco/common/views/themes/config';
+import { PaletteColor } from '@weco/common/views/themes/config';
 
 type ShapeVariant = 'full-1' | 'full-2' | 'edge-1' | 'edge-2';
 
@@ -27,7 +28,8 @@ const WShape = ({
   color?: PaletteColor;
   styles?: CSSProperties;
 }) => {
-  const fillColor = color ? themeValues.color(color) : 'currentColor';
+  const theme = useTheme();
+  const fillColor = color ? theme.color(color) : 'currentColor';
 
   switch (variant) {
     case 'full-1':

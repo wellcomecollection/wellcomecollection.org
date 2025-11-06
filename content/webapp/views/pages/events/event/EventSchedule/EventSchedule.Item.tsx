@@ -9,7 +9,6 @@ import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
-import { themeValues } from '@weco/common/views/themes/config';
 import { isEventPast } from '@weco/content/services/prismic/events';
 import { Event } from '@weco/content/types/events';
 import { Place } from '@weco/content/types/places';
@@ -24,16 +23,16 @@ type Props = {
 };
 
 const GridWithRowGap = styled(Grid)`
-  row-gap: ${themeValues.spaceAtBreakpoints.small.m}px;
+  row-gap: ${props => props.theme.spaceAtBreakpoints.small.m}px;
 
   ${props =>
     props.theme.media('medium')(`
-    row-gap: ${themeValues.spaceAtBreakpoints.medium.m}px;
+    row-gap: ${props.theme.spaceAtBreakpoints.medium.m}px;
   `)}
 
   ${props =>
     props.theme.media('large')(`
-    row-gap: ${themeValues.spaceAtBreakpoints.large.m}px;
+    row-gap: ${props.theme.spaceAtBreakpoints.large.m}px;
   `)}
 `;
 

@@ -1,12 +1,11 @@
 import { ErrorMessage } from '@hookform/error-message';
 import { FunctionComponent, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import { InputErrorMessage } from '@weco/common/views/components/TextInput';
-import { themeValues } from '@weco/common/views/themes/config';
 import {
   RequestDeleteError,
   useRequestDelete,
@@ -50,6 +49,7 @@ const DeleteAccount: FunctionComponent<ChangeDetailsModalContentProps> = ({
   const [submissionErrorMessage, setSubmissionErrorMessage] = useState<
     string | null
   >(null);
+  const theme = useTheme();
 
   useEffect(() => {
     reset(defaultValues);
@@ -127,13 +127,13 @@ const DeleteAccount: FunctionComponent<ChangeDetailsModalContentProps> = ({
           <ButtonAlign>
             <Button
               variant="ButtonSolid"
-              colors={themeValues.buttonColors.danger}
+              colors={theme.buttonColors.danger}
               type={ButtonTypes.submit}
               text="Yes, delete my account"
             />
             <Button
               variant="ButtonSolid"
-              colors={themeValues.buttonColors.greenTransparentGreen}
+              colors={theme.buttonColors.greenTransparentGreen}
               clickHandler={onCancel}
               text="No, go back to my account"
             />

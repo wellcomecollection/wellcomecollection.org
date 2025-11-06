@@ -1,5 +1,6 @@
 import { NextPage } from 'next';
 import { useMemo } from 'react';
+import { useTheme } from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { pageDescriptionConcepts } from '@weco/common/data/microcopy';
@@ -9,7 +10,6 @@ import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
-import { themeValues } from '@weco/common/views/themes/config';
 import { useConceptPageContext } from '@weco/content/contexts/ConceptPageContext';
 import { Concept as ConceptType } from '@weco/content/services/wellcome/catalogue/types';
 import { Link } from '@weco/content/types/link';
@@ -54,6 +54,7 @@ const ConceptPage: NextPage<Props> = ({
   const { isEnhanced } = useAppContext();
   const [expandedImage, setExpandedImage] = useExpandedImage(allImages);
   const { config } = useConceptPageContext();
+  const theme = useTheme();
 
   const { frequentCollaborators, relatedTopics } =
     conceptResponse.relatedConcepts || {};
@@ -194,9 +195,7 @@ const ConceptPage: NextPage<Props> = ({
                     label={relatedConceptsGroupLabel}
                     labelType="heading"
                     relatedConcepts={relatedTopics}
-                    buttonColors={
-                      themeValues.buttonColors.silverTransparentBlack
-                    }
+                    buttonColors={theme.buttonColors.silverTransparentBlack}
                   />
                 </Space>
               )}

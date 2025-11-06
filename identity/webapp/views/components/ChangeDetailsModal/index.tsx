@@ -1,8 +1,8 @@
 import { FunctionComponent, ReactElement, useRef, useState } from 'react';
+import { useTheme } from 'styled-components';
 
 import Button from '@weco/common/views/components/Buttons';
 import Modal from '@weco/common/views/components/Modal';
-import { themeValues } from '@weco/common/views/themes/config';
 import { UpdateUserSchema } from '@weco/identity/types/schemas/update-user';
 
 export type ChangeDetailsModalContentProps =
@@ -30,6 +30,7 @@ const ChangeDetailsModal: FunctionComponent<ChangeDetailsModalProps> = ({
   const [isActive, setIsActive] = useState(false);
   const [isModalLoading, setIsModalLoading] = useState(false);
   const openButton = useRef(null);
+  const theme = useTheme();
 
   const handleComplete = (newDetails?: UpdateUserSchema) => {
     onComplete(newDetails);
@@ -42,7 +43,7 @@ const ChangeDetailsModal: FunctionComponent<ChangeDetailsModalProps> = ({
     <div data-component="change-details-modal">
       <Button
         variant="ButtonSolid"
-        colors={themeValues.buttonColors.greenTransparentGreen}
+        colors={theme.buttonColors.greenTransparentGreen}
         text={buttonText}
         clickHandler={() => setIsActive(true)}
         ref={openButton}

@@ -1,11 +1,10 @@
 import { FunctionComponent, ReactElement, useRef, useState } from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { check } from '@weco/common/icons';
 import Button from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
-import { themeValues } from '@weco/common/views/themes/config';
 
 export type Props = {
   CTA: string;
@@ -28,6 +27,7 @@ const CopyContent: FunctionComponent<Props> = ({
   displayedContent,
 }: Props): ReactElement<Props> => {
   const { isEnhanced } = useAppContext();
+  const theme = useTheme();
   const [isTextCopied, setIsTextCopied] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -72,7 +72,7 @@ const CopyContent: FunctionComponent<Props> = ({
             dataGtmProps={{
               trigger: 'copy_content',
             }}
-            colors={themeValues.buttonColors.pumiceTransparentCharcoal}
+            colors={theme.buttonColors.pumiceTransparentCharcoal}
             size="small"
             aria-live="assertive"
             clickHandler={handleButtonClick}

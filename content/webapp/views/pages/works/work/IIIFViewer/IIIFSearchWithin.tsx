@@ -1,7 +1,7 @@
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { FunctionComponent, useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 import { search } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
@@ -10,7 +10,6 @@ import Button from '@weco/common/views/components/Buttons';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
 import TextInput from '@weco/common/views/components/TextInput';
-import { themeValues } from '@weco/common/views/themes/config';
 import {
   results,
   useItemViewerContext,
@@ -135,6 +134,7 @@ const Hit: FunctionComponent<HitProps> = ({
 
 const IIIFSearchWithin: FunctionComponent = () => {
   const router = useRouter();
+  const theme = useTheme();
   const inputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const {
@@ -238,7 +238,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
             icon={search}
             text="search within"
             isTextHidden={true}
-            colors={themeValues.buttonColors.yellowYellowBlack}
+            colors={theme.buttonColors.yellowYellowBlack}
           />
         </SearchButtonWrapper>
       </SearchForm>

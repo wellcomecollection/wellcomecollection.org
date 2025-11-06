@@ -1,6 +1,7 @@
 import NextLink from 'next/link';
 import { FunctionComponent, useEffect, useState } from 'react';
 
+import { getCrop } from '@weco/common/model/image';
 import {
   ExhibitionHighlightToursDocument,
   ExhibitionTextsDocument,
@@ -22,10 +23,7 @@ import {
 } from '@weco/content/types/exhibitions';
 import { Link } from '@weco/content/types/link';
 import { Page as PageType } from '@weco/content/types/pages';
-import {
-  getFeaturedMedia,
-  getHeroPicture,
-} from '@weco/content/utils/page-header';
+import { getFeaturedMedia, HeroPicture } from '@weco/content/utils/page-header';
 import Body from '@weco/content/views/components/Body';
 import BslLeafletVideo from '@weco/content/views/components/BslLeafletVideo';
 import Contact from '@weco/content/views/components/Contact';
@@ -97,8 +95,10 @@ const Exhibition: FunctionComponent<Props> = ({
   );
 
   // This is for content that we don't have the crops for in Prismic.
-  const maybeHeroPicture = getHeroPicture(exhibition);
-  const maybeFeaturedMedia = !maybeHeroPicture
+  const squareImage = getCrop(exhibition.image, 'square');
+  const widescreenImage = getCrop(exhibition.image, '16:9');
+  const hasHeroPicture = squareImage && widescreenImage;
+  const maybeFeaturedMedia = !hasHeroPicture
     ? getFeaturedMedia(exhibition)
     : undefined;
 
@@ -136,7 +136,9 @@ const Exhibition: FunctionComponent<Props> = ({
           </>
         }
         FeaturedMedia={maybeFeaturedMedia}
-        HeroPicture={maybeHeroPicture}
+        HeroPicture={
+          hasHeroPicture ? <HeroPicture fields={exhibition} /> : undefined
+        }
         isFree={true}
         isContentTypeInfoBeforeMedia={true}
         includeAccessibilityProvision={true}

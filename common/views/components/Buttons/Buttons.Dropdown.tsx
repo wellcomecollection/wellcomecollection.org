@@ -9,7 +9,7 @@ import {
 } from 'react';
 import { usePopper } from 'react-popper';
 import { CSSTransition } from 'react-transition-group';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { chevron, IconSvg } from '@weco/common/icons';
@@ -17,7 +17,6 @@ import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 import { BorderlessButton } from '@weco/common/views/components/BorderlessClickable';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
-import { themeValues } from '@weco/common/views/themes/config';
 
 const DropdownWrapper = styled.div`
   display: inline-flex;
@@ -116,6 +115,7 @@ const DropdownButton: FunctionComponent<
   isTight,
 }) => {
   const { isEnhanced } = useAppContext();
+  const theme = useTheme();
   const dropdownWrapperRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const popperRef = useRef(null);
@@ -196,8 +196,8 @@ const DropdownButton: FunctionComponent<
             size="small"
             colors={
               isOnDark
-                ? themeValues.buttonColors.whiteTransparentWhite
-                : themeValues.buttonColors.marbleWhiteCharcoal
+                ? theme.buttonColors.whiteTransparentWhite
+                : theme.buttonColors.marbleWhiteCharcoal
             }
           />
         )}
@@ -207,8 +207,8 @@ const DropdownButton: FunctionComponent<
             {...buttonProps}
             colors={
               isOnDark
-                ? themeValues.buttonColors.whiteTransparentWhite
-                : themeValues.buttonColors.greenTransparentGreen
+                ? theme.buttonColors.whiteTransparentWhite
+                : theme.buttonColors.greenTransparentGreen
             }
           />
         )}

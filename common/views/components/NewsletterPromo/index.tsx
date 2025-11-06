@@ -1,5 +1,5 @@
 import { FunctionComponent, useState } from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { newsletterAddressBook } from '@weco/common/data/dotdigital';
@@ -14,7 +14,6 @@ import {
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 import TextInput from '@weco/common/views/components/TextInput';
-import theme from '@weco/common/views/themes/default';
 
 const NewsletterForm = styled.form.attrs({
   name: 'newsletter-signup',
@@ -47,6 +46,7 @@ const PrivacyNotice = () => (
 );
 
 const NewsletterPromo: FunctionComponent = () => {
+  const theme = useTheme();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isSubmitError, setIsSubmitError] = useState(false);

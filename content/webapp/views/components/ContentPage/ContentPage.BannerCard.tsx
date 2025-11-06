@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 import { arrowSmall } from '@weco/common/icons';
 import { getCrop } from '@weco/common/model/image';
@@ -9,7 +9,6 @@ import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import Button from '@weco/common/views/components/Buttons';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
-import { themeValues } from '@weco/common/views/themes/config';
 import { Season } from '@weco/content/types/seasons';
 import DateRange from '@weco/content/views/components/DateRange';
 
@@ -89,6 +88,7 @@ const BannerCard: FunctionComponent<Props> = ({
   background = 'neutral.700',
   highlightColor = 'accent.salmon',
 }: Props) => {
+  const theme = useTheme();
   const { type, title, start, end, description, image, link } = {
     type: getTypeLabel(item.type),
     title: item.title,
@@ -146,7 +146,7 @@ const BannerCard: FunctionComponent<Props> = ({
         <p className={font('intr', 5)}>{description}</p>
         <Button
           variant="ButtonSolid"
-          colors={themeValues.buttonColors.whiteTransparentWhite}
+          colors={theme.buttonColors.whiteTransparentWhite}
           isIconAfter={true}
           icon={arrowSmall}
           text={`Explore ${type}`}

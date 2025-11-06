@@ -1,5 +1,5 @@
 import { FunctionComponent, ReactNode, useRef, useState } from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { sierraAccessMethodtoNewLabel } from '@weco/common/data/microcopy';
@@ -8,7 +8,6 @@ import { font } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
 import StackingTable from '@weco/common/views/components/StackingTable';
 import Space from '@weco/common/views/components/styled/Space';
-import { themeValues } from '@weco/common/views/themes/config';
 import { useIsArchiveContext } from '@weco/content/contexts/IsArchiveContext';
 import {
   PhysicalItem,
@@ -79,6 +78,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   const { state: userState } = useUserContext();
   const { disableRequesting } = useToggles();
   const isArchive = useIsArchiveContext();
+  const theme = useTheme();
   const requestButtonRef = useRef<HTMLButtonElement | null>(null);
   const [requestModalIsActive, setRequestModalIsActive] = useState(false);
 
@@ -186,7 +186,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
       const requestButton = (
         <Button
           variant="ButtonSolid"
-          colors={themeValues.buttonColors.greenTransparentGreen}
+          colors={theme.buttonColors.greenTransparentGreen}
           disabled={userState !== 'signedin'}
           ref={requestButtonRef}
           text="Request item"
