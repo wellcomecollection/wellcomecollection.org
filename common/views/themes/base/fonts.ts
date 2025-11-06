@@ -62,6 +62,32 @@ export const fonts = css<GlobalStyleProps>`
     font-style: normal;
   }
 
+  /* This is a duplicate declaration of the block above, but with the font-family changed to match what's exported from the design system */
+  @font-face {
+    font-family: 'Wellcome';
+    src:
+      url('https://i.wellcomecollection.org/assets/fonts/wellcome-bold.woff2')
+        format('woff2'),
+      url('https://i.wellcomecollection.org/assets/fonts/wellcome-bold.woff')
+        format('woff');
+    font-weight: bold;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'IBM Plex Mono';
+    src: url('https://i.wellcomecollection.org/assets/fonts/IBMPlexMono-Regular.woff2');
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'IBM Plex Mono';
+    src: url('https://i.wellcomecollection.org/assets/fonts/IBMPlexMono-SemiBold.woff2');
+    font-weight: 600;
+    font-style: normal;
+  }
+
   /*
  * Legal Disclaimer
  *

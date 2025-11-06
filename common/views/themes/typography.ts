@@ -65,32 +65,40 @@ const fontFamilies = {
   intr: {
     base: `Inter, sans-serif;`,
     full: `Inter, sans-serif;`,
+    designSystem: designSystemTheme.font.family.sans,
   },
   intm: {
     base: `Inter, sans-serif;`,
     full: `Inter, sans-serif;`,
+    designSystem: designSystemTheme.font.family.sans,
   },
   intsb: {
     base: `Inter, sans-serif;`,
     full: `Inter, sans-serif;`,
+    designSystem: designSystemTheme.font.family.sans,
   },
   intb: {
     base: `Inter, sans-serif;`,
     full: `Inter, sans-serif;`,
+    designSystem: designSystemTheme.font.family.sans,
   },
   wb: {
     base: `'Wellcome Bold Web Subset', 'Arial Black', sans-serif;`,
     full: `'Wellcome Bold Web', 'Wellcome Bold Web Subset', 'Arial Black', sans-serif;`,
+    designSystem: designSystemTheme.font.family.brand,
   },
   lr: {
     base: `'Courier New', Courier, Monospace;`,
     full: `'Lettera Regular Web', 'Courier New', Courier, Monospace;`,
+    designSystem: designSystemTheme.font.family.mono,
   },
 };
 
-const fontSizeMixin = (size: number) => css<GlobalStyleProps>`
+const fontSizeMixin = (
+  size: 0 | 1 | 2 | 3 | 4 | 5 | 6
+) => css<GlobalStyleProps>`
   ${props =>
-    props.toggles?.designSystemFontSizes?.value
+    props.toggles?.designSystemFonts?.value
       ? css`
           font-size: ${designSystemFontSizes[size]};
         `
@@ -107,51 +115,70 @@ type FontFamily = keyof typeof fontFamilies;
 
 export const fontFamilyMixin = (
   family: FontFamily,
-  isFull: boolean
+  isFull: boolean,
+  useDesignSystem?: boolean
 ): string => {
+  if (useDesignSystem) {
+    return `font-family: ${fontFamilies[family].designSystem}`;
+  }
   return `font-family: ${fontFamilies[family][isFull ? 'full' : 'base']}`;
 };
 
+// NOTE: intb, intsb and intm are all deliberately mapped to font-weight: 600
+// which is the semibold weight as we're trying to rationalise our Inter
+// weights down from 4 to 2
 export const typography = css<GlobalStyleProps>`
   .font-intb {
-    font-weight: 700;
+    font-weight: ${props =>
+      props.toggles?.designSystemFonts?.value
+        ? designSystemTheme.font.weight.semibold
+        : '700'};
   }
 
   .font-intsb {
-    font-weight: 600;
+    font-weight: ${props =>
+      props.toggles?.designSystemFonts?.value
+        ? designSystemTheme.font.weight.semibold
+        : '600'};
   }
 
   .font-intm {
-    font-weight: 500;
+    font-weight: ${props =>
+      props.toggles?.designSystemFonts?.value
+        ? designSystemTheme.font.weight.semibold
+        : '500'};
   }
 
   .font-intr {
-    font-weight: 400;
+    font-weight: ${props =>
+      props.toggles?.designSystemFonts?.value
+        ? designSystemTheme.font.weight.regular
+        : '400'};
   }
 
   ${props => `
     .font-intb {
-      ${fontFamilyMixin('intb', !!props.isFontsLoaded)};
+      ${fontFamilyMixin('intb', !!props.isFontsLoaded, props.toggles?.designSystemFonts?.value)};
     }
 
     .font-intsb {
-      ${fontFamilyMixin('intsb', !!props.isFontsLoaded)};
+      ${fontFamilyMixin('intsb', !!props.isFontsLoaded, props.toggles?.designSystemFonts?.value)};
     }
 
     .font-intm {
-      ${fontFamilyMixin('intm', !!props.isFontsLoaded)};
+      ${fontFamilyMixin('intm', !!props.isFontsLoaded, props.toggles?.designSystemFonts?.value)};
     }
 
     .font-intr {
-      ${fontFamilyMixin('intr', !!props.isFontsLoaded)};
+      ${fontFamilyMixin('intr', !!props.isFontsLoaded, props.toggles?.designSystemFonts?.value)};
     }
 
     .font-wb {
-      ${fontFamilyMixin('wb', !!props.isFontsLoaded)};
+      ${fontFamilyMixin('wb', !!props.isFontsLoaded, props.toggles?.designSystemFonts?.value)};
     }
 
     .font-lr {
-      ${fontFamilyMixin('lr', !!props.isFontsLoaded)};
+      ${fontFamilyMixin('lr', !!props.isFontsLoaded, props.toggles?.designSystemFonts?.value)};
     }
   `}
 
@@ -382,7 +409,7 @@ export const typography = css<GlobalStyleProps>`
 
 export const makeFontSizeClasses = () => css<GlobalStyleProps>`
   ${props =>
-    props.toggles?.designSystemFontSizes?.value
+    props.toggles?.designSystemFonts?.value
       ? Object.entries(designSystemFontSizes)
           .map(([key, value]) => {
             return `.font-size-${key} {font-size: ${value}}`;
