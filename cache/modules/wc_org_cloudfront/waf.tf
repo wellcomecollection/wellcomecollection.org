@@ -501,6 +501,56 @@ resource "aws_wafv2_web_acl" "wc_org" {
     }
   }
 
+  rule {
+    name     = "apac-captcha-consent-block"
+    priority = 12
+
+    action {
+      captcha {}
+    }
+
+    statement {
+      and_statement {
+        statement {
+          geo_match_statement {
+            country_codes = ["CN", "SG", "TW"]
+          }
+        }
+        statement {
+          not_statement {
+            statement {
+              size_constraint_statement {
+                comparison_operator = "GT"
+                size                = 0
+
+                field_to_match {
+                  cookies {
+                    match_pattern {
+                      included_cookies = ["CookieControl"]
+                    }
+                    match_scope      = "ALL"
+                    oversize_handling = "MATCH"
+                  }
+                }
+
+                text_transformation {
+                  priority = 0
+                  type     = "NONE"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "apac-captcha-consent-block"
+      sampled_requests_enabled   = true
+    }
+  }
+
   visibility_config {
     cloudwatch_metrics_enabled = true
     sampled_requests_enabled   = true
