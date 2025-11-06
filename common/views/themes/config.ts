@@ -324,6 +324,16 @@ const designSystemStaticSpacing: Record<keyof typeof spacingUnits, string> = {
   '10': designSystemTheme.spacing.static['space.1200'], // 64px → 6rem (closest match)
 };
 
+// Map our breakpoint names to design system breakpoint keys
+const BREAKPOINT_TO_DS_MAP: Record<
+  'small' | 'medium' | 'large',
+  'default' | 'sm' | 'md'
+> = {
+  small: 'default',
+  medium: 'sm',
+  large: 'md',
+};
+
 // Helper function to get a single spacing value (for use in calculations, negative values, etc.)
 // Returns the appropriate value based on whether design system spacing is enabled
 function getSpaceValue(
@@ -333,17 +343,23 @@ function getSpaceValue(
 ): string {
   if (toggles?.designSystemSpacing?.value) {
     const dsSpacing = designSystemSpacing[size];
-    const breakpointMap: Record<string, 'default' | 'sm' | 'md'> = {
-      small: 'default',
-      medium: 'sm',
-      large: 'md',
-    };
-    console.log(dsSpacing[breakpointMap[breakpoint]]);
-    return dsSpacing[breakpointMap[breakpoint]];
+    return dsSpacing[BREAKPOINT_TO_DS_MAP[breakpoint]];
   }
 
   // Default: return pixel value
   return `${spaceAtBreakpoints[breakpoint][size]}px`;
+}
+
+// Helper function to get override spacing values
+// Returns the appropriate value based on whether design system spacing is enabled
+function getSpaceOverrideValue(
+  unit: keyof typeof spacingUnits,
+  toggles?: Toggles
+): string {
+  if (toggles?.designSystemSpacing?.value) {
+    return designSystemStaticSpacing[unit];
+  }
+  return `${spacingUnits[unit]}px`;
 }
 
 // When using this vw calc approach (e.g. in [conceptId]) the scrollbar width is not taken into account resulting in
@@ -375,48 +391,23 @@ function makeSpacePropertyValues(
   overrides?: SpaceOverrides,
   toggles?: Toggles
 ): string {
-  // When design system spacing toggle is enabled, use design system values
-  if (true) {
-    const dsSpacing = designSystemSpacing[size];
-    const breakpointMap: Record<string, 'default' | 'sm' | 'md'> = {
-      small: 'default',
-      medium: 'sm',
-      large: 'md',
-    };
-
-    return breakpointNames
-      .map(bp => {
-        const bpKey = breakpointMap[bp];
-        // Use override if provided, otherwise use responsive spacing
-        const spaceValue =
-          overrides && overrides[bp]
-            ? designSystemStaticSpacing[overrides[bp]]
-            : dsSpacing[bpKey];
-        return `@media (min-width: ${sizes[bp]}px) {
-      ${properties
-        .map(
-          p => `${p}: ${negative ? `calc(-1 * ${spaceValue})` : spaceValue};`
-        )
-        .join('')}
-    }`;
-      })
-      .join('');
-  }
-
-  // Default behavior: use existing spaceAtBreakpoints with px values
   return breakpointNames
     .map(bp => {
+      // Use override if provided, otherwise use size-based spacing
+      const baseValue =
+        overrides && overrides[bp]
+          ? getSpaceOverrideValue(overrides[bp], toggles)
+          : getSpaceValue(size, bp as 'small' | 'medium' | 'large', toggles);
+
+      // Handle negative values appropriately for design system vs legacy
+      const finalValue = negative
+        ? toggles?.designSystemSpacing?.value
+          ? `calc(-1 * ${baseValue})`
+          : `-${baseValue}` // baseValue already includes 'px' from getSpaceValue
+        : baseValue;
+
       return `@media (min-width: ${sizes[bp]}px) {
-      ${properties
-        .map(
-          p =>
-            `${p}: ${negative ? '-' : ''}${
-              overrides && overrides[bp]
-                ? spacingUnits[overrides[bp]]
-                : spaceAtBreakpoints[bp][size]
-            }px;`
-        )
-        .join('')}
+      ${properties.map(p => `${p}: ${finalValue};`).join('')}
     }`;
     })
     .join('');
