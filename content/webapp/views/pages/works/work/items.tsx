@@ -260,7 +260,10 @@ const WorkItemPage: NextPage<Props> = ({
       >
         <div className={font('intr', 5)}>
           {modalContent?.label && (
-            <h2 className={font('intb', 4)}>{modalContent?.label}</h2>
+            // When this modal is displayed, the rest of the page is hidden and we need to make
+            // sure there is an appropriate h1 available to assistive technologies
+            // https://github.com/wellcomecollection/wellcomecollection.org/issues/7545
+            <h1 className={font('intb', 4)}>{modalContent?.label}</h1>
           )}
           {modalContent?.description && (
             <div
