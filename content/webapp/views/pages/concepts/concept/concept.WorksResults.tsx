@@ -107,9 +107,11 @@ const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
           data-testid="works-section"
         >
           <div
-            role="tabpanel"
-            id={`tabpanel-${selectedTab}`}
-            aria-labelledby={`tab-${selectedTab}`}
+            {...(tabs.length > 1 && {
+              role: 'tabpanel',
+              id: `tabpanel-${selectedTab}`,
+              'aria-labelledby': `tab-${selectedTab}`,
+            })}
           >
             <WorksCount>
               {pluralize(activePanel.works.totalResults, 'work')}
