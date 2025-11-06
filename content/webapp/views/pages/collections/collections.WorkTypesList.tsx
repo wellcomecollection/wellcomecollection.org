@@ -12,13 +12,9 @@ import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
-import { themeValues } from '@weco/common/views/themes/config';
 import { WorkTypeStats } from '@weco/content/services/wellcome/catalogue/workTypeAggregations';
 import { toSearchImagesLink } from '@weco/content/views/components/SearchPagesLink/Images';
 import { toSearchWorksLink } from '@weco/content/views/components/SearchPagesLink/Works';
-
-const smallContainerBreakpoint = `${themeValues.sizes.medium}px`;
-const largeContainerBreakpoint = `${themeValues.sizes.large}px`;
 
 const StyledImage = styled(Image)<{ $tiltIndex: number }>`
   width: 80px;
@@ -30,13 +26,15 @@ const StyledImage = styled(Image)<{ $tiltIndex: number }>`
     transform 0.2s ease-out,
     filter 0.2s ease-out;
 
-  @container work-types-list (min-width: ${smallContainerBreakpoint}) {
+  @container work-types-list (min-width: ${props =>
+    props.theme.sizes.medium}px) {
     width: 100%;
     height: auto;
     max-width: 100px;
   }
 
-  @container work-types-list (min-width: ${largeContainerBreakpoint}) {
+  @container work-types-list (min-width: ${props =>
+    props.theme.sizes.large}px) {
     width: 100%;
     height: auto;
     max-width: 120px;
@@ -68,7 +66,8 @@ const StyledList = styled.ul`
   }
 
   /* Large container: single row layout */
-  @container work-types-list (min-width: ${smallContainerBreakpoint}) {
+  @container work-types-list (min-width: ${props =>
+    props.theme.sizes.medium}px) {
     flex-wrap: nowrap;
     justify-content: space-between;
     min-width: 0;
@@ -100,7 +99,8 @@ const IconContainer = styled(Space).attrs({
   max-width: 80px;
   flex-shrink: 0;
 
-  @container work-types-list (min-width: ${smallContainerBreakpoint}) {
+  @container work-types-list (min-width: ${props =>
+    props.theme.sizes.medium}px) {
     min-height: 120px;
     max-width: 100%;
     flex-shrink: 1;
@@ -112,7 +112,8 @@ const TextContainer = styled.div`
   align-items: center;
   flex-grow: 1;
 
-  @container work-types-list (min-width: ${smallContainerBreakpoint}) {
+  @container work-types-list (min-width: ${props =>
+    props.theme.sizes.medium}px) {
     align-items: center;
   }
 `;
@@ -122,7 +123,8 @@ const CountDisplayContainer = styled.div`
   justify-content: center;
   align-items: center;
 
-  @container work-types-list (min-width: ${smallContainerBreakpoint}) {
+  @container work-types-list (min-width: ${props =>
+    props.theme.sizes.medium}px) {
     justify-content: center;
     min-width: 100px;
   }
@@ -158,7 +160,8 @@ const StyledLink = styled(NextLink)<{ $tiltIndex?: number }>`
     filter: drop-shadow(4px 4px 2px #00000040);
   }
 
-  @container work-types-list (min-width: ${smallContainerBreakpoint}) {
+  @container work-types-list (min-width: ${props =>
+    props.theme.sizes.medium}px) {
     flex-direction: column;
     text-align: center;
     gap: 0;

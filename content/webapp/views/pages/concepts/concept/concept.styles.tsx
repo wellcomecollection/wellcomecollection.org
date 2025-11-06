@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import { GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
-import { PaletteColor, themeValues } from '@weco/common/views/themes/config';
+import { PaletteColor } from '@weco/common/views/themes/config';
 
 export const MobileNavBackground = styled(Space).attrs({
   className: 'is-hidden-l is-hidden-xl',
@@ -37,7 +37,7 @@ export const NavGridCell = styled(GridCell)<{
   &::after {
     content: '';
     position: absolute;
-    width: ${themeValues.containerPadding.small}px;
+    width: ${props => props.theme.containerPadding.small}px;
     bottom: 0;
     top: 0;
     transition: background-color ${props => props.theme.transitionProperties};
@@ -56,7 +56,7 @@ export const NavGridCell = styled(GridCell)<{
     props.theme.media('medium')(`
       &::before,
       &::after {
-        width: ${themeValues.containerPadding.medium}px;
+        width: ${props.theme.containerPadding.medium}px;
       }
   `)}
 
@@ -92,7 +92,7 @@ export const StretchWrapper = styled.div`
 export const HotJarPlaceholder = styled.div`
   margin: -2rem auto 2rem;
   width: 100%;
-  max-width: ${themeValues.sizes.xlarge}px;
+  max-width: ${props => props.theme.sizes.xlarge}px;
   display: grid;
   justify-items: start;
 
@@ -102,13 +102,15 @@ export const HotJarPlaceholder = styled.div`
 
   grid-template-columns: 1fr auto;
 
-  ${themeValues.media('medium')(`
+  ${props =>
+    props.theme.media('medium')(`
     div:has(form) {
       min-width: 350px;
     }
   `)}
 
-  ${themeValues.media('large')(`
+  ${props =>
+    props.theme.media('large')(`
     div:has(form) {
       min-width: 450px;
     }

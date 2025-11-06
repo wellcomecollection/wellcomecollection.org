@@ -2,6 +2,7 @@ import { Claims } from '@auth0/nextjs-auth0';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { FunctionComponent, PropsWithChildren, useState } from 'react';
+import { useTheme } from 'styled-components';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { sierraStatusCodeToLabel } from '@weco/common/data/microcopy';
@@ -22,7 +23,6 @@ import {
 } from '@weco/common/views/components/Layout';
 import StackingTable from '@weco/common/views/components/StackingTable';
 import Space from '@weco/common/views/components/styled/Space';
-import { themeValues } from '@weco/common/views/themes/config';
 import { useRequestedItems } from '@weco/identity/hooks/useRequestedItems';
 import { useSendVerificationEmail } from '@weco/identity/hooks/useSendVerificationEmail';
 import ChangeDetailsModal from '@weco/identity/views/components/ChangeDetailsModal';
@@ -133,6 +133,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
   const { user: contextUser } = useUserContext();
   const [isEmailUpdated, setIsEmailUpdated] = useState(false);
   const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
+  const theme = useTheme();
 
   // Use the user from the context provider as first preference, as it will
   // change without a page reload being required
@@ -162,7 +163,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
     <IdentityPageLayout title="Your library account">
       <Space
         $v={{ size: 'l', properties: ['margin-bottom'] }}
-        style={{ background: themeValues.color('white') }}
+        style={{ background: theme.color('white') }}
       >
         <ContaineredLayout gridSizes={gridSize12()}>
           <Space

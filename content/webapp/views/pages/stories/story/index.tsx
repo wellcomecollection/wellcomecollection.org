@@ -2,6 +2,7 @@ import { NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+import { getCrop } from '@weco/common/model/image';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font } from '@weco/common/utils/classnames';
@@ -21,10 +22,7 @@ import {
 } from '@weco/content/types/articles';
 import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 import { Series } from '@weco/content/types/series';
-import {
-  getFeaturedMedia,
-  getHeroPicture,
-} from '@weco/content/utils/page-header';
+import { getFeaturedMedia, HeroPicture } from '@weco/content/utils/page-header';
 import Body from '@weco/content/views/components/Body';
 import ContentPage from '@weco/content/views/components/ContentPage';
 import FeaturedCard from '@weco/content/views/components/FeaturedCard';
@@ -97,8 +95,10 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
   );
 
   // This is for content that we don't have the crops for in Prismic
-  const maybeHeroPicture = getHeroPicture(article);
-  const maybeFeaturedMedia = !maybeHeroPicture
+  const squareImage = getCrop(article.image, 'square');
+  const widescreenImage = getCrop(article.image, '16:9');
+  const hasHeroPicture = squareImage && widescreenImage;
+  const maybeFeaturedMedia = !hasHeroPicture
     ? getFeaturedMedia(article)
     : undefined;
   const isComicFormat = article.format?.id === ArticleFormatIds.Comic;
@@ -119,9 +119,11 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
           : maybeFeaturedMedia
       }
       HeroPicture={
-        isShortFilmFormat || isStandaloneImageGallery || isPodcast
-          ? undefined
-          : maybeHeroPicture
+        isShortFilmFormat ||
+        isStandaloneImageGallery ||
+        isPodcast ? undefined : hasHeroPicture ? (
+          <HeroPicture fields={article} />
+        ) : undefined
       }
       heroImageBgColor={isStandaloneImageGallery ? 'white' : 'warmNeutral.300'}
       SerialPartNumber={SerialPartNumber}

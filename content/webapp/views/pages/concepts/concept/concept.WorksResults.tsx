@@ -1,11 +1,10 @@
 import { FunctionComponent, useState } from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import { capitalize, pluralize } from '@weco/common/utils/grammar';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
 import Space from '@weco/common/views/components/styled/Space';
-import theme from '@weco/common/views/themes/default';
 import { useConceptPageContext } from '@weco/content/contexts/ConceptPageContext';
 import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { allRecordsLinkParams } from '@weco/content/utils/concepts';
@@ -50,6 +49,7 @@ type Props = {
 };
 
 const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
+  const theme = useTheme();
   const { config } = useConceptPageContext();
   const tabs = themeTabOrder
     .filter(

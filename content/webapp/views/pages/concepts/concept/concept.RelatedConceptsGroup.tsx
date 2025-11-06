@@ -1,11 +1,10 @@
 import { FunctionComponent } from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import { dasherize } from '@weco/common/utils/grammar';
 import Button, { ButtonColors } from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
-import { themeValues } from '@weco/common/views/themes/config';
 import { RelatedConcept } from '@weco/content/services/wellcome/catalogue/types';
 
 const RelatedConceptsContainer = styled.div.attrs({
@@ -53,6 +52,8 @@ const RelatedConceptsGroup: FunctionComponent<Props> = ({
   buttonColors,
   dataGtmTriggerName,
 }: Props) => {
+  const theme = useTheme();
+
   if (!relatedConcepts || relatedConcepts.length === 0) {
     return null;
   }
@@ -85,7 +86,7 @@ const RelatedConceptsGroup: FunctionComponent<Props> = ({
                 })}
                 variant="ButtonSolidLink"
                 colors={
-                  buttonColors || themeValues.buttonColors.slateTransparentBlack
+                  buttonColors || theme.buttonColors.slateTransparentBlack
                 }
                 text={item.label}
                 link={`/concepts/${item.id}`}

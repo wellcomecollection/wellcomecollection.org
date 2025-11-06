@@ -1,10 +1,10 @@
 import { useRouter } from 'next/router';
 import { useEffect, useLayoutEffect, useState } from 'react';
+import { useTheme } from 'styled-components';
 
 import { filter } from '@weco/common/icons';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
-import { themeValues } from '@weco/common/views/themes/config';
 import { Filter } from '@weco/content/services/wellcome/common/filters';
 import RadioFilter from '@weco/content/views/components/SearchFilters/SearchFilters.Desktop.RadioFilter';
 
@@ -23,6 +23,7 @@ const DynamicFilterArray = ({
   hasNoResults,
 }) => {
   const router = useRouter();
+  const theme = useTheme();
   const [wrapperWidth, setWrapperWidth] = useState<number>(0);
   const [hasCalculatedFilters, setHasCalculatedFilters] = useState(false);
   const [dynamicFilters, setDynamicFilters] = useState<Filter[]>([]);
@@ -197,7 +198,7 @@ const DynamicFilterArray = ({
       <Space $h={{ size: 'm', properties: ['margin-right'] }}>
         <Button
           variant="ButtonSolid"
-          colors={themeValues.buttonColors.marbleWhiteCharcoal}
+          colors={theme.buttonColors.marbleWhiteCharcoal}
           icon={filter}
           isIconAfter
           size="small"
