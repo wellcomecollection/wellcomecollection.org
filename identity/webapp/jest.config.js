@@ -19,6 +19,7 @@ const config = {
       transformIgnorePatterns: [
         '<rootDir>//node_modules/(?!(jose)/).*/',
         '<rootDir>//node_modules/(?!(@panva/hkdf)/).*/',
+        '<rootDir>//node_modules/(?!(@wellcometrust/wellcome-design-system)/).*/',
       ],
       setupFilesAfterEnv: ['<rootDir>/test/jest-setup.ts'],
     },
