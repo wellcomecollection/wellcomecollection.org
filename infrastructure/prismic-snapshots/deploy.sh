@@ -3,6 +3,9 @@
 # Deploy Prismic Snapshot Infrastructure
 set -euo pipefail
 
+# Set AWS profile for all commands
+export AWS_PROFILE=experience-developer
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
@@ -10,14 +13,14 @@ echo "Deploying Prismic Snapshot Infrastructure"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
 # Check if AWS CLI is configured
-if ! AWS_PROFILE=experience-developer aws sts get-caller-identity > /dev/null 2>&1; then
+if ! aws sts get-caller-identity > /dev/null 2>&1; then
     echo "AWS CLI not configured. Please run 'aws configure' first."
     exit 1
 fi
 
 # Check if Prismic secret exists
 echo "Checking for Prismic access token in Secrets Manager..."
-if ! AWS_PROFILE=experience-developer aws secretsmanager describe-secret --secret-id "prismic-model/prod/access-token" > /dev/null 2>&1; then
+if ! aws secretsmanager describe-secret --secret-id "prismic-model/prod/access-token" > /dev/null 2>&1; then
     echo "Prismic access token not found in Secrets Manager."
     echo "This secret should already exist (used by other services)."
     echo "If it's missing, please create it:"
