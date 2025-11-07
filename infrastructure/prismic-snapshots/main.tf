@@ -11,12 +11,6 @@ data "aws_secretsmanager_secret_version" "prismic_access_token" {
 # S3 bucket for storing Prismic snapshots
 resource "aws_s3_bucket" "prismic_snapshots" {
   bucket = local.bucket_name
-
-  tags = {
-    Name        = "Prismic Snapshots"
-    Environment = "production"
-    Purpose     = "backup"
-  }
 }
 
 resource "aws_s3_bucket_versioning" "prismic_snapshots" {
@@ -122,12 +116,6 @@ resource "aws_lambda_function" "prismic_snapshot" {
       NODE_OPTIONS         = "--enable-source-maps"
       PRISMIC_ACCESS_TOKEN = data.aws_secretsmanager_secret_version.prismic_access_token.secret_string
     }
-  }
-
-  tags = {
-    Name        = "Prismic Snapshot Lambda"
-    Environment = "production"
-    Purpose     = "backup"
   }
 
   # Ignore code changes after initial deployment - deploy-code.sh handles updates
