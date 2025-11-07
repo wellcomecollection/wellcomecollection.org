@@ -44,8 +44,8 @@ data "terraform_remote_state" "platform_monitoring" {
 
 provider "aws" {
   region = "eu-west-1"
-  
+
   assume_role {
-    role_arn = "arn:aws:iam::130871440101:role/experience-developer"
+    role_arn = "arn:aws:iam::130871440101:role/experience-admin"
   }
 }
