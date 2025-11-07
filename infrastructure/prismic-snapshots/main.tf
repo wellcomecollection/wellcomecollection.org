@@ -13,13 +13,6 @@ resource "aws_s3_bucket" "prismic_snapshots" {
   bucket = local.bucket_name
 }
 
-resource "aws_s3_bucket_versioning" "prismic_snapshots" {
-  bucket = aws_s3_bucket.prismic_snapshots.id
-  versioning_configuration {
-    status = "Enabled"
-  }
-}
-
 resource "aws_s3_bucket_lifecycle_configuration" "prismic_snapshots" {
   bucket = aws_s3_bucket.prismic_snapshots.id
 
