@@ -31,7 +31,7 @@ echo "Lambda function '$LAMBDA_NAME' found"
 echo "Building Lambda package..."
 
 # Use the shared build script that Terraform uses
-"$SCRIPT_DIR/build-lambda.sh" "$SCRIPT_DIR/$LAMBDA_CODE_FILE"
+"$SCRIPT_DIR/build-lambda.sh" "$LAMBDA_CODE_FILE"
 
 # Deploy Lambda
 echo "Updating Lambda function code..."
