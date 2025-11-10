@@ -219,7 +219,7 @@ export const typography = css<GlobalStyleProps>`
 
     @media (min-width: ${props => props.theme.sizes.large}px) {
       /* Align the top of the heading with the top of the side navigation */
-      scroll-margin-top: ${props => props.theme.spaceAtBreakpoints.large.l}px;
+      scroll-margin-top: ${props => props.theme.getSpaceValue('l', 'large')};
     }
   }
 

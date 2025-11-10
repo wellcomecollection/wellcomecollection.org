@@ -130,6 +130,14 @@ const toggles = {
         'Use the design system font sizing, weights, and families instead of custom values',
       type: 'experimental',
     },
+    {
+      id: 'designSystemSpacing',
+      title: 'Design system spacing',
+      initialValue: false,
+      description:
+        'Use the design system responsive spacing values instead of custom breakpoint-based spacing',
+      type: 'experimental',
+    },
   ] as const,
   // We have to include a reference to any test toggles here as well as in the cache dir
   // because they are deployed separately and consequently can't share a source of truth

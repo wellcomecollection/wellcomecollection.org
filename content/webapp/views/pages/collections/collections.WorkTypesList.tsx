@@ -45,7 +45,7 @@ const StyledList = styled.ul`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: ${props => props.theme.spaceAtBreakpoints.small.l}px;
+  gap: ${props => props.theme.getSpaceValue('l', 'small')};
   align-items: stretch;
   list-style: none;
   padding: 0;
@@ -57,7 +57,7 @@ const StyledList = styled.ul`
   /* 2 items per row on small containers */
   & > li {
     flex: 0 0
-      calc(50% - ${props => props.theme.spaceAtBreakpoints.small.l / 2}px);
+      calc(50% - ${props => props.theme.getSpaceValue('l', 'small')} / 2);
   }
 
   /* Center the 5th item (last item) on small containers */
@@ -71,7 +71,7 @@ const StyledList = styled.ul`
     flex-wrap: nowrap;
     justify-content: space-between;
     min-width: 0;
-    gap: ${props => props.theme.spaceAtBreakpoints.large.l}px;
+    gap: ${props => props.theme.getSpaceValue('l', 'large')};
 
     & > li {
       flex: 1;

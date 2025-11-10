@@ -23,16 +23,16 @@ type Props = {
 };
 
 const GridWithRowGap = styled(Grid)`
-  row-gap: ${props => props.theme.spaceAtBreakpoints.small.m}px;
+  row-gap: ${props => props.theme.getSpaceValue('m', 'small')};
 
   ${props =>
     props.theme.media('medium')(`
-    row-gap: ${props.theme.spaceAtBreakpoints.medium.m}px;
+    row-gap: ${props.theme.getSpaceValue('m', 'medium')};
   `)}
 
   ${props =>
     props.theme.media('large')(`
-    row-gap: ${props.theme.spaceAtBreakpoints.large.m}px;
+    row-gap: ${props.theme.getSpaceValue('m', 'large')};
   `)}
 `;
 
