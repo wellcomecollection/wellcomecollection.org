@@ -5009,10 +5009,10 @@
     "@aws-sdk/client-secrets-manager" "^3.40.0"
     "@aws-sdk/client-sts" "^3.22.0"
 
-"@wellcometrust/wellcome-design-system@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@wellcometrust/wellcome-design-system/-/wellcome-design-system-1.0.3.tgz#fb434bf1e2091a3fc8b61dd5ac93c7f2f70bfe59"
-  integrity sha512-m7Ut5M/gQ7Ik8iwNxXjrX5Uv7QJU0Y+v7kdNWCxdDqoER6FPYP+M92rWgKGUlXmagh090JmJi1fvHT87VHf+pw==
+"@wellcometrust/wellcome-design-system@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@wellcometrust/wellcome-design-system/-/wellcome-design-system-2.0.0.tgz#beaeb848d67e13c2c7af946a4c9ef09d454cf69f"
+  integrity sha512-hrSTRfYxWAEq4zPshKNQ/5kWHUrTw2D6xDu9pBcTs3+aoy7baeW4MYTrljkydGfW6gZM9TY3gyjNkP8bJSbcww==
 
 "@xmldom/xmldom@^0.8.3":
   version "0.8.11"
