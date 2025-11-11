@@ -298,7 +298,12 @@ export function getArchiveAncestorArray(work: Work): RelatedWork[] {
   /*
   Return all the ancestors of work starting with the most distant.
   */
-  return makeArchiveAncestorArray([], hierarchicalParentOf(work)).reverse();
+
+  if (work.partOf?.[0]?.totalDescendentParts !== undefined) {
+    return makeArchiveAncestorArray([], hierarchicalParentOf(work)).reverse();
+  }
+
+  return [...work.partOf.filter(item => item.totalParts)].reverse();
 }
 
 export function getFileLabel(
