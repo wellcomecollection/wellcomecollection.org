@@ -305,7 +305,7 @@ const designSystemSpacing: Record<SpaceSize, ResponsiveSpaceValue> = {
   xs: designSystemTheme.spacing.responsive['space.2xs'],
   s: designSystemTheme.spacing.responsive['space.xs'],
   m: designSystemTheme.spacing.responsive['space.sm'],
-  l: designSystemTheme.spacing.responsive['space.lg'],
+  l: designSystemTheme.spacing.responsive['space.md'],
   xl: designSystemTheme.spacing.responsive['space.xl'],
 };
 
