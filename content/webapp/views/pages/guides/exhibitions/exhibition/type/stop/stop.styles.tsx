@@ -29,6 +29,12 @@ export const Header = styled.header.attrs({
   z-index: 1;
 `;
 
+export const Title = styled.h1.attrs({
+  className: font('intb', 5),
+})`
+  margin-bottom: 0;
+`;
+
 export const HeaderInner = styled(Space).attrs({
   $v: {
     size: 's',

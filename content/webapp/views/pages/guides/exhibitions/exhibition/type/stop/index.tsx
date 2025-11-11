@@ -41,6 +41,7 @@ import {
   Page,
   PrevNext,
   StickyPlayer,
+  Title,
 } from './stop.styles';
 
 export type Props = {
@@ -135,9 +136,9 @@ const ExhibitionGuideStopPage: NextPage<Props> = ({
             <HeaderInner>
               <div>
                 <span>{exhibitionTitle}</span>
-                <h1 style={{ marginBottom: '0' }}>
+                <Title>
                   Stop {stopNumber}/{allStops.length}: {currentStop.title}
-                </h1>
+                </Title>
               </div>
               <span>
                 <NextLink href={`${guideTypeUrl}#${currentStop.number}`}>
