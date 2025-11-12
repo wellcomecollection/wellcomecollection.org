@@ -31,9 +31,6 @@ services:
   pa11y:
     build:
       context: ./pa11y
-  updown:
-    build:
-      context: ./updown
   e2e:
     image: "130871440101.dkr.ecr.eu-west-1.amazonaws.com/weco/playwright:latest"
     volumes:

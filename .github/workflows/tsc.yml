@@ -24,5 +24,3 @@ jobs:
       run: cd playwright && yarn install && yarn tsc
     - name: (Dash) yarn tsc
       run: cd dash/webapp && yarn install && yarn tsc
-    - name: (Updown) yarn tsc
-      run: cd updown && yarn install && yarn tsc
