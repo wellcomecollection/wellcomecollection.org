@@ -24,15 +24,12 @@ const DynamicFilterArray = ({
 }) => {
   const router = useRouter();
   const theme = useTheme();
-  const [wrapperWidth, setWrapperWidth] = useState<number>(0);
   const [hasCalculatedFilters, setHasCalculatedFilters] = useState(false);
   const [dynamicFilters, setDynamicFilters] = useState<Filter[]>([]);
 
   const updateWrapperWidth = () => {
     if (wrapperRef.current) {
-      const { width, left } = wrapperRef.current.getBoundingClientRect();
       setHasCalculatedFilters(false);
-      setWrapperWidth(left + width);
     }
   };
 
@@ -135,14 +132,17 @@ const DynamicFilterArray = ({
     setHasCalculatedFilters(false);
   }, [router.query]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     window.addEventListener('resize', updateWrapperWidth);
     updateWrapperWidth();
     return () => window.removeEventListener('resize', updateWrapperWidth);
   }, []);
 
   useLayoutEffect(() => {
-    if (!hasCalculatedFilters) {
+    if (!hasCalculatedFilters && wrapperRef.current) {
+      const { width, left } = wrapperRef.current.getBoundingClientRect();
+      const wrapperWidth = left + width;
+
       const arrOfDropdownButtonNodes =
         document.querySelectorAll('[data-is-filter]');
 
@@ -189,7 +189,7 @@ const DynamicFilterArray = ({
       setDynamicFilters(dynamicFilterArray);
       setHasCalculatedFilters(true);
     }
-  }, [wrapperWidth, hasCalculatedFilters, router.query]);
+  }, [hasCalculatedFilters, router.query, filters]);
 
   return (
     <>

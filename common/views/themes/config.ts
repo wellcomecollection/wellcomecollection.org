@@ -1,7 +1,4 @@
-import {
-  theme as designSystemTheme,
-  ResponsiveSpaceValue,
-} from '@wellcometrust/wellcome-design-system/theme';
+import { theme as designSystemTheme } from '@wellcometrust/wellcome-design-system/theme';
 import { keyframes } from 'styled-components';
 
 import { ButtonColors } from '@weco/common/views/components/Buttons';
@@ -148,7 +145,23 @@ const getColor = (name: PaletteColor): string => {
   return colors[name];
 };
 
-export const sizes = {
+// Convert rem to px (1rem = 16px)
+const remToPx = (rem: string): number => parseFloat(rem) * 16;
+
+// Design system breakpoints in pixels
+const designSystemBreakpoints = {
+  small: 0,
+  medium: remToPx(designSystemTheme.breakpoints.sm), // 48rem = 768px
+  large: remToPx(designSystemTheme.breakpoints.md), // 64rem = 1024px
+  xlarge: remToPx(designSystemTheme.breakpoints.lg), // 90rem = 1440px
+  // Tweakpoints
+  // Occasionally we need to respond to specific breakpoints beyond the defaults
+  headerMedium: 825,
+  headerLarge: 1040,
+};
+
+// Legacy breakpoints
+const legacyBreakpoints = {
   small: 0,
   medium: 600,
   large: 960,
@@ -157,6 +170,16 @@ export const sizes = {
   // Occasionally we need to respond to specific breakpoints beyond the defaults
   headerMedium: 825,
   headerLarge: 1040,
+};
+
+// Default export uses legacy breakpoints for backward compatibility
+export const sizes = legacyBreakpoints;
+
+// Helper function to get sizes based on toggle state
+export const getSizes = (toggles?: Toggles) => {
+  return toggles?.designSystemBreakpoints?.value
+    ? designSystemBreakpoints
+    : legacyBreakpoints;
 };
 
 const defaultButtonColors: ButtonColors = {
@@ -460,6 +483,7 @@ export const themeValues = {
   mediaBetween,
   makeSpacePropertyValues,
   getSpaceValue,
+  getSizes,
   pageGridOffset,
   buttonColors: {
     default: defaultButtonColors,

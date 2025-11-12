@@ -100,6 +100,8 @@ export const createThemeValues = (toggles: Toggles) => {
 
   return {
     ...themeValues,
+    // Override sizes to use design system breakpoints when toggle is enabled
+    sizes: themeValues.getSizes(toggles),
     // Override makeSpacePropertyValues to include toggles
     makeSpacePropertyValues: (
       size: Parameters<typeof themeValues.makeSpacePropertyValues>[0],

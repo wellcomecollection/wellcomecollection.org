@@ -120,6 +120,14 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
     updateWindowSize();
   }, []);
 
+  // Recalculate windowSize when theme breakpoints change
+  // This ensures windowSize updates when design system breakpoints toggle is enabled/disabled
+  // TODO: remove the theme.sizes dependencies once we've switched over to using the design system
+  // and the window size won't be dependent on the presence/absence of a toggle
+  useEffect(() => {
+    updateWindowSize();
+  }, [theme.sizes.medium, theme.sizes.large, theme.sizes.xlarge]);
+
   useEffect(() => {
     // The presence of IntersectionObserver is a useful proxy for browsers that we
     // want to support in full: https://caniuse.com/intersectionobserver
