@@ -66,7 +66,7 @@ const designSystemFontSizes = {
 // We have considered the utility of a similar container query based approach using
 // cqi units instead of vw, but concluded that for the time-being the vw version
 // is serving our needs adequately. We should revisit the idea of a container query
-// version if we encounter a sitiation where it would be clearly beneficial
+// version if we encounter a situation where it would be clearly beneficial
 // https://github.com/wellcomecollection/wellcomecollection.org/issues/12324
 
 const fontFamilies = {
