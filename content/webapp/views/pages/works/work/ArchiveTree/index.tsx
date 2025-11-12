@@ -40,11 +40,16 @@ const constructTree = (
   hierarchy: RelatedWork[],
   parent: RelatedWork | null
 ) => {
+  // Nodes which fall outside the direct child/parent/grandparent hierarchy (e.g. ancestor siblings) do not have
+  // their children populated.
   const populateChildren = hierarchy.length > 0 && curr.id === hierarchy[0].id;
 
   let childNodes;
   if (populateChildren) {
     let children = hierarchy[0].parts;
+
+    // When constructing a 'basic' tree, the `parts` field is not always available.
+    // In this case, the only known child is the second item in the hierarchy array.
     if (children === undefined && hierarchy.length > 1) {
       children = [hierarchy[1]];
     }
@@ -62,12 +67,20 @@ const constructTree = (
 };
 
 function createBasicArchiveTree(work: Work): UiTree {
+  /*
+  Return a 'basic' archive tree, populated only from data present on the provided `work`.
+  Only ancestors and direct children are included.
+  */
   const ancestors = getArchiveAncestorArray(work);
   const allTreeNodes = [...ancestors, work];
   return [constructTree(allTreeNodes[0], allTreeNodes, null)];
 }
 
 async function createArchiveTree(work: Work): Promise<UiTree> {
+  /*
+  Return a 'rich' archive tree, populated from the provided `work` and all of its ancestors (retrieved client-side).
+  Ancestors and direct children are included, as well as all ancestor children/siblings.
+  */
   const ancestors = getArchiveAncestorArray(work);
   const fullWorks = await Promise.all(
     ancestors.map(async ancestor => await getFullWork(ancestor))

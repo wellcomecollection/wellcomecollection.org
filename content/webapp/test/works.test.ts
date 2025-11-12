@@ -61,6 +61,7 @@ describe('getArchiveAncestorArray', () => {
     expect(archiveAncestorArray).toStrictEqual([]);
   });
 
+  // TODO: Remove this test (and the legacy fixture) once we remove the legacy works index
   it('gets the ancestors of a legacy archive work', () => {
     const archiveAncestorArray = getArchiveAncestorArray(legacyWorkWithPartOf);
     expect(archiveAncestorArray).toStrictEqual([
@@ -240,6 +241,7 @@ describe('getArchiveAncestorArray', () => {
     ]);
   });
 
+  // TODO: Remove this test (and the legacy fixture) once we remove the legacy works index
   it('Does not return legacy non-archive parents', () => {
     const archiveAncestorArray = getArchiveAncestorArray(
       legacyWorkWithMixedPartOf

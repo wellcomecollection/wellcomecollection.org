@@ -299,6 +299,10 @@ export function getArchiveAncestorArray(work: Work): RelatedWork[] {
   Return all the ancestors of work starting with the most distant.
   */
 
+  // Works from the legacy (Scala-populated) index have a recursive 'partOf' field, which needs to be flattened
+  // using the `makeArchiveAncestorArray` function. To determine if a work comes from the legacy index, we check
+  // whether it has a 'totalDescendentParts' field.
+  // TODO: Remove this (and the `makeArchiveAncestorArray` function) once we switch to the new index
   if (work.partOf?.[0]?.totalDescendentParts !== undefined) {
     return makeArchiveAncestorArray([], hierarchicalParentOf(work)).reverse();
   }
