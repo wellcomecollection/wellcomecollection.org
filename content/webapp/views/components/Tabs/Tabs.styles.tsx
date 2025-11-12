@@ -46,10 +46,13 @@ type NavItemProps = {
   $selected: boolean;
   $isWhite?: boolean;
   $hideBorder?: boolean;
+  $designSystemFonts?: boolean;
 };
 
-export const Tab = styled.div.attrs<{ $selected?: boolean }>(props => ({
-  className: font(props.$selected ? 'intsb' : 'intm', 5),
+export const Tab = styled.div.attrs<NavItemProps>(props => ({
+  className: props.$designSystemFonts
+    ? font(props.$selected ? 'intsb' : 'intr', 5)
+    : font(props.$selected ? 'intsb' : 'intm', 5),
 }))<NavItemProps>`
   padding: 0;
   margin: 0;

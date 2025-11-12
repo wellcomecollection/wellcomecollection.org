@@ -1,4 +1,7 @@
-import { theme as designSystemTheme } from '@wellcometrust/wellcome-design-system/theme';
+import {
+  theme as designSystemTheme,
+  ResponsiveValue,
+} from '@wellcometrust/wellcome-design-system/theme';
 import { keyframes } from 'styled-components';
 
 import { ButtonColors } from '@weco/common/views/components/Buttons';
@@ -8,12 +11,6 @@ import {
   VerticalSpaceProperty,
 } from '@weco/common/views/components/styled/Space';
 import { Toggles } from '@weco/toggles';
-
-type ResponsiveSpaceValue = {
-  default: string;
-  sm: string;
-  md: string;
-};
 
 type SpaceSize = 'xs' | 's' | 'm' | 'l' | 'xl';
 type SpaceProperty = HorizontalSpaceProperty | VerticalSpaceProperty;
@@ -336,7 +333,7 @@ const spaceAtBreakpoints = {
 
 // Map current space sizes to design system responsive spacing
 // xs → space.2xs, s → space.xs, m → space.sm, l → space.lg, xl → space.xl
-const designSystemSpacing: Record<SpaceSize, ResponsiveSpaceValue> = {
+const designSystemSpacing: Record<SpaceSize, ResponsiveValue> = {
   xs: designSystemTheme.spacing.responsive['space.2xs'],
   s: designSystemTheme.spacing.responsive['space.xs'],
   m: designSystemTheme.spacing.responsive['space.sm'],
