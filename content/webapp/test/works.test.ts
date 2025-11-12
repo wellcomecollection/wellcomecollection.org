@@ -1,5 +1,7 @@
 import { idArray, uiTree } from '@weco/content/__mocks__/uiTree';
 import {
+  legacyWorkWithMixedPartOf,
+  legacyWorkWithPartOf,
   workFixture,
   workWithLibrarySeriesPartOf,
   workWithMixedPartOf,
@@ -59,8 +61,8 @@ describe('getArchiveAncestorArray', () => {
     expect(archiveAncestorArray).toStrictEqual([]);
   });
 
-  it('gets the ancestors of an archive work', () => {
-    const archiveAncestorArray = getArchiveAncestorArray(workWithPartOf);
+  it('gets the ancestors of a legacy archive work', () => {
+    const archiveAncestorArray = getArchiveAncestorArray(legacyWorkWithPartOf);
     expect(archiveAncestorArray).toStrictEqual([
       {
         id: 'hz43r7re',
@@ -191,8 +193,57 @@ describe('getArchiveAncestorArray', () => {
     ]);
   });
 
-  it('Does not return non-archive parents', () => {
-    const archiveAncestorArray = getArchiveAncestorArray(workWithMixedPartOf);
+  it('gets the ancestors of an archive work', () => {
+    const archiveAncestorArray = getArchiveAncestorArray(workWithPartOf);
+    expect(archiveAncestorArray).toStrictEqual([
+      {
+        id: 'hz43r7re',
+        title: 'Francis Crick (1916-2004): archives',
+        alternativeTitles: [],
+        referenceNumber: 'PP/CRI',
+        availableOnline: false,
+        availabilities: [],
+        totalParts: 14,
+        partOf: [],
+        type: 'Collection',
+      },
+      {
+        id: 'gnfmdk33',
+        title: 'Personal Material',
+        alternativeTitles: [],
+        referenceNumber: 'PP/CRI/A',
+        availableOnline: false,
+        availabilities: [],
+        totalParts: 4,
+        type: 'Section',
+      },
+      {
+        id: 'pwbpp7gj',
+        title: 'Miscellaneous Personal Items',
+        alternativeTitles: [],
+        referenceNumber: 'PP/CRI/A/1',
+        availableOnline: false,
+        availabilities: [],
+        totalParts: 6,
+        type: 'Section',
+      },
+      {
+        id: 't9d9yrsx',
+        title: 'Miscellaneous Photographs',
+        alternativeTitles: [],
+        referenceNumber: 'PP/CRI/A/1/2',
+        availableOnline: false,
+        availabilities: [],
+        totalParts: 9,
+        type: 'Series',
+      },
+    ]);
+  });
+
+  it('Does not return legacy non-archive parents', () => {
+    const archiveAncestorArray = getArchiveAncestorArray(
+      legacyWorkWithMixedPartOf
+    );
     expect(archiveAncestorArray).toStrictEqual([
       {
         id: 'f00dcafe',
@@ -231,6 +282,32 @@ describe('getArchiveAncestorArray', () => {
       },
     ]);
   });
+});
+
+it('Does not return non-archive parents', () => {
+  const archiveAncestorArray = getArchiveAncestorArray(workWithMixedPartOf);
+  expect(archiveAncestorArray).toStrictEqual([
+    {
+      id: 'f00dcafe',
+      referenceNumber: 'a',
+      title: 'An Archive Series',
+      type: 'Series',
+      totalParts: 1,
+      alternativeTitles: [],
+      availableOnline: false,
+      availabilities: [],
+    },
+    {
+      id: 'cafebeef',
+      referenceNumber: 'a/b',
+      title: 'An Archive Collection',
+      type: 'Collection',
+      totalParts: 1,
+      alternativeTitles: [],
+      availableOnline: false,
+      availabilities: [],
+    },
+  ]);
 });
 
 describe('getTabbableIds', () => {
