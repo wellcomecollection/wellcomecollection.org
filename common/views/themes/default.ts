@@ -97,11 +97,30 @@ const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
 // Theme factory that creates a theme with appropriate color function based on toggles
 export const createThemeValues = (toggles: Toggles) => {
   // Manipulate themeValues with toggles here
+  const toggleAwareSizes = themeValues.getSizes(toggles);
 
   return {
     ...themeValues,
     // Override sizes to use design system breakpoints when toggle is enabled
-    sizes: themeValues.getSizes(toggles),
+    sizes: toggleAwareSizes,
+    // Override media function to use toggle-aware sizes
+    media:
+      (
+        sizeLabel: Size,
+        minOrMaxWidth: 'min-width' | 'max-width' = 'min-width'
+      ) =>
+      (styles: TemplateStringsArray | string): string =>
+        `@media (${minOrMaxWidth}: ${toggleAwareSizes[sizeLabel]}px) {${styles}}`,
+    // Override mediaBetween to use toggle-aware sizes
+    mediaBetween:
+      (minBreakpoint: Size, maxBreakpoint: Size) =>
+      (styles: string): string => {
+        const minWidth = `min-width: ${toggleAwareSizes[minBreakpoint]}px`;
+        const maxWidth = `max-width: ${toggleAwareSizes[maxBreakpoint] - 1}px`;
+        return `@media (${minWidth}) and (${maxWidth}) {
+      ${styles}
+    }`;
+      },
     // Override makeSpacePropertyValues to include toggles
     makeSpacePropertyValues: (
       size: Parameters<typeof themeValues.makeSpacePropertyValues>[0],

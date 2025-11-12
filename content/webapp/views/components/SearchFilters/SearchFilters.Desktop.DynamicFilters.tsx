@@ -21,15 +21,22 @@ const DynamicFilterArray = ({
   filters,
   openMoreFiltersButtonRef,
   hasNoResults,
+  setIsCalculating,
 }) => {
   const router = useRouter();
   const theme = useTheme();
   const [hasCalculatedFilters, setHasCalculatedFilters] = useState(false);
   const [dynamicFilters, setDynamicFilters] = useState<Filter[]>([]);
 
+  // On mount, trigger calculation by setting isCalculating
+  useEffect(() => {
+    setIsCalculating(true);
+  }, []);
+
   const updateWrapperWidth = () => {
     if (wrapperRef.current) {
       setHasCalculatedFilters(false);
+      setIsCalculating(true);
     }
   };
 
@@ -130,6 +137,8 @@ const DynamicFilterArray = ({
    */
   useEffect(() => {
     setHasCalculatedFilters(false);
+    // Set isCalculating to true on route change to hide filters during recalculation
+    setIsCalculating(true);
   }, [router.query]);
 
   useLayoutEffect(() => {
@@ -139,7 +148,15 @@ const DynamicFilterArray = ({
   }, []);
 
   useLayoutEffect(() => {
-    if (!hasCalculatedFilters && wrapperRef.current) {
+    if (!hasCalculatedFilters) {
+      if (!wrapperRef.current) {
+        // Wrapper not ready yet, will try again when dependencies change
+        return;
+      }
+
+      // Start calculating - hide container to prevent flash
+      setIsCalculating(true);
+
       const { width, left } = wrapperRef.current.getBoundingClientRect();
       const wrapperWidth = left + width;
 
@@ -188,6 +205,7 @@ const DynamicFilterArray = ({
       }
       setDynamicFilters(dynamicFilterArray);
       setHasCalculatedFilters(true);
+      setIsCalculating(false);
     }
   }, [hasCalculatedFilters, router.query, filters]);
 

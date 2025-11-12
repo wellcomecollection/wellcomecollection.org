@@ -9,6 +9,12 @@ import {
 } from '@weco/common/views/components/styled/Space';
 import { Toggles } from '@weco/toggles';
 
+type ResponsiveSpaceValue = {
+  default: string;
+  sm: string;
+  md: string;
+};
+
 type SpaceSize = 'xs' | 's' | 'm' | 'l' | 'xl';
 type SpaceProperty = HorizontalSpaceProperty | VerticalSpaceProperty;
 
@@ -273,6 +279,12 @@ const slateTransparentBlack: ButtonColors = {
 };
 
 export type Size = keyof typeof sizes;
+
+// Note: These functions create closures over the static 'sizes' variable.
+// For toggle-aware breakpoints, the theme object's 'sizes' property gets overridden
+// in createThemeValues(), but these functions will still reference the static export.
+// This is intentional for styled-components which generate CSS at component definition time.
+// For runtime breakpoint logic, use theme.sizes directly in JavaScript.
 const media =
   (sizeLabel: Size, minOrMaxWidth: 'min-width' | 'max-width' = 'min-width') =>
   (styles: TemplateStringsArray | string): string =>

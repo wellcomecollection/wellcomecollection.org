@@ -24,12 +24,21 @@ const Wrapper = styled(Space).attrs({
 
 const FilterDropdownsContainer = styled(Space).attrs({
   $v: { size: 'm', properties: ['margin-bottom'] },
-})<{ $isEnhanced?: boolean }>`
+})<{ $isEnhanced?: boolean; $isCalculating?: boolean }>`
   display: flex;
   align-items: center;
 
   /* Wrap if old style or if new style without Javascript */
   ${props => !props.$isEnhanced && `flex-wrap: wrap;`}
+
+  /* Hide filters during calculation to prevent flash and allow proper measurement */
+  ${props =>
+    props.$isEnhanced &&
+    props.$isCalculating &&
+    `
+    visibility: hidden;
+    overflow: hidden;
+  `}
 `;
 
 const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
@@ -43,6 +52,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
   const { isEnhanced } = useAppContext();
   const [showMoreFiltersModal, setShowMoreFiltersModal] = useState(false);
+  const [isCalculating, setIsCalculating] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const openMoreFiltersButtonRef = useRef(null);
 
@@ -57,7 +67,10 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
         ref={wrapperRef}
         $h={{ size: 'm', properties: ['padding-right'] }}
       >
-        <FilterDropdownsContainer $isEnhanced={isEnhanced}>
+        <FilterDropdownsContainer
+          $isEnhanced={isEnhanced}
+          $isCalculating={isCalculating}
+        >
           {isEnhanced && (
             /**
              * I had to extract this component so that useLayoutEffect
@@ -72,6 +85,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
               filters={dropdownFilters}
               openMoreFiltersButtonRef={openMoreFiltersButtonRef}
               hasNoResults={hasNoResults}
+              setIsCalculating={setIsCalculating}
             />
           )}
           <ModalMoreFilters
