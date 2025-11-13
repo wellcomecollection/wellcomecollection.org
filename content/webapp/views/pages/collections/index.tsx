@@ -126,7 +126,9 @@ const CollectionsLandingPage: NextPage<Props> = ({
         $isDefaultVariant={true}
       >
         <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
-          <SectionHeader title="Browse by theme" gridSize={gridSize12()} />
+          <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+            <SectionHeader title="Browse by theme" gridSize={gridSize12()} />
+          </Space>
           <BrowseByThemes
             themeConfig={themeBlockCategories}
             initialConcepts={featuredConcepts}
