@@ -304,7 +304,7 @@ export function getArchiveAncestorArray(work: Work): RelatedWork[] {
     return makeArchiveAncestorArray([], hierarchicalParentOf(work)).reverse();
   }
 
-  return [...work.partOf.filter(item => item.totalParts)].reverse();
+  return [...(work.partOf || []).filter(item => item.totalParts)].reverse();
 }
 
 export function getFileLabel(
