@@ -1,6 +1,6 @@
 import {
   theme as designSystemTheme,
-  ResponsiveSpaceValue,
+  ResponsiveValue,
 } from '@wellcometrust/wellcome-design-system/theme';
 import { keyframes } from 'styled-components';
 
@@ -301,7 +301,7 @@ const spaceAtBreakpoints = {
 
 // Map current space sizes to design system responsive spacing
 // xs → space.2xs, s → space.xs, m → space.sm, l → space.lg, xl → space.xl
-const designSystemSpacing: Record<SpaceSize, ResponsiveSpaceValue> = {
+const designSystemSpacing: Record<SpaceSize, ResponsiveValue> = {
   xs: designSystemTheme.spacing.responsive['space.2xs'],
   s: designSystemTheme.spacing.responsive['space.xs'],
   m: designSystemTheme.spacing.responsive['space.sm'],

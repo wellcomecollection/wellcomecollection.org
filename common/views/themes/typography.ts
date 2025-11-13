@@ -61,6 +61,14 @@ const designSystemFontSizes = {
   6: designSystemTheme.font.size['f-2'], // Smallest
 };
 
+// Note: the design system font sizing uses vw units and clamp so that there is
+// a gradated change across viewport widths without a need for breakpoint changes.
+// We have considered the utility of a similar container query based approach using
+// cqi units instead of vw, but concluded that for the time-being the vw version
+// is serving our needs adequately. We should revisit the idea of a container query
+// version if we encounter a situation where it would be clearly beneficial
+// https://github.com/wellcomecollection/wellcomecollection.org/issues/12324
+
 const fontFamilies = {
   intr: {
     base: `Inter, sans-serif;`,
@@ -189,7 +197,10 @@ export const typography = css<GlobalStyleProps>`
   body {
     ${fontFamilyMixin('intr', true)}
     ${fontSizeMixin(4)}
-    line-height: 1.5;
+    line-height: ${props =>
+      props.toggles?.designSystemFonts?.value
+        ? designSystemTheme['line-height'].lg
+        : '1.5'};
     color: ${props => props.theme.color('black')};
     font-variant-ligatures: no-common-ligatures;
     -webkit-font-smoothing: antialiased;
@@ -207,6 +218,10 @@ export const typography = css<GlobalStyleProps>`
     font-size: 1em;
     margin: 0 0 0.6em;
     text-wrap-style: balance;
+    line-height: ${props =>
+      props.toggles?.designSystemFonts?.value
+        ? designSystemTheme['line-height'].md
+        : undefined};
   }
 
   /*
@@ -283,7 +298,9 @@ export const typography = css<GlobalStyleProps>`
   }
 
   .body-text {
-    line-height: 1.6;
+    /* if we're using the design system, the value we want (1.5) is already set on body */
+    line-height: ${props =>
+      props.toggles?.designSystemFonts?.value ? undefined : '1.6'};
     letter-spacing: 0.0044em;
 
     h1 {
