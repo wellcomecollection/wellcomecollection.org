@@ -18,20 +18,24 @@ import {
   Tree,
   TreeInstructions,
 } from '@weco/content/views/pages/works/work/work.styles';
-import { UiTree } from '@weco/content/views/pages/works/work/work.types';
+import {
+  UiTree,
+  UiTreeNode,
+} from '@weco/content/views/pages/works/work/work.types';
 
 import NestedList from './ArchiveTree.NestedList';
 import { ButtonWrap, TreeContainer } from './ArchiveTree.styles';
 import WorkItem from './ArchiveTree.WorkItemRenderer';
 
-async function getFullWork(work: RelatedWork) {
+async function getRelatedWorkWithChildren(
+  work: RelatedWork
+): Promise<RelatedWork> {
   const fullWork = await getWorkClientSide(work.id);
 
   if (fullWork.type !== 'Error' && fullWork.type !== 'Redirect') {
-    return { ...work, ...fullWork };
+    return { ...work, parts: fullWork.parts };
   }
 
-  // Return related (partial) work as fallback
   return work;
 }
 
@@ -39,7 +43,7 @@ const constructTree = (
   curr: RelatedWork,
   hierarchy: RelatedWork[],
   parent: RelatedWork | null
-) => {
+): UiTreeNode => {
   // Nodes which fall outside the direct child/parent/grandparent hierarchy (e.g. ancestor siblings) do not have
   // their children populated.
   const populateChildren = hierarchy.length > 0 && curr.id === hierarchy[0].id;
@@ -82,11 +86,11 @@ async function createArchiveTree(work: Work): Promise<UiTree> {
   Ancestors and direct children are included, as well as all ancestor children/siblings.
   */
   const ancestors = getArchiveAncestorArray(work);
-  const fullWorks = await Promise.all(
-    ancestors.map(async ancestor => await getFullWork(ancestor))
+  const ancestorsWithChildren = await Promise.all(
+    ancestors.map(async ancestor => await getRelatedWorkWithChildren(ancestor))
   );
 
-  const allTreeNodes = [...fullWorks, work];
+  const allTreeNodes = [...ancestorsWithChildren, work];
   return [constructTree(allTreeNodes[0], allTreeNodes, null)];
 }
 
