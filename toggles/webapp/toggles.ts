@@ -138,6 +138,22 @@ const toggles = {
         'Use the design system responsive spacing values instead of custom breakpoint-based spacing',
       type: 'experimental',
     },
+    {
+      id: 'storiesOnWorks',
+      title: 'Stories on work pages',
+      initialValue: false,
+      description:
+        'Shows stories that reference the current work on work pages',
+      type: 'experimental',
+    },
+    {
+      id: 'designSystemBreakpoints',
+      title: 'Design system breakpoints',
+      initialValue: false,
+      description:
+        'Use the design system breakpoint values instead of custom breakpoints',
+      type: 'experimental',
+    },
   ] as const,
   // We have to include a reference to any test toggles here as well as in the cache dir
   // because they are deployed separately and consequently can't share a source of truth
