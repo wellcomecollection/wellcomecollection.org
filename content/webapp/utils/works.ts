@@ -221,12 +221,9 @@ export type ArchiveLabels = {
 export const isAvailableOnline = (work: Work): boolean =>
   (work.availabilities ?? []).some(({ id }) => id === 'online');
 
-const getArchiveRoot = (work: RelatedWork): RelatedWork =>
-  work?.partOf?.[0] ? getArchiveRoot(work.partOf[0]) : work;
-
 export const getArchiveLabels = (work: Work): ArchiveLabels | undefined => {
   if (work.referenceNumber) {
-    const root = getArchiveRoot(work);
+    const root = getArchiveAncestorArray(work)[0] || work;
     return {
       reference: work.referenceNumber,
       partOf: root.id !== work.id ? root.title : undefined,
