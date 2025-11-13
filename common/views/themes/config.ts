@@ -286,7 +286,7 @@ export const createMediaBetween =
     }`;
   };
 
-// Default media query helpers (use legacy sizes)
+// Default media query helpers (use standard sizes)
 const media = createMedia(sizes);
 const mediaBetween = createMediaBetween(sizes);
 
