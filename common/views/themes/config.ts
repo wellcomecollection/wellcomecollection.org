@@ -153,17 +153,15 @@ const getColor = (name: PaletteColor): string => {
   return colors[name];
 };
 
-// Design system breakpoints (converted from rem to px)
-// Using breakpoints directly from @wellcometrust/wellcome-design-system
 export const designSystemSizes = {
-  small: 0, // always start from 0
+  small: 0,
   medium: remToPx(designSystemTheme.breakpoints.sm), // 48rem = 768px
   large: remToPx(designSystemTheme.breakpoints.md), // 64rem = 1024px
   xlarge: remToPx(designSystemTheme.breakpoints.lg), // 90rem = 1440px
   // Tweakpoints
   // Occasionally we need to respond to specific breakpoints beyond the defaults
-  headerMedium: 825, // align with medium breakpoint
-  headerLarge: 1040, // align with large breakpoint
+  headerMedium: 825,
+  headerLarge: 1040,
 };
 
 export const sizes = {
