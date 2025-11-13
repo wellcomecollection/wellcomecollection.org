@@ -8,7 +8,13 @@ import { layout } from './base/layout';
 import { normalize } from './base/normalize';
 import { row } from './base/row';
 import { wellcomeNormalize } from './base/wellcome-normalize';
-import { Size, themeValues } from './config';
+import {
+  createMedia,
+  createMediaBetween,
+  designSystemSizes,
+  Size,
+  themeValues,
+} from './config';
 import {
   makeFontSizeClasses,
   makeFontSizeOverrideClasses,
@@ -97,9 +103,16 @@ const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
 // Theme factory that creates a theme with appropriate color function based on toggles
 export const createThemeValues = (toggles: Toggles) => {
   // Manipulate themeValues with toggles here
+  const activeSizes = toggles?.designSystemBreakpoints?.value
+    ? designSystemSizes
+    : themeValues.sizes;
 
   return {
     ...themeValues,
+    sizes: activeSizes,
+    // Override media query helpers to use active sizes
+    media: createMedia(activeSizes),
+    mediaBetween: createMediaBetween(activeSizes),
     // Override makeSpacePropertyValues to include toggles
     makeSpacePropertyValues: (
       size: Parameters<typeof themeValues.makeSpacePropertyValues>[0],
