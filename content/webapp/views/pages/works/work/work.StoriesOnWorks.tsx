@@ -2,6 +2,7 @@ import React, { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
 
 import { useAbortSignalEffect } from '@weco/common/hooks/useAbortSignalEffect';
+import Divider from '@weco/common/views/components/Divider';
 import { Container } from '@weco/common/views/components/styled/Container';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
@@ -21,9 +22,13 @@ const SectionWrapper = styled(Space).attrs({
 
 type Props = {
   workId: string;
+  showDivider?: boolean;
 };
 
-const WorkStoriesOnWorks: FunctionComponent<Props> = ({ workId }) => {
+const WorkStoriesOnWorks: FunctionComponent<Props> = ({
+  workId,
+  showDivider,
+}) => {
   const [articles, setArticles] = useState<Article[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -87,7 +92,7 @@ const WorkStoriesOnWorks: FunctionComponent<Props> = ({ workId }) => {
 
         <Space $v={{ size: 'm', properties: ['padding-top'] }}>
           {articles.length > 0 && (
-            <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+            <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
               <StoriesGrid
                 articles={articles}
                 dynamicImageSizes={{
@@ -100,6 +105,7 @@ const WorkStoriesOnWorks: FunctionComponent<Props> = ({ workId }) => {
             </Space>
           )}
         </Space>
+        {showDivider && <Divider lineColor="neutral.400" />}
       </Container>
     </SectionWrapper>
   );

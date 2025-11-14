@@ -193,7 +193,12 @@ export const WorkPage: NextPage<Props> = ({
             />
           </>
         )}
-        {storiesOnWorks && <StoriesOnWorks workId={work.id} />}
+        {storiesOnWorks && (
+          <StoriesOnWorks
+            workId={work.id}
+            showDivider={hasAtLeastOneSubject(work.subjects)}
+          />
+        )}
         {/* If the work has no subjects, it's not worth adding this component */}
         {hasAtLeastOneSubject(work.subjects) && (
           <RelatedWorks
