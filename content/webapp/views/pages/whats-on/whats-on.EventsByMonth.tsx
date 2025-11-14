@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent, useMemo, useState } from 'react';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { classNames } from '@weco/common/utils/classnames';
@@ -23,20 +23,25 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
   const { isEnhanced } = useAppContext();
   // Group the events into the per-month tabs that we render on the
   // What's On page, e.g. a group for May, June, July, ...
-  const monthsWithEvents = groupEventsByMonth(events)
-    .map(({ month, events }) => {
-      const id = `${month.month}-${month.year}`.toLowerCase();
+  const monthsWithEvents = useMemo(
+    () =>
+      groupEventsByMonth(events)
+        .map(({ month, events }) => {
+          const id = `${month.month}-${month.year}`.toLowerCase();
 
-      return {
-        id,
-        url: `#${id}`,
-        text: month.month,
-        month,
-        events,
-      };
-    })
-    .slice(0, 4) // never show more than 4 months
-    .filter(month => month.events.length > 0); // only include months that have events
+          return {
+            id,
+            url: `#${id}`,
+            text: month.month,
+            month,
+            // Add daily tour promo to each month's events array during grouping
+            events: events.concat(dailyTourPromo),
+          };
+        })
+        .slice(0, 4) // never show more than 4 months
+        .filter(month => month.events.length > 0), // only include months that have events
+    [events]
+  );
 
   // We assume that there will always be some upcoming events scheduled,
   // which means there will be at least one month in `monthsWithEvents`
@@ -83,7 +88,7 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
               {month.month}
             </Container>
             <CardGrid
-              items={events.concat(dailyTourPromo)}
+              items={events}
               itemsPerRow={3}
               links={links}
               fromDate={startOf(month)}
