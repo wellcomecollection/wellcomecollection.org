@@ -126,7 +126,9 @@ const CollectionsLandingPage: NextPage<Props> = ({
         $isDefaultVariant={true}
       >
         <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
-          <SectionHeader title="Browse by theme" gridSize={gridSize12()} />
+          <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+            <SectionHeader title="Browse by theme" gridSize={gridSize12()} />
+          </Space>
           <BrowseByThemes
             themeConfig={themeBlockCategories}
             initialConcepts={featuredConcepts}
@@ -165,7 +167,12 @@ const CollectionsLandingPage: NextPage<Props> = ({
       )}
 
       <Space $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}>
-        <SectionHeader title="Inside our collections" gridSize={gridSize12()} />
+        <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
+          <SectionHeader
+            title="Inside our collections"
+            gridSize={gridSize12()}
+          />
+        </Space>
         <ContaineredLayout gridSizes={gridSize12()}>
           <p>
             Explore stories inspired by the objects, manuscripts and archives in
@@ -188,10 +195,12 @@ const CollectionsLandingPage: NextPage<Props> = ({
 
       <MaterialsSection>
         <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-          <SectionHeader
-            title="Types of materials in the collections"
-            gridSize={gridSize12()}
-          />
+          <Space $v={{ size: 'm', properties: ['padding-bottom'] }}>
+            <SectionHeader
+              title="Types of materials in the collections"
+              gridSize={gridSize12()}
+            />
+          </Space>
         </Space>
 
         <ContaineredLayout gridSizes={gridSize12()}>

@@ -175,7 +175,9 @@ const FullWidthBanner = (props: Props) => {
           >
             <CopySection>
               {props.title && (
-                <SectionHeader title={props.title}></SectionHeader>
+                <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
+                  <SectionHeader title={props.title}></SectionHeader>
+                </Space>
               )}
               {props.description && <p>{props.description}</p>}
 
