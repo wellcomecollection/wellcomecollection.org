@@ -39,7 +39,7 @@ const DailyTourCard: FunctionComponent = () => (
   <EventCard
     event={data}
     dateString="Tuesday–Sunday"
-    timeString="11:45, 14:45 and 15:45"
+    timeString="11:45, 14:15 (& 15:15 for pre-organised groups)"
   />
 );
 export default DailyTourCard;

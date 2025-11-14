@@ -9,6 +9,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { EventBasic } from '@weco/content/types/events';
 import { Link } from '@weco/content/types/link';
 import CardGrid from '@weco/content/views/components/CardGrid';
+import { data as dailyTourPromo } from '@weco/content/views/components/CardGrid/CardGrid.DailyTourCard';
 import Tabs from '@weco/content/views/components/Tabs';
 
 import { groupEventsByMonth, startOf } from './whats-on.EventsByMonth.helpers';
@@ -82,7 +83,7 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
               {month.month}
             </Container>
             <CardGrid
-              items={events}
+              items={events.concat(dailyTourPromo)}
               itemsPerRow={3}
               links={links}
               fromDate={startOf(month)}
