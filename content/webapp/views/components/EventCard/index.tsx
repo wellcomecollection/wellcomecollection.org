@@ -41,6 +41,9 @@ export function getLocationText(
   isOnline?: boolean,
   places?: PlaceBasic[] | EventDocumentPlace[]
 ): string | undefined {
+  if (!isOnline && (!places || places.length === 0)) {
+    return undefined;
+  }
   // Acceptance criteria from https://github.com/wellcomecollection/wellcomecollection.org/issues/7818
   // * If an event is only in venue, in a single location, we display the specific location (e.g. 'Reading Room')
   // * If an event is only in venue, in multiple locations, we display 'In our building'

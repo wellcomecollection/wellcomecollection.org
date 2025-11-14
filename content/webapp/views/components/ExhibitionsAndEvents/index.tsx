@@ -6,6 +6,7 @@ import { EventBasic } from '@weco/content/types/events';
 import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 import { Link } from '@weco/content/types/link';
 import CardGrid from '@weco/content/views/components/CardGrid';
+import { data as dailyTourPromo } from '@weco/content/views/components/CardGrid/CardGrid.DailyTourCard';
 
 type Props = {
   exhibitions: ExhibitionBasic[];
@@ -31,6 +32,7 @@ const ExhibitionsAndEvents: FunctionComponent<Props> = ({
   const items = [
     ...otherExhibitions,
     ...events,
+    dailyTourPromo,
     ...permanentExhibitions,
     ...extras,
   ];

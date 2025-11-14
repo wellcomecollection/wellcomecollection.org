@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent, useMemo, useState } from 'react';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { classNames } from '@weco/common/utils/classnames';
@@ -9,6 +9,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { EventBasic } from '@weco/content/types/events';
 import { Link } from '@weco/content/types/link';
 import CardGrid from '@weco/content/views/components/CardGrid';
+import { data as dailyTourPromo } from '@weco/content/views/components/CardGrid/CardGrid.DailyTourCard';
 import Tabs from '@weco/content/views/components/Tabs';
 
 import { groupEventsByMonth, startOf } from './whats-on.EventsByMonth.helpers';
@@ -22,20 +23,25 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
   const { isEnhanced } = useAppContext();
   // Group the events into the per-month tabs that we render on the
   // What's On page, e.g. a group for May, June, July, ...
-  const monthsWithEvents = groupEventsByMonth(events)
-    .map(({ month, events }) => {
-      const id = `${month.month}-${month.year}`.toLowerCase();
+  const monthsWithEvents = useMemo(
+    () =>
+      groupEventsByMonth(events)
+        .map(({ month, events }) => {
+          const id = `${month.month}-${month.year}`.toLowerCase();
 
-      return {
-        id,
-        url: `#${id}`,
-        text: month.month,
-        month,
-        events,
-      };
-    })
-    .slice(0, 4) // never show more than 4 months
-    .filter(month => month.events.length > 0); // only include months that have events
+          return {
+            id,
+            url: `#${id}`,
+            text: month.month,
+            month,
+            // Add daily tour promo to each month's events array during grouping
+            events: events.concat(dailyTourPromo),
+          };
+        })
+        .slice(0, 4) // never show more than 4 months
+        .filter(month => month.events.length > 0), // only include months that have events
+    [events]
+  );
 
   // We assume that there will always be some upcoming events scheduled,
   // which means there will be at least one month in `monthsWithEvents`
