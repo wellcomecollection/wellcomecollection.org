@@ -19,7 +19,9 @@ import { fetchRelatedWorks } from './RelatedWorks.helpers';
 
 export const FullWidthRow = styled(Space).attrs({
   $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-})`
+})``;
+
+const BackgroundWrapper = styled(Space).attrs({})`
   background-color: ${props => props.theme.color('warmNeutral.300')};
 `;
 
@@ -114,7 +116,7 @@ const RelatedWorks = ({
     );
 
   return relatedWorksTabs && selectedTab ? (
-    <>
+    <BackgroundWrapper>
       <Container>
         <Space $v={{ size: 'l', properties: ['padding-top'] }}>
           <h2>More works</h2>
@@ -180,7 +182,7 @@ const RelatedWorks = ({
           </Container>
         </FullWidthRow>
       ))}
-    </>
+    </BackgroundWrapper>
   ) : null;
 };
 
