@@ -16,7 +16,8 @@ const FullWidthRow = styled(Space).attrs({
 `;
 
 const ListItem = styled.li`
-  --container-padding: ${props => props.theme.containerPadding.small}px;
+  --container-padding: ${props =>
+    props.theme.formatContainerPadding(props.theme.containerPadding.small)};
   flex: 0 0 90%;
   max-width: 420px;
 
