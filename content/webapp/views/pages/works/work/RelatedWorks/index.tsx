@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from 'react';
-import styled from 'styled-components';
 
 import { ServerDataContext } from '@weco/common/server-data/Context';
 import { classNames } from '@weco/common/utils/classnames';
@@ -7,6 +6,7 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
+import { themeValues } from '@weco/common/views/themes/config';
 import {
   Work,
   WorkBasic,
@@ -16,14 +16,6 @@ import RelatedWorksCard from '@weco/content/views/components/RelatedWorksCard';
 import Tabs from '@weco/content/views/components/Tabs';
 
 import { fetchRelatedWorks } from './RelatedWorks.helpers';
-
-export const FullWidthRow = styled(Space).attrs({
-  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-})``;
-
-const BackgroundWrapper = styled(Space).attrs({})`
-  background-color: ${props => props.theme.color('warmNeutral.300')};
-`;
 
 type SubjectsAtLeastOneSubject = [
   Work['subjects'][number],
@@ -116,7 +108,11 @@ const RelatedWorks = ({
     );
 
   return relatedWorksTabs && selectedTab ? (
-    <BackgroundWrapper>
+    <Space
+      style={{
+        backgroundColor: themeValues.color('warmNeutral.300'),
+      }}
+    >
       <Container>
         <Space $v={{ size: 'l', properties: ['padding-top'] }}>
           <h2>More works</h2>
@@ -139,8 +135,9 @@ const RelatedWorks = ({
       </Container>
 
       {Object.entries(relatedWorksTabs).map(([key, value], tabIndex) => (
-        <FullWidthRow
+        <Space
           key={key}
+          $v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
           className={classNames({
             'is-hidden': selectedTab !== key,
           })}
@@ -180,9 +177,9 @@ const RelatedWorks = ({
               />
             </Space>
           </Container>
-        </FullWidthRow>
+        </Space>
       ))}
-    </BackgroundWrapper>
+    </Space>
   ) : null;
 };
 
