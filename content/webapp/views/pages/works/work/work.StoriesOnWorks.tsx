@@ -34,13 +34,11 @@ const WorkStoriesOnWorks: FunctionComponent<Props> = ({
   toggles,
 }) => {
   const [articles, setArticles] = useState<Article[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchRelatedContent = async () => {
       if (!workId) return;
-
-      setIsLoading(true);
 
       try {
         const response = await getArticles({
@@ -57,15 +55,16 @@ const WorkStoriesOnWorks: FunctionComponent<Props> = ({
 
         setArticles(response.results);
         setIsLoading(false);
-      } catch {
+      } catch (error) {
         setIsLoading(false);
+        console.error('Error fetching articles:', error);
       }
     };
 
     if (articles.length === 0) {
       fetchRelatedContent();
     }
-  }, [workId, articles, toggles]);
+  }, [workId, toggles]);
 
   if (!isLoading && articles.length === 0) return null;
 
