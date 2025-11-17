@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { ServerDataContext } from '@weco/common/server-data/Context';
-import { classNames } from '@weco/common/utils/classnames';
+import { classNames, font } from '@weco/common/utils/classnames';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import LL from '@weco/common/views/components/styled/LL';
@@ -118,10 +118,9 @@ const RelatedWorks = ({
   return (
     <SectionWrapper>
       <Container>
-        <Space $v={{ size: 'l', properties: ['padding-top'] }}>
-          <h2>More works</h2>
-        </Space>
+        <h2 className={font('wb', 3)}>More works</h2>
 
+        {/* TODO change this to use SelectableTags */}
         {Object.keys(relatedWorksTabs).length > 1 && (
           <Tabs
             tabBehaviour="switch"
