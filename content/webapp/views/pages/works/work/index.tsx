@@ -19,6 +19,7 @@ import { workLd } from '@weco/content/utils/json-ld';
 import { removeIdiomaticTextTags } from '@weco/content/utils/string';
 import {
   createApiToolbarWorkLinks,
+  getArchiveAncestorArray,
   getDigitalLocationInfo,
   getDigitalLocationOfType,
   showItemLink,
@@ -59,8 +60,7 @@ export const WorkPage: NextPage<Props> = ({
 }) => {
   const { userIsStaffWithRestricted } = useUserContext();
   const isArchive = !!(
-    work.parts.length ||
-    (work.partOf.length > 0 && work.partOf[0].totalParts)
+    work.parts.length || getArchiveAncestorArray(work).length > 0
   );
 
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');

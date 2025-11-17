@@ -45,8 +45,6 @@ const workIncludes = [
   'designation',
   'parts',
   'partOf',
-  'precededBy',
-  'succeededBy',
   'languages',
   'holdings',
 ];
