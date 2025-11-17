@@ -28,6 +28,8 @@ const YellowBox = styled(Space).attrs({
 `;
 
 const Title = styled.h2`
+  margin-bottom: 0;
+
   .bg-dark & {
     color: ${props => props.theme.color('white')};
   }
