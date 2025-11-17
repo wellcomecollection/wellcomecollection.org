@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+import { font } from '@weco/common/utils/classnames';
 import Divider from '@weco/common/views/components/Divider';
 import { Container } from '@weco/common/views/components/styled/Container';
 import LL from '@weco/common/views/components/styled/LL';
@@ -49,14 +50,14 @@ const WorkStoriesOnWorks: FunctionComponent<Props> = ({
         });
 
         if (response?.type === 'Error') {
+          setIsLoading(false);
           console.error('Error fetching articles:', response);
           return;
         }
 
         setArticles(response.results);
         setIsLoading(false);
-      } catch (e) {
-        console.error(e); // TODO?
+      } catch {
         setIsLoading(false);
       }
     };
@@ -64,7 +65,7 @@ const WorkStoriesOnWorks: FunctionComponent<Props> = ({
     if (articles.length === 0) {
       fetchRelatedContent();
     }
-  }, [workId]);
+  }, [workId, articles, toggles]);
 
   if (!isLoading && articles.length === 0) return null;
 
@@ -86,24 +87,23 @@ const WorkStoriesOnWorks: FunctionComponent<Props> = ({
     <SectionWrapper>
       <Container>
         <Space $v={{ size: 'l', properties: ['padding-top'] }}>
-          <h2>Stories featuring this work</h2>
+          <h2 className={font('wb', 3)}>Stories featuring this work</h2>
         </Space>
 
         <Space $v={{ size: 'm', properties: ['padding-top'] }}>
-          {articles.length > 0 && (
-            <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
-              <StoriesGrid
-                articles={articles}
-                dynamicImageSizes={{
-                  small: 100,
-                  medium: 50,
-                  large: 25,
-                  xlarge: 25,
-                }}
-              />
-            </Space>
-          )}
+          <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
+            <StoriesGrid
+              articles={articles}
+              dynamicImageSizes={{
+                small: 100,
+                medium: 50,
+                large: 25,
+                xlarge: 25,
+              }}
+            />
+          </Space>
         </Space>
+
         {showDivider && <Divider lineColor="neutral.400" />}
       </Container>
     </SectionWrapper>

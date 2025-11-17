@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
+import styled from 'styled-components';
 
 import { ServerDataContext } from '@weco/common/server-data/Context';
 import { classNames } from '@weco/common/utils/classnames';
@@ -6,7 +7,6 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
-import { themeValues } from '@weco/common/views/themes/config';
 import {
   Work,
   WorkBasic,
@@ -16,6 +16,12 @@ import RelatedWorksCard from '@weco/content/views/components/RelatedWorksCard';
 import Tabs from '@weco/content/views/components/Tabs';
 
 import { fetchRelatedWorks } from './RelatedWorks.helpers';
+
+const SectionWrapper = styled(Space).attrs({
+  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+})`
+  background-color: ${props => props.theme.color('warmNeutral.300')};
+`;
 
 type SubjectsAtLeastOneSubject = [
   Work['subjects'][number],
@@ -100,6 +106,8 @@ const RelatedWorks = ({
     }
   }, [relatedWorksTabs]);
 
+  if (!(relatedWorksTabs && selectedTab)) return null;
+
   if (isLoading)
     return (
       <div style={{ position: 'relative', minHeight: '200px' }}>
@@ -107,12 +115,8 @@ const RelatedWorks = ({
       </div>
     );
 
-  return relatedWorksTabs && selectedTab ? (
-    <Space
-      style={{
-        backgroundColor: themeValues.color('warmNeutral.300'),
-      }}
-    >
+  return (
+    <SectionWrapper>
       <Container>
         <Space $v={{ size: 'l', properties: ['padding-top'] }}>
           <h2>More works</h2>
@@ -179,8 +183,8 @@ const RelatedWorks = ({
           </Container>
         </Space>
       ))}
-    </Space>
-  ) : null;
+    </SectionWrapper>
+  );
 };
 
 export default RelatedWorks;
