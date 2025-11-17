@@ -12,6 +12,11 @@ import {
 } from '@weco/common/views/components/styled/Space';
 import { Toggles } from '@weco/toggles';
 
+// Utility to convert rem values from design system to px (assuming 1rem = 16px)
+const remToPx = (remValue: string): number => {
+  return parseFloat(remValue) * 16;
+};
+
 type SpaceSize = 'xs' | 's' | 'm' | 'l' | 'xl';
 type SpaceProperty = HorizontalSpaceProperty | VerticalSpaceProperty;
 
@@ -148,6 +153,17 @@ const getColor = (name: PaletteColor): string => {
   return colors[name];
 };
 
+export const designSystemSizes = {
+  small: 0,
+  medium: remToPx(designSystemTheme.breakpoints.sm), // 48rem = 768px
+  large: remToPx(designSystemTheme.breakpoints.md), // 64rem = 1024px
+  xlarge: remToPx(designSystemTheme.breakpoints.lg), // 90rem = 1440px
+  // Tweakpoints
+  // Occasionally we need to respond to specific breakpoints beyond the defaults
+  headerMedium: 825,
+  headerLarge: 1040,
+};
+
 export const sizes = {
   small: 0,
   medium: 600,
@@ -250,21 +266,29 @@ const slateTransparentBlack: ButtonColors = {
 };
 
 export type Size = keyof typeof sizes;
-const media =
+
+// Factory functions that create media query helpers with specific sizes
+export const createMedia =
+  (activeSizes: typeof sizes) =>
   (sizeLabel: Size, minOrMaxWidth: 'min-width' | 'max-width' = 'min-width') =>
   (styles: TemplateStringsArray | string): string =>
-    `@media (${minOrMaxWidth}: ${sizes[sizeLabel]}px) {${styles}}`;
+    `@media (${minOrMaxWidth}: ${activeSizes[sizeLabel]}px) {${styles}}`;
 
-const mediaBetween =
+export const createMediaBetween =
+  (activeSizes: typeof sizes) =>
   (minBreakpoint: Breakpoint, maxBreakpoint: Breakpoint) =>
   (styles: string): string => {
-    const minWidth = `min-width: ${sizes[minBreakpoint]}px`;
-    const maxWidth = `max-width: ${sizes[maxBreakpoint] - 1}px`;
+    const minWidth = `min-width: ${activeSizes[minBreakpoint]}px`;
+    const maxWidth = `max-width: ${activeSizes[maxBreakpoint] - 1}px`;
 
     return `@media (${minWidth}) and (${maxWidth}) {
       ${styles}
     }`;
   };
+
+// Default media query helpers (use standard sizes)
+const media = createMedia(sizes);
+const mediaBetween = createMediaBetween(sizes);
 
 const breakpointNames = ['small', 'medium', 'large'];
 
