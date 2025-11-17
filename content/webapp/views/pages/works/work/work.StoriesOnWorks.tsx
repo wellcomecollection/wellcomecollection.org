@@ -91,13 +91,14 @@ const WorkStoriesOnWorks: FunctionComponent<Props> = ({
 
         <Space $v={{ size: 'm', properties: ['padding-top'] }}>
           <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
+            {/* TODO replace this with CompactCard */}
             <StoriesGrid
               articles={articles}
               dynamicImageSizes={{
-                small: 100,
-                medium: 50,
-                large: 25,
-                xlarge: 25,
+                xlarge: 1 / 5,
+                large: 1 / 5,
+                medium: 1 / 5,
+                small: 1,
               }}
             />
           </Space>

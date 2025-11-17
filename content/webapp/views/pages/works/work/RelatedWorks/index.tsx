@@ -13,7 +13,7 @@ import {
 } from '@weco/content/services/wellcome/catalogue/types';
 import BetaMessage from '@weco/content/views/components/BetaMessage';
 import RelatedWorksCard from '@weco/content/views/components/RelatedWorksCard';
-import Tabs from '@weco/content/views/components/Tabs';
+import SelectableTags from '@weco/content/views/components/SelectableTags';
 
 import { fetchRelatedWorks } from './RelatedWorks.helpers';
 
@@ -120,19 +120,15 @@ const RelatedWorks = ({
       <Container>
         <h2 className={font('wb', 3)}>More works</h2>
 
-        {/* TODO change this to use SelectableTags */}
         {Object.keys(relatedWorksTabs).length > 1 && (
-          <Tabs
-            tabBehaviour="switch"
-            label="Related works control"
-            selectedTab={selectedTab}
-            setSelectedTab={setSelectedTab}
-            items={Object.entries(relatedWorksTabs).map(([key, value]) => ({
+          <SelectableTags
+            tags={Object.entries(relatedWorksTabs).map(([key, value]) => ({
               id: key,
-              url: `#${key}`,
-              text: value.label,
+              label: value.label,
+              controls: `#${key}`,
               gtmData: { category: value.category },
             }))}
+            onChange={selectedId => setSelectedTab(selectedId[0])}
           />
         )}
       </Container>
