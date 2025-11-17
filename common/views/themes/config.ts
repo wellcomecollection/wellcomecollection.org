@@ -33,10 +33,6 @@ type GridProperties = {
   padding: number;
   gutter: number;
   columns: number;
-  primaryStart: number;
-  primaryEnd: number;
-  secondaryStart: number;
-  secondaryEnd: number;
   respond: Breakpoint[];
 };
 type GridConfig = {
@@ -51,40 +47,24 @@ const grid: GridConfig = {
     padding: 18,
     gutter: 18,
     columns: 12,
-    primaryStart: 1,
-    primaryEnd: 12,
-    secondaryStart: 1,
-    secondaryEnd: 12,
     respond: ['small', 'medium'],
   },
   m: {
     padding: 42,
     gutter: 24,
     columns: 12,
-    primaryStart: 2,
-    primaryEnd: 11,
-    secondaryStart: 2,
-    secondaryEnd: 11,
     respond: ['medium', 'large'],
   },
   l: {
     padding: 60,
     gutter: 30,
     columns: 12,
-    primaryStart: 1,
-    primaryEnd: 7,
-    secondaryStart: 8,
-    secondaryEnd: 12,
     respond: ['large', 'xlarge'],
   },
   xl: {
     padding: 60,
     gutter: 30,
     columns: 12,
-    primaryStart: 1,
-    primaryEnd: 7,
-    secondaryStart: 8,
-    secondaryEnd: 12,
     respond: ['xlarge'],
   },
 };
