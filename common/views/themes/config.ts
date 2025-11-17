@@ -484,6 +484,13 @@ export const themeValues = {
   spacedTextTopMargin: '1.55em',
 };
 
+export const designSystemGutter = {
+  small: remToPx(designSystemTheme.grid.gutter.default), // 12px
+  medium: remToPx(designSystemTheme.grid.gutter.sm), // 24px
+  large: remToPx(designSystemTheme.grid.gutter.lg), // 48px
+  xlarge: remToPx(designSystemTheme.grid.gutter.lg), // 48px
+};
+
 export type Breakpoint = keyof typeof sizes;
 
 export type PaletteColor =

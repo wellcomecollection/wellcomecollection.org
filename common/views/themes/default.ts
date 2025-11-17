@@ -11,6 +11,7 @@ import { wellcomeNormalize } from './base/wellcome-normalize';
 import {
   createMedia,
   createMediaBetween,
+  designSystemGutter,
   designSystemSizes,
   Size,
   themeValues,
@@ -107,9 +108,14 @@ export const createThemeValues = (toggles: Toggles) => {
     ? designSystemSizes
     : themeValues.sizes;
 
+  const activeGutter = toggles?.designSystemGrid?.value
+    ? designSystemGutter
+    : themeValues.gutter;
+
   return {
     ...themeValues,
     sizes: activeSizes,
+    gutter: activeGutter,
     // Override media query helpers to use active sizes
     media: createMedia(activeSizes),
     mediaBetween: createMediaBetween(activeSizes),
