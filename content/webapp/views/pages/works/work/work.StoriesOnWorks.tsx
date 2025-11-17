@@ -1,13 +1,14 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { useAbortSignalEffect } from '@weco/common/hooks/useAbortSignalEffect';
 import Divider from '@weco/common/views/components/Divider';
 import { Container } from '@weco/common/views/components/styled/Container';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
+import { getArticles } from '@weco/content/services/wellcome/content/articles';
 import { Article } from '@weco/content/services/wellcome/content/types/api';
 import StoriesGrid from '@weco/content/views/pages/search/stories/stories.Grid';
+import { Toggles } from '@weco/toggles';
 
 const LoadingWrapper = styled.div`
   position: relative;
@@ -23,49 +24,47 @@ const SectionWrapper = styled(Space).attrs({
 type Props = {
   workId: string;
   showDivider?: boolean;
+  toggles: Toggles;
 };
 
 const WorkStoriesOnWorks: FunctionComponent<Props> = ({
   workId,
   showDivider,
+  toggles,
 }) => {
   const [articles, setArticles] = useState<Article[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  useAbortSignalEffect(
-    signal => {
-      const fetchRelatedContent = async () => {
-        if (!workId) return;
+  useEffect(() => {
+    const fetchRelatedContent = async () => {
+      if (!workId) return;
 
-        setIsLoading(true);
+      setIsLoading(true);
 
-        try {
-          const url = `/api/content/stories-by-work?workId=${workId}`;
-          const response = await fetch(url, { signal });
+      try {
+        const response = await getArticles({
+          params: { linkedWork: workId },
+          pageSize: 4,
+          toggles,
+        });
 
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-
-          const data = await response.json();
-
-          if (!signal.aborted) {
-            const articleResults = data.results || [];
-
-            setArticles(articleResults);
-            setIsLoading(false);
-          }
-        } catch (err) {
-          if (!signal.aborted) {
-            setIsLoading(false);
-          }
+        if (response?.type === 'Error') {
+          console.error('Error fetching articles:', response);
+          return;
         }
-      };
 
+        setArticles(response.results);
+        setIsLoading(false);
+      } catch (e) {
+        console.error(e); // TODO?
+        setIsLoading(false);
+      }
+    };
+
+    if (articles.length === 0) {
       fetchRelatedContent();
-    },
-    [workId]
-  );
+    }
+  }, [workId]);
 
   if (!isLoading && articles.length === 0) return null;
 
