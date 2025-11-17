@@ -516,7 +516,7 @@ export const themeValues = {
 export const designSystemGutter = {
   small: remToPx(designSystemTheme.grid.gutter.default), // 12px
   medium: remToPx(designSystemTheme.grid.gutter.sm), // 24px
-  large: remToPx(designSystemTheme.grid.gutter.lg), // 48px
+  large: 40, // 40px FIXME: this value isn't in the WDS repo but is in Figma
   xlarge: remToPx(designSystemTheme.grid.gutter.lg), // 48px
 };
 
