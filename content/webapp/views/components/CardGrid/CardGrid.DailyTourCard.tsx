@@ -6,9 +6,9 @@ import EventCard from '@weco/content/views/components/EventCard';
 
 const image = {
   contentUrl:
-    'https://images.prismic.io/wellcomecollection/7657f9e9-0733-444d-b1b2-6ae0bafa0ff9_c7c94c39161dcfe15d9abd8b40256ea2b40f52b9_c0139861.jpg?auto=compress,format',
-  width: 2996,
-  height: 2000,
+    'https://images.prismic.io/wellcomecollection/aKjF9GGNHVfTOK5a_EP_002740_020-medium.jpg?w=675&auto=compress%2Cformat&rect=0%2C63%2C1200%2C675&q=50',
+  width: 1200,
+  height: 675,
   alt: '',
   crops: {},
 };
