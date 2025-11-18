@@ -76,17 +76,25 @@ export const NavGridCell = styled(GridCell)<{
 `;
 
 export const StretchWrapper = styled.div`
-  ${props => props.theme.pageGridOffset('margin-right')};
+  position: relative;
 
-  &::before {
+  &::before,
+  &::after {
     content: '';
     position: absolute;
     width: calc(100vw - 100%);
     top: 0;
-    background: ${props => props.theme.color('neutral.700')};
     bottom: 0;
-    right: 100%;
+    background: ${props => props.theme.color('neutral.700')};
     z-index: 0;
+  }
+
+  &::before {
+    right: 100%;
+  }
+
+  &::after {
+    left: 100%;
   }
 `;
 
