@@ -37,50 +37,76 @@ const ListItem = styled.li`
     padding-right: var(--gutter-size);
   }
 
-  ${props =>
-    props.theme.media('medium')(`
-      --gutter-size: ${props.theme.gutter.medium}px;
+  ${props => {
+    const mediumGutter = props.theme.gutter.medium;
+
+    // Calculate padding value for use in calc()
+    // If percentage, use vw; if pixels, use the pixel value
+    const paddingCalc =
+      typeof props.theme.containerPadding.medium === 'string'
+        ? `${parseFloat(props.theme.containerPadding.medium) * 2}vw`
+        : `${props.theme.containerPadding.medium * 2}px`;
+
+    return props.theme.media('medium')(`
+      --gutter-size: ${mediumGutter}px;
       /* 6 columns of 12 at medium breakpoint */
-      /* Formula: ((100vw - 84px padding) - (11 × 24px gutters)) / 12 × 6 + (6 × 24px gutters) */
-      /* The 6th gutter accounts for the gap after the card, matching grid behaviour */
-      /* Simplified: ((100vw - 84px - 264px) / 12 × 6) + 144px = calc(50vw - 30px) */
-      width: calc(50vw - 30px);
+      /* Formula: ((100vw - padding) - (11 × gutter)) / 12 × 6 + (6 × gutter) */
+      /* Simplified: calc((100vw - ${paddingCalc} - ${mediumGutter * 11}px) / 2 + ${mediumGutter * 6}px) */
+      width: calc((100vw - ${paddingCalc} - ${mediumGutter * 11}px) / 2 + ${mediumGutter * 6}px);
 
       padding: 0 0 0 var(--gutter-size);
 
       &:nth-child(2) {
         padding-left: 0;
-        width: calc(50vw - (30px + var(--gutter-size)));
+        width: calc((100vw - ${paddingCalc} - ${mediumGutter * 11}px) / 2 + ${mediumGutter * 5}px);
       }
       &:last-child {
         padding-right: var(--gutter-size);
-        width: calc(50vw - (30px - var(--gutter-size)));
+        width: calc((100vw - ${paddingCalc} - ${mediumGutter * 11}px) / 2 + ${mediumGutter * 7}px);
       }
-    `)}
+    `);
+  }}
 
-  ${props =>
-    props.theme.media('large')(`
-      --gutter-size: ${props.theme.gutter.large}px;
+  ${props => {
+    const largeGutter = props.theme.gutter.large;
+    const xlarge = props.theme.sizes.xlarge;
+
+    // Calculate padding value for use in calc()
+    const paddingCalc =
+      typeof props.theme.containerPadding.large === 'string'
+        ? `${parseFloat(props.theme.containerPadding.large) * 2}vw`
+        : `${props.theme.containerPadding.large * 2}px`;
+
+    // Calculate padding in pixels for max-width calculation
+    const paddingPx =
+      typeof props.theme.containerPadding.large === 'string'
+        ? (parseFloat(props.theme.containerPadding.large) / 100) * xlarge * 2
+        : props.theme.containerPadding.large * 2;
+
+    const totalGutters = largeGutter * 11;
+
+    return props.theme.media('large')(`
+      --gutter-size: ${largeGutter}px;
       /* 4 columns of 12 at large breakpoint */
-      /* Formula: ((100vw - 120px padding) - (11 × 30px gutters)) / 12 × 4 + (4 × 30px gutters) */
-      /* The 4th gutter accounts for the gap after the card, matching grid behaviour */
-      /* Simplified: ((100vw - 120px - 330px) / 12 × 4) + 120px = calc(33.333vw - 30px) */
-      width: calc(33.333vw - 30px);
+      /* Formula: ((100vw - padding) - (11 × gutter)) / 12 × 4 + (4 × gutter) */
+      /* Simplified: calc((100vw - ${paddingCalc} - ${totalGutters}px) / 3 + ${largeGutter * 4}px) */
+      width: calc((100vw - ${paddingCalc} - ${totalGutters}px) / 3 + ${largeGutter * 4}px);
 
-      /* Max-width at xlarge: ((1338px - 120px - 330px) / 12 × 4) + 120px = 416px */
-      max-width: ${((props.theme.sizes.xlarge - 120 - 330) / 12) * 4 + 120}px;
+      /* Max-width at xlarge: ((${xlarge}px - ${paddingPx}px - ${totalGutters}px) / 12 × 4) + ${largeGutter * 4}px */
+      max-width: ${((xlarge - paddingPx - totalGutters) / 12) * 4 + largeGutter * 4}px;
 
       &:nth-child(2){
-        width: calc(33.333vw - (30px + var(--gutter-size)));
-        max-width: ${((props.theme.sizes.xlarge - 120 - 330) / 12) * 4 + 90}px;
+        width: calc((100vw - ${paddingCalc} - ${totalGutters}px) / 3 + ${largeGutter * 3}px);
+        max-width: ${((xlarge - paddingPx - totalGutters) / 12) * 4 + largeGutter * 3}px;
       }
 
       &:last-child {
         padding-right: var(--gutter-size);
-        width: calc(33.333vw - (30px - var(--gutter-size)));
-        max-width: ${((props.theme.sizes.xlarge - 120 - 330) / 12) * 4 + 150}px;
+        width: calc((100vw - ${paddingCalc} - ${totalGutters}px) / 3 + ${largeGutter * 5}px);
+        max-width: ${((xlarge - paddingPx - totalGutters) / 12) * 4 + largeGutter * 5}px;
       }
-    `)}
+    `);
+  }}
 `;
 
 const Theme: FunctionComponent<{
