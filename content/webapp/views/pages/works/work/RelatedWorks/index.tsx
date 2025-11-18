@@ -106,14 +106,14 @@ const RelatedWorks = ({
     }
   }, [relatedWorksTabs]);
 
-  if (!(relatedWorksTabs && selectedTab)) return null;
-
   if (isLoading)
     return (
       <div style={{ position: 'relative', minHeight: '200px' }}>
         <LL />
       </div>
     );
+
+  if (!(relatedWorksTabs && selectedTab)) return null;
 
   return (
     <SectionWrapper>
