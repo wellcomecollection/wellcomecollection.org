@@ -123,31 +123,37 @@ export const createThemeValues = (toggles: Toggles) => {
 
   // Create toggle-aware pageGridOffset function
   const pageGridOffset = (property: string): string => {
-    const formatContainerPadding = themeValues.formatContainerPadding;
+    // Helper to convert percentage padding to vw units
+    // When containerPadding is a percentage, it's calculated relative to viewport width,
+    // so we need to use vw in our calc() expressions
+    const convertPaddingToVw = (
+      padding: typeof activeContainerPadding.small
+    ) => {
+      if (typeof padding === 'string' && padding.includes('%')) {
+        return `${parseFloat(padding)}vw`;
+      }
+      return themeValues.formatContainerPadding(padding);
+    };
 
-    // At xlarge breakpoint, if containerPadding is a percentage, we need to convert it to pixels
-    // based on the container's max-width to avoid percentage context issues in calc()
-    const xlargeContainerPadding = activeContainerPadding.xlarge;
-    const xlargeContainerPaddingValue =
-      typeof xlargeContainerPadding === 'string' &&
-      xlargeContainerPadding.includes('%')
-        ? `${(parseFloat(xlargeContainerPadding) / 100) * activeSizes.xlarge}px`
-        : formatContainerPadding(xlargeContainerPadding);
+    const smallPadding = convertPaddingToVw(activeContainerPadding.small);
+    const mediumPadding = convertPaddingToVw(activeContainerPadding.medium);
+    const largePadding = convertPaddingToVw(activeContainerPadding.large);
+    const xlargePadding = convertPaddingToVw(activeContainerPadding.xlarge);
 
-    return `  
+    return `
   position: relative;
-  ${property}: -${formatContainerPadding(activeContainerPadding.small)};
+  ${property}: -${smallPadding};
 
   ${activeMedia('medium')(`
-    ${property}: -${formatContainerPadding(activeContainerPadding.medium)};
+    ${property}: -${mediumPadding};
     `)}
 
   ${activeMedia('large')(`
-    ${property}: -${formatContainerPadding(activeContainerPadding.large)};
+    ${property}: -${largePadding};
     `)}
 
   ${activeMedia('xlarge')(`
-    ${property}: calc((100vw - ${activeSizes.xlarge}px) / 2 * -1 - ${xlargeContainerPaddingValue});
+    ${property}: calc((100vw - ${activeSizes.xlarge}px) / 2 * -1 - ${xlargePadding});
   `)};
   `;
   };
