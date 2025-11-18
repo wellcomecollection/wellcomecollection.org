@@ -37,28 +37,48 @@ export const ListItem = styled.li<{ $hasStuck: boolean; $isOnWhite: boolean }>`
     ${props =>
       props.theme.color(props.$hasStuck ? 'neutral.300' : 'transparent')};
 
-  margin-left: -${props =>
-      props.theme.formatContainerPadding(props.theme.containerPadding.small)};
-  margin-right: -${props =>
-      props.theme.formatContainerPadding(props.theme.containerPadding.small)};
+  margin-left: -${props => {
+      const padding = props.theme.containerPadding.small;
+      return typeof padding === 'string' && padding.includes('%')
+        ? `${parseFloat(padding)}vw`
+        : props.theme.formatContainerPadding(padding);
+    }};
+  margin-right: -${props => {
+      const padding = props.theme.containerPadding.small;
+      return typeof padding === 'string' && padding.includes('%')
+        ? `${parseFloat(padding)}vw`
+        : props.theme.formatContainerPadding(padding);
+    }};
   padding-left: calc(
-    ${props =>
-        props.theme.formatContainerPadding(
-          props.theme.containerPadding.small
-        )} +
+    ${props => {
+        const padding = props.theme.containerPadding.small;
+        return typeof padding === 'string' && padding.includes('%')
+          ? `${parseFloat(padding)}vw`
+          : props.theme.formatContainerPadding(padding);
+      }} +
       ${leftOffset}
   );
   /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties */
-  padding-right: ${props =>
-    props.theme.formatContainerPadding(props.theme.containerPadding.small)};
+  padding-right: ${props => {
+    const padding = props.theme.containerPadding.small;
+    return typeof padding === 'string' && padding.includes('%')
+      ? `${parseFloat(padding)}vw`
+      : props.theme.formatContainerPadding(padding);
+  }};
 
-  ${props =>
-    props.theme.media('medium')(`
-    margin-left: -${props.theme.formatContainerPadding(props.theme.containerPadding.medium)};
-    margin-right: -${props.theme.formatContainerPadding(props.theme.containerPadding.medium)};
-    padding-left: calc(${props.theme.formatContainerPadding(props.theme.containerPadding.medium)} + ${leftOffset});
-    padding-right: ${props.theme.formatContainerPadding(props.theme.containerPadding.medium)};
-  `)}
+  ${props => {
+    const padding = props.theme.containerPadding.medium;
+    const value =
+      typeof padding === 'string' && padding.includes('%')
+        ? `${parseFloat(padding)}vw`
+        : props.theme.formatContainerPadding(padding);
+    return props.theme.media('medium')(`
+    margin-left: -${value};
+    margin-right: -${value};
+    padding-left: calc(${value} + ${leftOffset});
+    padding-right: ${value};
+  `);
+  }}
 
   &::before {
     content: '';
@@ -184,28 +204,40 @@ export const Root = styled(Space).attrs<{
     border-bottom: 0;
   `)}
 
-  ${props =>
-    props.theme.mediaBetween(
+  ${props => {
+    const smallPadding = props.theme.containerPadding.small;
+    const smallValue =
+      typeof smallPadding === 'string' && smallPadding.includes('%')
+        ? `${parseFloat(smallPadding)}vw`
+        : props.theme.formatContainerPadding(smallPadding);
+    return props.theme.mediaBetween(
       'small',
       'medium'
     )(`
-      margin-left: -${props.theme.formatContainerPadding(props.theme.containerPadding.small)};
-      margin-right: -${props.theme.formatContainerPadding(props.theme.containerPadding.small)};
-      padding-left: ${props.theme.formatContainerPadding(props.theme.containerPadding.small)};
-      padding-right: ${props.theme.formatContainerPadding(props.theme.containerPadding.small)};
+      margin-left: -${smallValue};
+      margin-right: -${smallValue};
+      padding-left: ${smallValue};
+      padding-right: ${smallValue};
 
-    `)}
+    `);
+  }}
 
-  ${props =>
-    props.theme.mediaBetween(
+  ${props => {
+    const mediumPadding = props.theme.containerPadding.medium;
+    const mediumValue =
+      typeof mediumPadding === 'string' && mediumPadding.includes('%')
+        ? `${parseFloat(mediumPadding)}vw`
+        : props.theme.formatContainerPadding(mediumPadding);
+    return props.theme.mediaBetween(
       'medium',
       'large'
     )(`
-      margin-left: -${props.theme.formatContainerPadding(props.theme.containerPadding.medium)};
-      margin-right: -${props.theme.formatContainerPadding(props.theme.containerPadding.medium)};
-      padding-left: ${props.theme.formatContainerPadding(props.theme.containerPadding.medium)};
-      padding-right: ${props.theme.formatContainerPadding(props.theme.containerPadding.medium)};
-    `)}
+      margin-left: -${mediumValue};
+      margin-right: -${mediumValue};
+      padding-left: ${mediumValue};
+      padding-right: ${mediumValue};
+    `);
+  }}
 
   ${props =>
     props.theme.mediaBetween(
