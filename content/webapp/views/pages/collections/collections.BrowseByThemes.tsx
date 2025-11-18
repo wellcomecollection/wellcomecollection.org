@@ -39,13 +39,7 @@ const ListItem = styled.li`
 
   ${props => {
     const mediumGutter = props.theme.gutter.medium;
-
-    // Calculate padding value for use in calc()
-    // If percentage, use vw; if pixels, use the pixel value
-    const paddingCalc =
-      typeof props.theme.containerPadding.medium === 'string'
-        ? `${parseFloat(props.theme.containerPadding.medium) * 2}vw`
-        : `${props.theme.containerPadding.medium * 2}px`;
+    const paddingCalc = `${props.theme.formatContainerPaddingVw(props.theme.containerPadding.medium)} * 2`;
 
     return props.theme.media('medium')(`
       --gutter-size: ${mediumGutter}px;
@@ -70,18 +64,14 @@ const ListItem = styled.li`
   ${props => {
     const largeGutter = props.theme.gutter.large;
     const xlarge = props.theme.sizes.xlarge;
-
-    // Calculate padding value for use in calc()
-    const paddingCalc =
-      typeof props.theme.containerPadding.large === 'string'
-        ? `${parseFloat(props.theme.containerPadding.large) * 2}vw`
-        : `${props.theme.containerPadding.large * 2}px`;
+    const paddingCalc = `${props.theme.formatContainerPaddingVw(props.theme.containerPadding.large)} * 2`;
 
     // Calculate padding in pixels for max-width calculation
+    const paddingValue = props.theme.containerPadding.large;
     const paddingPx =
-      typeof props.theme.containerPadding.large === 'string'
-        ? (parseFloat(props.theme.containerPadding.large) / 100) * xlarge * 2
-        : props.theme.containerPadding.large * 2;
+      typeof paddingValue === 'string'
+        ? (parseFloat(paddingValue) / 100) * xlarge * 2
+        : paddingValue * 2;
 
     const totalGutters = largeGutter * 11;
 

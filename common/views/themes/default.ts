@@ -123,22 +123,18 @@ export const createThemeValues = (toggles: Toggles) => {
 
   // Create toggle-aware pageGridOffset function
   const pageGridOffset = (property: string): string => {
-    // Helper to convert percentage padding to vw units
-    // When containerPadding is a percentage, it's calculated relative to viewport width,
-    // so we need to use vw in our calc() expressions
-    const convertPaddingToVw = (
-      padding: typeof activeContainerPadding.small
-    ) => {
-      if (typeof padding === 'string' && padding.includes('%')) {
-        return `${parseFloat(padding)}vw`;
-      }
-      return themeValues.formatContainerPadding(padding);
-    };
-
-    const smallPadding = convertPaddingToVw(activeContainerPadding.small);
-    const mediumPadding = convertPaddingToVw(activeContainerPadding.medium);
-    const largePadding = convertPaddingToVw(activeContainerPadding.large);
-    const xlargePadding = convertPaddingToVw(activeContainerPadding.xlarge);
+    const smallPadding = themeValues.formatContainerPaddingVw(
+      activeContainerPadding.small
+    );
+    const mediumPadding = themeValues.formatContainerPaddingVw(
+      activeContainerPadding.medium
+    );
+    const largePadding = themeValues.formatContainerPaddingVw(
+      activeContainerPadding.large
+    );
+    const xlargePadding = themeValues.formatContainerPaddingVw(
+      activeContainerPadding.xlarge
+    );
 
     return `
   position: relative;

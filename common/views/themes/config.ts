@@ -267,6 +267,18 @@ export function formatContainerPadding(value: ContainerPaddingValue): string {
   return typeof value === 'number' ? `${value}px` : value;
 }
 
+// Helper function to convert containerPadding to viewport-relative units
+// When containerPadding is a percentage (e.g., '5%'), it's calculated relative to viewport width
+// in practice, so we convert it to 'vw' units for use in calc() expressions to avoid
+// percentage context issues (where % would be relative to parent element width)
+// Numbers are converted to 'px' as usual
+export function formatContainerPaddingVw(value: ContainerPaddingValue): string {
+  if (typeof value === 'string' && value.includes('%')) {
+    return `${parseFloat(value)}vw`;
+  }
+  return formatContainerPadding(value);
+}
+
 const spaceAtBreakpoints = {
   small: {
     xs: spacingUnits['1'],
@@ -453,6 +465,7 @@ export const themeValues = {
   getSpaceValue,
   pageGridOffset,
   formatContainerPadding,
+  formatContainerPaddingVw,
   buttonColors: {
     default: defaultButtonColors,
     danger: dangerButtonColors,
