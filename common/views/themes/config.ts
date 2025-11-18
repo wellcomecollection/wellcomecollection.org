@@ -39,46 +39,6 @@ export type ContainerPadding = {
   xlarge: ContainerPaddingValue;
 };
 
-type GridProperties = {
-  padding: number;
-  gutter: number;
-  columns: number;
-  respond: Breakpoint[];
-};
-type GridConfig = {
-  s: GridProperties;
-  m: GridProperties;
-  l: GridProperties;
-  xl: GridProperties;
-};
-
-const grid: GridConfig = {
-  s: {
-    padding: 18,
-    gutter: 18,
-    columns: 12,
-    respond: ['small', 'medium'],
-  },
-  m: {
-    padding: 42,
-    gutter: 24,
-    columns: 12,
-    respond: ['medium', 'large'],
-  },
-  l: {
-    padding: 60,
-    gutter: 30,
-    columns: 12,
-    respond: ['large', 'xlarge'],
-  },
-  xl: {
-    padding: 60,
-    gutter: 30,
-    columns: 12,
-    respond: ['xlarge'],
-  },
-};
-
 export const spacingUnits = {
   '1': 4,
   '2': 6,
@@ -484,7 +444,6 @@ export const themeValues = {
   spaceAtBreakpoints,
   navHeight: 85,
   fontVerticalOffset: '0.15em',
-  grid,
   colors,
   color: getColor,
   minCardHeight: 385,
