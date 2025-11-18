@@ -115,7 +115,6 @@ export const SelectableTags: FunctionComponent<SelectableTagsProps> = ({
         {tags.map((tag, index) => {
           const isSelected = selected.includes(tag.id);
           const gtmAttributes = dataGtmPropsToAttributes({
-            trigger: 'selectable_tag',
             'position-in-list': String(index + 1),
             label: tag.id,
             ...tag.gtmData,
