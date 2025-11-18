@@ -272,6 +272,7 @@ export function formatContainerPadding(value: ContainerPaddingValue): string {
 // in practice, so we convert it to 'vw' units for use in calc() expressions to avoid
 // percentage context issues (where % would be relative to parent element width)
 // Numbers are converted to 'px' as usual
+// TODO: remove this after we've turned on the design system grid/breakpoint toggle
 export function formatContainerPaddingVw(value: ContainerPaddingValue): string {
   if (typeof value === 'string' && value.includes('%')) {
     return `${parseFloat(value)}vw`;
