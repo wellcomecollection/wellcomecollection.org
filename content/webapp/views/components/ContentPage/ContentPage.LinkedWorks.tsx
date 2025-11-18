@@ -16,21 +16,20 @@ const FullWidthRow = styled(Space).attrs({
 `;
 
 const ListItem = styled.li`
-  --container-padding: ${props =>
-    props.theme.formatContainerPadding(props.theme.containerPadding.small)};
+  --gutter-size: ${props => props.theme.gutter.medium}px;
   flex: 0 0 90%;
   max-width: 420px;
 
-  padding-left: var(--container-padding);
+  padding-left: var(--gutter-size);
 
   &:last-child {
-    padding-right: var(--container-padding);
+    padding-right: var(--gutter-size);
   }
 
   ${props =>
     props.theme.media('medium')(`
       flex: 0 0 50%;
-      padding: 0 var(--container-padding) 0 0;
+      padding: 0 var(--gutter-size) 0 0;
     `)}
 `;
 
