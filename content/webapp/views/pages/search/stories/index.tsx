@@ -18,10 +18,9 @@ import Pagination from '@weco/content/views/components/Pagination';
 import SearchFilters from '@weco/content/views/components/SearchFilters';
 import { StoriesProps } from '@weco/content/views/components/SearchPagesLink/Stories';
 import Sort from '@weco/content/views/components/Sort';
+import StoriesGrid from '@weco/content/views/components/StoriesGrid';
 import { withSearchLayout } from '@weco/content/views/layouts/SearchPageLayout';
 import SearchNoResults from '@weco/content/views/pages/search/search.NoResults';
-
-import StoriesGrid from './stories.Grid';
 
 const Wrapper = styled(Space)`
   background-color: ${props => props.theme.color('neutral.200')};

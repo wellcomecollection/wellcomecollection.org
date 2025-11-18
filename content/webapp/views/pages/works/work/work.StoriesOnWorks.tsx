@@ -8,7 +8,7 @@ import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
 import { getArticles } from '@weco/content/services/wellcome/content/articles';
 import { Article } from '@weco/content/services/wellcome/content/types/api';
-import StoriesGrid from '@weco/content/views/pages/search/stories/stories.Grid';
+import StoriesGrid from '@weco/content/views/components/StoriesGrid';
 import { Toggles } from '@weco/toggles';
 
 const LoadingWrapper = styled.div`
@@ -91,16 +91,7 @@ const WorkStoriesOnWorks: FunctionComponent<Props> = ({
 
         <Space $v={{ size: 'm', properties: ['padding-top'] }}>
           <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
-            {/* TODO replace this with CompactCard */}
-            <StoriesGrid
-              articles={articles}
-              dynamicImageSizes={{
-                xlarge: 1 / 5,
-                large: 1 / 5,
-                medium: 1 / 5,
-                small: 1,
-              }}
-            />
+            <StoriesGrid articles={articles} isCompact />
           </Space>
         </Space>
 
