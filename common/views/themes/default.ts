@@ -117,14 +117,51 @@ export const createThemeValues = (toggles: Toggles) => {
     ? designSystemContainerPadding
     : themeValues.containerPadding;
 
+  // Create toggle-aware media helpers
+  const activeMedia = createMedia(activeSizes);
+  const activeMediaBetween = createMediaBetween(activeSizes);
+
+  // Create toggle-aware pageGridOffset function
+  const pageGridOffset = (property: string): string => {
+    const formatContainerPadding = themeValues.formatContainerPadding;
+
+    // At xlarge breakpoint, if containerPadding is a percentage, we need to convert it to pixels
+    // based on the container's max-width to avoid percentage context issues in calc()
+    const xlargeContainerPadding = activeContainerPadding.xlarge;
+    const xlargeContainerPaddingValue =
+      typeof xlargeContainerPadding === 'string' &&
+      xlargeContainerPadding.includes('%')
+        ? `${(parseFloat(xlargeContainerPadding) / 100) * activeSizes.xlarge}px`
+        : formatContainerPadding(xlargeContainerPadding);
+
+    return `  
+  position: relative;
+  ${property}: -${formatContainerPadding(activeContainerPadding.small)};
+
+  ${activeMedia('medium')(`
+    ${property}: -${formatContainerPadding(activeContainerPadding.medium)};
+    `)}
+
+  ${activeMedia('large')(`
+    ${property}: -${formatContainerPadding(activeContainerPadding.large)};
+    `)}
+
+  ${activeMedia('xlarge')(`
+    ${property}: calc((100vw - ${activeSizes.xlarge}px) / 2 * -1 - ${xlargeContainerPaddingValue});
+  `)};
+  `;
+  };
+
   return {
     ...themeValues,
     sizes: activeSizes,
     gutter: activeGutter,
     containerPadding: activeContainerPadding,
     // Override media query helpers to use active sizes
-    media: createMedia(activeSizes),
-    mediaBetween: createMediaBetween(activeSizes),
+    media: activeMedia,
+    mediaBetween: activeMediaBetween,
+    // Override pageGridOffset to use active sizes and containerPadding
+    pageGridOffset,
     // Override makeSpacePropertyValues to include toggles
     makeSpacePropertyValues: (
       size: Parameters<typeof themeValues.makeSpacePropertyValues>[0],
