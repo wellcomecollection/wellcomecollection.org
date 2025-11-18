@@ -154,13 +154,6 @@ const toggles = {
         'Use the design system breakpoint values instead of custom breakpoints',
       type: 'experimental',
     },
-    {
-      id: 'designSystemGrid',
-      title: 'Design system grid',
-      initialValue: false,
-      description: 'Use the design system grid values',
-      type: 'experimental',
-    },
   ] as const,
   // We have to include a reference to any test toggles here as well as in the cache dir
   // because they are deployed separately and consequently can't share a source of truth

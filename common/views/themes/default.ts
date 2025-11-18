@@ -109,11 +109,11 @@ export const createThemeValues = (toggles: Toggles) => {
     ? designSystemSizes
     : themeValues.sizes;
 
-  const activeGutter = toggles?.designSystemGrid?.value
+  const activeGutter = toggles?.designSystemBreakpoints?.value
     ? designSystemGutter
     : themeValues.gutter;
 
-  const activeContainerPadding = toggles?.designSystemGrid?.value
+  const activeContainerPadding = toggles?.designSystemBreakpoints?.value
     ? designSystemContainerPadding
     : themeValues.containerPadding;
 
