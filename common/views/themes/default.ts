@@ -137,21 +137,21 @@ export const createThemeValues = (toggles: Toggles) => {
     );
 
     return `
-  position: relative;
-  ${property}: -${smallPadding};
+      position: relative;
+      ${property}: -${smallPadding};
 
-  ${activeMedia('medium')(`
-    ${property}: -${mediumPadding};
-    `)}
+      ${activeMedia('medium')(`
+        ${property}: -${mediumPadding};
+      `)}
 
-  ${activeMedia('large')(`
-    ${property}: -${largePadding};
-    `)}
+      ${activeMedia('large')(`
+        ${property}: -${largePadding};
+      `)}
 
-  ${activeMedia('xlarge')(`
-    ${property}: calc((100vw - ${activeSizes.xlarge}px) / 2 * -1 - ${xlargePadding});
-  `)};
-  `;
+      ${activeMedia('xlarge')(`
+        ${property}: calc((100vw - ${activeSizes.xlarge}px) / 2 * -1 - ${xlargePadding});
+      `)};
+    `;
   };
 
   return {
