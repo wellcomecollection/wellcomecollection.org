@@ -127,7 +127,12 @@ export const fontFamilyMixin = (
   useDesignSystem?: boolean
 ): string => {
   if (useDesignSystem) {
-    return `font-family: ${fontFamilies[family].designSystem}`;
+    // Assign explicit font-weight to match re-mapping in note below
+    const fontWeight =
+      family === 'intb' || family === 'intsb' || family === 'intm'
+        ? `font-weight: ${designSystemTheme.font.weight.semibold};`
+        : '';
+    return `font-family: ${fontFamilies[family].designSystem}; ${fontWeight}`;
   }
   return `font-family: ${fontFamilies[family][isFull ? 'full' : 'base']}`;
 };
@@ -195,7 +200,8 @@ export const typography = css<GlobalStyleProps>`
   }
 
   body {
-    ${fontFamilyMixin('intr', true)}
+    ${props =>
+      fontFamilyMixin('intr', true, props.toggles?.designSystemFonts?.value)}
     ${fontSizeMixin(4)}
     line-height: ${props =>
       props.toggles?.designSystemFonts?.value
@@ -304,12 +310,14 @@ export const typography = css<GlobalStyleProps>`
     letter-spacing: 0.0044em;
 
     h1 {
-      ${fontFamilyMixin('wb', true)}
+      ${props =>
+        fontFamilyMixin('wb', true, props.toggles?.designSystemFonts?.value)}
       ${fontSizeMixin(1)}
     }
 
     h2 {
-      ${fontFamilyMixin('wb', true)}
+      ${props =>
+        fontFamilyMixin('wb', true, props.toggles?.designSystemFonts?.value)}
       ${fontSizeMixin(2)}
     }
 
@@ -326,7 +334,8 @@ export const typography = css<GlobalStyleProps>`
     }
 
     h3 {
-      ${fontFamilyMixin('intb', true)}
+      ${props =>
+        fontFamilyMixin('intb', true, props.toggles?.designSystemFonts?.value)}
       ${fontSizeMixin(3)}
     }
 
@@ -371,12 +380,14 @@ export const typography = css<GlobalStyleProps>`
 
     strong,
     b {
-      ${fontFamilyMixin('intb', true)};
+      ${props =>
+        fontFamilyMixin('intb', true, props.toggles?.designSystemFonts?.value)};
     }
   }
 
   .drop-cap {
-    ${fontFamilyMixin('wb', true)}
+    ${props =>
+      fontFamilyMixin('wb', true, props.toggles?.designSystemFonts?.value)}
     font-size: 3em;
     color: ${props => props.theme.color('black')};
     float: left;
@@ -408,7 +419,8 @@ export const typography = css<GlobalStyleProps>`
     position: relative;
 
     &::before {
-      ${fontFamilyMixin('wb', true)}
+      ${props =>
+        fontFamilyMixin('wb', true, props.toggles?.designSystemFonts?.value)}
       position: absolute;
       content: '“';
       color: ${props => props.theme.color('accent.blue')};
