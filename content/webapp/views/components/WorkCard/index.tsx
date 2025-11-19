@@ -84,7 +84,7 @@ const Meta = styled.p.attrs({
 export type WorkItem = {
   url: string;
   title: string;
-  image: {
+  image?: {
     contentUrl: string;
     width: number;
     height: number;
@@ -102,8 +102,9 @@ type Props = {
 
 const WorkCard: FunctionComponent<Props> = ({ item }) => {
   const { url, title, image, labels, partOf, contributor, date } = item;
-  const aspectRatio = image.height / image.width;
+  const aspectRatio = image ? image.height / image.width : undefined;
 
+  // TODO change this to support Works API response
   return (
     <LinkSpace $url={url} data-component="work-card">
       <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
@@ -112,9 +113,19 @@ const WorkCard: FunctionComponent<Props> = ({ item }) => {
             data-component="popout-image"
             $aspectRatio={aspectRatio}
           >
-            <PopoutCardImage>
-              <IIIFImage image={image} layout="raw" />
-            </PopoutCardImage>
+            {image && (
+              <PopoutCardImage>
+                <IIIFImage image={image} layout="raw" />
+              </PopoutCardImage>
+            )}
+            {/* {work.thumbnail && !isPdfThumbnail(work.thumbnail) && (
+              <Preview>
+                <PreviewImage
+                  alt=""
+                  src={convertIiifImageUri(work.thumbnail.url, 120)}
+                />
+              </Preview>
+            )} */}
           </PopoutCardImageContainer>
         </Shim>
         <Space

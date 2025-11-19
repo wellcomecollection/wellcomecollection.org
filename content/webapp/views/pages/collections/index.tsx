@@ -90,7 +90,9 @@ const CollectionsLandingPage: NextPage<Props> = ({
   return (
     <PageLayout
       title="Collections"
-      description={pageMeta.description || pageDescriptions.collections}
+      description={
+        pageMeta.description || pageDescriptions.collections.collections
+      }
       url={{ pathname: '/collections' }}
       jsonLd={[]}
       openGraphType="website"
