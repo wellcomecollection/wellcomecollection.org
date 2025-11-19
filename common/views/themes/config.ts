@@ -251,7 +251,7 @@ const containerPadding: ContainerPadding = {
 
 // Design system container padding values (5% across all breakpoints)
 // Note: currently these aren't the values that are being exported from the
-// WDS depo, but they _are_ what is being used in Figma. There is a job to update
+// WDS repo, but they _are_ what is being used in Figma. There is a job to update
 // the repo with this value.
 // TODO: this obviously doesn't need to be 4 values when we're not behind the toggle
 export const designSystemContainerPadding: ContainerPadding = {
