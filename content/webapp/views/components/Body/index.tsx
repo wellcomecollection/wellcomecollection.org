@@ -127,7 +127,7 @@ const Wrapper = styled(Space).attrs<WrapperProps>(props => ({
 `;
 
 export type SliceZoneContext = {
-  minWidth: 8 | 10 | 12;
+  minWidth: 8 | 10 | 12 | 'none';
   firstTextSliceIndex: string;
   isVisualStory: boolean;
   comicPreviousNext?: ComicPreviousNextProps;
