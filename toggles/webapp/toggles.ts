@@ -154,6 +154,14 @@ const toggles = {
         'Use the design system breakpoint values instead of custom breakpoints',
       type: 'experimental',
     },
+    {
+      id: 'newOnlineListingPage',
+      title: 'New online listing page',
+      initialValue: false,
+      description:
+        'Enables the new online listing page at /collections/new-online',
+      type: 'experimental',
+    },
   ] as const,
   // We have to include a reference to any test toggles here as well as in the cache dir
   // because they are deployed separately and consequently can't share a source of truth
