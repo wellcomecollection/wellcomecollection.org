@@ -31,30 +31,29 @@ const StoryWrapper = styled(Space).attrs({
   }
 `;
 
-const ImageWrapper = styled(GridCell)`
+const ImageWrapper = styled(GridCell).attrs({
+  $sizeMap: { s: [12], m: [6], l: [4], xl: [4] },
+})`
   position: relative;
+  margin-bottom: ${props => props.theme.spacingUnit * 2}px;
 `;
 
 const DesktopLabel = styled(Space).attrs({
   $v: { size: 's', properties: ['margin-bottom'] },
-})<{ $isCompact?: boolean }>`
-  ${props =>
-    props.theme.media(
-      'medium',
-      'max-width'
-    )(`
-    ${props.$isCompact ? '' : 'display: none;'}
-  `)}
+})`
+  ${props => props.theme.media('medium', 'max-width')`
+      display: none;
+    `}
 `;
 
 const MobileLabel = styled.div`
   position: absolute;
   bottom: 0;
-  left: 0;
+  left: 18px;
 
   ${props => props.theme.media('medium')`
-    display: none;
-  `}
+      display: none;
+    `}
 `;
 
 const StoryInformation = styled(Space).attrs({
@@ -86,20 +85,18 @@ const StoryInformationItemSeparator = styled.span`
 
 type Props = {
   articles: Article[];
-  isCompact?: boolean;
   dynamicImageSizes?: BreakpointSizes;
 };
 
 const StoriesGrid: FunctionComponent<Props> = ({
   articles,
-  isCompact,
   dynamicImageSizes,
 }: Props) => {
   return (
-    <div data-component="stories-grid">
+    <div>
       {articles.map((article, index) => {
         const image = transformImage(article.image);
-        const croppedImage = getCrop(image, isCompact ? 'square' : '16:9');
+        const croppedImage = getCrop(image, '16:9');
 
         return (
           <StoryWrapper
@@ -112,13 +109,7 @@ const StoriesGrid: FunctionComponent<Props> = ({
           >
             <Grid>
               {croppedImage && (
-                <ImageWrapper
-                  $sizeMap={
-                    isCompact
-                      ? { s: [3, 1], m: [3, 1], l: [3, 1], xl: [3, 1] }
-                      : { s: [12], m: [6], l: [4], xl: [4] }
-                  }
-                >
+                <ImageWrapper $sizeMap={{ s: [12], m: [6], l: [4], xl: [4] }}>
                   <PrismicImage
                     image={{
                       // We intentionally omit the alt text on promos, so screen reader
@@ -132,62 +123,46 @@ const StoriesGrid: FunctionComponent<Props> = ({
                     sizes={dynamicImageSizes}
                     quality="low"
                   />
-
-                  {!isCompact && (
-                    <MobileLabel>
-                      <LabelsList labels={[{ text: article.format.label }]} />
-                    </MobileLabel>
-                  )}
+                  <MobileLabel>
+                    <LabelsList labels={[{ text: article.format.label }]} />
+                  </MobileLabel>
                 </ImageWrapper>
               )}
-
-              <GridCell
-                $sizeMap={
-                  isCompact
-                    ? { s: [9], m: [9], l: [9], xl: [8] }
-                    : { s: [12], m: [6], l: [8], xl: [8] }
-                }
-              >
-                <DesktopLabel $isCompact={isCompact}>
+              <GridCell $sizeMap={{ s: [12], m: [6], l: [8], xl: [8] }}>
+                <DesktopLabel>
                   <LabelsList labels={[{ text: article.format.label }]} />
                 </DesktopLabel>
 
                 <h3 className={font('wb', 4)}>{article.title}</h3>
 
-                {!isCompact &&
-                  (article.publicationDate ||
-                    !!article.contributors.length) && (
-                    <StoryInformation>
-                      {article.publicationDate && (
-                        <StoryInformationItem className="searchable-selector">
-                          <HTMLDateAndTime
-                            variant="date"
-                            date={new Date(article.publicationDate)}
-                          />
+                {(article.publicationDate || !!article.contributors.length) && (
+                  <StoryInformation>
+                    {article.publicationDate && (
+                      <StoryInformationItem className="searchable-selector">
+                        <HTMLDateAndTime
+                          variant="date"
+                          date={new Date(article.publicationDate)}
+                        />
+                      </StoryInformationItem>
+                    )}
+                    {!!article.contributors.length && (
+                      <>
+                        <StoryInformationItemSeparator>
+                          {' | '}
+                        </StoryInformationItemSeparator>
+                        <StoryInformationItem>
+                          {article.contributors.map(contributor => (
+                            <span key={contributor.contributor?.id}>
+                              {contributor.contributor?.label}
+                            </span>
+                          ))}
                         </StoryInformationItem>
-                      )}
-
-                      {!!article.contributors.length && (
-                        <>
-                          <StoryInformationItemSeparator>
-                            {' | '}
-                          </StoryInformationItemSeparator>
-                          <StoryInformationItem>
-                            {article.contributors.map(contributor => (
-                              <span key={contributor.contributor?.id}>
-                                {contributor.contributor?.label}
-                              </span>
-                            ))}
-                          </StoryInformationItem>
-                        </>
-                      )}
-                    </StoryInformation>
-                  )}
-
+                      </>
+                    )}
+                  </StoryInformation>
+                )}
                 {article.caption && (
-                  <p className={font('intr', 5)} style={{ marginBottom: 0 }}>
-                    {article.caption}
-                  </p>
+                  <p className={font('intr', 5)}>{article.caption}</p>
                 )}
               </GridCell>
             </Grid>
