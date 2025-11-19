@@ -178,6 +178,9 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
   const tagData = themeConfig.categories.map(category => ({
     id: category.label,
     label: category.label,
+    gtmData: {
+      trigger: 'selectable_tag',
+    },
   }));
 
   const selectedCategoryPosition =
@@ -195,6 +198,7 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
           <div className="visually-hidden" aria-live="polite">
             {announcement}
           </div>
+
           <SelectableTags
             tags={tagData}
             isMultiSelect={false}
