@@ -22,7 +22,7 @@ const items: WorkItem[] = [
   {
     url: 'https://wellcomecollection.org/works/bbsjt2ex',
     title:
-      'The Breviarie of health, wherein doth folow, remedies, for all manner of sicknesses and diseases, the which may be in man or woman. Expressing the obscure termes of Greke, Araby, Latin, Barbary, and English concerning phisick and chirurgerie / compyled by Andrew Boorde.',
+      'The Breviarie of health, wherein doth folow, remedies, for all manner of sicknesses and diseases, the which may be in man or woman.',
     image: {
       contentUrl:
         'https://iiif.wellcomecollection.org/image/b30321025_0009.jp2/full/316,400/0/default.jpg',
