@@ -2,10 +2,16 @@ import styled from 'styled-components';
 
 import { camelToKebab } from '@weco/common/utils/grammar';
 
-const SpacingComponent = styled.div.attrs<{ $sliceType?: string }>(props => ({
+const SpacingComponent = styled.div.attrs<{
+  $sliceType?: string;
+  $sliceId?: string;
+  $useSectionElement?: boolean;
+}>(props => ({
   className: props.$sliceType
     ? `slice-type-${camelToKebab(props.$sliceType)}`
     : undefined,
+  'data-id': props.$useSectionElement ? props.$sliceId : undefined,
+  as: props.$useSectionElement ? 'section' : undefined,
 }))`
   & + &,
   &:empty {

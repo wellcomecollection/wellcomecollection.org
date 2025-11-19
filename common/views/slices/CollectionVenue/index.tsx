@@ -6,6 +6,7 @@ import { ContaineredLayout } from '@weco/common/views/components/Layout';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import { transformCollectionVenueSlice } from '@weco/content/services/prismic/transformers/body';
 import {
+  defaultContext,
   LayoutWidth,
   SliceZoneContext,
 } from '@weco/content/views/components/Body';
@@ -21,17 +22,35 @@ const CollectionVenue: FunctionComponent<CollectionVenueProps> = ({
   slice,
   context,
 }) => {
+  const options = { ...defaultContext, ...context };
   const transformedSlice = transformCollectionVenueSlice(slice);
 
   if (transformedSlice) {
+    const closingTimesContent = (
+      <VenueClosedPeriods venue={transformedSlice.value.content} />
+    );
+    const venueHoursContent = (
+      <VenueHours venue={transformedSlice.value.content} />
+    );
+
     return (
-      <SpacingComponent $sliceType={transformedSlice.type}>
+      <SpacingComponent
+        $sliceType={transformedSlice.type}
+        $sliceId={options.stickyNavA11y ? slice.id : undefined}
+        $useSectionElement={options.stickyNavA11y}
+      >
         {/* TODO, create variation or consider removing
         https://github.com/wellcomecollection/wellcomecollection.org/issues/11098 */}
         {transformedSlice.value.showClosingTimes ? (
-          <LayoutWidth width={context.minWidth}>
-            <VenueClosedPeriods venue={transformedSlice.value.content} />
-          </LayoutWidth>
+          options.isInGridCell && options.stickyNavA11y ? (
+            closingTimesContent
+          ) : (
+            <LayoutWidth width={context.minWidth}>
+              {closingTimesContent}
+            </LayoutWidth>
+          )
+        ) : options.isInGridCell && options.stickyNavA11y ? (
+          venueHoursContent
         ) : (
           <ContaineredLayout
             gridSizes={
@@ -50,7 +69,7 @@ const CollectionVenue: FunctionComponent<CollectionVenueProps> = ({
                   }
             }
           >
-            <VenueHours venue={transformedSlice.value.content} />
+            {venueHoursContent}
           </ContaineredLayout>
         )}
       </SpacingComponent>

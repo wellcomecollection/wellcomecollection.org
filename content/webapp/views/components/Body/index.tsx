@@ -10,6 +10,7 @@ import styled from 'styled-components';
 
 import { officialLandingPagesUid } from '@weco/common/data/hardcoded-ids';
 import { ContentListSlice as RawContentListSlice } from '@weco/common/prismicio-types';
+import { useToggles } from '@weco/common/server-data/Context';
 import { classNames, font } from '@weco/common/utils/classnames';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
 import { defaultSerializer } from '@weco/common/views/components/HTMLSerializers';
@@ -19,6 +20,7 @@ import {
   gridSize12,
   gridSize8,
 } from '@weco/common/views/components/Layout';
+import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import { components } from '@weco/common/views/slices';
@@ -133,6 +135,8 @@ export type SliceZoneContext = {
   hasLandingPageFormat: boolean;
   isDropCapped: boolean;
   contentType?: 'short-film' | 'visual-story' | 'standalone-image-gallery';
+  isInGridCell?: boolean;
+  stickyNavA11y?: boolean;
 };
 
 export const defaultContext: SliceZoneContext = {
@@ -145,6 +149,8 @@ export const defaultContext: SliceZoneContext = {
   hasLandingPageFormat: false,
   isDropCapped: false,
   contentType: undefined,
+  isInGridCell: false,
+  stickyNavA11y: false,
 };
 
 const Body: FunctionComponent<Props> = ({
@@ -162,6 +168,8 @@ const Body: FunctionComponent<Props> = ({
   comicPreviousNext,
   contentType,
 }: Props) => {
+  const { stickyNavA11y } = useToggles();
+
   const filteredUntransformedBody = untransformedBody.filter(
     slice => slice.slice_type !== 'standfirst'
   );
@@ -338,31 +346,75 @@ const Body: FunctionComponent<Props> = ({
 
       {staticContent}
 
-      {onThisPage && onThisPage.length > 2 && showOnThisPage && (
+      {onThisPage &&
+      onThisPage.length > 2 &&
+      showOnThisPage &&
+      stickyNavA11y ? (
         <SpacingComponent>
-          <LayoutWidth width={minWidth}>
-            <InPageNavigation links={onThisPage} variant="simple" />
-          </LayoutWidth>
+          <ContaineredLayout gridSizes={gridSize12()}>
+            <Grid>
+              <GridCell
+                style={{ background: 'white' }}
+                $sizeMap={{ s: [12], m: [12], l: [3], xl: [3] }}
+              >
+                <InPageNavigation links={onThisPage} variant="sticky" />
+              </GridCell>
+              <GridCell $sizeMap={{ s: [12], m: [12], l: [9], xl: [9] }}>
+                {hasLandingPageFormat && (
+                  <LandingPageSections sections={sections} />
+                )}
+
+                <SliceZone
+                  slices={filteredUntransformedBody}
+                  components={components}
+                  context={{
+                    minWidth,
+                    firstTextSliceIndex,
+                    isVisualStory,
+                    comicPreviousNext,
+                    pageId,
+                    hasLandingPageFormat,
+                    isDropCapped,
+                    contentType,
+                    isShortFilm,
+                    isInGridCell: true,
+                    stickyNavA11y,
+                  }}
+                />
+              </GridCell>
+            </Grid>
+          </ContaineredLayout>
         </SpacingComponent>
+      ) : (
+        <>
+          {onThisPage && onThisPage.length > 2 && showOnThisPage && (
+            <SpacingComponent>
+              <LayoutWidth width={minWidth}>
+                <InPageNavigation links={onThisPage} variant="simple" />
+              </LayoutWidth>
+            </SpacingComponent>
+          )}
+
+          {hasLandingPageFormat && <LandingPageSections sections={sections} />}
+
+          <SliceZone
+            slices={filteredUntransformedBody}
+            components={components}
+            context={{
+              minWidth,
+              firstTextSliceIndex,
+              isVisualStory,
+              comicPreviousNext,
+              pageId,
+              hasLandingPageFormat,
+              isDropCapped,
+              contentType,
+              isShortFilm,
+              stickyNavA11y,
+            }}
+          />
+        </>
       )}
-
-      {hasLandingPageFormat && <LandingPageSections sections={sections} />}
-
-      <SliceZone
-        slices={filteredUntransformedBody}
-        components={components}
-        context={{
-          minWidth,
-          firstTextSliceIndex,
-          isVisualStory,
-          comicPreviousNext,
-          pageId,
-          hasLandingPageFormat,
-          isDropCapped,
-          contentType,
-          isShortFilm,
-        }}
-      />
     </BodyWrapper>
   );
 };
