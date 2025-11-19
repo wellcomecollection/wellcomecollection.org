@@ -1,14 +1,15 @@
 import { NextPage } from 'next';
 
-import { looksLikePrismicId } from '@weco/common/services/prismic';
 import {
   ServerSideProps,
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
 import * as page from '@weco/content/pages/pages/[pageId]';
+import { setCacheControl } from '@weco/content/utils/setCacheControl';
+import A11yPrototypePage from '@weco/content/views/pages/about-us/prototype-a11y-november-2025';
 
 const Page: NextPage<page.Props> = props => {
-  return <page.Page {...props} />;
+  return <A11yPrototypePage {...props} />;
 };
 
 type Props = ServerSideProps<page.Props>;
@@ -16,24 +17,11 @@ type Props = ServerSideProps<page.Props>;
 export const getServerSideProps: ServerSidePropsOrAppError<
   Props
 > = async context => {
-  const { uid } = context.query;
-
-  // const isA11yPrototypePage = uid
-  //   ? ['prototype-a11y-november-2025', 'aR3wwBAAACYAZt2l'].includes(
-  //       Array.isArray(uid) ? uid[0] : uid
-  //     )
-  //   : false;
-
-  if (
-    // (isA11yPrototypePage&&doesNotHaveToggle) || // TODO add toggle
-    !looksLikePrismicId(uid)
-  ) {
-    return { notFound: true };
-  }
+  setCacheControl(context.res);
 
   return page.getServerSideProps({
     ...context,
-    query: { pageId: uid },
+    query: { pageId: 'prototype-a11y-november-2025' },
     params: { siteSection: 'about-us' },
   });
 };

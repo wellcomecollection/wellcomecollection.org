@@ -52,7 +52,7 @@ const BodyWrapper = styled.div<{ $splitBackground: boolean }>`
 `;
 
 type LayoutWidthProps = PropsWithChildren<{
-  width: 8 | 10 | 12;
+  width: 8 | 10 | 12 | 'none';
 }>;
 
 export const LayoutWidth: FunctionComponent<LayoutWidthProps> = ({
@@ -78,6 +78,9 @@ export const LayoutWidth: FunctionComponent<LayoutWidthProps> = ({
           {children}
         </ContaineredLayout>
       );
+    case width === 'none':
+      return <>{children}</>;
+
     default:
       return null;
   }
