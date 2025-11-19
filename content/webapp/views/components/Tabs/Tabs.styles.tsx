@@ -6,15 +6,15 @@ import Space from '@weco/common/views/components/styled/Space';
 export const Wrapper = styled.div`
   ${props =>
     `
-      margin: 0 -${props.theme.containerPadding.small}px;
+      margin: 0 -${props.theme.formatContainerPadding(props.theme.containerPadding.small)};
       transition: margin ${props => props.theme.transitionProperties};
 
     ${props.theme.media('medium')(`
-        margin: 0 calc(-${props.theme.containerPadding.medium}px + 1rem);
+        margin: 0 calc(-${props.theme.formatContainerPadding(props.theme.containerPadding.medium)} + 1rem);
     `)}
 
     ${props.theme.media('large')(`
-        margin: 0 calc(-${props.theme.containerPadding.large}px + 1rem);
+        margin: 0 calc(-${props.theme.formatContainerPadding(props.theme.containerPadding.large)} + 1rem);
     `)}
 
     ${props.theme.media('xlarge')(`
@@ -29,15 +29,16 @@ export const TabsContainer = styled.div`
   padding: 0;
   margin: 0;
   overflow-x: auto;
-  padding-left: ${props => props.theme.containerPadding.small}px;
+  padding-left: ${props =>
+    props.theme.formatContainerPadding(props.theme.containerPadding.small)};
 
   ${props => `
     ${props.theme.media('medium')(`
-      padding-left: calc(${props.theme.containerPadding.medium}px - 1rem);
+      padding-left: calc(${props.theme.formatContainerPadding(props.theme.containerPadding.medium)} - 1rem);
   `)}
 
   ${props.theme.media('large')(`
-    padding-left: calc(${props.theme.containerPadding.large}px - 1rem);
+    padding-left: calc(${props.theme.formatContainerPadding(props.theme.containerPadding.large)} - 1rem);
   `)}
   `}
 `;

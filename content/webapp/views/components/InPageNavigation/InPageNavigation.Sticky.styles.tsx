@@ -37,27 +37,40 @@ export const ListItem = styled.li<{ $hasStuck: boolean; $isOnWhite: boolean }>`
     ${props =>
       props.theme.color(props.$hasStuck ? 'neutral.300' : 'transparent')};
 
-  margin-left: -${props => props.theme.containerPadding.small}px;
-  margin-right: -${props => props.theme.containerPadding.small}px;
+  margin-left: -${props =>
+      props.theme.formatContainerPaddingVw(props.theme.containerPadding.small)};
+  margin-right: -${props =>
+      props.theme.formatContainerPaddingVw(props.theme.containerPadding.small)};
   padding-left: calc(
-    ${props => props.theme.containerPadding.small}px + ${leftOffset}
+    ${props =>
+        props.theme.formatContainerPaddingVw(
+          props.theme.containerPadding.small
+        )} +
+      ${leftOffset}
   );
   /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties */
-  padding-right: ${props => props.theme.containerPadding.small}px;
+  padding-right: ${props =>
+    props.theme.formatContainerPaddingVw(props.theme.containerPadding.small)};
 
   ${props =>
     props.theme.media('medium')(`
-    margin-left: -${props.theme.containerPadding.medium}px;
-    margin-right: -${props.theme.containerPadding.medium}px;
-    padding-left: calc(${props.theme.containerPadding.medium}px + ${leftOffset});
-    padding-right: ${props.theme.containerPadding.medium}px;
+    margin-left: -${props.theme.formatContainerPaddingVw(props.theme.containerPadding.medium)};
+    margin-right: -${props.theme.formatContainerPaddingVw(props.theme.containerPadding.medium)};
+    padding-left: calc(${props.theme.formatContainerPaddingVw(props.theme.containerPadding.medium)} + ${leftOffset});
+    padding-right: ${props.theme.formatContainerPaddingVw(props.theme.containerPadding.medium)};
   `)}
 
   &::before {
     content: '';
     display: ${props => (props.$hasStuck ? 'none' : 'block')};
     position: absolute;
-    left: calc(${props => props.theme.containerPadding.small}px + 1px);
+    left: calc(
+      ${props =>
+          props.theme.formatContainerPadding(
+            props.theme.containerPadding.small
+          )} +
+        1px
+    );
     top: 0;
     bottom: 0;
     width: 1px;
@@ -69,7 +82,7 @@ export const ListItem = styled.li<{ $hasStuck: boolean; $isOnWhite: boolean }>`
   ${props =>
     props.theme.media('medium')(`
       &::before {
-        left: calc(${props.theme.containerPadding.medium}px + 1px);
+        left: calc(${props.theme.formatContainerPadding(props.theme.containerPadding.medium)} + 1px);
       }
     `)}
 
@@ -176,10 +189,10 @@ export const Root = styled(Space).attrs<{
       'small',
       'medium'
     )(`
-      margin-left: -${props.theme.containerPadding.small}px;
-      margin-right: -${props.theme.containerPadding.small}px;
-      padding-left: ${props.theme.containerPadding.small}px;
-      padding-right: ${props.theme.containerPadding.small}px;
+      margin-left: -${props.theme.formatContainerPaddingVw(props.theme.containerPadding.small)};
+      margin-right: -${props.theme.formatContainerPaddingVw(props.theme.containerPadding.small)};
+      padding-left: ${props.theme.formatContainerPaddingVw(props.theme.containerPadding.small)};
+      padding-right: ${props.theme.formatContainerPaddingVw(props.theme.containerPadding.small)};
 
     `)}
 
@@ -188,10 +201,10 @@ export const Root = styled(Space).attrs<{
       'medium',
       'large'
     )(`
-      margin-left: -${props.theme.containerPadding.medium}px;
-      margin-right: -${props.theme.containerPadding.medium}px;
-      padding-left: ${props.theme.containerPadding.medium}px;
-      padding-right: ${props.theme.containerPadding.medium}px;
+      margin-left: -${props.theme.formatContainerPaddingVw(props.theme.containerPadding.medium)};
+      margin-right: -${props.theme.formatContainerPaddingVw(props.theme.containerPadding.medium)};
+      padding-left: ${props.theme.formatContainerPaddingVw(props.theme.containerPadding.medium)};
+      padding-right: ${props.theme.formatContainerPaddingVw(props.theme.containerPadding.medium)};
     `)}
 
   ${props =>

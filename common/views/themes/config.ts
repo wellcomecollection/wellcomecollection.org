@@ -29,64 +29,14 @@ export type ColumnKey =
   | 'shiftL'
   | 'shiftXl';
 
-type GridProperties = {
-  padding: number;
-  gutter: number;
-  columns: number;
-  primaryStart: number;
-  primaryEnd: number;
-  secondaryStart: number;
-  secondaryEnd: number;
-  respond: Breakpoint[];
-};
-type GridConfig = {
-  s: GridProperties;
-  m: GridProperties;
-  l: GridProperties;
-  xl: GridProperties;
-};
+// ContainerPadding can be either number (px) or string (e.g., '5%')
+export type ContainerPaddingValue = number | string;
 
-const grid: GridConfig = {
-  s: {
-    padding: 18,
-    gutter: 18,
-    columns: 12,
-    primaryStart: 1,
-    primaryEnd: 12,
-    secondaryStart: 1,
-    secondaryEnd: 12,
-    respond: ['small', 'medium'],
-  },
-  m: {
-    padding: 42,
-    gutter: 24,
-    columns: 12,
-    primaryStart: 2,
-    primaryEnd: 11,
-    secondaryStart: 2,
-    secondaryEnd: 11,
-    respond: ['medium', 'large'],
-  },
-  l: {
-    padding: 60,
-    gutter: 30,
-    columns: 12,
-    primaryStart: 1,
-    primaryEnd: 7,
-    secondaryStart: 8,
-    secondaryEnd: 12,
-    respond: ['large', 'xlarge'],
-  },
-  xl: {
-    padding: 60,
-    gutter: 30,
-    columns: 12,
-    primaryStart: 1,
-    primaryEnd: 7,
-    secondaryStart: 8,
-    secondaryEnd: 12,
-    respond: ['xlarge'],
-  },
+export type ContainerPadding = {
+  small: ContainerPaddingValue;
+  medium: ContainerPaddingValue;
+  large: ContainerPaddingValue;
+  xlarge: ContainerPaddingValue;
 };
 
 export const spacingUnits = {
@@ -292,12 +242,43 @@ const mediaBetween = createMediaBetween(sizes);
 
 const breakpointNames = ['small', 'medium', 'large'];
 
-const containerPadding = {
+const containerPadding: ContainerPadding = {
   small: 18,
   medium: 42,
   large: 60,
   xlarge: 60,
 };
+
+// Design system container padding values (5% across all breakpoints)
+// Note: currently these aren't the values that are being exported from the
+// WDS repo, but they _are_ what is being used in Figma. There is a job to update
+// the repo with this value.
+// TODO: this obviously doesn't need to be 4 values when we're not behind the toggle
+export const designSystemContainerPadding: ContainerPadding = {
+  small: '5%',
+  medium: '5%',
+  large: '5%',
+  xlarge: '5%',
+};
+
+// Helper function to format containerPadding values with appropriate units
+// Numbers get 'px' appended, strings (like '5%') are used as-is
+export function formatContainerPadding(value: ContainerPaddingValue): string {
+  return typeof value === 'number' ? `${value}px` : value;
+}
+
+// Helper function to convert containerPadding to viewport-relative units
+// When containerPadding is a percentage (e.g., '5%'), it's calculated relative to viewport width
+// in practice, so we convert it to 'vw' units for use in calc() expressions to avoid
+// percentage context issues (where % would be relative to parent element width)
+// Numbers are converted to 'px' as usual
+// TODO: remove this after we've turned on the design system grid/breakpoint toggle
+export function formatContainerPaddingVw(value: ContainerPaddingValue): string {
+  if (typeof value === 'string' && value.includes('%')) {
+    return `${parseFloat(value)}vw`;
+  }
+  return formatContainerPadding(value);
+}
 
 const spaceAtBreakpoints = {
   small: {
@@ -392,18 +373,18 @@ function getSpaceOverrideValue(
 function pageGridOffset(property: string): string {
   return `
   position: relative;
-  ${property}: -${containerPadding.small}px;
+  ${property}: -${formatContainerPadding(containerPadding.small)};
 
   ${media('medium')(`
-    ${property}: -${containerPadding.medium}px;
+    ${property}: -${formatContainerPadding(containerPadding.medium)};
     `)}
 
   ${media('large')(`
-    ${property}: -${containerPadding.large}px;
+    ${property}: -${formatContainerPadding(containerPadding.large)};
     `)}
 
   ${media('xlarge')(`
-    ${property}: calc((100vw - ${sizes.xlarge}px) / 2 * -1 - ${containerPadding.xlarge}px);
+    ${property}: calc((100vw - ${sizes.xlarge}px) / 2 * -1 - ${formatContainerPadding(containerPadding.xlarge)});
   `)};
   `;
 }
@@ -476,7 +457,6 @@ export const themeValues = {
   spaceAtBreakpoints,
   navHeight: 85,
   fontVerticalOffset: '0.15em',
-  grid,
   colors,
   color: getColor,
   minCardHeight: 385,
@@ -485,6 +465,8 @@ export const themeValues = {
   makeSpacePropertyValues,
   getSpaceValue,
   pageGridOffset,
+  formatContainerPadding,
+  formatContainerPaddingVw,
   buttonColors: {
     default: defaultButtonColors,
     danger: dangerButtonColors,
@@ -502,6 +484,13 @@ export const themeValues = {
     greenGreenWhite,
   },
   spacedTextTopMargin: '1.55em',
+};
+
+export const designSystemGutter = {
+  small: remToPx(designSystemTheme.grid.gutter.default), // 12px
+  medium: remToPx(designSystemTheme.grid.gutter.sm), // 24px
+  large: 40, // 40px FIXME: this value isn't in the WDS repo but is in Figma
+  xlarge: remToPx(designSystemTheme.grid.gutter.lg), // 48px
 };
 
 export type Breakpoint = keyof typeof sizes;

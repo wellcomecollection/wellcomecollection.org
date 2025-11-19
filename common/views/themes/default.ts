@@ -11,6 +11,8 @@ import { wellcomeNormalize } from './base/wellcome-normalize';
 import {
   createMedia,
   createMediaBetween,
+  designSystemContainerPadding,
+  designSystemGutter,
   designSystemSizes,
   Size,
   themeValues,
@@ -107,12 +109,61 @@ export const createThemeValues = (toggles: Toggles) => {
     ? designSystemSizes
     : themeValues.sizes;
 
+  const activeGutter = toggles?.designSystemBreakpoints?.value
+    ? designSystemGutter
+    : themeValues.gutter;
+
+  const activeContainerPadding = toggles?.designSystemBreakpoints?.value
+    ? designSystemContainerPadding
+    : themeValues.containerPadding;
+
+  // Create toggle-aware media helpers
+  const activeMedia = createMedia(activeSizes);
+  const activeMediaBetween = createMediaBetween(activeSizes);
+
+  // Create toggle-aware pageGridOffset function
+  const pageGridOffset = (property: string): string => {
+    const smallPadding = themeValues.formatContainerPaddingVw(
+      activeContainerPadding.small
+    );
+    const mediumPadding = themeValues.formatContainerPaddingVw(
+      activeContainerPadding.medium
+    );
+    const largePadding = themeValues.formatContainerPaddingVw(
+      activeContainerPadding.large
+    );
+    const xlargePadding = themeValues.formatContainerPaddingVw(
+      activeContainerPadding.xlarge
+    );
+
+    return `
+      position: relative;
+      ${property}: -${smallPadding};
+
+      ${activeMedia('medium')(`
+        ${property}: -${mediumPadding};
+      `)}
+
+      ${activeMedia('large')(`
+        ${property}: -${largePadding};
+      `)}
+
+      ${activeMedia('xlarge')(`
+        ${property}: calc((100vw - ${activeSizes.xlarge}px) / 2 * -1 - ${xlargePadding});
+      `)};
+    `;
+  };
+
   return {
     ...themeValues,
     sizes: activeSizes,
+    gutter: activeGutter,
+    containerPadding: activeContainerPadding,
     // Override media query helpers to use active sizes
-    media: createMedia(activeSizes),
-    mediaBetween: createMediaBetween(activeSizes),
+    media: activeMedia,
+    mediaBetween: activeMediaBetween,
+    // Override pageGridOffset to use active sizes and containerPadding
+    pageGridOffset,
     // Override makeSpacePropertyValues to include toggles
     makeSpacePropertyValues: (
       size: Parameters<typeof themeValues.makeSpacePropertyValues>[0],

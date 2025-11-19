@@ -3,7 +3,8 @@ import styled from 'styled-components';
 const ScrollShim = styled.li<{ $gridValues: number[] }>`
   display: none;
 
-  --container-padding: ${props => props.theme.containerPadding.small}px;
+  --container-padding: ${props =>
+    props.theme.formatContainerPadding(props.theme.containerPadding.small)};
   --number-of-columns: ${props => (12 - props.$gridValues[0]) / 2};
   --gap-value: ${props => props.theme.gutter.small}px;
   --container-width: calc(100% - (var(--container-padding) * 2));
@@ -21,21 +22,21 @@ const ScrollShim = styled.li<{ $gridValues: number[] }>`
   ${props =>
     props.theme.media('medium')(`
       display: block;
-      --container-padding: ${props.theme.containerPadding.medium}px;
+      --container-padding: ${props.theme.formatContainerPadding(props.theme.containerPadding.medium)};
       --number-of-columns: ${(12 - props.$gridValues[1]) / 2};
       --gap-value: ${props.theme.gutter.medium}px;
   `)}
 
   ${props =>
     props.theme.media('large')(`
-      --container-padding: ${props.theme.containerPadding.large}px;
+      --container-padding: ${props.theme.formatContainerPadding(props.theme.containerPadding.large)};
       --number-of-columns: ${(12 - props.$gridValues[2]) / 2};
       --gap-value: ${props.theme.gutter.large}px;
   `)}
 
   ${props =>
     props.theme.media('xlarge')(`
-      --container-padding: ${props.theme.containerPadding.xlarge}px;
+      --container-padding: ${props.theme.formatContainerPadding(props.theme.containerPadding.xlarge)};
       --container-width: calc(${props.theme.sizes.xlarge}px - (var(--container-padding) * 2));
       --left-margin-width: calc((100% - ${props.theme.sizes.xlarge}px) / 2);
       --number-of-columns: ${(12 - props.$gridValues[3]) / 2};
