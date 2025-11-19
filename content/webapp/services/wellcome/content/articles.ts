@@ -7,14 +7,10 @@ import {
 import { contentListQuery } from '.';
 import { Article } from './types/api';
 
-type ArticleParams = ContentApiProps & {
-  linkedWork?: string;
-};
-
 export async function getArticles(
-  props: QueryProps<ArticleParams>
+  props: QueryProps<ContentApiProps>
 ): Promise<ContentResultsList<Article> | WellcomeApiError> {
-  const getArticlesResult = await contentListQuery<ArticleParams, Article>(
+  const getArticlesResult = await contentListQuery<ContentApiProps, Article>(
     'articles',
     props
   );

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import { toHtmlId } from '@weco/common/utils/grammar';
-import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
+import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import AnimatedUnderlineCSS, {
   AnimatedUnderlineProps,
 } from '@weco/common/views/components/styled/AnimatedUnderline';
@@ -13,7 +13,6 @@ type SelectableTagsProps = {
     id: string;
     label: string;
     controls?: string;
-    gtmData?: DataGtmProps;
   }[];
   isMultiSelect?: boolean;
   onChange?: (selected: string[]) => void;
@@ -115,11 +114,10 @@ export const SelectableTags: FunctionComponent<SelectableTagsProps> = ({
         {tags.map((tag, index) => {
           const isSelected = selected.includes(tag.id);
           const gtmAttributes = dataGtmPropsToAttributes({
+            trigger: 'selectable_tag',
             'position-in-list': String(index + 1),
             label: tag.id,
-            ...tag.gtmData,
           });
-
           return (
             <div key={tag.id}>
               {isMultiSelect ? (
