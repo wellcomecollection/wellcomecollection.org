@@ -18,8 +18,11 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 > = async context => {
   const { uid } = context.query;
 
-  // a11y prototype page, should be accessed via its actual uid.
-  if (!looksLikePrismicId(uid) || uid === 'aR3wwBAAACYAZt2l') {
+  // a11yPrototype page to be blocked from this path
+  if (
+    !looksLikePrismicId(uid) ||
+    ['prototype-a11y-november-2025', 'aR3wwBAAACYAZt2l'].includes(uid)
+  ) {
     return { notFound: true };
   }
 
