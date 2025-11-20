@@ -10,10 +10,6 @@ type ConsentChangedEvent = CustomEvent<{
 const HOTJAR_ID = 3858;
 const HOTJAR_SV = 6;
 
-/**
- * Client-side component that dynamically loads Hotjar based on analytics consent.
- * Listens for consent changes and loads/manages Hotjar accordingly.
- */
 export const HotjarLoader: FunctionComponent = () => {
   const [hasConsent, setHasConsent] = useState<boolean>(false);
   const [scriptLoaded, setScriptLoaded] = useState<boolean>(false);
@@ -48,7 +44,6 @@ export const HotjarLoader: FunctionComponent = () => {
   useEffect(() => {
     // Only load script if we have consent and haven't loaded it yet
     if (hasConsent && !scriptLoaded) {
-      // Check if Hotjar is already loaded
       if ('hj' in window) {
         setScriptLoaded(true);
         return;
