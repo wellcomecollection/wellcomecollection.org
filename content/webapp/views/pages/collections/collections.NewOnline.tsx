@@ -20,48 +20,45 @@ const items: WorkItem[] = [
     date: 'c.1990s-c.2000s',
   },
   {
-    url: 'https://wellcomecollection.org/works/ecgby5kb',
+    url: 'https://wellcomecollection.org/works/bbsjt2ex',
     title:
-      'The life of Florence Nightingale / by Sarah A. Tooley, with 22 illustrations.',
+      'The Breviarie of health, wherein doth folow, remedies, for all manner of sicknesses and diseases, the which may be in man or woman.',
     image: {
       contentUrl:
-        'https://iiif.wellcomecollection.org/thumbs/b33396607_0004_0007.jp2/full/252,400/0/default.jpg',
-      width: 252,
+        'https://iiif.wellcomecollection.org/image/b30321025_0009.jp2/full/316,400/0/default.jpg',
+      width: 316,
       height: 400,
-      alt: 'The life of Florence Nightingale',
+      alt: 'The Breviarie of health book cover',
     },
     labels: [{ text: 'Books' }],
-    contributor: 'Tooley, Sarah A., 1857-',
-    date: '1904',
+    contributor: 'Boorde, Andrew, 1490?-1549.',
+    date: '1575',
   },
   {
-    url: 'https://wellcomecollection.org/works/fmvhyt82',
-    title:
-      "Wampole's Preparation : tonic and stimulant for all ages / Leon P. DuPlessis.",
+    url: 'https://wellcomecollection.org/works/a3cyqwec',
+    title: 'MS Hindi (Indic) beta 511.',
     image: {
       contentUrl:
-        'https://iiif.wellcomecollection.org/thumbs/b16637367_0001.jp2/full/324,400/0/default.jpg',
-      width: 324,
+        'https://iiif.wellcomecollection.org/thumbs/b33599051_0001.jp2/full/316,400/0/default.jpg',
+      width: 316,
       height: 400,
-      alt: "Wampole's Preparation ephemera",
+      alt: 'MS Hindi (Indic) beta 511 book cover',
     },
-    labels: [{ text: 'Ephemera' }],
-    contributor: 'DuPlessis, Leon P.',
-    date: '[between 1930 and 1939?]',
+    labels: [{ text: 'Manuscripts' }],
   },
   {
-    url: 'https://wellcomecollection.org/works/c2yce27k',
-    title: 'That’s the Limit: a guide to sensible drinking',
+    url: 'https://wellcomecollection.org/works/sh37yy5n',
+    title: 'An introduction to the study of human anatomy (Volume 1).',
     image: {
       contentUrl:
-        'https://iiif.wellcomecollection.org/thumbs/b32198292_0001.jp2/full/200,190/0/default.jpg',
-      width: 200,
-      height: 190,
-      alt: 'That’s the Limit: a guide to sensible drinking',
+        'https://iiif.wellcomecollection.org/thumbs/b21146287_0005.jp2/full/220,400/0/default.jpg',
+      width: 220,
+      height: 400,
+      alt: 'An introduction to the study of human anatomy book cover',
     },
-    labels: [{ text: 'Archives and manuscripts' }],
-    contributor: 'Health Education Council',
-    date: '1970s-1990s',
+    labels: [{ text: 'Books' }],
+    contributor: 'Paxton, James, 1786-1860.',
+    date: '1835',
   },
 ];
 

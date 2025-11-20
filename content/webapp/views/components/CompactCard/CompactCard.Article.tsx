@@ -79,7 +79,6 @@ const ArticleCard: FunctionComponent<Props> = ({
       postTitleChildren={
         isPodcast ? (
           <Space $v={{ size: 's', properties: ['margin-top'] }}>
-            sadds
             <WatchLabel
               text={<HTMLDateAndTime variant="date" date={publicationDate} />}
             />
