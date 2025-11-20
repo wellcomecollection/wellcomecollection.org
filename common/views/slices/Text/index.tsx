@@ -31,14 +31,14 @@ const Text: FunctionComponent<TextProps> = ({ slice, context }) => {
 
   return (
     <SpacingComponent $sliceType={slice.slice_type}>
-      <LayoutWidth width={options.minWidth}>
-        <div
-          className={classNames({
-            'body-text spaced-text': true,
-            'first-text-slice': options.firstTextSliceIndex === slice.id,
-          })}
-        >
-          <section data-id={dasherize(heading || '') || undefined}>
+      <section data-id={dasherize(heading || '') || undefined}>
+        <LayoutWidth width={options.minWidth}>
+          <div
+            className={classNames({
+              'body-text spaced-text': true,
+              'first-text-slice': options.firstTextSliceIndex === slice.id,
+            })}
+          >
             {shouldBeDroppedCap ? (
               <>
                 <PrismicHtmlBlock
@@ -56,9 +56,9 @@ const Text: FunctionComponent<TextProps> = ({ slice, context }) => {
                 htmlSerializer={defaultSerializer}
               />
             )}
-          </section>
-        </div>
-      </LayoutWidth>
+          </div>
+        </LayoutWidth>
+      </section>
     </SpacingComponent>
   );
 };
