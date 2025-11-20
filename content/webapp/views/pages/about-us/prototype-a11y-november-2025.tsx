@@ -53,6 +53,7 @@ const A11yPrototypePage: NextPage<page.Props> = props => {
             highlightHeading={true}
           />
         </Space>
+
         <SpacingSection>
           <SpacingComponent>
             <Container>
@@ -65,15 +66,17 @@ const A11yPrototypePage: NextPage<page.Props> = props => {
                   />
                 </GridCell>
                 <GridCell $sizeMap={{ s: [12], m: [12], l: [9], xl: [9] }}>
-                  <SliceZone
-                    slices={props.page.untransformedBody}
-                    components={components}
-                    context={{
-                      minWidth: 'none',
-                      firstTextSliceIndex,
-                      pageId: props.page.id,
-                    }}
-                  />
+                  <Space $v={{ size: 'm', properties: ['padding-top'] }}>
+                    <SliceZone
+                      slices={props.page.untransformedBody}
+                      components={components}
+                      context={{
+                        minWidth: 'none',
+                        firstTextSliceIndex,
+                        pageId: props.page.id,
+                      }}
+                    />
+                  </Space>
                 </GridCell>
               </Grid>
             </Container>
