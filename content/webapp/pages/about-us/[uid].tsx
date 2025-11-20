@@ -18,16 +18,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 > = async context => {
   const { uid } = context.query;
 
-  // const isA11yPrototypePage = uid
-  //   ? ['prototype-a11y-november-2025', 'aR3wwBAAACYAZt2l'].includes(
-  //       Array.isArray(uid) ? uid[0] : uid
-  //     )
-  //   : false;
-
-  if (
-    // (isA11yPrototypePage&&doesNotHaveToggle) || // TODO add toggle
-    !looksLikePrismicId(uid)
-  ) {
+  if (!looksLikePrismicId(uid)) {
     return { notFound: true };
   }
 

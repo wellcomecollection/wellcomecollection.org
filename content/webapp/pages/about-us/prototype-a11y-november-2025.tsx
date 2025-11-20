@@ -1,5 +1,6 @@
 import { NextPage } from 'next';
 
+import { getServerData } from '@weco/common/server-data';
 import {
   ServerSideProps,
   ServerSidePropsOrAppError,
@@ -18,6 +19,11 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   Props
 > = async context => {
   setCacheControl(context.res);
+  const serverData = await getServerData(context);
+
+  if (!serverData.toggles.a11yPrototype.value) {
+    return { notFound: true };
+  }
 
   return page.getServerSideProps({
     ...context,
