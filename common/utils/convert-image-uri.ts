@@ -1,5 +1,7 @@
 import urlTemplate from 'url-template';
 
+import { DigitalLocation } from '@weco/common/model/catalogue';
+
 const prismicBaseUri = 'https://images.prismic.io/wellcomecollection';
 const iiifImageUri = 'https://iiif.wellcomecollection.org/image/';
 
@@ -98,6 +100,12 @@ function prismicTemplateParts( // gets the params from the original Prismic imag
   };
 }
 
+// TODO: remove, hack to handle the fact that we are pulling through PDF thumbnails.
+// These will be removed from the API at some stage.
+export function isPdfThumbnail(thumbnail: DigitalLocation): boolean {
+  // e.g. https://dlcs.io/iiif-img/wellcome/5/b28820769_WG_2006_PAAG-implementing-persistent-identifiers_EN.pdf/full/!200,200/0/default.jpg
+  return Boolean(thumbnail.url.match('.pdf/full'));
+}
 export function convertIiifImageUri(
   originalUri: string,
   requiredSize: number | 'full',

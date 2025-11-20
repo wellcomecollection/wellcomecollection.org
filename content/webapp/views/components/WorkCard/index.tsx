@@ -81,10 +81,18 @@ const Meta = styled.p.attrs({
   white-space: nowrap;
 `;
 
+const NotAvailable = styled.span`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+`;
+
 export type WorkItem = {
   url: string;
   title: string;
-  image: {
+  image?: {
     contentUrl: string;
     width: number;
     height: number;
@@ -102,8 +110,9 @@ type Props = {
 
 const WorkCard: FunctionComponent<Props> = ({ item }) => {
   const { url, title, image, labels, partOf, contributor, date } = item;
-  const aspectRatio = image.height / image.width;
+  const aspectRatio = image ? image.height / image.width : undefined;
 
+  // TODO change this to support Works API response
   return (
     <LinkSpace $url={url} data-component="work-card">
       <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
@@ -112,11 +121,24 @@ const WorkCard: FunctionComponent<Props> = ({ item }) => {
             data-component="popout-image"
             $aspectRatio={aspectRatio}
           >
-            <PopoutCardImage>
-              <IIIFImage image={image} layout="raw" />
-            </PopoutCardImage>
+            {image ? (
+              <PopoutCardImage>
+                <IIIFImage image={image} layout="raw" />
+              </PopoutCardImage>
+            ) : (
+              <NotAvailable>Preview not available</NotAvailable>
+            )}
+            {/* {work.thumbnail && !isPdfThumbnail(work.thumbnail) && (
+              <Preview>
+                <PreviewImage
+                  alt=""
+                  src={convertIiifImageUri(work.thumbnail.url, 120)}
+                />
+              </Preview>
+            )} */}
           </PopoutCardImageContainer>
         </Shim>
+
         <Space
           $v={{ size: 's', properties: ['margin-bottom'] }}
           style={{ position: 'relative' }}
