@@ -3,6 +3,8 @@ import styled from 'styled-components';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
+import { useToggles } from '@weco/common/server-data/Context';
+import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import Divider from '@weco/common/views/components/Divider';
 import SearchForm from '@weco/common/views/components/SearchForm';
@@ -31,6 +33,7 @@ import RelatedWorks, { hasAtLeastOneSubject } from './RelatedWorks';
 import ArchiveBreadcrumb from './work.ArchiveBreadcrumb';
 import BackToResults from './work.BackToResults';
 import WorkHeader from './work.Header';
+import StoriesOnWorks from './work.StoriesOnWorks';
 import WorkDetails from './WorkDetails';
 
 const ArchiveDetailsContainer = styled.div`
@@ -51,14 +54,17 @@ export type Props = {
   work: WorkType;
   apiUrl: string;
   transformedManifest?: TransformedManifest;
+  serverData: SimplifiedServerData;
 };
 
 export const WorkPage: NextPage<Props> = ({
   work,
   apiUrl,
   transformedManifest,
+  serverData,
 }) => {
   const { userIsStaffWithRestricted } = useUserContext();
+  const { storiesOnWorks } = useToggles();
   const isArchive = !!(
     work.parts.length || getArchiveAncestorArray(work).length > 0
   );
@@ -190,6 +196,14 @@ export const WorkPage: NextPage<Props> = ({
               transformedManifest={transformedManifest}
             />
           </>
+        )}
+
+        {storiesOnWorks && (
+          <StoriesOnWorks
+            workId={work.id}
+            showDivider={hasAtLeastOneSubject(work.subjects)}
+            toggles={serverData.toggles}
+          />
         )}
 
         {/* If the work has no subjects, it's not worth adding this component */}
