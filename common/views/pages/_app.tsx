@@ -17,6 +17,7 @@ import {
   SimplifiedServerData,
 } from '@weco/common/server-data/types';
 import { AppErrorProps } from '@weco/common/services/app';
+import { HotjarLoader } from '@weco/common/services/app/analytics-scripts/hotjar-loader';
 import useMaintainPageHeight from '@weco/common/services/app/useMaintainPageHeight';
 import usePrismicPreview from '@weco/common/services/app/usePrismicPreview';
 import { deserialiseProps } from '@weco/common/utils/json';
@@ -164,6 +165,7 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
                   <LoadingIndicator />
 
                   {displayCookieBanner && <CivicUK apiKey={civicUkApiKey} />}
+                  <HotjarLoader />
 
                   {!pageProps.err && (
                     <Component {...deserialiseProps(pageProps)} />
