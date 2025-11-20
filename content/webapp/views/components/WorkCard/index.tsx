@@ -81,6 +81,14 @@ const Meta = styled.p.attrs({
   white-space: nowrap;
 `;
 
+const NotAvailable = styled.span`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+`;
+
 export type WorkItem = {
   url: string;
   title: string;
@@ -113,10 +121,12 @@ const WorkCard: FunctionComponent<Props> = ({ item }) => {
             data-component="popout-image"
             $aspectRatio={aspectRatio}
           >
-            {image && (
+            {image ? (
               <PopoutCardImage>
                 <IIIFImage image={image} layout="raw" />
               </PopoutCardImage>
+            ) : (
+              <NotAvailable>Preview not available</NotAvailable>
             )}
             {/* {work.thumbnail && !isPdfThumbnail(work.thumbnail) && (
               <Preview>
@@ -128,6 +138,7 @@ const WorkCard: FunctionComponent<Props> = ({ item }) => {
             )} */}
           </PopoutCardImageContainer>
         </Shim>
+
         <Space
           $v={{ size: 's', properties: ['margin-bottom'] }}
           style={{ position: 'relative' }}

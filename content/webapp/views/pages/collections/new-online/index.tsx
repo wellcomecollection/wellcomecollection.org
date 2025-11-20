@@ -89,6 +89,12 @@ const NewOnlinePage: NextPage<Props> = ({ works }) => {
             {works.results.length > 0 ? (
               <Grid>
                 {works.results.map(item => {
+                  // TODO: Can we always assume this is correct? It could be its location.
+                  const labels =
+                    item.cardLabels?.length > 0
+                      ? [{ text: item.cardLabels?.[0]?.text }]
+                      : [];
+
                   return (
                     <GridCell
                       key={item.id}
@@ -98,7 +104,7 @@ const NewOnlinePage: NextPage<Props> = ({ works }) => {
                         item={{
                           ...item,
                           url: '/works/' + item.id,
-                          labels: [],
+                          labels,
                           // image,
                         }}
                       />
