@@ -4,6 +4,7 @@ import { FunctionComponent } from 'react';
 
 import { TextSlice as RawTextSlice } from '@weco/common/prismicio-types';
 import { classNames } from '@weco/common/utils/classnames';
+import { dasherize } from '@weco/common/utils/grammar';
 import {
   defaultSerializer,
   dropCapSerializer,
@@ -22,6 +23,11 @@ const Text: FunctionComponent<TextProps> = ({ slice, context }) => {
   const options = { ...defaultContext, ...context };
   const shouldBeDroppedCap =
     options.firstTextSliceIndex === slice.id && options.isDropCapped;
+  const heading = (
+    (slice.primary.text as prismic.RichTextField).filter(
+      (text: prismic.RTNode) => text.type === 'heading2'
+    ) as prismic.RTHeading2Node[]
+  )?.[0]?.text;
 
   return (
     <SpacingComponent $sliceType={slice.slice_type}>
@@ -32,23 +38,25 @@ const Text: FunctionComponent<TextProps> = ({ slice, context }) => {
             'first-text-slice': options.firstTextSliceIndex === slice.id,
           })}
         >
-          {shouldBeDroppedCap ? (
-            <>
+          <section data-id={dasherize(heading || '') || undefined}>
+            {shouldBeDroppedCap ? (
+              <>
+                <PrismicHtmlBlock
+                  html={[slice.primary.text[0]] as prismic.RichTextField}
+                  htmlSerializer={dropCapSerializer}
+                />
+                <PrismicHtmlBlock
+                  html={slice.primary.text.slice(1) as prismic.RichTextField}
+                  htmlSerializer={defaultSerializer}
+                />
+              </>
+            ) : (
               <PrismicHtmlBlock
-                html={[slice.primary.text[0]] as prismic.RichTextField}
-                htmlSerializer={dropCapSerializer}
-              />
-              <PrismicHtmlBlock
-                html={slice.primary.text.slice(1) as prismic.RichTextField}
+                html={slice.primary.text}
                 htmlSerializer={defaultSerializer}
               />
-            </>
-          ) : (
-            <PrismicHtmlBlock
-              html={slice.primary.text}
-              htmlSerializer={defaultSerializer}
-            />
-          )}
+            )}
+          </section>
         </div>
       </LayoutWidth>
     </SpacingComponent>
