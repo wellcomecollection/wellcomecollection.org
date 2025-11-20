@@ -117,7 +117,12 @@ const StyledTd = styled(Space).attrs<TdProps>(props => ({
       white-space: nowrap;
       content: ${props =>
         props.$cellContent ? `'${props.$cellContent}'` : ''};
-      ${fontFamilyMixin('intb', true)}
+      ${props =>
+        fontFamilyMixin(
+          'intb',
+          true,
+          props.theme.toggles?.designSystemFonts?.value
+        )}
     }
   }
 `;
