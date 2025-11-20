@@ -23,6 +23,7 @@ const Text: FunctionComponent<TextProps> = ({ slice, context }) => {
   const options = { ...defaultContext, ...context };
   const shouldBeDroppedCap =
     options.firstTextSliceIndex === slice.id && options.isDropCapped;
+
   const heading = (
     (slice.primary.text as prismic.RichTextField).filter(
       (text: prismic.RTNode) => text.type === 'heading2'

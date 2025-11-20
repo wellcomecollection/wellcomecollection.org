@@ -65,8 +65,6 @@ const A11yPrototypePage: NextPage<page.Props> = props => {
                   />
                 </GridCell>
                 <GridCell $sizeMap={{ s: [12], m: [12], l: [9], xl: [9] }}>
-                  {/* as="section"
-                    data-id="works" */}
                   <SliceZone
                     slices={props.page.untransformedBody}
                     components={components}
