@@ -4,6 +4,7 @@ import { FunctionComponent } from 'react';
 
 import { TextSlice as RawTextSlice } from '@weco/common/prismicio-types';
 import { classNames } from '@weco/common/utils/classnames';
+import { dasherize } from '@weco/common/utils/grammar';
 import {
   defaultSerializer,
   dropCapSerializer,
@@ -23,34 +24,42 @@ const Text: FunctionComponent<TextProps> = ({ slice, context }) => {
   const shouldBeDroppedCap =
     options.firstTextSliceIndex === slice.id && options.isDropCapped;
 
+  const heading = (
+    (slice.primary.text as prismic.RichTextField).filter(
+      (text: prismic.RTNode) => text.type === 'heading2'
+    ) as prismic.RTHeading2Node[]
+  )?.[0]?.text;
+
   return (
     <SpacingComponent $sliceType={slice.slice_type}>
-      <LayoutWidth width={options.minWidth}>
-        <div
-          className={classNames({
-            'body-text spaced-text': true,
-            'first-text-slice': options.firstTextSliceIndex === slice.id,
-          })}
-        >
-          {shouldBeDroppedCap ? (
-            <>
+      <section data-id={dasherize(heading || '') || undefined}>
+        <LayoutWidth width={options.minWidth}>
+          <div
+            className={classNames({
+              'body-text spaced-text': true,
+              'first-text-slice': options.firstTextSliceIndex === slice.id,
+            })}
+          >
+            {shouldBeDroppedCap ? (
+              <>
+                <PrismicHtmlBlock
+                  html={[slice.primary.text[0]] as prismic.RichTextField}
+                  htmlSerializer={dropCapSerializer}
+                />
+                <PrismicHtmlBlock
+                  html={slice.primary.text.slice(1) as prismic.RichTextField}
+                  htmlSerializer={defaultSerializer}
+                />
+              </>
+            ) : (
               <PrismicHtmlBlock
-                html={[slice.primary.text[0]] as prismic.RichTextField}
-                htmlSerializer={dropCapSerializer}
-              />
-              <PrismicHtmlBlock
-                html={slice.primary.text.slice(1) as prismic.RichTextField}
+                html={slice.primary.text}
                 htmlSerializer={defaultSerializer}
               />
-            </>
-          ) : (
-            <PrismicHtmlBlock
-              html={slice.primary.text}
-              htmlSerializer={defaultSerializer}
-            />
-          )}
-        </div>
-      </LayoutWidth>
+            )}
+          </div>
+        </LayoutWidth>
+      </section>
     </SpacingComponent>
   );
 };

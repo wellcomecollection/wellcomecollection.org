@@ -1,5 +1,6 @@
 import { NextPage } from 'next';
 
+import { looksLikePrismicId } from '@weco/common/services/prismic';
 import {
   ServerSideProps,
   ServerSidePropsOrAppError,
@@ -16,6 +17,10 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   Props
 > = async context => {
   const { uid } = context.query;
+
+  if (!looksLikePrismicId(uid)) {
+    return { notFound: true };
+  }
 
   return page.getServerSideProps({
     ...context,

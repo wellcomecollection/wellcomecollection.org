@@ -12,14 +12,6 @@ const AnimatedUnderlineCSS = css<AnimatedUnderlineProps>`
 
   position: relative;
 
-  &:focus-visible,
-  &:focus,
-  &:target,
-  &:active {
-    box-shadow: ${props => props.theme.focusBoxShadow};
-    outline: ${props => props.theme.highContrastOutlineFix};
-  }
-
   & > span {
     background-image: linear-gradient(
       0deg,
