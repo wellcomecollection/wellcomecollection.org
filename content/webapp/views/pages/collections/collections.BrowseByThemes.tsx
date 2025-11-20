@@ -180,6 +180,7 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
     label: category.label,
     gtmData: {
       trigger: 'selectable_tag',
+      label: category.label,
     },
   }));
 

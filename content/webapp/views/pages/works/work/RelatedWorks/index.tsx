@@ -129,6 +129,7 @@ const RelatedWorks = ({
               gtmData: {
                 trigger: 'selectable_tag_related_works_control',
                 category: value.category,
+                label: value.label,
               },
             }))}
             onChange={selectedId => setSelectedTab(selectedId[0])}

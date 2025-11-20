@@ -116,7 +116,6 @@ export const SelectableTags: FunctionComponent<SelectableTagsProps> = ({
           const isSelected = selected.includes(tag.id);
           const gtmAttributes = dataGtmPropsToAttributes({
             'position-in-list': String(index + 1),
-            label: tag.id,
             ...tag.gtmData,
           });
 
