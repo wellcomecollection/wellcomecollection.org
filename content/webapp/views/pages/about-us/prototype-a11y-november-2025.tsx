@@ -42,14 +42,14 @@ const A11yPrototypePage: NextPage<page.Props> = props => {
       />
       <Container>
         <Grid style={{ background: 'white', rowGap: 0 }}>
-          <GridCell $sizeMap={{ s: [12], m: [12], l: [3], xl: [2] }}>
+          <GridCell $sizeMap={{ s: [12], m: [12], l: [3], xl: [3] }}>
             <InPageNavigation
               links={props.page.onThisPage}
               variant="sticky"
               isOnWhite
             />
           </GridCell>
-          <GridCell $sizeMap={{ s: [12], m: [12], l: [9], xl: [10] }}>
+          <GridCell $sizeMap={{ s: [12], m: [12], l: [9], xl: [9] }}>
             <SliceZone
               slices={props.page.untransformedBody}
               components={components}
