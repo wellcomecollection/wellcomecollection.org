@@ -162,6 +162,13 @@ const toggles = {
         'Enables the new online listing page at /collections/new-online',
       type: 'experimental',
     },
+    {
+      id: 'a11yPrototype',
+      title: 'Accessibility prototype page',
+      initialValue: false,
+      description: 'Allows access to the accessibility prototype page',
+      type: 'experimental',
+    },
   ] as const,
   // We have to include a reference to any test toggles here as well as in the cache dir
   // because they are deployed separately and consequently can't share a source of truth
