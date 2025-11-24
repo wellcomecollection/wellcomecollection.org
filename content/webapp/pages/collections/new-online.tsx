@@ -40,7 +40,10 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   }
 
   const works = await getWorks({
-    params: {},
+    params: {
+      availabilities: ['online'],
+      'items.locations.accessConditions.status': 'open',
+    },
     pageSize: 12,
     toggles: serverData.toggles,
   });

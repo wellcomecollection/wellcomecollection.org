@@ -19,12 +19,16 @@ import Space from '@weco/common/views/components/styled/Space';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { components } from '@weco/common/views/slices';
 import { useCollectionStats } from '@weco/content/hooks/useCollectionStats';
-import type { Concept } from '@weco/content/services/wellcome/catalogue/types';
+import type {
+  Concept,
+  WorkBasic,
+} from '@weco/content/services/wellcome/catalogue/types';
 import { MultiContent } from '@weco/content/types/multi-content';
 import CardGrid from '@weco/content/views/components/CardGrid';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
 import BrowseByThemes from '@weco/content/views/pages/collections/collections.BrowseByThemes';
 import NewOnline from '@weco/content/views/pages/collections/collections.NewOnline';
+import NewOnlineDynamic from '@weco/content/views/pages/collections/collections.NewOnline.Dynamic';
 import WorkTypesList from '@weco/content/views/pages/collections/collections.WorkTypesList';
 import { themeBlockCategories } from '@weco/content/views/pages/collections/themeBlockCategories';
 
@@ -73,6 +77,7 @@ export type Props = {
   insideOurCollectionsCards: MultiContent[];
   featuredConcepts: Concept[];
   fullWidthBanners?: prismic.Slice<'fullWidthBanner'>[];
+  newOnlineDocuments: WorkBasic[];
 };
 
 const CollectionsLandingPage: NextPage<Props> = ({
@@ -82,9 +87,10 @@ const CollectionsLandingPage: NextPage<Props> = ({
   insideOurCollectionsCards,
   featuredConcepts,
   fullWidthBanners,
+  newOnlineDocuments,
 }) => {
   const { data: collectionStats } = useCollectionStats();
-  const toggles = useToggles();
+  const { browseCollections, newOnlineListingPage } = useToggles();
   const theme = useTheme();
 
   return (
@@ -140,7 +146,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
         </Space>
       </MainBackground>
 
-      {toggles.browseCollections && (
+      {browseCollections && (
         <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
           <CardGrid
             items={[]}
@@ -156,12 +162,25 @@ const CollectionsLandingPage: NextPage<Props> = ({
         </Space>
       )}
 
-      <Space $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}>
-        <SectionHeader title="New online" gridSize={gridSize12()} />
-        <ContaineredLayout gridSizes={gridSize12()}>
-          <NewOnline />
-        </ContaineredLayout>
-      </Space>
+      {newOnlineListingPage ? (
+        newOnlineDocuments.length > 0 && (
+          <Space
+            $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
+          >
+            <SectionHeader title="New online" gridSize={gridSize12()} />
+            <ContaineredLayout gridSizes={gridSize12()}>
+              <NewOnlineDynamic newOnlineDocuments={newOnlineDocuments} />
+            </ContaineredLayout>
+          </Space>
+        )
+      ) : (
+        <Space $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}>
+          <SectionHeader title="New online" gridSize={gridSize12()} />
+          <ContaineredLayout gridSizes={gridSize12()}>
+            <NewOnline />
+          </ContaineredLayout>
+        </Space>
+      )}
 
       {fullWidthBanners?.[0] && (
         <Space $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}>

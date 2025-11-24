@@ -23,7 +23,7 @@ import {
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
 import Pagination from '@weco/content/views/components/Pagination';
-import WorkCard from '@weco/content/views/components/WorkCard';
+import WorkCardAPI from '@weco/content/views/components/WorkCard/WorkCard.API';
 
 export type Props = {
   works: WellcomeResultList<WorkBasic, WorkAggregations>;
@@ -89,25 +89,12 @@ const NewOnlinePage: NextPage<Props> = ({ works }) => {
             {works.results.length > 0 ? (
               <Grid>
                 {works.results.map(item => {
-                  // TODO: Can we always assume this is correct? It could be its location.
-                  const labels =
-                    item.cardLabels?.length > 0
-                      ? [{ text: item.cardLabels?.[0]?.text }]
-                      : [];
-
                   return (
                     <GridCell
                       key={item.id}
                       $sizeMap={{ s: [12], m: [6], l: [3], xl: [3] }}
                     >
-                      <WorkCard
-                        item={{
-                          ...item,
-                          url: '/works/' + item.id,
-                          labels,
-                          // image,
-                        }}
-                      />
+                      <WorkCardAPI item={item} />
                     </GridCell>
                   );
                 })}

@@ -2,9 +2,13 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
+import {
+  convertIiifImageUri,
+  isPdfThumbnail,
+} from '@weco/common/utils/convert-image-uri';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
-import IIIFImage from '@weco/content/views/components/IIIFImage';
+import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 
 // Ensures the image container takes up the same amount of vertical space
 // regardless of the image height
@@ -81,10 +85,18 @@ const Meta = styled.p.attrs({
   white-space: nowrap;
 `;
 
+const NotAvailable = styled.span`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+`;
+
 export type WorkItem = {
   url: string;
   title: string;
-  image: {
+  image?: {
     contentUrl: string;
     width: number;
     height: number;
@@ -97,39 +109,66 @@ export type WorkItem = {
 };
 
 type Props = {
-  item: WorkItem;
+  item: WorkBasic;
 };
 
 const WorkCard: FunctionComponent<Props> = ({ item }) => {
-  const { url, title, image, labels, partOf, contributor, date } = item;
-  const aspectRatio = image.height / image.width;
+  const transformedWork = {
+    title: item.title,
+    url: '/works/' + item.id,
+    // TODO: Can we always assume this is correct? It could be its location.
+    labels:
+      item.cardLabels?.length > 0 ? [{ text: item.cardLabels?.[0]?.text }] : [],
+    image: {
+      url:
+        item.thumbnail && !isPdfThumbnail(item.thumbnail)
+          ? convertIiifImageUri(item.thumbnail.url, 120)
+          : undefined,
+    }, // TODO
+    // partOf: item.partOf, // TODO Do we keep this?
+    contributor: item.primaryContributorLabel,
+    date: item.productionDates[0],
+  };
 
   return (
-    <LinkSpace $url={url} data-component="work-card">
+    <LinkSpace $url={transformedWork.url} data-component="work-card">
       <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
         <Shim>
           <PopoutCardImageContainer
             data-component="popout-image"
-            $aspectRatio={aspectRatio}
+            // $aspectRatio={aspectRatio}
           >
-            <PopoutCardImage>
-              <IIIFImage image={image} layout="raw" />
-            </PopoutCardImage>
+            {transformedWork.image.url ? (
+              <PopoutCardImage>
+                {/* <IIIFImage image={transformedWork.image} layout="raw" /> */}
+                <img
+                  alt=""
+                  src={convertIiifImageUri(transformedWork.image.url, 500)}
+                />
+              </PopoutCardImage>
+            ) : (
+              <NotAvailable>Preview not available</NotAvailable>
+            )}
           </PopoutCardImageContainer>
         </Shim>
+
         <Space
           $v={{ size: 's', properties: ['margin-bottom'] }}
           style={{ position: 'relative' }}
         >
           <Space $v={{ size: 'm', properties: ['margin-top'], negative: true }}>
-            <LabelsList labels={labels} />
+            <LabelsList labels={transformedWork.labels} />
           </Space>
         </Space>
-        <Title>{title}</Title>
+        <Title>{transformedWork.title}</Title>
 
-        {partOf && <Meta>Part of: {partOf}</Meta>}
-        {contributor && <Meta>{contributor}</Meta>}
-        {date && <Meta>Date: {date}</Meta>}
+        {/* {transformedWork.partOf && (
+          <Meta>Part of: {transformedWork.partOf}</Meta>
+        )} */}
+        {transformedWork.contributor && (
+          <Meta>{transformedWork.contributor}</Meta>
+        )}
+        {transformedWork.date && <Meta>Date: {transformedWork.date}</Meta>}
       </Space>
     </LinkSpace>
   );
