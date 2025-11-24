@@ -36,9 +36,9 @@ const NewOnlinePage: NextPage<Props> = ({ works }) => {
 
   return (
     <PageLayout
-      title="Works"
+      title="New online"
       description={pageDescriptions.collections.newOnline}
-      url={{ pathname: '/works' }}
+      url={{ pathname: '/collections/new-online' }}
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType="website"
       siteSection="collections"
@@ -48,7 +48,7 @@ const NewOnlinePage: NextPage<Props> = ({ works }) => {
         <PageHeader
           variant="basic"
           breadcrumbs={getBreadcrumbItems('collections')}
-          title="Works"
+          title="New online"
           ContentTypeInfo={
             pageDescriptions.collections.newOnline && (
               <PrismicHtmlBlock
@@ -87,18 +87,20 @@ const NewOnlinePage: NextPage<Props> = ({ works }) => {
         <ContaineredLayout gridSizes={gridSize12()}>
           <Space $v={{ size: 'l', properties: ['margin-top'] }}>
             {works.results.length > 0 ? (
-              <Grid>
-                {works.results.map(item => {
-                  return (
-                    <GridCell
-                      key={item.id}
-                      $sizeMap={{ s: [12], m: [6], l: [3], xl: [3] }}
-                    >
-                      <WorkCardAPI item={item} />
-                    </GridCell>
-                  );
-                })}
-              </Grid>
+              <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
+                <Grid>
+                  {works.results.map(item => {
+                    return (
+                      <GridCell
+                        key={item.id}
+                        $sizeMap={{ s: [12], m: [6], l: [3], xl: [3] }}
+                      >
+                        <WorkCardAPI item={item} />
+                      </GridCell>
+                    );
+                  })}
+                </Grid>
+              </Space>
             ) : (
               <ContaineredLayout gridSizes={gridSize12()}>
                 <p>There are no results.</p>

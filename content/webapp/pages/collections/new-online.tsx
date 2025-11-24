@@ -43,6 +43,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     params: {
       availabilities: ['online'],
       'items.locations.accessConditions.status': 'open',
+      page,
     },
     pageSize: 12,
     toggles: serverData.toggles,
