@@ -2,10 +2,7 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
-import {
-  convertIiifImageUri,
-  isPdfThumbnail,
-} from '@weco/common/utils/convert-image-uri';
+import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
@@ -75,6 +72,11 @@ const Title = styled.h3.attrs({
   className: font('intb', 5),
 })`
   margin: 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 4;
 `;
 
 const Meta = styled.p.attrs({
@@ -92,21 +94,6 @@ const NotAvailable = styled.span`
   text-align: center;
 `;
 
-export type WorkItem = {
-  url: string;
-  title: string;
-  image?: {
-    contentUrl: string;
-    width: number;
-    height: number;
-    alt: string | null;
-  };
-  labels: { text: string }[];
-  partOf?: string;
-  contributor?: string;
-  date?: string;
-};
-
 type Props = {
   item: WorkBasic;
 };
@@ -115,16 +102,19 @@ const WorkCard: FunctionComponent<Props> = ({ item }) => {
   const transformedWork = {
     title: item.title,
     url: '/works/' + item.id,
-    // TODO: Can we always assume this is correct? It could be its location.
+    // `cardLabels` contains `workType` and `availabilities`, adding a labelColor to the latter.
+    // As we only want the workType here, we filter out any with a labelColor.
+    // It's not ideal but I prefer that to modifying a transformer that's heavily used elsewhere.
     labels:
-      item.cardLabels?.length > 0 ? [{ text: item.cardLabels?.[0]?.text }] : [],
+      item.cardLabels?.length > 0 && !item.cardLabels[0].labelColor
+        ? [{ text: item.cardLabels[0].text }]
+        : [],
     image: {
-      url:
-        item.thumbnail && !isPdfThumbnail(item.thumbnail)
-          ? convertIiifImageUri(item.thumbnail.url, 120)
-          : undefined,
+      url: item.thumbnail
+        ? convertIiifImageUri(item.thumbnail.url, 120)
+        : undefined,
     }, // TODO
-    // partOf: item.partOf, // TODO Do we keep this?
+    partOf: item.archiveLabels?.partOf,
     contributor: item.primaryContributorLabel,
     date: item.productionDates[0],
   };
@@ -161,9 +151,9 @@ const WorkCard: FunctionComponent<Props> = ({ item }) => {
         </Space>
         <Title>{transformedWork.title}</Title>
 
-        {/* {transformedWork.partOf && (
+        {transformedWork.partOf && (
           <Meta>Part of: {transformedWork.partOf}</Meta>
-        )} */}
+        )}
         {transformedWork.contributor && (
           <Meta>{transformedWork.contributor}</Meta>
         )}

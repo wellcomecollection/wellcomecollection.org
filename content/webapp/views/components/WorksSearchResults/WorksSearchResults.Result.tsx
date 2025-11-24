@@ -1,10 +1,7 @@
 import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
 
-import {
-  convertIiifImageUri,
-  isPdfThumbnail,
-} from '@weco/common/utils/convert-image-uri';
+import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
@@ -48,7 +45,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
         data-gtm-position-in-list={resultPosition + 1}
       >
         <Container>
-          {work.thumbnail && !isPdfThumbnail(work.thumbnail) && (
+          {work.thumbnail && (
             <Preview>
               <PreviewImage
                 alt=""

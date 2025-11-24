@@ -30,7 +30,7 @@ export type Props = {
   apiToolbarLinks: ApiToolbarLink[];
 };
 
-const NewOnlinePage: NextPage<Props> = ({ works }) => {
+const NewOnlinePage: NextPage<Props> = ({ works, apiToolbarLinks }) => {
   const TOTAL_PAGES = 4;
   const TOTAL_RESULTS = TOTAL_PAGES * works.pageSize;
 
@@ -42,6 +42,7 @@ const NewOnlinePage: NextPage<Props> = ({ works }) => {
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType="website"
       siteSection="collections"
+      apiToolbarLinks={apiToolbarLinks}
       // TODO image ?
     >
       <SpacingSection>
@@ -94,7 +95,12 @@ const NewOnlinePage: NextPage<Props> = ({ works }) => {
                       key={item.id}
                       $sizeMap={{ s: [12], m: [6], l: [3], xl: [3] }}
                     >
-                      <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+                      <Space
+                        $v={{
+                          size: 'xl',
+                          properties: ['margin-top'],
+                        }}
+                      >
                         <WorkCardAPI item={item} />
                       </Space>
                     </GridCell>
