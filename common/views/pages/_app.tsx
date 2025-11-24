@@ -18,6 +18,7 @@ import {
 } from '@weco/common/server-data/types';
 import { AppErrorProps } from '@weco/common/services/app';
 import { HotjarLoader } from '@weco/common/services/app/analytics-scripts/hotjar-loader';
+import { CookieConsentEvent } from '@weco/common/services/app/civic-uk';
 import useMaintainPageHeight from '@weco/common/services/app/useMaintainPageHeight';
 import usePrismicPreview from '@weco/common/services/app/usePrismicPreview';
 import { deserialiseProps } from '@weco/common/utils/json';
@@ -99,13 +100,7 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
 
   useMaintainPageHeight();
 
-  type ConsentType = 'granted' | 'denied';
-  const onConsentChanged = (
-    event: CustomEvent<{
-      analyticsConsent?: ConsentType;
-      marketingConsent?: ConsentType;
-    }>
-  ) => {
+  const onConsentChanged = (event: CookieConsentEvent) => {
     // Update datalayer config with consent value
     gtag('consent', 'update', {
       ...(event.detail.analyticsConsent && {

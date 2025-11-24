@@ -6,6 +6,12 @@ import { ConsentStatusProps } from '@weco/common/server-data/types';
 export const ACTIVE_COOKIE_BANNER_ID = 'ccc-overlay';
 export const COOKIE_BANNER_PARENT_ID = 'ccc';
 
+type ConsentType = 'granted' | 'denied';
+export type CookieConsentEvent = CustomEvent<{
+  analyticsConsent?: ConsentType;
+  marketingConsent?: ConsentType;
+}>;
+
 type CivicUKCookie = {
   optionalCookies?: {
     analytics: 'accepted' | 'revoked';

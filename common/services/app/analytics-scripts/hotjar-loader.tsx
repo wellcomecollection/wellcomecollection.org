@@ -1,11 +1,9 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 
-import { getConsentState } from '@weco/common/services/app/civic-uk';
-
-type ConsentChangedEvent = CustomEvent<{
-  analyticsConsent?: 'granted' | 'denied';
-  marketingConsent?: 'granted' | 'denied';
-}>;
+import {
+  CookieConsentEvent,
+  getConsentState,
+} from '@weco/common/services/app/civic-uk';
 
 const HOTJAR_ID = 3858;
 const HOTJAR_SV = 6;
@@ -20,7 +18,7 @@ export const HotjarLoader: FunctionComponent = () => {
     setHasConsent(initialConsent);
 
     // Listen for consent changes
-    const handleConsentChange = (event: ConsentChangedEvent) => {
+    const handleConsentChange = (event: CookieConsentEvent) => {
       if (event.detail.analyticsConsent === 'granted') {
         setHasConsent(true);
       } else if (event.detail.analyticsConsent === 'denied') {
