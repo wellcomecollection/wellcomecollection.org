@@ -87,20 +87,20 @@ const NewOnlinePage: NextPage<Props> = ({ works }) => {
         <ContaineredLayout gridSizes={gridSize12()}>
           <Space $v={{ size: 'l', properties: ['margin-top'] }}>
             {works.results.length > 0 ? (
-              <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
-                <Grid>
-                  {works.results.map(item => {
-                    return (
-                      <GridCell
-                        key={item.id}
-                        $sizeMap={{ s: [12], m: [6], l: [3], xl: [3] }}
-                      >
+              <Grid>
+                {works.results.map(item => {
+                  return (
+                    <GridCell
+                      key={item.id}
+                      $sizeMap={{ s: [12], m: [6], l: [3], xl: [3] }}
+                    >
+                      <Space $v={{ size: 'l', properties: ['margin-top'] }}>
                         <WorkCardAPI item={item} />
-                      </GridCell>
-                    );
-                  })}
-                </Grid>
-              </Space>
+                      </Space>
+                    </GridCell>
+                  );
+                })}
+              </Grid>
             ) : (
               <ContaineredLayout gridSizes={gridSize12()}>
                 <p>There are no results.</p>

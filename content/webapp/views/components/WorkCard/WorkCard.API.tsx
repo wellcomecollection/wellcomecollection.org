@@ -82,7 +82,6 @@ const Meta = styled.p.attrs({
 })`
   color: ${props => props.theme.color('neutral.600')};
   margin: 0;
-  white-space: nowrap;
 `;
 
 const NotAvailable = styled.span`

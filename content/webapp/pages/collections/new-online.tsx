@@ -45,7 +45,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       'items.locations.accessConditions.status': 'open',
       page,
     },
-    pageSize: 12,
+    pageSize: 32,
     toggles: serverData.toggles,
   });
 
