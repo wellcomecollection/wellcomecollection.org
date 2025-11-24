@@ -48,7 +48,7 @@ const LandingPageHeader: FunctionComponent<Props> = ({
 
           {introText && introText.length > 0 && (
             <Grid>
-              <GridCell $sizeMap={{ s: [12], m: [10], l: [8], xl: [8] }}>
+              <GridCell $sizeMap={{ s: [12], m: [10], l: [7], xl: [7] }}>
                 <ContentWrapper>
                   <PrismicHtmlBlock
                     html={introText}
