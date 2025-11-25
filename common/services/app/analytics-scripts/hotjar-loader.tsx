@@ -5,6 +5,12 @@ import {
   getConsentState,
 } from '@weco/common/services/app/civic-uk';
 
+declare global {
+  interface Window {
+    __hotjarRequested?: boolean;
+  }
+}
+
 const HOTJAR_ID = 3858;
 const HOTJAR_SV = 6;
 
@@ -26,6 +32,11 @@ export const HotjarLoader: FunctionComponent = () => {
         setHasConsent(false);
       }
     };
+
+    // Check if already requested before listener was added
+    if (window.__hotjarRequested) {
+      setIsRequested(true);
+    }
 
     // Listen for pages requesting Hotjar
     const handleHotjarRequest = () => {
