@@ -83,10 +83,33 @@ const stageApiToggleCookie = createCookie({
   name: 'toggle_stagingApi',
   value: 'true',
 });
+const designSystemToggleCookie1 = createCookie({
+  name: 'toggle_designSystemFonts',
+  value: 'true',
+});
+const designSystemToggleCookie2 = createCookie({
+  name: 'toggle_designSystemSpacing',
+  value: 'true',
+});
+const designSystemToggleCookie3 = createCookie({
+  name: 'toggle_designSystemBreakpoints',
+  value: 'true',
+});
 
 export const requiredCookies = useStageApis
-  ? [acceptCookieCookie, stageApiToggleCookie]
-  : [acceptCookieCookie];
+  ? [
+      acceptCookieCookie,
+      stageApiToggleCookie,
+      designSystemToggleCookie1,
+      designSystemToggleCookie2,
+      designSystemToggleCookie3,
+    ]
+  : [
+      acceptCookieCookie,
+      designSystemToggleCookie1,
+      designSystemToggleCookie2,
+      designSystemToggleCookie3,
+    ];
 
 const multiVolumeItem = async (
   context: BrowserContext,
