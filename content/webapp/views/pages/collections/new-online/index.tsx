@@ -43,7 +43,6 @@ const NewOnlinePage: NextPage<Props> = ({ works, apiToolbarLinks }) => {
       openGraphType="website"
       siteSection="collections"
       apiToolbarLinks={apiToolbarLinks}
-      // TODO image ?
     >
       <SpacingSection>
         <PageHeader

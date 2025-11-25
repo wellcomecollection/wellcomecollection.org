@@ -25,7 +25,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   Props
 > = async context => {
   setCacheControl(context.res);
-  const page = getPage(context.query); // ???
+  const page = getPage(context.query);
 
   if (typeof page !== 'number') {
     return appError(context, 400, page.message);
@@ -43,6 +43,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     params: {
       availabilities: ['online'],
       'items.locations.accessConditions.status': 'open',
+      // sort: 'items.locations.createdDate',
+      // sortOrder: 'desc',
       page,
     },
     pageSize: 32,
