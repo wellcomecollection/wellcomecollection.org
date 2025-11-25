@@ -5,12 +5,19 @@ import {
   getConsentState,
 } from '@weco/common/services/app/civic-uk';
 
+declare global {
+  interface Window {
+    __hotjarRequested?: boolean;
+  }
+}
+
 const HOTJAR_ID = 3858;
 const HOTJAR_SV = 6;
 
 export const HotjarLoader: FunctionComponent = () => {
   const [hasConsent, setHasConsent] = useState<boolean>(false);
   const [scriptLoaded, setScriptLoaded] = useState<boolean>(false);
+  const [isRequested, setIsRequested] = useState<boolean>(false);
 
   useEffect(() => {
     // Check initial consent state from cookie
@@ -26,22 +33,34 @@ export const HotjarLoader: FunctionComponent = () => {
       }
     };
 
+    // Check if already requested before listener was added
+    if (window.__hotjarRequested) {
+      setIsRequested(true);
+    }
+
+    // Listen for pages requesting Hotjar
+    const handleHotjarRequest = () => {
+      setIsRequested(true);
+    };
+
     window.addEventListener(
       'consentChanged',
       handleConsentChange as EventListener
     );
+    window.addEventListener('requestHotjar', handleHotjarRequest);
 
     return () => {
       window.removeEventListener(
         'consentChanged',
         handleConsentChange as EventListener
       );
+      window.removeEventListener('requestHotjar', handleHotjarRequest);
     };
   }, []);
 
   useEffect(() => {
-    // Only load script if we have consent and haven't loaded it yet
-    if (hasConsent && !scriptLoaded) {
+    // Only load script if we have consent, it's been requested, and haven't loaded it yet
+    if (hasConsent && isRequested && !scriptLoaded) {
       if ('hj' in window) {
         setScriptLoaded(true);
         return;
@@ -64,7 +83,7 @@ export const HotjarLoader: FunctionComponent = () => {
         a.appendChild(r);
       })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
     }
-  }, [hasConsent, scriptLoaded]);
+  }, [hasConsent, isRequested, scriptLoaded]);
 
   // This component doesn't render anything
   return null;
