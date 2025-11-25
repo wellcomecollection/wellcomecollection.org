@@ -50,10 +50,14 @@ export const FeaturedCardLeft = styled(GridCell)<HasIsReversed>`
   `)}
 `;
 
-export const FeaturedCardRight = styled.div<HasIsReversed>`
+export const FeaturedCardRight = styled.div.attrs({
+  className: font('intb', 6), // required for em value in label height calc below
+})<HasIsReversed>`
   display: flex;
   flex-direction: column;
-  transform: translateY(-28px); /* Height of a label (font size + padding) */
+
+  /* Label height = font size (1em) + padding top/bottom (4px + 4px) + border (1px + 1px) + 1px to prevent sub-pixel rendering issues */
+  transform: translateY(calc(-1 * (1em + 11px)));
   width: 100%;
   height: 100%;
   min-height: 200px;
