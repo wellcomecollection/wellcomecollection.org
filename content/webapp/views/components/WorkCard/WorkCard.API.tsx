@@ -1,3 +1,4 @@
+// Reorganise when newOnlineListingPage becomes default
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
@@ -9,31 +10,24 @@ import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 
 // Ensures the image container takes up the same amount of vertical space
 // regardless of the image height
-const Shim = styled.div`
+const Shim = styled.div<{ $hasImage: boolean }>`
   position: relative;
-  ${props => props.theme.media('medium')`
-    height: 0;
-    padding-top: 100%;
-  `}
+  ${props => (!props.$hasImage ? 'padding-top: 100%;' : '')}
 `;
 
-const PopoutCardImageContainer = styled.div<{ $aspectRatio?: number }>`
-  position: relative;
-  ${props => props.theme.media('medium')`
-    position: absolute;
-    bottom: 0;
-  `}
+const PopoutCardImageContainer = styled.div<{ $hasImage: boolean }>`
+  position: ${props => (props.$hasImage ? 'relative' : 'absolute')};
+  height: ${props => (props.$hasImage ? 'auto' : '100%')};
+  bottom: 0;
   width: 100%;
   background-color: ${props => props.theme.color('neutral.300')};
-  padding-top: ${props =>
-    props.$aspectRatio ? `${props.$aspectRatio * 66}%` : '100%'};
   transform: rotate(-2deg);
 `;
 
 const PopoutCardImage = styled(Space).attrs({
   $v: { size: 'l', properties: ['bottom'] },
 })`
-  position: absolute;
+  position: relative;
   width: 66%;
   left: 50%;
   transform: translateX(-50%) rotate(2deg);
@@ -90,7 +84,7 @@ const NotAvailable = styled.span`
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) rotate(2deg);
   text-align: center;
 `;
 
@@ -111,7 +105,7 @@ const WorkCard: FunctionComponent<Props> = ({ item }) => {
         : [],
     image: {
       url: item.thumbnail
-        ? convertIiifImageUri(item.thumbnail.url, 120)
+        ? convertIiifImageUri(item.thumbnail.url, 400) // TODO only works for certain URL shapes
         : undefined,
     }, // TODO
     partOf: item.archiveLabels?.partOf,
@@ -122,18 +116,11 @@ const WorkCard: FunctionComponent<Props> = ({ item }) => {
   return (
     <LinkSpace $url={transformedWork.url} data-component="work-card">
       <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-        <Shim>
-          <PopoutCardImageContainer
-            data-component="popout-image"
-            // $aspectRatio={aspectRatio}
-          >
+        <Shim $hasImage={!!transformedWork.image.url}>
+          <PopoutCardImageContainer $hasImage={!!transformedWork.image.url}>
             {transformedWork.image.url ? (
               <PopoutCardImage>
-                {/* <IIIFImage image={transformedWork.image} layout="raw" /> */}
-                <img
-                  alt=""
-                  src={convertIiifImageUri(transformedWork.image.url, 500)}
-                />
+                <img alt="" src={transformedWork.image.url} />
               </PopoutCardImage>
             ) : (
               <NotAvailable>Preview not available</NotAvailable>

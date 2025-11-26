@@ -27,9 +27,9 @@ import { MultiContent } from '@weco/content/types/multi-content';
 import CardGrid from '@weco/content/views/components/CardGrid';
 import MoreLink from '@weco/content/views/components/MoreLink';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
+import WorksCards from '@weco/content/views/components/WorkCard/WorksCards';
 import BrowseByThemes from '@weco/content/views/pages/collections/collections.BrowseByThemes';
 import NewOnline from '@weco/content/views/pages/collections/collections.NewOnline';
-import NewOnlineDynamic from '@weco/content/views/pages/collections/collections.NewOnline.Dynamic';
 import WorkTypesList from '@weco/content/views/pages/collections/collections.WorkTypesList';
 import { themeBlockCategories } from '@weco/content/views/pages/collections/themeBlockCategories';
 
@@ -170,7 +170,9 @@ const CollectionsLandingPage: NextPage<Props> = ({
           >
             <SectionHeader title="New online" gridSize={gridSize12()} />
             <ContaineredLayout gridSizes={gridSize12()}>
-              <NewOnlineDynamic newOnlineDocuments={newOnlineDocuments} />
+              <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
+                <WorksCards works={newOnlineDocuments} />
+              </Space>
 
               <MoreLink
                 url="/collections/new-online"

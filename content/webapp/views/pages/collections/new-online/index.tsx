@@ -12,7 +12,7 @@ import {
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
-import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
+import { Container } from '@weco/common/views/components/styled/Container';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
@@ -23,7 +23,7 @@ import {
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
 import Pagination from '@weco/content/views/components/Pagination';
-import WorkCardAPI from '@weco/content/views/components/WorkCard/WorkCard.API';
+import WorksCards from '@weco/content/views/components/WorkCard/WorksCards';
 
 export type Props = {
   works: WellcomeResultList<WorkBasic, WorkAggregations>;
@@ -84,35 +84,17 @@ const NewOnlinePage: NextPage<Props> = ({ works, apiToolbarLinks }) => {
           </ContaineredLayout>
         )}
 
-        <ContaineredLayout gridSizes={gridSize12()}>
+        <Container>
           <Space $v={{ size: 'l', properties: ['margin-top'] }}>
             {works.results.length > 0 ? (
-              <Grid>
-                {works.results.map(item => {
-                  return (
-                    <GridCell
-                      key={item.id}
-                      $sizeMap={{ s: [12], m: [6], l: [3], xl: [3] }}
-                    >
-                      <Space
-                        $v={{
-                          size: 'xl',
-                          properties: ['margin-top'],
-                        }}
-                      >
-                        <WorkCardAPI item={item} />
-                      </Space>
-                    </GridCell>
-                  );
-                })}
-              </Grid>
+              <WorksCards works={works.results} />
             ) : (
               <ContaineredLayout gridSizes={gridSize12()}>
                 <p>There are no results.</p>
               </ContaineredLayout>
             )}
           </Space>
-        </ContaineredLayout>
+        </Container>
 
         {works.totalPages > 1 && (
           <ContaineredLayout gridSizes={gridSize12()}>
