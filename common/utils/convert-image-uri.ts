@@ -2,6 +2,7 @@ import urlTemplate from 'url-template';
 
 const prismicBaseUri = 'https://images.prismic.io/wellcomecollection';
 const iiifImageUri = 'https://iiif.wellcomecollection.org/image/';
+const iiifThumbsUri = 'https://iiif.wellcomecollection.org/thumbs/';
 
 function determineSrc(url: string): string {
   if (url.startsWith(prismicBaseUri)) {
@@ -103,8 +104,14 @@ export function convertIiifImageUri(
   requiredSize: number | 'full',
   sizeByHeight?: boolean
 ): string {
-  if (determineIfGif(originalUri) || !originalUri.startsWith(iiifImageUri)) {
+  const isNotIiif =
+    !originalUri.startsWith(iiifImageUri) &&
+    !originalUri.startsWith(iiifThumbsUri);
+
+  if (determineIfGif(originalUri) || isNotIiif) {
     return originalUri;
+  } else if (originalUri.startsWith(iiifThumbsUri)) {
+    return originalUri.replace('!200,200', `!${requiredSize},${requiredSize}`);
   } else {
     const imageIdentifier = originalUri.split(iiifImageUri)[1].split('/', 2)[0];
 

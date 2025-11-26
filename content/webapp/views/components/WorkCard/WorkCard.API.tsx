@@ -105,9 +105,9 @@ const WorkCard: FunctionComponent<Props> = ({ item }) => {
         : [],
     image: {
       url: item.thumbnail
-        ? convertIiifImageUri(item.thumbnail.url, 400) // TODO only works for certain URL shapes
+        ? convertIiifImageUri(item.thumbnail.url, 400)
         : undefined,
-    }, // TODO
+    },
     partOf: item.archiveLabels?.partOf,
     contributor: item.primaryContributorLabel,
     date: item.productionDates[0],
