@@ -107,7 +107,8 @@ export function convertIiifImageUri(
     return originalUri;
   } else {
     const imageIdentifier = originalUri.split(iiifImageUri)[1].split('/', 2)[0];
-
+    // TODO
+    console.log('hi copilot');
     const size = sizeByHeight ? `,${requiredSize}` : `${requiredSize},`;
     const params = {
       size: requiredSize === 'full' ? 'full' : `${size}`,
