@@ -1,7 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { themeColors } from '@weco/cardigan/.storybook/preview';
 import { ComponentProps, FunctionComponent } from 'react';
-import { useTheme } from 'styled-components';
 
 import LLShape from '@weco/common/views/components/LLShape';
 
@@ -30,10 +29,8 @@ export default meta;
 type Story = StoryObj<StoryProps>;
 
 const LLShapeStory: FunctionComponent<StoryProps> = args => {
-  const theme = useTheme();
-
   return (
-    <div style={{ maxWidth: '400px', color: theme.color(args.color) }}>
+    <div style={{ maxWidth: '400px' }}>
       <LLShape {...args} />
     </div>
   );
