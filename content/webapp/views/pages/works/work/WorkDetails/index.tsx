@@ -286,7 +286,7 @@ const WorkDetails: FunctionComponent<Props> = ({
             title="Contributors"
             tags={work.contributors.map(contributor => {
               const textParts = [
-                contributor.agent.label,
+                contributor.agent.standardLabel,
                 ...contributor.roles.map(role => role.label),
               ];
               /*
@@ -303,7 +303,9 @@ const WorkDetails: FunctionComponent<Props> = ({
                 : {
                     textParts,
                     linkAttributes: toSearchWorksLink({
-                      'contributors.agent.label': [contributor.agent.label],
+                      'contributors.agent.label': [
+                        contributor.agent.standardLabel,
+                      ],
                     }),
                   };
             })}
@@ -363,7 +365,7 @@ const WorkDetails: FunctionComponent<Props> = ({
             title="Type/Technique"
             tags={work.genres.map(genre => {
               return {
-                textParts: genre.concepts.map(c => c.label),
+                textParts: genre.concepts.map(c => c.standardLabel),
 
                 linkAttributes: toConceptLink({
                   conceptId: genre.concepts[0].id as string,
@@ -397,15 +399,15 @@ const WorkDetails: FunctionComponent<Props> = ({
               */
               return s.id
                 ? {
-                    textParts: [s.concepts[0].label].concat(
-                      s.concepts.slice(1).map(c => c.label)
+                    textParts: [s.concepts[0].standardLabel].concat(
+                      s.concepts.slice(1).map(c => c.standardLabel)
                     ),
                     linkAttributes: toConceptLink({ conceptId: s.id }),
                   }
                 : {
-                    textParts: s.concepts.map(c => c.label),
+                    textParts: s.concepts.map(c => c.standardLabel),
                     linkAttributes: toSearchWorksLink({
-                      'subjects.label': [s.label],
+                      'subjects.label': [s.standardLabel],
                     }),
                   };
             })}

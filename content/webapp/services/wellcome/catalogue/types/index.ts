@@ -107,6 +107,7 @@ type Subject = {
   id?: string;
   identifiers?: Identifier[];
   label: string;
+  standardLabel: string;
   concepts: Concept[];
   type: 'Subject';
 };
@@ -145,6 +146,7 @@ export type RelatedConcept = {
 export type Concept = {
   id: string;
   label: string;
+  standardLabel: string;
   type: ConceptType;
   displayImages: DigitalLocation[];
   identifiers?: Identifier[];

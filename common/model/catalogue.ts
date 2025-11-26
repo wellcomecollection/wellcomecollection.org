@@ -16,6 +16,7 @@ export type Agent = {
   id?: string;
   identifiers?: Identifier[];
   label: string;
+  standardLabel: string;
   type: AgentType;
 };
 
