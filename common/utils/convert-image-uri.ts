@@ -109,7 +109,11 @@ export function convertIiifImageUri(
     const imageIdentifier = originalUri.split(iiifImageUri)[1].split('/', 2)[0];
     // TODO
     console.log('hi copilot');
-    const size = sizeByHeight ? `,${requiredSize}` : `${requiredSize},`;
+
+    // TODO
+    const size2 = requiredSize;
+
+    const size = sizeByHeight ? `,${requiredSize}` : `${size2},`;
     const params = {
       size: requiredSize === 'full' ? 'full' : `${size}`,
       format: determineFinalFormat(originalUri),
