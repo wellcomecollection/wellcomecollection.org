@@ -115,7 +115,7 @@ const StoriesGrid: FunctionComponent<Props> = ({
                 <ImageWrapper
                   $sizeMap={
                     isCompact
-                      ? { s: [3, 1], m: [3, 1], l: [3, 1], xl: [3, 1] }
+                      ? { s: [3, 1], m: [2, 1], l: [2, 1], xl: [2, 1] }
                       : { s: [12], m: [6], l: [4], xl: [4] }
                   }
                 >
@@ -144,7 +144,7 @@ const StoriesGrid: FunctionComponent<Props> = ({
               <GridCell
                 $sizeMap={
                   isCompact
-                    ? { s: [9], m: [9], l: [9], xl: [8] }
+                    ? { s: [9], m: [8], l: [6], xl: [6] }
                     : { s: [12], m: [6], l: [8], xl: [8] }
                 }
               >
