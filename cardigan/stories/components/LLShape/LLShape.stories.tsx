@@ -19,6 +19,9 @@ const meta: Meta<StoryProps> = {
       control: 'select',
       options: themeColors.map(c => c.name),
     },
+    styles: {
+      table: { disable: true },
+    },
   },
 };
 
