@@ -103,11 +103,10 @@ const WorkCard: FunctionComponent<Props> = ({ item }) => {
       item.cardLabels?.length > 0 && !item.cardLabels[0].labelColor
         ? [{ text: item.cardLabels[0].text }]
         : [],
-    image: {
-      url: item.thumbnail
-        ? convertIiifImageUri(item.thumbnail.url, 400)
-        : undefined,
-    },
+    imageUrl: item.thumbnail
+      ? convertIiifImageUri(item.thumbnail.url, 400)
+      : undefined,
+
     partOf: item.archiveLabels?.partOf,
     contributor: item.primaryContributorLabel,
     date: item.productionDates[0],
@@ -116,11 +115,11 @@ const WorkCard: FunctionComponent<Props> = ({ item }) => {
   return (
     <LinkSpace $url={transformedWork.url} data-component="work-card">
       <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-        <Shim $hasImage={!!transformedWork.image.url}>
-          <PopoutCardImageContainer $hasImage={!!transformedWork.image.url}>
-            {transformedWork.image.url ? (
+        <Shim $hasImage={!!transformedWork.imageUrl}>
+          <PopoutCardImageContainer $hasImage={!!transformedWork.imageUrl}>
+            {transformedWork.imageUrl ? (
               <PopoutCardImage>
-                <img alt="" src={transformedWork.image.url} />
+                <img alt="" src={transformedWork.imageUrl} />
               </PopoutCardImage>
             ) : (
               <NotAvailable>Preview not available</NotAvailable>
