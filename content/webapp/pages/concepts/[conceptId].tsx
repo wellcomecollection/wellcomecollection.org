@@ -323,7 +323,10 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   return {
     props: serialiseProps<Props>({
-      conceptResponse,
+      conceptResponse: {
+        ...conceptResponse,
+        displayLabel: conceptResponse.displayLabel || conceptResponse.label,
+      },
       sectionsData,
       apiToolbarLinks,
       serverData,
