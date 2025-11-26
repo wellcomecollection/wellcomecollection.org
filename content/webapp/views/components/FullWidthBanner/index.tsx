@@ -93,6 +93,7 @@ const ImageShapeWrapper = styled.div.attrs({ 'aria-hidden': 'true' })<{
       props.$isDefaultVariant ? 'accent.salmon' : 'accent.turquoise'
     )};
   display: flex;
+  width: 100%;
   height: 150%;
   transform: translate(
       ${props => (props.$isDefaultVariant ? '40%, -34%' : '45%, -34%')}
@@ -108,7 +109,7 @@ const ImageShapeWrapper = styled.div.attrs({ 'aria-hidden': 'true' })<{
 
   ${props =>
     dsMedia('large')(`
-      transform: translate(${props.$isDefaultVariant ? '10%, -6%' : '28%, -28%'})
+      transform: translate(${props.$isDefaultVariant ? '10%, -4%' : '20%, -31%'})
         rotate(${props.$isDefaultVariant ? '6deg' : '-16deg'});
     `)}
 `;
