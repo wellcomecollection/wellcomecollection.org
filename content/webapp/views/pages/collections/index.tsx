@@ -91,7 +91,8 @@ const CollectionsLandingPage: NextPage<Props> = ({
   newOnlineDocuments,
 }) => {
   const { data: collectionStats } = useCollectionStats();
-  const { browseCollections, newOnlineListingPage } = useToggles();
+  const { browseCollections, newOnlineListingPage, newOnlineInCLP } =
+    useToggles();
   const theme = useTheme();
 
   return (
@@ -163,7 +164,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
         </Space>
       )}
 
-      {newOnlineListingPage ? (
+      {newOnlineListingPage && newOnlineInCLP ? (
         newOnlineDocuments.length > 0 && (
           <Space
             $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
@@ -186,6 +187,13 @@ const CollectionsLandingPage: NextPage<Props> = ({
           <SectionHeader title="New online" gridSize={gridSize12()} />
           <ContaineredLayout gridSizes={gridSize12()}>
             <NewOnline />
+
+            {newOnlineListingPage && (
+              <MoreLink
+                url="/collections/new-online"
+                name="View all new works"
+              />
+            )}
           </ContaineredLayout>
         </Space>
       )}
