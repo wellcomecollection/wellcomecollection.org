@@ -42,11 +42,10 @@ const WorkContainer = styled.div`
 
 type Props = {
   works: WorkBasic[];
-  isSingle?: boolean;
 };
 
-const WorksCards: FunctionComponent<Props> = ({ works, isSingle }) => {
-  if (isSingle) return <WorkCardAPI item={works[0]} />;
+const WorkCards: FunctionComponent<Props> = ({ works }) => {
+  if (works.length === 1) return <WorkCardAPI item={works[0]} />;
 
   return (
     <Works>
@@ -59,4 +58,4 @@ const WorksCards: FunctionComponent<Props> = ({ works, isSingle }) => {
   );
 };
 
-export default WorksCards;
+export default WorkCards;

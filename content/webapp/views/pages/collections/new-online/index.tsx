@@ -23,7 +23,7 @@ import {
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
 import Pagination from '@weco/content/views/components/Pagination';
-import WorksCards from '@weco/content/views/components/WorkCard/WorksCards';
+import WorkCards from '@weco/content/views/components/WorkCard/WorkCards';
 
 export type Props = {
   works: WellcomeResultList<WorkBasic, WorkAggregations>;
@@ -87,7 +87,7 @@ const NewOnlinePage: NextPage<Props> = ({ works, apiToolbarLinks }) => {
         <Container>
           <Space $v={{ size: 'l', properties: ['margin-top'] }}>
             {works.results.length > 0 ? (
-              <WorksCards works={works.results} />
+              <WorkCards works={works.results} />
             ) : (
               <ContaineredLayout gridSizes={gridSize12()}>
                 <p>There are no results.</p>
