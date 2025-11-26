@@ -4,11 +4,8 @@ import { ComponentProps, FunctionComponent } from 'react';
 import { useTheme } from 'styled-components';
 
 import LLShape from '@weco/common/views/components/LLShape';
-import { PaletteColor } from '@weco/common/views/themes/config';
 
-type StoryProps = ComponentProps<typeof LLShape> & {
-  color: PaletteColor;
-};
+type StoryProps = ComponentProps<typeof LLShape>;
 
 const meta: Meta<StoryProps> = {
   title: 'Components/LLShape',
