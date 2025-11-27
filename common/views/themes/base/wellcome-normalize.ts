@@ -30,11 +30,12 @@ export const wellcomeNormalize = css`
   * {
     &:focus-visible,
     &:focus {
-      box-shadow: ${props => props.theme.focusBoxShadow};
-      outline: ${props => props.theme.highContrastOutlineFix};
+      outline: 10px double ${props => props.theme.color('black')};
+      box-shadow: 0 0 0 10px ${props => props.theme.color('white')};
     }
 
     :focus:not(:focus-visible) {
+      outline: none;
       box-shadow: none;
     }
   }
