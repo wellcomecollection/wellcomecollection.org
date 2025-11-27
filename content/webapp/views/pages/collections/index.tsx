@@ -103,7 +103,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
 
       <ContaineredLayout gridSizes={gridSize12()}>
         <DecorativeEdgeContainer>
-          <DecorativeEdge variant="w" shape="edge-1" color="accent.lightBlue" />
+          <DecorativeEdge variant="w" color="accent.lightBlue" />
         </DecorativeEdgeContainer>
       </ContaineredLayout>
 
