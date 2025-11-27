@@ -119,10 +119,11 @@ const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
             <Space $v={{ size: 'l', properties: ['margin-top'] }}>
               <WorksSearchResults works={activePanel.works!.pageResults} />
             </Space>
+
             {labelBasedCount > activePanel.works.pageResults.length && (
               <Space $v={{ size: 'l', properties: ['padding-top'] }}>
                 <MoreLink
-                  ariaLabel={`View all works for ${concept.label}`}
+                  ariaLabel={`View all works for ${concept.displayLabel}`}
                   name="View all"
                   url={getAllWorksLink(selectedTab, concept)}
                   colors={theme.buttonColors.greenGreenWhite}
