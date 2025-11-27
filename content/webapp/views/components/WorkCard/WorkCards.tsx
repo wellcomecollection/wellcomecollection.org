@@ -45,6 +45,7 @@ type Props = {
 };
 
 const WorkCards: FunctionComponent<Props> = ({ works }) => {
+  if (works.length === 0) return null;
   if (works.length === 1) return <WorkCardAPI item={works[0]} />;
 
   return (
