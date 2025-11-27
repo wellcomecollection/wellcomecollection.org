@@ -46,7 +46,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
   return (
     <NextLink
       {...toWorkLink({ id: work.id })}
-      style={{ textDecoration: 'none' }}
+      style={{ textDecoration: 'none', display: 'inline-block' }}
     >
       <Wrapper
         data-gtm-trigger="works_search_result"
