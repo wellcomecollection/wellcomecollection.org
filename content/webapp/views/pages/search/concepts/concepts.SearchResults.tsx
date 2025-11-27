@@ -44,9 +44,7 @@ const ConceptSearchResult: FunctionComponent<{
               />
             </Space>
 
-            <ConceptTitleHeading>
-              {concept.displayLabel || concept.label}
-            </ConceptTitleHeading>
+            <ConceptTitleHeading>{concept.displayLabel}</ConceptTitleHeading>
 
             {concept.description && (
               <ConceptDescription>
