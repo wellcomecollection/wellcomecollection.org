@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import { classNames, font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
+import { focusStyle } from '@weco/common/views/themes/base/wellcome-normalize';
 
 export const Wrapper = styled.div`
   ${props =>
@@ -28,7 +29,7 @@ export const TabsContainer = styled.div`
   list-style: none;
   padding: 0;
   margin: 0;
-  overflow-x: auto;
+
   padding-left: ${props =>
     props.theme.formatContainerPadding(props.theme.containerPadding.small)};
 
@@ -75,10 +76,7 @@ export const Tab = styled.div.attrs<NavItemProps>(props => ({
     /* For Tab.Anchor */
     &:focus-visible {
       display: block;
-      box-shadow:
-        0 0 0 3px ${props => props.theme.color('focus.yellow')} inset,
-        0 0 0 6px ${props => props.theme.color('black')} inset;
-      outline: 0;
+      ${focusStyle};
     }
   }
 `;
@@ -86,10 +84,7 @@ export const Tab = styled.div.attrs<NavItemProps>(props => ({
 export const TabButton = styled.div`
   /* For Tab.Tab */
   &:focus-visible {
-    box-shadow:
-      0 0 0 3px ${props => props.theme.color('focus.yellow')} inset,
-      0 0 0 6px ${props => props.theme.color('black')} inset;
-    outline: 0;
+    ${focusStyle};
   }
 `;
 
@@ -138,6 +133,10 @@ export const NavItemInner = styled(Space).attrs<{ $selected: boolean }>(
   &.selected::after {
     width: 100%;
     background-color: transparent;
+
+    a:focus-within & {
+      background-color: ${props => props.theme.color('yellow')};
+    }
   }
 `;
 
