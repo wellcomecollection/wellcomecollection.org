@@ -7,6 +7,7 @@ import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import AnimatedUnderlineCSS, {
   AnimatedUnderlineProps,
 } from '@weco/common/views/components/styled/AnimatedUnderline';
+import { focusStyle } from '@weco/common/views/themes/base/wellcome-normalize';
 
 type SelectableTagsProps = {
   tags: {
@@ -58,8 +59,7 @@ const InputField = styled.input`
   width: 0;
 
   &:focus-visible ~ ${StyledInput}, &:focus ~ ${StyledInput} {
-    box-shadow: ${props => props.theme.focusBoxShadow};
-    outline: ${props => props.theme.highContrastOutlineFix};
+    ${focusStyle};
   }
 
   &:focus ~ ${StyledInput}:not(:focus-visible ~ ${StyledInput}),

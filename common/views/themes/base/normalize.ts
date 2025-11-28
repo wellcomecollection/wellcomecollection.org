@@ -108,15 +108,6 @@ a {
   -webkit-text-decoration-skip: objects; /* 2 */
 }
 
-/**
- * Remove the outline on focused links when they are also active or hovered
- * in all browsers (opinionated).
- */
-
-a:active,
-a:hover {
-  outline-width: 0;
-}
 
 /**
  * 1. Remove the bottom border in Firefox 39-.

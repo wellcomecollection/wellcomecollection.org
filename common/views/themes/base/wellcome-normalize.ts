@@ -1,5 +1,10 @@
 import { css } from 'styled-components';
 
+export const focusStyle = css`
+  outline: 5px double ${props => props.theme.color('black')};
+  box-shadow: 0 0 0 5px ${props => props.theme.color('white')};
+`;
+
 export const wellcomeNormalize = css`
   input,
   button {
@@ -30,11 +35,11 @@ export const wellcomeNormalize = css`
   * {
     &:focus-visible,
     &:focus {
-      box-shadow: ${props => props.theme.focusBoxShadow};
-      outline: ${props => props.theme.highContrastOutlineFix};
+      ${focusStyle};
     }
 
     :focus:not(:focus-visible) {
+      outline: none;
       box-shadow: none;
     }
   }

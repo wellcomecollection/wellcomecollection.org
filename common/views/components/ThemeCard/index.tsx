@@ -137,7 +137,11 @@ const ThemeCard: FunctionComponent<ThemeCardProps> = ({
   });
 
   return (
-    <Link {...linkProps} {...dataGtmPropsToAttributes(dataGtmProps)}>
+    <Link
+      style={{ display: 'block' }}
+      {...linkProps}
+      {...dataGtmPropsToAttributes(dataGtmProps)}
+    >
       <CardWrapper data-component="theme-promo">
         <CompositeGrid $isSingleImage={isSingleImage}>
           {slots.map((slot, index) => (
