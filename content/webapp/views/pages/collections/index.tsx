@@ -19,10 +19,15 @@ import Space from '@weco/common/views/components/styled/Space';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { components } from '@weco/common/views/slices';
 import { useCollectionStats } from '@weco/content/hooks/useCollectionStats';
-import type { Concept } from '@weco/content/services/wellcome/catalogue/types';
+import type {
+  Concept,
+  WorkBasic,
+} from '@weco/content/services/wellcome/catalogue/types';
 import { MultiContent } from '@weco/content/types/multi-content';
 import CardGrid from '@weco/content/views/components/CardGrid';
+import MoreLink from '@weco/content/views/components/MoreLink';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
+import WorkCards from '@weco/content/views/components/WorkCard/WorkCards';
 import BrowseByThemes from '@weco/content/views/pages/collections/collections.BrowseByThemes';
 import NewOnline from '@weco/content/views/pages/collections/collections.NewOnline';
 import WorkTypesList from '@weco/content/views/pages/collections/collections.WorkTypesList';
@@ -73,6 +78,7 @@ export type Props = {
   insideOurCollectionsCards: MultiContent[];
   featuredConcepts: Concept[];
   fullWidthBanners?: prismic.Slice<'fullWidthBanner'>[];
+  newOnlineDocuments: WorkBasic[];
 };
 
 const CollectionsLandingPage: NextPage<Props> = ({
@@ -82,15 +88,19 @@ const CollectionsLandingPage: NextPage<Props> = ({
   insideOurCollectionsCards,
   featuredConcepts,
   fullWidthBanners,
+  newOnlineDocuments,
 }) => {
   const { data: collectionStats } = useCollectionStats();
-  const toggles = useToggles();
+  const { browseCollections, newOnlineListingPage, newOnlineInCLP } =
+    useToggles();
   const theme = useTheme();
 
   return (
     <PageLayout
       title="Collections"
-      description={pageMeta.description || pageDescriptions.collections}
+      description={
+        pageMeta.description || pageDescriptions.collections.collections
+      }
       url={{ pathname: '/collections' }}
       jsonLd={[]}
       openGraphType="website"
@@ -138,7 +148,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
         </Space>
       </MainBackground>
 
-      {toggles.browseCollections && (
+      {browseCollections && (
         <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
           <CardGrid
             items={[]}
@@ -154,12 +164,39 @@ const CollectionsLandingPage: NextPage<Props> = ({
         </Space>
       )}
 
-      <Space $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}>
-        <SectionHeader title="New online" gridSize={gridSize12()} />
-        <ContaineredLayout gridSizes={gridSize12()}>
-          <NewOnline />
-        </ContaineredLayout>
-      </Space>
+      {newOnlineListingPage && newOnlineInCLP ? (
+        newOnlineDocuments.length > 0 && (
+          <Space
+            $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
+          >
+            <SectionHeader title="New online" gridSize={gridSize12()} />
+            <ContaineredLayout gridSizes={gridSize12()}>
+              <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
+                <WorkCards works={newOnlineDocuments} />
+              </Space>
+
+              <MoreLink
+                url="/collections/new-online"
+                name="View all new works"
+              />
+            </ContaineredLayout>
+          </Space>
+        )
+      ) : (
+        <Space $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}>
+          <SectionHeader title="New online" gridSize={gridSize12()} />
+          <ContaineredLayout gridSizes={gridSize12()}>
+            <NewOnline />
+
+            {newOnlineListingPage && (
+              <MoreLink
+                url="/collections/new-online"
+                name="View all new works"
+              />
+            )}
+          </ContaineredLayout>
+        </Space>
+      )}
 
       {fullWidthBanners?.[0] && (
         <Space $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}>

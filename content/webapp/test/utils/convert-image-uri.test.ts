@@ -107,13 +107,13 @@ describe('convertImageUri for IIIF images', () => {
     );
   });
 
-  it('ignores a thumbnail', () => {
+  it('also transforms thumbnails', () => {
     const result = convertIiifImageUri(
       'https://iiif.wellcomecollection.org/thumbs/b30598977_0001.jp2/full/!200,200/0/default.jpg',
-      'full'
+      300
     );
     expect(result).toEqual(
-      'https://iiif.wellcomecollection.org/thumbs/b30598977_0001.jp2/full/!200,200/0/default.jpg'
+      'https://iiif.wellcomecollection.org/thumbs/b30598977_0001.jp2/full/!300,300/0/default.jpg'
     );
   });
 });
