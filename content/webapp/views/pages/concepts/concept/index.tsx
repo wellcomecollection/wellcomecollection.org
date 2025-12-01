@@ -20,7 +20,7 @@ import InPageNavigation from '@weco/content/views/components/InPageNavigation';
 import CataloguePageLayout from '@weco/content/views/layouts/CataloguePageLayout';
 
 import Collaborators from './concept.Collaborators';
-import Header from './concept.Header';
+import ThemeHeader from './concept.Header';
 import { ThemePageSectionsData, themeTabOrder } from './concept.helpers';
 import ImagesResults from './concept.ImagesResults';
 import RelatedConceptsGroup from './concept.RelatedConceptsGroup';
@@ -120,8 +120,8 @@ const ConceptPage: NextPage<Props> = ({
   return (
     <>
       <CataloguePageLayout
-        title={conceptResponse.label}
-        description={pageDescriptionConcepts(conceptResponse.label)}
+        title={conceptResponse.displayLabel}
+        description={pageDescriptionConcepts(conceptResponse.displayLabel)}
         url={{ pathname: `/concepts/${conceptResponse.id}`, query: {} }}
         openGraphType="website"
         siteSection="collections"
@@ -130,7 +130,7 @@ const ConceptPage: NextPage<Props> = ({
         apiToolbarLinks={apiToolbarLinks}
         clipOverflowX={true}
       >
-        <Header concept={conceptResponse} />
+        <ThemeHeader concept={conceptResponse} />
 
         <>
           <DecorativeEdge

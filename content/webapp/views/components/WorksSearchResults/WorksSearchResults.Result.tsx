@@ -1,7 +1,6 @@
 import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
 
-import { DigitalLocation } from '@weco/common/model/catalogue';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
@@ -25,13 +24,6 @@ type Props = {
   resultPosition: number;
 };
 
-// TODO: remove, hack to handle the fact that we are pulling through PDF thumbnails.
-// These will be removed from the API at some stage.
-function isPdfThumbnail(thumbnail: DigitalLocation): boolean {
-  // e.g. https://dlcs.io/iiif-img/wellcome/5/b28820769_WG_2006_PAAG-implementing-persistent-identifiers_EN.pdf/full/!200,200/0/default.jpg
-  return Boolean(thumbnail.url.match('.pdf/full'));
-}
-
 const WorkSearchResult: FunctionComponent<Props> = ({
   work,
   resultPosition,
@@ -53,7 +45,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
         data-gtm-position-in-list={resultPosition + 1}
       >
         <Container>
-          {work.thumbnail && !isPdfThumbnail(work.thumbnail) && (
+          {work.thumbnail && (
             <Preview>
               <PreviewImage
                 alt=""

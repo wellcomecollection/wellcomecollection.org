@@ -104,6 +104,7 @@ export const workFixture: Work = {
         {
           id: 'concept-1',
           label: 'AIDS (Disease)',
+          displayLabel: 'AIDS (Disease)',
           type: 'Concept',
           displayImages: [],
         },
@@ -128,6 +129,7 @@ export const workFixture: Work = {
         {
           id: 'concept-2',
           label: 'Condoms.',
+          displayLabel: 'Condoms.',
           type: 'Concept',
           displayImages: [],
         },
@@ -152,6 +154,7 @@ export const workFixture: Work = {
         {
           id: 'concept-3',
           label: 'Sun.',
+          displayLabel: 'Sun.',
           type: 'Place',
           displayImages: [],
         },
@@ -176,6 +179,7 @@ export const workFixture: Work = {
         {
           id: 'concept-4',
           label: 'Germany.',
+          displayLabel: 'Germany.',
           type: 'Place',
           displayImages: [],
         },
@@ -190,6 +194,7 @@ export const workFixture: Work = {
         {
           id: 'concept-5',
           label: 'Posters.',
+          displayLabel: 'Posters.',
           type: 'Concept',
           displayImages: [],
         },
@@ -202,6 +207,7 @@ export const workFixture: Work = {
         {
           id: 'concept-6',
           label: 'Lithographs.',
+          displayLabel: 'Lithographs.',
           type: 'Concept',
           displayImages: [],
         },

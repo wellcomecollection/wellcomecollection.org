@@ -10,6 +10,7 @@ import {
   ContaineredLayout,
   gridSize12,
 } from '@weco/common/views/components/Layout';
+import LLShape from '@weco/common/views/components/LLShape';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import AnimatedUnderlineCSS, {
@@ -17,20 +18,24 @@ import AnimatedUnderlineCSS, {
 } from '@weco/common/views/components/styled/AnimatedUnderline';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
-import WShape from '@weco/common/views/components/WShape';
+import {
+  createMedia,
+  designSystemSizes,
+} from '@weco/common/views/themes/config';
 import MoreLink from '@weco/content/views/components/MoreLink';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
 
-const customBreakpoint = '768px';
+// use design system media helper for consistent breakpoints
+const dsMedia = createMedia(designSystemSizes);
 
 const ContentContainer = styled(Space)`
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  @media (min-width: ${customBreakpoint}) {
+  ${dsMedia('medium')(`
     flex-direction: row;
-  }
+  `)}
 `;
 
 const CopySection = styled.div`
@@ -39,9 +44,9 @@ const CopySection = styled.div`
   order: 1;
   margin-right: 0;
 
-  @media (min-width: ${customBreakpoint}) {
+  ${dsMedia('medium')(`
     margin-right: 2rem;
-  }
+  `)}
 `;
 
 const ImageSection = styled.div`
@@ -51,10 +56,10 @@ const ImageSection = styled.div`
   margin-bottom: 2rem;
   position: relative;
 
-  @media (min-width: ${customBreakpoint}) {
+  ${dsMedia('medium')(`
     order: 2;
     margin-bottom: 0;
-  }
+  `)}
 `;
 
 const SupportText = styled(Space).attrs({
@@ -78,7 +83,7 @@ const MainBackground = styled.div<{ $isDefaultVariant: boolean }>`
     )};
 `;
 
-const ImageWShapeWrapper = styled.div.attrs({ 'aria-hidden': 'true' })<{
+const ImageShapeWrapper = styled.div.attrs({ 'aria-hidden': 'true' })<{
   $isDefaultVariant: boolean;
 }>`
   position: absolute;
@@ -88,15 +93,25 @@ const ImageWShapeWrapper = styled.div.attrs({ 'aria-hidden': 'true' })<{
       props.$isDefaultVariant ? 'accent.salmon' : 'accent.turquoise'
     )};
   display: flex;
-  width: 180%;
-  height: 180%;
-  transform: translate(-5%, -37%);
+  width: 100%;
+  height: 150%;
+  transform: translate(
+      ${props => (props.$isDefaultVariant ? '40%, -34%' : '45%, -34%')}
+    )
+    rotate(${props => (props.$isDefaultVariant ? '6deg' : '-16deg')});
 
-  @media (min-width: ${customBreakpoint}) {
-    height: 230%;
-    max-height: 80cqh;
-    transform: translate(-5%, calc(7vw - 34%));
-  }
+  ${props =>
+    dsMedia('medium')(`
+      height: 160%;
+      transform: translate(${props.$isDefaultVariant ? '18%, -16%' : '20%, -19%'})
+        rotate(${props.$isDefaultVariant ? '6deg' : '-16deg'});
+    `)}
+
+  ${props =>
+    dsMedia('large')(`
+      transform: translate(${props.$isDefaultVariant ? '10%, -4%' : '20%, -31%'})
+        rotate(${props.$isDefaultVariant ? '6deg' : '-16deg'});
+    `)}
 `;
 
 const StyledLink = styled(NextLink)<AnimatedUnderlineProps>`
@@ -207,12 +222,11 @@ const FullWidthBanner = (props: Props) => {
                 </PlainList>
               )}
             </CopySection>
-
             {props.image && (
               <ImageSection>
-                <ImageWShapeWrapper $isDefaultVariant={isDefaultVariant}>
-                  <WShape variant={isDefaultVariant ? 'full-1' : 'full-2'} />
-                </ImageWShapeWrapper>
+                <ImageShapeWrapper $isDefaultVariant={isDefaultVariant}>
+                  <LLShape />
+                </ImageShapeWrapper>
                 <PrismicImage
                   image={{ ...props.image, alt: '' }}
                   quality="high"

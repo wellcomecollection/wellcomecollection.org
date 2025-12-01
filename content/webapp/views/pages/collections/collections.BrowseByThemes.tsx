@@ -107,11 +107,11 @@ const Theme: FunctionComponent<{
 }> = ({ concept, categoryLabel, categoryPosition, positionInList }) => {
   const images = useConceptImageUrls(concept);
   const linkProps = toConceptLink({ conceptId: concept.id });
-  const title = concept.displayLabel || concept.label;
-  return linkProps && title ? (
+
+  return linkProps && concept.displayLabel ? (
     <ThemeCard
       images={images}
-      title={title}
+      title={concept.displayLabel}
       description={concept.description?.text}
       linkProps={linkProps}
       dataGtmProps={{
