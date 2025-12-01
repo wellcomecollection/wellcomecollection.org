@@ -49,7 +49,8 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
         {...dataGtmPropsToAttributes(dataGtmProps)}
         aria-controls={ariaControls}
         aria-expanded={ariaExpanded}
-        href={getHref(link)}
+        href={isNextLink ? undefined : getHref(link)}
+        $as={isNextLink ? 'span' : undefined}
         $ariaLabel={ariaLabel}
         $size={size}
         $colors={colors}
