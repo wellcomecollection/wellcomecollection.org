@@ -86,11 +86,11 @@ export function makeConceptConfig(concept: Concept): ConceptConfig {
         },
         imagesBy: {
           display: true,
-          label: `Images by ${concept.displayLabel || concept.label}`,
+          label: `Images by ${concept.displayLabel}`,
         },
         imagesAbout: {
           display: true,
-          label: `Images featuring ${concept.displayLabel || concept.label}`,
+          label: `Images featuring ${concept.displayLabel}`,
         },
         imagesIn: {
           display: false,
@@ -133,11 +133,11 @@ export function makeConceptConfig(concept: Concept): ConceptConfig {
         },
         imagesBy: {
           display: true,
-          label: `Images by ${concept.displayLabel || concept.label}`,
+          label: `Images by ${concept.displayLabel}`,
         },
         imagesAbout: {
           display: true,
-          label: `Images referencing ${concept.displayLabel || concept.label}`,
+          label: `Images referencing ${concept.displayLabel}`,
         },
         imagesIn: {
           display: false,
@@ -179,11 +179,11 @@ export function makeConceptConfig(concept: Concept): ConceptConfig {
         },
         imagesBy: {
           display: true,
-          label: `Images produced by ${concept.displayLabel || concept.label}`,
+          label: `Images produced by ${concept.displayLabel}`,
         },
         imagesAbout: {
           display: true,
-          label: `Images referencing ${concept.displayLabel || concept.label}`,
+          label: `Images referencing ${concept.displayLabel}`,
         },
         imagesIn: {
           display: false,
@@ -224,11 +224,11 @@ export function makeConceptConfig(concept: Concept): ConceptConfig {
         },
         imagesBy: {
           display: true,
-          label: `Images produced by ${concept.displayLabel || concept.label}`,
+          label: `Images produced by ${concept.displayLabel}`,
         },
         imagesAbout: {
           display: true,
-          label: `Images referencing ${concept.displayLabel || concept.label}`,
+          label: `Images referencing ${concept.displayLabel}`,
         },
         imagesIn: {
           display: false,
@@ -274,7 +274,7 @@ export function makeConceptConfig(concept: Concept): ConceptConfig {
         },
         imagesAbout: {
           display: true,
-          label: `Images about ${concept.displayLabel || concept.label}`,
+          label: `Images about ${concept.displayLabel}`,
         },
         worksBy: {
           display: false,
@@ -288,7 +288,7 @@ export function makeConceptConfig(concept: Concept): ConceptConfig {
         },
         collaborators: {
           display: true,
-          label: `Top contributors to the collections in ${concept.displayLabel || concept.label}`,
+          label: `Top contributors to the collections in ${concept.displayLabel}`,
         },
         relatedTopics: {
           display: true,
@@ -315,11 +315,11 @@ export function makeConceptConfig(concept: Concept): ConceptConfig {
         },
         imagesAbout: {
           display: true,
-          label: `Images about ${concept.displayLabel || concept.label}`,
+          label: `Images about ${concept.displayLabel}`,
         },
         imagesIn: {
           display: true,
-          label: `Images of ${concept.displayLabel || concept.label}`,
+          label: `Images of ${concept.displayLabel}`,
         },
         worksBy: {
           display: false,
@@ -362,7 +362,7 @@ export function makeConceptConfig(concept: Concept): ConceptConfig {
         },
         imagesAbout: {
           display: true,
-          label: `Images referencing ${concept.displayLabel || concept.label}`,
+          label: `Images referencing ${concept.displayLabel}`,
         },
         imagesIn: {
           display: false,
