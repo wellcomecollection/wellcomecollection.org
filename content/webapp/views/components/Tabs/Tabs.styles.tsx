@@ -29,6 +29,13 @@ export const TabsContainer = styled.div`
   list-style: none;
   padding: 0;
   margin: 0;
+  overflow-x: auto;
+
+  /* Add vertical padding to prevent focus outline clipping */
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  margin-top: -0.5rem;
+  margin-bottom: -0.5rem;
 
   padding-left: ${props =>
     props.theme.formatContainerPadding(props.theme.containerPadding.small)};
