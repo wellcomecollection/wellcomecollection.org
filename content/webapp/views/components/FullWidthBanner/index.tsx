@@ -102,6 +102,7 @@ const ImageWShapeWrapper = styled.div.attrs({ 'aria-hidden': 'true' })<{
 const StyledLink = styled(NextLink)<AnimatedUnderlineProps>`
   ${AnimatedUnderlineCSS}
   text-decoration: none;
+  display: inline-block;
 
   & > span {
     vertical-align: text-bottom;
