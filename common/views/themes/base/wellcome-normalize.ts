@@ -1,8 +1,8 @@
 import { css } from 'styled-components';
 
 export const focusStyle = css`
-  outline: 5px double ${props => props.theme.color('black')};
-  box-shadow: 0 0 0 5px ${props => props.theme.color('white')};
+  outline: 0.3rem double ${props => props.theme.color('black')};
+  box-shadow: 0 0 0 0.3rem ${props => props.theme.color('white')};
 `;
 
 export const wellcomeNormalize = css`
