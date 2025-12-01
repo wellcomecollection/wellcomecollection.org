@@ -37,8 +37,9 @@ export const ButtonIconWrapper = styled(Space).attrs({
 
 export const BasicButton = styled.button.attrs<{
   href?: string;
+  $as?: 'button' | 'a' | 'span';
 }>(props => ({
-  as: props.href ? 'a' : 'button',
+  as: props.$as || (props.href ? 'a' : 'button'),
 }))`
   align-items: center;
   display: inline-flex;
