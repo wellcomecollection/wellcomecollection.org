@@ -4,9 +4,7 @@ import {
   AuthAccessService2,
   AuthAccessService2_Active as AuthAccessService2Active,
   AuthAccessService2_External as AuthAccessService2External,
-  AuthAccessTokenService,
   AuthAccessTokenService2,
-  AuthExternalService,
   AuthProbeService2,
   Canvas,
   ChoiceBody,
@@ -26,7 +24,6 @@ import {
 import { isNotUndefined, isString } from '@weco/common/utils/type-guards';
 import {
   Auth,
-  AuthClickThroughServiceWithPossibleServiceArray,
   CustomContentResource,
   CustomSpecificationBehaviors,
   DownloadOption,
