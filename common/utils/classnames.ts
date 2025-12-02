@@ -1,5 +1,5 @@
 // int(r|m|sb|b) = Inter(regular|medium|semi-bold|bold); wb = Wellcome Bold; lr = Lettera Regular
-type FontFamily = 'intr' | 'intsb' | 'wb' | 'lr';
+type FontFamily = 'sans' | 'sans-bold' | 'brand' | 'mono';
 type FontSize = -2 | -1 | 0 | 1 | 2 | 4 | 5;
 
 export function font(family: FontFamily, size: FontSize): string {

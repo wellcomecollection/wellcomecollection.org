@@ -28,7 +28,7 @@ const Wrapper = styled(Space).attrs({
     size: 'm',
     properties: ['margin-top'],
   },
-  className: `${font('lr', -2)} caption`,
+  className: `${font('mono', -2)} caption`,
 })<{ $width?: number }>`
   ${props => (props.$width ? `width: ${props.$width}px;` : '')}
 

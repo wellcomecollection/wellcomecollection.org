@@ -127,7 +127,7 @@ const WorkDownloadPage: NextPage<Props> = ({ transformedManifest, work }) => {
             <Space
               as="h1"
               id="work-info"
-              className={font('intsb', 0)}
+              className={font('sans-bold', 0)}
               $v={{ size: 'l', properties: ['margin-top'] }}
             >
               {displayTitle}

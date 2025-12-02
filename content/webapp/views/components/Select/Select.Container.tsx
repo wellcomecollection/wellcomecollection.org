@@ -12,7 +12,7 @@ type StyledSelectProps = {
 };
 
 const StyledSelect = styled.div.attrs({
-  className: font('intr', -2),
+  className: font('sans', -2),
 })<StyledSelectProps>`
   position: relative;
   ${({ $isPill }) => $isPill && 'display: inline-block;'}
@@ -67,7 +67,7 @@ const SelectLabel = styled.label`
 const LabelContent = styled(Space).attrs<{ $hideLabel?: boolean }>(props => ({
   as: 'span',
   className: classNames({
-    [font('intsb', -1)]: true,
+    [font('sans-bold', -1)]: true,
     'visually-hidden': !!props.$hideLabel,
   }),
   $h: { size: 's', properties: ['margin-right'] },

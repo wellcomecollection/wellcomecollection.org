@@ -64,14 +64,14 @@ const DateWrapper = styled.div.attrs({
 `;
 
 const ThirdParty = styled.span.attrs({
-  className: font('intr', -1),
+  className: font('sans', -1),
 })`
   color: ${props => props.theme.color('neutral.700')};
   margin: 0;
 `;
 
 const EmailTeamCopy = styled(Space).attrs({
-  className: font('intsb', -1),
+  className: font('sans-bold', -1),
   $v: { size: 's', properties: ['margin-top'] },
 })`
   display: block;
@@ -336,7 +336,7 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
 
         {accessResourceLinks && accessResourceLinks.length > 0 && (
           <>
-            <h2 className={font('wb', 1)}>Event access content</h2>
+            <h2 className={font('brand', 1)}>Event access content</h2>
             <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
               <ResourcesList>
                 {accessResourceLinks.map((link, i) => {
@@ -348,9 +348,9 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
                         $borderColor="accent.turquoise"
                       >
                         {link.type === 'visual-story' && (
-                          <h3 className={font('intsb', 0)}>Visual story</h3>
+                          <h3 className={font('sans-bold', 0)}>Visual story</h3>
                         )}
-                        <span className={font('intr', -2)}>{link.text}</span>
+                        <span className={font('sans', -2)}>{link.text}</span>
                         <ResourceLinkIconWrapper>
                           <Icon icon={arrow} />
                         </ResourceLinkIconWrapper>
@@ -409,13 +409,13 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
           {isNotUndefined(
             event.policies.find(p => p.id === eventPolicyIds.schoolBooking)
           ) ? (
-            <p className={font('intr', -1)} style={{ marginBottom: 0 }}>
+            <p className={font('sans', -1)} style={{ marginBottom: 0 }}>
               {a11y.defaultEventMessage}
             </p>
           ) : (
             <>
-              <p className={font('intr', -1)}>{a11y.defaultEventMessage}</p>
-              <p className={font('intr', -1)} style={{ marginBottom: 0 }}>
+              <p className={font('sans', -1)}>{a11y.defaultEventMessage}</p>
+              <p className={font('sans', -1)} style={{ marginBottom: 0 }}>
                 <a
                   href={`https://wellcomecollection.org/visit-us/${prismicPageIds.bookingAndAttendingOurEvents}`}
                 >

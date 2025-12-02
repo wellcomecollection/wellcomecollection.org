@@ -138,7 +138,7 @@ const Installation: FunctionComponent<Props> = ({ installation, pages }) => {
     >
       {installation.end && !isPast(installation.end) && (
         <InfoBox title="Visit us" items={getInfoItems(installation)}>
-          <p className={font('intr', -1)} style={{ margin: 0 }}>
+          <p className={font('sans', -1)} style={{ margin: 0 }}>
             For more information, please visit our{' '}
             <a href={`/visit-us/${prismicPageIds.access}`}>Accessibility</a>{' '}
             page. If you have any queries about accessibility, please email us

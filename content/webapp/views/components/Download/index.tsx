@@ -11,7 +11,7 @@ import { DownloadOption } from '@weco/content/types/manifest';
 import { getFormatString } from '@weco/content/utils/iiif/v3';
 
 export const DownloadOptions = styled.div.attrs({
-  className: font('intsb', 0),
+  className: font('sans-bold', 0),
 })`
   white-space: normal;
   color: ${props => props.theme.color('black')};
@@ -22,7 +22,7 @@ export const DownloadOptions = styled.div.attrs({
 `;
 
 const Wrapper = styled.div.attrs({
-  className: font('intr', -1),
+  className: font('sans', -1),
 })<{ $isEnhanced: boolean }>`
   position: relative;
   ${props => (props.$isEnhanced ? 'display: inline-block;' : '')}
@@ -57,7 +57,7 @@ const Download: FunctionComponent<Props> = ({
         isOnDark={useDarkControl}
         id={ariaControlsId}
       >
-        <DownloadOptions className={font('intsb', -1)}>
+        <DownloadOptions className={font('sans-bold', -1)}>
           <SpacingComponent>
             <PlainList>
               {downloadOptions.map(option => {

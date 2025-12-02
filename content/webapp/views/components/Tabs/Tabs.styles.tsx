@@ -58,7 +58,7 @@ type NavItemProps = {
 };
 
 export const Tab = styled.div.attrs<NavItemProps>(props => ({
-  className: font(props.$selected ? 'intsb' : 'intr', -1),
+  className: props.$selected ? font('sans-bold', -1) : font('sans', -1),
 }))<NavItemProps>`
   padding: 0;
   margin: 0;

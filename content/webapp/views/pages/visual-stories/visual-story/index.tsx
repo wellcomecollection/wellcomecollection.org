@@ -122,7 +122,7 @@ const VisualStoryPage: NextPage<Props> = ({
                 properties: ['padding-top', 'padding-bottom'],
               }}
             >
-              <h2 className={font('wb', 2)} id="more-visual-stories">
+              <h2 className={font('brand', 2)} id="more-visual-stories">
                 More Visual Stories
               </h2>
             </Space>

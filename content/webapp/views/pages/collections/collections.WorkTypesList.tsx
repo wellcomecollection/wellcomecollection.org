@@ -308,7 +308,7 @@ const WorkTypeItem: FunctionComponent<WorkTypeItemProps> = ({
           <div>
             <CountDisplayContainer
               aria-hidden="true"
-              className={font('wb', 1)}
+              className={font('brand', 1)}
               ref={el => {
                 countContainerRef.current = el as HTMLDivElement | null;
                 if (registerNumberRef)
@@ -320,9 +320,9 @@ const WorkTypeItem: FunctionComponent<WorkTypeItemProps> = ({
             {/* Screen reader only text with stable count */}
             <span className="visually-hidden">{accessibleCountText}</span>
           </div>
-          <div className={font('intr', 1)}>{stats.label}</div>
+          <div className={font('sans', 1)}>{stats.label}</div>
           {description && (
-            <DescriptionText className={font('intr', 0)}>
+            <DescriptionText className={font('sans', 0)}>
               {description}
             </DescriptionText>
           )}
