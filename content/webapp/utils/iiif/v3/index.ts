@@ -226,16 +226,6 @@ type BodyService2 = {
   service: Service | Service[];
 };
 
-function getImageAuthCookieService(
-  imageService: BodyService | undefined
-): Service | undefined {
-  return Array.isArray(imageService?.service)
-    ? imageService?.service?.find(s => s['@type'] === 'AuthCookieService1')
-    : imageService?.service?.['@type'] === 'AuthCookieService1'
-      ? imageService?.service
-      : undefined;
-}
-
 export function getImageAuthProbeService(
   service: BodyService2 | undefined
 ): AuthProbeService2 | undefined {
@@ -294,54 +284,35 @@ export function getFirstCollectionManifestLocation(
   }
 }
 
-const restrictedAuthServiceUrls = [
-  'https://iiif.wellcomecollection.org/auth/restrictedlogin',
-  'https://iiif-test.wellcomecollection.org/auth/restrictedlogin',
-  'https://iiif.wellcomecollection.org/auth/v2/access/restrictedlogin',
-];
-
-// The image services can contain auth v1 and auth v2 services, or just auth v1 services
-// We want to move to using v2, but can't guarantee all manifests will include them (they need to be recently generated to have the v2 services).
-// Therefore we check for both. When all manifests have V2 we can remove the V1 code.
 function isImageRestricted(canvas: Canvas): boolean {
   const imageService = getImageServiceFromCanvas(canvas);
-  const imageAuthCookieService = getImageAuthCookieService(imageService); // V1 service
   const v2Services = imageService?.service as BodyService2;
-  const imageAuthProbeService = getImageAuthProbeService(v2Services || []); // V2 service
+  const imageAuthProbeService = getImageAuthProbeService(v2Services || []);
   return (
     imageAuthProbeService?.service.some(
       s =>
         s?.id ===
           'https://iiif.wellcomecollection.org/auth/v2/access/restrictedlogin' ||
         false
-    ) ||
-    restrictedAuthServiceUrls.some(
-      url => imageAuthCookieService?.['@id'] === url
-    ) ||
-    false
+    ) || false
   );
-}
-
-function getAuthServicesArray(service) {
-  return service.map(s => {
-    if (s.type === 'AuthProbeService2') {
-      return s.service.find(service => service.type === 'AuthAccessService2');
-    } else if (s['@type'] === 'AuthCookieService1') {
-      return s;
-    } else {
-      return undefined;
-    }
-  });
 }
 
 export function isItemRestricted(painting): boolean {
   if (isChoiceBody(painting)) return false;
-  const paintingsServices =
-    painting.service && getAuthServicesArray(painting.service);
+  if (!painting.service) return false;
+
+  const paintingsServices = painting.service.map(s => {
+    if (s.type === 'AuthProbeService2') {
+      return s.service.find(service => service.type === 'AuthAccessService2');
+    }
+    return undefined;
+  });
 
   return paintingsServices?.some(s => {
-    return restrictedAuthServiceUrls.some(
-      url => s?.['@id'] === url || s?.id === url
+    return (
+      s?.id ===
+      'https://iiif.wellcomecollection.org/auth/v2/access/restrictedlogin'
     );
   });
 }
