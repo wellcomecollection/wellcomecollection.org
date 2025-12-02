@@ -85,7 +85,10 @@ const ImageSection: FunctionComponent<Props> = ({
         label={`${pluralize(singleSectionData.totalResults, 'image')} from works`}
         variant="scrollable"
       />
-      <Space $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
+      <Space
+        $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
+        style={{ position: 'relative' }}
+      >
         {labelBasedCount > singleSectionData.pageResults.length && (
           <MoreLink
             ariaLabel={`View all ${getSectionTypeLabel(type, config, 'images')}`}

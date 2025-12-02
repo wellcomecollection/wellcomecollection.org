@@ -42,7 +42,11 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
     <ConditionalWrapper
       condition={isNextLink}
       wrapper={children =>
-        typeof link === 'object' && <NextLink {...link}>{children}</NextLink>
+        typeof link === 'object' && (
+          <NextLink {...link} style={{ display: 'inline-block' }}>
+            {children}
+          </NextLink>
+        )
       }
     >
       <StyledButton
