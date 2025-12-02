@@ -30,14 +30,14 @@ const SignInLink: FunctionComponent = () => {
     <>
       <Space
         $h={{ size: 's', properties: ['margin-right'] }}
-        className={font('intb', 5)}
+        className={font('intb', -1)}
       >
         Library members:
       </Space>
       <a
         href={loginURL}
         data-gtm-trigger="library_account_login"
-        className={font('intr', 5)}
+        className={font('intr', -1)}
       >
         sign in to your library account to request items
       </a>
@@ -51,11 +51,11 @@ type ReloadProps = {
 const Reload: FunctionComponent<ReloadProps> = ({ reload }) => {
   return (
     <>
-      <span className={font('intb', 5)}>
+      <span className={font('intb', -1)}>
         Something went wrong trying to check if you are signed in
       </span>{' '}
       <button
-        className={font('intr', 5)}
+        className={font('intr', -1)}
         onClick={() => {
           reload();
         }}
@@ -83,11 +83,11 @@ const LibraryMembersBar: FunctionComponent = () => {
         </Space>
         <Space
           $h={{ size: 's', properties: ['margin-right'] }}
-          className={font('intb', 5)}
+          className={font('intb', -1)}
         >
           Library members:
         </Space>
-        <span data-testid="requesting-disabled" className={font('intr', 5)}>
+        <span data-testid="requesting-disabled" className={font('intr', -1)}>
           {requestingDisabled}
         </span>
       </StyledComponent>

@@ -61,7 +61,7 @@ const CardGridFeaturedCard = ({ item }: CardGridFeaturedCardProps) => {
       >
         {item.title && <h2 className={font('wb', 2)}>{item.title}</h2>}
         {item.description && (
-          <p className={font('intr', 5)}>{item.description}</p>
+          <p className={font('intr', -1)}>{item.description}</p>
         )}
       </FeaturedCard>
     </ContaineredLayout>

@@ -180,7 +180,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
       <AudioPlayerWrapper $isDark={!!isDark}>
         {title && (
           <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
-            <figcaption className={font('intb', 5)} {...titleProps}>
+            <figcaption className={font('intb', -1)} {...titleProps}>
               <TitleWrapper $isDark={!!isDark}>{title}</TitleWrapper>
             </figcaption>
           </Space>

@@ -225,7 +225,7 @@ const SearchPage: NextPage<Props> = withSearchLayout(
         ) : (
           <BasicSection>
             <Container>
-              <p className={font('intr', 5)}>
+              <p className={font('intr', -1)}>
                 {contentQueryFailed ? (
                   <>
                     There was a problem fetching some search results. Please try
@@ -239,7 +239,7 @@ const SearchPage: NextPage<Props> = withSearchLayout(
                       <>
                         {' '}
                         for{' '}
-                        <span className={font('intb', 5)}>{queryString}</span>
+                        <span className={font('intb', -1)}>{queryString}</span>
                       </>
                     )}
                   </>
@@ -265,7 +265,7 @@ const SearchPage: NextPage<Props> = withSearchLayout(
                         properties: ['margin-left', 'margin-right'],
                       }}
                     >
-                      <h3 className={font('intsb', 4)}>
+                      <h3 className={font('intsb', 0)}>
                         Are you looking for our online collections?
                       </h3>
                     </Space>

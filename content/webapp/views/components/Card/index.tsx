@@ -157,7 +157,7 @@ export const CardLabels: FunctionComponent<{ labels: LabelType[] }> = ({
 );
 
 const Description = styled.p.attrs({
-  className: font('intr', 5),
+  className: font('intr', -1),
 })`
   padding: 0;
   margin: 0;
@@ -165,7 +165,7 @@ const Description = styled.p.attrs({
 
 export const CardTitle = styled(Space).attrs({
   as: 'h3',
-  className: font('wb', 3),
+  className: font('wb', 1),
   $v: { size: 's', properties: ['margin-bottom'] },
 })`
   transition: color 400ms ease;

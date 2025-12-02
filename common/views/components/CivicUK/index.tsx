@@ -54,7 +54,7 @@ const CivicUK = ({ apiKey }: { apiKey: string }) => {
   const theme = useTheme();
 
   const notifyTitleStyles = `
-  class="${font('intm', 3)}"
+  class="${font('intm', 1)}"
   style="display: block; margin: ${theme.spacingUnits['4']}px 0;"
 `;
 

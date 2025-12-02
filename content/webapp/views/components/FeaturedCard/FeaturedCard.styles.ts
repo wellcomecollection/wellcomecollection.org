@@ -6,7 +6,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
 
 export const DateWrapper = styled(Space).attrs({
-  className: font('intr', 4),
+  className: font('intr', 0),
   $v: { size: 's', properties: ['margin-bottom'] },
 })`
   padding: 0;
@@ -51,7 +51,7 @@ export const FeaturedCardLeft = styled(GridCell)<HasIsReversed>`
 `;
 
 export const FeaturedCardRight = styled.div.attrs({
-  className: font('intb', 6), // required for em value in label height calc below
+  className: font('intb', -2), // required for em value in label height calc below
 })<HasIsReversed>`
   display: flex;
   flex-direction: column;

@@ -40,7 +40,7 @@ const VenueHoursJauntyBox = ({
       $bottomRight={randomPx()}
       $bottomLeft={randomPx()}
     >
-      <h3 className={font('intb', 5)}>
+      <h3 className={font('intb', -1)}>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <Space as="span" $h={{ size: 's', properties: ['margin-right'] }}>
             <Icon icon={clock} />

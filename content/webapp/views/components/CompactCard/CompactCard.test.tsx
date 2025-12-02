@@ -62,7 +62,7 @@ const TextWrapper = styled(GridCell).attrs<HasImageProps>(props => {
 })<HasImageProps>``;
 
 const TitleWrapper = styled.div.attrs({
-  className: font('wb', 4),
+  className: font('wb', 0),
 })``;
 
 const extraClass = 'my_extra_extra_class';

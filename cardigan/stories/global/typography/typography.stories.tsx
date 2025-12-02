@@ -17,7 +17,7 @@ const Font = styled.div`
 `;
 
 const FontName = styled.h2.attrs({
-  className: font('intb', 6),
+  className: font('intb', -2),
 })`
   color: ${props => props.theme.color('accent.purple')};
 `;

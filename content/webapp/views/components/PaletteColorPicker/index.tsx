@@ -82,7 +82,7 @@ const Swatch = styled.button.attrs<{
   $hexColor: string;
 }>((props: SwatchProps) => ({
   type: 'button',
-  className: font('intr', 5),
+  className: font('intr', -1),
   'aria-pressed': !!props.$ariaPressed,
 }))<SwatchProps>`
   position: relative;

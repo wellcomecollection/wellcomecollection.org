@@ -46,7 +46,7 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
 }) => (
   <VideoPlayerWrapper>
     <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
-      <figcaption className={font('intb', 5)} {...titleProps}>
+      <figcaption className={font('intb', -1)} {...titleProps}>
         {title}
       </figcaption>
     </Space>
