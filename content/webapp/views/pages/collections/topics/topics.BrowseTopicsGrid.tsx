@@ -1,9 +1,13 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
-import { randomTopicPool } from '@weco/content/data/browse/topics';
+import { BrowseTopic, randomTopicPool } from '@weco/content/data/browse/topics';
 import { catalogueQuery } from '@weco/content/services/wellcome/catalogue';
 import { getConceptsByIds } from '@weco/content/services/wellcome/catalogue/browse';
+import {
+  Concept,
+  Image,
+} from '@weco/content/services/wellcome/catalogue/types';
 
 import BrowseTopicCard from './topics.BrowseTopicCard';
 import SurpriseMeCard from './topics.SurpriseMeCard';
@@ -19,19 +23,18 @@ const conceptIds = [
   'wyjyu7gv',
 ];
 
-type ConceptWithImage = {
-  id: string;
-  label: { text: string };
+type Props = {
+  topics: BrowseTopic[];
 };
 
-const BrowseTopicsGrid: FunctionComponent = () => {
+const BrowseTopicsGrid: FunctionComponent<Props> = () => {
   const [surpriseTopic, setSurpriseTopic] = useState<{
     label: string;
     id: string;
   } | null>(null);
-  const [concepts, setConcepts] = useState<ConceptWithImage[]>([]);
+  const [concepts, setConcepts] = useState<Concept[]>([]);
   const [conceptImages, setConceptImages] = useState<
-    Record<string, { url: string } | null>
+    Record<string, Image | null>
   >({});
   const [loading, setLoading] = useState(true);
 
@@ -65,7 +68,10 @@ const BrowseTopicsGrid: FunctionComponent = () => {
             } else {
               const images = imagesResult.results || [];
               const firstImage = images.length > 0 ? images[0] : null;
-              return { conceptId: concept.id, image: firstImage };
+              // Type guard to ensure we have an Image type
+              const imageResult =
+                firstImage && firstImage.type === 'Image' ? firstImage : null;
+              return { conceptId: concept.id, image: imageResult };
             }
           } catch (error) {
             console.error(
@@ -80,7 +86,7 @@ const BrowseTopicsGrid: FunctionComponent = () => {
         const imageResults = await Promise.all(imagePromises);
 
         // Store images by concept ID
-        const imagesMap: Record<string, { url: string } | null> = {};
+        const imagesMap: Record<string, Image | null> = {};
         imageResults.forEach(({ conceptId, image }) => {
           imagesMap[conceptId] = image;
         });
@@ -107,10 +113,15 @@ const BrowseTopicsGrid: FunctionComponent = () => {
   return (
     <Grid>
       {concepts.map(topic => {
-        const topicImage = conceptImages[topic.id];
+        const imageResult = conceptImages[topic.id];
         const topicWithImage = {
           ...topic,
-          image: topicImage,
+          image: imageResult
+            ? {
+                locations: imageResult.locations,
+                alternativeText: undefined,
+              }
+            : undefined,
         };
 
         return (
