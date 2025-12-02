@@ -30,7 +30,7 @@ export const Header = styled.header.attrs({
 `;
 
 export const Title = styled.h1.attrs({
-  className: font('intb', -1),
+  className: font('intsb', -1),
 })`
   margin-bottom: 0;
 `;

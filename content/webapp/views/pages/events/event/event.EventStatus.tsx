@@ -12,7 +12,7 @@ type EventStatusProps = {
 const EventStatus: FunctionComponent<EventStatusProps> = ({ text, color }) => {
   return (
     <div style={{ display: 'flex' }}>
-      <TextWithDot className={font('intb', -1)} dotColor={color} text={text} />
+      <TextWithDot className={font('intsb', -1)} dotColor={color} text={text} />
     </div>
   );
 };

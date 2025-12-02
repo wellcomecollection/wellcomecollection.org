@@ -74,7 +74,7 @@ export const TextWrapper = styled.div`
 `;
 
 export const Title = styled.h2.attrs<{ $isHover?: boolean }>(props => ({
-  className: font(props.$isHover ? 'intr' : 'intb', -1),
+  className: font(props.$isHover ? 'intr' : 'intsb', -1),
 }))<{ $linesToClamp: number }>`
   ${clampLineStyles};
   color: ${props => props.theme.color('black')};

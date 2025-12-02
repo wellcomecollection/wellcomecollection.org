@@ -7,7 +7,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { Link } from '@weco/content/types/link';
 
 const Anchor = styled.a.attrs({
-  className: font('intb', -1),
+  className: font('intsb', -1),
 })`
   color: ${props => props.theme.color('black')};
 `;

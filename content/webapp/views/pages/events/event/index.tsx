@@ -71,7 +71,7 @@ const ThirdParty = styled.span.attrs({
 `;
 
 const EmailTeamCopy = styled(Space).attrs({
-  className: font('intb', -1),
+  className: font('intsb', -1),
   $v: { size: 's', properties: ['margin-top'] },
 })`
   display: block;
@@ -348,7 +348,7 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
                         $borderColor="accent.turquoise"
                       >
                         {link.type === 'visual-story' && (
-                          <h3 className={font('intb', 0)}>Visual story</h3>
+                          <h3 className={font('intsb', 0)}>Visual story</h3>
                         )}
                         <span className={font('intr', -2)}>{link.text}</span>
                         <ResourceLinkIconWrapper>

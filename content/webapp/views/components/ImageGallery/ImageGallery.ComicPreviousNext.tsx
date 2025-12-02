@@ -77,7 +77,7 @@ const InSeries = styled(Space).attrs({
 })``;
 
 const Title = styled.div.attrs({
-  className: font('intb', 1),
+  className: font('intsb', 1),
 })`
   white-space: nowrap;
   overflow: hidden;

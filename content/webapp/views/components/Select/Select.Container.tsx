@@ -67,7 +67,7 @@ const SelectLabel = styled.label`
 const LabelContent = styled(Space).attrs<{ $hideLabel?: boolean }>(props => ({
   as: 'span',
   className: classNames({
-    [font('intb', -1)]: true,
+    [font('intsb', -1)]: true,
     'visually-hidden': !!props.$hideLabel,
   }),
   $h: { size: 's', properties: ['margin-right'] },

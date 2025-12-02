@@ -9,7 +9,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { LabelField } from '@weco/content/model/label-field';
 
 const HeadingLink = styled.a.attrs({
-  className: font('intb', 0),
+  className: font('intsb', 0),
 })`
   text-decoration: underline;
   color: ${props => props.theme.color('accent.green')};

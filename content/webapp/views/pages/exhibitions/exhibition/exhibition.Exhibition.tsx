@@ -217,7 +217,7 @@ const Exhibition: FunctionComponent<Props> = ({
 
               {visualStoryLink && (
                 <>
-                  <h3 className={font('intb', 0)}>Plan your visit</h3>
+                  <h3 className={font('intsb', 0)}>Plan your visit</h3>
                   <NextLink href={visualStoryLink.url}>
                     Exhibition visual story
                   </NextLink>{' '}
@@ -228,7 +228,7 @@ const Exhibition: FunctionComponent<Props> = ({
                 </>
               )}
 
-              <h3 className={font('intb', 0)}>{`When you're here`}</h3>
+              <h3 className={font('intsb', 0)}>{`When you're here`}</h3>
               <p>
                 Resources designed to support your visit are available online
                 and in the gallery.
@@ -244,7 +244,7 @@ const Exhibition: FunctionComponent<Props> = ({
 
               <Space
                 as="h3"
-                className={font('intb', 0)}
+                className={font('intsb', 0)}
                 $v={{ size: 'l', properties: ['margin-bottom'] }}
               >
                 Access information, tours and queries

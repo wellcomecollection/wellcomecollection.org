@@ -14,13 +14,13 @@ const Font = styled.div`
 `;
 
 const FontName = styled.h2.attrs({
-  className: font('intb', -2),
+  className: font('intsb', -2),
 })`
   color: ${props => props.theme.color('accent.purple')};
 `;
 
 const sizes = [-2, -1, 0, 1, 2, 4, 5];
-const fontFamilies = ['intr', 'intb', 'wb', 'lr'];
+const fontFamilies = ['intr', 'intsb', 'wb', 'lr'];
 
 const Typography = ({ text }) => {
   return (

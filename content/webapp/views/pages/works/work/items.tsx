@@ -263,7 +263,7 @@ const WorkItemPage: NextPage<Props> = ({
             // When this modal is displayed, the rest of the page is hidden and we need to make
             // sure there is an appropriate h1 available to assistive technologies
             // https://github.com/wellcomecollection/wellcomecollection.org/issues/7545
-            <h1 className={font('intb', 0)}>{modalContent?.label}</h1>
+            <h1 className={font('intsb', 0)}>{modalContent?.label}</h1>
           )}
           {modalContent?.description && (
             <div

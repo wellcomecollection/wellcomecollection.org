@@ -46,7 +46,7 @@ export const Details = styled.div`
 `;
 
 export const ConceptTitleHeading = styled.h3.attrs({
-  className: font('intb', 0),
+  className: font('intsb', 0),
 })``;
 
 export const ConceptDescription = styled(Space).attrs({

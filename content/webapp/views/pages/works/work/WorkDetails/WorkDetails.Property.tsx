@@ -18,7 +18,7 @@ const Wrapper = styled.div.attrs({
 
 const Title = styled(Space).attrs<InlineHeadingProps>(props => ({
   as: 'h3',
-  className: font('intb', -1),
+  className: font('intsb', -1),
   $h: { size: 's', properties: props.$inlineHeading ? ['margin-right'] : [] },
 }))<InlineHeadingProps>`
   ${props => (!props.$inlineHeading ? 'margin: 0;' : '')}

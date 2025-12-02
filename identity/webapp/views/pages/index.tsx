@@ -63,7 +63,7 @@ const DetailList: FunctionComponent<{
     <StyledDl>
       {listItems.map(item => (
         <>
-          <dt className={font('intb', -1)}>{item.label}</dt>
+          <dt className={font('intsb', -1)}>{item.label}</dt>
           <StyledDd className={font('intr', -1)}>{item.value}</StyledDd>
         </>
       ))}
@@ -248,7 +248,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                             <>
                               <Space
                                 as="p"
-                                className={font('intb', -1)}
+                                className={font('intsb', -1)}
                                 $v={{
                                   size: 's',
                                   properties: ['margin-bottom'],

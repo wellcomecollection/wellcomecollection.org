@@ -197,7 +197,7 @@ const SourcedDescription: FunctionComponent<{
 
           <SourceBoxContainer $marginLeft={sourceBoxMarginLeft}>
             <SourceBox {...dataGtmPropsToAttributes({ trigger: 'source_box' })}>
-              <span className={font('intm', -2)}>Source:</span>
+              <span className={font('intsb', -2)}>Source:</span>
               <SourceLink>
                 {source === 'wikidata' && <WikidataLogo width={16} />}
                 {source === 'nlm-mesh' && (

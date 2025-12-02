@@ -28,7 +28,7 @@ const Caption = styled.p.attrs({
 `;
 
 const PartOf = styled.div.attrs({
-  className: font('intb', -2),
+  className: font('intsb', -2),
 })`
   margin: 0;
 `;

@@ -72,7 +72,7 @@ const ListItem = styled.li.attrs({
 
 const HitData = styled(Space).attrs({
   as: 'span',
-  className: font('intb', -2),
+  className: font('intsb', -2),
 })`
   display: block;
 `;

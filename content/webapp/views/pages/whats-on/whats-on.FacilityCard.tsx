@@ -21,7 +21,7 @@ const Description = styled.p.attrs({
 `;
 
 const Meta = styled.div.attrs({
-  className: font('intb', -2),
+  className: font('intsb', -2),
 })`
   display: flex;
   align-items: center;

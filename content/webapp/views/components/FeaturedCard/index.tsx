@@ -142,7 +142,7 @@ const FeaturedCardArticle: FunctionComponent<FeaturedCardArticleProps> = ({
       {article.caption && <p className={font('intr', -1)}>{article.caption}</p>}
       {article.seriesTitle && (
         <Space $v={{ size: 'l', properties: ['margin-top'] }}>
-          <p className={font('intb', -2)} style={{ marginBottom: 0 }}>
+          <p className={font('intsb', -2)} style={{ marginBottom: 0 }}>
             <span className={font('intr', -2)}>Part of</span>{' '}
             {article.seriesTitle}
           </p>

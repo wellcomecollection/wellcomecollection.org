@@ -19,7 +19,7 @@ type Props = {
 };
 
 const QuerySpan = styled.span.attrs({
-  className: font('intb', 2),
+  className: font('intsb', 2),
 })``;
 
 const SearchNoResults: FunctionComponent<Props> = ({

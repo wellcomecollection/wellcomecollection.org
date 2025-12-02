@@ -66,7 +66,7 @@ const StyledTh = styled(Space).attrs<ThProps>(props => ({
     size: 'm',
     properties: props.$plain ? [] : ['padding-left', 'padding-right'],
   },
-  className: font('intb', -1),
+  className: font('intsb', -1),
 }))<ThProps>`
   background: ${props =>
     props.$plain ? 'transparent' : props.theme.color('warmNeutral.400')};
@@ -117,7 +117,7 @@ const StyledTd = styled(Space).attrs<TdProps>(props => ({
       white-space: nowrap;
       content: ${props =>
         props.$cellContent ? `'${props.$cellContent}'` : ''};
-      ${fontFamilyMixin('intb')}
+      ${fontFamilyMixin('intsb')}
     }
   }
 `;

@@ -203,7 +203,7 @@ const BasicPageHeader: FunctionComponent<Props> = ({
         <ContaineredLayout gridSizes={pageGridLayout}>
           <Space
             $v={{ size: 'l', properties: ['margin-top'] }}
-            className={font('intb', 0)}
+            className={font('intsb', 0)}
           >
             {ContentTypeInfo}
           </Space>

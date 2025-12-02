@@ -55,13 +55,13 @@ const ContentTypeInfo = (article: Article) => (
                     by{' '}
                   </span>
                 )}
-                <span className={font('intb', -2)}>{contributor.name}</span>
+                <span className={font('intsb', -2)}>{contributor.name}</span>
               </ContentTypeInfoSection>
             ))}
           {article.readingTime ? (
             <ContentTypeInfoSection>
               average reading time{' '}
-              <span className={font('intb', -2)}>{article.readingTime}</span>
+              <span className={font('intsb', -2)}>{article.readingTime}</span>
             </ContentTypeInfoSection>
           ) : null}
           {article.contributors.length > 0 && ' '}

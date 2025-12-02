@@ -44,7 +44,7 @@ const ItemText = styled(Space).attrs<LinkOrSpanSpaceAttrs>(props => ({
 `;
 
 const PlainItemList = styled(PlainList).attrs({
-  className: font('intb', -1),
+  className: font('intsb', -1),
 })`
   display: flex;
   flex-wrap: wrap;

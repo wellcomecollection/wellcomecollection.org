@@ -32,7 +32,7 @@ const Button = styled.button.attrs({
 
 const ButtonInner = styled(Space).attrs({
   as: 'span',
-  className: font('intb', -1),
+  className: font('intsb', -1),
   $h: { size: 'xs', properties: ['padding-right', 'padding-left'] },
   $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
 })`

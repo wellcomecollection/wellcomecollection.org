@@ -66,7 +66,7 @@ const Inner = styled(Space).attrs({
 `;
 
 const AccordionInner = styled(Space).attrs({
-  className: font('intb', -1),
+  className: font('intsb', -1),
   $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
 })`
   button {
@@ -123,7 +123,7 @@ const AccordionItem = ({ title, children, testId }: AccordionItemProps) => {
           aria-controls={toHtmlId(title)}
         >
           <span>
-            <h2 className={font('intb', -1)}>{title}</h2>
+            <h2 className={font('intsb', -1)}>{title}</h2>
             <Icon
               icon={chevron}
               iconColor="white"
@@ -222,7 +222,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
           </Space>
         </RestrictedMessage>
       )}
-      <Inner className={font('intb', -1)}>
+      <Inner className={font('intsb', -1)}>
         {manifestLabel && (
           <span className={font('intr', -1)}>{manifestLabel}</span>
         )}

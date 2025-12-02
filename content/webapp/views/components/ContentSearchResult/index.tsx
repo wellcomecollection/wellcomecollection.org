@@ -28,7 +28,7 @@ const Type = styled(Space).attrs({
 const Title = styled(Space).attrs({
   as: 'h2',
   $v: { size: 's', properties: ['margin-bottom'] },
-  className: font('intb', 0),
+  className: font('intsb', 0),
 })`
   ${Link}:hover & {
     text-decoration: underline;

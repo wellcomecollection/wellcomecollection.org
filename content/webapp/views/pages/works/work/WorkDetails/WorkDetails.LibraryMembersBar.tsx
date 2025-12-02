@@ -30,7 +30,7 @@ const SignInLink: FunctionComponent = () => {
     <>
       <Space
         $h={{ size: 's', properties: ['margin-right'] }}
-        className={font('intb', -1)}
+        className={font('intsb', -1)}
       >
         Library members:
       </Space>
@@ -51,7 +51,7 @@ type ReloadProps = {
 const Reload: FunctionComponent<ReloadProps> = ({ reload }) => {
   return (
     <>
-      <span className={font('intb', -1)}>
+      <span className={font('intsb', -1)}>
         Something went wrong trying to check if you are signed in
       </span>{' '}
       <button
@@ -83,7 +83,7 @@ const LibraryMembersBar: FunctionComponent = () => {
         </Space>
         <Space
           $h={{ size: 's', properties: ['margin-right'] }}
-          className={font('intb', -1)}
+          className={font('intsb', -1)}
         >
           Library members:
         </Space>

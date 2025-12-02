@@ -11,7 +11,7 @@ import { DownloadOption } from '@weco/content/types/manifest';
 import { getFormatString } from '@weco/content/utils/iiif/v3';
 
 export const DownloadOptions = styled.div.attrs({
-  className: font('intb', 0),
+  className: font('intsb', 0),
 })`
   white-space: normal;
   color: ${props => props.theme.color('black')};
@@ -57,7 +57,7 @@ const Download: FunctionComponent<Props> = ({
         isOnDark={useDarkControl}
         id={ariaControlsId}
       >
-        <DownloadOptions className={font('intb', -1)}>
+        <DownloadOptions className={font('intsb', -1)}>
           <SpacingComponent>
             <PlainList>
               {downloadOptions.map(option => {

@@ -64,7 +64,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
     <>
       {isConfirmed && (
         <div className="body-text">
-          <p className={font('intb', 1)}>
+          <p className={font('intsb', 1)}>
             Thank you for confirming your email address
           </p>
           <p>
@@ -85,7 +85,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
 
       {isSuccess && (
         <div className="body-text">
-          <p className={font('intb', 1)}>You’re signed up</p>
+          <p className={font('intsb', 1)}>You’re signed up</p>
           <p>
             If this is the first time you’ve subscribed to updates from us, you
             will receive an email asking you to confirm. Please check your email
@@ -96,7 +96,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
 
       {isError && (
         <div className="body-text">
-          <p className={font('intb', 1)}>Sorry, there’s been a problem</p>
+          <p className={font('intsb', 1)}>Sorry, there’s been a problem</p>
           <p>Please try again.</p>
         </div>
       )}
@@ -106,7 +106,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
           className="body-text"
           $v={{ size: 'm', properties: ['margin-bottom'] }}
         >
-          <p className={font('intb', 1)} style={{ marginBottom: '1rem' }}>
+          <p className={font('intsb', 1)} style={{ marginBottom: '1rem' }}>
             Want to hear more from us?
           </p>
           <p>
@@ -164,7 +164,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
             $v={{ size: 's', properties: ['margin-bottom'] }}
           >
             <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
-              <legend className={font('intb', 0)}>
+              <legend className={font('intsb', 0)}>
                 You might also be interested in receiving updates on:
               </legend>
             </Space>

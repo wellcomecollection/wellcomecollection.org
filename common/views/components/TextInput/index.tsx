@@ -18,7 +18,7 @@ import ClearInput from '@weco/common/views/components/TextInput/TextInput.Clear'
 import { focusStyle } from '@weco/common/views/themes/base/wellcome-normalize';
 
 export const TextInputLabel = styled.label.attrs({
-  className: font('intb', -1),
+  className: font('intsb', -1),
 })`
   display: block;
   line-height: 1.2;

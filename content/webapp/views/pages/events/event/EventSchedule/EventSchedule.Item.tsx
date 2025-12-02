@@ -59,7 +59,7 @@ const EventContainer = styled(Space).attrs({
     size: 'm',
     properties: ['padding-left', 'padding-right'],
   },
-  className: font('intb', -1),
+  className: font('intsb', -1),
 })`
   display: inline-block;
   background-color: ${props => props.theme.color('yellow')};
@@ -170,7 +170,7 @@ const EventScheduleItem: FunctionComponent<Props> = ({
               <h4
                 style={{ marginBottom: 0 }}
                 key={`${event.title} ${startTimeString}`}
-                className={font('intb', -1)}
+                className={font('intsb', -1)}
               >
                 <HTMLDateAndTime variant="time" date={t.range.startDateTime} />
                 {' – '}

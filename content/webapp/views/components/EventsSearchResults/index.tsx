@@ -167,7 +167,7 @@ const EventsSearchResults: FunctionComponent<Props> = ({
                 )}
 
                 {!isPast && times.length > 1 && (
-                  <p className={font('intb', -2)}>See all dates/times</p>
+                  <p className={font('intsb', -2)}>See all dates/times</p>
                 )}
                 {isPast && !event.isAvailableOnline && !isInPastListing && (
                   <div>
@@ -186,7 +186,7 @@ const EventsSearchResults: FunctionComponent<Props> = ({
                 {event.series.map(series => (
                   <p
                     key={series.title}
-                    className={font('intb', -2)}
+                    className={font('intsb', -2)}
                     style={{ marginBottom: 0 }}
                   >
                     <span className={font('intr', -2)}>Part of</span>{' '}

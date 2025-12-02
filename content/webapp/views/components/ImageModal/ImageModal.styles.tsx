@@ -29,7 +29,7 @@ export const Metadata = styled.span`
 `;
 
 export const ModalTitle = styled.h2.attrs({
-  className: font('intb', 1),
+  className: font('intsb', 1),
 })`
   margin-bottom: 0;
 `;

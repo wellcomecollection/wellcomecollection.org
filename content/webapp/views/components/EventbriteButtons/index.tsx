@@ -9,7 +9,7 @@ import { Event } from '@weco/content/types/events';
 
 const Location = styled(Space).attrs({
   as: 'p',
-  className: font('intb', -1),
+  className: font('intsb', -1),
   $v: { size: 's', properties: ['margin-bottom'] },
 })``;
 
