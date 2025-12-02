@@ -10,16 +10,11 @@ const meta: Meta<typeof DecorativeEdge> = {
   component: DecorativeEdge,
   args: {
     color: 'warmNeutral.300',
-    shape: 'edge-1',
     variant: 'w',
   },
   argTypes: {
     color: {
       options: themeColors.map(c => c.name),
-      control: { type: 'select' },
-    },
-    shape: {
-      options: ['edge-1', 'edge-2'],
       control: { type: 'select' },
     },
     variant: { table: { disable: true } },

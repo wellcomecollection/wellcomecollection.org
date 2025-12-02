@@ -163,6 +163,14 @@ const toggles = {
       type: 'experimental',
     },
     {
+      id: 'newOnlineInCLP',
+      title: 'New Online block in CLP changes',
+      initialValue: false,
+      description:
+        'New online block in Collections landing page to render with Works API',
+      type: 'experimental',
+    },
+    {
       id: 'a11yPrototype',
       title: 'Accessibility prototype page',
       initialValue: false,

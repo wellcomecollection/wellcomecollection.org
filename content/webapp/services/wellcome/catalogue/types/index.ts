@@ -146,11 +146,10 @@ export type RelatedConcept = {
 export type Concept = {
   id: string;
   label: string;
-  standardLabel: string;
+  displayLabel: string;
   type: ConceptType;
   displayImages: DigitalLocation[];
   identifiers?: Identifier[];
-  displayLabel?: string;
   sameAs?: string[];
   description?: {
     sourceLabel: SourceOntology;
