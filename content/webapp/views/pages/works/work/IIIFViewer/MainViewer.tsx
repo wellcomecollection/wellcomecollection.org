@@ -118,7 +118,6 @@ type ItemRendererProps = {
     errorHandler?: () => void;
     externalAccessService?: TransformedAuthService;
     accessToken?: string;
-    restrictedService?: AuthExternalService;
     placeholderId?: string;
   };
 };
