@@ -297,14 +297,6 @@ export function getFirstCollectionManifestLocation(
   }
 }
 
-export function getClickThroughService(
-  manifest: Manifest | Collection
-): AuthClickThroughServiceWithPossibleServiceArray | undefined {
-  return manifest.services?.find(
-    s => s.profile === 'http://iiif.io/api/auth/1/clickthrough'
-  ) as AuthClickThroughServiceWithPossibleServiceArray | undefined;
-}
-
 const restrictedAuthServiceUrls = [
   'https://iiif.wellcomecollection.org/auth/restrictedlogin',
   'https://iiif-test.wellcomecollection.org/auth/restrictedlogin',
@@ -355,29 +347,6 @@ export function isItemRestricted(painting): boolean {
       url => s?.['@id'] === url || s?.id === url
     );
   });
-}
-
-export function getRestrictedLoginService(
-  manifest: Manifest | Collection
-): AuthExternalService | undefined {
-  return manifest.services?.find(service => {
-    const typedService = service as AuthExternalService;
-    return restrictedAuthServiceUrls.some(url => typedService['@id'] === url);
-  }) as AuthExternalService;
-}
-
-export function getTokenService(
-  clickThroughService:
-    | AuthClickThroughServiceWithPossibleServiceArray
-    | AuthExternalService
-    | undefined
-): AuthAccessTokenService | undefined {
-  if (!clickThroughService?.service) return;
-  return Array.isArray(clickThroughService?.service)
-    ? clickThroughService?.service.find(
-        s => s?.profile === 'http://iiif.io/api/auth/1/token'
-      )
-    : clickThroughService?.service;
 }
 
 export type AuthServices = {
@@ -457,13 +426,6 @@ export function checkModalRequired(params: checkModalParams): boolean {
   } else {
     return false;
   }
-}
-
-export function checkIsTotallyRestricted(
-  restrictedAuthService: AuthExternalService | undefined,
-  isAnyImageOpen: boolean
-): boolean {
-  return Boolean(restrictedAuthService && !isAnyImageOpen);
 }
 
 export function checkIsTotallyRestrictedV2(
@@ -894,36 +856,6 @@ export type TransformedAuthService = {
   label?: string;
   description?: string;
 };
-export function transformRestrictedService(
-  service: AuthExternalService | undefined
-): TransformedAuthService | undefined {
-  if (!service) return;
-  return {
-    id: service['@id'],
-    label: service.label,
-    description: service.description,
-  };
-}
-
-export function transformClickThroughService(
-  service: AuthClickThroughServiceWithPossibleServiceArray | undefined
-): TransformedAuthService | undefined {
-  if (!service) return;
-  return {
-    id: service['@id'],
-    label: service.label,
-    description: service.description,
-  };
-}
-
-export function transformTokenService(
-  service: AuthAccessTokenService | undefined
-): TransformedAuthService | undefined {
-  if (!service) return;
-  return {
-    id: service['@id'],
-  };
-}
 
 export function transformExternalAccessService(
   service:
