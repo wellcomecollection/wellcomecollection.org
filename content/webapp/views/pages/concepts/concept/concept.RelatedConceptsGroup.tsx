@@ -8,7 +8,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { RelatedConcept } from '@weco/content/services/wellcome/catalogue/types';
 
 const RelatedConceptsContainer = styled.div.attrs({
-  className: font('intm', 5),
+  className: font('intm', -1),
 })`
   display: flex;
   flex-wrap: wrap;
@@ -17,7 +17,7 @@ const RelatedConceptsContainer = styled.div.attrs({
 `;
 
 const RelatedConceptItem = styled.div.attrs<{ $isFullWidth: boolean }>({
-  className: font('intr', 6),
+  className: font('intr', -2),
 })`
   display: flex;
   align-items: center;
@@ -76,7 +76,7 @@ const RelatedConceptsGroup: FunctionComponent<Props> = ({
               !!item.relationshipType && item.relationshipType?.length > 0
             }
           >
-            <Space className={font('intr', 5)}>
+            <Space className={font('intr', -1)}>
               <Button
                 {...(dataGtmTriggerName && {
                   dataGtmProps: {

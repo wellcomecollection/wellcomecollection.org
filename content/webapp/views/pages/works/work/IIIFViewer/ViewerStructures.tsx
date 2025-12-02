@@ -30,7 +30,7 @@ export const List = styled(PlainList)`
 
 export const Item = styled(Space).attrs({
   as: 'li',
-  className: font('intr', 5),
+  className: font('intr', -1),
   $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
   $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 })<{ $isActive: boolean }>`

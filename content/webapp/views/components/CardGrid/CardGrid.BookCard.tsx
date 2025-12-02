@@ -35,20 +35,20 @@ const LinkSpace = styled(Space).attrs<LinkSpaceAttrs>(props => ({
 `;
 
 const Title = styled.h3.attrs({
-  className: font('wb', 4),
+  className: font('wb', 0),
 })`
   margin: 0;
 `;
 
 const Subtitle = styled(Space).attrs({
-  className: font('intb', 5),
+  className: font('intb', -1),
   $v: { size: 's', properties: ['margin-top'] },
 })`
   margin: 0;
 `;
 
 const Caption = styled.p.attrs({
-  className: font('intr', 5),
+  className: font('intr', -1),
 })`
   margin: 0;
 `;

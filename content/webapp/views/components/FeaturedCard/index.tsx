@@ -139,11 +139,11 @@ const FeaturedCardArticle: FunctionComponent<FeaturedCardArticleProps> = ({
       textColor={textColor}
     >
       <h2 className={font('wb', 2)}>{article.title}</h2>
-      {article.caption && <p className={font('intr', 5)}>{article.caption}</p>}
+      {article.caption && <p className={font('intr', -1)}>{article.caption}</p>}
       {article.seriesTitle && (
         <Space $v={{ size: 'l', properties: ['margin-top'] }}>
-          <p className={font('intb', 6)} style={{ marginBottom: 0 }}>
-            <span className={font('intr', 6)}>Part of</span>{' '}
+          <p className={font('intb', -2)} style={{ marginBottom: 0 }}>
+            <span className={font('intr', -2)}>Part of</span>{' '}
             {article.seriesTitle}
           </p>
         </Space>
@@ -177,7 +177,7 @@ const FeaturedCardExhibition: FunctionComponent<
           statusOverride={exhibition.statusOverride}
         />
         {exhibition.promo?.caption && (
-          <p className={font('intr', 5)} style={{ marginTop: '1rem' }}>
+          <p className={font('intr', -1)} style={{ marginTop: '1rem' }}>
             {exhibition.promo.caption}
           </p>
         )}

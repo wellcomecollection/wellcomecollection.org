@@ -21,7 +21,7 @@ export const FlushContainer = styled(Container)`
 `;
 
 export const Header = styled.header.attrs({
-  className: font('intr', 5),
+  className: font('intr', -1),
 })`
   background-color: ${props => props.theme.color('neutral.700')};
   position: sticky;
@@ -30,7 +30,7 @@ export const Header = styled.header.attrs({
 `;
 
 export const Title = styled.h1.attrs({
-  className: font('intb', 5),
+  className: font('intb', -1),
 })`
   margin-bottom: 0;
 `;
@@ -49,7 +49,7 @@ export const HeaderInner = styled(Space).attrs({
 export const prevNextHeight = '50px';
 
 export const PrevNext = styled.div.attrs({
-  className: font('intr', 5),
+  className: font('intr', -1),
 })`
   position: fixed;
   z-index: 2;

@@ -138,7 +138,7 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
             </Space>
             <h2
               id={title ? dasherize(title) : `gallery-${id}`}
-              className={font('wb', 3)}
+              className={font('wb', 1)}
               ref={headingRef}
             >
               {title || 'In pictures'}
@@ -249,7 +249,7 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
                       items.length > 1 ? (
                         <Space
                           $v={{ size: 'm', properties: ['margin-bottom'] }}
-                          className={font('intb', 5)}
+                          className={font('intb', -1)}
                         >
                           {i + 1} of {items.length}
                         </Space>

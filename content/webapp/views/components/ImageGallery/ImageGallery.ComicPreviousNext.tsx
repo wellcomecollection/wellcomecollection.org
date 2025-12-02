@@ -72,12 +72,12 @@ const TextWrap = styled.div<{ $isNext: boolean }>`
 `;
 
 const InSeries = styled(Space).attrs({
-  className: font('intr', 4),
+  className: font('intr', 0),
   $v: { size: 's', properties: ['margin-bottom'] },
 })``;
 
 const Title = styled.div.attrs({
-  className: font('intb', 3),
+  className: font('intb', 1),
 })`
   white-space: nowrap;
   overflow: hidden;
@@ -85,7 +85,7 @@ const Title = styled.div.attrs({
 `;
 
 const Chevron = styled(Space).attrs({
-  className: font('intr', 1),
+  className: font('intr', 0),
   $v: { size: 'm', properties: ['padding-top'] },
 })<{ $isNext: boolean }>`
   transform: translateX(${props => (props.$isNext ? '-6px' : '6px')});

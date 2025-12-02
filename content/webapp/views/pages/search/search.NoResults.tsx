@@ -48,7 +48,7 @@ const SearchNoResults: FunctionComponent<Props> = ({
             {query ? <QuerySpan>{query}</QuerySpan> : 'your search'}
             {hasFilters ? ' with the filters you have selected.' : '.'}
           </p>
-          <p className={font('intr', 3)} style={{ maxWidth: '800px' }}>
+          <p className={font('intr', 1)} style={{ maxWidth: '800px' }}>
             Please adjust your search terms and try again. If you think this
             search should show some results, please email{' '}
             <a href="mailto:digital@wellcomecollection.org">

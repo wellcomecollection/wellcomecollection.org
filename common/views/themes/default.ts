@@ -17,11 +17,7 @@ import {
   Size,
   themeValues,
 } from './config';
-import {
-  makeFontSizeClasses,
-  makeFontSizeOverrideClasses,
-  typography,
-} from './typography';
+import { makeFontSizeClasses, typography } from './typography';
 import { utilityClasses } from './utility-classes';
 
 type Classes = typeof classes;
@@ -98,7 +94,6 @@ const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
   ${inlineFonts}
   ${fonts}
   ${makeFontSizeClasses()}
-  ${makeFontSizeOverrideClasses()}
   ${typography}
 `;
 

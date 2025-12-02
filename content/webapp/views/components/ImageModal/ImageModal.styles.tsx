@@ -15,7 +15,7 @@ export const ImageInfoWrapper = styled.div`
 `;
 
 export const MetadataWrapper = styled(Space).attrs({
-  className: font('intr', 5),
+  className: font('intr', -1),
   $v: { size: 's', properties: ['margin-top', 'margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.600')};
@@ -29,7 +29,7 @@ export const Metadata = styled.span`
 `;
 
 export const ModalTitle = styled.h2.attrs({
-  className: font('intb', 3),
+  className: font('intb', 1),
 })`
   margin-bottom: 0;
 `;

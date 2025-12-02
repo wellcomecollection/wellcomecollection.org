@@ -8,7 +8,7 @@ import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
 const StyledComponent = styled.div.attrs({
-  className: font('intr', 5),
+  className: font('intr', -1),
 })`
   ${props => props.theme.media('headerMedium')`
     display: none;
@@ -49,7 +49,7 @@ const MobileSignIn: FunctionComponent = () => {
     <StyledComponent>
       <Space
         $h={{ size: 's', properties: ['margin-right'] }}
-        className={font('intr', 4)}
+        className={font('intr', 0)}
       >
         <Icon icon={userIcon} matchText={true} />
       </Space>

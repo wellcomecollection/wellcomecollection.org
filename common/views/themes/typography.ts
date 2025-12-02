@@ -3,7 +3,6 @@ import { css } from 'styled-components';
 
 import { GlobalStyleProps } from './default';
 
-const breakpointNames = ['small', 'medium', 'large'];
 const oneRem = 16;
 
 const fontSizeUnits = {
@@ -50,15 +49,15 @@ export const fontSizesAtBreakpoints = {
   },
 };
 
-// Map existing font size indexes to design system clamp-based sizes
+// Design system font sizes using the design system scale directly
 const designSystemFontSizes = {
-  0: designSystemTheme.font.size.f5, // Largest
-  1: designSystemTheme.font.size.f4,
+  5: designSystemTheme.font.size.f5, // Largest
+  4: designSystemTheme.font.size.f4,
   2: designSystemTheme.font.size.f2,
-  3: designSystemTheme.font.size.f1,
-  4: designSystemTheme.font.size.f0, // Body text
-  5: designSystemTheme.font.size['f-1'],
-  6: designSystemTheme.font.size['f-2'], // Smallest
+  1: designSystemTheme.font.size.f1,
+  0: designSystemTheme.font.size.f0, // Body text
+  '-1': designSystemTheme.font.size['f-1'],
+  '-2': designSystemTheme.font.size['f-2'], // Smallest
 };
 
 // Note: the design system font sizing uses vw units and clamp so that there is
@@ -103,22 +102,10 @@ const fontFamilies = {
 };
 
 const fontSizeMixin = (
-  size: 0 | 1 | 2 | 3 | 4 | 5 | 6
+  size: -2 | -1 | 0 | 1 | 2 | 4 | 5
 ) => css<GlobalStyleProps>`
-  ${props =>
-    props.toggles?.designSystemFonts?.value
-      ? css`
-          font-size: ${designSystemFontSizes[size]};
-        `
-      : breakpointNames.map(
-          name => css`
-            @media (min-width: ${props.theme.sizes[name]}px) {
-              font-size: ${fontSizesAtBreakpoints[name][size]}rem;
-            }
-          `
-        )}
+  font-size: ${designSystemFontSizes[size]};
 `;
-
 type FontFamily = keyof typeof fontFamilies;
 
 export const fontFamilyMixin = (
@@ -202,7 +189,7 @@ export const typography = css<GlobalStyleProps>`
   body {
     ${props =>
       fontFamilyMixin('intr', true, props.toggles?.designSystemFonts?.value)}
-    ${fontSizeMixin(4)}
+    ${fontSizeMixin(0)}
     line-height: ${props =>
       props.toggles?.designSystemFonts?.value
         ? designSystemTheme['line-height'].lg
@@ -312,7 +299,7 @@ export const typography = css<GlobalStyleProps>`
     h1 {
       ${props =>
         fontFamilyMixin('wb', true, props.toggles?.designSystemFonts?.value)}
-      ${fontSizeMixin(1)}
+      ${fontSizeMixin(4)}
     }
 
     h2 {
@@ -336,7 +323,7 @@ export const typography = css<GlobalStyleProps>`
     h3 {
       ${props =>
         fontFamilyMixin('intb', true, props.toggles?.designSystemFonts?.value)}
-      ${fontSizeMixin(3)}
+      ${fontSizeMixin(1)}
     }
 
     *::selection {
@@ -437,56 +424,9 @@ export const typography = css<GlobalStyleProps>`
 `;
 
 export const makeFontSizeClasses = () => css<GlobalStyleProps>`
-  ${props =>
-    props.toggles?.designSystemFonts?.value
-      ? Object.entries(designSystemFontSizes)
-          .map(([key, value]) => {
-            return `.font-size-${key} {font-size: ${value}}`;
-          })
-          .join(' ')
-      : breakpointNames.map(
-          bp => css`
-            @media (min-width: ${props.theme.sizes[bp]}px) {
-              ${Object.entries(fontSizesAtBreakpoints[bp])
-                .map(([key, value]) => {
-                  return `.font-size-${key} {font-size: ${value}rem}`;
-                })
-                .join(' ')}
-            }
-          `
-        )}
-`;
-
-function overridesAtBreakpoint(bp: string) {
-  return Object.entries(fontSizeUnits)
+  ${Object.entries(designSystemFontSizes)
     .map(([key, value]) => {
-      return `.font-size-override-${bp}-${key} {font-size: ${value}rem}`;
+      return `.font-size-f${key} {font-size: ${value}}`;
     })
-    .join(' ');
-}
-
-export const makeFontSizeOverrideClasses = () => css`
-  ${props =>
-    breakpointNames
-      .map(bp => {
-        const minMax =
-          bp === 'small'
-            ? ['small', 'medium']
-            : bp === 'medium'
-              ? ['medium', 'large']
-              : ['large'];
-
-        if (minMax.length === 2) {
-          return `@media (min-width: ${
-            props.theme.sizes[minMax[0]]
-          }px) and (max-width: ${props.theme.sizes[minMax[1]]}px) {
-          ${overridesAtBreakpoint(bp)}
-        }`;
-        } else {
-          return `@media (min-width: ${props.theme.sizes[minMax[0]]}px) {
-          ${overridesAtBreakpoint(bp)}
-        }`;
-        }
-      })
-      .join(' ')}
+    .join(' ')}
 `;

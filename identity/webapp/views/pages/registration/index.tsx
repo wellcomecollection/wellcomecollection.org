@@ -40,9 +40,9 @@ const RegistrationInformation: FunctionComponent<{
     <>
       <SectionHeading as="h1">Apply for a library membership</SectionHeading>
 
-      <h2 className={font('intb', 4)}>Your details</h2>
+      <h2 className={font('intb', 0)}>Your details</h2>
       <p style={{ marginBottom: 0 }}>
-        Email address: <strong className={font('intb', 5)}>{email}</strong>
+        Email address: <strong className={font('intb', -1)}>{email}</strong>
       </p>
       <Space $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}>
         <Divider />
@@ -156,7 +156,7 @@ const RegistrationPage: NextPage<Props> = ({
                     </SpacingComponent>
 
                     <SpacingComponent>
-                      <h3 className={font('intb', 5)}>
+                      <h3 className={font('intb', -1)}>
                         Collections research agreement
                       </h3>
                       <Controller

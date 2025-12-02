@@ -12,7 +12,7 @@ export const BaseButtonInner = styled.span.attrs<{
 }>(props => ({
   className: font(
     props.$isInline ? 'intr' : 'intb',
-    props.$isPill ? 6 : props.$isNewSearchBar ? 4 : 5
+    props.$isPill ? -2 : props.$isNewSearchBar ? 0 : -1
   ),
 }))`
   display: flex;

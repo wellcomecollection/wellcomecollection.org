@@ -101,7 +101,7 @@ const WorkHeader: FunctionComponent<Props> = ({
                 collectionManifestsCount && collectionManifestsCount > 0
               ) && (
                 <Space $v={{ size: 'm', properties: ['margin-top'] }}>
-                  <p className={font('intb', 5)} style={{ marginBottom: 0 }}>
+                  <p className={font('intb', -1)} style={{ marginBottom: 0 }}>
                     <Number
                       backgroundColor="yellow"
                       number={collectionManifestsCount as number}

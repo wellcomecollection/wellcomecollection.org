@@ -22,7 +22,7 @@ type Props = {
 // Styles
 const Wrapper = styled(Space).attrs({
   as: 'footer',
-  className: `${font('intr', 5)} is-hidden-print`,
+  className: `${font('intr', -1)} is-hidden-print`,
   $v: { size: 'xl', properties: ['padding-top'] },
 })`
   position: relative;
@@ -155,7 +155,7 @@ const FooterBottom = styled(Space).attrs({
   justify-content: space-between;
 `;
 
-const FooterLicense = styled.p.attrs({ className: font('intr', 6) })`
+const FooterLicense = styled.p.attrs({ className: font('intr', -2) })`
   display: inline;
   margin: 0 1rem 1rem 0;
 `;
@@ -197,7 +197,9 @@ const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
             openingtimes link */}
             {hasVenuesInfo && (
               <>
-                <h4 className={font('intb', 5)}>Today&rsquo;s opening times</h4>
+                <h4 className={font('intb', -1)}>
+                  Today&rsquo;s opening times
+                </h4>
                 <OpeningTimes venues={venues} />
               </>
             )}

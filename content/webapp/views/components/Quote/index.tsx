@@ -25,7 +25,7 @@ const Blockquote = styled.blockquote.attrs<{ $isPullOrReview: boolean }>(
 `;
 
 const Cite = styled.cite.attrs({
-  className: `quote__cite ${font('intr', 5)}`,
+  className: `quote__cite ${font('intr', -1)}`,
 })`
   color: ${props => props.theme.color('neutral.600')};
   display: flex;

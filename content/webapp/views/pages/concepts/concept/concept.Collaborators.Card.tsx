@@ -8,7 +8,7 @@ import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
 
 const StyledLink = styled(NextLink).attrs({
-  className: font('intr', 6),
+  className: font('intr', -2),
 })`
   background-color: ${props => props.theme.color('warmNeutral.300')};
   padding: ${props => props.theme.spacingUnits['3']}px;
