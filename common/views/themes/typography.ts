@@ -3,52 +3,6 @@ import { css } from 'styled-components';
 
 import { GlobalStyleProps } from './default';
 
-const oneRem = 16;
-
-const fontSizeUnits = {
-  '1': 14 / oneRem, // 0.875rem
-  '2': 15 / oneRem, // 0.9375rem
-  '3': 15.9 / oneRem, // 0.99375rem
-  '4': 18 / oneRem, // 1.125rem
-  '5': 18.8 / oneRem, // 1.175rem
-  '6': 21.6 / oneRem, // 1.35rem
-  '7': 24 / oneRem, // 1.5rem
-  '8': 28 / oneRem, // 1.75rem
-  '9': 32 / oneRem, // 2rem
-  '10': 40 / oneRem, // 2.5rem
-  '11': 50 / oneRem, // 3.125rem
-};
-
-export const fontSizesAtBreakpoints = {
-  small: {
-    0: fontSizeUnits[9],
-    1: fontSizeUnits[8],
-    2: fontSizeUnits[7],
-    3: fontSizeUnits[5],
-    4: fontSizeUnits[3],
-    5: fontSizeUnits[2],
-    6: fontSizeUnits[1],
-  },
-  medium: {
-    0: fontSizeUnits[10],
-    1: fontSizeUnits[9],
-    2: fontSizeUnits[7],
-    3: fontSizeUnits[6],
-    4: fontSizeUnits[4],
-    5: fontSizeUnits[2],
-    6: fontSizeUnits[1],
-  },
-  large: {
-    0: fontSizeUnits[11],
-    1: fontSizeUnits[10],
-    2: fontSizeUnits[8],
-    3: fontSizeUnits[6],
-    4: fontSizeUnits[5],
-    5: fontSizeUnits[3],
-    6: fontSizeUnits[1],
-  },
-};
-
 // Design system font sizes using the design system scale directly
 const designSystemFontSizes = {
   5: designSystemTheme.font.size.f5, // Largest
@@ -108,20 +62,13 @@ const fontSizeMixin = (
 `;
 type FontFamily = keyof typeof fontFamilies;
 
-export const fontFamilyMixin = (
-  family: FontFamily,
-  isFull: boolean,
-  useDesignSystem?: boolean
-): string => {
-  if (useDesignSystem) {
-    // Assign explicit font-weight to match re-mapping in note below
-    const fontWeight =
-      family === 'intb' || family === 'intsb' || family === 'intm'
-        ? `font-weight: ${designSystemTheme.font.weight.semibold};`
-        : '';
-    return `font-family: ${fontFamilies[family].designSystem}; ${fontWeight}`;
-  }
-  return `font-family: ${fontFamilies[family][isFull ? 'full' : 'base']}`;
+export const fontFamilyMixin = (family: FontFamily): string => {
+  // Assign explicit font-weight to match re-mapping in note below
+  const fontWeight =
+    family === 'intb' || family === 'intsb' || family === 'intm'
+      ? `font-weight: ${designSystemTheme.font.weight.semibold};`
+      : '';
+  return `font-family: ${fontFamilies[family].designSystem}; ${fontWeight}`;
 };
 
 // NOTE: intb, intsb and intm are all deliberately mapped to font-weight: 600
@@ -129,71 +76,41 @@ export const fontFamilyMixin = (
 // weights down from 4 to 2
 export const typography = css<GlobalStyleProps>`
   .font-intb {
-    font-weight: ${props =>
-      props.toggles?.designSystemFonts?.value
-        ? designSystemTheme.font.weight.semibold
-        : '700'};
+    ${fontFamilyMixin('intb')};
+    font-weight: ${designSystemTheme.font.weight.semibold};
   }
 
   .font-intsb {
-    font-weight: ${props =>
-      props.toggles?.designSystemFonts?.value
-        ? designSystemTheme.font.weight.semibold
-        : '600'};
+    ${fontFamilyMixin('intsb')};
+    font-weight: ${designSystemTheme.font.weight.semibold};
   }
 
   .font-intm {
-    font-weight: ${props =>
-      props.toggles?.designSystemFonts?.value
-        ? designSystemTheme.font.weight.semibold
-        : '500'};
+    ${fontFamilyMixin('intm')};
+    font-weight: ${designSystemTheme.font.weight.semibold};
   }
 
   .font-intr {
-    font-weight: ${props =>
-      props.toggles?.designSystemFonts?.value
-        ? designSystemTheme.font.weight.regular
-        : '400'};
+    ${fontFamilyMixin('intr')};
+    font-weight: ${designSystemTheme.font.weight.regular};
   }
 
-  ${props => `
-    .font-intb {
-      ${fontFamilyMixin('intb', !!props.isFontsLoaded, props.toggles?.designSystemFonts?.value)};
-    }
+  .font-wb {
+    ${fontFamilyMixin('wb')};
+  }
 
-    .font-intsb {
-      ${fontFamilyMixin('intsb', !!props.isFontsLoaded, props.toggles?.designSystemFonts?.value)};
-    }
-
-    .font-intm {
-      ${fontFamilyMixin('intm', !!props.isFontsLoaded, props.toggles?.designSystemFonts?.value)};
-    }
-
-    .font-intr {
-      ${fontFamilyMixin('intr', !!props.isFontsLoaded, props.toggles?.designSystemFonts?.value)};
-    }
-
-    .font-wb {
-      ${fontFamilyMixin('wb', !!props.isFontsLoaded, props.toggles?.designSystemFonts?.value)};
-    }
-
-    .font-lr {
-      ${fontFamilyMixin('lr', !!props.isFontsLoaded, props.toggles?.designSystemFonts?.value)};
-    }
-  `}
+  .font-lr {
+    ${fontFamilyMixin('lr')};
+  }
 
   html {
     font-size: 100%;
   }
 
   body {
-    ${props =>
-      fontFamilyMixin('intr', true, props.toggles?.designSystemFonts?.value)}
+    ${fontFamilyMixin('intr')}
     ${fontSizeMixin(0)}
-    line-height: ${props =>
-      props.toggles?.designSystemFonts?.value
-        ? designSystemTheme['line-height'].lg
-        : '1.5'};
+    line-height: ${designSystemTheme['line-height'].lg};
     color: ${props => props.theme.color('black')};
     font-variant-ligatures: no-common-ligatures;
     -webkit-font-smoothing: antialiased;
@@ -211,10 +128,7 @@ export const typography = css<GlobalStyleProps>`
     font-size: 1em;
     margin: 0 0 0.6em;
     text-wrap-style: balance;
-    line-height: ${props =>
-      props.toggles?.designSystemFonts?.value
-        ? designSystemTheme['line-height'].md
-        : undefined};
+    line-height: ${designSystemTheme['line-height'].md};
   }
 
   /*
@@ -291,20 +205,15 @@ export const typography = css<GlobalStyleProps>`
   }
 
   .body-text {
-    /* if we're using the design system, the value we want (1.5) is already set on body */
-    line-height: ${props =>
-      props.toggles?.designSystemFonts?.value ? undefined : '1.6'};
     letter-spacing: 0.0044em;
 
     h1 {
-      ${props =>
-        fontFamilyMixin('wb', true, props.toggles?.designSystemFonts?.value)}
+      ${fontFamilyMixin('wb')}
       ${fontSizeMixin(4)}
     }
 
     h2 {
-      ${props =>
-        fontFamilyMixin('wb', true, props.toggles?.designSystemFonts?.value)}
+      ${fontFamilyMixin('wb')}
       ${fontSizeMixin(2)}
     }
 
@@ -321,8 +230,7 @@ export const typography = css<GlobalStyleProps>`
     }
 
     h3 {
-      ${props =>
-        fontFamilyMixin('intb', true, props.toggles?.designSystemFonts?.value)}
+      ${fontFamilyMixin('intb')}
       ${fontSizeMixin(1)}
     }
 
@@ -367,14 +275,12 @@ export const typography = css<GlobalStyleProps>`
 
     strong,
     b {
-      ${props =>
-        fontFamilyMixin('intb', true, props.toggles?.designSystemFonts?.value)};
+      ${fontFamilyMixin('intb')};
     }
   }
 
   .drop-cap {
-    ${props =>
-      fontFamilyMixin('wb', true, props.toggles?.designSystemFonts?.value)}
+    ${fontFamilyMixin('wb')}
     font-size: 3em;
     color: ${props => props.theme.color('black')};
     float: left;
@@ -406,8 +312,7 @@ export const typography = css<GlobalStyleProps>`
     position: relative;
 
     &::before {
-      ${props =>
-        fontFamilyMixin('wb', true, props.toggles?.designSystemFonts?.value)}
+      ${fontFamilyMixin('wb')}
       position: absolute;
       content: '“';
       color: ${props => props.theme.color('accent.blue')};
