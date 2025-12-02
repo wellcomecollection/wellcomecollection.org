@@ -380,12 +380,11 @@ type checkModalParams = {
   userIsStaffWithRestricted: boolean;
   auth?: Auth;
   isAnyImageOpen?: boolean;
-  authV2?: boolean;
 };
 
 export function checkModalRequired(params: checkModalParams): boolean {
-  const { userIsStaffWithRestricted, auth, isAnyImageOpen, authV2 } = params;
-  const authServices = getAuthServices({ auth, authV2 });
+  const { userIsStaffWithRestricted, auth, isAnyImageOpen } = params;
+  const authServices = getAuthServices({ auth });
   if (authServices?.active) {
     return true;
   } else if (authServices?.external) {
