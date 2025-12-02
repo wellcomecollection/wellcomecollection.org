@@ -24,7 +24,7 @@ const ToolbarContainer = styled.div`
 `;
 
 const LinkList = styled.ul.attrs({
-  className: 'font-size--1',
+  className: font('intr', -1),
 })`
   display: flex;
   list-style: none;
