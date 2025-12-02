@@ -1,17 +1,12 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 
-import { dasherize } from '@weco/common/utils/grammar';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
-import { BrowseTopic, randomTopicPool } from '@weco/content/data/browse/topics';
+import { randomTopicPool } from '@weco/content/data/browse/topics';
 import { catalogueQuery } from '@weco/content/services/wellcome/catalogue';
 import { getConceptsByIds } from '@weco/content/services/wellcome/catalogue/browse';
 
 import BrowseTopicCard from './topics.BrowseTopicCard';
 import SurpriseMeCard from './topics.SurpriseMeCard';
-
-type Props = {
-  topics: BrowseTopic[];
-};
 
 const conceptIds = [
   'ta34s6m4',
@@ -24,13 +19,20 @@ const conceptIds = [
   'wyjyu7gv',
 ];
 
-const BrowseTopicsGrid: FunctionComponent<Props> = ({ topics }) => {
+type ConceptWithImage = {
+  id: string;
+  label: { text: string };
+};
+
+const BrowseTopicsGrid: FunctionComponent = () => {
   const [surpriseTopic, setSurpriseTopic] = useState<{
     label: string;
     id: string;
   } | null>(null);
-  const [concepts, setConcepts] = useState<any[]>([]);
-  const [conceptImages, setConceptImages] = useState<Record<string, any>>({});
+  const [concepts, setConcepts] = useState<ConceptWithImage[]>([]);
+  const [conceptImages, setConceptImages] = useState<
+    Record<string, { url: string } | null>
+  >({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -78,7 +80,7 @@ const BrowseTopicsGrid: FunctionComponent<Props> = ({ topics }) => {
         const imageResults = await Promise.all(imagePromises);
 
         // Store images by concept ID
-        const imagesMap: Record<string, any> = {};
+        const imagesMap: Record<string, { url: string } | null> = {};
         imageResults.forEach(({ conceptId, image }) => {
           imagesMap[conceptId] = image;
         });
