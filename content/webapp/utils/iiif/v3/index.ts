@@ -356,24 +356,13 @@ export type AuthServices = {
 
 export function getAuthServices({
   auth,
-  authV2,
 }: {
   auth?: Auth;
-  authV2?: boolean;
 }): AuthServices | undefined {
-  if (authV2) {
-    return {
-      active: auth?.v2.activeAccessService,
-      external: auth?.v2.externalAccessService,
-    };
-  } else {
-    return {
-      active: auth?.v1.activeAccessService,
-      // Only the v2 external service works (v1 responds with a 404), we therefore try returning the v2 service, so we can use it if it is available. We still need to fallback to the v1 service as the presence of the service helps us determine whether to show the viewer or not.
-      external:
-        auth?.v2.externalAccessService || auth?.v1.externalAccessService,
-    };
-  }
+  return {
+    active: auth?.activeAccessService,
+    external: auth?.externalAccessService,
+  };
 }
 
 export function getIframeTokenSrc({
