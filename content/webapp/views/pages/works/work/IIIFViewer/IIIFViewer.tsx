@@ -255,11 +255,15 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   // the viewer would constantly reload itself.
   // To fix this we now reset the MainAreaWidth and MainAreaHeight
   // when the window is resized or the isDesktopSidebarActive value changes
-  let timeout;
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(
+    undefined
+  );
   const handleResize = () => {
     setIsResizing(true);
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    timeoutRef.current = setTimeout(() => {
       setIsResizing(false);
       setMainAreaWidth(mainAreaRef.current?.clientWidth || 0);
       setMainAreaHeight(mainAreaRef.current?.clientHeight || 0);
@@ -270,6 +274,9 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     window.addEventListener('resize', handleResize);
     return () => {
       window.removeEventListener('resize', handleResize);
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
     };
   }, []);
 
