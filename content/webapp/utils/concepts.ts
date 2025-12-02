@@ -1,5 +1,5 @@
 import { IdentifierType } from '@weco/common/model/catalogue';
-import { Concept as ConceptType } from '@weco/content/services/wellcome/catalogue/types';
+import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 
 export function getDisplayIdentifierType(
   identifierType: IdentifierType
@@ -58,35 +58,23 @@ const keysById = {
   },
 };
 
-const gatherValues = (conceptResponse: ConceptType, fields: string[]) => {
-  return fields.reduce(
-    (acc, current) => acc.concat(conceptResponse[current]),
-    []
-  );
+const gatherValues = (concept: Concept, fields: string[]) => {
+  return fields.reduce((acc, current) => acc.concat(concept[current]), []);
 };
 
-export const queryParams = (
-  sectionName: string,
-  conceptResponse: ConceptType
-) => {
+export const queryParams = (sectionName: string, concept: Concept) => {
   const queryParams = {};
   const queryDefinition = keysById[sectionName];
   queryDefinition.filters.forEach(filter => {
-    queryParams[filter] = gatherValues(conceptResponse, queryDefinition.fields);
+    queryParams[filter] = gatherValues(concept, queryDefinition.fields);
   });
 
   return queryParams;
 };
 
-export const allRecordsLinkParams = (
-  sectionName: string,
-  conceptResponse: ConceptType
-) => {
+export const allRecordsLinkParams = (sectionName: string, concept: Concept) => {
   const queryDefinition = linkKeys[sectionName];
   return {
-    [queryDefinition.filter]: gatherValues(
-      conceptResponse,
-      queryDefinition.fields
-    ),
+    [queryDefinition.filter]: gatherValues(concept, queryDefinition.fields),
   };
 };

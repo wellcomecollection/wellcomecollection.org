@@ -108,13 +108,13 @@ type Subject = {
   identifiers?: Identifier[];
   label: string;
   standardLabel: string;
-  concepts: Concept[];
+  concepts: WorkConcept[];
   type: 'Subject';
 };
 
 type Genre = {
   label: string;
-  concepts: Concept[];
+  concepts: WorkConcept[];
   type: 'Genre';
 };
 
@@ -141,6 +141,13 @@ export type RelatedConcept = {
   id: string;
   conceptType: ConceptType;
   relationshipType?: string;
+};
+
+export type WorkConcept = {
+  id: string;
+  label: string;
+  standardLabel: string;
+  type: ConceptType;
 };
 
 export type Concept = {

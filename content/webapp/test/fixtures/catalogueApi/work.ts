@@ -31,6 +31,8 @@ export const workFixture: Work = {
           },
         ],
         label: 'Bundeszentrale für Gesundheitliche Aufklärung (Germany)',
+        standardLabel:
+          'Bundeszentrale für Gesundheitliche Aufklärung (Germany)',
         type: 'Organisation',
       },
       roles: [],
@@ -40,6 +42,7 @@ export const workFixture: Work = {
     {
       agent: {
         label: 'Kolvenbach, Marcel, 1969-',
+        standardLabel: 'Kolvenbach, Marcel, 1969-',
         type: 'Person',
       },
       roles: [],
@@ -49,6 +52,7 @@ export const workFixture: Work = {
     {
       agent: {
         label: 'Meyer, Guido.',
+        standardLabel: 'Meyer, Guido.',
         type: 'Person',
       },
       roles: [],
@@ -100,13 +104,13 @@ export const workFixture: Work = {
         },
       ],
       label: 'AIDS (Disease)',
+      standardLabel: 'AIDS (Disease)',
       concepts: [
         {
           id: 'concept-1',
           label: 'AIDS (Disease)',
-          displayLabel: 'AIDS (Disease)',
+          standardLabel: 'AIDS (Disease)',
           type: 'Concept',
-          displayImages: [],
         },
       ],
       type: 'Subject',
@@ -125,13 +129,13 @@ export const workFixture: Work = {
         },
       ],
       label: 'Condoms.',
+      standardLabel: 'Condoms.',
       concepts: [
         {
           id: 'concept-2',
           label: 'Condoms.',
-          displayLabel: 'Condoms.',
+          standardLabel: 'Condoms.',
           type: 'Concept',
-          displayImages: [],
         },
       ],
       type: 'Subject',
@@ -150,13 +154,13 @@ export const workFixture: Work = {
         },
       ],
       label: 'Sun.',
+      standardLabel: 'Sun.',
       concepts: [
         {
           id: 'concept-3',
           label: 'Sun.',
-          displayLabel: 'Sun.',
+          standardLabel: 'Sun.',
           type: 'Place',
-          displayImages: [],
         },
       ],
       type: 'Subject',
@@ -175,13 +179,13 @@ export const workFixture: Work = {
         },
       ],
       label: 'Germany.',
+      standardLabel: 'Germany.',
       concepts: [
         {
           id: 'concept-4',
           label: 'Germany.',
-          displayLabel: 'Germany.',
+          standardLabel: 'Germany.',
           type: 'Place',
-          displayImages: [],
         },
       ],
       type: 'Subject',
@@ -194,9 +198,8 @@ export const workFixture: Work = {
         {
           id: 'concept-5',
           label: 'Posters.',
-          displayLabel: 'Posters.',
+          standardLabel: 'Posters.',
           type: 'Concept',
-          displayImages: [],
         },
       ],
       type: 'Genre',
@@ -207,9 +210,8 @@ export const workFixture: Work = {
         {
           id: 'concept-6',
           label: 'Lithographs.',
-          displayLabel: 'Lithographs.',
+          standardLabel: 'Lithographs.',
           type: 'Concept',
-          displayImages: [],
         },
       ],
       type: 'Genre',
@@ -341,6 +343,7 @@ export const workFixture: Work = {
       agents: [
         {
           label: 'Bundeszentrale für Gesundheitliche Aufklärung',
+          standardLabel: 'Bundeszentrale für Gesundheitliche Aufklärung',
           type: 'Agent',
         },
       ],
