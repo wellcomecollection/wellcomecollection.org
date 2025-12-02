@@ -3,17 +3,6 @@ import { css } from 'styled-components';
 
 import { GlobalStyleProps } from './default';
 
-// Design system font sizes using the design system scale directly
-const designSystemFontSizes = {
-  5: designSystemTheme.font.size.f5, // Largest
-  4: designSystemTheme.font.size.f4,
-  2: designSystemTheme.font.size.f2,
-  1: designSystemTheme.font.size.f1,
-  0: designSystemTheme.font.size.f0, // Body text
-  '-1': designSystemTheme.font.size['f-1'],
-  '-2': designSystemTheme.font.size['f-2'], // Smallest
-};
-
 // Note: the design system font sizing uses vw units and clamp so that there is
 // a gradated change across viewport widths without a need for breakpoint changes.
 // We have considered the utility of a similar container query based approach using
@@ -32,12 +21,12 @@ const fontFamilies = {
 const fontSizeMixin = (
   size: -2 | -1 | 0 | 1 | 2 | 4 | 5
 ) => css<GlobalStyleProps>`
-  font-size: ${designSystemFontSizes[size]};
+  font-size: ${designSystemTheme.font.size[`f${size}`]};
 `;
 type FontFamily = keyof typeof fontFamilies;
 
 export const fontFamilyMixin = (family: FontFamily): string => {
-  return `font-family: ${fontFamilies[family]}`;
+  return `font-family: ${fontFamilies[family]};`;
 };
 
 export const typography = css<GlobalStyleProps>`
@@ -285,9 +274,9 @@ export const typography = css<GlobalStyleProps>`
 `;
 
 export const makeFontSizeClasses = () => css<GlobalStyleProps>`
-  ${Object.entries(designSystemFontSizes)
+  ${Object.entries(designSystemTheme.font.size)
     .map(([key, value]) => {
-      return `.font-size-f${key} {font-size: ${value}}`;
+      return `.font-size-${key} {font-size: ${value}}`;
     })
     .join(' ')}
 `;
