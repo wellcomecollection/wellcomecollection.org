@@ -41,7 +41,7 @@ const Title = styled.h3.attrs({
 `;
 
 const Subtitle = styled(Space).attrs({
-  className: font('intb', -1),
+  className: font('intsb', -1),
   $v: { size: 's', properties: ['margin-top'] },
 })`
   margin: 0;

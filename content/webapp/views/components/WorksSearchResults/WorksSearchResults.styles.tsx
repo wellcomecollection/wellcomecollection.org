@@ -77,7 +77,7 @@ export const WorkInformationItemSeparator = styled.span`
 `;
 
 export const WorkTitleHeading = styled.h3.attrs({
-  className: font('intb', 0),
+  className: font('intsb', 0),
 })`
   margin-bottom: 0.5rem;
 `;

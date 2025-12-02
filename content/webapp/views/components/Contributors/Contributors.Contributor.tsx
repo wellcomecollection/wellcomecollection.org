@@ -43,7 +43,7 @@ const OrganisationImage = styled.div`
   width: 72px;
 `;
 
-const Name = styled.h3.attrs({ className: font('intb', 0) })`
+const Name = styled.h3.attrs({ className: font('intsb', 0) })`
   margin: 0;
 `;
 
@@ -53,7 +53,7 @@ const Pronouns = styled(ContributorInfoWrapper).attrs({
 })``;
 
 const Role = styled(ContributorInfoWrapper).attrs({
-  className: font('intb', -1),
+  className: font('intsb', -1),
 })``;
 
 const Description = styled(Space).attrs({

@@ -12,7 +12,7 @@ type LabelContainerProps = {
 };
 
 const LabelContainer = styled(Space).attrs({
-  className: font('intb', -2),
+  className: font('intsb', -2),
 })<LabelContainerProps>`
   white-space: nowrap;
   line-height: 1;

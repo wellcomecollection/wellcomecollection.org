@@ -59,7 +59,7 @@ const WorkItem: FunctionComponent<WorkItemRendererProps> = ({
       <StyledLink
         {...toWorkLink({ id: item.work.id, scroll: false })}
         className={classNames({
-          [font('intb', -2)]: level === 1,
+          [font('intsb', -2)]: level === 1,
           [font('intr', -2)]: level > 1,
         })}
         tabIndex={isEnhanced ? (isSelected ? 0 : -1) : 0}

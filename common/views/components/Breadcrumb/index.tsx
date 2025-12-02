@@ -74,7 +74,7 @@ const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({
             {prefix}{' '}
             <LinkOrSpanTag
               className={classNames({
-                [font('intb', -2)]: Boolean(prefix),
+                [font('intsb', -2)]: Boolean(prefix),
               })}
               href={url}
               data-gtm-trigger={url ? 'breadcrumb_link' : undefined}

@@ -33,7 +33,7 @@ const ImageWithTasl: FunctionComponent<ImageWithTaslProps> = ({
 
       {displayWorkLink && tasl && hasLinkedWork(tasl.sourceLink) && (
         <Space
-          className={font('intm', -1)}
+          className={font('intsb', -1)}
           style={{ display: 'block' }}
           $v={{ size: 'm', properties: ['margin-top'] }}
         >

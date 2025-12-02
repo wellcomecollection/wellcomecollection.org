@@ -197,7 +197,7 @@ const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
             openingtimes link */}
             {hasVenuesInfo && (
               <>
-                <h4 className={font('intb', -1)}>
+                <h4 className={font('intsb', -1)}>
                   Today&rsquo;s opening times
                 </h4>
                 <OpeningTimes venues={venues} />

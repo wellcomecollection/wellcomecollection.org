@@ -26,7 +26,7 @@ const InfoContainer = styled(Space).attrs({
 `;
 
 export const InfoIconWrapper = styled(Space).attrs({
-  className: font('intb', 0),
+  className: font('intsb', 0),
   $h: { size: 's', properties: ['margin-right'] },
 })`
   float: left;
@@ -50,7 +50,7 @@ const InfoBox: FunctionComponent<Props> = ({
                 <Icon icon={icon} />
               </InfoIconWrapper>
             )}
-            {title && <h3 className={font('intb', -1)}>{title}</h3>}
+            {title && <h3 className={font('intsb', -1)}>{title}</h3>}
             {description && (
               <Space
                 $v={{ size: 'm', properties: ['margin-bottom'] }}

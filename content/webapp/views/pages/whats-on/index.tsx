@@ -243,7 +243,7 @@ const WhatsOnPage: NextPage<Props> = props => {
                       }}
                     >
                       <h2 className={font('wb', 2)}>Exhibitions and Events</h2>
-                      <span className={font('intb', 0)}>Free admission</span>
+                      <span className={font('intsb', 0)}>Free admission</span>
                     </div>
                   </ContaineredLayout>
                 </Space>

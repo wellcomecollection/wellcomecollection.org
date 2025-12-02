@@ -11,7 +11,7 @@ export const BaseButtonInner = styled.span.attrs<{
   $isNewSearchBar?: boolean;
 }>(props => ({
   className: font(
-    props.$isInline ? 'intr' : 'intb',
+    props.$isInline ? 'intr' : 'intsb',
     props.$isPill ? -2 : props.$isNewSearchBar ? 0 : -1
   ),
 }))`

@@ -81,12 +81,12 @@ const ExhibitionBeingHuman = ({
                         $borderColor={borderColor}
                       >
                         {link.type === 'exhibition-guide' && (
-                          <h3 className={font('intb', 0)}>
+                          <h3 className={font('intsb', 0)}>
                             Digital exhibition guide
                           </h3>
                         )}
                         {link.type === 'visual-story' && (
-                          <h3 className={font('intb', 0)}>Visual story</h3>
+                          <h3 className={font('intsb', 0)}>Visual story</h3>
                         )}
                         <span className={font('intr', -2)}>{link.text}</span>
                         <ResourceLinkIconWrapper>

@@ -90,7 +90,7 @@ const Tags: FunctionComponent<Props> = ({
                     >
                       <span
                         className={font(
-                          i === 0 && isFirstPartBold ? 'intb' : 'intr',
+                          i === 0 && isFirstPartBold ? 'intsb' : 'intr',
                           -1
                         )}
                       >

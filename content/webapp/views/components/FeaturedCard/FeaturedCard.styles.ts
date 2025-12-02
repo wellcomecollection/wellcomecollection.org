@@ -51,7 +51,7 @@ export const FeaturedCardLeft = styled(GridCell)<HasIsReversed>`
 `;
 
 export const FeaturedCardRight = styled.div.attrs({
-  className: font('intb', -2), // required for em value in label height calc below
+  className: font('intsb', -2), // required for em value in label height calc below
 })<HasIsReversed>`
   display: flex;
   flex-direction: column;

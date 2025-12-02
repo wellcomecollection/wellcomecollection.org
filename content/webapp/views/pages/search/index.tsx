@@ -239,7 +239,7 @@ const SearchPage: NextPage<Props> = withSearchLayout(
                       <>
                         {' '}
                         for{' '}
-                        <span className={font('intb', -1)}>{queryString}</span>
+                        <span className={font('intsb', -1)}>{queryString}</span>
                       </>
                     )}
                   </>

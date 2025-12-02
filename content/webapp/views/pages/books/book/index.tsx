@@ -24,7 +24,7 @@ const MetadataWrapper = styled.div`
 `;
 
 const Subtitle = styled.p.attrs({
-  className: font('intb', 1),
+  className: font('intsb', 1),
 })`
   margin: 0;
 `;

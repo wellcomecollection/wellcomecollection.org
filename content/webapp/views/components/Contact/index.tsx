@@ -25,7 +25,7 @@ const TitleWrapper = styled(Space).attrs({
   display: block;
 `;
 
-const Title = styled.span.attrs({ className: font('intb', 0) })``;
+const Title = styled.span.attrs({ className: font('intsb', 0) })``;
 
 const Subtitle = styled(Space).attrs({
   as: 'span',

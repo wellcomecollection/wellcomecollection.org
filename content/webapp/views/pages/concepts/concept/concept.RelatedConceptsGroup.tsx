@@ -8,7 +8,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { RelatedConcept } from '@weco/content/services/wellcome/catalogue/types';
 
 const RelatedConceptsContainer = styled.div.attrs({
-  className: font('intm', -1),
+  className: font('intsb', -1),
 })`
   display: flex;
   flex-wrap: wrap;

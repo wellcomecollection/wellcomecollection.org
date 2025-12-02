@@ -153,7 +153,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
       {shouldLockScroll && (
         <>
           {/* https://github.com/wellcomecollection/wellcomecollection.org/pull/12171
-          This portal is required because of an older version of Safari, 
+          This portal is required because of an older version of Safari,
           consider removing once moved to v21 */}
           {createPortal(
             <BackgroundOverlay
@@ -173,7 +173,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
         }}
       >
         <Root $hasStuck={hasStuck} data-scroll-smooth="true">
-          <h2 className={`${font('intm', -1)} is-hidden-s is-hidden-m`}>
+          <h2 className={`${font('intsb', -1)} is-hidden-s is-hidden-m`}>
             {titleText}
           </h2>
 

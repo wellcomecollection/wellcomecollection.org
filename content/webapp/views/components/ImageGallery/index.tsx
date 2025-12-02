@@ -249,7 +249,7 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
                       items.length > 1 ? (
                         <Space
                           $v={{ size: 'm', properties: ['margin-bottom'] }}
-                          className={font('intb', -1)}
+                          className={font('intsb', -1)}
                         >
                           {i + 1} of {items.length}
                         </Space>

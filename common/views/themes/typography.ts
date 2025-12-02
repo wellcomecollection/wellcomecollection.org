@@ -23,36 +23,10 @@ const designSystemFontSizes = {
 // https://github.com/wellcomecollection/wellcomecollection.org/issues/12324
 
 const fontFamilies = {
-  intr: {
-    base: `Inter, sans-serif;`,
-    full: `Inter, sans-serif;`,
-    designSystem: designSystemTheme.font.family.sans,
-  },
-  intm: {
-    base: `Inter, sans-serif;`,
-    full: `Inter, sans-serif;`,
-    designSystem: designSystemTheme.font.family.sans,
-  },
-  intsb: {
-    base: `Inter, sans-serif;`,
-    full: `Inter, sans-serif;`,
-    designSystem: designSystemTheme.font.family.sans,
-  },
-  intb: {
-    base: `Inter, sans-serif;`,
-    full: `Inter, sans-serif;`,
-    designSystem: designSystemTheme.font.family.sans,
-  },
-  wb: {
-    base: `'Wellcome Bold Web Subset', 'Arial Black', sans-serif;`,
-    full: `'Wellcome Bold Web', 'Wellcome Bold Web Subset', 'Arial Black', sans-serif;`,
-    designSystem: designSystemTheme.font.family.brand,
-  },
-  lr: {
-    base: `'Courier New', Courier, Monospace;`,
-    full: `'Lettera Regular Web', 'Courier New', Courier, Monospace;`,
-    designSystem: designSystemTheme.font.family.mono,
-  },
+  intr: designSystemTheme.font.family.sans,
+  intsb: designSystemTheme.font.family.sans,
+  wb: designSystemTheme.font.family.brand,
+  lr: designSystemTheme.font.family.mono,
 };
 
 const fontSizeMixin = (
@@ -63,30 +37,12 @@ const fontSizeMixin = (
 type FontFamily = keyof typeof fontFamilies;
 
 export const fontFamilyMixin = (family: FontFamily): string => {
-  // Assign explicit font-weight to match re-mapping in note below
-  const fontWeight =
-    family === 'intb' || family === 'intsb' || family === 'intm'
-      ? `font-weight: ${designSystemTheme.font.weight.semibold};`
-      : '';
-  return `font-family: ${fontFamilies[family].designSystem}; ${fontWeight}`;
+  return `font-family: ${fontFamilies[family]}`;
 };
 
-// NOTE: intb, intsb and intm are all deliberately mapped to font-weight: 600
-// which is the semibold weight as we're trying to rationalise our Inter
-// weights down from 4 to 2
 export const typography = css<GlobalStyleProps>`
-  .font-intb {
-    ${fontFamilyMixin('intb')};
-    font-weight: ${designSystemTheme.font.weight.semibold};
-  }
-
   .font-intsb {
     ${fontFamilyMixin('intsb')};
-    font-weight: ${designSystemTheme.font.weight.semibold};
-  }
-
-  .font-intm {
-    ${fontFamilyMixin('intm')};
     font-weight: ${designSystemTheme.font.weight.semibold};
   }
 
@@ -230,7 +186,7 @@ export const typography = css<GlobalStyleProps>`
     }
 
     h3 {
-      ${fontFamilyMixin('intb')}
+      ${fontFamilyMixin('intsb')}
       ${fontSizeMixin(1)}
     }
 
@@ -275,7 +231,7 @@ export const typography = css<GlobalStyleProps>`
 
     strong,
     b {
-      ${fontFamilyMixin('intb')};
+      ${fontFamilyMixin('intsb')};
     }
   }
 
