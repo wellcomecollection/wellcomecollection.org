@@ -1,16 +1,13 @@
 import { Manifest, Range } from '@iiif/presentation-3';
 
 import {
-  clickThroughService,
   manifest,
   manifestMixedStandardAndNonStandard,
   manifestNoStandard,
-  manifestWithClickThroughService,
   manifestWithTranscript,
   physicalDescriptionMetadataItem,
 } from '@weco/content/__mocks__/iiif-manifest-v3';
 import {
-  getClickThroughService,
   getIIIFMetadata,
   getIIIFPresentationCredit,
   getItemsStatus,
@@ -166,16 +163,6 @@ describe('Group repetitive iiif ranges', () => {
     );
 
     expect(groupedStructures).toEqual(correctResult);
-  });
-});
-
-describe('getClickThroughService', () => {
-  it('returns an clickThroughService from a Manifest', () => {
-    const clickThroughServiceFromManifest = getClickThroughService(
-      manifestWithClickThroughService as Manifest
-    );
-
-    expect(clickThroughServiceFromManifest).toEqual(clickThroughService);
   });
 });
 
