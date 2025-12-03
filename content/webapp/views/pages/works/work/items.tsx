@@ -170,7 +170,6 @@ const WorkItemPage: NextPage<Props> = ({
       if (service?.origin === event.origin) {
         if (Object.prototype.hasOwnProperty.call(data, 'accessToken')) {
           setAccessToken(data.accessToken);
-          console.log('data', data);
           setShowModal(Boolean(isTotallyRestricted));
           setShowViewer(!isTotallyRestricted);
         } else {
