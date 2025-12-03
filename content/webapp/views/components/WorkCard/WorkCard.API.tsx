@@ -84,7 +84,7 @@ const Meta = styled.p.attrs({
 `;
 
 const NotAvailable = styled.span.attrs({
-  className: font('intr', -2),
+  className: font('sans', -2),
 })`
   position: absolute;
   top: 50%;
