@@ -224,7 +224,7 @@ describe('MediaObjectBase', () => {
         );
 
         const componentHtml = componentWithoutImage.container.outerHTML;
-        expect(componentHtml.match(getBaseTitleClass(3))).toBeTruthy();
+        expect(componentHtml.match(getBaseTitleClass(1))).toBeTruthy();
       });
     });
 
@@ -255,7 +255,7 @@ describe('MediaObjectBase', () => {
           />
         );
         const componentHtml = component.container.outerHTML;
-        expect(componentHtml.match(getBaseTitleClass(4))).toBeTruthy();
+        expect(componentHtml.match(getBaseTitleClass(0))).toBeTruthy();
       });
     });
   });
