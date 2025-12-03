@@ -28,17 +28,6 @@ export type ColumnKey =
   | 'shiftM'
   | 'shiftL'
   | 'shiftXl';
-
-// ContainerPadding can be either number (px) or string (e.g., '5%')
-export type ContainerPaddingValue = number | string;
-
-export type ContainerPadding = {
-  small: ContainerPaddingValue;
-  medium: ContainerPaddingValue;
-  large: ContainerPaddingValue;
-  xlarge: ContainerPaddingValue;
-};
-
 export const spacingUnits = {
   '1': 4,
   '2': 6,
