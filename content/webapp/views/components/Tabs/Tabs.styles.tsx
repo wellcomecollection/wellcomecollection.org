@@ -138,7 +138,7 @@ export const NavItemInner = styled(Space).attrs<{ $selected: boolean }>(
     width: 100%;
     background-color: transparent;
 
-    a:focus-within & {
+    ${Tab}:focus-within & {
       background-color: ${props => props.theme.color('yellow')};
     }
   }
