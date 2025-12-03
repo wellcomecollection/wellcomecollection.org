@@ -16,7 +16,7 @@ export type Props = {
 };
 
 const Container = styled.nav.attrs({
-  className: `${font('intr', 6)} is-hidden-print`,
+  className: `${font('intr', -2)} is-hidden-print`,
 })<{ $isHiddenMobile?: boolean }>`
   display: flex;
   align-items: center;

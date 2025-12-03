@@ -14,7 +14,7 @@ const BackToResults: FunctionComponent = () => {
     <NextLink
       {...link}
       data-gtm-trigger="back_to_search_results"
-      className={font('intr', 5)}
+      className={font('intr', -1)}
     >
       <span>Back to search results</span>
     </NextLink>

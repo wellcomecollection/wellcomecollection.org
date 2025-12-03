@@ -71,7 +71,7 @@ export const Basic: Story = {
         Readme={Readme}
       >
         <h2 className={font('wb', 2)}>Remote diagnosis from wee to the Web</h2>
-        <p className={font('intr', 5)}>
+        <p className={font('intr', -1)}>
           Medical practice might have moved on from when patients posted flasks
           of their urine for doctors to taste, but telehealth today keeps up the
           tradition of remote diagnosis – to our possible detriment.

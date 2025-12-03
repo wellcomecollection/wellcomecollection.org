@@ -55,13 +55,13 @@ const SubTypeHeader = styled.div`
 `;
 
 const SubTypeTitle = styled.h2.attrs({
-  className: font('wb', 3),
+  className: font('wb', 1),
 })`
   margin: 0;
 `;
 
 const SubTypeLink = styled(Link).attrs({
-  className: font('wb', 3),
+  className: font('wb', 1),
 })`
   margin: 0;
   text-decoration: underline;
@@ -93,7 +93,7 @@ const WorkItem = styled.li`
 `;
 
 const IntroText = styled.p.attrs({
-  className: font('intr', 4),
+  className: font('intr', 0),
 })`
   margin: 0 0 ${props => props.theme.spacingUnit * 4}px 0;
   max-width: 60ch;

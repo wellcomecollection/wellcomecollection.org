@@ -71,7 +71,7 @@ export const OverrideDay = styled.div`
 `;
 
 export const OpeningHours = styled(PlainList).attrs({
-  className: font('intr', 5),
+  className: font('intr', -1),
 })``;
 
 export const DifferentToRegularTime = styled.span`

@@ -1,5 +1,4 @@
 import { FunctionComponent } from 'react';
-import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
@@ -55,7 +54,7 @@ const BrowseTypesGrid: FunctionComponent<Props> = ({ types }) => {
                 }}
               >
                 <h2 className={font('wb', 2)}>{type.label}</h2>
-                <p className={font('intr', 5)}>{type.description}</p>
+                <p className={font('intr', -1)}>{type.description}</p>
               </FeaturedCard>
             ) : type.size === 'medium' ? (
               type.imageUrls ? (

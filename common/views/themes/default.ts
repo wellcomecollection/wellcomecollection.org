@@ -3,7 +3,6 @@ import { createGlobalStyle, css } from 'styled-components';
 import { Toggles } from '@weco/toggles';
 
 import { fonts } from './base/fonts';
-import { inlineFonts } from './base/inline-fonts';
 import { layout } from './base/layout';
 import { normalize } from './base/normalize';
 import { row } from './base/row';
@@ -17,11 +16,7 @@ import {
   Size,
   themeValues,
 } from './config';
-import {
-  makeFontSizeClasses,
-  makeFontSizeOverrideClasses,
-  typography,
-} from './typography';
+import { makeFontSizeClasses, typography } from './typography';
 import { utilityClasses } from './utility-classes';
 
 type Classes = typeof classes;
@@ -95,10 +90,8 @@ const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
   ${wellcomeNormalize}
   ${layout}
   ${row}
-  ${inlineFonts}
   ${fonts}
   ${makeFontSizeClasses()}
-  ${makeFontSizeOverrideClasses()}
   ${typography}
 `;
 

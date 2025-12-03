@@ -55,20 +55,20 @@ const ContentWrapper = styled(Space).attrs({
 
 const Title = styled.h3.attrs<{ $size: 'large' | 'medium' | 'small' }>(
   props => ({
-    className: font('wb', props.$size === 'large' ? 2 : 3),
+    className: font('wb', props.$size === 'large' ? 2 : 1),
   })
 )<{ $size: 'large' | 'medium' | 'small' }>`
   margin: 0 0 ${props => props.theme.spacingUnit}px 0;
 `;
 
 const Description = styled.p.attrs({
-  className: font('intr', 5),
+  className: font('intr', -1),
 })`
   margin: 0 0 ${props => props.theme.spacingUnit * 2}px 0;
 `;
 
 const WorkCount = styled.p.attrs({
-  className: font('intr', 6),
+  className: font('intr', -2),
 })`
   margin: 0;
   margin-top: auto;

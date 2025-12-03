@@ -74,7 +74,7 @@ export const TextWrapper = styled.div`
 `;
 
 export const Title = styled.h2.attrs<{ $isHover?: boolean }>(props => ({
-  className: font(props.$isHover ? 'intr' : 'intb', 5),
+  className: font(props.$isHover ? 'intr' : 'intsb', -1),
 }))<{ $linesToClamp: number }>`
   ${clampLineStyles};
   color: ${props => props.theme.color('black')};
@@ -152,7 +152,7 @@ export const ImageWrapper = styled.div<{ $isHover?: boolean }>`
 `;
 
 export const MetaContainer = styled.div.attrs({
-  className: font('intr', 6),
+  className: font('intr', -2),
 })`
   color: ${props => props.theme.color('neutral.600')};
 `;

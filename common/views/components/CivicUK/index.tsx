@@ -54,7 +54,7 @@ const CivicUK = ({ apiKey }: { apiKey: string }) => {
   const theme = useTheme();
 
   const notifyTitleStyles = `
-  class="${font('intm', 3)}"
+  class="${font('intsb', 1)}"
   style="display: block; margin: ${theme.spacingUnits['4']}px 0;"
 `;
 
@@ -75,7 +75,7 @@ const CivicUK = ({ apiKey }: { apiKey: string }) => {
   };
 
   const text = {
-    title: `<h1 class="${font('intm', 2)}">Manage cookies</h1>`,
+    title: `<h1 class="${font('intsb', 2)}">Manage cookies</h1>`,
     intro:
       "We use cookies to make our website work. To help us make our marketing and website better, we'd like your consent to use cookies on behalf of third parties too.",
     necessaryTitle: `<h2 ${headingStyles}>Essential cookies</h2>`,

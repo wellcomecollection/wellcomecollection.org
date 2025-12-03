@@ -16,7 +16,7 @@ const IconWrapper = styled.div`
 `;
 
 const IconId = styled.p.attrs({
-  className: font('lr', 5),
+  className: font('lr', -1),
 })`
   hyphens: auto;
 `;

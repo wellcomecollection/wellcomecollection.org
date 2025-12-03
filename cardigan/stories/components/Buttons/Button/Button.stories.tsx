@@ -113,7 +113,7 @@ export const DropdownButton: Story = {
   },
   render: args => (
     <div
-      className={font('intr', 6)}
+      className={font('intr', -2)}
       style={{
         padding: '20px',
         backgroundColor: args.isOnDark ? theme.color('black') : undefined,

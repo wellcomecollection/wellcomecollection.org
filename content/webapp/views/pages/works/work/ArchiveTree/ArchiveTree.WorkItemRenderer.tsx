@@ -13,7 +13,7 @@ import { isRelatedWork } from './ArchiveTree.helpers';
 import { StyledLink, TreeControl } from './ArchiveTree.styles';
 
 const RefNumber = styled.span.attrs({
-  className: font('intr', 6),
+  className: font('intr', -2),
 })`
   line-height: 1;
   display: block;
@@ -46,7 +46,7 @@ const WorkItem: FunctionComponent<WorkItemRendererProps> = ({
         display: 'flex',
         width: '100%',
       }}
-      className={font('intr', 6)}
+      className={font('intr', -2)}
     >
       {isEnhanced && level > 1 && hasControl && (
         <TreeControl
@@ -59,8 +59,8 @@ const WorkItem: FunctionComponent<WorkItemRendererProps> = ({
       <StyledLink
         {...toWorkLink({ id: item.work.id, scroll: false })}
         className={classNames({
-          [font('intb', 6)]: level === 1,
-          [font('intr', 6)]: level > 1,
+          [font('intsb', -2)]: level === 1,
+          [font('intr', -2)]: level > 1,
         })}
         tabIndex={isEnhanced ? (isSelected ? 0 : -1) : 0}
         $isCurrent={currentWorkId === item.work.id}

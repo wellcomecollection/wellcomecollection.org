@@ -24,7 +24,7 @@ const ToolbarContainer = styled.div`
 `;
 
 const LinkList = styled.ul.attrs({
-  className: 'font-size-5',
+  className: font('intr', -1),
 })`
   display: flex;
   list-style: none;
@@ -142,7 +142,7 @@ const ApiToolbar: FunctionComponent<Props> = ({ links = [] }) => {
           flexGrow: 1,
         }}
       >
-        <span className={font('wb', 4)} style={{ marginLeft: '10px' }}>
+        <span className={font('wb', 0)} style={{ marginLeft: '10px' }}>
           API toolbar
         </span>
         <LinkList>
