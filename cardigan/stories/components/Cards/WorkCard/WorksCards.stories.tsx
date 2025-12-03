@@ -10,6 +10,7 @@ faker.seed(123);
 // Extend the story type
 type StoryProps = ComponentProps<typeof WorkCards> & {
   numberOfCards: number;
+  hasImage?: boolean;
 };
 
 const meta: Meta<StoryProps> = {
@@ -18,6 +19,7 @@ const meta: Meta<StoryProps> = {
   args: {
     works: [workBasic],
     numberOfCards: 1,
+    hasImage: true,
   },
   argTypes: {
     works: { table: { disable: true } },
@@ -30,10 +32,11 @@ const meta: Meta<StoryProps> = {
     },
   },
   render: args => {
-    const { numberOfCards } = args;
+    const { numberOfCards, hasImage } = args;
     args.works = Array.from({ length: numberOfCards }).map(() => ({
       ...workBasic,
       title: faker.lorem.lines(),
+      thumbnail: hasImage ? workBasic.thumbnail : undefined,
     }));
 
     if (args.works.length === 1) {
