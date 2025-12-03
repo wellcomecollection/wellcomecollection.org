@@ -20,11 +20,14 @@ export function getDisplayIdentifierType(
 // the All (Works|Images) links lead to a search for the label corresponding to
 // the genre.
 const linkKeys = {
-  worksAbout: { filter: 'subjects.label', fields: ['label'] },
-  worksBy: { filter: 'contributors.agent.label', fields: ['label'] },
+  worksAbout: { filter: 'subjects.label', fields: ['displayLabel', 'label'] },
+  worksBy: {
+    filter: 'contributors.agent.label',
+    fields: ['displayLabel', 'label'],
+  },
   imagesAbout: { filter: 'source.subjects.label', fields: ['label'] },
   imagesBy: { filter: 'source.contributors.agent.label', fields: ['label'] },
-  worksIn: { filter: 'genres.label', fields: ['label'] },
+  worksIn: { filter: 'genres.label', fields: ['displayLabel', 'label'] },
   imagesIn: { filter: 'source.genres.label', fields: ['label'] },
 };
 
