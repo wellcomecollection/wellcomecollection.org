@@ -28,9 +28,11 @@ updates:
       - dependency-name: 'react-window'
       # Storybook packages - major version updates require manual migration
       # Please also unignore webback once storybook gets upgraded - it currently has to be locked
+      # edit: minor versions have also become a problem (https://github.com/storybookjs/storybook/issues/32301)
       - dependency-name: '@storybook/*'
       - dependency-name: 'webpack'
         update-types: ['version-update:semver-major']
+        versions: ['5.103.0', '5.102.0']
     groups:
       all:
         patterns: ['*']
