@@ -45,7 +45,9 @@ export const fetchRelatedWorks = async ({
   const results: RelatedWork = {};
 
   const subjectLabels = subjects.map(subject => subject.label).slice(0, 3);
-  const typeTechniques = typesTechniques?.map(genre => genre.label).slice(0, 2);
+  const typeTechniques = typesTechniques
+    ?.map(genre => genre.concepts[0].label)
+    .slice(0, 2);
   const dateRange = getCenturyRange(date);
 
   const catalogueBasicQuery = async (
