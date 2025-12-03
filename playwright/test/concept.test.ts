@@ -92,7 +92,7 @@ test.describe('a Concept representing an Agent with no Images', () => {
 });
 
 test.describe('a Concept representing an Agent with Works and Images both about and by them', () => {
-  test.skip('has both works and image sections grouped into "by" and "about" sections', async ({
+  test('has both works and image sections grouped into "by" and "about" sections', async ({
     armyPage,
   }) => {
     // It has two tabs (works)
@@ -112,13 +112,13 @@ test.describe('a Concept representing an Agent with Works and Images both about 
     await armyPage.worksAboutTab.click();
     await expect(armyPage.allWorksLink).toHaveAttribute(
       'href',
-      '/search/works?subjects.label=%22Great+Britain.+Army%22'
+      '/search/works?subjects.label=%22British+Army%22'
     );
 
     await armyPage.worksByTab.click();
     await expect(armyPage.allWorksLink).toHaveAttribute(
       'href',
-      '/search/works?contributors.agent.label=%22Great+Britain.+Army%22'
+      '/search/works?contributors.agent.label=%22British+Army%22'
     );
 
     // It has links to all images by
@@ -178,7 +178,7 @@ test.describe('a Concept representing a Genre with works and images both about a
 });
 
 test.describe('a Concept representing a Genre that is only used as a genre for both works and images', () => {
-  test.skip('has both works and image sections showing records in that genre', async ({
+  test('has both works and image sections showing records in that genre', async ({
     mohPage,
   }) => {
     // Both images and works sections exist
@@ -192,7 +192,7 @@ test.describe('a Concept representing a Genre that is only used as a genre for b
     // It has links to filtered searches, (not using encodeURIComponent because the genre includes '+'")
     await expect(mohPage.allWorksLink).toHaveAttribute(
       'href',
-      `/search/works?genres.label=%22MOH+reports%22`
+      `/search/works?genres.label=%22Medical+Officer+of+Health+%28MOH%29+reports%22`
     );
 
     await expect(mohPage.allImagesInLink).toHaveAttribute(
