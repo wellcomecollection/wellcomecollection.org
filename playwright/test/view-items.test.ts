@@ -82,7 +82,7 @@ test('(4) | The entire item can be downloaded', async ({ page, context }) => {
   );
 });
 
-test.skip('(5) | The item has contributor information', async ({
+test('(5) | The item has contributor information', async ({
   page,
   context,
 }) => {

@@ -132,7 +132,7 @@ test('(5) | The user is coming from a prefiltered series search; they should be 
 });
 
 // https://github.com/wellcomecollection/wellcomecollection.org/issues/10952
-test.skip('(6) | Two options in two different filters have the same label/value; they should be uniquely identified', async ({
+test('(6) | Two options in two different filters have the same label/value; they should be uniquely identified', async ({
   context,
   page,
 }) => {
