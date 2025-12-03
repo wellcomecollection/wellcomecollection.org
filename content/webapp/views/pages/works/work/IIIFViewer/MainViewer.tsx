@@ -85,8 +85,7 @@ type SearchTermHighlightProps = {
 type RotationValue = 0 | 90 | 180 | 270;
 
 const SearchTermHighlight = styled.div<SearchTermHighlightProps>`
-  background: ${props => props.theme.color('accent.purple')};
-  opacity: 0.5;
+  background: ${props => props.theme.color('yellow')};
   position: absolute;
   z-index: 1;
   top: ${props => `${props.$top}px`};
@@ -95,6 +94,7 @@ const SearchTermHighlight = styled.div<SearchTermHighlightProps>`
   height: ${props => `${props.$height}px`};
   transform-origin: 0 0;
   transform: ${props => `rotate(${props.$rotation}deg)`};
+  mix-blend-mode: color;
 `;
 
 const MessageContainer = styled.div`
