@@ -66,7 +66,7 @@ const Inner = styled(Space).attrs({
 `;
 
 const AccordionInner = styled(Space).attrs({
-  className: font('intb', 5),
+  className: font('intsb', -1),
   $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
 })`
   button {
@@ -123,7 +123,7 @@ const AccordionItem = ({ title, children, testId }: AccordionItemProps) => {
           aria-controls={toHtmlId(title)}
         >
           <span>
-            <h2 className={font('intb', 5)}>{title}</h2>
+            <h2 className={font('intsb', -1)}>{title}</h2>
             <Icon
               icon={chevron}
               iconColor="white"
@@ -202,11 +202,11 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
           <Space
             $h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
             $v={{ size: 's', properties: ['padding-top', 'padding-bottom'] }}
-            className={font('intr', 5)}
+            className={font('intr', -1)}
           >
             <RestrictedMessageTitle>
               <Icon icon={info2} iconColor="accent.blue" />
-              <h2 className={font('intsb', 5)}>Restricted item</h2>
+              <h2 className={font('intsb', -1)}>Restricted item</h2>
             </RestrictedMessageTitle>
 
             <p style={{ marginBottom: manifestNeedsRegeneration ? '1rem' : 0 }}>
@@ -222,9 +222,9 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
           </Space>
         </RestrictedMessage>
       )}
-      <Inner className={font('intb', 5)}>
+      <Inner className={font('intsb', -1)}>
         {manifestLabel && (
-          <span className={font('intr', 5)}>{manifestLabel}</span>
+          <span className={font('intr', -1)}>{manifestLabel}</span>
         )}
         <h1>
           <WorkTitle title={work.title} />
@@ -253,7 +253,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
         <Space $v={{ size: 'm', properties: ['margin-top'] }}>
           <WorkLink
             id={work.id}
-            className={font('intr', 5)}
+            className={font('intr', -1)}
             style={{ display: 'flex', alignItems: 'center' }}
           >
             Catalogue details
@@ -268,7 +268,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
       </Inner>
       <Inner>
         <AccordionItem title="Licence and re-use">
-          <div className={font('intr', 6)}>
+          <div className={font('intr', -2)}>
             {license && license.label && (
               <p>
                 <strong>Licence:</strong>{' '}

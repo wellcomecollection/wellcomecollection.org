@@ -2,7 +2,6 @@ import Link, { LinkProps } from 'next/link';
 import { FunctionComponent } from 'react';
 
 import { IconSvg } from '@weco/common/icons';
-import { useToggles } from '@weco/common/server-data/Context';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -36,19 +35,12 @@ const TabsNavigate: FunctionComponent<Props> = ({
   currentSection,
   isWhite,
 }: Props) => {
-  const { designSystemFonts } = useToggles();
-
   return (
     <TabsContainer aria-label={label}>
       {items.map(item => {
         const isSelected = currentSection === item.id;
         return (
-          <Tab
-            key={item.id}
-            $selected={isSelected}
-            $hideBorder={hideBorder}
-            $designSystemFonts={designSystemFonts}
-          >
+          <Tab key={item.id} $selected={isSelected} $hideBorder={hideBorder}>
             <Link
               scroll={false}
               href={typeof item.url === 'string' ? item.url : item.url.href}

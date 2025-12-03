@@ -66,7 +66,7 @@ const LinkSpace = styled(Space).attrs<LinkSpaceAttrs>(props => ({
 `;
 
 const Title = styled.h3.attrs({
-  className: font('intb', 5),
+  className: font('intsb', -1),
 })`
   margin: 0;
   display: -webkit-box;
@@ -77,7 +77,7 @@ const Title = styled.h3.attrs({
 `;
 
 const Meta = styled.p.attrs({
-  className: font('intr', 6),
+  className: font('intr', -2),
 })`
   color: ${props => props.theme.color('neutral.600')};
   margin: 0;

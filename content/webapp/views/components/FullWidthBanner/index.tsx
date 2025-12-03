@@ -63,7 +63,7 @@ const ImageSection = styled.div`
 `;
 
 const SupportText = styled(Space).attrs({
-  className: font('intr', 5),
+  className: font('intr', -1),
   $v: { size: 'l', properties: ['margin-top'] },
 })`
   display: flex;

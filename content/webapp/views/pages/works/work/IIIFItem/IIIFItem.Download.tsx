@@ -58,13 +58,13 @@ const IIIFItemDownload: FunctionComponent<Props> = ({
         sizeOverride="width: 48px; height: 48px;"
       />
       <Space
-        className={font('intb', 5)}
+        className={font('intsb', -1)}
         $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
       >
         {displayLabel}
       </Space>
       {showWarning && (
-        <div className={font('intr', 6)}>{bornDigitalWarning}</div>
+        <div className={font('intr', -2)}>{bornDigitalWarning}</div>
       )}
       <Buttons
         variant="ButtonSolidLink"
@@ -72,8 +72,8 @@ const IIIFItemDownload: FunctionComponent<Props> = ({
         text="Open"
         ariaLabel={`Open ${(displayLabel !== substituteTitle && label) || 'document'}`}
       />
-      <span className={font('intr', 6)}>
-        Size: <span className={font('intb', 6)}>{fileSize || 'unknown'}</span>
+      <span className={font('intr', -2)}>
+        Size: <span className={font('intsb', -2)}>{fileSize || 'unknown'}</span>
       </span>
     </DownloadContainer>
   );

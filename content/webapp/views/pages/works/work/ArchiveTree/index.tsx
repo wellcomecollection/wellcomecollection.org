@@ -189,7 +189,7 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
           <Space
             $v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
           >
-            <h2 className={font('wb', 4)}>Collection contents</h2>
+            <h2 className={font('wb', 0)}>Collection contents</h2>
             <Tree $isEnhanced={isEnhanced} $maxWidth={375}>
               {isEnhanced && (
                 <TreeInstructions>{treeInstructions}</TreeInstructions>

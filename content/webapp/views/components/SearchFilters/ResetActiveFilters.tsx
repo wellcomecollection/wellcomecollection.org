@@ -162,7 +162,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
     ) : null;
 
   return (
-    <div className={font('intb', 5)}>
+    <div className={font('intsb', -1)}>
       <h2 style={{ display: 'inline' }}>
         <Space as="span" $h={{ size: 'm', properties: ['margin-right'] }}>
           Active filters:

@@ -54,7 +54,7 @@ const ResultsHeader = styled(Space).attrs({
 `;
 
 const ListItem = styled.li.attrs({
-  className: font('intr', 6),
+  className: font('intr', -2),
 })`
   list-style: none;
   border-bottom: 1px solid ${props => props.theme.color('neutral.500')};
@@ -72,7 +72,7 @@ const ListItem = styled.li.attrs({
 
 const HitData = styled(Space).attrs({
   as: 'span',
-  className: font('intb', 6),
+  className: font('intsb', -2),
 })`
   display: block;
 `;
@@ -84,7 +84,7 @@ const ResultsList = styled.ul`
 const ErrorMessage = styled(Space).attrs({
   as: 'p',
   $v: { size: 'm', properties: ['margin-top'] },
-  className: font('intr', 6),
+  className: font('intr', -2),
 })``;
 
 const Loading = () => (

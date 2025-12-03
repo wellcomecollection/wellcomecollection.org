@@ -72,14 +72,14 @@ export function getLocationText(
 }
 
 const DateInfo = styled.p.attrs({
-  className: font('intr', 5),
+  className: font('intr', -1),
 })`
   padding: 0;
   margin: 0;
 `;
 
 const LocationWrapper = styled(Space).attrs({
-  className: font('intr', 5),
+  className: font('intr', -1),
   $v: { size: 's', properties: ['margin-top', 'margin-bottom'] },
 })`
   display: flex;
@@ -177,19 +177,19 @@ const EventCard: FunctionComponent<Props> = ({
           {upcomingDatesFullyBooked(event.times) && (
             <Space $v={{ size: 'm', properties: ['margin-top'] }}>
               <TextWithDot
-                className={font('intr', 5)}
+                className={font('intr', -1)}
                 dotColor="validation.red"
                 text="Fully booked"
               />
             </Space>
           )}
           {!isPast && event.times.length > 1 && (
-            <p className={font('intb', 6)}>See all dates/times</p>
+            <p className={font('intsb', -2)}>See all dates/times</p>
           )}
           {isPast && !event.availableOnline && !isInPastListing && (
             <div>
               <TextWithDot
-                className={font('intr', 5)}
+                className={font('intr', -1)}
                 dotColor="neutral.500"
                 text="Past"
               />
@@ -202,10 +202,10 @@ const EventCard: FunctionComponent<Props> = ({
           {event.series.map(series => (
             <p
               key={series.title}
-              className={font('intb', 6)}
+              className={font('intsb', -2)}
               style={{ marginBottom: 0 }}
             >
-              <span className={font('intr', 6)}>Part of</span> {series.title}
+              <span className={font('intr', -2)}>Part of</span> {series.title}
             </p>
           ))}
         </CardPostBody>
