@@ -111,7 +111,7 @@ export const SelectableTags: FunctionComponent<SelectableTagsProps> = ({
 
   return (
     <div data-component="selectable-tags">
-      <TagsWrapper className={font('intm', 5)}>
+      <TagsWrapper className={font('intsb', -1)}>
         {tags.map((tag, index) => {
           const isSelected = selected.includes(tag.id);
           const gtmAttributes = dataGtmPropsToAttributes({

@@ -44,7 +44,7 @@ const showSourceBox = css`
 `;
 
 const SourcePill = styled.div.attrs({
-  className: font('intr', 6),
+  className: font('intr', -2),
 })`
   position: relative;
   display: inline-flex;
@@ -75,7 +75,7 @@ const underlineParagraph = css`
 `;
 
 const Paragraph = styled.p.attrs({
-  className: font('intr', 3),
+  className: font('intr', 1),
 })`
   display: inline;
   padding-right: ${props => props.theme.spacingUnits['3']}px;
@@ -197,7 +197,7 @@ const SourcedDescription: FunctionComponent<{
 
           <SourceBoxContainer $marginLeft={sourceBoxMarginLeft}>
             <SourceBox {...dataGtmPropsToAttributes({ trigger: 'source_box' })}>
-              <span className={font('intm', 6)}>Source:</span>
+              <span className={font('intsb', -2)}>Source:</span>
               <SourceLink>
                 {source === 'wikidata' && <WikidataLogo width={16} />}
                 {source === 'nlm-mesh' && (

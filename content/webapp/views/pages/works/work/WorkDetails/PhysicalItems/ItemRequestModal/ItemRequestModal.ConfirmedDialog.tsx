@@ -19,7 +19,7 @@ const ConfirmedDialog: FunctionComponent<ConfirmedDialogProps> = ({
   return (
     <>
       <Header>
-        <span className={font('wb', 3)}>Request confirmed</span>
+        <span className={font('wb', 1)}>Request confirmed</span>
         <CurrentRequests
           allowedHoldRequests={allowedRequests}
           currentHoldRequests={currentHoldNumber}

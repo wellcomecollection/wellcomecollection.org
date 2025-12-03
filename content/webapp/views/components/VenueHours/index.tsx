@@ -90,7 +90,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue }) => {
       <VenueHoursTimes $v={{ size: 'm', properties: ['margin-bottom'] }}>
         <Space
           as="h2"
-          className={font('wb', 3)}
+          className={font('wb', 1)}
           $h={{ size: 'm', properties: ['padding-right'] }}
         >
           {isFeatured ? venue.name : 'Opening hours'}

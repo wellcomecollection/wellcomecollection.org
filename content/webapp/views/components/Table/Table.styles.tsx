@@ -88,7 +88,7 @@ export const TableWrap = styled.div`
 
 export const TableTable = styled.table.attrs<{ $hasSmallerCopy?: boolean }>(
   props => ({
-    className: font('intr', props.$hasSmallerCopy ? 6 : 5),
+    className: font('intr', props.$hasSmallerCopy ? -2 : -1),
   })
 )`
   width: 100%;

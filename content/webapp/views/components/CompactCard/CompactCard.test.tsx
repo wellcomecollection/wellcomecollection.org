@@ -62,7 +62,7 @@ const TextWrapper = styled(GridCell).attrs<HasImageProps>(props => {
 })<HasImageProps>``;
 
 const TitleWrapper = styled.div.attrs({
-  className: font('wb', 4),
+  className: font('wb', 0),
 })``;
 
 const extraClass = 'my_extra_extra_class';
@@ -224,7 +224,7 @@ describe('MediaObjectBase', () => {
         );
 
         const componentHtml = componentWithoutImage.container.outerHTML;
-        expect(componentHtml.match(getBaseTitleClass(3))).toBeTruthy();
+        expect(componentHtml.match(getBaseTitleClass(1))).toBeTruthy();
       });
     });
 
@@ -255,7 +255,7 @@ describe('MediaObjectBase', () => {
           />
         );
         const componentHtml = component.container.outerHTML;
-        expect(componentHtml.match(getBaseTitleClass(4))).toBeTruthy();
+        expect(componentHtml.match(getBaseTitleClass(0))).toBeTruthy();
       });
     });
   });

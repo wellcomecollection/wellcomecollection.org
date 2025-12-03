@@ -31,7 +31,7 @@ const ScrollButtonsContainer = styled(Space).attrs<{
 `;
 
 const Label = styled(Space).attrs({
-  className: font('intr', 6),
+  className: font('intr', -2),
 })<{ $hasDarkBackground?: boolean }>`
   color: ${props =>
     props.theme.color(props.$hasDarkBackground ? 'neutral.400' : 'black')};

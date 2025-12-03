@@ -31,7 +31,7 @@ type PartWithSeparatorProps = {
 const nbsp = '\\00a0';
 
 const PartWithSeparator = styled.span.attrs({
-  className: font('intr', 5),
+  className: font('intr', -1),
 })<PartWithSeparatorProps>`
   &::after {
     display: ${props => (props.$isLast ? 'none' : 'inline')};
@@ -90,8 +90,8 @@ const Tags: FunctionComponent<Props> = ({
                     >
                       <span
                         className={font(
-                          i === 0 && isFirstPartBold ? 'intb' : 'intr',
-                          5
+                          i === 0 && isFirstPartBold ? 'intsb' : 'intr',
+                          -1
                         )}
                       >
                         {part}

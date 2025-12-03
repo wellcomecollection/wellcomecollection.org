@@ -34,7 +34,7 @@ import { queryParamToArrayIndex } from '.';
 import ToolbarSegmentedControl from './ToolbarSegmentedControl';
 
 export const ViewerButton = styled.button.attrs({
-  className: font('intb', 5),
+  className: font('intsb', -1),
 })<{ $isDark?: boolean }>`
   line-height: 1.5;
   border-radius: ${props => props.theme.borderRadiusUnit}px;
@@ -171,7 +171,7 @@ const LeftZone = styled.div`
 `;
 
 const MiddleZone = styled.div.attrs({
-  className: font('intb', 5),
+  className: font('intsb', -1),
 })`
   display: flex;
   justify-content: center;

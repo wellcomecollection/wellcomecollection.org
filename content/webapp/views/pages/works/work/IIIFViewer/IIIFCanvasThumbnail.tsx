@@ -56,7 +56,7 @@ const ImageContainer = styled.span`
 `;
 
 const IIIFViewerThumbNumber = styled.span.attrs({
-  className: font('intb', 6),
+  className: font('intsb', -2),
 })`
   padding: 3px 6px;
   border-radius: 3px;

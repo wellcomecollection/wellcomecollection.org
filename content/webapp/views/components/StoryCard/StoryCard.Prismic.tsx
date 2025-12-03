@@ -21,14 +21,14 @@ import {
 import PartNumberIndicator from '@weco/content/views/components/PartNumberIndicator';
 
 const Caption = styled.p.attrs({
-  className: font('intr', 5),
+  className: font('intr', -1),
 })`
   display: inline-block;
   margin: 0;
 `;
 
 const PartOf = styled.div.attrs({
-  className: font('intb', 6),
+  className: font('intsb', -2),
 })`
   margin: 0;
 `;
@@ -98,7 +98,7 @@ const StoryCard: FunctionComponent<Props> = ({
         <CardPostBody>
           {article.series.map(series => (
             <PartOf key={series.id}>
-              <span className={font('intr', 6)}>Part of</span> {series.title}
+              <span className={font('intr', -2)}>Part of</span> {series.title}
             </PartOf>
           ))}
         </CardPostBody>
