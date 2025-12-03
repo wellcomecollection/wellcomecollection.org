@@ -40,7 +40,6 @@ export const ViewerButton = styled.button.attrs({
   border-radius: ${props => props.theme.borderRadiusUnit}px;
   text-decoration: none;
   text-align: center;
-  transition: all ${props => props.theme.transitionProperties};
   white-space: nowrap;
   padding: 6px 12px;
   position: relative;
@@ -75,8 +74,6 @@ export const ViewerButton = styled.button.attrs({
     border: 2px solid transparent;
     color: ${props.theme.color('white')};
     background: transparent;
-    outline: none;
-    transition: all ${props.theme.transitionProperties};
 
     &:not([disabled]):hover {
       border: 2px solid ${props.theme.color('white')};

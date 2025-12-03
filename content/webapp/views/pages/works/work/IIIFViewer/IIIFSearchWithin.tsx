@@ -22,8 +22,8 @@ import { arrayIndexToQueryParam } from '@weco/content/views/pages/works/work/III
 import { thumbnailsPageSize } from '@weco/content/views/pages/works/work/IIIFViewer/Paginators';
 
 const Highlight = styled.span`
-  background: ${props => props.theme.color('accent.purple')};
-  color: ${props => props.theme.color('white')};
+  background: ${props => props.theme.color('yellow')};
+  color: ${props => props.theme.color('black')};
 `;
 
 const SearchForm = styled.form`

@@ -37,8 +37,9 @@ export const ButtonIconWrapper = styled(Space).attrs({
 
 export const BasicButton = styled.button.attrs<{
   href?: string;
+  $as?: 'button' | 'a' | 'span';
 }>(props => ({
-  as: props.href ? 'a' : 'button',
+  as: props.$as || (props.href ? 'a' : 'button'),
 }))`
   align-items: center;
   display: inline-flex;
@@ -120,10 +121,6 @@ export const StyledButtonCSS = css<SolidButtonStyledProps>`
 
         &:not([disabled]):hover {
           text-decoration: underline;
-        }
-
-        &:focus-visible {
-          border: 2px solid ${props.theme.color('black')};
         }
       `};
 `;
