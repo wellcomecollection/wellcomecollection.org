@@ -45,7 +45,7 @@ const HighlightedHeading: FunctionComponent<{ text: string | ReactNode }> = ({
   text: string | ReactNode;
 }) => {
   return (
-    <h1 className={font('wb', 2)}>
+    <h1 className={font('brand', 2)}>
       <Heading
         $v={{
           size: 's',
@@ -156,7 +156,7 @@ const BasicPageHeader: FunctionComponent<Props> = ({
             {isContentTypeInfoBeforeMedia && ContentTypeInfo && (
               <Space
                 $v={{ size: 'm', properties: ['margin-bottom'] }}
-                className={font('intr', 0)}
+                className={font('sans', 0)}
               >
                 {ContentTypeInfo}
               </Space>
@@ -203,7 +203,7 @@ const BasicPageHeader: FunctionComponent<Props> = ({
         <ContaineredLayout gridSizes={pageGridLayout}>
           <Space
             $v={{ size: 'l', properties: ['margin-top'] }}
-            className={font('intsb', 0)}
+            className={font('sans-bold', 0)}
           >
             {ContentTypeInfo}
           </Space>

@@ -9,12 +9,12 @@ import { Event } from '@weco/content/types/events';
 
 const Location = styled(Space).attrs({
   as: 'p',
-  className: font('intsb', -1),
+  className: font('sans-bold', -1),
   $v: { size: 's', properties: ['margin-bottom'] },
 })``;
 
 const Copy = styled.p.attrs({
-  className: font('intr', -1),
+  className: font('sans', -1),
 })`
   color: ${props => props.theme.color('neutral.700')};
   margin: 0;

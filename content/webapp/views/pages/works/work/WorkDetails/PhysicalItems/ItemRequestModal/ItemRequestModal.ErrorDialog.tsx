@@ -21,7 +21,7 @@ const ErrorDialog: FunctionComponent<ErrorDialogProps> = ({
   return (
     <>
       <Header>
-        <span className={font('wb', 1)}>Request failed</span>
+        <span className={font('brand', 1)}>Request failed</span>
       </Header>
       <p style={{ marginBottom: 0 }}>
         {errorMessage || defaultRequestErrorMessage}

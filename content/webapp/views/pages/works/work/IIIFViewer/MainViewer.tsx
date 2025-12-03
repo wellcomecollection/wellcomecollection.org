@@ -303,9 +303,11 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
         // However, we've opted to just try and load the image if the accessToken is available rather than making an additional call
         // In our case the probe service doesn't offer any information other than whether the image would load, so we may as well try that directly.
         <MessageContainer>
-          <h2 className={font('intsb', 0)}>{externalAccessService?.label}</h2>
+          <h2 className={font('sans-bold', 0)}>
+            {externalAccessService?.label}
+          </h2>
           <p
-            className={font('intr', -1)}
+            className={font('sans', -1)}
             dangerouslySetInnerHTML={{
               __html: externalAccessService?.description || '',
             }}

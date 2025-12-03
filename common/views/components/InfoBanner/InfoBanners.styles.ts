@@ -7,7 +7,7 @@ import { PaletteColor } from '@weco/common/views/themes/config';
 
 export const BannerContainer = styled(Space).attrs({
   $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-  className: font('intr', -1),
+  className: font('sans', -1),
 })<{ $backgroundColor?: PaletteColor }>`
   background-color: ${props =>
     props.theme.color(props.$backgroundColor || 'yellow')};

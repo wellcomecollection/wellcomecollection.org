@@ -53,8 +53,8 @@ const BrowseTypesGrid: FunctionComponent<Props> = ({ types }) => {
                   text: type.label,
                 }}
               >
-                <h2 className={font('wb', 2)}>{type.label}</h2>
-                <p className={font('intr', -1)}>{type.description}</p>
+                <h2 className={font('brand', 2)}>{type.label}</h2>
+                <p className={font('sans', -1)}>{type.description}</p>
               </FeaturedCard>
             ) : type.size === 'medium' ? (
               type.imageUrls ? (

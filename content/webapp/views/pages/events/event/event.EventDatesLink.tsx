@@ -6,7 +6,7 @@ import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 
 const Wrapper = styled.a.attrs({
-  className: font('intsb', -1),
+  className: font('sans-bold', -1),
 })`
   display: inline-flex;
   align-items: center;

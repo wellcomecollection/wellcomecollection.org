@@ -18,7 +18,7 @@ import ClearInput from '@weco/common/views/components/TextInput/TextInput.Clear'
 import { focusStyle } from '@weco/common/views/themes/base/wellcome-normalize';
 
 export const TextInputLabel = styled.label.attrs({
-  className: font('intsb', -1),
+  className: font('sans-bold', -1),
 })`
   display: block;
   line-height: 1.2;
@@ -30,7 +30,7 @@ type TextInputWrapProps = {
   $isNewSearchBar?: boolean;
 };
 export const TextInputWrap = styled(Space).attrs<TextInputWrapProps>(props => ({
-  className: font('intr', props.$isNewSearchBar ? 1 : 0),
+  className: font('sans', props.$isNewSearchBar ? 1 : 0),
   $v: { size: 's', properties: ['margin-top'] },
 }))<TextInputWrapProps>`
   display: flex;
@@ -78,7 +78,7 @@ export const TextInputWrap = styled(Space).attrs<TextInputWrapProps>(props => ({
 `;
 
 const HintCopy = styled.span.attrs({
-  className: font('intr', -1),
+  className: font('sans', -1),
 })`
   display: block;
   color: ${props => props.theme.color('neutral.700')};
@@ -105,7 +105,7 @@ export const TextInputInput = styled.input.attrs<{ $type?: string }>(props => ({
 `;
 
 const StatusMessage = styled(Space).attrs({
-  className: font('intr', -2),
+  className: font('sans', -2),
   $v: { size: 's', properties: ['margin-top'] },
 })`
   display: flex;

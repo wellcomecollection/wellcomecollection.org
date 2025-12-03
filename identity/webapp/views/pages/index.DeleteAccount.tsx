@@ -97,7 +97,7 @@ const DeleteAccount: FunctionComponent<ChangeDetailsModalContentProps> = ({
       {submissionErrorMessage && (
         <StatusAlert type="failure">{submissionErrorMessage}</StatusAlert>
       )}
-      <div className={font('intr', -1)}>
+      <div className={font('sans', -1)}>
         <p>
           Are you sure you want to delete your account? Your account will be
           closed and you won’t be able to request any items.

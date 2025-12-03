@@ -23,7 +23,7 @@ export const PlayPauseButton = styled.button.attrs<PlayPauseButtonProps>(
 `;
 
 export const TimeWrapper = styled.div.attrs({
-  className: font('intr', -2),
+  className: font('sans', -2),
 })<{ $isDark: boolean }>`
   display: flex;
   justify-content: space-between;

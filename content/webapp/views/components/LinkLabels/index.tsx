@@ -28,7 +28,7 @@ type LinkOrSpanSpaceAttrs = {
 const ItemText = styled(Space).attrs<LinkOrSpanSpaceAttrs>(props => ({
   as: props.$url ? 'a' : 'span',
   href: props.$url,
-  className: font('intr', -1),
+  className: font('sans', -1),
   $h: {
     size: 's',
     properties: ['margin-right', props.$addBorder ? 'padding-left' : ''].filter(
@@ -44,14 +44,14 @@ const ItemText = styled(Space).attrs<LinkOrSpanSpaceAttrs>(props => ({
 `;
 
 const PlainItemList = styled(PlainList).attrs({
-  className: font('intsb', -1),
+  className: font('sans-bold', -1),
 })`
   display: flex;
   flex-wrap: wrap;
 `;
 
 const ListWithHeading = styled.dl.attrs({
-  className: `${font('intr', -1)}`,
+  className: `${font('sans', -1)}`,
 })`
   display: flex;
   flex-wrap: wrap;

@@ -116,7 +116,7 @@ const AnimatedLink = styled(NextLink)<AnimatedUnderlineProps>`
 `;
 
 export const Anchor = styled.a.attrs({
-  className: font('intsb', -1),
+  className: font('sans-bold', -1),
 })`
   color: ${props => props.theme.color('black')};
 `;
@@ -225,7 +225,7 @@ export const Root = styled(Space).attrs<{
 `;
 
 export const MobileNavButton = styled.button.attrs({
-  className: font('intsb', -1),
+  className: font('sans-bold', -1),
 })<{ $hasStuck: boolean; $isListActive: boolean; $isOnWhite: boolean }>`
   --mobile-nav-border-color: ${props =>
     props.$hasStuck

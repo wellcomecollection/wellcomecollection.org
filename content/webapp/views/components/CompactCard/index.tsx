@@ -52,7 +52,7 @@ type CompactArticleProps = ArticleCardProps & {
 export type Props = CompactCardProps | CompactArticleProps;
 
 const BaseTitleWrapper = styled.h3.attrs({
-  className: font('wb', 1),
+  className: font('brand', 1),
 })`
   margin: 0;
 `;
@@ -177,7 +177,7 @@ const CompactCard: FunctionComponent<Props> = (
           {ExtraInfo}
 
           {description && (
-            <div className={`spaced-text ${font('intr', -1)}`}>
+            <div className={`spaced-text ${font('sans', -1)}`}>
               {descriptionIsString ? <p>{description}</p> : description}
             </div>
           )}

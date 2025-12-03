@@ -242,8 +242,12 @@ const WhatsOnPage: NextPage<Props> = props => {
                         justifyContent: 'space-between',
                       }}
                     >
-                      <h2 className={font('wb', 2)}>Exhibitions and Events</h2>
-                      <span className={font('intsb', 0)}>Free admission</span>
+                      <h2 className={font('brand', 2)}>
+                        Exhibitions and Events
+                      </h2>
+                      <span className={font('sans-bold', 0)}>
+                        Free admission
+                      </span>
                     </div>
                   </ContaineredLayout>
                 </Space>
