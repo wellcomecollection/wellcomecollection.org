@@ -50,11 +50,10 @@ When a user is logged in with `userIsStaffWithRestricted` role and visits an ite
 
 1. User has `userIsStaffWithRestricted` role
 2. An external auth service exists in the manifest (`authServices?.external`)
-3. The popup hasn't already been opened this session (`hasOpenedAuthPopup` ref)
 
 **What happens:**
 
-1. A new window opens automatically to the auth service URL specified in the external service's `id` property (only once per page load, tracked by `hasOpenedAuthPopup` ref)
+1. A new window opens automatically to the auth service URL specified in the external service's `id` property
 2. URL format: `https://iiif.wellcomecollection.org/auth/v2/access/restrictedlogin?origin={current_origin}`
 3. **First time:** User is prompted to log in again, which provides the necessary DLCS authorizing cookie
 4. **Subsequent visits:** Window opens and closes automatically without user interaction (as long as the login is still valid)

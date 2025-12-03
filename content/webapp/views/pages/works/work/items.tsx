@@ -99,7 +99,6 @@ const WorkItemPage: NextPage<Props> = ({
   const [origin, setOrigin] = useState<string>();
   const [showModal, setShowModal] = useState(false);
   const [showViewer, setShowViewer] = useState(true);
-  const hasOpenedAuthPopup = useRef(false);
   const { title, isAnyImageOpen, canvases, placeholderId, auth } = {
     ...transformedManifest,
   };
@@ -143,12 +142,7 @@ const WorkItemPage: NextPage<Props> = ({
   }, []);
 
   useEffect(() => {
-    if (
-      userIsStaffWithRestricted &&
-      authServices?.external &&
-      !hasOpenedAuthPopup.current
-    ) {
-      hasOpenedAuthPopup.current = true;
+    if (userIsStaffWithRestricted && authServices?.external) {
       const authServiceWindow = window.open(
         `${authServices?.external?.id || ''}?origin=${window.origin}`
       );
