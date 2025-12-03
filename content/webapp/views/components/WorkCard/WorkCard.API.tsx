@@ -20,7 +20,7 @@ const PopoutCardImageContainer = styled.div<{ $hasImage: boolean }>`
   height: ${props => (props.$hasImage ? 'auto' : '100%')};
   bottom: 0;
   width: 100%;
-  background-color: ${props => props.theme.color('neutral.300')};
+  background-color: ${props => props.theme.color('warmNeutral.300')};
   transform: rotate(-2deg);
 `;
 
@@ -31,6 +31,9 @@ const PopoutCardImage = styled(Space).attrs({
   width: 66%;
   left: 50%;
   transform: translateX(-50%) rotate(2deg);
+
+  /** This fixes an alignment issue with cards without images **/
+  display: flex;
 `;
 
 type LinkSpaceAttrs = {
@@ -80,7 +83,9 @@ const Meta = styled.p.attrs({
   margin: 0;
 `;
 
-const NotAvailable = styled.span`
+const NotAvailable = styled.span.attrs({
+  className: font('intr', 6),
+})`
   position: absolute;
   top: 50%;
   left: 50%;
