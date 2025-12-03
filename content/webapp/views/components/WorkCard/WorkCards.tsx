@@ -19,6 +19,11 @@ const Works = styled.div`
     props.theme.media('large')(`
     --gap: ${props.theme.gutter.large}px;
   `)}
+
+  ${props =>
+    props.theme.media('xlarge')(`
+    --gap: ${props.theme.gutter.xlarge}px;
+  `)}
   
   display: flex;
   flex-wrap: wrap;
