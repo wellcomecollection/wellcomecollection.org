@@ -53,18 +53,7 @@ const MaterialsSection = styled(Space).attrs({
 const DecorativeEdgeContainer = styled(Space).attrs({
   $v: { size: 'xl', properties: ['margin-top'] },
 })`
-  margin-left: -${props =>
-      props.theme.formatContainerPadding(props.theme.containerPadding.small)};
-
-  ${props =>
-    props.theme.media('medium')(`
-    margin-left: -${props.theme.formatContainerPadding(props.theme.containerPadding.medium)};
-  `)}
-
-  ${props =>
-    props.theme.media('large')(`
-    margin-left: -${props.theme.formatContainerPadding(props.theme.containerPadding.large)};
-  `)}
+  margin-left: -${props => props.theme.containerPadding};
 `;
 
 export type Props = {

@@ -243,18 +243,7 @@ const breakpointNames = ['small', 'medium', 'large'];
 // WDS repo, but they _are_ what is being used in Figma. There is a job to update
 // the repo with this value.
 // TODO: this obviously doesn't need to be 4 values when we're not behind the toggle
-export const containerPadding: ContainerPadding = {
-  small: '5%',
-  medium: '5%',
-  large: '5%',
-  xlarge: '5%',
-};
-
-// Helper function to format containerPadding values with appropriate units
-// Numbers get 'px' appended, strings (like '5%') are used as-is
-export function formatContainerPadding(value: ContainerPaddingValue): string {
-  return typeof value === 'number' ? `${value}px` : value;
-}
+export const containerPadding = '5%';
 
 // Helper function to convert containerPadding to viewport-relative units
 // When containerPadding is a percentage (e.g., '5%'), it's calculated relative to viewport width
@@ -262,11 +251,8 @@ export function formatContainerPadding(value: ContainerPaddingValue): string {
 // percentage context issues (where % would be relative to parent element width)
 // Numbers are converted to 'px' as usual
 // TODO: remove this after we've turned on the design system grid/breakpoint toggle
-export function formatContainerPaddingVw(value: ContainerPaddingValue): string {
-  if (typeof value === 'string' && value.includes('%')) {
-    return `${parseFloat(value)}vw`;
-  }
-  return formatContainerPadding(value);
+export function formatContainerPaddingVw(value: string): string {
+  return `${parseFloat(value)}vw`;
 }
 
 const spaceAtBreakpoints = {
@@ -362,18 +348,10 @@ function getSpaceOverrideValue(
 function pageGridOffset(property: string): string {
   return `
   position: relative;
-  ${property}: -${formatContainerPaddingVw(containerPadding.small)};
-
-  ${media('medium')(`
-    ${property}: -${formatContainerPaddingVw(containerPadding.medium)};
-    `)}
-
-  ${media('large')(`
-    ${property}: -${formatContainerPaddingVw(containerPadding.large)};
-    `)}
+  ${property}: -${formatContainerPaddingVw(containerPadding)};
 
   ${media('xlarge')(`
-    ${property}: calc((100vw - ${sizes.xlarge}px) / 2 * -1 - ${formatContainerPaddingVw(containerPadding.xlarge)});
+    ${property}: calc((100vw - ${sizes.xlarge}px) / 2 * -1 - ${formatContainerPaddingVw(containerPadding)});
   `)};
   `;
 }
@@ -449,7 +427,6 @@ export const themeValues = {
   makeSpacePropertyValues,
   getSpaceValue,
   pageGridOffset,
-  formatContainerPadding,
   formatContainerPaddingVw,
   buttonColors: {
     default: defaultButtonColors,

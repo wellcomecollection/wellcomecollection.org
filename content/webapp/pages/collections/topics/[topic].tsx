@@ -71,8 +71,7 @@ const SubTopicLink = styled(Link).attrs({
 `;
 
 const WorkItem = styled.li`
-  --container-padding: ${props =>
-    props.theme.formatContainerPadding(props.theme.containerPadding.small)};
+  --container-padding: ${props => props.theme.containerPadding};
   flex: 0 0 90%;
   max-width: 420px;
 
