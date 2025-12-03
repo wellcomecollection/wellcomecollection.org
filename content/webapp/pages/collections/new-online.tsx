@@ -43,8 +43,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     params: {
       availabilities: ['online'],
       'items.locations.accessConditions.status': 'open',
-      // sort: 'items.locations.createdDate',
-      // sortOrder: 'desc',
+      sort: 'items.locations.createdDate',
+      sortOrder: 'desc',
       page,
     },
     pageSize: 32,
