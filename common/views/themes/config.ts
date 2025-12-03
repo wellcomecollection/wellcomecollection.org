@@ -228,21 +228,9 @@ const mediaBetween = createMediaBetween(sizes);
 const breakpointNames = ['small', 'medium', 'large'];
 
 // Design system container padding values (5% across all breakpoints)
-// Note: currently these aren't the values that are being exported from the
-// WDS repo, but they _are_ what is being used in Figma. There is a job to update
-// the repo with this value.
-// TODO: this obviously doesn't need to be 4 values when we're not behind the toggle
+// but not exported yet
 export const containerPadding = '5%';
-
-// Helper function to convert containerPadding to viewport-relative units
-// When containerPadding is a percentage (e.g., '5%'), it's calculated relative to viewport width
-// in practice, so we convert it to 'vw' units for use in calc() expressions to avoid
-// percentage context issues (where % would be relative to parent element width)
-// Numbers are converted to 'px' as usual
-// TODO: remove this after we've turned on the design system grid/breakpoint toggle
-export function formatContainerPaddingVw(value: string): string {
-  return `${parseFloat(value)}vw`;
-}
+const containerPaddingVw = '5vw';
 
 const spaceAtBreakpoints = {
   small: {
@@ -337,10 +325,10 @@ function getSpaceOverrideValue(
 function pageGridOffset(property: string): string {
   return `
   position: relative;
-  ${property}: -${formatContainerPaddingVw(containerPadding)};
+  ${property}: -${containerPaddingVw};
 
   ${media('xlarge')(`
-    ${property}: calc((100vw - ${sizes.xlarge}px) / 2 * -1 - ${formatContainerPaddingVw(containerPadding)});
+    ${property}: calc((100vw - ${sizes.xlarge}px) / 2 * -1 - ${containerPaddingVw});
   `)};
   `;
 }
@@ -380,6 +368,7 @@ export const themeValues = {
   transitionProperties: '150ms ease',
   iconDimension: 24,
   containerPadding,
+  containerPaddingVw,
   sizes,
   gutter,
   basicBoxShadow: `0 2px 8px 0 rgb(18, 18, 18, 0.4)`,
@@ -416,7 +405,6 @@ export const themeValues = {
   makeSpacePropertyValues,
   getSpaceValue,
   pageGridOffset,
-  formatContainerPaddingVw,
   buttonColors: {
     default: defaultButtonColors,
     danger: dangerButtonColors,

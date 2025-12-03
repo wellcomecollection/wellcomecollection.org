@@ -40,20 +40,17 @@ export const ListItem = styled.li<{ $hasStuck: boolean; $isOnWhite: boolean }>`
   margin-left: -${props => props.theme.containerPadding};
   margin-right: -${props => props.theme.containerPadding};
   padding-left: calc(
-    ${props =>
-        props.theme.formatContainerPaddingVw(props.theme.containerPadding)} +
-      ${leftOffset}
+    ${props => props.theme.containerPaddingVw} + ${leftOffset}
   );
   /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties */
-  padding-right: ${props =>
-    props.theme.formatContainerPaddingVw(props.theme.containerPadding)};
+  padding-right: ${props => props.theme.containerPaddingVw};
 
   ${props =>
     props.theme.media('medium')(`
-    margin-left: -${props.theme.formatContainerPaddingVw(props.theme.containerPadding)};
-    margin-right: -${props.theme.formatContainerPaddingVw(props.theme.containerPadding)};
-    padding-left: calc(${props.theme.formatContainerPaddingVw(props.theme.containerPadding)} + ${leftOffset});
-    padding-right: ${props.theme.formatContainerPaddingVw(props.theme.containerPadding)};
+    margin-left: -${props.theme.containerPaddingVw};
+    margin-right: -${props.theme.containerPaddingVw};
+    padding-left: calc(${props.theme.containerPaddingVw} + ${leftOffset});
+    padding-right: ${props.theme.containerPaddingVw};
   `)}
 
   &::before {
@@ -174,10 +171,10 @@ export const Root = styled(Space).attrs<{
       'small',
       'large'
     )(`
-      margin-left: -${props.theme.formatContainerPaddingVw(props.theme.containerPadding)};
-      margin-right: -${props.theme.formatContainerPaddingVw(props.theme.containerPadding)};
-      padding-left: ${props.theme.formatContainerPaddingVw(props.theme.containerPadding)};
-      padding-right: ${props.theme.formatContainerPaddingVw(props.theme.containerPadding)};
+      margin-left: -${props.theme.containerPaddingVw};
+      margin-right: -${props.theme.containerPaddingVw};
+      padding-left: ${props.theme.containerPaddingVw};
+      padding-right: ${props.theme.containerPaddingVw};
       transition: background ${props.theme.transitionProperties};
       background: ${props.$hasStuck && props.theme.color('white')};
       padding-top: 0;

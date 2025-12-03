@@ -37,8 +37,7 @@ export const NavGridCell = styled(GridCell)<{
   &::after {
     content: '';
     position: absolute;
-    width: ${props =>
-      props.theme.formatContainerPaddingVw(props.theme.containerPadding)};
+    width: ${props => props.theme.containerPaddingVw};
     bottom: 0;
     top: 0;
     transition: background-color ${props => props.theme.transitionProperties};
