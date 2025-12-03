@@ -32,7 +32,9 @@ export const wellcomeNormalize = css`
     height: auto;
   }
 
-  * {
+  *,
+  button {
+    /* Firefox needs 'button' to override specific UA focus styles */
     &:focus-visible,
     &:focus {
       ${focusStyle};
