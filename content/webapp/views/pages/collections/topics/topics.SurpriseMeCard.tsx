@@ -32,14 +32,14 @@ const CardButton = styled.button`
 `;
 
 const Title = styled.h3.attrs({
-  className: font('wb', 2),
+  className: font('brand', 2),
 })`
   margin: 0 0 ${props => props.theme.spacingUnit * 2}px 0;
   text-align: center;
 `;
 
 const TopicLink = styled(Link).attrs({
-  className: font('wb', 1),
+  className: font('brand', 1),
 })`
   margin: ${props => props.theme.spacingUnit * 2}px 0 0 0;
   text-align: center;
@@ -62,7 +62,7 @@ const TopicLink = styled(Link).attrs({
 `;
 
 const Instructions = styled.p.attrs({
-  className: font('intr', -1),
+  className: font('sans', -1),
 })`
   margin: 0;
   text-align: center;

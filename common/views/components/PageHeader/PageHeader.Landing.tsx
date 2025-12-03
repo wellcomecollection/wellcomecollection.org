@@ -20,7 +20,7 @@ import { TitleWrapper, Wrapper } from './PageHeader.styles';
 
 const ContentWrapper = styled(Space).attrs({
   $v: { size: 's', properties: ['margin-top'] },
-  className: font('intr', 2),
+  className: font('sans', 2),
 })`
   p:last-child {
     margin-bottom: 0;

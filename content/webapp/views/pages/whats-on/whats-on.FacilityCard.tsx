@@ -14,14 +14,14 @@ const ImageWrapper = styled.div`
 `;
 
 const Description = styled.p.attrs({
-  className: font('intr', -1),
+  className: font('sans', -1),
 })`
   margin: 0;
   padding: 0;
 `;
 
 const Meta = styled.div.attrs({
-  className: font('intsb', -2),
+  className: font('sans-bold', -2),
 })`
   display: flex;
   align-items: center;
@@ -54,7 +54,7 @@ const FacilityCard: FunctionComponent<FacilityCardType> = ({
 
         <CardBody>
           <div>
-            <h3 className={font('wb', 0)}>{title}</h3>
+            <h3 className={font('brand', 0)}>{title}</h3>
             <Description>{description}</Description>
 
             {metaText && (

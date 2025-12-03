@@ -34,7 +34,7 @@ const WorkDetailsSection: FunctionComponent<Props> = ({
   return (
     <SectionWithDivider $isArchive={isArchive}>
       <SpacingSection>
-        {headingText && <h2 className={font('wb', 0)}>{headingText}</h2>}
+        {headingText && <h2 className={font('brand', 0)}>{headingText}</h2>}
 
         {children}
       </SpacingSection>

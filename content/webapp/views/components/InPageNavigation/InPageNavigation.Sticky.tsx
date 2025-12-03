@@ -173,7 +173,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
         }}
       >
         <Root $hasStuck={hasStuck} data-scroll-smooth="true">
-          <h2 className={`${font('intsb', -1)} is-hidden-s is-hidden-m`}>
+          <h2 className={`${font('sans-bold', -1)} is-hidden-s is-hidden-m`}>
             {titleText}
           </h2>
 

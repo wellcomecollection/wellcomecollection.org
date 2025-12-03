@@ -34,7 +34,7 @@ const NestedList: FunctionComponent<NestedListProps> = ({
       }
       tabIndex={level === 1 && isEnhanced ? 0 : undefined}
       role={isEnhanced ? (level === 1 ? 'tree' : 'group') : undefined}
-      className={font('intr', -1)}
+      className={font('sans', -1)}
     >
       {archiveTree &&
         archiveTree.map((item, i) => {

@@ -21,14 +21,14 @@ const WatchIconWrapper = styled.div`
 `;
 
 const WatchText = styled(Space).attrs({
-  className: font('intr', -2),
+  className: font('sans', -2),
   $h: { size: 's', properties: ['margin-left'] },
 })`
   color: ${props => props.theme.color('neutral.700')};
 `;
 
 const Wrapper = styled.div.attrs({
-  className: font('intr', 0),
+  className: font('sans', 0),
 })`
   display: flex;
   align-items: center;

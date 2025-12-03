@@ -22,7 +22,7 @@ import {
 import { controlDimensions } from '@weco/content/views/pages/works/work/work.helpers';
 
 export const DownloadTable = styled.table.attrs({
-  className: font('intr', -2),
+  className: font('sans', -2),
 })`
   position: relative;
   height: ${controlDimensions.controlHeight}px;

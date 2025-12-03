@@ -200,7 +200,7 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
             <RelatedStoryContainer>
               {relatedDocument.type === 'Article' ? (
                 <>
-                  <h2 className={font('wb', 2)}>Your next story</h2>
+                  <h2 className={font('brand', 2)}>Your next story</h2>
                   <FeaturedCard
                     type="article"
                     background="neutral.700"
@@ -211,7 +211,7 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
               ) : (
                 relatedDocument.type === 'exhibitions' && (
                   <>
-                    <h2 className={font('wb', 2)}>
+                    <h2 className={font('brand', 2)}>
                       You may also be interested in
                     </h2>
                     <FeaturedCard
