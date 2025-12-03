@@ -18,7 +18,7 @@ The IIIF Authorization Flow API 2.0 specification describes three interaction pa
 
 We use the **external** interaction pattern for restricted items rather than the active interaction pattern because:
 
-1. We don't want to present most users with a login when they either don't have an account or their account doesn't grant access to restricted items
+1. We don't want to present all users with a login since most either don't have an account or their account won't grant access to restricted items
 2. This is the preferred behavior if the IIIF manifest is loaded into a third-party viewer
 
 ### Deviation from Standard Behavior
