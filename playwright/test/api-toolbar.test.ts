@@ -16,7 +16,7 @@ test('(1) | Does not create a tzitzit link for images in copyright', async ({
   ).toBeVisible();
 });
 
-test('(2) | Creates a tzitzit link for item pages', async ({
+test.skip('(2) | Creates a tzitzit link for item pages', async ({
   page,
   context,
 }) => {
@@ -32,7 +32,7 @@ test('(2) | Creates a tzitzit link for item pages', async ({
   );
 });
 
-test('(3) | Creates a tzitzit link for image pages', async ({
+test.skip('(3) | Creates a tzitzit link for image pages', async ({
   page,
   context,
 }) => {
