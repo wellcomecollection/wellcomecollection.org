@@ -11,8 +11,8 @@ export const BaseButtonInner = styled.span.attrs<{
   $isNewSearchBar?: boolean;
 }>(props => ({
   className: font(
-    props.$isInline ? 'intr' : 'intb',
-    props.$isPill ? 6 : props.$isNewSearchBar ? 4 : 5
+    props.$isInline ? 'intr' : 'intsb',
+    props.$isPill ? -2 : props.$isNewSearchBar ? 0 : -1
   ),
 }))`
   display: flex;
@@ -37,8 +37,9 @@ export const ButtonIconWrapper = styled(Space).attrs({
 
 export const BasicButton = styled.button.attrs<{
   href?: string;
+  $as?: 'button' | 'a' | 'span';
 }>(props => ({
-  as: props.href ? 'a' : 'button',
+  as: props.$as || (props.href ? 'a' : 'button'),
 }))`
   align-items: center;
   display: inline-flex;
@@ -120,10 +121,6 @@ export const StyledButtonCSS = css<SolidButtonStyledProps>`
 
         &:not([disabled]):hover {
           text-decoration: underline;
-        }
-
-        &:focus-visible {
-          border: 2px solid ${props.theme.color('black')};
         }
       `};
 `;

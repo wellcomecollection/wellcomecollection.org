@@ -156,7 +156,7 @@ const BasicPageHeader: FunctionComponent<Props> = ({
             {isContentTypeInfoBeforeMedia && ContentTypeInfo && (
               <Space
                 $v={{ size: 'm', properties: ['margin-bottom'] }}
-                className={font('intr', 4)}
+                className={font('intr', 0)}
               >
                 {ContentTypeInfo}
               </Space>
@@ -203,7 +203,7 @@ const BasicPageHeader: FunctionComponent<Props> = ({
         <ContaineredLayout gridSizes={pageGridLayout}>
           <Space
             $v={{ size: 'l', properties: ['margin-top'] }}
-            className={font('intb', 4)}
+            className={font('intsb', 0)}
           >
             {ContentTypeInfo}
           </Space>

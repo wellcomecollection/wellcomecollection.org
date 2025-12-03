@@ -26,7 +26,7 @@ const InfoContainer = styled(Space).attrs({
 `;
 
 export const InfoIconWrapper = styled(Space).attrs({
-  className: font('intb', 4),
+  className: font('intsb', 0),
   $h: { size: 's', properties: ['margin-right'] },
 })`
   float: left;
@@ -40,7 +40,7 @@ const InfoBox: FunctionComponent<Props> = ({
 }) => {
   return (
     <div data-component="info-box">
-      <h2 className={font('wb', hasBiggerHeading ? 2 : 3)}>{title}</h2>
+      <h2 className={font('wb', hasBiggerHeading ? 2 : 1)}>{title}</h2>
 
       <InfoContainer>
         {items.map(({ title, description, icon }, i) => (
@@ -50,11 +50,11 @@ const InfoBox: FunctionComponent<Props> = ({
                 <Icon icon={icon} />
               </InfoIconWrapper>
             )}
-            {title && <h3 className={font('intb', 5)}>{title}</h3>}
+            {title && <h3 className={font('intsb', -1)}>{title}</h3>}
             {description && (
               <Space
                 $v={{ size: 'm', properties: ['margin-bottom'] }}
-                className={font('intr', 5)}
+                className={font('intr', -1)}
               >
                 <PrismicHtmlBlock html={description} />
               </Space>

@@ -34,11 +34,11 @@ const SectionWrapper = styled.div`
   margin: 1rem 0;
 `;
 
-const SectionTitle = styled.h2.attrs({ className: font('wb', 3) })`
+const SectionTitle = styled.h2.attrs({ className: font('wb', 1) })`
   padding: 2rem 0 0;
 `;
 
-const SectionDescription = styled.p.attrs({ className: font('intr', 6) })``;
+const SectionDescription = styled.p.attrs({ className: font('intr', -2) })``;
 
 const PaletteBlock = styled.div`
   flex-basis: 25%;
@@ -46,7 +46,7 @@ const PaletteBlock = styled.div`
 `;
 
 const PaletteName = styled.h3.attrs({
-  className: font('lr', 6),
+  className: font('lr', -2),
 })``;
 
 const PaletteColor = styled.div<{ $hasBorder: boolean }>`
@@ -69,11 +69,11 @@ const PaletteColor = styled.div<{ $hasBorder: boolean }>`
 `;
 
 const PaletteHex = styled.div.attrs({
-  className: font('lr', 6),
+  className: font('lr', -2),
 })``;
 
 const PaletteCode = styled.code.attrs({
-  className: font('lr', 6),
+  className: font('lr', -2),
 })``;
 
 const buildPaletteColors = (

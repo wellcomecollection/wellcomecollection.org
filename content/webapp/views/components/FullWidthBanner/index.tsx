@@ -63,7 +63,7 @@ const ImageSection = styled.div`
 `;
 
 const SupportText = styled(Space).attrs({
-  className: font('intr', 5),
+  className: font('intr', -1),
   $v: { size: 'l', properties: ['margin-top'] },
 })`
   display: flex;
@@ -117,6 +117,7 @@ const ImageShapeWrapper = styled.div.attrs({ 'aria-hidden': 'true' })<{
 const StyledLink = styled(NextLink)<AnimatedUnderlineProps>`
   ${AnimatedUnderlineCSS}
   text-decoration: none;
+  display: inline-block;
 
   & > span {
     vertical-align: text-bottom;

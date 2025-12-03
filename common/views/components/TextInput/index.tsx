@@ -15,9 +15,10 @@ import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import ClearInput from '@weco/common/views/components/TextInput/TextInput.Clear';
+import { focusStyle } from '@weco/common/views/themes/base/wellcome-normalize';
 
 export const TextInputLabel = styled.label.attrs({
-  className: font('intb', 5),
+  className: font('intsb', -1),
 })`
   display: block;
   line-height: 1.2;
@@ -29,7 +30,7 @@ type TextInputWrapProps = {
   $isNewSearchBar?: boolean;
 };
 export const TextInputWrap = styled(Space).attrs<TextInputWrapProps>(props => ({
-  className: font('intr', props.$isNewSearchBar ? 3 : 4),
+  className: font('intr', props.$isNewSearchBar ? 1 : 0),
   $v: { size: 's', properties: ['margin-top'] },
 }))<TextInputWrapProps>`
   display: flex;
@@ -49,8 +50,7 @@ export const TextInputWrap = styled(Space).attrs<TextInputWrapProps>(props => ({
         )};
 
   &:has(:focus-visible) {
-    outline: 3px solid ${props => props.theme.color('yellow')};
-
+    ${focusStyle};
     input {
       outline: none;
     }
@@ -60,8 +60,7 @@ export const TextInputWrap = styled(Space).attrs<TextInputWrapProps>(props => ({
     ${props =>
       !props.$isNewSearchBar &&
       `
-      box-shadow: 0 0 0 6px ${props.theme.color('focus.yellow')};
-      outline:  3px solid ${props.theme.color('black')};
+      ${focusStyle};
     `}
   }
 
@@ -79,7 +78,7 @@ export const TextInputWrap = styled(Space).attrs<TextInputWrapProps>(props => ({
 `;
 
 const HintCopy = styled.span.attrs({
-  className: font('intr', 5),
+  className: font('intr', -1),
 })`
   display: block;
   color: ${props => props.theme.color('neutral.700')};
@@ -106,7 +105,7 @@ export const TextInputInput = styled.input.attrs<{ $type?: string }>(props => ({
 `;
 
 const StatusMessage = styled(Space).attrs({
-  className: font('intr', 6),
+  className: font('intr', -2),
   $v: { size: 's', properties: ['margin-top'] },
 })`
   display: flex;

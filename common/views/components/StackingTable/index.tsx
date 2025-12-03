@@ -11,7 +11,7 @@ type TableProps = {
 };
 
 const StyledTable = styled.table.attrs({
-  className: font('intr', 5),
+  className: font('intr', -1),
 })<TableProps>`
   table-layout: ${props => (props.$useFixedWidth ? 'fixed' : 'auto')};
   width: 100%;
@@ -66,7 +66,7 @@ const StyledTh = styled(Space).attrs<ThProps>(props => ({
     size: 'm',
     properties: props.$plain ? [] : ['padding-left', 'padding-right'],
   },
-  className: font('intb', 5),
+  className: font('intsb', -1),
 }))<ThProps>`
   background: ${props =>
     props.$plain ? 'transparent' : props.theme.color('warmNeutral.400')};
@@ -117,12 +117,7 @@ const StyledTd = styled(Space).attrs<TdProps>(props => ({
       white-space: nowrap;
       content: ${props =>
         props.$cellContent ? `'${props.$cellContent}'` : ''};
-      ${props =>
-        fontFamilyMixin(
-          'intb',
-          true,
-          props.theme.toggles?.designSystemFonts?.value
-        )}
+      ${fontFamilyMixin('intsb')}
     }
   }
 `;

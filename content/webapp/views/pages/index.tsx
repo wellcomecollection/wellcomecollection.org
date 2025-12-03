@@ -106,7 +106,7 @@ const Homepage: NextPage<Props> = ({
           <SpacingSection>
             <Space
               $v={{ size: 'l', properties: ['margin-top'] }}
-              className={font('wb', 1)}
+              className={font('wb', 4)}
             >
               <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
                 <h1>{homepageHeading}</h1>

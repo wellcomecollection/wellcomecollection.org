@@ -9,7 +9,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { ConceptImagesArray } from '@weco/content/hooks/useConceptImageUrls';
 
 const Title = styled(Space).attrs({
-  className: font('wb', 3),
+  className: font('wb', 1),
   as: 'h3',
   $v: { size: 's', properties: ['margin-bottom'] },
 })``;
@@ -93,7 +93,7 @@ const TextContent = styled(Space).attrs({
 `;
 
 const Description = styled.p.attrs({
-  className: font('intr', 5),
+  className: font('intr', -1),
 })`
   margin-bottom: 0;
 `;
@@ -137,7 +137,11 @@ const ThemeCard: FunctionComponent<ThemeCardProps> = ({
   });
 
   return (
-    <Link {...linkProps} {...dataGtmPropsToAttributes(dataGtmProps)}>
+    <Link
+      style={{ display: 'block' }}
+      {...linkProps}
+      {...dataGtmPropsToAttributes(dataGtmProps)}
+    >
       <CardWrapper data-component="theme-promo">
         <CompositeGrid $isSingleImage={isSingleImage}>
           {slots.map((slot, index) => (

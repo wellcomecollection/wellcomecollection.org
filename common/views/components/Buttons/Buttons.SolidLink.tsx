@@ -42,14 +42,20 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
     <ConditionalWrapper
       condition={isNextLink}
       wrapper={children =>
-        typeof link === 'object' && <NextLink {...link}>{children}</NextLink>
+        typeof link === 'object' && (
+          // inline-block ensures focus styles wrap entire link
+          <NextLink {...link} style={{ display: 'inline-block' }}>
+            {children}
+          </NextLink>
+        )
       }
     >
       <StyledButton
         {...dataGtmPropsToAttributes(dataGtmProps)}
         aria-controls={ariaControls}
         aria-expanded={ariaExpanded}
-        href={getHref(link)}
+        href={isNextLink ? undefined : getHref(link)}
+        $as={isNextLink ? 'span' : undefined}
         $ariaLabel={ariaLabel}
         $size={size}
         $colors={colors}

@@ -1,9 +1,8 @@
+import Link from 'next/link';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import Link from 'next/link';
 
 import { font } from '@weco/common/utils/classnames';
-import Space from '@weco/common/views/components/styled/Space';
 
 const CardButton = styled.button`
   display: flex;
@@ -39,19 +38,8 @@ const Title = styled.h3.attrs({
   text-align: center;
 `;
 
-const TopicDisplay = styled.p.attrs({
-  className: font('wb', 3),
-})`
-  margin: ${props => props.theme.spacingUnit * 2}px 0 0 0;
-  text-align: center;
-  min-height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
 const TopicLink = styled(Link).attrs({
-  className: font('wb', 3),
+  className: font('wb', 1),
 })`
   margin: ${props => props.theme.spacingUnit * 2}px 0 0 0;
   text-align: center;
@@ -61,12 +49,12 @@ const TopicLink = styled(Link).attrs({
   justify-content: center;
   text-decoration: none;
   color: inherit;
-  
+
   &:hover,
   &:focus {
     text-decoration: underline;
   }
-  
+
   ${CardButton}:hover &,
   ${CardButton}:focus & {
     color: ${props => props.theme.color('white')};
@@ -74,12 +62,12 @@ const TopicLink = styled(Link).attrs({
 `;
 
 const Instructions = styled.p.attrs({
-  className: font('intr', 5),
+  className: font('intr', -1),
 })`
   margin: 0;
   text-align: center;
   color: ${props => props.theme.color('neutral.700')};
-  
+
   ${CardButton}:hover &,
   ${CardButton}:focus & {
     color: ${props => props.theme.color('white')};
@@ -87,7 +75,7 @@ const Instructions = styled.p.attrs({
 `;
 
 type Props = {
-  currentTopic: { label: string; id: string; } | null;
+  currentTopic: { label: string; id: string } | null;
   onSurpriseMe: () => void;
 };
 
@@ -108,7 +96,10 @@ const SurpriseMeCard: FunctionComponent<Props> = ({
           : 'Click to explore a random topic'}
       </Instructions>
       {currentTopic && (
-        <TopicLink href={`/concepts/${currentTopic.id}`} onClick={(e) => e.stopPropagation()}>
+        <TopicLink
+          href={`/concepts/${currentTopic.id}`}
+          onClick={e => e.stopPropagation()}
+        >
           {currentTopic.label}
         </TopicLink>
       )}

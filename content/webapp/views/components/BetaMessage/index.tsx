@@ -7,7 +7,7 @@ import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
 const StyledBetaMessage = styled.div.attrs({
-  className: font('intr', 5),
+  className: font('intr', -1),
 })`
   display: flex;
   align-items: center;

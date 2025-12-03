@@ -3,64 +3,6 @@ import { css } from 'styled-components';
 
 import { GlobalStyleProps } from './default';
 
-const breakpointNames = ['small', 'medium', 'large'];
-const oneRem = 16;
-
-const fontSizeUnits = {
-  '1': 14 / oneRem, // 0.875rem
-  '2': 15 / oneRem, // 0.9375rem
-  '3': 15.9 / oneRem, // 0.99375rem
-  '4': 18 / oneRem, // 1.125rem
-  '5': 18.8 / oneRem, // 1.175rem
-  '6': 21.6 / oneRem, // 1.35rem
-  '7': 24 / oneRem, // 1.5rem
-  '8': 28 / oneRem, // 1.75rem
-  '9': 32 / oneRem, // 2rem
-  '10': 40 / oneRem, // 2.5rem
-  '11': 50 / oneRem, // 3.125rem
-};
-
-export const fontSizesAtBreakpoints = {
-  small: {
-    0: fontSizeUnits[9],
-    1: fontSizeUnits[8],
-    2: fontSizeUnits[7],
-    3: fontSizeUnits[5],
-    4: fontSizeUnits[3],
-    5: fontSizeUnits[2],
-    6: fontSizeUnits[1],
-  },
-  medium: {
-    0: fontSizeUnits[10],
-    1: fontSizeUnits[9],
-    2: fontSizeUnits[7],
-    3: fontSizeUnits[6],
-    4: fontSizeUnits[4],
-    5: fontSizeUnits[2],
-    6: fontSizeUnits[1],
-  },
-  large: {
-    0: fontSizeUnits[11],
-    1: fontSizeUnits[10],
-    2: fontSizeUnits[8],
-    3: fontSizeUnits[6],
-    4: fontSizeUnits[5],
-    5: fontSizeUnits[3],
-    6: fontSizeUnits[1],
-  },
-};
-
-// Map existing font size indexes to design system clamp-based sizes
-const designSystemFontSizes = {
-  0: designSystemTheme.font.size.f5, // Largest
-  1: designSystemTheme.font.size.f4,
-  2: designSystemTheme.font.size.f2,
-  3: designSystemTheme.font.size.f1,
-  4: designSystemTheme.font.size.f0, // Body text
-  5: designSystemTheme.font.size['f-1'],
-  6: designSystemTheme.font.size['f-2'], // Smallest
-};
-
 // Note: the design system font sizing uses vw units and clamp so that there is
 // a gradated change across viewport widths without a need for breakpoint changes.
 // We have considered the utility of a similar container query based approach using
@@ -70,143 +12,50 @@ const designSystemFontSizes = {
 // https://github.com/wellcomecollection/wellcomecollection.org/issues/12324
 
 const fontFamilies = {
-  intr: {
-    base: `Inter, sans-serif;`,
-    full: `Inter, sans-serif;`,
-    designSystem: designSystemTheme.font.family.sans,
-  },
-  intm: {
-    base: `Inter, sans-serif;`,
-    full: `Inter, sans-serif;`,
-    designSystem: designSystemTheme.font.family.sans,
-  },
-  intsb: {
-    base: `Inter, sans-serif;`,
-    full: `Inter, sans-serif;`,
-    designSystem: designSystemTheme.font.family.sans,
-  },
-  intb: {
-    base: `Inter, sans-serif;`,
-    full: `Inter, sans-serif;`,
-    designSystem: designSystemTheme.font.family.sans,
-  },
-  wb: {
-    base: `'Wellcome Bold Web Subset', 'Arial Black', sans-serif;`,
-    full: `'Wellcome Bold Web', 'Wellcome Bold Web Subset', 'Arial Black', sans-serif;`,
-    designSystem: designSystemTheme.font.family.brand,
-  },
-  lr: {
-    base: `'Courier New', Courier, Monospace;`,
-    full: `'Lettera Regular Web', 'Courier New', Courier, Monospace;`,
-    designSystem: designSystemTheme.font.family.mono,
-  },
+  intr: designSystemTheme.font.family.sans,
+  intsb: designSystemTheme.font.family.sans,
+  wb: designSystemTheme.font.family.brand,
+  lr: designSystemTheme.font.family.mono,
 };
 
 const fontSizeMixin = (
-  size: 0 | 1 | 2 | 3 | 4 | 5 | 6
+  size: -2 | -1 | 0 | 1 | 2 | 4 | 5
 ) => css<GlobalStyleProps>`
-  ${props =>
-    props.toggles?.designSystemFonts?.value
-      ? css`
-          font-size: ${designSystemFontSizes[size]};
-        `
-      : breakpointNames.map(
-          name => css`
-            @media (min-width: ${props.theme.sizes[name]}px) {
-              font-size: ${fontSizesAtBreakpoints[name][size]}rem;
-            }
-          `
-        )}
+  font-size: ${designSystemTheme.font.size[`f${size}`]};
 `;
-
 type FontFamily = keyof typeof fontFamilies;
 
-export const fontFamilyMixin = (
-  family: FontFamily,
-  isFull: boolean,
-  useDesignSystem?: boolean
-): string => {
-  if (useDesignSystem) {
-    // Assign explicit font-weight to match re-mapping in note below
-    const fontWeight =
-      family === 'intb' || family === 'intsb' || family === 'intm'
-        ? `font-weight: ${designSystemTheme.font.weight.semibold};`
-        : '';
-    return `font-family: ${fontFamilies[family].designSystem}; ${fontWeight}`;
-  }
-  return `font-family: ${fontFamilies[family][isFull ? 'full' : 'base']}`;
+export const fontFamilyMixin = (family: FontFamily): string => {
+  return `font-family: ${fontFamilies[family]};`;
 };
 
-// NOTE: intb, intsb and intm are all deliberately mapped to font-weight: 600
-// which is the semibold weight as we're trying to rationalise our Inter
-// weights down from 4 to 2
 export const typography = css<GlobalStyleProps>`
-  .font-intb {
-    font-weight: ${props =>
-      props.toggles?.designSystemFonts?.value
-        ? designSystemTheme.font.weight.semibold
-        : '700'};
-  }
-
   .font-intsb {
-    font-weight: ${props =>
-      props.toggles?.designSystemFonts?.value
-        ? designSystemTheme.font.weight.semibold
-        : '600'};
-  }
-
-  .font-intm {
-    font-weight: ${props =>
-      props.toggles?.designSystemFonts?.value
-        ? designSystemTheme.font.weight.semibold
-        : '500'};
+    ${fontFamilyMixin('intsb')};
+    font-weight: ${designSystemTheme.font.weight.semibold};
   }
 
   .font-intr {
-    font-weight: ${props =>
-      props.toggles?.designSystemFonts?.value
-        ? designSystemTheme.font.weight.regular
-        : '400'};
+    ${fontFamilyMixin('intr')};
+    font-weight: ${designSystemTheme.font.weight.regular};
   }
 
-  ${props => `
-    .font-intb {
-      ${fontFamilyMixin('intb', !!props.isFontsLoaded, props.toggles?.designSystemFonts?.value)};
-    }
+  .font-wb {
+    ${fontFamilyMixin('wb')};
+  }
 
-    .font-intsb {
-      ${fontFamilyMixin('intsb', !!props.isFontsLoaded, props.toggles?.designSystemFonts?.value)};
-    }
-
-    .font-intm {
-      ${fontFamilyMixin('intm', !!props.isFontsLoaded, props.toggles?.designSystemFonts?.value)};
-    }
-
-    .font-intr {
-      ${fontFamilyMixin('intr', !!props.isFontsLoaded, props.toggles?.designSystemFonts?.value)};
-    }
-
-    .font-wb {
-      ${fontFamilyMixin('wb', !!props.isFontsLoaded, props.toggles?.designSystemFonts?.value)};
-    }
-
-    .font-lr {
-      ${fontFamilyMixin('lr', !!props.isFontsLoaded, props.toggles?.designSystemFonts?.value)};
-    }
-  `}
+  .font-lr {
+    ${fontFamilyMixin('lr')};
+  }
 
   html {
     font-size: 100%;
   }
 
   body {
-    ${props =>
-      fontFamilyMixin('intr', true, props.toggles?.designSystemFonts?.value)}
-    ${fontSizeMixin(4)}
-    line-height: ${props =>
-      props.toggles?.designSystemFonts?.value
-        ? designSystemTheme['line-height'].lg
-        : '1.5'};
+    ${fontFamilyMixin('intr')}
+    ${fontSizeMixin(0)}
+    line-height: ${designSystemTheme['line-height'].lg};
     color: ${props => props.theme.color('black')};
     font-variant-ligatures: no-common-ligatures;
     -webkit-font-smoothing: antialiased;
@@ -224,10 +73,7 @@ export const typography = css<GlobalStyleProps>`
     font-size: 1em;
     margin: 0 0 0.6em;
     text-wrap-style: balance;
-    line-height: ${props =>
-      props.toggles?.designSystemFonts?.value
-        ? designSystemTheme['line-height'].md
-        : undefined};
+    line-height: ${designSystemTheme['line-height'].md};
   }
 
   /*
@@ -304,20 +150,15 @@ export const typography = css<GlobalStyleProps>`
   }
 
   .body-text {
-    /* if we're using the design system, the value we want (1.5) is already set on body */
-    line-height: ${props =>
-      props.toggles?.designSystemFonts?.value ? undefined : '1.6'};
     letter-spacing: 0.0044em;
 
     h1 {
-      ${props =>
-        fontFamilyMixin('wb', true, props.toggles?.designSystemFonts?.value)}
-      ${fontSizeMixin(1)}
+      ${fontFamilyMixin('wb')}
+      ${fontSizeMixin(4)}
     }
 
     h2 {
-      ${props =>
-        fontFamilyMixin('wb', true, props.toggles?.designSystemFonts?.value)}
+      ${fontFamilyMixin('wb')}
       ${fontSizeMixin(2)}
     }
 
@@ -334,9 +175,8 @@ export const typography = css<GlobalStyleProps>`
     }
 
     h3 {
-      ${props =>
-        fontFamilyMixin('intb', true, props.toggles?.designSystemFonts?.value)}
-      ${fontSizeMixin(3)}
+      ${fontFamilyMixin('intsb')}
+      ${fontSizeMixin(1)}
     }
 
     *::selection {
@@ -380,14 +220,12 @@ export const typography = css<GlobalStyleProps>`
 
     strong,
     b {
-      ${props =>
-        fontFamilyMixin('intb', true, props.toggles?.designSystemFonts?.value)};
+      ${fontFamilyMixin('intsb')};
     }
   }
 
   .drop-cap {
-    ${props =>
-      fontFamilyMixin('wb', true, props.toggles?.designSystemFonts?.value)}
+    ${fontFamilyMixin('wb')}
     font-size: 3em;
     color: ${props => props.theme.color('black')};
     float: left;
@@ -419,8 +257,7 @@ export const typography = css<GlobalStyleProps>`
     position: relative;
 
     &::before {
-      ${props =>
-        fontFamilyMixin('wb', true, props.toggles?.designSystemFonts?.value)}
+      ${fontFamilyMixin('wb')}
       position: absolute;
       content: '“';
       color: ${props => props.theme.color('accent.blue')};
@@ -437,56 +274,9 @@ export const typography = css<GlobalStyleProps>`
 `;
 
 export const makeFontSizeClasses = () => css<GlobalStyleProps>`
-  ${props =>
-    props.toggles?.designSystemFonts?.value
-      ? Object.entries(designSystemFontSizes)
-          .map(([key, value]) => {
-            return `.font-size-${key} {font-size: ${value}}`;
-          })
-          .join(' ')
-      : breakpointNames.map(
-          bp => css`
-            @media (min-width: ${props.theme.sizes[bp]}px) {
-              ${Object.entries(fontSizesAtBreakpoints[bp])
-                .map(([key, value]) => {
-                  return `.font-size-${key} {font-size: ${value}rem}`;
-                })
-                .join(' ')}
-            }
-          `
-        )}
-`;
-
-function overridesAtBreakpoint(bp: string) {
-  return Object.entries(fontSizeUnits)
+  ${Object.entries(designSystemTheme.font.size)
     .map(([key, value]) => {
-      return `.font-size-override-${bp}-${key} {font-size: ${value}rem}`;
+      return `.font-size-${key} {font-size: ${value}}`;
     })
-    .join(' ');
-}
-
-export const makeFontSizeOverrideClasses = () => css`
-  ${props =>
-    breakpointNames
-      .map(bp => {
-        const minMax =
-          bp === 'small'
-            ? ['small', 'medium']
-            : bp === 'medium'
-              ? ['medium', 'large']
-              : ['large'];
-
-        if (minMax.length === 2) {
-          return `@media (min-width: ${
-            props.theme.sizes[minMax[0]]
-          }px) and (max-width: ${props.theme.sizes[minMax[1]]}px) {
-          ${overridesAtBreakpoint(bp)}
-        }`;
-        } else {
-          return `@media (min-width: ${props.theme.sizes[minMax[0]]}px) {
-          ${overridesAtBreakpoint(bp)}
-        }`;
-        }
-      })
-      .join(' ')}
+    .join(' ')}
 `;

@@ -21,7 +21,9 @@ import {
 } from '@weco/content/utils/iiif/v3';
 import { controlDimensions } from '@weco/content/views/pages/works/work/work.helpers';
 
-export const DownloadTable = styled.table.attrs({ className: font('intr', 6) })`
+export const DownloadTable = styled.table.attrs({
+  className: font('intr', -2),
+})`
   position: relative;
   height: ${controlDimensions.controlHeight}px;
   white-space: nowrap;

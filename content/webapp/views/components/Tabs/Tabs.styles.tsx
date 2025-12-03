@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import { classNames, font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
+import { focusStyle } from '@weco/common/views/themes/base/wellcome-normalize';
 
 export const Wrapper = styled.div`
   ${props =>
@@ -29,6 +30,13 @@ export const TabsContainer = styled.div`
   padding: 0;
   margin: 0;
   overflow-x: auto;
+
+  /* Add vertical padding to prevent focus outline clipping */
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  margin-top: -0.5rem;
+  margin-bottom: -0.5rem;
+
   padding-left: ${props =>
     props.theme.formatContainerPadding(props.theme.containerPadding.small)};
 
@@ -47,13 +55,10 @@ type NavItemProps = {
   $selected: boolean;
   $isWhite?: boolean;
   $hideBorder?: boolean;
-  $designSystemFonts?: boolean;
 };
 
 export const Tab = styled.div.attrs<NavItemProps>(props => ({
-  className: props.$designSystemFonts
-    ? font(props.$selected ? 'intsb' : 'intr', 5)
-    : font(props.$selected ? 'intsb' : 'intm', 5),
+  className: font(props.$selected ? 'intsb' : 'intr', -1),
 }))<NavItemProps>`
   padding: 0;
   margin: 0;
@@ -75,10 +80,7 @@ export const Tab = styled.div.attrs<NavItemProps>(props => ({
     /* For Tab.Anchor */
     &:focus-visible {
       display: block;
-      box-shadow:
-        0 0 0 3px ${props => props.theme.color('focus.yellow')} inset,
-        0 0 0 6px ${props => props.theme.color('black')} inset;
-      outline: 0;
+      ${focusStyle};
     }
   }
 `;
@@ -86,10 +88,7 @@ export const Tab = styled.div.attrs<NavItemProps>(props => ({
 export const TabButton = styled.div`
   /* For Tab.Tab */
   &:focus-visible {
-    box-shadow:
-      0 0 0 3px ${props => props.theme.color('focus.yellow')} inset,
-      0 0 0 6px ${props => props.theme.color('black')} inset;
-    outline: 0;
+    ${focusStyle};
   }
 `;
 
@@ -138,6 +137,10 @@ export const NavItemInner = styled(Space).attrs<{ $selected: boolean }>(
   &.selected::after {
     width: 100%;
     background-color: transparent;
+
+    a:focus-within & {
+      background-color: ${props => props.theme.color('yellow')};
+    }
   }
 `;
 

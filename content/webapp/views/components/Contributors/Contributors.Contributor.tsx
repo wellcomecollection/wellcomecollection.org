@@ -43,21 +43,21 @@ const OrganisationImage = styled.div`
   width: 72px;
 `;
 
-const Name = styled.h3.attrs({ className: font('intb', 4) })`
+const Name = styled.h3.attrs({ className: font('intsb', 0) })`
   margin: 0;
 `;
 
 const Pronouns = styled(ContributorInfoWrapper).attrs({
-  className: font('intr', 5),
+  className: font('intr', -1),
   $h: { size: 's', properties: ['margin-left'] },
 })``;
 
 const Role = styled(ContributorInfoWrapper).attrs({
-  className: font('intb', 5),
+  className: font('intsb', -1),
 })``;
 
 const Description = styled(Space).attrs({
-  className: `${font('intr', 5)} spaced-text`,
+  className: `${font('intr', -1)} spaced-text`,
   $v: { size: 's', properties: ['margin-top'] },
 })``;
 

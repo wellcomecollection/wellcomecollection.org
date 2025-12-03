@@ -58,7 +58,7 @@ export const Details = styled.div`
 `;
 
 export const WorkInformation = styled(Space).attrs({
-  className: font('intr', 5),
+  className: font('intr', -1),
   $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.600')};
@@ -77,7 +77,7 @@ export const WorkInformationItemSeparator = styled.span`
 `;
 
 export const WorkTitleHeading = styled.h3.attrs({
-  className: font('intb', 4),
+  className: font('intsb', 0),
 })`
   margin-bottom: 0.5rem;
 `;
