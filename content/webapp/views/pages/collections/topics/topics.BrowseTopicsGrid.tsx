@@ -1,17 +1,16 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 
-import { dasherize } from '@weco/common/utils/grammar';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import { BrowseTopic, randomTopicPool } from '@weco/content/data/browse/topics';
 import { catalogueQuery } from '@weco/content/services/wellcome/catalogue';
 import { getConceptsByIds } from '@weco/content/services/wellcome/catalogue/browse';
+import {
+  Concept,
+  Image,
+} from '@weco/content/services/wellcome/catalogue/types';
 
 import BrowseTopicCard from './topics.BrowseTopicCard';
 import SurpriseMeCard from './topics.SurpriseMeCard';
-
-type Props = {
-  topics: BrowseTopic[];
-};
 
 const conceptIds = [
   'ta34s6m4',
@@ -24,13 +23,19 @@ const conceptIds = [
   'wyjyu7gv',
 ];
 
-const BrowseTopicsGrid: FunctionComponent<Props> = ({ topics }) => {
+type Props = {
+  topics: BrowseTopic[];
+};
+
+const BrowseTopicsGrid: FunctionComponent<Props> = () => {
   const [surpriseTopic, setSurpriseTopic] = useState<{
     label: string;
     id: string;
   } | null>(null);
-  const [concepts, setConcepts] = useState<any[]>([]);
-  const [conceptImages, setConceptImages] = useState<Record<string, any>>({});
+  const [concepts, setConcepts] = useState<Concept[]>([]);
+  const [conceptImages, setConceptImages] = useState<
+    Record<string, Image | null>
+  >({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -63,7 +68,10 @@ const BrowseTopicsGrid: FunctionComponent<Props> = ({ topics }) => {
             } else {
               const images = imagesResult.results || [];
               const firstImage = images.length > 0 ? images[0] : null;
-              return { conceptId: concept.id, image: firstImage };
+              // Type guard to ensure we have an Image type
+              const imageResult =
+                firstImage && firstImage.type === 'Image' ? firstImage : null;
+              return { conceptId: concept.id, image: imageResult };
             }
           } catch (error) {
             console.error(
@@ -78,7 +86,7 @@ const BrowseTopicsGrid: FunctionComponent<Props> = ({ topics }) => {
         const imageResults = await Promise.all(imagePromises);
 
         // Store images by concept ID
-        const imagesMap: Record<string, any> = {};
+        const imagesMap: Record<string, Image | null> = {};
         imageResults.forEach(({ conceptId, image }) => {
           imagesMap[conceptId] = image;
         });
@@ -105,10 +113,15 @@ const BrowseTopicsGrid: FunctionComponent<Props> = ({ topics }) => {
   return (
     <Grid>
       {concepts.map(topic => {
-        const topicImage = conceptImages[topic.id];
+        const imageResult = conceptImages[topic.id];
         const topicWithImage = {
           ...topic,
-          image: topicImage,
+          image: imageResult
+            ? {
+                locations: imageResult.locations,
+                alternativeText: undefined,
+              }
+            : undefined,
         };
 
         return (

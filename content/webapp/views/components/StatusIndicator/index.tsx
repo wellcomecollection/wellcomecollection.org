@@ -55,7 +55,7 @@ const StatusIndicator: FunctionComponent<Props> = ({
 
   return (
     <TextWithDot
-      className={isLarge ? font('intr', 4) : font('intr', 5)}
+      className={isLarge ? font('intr', 0) : font('intr', -1)}
       dotColor={color}
       text={text}
     />

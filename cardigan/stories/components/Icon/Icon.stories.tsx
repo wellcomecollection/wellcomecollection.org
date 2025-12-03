@@ -49,7 +49,7 @@ const Template = args => {
   return (
     <>
       {args.matchText ? (
-        <span className={font('intr', 3)}>
+        <span className={font('intr', 1)}>
           <Icon {...args} icon={Icons[currentIcon]} />
           <span style={{ marginLeft: '5px' }}>Some text</span>
         </span>

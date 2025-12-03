@@ -43,7 +43,7 @@ const WorkDetailsHoldings = ({ holdings }: { holdings: Holding[] }) => {
                 )}
                 <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
                   {locationLink && (
-                    <a className={font('intr', 5)} href={locationLink.url}>
+                    <a className={font('intr', -1)} href={locationLink.url}>
                       {locationLink.linkText}
                     </a>
                   )}

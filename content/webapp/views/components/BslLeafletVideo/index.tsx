@@ -15,7 +15,7 @@ import VideoEmbed, {
 } from '@weco/common/views/components/VideoEmbed';
 
 const BslLeaftletButtonText = styled(Space).attrs({
-  className: font('intr', 6),
+  className: font('intr', -2),
   $h: { size: 's', properties: ['margin-left'] },
 })``;
 
@@ -68,7 +68,7 @@ const BslLeafletVideo: FunctionComponent<Props> = ({
           $v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
         >
           <Space $h={{ size: 'xl', properties: ['padding-right'] }}>
-            <h3 className={font('intsb', 5)} style={{ marginBottom: 0 }}>
+            <h3 className={font('intsb', -1)} style={{ marginBottom: 0 }}>
               {video.title}
             </h3>
           </Space>

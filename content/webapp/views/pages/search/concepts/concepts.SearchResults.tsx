@@ -61,7 +61,7 @@ const ConceptSearchResult: FunctionComponent<{
               )}
 
             <ConceptInformation>
-              <span className={font('intm', 5)}>Type: {concept.type}</span>
+              <span className={font('intsb', -1)}>Type: {concept.type}</span>
               {concept.id && (
                 <>
                   <span aria-hidden> | </span>

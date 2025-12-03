@@ -60,7 +60,7 @@ const AccessibilityProvision: FunctionComponent<Props> = ({
         <Icon icon={closedCaptioningSquare} />
       </IconsContainer>
       <Text
-        className={!showText ? `visually-hidden` : font('intr', 5)}
+        className={!showText ? `visually-hidden` : font('intr', -1)}
         id="accessibility-provision"
       >
         {accessibilityProvisionText}

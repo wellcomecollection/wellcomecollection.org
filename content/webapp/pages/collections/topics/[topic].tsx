@@ -58,7 +58,7 @@ const SubTopicHeader = styled.div`
 `;
 
 const SubTopicLink = styled(Link).attrs({
-  className: font('wb', 3),
+  className: font('wb', 1),
 })`
   margin: 0;
   text-decoration: underline;
@@ -94,7 +94,7 @@ const CollaboratorsWrapper = styled.div`
 `;
 
 const CollaboratorsTitle = styled.h3.attrs({
-  className: font('wb', 5),
+  className: font('wb', -1),
 })`
   margin: 0 0 ${props => props.theme.spacingUnit * 2}px 0;
   color: ${props => props.theme.color('black')};
@@ -111,7 +111,7 @@ const CollaboratorsList = styled.div`
 `;
 
 const IntroText = styled.p.attrs({
-  className: font('intr', 4),
+  className: font('intr', 0),
 })`
   margin: 0 0 ${props => props.theme.spacingUnit * 4}px 0;
   max-width: 60ch;

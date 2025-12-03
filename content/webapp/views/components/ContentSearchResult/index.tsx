@@ -22,13 +22,13 @@ const Link = styled(NextLink)`
 
 const Type = styled(Space).attrs({
   $v: { size: 's', properties: ['margin-bottom'] },
-  className: font('intr', 6),
+  className: font('intr', -2),
 })``;
 
 const Title = styled(Space).attrs({
   as: 'h2',
   $v: { size: 's', properties: ['margin-bottom'] },
-  className: font('intb', 4),
+  className: font('intsb', 0),
 })`
   ${Link}:hover & {
     text-decoration: underline;
@@ -41,7 +41,7 @@ const Description = styled(Space).attrs({
 
 const DatesContributors = styled(Space).attrs({
   $v: { size: 's', properties: ['margin-bottom'] },
-  className: font('intr', 6),
+  className: font('intr', -2),
 })`
   color: ${props => props.theme.color('neutral.600')};
 `;

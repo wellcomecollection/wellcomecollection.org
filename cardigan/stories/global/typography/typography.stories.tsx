@@ -1,10 +1,7 @@
-import { ReactElement } from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
-import { fontSizesAtBreakpoints } from '@weco/common/views/themes/typography';
 import MoreLink from '@weco/content/views/components/MoreLink';
-import Table from '@weco/content/views/components/Table';
 
 const StarPlusStar = styled.div`
   * + * {
@@ -17,51 +14,13 @@ const Font = styled.div`
 `;
 
 const FontName = styled.h2.attrs({
-  className: font('intb', 6),
+  className: font('intsb', -2),
 })`
   color: ${props => props.theme.color('accent.purple')};
 `;
 
-const TypographyScale = ({ fontFamily }) => {
-  const transpose = matrix => {
-    const [row] = matrix;
-    return row.map((value, column) => matrix.map(row => row[column]));
-  };
-
-  const cols = Object.entries(fontSizesAtBreakpoints).map(entry => {
-    const value = entry[1];
-    return Object.entries(value).map((e, index) => {
-      const v = e[1];
-
-      return (
-        <span key={index} style={{ fontSize: `${v}rem`, fontFamily }}>
-          {v}rem ({v * 16}px)
-        </span>
-      );
-    });
-  });
-
-  const rows = transpose(cols);
-  const rowsWithScaleNumbers: (string | ReactElement)[][] = rows
-    .map((row, index) => {
-      return [
-        <strong key={index} style={{ fontSize: '22px' }}>
-          {index}
-        </strong>,
-        ...row,
-      ];
-    })
-    .filter(Boolean);
-  const firstRow: (string | ReactElement)[][] = [
-    ['', 'Small', 'Medium', 'Large'],
-  ];
-  const rowsWithHeadings = firstRow.concat(rowsWithScaleNumbers);
-
-  return <Table hasRowHeaders={false} rows={rowsWithHeadings} />;
-};
-
-const sizes = [0, 1, 2, 3, 4, 5, 6];
-const fontFamilies = ['intr', 'intb', 'wb', 'lr'];
+const sizes = [-2, -1, 0, 1, 2, 4, 5];
+const fontFamilies = ['intr', 'intsb', 'wb', 'lr'];
 
 const Typography = ({ text }) => {
   return (
@@ -72,11 +31,11 @@ const Typography = ({ text }) => {
             <Font key={size}>
               <FontName>
                 <code>
-                  font-{font} font-size-{size}
+                  font-{font} font-size-f{size}
                 </code>
               </FontName>
               <p
-                className={`font-size-${size} font-${font}`}
+                className={`font-size-f${size} font-${font}`}
                 style={{ marginBottom: 0 }}
               >
                 {text}
@@ -93,12 +52,6 @@ const Template = args => <Typography {...args} />;
 export const families = Template.bind({});
 families.args = {
   text: 'The quick brown fox jumped over the lazy dog',
-};
-
-const ScaleTemplate = args => <TypographyScale {...args} />;
-export const scale = ScaleTemplate.bind({});
-scale.args = {
-  fontFamily: 'Wellcome Bold Web',
 };
 
 const MiscTemplate = () => (

@@ -77,13 +77,13 @@ const ExhibitionGuideLinksCard: FunctionComponent<Props> = ({
         <Space
           $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
           as="h3"
-          className={font('wb', 3)}
+          className={font('wb', 1)}
         >
           {exhibitionGuide.title}
         </Space>
       </ExhibitionTitleLink>
       <Space $v={{ size: 's', properties: ['margin-top'] }}>
-        <PlainList className={font('intr', 5)}>
+        <PlainList className={font('intr', -1)}>
           {links.map((link, i) => (
             <Type key={i}>
               <a href={link.url}>{link.text}</a>

@@ -58,7 +58,7 @@ type EventBookingButtonProps = {
 
 const EventBookingButtonLink = styled(Space).attrs<EventBookingButtonProps>(
   props => ({
-    className: font('intr', 4),
+    className: font('intr', 0),
     href: `mailto:${props.email}?subject=${props.title}`,
     $v: { size: 's', properties: ['margin-top'] },
   })
