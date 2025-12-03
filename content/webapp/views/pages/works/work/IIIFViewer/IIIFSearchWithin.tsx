@@ -251,7 +251,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
         )}
         {!isLoading &&
           searchResults &&
-          searchResults?.within?.total !== undefined &&
+          typeof searchResults?.within?.total === 'number' &&
           query.query && (
             <ResultsHeader aria-live="assertive">
               {pluralize(searchResults.within.total ?? 0, 'result')}
