@@ -87,7 +87,7 @@ const ImageSection: FunctionComponent<Props> = ({
       />
       <Space
         $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
-        style={{ position: 'relative' }}
+        style={{ position: 'relative' }} // relative to allow 'View all' button focus to stack above element that would otherwise clip it off
       >
         {labelBasedCount > singleSectionData.pageResults.length && (
           <MoreLink

@@ -43,6 +43,7 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
       condition={isNextLink}
       wrapper={children =>
         typeof link === 'object' && (
+          // inline-block ensures focus styles wrap entire link
           <NextLink {...link} style={{ display: 'inline-block' }}>
             {children}
           </NextLink>
