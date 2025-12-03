@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import { check, indicator } from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
+import { focusStyle } from '@weco/common/views/themes/base/wellcome-normalize';
 
 const CheckboxRadioLabel = styled.label<{ $isDisabled?: boolean }>`
   display: inline-flex;
@@ -39,7 +40,7 @@ const CheckboxRadioBox = styled.span<{
       ? `background-color: ${props.theme.color('neutral.300')};
       border-color: ${props.theme.color('neutral.400')};`
       : ''}
-    
+
 
   .icon {
     position: absolute;
@@ -70,8 +71,7 @@ const CheckboxRadioInput = styled.input.attrs<{ $type: string }>(props => ({
   }
 
   &:focus-visible ~ ${CheckboxRadioBox}, &:focus ~ ${CheckboxRadioBox} {
-    box-shadow: ${props => props.theme.focusBoxShadow};
-    outline: ${props => props.theme.highContrastOutlineFix};
+    ${focusStyle};
   }
 
   &:focus ~ ${CheckboxRadioBox}:not(:focus-visible ~ ${CheckboxRadioBox}) {

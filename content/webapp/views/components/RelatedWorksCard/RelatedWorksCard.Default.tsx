@@ -31,7 +31,7 @@ const RelatedWorksCard: FunctionComponent<Props> = ({ work, gtmData }) => {
     <NextLink
       {...toWorkLink({ id: work.id })}
       data-component="related-works-card"
-      style={{ textDecoration: 'none' }}
+      style={{ textDecoration: 'none', display: 'block' }}
       {...(gtmData &&
         dataGtmPropsToAttributes({
           ...gtmData,

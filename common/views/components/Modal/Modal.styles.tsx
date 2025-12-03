@@ -28,8 +28,6 @@ export const CloseButton = styled(Space).attrs<{ type?: string }>(props => ({
   appearance: none;
   background: rgb(0, 0, 0, 0.7);
   color: ${props => props.theme.color('white')};
-  border: 0;
-  outline: 0;
   z-index: 1;
 
   .icon {
