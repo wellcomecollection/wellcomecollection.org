@@ -31,7 +31,7 @@ const NewsletterForm = styled.form.attrs({
 `;
 
 const PrivacyNotice = () => (
-  <p className={font('intr', -2)}>
+  <p className={font('sans', -2)}>
     By clicking subscribe, you agree to receive this newsletter. You can
     unsubscribe any time. For information about how we handle your data,{' '}
     <a
@@ -108,12 +108,12 @@ const NewsletterPromo: FunctionComponent = () => {
     >
       <Container>
         <ContaineredLayout gridSizes={gridSize8()}>
-          <h2 className={font('wb', 1)} style={{ textAlign: 'center' }}>
+          <h2 className={font('brand', 1)} style={{ textAlign: 'center' }}>
             {isSuccess ? 'Thank you for signing up!' : 'Stay in the know'}
           </h2>
           {!isSuccess && (
             <>
-              <p className={font('intr', -1)} style={{ marginBottom: '1rem' }}>
+              <p className={font('sans', -1)} style={{ marginBottom: '1rem' }}>
                 Sign up to our newsletter to find out what’s on, read our latest
                 stories and get involved.
               </p>
@@ -142,7 +142,7 @@ const NewsletterPromo: FunctionComponent = () => {
                 />
 
                 <p
-                  className={font('intr', -2)}
+                  className={font('sans', -2)}
                   style={{ marginBottom: 0, marginTop: '1rem' }}
                 >
                   <a href="/newsletter">All our newsletters</a>
@@ -158,7 +158,7 @@ const NewsletterPromo: FunctionComponent = () => {
                       setHasCheckedMarketing(currentValue => !currentValue);
                     }}
                     text={
-                      <p className={font('intr', -2)}>
+                      <p className={font('sans', -2)}>
                         Tick this box if you’re happy to receive other emails
                         about Wellcome Collection, upcoming events and
                         exhibitions and/or other relevant opportunities.
@@ -182,7 +182,7 @@ const NewsletterPromo: FunctionComponent = () => {
           )}
 
           {isSuccess && (
-            <div className={`${font('intr', -1)} spaced-text`}>
+            <div className={`${font('sans', -1)} spaced-text`}>
               <p>
                 If this is the first time you have subscribed to one of our
                 newsletters, you will receive an email asking you to confirm

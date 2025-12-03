@@ -58,13 +58,13 @@ const ContentWrapper = styled(Space).attrs({
 `;
 
 const Title = styled.h3.attrs({
-  className: font('wb', 1),
+  className: font('brand', 1),
 })`
   margin: 0 0 ${props => props.theme.spacingUnit}px 0;
 `;
 
 const Description = styled.p.attrs({
-  className: font('intr', -1),
+  className: font('sans', -1),
 })`
   margin: 0;
   display: -webkit-box;

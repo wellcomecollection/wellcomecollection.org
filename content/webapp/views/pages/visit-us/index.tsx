@@ -35,9 +35,9 @@ const VisitUsStaticContent: FunctionComponent = () => {
           </GridCell>
           <GridCell
             $sizeMap={{ s: [12], l: [5], xl: [5] }}
-            className={font('intr', -1)}
+            className={font('sans', -1)}
           >
-            <h2 style={{ marginBottom: 0 }} className={font('intsb', -1)}>
+            <h2 style={{ marginBottom: 0 }} className={font('sans-bold', -1)}>
               Today’s opening times
             </h2>
             <OpeningTimes venues={venues} />

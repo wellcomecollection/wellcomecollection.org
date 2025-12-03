@@ -58,7 +58,7 @@ type NavItemProps = {
 };
 
 export const Tab = styled.div.attrs<NavItemProps>(props => ({
-  className: font(props.$selected ? 'intsb' : 'intr', -1),
+  className: props.$selected ? font('sans-bold', -1) : font('sans', -1),
 }))<NavItemProps>`
   padding: 0;
   margin: 0;
@@ -138,7 +138,7 @@ export const NavItemInner = styled(Space).attrs<{ $selected: boolean }>(
     width: 100%;
     background-color: transparent;
 
-    a:focus-within & {
+    ${Tab}:focus-within & {
       background-color: ${props => props.theme.color('yellow')};
     }
   }

@@ -14,7 +14,7 @@ export const Container = styled(Space).attrs({
 export const Wrapper = styled(Space).attrs<{
   $removeBottomPadding?: boolean;
 }>(props => ({
-  className: font('intr', -1),
+  className: font('sans', -1),
   $v: {
     size: 'l',
     properties: props.$removeBottomPadding
@@ -34,7 +34,7 @@ type SectionHeadingProps = {
 export const SectionHeading = styled(Space).attrs<SectionHeadingProps>(
   props => ({
     as: props.as || 'h2',
-    className: font('wb', 1),
+    className: font('brand', 1),
     $v: {
       size: 'm',
       properties: props.$addBottomPadding ? ['padding-bottom'] : [],

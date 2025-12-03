@@ -16,7 +16,7 @@ const Blockquote = styled.blockquote.attrs<{ $isPullOrReview: boolean }>(
   props => ({
     className: classNames({
       'quote--pull': props.$isPullOrReview,
-      [font('intr', 2)]: props.$isPullOrReview,
+      [font('sans', 2)]: props.$isPullOrReview,
       quote: true,
     }),
   })
@@ -25,7 +25,7 @@ const Blockquote = styled.blockquote.attrs<{ $isPullOrReview: boolean }>(
 `;
 
 const Cite = styled.cite.attrs({
-  className: `quote__cite ${font('intr', -1)}`,
+  className: `quote__cite ${font('sans', -1)}`,
 })`
   color: ${props => props.theme.color('neutral.600')};
   display: flex;

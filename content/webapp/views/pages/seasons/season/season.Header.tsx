@@ -61,14 +61,14 @@ const SeasonsHeader: FunctionComponent<Props> = ({ season }) => {
                     <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
                       <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
                         <h1
-                          className={font('wb', 4)}
+                          className={font('brand', 4)}
                           style={{ display: 'inline-block', marginBottom: 0 }}
                         >
                           {title}
                         </h1>
                       </Space>
                       {start && end && (
-                        <div className={font('intr', -1)}>
+                        <div className={font('sans', -1)}>
                           <DateRange start={start} end={end} />
                         </div>
                       )}

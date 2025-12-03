@@ -424,7 +424,7 @@ const WorkDetails: FunctionComponent<Props> = ({
       )}
 
       <WorkDetailsSection headingText="Permanent link">
-        <div className={font('intr', -1)}>
+        <div className={font('sans', -1)}>
           <CopyButtons
             variant="url"
             url={`https://wellcomecollection.org/works/${work.id}`}
