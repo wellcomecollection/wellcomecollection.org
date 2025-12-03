@@ -138,7 +138,7 @@ const ChangeEmail: FunctionComponent<ChangeDetailsModalContentProps> = ({
                 required
                 id={name}
                 label="New email address"
-                value={value}
+                value={value ?? ''}
                 setValue={onChange}
                 isValid={!invalid}
                 setIsValid={() => trigger('email')}
