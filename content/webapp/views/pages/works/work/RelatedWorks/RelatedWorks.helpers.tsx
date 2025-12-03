@@ -45,8 +45,12 @@ export const fetchRelatedWorks = async ({
   const results: RelatedWork = {};
 
   const subjectLabels = subjects.map(subject => subject.label).slice(0, 3);
+
+  // Use the label of the first nested concept. See https://github.com/wellcomecollection/catalogue-pipeline/pull/3135
+  // for more info.
   const typeTechniques = typesTechniques
-    ?.map(genre => genre.concepts[0].label)
+    ?.map(genre => genre.concepts[0]?.label)
+    .filter(label => label !== undefined)
     .slice(0, 2);
   const dateRange = getCenturyRange(date);
 
