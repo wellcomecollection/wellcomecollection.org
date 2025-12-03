@@ -82,13 +82,15 @@ test('(4) | The entire item can be downloaded', async ({ page, context }) => {
   );
 });
 
-test.skip('(5) | The item has contributor information', async ({
+test('(5) | The item has contributor information', async ({
   page,
   context,
 }) => {
   await multiVolumeItem(context, page);
   await accessSidebarOnMobile(page);
-  await expect(page.getByText('Bernard de Gordon')).toBeVisible();
+  await expect(
+    page.getByText('Bernard de Gordon', { exact: true })
+  ).toBeVisible();
 });
 
 test('(6) | The item has date information', async ({ page, context }) => {
