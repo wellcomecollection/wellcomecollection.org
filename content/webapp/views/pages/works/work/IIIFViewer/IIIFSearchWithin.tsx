@@ -249,8 +249,10 @@ const IIIFSearchWithin: FunctionComponent = () => {
             There has been a problem conducting the search.
           </ErrorMessage>
         )}
-        {searchResults &&
-          Boolean(searchResults?.within?.total && query.query) && (
+        {!isLoading &&
+          searchResults &&
+          searchResults?.within?.total !== undefined &&
+          query.query && (
             <ResultsHeader aria-live="assertive">
               {pluralize(searchResults.within.total ?? 0, 'result')}
             </ResultsHeader>
