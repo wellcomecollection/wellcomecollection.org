@@ -22,7 +22,8 @@ export const pageDescriptions = {
   collections: {
     collections:
       'Over 1.1 million items exploring art, health, culture and what it means to be human',
-    newOnline: 'Some of the works added to the online catalogue this month', // TODO
+    newOnline:
+      'Thousands of items from our collections have been digitised and are freely accessible online. Explore some of the recently added digitised and born-digital works.',
   },
   events:
     'Our events take place both online and in our building. Choose from an inspiring range of free talks, discussions and more.',
