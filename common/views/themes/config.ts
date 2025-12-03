@@ -103,7 +103,7 @@ const getColor = (name: PaletteColor): string => {
   return colors[name];
 };
 
-export const designSystemSizes = {
+export const sizes = {
   small: 0,
   medium: remToPx(designSystemTheme.breakpoints.sm), // 48rem = 768px
   large: remToPx(designSystemTheme.breakpoints.md), // 64rem = 1024px
@@ -114,15 +114,11 @@ export const designSystemSizes = {
   headerLarge: 1040,
 };
 
-export const sizes = {
-  small: 0,
-  medium: 600,
-  large: 960,
-  xlarge: 1338,
-  // Tweakpoints
-  // Occasionally we need to respond to specific breakpoints beyond the defaults
-  headerMedium: 825,
-  headerLarge: 1040,
+const gutter = {
+  small: remToPx(designSystemTheme.grid.gutter.default), // 12px
+  medium: remToPx(designSystemTheme.grid.gutter.sm), // 24px
+  large: 40, // 40px FIXME: this value isn't in the WDS repo but is in Figma
+  xlarge: remToPx(designSystemTheme.grid.gutter.lg), // 48px
 };
 
 const defaultButtonColors: ButtonColors = {
@@ -242,19 +238,12 @@ const mediaBetween = createMediaBetween(sizes);
 
 const breakpointNames = ['small', 'medium', 'large'];
 
-const containerPadding: ContainerPadding = {
-  small: 18,
-  medium: 42,
-  large: 60,
-  xlarge: 60,
-};
-
 // Design system container padding values (5% across all breakpoints)
 // Note: currently these aren't the values that are being exported from the
 // WDS repo, but they _are_ what is being used in Figma. There is a job to update
 // the repo with this value.
 // TODO: this obviously doesn't need to be 4 values when we're not behind the toggle
-export const designSystemContainerPadding: ContainerPadding = {
+export const containerPadding: ContainerPadding = {
   small: '5%',
   medium: '5%',
   large: '5%',
@@ -373,18 +362,18 @@ function getSpaceOverrideValue(
 function pageGridOffset(property: string): string {
   return `
   position: relative;
-  ${property}: -${formatContainerPadding(containerPadding.small)};
+  ${property}: -${formatContainerPaddingVw(containerPadding.small)};
 
   ${media('medium')(`
-    ${property}: -${formatContainerPadding(containerPadding.medium)};
+    ${property}: -${formatContainerPaddingVw(containerPadding.medium)};
     `)}
 
   ${media('large')(`
-    ${property}: -${formatContainerPadding(containerPadding.large)};
+    ${property}: -${formatContainerPaddingVw(containerPadding.large)};
     `)}
 
   ${media('xlarge')(`
-    ${property}: calc((100vw - ${sizes.xlarge}px) / 2 * -1 - ${formatContainerPadding(containerPadding.xlarge)});
+    ${property}: calc((100vw - ${sizes.xlarge}px) / 2 * -1 - ${formatContainerPaddingVw(containerPadding.xlarge)});
   `)};
   `;
 }
@@ -425,12 +414,7 @@ export const themeValues = {
   iconDimension: 24,
   containerPadding,
   sizes,
-  gutter: {
-    small: 18,
-    medium: 24,
-    large: 30,
-    xlarge: 30,
-  },
+  gutter,
   basicBoxShadow: `0 2px 8px 0 rgb(18, 18, 18, 0.4)`,
   focusBoxShadow: `0 0 0 3px ${colors['focus.yellow']}`,
   // Problem: https://github.com/wellcomecollection/wellcomecollection.org/issues/10237
@@ -484,13 +468,6 @@ export const themeValues = {
     greenGreenWhite,
   },
   spacedTextTopMargin: '1.55em',
-};
-
-export const designSystemGutter = {
-  small: remToPx(designSystemTheme.grid.gutter.default), // 12px
-  medium: remToPx(designSystemTheme.grid.gutter.sm), // 24px
-  large: 40, // 40px FIXME: this value isn't in the WDS repo but is in Figma
-  xlarge: remToPx(designSystemTheme.grid.gutter.lg), // 48px
 };
 
 export type Breakpoint = keyof typeof sizes;

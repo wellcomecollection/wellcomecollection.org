@@ -7,15 +7,7 @@ import { layout } from './base/layout';
 import { normalize } from './base/normalize';
 import { row } from './base/row';
 import { wellcomeNormalize } from './base/wellcome-normalize';
-import {
-  createMedia,
-  createMediaBetween,
-  designSystemContainerPadding,
-  designSystemGutter,
-  designSystemSizes,
-  Size,
-  themeValues,
-} from './config';
+import { Size, themeValues } from './config';
 import { makeFontSizeClasses, typography } from './typography';
 import { utilityClasses } from './utility-classes';
 
@@ -98,65 +90,10 @@ const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
 // Theme factory that creates a theme with appropriate color function based on toggles
 export const createThemeValues = (toggles: Toggles) => {
   // Manipulate themeValues with toggles here
-  const activeSizes = toggles?.designSystemBreakpoints?.value
-    ? designSystemSizes
-    : themeValues.sizes;
-
-  const activeGutter = toggles?.designSystemBreakpoints?.value
-    ? designSystemGutter
-    : themeValues.gutter;
-
-  const activeContainerPadding = toggles?.designSystemBreakpoints?.value
-    ? designSystemContainerPadding
-    : themeValues.containerPadding;
-
-  // Create toggle-aware media helpers
-  const activeMedia = createMedia(activeSizes);
-  const activeMediaBetween = createMediaBetween(activeSizes);
-
-  // Create toggle-aware pageGridOffset function
-  const pageGridOffset = (property: string): string => {
-    const smallPadding = themeValues.formatContainerPaddingVw(
-      activeContainerPadding.small
-    );
-    const mediumPadding = themeValues.formatContainerPaddingVw(
-      activeContainerPadding.medium
-    );
-    const largePadding = themeValues.formatContainerPaddingVw(
-      activeContainerPadding.large
-    );
-    const xlargePadding = themeValues.formatContainerPaddingVw(
-      activeContainerPadding.xlarge
-    );
-
-    return `
-      position: relative;
-      ${property}: -${smallPadding};
-
-      ${activeMedia('medium')(`
-        ${property}: -${mediumPadding};
-      `)}
-
-      ${activeMedia('large')(`
-        ${property}: -${largePadding};
-      `)}
-
-      ${activeMedia('xlarge')(`
-        ${property}: calc((100vw - ${activeSizes.xlarge}px) / 2 * -1 - ${xlargePadding});
-      `)};
-    `;
-  };
 
   return {
     ...themeValues,
-    sizes: activeSizes,
-    gutter: activeGutter,
-    containerPadding: activeContainerPadding,
-    // Override media query helpers to use active sizes
-    media: activeMedia,
-    mediaBetween: activeMediaBetween,
-    // Override pageGridOffset to use active sizes and containerPadding
-    pageGridOffset,
+
     // Override makeSpacePropertyValues to include toggles
     makeSpacePropertyValues: (
       size: Parameters<typeof themeValues.makeSpacePropertyValues>[0],
