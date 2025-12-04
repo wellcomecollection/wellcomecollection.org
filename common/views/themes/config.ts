@@ -23,18 +23,6 @@ export type ColumnKey =
   | 'shiftM'
   | 'shiftL'
   | 'shiftXl';
-export const spacingUnits = {
-  '1': 4,
-  '2': 6,
-  '3': 8,
-  '4': 12,
-  '5': 16,
-  '6': 24,
-  '7': 30,
-  '8': 32,
-  '9': 46,
-  '10': 64,
-};
 
 // suggested new colors
 const colors = {
@@ -226,30 +214,6 @@ const breakpointNames = ['small', 'medium', 'large'];
 export const containerPadding = '5%';
 const containerPaddingVw = '5vw';
 
-const spaceAtBreakpoints = {
-  small: {
-    xs: spacingUnits['1'],
-    s: spacingUnits['2'],
-    m: spacingUnits['3'],
-    l: spacingUnits['5'],
-    xl: spacingUnits['7'],
-  },
-  medium: {
-    xs: spacingUnits['1'],
-    s: spacingUnits['2'],
-    m: spacingUnits['4'],
-    l: spacingUnits['6'],
-    xl: spacingUnits['9'],
-  },
-  large: {
-    xs: spacingUnits['1'],
-    s: spacingUnits['3'],
-    m: spacingUnits['5'],
-    l: spacingUnits['8'],
-    xl: spacingUnits['10'],
-  },
-};
-
 // Map current space sizes to design system responsive spacing
 // xs → space.2xs, s → space.xs, m → space.sm, l → space.lg, xl → space.xl
 const designSystemSpacing: Record<SpaceSize, ResponsiveValue> = {
@@ -262,7 +226,8 @@ const designSystemSpacing: Record<SpaceSize, ResponsiveValue> = {
 
 // Map spacingUnits to design system static spacing values
 // Used for overrides parameter
-const designSystemStaticSpacing: Record<keyof typeof spacingUnits, string> = {
+type SpacingUnit = '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10';
+const designSystemStaticSpacing: Record<SpacingUnit, string> = {
   '1': designSystemTheme.spacing.static['space.050'], // 4px → 0.25rem
   '2': designSystemTheme.spacing.static['space.075'], // 6px → 0.375rem
   '3': designSystemTheme.spacing.static['space.100'], // 8px → 0.5rem
@@ -276,6 +241,9 @@ const designSystemStaticSpacing: Record<keyof typeof spacingUnits, string> = {
 };
 
 // Map our breakpoint names to design system breakpoint keys
+// TODO: remove this mapping, but only after the keys in the design system have been
+// updated. They are currently 'default', 'sm', 'md', but they will soon change
+// to e.g. 'xs', 'sm', 'md', 'lg', 'xl'
 const BREAKPOINT_TO_DS_MAP: Record<
   'small' | 'medium' | 'large',
   'default' | 'sm' | 'md'
@@ -295,7 +263,7 @@ function getSpaceValue(
 }
 
 // Helper function to get override spacing values
-function getSpaceOverrideValue(unit: keyof typeof spacingUnits): string {
+function getSpaceOverrideValue(unit: SpacingUnit): string {
   return designSystemStaticSpacing[unit];
 }
 
@@ -373,8 +341,7 @@ export const themeValues = {
       }
       `,
   },
-  spacingUnits,
-  spaceAtBreakpoints,
+  spacingUnits: designSystemStaticSpacing,
   navHeight: 85,
   fontVerticalOffset: '0.15em',
   colors,
