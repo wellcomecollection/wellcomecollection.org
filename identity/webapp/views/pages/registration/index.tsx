@@ -119,7 +119,7 @@ const RegistrationPage: NextPage<Props> = ({
                             id={name}
                             name={name}
                             label="First name"
-                            value={value}
+                            value={value ?? ''}
                             setValue={onChange}
                             isValid={!invalid}
                             setIsValid={() => trigger('firstName')}
@@ -145,7 +145,7 @@ const RegistrationPage: NextPage<Props> = ({
                             id={name}
                             name={name}
                             label="Last name"
-                            value={value}
+                            value={value ?? ''}
                             setValue={onChange}
                             isValid={!invalid}
                             setIsValid={() => trigger('lastName')}
@@ -178,7 +178,7 @@ const RegistrationPage: NextPage<Props> = ({
                               hasErrorBorder={
                                 !!formState.errors.termsAndConditions
                               }
-                              checked={value}
+                              checked={value ?? false}
                               text={
                                 <div style={{ marginLeft: '0.333em' }}>
                                   <>
