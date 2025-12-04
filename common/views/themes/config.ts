@@ -10,7 +10,6 @@ import {
   SpaceOverrides,
   VerticalSpaceProperty,
 } from '@weco/common/views/components/styled/Space';
-import { Toggles } from '@weco/toggles';
 
 type SpaceSize = 'xs' | 's' | 'm' | 'l' | 'xl';
 type SpaceProperty = HorizontalSpaceProperty | VerticalSpaceProperty;
@@ -276,7 +275,7 @@ function pageGridOffset(property: string): string {
   ${property}: -${containerPaddingVw};
 
   ${media('xlarge')(`
-    ${property}: calc((100vw - ${sizes.xlarge}px) / 2 * -1 - ${containerPaddingVw});
+    ${property}: calc((100vw - ${sizes.xlarge}) / 2 * -1 - ${containerPaddingVw});
   `)};
   `;
 }
@@ -285,8 +284,7 @@ function makeSpacePropertyValues(
   size: SpaceSize,
   properties: SpaceProperty[],
   negative?: boolean,
-  overrides?: SpaceOverrides,
-  toggles?: Toggles
+  overrides?: SpaceOverrides
 ): string {
   return breakpointNames
     .map(bp => {
@@ -296,12 +294,7 @@ function makeSpacePropertyValues(
           ? getSpaceOverrideValue(overrides[bp])
           : getSpaceValue(size, bp as 'small' | 'medium' | 'large');
 
-      // Handle negative values appropriately for design system vs legacy
-      const finalValue = negative
-        ? toggles?.designSystemSpacing?.value
-          ? `calc(-1 * ${baseValue})`
-          : `-${baseValue}` // baseValue already includes 'px' from getSpaceValue
-        : baseValue;
+      const finalValue = negative ? `calc(-1 * ${baseValue})` : baseValue;
 
       return `@media (min-width: ${sizes[bp]}) {
       ${properties.map(p => `${p}: ${finalValue};`).join('')}
