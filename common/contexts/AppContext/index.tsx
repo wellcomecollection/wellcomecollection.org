@@ -75,8 +75,6 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
     );
     const viewportWidthInRem = window.innerWidth / rootFontSize;
 
-    console.log(viewportWidthInRem);
-
     // Extract numeric value from rem strings
     const medium = parseFloat(theme.sizes.medium);
     const large = parseFloat(theme.sizes.large);
