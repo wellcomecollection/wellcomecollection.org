@@ -28,6 +28,7 @@ const ScrollButtonsContainer = styled(Space).attrs<{
   justify-content: ${props => (props.$hasLabel ? 'space-between' : 'flex-end')};
   gap: ${props => props.theme.spacingUnits['3']}px;
   align-items: center;
+  padding-bottom: 4px;
 `;
 
 const Label = styled(Space).attrs({

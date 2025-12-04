@@ -30,6 +30,11 @@ const ScrollButton = styled('button').attrs({
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-bottom: 4px;
+
+  &:focus-visible {
+    outline-offset: -2px;
+  }
 
   &:disabled {
     color: ${props => props.theme.color('neutral.500')};
