@@ -55,7 +55,7 @@ const ButtonWrapper = styled.div<ButtonWrapperProps>`
 `;
 
 const DetailHeading = styled.h3.attrs({
-  className: `${font('intsb', -1)}`,
+  className: `${font('sans-bold', -1)}`,
 })`
   margin-bottom: 0;
 `;

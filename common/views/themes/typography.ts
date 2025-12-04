@@ -12,10 +12,9 @@ import { GlobalStyleProps } from './default';
 // https://github.com/wellcomecollection/wellcomecollection.org/issues/12324
 
 const fontFamilies = {
-  intr: designSystemTheme.font.family.sans,
-  intsb: designSystemTheme.font.family.sans,
-  wb: designSystemTheme.font.family.brand,
-  lr: designSystemTheme.font.family.mono,
+  sans: designSystemTheme.font.family.sans,
+  brand: designSystemTheme.font.family.brand,
+  mono: designSystemTheme.font.family.mono,
 };
 
 const fontSizeMixin = (
@@ -25,27 +24,31 @@ const fontSizeMixin = (
 `;
 type FontFamily = keyof typeof fontFamilies;
 
-export const fontFamilyMixin = (family: FontFamily): string => {
-  return `font-family: ${fontFamilies[family]};`;
+export const fontFamilyMixin = (
+  family: FontFamily,
+  isBold?: boolean
+): string => {
+  return `
+  font-family: ${fontFamilies[family]};
+  font-weight: ${designSystemTheme.font.weight[isBold ? 'semibold' : 'regular']};
+  `;
 };
 
 export const typography = css<GlobalStyleProps>`
-  .font-intsb {
-    ${fontFamilyMixin('intsb')};
-    font-weight: ${designSystemTheme.font.weight.semibold};
+  .font-sans-bold {
+    ${fontFamilyMixin('sans', true)};
   }
 
-  .font-intr {
-    ${fontFamilyMixin('intr')};
-    font-weight: ${designSystemTheme.font.weight.regular};
+  .font-sans {
+    ${fontFamilyMixin('sans')};
   }
 
-  .font-wb {
-    ${fontFamilyMixin('wb')};
+  .font-brand {
+    ${fontFamilyMixin('brand')};
   }
 
-  .font-lr {
-    ${fontFamilyMixin('lr')};
+  .font-mono {
+    ${fontFamilyMixin('mono')};
   }
 
   html {
@@ -53,7 +56,7 @@ export const typography = css<GlobalStyleProps>`
   }
 
   body {
-    ${fontFamilyMixin('intr')}
+    ${fontFamilyMixin('sans')}
     ${fontSizeMixin(0)}
     line-height: ${designSystemTheme['line-height'].lg};
     color: ${props => props.theme.color('black')};
@@ -153,12 +156,12 @@ export const typography = css<GlobalStyleProps>`
     letter-spacing: 0.0044em;
 
     h1 {
-      ${fontFamilyMixin('wb')}
+      ${fontFamilyMixin('brand')}
       ${fontSizeMixin(4)}
     }
 
     h2 {
-      ${fontFamilyMixin('wb')}
+      ${fontFamilyMixin('brand')}
       ${fontSizeMixin(2)}
     }
 
@@ -175,7 +178,7 @@ export const typography = css<GlobalStyleProps>`
     }
 
     h3 {
-      ${fontFamilyMixin('intsb')}
+      ${fontFamilyMixin('sans', true)}
       ${fontSizeMixin(1)}
     }
 
@@ -220,12 +223,12 @@ export const typography = css<GlobalStyleProps>`
 
     strong,
     b {
-      ${fontFamilyMixin('intsb')};
+      ${fontFamilyMixin('sans', true)};
     }
   }
 
   .drop-cap {
-    ${fontFamilyMixin('wb')}
+    ${fontFamilyMixin('brand')}
     font-size: 3em;
     color: ${props => props.theme.color('black')};
     float: left;
@@ -257,7 +260,7 @@ export const typography = css<GlobalStyleProps>`
     position: relative;
 
     &::before {
-      ${fontFamilyMixin('wb')}
+      ${fontFamilyMixin('brand')}
       position: absolute;
       content: '“';
       color: ${props => props.theme.color('accent.blue')};

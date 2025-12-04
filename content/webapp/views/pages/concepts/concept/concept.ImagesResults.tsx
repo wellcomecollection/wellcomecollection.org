@@ -32,7 +32,7 @@ const ThemeImagesWrapper = styled(Space).attrs({
 
 const SectionHeading = styled(Space).attrs({
   as: 'h3',
-  className: font('intsb', 1),
+  className: font('sans-bold', 1),
   $v: { size: 's', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('white')};

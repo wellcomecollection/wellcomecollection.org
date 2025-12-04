@@ -185,8 +185,8 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
             overrides: { small: 4, medium: 4, large: 4 },
           }}
         >
-          <h2 className={font('wb', -2)}>{title}</h2>
-          <div className={font('intr', -1)}>
+          <h2 className={font('brand', -2)}>{title}</h2>
+          <div className={font('sans', -1)}>
             <PrismicHtmlBlock html={text} />
           </div>
         </Space>

@@ -24,7 +24,7 @@ export const Wrapper = styled(Space)`
 export const TitleWrapper = styled.h1.attrs<{
   $isOfficialLandingPage?: boolean;
 }>(props => ({
-  className: font('wb', props.$isOfficialLandingPage ? 5 : 4),
+  className: font('brand', props.$isOfficialLandingPage ? 5 : 4),
 }))`
   display: inline-block;
   margin: 0 !important;

@@ -66,7 +66,7 @@ const LinkSpace = styled(Space).attrs<LinkSpaceAttrs>(props => ({
 `;
 
 const Title = styled.h3.attrs({
-  className: font('intsb', -1),
+  className: font('sans-bold', -1),
 })`
   margin: 0;
   display: -webkit-box;
@@ -77,14 +77,14 @@ const Title = styled.h3.attrs({
 `;
 
 const Meta = styled.p.attrs({
-  className: font('intr', -2),
+  className: font('sans', -2),
 })`
   color: ${props => props.theme.color('neutral.600')};
   margin: 0;
 `;
 
 const NotAvailable = styled.span.attrs({
-  className: font('intr', -2),
+  className: font('sans', -2),
 })`
   position: absolute;
   top: 50%;

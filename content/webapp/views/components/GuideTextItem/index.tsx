@@ -33,7 +33,7 @@ const GuideTextItem: FunctionComponent<{
         <Tombstone>
           {title && <TombstoneTitle $level={3}>{title}</TombstoneTitle>}
           {tombstone && (
-            <div className={font('intr', 0)}>
+            <div className={font('sans', 0)}>
               <PrismicHtmlBlock html={tombstone} />
             </div>
           )}

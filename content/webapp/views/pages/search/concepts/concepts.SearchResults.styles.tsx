@@ -46,18 +46,18 @@ export const Details = styled.div`
 `;
 
 export const ConceptTitleHeading = styled.h3.attrs({
-  className: font('intsb', 0),
+  className: font('sans-bold', 0),
 })``;
 
 export const ConceptDescription = styled(Space).attrs({
-  className: font('intr', -1),
+  className: font('sans', -1),
   $v: { size: 's', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.700')};
 `;
 
 export const AlternativeLabels = styled(Space).attrs({
-  className: font('intr', -1),
+  className: font('sans', -1),
   $v: { size: 's', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.600')};
@@ -68,7 +68,7 @@ export const AlternativeLabels = styled(Space).attrs({
 `;
 
 export const ConceptInformation = styled(Space).attrs({
-  className: font('intr', -1),
+  className: font('sans', -1),
   $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.600')};

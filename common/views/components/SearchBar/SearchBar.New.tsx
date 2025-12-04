@@ -22,7 +22,7 @@ const Container = styled.div`
 `;
 
 const Typewriter = styled.div.attrs({
-  className: font('intr', 1),
+  className: font('sans', 1),
   'aria-hidden': 'true',
 })`
   position: absolute;
