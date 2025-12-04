@@ -1,25 +1,9 @@
-type ItemsLocationsAccessConditionsStatus =
-  | 'open'
-  | 'open-with-advisory'
-  | 'restricted'
-  | 'closed'
-  | 'licensed-resources'
-  | 'unavailable'
-  | 'permission-required'
-  | '!open'
-  | '!open-with-advisory'
-  | '!restricted'
-  | '!closed'
-  | '!licensed-resources'
-  | '!unavailable'
-  | '!permission-required';
-
 export type CatalogueWorksApiProps = {
   query?: string;
   page?: number;
   workType?: string[];
   'items.locations.locationType'?: string[];
-  'items.locations.accessConditions.status'?: ItemsLocationsAccessConditionsStatus;
+  'items.locations.accessConditions.status'?: string[];
   availabilities?: string[];
   sort?: string;
   sortOrder?: string;
@@ -32,6 +16,7 @@ export type CatalogueWorksApiProps = {
   subjects?: string[];
   'contributors.agent.label'?: string[];
   languages?: string[];
+  identifiers?: string[];
   aggregations?: string[];
 };
 
