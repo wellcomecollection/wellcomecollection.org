@@ -195,7 +195,7 @@ export const createMediaBetween =
   (minBreakpoint: Breakpoint, maxBreakpoint: Breakpoint) =>
   (styles: string): string => {
     const minWidth = `min-width: ${activeSizes[minBreakpoint]}`;
-    const maxWidth = `max-width: calc(${activeSizes[maxBreakpoint]} - 1px)`;
+    const maxWidth = `max-width: calc(${activeSizes[maxBreakpoint]} - 0.0625rem)`;
 
     return `@media (${minWidth}) and (${maxWidth}) {
       ${styles}
