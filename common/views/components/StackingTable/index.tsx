@@ -17,7 +17,7 @@ const StyledTable = styled.table.attrs({
   width: 100%;
   border-collapse: collapse;
 
-  @media (max-width: ${props => props.$maxWidth || props.theme.sizes.large}px) {
+  @media (max-width: ${props => props.$maxWidth || props.theme.sizes.large}) {
     display: block;
 
     thead,
@@ -74,7 +74,7 @@ const StyledTh = styled(Space).attrs<ThProps>(props => ({
   text-align: left;
   vertical-align: top;
 
-  @media (max-width: ${props => props.$maxWidth || props.theme.sizes.large}px) {
+  @media (max-width: ${props => props.$maxWidth || props.theme.sizes.large}) {
     padding-left: 0;
   }
 `;
@@ -99,7 +99,7 @@ const StyledTd = styled(Space).attrs<TdProps>(props => ({
   text-align: left;
   vertical-align: top;
 
-  @media (max-width: ${props => props.$maxWidth || props.theme.sizes.large}px) {
+  @media (max-width: ${props => props.$maxWidth || props.theme.sizes.large}) {
     padding-left: 0;
     padding-top: 0;
     padding-bottom: ${props => `${props.theme.spacingUnit}px`};

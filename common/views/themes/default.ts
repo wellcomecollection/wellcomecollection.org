@@ -112,7 +112,7 @@ export const createThemeValues = (toggles: Toggles) => {
     getSpaceValue: (
       size: Parameters<typeof themeValues.getSpaceValue>[0],
       breakpoint: Parameters<typeof themeValues.getSpaceValue>[1]
-    ) => themeValues.getSpaceValue(size, breakpoint, toggles),
+    ) => themeValues.getSpaceValue(size, breakpoint),
   };
 };
 
