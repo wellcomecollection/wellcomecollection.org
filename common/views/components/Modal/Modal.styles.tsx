@@ -101,7 +101,7 @@ export const BaseModalWindow = styled(Space).attrs({
     height: auto;
     max-height: 90vh;
     max-width: ${
-      props.$maxWidth || props.$width || `${props.theme.sizes.large}px`
+      props.$maxWidth || props.$width || `${props.theme.sizes.large}`
     };
     width: ${(props.$maxWidth && '80%') || props.$width || 'auto'};
     border-radius: ${props.theme.borderRadiusUnit}px;

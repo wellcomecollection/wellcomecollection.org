@@ -49,8 +49,8 @@ type Story = StoryObj<StoryProps>;
 
 const CollaboratorsWrapper = styled(Grid)`
   max-width: 792px;
-  gap: ${props => props.theme.spacingUnits['5']}px;
-  row-gap: ${props => props.theme.spacingUnits['4']}px;
+  gap: ${props => props.theme.spacingUnits['5']};
+  row-gap: ${props => props.theme.spacingUnits['4']};
 `;
 
 export const Basic: Story = {

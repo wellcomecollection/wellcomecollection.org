@@ -13,12 +13,15 @@ const meta: Meta<typeof StackingTable> = {
       ['Row 2 Col 1', 'Row 2 Col 2', 'Row 2 Col 3'],
       ['Row 3 Col 1', 'Row 3 Col 2', 'Row 3 Col 3'],
     ],
-    maxWidth: 600,
+    maxWidth: '37.7rem',
     plain: false,
   },
   argTypes: {
     plain: { control: 'boolean', name: 'Plain style' },
-    maxWidth: { control: 'number', name: 'Maximum width of the table (px)' },
+    maxWidth: {
+      control: 'text',
+      name: 'Maximum width of the table (with rem suffix)',
+    },
     rows: { table: { disable: true } },
     columnWidths: { table: { disable: true } },
   },

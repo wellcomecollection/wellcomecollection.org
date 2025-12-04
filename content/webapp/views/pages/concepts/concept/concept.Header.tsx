@@ -46,7 +46,7 @@ const AlternativeLabel = styled.span.attrs({
   className: font('sans', -2),
 })`
   border-right: 1px solid ${props => props.theme.color('neutral.700')};
-  padding-right: ${props => props.theme.spacingUnits['3']}px;
+  padding-right: ${props => props.theme.spacingUnits['3']};
 
   &:last-of-type {
     border-right: 0;

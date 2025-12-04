@@ -1,5 +1,3 @@
-import { sizes } from '@weco/common/views/themes/config';
-
 import { convertBreakpointSizesToSizes } from '.';
 
 it('should return size in px values for xlarge breakpoint', () => {
@@ -7,9 +5,7 @@ it('should return size in px values for xlarge breakpoint', () => {
     xlarge: 1 / 2,
   });
 
-  expect(test).toStrictEqual([
-    `(min-width: ${sizes.xlarge}px) ${sizes.xlarge / 2}px`,
-  ]);
+  expect(test).toStrictEqual(['(min-width: 1440px) 720px']);
 });
 
 it('should return sizes in vw values for anything but xlarge breakpoint', () => {

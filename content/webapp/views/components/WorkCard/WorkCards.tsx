@@ -7,24 +7,24 @@ import WorkCardAPI from '@weco/content/views/components/WorkCard/WorkCard.API';
 
 const Works = styled.div`
   ${props => `
-    --gap: ${props.theme.gutter.small}px;
+    --gap: ${props.theme.gutter.small};
   `}
 
   ${props =>
     props.theme.media('medium')(`
-    --gap: ${props.theme.gutter.medium}px;
+    --gap: ${props.theme.gutter.medium};
   `)}
 
   ${props =>
     props.theme.media('large')(`
-    --gap: ${props.theme.gutter.large}px;
+    --gap: ${props.theme.gutter.large};
   `)}
 
   ${props =>
     props.theme.media('xlarge')(`
-    --gap: ${props.theme.gutter.xlarge}px;
+    --gap: ${props.theme.gutter.xlarge};
   `)}
-  
+
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;

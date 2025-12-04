@@ -264,7 +264,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                                 />
                               </ProgressBar>
                               <StackingTable
-                                maxWidth={1180}
+                                maxWidth="73.75rem"
                                 rows={[
                                   [
                                     'Title',

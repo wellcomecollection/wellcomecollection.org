@@ -28,20 +28,30 @@ export type Props = {
   desaturate?: boolean;
 };
 
+/**
+ * Converts a rem string to pixels
+ * Assumes 1rem = 16px (browser default)
+ */
+function remToPx(remValue: string): number {
+  const remNumeric = parseFloat(remValue);
+  return remNumeric * 16;
+}
+
 export function convertBreakpointSizesToSizes(
   sizes: BreakpointSizes
 ): string[] {
   return Object.entries(sizes).map(
     ([breakpoint, ratio]: [Breakpoint, number]) => {
-      const breakpointSize = breakpointSizes[breakpoint];
+      const breakpointSizeRem = breakpointSizes[breakpoint];
+      const breakpointSizePx = remToPx(breakpointSizeRem);
       // At xlarge we divide the max screen width by the ratio and return
       // exact px as 100vw will always be bigger than the largest the screen can go.
       const size =
         breakpoint === 'xlarge'
-          ? `${breakpointSize * ratio}px`
+          ? `${breakpointSizePx * ratio}px`
           : `${Math.round(100 * ratio)}vw`;
 
-      return `(min-width: ${breakpointSize}px) ${size}`;
+      return `(min-width: ${breakpointSizePx}px) ${size}`;
     }
   );
 }
