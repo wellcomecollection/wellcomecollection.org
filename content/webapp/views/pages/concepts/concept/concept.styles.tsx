@@ -37,8 +37,7 @@ export const NavGridCell = styled(GridCell)<{
   &::after {
     content: '';
     position: absolute;
-    width: ${props =>
-      props.theme.formatContainerPaddingVw(props.theme.containerPadding.small)};
+    width: ${props => props.theme.containerPaddingVw};
     bottom: 0;
     top: 0;
     transition: background-color ${props => props.theme.transitionProperties};
@@ -52,14 +51,6 @@ export const NavGridCell = styled(GridCell)<{
   &::after {
     left: 100%;
   }
-
-  ${props =>
-    props.theme.media('medium')(`
-      &::before,
-      &::after {
-        width: ${props.theme.formatContainerPaddingVw(props.theme.containerPadding.medium)};
-      }
-  `)}
 
   ${props => props.theme.media('large')`
     position: unset;

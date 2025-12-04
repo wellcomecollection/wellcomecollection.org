@@ -20,8 +20,8 @@ it('should return sizes in vw values for anything but xlarge breakpoint', () => 
   });
 
   expect(test).toStrictEqual([
-    '(min-width: 960px) 100vw',
-    '(min-width: 600px) 50vw',
+    '(min-width: 1024px) 100vw',
+    '(min-width: 768px) 50vw',
     '(min-width: 0px) 33vw',
   ]);
 });

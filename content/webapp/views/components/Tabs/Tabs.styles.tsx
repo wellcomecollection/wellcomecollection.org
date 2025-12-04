@@ -7,16 +7,13 @@ import { focusStyle } from '@weco/common/views/themes/base/wellcome-normalize';
 export const Wrapper = styled.div`
   ${props =>
     `
-      margin: 0 -${props.theme.formatContainerPadding(props.theme.containerPadding.small)};
-      transition: margin ${props => props.theme.transitionProperties};
+      margin: 0 -${props.theme.containerPadding};
+      transition: margin ${props.theme.transitionProperties};
 
     ${props.theme.media('medium')(`
-        margin: 0 calc(-${props.theme.formatContainerPadding(props.theme.containerPadding.medium)} + 1rem);
+        margin: 0 calc(-${props.theme.containerPadding} + 1rem);
     `)}
 
-    ${props.theme.media('large')(`
-        margin: 0 calc(-${props.theme.formatContainerPadding(props.theme.containerPadding.large)} + 1rem);
-    `)}
 
     ${props.theme.media('xlarge')(`
         margin-right: 0;
@@ -37,16 +34,11 @@ export const TabsContainer = styled.div`
   margin-top: -0.5rem;
   margin-bottom: -0.5rem;
 
-  padding-left: ${props =>
-    props.theme.formatContainerPadding(props.theme.containerPadding.small)};
+  padding-left: ${props => props.theme.containerPadding};
 
   ${props => `
     ${props.theme.media('medium')(`
-      padding-left: calc(${props.theme.formatContainerPadding(props.theme.containerPadding.medium)} - 1rem);
-  `)}
-
-  ${props.theme.media('large')(`
-    padding-left: calc(${props.theme.formatContainerPadding(props.theme.containerPadding.large)} - 1rem);
+      padding-left: calc(${props.theme.containerPadding} - 1rem);
   `)}
   `}
 `;

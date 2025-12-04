@@ -131,10 +131,8 @@ export const HeaderNav = styled.nav<{ $burgerMenuisActive: boolean }>`
   top: calc(100% + 17px); /* Accounts for the set size of the header */
   left: 0;
   right: 0;
-  padding-left: ${props =>
-    props.theme.formatContainerPadding(props.theme.containerPadding.small)};
-  padding-right: ${props =>
-    props.theme.formatContainerPadding(props.theme.containerPadding.small)};
+  padding-left: ${props => props.theme.containerPadding};
+  padding-right: ${props => props.theme.containerPadding};
 
   ${props => `
   ${props.theme.mediaBetween(
@@ -144,11 +142,6 @@ export const HeaderNav = styled.nav<{ $burgerMenuisActive: boolean }>`
     border-top: 1px solid ${props.theme.color('warmNeutral.400')};
     height: calc(100vh - 17px); // Accounts for the set size of the header
     overflow: auto;
-  `)}
-
-  ${props.theme.media('medium')(`
-    padding-left: ${props.theme.formatContainerPadding(props.theme.containerPadding.medium)};
-    padding-right: ${props.theme.formatContainerPadding(props.theme.containerPadding.medium)};
   `)}
 
   ${props.theme.media('headerMedium')`

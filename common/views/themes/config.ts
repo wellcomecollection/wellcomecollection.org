@@ -28,17 +28,6 @@ export type ColumnKey =
   | 'shiftM'
   | 'shiftL'
   | 'shiftXl';
-
-// ContainerPadding can be either number (px) or string (e.g., '5%')
-export type ContainerPaddingValue = number | string;
-
-export type ContainerPadding = {
-  small: ContainerPaddingValue;
-  medium: ContainerPaddingValue;
-  large: ContainerPaddingValue;
-  xlarge: ContainerPaddingValue;
-};
-
 export const spacingUnits = {
   '1': 4,
   '2': 6,
@@ -103,7 +92,7 @@ const getColor = (name: PaletteColor): string => {
   return colors[name];
 };
 
-export const designSystemSizes = {
+export const sizes = {
   small: 0,
   medium: remToPx(designSystemTheme.breakpoints.sm), // 48rem = 768px
   large: remToPx(designSystemTheme.breakpoints.md), // 64rem = 1024px
@@ -114,15 +103,11 @@ export const designSystemSizes = {
   headerLarge: 1040,
 };
 
-export const sizes = {
-  small: 0,
-  medium: 600,
-  large: 960,
-  xlarge: 1338,
-  // Tweakpoints
-  // Occasionally we need to respond to specific breakpoints beyond the defaults
-  headerMedium: 825,
-  headerLarge: 1040,
+const gutter = {
+  small: remToPx(designSystemTheme.grid.gutter.default), // 12px
+  medium: remToPx(designSystemTheme.grid.gutter.sm), // 24px
+  large: 40, // 40px FIXME: this value isn't in the WDS repo but is in Figma
+  xlarge: remToPx(designSystemTheme.grid.gutter.lg), // 48px
 };
 
 const defaultButtonColors: ButtonColors = {
@@ -242,43 +227,10 @@ const mediaBetween = createMediaBetween(sizes);
 
 const breakpointNames = ['small', 'medium', 'large'];
 
-const containerPadding: ContainerPadding = {
-  small: 18,
-  medium: 42,
-  large: 60,
-  xlarge: 60,
-};
-
 // Design system container padding values (5% across all breakpoints)
-// Note: currently these aren't the values that are being exported from the
-// WDS repo, but they _are_ what is being used in Figma. There is a job to update
-// the repo with this value.
-// TODO: this obviously doesn't need to be 4 values when we're not behind the toggle
-export const designSystemContainerPadding: ContainerPadding = {
-  small: '5%',
-  medium: '5%',
-  large: '5%',
-  xlarge: '5%',
-};
-
-// Helper function to format containerPadding values with appropriate units
-// Numbers get 'px' appended, strings (like '5%') are used as-is
-export function formatContainerPadding(value: ContainerPaddingValue): string {
-  return typeof value === 'number' ? `${value}px` : value;
-}
-
-// Helper function to convert containerPadding to viewport-relative units
-// When containerPadding is a percentage (e.g., '5%'), it's calculated relative to viewport width
-// in practice, so we convert it to 'vw' units for use in calc() expressions to avoid
-// percentage context issues (where % would be relative to parent element width)
-// Numbers are converted to 'px' as usual
-// TODO: remove this after we've turned on the design system grid/breakpoint toggle
-export function formatContainerPaddingVw(value: ContainerPaddingValue): string {
-  if (typeof value === 'string' && value.includes('%')) {
-    return `${parseFloat(value)}vw`;
-  }
-  return formatContainerPadding(value);
-}
+// but not exported yet
+export const containerPadding = '5%';
+const containerPaddingVw = '5vw';
 
 const spaceAtBreakpoints = {
   small: {
@@ -373,18 +325,10 @@ function getSpaceOverrideValue(
 function pageGridOffset(property: string): string {
   return `
   position: relative;
-  ${property}: -${formatContainerPadding(containerPadding.small)};
-
-  ${media('medium')(`
-    ${property}: -${formatContainerPadding(containerPadding.medium)};
-    `)}
-
-  ${media('large')(`
-    ${property}: -${formatContainerPadding(containerPadding.large)};
-    `)}
+  ${property}: -${containerPaddingVw};
 
   ${media('xlarge')(`
-    ${property}: calc((100vw - ${sizes.xlarge}px) / 2 * -1 - ${formatContainerPadding(containerPadding.xlarge)});
+    ${property}: calc((100vw - ${sizes.xlarge}px) / 2 * -1 - ${containerPaddingVw});
   `)};
   `;
 }
@@ -424,13 +368,9 @@ export const themeValues = {
   transitionProperties: '150ms ease',
   iconDimension: 24,
   containerPadding,
+  containerPaddingVw,
   sizes,
-  gutter: {
-    small: 18,
-    medium: 24,
-    large: 30,
-    xlarge: 30,
-  },
+  gutter,
   basicBoxShadow: `0 2px 8px 0 rgb(18, 18, 18, 0.4)`,
   focusBoxShadow: `0 0 0 3px ${colors['focus.yellow']}`,
   // Problem: https://github.com/wellcomecollection/wellcomecollection.org/issues/10237
@@ -465,8 +405,6 @@ export const themeValues = {
   makeSpacePropertyValues,
   getSpaceValue,
   pageGridOffset,
-  formatContainerPadding,
-  formatContainerPaddingVw,
   buttonColors: {
     default: defaultButtonColors,
     danger: dangerButtonColors,
@@ -484,13 +422,6 @@ export const themeValues = {
     greenGreenWhite,
   },
   spacedTextTopMargin: '1.55em',
-};
-
-export const designSystemGutter = {
-  small: remToPx(designSystemTheme.grid.gutter.default), // 12px
-  medium: remToPx(designSystemTheme.grid.gutter.sm), // 24px
-  large: 40, // 40px FIXME: this value isn't in the WDS repo but is in Figma
-  xlarge: remToPx(designSystemTheme.grid.gutter.lg), // 48px
 };
 
 export type Breakpoint = keyof typeof sizes;
