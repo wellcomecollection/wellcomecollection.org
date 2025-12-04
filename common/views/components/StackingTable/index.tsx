@@ -7,7 +7,7 @@ import { fontFamilyMixin } from '@weco/common/views/themes/typography';
 
 type TableProps = {
   $useFixedWidth: boolean;
-  $maxWidth?: number;
+  $maxWidth?: string;
 };
 
 const StyledTable = styled.table.attrs({
@@ -52,7 +52,7 @@ const StyledTr = styled(Space).attrs({
 
 type ThProps = {
   $plain?: boolean;
-  $maxWidth?: number;
+  $maxWidth?: string;
   width?: number;
 };
 
@@ -81,7 +81,7 @@ const StyledTh = styled(Space).attrs<ThProps>(props => ({
 
 type TdProps = {
   $plain?: boolean;
-  $maxWidth?: number;
+  $maxWidth?: string;
   $cellContent?: ReactNode;
 };
 
@@ -102,14 +102,14 @@ const StyledTd = styled(Space).attrs<TdProps>(props => ({
   @media (max-width: ${props => props.$maxWidth || props.theme.sizes.large}) {
     padding-left: 0;
     padding-top: 0;
-    padding-bottom: ${props => `${props.theme.spacingUnit}px`};
+    padding-bottom: ${props => props.theme.spacingUnit};
 
     &:first-of-type {
-      padding-top: ${props => `${props.theme.spacingUnit * 2}px`};
+      padding-top: ${props => props.theme.spacingUnit * 2};
     }
 
     &:last-of-type {
-      padding-bottom: ${props => `${props.theme.spacingUnit * 3}px`};
+      padding-bottom: ${props => props.theme.spacingUnit * 3};
     }
 
     &::before {
@@ -125,7 +125,7 @@ const StyledTd = styled(Space).attrs<TdProps>(props => ({
 type Props = {
   rows: ReactNode[][];
   plain?: boolean;
-  maxWidth?: number;
+  maxWidth?: string;
   columnWidths?: (number | undefined)[];
 };
 
