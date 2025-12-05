@@ -1,6 +1,4 @@
 import {
-  AuthAccessTokenService,
-  AuthClickThroughService,
   ChoiceBody,
   CollectionItems,
   ContentResource,
@@ -46,15 +44,6 @@ export type DownloadOption = {
   width?: 'full' | number;
 };
 
-export type AuthClickThroughServiceWithPossibleServiceArray = Omit<
-  AuthClickThroughService,
-  'service'
-> & {
-  label?: string;
-  description?: string;
-  service: AuthAccessTokenService | AuthAccessTokenService[];
-};
-
 export type ItemsStatus =
   | 'allStandard'
   | 'noStandard'
@@ -65,18 +54,10 @@ export type TransformedRange = Omit<Range, 'items'> & {
 };
 
 export type Auth = {
-  v1: {
-    externalAccessService: TransformedAuthService | undefined;
-    activeAccessService: TransformedAuthService | undefined;
-    tokenService: TransformedAuthService | undefined;
-    isTotallyRestricted: boolean;
-  };
-  v2: {
-    externalAccessService: TransformedAuthService | undefined;
-    activeAccessService: TransformedAuthService | undefined;
-    tokenService: TransformedAuthService | undefined;
-    isTotallyRestricted: boolean;
-  };
+  externalAccessService: TransformedAuthService | undefined;
+  activeAccessService: TransformedAuthService | undefined;
+  tokenService: TransformedAuthService | undefined;
+  isTotallyRestricted: boolean;
 };
 
 export type TransformedManifest = {
