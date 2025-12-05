@@ -1,4 +1,6 @@
 import 'dotenv/config';
+import { writeFileSync } from 'fs';
+import { join } from 'path';
 
 interface AssetMetadata {
   [key: string]: unknown;
@@ -88,8 +90,13 @@ export async function fetchAllPrismicAssets(): Promise<AssetMetadata[]> {
     }
   } while (cursor);
 
-  console.log(allAssets);
   console.log(`Finished: fetched  a list of ${allAssets.length} total assets`);
+
+  // Save to file
+  const outputPath = join(__dirname, 'prismic-assets.json');
+  writeFileSync(outputPath, JSON.stringify(allAssets, null, 2), 'utf-8');
+  console.log(`Saved assets to ${outputPath}`);
+
   return allAssets;
 }
 
