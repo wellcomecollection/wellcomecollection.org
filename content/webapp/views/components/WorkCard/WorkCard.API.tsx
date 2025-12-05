@@ -34,6 +34,13 @@ const PopoutCardImage = styled(Space).attrs({
 
   /** This fixes an alignment issue with cards without images **/
   display: flex;
+
+  img {
+    width: auto;
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+  }
 `;
 
 type LinkSpaceAttrs = {
