@@ -19,7 +19,7 @@
     "@storybook/theming": "^8.6.4",
     "chromatic": "^13.3.0",
     "husky": "^4.3.0",
-    "next": "15.5.0",
+    "next": "15.5.7",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "typescript": "^5.8.3",
