@@ -23,7 +23,7 @@ const NewsletterForm = styled.form.attrs({
 })`
   position: relative;
 
-  ${props => props.theme.makeSpacePropertyValues('m', ['margin-bottom'])}
+  ${props => props.theme.makeSpacePropertyValues('sm', ['margin-bottom'])}
 
   ${props => props.theme.media('medium')`
     min-width: 300px;
@@ -148,7 +148,7 @@ const NewsletterPromo: FunctionComponent = () => {
                   <a href="/newsletter">All our newsletters</a>
                 </p>
 
-                <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+                <Space $v={{ size: 'md', properties: ['margin-top'] }}>
                   <CheckboxRadio
                     id="MARKETINGPERMISSIONS"
                     name="cd_MARKETINGPERMISSIONS"

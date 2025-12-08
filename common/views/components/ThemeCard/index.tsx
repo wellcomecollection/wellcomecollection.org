@@ -11,7 +11,7 @@ import { ConceptImagesArray } from '@weco/content/hooks/useConceptImageUrls';
 const Title = styled(Space).attrs({
   className: font('brand', 1),
   as: 'h3',
-  $v: { size: 's', properties: ['margin-bottom'] },
+  $v: { size: '2xs', properties: ['margin-bottom'] },
 })``;
 
 const CardWrapper = styled.div`
@@ -62,8 +62,8 @@ const ImageElement = styled.img<{ $isLoaded?: boolean }>`
 `;
 
 const TextContent = styled(Space).attrs({
-  $v: { size: 'm', properties: ['padding-bottom'] },
-  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'sm', properties: ['padding-bottom'] },
+  $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
 })`
   min-height: 30%;
   padding-top: 4rem;

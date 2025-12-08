@@ -60,7 +60,7 @@ const WorkImagesPage: NextPage<Props> = ({
         />
       ) : (
         <ContaineredLayout gridSizes={gridSize12()}>
-          <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
             <div style={{ marginTop: '98px' }}>
               <BetaMessage message={unavailableContentMessage} />
             </div>

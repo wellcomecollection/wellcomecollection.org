@@ -43,7 +43,7 @@ type MoreFiltersProps = {
 };
 
 const ModalInner = styled(Space).attrs({
-  $v: { size: 'l', properties: ['padding-bottom'] },
+  $v: { size: 'md', properties: ['padding-bottom'] },
 })`
   position: relative;
   top: 15px;
@@ -68,8 +68,8 @@ const ModalInner = styled(Space).attrs({
 
 // shared styles
 const FilterSection = styled(Space).attrs({
-  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
 })`
   border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
 `;
@@ -84,8 +84,8 @@ const List = styled(PlainList)`
 `;
 
 const FiltersFooter = styled(Space).attrs({
-  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
 })`
   display: flex;
   align-items: center;
@@ -99,8 +99,8 @@ const FiltersFooter = styled(Space).attrs({
 `;
 
 const FiltersHeader = styled(Space).attrs({
-  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
 })`
   position: absolute;
   background-color: ${props => props.theme.color('white')};
@@ -127,8 +127,8 @@ const CheckboxFilter = ({ f, changeHandler, form }: CheckboxFilterProps) => {
         return (
           <Space
             as="li"
-            $v={{ size: 'm', properties: ['margin-bottom'] }}
-            $h={{ size: 'l', properties: ['margin-right'] }}
+            $v={{ size: 'sm', properties: ['margin-bottom'] }}
+            $h={{ size: 'md', properties: ['margin-right'] }}
             key={`desktop-${id}`}
           >
             <CheckboxRadio
@@ -212,7 +212,10 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
 
             {(f.type !== 'checkbox' ||
               (f.type === 'checkbox' && f.options.length > 0)) && (
-              <Space as="span" $h={{ size: 'm', properties: ['margin-right'] }}>
+              <Space
+                as="span"
+                $h={{ size: 'sm', properties: ['margin-right'] }}
+              >
                 <PlainList as="div">
                   <section aria-label={f.label}>
                     {f.type === 'checkbox' && (

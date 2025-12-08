@@ -20,7 +20,7 @@ const ScrollButtonsContainer = styled(Space).attrs<{
   $scrollButtonsAfter?: boolean;
 }>(props => ({
   $v: {
-    size: 'm',
+    size: 'sm',
     properties: [props.$scrollButtonsAfter ? 'margin-top' : 'margin-bottom'],
   },
 }))<{ $hasLabel?: boolean }>`

@@ -41,7 +41,7 @@ const Quote: FunctionComponent<Props> = ({
     <Blockquote data-component="quote" $isPullOrReview={isPullOrReview}>
       <Space
         $v={
-          citation ? { size: 'xs', properties: ['margin-bottom'] } : undefined
+          citation ? { size: '2xs', properties: ['margin-bottom'] } : undefined
         }
       >
         <PrismicHtmlBlock html={text} />

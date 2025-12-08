@@ -99,7 +99,7 @@ const ChangeEmail: FunctionComponent<ChangeDetailsModalContentProps> = ({
         <StatusAlert type="failure">{submissionErrorMessage}</StatusAlert>
       )}
 
-      <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
+      <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
         <h3 className={font('sans-bold', -1)} style={{ marginBottom: 0 }}>
           Email
         </h3>
@@ -166,7 +166,7 @@ const ChangeEmail: FunctionComponent<ChangeDetailsModalContentProps> = ({
           />
         </FieldMargin>
 
-        <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+        <Space $v={{ size: 'md', properties: ['margin-top'] }}>
           <Button
             variant="ButtonSolid"
             type={ButtonTypes.submit}

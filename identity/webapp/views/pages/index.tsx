@@ -100,7 +100,9 @@ const AccountStatus: FunctionComponent<PropsWithChildren<StatusAlertProps>> = ({
   return (
     <StatusAlert type={type}>
       <Icon icon={info2} />
-      <Space $h={{ size: 's', properties: ['margin-left'] }}>{children}</Space>
+      <Space $h={{ size: '2xs', properties: ['margin-left'] }}>
+        {children}
+      </Space>
     </StatusAlert>
   );
 };
@@ -110,7 +112,7 @@ const NoRequestedItems = () => (
     as="p"
     className={font('sans', -1)}
     $v={{
-      size: 's',
+      size: '2xs',
       properties: ['margin-bottom'],
       overrides: { small: 1 },
     }}
@@ -162,12 +164,12 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
   return (
     <IdentityPageLayout title="Your library account">
       <Space
-        $v={{ size: 'l', properties: ['margin-bottom'] }}
+        $v={{ size: 'md', properties: ['margin-bottom'] }}
         style={{ background: theme.color('white') }}
       >
         <ContaineredLayout gridSizes={gridSize12()}>
           <Space
-            $v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
+            $v={{ size: 'md', properties: ['padding-top', 'padding-bottom'] }}
           >
             <h1 className={font('brand', 5)}>Library account</h1>
           </Space>
@@ -233,7 +235,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                       case 'loading':
                         return (
                           <Space
-                            $v={{ size: 'l', properties: ['padding-bottom'] }}
+                            $v={{ size: 'md', properties: ['padding-bottom'] }}
                           >
                             <Loading variant="inline" />
                           </Space>
@@ -250,7 +252,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                                 as="p"
                                 className={font('sans-bold', -1)}
                                 $v={{
-                                  size: 's',
+                                  size: '2xs',
                                   properties: ['margin-bottom'],
                                 }}
                               >{`You have requested ${requestedItems.totalResults} out of ${allowedRequests} items`}</Space>
@@ -284,7 +286,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                                         {result.item.title && (
                                           <Space
                                             $v={{
-                                              size: 's',
+                                              size: '2xs',
                                               properties: ['margin-top'],
                                             }}
                                           >
@@ -321,7 +323,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                               <Space
                                 className={font('sans', -1)}
                                 $v={{
-                                  size: 'l',
+                                  size: 'md',
                                   properties: ['margin-top'],
                                 }}
                               >

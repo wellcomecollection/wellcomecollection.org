@@ -31,7 +31,7 @@ type TextInputWrapProps = {
 };
 export const TextInputWrap = styled(Space).attrs<TextInputWrapProps>(props => ({
   className: font('sans', props.$isNewSearchBar ? 1 : 0),
-  $v: { size: 's', properties: ['margin-top'] },
+  $v: { size: '2xs', properties: ['margin-top'] },
 }))<TextInputWrapProps>`
   display: flex;
   position: relative;
@@ -106,7 +106,7 @@ export const TextInputInput = styled.input.attrs<{ $type?: string }>(props => ({
 
 const StatusMessage = styled(Space).attrs({
   className: font('sans', -2),
-  $v: { size: 's', properties: ['margin-top'] },
+  $v: { size: '2xs', properties: ['margin-top'] },
 })`
   display: flex;
   align-items: center;
@@ -117,7 +117,7 @@ const StatusMessage = styled(Space).attrs({
 
   p {
     display: inline-block;
-    ${props => props.theme.makeSpacePropertyValues('s', ['margin-left'])};
+    ${props => props.theme.makeSpacePropertyValues('xs', ['margin-left'])};
     margin-bottom: 0;
   }
 `;
@@ -239,7 +239,7 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
       <TextInputLabel htmlFor={id}>{label}</TextInputLabel>
 
       {hintCopy && (
-        <Space $v={{ size: 's', properties: ['margin-top'] }}>
+        <Space $v={{ size: '2xs', properties: ['margin-top'] }}>
           <HintCopy>{hintCopy}</HintCopy>
         </Space>
       )}

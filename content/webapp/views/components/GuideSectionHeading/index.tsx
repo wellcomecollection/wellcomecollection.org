@@ -31,8 +31,8 @@ const GuideSectionHeading: FunctionComponent<{
           <div style={{ display: 'flex', flexWrap: 'wrap' }}>
             <Spacer />
             <Space
-              $h={{ size: 'm', properties: ['margin-left'], negative: true }}
-              $v={{ size: 'l', properties: ['margin-bottom'] }}
+              $h={{ size: 'sm', properties: ['margin-left'], negative: true }}
+              $v={{ size: 'md', properties: ['margin-bottom'] }}
             >
               <Title>{title}</Title>
             </Space>

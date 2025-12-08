@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 
 export const ProgressBar = styled(Space).attrs({
-  $v: { size: 'm', properties: ['margin-bottom'] },
+  $v: { size: 'sm', properties: ['margin-bottom'] },
 })`
   background-color: ${props => props.theme.color('white')};
   border-radius: 7px; /* (height of inner div) / 2 + padding */
@@ -20,8 +20,8 @@ export const ProgressIndicator = styled.div<{ $percentage: number }>`
 
 export const ButtonWrapper = styled(Space).attrs({
   as: 'span',
-  $v: { size: 'l', properties: ['margin-bottom'] },
-  $h: { size: 'l', properties: ['margin-right'] },
+  $v: { size: 'md', properties: ['margin-bottom'] },
+  $h: { size: 'md', properties: ['margin-right'] },
 })`
   display: inline-block;
 `;
@@ -46,14 +46,14 @@ export const ItemPickup = styled.span`
 
 export const StyledDl = styled(Space).attrs({
   as: 'dl',
-  $v: { size: 'l', properties: ['margin-bottom'] },
+  $v: { size: 'md', properties: ['margin-bottom'] },
 })`
   margin-top: 0;
 `;
 
 export const StyledDd = styled(Space).attrs({
   as: 'dd',
-  $v: { size: 'm', properties: ['margin-bottom'] },
+  $v: { size: 'sm', properties: ['margin-bottom'] },
 })`
   margin-left: 0;
 `;

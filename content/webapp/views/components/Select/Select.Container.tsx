@@ -70,7 +70,7 @@ const LabelContent = styled(Space).attrs<{ $hideLabel?: boolean }>(props => ({
     [font('sans-bold', -1)]: true,
     'visually-hidden': !!props.$hideLabel,
   }),
-  $h: { size: 's', properties: ['margin-right'] },
+  $h: { size: '2xs', properties: ['margin-right'] },
 }))`
   white-space: nowrap;
 `;

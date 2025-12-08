@@ -168,7 +168,7 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
         </ImageContainer>
 
         <div>
-          <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: '2xs', properties: ['margin-bottom'] }}>
             <IIIFViewerThumbNumber>
               {canvas.label?.trim() !== '-' && 'page'} {canvas.label}
             </IIIFViewerThumbNumber>

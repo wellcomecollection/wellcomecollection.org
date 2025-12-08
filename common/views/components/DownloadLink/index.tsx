@@ -33,7 +33,7 @@ const DownloadLinkUnStyled = styled.a<{ $isDark?: boolean }>`
 
 const Format = styled(Space).attrs<{ $isDark?: boolean }>(props => ({
   className: props.$isDark ? font('sans', -1) : font('sans-bold', -1),
-  $h: { size: 'm', properties: ['margin-left'] },
+  $h: { size: 'sm', properties: ['margin-left'] },
 }))<{ $isDark?: boolean }>`
   color: ${props =>
     props.$isDark
@@ -52,7 +52,7 @@ const TextToDisplay = styled.span<{ $isDark?: boolean }>`
  */
 const IconWrapper = styled(Space).attrs<{
   $forceInline: boolean;
-}>({ $h: { size: 's', properties: ['margin-right'] } })`
+}>({ $h: { size: '2xs', properties: ['margin-right'] } })`
   display: inline-flex;
 `;
 

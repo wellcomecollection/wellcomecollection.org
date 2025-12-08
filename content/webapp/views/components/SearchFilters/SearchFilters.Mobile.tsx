@@ -29,13 +29,13 @@ import DateRangeFilter from './SearchFilters.DateRangeFilter';
 import { getFilterLabel } from './SearchFilters.Desktop.Modal';
 
 const SearchFiltersContainer = styled(Space).attrs({
-  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
 })`
   background-color: ${props => props.theme.color('white')};
 `;
 
 const ShameButtonWrap = styled(Space).attrs({
-  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
 })`
   button {
     width: 100%;
@@ -44,8 +44,8 @@ const ShameButtonWrap = styled(Space).attrs({
 `;
 
 const FiltersHeader = styled(Space).attrs({
-  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
 })`
   border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
   text-align: center;
@@ -53,10 +53,10 @@ const FiltersHeader = styled(Space).attrs({
 
 const ActiveFilters = styled(Space).attrs({
   $h: {
-    size: 'xs',
+    size: '2xs',
     properties: ['margin-left', 'padding-left', 'padding-right'],
   },
-  $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: '2xs', properties: ['padding-top', 'padding-bottom'] },
 })`
   display: inline-block;
   color: ${props => props.theme.color('black')};
@@ -116,7 +116,7 @@ const CheckboxFilter = ({ f, changeHandler, form }: CheckboxFilterProps) => {
         return (
           <Space
             as="li"
-            $v={{ size: 'l', properties: ['margin-bottom'] }}
+            $v={{ size: 'md', properties: ['margin-bottom'] }}
             key={`mobile-${id}`}
           >
             <CheckboxRadio
@@ -149,7 +149,7 @@ const RadioFilter = ({ f, changeHandler, form }: RadioFilterProps) => {
         return (
           <Space
             as="li"
-            $v={{ size: 'l', properties: ['margin-bottom'] }}
+            $v={{ size: 'md', properties: ['margin-bottom'] }}
             key={`mobile-${id}`}
           >
             <CheckboxRadio
@@ -231,7 +231,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
           aria-controls="mobile-filters-modal"
           aria-label="open filters"
         >
-          <Space $h={{ size: 's', properties: ['margin-right'] }}>
+          <Space $h={{ size: '2xs', properties: ['margin-right'] }}>
             <Icon icon={filter} />
           </Space>
           Filters{' '}

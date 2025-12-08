@@ -47,7 +47,7 @@ const SearchButtonWrapper = styled.div`
 
 const ResultsHeader = styled(Space).attrs({
   as: 'h3',
-  $v: { size: 'm', properties: ['margin-top'] },
+  $v: { size: 'sm', properties: ['margin-top'] },
 })`
   border-bottom: 1px solid ${props => props.theme.color('neutral.500')};
   padding-bottom: ${props => `${props.theme.spacingUnit}px`};
@@ -83,7 +83,7 @@ const ResultsList = styled.ul`
 
 const ErrorMessage = styled(Space).attrs({
   as: 'p',
-  $v: { size: 'm', properties: ['margin-top'] },
+  $v: { size: 'sm', properties: ['margin-top'] },
   className: font('sans', -2),
 })``;
 
@@ -119,7 +119,7 @@ const Hit: FunctionComponent<HitProps> = ({
       : '';
   return (
     <>
-      <HitData $v={{ size: 's', properties: ['margin-bottom'] }}>
+      <HitData $v={{ size: '2xs', properties: ['margin-bottom'] }}>
         {`Found on image ${matchingCanvasParam}${
           totalCanvases ? ` / ${totalCanvases}` : ''
         }`}

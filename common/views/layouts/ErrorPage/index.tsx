@@ -27,8 +27,8 @@ import PageLayout from '@weco/common/views/layouts/PageLayout';
 import togglesList from '@weco/toggles/toggles';
 
 const MessageBar = styled(Space).attrs({
-  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
 })`
   background: ${props => props.theme.color('yellow')};
   display: flex;
@@ -89,13 +89,13 @@ const TogglesMessage: FunctionComponent = () => {
   }, []);
 
   return toggles.length > 0 ? (
-    <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+    <Space $v={{ size: 'md', properties: ['margin-top'] }}>
       <ContaineredLayout gridSizes={gridSize8()}>
         <MessageBar>
-          <Space $h={{ size: 's', properties: ['margin-right'] }}>
+          <Space $h={{ size: '2xs', properties: ['margin-right'] }}>
             <Icon icon={underConstruction} />
           </Space>
-          <Space $h={{ size: 's', properties: ['margin-right'] }}>
+          <Space $h={{ size: '2xs', properties: ['margin-right'] }}>
             You have the following toggles enabled:
             <ul>
               {toggles.map(t => (
@@ -130,13 +130,13 @@ const SafariPreviewMessage: FunctionComponent = () => {
   }, []);
 
   return showPreviewSafariMessage ? (
-    <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+    <Space $v={{ size: 'md', properties: ['margin-top'] }}>
       <ContaineredLayout gridSizes={gridSize8()}>
         <MessageBar>
-          <Space $h={{ size: 's', properties: ['margin-right'] }}>
+          <Space $h={{ size: '2xs', properties: ['margin-right'] }}>
             <Icon icon={underConstruction} />
           </Space>
-          <Space $h={{ size: 's', properties: ['margin-right'] }}>
+          <Space $h={{ size: '2xs', properties: ['margin-right'] }}>
             Prismic previews do not work in Safari. Please use a different
             browser, or enable cross-site cookies.
           </Space>

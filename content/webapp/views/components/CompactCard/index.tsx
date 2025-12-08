@@ -131,7 +131,7 @@ const CompactCard: FunctionComponent<Props> = (
         [extraClasses || '']: Boolean(extraClasses),
       })}
       $v={{
-        size: 'l',
+        size: 'md',
         properties:
           x === y ? ['padding-top'] : ['padding-top', 'padding-bottom'],
       }}
@@ -157,7 +157,7 @@ const CompactCard: FunctionComponent<Props> = (
         >
           {primaryLabels?.length > 0 && (
             <Space
-              $v={{ size: 's', properties: ['margin-bottom'] }}
+              $v={{ size: '2xs', properties: ['margin-bottom'] }}
               style={{ display: 'flex' }}
             >
               <LabelsList labels={primaryLabels} />
@@ -183,7 +183,7 @@ const CompactCard: FunctionComponent<Props> = (
           )}
           {secondaryLabels?.length > 0 && (
             <Space
-              $v={{ size: 's', properties: ['margin-top'] }}
+              $v={{ size: '2xs', properties: ['margin-top'] }}
               style={{ display: 'flex' }}
             >
               <LabelsList labels={secondaryLabels} defaultLabelColor="black" />

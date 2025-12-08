@@ -8,7 +8,7 @@ import Space from '@weco/common/views/components/styled/Space';
 
 const Li = styled(Space).attrs({
   as: 'li',
-  $v: { size: 'xs', properties: ['margin-bottom'] },
+  $v: { size: '2xs', properties: ['margin-bottom'] },
 })`
   display: flex;
   gap: 0.5em;
@@ -17,10 +17,10 @@ const Li = styled(Space).attrs({
 
 const IconWrap = styled(Space).attrs({
   $h: {
-    size: 'xs',
+    size: '2xs',
     properties: ['padding-left', 'padding-right'],
   },
-  $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: '2xs', properties: ['padding-top', 'padding-bottom'] },
 })`
   display: flex;
   border-radius: 6px;
@@ -35,7 +35,7 @@ const FooterA11y: FunctionComponent = () => {
     <div>
       <Space
         style={{ font: 'unset' }}
-        $v={{ size: 's', properties: ['margin-bottom'] }}
+        $v={{ size: '2xs', properties: ['margin-bottom'] }}
         as="h4"
       >
         Our building has:
@@ -56,7 +56,7 @@ const FooterA11y: FunctionComponent = () => {
       </PlainList>
       <Space
         as="p"
-        $v={{ size: 'm', properties: ['margin-top'] }}
+        $v={{ size: 'sm', properties: ['margin-top'] }}
         style={{ marginBottom: 0 }}
       >
         <a href="/visit-us/accessibility">Access information</a>

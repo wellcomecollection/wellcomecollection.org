@@ -25,7 +25,7 @@ const EventScheduleList: FunctionComponent<{
           <Fragment key={eventsGroup.label}>
             {groupedEvents.length > 1 && (
               <Space
-                $v={{ size: 'm', properties: ['margin-bottom'] }}
+                $v={{ size: 'sm', properties: ['margin-bottom'] }}
                 as="h3"
                 className={font('brand', 0)}
               >

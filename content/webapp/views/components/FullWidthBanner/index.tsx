@@ -60,7 +60,7 @@ const ImageSection = styled.div`
 
 const SupportText = styled(Space).attrs({
   className: font('sans', -1),
-  $v: { size: 'l', properties: ['margin-top'] },
+  $v: { size: 'md', properties: ['margin-top'] },
 })`
   display: flex;
 
@@ -187,7 +187,7 @@ const FullWidthBanner = (props: Props) => {
           >
             <CopySection>
               {props.title && (
-                <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
+                <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
                   <SectionHeader title={props.title}></SectionHeader>
                 </Space>
               )}

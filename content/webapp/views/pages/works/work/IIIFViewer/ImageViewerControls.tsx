@@ -81,8 +81,8 @@ const ImageViewerControls: FunctionComponent = () => {
   return (
     <ImageViewerControlsEl $showControls={showControls}>
       <Space
-        $h={{ size: 's', properties: ['margin-left'] }}
-        $v={{ size: 'l', properties: ['margin-bottom'] }}
+        $h={{ size: '2xs', properties: ['margin-left'] }}
+        $v={{ size: 'md', properties: ['margin-bottom'] }}
       >
         <Control
           colorScheme="black-on-white"
@@ -94,8 +94,8 @@ const ImageViewerControls: FunctionComponent = () => {
         />
       </Space>
       <Space
-        $h={{ size: 's', properties: ['margin-left'] }}
-        $v={{ size: 'l', properties: ['margin-bottom'] }}
+        $h={{ size: '2xs', properties: ['margin-left'] }}
+        $v={{ size: 'md', properties: ['margin-bottom'] }}
       >
         <Control
           colorScheme="black-on-white"

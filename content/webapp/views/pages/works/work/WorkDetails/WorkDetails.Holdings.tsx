@@ -29,19 +29,19 @@ const WorkDetailsHoldings = ({ holdings }: { holdings: Holding[] }) => {
                 key={i}
                 $v={
                   i + 1 !== holdings.length
-                    ? { size: 'l', properties: ['margin-bottom'] }
-                    : { size: 'l', properties: [] }
+                    ? { size: 'md', properties: ['margin-bottom'] }
+                    : { size: 'md', properties: [] }
                 }
               >
                 {holding.enumeration.length > 0 && (
-                  <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
+                  <Space $v={{ size: '2xs', properties: ['margin-bottom'] }}>
                     <ExpandableList
                       listItems={holding.enumeration}
                       initialItems={10}
                     />
                   </Space>
                 )}
-                <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
+                <Space $v={{ size: '2xs', properties: ['margin-bottom'] }}>
                   {locationLink && (
                     <a className={font('sans', -1)} href={locationLink.url}>
                       {locationLink.linkText}

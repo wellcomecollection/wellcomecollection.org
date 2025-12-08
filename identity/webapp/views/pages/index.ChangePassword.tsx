@@ -196,12 +196,12 @@ const ChangePassword: FunctionComponent<ChangeDetailsModalContentProps> = ({
               <InputErrorMessage errorMessage={message} />
             )}
           />
-          <Space $v={{ size: 's', properties: ['margin-top'] }}>
+          <Space $v={{ size: '2xs', properties: ['margin-top'] }}>
             <PasswordRules {...passwordRules} />
           </Space>
         </FieldMargin>
 
-        <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+        <Space $v={{ size: 'md', properties: ['margin-top'] }}>
           <Button
             variant="ButtonSolid"
             type={ButtonTypes.submit}

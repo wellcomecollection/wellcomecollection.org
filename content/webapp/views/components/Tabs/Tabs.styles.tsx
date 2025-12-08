@@ -89,8 +89,8 @@ export const NavItemInner = styled(Space).attrs<{ $selected: boolean }>(
     return {
       as: 'span',
       className: classNames({ selected: props.$selected }),
-      $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-      $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+      $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
+      $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
     };
   }
 )<{ $isWhite?: boolean }>`

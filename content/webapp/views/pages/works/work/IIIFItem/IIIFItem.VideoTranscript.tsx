@@ -27,7 +27,10 @@ const VideoTranscript: FunctionComponent<Props> = ({
           | ExternalWebResource;
         if (typeof displayItem !== 'string' && displayItem.id) {
           return (
-            <Space key={item.id} $v={{ size: 's', properties: ['margin-top'] }}>
+            <Space
+              key={item.id}
+              $v={{ size: '2xs', properties: ['margin-top'] }}
+            >
               <DownloadLink
                 href={displayItem.id}
                 linkText="Transcript of video"

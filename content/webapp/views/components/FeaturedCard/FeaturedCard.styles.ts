@@ -7,7 +7,7 @@ import { PaletteColor } from '@weco/common/views/themes/config';
 
 export const DateWrapper = styled(Space).attrs({
   className: font('sans', 0),
-  $v: { size: 's', properties: ['margin-bottom'] },
+  $v: { size: '2xs', properties: ['margin-bottom'] },
 })`
   padding: 0;
 `;
@@ -78,8 +78,8 @@ export const FeaturedCardRight = styled.div.attrs({
 `;
 
 export const FeaturedCardCopy = styled(Space).attrs({
-  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
 })<{ $textColor: PaletteColor; $background: PaletteColor }>`
   flex: 1;
   color: ${props => props.theme.color(props.$textColor)};

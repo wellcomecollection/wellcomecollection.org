@@ -43,7 +43,7 @@ const Number: FunctionComponent<Props> = ({
     data-component="number"
     as="span"
     className={font('brand', -1)}
-    $h={{ size: 's', properties: ['margin-left'] }}
+    $h={{ size: '2xs', properties: ['margin-left'] }}
     $backgroundColor={backgroundColor}
   >
     <NumberSpan $parentBackgroundColor={backgroundColor}>{number}</NumberSpan>

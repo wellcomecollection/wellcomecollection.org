@@ -153,7 +153,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
       >
         <Space
           $h={{
-            size: 's',
+            size: '2xs',
             properties: ['margin-right'],
             overrides: { medium: 2, large: 2 },
           }}
@@ -180,7 +180,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
         </PopupDialogClose>
         <Space
           $h={{
-            size: 'm',
+            size: 'sm',
             properties: ['padding-right'],
             overrides: { small: 4, medium: 4, large: 4 },
           }}

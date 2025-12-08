@@ -41,7 +41,7 @@ const VisitUsStaticContent: FunctionComponent = () => {
               Today’s opening times
             </h2>
             <OpeningTimes venues={venues} />
-            <Space $v={{ size: 's', properties: ['margin-top'] }}>
+            <Space $v={{ size: '2xs', properties: ['margin-top'] }}>
               <a href={`/visit-us/${prismicPageIds.openingTimes}`}>
                 Opening times
               </a>

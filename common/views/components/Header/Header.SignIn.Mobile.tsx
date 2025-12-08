@@ -48,7 +48,7 @@ const MobileSignIn: FunctionComponent = () => {
   return (
     <StyledComponent>
       <Space
-        $h={{ size: 's', properties: ['margin-right'] }}
+        $h={{ size: '2xs', properties: ['margin-right'] }}
         className={font('sans', 0)}
       >
         <Icon icon={userIcon} matchText={true} />

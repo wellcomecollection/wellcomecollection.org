@@ -7,7 +7,7 @@ import { PaletteColor } from '@weco/common/views/themes/config';
 
 export const MobileNavBackground = styled(Space).attrs({
   className: 'is-hidden-l is-hidden-xl',
-  $v: { size: 'l', properties: ['height'] },
+  $v: { size: 'md', properties: ['height'] },
 })<{ $isOnWhite: boolean }>`
   display: block;
   background-color: ${props =>

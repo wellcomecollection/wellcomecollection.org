@@ -32,7 +32,7 @@ import MultipleManifestList from './MultipleManifestList';
 import ViewerStructures from './ViewerStructures';
 
 const RestrictedMessage = styled(Space).attrs({
-  $h: { size: 'm', properties: ['margin-left', 'margin-right'] },
+  $h: { size: 'sm', properties: ['margin-left', 'margin-right'] },
 })`
   background: ${props => props.theme.color('neutral.200')};
   color: ${props => props.theme.color('black')};
@@ -53,8 +53,8 @@ const RestrictedMessageTitle = styled.div`
 `;
 
 const Inner = styled(Space).attrs({
-  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
 })`
   h1 {
     display: -webkit-box;
@@ -67,7 +67,7 @@ const Inner = styled(Space).attrs({
 
 const AccordionInner = styled(Space).attrs({
   className: font('sans-bold', -1),
-  $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: '2xs', properties: ['padding-top', 'padding-bottom'] },
 })`
   button {
     width: 100%;
@@ -200,8 +200,8 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
       {isWorkVisibleWithPermission && (
         <RestrictedMessage>
           <Space
-            $h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-            $v={{ size: 's', properties: ['padding-top', 'padding-bottom'] }}
+            $h={{ size: 'sm', properties: ['padding-left', 'padding-right'] }}
+            $v={{ size: '2xs', properties: ['padding-top', 'padding-bottom'] }}
             className={font('sans', -1)}
           >
             <RestrictedMessageTitle>
@@ -231,7 +231,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
         </h1>
 
         {work.primaryContributorLabel && (
-          <Space $h={{ size: 'm', properties: ['margin-right'] }}>
+          <Space $h={{ size: 'sm', properties: ['margin-right'] }}>
             <LinkLabels items={[{ text: work.primaryContributorLabel }]} />
           </Space>
         )}
@@ -250,7 +250,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
           />
         )}
 
-        <Space $v={{ size: 'm', properties: ['margin-top'] }}>
+        <Space $v={{ size: 'sm', properties: ['margin-top'] }}>
           <WorkLink
             id={work.id}
             className={font('sans', -1)}
@@ -258,7 +258,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
           >
             Catalogue details
             <Space
-              $h={{ size: 's', properties: ['margin-left'] }}
+              $h={{ size: '2xs', properties: ['margin-left'] }}
               style={{ display: 'flex', alignItems: 'center' }}
             >
               <Icon icon={arrow} matchText={true} iconColor="white" />

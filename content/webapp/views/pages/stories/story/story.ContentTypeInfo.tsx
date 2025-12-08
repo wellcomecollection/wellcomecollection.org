@@ -41,7 +41,7 @@ const ContentTypeInfo = (article: Article) => (
       />
     )}
     <ContentTypeWrapper>
-      <Space $v={{ size: 's', properties: ['margin-top'] }}>
+      <Space $v={{ size: '2xs', properties: ['margin-top'] }}>
         <ContentTypeText>
           {article.contributors.length > 0 &&
             article.contributors.map(({ contributor, role }, i) => (

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-// This component will output horizontal/vertical space from one of five pre-defined sizes: xs, s, m, l, and xl.
+// This component will output horizontal/vertical space from one of six pre-defined sizes: 2xs, xs, sm, md, lg, and xl.
 // Each of these sizes has a pixel value for each of the three breakpoints, 'small', 'medium', and 'large'.
 // The component can receive `h` and/or `v` props to determine the horizontal/vertical space respectively.
 
@@ -8,11 +8,11 @@ import styled from 'styled-components';
 // space top and bottom via margins:
 
 // <Space
-//   $h={{ size: 's', properties: ['padding-left'] }},
-//   $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
+//   $h={{ size: '2xs', properties: ['padding-left'] }},
+//   $v={{ size: 'md', properties: ['margin-top', 'margin-bottom'] }}
 // />
 
-type SpaceSize = 'xs' | 's' | 'm' | 'l' | 'xl';
+type SpaceSize = '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 export type VerticalSpaceProperty =
   | 'margin-top'
   | 'margin-bottom'

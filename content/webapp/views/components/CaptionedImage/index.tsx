@@ -106,7 +106,7 @@ const CaptionedImage: FunctionComponent<CaptionedImageProps> = ({
           <ConditionalWrapper
             condition={hasLinkedWork(image.tasl?.sourceLink)}
             wrapper={children => (
-              <Space $v={{ size: 'm', properties: ['margin-top'] }}>
+              <Space $v={{ size: 'sm', properties: ['margin-top'] }}>
                 {children}
               </Space>
             )}

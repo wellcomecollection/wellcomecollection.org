@@ -32,7 +32,7 @@ import ContentTypeInfo from './story.ContentTypeInfo';
 import { getNextUp, getRelatedDoc, setSeries } from './story.helpers';
 
 const RelatedStoryContainer = styled.div`
-  ${props => props.theme.makeSpacePropertyValues('l', ['margin-top'])};
+  ${props => props.theme.makeSpacePropertyValues('md', ['margin-top'])};
   ${props => props.theme.makeSpacePropertyValues('xl', ['margin-bottom'])};
 `;
 

@@ -214,7 +214,7 @@ const TopicDetailPage: FunctionComponent<Props> = ({
 
       <ContentSection>
         <ContaineredLayout gridSizes={gridSize12()}>
-          <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
             <IntroText>{topicDescriptions[concept.label]}</IntroText>
             <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
               {allSubTopics.map((subTopic, index) => {

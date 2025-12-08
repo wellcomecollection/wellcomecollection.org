@@ -31,8 +31,8 @@ import SectionHeader from '@weco/content/views/components/SectionHeader';
 import SimpleCardGrid from './index.SimpleCardGrid';
 
 const CreamBox = styled(Space).attrs({
-  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
 })`
   background: ${props => props.theme.color('warmNeutral.300')};
 `;
@@ -105,10 +105,10 @@ const Homepage: NextPage<Props> = ({
         <ContaineredLayout gridSizes={gridSize10(false)}>
           <SpacingSection>
             <Space
-              $v={{ size: 'l', properties: ['margin-top'] }}
+              $v={{ size: 'md', properties: ['margin-top'] }}
               className={font('brand', 4)}
             >
-              <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
+              <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
                 <h1>{homepageHeading}</h1>
               </Space>
             </Space>

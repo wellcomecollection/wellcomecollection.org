@@ -37,7 +37,7 @@ const ConceptSearchResult: FunctionComponent<{
       <Wrapper>
         <Container>
           <Details>
-            <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
+            <Space $v={{ size: '2xs', properties: ['margin-bottom'] }}>
               <LabelsList
                 labels={[typeLabel]}
                 defaultLabelColor="warmNeutral.300"

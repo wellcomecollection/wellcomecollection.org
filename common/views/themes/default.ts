@@ -94,25 +94,7 @@ export const createThemeValues = (toggles: Toggles) => {
 
   return {
     ...themeValues,
-
-    // Override makeSpacePropertyValues to include toggles
-    makeSpacePropertyValues: (
-      size: Parameters<typeof themeValues.makeSpacePropertyValues>[0],
-      properties: Parameters<typeof themeValues.makeSpacePropertyValues>[1],
-      negative?: Parameters<typeof themeValues.makeSpacePropertyValues>[2],
-      overrides?: Parameters<typeof themeValues.makeSpacePropertyValues>[3]
-    ) =>
-      themeValues.makeSpacePropertyValues(
-        size,
-        properties,
-        negative,
-        overrides
-      ),
-    // Override getSpaceValue to include toggles
-    getSpaceValue: (
-      size: Parameters<typeof themeValues.getSpaceValue>[0],
-      breakpoint: Parameters<typeof themeValues.getSpaceValue>[1]
-    ) => themeValues.getSpaceValue(size, breakpoint),
+    // Overrides here
   };
 };
 

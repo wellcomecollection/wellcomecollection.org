@@ -33,7 +33,7 @@ const ThemeImagesWrapper = styled(Space).attrs({
 const SectionHeading = styled(Space).attrs({
   as: 'h3',
   className: font('sans-bold', 1),
-  $v: { size: 's', properties: ['margin-bottom'] },
+  $v: { size: '2xs', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('white')};
   text-overflow: ellipsis;
@@ -71,7 +71,7 @@ const ImageSection: FunctionComponent<Props> = ({
   }
 
   return (
-    <Space $v={{ size: 'l', properties: ['padding-top'] }}>
+    <Space $v={{ size: 'md', properties: ['padding-top'] }}>
       <SectionHeading id={`images-${type}`}>
         {getSectionTypeLabel(type, config, 'images')}
       </SectionHeading>
@@ -86,7 +86,7 @@ const ImageSection: FunctionComponent<Props> = ({
         variant="scrollable"
       />
       <Space
-        $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
+        $v={{ size: 'md', properties: ['margin-top', 'margin-bottom'] }}
         style={{ position: 'relative' }} // relative to allow 'View all' button focus to stack above element that would otherwise clip it off
       >
         {labelBasedCount > singleSectionData.pageResults.length && (
@@ -121,7 +121,7 @@ const ImagesResults: FunctionComponent<{
         data-testid="images-section"
         data-id="images"
       >
-        <Space $v={{ size: 'm', properties: ['padding-top'] }}>
+        <Space $v={{ size: 'sm', properties: ['padding-top'] }}>
           <FromCollectionsHeading $color="white" id="images">
             Images from the collections
           </FromCollectionsHeading>

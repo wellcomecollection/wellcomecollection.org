@@ -11,7 +11,7 @@ type Props = PropsWithChildren<{
 }>;
 
 const SectionWithDivider = styled(Space).attrs({
-  $v: { size: 'l', properties: ['padding-top'] },
+  $v: { size: 'md', properties: ['padding-top'] },
 })<{ $isArchive: boolean }>`
   ${props =>
     props.$isArchive &&

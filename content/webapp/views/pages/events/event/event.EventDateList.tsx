@@ -9,7 +9,7 @@ import DateRange from '@weco/content/views/components/DateRange';
 import EventStatus from './event.EventStatus';
 
 const TimeWrapper = styled(Space).attrs({
-  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
 })`
   display: flex;
   justify-content: space-between;

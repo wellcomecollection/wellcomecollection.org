@@ -43,7 +43,7 @@ const Header: FunctionComponent<HeaderProps> = ({
   todaysOpeningHours,
 }) => {
   return (
-    <Space $v={{ size: 'l', properties: ['padding-top'] }}>
+    <Space $v={{ size: 'md', properties: ['padding-top'] }}>
       <Container>
         <Grid>
           <GridCell
@@ -61,7 +61,7 @@ const Header: FunctionComponent<HeaderProps> = ({
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     <Space
                       as="span"
-                      $h={{ size: 'm', properties: ['margin-right'] }}
+                      $h={{ size: 'sm', properties: ['margin-right'] }}
                       className={font('sans-bold', -1)}
                     >
                       Galleries
@@ -73,13 +73,13 @@ const Header: FunctionComponent<HeaderProps> = ({
                         <Space
                           style={{ display: 'flex' }}
                           as="span"
-                          $h={{ size: 's', properties: ['margin-right'] }}
+                          $h={{ size: '2xs', properties: ['margin-right'] }}
                         >
                           <Icon icon={clock} />
                         </Space>
                         <Space
                           as="span"
-                          $h={{ size: 'm', properties: ['margin-right'] }}
+                          $h={{ size: 'sm', properties: ['margin-right'] }}
                           className={font('sans', -1)}
                         >
                           <>
@@ -112,7 +112,7 @@ const Header: FunctionComponent<HeaderProps> = ({
             }}
           >
             <Space
-              $v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
+              $v={{ size: '2xs', properties: ['margin-top', 'margin-bottom'] }}
             >
               <Tabs
                 tabBehaviour="navigate"

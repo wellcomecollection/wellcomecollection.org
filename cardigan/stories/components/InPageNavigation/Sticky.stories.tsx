@@ -40,7 +40,7 @@ const BackgroundGrid = styled(Grid)<BackgroundGridProps>`
 `;
 
 const GreySpace = styled(Space).attrs({
-  $v: { size: 'l', properties: ['height'] },
+  $v: { size: 'md', properties: ['height'] },
 })<{ $topColor?: PaletteColor }>`
   background-color: ${props =>
     props.theme.color(props.$topColor || 'neutral.700')};
@@ -59,7 +59,7 @@ const InPageNavigationInColsContext: FunctionComponent<{
       <PageHeader variant="landing" title="Sticky On This Page Anchors" />
       <GreySpace
         $topColor={args.topColor}
-        $v={{ size: 'l', properties: ['height'] }}
+        $v={{ size: 'md', properties: ['height'] }}
       />
       <BackgroundGrid $percent={40} $topColor={args.topColor}>
         <NavGridCell $sizeMap={{ s: [12], m: [12], l: [3], xl: [3] }}>

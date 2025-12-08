@@ -33,8 +33,8 @@ const CardOuter = styled.a<CardOuterProps>`
 `;
 
 const TextWrapper = styled(Space).attrs({
-  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
 })<{
   $highlightColor: 'yellow' | 'accent.salmon';
 }>`
@@ -63,7 +63,7 @@ const ImageWrapper = styled.div<ImageWrapperProps>`
 
 const DateRangeWrapper = styled(Space).attrs({
   className: font('sans', -1),
-  $v: { size: 's', properties: ['margin-top', 'margin-bottom'] },
+  $v: { size: '2xs', properties: ['margin-top', 'margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.400')};
 `;
@@ -134,7 +134,7 @@ const BannerCard: FunctionComponent<Props> = ({
         <Space
           as="h2"
           className={font('brand', 2)}
-          $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
+          $v={{ size: 'sm', properties: ['margin-top', 'margin-bottom'] }}
         >
           {title}
         </Space>

@@ -145,7 +145,7 @@ const ExhibitionGuideTypePage: NextPage<Props> = ({
         <RelevantGuideIcons types={[type]} />
       </ContaineredLayout>
 
-      <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+      <Space $v={{ size: 'md', properties: ['margin-top'] }}>
         <ContaineredLayout gridSizes={gridSize10(false)}>
           {userPreferenceSet && (
             <p>
@@ -179,7 +179,7 @@ const ExhibitionGuideTypePage: NextPage<Props> = ({
       {/* For ExhibitionHighlightTours - audio/video */}
       {isExhibitionHighlightTour(exhibitionGuide) && (
         <Container>
-          <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
             <Grid>
               <SliceZone
                 slices={exhibitionGuide.stops}

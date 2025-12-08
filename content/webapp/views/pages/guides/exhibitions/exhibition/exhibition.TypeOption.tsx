@@ -14,8 +14,8 @@ import { CardBody } from '@weco/content/views/components/Card';
 import RelevantGuideIcons from '@weco/content/views/components/ExhibitionGuideRelevantIcons';
 
 export const TypeList = styled(Space).attrs({
-  $v: { size: 'l', properties: ['row-gap'] },
-  $h: { size: 'l', properties: ['column-gap'] },
+  $v: { size: 'md', properties: ['row-gap'] },
+  $h: { size: 'md', properties: ['column-gap'] },
 })`
   ${plainListStyles};
   display: grid;

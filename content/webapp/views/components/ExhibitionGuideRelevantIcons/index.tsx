@@ -45,7 +45,7 @@ const RelevantGuideIcons = ({ types }: { types: ExhibitionGuideType[] }) => {
             condition={i > 0}
             wrapper={children => (
               <Space
-                $h={{ size: 's', properties: ['margin-left'] }}
+                $h={{ size: '2xs', properties: ['margin-left'] }}
                 style={{ display: 'inline' }}
               >
                 {children}

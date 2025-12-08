@@ -20,7 +20,7 @@ const Text = styled.p`
 `;
 
 const IconsContainer = styled(Space).attrs({
-  $h: { size: 's', properties: ['margin-right'] },
+  $h: { size: '2xs', properties: ['margin-right'] },
 })<StyleProps>`
   display: flex;
 

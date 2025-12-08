@@ -10,7 +10,7 @@ import Readme from '@weco/content/views/components/Tabs/README.mdx';
 
 type WrapperProps = { $backgroundColor: 'white' | 'black' };
 const Wrapper = styled(Space).attrs({
-  $v: { size: 'l', properties: ['margin-bottom'] },
+  $v: { size: 'md', properties: ['margin-bottom'] },
 })<WrapperProps>`
   ${props =>
     props.$backgroundColor &&

@@ -128,12 +128,12 @@ export const WorkPage: NextPage<Props> = ({
         hideNewsletterPromo={true}
       >
         <Container>
-          <Space $v={{ size: 'l', properties: ['padding-top'] }}>
+          <Space $v={{ size: 'md', properties: ['padding-top'] }}>
             <SearchForm searchCategory="works" location="page" />
           </Space>
 
           <Space
-            $v={{ size: 's', properties: ['padding-top', 'padding-bottom'] }}
+            $v={{ size: '2xs', properties: ['padding-top', 'padding-bottom'] }}
           >
             <BackToResults />
           </Space>
@@ -144,7 +144,7 @@ export const WorkPage: NextPage<Props> = ({
             <Container>
               <Space
                 $v={{
-                  size: 's',
+                  size: '2xs',
                   properties: ['padding-top', 'padding-bottom'],
                 }}
               >

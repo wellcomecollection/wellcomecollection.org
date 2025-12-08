@@ -29,12 +29,12 @@ const ClearFiltersText = styled(Space).attrs({
 const NoEvents: FunctionComponent<Props> = ({ isPastListing, hasFilters }) => {
   return (
     <NoResultsWrap>
-      <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
+      <Space $v={{ size: '2xs', properties: ['margin-bottom'] }}>
         <QuestionMark />
       </Space>
       <Space
         as="p"
-        $v={{ size: 's', properties: ['margin-bottom'] }}
+        $v={{ size: '2xs', properties: ['margin-bottom'] }}
         className={font('sans', 2)}
       >
         No {isPastListing ? 'past' : 'upcoming'} events found
@@ -51,7 +51,7 @@ const NoEvents: FunctionComponent<Props> = ({ isPastListing, hasFilters }) => {
         </>
       )}
       <Space
-        $v={{ size: 'l', properties: ['margin-top'] }}
+        $v={{ size: 'md', properties: ['margin-top'] }}
         className={font('sans', -2)}
       >
         {hasFilters ? 'Or check' : 'Check'}{' '}
