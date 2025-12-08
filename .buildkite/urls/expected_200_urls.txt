@@ -89,4 +89,7 @@
 
 # Vanity URLs in the content app
 /about-us
-/collections
+
+# Not landing pages but useful to track
+/collections/new-online
+

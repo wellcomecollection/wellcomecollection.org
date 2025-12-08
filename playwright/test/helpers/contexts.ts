@@ -83,10 +83,23 @@ const stageApiToggleCookie = createCookie({
   name: 'toggle_stagingApi',
   value: 'true',
 });
+const newOnlineToggleCookie = createCookie({
+  name: 'toggle_newOnlineListingPage',
+  value: 'true',
+});
+const newOnlineInCLPToggleCookie = createCookie({
+  name: 'toggle_newOnlineInCLP',
+  value: 'true',
+});
 
 export const requiredCookies = useStageApis
-  ? [acceptCookieCookie, stageApiToggleCookie]
-  : [acceptCookieCookie];
+  ? [
+      acceptCookieCookie,
+      stageApiToggleCookie,
+      newOnlineToggleCookie,
+      newOnlineInCLPToggleCookie,
+    ]
+  : [acceptCookieCookie, newOnlineToggleCookie, newOnlineInCLPToggleCookie];
 
 const multiVolumeItem = async (
   context: BrowserContext,
@@ -302,6 +315,14 @@ const mediaOffice = async (
   await gotoWithoutCache(`${baseUrl}/about-us/press`, page);
 };
 
+const newOnline = async (
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  await context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/collections/new-online`, page);
+};
+
 const apiToolbarPage = async (
   id: string,
   context: BrowserContext,
@@ -344,6 +365,7 @@ export {
   search,
   visualStory,
   whatsOn,
+  newOnline,
   workWithBornDigitalDownloads,
   workWithDigitalLocationAndLocationNote,
   workWithDigitalLocationAndRestricted,
