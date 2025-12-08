@@ -105,6 +105,11 @@ type Props = {
 };
 
 const WorkCard: FunctionComponent<Props> = ({ item }) => {
+  const THUMBNAIL_SIZE = 400;
+  const thumbnailUrl = item.thumbnail
+    ? convertIiifImageUri(item.thumbnail.url, THUMBNAIL_SIZE)
+    : undefined;
+
   const transformedWork = {
     title: item.title,
     url: '/works/' + item.id,
@@ -115,10 +120,13 @@ const WorkCard: FunctionComponent<Props> = ({ item }) => {
       item.cardLabels?.length > 0 && !item.cardLabels[0].labelColor
         ? [{ text: item.cardLabels[0].text }]
         : [],
-    imageUrl: item.thumbnail
-      ? convertIiifImageUri(item.thumbnail.url, 400)
-      : undefined,
-
+    imageUrl:
+      // Doubles check that the thumbnailUrl is valid
+      // If there is no sizes it might be wrongly formatted/not exist
+      thumbnailUrl &&
+      thumbnailUrl.includes(`${THUMBNAIL_SIZE},${THUMBNAIL_SIZE}`)
+        ? thumbnailUrl
+        : undefined,
     partOf: item.archiveLabels?.partOf,
     contributor: item.primaryContributorLabel,
     date: item.productionDates[0],
