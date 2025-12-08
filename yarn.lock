@@ -118,7 +118,7 @@
     "@smithy/util-utf8" "^2.0.0"
     tslib "^2.6.2"
 
-"@aws-sdk/client-cloudfront@^3.940.0":
+"@aws-sdk/client-cloudfront@^3.946.0":
   version "3.946.0"
   resolved "https://registry.yarnpkg.com/@aws-sdk/client-cloudfront/-/client-cloudfront-3.946.0.tgz#2ecc268ff7c01aa406537ca9f473b528fb1d7ec5"
   integrity sha512-oGxaDbtQ3pZ3qjTBpqOR2xUyddmJn/3fq+nW7aLzZCLTKDEWVqinPrUw5IBwXt9DVFZNSLPEDmeMsT5lzZkVng==
@@ -165,7 +165,7 @@
     "@smithy/util-waiter" "^4.2.5"
     tslib "^2.6.2"
 
-"@aws-sdk/client-s3@^3.940.0":
+"@aws-sdk/client-s3@^3.946.0":
   version "3.946.0"
   resolved "https://registry.yarnpkg.com/@aws-sdk/client-s3/-/client-s3-3.946.0.tgz#462ca31b0ffdf9c77e990a794004ff5bcc6e0672"
   integrity sha512-Y3ww3yd1wzmS2r3qgH3jg4MxCTdeNrae2J1BmdV+IW/2R2gFWJva5U5GbS6KUSUxanJBRG7gd8uOIi1b0EMOng==
@@ -226,7 +226,7 @@
     "@smithy/util-waiter" "^4.2.5"
     tslib "^2.6.2"
 
-"@aws-sdk/client-secrets-manager@^3.40.0", "@aws-sdk/client-secrets-manager@^3.940.0":
+"@aws-sdk/client-secrets-manager@^3.40.0", "@aws-sdk/client-secrets-manager@^3.946.0":
   version "3.946.0"
   resolved "https://registry.yarnpkg.com/@aws-sdk/client-secrets-manager/-/client-secrets-manager-3.946.0.tgz#869e20675cbc451b0a423da0690ee3a278ee1d39"
   integrity sha512-z9shW7duU48T1mn4XJiC0uc0UYJ9J5RjJv+AX63dEVKmzq+LS5z8vEaG9BjXFLEBqe+YhTc7gvgslD/aymgTDw==
@@ -315,7 +315,7 @@
     "@smithy/util-utf8" "^4.2.0"
     tslib "^2.6.2"
 
-"@aws-sdk/client-sts@^3.22.0", "@aws-sdk/client-sts@^3.940.0":
+"@aws-sdk/client-sts@^3.22.0", "@aws-sdk/client-sts@^3.946.0":
   version "3.946.0"
   resolved "https://registry.yarnpkg.com/@aws-sdk/client-sts/-/client-sts-3.946.0.tgz#1dab09a41b9637dd3ae0f3e30d2ff0204777d256"
   integrity sha512-pjXEQeW07xz+ww/HaeuYhoz/ZpiFNnuz2i74b3YHwfNsfMpqTW08YAwXQpKARfY6A94OKnEp9eJaV8znDcJ+Dg==
@@ -12084,7 +12084,7 @@ react-fast-compare@^3.0.1:
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-3.2.2.tgz#929a97a532304ce9fee4bcae44234f1ce2c21d49"
   integrity sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ==
 
-react-hook-form@^7.67.0:
+react-hook-form@^7.68.0:
   version "7.68.0"
   resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.68.0.tgz#733c6871fa4ec5e5bfb13e7650a3a912eafe1721"
   integrity sha512-oNN3fjrZ/Xo40SWlHf1yCjlMK417JxoSJVUXQjGdvdRCU07NTFei1i1f8ApUAts+IVh14e4EdakeLEA+BEAs/Q==
