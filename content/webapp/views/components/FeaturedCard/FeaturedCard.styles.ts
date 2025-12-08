@@ -15,8 +15,8 @@ export const DateWrapper = styled(Space).attrs({
 const shimHeight = '21px';
 
 export const FeaturedCardWrap = styled.div`
-  margin-left: -${props => props.theme.gutter.small}px;
-  margin-right: -${props => props.theme.gutter.small}px;
+  margin-left: -${props => props.theme.gutter.small};
+  margin-right: -${props => props.theme.gutter.small};
 
   ${props => props.theme.media('medium')`
     margin-left: 0;
@@ -63,10 +63,8 @@ export const FeaturedCardRight = styled.div.attrs({
   min-height: 200px;
   position: relative;
 
-  padding-left: ${props =>
-    props.$isReversed ? 0 : props.theme.gutter.small}px;
-  padding-right: ${props =>
-    props.$isReversed ? props.theme.gutter.small : 0}px;
+  padding-left: ${props => (props.$isReversed ? 0 : props.theme.gutter.small)};
+  padding-right: ${props => (props.$isReversed ? props.theme.gutter.small : 0)};
 
   ${props => props.theme.media('medium')`
     padding-left: 0;

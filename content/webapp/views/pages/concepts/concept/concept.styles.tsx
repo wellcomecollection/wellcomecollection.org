@@ -37,8 +37,7 @@ export const NavGridCell = styled(GridCell)<{
   &::after {
     content: '';
     position: absolute;
-    width: ${props =>
-      props.theme.formatContainerPaddingVw(props.theme.containerPadding.small)};
+    width: ${props => props.theme.containerPaddingVw};
     bottom: 0;
     top: 0;
     transition: background-color ${props => props.theme.transitionProperties};
@@ -52,14 +51,6 @@ export const NavGridCell = styled(GridCell)<{
   &::after {
     left: 100%;
   }
-
-  ${props =>
-    props.theme.media('medium')(`
-      &::before,
-      &::after {
-        width: ${props.theme.formatContainerPaddingVw(props.theme.containerPadding.medium)};
-      }
-  `)}
 
   ${props => props.theme.media('large')`
     position: unset;
@@ -93,7 +84,7 @@ export const StretchWrapper = styled.div`
 export const HotJarPlaceholder = styled.div`
   margin: -2rem auto 2rem;
   width: 100%;
-  max-width: ${props => props.theme.sizes.xlarge}px;
+  max-width: ${props => props.theme.sizes.xlarge};
   display: grid;
   justify-items: start;
 

@@ -59,7 +59,7 @@ const StoryCardContainer = styled(Container)`
     &::-webkit-scrollbar-thumb {
       border-radius: 0;
       border-style: solid;
-      border-width: 0 ${props.theme.formatContainerPadding(props.theme.containerPadding.small)} 12px;
+      border-width: 0 ${props.theme.containerPadding} 12px;
       background: ${props.theme.color('neutral.400')};
     }
   `)}

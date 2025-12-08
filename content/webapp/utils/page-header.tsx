@@ -77,7 +77,7 @@ export const HeroPicture: FunctionComponent<{
   return (
     <Picture
       images={[
-        { ...widescreenImage, minWidth: `${theme.sizes.medium}px` },
+        { ...widescreenImage, minWidth: theme.sizes.medium },
         squareImage,
       ]}
       isFull={true}

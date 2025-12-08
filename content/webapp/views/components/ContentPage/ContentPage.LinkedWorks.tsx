@@ -16,7 +16,7 @@ const FullWidthRow = styled(Space).attrs({
 `;
 
 const ListItem = styled.li`
-  --gutter-size: ${props => props.theme.gutter.small}px;
+  --gutter-size: ${props => props.theme.gutter.small};
   flex: 0 0 90%;
   max-width: 420px;
 
@@ -28,7 +28,7 @@ const ListItem = styled.li`
 
   ${props =>
     props.theme.media('medium')(`
-      --gutter-size: ${props.theme.gutter.medium}px;
+      --gutter-size: ${props.theme.gutter.medium};
       flex: 0 0 50%;
       padding: 0 var(--gutter-size) 0 0;
     `)}
