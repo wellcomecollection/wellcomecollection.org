@@ -25,15 +25,15 @@ const TitleWrapper = styled(Space).attrs({
   display: block;
 `;
 
-const Title = styled.span.attrs({ className: font('intb', 4) })``;
+const Title = styled.span.attrs({ className: font('sans-bold', 0) })``;
 
 const Subtitle = styled(Space).attrs({
   as: 'span',
-  className: font('intr', 4),
+  className: font('sans', 0),
   $h: { size: 's', properties: ['margin-left'] },
 })``;
 
-const PhoneNumber = styled.span.attrs({ className: font('intr', 4) })`
+const PhoneNumber = styled.span.attrs({ className: font('sans', 0) })`
   display: block;
 `;
 
@@ -94,7 +94,7 @@ const Contact: FunctionComponent<Props> = ({
           <NextLink
             href={{ pathname: link.url }}
             style={{ display: 'block' }}
-            className={font('intr', 4)}
+            className={font('sans', 0)}
           >
             {link.text}
           </NextLink>
@@ -118,7 +118,7 @@ const Contact: FunctionComponent<Props> = ({
           <Icon icon={emailIcon} />
           <a
             style={{ display: 'block' }}
-            className={font('intr', 4)}
+            className={font('sans', 0)}
             href={`mailto:${email}`}
           >
             {email}

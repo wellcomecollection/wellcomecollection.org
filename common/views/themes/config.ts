@@ -10,12 +10,6 @@ import {
   SpaceOverrides,
   VerticalSpaceProperty,
 } from '@weco/common/views/components/styled/Space';
-import { Toggles } from '@weco/toggles';
-
-// Utility to convert rem values from design system to px (assuming 1rem = 16px)
-const remToPx = (remValue: string): number => {
-  return parseFloat(remValue) * 16;
-};
 
 type SpaceSize = 'xs' | 's' | 'm' | 'l' | 'xl';
 type SpaceProperty = HorizontalSpaceProperty | VerticalSpaceProperty;
@@ -28,29 +22,6 @@ export type ColumnKey =
   | 'shiftM'
   | 'shiftL'
   | 'shiftXl';
-
-// ContainerPadding can be either number (px) or string (e.g., '5%')
-export type ContainerPaddingValue = number | string;
-
-export type ContainerPadding = {
-  small: ContainerPaddingValue;
-  medium: ContainerPaddingValue;
-  large: ContainerPaddingValue;
-  xlarge: ContainerPaddingValue;
-};
-
-export const spacingUnits = {
-  '1': 4,
-  '2': 6,
-  '3': 8,
-  '4': 12,
-  '5': 16,
-  '6': 24,
-  '7': 30,
-  '8': 32,
-  '9': 46,
-  '10': 64,
-};
 
 // suggested new colors
 const colors = {
@@ -103,26 +74,21 @@ const getColor = (name: PaletteColor): string => {
   return colors[name];
 };
 
-export const designSystemSizes = {
-  small: 0,
-  medium: remToPx(designSystemTheme.breakpoints.sm), // 48rem = 768px
-  large: remToPx(designSystemTheme.breakpoints.md), // 64rem = 1024px
-  xlarge: remToPx(designSystemTheme.breakpoints.lg), // 90rem = 1440px
-  // Tweakpoints
-  // Occasionally we need to respond to specific breakpoints beyond the defaults
-  headerMedium: 825,
-  headerLarge: 1040,
+export const sizes = {
+  small: '0rem',
+  medium: designSystemTheme.breakpoints.sm, // 48rem = 768px
+  large: designSystemTheme.breakpoints.md, // 64rem = 1024px
+  xlarge: designSystemTheme.breakpoints.lg, // 90rem = 1440px
+  // TODO: try to get rid of these one-offs
+  headerMedium: '51.5625rem', // 825px
+  headerLarge: '65rem', // 1040px
 };
 
-export const sizes = {
-  small: 0,
-  medium: 600,
-  large: 960,
-  xlarge: 1338,
-  // Tweakpoints
-  // Occasionally we need to respond to specific breakpoints beyond the defaults
-  headerMedium: 825,
-  headerLarge: 1040,
+const gutter = {
+  small: designSystemTheme.grid.gutter.default, // 12px
+  medium: designSystemTheme.grid.gutter.sm, // 24px
+  large: '2.5rem', // 40px FIXME: this value isn't in the WDS repo but is in Figma
+  xlarge: designSystemTheme.grid.gutter.lg, // 48px
 };
 
 const defaultButtonColors: ButtonColors = {
@@ -222,14 +188,14 @@ export const createMedia =
   (activeSizes: typeof sizes) =>
   (sizeLabel: Size, minOrMaxWidth: 'min-width' | 'max-width' = 'min-width') =>
   (styles: TemplateStringsArray | string): string =>
-    `@media (${minOrMaxWidth}: ${activeSizes[sizeLabel]}px) {${styles}}`;
+    `@media (${minOrMaxWidth}: ${activeSizes[sizeLabel]}) {${styles}}`;
 
 export const createMediaBetween =
   (activeSizes: typeof sizes) =>
   (minBreakpoint: Breakpoint, maxBreakpoint: Breakpoint) =>
   (styles: string): string => {
-    const minWidth = `min-width: ${activeSizes[minBreakpoint]}px`;
-    const maxWidth = `max-width: ${activeSizes[maxBreakpoint] - 1}px`;
+    const minWidth = `min-width: ${activeSizes[minBreakpoint]}`;
+    const maxWidth = `max-width: calc(${activeSizes[maxBreakpoint]} - 0.0625rem)`;
 
     return `@media (${minWidth}) and (${maxWidth}) {
       ${styles}
@@ -242,67 +208,10 @@ const mediaBetween = createMediaBetween(sizes);
 
 const breakpointNames = ['small', 'medium', 'large'];
 
-const containerPadding: ContainerPadding = {
-  small: 18,
-  medium: 42,
-  large: 60,
-  xlarge: 60,
-};
-
 // Design system container padding values (5% across all breakpoints)
-// Note: currently these aren't the values that are being exported from the
-// WDS repo, but they _are_ what is being used in Figma. There is a job to update
-// the repo with this value.
-// TODO: this obviously doesn't need to be 4 values when we're not behind the toggle
-export const designSystemContainerPadding: ContainerPadding = {
-  small: '5%',
-  medium: '5%',
-  large: '5%',
-  xlarge: '5%',
-};
-
-// Helper function to format containerPadding values with appropriate units
-// Numbers get 'px' appended, strings (like '5%') are used as-is
-export function formatContainerPadding(value: ContainerPaddingValue): string {
-  return typeof value === 'number' ? `${value}px` : value;
-}
-
-// Helper function to convert containerPadding to viewport-relative units
-// When containerPadding is a percentage (e.g., '5%'), it's calculated relative to viewport width
-// in practice, so we convert it to 'vw' units for use in calc() expressions to avoid
-// percentage context issues (where % would be relative to parent element width)
-// Numbers are converted to 'px' as usual
-// TODO: remove this after we've turned on the design system grid/breakpoint toggle
-export function formatContainerPaddingVw(value: ContainerPaddingValue): string {
-  if (typeof value === 'string' && value.includes('%')) {
-    return `${parseFloat(value)}vw`;
-  }
-  return formatContainerPadding(value);
-}
-
-const spaceAtBreakpoints = {
-  small: {
-    xs: spacingUnits['1'],
-    s: spacingUnits['2'],
-    m: spacingUnits['3'],
-    l: spacingUnits['5'],
-    xl: spacingUnits['7'],
-  },
-  medium: {
-    xs: spacingUnits['1'],
-    s: spacingUnits['2'],
-    m: spacingUnits['4'],
-    l: spacingUnits['6'],
-    xl: spacingUnits['9'],
-  },
-  large: {
-    xs: spacingUnits['1'],
-    s: spacingUnits['3'],
-    m: spacingUnits['5'],
-    l: spacingUnits['8'],
-    xl: spacingUnits['10'],
-  },
-};
+// but not exported yet
+export const containerPadding = '5%';
+const containerPaddingVw = '5vw';
 
 // Map current space sizes to design system responsive spacing
 // xs → space.2xs, s → space.xs, m → space.sm, l → space.lg, xl → space.xl
@@ -316,7 +225,8 @@ const designSystemSpacing: Record<SpaceSize, ResponsiveValue> = {
 
 // Map spacingUnits to design system static spacing values
 // Used for overrides parameter
-const designSystemStaticSpacing: Record<keyof typeof spacingUnits, string> = {
+type SpacingUnit = '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10';
+const designSystemStaticSpacing: Record<SpacingUnit, string> = {
   '1': designSystemTheme.spacing.static['space.050'], // 4px → 0.25rem
   '2': designSystemTheme.spacing.static['space.075'], // 6px → 0.375rem
   '3': designSystemTheme.spacing.static['space.100'], // 8px → 0.5rem
@@ -330,6 +240,9 @@ const designSystemStaticSpacing: Record<keyof typeof spacingUnits, string> = {
 };
 
 // Map our breakpoint names to design system breakpoint keys
+// TODO: remove this mapping, but only after the keys in the design system have been
+// updated. They are currently 'default', 'sm', 'md', but they will soon change
+// to e.g. 'xs', 'sm', 'md', 'lg', 'xl'
 const BREAKPOINT_TO_DS_MAP: Record<
   'small' | 'medium' | 'large',
   'default' | 'sm' | 'md'
@@ -340,31 +253,17 @@ const BREAKPOINT_TO_DS_MAP: Record<
 };
 
 // Helper function to get a single spacing value (for use in calculations, negative values, etc.)
-// Returns the appropriate value based on whether design system spacing is enabled
 function getSpaceValue(
   size: SpaceSize,
-  breakpoint: 'small' | 'medium' | 'large',
-  toggles?: Toggles
+  breakpoint: 'small' | 'medium' | 'large'
 ): string {
-  if (toggles?.designSystemSpacing?.value) {
-    const dsSpacing = designSystemSpacing[size];
-    return dsSpacing[BREAKPOINT_TO_DS_MAP[breakpoint]];
-  }
-
-  // Default: return pixel value
-  return `${spaceAtBreakpoints[breakpoint][size]}px`;
+  const dsSpacing = designSystemSpacing[size];
+  return dsSpacing[BREAKPOINT_TO_DS_MAP[breakpoint]];
 }
 
 // Helper function to get override spacing values
-// Returns the appropriate value based on whether design system spacing is enabled
-function getSpaceOverrideValue(
-  unit: keyof typeof spacingUnits,
-  toggles?: Toggles
-): string {
-  if (toggles?.designSystemSpacing?.value) {
-    return designSystemStaticSpacing[unit];
-  }
-  return `${spacingUnits[unit]}px`;
+function getSpaceOverrideValue(unit: SpacingUnit): string {
+  return designSystemStaticSpacing[unit];
 }
 
 // When using this vw calc approach (e.g. in [conceptId]) the scrollbar width is not taken into account resulting in
@@ -373,18 +272,10 @@ function getSpaceOverrideValue(
 function pageGridOffset(property: string): string {
   return `
   position: relative;
-  ${property}: -${formatContainerPadding(containerPadding.small)};
-
-  ${media('medium')(`
-    ${property}: -${formatContainerPadding(containerPadding.medium)};
-    `)}
-
-  ${media('large')(`
-    ${property}: -${formatContainerPadding(containerPadding.large)};
-    `)}
+  ${property}: -${containerPaddingVw};
 
   ${media('xlarge')(`
-    ${property}: calc((100vw - ${sizes.xlarge}px) / 2 * -1 - ${formatContainerPadding(containerPadding.xlarge)});
+    ${property}: calc((100vw - ${sizes.xlarge}) / 2 * -1 - ${containerPaddingVw});
   `)};
   `;
 }
@@ -393,25 +284,19 @@ function makeSpacePropertyValues(
   size: SpaceSize,
   properties: SpaceProperty[],
   negative?: boolean,
-  overrides?: SpaceOverrides,
-  toggles?: Toggles
+  overrides?: SpaceOverrides
 ): string {
   return breakpointNames
     .map(bp => {
       // Use override if provided, otherwise use size-based spacing
       const baseValue =
         overrides && overrides[bp]
-          ? getSpaceOverrideValue(overrides[bp], toggles)
-          : getSpaceValue(size, bp as 'small' | 'medium' | 'large', toggles);
+          ? getSpaceOverrideValue(overrides[bp])
+          : getSpaceValue(size, bp as 'small' | 'medium' | 'large');
 
-      // Handle negative values appropriately for design system vs legacy
-      const finalValue = negative
-        ? toggles?.designSystemSpacing?.value
-          ? `calc(-1 * ${baseValue})`
-          : `-${baseValue}` // baseValue already includes 'px' from getSpaceValue
-        : baseValue;
+      const finalValue = negative ? `calc(-1 * ${baseValue})` : baseValue;
 
-      return `@media (min-width: ${sizes[bp]}px) {
+      return `@media (min-width: ${sizes[bp]}) {
       ${properties.map(p => `${p}: ${finalValue};`).join('')}
     }`;
     })
@@ -424,13 +309,9 @@ export const themeValues = {
   transitionProperties: '150ms ease',
   iconDimension: 24,
   containerPadding,
+  containerPaddingVw,
   sizes,
-  gutter: {
-    small: 18,
-    medium: 24,
-    large: 30,
-    xlarge: 30,
-  },
+  gutter,
   basicBoxShadow: `0 2px 8px 0 rgb(18, 18, 18, 0.4)`,
   focusBoxShadow: `0 0 0 3px ${colors['focus.yellow']}`,
   // Problem: https://github.com/wellcomecollection/wellcomecollection.org/issues/10237
@@ -453,8 +334,7 @@ export const themeValues = {
       }
       `,
   },
-  spacingUnits,
-  spaceAtBreakpoints,
+  spacingUnits: designSystemStaticSpacing,
   navHeight: 85,
   fontVerticalOffset: '0.15em',
   colors,
@@ -465,8 +345,6 @@ export const themeValues = {
   makeSpacePropertyValues,
   getSpaceValue,
   pageGridOffset,
-  formatContainerPadding,
-  formatContainerPaddingVw,
   buttonColors: {
     default: defaultButtonColors,
     danger: dangerButtonColors,
@@ -484,13 +362,6 @@ export const themeValues = {
     greenGreenWhite,
   },
   spacedTextTopMargin: '1.55em',
-};
-
-export const designSystemGutter = {
-  small: remToPx(designSystemTheme.grid.gutter.default), // 12px
-  medium: remToPx(designSystemTheme.grid.gutter.sm), // 24px
-  large: 40, // 40px FIXME: this value isn't in the WDS repo but is in Figma
-  xlarge: remToPx(designSystemTheme.grid.gutter.lg), // 48px
 };
 
 export type Breakpoint = keyof typeof sizes;

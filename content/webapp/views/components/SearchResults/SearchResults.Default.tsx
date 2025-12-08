@@ -38,7 +38,7 @@ const SearchResults: FunctionComponent<Props> = ({
       <Space
         $v={!summary ? { size: 'm', properties: ['margin-bottom'] } : undefined}
       >
-        <h2 id={id} className={font('wb', 3)}>
+        <h2 id={id} className={font('brand', 1)}>
           {title}
         </h2>
       </Space>

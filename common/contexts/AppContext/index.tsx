@@ -69,12 +69,23 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
   const theme = useTheme();
 
   function getWindowSize(): Size {
+    // Get the root font size to calculate viewport width in rem
+    const rootFontSize = parseFloat(
+      getComputedStyle(document.documentElement).fontSize
+    );
+    const viewportWidthInRem = window.innerWidth / rootFontSize;
+
+    // Extract numeric value from rem strings
+    const medium = parseFloat(theme.sizes.medium);
+    const large = parseFloat(theme.sizes.large);
+    const xlarge = parseFloat(theme.sizes.xlarge);
+
     switch (true) {
-      case window.innerWidth < theme.sizes.medium:
+      case viewportWidthInRem < medium:
         return 'small';
-      case window.innerWidth < theme.sizes.large:
+      case viewportWidthInRem < large:
         return 'medium';
-      case window.innerWidth < theme.sizes.xlarge:
+      case viewportWidthInRem < xlarge:
         return 'large';
       default:
         return 'xlarge';

@@ -100,10 +100,10 @@ const ChangeEmail: FunctionComponent<ChangeDetailsModalContentProps> = ({
       )}
 
       <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
-        <h3 className={font('intb', 5)} style={{ marginBottom: 0 }}>
+        <h3 className={font('sans-bold', -1)} style={{ marginBottom: 0 }}>
           Email
         </h3>
-        <p className={font('intr', 5)} style={{ marginBottom: 0 }}>
+        <p className={font('sans', -1)} style={{ marginBottom: 0 }}>
           {user?.email}
         </p>
       </Space>
@@ -138,7 +138,7 @@ const ChangeEmail: FunctionComponent<ChangeDetailsModalContentProps> = ({
                 required
                 id={name}
                 label="New email address"
-                value={value}
+                value={value ?? ''}
                 setValue={onChange}
                 isValid={!invalid}
                 setIsValid={() => trigger('email')}

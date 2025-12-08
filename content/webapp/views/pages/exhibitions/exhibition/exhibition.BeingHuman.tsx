@@ -62,7 +62,7 @@ const ExhibitionBeingHuman = ({
           <Space
             as="h2"
             $v={{ size: 'm', properties: ['margin-bottom'] }}
-            className={font('wb', 3)}
+            className={font('brand', 1)}
           >{`${exhibitionFormat} access content`}</Space>
           {(accessResourceLinks.length > 0 ||
             exhibition.accessResourcesPdfs.length > 0) && (
@@ -81,14 +81,14 @@ const ExhibitionBeingHuman = ({
                         $borderColor={borderColor}
                       >
                         {link.type === 'exhibition-guide' && (
-                          <h3 className={font('intb', 4)}>
+                          <h3 className={font('sans-bold', 0)}>
                             Digital exhibition guide
                           </h3>
                         )}
                         {link.type === 'visual-story' && (
-                          <h3 className={font('intb', 4)}>Visual story</h3>
+                          <h3 className={font('sans-bold', 0)}>Visual story</h3>
                         )}
-                        <span className={font('intr', 6)}>{link.text}</span>
+                        <span className={font('sans', -2)}>{link.text}</span>
                         <ResourceLinkIconWrapper>
                           <Icon icon={arrow} />
                         </ResourceLinkIconWrapper>
@@ -109,7 +109,7 @@ const ExhibitionBeingHuman = ({
                         $borderColor={borderColor}
                         $underlineText={true}
                       >
-                        <span className={font('intr', 5)}>
+                        <span className={font('sans', -1)}>
                           {`${pdf.text} PDF`} {`(${pdf.size}kb)`}
                         </span>
                         <ResourceLinkIconWrapper>
@@ -149,7 +149,7 @@ const ExhibitionBeingHuman = ({
       {exhibition.end && !isPast(exhibition.end) && (
         <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
           <InfoBox title="Visit us" items={getInfoItems(exhibition)}>
-            <p className={font('intr', 5)} style={{ margin: 0 }}>
+            <p className={font('sans', -1)} style={{ margin: 0 }}>
               For more information, please visit our{' '}
               <a href={`/visit-us/${prismicPageIds.access}`}>Accessibility</a>{' '}
               page. If you have any queries about accessibility, please email us

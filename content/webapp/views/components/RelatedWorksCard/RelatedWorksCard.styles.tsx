@@ -12,7 +12,7 @@ const clampLineStyles = css<{ $linesToClamp: number }>`
 
 export const Card = styled.a<{ $isHover?: boolean }>`
   display: flex;
-  padding: ${props => props.theme.spacingUnits['3']}px;
+  padding: ${props => props.theme.spacingUnits['3']};
   background-color: ${props => props.theme.color('white')};
   border-radius: ${props => props.theme.borderRadiusUnit}px;
   flex-wrap: wrap;
@@ -74,12 +74,11 @@ export const TextWrapper = styled.div`
 `;
 
 export const Title = styled.h2.attrs<{ $isHover?: boolean }>(props => ({
-  className: font(props.$isHover ? 'intr' : 'intb', 5),
+  className: !props.$isHover ? font('sans-bold', -1) : font('sans', -1),
 }))<{ $linesToClamp: number }>`
   ${clampLineStyles};
   color: ${props => props.theme.color('black')};
-  margin-top: ${props =>
-    props.$isHover ? 0 : props.theme.spacingUnits['1']}px;
+  margin-top: ${props => (props.$isHover ? 0 : props.theme.spacingUnits['1'])};
 
   ${Card}:hover & {
     text-decoration: underline;
@@ -94,7 +93,7 @@ export const ImageWrapper = styled.div<{ $isHover?: boolean }>`
   width: 100%;
   max-height: 160px;
   order: -1;
-  margin-bottom: ${props => props.theme.spacingUnits['5']}px;
+  margin-bottom: ${props => props.theme.spacingUnits['5']};
   display: flex;
 
   ${props =>
@@ -113,8 +112,8 @@ export const ImageWrapper = styled.div<{ $isHover?: boolean }>`
 
     ${props =>
       props.theme.media('medium')(`
-      margin-left: ${props.$isHover ? '0' : props.theme.spacingUnits['3']}px;
-      margin-right: ${props.$isHover ? props.theme.spacingUnits['3'] + 'px' : 'unset'};
+      margin-left: ${props.$isHover ? '0' : props.theme.spacingUnits['3']};
+      margin-right: ${props.$isHover ? props.theme.spacingUnits['3'] : 'unset'};
       width: unset;
       height: 100%;
 
@@ -152,7 +151,7 @@ export const ImageWrapper = styled.div<{ $isHover?: boolean }>`
 `;
 
 export const MetaContainer = styled.div.attrs({
-  className: font('intr', 6),
+  className: font('sans', -2),
 })`
   color: ${props => props.theme.color('neutral.600')};
 `;

@@ -29,7 +29,7 @@ const SummaryInner = styled.div`
 const Summary = styled(Space).attrs({
   as: 'summary',
   $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-  className: font('intr', 4),
+  className: font('sans', 0),
 })`
   border-top: 1px solid ${props => props.theme.color('neutral.300')};
   cursor: pointer;
@@ -55,7 +55,7 @@ const Summary = styled(Space).attrs({
 
 const ShowHide = styled(Space).attrs({
   $h: { size: 's', properties: ['margin-right'] },
-  className: font('intr', 5),
+  className: font('sans', -1),
 })`
   position: relative;
 
@@ -86,7 +86,7 @@ const ShowHide = styled(Space).attrs({
 `;
 
 const Details = styled.details.attrs({
-  className: font('intr', 5),
+  className: font('sans', -1),
 })`
   @media (prefers-reduced-motion: no-preference) {
     /* stylelint-disable-next-line property-no-unknown */

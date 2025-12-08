@@ -63,7 +63,7 @@ import WorkDetailsSection from './WorkDetails.Section';
 const RestrictedMessage = styled(Space).attrs({
   $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
   $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-  className: font('intr', 5),
+  className: font('sans', -1),
 })`
   position: relative;
   border-radius: 3px;
@@ -112,7 +112,7 @@ const TreeContainer = styled.div`
 `;
 
 const MessageBox = styled(Space).attrs({
-  className: font('intr', 5),
+  className: font('sans', -1),
   $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
   $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
 })`
@@ -222,7 +222,7 @@ const ItemPageLink = ({
               <RestrictedMessage>
                 <RestrictedMessageTitle>
                   <Icon icon={info2} />
-                  <h3 className={font('intsb', 4)}>Restricted item</h3>
+                  <h3 className={font('sans-bold', 0)}>Restricted item</h3>
                 </RestrictedMessageTitle>
 
                 <p style={{ marginBottom: '1rem' }}>
@@ -251,7 +251,7 @@ const ItemPageLink = ({
                 </Space>
               )}
             >
-              <p className={font('lr', 6)} style={{ marginBottom: 0 }}>
+              <p className={font('mono', -2)} style={{ marginBottom: 0 }}>
                 Contains:{' '}
                 {collectionManifestsCount && collectionManifestsCount > 0
                   ? pluralize(collectionManifestsCount, 'volume')
@@ -380,7 +380,9 @@ const WorkDetailsAvailableOnline = ({
         {shouldShowDownloadTree && (
           <>
             {Number(canvases?.length) > 0 && (
-              <p className={font('lr', 6)}>Contains {canvases?.length} files</p>
+              <p className={font('mono', -2)}>
+                Contains {canvases?.length} files
+              </p>
             )}
             <MessageBox>{bornDigitalMessage}</MessageBox>
             <div style={{ overflow: 'visible' }}>

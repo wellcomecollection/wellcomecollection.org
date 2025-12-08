@@ -6,7 +6,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
 
 export const DateWrapper = styled(Space).attrs({
-  className: font('intr', 4),
+  className: font('sans', 0),
   $v: { size: 's', properties: ['margin-bottom'] },
 })`
   padding: 0;
@@ -15,8 +15,8 @@ export const DateWrapper = styled(Space).attrs({
 const shimHeight = '21px';
 
 export const FeaturedCardWrap = styled.div`
-  margin-left: -${props => props.theme.gutter.small}px;
-  margin-right: -${props => props.theme.gutter.small}px;
+  margin-left: -${props => props.theme.gutter.small};
+  margin-right: -${props => props.theme.gutter.small};
 
   ${props => props.theme.media('medium')`
     margin-left: 0;
@@ -51,7 +51,7 @@ export const FeaturedCardLeft = styled(GridCell)<HasIsReversed>`
 `;
 
 export const FeaturedCardRight = styled.div.attrs({
-  className: font('intb', 6), // required for em value in label height calc below
+  className: font('sans-bold', -2), // required for em value in label height calc below
 })<HasIsReversed>`
   display: flex;
   flex-direction: column;
@@ -63,10 +63,8 @@ export const FeaturedCardRight = styled.div.attrs({
   min-height: 200px;
   position: relative;
 
-  padding-left: ${props =>
-    props.$isReversed ? 0 : props.theme.gutter.small}px;
-  padding-right: ${props =>
-    props.$isReversed ? props.theme.gutter.small : 0}px;
+  padding-left: ${props => (props.$isReversed ? 0 : props.theme.gutter.small)};
+  padding-right: ${props => (props.$isReversed ? props.theme.gutter.small : 0)};
 
   ${props => props.theme.media('medium')`
     padding-left: 0;

@@ -26,7 +26,7 @@ const ClosedMessage = () => {
         <InfoIconWrapper>
           <Icon icon={information} />
         </InfoIconWrapper>
-        <p className={font('intr', 5)}>
+        <p className={font('sans', -1)}>
           Our exhibitions are closed today, but our{' '}
           <a href={`/visit-us/${prismicPageIds.cafe}`}>café</a> and{' '}
           <a href={`/visit-us/${prismicPageIds.shop}`}>shop</a> are open for
@@ -36,7 +36,7 @@ const ClosedMessage = () => {
         <InfoIconWrapper>
           <Icon icon={clock} />
         </InfoIconWrapper>
-        <p className={font('intr', 5)} style={{ marginBottom: 0 }}>
+        <p className={font('sans', -1)} style={{ marginBottom: 0 }}>
           Galleries open Tuesday–Sunday,{' '}
           <a href={`/visit-us/${prismicPageIds.openingTimes}`}>
             see full opening times

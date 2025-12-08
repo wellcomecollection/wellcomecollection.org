@@ -17,7 +17,7 @@ const DateRange = ({ dateRange, period }: DateRangeProps) => {
         properties: ['margin-bottom'],
       }}
       as="p"
-      className={font('intr', 5)}
+      className={font('sans', -1)}
     >
       {period === 'today' && <HTMLDateAndTime variant="date" date={start} />}
       {period === 'this-weekend' && (

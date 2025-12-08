@@ -45,9 +45,11 @@ const IIIFClickthrough: FunctionComponent<Props> = ({
         />
       )}
       {showClickthroughMessage ? (
-        <div className={font('intr', 5)}>
+        <div className={font('sans', -1)}>
           {clickThroughService?.label && (
-            <h2 className={font('intb', 4)}>{clickThroughService?.label}</h2>
+            <h2 className={font('sans-bold', 0)}>
+              {clickThroughService?.label}
+            </h2>
           )}
           {clickThroughService?.description && (
             <p

@@ -138,12 +138,12 @@ const FeaturedCardArticle: FunctionComponent<FeaturedCardArticleProps> = ({
       background={background}
       textColor={textColor}
     >
-      <h2 className={font('wb', 2)}>{article.title}</h2>
-      {article.caption && <p className={font('intr', 5)}>{article.caption}</p>}
+      <h2 className={font('brand', 2)}>{article.title}</h2>
+      {article.caption && <p className={font('sans', -1)}>{article.caption}</p>}
       {article.seriesTitle && (
         <Space $v={{ size: 'l', properties: ['margin-top'] }}>
-          <p className={font('intb', 6)} style={{ marginBottom: 0 }}>
-            <span className={font('intr', 6)}>Part of</span>{' '}
+          <p className={font('sans-bold', -2)} style={{ marginBottom: 0 }}>
+            <span className={font('sans', -2)}>Part of</span>{' '}
             {article.seriesTitle}
           </p>
         </Space>
@@ -165,7 +165,7 @@ const FeaturedCardExhibition: FunctionComponent<
       textColor={textColor}
     >
       <div>
-        <h3 className={font('wb', 2)}>{exhibition.title}</h3>
+        <h3 className={font('brand', 2)}>{exhibition.title}</h3>
         {!exhibition.statusOverride && exhibition.start && exhibition.end && (
           <DateWrapper as="p">
             <DateRange start={exhibition.start} end={exhibition.end} />
@@ -177,7 +177,7 @@ const FeaturedCardExhibition: FunctionComponent<
           statusOverride={exhibition.statusOverride}
         />
         {exhibition.promo?.caption && (
-          <p className={font('intr', 5)} style={{ marginTop: '1rem' }}>
+          <p className={font('sans', -1)} style={{ marginTop: '1rem' }}>
             {exhibition.promo.caption}
           </p>
         )}

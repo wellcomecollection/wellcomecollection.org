@@ -132,7 +132,7 @@ const ExhibitionGuideTypePage: NextPage<Props> = ({
       />
 
       <ContaineredLayout gridSizes={gridSize8(false)}>
-        <h2 className={font('intsb', 4)}>{getTypeTitle(type)}</h2>
+        <h2 className={font('sans-bold', 0)}>{getTypeTitle(type)}</h2>
 
         {exhibitionGuide.introText?.length > 0 ? (
           <PrismicHtmlBlock html={exhibitionGuide.introText} />

@@ -58,7 +58,7 @@ const MobileLabel = styled.div`
 `;
 
 const StoryInformation = styled(Space).attrs({
-  className: font('intr', 5),
+  className: font('sans', -1),
   $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.600')};
@@ -152,7 +152,7 @@ const StoriesGrid: FunctionComponent<Props> = ({
                   <LabelsList labels={[{ text: article.format.label }]} />
                 </DesktopLabel>
 
-                <h3 className={font('wb', 4)}>{article.title}</h3>
+                <h3 className={font('brand', 0)}>{article.title}</h3>
 
                 {!isCompact &&
                   (article.publicationDate ||
@@ -185,7 +185,7 @@ const StoriesGrid: FunctionComponent<Props> = ({
                   )}
 
                 {article.caption && (
-                  <p className={font('intr', 5)} style={{ marginBottom: 0 }}>
+                  <p className={font('sans', -1)} style={{ marginBottom: 0 }}>
                     {article.caption}
                   </p>
                 )}

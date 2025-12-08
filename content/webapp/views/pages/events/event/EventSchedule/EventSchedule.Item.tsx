@@ -59,7 +59,7 @@ const EventContainer = styled(Space).attrs({
     size: 'm',
     properties: ['padding-left', 'padding-right'],
   },
-  className: font('intb', 5),
+  className: font('sans-bold', -1),
 })`
   display: inline-block;
   background-color: ${props => props.theme.color('yellow')};
@@ -72,7 +72,7 @@ const eventLocations = (locations: Place[], isHybridEvent: boolean) => {
   return (
     <Space
       $v={{ size: 's', properties: ['margin-bottom'] }}
-      className={font('intr', 5)}
+      className={font('sans', -1)}
       style={{ display: 'flex', alignItems: 'center' }}
     >
       {locations.map((l, i) => {
@@ -170,7 +170,7 @@ const EventScheduleItem: FunctionComponent<Props> = ({
               <h4
                 style={{ marginBottom: 0 }}
                 key={`${event.title} ${startTimeString}`}
-                className={font('intb', 5)}
+                className={font('sans-bold', -1)}
               >
                 <HTMLDateAndTime variant="time" date={t.range.startDateTime} />
                 {' – '}
@@ -197,7 +197,7 @@ const EventScheduleItem: FunctionComponent<Props> = ({
             <Space
               $v={{ size: 's', properties: ['margin-bottom'] }}
               as="h5"
-              className={font('wb', 3)}
+              className={font('brand', 1)}
             >
               {event.title}
             </Space>
@@ -207,7 +207,7 @@ const EventScheduleItem: FunctionComponent<Props> = ({
             {event.promo?.caption && (
               <Space
                 $v={{ size: 'm', properties: ['margin-bottom'] }}
-                className={font('intr', 5)}
+                className={font('sans', -1)}
                 dangerouslySetInnerHTML={{ __html: event.promo?.caption }}
               />
             )}
@@ -219,7 +219,7 @@ const EventScheduleItem: FunctionComponent<Props> = ({
                   properties: ['margin-top', 'margin-bottom'],
                 }}
               >
-                <p className={font('intr', 5)} style={{ marginBottom: 0 }}>
+                <p className={font('sans', -1)} style={{ marginBottom: 0 }}>
                   <a href={`/events/${event.id}`}>
                     Full event details
                     <span className="visually-hidden">

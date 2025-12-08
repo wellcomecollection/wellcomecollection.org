@@ -22,7 +22,7 @@ export const PopupDialogOpen = styled(Space).attrs<PopupDialogOpenProps>(
       properties: ['padding-left', 'padding-right'],
       overrides: { small: 5, medium: 5, large: 5 },
     },
-    className: font('intb', 5),
+    className: font('sans-bold', -1),
   })
 )<PopupDialogOpenProps>`
   line-height: 1;
@@ -118,7 +118,7 @@ export const PopupDialogCTA = styled(Space).attrs({
     properties: ['padding-left', 'padding-right'],
     overrides: { small: 5, medium: 5, large: 5 },
   },
-  className: font('intb', 5, { small: 3, medium: 3 }),
+  className: font('sans-bold', -1),
 })`
   display: inline-block;
   background-color: ${props => props.theme.color('accent.purple')};

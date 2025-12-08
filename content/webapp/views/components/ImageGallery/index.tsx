@@ -44,15 +44,16 @@ function makeSizesForFrames(isThreeUp: boolean) {
   // grid-width
   if (isThreeUp) {
     return `
-        (min-width: ${sizes.medium}px) calc(80vw / 2),
-        (min-width: ${sizes.large}px) calc(80vw / 3),
-        (min-width: ${sizes.xlarge}px) calc(${sizes.xlarge * 0.8}px / 3),
+        (min-width: ${sizes.medium}) calc(80vw / 2),
+        (min-width: ${sizes.large}) calc(80vw / 3),
+        (min-width: ${sizes.xlarge}) calc((${sizes.xlarge} * 0.8) / 3),
         calc(100vw - 68px)
       `;
   } else {
+    console.log(sizes.xlarge);
     return `
-      (min-width: ${sizes.medium}px) calc(80vw / 2),
-      (min-width: ${sizes.xlarge}px) calc(${sizes.xlarge * 0.8}px / 2),
+      (min-width: ${sizes.medium}) calc(80vw / 2),
+      (min-width: ${sizes.xlarge}) calc((${sizes.xlarge} * 0.8) / 2),
       calc(100vw - 68px)
     `;
   }
@@ -138,7 +139,7 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
             </Space>
             <h2
               id={title ? dasherize(title) : `gallery-${id}`}
-              className={font('wb', 3)}
+              className={font('brand', 1)}
               ref={headingRef}
             >
               {title || 'In pictures'}
@@ -249,7 +250,7 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
                       items.length > 1 ? (
                         <Space
                           $v={{ size: 'm', properties: ['margin-bottom'] }}
-                          className={font('intb', 5)}
+                          className={font('sans-bold', -1)}
                         >
                           {i + 1} of {items.length}
                         </Space>

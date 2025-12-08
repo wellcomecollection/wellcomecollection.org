@@ -24,7 +24,7 @@ const IconContainer = styled.div<{ $darkTheme?: boolean }>`
 `;
 
 const Control = styled.button.attrs({
-  className: font('intb', 5),
+  className: font('sans-bold', -1),
 })`
   color: inherit;
   display: flex;

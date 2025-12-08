@@ -35,7 +35,7 @@ const NoEvents: FunctionComponent<Props> = ({ isPastListing, hasFilters }) => {
       <Space
         as="p"
         $v={{ size: 's', properties: ['margin-bottom'] }}
-        className={font('intr', 2)}
+        className={font('sans', 2)}
       >
         No {isPastListing ? 'past' : 'upcoming'} events found
       </Space>
@@ -52,7 +52,7 @@ const NoEvents: FunctionComponent<Props> = ({ isPastListing, hasFilters }) => {
       )}
       <Space
         $v={{ size: 'l', properties: ['margin-top'] }}
-        className={font('intr', 6)}
+        className={font('sans', -2)}
       >
         {hasFilters ? 'Or check' : 'Check'}{' '}
         <a href={`/events${isPastListing ? '' : '/past'}`}>

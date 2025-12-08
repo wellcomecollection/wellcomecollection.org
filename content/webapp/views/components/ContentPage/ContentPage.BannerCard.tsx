@@ -62,7 +62,7 @@ const ImageWrapper = styled.div<ImageWrapperProps>`
 `;
 
 const DateRangeWrapper = styled(Space).attrs({
-  className: font('intr', 5),
+  className: font('sans', -1),
   $v: { size: 's', properties: ['margin-top', 'margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.400')};
@@ -133,7 +133,7 @@ const BannerCard: FunctionComponent<Props> = ({
         )}
         <Space
           as="h2"
-          className={font('wb', 2)}
+          className={font('brand', 2)}
           $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
         >
           {title}
@@ -143,7 +143,7 @@ const BannerCard: FunctionComponent<Props> = ({
             <DateRange start={start} end={end} />
           </DateRangeWrapper>
         )}
-        <p className={font('intr', 5)}>{description}</p>
+        <p className={font('sans', -1)}>{description}</p>
         <Button
           variant="ButtonSolid"
           colors={theme.buttonColors.whiteTransparentWhite}

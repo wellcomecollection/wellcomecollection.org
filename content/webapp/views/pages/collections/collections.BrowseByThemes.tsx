@@ -25,7 +25,7 @@ type BrowseByThemeProps = {
 };
 
 const ListItem = styled.li`
-  --gutter-size: ${props => props.theme.gutter.small}px;
+  --gutter-size: ${props => props.theme.gutter.small};
   flex: 0 0 auto;
   width: 400px;
   max-width: 90vw;
@@ -39,24 +39,24 @@ const ListItem = styled.li`
 
   ${props => {
     const mediumGutter = props.theme.gutter.medium;
-    const paddingCalc = `${props.theme.formatContainerPaddingVw(props.theme.containerPadding.medium)} * 2`;
+    const paddingCalc = `${props.theme.containerPaddingVw} * 2`;
 
     return props.theme.media('medium')(`
-      --gutter-size: ${mediumGutter}px;
+      --gutter-size: ${mediumGutter};
       /* 6 columns of 12 at medium breakpoint */
       /* Formula: ((100vw - padding) - (11 × gutter)) / 12 × 6 + (6 × gutter) */
-      /* Simplified: calc((100vw - ${paddingCalc} - ${mediumGutter * 11}px) / 2 + ${mediumGutter * 6}px) */
-      width: calc((100vw - ${paddingCalc} - ${mediumGutter * 11}px) / 2 + ${mediumGutter * 6}px);
+      /* Simplified: calc((100vw - (${paddingCalc}) - (${mediumGutter} * 11)) / 2 + (${mediumGutter} * 6)) */
+      width: calc((100vw - (${paddingCalc}) - (${mediumGutter} * 11)) / 2 + (${mediumGutter} * 6));
 
       padding: 0 0 0 var(--gutter-size);
 
       &:nth-child(2) {
         padding-left: 0;
-        width: calc((100vw - ${paddingCalc} - ${mediumGutter * 11}px) / 2 + ${mediumGutter * 5}px);
+        width: calc((100vw - (${paddingCalc}) - (${mediumGutter} * 11)) / 2 + (${mediumGutter} * 5));
       }
       &:last-child {
         padding-right: var(--gutter-size);
-        width: calc((100vw - ${paddingCalc} - ${mediumGutter * 11}px) / 2 + ${mediumGutter * 7}px);
+        width: calc((100vw - (${paddingCalc}) - (${mediumGutter} * 11)) / 2 + (${mediumGutter} * 7));
       }
     `);
   }}
@@ -64,36 +64,27 @@ const ListItem = styled.li`
   ${props => {
     const largeGutter = props.theme.gutter.large;
     const xlarge = props.theme.sizes.xlarge;
-    const paddingCalc = `${props.theme.formatContainerPaddingVw(props.theme.containerPadding.large)} * 2`;
-
-    // Calculate padding in pixels for max-width calculation
-    const paddingValue = props.theme.containerPadding.large;
-    const paddingPx =
-      typeof paddingValue === 'string'
-        ? (parseFloat(paddingValue) / 100) * xlarge * 2
-        : paddingValue * 2;
-
-    const totalGutters = largeGutter * 11;
+    const paddingCalc = `${props.theme.containerPaddingVw} * 2`;
 
     return props.theme.media('large')(`
-      --gutter-size: ${largeGutter}px;
+      --gutter-size: ${largeGutter};
       /* 4 columns of 12 at large breakpoint */
       /* Formula: ((100vw - padding) - (11 × gutter)) / 12 × 4 + (4 × gutter) */
-      /* Simplified: calc((100vw - ${paddingCalc} - ${totalGutters}px) / 3 + ${largeGutter * 4}px) */
-      width: calc((100vw - ${paddingCalc} - ${totalGutters}px) / 3 + ${largeGutter * 4}px);
+      /* Simplified: calc((100vw - (${paddingCalc}) - (${largeGutter} * 11)) / 3 + (${largeGutter} * 4)) */
+      width: calc((100vw - (${paddingCalc}) - (${largeGutter} * 11)) / 3 + (${largeGutter} * 4));
 
-      /* Max-width at xlarge: ((${xlarge}px - ${paddingPx}px - ${totalGutters}px) / 12 × 4) + ${largeGutter * 4}px */
-      max-width: ${((xlarge - paddingPx - totalGutters) / 12) * 4 + largeGutter * 4}px;
+      /* Max-width at xlarge: ((${xlarge} - (${paddingCalc})) - (${largeGutter} * 11)) / 12 × 4 + (${largeGutter} * 4) */
+      max-width: calc(((${xlarge} - (${paddingCalc})) - (${largeGutter} * 11)) / 12 * 4 + (${largeGutter} * 4));
 
       &:nth-child(2){
-        width: calc((100vw - ${paddingCalc} - ${totalGutters}px) / 3 + ${largeGutter * 3}px);
-        max-width: ${((xlarge - paddingPx - totalGutters) / 12) * 4 + largeGutter * 3}px;
+        width: calc((100vw - (${paddingCalc}) - (${largeGutter} * 11)) / 3 + (${largeGutter} * 3));
+        max-width: calc(((${xlarge} - (${paddingCalc})) - (${largeGutter} * 11)) / 12 * 4 + (${largeGutter} * 3));
       }
 
       &:last-child {
         padding-right: var(--gutter-size);
-        width: calc((100vw - ${paddingCalc} - ${totalGutters}px) / 3 + ${largeGutter * 5}px);
-        max-width: ${((xlarge - paddingPx - totalGutters) / 12) * 4 + largeGutter * 5}px;
+        width: calc((100vw - (${paddingCalc}) - (${largeGutter} * 11)) / 3 + (${largeGutter} * 5));
+        max-width: calc(((${xlarge} - (${paddingCalc})) - (${largeGutter} * 11)) / 12 * 4 + (${largeGutter} * 5));
       }
     `);
   }}

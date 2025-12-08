@@ -89,7 +89,7 @@ test('(5) | The item has contributor information', async ({
   await multiVolumeItem(context, page);
   await accessSidebarOnMobile(page);
   await expect(
-    page.getByText('Bernard, de Gordon, approximately 1260-approximately 1318.')
+    page.getByText('Bernard de Gordon', { exact: true })
   ).toBeVisible();
 });
 

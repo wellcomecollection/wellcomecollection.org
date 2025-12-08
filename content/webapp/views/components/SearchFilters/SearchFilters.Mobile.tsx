@@ -249,7 +249,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
       >
         <FiltersScrollable>
           <FiltersHeader>
-            <h2 className={font('wb', 3)}>Filters</h2>
+            <h2 className={font('brand', 1)}>Filters</h2>
           </FiltersHeader>
 
           <FiltersBody>

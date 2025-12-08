@@ -24,7 +24,7 @@ import { FromCollectionsHeading } from './concept.styles';
 
 const WorksCount = styled(Space).attrs({
   as: 'p',
-  className: font('intr', 6),
+  className: font('sans', -2),
   $v: { size: 's', properties: ['padding-top'] },
 })`
   color: ${props => props.theme.color('neutral.600')};

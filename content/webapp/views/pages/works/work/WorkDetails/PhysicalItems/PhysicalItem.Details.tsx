@@ -55,7 +55,7 @@ const ButtonWrapper = styled.div<ButtonWrapperProps>`
 `;
 
 const DetailHeading = styled.h3.attrs({
-  className: `${font('intb', 5, { small: 3, medium: 3 })}`,
+  className: `${font('sans-bold', -1)}`,
 })`
   margin-bottom: 0;
 `;
@@ -243,7 +243,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
         <StackingTable
           rows={createRows()}
           plain={true}
-          maxWidth={isArchive ? 980 : 620}
+          maxWidth={isArchive ? '61.25rem' : '38.75rem'}
           columnWidths={[180, 200, undefined, undefined]}
         />
 

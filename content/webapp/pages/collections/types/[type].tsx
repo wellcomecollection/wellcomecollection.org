@@ -55,13 +55,13 @@ const SubTypeHeader = styled.div`
 `;
 
 const SubTypeTitle = styled.h2.attrs({
-  className: font('wb', 3),
+  className: font('brand', 1),
 })`
   margin: 0;
 `;
 
 const SubTypeLink = styled(Link).attrs({
-  className: font('wb', 3),
+  className: font('brand', 1),
 })`
   margin: 0;
   text-decoration: underline;
@@ -74,8 +74,7 @@ const SubTypeLink = styled(Link).attrs({
 `;
 
 const WorkItem = styled.li`
-  --container-padding: ${props =>
-    props.theme.formatContainerPadding(props.theme.containerPadding.small)};
+  --container-padding: ${props => props.theme.containerPadding};
   flex: 0 0 90%;
   max-width: 420px;
 
@@ -93,7 +92,7 @@ const WorkItem = styled.li`
 `;
 
 const IntroText = styled.p.attrs({
-  className: font('intr', 4),
+  className: font('sans', 0),
 })`
   margin: 0 0 ${props => props.theme.spacingUnit * 4}px 0;
   max-width: 60ch;

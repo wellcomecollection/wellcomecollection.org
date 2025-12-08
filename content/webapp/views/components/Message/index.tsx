@@ -5,7 +5,7 @@ import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 
 const Wrapper = styled(Space).attrs({
-  className: font('intb', 5),
+  className: font('sans-bold', -1),
   $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 })`

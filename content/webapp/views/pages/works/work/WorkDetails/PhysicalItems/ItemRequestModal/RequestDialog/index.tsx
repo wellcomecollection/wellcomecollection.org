@@ -62,7 +62,7 @@ const WorkTitle = styled.span`
 `;
 
 const PickupDeadline = styled.p.attrs({
-  className: font('intr', 6),
+  className: font('sans', -2),
 })`
   ${props => props.theme.media('large')`
     margin: 0;
@@ -131,13 +131,13 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
   return (
     <Request onSubmit={handleConfirmRequest}>
       <Header>
-        <span className={font('wb', 3)}>Request item</span>
+        <span className={font('brand', 1)}>Request item</span>
         <CurrentRequests
           allowedHoldRequests={allowedRequests}
           currentHoldRequests={currentHoldNumber}
         />
       </Header>
-      <p className={font('intb', 5)} style={{ marginBottom: 0 }}>
+      <p className={font('sans-bold', -1)} style={{ marginBottom: 0 }}>
         You are about to request the following item:
       </p>
       <Space $v={{ size: 's', properties: ['margin-bottom'] }}>

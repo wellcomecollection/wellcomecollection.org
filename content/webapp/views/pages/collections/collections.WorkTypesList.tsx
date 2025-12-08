@@ -26,15 +26,13 @@ const StyledImage = styled(Image)<{ $tiltIndex: number }>`
     transform 0.2s ease-out,
     filter 0.2s ease-out;
 
-  @container work-types-list (min-width: ${props =>
-    props.theme.sizes.medium}px) {
+  @container work-types-list (min-width: ${props => props.theme.sizes.medium}) {
     width: 100%;
     height: auto;
     max-width: 100px;
   }
 
-  @container work-types-list (min-width: ${props =>
-    props.theme.sizes.large}px) {
+  @container work-types-list (min-width: ${props => props.theme.sizes.large}) {
     width: 100%;
     height: auto;
     max-width: 120px;
@@ -66,8 +64,7 @@ const StyledList = styled.ul`
   }
 
   /* Large container: single row layout */
-  @container work-types-list (min-width: ${props =>
-    props.theme.sizes.medium}px) {
+  @container work-types-list (min-width: ${props => props.theme.sizes.medium}) {
     flex-wrap: nowrap;
     justify-content: space-between;
     min-width: 0;
@@ -99,8 +96,7 @@ const IconContainer = styled(Space).attrs({
   max-width: 80px;
   flex-shrink: 0;
 
-  @container work-types-list (min-width: ${props =>
-    props.theme.sizes.medium}px) {
+  @container work-types-list (min-width: ${props => props.theme.sizes.medium}) {
     min-height: 120px;
     max-width: 100%;
     flex-shrink: 1;
@@ -112,8 +108,7 @@ const TextContainer = styled.div`
   align-items: center;
   flex-grow: 1;
 
-  @container work-types-list (min-width: ${props =>
-    props.theme.sizes.medium}px) {
+  @container work-types-list (min-width: ${props => props.theme.sizes.medium}) {
     align-items: center;
   }
 `;
@@ -123,8 +118,7 @@ const CountDisplayContainer = styled.div`
   justify-content: center;
   align-items: center;
 
-  @container work-types-list (min-width: ${props =>
-    props.theme.sizes.medium}px) {
+  @container work-types-list (min-width: ${props => props.theme.sizes.medium}) {
     justify-content: center;
     min-width: 100px;
   }
@@ -160,8 +154,7 @@ const StyledLink = styled(NextLink)<{ $tiltIndex?: number }>`
     filter: drop-shadow(4px 4px 2px #00000040);
   }
 
-  @container work-types-list (min-width: ${props =>
-    props.theme.sizes.medium}px) {
+  @container work-types-list (min-width: ${props => props.theme.sizes.medium}) {
     flex-direction: column;
     text-align: center;
     gap: 0;
@@ -308,7 +301,7 @@ const WorkTypeItem: FunctionComponent<WorkTypeItemProps> = ({
           <div>
             <CountDisplayContainer
               aria-hidden="true"
-              className={font('wb', 3)}
+              className={font('brand', 1)}
               ref={el => {
                 countContainerRef.current = el as HTMLDivElement | null;
                 if (registerNumberRef)
@@ -320,9 +313,9 @@ const WorkTypeItem: FunctionComponent<WorkTypeItemProps> = ({
             {/* Screen reader only text with stable count */}
             <span className="visually-hidden">{accessibleCountText}</span>
           </div>
-          <div className={font('intr', 3)}>{stats.label}</div>
+          <div className={font('sans', 1)}>{stats.label}</div>
           {description && (
-            <DescriptionText className={font('intr', 4)}>
+            <DescriptionText className={font('sans', 0)}>
               {description}
             </DescriptionText>
           )}

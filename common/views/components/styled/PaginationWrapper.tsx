@@ -6,7 +6,7 @@ import Space from './Space';
 
 const PaginationWrapper = styled(Space).attrs<{ $verticalSpacing?: 'l' | 'm' }>(
   props => ({
-    className: font('intb', 5),
+    className: font('sans-bold', -1),
     ...(props.$verticalSpacing && {
       $v: {
         size: props.$verticalSpacing,

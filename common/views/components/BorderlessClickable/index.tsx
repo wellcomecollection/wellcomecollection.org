@@ -75,7 +75,7 @@ const Button: ForwardRefRenderFunction<
               {/* This is all a little hacky and will need some tidy up */}
               {/* We currently only use this in the header sign in button */}
               <span
-                className={font('intr', 4)}
+                className={font('sans', 0)}
                 style={{ transform: 'translateY(0.01em)' }}
               >
                 <Icon icon={iconLeft} matchText={true} />

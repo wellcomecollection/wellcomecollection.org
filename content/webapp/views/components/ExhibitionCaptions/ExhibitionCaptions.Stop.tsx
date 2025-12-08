@@ -19,7 +19,7 @@ import ZoomedPrismicImage from '@weco/content/views/components/ZoomedPrismicImag
 
 export const StandaloneTitle = styled(Space).attrs({
   as: 'h2',
-  className: `${font('wb', 2)}`,
+  className: `${font('brand', 2)}`,
   $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 })`
@@ -34,13 +34,13 @@ type LevelProps = { $level: number };
 
 export const ContextTitle = styled(Space).attrs<LevelProps>(props => ({
   as: `h${props.$level}` as KnownTarget,
-  className: font('wb', 3),
+  className: font('brand', 1),
   $v: { size: 'm', properties: ['margin-bottom'] },
 }))<LevelProps>``;
 
 const TranscriptTitle = styled(Space).attrs<LevelProps>(props => ({
   as: `h${props.$level}` as KnownTarget,
-  className: font('wb', 4),
+  className: font('brand', 0),
   $v: { size: 'm', properties: ['margin-bottom'] },
 }))<LevelProps>``;
 
@@ -61,12 +61,12 @@ export const ContextContainer = styled(Space).attrs<ContextContainerProps>(
 
 export const TombstoneTitle = styled(Space).attrs<LevelProps>(props => ({
   as: `h${props.$level}` as KnownTarget,
-  className: font('wb', 3),
+  className: font('brand', 1),
   $v: { size: 's', properties: ['margin-bottom'] },
 }))<LevelProps>``;
 
 export const Tombstone = styled(Space).attrs({
-  className: font('intr', 4),
+  className: font('sans', 0),
   $h: { size: 'l', properties: ['padding-right'] },
 })`
   flex-basis: 100%;
@@ -100,7 +100,7 @@ export const CaptionTranscription = styled.div`
 `;
 
 export const Caption = styled(Space).attrs({
-  className: `spaced-text ${font('intr', 5)}`,
+  className: `spaced-text ${font('sans', -1)}`,
   $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 })`
   border-left: 20px solid ${props => props.theme.color('lightYellow')};
@@ -112,7 +112,7 @@ const PrismicImageWrapper = styled.div`
 `;
 
 const Transcription = styled(Space).attrs({
-  className: font('intr', 5),
+  className: font('sans', -1),
   $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   $v: {
     size: 'm',
@@ -209,7 +209,7 @@ const Stop: FunctionComponent<{
                 </TombstoneTitle>
               )}
               {tombstone && (
-                <div className={font('intr', 4)}>
+                <div className={font('sans', 0)}>
                   <PrismicHtmlBlock html={tombstone} />
                 </div>
               )}

@@ -89,15 +89,15 @@ const ContentTypeInfo = (
     />
     <div style={{ display: 'flex', alignItems: 'baseline' }}>
       <Space
-        className={font('intr', 6)}
+        className={font('sans', -2)}
         $h={{ size: 's', properties: ['margin-right'] }}
         $v={{ size: 's', properties: ['margin-top'] }}
       >
         <p style={{ marginBottom: 0 }}>
           <span>By </span>
-          <span className={font('intb', 6)}>Naomi Paxton</span>{' '}
+          <span className={font('sans-bold', -2)}>Naomi Paxton</span>{' '}
           <span
-            className={font('intr', 6)}
+            className={font('sans', -2)}
             style={{ color: theme.color('neutral.600') }}
           >
             17 April 2019
@@ -267,7 +267,7 @@ export const Event: Meta<typeof PageHeader> = {
         </Space>
         <div style={{ display: 'flex' }}>
           <TextWithDot
-            className={font('intb', 5)}
+            className={font('sans-bold', -1)}
             dotColor="neutral.500"
             text="Past"
           />
@@ -316,7 +316,7 @@ export const Exhibition: Meta<typeof PageHeader> = {
     ContentTypeInfo: (
       <div style={{ display: 'flex' }}>
         <TextWithDot
-          className={font('intb', 5)}
+          className={font('sans-bold', -1)}
           dotColor="neutral.500"
           text="Closed"
         />
@@ -418,7 +418,7 @@ export const Book: Meta<typeof PageHeader> = {
     variant: 'basic',
     title: 'Together',
     ContentTypeInfo: (
-      <p className={font('intb', 3)} style={{ marginBottom: 0 }}>
+      <p className={font('sans-bold', 1)} style={{ marginBottom: 0 }}>
         Loneliness, Health & What Happens When We Find Connection
       </p>
     ),

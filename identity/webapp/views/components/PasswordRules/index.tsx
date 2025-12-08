@@ -16,7 +16,7 @@ const RulesListItem = styled(Space).attrs({
 `;
 
 const RulesListWrapper = styled(Space).attrs({
-  className: font('intr', 5),
+  className: font('sans', -1),
   $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
 })`

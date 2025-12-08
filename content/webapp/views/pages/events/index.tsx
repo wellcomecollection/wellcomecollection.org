@@ -122,7 +122,7 @@ const EventsPage: NextPage<Props> = props => {
 
         {pageDescriptions.events && (
           <ContaineredLayout gridSizes={gridSize8(false)}>
-            <div className={`body-text spaced-text ${font('intr', 4)}`}>
+            <div className={`body-text spaced-text ${font('sans', 0)}`}>
               <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
                 <p>{pageDescriptions.events}</p>
               </Space>

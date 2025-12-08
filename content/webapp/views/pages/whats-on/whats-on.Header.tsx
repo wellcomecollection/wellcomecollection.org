@@ -62,7 +62,7 @@ const Header: FunctionComponent<HeaderProps> = ({
                     <Space
                       as="span"
                       $h={{ size: 'm', properties: ['margin-right'] }}
-                      className={font('intb', 5)}
+                      className={font('sans-bold', -1)}
                     >
                       Galleries
                       {todaysOpeningHours.isClosed ? ' closed ' : ' open '}
@@ -80,7 +80,7 @@ const Header: FunctionComponent<HeaderProps> = ({
                         <Space
                           as="span"
                           $h={{ size: 'm', properties: ['margin-right'] }}
-                          className={font('intr', 5)}
+                          className={font('sans', -1)}
                         >
                           <>
                             <time>{todaysOpeningHours.opens}</time>
@@ -94,7 +94,7 @@ const Header: FunctionComponent<HeaderProps> = ({
                 )}
                 <NextLink
                   href={`/visit-us/${prismicPageIds.openingTimes}`}
-                  className={font('intb', 5)}
+                  className={font('sans-bold', -1)}
                 >
                   Full opening times
                 </NextLink>

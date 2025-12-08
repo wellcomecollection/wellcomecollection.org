@@ -28,7 +28,7 @@ const SOURCE_BOX_WIDTH = 224;
 const SourceBoxContainer = styled.div<{ $marginLeft: number }>`
   position: absolute;
   top: 21px;
-  padding-top: ${props => props.theme.spacingUnits['3']}px;
+  padding-top: ${props => props.theme.spacingUnits['3']};
   left: 0;
   margin-left: ${props => props.$marginLeft}px;
   width: ${SOURCE_BOX_WIDTH}px;
@@ -44,7 +44,7 @@ const showSourceBox = css`
 `;
 
 const SourcePill = styled.div.attrs({
-  className: font('intr', 6),
+  className: font('sans', -2),
 })`
   position: relative;
   display: inline-flex;
@@ -75,10 +75,10 @@ const underlineParagraph = css`
 `;
 
 const Paragraph = styled.p.attrs({
-  className: font('intr', 3),
+  className: font('sans', 1),
 })`
   display: inline;
-  padding-right: ${props => props.theme.spacingUnits['3']}px;
+  padding-right: ${props => props.theme.spacingUnits['3']};
 
   @media (hover: hover) {
     &:has(+ ${SourcePill}:hover) {
@@ -105,7 +105,7 @@ const SourceLink = styled(Space).attrs({
   display: flex;
   align-items: center;
   justify-content: start;
-  gap: ${props => props.theme.spacingUnits['3']}px;
+  gap: ${props => props.theme.spacingUnits['3']};
 
   img {
     height: 16px;
@@ -114,7 +114,7 @@ const SourceLink = styled(Space).attrs({
 `;
 
 const SourceLabel = styled.span`
-  padding: 0 ${props => props.theme.spacingUnits['3']}px;
+  padding: 0 ${props => props.theme.spacingUnits['3']};
 `;
 
 const SourcedDescription: FunctionComponent<{
@@ -197,7 +197,7 @@ const SourcedDescription: FunctionComponent<{
 
           <SourceBoxContainer $marginLeft={sourceBoxMarginLeft}>
             <SourceBox {...dataGtmPropsToAttributes({ trigger: 'source_box' })}>
-              <span className={font('intm', 6)}>Source:</span>
+              <span className={font('sans-bold', -2)}>Source:</span>
               <SourceLink>
                 {source === 'wikidata' && <WikidataLogo width={16} />}
                 {source === 'nlm-mesh' && (

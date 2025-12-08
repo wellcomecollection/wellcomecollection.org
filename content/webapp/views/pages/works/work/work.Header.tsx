@@ -12,7 +12,7 @@ import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import LinkLabels from '@weco/content/views/components/LinkLabels';
 import Number from '@weco/content/views/components/Number';
 import WorkTitle from '@weco/content/views/components/WorkTitle';
-const WorkTitleWrapper = styled.h1.attrs({ className: font('intb', 2) })`
+const WorkTitleWrapper = styled.h1.attrs({ className: font('sans-bold', 2) })`
   margin: 0;
   display: inline-block;
 `;
@@ -101,7 +101,10 @@ const WorkHeader: FunctionComponent<Props> = ({
                 collectionManifestsCount && collectionManifestsCount > 0
               ) && (
                 <Space $v={{ size: 'm', properties: ['margin-top'] }}>
-                  <p className={font('intb', 5)} style={{ marginBottom: 0 }}>
+                  <p
+                    className={font('sans-bold', -1)}
+                    style={{ marginBottom: 0 }}
+                  >
                     <Number
                       backgroundColor="yellow"
                       number={collectionManifestsCount as number}

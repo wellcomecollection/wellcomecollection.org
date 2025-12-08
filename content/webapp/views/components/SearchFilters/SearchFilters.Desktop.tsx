@@ -14,7 +14,7 @@ import DynamicFilterArray from './SearchFilters.Desktop.DynamicFilters';
 import ModalMoreFilters from './SearchFilters.Desktop.Modal';
 
 const Wrapper = styled(Space).attrs({
-  className: font('intr', 5),
+  className: font('sans', -1),
 })`
   display: flex;
   align-items: flex-end;

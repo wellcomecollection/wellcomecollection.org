@@ -118,7 +118,7 @@ const RelatedWorks = ({
   return (
     <SectionWrapper>
       <Container>
-        <h2 className={font('wb', 3)}>More works</h2>
+        <h2 className={font('brand', 1)}>More works</h2>
 
         {Object.keys(relatedWorksTabs).length > 1 && (
           <SelectableTags

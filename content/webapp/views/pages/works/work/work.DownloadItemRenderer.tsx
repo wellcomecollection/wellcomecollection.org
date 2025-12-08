@@ -12,7 +12,7 @@ import DownloadItem from '@weco/content/views/pages/works/work/WorkDetails/WorkD
 import { TreeControl } from './ArchiveTree/ArchiveTree.styles';
 
 const ItemWrapper = styled.div.attrs({
-  className: font('intr', 6),
+  className: font('sans', -2),
 })`
   display: flex;
   height: ${controlDimensions.controlHeight}px;

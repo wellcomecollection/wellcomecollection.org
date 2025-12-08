@@ -32,7 +32,7 @@ const ThemeImagesWrapper = styled(Space).attrs({
 
 const SectionHeading = styled(Space).attrs({
   as: 'h3',
-  className: font('intsb', 3),
+  className: font('sans-bold', 1),
   $v: { size: 's', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('white')};
@@ -85,7 +85,10 @@ const ImageSection: FunctionComponent<Props> = ({
         label={`${pluralize(singleSectionData.totalResults, 'image')} from works`}
         variant="scrollable"
       />
-      <Space $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
+      <Space
+        $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
+        style={{ position: 'relative' }} // relative to allow 'View all' button focus to stack above element that would otherwise clip it off
+      >
         {labelBasedCount > singleSectionData.pageResults.length && (
           <MoreLink
             ariaLabel={`View all ${getSectionTypeLabel(type, config, 'images')}`}

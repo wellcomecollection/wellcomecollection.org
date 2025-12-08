@@ -185,26 +185,26 @@ const PublicRestrictedMessage: FunctionComponent<{
     <div className="audio">
       {audioLabel && (
         <Space
-          className={font('intb', 5)}
+          className={font('sans-bold', -1)}
           $v={{ size: 'm', properties: ['margin-bottom'] }}
         >
           {audioLabel}
         </Space>
       )}
 
-      <p className={font('intr', 5)}>{restrictedItemMessage}</p>
+      <p className={font('sans', -1)}>{restrictedItemMessage}</p>
     </div>
   );
 };
 
 const StaffRestrictedMessage: FunctionComponent = () => {
   return (
-    <p className={font('intr', 5)} style={{ display: 'flex' }}>
+    <p className={font('sans', -1)} style={{ display: 'flex' }}>
       <IconContainer>
         <Icon icon={information} />
       </IconContainer>
-      <span className={font('intb', 5)}>Restricted item:</span> &nbsp;Only staff
-      with the right permission can access this item online.
+      <span className={font('sans-bold', -1)}>Restricted item:</span> &nbsp;Only
+      staff with the right permission can access this item online.
     </p>
   );
 };

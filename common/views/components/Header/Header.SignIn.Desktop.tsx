@@ -23,7 +23,7 @@ const AccountA = styled(Space).attrs<AccountAProps>(props => ({
 `;
 
 const SignedOutWrapper = styled.span.attrs({
-  className: 'display-none headerMedium-display-block' + ' ' + font('intr', 6),
+  className: 'display-none headerMedium-display-block' + ' ' + font('sans', -2),
 })`
   /* Hack to minimise the margins between both icons when signed out */
   button span span:first-child {
@@ -69,7 +69,7 @@ const DesktopSignIn: FunctionComponent = () => {
           <Button
             variant="DropdownButton"
             label={
-              <span className={font('intr', 6)}>
+              <span className={font('sans', -2)}>
                 {user.firstName.charAt(0).toLocaleUpperCase()}
                 {user.lastName.charAt(0).toLocaleUpperCase()}
               </span>
@@ -78,7 +78,7 @@ const DesktopSignIn: FunctionComponent = () => {
             id="signedin-dropdown"
             buttonType="borderless"
           >
-            <span className={font('intr', 6)}>
+            <span className={font('sans', -2)}>
               <AccountA as="a" href="/account">
                 Library account
               </AccountA>
