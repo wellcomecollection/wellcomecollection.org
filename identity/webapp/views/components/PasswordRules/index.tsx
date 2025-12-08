@@ -9,7 +9,7 @@ import Space from '@weco/common/views/components/styled/Space';
 
 const RulesListItem = styled(Space).attrs({
   as: 'li',
-  $v: { size: '2xs', properties: ['margin-bottom'] },
+  $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   display: flex;
   align-items: center;
@@ -44,7 +44,7 @@ const Dot: FunctionComponent<{
   isValid: boolean;
 }> = ({ isValid }) => {
   return (
-    <Space $h={{ size: '2xs', properties: ['margin-right'] }}>
+    <Space $h={{ size: 'xs', properties: ['margin-right'] }}>
       <RuleDot $isValid={isValid}>
         {isValid && <Icon icon={check} matchText iconColor="white" />}
       </RuleDot>
@@ -67,7 +67,7 @@ const PasswordRules: FunctionComponent<PasswordRulesProps> = ({
 }) => {
   return (
     <RulesListWrapper data-component="password-rules">
-      <Space $v={{ size: '2xs', properties: ['margin-bottom'] }}>
+      <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
         Your password must contain:
       </Space>
       <PlainList>

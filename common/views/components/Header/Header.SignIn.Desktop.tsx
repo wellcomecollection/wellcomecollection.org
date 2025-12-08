@@ -12,7 +12,7 @@ type AccountAProps = {
   $last?: true;
 };
 const AccountA = styled(Space).attrs<AccountAProps>(props => ({
-  $v: props.$last ? undefined : { size: '2xs', properties: ['margin-bottom'] },
+  $v: props.$last ? undefined : { size: 'xs', properties: ['margin-bottom'] },
 }))`
   display: block;
   text-decoration: none;

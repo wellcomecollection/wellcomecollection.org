@@ -52,7 +52,7 @@ const Link = styled.a.attrs<LinkProps>({
 `;
 
 const Inner = styled(Space).attrs({
-  $h: { size: '2xs', properties: ['padding-left', 'padding-right'] },
+  $h: { size: 'xs', properties: ['padding-left', 'padding-right'] },
   $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
 })<{ $isNext: boolean }>`
   display: flex;
@@ -73,7 +73,7 @@ const TextWrap = styled.div<{ $isNext: boolean }>`
 
 const InSeries = styled(Space).attrs({
   className: font('sans', 0),
-  $v: { size: '2xs', properties: ['margin-bottom'] },
+  $v: { size: 'xs', properties: ['margin-bottom'] },
 })``;
 
 const Title = styled.div.attrs({

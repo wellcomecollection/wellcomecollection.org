@@ -118,7 +118,7 @@ export const AudioPlayerGrid = styled.div.attrs({})<{ $isEnhanced: boolean }>`
 `;
 
 export const NowPlayingWrapper = styled(Space).attrs({
-  $v: { size: '2xs', properties: ['margin-top'] },
+  $v: { size: 'xs', properties: ['margin-top'] },
 })`
   grid-column: 1 / -1;
 `;

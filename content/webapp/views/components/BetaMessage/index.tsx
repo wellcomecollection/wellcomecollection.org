@@ -19,7 +19,7 @@ const BetaMessage: FunctionComponent<Props> = ({
   message,
 }: Props): ReactElement => (
   <StyledBetaMessage data-component="beta-message">
-    <Space $h={{ size: '2xs', properties: ['margin-right'] }}>
+    <Space $h={{ size: 'xs', properties: ['margin-right'] }}>
       <Icon icon={underConstruction} />
     </Space>
     <p style={{ marginBottom: 0 }}>{message}</p>

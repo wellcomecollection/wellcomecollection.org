@@ -59,7 +59,7 @@ const Outline = styled(Space).attrs({
 `;
 
 const IconContainer = styled(Space).attrs({
-  $h: { size: '2xs', properties: ['margin-right'] },
+  $h: { size: 'xs', properties: ['margin-right'] },
 })`
   .icon {
     position: relative;

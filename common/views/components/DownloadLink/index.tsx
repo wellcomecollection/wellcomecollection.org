@@ -52,7 +52,7 @@ const TextToDisplay = styled.span<{ $isDark?: boolean }>`
  */
 const IconWrapper = styled(Space).attrs<{
   $forceInline: boolean;
-}>({ $h: { size: '2xs', properties: ['margin-right'] } })`
+}>({ $h: { size: 'xs', properties: ['margin-right'] } })`
   display: inline-flex;
 `;
 

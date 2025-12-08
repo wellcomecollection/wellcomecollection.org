@@ -95,7 +95,7 @@ const GuideStopCard: FunctionComponent<Props> = ({
             <AlignIconFirstLineCenter>
               <Space
                 style={{ display: 'flex' }}
-                $h={{ size: '2xs', properties: ['margin-right'] }}
+                $h={{ size: 'xs', properties: ['margin-right'] }}
               >
                 <Icon icon={map} sizeOverride="width: 16px;" />
               </Space>
@@ -108,7 +108,7 @@ const GuideStopCard: FunctionComponent<Props> = ({
             <AlignIconFirstLineCenter>
               <Space
                 style={{ display: 'flex' }}
-                $h={{ size: '2xs', properties: ['margin-right'] }}
+                $h={{ size: 'xs', properties: ['margin-right'] }}
               >
                 <Icon icon={durationIcon} sizeOverride="width: 16px;" />
               </Space>

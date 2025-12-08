@@ -239,7 +239,7 @@ const ExhibitionGuideStopPage: NextPage<Props> = ({
                   >
                     <Space
                       $v={{
-                        size: '2xs',
+                        size: 'xs',
                         properties: ['padding-top', 'padding-bottom'],
                         overrides: { small: 4, medium: 4, large: 4 },
                       }}
@@ -269,7 +269,7 @@ const ExhibitionGuideStopPage: NextPage<Props> = ({
                   >
                     <Space
                       $v={{
-                        size: '2xs',
+                        size: 'xs',
                         properties: ['padding-top', 'padding-bottom'],
                         overrides: { small: 4, medium: 4, large: 4 },
                       }}

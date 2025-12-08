@@ -29,7 +29,7 @@ const VideoTranscript: FunctionComponent<Props> = ({
           return (
             <Space
               key={item.id}
-              $v={{ size: '2xs', properties: ['margin-top'] }}
+              $v={{ size: 'xs', properties: ['margin-top'] }}
             >
               <DownloadLink
                 href={displayItem.id}

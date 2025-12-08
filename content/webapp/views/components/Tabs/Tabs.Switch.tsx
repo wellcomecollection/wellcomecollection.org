@@ -150,7 +150,7 @@ const TabsSwitch: FunctionComponent<Props> = ({
                   {item.icon && (
                     <Space
                       as="span"
-                      $h={{ size: '2xs', properties: ['margin-right'] }}
+                      $h={{ size: 'xs', properties: ['margin-right'] }}
                     >
                       <IconWrapper>
                         <Icon icon={item.icon} />

@@ -19,7 +19,7 @@ import { FeaturedMedia } from '.';
 import { TitleWrapper, Wrapper } from './PageHeader.styles';
 
 const ContentWrapper = styled(Space).attrs({
-  $v: { size: '2xs', properties: ['margin-top'] },
+  $v: { size: 'xs', properties: ['margin-top'] },
   className: font('sans', 2),
 })`
   p:last-child {

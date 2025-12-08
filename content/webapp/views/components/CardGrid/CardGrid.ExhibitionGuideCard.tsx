@@ -61,7 +61,7 @@ const ExhibitionGuideCard: FunctionComponent<Props> = ({ exhibitionGuide }) => {
         <div>
           <CardTitle>{exhibitionGuide.title}</CardTitle>
           {exhibitionGuide.promo?.caption && (
-            <Space $v={{ size: '2xs', properties: ['margin-top'] }}>
+            <Space $v={{ size: 'xs', properties: ['margin-top'] }}>
               <p className={font('sans', -1)} style={{ marginBottom: 0 }}>
                 {exhibitionGuide.promo.caption}
               </p>

@@ -43,7 +43,7 @@ const ControlText = styled.span<{ $darkTheme?: boolean }>`
 `;
 
 const Content = styled(Space).attrs({
-  $h: { size: '2xs', properties: ['padding-left'] },
+  $h: { size: 'xs', properties: ['padding-left'] },
 })<{
   $hidden: boolean;
   $darkTheme?: boolean;
@@ -87,7 +87,7 @@ const CollapsibleContent: FunctionComponent<Props> = ({
             setShowContent(!showContent);
           }}
         >
-          <Space as="span" $h={{ size: '2xs', properties: ['margin-right'] }}>
+          <Space as="span" $h={{ size: 'xs', properties: ['margin-right'] }}>
             <IconContainer $darkTheme={darkTheme}>
               <Icon
                 iconColor={darkTheme ? 'yellow' : undefined}
@@ -111,7 +111,7 @@ const CollapsibleContent: FunctionComponent<Props> = ({
       >
         <Space
           $v={{ size: 'md', properties: ['margin-top'] }}
-          $h={{ size: '2xs', properties: ['padding-right'] }}
+          $h={{ size: 'xs', properties: ['padding-right'] }}
           style={{ display: 'flex' }}
         >
           <div className="body-text spaced-text">{children}</div>

@@ -49,7 +49,7 @@ const Name = styled.h3.attrs({ className: font('sans-bold', 0) })`
 
 const Pronouns = styled(ContributorInfoWrapper).attrs({
   className: font('sans', -1),
-  $h: { size: '2xs', properties: ['margin-left'] },
+  $h: { size: 'xs', properties: ['margin-left'] },
 })``;
 
 const Role = styled(ContributorInfoWrapper).attrs({
@@ -58,7 +58,7 @@ const Role = styled(ContributorInfoWrapper).attrs({
 
 const Description = styled(Space).attrs({
   className: `${font('sans', -1)} spaced-text`,
-  $v: { size: '2xs', properties: ['margin-top'] },
+  $v: { size: 'xs', properties: ['margin-top'] },
 })``;
 
 const Contributor: FunctionComponent<ContributorType> = ({

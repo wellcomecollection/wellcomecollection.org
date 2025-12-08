@@ -24,7 +24,7 @@ import { arrayIndexToQueryParam, queryParamToArrayIndex } from '.';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 
 const ThumbnailSpacer = styled(Space).attrs({
-  $v: { size: '2xs', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
 })`
   height: 400px;
 

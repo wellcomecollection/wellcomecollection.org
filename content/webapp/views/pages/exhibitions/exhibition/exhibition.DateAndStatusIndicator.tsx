@@ -12,7 +12,7 @@ type Props = {
 
 const DateAndStatusIndicator: FunctionComponent<Props> = ({ start, end }) => (
   <>
-    <Space $v={{ size: '2xs', properties: ['margin-bottom'] }}>
+    <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
       {end ? (
         <DateRange start={start} end={end} />
       ) : (

@@ -13,7 +13,7 @@ const DateRange = ({ dateRange, period }: DateRangeProps) => {
   return (
     <Space
       $v={{
-        size: '2xs',
+        size: 'xs',
         properties: ['margin-bottom'],
       }}
       as="p"

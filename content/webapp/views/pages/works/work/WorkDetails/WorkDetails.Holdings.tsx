@@ -34,14 +34,14 @@ const WorkDetailsHoldings = ({ holdings }: { holdings: Holding[] }) => {
                 }
               >
                 {holding.enumeration.length > 0 && (
-                  <Space $v={{ size: '2xs', properties: ['margin-bottom'] }}>
+                  <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
                     <ExpandableList
                       listItems={holding.enumeration}
                       initialItems={10}
                     />
                   </Space>
                 )}
-                <Space $v={{ size: '2xs', properties: ['margin-bottom'] }}>
+                <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
                   {locationLink && (
                     <a className={font('sans', -1)} href={locationLink.url}>
                       {locationLink.linkText}

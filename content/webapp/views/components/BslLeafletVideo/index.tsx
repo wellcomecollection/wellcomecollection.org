@@ -16,7 +16,7 @@ import VideoEmbed, {
 
 const BslLeaftletButtonText = styled(Space).attrs({
   className: font('sans', -2),
-  $h: { size: '2xs', properties: ['margin-left'] },
+  $h: { size: 'xs', properties: ['margin-left'] },
 })``;
 
 const BslLeafletButton = styled.button`

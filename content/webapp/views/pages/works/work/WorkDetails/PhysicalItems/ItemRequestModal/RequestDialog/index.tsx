@@ -50,7 +50,7 @@ const PickUpDateInputWrapper = styled.div`
 
 const ConfirmRequestButtonWrapper = styled(Space).attrs({
   $h: { size: 'md', properties: ['margin-right'] },
-  $v: { size: '2xs', properties: ['margin-bottom'] },
+  $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   display: inline-block;
 `;
@@ -140,7 +140,7 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
       <p className={font('sans-bold', -1)} style={{ marginBottom: 0 }}>
         You are about to request the following item:
       </p>
-      <Space $v={{ size: '2xs', properties: ['margin-bottom'] }}>
+      <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
         <p style={{ marginBottom: 0 }}>
           {work.title && <WorkTitle>{work.title}</WorkTitle>}
           {item.title && <span>{item.title}</span>}
@@ -150,7 +150,7 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
       <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
         <PickUpDate>
           <PickUpDateDescription>
-            <Space $v={{ size: '2xs', properties: ['margin-bottom'] }}>
+            <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
               <p style={{ marginBottom: 0 }}>
                 Select the date you would like to view this item in the library.
               </p>

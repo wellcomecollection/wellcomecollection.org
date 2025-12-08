@@ -90,8 +90,8 @@ const ContentTypeInfo = (
     <div style={{ display: 'flex', alignItems: 'baseline' }}>
       <Space
         className={font('sans', -2)}
-        $h={{ size: '2xs', properties: ['margin-right'] }}
-        $v={{ size: '2xs', properties: ['margin-top'] }}
+        $h={{ size: 'xs', properties: ['margin-right'] }}
+        $v={{ size: 'xs', properties: ['margin-top'] }}
       >
         <p style={{ marginBottom: 0 }}>
           <span>By </span>
@@ -260,7 +260,7 @@ export const Event: Meta<typeof PageHeader> = {
     ContentTypeInfo: (
       <>
         <Space
-          $v={{ size: '2xs', properties: ['margin-bottom'] }}
+          $v={{ size: 'xs', properties: ['margin-bottom'] }}
           style={{ display: 'flex', flexWrap: 'wrap' }}
         >
           Saturday 8 February 2020, 13:00 – 16:00

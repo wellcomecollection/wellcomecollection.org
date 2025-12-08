@@ -33,7 +33,7 @@ const ThemeImagesWrapper = styled(Space).attrs({
 const SectionHeading = styled(Space).attrs({
   as: 'h3',
   className: font('sans-bold', 1),
-  $v: { size: '2xs', properties: ['margin-bottom'] },
+  $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('white')};
   text-overflow: ellipsis;

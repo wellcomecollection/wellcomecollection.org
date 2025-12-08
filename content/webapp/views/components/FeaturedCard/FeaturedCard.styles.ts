@@ -7,7 +7,7 @@ import { PaletteColor } from '@weco/common/views/themes/config';
 
 export const DateWrapper = styled(Space).attrs({
   className: font('sans', 0),
-  $v: { size: '2xs', properties: ['margin-bottom'] },
+  $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   padding: 0;
 `;

@@ -27,7 +27,7 @@ const InfoContainer = styled(Space).attrs({
 
 export const InfoIconWrapper = styled(Space).attrs({
   className: font('sans-bold', 0),
-  $h: { size: '2xs', properties: ['margin-right'] },
+  $h: { size: 'xs', properties: ['margin-right'] },
 })`
   float: left;
 `;

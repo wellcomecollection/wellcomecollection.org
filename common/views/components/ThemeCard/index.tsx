@@ -11,7 +11,7 @@ import { ConceptImagesArray } from '@weco/content/hooks/useConceptImageUrls';
 const Title = styled(Space).attrs({
   className: font('brand', 1),
   as: 'h3',
-  $v: { size: '2xs', properties: ['margin-bottom'] },
+  $v: { size: 'xs', properties: ['margin-bottom'] },
 })``;
 
 const CardWrapper = styled.div`

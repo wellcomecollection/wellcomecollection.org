@@ -166,7 +166,7 @@ const Description = styled.p.attrs({
 export const CardTitle = styled(Space).attrs({
   as: 'h3',
   className: font('brand', 1),
-  $v: { size: '2xs', properties: ['margin-bottom'] },
+  $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   transition: color 400ms ease;
 `;

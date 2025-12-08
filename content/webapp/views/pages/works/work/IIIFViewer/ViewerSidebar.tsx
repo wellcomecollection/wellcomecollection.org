@@ -67,7 +67,7 @@ const Inner = styled(Space).attrs({
 
 const AccordionInner = styled(Space).attrs({
   className: font('sans-bold', -1),
-  $v: { size: '2xs', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
 })`
   button {
     width: 100%;
@@ -201,7 +201,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
         <RestrictedMessage>
           <Space
             $h={{ size: 'sm', properties: ['padding-left', 'padding-right'] }}
-            $v={{ size: '2xs', properties: ['padding-top', 'padding-bottom'] }}
+            $v={{ size: 'xs', properties: ['padding-top', 'padding-bottom'] }}
             className={font('sans', -1)}
           >
             <RestrictedMessageTitle>
@@ -258,7 +258,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
           >
             Catalogue details
             <Space
-              $h={{ size: '2xs', properties: ['margin-left'] }}
+              $h={{ size: 'xs', properties: ['margin-left'] }}
               style={{ display: 'flex', alignItems: 'center' }}
             >
               <Icon icon={arrow} matchText={true} iconColor="white" />

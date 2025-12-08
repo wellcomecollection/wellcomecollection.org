@@ -119,7 +119,7 @@ const Hit: FunctionComponent<HitProps> = ({
       : '';
   return (
     <>
-      <HitData $v={{ size: '2xs', properties: ['margin-bottom'] }}>
+      <HitData $v={{ size: 'xs', properties: ['margin-bottom'] }}>
         {`Found on image ${matchingCanvasParam}${
           totalCanvases ? ` / ${totalCanvases}` : ''
         }`}

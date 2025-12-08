@@ -19,7 +19,7 @@ const WorkDetailsTags: FunctionComponent<Props> = ({
         wrapper={children => (
           <Space
             $v={{
-              size: '2xs',
+              size: 'xs',
               properties: ['margin-top'],
               overrides: { small: 3, medium: 3, large: 3 },
             }}

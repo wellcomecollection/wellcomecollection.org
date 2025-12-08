@@ -19,7 +19,7 @@ type State = 'initial' | 'loading' | 'success' | 'failed';
 
 const Wrapper = styled(Space).attrs({
   as: 'ul',
-  $v: { size: '2xs', properties: ['margin-bottom', 'margin-top'] },
+  $v: { size: 'xs', properties: ['margin-bottom', 'margin-top'] },
 })`
   ${plainListStyles}
 

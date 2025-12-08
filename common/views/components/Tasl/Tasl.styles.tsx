@@ -41,8 +41,8 @@ export const TaslIcon = styled.span<TaslIconProps>`
 `;
 
 export const InfoContainer = styled(Space).attrs({
-  $v: { size: '2xs', properties: ['padding-top', 'padding-bottom'] },
-  $h: { size: '2xs', properties: ['padding-left'] },
+  $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'xs', properties: ['padding-left'] },
 })`
   color: ${props => props.theme.color('white')};
   background-color: ${props => props.theme.color('black')};

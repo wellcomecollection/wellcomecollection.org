@@ -59,7 +59,7 @@ type ThProps = {
 const StyledTh = styled(Space).attrs<ThProps>(props => ({
   as: 'th',
   $v: {
-    size: '2xs',
+    size: 'xs',
     properties: props.$plain ? [] : ['padding-top', 'padding-bottom'],
   },
   $h: {

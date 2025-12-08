@@ -140,7 +140,7 @@ const WorkCard: FunctionComponent<Props> = ({ item }) => {
         </Shim>
 
         <Space
-          $v={{ size: '2xs', properties: ['margin-bottom'] }}
+          $v={{ size: 'xs', properties: ['margin-bottom'] }}
           style={{ position: 'relative' }}
         >
           <Space

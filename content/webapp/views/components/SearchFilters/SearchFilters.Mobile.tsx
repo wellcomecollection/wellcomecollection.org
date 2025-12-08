@@ -53,10 +53,10 @@ const FiltersHeader = styled(Space).attrs({
 
 const ActiveFilters = styled(Space).attrs({
   $h: {
-    size: '2xs',
+    size: 'xs',
     properties: ['margin-left', 'padding-left', 'padding-right'],
   },
-  $v: { size: '2xs', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
 })`
   display: inline-block;
   color: ${props => props.theme.color('black')};
@@ -231,7 +231,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
           aria-controls="mobile-filters-modal"
           aria-label="open filters"
         >
-          <Space $h={{ size: '2xs', properties: ['margin-right'] }}>
+          <Space $h={{ size: 'xs', properties: ['margin-right'] }}>
             <Icon icon={filter} />
           </Space>
           Filters{' '}

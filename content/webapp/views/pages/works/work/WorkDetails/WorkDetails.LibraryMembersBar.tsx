@@ -12,7 +12,7 @@ import { useLoginURLWithReturnToCurrent } from '@weco/content/utils/useLoginURLW
 
 const StyledComponent = styled(Space).attrs({
   $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
-  $v: { size: '2xs', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
 })`
   background: ${props => props.theme.color('accent.lightTurquoise')};
   display: flex;
@@ -29,7 +29,7 @@ const SignInLink: FunctionComponent = () => {
   return (
     <>
       <Space
-        $h={{ size: '2xs', properties: ['margin-right'] }}
+        $h={{ size: 'xs', properties: ['margin-right'] }}
         className={font('sans-bold', -1)}
       >
         Library members:
@@ -78,11 +78,11 @@ const LibraryMembersBar: FunctionComponent = () => {
   if (disableRequesting) {
     return (
       <StyledComponent>
-        <Space $h={{ size: '2xs', properties: ['margin-right'] }}>
+        <Space $h={{ size: 'xs', properties: ['margin-right'] }}>
           <Icon icon={memberCard} />
         </Space>
         <Space
-          $h={{ size: '2xs', properties: ['margin-right'] }}
+          $h={{ size: 'xs', properties: ['margin-right'] }}
           className={font('sans-bold', -1)}
         >
           Library members:
@@ -96,7 +96,7 @@ const LibraryMembersBar: FunctionComponent = () => {
 
   return state === 'signedout' || state === 'failed' ? (
     <StyledComponent>
-      <Space $h={{ size: '2xs', properties: ['margin-right'] }}>
+      <Space $h={{ size: 'xs', properties: ['margin-right'] }}>
         <Icon icon={memberCard} />
       </Space>
       {state === 'signedout' && <SignInLink />}

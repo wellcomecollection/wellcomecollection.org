@@ -66,7 +66,7 @@ const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({
               <Space
                 as="span"
                 $h={{
-                  size: '2xs',
+                  size: 'xs',
                   properties: ['margin-left', 'margin-right'],
                 }}
                 aria-hidden="true"

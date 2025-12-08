@@ -55,13 +55,13 @@ const FindUs: FunctionComponent<Props> = ({ hideAccessibility }) => (
       </a>
     </Space>
     <PlainList>
-      <Space as="li" $v={{ size: '2xs', properties: ['padding-bottom'] }}>
+      <Space as="li" $v={{ size: 'xs', properties: ['padding-bottom'] }}>
         <a href={`/visit-us/${prismicPageIds.gettingHere}`}>Getting here</a>
       </Space>
       {!hideAccessibility && (
         <Space
           as="li"
-          $v={{ size: '2xs', properties: ['padding-top', 'padding-bottom'] }}
+          $v={{ size: 'xs', properties: ['padding-top', 'padding-bottom'] }}
         >
           <a href={`/visit-us/${prismicPageIds.access}`}>Access information</a>
         </Space>

@@ -92,10 +92,10 @@ const TogglesMessage: FunctionComponent = () => {
     <Space $v={{ size: 'md', properties: ['margin-top'] }}>
       <ContaineredLayout gridSizes={gridSize8()}>
         <MessageBar>
-          <Space $h={{ size: '2xs', properties: ['margin-right'] }}>
+          <Space $h={{ size: 'xs', properties: ['margin-right'] }}>
             <Icon icon={underConstruction} />
           </Space>
-          <Space $h={{ size: '2xs', properties: ['margin-right'] }}>
+          <Space $h={{ size: 'xs', properties: ['margin-right'] }}>
             You have the following toggles enabled:
             <ul>
               {toggles.map(t => (
@@ -133,10 +133,10 @@ const SafariPreviewMessage: FunctionComponent = () => {
     <Space $v={{ size: 'md', properties: ['margin-top'] }}>
       <ContaineredLayout gridSizes={gridSize8()}>
         <MessageBar>
-          <Space $h={{ size: '2xs', properties: ['margin-right'] }}>
+          <Space $h={{ size: 'xs', properties: ['margin-right'] }}>
             <Icon icon={underConstruction} />
           </Space>
-          <Space $h={{ size: '2xs', properties: ['margin-right'] }}>
+          <Space $h={{ size: 'xs', properties: ['margin-right'] }}>
             Prismic previews do not work in Safari. Please use a different
             browser, or enable cross-site cookies.
           </Space>

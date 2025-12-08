@@ -22,7 +22,7 @@ const WatchIconWrapper = styled.div`
 
 const WatchText = styled(Space).attrs({
   className: font('sans', -2),
-  $h: { size: '2xs', properties: ['margin-left'] },
+  $h: { size: 'xs', properties: ['margin-left'] },
 })`
   color: ${props => props.theme.color('neutral.700')};
 `;

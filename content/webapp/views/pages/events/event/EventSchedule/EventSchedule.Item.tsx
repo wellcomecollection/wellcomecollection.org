@@ -71,7 +71,7 @@ const eventLocations = (locations: Place[], isHybridEvent: boolean) => {
 
   return (
     <Space
-      $v={{ size: '2xs', properties: ['margin-bottom'] }}
+      $v={{ size: 'xs', properties: ['margin-bottom'] }}
       className={font('sans', -1)}
       style={{ display: 'flex', alignItems: 'center' }}
     >
@@ -83,7 +83,7 @@ const eventLocations = (locations: Place[], isHybridEvent: boolean) => {
               <Space
                 aria-hidden="true"
                 $h={{
-                  size: '2xs',
+                  size: 'xs',
                   properties: ['padding-left', 'padding-right'],
                 }}
               >
@@ -190,12 +190,12 @@ const EventScheduleItem: FunctionComponent<Props> = ({
         >
           <div>
             {event.primaryLabels.length > 0 && (
-              <Space $v={{ size: '2xs', properties: ['margin-bottom'] }}>
+              <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
                 <LabelsList labels={event.primaryLabels} />
               </Space>
             )}
             <Space
-              $v={{ size: '2xs', properties: ['margin-bottom'] }}
+              $v={{ size: 'xs', properties: ['margin-bottom'] }}
               as="h5"
               className={font('brand', 1)}
             >

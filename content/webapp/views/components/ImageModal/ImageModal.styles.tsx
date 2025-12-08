@@ -16,7 +16,7 @@ export const ImageInfoWrapper = styled.div`
 
 export const MetadataWrapper = styled(Space).attrs({
   className: font('sans', -1),
-  $v: { size: '2xs', properties: ['margin-top', 'margin-bottom'] },
+  $v: { size: 'xs', properties: ['margin-top', 'margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.600')};
 `;

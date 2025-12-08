@@ -59,7 +59,7 @@ const EventCard: FunctionComponent<Props> = ({ event, xOfY }) => {
     event.isPast && event.availableOnline ? (
       <>
         <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
-          <Space $v={{ size: '2xs', properties: ['margin-top'] }}>
+          <Space $v={{ size: 'xs', properties: ['margin-top'] }}>
             <WatchLabel text="Available to watch" />
           </Space>
         </Space>

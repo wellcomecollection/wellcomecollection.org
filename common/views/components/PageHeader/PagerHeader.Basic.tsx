@@ -48,7 +48,7 @@ const HighlightedHeading: FunctionComponent<{ text: string | ReactNode }> = ({
     <h1 className={font('brand', 2)}>
       <Heading
         $v={{
-          size: '2xs',
+          size: 'xs',
           properties: ['padding-top', 'padding-bottom'],
         }}
         $h={{ size: 'sm', properties: ['padding-left', 'padding-right'] }}

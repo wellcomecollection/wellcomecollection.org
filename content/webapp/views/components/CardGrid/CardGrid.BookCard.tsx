@@ -42,7 +42,7 @@ const Title = styled.h3.attrs({
 
 const Subtitle = styled(Space).attrs({
   className: font('sans-bold', -1),
-  $v: { size: '2xs', properties: ['margin-top'] },
+  $v: { size: 'xs', properties: ['margin-top'] },
 })`
   margin: 0;
 `;
@@ -86,7 +86,7 @@ const BookCard: FunctionComponent<Props> = ({ book }) => {
           $h={{ size: 'md', properties: ['padding-left', 'padding-right'] }}
         >
           <Space
-            $v={{ size: '2xs', properties: ['margin-bottom'] }}
+            $v={{ size: 'xs', properties: ['margin-bottom'] }}
             style={{ position: 'relative' }}
           >
             <Space
@@ -104,7 +104,7 @@ const BookCard: FunctionComponent<Props> = ({ book }) => {
           {subtitle && <Subtitle as="h4">{subtitle}</Subtitle>}
 
           {promo?.caption && (
-            <Space $v={{ size: '2xs', properties: ['margin-top'] }}>
+            <Space $v={{ size: 'xs', properties: ['margin-top'] }}>
               <Caption>{promo.caption}</Caption>
             </Space>
           )}

@@ -82,7 +82,7 @@ const ExhibitionGuideLinksCard: FunctionComponent<Props> = ({
           {exhibitionGuide.title}
         </Space>
       </ExhibitionTitleLink>
-      <Space $v={{ size: '2xs', properties: ['margin-top'] }}>
+      <Space $v={{ size: 'xs', properties: ['margin-top'] }}>
         <PlainList className={font('sans', -1)}>
           {links.map((link, i) => (
             <Type key={i}>

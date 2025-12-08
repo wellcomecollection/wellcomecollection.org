@@ -134,7 +134,7 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
       {!isStandalone && !isFrames && (
         <ContaineredLayout gridSizes={gridSize8()}>
           <GalleryTitle>
-            <Space as="span" $h={{ size: '2xs', properties: ['margin-right'] }}>
+            <Space as="span" $h={{ size: 'xs', properties: ['margin-right'] }}>
               <Icon icon={gallery} />
             </Space>
             <h2

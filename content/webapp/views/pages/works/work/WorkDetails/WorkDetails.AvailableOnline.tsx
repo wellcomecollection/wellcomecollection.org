@@ -182,7 +182,7 @@ const ItemPageLink = ({
   return (
     <>
       {work.thumbnail && (
-        <Space $v={{ size: '2xs', properties: ['margin-bottom'] }}>
+        <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
           <ConditionalWrapper
             condition={Boolean(itemUrl)}
             wrapper={children =>
@@ -264,7 +264,7 @@ const ItemPageLink = ({
 
           {(itemUrl || isDownloadable) && (
             <Space
-              $v={{ size: '2xs', properties: ['margin-top'] }}
+              $v={{ size: 'xs', properties: ['margin-top'] }}
               style={{ display: 'flex' }}
             >
               {itemUrl && (
@@ -460,7 +460,7 @@ const WorkDetailsAvailableOnline = ({
                     return (
                       <Space
                         key={rendering.id}
-                        $v={{ size: '2xs', properties: ['margin-top'] }}
+                        $v={{ size: 'xs', properties: ['margin-top'] }}
                       >
                         <DownloadLink
                           href={rendering.id}

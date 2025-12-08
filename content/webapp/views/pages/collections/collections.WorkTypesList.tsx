@@ -87,7 +87,7 @@ const StyledListItem = styled.li`
 `;
 
 const IconContainer = styled(Space).attrs({
-  $v: { size: '2xs', properties: ['margin-bottom'] },
+  $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   display: flex;
   align-items: center;

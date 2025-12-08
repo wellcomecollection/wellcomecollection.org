@@ -63,7 +63,7 @@ const FacilityCard: FunctionComponent<FacilityCardType> = ({
                   {metaIcon && (
                     <Space
                       as="span"
-                      $h={{ size: '2xs', properties: ['margin-right'] }}
+                      $h={{ size: 'xs', properties: ['margin-right'] }}
                     >
                       <Icon icon={metaIcon} />
                     </Space>

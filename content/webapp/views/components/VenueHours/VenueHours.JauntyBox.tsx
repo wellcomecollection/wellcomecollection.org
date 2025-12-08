@@ -42,7 +42,7 @@ const VenueHoursJauntyBox = ({
     >
       <h3 className={font('sans-bold', -1)}>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <Space as="span" $h={{ size: '2xs', properties: ['margin-right'] }}>
+          <Space as="span" $h={{ size: 'xs', properties: ['margin-right'] }}>
             <Icon icon={clock} />
           </Space>
           <span>{overrideType} hours</span>

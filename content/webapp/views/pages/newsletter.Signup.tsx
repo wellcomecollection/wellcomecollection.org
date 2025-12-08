@@ -161,7 +161,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
 
           <Space
             as="fieldset"
-            $v={{ size: '2xs', properties: ['margin-bottom'] }}
+            $v={{ size: 'xs', properties: ['margin-bottom'] }}
           >
             <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
               <legend className={font('sans-bold', 0)}>

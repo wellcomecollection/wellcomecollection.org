@@ -6,7 +6,7 @@ import Space from '@weco/common/views/components/styled/Space';
 
 const Wrapper = styled(Space).attrs({
   className: 'body-text',
-  $v: { size: '2xs', properties: ['margin-top'] },
+  $v: { size: 'xs', properties: ['margin-top'] },
 })`
   p:first-of-type {
     margin: 0;

@@ -62,7 +62,7 @@ export const ContextContainer = styled(Space).attrs<ContextContainerProps>(
 export const TombstoneTitle = styled(Space).attrs<LevelProps>(props => ({
   as: `h${props.$level}` as KnownTarget,
   className: font('brand', 1),
-  $v: { size: '2xs', properties: ['margin-bottom'] },
+  $v: { size: 'xs', properties: ['margin-bottom'] },
 }))<LevelProps>``;
 
 export const Tombstone = styled(Space).attrs({

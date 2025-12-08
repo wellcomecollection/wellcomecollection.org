@@ -100,9 +100,7 @@ const AccountStatus: FunctionComponent<PropsWithChildren<StatusAlertProps>> = ({
   return (
     <StatusAlert type={type}>
       <Icon icon={info2} />
-      <Space $h={{ size: '2xs', properties: ['margin-left'] }}>
-        {children}
-      </Space>
+      <Space $h={{ size: 'xs', properties: ['margin-left'] }}>{children}</Space>
     </StatusAlert>
   );
 };
@@ -112,7 +110,7 @@ const NoRequestedItems = () => (
     as="p"
     className={font('sans', -1)}
     $v={{
-      size: '2xs',
+      size: 'xs',
       properties: ['margin-bottom'],
       overrides: { small: 1 },
     }}
@@ -252,7 +250,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                                 as="p"
                                 className={font('sans-bold', -1)}
                                 $v={{
-                                  size: '2xs',
+                                  size: 'xs',
                                   properties: ['margin-bottom'],
                                 }}
                               >{`You have requested ${requestedItems.totalResults} out of ${allowedRequests} items`}</Space>
@@ -286,7 +284,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                                         {result.item.title && (
                                           <Space
                                             $v={{
-                                              size: '2xs',
+                                              size: 'xs',
                                               properties: ['margin-top'],
                                             }}
                                           >

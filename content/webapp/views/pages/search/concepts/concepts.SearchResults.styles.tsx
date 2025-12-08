@@ -51,14 +51,14 @@ export const ConceptTitleHeading = styled.h3.attrs({
 
 export const ConceptDescription = styled(Space).attrs({
   className: font('sans', -1),
-  $v: { size: '2xs', properties: ['margin-bottom'] },
+  $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.700')};
 `;
 
 export const AlternativeLabels = styled(Space).attrs({
   className: font('sans', -1),
-  $v: { size: '2xs', properties: ['margin-bottom'] },
+  $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.600')};
 
@@ -69,7 +69,7 @@ export const AlternativeLabels = styled(Space).attrs({
 
 export const ConceptInformation = styled(Space).attrs({
   className: font('sans', -1),
-  $v: { size: '2xs', properties: ['margin-bottom'] },
+  $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.600')};
 `;

@@ -20,7 +20,7 @@ const Wrapper = styled(Space).attrs({
 `;
 
 const TitleWrapper = styled(Space).attrs({
-  $v: { size: '2xs', properties: ['margin-bottom'] },
+  $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   display: block;
 `;
@@ -30,7 +30,7 @@ const Title = styled.span.attrs({ className: font('sans-bold', 0) })``;
 const Subtitle = styled(Space).attrs({
   as: 'span',
   className: font('sans', 0),
-  $h: { size: '2xs', properties: ['margin-left'] },
+  $h: { size: 'xs', properties: ['margin-left'] },
 })``;
 
 const PhoneNumber = styled.span.attrs({ className: font('sans', 0) })`
@@ -38,8 +38,8 @@ const PhoneNumber = styled.span.attrs({ className: font('sans', 0) })`
 `;
 
 const WithIconWrapper = styled(Space).attrs({
-  $v: { size: '2xs', properties: ['margin-bottom'] },
-  $h: { size: '2xs', properties: ['column-gap'] },
+  $v: { size: 'xs', properties: ['margin-bottom'] },
+  $h: { size: 'xs', properties: ['column-gap'] },
 })`
   display: flex;
   align-items: center;

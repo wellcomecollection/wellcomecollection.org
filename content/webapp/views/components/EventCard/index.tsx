@@ -80,7 +80,7 @@ const DateInfo = styled.p.attrs({
 
 const LocationWrapper = styled(Space).attrs({
   className: font('sans', -1),
-  $v: { size: '2xs', properties: ['margin-top', 'margin-bottom'] },
+  $v: { size: 'xs', properties: ['margin-top', 'margin-bottom'] },
 })`
   display: flex;
   align-items: center;
@@ -137,13 +137,13 @@ const EventCard: FunctionComponent<Props> = ({
           {locationText && !isInPastListing && (
             <LocationWrapper>
               <Icon icon={location} matchText />
-              <Space $h={{ size: '2xs', properties: ['margin-left'] }}>
+              <Space $h={{ size: 'xs', properties: ['margin-left'] }}>
                 {locationText}
               </Space>
             </LocationWrapper>
           )}
           {event.availableOnline && (
-            <Space $v={{ size: '2xs', properties: ['margin-top'] }}>
+            <Space $v={{ size: 'xs', properties: ['margin-top'] }}>
               <WatchLabel text="Available to watch" />
             </Space>
           )}
@@ -216,7 +216,7 @@ const EventCard: FunctionComponent<Props> = ({
           $v={{ size: 'sm', properties: ['padding-bottom'] }}
         >
           <Divider lineColor="white" />
-          <Space $v={{ size: '2xs', properties: ['padding-top'] }}>
+          <Space $v={{ size: 'xs', properties: ['padding-top'] }}>
             <LabelsList
               labels={event.secondaryLabels}
               defaultLabelColor="black"

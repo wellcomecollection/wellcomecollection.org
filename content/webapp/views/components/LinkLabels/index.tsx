@@ -30,7 +30,7 @@ const ItemText = styled(Space).attrs<LinkOrSpanSpaceAttrs>(props => ({
   href: props.$url,
   className: font('sans', -1),
   $h: {
-    size: '2xs',
+    size: 'xs',
     properties: ['margin-right', props.$addBorder ? 'padding-left' : ''].filter(
       Boolean
     ) as HorizontalSpaceProperty[],
@@ -60,7 +60,7 @@ const ListWithHeading = styled.dl.attrs({
 
 const ListWithHeadingItem = styled(Space).attrs({
   as: 'dt',
-  $h: { size: '2xs', properties: ['margin-right'] },
+  $h: { size: 'xs', properties: ['margin-right'] },
 })`
   display: flex;
 `;
@@ -70,7 +70,7 @@ const LinkLabels: FunctionComponent<Props> = ({ items, heading, icon }) =>
     <ListWithHeading data-component="link-labels-with-heading">
       <ListWithHeadingItem>
         {icon && (
-          <Space as="span" $h={{ size: '2xs', properties: ['margin-right'] }}>
+          <Space as="span" $h={{ size: 'xs', properties: ['margin-right'] }}>
             <Icon icon={icon} />
           </Space>
         )}

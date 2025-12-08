@@ -73,7 +73,7 @@ const Header: FunctionComponent<HeaderProps> = ({
                         <Space
                           style={{ display: 'flex' }}
                           as="span"
-                          $h={{ size: '2xs', properties: ['margin-right'] }}
+                          $h={{ size: 'xs', properties: ['margin-right'] }}
                         >
                           <Icon icon={clock} />
                         </Space>
@@ -112,7 +112,7 @@ const Header: FunctionComponent<HeaderProps> = ({
             }}
           >
             <Space
-              $v={{ size: '2xs', properties: ['margin-top', 'margin-bottom'] }}
+              $v={{ size: 'xs', properties: ['margin-top', 'margin-bottom'] }}
             >
               <Tabs
                 tabBehaviour="navigate"

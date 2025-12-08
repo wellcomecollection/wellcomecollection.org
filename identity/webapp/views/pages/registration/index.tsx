@@ -205,7 +205,7 @@ const RegistrationPage: NextPage<Props> = ({
                           </FlexStartCheckbox>
                         )}
                       />
-                      <Space $v={{ size: '2xs', properties: ['margin-top'] }}>
+                      <Space $v={{ size: 'xs', properties: ['margin-top'] }}>
                         <ErrorMessage
                           errors={formState.errors}
                           name="termsAndConditions"

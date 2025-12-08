@@ -36,7 +36,7 @@ const NavList = styled.ul<{
 const NavLinkElement = styled(Space).attrs({
   className: font('sans', -1),
   $v: {
-    size: '2xs',
+    size: 'xs',
     properties: ['padding-top', 'padding-bottom'],
   },
 })`

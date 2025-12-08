@@ -136,7 +136,7 @@ const CheckboxRadio: FunctionComponent<CheckboxRadioProps> = ({
           <Icon icon={type === 'checkbox' ? check : indicator} />
         </CheckboxRadioBox>
       </CheckBoxWrapper>
-      <Space $h={{ size: '2xs', properties: ['margin-left'] }}>
+      <Space $h={{ size: 'xs', properties: ['margin-left'] }}>
         <CheckboxLabel $isDisabled={disabled}>{text}</CheckboxLabel>
       </Space>
     </CheckboxRadioLabel>

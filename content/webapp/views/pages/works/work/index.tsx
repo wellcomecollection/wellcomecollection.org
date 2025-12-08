@@ -133,7 +133,7 @@ export const WorkPage: NextPage<Props> = ({
           </Space>
 
           <Space
-            $v={{ size: '2xs', properties: ['padding-top', 'padding-bottom'] }}
+            $v={{ size: 'xs', properties: ['padding-top', 'padding-bottom'] }}
           >
             <BackToResults />
           </Space>
@@ -144,7 +144,7 @@ export const WorkPage: NextPage<Props> = ({
             <Container>
               <Space
                 $v={{
-                  size: '2xs',
+                  size: 'xs',
                   properties: ['padding-top', 'padding-bottom'],
                 }}
               >

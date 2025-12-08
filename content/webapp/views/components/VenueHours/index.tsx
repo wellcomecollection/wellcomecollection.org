@@ -128,7 +128,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue }) => {
       )}
 
       <Space
-        $v={{ size: '2xs', properties: ['margin-top'] }}
+        $v={{ size: 'xs', properties: ['margin-top'] }}
         style={{ clear: 'both' }}
       >
         {isFeatured && venue.linkText && venue.url && (

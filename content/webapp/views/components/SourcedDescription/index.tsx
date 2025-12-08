@@ -93,14 +93,14 @@ const Paragraph = styled.p.attrs({
 
 const SourceBox = styled(Space).attrs({
   $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
-  $v: { size: '2xs', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
 })`
   background-color: white;
   border-radius: 4px;
 `;
 
 const SourceLink = styled(Space).attrs({
-  $v: { size: '2xs', properties: ['margin-top'] },
+  $v: { size: 'xs', properties: ['margin-top'] },
 })`
   display: flex;
   align-items: center;

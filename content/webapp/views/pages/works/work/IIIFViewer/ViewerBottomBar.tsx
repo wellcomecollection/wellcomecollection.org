@@ -23,7 +23,7 @@ const BottomBar = styled.div`
 `;
 
 const LeftZone = styled(Space).attrs({
-  $v: { size: '2xs', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
   $h: { size: 'sm', properties: ['padding-left'] },
 })`
   display: flex;
@@ -32,7 +32,7 @@ const LeftZone = styled(Space).attrs({
 `;
 
 const RightZone = styled(Space).attrs({
-  $v: { size: '2xs', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
 })`
   display: flex;
   justify-content: flex-end;

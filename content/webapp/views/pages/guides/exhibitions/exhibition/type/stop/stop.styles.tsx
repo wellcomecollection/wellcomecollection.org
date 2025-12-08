@@ -37,7 +37,7 @@ export const Title = styled.h1.attrs({
 
 export const HeaderInner = styled(Space).attrs({
   $v: {
-    size: '2xs',
+    size: 'xs',
     properties: ['padding-top', 'padding-bottom'],
   },
 })`

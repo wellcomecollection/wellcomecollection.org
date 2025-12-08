@@ -54,7 +54,7 @@ const Summary = styled(Space).attrs({
 `;
 
 const ShowHide = styled(Space).attrs({
-  $h: { size: '2xs', properties: ['margin-right'] },
+  $h: { size: 'xs', properties: ['margin-right'] },
   className: font('sans', -1),
 })`
   position: relative;

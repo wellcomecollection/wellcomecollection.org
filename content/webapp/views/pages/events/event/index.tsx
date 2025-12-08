@@ -72,7 +72,7 @@ const ThirdParty = styled.span.attrs({
 
 const EmailTeamCopy = styled(Space).attrs({
   className: font('sans-bold', -1),
-  $v: { size: '2xs', properties: ['margin-top'] },
+  $v: { size: 'xs', properties: ['margin-top'] },
 })`
   display: block;
   color: ${props => props.theme.color('neutral.700')};
@@ -172,7 +172,7 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
         ContentTypeInfo={
           <>
             <Space
-              $v={{ size: '2xs', properties: ['margin-bottom'] }}
+              $v={{ size: 'xs', properties: ['margin-bottom'] }}
               style={{ display: 'flex', flexWrap: 'wrap' }}
             >
               <div style={{ display: 'inline' }}>
@@ -182,7 +182,7 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
               This 'All dates' link takes the user to the complete list of dates
               further down the page, but if there's only one date we can skip it.
              */}
-              <Space $h={{ size: '2xs', properties: ['margin-left'] }}>
+              <Space $h={{ size: 'xs', properties: ['margin-left'] }}>
                 {!event.isPast && event.times.length > 1 && <EventDatesLink />}
               </Space>
             </Space>
@@ -279,7 +279,7 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
                       }}
                     />
                     {event.thirdPartyBooking.name && (
-                      <Space $v={{ size: '2xs', properties: ['margin-top'] }}>
+                      <Space $v={{ size: 'xs', properties: ['margin-top'] }}>
                         <ThirdParty>
                           with {event.thirdPartyBooking.name}
                         </ThirdParty>
