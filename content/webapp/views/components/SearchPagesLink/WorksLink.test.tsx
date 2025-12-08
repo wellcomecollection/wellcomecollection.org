@@ -10,6 +10,7 @@ describe('WorksLink', () => {
         page: 1,
         workType: [],
         'items.locations.locationType': [],
+        'items.locations.accessConditions.status': [],
         availabilities: [],
         sort: undefined,
         sortOrder: undefined,
@@ -23,6 +24,7 @@ describe('WorksLink', () => {
         languages: [],
         'contributors.agent.label': [],
         'contributors.concepts': [],
+        identifiers: [],
       });
     });
 
@@ -42,6 +44,7 @@ describe('WorksLink', () => {
         page: 3,
         workType: ['a', 'b', 'c'],
         'items.locations.locationType': [],
+        'items.locations.accessConditions.status': [],
         availabilities: [],
         sort: undefined,
         sortOrder: undefined,
@@ -55,6 +58,7 @@ describe('WorksLink', () => {
         languages: [],
         'contributors.agent.label': [],
         'contributors.concepts': [],
+        identifiers: [],
       });
     });
   });
