@@ -243,7 +243,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
         <StackingTable
           rows={createRows()}
           plain={true}
-          maxWidth={isArchive ? 980 : 620}
+          maxWidth={isArchive ? '61.25rem' : '38.75rem'}
           columnWidths={[180, 200, undefined, undefined]}
         />
 

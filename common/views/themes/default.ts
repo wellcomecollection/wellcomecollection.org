@@ -88,6 +88,7 @@ const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
 `;
 
 // Theme factory that creates a theme with appropriate color function based on toggles
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const createThemeValues = (toggles: Toggles) => {
   // Manipulate themeValues with toggles here
 
@@ -105,14 +106,13 @@ export const createThemeValues = (toggles: Toggles) => {
         size,
         properties,
         negative,
-        overrides,
-        toggles
+        overrides
       ),
     // Override getSpaceValue to include toggles
     getSpaceValue: (
       size: Parameters<typeof themeValues.getSpaceValue>[0],
       breakpoint: Parameters<typeof themeValues.getSpaceValue>[1]
-    ) => themeValues.getSpaceValue(size, breakpoint, toggles),
+    ) => themeValues.getSpaceValue(size, breakpoint),
   };
 };
 

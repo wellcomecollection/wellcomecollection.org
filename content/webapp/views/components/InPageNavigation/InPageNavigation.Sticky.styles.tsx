@@ -10,7 +10,7 @@ import Space from '@weco/common/views/components/styled/Space';
 const leftOffset = '12px';
 
 export const InPageNavList = styled(PlainList)<{ $isOnWhite: boolean }>`
-  padding-bottom: ${props => props.theme.spacingUnits['4']}px;
+  padding-bottom: ${props => props.theme.spacingUnits['4']};
   border-bottom: 1px solid
     ${props => props.theme.color(props.$isOnWhite ? 'neutral.300' : 'white')};
 

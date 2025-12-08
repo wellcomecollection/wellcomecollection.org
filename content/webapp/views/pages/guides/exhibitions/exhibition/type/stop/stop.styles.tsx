@@ -73,8 +73,8 @@ export const AlignCenter = styled.div`
 export const StickyPlayer = styled.div<{ $sticky: boolean }>`
   position: ${props => (props.$sticky ? 'sticky' : undefined)};
 
-  margin-left: -${props => props.theme.gutter.small}px;
-  margin-right: -${props => props.theme.gutter.small}px;
+  margin-left: -${props => props.theme.gutter.small};
+  margin-right: -${props => props.theme.gutter.small};
 
   ${props => props.theme.media('medium')`
     margin-left: 0;

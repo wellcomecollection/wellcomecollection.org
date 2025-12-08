@@ -5,7 +5,7 @@ const ScrollShim = styled.li<{ $gridValues: number[] }>`
 
   --container-padding: ${props => props.theme.containerPadding};
   --number-of-columns: ${props => (12 - props.$gridValues[0]) / 2};
-  --gap-value: ${props => props.theme.gutter.small}px;
+  --gap-value: ${props => props.theme.gutter.small};
   --container-width: calc(100% - (var(--container-padding) * 2));
   --container-width-without-gaps: calc(
     (var(--container-width) - (var(--gap-value) * 11))
@@ -22,21 +22,21 @@ const ScrollShim = styled.li<{ $gridValues: number[] }>`
     props.theme.media('medium')(`
       display: block;
       --number-of-columns: ${(12 - props.$gridValues[1]) / 2};
-      --gap-value: ${props.theme.gutter.medium}px;
+      --gap-value: ${props.theme.gutter.medium};
   `)}
 
   ${props =>
     props.theme.media('large')(`
       --number-of-columns: ${(12 - props.$gridValues[2]) / 2};
-      --gap-value: ${props.theme.gutter.large}px;
+      --gap-value: ${props.theme.gutter.large};
   `)}
 
   ${props =>
     props.theme.media('xlarge')(`
-      --container-width: calc(${props.theme.sizes.xlarge}px - (var(--container-padding) * 2));
-      --left-margin-width: calc((100% - ${props.theme.sizes.xlarge}px) / 2);
+      --container-width: calc(${props.theme.sizes.xlarge} - (var(--container-padding) * 2));
+      --left-margin-width: calc((100% - ${props.theme.sizes.xlarge}) / 2);
       --number-of-columns: ${(12 - props.$gridValues[3]) / 2};
-      --gap-value: ${props.theme.gutter.xlarge}px;
+      --gap-value: ${props.theme.gutter.xlarge};
 
       min-width: calc(
         var(--left-margin-width) + var(--container-padding) +

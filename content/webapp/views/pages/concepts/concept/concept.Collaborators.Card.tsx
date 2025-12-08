@@ -11,13 +11,13 @@ const StyledLink = styled(NextLink).attrs({
   className: font('sans', -2),
 })`
   background-color: ${props => props.theme.color('warmNeutral.300')};
-  padding: ${props => props.theme.spacingUnits['3']}px;
+  padding: ${props => props.theme.spacingUnits['3']};
   text-decoration: none;
   display: flex;
   align-items: center;
   flex-direction: row-reverse;
   justify-content: start;
-  gap: ${props => props.theme.spacingUnits['3']}px;
+  gap: ${props => props.theme.spacingUnits['3']};
   width: 100%;
   height: 48px;
   border-radius: 2px;
@@ -49,13 +49,13 @@ const IconWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: ${props => props.theme.spacingUnits['1']}px;
+  padding: ${props => props.theme.spacingUnits['1']};
   background-color: ${props => props.theme.color('neutral.700')};
   color: white;
   border-radius: 2px;
 
   ${props =>
-    props.theme.media('medium')(`padding: ${props.theme.spacingUnits['3']}px;`)}
+    props.theme.media('medium')(`padding: ${props.theme.spacingUnits['3']};`)}
 `;
 
 type Props = {

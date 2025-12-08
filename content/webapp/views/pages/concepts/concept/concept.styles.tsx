@@ -84,7 +84,7 @@ export const StretchWrapper = styled.div`
 export const HotJarPlaceholder = styled.div`
   margin: -2rem auto 2rem;
   width: 100%;
-  max-width: ${props => props.theme.sizes.xlarge}px;
+  max-width: ${props => props.theme.sizes.xlarge};
   display: grid;
   justify-items: start;
 
