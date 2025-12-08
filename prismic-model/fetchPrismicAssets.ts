@@ -6,34 +6,16 @@ interface AssetMetadata {
   [key: string]: unknown;
 }
 
-async function getPrismicAuthToken(): Promise<string> {
-  const email = process.env.PRISMIC_EMAIL;
-  const password = process.env.PRISMIC_PASSWORD;
+function getPrismicAuthToken(): string {
+  const token = process.env.PRISMIC_BEARER_TOKEN_STAGE; // TODO switch to prod
 
-  if (!email || !password) {
+  if (!token) {
     throw new Error(
-      'PRISMIC_EMAIL and PRISMIC_PASSWORD environment variables are required'
+      'PRISMIC_BEARER_TOKEN_STAGE environment variable is required'
     );
   }
 
-  const authResponse = await fetch('https://auth.prismic.io/login', {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'POST',
-    body: JSON.stringify({
-      email,
-      password,
-    }),
-  });
-
-  if (!authResponse.ok) {
-    throw new Error(
-      `Prismic authentication failed: ${authResponse.status} ${authResponse.statusText}`
-    );
-  }
-
-  return await authResponse.text();
+  return token;
 }
 
 function delay(ms: number): Promise<void> {
@@ -44,7 +26,7 @@ export async function fetchAllPrismicAssets(): Promise<AssetMetadata[]> {
   const repo = 'wellcomecollection-stage'; // TODO switch to 'wellcomecollection'
   const assetsUrlBase = `https://asset-api.prismic.io/assets`;
 
-  const token = await getPrismicAuthToken();
+  const token = getPrismicAuthToken();
 
   let allAssets: AssetMetadata[] = [];
   let cursor: string | undefined;
