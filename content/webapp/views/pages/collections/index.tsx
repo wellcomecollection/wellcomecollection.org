@@ -177,7 +177,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
 
               <MoreLink
                 url="/collections/new-online"
-                name="View all new works"
+                name="View more new works"
               />
             </ContaineredLayout>
           </Space>
@@ -191,7 +191,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
             {newOnlineListingPage && (
               <MoreLink
                 url="/collections/new-online"
-                name="View all new works"
+                name="View more new works"
               />
             )}
           </ContaineredLayout>
