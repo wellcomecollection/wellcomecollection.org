@@ -15,7 +15,6 @@ test.describe('New online listing page displays a limited and controlled amount 
   test('32 results are displayed per page', async ({ context, page }) => {
     await newOnline(context, page);
 
-    // Add a test to check if 32 results are listed on the page
     const workCards = await page.locator('[data-component="work-card"]');
     await expect(workCards).toHaveCount(32);
   });
