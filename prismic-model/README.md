@@ -15,6 +15,7 @@ We can test changes to Prismic types in our [staging environment](https://prismi
 - [Adding or deleting a custom type](#adding-or-deleting-a-custom-type)
 - [Finding where slices are used](#finding-where-slices-are-used)
 - [Analysing our Prismic content in bulk](#analysing-our-prismic-content-in-bulk)
+- [Fetching Prismic assets metadata](#fetching-prismic-assets-metadata)
 
 ## Fetching content type information
 
@@ -133,3 +134,30 @@ $ yarn migrate --type articles
 This will only migrate _published_ documents. In order to migrate documents in draft, you will first have to find the Prismic `ref` of the document and include this as an option to `createClient`. Once a draft document is in a migration release, it is important _not_ to publish it, otherwise it will indeed be published on the front-end. Instead, it should be archived and then re-saved to draft from the archive. In order to test that the migration will do what you expect, strongly consider running it against the Prismic stage environment and deploying the migration release from there first.
 
 Finding a `ref` is not straightforward. One method is to preview a draft document and inspect the network tab in dev tools filtered to Fetch/XHR to find a request called `predict`. This contains the `ref` as a query param.
+
+---
+
+## Fetching Prismic assets metadata
+
+We have a tool that fetches metadata for all assets (images, documents, videos, etc.) from the Prismic Asset API.
+
+```console
+$ yarn fetchPrismicAssets
+```
+
+This will fetch all asset metadata from Prismic and save it to a timestamped file: `prismic-assets-{timestamp}.json` containing the full assets array.
+
+### Asset metadata structure
+
+Each asset includes fields like:
+
+- `id`, `url`, `filename`, `size`
+- `kind` (image, document, video, audio)
+- `width`, `height` (for images)
+- `last_modified`, `created_at` timestamps
+- `alt`, `credits`, `notes`
+- `tags`, `ai_metadata`
+
+### Authentication
+
+You will need to create a `.env` file with `PRISMIC_BEARER_TOKEN_STAGE`.

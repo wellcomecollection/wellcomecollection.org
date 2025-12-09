@@ -30,7 +30,7 @@ export async function fetchAllPrismicAssets(): Promise<AssetMetadata[]> {
 
   let allAssets: AssetMetadata[] = [];
   let cursor: string | undefined;
-  const pageSize = 5000;
+  const pageSize = 10000;
 
   console.log(`Fetching asset list from ${repo}...`);
 
