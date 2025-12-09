@@ -210,7 +210,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
                 )}
               </TimeWrapper>
               <Space $v={{ size: 'xs', properties: ['padding-top'] }}>
-                <Space $v={{ size: 'xs', properties: ['padding-bottom'] }}>
+                <Space $v={{ size: '2xs', properties: ['padding-bottom'] }}>
                   <Scrubber
                     startTime={startTime}
                     duration={duration}

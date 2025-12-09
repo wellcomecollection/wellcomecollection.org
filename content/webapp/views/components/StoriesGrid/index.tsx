@@ -59,7 +59,7 @@ const MobileLabel = styled.div`
 
 const StoryInformation = styled(Space).attrs({
   className: font('sans', -1),
-  $v: { size: 'xs', properties: ['margin-bottom'] },
+  $v: { size: '2xs', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.600')};
 `;

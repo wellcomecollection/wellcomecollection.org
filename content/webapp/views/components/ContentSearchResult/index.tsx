@@ -36,11 +36,11 @@ const Title = styled(Space).attrs({
 `;
 
 const Description = styled(Space).attrs({
-  $v: { size: 'xs', properties: ['margin-bottom'] },
+  $v: { size: '2xs', properties: ['margin-bottom'] },
 })``;
 
 const DatesContributors = styled(Space).attrs({
-  $v: { size: 'xs', properties: ['margin-bottom'] },
+  $v: { size: '2xs', properties: ['margin-bottom'] },
   className: font('sans', -2),
 })`
   color: ${props => props.theme.color('neutral.600')};

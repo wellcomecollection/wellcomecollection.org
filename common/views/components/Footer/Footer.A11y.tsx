@@ -17,10 +17,10 @@ const Li = styled(Space).attrs({
 
 const IconWrap = styled(Space).attrs({
   $h: {
-    size: 'xs',
+    size: '2xs',
     properties: ['padding-left', 'padding-right'],
   },
-  $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: '2xs', properties: ['padding-top', 'padding-bottom'] },
 })`
   display: flex;
   border-radius: 6px;

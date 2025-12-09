@@ -60,7 +60,7 @@ const ListWithHeading = styled.dl.attrs({
 
 const ListWithHeadingItem = styled(Space).attrs({
   as: 'dt',
-  $h: { size: 'xs', properties: ['margin-right'] },
+  $h: { size: '2xs', properties: ['margin-right'] },
 })`
   display: flex;
 `;

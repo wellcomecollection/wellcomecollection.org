@@ -137,7 +137,7 @@ const EventCard: FunctionComponent<Props> = ({
           {locationText && !isInPastListing && (
             <LocationWrapper>
               <Icon icon={location} matchText />
-              <Space $h={{ size: 'xs', properties: ['margin-left'] }}>
+              <Space $h={{ size: '2xs', properties: ['margin-left'] }}>
                 {locationText}
               </Space>
             </LocationWrapper>
