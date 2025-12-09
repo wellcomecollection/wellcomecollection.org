@@ -8,7 +8,7 @@ import Space from '@weco/common/views/components/styled/Space';
 
 const Li = styled(Space).attrs({
   as: 'li',
-  $v: { size: 'xs', properties: ['margin-bottom'] },
+  $v: { size: '2xs', properties: ['margin-bottom'] },
 })`
   display: flex;
   gap: 0.5em;

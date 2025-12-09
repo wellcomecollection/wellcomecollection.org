@@ -40,7 +40,7 @@ const Description = styled(Space).attrs({
 })``;
 
 const DatesContributors = styled(Space).attrs({
-  $v: { size: '2xs', properties: ['margin-bottom'] },
+  $v: { size: 'xs', properties: ['margin-bottom'] },
   className: font('sans', -2),
 })`
   color: ${props => props.theme.color('neutral.600')};
