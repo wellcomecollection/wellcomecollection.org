@@ -83,23 +83,10 @@ const stageApiToggleCookie = createCookie({
   name: 'toggle_stagingApi',
   value: 'true',
 });
-const newOnlineToggleCookie = createCookie({
-  name: 'toggle_newOnlineListingPage',
-  value: 'true',
-});
-const newOnlineInCLPToggleCookie = createCookie({
-  name: 'toggle_newOnlineInCLP',
-  value: 'true',
-});
 
 export const requiredCookies = useStageApis
-  ? [
-      acceptCookieCookie,
-      stageApiToggleCookie,
-      newOnlineToggleCookie,
-      newOnlineInCLPToggleCookie,
-    ]
-  : [acceptCookieCookie, newOnlineToggleCookie, newOnlineInCLPToggleCookie];
+  ? [acceptCookieCookie, stageApiToggleCookie]
+  : [acceptCookieCookie];
 
 const multiVolumeItem = async (
   context: BrowserContext,
