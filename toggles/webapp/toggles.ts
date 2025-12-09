@@ -139,14 +139,6 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'storiesOnWorks',
-      title: 'Stories on work pages',
-      initialValue: false,
-      description:
-        'Shows stories that reference the current work on work pages',
-      type: 'experimental',
-    },
-    {
       id: 'designSystemBreakpoints',
       title: 'Design system breakpoints',
       initialValue: false,
