@@ -82,7 +82,7 @@ const WorkItem = styled.li`
   }
 
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
       flex: 0 0 50%;
       padding: 0 var(--container-padding) 0 0;
     `)}

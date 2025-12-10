@@ -4,7 +4,7 @@ import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 
 export const Container = styled.div`
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     display: flex;
   `}
 `;
@@ -37,7 +37,7 @@ export const Preview = styled(Space)`
   margin-right: 1rem;
   background-color: ${props => props.theme.color('black')};
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     margin-bottom: 0;
   `}
 `;
@@ -52,7 +52,7 @@ export const PreviewImage = styled.img`
 export const Details = styled.div`
   flex: 1 1 100%;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     max-width: 900px;
   `}
 `;

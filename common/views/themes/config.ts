@@ -75,10 +75,10 @@ const getColor = (name: PaletteColor): string => {
 };
 
 export const sizes = {
-  small: '0rem',
-  medium: designSystemTheme.breakpoints.sm, // 48rem = 768px
-  large: designSystemTheme.breakpoints.md, // 64rem = 1024px
-  xlarge: designSystemTheme.breakpoints.lg, // 90rem = 1440px
+  zero: '0rem',
+  sm: designSystemTheme.breakpoints.sm, // 48rem = 768px
+  md: designSystemTheme.breakpoints.md, // 64rem = 1024px
+  lg: designSystemTheme.breakpoints.lg, // 90rem = 1440px
   // TODO: try to get rid of these one-offs
   headerMedium: '51.5625rem', // 825px
   headerLarge: '65rem', // 1040px
@@ -206,7 +206,7 @@ export const createMediaBetween =
 const media = createMedia(sizes);
 const mediaBetween = createMediaBetween(sizes);
 
-const breakpointNames = ['small', 'medium', 'large'];
+const breakpointNames = ['zero', 'sm', 'md'];
 
 // Design system container padding values (5% across all breakpoints)
 // but not exported yet
@@ -245,18 +245,18 @@ const designSystemStaticSpacing: Record<SpacingUnit, string> = {
 // updated. They are currently 'default', 'sm', 'md', but they will soon change
 // to e.g. 'xs', 'sm', 'md', 'lg', 'xl'
 const BREAKPOINT_TO_DS_MAP: Record<
-  'small' | 'medium' | 'large',
+  'zero' | 'sm' | 'md',
   'default' | 'sm' | 'md'
 > = {
-  small: 'default',
-  medium: 'sm',
-  large: 'md',
+  zero: 'default',
+  sm: 'sm',
+  md: 'md',
 };
 
 // Helper function to get a single spacing value (for use in calculations, negative values, etc.)
 function getSpaceValue(
   size: SpaceSize,
-  breakpoint: 'small' | 'medium' | 'large'
+  breakpoint: 'zero' | 'sm' | 'md'
 ): string {
   const dsSpacing = designSystemSpacing[size];
   return dsSpacing[BREAKPOINT_TO_DS_MAP[breakpoint]];
@@ -275,8 +275,8 @@ function pageGridOffset(property: string): string {
   position: relative;
   ${property}: -${containerPaddingVw};
 
-  ${media('xlarge')(`
-    ${property}: calc((100vw - ${sizes.xlarge}) / 2 * -1 - ${containerPaddingVw});
+  ${media('lg')(`
+    ${property}: calc((100vw - ${sizes.lg}) / 2 * -1 - ${containerPaddingVw});
   `)};
   `;
 }
@@ -293,7 +293,7 @@ function makeSpacePropertyValues(
       const baseValue =
         overrides && overrides[bp]
           ? getSpaceOverrideValue(overrides[bp])
-          : getSpaceValue(size, bp as 'small' | 'medium' | 'large');
+          : getSpaceValue(size, bp as 'zero' | 'sm' | 'md');
 
       const finalValue = negative ? `calc(-1 * ${baseValue})` : baseValue;
 

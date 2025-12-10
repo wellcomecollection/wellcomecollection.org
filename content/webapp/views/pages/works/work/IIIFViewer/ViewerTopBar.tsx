@@ -109,12 +109,12 @@ const TopBar = styled.div<{
     [left-edge] minmax(200px, 3fr)
     [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     display: grid;
   `}
 
   ${props =>
-    props.theme.media('xlarge')`
+    props.theme.media('lg')`
       grid-template-columns: [left-edge] minmax(200px, 330px) [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
   `}
 
@@ -126,7 +126,7 @@ const TopBar = styled.div<{
 
   ${props =>
     !props.$isDesktopSidebarActive &&
-    props.theme.media('xlarge')`
+    props.theme.media('lg')`
       grid-template-columns: [left-edge] min-content [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
   `}
 `;
@@ -141,13 +141,13 @@ const Sidebar = styled(Space).attrs({
   align-items: center;
 
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
     justify-content: flex-end;
   `)}
 
   ${props =>
     !props.$isZooming &&
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
       border-right: 1px solid ${props.theme.color('black')};
   `)}
 `;
@@ -159,7 +159,7 @@ const Main = styled(Space).attrs({
   display: flex;
   justify-content: flex-end;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     justify-content: space-between;
   `}
 `;

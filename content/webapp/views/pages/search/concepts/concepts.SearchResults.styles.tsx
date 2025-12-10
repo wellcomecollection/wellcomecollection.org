@@ -40,7 +40,7 @@ export const Wrapper = styled(Space).attrs({
 export const Details = styled.div`
   flex: 1 1 100%;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     max-width: 900px;
   `}
 `;

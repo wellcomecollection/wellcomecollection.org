@@ -44,16 +44,16 @@ function makeSizesForFrames(isThreeUp: boolean) {
   // grid-width
   if (isThreeUp) {
     return `
-        (min-width: ${sizes.medium}) calc(80vw / 2),
-        (min-width: ${sizes.large}) calc(80vw / 3),
-        (min-width: ${sizes.xlarge}) calc((${sizes.xlarge} * 0.8) / 3),
+        (min-width: ${sizes.sm}) calc(80vw / 2),
+        (min-width: ${sizes.md}) calc(80vw / 3),
+        (min-width: ${sizes.lg}) calc((${sizes.lg} * 0.8) / 3),
         calc(100vw - 68px)
       `;
   } else {
-    console.log(sizes.xlarge);
+    console.log(sizes.lg);
     return `
-      (min-width: ${sizes.medium}) calc(80vw / 2),
-      (min-width: ${sizes.xlarge}) calc((${sizes.xlarge} * 0.8) / 2),
+      (min-width: ${sizes.sm}) calc(80vw / 2),
+      (min-width: ${sizes.lg}) calc((${sizes.lg} * 0.8) / 2),
       calc(100vw - 68px)
     `;
   }

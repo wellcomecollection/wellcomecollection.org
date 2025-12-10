@@ -22,7 +22,7 @@ const NavGridCell = styled(GridCell)`
   top: 0;
 
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
      mix-blend-mode: difference;
   `)}
 `;

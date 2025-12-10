@@ -144,7 +144,7 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
 
   return isArchive ? (
     <>
-      {windowSize === 'small' && isEnhanced ? (
+      {windowSize === 'zero' && isEnhanced ? (
         <>
           <ButtonWrap>
             <Button

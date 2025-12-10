@@ -9,7 +9,7 @@ export const FrameGridWrap = styled(Space).attrs({
   position: relative;
 
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
     padding: 0;
   `)}
 `;
@@ -21,12 +21,12 @@ export const FrameGrid = styled.div<FrameGridProps>`
   grid-template-columns: 1fr;
 
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
     grid-template-columns: 1fr 1fr;
   `)}
 
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
     ${props.$isThreeUp && `grid-template-columns: 1fr 1fr 1fr;`}
   `)}
 `;
@@ -92,7 +92,7 @@ export const Gallery = styled.div<GalleryProps>`
       ${props.theme.color('neutral.700')} 100px
     );
 
-    ${props.theme.media('medium')(`
+    ${props.theme.media('sm')(`
       background: linear-gradient(
         ${props.theme.color(props.$pageBackground)} 200px,
         ${props.theme.color('neutral.700')} 200px
@@ -115,7 +115,7 @@ export const Gallery = styled.div<GalleryProps>`
     &::before {
       top: 0;
 
-      ${props.theme.media('medium')`
+      ${props.theme.media('sm')`
         top: 0;
       `}
     }
@@ -139,7 +139,7 @@ export const Gallery = styled.div<GalleryProps>`
     ${props => props.$isStandalone && `top: 0;`}
 
     ${props =>
-      props.theme.media('medium')(`
+      props.theme.media('sm')(`
         top: 200px;
     `)}
   }
@@ -158,7 +158,7 @@ export const CloseWrapper = styled(Space).attrs({
     width: 100%;
     pointer-events: none;
 
-    ${props => props.theme.media('medium')`
+    ${props => props.theme.media('sm')`
         top: 200px;
       `}
   }

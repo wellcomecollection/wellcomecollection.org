@@ -31,7 +31,7 @@ export const ItemTitle = styled.span`
   min-width: 300px;
   max-width: 600px;
 
-  ${props => props.theme.media('large', 'max-width')`
+  ${props => props.theme.media('md', 'max-width')`
     min-width: 100%;
   `}
 `;

@@ -38,53 +38,53 @@ const ListItem = styled.li`
   }
 
   ${props => {
-    const mediumGutter = props.theme.gutter.medium;
+    const smGutter = props.theme.gutter.medium;
     const paddingCalc = `${props.theme.containerPaddingVw} * 2`;
 
-    return props.theme.media('medium')(`
-      --gutter-size: ${mediumGutter};
-      /* 6 columns of 12 at medium breakpoint */
+    return props.theme.media('sm')(`
+      --gutter-size: ${smGutter};
+      /* 6 columns of 12 at sm breakpoint */
       /* Formula: ((100vw - padding) - (11 × gutter)) / 12 × 6 + (6 × gutter) */
-      /* Simplified: calc((100vw - (${paddingCalc}) - (${mediumGutter} * 11)) / 2 + (${mediumGutter} * 6)) */
-      width: calc((100vw - (${paddingCalc}) - (${mediumGutter} * 11)) / 2 + (${mediumGutter} * 6));
+      /* Simplified: calc((100vw - (${paddingCalc}) - (${smGutter} * 11)) / 2 + (${smGutter} * 6)) */
+      width: calc((100vw - (${paddingCalc}) - (${smGutter} * 11)) / 2 + (${smGutter} * 6));
 
       padding: 0 0 0 var(--gutter-size);
 
       &:nth-child(2) {
         padding-left: 0;
-        width: calc((100vw - (${paddingCalc}) - (${mediumGutter} * 11)) / 2 + (${mediumGutter} * 5));
+        width: calc((100vw - (${paddingCalc}) - (${smGutter} * 11)) / 2 + (${smGutter} * 5));
       }
       &:last-child {
         padding-right: var(--gutter-size);
-        width: calc((100vw - (${paddingCalc}) - (${mediumGutter} * 11)) / 2 + (${mediumGutter} * 7));
+        width: calc((100vw - (${paddingCalc}) - (${smGutter} * 11)) / 2 + (${smGutter} * 7));
       }
     `);
   }}
 
   ${props => {
-    const largeGutter = props.theme.gutter.large;
-    const xlarge = props.theme.sizes.xlarge;
+    const mdGutter = props.theme.gutter.large;
+    const lg = props.theme.sizes.lg;
     const paddingCalc = `${props.theme.containerPaddingVw} * 2`;
 
-    return props.theme.media('large')(`
-      --gutter-size: ${largeGutter};
-      /* 4 columns of 12 at large breakpoint */
+    return props.theme.media('md')(`
+      --gutter-size: ${mdGutter};
+      /* 4 columns of 12 at md breakpoint */
       /* Formula: ((100vw - padding) - (11 × gutter)) / 12 × 4 + (4 × gutter) */
-      /* Simplified: calc((100vw - (${paddingCalc}) - (${largeGutter} * 11)) / 3 + (${largeGutter} * 4)) */
-      width: calc((100vw - (${paddingCalc}) - (${largeGutter} * 11)) / 3 + (${largeGutter} * 4));
+      /* Simplified: calc((100vw - (${paddingCalc}) - (${mdGutter} * 11)) / 3 + (${mdGutter} * 4)) */
+      width: calc((100vw - (${paddingCalc}) - (${mdGutter} * 11)) / 3 + (${mdGutter} * 4));
 
-      /* Max-width at xlarge: ((${xlarge} - (${paddingCalc})) - (${largeGutter} * 11)) / 12 × 4 + (${largeGutter} * 4) */
-      max-width: calc(((${xlarge} - (${paddingCalc})) - (${largeGutter} * 11)) / 12 * 4 + (${largeGutter} * 4));
+      /* Max-width at lg: ((${lg} - (${paddingCalc})) - (${mdGutter} * 11)) / 12 × 4 + (${mdGutter} * 4) */
+      max-width: calc(((${lg} - (${paddingCalc})) - (${mdGutter} * 11)) / 12 * 4 + (${mdGutter} * 4));
 
       &:nth-child(2){
-        width: calc((100vw - (${paddingCalc}) - (${largeGutter} * 11)) / 3 + (${largeGutter} * 3));
-        max-width: calc(((${xlarge} - (${paddingCalc})) - (${largeGutter} * 11)) / 12 * 4 + (${largeGutter} * 3));
+        width: calc((100vw - (${paddingCalc}) - (${mdGutter} * 11)) / 3 + (${mdGutter} * 3));
+        max-width: calc(((${lg} - (${paddingCalc})) - (${mdGutter} * 11)) / 12 * 4 + (${mdGutter} * 3));
       }
 
       &:last-child {
         padding-right: var(--gutter-size);
-        width: calc((100vw - (${paddingCalc}) - (${largeGutter} * 11)) / 3 + (${largeGutter} * 5));
-        max-width: calc(((${xlarge} - (${paddingCalc})) - (${largeGutter} * 11)) / 12 * 4 + (${largeGutter} * 5));
+        width: calc((100vw - (${paddingCalc}) - (${mdGutter} * 11)) / 3 + (${mdGutter} * 5));
+        max-width: calc(((${lg} - (${paddingCalc})) - (${mdGutter} * 11)) / 12 * 4 + (${mdGutter} * 5));
       }
     `);
   }}

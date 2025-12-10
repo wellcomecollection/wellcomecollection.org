@@ -38,7 +38,7 @@ import WorkDetails from './WorkDetails';
 
 const ArchiveDetailsContainer = styled.div`
   display: block;
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     display: flex;
   `}
 `;

@@ -30,7 +30,7 @@ const IconsContainer = styled(Space).attrs({
     width: ${props => (!props.$showText ? '24px' : '32px')};
     height: ${props => (!props.$showText ? '24px' : '32px')};
 
-    ${props => props.theme.media('medium')`
+    ${props => props.theme.media('sm')`
       width: 32px;
       height: 32px;
     `}

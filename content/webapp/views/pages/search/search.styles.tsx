@@ -81,11 +81,11 @@ export const GridContainer = styled(Container)`
 export const ContentResults = styled.div`
   grid-column: 1 / 13;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     grid-column: 1 / 10;
   `}
 
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
     grid-row: 1;
     grid-column: 1 / 8;
   `}
@@ -96,12 +96,12 @@ export const CatalogueResults = styled(Space).attrs({
 })<{ $fullWidth: boolean }>`
   grid-column: 1 / 13;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     grid-column: 1 / 10;
   `}
 
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
       grid-column: ${props.$fullWidth ? '1' : '9'}/13;
     `)}
 `;
@@ -109,12 +109,10 @@ export const CatalogueResults = styled(Space).attrs({
 export const LoaderContainer = styled.div<{ $fullWidth: boolean }>`
   grid-column: 6;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     grid-column: 6;
   `}
 
   ${props =>
-    props.theme.media('large')(
-      `grid-column: ${props.$fullWidth ? '6' : '10'};`
-    )}
+    props.theme.media('md')(`grid-column: ${props.$fullWidth ? '6' : '10'};`)}
 `;

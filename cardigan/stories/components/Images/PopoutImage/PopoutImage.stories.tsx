@@ -12,10 +12,10 @@ const meta: Meta<typeof PopoutImage> = {
   args: {
     image: contentImage(bookImageUrl),
     sizes: {
-      xlarge: 1 / 6,
-      large: 1 / 6,
-      medium: 1 / 3,
-      small: 1,
+      lg: 1 / 6,
+      md: 1 / 6,
+      sm: 1 / 3,
+      zero: 1,
     },
     quality: 'low',
   },

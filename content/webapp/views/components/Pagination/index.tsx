@@ -24,7 +24,7 @@ const Container = styled.nav.attrs({
   /* We're removing the top pagination on mobile to avoid the controls getting too crowded. */
   ${props =>
     props.theme.media(
-      'medium',
+      'sm',
       'max-width'
     )(`
     ${props.$isHiddenMobile && 'display: none;'};

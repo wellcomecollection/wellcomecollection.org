@@ -40,8 +40,8 @@ const WorkLinkWithIcon = styled.a<{ $isPortalVisible: boolean }>`
 
     ${props =>
       props.theme.mediaBetween(
-        'small',
-        'medium'
+        'zero',
+        'sm'
       )(`
       & {
         display: none;

@@ -64,7 +64,7 @@ const WorkTitle = styled.span`
 const PickupDeadline = styled.p.attrs({
   className: font('sans', -2),
 })`
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
     margin: 0;
   `}
 `;

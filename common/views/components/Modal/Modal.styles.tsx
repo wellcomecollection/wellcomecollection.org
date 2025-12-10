@@ -10,7 +10,7 @@ export const Overlay = styled.div`
   right: 0;
   bottom: 0;
   background: transparent;
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     background: rgb(0, 0, 0, 0.7);
   `}
 `;
@@ -38,7 +38,7 @@ export const CloseButton = styled(Space).attrs<{ type?: string }>(props => ({
   }
 
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
     background: none;
     color: ${props.theme.color('neutral.600')};
     position: absolute;
@@ -93,16 +93,14 @@ export const BaseModalWindow = styled(Space).attrs({
   }
 
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
     top: 50%;
     left: 50%;
     right: auto;
     bottom: auto;
     height: auto;
     max-height: 90vh;
-    max-width: ${
-      props.$maxWidth || props.$width || `${props.theme.sizes.large}`
-    };
+    max-width: ${props.$maxWidth || props.$width || `${props.theme.sizes.md}`};
     width: ${(props.$maxWidth && '80%') || props.$width || 'auto'};
     border-radius: ${props.theme.borderRadiusUnit}px;
 
@@ -145,10 +143,10 @@ export const VideoModal = styled(BaseModalWindow)`
 export const CalendarModal = styled(BaseModalWindow)`
   padding: 0;
   right: 0;
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     width: 300px;
   `}
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
     left: auto;
   `}
 `;

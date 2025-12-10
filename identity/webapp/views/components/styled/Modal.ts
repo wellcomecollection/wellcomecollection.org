@@ -4,7 +4,7 @@ import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 
 export const ModalContainer = styled.aside`
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     width: 24em;
   `}
 `;

@@ -54,7 +54,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
   const prevHasStuckRef = useRef(false);
 
   const shouldLockScroll = useMemo(() => {
-    return windowSize !== 'large' && isListActive && hasStuck;
+    return windowSize !== 'md' && isListActive && hasStuck;
   }, [windowSize, isListActive, hasStuck]);
 
   useEffect(() => {
@@ -68,7 +68,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
 
   useEffect(() => {
     // We close the mobile nav if the user resizes their window to the large bp
-    if (windowSize === 'large' && hasStuck && isListActive) {
+    if (windowSize === 'md' && hasStuck && isListActive) {
       setIsListActive(false);
     }
   }, [windowSize, hasStuck, isListActive]);

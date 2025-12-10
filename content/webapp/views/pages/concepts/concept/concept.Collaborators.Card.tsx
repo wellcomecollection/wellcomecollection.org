@@ -26,7 +26,7 @@ const StyledLink = styled(NextLink).attrs({
     text-decoration: underline;
   }
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
       height: 60px;
       max-width: 256px;
       flex-direction: row;
@@ -55,7 +55,7 @@ const IconWrapper = styled.div`
   border-radius: 2px;
 
   ${props =>
-    props.theme.media('medium')(`padding: ${props.theme.spacingUnits['3']};`)}
+    props.theme.media('sm')(`padding: ${props.theme.spacingUnits['3']};`)}
 `;
 
 type Props = {

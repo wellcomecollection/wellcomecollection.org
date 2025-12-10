@@ -25,7 +25,7 @@ const TagsWrapper = styled.div`
   flex-wrap: wrap;
   gap: 8px 12px;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     column-gap: 16px;
   `}
 `;
