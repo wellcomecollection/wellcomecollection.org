@@ -1,5 +1,3 @@
-// https://stackoverflow.com/questions/25993861/how-do-i-get-typescript-to-stop-complaining-about-functions-it-doesnt-know-abou
-/* eslint-disable dot-notation */
 import { ChoiceBody, ImageService } from '@iiif/presentation-3';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';

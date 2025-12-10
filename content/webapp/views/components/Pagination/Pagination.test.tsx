@@ -4,8 +4,8 @@ import Pagination from '.';
 
 // This approach to mocking useRouter() comes from a comment by Stephen Mason
 // on GitHub: https://github.com/vercel/next.js/issues/7479#issuecomment-520048773
-/* eslint-disable-next-line @typescript-eslint/no-var-requires */
-const useRouter = jest.spyOn(require('next/router'), 'useRouter');
+/* eslint-disable @typescript-eslint/no-require-imports */
+const useRouter = jest.spyOn(require('next/router'), 'useRoutr');
 
 describe('Pagination', () => {
   it('omits the "Previous" link if we’re on page 1', () => {

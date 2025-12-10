@@ -122,7 +122,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       });
 
       res.status(200).json({ result });
-    } catch (error) {
+    } catch {
       res.status(500).json({ error: 'failed to load data' });
     }
   } else {

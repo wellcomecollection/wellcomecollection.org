@@ -40,7 +40,7 @@ const CopyUrl: FunctionComponent<Props> = ({
     try {
       document.execCommand('copy');
       setIsTextCopied(true);
-    } catch (err) {
+    } catch {
       setIsTextCopied(false);
     }
 

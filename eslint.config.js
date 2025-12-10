@@ -1,14 +1,14 @@
+const babelParser = require('@babel/eslint-parser');
 const js = require('@eslint/js');
-const tseslint = require('typescript-eslint');
-const importPlugin = require('eslint-plugin-import');
-const reactPlugin = require('eslint-plugin-react');
-const reactHooksPlugin = require('eslint-plugin-react-hooks');
-const jestPlugin = require('eslint-plugin-jest');
-const prettierPlugin = require('eslint-plugin-prettier');
 const prettierConfig = require('eslint-config-prettier');
+const importPlugin = require('eslint-plugin-import');
+const jestPlugin = require('eslint-plugin-jest');
 const jestPlaywrightPlugin = require('eslint-plugin-jest-playwright');
 const localRulesPlugin = require('eslint-plugin-local-rules');
-const babelParser = require('@babel/eslint-parser');
+const prettierPlugin = require('eslint-plugin-prettier');
+const reactPlugin = require('eslint-plugin-react');
+const reactHooksPlugin = require('eslint-plugin-react-hooks');
+const tseslint = require('typescript-eslint');
 
 const sharedRules = {
   'eol-last': 'error',
@@ -48,6 +48,7 @@ const sharedRules = {
   ],
   'no-return-assign': 'off',
   'prettier/prettier': 'error',
+  'react/jsx-uses-vars': 'error',
   'react/no-deprecated': 'error',
   'react/react-in-jsx-scope': 'off',
   'react/jsx-curly-brace-presence': [
@@ -70,9 +71,12 @@ module.exports = [
       '**/node_modules/',
       '**/libs/',
       '**/_next/',
+      '**/.next/',
       '**/dist/',
+      '**/.dist/',
       '.storybook/',
       '.stylelintrc.js',
+      '**/next-env.d.ts',
     ],
   },
   js.configs.recommended,
@@ -221,5 +225,11 @@ module.exports = [
       'no-restricted-imports': 'off',
     },
   },
-  prettierConfig,
+  {
+    files: ['playwright/**'],
+    rules: {
+      'react-hooks/rules-of-hooks': 'off',
+    },
+  },
+  prettierConfig, // Should be the last extension https://github.com/prettier/eslint-plugin-prettier#recommended-configuration
 ];

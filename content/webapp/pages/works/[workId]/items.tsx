@@ -157,7 +157,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
               `${displayManifest.searchService['@id']}?q=${context.query.query}`
             )
           ).json();
-        } catch (error) {
+        } catch {
           return undefined;
         }
       } else {
@@ -230,7 +230,7 @@ async function getParentManifest(
 ): Promise<Manifest | undefined> {
   try {
     return parentManifestUrl && (await fetchJson(parentManifestUrl));
-  } catch (error) {
+  } catch {
     return undefined;
   }
 }

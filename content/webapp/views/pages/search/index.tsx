@@ -114,7 +114,7 @@ const SearchPage: NextPage<Props> = withSearchLayout(
           setIsLoadingWorks(false);
           return workTypeBuckets;
         });
-      } catch (e) {
+      } catch {
         setIsLoadingWorks(false);
 
         return undefined;
@@ -150,7 +150,7 @@ const SearchPage: NextPage<Props> = withSearchLayout(
             requestUrl: images?.requestUrl,
           };
         });
-      } catch (e) {
+      } catch {
         setIsLoadingImages(false);
         return undefined;
       }
