@@ -5,7 +5,6 @@ import styled, { useTheme } from 'styled-components';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { ImageType } from '@weco/common/model/image';
-import { useToggles } from '@weco/common/server-data/Context';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
 import {
@@ -32,6 +31,7 @@ import BrowseByThemes from '@weco/content/views/pages/collections/collections.Br
 import NewOnline from '@weco/content/views/pages/collections/collections.NewOnline';
 import WorkTypesList from '@weco/content/views/pages/collections/collections.WorkTypesList';
 import { themeBlockCategories } from '@weco/content/views/pages/collections/themeBlockCategories';
+import { useToggles } from '@weco/common/server-data/Context';
 
 const MainBackground = styled.div<{ $isDefaultVariant: boolean }>`
   position: relative;
@@ -80,7 +80,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
   newOnlineDocuments,
 }) => {
   const { data: collectionStats } = useCollectionStats();
-  const { browseCollections, newOnlineListingPage, newOnlineInCLP } =
+  const { newOnlineListingPage, newOnlineInCLP } =
     useToggles();
   const theme = useTheme();
 
@@ -137,21 +137,6 @@ const CollectionsLandingPage: NextPage<Props> = ({
         </Space>
       </MainBackground>
 
-      {browseCollections && (
-        <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
-          <CardGrid
-            items={[]}
-            itemsPerRow={3}
-            itemsHaveTransparentBackground
-            links={[
-              {
-                text: 'Browse types and topics',
-                url: '/collections/types',
-              },
-            ]}
-          />
-        </Space>
-      )}
 
       {newOnlineListingPage && newOnlineInCLP ? (
         newOnlineDocuments.length > 0 && (
