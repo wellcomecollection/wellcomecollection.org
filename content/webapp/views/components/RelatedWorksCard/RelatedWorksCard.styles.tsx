@@ -112,7 +112,7 @@ export const ImageWrapper = styled.div<{ $isHover?: boolean }>`
     filter: url('#border-radius-mask');
 
     ${props =>
-      props.theme.media('medium')(`
+      props.theme.media('sm')(`
       margin-left: ${props.$isHover ? '0' : props.theme.spacingUnits['100']};
       margin-right: ${props.$isHover ? props.theme.spacingUnits['100'] : 'unset'};
       width: unset;

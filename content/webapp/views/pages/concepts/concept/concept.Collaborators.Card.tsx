@@ -55,7 +55,7 @@ const IconWrapper = styled.div`
   border-radius: 2px;
 
   ${props =>
-    props.theme.media('medium')(`padding: ${props.theme.spacingUnits['100']};`)}
+    props.theme.media('sm')(`padding: ${props.theme.spacingUnits['100']};`)}
 `;
 
 type Props = {
