@@ -71,7 +71,7 @@ const ExhibitionGuideCard: FunctionComponent<Props> = ({ exhibitionGuide }) => {
             $v={{
               size: 'md',
               properties: ['margin-top'],
-              overrides: { zero: 4, sm: 4, md: 5 },
+              overrides: { zero: '150', sm: '150', md: '200' },
             }}
           >
             <RelevantGuideIcons

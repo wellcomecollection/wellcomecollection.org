@@ -241,7 +241,11 @@ const ExhibitionGuideStopPage: NextPage<Props> = ({
                       $v={{
                         size: 'xs',
                         properties: ['padding-top', 'padding-bottom'],
-                        overrides: { zero: 4, sm: 4, md: 4 },
+                        overrides: {
+                          zero: '150',
+                          sm: '150',
+                          md: '150',
+                        },
                       }}
                     >
                       <AlignCenter>
@@ -271,7 +275,11 @@ const ExhibitionGuideStopPage: NextPage<Props> = ({
                       $v={{
                         size: 'xs',
                         properties: ['padding-top', 'padding-bottom'],
-                        overrides: { zero: 4, sm: 4, md: 4 },
+                        overrides: {
+                          zero: '150',
+                          sm: '150',
+                          md: '150',
+                        },
                       }}
                     >
                       <AlignCenter>
