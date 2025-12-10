@@ -21,7 +21,7 @@ const WorkDetailsTags: FunctionComponent<Props> = ({
             $v={{
               size: 'xs',
               properties: ['margin-top'],
-              overrides: { small: '100', medium: '100', large: '100' },
+              overrides: { zero: '100', sm: '100', md: '100' },
             }}
           >
             {children}

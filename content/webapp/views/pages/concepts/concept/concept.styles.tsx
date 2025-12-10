@@ -52,7 +52,7 @@ export const NavGridCell = styled(GridCell)<{
     left: 100%;
   }
 
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
     position: unset;
     background-color: unset;
     transition: unset;
@@ -84,7 +84,7 @@ export const StretchWrapper = styled.div`
 export const HotJarPlaceholder = styled.div`
   margin: -2rem auto 2rem;
   width: 100%;
-  max-width: ${props => props.theme.sizes.xlarge};
+  max-width: ${props => props.theme.sizes.lg};
   display: grid;
   justify-items: start;
 
@@ -95,14 +95,14 @@ export const HotJarPlaceholder = styled.div`
   grid-template-columns: 1fr auto;
 
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
     div:has(form) {
       min-width: 350px;
     }
   `)}
 
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
     div:has(form) {
       min-width: 450px;
     }

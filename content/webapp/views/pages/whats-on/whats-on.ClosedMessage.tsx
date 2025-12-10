@@ -16,7 +16,7 @@ const ClosedMessage = () => {
   return (
     <Space
       $v={{ size: 'md', properties: ['margin-top', 'margin-bottom'] }}
-      style={{ maxWidth: theme.sizes.large }}
+      style={{ maxWidth: theme.sizes.md }}
     >
       <InfoBox
         title="Exhibitions are closed today"

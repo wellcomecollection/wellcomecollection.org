@@ -81,18 +81,18 @@ const Grid = styled.div<GridProps>`
   .viewer-desktop {
     display: none;
 
-    ${props => props.theme.media('medium')`
+    ${props => props.theme.media('sm')`
       display: inherit;
     `}
   }
 
   .viewer-mobile {
-    ${props => props.theme.media('medium')`
+    ${props => props.theme.media('sm')`
       display: none;
     `}
   }
 
-  ${props => props.theme.media('xlarge')`
+  ${props => props.theme.media('lg')`
     grid-template-columns: [left-edge] minmax(200px, 330px) [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
   `}
 `;
@@ -107,14 +107,14 @@ const Sidebar = styled.div<{
   align-content: start;
 
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
       display: ${props.$isActiveDesktop ? 'inherit' : 'none'};
     `)}
 
   grid-area: desktop-main-start / left-edge / bottom-edge /right-edge;
 
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
       grid-area: desktop-main-start / left-edge / bottom-edge / desktop-sidebar-end;
       border-right: 1px solid ${props.theme.color('black')};
     `)}
@@ -150,7 +150,7 @@ const Main = styled.div<{
       : 'auto'};
 
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
       width: auto;
       grid-area: desktop-main-start / ${
         props.$isDesktopSidebarActive ? 'main-start' : 'left-edge'
@@ -165,7 +165,7 @@ const Zoom = styled.div`
 const BottomBar = styled.div`
   display: inherit;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     display: none;
   `}
 
@@ -185,13 +185,13 @@ const ThumbnailsWrapper = styled.div<{
   z-index: 3;
   grid-area: desktop-main-start / left-edge / bottom-edge / right-edge;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     grid-area: desktop-main-start / desktop-sidebar-end / bottom-edge / right-edge;
   `}
 
   ${props =>
     !props.$isDesktopSidebarActive &&
-    props.theme.media('medium')`
+    props.theme.media('sm')`
       grid-area: desktop-main-start / left-edge / bottom-edge / right-edge;
   `}
 `;

@@ -11,17 +11,17 @@ const Works = styled.div`
   `}
 
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
     --gap: ${props.theme.gutter.medium};
   `)}
 
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
     --gap: ${props.theme.gutter.large};
   `)}
 
   ${props =>
-    props.theme.media('xlarge')(`
+    props.theme.media('lg')(`
     --gap: ${props.theme.gutter.xlarge};
   `)}
 
@@ -35,12 +35,12 @@ const WorkContainer = styled.div`
   flex: 0 0 calc(100% - var(--gap));
 
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
     flex: 0 0 calc(50% - var(--gap));
   `)}
 
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
     flex: 0 0 calc(25% - var(--gap));
   `)}
 `;

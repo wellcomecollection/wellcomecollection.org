@@ -40,13 +40,13 @@ const FooterNavigationContainer = styled(Space).attrs({
   display: grid;
   grid-gap: 2rem;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 3rem;
 
   `}
 
-  ${props => props.theme.media('xlarge')`
+  ${props => props.theme.media('lg')`
     grid-template-columns: repeat(4, 1fr);
     grid-gap: 2rem;
   `}
@@ -61,8 +61,8 @@ const PoliciesAndSocials = styled(Space).attrs({
 
   ${props =>
     props.theme.mediaBetween(
-      'medium',
-      'large'
+      'sm',
+      'md'
     )(`
     display: block;
   `)}
@@ -71,11 +71,11 @@ const PoliciesAndSocials = styled(Space).attrs({
 const FindUsContainer = styled.div`
   flex: 1 1 100%;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
       flex: 1 1 50%;
       `}
 
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
       flex: 1 1 20%;
       margin-right: 2rem;
     `}
@@ -84,11 +84,11 @@ const FindUsContainer = styled.div`
 const OpeningTimesContainer = styled.div`
   flex: 1 1 100%;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     flex: 1 1 50%;
     `}
 
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
     flex: 1 1 30%;
     margin-right: 2rem;
   `}
@@ -97,7 +97,7 @@ const OpeningTimesContainer = styled.div`
 const InternalNavigationContainer = styled.div`
   flex: 1 1 50%;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     flex: 1 1 30%;
 `}
 `;
@@ -111,7 +111,7 @@ const PoliciesContainer = styled(Space).attrs({
 })`
   flex: 1 1 50%;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
@@ -128,16 +128,16 @@ const SocialsContainer = styled(Space)`
   flex: 1 1 100%;
   margin: 1rem 0;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     flex: 0 1 auto;
     margin: 0;
   `}
 
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
     flex: 0 1 100%;
   `}
 
-  ${props => props.theme.media('xlarge')`
+  ${props => props.theme.media('lg')`
     flex: 0 1 auto;
     justify-content: flex-end;
     justify-content: space-between;

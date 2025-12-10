@@ -47,10 +47,10 @@ const ExhibitionGuideCard: FunctionComponent<Props> = ({ exhibitionGuide }) => {
               alt: '',
             }}
             sizes={{
-              xlarge: 1 / 4,
-              large: 1 / 3,
-              medium: 1 / 2,
-              small: 1,
+              lg: 1 / 4,
+              md: 1 / 3,
+              sm: 1 / 2,
+              zero: 1,
             }}
             quality="low"
           />
@@ -71,7 +71,7 @@ const ExhibitionGuideCard: FunctionComponent<Props> = ({ exhibitionGuide }) => {
             $v={{
               size: 'md',
               properties: ['margin-top'],
-              overrides: { small: '150', medium: '150', large: '200' },
+              overrides: { zero: '150', sm: '150', md: '200' },
             }}
           >
             <RelevantGuideIcons

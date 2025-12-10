@@ -14,7 +14,7 @@ export const InPageNavList = styled(PlainList)<{ $isOnWhite: boolean }>`
   border-bottom: 1px solid
     ${props => props.theme.color(props.$isOnWhite ? 'neutral.300' : 'white')};
 
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
     padding-bottom: 0;
     border-bottom: 0;
   `}
@@ -46,7 +46,7 @@ export const ListItem = styled.li<{ $hasStuck: boolean; $isOnWhite: boolean }>`
   padding-right: ${props => props.theme.containerPaddingVw};
 
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
     margin-left: -${props.theme.containerPaddingVw};
     margin-right: -${props.theme.containerPaddingVw};
     padding-left: calc(${props.theme.containerPaddingVw} + ${leftOffset});
@@ -67,14 +67,14 @@ export const ListItem = styled.li<{ $hasStuck: boolean; $isOnWhite: boolean }>`
   }
 
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
       &::before {
         left: calc(${props.theme.containerPadding} + 1px);
       }
     `)}
 
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
     border-top: 0;
     padding: 6px 0  6px ${leftOffset};
     margin: 0;
@@ -92,7 +92,7 @@ const AnimatedLink = styled(NextLink)<AnimatedUnderlineProps>`
   text-decoration: none;
 
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
     --line-color: ${props.theme.color('white')};
     `)}
 
@@ -139,7 +139,7 @@ export const InPageNavAnimatedLink = styled(AnimatedLink)<{
   }
 
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
     color: ${props.theme.color('white')};
 
     &::before {
@@ -168,8 +168,8 @@ export const Root = styled(Space).attrs<{
 
   ${props =>
     props.theme.mediaBetween(
-      'small',
-      'large'
+      'zero',
+      'md'
     )(`
       margin-left: -${props.theme.containerPaddingVw};
       margin-right: -${props.theme.containerPaddingVw};
@@ -181,7 +181,7 @@ export const Root = styled(Space).attrs<{
     `)}
 
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
       border-bottom: 0;
       mix-blend-mode: difference;
       color: ${props.theme.color('white')};
@@ -219,7 +219,7 @@ export const MobileNavButton = styled.button.attrs({
     }
   }
 
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
     display: none;
   `}
 `;

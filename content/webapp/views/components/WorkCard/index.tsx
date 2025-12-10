@@ -11,7 +11,7 @@ import IIIFImage from '@weco/content/views/components/IIIFImage';
 // regardless of the image height
 const Shim = styled.div`
   position: relative;
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     height: 0;
     padding-top: 100%;
   `}
@@ -19,7 +19,7 @@ const Shim = styled.div`
 
 const PopoutCardImageContainer = styled.div<{ $aspectRatio?: number }>`
   position: relative;
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     position: absolute;
     bottom: 0;
   `}
@@ -50,7 +50,7 @@ const LinkSpace = styled(Space).attrs<LinkSpaceAttrs>(props => ({
   display: block;
   margin-top: 40px;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     margin-top: 0;
   `}
 

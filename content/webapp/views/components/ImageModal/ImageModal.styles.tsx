@@ -9,7 +9,7 @@ export const Container = styled.div`
 `;
 
 export const ImageInfoWrapper = styled.div`
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
     display: flex;
   `}
 `;
@@ -43,7 +43,7 @@ export const ImageWrapper = styled(Space).attrs({
   background-color: ${props => props.theme.color('black')};
   height: 50vh;
 
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
     flex: 0 1 auto;
     height: auto;
     max-height: 350px;
@@ -67,7 +67,7 @@ export const ImageLink = styled(NextLink)`
     object-fit: contain;
   }
 
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
     padding: 0;
     max-width: 400px;
     height: calc(100% - 20px);
@@ -81,7 +81,7 @@ export const ImageLink = styled(NextLink)`
 `;
 
 export const InfoWrapper = styled.div`
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
     flex: 1 0 60%;
     height: 100%;
   `}

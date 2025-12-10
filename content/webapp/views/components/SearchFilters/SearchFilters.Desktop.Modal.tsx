@@ -56,11 +56,11 @@ const ModalInner = styled(Space).attrs({
   max-width: 650px;
 
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
       min-width: 420px;
   `)}
 
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
     width: 650px;
     top: 10px;
   `}

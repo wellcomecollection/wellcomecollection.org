@@ -20,7 +20,7 @@ const CollaboratorsWrapper = styled.div`
   gap: ${props => props.theme.spacingUnits['150']};
   row-gap: ${props => props.theme.spacingUnits['200']};
 
-  ${props => props.theme.media('medium')(`flex-direction: row;`)}
+  ${props => props.theme.media('sm')(`flex-direction: row;`)}
 `;
 
 const iconFromConceptType = (type: ConceptType) => {

@@ -16,7 +16,7 @@ const ThumbnailsContainer = styled.div`
   border-top: none;
   height: 1800px;
   ${props => `
-    ${props.theme.media('xlarge')(`
+    ${props.theme.media('lg')(`
     height: calc(100vh - ${props.theme.navHeight}px);
     `)}
   `}

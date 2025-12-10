@@ -8,7 +8,7 @@ export const ResourcesList = styled(PlainList)`
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     gap: 30px;
   `}
 `;
@@ -17,7 +17,7 @@ export const ResourcesItem = styled.li`
   flex: 0 0 100%;
   position: relative;
   min-height: 103px;
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
         flex-basis: calc(50% - 15px);
       `}
 `;

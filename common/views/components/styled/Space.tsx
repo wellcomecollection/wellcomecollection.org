@@ -44,9 +44,9 @@ type SpacingUnitsIndex =
   | '600'
   | '1200';
 export type SpaceOverrides = {
-  small?: SpacingUnitsIndex;
-  medium?: SpacingUnitsIndex;
-  large?: SpacingUnitsIndex;
+  zero?: SpacingUnitsIndex;
+  sm?: SpacingUnitsIndex;
+  md?: SpacingUnitsIndex;
 };
 
 type VerticalSpaceProps = {

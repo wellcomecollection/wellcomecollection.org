@@ -44,10 +44,10 @@ export function convertBreakpointSizesToSizes(
     ([breakpoint, ratio]: [Breakpoint, number]) => {
       const breakpointSizeRem = breakpointSizes[breakpoint];
       const breakpointSizePx = remToPx(breakpointSizeRem);
-      // At xlarge we divide the max screen width by the ratio and return
+      // At lg we divide the max screen width by the ratio and return
       // exact px as 100vw will always be bigger than the largest the screen can go.
       const size =
-        breakpoint === 'xlarge'
+        breakpoint === 'lg'
           ? `${breakpointSizePx * ratio}px`
           : `${Math.round(100 * ratio)}vw`;
 

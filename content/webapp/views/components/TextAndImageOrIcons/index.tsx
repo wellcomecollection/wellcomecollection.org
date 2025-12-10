@@ -18,7 +18,7 @@ const MediaAndTextWrap = styled(Space).attrs({
   align-items: flex-start;
   justify-content: center;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     flex-wrap: nowrap;
     flex-direction: row-reverse;
   `}
@@ -54,7 +54,7 @@ const ImageOrIcons = styled(Space).attrs({
     props.$isIcons || props.$isPortrait ? '0 0 max(60%, 300px)' : '0 0 100%'};
 
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
     flex: 1;
   `)}
 
@@ -67,7 +67,7 @@ const ImageOrIcons = styled(Space).attrs({
 const Text = styled.div.attrs({ className: 'spaced-text' })`
   flex-basis: 100%;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     flex: 1;
   `}
 `;

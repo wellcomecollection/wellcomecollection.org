@@ -32,7 +32,7 @@ const SectionHeading = styled.h2.attrs({
 const InlineLabel = styled.div`
   width: 100%;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     width: auto;
   `}
 `;

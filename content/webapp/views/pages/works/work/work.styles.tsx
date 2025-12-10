@@ -23,7 +23,7 @@ export const Tree = styled.div<{
     width: 100%;
 
     ${props =>
-      props.theme.media('medium')(`
+      props.theme.media('sm')(`
       width: ${props.$maxWidth ? `${props.$maxWidth}px` : '100%'}
     `)}
 

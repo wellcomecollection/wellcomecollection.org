@@ -73,8 +73,8 @@ const SearchFilters: FunctionComponent<Props> = ({
 
   return isEnhanced ? (
     <section data-component="search-filters" aria-label="Search Filters">
-      {windowSize === 'small' && <SearchFiltersMobile {...sharedProps} />}
-      {windowSize !== 'small' && <SearchFiltersDesktop {...sharedProps} />}
+      {windowSize === 'zero' && <SearchFiltersMobile {...sharedProps} />}
+      {windowSize !== 'zero' && <SearchFiltersDesktop {...sharedProps} />}
     </section>
   ) : (
     <SearchFiltersDesktop

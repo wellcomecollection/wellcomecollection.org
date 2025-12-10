@@ -29,14 +29,14 @@ export const Card = styled.a<{ $isHover?: boolean }>`
     width: 22rem;
   `}
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     max-height: 10rem;
     flex-wrap: nowrap;
     justify-content: space-between;
   `}
 
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
     max-height: unset;
     height: ${props.$isHover ? '5.25rem' : '10rem'};
   `)}
@@ -49,7 +49,7 @@ export const TextWrapper = styled.div`
   container-type: inline-size;
   container-name: text-wrapper;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     justify-content: space-between;
     padding-top: 0;
   `}
@@ -112,7 +112,7 @@ export const ImageWrapper = styled.div<{ $isHover?: boolean }>`
     filter: url('#border-radius-mask');
 
     ${props =>
-      props.theme.media('medium')(`
+      props.theme.media('sm')(`
       margin-left: ${props.$isHover ? '0' : props.theme.spacingUnits['100']};
       margin-right: ${props.$isHover ? props.theme.spacingUnits['100'] : 'unset'};
       width: unset;
@@ -140,7 +140,7 @@ export const ImageWrapper = styled.div<{ $isHover?: boolean }>`
     `)}
   }
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     max-height: unset;
     width: unset;
     max-width: 50%;

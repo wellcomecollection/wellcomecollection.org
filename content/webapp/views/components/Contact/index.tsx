@@ -53,7 +53,7 @@ const WithIconWrapper = styled(Space).attrs({
     width: 25px;
     height: 25px;
 
-    ${props => props.theme.media('medium')`
+    ${props => props.theme.media('sm')`
         width: 35px;
         height: 35px;
     `}

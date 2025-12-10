@@ -40,7 +40,7 @@ const DesktopLabel = styled(Space).attrs({
 })<{ $isCompact?: boolean }>`
   ${props =>
     props.theme.media(
-      'medium',
+      'sm',
       'max-width'
     )(`
     ${props.$isCompact ? '' : 'display: none;'}
@@ -52,7 +52,7 @@ const MobileLabel = styled.div`
   bottom: 0;
   left: 0;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     display: none;
   `}
 `;

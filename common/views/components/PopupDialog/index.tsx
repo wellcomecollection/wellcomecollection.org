@@ -155,7 +155,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
           $h={{
             size: 'xs',
             properties: ['margin-right'],
-            overrides: { medium: '075', large: '075' },
+            overrides: { sm: '075', md: '075' },
           }}
         >
           <Icon icon={chat} iconColor="accent.purple" />
@@ -182,7 +182,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
           $h={{
             size: 'sm',
             properties: ['padding-right'],
-            overrides: { small: '150', medium: '150', large: '150' },
+            overrides: { zero: '150', sm: '150', md: '150' },
           }}
         >
           <h2 className={font('brand', -2)}>{title}</h2>

@@ -242,9 +242,9 @@ const ExhibitionGuideStopPage: NextPage<Props> = ({
                         size: 'xs',
                         properties: ['padding-top', 'padding-bottom'],
                         overrides: {
-                          small: '150',
-                          medium: '150',
-                          large: '150',
+                          zero: '150',
+                          sm: '150',
+                          md: '150',
                         },
                       }}
                     >
@@ -276,9 +276,9 @@ const ExhibitionGuideStopPage: NextPage<Props> = ({
                         size: 'xs',
                         properties: ['padding-top', 'padding-bottom'],
                         overrides: {
-                          small: '150',
-                          medium: '150',
-                          large: '150',
+                          zero: '150',
+                          sm: '150',
+                          md: '150',
                         },
                       }}
                     >

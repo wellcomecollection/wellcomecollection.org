@@ -25,8 +25,8 @@ export const utilityClasses = css<GlobalStyleProps>`
   .is-hidden-s {
     ${props =>
       props.theme.mediaBetween(
-        'small',
-        'medium'
+        'zero',
+        'sm'
       )(`
         display: none !important;
     `)}
@@ -35,8 +35,8 @@ export const utilityClasses = css<GlobalStyleProps>`
   .is-hidden-m {
     ${props =>
       props.theme.mediaBetween(
-        'medium',
-        'large'
+        'sm',
+        'md'
       )(`
         display: none !important;
     `)}
@@ -45,15 +45,15 @@ export const utilityClasses = css<GlobalStyleProps>`
   .is-hidden-l {
     ${props =>
       props.theme.mediaBetween(
-        'large',
-        'xlarge'
+        'md',
+        'lg'
       )(`
         display: none !important;
     `)}
   }
 
   .is-hidden-xl {
-    ${props => props.theme.media('xlarge')`
+    ${props => props.theme.media('lg')`
       display: none !important;
     `}
   }
