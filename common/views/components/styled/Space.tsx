@@ -35,9 +35,9 @@ export type HorizontalSpaceProperty =
 
 type SpacingUnitsIndex = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 export type SpaceOverrides = {
-  small?: SpacingUnitsIndex;
-  medium?: SpacingUnitsIndex;
-  large?: SpacingUnitsIndex;
+  zero?: SpacingUnitsIndex;
+  sm?: SpacingUnitsIndex;
+  md?: SpacingUnitsIndex;
 };
 
 type VerticalSpaceProps = {

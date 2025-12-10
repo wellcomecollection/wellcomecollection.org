@@ -134,7 +134,7 @@ const BasicPageHeader: FunctionComponent<Props> = ({
                 $v={{
                   size: 'sm',
                   properties: ['margin-top', 'margin-bottom'],
-                  overrides: { large: 4 },
+                  overrides: { md: 4 },
                 }}
               >
                 <Breadcrumb {...breadcrumbs} />
