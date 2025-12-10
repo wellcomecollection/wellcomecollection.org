@@ -15,12 +15,12 @@ export const PopupDialogOpen = styled(Space).attrs<PopupDialogOpenProps>(
     $v: {
       size: 'sm',
       properties: ['padding-top', 'padding-bottom'],
-      overrides: { small: 4, medium: 4, large: 4 },
+      overrides: { small: '150', medium: '150', large: '150' },
     },
     $h: {
       size: 'sm',
       properties: ['padding-left', 'padding-right'],
-      overrides: { small: 5, medium: 5, large: 5 },
+      overrides: { small: '200', medium: '200', large: '200' },
     },
     className: font('sans-bold', -1),
   })
@@ -65,12 +65,12 @@ export const PopupDialogWindow = styled(Space).attrs({
   $v: {
     size: 'md',
     properties: ['padding-top', 'padding-bottom'],
-    overrides: { small: 6, medium: 6, large: 6 },
+    overrides: { small: '300', medium: '300', large: '300' },
   },
   $h: {
     size: 'md',
     properties: ['padding-left', 'padding-right'],
-    overrides: { small: 6, medium: 6, large: 6 },
+    overrides: { small: '300', medium: '300', large: '300' },
   },
 })<{ $isActive: boolean }>`
   background-color: ${props => props.theme.color('white')};
@@ -111,12 +111,12 @@ export const PopupDialogCTA = styled(Space).attrs({
   $v: {
     size: 'sm',
     properties: ['padding-top', 'padding-bottom'],
-    overrides: { small: 3, medium: 3, large: 3 },
+    overrides: { small: '100', medium: '100', large: '100' },
   },
   $h: {
     size: 'sm',
     properties: ['padding-left', 'padding-right'],
-    overrides: { small: 5, medium: 5, large: 5 },
+    overrides: { small: '200', medium: '200', large: '200' },
   },
   className: font('sans-bold', -1),
 })`

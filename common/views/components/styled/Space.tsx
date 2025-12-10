@@ -33,7 +33,16 @@ export type HorizontalSpaceProperty =
   | 'column-gap'
   | 'width';
 
-type SpacingUnitsIndex = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+type SpacingUnitsIndex =
+  | '050'
+  | '075'
+  | '100'
+  | '150'
+  | '200'
+  | '300'
+  | '400'
+  | '600'
+  | '1200';
 export type SpaceOverrides = {
   small?: SpacingUnitsIndex;
   medium?: SpacingUnitsIndex;
