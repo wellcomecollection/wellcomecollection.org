@@ -112,7 +112,7 @@ const NoRequestedItems = () => (
     $v={{
       size: 'xs',
       properties: ['margin-bottom'],
-      overrides: { small: 1 },
+      overrides: { small: '050' },
     }}
   >
     Any item requests you make will appear here.
