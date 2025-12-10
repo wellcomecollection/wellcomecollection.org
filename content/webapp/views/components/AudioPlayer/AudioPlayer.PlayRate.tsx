@@ -33,7 +33,7 @@ const PlayRateButton = styled.div.attrs({
 })<{
   $isDark: boolean;
 }>`
-  padding: ${props => props.theme.spacingUnits['4']};
+  padding: ${props => props.theme.spacingUnits['150']};
   line-height: 1.5;
   display: flex;
   justify-content: space-between;
@@ -47,7 +47,7 @@ const PlayRateButton = styled.div.attrs({
 `;
 
 const PlayRateList = styled.div<{ $isActive: boolean; $isDark: boolean }>`
-  padding: ${props => props.theme.spacingUnits['3']} 0;
+  padding: ${props => props.theme.spacingUnits['100']} 0;
   list-style: none;
   display: ${props => (props.$isActive ? 'block' : 'none')};
   background-color: ${props =>

@@ -38,7 +38,7 @@ const AlternativeLabels = styled(Space).attrs({
 })`
   display: flex;
   flex-wrap: wrap;
-  gap: ${props => props.theme.spacingUnits['3']}px;
+  gap: ${props => props.theme.spacingUnits['100']}px;
   color: ${props => props.theme.color('neutral.700')};
 `;
 
@@ -46,7 +46,7 @@ const AlternativeLabel = styled.span.attrs({
   className: font('sans', -2),
 })`
   border-right: 1px solid ${props => props.theme.color('neutral.700')};
-  padding-right: ${props => props.theme.spacingUnits['3']};
+  padding-right: ${props => props.theme.spacingUnits['100']};
 
   &:last-of-type {
     border-right: 0;
