@@ -1,6 +1,6 @@
 # CloudWatch Alarm for Lambda Errors
 resource "aws_cloudwatch_metric_alarm" "prismic_snapshot_errors" {
-  alarm_name          = "${local.lambda_name}-errors"
+  alarm_name          = "${local.lambda_snapshot_name}-errors"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = "1"
   metric_name         = "Errors"
@@ -24,7 +24,7 @@ resource "aws_cloudwatch_metric_alarm" "prismic_snapshot_errors" {
 
 # CloudWatch Alarm for Lambda Duration (timeout warning)
 resource "aws_cloudwatch_metric_alarm" "prismic_snapshot_duration" {
-  alarm_name          = "${local.lambda_name}-duration-warning"
+  alarm_name          = "${local.lambda_snapshot_name}-duration-warning"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = "1"
   metric_name         = "Duration"
@@ -49,7 +49,7 @@ resource "aws_cloudwatch_metric_alarm" "prismic_snapshot_duration" {
 
 # CloudWatch Alarm for Missing Invocations (scheduled job didn't run)
 resource "aws_cloudwatch_metric_alarm" "prismic_snapshot_missing_invocations" {
-  alarm_name          = "${local.lambda_name}-missing-invocations"
+  alarm_name          = "${local.lambda_snapshot_name}-missing-invocations"
   comparison_operator = "LessThanThreshold"
   evaluation_periods  = "1"
   metric_name         = "Invocations"

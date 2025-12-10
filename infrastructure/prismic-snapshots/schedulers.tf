@@ -1,6 +1,6 @@
 # EventBridge Scheduler for daily execution at 11 PM UTC
 resource "aws_scheduler_schedule" "prismic_snapshot_daily" {
-  name       = "${local.lambda_name}-schedule"
+  name       = "${local.lambda_snapshot_name}-schedule"
   group_name = "default"
 
   flexible_time_window {
@@ -15,7 +15,7 @@ resource "aws_scheduler_schedule" "prismic_snapshot_daily" {
   }
 }
 
-# Allow EventBridge Scheduler to invoke the Lambda // IS THIS NECESSARY?
+# Allow EventBridge Scheduler to invoke the Lambda
 resource "aws_lambda_permission" "allow_scheduler" {
   statement_id  = "AllowExecutionFromScheduler"
   action        = "lambda:InvokeFunction"

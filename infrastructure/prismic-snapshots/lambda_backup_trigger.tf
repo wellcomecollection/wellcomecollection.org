@@ -1,20 +1,20 @@
 locals {
-  lambda_snapshot_name = "prismic-snapshot"
+  lambda_backup_trigger_name = "prismic-backup-trigger"
 }
 
 
 # Lambda function
-resource "aws_lambda_function" "prismic_snapshot" {
-  function_name = local.lambda_snapshot_name
-  role          = aws_iam_role.prismic_snapshot_lambda_role.arn
+resource "aws_lambda_function" "prismic_backup_trigger" {
+  function_name = local.lambda_backup_trigger_name
+  role          = aws_iam_role.prismic_backup_trigger_lambda_role.arn
   handler       = "index.handler"
   runtime       = "nodejs20.x"
   timeout       = 900 # 15 minutes
   memory_size   = 1024
 
   # Initial deployment uses this code - deploy-code.sh handles updates
-  filename         = data.archive_file.prismic_snapshot_lambda_zip.output_path
-  source_code_hash = data.archive_file.prismic_snapshot_lambda_zip.output_base64sha256
+  filename         = data.archive_file.prismic_backup_trigger_lambda_zip.output_path
+  source_code_hash = data.archive_file.prismic_backup_trigger_lambda_zip.output_base64sha256
 
   environment {
     variables = {
@@ -34,22 +34,22 @@ resource "aws_lambda_function" "prismic_snapshot" {
 }
 
 # Create a zip file for the Lambda function with dependencies
-resource "null_resource" "lambda_build" {
+resource "null_resource" "lambda_backup_trigger_build" {
   triggers = {
     # Rebuild when the Lambda code changes
-    lambda_code = filemd5("${path.module}/lambda/prismic_snapshot.js")
+    lambda_code = filemd5("${path.module}/lambda/prismic_backup_trigger.js")
     # Rebuild when the build script changes
     build_script = filemd5("${path.module}/scripts/build-lambda.sh")
   }
 
   provisioner "local-exec" {
-    command = "${path.module}/scripts/build-lambda.sh prismic_snapshot ${path.module}/prismic_snapshot_lambda.zip"
+    command = "${path.module}/scripts/build-lambda.sh prismic_backup_trigger ${path.module}/prismic_backup_trigger_lambda.zip"
   }
 }
 
-data "archive_file" "prismic_snapshot_lambda_zip" {
+data "archive_file" "prismic_backup_trigger_lambda_zip" {
   type        = "zip"
-  output_path = "${path.module}/prismic_snapshot_lambda.zip"
+  output_path = "${path.module}/prismic_backup_trigger_lambda.zip"
 
   # This creates a minimal zip if the build script hasn't run yet
   source {
@@ -58,21 +58,21 @@ data "archive_file" "prismic_snapshot_lambda_zip" {
   }
 
   # Depend on the build to ensure it runs first
-  depends_on = [null_resource.lambda_build]
+  depends_on = [null_resource.lambda_backup_trigger_build]
 }
 
 # CloudWatch Log Group for the Lambda function
-resource "aws_cloudwatch_log_group" "prismic_snapshot_lambda_logs" {
-  name              = "/aws/lambda/${aws_lambda_function.prismic_snapshot.function_name}"
+resource "aws_cloudwatch_log_group" "prismic_backup_trigger_lambda_logs" {
+  name              = "/aws/lambda/${aws_lambda_function.prismic_backup_trigger.function_name}"
   retention_in_days = 14
 } 
 
-resource "aws_iam_role_policy_attachment" "prismic_snapshot_lambda_cloudwatch_policy" {
-  role       = aws_iam_role.prismic_snapshot_lambda_role.name
+resource "aws_iam_role_policy_attachment" "prismic_backup_trigger_lambda_cloudwatch_policy" {
+  role       = aws_iam_role.prismic_backup_trigger_lambda_role.name
   policy_arn = aws_iam_policy.lambda_cloudwatch_policy.arn
 }
 
-resource "aws_iam_role_policy_attachment" "prismic_snapshot_lambda_s3_policy" {
-  role       = aws_iam_role.prismic_snapshot_lambda_role.name
+resource "aws_iam_role_policy_attachment" "prismic_backup_trigger_lambda_s3_policy" {
+  role       = aws_iam_role.prismic_backup_trigger_lambda_role.name
   policy_arn = aws_iam_policy.lambda_s3_policy.arn
 }

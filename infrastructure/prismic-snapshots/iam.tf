@@ -1,6 +1,5 @@
-# IAM role for the Lambda function
 resource "aws_iam_role" "prismic_snapshot_lambda_role" {
-  name = "${local.lambda_name}-role"
+  name = "${local.lambda_snapshot_name}-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -16,9 +15,43 @@ resource "aws_iam_role" "prismic_snapshot_lambda_role" {
   })
 }
 
-# IAM policy for Lambda to write to S3 and CloudWatch logs
-resource "aws_iam_policy" "prismic_snapshot_lambda_policy" {
-  name = "${local.lambda_name}-policy"
+resource "aws_iam_role" "prismic_backup_trigger_lambda_role" {
+  name = "${local.lambda_backup_trigger_name}-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Principal = {
+          Service = "lambda.amazonaws.com"
+        }
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role" "prismic_backup_download_lambda_role" {
+  name = "${local.lambda_backup_download_name}-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Principal = {
+          Service = "lambda.amazonaws.com"
+        }
+      }
+    ]
+  })
+}
+
+# IAM policy for Lambda to write to CloudWatch logs
+resource "aws_iam_policy" "lambda_cloudwatch_policy" {
+  name = "prismic-lambda-cloudwatch-policy"
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -31,7 +64,18 @@ resource "aws_iam_policy" "prismic_snapshot_lambda_policy" {
           "logs:PutLogEvents"
         ]
         Resource = "arn:aws:logs:*:*:*"
-      },
+      }
+    ]
+  })
+}
+
+# IAM policy for Lambda to write to S3
+resource "aws_iam_policy" "lambda_s3_policy" {
+  name = "prismic-lambda-s3-policy"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
       {
         Effect = "Allow"
         Action = [
@@ -51,7 +95,7 @@ resource "aws_iam_policy" "prismic_snapshot_lambda_policy" {
 
 # IAM role for EventBridge Scheduler
 resource "aws_iam_role" "prismic_snapshot_scheduler_role" {
-  name = "${local.lambda_name}-scheduler-role"
+  name = "${local.lambda_snapshot_name}-scheduler-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -69,7 +113,7 @@ resource "aws_iam_role" "prismic_snapshot_scheduler_role" {
 
 
 resource "aws_iam_policy" "prismic_snapshot_scheduler_policy" {
-  name = "${local.lambda_name}-scheduler-policy"
+  name = "${local.lambda_snapshot_name}-scheduler-policy"
 
   policy = jsonencode({
     Version = "2012-10-17"
