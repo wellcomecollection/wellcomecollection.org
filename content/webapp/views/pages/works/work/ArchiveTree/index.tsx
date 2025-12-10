@@ -23,162 +23,75 @@ import {
   UiTreeNode,
 } from '@weco/content/views/pages/works/work/work.types';
 
-import { updateChildren } from './ArchiveTree.helpers';
 import NestedList from './ArchiveTree.NestedList';
 import { ButtonWrap, TreeContainer } from './ArchiveTree.styles';
 import WorkItem from './ArchiveTree.WorkItemRenderer';
 
-function createNodeFromWork({
-  work,
-  openStatus,
-}: {
-  work: RelatedWork;
-  openStatus: boolean;
-}): UiTreeNode {
-  return {
-    openStatus,
-    work,
-    parentId: work.partOf?.[0]?.id,
-    children: work.parts?.map(part => ({
-      openStatus: false,
-      work: part,
-      parentId: work.id,
-    })),
-  };
-}
+async function getRelatedWorkWithChildren(
+  work: RelatedWork
+): Promise<RelatedWork> {
+  const fullWork = await getWorkClientSide(work.id);
 
-function createSiblingsArray({
-  work,
-  openStatusOverride = false,
-}: {
-  work: RelatedWork;
-  openStatusOverride?: boolean;
-}): UiTree {
-  // An array of the current work and all its siblings
-  const siblingsArray = [
-    ...(work.precededBy || []).map(item => ({
-      openStatus: false,
-      work: item,
-      parentId: work.partOf?.[0]?.id,
-      children: undefined,
-    })),
-    createNodeFromWork({
-      work: {
-        ...work,
-        totalParts: work.parts && work.parts.length,
-      },
-      openStatus: !openStatusOverride,
-    }),
-    ...(work.succeededBy || []).map(item => ({
-      openStatus: false,
-      work: item,
-      parentId: work?.partOf?.[0]?.id,
-      children: undefined,
-    })),
-  ];
-  return siblingsArray;
-}
-
-async function createArchiveTree({
-  work,
-  archiveAncestorArray,
-}: {
-  work: RelatedWork;
-  archiveAncestorArray: RelatedWork[];
-}): Promise<UiTree> {
-  const allTreeNodes = [...archiveAncestorArray, work]; // An array of a work and all its ancestors (ancestors first)
-  const treeStructure = await allTreeNodes.reduce(
-    async (acc, curr, i, ancestorArray) => {
-      const parentId = ancestorArray?.[i - 1]?.id;
-      // We add each ancestor and its siblings to the tree
-      if (!parentId) {
-        const siblings = await getSiblings({ id: curr.id });
-        return siblings;
-      }
-      if (work.id === curr.id) {
-        // If it's the curr work we have all the information we need to create an array of it and its siblings
-        // This becomes the value of its parent node's children property
-        const siblings = createSiblingsArray({ work });
-        return updateChildren({
-          tree: await acc,
-          id: parentId,
-          value: siblings || [],
-        });
-      } else {
-        const siblings = await getSiblings({
-          // For everything else we need more data before creating an array of curr and its siblings
-          // This becomes the value of the previous node's children property
-          id: curr.id,
-        });
-        return updateChildren({
-          tree: await acc,
-          id: parentId,
-          value: siblings || [],
-        });
-      }
-    },
-    Promise.resolve([])
-  );
-  return treeStructure;
-}
-
-async function getSiblings({
-  id,
-  openStatusOverride = false,
-}: {
-  id: string;
-  openStatusOverride?: boolean;
-}): Promise<UiTree> {
-  const currWork = await getWorkClientSide(id);
-  if (currWork.type !== 'Error' && currWork.type !== 'Redirect') {
-    return createSiblingsArray({
-      work: {
-        ...currWork,
-        totalParts: currWork.parts?.length,
-      },
-      openStatusOverride,
-    });
+  if (fullWork.type !== 'Error' && fullWork.type !== 'Redirect') {
+    return { ...work, parts: fullWork.parts };
   }
-  return [];
+
+  return work;
 }
 
-function createBasicTree({
-  // Returns a UiTree with the current work (with it's children) and it's ancestors
-  // This is all the data we have without making further API calls
-  work,
-}: {
-  work: Work;
-}): UiTree {
-  const ancestorArray = getArchiveAncestorArray(work);
-  const partOfReversed = [...ancestorArray, work].reverse();
-  const rootNode: UiTreeNode = {
-    openStatus: true,
-    work,
-    parentId: work.partOf?.[0]?.id,
-    children: work.parts.map(part => ({
-      openStatus: false,
-      work: part,
-      children: [],
-      parentId: work.id,
-    })),
+const constructTree = (
+  curr: RelatedWork,
+  hierarchy: RelatedWork[],
+  parent: RelatedWork | null
+): UiTreeNode => {
+  // Nodes which fall outside the direct child/parent/grandparent hierarchy (e.g. ancestor siblings) do not have
+  // their children populated.
+  const populateChildren = hierarchy.length > 0 && curr.id === hierarchy[0].id;
+
+  let childNodes;
+  if (populateChildren) {
+    let children = hierarchy[0].parts;
+
+    // When constructing a 'basic' tree, the `parts` field is not always available.
+    // In this case, the only known child is the second item in the hierarchy array.
+    if (children === undefined && hierarchy.length > 1) {
+      children = [hierarchy[1]];
+    }
+    childNodes = (children || []).map(child =>
+      constructTree(child, hierarchy.slice(1), curr)
+    );
+  }
+
+  return {
+    openStatus: curr.id === hierarchy[0]?.id,
+    work: curr,
+    parentId: parent ? parent.id : undefined,
+    children: childNodes,
   };
-  return [
-    partOfReversed.reduce((acc, curr, i, array) => {
-      return {
-        openStatus: true,
-        work: curr,
-        parentId: array[i + 1] && array[i + 1].id,
-        children:
-          i === 0
-            ? work.parts.map(part => ({
-                work: part,
-                openStatus: false,
-                parentId: work.partOf?.[0]?.id,
-              }))
-            : [acc],
-      };
-    }, rootNode),
-  ];
+};
+
+function createBasicArchiveTree(work: Work): UiTree {
+  /*
+  Return a 'basic' archive tree, populated only from data present on the provided `work`.
+  Only ancestors and direct children are included.
+  */
+  const ancestors = getArchiveAncestorArray(work);
+  const allTreeNodes = [...ancestors, work];
+  return [constructTree(allTreeNodes[0], allTreeNodes, null)];
+}
+
+async function createArchiveTree(work: Work): Promise<UiTree> {
+  /*
+  Return a 'rich' archive tree, populated from the provided `work` and all of its ancestors (retrieved client-side).
+  Ancestors and direct children are included, as well as all ancestor children/siblings.
+  */
+  const ancestors = getArchiveAncestorArray(work);
+  const ancestorsWithChildren = await Promise.all(
+    ancestors.map(async ancestor => await getRelatedWorkWithChildren(ancestor))
+  );
+
+  const allTreeNodes = [...ancestorsWithChildren, work];
+  return [constructTree(allTreeNodes[0], allTreeNodes, null)];
 }
 
 const ArchiveTree: FunctionComponent<{ work: Work }> = ({
@@ -190,7 +103,8 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
   const archiveAncestorArray = getArchiveAncestorArray(work);
   const initialLoad = useRef(true);
   const [showArchiveTreeModal, setShowArchiveTreeModal] = useState(false);
-  const [archiveTree, setArchiveTree] = useState(createBasicTree({ work }));
+  const [archiveTree, setArchiveTree] = useState(createBasicArchiveTree(work));
+
   const [tabbableId, setTabbableId] = useState<string>();
   const openButtonRef = useRef(null);
   const isArchive = useIsArchiveContext();
@@ -209,10 +123,7 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
 
   useEffect(() => {
     async function setupTree() {
-      const tree = await createArchiveTree({
-        work,
-        archiveAncestorArray,
-      });
+      const tree = await createArchiveTree(work);
       setArchiveTree(tree || []);
     }
     setupTree();
@@ -276,9 +187,9 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
       ) : (
         <TreeContainer>
           <Space
-            $v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
+            $v={{ size: 'md', properties: ['padding-top', 'padding-bottom'] }}
           >
-            <h2 className={font('wb', 4)}>Collection contents</h2>
+            <h2 className={font('brand', 0)}>Collection contents</h2>
             <Tree $isEnhanced={isEnhanced} $maxWidth={375}>
               {isEnhanced && (
                 <TreeInstructions>{treeInstructions}</TreeInstructions>

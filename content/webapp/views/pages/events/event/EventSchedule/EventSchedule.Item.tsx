@@ -9,7 +9,6 @@ import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
-import { themeValues } from '@weco/common/views/themes/config';
 import { isEventPast } from '@weco/content/services/prismic/events';
 import { Event } from '@weco/content/types/events';
 import { Place } from '@weco/content/types/places';
@@ -24,22 +23,22 @@ type Props = {
 };
 
 const GridWithRowGap = styled(Grid)`
-  row-gap: ${themeValues.spaceAtBreakpoints.small.m}px;
+  row-gap: ${props => props.theme.getSpaceValue('sm', 'small')};
 
   ${props =>
     props.theme.media('medium')(`
-    row-gap: ${themeValues.spaceAtBreakpoints.medium.m}px;
+    row-gap: ${props.theme.getSpaceValue('sm', 'medium')};
   `)}
 
   ${props =>
     props.theme.media('large')(`
-    row-gap: ${themeValues.spaceAtBreakpoints.large.m}px;
+    row-gap: ${props.theme.getSpaceValue('sm', 'large')};
   `)}
 `;
 
 const GridWrapper = styled(Space).attrs({
   $v: {
-    size: 'l',
+    size: 'md',
     properties: ['margin-bottom', 'padding-bottom'],
   },
 })`
@@ -48,7 +47,7 @@ const GridWrapper = styled(Space).attrs({
 
 const EventContainer = styled(Space).attrs({
   $v: {
-    size: 'm',
+    size: 'sm',
     properties: [
       'margin-top',
       'margin-bottom',
@@ -57,10 +56,10 @@ const EventContainer = styled(Space).attrs({
     ],
   },
   $h: {
-    size: 'm',
+    size: 'sm',
     properties: ['padding-left', 'padding-right'],
   },
-  className: font('intb', 5),
+  className: font('sans-bold', -1),
 })`
   display: inline-block;
   background-color: ${props => props.theme.color('yellow')};
@@ -72,8 +71,8 @@ const eventLocations = (locations: Place[], isHybridEvent: boolean) => {
 
   return (
     <Space
-      $v={{ size: 's', properties: ['margin-bottom'] }}
-      className={font('intr', 5)}
+      $v={{ size: 'xs', properties: ['margin-bottom'] }}
+      className={font('sans', -1)}
       style={{ display: 'flex', alignItems: 'center' }}
     >
       {locations.map((l, i) => {
@@ -84,7 +83,7 @@ const eventLocations = (locations: Place[], isHybridEvent: boolean) => {
               <Space
                 aria-hidden="true"
                 $h={{
-                  size: 's',
+                  size: 'xs',
                   properties: ['padding-left', 'padding-right'],
                 }}
               >
@@ -133,7 +132,7 @@ const HintText: FunctionComponent<{ event: Event }> = ({ event }) => {
   const hasDropInPolicy = shouldShowJustTurnUpMessage(event);
   if (showMessage && (hasEarlyRegistration || hasDropInPolicy)) {
     return (
-      <Space $v={{ size: 'm', properties: ['margin-top'] }}>
+      <Space $v={{ size: 'sm', properties: ['margin-top'] }}>
         <Message
           text={`${
             hasEarlyRegistration ? 'Arrive early to register' : 'Just turn up'
@@ -171,7 +170,7 @@ const EventScheduleItem: FunctionComponent<Props> = ({
               <h4
                 style={{ marginBottom: 0 }}
                 key={`${event.title} ${startTimeString}`}
-                className={font('intb', 5)}
+                className={font('sans-bold', -1)}
               >
                 <HTMLDateAndTime variant="time" date={t.range.startDateTime} />
                 {' – '}
@@ -191,14 +190,14 @@ const EventScheduleItem: FunctionComponent<Props> = ({
         >
           <div>
             {event.primaryLabels.length > 0 && (
-              <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
+              <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
                 <LabelsList labels={event.primaryLabels} />
               </Space>
             )}
             <Space
-              $v={{ size: 's', properties: ['margin-bottom'] }}
+              $v={{ size: 'xs', properties: ['margin-bottom'] }}
               as="h5"
-              className={font('wb', 3)}
+              className={font('brand', 1)}
             >
               {event.title}
             </Space>
@@ -207,8 +206,8 @@ const EventScheduleItem: FunctionComponent<Props> = ({
 
             {event.promo?.caption && (
               <Space
-                $v={{ size: 'm', properties: ['margin-bottom'] }}
-                className={font('intr', 5)}
+                $v={{ size: 'sm', properties: ['margin-bottom'] }}
+                className={font('sans', -1)}
                 dangerouslySetInnerHTML={{ __html: event.promo?.caption }}
               />
             )}
@@ -216,11 +215,11 @@ const EventScheduleItem: FunctionComponent<Props> = ({
             {!isNotLinked && (
               <Space
                 $v={{
-                  size: 'm',
+                  size: 'sm',
                   properties: ['margin-top', 'margin-bottom'],
                 }}
               >
-                <p className={font('intr', 5)} style={{ marginBottom: 0 }}>
+                <p className={font('sans', -1)} style={{ marginBottom: 0 }}>
                   <a href={`/events/${event.id}`}>
                     Full event details
                     <span className="visually-hidden">
@@ -246,7 +245,7 @@ const EventScheduleItem: FunctionComponent<Props> = ({
             {!isEventPast(event) &&
               (event.eventbriteId || event.onlineEventbriteId) &&
               !waitForTicketSales && (
-                <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
+                <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
                   <EventbriteButtons event={event} />
                 </Space>
               )}
@@ -254,7 +253,7 @@ const EventScheduleItem: FunctionComponent<Props> = ({
             {!isEventPast(event) &&
               event.bookingEnquiryTeam &&
               !waitForTicketSales && (
-                <Space $v={{ size: 'm', properties: ['margin-top'] }}>
+                <Space $v={{ size: 'sm', properties: ['margin-top'] }}>
                   <EventBookingButton event={event} />
                 </Space>
               )}
@@ -262,7 +261,7 @@ const EventScheduleItem: FunctionComponent<Props> = ({
             <HintText event={event} />
 
             {event.secondaryLabels.length > 0 && (
-              <Space $v={{ size: 'm', properties: ['margin-top'] }}>
+              <Space $v={{ size: 'sm', properties: ['margin-top'] }}>
                 <LabelsList
                   labels={event.secondaryLabels}
                   defaultLabelColor="black"

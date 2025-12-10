@@ -10,7 +10,7 @@ export const Container = styled.div`
 `;
 
 export const Wrapper = styled(Space).attrs({
-  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
 })`
   display: block;
 
@@ -58,8 +58,8 @@ export const Details = styled.div`
 `;
 
 export const WorkInformation = styled(Space).attrs({
-  className: font('intr', 5),
-  $v: { size: 'xs', properties: ['margin-bottom'] },
+  className: font('sans', -1),
+  $v: { size: '2xs', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.600')};
 `;
@@ -77,7 +77,7 @@ export const WorkInformationItemSeparator = styled.span`
 `;
 
 export const WorkTitleHeading = styled.h3.attrs({
-  className: font('intb', 4),
+  className: font('sans-bold', 0),
 })`
   margin-bottom: 0.5rem;
 `;

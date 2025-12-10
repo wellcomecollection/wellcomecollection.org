@@ -1,5 +1,5 @@
 import { FunctionComponent, useState } from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { newsletterAddressBook } from '@weco/common/data/dotdigital';
@@ -14,7 +14,6 @@ import {
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 import TextInput from '@weco/common/views/components/TextInput';
-import theme from '@weco/common/views/themes/default';
 
 const NewsletterForm = styled.form.attrs({
   name: 'newsletter-signup',
@@ -24,7 +23,7 @@ const NewsletterForm = styled.form.attrs({
 })`
   position: relative;
 
-  ${props => props.theme.makeSpacePropertyValues('m', ['margin-bottom'])}
+  ${props => props.theme.makeSpacePropertyValues('sm', ['margin-bottom'])}
 
   ${props => props.theme.media('medium')`
     min-width: 300px;
@@ -32,7 +31,7 @@ const NewsletterForm = styled.form.attrs({
 `;
 
 const PrivacyNotice = () => (
-  <p className={font('intr', 6)}>
+  <p className={font('sans', -2)}>
     By clicking subscribe, you agree to receive this newsletter. You can
     unsubscribe any time. For information about how we handle your data,{' '}
     <a
@@ -47,6 +46,7 @@ const PrivacyNotice = () => (
 );
 
 const NewsletterPromo: FunctionComponent = () => {
+  const theme = useTheme();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isSubmitError, setIsSubmitError] = useState(false);
@@ -108,12 +108,12 @@ const NewsletterPromo: FunctionComponent = () => {
     >
       <Container>
         <ContaineredLayout gridSizes={gridSize8()}>
-          <h2 className={font('wb', 3)} style={{ textAlign: 'center' }}>
+          <h2 className={font('brand', 1)} style={{ textAlign: 'center' }}>
             {isSuccess ? 'Thank you for signing up!' : 'Stay in the know'}
           </h2>
           {!isSuccess && (
             <>
-              <p className={font('intr', 5)} style={{ marginBottom: '1rem' }}>
+              <p className={font('sans', -1)} style={{ marginBottom: '1rem' }}>
                 Sign up to our newsletter to find out what’s on, read our latest
                 stories and get involved.
               </p>
@@ -142,13 +142,13 @@ const NewsletterPromo: FunctionComponent = () => {
                 />
 
                 <p
-                  className={font('intr', 6)}
+                  className={font('sans', -2)}
                   style={{ marginBottom: 0, marginTop: '1rem' }}
                 >
                   <a href="/newsletter">All our newsletters</a>
                 </p>
 
-                <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+                <Space $v={{ size: 'md', properties: ['margin-top'] }}>
                   <CheckboxRadio
                     id="MARKETINGPERMISSIONS"
                     name="cd_MARKETINGPERMISSIONS"
@@ -158,7 +158,7 @@ const NewsletterPromo: FunctionComponent = () => {
                       setHasCheckedMarketing(currentValue => !currentValue);
                     }}
                     text={
-                      <p className={font('intr', 6)}>
+                      <p className={font('sans', -2)}>
                         Tick this box if you’re happy to receive other emails
                         about Wellcome Collection, upcoming events and
                         exhibitions and/or other relevant opportunities.
@@ -182,7 +182,7 @@ const NewsletterPromo: FunctionComponent = () => {
           )}
 
           {isSuccess && (
-            <div className={`${font('intr', 5)} spaced-text`}>
+            <div className={`${font('sans', -1)} spaced-text`}>
               <p>
                 If this is the first time you have subscribed to one of our
                 newsletters, you will receive an email asking you to confirm

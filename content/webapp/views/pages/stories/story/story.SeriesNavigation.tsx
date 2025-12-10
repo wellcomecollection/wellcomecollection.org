@@ -37,7 +37,7 @@ const SeriesNavigation: FunctionComponent<Props> = ({
           items={items}
           showPosition={showPosition}
         />
-        <Space $v={{ size: 'm', properties: ['margin-top'] }}>
+        <Space $v={{ size: 'sm', properties: ['margin-top'] }}>
           <MoreLink
             name={`More from ${series.title}`}
             url={{

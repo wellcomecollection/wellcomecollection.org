@@ -11,15 +11,15 @@ type InlineHeadingProps = {
 };
 
 const Wrapper = styled.div.attrs({
-  className: font('intr', 5, { small: 3, medium: 3 }),
+  className: font('sans', -1),
 })<InlineHeadingProps>`
   ${props => (props.$inlineHeading ? 'display: flex;' : '')}
 `;
 
 const Title = styled(Space).attrs<InlineHeadingProps>(props => ({
   as: 'h3',
-  className: font('intb', 5, { small: 3, medium: 3 }),
-  $h: { size: 's', properties: props.$inlineHeading ? ['margin-right'] : [] },
+  className: font('sans-bold', -1),
+  $h: { size: 'xs', properties: props.$inlineHeading ? ['margin-right'] : [] },
 }))<InlineHeadingProps>`
   ${props => (!props.$inlineHeading ? 'margin: 0;' : '')}
   margin-bottom: 0;

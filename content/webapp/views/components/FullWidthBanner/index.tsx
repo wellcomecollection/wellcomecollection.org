@@ -10,6 +10,7 @@ import {
   ContaineredLayout,
   gridSize12,
 } from '@weco/common/views/components/Layout';
+import LLShape from '@weco/common/views/components/LLShape';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import AnimatedUnderlineCSS, {
@@ -17,20 +18,18 @@ import AnimatedUnderlineCSS, {
 } from '@weco/common/views/components/styled/AnimatedUnderline';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
-import WShape from '@weco/common/views/components/WShape';
 import MoreLink from '@weco/content/views/components/MoreLink';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
-
-const customBreakpoint = '768px';
 
 const ContentContainer = styled(Space)`
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  @media (min-width: ${customBreakpoint}) {
+  ${props =>
+    props.theme.media('medium')(`
     flex-direction: row;
-  }
+  `)}
 `;
 
 const CopySection = styled.div`
@@ -39,9 +38,10 @@ const CopySection = styled.div`
   order: 1;
   margin-right: 0;
 
-  @media (min-width: ${customBreakpoint}) {
+  ${props =>
+    props.theme.media('medium')(`
     margin-right: 2rem;
-  }
+  `)}
 `;
 
 const ImageSection = styled.div`
@@ -51,15 +51,16 @@ const ImageSection = styled.div`
   margin-bottom: 2rem;
   position: relative;
 
-  @media (min-width: ${customBreakpoint}) {
+  ${props =>
+    props.theme.media('medium')(`
     order: 2;
     margin-bottom: 0;
-  }
+  `)}
 `;
 
 const SupportText = styled(Space).attrs({
-  className: font('intr', 5),
-  $v: { size: 'l', properties: ['margin-top'] },
+  className: font('sans', -1),
+  $v: { size: 'md', properties: ['margin-top'] },
 })`
   display: flex;
 
@@ -78,7 +79,7 @@ const MainBackground = styled.div<{ $isDefaultVariant: boolean }>`
     )};
 `;
 
-const ImageWShapeWrapper = styled.div.attrs({ 'aria-hidden': 'true' })<{
+const ImageShapeWrapper = styled.div.attrs({ 'aria-hidden': 'true' })<{
   $isDefaultVariant: boolean;
 }>`
   position: absolute;
@@ -88,20 +89,31 @@ const ImageWShapeWrapper = styled.div.attrs({ 'aria-hidden': 'true' })<{
       props.$isDefaultVariant ? 'accent.salmon' : 'accent.turquoise'
     )};
   display: flex;
-  width: 180%;
-  height: 180%;
-  transform: translate(-5%, -37%);
+  width: 100%;
+  height: 150%;
+  transform: translate(
+      ${props => (props.$isDefaultVariant ? '40%, -34%' : '45%, -34%')}
+    )
+    rotate(${props => (props.$isDefaultVariant ? '6deg' : '-16deg')});
 
-  @media (min-width: ${customBreakpoint}) {
-    height: 230%;
-    max-height: 80cqh;
-    transform: translate(-5%, calc(7vw - 34%));
-  }
+  ${props =>
+    props.theme.media('medium')(`
+      height: 160%;
+      transform: translate(${props.$isDefaultVariant ? '18%, -16%' : '20%, -19%'})
+        rotate(${props.$isDefaultVariant ? '6deg' : '-16deg'});
+    `)}
+
+  ${props =>
+    props.theme.media('large')(`
+      transform: translate(${props.$isDefaultVariant ? '10%, -4%' : '20%, -31%'})
+        rotate(${props.$isDefaultVariant ? '6deg' : '-16deg'});
+    `)}
 `;
 
 const StyledLink = styled(NextLink)<AnimatedUnderlineProps>`
   ${AnimatedUnderlineCSS}
   text-decoration: none;
+  display: inline-block;
 
   & > span {
     vertical-align: text-bottom;
@@ -175,7 +187,9 @@ const FullWidthBanner = (props: Props) => {
           >
             <CopySection>
               {props.title && (
-                <SectionHeader title={props.title}></SectionHeader>
+                <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
+                  <SectionHeader title={props.title}></SectionHeader>
+                </Space>
               )}
               {props.description && <p>{props.description}</p>}
 
@@ -204,12 +218,11 @@ const FullWidthBanner = (props: Props) => {
                 </PlainList>
               )}
             </CopySection>
-
             {props.image && (
               <ImageSection>
-                <ImageWShapeWrapper $isDefaultVariant={isDefaultVariant}>
-                  <WShape variant={isDefaultVariant ? 'full-1' : 'full-2'} />
-                </ImageWShapeWrapper>
+                <ImageShapeWrapper $isDefaultVariant={isDefaultVariant}>
+                  <LLShape />
+                </ImageShapeWrapper>
                 <PrismicImage
                   image={{ ...props.image, alt: '' }}
                   quality="high"

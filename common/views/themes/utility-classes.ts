@@ -78,7 +78,8 @@ export const utilityClasses = css<GlobalStyleProps>`
       height: auto;
       margin: 0;
       overflow: visible;
-      position: static;
+      position: relative;
+      z-index: 7;
       width: auto;
       white-space: inherit;
     }

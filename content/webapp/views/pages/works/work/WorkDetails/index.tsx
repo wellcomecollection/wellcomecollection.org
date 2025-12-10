@@ -1,4 +1,5 @@
 import { FunctionComponent, useMemo } from 'react';
+import { useTheme } from 'styled-components';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
@@ -10,7 +11,6 @@ import {
   gridSize10,
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
-import { themeValues } from '@weco/common/views/themes/config';
 import { useIsArchiveContext } from '@weco/content/contexts/IsArchiveContext';
 import useTransformedIIIFImage from '@weco/content/hooks/useTransformedIIIFImage';
 import {
@@ -64,6 +64,7 @@ const WorkDetails: FunctionComponent<Props> = ({
   const { userIsStaffWithRestricted } = useUserContext();
   const isArchive = useIsArchiveContext();
   const transformedIIIFImage = useTransformedIIIFImage(toWorkBasic(work));
+  const theme = useTheme();
   const { canvases, rendering, itemsStatus } = {
     ...transformedManifest,
   };
@@ -198,7 +199,7 @@ const WorkDetails: FunctionComponent<Props> = ({
             dataGtmProps={{
               trigger: 'view_selected_images',
             }}
-            colors={themeValues.buttonColors.greenTransparentGreen}
+            colors={theme.buttonColors.greenTransparentGreen}
             text={
               work.images.length > 1
                 ? `View ${work.images.length} images`
@@ -423,7 +424,7 @@ const WorkDetails: FunctionComponent<Props> = ({
       )}
 
       <WorkDetailsSection headingText="Permanent link">
-        <div className={font('intr', 5)}>
+        <div className={font('sans', -1)}>
           <CopyButtons
             variant="url"
             url={`https://wellcomecollection.org/works/${work.id}`}
@@ -457,7 +458,7 @@ const WorkDetails: FunctionComponent<Props> = ({
   );
 
   return isArchive ? (
-    <Space $h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}>
+    <Space $h={{ size: 'md', properties: ['padding-left', 'padding-right'] }}>
       {renderContent()}
     </Space>
   ) : (

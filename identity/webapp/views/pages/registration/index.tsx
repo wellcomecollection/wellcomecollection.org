@@ -40,11 +40,12 @@ const RegistrationInformation: FunctionComponent<{
     <>
       <SectionHeading as="h1">Apply for a library membership</SectionHeading>
 
-      <h2 className={font('intb', 4)}>Your details</h2>
+      <h2 className={font('sans-bold', 0)}>Your details</h2>
       <p style={{ marginBottom: 0 }}>
-        Email address: <strong className={font('intb', 5)}>{email}</strong>
+        Email address:{' '}
+        <strong className={font('sans-bold', -1)}>{email}</strong>
       </p>
-      <Space $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}>
+      <Space $v={{ size: 'sm', properties: ['margin-top', 'margin-bottom'] }}>
         <Divider />
       </Space>
     </>
@@ -118,7 +119,7 @@ const RegistrationPage: NextPage<Props> = ({
                             id={name}
                             name={name}
                             label="First name"
-                            value={value}
+                            value={value ?? ''}
                             setValue={onChange}
                             isValid={!invalid}
                             setIsValid={() => trigger('firstName')}
@@ -144,7 +145,7 @@ const RegistrationPage: NextPage<Props> = ({
                             id={name}
                             name={name}
                             label="Last name"
-                            value={value}
+                            value={value ?? ''}
                             setValue={onChange}
                             isValid={!invalid}
                             setIsValid={() => trigger('lastName')}
@@ -156,7 +157,7 @@ const RegistrationPage: NextPage<Props> = ({
                     </SpacingComponent>
 
                     <SpacingComponent>
-                      <h3 className={font('intb', 5)}>
+                      <h3 className={font('sans-bold', -1)}>
                         Collections research agreement
                       </h3>
                       <Controller
@@ -177,7 +178,7 @@ const RegistrationPage: NextPage<Props> = ({
                               hasErrorBorder={
                                 !!formState.errors.termsAndConditions
                               }
-                              checked={value}
+                              checked={value ?? false}
                               text={
                                 <div style={{ marginLeft: '0.333em' }}>
                                   <>
@@ -204,7 +205,7 @@ const RegistrationPage: NextPage<Props> = ({
                           </FlexStartCheckbox>
                         )}
                       />
-                      <Space $v={{ size: 's', properties: ['margin-top'] }}>
+                      <Space $v={{ size: 'xs', properties: ['margin-top'] }}>
                         <ErrorMessage
                           errors={formState.errors}
                           name="termsAndConditions"

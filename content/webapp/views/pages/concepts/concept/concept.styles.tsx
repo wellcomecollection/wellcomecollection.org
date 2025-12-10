@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import { GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
-import { PaletteColor, themeValues } from '@weco/common/views/themes/config';
+import { PaletteColor } from '@weco/common/views/themes/config';
 
 export const MobileNavBackground = styled(Space).attrs({
   className: 'is-hidden-l is-hidden-xl',
-  $v: { size: 'l', properties: ['height'] },
+  $v: { size: 'md', properties: ['height'] },
 })<{ $isOnWhite: boolean }>`
   display: block;
   background-color: ${props =>
@@ -15,7 +15,7 @@ export const MobileNavBackground = styled(Space).attrs({
 `;
 
 export const FromCollectionsHeading = styled.h2.attrs({
-  className: font('wb', 2),
+  className: font('brand', 2),
 })<{ $color: PaletteColor }>`
   color: ${props => props.theme.color(props.$color)};
   margin-bottom: 0;
@@ -37,7 +37,7 @@ export const NavGridCell = styled(GridCell)<{
   &::after {
     content: '';
     position: absolute;
-    width: ${themeValues.containerPadding.small}px;
+    width: ${props => props.theme.containerPaddingVw};
     bottom: 0;
     top: 0;
     transition: background-color ${props => props.theme.transitionProperties};
@@ -51,14 +51,6 @@ export const NavGridCell = styled(GridCell)<{
   &::after {
     left: 100%;
   }
-
-  ${props =>
-    props.theme.media('medium')(`
-      &::before,
-      &::after {
-        width: ${themeValues.containerPadding.medium}px;
-      }
-  `)}
 
   ${props => props.theme.media('large')`
     position: unset;
@@ -92,7 +84,7 @@ export const StretchWrapper = styled.div`
 export const HotJarPlaceholder = styled.div`
   margin: -2rem auto 2rem;
   width: 100%;
-  max-width: ${themeValues.sizes.xlarge}px;
+  max-width: ${props => props.theme.sizes.xlarge};
   display: grid;
   justify-items: start;
 
@@ -102,13 +94,15 @@ export const HotJarPlaceholder = styled.div`
 
   grid-template-columns: 1fr auto;
 
-  ${themeValues.media('medium')(`
+  ${props =>
+    props.theme.media('medium')(`
     div:has(form) {
       min-width: 350px;
     }
   `)}
 
-  ${themeValues.media('large')(`
+  ${props =>
+    props.theme.media('large')(`
     div:has(form) {
       min-width: 450px;
     }

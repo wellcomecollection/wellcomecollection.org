@@ -61,9 +61,9 @@ import WorkDetailsLicence from './WorkDetails.Licence';
 import WorkDetailsSection from './WorkDetails.Section';
 
 const RestrictedMessage = styled(Space).attrs({
-  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-  className: font('intr', 5),
+  $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
+  className: font('sans', -1),
 })`
   position: relative;
   border-radius: 3px;
@@ -112,9 +112,9 @@ const TreeContainer = styled.div`
 `;
 
 const MessageBox = styled(Space).attrs({
-  className: font('intr', 5),
-  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  className: font('sans', -1),
+  $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
 })`
   background-color: ${props => props.theme.color('warmNeutral.300')};
 
@@ -182,7 +182,7 @@ const ItemPageLink = ({
   return (
     <>
       {work.thumbnail && (
-        <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
+        <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
           <ConditionalWrapper
             condition={Boolean(itemUrl)}
             wrapper={children =>
@@ -222,7 +222,7 @@ const ItemPageLink = ({
               <RestrictedMessage>
                 <RestrictedMessageTitle>
                   <Icon icon={info2} />
-                  <h3 className={font('intsb', 4)}>Restricted item</h3>
+                  <h3 className={font('sans-bold', 0)}>Restricted item</h3>
                 </RestrictedMessageTitle>
 
                 <p style={{ marginBottom: '1rem' }}>
@@ -246,12 +246,12 @@ const ItemPageLink = ({
             <ConditionalWrapper
               condition={isWorkVisibleWithPermission}
               wrapper={children => (
-                <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+                <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
                   {children}
                 </Space>
               )}
             >
-              <p className={font('lr', 6)} style={{ marginBottom: 0 }}>
+              <p className={font('mono', -2)} style={{ marginBottom: 0 }}>
                 Contains:{' '}
                 {collectionManifestsCount && collectionManifestsCount > 0
                   ? pluralize(collectionManifestsCount, 'volume')
@@ -264,13 +264,13 @@ const ItemPageLink = ({
 
           {(itemUrl || isDownloadable) && (
             <Space
-              $v={{ size: 's', properties: ['margin-top'] }}
+              $v={{ size: 'xs', properties: ['margin-top'] }}
               style={{ display: 'flex' }}
             >
               {itemUrl && (
                 <Space
                   as="span"
-                  $h={{ size: 'm', properties: ['margin-right'] }}
+                  $h={{ size: 'sm', properties: ['margin-right'] }}
                 >
                   <Button
                     variant="ButtonSolidLink"
@@ -380,7 +380,9 @@ const WorkDetailsAvailableOnline = ({
         {shouldShowDownloadTree && (
           <>
             {Number(canvases?.length) > 0 && (
-              <p className={font('lr', 6)}>Contains {canvases?.length} files</p>
+              <p className={font('mono', -2)}>
+                Contains {canvases?.length} files
+              </p>
             )}
             <MessageBox>{bornDigitalMessage}</MessageBox>
             <div style={{ overflow: 'visible' }}>
@@ -458,7 +460,7 @@ const WorkDetailsAvailableOnline = ({
                     return (
                       <Space
                         key={rendering.id}
-                        $v={{ size: 's', properties: ['margin-top'] }}
+                        $v={{ size: 'xs', properties: ['margin-top'] }}
                       >
                         <DownloadLink
                           href={rendering.id}

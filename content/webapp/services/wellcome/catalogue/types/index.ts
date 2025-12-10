@@ -60,8 +60,6 @@ export type Work = {
   images?: ImageInclude[];
   parts: RelatedWork[];
   partOf: RelatedWork[];
-  precededBy: RelatedWork[];
-  succeededBy: RelatedWork[];
   totalParts?: number;
   totalDescendentParts?: number;
   availableOnline?: boolean;
@@ -147,10 +145,10 @@ export type RelatedConcept = {
 export type Concept = {
   id: string;
   label: string;
+  displayLabel: string;
   type: ConceptType;
   displayImages: DigitalLocation[];
   identifiers?: Identifier[];
-  displayLabel?: string;
   sameAs?: string[];
   description?: {
     sourceLabel: SourceOntology;

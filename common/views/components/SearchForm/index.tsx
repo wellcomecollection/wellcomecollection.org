@@ -68,6 +68,7 @@ const SearchForm = ({
       data-component="search-form"
       action={formAction(searchCategory)}
       id={formId}
+      data-gtm-trigger={formId}
       onSubmit={event => {
         event.preventDefault();
         updateUrl(event.currentTarget);
@@ -88,7 +89,7 @@ const SearchForm = ({
       />
 
       {hasAvailableOnlineOnly && (
-        <Space $v={{ size: 'm', properties: ['margin-top'] }}>
+        <Space $v={{ size: 'sm', properties: ['margin-top'] }}>
           <CheckboxRadio
             id="isAvailableOnlineOnly"
             type="checkbox"

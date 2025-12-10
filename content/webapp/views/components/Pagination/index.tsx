@@ -16,7 +16,7 @@ export type Props = {
 };
 
 const Container = styled.nav.attrs({
-  className: `${font('intr', 6)} is-hidden-print`,
+  className: `${font('sans', -2)} is-hidden-print`,
 })<{ $isHiddenMobile?: boolean }>`
   display: flex;
   align-items: center;
@@ -38,8 +38,8 @@ const ChevronWrapper = styled(Link)<{
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 34px;
-  width: 34px;
+  height: 44px;
+  width: 44px;
   border-radius: 100%;
   margin: 0 0 0 1rem;
   cursor: pointer;

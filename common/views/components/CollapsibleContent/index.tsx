@@ -24,7 +24,7 @@ const IconContainer = styled.div<{ $darkTheme?: boolean }>`
 `;
 
 const Control = styled.button.attrs({
-  className: font('intb', 5),
+  className: font('sans-bold', -1),
 })`
   color: inherit;
   display: flex;
@@ -43,7 +43,7 @@ const ControlText = styled.span<{ $darkTheme?: boolean }>`
 `;
 
 const Content = styled(Space).attrs({
-  $h: { size: 's', properties: ['padding-left'] },
+  $h: { size: 'xs', properties: ['padding-left'] },
 })<{
   $hidden: boolean;
   $darkTheme?: boolean;
@@ -87,7 +87,7 @@ const CollapsibleContent: FunctionComponent<Props> = ({
             setShowContent(!showContent);
           }}
         >
-          <Space as="span" $h={{ size: 's', properties: ['margin-right'] }}>
+          <Space as="span" $h={{ size: 'xs', properties: ['margin-right'] }}>
             <IconContainer $darkTheme={darkTheme}>
               <Icon
                 iconColor={darkTheme ? 'yellow' : undefined}
@@ -110,8 +110,8 @@ const CollapsibleContent: FunctionComponent<Props> = ({
         $darkTheme={darkTheme}
       >
         <Space
-          $v={{ size: 'l', properties: ['margin-top'] }}
-          $h={{ size: 's', properties: ['padding-right'] }}
+          $v={{ size: 'md', properties: ['margin-top'] }}
+          $h={{ size: 'xs', properties: ['padding-right'] }}
           style={{ display: 'flex' }}
         >
           <div className="body-text spaced-text">{children}</div>

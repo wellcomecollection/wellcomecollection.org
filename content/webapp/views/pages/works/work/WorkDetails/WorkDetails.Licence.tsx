@@ -53,7 +53,7 @@ const WorkDetailsLicence = ({
   return (
     <>
       {accessConditionsTerms && (
-        <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+        <Space $v={{ size: 'md', properties: ['margin-top'] }}>
           <WorkDetailsText
             title="Access conditions"
             noSpacing={true}
@@ -61,7 +61,7 @@ const WorkDetailsLicence = ({
           />
         </Space>
       )}
-      <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+      <Space $v={{ size: 'md', properties: ['margin-top'] }}>
         <CollapsibleContent
           id="licenseDetail"
           controlText={{ defaultText: 'Licence and re-use' }}

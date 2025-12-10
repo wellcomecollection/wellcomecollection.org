@@ -11,7 +11,7 @@ import { Contributor as ContributorType } from '@weco/content/types/contributors
 import LinkLabels from '@weco/content/views/components/LinkLabels';
 
 const ContributorImageWrapper = styled(Space).attrs({
-  $h: { size: 'm', properties: ['margin-right'] },
+  $h: { size: 'sm', properties: ['margin-right'] },
 })`
   min-width: 78px;
 `;
@@ -43,22 +43,22 @@ const OrganisationImage = styled.div`
   width: 72px;
 `;
 
-const Name = styled.h3.attrs({ className: font('intb', 4) })`
+const Name = styled.h3.attrs({ className: font('sans-bold', 0) })`
   margin: 0;
 `;
 
 const Pronouns = styled(ContributorInfoWrapper).attrs({
-  className: font('intr', 5),
-  $h: { size: 's', properties: ['margin-left'] },
+  className: font('sans', -1),
+  $h: { size: 'xs', properties: ['margin-left'] },
 })``;
 
 const Role = styled(ContributorInfoWrapper).attrs({
-  className: font('intb', 5),
+  className: font('sans-bold', -1),
 })``;
 
 const Description = styled(Space).attrs({
-  className: `${font('intr', 5)} spaced-text`,
-  $v: { size: 's', properties: ['margin-top'] },
+  className: `${font('sans', -1)} spaced-text`,
+  $v: { size: 'xs', properties: ['margin-top'] },
 })``;
 
 const Contributor: FunctionComponent<ContributorType> = ({

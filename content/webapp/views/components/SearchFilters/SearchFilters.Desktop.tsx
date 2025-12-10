@@ -14,7 +14,7 @@ import DynamicFilterArray from './SearchFilters.Desktop.DynamicFilters';
 import ModalMoreFilters from './SearchFilters.Desktop.Modal';
 
 const Wrapper = styled(Space).attrs({
-  className: font('intr', 5),
+  className: font('sans', -1),
 })`
   display: flex;
   align-items: flex-end;
@@ -23,7 +23,7 @@ const Wrapper = styled(Space).attrs({
 `;
 
 const FilterDropdownsContainer = styled(Space).attrs({
-  $v: { size: 'm', properties: ['margin-bottom'] },
+  $v: { size: 'sm', properties: ['margin-bottom'] },
 })<{ $isEnhanced?: boolean }>`
   display: flex;
   align-items: center;
@@ -55,7 +55,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
     <>
       <Wrapper
         ref={wrapperRef}
-        $h={{ size: 'm', properties: ['padding-right'] }}
+        $h={{ size: 'sm', properties: ['padding-right'] }}
       >
         <FilterDropdownsContainer $isEnhanced={isEnhanced}>
           {isEnhanced && (
@@ -92,7 +92,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
         {booleanFilters?.map(f => (
           <Space
             key={f.id}
-            $v={{ size: 'm', properties: ['margin-bottom'] }}
+            $v={{ size: 'sm', properties: ['margin-bottom'] }}
             style={{ height: '32px', display: 'flex', alignItems: 'center' }}
           >
             <BooleanFilter

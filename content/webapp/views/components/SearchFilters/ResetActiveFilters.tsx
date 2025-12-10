@@ -35,7 +35,7 @@ const ColorSwatch = styled.span<{ $hexColor: string }>`
 `;
 
 const IconWrapper = styled(Space).attrs({
-  $h: { size: 'xs', properties: ['margin-right'] },
+  $h: { size: '2xs', properties: ['margin-right'] },
 })`
   vertical-align: middle;
 `;
@@ -50,7 +50,7 @@ const CancelFilter: FunctionComponent<CancelFilterProps> = ({
   children,
 }: CancelFilterProps) => {
   return (
-    <Space as="span" $h={{ size: 'm', properties: ['margin-right'] }}>
+    <Space as="span" $h={{ size: 'sm', properties: ['margin-right'] }}>
       <IconWrapper as="span">
         <Icon icon={cross} matchText={true} iconColor="neutral.500" />
       </IconWrapper>
@@ -162,9 +162,9 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
     ) : null;
 
   return (
-    <div className={font('intb', 5)}>
+    <div className={font('sans-bold', -1)}>
       <h2 style={{ display: 'inline' }}>
-        <Space as="span" $h={{ size: 'm', properties: ['margin-right'] }}>
+        <Space as="span" $h={{ size: 'sm', properties: ['margin-right'] }}>
           Active filters:
         </Space>
       </h2>

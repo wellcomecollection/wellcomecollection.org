@@ -36,15 +36,19 @@ const SearchResults: FunctionComponent<Props> = ({
   <>
     {title && (
       <Space
-        $v={!summary ? { size: 'm', properties: ['margin-bottom'] } : undefined}
+        $v={
+          !summary ? { size: 'sm', properties: ['margin-bottom'] } : undefined
+        }
       >
-        <h2 id={id} className={font('wb', 3)}>
+        <h2 id={id} className={font('brand', 1)}>
           {title}
         </h2>
       </Space>
     )}
     {summary && (
-      <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>{summary}</Space>
+      <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
+        {summary}
+      </Space>
     )}
     {items.length > 0 && (
       <PlainList>

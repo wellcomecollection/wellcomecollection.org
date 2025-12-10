@@ -17,6 +17,8 @@ import {
   SimplifiedServerData,
 } from '@weco/common/server-data/types';
 import { AppErrorProps } from '@weco/common/services/app';
+import { HotjarLoader } from '@weco/common/services/app/analytics-scripts/hotjar-loader';
+import { CookieConsentEvent } from '@weco/common/services/app/civic-uk';
 import useMaintainPageHeight from '@weco/common/services/app/useMaintainPageHeight';
 import usePrismicPreview from '@weco/common/services/app/usePrismicPreview';
 import { deserialiseProps } from '@weco/common/utils/json';
@@ -24,7 +26,10 @@ import CivicUK from '@weco/common/views/components/CivicUK';
 import GlobalSvgDefinitions from '@weco/common/views/components/GlobalSvgDefinitions';
 import LoadingIndicator from '@weco/common/views/components/LoadingIndicator';
 import ErrorPage from '@weco/common/views/layouts/ErrorPage';
-import theme, { GlobalStyle } from '@weco/common/views/themes/default';
+import {
+  createThemeValues,
+  GlobalStyle,
+} from '@weco/common/views/themes/default';
 
 // Error pages can't send anything via the data fetching methods as
 // the page needs to be rendered as soon as the error happens.
@@ -95,13 +100,7 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
 
   useMaintainPageHeight();
 
-  type ConsentType = 'granted' | 'denied';
-  const onConsentChanged = (
-    event: CustomEvent<{
-      analyticsConsent?: ConsentType;
-      marketingConsent?: ConsentType;
-    }>
-  ) => {
+  const onConsentChanged = (event: CookieConsentEvent) => {
     // Update datalayer config with consent value
     gtag('consent', 'update', {
       ...(event.detail.analyticsConsent && {
@@ -148,10 +147,10 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
     <>
       <ApmContextProvider>
         <ServerDataContext.Provider value={serverData}>
-          <UserContextProvider>
-            <AppContextProvider>
-              <SearchContextProvider>
-                <ThemeProvider theme={theme}>
+          <ThemeProvider theme={createThemeValues(serverData.toggles)}>
+            <UserContextProvider>
+              <AppContextProvider>
+                <SearchContextProvider>
                   <GlobalStyle
                     toggles={serverData.toggles}
                     isFontsLoaded={useIsFontsLoaded()}
@@ -161,6 +160,7 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
                   <LoadingIndicator />
 
                   {displayCookieBanner && <CivicUK apiKey={civicUkApiKey} />}
+                  <HotjarLoader />
 
                   {!pageProps.err && (
                     <Component {...deserialiseProps(pageProps)} />
@@ -171,10 +171,10 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
                       title={pageProps.err.message}
                     />
                   )}
-                </ThemeProvider>
-              </SearchContextProvider>
-            </AppContextProvider>
-          </UserContextProvider>
+                </SearchContextProvider>
+              </AppContextProvider>
+            </UserContextProvider>
+          </ThemeProvider>
         </ServerDataContext.Provider>
       </ApmContextProvider>
     </>

@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 
 export const CTAs = styled(Space).attrs({
-  $v: { size: 'l', properties: ['margin-top'] },
+  $v: { size: 'md', properties: ['margin-top'] },
 })``;
 
 export const Header = styled(Space).attrs({
-  $v: { size: 'm', properties: ['margin-bottom'] },
+  $v: { size: 'sm', properties: ['margin-bottom'] },
 })`
   display: flex;
   justify-content: space-between;

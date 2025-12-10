@@ -25,7 +25,7 @@ export const ExhibitionResourceLinks: FunctionComponent<ResourceProps> = ({
     <>
       {hasAudioVideo && (
         <>
-          <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
             <SectionHeader title="Highlights tour" />
           </Space>
           <p>
@@ -60,7 +60,7 @@ export const ExhibitionResourceLinks: FunctionComponent<ResourceProps> = ({
             </Space>
           )}
         >
-          <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
             <SectionHeader title="Exhibition text" />
           </Space>
           <p>All the wall and label text from the exhibition.</p>

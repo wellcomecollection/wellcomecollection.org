@@ -64,15 +64,15 @@ const DateWrapper = styled.div.attrs({
 `;
 
 const ThirdParty = styled.span.attrs({
-  className: font('intr', 5),
+  className: font('sans', -1),
 })`
   color: ${props => props.theme.color('neutral.700')};
   margin: 0;
 `;
 
 const EmailTeamCopy = styled(Space).attrs({
-  className: font('intb', 5),
-  $v: { size: 's', properties: ['margin-top'] },
+  className: font('sans-bold', -1),
+  $v: { size: 'xs', properties: ['margin-top'] },
 })`
   display: block;
   color: ${props => props.theme.color('neutral.700')};
@@ -172,7 +172,7 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
         ContentTypeInfo={
           <>
             <Space
-              $v={{ size: 's', properties: ['margin-bottom'] }}
+              $v={{ size: 'xs', properties: ['margin-bottom'] }}
               style={{ display: 'flex', flexWrap: 'wrap' }}
             >
               <div style={{ display: 'inline' }}>
@@ -182,7 +182,7 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
               This 'All dates' link takes the user to the complete list of dates
               further down the page, but if there's only one date we can skip it.
              */}
-              <Space $h={{ size: 's', properties: ['margin-left'] }}>
+              <Space $h={{ size: 'xs', properties: ['margin-left'] }}>
                 {!event.isPast && event.times.length > 1 && <EventDatesLink />}
               </Space>
             </Space>
@@ -279,7 +279,7 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
                       }}
                     />
                     {event.thirdPartyBooking.name && (
-                      <Space $v={{ size: 's', properties: ['margin-top'] }}>
+                      <Space $v={{ size: 'xs', properties: ['margin-top'] }}>
                         <ThirdParty>
                           with {event.thirdPartyBooking.name}
                         </ThirdParty>
@@ -320,12 +320,12 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
               !(event.schedule && event.schedule.length > 1) && (
                 <>
                   {!event.hasEarlyRegistration && !event.cost && (
-                    <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+                    <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
                       <Message text="Just turn up" />
                     </Space>
                   )}
                   {event.hasEarlyRegistration && (
-                    <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+                    <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
                       <Message text="Arrive early to register" />
                     </Space>
                   )}
@@ -336,8 +336,8 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
 
         {accessResourceLinks && accessResourceLinks.length > 0 && (
           <>
-            <h2 className={font('wb', 3)}>Event access content</h2>
-            <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
+            <h2 className={font('brand', 1)}>Event access content</h2>
+            <Space $v={{ size: 'md', properties: ['padding-bottom'] }}>
               <ResourcesList>
                 {accessResourceLinks.map((link, i) => {
                   return (
@@ -348,9 +348,9 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
                         $borderColor="accent.turquoise"
                       >
                         {link.type === 'visual-story' && (
-                          <h3 className={font('intb', 4)}>Visual story</h3>
+                          <h3 className={font('sans-bold', 0)}>Visual story</h3>
                         )}
-                        <span className={font('intr', 6)}>{link.text}</span>
+                        <span className={font('sans', -2)}>{link.text}</span>
                         <ResourceLinkIconWrapper>
                           <Icon icon={arrow} />
                         </ResourceLinkIconWrapper>
@@ -409,13 +409,13 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
           {isNotUndefined(
             event.policies.find(p => p.id === eventPolicyIds.schoolBooking)
           ) ? (
-            <p className={font('intr', 5)} style={{ marginBottom: 0 }}>
+            <p className={font('sans', -1)} style={{ marginBottom: 0 }}>
               {a11y.defaultEventMessage}
             </p>
           ) : (
             <>
-              <p className={font('intr', 5)}>{a11y.defaultEventMessage}</p>
-              <p className={font('intr', 5)} style={{ marginBottom: 0 }}>
+              <p className={font('sans', -1)}>{a11y.defaultEventMessage}</p>
+              <p className={font('sans', -1)} style={{ marginBottom: 0 }}>
                 <a
                   href={`https://wellcomecollection.org/visit-us/${prismicPageIds.bookingAndAttendingOurEvents}`}
                 >

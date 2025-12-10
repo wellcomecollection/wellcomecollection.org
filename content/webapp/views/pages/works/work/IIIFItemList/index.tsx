@@ -31,7 +31,7 @@ const IIIFItemList: FunctionComponent<Props> = ({
         return displayItems.map(item => {
           return (
             <li key={item.id}>
-              <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+              <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
                 <IIIFItem
                   placeholderId={placeholderId}
                   item={item}

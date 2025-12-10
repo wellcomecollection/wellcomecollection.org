@@ -18,8 +18,8 @@ import DateRange from '@weco/content/views/components/DateRange';
 import StatusIndicator from '@weco/content/views/components/StatusIndicator';
 
 const DateWrapper = styled(Space).attrs({
-  className: font('intr', 5),
-  $v: { size: 'm', properties: ['margin-bottom'] },
+  className: font('sans', -1),
+  $v: { size: 'sm', properties: ['margin-bottom'] },
 })`
   padding: 0;
 `;

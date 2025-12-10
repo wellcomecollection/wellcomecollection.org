@@ -1,6 +1,7 @@
 import NextLink from 'next/link';
 import { FunctionComponent, useEffect, useState } from 'react';
 
+import { getCrop } from '@weco/common/model/image';
 import {
   ExhibitionHighlightToursDocument,
   ExhibitionTextsDocument,
@@ -22,10 +23,7 @@ import {
 } from '@weco/content/types/exhibitions';
 import { Link } from '@weco/content/types/link';
 import { Page as PageType } from '@weco/content/types/pages';
-import {
-  getFeaturedMedia,
-  getHeroPicture,
-} from '@weco/content/utils/page-header';
+import { getFeaturedMedia, HeroPicture } from '@weco/content/utils/page-header';
 import Body from '@weco/content/views/components/Body';
 import BslLeafletVideo from '@weco/content/views/components/BslLeafletVideo';
 import Contact from '@weco/content/views/components/Contact';
@@ -97,8 +95,10 @@ const Exhibition: FunctionComponent<Props> = ({
   );
 
   // This is for content that we don't have the crops for in Prismic.
-  const maybeHeroPicture = getHeroPicture(exhibition);
-  const maybeFeaturedMedia = !maybeHeroPicture
+  const squareImage = getCrop(exhibition.image, 'square');
+  const widescreenImage = getCrop(exhibition.image, '16:9');
+  const hasHeroPicture = squareImage && widescreenImage;
+  const maybeFeaturedMedia = !hasHeroPicture
     ? getFeaturedMedia(exhibition)
     : undefined;
 
@@ -119,10 +119,10 @@ const Exhibition: FunctionComponent<Props> = ({
           <>
             {!exhibition.isPermanent && (
               <Space
-                $v={{ size: 'xs', properties: ['margin-bottom'] }}
+                $v={{ size: '2xs', properties: ['margin-bottom'] }}
                 style={{ display: 'flex', flexWrap: 'wrap' }}
               >
-                <Space $h={{ size: 'm', properties: ['margin-right'] }}>
+                <Space $h={{ size: 'sm', properties: ['margin-right'] }}>
                   {DateInfo}
                 </Space>
                 <StatusIndicator
@@ -136,7 +136,9 @@ const Exhibition: FunctionComponent<Props> = ({
           </>
         }
         FeaturedMedia={maybeFeaturedMedia}
-        HeroPicture={maybeHeroPicture}
+        HeroPicture={
+          hasHeroPicture ? <HeroPicture fields={exhibition} /> : undefined
+        }
         isFree={true}
         isContentTypeInfoBeforeMedia={true}
         includeAccessibilityProvision={true}
@@ -202,9 +204,9 @@ const Exhibition: FunctionComponent<Props> = ({
                 <GridCell $sizeMap={{ s: [12] }}>
                   <Space
                     as="h2"
-                    className={font('wb', 3)}
+                    className={font('brand', 1)}
                     $v={{
-                      size: 'l',
+                      size: 'md',
                       properties: ['margin-top', 'margin-bottom'],
                     }}
                   >
@@ -215,24 +217,24 @@ const Exhibition: FunctionComponent<Props> = ({
 
               {visualStoryLink && (
                 <>
-                  <h3 className={font('intb', 4)}>Plan your visit</h3>
+                  <h3 className={font('sans-bold', 0)}>Plan your visit</h3>
                   <NextLink href={visualStoryLink.url}>
                     Exhibition visual story
                   </NextLink>{' '}
-                  <Space as="p" $v={{ size: 'm', properties: ['margin-top'] }}>
+                  <Space as="p" $v={{ size: 'sm', properties: ['margin-top'] }}>
                     This visual story provides images and information to help
                     you plan and prepare for your visit to the exhibition.
                   </Space>
                 </>
               )}
 
-              <h3 className={font('intb', 4)}>{`When you're here`}</h3>
+              <h3 className={font('sans-bold', 0)}>{`When you're here`}</h3>
               <p>
                 Resources designed to support your visit are available online
                 and in the gallery.
               </p>
 
-              <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+              <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
                 <ExhibitionAccessAccordion
                   exhibitionTexts={exhibitionTexts}
                   exhibitionHighlightTours={exhibitionHighlightTours}
@@ -242,8 +244,8 @@ const Exhibition: FunctionComponent<Props> = ({
 
               <Space
                 as="h3"
-                className={font('intb', 4)}
-                $v={{ size: 'l', properties: ['margin-bottom'] }}
+                className={font('sans-bold', 0)}
+                $v={{ size: 'md', properties: ['margin-bottom'] }}
               >
                 Access information, tours and queries
               </Space>

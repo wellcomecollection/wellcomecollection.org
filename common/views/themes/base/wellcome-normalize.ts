@@ -1,54 +1,62 @@
-import { themeValues } from '@weco/common/views/themes/config';
+import { css } from 'styled-components';
 
-export const wellcomeNormalize = `
-input,
-button {
-  border-radius: 0;
-}
+export const focusStyle = css`
+  outline: 0.3rem double ${props => props.theme.color('black')};
+  box-shadow: 0 0 0 0.3rem ${props => props.theme.color('white')};
+`;
 
-button {
-  appearance: none;
-  font-family: inherit;
-  letter-spacing: inherit;
-  background: transparent;
-  border: 0;
-  text-align: left;
-  cursor: pointer;
-}
-
-fieldset {
-  border: 0;
-  margin: 0;
-  padding: 0;
-}
-
-img {
-  width: 100%;
-  height: auto;
-}
-
-* {
-  &:focus-visible,
-  &:focus {
-    box-shadow: ${themeValues.focusBoxShadow};
-    outline: ${themeValues.highContrastOutlineFix};
+export const wellcomeNormalize = css`
+  input,
+  button {
+    border-radius: 0;
   }
 
-  :focus:not(:focus-visible) {
-    box-shadow: none;
+  button {
+    appearance: none;
+    font-family: inherit;
+    letter-spacing: inherit;
+    background: transparent;
+    border: 0;
+    text-align: left;
+    cursor: pointer;
   }
-}
 
-.openseadragon-canvas:focus {
-  border: 2px solid ${themeValues.color('focus.yellow')}!important;
-}
+  fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+  }
 
-// TODO verify if this is used (maybe by a library?)
-.scale {
-  transform: scale(0);
-  transition: transform 500ms;
-}
+  img {
+    width: 100%;
+    height: auto;
+  }
 
-.scale.scale-entered {
-  transform: scale(1);
-}`;
+  *,
+  button {
+    /* Firefox needs 'button' to override specific UA focus styles */
+    &:focus-visible,
+    &:focus {
+      ${focusStyle};
+    }
+
+    :focus:not(:focus-visible) {
+      outline: none;
+      box-shadow: none;
+    }
+  }
+
+  .openseadragon-canvas:focus {
+    border: 2px solid ${props => props.theme.color('focus.yellow')} !important;
+  }
+
+  /* TODO verify if this is used (maybe by a library?) */
+  .scale {
+    transform: scale(0);
+    transition: transform 500ms;
+  }
+
+  .scale.scale-entered {
+    transform: scale(1);
+  }
+`;

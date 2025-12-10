@@ -31,34 +31,35 @@ const StoryWrapper = styled(Space).attrs({
   }
 `;
 
-const ImageWrapper = styled(GridCell).attrs({
-  $sizeMap: { s: [12], m: [6], l: [4], xl: [4] },
-})`
+const ImageWrapper = styled(GridCell)`
   position: relative;
-  margin-bottom: ${props => props.theme.spacingUnit * 2}px;
 `;
 
 const DesktopLabel = styled(Space).attrs({
-  $v: { size: 's', properties: ['margin-bottom'] },
-})`
-  ${props => props.theme.media('medium', 'max-width')`
-      display: none;
-    `}
+  $v: { size: 'xs', properties: ['margin-bottom'] },
+})<{ $isCompact?: boolean }>`
+  ${props =>
+    props.theme.media(
+      'medium',
+      'max-width'
+    )(`
+    ${props.$isCompact ? '' : 'display: none;'}
+  `)}
 `;
 
 const MobileLabel = styled.div`
   position: absolute;
   bottom: 0;
-  left: 18px;
+  left: 0;
 
   ${props => props.theme.media('medium')`
-      display: none;
-    `}
+    display: none;
+  `}
 `;
 
 const StoryInformation = styled(Space).attrs({
-  className: font('intr', 5),
-  $v: { size: 'xs', properties: ['margin-bottom'] },
+  className: font('sans', -1),
+  $v: { size: '2xs', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.600')};
 `;
@@ -85,18 +86,20 @@ const StoryInformationItemSeparator = styled.span`
 
 type Props = {
   articles: Article[];
+  isCompact?: boolean;
   dynamicImageSizes?: BreakpointSizes;
 };
 
 const StoriesGrid: FunctionComponent<Props> = ({
   articles,
+  isCompact,
   dynamicImageSizes,
 }: Props) => {
   return (
-    <div>
+    <div data-component="stories-grid">
       {articles.map((article, index) => {
         const image = transformImage(article.image);
-        const croppedImage = getCrop(image, '16:9');
+        const croppedImage = getCrop(image, isCompact ? 'square' : '16:9');
 
         return (
           <StoryWrapper
@@ -109,7 +112,13 @@ const StoriesGrid: FunctionComponent<Props> = ({
           >
             <Grid>
               {croppedImage && (
-                <ImageWrapper $sizeMap={{ s: [12], m: [6], l: [4], xl: [4] }}>
+                <ImageWrapper
+                  $sizeMap={
+                    isCompact
+                      ? { s: [3, 1], m: [2, 1], l: [2, 1], xl: [2, 1] }
+                      : { s: [12], m: [6], l: [4], xl: [4] }
+                  }
+                >
                   <PrismicImage
                     image={{
                       // We intentionally omit the alt text on promos, so screen reader
@@ -123,46 +132,62 @@ const StoriesGrid: FunctionComponent<Props> = ({
                     sizes={dynamicImageSizes}
                     quality="low"
                   />
-                  <MobileLabel>
-                    <LabelsList labels={[{ text: article.format.label }]} />
-                  </MobileLabel>
+
+                  {!isCompact && (
+                    <MobileLabel>
+                      <LabelsList labels={[{ text: article.format.label }]} />
+                    </MobileLabel>
+                  )}
                 </ImageWrapper>
               )}
-              <GridCell $sizeMap={{ s: [12], m: [6], l: [8], xl: [8] }}>
-                <DesktopLabel>
+
+              <GridCell
+                $sizeMap={
+                  isCompact
+                    ? { s: [9], m: [8], l: [6], xl: [6] }
+                    : { s: [12], m: [6], l: [8], xl: [8] }
+                }
+              >
+                <DesktopLabel $isCompact={isCompact}>
                   <LabelsList labels={[{ text: article.format.label }]} />
                 </DesktopLabel>
 
-                <h3 className={font('wb', 4)}>{article.title}</h3>
+                <h3 className={font('brand', 0)}>{article.title}</h3>
 
-                {(article.publicationDate || !!article.contributors.length) && (
-                  <StoryInformation>
-                    {article.publicationDate && (
-                      <StoryInformationItem className="searchable-selector">
-                        <HTMLDateAndTime
-                          variant="date"
-                          date={new Date(article.publicationDate)}
-                        />
-                      </StoryInformationItem>
-                    )}
-                    {!!article.contributors.length && (
-                      <>
-                        <StoryInformationItemSeparator>
-                          {' | '}
-                        </StoryInformationItemSeparator>
-                        <StoryInformationItem>
-                          {article.contributors.map(contributor => (
-                            <span key={contributor.contributor?.id}>
-                              {contributor.contributor?.label}
-                            </span>
-                          ))}
+                {!isCompact &&
+                  (article.publicationDate ||
+                    !!article.contributors.length) && (
+                    <StoryInformation>
+                      {article.publicationDate && (
+                        <StoryInformationItem className="searchable-selector">
+                          <HTMLDateAndTime
+                            variant="date"
+                            date={new Date(article.publicationDate)}
+                          />
                         </StoryInformationItem>
-                      </>
-                    )}
-                  </StoryInformation>
-                )}
+                      )}
+
+                      {!!article.contributors.length && (
+                        <>
+                          <StoryInformationItemSeparator>
+                            {' | '}
+                          </StoryInformationItemSeparator>
+                          <StoryInformationItem>
+                            {article.contributors.map(contributor => (
+                              <span key={contributor.contributor?.id}>
+                                {contributor.contributor?.label}
+                              </span>
+                            ))}
+                          </StoryInformationItem>
+                        </>
+                      )}
+                    </StoryInformation>
+                  )}
+
                 {article.caption && (
-                  <p className={font('intr', 5)}>{article.caption}</p>
+                  <p className={font('sans', -1)} style={{ marginBottom: 0 }}>
+                    {article.caption}
+                  </p>
                 )}
               </GridCell>
             </Grid>

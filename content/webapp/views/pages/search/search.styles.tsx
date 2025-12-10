@@ -6,7 +6,7 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 
 export const WorksLink = styled(NextLink).attrs({
-  className: font('intr', 6),
+  className: font('sans', -2),
 })`
   border: 2px solid;
   padding: 4px 12px;
@@ -18,18 +18,18 @@ export const WorksLink = styled(NextLink).attrs({
 `;
 
 export const CatalogueResultsInner = styled(Space).attrs({
-  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
 })`
   position: relative;
   background-color: ${props => props.theme.color('warmNeutral.300')};
 `;
 
 export const CatalogueResultsSection = styled(Space).attrs({
-  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
 })``;
 
 export const CatalogueLinks = styled(Space).attrs({
-  $v: { size: 'm', properties: ['margin-top', 'margin-bottom'] },
+  $v: { size: 'sm', properties: ['margin-top', 'margin-bottom'] },
   className: 'is-hidden-s is-hidden-m',
 })`
   display: flex;
@@ -53,16 +53,16 @@ export const CatalogueSectionTitle = styled(Space).attrs<{
   $isSmallGallery?: boolean;
 }>(props => ({
   as: 'h3',
-  className: `${font('intsb', 4)} is-hidden-s is-hidden-m`,
+  className: `${font('sans-bold', 0)} is-hidden-s is-hidden-m`,
   $v: props.$isSmallGallery
-    ? { size: 'm', properties: ['margin-bottom'] }
+    ? { size: 'sm', properties: ['margin-bottom'] }
     : undefined,
 }))<{ $isSmallGallery?: boolean }>`
   ${props => !props.$isSmallGallery && `margin-bottom: 0;`}
 `;
 
 export const AllLink = styled(NextLink).attrs({
-  className: font('intsb', 5),
+  className: font('sans-bold', -1),
 })`
   display: inline-flex;
   align-items: center;

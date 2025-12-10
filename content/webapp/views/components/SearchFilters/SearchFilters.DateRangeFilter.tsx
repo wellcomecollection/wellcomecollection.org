@@ -30,7 +30,7 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
   ref: ForwardedRef<HTMLInputElement>
 ) => (
   <label>
-    <Space as="span" $h={{ size: 'm', properties: ['margin-right'] }}>
+    <Space as="span" $h={{ size: 'sm', properties: ['margin-right'] }}>
       {label}
     </Space>
     {/* @types/react has some issues currently with react refs */}
@@ -53,7 +53,7 @@ const DateRangeFilter = ({ f, changeHandler, form }: DateRangeFilterProps) => {
 
   return (
     <>
-      <Space as="span" $h={{ size: 'm', properties: ['margin-right'] }}>
+      <Space as="span" $h={{ size: 'sm', properties: ['margin-right'] }}>
         <NumberInput
           name={f.from.id}
           label="From"

@@ -1,5 +1,5 @@
 import { FunctionComponent, ReactNode, useRef, useState } from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { sierraAccessMethodtoNewLabel } from '@weco/common/data/microcopy';
@@ -8,7 +8,6 @@ import { font } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
 import StackingTable from '@weco/common/views/components/StackingTable';
 import Space from '@weco/common/views/components/styled/Space';
-import { themeValues } from '@weco/common/views/themes/config';
 import { useIsArchiveContext } from '@weco/content/contexts/IsArchiveContext';
 import {
   PhysicalItem,
@@ -26,7 +25,7 @@ import ItemRequestModal from './ItemRequestModal';
 import Placeholder from './PhysicalItem.Details.Placeholder';
 
 const Wrapper = styled(Space).attrs({
-  $v: { size: 'm', properties: ['margin-bottom', 'padding-bottom'] },
+  $v: { size: 'sm', properties: ['margin-bottom', 'padding-bottom'] },
 })<{ $underline: boolean }>`
   ${props =>
     props.$underline &&
@@ -56,7 +55,7 @@ const ButtonWrapper = styled.div<ButtonWrapperProps>`
 `;
 
 const DetailHeading = styled.h3.attrs({
-  className: `${font('intb', 5, { small: 3, medium: 3 })}`,
+  className: `${font('sans-bold', -1)}`,
 })`
   margin-bottom: 0;
 `;
@@ -79,6 +78,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   const { state: userState } = useUserContext();
   const { disableRequesting } = useToggles();
   const isArchive = useIsArchiveContext();
+  const theme = useTheme();
   const requestButtonRef = useRef<HTMLButtonElement | null>(null);
   const [requestModalIsActive, setRequestModalIsActive] = useState(false);
 
@@ -186,7 +186,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
       const requestButton = (
         <Button
           variant="ButtonSolid"
-          colors={themeValues.buttonColors.greenTransparentGreen}
+          colors={theme.buttonColors.greenTransparentGreen}
           disabled={userState !== 'signedin'}
           ref={requestButtonRef}
           text="Request item"
@@ -233,7 +233,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
       )}
       <Wrapper $underline={!isLast}>
         {(title || itemNote) && (
-          <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
             <DetailHeading>{title}</DetailHeading>
             {itemNote && (
               <span dangerouslySetInnerHTML={{ __html: itemNote }} />
@@ -243,12 +243,12 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
         <StackingTable
           rows={createRows()}
           plain={true}
-          maxWidth={isArchive ? 980 : 620}
+          maxWidth={isArchive ? '61.25rem' : '38.75rem'}
           columnWidths={[180, 200, undefined, undefined]}
         />
 
         {(accessNote || isHeldByUser) && (
-          <Space $v={{ size: 'm', properties: ['margin-top'] }}>
+          <Space $v={{ size: 'sm', properties: ['margin-top'] }}>
             <DetailHeading>Note</DetailHeading>
             <Placeholder
               nRows={3}

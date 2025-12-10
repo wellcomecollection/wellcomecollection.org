@@ -11,7 +11,7 @@ import { SizeMap } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 
 const YellowBox = styled(Space).attrs({
-  $v: { size: 's', properties: ['margin-bottom'] },
+  $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   display: block;
   width: 60px;
@@ -28,6 +28,8 @@ const YellowBox = styled(Space).attrs({
 `;
 
 const Title = styled.h2`
+  margin-bottom: 0;
+
   .bg-dark & {
     color: ${props => props.theme.color('white')};
   }
@@ -40,7 +42,7 @@ type Props = {
 
 const SectionHeader: FunctionComponent<Props> = ({ title, gridSize }) => {
   return (
-    <div data-component="section-header" className={font('wb', 2)}>
+    <div data-component="section-header" className={font('brand', 2)}>
       <ConditionalWrapper
         condition={!!gridSize}
         wrapper={children => (

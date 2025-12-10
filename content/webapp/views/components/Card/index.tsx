@@ -84,12 +84,12 @@ export const CardOuter = styled.a.attrs<{
 
 export const CardPostBody = styled(Space).attrs({
   $v: {
-    size: 'm',
+    size: 'sm',
     properties: ['padding-bottom'],
     overrides: { small: 5, medium: 5, large: 5 },
   },
   $h: {
-    size: 'm',
+    size: 'sm',
     properties: ['padding-left', 'padding-right'],
     overrides: { small: 5, medium: 5, large: 5 },
   },
@@ -100,7 +100,7 @@ export const CardPostBody = styled(Space).attrs({
     padding-bottom: 0;
 
     ${props =>
-      props.theme.makeSpacePropertyValues('l', ['padding-top'], false, {
+      props.theme.makeSpacePropertyValues('md', ['padding-top'], false, {
         small: 5,
         medium: 5,
         large: 5,
@@ -109,9 +109,9 @@ export const CardPostBody = styled(Space).attrs({
 `;
 
 export const CardBody = styled(Space).attrs({
-  $v: { size: 'm', properties: ['padding-top'] },
+  $v: { size: 'sm', properties: ['padding-top'] },
   $h: {
-    size: 'm',
+    size: 'sm',
     properties: ['padding-left', 'padding-right'],
     overrides: { small: 5, medium: 5, large: 5 },
   },
@@ -122,7 +122,7 @@ export const CardBody = styled(Space).attrs({
   justify-content: space-between;
 
   ${props =>
-    props.theme.makeSpacePropertyValues('l', ['padding-bottom'], false, {
+    props.theme.makeSpacePropertyValues('md', ['padding-bottom'], false, {
       small: 5,
       medium: 5,
       large: 5,
@@ -157,7 +157,7 @@ export const CardLabels: FunctionComponent<{ labels: LabelType[] }> = ({
 );
 
 const Description = styled.p.attrs({
-  className: font('intr', 5),
+  className: font('sans', -1),
 })`
   padding: 0;
   margin: 0;
@@ -165,8 +165,8 @@ const Description = styled.p.attrs({
 
 export const CardTitle = styled(Space).attrs({
   as: 'h3',
-  className: font('wb', 3),
-  $v: { size: 's', properties: ['margin-bottom'] },
+  className: font('brand', 1),
+  $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   transition: color 400ms ease;
 `;

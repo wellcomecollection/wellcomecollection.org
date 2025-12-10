@@ -1,5 +1,6 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
+import { useTheme } from 'styled-components';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
@@ -23,7 +24,6 @@ import PaginationWrapper from '@weco/common/views/components/styled/PaginationWr
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
-import { themeValues } from '@weco/common/views/themes/config';
 import { eventsFilters } from '@weco/content/services/wellcome/common/filters';
 import {
   ContentResultsList,
@@ -52,6 +52,7 @@ const EVENTS_LISTING_FORM_ID = 'events-listing-form';
 const EventsPage: NextPage<Props> = props => {
   const { period, jsonLd } = props;
   const router = useRouter();
+  const theme = useTheme();
 
   const isInPastListing = period === 'past';
 
@@ -121,8 +122,8 @@ const EventsPage: NextPage<Props> = props => {
 
         {pageDescriptions.events && (
           <ContaineredLayout gridSizes={gridSize8(false)}>
-            <div className={`body-text spaced-text ${font('intr', 4)}`}>
-              <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+            <div className={`body-text spaced-text ${font('sans', 0)}`}>
+              <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
                 <p>{pageDescriptions.events}</p>
               </Space>
             </div>
@@ -132,7 +133,7 @@ const EventsPage: NextPage<Props> = props => {
         <ContaineredLayout gridSizes={gridSize12()}>
           <div
             style={{
-              borderBottom: `1px solid ${themeValues.color('neutral.300')}`,
+              borderBottom: `1px solid ${theme.color('neutral.300')}`,
             }}
           >
             <Tabs
@@ -162,7 +163,7 @@ const EventsPage: NextPage<Props> = props => {
           <ContaineredLayout gridSizes={gridSize12()}>
             <Space
               $v={{
-                size: 'l',
+                size: 'md',
                 properties: ['padding-top', 'padding-bottom'],
               }}
             >
@@ -213,7 +214,7 @@ const EventsPage: NextPage<Props> = props => {
         ) : (
           <>
             <ContaineredLayout gridSizes={gridSize12()}>
-              <PaginationWrapper $verticalSpacing="l">
+              <PaginationWrapper $verticalSpacing="md">
                 <span>
                   {pluralize(
                     events.totalResults,
@@ -241,7 +242,7 @@ const EventsPage: NextPage<Props> = props => {
             </ContaineredLayout>
 
             <ContaineredLayout gridSizes={gridSize12()}>
-              <PaginationWrapper $verticalSpacing="l" $alignRight>
+              <PaginationWrapper $verticalSpacing="md" $alignRight>
                 <Pagination
                   totalPages={events.totalPages}
                   ariaLabel="Events pagination"

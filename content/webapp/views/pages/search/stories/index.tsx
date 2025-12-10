@@ -18,10 +18,9 @@ import Pagination from '@weco/content/views/components/Pagination';
 import SearchFilters from '@weco/content/views/components/SearchFilters';
 import { StoriesProps } from '@weco/content/views/components/SearchPagesLink/Stories';
 import Sort from '@weco/content/views/components/Sort';
+import StoriesGrid from '@weco/content/views/components/StoriesGrid';
 import { withSearchLayout } from '@weco/content/views/layouts/SearchPageLayout';
 import SearchNoResults from '@weco/content/views/pages/search/search.NoResults';
-
-import StoriesGrid from './stories.Grid';
 
 const Wrapper = styled(Space)`
   background-color: ${props => props.theme.color('neutral.200')};
@@ -79,11 +78,11 @@ const StoriesSearchPage: NextPage<Props> = withSearchLayout(
     ];
 
     return (
-      <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
+      <Space $v={{ size: 'md', properties: ['padding-bottom'] }}>
         {(!hasNoResults || (hasNoResults && hasActiveFilters)) && (
           <Container>
             <Space
-              $v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
+              $v={{ size: 'md', properties: ['padding-top', 'padding-bottom'] }}
             >
               <SearchFilters
                 query={queryString}
@@ -93,13 +92,18 @@ const StoriesSearchPage: NextPage<Props> = withSearchLayout(
                 searchFormId={SEARCH_PAGES_FORM_ID}
                 changeHandler={() => {
                   const form = document.getElementById(SEARCH_PAGES_FORM_ID);
-                  form &&
+                  if (form) {
+                    // Set data attribute to indicate this is a filter change, not a query change
+                    form.dataset.gtmIsFilterChange = 'true';
                     form.dispatchEvent(
                       new window.Event('submit', {
                         cancelable: true,
                         bubbles: true,
                       })
                     );
+                    // Remove the attribute after dispatch
+                    delete form.dataset.gtmIsFilterChange;
+                  }
                 }}
                 filters={filters}
                 hasNoResults={hasNoResults}
@@ -118,7 +122,7 @@ const StoriesSearchPage: NextPage<Props> = withSearchLayout(
               </Container>
             ) : (
               <Container>
-                <PaginationWrapper $verticalSpacing="l">
+                <PaginationWrapper $verticalSpacing="md">
                   <span role="status">
                     {pluralize(storyResponseList.totalResults, 'result')}
                     {activeFiltersLabels.length > 0 && (
@@ -174,7 +178,7 @@ const StoriesSearchPage: NextPage<Props> = withSearchLayout(
                   />
                 </main>
 
-                <PaginationWrapper $verticalSpacing="l" $alignRight>
+                <PaginationWrapper $verticalSpacing="md" $alignRight>
                   <Pagination
                     totalPages={storyResponseList.totalPages}
                     ariaLabel="Stories search pagination"

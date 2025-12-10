@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 import { arrowSmall } from '@weco/common/icons';
 import { getCrop } from '@weco/common/model/image';
@@ -9,7 +9,6 @@ import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import Button from '@weco/common/views/components/Buttons';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
-import { themeValues } from '@weco/common/views/themes/config';
 import { Season } from '@weco/content/types/seasons';
 import DateRange from '@weco/content/views/components/DateRange';
 
@@ -34,8 +33,8 @@ const CardOuter = styled.a<CardOuterProps>`
 `;
 
 const TextWrapper = styled(Space).attrs({
-  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
 })<{
   $highlightColor: 'yellow' | 'accent.salmon';
 }>`
@@ -63,8 +62,8 @@ const ImageWrapper = styled.div<ImageWrapperProps>`
 `;
 
 const DateRangeWrapper = styled(Space).attrs({
-  className: font('intr', 5),
-  $v: { size: 's', properties: ['margin-top', 'margin-bottom'] },
+  className: font('sans', -1),
+  $v: { size: 'xs', properties: ['margin-top', 'margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.400')};
 `;
@@ -89,6 +88,7 @@ const BannerCard: FunctionComponent<Props> = ({
   background = 'neutral.700',
   highlightColor = 'accent.salmon',
 }: Props) => {
+  const theme = useTheme();
   const { type, title, start, end, description, image, link } = {
     type: getTypeLabel(item.type),
     title: item.title,
@@ -133,8 +133,8 @@ const BannerCard: FunctionComponent<Props> = ({
         )}
         <Space
           as="h2"
-          className={font('wb', 2)}
-          $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
+          className={font('brand', 2)}
+          $v={{ size: 'sm', properties: ['margin-top', 'margin-bottom'] }}
         >
           {title}
         </Space>
@@ -143,10 +143,10 @@ const BannerCard: FunctionComponent<Props> = ({
             <DateRange start={start} end={end} />
           </DateRangeWrapper>
         )}
-        <p className={font('intr', 5)}>{description}</p>
+        <p className={font('sans', -1)}>{description}</p>
         <Button
           variant="ButtonSolid"
-          colors={themeValues.buttonColors.whiteTransparentWhite}
+          colors={theme.buttonColors.whiteTransparentWhite}
           isIconAfter={true}
           icon={arrowSmall}
           text={`Explore ${type}`}

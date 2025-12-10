@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { ServerDataContext } from '@weco/common/server-data/Context';
-import { classNames } from '@weco/common/utils/classnames';
+import { classNames, font } from '@weco/common/utils/classnames';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import LL from '@weco/common/views/components/styled/LL';
@@ -13,12 +13,12 @@ import {
 } from '@weco/content/services/wellcome/catalogue/types';
 import BetaMessage from '@weco/content/views/components/BetaMessage';
 import RelatedWorksCard from '@weco/content/views/components/RelatedWorksCard';
-import Tabs from '@weco/content/views/components/Tabs';
+import SelectableTags from '@weco/content/views/components/SelectableTags';
 
 import { fetchRelatedWorks } from './RelatedWorks.helpers';
 
-export const FullWidthRow = styled(Space).attrs({
-  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+const SectionWrapper = styled(Space).attrs({
+  $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
 })`
   background-color: ${props => props.theme.color('warmNeutral.300')};
 `;
@@ -113,32 +113,34 @@ const RelatedWorks = ({
       </div>
     );
 
-  return relatedWorksTabs && selectedTab ? (
-    <>
+  if (!(relatedWorksTabs && selectedTab)) return null;
+
+  return (
+    <SectionWrapper>
       <Container>
-        <Space $v={{ size: 'l', properties: ['padding-top'] }}>
-          <h2>More works</h2>
-        </Space>
+        <h2 className={font('brand', 1)}>More works</h2>
 
         {Object.keys(relatedWorksTabs).length > 1 && (
-          <Tabs
-            tabBehaviour="switch"
-            label="Related works control"
-            selectedTab={selectedTab}
-            setSelectedTab={setSelectedTab}
-            items={Object.entries(relatedWorksTabs).map(([key, value]) => ({
+          <SelectableTags
+            tags={Object.entries(relatedWorksTabs).map(([key, value]) => ({
               id: key,
-              url: `#${key}`,
-              text: value.label,
-              gtmData: { category: value.category },
+              label: value.label,
+              controls: `#${key}`,
+              gtmData: {
+                trigger: 'selectable_tag_related_works_control',
+                category: value.category,
+                label: value.label,
+              },
             }))}
+            onChange={selectedId => setSelectedTab(selectedId[0])}
           />
         )}
       </Container>
 
       {Object.entries(relatedWorksTabs).map(([key, value], tabIndex) => (
-        <FullWidthRow
+        <Space
           key={key}
+          $v={{ size: 'md', properties: ['padding-top', 'padding-bottom'] }}
           className={classNames({
             'is-hidden': selectedTab !== key,
           })}
@@ -164,7 +166,7 @@ const RelatedWorks = ({
               ))}
             </Grid>
 
-            <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+            <Space $v={{ size: 'md', properties: ['margin-top'] }}>
               <BetaMessage
                 message={
                   <>
@@ -178,10 +180,10 @@ const RelatedWorks = ({
               />
             </Space>
           </Container>
-        </FullWidthRow>
+        </Space>
       ))}
-    </>
-  ) : null;
+    </SectionWrapper>
+  );
 };
 
 export default RelatedWorks;

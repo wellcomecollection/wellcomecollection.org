@@ -11,7 +11,7 @@ export const TreeContainer = styled.div`
 `;
 
 export const ButtonWrap = styled(Space).attrs({
-  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
 })`
   button {
     width: 100%;

@@ -131,9 +131,8 @@ export const HeaderNav = styled.nav<{ $burgerMenuisActive: boolean }>`
   top: calc(100% + 17px); /* Accounts for the set size of the header */
   left: 0;
   right: 0;
-  padding-left: ${props =>
-    props.theme.grid.s.padding + props.theme.grid.s.gutter}px;
-  padding-right: ${props => props.theme.grid.s.padding}px;
+  padding-left: ${props => props.theme.containerPadding};
+  padding-right: ${props => props.theme.containerPadding};
 
   ${props => `
   ${props.theme.mediaBetween(
@@ -143,11 +142,6 @@ export const HeaderNav = styled.nav<{ $burgerMenuisActive: boolean }>`
     border-top: 1px solid ${props.theme.color('warmNeutral.400')};
     height: calc(100vh - 17px); // Accounts for the set size of the header
     overflow: auto;
-  `)}
-
-  ${props.theme.media('medium')(`
-    padding-left: ${props.theme.grid.m.padding + props.theme.grid.m.gutter}px;
-    padding-right: ${props.theme.grid.m.padding}px;
   `)}
 
   ${props.theme.media('headerMedium')`

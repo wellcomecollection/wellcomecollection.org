@@ -53,7 +53,7 @@ const Link = styled.a.attrs<LinkProps>({
 
 const Inner = styled(Space).attrs({
   $h: { size: 'xs', properties: ['padding-left', 'padding-right'] },
-  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
 })<{ $isNext: boolean }>`
   display: flex;
   align-items: center;
@@ -72,12 +72,12 @@ const TextWrap = styled.div<{ $isNext: boolean }>`
 `;
 
 const InSeries = styled(Space).attrs({
-  className: font('intr', 4),
-  $v: { size: 's', properties: ['margin-bottom'] },
+  className: font('sans', 0),
+  $v: { size: 'xs', properties: ['margin-bottom'] },
 })``;
 
 const Title = styled.div.attrs({
-  className: font('intb', 3),
+  className: font('sans-bold', 1),
 })`
   white-space: nowrap;
   overflow: hidden;
@@ -85,8 +85,8 @@ const Title = styled.div.attrs({
 `;
 
 const Chevron = styled(Space).attrs({
-  className: font('intr', 1),
-  $v: { size: 'm', properties: ['padding-top'] },
+  className: font('sans', 0),
+  $v: { size: 'sm', properties: ['padding-top'] },
 })<{ $isNext: boolean }>`
   transform: translateX(${props => (props.$isNext ? '-6px' : '6px')});
 

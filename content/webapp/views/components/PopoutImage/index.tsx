@@ -13,7 +13,7 @@ const PopoutCardImageContainer = styled.div`
 `;
 
 const PopoutCardImage = styled(Space).attrs({
-  $v: { size: 'l', properties: ['bottom'] },
+  $v: { size: 'md', properties: ['bottom'] },
 })`
   position: absolute;
   width: 66%;

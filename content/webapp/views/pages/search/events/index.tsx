@@ -45,11 +45,11 @@ const EventsSearchPage: NextPage<Props> = withSearchLayout(
     const activeFiltersLabels = getActiveFiltersLabel({ filters });
 
     return (
-      <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
+      <Space $v={{ size: 'md', properties: ['padding-bottom'] }}>
         {(!hasNoResults || (hasNoResults && hasActiveFilters)) && (
           <Container>
             <Space
-              $v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
+              $v={{ size: 'md', properties: ['padding-top', 'padding-bottom'] }}
             >
               <SearchFilters
                 query={queryString}
@@ -59,13 +59,18 @@ const EventsSearchPage: NextPage<Props> = withSearchLayout(
                 searchFormId={SEARCH_PAGES_FORM_ID}
                 changeHandler={() => {
                   const form = document.getElementById(SEARCH_PAGES_FORM_ID);
-                  form &&
+                  if (form) {
+                    // Set data attribute to indicate this is a filter change, not a query change
+                    form.dataset.gtmIsFilterChange = 'true';
                     form.dispatchEvent(
                       new window.Event('submit', {
                         cancelable: true,
                         bubbles: true,
                       })
                     );
+                    // Remove the attribute after dispatch
+                    delete form.dataset.gtmIsFilterChange;
+                  }
                 }}
                 filters={filters}
                 hasNoResults={hasNoResults}
@@ -82,7 +87,7 @@ const EventsSearchPage: NextPage<Props> = withSearchLayout(
               </Container>
             ) : (
               <Container>
-                <PaginationWrapper $verticalSpacing="l">
+                <PaginationWrapper $verticalSpacing="md">
                   <span role="status">
                     {pluralize(eventResponseList.totalResults, 'result')}
                     {activeFiltersLabels.length > 0 && (
@@ -106,7 +111,7 @@ const EventsSearchPage: NextPage<Props> = withSearchLayout(
                   />
                 </main>
 
-                <PaginationWrapper $verticalSpacing="l" $alignRight>
+                <PaginationWrapper $verticalSpacing="md" $alignRight>
                   <Pagination
                     totalPages={eventResponseList.totalPages}
                     ariaLabel="Events search pagination"

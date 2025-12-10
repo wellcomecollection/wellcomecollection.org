@@ -1,33 +1,32 @@
 import { FunctionComponent } from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import { dasherize } from '@weco/common/utils/grammar';
 import Button, { ButtonColors } from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
-import { themeValues } from '@weco/common/views/themes/config';
 import { RelatedConcept } from '@weco/content/services/wellcome/catalogue/types';
 
 const RelatedConceptsContainer = styled.div.attrs({
-  className: font('intm', 5),
+  className: font('sans-bold', -1),
 })`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: ${props => props.theme.spacingUnits['3']}px;
+  gap: ${props => props.theme.spacingUnits['3']};
 `;
 
 const RelatedConceptItem = styled.div.attrs<{ $isFullWidth: boolean }>({
-  className: font('intr', 6),
+  className: font('sans', -2),
 })`
   display: flex;
   align-items: center;
-  gap: ${props => props.theme.spacingUnits['3']}px;
+  gap: ${props => props.theme.spacingUnits['3']};
   width: ${props => (props.$isFullWidth ? '100%' : 'auto')};
 `;
 
 const SectionHeading = styled.h2.attrs({
-  className: font('wb', 2),
+  className: font('brand', 2),
 })``;
 
 const InlineLabel = styled.div`
@@ -53,13 +52,15 @@ const RelatedConceptsGroup: FunctionComponent<Props> = ({
   buttonColors,
   dataGtmTriggerName,
 }: Props) => {
+  const theme = useTheme();
+
   if (!relatedConcepts || relatedConcepts.length === 0) {
     return null;
   }
 
   return (
     <Space
-      $v={{ size: 'l', properties: ['margin-top'] }}
+      $v={{ size: 'md', properties: ['margin-top'] }}
       as="section"
       data-id={dasherize(label)}
     >
@@ -75,7 +76,7 @@ const RelatedConceptsGroup: FunctionComponent<Props> = ({
               !!item.relationshipType && item.relationshipType?.length > 0
             }
           >
-            <Space className={font('intr', 5)}>
+            <Space className={font('sans', -1)}>
               <Button
                 {...(dataGtmTriggerName && {
                   dataGtmProps: {
@@ -85,7 +86,7 @@ const RelatedConceptsGroup: FunctionComponent<Props> = ({
                 })}
                 variant="ButtonSolidLink"
                 colors={
-                  buttonColors || themeValues.buttonColors.slateTransparentBlack
+                  buttonColors || theme.buttonColors.slateTransparentBlack
                 }
                 text={item.label}
                 link={`/concepts/${item.id}`}

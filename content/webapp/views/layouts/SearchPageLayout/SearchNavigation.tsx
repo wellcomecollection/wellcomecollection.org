@@ -143,6 +143,7 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
     <>
       <form
         role="search"
+        data-gtm-trigger={SEARCH_PAGES_FORM_ID}
         id={SEARCH_PAGES_FORM_ID}
         onSubmit={event => {
           event.preventDefault();
@@ -155,7 +156,7 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
         </h1>
 
         <SearchBarContainer
-          $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
+          $v={{ size: 'md', properties: ['margin-top', 'margin-bottom'] }}
         >
           <SearchBar
             variant="default"

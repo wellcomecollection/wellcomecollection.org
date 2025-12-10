@@ -1,7 +1,7 @@
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { FunctionComponent, useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 import { search } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
@@ -10,7 +10,6 @@ import Button from '@weco/common/views/components/Buttons';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
 import TextInput from '@weco/common/views/components/TextInput';
-import { themeValues } from '@weco/common/views/themes/config';
 import {
   results,
   useItemViewerContext,
@@ -23,8 +22,8 @@ import { arrayIndexToQueryParam } from '@weco/content/views/pages/works/work/III
 import { thumbnailsPageSize } from '@weco/content/views/pages/works/work/IIIFViewer/Paginators';
 
 const Highlight = styled.span`
-  background: ${props => props.theme.color('accent.purple')};
-  color: ${props => props.theme.color('white')};
+  background: ${props => props.theme.color('yellow')};
+  color: ${props => props.theme.color('black')};
 `;
 
 const SearchForm = styled.form`
@@ -48,14 +47,14 @@ const SearchButtonWrapper = styled.div`
 
 const ResultsHeader = styled(Space).attrs({
   as: 'h3',
-  $v: { size: 'm', properties: ['margin-top'] },
+  $v: { size: 'sm', properties: ['margin-top'] },
 })`
   border-bottom: 1px solid ${props => props.theme.color('neutral.500')};
   padding-bottom: ${props => `${props.theme.spacingUnit}px`};
 `;
 
 const ListItem = styled.li.attrs({
-  className: font('intr', 6),
+  className: font('sans', -2),
 })`
   list-style: none;
   border-bottom: 1px solid ${props => props.theme.color('neutral.500')};
@@ -73,7 +72,7 @@ const ListItem = styled.li.attrs({
 
 const HitData = styled(Space).attrs({
   as: 'span',
-  className: font('intb', 6),
+  className: font('sans-bold', -2),
 })`
   display: block;
 `;
@@ -84,8 +83,8 @@ const ResultsList = styled.ul`
 
 const ErrorMessage = styled(Space).attrs({
   as: 'p',
-  $v: { size: 'm', properties: ['margin-top'] },
-  className: font('intr', 6),
+  $v: { size: 'sm', properties: ['margin-top'] },
+  className: font('sans', -2),
 })``;
 
 const Loading = () => (
@@ -120,7 +119,7 @@ const Hit: FunctionComponent<HitProps> = ({
       : '';
   return (
     <>
-      <HitData $v={{ size: 's', properties: ['margin-bottom'] }}>
+      <HitData $v={{ size: 'xs', properties: ['margin-bottom'] }}>
         {`Found on image ${matchingCanvasParam}${
           totalCanvases ? ` / ${totalCanvases}` : ''
         }`}
@@ -135,7 +134,9 @@ const Hit: FunctionComponent<HitProps> = ({
 
 const IIIFSearchWithin: FunctionComponent = () => {
   const router = useRouter();
+  const theme = useTheme();
   const inputRef = useRef<HTMLInputElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
   const {
     transformedManifest,
     searchResults,
@@ -150,6 +151,11 @@ const IIIFSearchWithin: FunctionComponent = () => {
   const { searchService, canvases } = { ...transformedManifest };
 
   function handleClearResults() {
+    // Set data attribute to prevent GTM trigger from firing
+    if (formRef.current) {
+      formRef.current.dataset.gtmIsClearing = 'true';
+    }
+
     const link = toWorksItemLink({
       workId: work.id,
       props: {
@@ -160,6 +166,11 @@ const IIIFSearchWithin: FunctionComponent = () => {
     });
     setSearchResults && setSearchResults(results);
     router.replace(link.href);
+
+    // Remove the attribute after navigation
+    if (formRef.current) {
+      delete formRef.current.dataset.gtmIsClearing;
+    }
   }
 
   async function getSearchResults() {
@@ -187,6 +198,8 @@ const IIIFSearchWithin: FunctionComponent = () => {
   return (
     <>
       <SearchForm
+        ref={formRef}
+        data-gtm-trigger="form-search-within"
         action={router.asPath}
         onSubmit={event => {
           event.preventDefault();
@@ -225,7 +238,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
             icon={search}
             text="search within"
             isTextHidden={true}
-            colors={themeValues.buttonColors.yellowYellowBlack}
+            colors={theme.buttonColors.yellowYellowBlack}
           />
         </SearchButtonWrapper>
       </SearchForm>
@@ -236,8 +249,10 @@ const IIIFSearchWithin: FunctionComponent = () => {
             There has been a problem conducting the search.
           </ErrorMessage>
         )}
-        {searchResults &&
-          Boolean(searchResults?.within?.total && query.query) && (
+        {!isLoading &&
+          searchResults &&
+          typeof searchResults?.within?.total === 'number' &&
+          query.query && (
             <ResultsHeader aria-live="assertive">
               {pluralize(searchResults.within.total ?? 0, 'result')}
             </ResultsHeader>

@@ -33,9 +33,9 @@ const ImageWithTasl: FunctionComponent<ImageWithTaslProps> = ({
 
       {displayWorkLink && tasl && hasLinkedWork(tasl.sourceLink) && (
         <Space
-          className={font('intm', 5)}
+          className={font('sans-bold', -1)}
           style={{ display: 'block' }}
-          $v={{ size: 'm', properties: ['margin-top'] }}
+          $v={{ size: 'sm', properties: ['margin-top'] }}
         >
           <FeaturedWorkLink link={tasl.sourceLink} />
         </Space>

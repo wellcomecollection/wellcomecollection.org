@@ -37,16 +37,14 @@ const ConceptSearchResult: FunctionComponent<{
       <Wrapper>
         <Container>
           <Details>
-            <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
+            <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
               <LabelsList
                 labels={[typeLabel]}
                 defaultLabelColor="warmNeutral.300"
               />
             </Space>
 
-            <ConceptTitleHeading>
-              {concept.displayLabel || concept.label}
-            </ConceptTitleHeading>
+            <ConceptTitleHeading>{concept.displayLabel}</ConceptTitleHeading>
 
             {concept.description && (
               <ConceptDescription>
@@ -63,7 +61,9 @@ const ConceptSearchResult: FunctionComponent<{
               )}
 
             <ConceptInformation>
-              <span className={font('intm', 5)}>Type: {concept.type}</span>
+              <span className={font('sans-bold', -1)}>
+                Type: {concept.type}
+              </span>
               {concept.id && (
                 <>
                   <span aria-hidden> | </span>

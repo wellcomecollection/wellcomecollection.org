@@ -49,8 +49,8 @@ import IIIFItemDownload from './IIIFItem.Download';
 import VideoTranscript from './IIIFItem.VideoTranscript';
 
 const Outline = styled(Space).attrs({
-  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
 })<{ $border?: boolean }>`
   ${props =>
     props.$border
@@ -59,7 +59,7 @@ const Outline = styled(Space).attrs({
 `;
 
 const IconContainer = styled(Space).attrs({
-  $h: { size: 's', properties: ['margin-right'] },
+  $h: { size: 'xs', properties: ['margin-right'] },
 })`
   .icon {
     position: relative;
@@ -185,26 +185,26 @@ const PublicRestrictedMessage: FunctionComponent<{
     <div className="audio">
       {audioLabel && (
         <Space
-          className={font('intb', 5)}
-          $v={{ size: 'm', properties: ['margin-bottom'] }}
+          className={font('sans-bold', -1)}
+          $v={{ size: 'sm', properties: ['margin-bottom'] }}
         >
           {audioLabel}
         </Space>
       )}
 
-      <p className={font('intr', 5)}>{restrictedItemMessage}</p>
+      <p className={font('sans', -1)}>{restrictedItemMessage}</p>
     </div>
   );
 };
 
 const StaffRestrictedMessage: FunctionComponent = () => {
   return (
-    <p className={font('intr', 5)} style={{ display: 'flex' }}>
+    <p className={font('sans', -1)} style={{ display: 'flex' }}>
       <IconContainer>
         <Icon icon={information} />
       </IconContainer>
-      <span className={font('intb', 5)}>Restricted item:</span> &nbsp;Only staff
-      with the right permission can access this item online.
+      <span className={font('sans-bold', -1)}>Restricted item:</span> &nbsp;Only
+      staff with the right permission can access this item online.
     </p>
   );
 };
@@ -432,7 +432,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
         // If the item hasn't been purposefully excluded then we should show a message
         return (
           <ContaineredLayout gridSizes={gridSize12()}>
-            <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+            <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
               <BetaMessage message={unavailableContentMessage} />
             </Space>
           </ContaineredLayout>

@@ -1,153 +1,65 @@
+import { theme as designSystemTheme } from '@wellcometrust/wellcome-design-system/theme';
 import { css } from 'styled-components';
 
-import { themeValues } from './config';
 import { GlobalStyleProps } from './default';
 
-const breakpointNames = ['small', 'medium', 'large'];
-const oneRem = 16;
-
-const fontSizeUnits = {
-  '1': 14 / oneRem, // 0.875rem
-  '2': 15 / oneRem, // 0.9375rem
-  '3': 15.9 / oneRem, // 0.99375rem
-  '4': 18 / oneRem, // 1.125rem
-  '5': 18.8 / oneRem, // 1.175rem
-  '6': 21.6 / oneRem, // 1.35rem
-  '7': 24 / oneRem, // 1.5rem
-  '8': 28 / oneRem, // 1.75rem
-  '9': 32 / oneRem, // 2rem
-  '10': 40 / oneRem, // 2.5rem
-  '11': 50 / oneRem, // 3.125rem
-};
-
-export const fontSizesAtBreakpoints = {
-  small: {
-    0: fontSizeUnits[9],
-    1: fontSizeUnits[8],
-    2: fontSizeUnits[7],
-    3: fontSizeUnits[5],
-    4: fontSizeUnits[3],
-    5: fontSizeUnits[2],
-    6: fontSizeUnits[1],
-  },
-  medium: {
-    0: fontSizeUnits[10],
-    1: fontSizeUnits[9],
-    2: fontSizeUnits[7],
-    3: fontSizeUnits[6],
-    4: fontSizeUnits[4],
-    5: fontSizeUnits[2],
-    6: fontSizeUnits[1],
-  },
-  large: {
-    0: fontSizeUnits[11],
-    1: fontSizeUnits[10],
-    2: fontSizeUnits[8],
-    3: fontSizeUnits[6],
-    4: fontSizeUnits[5],
-    5: fontSizeUnits[3],
-    6: fontSizeUnits[1],
-  },
-};
+// Note: the design system font sizing uses vw units and clamp so that there is
+// a gradated change across viewport widths without a need for breakpoint changes.
+// We have considered the utility of a similar container query based approach using
+// cqi units instead of vw, but concluded that for the time-being the vw version
+// is serving our needs adequately. We should revisit the idea of a container query
+// version if we encounter a situation where it would be clearly beneficial
+// https://github.com/wellcomecollection/wellcomecollection.org/issues/12324
 
 const fontFamilies = {
-  intr: {
-    base: `Inter, sans-serif;`,
-    full: `Inter, sans-serif;`,
-  },
-  intm: {
-    base: `Inter, sans-serif;`,
-    full: `Inter, sans-serif;`,
-  },
-  intsb: {
-    base: `Inter, sans-serif;`,
-    full: `Inter, sans-serif;`,
-  },
-  intb: {
-    base: `Inter, sans-serif;`,
-    full: `Inter, sans-serif;`,
-  },
-  wb: {
-    base: `'Wellcome Bold Web Subset', 'Arial Black', sans-serif;`,
-    full: `'Wellcome Bold Web', 'Wellcome Bold Web Subset', 'Arial Black', sans-serif;`,
-  },
-  lr: {
-    base: `'Courier New', Courier, Monospace;`,
-    full: `'Lettera Regular Web', 'Courier New', Courier, Monospace;`,
-  },
+  sans: designSystemTheme.font.family.sans,
+  brand: designSystemTheme.font.family.brand,
+  mono: designSystemTheme.font.family.mono,
 };
 
-const fontSizeMixin = size => {
-  return breakpointNames
-    .map(name => {
-      return `@media (min-width: ${themeValues.sizes[name]}px) {
-      font-size: ${fontSizesAtBreakpoints[name][size]}rem;
-    }`;
-    })
-    .join(' ');
-};
-
+const fontSizeMixin = (
+  size: -2 | -1 | 0 | 1 | 2 | 4 | 5
+) => css<GlobalStyleProps>`
+  font-size: ${designSystemTheme.font.size[`f${size}`]};
+`;
 type FontFamily = keyof typeof fontFamilies;
 
 export const fontFamilyMixin = (
   family: FontFamily,
-  isFull: boolean
+  isBold?: boolean
 ): string => {
-  return `font-family: ${fontFamilies[family][isFull ? 'full' : 'base']}`;
+  return `
+  font-family: ${fontFamilies[family]};
+  font-weight: ${designSystemTheme.font.weight[isBold ? 'semibold' : 'regular']};
+  `;
 };
 
 export const typography = css<GlobalStyleProps>`
-  .font-intb {
-    font-weight: 700;
+  .font-sans-bold {
+    ${fontFamilyMixin('sans', true)};
   }
 
-  .font-intsb {
-    font-weight: 600;
+  .font-sans {
+    ${fontFamilyMixin('sans')};
   }
 
-  .font-intm {
-    font-weight: 500;
+  .font-brand {
+    ${fontFamilyMixin('brand')};
   }
 
-  .font-intr {
-    font-weight: 400;
+  .font-mono {
+    ${fontFamilyMixin('mono')};
   }
-
-  ${props => `
-    .font-intb {
-      ${fontFamilyMixin('intb', !!props.isFontsLoaded)};
-    }
-
-    .font-intsb {
-      ${fontFamilyMixin('intsb', !!props.isFontsLoaded)};
-    }
-
-    .font-intm {
-      ${fontFamilyMixin('intm', !!props.isFontsLoaded)};
-    }
-
-    .font-intr {
-      ${fontFamilyMixin('intr', !!props.isFontsLoaded)};
-    }
-
-    .font-wb {
-      ${fontFamilyMixin('wb', !!props.isFontsLoaded)};
-    }
-
-    .font-lr {
-      ${fontFamilyMixin('lr', !!props.isFontsLoaded)};
-    }
-  `}
 
   html {
     font-size: 100%;
   }
 
   body {
-    ${fontFamilyMixin('intr', true)}
-    ${fontSizeMixin(4)}
-    line-height: 1.5;
-    color: ${themeValues.color('black')};
+    ${fontFamilyMixin('sans')}
+    ${fontSizeMixin(0)}
+    line-height: ${designSystemTheme['line-height'].lg};
+    color: ${props => props.theme.color('black')};
     font-variant-ligatures: no-common-ligatures;
     -webkit-font-smoothing: antialiased;
     -moz-font-smoothing: antialiased;
@@ -164,6 +76,7 @@ export const typography = css<GlobalStyleProps>`
     font-size: 1em;
     margin: 0 0 0.6em;
     text-wrap-style: balance;
+    line-height: ${designSystemTheme['line-height'].md};
   }
 
   /*
@@ -174,9 +87,9 @@ export const typography = css<GlobalStyleProps>`
     /* Enough space to clear the sticky header */
     scroll-margin-top: 3rem;
 
-    @media (min-width: ${themeValues.sizes.large}px) {
+    @media (min-width: ${props => props.theme.sizes.large}) {
       /* Align the top of the heading with the top of the side navigation */
-      scroll-margin-top: ${themeValues.spaceAtBreakpoints.large.l}px;
+      scroll-margin-top: ${props => props.theme.getSpaceValue('md', 'large')};
     }
   }
 
@@ -203,7 +116,7 @@ export const typography = css<GlobalStyleProps>`
   }
 
   .more-link {
-    color: ${themeValues.color('accent.green')};
+    color: ${props => props.theme.color('accent.green')};
     text-decoration: none;
 
     &:hover,
@@ -221,7 +134,7 @@ export const typography = css<GlobalStyleProps>`
     }
 
     > * + * {
-      margin-top: ${themeValues.spacedTextTopMargin};
+      margin-top: ${props => props.theme.spacedTextTopMargin};
     }
 
     li + li {
@@ -240,16 +153,15 @@ export const typography = css<GlobalStyleProps>`
   }
 
   .body-text {
-    line-height: 1.6;
     letter-spacing: 0.0044em;
 
     h1 {
-      ${fontFamilyMixin('wb', true)}
-      ${fontSizeMixin(1)}
+      ${fontFamilyMixin('brand')}
+      ${fontSizeMixin(4)}
     }
 
     h2 {
-      ${fontFamilyMixin('wb', true)}
+      ${fontFamilyMixin('brand')}
       ${fontSizeMixin(2)}
     }
 
@@ -266,12 +178,12 @@ export const typography = css<GlobalStyleProps>`
     }
 
     h3 {
-      ${fontFamilyMixin('intb', true)}
-      ${fontSizeMixin(3)}
+      ${fontFamilyMixin('sans', true)}
+      ${fontSizeMixin(1)}
     }
 
     *::selection {
-      background: ${themeValues.color('accent.turquoise')}4d;
+      background: ${props => props.theme.color('accent.turquoise')}4d;
     }
 
     /* stylelint-disable no-descending-specificity */
@@ -301,24 +213,24 @@ export const typography = css<GlobalStyleProps>`
     a:visited:not(.link-reset) {
       text-decoration: underline;
       text-underline-offset: 0.1em;
-      transition: color ${themeValues.transitionProperties};
+      transition: color ${props => props.theme.transitionProperties};
 
       &:hover {
-        color: ${themeValues.color('accent.green')};
+        color: ${props => props.theme.color('accent.green')};
         text-decoration-color: transparent;
       }
     }
 
     strong,
     b {
-      ${fontFamilyMixin('intb', true)};
+      ${fontFamilyMixin('sans', true)};
     }
   }
 
   .drop-cap {
-    ${fontFamilyMixin('wb', true)}
+    ${fontFamilyMixin('brand')}
     font-size: 3em;
-    color: ${themeValues.color('black')};
+    color: ${props => props.theme.color('black')};
     float: left;
     line-height: 1em;
     padding-right: 0.1em;
@@ -328,7 +240,7 @@ export const typography = css<GlobalStyleProps>`
 
   /* stylelint-disable no-descending-specificity */
   .quote {
-    border-left: 12px solid ${themeValues.color('warmNeutral.400')};
+    border-left: 12px solid ${props => props.theme.color('warmNeutral.400')};
     padding-left: 0.9em;
 
     p {
@@ -348,10 +260,10 @@ export const typography = css<GlobalStyleProps>`
     position: relative;
 
     &::before {
-      ${fontFamilyMixin('wb', true)}
+      ${fontFamilyMixin('brand')}
       position: absolute;
       content: '“';
-      color: ${themeValues.color('accent.blue')};
+      color: ${props => props.theme.color('accent.blue')};
       left: -14px;
       top: 0.12em;
       font-size: 2em;
@@ -364,49 +276,10 @@ export const typography = css<GlobalStyleProps>`
   }
 `;
 
-export function makeFontSizeClasses(): string {
-  return breakpointNames
-    .map(bp => {
-      return `@media (min-width: ${themeValues.sizes[bp]}px) {
-      ${Object.entries(fontSizesAtBreakpoints[bp])
-        .map(([key, value]) => {
-          return `.font-size-${key} {font-size: ${value}rem}`;
-        })
-        .join(' ')}
-    }`;
-    })
-    .join(' ');
-}
-
-function overridesAtBreakpoint(bp: string) {
-  return Object.entries(fontSizeUnits)
+export const makeFontSizeClasses = () => css<GlobalStyleProps>`
+  ${Object.entries(designSystemTheme.font.size)
     .map(([key, value]) => {
-      return `.font-size-override-${bp}-${key} {font-size: ${value}rem}`;
+      return `.font-size-${key} {font-size: ${value}}`;
     })
-    .join(' ');
-}
-
-export function makeFontSizeOverrideClasses(): string {
-  return breakpointNames
-    .map(bp => {
-      const minMax =
-        bp === 'small'
-          ? ['small', 'medium']
-          : bp === 'medium'
-            ? ['medium', 'large']
-            : ['large'];
-
-      if (minMax.length === 2) {
-        return `@media (min-width: ${
-          themeValues.sizes[minMax[0]]
-        }px) and (max-width: ${themeValues.sizes[minMax[1]]}px) {
-        ${overridesAtBreakpoint(bp)}
-      }`;
-      } else {
-        return `@media (min-width: ${themeValues.sizes[minMax[0]]}px) {
-        ${overridesAtBreakpoint(bp)}
-      }`;
-      }
-    })
-    .join(' ');
-}
+    .join(' ')}
+`;

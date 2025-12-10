@@ -7,14 +7,13 @@ import {
   useRef,
   useState,
 } from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 import Typed from 'typed.js';
 
 import { search } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import TextInput from '@weco/common/views/components/TextInput';
-import { themeValues } from '@weco/common/views/themes/config';
 import { visuallyHiddenStyles } from '@weco/common/views/themes/utility-classes';
 
 const Container = styled.div`
@@ -23,7 +22,7 @@ const Container = styled.div`
 `;
 
 const Typewriter = styled.div.attrs({
-  className: font('intr', 3),
+  className: font('sans', 1),
   'aria-hidden': 'true',
 })`
   position: absolute;
@@ -132,6 +131,7 @@ const SearchBar: FunctionComponent<Props> = ({
   inputRef,
   location,
 }) => {
+  const theme = useTheme();
   const defaultInputRef = useRef<HTMLInputElement>(null);
   const typewriterRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -251,7 +251,7 @@ const SearchBar: FunctionComponent<Props> = ({
           text="Search"
           type={ButtonTypes.submit}
           form={form}
-          colors={themeValues.buttonColors.greenGreenWhite}
+          colors={theme.buttonColors.greenGreenWhite}
           icon={search}
           isNewSearchBar={true}
         />

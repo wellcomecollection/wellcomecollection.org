@@ -7,17 +7,17 @@ import { fontFamilyMixin } from '@weco/common/views/themes/typography';
 
 type TableProps = {
   $useFixedWidth: boolean;
-  $maxWidth?: number;
+  $maxWidth?: string;
 };
 
 const StyledTable = styled.table.attrs({
-  className: font('intr', 5),
+  className: font('sans', -1),
 })<TableProps>`
   table-layout: ${props => (props.$useFixedWidth ? 'fixed' : 'auto')};
   width: 100%;
   border-collapse: collapse;
 
-  @media (max-width: ${props => props.$maxWidth || props.theme.sizes.large}px) {
+  @media (max-width: ${props => props.$maxWidth || props.theme.sizes.large}) {
     display: block;
 
     thead,
@@ -52,21 +52,21 @@ const StyledTr = styled(Space).attrs({
 
 type ThProps = {
   $plain?: boolean;
-  $maxWidth?: number;
+  $maxWidth?: string;
   width?: number;
 };
 
 const StyledTh = styled(Space).attrs<ThProps>(props => ({
   as: 'th',
   $v: {
-    size: 's',
+    size: 'xs',
     properties: props.$plain ? [] : ['padding-top', 'padding-bottom'],
   },
   $h: {
-    size: 'm',
+    size: 'sm',
     properties: props.$plain ? [] : ['padding-left', 'padding-right'],
   },
-  className: font('intb', 5),
+  className: font('sans-bold', -1),
 }))<ThProps>`
   background: ${props =>
     props.$plain ? 'transparent' : props.theme.color('warmNeutral.400')};
@@ -74,42 +74,42 @@ const StyledTh = styled(Space).attrs<ThProps>(props => ({
   text-align: left;
   vertical-align: top;
 
-  @media (max-width: ${props => props.$maxWidth || props.theme.sizes.large}px) {
+  @media (max-width: ${props => props.$maxWidth || props.theme.sizes.large}) {
     padding-left: 0;
   }
 `;
 
 type TdProps = {
   $plain?: boolean;
-  $maxWidth?: number;
+  $maxWidth?: string;
   $cellContent?: ReactNode;
 };
 
 const StyledTd = styled(Space).attrs<TdProps>(props => ({
   as: 'td',
   $v: {
-    size: 'm',
+    size: 'sm',
     properties: props.$plain ? [] : ['padding-top', 'padding-bottom'],
   },
   $h: {
-    size: 'm',
+    size: 'sm',
     properties: props.$plain ? [] : ['padding-left', 'padding-right'],
   },
 }))<TdProps>`
   text-align: left;
   vertical-align: top;
 
-  @media (max-width: ${props => props.$maxWidth || props.theme.sizes.large}px) {
+  @media (max-width: ${props => props.$maxWidth || props.theme.sizes.large}) {
     padding-left: 0;
     padding-top: 0;
-    padding-bottom: ${props => `${props.theme.spacingUnit}px`};
+    padding-bottom: ${props => props.theme.spacingUnit};
 
     &:first-of-type {
-      padding-top: ${props => `${props.theme.spacingUnit * 2}px`};
+      padding-top: ${props => props.theme.spacingUnit * 2};
     }
 
     &:last-of-type {
-      padding-bottom: ${props => `${props.theme.spacingUnit * 3}px`};
+      padding-bottom: ${props => props.theme.spacingUnit * 3};
     }
 
     &::before {
@@ -117,7 +117,7 @@ const StyledTd = styled(Space).attrs<TdProps>(props => ({
       white-space: nowrap;
       content: ${props =>
         props.$cellContent ? `'${props.$cellContent}'` : ''};
-      ${fontFamilyMixin('intb', true)}
+      ${fontFamilyMixin('sans', true)}
     }
   }
 `;
@@ -125,7 +125,7 @@ const StyledTd = styled(Space).attrs<TdProps>(props => ({
 type Props = {
   rows: ReactNode[][];
   plain?: boolean;
-  maxWidth?: number;
+  maxWidth?: string;
   columnWidths?: (number | undefined)[];
 };
 

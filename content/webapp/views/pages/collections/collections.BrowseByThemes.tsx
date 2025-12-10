@@ -8,7 +8,6 @@ import {
 import { SizeMap } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import ThemeCard from '@weco/common/views/components/ThemeCard';
-import { themeValues } from '@weco/common/views/themes/config';
 import { useConceptImageUrls } from '@weco/content/hooks/useConceptImageUrls';
 import { useThemeConcepts } from '@weco/content/hooks/useThemeConcepts';
 import { getConceptsByIds } from '@weco/content/pages/collections';
@@ -26,7 +25,7 @@ type BrowseByThemeProps = {
 };
 
 const ListItem = styled.li`
-  --gutter-size: ${themeValues.gutter.small}px;
+  --gutter-size: ${props => props.theme.gutter.small};
   flex: 0 0 auto;
   width: 400px;
   max-width: 90vw;
@@ -38,50 +37,57 @@ const ListItem = styled.li`
     padding-right: var(--gutter-size);
   }
 
-  ${props =>
-    props.theme.media('medium')(`
-      --gutter-size: ${themeValues.gutter.medium}px;
+  ${props => {
+    const mediumGutter = props.theme.gutter.medium;
+    const paddingCalc = `${props.theme.containerPaddingVw} * 2`;
+
+    return props.theme.media('medium')(`
+      --gutter-size: ${mediumGutter};
       /* 6 columns of 12 at medium breakpoint */
-      /* Formula: ((100vw - 84px padding) - (11 × 24px gutters)) / 12 × 6 + (6 × 24px gutters) */
-      /* The 6th gutter accounts for the gap after the card, matching grid behaviour */
-      /* Simplified: ((100vw - 84px - 264px) / 12 × 6) + 144px = calc(50vw - 30px) */
-      width: calc(50vw - 30px);
+      /* Formula: ((100vw - padding) - (11 × gutter)) / 12 × 6 + (6 × gutter) */
+      /* Simplified: calc((100vw - (${paddingCalc}) - (${mediumGutter} * 11)) / 2 + (${mediumGutter} * 6)) */
+      width: calc((100vw - (${paddingCalc}) - (${mediumGutter} * 11)) / 2 + (${mediumGutter} * 6));
 
       padding: 0 0 0 var(--gutter-size);
 
       &:nth-child(2) {
         padding-left: 0;
-        width: calc(50vw - (30px + var(--gutter-size)));
+        width: calc((100vw - (${paddingCalc}) - (${mediumGutter} * 11)) / 2 + (${mediumGutter} * 5));
       }
       &:last-child {
         padding-right: var(--gutter-size);
-        width: calc(50vw - (30px - var(--gutter-size)));
+        width: calc((100vw - (${paddingCalc}) - (${mediumGutter} * 11)) / 2 + (${mediumGutter} * 7));
       }
-    `)}
+    `);
+  }}
 
-  ${props =>
-    props.theme.media('large')(`
-      --gutter-size: ${themeValues.gutter.large}px;
+  ${props => {
+    const largeGutter = props.theme.gutter.large;
+    const xlarge = props.theme.sizes.xlarge;
+    const paddingCalc = `${props.theme.containerPaddingVw} * 2`;
+
+    return props.theme.media('large')(`
+      --gutter-size: ${largeGutter};
       /* 4 columns of 12 at large breakpoint */
-      /* Formula: ((100vw - 120px padding) - (11 × 30px gutters)) / 12 × 4 + (4 × 30px gutters) */
-      /* The 4th gutter accounts for the gap after the card, matching grid behaviour */
-      /* Simplified: ((100vw - 120px - 330px) / 12 × 4) + 120px = calc(33.333vw - 30px) */
-      width: calc(33.333vw - 30px);
+      /* Formula: ((100vw - padding) - (11 × gutter)) / 12 × 4 + (4 × gutter) */
+      /* Simplified: calc((100vw - (${paddingCalc}) - (${largeGutter} * 11)) / 3 + (${largeGutter} * 4)) */
+      width: calc((100vw - (${paddingCalc}) - (${largeGutter} * 11)) / 3 + (${largeGutter} * 4));
 
-      /* Max-width at xlarge: ((1338px - 120px - 330px) / 12 × 4) + 120px = 416px */
-      max-width: ${((themeValues.sizes.xlarge - 120 - 330) / 12) * 4 + 120}px;
+      /* Max-width at xlarge: ((${xlarge} - (${paddingCalc})) - (${largeGutter} * 11)) / 12 × 4 + (${largeGutter} * 4) */
+      max-width: calc(((${xlarge} - (${paddingCalc})) - (${largeGutter} * 11)) / 12 * 4 + (${largeGutter} * 4));
 
       &:nth-child(2){
-        width: calc(33.333vw - (30px + var(--gutter-size)));
-        max-width: ${((themeValues.sizes.xlarge - 120 - 330) / 12) * 4 + 90}px;
+        width: calc((100vw - (${paddingCalc}) - (${largeGutter} * 11)) / 3 + (${largeGutter} * 3));
+        max-width: calc(((${xlarge} - (${paddingCalc})) - (${largeGutter} * 11)) / 12 * 4 + (${largeGutter} * 3));
       }
 
       &:last-child {
         padding-right: var(--gutter-size);
-        width: calc(33.333vw - (30px - var(--gutter-size)));
-        max-width: ${((themeValues.sizes.xlarge - 120 - 330) / 12) * 4 + 150}px;
+        width: calc((100vw - (${paddingCalc}) - (${largeGutter} * 11)) / 3 + (${largeGutter} * 5));
+        max-width: calc(((${xlarge} - (${paddingCalc})) - (${largeGutter} * 11)) / 12 * 4 + (${largeGutter} * 5));
       }
-    `)}
+    `);
+  }}
 `;
 
 const Theme: FunctionComponent<{
@@ -92,11 +98,11 @@ const Theme: FunctionComponent<{
 }> = ({ concept, categoryLabel, categoryPosition, positionInList }) => {
   const images = useConceptImageUrls(concept);
   const linkProps = toConceptLink({ conceptId: concept.id });
-  const title = concept.displayLabel || concept.label;
-  return linkProps && title ? (
+
+  return linkProps && concept.displayLabel ? (
     <ThemeCard
       images={images}
-      title={title}
+      title={concept.displayLabel}
       description={concept.description?.text}
       linkProps={linkProps}
       dataGtmProps={{
@@ -163,6 +169,10 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
   const tagData = themeConfig.categories.map(category => ({
     id: category.label,
     label: category.label,
+    gtmData: {
+      trigger: 'selectable_tag',
+      label: category.label,
+    },
   }));
 
   const selectedCategoryPosition =
@@ -172,14 +182,15 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
 
   return (
     <Space
-      $v={{ size: 'm', properties: ['margin-top'] }}
+      $v={{ size: 'sm', properties: ['margin-top'] }}
       data-component="BrowseByThemes"
     >
       <ContaineredLayout gridSizes={gridSize12()}>
-        <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
+        <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
           <div className="visually-hidden" aria-live="polite">
             {announcement}
           </div>
+
           <SelectableTags
             tags={tagData}
             isMultiSelect={false}

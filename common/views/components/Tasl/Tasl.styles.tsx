@@ -4,7 +4,7 @@ import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 
 export const StyledTasl = styled.div.attrs({
-  className: `${font('lr', 6)} plain-text tasl`, // Need the tasl class as it's used with ImageGallery styled components
+  className: `${font('mono', -2)} plain-text tasl`, // Need the tasl class as it's used with ImageGallery styled components
 })<{ $positionAtTop: boolean; $isEnhanced: boolean }>`
   text-align: right;
   top: ${props => (props.$positionAtTop ? 0 : 'auto')};
@@ -41,8 +41,8 @@ export const TaslIcon = styled.span<TaslIconProps>`
 `;
 
 export const InfoContainer = styled(Space).attrs({
-  $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
-  $h: { size: 's', properties: ['padding-left'] },
+  $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'xs', properties: ['padding-left'] },
 })`
   color: ${props => props.theme.color('white')};
   background-color: ${props => props.theme.color('black')};

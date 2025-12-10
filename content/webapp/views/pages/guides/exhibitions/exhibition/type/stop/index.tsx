@@ -41,6 +41,7 @@ import {
   Page,
   PrevNext,
   StickyPlayer,
+  Title,
 } from './stop.styles';
 
 export type Props = {
@@ -135,9 +136,9 @@ const ExhibitionGuideStopPage: NextPage<Props> = ({
             <HeaderInner>
               <div>
                 <span>{exhibitionTitle}</span>
-                <h1 style={{ marginBottom: '0' }}>
+                <Title>
                   Stop {stopNumber}/{allStops.length}: {currentStop.title}
-                </h1>
+                </Title>
               </div>
               <span>
                 <NextLink href={`${guideTypeUrl}#${currentStop.number}`}>
@@ -201,7 +202,7 @@ const ExhibitionGuideStopPage: NextPage<Props> = ({
                 }}
                 style={{ paddingBottom: '200px' }}
               >
-                <Space $v={{ size: 'l', properties: ['padding-top'] }}>
+                <Space $v={{ size: 'md', properties: ['padding-top'] }}>
                   <CollapsibleContent
                     controlText={controlText}
                     id="stop-transcript"
@@ -238,14 +239,14 @@ const ExhibitionGuideStopPage: NextPage<Props> = ({
                   >
                     <Space
                       $v={{
-                        size: 's',
+                        size: 'xs',
                         properties: ['padding-top', 'padding-bottom'],
                         overrides: { small: 4, medium: 4, large: 4 },
                       }}
                     >
                       <AlignCenter>
                         <Space
-                          $h={{ size: 'm', properties: ['margin-right'] }}
+                          $h={{ size: 'sm', properties: ['margin-right'] }}
                           style={{ display: 'flex' }}
                         >
                           <Icon icon={arrow} rotate={180} />
@@ -268,14 +269,14 @@ const ExhibitionGuideStopPage: NextPage<Props> = ({
                   >
                     <Space
                       $v={{
-                        size: 's',
+                        size: 'xs',
                         properties: ['padding-top', 'padding-bottom'],
                         overrides: { small: 4, medium: 4, large: 4 },
                       }}
                     >
                       <AlignCenter>
                         <Space
-                          $h={{ size: 'm', properties: ['margin-right'] }}
+                          $h={{ size: 'sm', properties: ['margin-right'] }}
                           style={{ display: 'flex' }}
                         >
                           <span>Next</span>

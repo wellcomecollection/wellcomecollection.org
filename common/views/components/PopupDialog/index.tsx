@@ -153,7 +153,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
       >
         <Space
           $h={{
-            size: 's',
+            size: 'xs',
             properties: ['margin-right'],
             overrides: { medium: 2, large: 2 },
           }}
@@ -180,21 +180,13 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
         </PopupDialogClose>
         <Space
           $h={{
-            size: 'm',
+            size: 'sm',
             properties: ['padding-right'],
             overrides: { small: 4, medium: 4, large: 4 },
           }}
         >
-          <h2
-            className={font('wb', 6, {
-              small: 5,
-              medium: 5,
-              large: 5,
-            })}
-          >
-            {title}
-          </h2>
-          <div className={font('intr', 5, { medium: 2, large: 2 })}>
+          <h2 className={font('brand', -2)}>{title}</h2>
+          <div className={font('sans', -1)}>
             <PrismicHtmlBlock html={text} />
           </div>
         </Space>

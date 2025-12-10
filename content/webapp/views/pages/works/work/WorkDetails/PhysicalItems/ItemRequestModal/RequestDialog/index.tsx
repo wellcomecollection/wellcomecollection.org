@@ -1,5 +1,5 @@
 import { FormEvent, FunctionComponent, useEffect } from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 import { itemRequestDialog } from '@weco/common/data/microcopy';
 import { font } from '@weco/common/utils/classnames';
@@ -7,7 +7,6 @@ import { formatDayMonth, formatDayName } from '@weco/common/utils/format-date';
 import { allowedRequests } from '@weco/common/values/requests';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
-import { themeValues } from '@weco/common/views/themes/config';
 import {
   PhysicalItem,
   Work,
@@ -25,7 +24,7 @@ import {
 import RequestingDayPicker from './RequestDialog.RequestingDayPicker';
 
 const PickUpDate = styled(Space).attrs({
-  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
 })`
   border-top: 1px solid ${props => props.theme.color('neutral.300')};
   border-bottom: 1px solid ${props => props.theme.color('neutral.300')};
@@ -50,8 +49,8 @@ const PickUpDateInputWrapper = styled.div`
 `;
 
 const ConfirmRequestButtonWrapper = styled(Space).attrs({
-  $h: { size: 'l', properties: ['margin-right'] },
-  $v: { size: 's', properties: ['margin-bottom'] },
+  $h: { size: 'md', properties: ['margin-right'] },
+  $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   display: inline-block;
 `;
@@ -63,7 +62,7 @@ const WorkTitle = styled.span`
 `;
 
 const PickupDeadline = styled.p.attrs({
-  className: font('intr', 6),
+  className: font('sans', -2),
 })`
   ${props => props.theme.media('large')`
     margin: 0;
@@ -72,8 +71,8 @@ const PickupDeadline = styled.p.attrs({
 
 const ErrorMessage = styled(Space).attrs({
   as: 'p',
-  $h: { size: 'm', properties: ['padding-left'] },
-  $v: { size: 'm', properties: ['margin-bottom', 'margin-top'] },
+  $h: { size: 'sm', properties: ['padding-left'] },
+  $v: { size: 'sm', properties: ['margin-bottom', 'margin-top'] },
 })`
   border-left: 5px solid ${props => props.theme.color('validation.red')};
 `;
@@ -97,6 +96,7 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
   pickUpDate,
   setPickUpDate,
 }) => {
+  const theme = useTheme();
   const firstAvailableDate =
     item.availableDates &&
     `${formatDayName(new Date(item.availableDates[0].from))} ${formatDayMonth(
@@ -131,26 +131,26 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
   return (
     <Request onSubmit={handleConfirmRequest}>
       <Header>
-        <span className={font('wb', 3)}>Request item</span>
+        <span className={font('brand', 1)}>Request item</span>
         <CurrentRequests
           allowedHoldRequests={allowedRequests}
           currentHoldRequests={currentHoldNumber}
         />
       </Header>
-      <p className={font('intb', 5)} style={{ marginBottom: 0 }}>
+      <p className={font('sans-bold', -1)} style={{ marginBottom: 0 }}>
         You are about to request the following item:
       </p>
-      <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
+      <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
         <p style={{ marginBottom: 0 }}>
           {work.title && <WorkTitle>{work.title}</WorkTitle>}
           {item.title && <span>{item.title}</span>}
         </p>
       </Space>
 
-      <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
+      <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
         <PickUpDate>
           <PickUpDateDescription>
-            <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
+            <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
               <p style={{ marginBottom: 0 }}>
                 Select the date you would like to view this item in the library.
               </p>
@@ -198,7 +198,7 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
         </ConfirmRequestButtonWrapper>
         <Button
           variant="ButtonSolid"
-          colors={themeValues.buttonColors.greenTransparentGreen}
+          colors={theme.buttonColors.greenTransparentGreen}
           type={ButtonTypes.button}
           text="Cancel"
           clickHandler={() => setIsActive(false)}

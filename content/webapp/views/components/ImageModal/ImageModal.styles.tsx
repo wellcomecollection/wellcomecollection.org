@@ -15,8 +15,8 @@ export const ImageInfoWrapper = styled.div`
 `;
 
 export const MetadataWrapper = styled(Space).attrs({
-  className: font('intr', 5),
-  $v: { size: 's', properties: ['margin-top', 'margin-bottom'] },
+  className: font('sans', -1),
+  $v: { size: 'xs', properties: ['margin-top', 'margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.600')};
 `;
@@ -29,13 +29,13 @@ export const Metadata = styled.span`
 `;
 
 export const ModalTitle = styled.h2.attrs({
-  className: font('intb', 3),
+  className: font('sans-bold', 1),
 })`
   margin-bottom: 0;
 `;
 
 export const ImageWrapper = styled(Space).attrs({
-  $v: { size: 'l', properties: ['margin-bottom'] },
+  $v: { size: 'md', properties: ['margin-bottom'] },
 })`
   display: flex;
   align-items: center;
@@ -88,7 +88,7 @@ export const InfoWrapper = styled.div`
 `;
 
 export const ViewImageButtonWrapper = styled(Space).attrs({
-  $h: { size: 'm', properties: ['margin-right'] },
+  $h: { size: 'sm', properties: ['margin-right'] },
 })`
   display: inline-block;
 `;

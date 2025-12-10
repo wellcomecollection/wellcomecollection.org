@@ -18,8 +18,8 @@ export const Overlay = styled.div`
 export const CloseButton = styled(Space).attrs<{ type?: string }>(props => ({
   as: 'button',
   type: props.type || 'button',
-  $v: { size: 'm', properties: ['top'] },
-  $h: { size: 'm', properties: ['right'] },
+  $v: { size: 'sm', properties: ['top'] },
+  $h: { size: 'sm', properties: ['right'] },
 }))`
   position: fixed;
   width: 28px;
@@ -28,8 +28,6 @@ export const CloseButton = styled(Space).attrs<{ type?: string }>(props => ({
   appearance: none;
   background: rgb(0, 0, 0, 0.7);
   color: ${props => props.theme.color('white')};
-  border: 0;
-  outline: 0;
   z-index: 1;
 
   .icon {
@@ -103,7 +101,7 @@ export const BaseModalWindow = styled(Space).attrs({
     height: auto;
     max-height: 90vh;
     max-width: ${
-      props.$maxWidth || props.$width || `${props.theme.sizes.large}px`
+      props.$maxWidth || props.$width || `${props.theme.sizes.large}`
     };
     width: ${(props.$maxWidth && '80%') || props.$width || 'auto'};
     border-radius: ${props.theme.borderRadiusUnit}px;

@@ -32,7 +32,7 @@ const PlayPause = styled.button.attrs({
 `;
 
 const Text = styled.span.attrs({
-  className: font('lr', 5),
+  className: font('mono', -1),
 })<{ $isPlaying: boolean }>`
   display: block;
   background: ${props => props.theme.color('neutral.700')};
@@ -205,9 +205,9 @@ const GifVideo: FunctionComponent<Props> = ({
 
       {tasl && hasLinkedWork(tasl.sourceLink) && (
         <Space
-          className={font('intm', 5)}
+          className={font('sans-bold', -1)}
           style={{ display: 'block' }}
-          $v={{ size: 'm', properties: ['margin-top'] }}
+          $v={{ size: 'sm', properties: ['margin-top'] }}
         >
           <FeaturedWorkLink link={tasl.sourceLink} />
         </Space>

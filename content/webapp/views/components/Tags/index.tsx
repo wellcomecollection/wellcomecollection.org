@@ -1,6 +1,6 @@
 import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 import { LinkProps } from '@weco/common/model/link-props';
 import { font } from '@weco/common/utils/classnames';
@@ -10,7 +10,6 @@ import {
 } from '@weco/common/views/components/Buttons';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
-import { themeValues } from '@weco/common/views/themes/config';
 
 export type TagType = {
   textParts: string[];
@@ -32,7 +31,7 @@ type PartWithSeparatorProps = {
 const nbsp = '\\00a0';
 
 const PartWithSeparator = styled.span.attrs({
-  className: font('intr', 5),
+  className: font('sans', -1),
 })<PartWithSeparatorProps>`
   &::after {
     display: ${props => (props.$isLast ? 'none' : 'inline')};
@@ -43,8 +42,8 @@ const PartWithSeparator = styled.span.attrs({
 `;
 
 const LinkWrapper = styled(Space).attrs({
-  $v: { size: 's', properties: ['margin-bottom'] },
-  $h: { size: 's', properties: ['margin-right'] },
+  $v: { size: 'xs', properties: ['margin-bottom'] },
+  $h: { size: 'xs', properties: ['margin-right'] },
 })`
   display: inline-block;
 `;
@@ -65,10 +64,12 @@ const Tags: FunctionComponent<Props> = ({
   isFirstPartBold = true,
   separator = '–',
 }) => {
+  const theme = useTheme();
+
   return (
     <Space
       data-component="tags"
-      $v={{ size: 's', negative: true, properties: ['margin-bottom'] }}
+      $v={{ size: 'xs', negative: true, properties: ['margin-bottom'] }}
     >
       <PlainList>
         {/* Have to use index for key because some LCSH and MSH are the same and therefore textParts aren't unique */}
@@ -78,7 +79,7 @@ const Tags: FunctionComponent<Props> = ({
               <StyledLink
                 href={linkAttributes.href}
                 $size="small"
-                $colors={themeValues.buttonColors.pumiceTransparentCharcoal}
+                $colors={theme.buttonColors.pumiceTransparentCharcoal}
               >
                 <TagInner>
                   {textParts.map((part, i, arr) => (
@@ -88,10 +89,11 @@ const Tags: FunctionComponent<Props> = ({
                       $isLast={i === arr.length - 1}
                     >
                       <span
-                        className={font(
-                          i === 0 && isFirstPartBold ? 'intb' : 'intr',
-                          5
-                        )}
+                        className={
+                          i === 0 && isFirstPartBold
+                            ? font('sans-bold', -1)
+                            : font('sans', -1)
+                        }
                       >
                         {part}
                       </span>

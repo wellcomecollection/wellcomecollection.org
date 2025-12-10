@@ -104,6 +104,7 @@ export const workFixture: Work = {
         {
           id: 'concept-1',
           label: 'AIDS (Disease)',
+          displayLabel: 'AIDS (Disease)',
           type: 'Concept',
           displayImages: [],
         },
@@ -128,6 +129,7 @@ export const workFixture: Work = {
         {
           id: 'concept-2',
           label: 'Condoms.',
+          displayLabel: 'Condoms.',
           type: 'Concept',
           displayImages: [],
         },
@@ -152,6 +154,7 @@ export const workFixture: Work = {
         {
           id: 'concept-3',
           label: 'Sun.',
+          displayLabel: 'Sun.',
           type: 'Place',
           displayImages: [],
         },
@@ -176,6 +179,7 @@ export const workFixture: Work = {
         {
           id: 'concept-4',
           label: 'Germany.',
+          displayLabel: 'Germany.',
           type: 'Place',
           displayImages: [],
         },
@@ -190,6 +194,7 @@ export const workFixture: Work = {
         {
           id: 'concept-5',
           label: 'Posters.',
+          displayLabel: 'Posters.',
           type: 'Concept',
           displayImages: [],
         },
@@ -202,6 +207,7 @@ export const workFixture: Work = {
         {
           id: 'concept-6',
           label: 'Lithographs.',
+          displayLabel: 'Lithographs.',
           type: 'Concept',
           displayImages: [],
         },
@@ -385,8 +391,6 @@ export const workFixture: Work = {
   ],
   parts: [],
   partOf: [],
-  precededBy: [],
-  succeededBy: [],
   type: 'Work',
 };
 
@@ -429,8 +433,6 @@ export const workWithLibrarySeriesPartOf: Work = {
   identifiers: [],
   production: [],
   languages: [],
-  precededBy: [],
-  succeededBy: [],
   notes: [],
   formerFrequency: [],
   designation: [],
@@ -442,7 +444,7 @@ export const workWithLibrarySeriesPartOf: Work = {
 An Archive Work with a partOf hierarchy.
 partOf entries in Archive Works have hierarchical reference numbers.
 */
-export const workWithPartOf: Work = {
+export const legacyWorkWithPartOf: Work = {
   holdings: [],
   id: 'pbtyx2xx',
   title: 'Physics Research Students, Cavendish Laboratory',
@@ -650,101 +652,211 @@ export const workWithPartOf: Work = {
       type: 'Series',
     },
   ],
-  precededBy: [],
-  succeededBy: [
+  type: 'Work',
+};
+
+export const workWithPartOf: Work = {
+  holdings: [],
+  id: 'pbtyx2xx',
+  title: 'Physics Research Students, Cavendish Laboratory',
+  alternativeTitles: [],
+  referenceNumber: 'PP/CRI/A/1/2/1',
+  description:
+    '<p>Group portrait of Physics Research Students, Cavendish Laboratory, Cambridge (June, 1952), with a key to individual students, including James Watson and Crick  (first row standing, sixth and seventh from the left, respectively).\n\n</p><p>The file includes a photographic facsimile.</p>',
+  physicalDescription:
+    '1 file Photograph (b/w, 111/2" x 9"): group portrait of Physics Research Students, Cavendish Laboratory (June, 1952).  Also, photographic facsimile of the same.',
+  workType: { id: 'h', label: 'Archives and manuscripts', type: 'Format' },
+  contributors: [],
+  identifiers: [
     {
-      id: 'ytffguzf',
-      title: 'Group Portrait, Gordon Research Conference',
-      alternativeTitles: [],
-      referenceNumber: 'PP/CRI/A/1/2/2',
-      availableOnline: false,
-      availabilities: [],
-      totalParts: 0,
-      totalDescendentParts: 0,
-      type: 'Work',
+      identifierType: {
+        id: 'calm-record-id',
+        label: 'Calm RecordIdentifier',
+        type: 'IdentifierType',
+      },
+      value: 'd946b657-d7db-44b6-b4f3-8790867c53f2',
+      type: 'Identifier',
     },
     {
-      id: 'jhxw83wa',
-      title: 'Group Portrait, Gordon Research Conference',
-      alternativeTitles: [],
-      referenceNumber: 'PP/CRI/A/1/2/3',
-      availableOnline: false,
-      availabilities: [],
-      totalParts: 0,
-      totalDescendentParts: 0,
-      type: 'Work',
+      identifierType: {
+        id: 'calm-ref-no',
+        label: 'Calm RefNo',
+        type: 'IdentifierType',
+      },
+      value: 'PPCRI/A/1/2/1',
+      type: 'Identifier',
     },
     {
-      id: 'te2x8hc7',
-      title: 'Crick at The Weizmann Institute of Science, Rehovoth, Israel',
-      alternativeTitles: [],
-      referenceNumber: 'PP/CRI/A/1/2/4',
-      availableOnline: false,
-      availabilities: [],
-      totalParts: 0,
-      totalDescendentParts: 0,
-      type: 'Work',
+      identifierType: {
+        id: 'calm-altref-no',
+        label: 'Calm AltRefNo',
+        type: 'IdentifierType',
+      },
+      value: 'PP/CRI/A/1/2/1',
+      type: 'Identifier',
     },
     {
-      id: 'j9cmjvpb',
-      title: 'Crick, Onsager, Dirac and Lamb',
-      alternativeTitles: [],
-      referenceNumber: 'PP/CRI/A/1/2/5',
-      availableOnline: false,
-      availabilities: [],
-      totalParts: 0,
-      totalDescendentParts: 0,
-      type: 'Work',
+      identifierType: {
+        id: 'sierra-system-number',
+        label: 'Sierra system number',
+        type: 'IdentifierType',
+      },
+      value: 'b16129143',
+      type: 'Identifier',
     },
     {
-      id: 'gqwjr82x',
-      title: 'National Geographic Society Portrait',
-      alternativeTitles: [],
-      referenceNumber: 'PP/CRI/A/1/2/6',
-      availableOnline: false,
-      availabilities: [],
-      totalParts: 0,
-      totalDescendentParts: 0,
-      type: 'Work',
+      identifierType: { id: 'mets', label: 'METS', type: 'IdentifierType' },
+      value: 'b16129143',
+      type: 'Identifier',
+    },
+  ],
+  subjects: [],
+  genres: [],
+  items: [
+    {
+      id: 'fe2bznnj',
+      identifiers: [
+        {
+          identifierType: {
+            id: 'sierra-system-number',
+            label: 'Sierra system number',
+            type: 'IdentifierType',
+          },
+          value: 'i15344381',
+          type: 'Identifier',
+        },
+        {
+          identifierType: {
+            id: 'sierra-identifier',
+            label: 'Sierra identifier',
+            type: 'IdentifierType',
+          },
+          value: '1534438',
+          type: 'Identifier',
+        },
+      ],
+      locations: [
+        {
+          locationType: {
+            id: 'scmac',
+            label: 'Closed stores Arch. & MSS',
+            type: 'LocationType',
+          },
+          label: 'Closed stores Arch. & MSS',
+          accessConditions: [
+            {
+              status: { id: 'open', label: 'Open', type: 'AccessStatus' },
+              terms:
+                'The papers are available subject to the usual conditions of access to Archives and Manuscripts material. A digitised copy is available to view via the online catalogue on the Wellcome Library website.',
+              type: 'AccessCondition',
+            },
+          ],
+          type: 'PhysicalLocation',
+        },
+        {
+          locationType: {
+            id: 'iiif-presentation',
+            label: 'IIIF Presentation API',
+            type: 'LocationType',
+          },
+          url: 'https://wellcomelibrary.org/iiif/b16129143/manifest',
+          license: {
+            id: 'cc-by-nc',
+            label: 'Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)',
+            url: 'https://creativecommons.org/licenses/by-nc/4.0/',
+            type: 'License',
+          },
+          accessConditions: [
+            {
+              status: { id: 'open', label: 'Open', type: 'AccessStatus' },
+              type: 'AccessCondition',
+            },
+          ],
+          type: 'DigitalLocation',
+        },
+      ],
+      availableDates: [
+        { from: '2022-05-23T09:00:00.000Z', to: '2022-05-23T09:00:00.000Z' },
+        { from: '2022-05-24T09:00:00.000Z', to: '2022-05-24T09:00:00.000Z' },
+      ],
+      type: 'Item',
+    },
+  ],
+  availableOnline: true,
+  availabilities: [
+    {
+      id: 'closed-stores',
+      label: 'Closed stores',
+      type: 'Availability',
     },
     {
-      id: 'gh3ykjcx',
-      title: 'Crick Lecturing (Composite Image)',
+      id: 'online',
+      label: 'Online',
+      type: 'Availability',
+    },
+  ],
+  production: [
+    {
+      label: '1952',
+      places: [],
+      agents: [],
+      dates: [{ label: '1952', type: 'Period' }],
+      type: 'ProductionEvent',
+    },
+  ],
+  notes: [],
+  languages: [],
+  images: [],
+  formerFrequency: [],
+  designation: [],
+  parts: [],
+  partOf: [
+    {
+      id: 't9d9yrsx',
+      title: 'Miscellaneous Photographs',
       alternativeTitles: [],
-      referenceNumber: 'PP/CRI/A/1/2/7',
+      referenceNumber: 'PP/CRI/A/1/2',
       availableOnline: false,
       availabilities: [],
-      totalParts: 0,
-      totalDescendentParts: 0,
-      type: 'Work',
+      totalParts: 9,
+      type: 'Series',
     },
     {
-      id: 'q8z3a932',
-      title: 'Wall Graffiti',
+      id: 'pwbpp7gj',
+      title: 'Miscellaneous Personal Items',
       alternativeTitles: [],
-      referenceNumber: 'PP/CRI/A/1/2/8',
+      referenceNumber: 'PP/CRI/A/1',
       availableOnline: false,
       availabilities: [],
-      totalParts: 0,
-      totalDescendentParts: 0,
-      type: 'Work',
+      totalParts: 6,
+      type: 'Section',
     },
     {
-      id: 'y5vqsvj4',
-      title: 'Crick Lecturing',
+      id: 'gnfmdk33',
+      title: 'Personal Material',
       alternativeTitles: [],
-      referenceNumber: 'PP/CRI/A/1/2/9',
+      referenceNumber: 'PP/CRI/A',
       availableOnline: false,
       availabilities: [],
-      totalParts: 0,
-      totalDescendentParts: 0,
-      type: 'Work',
+      totalParts: 4,
+      type: 'Section',
+    },
+    {
+      id: 'hz43r7re',
+      title: 'Francis Crick (1916-2004): archives',
+      alternativeTitles: [],
+      referenceNumber: 'PP/CRI',
+      availableOnline: false,
+      availabilities: [],
+      partOf: [],
+      totalParts: 14,
+      type: 'Collection',
     },
   ],
   type: 'Work',
 };
 
-export const workWithMixedPartOf: Work = {
+export const legacyWorkWithMixedPartOf: Work = {
   availabilities: [
     {
       id: 'closed-stores',
@@ -805,8 +917,70 @@ export const workWithMixedPartOf: Work = {
   identifiers: [],
   production: [],
   languages: [],
-  precededBy: [],
-  succeededBy: [],
+  notes: [],
+  formerFrequency: [],
+  designation: [],
+  parts: [],
+  holdings: [],
+  physicalDescription: '',
+};
+
+export const workWithMixedPartOf: Work = {
+  availabilities: [
+    {
+      id: 'closed-stores',
+      label: 'Closed stores',
+      type: 'Availability',
+    },
+  ],
+  referenceNumber: 'a/b/c',
+  id: 'baadf00d',
+  title: 'Something I made up',
+  type: 'Work',
+  workType: {
+    id: 'a',
+    label: 'Books',
+    type: 'Format',
+  },
+  partOf: [
+    {
+      id: 'cafed00d',
+      title: 'A Library Series',
+      referenceNumber: 'A Library Series',
+      type: 'Series',
+      totalParts: 0,
+      alternativeTitles: [],
+      availableOnline: false,
+      availabilities: [],
+    },
+    {
+      id: 'cafebeef',
+      referenceNumber: 'a/b',
+      title: 'An Archive Collection',
+      type: 'Collection',
+      totalParts: 1,
+      alternativeTitles: [],
+      availableOnline: false,
+      availabilities: [],
+    },
+    {
+      id: 'f00dcafe',
+      referenceNumber: 'a',
+      title: 'An Archive Series',
+      type: 'Series',
+      totalParts: 1,
+      alternativeTitles: [],
+      availableOnline: false,
+      availabilities: [],
+    },
+  ],
+  alternativeTitles: [],
+  subjects: [],
+  genres: [],
+  contributors: [],
+  identifiers: [],
+  production: [],
+  languages: [],
   notes: [],
   formerFrequency: [],
   designation: [],

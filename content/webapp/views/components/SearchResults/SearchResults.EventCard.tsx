@@ -58,14 +58,14 @@ const EventCard: FunctionComponent<Props> = ({ event, xOfY }) => {
   const ExtraInfo =
     event.isPast && event.availableOnline ? (
       <>
-        <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
-          <Space $v={{ size: 's', properties: ['margin-top'] }}>
+        <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'xs', properties: ['margin-top'] }}>
             <WatchLabel text="Available to watch" />
           </Space>
         </Space>
       </>
     ) : !event.isPast && event.times.length > 1 ? (
-      <p className={font('intb', 4)} style={{ marginBottom: 0 }}>
+      <p className={font('sans-bold', 0)} style={{ marginBottom: 0 }}>
         See all dates/times
       </p>
     ) : undefined;

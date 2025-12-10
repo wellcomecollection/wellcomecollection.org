@@ -2,6 +2,7 @@ import { Claims } from '@auth0/nextjs-auth0';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { FunctionComponent, PropsWithChildren, useState } from 'react';
+import { useTheme } from 'styled-components';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { sierraStatusCodeToLabel } from '@weco/common/data/microcopy';
@@ -22,7 +23,6 @@ import {
 } from '@weco/common/views/components/Layout';
 import StackingTable from '@weco/common/views/components/StackingTable';
 import Space from '@weco/common/views/components/styled/Space';
-import { themeValues } from '@weco/common/views/themes/config';
 import { useRequestedItems } from '@weco/identity/hooks/useRequestedItems';
 import { useSendVerificationEmail } from '@weco/identity/hooks/useSendVerificationEmail';
 import ChangeDetailsModal from '@weco/identity/views/components/ChangeDetailsModal';
@@ -63,8 +63,8 @@ const DetailList: FunctionComponent<{
     <StyledDl>
       {listItems.map(item => (
         <>
-          <dt className={font('intb', 5)}>{item.label}</dt>
-          <StyledDd className={font('intr', 5)}>{item.value}</StyledDd>
+          <dt className={font('sans-bold', -1)}>{item.label}</dt>
+          <StyledDd className={font('sans', -1)}>{item.value}</StyledDd>
         </>
       ))}
     </StyledDl>
@@ -74,10 +74,10 @@ const DetailList: FunctionComponent<{
 const RequestsFailed: FunctionComponent<{ retry: () => void }> = ({
   retry,
 }) => (
-  <p className={font('intr', 5)}>
+  <p className={font('sans', -1)}>
     Something went wrong fetching your item requests.
     <button
-      className={font('intr', 5)}
+      className={font('sans', -1)}
       style={{
         border: 'none',
         background: 'none',
@@ -100,7 +100,7 @@ const AccountStatus: FunctionComponent<PropsWithChildren<StatusAlertProps>> = ({
   return (
     <StatusAlert type={type}>
       <Icon icon={info2} />
-      <Space $h={{ size: 's', properties: ['margin-left'] }}>{children}</Space>
+      <Space $h={{ size: 'xs', properties: ['margin-left'] }}>{children}</Space>
     </StatusAlert>
   );
 };
@@ -108,9 +108,9 @@ const AccountStatus: FunctionComponent<PropsWithChildren<StatusAlertProps>> = ({
 const NoRequestedItems = () => (
   <Space
     as="p"
-    className={font('intr', 5)}
+    className={font('sans', -1)}
     $v={{
-      size: 's',
+      size: 'xs',
       properties: ['margin-bottom'],
       overrides: { small: 1 },
     }}
@@ -133,6 +133,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
   const { user: contextUser } = useUserContext();
   const [isEmailUpdated, setIsEmailUpdated] = useState(false);
   const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
+  const theme = useTheme();
 
   // Use the user from the context provider as first preference, as it will
   // change without a page reload being required
@@ -161,14 +162,14 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
   return (
     <IdentityPageLayout title="Your library account">
       <Space
-        $v={{ size: 'l', properties: ['margin-bottom'] }}
-        style={{ background: themeValues.color('white') }}
+        $v={{ size: 'md', properties: ['margin-bottom'] }}
+        style={{ background: theme.color('white') }}
       >
         <ContaineredLayout gridSizes={gridSize12()}>
           <Space
-            $v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
+            $v={{ size: 'md', properties: ['padding-top', 'padding-bottom'] }}
           >
-            <h1 className={font('wb', 0)}>Library account</h1>
+            <h1 className={font('brand', 5)}>Library account</h1>
           </Space>
         </ContaineredLayout>
         <div className="is-hidden-s">
@@ -232,7 +233,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                       case 'loading':
                         return (
                           <Space
-                            $v={{ size: 'l', properties: ['padding-bottom'] }}
+                            $v={{ size: 'md', properties: ['padding-bottom'] }}
                           >
                             <Loading variant="inline" />
                           </Space>
@@ -247,9 +248,9 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                             <>
                               <Space
                                 as="p"
-                                className={font('intb', 5)}
+                                className={font('sans-bold', -1)}
                                 $v={{
-                                  size: 's',
+                                  size: 'xs',
                                   properties: ['margin-bottom'],
                                 }}
                               >{`You have requested ${requestedItems.totalResults} out of ${allowedRequests} items`}</Space>
@@ -263,7 +264,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                                 />
                               </ProgressBar>
                               <StackingTable
-                                maxWidth={1180}
+                                maxWidth="73.75rem"
                                 rows={[
                                   [
                                     'Title',
@@ -283,7 +284,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                                         {result.item.title && (
                                           <Space
                                             $v={{
-                                              size: 's',
+                                              size: 'xs',
                                               properties: ['margin-top'],
                                             }}
                                           >
@@ -318,9 +319,9 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                                 ]}
                               />
                               <Space
-                                className={font('intr', 5)}
+                                className={font('sans', -1)}
                                 $v={{
-                                  size: 'l',
+                                  size: 'md',
                                   properties: ['margin-top'],
                                 }}
                               >
@@ -347,7 +348,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
           </SectionHeading>
           <Container>
             <Wrapper>
-              <p className={font('intr', 5)}>
+              <p className={font('sans', -1)}>
                 If you no longer wish to be a library member, you can cancel
                 your membership. The library team will be notified and your
                 online account will be closed.

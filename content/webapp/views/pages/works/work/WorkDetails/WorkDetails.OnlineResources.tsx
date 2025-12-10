@@ -10,7 +10,7 @@ import { getItemsByLocationType } from '@weco/content/utils/works';
 import WorkDetailsSection from './WorkDetails.Section';
 
 const ShowHideButton = styled.button.attrs({
-  className: font('intr', 5),
+  className: font('sans', -1),
 })`
   text-decoration: underline;
   padding: 0;
@@ -58,7 +58,7 @@ const OnlineResources: FunctionComponent<Props> = ({ work }: Props) => {
     <WorkDetailsSection headingText="Online resources">
       <PlainList>
         {firstThreeOnlineResources.map(item => (
-          <li className={font('intr', 5)} key={item.location.url}>
+          <li className={font('sans', -1)} key={item.location.url}>
             {item.title && `${item.title}: `}
             <a href={item.location.url}>
               {item.title ? 'View resource' : item.location.linkText}
@@ -68,7 +68,7 @@ const OnlineResources: FunctionComponent<Props> = ({ work }: Props) => {
         {isShowingRemainingOnlineResources && (
           <>
             {remainingOnlineResources.map((item, index) => (
-              <li className={font('intr', 5)} key={item.location.url}>
+              <li className={font('sans', -1)} key={item.location.url}>
                 {item.title && `${item.title}: `}
                 <a
                   href={item.location.url}

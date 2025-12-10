@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-import { themeValues } from '@weco/common/views/themes/config';
-
 type StartSpan = [span: number, start?: number];
 export type SizeMap = Record<string, StartSpan>;
 
@@ -12,19 +10,19 @@ export const Grid = styled.div<{ $noGap?: boolean }>`
   ${props =>
     !props.$noGap &&
     `
-    gap: ${themeValues.gutter.small}px;
+    gap: ${props.theme.gutter.small};
   `}
 
   ${props =>
     !props.$noGap &&
     props.theme.media('medium')(`
-    gap: ${themeValues.gutter.medium}px;
+    gap: ${props.theme.gutter.medium};
   `)}
 
   ${props =>
     !props.$noGap &&
     props.theme.media('large')(`
-    gap: ${themeValues.gutter.large}px;
+    gap: ${props.theme.gutter.large};
   `)}
 `;
 
@@ -61,10 +59,11 @@ export const GridCell = styled.div<{ $sizeMap: SizeMap }>`
 `;
 
 export const GridScroll = styled(Grid)`
-  ${themeValues.mediaBetween(
-    'small',
-    'medium'
-  )(`
+  ${props =>
+    props.theme.mediaBetween(
+      'small',
+      'medium'
+    )(`
     display: flex;
     flex-wrap: nowrap;
   `)}
@@ -77,6 +76,6 @@ export const GridCellScroll = styled(GridCell)`
       'medium'
     )(`
       min-width: 75vw;
-      padding-right: ${themeValues.gutter.small}px;
+      padding-right: ${props.theme.gutter.small};
     `)};
 `;

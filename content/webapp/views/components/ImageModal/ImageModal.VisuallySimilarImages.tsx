@@ -19,7 +19,7 @@ type State = 'initial' | 'loading' | 'success' | 'failed';
 
 const Wrapper = styled(Space).attrs({
   as: 'ul',
-  $v: { size: 's', properties: ['margin-bottom', 'margin-top'] },
+  $v: { size: 'xs', properties: ['margin-bottom', 'margin-top'] },
 })`
   ${plainListStyles}
 
@@ -84,7 +84,7 @@ const VisuallySimilarImages: FunctionComponent<Props> = ({
 
   return similarImages.length === 0 ? null : (
     <>
-      <h3 className={font('wb', 5)}>Visually similar images</h3>
+      <h3 className={font('brand', -1)}>Visually similar images</h3>
 
       <Wrapper>
         {similarImages.map(related => (
@@ -122,7 +122,7 @@ const VisuallySimilarImages: FunctionComponent<Props> = ({
           </li>
         ))}
       </Wrapper>
-      <p className={font('intr', 6)} style={{ marginBottom: 0 }}>
+      <p className={font('sans', -2)} style={{ marginBottom: 0 }}>
         We use machine learning to find images in our collection with similar
         shapes and features.
         <br />

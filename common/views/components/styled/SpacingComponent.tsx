@@ -9,16 +9,16 @@ const SpacingComponent = styled.div.attrs<{ $sliceType?: string }>(props => ({
 }))`
   & + &,
   &:empty {
-    margin-top: ${props => props.theme.spaceAtBreakpoints.small.l}px;
+    margin-top: ${props => props.theme.getSpaceValue('md', 'small')};
 
     ${props =>
       props.theme.media('medium')(`
-        margin-top: ${props.theme.spaceAtBreakpoints.medium.l}px;
+        margin-top: ${props.theme.getSpaceValue('md', 'medium')};
       `)}
 
     ${props =>
       props.theme.media('large')(`
-        margin-top: ${props.theme.spaceAtBreakpoints.large.l}px;
+        margin-top: ${props.theme.getSpaceValue('md', 'large')};
       `)}
   }
 

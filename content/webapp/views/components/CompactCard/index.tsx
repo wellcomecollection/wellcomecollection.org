@@ -52,7 +52,7 @@ type CompactArticleProps = ArticleCardProps & {
 export type Props = CompactCardProps | CompactArticleProps;
 
 const BaseTitleWrapper = styled.h3.attrs({
-  className: font('wb', 3),
+  className: font('brand', 1),
 })`
   margin: 0;
 `;
@@ -131,7 +131,7 @@ const CompactCard: FunctionComponent<Props> = (
         [extraClasses || '']: Boolean(extraClasses),
       })}
       $v={{
-        size: 'l',
+        size: 'md',
         properties:
           x === y ? ['padding-top'] : ['padding-top', 'padding-bottom'],
       }}
@@ -157,7 +157,7 @@ const CompactCard: FunctionComponent<Props> = (
         >
           {primaryLabels?.length > 0 && (
             <Space
-              $v={{ size: 's', properties: ['margin-bottom'] }}
+              $v={{ size: 'xs', properties: ['margin-bottom'] }}
               style={{ display: 'flex' }}
             >
               <LabelsList labels={primaryLabels} />
@@ -177,13 +177,13 @@ const CompactCard: FunctionComponent<Props> = (
           {ExtraInfo}
 
           {description && (
-            <div className={`spaced-text ${font('intr', 5)}`}>
+            <div className={`spaced-text ${font('sans', -1)}`}>
               {descriptionIsString ? <p>{description}</p> : description}
             </div>
           )}
           {secondaryLabels?.length > 0 && (
             <Space
-              $v={{ size: 's', properties: ['margin-top'] }}
+              $v={{ size: 'xs', properties: ['margin-top'] }}
               style={{ display: 'flex' }}
             >
               <LabelsList labels={secondaryLabels} defaultLabelColor="black" />

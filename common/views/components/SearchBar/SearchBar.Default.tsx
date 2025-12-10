@@ -5,12 +5,10 @@ import {
   SetStateAction,
   useRef,
 } from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
-import { useToggles } from '@weco/common/server-data/Context';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import TextInput from '@weco/common/views/components/TextInput';
-import { themeValues } from '@weco/common/views/themes/config';
 
 const Container = styled.div`
   display: flex;
@@ -53,12 +51,8 @@ const SearchBar: FunctionComponent<Props> = ({
   inputRef,
   location,
 }) => {
+  const theme = useTheme();
   const defaultInputRef = useRef<HTMLInputElement>(null);
-  const { collectionsLanding } = useToggles();
-
-  const buttonColors = collectionsLanding
-    ? themeValues.buttonColors.greenGreenWhite
-    : themeValues.buttonColors.yellowYellowBlack;
 
   return (
     <Container className="is-hidden-print">
@@ -81,7 +75,7 @@ const SearchBar: FunctionComponent<Props> = ({
           text="Search"
           type={ButtonTypes.submit}
           form={form}
-          colors={buttonColors}
+          colors={theme.buttonColors.greenGreenWhite}
         />
       </SearchButtonWrapper>
     </Container>

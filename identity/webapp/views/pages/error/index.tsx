@@ -1,5 +1,6 @@
 import { NextPage } from 'next';
 import { FunctionComponent, PropsWithChildren } from 'react';
+import { useTheme } from 'styled-components';
 
 import { StyledButton } from '@weco/common/views/components/Buttons';
 import {
@@ -7,7 +8,6 @@ import {
   gridSize10,
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
-import { themeValues } from '@weco/common/views/themes/config';
 import {
   Container,
   SectionHeading,
@@ -48,6 +48,8 @@ const CustomError: FunctionComponent<PropsWithChildren<Props>> = ({
 };
 
 const ErrorPage: NextPage<Props> = ({ errorDescription }) => {
+  const theme = useTheme();
+
   return (
     <IdentityPageLayout title="Error">
       <ContaineredLayout gridSizes={gridSize10()}>
@@ -59,7 +61,7 @@ const ErrorPage: NextPage<Props> = ({ errorDescription }) => {
                   href="mailto:library@wellcomecollection.org"
                   target="_blank"
                   rel="noopener noreferrer"
-                  $colors={themeValues.buttonColors.greenTransparentGreen}
+                  $colors={theme.buttonColors.greenTransparentGreen}
                 >
                   Contact us
                 </StyledButton>

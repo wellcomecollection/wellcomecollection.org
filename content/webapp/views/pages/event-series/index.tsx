@@ -94,7 +94,7 @@ const EventSeriesPage: NextPage<Props> = ({
                 title="Coming up"
               />
             ) : (
-              <h2 className={font('wb', 3)}>No upcoming events</h2>
+              <h2 className={font('brand', 1)}>No upcoming events</h2>
             )}
           </>
         )}
@@ -109,7 +109,7 @@ const EventSeriesPage: NextPage<Props> = ({
           </Space>
         )}
         {pastEvents.totalPages > 1 && (
-          <PaginationWrapper $verticalSpacing="m" $alignRight>
+          <PaginationWrapper $verticalSpacing="sm" $alignRight>
             <Pagination
               totalPages={pastEvents.totalPages}
               ariaLabel="Series pagination"

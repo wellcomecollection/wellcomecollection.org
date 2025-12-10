@@ -221,12 +221,9 @@ export type ArchiveLabels = {
 export const isAvailableOnline = (work: Work): boolean =>
   (work.availabilities ?? []).some(({ id }) => id === 'online');
 
-const getArchiveRoot = (work: RelatedWork): RelatedWork =>
-  work?.partOf?.[0] ? getArchiveRoot(work.partOf[0]) : work;
-
 export const getArchiveLabels = (work: Work): ArchiveLabels | undefined => {
   if (work.referenceNumber) {
-    const root = getArchiveRoot(work);
+    const root = getArchiveAncestorArray(work)[0] || work;
     return {
       reference: work.referenceNumber,
       partOf: root.id !== work.id ? root.title : undefined,
@@ -298,7 +295,16 @@ export function getArchiveAncestorArray(work: Work): RelatedWork[] {
   /*
   Return all the ancestors of work starting with the most distant.
   */
-  return makeArchiveAncestorArray([], hierarchicalParentOf(work)).reverse();
+
+  // Works from the legacy (Scala-populated) index have a recursive 'partOf' field, which needs to be flattened
+  // using the `makeArchiveAncestorArray` function. To determine if a work comes from the legacy index, we check
+  // whether it has a 'totalDescendentParts' field.
+  // TODO: Remove this (and the `makeArchiveAncestorArray` function) once we switch to the new index
+  if (work.partOf?.[0]?.totalDescendentParts !== undefined) {
+    return makeArchiveAncestorArray([], hierarchicalParentOf(work)).reverse();
+  }
+
+  return [...(work.partOf || []).filter(item => item.totalParts)].reverse();
 }
 
 export function getFileLabel(

@@ -225,7 +225,7 @@ const SearchPage: NextPage<Props> = withSearchLayout(
         ) : (
           <BasicSection>
             <Container>
-              <p className={font('intr', 5)}>
+              <p className={font('sans', -1)}>
                 {contentQueryFailed ? (
                   <>
                     There was a problem fetching some search results. Please try
@@ -239,7 +239,9 @@ const SearchPage: NextPage<Props> = withSearchLayout(
                       <>
                         {' '}
                         for{' '}
-                        <span className={font('intb', 5)}>{queryString}</span>
+                        <span className={font('sans-bold', -1)}>
+                          {queryString}
+                        </span>
                       </>
                     )}
                   </>
@@ -259,13 +261,13 @@ const SearchPage: NextPage<Props> = withSearchLayout(
                   <CatalogueResultsInner>
                     <Space
                       className="is-hidden-l is-hidden-xl"
-                      $v={{ size: 'l', properties: ['margin-bottom'] }}
+                      $v={{ size: 'md', properties: ['margin-bottom'] }}
                       $h={{
-                        size: 'm',
+                        size: 'sm',
                         properties: ['margin-left', 'margin-right'],
                       }}
                     >
-                      <h3 className={font('intsb', 4)}>
+                      <h3 className={font('sans-bold', 0)}>
                         Are you looking for our online collections?
                       </h3>
                     </Space>
@@ -309,11 +311,11 @@ const SearchPage: NextPage<Props> = withSearchLayout(
                       <Space
                         className="is-hidden-s is-hidden-m"
                         $v={{
-                          size: 'l',
+                          size: 'md',
                           properties: ['margin-top', 'margin-bottom'],
                         }}
                         $h={{
-                          size: 'm',
+                          size: 'sm',
                           properties: ['margin-left', 'margin-right'],
                         }}
                       >
@@ -325,12 +327,12 @@ const SearchPage: NextPage<Props> = withSearchLayout(
                       <>
                         <CatalogueSectionTitle
                           $h={{
-                            size: 'm',
+                            size: 'sm',
                             properties: ['margin-left', 'margin-right'],
                           }}
                           $isSmallGallery={isSmallGallery}
                           $v={{
-                            size: 'm',
+                            size: 'sm',
                             properties: ['margin-bottom'],
                           }}
                         >

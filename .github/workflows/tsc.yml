@@ -10,7 +10,7 @@ jobs:
     name: tsc
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
     - name: install Node
       # https://github.com/actions/setup-node?tab=readme-ov-file#usage
       # The node-version input is optional. If not supplied, the node version from PATH will be used.
@@ -24,5 +24,3 @@ jobs:
       run: cd playwright && yarn install && yarn tsc
     - name: (Dash) yarn tsc
       run: cd dash/webapp && yarn install && yarn tsc
-    - name: (Updown) yarn tsc
-      run: cd updown && yarn install && yarn tsc

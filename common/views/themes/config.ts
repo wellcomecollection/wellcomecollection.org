@@ -1,6 +1,18 @@
+import {
+  theme as designSystemTheme,
+  ResponsiveValue,
+} from '@wellcometrust/wellcome-design-system/theme';
 import { keyframes } from 'styled-components';
 
 import { ButtonColors } from '@weco/common/views/components/Buttons';
+import {
+  HorizontalSpaceProperty,
+  SpaceOverrides,
+  VerticalSpaceProperty,
+} from '@weco/common/views/components/styled/Space';
+
+type SpaceSize = '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+type SpaceProperty = HorizontalSpaceProperty | VerticalSpaceProperty;
 
 export type ColumnKey =
   | 's'
@@ -10,79 +22,6 @@ export type ColumnKey =
   | 'shiftM'
   | 'shiftL'
   | 'shiftXl';
-
-type GridProperties = {
-  padding: number;
-  gutter: number;
-  columns: number;
-  primaryStart: number;
-  primaryEnd: number;
-  secondaryStart: number;
-  secondaryEnd: number;
-  respond: Breakpoint[];
-};
-type GridConfig = {
-  s: GridProperties;
-  m: GridProperties;
-  l: GridProperties;
-  xl: GridProperties;
-};
-
-const grid: GridConfig = {
-  s: {
-    padding: 18,
-    gutter: 18,
-    columns: 12,
-    primaryStart: 1,
-    primaryEnd: 12,
-    secondaryStart: 1,
-    secondaryEnd: 12,
-    respond: ['small', 'medium'],
-  },
-  m: {
-    padding: 42,
-    gutter: 24,
-    columns: 12,
-    primaryStart: 2,
-    primaryEnd: 11,
-    secondaryStart: 2,
-    secondaryEnd: 11,
-    respond: ['medium', 'large'],
-  },
-  l: {
-    padding: 60,
-    gutter: 30,
-    columns: 12,
-    primaryStart: 1,
-    primaryEnd: 7,
-    secondaryStart: 8,
-    secondaryEnd: 12,
-    respond: ['large', 'xlarge'],
-  },
-  xl: {
-    padding: 60,
-    gutter: 30,
-    columns: 12,
-    primaryStart: 1,
-    primaryEnd: 7,
-    secondaryStart: 8,
-    secondaryEnd: 12,
-    respond: ['xlarge'],
-  },
-};
-
-export const spacingUnits = {
-  '1': 4,
-  '2': 6,
-  '3': 8,
-  '4': 12,
-  '5': 16,
-  '6': 24,
-  '7': 30,
-  '8': 32,
-  '9': 46,
-  '10': 64,
-};
 
 // suggested new colors
 const colors = {
@@ -136,14 +75,20 @@ const getColor = (name: PaletteColor): string => {
 };
 
 export const sizes = {
-  small: 0,
-  medium: 600,
-  large: 960,
-  xlarge: 1338,
-  // Tweakpoints
-  // Occasionally we need to respond to specific breakpoints beyond the defaults
-  headerMedium: 825,
-  headerLarge: 1040,
+  small: '0rem',
+  medium: designSystemTheme.breakpoints.sm, // 48rem = 768px
+  large: designSystemTheme.breakpoints.md, // 64rem = 1024px
+  xlarge: designSystemTheme.breakpoints.lg, // 90rem = 1440px
+  // TODO: try to get rid of these one-offs
+  headerMedium: '51.5625rem', // 825px
+  headerLarge: '65rem', // 1040px
+};
+
+const gutter = {
+  small: designSystemTheme.grid.gutter.default, // 12px
+  medium: designSystemTheme.grid.gutter.sm, // 24px
+  large: '2.5rem', // 40px FIXME: this value isn't in the WDS repo but is in Figma
+  xlarge: designSystemTheme.grid.gutter.lg, // 48px
 };
 
 const defaultButtonColors: ButtonColors = {
@@ -237,45 +182,139 @@ const slateTransparentBlack: ButtonColors = {
 };
 
 export type Size = keyof typeof sizes;
-const media =
+
+// Factory functions that create media query helpers with specific sizes
+export const createMedia =
+  (activeSizes: typeof sizes) =>
   (sizeLabel: Size, minOrMaxWidth: 'min-width' | 'max-width' = 'min-width') =>
   (styles: TemplateStringsArray | string): string =>
-    `@media (${minOrMaxWidth}: ${sizes[sizeLabel]}px) {${styles}}`;
+    `@media (${minOrMaxWidth}: ${activeSizes[sizeLabel]}) {${styles}}`;
 
-const mediaBetween =
+export const createMediaBetween =
+  (activeSizes: typeof sizes) =>
   (minBreakpoint: Breakpoint, maxBreakpoint: Breakpoint) =>
   (styles: string): string => {
-    const minWidth = `min-width: ${sizes[minBreakpoint]}px`;
-    const maxWidth = `max-width: ${sizes[maxBreakpoint] - 1}px`;
+    const minWidth = `min-width: ${activeSizes[minBreakpoint]}`;
+    const maxWidth = `max-width: calc(${activeSizes[maxBreakpoint]} - 0.0625rem)`;
 
     return `@media (${minWidth}) and (${maxWidth}) {
       ${styles}
     }`;
   };
 
+// Default media query helpers (use standard sizes)
+const media = createMedia(sizes);
+const mediaBetween = createMediaBetween(sizes);
+
+const breakpointNames = ['small', 'medium', 'large'];
+
+// Design system container padding values (5% across all breakpoints)
+// but not exported yet
+export const containerPadding = '5%';
+const containerPaddingVw = '5vw';
+
+// Map current space sizes to design system responsive spacing
+// xs → space.2xs, s → space.xs, m → space.sm, l → space.lg, xl → space.xl
+const designSystemSpacing: Record<SpaceSize, ResponsiveValue> = {
+  '2xs': designSystemTheme.spacing.responsive['space.2xs'],
+  xs: designSystemTheme.spacing.responsive['space.xs'],
+  sm: designSystemTheme.spacing.responsive['space.sm'],
+  md: designSystemTheme.spacing.responsive['space.md'],
+  lg: designSystemTheme.spacing.responsive['space.lg'],
+  xl: designSystemTheme.spacing.responsive['space.xl'],
+};
+
+// Map spacingUnits to design system static spacing values
+// Used for overrides parameter
+type SpacingUnit = '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10';
+const designSystemStaticSpacing: Record<SpacingUnit, string> = {
+  '1': designSystemTheme.spacing.static['space.050'], // 4px → 0.25rem
+  '2': designSystemTheme.spacing.static['space.075'], // 6px → 0.375rem
+  '3': designSystemTheme.spacing.static['space.100'], // 8px → 0.5rem
+  '4': designSystemTheme.spacing.static['space.150'], // 12px → 0.75rem
+  '5': designSystemTheme.spacing.static['space.200'], // 16px → 1rem
+  '6': designSystemTheme.spacing.static['space.300'], // 24px → 1.5rem
+  '7': designSystemTheme.spacing.static['space.400'], // 30px → 2rem (closest match)
+  '8': designSystemTheme.spacing.static['space.400'], // 32px → 2rem (closest match)
+  '9': designSystemTheme.spacing.static['space.600'], // 46px → 3rem (closest match)
+  '10': designSystemTheme.spacing.static['space.1200'], // 64px → 6rem (closest match)
+};
+
+// Map our breakpoint names to design system breakpoint keys
+// TODO: remove this mapping, but only after the keys in the design system have been
+// updated. They are currently 'default', 'sm', 'md', but they will soon change
+// to e.g. 'xs', 'sm', 'md', 'lg', 'xl'
+const BREAKPOINT_TO_DS_MAP: Record<
+  'small' | 'medium' | 'large',
+  'default' | 'sm' | 'md'
+> = {
+  small: 'default',
+  medium: 'sm',
+  large: 'md',
+};
+
+// Helper function to get a single spacing value (for use in calculations, negative values, etc.)
+function getSpaceValue(
+  size: SpaceSize,
+  breakpoint: 'small' | 'medium' | 'large'
+): string {
+  const dsSpacing = designSystemSpacing[size];
+  return dsSpacing[BREAKPOINT_TO_DS_MAP[breakpoint]];
+}
+
+// Helper function to get override spacing values
+function getSpaceOverrideValue(unit: SpacingUnit): string {
+  return designSystemStaticSpacing[unit];
+}
+
+// When using this vw calc approach (e.g. in [conceptId]) the scrollbar width is not taken into account resulting in
+// possible horizontal scroll. The simplest solution to get around this is to use pageGridOffset in conjunction
+// with the hideOverflowX prop on PageLayout
+function pageGridOffset(property: string): string {
+  return `
+  position: relative;
+  ${property}: -${containerPaddingVw};
+
+  ${media('xlarge')(`
+    ${property}: calc((100vw - ${sizes.xlarge}) / 2 * -1 - ${containerPaddingVw});
+  `)};
+  `;
+}
+
+function makeSpacePropertyValues(
+  size: SpaceSize,
+  properties: SpaceProperty[],
+  negative?: boolean,
+  overrides?: SpaceOverrides
+): string {
+  return breakpointNames
+    .map(bp => {
+      // Use override if provided, otherwise use size-based spacing
+      const baseValue =
+        overrides && overrides[bp]
+          ? getSpaceOverrideValue(overrides[bp])
+          : getSpaceValue(size, bp as 'small' | 'medium' | 'large');
+
+      const finalValue = negative ? `calc(-1 * ${baseValue})` : baseValue;
+
+      return `@media (min-width: ${sizes[bp]}) {
+      ${properties.map(p => `${p}: ${finalValue};`).join('')}
+    }`;
+    })
+    .join('');
+}
+
 export const themeValues = {
   spacingUnit: 6,
   borderRadiusUnit: 6,
   transitionProperties: '150ms ease',
   iconDimension: 24,
-  containerPadding: {
-    small: 18,
-    medium: 42,
-    large: 60,
-    xlarge: 60,
-  },
+  containerPadding,
+  containerPaddingVw,
   sizes,
-  gutter: {
-    small: 18,
-    medium: 24,
-    large: 30,
-    xlarge: 30,
-  },
+  gutter,
   basicBoxShadow: `0 2px 8px 0 rgb(18, 18, 18, 0.4)`,
   focusBoxShadow: `0 0 0 3px ${colors['focus.yellow']}`,
-  // Problem: https://github.com/wellcomecollection/wellcomecollection.org/issues/10237
-  // Solution: https://benmyers.dev/blog/whcm-outlines/
-  highContrastOutlineFix: `3px solid transparent`,
   keyframes: {
     hoverBounce: keyframes`
       0% {
@@ -293,38 +332,17 @@ export const themeValues = {
       }
       `,
   },
-  spacingUnits,
-  spaceAtBreakpoints: {
-    small: {
-      xs: spacingUnits['1'],
-      s: spacingUnits['2'],
-      m: spacingUnits['3'],
-      l: spacingUnits['5'],
-      xl: spacingUnits['7'],
-    },
-    medium: {
-      xs: spacingUnits['1'],
-      s: spacingUnits['2'],
-      m: spacingUnits['4'],
-      l: spacingUnits['6'],
-      xl: spacingUnits['9'],
-    },
-    large: {
-      xs: spacingUnits['1'],
-      s: spacingUnits['3'],
-      m: spacingUnits['5'],
-      l: spacingUnits['8'],
-      xl: spacingUnits['10'],
-    },
-  },
+  spacingUnits: designSystemStaticSpacing,
   navHeight: 85,
   fontVerticalOffset: '0.15em',
-  grid,
   colors,
   color: getColor,
   minCardHeight: 385,
   media,
   mediaBetween,
+  makeSpacePropertyValues,
+  getSpaceValue,
+  pageGridOffset,
   buttonColors: {
     default: defaultButtonColors,
     danger: dangerButtonColors,

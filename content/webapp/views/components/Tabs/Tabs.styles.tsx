@@ -2,20 +2,18 @@ import styled from 'styled-components';
 
 import { classNames, font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
+import { focusStyle } from '@weco/common/views/themes/base/wellcome-normalize';
 
 export const Wrapper = styled.div`
   ${props =>
     `
-      margin: 0 -${props.theme.containerPadding.small}px;
-      transition: margin ${props => props.theme.transitionProperties};
+      margin: 0 -${props.theme.containerPadding};
+      transition: margin ${props.theme.transitionProperties};
 
     ${props.theme.media('medium')(`
-        margin: 0 calc(-${props.theme.containerPadding.medium}px + 1rem);
+        margin: 0 calc(-${props.theme.containerPadding} + 1rem);
     `)}
 
-    ${props.theme.media('large')(`
-        margin: 0 calc(-${props.theme.containerPadding.large}px + 1rem);
-    `)}
 
     ${props.theme.media('xlarge')(`
         margin-right: 0;
@@ -29,15 +27,18 @@ export const TabsContainer = styled.div`
   padding: 0;
   margin: 0;
   overflow-x: auto;
-  padding-left: ${props => props.theme.containerPadding.small}px;
+
+  /* Add vertical padding to prevent focus outline clipping */
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  margin-top: -0.5rem;
+  margin-bottom: -0.5rem;
+
+  padding-left: ${props => props.theme.containerPadding};
 
   ${props => `
     ${props.theme.media('medium')(`
-      padding-left: calc(${props.theme.containerPadding.medium}px - 1rem);
-  `)}
-
-  ${props.theme.media('large')(`
-    padding-left: calc(${props.theme.containerPadding.large}px - 1rem);
+      padding-left: calc(${props.theme.containerPadding} - 1rem);
   `)}
   `}
 `;
@@ -48,8 +49,8 @@ type NavItemProps = {
   $hideBorder?: boolean;
 };
 
-export const Tab = styled.div.attrs<{ $selected?: boolean }>(props => ({
-  className: font(props.$selected ? 'intsb' : 'intm', 5),
+export const Tab = styled.div.attrs<NavItemProps>(props => ({
+  className: props.$selected ? font('sans-bold', -1) : font('sans', -1),
 }))<NavItemProps>`
   padding: 0;
   margin: 0;
@@ -71,10 +72,7 @@ export const Tab = styled.div.attrs<{ $selected?: boolean }>(props => ({
     /* For Tab.Anchor */
     &:focus-visible {
       display: block;
-      box-shadow:
-        0 0 0 3px ${props => props.theme.color('focus.yellow')} inset,
-        0 0 0 6px ${props => props.theme.color('black')} inset;
-      outline: 0;
+      ${focusStyle};
     }
   }
 `;
@@ -82,10 +80,7 @@ export const Tab = styled.div.attrs<{ $selected?: boolean }>(props => ({
 export const TabButton = styled.div`
   /* For Tab.Tab */
   &:focus-visible {
-    box-shadow:
-      0 0 0 3px ${props => props.theme.color('focus.yellow')} inset,
-      0 0 0 6px ${props => props.theme.color('black')} inset;
-    outline: 0;
+    ${focusStyle};
   }
 `;
 
@@ -94,8 +89,8 @@ export const NavItemInner = styled(Space).attrs<{ $selected: boolean }>(
     return {
       as: 'span',
       className: classNames({ selected: props.$selected }),
-      $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-      $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+      $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
+      $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
     };
   }
 )<{ $isWhite?: boolean }>`
@@ -134,6 +129,10 @@ export const NavItemInner = styled(Space).attrs<{ $selected: boolean }>(
   &.selected::after {
     width: 100%;
     background-color: transparent;
+
+    ${Tab}:focus-within & {
+      background-color: ${props => props.theme.color('yellow')};
+    }
   }
 `;
 

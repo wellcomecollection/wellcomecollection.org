@@ -1,3 +1,4 @@
+// Delete when newOnlineListingPage becomes default
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
@@ -30,7 +31,7 @@ const PopoutCardImageContainer = styled.div<{ $aspectRatio?: number }>`
 `;
 
 const PopoutCardImage = styled(Space).attrs({
-  $v: { size: 'l', properties: ['bottom'] },
+  $v: { size: 'md', properties: ['bottom'] },
 })`
   position: absolute;
   width: 66%;
@@ -68,13 +69,13 @@ const LinkSpace = styled(Space).attrs<LinkSpaceAttrs>(props => ({
 `;
 
 const Title = styled.h3.attrs({
-  className: font('intb', 5),
+  className: font('sans-bold', -1),
 })`
   margin: 0;
 `;
 
 const Meta = styled.p.attrs({
-  className: font('intr', 6),
+  className: font('sans', -2),
 })`
   color: ${props => props.theme.color('neutral.600')};
   margin: 0;
@@ -106,7 +107,7 @@ const WorkCard: FunctionComponent<Props> = ({ item }) => {
 
   return (
     <LinkSpace $url={url} data-component="work-card">
-      <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+      <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
         <Shim>
           <PopoutCardImageContainer
             data-component="popout-image"
@@ -118,10 +119,12 @@ const WorkCard: FunctionComponent<Props> = ({ item }) => {
           </PopoutCardImageContainer>
         </Shim>
         <Space
-          $v={{ size: 's', properties: ['margin-bottom'] }}
+          $v={{ size: 'xs', properties: ['margin-bottom'] }}
           style={{ position: 'relative' }}
         >
-          <Space $v={{ size: 'm', properties: ['margin-top'], negative: true }}>
+          <Space
+            $v={{ size: 'sm', properties: ['margin-top'], negative: true }}
+          >
             <LabelsList labels={labels} />
           </Space>
         </Space>

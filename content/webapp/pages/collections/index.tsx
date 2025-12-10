@@ -1,3 +1,4 @@
+import * as prismic from '@prismicio/client';
 import { NextPage } from 'next';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
@@ -6,22 +7,21 @@ import { getServerData } from '@weco/common/server-data';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
-  ContaineredLayout,
-  gridSize12,
-} from '@weco/common/views/components/Layout';
-import SearchForm from '@weco/common/views/components/SearchForm';
-import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import {
   ServerSideProps,
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
-import * as page from '@weco/content/pages/pages/[pageId]';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchPage } from '@weco/content/services/prismic/fetch/pages';
 import { getInsideOurCollectionsCards } from '@weco/content/services/prismic/transformers/collections-landing';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
 import { getConcepts } from '@weco/content/services/wellcome/catalogue/concepts';
-import type { Concept } from '@weco/content/services/wellcome/catalogue/types';
+import {
+  type Concept,
+  toWorkBasic,
+  Work,
+  type WorkBasic,
+} from '@weco/content/services/wellcome/catalogue/types';
+import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
 import { isFullWidthBanner } from '@weco/content/types/body';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import CollectionsLandingPage, {
@@ -65,28 +65,11 @@ async function fetchFeaturedConcepts(): Promise<Concept[]> {
   }
 }
 
-const Page: NextPage<
-  page.Props | (CollectionsLandingPageProps & { hasNewPageToggle: true })
-> = props => {
-  return 'hasNewPageToggle' in props ? (
-    <CollectionsLandingPage {...props} />
-  ) : (
-    <page.Page
-      {...props}
-      staticContent={
-        <ContaineredLayout gridSizes={gridSize12()}>
-          <SpacingSection>
-            <SearchForm searchCategory="works" location="page" />
-          </SpacingSection>
-        </ContaineredLayout>
-      }
-    />
-  );
+const Page: NextPage<CollectionsLandingPageProps> = props => {
+  return <CollectionsLandingPage {...props} />;
 };
 
-type Props = ServerSideProps<
-  page.Props | (CollectionsLandingPageProps & { hasNewPageToggle: true })
->;
+type Props = ServerSideProps<CollectionsLandingPageProps>;
 
 export const getServerSideProps: ServerSidePropsOrAppError<
   Props
@@ -95,68 +78,97 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const serverData = await getServerData(context);
 
   const client = createClient(context);
-  const newCollectionsLanding = serverData.toggles.collectionsLanding.value;
+  const collectionsPagePromise = await fetchPage(
+    client,
+    prismicPageIds.newCollections
+  );
 
-  if (newCollectionsLanding) {
-    const collectionsPagePromise = await fetchPage(
-      client,
-      prismicPageIds.newCollections
+  if (isNotUndefined(collectionsPagePromise)) {
+    const collectionsPage = transformPage(
+      collectionsPagePromise as RawPagesDocument
     );
 
-    if (isNotUndefined(collectionsPagePromise)) {
-      const collectionsPage = transformPage(
-        collectionsPagePromise as RawPagesDocument
-      );
+    const insideOurCollectionsCards =
+      getInsideOurCollectionsCards(collectionsPage);
 
-      const insideOurCollectionsCards =
-        getInsideOurCollectionsCards(collectionsPage);
+    // Fetch featured concepts for the theme block
+    const featuredConcepts = await fetchFeaturedConcepts();
 
-      // Fetch featured concepts for the theme block
-      const featuredConcepts = await fetchFeaturedConcepts();
+    const bannerOne = collectionsPage.untransformedBody.find(
+      slice => slice.slice_type === 'fullWidthBanner'
+    );
 
-      const bannerOne = collectionsPage.untransformedBody.find(
-        slice => slice.slice_type === 'fullWidthBanner'
-      );
+    const bannerTwo = collectionsPage.untransformedBody.find(
+      slice =>
+        slice.slice_type === 'fullWidthBanner' && slice.id !== bannerOne?.id
+    );
 
-      const bannerTwo = collectionsPage.untransformedBody.find(
+    const fullWidthBanners = [bannerOne, bannerTwo]
+      .filter(isNotUndefined)
+      .filter(isFullWidthBanner);
+
+    let newOnlineDocuments: WorkBasic[] = [];
+    if (serverData.toggles.newOnlineListingPage.value) {
+      // Find the "New online" text block in Prismic that contains work IDs
+      // Format should be: "New online: [ptfqa2te, bbsjt2ex, a3cyqwec, sh37yy5n]"
+      const newOnlineBlock = collectionsPage.untransformedBody.find(
         slice =>
-          slice.slice_type === 'fullWidthBanner' && slice.id !== bannerOne?.id
-      );
+          slice.slice_type === 'text' &&
+          Array.isArray(slice.primary.text) &&
+          slice.primary.text.some((block: prismic.RTParagraphNode) =>
+            block.text.includes('New online:')
+          )
+      )?.primary.text?.[0]?.text;
 
-      const fullWidthBanners = [bannerOne, bannerTwo]
-        .filter(isNotUndefined)
-        .filter(isFullWidthBanner);
+      // Extract work IDs from square brackets
+      const match = newOnlineBlock?.match(/\[(.*?)\]/);
+      const newOnlineWorkIds: string[] = match
+        ? match[1].split(',').map(id => id.trim())
+        : [];
 
-      return {
-        props: serialiseProps({
-          hasNewPageToggle: true,
-          pageMeta: {
-            id: collectionsPage.id,
-            image: collectionsPage.promo?.image,
-            description: collectionsPage.promo?.caption,
-          },
-          title: collectionsPage.title,
-          introText: collectionsPage.introText ?? [],
-          insideOurCollectionsCards,
-          featuredConcepts,
-          fullWidthBanners,
-          serverData,
-        }),
-      };
-    } else {
-      return { notFound: true };
+      // Fetch work details for all "New online" IDs
+      if (newOnlineWorkIds.length > 0) {
+        try {
+          const works = await getWorks({
+            params: {
+              query: newOnlineWorkIds.join(' '),
+            },
+            toggles: serverData.toggles,
+          });
+
+          if (works.type !== 'Error') {
+            // Transform and preserve the order from Prismic
+            const worksById = new Map(works.results.map(w => [w.id, w]));
+            newOnlineDocuments = newOnlineWorkIds
+              .map(id => worksById.get(id))
+              .filter((work): work is Work => work !== undefined)
+              .map(work => toWorkBasic(work));
+          }
+        } catch (error) {
+          console.error('Error fetching new online documents:', error);
+        }
+      }
     }
-  }
 
-  return page.getServerSideProps({
-    ...context,
-    query: {
-      pageId: newCollectionsLanding
-        ? prismicPageIds.newCollections
-        : prismicPageIds.collections,
-    },
-    params: { siteSection: 'collections' },
-  });
+    return {
+      props: serialiseProps({
+        pageMeta: {
+          id: collectionsPage.id,
+          image: collectionsPage.promo?.image,
+          description: collectionsPage.promo?.caption,
+        },
+        title: collectionsPage.title,
+        introText: collectionsPage.introText ?? [],
+        insideOurCollectionsCards,
+        featuredConcepts,
+        fullWidthBanners,
+        newOnlineDocuments,
+        serverData,
+      }),
+    };
+  } else {
+    return { notFound: true };
+  }
 };
 
 export default Page;

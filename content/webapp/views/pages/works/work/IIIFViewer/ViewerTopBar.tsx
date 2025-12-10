@@ -34,13 +34,12 @@ import { queryParamToArrayIndex } from '.';
 import ToolbarSegmentedControl from './ToolbarSegmentedControl';
 
 export const ViewerButton = styled.button.attrs({
-  className: font('intb', 5),
+  className: font('sans-bold', -1),
 })<{ $isDark?: boolean }>`
   line-height: 1.5;
   border-radius: ${props => props.theme.borderRadiusUnit}px;
   text-decoration: none;
   text-align: center;
-  transition: all ${props => props.theme.transitionProperties};
   white-space: nowrap;
   padding: 6px 12px;
   position: relative;
@@ -75,8 +74,6 @@ export const ViewerButton = styled.button.attrs({
     border: 2px solid transparent;
     color: ${props.theme.color('white')};
     background: transparent;
-    outline: none;
-    transition: all ${props.theme.transitionProperties};
 
     &:not([disabled]):hover {
       border: 2px solid ${props.theme.color('white')};
@@ -135,8 +132,8 @@ const TopBar = styled.div<{
 `;
 
 const Sidebar = styled(Space).attrs({
-  $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
-  $h: { size: 's', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'xs', properties: ['padding-left', 'padding-right'] },
 })<{ $isZooming: boolean }>`
   grid-column: left-edge / desktop-sidebar-end;
   display: flex;
@@ -156,8 +153,8 @@ const Sidebar = styled(Space).attrs({
 `;
 
 const Main = styled(Space).attrs({
-  $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
-  $h: { size: 's', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'xs', properties: ['padding-left', 'padding-right'] },
 })`
   display: flex;
   justify-content: flex-end;
@@ -174,7 +171,7 @@ const LeftZone = styled.div`
 `;
 
 const MiddleZone = styled.div.attrs({
-  className: font('intb', 5),
+  className: font('sans-bold', -1),
 })`
   display: flex;
   justify-content: center;
@@ -368,7 +365,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
           {isEnhanced && (
             <div style={{ display: 'flex', alignItems: 'center' }}>
               {!showZoomed && downloadOptions.length > 0 && (
-                <Space $h={{ size: 's', properties: ['margin-right'] }}>
+                <Space $h={{ size: 'xs', properties: ['margin-right'] }}>
                   <Download
                     ariaControlsId="itemDownloads"
                     downloadOptions={downloadOptions}

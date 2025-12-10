@@ -32,9 +32,9 @@ const Button = styled.button.attrs({
 
 const ButtonInner = styled(Space).attrs({
   as: 'span',
-  className: font('intb', 5),
-  $h: { size: 'xs', properties: ['padding-right', 'padding-left'] },
-  $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
+  className: font('sans-bold', -1),
+  $h: { size: '2xs', properties: ['padding-right', 'padding-left'] },
+  $v: { size: '2xs', properties: ['padding-top', 'padding-bottom'] },
 })`
   display: flex;
   align-items: center;
@@ -77,7 +77,7 @@ const ToolbarSegmentedControl: FunctionComponent<Props> = ({
                   hideLabels
                     ? undefined
                     : {
-                        size: 'xs',
+                        size: '2xs',
                         properties: ['padding-left', 'padding-right'],
                       }
                 }

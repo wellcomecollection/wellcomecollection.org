@@ -6,8 +6,8 @@ import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
 
 export const DateWrapper = styled(Space).attrs({
-  className: font('intr', 4),
-  $v: { size: 's', properties: ['margin-bottom'] },
+  className: font('sans', 0),
+  $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   padding: 0;
 `;
@@ -15,8 +15,8 @@ export const DateWrapper = styled(Space).attrs({
 const shimHeight = '21px';
 
 export const FeaturedCardWrap = styled.div`
-  margin-left: -${props => props.theme.gutter.small}px;
-  margin-right: -${props => props.theme.gutter.small}px;
+  margin-left: -${props => props.theme.gutter.small};
+  margin-right: -${props => props.theme.gutter.small};
 
   ${props => props.theme.media('medium')`
     margin-left: 0;
@@ -50,19 +50,21 @@ export const FeaturedCardLeft = styled(GridCell)<HasIsReversed>`
   `)}
 `;
 
-export const FeaturedCardRight = styled.div<HasIsReversed>`
+export const FeaturedCardRight = styled.div.attrs({
+  className: font('sans-bold', -2), // required for em value in label height calc below
+})<HasIsReversed>`
   display: flex;
   flex-direction: column;
-  transform: translateY(-28px); /* Height of a label (font size + padding) */
+
+  /* Label height = font size (1em) + padding top/bottom (4px + 4px) + border (1px + 1px) + 1px to prevent sub-pixel rendering issues */
+  transform: translateY(calc(-1 * (1em + 11px)));
   width: 100%;
   height: 100%;
   min-height: 200px;
   position: relative;
 
-  padding-left: ${props =>
-    props.$isReversed ? 0 : props.theme.gutter.small}px;
-  padding-right: ${props =>
-    props.$isReversed ? props.theme.gutter.small : 0}px;
+  padding-left: ${props => (props.$isReversed ? 0 : props.theme.gutter.small)};
+  padding-right: ${props => (props.$isReversed ? props.theme.gutter.small : 0)};
 
   ${props => props.theme.media('medium')`
     padding-left: 0;
@@ -76,8 +78,8 @@ export const FeaturedCardRight = styled.div<HasIsReversed>`
 `;
 
 export const FeaturedCardCopy = styled(Space).attrs({
-  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
 })<{ $textColor: PaletteColor; $background: PaletteColor }>`
   flex: 1;
   color: ${props => props.theme.color(props.$textColor)};

@@ -56,7 +56,7 @@ const ImageContainer = styled.span`
 `;
 
 const IIIFViewerThumbNumber = styled.span.attrs({
-  className: font('intb', 6),
+  className: font('sans-bold', -2),
 })`
   padding: 3px 6px;
   border-radius: 3px;
@@ -168,7 +168,7 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
         </ImageContainer>
 
         <div>
-          <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
             <IIIFViewerThumbNumber>
               {canvas.label?.trim() !== '-' && 'page'} {canvas.label}
             </IIIFViewerThumbNumber>

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 
 export const FrameGridWrap = styled(Space).attrs({
-  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
   $v: { size: 'xl', properties: ['margin-bottom'] },
 })`
   position: relative;
@@ -38,7 +38,7 @@ export const FrameItem = styled.div`
 
 export const GalleryTitle = styled(Space).attrs({
   as: 'span',
-  $v: { size: 'm', properties: ['margin-bottom'] },
+  $v: { size: 'sm', properties: ['margin-bottom'] },
 })`
   display: flex;
 
@@ -146,7 +146,7 @@ export const Gallery = styled.div<GalleryProps>`
 `;
 
 export const CloseWrapper = styled(Space).attrs({
-  $v: { size: 'm', properties: ['padding-top'] },
+  $v: { size: 'sm', properties: ['padding-top'] },
 })`
   position: absolute;
   display: none;
@@ -197,8 +197,8 @@ export const ControlContainer = styled(Space).attrs<ControlContainerProps>(
   props => ({
     'aria-hidden': !props.$isActive,
     className: 'close',
-    $v: { size: 'm', properties: ['padding-bottom'] },
-    $h: { size: 'l', properties: ['margin-right'] },
+    $v: { size: 'sm', properties: ['padding-bottom'] },
+    $h: { size: 'md', properties: ['margin-right'] },
   })
 )<ControlContainerProps>`
   opacity: ${props => (props.$isActive ? 1 : 0)};

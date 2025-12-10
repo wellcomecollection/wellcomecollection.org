@@ -1,11 +1,10 @@
 import { FunctionComponent, useState } from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import { capitalize, pluralize } from '@weco/common/utils/grammar';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
 import Space from '@weco/common/views/components/styled/Space';
-import theme from '@weco/common/views/themes/default';
 import { useConceptPageContext } from '@weco/content/contexts/ConceptPageContext';
 import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { allRecordsLinkParams } from '@weco/content/utils/concepts';
@@ -25,8 +24,8 @@ import { FromCollectionsHeading } from './concept.styles';
 
 const WorksCount = styled(Space).attrs({
   as: 'p',
-  className: font('intr', 6),
-  $v: { size: 's', properties: ['padding-top'] },
+  className: font('sans', -2),
+  $v: { size: 'xs', properties: ['padding-top'] },
 })`
   color: ${props => props.theme.color('neutral.600')};
   border-top: 1px solid ${props => props.theme.color('warmNeutral.300')};
@@ -50,6 +49,7 @@ type Props = {
 };
 
 const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
+  const theme = useTheme();
   const { config } = useConceptPageContext();
   const tabs = themeTabOrder
     .filter(
@@ -86,7 +86,7 @@ const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
         as="section"
         data-id="works"
       >
-        <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
+        <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
           <FromCollectionsHeading id="works" $color="black">
             Works from the collections
           </FromCollectionsHeading>
@@ -107,20 +107,23 @@ const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
           data-testid="works-section"
         >
           <div
-            role="tabpanel"
-            id={`tabpanel-${selectedTab}`}
-            aria-labelledby={`tab-${selectedTab}`}
+            {...(tabs.length > 1 && {
+              role: 'tabpanel',
+              id: `tabpanel-${selectedTab}`,
+              'aria-labelledby': `tab-${selectedTab}`,
+            })}
           >
             <WorksCount>
               {pluralize(activePanel.works.totalResults, 'work')}
             </WorksCount>
-            <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+            <Space $v={{ size: 'md', properties: ['margin-top'] }}>
               <WorksSearchResults works={activePanel.works!.pageResults} />
             </Space>
+
             {labelBasedCount > activePanel.works.pageResults.length && (
-              <Space $v={{ size: 'l', properties: ['padding-top'] }}>
+              <Space $v={{ size: 'md', properties: ['padding-top'] }}>
                 <MoreLink
-                  ariaLabel={`View all works for ${concept.label}`}
+                  ariaLabel={`View all works for ${concept.displayLabel}`}
                   name="View all"
                   url={getAllWorksLink(selectedTab, concept)}
                   colors={theme.buttonColors.greenGreenWhite}

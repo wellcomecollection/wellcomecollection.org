@@ -3,6 +3,8 @@ import styled from 'styled-components';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
+import { useToggles } from '@weco/common/server-data/Context';
+import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import Divider from '@weco/common/views/components/Divider';
 import SearchForm from '@weco/common/views/components/SearchForm';
@@ -19,6 +21,7 @@ import { workLd } from '@weco/content/utils/json-ld';
 import { removeIdiomaticTextTags } from '@weco/content/utils/string';
 import {
   createApiToolbarWorkLinks,
+  getArchiveAncestorArray,
   getDigitalLocationInfo,
   getDigitalLocationOfType,
   showItemLink,
@@ -30,6 +33,7 @@ import RelatedWorks, { hasAtLeastOneSubject } from './RelatedWorks';
 import ArchiveBreadcrumb from './work.ArchiveBreadcrumb';
 import BackToResults from './work.BackToResults';
 import WorkHeader from './work.Header';
+import StoriesOnWorks from './work.StoriesOnWorks';
 import WorkDetails from './WorkDetails';
 
 const ArchiveDetailsContainer = styled.div`
@@ -50,17 +54,19 @@ export type Props = {
   work: WorkType;
   apiUrl: string;
   transformedManifest?: TransformedManifest;
+  serverData: SimplifiedServerData;
 };
 
 export const WorkPage: NextPage<Props> = ({
   work,
   apiUrl,
   transformedManifest,
+  serverData,
 }) => {
   const { userIsStaffWithRestricted } = useUserContext();
+  const { storiesOnWorks } = useToggles();
   const isArchive = !!(
-    work.parts.length ||
-    (work.partOf.length > 0 && work.partOf[0].totalParts)
+    work.parts.length || getArchiveAncestorArray(work).length > 0
   );
 
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
@@ -122,12 +128,12 @@ export const WorkPage: NextPage<Props> = ({
         hideNewsletterPromo={true}
       >
         <Container>
-          <Space $v={{ size: 'l', properties: ['padding-top'] }}>
+          <Space $v={{ size: 'md', properties: ['padding-top'] }}>
             <SearchForm searchCategory="works" location="page" />
           </Space>
 
           <Space
-            $v={{ size: 's', properties: ['padding-top', 'padding-bottom'] }}
+            $v={{ size: 'xs', properties: ['padding-top', 'padding-bottom'] }}
           >
             <BackToResults />
           </Space>
@@ -138,7 +144,7 @@ export const WorkPage: NextPage<Props> = ({
             <Container>
               <Space
                 $v={{
-                  size: 's',
+                  size: 'xs',
                   properties: ['padding-top', 'padding-bottom'],
                 }}
               >
@@ -190,6 +196,14 @@ export const WorkPage: NextPage<Props> = ({
               transformedManifest={transformedManifest}
             />
           </>
+        )}
+
+        {storiesOnWorks && (
+          <StoriesOnWorks
+            workId={work.id}
+            showDivider={hasAtLeastOneSubject(work.subjects)}
+            toggles={serverData.toggles}
+          />
         )}
 
         {/* If the work has no subjects, it's not worth adding this component */}

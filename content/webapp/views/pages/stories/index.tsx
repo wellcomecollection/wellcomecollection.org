@@ -59,7 +59,7 @@ const StoryCardContainer = styled(Container)`
     &::-webkit-scrollbar-thumb {
       border-radius: 0;
       border-style: solid;
-      border-width: 0 ${props.theme.containerPadding.small}px 12px;
+      border-width: 0 ${props.theme.containerPadding} 12px;
       background: ${props.theme.color('neutral.400')};
     }
   `)}
@@ -110,7 +110,7 @@ const StoriesPage: NextPage<Props> = ({
           </Space>
           <div className="row__wobbly-background" />
           <StoryCardContainer>
-            <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
+            <Space $v={{ size: 'md', properties: ['padding-bottom'] }}>
               <GridScroll className="card-theme card-theme--transparent">
                 {articles.slice(1, 5).map(article => {
                   return (
@@ -118,7 +118,7 @@ const StoriesPage: NextPage<Props> = ({
                       key={article.id}
                       $sizeMap={{ m: [6], l: [3], xl: [3] }}
                     >
-                      <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
+                      <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
                         <StoryCard variant="contentApi" article={article} />
                       </Space>
                     </GridCellScroll>

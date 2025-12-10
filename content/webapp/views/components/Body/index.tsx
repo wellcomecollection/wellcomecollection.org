@@ -52,7 +52,7 @@ const BodyWrapper = styled.div<{ $splitBackground: boolean }>`
 `;
 
 type LayoutWidthProps = PropsWithChildren<{
-  width: 8 | 10 | 12;
+  width: 8 | 10 | 12 | 'none';
 }>;
 
 export const LayoutWidth: FunctionComponent<LayoutWidthProps> = ({
@@ -78,6 +78,9 @@ export const LayoutWidth: FunctionComponent<LayoutWidthProps> = ({
           {children}
         </ContaineredLayout>
       );
+    case width === 'none':
+      return <>{children}</>;
+
     default:
       return null;
   }
@@ -124,7 +127,7 @@ const Wrapper = styled(Space).attrs<WrapperProps>(props => ({
 `;
 
 export type SliceZoneContext = {
-  minWidth: 8 | 10 | 12;
+  minWidth: 8 | 10 | 12 | 'none';
   firstTextSliceIndex: string;
   isVisualStory: boolean;
   comicPreviousNext?: ComicPreviousNextProps;
@@ -230,12 +233,12 @@ const Body: FunctionComponent<Props> = ({
               textColor={sectionTheme.featuredCardText}
               isReversed={false}
             >
-              <h3 className={font('wb', 2)}>{firstItem.title}</h3>
+              <h3 className={font('brand', 2)}>{firstItem.title}</h3>
               {isCardType && firstItem.description && (
-                <p className={font('intr', 5)}>{firstItem.description}</p>
+                <p className={font('sans', -1)}>{firstItem.description}</p>
               )}
               {'promo' in firstItem && firstItem.promo && (
-                <p className={font('intr', 5)}>{firstItem.promo.caption}</p>
+                <p className={font('sans', -1)}>{firstItem.promo.caption}</p>
               )}
             </FeaturedCard>
           ) : null;
@@ -269,7 +272,7 @@ const Body: FunctionComponent<Props> = ({
               $rowBackgroundColor={sectionTheme.rowBackground}
             >
               {section.value.title && (
-                <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+                <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
                   <SectionHeader
                     title={section.value.title}
                     gridSize={
@@ -279,7 +282,7 @@ const Body: FunctionComponent<Props> = ({
                 </Space>
               )}
               {featuredItem && (
-                <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+                <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
                   <ContaineredLayout gridSizes={gridSize12()}>
                     {featuredItem}
                   </ContaineredLayout>
@@ -323,7 +326,7 @@ const Body: FunctionComponent<Props> = ({
             <div className="body-text spaced-text">
               <Space
                 $v={{
-                  size: isOfficialLandingPage ? 'xl' : 'l',
+                  size: isOfficialLandingPage ? 'xl' : 'md',
                   properties: ['margin-bottom'],
                 }}
               >

@@ -64,7 +64,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
     <>
       {isConfirmed && (
         <div className="body-text">
-          <p className={font('intb', 3)}>
+          <p className={font('sans-bold', 1)}>
             Thank you for confirming your email address
           </p>
           <p>
@@ -85,7 +85,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
 
       {isSuccess && (
         <div className="body-text">
-          <p className={font('intb', 3)}>You’re signed up</p>
+          <p className={font('sans-bold', 1)}>You’re signed up</p>
           <p>
             If this is the first time you’ve subscribed to updates from us, you
             will receive an email asking you to confirm. Please check your email
@@ -96,7 +96,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
 
       {isError && (
         <div className="body-text">
-          <p className={font('intb', 3)}>Sorry, there’s been a problem</p>
+          <p className={font('sans-bold', 1)}>Sorry, there’s been a problem</p>
           <p>Please try again.</p>
         </div>
       )}
@@ -104,9 +104,9 @@ const NewsletterSignup: FunctionComponent<Props> = ({
       {!isConfirmed && !isSuccess && !isError && (
         <Space
           className="body-text"
-          $v={{ size: 'm', properties: ['margin-bottom'] }}
+          $v={{ size: 'sm', properties: ['margin-bottom'] }}
         >
-          <p className={font('intb', 3)} style={{ marginBottom: '1rem' }}>
+          <p className={font('sans-bold', 1)} style={{ marginBottom: '1rem' }}>
             Want to hear more from us?
           </p>
           <p>
@@ -145,7 +145,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
             value={newsletterAddressBook.id}
           />
 
-          <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
             <TextInput
               id="email"
               label="Your email address"
@@ -161,10 +161,10 @@ const NewsletterSignup: FunctionComponent<Props> = ({
 
           <Space
             as="fieldset"
-            $v={{ size: 's', properties: ['margin-bottom'] }}
+            $v={{ size: 'xs', properties: ['margin-bottom'] }}
           >
-            <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
-              <legend className={font('intb', 4)}>
+            <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
+              <legend className={font('sans-bold', 0)}>
                 You might also be interested in receiving updates on:
               </legend>
             </Space>
@@ -173,7 +173,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
                 <Space
                   as="li"
                   key={addressBook.slug}
-                  $v={{ size: 'm', properties: ['margin-bottom'] }}
+                  $v={{ size: 'sm', properties: ['margin-bottom'] }}
                 >
                   <CheckboxRadio
                     id={addressBook.slug}
@@ -191,7 +191,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
               ))}
             </PlainList>
 
-            <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+            <Space $v={{ size: 'md', properties: ['margin-top'] }}>
               <CheckboxRadio
                 id="MARKETINGPERMISSIONS"
                 name="cd_MARKETINGPERMISSIONS"
@@ -201,7 +201,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
                   setHasCheckedMarketing(currentValue => !currentValue);
                 }}
                 text={
-                  <p className={font('intr', 6)}>
+                  <p className={font('sans', -2)}>
                     Tick this box if you’re happy to receive other emails about
                     Wellcome Collection, upcoming events and exhibitions and/or
                     other relevant opportunities.
@@ -211,7 +211,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
             </Space>
           </Space>
 
-          <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
             <Button
               variant="ButtonSolid"
               text="Subscribe"
@@ -221,7 +221,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
             />
           </Space>
 
-          <p className={font('intr', 6)}>
+          <p className={font('sans', -2)}>
             By clicking subscribe, you agree to receive this newsletter. You can
             unsubscribe any time. For information about how we handle your data,{' '}
             <a

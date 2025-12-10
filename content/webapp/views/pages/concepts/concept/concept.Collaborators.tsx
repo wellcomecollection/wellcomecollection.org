@@ -17,8 +17,8 @@ const CollaboratorsWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  gap: ${props => props.theme.spacingUnits['4']}px;
-  row-gap: ${props => props.theme.spacingUnits['5']}px;
+  gap: ${props => props.theme.spacingUnits['4']};
+  row-gap: ${props => props.theme.spacingUnits['5']};
 
   ${props => props.theme.media('medium')(`flex-direction: row;`)}
 `;
@@ -39,7 +39,7 @@ const Collaborators: FunctionComponent<{
 
   return (
     <section data-id="frequent-collaborators">
-      <h2 className={font('wb', 2)} id="frequent-collaborators">
+      <h2 className={font('brand', 2)} id="frequent-collaborators">
         {config.collaborators.label || 'Frequent collaborators'}
       </h2>
       <CollaboratorsWrapper>
