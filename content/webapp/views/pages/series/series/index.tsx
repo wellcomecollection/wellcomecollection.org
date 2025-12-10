@@ -129,7 +129,7 @@ const ArticleSeriesPage: NextPage<Props> = props => {
           ))}
         </>
         {articles.totalPages > 1 && (
-          <PaginationWrapper $verticalSpacing="m" $alignRight>
+          <PaginationWrapper $verticalSpacing="sm" $alignRight>
             <Pagination
               totalPages={articles.totalPages}
               ariaLabel="Series pagination"

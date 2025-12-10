@@ -128,7 +128,7 @@ const WorkDownloadPage: NextPage<Props> = ({ transformedManifest, work }) => {
               as="h1"
               id="work-info"
               className={font('sans-bold', 0)}
-              $v={{ size: 'l', properties: ['margin-top'] }}
+              $v={{ size: 'md', properties: ['margin-top'] }}
             >
               {displayTitle}
             </Space>

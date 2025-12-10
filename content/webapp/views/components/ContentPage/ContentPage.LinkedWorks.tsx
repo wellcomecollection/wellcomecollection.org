@@ -10,7 +10,7 @@ import RelatedWorksCard from '@weco/content/views/components/RelatedWorksCard';
 import ScrollContainer from '@weco/content/views/components/ScrollContainer';
 
 const FullWidthRow = styled(Space).attrs({
-  $v: { size: 'l', properties: ['padding-bottom'] },
+  $v: { size: 'md', properties: ['padding-bottom'] },
 })`
   background-color: ${props => props.theme.color('warmNeutral.300')};
 `;

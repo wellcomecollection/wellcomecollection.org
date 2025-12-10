@@ -43,7 +43,7 @@ const StyledList = styled.ul`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: ${props => props.theme.getSpaceValue('l', 'small')};
+  gap: ${props => props.theme.getSpaceValue('md', 'small')};
   align-items: stretch;
   list-style: none;
   padding: 0;
@@ -55,7 +55,7 @@ const StyledList = styled.ul`
   /* 2 items per row on small containers */
   & > li {
     flex: 0 0
-      calc(50% - ${props => props.theme.getSpaceValue('l', 'small')} / 2);
+      calc(50% - ${props => props.theme.getSpaceValue('md', 'small')} / 2);
   }
 
   /* Center the 5th item (last item) on small containers */
@@ -68,7 +68,7 @@ const StyledList = styled.ul`
     flex-wrap: nowrap;
     justify-content: space-between;
     min-width: 0;
-    gap: ${props => props.theme.getSpaceValue('l', 'large')};
+    gap: ${props => props.theme.getSpaceValue('md', 'large')};
 
     & > li {
       flex: 1;
@@ -87,7 +87,7 @@ const StyledListItem = styled.li`
 `;
 
 const IconContainer = styled(Space).attrs({
-  $v: { size: 's', properties: ['margin-bottom'] },
+  $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   display: flex;
   align-items: center;

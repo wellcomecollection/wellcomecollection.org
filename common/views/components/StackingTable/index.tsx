@@ -59,11 +59,11 @@ type ThProps = {
 const StyledTh = styled(Space).attrs<ThProps>(props => ({
   as: 'th',
   $v: {
-    size: 's',
+    size: 'xs',
     properties: props.$plain ? [] : ['padding-top', 'padding-bottom'],
   },
   $h: {
-    size: 'm',
+    size: 'sm',
     properties: props.$plain ? [] : ['padding-left', 'padding-right'],
   },
   className: font('sans-bold', -1),
@@ -88,11 +88,11 @@ type TdProps = {
 const StyledTd = styled(Space).attrs<TdProps>(props => ({
   as: 'td',
   $v: {
-    size: 'm',
+    size: 'sm',
     properties: props.$plain ? [] : ['padding-top', 'padding-bottom'],
   },
   $h: {
-    size: 'm',
+    size: 'sm',
     properties: props.$plain ? [] : ['padding-left', 'padding-right'],
   },
 }))<TdProps>`

@@ -24,8 +24,8 @@ export const ResourcesItem = styled.li`
 
 export const ResourceLink = styled(Space).attrs<{ href: string }>({
   as: 'a',
-  $h: { size: 's', properties: ['padding-left'] },
-  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'xs', properties: ['padding-left'] },
+  $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
 })<{ $borderColor: PaletteColor; $underlineText?: boolean }>`
   display: block;
   height: 100%;

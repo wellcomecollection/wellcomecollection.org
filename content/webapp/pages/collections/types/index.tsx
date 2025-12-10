@@ -78,7 +78,7 @@ const BrowseTypesPage: FunctionComponent<Props> = ({ types }) => {
       />
 
       <ContaineredLayout gridSizes={gridSize12()}>
-        <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+        <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
           <TabsNavigate
             items={tabs}
             currentSection="types"

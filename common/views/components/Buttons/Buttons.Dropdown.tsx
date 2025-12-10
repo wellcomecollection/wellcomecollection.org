@@ -25,11 +25,11 @@ const DropdownWrapper = styled.div`
 
 const Dropdown = styled(Space).attrs<{ $isTight: boolean }>(props => ({
   $v: {
-    size: props.$isTight ? 's' : 'm',
+    size: props.$isTight ? 'xs' : 'sm',
     properties: ['padding-top', 'padding-bottom'],
   },
   $h: {
-    size: props.$isTight ? 'm' : 'l',
+    size: props.$isTight ? 'sm' : 'md',
     properties: ['padding-left', 'padding-right'],
   },
 }))<{

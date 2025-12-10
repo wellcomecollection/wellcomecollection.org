@@ -45,11 +45,11 @@ const EventsSearchPage: NextPage<Props> = withSearchLayout(
     const activeFiltersLabels = getActiveFiltersLabel({ filters });
 
     return (
-      <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
+      <Space $v={{ size: 'md', properties: ['padding-bottom'] }}>
         {(!hasNoResults || (hasNoResults && hasActiveFilters)) && (
           <Container>
             <Space
-              $v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
+              $v={{ size: 'md', properties: ['padding-top', 'padding-bottom'] }}
             >
               <SearchFilters
                 query={queryString}
@@ -87,7 +87,7 @@ const EventsSearchPage: NextPage<Props> = withSearchLayout(
               </Container>
             ) : (
               <Container>
-                <PaginationWrapper $verticalSpacing="l">
+                <PaginationWrapper $verticalSpacing="md">
                   <span role="status">
                     {pluralize(eventResponseList.totalResults, 'result')}
                     {activeFiltersLabels.length > 0 && (
@@ -111,7 +111,7 @@ const EventsSearchPage: NextPage<Props> = withSearchLayout(
                   />
                 </main>
 
-                <PaginationWrapper $verticalSpacing="l" $alignRight>
+                <PaginationWrapper $verticalSpacing="md" $alignRight>
                   <Pagination
                     totalPages={eventResponseList.totalPages}
                     ariaLabel="Events search pagination"

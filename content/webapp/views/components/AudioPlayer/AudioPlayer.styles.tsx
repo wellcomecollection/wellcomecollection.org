@@ -5,7 +5,7 @@ import Space from '@weco/common/views/components/styled/Space';
 
 export const AudioPlayerWrapper = styled(Space).attrs({
   as: 'figure',
-  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
 })<{ $isDark: boolean }>`
   background: ${props =>
     props.theme.color(props.$isDark ? 'black' : 'transparent')};
@@ -118,7 +118,7 @@ export const AudioPlayerGrid = styled.div.attrs({})<{ $isEnhanced: boolean }>`
 `;
 
 export const NowPlayingWrapper = styled(Space).attrs({
-  $v: { size: 's', properties: ['margin-top'] },
+  $v: { size: 'xs', properties: ['margin-top'] },
 })`
   grid-column: 1 / -1;
 `;

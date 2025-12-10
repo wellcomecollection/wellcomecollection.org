@@ -25,7 +25,7 @@ import ItemRequestModal from './ItemRequestModal';
 import Placeholder from './PhysicalItem.Details.Placeholder';
 
 const Wrapper = styled(Space).attrs({
-  $v: { size: 'm', properties: ['margin-bottom', 'padding-bottom'] },
+  $v: { size: 'sm', properties: ['margin-bottom', 'padding-bottom'] },
 })<{ $underline: boolean }>`
   ${props =>
     props.$underline &&
@@ -233,7 +233,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
       )}
       <Wrapper $underline={!isLast}>
         {(title || itemNote) && (
-          <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
             <DetailHeading>{title}</DetailHeading>
             {itemNote && (
               <span dangerouslySetInnerHTML={{ __html: itemNote }} />
@@ -248,7 +248,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
         />
 
         {(accessNote || isHeldByUser) && (
-          <Space $v={{ size: 'm', properties: ['margin-top'] }}>
+          <Space $v={{ size: 'sm', properties: ['margin-top'] }}>
             <DetailHeading>Note</DetailHeading>
             <Placeholder
               nRows={3}

@@ -73,8 +73,8 @@ const InfoBannerDefault: FunctionComponent<Props> = ({
       <BannerWrapper>
         <CopyContainer>
           <Space
-            $h={{ size: 'm', properties: ['margin-right'] }}
-            $v={{ size: 'xs', properties: ['margin-top'] }}
+            $h={{ size: 'sm', properties: ['margin-right'] }}
+            $v={{ size: '2xs', properties: ['margin-top'] }}
           >
             <Icon icon={information} />
             <span className="visually-hidden" id="note">
@@ -85,7 +85,7 @@ const InfoBannerDefault: FunctionComponent<Props> = ({
             <PrismicHtmlBlock html={text} />
           </Copy>
         </CopyContainer>
-        <Space $v={{ size: 'xs', properties: ['margin-top'] }}>
+        <Space $v={{ size: '2xs', properties: ['margin-top'] }}>
           <CloseButton onClick={hideInfoBanner} aria-controls="notification">
             <Icon icon={cross} title="Close notification" />
             <span className="visually-hidden">close notification</span>

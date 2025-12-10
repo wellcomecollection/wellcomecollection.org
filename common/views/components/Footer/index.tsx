@@ -35,7 +35,7 @@ const Wrapper = styled(Space).attrs({
 /** ************************ */
 
 const FooterNavigationContainer = styled(Space).attrs({
-  $v: { size: 'l', properties: ['margin-bottom'] },
+  $v: { size: 'md', properties: ['margin-bottom'] },
 })`
   display: grid;
   grid-gap: 2rem;
@@ -53,7 +53,7 @@ const FooterNavigationContainer = styled(Space).attrs({
 `;
 
 const PoliciesAndSocials = styled(Space).attrs({
-  $v: { size: 'l', properties: ['margin-bottom'] },
+  $v: { size: 'md', properties: ['margin-bottom'] },
 })`
   display: flex;
   flex-wrap: wrap;
@@ -103,11 +103,11 @@ const InternalNavigationContainer = styled.div`
 `;
 
 const FullWidthDivider = styled(Space).attrs({
-  $v: { size: 'm', properties: ['margin-bottom'] },
+  $v: { size: 'sm', properties: ['margin-bottom'] },
 })``;
 
 const PoliciesContainer = styled(Space).attrs({
-  $v: { size: 'm', properties: ['margin-bottom', 'margin-bottom'] },
+  $v: { size: 'sm', properties: ['margin-bottom', 'margin-bottom'] },
 })`
   flex: 1 1 50%;
 
@@ -206,7 +206,7 @@ const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
             <Space
               as="p"
               $v={{
-                size: 'm',
+                size: 'sm',
                 properties: hasVenuesInfo ? ['margin-top'] : [],
               }}
               style={{ marginBottom: 0 }}

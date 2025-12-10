@@ -115,13 +115,13 @@ const CardGrid: FunctionComponent<Props> = ({
       </Container>
       {links && links.length > 0 && (
         <ContaineredLayout gridSizes={gridSize12()}>
-          <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+          <Space $v={{ size: 'md', properties: ['margin-top'] }}>
             {optionalComponent}
             {links.map(link => (
               <Space
                 key={link.url}
                 $v={{
-                  size: `${optionalComponent ? 'l' : 'm'}`,
+                  size: `${optionalComponent ? 'md' : 'sm'}`,
                   properties: ['margin-top'],
                 }}
               >

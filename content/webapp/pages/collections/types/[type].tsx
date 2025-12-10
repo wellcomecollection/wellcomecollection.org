@@ -191,7 +191,7 @@ const TypeDetailPage: FunctionComponent<Props> = ({ type, worksBySubType }) => {
 
       <ContentSection>
         <ContaineredLayout gridSizes={gridSize12()}>
-          <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
             <IntroText>{type.description}</IntroText>
 
             <Space $v={{ size: 'xl', properties: ['margin-top'] }}>

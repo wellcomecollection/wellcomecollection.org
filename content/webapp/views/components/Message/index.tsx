@@ -6,8 +6,8 @@ import Space from '@weco/common/views/components/styled/Space';
 
 const Wrapper = styled(Space).attrs({
   className: font('sans-bold', -1),
-  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
 })`
   display: inline-block;
   border-left: 5px solid ${props => props.theme.color('yellow')};

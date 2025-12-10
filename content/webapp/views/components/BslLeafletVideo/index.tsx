@@ -16,7 +16,7 @@ import VideoEmbed, {
 
 const BslLeaftletButtonText = styled(Space).attrs({
   className: font('sans', -2),
-  $h: { size: 's', properties: ['margin-left'] },
+  $h: { size: 'xs', properties: ['margin-left'] },
 })``;
 
 const BslLeafletButton = styled.button`
@@ -64,8 +64,8 @@ const BslLeafletVideo: FunctionComponent<Props> = ({
         modalStyle="video"
       >
         <Space
-          $h={{ size: 'm', properties: ['padding-left'] }}
-          $v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
+          $h={{ size: 'sm', properties: ['padding-left'] }}
+          $v={{ size: 'sm', properties: ['padding-top', 'padding-bottom'] }}
         >
           <Space $h={{ size: 'xl', properties: ['padding-right'] }}>
             <h3 className={font('sans-bold', -1)} style={{ marginBottom: 0 }}>
@@ -86,9 +86,9 @@ const BslLeafletVideo: FunctionComponent<Props> = ({
           </>
         ) : null}
       </Modal>
-      <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+      <Space $v={{ size: 'md', properties: ['margin-top'] }}>
         <Space
-          $v={{ negative: true, size: 'm', properties: ['margin-bottom'] }}
+          $v={{ negative: true, size: 'sm', properties: ['margin-bottom'] }}
         >
           <ContaineredLayout gridSizes={gridSize8()}>
             <BslLeafletButton

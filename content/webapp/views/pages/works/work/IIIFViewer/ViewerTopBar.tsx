@@ -132,8 +132,8 @@ const TopBar = styled.div<{
 `;
 
 const Sidebar = styled(Space).attrs({
-  $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
-  $h: { size: 's', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'xs', properties: ['padding-left', 'padding-right'] },
 })<{ $isZooming: boolean }>`
   grid-column: left-edge / desktop-sidebar-end;
   display: flex;
@@ -153,8 +153,8 @@ const Sidebar = styled(Space).attrs({
 `;
 
 const Main = styled(Space).attrs({
-  $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
-  $h: { size: 's', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'xs', properties: ['padding-left', 'padding-right'] },
 })`
   display: flex;
   justify-content: flex-end;
@@ -365,7 +365,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
           {isEnhanced && (
             <div style={{ display: 'flex', alignItems: 'center' }}>
               {!showZoomed && downloadOptions.length > 0 && (
-                <Space $h={{ size: 's', properties: ['margin-right'] }}>
+                <Space $h={{ size: 'xs', properties: ['margin-right'] }}>
                   <Download
                     ariaControlsId="itemDownloads"
                     downloadOptions={downloadOptions}

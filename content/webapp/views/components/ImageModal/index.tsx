@@ -203,7 +203,7 @@ const ImageModal: FunctionComponent<Props> = ({
 
             <InfoWrapper>
               {(displayTitle || displayContributor || license) && (
-                <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+                <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
                   {displayTitle && (
                     <ModalTitle
                       dangerouslySetInnerHTML={{ __html: displayTitle }}

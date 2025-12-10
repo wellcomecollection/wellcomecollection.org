@@ -12,5 +12,5 @@ export const ModalContainer = styled.aside`
 export const ModalTitle = styled(Space).attrs({
   as: 'h2',
   className: font('brand', 1),
-  $v: { size: 'l', properties: ['margin-bottom'] },
+  $v: { size: 'md', properties: ['margin-bottom'] },
 })``;

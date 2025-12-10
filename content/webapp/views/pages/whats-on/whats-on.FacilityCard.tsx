@@ -58,12 +58,12 @@ const FacilityCard: FunctionComponent<FacilityCardType> = ({
             <Description>{description}</Description>
 
             {metaText && (
-              <Space $v={{ size: 'm', properties: ['margin-top'] }}>
+              <Space $v={{ size: 'sm', properties: ['margin-top'] }}>
                 <Meta>
                   {metaIcon && (
                     <Space
                       as="span"
-                      $h={{ size: 's', properties: ['margin-right'] }}
+                      $h={{ size: 'xs', properties: ['margin-right'] }}
                     >
                       <Icon icon={metaIcon} />
                     </Space>

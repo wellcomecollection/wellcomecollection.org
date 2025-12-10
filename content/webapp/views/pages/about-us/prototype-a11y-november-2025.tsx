@@ -18,7 +18,7 @@ import InPageNavigation from '@weco/content/views/components/InPageNavigation';
 
 export const MobileNavBackground = styled(Space).attrs({
   className: 'is-hidden-l is-hidden-xl',
-  $v: { size: 'l', properties: ['height'] },
+  $v: { size: 'md', properties: ['height'] },
 })`
   display: block;
   background-color: ${props => props.theme.color('neutral.700')};
@@ -69,7 +69,7 @@ const A11yPrototypePage: NextPage<page.Props> = props => {
                   />
                 </GridCell>
                 <GridCell $sizeMap={{ s: [12], m: [12], l: [9], xl: [9] }}>
-                  <Space $v={{ size: 'm', properties: ['padding-top'] }}>
+                  <Space $v={{ size: 'sm', properties: ['padding-top'] }}>
                     <SliceZone
                       slices={props.page.untransformedBody}
                       components={components}

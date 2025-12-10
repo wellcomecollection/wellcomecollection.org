@@ -25,7 +25,7 @@ const ConceptHero = styled(Space).attrs({
 const Title = styled(Space).attrs({
   as: 'h1',
   className: font('brand', 4),
-  $v: { size: 'xs', properties: ['margin-bottom'] },
+  $v: { size: '2xs', properties: ['margin-bottom'] },
 })``;
 
 const ThemeDescription = styled.div.attrs({
@@ -34,7 +34,7 @@ const ThemeDescription = styled.div.attrs({
 
 const AlternativeLabels = styled(Space).attrs({
   className: font('sans', -2),
-  $v: { size: 'm', properties: ['margin-bottom'] },
+  $v: { size: 'sm', properties: ['margin-bottom'] },
 })`
   display: flex;
   flex-wrap: wrap;

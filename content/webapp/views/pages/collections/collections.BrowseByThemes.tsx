@@ -182,11 +182,11 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
 
   return (
     <Space
-      $v={{ size: 'm', properties: ['margin-top'] }}
+      $v={{ size: 'sm', properties: ['margin-top'] }}
       data-component="BrowseByThemes"
     >
       <ContaineredLayout gridSizes={gridSize12()}>
-        <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
+        <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
           <div className="visually-hidden" aria-live="polite">
             {announcement}
           </div>

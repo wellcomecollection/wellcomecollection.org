@@ -17,7 +17,7 @@ export const Container = styled.div`
 `;
 
 export const Wrapper = styled(Space).attrs({
-  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
 })`
   display: block;
   text-decoration: none;
@@ -51,14 +51,14 @@ export const ConceptTitleHeading = styled.h3.attrs({
 
 export const ConceptDescription = styled(Space).attrs({
   className: font('sans', -1),
-  $v: { size: 's', properties: ['margin-bottom'] },
+  $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.700')};
 `;
 
 export const AlternativeLabels = styled(Space).attrs({
   className: font('sans', -1),
-  $v: { size: 's', properties: ['margin-bottom'] },
+  $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.600')};
 

@@ -78,11 +78,11 @@ const StoriesSearchPage: NextPage<Props> = withSearchLayout(
     ];
 
     return (
-      <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
+      <Space $v={{ size: 'md', properties: ['padding-bottom'] }}>
         {(!hasNoResults || (hasNoResults && hasActiveFilters)) && (
           <Container>
             <Space
-              $v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
+              $v={{ size: 'md', properties: ['padding-top', 'padding-bottom'] }}
             >
               <SearchFilters
                 query={queryString}
@@ -122,7 +122,7 @@ const StoriesSearchPage: NextPage<Props> = withSearchLayout(
               </Container>
             ) : (
               <Container>
-                <PaginationWrapper $verticalSpacing="l">
+                <PaginationWrapper $verticalSpacing="md">
                   <span role="status">
                     {pluralize(storyResponseList.totalResults, 'result')}
                     {activeFiltersLabels.length > 0 && (
@@ -178,7 +178,7 @@ const StoriesSearchPage: NextPage<Props> = withSearchLayout(
                   />
                 </main>
 
-                <PaginationWrapper $verticalSpacing="l" $alignRight>
+                <PaginationWrapper $verticalSpacing="md" $alignRight>
                   <Pagination
                     totalPages={storyResponseList.totalPages}
                     ariaLabel="Stories search pagination"

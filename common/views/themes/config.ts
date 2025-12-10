@@ -11,7 +11,7 @@ import {
   VerticalSpaceProperty,
 } from '@weco/common/views/components/styled/Space';
 
-type SpaceSize = 'xs' | 's' | 'm' | 'l' | 'xl';
+type SpaceSize = '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 type SpaceProperty = HorizontalSpaceProperty | VerticalSpaceProperty;
 
 export type ColumnKey =
@@ -216,10 +216,11 @@ const containerPaddingVw = '5vw';
 // Map current space sizes to design system responsive spacing
 // xs → space.2xs, s → space.xs, m → space.sm, l → space.lg, xl → space.xl
 const designSystemSpacing: Record<SpaceSize, ResponsiveValue> = {
-  xs: designSystemTheme.spacing.responsive['space.2xs'],
-  s: designSystemTheme.spacing.responsive['space.xs'],
-  m: designSystemTheme.spacing.responsive['space.sm'],
-  l: designSystemTheme.spacing.responsive['space.md'],
+  '2xs': designSystemTheme.spacing.responsive['space.2xs'],
+  xs: designSystemTheme.spacing.responsive['space.xs'],
+  sm: designSystemTheme.spacing.responsive['space.sm'],
+  md: designSystemTheme.spacing.responsive['space.md'],
+  lg: designSystemTheme.spacing.responsive['space.lg'],
   xl: designSystemTheme.spacing.responsive['space.xl'],
 };
 

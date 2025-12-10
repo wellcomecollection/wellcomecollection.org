@@ -10,8 +10,8 @@ import Space from '@weco/common/views/components/styled/Space';
 import CaptionedImage from '@weco/content/views/components/CaptionedImage';
 
 const MediaAndTextWrap = styled(Space).attrs({
-  $h: { size: 'l', properties: ['column-gap'] },
-  $v: { size: 'l', properties: ['row-gap'] },
+  $h: { size: 'md', properties: ['column-gap'] },
+  $v: { size: 'md', properties: ['row-gap'] },
 })`
   display: flex;
   flex-wrap: wrap;
@@ -37,13 +37,13 @@ const DividingLine = styled.div`
   .slice-type-text-and-icons + .slice-type-text-and-icons & {
     border-top: 1px solid ${props => props.theme.color('neutral.400')};
     ${props =>
-      props.theme.makeSpacePropertyValues('l', ['margin-top', 'padding-top'])};
+      props.theme.makeSpacePropertyValues('md', ['margin-top', 'padding-top'])};
   }
 `;
 
 const ImageOrIcons = styled(Space).attrs({
-  $h: { size: 'l', properties: ['column-gap'] },
-  $v: { size: 'l', properties: ['row-gap'] },
+  $h: { size: 'md', properties: ['column-gap'] },
+  $v: { size: 'md', properties: ['row-gap'] },
 })<{ $isIcons?: boolean; $isPortrait?: boolean }>`
   position: relative;
   display: flex;

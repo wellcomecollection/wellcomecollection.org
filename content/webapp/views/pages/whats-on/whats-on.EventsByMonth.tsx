@@ -50,7 +50,7 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
 
   return (
     <>
-      <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
+      <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
         <Container>
           <Grid>
             <GridCell $sizeMap={gridSize12()}>

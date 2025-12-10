@@ -60,7 +60,7 @@ const RelatedConceptsGroup: FunctionComponent<Props> = ({
 
   return (
     <Space
-      $v={{ size: 'l', properties: ['margin-top'] }}
+      $v={{ size: 'md', properties: ['margin-top'] }}
       as="section"
       data-id={dasherize(label)}
     >

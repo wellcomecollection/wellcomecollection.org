@@ -151,7 +151,7 @@ export const Root = styled(Space).attrs<{
   $hasStuck: boolean;
 }>({
   as: 'nav',
-  $v: { size: 'l', properties: ['padding-top'] },
+  $v: { size: 'md', properties: ['padding-top'] },
 })<{
   $hasStuck: boolean;
 }>`

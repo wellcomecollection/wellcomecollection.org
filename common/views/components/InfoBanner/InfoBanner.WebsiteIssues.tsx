@@ -70,8 +70,8 @@ const WebsiteIssuesBanner: FunctionComponent<Props> = ({
       <BannerWrapper>
         <CopyContainer>
           <Space
-            $h={{ size: 'm', properties: ['margin-right'] }}
-            $v={{ size: 'xs', properties: ['margin-top'] }}
+            $h={{ size: 'sm', properties: ['margin-right'] }}
+            $v={{ size: '2xs', properties: ['margin-top'] }}
           >
             <Icon icon={exclamation} />
             <span className="visually-hidden" id="note">
@@ -84,7 +84,7 @@ const WebsiteIssuesBanner: FunctionComponent<Props> = ({
             something.
           </Copy>
         </CopyContainer>
-        <Space $v={{ size: 'xs', properties: ['margin-top'] }}>
+        <Space $v={{ size: '2xs', properties: ['margin-top'] }}>
           <CloseButton onClick={hideInfoBanner} aria-controls="notification">
             <Icon icon={cross} title="Close notification" />
             <span className="visually-hidden">close notification</span>

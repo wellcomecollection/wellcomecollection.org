@@ -28,7 +28,7 @@ const SummaryInner = styled.div`
 
 const Summary = styled(Space).attrs({
   as: 'summary',
-  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
   className: font('sans', 0),
 })`
   border-top: 1px solid ${props => props.theme.color('neutral.300')};
@@ -54,7 +54,7 @@ const Summary = styled(Space).attrs({
 `;
 
 const ShowHide = styled(Space).attrs({
-  $h: { size: 's', properties: ['margin-right'] },
+  $h: { size: 'xs', properties: ['margin-right'] },
   className: font('sans', -1),
 })`
   position: relative;

@@ -32,7 +32,7 @@ export const TitleWrapper = styled.h1.attrs<{
 
 // The `bottom` values here are coupled to the space
 // beneath the Header in ContentPage.tsx
-export const headerSpaceSize = 'l';
+export const headerSpaceSize = 'md';
 export const HeroPictureBackground = styled.div.attrs({
   className: 'is-hidden-print',
 })<{ $bgColor: PaletteColor }>`

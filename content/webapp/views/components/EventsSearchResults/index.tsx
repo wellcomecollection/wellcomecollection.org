@@ -53,7 +53,7 @@ const DateInfo = styled.p.attrs({
 
 const LocationWrapper = styled(Space).attrs({
   className: font('sans', -1),
-  $v: { size: 's', properties: ['margin-top', 'margin-bottom'] },
+  $v: { size: 'xs', properties: ['margin-top', 'margin-bottom'] },
 })`
   display: flex;
   align-items: center;
@@ -151,13 +151,13 @@ const EventsSearchResults: FunctionComponent<Props> = ({
                 )}
 
                 {event.isAvailableOnline && (
-                  <Space $v={{ size: 's', properties: ['margin-top'] }}>
+                  <Space $v={{ size: 'xs', properties: ['margin-top'] }}>
                     <WatchLabel text="Available to watch" />
                   </Space>
                 )}
 
                 {upcomingDatesFullyBooked(times) && (
-                  <Space $v={{ size: 'm', properties: ['margin-top'] }}>
+                  <Space $v={{ size: 'sm', properties: ['margin-top'] }}>
                     <TextWithDot
                       className={font('sans', -1)}
                       dotColor="validation.red"
@@ -199,13 +199,13 @@ const EventsSearchResults: FunctionComponent<Props> = ({
             {secondaryLabels.length > 0 && (
               <Space
                 $h={{
-                  size: 'm',
+                  size: 'sm',
                   properties: ['padding-left', 'padding-right'],
                 }}
-                $v={{ size: 'm', properties: ['padding-bottom'] }}
+                $v={{ size: 'sm', properties: ['padding-bottom'] }}
               >
                 <Divider lineColor="white" />
-                <Space $v={{ size: 's', properties: ['padding-top'] }}>
+                <Space $v={{ size: 'xs', properties: ['padding-top'] }}>
                   <LabelsList
                     labels={secondaryLabels}
                     defaultLabelColor="black"

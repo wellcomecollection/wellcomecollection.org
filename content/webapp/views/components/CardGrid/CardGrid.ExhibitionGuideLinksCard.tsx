@@ -13,7 +13,7 @@ const ImageWrapper = styled.div`
 
 const Type = styled(Space).attrs({
   as: 'li',
-  $v: { size: 'm', properties: ['margin-bottom'] },
+  $v: { size: 'sm', properties: ['margin-bottom'] },
 })`
   text-decoration: none;
 `;
@@ -75,14 +75,14 @@ const ExhibitionGuideLinksCard: FunctionComponent<Props> = ({
         )}
 
         <Space
-          $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
+          $v={{ size: 'sm', properties: ['margin-top', 'margin-bottom'] }}
           as="h3"
           className={font('brand', 1)}
         >
           {exhibitionGuide.title}
         </Space>
       </ExhibitionTitleLink>
-      <Space $v={{ size: 's', properties: ['margin-top'] }}>
+      <Space $v={{ size: 'xs', properties: ['margin-top'] }}>
         <PlainList className={font('sans', -1)}>
           {links.map((link, i) => (
             <Type key={i}>

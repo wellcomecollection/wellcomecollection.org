@@ -24,10 +24,10 @@ export type StatusAlertProps = { type: keyof typeof colours };
 export const StatusAlert = styled(Space).attrs<StatusAlertProps>({
   role: 'alert',
   $v: {
-    size: 'l',
+    size: 'md',
     properties: ['margin-bottom', 'padding-top', 'padding-bottom'],
   },
-  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
 })<StatusAlertProps>`
   ${props => colours[props.type]}
   border-radius: ${props => props.theme.borderRadiusUnit}px;

@@ -179,7 +179,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
     <div data-component="audio-player">
       <AudioPlayerWrapper $isDark={!!isDark}>
         {title && (
-          <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
             <figcaption className={font('sans-bold', -1)} {...titleProps}>
               <TitleWrapper $isDark={!!isDark}>{title}</TitleWrapper>
             </figcaption>
@@ -209,8 +209,8 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
                   </span>
                 )}
               </TimeWrapper>
-              <Space $v={{ size: 's', properties: ['padding-top'] }}>
-                <Space $v={{ size: 'xs', properties: ['padding-bottom'] }}>
+              <Space $v={{ size: 'xs', properties: ['padding-top'] }}>
+                <Space $v={{ size: '2xs', properties: ['padding-bottom'] }}>
                   <Scrubber
                     startTime={startTime}
                     duration={duration}
@@ -284,7 +284,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
       </AudioPlayerWrapper>
 
       {!!(transcript?.length && transcript.length > 0) && (
-        <Space $v={{ size: 'm', properties: ['margin-top'] }}>
+        <Space $v={{ size: 'sm', properties: ['margin-top'] }}>
           <CollapsibleContent
             darkTheme={isDark}
             id={`audioPlayerTranscript-${audioFile}`}

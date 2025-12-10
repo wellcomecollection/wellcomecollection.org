@@ -68,7 +68,7 @@ const NewOnlinePage: NextPage<Props> = ({ works, apiToolbarLinks }) => {
 
         {works.totalPages > 1 && (
           <ContaineredLayout gridSizes={gridSize12()}>
-            <PaginationWrapper $verticalSpacing="l">
+            <PaginationWrapper $verticalSpacing="md">
               <span>{pluralize(TOTAL_RESULTS, 'result')}</span>
 
               <Pagination
@@ -78,14 +78,14 @@ const NewOnlinePage: NextPage<Props> = ({ works, apiToolbarLinks }) => {
               />
             </PaginationWrapper>
 
-            <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+            <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
               <Divider />
             </Space>
           </ContaineredLayout>
         )}
 
         <Container>
-          <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+          <Space $v={{ size: 'md', properties: ['margin-top'] }}>
             {works.results.length > 0 ? (
               <WorkCards works={works.results} />
             ) : (
@@ -98,7 +98,7 @@ const NewOnlinePage: NextPage<Props> = ({ works, apiToolbarLinks }) => {
 
         {works.totalPages > 1 && (
           <ContaineredLayout gridSizes={gridSize12()}>
-            <PaginationWrapper $verticalSpacing="l" $alignRight>
+            <PaginationWrapper $verticalSpacing="md" $alignRight>
               <Pagination
                 totalPages={TOTAL_PAGES}
                 ariaLabel="Results pagination"

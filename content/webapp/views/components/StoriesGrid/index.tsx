@@ -36,7 +36,7 @@ const ImageWrapper = styled(GridCell)`
 `;
 
 const DesktopLabel = styled(Space).attrs({
-  $v: { size: 's', properties: ['margin-bottom'] },
+  $v: { size: 'xs', properties: ['margin-bottom'] },
 })<{ $isCompact?: boolean }>`
   ${props =>
     props.theme.media(
@@ -59,7 +59,7 @@ const MobileLabel = styled.div`
 
 const StoryInformation = styled(Space).attrs({
   className: font('sans', -1),
-  $v: { size: 'xs', properties: ['margin-bottom'] },
+  $v: { size: '2xs', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.600')};
 `;
