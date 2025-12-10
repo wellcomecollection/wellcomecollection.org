@@ -50,7 +50,6 @@ function makeSizesForFrames(isThreeUp: boolean) {
         calc(100vw - 68px)
       `;
   } else {
-    console.log(sizes.lg);
     return `
       (min-width: ${sizes.sm}) calc(80vw / 2),
       (min-width: ${sizes.lg}) calc((${sizes.lg} * 0.8) / 2),
