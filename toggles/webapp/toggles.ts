@@ -123,30 +123,6 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'designSystemFonts',
-      title: 'Design system fonts',
-      initialValue: false,
-      description:
-        'Use the design system font sizing, weights, and families instead of custom values',
-      type: 'experimental',
-    },
-    {
-      id: 'designSystemSpacing',
-      title: 'Design system spacing',
-      initialValue: false,
-      description:
-        'Use the design system responsive spacing values instead of custom breakpoint-based spacing',
-      type: 'experimental',
-    },
-    {
-      id: 'designSystemBreakpoints',
-      title: 'Design system breakpoints',
-      initialValue: false,
-      description:
-        'Use the design system breakpoint values instead of custom breakpoints',
-      type: 'experimental',
-    },
-    {
       id: 'newOnlineListingPage',
       title: 'New online listing page',
       initialValue: false,
