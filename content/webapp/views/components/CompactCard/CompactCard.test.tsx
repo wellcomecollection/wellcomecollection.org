@@ -15,7 +15,7 @@ import { GridCell, SizeMap } from '@weco/common/views/components/styled/Grid';
 import CompactCard, { HasImageProps } from '.';
 
 const getBaseTitleClass = number => {
-  return font('wb', number);
+  return font('brand', number);
 };
 
 const mockOnClick = jest.fn();
@@ -62,7 +62,7 @@ const TextWrapper = styled(GridCell).attrs<HasImageProps>(props => {
 })<HasImageProps>``;
 
 const TitleWrapper = styled.div.attrs({
-  className: font('wb', 4),
+  className: font('brand', 0),
 })``;
 
 const extraClass = 'my_extra_extra_class';
@@ -76,10 +76,10 @@ describe('MediaObjectBase', () => {
           <PrismicImage
             image={{ ...mockData.image }}
             sizes={{
-              xlarge: 1 / 6,
-              large: 1 / 6,
-              medium: 1 / 5,
-              small: 1 / 4,
+              lg: 1 / 6,
+              md: 1 / 6,
+              sm: 1 / 5,
+              zero: 1 / 4,
             }}
             quality="low"
           />
@@ -104,10 +104,10 @@ describe('MediaObjectBase', () => {
           <PrismicImage
             image={{ ...mockData.image }}
             sizes={{
-              xlarge: 1 / 6,
-              large: 1 / 6,
-              medium: 1 / 5,
-              small: 1 / 4,
+              lg: 1 / 6,
+              md: 1 / 6,
+              sm: 1 / 5,
+              zero: 1 / 4,
             }}
             quality="low"
           />
@@ -134,10 +134,10 @@ describe('MediaObjectBase', () => {
             <PrismicImage
               image={{ ...mockData.image }}
               sizes={{
-                xlarge: 1 / 6,
-                large: 1 / 6,
-                medium: 1 / 5,
-                small: 1 / 4,
+                lg: 1 / 6,
+                md: 1 / 6,
+                sm: 1 / 5,
+                zero: 1 / 4,
               }}
               quality="low"
             />
@@ -188,10 +188,10 @@ describe('MediaObjectBase', () => {
           <PrismicImage
             image={{ ...mockData.image }}
             sizes={{
-              xlarge: 1 / 6,
-              large: 1 / 6,
-              medium: 1 / 5,
-              small: 1 / 4,
+              lg: 1 / 6,
+              md: 1 / 6,
+              sm: 1 / 5,
+              zero: 1 / 4,
             }}
             quality="low"
           />
@@ -224,7 +224,7 @@ describe('MediaObjectBase', () => {
         );
 
         const componentHtml = componentWithoutImage.container.outerHTML;
-        expect(componentHtml.match(getBaseTitleClass(3))).toBeTruthy();
+        expect(componentHtml.match(getBaseTitleClass(1))).toBeTruthy();
       });
     });
 
@@ -237,10 +237,10 @@ describe('MediaObjectBase', () => {
               <PrismicImage
                 image={{ ...mockData.image }}
                 sizes={{
-                  xlarge: 1 / 6,
-                  large: 1 / 6,
-                  medium: 1 / 5,
-                  small: 1 / 4,
+                  lg: 1 / 6,
+                  md: 1 / 6,
+                  sm: 1 / 5,
+                  zero: 1 / 4,
                 }}
                 quality="low"
               />
@@ -255,7 +255,7 @@ describe('MediaObjectBase', () => {
           />
         );
         const componentHtml = component.container.outerHTML;
-        expect(componentHtml.match(getBaseTitleClass(4))).toBeTruthy();
+        expect(componentHtml.match(getBaseTitleClass(0))).toBeTruthy();
       });
     });
   });

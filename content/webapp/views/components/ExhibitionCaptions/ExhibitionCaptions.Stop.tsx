@@ -19,9 +19,9 @@ import ZoomedPrismicImage from '@weco/content/views/components/ZoomedPrismicImag
 
 export const StandaloneTitle = styled(Space).attrs({
   as: 'h2',
-  className: `${font('wb', 2)}`,
-  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  className: `${font('brand', 2)}`,
+  $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
 })`
   display: inline-block;
   position: relative;
@@ -34,14 +34,14 @@ type LevelProps = { $level: number };
 
 export const ContextTitle = styled(Space).attrs<LevelProps>(props => ({
   as: `h${props.$level}` as KnownTarget,
-  className: font('wb', 3),
-  $v: { size: 'm', properties: ['margin-bottom'] },
+  className: font('brand', 1),
+  $v: { size: 'sm', properties: ['margin-bottom'] },
 }))<LevelProps>``;
 
 const TranscriptTitle = styled(Space).attrs<LevelProps>(props => ({
   as: `h${props.$level}` as KnownTarget,
-  className: font('wb', 4),
-  $v: { size: 'm', properties: ['margin-bottom'] },
+  className: font('brand', 0),
+  $v: { size: 'sm', properties: ['margin-bottom'] },
 }))<LevelProps>``;
 
 type ContextContainerProps = {
@@ -61,23 +61,23 @@ export const ContextContainer = styled(Space).attrs<ContextContainerProps>(
 
 export const TombstoneTitle = styled(Space).attrs<LevelProps>(props => ({
   as: `h${props.$level}` as KnownTarget,
-  className: font('wb', 3),
-  $v: { size: 's', properties: ['margin-bottom'] },
+  className: font('brand', 1),
+  $v: { size: 'xs', properties: ['margin-bottom'] },
 }))<LevelProps>``;
 
 export const Tombstone = styled(Space).attrs({
-  className: font('intr', 4),
-  $h: { size: 'l', properties: ['padding-right'] },
+  className: font('sans', 0),
+  $h: { size: 'md', properties: ['padding-right'] },
 })`
   flex-basis: 100%;
   margin-bottom: 1em;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
       flex-basis: 40%;
       margin-bottom: 0;
     `}
 
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
       flex-basis: 30%;
     `}
 
@@ -90,18 +90,18 @@ export const CaptionTranscription = styled.div`
   flex-basis: 100%;
   max-width: 45em;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
       flex-basis: 60%;
     `}
 
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
       flex-basis: 70%;
     `}
 `;
 
 export const Caption = styled(Space).attrs({
-  className: `spaced-text ${font('intr', 5)}`,
-  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  className: `spaced-text ${font('sans', -1)}`,
+  $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
 })`
   border-left: 20px solid ${props => props.theme.color('lightYellow')};
 `;
@@ -112,10 +112,10 @@ const PrismicImageWrapper = styled.div`
 `;
 
 const Transcription = styled(Space).attrs({
-  className: font('intr', 5),
-  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  className: font('sans', -1),
+  $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
   $v: {
-    size: 'm',
+    size: 'sm',
     properties: ['padding-top', 'padding-bottom', 'margin-top'],
   },
 })`
@@ -174,8 +174,8 @@ const Stop: FunctionComponent<{
             <Tombstone />
             {/* This empty Tombstone is needed for correct alignment of the standaloneTitle */}
             <Space
-              $h={{ size: 'm', properties: ['margin-left'], negative: true }}
-              $v={{ size: 'l', properties: ['margin-bottom'] }}
+              $h={{ size: 'sm', properties: ['margin-left'], negative: true }}
+              $v={{ size: 'md', properties: ['margin-bottom'] }}
             >
               <StandaloneTitle
                 id={`${dasherizeShorten(`${standaloneTitle}`)}-${index}`}
@@ -209,7 +209,7 @@ const Stop: FunctionComponent<{
                 </TombstoneTitle>
               )}
               {tombstone && (
-                <div className={font('intr', 4)}>
+                <div className={font('sans', 0)}>
                   <PrismicHtmlBlock html={tombstone} />
                 </div>
               )}
@@ -233,7 +233,7 @@ const Stop: FunctionComponent<{
               {caption && (
                 <Caption>
                   {image?.contentUrl && (
-                    <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+                    <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
                       <PrismicImageWrapper>
                         <ZoomedPrismicImage image={image} />
                         <PrismicImage image={image} sizes={{}} quality="low" />

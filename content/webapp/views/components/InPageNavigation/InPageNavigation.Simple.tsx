@@ -7,14 +7,14 @@ import Space from '@weco/common/views/components/styled/Space';
 import { Link } from '@weco/content/types/link';
 
 const Anchor = styled.a.attrs({
-  className: font('intb', 5),
+  className: font('sans-bold', -1),
 })`
   color: ${props => props.theme.color('black')};
 `;
 
 const Root = styled(Space).attrs({
-  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
 })`
   background: ${props => props.theme.color('warmNeutral.300')};
 `;
@@ -26,7 +26,7 @@ export type Props = {
 const InPageNavigationSimple: FunctionComponent<Props> = ({ links }) => {
   return (
     <Root>
-      <h2 className={font('wb', 4)}>What’s on this page</h2>
+      <h2 className={font('brand', 0)}>What’s on this page</h2>
       <PlainList>
         {links.map((link: Link) => (
           <li key={link.url}>

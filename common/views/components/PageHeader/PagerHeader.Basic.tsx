@@ -45,13 +45,13 @@ const HighlightedHeading: FunctionComponent<{ text: string | ReactNode }> = ({
   text: string | ReactNode;
 }) => {
   return (
-    <h1 className={font('wb', 2)}>
+    <h1 className={font('brand', 2)}>
       <Heading
         $v={{
-          size: 's',
+          size: 'xs',
           properties: ['padding-top', 'padding-bottom'],
         }}
-        $h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+        $h={{ size: 'sm', properties: ['padding-left', 'padding-right'] }}
       >
         {text}
       </Heading>
@@ -120,7 +120,7 @@ const BasicPageHeader: FunctionComponent<Props> = ({
         >
           <Wrapper
             $v={{
-              size: isSlim ? 'xs' : 'l',
+              size: isSlim ? '2xs' : 'md',
               properties:
                 isContentTypeInfoBeforeMedia || hasMedia
                   ? ['margin-bottom']
@@ -132,9 +132,9 @@ const BasicPageHeader: FunctionComponent<Props> = ({
               // 'highlighted' headings from being partially concealed
               <Space
                 $v={{
-                  size: 'm',
+                  size: 'sm',
                   properties: ['margin-top', 'margin-bottom'],
-                  overrides: { large: 4 },
+                  overrides: { md: '150' },
                 }}
               >
                 <Breadcrumb {...breadcrumbs} />
@@ -144,7 +144,7 @@ const BasicPageHeader: FunctionComponent<Props> = ({
             <ConditionalWrapper
               condition={!hasBreadcrumbItems}
               wrapper={children => (
-                <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+                <Space $v={{ size: 'md', properties: ['margin-top'] }}>
                   {children}
                 </Space>
               )}
@@ -155,8 +155,8 @@ const BasicPageHeader: FunctionComponent<Props> = ({
 
             {isContentTypeInfoBeforeMedia && ContentTypeInfo && (
               <Space
-                $v={{ size: 'm', properties: ['margin-bottom'] }}
-                className={font('intr', 4)}
+                $v={{ size: 'sm', properties: ['margin-bottom'] }}
+                className={font('sans', 0)}
               >
                 {ContentTypeInfo}
               </Space>
@@ -202,8 +202,8 @@ const BasicPageHeader: FunctionComponent<Props> = ({
       {!isContentTypeInfoBeforeMedia && ContentTypeInfo && (
         <ContaineredLayout gridSizes={pageGridLayout}>
           <Space
-            $v={{ size: 'l', properties: ['margin-top'] }}
-            className={font('intb', 4)}
+            $v={{ size: 'md', properties: ['margin-top'] }}
+            className={font('sans-bold', 0)}
           >
             {ContentTypeInfo}
           </Space>

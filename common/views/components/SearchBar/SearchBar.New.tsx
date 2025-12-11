@@ -22,7 +22,7 @@ const Container = styled.div`
 `;
 
 const Typewriter = styled.div.attrs({
-  className: font('intr', 3),
+  className: font('sans', 1),
   'aria-hidden': 'true',
 })`
   position: absolute;
@@ -36,7 +36,7 @@ const Typewriter = styled.div.attrs({
   text-wrap: nowrap;
   text-overflow: ellipsis;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     bottom: 22px;
   `}
 
@@ -55,7 +55,7 @@ const SearchInputWrapper = styled.div`
     border: none;
     height: 58px;
 
-    ${props => props.theme.media('medium')`
+    ${props => props.theme.media('sm')`
       height: 68px;
     `}
   }
@@ -76,15 +76,15 @@ const SearchButtonWrapper = styled.div`
   button {
     height: 63px;
 
-    ${props => props.theme.media('medium')`
+    ${props => props.theme.media('sm')`
       height: 73px;
     `}
 
     span:not(:first-child) {
       ${props =>
         props.theme.mediaBetween(
-          'small',
-          'medium'
+          'zero',
+          'sm'
         )(`
         ${visuallyHiddenStyles};
       `)}
@@ -93,8 +93,8 @@ const SearchButtonWrapper = styled.div`
     span .icon {
       ${props =>
         props.theme.mediaBetween(
-          'small',
-          'medium'
+          'zero',
+          'sm'
         )(`
         width: 34px;
         height: 34px;

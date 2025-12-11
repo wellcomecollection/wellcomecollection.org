@@ -49,8 +49,8 @@ const Image = styled.img`
 `;
 
 const ContentWrapper = styled(Space).attrs({
-  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
 })`
   flex: 1;
   display: flex;
@@ -58,13 +58,13 @@ const ContentWrapper = styled(Space).attrs({
 `;
 
 const Title = styled.h3.attrs({
-  className: font('wb', 3),
+  className: font('brand', 1),
 })`
   margin: 0 0 ${props => props.theme.spacingUnit}px 0;
 `;
 
 const Description = styled.p.attrs({
-  className: font('intr', 5),
+  className: font('sans', -1),
 })`
   margin: 0;
   display: -webkit-box;
@@ -73,23 +73,28 @@ const Description = styled.p.attrs({
   overflow: hidden;
 `;
 
+type ConceptWithImage = Concept & {
+  image?: {
+    locations: { url: string }[];
+    alternativeText?: string;
+  };
+};
+
 type Props = {
-  topic: Concept;
+  topic: ConceptWithImage;
 };
 
 const BrowseTopicCard: FunctionComponent<Props> = ({ topic }) => {
   const url = `/collections/topics/${topic.id}`;
   // Check if topic has image data (added dynamically in BrowseTopicsGrid)
   const hasImage =
-    (topic as any).image &&
-    (topic as any).image.locations &&
-    (topic as any).image.locations.length > 0;
+    topic.image && topic.image.locations && topic.image.locations.length > 0;
 
   // Convert IIIF image URL to proper format
   const getImageSrc = () => {
-    if (!hasImage) return null;
+    if (!hasImage || !topic.image) return null;
 
-    const imageLocation = (topic as any).image.locations[0];
+    const imageLocation = topic.image.locations[0];
     if (imageLocation.url.includes('/info.json')) {
       // Use iiifImageTemplate for IIIF images
       const imageTemplate = iiifImageTemplate(imageLocation.url);
@@ -110,7 +115,7 @@ const BrowseTopicCard: FunctionComponent<Props> = ({ topic }) => {
         {imageSrc ? (
           <Image
             src={imageSrc}
-            alt={(topic as any).image?.alternativeText || topic.label}
+            alt={topic.image?.alternativeText || topic.label}
             loading="lazy"
           />
         ) : (

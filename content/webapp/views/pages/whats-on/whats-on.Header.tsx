@@ -43,7 +43,7 @@ const Header: FunctionComponent<HeaderProps> = ({
   todaysOpeningHours,
 }) => {
   return (
-    <Space $v={{ size: 'l', properties: ['padding-top'] }}>
+    <Space $v={{ size: 'md', properties: ['padding-top'] }}>
       <Container>
         <Grid>
           <GridCell
@@ -61,8 +61,8 @@ const Header: FunctionComponent<HeaderProps> = ({
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     <Space
                       as="span"
-                      $h={{ size: 'm', properties: ['margin-right'] }}
-                      className={font('intb', 5)}
+                      $h={{ size: 'sm', properties: ['margin-right'] }}
+                      className={font('sans-bold', -1)}
                     >
                       Galleries
                       {todaysOpeningHours.isClosed ? ' closed ' : ' open '}
@@ -73,14 +73,14 @@ const Header: FunctionComponent<HeaderProps> = ({
                         <Space
                           style={{ display: 'flex' }}
                           as="span"
-                          $h={{ size: 's', properties: ['margin-right'] }}
+                          $h={{ size: 'xs', properties: ['margin-right'] }}
                         >
                           <Icon icon={clock} />
                         </Space>
                         <Space
                           as="span"
-                          $h={{ size: 'm', properties: ['margin-right'] }}
-                          className={font('intr', 5)}
+                          $h={{ size: 'sm', properties: ['margin-right'] }}
+                          className={font('sans', -1)}
                         >
                           <>
                             <time>{todaysOpeningHours.opens}</time>
@@ -94,7 +94,7 @@ const Header: FunctionComponent<HeaderProps> = ({
                 )}
                 <NextLink
                   href={`/visit-us/${prismicPageIds.openingTimes}`}
-                  className={font('intb', 5)}
+                  className={font('sans-bold', -1)}
                 >
                   Full opening times
                 </NextLink>
@@ -112,7 +112,7 @@ const Header: FunctionComponent<HeaderProps> = ({
             }}
           >
             <Space
-              $v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
+              $v={{ size: 'xs', properties: ['margin-top', 'margin-bottom'] }}
             >
               <Tabs
                 tabBehaviour="navigate"

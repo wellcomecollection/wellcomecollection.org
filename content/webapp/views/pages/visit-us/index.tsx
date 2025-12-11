@@ -35,13 +35,13 @@ const VisitUsStaticContent: FunctionComponent = () => {
           </GridCell>
           <GridCell
             $sizeMap={{ s: [12], l: [5], xl: [5] }}
-            className={font('intr', 5)}
+            className={font('sans', -1)}
           >
-            <h2 style={{ marginBottom: 0 }} className={font('intb', 5)}>
+            <h2 style={{ marginBottom: 0 }} className={font('sans-bold', -1)}>
               Today’s opening times
             </h2>
             <OpeningTimes venues={venues} />
-            <Space $v={{ size: 's', properties: ['margin-top'] }}>
+            <Space $v={{ size: 'xs', properties: ['margin-top'] }}>
               <a href={`/visit-us/${prismicPageIds.openingTimes}`}>
                 Opening times
               </a>

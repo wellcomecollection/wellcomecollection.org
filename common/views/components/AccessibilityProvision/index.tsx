@@ -20,7 +20,7 @@ const Text = styled.p`
 `;
 
 const IconsContainer = styled(Space).attrs({
-  $h: { size: 's', properties: ['margin-right'] },
+  $h: { size: 'xs', properties: ['margin-right'] },
 })<StyleProps>`
   display: flex;
 
@@ -30,7 +30,7 @@ const IconsContainer = styled(Space).attrs({
     width: ${props => (!props.$showText ? '24px' : '32px')};
     height: ${props => (!props.$showText ? '24px' : '32px')};
 
-    ${props => props.theme.media('medium')`
+    ${props => props.theme.media('sm')`
       width: 32px;
       height: 32px;
     `}
@@ -60,7 +60,7 @@ const AccessibilityProvision: FunctionComponent<Props> = ({
         <Icon icon={closedCaptioningSquare} />
       </IconsContainer>
       <Text
-        className={!showText ? `visually-hidden` : font('intr', 5)}
+        className={!showText ? `visually-hidden` : font('sans', -1)}
         id="accessibility-provision"
       >
         {accessibilityProvisionText}

@@ -19,15 +19,15 @@ type Props = PropsWithChildren<{
 }>;
 
 const InfoContainer = styled(Space).attrs({
-  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
 })`
   background-color: ${props => props.theme.color('yellow')};
 `;
 
 export const InfoIconWrapper = styled(Space).attrs({
-  className: font('intb', 4),
-  $h: { size: 's', properties: ['margin-right'] },
+  className: font('sans-bold', 0),
+  $h: { size: 'xs', properties: ['margin-right'] },
 })`
   float: left;
 `;
@@ -40,7 +40,7 @@ const InfoBox: FunctionComponent<Props> = ({
 }) => {
   return (
     <div data-component="info-box">
-      <h2 className={font('wb', hasBiggerHeading ? 2 : 3)}>{title}</h2>
+      <h2 className={font('brand', hasBiggerHeading ? 2 : 1)}>{title}</h2>
 
       <InfoContainer>
         {items.map(({ title, description, icon }, i) => (
@@ -50,11 +50,11 @@ const InfoBox: FunctionComponent<Props> = ({
                 <Icon icon={icon} />
               </InfoIconWrapper>
             )}
-            {title && <h3 className={font('intb', 5)}>{title}</h3>}
+            {title && <h3 className={font('sans-bold', -1)}>{title}</h3>}
             {description && (
               <Space
-                $v={{ size: 'm', properties: ['margin-bottom'] }}
-                className={font('intr', 5)}
+                $v={{ size: 'sm', properties: ['margin-bottom'] }}
+                className={font('sans', -1)}
               >
                 <PrismicHtmlBlock html={description} />
               </Space>

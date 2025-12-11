@@ -25,7 +25,7 @@ const TagsWrapper = styled.div`
   flex-wrap: wrap;
   gap: 8px 12px;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     column-gap: 16px;
   `}
 `;
@@ -111,7 +111,7 @@ export const SelectableTags: FunctionComponent<SelectableTagsProps> = ({
 
   return (
     <div data-component="selectable-tags">
-      <TagsWrapper className={font('intm', 5)}>
+      <TagsWrapper className={font('sans-bold', -1)}>
         {tags.map((tag, index) => {
           const isSelected = selected.includes(tag.id);
           const gtmAttributes = dataGtmPropsToAttributes({

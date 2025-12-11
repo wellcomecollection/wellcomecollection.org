@@ -60,12 +60,15 @@ const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({
           <Space
             key={prefix ? `${prefix}-${text}` : text}
             as={prefix ? 'b' : 'span'}
-            className={font('intr', 6)}
+            className={font('sans', -2)}
           >
             {i > 0 && (
               <Space
                 as="span"
-                $h={{ size: 's', properties: ['margin-left', 'margin-right'] }}
+                $h={{
+                  size: 'xs',
+                  properties: ['margin-left', 'margin-right'],
+                }}
                 aria-hidden="true"
               >
                 |
@@ -74,7 +77,7 @@ const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({
             {prefix}{' '}
             <LinkOrSpanTag
               className={classNames({
-                [font('intb', 6)]: Boolean(prefix),
+                [font('sans-bold', -2)]: Boolean(prefix),
               })}
               href={url}
               data-gtm-trigger={url ? 'breadcrumb_link' : undefined}

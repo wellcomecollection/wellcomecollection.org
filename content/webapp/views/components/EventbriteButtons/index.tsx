@@ -9,12 +9,12 @@ import { Event } from '@weco/content/types/events';
 
 const Location = styled(Space).attrs({
   as: 'p',
-  className: font('intb', 5),
-  $v: { size: 's', properties: ['margin-bottom'] },
+  className: font('sans-bold', -1),
+  $v: { size: 'xs', properties: ['margin-bottom'] },
 })``;
 
 const Copy = styled.p.attrs({
-  className: font('intr', 5),
+  className: font('sans', -1),
 })`
   color: ${props => props.theme.color('neutral.700')};
   margin: 0;
@@ -40,7 +40,7 @@ const EventbriteButtons: FunctionComponent<Props> = ({ event }) => {
               )}
               <Space
                 $v={{
-                  size: isHybridEvent ? 'm' : 's',
+                  size: isHybridEvent ? 'sm' : '2xs',
                   properties: ['margin-bottom'],
                 }}
               >
@@ -69,7 +69,7 @@ const EventbriteButtons: FunctionComponent<Props> = ({ event }) => {
           {event.onlineEventbriteId && (
             <>
               {isHybridEvent && <Location>Livestream event</Location>}
-              <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
+              <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
                 {event.onlineSoldOut ? (
                   <Button
                     variant="ButtonSolid"

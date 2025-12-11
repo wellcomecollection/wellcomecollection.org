@@ -11,8 +11,8 @@ import Space from '@weco/common/views/components/styled/Space';
 import { useLoginURLWithReturnToCurrent } from '@weco/content/utils/useLoginURLWithReturnToCurrent';
 
 const StyledComponent = styled(Space).attrs({
-  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-  $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
 })`
   background: ${props => props.theme.color('accent.lightTurquoise')};
   display: flex;
@@ -29,15 +29,15 @@ const SignInLink: FunctionComponent = () => {
   return (
     <>
       <Space
-        $h={{ size: 's', properties: ['margin-right'] }}
-        className={font('intb', 5)}
+        $h={{ size: 'xs', properties: ['margin-right'] }}
+        className={font('sans-bold', -1)}
       >
         Library members:
       </Space>
       <a
         href={loginURL}
         data-gtm-trigger="library_account_login"
-        className={font('intr', 5)}
+        className={font('sans', -1)}
       >
         sign in to your library account to request items
       </a>
@@ -51,11 +51,11 @@ type ReloadProps = {
 const Reload: FunctionComponent<ReloadProps> = ({ reload }) => {
   return (
     <>
-      <span className={font('intb', 5)}>
+      <span className={font('sans-bold', -1)}>
         Something went wrong trying to check if you are signed in
       </span>{' '}
       <button
-        className={font('intr', 5)}
+        className={font('sans', -1)}
         onClick={() => {
           reload();
         }}
@@ -78,16 +78,16 @@ const LibraryMembersBar: FunctionComponent = () => {
   if (disableRequesting) {
     return (
       <StyledComponent>
-        <Space $h={{ size: 's', properties: ['margin-right'] }}>
+        <Space $h={{ size: 'xs', properties: ['margin-right'] }}>
           <Icon icon={memberCard} />
         </Space>
         <Space
-          $h={{ size: 's', properties: ['margin-right'] }}
-          className={font('intb', 5)}
+          $h={{ size: 'xs', properties: ['margin-right'] }}
+          className={font('sans-bold', -1)}
         >
           Library members:
         </Space>
-        <span data-testid="requesting-disabled" className={font('intr', 5)}>
+        <span data-testid="requesting-disabled" className={font('sans', -1)}>
           {requestingDisabled}
         </span>
       </StyledComponent>
@@ -96,7 +96,7 @@ const LibraryMembersBar: FunctionComponent = () => {
 
   return state === 'signedout' || state === 'failed' ? (
     <StyledComponent>
-      <Space $h={{ size: 's', properties: ['margin-right'] }}>
+      <Space $h={{ size: 'xs', properties: ['margin-right'] }}>
         <Icon icon={memberCard} />
       </Space>
       {state === 'signedout' && <SignInLink />}

@@ -59,9 +59,9 @@ const CardGridFeaturedCard = ({ item }: CardGridFeaturedCardProps) => {
         background="neutral.700"
         textColor="white"
       >
-        {item.title && <h2 className={font('wb', 2)}>{item.title}</h2>}
+        {item.title && <h2 className={font('brand', 2)}>{item.title}</h2>}
         {item.description && (
-          <p className={font('intr', 5)}>{item.description}</p>
+          <p className={font('sans', -1)}>{item.description}</p>
         )}
       </FeaturedCard>
     </ContaineredLayout>
@@ -99,7 +99,7 @@ const SimpleCardGrid: FunctionComponent<Props> = ({
         </Grid>
       </Container>
       {featuredCard && !isFeaturedFirst && (
-        <Space $v={{ size: 'l', properties: ['padding-top'] }}>
+        <Space $v={{ size: 'md', properties: ['padding-top'] }}>
           <CardGridFeaturedCard item={featuredCard} />
         </Space>
       )}

@@ -9,7 +9,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { LabelField } from '@weco/content/model/label-field';
 
 const HeadingLink = styled.a.attrs({
-  className: font('intb', 4),
+  className: font('sans-bold', 0),
 })`
   text-decoration: underline;
   color: ${props => props.theme.color('accent.green')};
@@ -42,7 +42,7 @@ export type Props = {
 const TitledTextList: FunctionComponent<Props> = ({ items }) => (
   <List data-component="titled-text-list">
     {items.map((item, i) => (
-      <Space $v={{ size: 'l', properties: ['margin-bottom'] }} as="li" key={i}>
+      <Space $v={{ size: 'md', properties: ['margin-bottom'] }} as="li" key={i}>
         <HeadingLinkWrapper>
           <HeadingLink href={item.link}>{item.title}</HeadingLink>
         </HeadingLinkWrapper>

@@ -10,19 +10,19 @@ export const Grid = styled.div<{ $noGap?: boolean }>`
   ${props =>
     !props.$noGap &&
     `
-    gap: ${props.theme.gutter.small}px;
+    gap: ${props.theme.gutter.small};
   `}
 
   ${props =>
     !props.$noGap &&
-    props.theme.media('medium')(`
-    gap: ${props.theme.gutter.medium}px;
+    props.theme.media('sm')(`
+    gap: ${props.theme.gutter.medium};
   `)}
 
   ${props =>
     !props.$noGap &&
-    props.theme.media('large')(`
-    gap: ${props.theme.gutter.large}px;
+    props.theme.media('md')(`
+    gap: ${props.theme.gutter.large};
   `)}
 `;
 
@@ -39,19 +39,19 @@ export const Grid = styled.div<{ $noGap?: boolean }>`
 
 export const GridCell = styled.div<{ $sizeMap: SizeMap }>`
   ${props =>
-    props.theme.media('small')(`
+    props.theme.media('zero')(`
       grid-column: ${props.$sizeMap.s ? (props.$sizeMap.s.length === 2 ? `${props.$sizeMap.s[1]} / span ${props.$sizeMap.s[0]}` : `span ${props.$sizeMap.s[0]}`) : '1 / -1'};
 `)}
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
       grid-column: ${props.$sizeMap.m ? (props.$sizeMap.m.length === 2 ? `${props.$sizeMap.m[1]} / span ${props.$sizeMap.m[0]}` : `span ${props.$sizeMap.m[0]}`) : '1 / -1'};
 `)}
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
       grid-column: ${props.$sizeMap.l ? (props.$sizeMap.l.length === 2 ? `${props.$sizeMap.l[1]} / span ${props.$sizeMap.l[0]}` : `span ${props.$sizeMap.l[0]}`) : '1 / -1'};
 `)}
   ${props =>
-    props.theme.media('xlarge')(`
+    props.theme.media('lg')(`
       grid-column: ${props.$sizeMap.xl ? (props.$sizeMap.xl.length === 2 ? `${props.$sizeMap.xl[1]} / span ${props.$sizeMap.xl[0]}` : `span ${props.$sizeMap.xl[0]}`) : '1 / -1'};
 `)}
   container-type: inline-size;
@@ -61,8 +61,8 @@ export const GridCell = styled.div<{ $sizeMap: SizeMap }>`
 export const GridScroll = styled(Grid)`
   ${props =>
     props.theme.mediaBetween(
-      'small',
-      'medium'
+      'zero',
+      'sm'
     )(`
     display: flex;
     flex-wrap: nowrap;
@@ -72,10 +72,10 @@ export const GridScroll = styled(Grid)`
 export const GridCellScroll = styled(GridCell)`
   ${props =>
     props.theme.mediaBetween(
-      'small',
-      'medium'
+      'zero',
+      'sm'
     )(`
       min-width: 75vw;
-      padding-right: ${props.theme.gutter.small}px;
+      padding-right: ${props.theme.gutter.small};
     `)};
 `;

@@ -6,8 +6,8 @@ import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
 
 export const BannerContainer = styled(Space).attrs({
-  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-  className: font('intr', 5),
+  $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
+  className: font('sans', -1),
 })<{ $backgroundColor?: PaletteColor }>`
   background-color: ${props =>
     props.theme.color(props.$backgroundColor || 'yellow')};
@@ -23,7 +23,7 @@ export const CopyContainer = styled.div`
 `;
 
 export const Copy = styled(Space).attrs({
-  $h: { size: 'm', properties: ['margin-right'] },
+  $h: { size: 'sm', properties: ['margin-right'] },
   className: 'body-text spaced-text',
 })`
   align-self: center;

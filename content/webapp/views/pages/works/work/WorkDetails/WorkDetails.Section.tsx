@@ -11,7 +11,7 @@ type Props = PropsWithChildren<{
 }>;
 
 const SectionWithDivider = styled(Space).attrs({
-  $v: { size: 'l', properties: ['padding-top'] },
+  $v: { size: 'md', properties: ['padding-top'] },
 })<{ $isArchive: boolean }>`
   ${props =>
     props.$isArchive &&
@@ -34,7 +34,7 @@ const WorkDetailsSection: FunctionComponent<Props> = ({
   return (
     <SectionWithDivider $isArchive={isArchive}>
       <SpacingSection>
-        {headingText && <h2 className={font('wb', 4)}>{headingText}</h2>}
+        {headingText && <h2 className={font('brand', 0)}>{headingText}</h2>}
 
         {children}
       </SpacingSection>

@@ -258,12 +258,12 @@ const WorkItemPage: NextPage<Props> = ({
         removeCloseButton={true}
         openButtonRef={{ current: null }}
       >
-        <div className={font('intr', 5)}>
+        <div className={font('sans', -1)}>
           {modalContent?.label && (
             // When this modal is displayed, the rest of the page is hidden and we need to make
             // sure there is an appropriate h1 available to assistive technologies
             // https://github.com/wellcomecollection/wellcomecollection.org/issues/7545
-            <h1 className={font('intb', 4)}>{modalContent?.label}</h1>
+            <h1 className={font('sans-bold', 0)}>{modalContent?.label}</h1>
           )}
           {modalContent?.description && (
             <div
@@ -275,8 +275,8 @@ const WorkItemPage: NextPage<Props> = ({
           {isAnyImageOpen && origin && (
             <Space
               style={{ display: 'inline-flex' }}
-              $h={{ size: 'm', properties: ['margin-right'] }}
-              $v={{ size: 'm', properties: ['margin-top'] }}
+              $h={{ size: 'sm', properties: ['margin-right'] }}
+              $v={{ size: 'sm', properties: ['margin-top'] }}
             >
               <Button
                 variant="ButtonSolid"

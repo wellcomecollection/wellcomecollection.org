@@ -141,7 +141,7 @@ test('(6) | Two options in two different filters have the same label/value; they
 
   await openFilterDropdown('Contributors', page);
   const contributorCheckbox = page.locator(
-    `input[name="contributors.agent.label"][form="search-page-form"][value='"Leonardo, da Vinci, 1452-1519"']`
+    `input[name="contributors.agent.label"][form="search-page-form"][value='"Leonardo da Vinci"']`
   );
 
   await contributorCheckbox.click();
@@ -153,7 +153,7 @@ test('(6) | Two options in two different filters have the same label/value; they
 
   await openFilterDropdown('Subjects', page);
   const subjectCheckbox = page.locator(
-    `input[name="subjects.label"][form="search-page-form"][value='"Leonardo, da Vinci, 1452-1519"']`
+    `input[name="subjects.label"][form="search-page-form"][value='"Leonardo da Vinci"']`
   );
 
   await expect(subjectCheckbox).toBeChecked({ checked: false });

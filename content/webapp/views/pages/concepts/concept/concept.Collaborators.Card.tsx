@@ -8,16 +8,16 @@ import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
 
 const StyledLink = styled(NextLink).attrs({
-  className: font('intr', 6),
+  className: font('sans', -2),
 })`
   background-color: ${props => props.theme.color('warmNeutral.300')};
-  padding: ${props => props.theme.spacingUnits['3']}px;
+  padding: ${props => props.theme.spacingUnits['100']};
   text-decoration: none;
   display: flex;
   align-items: center;
   flex-direction: row-reverse;
   justify-content: start;
-  gap: ${props => props.theme.spacingUnits['3']}px;
+  gap: ${props => props.theme.spacingUnits['100']};
   width: 100%;
   height: 48px;
   border-radius: 2px;
@@ -26,7 +26,7 @@ const StyledLink = styled(NextLink).attrs({
     text-decoration: underline;
   }
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
       height: 60px;
       max-width: 256px;
       flex-direction: row;
@@ -49,13 +49,13 @@ const IconWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: ${props => props.theme.spacingUnits['1']}px;
+  padding: ${props => props.theme.spacingUnits['050']};
   background-color: ${props => props.theme.color('neutral.700')};
   color: white;
   border-radius: 2px;
 
   ${props =>
-    props.theme.media('medium')(`padding: ${props.theme.spacingUnits['3']}px;`)}
+    props.theme.media('sm')(`padding: ${props.theme.spacingUnits['100']};`)}
 `;
 
 type Props = {

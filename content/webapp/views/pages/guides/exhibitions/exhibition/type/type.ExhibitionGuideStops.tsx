@@ -17,8 +17,8 @@ import GridFactory, {
 import ExhibitionCaptions from '@weco/content/views/components/ExhibitionCaptions';
 
 export const Stop = styled(Space).attrs({
-  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
 })<{ $backgroundColor?: PaletteColor }>`
   background: ${props =>
     props.theme.color(props.$backgroundColor || 'warmNeutral.300')};
@@ -45,8 +45,8 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   titleProps,
 }) => (
   <VideoPlayerWrapper>
-    <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
-      <figcaption className={font('intb', 5)} {...titleProps}>
+    <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
+      <figcaption className={font('sans-bold', -1)} {...titleProps}>
         {title}
       </figcaption>
     </Space>

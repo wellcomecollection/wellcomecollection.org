@@ -40,35 +40,35 @@ const SeasonsHeader: FunctionComponent<Props> = ({ season }) => {
             <div style={{ position: 'relative' }}>
               <PrismicImage
                 image={superWidescreenImage}
-                sizes={{ xlarge: 1, large: 1, medium: 1, small: 1 }}
+                sizes={{ lg: 1, md: 1, sm: 1, zero: 1 }}
                 quality="low"
               />
             </div>
           )}
           <Space
-            $v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
+            $v={{ size: 'md', properties: ['padding-top', 'padding-bottom'] }}
           >
             <ContaineredLayout gridSizes={gridSize10()}>
-              <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+              <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
                 <TextWrapper>
-                  <Space $h={{ size: 'm', properties: ['padding-left'] }}>
+                  <Space $h={{ size: 'sm', properties: ['padding-left'] }}>
                     {labels.length > 0 && (
                       <LabelsList
                         labels={labels}
                         defaultLabelColor="accent.salmon"
                       />
                     )}
-                    <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
-                      <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
+                    <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
+                      <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
                         <h1
-                          className={font('wb', 1)}
+                          className={font('brand', 4)}
                           style={{ display: 'inline-block', marginBottom: 0 }}
                         >
                           {title}
                         </h1>
                       </Space>
                       {start && end && (
-                        <div className={font('intr', 5)}>
+                        <div className={font('sans', -1)}>
                           <DateRange start={start} end={end} />
                         </div>
                       )}

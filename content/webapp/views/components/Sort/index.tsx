@@ -13,7 +13,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import Select from '@weco/content/views/components/Select';
 
 const Wrapper = styled(Space)`
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     margin-right: 2rem;
   `}
 `;
@@ -65,7 +65,7 @@ const Sort: FunctionComponent<Props> = ({
 
   return (
     <Wrapper data-component="sort">
-      {/* If the user has JavaScript disabled, we only get the values from the form fields. 
+      {/* If the user has JavaScript disabled, we only get the values from the form fields.
       We need two query parameters for sorting, so we have two select inputs. */}
       <noscript>
         <fieldset>

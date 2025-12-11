@@ -32,7 +32,7 @@ import MultipleManifestList from './MultipleManifestList';
 import ViewerStructures from './ViewerStructures';
 
 const RestrictedMessage = styled(Space).attrs({
-  $h: { size: 'm', properties: ['margin-left', 'margin-right'] },
+  $h: { size: 'sm', properties: ['margin-left', 'margin-right'] },
 })`
   background: ${props => props.theme.color('neutral.200')};
   color: ${props => props.theme.color('black')};
@@ -53,8 +53,8 @@ const RestrictedMessageTitle = styled.div`
 `;
 
 const Inner = styled(Space).attrs({
-  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
 })`
   h1 {
     display: -webkit-box;
@@ -66,8 +66,8 @@ const Inner = styled(Space).attrs({
 `;
 
 const AccordionInner = styled(Space).attrs({
-  className: font('intb', 5),
-  $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+  className: font('sans-bold', -1),
+  $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
 })`
   button {
     width: 100%;
@@ -123,7 +123,7 @@ const AccordionItem = ({ title, children, testId }: AccordionItemProps) => {
           aria-controls={toHtmlId(title)}
         >
           <span>
-            <h2 className={font('intb', 5)}>{title}</h2>
+            <h2 className={font('sans-bold', -1)}>{title}</h2>
             <Icon
               icon={chevron}
               iconColor="white"
@@ -200,13 +200,13 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
       {isWorkVisibleWithPermission && (
         <RestrictedMessage>
           <Space
-            $h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-            $v={{ size: 's', properties: ['padding-top', 'padding-bottom'] }}
-            className={font('intr', 5)}
+            $h={{ size: 'sm', properties: ['padding-left', 'padding-right'] }}
+            $v={{ size: 'xs', properties: ['padding-top', 'padding-bottom'] }}
+            className={font('sans', -1)}
           >
             <RestrictedMessageTitle>
               <Icon icon={info2} iconColor="accent.blue" />
-              <h2 className={font('intsb', 5)}>Restricted item</h2>
+              <h2 className={font('sans-bold', -1)}>Restricted item</h2>
             </RestrictedMessageTitle>
 
             <p style={{ marginBottom: manifestNeedsRegeneration ? '1rem' : 0 }}>
@@ -222,16 +222,16 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
           </Space>
         </RestrictedMessage>
       )}
-      <Inner className={font('intb', 5)}>
+      <Inner className={font('sans-bold', -1)}>
         {manifestLabel && (
-          <span className={font('intr', 5)}>{manifestLabel}</span>
+          <span className={font('sans', -1)}>{manifestLabel}</span>
         )}
         <h1>
           <WorkTitle title={work.title} />
         </h1>
 
         {work.primaryContributorLabel && (
-          <Space $h={{ size: 'm', properties: ['margin-right'] }}>
+          <Space $h={{ size: 'sm', properties: ['margin-right'] }}>
             <LinkLabels items={[{ text: work.primaryContributorLabel }]} />
           </Space>
         )}
@@ -250,15 +250,15 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
           />
         )}
 
-        <Space $v={{ size: 'm', properties: ['margin-top'] }}>
+        <Space $v={{ size: 'sm', properties: ['margin-top'] }}>
           <WorkLink
             id={work.id}
-            className={font('intr', 5)}
+            className={font('sans', -1)}
             style={{ display: 'flex', alignItems: 'center' }}
           >
             Catalogue details
             <Space
-              $h={{ size: 's', properties: ['margin-left'] }}
+              $h={{ size: 'xs', properties: ['margin-left'] }}
               style={{ display: 'flex', alignItems: 'center' }}
             >
               <Icon icon={arrow} matchText={true} iconColor="white" />
@@ -268,7 +268,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
       </Inner>
       <Inner>
         <AccordionItem title="Licence and re-use">
-          <div className={font('intr', 6)}>
+          <div className={font('sans', -2)}>
             {license && license.label && (
               <p>
                 <strong>Licence:</strong>{' '}

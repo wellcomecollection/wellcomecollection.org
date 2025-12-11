@@ -63,8 +63,8 @@ const DetailList: FunctionComponent<{
     <StyledDl>
       {listItems.map(item => (
         <>
-          <dt className={font('intb', 5)}>{item.label}</dt>
-          <StyledDd className={font('intr', 5)}>{item.value}</StyledDd>
+          <dt className={font('sans-bold', -1)}>{item.label}</dt>
+          <StyledDd className={font('sans', -1)}>{item.value}</StyledDd>
         </>
       ))}
     </StyledDl>
@@ -74,10 +74,10 @@ const DetailList: FunctionComponent<{
 const RequestsFailed: FunctionComponent<{ retry: () => void }> = ({
   retry,
 }) => (
-  <p className={font('intr', 5)}>
+  <p className={font('sans', -1)}>
     Something went wrong fetching your item requests.
     <button
-      className={font('intr', 5)}
+      className={font('sans', -1)}
       style={{
         border: 'none',
         background: 'none',
@@ -100,7 +100,7 @@ const AccountStatus: FunctionComponent<PropsWithChildren<StatusAlertProps>> = ({
   return (
     <StatusAlert type={type}>
       <Icon icon={info2} />
-      <Space $h={{ size: 's', properties: ['margin-left'] }}>{children}</Space>
+      <Space $h={{ size: 'xs', properties: ['margin-left'] }}>{children}</Space>
     </StatusAlert>
   );
 };
@@ -108,11 +108,11 @@ const AccountStatus: FunctionComponent<PropsWithChildren<StatusAlertProps>> = ({
 const NoRequestedItems = () => (
   <Space
     as="p"
-    className={font('intr', 5)}
+    className={font('sans', -1)}
     $v={{
-      size: 's',
+      size: 'xs',
       properties: ['margin-bottom'],
-      overrides: { small: 1 },
+      overrides: { zero: '050' },
     }}
   >
     Any item requests you make will appear here.
@@ -162,14 +162,14 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
   return (
     <IdentityPageLayout title="Your library account">
       <Space
-        $v={{ size: 'l', properties: ['margin-bottom'] }}
+        $v={{ size: 'md', properties: ['margin-bottom'] }}
         style={{ background: theme.color('white') }}
       >
         <ContaineredLayout gridSizes={gridSize12()}>
           <Space
-            $v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
+            $v={{ size: 'md', properties: ['padding-top', 'padding-bottom'] }}
           >
-            <h1 className={font('wb', 0)}>Library account</h1>
+            <h1 className={font('brand', 5)}>Library account</h1>
           </Space>
         </ContaineredLayout>
         <div className="is-hidden-s">
@@ -233,7 +233,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                       case 'loading':
                         return (
                           <Space
-                            $v={{ size: 'l', properties: ['padding-bottom'] }}
+                            $v={{ size: 'md', properties: ['padding-bottom'] }}
                           >
                             <Loading variant="inline" />
                           </Space>
@@ -248,9 +248,9 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                             <>
                               <Space
                                 as="p"
-                                className={font('intb', 5)}
+                                className={font('sans-bold', -1)}
                                 $v={{
-                                  size: 's',
+                                  size: 'xs',
                                   properties: ['margin-bottom'],
                                 }}
                               >{`You have requested ${requestedItems.totalResults} out of ${allowedRequests} items`}</Space>
@@ -264,7 +264,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                                 />
                               </ProgressBar>
                               <StackingTable
-                                maxWidth={1180}
+                                maxWidth="73.75rem"
                                 rows={[
                                   [
                                     'Title',
@@ -284,7 +284,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                                         {result.item.title && (
                                           <Space
                                             $v={{
-                                              size: 's',
+                                              size: 'xs',
                                               properties: ['margin-top'],
                                             }}
                                           >
@@ -319,9 +319,9 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                                 ]}
                               />
                               <Space
-                                className={font('intr', 5)}
+                                className={font('sans', -1)}
                                 $v={{
-                                  size: 'l',
+                                  size: 'md',
                                   properties: ['margin-top'],
                                 }}
                               >
@@ -348,7 +348,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
           </SectionHeading>
           <Container>
             <Wrapper>
-              <p className={font('intr', 5)}>
+              <p className={font('sans', -1)}>
                 If you no longer wish to be a library member, you can cancel
                 your membership. The library team will be notified and your
                 online account will be closed.

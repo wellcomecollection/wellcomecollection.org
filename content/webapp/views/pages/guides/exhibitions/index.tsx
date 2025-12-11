@@ -56,7 +56,7 @@ const ExhibitionGuidesPage: NextPage<Props> = props => {
 
         {exhibitionGuides.totalPages > 1 && (
           <ContaineredLayout gridSizes={gridSize12()}>
-            <PaginationWrapper $verticalSpacing="l">
+            <PaginationWrapper $verticalSpacing="md">
               <span>{pluralize(exhibitionGuides.totalResults, 'result')}</span>
 
               <Pagination
@@ -66,13 +66,13 @@ const ExhibitionGuidesPage: NextPage<Props> = props => {
               />
             </PaginationWrapper>
 
-            <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+            <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
               <Divider />
             </Space>
           </ContaineredLayout>
         )}
 
-        <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+        <Space $v={{ size: 'md', properties: ['margin-top'] }}>
           {exhibitionGuides.results.length > 0 ? (
             <CardGrid items={exhibitionGuides.results} itemsPerRow={3} />
           ) : (
@@ -84,7 +84,7 @@ const ExhibitionGuidesPage: NextPage<Props> = props => {
 
         {exhibitionGuides.totalPages > 1 && (
           <ContaineredLayout gridSizes={gridSize12()}>
-            <PaginationWrapper $verticalSpacing="l" $alignRight>
+            <PaginationWrapper $verticalSpacing="md" $alignRight>
               <Pagination
                 totalPages={exhibitionGuides.totalPages}
                 ariaLabel="Results pagination"

@@ -23,12 +23,12 @@ jobs:
           repositories: content-api
 
       - name: Checkout wellcomecollection.org
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Checkout content-api repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           repository: wellcomecollection/content-api
           token: ${{ steps.app-token.outputs.token }}

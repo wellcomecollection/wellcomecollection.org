@@ -51,7 +51,7 @@ const Metadata: FunctionComponent<MetadataProps> = ({ label, value }) => (
 const BookMetadata: FunctionComponent<{ book: Book }> = ({ book }) => (
   <Space
     as="dl"
-    $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
+    $v={{ size: 'sm', properties: ['margin-top', 'margin-bottom'] }}
   >
     <Grid>
       {book.datePublished && (

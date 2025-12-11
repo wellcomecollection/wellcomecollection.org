@@ -12,7 +12,7 @@ type LabelContainerProps = {
 };
 
 const LabelContainer = styled(Space).attrs({
-  className: font('intb', 6),
+  className: font('sans-bold', -2),
 })<LabelContainerProps>`
   white-space: nowrap;
   line-height: 1;
@@ -41,11 +41,11 @@ const Label: FunctionComponent<Props> = ({
     <LabelContainer
       style={{ '--label-length': label.text.length } as CSSProperties}
       $v={{
-        size: 'xs',
+        size: '2xs',
         properties: ['padding-top', 'padding-bottom'],
       }}
       $h={{
-        size: 'xs',
+        size: '2xs',
         properties: ['padding-left', 'padding-right'],
       }}
       $fontColor={

@@ -424,7 +424,7 @@ const WorkDetails: FunctionComponent<Props> = ({
       )}
 
       <WorkDetailsSection headingText="Permanent link">
-        <div className={font('intr', 5)}>
+        <div className={font('sans', -1)}>
           <CopyButtons
             variant="url"
             url={`https://wellcomecollection.org/works/${work.id}`}
@@ -458,7 +458,7 @@ const WorkDetails: FunctionComponent<Props> = ({
   );
 
   return isArchive ? (
-    <Space $h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}>
+    <Space $h={{ size: 'md', properties: ['padding-left', 'padding-right'] }}>
       {renderContent()}
     </Space>
   ) : (

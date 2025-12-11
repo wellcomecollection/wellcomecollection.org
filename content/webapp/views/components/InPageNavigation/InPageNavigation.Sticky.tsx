@@ -54,7 +54,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
   const prevHasStuckRef = useRef(false);
 
   const shouldLockScroll = useMemo(() => {
-    return windowSize !== 'large' && isListActive && hasStuck;
+    return windowSize !== 'md' && isListActive && hasStuck;
   }, [windowSize, isListActive, hasStuck]);
 
   useEffect(() => {
@@ -68,7 +68,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
 
   useEffect(() => {
     // We close the mobile nav if the user resizes their window to the large bp
-    if (windowSize === 'large' && hasStuck && isListActive) {
+    if (windowSize === 'md' && hasStuck && isListActive) {
       setIsListActive(false);
     }
   }, [windowSize, hasStuck, isListActive]);
@@ -153,7 +153,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
       {shouldLockScroll && (
         <>
           {/* https://github.com/wellcomecollection/wellcomecollection.org/pull/12171
-          This portal is required because of an older version of Safari, 
+          This portal is required because of an older version of Safari,
           consider removing once moved to v21 */}
           {createPortal(
             <BackgroundOverlay
@@ -173,7 +173,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
         }}
       >
         <Root $hasStuck={hasStuck} data-scroll-smooth="true">
-          <h2 className={`${font('intm', 5)} is-hidden-s is-hidden-m`}>
+          <h2 className={`${font('sans-bold', -1)} is-hidden-s is-hidden-m`}>
             {titleText}
           </h2>
 

@@ -11,7 +11,7 @@ import IIIFImage from '@weco/content/views/components/IIIFImage';
 // regardless of the image height
 const Shim = styled.div`
   position: relative;
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     height: 0;
     padding-top: 100%;
   `}
@@ -19,7 +19,7 @@ const Shim = styled.div`
 
 const PopoutCardImageContainer = styled.div<{ $aspectRatio?: number }>`
   position: relative;
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     position: absolute;
     bottom: 0;
   `}
@@ -31,7 +31,7 @@ const PopoutCardImageContainer = styled.div<{ $aspectRatio?: number }>`
 `;
 
 const PopoutCardImage = styled(Space).attrs({
-  $v: { size: 'l', properties: ['bottom'] },
+  $v: { size: 'md', properties: ['bottom'] },
 })`
   position: absolute;
   width: 66%;
@@ -50,7 +50,7 @@ const LinkSpace = styled(Space).attrs<LinkSpaceAttrs>(props => ({
   display: block;
   margin-top: 40px;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     margin-top: 0;
   `}
 
@@ -69,13 +69,13 @@ const LinkSpace = styled(Space).attrs<LinkSpaceAttrs>(props => ({
 `;
 
 const Title = styled.h3.attrs({
-  className: font('intb', 5),
+  className: font('sans-bold', -1),
 })`
   margin: 0;
 `;
 
 const Meta = styled.p.attrs({
-  className: font('intr', 6),
+  className: font('sans', -2),
 })`
   color: ${props => props.theme.color('neutral.600')};
   margin: 0;
@@ -107,7 +107,7 @@ const WorkCard: FunctionComponent<Props> = ({ item }) => {
 
   return (
     <LinkSpace $url={url} data-component="work-card">
-      <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+      <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
         <Shim>
           <PopoutCardImageContainer
             data-component="popout-image"
@@ -119,10 +119,12 @@ const WorkCard: FunctionComponent<Props> = ({ item }) => {
           </PopoutCardImageContainer>
         </Shim>
         <Space
-          $v={{ size: 's', properties: ['margin-bottom'] }}
+          $v={{ size: 'xs', properties: ['margin-bottom'] }}
           style={{ position: 'relative' }}
         >
-          <Space $v={{ size: 'm', properties: ['margin-top'], negative: true }}>
+          <Space
+            $v={{ size: 'sm', properties: ['margin-top'], negative: true }}
+          >
             <LabelsList labels={labels} />
           </Space>
         </Space>

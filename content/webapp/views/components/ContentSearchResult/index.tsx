@@ -21,14 +21,14 @@ const Link = styled(NextLink)`
 `;
 
 const Type = styled(Space).attrs({
-  $v: { size: 's', properties: ['margin-bottom'] },
-  className: font('intr', 6),
+  $v: { size: 'xs', properties: ['margin-bottom'] },
+  className: font('sans', -2),
 })``;
 
 const Title = styled(Space).attrs({
   as: 'h2',
-  $v: { size: 's', properties: ['margin-bottom'] },
-  className: font('intb', 4),
+  $v: { size: 'xs', properties: ['margin-bottom'] },
+  className: font('sans-bold', 0),
 })`
   ${Link}:hover & {
     text-decoration: underline;
@@ -36,12 +36,12 @@ const Title = styled(Space).attrs({
 `;
 
 const Description = styled(Space).attrs({
-  $v: { size: 'xs', properties: ['margin-bottom'] },
+  $v: { size: '2xs', properties: ['margin-bottom'] },
 })``;
 
 const DatesContributors = styled(Space).attrs({
-  $v: { size: 's', properties: ['margin-bottom'] },
-  className: font('intr', 6),
+  $v: { size: 'xs', properties: ['margin-bottom'] },
+  className: font('sans', -2),
 })`
   color: ${props => props.theme.color('neutral.600')};
 `;

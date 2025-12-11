@@ -42,8 +42,8 @@ const Number: FunctionComponent<Props> = ({
   <Wrapper
     data-component="number"
     as="span"
-    className={font('wb', 5)}
-    $h={{ size: 's', properties: ['margin-left'] }}
+    className={font('brand', -1)}
+    $h={{ size: 'xs', properties: ['margin-left'] }}
     $backgroundColor={backgroundColor}
   >
     <NumberSpan $parentBackgroundColor={backgroundColor}>{number}</NumberSpan>

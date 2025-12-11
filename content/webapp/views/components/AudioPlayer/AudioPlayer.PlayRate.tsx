@@ -9,7 +9,7 @@ import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 
 const TogglePlayRateButton = styled.button.attrs({
-  className: font('intr', 6),
+  className: font('sans', -2),
 })<{ $isDark: boolean }>`
   color: ${props =>
     props.$isDark ? props.theme.color('white') : props.theme.color('black')};
@@ -29,11 +29,11 @@ const TogglePlayRateButton = styled.button.attrs({
 
 const PlayRateButton = styled.div.attrs({
   as: 'button',
-  className: font('intr', 5),
+  className: font('sans', -1),
 })<{
   $isDark: boolean;
 }>`
-  padding: ${props => props.theme.spacingUnits['4']}px;
+  padding: ${props => props.theme.spacingUnits['150']};
   line-height: 1.5;
   display: flex;
   justify-content: space-between;
@@ -47,7 +47,7 @@ const PlayRateButton = styled.div.attrs({
 `;
 
 const PlayRateList = styled.div<{ $isActive: boolean; $isDark: boolean }>`
-  padding: ${props => props.theme.spacingUnits['3']}px 0;
+  padding: ${props => props.theme.spacingUnits['100']} 0;
   list-style: none;
   display: ${props => (props.$isActive ? 'block' : 'none')};
   background-color: ${props =>
@@ -161,7 +161,7 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
           aria-expanded={isPopperActive}
         >
           Speed
-          <span className={font('intsb', 4)}>{audioPlaybackRate}x</span>
+          <span className={font('sans-bold', 0)}>{audioPlaybackRate}x</span>
         </TogglePlayRateButton>
         <PlayRateList
           id={id}

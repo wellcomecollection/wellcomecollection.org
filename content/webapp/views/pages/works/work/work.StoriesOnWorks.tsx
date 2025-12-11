@@ -17,7 +17,7 @@ const LoadingWrapper = styled.div`
 `;
 
 const SectionWrapper = styled(Space).attrs({
-  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
 })`
   background-color: ${props => props.theme.color('warmNeutral.300')};
 `;
@@ -72,7 +72,7 @@ const WorkStoriesOnWorks: FunctionComponent<Props> = ({
     return (
       <SectionWrapper>
         <Container>
-          <Space $v={{ size: 'm', properties: ['padding-top'] }}>
+          <Space $v={{ size: 'sm', properties: ['padding-top'] }}>
             <LoadingWrapper>
               <LL />
             </LoadingWrapper>
@@ -85,11 +85,11 @@ const WorkStoriesOnWorks: FunctionComponent<Props> = ({
   return (
     <SectionWrapper>
       <Container>
-        <Space $v={{ size: 'l', properties: ['padding-top'] }}>
-          <h2 className={font('wb', 3)}>Stories featuring this work</h2>
+        <Space $v={{ size: 'md', properties: ['padding-top'] }}>
+          <h2 className={font('brand', 1)}>Stories featuring this work</h2>
         </Space>
 
-        <Space $v={{ size: 'm', properties: ['padding-top'] }}>
+        <Space $v={{ size: 'sm', properties: ['padding-top'] }}>
           <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
             <StoriesGrid articles={articles} isCompact />
           </Space>

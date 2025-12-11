@@ -18,22 +18,16 @@ import AnimatedUnderlineCSS, {
 } from '@weco/common/views/components/styled/AnimatedUnderline';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
-import {
-  createMedia,
-  designSystemSizes,
-} from '@weco/common/views/themes/config';
 import MoreLink from '@weco/content/views/components/MoreLink';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
-
-// use design system media helper for consistent breakpoints
-const dsMedia = createMedia(designSystemSizes);
 
 const ContentContainer = styled(Space)`
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  ${dsMedia('medium')(`
+  ${props =>
+    props.theme.media('sm')(`
     flex-direction: row;
   `)}
 `;
@@ -44,7 +38,8 @@ const CopySection = styled.div`
   order: 1;
   margin-right: 0;
 
-  ${dsMedia('medium')(`
+  ${props =>
+    props.theme.media('sm')(`
     margin-right: 2rem;
   `)}
 `;
@@ -56,15 +51,16 @@ const ImageSection = styled.div`
   margin-bottom: 2rem;
   position: relative;
 
-  ${dsMedia('medium')(`
+  ${props =>
+    props.theme.media('sm')(`
     order: 2;
     margin-bottom: 0;
   `)}
 `;
 
 const SupportText = styled(Space).attrs({
-  className: font('intr', 5),
-  $v: { size: 'l', properties: ['margin-top'] },
+  className: font('sans', -1),
+  $v: { size: 'md', properties: ['margin-top'] },
 })`
   display: flex;
 
@@ -101,14 +97,14 @@ const ImageShapeWrapper = styled.div.attrs({ 'aria-hidden': 'true' })<{
     rotate(${props => (props.$isDefaultVariant ? '6deg' : '-16deg')});
 
   ${props =>
-    dsMedia('medium')(`
+    props.theme.media('sm')(`
       height: 160%;
       transform: translate(${props.$isDefaultVariant ? '18%, -16%' : '20%, -19%'})
         rotate(${props.$isDefaultVariant ? '6deg' : '-16deg'});
     `)}
 
   ${props =>
-    dsMedia('large')(`
+    props.theme.media('md')(`
       transform: translate(${props.$isDefaultVariant ? '10%, -4%' : '20%, -31%'})
         rotate(${props.$isDefaultVariant ? '6deg' : '-16deg'});
     `)}
@@ -191,7 +187,7 @@ const FullWidthBanner = (props: Props) => {
           >
             <CopySection>
               {props.title && (
-                <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
+                <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
                   <SectionHeader title={props.title}></SectionHeader>
                 </Space>
               )}

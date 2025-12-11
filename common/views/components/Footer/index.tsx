@@ -22,7 +22,7 @@ type Props = {
 // Styles
 const Wrapper = styled(Space).attrs({
   as: 'footer',
-  className: `${font('intr', 5)} is-hidden-print`,
+  className: `${font('sans', -1)} is-hidden-print`,
   $v: { size: 'xl', properties: ['padding-top'] },
 })`
   position: relative;
@@ -35,25 +35,25 @@ const Wrapper = styled(Space).attrs({
 /** ************************ */
 
 const FooterNavigationContainer = styled(Space).attrs({
-  $v: { size: 'l', properties: ['margin-bottom'] },
+  $v: { size: 'md', properties: ['margin-bottom'] },
 })`
   display: grid;
   grid-gap: 2rem;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 3rem;
 
   `}
 
-  ${props => props.theme.media('xlarge')`
+  ${props => props.theme.media('lg')`
     grid-template-columns: repeat(4, 1fr);
     grid-gap: 2rem;
   `}
 `;
 
 const PoliciesAndSocials = styled(Space).attrs({
-  $v: { size: 'l', properties: ['margin-bottom'] },
+  $v: { size: 'md', properties: ['margin-bottom'] },
 })`
   display: flex;
   flex-wrap: wrap;
@@ -61,8 +61,8 @@ const PoliciesAndSocials = styled(Space).attrs({
 
   ${props =>
     props.theme.mediaBetween(
-      'medium',
-      'large'
+      'sm',
+      'md'
     )(`
     display: block;
   `)}
@@ -71,11 +71,11 @@ const PoliciesAndSocials = styled(Space).attrs({
 const FindUsContainer = styled.div`
   flex: 1 1 100%;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
       flex: 1 1 50%;
       `}
 
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
       flex: 1 1 20%;
       margin-right: 2rem;
     `}
@@ -84,11 +84,11 @@ const FindUsContainer = styled.div`
 const OpeningTimesContainer = styled.div`
   flex: 1 1 100%;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     flex: 1 1 50%;
     `}
 
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
     flex: 1 1 30%;
     margin-right: 2rem;
   `}
@@ -97,21 +97,21 @@ const OpeningTimesContainer = styled.div`
 const InternalNavigationContainer = styled.div`
   flex: 1 1 50%;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     flex: 1 1 30%;
 `}
 `;
 
 const FullWidthDivider = styled(Space).attrs({
-  $v: { size: 'm', properties: ['margin-bottom'] },
+  $v: { size: 'sm', properties: ['margin-bottom'] },
 })``;
 
 const PoliciesContainer = styled(Space).attrs({
-  $v: { size: 'm', properties: ['margin-bottom', 'margin-bottom'] },
+  $v: { size: 'sm', properties: ['margin-bottom', 'margin-bottom'] },
 })`
   flex: 1 1 50%;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
@@ -128,16 +128,16 @@ const SocialsContainer = styled(Space)`
   flex: 1 1 100%;
   margin: 1rem 0;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     flex: 0 1 auto;
     margin: 0;
   `}
 
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
     flex: 0 1 100%;
   `}
 
-  ${props => props.theme.media('xlarge')`
+  ${props => props.theme.media('lg')`
     flex: 0 1 auto;
     justify-content: flex-end;
     justify-content: space-between;
@@ -155,7 +155,7 @@ const FooterBottom = styled(Space).attrs({
   justify-content: space-between;
 `;
 
-const FooterLicense = styled.p.attrs({ className: font('intr', 6) })`
+const FooterLicense = styled.p.attrs({ className: font('sans', -2) })`
   display: inline;
   margin: 0 1rem 1rem 0;
 `;
@@ -197,14 +197,16 @@ const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
             openingtimes link */}
             {hasVenuesInfo && (
               <>
-                <h4 className={font('intb', 5)}>Today&rsquo;s opening times</h4>
+                <h4 className={font('sans-bold', -1)}>
+                  Today&rsquo;s opening times
+                </h4>
                 <OpeningTimes venues={venues} />
               </>
             )}
             <Space
               as="p"
               $v={{
-                size: 'm',
+                size: 'sm',
                 properties: hasVenuesInfo ? ['margin-top'] : [],
               }}
               style={{ marginBottom: 0 }}

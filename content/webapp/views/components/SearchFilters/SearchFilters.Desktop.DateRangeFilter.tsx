@@ -17,7 +17,7 @@ const DesktopDateRangeFilter = ({
   hasNoOptions,
 }: DesktopDateRangeFilterProps) => {
   return (
-    <Space className={font('intr', 5)}>
+    <Space className={font('sans', -1)}>
       <Button
         variant="DropdownButton"
         isPill

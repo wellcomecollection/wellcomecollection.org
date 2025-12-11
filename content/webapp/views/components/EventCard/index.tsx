@@ -72,15 +72,15 @@ export function getLocationText(
 }
 
 const DateInfo = styled.p.attrs({
-  className: font('intr', 5),
+  className: font('sans', -1),
 })`
   padding: 0;
   margin: 0;
 `;
 
 const LocationWrapper = styled(Space).attrs({
-  className: font('intr', 5),
-  $v: { size: 's', properties: ['margin-top', 'margin-bottom'] },
+  className: font('sans', -1),
+  $v: { size: 'xs', properties: ['margin-top', 'margin-bottom'] },
 })`
   display: flex;
   align-items: center;
@@ -117,10 +117,10 @@ const EventCard: FunctionComponent<Props> = ({
               alt: '',
             }}
             sizes={{
-              xlarge: 1 / 4,
-              large: 1 / 3,
-              medium: 1 / 2,
-              small: 1,
+              lg: 1 / 4,
+              md: 1 / 3,
+              sm: 1 / 2,
+              zero: 1,
             }}
             quality="low"
           />
@@ -137,13 +137,13 @@ const EventCard: FunctionComponent<Props> = ({
           {locationText && !isInPastListing && (
             <LocationWrapper>
               <Icon icon={location} matchText />
-              <Space $h={{ size: 'xs', properties: ['margin-left'] }}>
+              <Space $h={{ size: '2xs', properties: ['margin-left'] }}>
                 {locationText}
               </Space>
             </LocationWrapper>
           )}
           {event.availableOnline && (
-            <Space $v={{ size: 's', properties: ['margin-top'] }}>
+            <Space $v={{ size: 'xs', properties: ['margin-top'] }}>
               <WatchLabel text="Available to watch" />
             </Space>
           )}
@@ -175,21 +175,21 @@ const EventCard: FunctionComponent<Props> = ({
             </>
           )}
           {upcomingDatesFullyBooked(event.times) && (
-            <Space $v={{ size: 'm', properties: ['margin-top'] }}>
+            <Space $v={{ size: 'sm', properties: ['margin-top'] }}>
               <TextWithDot
-                className={font('intr', 5)}
+                className={font('sans', -1)}
                 dotColor="validation.red"
                 text="Fully booked"
               />
             </Space>
           )}
           {!isPast && event.times.length > 1 && (
-            <p className={font('intb', 6)}>See all dates/times</p>
+            <p className={font('sans-bold', -2)}>See all dates/times</p>
           )}
           {isPast && !event.availableOnline && !isInPastListing && (
             <div>
               <TextWithDot
-                className={font('intr', 5)}
+                className={font('sans', -1)}
                 dotColor="neutral.500"
                 text="Past"
               />
@@ -202,21 +202,21 @@ const EventCard: FunctionComponent<Props> = ({
           {event.series.map(series => (
             <p
               key={series.title}
-              className={font('intb', 6)}
+              className={font('sans-bold', -2)}
               style={{ marginBottom: 0 }}
             >
-              <span className={font('intr', 6)}>Part of</span> {series.title}
+              <span className={font('sans', -2)}>Part of</span> {series.title}
             </p>
           ))}
         </CardPostBody>
       )}
       {event.secondaryLabels.length > 0 && (
         <Space
-          $h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-          $v={{ size: 'm', properties: ['padding-bottom'] }}
+          $h={{ size: 'sm', properties: ['padding-left', 'padding-right'] }}
+          $v={{ size: 'sm', properties: ['padding-bottom'] }}
         >
           <Divider lineColor="white" />
-          <Space $v={{ size: 's', properties: ['padding-top'] }}>
+          <Space $v={{ size: 'xs', properties: ['padding-top'] }}>
             <LabelsList
               labels={event.secondaryLabels}
               defaultLabelColor="black"

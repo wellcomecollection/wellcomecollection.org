@@ -17,7 +17,7 @@ export const Container = styled.div`
 `;
 
 export const Wrapper = styled(Space).attrs({
-  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
 })`
   display: block;
   text-decoration: none;
@@ -40,25 +40,25 @@ export const Wrapper = styled(Space).attrs({
 export const Details = styled.div`
   flex: 1 1 100%;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     max-width: 900px;
   `}
 `;
 
 export const ConceptTitleHeading = styled.h3.attrs({
-  className: font('intb', 4),
+  className: font('sans-bold', 0),
 })``;
 
 export const ConceptDescription = styled(Space).attrs({
-  className: font('intr', 5),
-  $v: { size: 's', properties: ['margin-bottom'] },
+  className: font('sans', -1),
+  $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.700')};
 `;
 
 export const AlternativeLabels = styled(Space).attrs({
-  className: font('intr', 5),
-  $v: { size: 's', properties: ['margin-bottom'] },
+  className: font('sans', -1),
+  $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.600')};
 
@@ -68,7 +68,7 @@ export const AlternativeLabels = styled(Space).attrs({
 `;
 
 export const ConceptInformation = styled(Space).attrs({
-  className: font('intr', 5),
+  className: font('sans', -1),
   $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.600')};

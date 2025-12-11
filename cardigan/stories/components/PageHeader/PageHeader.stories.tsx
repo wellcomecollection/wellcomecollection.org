@@ -89,15 +89,15 @@ const ContentTypeInfo = (
     />
     <div style={{ display: 'flex', alignItems: 'baseline' }}>
       <Space
-        className={font('intr', 6)}
-        $h={{ size: 's', properties: ['margin-right'] }}
-        $v={{ size: 's', properties: ['margin-top'] }}
+        className={font('sans', -2)}
+        $h={{ size: 'xs', properties: ['margin-right'] }}
+        $v={{ size: 'xs', properties: ['margin-top'] }}
       >
         <p style={{ marginBottom: 0 }}>
           <span>By </span>
-          <span className={font('intb', 6)}>Naomi Paxton</span>{' '}
+          <span className={font('sans-bold', -2)}>Naomi Paxton</span>{' '}
           <span
-            className={font('intr', 6)}
+            className={font('sans', -2)}
             style={{ color: theme.color('neutral.600') }}
           >
             17 April 2019
@@ -260,14 +260,14 @@ export const Event: Meta<typeof PageHeader> = {
     ContentTypeInfo: (
       <>
         <Space
-          $v={{ size: 's', properties: ['margin-bottom'] }}
+          $v={{ size: 'xs', properties: ['margin-bottom'] }}
           style={{ display: 'flex', flexWrap: 'wrap' }}
         >
           Saturday 8 February 2020, 13:00 – 16:00
         </Space>
         <div style={{ display: 'flex' }}>
           <TextWithDot
-            className={font('intb', 5)}
+            className={font('sans-bold', -1)}
             dotColor="neutral.500"
             text="Past"
           />
@@ -316,7 +316,7 @@ export const Exhibition: Meta<typeof PageHeader> = {
     ContentTypeInfo: (
       <div style={{ display: 'flex' }}>
         <TextWithDot
-          className={font('intb', 5)}
+          className={font('sans-bold', -1)}
           dotColor="neutral.500"
           text="Closed"
         />
@@ -418,7 +418,7 @@ export const Book: Meta<typeof PageHeader> = {
     variant: 'basic',
     title: 'Together',
     ContentTypeInfo: (
-      <p className={font('intb', 3)} style={{ marginBottom: 0 }}>
+      <p className={font('sans-bold', 1)} style={{ marginBottom: 0 }}>
         Loneliness, Health & What Happens When We Find Connection
       </p>
     ),
@@ -429,7 +429,7 @@ export const Book: Meta<typeof PageHeader> = {
         <Layout gridSizes={gridSize8()}>
           <PopoutImage
             image={image(bookImageUrl, 1659, 1800)}
-            sizes={{ xlarge: 1 / 3, large: 1 / 3, medium: 1 / 3, small: 1 }}
+            sizes={{ lg: 1 / 3, md: 1 / 3, sm: 1 / 3, zero: 1 }}
             quality="low"
           />
         </Layout>

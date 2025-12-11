@@ -13,7 +13,7 @@ const ContentTypeWrapper = styled.div`
 `;
 
 const ContentTypeText = styled.p.attrs({
-  className: font('intr', 6),
+  className: font('sans', -2),
 })`
   margin: 0;
 `;
@@ -25,7 +25,7 @@ const ContentTypeInfoSection = styled.span`
   }
 `;
 
-const HTMLDateWrapper = styled.span.attrs({ className: font('intr', 6) })`
+const HTMLDateWrapper = styled.span.attrs({ className: font('sans', -2) })`
   display: block;
   color: ${props => props.theme.color('neutral.600')};
 `;
@@ -41,7 +41,7 @@ const ContentTypeInfo = (article: Article) => (
       />
     )}
     <ContentTypeWrapper>
-      <Space $v={{ size: 's', properties: ['margin-top'] }}>
+      <Space $v={{ size: 'xs', properties: ['margin-top'] }}>
         <ContentTypeText>
           {article.contributors.length > 0 &&
             article.contributors.map(({ contributor, role }, i) => (
@@ -55,13 +55,17 @@ const ContentTypeInfo = (article: Article) => (
                     by{' '}
                   </span>
                 )}
-                <span className={font('intb', 6)}>{contributor.name}</span>
+                <span className={font('sans-bold', -2)}>
+                  {contributor.name}
+                </span>
               </ContentTypeInfoSection>
             ))}
           {article.readingTime ? (
             <ContentTypeInfoSection>
               average reading time{' '}
-              <span className={font('intb', 6)}>{article.readingTime}</span>
+              <span className={font('sans-bold', -2)}>
+                {article.readingTime}
+              </span>
             </ContentTypeInfoSection>
           ) : null}
           {article.contributors.length > 0 && ' '}

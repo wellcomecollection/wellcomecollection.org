@@ -10,8 +10,8 @@ import Space from '@weco/common/views/components/styled/Space';
 import { getFileLabel } from '@weco/content/utils/works';
 
 const DownloadContainer = styled(Space).attrs({
-  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
 })`
   position: absolute;
   top: 50%;
@@ -58,13 +58,13 @@ const IIIFItemDownload: FunctionComponent<Props> = ({
         sizeOverride="width: 48px; height: 48px;"
       />
       <Space
-        className={font('intb', 5)}
-        $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
+        className={font('sans-bold', -1)}
+        $v={{ size: 'sm', properties: ['margin-top', 'margin-bottom'] }}
       >
         {displayLabel}
       </Space>
       {showWarning && (
-        <div className={font('intr', 6)}>{bornDigitalWarning}</div>
+        <div className={font('sans', -2)}>{bornDigitalWarning}</div>
       )}
       <Buttons
         variant="ButtonSolidLink"
@@ -72,8 +72,9 @@ const IIIFItemDownload: FunctionComponent<Props> = ({
         text="Open"
         ariaLabel={`Open ${(displayLabel !== substituteTitle && label) || 'document'}`}
       />
-      <span className={font('intr', 6)}>
-        Size: <span className={font('intb', 6)}>{fileSize || 'unknown'}</span>
+      <span className={font('sans', -2)}>
+        Size:{' '}
+        <span className={font('sans-bold', -2)}>{fileSize || 'unknown'}</span>
       </span>
     </DownloadContainer>
   );

@@ -18,7 +18,7 @@ import ClearInput from '@weco/common/views/components/TextInput/TextInput.Clear'
 import { focusStyle } from '@weco/common/views/themes/base/wellcome-normalize';
 
 export const TextInputLabel = styled.label.attrs({
-  className: font('intb', 5),
+  className: font('sans-bold', -1),
 })`
   display: block;
   line-height: 1.2;
@@ -30,8 +30,8 @@ type TextInputWrapProps = {
   $isNewSearchBar?: boolean;
 };
 export const TextInputWrap = styled(Space).attrs<TextInputWrapProps>(props => ({
-  className: font('intr', props.$isNewSearchBar ? 3 : 4),
-  $v: { size: 's', properties: ['margin-top'] },
+  className: font('sans', props.$isNewSearchBar ? 1 : 0),
+  $v: { size: 'xs', properties: ['margin-top'] },
 }))<TextInputWrapProps>`
   display: flex;
   position: relative;
@@ -78,7 +78,7 @@ export const TextInputWrap = styled(Space).attrs<TextInputWrapProps>(props => ({
 `;
 
 const HintCopy = styled.span.attrs({
-  className: font('intr', 5),
+  className: font('sans', -1),
 })`
   display: block;
   color: ${props => props.theme.color('neutral.700')};
@@ -105,8 +105,8 @@ export const TextInputInput = styled.input.attrs<{ $type?: string }>(props => ({
 `;
 
 const StatusMessage = styled(Space).attrs({
-  className: font('intr', 6),
-  $v: { size: 's', properties: ['margin-top'] },
+  className: font('sans', -2),
+  $v: { size: 'xs', properties: ['margin-top'] },
 })`
   display: flex;
   align-items: center;
@@ -117,7 +117,7 @@ const StatusMessage = styled(Space).attrs({
 
   p {
     display: inline-block;
-    ${props => props.theme.makeSpacePropertyValues('s', ['margin-left'])};
+    ${props => props.theme.makeSpacePropertyValues('xs', ['margin-left'])};
     margin-bottom: 0;
   }
 `;
@@ -239,7 +239,7 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
       <TextInputLabel htmlFor={id}>{label}</TextInputLabel>
 
       {hintCopy && (
-        <Space $v={{ size: 's', properties: ['margin-top'] }}>
+        <Space $v={{ size: 'xs', properties: ['margin-top'] }}>
           <HintCopy>{hintCopy}</HintCopy>
         </Space>
       )}

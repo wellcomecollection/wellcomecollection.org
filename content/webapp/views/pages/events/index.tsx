@@ -122,8 +122,8 @@ const EventsPage: NextPage<Props> = props => {
 
         {pageDescriptions.events && (
           <ContaineredLayout gridSizes={gridSize8(false)}>
-            <div className={`body-text spaced-text ${font('intr', 4)}`}>
-              <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+            <div className={`body-text spaced-text ${font('sans', 0)}`}>
+              <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
                 <p>{pageDescriptions.events}</p>
               </Space>
             </div>
@@ -163,7 +163,7 @@ const EventsPage: NextPage<Props> = props => {
           <ContaineredLayout gridSizes={gridSize12()}>
             <Space
               $v={{
-                size: 'l',
+                size: 'md',
                 properties: ['padding-top', 'padding-bottom'],
               }}
             >
@@ -214,7 +214,7 @@ const EventsPage: NextPage<Props> = props => {
         ) : (
           <>
             <ContaineredLayout gridSizes={gridSize12()}>
-              <PaginationWrapper $verticalSpacing="l">
+              <PaginationWrapper $verticalSpacing="md">
                 <span>
                   {pluralize(
                     events.totalResults,
@@ -242,7 +242,7 @@ const EventsPage: NextPage<Props> = props => {
             </ContaineredLayout>
 
             <ContaineredLayout gridSizes={gridSize12()}>
-              <PaginationWrapper $verticalSpacing="l" $alignRight>
+              <PaginationWrapper $verticalSpacing="md" $alignRight>
                 <Pagination
                   totalPages={events.totalPages}
                   ariaLabel="Events pagination"

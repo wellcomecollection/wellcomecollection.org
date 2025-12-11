@@ -13,7 +13,7 @@ const ImageWrapper = styled.div`
 
 const Type = styled(Space).attrs({
   as: 'li',
-  $v: { size: 'm', properties: ['margin-bottom'] },
+  $v: { size: 'sm', properties: ['margin-bottom'] },
 })`
   text-decoration: none;
 `;
@@ -64,10 +64,10 @@ const ExhibitionGuideLinksCard: FunctionComponent<Props> = ({
                 alt: '',
               }}
               sizes={{
-                xlarge: 1 / 4,
-                large: 1 / 3,
-                medium: 1 / 2,
-                small: 1,
+                lg: 1 / 4,
+                md: 1 / 3,
+                sm: 1 / 2,
+                zero: 1,
               }}
               quality="low"
             />
@@ -75,15 +75,15 @@ const ExhibitionGuideLinksCard: FunctionComponent<Props> = ({
         )}
 
         <Space
-          $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
+          $v={{ size: 'sm', properties: ['margin-top', 'margin-bottom'] }}
           as="h3"
-          className={font('wb', 3)}
+          className={font('brand', 1)}
         >
           {exhibitionGuide.title}
         </Space>
       </ExhibitionTitleLink>
-      <Space $v={{ size: 's', properties: ['margin-top'] }}>
-        <PlainList className={font('intr', 5)}>
+      <Space $v={{ size: 'xs', properties: ['margin-top'] }}>
+        <PlainList className={font('sans', -1)}>
           {links.map((link, i) => (
             <Type key={i}>
               <a href={link.url}>{link.text}</a>

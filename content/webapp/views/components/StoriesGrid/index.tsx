@@ -36,11 +36,11 @@ const ImageWrapper = styled(GridCell)`
 `;
 
 const DesktopLabel = styled(Space).attrs({
-  $v: { size: 's', properties: ['margin-bottom'] },
+  $v: { size: 'xs', properties: ['margin-bottom'] },
 })<{ $isCompact?: boolean }>`
   ${props =>
     props.theme.media(
-      'medium',
+      'sm',
       'max-width'
     )(`
     ${props.$isCompact ? '' : 'display: none;'}
@@ -52,14 +52,14 @@ const MobileLabel = styled.div`
   bottom: 0;
   left: 0;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     display: none;
   `}
 `;
 
 const StoryInformation = styled(Space).attrs({
-  className: font('intr', 5),
-  $v: { size: 'xs', properties: ['margin-bottom'] },
+  className: font('sans', -1),
+  $v: { size: '2xs', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.600')};
 `;
@@ -152,7 +152,7 @@ const StoriesGrid: FunctionComponent<Props> = ({
                   <LabelsList labels={[{ text: article.format.label }]} />
                 </DesktopLabel>
 
-                <h3 className={font('wb', 4)}>{article.title}</h3>
+                <h3 className={font('brand', 0)}>{article.title}</h3>
 
                 {!isCompact &&
                   (article.publicationDate ||
@@ -185,7 +185,7 @@ const StoriesGrid: FunctionComponent<Props> = ({
                   )}
 
                 {article.caption && (
-                  <p className={font('intr', 5)} style={{ marginBottom: 0 }}>
+                  <p className={font('sans', -1)} style={{ marginBottom: 0 }}>
                     {article.caption}
                   </p>
                 )}

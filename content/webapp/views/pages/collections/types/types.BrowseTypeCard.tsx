@@ -45,8 +45,8 @@ const Image = styled.img`
 `;
 
 const ContentWrapper = styled(Space).attrs({
-  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
 })`
   flex: 1;
   display: flex;
@@ -55,20 +55,20 @@ const ContentWrapper = styled(Space).attrs({
 
 const Title = styled.h3.attrs<{ $size: 'large' | 'medium' | 'small' }>(
   props => ({
-    className: font('wb', props.$size === 'large' ? 2 : 3),
+    className: font('brand', props.$size === 'large' ? 2 : 1),
   })
 )<{ $size: 'large' | 'medium' | 'small' }>`
   margin: 0 0 ${props => props.theme.spacingUnit}px 0;
 `;
 
 const Description = styled.p.attrs({
-  className: font('intr', 5),
+  className: font('sans', -1),
 })`
   margin: 0 0 ${props => props.theme.spacingUnit * 2}px 0;
 `;
 
 const WorkCount = styled.p.attrs({
-  className: font('intr', 6),
+  className: font('sans', -2),
 })`
   margin: 0;
   margin-top: auto;

@@ -27,7 +27,7 @@ const OpeningTimes: FunctionComponent<Props> = ({ venues }) => (
       return (
         todaysHours && (
           <Space
-            $v={{ size: 'xs', properties: ['margin-top'] }}
+            $v={{ size: '2xs', properties: ['margin-top'] }}
             as="li"
             key={venue.id}
           >

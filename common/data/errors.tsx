@@ -17,7 +17,7 @@ export const DefaultErrorText: FunctionComponent = () => (
   <ContaineredLayout gridSizes={gridSize8()}>
     <Space
       className="body-text"
-      $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
+      $v={{ size: 'md', properties: ['margin-top', 'margin-bottom'] }}
     >
       <p>
         Looks like something’s not working properly our end. We’ll try to fix it
@@ -48,7 +48,7 @@ export const NotFoundErrorText: FunctionComponent = () => (
   <ContaineredLayout gridSizes={gridSize8()}>
     <Space
       className="body-text"
-      $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
+      $v={{ size: 'md', properties: ['margin-top', 'margin-bottom'] }}
     >
       <p>
         We can’t find the page you’re looking for. Maybe one of these will help:
@@ -94,7 +94,7 @@ export const GoneErrorText: FunctionComponent = () => (
   <ContaineredLayout gridSizes={gridSize8()}>
     <Space
       className="body-text"
-      $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
+      $v={{ size: 'md', properties: ['margin-top', 'margin-bottom'] }}
     >
       <p>This work has been deleted from our public catalogue.</p>
       <p>

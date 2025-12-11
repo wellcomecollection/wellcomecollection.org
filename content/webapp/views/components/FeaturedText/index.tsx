@@ -8,7 +8,7 @@ type Props = ComponentPropsWithoutRef<typeof PrismicHtmlBlock>;
 const FeaturedText: FunctionComponent<Props> = props => (
   <div
     data-component="featured-text"
-    className={`body-text ${font('intr', 4)}`}
+    className={`body-text ${font('sans', 0)}`}
   >
     <PrismicHtmlBlock {...props} />
   </div>

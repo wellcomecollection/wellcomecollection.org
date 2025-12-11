@@ -26,7 +26,7 @@ export const ReadMeInfo = ({ Readme }: { Readme: ComponentType }) => {
         size: 'xl',
         properties: ['margin-top'],
       }}
-      $h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+      $h={{ size: 'sm', properties: ['padding-left', 'padding-right'] }}
       className="body-text"
       style={{
         border: '1px solid #eee',
@@ -50,7 +50,7 @@ export const ReadMeInfo = ({ Readme }: { Readme: ComponentType }) => {
       >
         README
       </span>
-      <Space $v={{ size: 'm', properties: ['padding-top'] }}>
+      <Space $v={{ size: 'sm', properties: ['padding-top'] }}>
         <Readme />
       </Space>
     </Space>

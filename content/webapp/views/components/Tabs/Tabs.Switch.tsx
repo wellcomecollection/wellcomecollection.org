@@ -9,7 +9,6 @@ import {
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { IconSvg } from '@weco/common/icons';
-import { useToggles } from '@weco/common/server-data/Context';
 import { toSnakeCase } from '@weco/common/utils/grammar';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import Icon from '@weco/common/views/components/Icon';
@@ -52,7 +51,6 @@ const TabsSwitch: FunctionComponent<Props> = ({
   isWhite,
 }: Props) => {
   const { isEnhanced } = useAppContext();
-  const { designSystemFonts } = useToggles();
   const tabListRef = useRef<HTMLDivElement>(null);
 
   function focusTabAtIndex(index: number): void {
@@ -116,7 +114,6 @@ const TabsSwitch: FunctionComponent<Props> = ({
             $selected={isSelected}
             $isWhite={isWhite}
             $hideBorder={hideBorder}
-            $designSystemFonts={designSystemFonts}
             onClick={e => {
               if (!(item.id === selectedTab)) {
                 (e.target as HTMLButtonElement).scrollIntoView({
@@ -153,7 +150,7 @@ const TabsSwitch: FunctionComponent<Props> = ({
                   {item.icon && (
                     <Space
                       as="span"
-                      $h={{ size: 's', properties: ['margin-right'] }}
+                      $h={{ size: 'xs', properties: ['margin-right'] }}
                     >
                       <IconWrapper>
                         <Icon icon={item.icon} />

@@ -138,10 +138,10 @@ const WhatsOnPage: NextPage<Props> = props => {
             <ClosedMessage />
           )}
         </ContaineredLayout>
-        <Space $v={{ size: 'm', properties: ['margin-top'] }}>
+        <Space $v={{ size: 'sm', properties: ['margin-top'] }}>
           {period === 'current-and-coming-up' && (
             <>
-              <Space $v={{ size: 'm', properties: ['padding-top'] }}>
+              <Space $v={{ size: 'sm', properties: ['padding-top'] }}>
                 <SpacingSection>
                   <SpacingComponent>
                     <SectionHeader
@@ -230,7 +230,7 @@ const WhatsOnPage: NextPage<Props> = props => {
               <SpacingSection>
                 <Space
                   $v={{
-                    size: 'm',
+                    size: 'sm',
                     properties: ['padding-top', 'margin-bottom'],
                   }}
                 >
@@ -242,8 +242,12 @@ const WhatsOnPage: NextPage<Props> = props => {
                         justifyContent: 'space-between',
                       }}
                     >
-                      <h2 className={font('wb', 2)}>Exhibitions and Events</h2>
-                      <span className={font('intb', 4)}>Free admission</span>
+                      <h2 className={font('brand', 2)}>
+                        Exhibitions and Events
+                      </h2>
+                      <span className={font('sans-bold', 0)}>
+                        Free admission
+                      </span>
                     </div>
                   </ContaineredLayout>
                 </Space>

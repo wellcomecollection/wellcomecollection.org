@@ -8,7 +8,7 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
 
 const Wrapper = styled(Space).attrs({
-  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
 })`
   border-left: 16px solid ${props => props.theme.color('yellow')};
 `;
@@ -24,7 +24,7 @@ const InfoBlock: FunctionComponent<Props> = ({
 }: Props): ReactElement<Props> => {
   return (
     <Wrapper data-component="info-block">
-      <h2 id={dasherize(title)} className={font('wb', 3)}>
+      <h2 id={dasherize(title)} className={font('brand', 1)}>
         {title}
       </h2>
       <div className="spaced-text body-text">

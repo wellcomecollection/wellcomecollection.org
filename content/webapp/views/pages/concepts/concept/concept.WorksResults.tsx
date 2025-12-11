@@ -24,8 +24,8 @@ import { FromCollectionsHeading } from './concept.styles';
 
 const WorksCount = styled(Space).attrs({
   as: 'p',
-  className: font('intr', 6),
-  $v: { size: 's', properties: ['padding-top'] },
+  className: font('sans', -2),
+  $v: { size: 'xs', properties: ['padding-top'] },
 })`
   color: ${props => props.theme.color('neutral.600')};
   border-top: 1px solid ${props => props.theme.color('warmNeutral.300')};
@@ -86,7 +86,7 @@ const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
         as="section"
         data-id="works"
       >
-        <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
+        <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
           <FromCollectionsHeading id="works" $color="black">
             Works from the collections
           </FromCollectionsHeading>
@@ -116,12 +116,12 @@ const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
             <WorksCount>
               {pluralize(activePanel.works.totalResults, 'work')}
             </WorksCount>
-            <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+            <Space $v={{ size: 'md', properties: ['margin-top'] }}>
               <WorksSearchResults works={activePanel.works!.pageResults} />
             </Space>
 
             {labelBasedCount > activePanel.works.pageResults.length && (
-              <Space $v={{ size: 'l', properties: ['padding-top'] }}>
+              <Space $v={{ size: 'md', properties: ['padding-top'] }}>
                 <MoreLink
                   ariaLabel={`View all works for ${concept.displayLabel}`}
                   name="View all"

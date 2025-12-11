@@ -13,16 +13,16 @@ export const PopupDialogOpen = styled(Space).attrs<PopupDialogOpenProps>(
     'aria-controls': 'user-initiated-dialog-window',
     as: 'button',
     $v: {
-      size: 'm',
+      size: 'sm',
       properties: ['padding-top', 'padding-bottom'],
-      overrides: { small: 4, medium: 4, large: 4 },
+      overrides: { zero: '150', sm: '150', md: '150' },
     },
     $h: {
-      size: 'm',
+      size: 'sm',
       properties: ['padding-left', 'padding-right'],
-      overrides: { small: 5, medium: 5, large: 5 },
+      overrides: { zero: '200', sm: '200', md: '200' },
     },
-    className: font('intb', 5),
+    className: font('sans-bold', -1),
   })
 )<PopupDialogOpenProps>`
   line-height: 1;
@@ -63,14 +63,14 @@ export const PopupDialogWindow = styled(Space).attrs({
   'aria-modal': true,
   id: 'user-initiated-dialog-window',
   $v: {
-    size: 'l',
+    size: 'md',
     properties: ['padding-top', 'padding-bottom'],
-    overrides: { small: 6, medium: 6, large: 6 },
+    overrides: { zero: '300', sm: '300', md: '300' },
   },
   $h: {
-    size: 'l',
+    size: 'md',
     properties: ['padding-left', 'padding-right'],
-    overrides: { small: 6, medium: 6, large: 6 },
+    overrides: { zero: '300', sm: '300', md: '300' },
   },
 })<{ $isActive: boolean }>`
   background-color: ${props => props.theme.color('white')};
@@ -109,16 +109,16 @@ export const PopupDialogClose = styled.button`
 export const PopupDialogCTA = styled(Space).attrs({
   as: 'a',
   $v: {
-    size: 'm',
+    size: 'sm',
     properties: ['padding-top', 'padding-bottom'],
-    overrides: { small: 3, medium: 3, large: 3 },
+    overrides: { zero: '100', sm: '100', md: '100' },
   },
   $h: {
-    size: 'm',
+    size: 'sm',
     properties: ['padding-left', 'padding-right'],
-    overrides: { small: 5, medium: 5, large: 5 },
+    overrides: { zero: '200', sm: '200', md: '200' },
   },
-  className: font('intb', 5, { small: 3, medium: 3 }),
+  className: font('sans-bold', -1),
 })`
   display: inline-block;
   background-color: ${props => props.theme.color('accent.purple')};

@@ -27,19 +27,19 @@ const CardOuter = styled.a<CardOuterProps>`
       props.$background === 'neutral.700' ? 'warmNeutral.300' : 'black'
     )};
 
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
     flex-direction: row;
   `}
 `;
 
 const TextWrapper = styled(Space).attrs({
-  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
 })<{
   $highlightColor: 'yellow' | 'accent.salmon';
 }>`
   border-left: 4px solid ${props => props.theme.color(props.$highlightColor)};
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
     flex-grow: 2;
   `};
 `;
@@ -54,7 +54,7 @@ const ImageWrapper = styled.div<ImageWrapperProps>`
   background-repeat: no-repeat;
   background-position: center top;
   height: 300px;
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
     background-position: center center;
     height: auto;
     min-width: 38%;
@@ -62,8 +62,8 @@ const ImageWrapper = styled.div<ImageWrapperProps>`
 `;
 
 const DateRangeWrapper = styled(Space).attrs({
-  className: font('intr', 5),
-  $v: { size: 's', properties: ['margin-top', 'margin-bottom'] },
+  className: font('sans', -1),
+  $v: { size: 'xs', properties: ['margin-top', 'margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.400')};
 `;
@@ -133,8 +133,8 @@ const BannerCard: FunctionComponent<Props> = ({
         )}
         <Space
           as="h2"
-          className={font('wb', 2)}
-          $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
+          className={font('brand', 2)}
+          $v={{ size: 'sm', properties: ['margin-top', 'margin-bottom'] }}
         >
           {title}
         </Space>
@@ -143,7 +143,7 @@ const BannerCard: FunctionComponent<Props> = ({
             <DateRange start={start} end={end} />
           </DateRangeWrapper>
         )}
-        <p className={font('intr', 5)}>{description}</p>
+        <p className={font('sans', -1)}>{description}</p>
         <Button
           variant="ButtonSolid"
           colors={theme.buttonColors.whiteTransparentWhite}

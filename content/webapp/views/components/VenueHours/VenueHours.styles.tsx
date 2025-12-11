@@ -5,11 +5,11 @@ import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 
 export const VenueHoursImage = styled(Space)`
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     width: 50%;
   `}
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
       float: left;
       width: 33%;
       padding-right: ${5 * props.theme.spacingUnit}px;
@@ -18,7 +18,7 @@ export const VenueHoursImage = styled(Space)`
 
 export const VenueHoursTimes = styled(Space)`
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
       float: left;
       width: 33%;
       min-width: 240px;
@@ -41,7 +41,7 @@ export const JauntyBox = styled(Space)<JauntyBoxProps>`
   margin-right: -12px;
 
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
       margin-left: -24px;
       margin-right: -24px;
     `)}
@@ -71,7 +71,7 @@ export const OverrideDay = styled.div`
 `;
 
 export const OpeningHours = styled(PlainList).attrs({
-  className: font('intr', 5),
+  className: font('sans', -1),
 })``;
 
 export const DifferentToRegularTime = styled.span`

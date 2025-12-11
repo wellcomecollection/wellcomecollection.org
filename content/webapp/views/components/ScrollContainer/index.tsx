@@ -20,19 +20,19 @@ const ScrollButtonsContainer = styled(Space).attrs<{
   $scrollButtonsAfter?: boolean;
 }>(props => ({
   $v: {
-    size: 'm',
+    size: 'sm',
     properties: [props.$scrollButtonsAfter ? 'margin-top' : 'margin-bottom'],
   },
 }))<{ $hasLabel?: boolean }>`
   display: flex;
   justify-content: ${props => (props.$hasLabel ? 'space-between' : 'flex-end')};
-  gap: ${props => props.theme.spacingUnits['3']}px;
+  gap: ${props => props.theme.spacingUnits['100']};
   align-items: center;
   padding-bottom: 4px;
 `;
 
 const Label = styled(Space).attrs({
-  className: font('intr', 6),
+  className: font('sans', -2),
 })<{ $hasDarkBackground?: boolean }>`
   color: ${props =>
     props.theme.color(props.$hasDarkBackground ? 'neutral.400' : 'black')};

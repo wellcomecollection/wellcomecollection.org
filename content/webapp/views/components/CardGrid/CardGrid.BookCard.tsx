@@ -16,7 +16,7 @@ const LinkSpace = styled(Space).attrs<LinkSpaceAttrs>(props => ({
   as: 'a',
   href: props.$url,
   $v: { size: 'xl', properties: ['padding-top'] },
-  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
 }))<LinkSpaceAttrs>`
   display: block;
 
@@ -35,20 +35,20 @@ const LinkSpace = styled(Space).attrs<LinkSpaceAttrs>(props => ({
 `;
 
 const Title = styled.h3.attrs({
-  className: font('wb', 4),
+  className: font('brand', 0),
 })`
   margin: 0;
 `;
 
 const Subtitle = styled(Space).attrs({
-  className: font('intb', 5),
-  $v: { size: 's', properties: ['margin-top'] },
+  className: font('sans-bold', -1),
+  $v: { size: 'xs', properties: ['margin-top'] },
 })`
   margin: 0;
 `;
 
 const Caption = styled.p.attrs({
-  className: font('intr', 5),
+  className: font('sans', -1),
 })`
   margin: 0;
 `;
@@ -61,7 +61,7 @@ const BookCard: FunctionComponent<Props> = ({ book }) => {
   const { title, subtitle, promo, cover } = book;
   return (
     <LinkSpace $url={linkResolver(book)}>
-      <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+      <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
         <PopoutImage
           image={{
             contentUrl: cover?.contentUrl || '',
@@ -75,23 +75,23 @@ const BookCard: FunctionComponent<Props> = ({ book }) => {
             alt: '',
           }}
           sizes={{
-            xlarge: 1 / 6,
-            large: 1 / 6,
-            medium: 1 / 3,
-            small: 1,
+            lg: 1 / 6,
+            md: 1 / 6,
+            sm: 1 / 3,
+            zero: 1,
           }}
           quality="low"
         />
         <Space
-          $h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}
+          $h={{ size: 'md', properties: ['padding-left', 'padding-right'] }}
         >
           <Space
-            $v={{ size: 's', properties: ['margin-bottom'] }}
+            $v={{ size: 'xs', properties: ['margin-bottom'] }}
             style={{ position: 'relative' }}
           >
             <Space
               $v={{
-                size: 'm',
+                size: 'sm',
                 properties: ['margin-top'],
                 negative: true,
               }}
@@ -104,7 +104,7 @@ const BookCard: FunctionComponent<Props> = ({ book }) => {
           {subtitle && <Subtitle as="h4">{subtitle}</Subtitle>}
 
           {promo?.caption && (
-            <Space $v={{ size: 's', properties: ['margin-top'] }}>
+            <Space $v={{ size: 'xs', properties: ['margin-top'] }}>
               <Caption>{promo.caption}</Caption>
             </Space>
           )}

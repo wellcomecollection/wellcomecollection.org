@@ -84,14 +84,14 @@ export const CardOuter = styled.a.attrs<{
 
 export const CardPostBody = styled(Space).attrs({
   $v: {
-    size: 'm',
+    size: 'sm',
     properties: ['padding-bottom'],
-    overrides: { small: 5, medium: 5, large: 5 },
+    overrides: { zero: '200', sm: '200', md: '200' },
   },
   $h: {
-    size: 'm',
+    size: 'sm',
     properties: ['padding-left', 'padding-right'],
-    overrides: { small: 5, medium: 5, large: 5 },
+    overrides: { zero: '200', sm: '200', md: '200' },
   },
 })`
   .card-theme.card-theme--transparent & {
@@ -100,20 +100,20 @@ export const CardPostBody = styled(Space).attrs({
     padding-bottom: 0;
 
     ${props =>
-      props.theme.makeSpacePropertyValues('l', ['padding-top'], false, {
-        small: 5,
-        medium: 5,
-        large: 5,
+      props.theme.makeSpacePropertyValues('md', ['padding-top'], false, {
+        zero: '200',
+        sm: '200',
+        md: '200',
       })}
   }
 `;
 
 export const CardBody = styled(Space).attrs({
-  $v: { size: 'm', properties: ['padding-top'] },
+  $v: { size: 'sm', properties: ['padding-top'] },
   $h: {
-    size: 'm',
+    size: 'sm',
     properties: ['padding-left', 'padding-right'],
-    overrides: { small: 5, medium: 5, large: 5 },
+    overrides: { zero: '200', sm: '200', md: '200' },
   },
 })`
   display: flex;
@@ -122,10 +122,10 @@ export const CardBody = styled(Space).attrs({
   justify-content: space-between;
 
   ${props =>
-    props.theme.makeSpacePropertyValues('l', ['padding-bottom'], false, {
-      small: 5,
-      medium: 5,
-      large: 5,
+    props.theme.makeSpacePropertyValues('md', ['padding-bottom'], false, {
+      zero: '200',
+      sm: '200',
+      md: '200',
     })}
 
   .card-theme.card-theme--transparent & {
@@ -157,7 +157,7 @@ export const CardLabels: FunctionComponent<{ labels: LabelType[] }> = ({
 );
 
 const Description = styled.p.attrs({
-  className: font('intr', 5),
+  className: font('sans', -1),
 })`
   padding: 0;
   margin: 0;
@@ -165,8 +165,8 @@ const Description = styled.p.attrs({
 
 export const CardTitle = styled(Space).attrs({
   as: 'h3',
-  className: font('wb', 3),
-  $v: { size: 's', properties: ['margin-bottom'] },
+  className: font('brand', 1),
+  $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   transition: color 400ms ease;
 `;
@@ -184,10 +184,10 @@ const Card: FunctionComponent<Props> = ({ item }: Props) => {
             // title of the item in the list.
             image={{ ...image, alt: '' }}
             sizes={{
-              xlarge: 1 / 4,
-              large: 1 / 4,
-              medium: 1 / 2,
-              small: 1,
+              lg: 1 / 4,
+              md: 1 / 4,
+              sm: 1 / 2,
+              zero: 1,
             }}
             quality="low"
           />

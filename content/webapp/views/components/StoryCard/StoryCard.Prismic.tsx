@@ -21,14 +21,14 @@ import {
 import PartNumberIndicator from '@weco/content/views/components/PartNumberIndicator';
 
 const Caption = styled.p.attrs({
-  className: font('intr', 5),
+  className: font('sans', -1),
 })`
   display: inline-block;
   margin: 0;
 `;
 
 const PartOf = styled.div.attrs({
-  className: font('intb', 6),
+  className: font('sans-bold', -2),
 })`
   margin: 0;
 `;
@@ -68,10 +68,10 @@ const StoryCard: FunctionComponent<Props> = ({
             // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
             image={{ ...image, alt: '' }}
             sizes={{
-              xlarge: 1 / 3,
-              large: 1 / 3,
-              medium: 1 / 2,
-              small: 1,
+              lg: 1 / 3,
+              md: 1 / 3,
+              sm: 1 / 2,
+              zero: 1,
             }}
             quality="low"
           />
@@ -98,7 +98,7 @@ const StoryCard: FunctionComponent<Props> = ({
         <CardPostBody>
           {article.series.map(series => (
             <PartOf key={series.id}>
-              <span className={font('intr', 6)}>Part of</span> {series.title}
+              <span className={font('sans', -2)}>Part of</span> {series.title}
             </PartOf>
           ))}
         </CardPostBody>

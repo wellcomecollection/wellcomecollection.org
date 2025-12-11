@@ -19,7 +19,7 @@ type State = 'initial' | 'loading' | 'success' | 'failed';
 
 const Wrapper = styled(Space).attrs({
   as: 'ul',
-  $v: { size: 's', properties: ['margin-bottom', 'margin-top'] },
+  $v: { size: 'xs', properties: ['margin-bottom', 'margin-top'] },
 })`
   ${plainListStyles}
 
@@ -28,7 +28,7 @@ const Wrapper = styled(Space).attrs({
   flex-wrap: wrap;
   min-height: 120px;
 
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
     flex-wrap: nowrap;
   `}
 
@@ -40,7 +40,7 @@ const Wrapper = styled(Space).attrs({
     /* Safari doesn't respond to max-height/width like the other browsers, we need this to ensure it's not warped. */
     object-fit: contain;
 
-    ${props => props.theme.media('large')`
+    ${props => props.theme.media('md')`
       max-width: 150px;
       width: calc(100% - 10px);
     `};
@@ -84,7 +84,7 @@ const VisuallySimilarImages: FunctionComponent<Props> = ({
 
   return similarImages.length === 0 ? null : (
     <>
-      <h3 className={font('wb', 5)}>Visually similar images</h3>
+      <h3 className={font('brand', -1)}>Visually similar images</h3>
 
       <Wrapper>
         {similarImages.map(related => (
@@ -122,7 +122,7 @@ const VisuallySimilarImages: FunctionComponent<Props> = ({
           </li>
         ))}
       </Wrapper>
-      <p className={font('intr', 6)} style={{ marginBottom: 0 }}>
+      <p className={font('sans', -2)} style={{ marginBottom: 0 }}>
         We use machine learning to find images in our collection with similar
         shapes and features.
         <br />

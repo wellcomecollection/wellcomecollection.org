@@ -10,13 +10,13 @@ import RelatedWorksCard from '@weco/content/views/components/RelatedWorksCard';
 import ScrollContainer from '@weco/content/views/components/ScrollContainer';
 
 const FullWidthRow = styled(Space).attrs({
-  $v: { size: 'l', properties: ['padding-bottom'] },
+  $v: { size: 'md', properties: ['padding-bottom'] },
 })`
   background-color: ${props => props.theme.color('warmNeutral.300')};
 `;
 
 const ListItem = styled.li`
-  --gutter-size: ${props => props.theme.gutter.small}px;
+  --gutter-size: ${props => props.theme.gutter.small};
   flex: 0 0 90%;
   max-width: 420px;
 
@@ -27,8 +27,8 @@ const ListItem = styled.li`
   }
 
   ${props =>
-    props.theme.media('medium')(`
-      --gutter-size: ${props.theme.gutter.medium}px;
+    props.theme.media('sm')(`
+      --gutter-size: ${props.theme.gutter.medium};
       flex: 0 0 50%;
       padding: 0 var(--gutter-size) 0 0;
     `)}
@@ -65,7 +65,7 @@ const LinkedWorks: FunctionComponent<LinkedWorkProps> = ({
   return (
     <FullWidthRow>
       <ContaineredLayout gridSizes={gridSizes as SizeMap}>
-        <h2 className={font('wb', 3)}>Featured in this article</h2>
+        <h2 className={font('brand', 1)}>Featured in this article</h2>
       </ContaineredLayout>
 
       <ScrollContainer

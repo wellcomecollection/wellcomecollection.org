@@ -14,13 +14,13 @@ import { CardBody } from '@weco/content/views/components/Card';
 import RelevantGuideIcons from '@weco/content/views/components/ExhibitionGuideRelevantIcons';
 
 export const TypeList = styled(Space).attrs({
-  $v: { size: 'l', properties: ['row-gap'] },
-  $h: { size: 'l', properties: ['column-gap'] },
+  $v: { size: 'md', properties: ['row-gap'] },
+  $h: { size: 'md', properties: ['column-gap'] },
 })`
   ${plainListStyles};
   display: grid;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     grid-template-columns: 1fr 1fr;
   `}
 `;
@@ -28,7 +28,7 @@ export const TypeList = styled(Space).attrs({
 const TypeItem = styled.li`
   flex: 0 0 100%;
   position: relative;
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
       flex-basis: calc(50% - 25px);
     `}
 `;
@@ -77,7 +77,7 @@ const TypeOption: FunctionComponent<Props> = ({ url, title, type }) => {
     <TypeItem>
       <TypeLink href={url} $backgroundColor="warmNeutral.300" onClick={onClick}>
         <CardBody style={{ height: '100%' }}>
-          <h2 className={font('wb', 3)}>{title}</h2>
+          <h2 className={font('brand', 1)}>{title}</h2>
 
           <TypeIconsWrapper>
             <RelevantGuideIcons types={[type]} />

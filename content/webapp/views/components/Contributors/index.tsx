@@ -74,7 +74,7 @@ const Contributors: FunctionComponent<Props> = ({
 
   return (
     <div data-component="contributors">
-      <h2 className={font('wb', 3)}>
+      <h2 className={font('brand', 1)}>
         {isNotUndefined(titleOverride)
           ? titleOverride
           : getContributorsTitle(roles, titlePrefix)}
@@ -82,7 +82,7 @@ const Contributors: FunctionComponent<Props> = ({
 
       {contributors.map(({ contributor, role, description }) => (
         <Space
-          $v={{ size: 'l', properties: ['margin-bottom'] }}
+          $v={{ size: 'md', properties: ['margin-bottom'] }}
           key={contributor.id}
         >
           {/*

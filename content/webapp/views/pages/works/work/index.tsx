@@ -38,7 +38,7 @@ import WorkDetails from './WorkDetails';
 
 const ArchiveDetailsContainer = styled.div`
   display: block;
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     display: flex;
   `}
 `;
@@ -128,12 +128,12 @@ export const WorkPage: NextPage<Props> = ({
         hideNewsletterPromo={true}
       >
         <Container>
-          <Space $v={{ size: 'l', properties: ['padding-top'] }}>
+          <Space $v={{ size: 'md', properties: ['padding-top'] }}>
             <SearchForm searchCategory="works" location="page" />
           </Space>
 
           <Space
-            $v={{ size: 's', properties: ['padding-top', 'padding-bottom'] }}
+            $v={{ size: 'xs', properties: ['padding-top', 'padding-bottom'] }}
           >
             <BackToResults />
           </Space>
@@ -144,7 +144,7 @@ export const WorkPage: NextPage<Props> = ({
             <Container>
               <Space
                 $v={{
-                  size: 's',
+                  size: 'xs',
                   properties: ['padding-top', 'padding-bottom'],
                 }}
               >

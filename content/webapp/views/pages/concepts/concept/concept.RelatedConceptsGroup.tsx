@@ -8,31 +8,31 @@ import Space from '@weco/common/views/components/styled/Space';
 import { RelatedConcept } from '@weco/content/services/wellcome/catalogue/types';
 
 const RelatedConceptsContainer = styled.div.attrs({
-  className: font('intm', 5),
+  className: font('sans-bold', -1),
 })`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: ${props => props.theme.spacingUnits['3']}px;
+  gap: ${props => props.theme.spacingUnits['100']};
 `;
 
 const RelatedConceptItem = styled.div.attrs<{ $isFullWidth: boolean }>({
-  className: font('intr', 6),
+  className: font('sans', -2),
 })`
   display: flex;
   align-items: center;
-  gap: ${props => props.theme.spacingUnits['3']}px;
+  gap: ${props => props.theme.spacingUnits['100']};
   width: ${props => (props.$isFullWidth ? '100%' : 'auto')};
 `;
 
 const SectionHeading = styled.h2.attrs({
-  className: font('wb', 2),
+  className: font('brand', 2),
 })``;
 
 const InlineLabel = styled.div`
   width: 100%;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     width: auto;
   `}
 `;
@@ -60,7 +60,7 @@ const RelatedConceptsGroup: FunctionComponent<Props> = ({
 
   return (
     <Space
-      $v={{ size: 'l', properties: ['margin-top'] }}
+      $v={{ size: 'md', properties: ['margin-top'] }}
       as="section"
       data-id={dasherize(label)}
     >
@@ -76,7 +76,7 @@ const RelatedConceptsGroup: FunctionComponent<Props> = ({
               !!item.relationshipType && item.relationshipType?.length > 0
             }
           >
-            <Space className={font('intr', 5)}>
+            <Space className={font('sans', -1)}>
               <Button
                 {...(dataGtmTriggerName && {
                   dataGtmProps: {
