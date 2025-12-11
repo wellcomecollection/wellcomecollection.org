@@ -2,7 +2,6 @@ import { NextPage } from 'next';
 import { useMemo } from 'react';
 import { useTheme } from 'styled-components';
 
-import { useAppContext } from '@weco/common/contexts/AppContext';
 import { pageDescriptionConcepts } from '@weco/common/data/microcopy';
 import { useToggles } from '@weco/common/server-data/Context';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
@@ -27,7 +26,6 @@ import RelatedConceptsGroup from './concept.RelatedConceptsGroup';
 import {
   HotJarPlaceholder,
   MobileNavBackground,
-  NavGridCell,
   StretchWrapper,
 } from './concept.styles';
 import WorksResults from './concept.WorksResults';
@@ -51,7 +49,6 @@ const ConceptPage: NextPage<Props> = ({
     [sectionsData]
   );
   const { themePagesAllFields } = useToggles();
-  const { isEnhanced } = useAppContext();
   const [expandedImage, setExpandedImage] = useExpandedImage(allImages);
   const { config } = useConceptPageContext();
   const theme = useTheme();
@@ -142,17 +139,12 @@ const ConceptPage: NextPage<Props> = ({
 
         <Container>
           <Grid style={{ background: 'white', rowGap: 0 }}>
-            <NavGridCell
-              $isOnWhite={!hasImages}
-              $isEnhanced={isEnhanced}
-              $sizeMap={{ s: [12], m: [12], l: [3], xl: [2] }}
-            >
-              <InPageNavigation
-                isOnWhite={!hasImages}
-                links={navLinks}
-                variant="sticky"
-              />
-            </NavGridCell>
+            <InPageNavigation
+              variant="sticky"
+              links={navLinks}
+              isOnWhite={!hasImages}
+              sizeMap={{ s: [12], m: [12], l: [3], xl: [2] }}
+            />
 
             <GridCell $sizeMap={{ s: [12], m: [12], l: [9], xl: [10] }}>
               {shouldDisplayImages && (

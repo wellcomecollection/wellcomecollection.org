@@ -58,16 +58,13 @@ const A11yPrototypePage: NextPage<page.Props> = props => {
           <SpacingComponent>
             <Container>
               <Grid style={{ background: 'white', rowGap: 0 }}>
-                <GridCell
-                  $sizeMap={{ s: [12], m: [12], l: [3], xl: [3] }}
-                  style={{ background: 'white' }}
-                >
-                  <InPageNavigation
-                    links={props.page.onThisPage}
-                    variant="sticky"
-                    isOnWhite
-                  />
-                </GridCell>
+                <InPageNavigation
+                  variant="sticky"
+                  links={props.page.onThisPage}
+                  sizeMap={{ s: [12], m: [12], l: [3], xl: [3] }}
+                  isOnWhite
+                />
+
                 <GridCell $sizeMap={{ s: [12], m: [12], l: [9], xl: [9] }}>
                   <Space $v={{ size: 'sm', properties: ['padding-top'] }}>
                     <SliceZone

@@ -5,8 +5,10 @@ import { font } from '@weco/common/utils/classnames';
 import AnimatedUnderlineCSS, {
   AnimatedUnderlineProps,
 } from '@weco/common/views/components/styled/AnimatedUnderline';
+import { GridCell } from '@weco/common/views/components/styled/Grid';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
+
 const leftOffset = '12px';
 
 export const InPageNavList = styled(PlainList)<{ $isOnWhite: boolean }>`
@@ -230,4 +232,50 @@ export const AnimatedTextContainer = styled.div`
   height: 20px;
   line-height: 20px;
   width: 100%;
+`;
+
+export const NavGridCell = styled(GridCell)<{
+  $isEnhanced: boolean;
+  $isOnWhite: boolean;
+}>`
+  --nav-grid-cell-background-color: ${props =>
+    props.theme.color(props.$isOnWhite ? 'white' : 'neutral.700')};
+  position: ${props => (props.$isEnhanced ? 'sticky' : 'relative')};
+  top: 0;
+  transition: background-color ${props => props.theme.transitionProperties};
+  background-color: var(--nav-grid-cell-background-color);
+  z-index: 3;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    width: ${props => props.theme.containerPaddingVw};
+    bottom: 0;
+    top: 0;
+    transition: background-color ${props => props.theme.transitionProperties};
+    background-color: var(--nav-grid-cell-background-color);
+  }
+
+  &::before {
+    right: 100%;
+  }
+
+  &::after {
+    left: 100%;
+  }
+
+  ${props =>
+    props.theme.media('md')(`
+    position: unset;
+    background-color: unset;
+    transition: unset;
+    mix-blend-mode: difference;
+
+    &::before,
+    &::after {
+      transition: unset;
+      display: none;
+    }
+  `)}
 `;
