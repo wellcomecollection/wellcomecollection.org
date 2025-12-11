@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { officialLandingPagesUid } from '@weco/common/data/hardcoded-ids';
 import { ContentListSlice as RawContentListSlice } from '@weco/common/prismicio-types';
 import { classNames, font } from '@weco/common/utils/classnames';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
 import { defaultSerializer } from '@weco/common/views/components/HTMLSerializers';
 import {
@@ -93,7 +94,7 @@ export type SliceZoneContext = {
   pageId: string;
   hasLandingPageFormat: boolean;
   isDropCapped: boolean;
-  gridSizes: SizeMap;
+  gridSizes?: SizeMap;
   comicPreviousNext?: ComicPreviousNextProps;
   contentType?: 'short-film' | 'visual-story' | 'standalone-image-gallery';
 };
@@ -103,7 +104,6 @@ export const defaultContext: SliceZoneContext = {
   isVisualStory: false,
   isShortFilm: false,
   pageId: '',
-  gridSizes: gridSize12(),
   hasLandingPageFormat: false,
   isDropCapped: false,
 };
@@ -301,9 +301,16 @@ const Body: FunctionComponent<Props> = ({
 
       {onThisPage && onThisPage.length > 2 && showOnThisPage && (
         <SpacingComponent>
-          <ContaineredLayout gridSizes={gridSizes || gridSize12()}>
+          <ConditionalWrapper
+            condition={!!gridSizes}
+            wrapper={children => (
+              <ContaineredLayout gridSizes={gridSizes!}>
+                {children}
+              </ContaineredLayout>
+            )}
+          >
             <InPageNavigation links={onThisPage} variant="simple" />
-          </ContaineredLayout>
+          </ConditionalWrapper>
         </SpacingComponent>
       )}
 

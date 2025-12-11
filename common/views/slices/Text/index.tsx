@@ -5,6 +5,7 @@ import { FunctionComponent } from 'react';
 import { TextSlice as RawTextSlice } from '@weco/common/prismicio-types';
 import { classNames } from '@weco/common/utils/classnames';
 import { dasherize } from '@weco/common/utils/grammar';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import {
   defaultSerializer,
   dropCapSerializer,
@@ -33,7 +34,14 @@ const Text: FunctionComponent<TextProps> = ({ slice, context }) => {
   return (
     <SpacingComponent $sliceType={slice.slice_type}>
       <section data-id={dasherize(heading || '') || undefined}>
-        <ContaineredLayout gridSizes={options.gridSizes}>
+        <ConditionalWrapper
+          condition={!!options.gridSizes}
+          wrapper={children => (
+            <ContaineredLayout gridSizes={options.gridSizes!}>
+              {children}
+            </ContaineredLayout>
+          )}
+        >
           <div
             className={classNames({
               'body-text spaced-text': true,
@@ -58,7 +66,7 @@ const Text: FunctionComponent<TextProps> = ({ slice, context }) => {
               />
             )}
           </div>
-        </ContaineredLayout>
+        </ConditionalWrapper>
       </section>
     </SpacingComponent>
   );

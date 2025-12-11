@@ -2,6 +2,7 @@ import { SliceComponentProps } from '@prismicio/react';
 import { FunctionComponent } from 'react';
 
 import { CollectionVenueSlice as RawCollectionVenueSlice } from '@weco/common/prismicio-types';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import { ContaineredLayout } from '@weco/common/views/components/Layout';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import { transformCollectionVenueSlice } from '@weco/content/services/prismic/transformers/body';
@@ -24,9 +25,16 @@ const CollectionVenue: FunctionComponent<CollectionVenueProps> = ({
     return (
       <SpacingComponent $sliceType={transformedSlice.type}>
         {transformedSlice.value.showClosingTimes ? (
-          <ContaineredLayout gridSizes={context.gridSizes}>
+          <ConditionalWrapper
+            condition={!!context.gridSizes}
+            wrapper={children => (
+              <ContaineredLayout gridSizes={context.gridSizes!}>
+                {children}
+              </ContaineredLayout>
+            )}
+          >
             <VenueClosedPeriods venue={transformedSlice.value.content} />
-          </ContaineredLayout>
+          </ConditionalWrapper>
         ) : (
           <ContaineredLayout
             gridSizes={

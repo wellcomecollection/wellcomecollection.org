@@ -2,6 +2,7 @@ import { SliceComponentProps } from '@prismicio/react';
 import { FunctionComponent } from 'react';
 
 import { QuoteSlice as RawQuoteSlice } from '@weco/common/prismicio-types';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import { ContaineredLayout } from '@weco/common/views/components/Layout';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import { transformQuoteSlice } from '@weco/content/services/prismic/transformers/body';
@@ -22,9 +23,16 @@ const QuoteSlice: FunctionComponent<QuoteSliceProps> = ({ slice, context }) => {
 
   return (
     <SpacingComponent $sliceType={transformedSlice.type}>
-      <ContaineredLayout gridSizes={options.gridSizes}>
+      <ConditionalWrapper
+        condition={!!options.gridSizes}
+        wrapper={children => (
+          <ContaineredLayout gridSizes={options.gridSizes!}>
+            {children}
+          </ContaineredLayout>
+        )}
+      >
         <Quote {...transformedSlice.value} />
-      </ContaineredLayout>
+      </ConditionalWrapper>
     </SpacingComponent>
   );
 };

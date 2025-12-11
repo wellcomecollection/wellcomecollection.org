@@ -48,7 +48,7 @@ const getGridSizes = (maxColumns: number): SizeMap => {
     default:
       return gridSize12();
   }
-}
+};
 
 type Props = PropsWithChildren<{
   gridSizes: SizeMap;
@@ -71,5 +71,12 @@ const Layout: FunctionComponent<Props> = ({ gridSizes, children }) => (
   </Grid>
 );
 
-export { ContaineredLayout, gridSize12, gridSize10, gridSize8, gridSize6, getGridSizes };
+export {
+  ContaineredLayout,
+  gridSize12,
+  gridSize10,
+  gridSize8,
+  gridSize6,
+  getGridSizes,
+};
 export default Layout;

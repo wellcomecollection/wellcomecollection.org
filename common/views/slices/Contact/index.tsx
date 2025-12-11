@@ -2,6 +2,7 @@ import { SliceComponentProps } from '@prismicio/react';
 import { FunctionComponent } from 'react';
 
 import { ContactSlice as RawContactSlice } from '@weco/common/prismicio-types';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import { ContaineredLayout } from '@weco/common/views/components/Layout';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import { transformContactSlice } from '@weco/content/services/prismic/transformers/body';
@@ -18,9 +19,16 @@ const ContactSlice: FunctionComponent<ContactProps> = ({ slice, context }) => {
   if (transformedSlice) {
     return (
       <SpacingComponent $sliceType={transformedSlice.type}>
-        <ContaineredLayout gridSizes={context.gridSizes}>
+        <ConditionalWrapper
+          condition={!!context.gridSizes}
+          wrapper={children => (
+            <ContaineredLayout gridSizes={context.gridSizes!}>
+              {children}
+            </ContaineredLayout>
+          )}
+        >
           <Contact {...transformedSlice.value} />
-        </ContaineredLayout>
+        </ConditionalWrapper>
       </SpacingComponent>
     );
   } else {
