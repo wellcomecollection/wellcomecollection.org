@@ -3,11 +3,11 @@ import { FunctionComponent } from 'react';
 
 import { ContentListSlice as RawContentListSlice } from '@weco/common/prismicio-types';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { ContaineredLayout } from '@weco/common/views/components/Layout';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import { transformContentListSlice } from '@weco/content/services/prismic/transformers/body';
 import {
   defaultContext,
-  LayoutWidth,
   SliceZoneContext,
 } from '@weco/content/views/components/Body';
 import SearchResults from '@weco/content/views/components/SearchResults';
@@ -27,7 +27,7 @@ const ContentListSlice: FunctionComponent<ContentListProps> = ({
   if (!options.hasLandingPageFormat) {
     return (
       <SpacingComponent $sliceType={transformedSlice.type}>
-        <LayoutWidth width={context.minWidth}>
+        <ContaineredLayout gridSizes={context.gridSizes}>
           <SearchResults
             variant="async"
             title={transformedSlice.value.title}
@@ -36,7 +36,7 @@ const ContentListSlice: FunctionComponent<ContentListProps> = ({
               .filter(isNotUndefined)
               .join(' ')}
           />
-        </LayoutWidth>
+        </ContaineredLayout>
       </SpacingComponent>
     );
   }
