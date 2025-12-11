@@ -1,5 +1,5 @@
-# Note: if you add a URL to this list, make sure to also add it to the list
-# of URLs checked by pa11y.
+# Note: if you add a URL to this list, consider whether it would be valuable
+# to add it to the list of URLs checked by pa11y.
 #
 # See pa11y/webapp/report-and-deploy.js
 

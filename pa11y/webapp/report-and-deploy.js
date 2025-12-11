@@ -20,8 +20,8 @@ const baseUrl = isPullRequestRun
   ? 'https://www-e2e.wellcomecollection.org'
   : 'https://wellcomecollection.org';
 
-// Note: if you add a URL to this list, make sure to also add it to the list
-// of URLs checked by the URL checker.
+// Note: if you add a URL to this list, consider whether it would be valuable
+// to add it to the list of URLs checked by the URL checker.
 //
 // See .buildkite/urls/expected_200_urls.txt
 //
