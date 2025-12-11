@@ -7,18 +7,15 @@ import { focusStyle } from '@weco/common/views/themes/base/wellcome-normalize';
 export const Wrapper = styled.div`
   ${props =>
     `
-      margin: 0 -${props.theme.formatContainerPadding(props.theme.containerPadding.small)};
-      transition: margin ${props => props.theme.transitionProperties};
+      margin: 0 -${props.theme.containerPadding};
+      transition: margin ${props.theme.transitionProperties};
 
-    ${props.theme.media('medium')(`
-        margin: 0 calc(-${props.theme.formatContainerPadding(props.theme.containerPadding.medium)} + 1rem);
+    ${props.theme.media('sm')(`
+        margin: 0 calc(-${props.theme.containerPadding} + 1rem);
     `)}
 
-    ${props.theme.media('large')(`
-        margin: 0 calc(-${props.theme.formatContainerPadding(props.theme.containerPadding.large)} + 1rem);
-    `)}
 
-    ${props.theme.media('xlarge')(`
+    ${props.theme.media('lg')(`
         margin-right: 0;
     `)}
   `}
@@ -37,16 +34,11 @@ export const TabsContainer = styled.div`
   margin-top: -0.5rem;
   margin-bottom: -0.5rem;
 
-  padding-left: ${props =>
-    props.theme.formatContainerPadding(props.theme.containerPadding.small)};
+  padding-left: ${props => props.theme.containerPadding};
 
   ${props => `
-    ${props.theme.media('medium')(`
-      padding-left: calc(${props.theme.formatContainerPadding(props.theme.containerPadding.medium)} - 1rem);
-  `)}
-
-  ${props.theme.media('large')(`
-    padding-left: calc(${props.theme.formatContainerPadding(props.theme.containerPadding.large)} - 1rem);
+    ${props.theme.media('sm')(`
+      padding-left: calc(${props.theme.containerPadding} - 1rem);
   `)}
   `}
 `;
@@ -97,8 +89,8 @@ export const NavItemInner = styled(Space).attrs<{ $selected: boolean }>(
     return {
       as: 'span',
       className: classNames({ selected: props.$selected }),
-      $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-      $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+      $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
+      $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
     };
   }
 )<{ $isWhite?: boolean }>`

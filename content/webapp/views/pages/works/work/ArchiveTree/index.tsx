@@ -144,7 +144,7 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
 
   return isArchive ? (
     <>
-      {windowSize === 'small' && isEnhanced ? (
+      {windowSize === 'zero' && isEnhanced ? (
         <>
           <ButtonWrap>
             <Button
@@ -187,7 +187,7 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
       ) : (
         <TreeContainer>
           <Space
-            $v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
+            $v={{ size: 'md', properties: ['padding-top', 'padding-bottom'] }}
           >
             <h2 className={font('brand', 0)}>Collection contents</h2>
             <Tree $isEnhanced={isEnhanced} $maxWidth={375}>

@@ -19,7 +19,7 @@ export const Edge = styled.div<{
   z-index: 2;
 
   ${props =>
-    props.theme.media('large')`
+    props.theme.media('md')`
     height: 125px;
     margin-top: -125px;
   `}

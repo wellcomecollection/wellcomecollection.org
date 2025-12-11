@@ -272,7 +272,7 @@ const Body: FunctionComponent<Props> = ({
               $rowBackgroundColor={sectionTheme.rowBackground}
             >
               {section.value.title && (
-                <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+                <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
                   <SectionHeader
                     title={section.value.title}
                     gridSize={
@@ -282,7 +282,7 @@ const Body: FunctionComponent<Props> = ({
                 </Space>
               )}
               {featuredItem && (
-                <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+                <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
                   <ContaineredLayout gridSizes={gridSize12()}>
                     {featuredItem}
                   </ContaineredLayout>
@@ -326,7 +326,7 @@ const Body: FunctionComponent<Props> = ({
             <div className="body-text spaced-text">
               <Space
                 $v={{
-                  size: isOfficialLandingPage ? 'xl' : 'l',
+                  size: isOfficialLandingPage ? 'xl' : 'md',
                   properties: ['margin-bottom'],
                 }}
               >

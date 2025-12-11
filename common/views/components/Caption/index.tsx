@@ -8,7 +8,7 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
 
 const CaptionText = styled(Space).attrs({
-  $h: { size: 'm', properties: ['padding-left'] },
+  $h: { size: 'sm', properties: ['padding-left'] },
 })`
   text-align: left;
   border-left: 1px solid currentColor;
@@ -25,7 +25,7 @@ const CaptionWrapper = styled.div`
 
 const Wrapper = styled(Space).attrs({
   $v: {
-    size: 'm',
+    size: 'sm',
     properties: ['margin-top'],
   },
   className: `${font('mono', -2)} caption`,

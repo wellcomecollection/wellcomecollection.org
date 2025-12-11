@@ -82,7 +82,7 @@ const Contributors: FunctionComponent<Props> = ({
 
       {contributors.map(({ contributor, role, description }) => (
         <Space
-          $v={{ size: 'l', properties: ['margin-bottom'] }}
+          $v={{ size: 'md', properties: ['margin-bottom'] }}
           key={contributor.id}
         >
           {/*

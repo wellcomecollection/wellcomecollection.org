@@ -35,7 +35,7 @@ const ImageWithTasl: FunctionComponent<ImageWithTaslProps> = ({
         <Space
           className={font('sans-bold', -1)}
           style={{ display: 'block' }}
-          $v={{ size: 'm', properties: ['margin-top'] }}
+          $v={{ size: 'sm', properties: ['margin-top'] }}
         >
           <FeaturedWorkLink link={tasl.sourceLink} />
         </Space>
@@ -54,7 +54,7 @@ function getFeaturedPictureWithTasl(editorialImage: RawEditorialImageSlice) {
       Image={
         <PrismicImage
           image={image}
-          sizes={{ xlarge: 1, large: 1, medium: 1, small: 1 }}
+          sizes={{ lg: 1, md: 1, sm: 1, zero: 1 }}
           quality="low"
         />
       }

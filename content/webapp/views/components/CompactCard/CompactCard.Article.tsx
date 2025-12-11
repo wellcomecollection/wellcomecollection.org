@@ -66,10 +66,10 @@ const ArticleCard: FunctionComponent<Props> = ({
             // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
             image={{ ...image, alt: '' }}
             sizes={{
-              xlarge: 1 / 3,
-              large: 1 / 3,
-              medium: 1 / 2,
-              small: 1,
+              lg: 1 / 3,
+              md: 1 / 3,
+              sm: 1 / 2,
+              zero: 1,
             }}
             quality="low"
           />
@@ -78,7 +78,7 @@ const ArticleCard: FunctionComponent<Props> = ({
       xOfY={xOfY}
       postTitleChildren={
         isPodcast ? (
-          <Space $v={{ size: 's', properties: ['margin-top'] }}>
+          <Space $v={{ size: 'xs', properties: ['margin-top'] }}>
             <WatchLabel
               text={<HTMLDateAndTime variant="date" date={publicationDate} />}
             />

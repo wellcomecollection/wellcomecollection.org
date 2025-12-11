@@ -89,7 +89,7 @@ const SearchForm = ({
       />
 
       {hasAvailableOnlineOnly && (
-        <Space $v={{ size: 'm', properties: ['margin-top'] }}>
+        <Space $v={{ size: 'sm', properties: ['margin-top'] }}>
           <CheckboxRadio
             id="isAvailableOnlineOnly"
             type="checkbox"

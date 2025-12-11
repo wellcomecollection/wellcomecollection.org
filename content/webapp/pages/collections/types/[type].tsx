@@ -74,8 +74,7 @@ const SubTypeLink = styled(Link).attrs({
 `;
 
 const WorkItem = styled.li`
-  --container-padding: ${props =>
-    props.theme.formatContainerPadding(props.theme.containerPadding.small)};
+  --container-padding: ${props => props.theme.containerPadding};
   flex: 0 0 90%;
   max-width: 420px;
 
@@ -86,7 +85,7 @@ const WorkItem = styled.li`
   }
 
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
       flex: 0 0 50%;
       padding: 0 var(--container-padding) 0 0;
     `)}
@@ -192,7 +191,7 @@ const TypeDetailPage: FunctionComponent<Props> = ({ type, worksBySubType }) => {
 
       <ContentSection>
         <ContaineredLayout gridSizes={gridSize12()}>
-          <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
             <IntroText>{type.description}</IntroText>
 
             <Space $v={{ size: 'xl', properties: ['margin-top'] }}>

@@ -33,10 +33,10 @@ export function getFeaturedMedia(
         <PrismicImage
           image={widescreenImage}
           sizes={{
-            xlarge: 1,
-            large: 1,
-            medium: 1,
-            small: 1,
+            lg: 1,
+            md: 1,
+            sm: 1,
+            zero: 1,
           }}
           quality="low"
         />
@@ -49,10 +49,10 @@ export function getFeaturedMedia(
         <PrismicImage
           image={image}
           sizes={{
-            xlarge: 1,
-            large: 1,
-            medium: 1,
-            small: 1,
+            lg: 1,
+            md: 1,
+            sm: 1,
+            zero: 1,
           }}
           quality="low"
         />
@@ -76,10 +76,7 @@ export const HeroPicture: FunctionComponent<{
 
   return (
     <Picture
-      images={[
-        { ...widescreenImage, minWidth: `${theme.sizes.medium}px` },
-        squareImage,
-      ]}
+      images={[{ ...widescreenImage, minWidth: theme.sizes.sm }, squareImage]}
       isFull={true}
     />
   );

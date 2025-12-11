@@ -53,18 +53,7 @@ const MaterialsSection = styled(Space).attrs({
 const DecorativeEdgeContainer = styled(Space).attrs({
   $v: { size: 'xl', properties: ['margin-top'] },
 })`
-  margin-left: -${props =>
-      props.theme.formatContainerPadding(props.theme.containerPadding.small)};
-
-  ${props =>
-    props.theme.media('medium')(`
-    margin-left: -${props.theme.formatContainerPadding(props.theme.containerPadding.medium)};
-  `)}
-
-  ${props =>
-    props.theme.media('large')(`
-    margin-left: -${props.theme.formatContainerPadding(props.theme.containerPadding.large)};
-  `)}
+  margin-left: -${props => props.theme.containerPadding};
 `;
 
 export type Props = {
@@ -120,7 +109,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
       <div style={{ backgroundColor: theme.color('accent.lightBlue') }}>
         <ContaineredLayout gridSizes={gridSize10(false)}>
           <Space
-            $v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
+            $v={{ size: 'sm', properties: ['padding-top', 'padding-bottom'] }}
           >
             <SearchForm
               searchCategory="works"
@@ -137,7 +126,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
         $isDefaultVariant={true}
       >
         <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
-          <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
             <SectionHeader title="Browse by theme" gridSize={gridSize12()} />
           </Space>
           <BrowseByThemes
@@ -167,7 +156,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
       {newOnlineListingPage && newOnlineInCLP ? (
         newOnlineDocuments.length > 0 && (
           <Space
-            $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
+            $v={{ size: 'sm', properties: ['margin-top', 'margin-bottom'] }}
           >
             <SectionHeader title="New online" gridSize={gridSize12()} />
             <ContaineredLayout gridSizes={gridSize12()}>
@@ -183,7 +172,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
           </Space>
         )
       ) : (
-        <Space $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}>
+        <Space $v={{ size: 'sm', properties: ['margin-top', 'margin-bottom'] }}>
           <SectionHeader title="New online" gridSize={gridSize12()} />
           <ContaineredLayout gridSizes={gridSize12()}>
             <NewOnline />
@@ -205,7 +194,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
       )}
 
       <Space $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}>
-        <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
+        <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
           <SectionHeader
             title="Inside our collections"
             gridSize={gridSize12()}
@@ -232,8 +221,8 @@ const CollectionsLandingPage: NextPage<Props> = ({
       </Space>
 
       <MaterialsSection>
-        <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-          <Space $v={{ size: 'm', properties: ['padding-bottom'] }}>
+        <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'sm', properties: ['padding-bottom'] }}>
             <SectionHeader
               title="Types of materials in the collections"
               gridSize={gridSize12()}

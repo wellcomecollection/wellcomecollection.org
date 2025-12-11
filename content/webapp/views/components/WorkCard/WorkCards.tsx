@@ -7,24 +7,24 @@ import WorkCardAPI from '@weco/content/views/components/WorkCard/WorkCard.API';
 
 const Works = styled.div`
   ${props => `
-    --gap: ${props.theme.gutter.small}px;
+    --gap: ${props.theme.gutter.small};
   `}
 
   ${props =>
-    props.theme.media('medium')(`
-    --gap: ${props.theme.gutter.medium}px;
+    props.theme.media('sm')(`
+    --gap: ${props.theme.gutter.medium};
   `)}
 
   ${props =>
-    props.theme.media('large')(`
-    --gap: ${props.theme.gutter.large}px;
+    props.theme.media('md')(`
+    --gap: ${props.theme.gutter.large};
   `)}
 
   ${props =>
-    props.theme.media('xlarge')(`
-    --gap: ${props.theme.gutter.xlarge}px;
+    props.theme.media('lg')(`
+    --gap: ${props.theme.gutter.xlarge};
   `)}
-  
+
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
@@ -35,12 +35,12 @@ const WorkContainer = styled.div`
   flex: 0 0 calc(100% - var(--gap));
 
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
     flex: 0 0 calc(50% - var(--gap));
   `)}
 
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
     flex: 0 0 calc(25% - var(--gap));
   `)}
 `;

@@ -41,7 +41,7 @@ const GalleryContainer = styled.div`
   }
 
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
     margin: 0 -${imageMargin}px;
 
     .react-photo-gallery--gallery > div {
@@ -149,8 +149,8 @@ const CatalogueImageGalleryJustified: FunctionComponent<Props> = ({
             {imagesWithDimensions.map((result: GalleryImageProps, index) => (
               <li key={result.id}>
                 <Space
-                  $h={{ size: 'l', properties: ['margin-right'] }}
-                  $v={{ size: 'l', properties: ['margin-bottom'] }}
+                  $h={{ size: 'md', properties: ['margin-right'] }}
+                  $v={{ size: 'md', properties: ['margin-bottom'] }}
                 >
                   <ImageCard
                     id={result.id}

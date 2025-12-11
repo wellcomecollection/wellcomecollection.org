@@ -87,9 +87,9 @@ export const typography = css<GlobalStyleProps>`
     /* Enough space to clear the sticky header */
     scroll-margin-top: 3rem;
 
-    @media (min-width: ${props => props.theme.sizes.large}px) {
+    @media (min-width: ${props => props.theme.sizes.md}) {
       /* Align the top of the heading with the top of the side navigation */
-      scroll-margin-top: ${props => props.theme.getSpaceValue('l', 'large')};
+      scroll-margin-top: ${props => props.theme.getSpaceValue('md', 'md')};
     }
   }
 

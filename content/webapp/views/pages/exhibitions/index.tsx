@@ -89,7 +89,7 @@ const ExhibitionsPage: NextPage<Props> = props => {
       />
       {partitionedExhibitionItems.currentAndUpcoming.length > 0 && (
         <>
-          <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
             <SectionHeader
               title="Current exhibitions"
               gridSize={gridSize12()}
@@ -107,10 +107,10 @@ const ExhibitionsPage: NextPage<Props> = props => {
       {partitionedExhibitionItems.past.length > 0 && (
         <>
           {!period && (
-            <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+            <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
               <SectionHeader title="Past Exhibitions" gridSize={gridSize12()} />
               <ContaineredLayout gridSizes={gridSize12()}>
-                <Space $v={{ size: 'm', properties: ['margin-top'] }}>
+                <Space $v={{ size: 'sm', properties: ['margin-top'] }}>
                   <p style={{ marginBottom: 0 }}>{pastExhibitionsStrapline}</p>
                 </Space>
               </ContaineredLayout>
@@ -124,7 +124,7 @@ const ExhibitionsPage: NextPage<Props> = props => {
             />
             {exhibitions.totalPages > 1 && (
               <Container>
-                <PaginationWrapper $verticalSpacing="m" $alignRight>
+                <PaginationWrapper $verticalSpacing="sm" $alignRight>
                   <Pagination
                     totalPages={exhibitions.totalPages}
                     ariaLabel="Exhibitions pagination"

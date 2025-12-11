@@ -12,7 +12,7 @@ import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
 const Cell = styled(Space).attrs({
-  $h: { size: 'm', properties: ['margin-right'] },
+  $h: { size: 'sm', properties: ['margin-right'] },
 })`
   background-color: ${props => props.theme.color('neutral.200')};
   color: ${props => props.theme.color('black')};

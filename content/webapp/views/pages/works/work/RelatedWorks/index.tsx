@@ -18,7 +18,7 @@ import SelectableTags from '@weco/content/views/components/SelectableTags';
 import { fetchRelatedWorks } from './RelatedWorks.helpers';
 
 const SectionWrapper = styled(Space).attrs({
-  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
 })`
   background-color: ${props => props.theme.color('warmNeutral.300')};
 `;
@@ -140,7 +140,7 @@ const RelatedWorks = ({
       {Object.entries(relatedWorksTabs).map(([key, value], tabIndex) => (
         <Space
           key={key}
-          $v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
+          $v={{ size: 'md', properties: ['padding-top', 'padding-bottom'] }}
           className={classNames({
             'is-hidden': selectedTab !== key,
           })}
@@ -166,7 +166,7 @@ const RelatedWorks = ({
               ))}
             </Grid>
 
-            <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+            <Space $v={{ size: 'md', properties: ['margin-top'] }}>
               <BetaMessage
                 message={
                   <>

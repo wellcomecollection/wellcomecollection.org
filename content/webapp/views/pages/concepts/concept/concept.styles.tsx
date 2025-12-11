@@ -7,7 +7,7 @@ import { PaletteColor } from '@weco/common/views/themes/config';
 
 export const MobileNavBackground = styled(Space).attrs({
   className: 'is-hidden-l is-hidden-xl',
-  $v: { size: 'l', properties: ['height'] },
+  $v: { size: 'md', properties: ['height'] },
 })<{ $isOnWhite: boolean }>`
   display: block;
   background-color: ${props =>
@@ -37,8 +37,7 @@ export const NavGridCell = styled(GridCell)<{
   &::after {
     content: '';
     position: absolute;
-    width: ${props =>
-      props.theme.formatContainerPaddingVw(props.theme.containerPadding.small)};
+    width: ${props => props.theme.containerPaddingVw};
     bottom: 0;
     top: 0;
     transition: background-color ${props => props.theme.transitionProperties};
@@ -53,15 +52,7 @@ export const NavGridCell = styled(GridCell)<{
     left: 100%;
   }
 
-  ${props =>
-    props.theme.media('medium')(`
-      &::before,
-      &::after {
-        width: ${props.theme.formatContainerPaddingVw(props.theme.containerPadding.medium)};
-      }
-  `)}
-
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
     position: unset;
     background-color: unset;
     transition: unset;
@@ -93,7 +84,7 @@ export const StretchWrapper = styled.div`
 export const HotJarPlaceholder = styled.div`
   margin: -2rem auto 2rem;
   width: 100%;
-  max-width: ${props => props.theme.sizes.xlarge}px;
+  max-width: ${props => props.theme.sizes.lg};
   display: grid;
   justify-items: start;
 
@@ -104,14 +95,14 @@ export const HotJarPlaceholder = styled.div`
   grid-template-columns: 1fr auto;
 
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
     div:has(form) {
       min-width: 350px;
     }
   `)}
 
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
     div:has(form) {
       min-width: 450px;
     }

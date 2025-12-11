@@ -43,10 +43,10 @@ const FacilityCard: FunctionComponent<FacilityCardType> = ({
           <PrismicImage
             image={{ ...image, alt: '' }}
             sizes={{
-              xlarge: 1 / 4,
-              large: 1 / 3,
-              medium: 1 / 2,
-              small: 1,
+              lg: 1 / 4,
+              md: 1 / 3,
+              sm: 1 / 2,
+              zero: 1,
             }}
             quality="low"
           />
@@ -58,12 +58,12 @@ const FacilityCard: FunctionComponent<FacilityCardType> = ({
             <Description>{description}</Description>
 
             {metaText && (
-              <Space $v={{ size: 'm', properties: ['margin-top'] }}>
+              <Space $v={{ size: 'sm', properties: ['margin-top'] }}>
                 <Meta>
                   {metaIcon && (
                     <Space
                       as="span"
-                      $h={{ size: 's', properties: ['margin-right'] }}
+                      $h={{ size: 'xs', properties: ['margin-right'] }}
                     >
                       <Icon icon={metaIcon} />
                     </Space>

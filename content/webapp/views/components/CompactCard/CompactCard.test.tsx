@@ -76,10 +76,10 @@ describe('MediaObjectBase', () => {
           <PrismicImage
             image={{ ...mockData.image }}
             sizes={{
-              xlarge: 1 / 6,
-              large: 1 / 6,
-              medium: 1 / 5,
-              small: 1 / 4,
+              lg: 1 / 6,
+              md: 1 / 6,
+              sm: 1 / 5,
+              zero: 1 / 4,
             }}
             quality="low"
           />
@@ -104,10 +104,10 @@ describe('MediaObjectBase', () => {
           <PrismicImage
             image={{ ...mockData.image }}
             sizes={{
-              xlarge: 1 / 6,
-              large: 1 / 6,
-              medium: 1 / 5,
-              small: 1 / 4,
+              lg: 1 / 6,
+              md: 1 / 6,
+              sm: 1 / 5,
+              zero: 1 / 4,
             }}
             quality="low"
           />
@@ -134,10 +134,10 @@ describe('MediaObjectBase', () => {
             <PrismicImage
               image={{ ...mockData.image }}
               sizes={{
-                xlarge: 1 / 6,
-                large: 1 / 6,
-                medium: 1 / 5,
-                small: 1 / 4,
+                lg: 1 / 6,
+                md: 1 / 6,
+                sm: 1 / 5,
+                zero: 1 / 4,
               }}
               quality="low"
             />
@@ -188,10 +188,10 @@ describe('MediaObjectBase', () => {
           <PrismicImage
             image={{ ...mockData.image }}
             sizes={{
-              xlarge: 1 / 6,
-              large: 1 / 6,
-              medium: 1 / 5,
-              small: 1 / 4,
+              lg: 1 / 6,
+              md: 1 / 6,
+              sm: 1 / 5,
+              zero: 1 / 4,
             }}
             quality="low"
           />
@@ -237,10 +237,10 @@ describe('MediaObjectBase', () => {
               <PrismicImage
                 image={{ ...mockData.image }}
                 sizes={{
-                  xlarge: 1 / 6,
-                  large: 1 / 6,
-                  medium: 1 / 5,
-                  small: 1 / 4,
+                  lg: 1 / 6,
+                  md: 1 / 6,
+                  sm: 1 / 5,
+                  zero: 1 / 4,
                 }}
                 quality="low"
               />

@@ -90,8 +90,8 @@ const ContentTypeInfo = (
     <div style={{ display: 'flex', alignItems: 'baseline' }}>
       <Space
         className={font('sans', -2)}
-        $h={{ size: 's', properties: ['margin-right'] }}
-        $v={{ size: 's', properties: ['margin-top'] }}
+        $h={{ size: 'xs', properties: ['margin-right'] }}
+        $v={{ size: 'xs', properties: ['margin-top'] }}
       >
         <p style={{ marginBottom: 0 }}>
           <span>By </span>
@@ -260,7 +260,7 @@ export const Event: Meta<typeof PageHeader> = {
     ContentTypeInfo: (
       <>
         <Space
-          $v={{ size: 's', properties: ['margin-bottom'] }}
+          $v={{ size: 'xs', properties: ['margin-bottom'] }}
           style={{ display: 'flex', flexWrap: 'wrap' }}
         >
           Saturday 8 February 2020, 13:00 – 16:00
@@ -429,7 +429,7 @@ export const Book: Meta<typeof PageHeader> = {
         <Layout gridSizes={gridSize8()}>
           <PopoutImage
             image={image(bookImageUrl, 1659, 1800)}
-            sizes={{ xlarge: 1 / 3, large: 1 / 3, medium: 1 / 3, small: 1 }}
+            sizes={{ lg: 1 / 3, md: 1 / 3, sm: 1 / 3, zero: 1 }}
             quality="low"
           />
         </Layout>

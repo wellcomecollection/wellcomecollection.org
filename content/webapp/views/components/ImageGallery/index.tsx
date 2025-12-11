@@ -44,15 +44,15 @@ function makeSizesForFrames(isThreeUp: boolean) {
   // grid-width
   if (isThreeUp) {
     return `
-        (min-width: ${sizes.medium}px) calc(80vw / 2),
-        (min-width: ${sizes.large}px) calc(80vw / 3),
-        (min-width: ${sizes.xlarge}px) calc(${sizes.xlarge * 0.8}px / 3),
+        (min-width: ${sizes.sm}) calc(80vw / 2),
+        (min-width: ${sizes.md}) calc(80vw / 3),
+        (min-width: ${sizes.lg}) calc((${sizes.lg} * 0.8) / 3),
         calc(100vw - 68px)
       `;
   } else {
     return `
-      (min-width: ${sizes.medium}px) calc(80vw / 2),
-      (min-width: ${sizes.xlarge}px) calc(${sizes.xlarge * 0.8}px / 2),
+      (min-width: ${sizes.sm}) calc(80vw / 2),
+      (min-width: ${sizes.lg}) calc((${sizes.lg} * 0.8) / 2),
       calc(100vw - 68px)
     `;
   }
@@ -133,7 +133,7 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
       {!isStandalone && !isFrames && (
         <ContaineredLayout gridSizes={gridSize8()}>
           <GalleryTitle>
-            <Space as="span" $h={{ size: 's', properties: ['margin-right'] }}>
+            <Space as="span" $h={{ size: 'xs', properties: ['margin-right'] }}>
               <Icon icon={gallery} />
             </Space>
             <h2
@@ -248,7 +248,7 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
                     preCaptionNode={
                       items.length > 1 ? (
                         <Space
-                          $v={{ size: 'm', properties: ['margin-bottom'] }}
+                          $v={{ size: 'sm', properties: ['margin-bottom'] }}
                           className={font('sans-bold', -1)}
                         >
                           {i + 1} of {items.length}

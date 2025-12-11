@@ -8,7 +8,7 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
 
 const Wrapper = styled(Space).attrs({
-  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
 })`
   border-left: 16px solid ${props => props.theme.color('yellow')};
 `;

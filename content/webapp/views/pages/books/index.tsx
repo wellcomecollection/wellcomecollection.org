@@ -61,7 +61,7 @@ const BooksPage: NextPage<Props> = ({ books }) => {
 
         {books.totalPages > 1 && (
           <ContaineredLayout gridSizes={gridSize12()}>
-            <PaginationWrapper $verticalSpacing="l">
+            <PaginationWrapper $verticalSpacing="md">
               <span>{pluralize(books.totalResults, 'result')}</span>
 
               <Pagination
@@ -71,13 +71,13 @@ const BooksPage: NextPage<Props> = ({ books }) => {
               />
             </PaginationWrapper>
 
-            <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+            <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
               <Divider />
             </Space>
           </ContaineredLayout>
         )}
 
-        <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+        <Space $v={{ size: 'md', properties: ['margin-top'] }}>
           {books.results.length > 0 ? (
             <CardGrid items={books.results} itemsPerRow={3} />
           ) : (
@@ -89,7 +89,7 @@ const BooksPage: NextPage<Props> = ({ books }) => {
 
         {books.totalPages > 1 && (
           <ContaineredLayout gridSizes={gridSize12()}>
-            <PaginationWrapper $verticalSpacing="l" $alignRight>
+            <PaginationWrapper $verticalSpacing="md" $alignRight>
               <Pagination
                 totalPages={books.totalPages}
                 ariaLabel="Results pagination"

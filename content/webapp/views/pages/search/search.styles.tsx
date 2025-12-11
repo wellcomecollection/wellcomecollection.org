@@ -18,18 +18,18 @@ export const WorksLink = styled(NextLink).attrs({
 `;
 
 export const CatalogueResultsInner = styled(Space).attrs({
-  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
 })`
   position: relative;
   background-color: ${props => props.theme.color('warmNeutral.300')};
 `;
 
 export const CatalogueResultsSection = styled(Space).attrs({
-  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
 })``;
 
 export const CatalogueLinks = styled(Space).attrs({
-  $v: { size: 'm', properties: ['margin-top', 'margin-bottom'] },
+  $v: { size: 'sm', properties: ['margin-top', 'margin-bottom'] },
   className: 'is-hidden-s is-hidden-m',
 })`
   display: flex;
@@ -55,7 +55,7 @@ export const CatalogueSectionTitle = styled(Space).attrs<{
   as: 'h3',
   className: `${font('sans-bold', 0)} is-hidden-s is-hidden-m`,
   $v: props.$isSmallGallery
-    ? { size: 'm', properties: ['margin-bottom'] }
+    ? { size: 'sm', properties: ['margin-bottom'] }
     : undefined,
 }))<{ $isSmallGallery?: boolean }>`
   ${props => !props.$isSmallGallery && `margin-bottom: 0;`}
@@ -81,11 +81,11 @@ export const GridContainer = styled(Container)`
 export const ContentResults = styled.div`
   grid-column: 1 / 13;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     grid-column: 1 / 10;
   `}
 
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
     grid-row: 1;
     grid-column: 1 / 8;
   `}
@@ -96,12 +96,12 @@ export const CatalogueResults = styled(Space).attrs({
 })<{ $fullWidth: boolean }>`
   grid-column: 1 / 13;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     grid-column: 1 / 10;
   `}
 
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
       grid-column: ${props.$fullWidth ? '1' : '9'}/13;
     `)}
 `;
@@ -109,12 +109,10 @@ export const CatalogueResults = styled(Space).attrs({
 export const LoaderContainer = styled.div<{ $fullWidth: boolean }>`
   grid-column: 6;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     grid-column: 6;
   `}
 
   ${props =>
-    props.theme.media('large')(
-      `grid-column: ${props.$fullWidth ? '6' : '10'};`
-    )}
+    props.theme.media('md')(`grid-column: ${props.$fullWidth ? '6' : '10'};`)}
 `;

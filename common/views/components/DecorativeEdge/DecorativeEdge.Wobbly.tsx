@@ -37,7 +37,7 @@ export const Edge = styled.div.attrs<{ 'data-chromatic'?: 'ignore' }>({
     clip-path 2000ms ease-in-out;
   display: none;
 
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
     max-height: 60px;
     margin-top: -60px;
   `}
@@ -63,7 +63,7 @@ export const Edge = styled.div.attrs<{ 'data-chromatic'?: 'ignore' }>({
     margin-top: 0;
     top: -2px;
 
-    ${props.theme.media('large')`
+    ${props.theme.media('md')`
       margin-top: 0;
       top: -2px;
     `}
