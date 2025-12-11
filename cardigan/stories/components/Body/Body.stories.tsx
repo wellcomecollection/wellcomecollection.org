@@ -5,7 +5,6 @@ import untransformedBody from '@weco/cardigan/stories/data/untransformed-body';
 import {
   gridSize10,
   gridSize12,
-  gridSize6,
   gridSize8,
 } from '@weco/common/views/components/Layout';
 import { transformOnThisPage } from '@weco/content/services/prismic/transformers/pages';
@@ -37,7 +36,7 @@ const meta: Meta<Omit<BodyStoryProps, 'gridSizes'> & { gridSizes: string }> = {
     isOfficialLandingPage: false,
     hasStaticContent: false,
     hasLandingPageFormat: false,
-    gridSizes: '12',
+    gridSizes: '8',
     staticContent: (
       <>
         <h2>Injected static content from the codebase</h2>
@@ -81,9 +80,8 @@ const meta: Meta<Omit<BodyStoryProps, 'gridSizes'> & { gridSizes: string }> = {
       control: {
         type: 'select',
       },
-      options: ['6', '8', '10', '12'],
+      options: ['8', '10', '12'],
       mapping: {
-        '6': gridSize6(),
         '8': gridSize8(),
         '10': gridSize10(),
         '12': gridSize12(),

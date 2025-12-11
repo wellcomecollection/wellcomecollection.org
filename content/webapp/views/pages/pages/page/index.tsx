@@ -18,7 +18,7 @@ import HeaderBackground from '@weco/common/views/components/HeaderBackground';
 import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import { makeLabels } from '@weco/common/views/components/LabelsList';
-import { gridSize12 } from '@weco/common/views/components/Layout';
+import { gridSize12, gridSize8 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
@@ -253,6 +253,7 @@ export const PagePage: NextPage<Props> = ({
             hasLandingPageFormat={hasLandingPageFormat}
             isOfficialLandingPage={isOfficialLandingPage}
             staticContent={staticContent}
+            gridSizes={gridSize8()}
           />
         }
         /**
