@@ -29,40 +29,28 @@ const EmbedSlice: FunctionComponent<EmbedProps> = ({ slice, context }) => {
       ? gridSize12()
       : options.gridSizes;
 
-  if (transformedSlice.type === 'videoEmbed')
-    return (
-      <SpacingComponent $sliceType={transformedSlice.type}>
-        <ConditionalWrapper
-          condition={!!gridSizes}
-          wrapper={children => (
-            <ContaineredLayout gridSizes={gridSizes!}>
-              {children}
-            </ContaineredLayout>
-          )}
-        >
+  return (
+    <SpacingComponent $sliceType={transformedSlice.type}>
+      <ConditionalWrapper
+        condition={!!gridSizes}
+        wrapper={children => (
+          <ContaineredLayout gridSizes={gridSizes!}>
+            {children}
+          </ContaineredLayout>
+        )}
+      >
+        {transformedSlice.type === 'videoEmbed' && (
           <VideoEmbed
             {...transformedSlice.value}
             hasFullSizePoster={options.isShortFilm}
           />
-        </ConditionalWrapper>
-      </SpacingComponent>
-    );
-
-  if (transformedSlice.type === 'soundcloudEmbed')
-    return (
-      <SpacingComponent $sliceType={transformedSlice.type}>
-        <ConditionalWrapper
-          condition={!!options.gridSizes}
-          wrapper={children => (
-            <ContaineredLayout gridSizes={options.gridSizes!}>
-              {children}
-            </ContaineredLayout>
-          )}
-        >
+        )}
+        {transformedSlice.type === 'soundcloudEmbed' && (
           <SoundCloudEmbed {...transformedSlice.value} id={slice.id} />
-        </ConditionalWrapper>
-      </SpacingComponent>
-    );
+        )}
+      </ConditionalWrapper>
+    </SpacingComponent>
+  );
 };
 
 export default EmbedSlice;
