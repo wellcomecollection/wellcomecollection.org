@@ -319,7 +319,7 @@ const Body: FunctionComponent<Props> = ({
   const isVisualStory = contentType === 'visual-story';
 
   const displayOnThisPage =
-    showOnThisPage && onThisPage && onThisPage.length > 0;
+    showOnThisPage && onThisPage && onThisPage.length > 2;
   const isTwoColumns = !!(twoColumns && displayOnThisPage);
 
   return (
