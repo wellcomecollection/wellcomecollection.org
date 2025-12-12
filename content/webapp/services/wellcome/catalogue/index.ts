@@ -72,7 +72,7 @@ export const toIsoDateString = (
       const year = d.getUTCFullYear().toString().padStart(4, '0');
 
       return range === 'from' ? `${year}-01-01` : `${year}-12-31`;
-    } catch (e) {
+    } catch {
       return undefined;
     }
   }

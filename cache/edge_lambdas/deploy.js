@@ -16,7 +16,7 @@ function runCommand(command) {
       encoding: 'utf-8',
       stdio: 'inherit',
     });
-  } catch (error) {
+  } catch {
     console.error(`Failed to run command: ${command}`);
     process.exit(1);
   }

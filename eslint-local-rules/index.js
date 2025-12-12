@@ -54,7 +54,7 @@ module.exports = {
 
       return {
         // On program start, check for opt-out comment
-        Program(node) {
+        Program() {
           const sourceCode = context.getSourceCode();
           const comments = sourceCode.getAllComments();
           intentionallyOmitted = comments.some(comment =>

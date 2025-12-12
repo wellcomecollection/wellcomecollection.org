@@ -11,7 +11,7 @@ async function fetchWorks(page) {
       }
     ).then(resp => resp.json());
     return works;
-  } catch (error) {
+  } catch {
     return undefined;
   }
 }

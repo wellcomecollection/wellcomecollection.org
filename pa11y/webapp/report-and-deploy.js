@@ -126,7 +126,7 @@ try {
           ContentType: 'application/json',
         };
 
-        s3.putObject(params, function (err, data) {
+        s3.putObject(params, function (err) {
           if (err) {
             console.error(chalk.redBright('Error uploading report.json'));
             console.log(err, err.stack);
@@ -142,7 +142,7 @@ try {
                   CallerReference: `Pa11yDeployInvalidationCallerReference${Date.now()}`,
                 },
               },
-              function (err, data) {
+              function (err) {
                 if (err) console.log(err, err.stack);
                 else console.log('Flushed CloudFront cache for report.json');
               }

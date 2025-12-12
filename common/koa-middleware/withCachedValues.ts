@@ -2,7 +2,7 @@ import Router from '@koa/router';
 import { IncomingMessage, ServerResponse } from 'http';
 import compose from 'koa-compose';
 import { NextServer } from 'next/dist/server/next';
-import { parse, UrlWithParsedQuery } from 'url'; // eslint-disable-line n/no-deprecated-api
+import { parse, UrlWithParsedQuery } from 'url';
 
 import { withPrismicPreviewStatus } from './withPrismicPreviewStatus';
 

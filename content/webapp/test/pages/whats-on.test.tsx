@@ -13,6 +13,7 @@ jest.mock('uuid', () => ({
 }));
 
 jest.mock('@weco/common/server-data');
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 jest.mock('next/router', () => require('next-router-mock'));
 
 describe('/whats-on', () => {

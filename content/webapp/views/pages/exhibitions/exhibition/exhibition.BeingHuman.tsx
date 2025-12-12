@@ -51,8 +51,8 @@ const ExhibitionBeingHuman = ({
 }) => {
   const hasResources = Boolean(
     exhibition.accessResourcesText ||
-      exhibition.accessResourcesPdfs.length > 0 ||
-      accessResourceLinks.length > 0
+    exhibition.accessResourcesPdfs.length > 0 ||
+    accessResourceLinks.length > 0
   );
 
   return (

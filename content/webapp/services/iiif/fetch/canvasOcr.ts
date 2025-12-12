@@ -19,6 +19,8 @@ export async function fetchCanvasOcr(
         encodeURI(canvas.textServiceId as string)
       );
       return textJson;
-    } catch (e) {}
+    } catch (e) {
+      console.warn(e);
+    }
   }
 }

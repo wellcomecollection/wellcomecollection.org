@@ -182,7 +182,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
         ).json();
         setIsLoading(false);
         setSearchResults && setSearchResults(results);
-      } catch (error) {
+      } catch {
         setIsLoading(false);
         setSearchError(true);
       }

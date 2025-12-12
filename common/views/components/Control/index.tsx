@@ -165,8 +165,7 @@ export type ButtonProps = CommonProps & { link?: undefined } & Omit<
   >;
 
 interface AnchorProps
-  extends Omit<JSX.IntrinsicElements['a'], 'ref'>,
-    CommonProps {
+  extends Omit<JSX.IntrinsicElements['a'], 'ref'>, CommonProps {
   link: LinkProps;
 }
 

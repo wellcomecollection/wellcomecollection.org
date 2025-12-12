@@ -92,7 +92,7 @@ const ItemRequestModal: FunctionComponent<Props> = ({
         setCurrentHoldNumber(holdNumber => (holdNumber || 0) + 1);
         onSuccess();
       }
-    } catch (error) {
+    } catch {
       setRequestingState('error');
     }
   }

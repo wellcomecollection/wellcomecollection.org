@@ -31,7 +31,7 @@ export function useRequestedItems(): UseRequestedItems {
         setRequestedItems(items.data);
         setState('success');
       }
-    } catch (e) {
+    } catch {
       if (!abortSignal?.aborted) {
         setState('failed');
       }

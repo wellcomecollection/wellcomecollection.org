@@ -47,7 +47,7 @@ async function fetchWorkItems({
       },
     }).then(resp => resp.json());
     return items;
-  } catch (error) {
+  } catch {
     return wellcomeApiError();
   }
 }

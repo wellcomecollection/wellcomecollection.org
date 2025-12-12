@@ -24,7 +24,7 @@ export const decodeToken = (
     }
     const decoded = verify(token, secret);
     return decoded;
-  } catch (e) {
+  } catch {
     throw new Error('Invalid session_token in decode');
   }
 };
@@ -33,7 +33,7 @@ export const decodeToken = (
 // this token object includes iat, iss, sub, exp and ip (from auth0 incoming token)
 // we must also include the state, which validates our ability to finish the action with /continue
 // finally we must make sure to add aud (audience) as without this the token won't be accepted by auth0
-const jwtRequiredFields = [
+type JwtRequiredFields = [
   'iat',
   'iss',
   'sub',
@@ -43,10 +43,10 @@ const jwtRequiredFields = [
   'https://wellcomecollection.org/terms_agreed',
   'https://wellcomecollection.org/first_name',
   'https://wellcomecollection.org/last_name',
-] as const;
+];
 export type RegistrationJwtPayload = Pick<
   JwtPayload,
-  (typeof jwtRequiredFields)[number]
+  JwtRequiredFields[number]
 >;
 
 export const generateNewToken = (

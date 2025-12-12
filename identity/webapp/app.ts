@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-var-requires, import/first */
 // This needs to be the first module loaded in the application
-
+/* eslint-disable @typescript-eslint/no-require-imports */
 require('@weco/common/services/apm/initApm')('identity-server');
 
 import Router from '@koa/router';
@@ -12,8 +11,6 @@ import next from 'next';
 import { init as initServerData } from '@weco/common/server-data';
 import { apmErrorMiddleware } from '@weco/common/services/apm/errorMiddleware';
 import { redactUrl } from '@weco/identity/utils/logging';
-
-/* eslint-enable @typescript-eslint/no-var-requires, import/first */
 
 export async function createApp(): Promise<Koa> {
   const isProduction = process.env.NODE_ENV === 'production';

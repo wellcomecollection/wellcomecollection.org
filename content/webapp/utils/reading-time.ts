@@ -47,11 +47,11 @@ export function showReadingTime(
   return format
     ? Boolean(
         format?.title === 'Article' ||
-          format?.title === 'Serial' ||
-          format?.title === 'Book extract' ||
-          format?.title === 'Long read' ||
-          format?.title === 'Photo story' ||
-          format?.title === 'Prose Poem'
+        format?.title === 'Serial' ||
+        format?.title === 'Book extract' ||
+        format?.title === 'Long read' ||
+        format?.title === 'Photo story' ||
+        format?.title === 'Prose Poem'
       )
     : Boolean(labels[0]?.text === 'Serial' || labels[0]?.text === 'Article');
 }

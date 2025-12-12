@@ -146,7 +146,7 @@ export async function getWork({
   try {
     const work = (await res.json()) as Work;
     return { ...work, url };
-  } catch (e) {
+  } catch {
     return wellcomeApiError();
   }
 }

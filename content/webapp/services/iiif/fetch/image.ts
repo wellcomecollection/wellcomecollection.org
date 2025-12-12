@@ -7,5 +7,7 @@ export async function fetchIIIFImageJson(
   try {
     const imageJson = await fetchJson(location);
     return imageJson;
-  } catch (e) {}
+  } catch (e) {
+    console.warn(e);
+  }
 }

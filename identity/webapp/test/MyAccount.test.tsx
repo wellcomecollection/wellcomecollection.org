@@ -42,6 +42,7 @@ jest.mock('next/config', () => () => ({
   },
 }));
 
+/* eslint-disable @typescript-eslint/no-require-imports */
 jest.mock('next/router', () => require('next-router-mock'));
 
 const renderComponent = (user = mockAuth0Profile) =>

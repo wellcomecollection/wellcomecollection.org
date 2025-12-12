@@ -9,9 +9,9 @@ const useIsFontsLoaded = (): boolean => {
 
     let isMounted = true;
     // This needs to be dynamically required as it's only on the client-side
-    /* eslint-disable @typescript-eslint/no-var-requires */
+    /* eslint-disable @typescript-eslint/no-require-imports */
     const FontFaceObserver = require('fontfaceobserver');
-    /* eslint-enable @typescript-eslint/no-var-requires */
+    /* eslint-enable @typescript-eslint/no-require-imports */
 
     const WB = new FontFaceObserver('Wellcome Bold Web', { weight: 'bold' });
     const LR = new FontFaceObserver('Lettera Regular Web');
