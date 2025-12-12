@@ -302,6 +302,14 @@ const mediaOffice = async (
   await gotoWithoutCache(`${baseUrl}/about-us/press`, page);
 };
 
+const newOnline = async (
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  await context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/collections/new-online`, page);
+};
+
 const apiToolbarPage = async (
   id: string,
   context: BrowserContext,
@@ -344,6 +352,7 @@ export {
   search,
   visualStory,
   whatsOn,
+  newOnline,
   workWithBornDigitalDownloads,
   workWithDigitalLocationAndLocationNote,
   workWithDigitalLocationAndRestricted,
