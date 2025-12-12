@@ -10,7 +10,9 @@ import styled from 'styled-components';
 
 import { officialLandingPagesUid } from '@weco/common/data/hardcoded-ids';
 import { ContentListSlice as RawContentListSlice } from '@weco/common/prismicio-types';
+import { useToggles } from '@weco/common/server-data/Context';
 import { classNames, font } from '@weco/common/utils/classnames';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
 import { defaultSerializer } from '@weco/common/views/components/HTMLSerializers';
 import {
@@ -19,6 +21,8 @@ import {
   gridSize12,
   gridSize8,
 } from '@weco/common/views/components/Layout';
+import { Container } from '@weco/common/views/components/styled/Container';
+import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import { components } from '@weco/common/views/slices';
@@ -165,6 +169,7 @@ const Body: FunctionComponent<Props> = ({
   comicPreviousNext,
   contentType,
 }: Props) => {
+  const { twoColumns } = useToggles();
   const filteredUntransformedBody = untransformedBody.filter(
     slice => slice.slice_type !== 'standfirst'
   );
@@ -313,60 +318,84 @@ const Body: FunctionComponent<Props> = ({
   const isShortFilm = contentType === 'short-film';
   const isVisualStory = contentType === 'visual-story';
 
+  const displayOnThisPage =
+    showOnThisPage && onThisPage && onThisPage.length > 0;
+  const isTwoColumns = !!(twoColumns && displayOnThisPage);
+
   return (
-    <BodyWrapper
-      data-component="body"
-      className={`content-type-${contentType}`}
-      $splitBackground={isShortFilm}
+    <ConditionalWrapper
+      condition={isTwoColumns}
+      wrapper={children => (
+        <Container>
+          <Grid style={{ background: 'white', rowGap: 0 }}>
+            <InPageNavigation
+              variant="sticky"
+              links={onThisPage!}
+              sizeMap={{ s: [12], m: [12], l: [3], xl: [3] }}
+              isOnWhite
+            />
+
+            <GridCell $sizeMap={{ s: [12], m: [12], l: [9], xl: [9] }}>
+              {children}
+            </GridCell>
+          </Grid>
+        </Container>
+      )}
     >
-      {!officialLandingPagesUid.includes(pageUid) &&
-        introText &&
-        introText.length > 0 && (
-          <ContaineredLayout gridSizes={gridSize8(!isOfficialLandingPage)}>
-            <div className="body-text spaced-text">
-              <Space
-                $v={{
-                  size: isOfficialLandingPage ? 'xl' : 'md',
-                  properties: ['margin-bottom'],
-                }}
-              >
-                <FeaturedText
-                  html={introText}
-                  htmlSerializer={defaultSerializer}
-                />
-              </Space>
-            </div>
-          </ContaineredLayout>
+      <BodyWrapper
+        data-component="body"
+        className={`content-type-${contentType}`}
+        $splitBackground={isShortFilm}
+      >
+        {!officialLandingPagesUid.includes(pageUid) &&
+          introText &&
+          introText.length > 0 && (
+            <ContaineredLayout gridSizes={gridSize8(!isOfficialLandingPage)}>
+              <div className="body-text spaced-text">
+                <Space
+                  $v={{
+                    size: isOfficialLandingPage ? 'xl' : 'md',
+                    properties: ['margin-bottom'],
+                  }}
+                >
+                  <FeaturedText
+                    html={introText}
+                    htmlSerializer={defaultSerializer}
+                  />
+                </Space>
+              </div>
+            </ContaineredLayout>
+          )}
+
+        {staticContent}
+
+        {!isTwoColumns && displayOnThisPage && (
+          <SpacingComponent>
+            <LayoutWidth width={minWidth}>
+              <InPageNavigation links={onThisPage} variant="simple" />
+            </LayoutWidth>
+          </SpacingComponent>
         )}
 
-      {staticContent}
+        {hasLandingPageFormat && <LandingPageSections sections={sections} />}
 
-      {onThisPage && onThisPage.length > 2 && showOnThisPage && (
-        <SpacingComponent>
-          <LayoutWidth width={minWidth}>
-            <InPageNavigation links={onThisPage} variant="simple" />
-          </LayoutWidth>
-        </SpacingComponent>
-      )}
-
-      {hasLandingPageFormat && <LandingPageSections sections={sections} />}
-
-      <SliceZone
-        slices={filteredUntransformedBody}
-        components={components}
-        context={{
-          minWidth,
-          firstTextSliceIndex,
-          isVisualStory,
-          comicPreviousNext,
-          pageId,
-          hasLandingPageFormat,
-          isDropCapped,
-          contentType,
-          isShortFilm,
-        }}
-      />
-    </BodyWrapper>
+        <SliceZone
+          slices={filteredUntransformedBody}
+          components={components}
+          context={{
+            minWidth: isTwoColumns ? 'none' : minWidth,
+            firstTextSliceIndex,
+            isVisualStory,
+            comicPreviousNext,
+            pageId,
+            hasLandingPageFormat,
+            isDropCapped,
+            contentType,
+            isShortFilm,
+          }}
+        />
+      </BodyWrapper>
+    </ConditionalWrapper>
   );
 };
 
