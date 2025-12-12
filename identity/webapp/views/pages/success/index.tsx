@@ -64,7 +64,7 @@ const SuccessPage: NextPage<Props> = ({ email }) => {
                         </a>
                         .
                       </p>
-                      <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+                      <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
                         <Divider />
                       </Space>
                       <p>

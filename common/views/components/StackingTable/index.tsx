@@ -17,7 +17,7 @@ const StyledTable = styled.table.attrs({
   width: 100%;
   border-collapse: collapse;
 
-  @media (max-width: ${props => props.$maxWidth || props.theme.sizes.large}) {
+  @media (max-width: ${props => props.$maxWidth || props.theme.sizes.md}) {
     display: block;
 
     thead,
@@ -59,11 +59,11 @@ type ThProps = {
 const StyledTh = styled(Space).attrs<ThProps>(props => ({
   as: 'th',
   $v: {
-    size: 's',
+    size: 'xs',
     properties: props.$plain ? [] : ['padding-top', 'padding-bottom'],
   },
   $h: {
-    size: 'm',
+    size: 'sm',
     properties: props.$plain ? [] : ['padding-left', 'padding-right'],
   },
   className: font('sans-bold', -1),
@@ -74,7 +74,7 @@ const StyledTh = styled(Space).attrs<ThProps>(props => ({
   text-align: left;
   vertical-align: top;
 
-  @media (max-width: ${props => props.$maxWidth || props.theme.sizes.large}) {
+  @media (max-width: ${props => props.$maxWidth || props.theme.sizes.md}) {
     padding-left: 0;
   }
 `;
@@ -88,18 +88,18 @@ type TdProps = {
 const StyledTd = styled(Space).attrs<TdProps>(props => ({
   as: 'td',
   $v: {
-    size: 'm',
+    size: 'sm',
     properties: props.$plain ? [] : ['padding-top', 'padding-bottom'],
   },
   $h: {
-    size: 'm',
+    size: 'sm',
     properties: props.$plain ? [] : ['padding-left', 'padding-right'],
   },
 }))<TdProps>`
   text-align: left;
   vertical-align: top;
 
-  @media (max-width: ${props => props.$maxWidth || props.theme.sizes.large}) {
+  @media (max-width: ${props => props.$maxWidth || props.theme.sizes.md}) {
     padding-left: 0;
     padding-top: 0;
     padding-bottom: ${props => props.theme.spacingUnit};

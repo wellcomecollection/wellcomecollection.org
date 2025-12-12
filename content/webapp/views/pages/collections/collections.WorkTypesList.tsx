@@ -26,13 +26,13 @@ const StyledImage = styled(Image)<{ $tiltIndex: number }>`
     transform 0.2s ease-out,
     filter 0.2s ease-out;
 
-  @container work-types-list (min-width: ${props => props.theme.sizes.medium}) {
+  @container work-types-list (min-width: ${props => props.theme.sizes.sm}) {
     width: 100%;
     height: auto;
     max-width: 100px;
   }
 
-  @container work-types-list (min-width: ${props => props.theme.sizes.large}) {
+  @container work-types-list (min-width: ${props => props.theme.sizes.md}) {
     width: 100%;
     height: auto;
     max-width: 120px;
@@ -43,7 +43,7 @@ const StyledList = styled.ul`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: ${props => props.theme.getSpaceValue('l', 'small')};
+  gap: ${props => props.theme.getSpaceValue('md', 'zero')};
   align-items: stretch;
   list-style: none;
   padding: 0;
@@ -55,7 +55,7 @@ const StyledList = styled.ul`
   /* 2 items per row on small containers */
   & > li {
     flex: 0 0
-      calc(50% - ${props => props.theme.getSpaceValue('l', 'small')} / 2);
+      calc(50% - ${props => props.theme.getSpaceValue('md', 'zero')} / 2);
   }
 
   /* Center the 5th item (last item) on small containers */
@@ -64,11 +64,11 @@ const StyledList = styled.ul`
   }
 
   /* Large container: single row layout */
-  @container work-types-list (min-width: ${props => props.theme.sizes.medium}) {
+  @container work-types-list (min-width: ${props => props.theme.sizes.sm}) {
     flex-wrap: nowrap;
     justify-content: space-between;
     min-width: 0;
-    gap: ${props => props.theme.getSpaceValue('l', 'large')};
+    gap: ${props => props.theme.getSpaceValue('md', 'md')};
 
     & > li {
       flex: 1;
@@ -87,7 +87,7 @@ const StyledListItem = styled.li`
 `;
 
 const IconContainer = styled(Space).attrs({
-  $v: { size: 's', properties: ['margin-bottom'] },
+  $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   display: flex;
   align-items: center;
@@ -96,7 +96,7 @@ const IconContainer = styled(Space).attrs({
   max-width: 80px;
   flex-shrink: 0;
 
-  @container work-types-list (min-width: ${props => props.theme.sizes.medium}) {
+  @container work-types-list (min-width: ${props => props.theme.sizes.sm}) {
     min-height: 120px;
     max-width: 100%;
     flex-shrink: 1;
@@ -108,7 +108,7 @@ const TextContainer = styled.div`
   align-items: center;
   flex-grow: 1;
 
-  @container work-types-list (min-width: ${props => props.theme.sizes.medium}) {
+  @container work-types-list (min-width: ${props => props.theme.sizes.sm}) {
     align-items: center;
   }
 `;
@@ -118,7 +118,7 @@ const CountDisplayContainer = styled.div`
   justify-content: center;
   align-items: center;
 
-  @container work-types-list (min-width: ${props => props.theme.sizes.medium}) {
+  @container work-types-list (min-width: ${props => props.theme.sizes.sm}) {
     justify-content: center;
     min-width: 100px;
   }
@@ -154,7 +154,7 @@ const StyledLink = styled(NextLink)<{ $tiltIndex?: number }>`
     filter: drop-shadow(4px 4px 2px #00000040);
   }
 
-  @container work-types-list (min-width: ${props => props.theme.sizes.medium}) {
+  @container work-types-list (min-width: ${props => props.theme.sizes.sm}) {
     flex-direction: column;
     text-align: center;
     gap: 0;

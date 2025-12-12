@@ -6,6 +6,7 @@ import { font } from '@weco/common/utils/classnames';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
+import { gridSize8 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
@@ -80,6 +81,7 @@ const EventSeriesPage: NextPage<Props> = ({
               untransformedBody={series.untransformedBody}
               pageId={series.id}
               pageUid={series.uid}
+              gridSizes={gridSize8()}
             />
           ) : undefined
         }
@@ -109,7 +111,7 @@ const EventSeriesPage: NextPage<Props> = ({
           </Space>
         )}
         {pastEvents.totalPages > 1 && (
-          <PaginationWrapper $verticalSpacing="m" $alignRight>
+          <PaginationWrapper $verticalSpacing="sm" $alignRight>
             <Pagination
               totalPages={pastEvents.totalPages}
               ariaLabel="Series pagination"

@@ -22,6 +22,7 @@ import Button from '@weco/common/views/components/Buttons';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground';
 import Icon from '@weco/common/views/components/Icon';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
+import { gridSize8 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import Space from '@weco/common/views/components/styled/Space';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
@@ -72,7 +73,7 @@ const ThirdParty = styled.span.attrs({
 
 const EmailTeamCopy = styled(Space).attrs({
   className: font('sans-bold', -1),
-  $v: { size: 's', properties: ['margin-top'] },
+  $v: { size: 'xs', properties: ['margin-top'] },
 })`
   display: block;
   color: ${props => props.theme.color('neutral.700')};
@@ -172,7 +173,7 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
         ContentTypeInfo={
           <>
             <Space
-              $v={{ size: 's', properties: ['margin-bottom'] }}
+              $v={{ size: 'xs', properties: ['margin-bottom'] }}
               style={{ display: 'flex', flexWrap: 'wrap' }}
             >
               <div style={{ display: 'inline' }}>
@@ -182,7 +183,7 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
               This 'All dates' link takes the user to the complete list of dates
               further down the page, but if there's only one date we can skip it.
              */}
-              <Space $h={{ size: 's', properties: ['margin-left'] }}>
+              <Space $h={{ size: 'xs', properties: ['margin-left'] }}>
                 {!event.isPast && event.times.length > 1 && <EventDatesLink />}
               </Space>
             </Space>
@@ -227,6 +228,7 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
             untransformedBody={untransformedBody}
             pageId={event.id}
             pageUid={event.uid}
+            gridSizes={gridSize8()}
           />
         }
         seasons={event.seasons}
@@ -279,7 +281,7 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
                       }}
                     />
                     {event.thirdPartyBooking.name && (
-                      <Space $v={{ size: 's', properties: ['margin-top'] }}>
+                      <Space $v={{ size: 'xs', properties: ['margin-top'] }}>
                         <ThirdParty>
                           with {event.thirdPartyBooking.name}
                         </ThirdParty>
@@ -320,12 +322,12 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
               !(event.schedule && event.schedule.length > 1) && (
                 <>
                   {!event.hasEarlyRegistration && !event.cost && (
-                    <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+                    <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
                       <Message text="Just turn up" />
                     </Space>
                   )}
                   {event.hasEarlyRegistration && (
-                    <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+                    <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
                       <Message text="Arrive early to register" />
                     </Space>
                   )}
@@ -337,7 +339,7 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
         {accessResourceLinks && accessResourceLinks.length > 0 && (
           <>
             <h2 className={font('brand', 1)}>Event access content</h2>
-            <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
+            <Space $v={{ size: 'md', properties: ['padding-bottom'] }}>
               <ResourcesList>
                 {accessResourceLinks.map((link, i) => {
                   return (

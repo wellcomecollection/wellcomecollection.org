@@ -17,6 +17,7 @@ import { cross } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
+import { SizeMap } from '@weco/common/views/components/styled/Grid';
 import { Link } from '@weco/content/types/link';
 
 import {
@@ -26,17 +27,20 @@ import {
   InPageNavList,
   ListItem,
   MobileNavButton,
+  NavGridCell,
   Root,
 } from './InPageNavigation.Sticky.styles';
 
 export type Props = {
-  isOnWhite?: boolean;
   links: Link[];
+  sizeMap: SizeMap;
+  isOnWhite?: boolean;
 };
 
 const InPageNavigationSticky: FunctionComponent<Props> = ({
   links,
   isOnWhite,
+  sizeMap,
 }) => {
   // Extract ids from links (strip leading #)
   const ids = links.map(link => link.url.replace('#', ''));
@@ -54,7 +58,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
   const prevHasStuckRef = useRef(false);
 
   const shouldLockScroll = useMemo(() => {
-    return windowSize !== 'large' && isListActive && hasStuck;
+    return windowSize !== 'md' && isListActive && hasStuck;
   }, [windowSize, isListActive, hasStuck]);
 
   useEffect(() => {
@@ -68,7 +72,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
 
   useEffect(() => {
     // We close the mobile nav if the user resizes their window to the large bp
-    if (windowSize === 'large' && hasStuck && isListActive) {
+    if (windowSize === 'md' && hasStuck && isListActive) {
       setIsListActive(false);
     }
   }, [windowSize, hasStuck, isListActive]);
@@ -149,7 +153,11 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
   }, [activeId]);
 
   return (
-    <>
+    <NavGridCell
+      $isOnWhite={!!isOnWhite}
+      $isEnhanced={isEnhanced}
+      $sizeMap={sizeMap}
+    >
       {shouldLockScroll && (
         <>
           {/* https://github.com/wellcomecollection/wellcomecollection.org/pull/12171
@@ -289,7 +297,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
           </InPageNavList>
         </Root>
       </FocusTrap>
-    </>
+    </NavGridCell>
   );
 };
 

@@ -15,8 +15,8 @@ const ClosedMessage = () => {
 
   return (
     <Space
-      $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
-      style={{ maxWidth: theme.sizes.large }}
+      $v={{ size: 'md', properties: ['margin-top', 'margin-bottom'] }}
+      style={{ maxWidth: theme.sizes.md }}
     >
       <InfoBox
         title="Exhibitions are closed today"
@@ -44,10 +44,10 @@ const ClosedMessage = () => {
           .
         </p>
       </InfoBox>
-      <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+      <Space $v={{ size: 'md', properties: ['margin-top'] }}>
         <MoreLink url="/exhibitions" name="View all exhibitions" />
       </Space>
-      <Space $v={{ size: 'm', properties: ['margin-top'] }}>
+      <Space $v={{ size: 'sm', properties: ['margin-top'] }}>
         <MoreLink url="/events" name="View all events" />
       </Space>
     </Space>

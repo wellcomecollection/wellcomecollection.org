@@ -10,7 +10,7 @@ import RelatedWorksCard from '@weco/content/views/components/RelatedWorksCard';
 import ScrollContainer from '@weco/content/views/components/ScrollContainer';
 
 const FullWidthRow = styled(Space).attrs({
-  $v: { size: 'l', properties: ['padding-bottom'] },
+  $v: { size: 'md', properties: ['padding-bottom'] },
 })`
   background-color: ${props => props.theme.color('warmNeutral.300')};
 `;
@@ -27,7 +27,7 @@ const ListItem = styled.li`
   }
 
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
       --gutter-size: ${props.theme.gutter.medium};
       flex: 0 0 50%;
       padding: 0 var(--gutter-size) 0 0;

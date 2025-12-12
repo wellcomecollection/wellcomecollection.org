@@ -207,7 +207,7 @@ const GifVideo: FunctionComponent<Props> = ({
         <Space
           className={font('sans-bold', -1)}
           style={{ display: 'block' }}
-          $v={{ size: 'm', properties: ['margin-top'] }}
+          $v={{ size: 'sm', properties: ['margin-top'] }}
         >
           <FeaturedWorkLink link={tasl.sourceLink} />
         </Space>

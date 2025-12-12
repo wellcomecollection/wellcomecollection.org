@@ -2,12 +2,11 @@ import { SliceComponentProps } from '@prismicio/react';
 import { FunctionComponent } from 'react';
 
 import { InfoBlockSlice as RawInfoBlockSlice } from '@weco/common/prismicio-types';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
+import { ContaineredLayout } from '@weco/common/views/components/Layout';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import { transformInfoBlockSlice } from '@weco/content/services/prismic/transformers/body';
-import {
-  LayoutWidth,
-  SliceZoneContext,
-} from '@weco/content/views/components/Body';
+import { SliceZoneContext } from '@weco/content/views/components/Body';
 import InfoBlock from '@weco/content/views/components/InfoBlock';
 
 export type InfoBlockProps = SliceComponentProps<
@@ -22,9 +21,16 @@ const InfoBlockSlice: FunctionComponent<InfoBlockProps> = ({
   const transformedSlice = transformInfoBlockSlice(slice);
   return (
     <SpacingComponent $sliceType={transformedSlice.type}>
-      <LayoutWidth width={context.minWidth}>
+      <ConditionalWrapper
+        condition={!!context.gridSizes}
+        wrapper={children => (
+          <ContaineredLayout gridSizes={context.gridSizes!}>
+            {children}
+          </ContaineredLayout>
+        )}
+      >
         <InfoBlock {...transformedSlice.value} />
-      </LayoutWidth>
+      </ConditionalWrapper>
     </SpacingComponent>
   );
 };

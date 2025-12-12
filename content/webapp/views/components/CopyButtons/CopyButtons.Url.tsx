@@ -65,7 +65,7 @@ const CopyUrl: FunctionComponent<Props> = ({
       {isEnhanced && (
         <Space
           $v={{
-            size: 'm',
+            size: 'sm',
             properties: ['margin-top'],
           }}
         >

@@ -11,18 +11,18 @@ import { SizeMap } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 
 const YellowBox = styled(Space).attrs({
-  $v: { size: 's', properties: ['margin-bottom'] },
+  $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   display: block;
   width: 60px;
   height: 16px;
   background: ${props => props.theme.color('yellow')};
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     width: 58px;
   `}
 
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
     width: 64px;
   `}
 `;

@@ -14,13 +14,13 @@ import Space from '@weco/common/views/components/styled/Space';
 
 const Wrapper = styled(Space).attrs({
   className: 'body-text',
-  $h: { size: 'm', properties: ['padding-left'] },
+  $h: { size: 'sm', properties: ['padding-left'] },
 })`
   border-left: 5px solid ${props => props.theme.color('accent.turquoise')};
 `;
 
 const TitleWrapper = styled(Space).attrs({
-  $v: { size: 's', properties: ['margin-bottom'] },
+  $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   display: block;
 `;
@@ -30,7 +30,7 @@ const Title = styled.span.attrs({ className: font('sans-bold', 0) })``;
 const Subtitle = styled(Space).attrs({
   as: 'span',
   className: font('sans', 0),
-  $h: { size: 's', properties: ['margin-left'] },
+  $h: { size: 'xs', properties: ['margin-left'] },
 })``;
 
 const PhoneNumber = styled.span.attrs({ className: font('sans', 0) })`
@@ -38,8 +38,8 @@ const PhoneNumber = styled.span.attrs({ className: font('sans', 0) })`
 `;
 
 const WithIconWrapper = styled(Space).attrs({
-  $v: { size: 's', properties: ['margin-bottom'] },
-  $h: { size: 's', properties: ['column-gap'] },
+  $v: { size: 'xs', properties: ['margin-bottom'] },
+  $h: { size: 'xs', properties: ['column-gap'] },
 })`
   display: flex;
   align-items: center;
@@ -53,7 +53,7 @@ const WithIconWrapper = styled(Space).attrs({
     width: 25px;
     height: 25px;
 
-    ${props => props.theme.media('medium')`
+    ${props => props.theme.media('sm')`
         width: 35px;
         height: 35px;
     `}

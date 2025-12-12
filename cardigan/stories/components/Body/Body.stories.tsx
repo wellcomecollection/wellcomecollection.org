@@ -2,6 +2,11 @@ import { Meta, StoryObj } from '@storybook/react';
 import { ComponentProps } from 'react';
 
 import untransformedBody from '@weco/cardigan/stories/data/untransformed-body';
+import {
+  gridSize10,
+  gridSize12,
+  gridSize8,
+} from '@weco/common/views/components/Layout';
 import { transformOnThisPage } from '@weco/content/services/prismic/transformers/pages';
 import Body from '@weco/content/views/components/Body';
 
@@ -11,7 +16,7 @@ type BodyStoryProps = ComponentProps<typeof Body> & {
   hasStaticContent: boolean;
 };
 
-const meta: Meta<BodyStoryProps> = {
+const meta: Meta<Omit<BodyStoryProps, 'gridSizes'> & { gridSizes: string }> = {
   title: 'Components/Body',
   component: Body,
   args: {
@@ -30,6 +35,8 @@ const meta: Meta<BodyStoryProps> = {
     isDropCapped: false,
     isOfficialLandingPage: false,
     hasStaticContent: false,
+    hasLandingPageFormat: false,
+    gridSizes: '8',
     staticContent: (
       <>
         <h2>Injected static content from the codebase</h2>
@@ -46,36 +53,13 @@ const meta: Meta<BodyStoryProps> = {
     ),
   },
   argTypes: {
-    untransformedBody: {
-      table: {
-        disable: true,
-      },
-    },
-    introText: {
-      table: {
-        disable: true,
-      },
-    },
-    onThisPage: {
-      table: {
-        disable: true,
-      },
-    },
-    pageId: {
-      table: {
-        disable: true,
-      },
-    },
-    staticContent: {
-      table: {
-        disable: true,
-      },
-    },
-    comicPreviousNext: {
-      table: {
-        disable: true,
-      },
-    },
+    untransformedBody: { table: { disable: true } },
+    introText: { table: { disable: true } },
+    onThisPage: { table: { disable: true } },
+    pageId: { table: { disable: true } },
+    pageUid: { table: { disable: true } },
+    staticContent: { table: { disable: true } },
+    comicPreviousNext: { table: { disable: true } },
     contentType: {
       name: "Content type: injects different styles based on whether it's one of these",
     },
@@ -91,8 +75,17 @@ const meta: Meta<BodyStoryProps> = {
     hasLandingPageFormat: {
       name: 'Displays a content list if there is one',
     },
-    minWidth: {
-      name: 'Minimum grid',
+    gridSizes: {
+      name: 'Grid size for layout',
+      control: {
+        type: 'select',
+      },
+      options: ['8', '10', '12'],
+      mapping: {
+        '8': gridSize8(),
+        '10': gridSize10(),
+        '12': gridSize12(),
+      },
     },
     isDropCapped: {
       name: 'Is drop capped: apply drop cap styling',

@@ -25,7 +25,7 @@ const SearchBarWrapper = styled(Space).attrs({
 })`
   position: absolute;
   width: 100%;
-  ${props => props.theme.makeSpacePropertyValues('l', ['padding-top'])};
+  ${props => props.theme.makeSpacePropertyValues('md', ['padding-top'])};
   background-color: ${props => props.theme.color('white')};
 `;
 

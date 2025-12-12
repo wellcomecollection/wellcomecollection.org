@@ -25,7 +25,7 @@ const PopoutCardImageContainer = styled.div<{ $hasImage: boolean }>`
 `;
 
 const PopoutCardImage = styled(Space).attrs({
-  $v: { size: 'l', properties: ['bottom'] },
+  $v: { size: 'md', properties: ['bottom'] },
 })`
   position: relative;
   width: 66%;
@@ -54,7 +54,7 @@ const LinkSpace = styled(Space).attrs<LinkSpaceAttrs>(props => ({
   display: block;
   margin-top: 40px;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     margin-top: 0;
   `}
 
@@ -126,7 +126,7 @@ const WorkCard: FunctionComponent<Props> = ({ item }) => {
 
   return (
     <LinkSpace $url={transformedWork.url} data-component="work-card">
-      <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+      <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
         <Shim $hasImage={!!transformedWork.imageUrl}>
           <PopoutCardImageContainer $hasImage={!!transformedWork.imageUrl}>
             {transformedWork.imageUrl ? (
@@ -140,10 +140,12 @@ const WorkCard: FunctionComponent<Props> = ({ item }) => {
         </Shim>
 
         <Space
-          $v={{ size: 's', properties: ['margin-bottom'] }}
+          $v={{ size: 'xs', properties: ['margin-bottom'] }}
           style={{ position: 'relative' }}
         >
-          <Space $v={{ size: 'm', properties: ['margin-top'], negative: true }}>
+          <Space
+            $v={{ size: 'sm', properties: ['margin-top'], negative: true }}
+          >
             <LabelsList labels={transformedWork.labels} />
           </Space>
         </Space>

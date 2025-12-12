@@ -8,6 +8,7 @@ import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground';
+import { gridSize8 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import Space from '@weco/common/views/components/styled/Space';
 import {
@@ -131,6 +132,7 @@ const Installation: FunctionComponent<Props> = ({ installation, pages }) => {
           untransformedBody={installation.untransformedBody}
           pageId={installation.id}
           pageUid={installation.uid}
+          gridSizes={gridSize8()}
         />
       }
       seasons={installation.seasons}

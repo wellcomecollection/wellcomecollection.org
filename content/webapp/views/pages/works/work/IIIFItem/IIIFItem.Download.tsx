@@ -10,8 +10,8 @@ import Space from '@weco/common/views/components/styled/Space';
 import { getFileLabel } from '@weco/content/utils/works';
 
 const DownloadContainer = styled(Space).attrs({
-  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
 })`
   position: absolute;
   top: 50%;
@@ -59,7 +59,7 @@ const IIIFItemDownload: FunctionComponent<Props> = ({
       />
       <Space
         className={font('sans-bold', -1)}
-        $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
+        $v={{ size: 'sm', properties: ['margin-top', 'margin-bottom'] }}
       >
         {displayLabel}
       </Space>

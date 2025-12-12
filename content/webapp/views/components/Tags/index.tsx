@@ -42,8 +42,8 @@ const PartWithSeparator = styled.span.attrs({
 `;
 
 const LinkWrapper = styled(Space).attrs({
-  $v: { size: 's', properties: ['margin-bottom'] },
-  $h: { size: 's', properties: ['margin-right'] },
+  $v: { size: 'xs', properties: ['margin-bottom'] },
+  $h: { size: 'xs', properties: ['margin-right'] },
 })`
   display: inline-block;
 `;
@@ -69,7 +69,7 @@ const Tags: FunctionComponent<Props> = ({
   return (
     <Space
       data-component="tags"
-      $v={{ size: 's', negative: true, properties: ['margin-bottom'] }}
+      $v={{ size: 'xs', negative: true, properties: ['margin-bottom'] }}
     >
       <PlainList>
         {/* Have to use index for key because some LCSH and MSH are the same and therefore textParts aren't unique */}

@@ -99,7 +99,7 @@ const SimpleCardGrid: FunctionComponent<Props> = ({
         </Grid>
       </Container>
       {featuredCard && !isFeaturedFirst && (
-        <Space $v={{ size: 'l', properties: ['padding-top'] }}>
+        <Space $v={{ size: 'md', properties: ['padding-top'] }}>
           <CardGridFeaturedCard item={featuredCard} />
         </Space>
       )}

@@ -73,7 +73,7 @@ const GridFactory: FunctionComponent<Props> = ({
 
   return (
     <Container>
-      <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+      <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
         <Grid>
           {items.map((item, index) => (
             <GridCell

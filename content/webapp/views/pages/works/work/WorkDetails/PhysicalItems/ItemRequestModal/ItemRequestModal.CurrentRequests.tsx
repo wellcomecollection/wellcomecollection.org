@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 
 const CurrentRequestCount = styled(Space).attrs({
-  $h: { size: 's', properties: ['padding-left', 'margin-left'] },
+  $h: { size: 'xs', properties: ['padding-left', 'margin-left'] },
 })`
   border-left: 5px solid ${props => props.theme.color('yellow')};
 `;

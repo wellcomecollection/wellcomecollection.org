@@ -45,7 +45,7 @@ const RegistrationInformation: FunctionComponent<{
         Email address:{' '}
         <strong className={font('sans-bold', -1)}>{email}</strong>
       </p>
-      <Space $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}>
+      <Space $v={{ size: 'sm', properties: ['margin-top', 'margin-bottom'] }}>
         <Divider />
       </Space>
     </>
@@ -205,7 +205,7 @@ const RegistrationPage: NextPage<Props> = ({
                           </FlexStartCheckbox>
                         )}
                       />
-                      <Space $v={{ size: 's', properties: ['margin-top'] }}>
+                      <Space $v={{ size: 'xs', properties: ['margin-top'] }}>
                         <ErrorMessage
                           errors={formState.errors}
                           name="termsAndConditions"

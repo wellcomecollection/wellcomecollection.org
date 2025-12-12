@@ -46,7 +46,7 @@ const WorkHeader: FunctionComponent<Props> = ({
             xl: [10],
           }}
         >
-          <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
             <SpacingComponent>
               <WorkTitleWrapper
                 aria-live="polite"
@@ -57,7 +57,7 @@ const WorkHeader: FunctionComponent<Props> = ({
               </WorkTitleWrapper>
 
               {primaryContributorLabel && (
-                <Space $h={{ size: 'm', properties: ['margin-right'] }}>
+                <Space $h={{ size: 'sm', properties: ['margin-right'] }}>
                   <LinkLabels items={[{ text: primaryContributorLabel }]} />
                 </Space>
               )}
@@ -86,7 +86,7 @@ const WorkHeader: FunctionComponent<Props> = ({
               {cardLabels.length > 0 && (
                 <Space
                   $v={{
-                    size: 'm',
+                    size: 'sm',
                     properties: ['margin-top'],
                   }}
                 >
@@ -100,7 +100,7 @@ const WorkHeader: FunctionComponent<Props> = ({
               {Boolean(
                 collectionManifestsCount && collectionManifestsCount > 0
               ) && (
-                <Space $v={{ size: 'm', properties: ['margin-top'] }}>
+                <Space $v={{ size: 'sm', properties: ['margin-top'] }}>
                   <p
                     className={font('sans-bold', -1)}
                     style={{ marginBottom: 0 }}
@@ -119,7 +119,7 @@ const WorkHeader: FunctionComponent<Props> = ({
         </GridCell>
       </Grid>
       {!isArchive && (
-        <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
+        <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
           <Divider lineColor="neutral.400" />
         </Space>
       )}

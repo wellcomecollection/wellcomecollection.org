@@ -261,9 +261,9 @@ const SearchPage: NextPage<Props> = withSearchLayout(
                   <CatalogueResultsInner>
                     <Space
                       className="is-hidden-l is-hidden-xl"
-                      $v={{ size: 'l', properties: ['margin-bottom'] }}
+                      $v={{ size: 'md', properties: ['margin-bottom'] }}
                       $h={{
-                        size: 'm',
+                        size: 'sm',
                         properties: ['margin-left', 'margin-right'],
                       }}
                     >
@@ -311,11 +311,11 @@ const SearchPage: NextPage<Props> = withSearchLayout(
                       <Space
                         className="is-hidden-s is-hidden-m"
                         $v={{
-                          size: 'l',
+                          size: 'md',
                           properties: ['margin-top', 'margin-bottom'],
                         }}
                         $h={{
-                          size: 'm',
+                          size: 'sm',
                           properties: ['margin-left', 'margin-right'],
                         }}
                       >
@@ -327,12 +327,12 @@ const SearchPage: NextPage<Props> = withSearchLayout(
                       <>
                         <CatalogueSectionTitle
                           $h={{
-                            size: 'm',
+                            size: 'sm',
                             properties: ['margin-left', 'margin-right'],
                           }}
                           $isSmallGallery={isSmallGallery}
                           $v={{
-                            size: 'm',
+                            size: 'sm',
                             properties: ['margin-bottom'],
                           }}
                         >

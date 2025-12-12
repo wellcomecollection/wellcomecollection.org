@@ -10,6 +10,7 @@ import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
+import { gridSize10, gridSize8 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import { Container } from '@weco/common/views/components/styled/Container';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
@@ -32,7 +33,7 @@ import ContentTypeInfo from './story.ContentTypeInfo';
 import { getNextUp, getRelatedDoc, setSeries } from './story.helpers';
 
 const RelatedStoryContainer = styled.div`
-  ${props => props.theme.makeSpacePropertyValues('l', ['margin-top'])};
+  ${props => props.theme.makeSpacePropertyValues('md', ['margin-top'])};
   ${props => props.theme.makeSpacePropertyValues('xl', ['margin-bottom'])};
 `;
 
@@ -173,7 +174,7 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
             isDropCapped={true}
             pageId={article.id}
             pageUid={article.uid}
-            minWidth={isPodcast ? 10 : 8}
+            gridSizes={isPodcast ? gridSize10() : gridSize8()}
             contentType={
               isShortFilmFormat
                 ? 'short-film'

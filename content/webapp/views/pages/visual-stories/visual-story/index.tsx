@@ -9,6 +9,7 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import {
   ContaineredLayout,
   gridSize12,
+  gridSize8,
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import Space from '@weco/common/views/components/styled/Space';
@@ -109,6 +110,7 @@ const VisualStoryPage: NextPage<Props> = ({
             onThisPage={onThisPageLinks}
             showOnThisPage={visualStory.showOnThisPage}
             contentType="visual-story"
+            gridSizes={gridSize8()}
           />
         }
       />

@@ -7,7 +7,7 @@ import { PaletteColor } from '@weco/common/views/themes/config';
 
 export const DateWrapper = styled(Space).attrs({
   className: font('sans', 0),
-  $v: { size: 's', properties: ['margin-bottom'] },
+  $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   padding: 0;
 `;
@@ -18,13 +18,13 @@ export const FeaturedCardWrap = styled.div`
   margin-left: -${props => props.theme.gutter.small};
   margin-right: -${props => props.theme.gutter.small};
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     margin-left: 0;
     margin-right: 0;
   `}
 
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
     padding-bottom: ${shimHeight};
   `)}
 `;
@@ -45,7 +45,7 @@ export const FeaturedCardLink = styled(Grid).attrs({
 
 export const FeaturedCardLeft = styled(GridCell)<HasIsReversed>`
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
     order: ${props.$isReversed ? 2 : 1};
   `)}
 `;
@@ -66,20 +66,20 @@ export const FeaturedCardRight = styled.div.attrs({
   padding-left: ${props => (props.$isReversed ? 0 : props.theme.gutter.small)};
   padding-right: ${props => (props.$isReversed ? props.theme.gutter.small : 0)};
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     padding-left: 0;
     padding-right: 0;
   `}
 
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
       transform: translateY(0);
     `)}
 `;
 
 export const FeaturedCardCopy = styled(Space).attrs({
-  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
 })<{ $textColor: PaletteColor; $background: PaletteColor }>`
   flex: 1;
   color: ${props => props.theme.color(props.$textColor)};
@@ -103,7 +103,7 @@ export const FeaturedCardLabelWrap = styled.div<HasIsReversed>`
   display: flex;
 
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
       justify-content: ${props.$isReversed ? 'flex-end' : 'flex-start'};
       margin-right: ${props.$isReversed ? '-16px' : undefined};
   `)}
@@ -111,7 +111,7 @@ export const FeaturedCardLabelWrap = styled.div<HasIsReversed>`
 
 export const FeaturedCardRightWrap = styled(GridCell)<HasIsReversed>`
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
     order: ${props.$isReversed ? 1 : 2};
   `)}
 `;

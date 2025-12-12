@@ -17,7 +17,7 @@ const GuideLinks: FunctionComponent<Props> = ({ exhibitionGuide }) => {
     <>
       {(availableTypes.audioWithoutDescriptions || availableTypes.BSLVideo) && (
         <>
-          <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
             <SectionHeader title="Highlights tour" />
           </Space>
           <p>
@@ -52,7 +52,7 @@ const GuideLinks: FunctionComponent<Props> = ({ exhibitionGuide }) => {
 
       {availableTypes.captionsOrTranscripts && (
         <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
-          <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
             <SectionHeader title="Exhibition text" />
           </Space>
           <p>All the wall and label text from the exhibition.</p>

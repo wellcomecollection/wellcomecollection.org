@@ -25,7 +25,7 @@ const ConceptHero = styled(Space).attrs({
 const Title = styled(Space).attrs({
   as: 'h1',
   className: font('brand', 4),
-  $v: { size: 'xs', properties: ['margin-bottom'] },
+  $v: { size: '2xs', properties: ['margin-bottom'] },
 })``;
 
 const ThemeDescription = styled.div.attrs({
@@ -34,11 +34,11 @@ const ThemeDescription = styled.div.attrs({
 
 const AlternativeLabels = styled(Space).attrs({
   className: font('sans', -2),
-  $v: { size: 'm', properties: ['margin-bottom'] },
+  $v: { size: 'sm', properties: ['margin-bottom'] },
 })`
   display: flex;
   flex-wrap: wrap;
-  gap: ${props => props.theme.spacingUnits['3']}px;
+  gap: ${props => props.theme.spacingUnits['100']}px;
   color: ${props => props.theme.color('neutral.700')};
 `;
 
@@ -46,7 +46,7 @@ const AlternativeLabel = styled.span.attrs({
   className: font('sans', -2),
 })`
   border-right: 1px solid ${props => props.theme.color('neutral.700')};
-  padding-right: ${props => props.theme.spacingUnits['3']};
+  padding-right: ${props => props.theme.spacingUnits['100']};
 
   &:last-of-type {
     border-right: 0;

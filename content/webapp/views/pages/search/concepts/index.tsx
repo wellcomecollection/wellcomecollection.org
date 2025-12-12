@@ -70,13 +70,13 @@ const ConceptsSearchPage: NextPage<Props> = withSearchLayout(
           )}
         </Head>
 
-        <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
+        <Space $v={{ size: 'md', properties: ['padding-bottom'] }}>
           <Container>
             {hasNoResults ? (
               <SearchNoResults query={queryString} hasFilters={false} />
             ) : (
               <>
-                <PaginationWrapper $verticalSpacing="l">
+                <PaginationWrapper $verticalSpacing="md">
                   <span role="status">
                     {pluralize(concepts.totalResults, 'result')}
                   </span>
@@ -92,7 +92,7 @@ const ConceptsSearchPage: NextPage<Props> = withSearchLayout(
                   <ConceptsSearchResults concepts={concepts.results} />
                 </main>
 
-                <PaginationWrapper $verticalSpacing="l" $alignRight>
+                <PaginationWrapper $verticalSpacing="md" $alignRight>
                   <Pagination
                     totalPages={concepts.totalPages}
                     ariaLabel="Themes search pagination"

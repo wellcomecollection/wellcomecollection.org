@@ -47,10 +47,10 @@ const ExhibitionGuideCard: FunctionComponent<Props> = ({ exhibitionGuide }) => {
               alt: '',
             }}
             sizes={{
-              xlarge: 1 / 4,
-              large: 1 / 3,
-              medium: 1 / 2,
-              small: 1,
+              lg: 1 / 4,
+              md: 1 / 3,
+              sm: 1 / 2,
+              zero: 1,
             }}
             quality="low"
           />
@@ -61,7 +61,7 @@ const ExhibitionGuideCard: FunctionComponent<Props> = ({ exhibitionGuide }) => {
         <div>
           <CardTitle>{exhibitionGuide.title}</CardTitle>
           {exhibitionGuide.promo?.caption && (
-            <Space $v={{ size: 's', properties: ['margin-top'] }}>
+            <Space $v={{ size: 'xs', properties: ['margin-top'] }}>
               <p className={font('sans', -1)} style={{ marginBottom: 0 }}>
                 {exhibitionGuide.promo.caption}
               </p>
@@ -69,9 +69,9 @@ const ExhibitionGuideCard: FunctionComponent<Props> = ({ exhibitionGuide }) => {
           )}
           <Space
             $v={{
-              size: 'l',
+              size: 'md',
               properties: ['margin-top'],
-              overrides: { small: 4, medium: 4, large: 5 },
+              overrides: { zero: '150', sm: '150', md: '200' },
             }}
           >
             <RelevantGuideIcons

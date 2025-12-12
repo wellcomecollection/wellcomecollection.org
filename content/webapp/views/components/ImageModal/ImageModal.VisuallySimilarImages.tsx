@@ -19,7 +19,7 @@ type State = 'initial' | 'loading' | 'success' | 'failed';
 
 const Wrapper = styled(Space).attrs({
   as: 'ul',
-  $v: { size: 's', properties: ['margin-bottom', 'margin-top'] },
+  $v: { size: 'xs', properties: ['margin-bottom', 'margin-top'] },
 })`
   ${plainListStyles}
 
@@ -28,7 +28,7 @@ const Wrapper = styled(Space).attrs({
   flex-wrap: wrap;
   min-height: 120px;
 
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
     flex-wrap: nowrap;
   `}
 
@@ -40,7 +40,7 @@ const Wrapper = styled(Space).attrs({
     /* Safari doesn't respond to max-height/width like the other browsers, we need this to ensure it's not warped. */
     object-fit: contain;
 
-    ${props => props.theme.media('large')`
+    ${props => props.theme.media('md')`
       max-width: 150px;
       width: calc(100% - 10px);
     `};

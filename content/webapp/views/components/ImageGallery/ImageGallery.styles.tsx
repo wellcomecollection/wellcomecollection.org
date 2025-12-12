@@ -3,13 +3,13 @@ import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 
 export const FrameGridWrap = styled(Space).attrs({
-  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
   $v: { size: 'xl', properties: ['margin-bottom'] },
 })`
   position: relative;
 
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
     padding: 0;
   `)}
 `;
@@ -21,12 +21,12 @@ export const FrameGrid = styled.div<FrameGridProps>`
   grid-template-columns: 1fr;
 
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
     grid-template-columns: 1fr 1fr;
   `)}
 
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
     ${props.$isThreeUp && `grid-template-columns: 1fr 1fr 1fr;`}
   `)}
 `;
@@ -38,7 +38,7 @@ export const FrameItem = styled.div`
 
 export const GalleryTitle = styled(Space).attrs({
   as: 'span',
-  $v: { size: 'm', properties: ['margin-bottom'] },
+  $v: { size: 'sm', properties: ['margin-bottom'] },
 })`
   display: flex;
 
@@ -92,7 +92,7 @@ export const Gallery = styled.div<GalleryProps>`
       ${props.theme.color('neutral.700')} 100px
     );
 
-    ${props.theme.media('medium')(`
+    ${props.theme.media('sm')(`
       background: linear-gradient(
         ${props.theme.color(props.$pageBackground)} 200px,
         ${props.theme.color('neutral.700')} 200px
@@ -115,7 +115,7 @@ export const Gallery = styled.div<GalleryProps>`
     &::before {
       top: 0;
 
-      ${props.theme.media('medium')`
+      ${props.theme.media('sm')`
         top: 0;
       `}
     }
@@ -139,14 +139,14 @@ export const Gallery = styled.div<GalleryProps>`
     ${props => props.$isStandalone && `top: 0;`}
 
     ${props =>
-      props.theme.media('medium')(`
+      props.theme.media('sm')(`
         top: 200px;
     `)}
   }
 `;
 
 export const CloseWrapper = styled(Space).attrs({
-  $v: { size: 'm', properties: ['padding-top'] },
+  $v: { size: 'sm', properties: ['padding-top'] },
 })`
   position: absolute;
   display: none;
@@ -158,7 +158,7 @@ export const CloseWrapper = styled(Space).attrs({
     width: 100%;
     pointer-events: none;
 
-    ${props => props.theme.media('medium')`
+    ${props => props.theme.media('sm')`
         top: 200px;
       `}
   }
@@ -197,8 +197,8 @@ export const ControlContainer = styled(Space).attrs<ControlContainerProps>(
   props => ({
     'aria-hidden': !props.$isActive,
     className: 'close',
-    $v: { size: 'm', properties: ['padding-bottom'] },
-    $h: { size: 'l', properties: ['margin-right'] },
+    $v: { size: 'sm', properties: ['padding-bottom'] },
+    $h: { size: 'md', properties: ['margin-right'] },
   })
 )<ControlContainerProps>`
   opacity: ${props => (props.$isActive ? 1 : 0)};

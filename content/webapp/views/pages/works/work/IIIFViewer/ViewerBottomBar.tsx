@@ -21,8 +21,8 @@ const BottomBar = styled.div`
 `;
 
 const LeftZone = styled(Space).attrs({
-  $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
-  $h: { size: 'm', properties: ['padding-left'] },
+  $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'sm', properties: ['padding-left'] },
 })`
   display: flex;
   justify-content: flex-start;
@@ -30,7 +30,7 @@ const LeftZone = styled(Space).attrs({
 `;
 
 const RightZone = styled(Space).attrs({
-  $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
 })`
   display: flex;
   justify-content: flex-end;
@@ -89,7 +89,7 @@ const ViewerBottomBar: FunctionComponent = () => {
       {isEnhanced && isFullscreenEnabled && showFullscreenControl && (
         <RightZone>
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <Space $h={{ size: 'm', properties: ['margin-right'] }}>
+            <Space $h={{ size: 'sm', properties: ['margin-right'] }}>
               <ViewerButton
                 $isDark
                 onClick={() => {

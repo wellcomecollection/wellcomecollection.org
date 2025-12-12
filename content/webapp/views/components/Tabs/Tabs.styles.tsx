@@ -10,12 +10,12 @@ export const Wrapper = styled.div`
       margin: 0 -${props.theme.containerPadding};
       transition: margin ${props.theme.transitionProperties};
 
-    ${props.theme.media('medium')(`
+    ${props.theme.media('sm')(`
         margin: 0 calc(-${props.theme.containerPadding} + 1rem);
     `)}
 
 
-    ${props.theme.media('xlarge')(`
+    ${props.theme.media('lg')(`
         margin-right: 0;
     `)}
   `}
@@ -37,7 +37,7 @@ export const TabsContainer = styled.div`
   padding-left: ${props => props.theme.containerPadding};
 
   ${props => `
-    ${props.theme.media('medium')(`
+    ${props.theme.media('sm')(`
       padding-left: calc(${props.theme.containerPadding} - 1rem);
   `)}
   `}
@@ -89,8 +89,8 @@ export const NavItemInner = styled(Space).attrs<{ $selected: boolean }>(
     return {
       as: 'span',
       className: classNames({ selected: props.$selected }),
-      $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-      $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+      $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
+      $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
     };
   }
 )<{ $isWhite?: boolean }>`

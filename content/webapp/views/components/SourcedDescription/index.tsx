@@ -28,7 +28,7 @@ const SOURCE_BOX_WIDTH = 224;
 const SourceBoxContainer = styled.div<{ $marginLeft: number }>`
   position: absolute;
   top: 21px;
-  padding-top: ${props => props.theme.spacingUnits['3']};
+  padding-top: ${props => props.theme.spacingUnits['100']};
   left: 0;
   margin-left: ${props => props.$marginLeft}px;
   width: ${SOURCE_BOX_WIDTH}px;
@@ -78,7 +78,7 @@ const Paragraph = styled.p.attrs({
   className: font('sans', 1),
 })`
   display: inline;
-  padding-right: ${props => props.theme.spacingUnits['3']};
+  padding-right: ${props => props.theme.spacingUnits['100']};
 
   @media (hover: hover) {
     &:has(+ ${SourcePill}:hover) {
@@ -92,8 +92,8 @@ const Paragraph = styled.p.attrs({
 `;
 
 const SourceBox = styled(Space).attrs({
-  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-  $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
 })`
   background-color: white;
   border-radius: 4px;
@@ -105,7 +105,7 @@ const SourceLink = styled(Space).attrs({
   display: flex;
   align-items: center;
   justify-content: start;
-  gap: ${props => props.theme.spacingUnits['3']};
+  gap: ${props => props.theme.spacingUnits['100']};
 
   img {
     height: 16px;
@@ -114,7 +114,7 @@ const SourceLink = styled(Space).attrs({
 `;
 
 const SourceLabel = styled.span`
-  padding: 0 ${props => props.theme.spacingUnits['3']};
+  padding: 0 ${props => props.theme.spacingUnits['100']};
 `;
 
 const SourcedDescription: FunctionComponent<{

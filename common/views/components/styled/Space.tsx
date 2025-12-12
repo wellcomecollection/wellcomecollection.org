@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-// This component will output horizontal/vertical space from one of five pre-defined sizes: xs, s, m, l, and xl.
+// This component will output horizontal/vertical space from one of six pre-defined sizes: 2xs, xs, sm, md, lg, and xl.
 // Each of these sizes has a pixel value for each of the three breakpoints, 'small', 'medium', and 'large'.
 // The component can receive `h` and/or `v` props to determine the horizontal/vertical space respectively.
 
@@ -8,11 +8,11 @@ import styled from 'styled-components';
 // space top and bottom via margins:
 
 // <Space
-//   $h={{ size: 's', properties: ['padding-left'] }},
-//   $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
+//   $h={{ size: 'xs', properties: ['padding-left'] }},
+//   $v={{ size: 'md', properties: ['margin-top', 'margin-bottom'] }}
 // />
 
-type SpaceSize = 'xs' | 's' | 'm' | 'l' | 'xl';
+type SpaceSize = '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 export type VerticalSpaceProperty =
   | 'margin-top'
   | 'margin-bottom'
@@ -33,11 +33,20 @@ export type HorizontalSpaceProperty =
   | 'column-gap'
   | 'width';
 
-type SpacingUnitsIndex = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+type SpacingUnitsIndex =
+  | '050'
+  | '075'
+  | '100'
+  | '150'
+  | '200'
+  | '300'
+  | '400'
+  | '600'
+  | '1200';
 export type SpaceOverrides = {
-  small?: SpacingUnitsIndex;
-  medium?: SpacingUnitsIndex;
-  large?: SpacingUnitsIndex;
+  zero?: SpacingUnitsIndex;
+  sm?: SpacingUnitsIndex;
+  md?: SpacingUnitsIndex;
 };
 
 type VerticalSpaceProps = {

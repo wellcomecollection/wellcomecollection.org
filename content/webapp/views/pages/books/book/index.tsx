@@ -39,7 +39,7 @@ const BookPage: NextPage<Props> = ({ book }) => {
       <ContaineredLayout gridSizes={gridSize8()}>
         <PopoutImage
           image={{ ...book.cover }}
-          sizes={{ xlarge: 1 / 3, large: 1 / 3, medium: 1 / 3, small: 1 }}
+          sizes={{ lg: 1 / 3, md: 1 / 3, sm: 1 / 3, zero: 1 }}
           quality="low"
         />
       </ContaineredLayout>
@@ -91,6 +91,7 @@ const BookPage: NextPage<Props> = ({ book }) => {
             untransformedBody={book.untransformedBody}
             pageId={book.id}
             pageUid={book.uid}
+            gridSizes={gridSize8()}
           />
         }
         contributors={book.contributors}
