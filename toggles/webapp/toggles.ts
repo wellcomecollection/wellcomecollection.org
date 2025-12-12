@@ -145,6 +145,14 @@ const toggles = {
       description: 'Allows access to the accessibility prototype page',
       type: 'experimental',
     },
+    {
+      id: 'twoColumns',
+      title: 'Two columns layout',
+      initialValue: false,
+      description:
+        'Enables a two-column layout for pages with in-page navigation',
+      type: 'experimental',
+    },
   ] as const,
   // We have to include a reference to any test toggles here as well as in the cache dir
   // because they are deployed separately and consequently can't share a source of truth
