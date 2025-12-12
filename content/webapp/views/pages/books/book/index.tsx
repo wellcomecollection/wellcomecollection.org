@@ -91,6 +91,7 @@ const BookPage: NextPage<Props> = ({ book }) => {
             untransformedBody={book.untransformedBody}
             pageId={book.id}
             pageUid={book.uid}
+            gridSizes={gridSize8()}
           />
         }
         contributors={book.contributors}

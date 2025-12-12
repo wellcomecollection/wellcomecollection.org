@@ -22,6 +22,7 @@ import Button from '@weco/common/views/components/Buttons';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground';
 import Icon from '@weco/common/views/components/Icon';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
+import { gridSize8 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import Space from '@weco/common/views/components/styled/Space';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
@@ -227,6 +228,7 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
             untransformedBody={untransformedBody}
             pageId={event.id}
             pageUid={event.uid}
+            gridSizes={gridSize8()}
           />
         }
         seasons={event.seasons}
