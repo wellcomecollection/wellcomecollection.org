@@ -2,11 +2,14 @@ import { SliceComponentProps } from '@prismicio/react';
 import { FunctionComponent } from 'react';
 
 import { EditorialImageSlice as RawEditorialImageSlice } from '@weco/common/prismicio-types';
+import {
+  ContaineredLayout,
+  getGridSizes,
+} from '@weco/common/views/components/Layout';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import { transformEditorialImageSlice } from '@weco/content/services/prismic/transformers/body';
 import {
   defaultContext,
-  LayoutWidth,
   SliceZoneContext,
 } from '@weco/content/views/components/Body';
 import CaptionedImage from '@weco/content/views/components/CaptionedImage';
@@ -53,9 +56,9 @@ const EditorialImageSlice: FunctionComponent<EditorialImageSliceProps> = ({
 
   return (
     <SpacingComponent $sliceType={transformedSlice.type}>
-      <LayoutWidth width={maxColumns}>
+      <ContaineredLayout gridSizes={getGridSizes(maxColumns)}>
         <CaptionedImage {...transformedSlice.value} />
-      </LayoutWidth>
+      </ContaineredLayout>
     </SpacingComponent>
   );
 };

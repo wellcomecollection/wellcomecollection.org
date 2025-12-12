@@ -2,13 +2,11 @@ import { SliceComponentProps } from '@prismicio/react';
 import { FunctionComponent } from 'react';
 
 import { CollectionVenueSlice as RawCollectionVenueSlice } from '@weco/common/prismicio-types';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import { ContaineredLayout } from '@weco/common/views/components/Layout';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import { transformCollectionVenueSlice } from '@weco/content/services/prismic/transformers/body';
-import {
-  LayoutWidth,
-  SliceZoneContext,
-} from '@weco/content/views/components/Body';
+import { SliceZoneContext } from '@weco/content/views/components/Body';
 import VenueClosedPeriods from '@weco/content/views/components/VenueClosedPeriods';
 import VenueHours from '@weco/content/views/components/VenueHours';
 
@@ -26,12 +24,17 @@ const CollectionVenue: FunctionComponent<CollectionVenueProps> = ({
   if (transformedSlice) {
     return (
       <SpacingComponent $sliceType={transformedSlice.type}>
-        {/* TODO, create variation or consider removing
-        https://github.com/wellcomecollection/wellcomecollection.org/issues/11098 */}
         {transformedSlice.value.showClosingTimes ? (
-          <LayoutWidth width={context.minWidth}>
+          <ConditionalWrapper
+            condition={!!context.gridSizes}
+            wrapper={children => (
+              <ContaineredLayout gridSizes={context.gridSizes!}>
+                {children}
+              </ContaineredLayout>
+            )}
+          >
             <VenueClosedPeriods venue={transformedSlice.value.content} />
-          </LayoutWidth>
+          </ConditionalWrapper>
         ) : (
           <ContaineredLayout
             gridSizes={

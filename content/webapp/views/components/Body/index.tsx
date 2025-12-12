@@ -1,24 +1,20 @@
 import * as prismic from '@prismicio/client';
 import { SliceZone } from '@prismicio/react';
-import {
-  Fragment,
-  FunctionComponent,
-  PropsWithChildren,
-  ReactElement,
-} from 'react';
+import { Fragment, FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
 
 import { officialLandingPagesUid } from '@weco/common/data/hardcoded-ids';
 import { ContentListSlice as RawContentListSlice } from '@weco/common/prismicio-types';
 import { classNames, font } from '@weco/common/utils/classnames';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
 import { defaultSerializer } from '@weco/common/views/components/HTMLSerializers';
 import {
   ContaineredLayout,
-  gridSize10,
   gridSize12,
   gridSize8,
 } from '@weco/common/views/components/Layout';
+import { SizeMap } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import { components } from '@weco/common/views/slices';
@@ -51,41 +47,6 @@ const BodyWrapper = styled.div<{ $splitBackground: boolean }>`
 `}
 `;
 
-type LayoutWidthProps = PropsWithChildren<{
-  width: 8 | 10 | 12 | 'none';
-}>;
-
-export const LayoutWidth: FunctionComponent<LayoutWidthProps> = ({
-  width,
-  children,
-}): ReactElement | null => {
-  switch (true) {
-    case width === 12:
-      return (
-        <ContaineredLayout gridSizes={gridSize12()}>
-          {children}
-        </ContaineredLayout>
-      );
-    case width === 10:
-      return (
-        <ContaineredLayout gridSizes={gridSize10()}>
-          {children}
-        </ContaineredLayout>
-      );
-    case width === 8:
-      return (
-        <ContaineredLayout gridSizes={gridSize8()}>
-          {children}
-        </ContaineredLayout>
-      );
-    case width === 'none':
-      return <>{children}</>;
-
-    default:
-      return null;
-  }
-};
-
 export type Props = {
   untransformedBody: prismic.Slice[];
   introText?: prismic.RichTextField;
@@ -94,7 +55,7 @@ export type Props = {
   isDropCapped?: boolean;
   pageId: string;
   pageUid: string;
-  minWidth?: 10 | 8;
+  gridSizes?: SizeMap;
   hasLandingPageFormat?: boolean;
   isOfficialLandingPage?: boolean;
   staticContent?: ReactElement | null;
@@ -127,27 +88,24 @@ const Wrapper = styled(Space).attrs<WrapperProps>(props => ({
 `;
 
 export type SliceZoneContext = {
-  minWidth: 8 | 10 | 12 | 'none';
   firstTextSliceIndex: string;
   isVisualStory: boolean;
-  comicPreviousNext?: ComicPreviousNextProps;
   isShortFilm: boolean;
   pageId: string;
   hasLandingPageFormat: boolean;
   isDropCapped: boolean;
+  gridSizes?: SizeMap;
+  comicPreviousNext?: ComicPreviousNextProps;
   contentType?: 'short-film' | 'visual-story' | 'standalone-image-gallery';
 };
 
 export const defaultContext: SliceZoneContext = {
-  minWidth: 8,
   firstTextSliceIndex: '',
   isVisualStory: false,
-  comicPreviousNext: undefined,
   isShortFilm: false,
   pageId: '',
   hasLandingPageFormat: false,
   isDropCapped: false,
-  contentType: undefined,
 };
 
 const Body: FunctionComponent<Props> = ({
@@ -158,7 +116,7 @@ const Body: FunctionComponent<Props> = ({
   isDropCapped,
   pageId,
   pageUid,
-  minWidth = 8,
+  gridSizes,
   hasLandingPageFormat = false,
   isOfficialLandingPage = false,
   staticContent = null,
@@ -343,9 +301,16 @@ const Body: FunctionComponent<Props> = ({
 
       {onThisPage && onThisPage.length > 2 && showOnThisPage && (
         <SpacingComponent>
-          <LayoutWidth width={minWidth}>
+          <ConditionalWrapper
+            condition={!!gridSizes}
+            wrapper={children => (
+              <ContaineredLayout gridSizes={gridSizes!}>
+                {children}
+              </ContaineredLayout>
+            )}
+          >
             <InPageNavigation links={onThisPage} variant="simple" />
-          </LayoutWidth>
+          </ConditionalWrapper>
         </SpacingComponent>
       )}
 
@@ -355,7 +320,7 @@ const Body: FunctionComponent<Props> = ({
         slices={filteredUntransformedBody}
         components={components}
         context={{
-          minWidth,
+          gridSizes,
           firstTextSliceIndex,
           isVisualStory,
           comicPreviousNext,

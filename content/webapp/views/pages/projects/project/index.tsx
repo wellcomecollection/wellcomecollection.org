@@ -7,6 +7,7 @@ import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import { makeLabels } from '@weco/common/views/components/LabelsList';
+import { gridSize8 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
@@ -90,6 +91,7 @@ export const ProjectPage: NextPage<Props> = ({
             pageId={project.id}
             pageUid={project.uid}
             staticContent={staticContent}
+            gridSizes={gridSize8()}
           />
         }
         contributors={project.contributors}

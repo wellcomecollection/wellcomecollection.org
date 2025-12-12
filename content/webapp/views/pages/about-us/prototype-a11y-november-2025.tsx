@@ -71,7 +71,6 @@ const A11yPrototypePage: NextPage<page.Props> = props => {
                       slices={props.page.untransformedBody}
                       components={components}
                       context={{
-                        minWidth: 'none',
                         firstTextSliceIndex,
                         pageId: props.page.id,
                       }}
