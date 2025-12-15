@@ -236,6 +236,10 @@ export const PagePage: NextPage<Props> = ({
       siteSection={page?.siteSection as SiteSection}
       image={page.image}
       apiToolbarLinks={[createPrismicLink(page.id)]}
+      // We can remove this when the Inclusive Exhibition Design Toolkit page has been removed in Prismic
+      isNoIndex={prismicPageIds.inclusiveExhibitionDesignToolkit.includes(
+        page.id
+      )}
     >
       <ContentPage
         id={page.id}
