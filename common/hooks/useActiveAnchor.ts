@@ -14,44 +14,88 @@ export function useActiveAnchor(ids: string[]): string | null {
 
     // Track ids of currently intersecting elements
     const intersectingIds = new Set();
+    let sectionObserver: IntersectionObserver | null = null;
+    let observedSections: Element[] = [];
 
-    const sections = ids
-      .map(id => document.getElementById(id)?.closest('section'))
-      .filter(isNotNull)
-      .filter(isNotUndefined);
+    const setupObserver = () => {
+      // Get sections - they might be created dynamically
+      const sections = ids
+        .map(id => document.getElementById(id)?.closest('section'))
+        .filter(isNotNull)
+        .filter(isNotUndefined);
 
-    const sectionObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        intersectingIds[entry.isIntersecting ? 'add' : 'delete'](
-          (entry.target as HTMLElement)?.dataset.id
+      // If no sections found yet, return false to indicate we should try again
+      if (sections.length === 0) return false;
+
+      // Clean up existing observer if any
+      if (sectionObserver) {
+        observedSections.forEach(section =>
+          sectionObserver?.unobserve(section)
         );
+      }
+
+      observedSections = sections;
+
+      sectionObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          intersectingIds[entry.isIntersecting ? 'add' : 'delete'](
+            (entry.target as HTMLElement)?.dataset.id
+          );
+        });
+
+        const sectionTops = [...intersectingIds]
+          .map(i => {
+            const section = sections.find(section => section?.dataset.id === i);
+            const top = section?.getBoundingClientRect().top;
+            return section?.dataset.id && top !== undefined
+              ? {
+                  id: section?.dataset.id,
+                  top,
+                }
+              : undefined;
+          })
+          .filter(isNotUndefined)
+          .filter(isNotNull);
+
+        // Sort to get the element that is currently intersecting and has the highest `boundingClientRect.top`
+        const activeSection = sectionTops.sort((a, b) => a.top - b.top)?.[0];
+        setActiveId(activeSection?.id);
       });
 
-      const sectionTops = [...intersectingIds]
-        .map(i => {
-          const section = sections.find(section => section?.dataset.id === i);
-          const top = section?.getBoundingClientRect().top;
-          return section?.dataset.id && top !== undefined
-            ? {
-                id: section?.dataset.id,
-                top,
-              }
-            : undefined;
-        })
-        .filter(isNotUndefined)
-        .filter(isNotNull);
+      sections.forEach(section => sectionObserver?.observe(section));
+      return true;
+    };
 
-      // Sort to get the element that is currently intersecting and has the highest `boundingClientRect.top`
-      const activeSection = sectionTops.sort((a, b) => a.top - b.top)?.[0];
-      setActiveId(activeSection?.id);
-    });
+    // Try to set up the observer immediately
+    const setupSuccess = setupObserver();
 
-    sections.forEach(section => sectionObserver.observe(section));
+    // If sections don't exist yet, use MutationObserver to watch for them
+    let mutationObserver: MutationObserver | null = null;
+    if (!setupSuccess) {
+      mutationObserver = new MutationObserver(() => {
+        const success = setupObserver();
+        if (success && mutationObserver) {
+          mutationObserver.disconnect();
+          mutationObserver = null;
+        }
+      });
+
+      // Watch the body for added sections
+      mutationObserver.observe(document.body, {
+        childList: true,
+        subtree: true,
+      });
+    }
 
     return () => {
       if (sectionObserver) {
-        sections.forEach(section => sectionObserver.unobserve(section));
+        observedSections.forEach(section =>
+          sectionObserver?.unobserve(section)
+        );
         sectionObserver.disconnect();
+      }
+      if (mutationObserver) {
+        mutationObserver.disconnect();
       }
     };
   }, [ids.join(',')]);

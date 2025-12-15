@@ -1,9 +1,10 @@
 import * as prismic from '@prismicio/client';
 import { SliceZone } from '@prismicio/react';
-import { Fragment, FunctionComponent, ReactElement } from 'react';
+import { Fragment, FunctionComponent, ReactElement, useRef } from 'react';
 import styled from 'styled-components';
 
 import { officialLandingPagesUid } from '@weco/common/data/hardcoded-ids';
+import { useSectionWrappers } from '@weco/common/hooks/useSectionWrappers';
 import { ContentListSlice as RawContentListSlice } from '@weco/common/prismicio-types';
 import { useToggles } from '@weco/common/server-data/Context';
 import { classNames, font } from '@weco/common/utils/classnames';
@@ -51,6 +52,22 @@ const BodyWrapper = styled.div<{ $splitBackground: boolean }>`
     )} 50%, transparent 50%);
   }
 `}
+
+  /* Spacing for wrapper sections created by useSectionWrappers */
+  /* This matches the SpacingComponent spacing behaviour */
+  section.section-wrapper-spacing + section.section-wrapper-spacing {
+    margin-top: ${props => props.theme.getSpaceValue('md', 'zero')};
+
+    ${props =>
+      props.theme.media('sm')(`
+        margin-top: ${props.theme.getSpaceValue('md', 'sm')};
+      `)}
+
+    ${props =>
+      props.theme.media('md')(`
+        margin-top: ${props.theme.getSpaceValue('md', 'md')};
+      `)}
+  }
 `;
 
 export type Props = {
@@ -130,6 +147,10 @@ const Body: FunctionComponent<Props> = ({
   contentType,
 }: Props) => {
   const { twoColumns } = useToggles();
+  const bodyRef = useRef<HTMLDivElement>(null);
+
+  // Wrap h2 elements and their subsequent content in sections for navigation tracking
+  useSectionWrappers(bodyRef, showOnThisPage && !!onThisPage?.length);
   const filteredUntransformedBody = untransformedBody.filter(
     slice => slice.slice_type !== 'standfirst'
   );
@@ -305,6 +326,7 @@ const Body: FunctionComponent<Props> = ({
       )}
     >
       <BodyWrapper
+        ref={bodyRef}
         data-component="body"
         className={`content-type-${contentType}`}
         $splitBackground={isShortFilm}
