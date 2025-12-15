@@ -147,14 +147,6 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'newOnlineListingPage',
-      title: 'New online listing page',
-      initialValue: false,
-      description:
-        'Enables the new online listing page at /collections/new-online',
-      type: 'experimental',
-    },
-    {
       id: 'newOnlineInCLP',
       title: 'New Online block in CLP changes',
       initialValue: false,
