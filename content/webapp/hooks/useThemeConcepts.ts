@@ -30,7 +30,7 @@ export function useThemeConcepts(
         conceptsCache.set(category.label, result);
         setConcepts(result);
         return result;
-      } catch (err) {
+      } catch {
         setError('Failed to load concepts');
         return [];
       } finally {

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires, import/first */
+/* eslint-disable @typescript-eslint/no-require-imports */
 // This needs to be the first module loaded in the application
 require('@weco/common/services/apm/initApm')('content-server');
 import Router from '@koa/router';

@@ -200,7 +200,7 @@ export const urlChecker =
     try {
       await page.waitForLoadState('load');
       await new Promise(resolve => setTimeout(resolve, 1000));
-    } catch (e) {
+    } catch {
       return safeClose({
         success: false,
         failures: [

@@ -18,7 +18,6 @@ updates:
       # Dependent on higher versions of the list above, remove from here once the upgrade it depends on has been done.
       - dependency-name: 'cookies-next'
       # Needs more work, they have their own ticket. Remove them from this list once tickets are Done.
-      - dependency-name: 'eslint*'
       - dependency-name: '@babel/*'
       - dependency-name: 'openseadragon'
       - dependency-name: '@prismicio/*'
