@@ -19,7 +19,6 @@ updates:
       - dependency-name: 'cookies-next'
       # Needs more work, they have their own ticket. Remove them from this list once tickets are Done.
       - dependency-name: '@babel/*'
-      - dependency-name: 'husky'
       - dependency-name: 'openseadragon'
       - dependency-name: '@prismicio/*'
       - dependency-name: 'node-fetch'
