@@ -6,7 +6,7 @@ export function isJson(v: string): boolean {
   try {
     JSON.parse(v);
     return true;
-  } catch (e) {
+  } catch {
     return false;
   }
 }
