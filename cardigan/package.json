@@ -23,6 +23,6 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "typescript": "^5.8.3",
-    "webpack": "5.101.2"
+    "webpack": "5.104.0"
   }
 }
