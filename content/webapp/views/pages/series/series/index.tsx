@@ -6,6 +6,7 @@ import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground';
+import { gridSize8 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
@@ -98,6 +99,7 @@ const ArticleSeriesPage: NextPage<Props> = props => {
             untransformedBody={series.untransformedBody}
             pageId={series.id}
             pageUid={series.uid}
+            gridSizes={gridSize8()}
           />
         }
         contributors={series.contributors}
