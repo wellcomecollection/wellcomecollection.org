@@ -36,7 +36,6 @@ export function useActiveAnchor(ids: string[]): string | null {
 
     // Map each slice (child of container) to the active ID
     const elementIdMap = new Map<Element, string>();
-    console.log({ elementIdMap });
 
     let currentId: string | null = null;
     Array.from(container.children).forEach(child => {
