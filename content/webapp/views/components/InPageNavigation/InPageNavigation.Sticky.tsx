@@ -46,7 +46,6 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
   const ids = links.map(link => link.url.replace('#', ''));
   const observedActiveId = useActiveAnchor(ids);
   const [clickedId, setClickedId] = useState<string | null>(null);
-  const [lock, setLock] = useState(false);
   const listRef = useRef<HTMLUListElement>(null);
   const InPageNavigationStickyRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -100,27 +99,31 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
     observer.observe(InPageNavigationStickyRef.current);
   }, [InPageNavigationStickyRef.current]);
 
-  // When an anchor is clicked, lock for a short time before allowing scroll to clear
   useEffect(() => {
     if (!clickedId) return;
-    setLock(true);
-    const timeout = setTimeout(() => {
-      setLock(false);
-    }, 1000); // 1s lock
-    return () => clearTimeout(timeout);
-  }, [clickedId]);
 
-  // When the user scrolls, clear clickedId if it is set and not locked
-  useEffect(() => {
-    if (!clickedId || lock) return;
-    const handleScroll = () => {
+    const resetClickedId = () => {
       setClickedId(null);
     };
-    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    window.addEventListener('wheel', resetClickedId, { passive: true });
+    window.addEventListener('touchmove', resetClickedId, { passive: true });
+    window.addEventListener('keydown', resetClickedId, { passive: true });
+    window.addEventListener('mousedown', resetClickedId, { passive: true });
+
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('wheel', resetClickedId);
+      window.removeEventListener('touchmove', resetClickedId);
+      window.removeEventListener('keydown', resetClickedId);
+      window.removeEventListener('mousedown', resetClickedId);
     };
-  }, [clickedId, lock]);
+  }, [clickedId]);
+
+  useEffect(() => {
+    if (clickedId === observedActiveId) {
+      setClickedId(null);
+    }
+  }, [clickedId, observedActiveId]);
 
   // Determine the active id based on whether sticky is enabled
   const activeId = clickedId || observedActiveId;
