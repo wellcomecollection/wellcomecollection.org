@@ -54,7 +54,7 @@ const WorkLinkWithIcon = styled.a<{ $isPortalVisible: boolean }>`
 const hasLinkedWork = (taslSourceLink?: string) => {
   return Boolean(
     taslSourceLink &&
-      taslSourceLink.indexOf('wellcomecollection.org/works/') > -1
+    taslSourceLink.indexOf('wellcomecollection.org/works/') > -1
   );
 };
 

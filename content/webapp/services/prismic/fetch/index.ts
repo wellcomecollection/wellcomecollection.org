@@ -117,7 +117,9 @@ export function fetcher<Document extends prismic.PrismicDocument>(
                 filters,
               }
         );
-      } catch {}
+      } catch (e) {
+        console.warn(e);
+      }
     },
 
     /** Get all the documents of a given type.

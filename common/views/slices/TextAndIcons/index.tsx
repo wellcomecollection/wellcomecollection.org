@@ -3,10 +3,7 @@ import { FunctionComponent } from 'react';
 
 import { TextAndIconsSlice as RawTextAndIconsSlice } from '@weco/common/prismicio-types';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
-import {
-  ContaineredLayout,
-  gridSize8,
-} from '@weco/common/views/components/Layout';
+import { ContaineredLayout } from '@weco/common/views/components/Layout';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import { transformTextAndIcons } from '@weco/content/services/prismic/transformers/body';
 import { SliceZoneContext } from '@weco/content/views/components/Body';
@@ -26,9 +23,9 @@ const TextAndIconsSlice: FunctionComponent<TextAndIconsProps> = ({
   return (
     <SpacingComponent $sliceType={transformedSlice.type}>
       <ConditionalWrapper
-        condition={context.minWidth !== 'none'}
+        condition={!!context.gridSizes}
         wrapper={children => (
-          <ContaineredLayout gridSizes={gridSize8()}>
+          <ContaineredLayout gridSizes={context.gridSizes!}>
             {children}
           </ContaineredLayout>
         )}

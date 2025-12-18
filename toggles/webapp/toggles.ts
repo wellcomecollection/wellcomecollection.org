@@ -123,34 +123,18 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'designSystemFonts',
-      title: 'Design system fonts',
-      initialValue: false,
-      description:
-        'Use the design system font sizing, weights, and families instead of custom values',
-      type: 'experimental',
-    },
-    {
-      id: 'designSystemSpacing',
-      title: 'Design system spacing',
-      initialValue: false,
-      description:
-        'Use the design system responsive spacing values instead of custom breakpoint-based spacing',
-      type: 'experimental',
-    },
-    {
-      id: 'designSystemBreakpoints',
-      title: 'Design system breakpoints',
-      initialValue: false,
-      description:
-        'Use the design system breakpoint values instead of custom breakpoints',
-      type: 'experimental',
-    },
-    {
       id: 'a11yPrototype',
       title: 'Accessibility prototype page',
       initialValue: false,
       description: 'Allows access to the accessibility prototype page',
+      type: 'experimental',
+    },
+    {
+      id: 'twoColumns',
+      title: 'Two columns layout',
+      initialValue: false,
+      description:
+        'Enables a two-column layout for pages with in-page navigation',
       type: 'experimental',
     },
   ] as const,

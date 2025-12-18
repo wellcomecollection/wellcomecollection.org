@@ -12,6 +12,7 @@ import { isPast } from '@weco/common/utils/dates';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb';
 import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
+import { gridSize8 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
@@ -165,6 +166,7 @@ const Exhibition: FunctionComponent<Props> = ({
           untransformedBody={exhibition.untransformedBody}
           pageId={exhibition.id}
           pageUid={exhibition.uid}
+          gridSizes={gridSize8()}
         />
       }
       seasons={exhibition.seasons}
