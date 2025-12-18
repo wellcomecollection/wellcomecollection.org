@@ -1,4 +1,4 @@
-// Reorganise when newOnlineListingPage becomes default
+// Reorganise when newOnlineInCLP becomes default
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 

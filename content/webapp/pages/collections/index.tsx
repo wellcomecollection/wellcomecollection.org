@@ -108,7 +108,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       .filter(isFullWidthBanner);
 
     let newOnlineDocuments: WorkBasic[] = [];
-    if (serverData.toggles.newOnlineListingPage.value) {
+    if (serverData.toggles.newOnlineInCLP.value) {
       // Find the "New online" text block in Prismic that contains work IDs
       // Format should be: "New online: [ptfqa2te, bbsjt2ex, a3cyqwec, sh37yy5n]"
       const newOnlineBlock = collectionsPage.untransformedBody.find(
