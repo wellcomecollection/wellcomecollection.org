@@ -7,7 +7,6 @@ import { ApmContextProvider } from '@weco/common/contexts/ApmContext';
 import { AppContextProvider } from '@weco/common/contexts/AppContext';
 import { SearchContextProvider } from '@weco/common/contexts/SearchContext';
 import { UserContextProvider } from '@weco/common/contexts/UserContext';
-import useIsFontsLoaded from '@weco/common/hooks/useIsFontsLoaded';
 import { useScrollTracking } from '@weco/common/hooks/useScrollTracking';
 import { ServerDataContext } from '@weco/common/server-data/Context';
 import {
@@ -153,7 +152,7 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
                 <SearchContextProvider>
                   <GlobalStyle
                     toggles={serverData.toggles}
-                    isFontsLoaded={useIsFontsLoaded()}
+                    isFontsLoaded={true}
                   />
 
                   <GlobalSvgDefinitions />
