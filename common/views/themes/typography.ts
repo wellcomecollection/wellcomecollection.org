@@ -30,7 +30,7 @@ export const fontFamilyMixin = (
 ): string => {
   return `
   font-family: ${fontFamilies[family]};
-  font-weight: ${designSystemTheme.font.weight[isBold ? 'semibold' : 'regular']};
+  font-weight: ${designSystemTheme.font.weight[family === 'brand' ? 'bold' : isBold ? 'semibold' : 'regular']};
   `;
 };
 
