@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import { isNotNull, isNotUndefined } from '@weco/common/utils/type-guards';
+import { isNotNull } from '@weco/common/utils/type-guards';
+
 /**
  * Tracks which intersecting element (by id) is closest to the top of the viewport.
  * @param ids Array of element ids to observe
@@ -12,47 +13,81 @@ export function useActiveAnchor(ids: string[]): string | null {
   useEffect(() => {
     if (!ids.length) return;
 
-    // Track ids of currently intersecting elements
-    const intersectingIds = new Set();
+    // Find the elements corresponding to the IDs
+    const anchorElements = ids
+      .map(id => document.getElementById(id))
+      .filter(isNotNull);
 
-    const sections = ids
-      .map(id => document.getElementById(id)?.closest('section'))
-      .filter(isNotNull)
-      .filter(isNotUndefined);
+    // Find the slice wrappers (containers of the content)
+    // We look for elements with the 'data-slice-type' attribute
+    // or fallback to 'section' tags if not found.
+    const sliceWrappers = anchorElements
+      .map(
+        element =>
+          element.closest('[data-slice-type]') || element.closest('section')
+      )
+      .filter(isNotNull);
+
+    // Get unique containers from all slice wrappers
+    const containers = [
+      ...new Set(
+        sliceWrappers.map(wrapper => wrapper.parentElement).filter(isNotNull)
+      ),
+    ];
+
+    if (!containers.length) return;
+
+    // Map each slice (child of container) to the active ID
+    const elementIdMap = new Map<Element, string>();
+
+    // Process all containers
+    containers.forEach(container => {
+      let currentId: string | null = null;
+      Array.from(container.children).forEach(child => {
+        const element = child as HTMLElement;
+
+        const foundId = ids.find(id => {
+          const target = document.getElementById(id);
+          return target && element.contains(target);
+        });
+
+        if (foundId) {
+          currentId = foundId;
+        }
+
+        if (currentId) {
+          elementIdMap.set(element, currentId);
+        }
+      });
+    });
+
+    const intersectingElements = new Set<Element>();
 
     const sectionObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
-        intersectingIds[entry.isIntersecting ? 'add' : 'delete'](
-          (entry.target as HTMLElement)?.dataset.id
-        );
+        if (entry.isIntersecting) {
+          intersectingElements.add(entry.target);
+        } else {
+          intersectingElements.delete(entry.target);
+        }
       });
 
-      const sectionTops = [...intersectingIds]
-        .map(i => {
-          const section = sections.find(section => section?.dataset.id === i);
-          const top = section?.getBoundingClientRect().top;
-          return section?.dataset.id && top !== undefined
-            ? {
-                id: section?.dataset.id,
-                top,
-              }
-            : undefined;
-        })
-        .filter(isNotUndefined)
-        .filter(isNotNull);
+      const activeElement = [...intersectingElements]
+        .map(element => ({
+          element,
+          top: element.getBoundingClientRect().top,
+          id: elementIdMap.get(element),
+        }))
+        .filter(item => item.id !== undefined)
+        .sort((a, b) => a.top - b.top)?.[0];
 
-      // Sort to get the element that is currently intersecting and has the highest `boundingClientRect.top`
-      const activeSection = sectionTops.sort((a, b) => a.top - b.top)?.[0];
-      setActiveId(activeSection?.id);
+      setActiveId(activeElement?.id || null);
     });
 
-    sections.forEach(section => sectionObserver.observe(section));
+    elementIdMap.forEach((_, element) => sectionObserver.observe(element));
 
     return () => {
-      if (sectionObserver) {
-        sections.forEach(section => sectionObserver.unobserve(section));
-        sectionObserver.disconnect();
-      }
+      sectionObserver.disconnect();
     };
   }, [ids.join(',')]);
 
