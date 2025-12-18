@@ -30,6 +30,7 @@ export function useActiveAnchor(ids: string[]): string | null {
 
     // We assume all slices are siblings within the same container
     const container = sliceWrappers[0]?.parentElement;
+    console.log({ container });
 
     if (!container) return;
 
@@ -40,23 +41,17 @@ export function useActiveAnchor(ids: string[]): string | null {
     Array.from(container.children).forEach(child => {
       const element = child as HTMLElement;
 
-      // Check if this element corresponds to a new ID
-      // 1. Check data-id attribute (used by some slices like Text)
-      let foundId = ids.find(id => element.dataset.id === id);
-
-      if (!foundId) {
-        // 2. Check if any of the IDs is inside this element
-        foundId = ids.find(id => {
-          const target = document.getElementById(id);
-          return target && element.contains(target);
-        });
-      }
+      const foundId = ids.find(id => {
+        const target = document.getElementById(id);
+        return target && element.contains(target);
+      });
 
       if (foundId) {
         currentId = foundId;
       }
 
       if (currentId) {
+        console.log({ currentId });
         elementIdMap.set(element, currentId);
       }
     });
