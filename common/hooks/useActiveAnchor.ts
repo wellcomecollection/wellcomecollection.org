@@ -19,13 +19,12 @@ export function useActiveAnchor(ids: string[]): string | null {
       .filter(isNotNull);
 
     // Find the slice wrappers (containers of the content)
-    // We look for elements with class starting with 'slice-type-'
+    // We look for elements with the 'data-slice-type' attribute
     // or fallback to 'section' tags if not found.
     const sliceWrappers = anchorElements
       .map(
         element =>
-          element.closest('[class*="slice-type-"]') ||
-          element.closest('section')
+          element.closest('[data-slice-type]') || element.closest('section')
       )
       .filter(isNotNull);
 
