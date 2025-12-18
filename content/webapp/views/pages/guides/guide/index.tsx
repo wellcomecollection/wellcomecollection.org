@@ -9,6 +9,7 @@ import HeaderBackground from '@weco/common/views/components/HeaderBackground';
 import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import { makeLabels } from '@weco/common/views/components/LabelsList';
+import { gridSize8 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
@@ -98,6 +99,7 @@ export const Guide: FunctionComponent<Props> = ({ guide, jsonLd }) => {
             pageUid={guide.uid}
             onThisPage={guide.onThisPage}
             showOnThisPage={guide.showOnThisPage}
+            gridSizes={gridSize8()}
           />
         }
       />

@@ -228,6 +228,7 @@ export const ShortFilm: Meta<typeof PageHeader> = {
                 ]}
                 pageId="test"
                 pageUid="test"
+                gridSizes={gridSize8()}
               />
             }
           ></ContentPage>
