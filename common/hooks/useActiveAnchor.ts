@@ -28,32 +28,37 @@ export function useActiveAnchor(ids: string[]): string | null {
       )
       .filter(isNotNull);
 
-    // We assume all slices are siblings within the same container
-    const container = sliceWrappers[0]?.parentElement;
-    console.log({ container });
+    // Get unique containers from all slice wrappers
+    const containers = [
+      ...new Set(
+        sliceWrappers.map(wrapper => wrapper.parentElement).filter(isNotNull)
+      ),
+    ];
 
-    if (!container) return;
+    if (!containers.length) return;
 
     // Map each slice (child of container) to the active ID
     const elementIdMap = new Map<Element, string>();
 
-    let currentId: string | null = null;
-    Array.from(container.children).forEach(child => {
-      const element = child as HTMLElement;
+    // Process all containers
+    containers.forEach(container => {
+      let currentId: string | null = null;
+      Array.from(container.children).forEach(child => {
+        const element = child as HTMLElement;
 
-      const foundId = ids.find(id => {
-        const target = document.getElementById(id);
-        return target && element.contains(target);
+        const foundId = ids.find(id => {
+          const target = document.getElementById(id);
+          return target && element.contains(target);
+        });
+
+        if (foundId) {
+          currentId = foundId;
+        }
+
+        if (currentId) {
+          elementIdMap.set(element, currentId);
+        }
       });
-
-      if (foundId) {
-        currentId = foundId;
-      }
-
-      if (currentId) {
-        console.log({ currentId });
-        elementIdMap.set(element, currentId);
-      }
     });
 
     const intersectingElements = new Set<Element>();
