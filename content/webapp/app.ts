@@ -66,7 +66,13 @@ const appPromise = nextApp
       // Kill any cookie we had set, as it think it is causing issues.
       ctx.cookies.set(prismic.cookie.preview);
 
-      const client = createPrismicClient();
+      // Detect if the preview is from stage or prod Prismic environment
+      const token = ctx.query.token as string | undefined;
+      const isPrismicStage = token?.includes(
+        'wellcomecollection-stage.prismic.io'
+      );
+
+      const client = createPrismicClient(isPrismicStage);
       client.enableAutoPreviewsFromReq(ctx.request);
 
       /**
