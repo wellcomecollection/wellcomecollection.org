@@ -1,6 +1,7 @@
 import { quoteVal } from '@weco/common/utils/csv';
 import { formatNumber } from '@weco/common/utils/grammar';
 import { isNotUndefined, isString } from '@weco/common/utils/type-guards';
+import { isNegatedValue } from '@weco/content/utils/filters';
 import {
   ImageAggregations,
   WorkAggregations,
@@ -141,10 +142,10 @@ function filterOptionsWithNonAggregates({
     ) as FilterOption[];
 
   if (!isManualSort) {
-    return allOptions.sort(optionOrder);
+    return allOptions.sort(optionOrder).filter(option => !isNegatedValue(option.value));
   }
 
-  return allOptions;
+  return allOptions.filter(option => !isNegatedValue(option.value));
 }
 
 function selectedValueToFilterOption(

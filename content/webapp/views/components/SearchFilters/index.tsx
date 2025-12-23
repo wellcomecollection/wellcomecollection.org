@@ -5,6 +5,7 @@ import { useAppContext } from '@weco/common/contexts/AppContext';
 import useIsomorphicLayoutEffect from '@weco/common/hooks/useIsomorphicLayoutEffect';
 import { LinkProps } from '@weco/common/model/link-props';
 import { Filter } from '@weco/content/services/wellcome/common/filters';
+import { isNegatedValue } from '@weco/content/utils/filters';
 
 import DateRangeFilter from './SearchFilters.DateRangeFilter';
 import SearchFiltersDesktop from './SearchFilters.Desktop';
@@ -44,7 +45,9 @@ const SearchFilters: FunctionComponent<Props> = ({
         case 'color':
           return f.color ? 1 : 0;
         case 'checkbox':
-          return f.options.filter(option => option.selected).length;
+          return f.options.filter(
+            option => option.selected && !isNegatedValue(option.value)
+          ).length;
         case 'radio':
           return f.options.filter(
             option => option.selected && option.value !== ''
