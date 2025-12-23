@@ -33,9 +33,14 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const query = context.query;
   const params = fromQuery(query);
   const validTimespan = getQueryPropertyValue(params.timespan) || '';
+  const format =
+    params.format.length > 0
+      ? [...params.format, '!exhibitions']
+      : ['!exhibitions'];
   const validParams = {
     ...params,
     timespan: validTimespan === 'all' ? '' : validTimespan,
+    format,
   };
 
   const defaultProps = serialiseProps({
@@ -68,7 +73,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const paramsQuery = {
     ...restOfQuery,
     timespan: validTimespan,
-    filterOutExhibitions: exhibitionsInEvents ? undefined : 'true',
+    format: format.join(','),
   };
 
   const eventResponseList = await getEvents({
