@@ -47,10 +47,13 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   const params = fromQuery(restOfQuery);
   const timespan = 'past';
-  const setParams = { timespan, filterOutExhibitions: 'true' };
+  const format =
+    params.format.length > 0
+      ? [...params.format, '!exhibitions']
+      : ['!exhibitions'];
 
-  const allPossibleParams = { ...params, ...setParams };
-  const queriedParams = { ...restOfQuery, ...setParams };
+  const allPossibleParams = { ...params, timespan, format };
+  const queriedParams = { ...restOfQuery, timespan, format: format.join(',') };
 
   const eventResponseList = await getEvents({
     params: {
