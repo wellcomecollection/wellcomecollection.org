@@ -69,10 +69,10 @@ const GuideStopCard: FunctionComponent<Props> = ({
               // title of the item in the list.
               image={{ ...croppedImage, alt: '' }}
               sizes={{
-                xlarge: 1 / 4,
-                large: 1 / 4,
-                medium: 1 / 2,
-                small: 1,
+                lg: 1 / 4,
+                md: 1 / 4,
+                sm: 1 / 2,
+                zero: 1,
               }}
               quality="low"
             />
@@ -95,7 +95,7 @@ const GuideStopCard: FunctionComponent<Props> = ({
             <AlignIconFirstLineCenter>
               <Space
                 style={{ display: 'flex' }}
-                $h={{ size: 's', properties: ['margin-right'] }}
+                $h={{ size: 'xs', properties: ['margin-right'] }}
               >
                 <Icon icon={map} sizeOverride="width: 16px;" />
               </Space>
@@ -108,7 +108,7 @@ const GuideStopCard: FunctionComponent<Props> = ({
             <AlignIconFirstLineCenter>
               <Space
                 style={{ display: 'flex' }}
-                $h={{ size: 's', properties: ['margin-right'] }}
+                $h={{ size: 'xs', properties: ['margin-right'] }}
               >
                 <Icon icon={durationIcon} sizeOverride="width: 16px;" />
               </Space>

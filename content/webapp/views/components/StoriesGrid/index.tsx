@@ -36,11 +36,11 @@ const ImageWrapper = styled(GridCell)`
 `;
 
 const DesktopLabel = styled(Space).attrs({
-  $v: { size: 's', properties: ['margin-bottom'] },
+  $v: { size: 'xs', properties: ['margin-bottom'] },
 })<{ $isCompact?: boolean }>`
   ${props =>
     props.theme.media(
-      'medium',
+      'sm',
       'max-width'
     )(`
     ${props.$isCompact ? '' : 'display: none;'}
@@ -52,14 +52,14 @@ const MobileLabel = styled.div`
   bottom: 0;
   left: 0;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     display: none;
   `}
 `;
 
 const StoryInformation = styled(Space).attrs({
   className: font('sans', -1),
-  $v: { size: 'xs', properties: ['margin-bottom'] },
+  $v: { size: '2xs', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.600')};
 `;

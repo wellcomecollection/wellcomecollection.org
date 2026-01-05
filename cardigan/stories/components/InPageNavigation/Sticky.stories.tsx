@@ -17,16 +17,6 @@ type BackgroundGridProps = {
   $bottomColor?: PaletteColor;
 };
 
-const NavGridCell = styled(GridCell)`
-  position: sticky;
-  top: 0;
-
-  ${props =>
-    props.theme.media('large')(`
-     mix-blend-mode: difference;
-  `)}
-`;
-
 const BackgroundGrid = styled(Grid)<BackgroundGridProps>`
   padding: 0 20px;
   background: linear-gradient(
@@ -40,7 +30,7 @@ const BackgroundGrid = styled(Grid)<BackgroundGridProps>`
 `;
 
 const GreySpace = styled(Space).attrs({
-  $v: { size: 'l', properties: ['height'] },
+  $v: { size: 'md', properties: ['height'] },
 })<{ $topColor?: PaletteColor }>`
   background-color: ${props =>
     props.theme.color(props.$topColor || 'neutral.700')};
@@ -59,12 +49,15 @@ const InPageNavigationInColsContext: FunctionComponent<{
       <PageHeader variant="landing" title="Sticky On This Page Anchors" />
       <GreySpace
         $topColor={args.topColor}
-        $v={{ size: 'l', properties: ['height'] }}
+        $v={{ size: 'md', properties: ['height'] }}
       />
       <BackgroundGrid $percent={40} $topColor={args.topColor}>
-        <NavGridCell $sizeMap={{ s: [12], m: [12], l: [3], xl: [3] }}>
-          <InPageNavigation {...fixedArgs} variant="sticky" />
-        </NavGridCell>
+        <InPageNavigation
+          {...fixedArgs}
+          variant="sticky"
+          sizeMap={{ s: [12], m: [12], l: [3], xl: [3] }}
+        />
+
         <GridCell $sizeMap={{ s: [12], m: [12], l: [9], xl: [9] }}>
           {links.map(link => (
             <section

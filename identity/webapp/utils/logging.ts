@@ -1,4 +1,4 @@
-import { format as formatUrl, parse } from 'url'; // eslint-disable-line n/no-deprecated-api
+import { format as formatUrl, parse } from 'url';
 
 // This function redacts query parameters in URLs, so we have a URL that's
 // safe to log.  For example, we might get a log including:

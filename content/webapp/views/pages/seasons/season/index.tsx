@@ -2,6 +2,7 @@ import { ReactElement } from 'react';
 
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
+import { gridSize8 } from '@weco/common/views/components/Layout';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
@@ -73,6 +74,7 @@ const SeasonPage = ({
             untransformedBody={season.untransformedBody}
             pageId={season.id}
             pageUid={season.uid}
+            gridSizes={gridSize8()}
           />
         }
         hideContributors={true}

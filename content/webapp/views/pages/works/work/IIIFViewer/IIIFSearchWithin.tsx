@@ -47,7 +47,7 @@ const SearchButtonWrapper = styled.div`
 
 const ResultsHeader = styled(Space).attrs({
   as: 'h3',
-  $v: { size: 'm', properties: ['margin-top'] },
+  $v: { size: 'sm', properties: ['margin-top'] },
 })`
   border-bottom: 1px solid ${props => props.theme.color('neutral.500')};
   padding-bottom: ${props => `${props.theme.spacingUnit}px`};
@@ -83,7 +83,7 @@ const ResultsList = styled.ul`
 
 const ErrorMessage = styled(Space).attrs({
   as: 'p',
-  $v: { size: 'm', properties: ['margin-top'] },
+  $v: { size: 'sm', properties: ['margin-top'] },
   className: font('sans', -2),
 })``;
 
@@ -119,7 +119,7 @@ const Hit: FunctionComponent<HitProps> = ({
       : '';
   return (
     <>
-      <HitData $v={{ size: 's', properties: ['margin-bottom'] }}>
+      <HitData $v={{ size: 'xs', properties: ['margin-bottom'] }}>
         {`Found on image ${matchingCanvasParam}${
           totalCanvases ? ` / ${totalCanvases}` : ''
         }`}
@@ -182,7 +182,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
         ).json();
         setIsLoading(false);
         setSearchResults && setSearchResults(results);
-      } catch (error) {
+      } catch {
         setIsLoading(false);
         setSearchError(true);
       }
@@ -249,8 +249,10 @@ const IIIFSearchWithin: FunctionComponent = () => {
             There has been a problem conducting the search.
           </ErrorMessage>
         )}
-        {searchResults &&
-          Boolean(searchResults?.within?.total && query.query) && (
+        {!isLoading &&
+          searchResults &&
+          typeof searchResults?.within?.total === 'number' &&
+          query.query && (
             <ResultsHeader aria-live="assertive">
               {pluralize(searchResults.within.total ?? 0, 'result')}
             </ResultsHeader>

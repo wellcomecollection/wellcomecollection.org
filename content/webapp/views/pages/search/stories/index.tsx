@@ -31,7 +31,7 @@ const SortPaginationWrapper = styled.div`
   align-items: center;
   flex-wrap: wrap;
 
-  ${props => props.theme.media('medium', 'max-width')`
+  ${props => props.theme.media('sm', 'max-width')`
     flex: 1 1 50%;
     justify-content: flex-end;
   `}
@@ -78,11 +78,11 @@ const StoriesSearchPage: NextPage<Props> = withSearchLayout(
     ];
 
     return (
-      <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
+      <Space $v={{ size: 'md', properties: ['padding-bottom'] }}>
         {(!hasNoResults || (hasNoResults && hasActiveFilters)) && (
           <Container>
             <Space
-              $v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
+              $v={{ size: 'md', properties: ['padding-top', 'padding-bottom'] }}
             >
               <SearchFilters
                 query={queryString}
@@ -122,7 +122,7 @@ const StoriesSearchPage: NextPage<Props> = withSearchLayout(
               </Container>
             ) : (
               <Container>
-                <PaginationWrapper $verticalSpacing="l">
+                <PaginationWrapper $verticalSpacing="md">
                   <span role="status">
                     {pluralize(storyResponseList.totalResults, 'result')}
                     {activeFiltersLabels.length > 0 && (
@@ -170,15 +170,15 @@ const StoriesSearchPage: NextPage<Props> = withSearchLayout(
                   <StoriesGrid
                     articles={storyResponseList.results}
                     dynamicImageSizes={{
-                      xlarge: 1 / 5,
-                      large: 1 / 5,
-                      medium: 1 / 5,
-                      small: 1,
+                      lg: 1 / 5,
+                      md: 1 / 5,
+                      sm: 1 / 5,
+                      zero: 1,
                     }}
                   />
                 </main>
 
-                <PaginationWrapper $verticalSpacing="l" $alignRight>
+                <PaginationWrapper $verticalSpacing="md" $alignRight>
                   <Pagination
                     totalPages={storyResponseList.totalPages}
                     ariaLabel="Stories search pagination"

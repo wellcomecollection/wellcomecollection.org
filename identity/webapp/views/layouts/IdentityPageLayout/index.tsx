@@ -13,7 +13,7 @@ import { GlobalStyle } from '@weco/common/views/themes/default';
 
 const Main = styled.div`
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
       background: ${props.theme.color('warmNeutral.300')};
       min-height: calc(100vh - ${props.theme.navHeight}px);
   `)}

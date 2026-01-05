@@ -61,8 +61,8 @@ import WorkDetailsLicence from './WorkDetails.Licence';
 import WorkDetailsSection from './WorkDetails.Section';
 
 const RestrictedMessage = styled(Space).attrs({
-  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
   className: font('sans', -1),
 })`
   position: relative;
@@ -113,8 +113,8 @@ const TreeContainer = styled.div`
 
 const MessageBox = styled(Space).attrs({
   className: font('sans', -1),
-  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
 })`
   background-color: ${props => props.theme.color('warmNeutral.300')};
 
@@ -182,7 +182,7 @@ const ItemPageLink = ({
   return (
     <>
       {work.thumbnail && (
-        <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
+        <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
           <ConditionalWrapper
             condition={Boolean(itemUrl)}
             wrapper={children =>
@@ -246,7 +246,7 @@ const ItemPageLink = ({
             <ConditionalWrapper
               condition={isWorkVisibleWithPermission}
               wrapper={children => (
-                <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+                <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
                   {children}
                 </Space>
               )}
@@ -264,13 +264,13 @@ const ItemPageLink = ({
 
           {(itemUrl || isDownloadable) && (
             <Space
-              $v={{ size: 's', properties: ['margin-top'] }}
+              $v={{ size: 'xs', properties: ['margin-top'] }}
               style={{ display: 'flex' }}
             >
               {itemUrl && (
                 <Space
                   as="span"
-                  $h={{ size: 'm', properties: ['margin-right'] }}
+                  $h={{ size: 'sm', properties: ['margin-right'] }}
                 >
                   <Button
                     variant="ButtonSolidLink"
@@ -457,7 +457,7 @@ const WorkDetailsAvailableOnline = ({
                     return (
                       <Space
                         key={rendering.id}
-                        $v={{ size: 's', properties: ['margin-top'] }}
+                        $v={{ size: 'xs', properties: ['margin-top'] }}
                       >
                         <DownloadLink
                           href={rendering.id}

@@ -24,7 +24,7 @@ import { arrayIndexToQueryParam, queryParamToArrayIndex } from '.';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 
 const ThumbnailSpacer = styled(Space).attrs({
-  $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
 })`
   height: 400px;
 
@@ -144,7 +144,7 @@ const GridViewer: FunctionComponent = () => {
   const { windowSize } = useAppContext();
   const [newScrollOffset, setNewScrollOffset] = useState(0);
   const scrollVelocity = useScrollVelocity(newScrollOffset);
-  const itemWidth = windowSize === 'small' ? 250 : 350;
+  const itemWidth = windowSize === 'zero' ? 250 : 350;
   const columnCount = Math.round(mainAreaWidth / itemWidth);
   const columnWidth = mainAreaWidth / columnCount;
   const grid = useRef<FixedSizeGrid>(null);

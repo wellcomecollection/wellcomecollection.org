@@ -32,7 +32,7 @@ type Props = {
 
 const FindUs: FunctionComponent<Props> = ({ hideAccessibility }) => (
   <div data-component="find-us">
-    <Space $v={{ size: 'm', properties: ['margin-bottom'] }} as="p">
+    <Space $v={{ size: 'sm', properties: ['margin-bottom'] }} as="p">
       <PlainLink href={wellcomeCollectionAddress.addressMap}>
         {wellcomeCollectionAddress.streetAddress}
         <br />
@@ -40,7 +40,7 @@ const FindUs: FunctionComponent<Props> = ({ hideAccessibility }) => (
         {wellcomeCollectionAddress.postalCode}
       </PlainLink>
     </Space>
-    <Space as="p" $v={{ size: 'm', properties: ['margin-bottom'] }}>
+    <Space as="p" $v={{ size: 'sm', properties: ['margin-bottom'] }}>
       <PlainLink
         href={`tel:${wellcomeCollectionGallery.telephone.replace(/\s/g, '')}`}
         aria-label={createScreenreaderLabel(
@@ -55,13 +55,13 @@ const FindUs: FunctionComponent<Props> = ({ hideAccessibility }) => (
       </a>
     </Space>
     <PlainList>
-      <Space as="li" $v={{ size: 's', properties: ['padding-bottom'] }}>
+      <Space as="li" $v={{ size: 'xs', properties: ['padding-bottom'] }}>
         <a href={`/visit-us/${prismicPageIds.gettingHere}`}>Getting here</a>
       </Space>
       {!hideAccessibility && (
         <Space
           as="li"
-          $v={{ size: 's', properties: ['padding-top', 'padding-bottom'] }}
+          $v={{ size: 'xs', properties: ['padding-top', 'padding-bottom'] }}
         >
           <a href={`/visit-us/${prismicPageIds.access}`}>Access information</a>
         </Space>

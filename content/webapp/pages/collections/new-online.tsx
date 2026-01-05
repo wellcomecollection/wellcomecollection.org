@@ -42,7 +42,12 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const works = await getWorks({
     params: {
       availabilities: ['online'],
-      'items.locations.accessConditions.status': 'open',
+      // Exclude items that are not openly accessible online
+      'items.locations.accessConditions.status': [
+        '!open-with-advisory',
+        '!restricted',
+        '!closed',
+      ],
       sort: 'items.locations.createdDate',
       sortOrder: 'desc',
       page,

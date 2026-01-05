@@ -31,8 +31,8 @@ export const List = styled(PlainList)`
 export const Item = styled(Space).attrs({
   as: 'li',
   className: font('sans', -1),
-  $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
-  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  $v: { size: '2xs', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
 })<{ $isActive: boolean }>`
   position: relative;
 

@@ -109,7 +109,7 @@ const ExhibitionGuidePage: NextPage<Props> = ({
       />
       <ContaineredLayout gridSizes={gridSize10(false)}>
         <SpacingSection>
-          <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+          <Space $v={{ size: 'md', properties: ['margin-top'] }}>
             {/* Links to ExhibitionTexts and ExhibitionHighlightTours */}
             {/* Or, if there is a stopNumber in the URL, link straight to it */}
             {Boolean(textPathname || audioPathname || videoPathname) && (

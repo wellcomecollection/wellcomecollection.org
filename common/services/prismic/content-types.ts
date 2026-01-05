@@ -34,15 +34,12 @@ const contentApiContentTypes = [
   'Visual story',
 ] as const;
 
-const allContentTypes = [
-  ...contentTypes,
-  ...contentApiContentTypes,
-  'exhibition-guides-links',
-] as const;
-
 export type ContentType = (typeof contentTypes)[number];
 export type ContentApiContentType = (typeof contentApiContentTypes)[number];
-export type AllContentType = (typeof allContentTypes)[number];
+export type AllContentType =
+  | ContentType
+  | ContentApiContentType
+  | 'exhibition-guides-links';
 
 export function isContentType(type?: string): type is ContentType {
   return contentTypes.includes(type as ContentType);

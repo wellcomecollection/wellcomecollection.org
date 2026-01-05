@@ -84,7 +84,7 @@ const DynamicFilterArray = ({
       <Space
         key={f.id}
         data-is-filter // Needed in useLayoutEffect
-        $h={{ size: 'm', properties: ['margin-right'] }}
+        $h={{ size: 'sm', properties: ['margin-right'] }}
       >
         {f.type === 'checkbox' && (
           <CheckboxFilter
@@ -195,7 +195,7 @@ const DynamicFilterArray = ({
     <>
       {filters.map(renderDynamicFilter)}
 
-      <Space $h={{ size: 'm', properties: ['margin-right'] }}>
+      <Space $h={{ size: 'sm', properties: ['margin-right'] }}>
         <Button
           variant="ButtonSolid"
           colors={theme.buttonColors.marbleWhiteCharcoal}

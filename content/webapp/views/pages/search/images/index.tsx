@@ -119,7 +119,7 @@ const ImagesSearchPage: NextPage<Props> = withSearchLayout(
         {(!hasNoResults || (hasNoResults && hasActiveFilters)) && (
           <Container>
             <Space
-              $v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
+              $v={{ size: 'md', properties: ['padding-top', 'padding-bottom'] }}
             >
               <SearchFilters
                 query={queryString}
@@ -150,7 +150,7 @@ const ImagesSearchPage: NextPage<Props> = withSearchLayout(
         )}
 
         <Wrapper $hasNoResults={hasNoResults}>
-          <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
+          <Space $v={{ size: 'md', properties: ['padding-bottom'] }}>
             <Container>
               {hasNoResults ? (
                 <SearchNoResults
@@ -159,7 +159,7 @@ const ImagesSearchPage: NextPage<Props> = withSearchLayout(
                 />
               ) : (
                 <>
-                  <PaginationWrapper $verticalSpacing="l">
+                  <PaginationWrapper $verticalSpacing="md">
                     <span role="status">
                       {pluralize(images.totalResults, 'result')}
                       {activeFiltersLabels.length > 0 && (
@@ -226,7 +226,7 @@ const ImagesSearchPage: NextPage<Props> = withSearchLayout(
                     />
                   </main>
 
-                  <PaginationWrapper $verticalSpacing="l" $alignRight>
+                  <PaginationWrapper $verticalSpacing="md" $alignRight>
                     <Pagination
                       totalPages={images.totalPages}
                       ariaLabel="Image search pagination"

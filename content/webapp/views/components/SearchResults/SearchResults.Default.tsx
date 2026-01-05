@@ -36,7 +36,9 @@ const SearchResults: FunctionComponent<Props> = ({
   <>
     {title && (
       <Space
-        $v={!summary ? { size: 'm', properties: ['margin-bottom'] } : undefined}
+        $v={
+          !summary ? { size: 'sm', properties: ['margin-bottom'] } : undefined
+        }
       >
         <h2 id={id} className={font('brand', 1)}>
           {title}
@@ -44,7 +46,9 @@ const SearchResults: FunctionComponent<Props> = ({
       </Space>
     )}
     {summary && (
-      <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>{summary}</Space>
+      <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
+        {summary}
+      </Space>
     )}
     {items.length > 0 && (
       <PlainList>
@@ -92,10 +96,10 @@ const SearchResults: FunctionComponent<Props> = ({
                       alt: '',
                     }}
                     sizes={{
-                      xlarge: 1 / 6,
-                      large: 1 / 6,
-                      medium: 1 / 5,
-                      small: 1 / 4,
+                      lg: 1 / 6,
+                      md: 1 / 6,
+                      sm: 1 / 5,
+                      zero: 1 / 4,
                     }}
                     quality="low"
                   />

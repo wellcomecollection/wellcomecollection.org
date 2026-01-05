@@ -69,15 +69,26 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
   const theme = useTheme();
 
   function getWindowSize(): Size {
+    // Get the root font size to calculate viewport width in rem
+    const rootFontSize = parseFloat(
+      getComputedStyle(document.documentElement).fontSize
+    );
+    const viewportWidthInRem = window.innerWidth / rootFontSize;
+
+    // Extract numeric value from rem strings
+    const sm = parseFloat(theme.sizes.sm);
+    const md = parseFloat(theme.sizes.md);
+    const lg = parseFloat(theme.sizes.lg);
+
     switch (true) {
-      case window.innerWidth < theme.sizes.medium:
-        return 'small';
-      case window.innerWidth < theme.sizes.large:
-        return 'medium';
-      case window.innerWidth < theme.sizes.xlarge:
-        return 'large';
+      case viewportWidthInRem < sm:
+        return 'zero';
+      case viewportWidthInRem < md:
+        return 'sm';
+      case viewportWidthInRem < lg:
+        return 'md';
       default:
-        return 'xlarge';
+        return 'lg';
     }
   }
   const [isEnhanced, setIsEnhanced] = useState(appContextDefaults.isEnhanced);

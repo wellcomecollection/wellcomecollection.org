@@ -40,7 +40,7 @@ const CopyUrl: FunctionComponent<Props> = ({
     try {
       document.execCommand('copy');
       setIsTextCopied(true);
-    } catch (err) {
+    } catch {
       setIsTextCopied(false);
     }
 
@@ -65,7 +65,7 @@ const CopyUrl: FunctionComponent<Props> = ({
       {isEnhanced && (
         <Space
           $v={{
-            size: 'm',
+            size: 'sm',
             properties: ['margin-top'],
           }}
         >

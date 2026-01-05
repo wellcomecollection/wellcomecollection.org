@@ -17,10 +17,10 @@ const CollaboratorsWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  gap: ${props => props.theme.spacingUnits['4']}px;
-  row-gap: ${props => props.theme.spacingUnits['5']}px;
+  gap: ${props => props.theme.spacingUnits['150']};
+  row-gap: ${props => props.theme.spacingUnits['200']};
 
-  ${props => props.theme.media('medium')(`flex-direction: row;`)}
+  ${props => props.theme.media('sm')(`flex-direction: row;`)}
 `;
 
 const iconFromConceptType = (type: ConceptType) => {

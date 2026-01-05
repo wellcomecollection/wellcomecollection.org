@@ -34,10 +34,10 @@ const EventCard: FunctionComponent<Props> = ({ event, xOfY }) => {
         alt: '',
       }}
       sizes={{
-        xlarge: 1 / 6,
-        large: 1 / 6,
-        medium: 1 / 5,
-        small: 1 / 4,
+        lg: 1 / 6,
+        md: 1 / 6,
+        sm: 1 / 5,
+        zero: 1 / 4,
       }}
       quality="low"
     />
@@ -58,8 +58,8 @@ const EventCard: FunctionComponent<Props> = ({ event, xOfY }) => {
   const ExtraInfo =
     event.isPast && event.availableOnline ? (
       <>
-        <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
-          <Space $v={{ size: 's', properties: ['margin-top'] }}>
+        <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'xs', properties: ['margin-top'] }}>
             <WatchLabel text="Available to watch" />
           </Space>
         </Space>

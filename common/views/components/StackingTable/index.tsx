@@ -7,7 +7,7 @@ import { fontFamilyMixin } from '@weco/common/views/themes/typography';
 
 type TableProps = {
   $useFixedWidth: boolean;
-  $maxWidth?: number;
+  $maxWidth?: string;
 };
 
 const StyledTable = styled.table.attrs({
@@ -17,7 +17,7 @@ const StyledTable = styled.table.attrs({
   width: 100%;
   border-collapse: collapse;
 
-  @media (max-width: ${props => props.$maxWidth || props.theme.sizes.large}px) {
+  @media (max-width: ${props => props.$maxWidth || props.theme.sizes.md}) {
     display: block;
 
     thead,
@@ -52,18 +52,18 @@ const StyledTr = styled(Space).attrs({
 
 type ThProps = {
   $plain?: boolean;
-  $maxWidth?: number;
+  $maxWidth?: string;
   width?: number;
 };
 
 const StyledTh = styled(Space).attrs<ThProps>(props => ({
   as: 'th',
   $v: {
-    size: 's',
+    size: 'xs',
     properties: props.$plain ? [] : ['padding-top', 'padding-bottom'],
   },
   $h: {
-    size: 'm',
+    size: 'sm',
     properties: props.$plain ? [] : ['padding-left', 'padding-right'],
   },
   className: font('sans-bold', -1),
@@ -74,42 +74,42 @@ const StyledTh = styled(Space).attrs<ThProps>(props => ({
   text-align: left;
   vertical-align: top;
 
-  @media (max-width: ${props => props.$maxWidth || props.theme.sizes.large}px) {
+  @media (max-width: ${props => props.$maxWidth || props.theme.sizes.md}) {
     padding-left: 0;
   }
 `;
 
 type TdProps = {
   $plain?: boolean;
-  $maxWidth?: number;
+  $maxWidth?: string;
   $cellContent?: ReactNode;
 };
 
 const StyledTd = styled(Space).attrs<TdProps>(props => ({
   as: 'td',
   $v: {
-    size: 'm',
+    size: 'sm',
     properties: props.$plain ? [] : ['padding-top', 'padding-bottom'],
   },
   $h: {
-    size: 'm',
+    size: 'sm',
     properties: props.$plain ? [] : ['padding-left', 'padding-right'],
   },
 }))<TdProps>`
   text-align: left;
   vertical-align: top;
 
-  @media (max-width: ${props => props.$maxWidth || props.theme.sizes.large}px) {
+  @media (max-width: ${props => props.$maxWidth || props.theme.sizes.md}) {
     padding-left: 0;
     padding-top: 0;
-    padding-bottom: ${props => `${props.theme.spacingUnit}px`};
+    padding-bottom: ${props => props.theme.spacingUnit};
 
     &:first-of-type {
-      padding-top: ${props => `${props.theme.spacingUnit * 2}px`};
+      padding-top: ${props => props.theme.spacingUnit * 2};
     }
 
     &:last-of-type {
-      padding-bottom: ${props => `${props.theme.spacingUnit * 3}px`};
+      padding-bottom: ${props => props.theme.spacingUnit * 3};
     }
 
     &::before {
@@ -125,7 +125,7 @@ const StyledTd = styled(Space).attrs<TdProps>(props => ({
 type Props = {
   rows: ReactNode[][];
   plain?: boolean;
-  maxWidth?: number;
+  maxWidth?: string;
   columnWidths?: (number | undefined)[];
 };
 

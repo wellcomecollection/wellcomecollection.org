@@ -13,8 +13,8 @@ export const Page = styled.div`
 export const FlushContainer = styled(Container)`
   ${props =>
     props.theme.mediaBetween(
-      'small',
-      'medium'
+      'zero',
+      'sm'
     )(`
         padding: 0;
     `)}
@@ -37,7 +37,7 @@ export const Title = styled.h1.attrs({
 
 export const HeaderInner = styled(Space).attrs({
   $v: {
-    size: 's',
+    size: 'xs',
     properties: ['padding-top', 'padding-bottom'],
   },
 })`
@@ -73,10 +73,10 @@ export const AlignCenter = styled.div`
 export const StickyPlayer = styled.div<{ $sticky: boolean }>`
   position: ${props => (props.$sticky ? 'sticky' : undefined)};
 
-  margin-left: -${props => props.theme.gutter.small}px;
-  margin-right: -${props => props.theme.gutter.small}px;
+  margin-left: -${props => props.theme.gutter.small};
+  margin-right: -${props => props.theme.gutter.small};
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     margin-left: 0;
     margin-right: 0;
   `}

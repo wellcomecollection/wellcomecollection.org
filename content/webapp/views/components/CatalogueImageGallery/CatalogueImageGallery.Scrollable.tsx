@@ -31,7 +31,7 @@ const CatalogueImageGalleryScrollable: FunctionComponent<Props> = ({
     >
       {images.map((image, index) => (
         <li key={image.id} style={{ maxWidth: '90vw' }}>
-          <Space $h={{ size: 'm', properties: ['margin-right'] }}>
+          <Space $h={{ size: 'sm', properties: ['margin-right'] }}>
             <ImageCard
               id={image.id}
               workId={image.source.id}

@@ -80,7 +80,7 @@ const DateInfo = styled.p.attrs({
 
 const LocationWrapper = styled(Space).attrs({
   className: font('sans', -1),
-  $v: { size: 's', properties: ['margin-top', 'margin-bottom'] },
+  $v: { size: 'xs', properties: ['margin-top', 'margin-bottom'] },
 })`
   display: flex;
   align-items: center;
@@ -117,10 +117,10 @@ const EventCard: FunctionComponent<Props> = ({
               alt: '',
             }}
             sizes={{
-              xlarge: 1 / 4,
-              large: 1 / 3,
-              medium: 1 / 2,
-              small: 1,
+              lg: 1 / 4,
+              md: 1 / 3,
+              sm: 1 / 2,
+              zero: 1,
             }}
             quality="low"
           />
@@ -137,13 +137,13 @@ const EventCard: FunctionComponent<Props> = ({
           {locationText && !isInPastListing && (
             <LocationWrapper>
               <Icon icon={location} matchText />
-              <Space $h={{ size: 'xs', properties: ['margin-left'] }}>
+              <Space $h={{ size: '2xs', properties: ['margin-left'] }}>
                 {locationText}
               </Space>
             </LocationWrapper>
           )}
           {event.availableOnline && (
-            <Space $v={{ size: 's', properties: ['margin-top'] }}>
+            <Space $v={{ size: 'xs', properties: ['margin-top'] }}>
               <WatchLabel text="Available to watch" />
             </Space>
           )}
@@ -175,7 +175,7 @@ const EventCard: FunctionComponent<Props> = ({
             </>
           )}
           {upcomingDatesFullyBooked(event.times) && (
-            <Space $v={{ size: 'm', properties: ['margin-top'] }}>
+            <Space $v={{ size: 'sm', properties: ['margin-top'] }}>
               <TextWithDot
                 className={font('sans', -1)}
                 dotColor="validation.red"
@@ -212,11 +212,11 @@ const EventCard: FunctionComponent<Props> = ({
       )}
       {event.secondaryLabels.length > 0 && (
         <Space
-          $h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-          $v={{ size: 'm', properties: ['padding-bottom'] }}
+          $h={{ size: 'sm', properties: ['padding-left', 'padding-right'] }}
+          $v={{ size: 'sm', properties: ['padding-bottom'] }}
         >
           <Divider lineColor="white" />
-          <Space $v={{ size: 's', properties: ['padding-top'] }}>
+          <Space $v={{ size: 'xs', properties: ['padding-top'] }}>
             <LabelsList
               labels={event.secondaryLabels}
               defaultLabelColor="black"

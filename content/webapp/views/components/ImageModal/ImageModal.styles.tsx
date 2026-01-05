@@ -9,14 +9,14 @@ export const Container = styled.div`
 `;
 
 export const ImageInfoWrapper = styled.div`
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
     display: flex;
   `}
 `;
 
 export const MetadataWrapper = styled(Space).attrs({
   className: font('sans', -1),
-  $v: { size: 's', properties: ['margin-top', 'margin-bottom'] },
+  $v: { size: 'xs', properties: ['margin-top', 'margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.600')};
 `;
@@ -35,7 +35,7 @@ export const ModalTitle = styled.h2.attrs({
 `;
 
 export const ImageWrapper = styled(Space).attrs({
-  $v: { size: 'l', properties: ['margin-bottom'] },
+  $v: { size: 'md', properties: ['margin-bottom'] },
 })`
   display: flex;
   align-items: center;
@@ -43,7 +43,7 @@ export const ImageWrapper = styled(Space).attrs({
   background-color: ${props => props.theme.color('black')};
   height: 50vh;
 
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
     flex: 0 1 auto;
     height: auto;
     max-height: 350px;
@@ -67,7 +67,7 @@ export const ImageLink = styled(NextLink)`
     object-fit: contain;
   }
 
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
     padding: 0;
     max-width: 400px;
     height: calc(100% - 20px);
@@ -81,14 +81,14 @@ export const ImageLink = styled(NextLink)`
 `;
 
 export const InfoWrapper = styled.div`
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
     flex: 1 0 60%;
     height: 100%;
   `}
 `;
 
 export const ViewImageButtonWrapper = styled(Space).attrs({
-  $h: { size: 'm', properties: ['margin-right'] },
+  $h: { size: 'sm', properties: ['margin-right'] },
 })`
   display: inline-block;
 `;

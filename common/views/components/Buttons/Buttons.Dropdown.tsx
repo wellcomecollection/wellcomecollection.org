@@ -25,11 +25,11 @@ const DropdownWrapper = styled.div`
 
 const Dropdown = styled(Space).attrs<{ $isTight: boolean }>(props => ({
   $v: {
-    size: props.$isTight ? 's' : 'm',
+    size: props.$isTight ? 'xs' : 'sm',
     properties: ['padding-top', 'padding-bottom'],
   },
   $h: {
-    size: props.$isTight ? 'm' : 'l',
+    size: props.$isTight ? 'sm' : 'md',
     properties: ['padding-left', 'padding-right'],
   },
 }))<{
@@ -83,7 +83,7 @@ const Popper = styled.div<{ $isVisible: boolean }>`
   z-index: ${props => (props.$isVisible ? 1 : -1)};
   opacity: ${props => (props.$isVisible ? 1 : 0)};
 
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
     max-width: calc(50vw - 20px);
   `}
 `;

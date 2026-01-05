@@ -49,8 +49,8 @@ import IIIFItemDownload from './IIIFItem.Download';
 import VideoTranscript from './IIIFItem.VideoTranscript';
 
 const Outline = styled(Space).attrs({
-  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
 })<{ $border?: boolean }>`
   ${props =>
     props.$border
@@ -59,7 +59,7 @@ const Outline = styled(Space).attrs({
 `;
 
 const IconContainer = styled(Space).attrs({
-  $h: { size: 's', properties: ['margin-right'] },
+  $h: { size: 'xs', properties: ['margin-right'] },
 })`
   .icon {
     position: relative;
@@ -186,7 +186,7 @@ const PublicRestrictedMessage: FunctionComponent<{
       {audioLabel && (
         <Space
           className={font('sans-bold', -1)}
-          $v={{ size: 'm', properties: ['margin-bottom'] }}
+          $v={{ size: 'sm', properties: ['margin-bottom'] }}
         >
           {audioLabel}
         </Space>
@@ -432,7 +432,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
         // If the item hasn't been purposefully excluded then we should show a message
         return (
           <ContaineredLayout gridSizes={gridSize12()}>
-            <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+            <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
               <BetaMessage message={unavailableContentMessage} />
             </Space>
           </ContaineredLayout>

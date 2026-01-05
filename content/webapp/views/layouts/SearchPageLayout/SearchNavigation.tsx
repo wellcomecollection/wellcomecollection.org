@@ -17,7 +17,7 @@ import SearchBar from '@weco/common/views/components/SearchBar';
 import Space from '@weco/common/views/components/styled/Space';
 import Tabs from '@weco/content/views/components/Tabs';
 const SearchBarContainer = styled(Space)`
-  ${props => props.theme.media('medium', 'max-width')`
+  ${props => props.theme.media('sm', 'max-width')`
     margin-bottom:0;
   `}
 `;
@@ -156,7 +156,7 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
         </h1>
 
         <SearchBarContainer
-          $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
+          $v={{ size: 'md', properties: ['margin-top', 'margin-bottom'] }}
         >
           <SearchBar
             variant="default"

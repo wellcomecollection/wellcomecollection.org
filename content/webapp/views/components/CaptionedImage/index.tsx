@@ -53,7 +53,7 @@ const ImageContainerInner = styled.div<{
     max-width: 90%;
 
     ${props =>
-      props.theme.media('large')(`
+      props.theme.media('md')(`
         max-width: ${props.$aspectRatio > 1 ? '80%' : '50%'};
       `)};
   }
@@ -106,7 +106,7 @@ const CaptionedImage: FunctionComponent<CaptionedImageProps> = ({
           <ConditionalWrapper
             condition={hasLinkedWork(image.tasl?.sourceLink)}
             wrapper={children => (
-              <Space $v={{ size: 'm', properties: ['margin-top'] }}>
+              <Space $v={{ size: 'sm', properties: ['margin-top'] }}>
                 {children}
               </Space>
             )}

@@ -55,7 +55,7 @@ const CivicUK = ({ apiKey }: { apiKey: string }) => {
 
   const notifyTitleStyles = `
   class="${font('sans-bold', 1)}"
-  style="display: block; margin: ${theme.spacingUnits['4']}px 0;"
+  style="display: block; margin: ${theme.spacingUnits['150']} 0;"
 `;
 
   const branding = {

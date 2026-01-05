@@ -104,7 +104,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
       {!isConfirmed && !isSuccess && !isError && (
         <Space
           className="body-text"
-          $v={{ size: 'm', properties: ['margin-bottom'] }}
+          $v={{ size: 'sm', properties: ['margin-bottom'] }}
         >
           <p className={font('sans-bold', 1)} style={{ marginBottom: '1rem' }}>
             Want to hear more from us?
@@ -145,7 +145,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
             value={newsletterAddressBook.id}
           />
 
-          <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
             <TextInput
               id="email"
               label="Your email address"
@@ -161,9 +161,9 @@ const NewsletterSignup: FunctionComponent<Props> = ({
 
           <Space
             as="fieldset"
-            $v={{ size: 's', properties: ['margin-bottom'] }}
+            $v={{ size: 'xs', properties: ['margin-bottom'] }}
           >
-            <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
+            <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
               <legend className={font('sans-bold', 0)}>
                 You might also be interested in receiving updates on:
               </legend>
@@ -173,7 +173,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
                 <Space
                   as="li"
                   key={addressBook.slug}
-                  $v={{ size: 'm', properties: ['margin-bottom'] }}
+                  $v={{ size: 'sm', properties: ['margin-bottom'] }}
                 >
                   <CheckboxRadio
                     id={addressBook.slug}
@@ -191,7 +191,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
               ))}
             </PlainList>
 
-            <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+            <Space $v={{ size: 'md', properties: ['margin-top'] }}>
               <CheckboxRadio
                 id="MARKETINGPERMISSIONS"
                 name="cd_MARKETINGPERMISSIONS"
@@ -211,7 +211,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
             </Space>
           </Space>
 
-          <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
             <Button
               variant="ButtonSolid"
               text="Subscribe"

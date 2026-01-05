@@ -5,16 +5,18 @@ import { font } from '@weco/common/utils/classnames';
 import AnimatedUnderlineCSS, {
   AnimatedUnderlineProps,
 } from '@weco/common/views/components/styled/AnimatedUnderline';
+import { GridCell } from '@weco/common/views/components/styled/Grid';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
+
 const leftOffset = '12px';
 
 export const InPageNavList = styled(PlainList)<{ $isOnWhite: boolean }>`
-  padding-bottom: ${props => props.theme.spacingUnits['4']}px;
+  padding-bottom: ${props => props.theme.spacingUnits['150']};
   border-bottom: 1px solid
     ${props => props.theme.color(props.$isOnWhite ? 'neutral.300' : 'white')};
 
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
     padding-bottom: 0;
     border-bottom: 0;
   `}
@@ -37,40 +39,27 @@ export const ListItem = styled.li<{ $hasStuck: boolean; $isOnWhite: boolean }>`
     ${props =>
       props.theme.color(props.$hasStuck ? 'neutral.300' : 'transparent')};
 
-  margin-left: -${props =>
-      props.theme.formatContainerPaddingVw(props.theme.containerPadding.small)};
-  margin-right: -${props =>
-      props.theme.formatContainerPaddingVw(props.theme.containerPadding.small)};
+  margin-left: -${props => props.theme.containerPadding};
+  margin-right: -${props => props.theme.containerPadding};
   padding-left: calc(
-    ${props =>
-        props.theme.formatContainerPaddingVw(
-          props.theme.containerPadding.small
-        )} +
-      ${leftOffset}
+    ${props => props.theme.containerPaddingVw} + ${leftOffset}
   );
   /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties */
-  padding-right: ${props =>
-    props.theme.formatContainerPaddingVw(props.theme.containerPadding.small)};
+  padding-right: ${props => props.theme.containerPaddingVw};
 
   ${props =>
-    props.theme.media('medium')(`
-    margin-left: -${props.theme.formatContainerPaddingVw(props.theme.containerPadding.medium)};
-    margin-right: -${props.theme.formatContainerPaddingVw(props.theme.containerPadding.medium)};
-    padding-left: calc(${props.theme.formatContainerPaddingVw(props.theme.containerPadding.medium)} + ${leftOffset});
-    padding-right: ${props.theme.formatContainerPaddingVw(props.theme.containerPadding.medium)};
+    props.theme.media('sm')(`
+    margin-left: -${props.theme.containerPaddingVw};
+    margin-right: -${props.theme.containerPaddingVw};
+    padding-left: calc(${props.theme.containerPaddingVw} + ${leftOffset});
+    padding-right: ${props.theme.containerPaddingVw};
   `)}
 
   &::before {
     content: '';
     display: ${props => (props.$hasStuck ? 'none' : 'block')};
     position: absolute;
-    left: calc(
-      ${props =>
-          props.theme.formatContainerPadding(
-            props.theme.containerPadding.small
-          )} +
-        1px
-    );
+    left: calc(${props => props.theme.containerPadding} + 1px);
     top: 0;
     bottom: 0;
     width: 1px;
@@ -80,14 +69,14 @@ export const ListItem = styled.li<{ $hasStuck: boolean; $isOnWhite: boolean }>`
   }
 
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
       &::before {
-        left: calc(${props.theme.formatContainerPadding(props.theme.containerPadding.medium)} + 1px);
+        left: calc(${props.theme.containerPadding} + 1px);
       }
     `)}
 
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
     border-top: 0;
     padding: 6px 0  6px ${leftOffset};
     margin: 0;
@@ -105,7 +94,7 @@ const AnimatedLink = styled(NextLink)<AnimatedUnderlineProps>`
   text-decoration: none;
 
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
     --line-color: ${props.theme.color('white')};
     `)}
 
@@ -152,7 +141,7 @@ export const InPageNavAnimatedLink = styled(AnimatedLink)<{
   }
 
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
     color: ${props.theme.color('white')};
 
     &::before {
@@ -164,7 +153,7 @@ export const Root = styled(Space).attrs<{
   $hasStuck: boolean;
 }>({
   as: 'nav',
-  $v: { size: 'l', properties: ['padding-top'] },
+  $v: { size: 'md', properties: ['padding-top'] },
 })<{
   $hasStuck: boolean;
 }>`
@@ -180,45 +169,22 @@ export const Root = styled(Space).attrs<{
   `}
 
   ${props =>
-    props.theme.media('large')(`
-    border-bottom: 0;
-  `)}
-
-  ${props =>
     props.theme.mediaBetween(
-      'small',
-      'medium'
+      'zero',
+      'md'
     )(`
-      margin-left: -${props.theme.formatContainerPaddingVw(props.theme.containerPadding.small)};
-      margin-right: -${props.theme.formatContainerPaddingVw(props.theme.containerPadding.small)};
-      padding-left: ${props.theme.formatContainerPaddingVw(props.theme.containerPadding.small)};
-      padding-right: ${props.theme.formatContainerPaddingVw(props.theme.containerPadding.small)};
-
-    `)}
-
-  ${props =>
-    props.theme.mediaBetween(
-      'medium',
-      'large'
-    )(`
-      margin-left: -${props.theme.formatContainerPaddingVw(props.theme.containerPadding.medium)};
-      margin-right: -${props.theme.formatContainerPaddingVw(props.theme.containerPadding.medium)};
-      padding-left: ${props.theme.formatContainerPaddingVw(props.theme.containerPadding.medium)};
-      padding-right: ${props.theme.formatContainerPaddingVw(props.theme.containerPadding.medium)};
-    `)}
-
-  ${props =>
-    props.theme.mediaBetween(
-      'small',
-      'large'
-    )(`
+      margin-left: -${props.theme.containerPaddingVw};
+      margin-right: -${props.theme.containerPaddingVw};
+      padding-left: ${props.theme.containerPaddingVw};
+      padding-right: ${props.theme.containerPaddingVw};
       transition: background ${props.theme.transitionProperties};
       background: ${props.$hasStuck && props.theme.color('white')};
       padding-top: 0;
     `)}
 
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
+      border-bottom: 0;
       mix-blend-mode: difference;
       color: ${props.theme.color('white')};
     `)}
@@ -255,7 +221,7 @@ export const MobileNavButton = styled.button.attrs({
     }
   }
 
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
     display: none;
   `}
 `;
@@ -266,4 +232,50 @@ export const AnimatedTextContainer = styled.div`
   height: 20px;
   line-height: 20px;
   width: 100%;
+`;
+
+export const NavGridCell = styled(GridCell)<{
+  $isEnhanced: boolean;
+  $isOnWhite: boolean;
+}>`
+  --nav-grid-cell-background-color: ${props =>
+    props.theme.color(props.$isOnWhite ? 'white' : 'neutral.700')};
+  position: ${props => (props.$isEnhanced ? 'sticky' : 'relative')};
+  top: 0;
+  transition: background-color ${props => props.theme.transitionProperties};
+  background-color: var(--nav-grid-cell-background-color);
+  z-index: 3;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    width: ${props => props.theme.containerPaddingVw};
+    bottom: 0;
+    top: 0;
+    transition: background-color ${props => props.theme.transitionProperties};
+    background-color: var(--nav-grid-cell-background-color);
+  }
+
+  &::before {
+    right: 100%;
+  }
+
+  &::after {
+    left: 100%;
+  }
+
+  ${props =>
+    props.theme.media('md')(`
+    position: unset;
+    background-color: unset;
+    transition: unset;
+    mix-blend-mode: difference;
+
+    &::before,
+    &::after {
+      transition: unset;
+      display: none;
+    }
+  `)}
 `;

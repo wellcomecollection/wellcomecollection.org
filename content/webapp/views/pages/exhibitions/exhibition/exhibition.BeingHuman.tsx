@@ -51,8 +51,8 @@ const ExhibitionBeingHuman = ({
 }) => {
   const hasResources = Boolean(
     exhibition.accessResourcesText ||
-      exhibition.accessResourcesPdfs.length > 0 ||
-      accessResourceLinks.length > 0
+    exhibition.accessResourcesPdfs.length > 0 ||
+    accessResourceLinks.length > 0
   );
 
   return (
@@ -61,7 +61,7 @@ const ExhibitionBeingHuman = ({
         <>
           <Space
             as="h2"
-            $v={{ size: 'm', properties: ['margin-bottom'] }}
+            $v={{ size: 'sm', properties: ['margin-bottom'] }}
             className={font('brand', 1)}
           >{`${exhibitionFormat} access content`}</Space>
           {(accessResourceLinks.length > 0 ||
@@ -136,7 +136,7 @@ const ExhibitionBeingHuman = ({
       )}
 
       {(exhibitionOfs.length > 0 || pages.length > 0) && (
-        <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+        <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
           <SearchResults
             variant="default"
             id="events-list"
@@ -147,7 +147,7 @@ const ExhibitionBeingHuman = ({
       )}
 
       {exhibition.end && !isPast(exhibition.end) && (
-        <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+        <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
           <InfoBox title="Visit us" items={getInfoItems(exhibition)}>
             <p className={font('sans', -1)} style={{ margin: 0 }}>
               For more information, please visit our{' '}

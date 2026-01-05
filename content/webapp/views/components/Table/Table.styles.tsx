@@ -38,7 +38,7 @@ export const ScrollButtonWrap = styled.div<{
   `}
 
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
     transform: ${
       props.$isLeft
         ? 'translateX(-50%) translateY(-50%)'
@@ -123,7 +123,7 @@ export const TableTr = styled.tr<{ $withBorder?: boolean }>`
 
 export const TableTh = styled.th<{ $plain?: boolean }>`
   ${props =>
-    props.theme.makeSpacePropertyValues('s', [
+    props.theme.makeSpacePropertyValues('xs', [
       'padding-bottom',
       'padding-top',
       'padding-left',
@@ -143,7 +143,7 @@ export const TableTh = styled.th<{ $plain?: boolean }>`
 
 export const TableTd = styled.td<{ $vAlign?: string }>`
   ${props =>
-    props.theme.makeSpacePropertyValues('s', [
+    props.theme.makeSpacePropertyValues('xs', [
       'padding-bottom',
       'padding-top',
       'padding-left',

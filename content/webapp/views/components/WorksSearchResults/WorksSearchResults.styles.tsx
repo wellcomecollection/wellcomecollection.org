@@ -4,13 +4,13 @@ import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 
 export const Container = styled.div`
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     display: flex;
   `}
 `;
 
 export const Wrapper = styled(Space).attrs({
-  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
 })`
   display: block;
 
@@ -37,7 +37,7 @@ export const Preview = styled(Space)`
   margin-right: 1rem;
   background-color: ${props => props.theme.color('black')};
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     margin-bottom: 0;
   `}
 `;
@@ -52,14 +52,14 @@ export const PreviewImage = styled.img`
 export const Details = styled.div`
   flex: 1 1 100%;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     max-width: 900px;
   `}
 `;
 
 export const WorkInformation = styled(Space).attrs({
   className: font('sans', -1),
-  $v: { size: 'xs', properties: ['margin-bottom'] },
+  $v: { size: '2xs', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.600')};
 `;

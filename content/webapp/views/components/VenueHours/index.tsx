@@ -60,12 +60,12 @@ const VenueHours: FunctionComponent<Props> = ({ venue }) => {
     <div data-component="venue-hours">
       {isFeatured && (
         <>
-          <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
             <span className="is-hidden-s">
               <Divider />
             </span>
           </Space>
-          <VenueHoursImage $v={{ size: 'm', properties: ['margin-bottom'] }}>
+          <VenueHoursImage $v={{ size: 'sm', properties: ['margin-bottom'] }}>
             {venue.image?.contentUrl && (
               <PrismicImage
                 image={{
@@ -75,10 +75,10 @@ const VenueHours: FunctionComponent<Props> = ({ venue }) => {
                   alt: venue.image?.alt,
                 }}
                 sizes={{
-                  xlarge: 1 / 6,
-                  large: 1 / 6,
-                  medium: 1 / 2,
-                  small: 1,
+                  lg: 1 / 6,
+                  md: 1 / 6,
+                  sm: 1 / 2,
+                  zero: 1,
                 }}
                 quality="low"
               />
@@ -87,11 +87,11 @@ const VenueHours: FunctionComponent<Props> = ({ venue }) => {
         </>
       )}
 
-      <VenueHoursTimes $v={{ size: 'm', properties: ['margin-bottom'] }}>
+      <VenueHoursTimes $v={{ size: 'sm', properties: ['margin-bottom'] }}>
         <Space
           as="h2"
           className={font('brand', 1)}
-          $h={{ size: 'm', properties: ['padding-right'] }}
+          $h={{ size: 'sm', properties: ['padding-right'] }}
         >
           {isFeatured ? venue.name : 'Opening hours'}
         </Space>
@@ -128,7 +128,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue }) => {
       )}
 
       <Space
-        $v={{ size: 's', properties: ['margin-top'] }}
+        $v={{ size: 'xs', properties: ['margin-top'] }}
         style={{ clear: 'both' }}
       >
         {isFeatured && venue.linkText && venue.url && (

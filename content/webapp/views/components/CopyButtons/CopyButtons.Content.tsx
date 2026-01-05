@@ -13,7 +13,7 @@ export type Props = {
 };
 
 const ButtonContainer = styled(Space).attrs({
-  $v: { size: 'm', properties: ['margin-top'] },
+  $v: { size: 'sm', properties: ['margin-top'] },
 })`
   /* This hack is needed to override the spacing caused by being placed within a div with .spaced-text. */
   span {
@@ -52,7 +52,7 @@ const CopyContent: FunctionComponent<Props> = ({
     try {
       document.execCommand('copy');
       setIsTextCopied(true);
-    } catch (err) {
+    } catch {
       setIsTextCopied(false);
     }
 

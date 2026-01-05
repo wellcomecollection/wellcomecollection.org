@@ -258,8 +258,8 @@ const WorkItemPage: NextPage<Props> = ({
           {isAnyImageOpen && origin && (
             <Space
               style={{ display: 'inline-flex' }}
-              $h={{ size: 'm', properties: ['margin-right'] }}
-              $v={{ size: 'm', properties: ['margin-top'] }}
+              $h={{ size: 'sm', properties: ['margin-right'] }}
+              $v={{ size: 'sm', properties: ['margin-top'] }}
             >
               <Button
                 variant="ButtonSolid"

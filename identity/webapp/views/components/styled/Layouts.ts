@@ -16,12 +16,12 @@ export const Wrapper = styled(Space).attrs<{
 }>(props => ({
   className: font('sans', -1),
   $v: {
-    size: 'l',
+    size: 'md',
     properties: props.$removeBottomPadding
       ? ['padding-top']
       : ['padding-top', 'padding-bottom'],
   },
-  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
 }))`
   position: relative;
 `;
@@ -36,7 +36,7 @@ export const SectionHeading = styled(Space).attrs<SectionHeadingProps>(
     as: props.as || 'h2',
     className: font('brand', 1),
     $v: {
-      size: 'm',
+      size: 'sm',
       properties: props.$addBottomPadding ? ['padding-bottom'] : [],
     },
   })
