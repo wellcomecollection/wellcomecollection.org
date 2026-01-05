@@ -369,7 +369,7 @@ export function checkModalRequired(params: checkModalParams): boolean {
   }
 }
 
-export function checkIsTotallyRestrictedV2(
+export function checkIsTotallyRestricted(
   externalAuthService: AuthAccessService2External | undefined,
   isAnyImageOpen: boolean
 ): boolean {
@@ -822,7 +822,7 @@ export function transformActiveAccessService(
   };
 }
 
-export function transformV2TokenService(
+export function transformTokenService(
   service: AuthAccessTokenService2 | undefined
 ): TransformedAuthService | undefined {
   if (!service) return;

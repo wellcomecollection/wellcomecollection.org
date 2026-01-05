@@ -3,7 +3,7 @@ import { AuthAccessService2, Collection, Manifest } from '@iiif/presentation-3';
 import { TransformedManifest } from '@weco/content/types/manifest';
 import {
   checkIsAnyImageOpen,
-  checkIsTotallyRestrictedV2,
+  checkIsTotallyRestricted,
   getActiveAuthAccessService,
   getAnnotationsOfMotivation,
   getAuthAccessServices,
@@ -22,7 +22,7 @@ import {
   isCollection,
   transformActiveAccessService,
   transformExternalAccessService,
-  transformV2TokenService,
+  transformTokenService,
 } from '@weco/content/utils/iiif/v3';
 
 export function transformManifest(
@@ -55,11 +55,11 @@ export function transformManifest(
   );
   const transformedActiveAccessService =
     transformActiveAccessService(activeAccessService);
-  const transformedV2TokenService = transformV2TokenService(v2TokenService);
+  const transformedTokenService = transformTokenService(v2TokenService);
 
   const firstCollectionManifestLocation =
     getFirstCollectionManifestLocation(manifestV3);
-  const isTotallyRestricted = checkIsTotallyRestrictedV2(
+  const isTotallyRestricted = checkIsTotallyRestricted(
     externalAccessService,
     isAnyImageOpen
   );
