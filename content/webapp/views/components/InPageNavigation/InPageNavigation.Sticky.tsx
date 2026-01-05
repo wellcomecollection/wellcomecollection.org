@@ -197,7 +197,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
           clickOutsideDeactivates: true,
         }}
       >
-        <Root $hasStuck={hasStuck} data-scroll-smooth="true">
+        <Root $hasStuck={hasStuck}>
           <h2 className={`${font('sans-bold', -1)} is-hidden-s is-hidden-m`}>
             {titleText}
           </h2>
@@ -295,13 +295,15 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
                         'position-in-list': `${index + 1}`,
                         label: id,
                       })}
-                      onClick={() => {
+                      onClick={e => {
+                        e.preventDefault();
                         setClickedId(id);
                         setIsListActive(false);
-                        const el = document.getElementById(id);
-                        if (el) {
-                          el.tabIndex = -1;
-                          el.focus();
+
+                        const element = document.getElementById(id);
+                        if (element) {
+                          element.scrollIntoView({ behavior: 'smooth' });
+                          window.history.replaceState(null, '', `#${id}`);
                         }
                       }}
                     >
