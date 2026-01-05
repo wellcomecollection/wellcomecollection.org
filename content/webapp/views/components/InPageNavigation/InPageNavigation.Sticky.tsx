@@ -315,11 +315,18 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
 
                           const elementPosition =
                             element.getBoundingClientRect().top;
-                          const offsetPosition =
+
+                          let offsetPosition =
                             elementPosition +
                             window.scrollY -
-                            buttonHeight -
-                            listHeight;
+                            listHeight -
+                            buttonHeight;
+
+                          // If the element is a heading (which is covered by the sticky nav text),
+                          // we want to scroll past it so it's hidden behind the sticky nav.
+                          if (/^H[1-6]$/.test(element.tagName)) {
+                            offsetPosition += element.offsetHeight;
+                          }
 
                           window.scrollTo({
                             top: offsetPosition,
