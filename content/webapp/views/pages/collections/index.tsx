@@ -80,8 +80,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
   newOnlineDocuments,
 }) => {
   const { data: collectionStats } = useCollectionStats();
-  const { browseCollections, newOnlineListingPage, newOnlineInCLP } =
-    useToggles();
+  const { browseCollections, newOnlineInCLP } = useToggles();
   const theme = useTheme();
 
   return (
@@ -153,39 +152,20 @@ const CollectionsLandingPage: NextPage<Props> = ({
         </Space>
       )}
 
-      {newOnlineListingPage && newOnlineInCLP ? (
-        newOnlineDocuments.length > 0 && (
-          <Space
-            $v={{ size: 'sm', properties: ['margin-top', 'margin-bottom'] }}
-          >
-            <SectionHeader title="New online" gridSize={gridSize12()} />
-            <ContaineredLayout gridSizes={gridSize12()}>
-              <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
-                <WorkCards works={newOnlineDocuments} />
-              </Space>
-
-              <MoreLink
-                url="/collections/new-online"
-                name="View more new works"
-              />
-            </ContaineredLayout>
-          </Space>
-        )
-      ) : (
-        <Space $v={{ size: 'sm', properties: ['margin-top', 'margin-bottom'] }}>
-          <SectionHeader title="New online" gridSize={gridSize12()} />
-          <ContaineredLayout gridSizes={gridSize12()}>
+      <Space $v={{ size: 'sm', properties: ['margin-top', 'margin-bottom'] }}>
+        <SectionHeader title="New online" gridSize={gridSize12()} />
+        <ContaineredLayout gridSizes={gridSize12()}>
+          {newOnlineInCLP && newOnlineDocuments.length > 0 ? (
+            <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
+              <WorkCards works={newOnlineDocuments} />
+            </Space>
+          ) : (
             <NewOnline />
+          )}
 
-            {newOnlineListingPage && (
-              <MoreLink
-                url="/collections/new-online"
-                name="View more new works"
-              />
-            )}
-          </ContaineredLayout>
-        </Space>
-      )}
+          <MoreLink url="/collections/new-online" name="View more new works" />
+        </ContaineredLayout>
+      </Space>
 
       {fullWidthBanners?.[0] && (
         <Space $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}>
