@@ -45,6 +45,11 @@ export function useActiveAnchor(ids: string[]): string | null {
 
     if (!containers.length) return;
 
+    // Create a map of id to element once to avoid repeated DOM queries
+    const idToElementMap = new Map(
+      anchorElements.map((element, index) => [ids[index], element])
+    );
+
     // Map each slice (child of container) to the active ID
     const elementIdMap = new Map<Element, string>();
 
@@ -55,7 +60,7 @@ export function useActiveAnchor(ids: string[]): string | null {
         const element = child as HTMLElement;
 
         const foundId = ids.find(id => {
-          const target = document.getElementById(id);
+          const target = idToElementMap.get(id);
           return target && element.contains(target);
         });
 
