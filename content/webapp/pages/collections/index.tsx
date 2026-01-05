@@ -131,7 +131,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       try {
         const works = await getWorks({
           params: {
-            query: newOnlineWorkIds.join(' '),
+            identifiers: newOnlineWorkIds,
           },
           toggles: serverData.toggles,
         });
