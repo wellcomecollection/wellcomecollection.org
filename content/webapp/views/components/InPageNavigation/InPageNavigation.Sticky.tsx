@@ -302,7 +302,17 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
 
                         const element = document.getElementById(id);
                         if (element) {
-                          element.scrollIntoView({ behavior: 'smooth' });
+                          const buttonHeight =
+                            buttonRef.current?.offsetHeight || 0;
+                          const elementPosition =
+                            element.getBoundingClientRect().top;
+                          const offsetPosition =
+                            elementPosition + window.scrollY - buttonHeight;
+
+                          window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth',
+                          });
                           window.history.replaceState(null, '', `#${id}`);
                         }
                       }}
