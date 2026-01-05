@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document explains how the authentication flow works for staff members with restricted access permissions (role = `userIsStaffWithRestricted`) when viewing restricted items in the IIIF viewer.
+This document explains how the authentication flow works for staff members with restricted access permissions (role = `StaffWithRestricted`) when viewing restricted items in the IIIF viewer.
 
 ## Background
 
@@ -42,13 +42,13 @@ The IIIF spec recommends querying the Probe service with the access token to det
 
 ### 1. Initial Check
 
-When a user is logged in with `userIsStaffWithRestricted` role and visits an items page containing a IIIF presentation manifest with restricted items, the authentication flow automatically begins.
+When a user is logged in with `StaffWithRestricted` role and visits an items page containing a IIIF presentation manifest with restricted items, the authentication flow automatically begins.
 
 ### 2. Automatic Popup Opens
 
 **Prerequisites for the popup to open:**
 
-1. User has `userIsStaffWithRestricted` role
+1. User has `StaffWithRestricted` role
 2. An external auth service exists in the manifest (`authServices?.external`)
 
 **What happens:**
