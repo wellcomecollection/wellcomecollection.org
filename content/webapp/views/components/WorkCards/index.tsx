@@ -1,11 +1,11 @@
-// Make default when newOnlineInCLP becomes default
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
+import PlainList from '@weco/common/views/components/styled/PlainList';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
-import WorkCardAPI from '@weco/content/views/components/WorkCard/WorkCard.API';
+import WorkCard from '@weco/content/views/components/WorkCards/WorkCards.Card';
 
-const Works = styled.div`
+const WorksList = styled(PlainList)`
   ${props => `
     --gap: ${props.theme.gutter.small};
   `}
@@ -31,7 +31,7 @@ const Works = styled.div`
   gap: var(--gap);
 `;
 
-const WorkContainer = styled.div`
+const WorkContainer = styled.li`
   flex: 0 0 calc(100% - var(--gap));
 
   ${props =>
@@ -51,16 +51,16 @@ type Props = {
 
 const WorkCards: FunctionComponent<Props> = ({ works }) => {
   if (works.length === 0) return null;
-  if (works.length === 1) return <WorkCardAPI item={works[0]} />;
+  if (works.length === 1) return <WorkCard item={works[0]} />;
 
   return (
-    <Works>
+    <WorksList data-component="work-cards">
       {works.map(item => (
         <WorkContainer key={item.id}>
-          <WorkCardAPI item={item} />
+          <WorkCard item={item} />
         </WorkContainer>
       ))}
-    </Works>
+    </WorksList>
   );
 };
 
