@@ -15,7 +15,15 @@ export function useActiveAnchor(ids: string[]): string | null {
 
     // Find the elements corresponding to the IDs
     const anchorElements = ids
-      .map(id => document.getElementById(id))
+      .map(id => {
+        const element = document.getElementById(id);
+        if (!element && process.env.NODE_ENV === 'development') {
+          console.warn(
+            `useActiveAnchor: Element with id "${id}" not found in the DOM`
+          );
+        }
+        return element;
+      })
       .filter(isNotNull);
 
     // Find the slice wrappers (containers of the content)
