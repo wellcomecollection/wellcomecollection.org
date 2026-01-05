@@ -322,9 +322,9 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
                             listHeight -
                             buttonHeight;
 
-                          // If the element is a heading (which is covered by the sticky nav text),
-                          // we want to scroll past it so it's hidden behind the sticky nav.
-                          if (/^H[1-6]$/.test(element.tagName)) {
+                          // If we're on a small screen (where the sticky nav contains the header text),
+                          // we want to scroll past it so the text doesn't appear duplicated.
+                          if (isListActive) {
                             offsetPosition += element.offsetHeight;
                           }
 
