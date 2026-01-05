@@ -304,10 +304,22 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
                         if (element) {
                           const buttonHeight =
                             buttonRef.current?.offsetHeight || 0;
+
+                          // If the list is open (isListActive), it pushes the content down.
+                          // When we click, we close the list, so the content moves up.
+                          // We need to subtract the list height to scroll to the correct position.
+                          const listHeight =
+                            isListActive && listRef.current
+                              ? listRef.current.offsetHeight
+                              : 0;
+
                           const elementPosition =
                             element.getBoundingClientRect().top;
                           const offsetPosition =
-                            elementPosition + window.scrollY - buttonHeight;
+                            elementPosition +
+                            window.scrollY -
+                            buttonHeight -
+                            listHeight;
 
                           window.scrollTo({
                             top: offsetPosition,
