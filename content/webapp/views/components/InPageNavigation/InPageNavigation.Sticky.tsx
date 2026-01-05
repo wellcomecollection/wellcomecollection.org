@@ -106,16 +106,30 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
       setClickedId(null);
     };
 
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Only reset on scroll-related keys
+      const scrollKeys = [
+        'ArrowUp',
+        'ArrowDown',
+        'PageUp',
+        'PageDown',
+        'Home',
+        'End',
+        ' ', // Space
+      ];
+      if (scrollKeys.includes(e.key)) {
+        resetClickedId();
+      }
+    };
+
     window.addEventListener('wheel', resetClickedId, { passive: true });
     window.addEventListener('touchmove', resetClickedId, { passive: true });
-    window.addEventListener('keydown', resetClickedId, { passive: true });
-    window.addEventListener('mousedown', resetClickedId, { passive: true });
+    window.addEventListener('keydown', handleKeyDown, { passive: true });
 
     return () => {
       window.removeEventListener('wheel', resetClickedId);
       window.removeEventListener('touchmove', resetClickedId);
-      window.removeEventListener('keydown', resetClickedId);
-      window.removeEventListener('mousedown', resetClickedId);
+      window.removeEventListener('keydown', handleKeyDown);
     };
   }, [clickedId]);
 
