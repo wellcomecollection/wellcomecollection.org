@@ -27,9 +27,8 @@ import { MultiContent } from '@weco/content/types/multi-content';
 import CardGrid from '@weco/content/views/components/CardGrid';
 import MoreLink from '@weco/content/views/components/MoreLink';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
-import WorkCards from '@weco/content/views/components/WorkCard/WorkCards';
+import WorkCards from '@weco/content/views/components/WorkCards';
 import BrowseByThemes from '@weco/content/views/pages/collections/collections.BrowseByThemes';
-import NewOnline from '@weco/content/views/pages/collections/collections.NewOnline';
 import WorkTypesList from '@weco/content/views/pages/collections/collections.WorkTypesList';
 import { themeBlockCategories } from '@weco/content/views/pages/collections/themeBlockCategories';
 
@@ -80,8 +79,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
   newOnlineDocuments,
 }) => {
   const { data: collectionStats } = useCollectionStats();
-  const { browseCollections, newOnlineListingPage, newOnlineInCLP } =
-    useToggles();
+  const { browseCollections } = useToggles();
   const theme = useTheme();
 
   return (
@@ -153,36 +151,18 @@ const CollectionsLandingPage: NextPage<Props> = ({
         </Space>
       )}
 
-      {newOnlineListingPage && newOnlineInCLP ? (
-        newOnlineDocuments.length > 0 && (
-          <Space
-            $v={{ size: 'sm', properties: ['margin-top', 'margin-bottom'] }}
-          >
-            <SectionHeader title="New online" gridSize={gridSize12()} />
-            <ContaineredLayout gridSizes={gridSize12()}>
-              <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
-                <WorkCards works={newOnlineDocuments} />
-              </Space>
-
-              <MoreLink
-                url="/collections/new-online"
-                name="View more new works"
-              />
-            </ContaineredLayout>
-          </Space>
-        )
-      ) : (
+      {newOnlineDocuments.length > 0 && (
         <Space $v={{ size: 'sm', properties: ['margin-top', 'margin-bottom'] }}>
           <SectionHeader title="New online" gridSize={gridSize12()} />
           <ContaineredLayout gridSizes={gridSize12()}>
-            <NewOnline />
+            <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
+              <WorkCards works={newOnlineDocuments} />
+            </Space>
 
-            {newOnlineListingPage && (
-              <MoreLink
-                url="/collections/new-online"
-                name="View more new works"
-              />
-            )}
+            <MoreLink
+              url="/collections/new-online"
+              name="View more new works"
+            />
           </ContaineredLayout>
         </Space>
       )}

@@ -33,12 +33,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   const serverData = await getServerData(context);
 
-  if (!serverData.toggles.newOnlineListingPage?.value) {
-    return {
-      notFound: true,
-    };
-  }
-
   const works = await getWorks({
     params: {
       availabilities: ['online'],

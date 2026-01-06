@@ -3,7 +3,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import { ComponentProps } from 'react';
 
 import { workBasic } from '@weco/cardigan/stories/data/work';
-import WorkCards from '@weco/content/views/components/WorkCard/WorkCards';
+import WorkCards from '@weco/content/views/components/WorkCards';
 
 faker.seed(123);
 
