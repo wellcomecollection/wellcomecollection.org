@@ -1,5 +1,5 @@
 /**
- * Checks if a filter value is negated (i.e., starts with '!')
+ * Checks if a filter value is negated (i.e. it starts with '!')
  * Negated values are used internally for exclusion filters but should
  * not be displayed in the UI.
  */
