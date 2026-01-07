@@ -66,15 +66,21 @@ const EventsLink: FunctionComponent<Props> = ({
 
 // We want to exclude exhibitions when we fetch events,
 // but we don't want to show the negated value in the UI.
-// So we have separate format arrays for API and UI.
-export function getEventFormats(paramsFormat: string[]): {
+// So we inlcude the !exhibitions format value for the API query
+// (unless the exhibitionsInEvents toggle is enabled)
+// and have a separate format array for the UI.
+export function getEventFormats(
+  paramsFormat: string[],
+  excludeExhibitions = true
+): {
   apiFormat: string[];
   uiFormat: string[];
 } {
-  const format =
-    paramsFormat.length > 0
+  const format = excludeExhibitions
+    ? paramsFormat.length > 0
       ? [...paramsFormat, '!exhibitions']
-      : ['!exhibitions'];
+      : ['!exhibitions']
+    : paramsFormat;
 
   const { all, positiveValues } = splitValues(format);
   return { apiFormat: all, uiFormat: positiveValues };
