@@ -1,7 +1,7 @@
 /**
  * Generic utility to strip out negated values, i.e. those starting with "!".
  * Returns both the original array (all) and the non-negated items (positiveValues)
- * N.B. We use negated values internally for exclusion filters but theyshould not be displayed in the UI.
+ * N.B. We use negated values internally for exclusion filters but they should not be displayed in the UI.
  */
 export function splitValues(values: string[]): {
   all: string[];
