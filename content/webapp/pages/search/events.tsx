@@ -36,7 +36,10 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const query = context.query;
   const params = fromQuery(query);
   const validTimespan = getQueryPropertyValue(params.timespan) || '';
-  const { apiFormat, uiFormat } = getEventFormats(params.format);
+  const { apiFormat, uiFormat } = getEventFormats(
+    params.format,
+    !exhibitionsInEvents
+  );
 
   const validParams = {
     ...params,
