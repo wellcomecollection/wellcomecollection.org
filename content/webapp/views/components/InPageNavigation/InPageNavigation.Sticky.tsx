@@ -44,7 +44,11 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
 }) => {
   // Extract ids from links (strip leading #)
   const ids = links.map(link => link.url.replace('#', ''));
-  const observedActiveId = useActiveAnchor(ids);
+
+  // Use a rootMargin to account for the sticky nav height
+  // This ensures sections are only considered "active" when they're below the sticky nav
+  const rootMargin = '-60px 0px 0px 0px';
+  const observedActiveId = useActiveAnchor(ids, rootMargin);
   const [clickedId, setClickedId] = useState<string | null>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const InPageNavigationStickyRef = useRef<HTMLDivElement>(null);
@@ -316,17 +320,11 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
                           const elementPosition =
                             element.getBoundingClientRect().top;
 
-                          let offsetPosition =
+                          const offsetPosition =
                             elementPosition +
                             window.scrollY -
                             listHeight -
                             buttonHeight;
-
-                          // If we're on a small screen (where the sticky nav contains the header text),
-                          // we want to scroll past it so the text doesn't appear duplicated.
-                          if (isListActive) {
-                            offsetPosition += element.offsetHeight;
-                          }
 
                           window.scrollTo({
                             top: offsetPosition,

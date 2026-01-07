@@ -5,9 +5,13 @@ import { isNotNull } from '@weco/common/utils/type-guards';
 /**
  * Tracks which intersecting element (by id) is closest to the top of the viewport.
  * @param ids Array of element ids to observe
+ * @param rootMargin Optional root margin for the intersection observer (e.g., '-50px 0px 0px 0px')
  * @returns The id of the intersecting section with the highest boundingClientRect.top
  */
-export function useActiveAnchor(ids: string[]): string | null {
+export function useActiveAnchor(
+  ids: string[],
+  rootMargin?: string
+): string | null {
   const [activeId, setActiveId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -76,33 +80,36 @@ export function useActiveAnchor(ids: string[]): string | null {
 
     const intersectingElements = new Set<Element>();
 
-    const sectionObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          intersectingElements.add(entry.target);
-        } else {
-          intersectingElements.delete(entry.target);
-        }
-      });
+    const sectionObserver = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            intersectingElements.add(entry.target);
+          } else {
+            intersectingElements.delete(entry.target);
+          }
+        });
 
-      const activeElement = [...intersectingElements]
-        .map(element => ({
-          element,
-          top: element.getBoundingClientRect().top,
-          id: elementIdMap.get(element),
-        }))
-        .filter(item => item.id !== undefined)
-        .sort((a, b) => a.top - b.top)?.[0];
+        const activeElement = [...intersectingElements]
+          .map(element => ({
+            element,
+            top: element.getBoundingClientRect().top,
+            id: elementIdMap.get(element),
+          }))
+          .filter(item => item.id !== undefined)
+          .sort((a, b) => a.top - b.top)?.[0];
 
-      setActiveId(activeElement?.id || null);
-    });
+        setActiveId(activeElement?.id || null);
+      },
+      rootMargin ? { rootMargin } : undefined
+    );
 
     elementIdMap.forEach((_, element) => sectionObserver.observe(element));
 
     return () => {
       sectionObserver.disconnect();
     };
-  }, [ids.join(',')]);
+  }, [ids.join(','), rootMargin]);
 
   return activeId;
 }
