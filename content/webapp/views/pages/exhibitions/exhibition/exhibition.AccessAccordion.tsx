@@ -173,10 +173,7 @@ const ExhibitionAccessAccordion = ({
             You can borrow tinted glasses, tinted visors, ear defenders and
             weighted lap pads. Please speak to a member of staff in the building
           </li>
-          <li>
-            Weekday mornings and Thursday evenings are usually the quietest
-            times to visit
-          </li>
+          <li>Weekday mornings are usually the quietest times to visit</li>
         </ul>
       ),
     },
