@@ -299,6 +299,66 @@ function detectMissingUidDocuments(doc: any): string[] {
     : [];
 }
 
+// For documents with showOnThisPage enabled (which creates the "On this page" navigation),
+// any text slice containing an h2 should have the h2 as the first element.
+// This ensures the anchor links work correctly and the page structure is consistent.
+function detectMisplacedH2InTextSlices(doc: any): string[] {
+  const docTypesWithShowOnThisPage = ['pages', 'visual-stories', 'guides'];
+
+  if (!docTypesWithShowOnThisPage.includes(doc.type)) {
+    return [];
+  }
+
+  // Only check if showOnThisPage is enabled
+  if (!doc.data.showOnThisPage) {
+    return [];
+  }
+
+  const errors: string[] = [];
+  const bodySlices = doc.data.body || doc.data.slices || [];
+  const textSlices = bodySlices.filter(
+    (slice: any) => slice.slice_type === 'text'
+  );
+
+  for (const slice of textSlices) {
+    const text = slice.primary?.text;
+    if (!text || text.length === 0) {
+      continue;
+    }
+
+    // Find all h2 headings in this slice
+    const h2Indices = text
+      .map((node: any, index: number) =>
+        node.type === 'heading2' ? index : -1
+      )
+      .filter((index: number) => index !== -1);
+
+    if (h2Indices.length === 0) {
+      continue;
+    }
+
+    // Check if the first element is an h2
+    if (h2Indices[0] !== 0) {
+      errors.push(
+        `A text slice contains an h2 heading, but it's not the first element in the slice. When "Show 'On this page' anchor links" is enabled, h2 headings must be the first element in their text slice for the navigation to work correctly.`
+      );
+      continue;
+    }
+
+    // Check if there are multiple h2s in the same slice
+    if (h2Indices.length > 1) {
+      const h2Titles = h2Indices
+        .map((index: number) => text[index].text)
+        .join('", "');
+      errors.push(
+        `A text slice contains multiple h2 headings ("${h2Titles}"). When "Show 'On this page' anchor links" is enabled, each h2 should be in its own text slice so the navigation works correctly. Please split this into separate text slices.`
+      );
+    }
+  }
+
+  return errors;
+}
+
 async function run() {
   const snapshotFile = await downloadPrismicSnapshot();
 
@@ -316,6 +376,7 @@ async function run() {
       ...detectIncompleteContributorSameAs(doc),
       ...detectMissingUidDocuments(doc),
       ...detectIncorrectAudioVideoDuration(doc),
+      ...detectMisplacedH2InTextSlices(doc),
     ];
 
     totalErrors += errors.length;
