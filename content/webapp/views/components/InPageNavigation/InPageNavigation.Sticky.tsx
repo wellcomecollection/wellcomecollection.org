@@ -201,7 +201,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
           clickOutsideDeactivates: true,
         }}
       >
-        <Root $hasStuck={hasStuck}>
+        <Root $hasStuck={hasStuck} data-in-page-navigation-sticky="true">
           <h2 className={`${font('sans-bold', -1)} is-hidden-s is-hidden-m`}>
             {titleText}
           </h2>
@@ -320,11 +320,17 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
                           const elementPosition =
                             element.getBoundingClientRect().top;
 
-                          const offsetPosition =
+                          let offsetPosition =
                             elementPosition +
                             window.scrollY -
                             listHeight -
                             buttonHeight;
+
+                          // On medium screens and above, add the scroll-margin-top offset
+                          // to align with the CSS scroll-margin-top value (approximately 32px)
+                          if (windowSize === 'md' || windowSize === 'lg') {
+                            offsetPosition -= 32;
+                          }
 
                           window.scrollTo({
                             top: offsetPosition,
