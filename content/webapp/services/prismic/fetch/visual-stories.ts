@@ -46,7 +46,6 @@ export const fetchVisualStory = async (
   client: GetServerSidePropsPrismicClient,
   id: string
 ): Promise<RawVisualStoriesDocument | undefined> => {
-  // #11240 once redirects are in place we should only fetch by uid
   const visualStoryDocument =
     (await visualStoriesFetcher.getByUid(client, id)) ||
     (await visualStoriesFetcher.getById(client, id));
