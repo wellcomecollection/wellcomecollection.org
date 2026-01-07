@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { camelToKebab } from '@weco/common/utils/grammar';
 
 const SpacingComponent = styled.div.attrs<{ $sliceType?: string }>(props => ({
-  'data-slice-type': props.$sliceType || 'unknown',
+  'data-slice-type': props.$sliceType,
   className: props.$sliceType
     ? `slice-type-${camelToKebab(props.$sliceType)}`
     : undefined,
