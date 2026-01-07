@@ -62,8 +62,10 @@ export function transformLink(
   if (link) {
     if (isFilledLinkToWebField(link) || isFilledLinkToMediaField(link)) {
       return link.url;
-    } else if (isFilledLinkToDocument(link)) {
-      return linkResolver(link);
+    } else if (
+      isFilledLinkToDocument(link as prismic.ContentRelationshipField)
+    ) {
+      return linkResolver(link as prismic.ContentRelationshipField);
     } else {
       console.warn(`Unable to construct link for ${JSON.stringify(link)}`);
     }

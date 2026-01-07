@@ -312,25 +312,13 @@ export const exhibitionsFetchLinks: FetchLinks<RawExhibitionsDocument> = [
 
 type Contributor =
   | prismic.EmptyLinkField<'Document'>
-  | prismic.FilledContentRelationshipField<
-      'people',
-      'en-gb',
-      InferDataInterface<RawPeopleDocument>
-    >
-  | prismic.FilledContentRelationshipField<
-      'organisations',
-      'en-gb',
-      InferDataInterface<RawOrganisationsDocument>
-    >;
+  | prismic.FilledContentRelationshipField<'people', string, unknown>
+  | prismic.FilledContentRelationshipField<'organisations', string, unknown>;
 
 export type WithContributors = {
   contributorsTitle: prismic.RichTextField;
   contributors: prismic.GroupField<{
-    role: prismic.ContentRelationshipField<
-      'editorial-contributor-roles',
-      'en-gb',
-      InferDataInterface<RawEditorialContributorRolesDocument>
-    >;
+    role: prismic.ContentRelationshipField<string, string, unknown>;
     contributor: Contributor;
     description: prismic.RichTextField;
   }>;
@@ -411,24 +399,30 @@ export const placesFetchLinks: FetchLinks<RawPlacesDocument> = [
 
 // Guards
 export function isFilledLinkToPersonField(
-  field: Contributor
+  field: unknown
 ): field is prismic.FilledContentRelationshipField<
   'people',
-  'en-gb',
+  string,
   InferDataInterface<RawPeopleDocument>
-> & { data: RawPeopleDocument } {
-  return isFilledLinkToDocumentWithData(field) && field.type === 'people';
+> & {
+  data: InferDataInterface<RawPeopleDocument>;
+} {
+  return (
+    isFilledLinkToDocumentWithData(field as prismic.ContentRelationshipField) &&
+    (field as prismic.FilledContentRelationshipField).type === 'people'
+  );
 }
 
 export function isFilledLinkToOrganisationField(
-  field: Contributor
+  field: unknown
 ): field is prismic.FilledContentRelationshipField<
   'organisations',
-  'en-gb',
+  string,
   InferDataInterface<RawOrganisationsDocument>
-> & { data: RawOrganisationsDocument } {
+> & { data: InferDataInterface<RawOrganisationsDocument> } {
   return (
-    isFilledLinkToDocumentWithData(field) && field.type === 'organisations'
+    isFilledLinkToDocumentWithData(field as prismic.ContentRelationshipField) &&
+    (field as prismic.FilledContentRelationshipField).type === 'organisations'
   );
 }
 

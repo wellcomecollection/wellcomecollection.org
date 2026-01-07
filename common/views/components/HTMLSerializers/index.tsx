@@ -202,8 +202,14 @@ export const dropCapSerializer: JSXFunctionSerializer = (
   ) {
     const firstChild = children[0];
     const firstCharacters =
+      firstChild &&
+      typeof firstChild === 'object' &&
+      'props' in firstChild &&
       firstChild.props &&
+      typeof firstChild.props === 'object' &&
+      'children' in firstChild.props &&
       firstChild.props.children &&
+      Array.isArray(firstChild.props.children) &&
       firstChild.props.children[0];
 
     if (typeof firstCharacters !== 'string') {

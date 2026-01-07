@@ -32,16 +32,20 @@ export type PaginatedResults<T> = {
 };
 
 // Guards
-export function isFilledLinkToDocument<T, L, D extends DataInterface>(
+export function isFilledLinkToDocument<T = string, L = string, D = unknown>(
   field: prismic.ContentRelationshipField<T, L, D> | undefined
 ): field is prismic.FilledContentRelationshipField<T, L, D> {
   return isNotUndefined(field) && 'id' in field && field.isBroken === false;
 }
 
-export function isFilledLinkToDocumentWithData<T, L, D extends DataInterface>(
+export function isFilledLinkToDocumentWithData<
+  T = string,
+  L = string,
+  D = unknown,
+>(
   field: prismic.ContentRelationshipField<T, L, D> | undefined
 ): field is prismic.FilledContentRelationshipField<T, L, D> & {
-  data: DataInterface;
+  data: D extends DataInterface ? D : DataInterface;
 } {
   return isFilledLinkToDocument(field) && 'data' in field;
 }
