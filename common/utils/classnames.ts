@@ -2,18 +2,16 @@
 type FontFamily = 'sans' | 'sans-bold' | 'brand' | 'mono';
 type FontSize = -2 | -1 | 0 | 1 | 2 | 4 | 5;
 
-export function font(family: FontFamily, size: FontSize): string;
-export function font(family: FontFamily): string;
-export function font(family: undefined, size: FontSize): string;
-export function font(family?: FontFamily, size?: FontSize): string {
-  if (family === undefined && size === undefined) {
-    throw new Error('font() requires at least one argument');
-  }
+export function fontFamily(family: FontFamily): string {
+  return `font-${family}`;
+}
 
-  const familyClass = family ? `font-${family}` : '';
-  const sizeClass = size !== undefined ? `font-size-f${size}` : '';
+export function fontSize(size: FontSize): string {
+  return `font-size-f${size}`;
+}
 
-  return [familyClass, sizeClass].filter(Boolean).join(' ');
+export function font(family: FontFamily, size: FontSize): string {
+  return `${fontFamily(family)} ${fontSize(size)}`;
 }
 
 type ClassNames = string[] | Record<string, boolean>;
