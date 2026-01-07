@@ -110,11 +110,17 @@ export const Anchor = styled.a.attrs({
   color: ${props => props.theme.color('black')};
 `;
 
-export const InPageNavAnimatedLink = styled(AnimatedLink)<{
+type InPageNavAnimatedLinkProps = {
   $isActive?: boolean;
   $hasStuck: boolean;
   $isOnWhite: boolean;
-}>`
+};
+
+export const InPageNavAnimatedLink = styled(
+  AnimatedLink
+).attrs<InPageNavAnimatedLinkProps>(props => ({
+  className: font(props.$isActive ? 'sans-bold' : 'sans'),
+}))<InPageNavAnimatedLinkProps>`
   color: ${props =>
     props.theme.color(
       props.$hasStuck ? 'black' : props.$isOnWhite ? 'black' : 'white'
