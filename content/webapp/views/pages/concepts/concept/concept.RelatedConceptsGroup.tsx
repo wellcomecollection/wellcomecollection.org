@@ -59,11 +59,7 @@ const RelatedConceptsGroup: FunctionComponent<Props> = ({
   }
 
   return (
-    <Space
-      $v={{ size: 'md', properties: ['margin-top'] }}
-      as="section"
-      data-id={dasherize(label)}
-    >
+    <Space $v={{ size: 'md', properties: ['margin-top'] }} as="section">
       {labelType === 'heading' && (
         <SectionHeading id={dasherize(label)}>{label}</SectionHeading>
       )}

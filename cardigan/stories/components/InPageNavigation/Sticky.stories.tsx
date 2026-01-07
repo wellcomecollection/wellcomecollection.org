@@ -61,7 +61,6 @@ const InPageNavigationInColsContext: FunctionComponent<{
         <GridCell $sizeMap={{ s: [12], m: [12], l: [9], xl: [9] }}>
           {links.map(link => (
             <section
-              data-id={link.url.replace('#', '')}
               key={link.url}
               style={{
                 padding: '16px',
