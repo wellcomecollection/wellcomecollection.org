@@ -12,7 +12,10 @@ import { emptyResultList } from '@weco/content/services/wellcome';
 import { getEvents } from '@weco/content/services/wellcome/content/events';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
-import { fromQuery } from '@weco/content/views/components/SearchPagesLink/Events';
+import {
+  fromQuery,
+  getEventFormats,
+} from '@weco/content/views/components/SearchPagesLink/Events';
 import EventsSearchPage, {
   Props as EventSearchPageProps,
 } from '@weco/content/views/pages/search/events';
@@ -33,14 +36,12 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const query = context.query;
   const params = fromQuery(query);
   const validTimespan = getQueryPropertyValue(params.timespan) || '';
-  const format =
-    params.format.length > 0
-      ? [...params.format, '!exhibitions']
-      : ['!exhibitions'];
+  const { apiFormat, uiFormat } = getEventFormats(params.format);
+
   const validParams = {
     ...params,
     timespan: validTimespan === 'all' ? '' : validTimespan,
-    format,
+    format: uiFormat,
   };
 
   const defaultProps = serialiseProps({
@@ -73,7 +74,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const paramsQuery = {
     ...restOfQuery,
     timespan: validTimespan,
-    format: format.join(','),
+    format: apiFormat.join(','),
   };
 
   const eventResponseList = await getEvents({
