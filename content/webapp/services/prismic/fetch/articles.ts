@@ -39,10 +39,12 @@ export const fetchArticle = async (
   client: GetServerSidePropsPrismicClient,
   id: string
 ): Promise<ArticleTypes | undefined> => {
-  // #11240 once redirects are in place we should only fetch by uid
+  // As fetching by UID requires knowing the type beforehand,
+  // and we don't know it at this stage, we first try to fetch by ID
   const articleDocumentById = await articlesFetcher.getById(client, id);
 
-  // As we have no way of identifiying whether an id is from a webcomic or an article, we have to try both.
+  // If no results is returned, we have to try both types one by one.
+  // If we get to migrating webcomics to articles, we can remove this fallback.
   if (!articleDocumentById) {
     const articleDocumentByUID = await fetcher<ArticleTypes>(
       'articles',

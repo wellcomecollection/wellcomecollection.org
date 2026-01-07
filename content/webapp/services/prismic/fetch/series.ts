@@ -28,7 +28,6 @@ export const fetchSeriesById = async (
   id: string,
   contentType: 'webcomic-series' | 'series'
 ): Promise<RawSeriesDocument | RawWebcomicSeriesDocument | undefined> => {
-  // #11240 once redirects are in place we should only fetch by uid
   const seriesDocument =
     (await seriesFetcher(contentType).getByUid(client, id)) ||
     (await seriesFetcher(contentType).getById(client, id));

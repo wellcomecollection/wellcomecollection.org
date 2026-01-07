@@ -22,7 +22,6 @@ export const fetchProject = async (
   client: GetServerSidePropsPrismicClient,
   id: string
 ): Promise<RawProjectsDocument | undefined> => {
-  // #11240 once redirects are in place we should only fetch by uid
   const projectDocument =
     (await projectsFetcher.getByUid(client, id)) ||
     (await projectsFetcher.getById(client, id));

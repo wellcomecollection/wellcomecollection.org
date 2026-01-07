@@ -65,7 +65,6 @@ export const fetchPage = async (
   // so I'm keeping it separate from SiteSection which is used in other contexts.
   siteSection?: SiteSection | 'orphan'
 ): Promise<RawPagesDocument | undefined> => {
-  // #11240 once redirects are in place we should only fetch by uid
   const pageDocument =
     (await pagesFetcher.getByUid(client, id, siteSection)) ||
     (await pagesFetcher.getById(client, id));
