@@ -9,7 +9,6 @@ import { LinkProps } from '@weco/common/model/link-props';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-import { isNegatedValue } from '@weco/content/utils/filters';
 import {
   BooleanFilter,
   CheckboxFilter,
@@ -69,7 +68,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
   const router = useRouter();
   const renderCheckboxLink = (filter: CheckboxFilter) =>
     filter.options
-      .filter(({ selected, value }) => selected && !isNegatedValue(value))
+      .filter(({ selected }) => selected)
       .map(option => (
         <NextLink
           key={`cancel-${option.id}`}

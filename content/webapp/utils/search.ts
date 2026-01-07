@@ -1,7 +1,6 @@
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { Filter } from '@weco/content/services/wellcome/common/filters';
 import { getColorDisplayName } from '@weco/content/views/components/PaletteColorPicker';
-import { isNegatedValue } from '@weco/content/utils/filters';
 
 // FILTERS
 /**
@@ -30,7 +29,7 @@ export const getActiveFiltersLabel = ({
   return filters
     .map(f => {
       if (f.type === 'checkbox') {
-        const activeOptions = f.options.filter(option => option.selected && !isNegatedValue(option.value));
+        const activeOptions = f.options.filter(option => option.selected);
         return activeOptions.map(o => o.label);
       } else if (f.type === 'radio') {
         const activeOptions = f.options.filter(
