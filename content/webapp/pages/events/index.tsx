@@ -46,7 +46,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   // Used for UI component props, so we don't show negated formats
   const eventsRouteProps = { ...params, timespan, format: uiFormat };
-  // Used for API query, so we include the negated formatsto exclude exhibitions
+  // Used for API query, so we include the negated formats to exclude exhibitions
   const queriedParams = toQuery({ ...params, timespan, format: apiFormat });
 
   const eventResponseList = await getEvents({
