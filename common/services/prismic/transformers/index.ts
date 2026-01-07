@@ -65,7 +65,9 @@ export function transformLink(
     } else if (
       isFilledLinkToDocument(link as prismic.ContentRelationshipField)
     ) {
-      return linkResolver(link as prismic.ContentRelationshipField);
+      /* eslint-disable @typescript-eslint/no-explicit-any */
+      return linkResolver(link as any);
+      /* eslint-enable @typescript-eslint/no-explicit-any */
     } else {
       console.warn(`Unable to construct link for ${JSON.stringify(link)}`);
     }

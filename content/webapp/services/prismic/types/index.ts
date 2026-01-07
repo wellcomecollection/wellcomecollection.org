@@ -450,28 +450,8 @@ export type StructuredSearchQuery = {
   'article-series': string[];
 };
 
-type PrismicLabel = {
-  title: prismic.RichTextField;
-  description: prismic.RichTextField;
-};
-
 export type WithCardFormat = {
-  format:
-    | prismic.ContentRelationshipField<
-        'article-formats',
-        'en-gb',
-        InferDataInterface<RawArticleFormatsDocument>
-      >
-    | prismic.ContentRelationshipField<
-        'event-formats',
-        'en-gb',
-        InferDataInterface<RawEventFormatsDocument>
-      >
-    | prismic.ContentRelationshipField<
-        'labels',
-        'en-gb',
-        InferDataInterface<PrismicLabel>
-      >;
+  format: prismic.ContentRelationshipField;
 };
 
 export type ExhibitionRelatedContentPrismicDocument =
@@ -481,41 +461,21 @@ export type ExhibitionRelatedContentPrismicDocument =
   | RawBooksDocument;
 
 export type WithArticleFormat = {
-  format: prismic.ContentRelationshipField<
-    'article-formats',
-    'en-gb',
-    InferDataInterface<RawArticleFormatsDocument>
-  >;
+  format: prismic.ContentRelationshipField;
 };
 
 export type WithGuideFormat = {
-  format: prismic.ContentRelationshipField<
-    'guide-formats',
-    'en-gb',
-    InferDataInterface<RawGuideFormatsDocument>
-  >;
+  format: prismic.ContentRelationshipField;
 };
 
 export type WithPageFormat = {
-  format: prismic.ContentRelationshipField<
-    'page-formats',
-    'en-gb',
-    InferDataInterface<RawPageFormatsDocument>
-  >;
+  format: prismic.ContentRelationshipField;
 };
 
 export type WithProjectFormat = {
-  format: prismic.ContentRelationshipField<
-    'project-formats',
-    'en-gb',
-    InferDataInterface<RawProjectFormatsDocument>
-  >;
+  format: prismic.ContentRelationshipField;
 };
 
 export type WithEventFormat = {
-  format: prismic.ContentRelationshipField<
-    'event-formats',
-    'en-gb',
-    InferDataInterface<RawEventFormatsDocument>
-  >;
+  format: prismic.ContentRelationshipField;
 };

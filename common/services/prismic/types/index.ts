@@ -60,7 +60,7 @@ export function isFilledLinkToWebField(
 
 export function isFilledLinkToMediaField(
   field: prismic.LinkField
-): field is prismic.FilledLinkToWebField {
+): field is prismic.FilledLinkToMediaField {
   return (
     prismic.isFilled.link(field) &&
     field.link_type === 'Media' &&

@@ -11,9 +11,12 @@ export function transformCard(document: RawCardDocument): Card {
 
   return {
     type: 'card',
-    id: isFilledLinkToDocument(link) ? link.id : undefined,
+    id:
+      link.link_type === 'Document' && isFilledLinkToDocument(link)
+        ? link.id
+        : undefined,
     title: asTitle(title),
-    format: transformFormat(document),
+    format: transformFormat(document as never),
     description: asText(description),
     image: transformImage(image),
     link: transformLink(link),

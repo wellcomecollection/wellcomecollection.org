@@ -1,7 +1,6 @@
 import * as prismic from '@prismicio/client';
 
 import {
-  EventPoliciesDocument as RawEventPoliciesDocument,
   EventsDocument as RawEventsDocument,
   EventsDocumentData as RawEventsDocumentData,
   EventSeriesDocument as RawEventSeriesDocument,
@@ -77,21 +76,17 @@ export function getLastEndTime(times: EventTime[]): Date | undefined {
 }
 
 export function transformEventPolicyLabels(
-  fragment: prismic.GroupField<{
-    policy: prismic.ContentRelationshipField<
-      'event-policy',
-      'en-gb',
-      InferDataInterface<RawEventPoliciesDocument>
-    >;
-  }>,
+  fragment: prismic.GroupField,
   labelKey: string
 ): LabelField[] {
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   return fragment
-    .map(label => label[labelKey])
+    .map((label: any) => label[labelKey])
     .filter(Boolean)
-    .filter(label => label.isBroken === false)
-    .filter(label => isFilledLinkToDocumentWithData(label))
-    .map(label => transformLabelType(label));
+    .filter((label: any) => label.isBroken === false)
+    .filter((label: any) => isFilledLinkToDocumentWithData(label))
+    .map((label: any) => transformLabelType(label));
+  /* eslint-enable @typescript-eslint/no-explicit-any */
 }
 
 export function getEventbriteId(url: string): string | undefined {
@@ -109,18 +104,16 @@ export function getEventbriteId(url: string): string | undefined {
 }
 
 function transformBookingEnquiryTeam(
-  team: prismic.ContentRelationshipField<
-    'teams',
-    'en-gb',
-    InferDataInterface<RawTeamsDocument>
-  >
+  team: prismic.ContentRelationshipField
 ): Team | undefined {
   return isFilledLinkToDocumentWithData(team)
     ? {
         id: team.id,
-        title: asText(team.data?.title) || '',
-        email: team.data!.email!,
-        phone: team.data!.phone!,
+        title:
+          asText((team.data as InferDataInterface<RawTeamsDocument>)?.title) ||
+          '',
+        email: (team.data as InferDataInterface<RawTeamsDocument>)!.email!,
+        phone: (team.data as InferDataInterface<RawTeamsDocument>)!.phone!,
       }
     : undefined;
 }

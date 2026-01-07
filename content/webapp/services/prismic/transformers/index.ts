@@ -2,9 +2,7 @@ import * as prismic from '@prismicio/client';
 
 import { ImageType } from '@weco/common/model/image';
 import {
-  ArticlesDocumentData as RawArticlesDocumentData,
   StandfirstSlice as RawStandfirstSlice,
-  WebcomicsDocumentData as RawWebcomicsDocumentData,
   WebcomicSeriesDocument as RawWebcomicSeriesDocument,
 } from '@weco/common/prismicio-types';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
@@ -111,15 +109,21 @@ export function transformSingleLevelGroup(
 }
 
 export function transformLabelType(
-  format: RawArticlesDocumentData['format'] | RawWebcomicsDocumentData['format']
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  format: any
+  /* eslint-enable @typescript-eslint/no-explicit-any */
 ): LabelField {
   if (isFilledLinkToDocumentWithData(format)) {
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    const description = format.data.description as any;
+    /* eslint-enable @typescript-eslint/no-explicit-any */
     return {
       id: format.id as ArticleFormatId,
       title: asText(format.data.title as prismic.TitleField),
-      description: format.data.description
-        ? (format.data.description as prismic.RichTextField)
-        : undefined,
+      description:
+        description && prismic.isFilled.richText(description)
+          ? (description as prismic.RichTextField)
+          : undefined,
     };
   }
   return {};
