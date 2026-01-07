@@ -58,12 +58,16 @@ const InputField = styled.input`
   height: 0;
   width: 0;
 
-  &:focus-visible ~ ${StyledInput}, &:focus ~ ${StyledInput} {
+  &:focus-visible ~ ${StyledInput} {
     ${focusStyle};
   }
 
-  &:focus ~ ${StyledInput}:not(:focus-visible ~ ${StyledInput}),
-  &:active ~ ${StyledInput} {
+  &:focus ~ ${StyledInput} {
+    ${focusStyle};
+  }
+
+  &:focus:not(:focus-visible) ~ ${StyledInput} {
+    outline: none;
     box-shadow: none;
   }
 `;
