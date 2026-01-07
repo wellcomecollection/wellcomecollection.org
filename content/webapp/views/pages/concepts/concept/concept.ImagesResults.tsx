@@ -116,11 +116,7 @@ const ImagesResults: FunctionComponent<{
 
   return (
     <>
-      <ThemeImagesWrapper
-        as="section"
-        data-testid="images-section"
-        data-id="images"
-      >
+      <ThemeImagesWrapper as="section" data-testid="images-section">
         <Space $v={{ size: 'sm', properties: ['padding-top'] }}>
           <FromCollectionsHeading $color="white" id="images">
             Images from the collections

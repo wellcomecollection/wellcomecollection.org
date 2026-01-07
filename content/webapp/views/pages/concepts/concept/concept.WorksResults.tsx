@@ -81,11 +81,7 @@ const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
       <DecorativeEdgeWrapper>
         <DecorativeEdge variant="wobbly" backgroundColor="white" />
       </DecorativeEdgeWrapper>
-      <Space
-        $v={{ size: 'xl', properties: ['margin-top'] }}
-        as="section"
-        data-id="works"
-      >
+      <Space $v={{ size: 'xl', properties: ['margin-top'] }} as="section">
         <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
           <FromCollectionsHeading id="works" $color="black">
             Works from the collections

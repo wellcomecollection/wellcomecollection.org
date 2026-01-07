@@ -83,7 +83,7 @@ export const typography = css<GlobalStyleProps>`
   InPageNavigation.Sticky relies on sections with data-id attributes
   and we want to adjust the scroll margin for headings within those sections
   */
-  [data-id] :is(h2, h3) {
+  :has([data-in-page-navigation-sticky]) :is(h2, h3) {
     /* Enough space to clear the sticky header */
     scroll-margin-top: 3rem;
 

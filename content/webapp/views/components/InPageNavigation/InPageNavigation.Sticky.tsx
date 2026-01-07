@@ -44,9 +44,12 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
 }) => {
   // Extract ids from links (strip leading #)
   const ids = links.map(link => link.url.replace('#', ''));
-  const observedActiveId = useActiveAnchor(ids);
+
+  // Use a rootMargin to account for the sticky nav height
+  // This ensures sections are only considered "active" when they're below the sticky nav
+  const rootMargin = '-60px 0px 0px 0px';
+  const observedActiveId = useActiveAnchor(ids, rootMargin);
   const [clickedId, setClickedId] = useState<string | null>(null);
-  const [lock, setLock] = useState(false);
   const listRef = useRef<HTMLUListElement>(null);
   const InPageNavigationStickyRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -100,27 +103,45 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
     observer.observe(InPageNavigationStickyRef.current);
   }, [InPageNavigationStickyRef.current]);
 
-  // When an anchor is clicked, lock for a short time before allowing scroll to clear
   useEffect(() => {
     if (!clickedId) return;
-    setLock(true);
-    const timeout = setTimeout(() => {
-      setLock(false);
-    }, 1000); // 1s lock
-    return () => clearTimeout(timeout);
-  }, [clickedId]);
 
-  // When the user scrolls, clear clickedId if it is set and not locked
-  useEffect(() => {
-    if (!clickedId || lock) return;
-    const handleScroll = () => {
+    const resetClickedId = () => {
       setClickedId(null);
     };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Only reset on scroll-related keys
+      const scrollKeys = [
+        'ArrowUp',
+        'ArrowDown',
+        'PageUp',
+        'PageDown',
+        'Home',
+        'End',
+        ' ', // Space
+      ];
+      if (scrollKeys.includes(e.key)) {
+        resetClickedId();
+      }
     };
-  }, [clickedId, lock]);
+
+    window.addEventListener('wheel', resetClickedId, { passive: true });
+    window.addEventListener('touchmove', resetClickedId, { passive: true });
+    window.addEventListener('keydown', handleKeyDown, { passive: true });
+
+    return () => {
+      window.removeEventListener('wheel', resetClickedId);
+      window.removeEventListener('touchmove', resetClickedId);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [clickedId]);
+
+  useEffect(() => {
+    if (clickedId === observedActiveId) {
+      setClickedId(null);
+    }
+  }, [clickedId, observedActiveId]);
 
   // Determine the active id based on whether sticky is enabled
   const activeId = clickedId || observedActiveId;
@@ -180,7 +201,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
           clickOutsideDeactivates: true,
         }}
       >
-        <Root $hasStuck={hasStuck} data-scroll-smooth="true">
+        <Root $hasStuck={hasStuck} data-in-page-navigation-sticky="true">
           <h2 className={`${font('sans-bold', -1)} is-hidden-s is-hidden-m`}>
             {titleText}
           </h2>
@@ -278,13 +299,44 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
                         'position-in-list': `${index + 1}`,
                         label: id,
                       })}
-                      onClick={() => {
+                      onClick={e => {
+                        e.preventDefault();
                         setClickedId(id);
                         setIsListActive(false);
-                        const el = document.getElementById(id);
-                        if (el) {
-                          el.tabIndex = -1;
-                          el.focus();
+
+                        const element = document.getElementById(id);
+                        if (element) {
+                          const buttonHeight =
+                            buttonRef.current?.offsetHeight || 0;
+
+                          // If the list is open (isListActive), it pushes the content down.
+                          // When we click, we close the list, so the content moves up.
+                          // We need to subtract the list height to scroll to the correct position.
+                          const listHeight =
+                            isListActive && listRef.current
+                              ? listRef.current.offsetHeight
+                              : 0;
+
+                          const elementPosition =
+                            element.getBoundingClientRect().top;
+
+                          let offsetPosition =
+                            elementPosition +
+                            window.scrollY -
+                            listHeight -
+                            buttonHeight;
+
+                          // On medium screens and above, add the scroll-margin-top offset
+                          // to align with the CSS scroll-margin-top value (approximately 32px)
+                          if (windowSize === 'md' || windowSize === 'lg') {
+                            offsetPosition -= 32;
+                          }
+
+                          window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth',
+                          });
+                          window.history.replaceState(null, '', `#${id}`);
                         }
                       }}
                     >
