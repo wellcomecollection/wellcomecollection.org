@@ -23,7 +23,6 @@ import {
   PagesDocument as RawPagesDocument,
   QuoteSlice as RawQuoteSlice,
   SearchResultsSlice as RawSearchResultsSlice,
-  SeasonsDocument as RawSeasonsDocument,
   StandfirstSlice as RawStandfirstSlice,
   TagListSlice as RawTagListSlice,
   TextAndIconsSlice as RawTextAndIconsSlice,
@@ -75,7 +74,7 @@ import { transformExhibition } from './exhibitions';
 import { transformGuide } from './guides';
 import { transformCaptionedImage } from './images';
 import { transformPage } from './pages';
-import { transformSeason } from './seasons';
+import { transformSeasonFromRelationship } from './seasons';
 
 export function transformStandfirstSlice(
   slice: RawStandfirstSlice
@@ -451,7 +450,7 @@ export function transformContentListSlice(
                 content as unknown as RawEventsDocument
               );
             case 'seasons':
-              return transformSeason(content as unknown as RawSeasonsDocument);
+              return transformSeasonFromRelationship(content);
             case 'card':
               return transformCard(content as unknown as RawCardDocument);
             default:

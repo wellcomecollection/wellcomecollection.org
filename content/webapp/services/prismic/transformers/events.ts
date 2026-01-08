@@ -4,8 +4,6 @@ import {
   EventsDocument as RawEventsDocument,
   EventsDocumentData as RawEventsDocumentData,
   EventSeriesDocument as RawEventSeriesDocument,
-  PlacesDocument as RawPlacesDocument,
-  SeasonsDocument as RawSeasonsDocument,
   TeamsDocument as RawTeamsDocument,
 } from '@weco/common/prismicio-types';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
@@ -51,8 +49,8 @@ import {
   transformEventSeriesToEventSeriesBasic,
 } from './event-series';
 import { noAltTextBecausePromo } from './images';
-import { transformPlace } from './places';
-import { transformSeason } from './seasons';
+import { transformPlacesFromRelationshipGroup } from './places';
+import { transformSeasonsFromRelationshipGroup } from './seasons';
 
 function transformEventBookingType(
   eventDoc: RawEventsDocument
@@ -235,8 +233,8 @@ export function transformEvent(
     .map(series => transformEventSeries(series as RawEventSeriesDocument))
     .map(transformEventSeriesToEventSeriesBasic);
 
-  const seasons = transformSingleLevelGroup(data.seasons, 'season').map(
-    season => transformSeason(season as RawSeasonsDocument)
+  const seasons = transformSeasonsFromRelationshipGroup(
+    transformSingleLevelGroup(data.seasons, 'season')
   );
 
   const times: EventTime[] = transformEventTimes(document.id, data.times || []);
@@ -252,8 +250,8 @@ export function transformEvent(
     };
   });
 
-  const locations = transformSingleLevelGroup(data.locations, 'location').map(
-    location => transformPlace(location as RawPlacesDocument)
+  const locations = transformPlacesFromRelationshipGroup(
+    transformSingleLevelGroup(data.locations, 'location')
   );
 
   const contributors = transformContributors(document);

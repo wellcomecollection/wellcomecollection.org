@@ -4,7 +4,6 @@ import { licenseTypeArray } from '@weco/common/model/license';
 import { Tasl } from '@weco/common/model/tasl';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import {
-  isFilledLinkToDocument,
   isFilledLinkToMediaField,
   isFilledLinkToWebField,
 } from '@weco/common/services/prismic/types';
@@ -54,20 +53,16 @@ export function transformTaslFromString(pipedString: string | null): Tasl {
   }
 }
 
-export function transformLink(
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  link?: prismic.LinkField<string, string, any>
-  /* eslint-enable @typescript-eslint/no-explicit-any */
-): string | undefined {
+export function transformLink(link?: prismic.LinkField): string | undefined {
   if (link) {
     if (isFilledLinkToWebField(link) || isFilledLinkToMediaField(link)) {
       return link.url;
     } else if (
-      isFilledLinkToDocument(link as prismic.ContentRelationshipField)
+      prismic.isFilled.link(link) &&
+      link.link_type === 'Document' &&
+      link.isBroken === false
     ) {
-      /* eslint-disable @typescript-eslint/no-explicit-any */
-      return linkResolver(link as any);
-      /* eslint-enable @typescript-eslint/no-explicit-any */
+      return linkResolver(link);
     } else {
       console.warn(`Unable to construct link for ${JSON.stringify(link)}`);
     }

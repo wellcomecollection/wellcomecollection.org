@@ -55,11 +55,7 @@ export function isFilledLinkToDocumentWithData<
 ): field is prismic.FilledContentRelationshipField<T, L, D> & {
   data: D extends DataInterface ? D : DataInterface;
 } {
-  return (
-    isFilledLinkToDocument(field) &&
-    isNotUndefined((field as prismic.FilledContentRelationshipField).data) &&
-    (field as prismic.FilledContentRelationshipField).data !== null
-  );
+  return isFilledLinkToDocument(field) && field.data != null;
 }
 
 export function isFilledLinkToDocumentWithTypedData<
@@ -75,11 +71,7 @@ export function isFilledLinkToDocumentWithTypedData<
 > & {
   data: InferDataInterface<TDoc>;
 } {
-  return (
-    isFilledLinkToDocument(field) &&
-    isNotUndefined((field as prismic.FilledContentRelationshipField).data) &&
-    (field as prismic.FilledContentRelationshipField).data !== null
-  );
+  return isFilledLinkToDocument(field) && field.data != null;
 }
 
 export function isFilledLinkToWebField(

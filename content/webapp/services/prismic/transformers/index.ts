@@ -14,6 +14,7 @@ import {
   GenericDoc,
   GenericDocWithMetaDescription,
   GenericDocWithPromo,
+  PromoSliceZone,
   RelatedGenericDoc,
   WithArticleFormat,
   WithCardFormat,
@@ -98,38 +99,118 @@ export function asTitle(title: prismic.RichTextField): string {
   return asText(title) || '';
 }
 
-export function transformSingleLevelGroup(
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  frag: Record<string, any>[],
-  /* eslint-enable @typescript-eslint/no-explicit-any */
-  singlePropertyName: string
-) {
-  return (
-    (frag || [])
-      .filter(fragItem =>
-        isFilledLinkToDocumentWithData(fragItem[singlePropertyName])
+/**
+ * Build the shared "generic" content fields from a Prismic relationship field.
+ *
+ * Why this exists:
+ * - Prismic content relationships are not full documents at runtime (even when
+ *   they have `data` via `fetchLinks`/GraphQuery), so using `transformGenericFields`
+ *   would require unsafe casts like `relationship as RawXDocument`.
+ * - This helper lets us safely use the subset of fields we expect to be present
+ *   on relationship `data` (e.g. title/body/promo) without pretending we have a
+ *   complete Prismic document.
+ */
+export function transformGenericFieldsFromRelationship(field: {
+  id: string;
+  data: Record<string, unknown>;
+}): GenericContentFields {
+  const { data } = field;
+
+  const promoSlices = Array.isArray(data.promo)
+    ? (data.promo as unknown[]).filter(
+        (slice): slice is prismic.Slice<'editorialImage'> =>
+          Boolean(
+            slice &&
+            typeof slice === 'object' &&
+            'slice_type' in slice &&
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (slice as any).slice_type === 'editorialImage'
+          )
       )
-      /* eslint-disable @typescript-eslint/no-explicit-any */
-      .map<Record<string, any>>(fragItem => fragItem[singlePropertyName])
-  );
-  /* eslint-enable @typescript-eslint/no-explicit-any */
+    : [];
+
+  const promo = promoSlices.length
+    ? transformImagePromo(promoSlices as unknown as PromoSliceZone)
+    : undefined;
+
+  // We keep `image` alongside `promo` for existing consumers.
+  const primaryPromo = promoSlices.find(slice => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const maybeImage = (slice as any)?.primary?.image;
+    return Boolean(maybeImage);
+  });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const maybeImage = (primaryPromo as any)?.primary?.image;
+  const image: ImageType | undefined =
+    maybeImage && maybeImage !== null
+      ? transformImage(
+          maybeImage as
+            | prismic.EmptyImageFieldImage
+            | prismic.FilledImageFieldImage
+            | undefined
+        )
+      : undefined;
+
+  const untransformedBody = Array.isArray(data.body)
+    ? (data.body as prismic.Slice[])
+    : ([] as prismic.Slice[]);
+
+  const untransformedStandfirst = untransformedBody.find(
+    (slice: prismic.Slice) => slice.slice_type === 'standfirst'
+  ) as RawStandfirstSlice | undefined;
+
+  const metadataDescription =
+    Array.isArray(data.metadataDescription) ||
+    isString(data.metadataDescription)
+      ? asText(data.metadataDescription as prismic.RichTextField)
+      : undefined;
+
+  return {
+    id: field.id,
+    title:
+      Array.isArray(data.title) && isNotUndefined(data.title)
+        ? asTitle(data.title as prismic.RichTextField)
+        : '',
+    untransformedBody,
+    untransformedStandfirst,
+    promo,
+    image,
+    metadataDescription,
+    labels: [],
+  };
+}
+
+export function transformSingleLevelGroup(
+  frag: Record<string, unknown>[] | null | undefined,
+  singlePropertyName: string
+): unknown[] {
+  return (frag ?? []).reduce<unknown[]>((acc, fragItem) => {
+    const field = fragItem[singlePropertyName] as
+      | prismic.ContentRelationshipField<string, string, unknown>
+      | undefined;
+
+    if (isFilledLinkToDocumentWithData(field)) {
+      acc.push(field);
+    }
+
+    return acc;
+  }, []);
 }
 
 export function transformLabelType(
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  format: any
-  /* eslint-enable @typescript-eslint/no-explicit-any */
+  format: prismic.ContentRelationshipField<string, string, unknown> | undefined
 ): LabelField {
   if (isFilledLinkToDocumentWithData(format)) {
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    const description = format.data.description as any;
-    /* eslint-enable @typescript-eslint/no-explicit-any */
+    const titleField = (format.data as Record<string, unknown>).title;
+    const descriptionField = (format.data as Record<string, unknown>)
+      .description;
     return {
       id: format.id as ArticleFormatId,
-      title: asText(format.data.title as prismic.TitleField),
+      title: asText(titleField as prismic.TitleField),
       description:
-        description && prismic.isFilled.richText(description)
-          ? (description as prismic.RichTextField)
+        descriptionField &&
+        prismic.isFilled.richText(descriptionField as prismic.RichTextField)
+          ? (descriptionField as prismic.RichTextField)
           : undefined,
     };
   }

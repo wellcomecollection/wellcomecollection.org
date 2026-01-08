@@ -3,7 +3,6 @@ import * as prismic from '@prismicio/client';
 import {
   ExhibitionFormatsDocument as RawExhibitionFormatsDocument,
   ExhibitionsDocument as RawExhibitionsDocument,
-  SeasonsDocument as RawSeasonsDocument,
 } from '@weco/common/prismicio-types';
 import {
   transformLink,
@@ -39,7 +38,7 @@ import { noAltTextBecausePromo } from './images';
 import { transformMultiContent } from './multi-content';
 import { transformQuery } from './paginated-results';
 import { transformPlace } from './places';
-import { transformSeason } from './seasons';
+import { transformSeasonsFromRelationshipGroup } from './seasons';
 
 function transformExhibitionFormat(
   format: RawExhibitionFormatsDocument
@@ -102,8 +101,8 @@ export function transformExhibition(
   const end = data.end ? transformTimestamp(data.end) : undefined;
   const statusOverride = asText(data.statusOverride);
 
-  const seasons = transformSingleLevelGroup(data.seasons, 'season').map(
-    season => transformSeason(season as RawSeasonsDocument)
+  const seasons = transformSeasonsFromRelationshipGroup(
+    transformSingleLevelGroup(data.seasons, 'season')
   );
 
   const exhibits: Exhibit[] = transformSingleLevelGroup(
