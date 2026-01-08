@@ -24,6 +24,11 @@ const Text: FunctionComponent<TextProps> = ({ slice, context }) => {
   const shouldBeDroppedCap =
     options.firstTextSliceIndex === slice.id && options.isDropCapped;
 
+  // Check if this is the accessibility page
+  const isAccessibilityPage =
+    options.pageUid === 'accessibility' ||
+    options.pageUid === 'prototype-a11y-november-2025';
+
   return (
     <SpacingComponent $sliceType={slice.slice_type}>
       <ConditionalWrapper
