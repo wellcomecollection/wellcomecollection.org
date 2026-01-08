@@ -1,7 +1,7 @@
 // eslint-data-component: intentionally omitted
 import * as prismic from '@prismicio/client';
 import { JSXFunctionSerializer } from '@prismicio/react';
-import { Fragment } from 'react';
+import { Children, Fragment, isValidElement } from 'react';
 import styled from 'styled-components';
 
 import linkResolver from '@weco/common/services/prismic/link-resolver';
@@ -189,6 +189,20 @@ export const defaultSerializer: JSXFunctionSerializer = (
   }
 };
 
+const getFirstStringChild = (node: unknown): string | undefined => {
+  if (typeof node === 'string') return node;
+
+  if (isValidElement(node)) {
+    const childArray = Children.toArray(
+      (node.props as { children?: React.ReactNode })?.children
+    );
+    const first = childArray[0];
+    return typeof first === 'string' ? first : undefined;
+  }
+
+  return undefined;
+};
+
 export const dropCapSerializer: JSXFunctionSerializer = (
   type,
   element,
@@ -201,18 +215,9 @@ export const dropCapSerializer: JSXFunctionSerializer = (
     children[0] !== undefined
   ) {
     const firstChild = children[0];
-    const firstCharacters =
-      firstChild &&
-      typeof firstChild === 'object' &&
-      'props' in firstChild &&
-      firstChild.props &&
-      typeof firstChild.props === 'object' &&
-      'children' in firstChild.props &&
-      firstChild.props.children &&
-      Array.isArray(firstChild.props.children) &&
-      firstChild.props.children[0];
+    const firstCharacters = getFirstStringChild(firstChild);
 
-    if (typeof firstCharacters !== 'string') {
+    if (!firstCharacters) {
       return <p key={key}>{children}</p>;
     }
 
