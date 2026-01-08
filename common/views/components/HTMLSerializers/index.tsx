@@ -285,8 +285,19 @@ export const accessibilitySerializer: JSXFunctionSerializer = (
 
       return (
         <HeadingTag {...headingProps}>
-          {icon && <Icon icon={icon} />}
-          {children}
+          {icon && (
+            <span
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+              }}
+            >
+              <Icon icon={icon} sizeOverride="width: 32px; height: 32px;" />
+              <span>{children}</span>
+            </span>
+          )}
+          {!icon && children}
         </HeadingTag>
       );
     }
