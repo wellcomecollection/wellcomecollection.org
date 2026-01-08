@@ -10,8 +10,8 @@ import {
 } from '@weco/common/prismicio-types';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 import {
-  InferDataInterface,
   isFilledLinkToDocumentWithData,
+  isFilledLinkToDocumentWithTypedData,
   isFilledLinkToWebField,
 } from '@weco/common/services/prismic/types';
 import {
@@ -76,17 +76,14 @@ export function getLastEndTime(times: EventTime[]): Date | undefined {
 }
 
 export function transformEventPolicyLabels(
-  fragment: prismic.GroupField,
-  labelKey: string
+  fragment:
+    | RawEventsDocumentData['policies']
+    | RawEventsDocumentData['onlinePolicies']
 ): LabelField[] {
-  /* eslint-disable @typescript-eslint/no-explicit-any */
   return fragment
-    .map((label: any) => label[labelKey])
-    .filter(Boolean)
-    .filter((label: any) => label.isBroken === false)
-    .filter((label: any) => isFilledLinkToDocumentWithData(label))
-    .map((label: any) => transformLabelType(label));
-  /* eslint-enable @typescript-eslint/no-explicit-any */
+    .map(item => item.policy)
+    .filter(isFilledLinkToDocumentWithData)
+    .map(transformLabelType);
 }
 
 export function getEventbriteId(url: string): string | undefined {
@@ -104,16 +101,14 @@ export function getEventbriteId(url: string): string | undefined {
 }
 
 function transformBookingEnquiryTeam(
-  team: prismic.ContentRelationshipField
+  team: RawEventsDocumentData['bookingEnquiryTeam']
 ): Team | undefined {
-  return isFilledLinkToDocumentWithData(team)
+  return isFilledLinkToDocumentWithTypedData<RawTeamsDocument>(team)
     ? {
         id: team.id,
-        title:
-          asText((team.data as InferDataInterface<RawTeamsDocument>)?.title) ||
-          '',
-        email: (team.data as InferDataInterface<RawTeamsDocument>)!.email!,
-        phone: (team.data as InferDataInterface<RawTeamsDocument>)!.phone!,
+        title: asText(team.data.title) || '',
+        email: team.data.email!,
+        phone: team.data.phone!,
       }
     : undefined;
 }
@@ -318,7 +313,7 @@ export function transformEvent(
     format,
     interpretations,
     policies: Array.isArray(data.policies)
-      ? transformEventPolicyLabels(data.policies, 'policy')
+      ? transformEventPolicyLabels(data.policies)
       : [],
     hasEarlyRegistration: data.hasEarlyRegistration === 'yes',
     series,
@@ -368,7 +363,7 @@ export function transformEvent(
         ? data.onlineBookingInformation
         : undefined,
     onlinePolicies: Array.isArray(data.onlinePolicies)
-      ? transformEventPolicyLabels(data.onlinePolicies, 'policy')
+      ? transformEventPolicyLabels(data.onlinePolicies)
       : [],
     onlineHasEarlyRegistration: Boolean(data.hasEarlyRegistration),
     onlineCost: data.onlineCost || undefined,

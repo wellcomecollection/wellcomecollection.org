@@ -16,7 +16,7 @@ export function transformCard(document: RawCardDocument): Card {
         ? link.id
         : undefined,
     title: asTitle(title),
-    format: transformFormat(document as never),
+    format: transformFormat(document),
     description: asText(description),
     image: transformImage(image),
     link: transformLink(link),
