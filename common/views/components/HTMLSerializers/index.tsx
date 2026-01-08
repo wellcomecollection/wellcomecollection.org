@@ -288,7 +288,11 @@ export const accessibilitySerializer: JSXFunctionSerializer = (
                 gap: '8px',
               }}
             >
-              <Icon icon={icon} sizeOverride="width: 32px; height: 32px;" />
+              <Icon
+                icon={icon}
+                sizeOverride="width: 32px; height: 32px;"
+                aria-hidden="true"
+              />
               <span>{children}</span>
             </span>
           )}
