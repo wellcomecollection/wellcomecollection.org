@@ -33,7 +33,7 @@ export const oneScheduleItem: prismic.Query<RawArticlesDocument> = {
           },
         ],
         format: {
-          link_type: 'Document',
+          link_type: 'Any' as const,
         },
         body: [
           {
@@ -343,11 +343,11 @@ export const oneScheduleItem: prismic.Query<RawArticlesDocument> = {
             },
           },
         ],
-        exploreMoreDocument: { link_type: 'Document' },
+        exploreMoreDocument: { link_type: 'Any' as const },
         seasons: [
           {
             season: {
-              link_type: 'Document',
+              link_type: 'Any' as const,
             },
           },
         ],
@@ -355,7 +355,7 @@ export const oneScheduleItem: prismic.Query<RawArticlesDocument> = {
           {
             order: null,
             parent: {
-              link_type: 'Document',
+              link_type: 'Any' as const,
             },
           },
         ],
