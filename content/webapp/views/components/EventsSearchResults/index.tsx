@@ -177,15 +177,17 @@ const EventsSearchResults: FunctionComponent<Props> = ({
                   <p className={font('sans-bold', -2)}>See all dates/times</p>
                 )}
 
-                {((isPermanentExhibition &&
-                  event.times[0].startDateTime &&
-                  event.times[0].endDateTime) ||
-                  (isPast && !event.isAvailableOnline && !isInPastListing)) && (
-                  <StatusIndicator
-                    start={new Date(firstStartTime!)}
-                    end={new Date(lastEndTime!)}
-                  />
-                )}
+                {firstStartTime &&
+                  lastEndTime &&
+                  (isPermanentExhibition ||
+                    (isPast &&
+                      !event.isAvailableOnline &&
+                      !isInPastListing)) && (
+                    <StatusIndicator
+                      start={new Date(firstStartTime)}
+                      end={new Date(lastEndTime)}
+                    />
+                  )}
               </div>
             </CardBody>
 
