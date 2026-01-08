@@ -12,7 +12,11 @@ import { eventLdContentApi } from '@weco/content/services/prismic/transformers/j
 import { getEvents } from '@weco/content/services/wellcome/content/events';
 import { getPage } from '@weco/content/utils/query-params';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
-import { fromQuery } from '@weco/content/views/components/SearchPagesLink/Events';
+import {
+  fromQuery,
+  toQuery,
+  getEventFormats,
+} from '@weco/content/views/components/SearchPagesLink/Events';
 
 import EventsPage, { Props as EventsPageProps } from './index';
 
@@ -47,10 +51,12 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   const params = fromQuery(restOfQuery);
   const timespan = 'past';
-  const setParams = { timespan, filterOutExhibitions: 'true' };
+  const { apiFormat, uiFormat } = getEventFormats(params.format);
 
-  const allPossibleParams = { ...params, ...setParams };
-  const queriedParams = { ...restOfQuery, ...setParams };
+  // Used for UI component props, so we don't show negated formats
+  const eventsRouteProps = { ...params, timespan, format: uiFormat };
+  // Used for API query, so we include the negated formats to exclude exhibitions
+  const queriedParams = toQuery({ ...params, timespan, format: apiFormat });
 
   const eventResponseList = await getEvents({
     params: {
@@ -82,7 +88,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         events: eventResponseList,
         period: timespan,
         query: context.query,
-        eventsRouteProps: allPossibleParams,
+        eventsRouteProps,
         jsonLd,
         serverData,
       }),
