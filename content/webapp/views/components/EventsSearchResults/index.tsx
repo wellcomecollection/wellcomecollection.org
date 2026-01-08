@@ -14,6 +14,7 @@ import Icon from '@weco/common/views/components/Icon';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
+import { ExhibitionFormatIds } from '@weco/content/data/content-format-ids';
 import { upcomingDatesFullyBooked } from '@weco/content/services/prismic/events';
 import {
   getFirstStartTime,
@@ -78,7 +79,8 @@ const EventsSearchResults: FunctionComponent<Props> = ({
         const firstStartTime = getFirstStartTime(times);
         const lastEndTime = getLastEndTime(times);
         const isPast = lastEndTime ? checkIfIsPast(lastEndTime) : true;
-        const isPermanentExhibition = event.format?.id === 'Wvw6wSAAAAuy63fP';
+        const isPermanentExhibition =
+          event.format.id === ExhibitionFormatIds.PermanentExhibition;
 
         const primaryLabels = [
           event.format.label,
