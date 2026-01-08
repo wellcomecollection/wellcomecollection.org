@@ -16,6 +16,7 @@ import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
 import { upcomingDatesFullyBooked } from '@weco/content/services/prismic/events';
 import {
+  getFirstStartTime,
   getLastEndTime,
   transformEventTimes,
 } from '@weco/content/services/prismic/transformers/events';
@@ -30,6 +31,7 @@ import {
 } from '@weco/content/views/components/Card';
 import { getLocationText } from '@weco/content/views/components/EventCard';
 import EventDateRange from '@weco/content/views/components/EventDateRange';
+import StatusIndicator from '@weco/content/views/components/StatusIndicator';
 import TextWithDot from '@weco/content/views/components/TextWithDot';
 import WatchLabel from '@weco/content/views/components/WatchLabel';
 
@@ -73,8 +75,10 @@ const EventsSearchResults: FunctionComponent<Props> = ({
 
         const times = transformEventTimes(event.id, event.times);
 
+        const firstStartTime = getFirstStartTime(times);
         const lastEndTime = getLastEndTime(times);
         const isPast = lastEndTime ? checkIfIsPast(lastEndTime) : true;
+        const isPermanentExhibition = event.format?.id === 'Wvw6wSAAAAuy63fP';
 
         const primaryLabels = [
           event.format.label,
@@ -140,15 +144,16 @@ const EventsSearchResults: FunctionComponent<Props> = ({
                   </LocationWrapper>
                 )}
 
-                {(!isPast || (isPast && isInPastListing)) && (
-                  <DateInfo>
-                    <EventDateRange
-                      eventTimes={times}
-                      splitTime={true}
-                      isInPastListing={isInPastListing}
-                    />
-                  </DateInfo>
-                )}
+                {(!isPast || (isPast && isInPastListing)) &&
+                  !isPermanentExhibition && (
+                    <DateInfo>
+                      <EventDateRange
+                        eventTimes={times}
+                        splitTime={true}
+                        isInPastListing={isInPastListing}
+                      />
+                    </DateInfo>
+                  )}
 
                 {event.isAvailableOnline && (
                   <Space $v={{ size: 'xs', properties: ['margin-top'] }}>
@@ -169,14 +174,15 @@ const EventsSearchResults: FunctionComponent<Props> = ({
                 {!isPast && times.length > 1 && (
                   <p className={font('sans-bold', -2)}>See all dates/times</p>
                 )}
-                {isPast && !event.isAvailableOnline && !isInPastListing && (
-                  <div>
-                    <TextWithDot
-                      className={font('sans', -1)}
-                      dotColor="neutral.500"
-                      text="Past"
-                    />
-                  </div>
+
+                {((isPermanentExhibition &&
+                  event.times[0].startDateTime &&
+                  event.times[0].endDateTime) ||
+                  (isPast && !event.isAvailableOnline && !isInPastListing)) && (
+                  <StatusIndicator
+                    start={new Date(firstStartTime!)}
+                    end={new Date(lastEndTime!)}
+                  />
                 )}
               </div>
             </CardBody>
