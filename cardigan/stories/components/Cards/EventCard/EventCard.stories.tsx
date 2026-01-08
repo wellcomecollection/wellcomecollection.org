@@ -39,7 +39,7 @@ export default meta;
 
 type Story = StoryObj<StoryProps>;
 
-const Template = args => {
+const Template = (args: StoryProps) => {
   const {
     isOnline,
     isAvailableOnline,
@@ -56,7 +56,7 @@ const Template = args => {
       availableOnline: isAvailableOnline,
       isPast: isPast,
     });
-  }, [isOnline, isAvailableOnline, isPast, rest.isInPastListing]);
+  }, [isOnline, isAvailableOnline, isPast, passedEvent]);
 
   return (
     <div style={{ maxWidth: '400px' }}>
