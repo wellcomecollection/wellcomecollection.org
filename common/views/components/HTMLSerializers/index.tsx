@@ -9,6 +9,13 @@ import { dasherize } from '@weco/common/utils/grammar';
 import { getMimeTypeFromExtension } from '@weco/common/utils/mime';
 import DownloadLink from '@weco/common/views/components/DownloadLink';
 import FeaturedWorkLink from '@weco/common/views/components/FeaturedWorkLink';
+import Icon from '@weco/common/views/components/Icon';
+import {
+  bslSquare,
+  audioDescribed,
+  accessible,
+  inductionLoop,
+} from '@weco/common/icons';
 
 const DocumentType = styled.span`
   color: ${props => props.theme.color('neutral.600')};
@@ -222,4 +229,68 @@ export const dropCapSerializer: JSXFunctionSerializer = (
     return <p key={key}>{childrenWithDropCap}</p>;
   }
   return defaultSerializer(type, element, content, children, key);
+};
+
+export const accessibilitySerializer: JSXFunctionSerializer = (
+  type,
+  element,
+  content,
+  children,
+  key
+) => {
+  // Determine which icon to show for headings
+  let icon: React.ComponentType<any> | null = null;
+
+  // Only check text for heading elements
+  if (
+    element.type === prismic.RichTextNodeType.heading1 ||
+    element.type === prismic.RichTextNodeType.heading2 ||
+    element.type === prismic.RichTextNodeType.heading3
+  ) {
+    const text = element.text || '';
+    const lowerText = text.toLowerCase();
+    const isBSL = lowerText === 'bsl';
+    const isWheelchair = lowerText === 'borrowing a wheelchair';
+    const isAudioDescribed = lowerText === 'audio description';
+    const isInductionLoop = lowerText === 'induction loops';
+
+    switch (true) {
+      case isBSL:
+        icon = bslSquare;
+        break;
+      case isWheelchair:
+        icon = accessible;
+        break;
+      case isAudioDescribed:
+        icon = audioDescribed;
+        break;
+      case isInductionLoop:
+        icon = inductionLoop;
+        break;
+    }
+  }
+
+  const isH1 = element.type === prismic.RichTextNodeType.heading1;
+  const isH2 = element.type === prismic.RichTextNodeType.heading2;
+  const isH3 = element.type === prismic.RichTextNodeType.heading3;
+
+  switch (true) {
+    case isH1:
+    case isH2:
+    case isH3: {
+      const HeadingTag = isH1 ? 'h1' : isH2 ? 'h2' : 'h3';
+      const headingProps = isH1
+        ? { key }
+        : { key, id: dasherize(element.text) };
+
+      return (
+        <HeadingTag {...headingProps}>
+          {icon && <Icon icon={icon} />}
+          {children}
+        </HeadingTag>
+      );
+    }
+    default:
+      return defaultSerializer(type, element, content, children, key);
+  }
 };
