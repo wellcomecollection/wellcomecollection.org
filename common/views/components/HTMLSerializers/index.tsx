@@ -15,6 +15,7 @@ import {
   audioDescribed,
   accessible,
   inductionLoop,
+  IconSvg,
 } from '@weco/common/icons';
 
 const DocumentType = styled.span`
@@ -231,6 +232,13 @@ export const dropCapSerializer: JSXFunctionSerializer = (
   return defaultSerializer(type, element, content, children, key);
 };
 
+const ACCESSIBILITY_ICON_MAP: Record<string, IconSvg> = {
+  bsl: bslSquare,
+  'borrowing a wheelchair': accessible,
+  'audio description': audioDescribed,
+  'induction loops': inductionLoop,
+};
+
 export const accessibilitySerializer: JSXFunctionSerializer = (
   type,
   element,
@@ -239,7 +247,7 @@ export const accessibilitySerializer: JSXFunctionSerializer = (
   key
 ) => {
   // Determine which icon to show for headings
-  let icon: React.ComponentType<any> | null = null;
+  let icon: IconSvg | null = null;
   const isH1 = element.type === prismic.RichTextNodeType.heading1;
   const isH2 = element.type === prismic.RichTextNodeType.heading2;
   const isH3 = element.type === prismic.RichTextNodeType.heading3;
@@ -248,25 +256,7 @@ export const accessibilitySerializer: JSXFunctionSerializer = (
   if (isH1 || isH2 || isH3) {
     const text = element.text || '';
     const lowerText = text.toLowerCase();
-    const isBSL = lowerText === 'bsl';
-    const isWheelchair = lowerText === 'borrowing a wheelchair';
-    const isAudioDescribed = lowerText === 'audio description';
-    const isInductionLoop = lowerText === 'induction loops';
-
-    switch (true) {
-      case isBSL:
-        icon = bslSquare;
-        break;
-      case isWheelchair:
-        icon = accessible;
-        break;
-      case isAudioDescribed:
-        icon = audioDescribed;
-        break;
-      case isInductionLoop:
-        icon = inductionLoop;
-        break;
-    }
+    icon = ACCESSIBILITY_ICON_MAP[lowerText] || null;
   }
 
   switch (true) {
@@ -288,11 +278,7 @@ export const accessibilitySerializer: JSXFunctionSerializer = (
                 gap: '8px',
               }}
             >
-              <Icon
-                icon={icon}
-                sizeOverride="width: 32px; height: 32px;"
-                aria-hidden="true"
-              />
+              <Icon icon={icon} sizeOverride="width: 32px; height: 32px;" />
               <span>{children}</span>
             </span>
           )}
