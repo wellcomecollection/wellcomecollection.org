@@ -240,13 +240,12 @@ export const accessibilitySerializer: JSXFunctionSerializer = (
 ) => {
   // Determine which icon to show for headings
   let icon: React.ComponentType<any> | null = null;
+  const isH1 = element.type === prismic.RichTextNodeType.heading1;
+  const isH2 = element.type === prismic.RichTextNodeType.heading2;
+  const isH3 = element.type === prismic.RichTextNodeType.heading3;
 
   // Only check text for heading elements
-  if (
-    element.type === prismic.RichTextNodeType.heading1 ||
-    element.type === prismic.RichTextNodeType.heading2 ||
-    element.type === prismic.RichTextNodeType.heading3
-  ) {
+  if (isH1 || isH2 || isH3) {
     const text = element.text || '';
     const lowerText = text.toLowerCase();
     const isBSL = lowerText === 'bsl';
@@ -269,10 +268,6 @@ export const accessibilitySerializer: JSXFunctionSerializer = (
         break;
     }
   }
-
-  const isH1 = element.type === prismic.RichTextNodeType.heading1;
-  const isH2 = element.type === prismic.RichTextNodeType.heading2;
-  const isH3 = element.type === prismic.RichTextNodeType.heading3;
 
   switch (true) {
     case isH1:
