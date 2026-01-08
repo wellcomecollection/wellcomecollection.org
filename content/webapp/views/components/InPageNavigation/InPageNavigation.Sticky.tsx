@@ -53,12 +53,15 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
   const listRef = useRef<HTMLUListElement>(null);
   const InPageNavigationStickyRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
   const listId = useId();
   const { isEnhanced, windowSize } = useAppContext();
   const [hasStuck, setHasStuck] = useState(false);
   const [isListActive, setIsListActive] = useState(false);
   const [scrollPosition, setScrollposition] = useState(0);
   const prevHasStuckRef = useRef(false);
+  const spacerRef = useRef<HTMLDivElement>(null);
+  const [spacerHeight, setSpacerHeight] = useState(0);
 
   const shouldLockScroll = useMemo(() => {
     return windowSize !== 'md' && isListActive && hasStuck;
@@ -151,6 +154,37 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
     listRef.current.classList.add('is-hidden-s', 'is-hidden-m');
   }, [listRef.current]);
 
+  useEffect(() => {
+    // Add space at the bottom of the page when menu opens
+    // Only apply on small screens
+    if (!isListActive || !listRef.current || !buttonRef.current) {
+      setSpacerHeight(0);
+      return;
+    }
+
+    // Skip on large desktop screens
+    if (windowSize === 'lg') {
+      setSpacerHeight(0);
+      return;
+    }
+
+    // Use double requestAnimationFrame to ensure the list has been rendered,
+    // classes removed, and layout calculated
+    const rafId = requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        if (!listRef.current || !buttonRef.current) return;
+
+        // Get the list height and add it as the spacer
+        const listHeight = listRef.current.scrollHeight;
+
+        // Always add the full list height as spacer to ensure there's enough space
+        setSpacerHeight(listHeight);
+      });
+    });
+
+    return () => cancelAnimationFrame(rafId);
+  }, [isListActive, windowSize]);
+
   const titleText = 'On this page';
 
   const [activeLinkText, setActiveLinkText] = useState(titleText);
@@ -193,6 +227,30 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
           )}
         </>
       )}
+      {isListActive &&
+        windowSize !== 'lg' &&
+        typeof document !== 'undefined' &&
+        (() => {
+          // Find the parent grid container - NavGridCell's parent
+          const navGridCell = document.querySelector(
+            '[data-in-page-navigation-sticky]'
+          )?.parentElement;
+          const gridParent = navGridCell?.parentElement;
+
+          return gridParent
+            ? createPortal(
+                <div
+                  ref={spacerRef}
+                  style={{
+                    height: `${spacerHeight}px`,
+                    width: '100%',
+                  }}
+                  data-spacer="menu-spacer"
+                />,
+                gridParent
+              )
+            : null;
+        })()}
       <div ref={InPageNavigationStickyRef}></div>
       <FocusTrap
         active={isListActive}
@@ -201,7 +259,11 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
           clickOutsideDeactivates: true,
         }}
       >
-        <Root $hasStuck={hasStuck} data-in-page-navigation-sticky="true">
+        <Root
+          ref={rootRef}
+          $hasStuck={hasStuck}
+          data-in-page-navigation-sticky="true"
+        >
           <h2 className={`${font('sans-bold', -1)} is-hidden-s is-hidden-m`}>
             {titleText}
           </h2>
