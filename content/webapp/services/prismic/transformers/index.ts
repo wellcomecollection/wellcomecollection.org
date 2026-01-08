@@ -39,10 +39,17 @@ export function transformFormat(document: {
   const { format } = document.data;
 
   if (isFilledLinkToDocumentWithData(format) && format.data) {
+    const title = Array.isArray(format.data.title)
+      ? (format.data.title as prismic.RichTextField)
+      : ([] as prismic.RichTextField);
+    const description = Array.isArray(format.data.description)
+      ? (format.data.description as prismic.RichTextField)
+      : undefined;
+
     return {
       id: format.id,
-      title: asTitle(format.data.title),
-      description: asHtml(format.data.description),
+      title: asTitle(title),
+      description: asHtml(description),
     };
   }
 }

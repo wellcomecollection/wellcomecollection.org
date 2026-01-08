@@ -282,6 +282,7 @@ export type WithExhibitionParents = {
     order: prismic.NumberField;
     parent: prismic.ContentRelationshipField<
       'exhibitions',
+      string,
       // We know this is an ExhibitionsDocument, but the type checker gets
       // unhappy about the circular reference:
       //
