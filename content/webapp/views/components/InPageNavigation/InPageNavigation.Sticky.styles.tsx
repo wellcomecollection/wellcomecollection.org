@@ -1,7 +1,7 @@
 import NextLink from 'next/link';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { font, fontFamily } from '@weco/common/utils/classnames';
 import AnimatedUnderlineCSS, {
   AnimatedUnderlineProps,
 } from '@weco/common/views/components/styled/AnimatedUnderline';
@@ -110,11 +110,17 @@ export const Anchor = styled.a.attrs({
   color: ${props => props.theme.color('black')};
 `;
 
-export const InPageNavAnimatedLink = styled(AnimatedLink)<{
+type InPageNavAnimatedLinkProps = {
   $isActive?: boolean;
   $hasStuck: boolean;
   $isOnWhite: boolean;
-}>`
+};
+
+export const InPageNavAnimatedLink = styled(
+  AnimatedLink
+).attrs<InPageNavAnimatedLinkProps>(props => ({
+  className: fontFamily(props.$isActive ? 'sans-bold' : 'sans'),
+}))<InPageNavAnimatedLinkProps>`
   color: ${props =>
     props.theme.color(
       props.$hasStuck ? 'black' : props.$isOnWhite ? 'black' : 'white'
