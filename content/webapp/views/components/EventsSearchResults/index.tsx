@@ -102,7 +102,10 @@ const EventsSearchResults: FunctionComponent<Props> = ({
           <CardOuter
             data-gtm-position-in-list={index + 1}
             key={event.id}
-            href={linkResolver({ ...event, type: 'events' })}
+            href={linkResolver({
+              ...event,
+              type: event.isExhibition ? 'exhibitions' : 'events',
+            })}
           >
             <CardImageWrapper>
               {croppedImage && (
