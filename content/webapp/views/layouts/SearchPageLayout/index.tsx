@@ -122,7 +122,7 @@ const SearchLayout: FunctionComponent<SearchLayoutProps> = ({
         setPageLayoutMetadata({
           ...basePageMetadata,
           description: exhibitionsInEvents
-            ? 'TODO'
+            ? 'Search for past and up-coming events to discover our range of free tours, talks, exhibitions, workshops and more.'
             : pageDescriptions.search.events,
           title: exhibitionsInEvents
             ? `${queryStringTitle}Events and exhibitions search`
