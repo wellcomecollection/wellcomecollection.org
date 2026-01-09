@@ -10,6 +10,7 @@ import {
 import { useSearchContext } from '@weco/common/contexts/SearchContext';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { SiteSection } from '@weco/common/model/site-section';
+import { useToggles } from '@weco/common/server-data/Context';
 import { getQueryPropertyValue } from '@weco/common/utils/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Container } from '@weco/common/views/components/styled/Container';
@@ -41,6 +42,7 @@ const SearchLayout: FunctionComponent<SearchLayoutProps> = ({
   apiToolbarLinks,
 }) => {
   const router = useRouter();
+  const { exhibitionsInEvents } = useToggles();
   const queryString = getQueryPropertyValue(router?.query?.query);
   const [queryValue, setQueryValue] = useState(queryString || '');
   const { setExtraApiToolbarLinks } = useSearchContext();
@@ -119,8 +121,12 @@ const SearchLayout: FunctionComponent<SearchLayoutProps> = ({
       case 'events':
         setPageLayoutMetadata({
           ...basePageMetadata,
-          description: pageDescriptions.search.events,
-          title: `${queryStringTitle}Events search`,
+          description: exhibitionsInEvents
+            ? 'Search for past and upcoming events to discover our range of free tours, talks, exhibitions, workshops and more.'
+            : pageDescriptions.search.events,
+          title: exhibitionsInEvents
+            ? `${queryStringTitle}Events and exhibitions search`
+            : `${queryStringTitle}Events search`,
           url: {
             ...basePageMetadata.url,
             pathname: '/search/events',

@@ -101,6 +101,7 @@ export type EventDocument = {
   times: ContentApiTimeField[];
   audiences: EventDocumentAudience[];
   series: Series;
+  isExhibition: boolean;
   format: EventDocumentFormat;
   interpretations: EventDocumentInterpretation[];
   locations: EventDocumentLocations;
