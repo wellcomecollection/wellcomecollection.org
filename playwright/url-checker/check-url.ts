@@ -103,11 +103,14 @@ export const urlChecker =
       if (errorText.includes('net::ERR_ABORTED')) {
         return;
       }
-
-      failures.push({
-        failureType: 'page-request-failure',
-        description: `Request made by page failed with ${errorText}: ${request.method()} ${request.url()}`,
-      });
+      // Ignore 404s on this specific page as very recently digitised items could still be rendering their thumbnails
+      // https://wellcome.slack.com/archives/CQ720BG02/p1767966580147499
+      if (!url.includes('/collections/new-online')) {
+        failures.push({
+          failureType: 'page-request-failure',
+          description: `${url}Request made by page failed with ${errorText}: ${request.method()} ${request.url()}`,
+        });
+      }
     });
 
     page.on('response', response => {
@@ -123,10 +126,7 @@ export const urlChecker =
         const responseStatus = response.status();
         if (
           (responseStatus < 200 || responseStatus >= 400) &&
-          !ignoreRequestError(request) &&
-          // Ignore 404s on this specific page as very recently digitised items could still be rendering their thumbnails
-          // https://wellcome.slack.com/archives/CQ720BG02/p1767966580147499
-          url !== '/collections/new-online'
+          !ignoreRequestError(request)
         ) {
           failures.push({
             failureType: 'page-request-error',
