@@ -108,7 +108,7 @@ export const urlChecker =
       if (!url.includes('/collections/new-online')) {
         failures.push({
           failureType: 'page-request-failure',
-          description: `${url}Request made by page failed with ${errorText}: ${request.method()} ${request.url()}`,
+          description: `Request made by page failed with ${errorText}: ${request.method()} ${request.url()}`,
         });
       }
     });
