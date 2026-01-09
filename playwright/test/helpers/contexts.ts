@@ -83,10 +83,14 @@ const stageApiToggleCookie = createCookie({
   name: 'toggle_stagingApi',
   value: 'true',
 });
+const exInEvToggleCookie = createCookie({
+  name: 'toggle_exhibitionsInEvents',
+  value: 'true',
+});
 
 export const requiredCookies = useStageApis
-  ? [acceptCookieCookie, stageApiToggleCookie]
-  : [acceptCookieCookie];
+  ? [acceptCookieCookie, stageApiToggleCookie, exInEvToggleCookie]
+  : [acceptCookieCookie, exInEvToggleCookie];
 
 const multiVolumeItem = async (
   context: BrowserContext,
