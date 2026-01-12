@@ -299,6 +299,111 @@ function detectMissingUidDocuments(doc: any): string[] {
     : [];
 }
 
+// For documents with showOnThisPage enabled (which creates the "On this page" navigation),
+// any slice containing an h2 in a multi-element field should have the h2 as the first element.
+// This applies to text slices (primary.text), audioPlayer slices (primary.transcript),
+// and embed slices (primary.transcript).
+// This ensures the anchor links work correctly and the page structure is consistent.
+function detectMisplacedH2InTextSlices(doc: any): string[] {
+  const docTypesWithShowOnThisPage = ['pages', 'visual-stories', 'guides'];
+
+  if (!docTypesWithShowOnThisPage.includes(doc.type)) {
+    return [];
+  }
+
+  // Only check if showOnThisPage is enabled
+  if (!doc.data.showOnThisPage) {
+    return [];
+  }
+
+  const errors: string[] = [];
+  const bodySlices = doc.data.body || doc.data.slices || [];
+
+  // Check text slices (primary.text field)
+  const textSlices = bodySlices.filter(
+    (slice: any) => slice.slice_type === 'text'
+  );
+
+  for (const slice of textSlices) {
+    const text = slice.primary?.text;
+    if (!text || text.length === 0) {
+      continue;
+    }
+
+    const sliceErrors = checkH2Placement(text, 'text slice');
+    errors.push(...sliceErrors);
+  }
+
+  // Check audioPlayer slices (primary.transcript field)
+  const audioPlayerSlices = bodySlices.filter(
+    (slice: any) => slice.slice_type === 'audioPlayer'
+  );
+
+  for (const slice of audioPlayerSlices) {
+    const transcript = slice.primary?.transcript;
+    if (!transcript || transcript.length === 0) {
+      continue;
+    }
+
+    const sliceErrors = checkH2Placement(
+      transcript,
+      'audioPlayer slice transcript'
+    );
+    errors.push(...sliceErrors);
+  }
+
+  // Check embed slices (primary.transcript field)
+  const embedSlices = bodySlices.filter(
+    (slice: any) => slice.slice_type === 'embed'
+  );
+
+  for (const slice of embedSlices) {
+    const transcript = slice.primary?.transcript;
+    if (!transcript || transcript.length === 0) {
+      continue;
+    }
+
+    const sliceErrors = checkH2Placement(transcript, 'embed slice transcript');
+    errors.push(...sliceErrors);
+  }
+
+  return errors;
+}
+
+// Helper function to check h2 placement in a multi-element field
+function checkH2Placement(elements: any[], sliceContext: string): string[] {
+  const errors: string[] = [];
+
+  // Find all h2 headings in this field
+  const h2Indices = elements
+    .map((node: any, index: number) => (node.type === 'heading2' ? index : -1))
+    .filter((index: number) => index !== -1);
+
+  if (h2Indices.length === 0) {
+    return errors;
+  }
+
+  // Check if the first element is an h2
+  if (h2Indices[0] !== 0) {
+    errors.push(
+      `A ${sliceContext} contains an h2 heading, but it's not the first element in the slice. When "Show 'On this page' anchor links" is enabled, h2 headings must be the first element in their slice for the navigation to work correctly.`
+    );
+    return errors;
+  }
+
+  // Check if there are multiple h2s in the same slice
+  if (h2Indices.length > 1) {
+    const h2Titles = h2Indices
+      .map((index: number) => elements[index].text || '[untitled]')
+      .join('", "');
+    errors.push(
+      `A ${sliceContext} contains multiple h2 headings ("${h2Titles}"). When "Show 'On this page' anchor links" is enabled, each h2 should be in its own slice so the navigation works correctly. Please split this into separate slices.`
+    );
+  }
+
+  return errors;
+}
+
 async function run() {
   const snapshotFile = await downloadPrismicSnapshot();
 
@@ -316,6 +421,7 @@ async function run() {
       ...detectIncompleteContributorSameAs(doc),
       ...detectMissingUidDocuments(doc),
       ...detectIncorrectAudioVideoDuration(doc),
+      ...detectMisplacedH2InTextSlices(doc),
     ];
 
     totalErrors += errors.length;
