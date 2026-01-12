@@ -98,6 +98,7 @@ export type SliceZoneContext = {
   isVisualStory: boolean;
   isShortFilm: boolean;
   pageId: string;
+  pageUid: string;
   hasLandingPageFormat: boolean;
   isDropCapped: boolean;
   gridSizes?: SizeMap;
@@ -110,6 +111,7 @@ export const defaultContext: SliceZoneContext = {
   isVisualStory: false,
   isShortFilm: false,
   pageId: '',
+  pageUid: '',
   hasLandingPageFormat: false,
   isDropCapped: false,
 };
@@ -357,6 +359,7 @@ const Body: FunctionComponent<Props> = ({
             isVisualStory,
             comicPreviousNext,
             pageId,
+            pageUid,
             hasLandingPageFormat,
             isDropCapped,
             contentType,

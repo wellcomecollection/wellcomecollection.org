@@ -8,6 +8,7 @@ import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper
 import {
   defaultSerializer,
   dropCapSerializer,
+  accessibilitySerializer,
 } from '@weco/common/views/components/HTMLSerializers';
 import { ContaineredLayout } from '@weco/common/views/components/Layout';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
@@ -23,6 +24,11 @@ const Text: FunctionComponent<TextProps> = ({ slice, context }) => {
   const options = { ...defaultContext, ...context };
   const shouldBeDroppedCap =
     options.firstTextSliceIndex === slice.id && options.isDropCapped;
+
+  // Check if this is the accessibility page
+  const isAccessibilityPage =
+    options.pageUid === 'accessibility' ||
+    options.pageUid === 'prototype-a11y-november-2025';
 
   return (
     <SpacingComponent $sliceType={slice.slice_type}>
@@ -48,13 +54,21 @@ const Text: FunctionComponent<TextProps> = ({ slice, context }) => {
               />
               <PrismicHtmlBlock
                 html={slice.primary.text.slice(1) as prismic.RichTextField}
-                htmlSerializer={defaultSerializer}
+                htmlSerializer={
+                  isAccessibilityPage
+                    ? accessibilitySerializer
+                    : defaultSerializer
+                }
               />
             </>
           ) : (
             <PrismicHtmlBlock
               html={slice.primary.text}
-              htmlSerializer={defaultSerializer}
+              htmlSerializer={
+                isAccessibilityPage
+                  ? accessibilitySerializer
+                  : defaultSerializer
+              }
             />
           )}
         </div>
