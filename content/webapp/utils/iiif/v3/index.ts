@@ -4,9 +4,7 @@ import {
   AuthAccessService2,
   AuthAccessService2_Active as AuthAccessService2Active,
   AuthAccessService2_External as AuthAccessService2External,
-  AuthAccessTokenService,
   AuthAccessTokenService2,
-  AuthExternalService,
   AuthProbeService2,
   Canvas,
   ChoiceBody,
@@ -26,7 +24,6 @@ import {
 import { isNotUndefined, isString } from '@weco/common/utils/type-guards';
 import {
   Auth,
-  AuthClickThroughServiceWithPossibleServiceArray,
   CustomContentResource,
   CustomSpecificationBehaviors,
   DownloadOption,
@@ -229,16 +226,6 @@ type BodyService2 = {
   service: Service | Service[];
 };
 
-function getImageAuthCookieService(
-  imageService: BodyService | undefined
-): Service | undefined {
-  return Array.isArray(imageService?.service)
-    ? imageService?.service?.find(s => s['@type'] === 'AuthCookieService1')
-    : imageService?.service?.['@type'] === 'AuthCookieService1'
-      ? imageService?.service
-      : undefined;
-}
-
 export function getImageAuthProbeService(
   service: BodyService2 | undefined
 ): AuthProbeService2 | undefined {
@@ -297,87 +284,37 @@ export function getFirstCollectionManifestLocation(
   }
 }
 
-export function getClickThroughService(
-  manifest: Manifest | Collection
-): AuthClickThroughServiceWithPossibleServiceArray | undefined {
-  return manifest.services?.find(
-    s => s.profile === 'http://iiif.io/api/auth/1/clickthrough'
-  ) as AuthClickThroughServiceWithPossibleServiceArray | undefined;
-}
-
-const restrictedAuthServiceUrls = [
-  'https://iiif.wellcomecollection.org/auth/restrictedlogin',
-  'https://iiif-test.wellcomecollection.org/auth/restrictedlogin',
-  'https://iiif.wellcomecollection.org/auth/v2/access/restrictedlogin',
-];
-
-// The image services can contain auth v1 and auth v2 services, or just auth v1 services
-// We want to move to using v2, but can't guarantee all manifests will include them (they need to be recently generated to have the v2 services).
-// Therefore we check for both. When all manifests have V2 we can remove the V1 code.
 function isImageRestricted(canvas: Canvas): boolean {
   const imageService = getImageServiceFromCanvas(canvas);
-  const imageAuthCookieService = getImageAuthCookieService(imageService); // V1 service
   const v2Services = imageService?.service as BodyService2;
-  const imageAuthProbeService = getImageAuthProbeService(v2Services || []); // V2 service
+  const imageAuthProbeService = getImageAuthProbeService(v2Services || []);
   return (
     imageAuthProbeService?.service.some(
       s =>
         s?.id ===
           'https://iiif.wellcomecollection.org/auth/v2/access/restrictedlogin' ||
         false
-    ) ||
-    restrictedAuthServiceUrls.some(
-      url => imageAuthCookieService?.['@id'] === url
-    ) ||
-    false
+    ) || false
   );
-}
-
-function getAuthServicesArray(service) {
-  return service.map(s => {
-    if (s.type === 'AuthProbeService2') {
-      return s.service.find(service => service.type === 'AuthAccessService2');
-    } else if (s['@type'] === 'AuthCookieService1') {
-      return s;
-    } else {
-      return undefined;
-    }
-  });
 }
 
 export function isItemRestricted(painting): boolean {
   if (isChoiceBody(painting)) return false;
-  const paintingsServices =
-    painting.service && getAuthServicesArray(painting.service);
+  if (!painting.service) return false;
+
+  const paintingsServices = painting.service.map(s => {
+    if (s.type === 'AuthProbeService2') {
+      return s.service.find(service => service.type === 'AuthAccessService2');
+    }
+    return undefined;
+  });
 
   return paintingsServices?.some(s => {
-    return restrictedAuthServiceUrls.some(
-      url => s?.['@id'] === url || s?.id === url
+    return (
+      s?.id ===
+      'https://iiif.wellcomecollection.org/auth/v2/access/restrictedlogin'
     );
   });
-}
-
-export function getRestrictedLoginService(
-  manifest: Manifest | Collection
-): AuthExternalService | undefined {
-  return manifest.services?.find(service => {
-    const typedService = service as AuthExternalService;
-    return restrictedAuthServiceUrls.some(url => typedService['@id'] === url);
-  }) as AuthExternalService;
-}
-
-export function getTokenService(
-  clickThroughService:
-    | AuthClickThroughServiceWithPossibleServiceArray
-    | AuthExternalService
-    | undefined
-): AuthAccessTokenService | undefined {
-  if (!clickThroughService?.service) return;
-  return Array.isArray(clickThroughService?.service)
-    ? clickThroughService?.service.find(
-        s => s?.profile === 'http://iiif.io/api/auth/1/token'
-      )
-    : clickThroughService?.service;
 }
 
 export type AuthServices = {
@@ -387,52 +324,26 @@ export type AuthServices = {
 
 export function getAuthServices({
   auth,
-  authV2,
 }: {
   auth?: Auth;
-  authV2?: boolean;
 }): AuthServices | undefined {
-  if (authV2) {
-    return {
-      active: auth?.v2.activeAccessService,
-      external: auth?.v2.externalAccessService,
-    };
-  } else {
-    return {
-      active: auth?.v1.activeAccessService,
-      // Only the v2 external service works (v1 responds with a 404), we therefore try returning the v2 service, so we can use it if it is available. We still need to fallback to the v1 service as the presence of the service helps us determine whether to show the viewer or not.
-      external:
-        auth?.v2.externalAccessService || auth?.v1.externalAccessService,
-    };
-  }
+  return {
+    active: auth?.activeAccessService,
+    external: auth?.externalAccessService,
+  };
 }
 
 export function getIframeTokenSrc({
-  userIsStaffWithRestricted,
   workId,
   origin,
   auth,
-  authV2,
 }: {
-  userIsStaffWithRestricted: boolean;
   workId: string;
   origin?: string;
   auth: Auth | undefined;
-  authV2: boolean | undefined;
 }): string | undefined {
-  // We want the token source to be from the same auth version as the authService
-  // We use v2 if we have a v2 external service and the user has a role of 'StaffWithRestricted'
-  // OR if the authV2 toggle is true
-  const authServices = getAuthServices({ auth, authV2 });
-  const useV2TokenService =
-    (authServices?.external?.id ===
-      'https://iiif.wellcomecollection.org/auth/v2/access/restrictedlogin' &&
-      userIsStaffWithRestricted) ||
-    authV2;
-  if (useV2TokenService && auth?.v2.tokenService) {
-    return `${auth.v2.tokenService.id}?messageId=${workId}&origin=${origin}`;
-  } else if (auth?.v1.tokenService) {
-    return `${auth.v1.tokenService.id}?messageId=${workId}&origin=${origin}`;
+  if (auth?.tokenService) {
+    return `${auth.tokenService.id}?messageId=${workId}&origin=${origin}`;
   }
 }
 
@@ -440,12 +351,11 @@ type checkModalParams = {
   userIsStaffWithRestricted: boolean;
   auth?: Auth;
   isAnyImageOpen?: boolean;
-  authV2?: boolean;
 };
 
 export function checkModalRequired(params: checkModalParams): boolean {
-  const { userIsStaffWithRestricted, auth, isAnyImageOpen, authV2 } = params;
-  const authServices = getAuthServices({ auth, authV2 });
+  const { userIsStaffWithRestricted, auth, isAnyImageOpen } = params;
+  const authServices = getAuthServices({ auth });
   if (authServices?.active) {
     return true;
   } else if (authServices?.external) {
@@ -460,13 +370,6 @@ export function checkModalRequired(params: checkModalParams): boolean {
 }
 
 export function checkIsTotallyRestricted(
-  restrictedAuthService: AuthExternalService | undefined,
-  isAnyImageOpen: boolean
-): boolean {
-  return Boolean(restrictedAuthService && !isAnyImageOpen);
-}
-
-export function checkIsTotallyRestrictedV2(
   externalAuthService: AuthAccessService2External | undefined,
   isAnyImageOpen: boolean
 ): boolean {
@@ -894,36 +797,6 @@ export type TransformedAuthService = {
   label?: string;
   description?: string;
 };
-export function transformRestrictedService(
-  service: AuthExternalService | undefined
-): TransformedAuthService | undefined {
-  if (!service) return;
-  return {
-    id: service['@id'],
-    label: service.label,
-    description: service.description,
-  };
-}
-
-export function transformClickThroughService(
-  service: AuthClickThroughServiceWithPossibleServiceArray | undefined
-): TransformedAuthService | undefined {
-  if (!service) return;
-  return {
-    id: service['@id'],
-    label: service.label,
-    description: service.description,
-  };
-}
-
-export function transformTokenService(
-  service: AuthAccessTokenService | undefined
-): TransformedAuthService | undefined {
-  if (!service) return;
-  return {
-    id: service['@id'],
-  };
-}
 
 export function transformExternalAccessService(
   service:
@@ -949,7 +822,7 @@ export function transformActiveAccessService(
   };
 }
 
-export function transformV2TokenService(
+export function transformTokenService(
   service: AuthAccessTokenService2 | undefined
 ): TransformedAuthService | undefined {
   if (!service) return;

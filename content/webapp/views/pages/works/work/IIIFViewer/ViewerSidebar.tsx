@@ -153,7 +153,6 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
   iiifImageLocation,
   iiifPresentationLocation,
 }) => {
-  const { authV2 } = useToggles();
   const { work, transformedManifest, parentManifest } = useItemViewerContext();
   const { userIsStaffWithRestricted } = useUserContext();
 
@@ -189,7 +188,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
     digitalLocationInfo?.accessCondition === 'restricted' &&
     userIsStaffWithRestricted;
 
-  const authServices = getAuthServices({ auth, authV2 });
+  const authServices = getAuthServices({ auth });
 
   const manifestNeedsRegeneration =
     authServices?.external?.id ===
