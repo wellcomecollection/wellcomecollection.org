@@ -68,6 +68,21 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
   }, [windowSize, isListActive, hasStuck]);
 
   useEffect(() => {
+    // Measure and set the Root height as a CSS custom property when menu is closed
+    if (!isListActive && rootRef.current) {
+      requestAnimationFrame(() => {
+        if (rootRef.current) {
+          const height = rootRef.current.offsetHeight;
+          rootRef.current.style.setProperty(
+            '--nav-button-height',
+            `${height}px`
+          );
+        }
+      });
+    }
+  }, [isListActive]);
+
+  useEffect(() => {
     // We close the mobile nav if it's open when we're going from !hasStuck to hasStuck
 
     if (hasStuck && !prevHasStuckRef.current && isListActive) {

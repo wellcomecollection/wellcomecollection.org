@@ -23,7 +23,7 @@ export const InPageNavList = styled(PlainList)<{
       'zero',
       'md'
     )(`
-    max-height: calc(100vh - 45px);
+    max-height: calc(100vh - var(--nav-button-height, 45px));
     overflow-x: hidden;
     overflow-y: auto;
   `)}
