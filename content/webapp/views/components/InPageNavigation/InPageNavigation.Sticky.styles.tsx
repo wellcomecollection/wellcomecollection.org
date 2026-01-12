@@ -78,7 +78,7 @@ export const ListItem = styled.li<{ $hasStuck: boolean; $isOnWhite: boolean }>`
   ${props =>
     props.theme.media('md')(`
     border-top: 0;
-    padding: 6px 0  6px ${leftOffset};
+    padding: 7px 0 7px ${leftOffset};
     margin: 0;
 
     &::before {
@@ -92,6 +92,7 @@ export const ListItem = styled.li<{ $hasStuck: boolean; $isOnWhite: boolean }>`
 const AnimatedLink = styled(NextLink)<AnimatedUnderlineProps>`
   ${AnimatedUnderlineCSS}
   text-decoration: none;
+  line-height: 1;
 
   ${props =>
     props.theme.media('md')(`
@@ -100,7 +101,7 @@ const AnimatedLink = styled(NextLink)<AnimatedUnderlineProps>`
 
   & > span {
     font-size: 14px;
-    line-height: 20px;
+    line-height: 1.6;
   }
 `;
 
