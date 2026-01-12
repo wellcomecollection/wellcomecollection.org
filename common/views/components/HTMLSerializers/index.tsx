@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { dasherize } from '@weco/common/utils/grammar';
 import { getMimeTypeFromExtension } from '@weco/common/utils/mime';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import DownloadLink from '@weco/common/views/components/DownloadLink';
 import FeaturedWorkLink from '@weco/common/views/components/FeaturedWorkLink';
 import Icon from '@weco/common/views/components/Icon';
@@ -246,7 +247,6 @@ export const accessibilitySerializer: JSXFunctionSerializer = (
   children,
   key
 ) => {
-  // Determine which icon to show for headings
   let icon: IconSvg | null = null;
   const isH1 = element.type === prismic.RichTextNodeType.heading1;
   const isH2 = element.type === prismic.RichTextNodeType.heading2;
@@ -257,20 +257,15 @@ export const accessibilitySerializer: JSXFunctionSerializer = (
     const text = element.text || '';
     const lowerText = text.toLowerCase();
     icon = ACCESSIBILITY_ICON_MAP[lowerText] || null;
-  }
 
-  switch (true) {
-    case isH1:
-    case isH2:
-    case isH3: {
-      const HeadingTag = isH1 ? 'h1' : isH2 ? 'h2' : 'h3';
-      const headingProps = isH1
-        ? { key }
-        : { key, id: dasherize(element.text) };
+    const HeadingTag = isH1 ? 'h1' : isH2 ? 'h2' : 'h3';
+    const headingProps = isH1 ? { key } : { key, id: dasherize(element.text) };
 
-      return (
-        <HeadingTag {...headingProps}>
-          {icon && (
+    return (
+      <HeadingTag {...headingProps}>
+        <ConditionalWrapper
+          condition={!!icon}
+          wrapper={children => (
             <span
               style={{
                 display: 'inline-flex',
@@ -278,15 +273,16 @@ export const accessibilitySerializer: JSXFunctionSerializer = (
                 gap: '8px',
               }}
             >
-              <Icon icon={icon} sizeOverride="width: 32px; height: 32px;" />
+              <Icon icon={icon!} sizeOverride="width: 32px; height: 32px;" />
               <span>{children}</span>
             </span>
           )}
-          {!icon && children}
-        </HeadingTag>
-      );
-    }
-    default:
-      return defaultSerializer(type, element, content, children, key);
+        >
+          {children}
+        </ConditionalWrapper>
+      </HeadingTag>
+    );
   }
+
+  return defaultSerializer(type, element, content, children, key);
 };
