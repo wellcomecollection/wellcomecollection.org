@@ -64,6 +64,38 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
     return windowSize !== 'md' && isListActive && hasStuck;
   }, [windowSize, isListActive, hasStuck]);
 
+  // Handle scroll restoration after menu closes
+  useEffect(() => {
+    if (!isListActive && scrollPosition !== 0) {
+      // Menu has closed, check if we need to restore scroll position
+      // Only restore if the current scroll position suggests the spacer pushed content down
+      const currentScroll = window.scrollY;
+      const spacerHeight = window.innerHeight; // 100vh
+      const scrollDelta = currentScroll - scrollPosition;
+
+      // Use requestAnimationFrame to ensure DOM has updated
+      requestAnimationFrame(() => {
+        // If scroll is very close to saved position + spacer height,
+        // it means the browser auto-scrolled and we should restore.
+        // Allow 50px tolerance for user scrolling
+        if (Math.abs(scrollDelta - spacerHeight) < 50) {
+          window.scrollTo({
+            top: scrollPosition,
+            behavior: 'instant',
+          });
+        } else if (scrollDelta > spacerHeight + 50) {
+          // User scrolled down while menu was open, adjust by spacer height
+          window.scrollTo({
+            top: currentScroll - spacerHeight,
+            behavior: 'instant',
+          });
+        }
+        // If user scrolled up or around, don't restore - respect their scroll position
+        setScrollposition(0);
+      });
+    }
+  }, [isListActive, scrollPosition]);
+
   useEffect(() => {
     // We close the mobile nav if it's open when we're going from !hasStuck to hasStuck
 
@@ -214,12 +246,8 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
             onClick={() => {
               if (!isListActive) {
                 setScrollposition(window.scrollY);
-              } else {
-                window.scrollTo({
-                  top: scrollPosition,
-                  behavior: 'instant',
-                });
               }
+              // Note: scroll restoration now happens in useEffect after state update
               setIsListActive(!isListActive);
             }}
           >
