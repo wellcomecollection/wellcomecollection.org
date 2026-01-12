@@ -214,9 +214,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
         typeof document !== 'undefined' &&
         (() => {
           // Find the parent grid container - NavGridCell's parent
-          const navGridCell = document.querySelector(
-            '[data-in-page-navigation-sticky]'
-          )?.parentElement;
+          const navGridCell = InPageNavigationStickyRef.current?.parentElement;
           const gridParent = navGridCell?.parentElement;
 
           return gridParent
