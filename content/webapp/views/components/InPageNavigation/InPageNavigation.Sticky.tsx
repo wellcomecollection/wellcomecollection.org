@@ -189,6 +189,27 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
     );
   }, [activeId]);
 
+  const spacerPortal = useMemo(() => {
+    if (
+      !isListActive ||
+      windowSize === 'lg' ||
+      typeof document === 'undefined'
+    ) {
+      return null;
+    }
+
+    // Find the parent grid container - NavGridCell's parent
+    const navGridCell = InPageNavigationStickyRef.current?.parentElement;
+    const gridParent = navGridCell?.parentElement;
+
+    return gridParent
+      ? createPortal(
+          <div style={{ height: '100vh' }} data-spacer="menu-spacer" />,
+          gridParent
+        )
+      : null;
+  }, [isListActive, windowSize]);
+
   return (
     <NavGridCell
       $isOnWhite={!!isOnWhite}
@@ -209,21 +230,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
           )}
         </>
       )}
-      {isListActive &&
-        windowSize !== 'lg' &&
-        typeof document !== 'undefined' &&
-        (() => {
-          // Find the parent grid container - NavGridCell's parent
-          const navGridCell = InPageNavigationStickyRef.current?.parentElement;
-          const gridParent = navGridCell?.parentElement;
-
-          return gridParent
-            ? createPortal(
-                <div style={{ height: '100vh' }} data-spacer="menu-spacer" />,
-                gridParent
-              )
-            : null;
-        })()}
+      {spacerPortal}
       <div ref={InPageNavigationStickyRef}></div>
       <FocusTrap
         active={isListActive}
