@@ -60,7 +60,6 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
   const [isListActive, setIsListActive] = useState(false);
   const [scrollPosition, setScrollposition] = useState(0);
   const prevHasStuckRef = useRef(false);
-  const spacerRef = useRef<HTMLDivElement>(null);
 
   const shouldLockScroll = useMemo(() => {
     return windowSize !== 'md' && isListActive && hasStuck;
@@ -222,11 +221,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
 
           return gridParent
             ? createPortal(
-                <div
-                  ref={spacerRef}
-                  style={{ height: '100vh' }}
-                  data-spacer="menu-spacer"
-                />,
+                <div style={{ height: '100vh' }} data-spacer="menu-spacer" />,
                 gridParent
               )
             : null;
