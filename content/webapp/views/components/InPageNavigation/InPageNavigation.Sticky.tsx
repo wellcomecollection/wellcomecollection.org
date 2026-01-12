@@ -62,7 +62,10 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
   const prevHasStuckRef = useRef(false);
 
   const shouldLockScroll = useMemo(() => {
-    return windowSize !== 'md' && isListActive && hasStuck;
+    // Only lock scroll on small screens (zero and sm) where mobile nav is active
+    return (
+      (windowSize === 'zero' || windowSize === 'sm') && isListActive && hasStuck
+    );
   }, [windowSize, isListActive, hasStuck]);
 
   useEffect(() => {
@@ -190,8 +193,11 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
   }, [activeId]);
 
   const spacerPortal = useMemo(() => {
+    // Only render spacer on small screens where mobile nav is active (zero and sm)
+    // This matches mediaBetween('zero', 'md') used in InPageNavList styles, which excludes 'md'
     if (
       !isListActive ||
+      windowSize === 'md' ||
       windowSize === 'lg' ||
       typeof document === 'undefined'
     ) {
