@@ -156,33 +156,19 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
 
   useEffect(() => {
     // Add space at the bottom of the page when menu opens
-    // Only apply on small screens
     if (!isListActive || !listRef.current || !buttonRef.current) {
       setSpacerHeight(0);
       return;
     }
 
-    // Skip on large desktop screens
+    // Skip on large screens
     if (windowSize === 'lg') {
       setSpacerHeight(0);
       return;
     }
 
-    // Use double requestAnimationFrame to ensure the list has been rendered,
-    // classes removed, and layout calculated
-    const rafId = requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        if (!listRef.current || !buttonRef.current) return;
-
-        // Get the list height and add it as the spacer
-        const listHeight = listRef.current.scrollHeight;
-
-        // Always add the full list height as spacer to ensure there's enough space
-        setSpacerHeight(listHeight);
-      });
-    });
-
-    return () => cancelAnimationFrame(rafId);
+    // Set spacer to full viewport height to ensure there's always enough space for the opened nav
+    setSpacerHeight(window.innerHeight);
   }, [isListActive, windowSize]);
 
   const titleText = 'On this page';
