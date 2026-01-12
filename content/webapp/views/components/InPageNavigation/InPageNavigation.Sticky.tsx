@@ -61,7 +61,6 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
   const [scrollPosition, setScrollposition] = useState(0);
   const prevHasStuckRef = useRef(false);
   const spacerRef = useRef<HTMLDivElement>(null);
-  const [spacerHeight, setSpacerHeight] = useState(0);
 
   const shouldLockScroll = useMemo(() => {
     return windowSize !== 'md' && isListActive && hasStuck;
@@ -169,23 +168,6 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
     listRef.current.classList.add('is-hidden-s', 'is-hidden-m');
   }, [listRef.current]);
 
-  useEffect(() => {
-    // Add space at the bottom of the page when menu opens
-    if (!isListActive || !listRef.current || !buttonRef.current) {
-      setSpacerHeight(0);
-      return;
-    }
-
-    // Skip on large screens
-    if (windowSize === 'lg') {
-      setSpacerHeight(0);
-      return;
-    }
-
-    // Set spacer to full viewport height to ensure there's always enough space for the opened nav
-    setSpacerHeight(window.innerHeight);
-  }, [isListActive, windowSize]);
-
   const titleText = 'On this page';
 
   const [activeLinkText, setActiveLinkText] = useState(titleText);
@@ -242,10 +224,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
             ? createPortal(
                 <div
                   ref={spacerRef}
-                  style={{
-                    height: `${spacerHeight}px`,
-                    width: '100%',
-                  }}
+                  style={{ height: '100vh' }}
                   data-spacer="menu-spacer"
                 />,
                 gridParent
