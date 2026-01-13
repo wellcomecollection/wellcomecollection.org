@@ -184,10 +184,12 @@ const RightZone = styled.div`
 
 type ViewerTopBarProps = OptionalToUndefined<{
   iiifImageLocation?: DigitalLocation;
+  hasOnlyImages: boolean;
 }>;
 
 const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
   iiifImageLocation,
+  hasOnlyImages,
 }) => {
   const { isEnhanced, isFullSupportBrowser } = useAppContext();
 
@@ -314,37 +316,39 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
         )}
       </Sidebar>
       <Main>
-        <LeftZone className="viewer-desktop">
-          {!showZoomed &&
-            canvases &&
-            canvases.length > 1 &&
-            isFullSupportBrowser && (
-              <ToolbarSegmentedControl
-                hideLabels={true}
-                items={[
-                  {
-                    id: 'pageView',
-                    label: 'Page',
-                    icon: singlePage,
-                    dataGtmTrigger: 'item_view_page_button',
-                    clickHandler() {
-                      setGridVisible(false);
+        {hasOnlyImages && (
+          <LeftZone className="viewer-desktop">
+            {!showZoomed &&
+              canvases &&
+              canvases.length > 1 &&
+              isFullSupportBrowser && (
+                <ToolbarSegmentedControl
+                  hideLabels={true}
+                  items={[
+                    {
+                      id: 'pageView',
+                      label: 'Page',
+                      icon: singlePage,
+                      dataGtmTrigger: 'item_view_page_button',
+                      clickHandler() {
+                        setGridVisible(false);
+                      },
                     },
-                  },
-                  {
-                    id: 'gridView',
-                    label: 'Grid',
-                    icon: gridView,
-                    dataGtmTrigger: 'item_view_grid_button',
-                    clickHandler() {
-                      setGridVisible(true);
+                    {
+                      id: 'gridView',
+                      label: 'Grid',
+                      icon: gridView,
+                      dataGtmTrigger: 'item_view_grid_button',
+                      clickHandler() {
+                        setGridVisible(true);
+                      },
                     },
-                  },
-                ]}
-                activeId={gridVisible ? 'gridView' : 'pageView'}
-              />
-            )}
-        </LeftZone>
+                  ]}
+                  activeId={gridVisible ? 'gridView' : 'pageView'}
+                />
+              )}
+          </LeftZone>
+        )}
         <MiddleZone className="viewer-desktop">
           {canvases && canvases.length > 1 && !showZoomed && !isResizing && (
             <>
@@ -359,66 +363,68 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
             </>
           )}
         </MiddleZone>
-        <RightZone>
-          {isEnhanced && (
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              {!showZoomed && downloadOptions.length > 0 && (
-                <Space $h={{ size: 'xs', properties: ['margin-right'] }}>
-                  <Download
-                    ariaControlsId="itemDownloads"
-                    downloadOptions={downloadOptions}
-                    useDarkControl={true}
-                    isInline={true}
-                  />
-                </Space>
-              )}
+        {hasOnlyImages && (
+          <RightZone>
+            {isEnhanced && (
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                {!showZoomed && downloadOptions.length > 0 && (
+                  <Space $h={{ size: 'xs', properties: ['margin-right'] }}>
+                    <Download
+                      ariaControlsId="itemDownloads"
+                      downloadOptions={downloadOptions}
+                      useDarkControl={true}
+                      isInline={true}
+                    />
+                  </Space>
+                )}
 
-              {isFullscreenEnabled && showFullscreenControl && (
-                <ViewerButton
-                  className="viewer-desktop"
-                  $isDark
-                  onClick={() => {
-                    if (viewerRef && viewerRef.current) {
-                      if (
-                        !document.fullscreenElement &&
-                        !document['webkitFullscreenElement']
-                      ) {
-                        if (viewerRef.current.requestFullscreen) {
-                          viewerRef.current.requestFullscreen();
-                        } else if (
-                          viewerRef.current['webkitRequestFullscreen']
+                {isFullscreenEnabled && showFullscreenControl && (
+                  <ViewerButton
+                    className="viewer-desktop"
+                    $isDark
+                    onClick={() => {
+                      if (viewerRef && viewerRef.current) {
+                        if (
+                          !document.fullscreenElement &&
+                          !document['webkitFullscreenElement']
                         ) {
-                          viewerRef.current['webkitRequestFullscreen']();
-                        }
-                      } else {
-                        if (document.exitFullscreen) {
-                          document.exitFullscreen();
-                        } else if (document['webkitExitFullscreen']) {
-                          document['webkitExitFullscreen']();
+                          if (viewerRef.current.requestFullscreen) {
+                            viewerRef.current.requestFullscreen();
+                          } else if (
+                            viewerRef.current['webkitRequestFullscreen']
+                          ) {
+                            viewerRef.current['webkitRequestFullscreen']();
+                          }
+                        } else {
+                          if (document.exitFullscreen) {
+                            document.exitFullscreen();
+                          } else if (document['webkitExitFullscreen']) {
+                            document['webkitExitFullscreen']();
+                          }
                         }
                       }
-                    }
-                  }}
-                >
-                  {document.fullscreenElement ||
-                  document['webkitFullscreenElement'] ? (
-                    <>
-                      <Icon icon={minimise} />
-                      <span style={{ marginLeft: '7px' }}>
-                        Exit full screen
-                      </span>
-                    </>
-                  ) : (
-                    <>
-                      <Icon icon={maximise} />
-                      <span style={{ marginLeft: '7px' }}>Full screen</span>
-                    </>
-                  )}
-                </ViewerButton>
-              )}
-            </div>
-          )}
-        </RightZone>
+                    }}
+                  >
+                    {document.fullscreenElement ||
+                    document['webkitFullscreenElement'] ? (
+                      <>
+                        <Icon icon={minimise} />
+                        <span style={{ marginLeft: '7px' }}>
+                          Exit full screen
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <Icon icon={maximise} />
+                        <span style={{ marginLeft: '7px' }}>Full screen</span>
+                      </>
+                    )}
+                  </ViewerButton>
+                )}
+              </div>
+            )}
+          </RightZone>
+        )}
       </Main>
     </TopBar>
   );

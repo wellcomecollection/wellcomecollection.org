@@ -2,7 +2,7 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { FunctionComponent, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
-
+import { hasNonImages } from '@weco/content/utils/iiif/v3';
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { useToggles } from '@weco/common/server-data/Context';
@@ -134,6 +134,7 @@ const Topbar = styled.div`
 const Main = styled.div<{
   $isDesktopSidebarActive: boolean;
   $isFullSupportBrowser: boolean;
+  $hasOnlyImages: boolean; // we adjust the grid area on mobile when this isn't true
 }>`
   background: ${props => props.theme.color('black')};
   color: ${props => props.theme.color('white')};
@@ -146,7 +147,9 @@ const Main = styled.div<{
   width: ${props => (props.$isFullSupportBrowser ? 'auto' : '100vw')};
   grid-area: ${props =>
     props.$isFullSupportBrowser
-      ? 'desktop-main-start / left-edge / mobile-main-end / right-edge'
+      ? props.$hasOnlyImages
+        ? 'desktop-main-start / left-edge / mobile-main-end / right-edge'
+        : 'desktop-main-start / left-edge / bottom-edge / right-edge'
       : 'auto'};
 
   ${props =>
@@ -244,6 +247,8 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const [showControls, setShowControls] = useState(
     Boolean(hasIiifImage && !hasImageService)
   );
+  // we only render certain parts of the UI when hasOnlyImages is true
+  const hasOnlyImages = !hasNonImages(transformedManifest?.canvases || []);
 
   // We need to reset the MainAreaWidth and MainAreaHeight
   // when the available space changes.
@@ -346,6 +351,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
               iiifImageLocation={
                 shouldUseIifImageLocation ? iiifImageLocation : undefined
               }
+              hasOnlyImages={hasOnlyImages}
             />
           </DelayVisibility>
         </Topbar>
@@ -353,6 +359,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
           ref={mainAreaRef}
           $isDesktopSidebarActive={isDesktopSidebarActive}
           $isFullSupportBrowser={isFullSupportBrowser}
+          $hasOnlyImages={hasOnlyImages}
         >
           <DelayVisibility>
             {!showZoomed && <ImageViewerControls />}
@@ -386,7 +393,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
             />
           </Zoom>
         )}
-        {isFullSupportBrowser && (
+        {isFullSupportBrowser && hasOnlyImages && (
           <>
             <BottomBar>
               <ViewerBottomBar />
