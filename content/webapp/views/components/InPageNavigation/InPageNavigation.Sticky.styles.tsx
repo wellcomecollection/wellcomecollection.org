@@ -16,6 +16,16 @@ export const InPageNavList = styled(PlainList)<{ $isOnWhite: boolean }>`
   border-bottom: 1px solid
     ${props => props.theme.color(props.$isOnWhite ? 'neutral.300' : 'white')};
 
+  ${props =>
+    props.theme.mediaBetween(
+      'zero',
+      'md'
+    )(`
+      max-height: 90vh;
+      overflow-x: hidden;
+      overflow-y: auto;
+    `)}
+
   ${props => props.theme.media('md')`
     padding-bottom: 0;
     border-bottom: 0;
