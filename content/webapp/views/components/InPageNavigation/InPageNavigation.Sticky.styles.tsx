@@ -16,6 +16,16 @@ export const InPageNavList = styled(PlainList)<{ $isOnWhite: boolean }>`
   border-bottom: 1px solid
     ${props => props.theme.color(props.$isOnWhite ? 'neutral.300' : 'white')};
 
+  ${props =>
+    props.theme.mediaBetween(
+      'zero',
+      'md'
+    )(`
+      max-height: 90vh;
+      overflow-x: hidden;
+      overflow-y: auto;
+    `)}
+
   ${props => props.theme.media('md')`
     padding-bottom: 0;
     border-bottom: 0;
@@ -164,9 +174,13 @@ export const Root = styled(Space).attrs<{
 })<{
   $hasStuck: boolean;
 }>`
-  position: sticky;
+  position: relative;
   top: 0;
   z-index: 20;
+
+  ${props => props.theme.media('md')`
+    position: sticky;
+  `}
   color: ${props => props.theme.color('white')};
 
   ${props =>
@@ -187,6 +201,18 @@ export const Root = styled(Space).attrs<{
       transition: background ${props.theme.transitionProperties};
       background: ${props.$hasStuck && props.theme.color('white')};
       padding-top: 0;
+
+      ${
+        props.$hasStuck &&
+        `
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        margin: 0;
+      `
+      }
     `)}
 
   ${props =>

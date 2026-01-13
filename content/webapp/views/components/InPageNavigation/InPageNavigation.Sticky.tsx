@@ -56,7 +56,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
   const listId = useId();
   const { isEnhanced, windowSize } = useAppContext();
   const [hasStuck, setHasStuck] = useState(false);
-  const [isListActive, setIsListActive] = useState(false);
+  const [isListActive, setIsListActive] = useState(true);
   const [scrollPosition, setScrollposition] = useState(0);
   const prevHasStuckRef = useRef(false);
 
@@ -148,8 +148,12 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (!listRef.current) return;
-    listRef.current.classList.add('is-hidden-s', 'is-hidden-m');
-  }, [listRef.current]);
+    // Only hide the list initially if we've stuck (navigation has scrolled)
+    // When at the top (!hasStuck), keep it visible on small screens
+    if (hasStuck) {
+      listRef.current.classList.add('is-hidden-s', 'is-hidden-m');
+    }
+  }, [hasStuck]);
 
   const titleText = 'On this page';
 
@@ -194,11 +198,16 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
         </>
       )}
       <div ref={InPageNavigationStickyRef}></div>
+      {/* Placeholder to prevent jump when nav becomes fixed on mobile */}
+      {hasStuck && windowSize !== 'md' && windowSize !== 'lg' && (
+        <div style={{ height: buttonRef.current?.offsetHeight || 0 }} />
+      )}
       <FocusTrap
-        active={isListActive}
+        active={isListActive && hasStuck}
         focusTrapOptions={{
           returnFocusOnDeactivate: false,
           clickOutsideDeactivates: true,
+          initialFocus: false,
         }}
       >
         <Root $hasStuck={hasStuck} data-in-page-navigation-sticky="true">
@@ -309,26 +318,23 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
                           const buttonHeight =
                             buttonRef.current?.offsetHeight || 0;
 
-                          // If the list is open (isListActive), it pushes the content down.
-                          // When we click, we close the list, so the content moves up.
-                          // We need to subtract the list height to scroll to the correct position.
-                          const listHeight =
-                            isListActive && listRef.current
-                              ? listRef.current.offsetHeight
-                              : 0;
-
                           const elementPosition =
                             element.getBoundingClientRect().top;
+                          let offsetPosition = elementPosition + window.scrollY;
 
-                          let offsetPosition =
-                            elementPosition +
-                            window.scrollY -
-                            listHeight -
-                            buttonHeight;
+                          // On mobile (below md breakpoint)
+                          if (windowSize !== 'md' && windowSize !== 'lg') {
+                            // When hasStuck is false and the list was open before clicking,
+                            // account for the list height that will be removed when the list closes
+                            if (!hasStuck && isListActive && listRef.current) {
+                              offsetPosition -= listRef.current.offsetHeight;
+                            }
 
-                          // On medium screens and above, add the scroll-margin-top offset
-                          // to align with the CSS scroll-margin-top value (approximately 32px)
-                          if (windowSize === 'md' || windowSize === 'lg') {
+                            // Account for the fixed button height that will overlay the content
+                            // plus 1px for the border
+                            offsetPosition -= buttonHeight + 1;
+                          } else {
+                            // Desktop behavior: account for scroll-margin-top
                             offsetPosition -= 32;
                           }
 
