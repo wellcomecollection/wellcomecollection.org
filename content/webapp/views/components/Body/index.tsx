@@ -298,7 +298,7 @@ const Body: FunctionComponent<Props> = ({
             />
 
             <GridCell $sizeMap={{ s: [12], m: [12], l: [9], xl: [9] }}>
-              <Space $v={{ size: 'sm', properties: ['padding-top'] }}>
+              <Space $v={{ size: 'md', properties: ['padding-top'] }}>
                 {children}
               </Space>
             </GridCell>
