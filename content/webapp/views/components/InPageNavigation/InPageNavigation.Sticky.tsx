@@ -317,26 +317,23 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
                           const buttonHeight =
                             buttonRef.current?.offsetHeight || 0;
 
-                          // If the list is open (isListActive), it pushes the content down.
-                          // When we click, we close the list, so the content moves up.
-                          // We need to subtract the list height to scroll to the correct position.
-                          const listHeight =
-                            isListActive && listRef.current
-                              ? listRef.current.offsetHeight
-                              : 0;
-
                           const elementPosition =
                             element.getBoundingClientRect().top;
+                          let offsetPosition = elementPosition + window.scrollY;
 
-                          let offsetPosition =
-                            elementPosition +
-                            window.scrollY -
-                            listHeight -
-                            buttonHeight;
+                          // On mobile (below md breakpoint)
+                          if (windowSize !== 'md' && windowSize !== 'lg') {
+                            // When hasStuck is false and the list is open, the list will close
+                            // and the content will move up by the list height
+                            if (!hasStuck && isListActive && listRef.current) {
+                              offsetPosition -= listRef.current.offsetHeight;
+                            }
 
-                          // On medium screens and above, add the scroll-margin-top offset
-                          // to align with the CSS scroll-margin-top value (approximately 32px)
-                          if (windowSize === 'md' || windowSize === 'lg') {
+                            // Account for the fixed button height that will overlay the content
+                            // plus 1px for the border
+                            offsetPosition -= buttonHeight + 1;
+                          } else {
+                            // Desktop behavior: account for scroll-margin-top
                             offsetPosition -= 32;
                           }
 
