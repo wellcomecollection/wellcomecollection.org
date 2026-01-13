@@ -153,7 +153,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
     if (hasStuck) {
       listRef.current.classList.add('is-hidden-s', 'is-hidden-m');
     }
-  }, [listRef.current, hasStuck]);
+  }, [hasStuck]);
 
   const titleText = 'On this page';
 
