@@ -198,6 +198,10 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
         </>
       )}
       <div ref={InPageNavigationStickyRef}></div>
+      {/* Placeholder to prevent jump when nav becomes fixed on mobile */}
+      {hasStuck && windowSize !== 'md' && windowSize !== 'lg' && (
+        <div style={{ height: buttonRef.current?.offsetHeight || 0 }} />
+      )}
       <FocusTrap
         active={isListActive && hasStuck}
         focusTrapOptions={{
