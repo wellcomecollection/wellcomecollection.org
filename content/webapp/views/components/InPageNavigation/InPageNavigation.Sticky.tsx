@@ -207,6 +207,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
         focusTrapOptions={{
           returnFocusOnDeactivate: false,
           clickOutsideDeactivates: true,
+          initialFocus: false,
         }}
       >
         <Root $hasStuck={hasStuck} data-in-page-navigation-sticky="true">
