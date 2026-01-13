@@ -56,7 +56,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
   const listId = useId();
   const { isEnhanced, windowSize } = useAppContext();
   const [hasStuck, setHasStuck] = useState(false);
-  const [isListActive, setIsListActive] = useState(false);
+  const [isListActive, setIsListActive] = useState(true);
   const [scrollPosition, setScrollposition] = useState(0);
   const prevHasStuckRef = useRef(false);
 
@@ -148,8 +148,12 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (!listRef.current) return;
-    listRef.current.classList.add('is-hidden-s', 'is-hidden-m');
-  }, [listRef.current]);
+    // Only hide the list initially if we've stuck (navigation has scrolled)
+    // When at the top (!hasStuck), keep it visible on small screens
+    if (hasStuck) {
+      listRef.current.classList.add('is-hidden-s', 'is-hidden-m');
+    }
+  }, [listRef.current, hasStuck]);
 
   const titleText = 'On this page';
 
