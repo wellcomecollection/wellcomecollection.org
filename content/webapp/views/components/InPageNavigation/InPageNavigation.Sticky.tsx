@@ -324,8 +324,8 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
 
                           // On mobile (below md breakpoint)
                           if (windowSize !== 'md' && windowSize !== 'lg') {
-                            // When hasStuck is false and the list is open, the list will close
-                            // and the content will move up by the list height
+                            // When hasStuck is false and the list was open before clicking,
+                            // account for the list height that will be removed when the list closes
                             if (!hasStuck && isListActive && listRef.current) {
                               offsetPosition -= listRef.current.offsetHeight;
                             }
