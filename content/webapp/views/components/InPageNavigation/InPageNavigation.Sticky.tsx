@@ -199,7 +199,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
       )}
       <div ref={InPageNavigationStickyRef}></div>
       <FocusTrap
-        active={isListActive}
+        active={isListActive && hasStuck}
         focusTrapOptions={{
           returnFocusOnDeactivate: false,
           clickOutsideDeactivates: true,
