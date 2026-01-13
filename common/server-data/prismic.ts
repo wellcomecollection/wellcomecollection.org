@@ -35,7 +35,7 @@ export const defaultValue = {
   popupDialog: {
     data: {
       isShown: false,
-      link: { link_type: 'Web' },
+      link: { link_type: 'Any' as const },
       linkText: null,
       openButtonText: null,
       text: [] as prismic.RichTextField,

@@ -35,14 +35,18 @@ function transformCommonFields(
   agent:
     | (prismic.FilledContentRelationshipField<
         'people',
-        'en-gb',
+        string,
         InferDataInterface<RawPeopleDocument>
-      > & { data: RawPeopleDocument })
+      > & {
+        data: InferDataInterface<RawPeopleDocument>;
+      })
     | (prismic.FilledContentRelationshipField<
         'organisations',
-        'en-gb',
+        string,
         InferDataInterface<RawOrganisationsDocument>
-      > & { data: RawOrganisationsDocument })
+      > & {
+        data: InferDataInterface<RawOrganisationsDocument>;
+      })
 ) {
   return {
     id: agent.id,

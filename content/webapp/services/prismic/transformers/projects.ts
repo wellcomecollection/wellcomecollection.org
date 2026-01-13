@@ -1,8 +1,5 @@
 import { SiteSection } from '@weco/common/model/site-section';
-import {
-  ProjectsDocument as RawProjectsDocument,
-  SeasonsDocument as RawSeasonsDocument,
-} from '@weco/common/prismicio-types';
+import { ProjectsDocument as RawProjectsDocument } from '@weco/common/prismicio-types';
 import { links as headerLinks } from '@weco/common/views/components/Header';
 import { Project } from '@weco/content/types/projects';
 
@@ -12,15 +9,13 @@ import {
   transformSingleLevelGroup,
 } from '.';
 import { transformContributors } from './contributors';
-import { transformSeason } from './seasons';
+import { transformSeasonsFromRelationshipGroup } from './seasons';
 
 export function transformProject(document: RawProjectsDocument): Project {
   const { data } = document;
   const genericFields = transformGenericFields(document);
-  const seasons = transformSingleLevelGroup(data.seasons, 'season').map(
-    season => {
-      return transformSeason(season as RawSeasonsDocument);
-    }
+  const seasons = transformSeasonsFromRelationshipGroup(
+    transformSingleLevelGroup(data.seasons, 'season')
   );
 
   // TODO (tagging): This is just for now, we will be implementing a proper site tagging
