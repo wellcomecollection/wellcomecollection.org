@@ -9,8 +9,9 @@ import {
 } from 'react';
 import { areEqual, FixedSizeList } from 'react-window';
 import styled from 'styled-components';
-
+import IIIFItemList from '@weco/content/views/pages/works/work/IIIFItemList';
 import { useUserContext } from '@weco/common/contexts/UserContext';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import { font } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
@@ -24,9 +25,9 @@ import {
 } from '@weco/content/utils/iiif/v3';
 import { getDisplayItems } from '@weco/content/utils/iiif/v3/canvas';
 import IIIFItem from '@weco/content/views/pages/works/work/IIIFItem';
+import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
 
 import { queryParamToArrayIndex } from '.';
-import { CanvasPaginator } from './Paginators';
 
 // Temporary styling for viewer to display audio, video and pdfs
 // will be tidied up in future work
@@ -399,6 +400,7 @@ const MainViewer: FunctionComponent = () => {
     mainAreaHeight,
     mainAreaWidth,
     transformedManifest,
+    work,
     query,
     setShowZoomed,
     setShowFullscreenControl,
@@ -424,6 +426,10 @@ const MainViewer: FunctionComponent = () => {
   const currentCanvas = canvases?.[queryParamToArrayIndex(canvas)];
 
   const externalAccessService = auth?.externalAccessService;
+  const itemLink = toWorksItemLink({
+    workId: work.id,
+    props: {},
+  });
 
   // We hide the zoom and rotation controls while the user is scrolling
   function handleOnScroll({ scrollOffset }) {
@@ -464,13 +470,20 @@ const MainViewer: FunctionComponent = () => {
 
   const displayItems = currentCanvas ? getDisplayItems(currentCanvas) : [];
   const useFixedSizeList = !hasNonImages(canvases);
+
   if (!useFixedSizeList) {
     setShowFullscreenControl(false);
   }
 
-  return (
-    <div data-testid="main-viewer" style={{ height: '100%' }}>
-      {useFixedSizeList ? (
+  if (useFixedSizeList) {
+    return (
+      <div
+        data-testid="main-viewer"
+        style={{
+          height: '100%',
+          overflow: 'hidden',
+        }}
+      >
         <FixedSizeList
           width={mainAreaWidth}
           style={{ width: `${mainAreaWidth}px`, margin: '0 auto' }}
@@ -494,30 +507,53 @@ const MainViewer: FunctionComponent = () => {
         >
           {ItemRenderer}
         </FixedSizeList>
-      ) : (
-        <>
-          {displayItems.map((item, i) => {
-            return (
-              <>
-                {currentCanvas ? (
-                  <ItemWrapper key={i}>
-                    <IIIFItem
-                      placeholderId={placeholderId}
-                      item={item}
-                      i={1}
-                      canvas={currentCanvas}
-                      titleOverride={`${canvas}/${canvases?.length}`}
-                      exclude={[]}
-                      isInViewer
-                      isDark={true}
-                    />
-                  </ItemWrapper>
-                ) : null}
-              </>
-            );
-          })}
-          <CanvasPaginator />;
-        </>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      data-testid="main-viewer"
+      style={{
+        position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+      }}
+    >
+      <div style={{ maxHeight: '50%' }}>
+        {displayItems.map((item, i) => {
+          return (
+            <div key={i}>
+              {currentCanvas && (
+                <IIIFItem
+                  placeholderId={placeholderId}
+                  item={item}
+                  i={1}
+                  canvas={currentCanvas}
+                  titleOverride={`${canvas}/${canvases?.length}`}
+                  exclude={[]}
+                  isInViewer
+                  isDark={true}
+                />
+              )}
+            </div>
+          );
+        })}
+      </div>
+      {canvases && canvases.length > 1 && (
+        <div
+          style={{
+            overflowY: 'auto',
+          }}
+        >
+          <IIIFItemList
+            canvases={canvases}
+            exclude={[]}
+            placeholderId="placeholderId"
+            itemUrl={itemLink}
+          />
+        </div>
       )}
     </div>
   );
