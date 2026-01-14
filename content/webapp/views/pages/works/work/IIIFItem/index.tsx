@@ -56,6 +56,7 @@ const Outline = styled(Space).attrs({
     props.$border
       ? `border: 1px solid; border-color:  ${props.theme.color('neutral.400')}`
       : ``}
+  height: 100%;
 `;
 
 const IconContainer = styled(Space).attrs({

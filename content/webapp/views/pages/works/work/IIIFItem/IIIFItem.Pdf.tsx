@@ -9,11 +9,11 @@ import IIIFItemDownload from './IIIFItem.Download';
 
 const IframePdfViewer = styled.iframe`
   width: 100%;
-  height: 90vh;
+  height: 100%;
   display: block;
-  border: 0;
   margin-left: auto;
   margin-right: auto;
+  border: none;
 `;
 
 type Props = {
