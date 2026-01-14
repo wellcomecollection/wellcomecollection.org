@@ -9,9 +9,7 @@ import {
 } from 'react';
 import { areEqual, FixedSizeList } from 'react-window';
 import styled from 'styled-components';
-import IIIFItemList from '@weco/content/views/pages/works/work/IIIFItemList';
 import { useUserContext } from '@weco/common/contexts/UserContext';
-import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import { font } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
@@ -27,7 +25,53 @@ import { getDisplayItems } from '@weco/content/utils/iiif/v3/canvas';
 import IIIFItem from '@weco/content/views/pages/works/work/IIIFItem';
 import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
 
+import DownloadTableRow from '@weco/content/views/pages/works/work/IIIFViewer/DownloadTableRow';
+
 import { queryParamToArrayIndex } from '.';
+import { getOriginalFiles } from '@weco/content/utils/iiif/v3';
+
+export const DownloadTable = styled.table.attrs({
+  className: font('sans', -2),
+})`
+  position: relative;
+  border-collapse: collapse;
+
+  /* height:; */
+  white-space: nowrap;
+  margin: 0 auto;
+  width: 100%;
+
+  .icon {
+    position: relative;
+    top: 1px;
+    margin-right: 10px;
+  }
+
+  th,
+  td {
+    white-space: nowrap;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 10px;
+  }
+
+  th:nth-child(2),
+  td:nth-child(2) {
+    width: 120px;
+  }
+
+  th:nth-child(3),
+  td:nth-child(3) {
+    width: 60px;
+  }
+
+  th:last-child,
+  td:last-child {
+    width: 100px;
+    text-align: right;
+  }
+`;
 
 // Temporary styling for viewer to display audio, video and pdfs
 // will be tidied up in future work
@@ -420,7 +464,7 @@ const MainViewer: FunctionComponent = () => {
     debounce(handleOnItemsRendered, 500)
   );
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  const { canvases, auth, placeholderId } = {
+  const { canvases, auth, placeholderId, structures } = {
     ...transformedManifest,
   };
   const currentCanvas = canvases?.[queryParamToArrayIndex(canvas)];
@@ -521,11 +565,12 @@ const MainViewer: FunctionComponent = () => {
         height: '100%',
       }}
     >
-      <div style={{ maxHeight: '50%' }}>
+      {/* TODO make into styled component */}
+      <div style={{ flex: 1, flexShrink: 1, position: 'relative' }}>
         {displayItems.map((item, i) => {
           return (
-            <div key={i}>
-              {currentCanvas && (
+            currentCanvas && (
+              <div style={{ textAlign: 'center' }} key={item.type + item.id}>
                 <IIIFItem
                   placeholderId={placeholderId}
                   item={item}
@@ -536,25 +581,52 @@ const MainViewer: FunctionComponent = () => {
                   isInViewer
                   isDark={true}
                 />
-              )}
-            </div>
+              </div>
+            )
           );
         })}
       </div>
-      {canvases && canvases.length > 1 && (
-        <div
-          style={{
-            overflowY: 'auto',
-          }}
-        >
-          <IIIFItemList
-            canvases={canvases}
-            exclude={[]}
-            placeholderId="placeholderId"
-            itemUrl={itemLink}
-          />
-        </div>
-      )}
+      {canvases &&
+        canvases.length > 0 && ( // TODO put back to > 1
+          <div
+            style={{
+              overflowY: 'auto',
+              flex: 1,
+            }}
+          >
+            {/* TODO move to own component file */}
+            <DownloadTable>
+              <thead>
+                <tr>
+                  <th>File</th>
+                  <th className="is-hidden-s">Size</th>
+                  <th>Download</th>
+                </tr>
+              </thead>
+              <tbody>
+                {canvases.map((canvasItem, index) => {
+                  const canvasIndex = index + 1;
+                  const canvasLink = toWorksItemLink({
+                    workId: work.id,
+                    props: { canvas: canvasIndex, shouldScrollToCanvas: false },
+                  });
+                  const downloads = getOriginalFiles(canvasItem);
+                  const currentCanvasIndex =
+                    queryParamToArrayIndex(canvas) || 0;
+                  return downloads.map(download => (
+                    <DownloadTableRow
+                      key={canvasItem.id + download.id}
+                      canvasLink={canvasLink}
+                      canvas={canvasItem}
+                      item={download}
+                      isCurrent={index === currentCanvasIndex}
+                    />
+                  ));
+                })}
+              </tbody>
+            </DownloadTable>
+          </div>
+        )}
     </div>
   );
 };
