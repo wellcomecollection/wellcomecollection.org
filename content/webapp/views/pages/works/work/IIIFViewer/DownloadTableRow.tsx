@@ -10,7 +10,7 @@ import { LinkProps } from '@weco/common/model/link-props';
 
 import NextLink from 'next/link';
 
-import { file, imageFile } from '@weco/common/icons';
+import { file, image, audio, video, pdf } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import {
@@ -74,6 +74,21 @@ const getLabel = (item: Body) => {
   }
 };
 
+const getIcon = (type: string, format?: string) => {
+  switch (type) {
+    case 'Sound':
+      return audio;
+    case 'Video':
+      return video;
+    case 'Image':
+      return image;
+    case 'Text': // The Text type is used for multipe formats including pdf
+      return format?.endsWith('pdf') ? pdf : file;
+    default:
+      return file;
+  }
+};
+
 const DownloadItem: FunctionComponent<{
   canvas: TransformedCanvas | undefined;
   item: (ContentResource | CustomContentResource | ChoiceBody) & {
@@ -98,11 +113,7 @@ const DownloadItem: FunctionComponent<{
         </td>
         <td>
           <Icon
-            icon={
-              format?.endsWith('jpeg') || format?.endsWith('gif')
-                ? imageFile
-                : file
-            }
+            icon={getIcon(displayItem.type, format)}
             matchText={true}
             sizeOverride={
               format?.endsWith('jpeg') || format?.endsWith('gif')
