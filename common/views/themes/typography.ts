@@ -17,6 +17,21 @@ const fontFamilies = {
   mono: designSystemTheme.font.family.mono,
 };
 
+const responsiveSpaceMixin = (
+  size: string,
+  property: string
+) => css<GlobalStyleProps>`
+  ${property}: ${designSystemTheme['spacing'].responsive[size].default};
+
+  @media (min-width: ${props => props.theme.sizes.sm}) {
+    ${property}: ${designSystemTheme['spacing'].responsive[size].sm};
+  }
+
+  @media (min-width: ${props => props.theme.sizes.md}) {
+    ${property}: ${designSystemTheme['spacing'].responsive[size].md};
+  }
+`;
+
 const fontSizeMixin = (
   size: -2 | -1 | 0 | 1 | 2 | 4 | 5
 ) => css<GlobalStyleProps>`
@@ -226,6 +241,21 @@ export const typography = css<GlobalStyleProps>`
       ${fontFamilyMixin('sans', true)};
     }
   }
+
+  /* stylelint-disable no-descending-specificity */
+  [data-slice-type='text'] {
+    h2 {
+      ${responsiveSpaceMixin('space.xl', 'margin-top')}
+      ${responsiveSpaceMixin('space.md', 'margin-bottom')}
+    }
+
+    &:first-of-type {
+      h2:first-child {
+        margin-top: 0;
+      }
+    }
+  }
+  /* stylelint-enable no-descending-specificity */
 
   .drop-cap {
     ${fontFamilyMixin('brand')}

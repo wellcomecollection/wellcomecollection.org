@@ -41,6 +41,15 @@ const SpacingComponent = styled.div.attrs<{ $sliceType?: string }>(props => ({
     }
   }
 
+  & + &.slice-type-text {
+    /* If there's a SpacingComponent (of any type) followed by a specific .slice-type-text
+    SpacingComponent, and the latter has an h2 as its first child, we clear the space (which
+    would otherwise grow too large added to the margin on the top of the h2)  */
+    &:has(h2:first-child) {
+      margin-top: 0;
+    }
+  }
+
   &.slice-type-text-and-image + &.slice-type-text-and-image,
   &.slice-type-text-and-icons + &.slice-type-text-and-icons,
   &.slice-type-text-and-image + &.slice-type-text-and-icons,
