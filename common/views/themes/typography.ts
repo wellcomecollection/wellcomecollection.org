@@ -247,6 +247,9 @@ export const typography = css<GlobalStyleProps>`
     h2 {
       ${responsiveSpaceMixin('space.xl', 'margin-top')}
       ${responsiveSpaceMixin('space.md', 'margin-bottom')}
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
 
     &:first-of-type {
