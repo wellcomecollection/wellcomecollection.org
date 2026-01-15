@@ -36,8 +36,17 @@ const SpacingComponent = styled.div.attrs<{ $sliceType?: string }>(props => ({
     */
     margin-top: 0;
 
-    .spaced-text > *:first-child {
+    .spaced-text > *:first-child:not(h2) {
       margin-top: ${props => props.theme.spacedTextTopMargin};
+    }
+  }
+
+  & + &.slice-type-text {
+    /* If there's a SpacingComponent (of any type) followed by a specific .slice-type-text
+    SpacingComponent, and the latter has an h2 as its first child, we clear the space (which
+    would otherwise grow too large added to the margin on the top of the h2) */
+    &:has(h2:first-child) {
+      margin-top: 0;
     }
   }
 
