@@ -94,6 +94,7 @@ const DownloadTableSection: FunctionComponent<DownloadTableSectionProps> = ({
                   canvas={canvasItem}
                   item={download}
                   isCurrent={index === currentCanvasIndex}
+                  index={canvasIndex}
                 />
               ));
             })}

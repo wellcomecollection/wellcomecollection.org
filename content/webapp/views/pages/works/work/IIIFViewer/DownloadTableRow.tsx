@@ -22,6 +22,7 @@ import {
   getLabelString,
   isChoiceBody,
 } from '@weco/content/utils/iiif/v3';
+import { getFileLabel } from '@weco/content/utils/works';
 import { controlDimensions } from '@weco/content/views/pages/works/work/work.helpers';
 
 export const DownloadTable = styled.table.attrs({
@@ -102,12 +103,17 @@ const DownloadItem: FunctionComponent<{
   };
   canvasLink: LinkProps;
   isCurrent?: boolean;
-}> = ({ canvas, item, canvasLink, isCurrent }) => {
+  index: number;
+}> = ({ canvas, item, canvasLink, isCurrent, index }) => {
   // If there is a choice then we only show the first one
   const displayItem = (isChoiceBody(item) ? item.items[0] : item) as Body & {
     format?: string;
   };
-  const itemLabel = getLabel(displayItem);
+  const canvasLabelString = canvas?.label ? getLabel(canvas.label) : undefined;
+  const itemLabel = getFileLabel(
+    canvasLabelString,
+    `${typeof displayItem !== 'string' ? displayItem.type : ''} ${index}`
+  );
   const fileSize = canvas && getFileSize(canvas);
   const format = displayItem.format;
 
@@ -116,7 +122,7 @@ const DownloadItem: FunctionComponent<{
       <StyledTr $isCurrent={isCurrent}>
         <td>
           <Icon icon={getIcon(displayItem.type, format)} matchText={true} />
-          <NextLink {...canvasLink}>{`${canvas?.label || itemLabel}`}</NextLink>
+          <NextLink {...canvasLink}>{itemLabel}</NextLink>
         </td>
         <td width="60" className="is-hidden-s">
           {fileSize ? (
