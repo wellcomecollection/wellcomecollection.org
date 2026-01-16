@@ -26,56 +26,33 @@ import IIIFItem from '@weco/content/views/pages/works/work/IIIFItem';
 import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
 
 import DownloadTableRow from '@weco/content/views/pages/works/work/IIIFViewer/DownloadTableRow';
+import DownloadTableSection from '@weco/content/views/pages/works/work/IIIFViewer/DownloadTableSection';
 
 import { queryParamToArrayIndex } from '.';
 import { getOriginalFiles } from '@weco/content/utils/iiif/v3';
 
-export const DownloadTable = styled.table.attrs({
-  className: font('sans', -2),
-})`
-  position: relative;
-  border-collapse: collapse;
-
-  /* height:; */
-  white-space: nowrap;
-  margin: 0 auto;
-  width: 100%;
-
-  .icon {
-    position: relative;
-    top: 1px;
-    margin-right: 10px;
-  }
-
-  th,
-  td {
-    white-space: nowrap;
-    text-align: left;
+const MainViewerContainer = styled.div<{ $useFixedList: boolean }>`
+  height: 100%;
+  ${props =>
+    props.$useFixedList
+      ? `
     overflow: hidden;
-    text-overflow: ellipsis;
-    padding: 10px;
-  }
+  `
+      : `
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  `}
+`;
 
-  th:nth-child(2),
-  td:nth-child(2) {
-    width: 120px;
-  }
-
-  th:nth-child(3),
-  td:nth-child(3) {
-    width: 60px;
-  }
-
-  th:last-child,
-  td:last-child {
-    width: 100px;
-    text-align: right;
-  }
+const ItemContainer = styled.div`
+  position: relative;
+  height: 100%;
 `;
 
 // Temporary styling for viewer to display audio, video and pdfs
 // will be tidied up in future work
-const ItemWrapper = styled.div`
+const ItemWrapper = styled.div<{ $hasMultipleCanvases?: boolean }>`
   margin: auto;
   height: 100%;
 
@@ -96,15 +73,16 @@ const ItemWrapper = styled.div`
     width: 100%;
     height: 100%;
     border: 0;
+    ${props =>
+      props.$hasMultipleCanvases ? 'min-height: 55vh;' : 'min-height: 100%;'}
   }
 
   video {
     display: block;
     margin: auto;
     width: 100%;
-    max-height: calc(
-      100vh - ${props => props.theme.navHeight}px - 140px
-    ); /* 140px allows for the height of the header and the transcript link */
+    height: auto;
+    ${props => props.$hasMultipleCanvases && 'max-height: 55vh;'}
   }
 `; // minus height of the header
 type OverlayPositionData = {
@@ -514,6 +492,7 @@ const MainViewer: FunctionComponent = () => {
 
   const displayItems = currentCanvas ? getDisplayItems(currentCanvas) : [];
   const useFixedSizeList = !hasNonImages(canvases);
+  const hasMultipleCanvases = canvases && canvases.length > 1;
 
   if (!useFixedSizeList) {
     setShowFullscreenControl(false);
@@ -521,13 +500,7 @@ const MainViewer: FunctionComponent = () => {
 
   if (useFixedSizeList) {
     return (
-      <div
-        data-testid="main-viewer"
-        style={{
-          height: '100%',
-          overflow: 'hidden',
-        }}
-      >
+      <MainViewerContainer $useFixedList={true} data-testid="main-viewer">
         <FixedSizeList
           width={mainAreaWidth}
           style={{ width: `${mainAreaWidth}px`, margin: '0 auto' }}
@@ -551,26 +524,20 @@ const MainViewer: FunctionComponent = () => {
         >
           {ItemRenderer}
         </FixedSizeList>
-      </div>
+      </MainViewerContainer>
     );
   }
 
   return (
-    <div
-      data-testid="main-viewer"
-      style={{
-        position: 'relative',
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100%',
-      }}
-    >
-      {/* TODO make into styled component */}
-      <div style={{ flex: 1, flexShrink: 1, position: 'relative' }}>
+    <MainViewerContainer $useFixedList={false} data-testid="main-viewer">
+      <ItemContainer>
         {displayItems.map((item, i) => {
           return (
             currentCanvas && (
-              <div style={{ textAlign: 'center' }} key={item.type + item.id}>
+              <ItemWrapper
+                key={item.type + item.id}
+                $hasMultipleCanvases={hasMultipleCanvases}
+              >
                 <IIIFItem
                   placeholderId={placeholderId}
                   item={item}
@@ -581,53 +548,19 @@ const MainViewer: FunctionComponent = () => {
                   isInViewer
                   isDark={true}
                 />
-              </div>
+              </ItemWrapper>
             )
           );
         })}
-      </div>
-      {canvases &&
-        canvases.length > 0 && ( // TODO put back to > 1
-          <div
-            style={{
-              overflowY: 'auto',
-              flex: 1,
-            }}
-          >
-            {/* TODO move to own component file */}
-            <DownloadTable>
-              <thead>
-                <tr>
-                  <th>File</th>
-                  <th className="is-hidden-s">Size</th>
-                  <th>Download</th>
-                </tr>
-              </thead>
-              <tbody>
-                {canvases.map((canvasItem, index) => {
-                  const canvasIndex = index + 1;
-                  const canvasLink = toWorksItemLink({
-                    workId: work.id,
-                    props: { canvas: canvasIndex, shouldScrollToCanvas: false },
-                  });
-                  const downloads = getOriginalFiles(canvasItem);
-                  const currentCanvasIndex =
-                    queryParamToArrayIndex(canvas) || 0;
-                  return downloads.map(download => (
-                    <DownloadTableRow
-                      key={canvasItem.id + download.id}
-                      canvasLink={canvasLink}
-                      canvas={canvasItem}
-                      item={download}
-                      isCurrent={index === currentCanvasIndex}
-                    />
-                  ));
-                })}
-              </tbody>
-            </DownloadTable>
-          </div>
-        )}
-    </div>
+      </ItemContainer>
+      {hasMultipleCanvases && (
+        <DownloadTableSection
+          canvases={canvases}
+          workId={work.id}
+          canvas={canvas}
+        />
+      )}
+    </MainViewerContainer>
   );
 };
 
