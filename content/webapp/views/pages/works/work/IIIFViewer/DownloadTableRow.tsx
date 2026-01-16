@@ -89,6 +89,12 @@ const getIcon = (type: string, format?: string) => {
   }
 };
 
+const StyledTr = styled.tr<{ $isCurrent?: boolean }>`
+  ${props =>
+    props.$isCurrent &&
+    `background-color: ${props.theme.color('neutral.700')};`}
+`;
+
 const DownloadItem: FunctionComponent<{
   canvas: TransformedCanvas | undefined;
   item: (ContentResource | CustomContentResource | ChoiceBody) & {
@@ -107,10 +113,7 @@ const DownloadItem: FunctionComponent<{
 
   if (typeof displayItem !== 'string') {
     return (
-      <tr style={isCurrent ? { backgroundColor: '#323232' } : undefined}>
-        <td>
-          <pre>{JSON.stringify(displayItem, null, 2)}</pre>
-        </td>
+      <StyledTr $isCurrent={isCurrent}>
         <td>
           <Icon icon={getIcon(displayItem.type, format)} matchText={true} />
           <NextLink {...canvasLink}>{`${canvas?.label || itemLabel}`}</NextLink>
@@ -130,7 +133,7 @@ const DownloadItem: FunctionComponent<{
             Download
           </a>
         </td>
-      </tr>
+      </StyledTr>
     );
   } else {
     return null;
