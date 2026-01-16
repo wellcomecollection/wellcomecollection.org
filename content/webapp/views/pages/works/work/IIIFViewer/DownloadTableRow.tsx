@@ -112,15 +112,7 @@ const DownloadItem: FunctionComponent<{
           <pre>{JSON.stringify(displayItem, null, 2)}</pre>
         </td>
         <td>
-          <Icon
-            icon={getIcon(displayItem.type, format)}
-            matchText={true}
-            sizeOverride={
-              format?.endsWith('jpeg') || format?.endsWith('gif')
-                ? undefined
-                : 'height: 15px; width: 14px;'
-            }
-          />
+          <Icon icon={getIcon(displayItem.type, format)} matchText={true} />
           <NextLink {...canvasLink}>{`${canvas?.label || itemLabel}`}</NextLink>
         </td>
         <td width="60" className="is-hidden-s">
