@@ -354,12 +354,10 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
             <>
               <span data-testid="active-index">{`${canvas || 0}`}</span>
               {`/${canvases?.length || ''}`}{' '}
-              {!(
-                canvases[queryParamToArrayIndex(canvas)]?.label?.trim() === '-'
-              ) &&
-                `(page ${canvases[
+              {!(canvases[queryParamToArrayIndex(canvas)]?.label?.trim() === '-') &&
+                `${hasOnlyImages ? 'page ' : ''}${canvases[
                   queryParamToArrayIndex(canvas)
-                ]?.label?.trim()})`}
+                ]?.label?.trim()}`}
             </>
           )}
         </MiddleZone>
