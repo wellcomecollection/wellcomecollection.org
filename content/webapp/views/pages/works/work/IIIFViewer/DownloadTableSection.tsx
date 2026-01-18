@@ -11,28 +11,31 @@ const DownloadTableContainer = styled.div`
   overflow-y: auto;
 `;
 
+const DownloadTitle = styled.h2.attrs({
+  className: font('brand', 0),
+})`
+  padding-left: ${props => props.theme.spacingUnit * 7}px;
+  padding-right: ${props => props.theme.spacingUnit * 7}px;
+`;
+
 const DownloadTable = styled.table.attrs({
   className: font('sans', -2),
 })`
-  position: relative;
   border-collapse: collapse;
   white-space: nowrap;
-  margin: 0 auto;
   width: 100%;
-
-  .icon {
-    position: relative;
-    top: 1px;
-    margin-right: 10px;
-  }
 
   th,
   td {
-    white-space: nowrap;
     text-align: left;
     overflow: hidden;
     text-overflow: ellipsis;
     padding: 10px;
+  }
+
+  th:first-child,
+  td:first-child {
+    padding-left: ${props => props.theme.spacingUnit * 7}px;
   }
 
   th:nth-child(2),
@@ -49,6 +52,7 @@ const DownloadTable = styled.table.attrs({
   td:last-child {
     width: 100px;
     text-align: right;
+    padding-right: ${props => props.theme.spacingUnit * 7}px;
   }
 `;
 
@@ -65,11 +69,11 @@ const DownloadTableSection: FunctionComponent<DownloadTableSectionProps> = ({
 }) => {
   return (
     <>
-      <h2 className={font('brand', 0)}>Available files</h2>
+      <DownloadTitle>Available files</DownloadTitle>
       <DownloadTableContainer>
         <DownloadTable>
           <thead>
-            <tr>
+            <tr className={font('sans-bold', -1)}>
               <th>File</th>
               <th className="is-hidden-s">Size</th>
               <th>Download</th>

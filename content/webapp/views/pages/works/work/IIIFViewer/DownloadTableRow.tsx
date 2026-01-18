@@ -1,79 +1,30 @@
-import {
-  Body,
-  ChoiceBody,
-  ContentResource,
-  InternationalString,
-} from '@iiif/presentation-3';
+import { Body, ChoiceBody, ContentResource } from '@iiif/presentation-3';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { LinkProps } from '@weco/common/model/link-props';
-
+import Space from '@weco/common/views/components/styled/Space';
 import NextLink from 'next/link';
 
-import { file, image, audio, video, pdf } from '@weco/common/icons';
+import { file, image, audio, video, pdf, download } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import {
   CustomContentResource,
   TransformedCanvas,
 } from '@weco/content/types/manifest';
-import {
-  getFileSize,
-  getLabelString,
-  isChoiceBody,
-} from '@weco/content/utils/iiif/v3';
+import { getFileSize, isChoiceBody } from '@weco/content/utils/iiif/v3';
 import { getFileLabel } from '@weco/content/utils/works';
-import { controlDimensions } from '@weco/content/views/pages/works/work/work.helpers';
 
-export const DownloadTable = styled.table.attrs({
-  className: font('sans', -2),
-})`
-  position: relative;
-  height: ${controlDimensions.controlHeight}px;
-  white-space: nowrap;
-  margin: 0;
-  width: 100%;
-  border-collapse: collapse;
-
-  .icon {
-    position: relative;
-    top: 1px;
-    margin-right: 10px;
-  }
-
-  th,
-  td {
-    white-space: nowrap;
-    text-align: left;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding-right: 10px;
-  }
-
-  th:nth-child(2),
-  td:nth-child(2) {
-    width: 120px;
-  }
-
-  th:nth-child(3),
-  td:nth-child(3) {
-    width: 60px;
-  }
-
-  th:last-child,
-  td:last-child {
-    width: 100px;
-    text-align: right;
-  }
+const InlineFlex = styled.span`
+  display: inline-flex;
+  align-items: center;
 `;
 
-const getLabel = (item: Body) => {
-  if (typeof item !== 'string' && 'label' in item) {
-    return getLabelString(item.label as InternationalString);
-  } else {
-    return '';
-  }
-};
+const IconWrapper = styled(Space).attrs({
+  $h: { size: 'xs', properties: ['margin-right'] },
+})`
+  display: inline-flex;
+`;
 
 const getIcon = (type: string, format?: string) => {
   switch (type) {
@@ -90,7 +41,10 @@ const getIcon = (type: string, format?: string) => {
   }
 };
 
-const StyledTr = styled.tr<{ $isCurrent?: boolean }>`
+const StyledTr = styled.tr.attrs({
+  className: font('sans', -1),
+})<{ $isCurrent?: boolean }>`
+  padding: 20px;
   ${props =>
     props.$isCurrent &&
     `background-color: ${props.theme.color('neutral.700')};`}
@@ -109,9 +63,8 @@ const DownloadItem: FunctionComponent<{
   const displayItem = (isChoiceBody(item) ? item.items[0] : item) as Body & {
     format?: string;
   };
-  const canvasLabelString = canvas?.label ? getLabel(canvas.label) : undefined;
   const itemLabel = getFileLabel(
-    canvasLabelString,
+    canvas?.label,
     `${typeof displayItem !== 'string' ? displayItem.type : ''} ${index}`
   );
   const fileSize = canvas && getFileSize(canvas);
@@ -121,8 +74,12 @@ const DownloadItem: FunctionComponent<{
     return (
       <StyledTr $isCurrent={isCurrent}>
         <td>
-          <Icon icon={getIcon(displayItem.type, format)} matchText={true} />
-          <NextLink {...canvasLink}>{itemLabel}</NextLink>
+          <InlineFlex>
+            <IconWrapper>
+              <Icon icon={getIcon(displayItem.type, format)} />
+            </IconWrapper>
+            <NextLink {...canvasLink}>{itemLabel}</NextLink>
+          </InlineFlex>
         </td>
         <td width="60" className="is-hidden-s">
           {fileSize ? (
@@ -135,9 +92,14 @@ const DownloadItem: FunctionComponent<{
           )}
         </td>
         <td width="100">
-          <a data-gtm-trigger="download_table_link" href={displayItem.id}>
-            Download
-          </a>
+          <InlineFlex>
+            <IconWrapper>
+              <Icon icon={download} />
+            </IconWrapper>
+            <a data-gtm-trigger="download_table_link" href={displayItem.id}>
+              Download
+            </a>
+          </InlineFlex>
         </td>
       </StyledTr>
     );
