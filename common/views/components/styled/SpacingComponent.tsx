@@ -34,7 +34,7 @@ const SpacingComponent = styled.div.attrs<{ $sliceType?: string }>(props => ({
       margin-top: 2.43em;
 
       &:not(:last-child) {
-        /*  ≈ space.md */
+        /* ≈ space.md */
         margin-bottom: 1.22em;
       }
     }
