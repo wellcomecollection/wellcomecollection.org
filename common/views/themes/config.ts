@@ -2,7 +2,7 @@ import {
   theme as designSystemTheme,
   ResponsiveValue,
 } from '@wellcometrust/wellcome-design-system/theme';
-import { keyframes } from 'styled-components';
+import { css, keyframes } from 'styled-components';
 
 import { ButtonColors } from '@weco/common/views/components/Buttons';
 import {
@@ -275,6 +275,23 @@ function getSpaceOverrideValue(unit: SpacingUnit): string {
   return designSystemStaticSpacing[unit];
 }
 
+// Type for responsive spacing keys from the design system
+type ResponsiveSpacingKey = keyof typeof designSystemTheme.spacing.responsive;
+
+function responsiveSpaceMixin(size: ResponsiveSpacingKey, property: string) {
+  return css`
+    ${property}: ${designSystemTheme.spacing.responsive[size].default};
+
+    @media (min-width: ${sizes.sm}) {
+      ${property}: ${designSystemTheme.spacing.responsive[size].sm};
+    }
+
+    @media (min-width: ${sizes.md}) {
+      ${property}: ${designSystemTheme.spacing.responsive[size].md};
+    }
+  `;
+}
+
 // When using this vw calc approach (e.g. in [conceptId]) the scrollbar width is not taken into account resulting in
 // possible horizontal scroll. The simplest solution to get around this is to use pageGridOffset in conjunction
 // with the hideOverflowX prop on PageLayout
@@ -350,6 +367,7 @@ export const themeValues = {
   mediaBetween,
   makeSpacePropertyValues,
   getSpaceValue,
+  responsiveSpaceMixin,
   pageGridOffset,
   buttonColors: {
     default: defaultButtonColors,

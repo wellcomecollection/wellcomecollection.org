@@ -30,19 +30,17 @@ const SpacingComponent = styled.div.attrs<{ $sliceType?: string }>(props => ({
     }
 
     h2 {
-      /* ≈ space.xl */
-      margin-top: 2.43em;
-
+      ${props => props.theme.responsiveSpaceMixin('space.xl', 'margin-top')}
       &:not(:last-child) {
-        /* ≈ space.md */
-        margin-bottom: 1.22em;
+        ${props =>
+          props.theme.responsiveSpaceMixin('space.md', 'margin-bottom')}
       }
     }
 
     /* Visual stories have their own h2 styling that involves a border above */
     .content-type-visual-story & {
       &:has(h2:first-child) {
-        margin-top: 1.5em;
+        ${props => props.theme.responsiveSpaceMixin('space.xl', 'margin-top')}
         border-top: 1px solid ${props => props.theme.color('black')};
       }
     }
