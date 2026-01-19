@@ -29,7 +29,6 @@
     "dotenv": "^17.2.1",
     "jsonwebtoken": "^9.0.0",
     "koa": "^3.1.1",
-    "koa-json": "^2.0.2",
     "koa-logger": "^3.2.1",
     "next": "15.5.9",
     "next-router-mock": "^0.9.3",

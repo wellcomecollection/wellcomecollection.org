@@ -4,7 +4,6 @@ require('@weco/common/services/apm/initApm')('identity-server');
 
 import Router from '@koa/router';
 import Koa from 'koa';
-import json from 'koa-json';
 import logger from 'koa-logger';
 import next from 'next';
 
@@ -25,8 +24,6 @@ export async function createApp(): Promise<Koa> {
   const app = new Koa();
   app.proxy = isProduction;
   app.use(apmErrorMiddleware);
-
-  app.use(json({ pretty: process.env.NODE_ENV !== 'production' }));
 
   // This custom logger redacts URLs in the logs.
   //
