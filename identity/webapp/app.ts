@@ -85,7 +85,7 @@ export async function createApp(): Promise<Koa> {
     };
   });
 
-  router.all('(.*)', async ctx => {
+  router.all('{/*path}', async ctx => {
     await nextHandler(ctx.req, ctx.res);
     ctx.respond = false;
   });
