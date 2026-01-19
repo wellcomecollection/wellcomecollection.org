@@ -1,5 +1,4 @@
 import { FunctionComponent } from 'react';
-import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import { TransformedCanvas } from '@weco/content/types/manifest';
 import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
@@ -7,54 +6,11 @@ import DownloadTableRow from '@weco/content/views/pages/works/work/IIIFViewer/Do
 import { queryParamToArrayIndex } from '.';
 import { getOriginalFiles } from '@weco/content/utils/iiif/v3';
 
-const DownloadTableContainer = styled.div`
-  overflow-y: auto;
-`;
-
-const DownloadTitle = styled.h2.attrs({
-  className: font('brand', 0),
-})`
-  padding-left: ${props => props.theme.spacingUnit * 7}px;
-  padding-right: ${props => props.theme.spacingUnit * 7}px;
-`;
-
-const DownloadTable = styled.table.attrs({
-  className: font('sans', -2),
-})`
-  border-collapse: collapse;
-  white-space: nowrap;
-  width: 100%;
-
-  th,
-  td {
-    text-align: left;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding: 10px;
-  }
-
-  th:first-child,
-  td:first-child {
-    padding-left: ${props => props.theme.spacingUnit * 7}px;
-  }
-
-  th:nth-child(2),
-  td:nth-child(2) {
-    width: 120px;
-  }
-
-  th:nth-child(3),
-  td:nth-child(3) {
-    width: 60px;
-  }
-
-  th:last-child,
-  td:last-child {
-    width: 100px;
-    text-align: right;
-    padding-right: ${props => props.theme.spacingUnit * 7}px;
-  }
-`;
+import {
+  DownloadTable,
+  DownloadTableContainer,
+  DownloadTitle,
+} from './DownloadTable.styles';
 
 type DownloadTableSectionProps = {
   canvases: TransformedCanvas[];

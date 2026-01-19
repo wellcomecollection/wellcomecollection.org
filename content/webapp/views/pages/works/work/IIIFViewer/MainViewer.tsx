@@ -23,13 +23,9 @@ import {
 } from '@weco/content/utils/iiif/v3';
 import { getDisplayItems } from '@weco/content/utils/iiif/v3/canvas';
 import IIIFItem from '@weco/content/views/pages/works/work/IIIFItem';
-import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
-
-import DownloadTableRow from '@weco/content/views/pages/works/work/IIIFViewer/DownloadTableRow';
 import DownloadTableSection from '@weco/content/views/pages/works/work/IIIFViewer/DownloadTableSection';
 
 import { queryParamToArrayIndex } from '.';
-import { getOriginalFiles } from '@weco/content/utils/iiif/v3';
 
 const MainViewerContainer = styled.div<{ $useFixedList: boolean }>`
   height: 100%;
@@ -442,16 +438,12 @@ const MainViewer: FunctionComponent = () => {
     debounce(handleOnItemsRendered, 500)
   );
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  const { canvases, auth, placeholderId, structures } = {
+  const { canvases, auth, placeholderId } = {
     ...transformedManifest,
   };
   const currentCanvas = canvases?.[queryParamToArrayIndex(canvas)];
 
   const externalAccessService = auth?.externalAccessService;
-  const itemLink = toWorksItemLink({
-    workId: work.id,
-    props: {},
-  });
 
   // We hide the zoom and rotation controls while the user is scrolling
   function handleOnScroll({ scrollOffset }) {

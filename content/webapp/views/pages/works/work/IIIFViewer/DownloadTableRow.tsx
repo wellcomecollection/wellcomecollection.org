@@ -1,12 +1,9 @@
 import { Body, ChoiceBody, ContentResource } from '@iiif/presentation-3';
 import { FunctionComponent } from 'react';
-import styled from 'styled-components';
 import { LinkProps } from '@weco/common/model/link-props';
-import Space from '@weco/common/views/components/styled/Space';
 import NextLink from 'next/link';
 
 import { file, image, audio, video, pdf, download } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import {
   CustomContentResource,
@@ -15,16 +12,7 @@ import {
 import { getFileSize, isChoiceBody } from '@weco/content/utils/iiif/v3';
 import { getFileLabel } from '@weco/content/utils/works';
 
-const InlineFlex = styled.span`
-  display: inline-flex;
-  align-items: center;
-`;
-
-const IconWrapper = styled(Space).attrs({
-  $h: { size: 'xs', properties: ['margin-right'] },
-})`
-  display: inline-flex;
-`;
+import { IconWrapper, InlineFlex, StyledTr } from './DownloadTable.styles';
 
 const getIcon = (type: string, format?: string) => {
   switch (type) {
@@ -40,15 +28,6 @@ const getIcon = (type: string, format?: string) => {
       return file;
   }
 };
-
-const StyledTr = styled.tr.attrs({
-  className: font('sans', -1),
-})<{ $isCurrent?: boolean }>`
-  padding: 20px;
-  ${props =>
-    props.$isCurrent &&
-    `background-color: ${props.theme.color('neutral.700')};`}
-`;
 
 const DownloadItem: FunctionComponent<{
   canvas: TransformedCanvas | undefined;
