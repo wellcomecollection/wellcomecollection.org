@@ -19,22 +19,22 @@ const ScrollShim = styled.li<{ $gridValues: number[] }>`
   );
 
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
       display: block;
       --number-of-columns: ${(12 - props.$gridValues[1]) / 2};
       --gap-value: ${props.theme.gutter.medium};
   `)}
 
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
       --number-of-columns: ${(12 - props.$gridValues[2]) / 2};
       --gap-value: ${props.theme.gutter.large};
   `)}
 
   ${props =>
-    props.theme.media('xlarge')(`
-      --container-width: calc(${props.theme.sizes.xlarge} - (var(--container-padding) * 2));
-      --left-margin-width: calc((100% - ${props.theme.sizes.xlarge}) / 2);
+    props.theme.media('lg')(`
+      --container-width: calc(${props.theme.sizes.lg} - (var(--container-padding) * 2));
+      --left-margin-width: calc((100% - ${props.theme.sizes.lg}) / 2);
       --number-of-columns: ${(12 - props.$gridValues[3]) / 2};
       --gap-value: ${props.theme.gutter.xlarge};
 

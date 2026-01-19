@@ -27,7 +27,7 @@ const ContentContainer = styled(Space)`
   align-items: center;
 
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
     flex-direction: row;
   `)}
 `;
@@ -39,7 +39,7 @@ const CopySection = styled.div`
   margin-right: 0;
 
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
     margin-right: 2rem;
   `)}
 `;
@@ -52,7 +52,7 @@ const ImageSection = styled.div`
   position: relative;
 
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
     order: 2;
     margin-bottom: 0;
   `)}
@@ -97,14 +97,14 @@ const ImageShapeWrapper = styled.div.attrs({ 'aria-hidden': 'true' })<{
     rotate(${props => (props.$isDefaultVariant ? '6deg' : '-16deg')});
 
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
       height: 160%;
       transform: translate(${props.$isDefaultVariant ? '18%, -16%' : '20%, -19%'})
         rotate(${props.$isDefaultVariant ? '6deg' : '-16deg'});
     `)}
 
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
       transform: translate(${props.$isDefaultVariant ? '10%, -4%' : '20%, -31%'})
         rotate(${props.$isDefaultVariant ? '6deg' : '-16deg'});
     `)}

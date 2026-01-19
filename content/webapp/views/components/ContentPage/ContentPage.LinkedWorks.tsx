@@ -27,7 +27,7 @@ const ListItem = styled.li`
   }
 
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
       --gutter-size: ${props.theme.gutter.medium};
       flex: 0 0 50%;
       padding: 0 var(--gutter-size) 0 0;

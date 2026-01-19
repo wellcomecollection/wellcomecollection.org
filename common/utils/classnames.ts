@@ -2,8 +2,16 @@
 type FontFamily = 'sans' | 'sans-bold' | 'brand' | 'mono';
 type FontSize = -2 | -1 | 0 | 1 | 2 | 4 | 5;
 
+export function fontFamily(family: FontFamily): string {
+  return `font-${family}`;
+}
+
+export function fontSize(size: FontSize): string {
+  return `font-size-f${size}`;
+}
+
 export function font(family: FontFamily, size: FontSize): string {
-  return `font-${family} font-size-f${size}`;
+  return `${fontFamily(family)} ${fontSize(size)}`;
 }
 
 type ClassNames = string[] | Record<string, boolean>;

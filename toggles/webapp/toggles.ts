@@ -84,14 +84,6 @@ const toggles = {
       type: 'permanent',
     },
     {
-      id: 'authV2',
-      title: 'IIIF Auth V2',
-      initialValue: false,
-      description:
-        'Will make use of the V2 auth services in the IIIF Presentation manifest, if they are available. N.B. some V2 services contain invalid data, so it is not safe to turn this on for everyone until all manifests have been regenerated.',
-      type: 'experimental',
-    },
-    {
       id: 'extendedViewer',
       title: 'Allow viewer to render video, audio and pdfs',
       initialValue: false,
@@ -115,58 +107,18 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'designSystemFonts',
-      title: 'Design system fonts',
-      initialValue: false,
-      description:
-        'Use the design system font sizing, weights, and families instead of custom values',
-      type: 'experimental',
-    },
-    {
-      id: 'designSystemSpacing',
-      title: 'Design system spacing',
-      initialValue: false,
-      description:
-        'Use the design system responsive spacing values instead of custom breakpoint-based spacing',
-      type: 'experimental',
-    },
-    {
-      id: 'storiesOnWorks',
-      title: 'Stories on work pages',
-      initialValue: false,
-      description:
-        'Shows stories that reference the current work on work pages',
-      type: 'experimental',
-    },
-    {
-      id: 'designSystemBreakpoints',
-      title: 'Design system breakpoints',
-      initialValue: false,
-      description:
-        'Use the design system breakpoint values instead of custom breakpoints',
-      type: 'experimental',
-    },
-    {
-      id: 'newOnlineListingPage',
-      title: 'New online listing page',
-      initialValue: false,
-      description:
-        'Enables the new online listing page at /collections/new-online',
-      type: 'experimental',
-    },
-    {
-      id: 'newOnlineInCLP',
-      title: 'New Online block in CLP changes',
-      initialValue: false,
-      description:
-        'New online block in Collections landing page to render with Works API',
-      type: 'experimental',
-    },
-    {
       id: 'a11yPrototype',
       title: 'Accessibility prototype page',
       initialValue: false,
       description: 'Allows access to the accessibility prototype page',
+      type: 'experimental',
+    },
+    {
+      id: 'twoColumns',
+      title: 'Two columns layout',
+      initialValue: false,
+      description:
+        'Enables a two-column layout for pages with in-page navigation',
       type: 'experimental',
     },
   ] as const,

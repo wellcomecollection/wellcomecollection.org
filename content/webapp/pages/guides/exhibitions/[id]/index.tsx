@@ -196,7 +196,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
           exhibitionTexts = exhibitionTextsQuery
             ? transformExhibitionTextsQuery(await exhibitionTextsQuery)
             : undefined;
-        } catch (e) {
+        } catch {
           exhibitionTexts = undefined;
         }
 
@@ -217,7 +217,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
                 await exhibitionHighlightToursQuery
               )
             : undefined;
-        } catch (e) {
+        } catch {
           exhibitionHighlightTours = undefined;
         }
       }

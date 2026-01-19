@@ -23,7 +23,7 @@ import {
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
 import Pagination from '@weco/content/views/components/Pagination';
-import WorkCards from '@weco/content/views/components/WorkCard/WorkCards';
+import WorkCards from '@weco/content/views/components/WorkCards';
 
 export type Props = {
   works: WellcomeResultList<WorkBasic, WorkAggregations>;

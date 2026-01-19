@@ -17,6 +17,7 @@ import { cross } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
+import { SizeMap } from '@weco/common/views/components/styled/Grid';
 import { Link } from '@weco/content/types/link';
 
 import {
@@ -26,35 +27,41 @@ import {
   InPageNavList,
   ListItem,
   MobileNavButton,
+  NavGridCell,
   Root,
 } from './InPageNavigation.Sticky.styles';
 
 export type Props = {
-  isOnWhite?: boolean;
   links: Link[];
+  sizeMap: SizeMap;
+  isOnWhite?: boolean;
 };
 
 const InPageNavigationSticky: FunctionComponent<Props> = ({
   links,
   isOnWhite,
+  sizeMap,
 }) => {
   // Extract ids from links (strip leading #)
   const ids = links.map(link => link.url.replace('#', ''));
-  const observedActiveId = useActiveAnchor(ids);
+
+  // Use a rootMargin to account for the sticky nav height
+  // This ensures sections are only considered "active" when they're below the sticky nav
+  const rootMargin = '-60px 0px 0px 0px';
+  const observedActiveId = useActiveAnchor(ids, rootMargin);
   const [clickedId, setClickedId] = useState<string | null>(null);
-  const [lock, setLock] = useState(false);
   const listRef = useRef<HTMLUListElement>(null);
   const InPageNavigationStickyRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const listId = useId();
   const { isEnhanced, windowSize } = useAppContext();
   const [hasStuck, setHasStuck] = useState(false);
-  const [isListActive, setIsListActive] = useState(false);
+  const [isListActive, setIsListActive] = useState(true);
   const [scrollPosition, setScrollposition] = useState(0);
   const prevHasStuckRef = useRef(false);
 
   const shouldLockScroll = useMemo(() => {
-    return windowSize !== 'large' && isListActive && hasStuck;
+    return windowSize !== 'md' && isListActive && hasStuck;
   }, [windowSize, isListActive, hasStuck]);
 
   useEffect(() => {
@@ -68,7 +75,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
 
   useEffect(() => {
     // We close the mobile nav if the user resizes their window to the large bp
-    if (windowSize === 'large' && hasStuck && isListActive) {
+    if (windowSize === 'md' && hasStuck && isListActive) {
       setIsListActive(false);
     }
   }, [windowSize, hasStuck, isListActive]);
@@ -96,35 +103,57 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
     observer.observe(InPageNavigationStickyRef.current);
   }, [InPageNavigationStickyRef.current]);
 
-  // When an anchor is clicked, lock for a short time before allowing scroll to clear
   useEffect(() => {
     if (!clickedId) return;
-    setLock(true);
-    const timeout = setTimeout(() => {
-      setLock(false);
-    }, 1000); // 1s lock
-    return () => clearTimeout(timeout);
-  }, [clickedId]);
 
-  // When the user scrolls, clear clickedId if it is set and not locked
-  useEffect(() => {
-    if (!clickedId || lock) return;
-    const handleScroll = () => {
+    const resetClickedId = () => {
       setClickedId(null);
     };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Only reset on scroll-related keys
+      const scrollKeys = [
+        'ArrowUp',
+        'ArrowDown',
+        'PageUp',
+        'PageDown',
+        'Home',
+        'End',
+        ' ', // Space
+      ];
+      if (scrollKeys.includes(e.key)) {
+        resetClickedId();
+      }
     };
-  }, [clickedId, lock]);
+
+    window.addEventListener('wheel', resetClickedId, { passive: true });
+    window.addEventListener('touchmove', resetClickedId, { passive: true });
+    window.addEventListener('keydown', handleKeyDown, { passive: true });
+
+    return () => {
+      window.removeEventListener('wheel', resetClickedId);
+      window.removeEventListener('touchmove', resetClickedId);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [clickedId]);
+
+  useEffect(() => {
+    if (clickedId === observedActiveId) {
+      setClickedId(null);
+    }
+  }, [clickedId, observedActiveId]);
 
   // Determine the active id based on whether sticky is enabled
   const activeId = clickedId || observedActiveId;
 
   useEffect(() => {
     if (!listRef.current) return;
-    listRef.current.classList.add('is-hidden-s', 'is-hidden-m');
-  }, [listRef.current]);
+    // Only hide the list initially if we've stuck (navigation has scrolled)
+    // When at the top (!hasStuck), keep it visible on small screens
+    if (hasStuck) {
+      listRef.current.classList.add('is-hidden-s', 'is-hidden-m');
+    }
+  }, [hasStuck]);
 
   const titleText = 'On this page';
 
@@ -149,7 +178,11 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
   }, [activeId]);
 
   return (
-    <>
+    <NavGridCell
+      $isOnWhite={!!isOnWhite}
+      $isEnhanced={isEnhanced}
+      $sizeMap={sizeMap}
+    >
       {shouldLockScroll && (
         <>
           {/* https://github.com/wellcomecollection/wellcomecollection.org/pull/12171
@@ -165,14 +198,19 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
         </>
       )}
       <div ref={InPageNavigationStickyRef}></div>
+      {/* Placeholder to prevent jump when nav becomes fixed on mobile */}
+      {hasStuck && windowSize !== 'md' && windowSize !== 'lg' && (
+        <div style={{ height: buttonRef.current?.offsetHeight || 0 }} />
+      )}
       <FocusTrap
-        active={isListActive}
+        active={isListActive && hasStuck}
         focusTrapOptions={{
           returnFocusOnDeactivate: false,
           clickOutsideDeactivates: true,
+          initialFocus: false,
         }}
       >
-        <Root $hasStuck={hasStuck} data-scroll-smooth="true">
+        <Root $hasStuck={hasStuck} data-in-page-navigation-sticky="true">
           <h2 className={`${font('sans-bold', -1)} is-hidden-s is-hidden-m`}>
             {titleText}
           </h2>
@@ -270,13 +308,41 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
                         'position-in-list': `${index + 1}`,
                         label: id,
                       })}
-                      onClick={() => {
+                      onClick={e => {
+                        e.preventDefault();
                         setClickedId(id);
                         setIsListActive(false);
-                        const el = document.getElementById(id);
-                        if (el) {
-                          el.tabIndex = -1;
-                          el.focus();
+
+                        const element = document.getElementById(id);
+                        if (element) {
+                          const buttonHeight =
+                            buttonRef.current?.offsetHeight || 0;
+
+                          const elementPosition =
+                            element.getBoundingClientRect().top;
+                          let offsetPosition = elementPosition + window.scrollY;
+
+                          // On mobile (below md breakpoint)
+                          if (windowSize !== 'md' && windowSize !== 'lg') {
+                            // When hasStuck is false and the list was open before clicking,
+                            // account for the list height that will be removed when the list closes
+                            if (!hasStuck && isListActive && listRef.current) {
+                              offsetPosition -= listRef.current.offsetHeight;
+                            }
+
+                            // Account for the fixed button height that will overlay the content
+                            // plus 1px for the border
+                            offsetPosition -= buttonHeight + 1;
+                          } else {
+                            // Desktop behavior: account for scroll-margin-top
+                            offsetPosition -= 32;
+                          }
+
+                          window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth',
+                          });
+                          window.history.replaceState(null, '', `#${id}`);
                         }
                       }}
                     >
@@ -289,7 +355,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
           </InPageNavList>
         </Root>
       </FocusTrap>
-    </>
+    </NavGridCell>
   );
 };
 

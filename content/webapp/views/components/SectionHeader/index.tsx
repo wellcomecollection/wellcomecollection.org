@@ -18,11 +18,11 @@ const YellowBox = styled(Space).attrs({
   height: 16px;
   background: ${props => props.theme.color('yellow')};
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     width: 58px;
   `}
 
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
     width: 64px;
   `}
 `;

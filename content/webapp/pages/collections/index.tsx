@@ -108,45 +108,44 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       .filter(isFullWidthBanner);
 
     let newOnlineDocuments: WorkBasic[] = [];
-    if (serverData.toggles.newOnlineListingPage.value) {
-      // Find the "New online" text block in Prismic that contains work IDs
-      // Format should be: "New online: [ptfqa2te, bbsjt2ex, a3cyqwec, sh37yy5n]"
-      const newOnlineBlock = collectionsPage.untransformedBody.find(
-        slice =>
-          slice.slice_type === 'text' &&
-          Array.isArray(slice.primary.text) &&
-          slice.primary.text.some((block: prismic.RTParagraphNode) =>
-            block.text.includes('New online:')
-          )
-      )?.primary.text?.[0]?.text;
 
-      // Extract work IDs from square brackets
-      const match = newOnlineBlock?.match(/\[(.*?)\]/);
-      const newOnlineWorkIds: string[] = match
-        ? match[1].split(',').map(id => id.trim())
-        : [];
+    // Find the "New online" text block in Prismic that contains work IDs
+    // Format should be: "New online: [ptfqa2te, bbsjt2ex, a3cyqwec, sh37yy5n]"
+    const newOnlineBlock = collectionsPage.untransformedBody.find(
+      slice =>
+        slice.slice_type === 'text' &&
+        Array.isArray(slice.primary.text) &&
+        slice.primary.text.some((block: prismic.RTParagraphNode) =>
+          block.text.includes('New online:')
+        )
+    )?.primary.text?.[0]?.text;
 
-      // Fetch work details for all "New online" IDs
-      if (newOnlineWorkIds.length > 0) {
-        try {
-          const works = await getWorks({
-            params: {
-              query: newOnlineWorkIds.join(' '),
-            },
-            toggles: serverData.toggles,
-          });
+    // Extract work IDs from square brackets
+    const match = newOnlineBlock?.match(/\[(.*?)\]/);
+    const newOnlineWorkIds: string[] = match
+      ? match[1].split(',').map(id => id.trim())
+      : [];
 
-          if (works.type !== 'Error') {
-            // Transform and preserve the order from Prismic
-            const worksById = new Map(works.results.map(w => [w.id, w]));
-            newOnlineDocuments = newOnlineWorkIds
-              .map(id => worksById.get(id))
-              .filter((work): work is Work => work !== undefined)
-              .map(work => toWorkBasic(work));
-          }
-        } catch (error) {
-          console.error('Error fetching new online documents:', error);
+    // Fetch work details for all "New online" IDs
+    if (newOnlineWorkIds.length > 0) {
+      try {
+        const works = await getWorks({
+          params: {
+            identifiers: newOnlineWorkIds,
+          },
+          toggles: serverData.toggles,
+        });
+
+        if (works.type !== 'Error') {
+          // Transform and preserve the order from Prismic
+          const worksById = new Map(works.results.map(w => [w.id, w]));
+          newOnlineDocuments = newOnlineWorkIds
+            .map(id => worksById.get(id))
+            .filter((work): work is Work => work !== undefined)
+            .map(work => toWorkBasic(work));
         }
+      } catch (error) {
+        console.error('Error fetching new online documents:', error);
       }
     }
 

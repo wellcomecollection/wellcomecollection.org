@@ -30,7 +30,7 @@ export const Wrapper = styled.div<WrapperProps>`
   ${props =>
     props.$isBurgerOpen &&
     `${props.theme.mediaBetween(
-      'small',
+      'zero',
       'headerMedium'
     )(`
     position: fixed;
@@ -136,7 +136,7 @@ export const HeaderNav = styled.nav<{ $burgerMenuisActive: boolean }>`
 
   ${props => `
   ${props.theme.mediaBetween(
-    'small',
+    'zero',
     'headerMedium'
   )(`
     border-top: 1px solid ${props.theme.color('warmNeutral.400')};
@@ -179,12 +179,12 @@ export const HeaderItem = styled.li`
 
   ${props.theme.mediaBetween(
     'headerMedium',
-    'large'
+    'md'
   )(`
     font-size: 1.5vw;
   `)}
 
-  ${props.theme.media('xlarge')`
+  ${props.theme.media('lg')`
     margin-right: 1.4rem;
   `}
 `}

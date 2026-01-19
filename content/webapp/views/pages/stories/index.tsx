@@ -45,8 +45,8 @@ const StoryCardContainer = styled(Container)`
   /* former .container--scroll */
   ${props =>
     props.theme.mediaBetween(
-      'small',
-      'medium'
+      'zero',
+      'sm'
     )(`
     max-width: none;
     width: auto;

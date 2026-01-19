@@ -25,7 +25,7 @@ const NewsletterForm = styled.form.attrs({
 
   ${props => props.theme.makeSpacePropertyValues('sm', ['margin-bottom'])}
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     min-width: 300px;
   `}
 `;

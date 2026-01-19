@@ -20,8 +20,8 @@ const baseUrl = isPullRequestRun
   ? 'https://www-e2e.wellcomecollection.org'
   : 'https://wellcomecollection.org';
 
-// Note: if you add a URL to this list, make sure to also add it to the list
-// of URLs checked by the URL checker.
+// Note: if you add a URL to this list, consider whether it would be valuable
+// to add it to the list of URLs checked by the URL checker.
 //
 // See .buildkite/urls/expected_200_urls.txt
 //
@@ -126,7 +126,7 @@ try {
           ContentType: 'application/json',
         };
 
-        s3.putObject(params, function (err, data) {
+        s3.putObject(params, function (err) {
           if (err) {
             console.error(chalk.redBright('Error uploading report.json'));
             console.log(err, err.stack);
@@ -142,7 +142,7 @@ try {
                   CallerReference: `Pa11yDeployInvalidationCallerReference${Date.now()}`,
                 },
               },
-              function (err, data) {
+              function (err) {
                 if (err) console.log(err, err.stack);
                 else console.log('Flushed CloudFront cache for report.json');
               }

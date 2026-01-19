@@ -40,16 +40,16 @@ export const HeroPictureBackground = styled.div.attrs({
   background-color: ${props => props.theme.color(props.$bgColor)};
   height: 50%;
   width: 100%;
-  bottom: -${props => props.theme.getSpaceValue(headerSpaceSize, 'small')};
+  bottom: -${props => props.theme.getSpaceValue(headerSpaceSize, 'zero')};
 
   ${props =>
-    props.theme.media('medium')(
-      `bottom: -${props.theme.getSpaceValue(headerSpaceSize, 'medium')};`
+    props.theme.media('sm')(
+      `bottom: -${props.theme.getSpaceValue(headerSpaceSize, 'sm')};`
     )}
 
   ${props =>
-    props.theme.media('large')(
-      `bottom: -${props.theme.getSpaceValue(headerSpaceSize, 'large')};`
+    props.theme.media('md')(
+      `bottom: -${props.theme.getSpaceValue(headerSpaceSize, 'md')};`
     )}
 `;
 
@@ -58,7 +58,7 @@ export const HeroPictureContainer = styled.div`
   margin: 0 auto;
 
   ${props =>
-    props.theme.media('medium')`
+    props.theme.media('sm')`
       padding-left: 24px;
       padding-right: 24px;
     `}

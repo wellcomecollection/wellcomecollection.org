@@ -4,11 +4,20 @@ import { JSXFunctionSerializer } from '@prismicio/react';
 import { Fragment } from 'react';
 import styled from 'styled-components';
 
+import {
+  accessible,
+  audioDescribed,
+  bslSquare,
+  IconSvg,
+  inductionLoop,
+} from '@weco/common/icons';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { dasherize } from '@weco/common/utils/grammar';
 import { getMimeTypeFromExtension } from '@weco/common/utils/mime';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import DownloadLink from '@weco/common/views/components/DownloadLink';
 import FeaturedWorkLink from '@weco/common/views/components/FeaturedWorkLink';
+import Icon from '@weco/common/views/components/Icon';
 
 const DocumentType = styled.span`
   color: ${props => props.theme.color('neutral.600')};
@@ -221,5 +230,59 @@ export const dropCapSerializer: JSXFunctionSerializer = (
 
     return <p key={key}>{childrenWithDropCap}</p>;
   }
+  return defaultSerializer(type, element, content, children, key);
+};
+
+const ACCESSIBILITY_ICON_MAP: Record<string, IconSvg> = {
+  bsl: bslSquare,
+  'borrowing a wheelchair': accessible,
+  'audio description': audioDescribed,
+  'induction loops': inductionLoop,
+};
+
+export const accessibilitySerializer: JSXFunctionSerializer = (
+  type,
+  element,
+  content,
+  children,
+  key
+) => {
+  let icon: IconSvg | null = null;
+  const isH1 = element.type === prismic.RichTextNodeType.heading1;
+  const isH2 = element.type === prismic.RichTextNodeType.heading2;
+  const isH3 = element.type === prismic.RichTextNodeType.heading3;
+
+  // Only check text for heading elements
+  if (isH1 || isH2 || isH3) {
+    const text = element.text || '';
+    const lowerText = text.toLowerCase();
+    icon = ACCESSIBILITY_ICON_MAP[lowerText] || null;
+
+    const HeadingTag = isH1 ? 'h1' : isH2 ? 'h2' : 'h3';
+    const headingProps = isH1 ? { key } : { key, id: dasherize(element.text) };
+
+    return (
+      <HeadingTag {...headingProps}>
+        <ConditionalWrapper
+          condition={!!icon}
+          wrapper={children => (
+            <span
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+              }}
+            >
+              <Icon icon={icon!} sizeOverride="width: 32px; height: 32px;" />
+              <span>{children}</span>
+            </span>
+          )}
+        >
+          {children}
+        </ConditionalWrapper>
+      </HeadingTag>
+    );
+  }
+
   return defaultSerializer(type, element, content, children, key);
 };

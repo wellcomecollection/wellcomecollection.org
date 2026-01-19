@@ -1,4 +1,3 @@
-// Reorganise when newOnlineListingPage becomes default
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
@@ -54,7 +53,7 @@ const LinkSpace = styled(Space).attrs<LinkSpaceAttrs>(props => ({
   display: block;
   margin-top: 40px;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     margin-top: 0;
   `}
 

@@ -19,7 +19,6 @@ export const fetchExhibitionGuide = async (
   client: GetServerSidePropsPrismicClient,
   id: string
 ): Promise<RawExhibitionGuidesDocument | undefined> => {
-  // #11240 once redirects are in place we should only fetch by uid
   const exhibitionGuideDocument =
     (await exhibitionGuidesFetcher.getByUid(client, id)) ||
     (await exhibitionGuidesFetcher.getById(client, id));

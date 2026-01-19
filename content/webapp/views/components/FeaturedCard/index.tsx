@@ -75,10 +75,10 @@ const FeaturedCardBasic: FunctionComponent<FeaturedCardProps> = props => {
             <PrismicImage
               image={image}
               sizes={{
-                xlarge: 1 / 2,
-                large: 1 / 2,
-                medium: 1 / 2,
-                small: 1,
+                lg: 1 / 2,
+                md: 1 / 2,
+                sm: 1 / 2,
+                zero: 1,
               }}
               quality="low"
             />

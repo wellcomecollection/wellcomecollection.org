@@ -46,7 +46,6 @@ Digital Platform:
  Antonia Langfelder
  Flora Bowden
  Mankeet Nirankari
- Daniel Sim
 
 /* ALUMNI - WE MISS YOU ALL ! */
 
@@ -101,6 +100,7 @@ Digital Platform:
  Helen Babbs
  Kasia Bruzda
  Rosie Curran
+ Daniel Sim
 
 /* THANKS */
 

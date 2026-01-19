@@ -4,16 +4,17 @@ import { FunctionComponent } from 'react';
 
 import { TextSlice as RawTextSlice } from '@weco/common/prismicio-types';
 import { classNames } from '@weco/common/utils/classnames';
-import { dasherize } from '@weco/common/utils/grammar';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import {
+  accessibilitySerializer,
   defaultSerializer,
   dropCapSerializer,
 } from '@weco/common/views/components/HTMLSerializers';
+import { ContaineredLayout } from '@weco/common/views/components/Layout';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import {
   defaultContext,
-  LayoutWidth,
   SliceZoneContext,
 } from '@weco/content/views/components/Body';
 
@@ -24,42 +25,54 @@ const Text: FunctionComponent<TextProps> = ({ slice, context }) => {
   const shouldBeDroppedCap =
     options.firstTextSliceIndex === slice.id && options.isDropCapped;
 
-  const heading = (
-    (slice.primary.text as prismic.RichTextField).filter(
-      (text: prismic.RTNode) => text.type === 'heading2'
-    ) as prismic.RTHeading2Node[]
-  )?.[0]?.text;
+  // Check if this is the accessibility page
+  const isAccessibilityPage =
+    options.pageUid === 'accessibility' ||
+    options.pageUid === 'prototype-a11y-november-2025';
 
   return (
     <SpacingComponent $sliceType={slice.slice_type}>
-      <section data-id={dasherize(heading || '') || undefined}>
-        <LayoutWidth width={options.minWidth}>
-          <div
-            className={classNames({
-              'body-text spaced-text': true,
-              'first-text-slice': options.firstTextSliceIndex === slice.id,
-            })}
-          >
-            {shouldBeDroppedCap ? (
-              <>
-                <PrismicHtmlBlock
-                  html={[slice.primary.text[0]] as prismic.RichTextField}
-                  htmlSerializer={dropCapSerializer}
-                />
-                <PrismicHtmlBlock
-                  html={slice.primary.text.slice(1) as prismic.RichTextField}
-                  htmlSerializer={defaultSerializer}
-                />
-              </>
-            ) : (
+      <ConditionalWrapper
+        condition={!!options.gridSizes}
+        wrapper={children => (
+          <ContaineredLayout gridSizes={options.gridSizes!}>
+            {children}
+          </ContaineredLayout>
+        )}
+      >
+        <div
+          className={classNames({
+            'body-text spaced-text': true,
+            'first-text-slice': options.firstTextSliceIndex === slice.id,
+          })}
+        >
+          {shouldBeDroppedCap ? (
+            <>
               <PrismicHtmlBlock
-                html={slice.primary.text}
-                htmlSerializer={defaultSerializer}
+                html={[slice.primary.text[0]] as prismic.RichTextField}
+                htmlSerializer={dropCapSerializer}
               />
-            )}
-          </div>
-        </LayoutWidth>
-      </section>
+              <PrismicHtmlBlock
+                html={slice.primary.text.slice(1) as prismic.RichTextField}
+                htmlSerializer={
+                  isAccessibilityPage
+                    ? accessibilitySerializer
+                    : defaultSerializer
+                }
+              />
+            </>
+          ) : (
+            <PrismicHtmlBlock
+              html={slice.primary.text}
+              htmlSerializer={
+                isAccessibilityPage
+                  ? accessibilitySerializer
+                  : defaultSerializer
+              }
+            />
+          )}
+        </div>
+      </ConditionalWrapper>
     </SpacingComponent>
   );
 };

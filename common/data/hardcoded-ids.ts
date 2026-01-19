@@ -38,6 +38,21 @@ export const prismicPageIds = {
   getInvolved: 'get-involved',
   gettingHere: 'getting-here',
   library: 'the-library',
+  // The following pages are not for the general public and we use their ids to prevent them from being indexed.
+  // They will be eventually be removed, so this is a quick and temporary fix.
+  inclusiveExhibitionDesignToolkit: [
+    'XkaoyREAAAPkOiMf',
+    'XkapExEAACIAOiRy',
+    'XkapJBEAAAPkOiTE',
+    'XkapMxEAACIAOiUM',
+    'XkapPxEAACIAOiVH',
+    'XkapTxEAACIAOiWN',
+    'XkapWxEAANSqOiXK',
+    'XkapaBEAACUAOiYI',
+    'XkapfBEAAAPkOiZk',
+    'XkaphxEAAAPkOiaa',
+    'XkapkBEAAAPkOibJ',
+  ],
   openingTimes: 'opening-times',
   press: 'press',
   register: 'library-membership',

@@ -86,12 +86,12 @@ export const CardPostBody = styled(Space).attrs({
   $v: {
     size: 'sm',
     properties: ['padding-bottom'],
-    overrides: { small: 5, medium: 5, large: 5 },
+    overrides: { zero: '200', sm: '200', md: '200' },
   },
   $h: {
     size: 'sm',
     properties: ['padding-left', 'padding-right'],
-    overrides: { small: 5, medium: 5, large: 5 },
+    overrides: { zero: '200', sm: '200', md: '200' },
   },
 })`
   .card-theme.card-theme--transparent & {
@@ -101,9 +101,9 @@ export const CardPostBody = styled(Space).attrs({
 
     ${props =>
       props.theme.makeSpacePropertyValues('md', ['padding-top'], false, {
-        small: 5,
-        medium: 5,
-        large: 5,
+        zero: '200',
+        sm: '200',
+        md: '200',
       })}
   }
 `;
@@ -113,7 +113,7 @@ export const CardBody = styled(Space).attrs({
   $h: {
     size: 'sm',
     properties: ['padding-left', 'padding-right'],
-    overrides: { small: 5, medium: 5, large: 5 },
+    overrides: { zero: '200', sm: '200', md: '200' },
   },
 })`
   display: flex;
@@ -123,9 +123,9 @@ export const CardBody = styled(Space).attrs({
 
   ${props =>
     props.theme.makeSpacePropertyValues('md', ['padding-bottom'], false, {
-      small: 5,
-      medium: 5,
-      large: 5,
+      zero: '200',
+      sm: '200',
+      md: '200',
     })}
 
   .card-theme.card-theme--transparent & {
@@ -184,10 +184,10 @@ const Card: FunctionComponent<Props> = ({ item }: Props) => {
             // title of the item in the list.
             image={{ ...image, alt: '' }}
             sizes={{
-              xlarge: 1 / 4,
-              large: 1 / 4,
-              medium: 1 / 2,
-              small: 1,
+              lg: 1 / 4,
+              md: 1 / 4,
+              sm: 1 / 2,
+              zero: 1,
             }}
             quality="low"
           />

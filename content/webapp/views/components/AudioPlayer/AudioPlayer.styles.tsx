@@ -18,8 +18,8 @@ export const PlayPauseButton = styled.button.attrs<PlayPauseButtonProps>(
     'aria-pressed': props.$isPlaying,
   })
 )<PlayPauseButtonProps>`
-  padding: ${props => props.theme.spacingUnits['5']}
-    ${props => props.theme.spacingUnits['6']} 0;
+  padding: ${props => props.theme.spacingUnits['200']}
+    ${props => props.theme.spacingUnits['300']} 0;
 `;
 
 export const TimeWrapper = styled.div.attrs({
@@ -44,7 +44,7 @@ export const colorTransform = css<{ $isDark: boolean }>`
 `;
 
 export const SkipButton = styled.button<{ $isDark: boolean }>`
-  padding: ${props => props.theme.spacingUnits['5']} 0 0;
+  padding: ${props => props.theme.spacingUnits['200']} 0 0;
   color: ${props => props.theme.color(props.$isDark ? 'white' : 'black')};
 
   transition:
@@ -65,7 +65,7 @@ export const SkipButton = styled.button<{ $isDark: boolean }>`
 `;
 
 export const PlayerRateWrapper = styled.div`
-  padding-top: ${props => props.theme.spacingUnits['5']};
+  padding-top: ${props => props.theme.spacingUnits['200']};
   grid-column: 3;
   display: flex;
   align-items: center;

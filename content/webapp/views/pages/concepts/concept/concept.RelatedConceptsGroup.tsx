@@ -13,7 +13,7 @@ const RelatedConceptsContainer = styled.div.attrs({
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: ${props => props.theme.spacingUnits['3']};
+  gap: ${props => props.theme.spacingUnits['100']};
 `;
 
 const RelatedConceptItem = styled.div.attrs<{ $isFullWidth: boolean }>({
@@ -21,7 +21,7 @@ const RelatedConceptItem = styled.div.attrs<{ $isFullWidth: boolean }>({
 })`
   display: flex;
   align-items: center;
-  gap: ${props => props.theme.spacingUnits['3']};
+  gap: ${props => props.theme.spacingUnits['100']};
   width: ${props => (props.$isFullWidth ? '100%' : 'auto')};
 `;
 
@@ -32,7 +32,7 @@ const SectionHeading = styled.h2.attrs({
 const InlineLabel = styled.div`
   width: 100%;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     width: auto;
   `}
 `;
@@ -59,11 +59,7 @@ const RelatedConceptsGroup: FunctionComponent<Props> = ({
   }
 
   return (
-    <Space
-      $v={{ size: 'md', properties: ['margin-top'] }}
-      as="section"
-      data-id={dasherize(label)}
-    >
+    <Space $v={{ size: 'md', properties: ['margin-top'] }} as="section">
       {labelType === 'heading' && (
         <SectionHeading id={dasherize(label)}>{label}</SectionHeading>
       )}

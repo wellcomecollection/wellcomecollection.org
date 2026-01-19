@@ -83,7 +83,7 @@ const Popper = styled.div<{ $isVisible: boolean }>`
   z-index: ${props => (props.$isVisible ? 1 : -1)};
   opacity: ${props => (props.$isVisible ? 1 : 0)};
 
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
     max-width: calc(50vw - 20px);
   `}
 `;

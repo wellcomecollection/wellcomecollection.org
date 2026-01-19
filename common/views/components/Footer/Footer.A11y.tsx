@@ -1,6 +1,7 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
+import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { accessibleSquare, inductionLoopSquare } from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon';
 import PlainList from '@weco/common/views/components/styled/PlainList';
@@ -59,7 +60,7 @@ const FooterA11y: FunctionComponent = () => {
         $v={{ size: 'sm', properties: ['margin-top'] }}
         style={{ marginBottom: 0 }}
       >
-        <a href="/visit-us/accessibility">Access information</a>
+        <a href={`/visit-us/${prismicPageIds.access}`}>Accessibility</a>
       </Space>
     </div>
   );

@@ -3,22 +3,23 @@ import styled from 'styled-components';
 import { camelToKebab } from '@weco/common/utils/grammar';
 
 const SpacingComponent = styled.div.attrs<{ $sliceType?: string }>(props => ({
+  'data-slice-type': props.$sliceType,
   className: props.$sliceType
     ? `slice-type-${camelToKebab(props.$sliceType)}`
     : undefined,
 }))`
   & + &,
   &:empty {
-    margin-top: ${props => props.theme.getSpaceValue('md', 'small')};
+    margin-top: ${props => props.theme.getSpaceValue('md', 'zero')};
 
     ${props =>
-      props.theme.media('medium')(`
-        margin-top: ${props.theme.getSpaceValue('md', 'medium')};
+      props.theme.media('sm')(`
+        margin-top: ${props.theme.getSpaceValue('md', 'sm')};
       `)}
 
     ${props =>
-      props.theme.media('large')(`
-        margin-top: ${props.theme.getSpaceValue('md', 'large')};
+      props.theme.media('md')(`
+        margin-top: ${props.theme.getSpaceValue('md', 'md')};
       `)}
   }
 

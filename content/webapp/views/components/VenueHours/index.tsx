@@ -75,10 +75,10 @@ const VenueHours: FunctionComponent<Props> = ({ venue }) => {
                   alt: venue.image?.alt,
                 }}
                 sizes={{
-                  xlarge: 1 / 6,
-                  large: 1 / 6,
-                  medium: 1 / 2,
-                  small: 1,
+                  lg: 1 / 6,
+                  md: 1 / 6,
+                  sm: 1 / 2,
+                  zero: 1,
                 }}
                 quality="low"
               />

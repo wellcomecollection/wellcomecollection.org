@@ -18,13 +18,13 @@ export const FeaturedCardWrap = styled.div`
   margin-left: -${props => props.theme.gutter.small};
   margin-right: -${props => props.theme.gutter.small};
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     margin-left: 0;
     margin-right: 0;
   `}
 
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
     padding-bottom: ${shimHeight};
   `)}
 `;
@@ -45,7 +45,7 @@ export const FeaturedCardLink = styled(Grid).attrs({
 
 export const FeaturedCardLeft = styled(GridCell)<HasIsReversed>`
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
     order: ${props.$isReversed ? 2 : 1};
   `)}
 `;
@@ -66,13 +66,13 @@ export const FeaturedCardRight = styled.div.attrs({
   padding-left: ${props => (props.$isReversed ? 0 : props.theme.gutter.small)};
   padding-right: ${props => (props.$isReversed ? props.theme.gutter.small : 0)};
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     padding-left: 0;
     padding-right: 0;
   `}
 
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
       transform: translateY(0);
     `)}
 `;
@@ -103,7 +103,7 @@ export const FeaturedCardLabelWrap = styled.div<HasIsReversed>`
   display: flex;
 
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
       justify-content: ${props.$isReversed ? 'flex-end' : 'flex-start'};
       margin-right: ${props.$isReversed ? '-16px' : undefined};
   `)}
@@ -111,7 +111,7 @@ export const FeaturedCardLabelWrap = styled.div<HasIsReversed>`
 
 export const FeaturedCardRightWrap = styled(GridCell)<HasIsReversed>`
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
     order: ${props.$isReversed ? 1 : 2};
   `)}
 `;

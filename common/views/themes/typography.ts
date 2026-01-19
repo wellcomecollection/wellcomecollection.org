@@ -30,7 +30,7 @@ export const fontFamilyMixin = (
 ): string => {
   return `
   font-family: ${fontFamilies[family]};
-  font-weight: ${designSystemTheme.font.weight[isBold ? 'semibold' : 'regular']};
+  font-weight: ${designSystemTheme.font.weight[family === 'brand' ? 'bold' : isBold ? 'semibold' : 'regular']};
   `;
 };
 
@@ -83,13 +83,13 @@ export const typography = css<GlobalStyleProps>`
   InPageNavigation.Sticky relies on sections with data-id attributes
   and we want to adjust the scroll margin for headings within those sections
   */
-  [data-id] :is(h2, h3) {
+  :has([data-in-page-navigation-sticky]) :is(h2, h3) {
     /* Enough space to clear the sticky header */
     scroll-margin-top: 3rem;
 
-    @media (min-width: ${props => props.theme.sizes.large}) {
+    @media (min-width: ${props => props.theme.sizes.md}) {
       /* Align the top of the heading with the top of the side navigation */
-      scroll-margin-top: ${props => props.theme.getSpaceValue('md', 'large')};
+      scroll-margin-top: ${props => props.theme.getSpaceValue('md', 'md')};
     }
   }
 

@@ -1,20 +1,32 @@
 import NextLink from 'next/link';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { font, fontFamily } from '@weco/common/utils/classnames';
 import AnimatedUnderlineCSS, {
   AnimatedUnderlineProps,
 } from '@weco/common/views/components/styled/AnimatedUnderline';
+import { GridCell } from '@weco/common/views/components/styled/Grid';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
+
 const leftOffset = '12px';
 
 export const InPageNavList = styled(PlainList)<{ $isOnWhite: boolean }>`
-  padding-bottom: ${props => props.theme.spacingUnits['4']};
+  padding-bottom: ${props => props.theme.spacingUnits['150']};
   border-bottom: 1px solid
     ${props => props.theme.color(props.$isOnWhite ? 'neutral.300' : 'white')};
 
-  ${props => props.theme.media('large')`
+  ${props =>
+    props.theme.mediaBetween(
+      'zero',
+      'md'
+    )(`
+      max-height: 90vh;
+      overflow-x: hidden;
+      overflow-y: auto;
+    `)}
+
+  ${props => props.theme.media('md')`
     padding-bottom: 0;
     border-bottom: 0;
   `}
@@ -46,7 +58,7 @@ export const ListItem = styled.li<{ $hasStuck: boolean; $isOnWhite: boolean }>`
   padding-right: ${props => props.theme.containerPaddingVw};
 
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
     margin-left: -${props.theme.containerPaddingVw};
     margin-right: -${props.theme.containerPaddingVw};
     padding-left: calc(${props.theme.containerPaddingVw} + ${leftOffset});
@@ -67,16 +79,16 @@ export const ListItem = styled.li<{ $hasStuck: boolean; $isOnWhite: boolean }>`
   }
 
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
       &::before {
         left: calc(${props.theme.containerPadding} + 1px);
       }
     `)}
 
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
     border-top: 0;
-    padding: 6px 0  6px ${leftOffset};
+    padding: 7px 0 7px ${leftOffset};
     margin: 0;
 
     &::before {
@@ -90,15 +102,16 @@ export const ListItem = styled.li<{ $hasStuck: boolean; $isOnWhite: boolean }>`
 const AnimatedLink = styled(NextLink)<AnimatedUnderlineProps>`
   ${AnimatedUnderlineCSS}
   text-decoration: none;
+  line-height: 1;
 
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
     --line-color: ${props.theme.color('white')};
     `)}
 
   & > span {
     font-size: 14px;
-    line-height: 20px;
+    line-height: 1.6;
   }
 `;
 
@@ -108,11 +121,17 @@ export const Anchor = styled.a.attrs({
   color: ${props => props.theme.color('black')};
 `;
 
-export const InPageNavAnimatedLink = styled(AnimatedLink)<{
+type InPageNavAnimatedLinkProps = {
   $isActive?: boolean;
   $hasStuck: boolean;
   $isOnWhite: boolean;
-}>`
+};
+
+export const InPageNavAnimatedLink = styled(
+  AnimatedLink
+).attrs<InPageNavAnimatedLinkProps>(props => ({
+  className: fontFamily(props.$isActive ? 'sans-bold' : 'sans'),
+}))<InPageNavAnimatedLinkProps>`
   color: ${props =>
     props.theme.color(
       props.$hasStuck ? 'black' : props.$isOnWhite ? 'black' : 'white'
@@ -139,7 +158,7 @@ export const InPageNavAnimatedLink = styled(AnimatedLink)<{
   }
 
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
     color: ${props.theme.color('white')};
 
     &::before {
@@ -155,9 +174,13 @@ export const Root = styled(Space).attrs<{
 })<{
   $hasStuck: boolean;
 }>`
-  position: sticky;
+  position: relative;
   top: 0;
   z-index: 20;
+
+  ${props => props.theme.media('md')`
+    position: sticky;
+  `}
   color: ${props => props.theme.color('white')};
 
   ${props =>
@@ -168,8 +191,8 @@ export const Root = styled(Space).attrs<{
 
   ${props =>
     props.theme.mediaBetween(
-      'small',
-      'large'
+      'zero',
+      'md'
     )(`
       margin-left: -${props.theme.containerPaddingVw};
       margin-right: -${props.theme.containerPaddingVw};
@@ -178,10 +201,22 @@ export const Root = styled(Space).attrs<{
       transition: background ${props.theme.transitionProperties};
       background: ${props.$hasStuck && props.theme.color('white')};
       padding-top: 0;
+
+      ${
+        props.$hasStuck &&
+        `
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        margin: 0;
+      `
+      }
     `)}
 
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
       border-bottom: 0;
       mix-blend-mode: difference;
       color: ${props.theme.color('white')};
@@ -219,7 +254,7 @@ export const MobileNavButton = styled.button.attrs({
     }
   }
 
-  ${props => props.theme.media('large')`
+  ${props => props.theme.media('md')`
     display: none;
   `}
 `;
@@ -230,4 +265,50 @@ export const AnimatedTextContainer = styled.div`
   height: 20px;
   line-height: 20px;
   width: 100%;
+`;
+
+export const NavGridCell = styled(GridCell)<{
+  $isEnhanced: boolean;
+  $isOnWhite: boolean;
+}>`
+  --nav-grid-cell-background-color: ${props =>
+    props.theme.color(props.$isOnWhite ? 'white' : 'neutral.700')};
+  position: ${props => (props.$isEnhanced ? 'sticky' : 'relative')};
+  top: 0;
+  transition: background-color ${props => props.theme.transitionProperties};
+  background-color: var(--nav-grid-cell-background-color);
+  z-index: 3;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    width: ${props => props.theme.containerPaddingVw};
+    bottom: 0;
+    top: 0;
+    transition: background-color ${props => props.theme.transitionProperties};
+    background-color: var(--nav-grid-cell-background-color);
+  }
+
+  &::before {
+    right: 100%;
+  }
+
+  &::after {
+    left: 100%;
+  }
+
+  ${props =>
+    props.theme.media('md')(`
+    position: unset;
+    background-color: unset;
+    transition: unset;
+    mix-blend-mode: difference;
+
+    &::before,
+    &::after {
+      transition: unset;
+      display: none;
+    }
+  `)}
 `;

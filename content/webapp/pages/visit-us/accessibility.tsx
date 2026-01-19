@@ -1,22 +1,14 @@
 import { NextPage } from 'next';
 
 import { getServerData } from '@weco/common/server-data';
-import { useToggles } from '@weco/common/server-data/Context';
 import {
   ServerSideProps,
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
 import * as page from '@weco/content/pages/pages/[pageId]';
-import A11yPrototypePage from '@weco/content/views/pages/about-us/prototype-a11y-november-2025';
 
 const Page: NextPage<page.Props> = props => {
-  const { a11yPrototype } = useToggles();
-
-  return a11yPrototype ? (
-    <A11yPrototypePage {...props} />
-  ) : (
-    <page.Page {...props} />
-  );
+  return <page.Page {...props} />;
 };
 
 type Props = ServerSideProps<page.Props>;

@@ -10,6 +10,7 @@ jest.mock('@weco/common/server-data', () => ({
     (await import('@weco/common/server-data/types')).defaultServerData,
 }));
 
+/* eslint-disable @typescript-eslint/no-require-imports */
 jest.mock('next/router', () => require('next-router-mock'));
 
 const renderComponent = (location: string) => {

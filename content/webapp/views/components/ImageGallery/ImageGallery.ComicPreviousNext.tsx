@@ -17,7 +17,7 @@ const Root = styled.div`
   overflow: hidden;
   pointer-events: none;
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('sm')`
     top: 40%;
   `}
 `;
@@ -40,7 +40,7 @@ const Link = styled.a.attrs<LinkProps>({
   pointer-events: all;
 
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
       transform: translateX(${props.$isNext ? '320px' : '-320px'});
       height: 160px;
 
@@ -91,12 +91,12 @@ const Chevron = styled(Space).attrs({
   transform: translateX(${props => (props.$isNext ? '-6px' : '6px')});
 
   ${props =>
-    props.theme.media('medium')(`
+    props.theme.media('sm')(`
       transform: translateX(${props.$isNext ? '2px' : '-2px'});
     `)}
 
   ${props =>
-    props.theme.media('large')(`
+    props.theme.media('md')(`
       transform: translateX(${props.$isNext ? '-2px' : '2px'});
     `)}
 `;
