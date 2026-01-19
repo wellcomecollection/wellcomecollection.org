@@ -38,6 +38,14 @@ const SpacingComponent = styled.div.attrs<{ $sliceType?: string }>(props => ({
         margin-bottom: 1.22em;
       }
     }
+
+    /* Visual stories have their own h2 styling that involves a border above */
+    .content-type-visual-story & {
+      &:has(h2:first-child) {
+        margin-top: 1.5em;
+        border-top: 1px solid ${props => props.theme.color('black')};
+      }
+    }
   }
 
   &.slice-type-text + &.slice-type-text {
