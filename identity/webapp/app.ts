@@ -20,8 +20,8 @@ export async function createApp() {
   const server = createServer((req, res) => {
     if (req.url === '/management/healthcheck') {
       res.statusCode = 200;
-      res.setHeader('content-type', 'text/plain; charset=utf-8');
-      res.end('ok');
+      res.setHeader('content-type', 'application/json; charset=utf-8');
+      res.end(JSON.stringify({ status: 'ok' }));
       return;
     }
     nextHandler(req, res);
