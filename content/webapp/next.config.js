@@ -6,6 +6,11 @@ const localConcurrentDevelopment =
 
 const apiRewrites = [
   {
+    // Terraform (and our ALBs) expect this endpoint at the service root.
+    source: '/management/healthcheck',
+    destination: `/api/content/management/healthcheck`,
+  },
+  {
     source: '/content/management/healthcheck',
     destination: `/api/content/management/healthcheck`,
   },
