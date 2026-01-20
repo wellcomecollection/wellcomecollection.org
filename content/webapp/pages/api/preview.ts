@@ -26,7 +26,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     /**
-     * This is because the type in api.resolve are not true
+     * This is because the types in api.resolve are not accurate.
      */
     type LinkResolverArg = Parameters<typeof linkResolver>[0];
 
