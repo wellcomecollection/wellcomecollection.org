@@ -9,7 +9,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(200).send(rss);
   } catch (error) {
     console.error('Error generating RSS feed:', error);
-    res.status(500).json({ error: 'Failed to generate RSS feed' });
+    res.setHeader('Content-Type', 'application/xml');
+    res.status(500).send('<error>Failed to generate RSS feed</error>');
   }
 };
 
