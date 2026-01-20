@@ -6,7 +6,7 @@ import linkResolver from '@weco/common/services/prismic/link-resolver';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    // Kill any cookie we had set, as it think it is causing issues.
+    // Kill any cookie we had set, as we think it is causing issues.
     res.setHeader(
       'Set-Cookie',
       `${prismic.cookie.preview}=; Path=/; Max-Age=0`
