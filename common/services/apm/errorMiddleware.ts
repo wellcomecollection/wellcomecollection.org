@@ -1,15 +1,14 @@
 import apm from 'elastic-apm-node';
-import Koa from 'koa';
-import { Middleware } from 'koa-compose';
 
-async function errorMiddleware(
-  ctx: Koa.DefaultContext,
-  next: Koa.Next
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-): Promise<any> {
-  /* eslint-enable @typescript-eslint/no-explicit-any */
+type Next = () => Promise<unknown>;
+type Middleware<Context = unknown> = (
+  ctx: Context,
+  next: Next
+) => Promise<unknown>;
+
+async function errorMiddleware(_ctx: unknown, next: Next): Promise<unknown> {
   try {
-    await next();
+    return await next();
   } catch (error) {
     // https://www.elastic.co/guide/en/apm/agent/nodejs/master/koa.html#koa-error-logging
     apm.captureError(error);
@@ -17,5 +16,4 @@ async function errorMiddleware(
   }
 }
 
-export const apmErrorMiddleware: Middleware<Koa.DefaultContext> =
-  errorMiddleware;
+export const apmErrorMiddleware: Middleware = errorMiddleware;

@@ -1,19 +1,45 @@
-import Router from '@koa/router';
 import { IncomingMessage, ServerResponse } from 'http';
-import compose from 'koa-compose';
 import { NextServer } from 'next/dist/server/next';
 import { parse, UrlWithParsedQuery } from 'url';
 
 import { withPrismicPreviewStatus } from './withPrismicPreviewStatus';
 
-export const withCachedValues = compose([withPrismicPreviewStatus]);
+type Next = () => Promise<unknown>;
+
+type Middleware<Context = unknown> = (
+  ctx: Context,
+  next: Next
+) => Promise<unknown>;
+
+type RouterContext = {
+  params: Record<string, string>;
+  query: Record<string, string>;
+  req: IncomingMessage;
+  res: ServerResponse;
+  request: { url: string; host: string };
+  respond: boolean;
+  headers: Record<string, string | string[] | undefined>;
+  cookies: {
+    set(name: string, value: string, options?: { httpOnly?: boolean }): void;
+  };
+};
+
+type RouterLike = {
+  get(
+    path: string,
+    handler: (ctx: RouterContext) => Promise<void> | void
+  ): void;
+};
+
+export const withCachedValues: Middleware<RouterContext> = async (ctx, next) =>
+  withPrismicPreviewStatus(ctx, next);
 
 export async function route(
   path: string,
   page: string,
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  router: Router<any, any>,
-  /* eslint-enable @typescript-eslint/no-explicit-any */
+
+  router: RouterLike,
+
   app: NextServer,
   extraParams: Record<string, string> = {}
 ) {
