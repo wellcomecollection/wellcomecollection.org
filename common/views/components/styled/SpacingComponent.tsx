@@ -23,7 +23,24 @@ const SpacingComponent = styled.div.attrs<{ $sliceType?: string }>(props => ({
       `)}
   }
 
-  /* stylelint-disable no-descending-specificity */
+  &.slice-type-text + &.slice-type-text {
+    /* The SpacingComponent spaces adjacent components vertically by an amount
+    of pixels. Elements within a single block of .spaced-text are spaced
+    vertically by an amount of ems. In Prismic, it is possible to create a new
+    component for each paragraph of text (instead of keeping it all in the same
+    block). This means that text elements could have slightly different amounts
+    of vertical spacing depending on how the content has been added. To account
+    for this, we check if the two adjacent SpacingComponents contain
+    .spaced-text, and if so, override the SpacingComponent spacing in favour of
+    the .spaced-text spacing.
+    */
+    margin-top: 0;
+
+    .spaced-text > *:first-child:not(h2) {
+      margin-top: ${props => props.theme.spacedTextTopMargin};
+    }
+  }
+
   & + &.slice-type-text {
     &:has(h2:first-child) {
       margin-top: 0;
@@ -46,31 +63,12 @@ const SpacingComponent = styled.div.attrs<{ $sliceType?: string }>(props => ({
     }
   }
 
-  &.slice-type-text + &.slice-type-text {
-    /* The SpacingComponent spaces adjacent components vertically by an amount
-    of pixels. Elements within a single block of .spaced-text are spaced
-    vertically by an amount of ems. In Prismic, it is possible to create a new
-    component for each paragraph of text (instead of keeping it all in the same
-    block). This means that text elements could have slightly different amounts
-    of vertical spacing depending on how the content has been added. To account
-    for this, we check if the two adjacent SpacingComponents contain
-    .spaced-text, and if so, override the SpacingComponent spacing in favour of
-    the .spaced-text spacing.
-    */
-    margin-top: 0;
-
-    .spaced-text > *:first-child:not(h2) {
-      margin-top: ${props => props.theme.spacedTextTopMargin};
-    }
-  }
-
   &.slice-type-text-and-image + &.slice-type-text-and-image,
   &.slice-type-text-and-icons + &.slice-type-text-and-icons,
   &.slice-type-text-and-image + &.slice-type-text-and-icons,
   &.slice-type-text-and-icons + &.slice-type-text-and-image {
     margin-top: 0;
   }
-  /* stylelint-enable no-descending-specificity */
 `;
 
 export default SpacingComponent;
