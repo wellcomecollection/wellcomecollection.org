@@ -127,7 +127,7 @@ const VisuallySimilarImages: FunctionComponent<Props> = ({
         shapes and features.
         <br />
         <a
-          href={`mailto:digital@wellcomecollection.org?subject=Visually similar images feedback (${originalId})`}
+          href={`mailto:digital@wellcomecollection.org?subject=Visually similar images feedback (${encodeURIComponent(originalId)})`}
         >
           Let us know
         </a>{' '}
