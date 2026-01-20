@@ -27,10 +27,12 @@ export async function createApp() {
     nextHandler(req, res);
   });
 
-  process.on('SIGINT', async () => {
-    // Close any connections and clean up.
-    server.close();
-    process.exit(0);
+  process.on('SIGINT', () => {
+    // Close any connections and clean up, then exit when done.
+    server.close(err => {
+      // If an error occurs while closing, use a non-zero exit code.
+      process.exit(err ? 1 : 0);
+    });
   });
 
   return server;
