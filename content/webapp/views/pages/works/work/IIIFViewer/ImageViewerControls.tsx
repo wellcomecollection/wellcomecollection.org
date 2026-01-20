@@ -9,8 +9,8 @@ import { CanvasRotatedImage } from '@weco/content/types/item-viewer';
 
 const ImageViewerControlsEl = styled.div<{ $showControls?: boolean }>`
   position: absolute;
-  bottom: 0;
-  right: 20%;
+  bottom: 5%;
+  right: 10%;
   z-index: 1;
   opacity: ${props => (props.$showControls ? 1 : 0)};
   transition: opacity 300ms ease;
