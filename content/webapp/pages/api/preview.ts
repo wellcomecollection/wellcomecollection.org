@@ -81,9 +81,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       defaultURL: '/',
     });
 
-    // Set the preview cookie
-    res.setHeader('Set-Cookie', `isPreview=true; Path=/; HttpOnly=false`);
+    // Set the preview cookie only if it is not already present
+    const hasIsPreviewCookie = cookies
+      .split(';')
+      .some(c => c.trim().startsWith('isPreview='));
 
+    if (!hasIsPreviewCookie) {
+      res.setHeader('Set-Cookie', `isPreview=true; Path=/; HttpOnly=false`);
+    }
     // Redirect to the resolved URL
     res.redirect(307, url);
   } catch (error) {
