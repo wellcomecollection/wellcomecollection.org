@@ -52,14 +52,6 @@ const config = function () {
         },
       ];
     },
-    async rewrites() {
-      return [
-        {
-          source: '/management/healthcheck',
-          destination: '/api/management/healthcheck',
-        },
-      ];
-    },
     serverRuntimeConfig: getConfig(),
     transpilePackages: ['@weco/common'],
     // Trust proxy headers in production
