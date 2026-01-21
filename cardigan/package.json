@@ -2,6 +2,7 @@
   "name": "@weco/cardigan",
   "license": "MIT",
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
     "dev": "storybook dev -c .storybook -p 9001",
     "build": "storybook build -c .storybook -o .dist",
@@ -9,19 +10,21 @@
   },
   "dependencies": {
     "@faker-js/faker": "^10.1.0",
-    "@storybook/addon-a11y": "^8.6.15",
-    "@storybook/addon-backgrounds": "^8.6.15",
-    "@storybook/addon-controls": "^8.6.15",
-    "@storybook/addon-docs": "^8.6.15",
-    "@storybook/cli": "^8.6.15",
-    "@storybook/nextjs": "^8.6.15",
-    "@storybook/react": "^8.6.15",
-    "@storybook/theming": "^8.6.15",
+    "@storybook/addon-a11y": "10.1.11",
+    "@storybook/addon-docs": "10.1.11",
+    "@storybook/cli": "10.1.11",
     "chromatic": "^13.3.0",
     "next": "15.5.9",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "typescript": "^5.8.3",
     "webpack": "5.101.2"
+  },
+  "devDependencies": {
+    "@storybook/nextjs": "10.1.11",
+    "eslint-plugin-storybook": "10.1.11",
+    "msw": "^2.12.7",
+    "storybook": "10.1.11",
+    "vite": "^7.0.0"
   }
 }

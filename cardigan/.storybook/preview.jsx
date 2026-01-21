@@ -1,4 +1,4 @@
-import { DocsContainer } from '@storybook/addon-docs';
+import { DocsContainer } from '@storybook/addon-docs/blocks';
 
 import { ContextDecorator } from '@weco/cardigan/config/decorators';
 import { AppContextProvider } from '@weco/common/contexts/AppContext';
@@ -67,15 +67,12 @@ export const parameters = {
     },
   },
   backgrounds: {
-    values: themeColors,
     grid: {
       disable: true,
     },
+    options: {},
   },
-  previewTabs: {
-    canvas: { hidden: true },
-    'storybook/docs/panel': { hidden: true },
-  },
+
   docs: {
     theme: wellcomeTheme,
     container: ({ children, context }) => (
