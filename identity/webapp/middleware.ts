@@ -4,25 +4,14 @@ import type { NextRequest } from 'next/server';
 import { redactUrl } from '@weco/identity/utils/logging';
 
 export function middleware(request: NextRequest) {
-  const start = Date.now();
   const { method } = request;
   const url = redactUrl(request.nextUrl.pathname + request.nextUrl.search);
 
   console.log(`<-- ${method} ${url}`);
 
-  const response = NextResponse.next();
-
-  // Log after response (using a promise that doesn't block)
-  // Note: In production with real traffic, consider using a proper logging service
-  // This will log asynchronously and won't have access to actual response status
-  Promise.resolve().then(() => {
-    const ms = Date.now() - start;
-    // We don't have access to actual response status/length in middleware
-    // but we log what we can
-    console.log(`--> ${method} ${url} ${ms}ms`);
-  });
-
-  return response;
+  // Note: Next.js middleware can’t observe the full response lifecycle,
+  // so it can’t reliably log end-to-end request duration/status here.
+  return NextResponse.next();
 }
 
 export const config = {

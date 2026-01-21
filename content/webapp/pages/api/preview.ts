@@ -6,20 +6,11 @@ import linkResolver from '@weco/common/services/prismic/link-resolver';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    // Kill any cookie we had set, as we think it is causing issues.
-    res.setHeader(
-      'Set-Cookie',
-      `${prismic.cookie.preview}=; Path=/; Max-Age=0`
-    );
-
     const client = createPrismicClient();
 
     // Enable auto previews from request
     const cookies = req.headers.cookie || '';
-    const previewRef = cookies
-      .split(';')
-      .find(c => c.trim().startsWith(`${prismic.cookie.preview}=`))
-      ?.split('=')[1];
+    const previewRef = req.cookies?.[prismic.cookie.preview];
 
     if (previewRef) {
       client.queryContentFromRef(previewRef);
@@ -86,8 +77,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       .split(';')
       .some(c => c.trim().startsWith('isPreview='));
 
+    // Kill any cookie we had set, as we think it is causing issues.
+    const clearPrismicPreviewCookie = `${prismic.cookie.preview}=; Path=/; Max-Age=0`;
     if (!hasIsPreviewCookie) {
-      res.setHeader('Set-Cookie', `isPreview=true; Path=/; HttpOnly=false`);
+      res.setHeader('Set-Cookie', [
+        clearPrismicPreviewCookie,
+        `isPreview=true; Path=/; HttpOnly=false`,
+      ]);
+    } else {
+      res.setHeader('Set-Cookie', clearPrismicPreviewCookie);
     }
     // Redirect to the resolved URL
     res.redirect(307, url);
