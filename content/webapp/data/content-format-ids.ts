@@ -19,6 +19,10 @@ export const GuideFormatIds = {
   ExhibitionGuide: 'YC_GfxMAACEADdI9',
 };
 
+export const ExhibitionFormatIds = {
+  PermanentExhibition: 'Wvw6wSAAAAuy63fP',
+};
+
 export type ArticleFormatId =
   (typeof ArticleFormatIds)[keyof typeof ArticleFormatIds];
 export type PageFormatId = (typeof PageFormatIds)[keyof typeof PageFormatIds];

@@ -10,7 +10,6 @@ import styled from 'styled-components';
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { arrow, chevron, info2 } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import { useToggles } from '@weco/common/server-data/Context';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
@@ -153,7 +152,6 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
   iiifImageLocation,
   iiifPresentationLocation,
 }) => {
-  const { authV2 } = useToggles();
   const { work, transformedManifest, parentManifest } = useItemViewerContext();
   const { userIsStaffWithRestricted } = useUserContext();
 
@@ -189,7 +187,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
     digitalLocationInfo?.accessCondition === 'restricted' &&
     userIsStaffWithRestricted;
 
-  const authServices = getAuthServices({ auth, authV2 });
+  const authServices = getAuthServices({ auth });
 
   const manifestNeedsRegeneration =
     authServices?.external?.id ===

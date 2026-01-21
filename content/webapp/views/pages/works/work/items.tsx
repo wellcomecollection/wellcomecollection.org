@@ -50,14 +50,8 @@ function reloadAuthIframe(document: Document, id: string) {
   if (authMessageIframe) authMessageIframe.src = authMessageIframe.src;
 }
 
-function getIsTotallyRestricted({
-  auth,
-  authV2,
-}: {
-  auth: Auth | undefined;
-  authV2: boolean | undefined;
-}) {
-  return authV2 ? auth?.v2.isTotallyRestricted : auth?.v1.isTotallyRestricted;
+function getIsTotallyRestricted({ auth }: { auth: Auth | undefined }) {
+  return auth?.isTotallyRestricted;
 }
 
 export type Props = {
@@ -96,7 +90,7 @@ const WorkItemPage: NextPage<Props> = ({
   const canvas = routerCanvas || serverCanvas;
 
   const { userIsStaffWithRestricted } = useUserContext();
-  const { authV2, extendedViewer } = useToggles();
+  const { extendedViewer } = useToggles();
   const transformedManifest =
     compressedTransformedManifest &&
     fromCompressedManifest(compressedTransformedManifest);
@@ -113,11 +107,10 @@ const WorkItemPage: NextPage<Props> = ({
     userIsStaffWithRestricted,
     auth,
     isAnyImageOpen,
-    authV2,
   });
   const [accessToken, setAccessToken] = useState();
   const [searchResults, setSearchResults] = useState(serverSearchResults);
-  const authServices = getAuthServices({ auth, authV2 });
+  const authServices = getAuthServices({ auth });
   const currentCanvas = canvases?.[queryParamToArrayIndex(canvas)];
 
   const displayTitle =
@@ -129,14 +122,8 @@ const WorkItemPage: NextPage<Props> = ({
 
   const hasImage = hasItemType(canvases, 'Image');
   const hasPdf = hasOriginalPdf(canvases);
-  const isTotallyRestricted = getIsTotallyRestricted({ auth, authV2 });
-  const shouldUseAuthMessageIframe =
-    ((authV2 && auth?.v2.tokenService) || (!authV2 && auth?.v1.tokenService)) &&
-    origin;
-  const tryAndGetRestrictedAuthCookie =
-    userIsStaffWithRestricted &&
-    authServices?.external?.id ===
-      'https://iiif.wellcomecollection.org/auth/v2/access/restrictedlogin';
+  const isTotallyRestricted = getIsTotallyRestricted({ auth });
+  const shouldUseAuthMessageIframe = auth?.tokenService && origin;
   // showViewer is true by default, so the noScriptViewer is available without javascript
   // if javascript is available we set it to false and then determine whether the clickthrough modal is required
   // before setting it to true
@@ -155,7 +142,7 @@ const WorkItemPage: NextPage<Props> = ({
   }, []);
 
   useEffect(() => {
-    if (tryAndGetRestrictedAuthCookie) {
+    if (userIsStaffWithRestricted && authServices?.external) {
       const authServiceWindow = window.open(
         `${authServices?.external?.id || ''}?origin=${window.origin}`
       );
@@ -164,17 +151,15 @@ const WorkItemPage: NextPage<Props> = ({
           reloadAuthIframe(document, iframeId);
         });
     }
-  }, [tryAndGetRestrictedAuthCookie]);
+  }, [userIsStaffWithRestricted, authServices?.external?.id]);
 
   useEffect(() => {
     function receiveMessage(event: MessageEvent) {
       const data = event.data;
       const tokenService = getIframeTokenSrc({
-        userIsStaffWithRestricted,
         workId: work.id,
         origin: window.origin,
         auth,
-        authV2,
       });
       const service = (tokenService && new URL(tokenService)) as
         | URL
@@ -220,11 +205,9 @@ const WorkItemPage: NextPage<Props> = ({
           id={iframeId}
           title="Authentication"
           src={getIframeTokenSrc({
-            userIsStaffWithRestricted,
             workId: work.id,
             origin,
             auth,
-            authV2,
           })}
         />
       )}

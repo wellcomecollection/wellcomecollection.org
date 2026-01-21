@@ -73,6 +73,12 @@ export function getLastEndTime(times: EventTime[]): Date | undefined {
     : undefined;
 }
 
+export function getFirstStartTime(times: EventTime[]): Date | undefined {
+  return times.length > 0
+    ? minDate(times.map(({ range: { startDateTime } }) => startDateTime))
+    : undefined;
+}
+
 export function transformEventPolicyLabels(
   fragment:
     | RawEventsDocumentData['policies']

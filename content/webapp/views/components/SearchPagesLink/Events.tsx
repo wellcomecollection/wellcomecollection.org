@@ -13,6 +13,7 @@ import {
   numberCodec,
   stringCodec,
 } from '@weco/common/utils/routes';
+import { splitValues } from '@weco/content/utils/filters';
 
 export type EventsProps = FromCodecMap<typeof codecMap>;
 const emptyEventsProps: EventsProps = {
@@ -62,5 +63,28 @@ const EventsLink: FunctionComponent<Props> = ({
 }: Props) => {
   return <NextLink {...toSearchEventsLink(props)}>{children}</NextLink>;
 };
+
+// We want to exclude exhibitions when we fetch events,
+// but we don't want to show the negated value in the UI.
+// So we inlcude the !exhibitions format value for the API query
+// (unless the exhibitionsInEvents toggle is enabled)
+// and have a separate format array for the UI.
+export function getEventFormats(
+  paramsFormat: string[],
+  excludeExhibitions = true
+): {
+  apiFormat: string[];
+  uiFormat: string[];
+} {
+  const format = excludeExhibitions
+    ? paramsFormat.length > 0
+      ? [...paramsFormat, '!exhibitions']
+      : ['!exhibitions']
+    : paramsFormat;
+
+  const { all, positiveValues } = splitValues(format);
+  return { apiFormat: all, uiFormat: positiveValues };
+}
+
 export default EventsLink;
 export { toSearchEventsLink, toQuery, fromQuery, emptyEventsProps };

@@ -1,4 +1,3 @@
-import { AuthExternalService } from '@iiif/presentation-3';
 import debounce from 'lodash.debounce';
 import {
   CSSProperties,
@@ -118,7 +117,6 @@ type ItemRendererProps = {
     errorHandler?: () => void;
     externalAccessService?: TransformedAuthService;
     accessToken?: string;
-    restrictedService?: AuthExternalService;
     placeholderId?: string;
   };
 };
@@ -425,9 +423,7 @@ const MainViewer: FunctionComponent = () => {
   };
   const currentCanvas = canvases?.[queryParamToArrayIndex(canvas)];
 
-  // Only the V2 external service works for providing access so we always attempt to use that first
-  const externalAccessService =
-    auth?.v2.externalAccessService || auth?.v1.externalAccessService;
+  const externalAccessService = auth?.externalAccessService;
 
   // We hide the zoom and rotation controls while the user is scrolling
   function handleOnScroll({ scrollOffset }) {

@@ -1,7 +1,7 @@
 import NextLink from 'next/link';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { font, fontFamily } from '@weco/common/utils/classnames';
 import AnimatedUnderlineCSS, {
   AnimatedUnderlineProps,
 } from '@weco/common/views/components/styled/AnimatedUnderline';
@@ -15,6 +15,16 @@ export const InPageNavList = styled(PlainList)<{ $isOnWhite: boolean }>`
   padding-bottom: ${props => props.theme.spacingUnits['150']};
   border-bottom: 1px solid
     ${props => props.theme.color(props.$isOnWhite ? 'neutral.300' : 'white')};
+
+  ${props =>
+    props.theme.mediaBetween(
+      'zero',
+      'md'
+    )(`
+      max-height: 90vh;
+      overflow-x: hidden;
+      overflow-y: auto;
+    `)}
 
   ${props => props.theme.media('md')`
     padding-bottom: 0;
@@ -78,7 +88,7 @@ export const ListItem = styled.li<{ $hasStuck: boolean; $isOnWhite: boolean }>`
   ${props =>
     props.theme.media('md')(`
     border-top: 0;
-    padding: 6px 0  6px ${leftOffset};
+    padding: 7px 0 7px ${leftOffset};
     margin: 0;
 
     &::before {
@@ -92,6 +102,7 @@ export const ListItem = styled.li<{ $hasStuck: boolean; $isOnWhite: boolean }>`
 const AnimatedLink = styled(NextLink)<AnimatedUnderlineProps>`
   ${AnimatedUnderlineCSS}
   text-decoration: none;
+  line-height: 1;
 
   ${props =>
     props.theme.media('md')(`
@@ -100,7 +111,7 @@ const AnimatedLink = styled(NextLink)<AnimatedUnderlineProps>`
 
   & > span {
     font-size: 14px;
-    line-height: 20px;
+    line-height: 1.6;
   }
 `;
 
@@ -110,11 +121,17 @@ export const Anchor = styled.a.attrs({
   color: ${props => props.theme.color('black')};
 `;
 
-export const InPageNavAnimatedLink = styled(AnimatedLink)<{
+type InPageNavAnimatedLinkProps = {
   $isActive?: boolean;
   $hasStuck: boolean;
   $isOnWhite: boolean;
-}>`
+};
+
+export const InPageNavAnimatedLink = styled(
+  AnimatedLink
+).attrs<InPageNavAnimatedLinkProps>(props => ({
+  className: fontFamily(props.$isActive ? 'sans-bold' : 'sans'),
+}))<InPageNavAnimatedLinkProps>`
   color: ${props =>
     props.theme.color(
       props.$hasStuck ? 'black' : props.$isOnWhite ? 'black' : 'white'
@@ -157,9 +174,13 @@ export const Root = styled(Space).attrs<{
 })<{
   $hasStuck: boolean;
 }>`
-  position: sticky;
+  position: relative;
   top: 0;
   z-index: 20;
+
+  ${props => props.theme.media('md')`
+    position: sticky;
+  `}
   color: ${props => props.theme.color('white')};
 
   ${props =>
@@ -180,6 +201,18 @@ export const Root = styled(Space).attrs<{
       transition: background ${props.theme.transitionProperties};
       background: ${props.$hasStuck && props.theme.color('white')};
       padding-top: 0;
+
+      ${
+        props.$hasStuck &&
+        `
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        margin: 0;
+      `
+      }
     `)}
 
   ${props =>

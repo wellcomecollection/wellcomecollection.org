@@ -304,9 +304,7 @@ const WorkDetailsAvailableOnline = ({
   locationOfWork,
   transformedManifest,
 }: Props) => {
-  const { userIsStaffWithRestricted } = useUserContext();
   const [origin, setOrigin] = useState<string | undefined>();
-  const { authV2 } = useToggles();
 
   const {
     collectionManifestsCount,
@@ -320,14 +318,12 @@ const WorkDetailsAvailableOnline = ({
   } = { ...transformedManifest };
 
   const tokenService = getIframeTokenSrc({
-    userIsStaffWithRestricted,
     workId: work.id,
     origin,
     auth,
-    authV2,
   });
 
-  const authServices = getAuthServices({ auth, authV2 });
+  const authServices = getAuthServices({ auth });
 
   const hasNonStandardItems = itemsStatus !== 'allStandard';
 
