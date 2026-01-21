@@ -379,9 +379,9 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
             )}
 
             {/* If we hide the MainViewer when resizing the browser, it will then rerender with the correct canvas displayed */}
-            {(hasImageService || extendedViewer) &&
-              !isResizing &&
-              isFullSupportBrowser && <MainViewer />}
+            {(hasImageService || extendedViewer) && !isResizing && (
+              <MainViewer />
+            )}
           </DelayVisibility>
         </Main>
         {showZoomed && isFullSupportBrowser && (
