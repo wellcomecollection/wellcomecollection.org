@@ -35,14 +35,8 @@ export const wellcomeNormalize = css`
   *,
   button {
     /* Firefox needs 'button' to override specific UA focus styles */
-    &:focus-visible,
-    &:focus {
+    &:focus-visible {
       ${focusStyle};
-    }
-
-    :focus:not(:focus-visible) {
-      outline: none;
-      box-shadow: none;
     }
   }
 
