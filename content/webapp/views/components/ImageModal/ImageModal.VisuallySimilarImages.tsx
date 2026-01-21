@@ -126,7 +126,9 @@ const VisuallySimilarImages: FunctionComponent<Props> = ({
         We use machine learning to find images in our collection with similar
         shapes and features.
         <br />
-        <a href="mailto:digital@wellcomecollection.org?subject=Visually similar images feedback">
+        <a
+          href={`mailto:digital@wellcomecollection.org?subject=Visually similar images feedback (${encodeURIComponent(originalId)})`}
+        >
           Let us know
         </a>{' '}
         if something doesn&rsquo;t look right.
