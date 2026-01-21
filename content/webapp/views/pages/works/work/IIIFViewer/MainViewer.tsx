@@ -43,7 +43,6 @@ const MainViewerContainer = styled.div<{ $useFixedList: boolean }>`
 
 const ItemContainer = styled.div`
   position: relative;
-  height: 100%;
 `;
 
 // Temporary styling for viewer to display audio, video and pdfs
@@ -69,8 +68,7 @@ const ItemWrapper = styled.div<{ $hasMultipleCanvases?: boolean }>`
     width: 100%;
     height: 100%;
     border: 0;
-    ${props =>
-      props.$hasMultipleCanvases ? 'min-height: 55vh;' : 'min-height: 100%;'}
+    ${props => props.$hasMultipleCanvases && 'min-height: 55vh;'}
   }
 
   video {
