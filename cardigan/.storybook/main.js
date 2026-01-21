@@ -28,11 +28,11 @@ const config = {
   ],
 
   framework: {
-    name: getAbsolutePath('@storybook/nextjs'),
+    name: getAbsolutePath('@storybook/nextjs-vite'),
     options: {},
   },
 
-  webpackFinal: async config => {
+  viteFinal: async config => {
     // Add aliases for monorepo packages
     config.resolve = config.resolve || {};
     config.resolve.alias = {
@@ -55,6 +55,7 @@ const config = {
       'next/image': resolve(monorepoRoot, 'node_modules/next/image.js'),
       'next/link': resolve(monorepoRoot, 'node_modules/next/link.js'),
       'next/head': resolve(monorepoRoot, 'node_modules/next/head.js'),
+      'node-fetch': resolve(__dirname, './mocks/node-fetch.js'),
     };
 
     return config;
