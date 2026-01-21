@@ -52,7 +52,8 @@ export async function createApp(): Promise<Koa> {
   //      https://wellcome.slack.com/archives/CUA669WHH/p1656593455081159
   //
   function formatBytes(bytes: number | undefined): string {
-    if (!bytes) return '-';
+    if (bytes === undefined) return '-';
+    if (bytes === 0) return '0b';
     if (bytes < 1024) return `${bytes}b`;
     const kb = bytes / 1024;
     if (kb < 1024) return `${kb.toFixed(1)}kb`;
