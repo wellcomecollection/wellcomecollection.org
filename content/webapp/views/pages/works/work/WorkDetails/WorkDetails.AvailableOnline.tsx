@@ -304,7 +304,6 @@ const WorkDetailsAvailableOnline = ({
   locationOfWork,
   transformedManifest,
 }: Props) => {
-  const { userIsStaffWithRestricted } = useUserContext();
   const [origin, setOrigin] = useState<string | undefined>();
 
   const {

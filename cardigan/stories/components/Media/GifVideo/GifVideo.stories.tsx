@@ -20,7 +20,6 @@ const slice: RawGifVideoSlice = {
     tasl: null,
     video: {
       link_type: 'Media',
-      key: '59e605e7-cf27-427e-b176-2be5b7489dd1',
       kind: 'file',
       id: 'X2iadBMAACMA8GIb',
       url: 'https://wellcomecollection.cdn.prismic.io/wellcomecollection/53aed1c6-2b3b-4255-a89f-a34f4b265739_Sign_1080.mp4',

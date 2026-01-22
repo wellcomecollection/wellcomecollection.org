@@ -32,7 +32,7 @@ export const pageWithoutBody: RawPagesDocument = {
     showOnThisPage: false,
     metadataDescription: exampleTextSlice.primary.text,
     format: {
-      link_type: 'Document',
+      link_type: 'Any' as const, // Marks it as an empty field
     },
     contributorsTitle: [],
     contributors: [],

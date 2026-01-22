@@ -30,6 +30,8 @@ describe('transformLink', () => {
       type: 'projects',
       uid: 'ellen-reid-soundwalk-at-regents-park',
       link_type: 'Document',
+      tags: [],
+      lang: 'en-gb',
       isBroken: false,
     });
 

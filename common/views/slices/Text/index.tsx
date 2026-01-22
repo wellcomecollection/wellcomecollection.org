@@ -6,9 +6,9 @@ import { TextSlice as RawTextSlice } from '@weco/common/prismicio-types';
 import { classNames } from '@weco/common/utils/classnames';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import {
+  accessibilitySerializer,
   defaultSerializer,
   dropCapSerializer,
-  accessibilitySerializer,
 } from '@weco/common/views/components/HTMLSerializers';
 import { ContaineredLayout } from '@weco/common/views/components/Layout';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';

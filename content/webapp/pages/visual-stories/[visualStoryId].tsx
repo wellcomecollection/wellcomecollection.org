@@ -2,12 +2,17 @@ import { NextPage } from 'next';
 
 import {
   EventsDocumentData,
+  ExhibitionsDocument as RawExhibitionsDocument,
   VisualStoriesDocument as RawVisualStoriesDocument,
 } from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
-import { isFilledLinkToDocument } from '@weco/common/services/prismic/types';
+import {
+  InferDataInterface,
+  isFilledLinkToDocument,
+  isFilledLinkToDocumentWithData,
+} from '@weco/common/services/prismic/types';
 import { isPast } from '@weco/common/utils/dates';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
@@ -61,14 +66,18 @@ export const getOtherVisualStories = ({
         isFilledLinkToDocument(result.data.relatedDocument) &&
         result.data.relatedDocument.id;
       const exhibitionEndTime =
-        isFilledLinkToDocument(result.data.relatedDocument) &&
-        result.data.relatedDocument.data?.end
-          ? result.data.relatedDocument.data?.end
+        isFilledLinkToDocumentWithData(result.data.relatedDocument) &&
+        result.data.relatedDocument.type === 'exhibitions'
+          ? (
+              result.data.relatedDocument
+                .data as InferDataInterface<RawExhibitionsDocument>
+            )?.end
           : undefined;
       const eventTimes =
-        isFilledLinkToDocument(result.data.relatedDocument) &&
-        result.data.relatedDocument.data?.times
-          ? result.data.relatedDocument.data?.times
+        isFilledLinkToDocumentWithData(result.data.relatedDocument) &&
+        result.data.relatedDocument.type === 'events'
+          ? (result.data.relatedDocument.data as unknown as EventsDocumentData)
+              ?.times
           : undefined;
       const transformedEventTimes =
         eventTimes && relatedDocumentId
