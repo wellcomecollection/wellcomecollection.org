@@ -22,7 +22,7 @@ const getIcon = (type: string, format?: string) => {
       return video;
     case 'Image':
       return image;
-    case 'Text': // The Text type is used for multipe formats including pdf
+    case 'Text': // The Text type is used for multiple formats including pdf
       return format?.endsWith('pdf') ? pdf : file;
     default:
       return file;
