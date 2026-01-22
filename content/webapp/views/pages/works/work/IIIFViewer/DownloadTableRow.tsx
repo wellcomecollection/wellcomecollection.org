@@ -60,7 +60,7 @@ const DownloadItem: FunctionComponent<{
             <NextLink {...canvasLink}>{itemLabel}</NextLink>
           </InlineFlex>
         </td>
-        <td width="60" className="is-hidden-s">
+        <td className="is-hidden-s">
           {fileSize ? (
             `${fileSize}`
           ) : (
@@ -70,7 +70,7 @@ const DownloadItem: FunctionComponent<{
             </>
           )}
         </td>
-        <td width="100">
+        <td>
           <InlineFlex>
             <IconWrapper>
               <Icon icon={download} />
