@@ -93,4 +93,6 @@ export const parameters = {
   chromatic: {
     viewports: [375, 1200],
   },
+  actions: { disable: true },
+  interactions: { disable: true },
 };
