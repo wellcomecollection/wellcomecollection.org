@@ -5,7 +5,6 @@ import styled, { useTheme } from 'styled-components';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { ImageType } from '@weco/common/model/image';
-import { useToggles } from '@weco/common/server-data/Context';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
 import {
@@ -79,7 +78,6 @@ const CollectionsLandingPage: NextPage<Props> = ({
   newOnlineDocuments,
 }) => {
   const { data: collectionStats } = useCollectionStats();
-  const { browseCollections } = useToggles();
   const theme = useTheme();
 
   return (
@@ -134,22 +132,6 @@ const CollectionsLandingPage: NextPage<Props> = ({
           />
         </Space>
       </MainBackground>
-
-      {browseCollections && (
-        <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
-          <CardGrid
-            items={[]}
-            itemsPerRow={3}
-            itemsHaveTransparentBackground
-            links={[
-              {
-                text: 'Browse types and topics',
-                url: '/collections/types',
-              },
-            ]}
-          />
-        </Space>
-      )}
 
       {newOnlineDocuments.length > 0 && (
         <Space $v={{ size: 'sm', properties: ['margin-top', 'margin-bottom'] }}>

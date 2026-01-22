@@ -4,6 +4,13 @@ import { JSXFunctionSerializer } from '@prismicio/react';
 import { Fragment } from 'react';
 import styled from 'styled-components';
 
+import {
+  accessible,
+  audioDescribed,
+  bslSquare,
+  IconSvg,
+  inductionLoop,
+} from '@weco/common/icons';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { dasherize } from '@weco/common/utils/grammar';
 import { getMimeTypeFromExtension } from '@weco/common/utils/mime';
@@ -11,13 +18,6 @@ import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper
 import DownloadLink from '@weco/common/views/components/DownloadLink';
 import FeaturedWorkLink from '@weco/common/views/components/FeaturedWorkLink';
 import Icon from '@weco/common/views/components/Icon';
-import {
-  bslSquare,
-  audioDescribed,
-  accessible,
-  inductionLoop,
-  IconSvg,
-} from '@weco/common/icons';
 
 const DocumentType = styled.span`
   color: ${props => props.theme.color('neutral.600')};
