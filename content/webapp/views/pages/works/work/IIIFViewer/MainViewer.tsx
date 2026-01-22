@@ -484,9 +484,11 @@ const MainViewer: FunctionComponent = () => {
   const useFixedSizeList = !hasNonImages(canvases);
   const hasMultipleCanvases = canvases && canvases.length > 1;
 
-  if (!useFixedSizeList) {
-    setShowFullscreenControl(false);
-  }
+  useEffect(() => {
+    if (!useFixedSizeList) {
+      setShowFullscreenControl(false);
+    }
+  }, [useFixedSizeList, setShowFullscreenControl]);
 
   if (useFixedSizeList) {
     return (
