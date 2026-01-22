@@ -36,3 +36,6 @@ tsconfig.tsbuildinfo
 
 # Code editor
 .zed/
+
+# AI
+.claude/
