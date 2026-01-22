@@ -533,7 +533,7 @@ const MainViewer: FunctionComponent = () => {
                 <IIIFItem
                   placeholderId={placeholderId}
                   item={item}
-                  i={1}
+                  i={i}
                   canvas={currentCanvas}
                   titleOverride={`${canvas}/${canvases?.length}`}
                   exclude={[]}
