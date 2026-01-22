@@ -70,7 +70,6 @@ export const parameters = {
     grid: {
       disable: true,
     },
-    options: {},
   },
 
   docs: {
