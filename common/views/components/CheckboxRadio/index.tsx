@@ -70,12 +70,8 @@ const CheckboxRadioInput = styled.input.attrs<{ $type: string }>(props => ({
     border-width: ${props => (props.disabled ? '1px' : '2px')};
   }
 
-  &:focus-visible ~ ${CheckboxRadioBox}, &:focus ~ ${CheckboxRadioBox} {
+  &:focus-visible ~ ${CheckboxRadioBox} {
     ${focusStyle};
-  }
-
-  &:focus ~ ${CheckboxRadioBox}:not(:focus-visible ~ ${CheckboxRadioBox}) {
-    box-shadow: none;
   }
 `;
 
