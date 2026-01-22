@@ -29,7 +29,7 @@ const getIcon = (type: string, format?: string) => {
   }
 };
 
-const DownloadItem: FunctionComponent<{
+const DownloadTableRow: FunctionComponent<{
   canvas: TransformedCanvas | undefined;
   item: (ContentResource | CustomContentResource | ChoiceBody) & {
     format?: string;
@@ -87,4 +87,4 @@ const DownloadItem: FunctionComponent<{
   }
 };
 
-export default DownloadItem;
+export default DownloadTableRow;
