@@ -24,9 +24,14 @@ import Layout, {
 } from '@weco/common/views/components/Layout';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import { Container } from '@weco/common/views/components/styled/Container';
+import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
-import SelectableTags from '@weco/content/views/components/SelectableTags';
+
+import ThematicBrowsingNavigation, {
+  isValidThematicBrowsingCategory,
+  ThematicBrowsingCategories,
+} from './ThematicBrowsing.Navigation';
 
 const ThematicBrowsingHeaderContainer = styled(Space).attrs({
   $v: { size: 'sm', properties: ['padding-top'] },
@@ -66,67 +71,52 @@ const ThematicBrowsingHeader = ({
   extraBreadcrumbs,
 }: {
   uiTitle: string;
-  currentCategory: string;
+  currentCategory: ThematicBrowsingCategories;
   uiDescription?: string | prismic.RichTextField;
   extraBreadcrumbs?: { url: string; text: string }[];
 }) => {
-  const router = useRouter();
-
-  const tagItems = [
-    {
-      id: 'people-and-organisations',
-      label: 'People and organisations',
-    },
-    { id: 'types-and-techniques', label: 'Types and techniques' },
-    { id: 'subjects', label: 'Subjects' },
-    { id: 'places', label: 'Places' },
-  ];
-
   return (
-    <ThematicBrowsingHeaderContainer>
-      <Container>
-        <Space
-          $v={{
-            size: 'sm',
-            properties: ['margin-top', 'margin-bottom'],
-            overrides: { md: '150' },
-          }}
-        >
-          <Breadcrumb
-            items={getBreadcrumbItems('collections', extraBreadcrumbs).items}
-          />
-        </Space>
-
-        <Space $v={{ size: 'md', properties: ['margin-bottom', 'margin-top'] }}>
-          <SelectableTags
-            tags={tagItems}
-            onChange={selectedTags => {
-              const selectedTag = selectedTags[0];
-              if (selectedTag) {
-                router.push(`/${prismicPageIds.collections}/${selectedTag}`);
-              }
+    <>
+      <ThematicBrowsingHeaderContainer>
+        <Container>
+          <Space
+            $v={{
+              size: 'sm',
+              properties: ['margin-top', 'margin-bottom'],
+              overrides: { md: '150' },
             }}
-            selectedTags={[currentCategory]}
-          />
-        </Space>
+          >
+            <Breadcrumb
+              items={getBreadcrumbItems('collections', extraBreadcrumbs).items}
+            />
+          </Space>
 
-        <Layout gridSizes={gridSize10(false)}>
-          <Title>{uiTitle}</Title>
-        </Layout>
+          <Space
+            $v={{ size: 'md', properties: ['margin-bottom', 'margin-top'] }}
+          >
+            <ThematicBrowsingNavigation currentCategory={currentCategory} />
+          </Space>
 
-        {uiDescription && (
-          <Layout gridSizes={gridSize8(false)}>
-            <ThemeDescription>
-              {typeof uiDescription !== 'string' ? (
-                <PrismicHtmlBlock html={uiDescription} />
-              ) : (
-                <p>{uiDescription}</p>
-              )}
-            </ThemeDescription>
+          <Layout gridSizes={gridSize10(false)}>
+            <Title>{uiTitle}</Title>
           </Layout>
-        )}
-      </Container>
-    </ThematicBrowsingHeaderContainer>
+
+          {uiDescription && (
+            <Layout gridSizes={gridSize8(false)}>
+              <ThemeDescription>
+                {typeof uiDescription !== 'string' ? (
+                  <PrismicHtmlBlock html={uiDescription} />
+                ) : (
+                  <p>{uiDescription}</p>
+                )}
+              </ThemeDescription>
+            </Layout>
+          )}
+        </Container>
+      </ThematicBrowsingHeaderContainer>
+
+      <DecorativeEdge variant="wobbly" backgroundColor="white" />
+    </>
   );
 };
 
@@ -138,6 +128,7 @@ const ThematicBrowsingLayout: FunctionComponent<
   ThematicBrowsingLayoutProps
 > = ({ children }) => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true);
 
   const currentCategory = router.pathname.slice(
     router.pathname.lastIndexOf('/') + 1
@@ -161,6 +152,8 @@ const ThematicBrowsingLayout: FunctionComponent<
     useState<PageLayoutMetadata>(basePageMetadata);
 
   useEffect(() => {
+    setIsLoading(true);
+
     switch (currentCategory) {
       case 'people-and-organisations':
         setPageLayoutMetadata({
@@ -210,7 +203,13 @@ const ThematicBrowsingLayout: FunctionComponent<
       default:
         break;
     }
+    setIsLoading(false);
   }, [currentCategory]);
+
+  if (!isValidThematicBrowsingCategory(currentCategory)) return null;
+
+  // TODO is this good? Do we hate this? We needs it.
+  if (isLoading) return <LL />;
 
   return (
     <PageLayout {...pageLayoutMetadata}>
@@ -218,7 +217,6 @@ const ThematicBrowsingLayout: FunctionComponent<
         uiTitle={pageLayoutMetadata.title}
         currentCategory={currentCategory}
       />
-      <DecorativeEdge variant="wobbly" backgroundColor="white" />
 
       {children}
     </PageLayout>

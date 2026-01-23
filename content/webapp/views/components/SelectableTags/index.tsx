@@ -77,7 +77,7 @@ export const SelectableTags: FunctionComponent<SelectableTagsProps> = ({
   const [selected, setSelected] = useState<string[]>(
     selectedTags ?? [tags[0]?.id]
   );
-  console.log(selectedTags);
+
   useEffect(() => {
     setSelected(selectedTags ?? [tags[0]?.id]);
   }, [isMultiSelect, selectedTags]);
