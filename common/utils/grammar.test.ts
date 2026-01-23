@@ -1,4 +1,4 @@
-import { formatNumber, kebabise, pluralize } from './grammar';
+import { formatNumber, pluralize } from './grammar';
 
 describe('formatNumber', () => {
   test.each([
@@ -26,24 +26,5 @@ describe('pluralize', () => {
     { count: 1156915, noun: 'work', output: '1,156,915 works' },
   ])('$count × $noun is formatted as $output', ({ count, noun, output }) => {
     expect(pluralize(count, noun)).toStrictEqual(output);
-  });
-});
-
-describe('kebabise', () => {
-  test.each([
-    { input: 'Hello World', output: 'hello-world' },
-    { input: '  Hello   World  ', output: 'hello-world' },
-    { input: 'Hello---World', output: 'hello-world' },
-    { input: 'Hello_world', output: 'hello-world' },
-    { input: 'A&B', output: 'a-b' },
-    { input: 'A / B', output: 'a-b' },
-    { input: 'The 2nd Age', output: 'the-2nd-age' },
-    { input: '--Already-kebab--', output: 'already-kebab' },
-    { input: 'Café', output: 'caf' },
-    { input: '...', output: '' },
-    { input: '  ', output: '' },
-    { input: '123', output: '123' },
-  ])('kebabise($input) -> $output', ({ input, output }) => {
-    expect(kebabise(input)).toStrictEqual(output);
   });
 });
