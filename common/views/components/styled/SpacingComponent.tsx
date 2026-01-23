@@ -36,8 +36,30 @@ const SpacingComponent = styled.div.attrs<{ $sliceType?: string }>(props => ({
     */
     margin-top: 0;
 
-    .spaced-text > *:first-child {
+    .spaced-text > *:first-child:not(h2) {
       margin-top: ${props => props.theme.spacedTextTopMargin};
+    }
+  }
+
+  & + &.slice-type-text {
+    &:has(h2:first-child) {
+      margin-top: 0;
+    }
+
+    h2 {
+      ${props => props.theme.responsiveSpaceMixin('space.xl', 'margin-top')}
+      &:not(:last-child) {
+        ${props =>
+          props.theme.responsiveSpaceMixin('space.md', 'margin-bottom')}
+      }
+    }
+
+    /* Visual stories have their own h2 styling that involves a border above */
+    .content-type-visual-story & {
+      &:has(h2:first-child) {
+        ${props => props.theme.responsiveSpaceMixin('space.xl', 'margin-top')}
+        border-top: 1px solid ${props => props.theme.color('black')};
+      }
     }
   }
 

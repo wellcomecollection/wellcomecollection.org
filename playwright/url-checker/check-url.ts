@@ -103,7 +103,6 @@ export const urlChecker =
       if (errorText.includes('net::ERR_ABORTED')) {
         return;
       }
-
       failures.push({
         failureType: 'page-request-failure',
         description: `Request made by page failed with ${errorText}: ${request.method()} ${request.url()}`,

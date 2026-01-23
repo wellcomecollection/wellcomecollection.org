@@ -88,7 +88,7 @@ const appPromise = nextApp
       ctx.redirect(url);
     });
 
-    router.all('(.*)', handleAllRoute(handle));
+    router.all('{/*path}', handleAllRoute(handle));
 
     koaApp.use(async (ctx, next) => {
       ctx.res.statusCode = 200;

@@ -4,8 +4,6 @@ require('@weco/common/services/apm/initApm')('identity-server');
 
 import Router from '@koa/router';
 import Koa from 'koa';
-import json from 'koa-json';
-import logger from 'koa-logger';
 import next from 'next';
 
 import { init as initServerData } from '@weco/common/server-data';
@@ -26,9 +24,7 @@ export async function createApp(): Promise<Koa> {
   app.proxy = isProduction;
   app.use(apmErrorMiddleware);
 
-  app.use(json({ pretty: process.env.NODE_ENV !== 'production' }));
-
-  // This custom logger redacts URLs in the logs.
+  // Custom request logger that redacts URLs in the logs.
   //
   // This is to prevent PII from being written to the logs, in particular
   // email addresses and other personal information being passed around
@@ -52,31 +48,34 @@ export async function createApp(): Promise<Koa> {
   //
   // See:
   //
-  //    * Documentation for custom transporters
-  //      https://github.com/koajs/logger#use-custom-transporter
   //    * Slack discussion about access tokens in logs
   //      https://wellcome.slack.com/archives/CUA669WHH/p1656593455081159
   //
-  app.use(
-    logger({
-      transporter: (_, args) => {
-        const [format, method, url, status, time, length] = args;
+  function formatBytes(bytes: number | undefined): string {
+    if (bytes === undefined) return '-';
+    if (bytes === 0) return '0b';
+    if (bytes < 1024) return `${bytes}b`;
+    const kb = bytes / 1024;
+    if (kb < 1024) return `${kb.toFixed(1)}kb`;
+    const mb = kb / 1024;
+    return `${mb.toFixed(1)}mb`;
+  }
 
-        const redactedUrl = redactUrl(url);
+  app.use(async (ctx, next) => {
+    const start = Date.now();
+    const { method } = ctx;
+    const url = redactUrl(ctx.url);
 
-        const newArgs = [
-          format,
-          method,
-          redactedUrl,
-          status,
-          time,
-          length,
-        ].filter(Boolean);
+    console.log(`<-- ${method} ${url}`);
 
-        console.log(...newArgs);
-      },
-    })
-  );
+    await next();
+
+    const ms = Date.now() - start;
+    const { status } = ctx;
+    const length = formatBytes(ctx.length);
+
+    console.log(`--> ${method} ${url} ${status} ${ms}ms ${length}`);
+  });
 
   const router = new Router();
 
@@ -87,7 +86,7 @@ export async function createApp(): Promise<Koa> {
     };
   });
 
-  router.all('(.*)', async ctx => {
+  router.all('{/*path}', async ctx => {
     await nextHandler(ctx.req, ctx.res);
     ctx.respond = false;
   });

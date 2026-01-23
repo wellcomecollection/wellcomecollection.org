@@ -14,8 +14,8 @@ import { getPage } from '@weco/content/utils/query-params';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import {
   fromQuery,
-  toQuery,
   getEventFormats,
+  toQuery,
 } from '@weco/content/views/components/SearchPagesLink/Events';
 import EventsPage, {
   Props as EventsPageProps,

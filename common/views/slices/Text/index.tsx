@@ -6,6 +6,7 @@ import { TextSlice as RawTextSlice } from '@weco/common/prismicio-types';
 import { classNames } from '@weco/common/utils/classnames';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import {
+  accessibilitySerializer,
   defaultSerializer,
   dropCapSerializer,
 } from '@weco/common/views/components/HTMLSerializers';
@@ -23,6 +24,11 @@ const Text: FunctionComponent<TextProps> = ({ slice, context }) => {
   const options = { ...defaultContext, ...context };
   const shouldBeDroppedCap =
     options.firstTextSliceIndex === slice.id && options.isDropCapped;
+
+  // Check if this is the accessibility page
+  const isAccessibilityPage =
+    options.pageUid === 'accessibility' ||
+    options.pageUid === 'prototype-a11y-november-2025';
 
   return (
     <SpacingComponent $sliceType={slice.slice_type}>
@@ -48,13 +54,21 @@ const Text: FunctionComponent<TextProps> = ({ slice, context }) => {
               />
               <PrismicHtmlBlock
                 html={slice.primary.text.slice(1) as prismic.RichTextField}
-                htmlSerializer={defaultSerializer}
+                htmlSerializer={
+                  isAccessibilityPage
+                    ? accessibilitySerializer
+                    : defaultSerializer
+                }
               />
             </>
           ) : (
             <PrismicHtmlBlock
               html={slice.primary.text}
-              htmlSerializer={defaultSerializer}
+              htmlSerializer={
+                isAccessibilityPage
+                  ? accessibilitySerializer
+                  : defaultSerializer
+              }
             />
           )}
         </div>
