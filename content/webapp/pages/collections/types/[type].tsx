@@ -248,7 +248,7 @@ export const getServerSideProps: GetServerSideProps<
   const serverData = await getServerData(context);
 
   // Return 404 if the browseCollections toggle is not enabled
-  if (!serverData.toggles.browseCollections) {
+  if (!serverData.toggles.browseCollections.value) {
     return {
       notFound: true,
     };
