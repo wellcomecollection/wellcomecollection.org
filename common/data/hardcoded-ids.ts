@@ -30,8 +30,23 @@ export const prismicPageIds = {
   access: 'accessibility',
   bookingAndAttendingOurEvents: 'booking-and-attending-our-events',
   cafe: 'cafe',
-  collections: 'collections',
-  newCollections: 'collections-landing', // TODO eventually rename collections when it switches over
+  collections: {
+    index: 'collections', // TODO edit in prismic?
+    places: 'collections-places',
+    typesAndTechniques: 'collections-types-and-techniques',
+    peopleAndOrganisations: 'collections-people-and-organisations',
+    subjects: {
+      index: 'collections-subjects',
+      food: 'subjects-food',
+      humanMind: 'subjects-human-mind',
+      medicineCareAndTreatment: 'subjects-medicine-care-and-treatment',
+      militaryAndWar: 'subjects-military-and-war',
+      naturalWorldAndPlants: 'subjects-natural-world-and-plants',
+      publicHealth: 'subjects-public-health',
+      religionAndSpirituality: 'subjects-religion-and-spirituality',
+      sexAndSexuality: 'subjects-sex-and-sexuality',
+    },
+  },
   contactUs: 'contact-us',
   cookiePolicy: 'cookie-policy',
   dailyGuidedTours: 'daily-guided-tours-and-discussions',
@@ -86,7 +101,7 @@ export const officialLandingPagesUid = [
   prismicPageIds.visitUs,
   prismicPageIds.whatsOn,
   'stories',
-  prismicPageIds.collections,
+  prismicPageIds.collections.index,
   prismicPageIds.getInvolved,
   prismicPageIds.aboutUs,
 ];

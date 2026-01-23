@@ -59,7 +59,9 @@ export const NotFoundErrorText: FunctionComponent = () => (
           <a href={`/${prismicPageIds.whatsOn}`}>events and exhibitions</a>
         </li>
         <li>
-          <a href={`/${prismicPageIds.collections}`}>Search our collections</a>
+          <a href={`/${prismicPageIds.collections.index}`}>
+            Search our collections
+          </a>
         </li>
         <li>
           <a href={`/visit-us/${prismicPageIds.library}`}>Using our library</a>
