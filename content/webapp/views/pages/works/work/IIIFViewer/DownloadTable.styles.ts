@@ -7,11 +7,12 @@ export const DownloadTableContainer = styled.div`
   overflow-y: auto;
 `;
 
-export const DownloadTitle = styled.h2.attrs({
+export const DownloadTitle = styled(Space).attrs({
+  as: 'h2',
   className: font('brand', 0),
+  $v: { size: 'lg', properties: ['margin-top'] },
 })`
   padding-left: ${props => props.theme.spacingUnit * 7}px;
-  padding-right: ${props => props.theme.spacingUnit * 7}px;
 `;
 
 export const DownloadTable = styled.table.attrs({
