@@ -7,9 +7,9 @@ import { getFileLabel } from '@weco/content/utils/works';
 
 import IIIFItemDownload from './IIIFItem.Download';
 
-const IframePdfViewer = styled.iframe`
+const IframePdfViewer = styled.iframe<{ $isInViewer?: boolean }>`
   width: 100%;
-  height: 100%;
+  height: ${props => props.$isInViewer ? '100%' : '90vh'};
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -21,6 +21,7 @@ type Props = {
   label?: string;
   fileSize?: string;
   format?: string;
+  isInViewer?: boolean;
 };
 
 const IIIFItemPdf: FunctionComponent<Props> = ({
@@ -28,6 +29,7 @@ const IIIFItemPdf: FunctionComponent<Props> = ({
   label,
   fileSize,
   format,
+  isInViewer,
 }: Props) => {
   const { isMobileOrTabletDevice } = useAppContext();
   const { extendedViewer } = useToggles();
@@ -44,7 +46,7 @@ const IIIFItemPdf: FunctionComponent<Props> = ({
           format={format}
         />
       ) : (
-        <IframePdfViewer title={displayLabel} src={src} />
+        <IframePdfViewer title={displayLabel} src={src} $isInViewer={isInViewer} />
       )}
     </>
   );
