@@ -232,7 +232,7 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
         <ContaineredLayout gridSizes={gridSize12()}>
           <Space $v={{ size: 'md', properties: ['margin-top'] }}>
             <MoreLink
-              name={'Browse more ' + selectedCategoryLabel.toLowerCase()}
+              name={`Browse more ${selectedCategoryLabel.toLowerCase()}`}
               url={selectedCategoryUrl}
             />
           </Space>
