@@ -9,7 +9,6 @@ import {
 import { SizeMap } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import ThemeCard from '@weco/common/views/components/ThemeCard';
-import { themeValues } from '@weco/common/views/themes/config';
 import { useConceptImageUrls } from '@weco/content/hooks/useConceptImageUrls';
 import { useThemeConcepts } from '@weco/content/hooks/useThemeConcepts';
 import { getConceptsByIds } from '@weco/content/pages/collections';
@@ -235,7 +234,6 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
             <MoreLink
               name={'Browse more ' + selectedCategoryLabel.toLowerCase()}
               url={selectedCategoryUrl}
-              colors={themeValues.buttonColors.charcoalTransparentCharcoal}
             />
           </Space>
         </ContaineredLayout>
