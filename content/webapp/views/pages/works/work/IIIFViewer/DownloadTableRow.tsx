@@ -77,7 +77,10 @@ const DownloadTableRow: FunctionComponent<{
           <a
             data-gtm-trigger="download_table_link"
             href={displayItem.id}
-            style={{ display: 'inline-flex', alignItems: 'center' }}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+            }}
           >
             <IconWrapper>
               <Icon icon={download} />

@@ -2,7 +2,7 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { FunctionComponent, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { hasNonImages } from '@weco/content/utils/iiif/v3';
+
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { useToggles } from '@weco/common/server-data/Context';
@@ -19,6 +19,7 @@ import {
   ParentManifest,
 } from '@weco/content/types/item-viewer';
 import { TransformedManifest } from '@weco/content/types/manifest';
+import { hasNonImages } from '@weco/content/utils/iiif/v3';
 import { fromQuery } from '@weco/content/views/components/ItemLink';
 
 import { DelayVisibility, queryParamToArrayIndex } from '.';
@@ -362,7 +363,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
           $hasOnlyImages={hasOnlyImages}
         >
           <DelayVisibility>
-            {!showZoomed && <ImageViewerControls />}
+            {!showZoomed && hasOnlyImages && <ImageViewerControls />}
             {hasIiifImage && !hasImageService && isFullSupportBrowser && (
               <ImageViewer
                 infoUrl={iiifImageLocation.url}
