@@ -7,18 +7,14 @@ import {
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import CollectionsTypesPage, {
-  Props as CollectionsTypesPageProps,
-} from '@weco/content/views/pages/collections/types-and-techniques';
+import CollectionsTypesAndTechniquesPage from '@weco/content/views/pages/collections/types-and-techniques';
 
-const Page: NextPage<CollectionsTypesPageProps> = props => {
-  return <CollectionsTypesPage {...props} />;
+const Page: NextPage = props => {
+  return <CollectionsTypesAndTechniquesPage {...props} />;
 };
 
-type Props = ServerSideProps<CollectionsTypesPageProps>;
-
 export const getServerSideProps: ServerSidePropsOrAppError<
-  Props
+  ServerSideProps
 > = async context => {
   setCacheControl(context.res);
   const serverData = await getServerData(context);
@@ -30,9 +26,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   }
 
   return {
-    props: serialiseProps<Props>({
+    props: serialiseProps<ServerSideProps>({
       serverData,
-      apiToolbarLinks: [],
     }),
   };
 };
