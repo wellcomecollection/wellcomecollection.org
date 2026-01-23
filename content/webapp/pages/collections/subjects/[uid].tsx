@@ -1,6 +1,5 @@
 import { NextPage } from 'next';
 
-import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { PagesDocument as RawPagesDocument } from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -31,13 +30,14 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const serverData = await getServerData(context);
 
   // Ensure this is a valid subject page
-  const subjectsEnum = Object.values(prismicPageIds.collections.subjects);
+  // TODO grow list when "core concepts" are officialised
+  const subjectsEnum = ['military-and-war'];
   const pageUid = getQueryPropertyValue(context.query.uid);
 
   if (
     !serverData.toggles.thematicBrowsing.value ||
     !pageUid ||
-    !subjectsEnum.includes('subjects-' + pageUid)
+    !subjectsEnum.includes(pageUid)
   ) {
     return {
       notFound: true,
@@ -45,7 +45,10 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   }
 
   const client = createClient(context);
-  const wellcomeSubThemePagePromise = await fetchPage(client, pageUid);
+  const wellcomeSubThemePagePromise = await fetchPage(
+    client,
+    'subjects-' + pageUid
+  );
 
   if (isNotUndefined(wellcomeSubThemePagePromise)) {
     const wellcomeSubThemePage = transformPage(
@@ -57,6 +60,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         serverData,
         pageMeta: {
           id: wellcomeSubThemePage.id,
+          uid: wellcomeSubThemePage.uid,
           image: wellcomeSubThemePage.promo?.image,
           description: wellcomeSubThemePage.promo?.caption,
         },

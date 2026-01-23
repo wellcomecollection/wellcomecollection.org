@@ -9,6 +9,7 @@ import PageLayout from '@weco/common/views/layouts/PageLayout';
 export type Props = {
   pageMeta: {
     id: string;
+    uid: string;
     image?: ImageType;
     description?: string;
   };
@@ -25,7 +26,7 @@ const WellcomeSubThemePage: NextPage<Props> = ({
     <PageLayout
       title={title}
       description={pageMeta.description || ''}
-      url={{ pathname: `/collections/subjects/${pageMeta.id}` }}
+      url={{ pathname: `/collections/subjects/${pageMeta.uid}` }}
       jsonLd={[]}
       openGraphType="website"
       siteSection="collections"

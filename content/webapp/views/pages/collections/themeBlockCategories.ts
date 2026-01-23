@@ -1,8 +1,11 @@
 // Theme block categories config for collections landing page
 // TODO need the real concept ids to use
 
+import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
+
 export type ThemeCategory = {
   label: string;
+  url?: string;
   concepts: string[];
 };
 
@@ -28,6 +31,7 @@ export const themeBlockCategories: ThemeConfig = {
     },
     {
       label: 'People and organisations',
+      url: `${prismicPageIds.collections}/people-and-organisations`,
       concepts: [
         'w7yp9m3v',
         'umqzyxwk',
@@ -41,6 +45,7 @@ export const themeBlockCategories: ThemeConfig = {
     },
     {
       label: 'Types and techniques',
+      url: `${prismicPageIds.collections}/types-and-techniques`,
       concepts: [
         'pestkwqm',
         'byqnbpfc',
@@ -56,6 +61,7 @@ export const themeBlockCategories: ThemeConfig = {
     },
     {
       label: 'Subjects',
+      url: `${prismicPageIds.collections}/subjects`,
       concepts: [
         'ec77rqzq',
         'euehm7ng',
@@ -70,6 +76,7 @@ export const themeBlockCategories: ThemeConfig = {
     },
     {
       label: 'Places',
+      url: `${prismicPageIds.collections}/places`,
       concepts: [
         'vcqcqced',
         'h8fuyw3g',

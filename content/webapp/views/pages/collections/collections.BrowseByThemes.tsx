@@ -2,7 +2,6 @@ import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { useToggles } from '@weco/common/server-data/Context';
-import { kebabise } from '@weco/common/utils/grammar';
 import {
   ContaineredLayout,
   gridSize12,
@@ -184,6 +183,9 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
     themeConfig.categories.findIndex(
       cat => cat.label === selectedCategoryLabel
     ) + 1;
+  const selectedCategoryUrl = themeConfig.categories.find(
+    cat => cat.label === selectedCategoryLabel
+  )?.url;
 
   return (
     <Space
@@ -227,12 +229,12 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
         ))}
       </ScrollContainer>
 
-      {thematicBrowsing && selectedCategoryLabel !== 'Featured' && (
+      {thematicBrowsing && selectedCategoryUrl && (
         <ContaineredLayout gridSizes={gridSize12()}>
           <Space $v={{ size: 'md', properties: ['margin-top'] }}>
             <MoreLink
               name={'Browse more ' + selectedCategoryLabel.toLowerCase()}
-              url={`/collections/${kebabise(selectedCategoryLabel)}`}
+              url={selectedCategoryUrl}
               colors={themeValues.buttonColors.charcoalTransparentCharcoal}
             />
           </Space>
