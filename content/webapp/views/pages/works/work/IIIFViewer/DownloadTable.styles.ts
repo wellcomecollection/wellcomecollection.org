@@ -47,11 +47,6 @@ export const DownloadTable = styled.table.attrs({
   }
 `;
 
-export const InlineFlex = styled.span`
-  display: inline-flex;
-  align-items: center;
-`;
-
 export const IconWrapper = styled(Space).attrs({
   $h: { size: 'xs', properties: ['margin-right'] },
 })`

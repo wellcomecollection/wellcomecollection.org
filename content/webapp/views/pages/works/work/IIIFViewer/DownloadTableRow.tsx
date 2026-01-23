@@ -1,9 +1,9 @@
 import { Body, ChoiceBody, ContentResource } from '@iiif/presentation-3';
-import { FunctionComponent } from 'react';
-import { LinkProps } from '@weco/common/model/link-props';
 import NextLink from 'next/link';
+import { FunctionComponent } from 'react';
 
-import { file, image, audio, video, pdf, download } from '@weco/common/icons';
+import { audio, download, file, image, pdf, video } from '@weco/common/icons';
+import { LinkProps } from '@weco/common/model/link-props';
 import Icon from '@weco/common/views/components/Icon';
 import {
   CustomContentResource,
@@ -12,7 +12,7 @@ import {
 import { getFileSize, isChoiceBody } from '@weco/content/utils/iiif/v3';
 import { getFileLabel } from '@weco/content/utils/works';
 
-import { IconWrapper, InlineFlex, StyledTr } from './DownloadTable.styles';
+import { IconWrapper, StyledTr } from './DownloadTable.styles';
 
 const getIcon = (type: string, format?: string) => {
   switch (type) {
@@ -53,12 +53,15 @@ const DownloadTableRow: FunctionComponent<{
     return (
       <StyledTr $isCurrent={isCurrent}>
         <td>
-          <InlineFlex>
+          <NextLink
+            {...canvasLink}
+            style={{ display: 'inline-flex', alignItems: 'center' }}
+          >
             <IconWrapper>
               <Icon icon={getIcon(displayItem.type, format)} />
             </IconWrapper>
-            <NextLink {...canvasLink}>{itemLabel}</NextLink>
-          </InlineFlex>
+            {itemLabel}
+          </NextLink>
         </td>
         <td className="is-hidden-s">
           {fileSize ? (
@@ -71,14 +74,16 @@ const DownloadTableRow: FunctionComponent<{
           )}
         </td>
         <td>
-          <InlineFlex>
+          <a
+            data-gtm-trigger="download_table_link"
+            href={displayItem.id}
+            style={{ display: 'inline-flex', alignItems: 'center' }}
+          >
             <IconWrapper>
               <Icon icon={download} />
             </IconWrapper>
-            <a data-gtm-trigger="download_table_link" href={displayItem.id}>
-              Download
-            </a>
-          </InlineFlex>
+            Download
+          </a>
         </td>
       </StyledTr>
     );
