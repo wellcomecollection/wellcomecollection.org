@@ -1,0 +1,93 @@
+import * as prismic from '@prismicio/client';
+import styled from 'styled-components';
+
+import { font } from '@weco/common/utils/classnames';
+import Breadcrumb, {
+  getBreadcrumbItems,
+} from '@weco/common/views/components/Breadcrumb';
+import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
+import Layout, {
+  gridSize10,
+  gridSize8,
+} from '@weco/common/views/components/Layout';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
+import { Container } from '@weco/common/views/components/styled/Container';
+import Space from '@weco/common/views/components/styled/Space';
+
+import { ThematicBrowsingCategories } from '.';
+import ThematicBrowsingNavigation from './ThematicBrowsing.Navigation';
+
+const ThematicBrowsingHeaderContainer = styled(Space).attrs({
+  $v: { size: 'sm', properties: ['padding-top'] },
+})`
+  background-color: ${props => props.theme.color('accent.lightGreen')};
+  padding-bottom: ${props => props.theme.gutter.xlarge};
+`;
+
+const Title = styled(Space).attrs({
+  as: 'h1',
+  className: font('brand', 4),
+  $v: { size: '2xs', properties: ['margin-bottom'] },
+})``;
+
+const ThemeDescription = styled.div.attrs({
+  className: `${font('sans', 1)} body-text`,
+})``;
+
+const ThematicBrowsingHeader = ({
+  uiTitle,
+  currentCategory,
+  uiDescription,
+  extraBreadcrumbs,
+}: {
+  uiTitle: string;
+  currentCategory: ThematicBrowsingCategories;
+  uiDescription?: string | prismic.RichTextField;
+  extraBreadcrumbs?: { url: string; text: string }[];
+}) => {
+  return (
+    <>
+      <ThematicBrowsingHeaderContainer>
+        <Container>
+          <Space
+            $v={{
+              size: 'sm',
+              properties: ['margin-top', 'margin-bottom'],
+              overrides: { md: '150' },
+            }}
+          >
+            <Breadcrumb
+              items={getBreadcrumbItems('collections', extraBreadcrumbs).items}
+            />
+          </Space>
+
+          <Space
+            $v={{ size: 'md', properties: ['margin-bottom', 'margin-top'] }}
+          >
+            <ThematicBrowsingNavigation currentCategory={currentCategory} />
+          </Space>
+
+          <Layout gridSizes={gridSize10(false)}>
+            <Title>{uiTitle}</Title>
+          </Layout>
+
+          {uiDescription && (
+            <Layout gridSizes={gridSize8(false)}>
+              <ThemeDescription>
+                {typeof uiDescription !== 'string' ? (
+                  <PrismicHtmlBlock html={uiDescription} />
+                ) : (
+                  <p>{uiDescription}</p>
+                )}
+              </ThemeDescription>
+            </Layout>
+          )}
+        </Container>
+      </ThematicBrowsingHeaderContainer>
+
+      <DecorativeEdge variant="wobbly" backgroundColor="white" />
+    </>
+  );
+};
+
+export default ThematicBrowsingHeader;

@@ -1,4 +1,3 @@
-import * as prismic from '@prismicio/client';
 import { useRouter } from 'next/router';
 import {
   ComponentType,
@@ -7,48 +6,29 @@ import {
   useEffect,
   useState,
 } from 'react';
-import styled from 'styled-components';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { SiteSection } from '@weco/common/model/site-section';
-import { font } from '@weco/common/utils/classnames';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
-import Breadcrumb, {
-  getBreadcrumbItems,
-} from '@weco/common/views/components/Breadcrumb';
-import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
-import Layout, {
-  gridSize10,
-  gridSize8,
-} from '@weco/common/views/components/Layout';
-import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
-import { Container } from '@weco/common/views/components/styled/Container';
 import LL from '@weco/common/views/components/styled/LL';
-import Space from '@weco/common/views/components/styled/Space';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 
-import ThematicBrowsingNavigation, {
-  isValidThematicBrowsingCategory,
-  ThematicBrowsingCategories,
-} from './ThematicBrowsing.Navigation';
+import ThematicBrowsingHeader from './ThematicBrowsing.Header';
 
-const ThematicBrowsingHeaderContainer = styled(Space).attrs({
-  $v: { size: 'sm', properties: ['padding-top'] },
-})`
-  background-color: ${props => props.theme.color('accent.lightGreen')};
-  padding-bottom: ${props => props.theme.gutter.xlarge};
-`;
+const categories = [
+  'people-and-organisations',
+  'types-and-techniques',
+  'subjects',
+  'places',
+] as const;
+export type ThematicBrowsingCategories = (typeof categories)[number];
 
-const Title = styled(Space).attrs({
-  as: 'h1',
-  className: font('brand', 4),
-  $v: { size: '2xs', properties: ['margin-bottom'] },
-})``;
-
-const ThemeDescription = styled.div.attrs({
-  className: `${font('sans', 1)} body-text`,
-})``;
+function isValidThematicBrowsingCategory(
+  type?: string
+): type is ThematicBrowsingCategories {
+  return categories.includes(type as ThematicBrowsingCategories);
+}
 
 type PageLayoutMetadata = {
   openGraphType: 'website';
@@ -62,62 +42,6 @@ type PageLayoutMetadata = {
     query: Record<string, string | string[] | undefined>;
   };
   siteSection?: SiteSection;
-};
-
-const ThematicBrowsingHeader = ({
-  uiTitle,
-  currentCategory,
-  uiDescription,
-  extraBreadcrumbs,
-}: {
-  uiTitle: string;
-  currentCategory: ThematicBrowsingCategories;
-  uiDescription?: string | prismic.RichTextField;
-  extraBreadcrumbs?: { url: string; text: string }[];
-}) => {
-  return (
-    <>
-      <ThematicBrowsingHeaderContainer>
-        <Container>
-          <Space
-            $v={{
-              size: 'sm',
-              properties: ['margin-top', 'margin-bottom'],
-              overrides: { md: '150' },
-            }}
-          >
-            <Breadcrumb
-              items={getBreadcrumbItems('collections', extraBreadcrumbs).items}
-            />
-          </Space>
-
-          <Space
-            $v={{ size: 'md', properties: ['margin-bottom', 'margin-top'] }}
-          >
-            <ThematicBrowsingNavigation currentCategory={currentCategory} />
-          </Space>
-
-          <Layout gridSizes={gridSize10(false)}>
-            <Title>{uiTitle}</Title>
-          </Layout>
-
-          {uiDescription && (
-            <Layout gridSizes={gridSize8(false)}>
-              <ThemeDescription>
-                {typeof uiDescription !== 'string' ? (
-                  <PrismicHtmlBlock html={uiDescription} />
-                ) : (
-                  <p>{uiDescription}</p>
-                )}
-              </ThemeDescription>
-            </Layout>
-          )}
-        </Container>
-      </ThematicBrowsingHeaderContainer>
-
-      <DecorativeEdge variant="wobbly" backgroundColor="white" />
-    </>
-  );
 };
 
 type ThematicBrowsingLayoutProps = PropsWithChildren<{
@@ -208,16 +132,17 @@ const ThematicBrowsingLayout: FunctionComponent<
 
   if (!isValidThematicBrowsingCategory(currentCategory)) return null;
 
-  // TODO is this good? Do we hate this? We needs it.
-  if (isLoading) return <LL />;
-
   return (
     <PageLayout {...pageLayoutMetadata}>
-      <ThematicBrowsingHeader
-        uiTitle={pageLayoutMetadata.title}
-        currentCategory={currentCategory}
-      />
-
+      {/* TODO is this good? Do we hate this? We needs it. Or maybe not. We have to fix it. */}
+      {isLoading ? (
+        <LL />
+      ) : (
+        <ThematicBrowsingHeader
+          uiTitle={pageLayoutMetadata.title}
+          currentCategory={currentCategory}
+        />
+      )}
       {children}
     </PageLayout>
   );

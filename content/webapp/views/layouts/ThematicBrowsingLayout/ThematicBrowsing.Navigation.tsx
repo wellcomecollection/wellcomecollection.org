@@ -4,19 +4,8 @@ import { FunctionComponent } from 'react';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import SelectableTags from '@weco/content/views/components/SelectableTags';
 
-const categories = [
-  'people-and-organisations',
-  'types-and-techniques',
-  'subjects',
-  'places',
-] as const;
-export type ThematicBrowsingCategories = (typeof categories)[number];
+import { ThematicBrowsingCategories } from '.';
 
-export function isValidThematicBrowsingCategory(
-  type?: string
-): type is ThematicBrowsingCategories {
-  return categories.includes(type as ThematicBrowsingCategories);
-}
 type Props = {
   currentCategory: ThematicBrowsingCategories;
 };
@@ -41,6 +30,7 @@ const ThematicBrowsingNavigation: FunctionComponent<Props> = ({
       tags={tagItems}
       onChange={selectedTags => {
         const selectedTag = selectedTags[0];
+        // TODO do this better?
         if (selectedTag) {
           router.push(`/${prismicPageIds.collections}/${selectedTag}`);
         }
