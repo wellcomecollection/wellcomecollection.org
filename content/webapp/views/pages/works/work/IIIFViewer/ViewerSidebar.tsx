@@ -10,7 +10,6 @@ import styled from 'styled-components';
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { arrow, chevron, info2 } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import { useToggles } from '@weco/common/server-data/Context';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
