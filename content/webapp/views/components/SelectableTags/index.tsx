@@ -17,6 +17,7 @@ type SelectableTagsProps = {
     gtmData?: DataGtmProps;
   }[];
   isMultiSelect?: boolean;
+  selectedTags?: string[];
   onChange?: (selected: string[]) => void;
 };
 
@@ -69,14 +70,17 @@ const InputField = styled.input`
 
 export const SelectableTags: FunctionComponent<SelectableTagsProps> = ({
   tags,
+  selectedTags,
   isMultiSelect,
   onChange,
 }) => {
-  const [selected, setSelected] = useState<string[]>([tags[0]?.id]);
-
+  const [selected, setSelected] = useState<string[]>(
+    selectedTags ?? [tags[0]?.id]
+  );
+  console.log(selectedTags);
   useEffect(() => {
-    setSelected([tags[0]?.id]);
-  }, [isMultiSelect]);
+    setSelected(selectedTags ?? [tags[0]?.id]);
+  }, [isMultiSelect, selectedTags]);
 
   if (tags.length === 0) return null;
 
