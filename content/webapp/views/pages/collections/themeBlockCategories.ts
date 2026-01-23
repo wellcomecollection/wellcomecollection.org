@@ -1,6 +1,4 @@
 // Theme block categories config for collections landing page
-// TODO need the real concept ids to use
-
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 
 export type ThemeCategory = {
