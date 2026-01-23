@@ -80,7 +80,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const client = createClient(context);
   const collectionsPagePromise = await fetchPage(
     client,
-    prismicPageIds.collections.index
+    prismicPageIds.collections
   );
 
   if (isNotUndefined(collectionsPagePromise)) {

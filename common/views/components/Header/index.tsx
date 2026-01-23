@@ -64,7 +64,7 @@ export const links: NavLink[] = [
     siteSection: 'stories',
   },
   {
-    href: `/${prismicPageIds.collections.index}`,
+    href: `/${prismicPageIds.collections}`,
     title: 'Collections',
     siteSection: 'collections',
   },

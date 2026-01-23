@@ -22,7 +22,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   // but have their own dedicated routes
   // TODO add core subjects page when officialised and implemented
   const collectionsHiddenPages = {
-    collectionsLanding: ['collections-landing', 'aKb_ahAAAB8AhtQC'],
+    collectionsLanding: ['collections', 'aKb_ahAAAB8AhtQC'],
     militaryAndWar: ['subjects-military-and-war', 'aXNKABEAACAAypp_'],
   };
   const flattenedHiddenPages = Object.values(collectionsHiddenPages).flat();
