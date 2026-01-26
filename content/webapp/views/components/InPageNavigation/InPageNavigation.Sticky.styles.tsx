@@ -17,7 +17,7 @@ export const InPageNavList = styled(PlainList)<{
   $isListActive: boolean;
 }>`
   padding-bottom: ${props =>
-    !props.$hasStuck && props.theme.spacingUnits['150']};
+    props.$hasStuck ? '0' : props.theme.spacingUnits['150']};
   border-bottom: 1px solid
     ${props => props.theme.color(props.$isOnWhite ? 'neutral.300' : 'white')};
 
