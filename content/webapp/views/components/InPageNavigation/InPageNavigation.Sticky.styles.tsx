@@ -17,7 +17,7 @@ export const InPageNavList = styled(PlainList)<{
   $isListActive: boolean;
 }>`
   padding-bottom: ${props =>
-    !props.$hasStuck && props.$isListActive && props.theme.spacingUnits['150']};
+    !props.$hasStuck && props.theme.spacingUnits['150']};
   border-bottom: 1px solid
     ${props => props.theme.color(props.$isOnWhite ? 'neutral.300' : 'white')};
 
@@ -29,6 +29,7 @@ export const InPageNavList = styled(PlainList)<{
       max-height: 90vh;
       overflow-x: hidden;
       overflow-y: auto;
+      ${!props.$isListActive ? 'display: none;' : ''}
     `)}
 
   ${props => props.theme.media('md')`
@@ -251,12 +252,7 @@ export const MobileNavButton = styled.button.attrs({
 
   .icon {
     transition: transform ${props => props.theme.transitionProperties};
-  }
-
-  nav:has(ul.is-hidden-s) & {
-    .icon {
-      transform: rotate(45deg);
-    }
+    ${props => !props.$isListActive && 'transform: rotate(45deg);'}
   }
 
   ${props => props.theme.media('md')`
