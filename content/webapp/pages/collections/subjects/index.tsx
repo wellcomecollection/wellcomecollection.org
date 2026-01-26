@@ -1,4 +1,3 @@
-import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { getServerData } from '@weco/common/server-data';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -29,12 +28,9 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     props: serialiseProps<Props>({
       serverData,
       title: 'Subjects', // TODO confirm
-      description: pageDescriptions.collections.subjects, // TODO confirm
+      description: pageDescriptions.collections.subjects,
       pageMeta: {
-        url: {
-          pathname: `/${prismicPageIds.collections}/subjects`,
-          query: {},
-        },
+        urlPathname: `/subjects`,
       },
     }),
   };

@@ -1,4 +1,3 @@
-import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { PagesDocument as RawPagesDocument } from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -57,10 +56,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
           prismicId: wellcomeSubThemePage.id,
           image: wellcomeSubThemePage.promo?.image,
           description: wellcomeSubThemePage.promo?.caption,
-          url: {
-            pathname: `/${prismicPageIds.collections}/subjects/${pageUid}`,
-            query: {},
-          },
+          urlPathname: `/subjects/${pageUid}`,
         },
         title: wellcomeSubThemePage.title,
         introText: wellcomeSubThemePage.introText ?? [],

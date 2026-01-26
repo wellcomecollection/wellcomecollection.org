@@ -6,6 +6,7 @@ import {
   PropsWithChildren,
 } from 'react';
 
+import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { ImageType } from '@weco/common/model/image';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
@@ -28,10 +29,7 @@ function isValidThematicBrowsingCategory(
 }
 
 export type CollectionsStaticPageMeta = {
-  url: {
-    pathname: string;
-    query: Record<string, string | string[] | undefined>;
-  };
+  urlPathname?: string;
 };
 export type CollectionsPrismicPageMeta = CollectionsStaticPageMeta & {
   prismicId: string;
@@ -82,7 +80,9 @@ const ThematicBrowsingLayout: FunctionComponent<
             ? description
             : pageDescriptions.collections.index
       }
-      url={pageMeta.url}
+      url={{
+        pathname: `/${prismicPageIds.collections}${pageMeta.urlPathname ? `/${pageMeta.urlPathname}` : ''}`,
+      }}
       {...('image' in pageMeta && { image: pageMeta.image })}
       {...(apiToolbarLinks.length > 0 && { apiToolbarLinks })}
     >

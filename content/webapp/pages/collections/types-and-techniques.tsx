@@ -1,4 +1,3 @@
-import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { getServerData } from '@weco/common/server-data';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -28,13 +27,10 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   return {
     props: serialiseProps<Props>({
       serverData,
-      title: 'Types and techniques',
+      title: 'Types and techniques', // TODO confirm
       description: pageDescriptions.collections.typesAndTechniques,
       pageMeta: {
-        url: {
-          pathname: `/${prismicPageIds.collections}/types-and-techniques`,
-          query: {},
-        },
+        urlPathname: '/types-and-techniques',
       },
     }),
   };

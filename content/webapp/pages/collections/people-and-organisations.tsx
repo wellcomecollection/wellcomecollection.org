@@ -1,4 +1,3 @@
-import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { getServerData } from '@weco/common/server-data';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -31,10 +30,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       title: 'People and organisations', // TODO confirm
       description: pageDescriptions.collections.peopleAndOrganisations,
       pageMeta: {
-        url: {
-          pathname: `/${prismicPageIds.collections}/people-and-organisations`,
-          query: {},
-        },
+        urlPathname: '/people-and-organisations',
       },
     }),
   };
