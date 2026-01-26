@@ -288,7 +288,13 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
             {isEnhanced && <Icon icon={cross} matchText />}
           </MobileNavButton>
 
-          <InPageNavList ref={listRef} id={listId} $isOnWhite={!!isOnWhite}>
+          <InPageNavList
+            $hasStuck={hasStuck}
+            $isListActive={isListActive}
+            ref={listRef}
+            id={listId}
+            $isOnWhite={!!isOnWhite}
+          >
             {links.map((link: Link, index) => {
               const id = link.url.replace('#', '');
               const isActive = activeId === id;
