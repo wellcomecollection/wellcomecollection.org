@@ -31,7 +31,6 @@ export const prismicPageIds = {
   bookingAndAttendingOurEvents: 'booking-and-attending-our-events',
   cafe: 'cafe',
   collections: 'collections',
-  newCollections: 'collections-landing', // TODO eventually rename collections when it switches over
   contactUs: 'contact-us',
   cookiePolicy: 'cookie-policy',
   dailyGuidedTours: 'daily-guided-tours-and-discussions',

@@ -18,10 +18,17 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 > = async context => {
   const { uid } = context.query;
 
+  // These are pages that are not to be found via the /collections/[uid] route
+  // but have their own dedicated routes
+  // TODO add core subjects page when officialised and implemented
+  const collectionsHiddenPages = {
+    collectionsLanding: ['collections', 'aKb_ahAAAB8AhtQC'],
+    militaryAndWar: ['subjects-military-and-war', 'aXNKABEAACAAypp_'],
+  };
+  const flattenedHiddenPages = Object.values(collectionsHiddenPages).flat();
+
   const isHiddenPage = uid
-    ? ['collections-landing', 'aKb_ahAAAB8AhtQC'].includes(
-        Array.isArray(uid) ? uid[0] : uid
-      )
+    ? flattenedHiddenPages.includes(Array.isArray(uid) ? uid[0] : uid)
     : false;
 
   if (isHiddenPage || !looksLikePrismicId(uid)) {
