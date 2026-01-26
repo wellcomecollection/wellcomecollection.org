@@ -354,14 +354,16 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
             <>
               <span data-testid="active-index">{`${canvas || 0}`}</span>
               {`/${canvases?.length || ''}`}{' '}
-              {!(canvases[queryParamToArrayIndex(canvas)]?.label?.trim() === '-') &&
+              {!(
+                canvases[queryParamToArrayIndex(canvas)]?.label?.trim() === '-'
+              ) &&
                 `${hasOnlyImages ? 'page ' : ''}${canvases[
                   queryParamToArrayIndex(canvas)
                 ]?.label?.trim()}`}
             </>
           )}
         </MiddleZone>
-        {hasOnlyImages && (
+        {(hasOnlyImages || canvases?.length === 1) && (
           <RightZone>
             {isEnhanced && (
               <div style={{ display: 'flex', alignItems: 'center' }}>

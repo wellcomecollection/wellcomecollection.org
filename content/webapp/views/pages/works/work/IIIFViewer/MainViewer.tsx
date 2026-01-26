@@ -42,28 +42,11 @@ const MainViewerContainer = styled.div<{ $useFixedList: boolean }>`
   `}
 `;
 
-const ItemContainer = styled.div`
-  position: relative;
-  height: 100%;
-`;
-
-// Temporary styling for viewer to display audio, video and pdfs
-// will be tidied up in future work
-const ItemWrapper = styled.div<{ $hasMultipleCanvases?: boolean }>`
-  margin: auto;
-  height: 100%;
-
-  .item-wrapper {
-    margin: auto;
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-    display: block;
-    height: auto;
-    width: 90%;
-    max-width: 800px;
-    max-height: 95%;
-  }
+const ItemWrapper = styled.div<{
+  $hasMultipleCanvases?: boolean;
+  $isAudio?: boolean;
+}>`
+  ${props => !props.$isAudio && 'height: 100%;'}
 
   .pdf-wrapper,
   iframe {
@@ -75,12 +58,11 @@ const ItemWrapper = styled.div<{ $hasMultipleCanvases?: boolean }>`
 
   video {
     display: block;
-    margin: auto;
-    width: 100%;
-    height: auto;
-    ${props => props.$hasMultipleCanvases && 'max-height: 55vh;'}
+    max-height: 100%;
+    margin: 0 auto;
   }
-`; // minus height of the header
+`;
+
 type OverlayPositionData = {
   canvasNumber: number;
   overlayTop: number;
@@ -349,7 +331,10 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
           {displayItems.length > 0 &&
             displayItems.map(item => {
               return (
-                <ItemWrapper key={item.type + item.id}>
+                <ItemWrapper
+                  key={item.type + item.id}
+                  $isAudio={item.type === 'Sound'}
+                >
                   <IIIFItem
                     placeholderId={placeholderId}
                     item={item}
@@ -524,13 +509,14 @@ const MainViewer: FunctionComponent = () => {
 
   return (
     <MainViewerContainer $useFixedList={false} data-testid="main-viewer">
-      <ItemContainer>
+      <>
         {displayItems.map((item, i) => {
           return (
             currentCanvas && (
               <ItemWrapper
                 key={item.type + item.id}
                 $hasMultipleCanvases={hasMultipleCanvases}
+                $isAudio={item.type === 'Sound'}
               >
                 <IIIFItem
                   placeholderId={placeholderId}
@@ -546,7 +532,7 @@ const MainViewer: FunctionComponent = () => {
             )
           );
         })}
-      </ItemContainer>
+      </>
       {hasMultipleCanvases && (
         <DownloadTableSection
           canvases={canvases}

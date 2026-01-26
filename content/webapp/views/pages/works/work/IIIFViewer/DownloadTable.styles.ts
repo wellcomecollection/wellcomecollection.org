@@ -10,7 +10,7 @@ export const DownloadTableContainer = styled.div`
 export const DownloadTitle = styled(Space).attrs({
   as: 'h2',
   className: font('brand', 0),
-  $v: { size: 'lg', properties: ['margin-top'] },
+  $v: { size: 'sm', properties: ['margin-top'] },
 })`
   padding-left: ${props => props.theme.spacingUnit * 7}px;
 `;
