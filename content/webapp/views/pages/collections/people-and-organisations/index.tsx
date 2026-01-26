@@ -1,19 +1,13 @@
 import { NextPage } from 'next';
 import { ReactElement } from 'react';
 
+import { pageDescriptions } from '@weco/common/data/microcopy';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 import ThematicBrowsingLayout from '@weco/content/views/layouts/ThematicBrowsingLayout';
-import { CollectionsStaticPageMeta } from '@weco/content/views/layouts/ThematicBrowsingLayout';
 
-export type Props = {
-  title: string;
-  description: string;
-  pageMeta: CollectionsStaticPageMeta;
-};
-
-const CollectionsPeoplePage: NextPage<Props> & {
-  getLayout?: (page: ReactElement<Props>) => ReactElement;
+const CollectionsPeoplePage: NextPage & {
+  getLayout?: (page: ReactElement) => ReactElement;
 } = () => {
   return (
     <Container>
@@ -25,13 +19,13 @@ const CollectionsPeoplePage: NextPage<Props> & {
 };
 
 CollectionsPeoplePage.getLayout = page => {
-  const { title, description, pageMeta } = page.props;
-
   return (
     <ThematicBrowsingLayout
-      title={title}
-      description={description}
-      pageMeta={pageMeta}
+      title="People and organisations" // TODO confirm
+      description={pageDescriptions.collections.peopleAndOrganisations}
+      pageMeta={{
+        urlPathname: '/people-and-organisations',
+      }}
     >
       {page}
     </ThematicBrowsingLayout>

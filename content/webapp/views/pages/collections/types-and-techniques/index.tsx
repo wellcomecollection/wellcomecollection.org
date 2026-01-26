@@ -1,19 +1,13 @@
 import { NextPage } from 'next';
 import { ReactElement } from 'react';
 
+import { pageDescriptions } from '@weco/common/data/microcopy';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 import ThematicBrowsingLayout from '@weco/content/views/layouts/ThematicBrowsingLayout';
-import { CollectionsStaticPageMeta } from '@weco/content/views/layouts/ThematicBrowsingLayout';
 
-export type Props = {
-  title: string;
-  description: string;
-  pageMeta: CollectionsStaticPageMeta;
-};
-
-const CollectionsTypesAndTechniquesPage: NextPage<Props> & {
-  getLayout?: (page: ReactElement<Props>) => ReactElement;
+const CollectionsTypesAndTechniquesPage: NextPage & {
+  getLayout?: (page: ReactElement) => ReactElement;
 } = () => {
   return (
     <Container>
@@ -25,12 +19,13 @@ const CollectionsTypesAndTechniquesPage: NextPage<Props> & {
 };
 
 CollectionsTypesAndTechniquesPage.getLayout = page => {
-  const { title, description, pageMeta } = page.props;
   return (
     <ThematicBrowsingLayout
-      title={title}
-      description={description}
-      pageMeta={pageMeta}
+      title="Types and techniques" // TODO confirm
+      description={pageDescriptions.collections.typesAndTechniques}
+      pageMeta={{
+        urlPathname: '/types-and-techniques',
+      }}
     >
       {page}
     </ThematicBrowsingLayout>

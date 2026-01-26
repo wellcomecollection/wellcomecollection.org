@@ -1,4 +1,3 @@
-import { pageDescriptions } from '@weco/common/data/microcopy';
 import { getServerData } from '@weco/common/server-data';
 import { serialiseProps } from '@weco/common/utils/json';
 import {
@@ -6,14 +5,10 @@ import {
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import CollectionsSubjectsPage, {
-  Props as CollectionsSubjectsPageProps,
-} from '@weco/content/views/pages/collections/subjects';
-
-type Props = ServerSideProps<CollectionsSubjectsPageProps>;
+import CollectionsSubjectsPage from '@weco/content/views/pages/collections/subjects';
 
 export const getServerSideProps: ServerSidePropsOrAppError<
-  Props
+  ServerSideProps
 > = async context => {
   setCacheControl(context.res);
   const serverData = await getServerData(context);
@@ -25,13 +20,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   }
 
   return {
-    props: serialiseProps<Props>({
+    props: serialiseProps<ServerSideProps>({
       serverData,
-      title: 'Subjects', // TODO confirm
-      description: pageDescriptions.collections.subjects,
-      pageMeta: {
-        urlPathname: `/subjects`,
-      },
     }),
   };
 };
