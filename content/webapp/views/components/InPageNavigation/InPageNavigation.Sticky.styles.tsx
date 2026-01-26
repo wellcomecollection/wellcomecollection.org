@@ -284,8 +284,11 @@ export const NavGridCell = styled(GridCell)<{
     content: '';
     position: absolute;
     width: ${props => props.theme.containerPaddingVw};
-    bottom: 0;
-    top: 0;
+
+    /* These are -1px instead of 0 to account for iOS subpixel rendering artefacts
+    https://github.com/wellcomecollection/wellcomecollection.org/issues/12689 */
+    bottom: -1px;
+    top: -1px;
     transition: background-color ${props => props.theme.transitionProperties};
     background-color: var(--nav-grid-cell-background-color);
   }
