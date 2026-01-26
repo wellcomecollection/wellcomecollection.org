@@ -24,16 +24,6 @@ const ThematicBrowsingHeaderContainer = styled(Space).attrs({
   padding-bottom: ${props => props.theme.gutter.xlarge};
 `;
 
-const Title = styled(Space).attrs({
-  as: 'h1',
-  className: font('brand', 4),
-  $v: { size: '2xs', properties: ['margin-bottom'] },
-})``;
-
-const ThemeDescription = styled.div.attrs({
-  className: `${font('sans', 1)} body-text`,
-})``;
-
 const ThematicBrowsingHeader = ({
   uiTitle,
   currentCategory,
@@ -68,18 +58,18 @@ const ThematicBrowsingHeader = ({
           </Space>
 
           <Layout gridSizes={gridSize10(false)}>
-            <Title>{uiTitle}</Title>
+            <h1 className={font('brand', 4)}>{uiTitle}</h1>
           </Layout>
 
           {uiDescription && (
             <Layout gridSizes={gridSize8(false)}>
-              <ThemeDescription>
+              <div className={`${font('sans', 1)} body-text`}>
                 {typeof uiDescription !== 'string' ? (
                   <PrismicHtmlBlock html={uiDescription} />
                 ) : (
                   <p>{uiDescription}</p>
                 )}
-              </ThemeDescription>
+              </div>
             </Layout>
           )}
         </Container>

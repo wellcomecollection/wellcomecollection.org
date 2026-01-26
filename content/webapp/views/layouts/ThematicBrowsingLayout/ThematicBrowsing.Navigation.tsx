@@ -30,7 +30,6 @@ const ThematicBrowsingNavigation: FunctionComponent<Props> = ({
       tags={tagItems}
       onChange={selectedTags => {
         const selectedTag = selectedTags[0];
-        // TODO do this better?
         if (selectedTag) {
           router.push(`/${prismicPageIds.collections}/${selectedTag}`);
         }
