@@ -9,6 +9,7 @@ import {
 } from 'react';
 import { areEqual, FixedSizeList } from 'react-window';
 import styled from 'styled-components';
+
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { font } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
@@ -43,6 +44,7 @@ const MainViewerContainer = styled.div<{ $useFixedList: boolean }>`
 
 const ItemContainer = styled.div`
   position: relative;
+  height: 100%;
 `;
 
 // Temporary styling for viewer to display audio, video and pdfs
