@@ -12,7 +12,7 @@ import { CollectionsPrismicPageMeta } from '@weco/content/views/layouts/Thematic
 
 export type Props = {
   title: string;
-  introText?: prismic.RichTextField;
+  introText: prismic.RichTextField;
   pageMeta: CollectionsPrismicPageMeta;
 };
 

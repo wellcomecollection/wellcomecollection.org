@@ -86,6 +86,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
       jsonLd={[]}
       openGraphType="website"
       siteSection="collections"
+      image={pageMeta.image}
       {...(pageMeta.prismicId && {
         apiToolbarLinks: [createPrismicLink(pageMeta.prismicId)],
       })}

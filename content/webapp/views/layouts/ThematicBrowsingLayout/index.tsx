@@ -1,13 +1,7 @@
 import { useRouter } from 'next/router';
-import {
-  ComponentProps,
-  ComponentType,
-  FunctionComponent,
-  PropsWithChildren,
-} from 'react';
+import { ComponentProps, FunctionComponent, PropsWithChildren } from 'react';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
-import { pageDescriptions } from '@weco/common/data/microcopy';
 import { ImageType } from '@weco/common/model/image';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
@@ -64,8 +58,6 @@ const ThematicBrowsingLayout: FunctionComponent<
     .filter(Boolean)
     .find(isValidThematicBrowsingCategory);
 
-  if (!currentCategory) return null;
-
   return (
     <PageLayout
       openGraphType={'website' as const}
@@ -77,8 +69,6 @@ const ThematicBrowsingLayout: FunctionComponent<
         'description' in pageMeta && pageMeta.description
           ? pageMeta.description
           : description
-            ? description
-            : pageDescriptions.collections.index
       }
       url={{
         pathname: `/${prismicPageIds.collections}${pageMeta.urlPathname || ''}`,
@@ -86,29 +76,19 @@ const ThematicBrowsingLayout: FunctionComponent<
       {...('image' in pageMeta && { image: pageMeta.image })}
       {...(apiToolbarLinks.length > 0 && { apiToolbarLinks })}
     >
-      <ThematicBrowsingHeader
-        uiTitle={headerProps?.uiTitle ?? title}
-        uiDescription={headerProps?.uiDescription}
-        currentCategory={currentCategory}
-        extraBreadcrumbs={headerProps?.extraBreadcrumbs}
-      />
+      {currentCategory ? (
+        <ThematicBrowsingHeader
+          uiTitle={headerProps?.uiTitle ?? title}
+          uiDescription={headerProps?.uiDescription}
+          currentCategory={currentCategory}
+          extraBreadcrumbs={headerProps?.extraBreadcrumbs}
+        />
+      ) : (
+        <p>Category not found</p>
+      )}
       {children}
     </PageLayout>
   );
 };
 
-// Higher-order component to wrap a component with ThematicBrowsingLayout
-function withThematicBrowsingLayout<P extends ThematicBrowsingLayoutProps>(
-  WrappedComponent: ComponentType<P>
-): FunctionComponent<P> {
-  return function ThematicBrowsingLayoutHOC(props: P) {
-    return (
-      <ThematicBrowsingLayout {...props}>
-        <WrappedComponent {...props} />
-      </ThematicBrowsingLayout>
-    );
-  };
-}
-
 export default ThematicBrowsingLayout;
-export { ThematicBrowsingHeader, withThematicBrowsingLayout };

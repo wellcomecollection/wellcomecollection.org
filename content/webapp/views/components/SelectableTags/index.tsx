@@ -80,7 +80,7 @@ export const SelectableTags: FunctionComponent<SelectableTagsProps> = ({
 
   useEffect(() => {
     setSelected(selectedTags ?? [tags[0]?.id]);
-  }, [isMultiSelect, selectedTags]);
+  }, [isMultiSelect, selectedTags, tags]);
 
   if (tags.length === 0) return null;
 
