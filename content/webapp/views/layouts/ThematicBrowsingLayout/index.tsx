@@ -81,7 +81,7 @@ const ThematicBrowsingLayout: FunctionComponent<
             : pageDescriptions.collections.index
       }
       url={{
-        pathname: `/${prismicPageIds.collections}${pageMeta.urlPathname ? `/${pageMeta.urlPathname}` : ''}`,
+        pathname: `/${prismicPageIds.collections}${pageMeta.urlPathname || ''}`,
       }}
       {...('image' in pageMeta && { image: pageMeta.image })}
       {...(apiToolbarLinks.length > 0 && { apiToolbarLinks })}
