@@ -152,9 +152,13 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     return {
       props: serialiseProps({
         pageMeta: {
-          id: collectionsPage.id,
+          prismicId: collectionsPage.id,
           image: collectionsPage.promo?.image,
           description: collectionsPage.promo?.caption,
+          url: {
+            pathname: `/${prismicPageIds.collections}`,
+            query: {},
+          },
         },
         title: collectionsPage.title,
         introText: collectionsPage.introText ?? [],

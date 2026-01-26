@@ -1,5 +1,5 @@
-import { NextPage } from 'next';
-
+import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
+import { pageDescriptions } from '@weco/common/data/microcopy';
 import { getServerData } from '@weco/common/server-data';
 import { serialiseProps } from '@weco/common/utils/json';
 import {
@@ -7,14 +7,14 @@ import {
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import CollectionsPlacesPage from '@weco/content/views/pages/collections/places';
+import CollectionsPlacesPage, {
+  Props as PlacesPageProps,
+} from '@weco/content/views/pages/collections/places';
 
-const Page: NextPage = props => {
-  return <CollectionsPlacesPage {...props} />;
-};
+type Props = ServerSideProps<PlacesPageProps>;
 
 export const getServerSideProps: ServerSidePropsOrAppError<
-  ServerSideProps
+  Props
 > = async context => {
   setCacheControl(context.res);
   const serverData = await getServerData(context);
@@ -26,10 +26,18 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   }
 
   return {
-    props: serialiseProps<ServerSideProps>({
+    props: serialiseProps<Props>({
       serverData,
+      title: 'Places',
+      description: pageDescriptions.collections.places,
+      pageMeta: {
+        url: {
+          pathname: `/${prismicPageIds.collections}/places`,
+          query: {},
+        },
+      },
     }),
   };
 };
 
-export default Page;
+export default CollectionsPlacesPage;

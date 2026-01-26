@@ -1,5 +1,5 @@
-import { NextPage } from 'next';
-
+import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
+import { pageDescriptions } from '@weco/common/data/microcopy';
 import { getServerData } from '@weco/common/server-data';
 import { serialiseProps } from '@weco/common/utils/json';
 import {
@@ -7,14 +7,14 @@ import {
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import CollectionsPeoplePage from '@weco/content/views/pages/collections/people-and-organisations';
+import CollectionsPeoplePage, {
+  Props as PeopleAndOrganisationsPageProps,
+} from '@weco/content/views/pages/collections/people-and-organisations';
 
-const Page: NextPage = props => {
-  return <CollectionsPeoplePage {...props} />;
-};
+type Props = ServerSideProps<PeopleAndOrganisationsPageProps>;
 
 export const getServerSideProps: ServerSidePropsOrAppError<
-  ServerSideProps
+  Props
 > = async context => {
   setCacheControl(context.res);
   const serverData = await getServerData(context);
@@ -26,10 +26,18 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   }
 
   return {
-    props: serialiseProps<ServerSideProps>({
+    props: serialiseProps<Props>({
       serverData,
+      title: 'People and organisations', // TODO confirm
+      description: pageDescriptions.collections.peopleAndOrganisations,
+      pageMeta: {
+        url: {
+          pathname: `/${prismicPageIds.collections}/people-and-organisations`,
+          query: {},
+        },
+      },
     }),
   };
 };
 
-export default Page;
+export default CollectionsPeoplePage;

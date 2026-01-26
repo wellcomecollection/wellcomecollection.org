@@ -1,5 +1,5 @@
-import { NextPage } from 'next';
-
+import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
+import { pageDescriptions } from '@weco/common/data/microcopy';
 import { getServerData } from '@weco/common/server-data';
 import { serialiseProps } from '@weco/common/utils/json';
 import {
@@ -7,14 +7,14 @@ import {
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import CollectionsTypesAndTechniquesPage from '@weco/content/views/pages/collections/types-and-techniques';
+import CollectionsTypesAndTechniquesPage, {
+  Props as TypesAndTechniquesPageProps,
+} from '@weco/content/views/pages/collections/types-and-techniques';
 
-const Page: NextPage = props => {
-  return <CollectionsTypesAndTechniquesPage {...props} />;
-};
+type Props = ServerSideProps<TypesAndTechniquesPageProps>;
 
 export const getServerSideProps: ServerSidePropsOrAppError<
-  ServerSideProps
+  Props
 > = async context => {
   setCacheControl(context.res);
   const serverData = await getServerData(context);
@@ -26,10 +26,18 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   }
 
   return {
-    props: serialiseProps<ServerSideProps>({
+    props: serialiseProps<Props>({
       serverData,
+      title: 'Types and techniques',
+      description: pageDescriptions.collections.typesAndTechniques,
+      pageMeta: {
+        url: {
+          pathname: `/${prismicPageIds.collections}/types-and-techniques`,
+          query: {},
+        },
+      },
     }),
   };
 };
 
-export default Page;
+export default CollectionsTypesAndTechniquesPage;
