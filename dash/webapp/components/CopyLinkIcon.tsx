@@ -19,9 +19,11 @@ const IconButton = styled.button`
   border-radius: 4px;
   position: relative;
   line-height: 1;
+
   &:hover {
     background: #e0f5f3;
   }
+
   &:focus-visible {
     outline: 2px solid #009e8c;
     outline-offset: 2px;
@@ -35,17 +37,21 @@ const CopiedBadge = styled.span`
   padding: 2px 6px;
   border-radius: 10px;
   margin-left: 4px;
-  animation: fadeInOut 2s ease forwards;
-  @keyframes fadeInOut {
+  animation: fade-in-out 2s ease forwards;
+
+  @keyframes fade-in-out {
     0% {
       opacity: 0;
     }
+
     10% {
       opacity: 1;
     }
+
     80% {
       opacity: 1;
     }
+
     100% {
       opacity: 0;
     }

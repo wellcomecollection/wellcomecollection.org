@@ -15,7 +15,6 @@ const meta: Meta<
   }
 > = {
   title: 'To be made reusable/SourcedDescription',
-  component: SourcedDescription,
   args: {
     description:
       'The heat death of the universe is a hypothesis on the ultimate fate of the universe, which suggests the universe will evolve to a state of no thermodynamic free energy, and will therefore be unable to sustain processes that increase entropy.',

@@ -12,9 +12,6 @@ updates:
     ignore:
       - dependency-name: '*'
         update-types: ['version-update:semver-patch'] # Ignore all patch updates for version updates only
-      # Shouldn't get flagged as we will undertake these in a conscious manner when planned in
-      - dependency-name: 'typescript'
-      - dependency-name: '@typescript*'
       # Dependent on higher versions of the list above, remove from here once the upgrade it depends on has been done.
       - dependency-name: 'cookies-next'
       # Needs more work, they have their own ticket. Remove them from this list once tickets are Done.
@@ -24,13 +21,6 @@ updates:
       - dependency-name: 'node-fetch'
       - dependency-name: '@auth0/nextjs-auth0'
       - dependency-name: 'react-window'
-      # Storybook packages - major version updates require manual migration
-      # Please also unignore webback once storybook gets upgraded - it currently has to be locked
-      # edit: minor versions have also become a problem (https://github.com/storybookjs/storybook/issues/32301)
-      - dependency-name: '@storybook/*'
-      - dependency-name: 'webpack'
-        update-types: ['version-update:semver-major']
-        versions: ['5.103.0', '5.102.0']
     groups:
       all:
         patterns: ['*']
