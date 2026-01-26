@@ -21,7 +21,7 @@ export const InPageNavList = styled(PlainList)<{ $isOnWhite: boolean }>`
       'zero',
       'md'
     )(`
-      max-height: 90vh;
+      max-height: 60vh;
       overflow-x: hidden;
       overflow-y: auto;
     `)}
