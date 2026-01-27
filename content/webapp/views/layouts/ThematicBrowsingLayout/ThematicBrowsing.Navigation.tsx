@@ -40,6 +40,7 @@ const ThematicBrowsingNavigation: FunctionComponent<{
           <li key={tag.id}>
             <StyledInput
               href={`/${prismicPageIds.collections}/${tag.id}`}
+              aria-current={currentCategory === tag.id ? 'page' : undefined}
               $isSelected={currentCategory === tag.id}
               $lineColor={currentCategory === tag.id ? 'white' : 'black'}
               $lineThickness={1.4}
