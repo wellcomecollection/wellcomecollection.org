@@ -12,7 +12,6 @@ type StoryProps = Omit<ComponentProps<typeof Icon>, 'icon'> & {
 
 const meta: Meta<StoryProps> = {
   title: 'Components/Icon',
-  component: Icon,
   args: {
     icon: 'a11YVisual',
     rotate: 0,
