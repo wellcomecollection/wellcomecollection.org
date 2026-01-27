@@ -59,16 +59,15 @@ const ScrollContainer: FunctionComponent<Props> = ({
         )}
       >
         <div>
-          {detailsCopy && (
-            <DetailsCopy $hasDarkBackground={hasDarkBackground}>
-              {detailsCopy}
-            </DetailsCopy>
-          )}
-
           {description && (
             <Description $hasDarkBackground={hasDarkBackground}>
               {description}
             </Description>
+          )}
+          {detailsCopy && (
+            <DetailsCopy $hasDarkBackground={hasDarkBackground}>
+              {detailsCopy}
+            </DetailsCopy>
           )}
         </div>
       </ConditionalWrapper>

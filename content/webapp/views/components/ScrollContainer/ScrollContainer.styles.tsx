@@ -8,11 +8,11 @@ export const ScrollButtonsContainer = styled(Space)<{
   $hasContent?: boolean;
   $scrollButtonsAfter?: boolean;
 }>`
+  gap: ${props => props.theme.spacingUnits['100']};
   display: flex;
   justify-content: ${props =>
     props.$hasContent ? 'space-between' : 'flex-end'};
-  gap: ${props => props.theme.spacingUnits['100']};
-  align-items: center;
+  align-items: flex-end;
   ${props =>
     props.$scrollButtonsAfter
       ? 'margin-top: ' + props.theme.spacingUnits['150'] + ';'
