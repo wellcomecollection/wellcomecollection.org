@@ -73,10 +73,11 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
         setIsListActive(false);
       }
 
-      // Scroll to the first element after the nav so the transition
-      // from in-flow to fixed positioning is seamless — but not when
-      // the user clicked a nav link, as that has its own scroll target.
-      if (!clickedId) {
+      // On small screens the nav becomes position: fixed when stuck,
+      // so scroll to the first element after the nav to keep the
+      // transition seamless. Skip when the user clicked a nav link,
+      // as that has its own scroll target.
+      if (!clickedId && windowSize !== 'md' && windowSize !== 'lg') {
         const nextEl = navGridCellRef.current?.nextElementSibling;
         if (nextEl) {
           nextEl.scrollIntoView();
@@ -98,7 +99,8 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setHasStuck(!entry.isIntersecting);
+        const isAboveViewport = entry.boundingClientRect.top <= 1;
+        setHasStuck(!entry.isIntersecting && isAboveViewport);
       },
       {
         root: document,

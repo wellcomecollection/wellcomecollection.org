@@ -278,13 +278,13 @@ export const AnimatedTextContainer = styled.div`
 
 export const NavGridCell = styled(GridCell)<{
   $isOnWhite: boolean;
-  $hasStuck: boolean;
 }>`
   --nav-grid-cell-background-color: ${props =>
     props.theme.color(props.$isOnWhite ? 'white' : 'neutral.700')};
   transition: background-color ${props => props.theme.transitionProperties};
   background-color: var(--nav-grid-cell-background-color);
   z-index: 3;
+  position: relative;
 
   &::before,
   &::after {
