@@ -1,9 +1,10 @@
-import { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent, useState } from 'react';
 import styled, { css } from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import { toHtmlId } from '@weco/common/utils/grammar';
 import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import AnimatedUnderlineCSS, {
   AnimatedUnderlineProps,
 } from '@weco/common/views/components/styled/AnimatedUnderline';
@@ -82,12 +83,8 @@ export const SelectableTags: FunctionComponent<SelectableTagsProps> = ({
   onChange,
 }) => {
   const [selected, setSelected] = useState<string[]>(
-    selectedTags ?? [tags[0]?.id]
+    [...(selectedTags ?? [tags[0]?.id])].filter(isNotUndefined)
   );
-
-  useEffect(() => {
-    setSelected(selectedTags ?? [tags[0]?.id]);
-  }, [isMultiSelect, selectedTags, tags]);
 
   if (tags.length === 0) return null;
 
