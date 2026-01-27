@@ -22,6 +22,7 @@ export const InPageNavList = styled(PlainList)<{
     ${props => props.theme.color(props.$isOnWhite ? 'neutral.300' : 'white')};
 
   ${props =>
+    props.$hasStuck &&
     props.theme.mediaBetween(
       'zero',
       'md'
@@ -29,8 +30,15 @@ export const InPageNavList = styled(PlainList)<{
       max-height: 60vh;
       overflow-x: hidden;
       overflow-y: auto;
-      ${!props.$isListActive ? 'display: none;' : ''}
     `)}
+
+  ${props =>
+    props.theme.mediaBetween(
+      'zero',
+      'md'
+    )(`
+    ${!props.$isListActive ? 'display: none;' : ''}
+  `)}
 
   ${props => props.theme.media('md')`
     padding-bottom: 0;
@@ -269,13 +277,11 @@ export const AnimatedTextContainer = styled.div`
 `;
 
 export const NavGridCell = styled(GridCell)<{
-  $isEnhanced: boolean;
   $isOnWhite: boolean;
+  $hasStuck: boolean;
 }>`
   --nav-grid-cell-background-color: ${props =>
     props.theme.color(props.$isOnWhite ? 'white' : 'neutral.700')};
-  position: ${props => (props.$isEnhanced ? 'sticky' : 'relative')};
-  top: 0;
   transition: background-color ${props => props.theme.transitionProperties};
   background-color: var(--nav-grid-cell-background-color);
   z-index: 3;
