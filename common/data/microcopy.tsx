@@ -58,7 +58,7 @@ export const pageDescriptions = {
     concepts:
       'Search for themes related to health and human experience. Discover subjects, people, places and themes that connect our collections.',
     events:
-      'Search for past and up-coming events to discover our range of free tours, talks, workshops and more.',
+      'Search for past and upcoming events to discover our range of free tours, talks, exhibitions, workshops and more.',
   },
 };
 

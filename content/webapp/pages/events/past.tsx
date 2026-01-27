@@ -51,7 +51,9 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   const params = fromQuery(restOfQuery);
   const timespan = 'past';
-  const { apiFormat, uiFormat } = getEventFormats(params.format);
+  const { apiFormat, uiFormat } = getEventFormats({
+    paramsFormat: params.format,
+  });
 
   // Used for UI component props, so we don't show negated formats
   const eventsRouteProps = { ...params, timespan, format: uiFormat };

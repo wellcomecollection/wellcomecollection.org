@@ -47,7 +47,6 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
   currentQueryValue: queryValue,
 }) => {
   const router = useRouter();
-  const { exhibitionsInEvents } = useToggles();
   const { conceptsSearch } = useToggles();
 
   // Variable naming note:
@@ -131,7 +130,7 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
     {
       id: 'events',
       url: getURL('/search/events'),
-      text: exhibitionsInEvents ? 'Events and exhibitions' : 'Events',
+      text: 'Events and exhibitions',
     },
     {
       id: 'stories',
@@ -164,7 +163,7 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
             inputValue={inputValue}
             setInputValue={setInputValue}
             placeholder={
-              currentSearchCategory === 'events' && exhibitionsInEvents
+              currentSearchCategory === 'events'
                 ? 'Search for events and exhibitions'
                 : searchLabelText[currentSearchCategory]
             }
