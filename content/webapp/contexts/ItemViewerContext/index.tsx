@@ -45,6 +45,7 @@ type Props = {
   setRotatedImages: (v: CanvasRotatedImage[]) => void;
   isResizing: boolean;
   errorHandler?: () => void;
+  useFixedSizeList: boolean;
 };
 
 export const results = {
@@ -115,6 +116,7 @@ const ItemViewerContext = createContext<Props>({
   setRotatedImages: () => undefined,
   isResizing: false,
   errorHandler: () => undefined,
+  useFixedSizeList: false,
 });
 
 export function useItemViewerContext(): Props {

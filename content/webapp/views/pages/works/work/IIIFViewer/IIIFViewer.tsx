@@ -250,6 +250,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   );
   // we only render certain parts of the UI when hasOnlyImages is true
   const hasOnlyImages = !hasNonImages(transformedManifest?.canvases || []);
+  const useFixedSizeList = hasOnlyImages;
 
   // We need to reset the MainAreaWidth and MainAreaHeight
   // when the available space changes.
@@ -331,6 +332,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         isResizing,
         errorHandler: handleImageError,
         accessToken,
+        useFixedSizeList,
       }}
     >
       <Grid ref={viewerRef} $isFullSupportBrowser={isFullSupportBrowser}>
