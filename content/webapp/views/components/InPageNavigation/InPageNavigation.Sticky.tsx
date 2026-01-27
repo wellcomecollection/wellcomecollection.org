@@ -95,7 +95,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
       loadedWithHashRef.current = false;
     }
     prevHasStuckRef.current = hasStuck;
-  }, [hasStuck, isListActive]);
+  }, [hasStuck, isListActive, clickedId, windowSize]);
 
   useEffect(() => {
     // We close the mobile nav if the user resizes their window to the large bp
