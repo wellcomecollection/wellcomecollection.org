@@ -18,10 +18,7 @@ import useScrollVelocity from '@weco/content/hooks/useScrollVelocity';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { CanvasRotatedImage } from '@weco/content/types/item-viewer';
 import { TransformedCanvas } from '@weco/content/types/manifest';
-import {
-  hasNonImages,
-  TransformedAuthService,
-} from '@weco/content/utils/iiif/v3';
+import { TransformedAuthService } from '@weco/content/utils/iiif/v3';
 import { getDisplayItems } from '@weco/content/utils/iiif/v3/canvas';
 import IIIFItem from '@weco/content/views/pages/works/work/IIIFItem';
 import DownloadTableSection from '@weco/content/views/pages/works/work/IIIFViewer/DownloadTableSection';
@@ -414,6 +411,7 @@ const MainViewer: FunctionComponent = () => {
     setShowControls,
     errorHandler,
     accessToken,
+    useFixedSizeList,
   } = useItemViewerContext();
   const { shouldScrollToCanvas, canvas } = query;
   const mainViewerRef = useRef<FixedSizeList>(null);
@@ -471,7 +469,6 @@ const MainViewer: FunctionComponent = () => {
   }, [canvas]);
 
   const displayItems = currentCanvas ? getDisplayItems(currentCanvas) : [];
-  const useFixedSizeList = !hasNonImages(canvases);
   const hasMultipleCanvases = canvases && canvases.length > 1;
 
   useEffect(() => {
