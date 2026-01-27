@@ -514,7 +514,6 @@ const MainViewer: FunctionComponent = () => {
     <MainViewerContainer $useFixedList={false} data-testid="main-viewer">
       <>
         {displayItems.map((item, i) => {
-          console.log('ITEM TYEPE', item);
           return (
             currentCanvas && (
               <ItemWrapper
