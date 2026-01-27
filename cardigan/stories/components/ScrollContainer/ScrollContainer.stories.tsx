@@ -1,5 +1,4 @@
 import { Meta, StoryObj } from '@storybook/react';
-import { useRef } from 'react';
 import { styled } from 'storybook/theming';
 
 import { gridSize12 } from '@weco/common/views/components/Layout';
@@ -65,8 +64,6 @@ export default meta;
 type Story = StoryObj<typeof ScrollContainer>;
 
 const Template = args => {
-  const scrollContainerRef = useRef<HTMLUListElement>(null);
-
   const { hasDarkBackground } = args;
 
   return (
@@ -78,7 +75,7 @@ const Template = args => {
           : 'transparent',
       }}
     >
-      <ScrollContainer {...args} ref={scrollContainerRef}>
+      <ScrollContainer {...args}>
         <MockScrollableItem>Item 1</MockScrollableItem>
         <MockScrollableItem>Item 2</MockScrollableItem>
         <MockScrollableItem>Item 3</MockScrollableItem>
