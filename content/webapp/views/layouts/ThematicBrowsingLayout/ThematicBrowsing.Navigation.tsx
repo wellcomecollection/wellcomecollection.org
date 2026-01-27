@@ -20,11 +20,9 @@ const StyledInput = styled(NextLink)<
   text-decoration: none;
 `;
 
-const ThematicBrowsingNavigation: FunctionComponent = ({
-  currentCategory,
-}: {
+const ThematicBrowsingNavigation: FunctionComponent<{
   currentCategory: ThematicBrowsingCategories;
-}) => {
+}> = ({ currentCategory }) => {
   const tagItems = [
     {
       id: 'people-and-organisations',
