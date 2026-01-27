@@ -297,7 +297,7 @@ const Body: FunctionComponent<Props> = ({
               isOnWhite
             />
 
-            <GridCell $sizeMap={{ s: [12], m: [12], l: [9], xl: [9] }}>
+            <GridCell $sizeMap={{ s: [12], m: [12], l: [9], xl: [7] }}>
               <Space $v={{ size: 'md', properties: ['padding-top'] }}>
                 {children}
               </Space>

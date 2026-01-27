@@ -81,13 +81,6 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
   }, [windowSize, hasStuck, isListActive]);
 
   useEffect(() => {
-    if (!buttonRef.current) return;
-
-    buttonRef.current.setAttribute('aria-expanded', 'false');
-    buttonRef.current.setAttribute('aria-controls', listId);
-  }, [buttonRef.current]);
-
-  useEffect(() => {
     if (!InPageNavigationStickyRef.current) return;
 
     const observer = new IntersectionObserver(
@@ -146,29 +139,10 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
   // Determine the active id based on whether sticky is enabled
   const activeId = clickedId || observedActiveId;
 
-  useEffect(() => {
-    if (!listRef.current) return;
-    // Only hide the list initially if we've stuck (navigation has scrolled)
-    // When at the top (!hasStuck), keep it visible on small screens
-    if (hasStuck) {
-      listRef.current.classList.add('is-hidden-s', 'is-hidden-m');
-    }
-  }, [hasStuck]);
-
   const titleText = 'On this page';
 
   const [activeLinkText, setActiveLinkText] = useState(titleText);
   const textRef = useRef<HTMLSpanElement>(null);
-
-  useEffect(() => {
-    if (!listRef.current || !buttonRef.current) return;
-
-    listRef.current.classList[isListActive ? 'remove' : 'add'](
-      'is-hidden-s',
-      'is-hidden-m'
-    );
-    buttonRef.current.setAttribute('aria-expanded', `${isListActive}`);
-  }, [isListActive]);
 
   useEffect(() => {
     setActiveLinkText(
@@ -220,6 +194,8 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
             $isOnWhite={!!isOnWhite}
             $hasStuck={hasStuck}
             ref={buttonRef}
+            aria-expanded={isListActive}
+            aria-controls={listId}
             onClick={() => {
               if (!isListActive) {
                 setScrollposition(window.scrollY);
@@ -288,7 +264,13 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
             {isEnhanced && <Icon icon={cross} matchText />}
           </MobileNavButton>
 
-          <InPageNavList ref={listRef} id={listId} $isOnWhite={!!isOnWhite}>
+          <InPageNavList
+            $hasStuck={hasStuck}
+            $isListActive={isListActive}
+            ref={listRef}
+            id={listId}
+            $isOnWhite={!!isOnWhite}
+          >
             {links.map((link: Link, index) => {
               const id = link.url.replace('#', '');
               const isActive = activeId === id;
