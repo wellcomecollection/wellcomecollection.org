@@ -46,9 +46,10 @@ const ItemWrapper = styled.div<{
   $hasMultipleCanvases?: boolean;
   $isAudio?: boolean;
   $isImage?: boolean;
+  $isText?: boolean;
 }>`
   ${props => !props.$isAudio && 'height: 100%;'}
-  ${props => props.$isImage && 'min-height: 50vh;'}
+  ${props => (props.$isImage || props.$isText) && 'min-height: 50vh;'}
   position: relative;
 
   .pdf-wrapper,
@@ -521,6 +522,7 @@ const MainViewer: FunctionComponent = () => {
                 $hasMultipleCanvases={hasMultipleCanvases}
                 $isAudio={item.type === 'Sound'}
                 $isImage={item.type === 'Image'}
+                $isText={item.type === 'Text'}
               >
                 <IIIFItem
                   placeholderId={placeholderId}
