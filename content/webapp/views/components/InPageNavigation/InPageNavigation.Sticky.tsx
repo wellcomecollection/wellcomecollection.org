@@ -152,11 +152,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
   }, [activeId]);
 
   return (
-    <NavGridCell
-      $isOnWhite={!!isOnWhite}
-      $isEnhanced={isEnhanced}
-      $sizeMap={sizeMap}
-    >
+    <NavGridCell $isOnWhite={!!isOnWhite} $sizeMap={sizeMap}>
       {shouldLockScroll && (
         <>
           {/* https://github.com/wellcomecollection/wellcomecollection.org/pull/12171
