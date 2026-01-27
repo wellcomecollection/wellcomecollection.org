@@ -1,20 +1,13 @@
 import * as prismic from '@prismicio/client';
+import * as apm from 'elastic-apm-node';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { createClient as createPrismicClient } from '@weco/common/services/prismic/fetch';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
+import { createClient } from '@weco/content/services/prismic/fetch';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const client = createPrismicClient();
-
-    // Enable auto previews from request
-    const cookies = req.headers.cookie || '';
-    const previewRef = req.cookies?.[prismic.cookie.preview];
-
-    if (previewRef) {
-      client.queryContentFromRef(previewRef);
-    }
+    const { client } = createClient({ req });
 
     /**
      * This is because the types in api.resolve are not accurate.
@@ -72,24 +65,24 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       defaultURL: '/',
     });
 
-    // Set the preview cookie only if it is not already present
-    const hasIsPreviewCookie = cookies
-      .split(';')
-      .some(c => c.trim().startsWith('isPreview='));
-
     // Kill any cookie we had set, as we think it is causing issues.
-    const clearPrismicPreviewCookie = `${prismic.cookie.preview}=; Path=/; Max-Age=0`;
-    if (!hasIsPreviewCookie) {
-      res.setHeader('Set-Cookie', [
-        clearPrismicPreviewCookie,
-        `isPreview=true; Path=/; HttpOnly=false`,
-      ]);
-    } else {
-      res.setHeader('Set-Cookie', clearPrismicPreviewCookie);
-    }
+    // Note: historically this was done in the Koa server with `ctx.cookies.set(prismic.cookie.preview)`.
+    // We preserve that behaviour by overwriting the cookie with an empty value (without Max-Age=0).
+    // This should clear legacy/invalid values without explicitly expiring the cookie.
+    const killPrismicPreviewCookie = `${prismic.cookie.preview}=; Path=/;`;
+
+    const hasIsPreviewCookie = typeof req.cookies?.isPreview === 'string';
+
+    res.setHeader(
+      'Set-Cookie',
+      !hasIsPreviewCookie
+        ? [killPrismicPreviewCookie, `isPreview=true; Path=/; HttpOnly=false`]
+        : [killPrismicPreviewCookie]
+    );
     // Redirect to the resolved URL
     res.redirect(307, url);
   } catch (error) {
+    apm.captureError(error);
     console.error('Error in preview handler:', error);
     res.redirect(307, '/');
   }
