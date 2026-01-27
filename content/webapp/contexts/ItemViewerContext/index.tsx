@@ -45,6 +45,11 @@ type Props = {
   setRotatedImages: (v: CanvasRotatedImage[]) => void;
   isResizing: boolean;
   errorHandler?: () => void;
+  /**
+   * Indicates whether the viewer uses a FixedSizeList (true when all items ares)
+   * or file list view (when there are non image items, e.g. audio/video/PDFs, other).
+   * Controls URL updating behavior and styling.
+   */
   useFixedSizeList: boolean;
 };
 
