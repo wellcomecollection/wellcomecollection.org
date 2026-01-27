@@ -60,6 +60,9 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
   const [isListActive, setIsListActive] = useState(true);
   const [scrollPosition, setScrollposition] = useState(0);
   const prevHasStuckRef = useRef(false);
+  const loadedWithHashRef = useRef(
+    typeof window !== 'undefined' && !!window.location.hash
+  );
 
   const shouldLockScroll = useMemo(() => {
     return windowSize !== 'md' && isListActive && hasStuck;
@@ -75,14 +78,21 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
 
       // On small screens the nav becomes position: fixed when stuck,
       // so scroll to the first element after the nav to keep the
-      // transition seamless. Skip when the user clicked a nav link,
-      // as that has its own scroll target.
-      if (!clickedId && windowSize !== 'md' && windowSize !== 'lg') {
+      // transition seamless. Skip when the user clicked a nav link
+      // or when the page loaded with a hash fragment (the browser is
+      // scrolling to that target).
+      if (
+        !clickedId &&
+        !loadedWithHashRef.current &&
+        windowSize !== 'md' &&
+        windowSize !== 'lg'
+      ) {
         const nextEl = navGridCellRef.current?.nextElementSibling;
         if (nextEl) {
           nextEl.scrollIntoView();
         }
       }
+      loadedWithHashRef.current = false;
     }
     prevHasStuckRef.current = hasStuck;
   }, [hasStuck, isListActive]);
