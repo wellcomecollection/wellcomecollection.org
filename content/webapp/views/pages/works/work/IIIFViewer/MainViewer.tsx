@@ -45,15 +45,17 @@ const MainViewerContainer = styled.div<{ $useFixedList: boolean }>`
 const ItemWrapper = styled.div<{
   $hasMultipleCanvases?: boolean;
   $isAudio?: boolean;
+  $isImage?: boolean;
 }>`
   ${props => !props.$isAudio && 'height: 100%;'}
+  ${props => props.$isImage && 'min-height: 50vh;'}
+  position: relative;
 
   .pdf-wrapper,
   iframe {
     width: 100%;
     height: 100%;
     border: 0;
-    ${props => props.$hasMultipleCanvases && 'min-height: 55vh;'}
   }
 
   video {
@@ -511,12 +513,14 @@ const MainViewer: FunctionComponent = () => {
     <MainViewerContainer $useFixedList={false} data-testid="main-viewer">
       <>
         {displayItems.map((item, i) => {
+          console.log('ITEM TYEPE', item);
           return (
             currentCanvas && (
               <ItemWrapper
                 key={item.type + item.id}
                 $hasMultipleCanvases={hasMultipleCanvases}
                 $isAudio={item.type === 'Sound'}
+                $isImage={item.type === 'Image'}
               >
                 <IIIFItem
                   placeholderId={placeholderId}
