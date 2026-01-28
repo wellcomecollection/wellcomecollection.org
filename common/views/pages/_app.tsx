@@ -1,6 +1,6 @@
 import { GetServerSideProps, NextPage } from 'next';
 import type { AppProps } from 'next/app';
-import React, { useEffect } from 'react';
+import React, { ReactElement, ReactNode, useEffect } from 'react';
 import { ThemeProvider } from 'styled-components';
 
 import { ApmContextProvider } from '@weco/common/contexts/ApmContext';
@@ -54,8 +54,18 @@ type GlobalProps = {
   serverData: ServerData;
 } & Partial<AppErrorProps>;
 
-type WecoAppProps = Omit<AppProps, 'pageProps'> & {
+// Type needs augmenting for getLayout
+// https://nextjs.org/docs/pages/building-your-application/routing/pages-and-layouts#with-typescript
+type NextPageWithLayout<P = Record<string, unknown>, IP = P> = NextPage<
+  P,
+  IP
+> & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
+
+type WecoAppProps = Omit<AppProps, 'pageProps' | 'Component'> & {
   pageProps: GlobalProps;
+  Component: NextPageWithLayout;
 };
 
 // ServerSideProps is a generic type for props returned from getServerSideProps.
@@ -143,6 +153,9 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
 
   const displayCookieBanner = civicUkApiKey && !isCookieBannerException();
 
+  const getLayout = Component.getLayout ?? (page => page);
+  const componentProps = deserialiseProps(pageProps) as Record<string, unknown>;
+
   return (
     <>
       <ApmContextProvider>
@@ -162,9 +175,8 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
                   {displayCookieBanner && <CivicUK apiKey={civicUkApiKey} />}
                   <HotjarLoader />
 
-                  {!pageProps.err && (
-                    <Component {...deserialiseProps(pageProps)} />
-                  )}
+                  {!pageProps.err &&
+                    getLayout(<Component {...componentProps} />)}
                   {pageProps.err && (
                     <ErrorPage
                       statusCode={pageProps.err.statusCode}

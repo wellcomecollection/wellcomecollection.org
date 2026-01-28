@@ -1,27 +1,34 @@
 import { NextPage } from 'next';
+import { ReactElement } from 'react';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
-import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
-import PageHeader from '@weco/common/views/components/PageHeader';
-import PageLayout from '@weco/common/views/layouts/PageLayout';
+import { Container } from '@weco/common/views/components/styled/Container';
+import Space from '@weco/common/views/components/styled/Space';
+import ThematicBrowsingLayout from '@weco/content/views/layouts/ThematicBrowsingLayout';
 
-export type Props = {
-  apiToolbarLinks: ApiToolbarLink[];
+const CollectionsPeoplePage: NextPage & {
+  getLayout?: (page: ReactElement) => ReactElement;
+} = () => {
+  return (
+    <Container>
+      <Space $v={{ size: 'md', properties: ['margin-top', 'margin-bottom'] }}>
+        <p>People and organisations content</p>
+      </Space>
+    </Container>
+  );
 };
 
-const CollectionsPeoplePage: NextPage<Props> = ({ apiToolbarLinks }) => {
+CollectionsPeoplePage.getLayout = page => {
   return (
-    <PageLayout
+    <ThematicBrowsingLayout
       title="People and organisations" // TODO confirm
-      description={pageDescriptions.collections.peopleAndOrganizations}
-      url={{ pathname: '/collections/people-and-organisations' }}
-      jsonLd={{ '@type': 'WebPage' }}
-      openGraphType="website"
-      siteSection="collections"
-      apiToolbarLinks={apiToolbarLinks}
+      description={pageDescriptions.collections.peopleAndOrganisations}
+      pageMeta={{
+        urlPathname: '/people-and-organisations',
+      }}
     >
-      <PageHeader variant="landing" title="People and organisations" />
-    </PageLayout>
+      {page}
+    </ThematicBrowsingLayout>
   );
 };
 

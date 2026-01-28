@@ -1,5 +1,3 @@
-import { NextPage } from 'next';
-
 import { getServerData } from '@weco/common/server-data';
 import { serialiseProps } from '@weco/common/utils/json';
 import {
@@ -7,18 +5,10 @@ import {
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import CollectionsPeoplePage, {
-  Props as CollectionsPeoplePageProps,
-} from '@weco/content/views/pages/collections/people-and-organisations';
-
-const Page: NextPage<CollectionsPeoplePageProps> = props => {
-  return <CollectionsPeoplePage {...props} />;
-};
-
-type Props = ServerSideProps<CollectionsPeoplePageProps>;
+import CollectionsPeoplePage from '@weco/content/views/pages/collections/people-and-organisations';
 
 export const getServerSideProps: ServerSidePropsOrAppError<
-  Props
+  ServerSideProps
 > = async context => {
   setCacheControl(context.res);
   const serverData = await getServerData(context);
@@ -30,11 +20,10 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   }
 
   return {
-    props: serialiseProps<Props>({
+    props: serialiseProps<ServerSideProps>({
       serverData,
-      apiToolbarLinks: [],
     }),
   };
 };
 
-export default Page;
+export default CollectionsPeoplePage;
