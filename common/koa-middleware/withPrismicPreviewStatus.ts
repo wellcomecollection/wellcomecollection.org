@@ -1,12 +1,21 @@
-import Koa from 'koa';
+type Next = () => Promise<unknown>;
+
+type Context = {
+  request: {
+    host: string;
+  };
+  headers: {
+    cookie?: string;
+  };
+  cookies: {
+    set(name: string, value: string, options: { httpOnly: boolean }): void;
+  };
+};
 
 export function withPrismicPreviewStatus(
-  ctx: Koa.DefaultContext,
-  next: Koa.Next
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-): Promise<any> {
-  /* eslint-enable @typescript-eslint/no-explicit-any */
-
+  ctx: Context,
+  next: Next
+): Promise<unknown> {
   // for previews on localhost we use /preview to determine whether the 'isPreview' cookie should be set
   // this kinda works for live too, but not for shared preview links, as they never hit /preview
   // we therefore look for the subdomain .preview to determine if it's a preview

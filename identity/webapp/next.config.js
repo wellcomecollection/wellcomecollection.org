@@ -54,6 +54,12 @@ const config = function () {
     },
     serverRuntimeConfig: getConfig(),
     transpilePackages: ['@weco/common'],
+    // Trust proxy headers in production
+    ...(isProd && {
+      experimental: {
+        trustHostHeader: true,
+      },
+    }),
     ...withBundleAnalyzerConfig,
   };
 };
