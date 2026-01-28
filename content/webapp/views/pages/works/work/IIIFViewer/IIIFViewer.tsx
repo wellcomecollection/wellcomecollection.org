@@ -19,6 +19,7 @@ import {
   ParentManifest,
 } from '@weco/content/types/item-viewer';
 import { TransformedManifest } from '@weco/content/types/manifest';
+import { hasNonImages } from '@weco/content/utils/iiif/v3';
 import { fromQuery } from '@weco/content/views/components/ItemLink';
 
 import { DelayVisibility, queryParamToArrayIndex } from '.';
@@ -134,6 +135,7 @@ const Topbar = styled.div`
 const Main = styled.div<{
   $isDesktopSidebarActive: boolean;
   $isFullSupportBrowser: boolean;
+  $hasOnlyImages: boolean; // we adjust the grid area on mobile when this isn't true
 }>`
   background: ${props => props.theme.color('black')};
   color: ${props => props.theme.color('white')};
@@ -146,7 +148,9 @@ const Main = styled.div<{
   width: ${props => (props.$isFullSupportBrowser ? 'auto' : '100vw')};
   grid-area: ${props =>
     props.$isFullSupportBrowser
-      ? 'desktop-main-start / left-edge / mobile-main-end / right-edge'
+      ? props.$hasOnlyImages
+        ? 'desktop-main-start / left-edge / mobile-main-end / right-edge'
+        : 'desktop-main-start / left-edge / bottom-edge / right-edge'
       : 'auto'};
 
   ${props =>
@@ -244,6 +248,9 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const [showControls, setShowControls] = useState(
     Boolean(hasIiifImage && !hasImageService)
   );
+  // we only render certain parts of the UI when hasOnlyImages is true
+  const hasOnlyImages = !hasNonImages(transformedManifest?.canvases || []);
+  const useFixedSizeList = hasOnlyImages;
 
   // We need to reset the MainAreaWidth and MainAreaHeight
   // when the available space changes.
@@ -325,6 +332,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         isResizing,
         errorHandler: handleImageError,
         accessToken,
+        useFixedSizeList,
       }}
     >
       <Grid ref={viewerRef} $isFullSupportBrowser={isFullSupportBrowser}>
@@ -346,6 +354,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
               iiifImageLocation={
                 shouldUseIifImageLocation ? iiifImageLocation : undefined
               }
+              hasOnlyImages={hasOnlyImages}
             />
           </DelayVisibility>
         </Topbar>
@@ -353,9 +362,10 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
           ref={mainAreaRef}
           $isDesktopSidebarActive={isDesktopSidebarActive}
           $isFullSupportBrowser={isFullSupportBrowser}
+          $hasOnlyImages={hasOnlyImages}
         >
           <DelayVisibility>
-            {!showZoomed && <ImageViewerControls />}
+            {!showZoomed && hasOnlyImages && <ImageViewerControls />}
             {hasIiifImage && !hasImageService && isFullSupportBrowser && (
               <ImageViewer
                 infoUrl={iiifImageLocation.url}
@@ -372,9 +382,9 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
             )}
 
             {/* If we hide the MainViewer when resizing the browser, it will then rerender with the correct canvas displayed */}
-            {(hasImageService || extendedViewer) &&
-              !isResizing &&
-              isFullSupportBrowser && <MainViewer />}
+            {(hasImageService || extendedViewer) && !isResizing && (
+              <MainViewer />
+            )}
           </DelayVisibility>
         </Main>
         {showZoomed && isFullSupportBrowser && (
@@ -386,7 +396,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
             />
           </Zoom>
         )}
-        {isFullSupportBrowser && (
+        {isFullSupportBrowser && hasOnlyImages && (
           <>
             <BottomBar>
               <ViewerBottomBar />

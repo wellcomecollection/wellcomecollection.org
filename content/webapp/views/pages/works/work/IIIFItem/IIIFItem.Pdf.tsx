@@ -7,13 +7,13 @@ import { getFileLabel } from '@weco/content/utils/works';
 
 import IIIFItemDownload from './IIIFItem.Download';
 
-const IframePdfViewer = styled.iframe`
+const IframePdfViewer = styled.iframe<{ $isInViewer?: boolean }>`
   width: 100%;
   height: 90vh;
   display: block;
-  border: 0;
   margin-left: auto;
   margin-right: auto;
+  border: none;
 `;
 
 type Props = {
