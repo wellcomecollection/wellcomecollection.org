@@ -11,20 +11,20 @@ const IMAGE_HEIGHT = 200;
 
 export type Props = {
   images: Image[];
-  label?: string;
+  detailsCopy?: string;
   scrollButtonsAfter?: boolean;
 };
 
 const CatalogueImageGalleryScrollable: FunctionComponent<Props> = ({
   images,
-  label,
+  detailsCopy,
   scrollButtonsAfter,
 }: Props) => {
   const [, setExpandedImage] = useExpandedImage(images);
 
   return (
     <ScrollContainer
-      label={label}
+      detailsCopy={detailsCopy}
       hasDarkBackground
       hasLeftOffset
       scrollButtonsAfter={scrollButtonsAfter}

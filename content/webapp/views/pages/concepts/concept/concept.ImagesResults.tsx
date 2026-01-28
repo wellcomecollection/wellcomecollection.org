@@ -82,7 +82,7 @@ const ImageSection: FunctionComponent<Props> = ({
             ? firstTenImages
             : singleSectionData.pageResults
         }
-        label={`${pluralize(singleSectionData.totalResults, 'image')} from works`}
+        detailsCopy={`${pluralize(singleSectionData.totalResults, 'image')} from works`}
         variant="scrollable"
       />
       <Space

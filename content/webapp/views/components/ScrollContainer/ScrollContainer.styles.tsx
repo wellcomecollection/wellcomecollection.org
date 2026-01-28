@@ -1,6 +1,45 @@
 import styled from 'styled-components';
 
-const ScrollShim = styled.li<{ $gridValues: number[] }>`
+import { font } from '@weco/common/utils/classnames';
+import PlainList from '@weco/common/views/components/styled/PlainList';
+import Space from '@weco/common/views/components/styled/Space';
+
+export const ScrollButtonsContainer = styled(Space)<{
+  $hasContent?: boolean;
+  $scrollButtonsAfter?: boolean;
+}>`
+  gap: ${props => props.theme.spacingUnits['100']};
+  display: flex;
+  justify-content: ${props =>
+    props.$hasContent ? 'space-between' : 'flex-end'};
+  align-items: flex-end;
+  ${props =>
+    props.$scrollButtonsAfter
+      ? 'margin-top: ' + props.theme.spacingUnits['150'] + ';'
+      : ''}
+`;
+
+export const DetailsCopy = styled.span.attrs({
+  className: font('sans', -2),
+})<{ $hasDarkBackground?: boolean }>`
+  color: ${props =>
+    props.theme.color(props.$hasDarkBackground ? 'neutral.400' : 'black')};
+`;
+
+export const Description = styled.p<{ $hasDarkBackground?: boolean }>`
+  color: ${props =>
+    props.theme.color(props.$hasDarkBackground ? 'neutral.400' : 'black')};
+  margin-bottom: 0;
+`;
+
+export const ContentContainer = styled(PlainList)`
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  padding: 3px 0;
+`;
+
+export const ScrollShim = styled.li<{ $gridValues: number[] }>`
   display: none;
 
   --container-padding: ${props => props.theme.containerPadding};
@@ -47,5 +86,3 @@ const ScrollShim = styled.li<{ $gridValues: number[] }>`
       );
   `)}
 `;
-
-export default ScrollShim;
