@@ -47,8 +47,7 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
   currentQueryValue: queryValue,
 }) => {
   const router = useRouter();
-  const { exhibitionsInEvents } = useToggles();
-  const { conceptsSearch } = useToggles();
+  const { exhibitionsInEvents, conceptsSearch } = useToggles();
 
   // Variable naming note:
   //

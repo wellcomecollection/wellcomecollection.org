@@ -1,27 +1,41 @@
 import { NextPage } from 'next';
+import { ReactElement } from 'react';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
-import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
-import PageHeader from '@weco/common/views/components/PageHeader';
-import PageLayout from '@weco/common/views/layouts/PageLayout';
+import { Container } from '@weco/common/views/components/styled/Container';
+import Space from '@weco/common/views/components/styled/Space';
+import ThematicBrowsingLayout from '@weco/content/views/layouts/ThematicBrowsingLayout';
 
-export type Props = {
-  apiToolbarLinks: ApiToolbarLink[];
+const CollectionsSubjectsPage: NextPage & {
+  getLayout?: (page: ReactElement) => ReactElement;
+} = () => {
+  return (
+    <Container>
+      <Space $v={{ size: 'md', properties: ['margin-top', 'margin-bottom'] }}>
+        Subjects page content
+        <ul>
+          <li>
+            <a href="/collections/subjects/military-and-war">
+              Military and war
+            </a>
+          </li>
+        </ul>
+      </Space>
+    </Container>
+  );
 };
 
-const CollectionsSubjectsPage: NextPage<Props> = ({ apiToolbarLinks }) => {
+CollectionsSubjectsPage.getLayout = page => {
   return (
-    <PageLayout
-      title="Subjects" // TODO confirm
+    <ThematicBrowsingLayout
+      title="Subjects"
       description={pageDescriptions.collections.subjects}
-      url={{ pathname: '/collections/subjects' }}
-      jsonLd={{ '@type': 'WebPage' }}
-      openGraphType="website"
-      siteSection="collections"
-      apiToolbarLinks={apiToolbarLinks}
+      pageMeta={{
+        urlPathname: '/subjects',
+      }}
     >
-      <PageHeader variant="landing" title="Subjects" />
-    </PageLayout>
+      {page}
+    </ThematicBrowsingLayout>
   );
 };
 
