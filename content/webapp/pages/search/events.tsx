@@ -31,15 +31,14 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 > = async context => {
   setCacheControl(context.res, cacheTTL.search);
   const serverData = await getServerData(context);
-  const exhibitionsInEvents = !!serverData.toggles.exhibitionsInEvents?.value;
 
   const query = context.query;
   const params = fromQuery(query);
   const validTimespan = getQueryPropertyValue(params.timespan) || '';
-  const { apiFormat, uiFormat } = getEventFormats(
-    params.format,
-    !exhibitionsInEvents
-  );
+  const { apiFormat, uiFormat } = getEventFormats({
+    paramsFormat: params.format,
+    excludeExhibitions: false,
+  });
 
   const validParams = {
     ...params,
