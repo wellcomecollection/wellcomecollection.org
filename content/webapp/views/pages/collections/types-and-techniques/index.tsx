@@ -1,28 +1,35 @@
 import { NextPage } from 'next';
+import { ReactElement } from 'react';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
-import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
-import PageHeader from '@weco/common/views/components/PageHeader';
-import PageLayout from '@weco/common/views/layouts/PageLayout';
+import { Container } from '@weco/common/views/components/styled/Container';
+import Space from '@weco/common/views/components/styled/Space';
+import ThematicBrowsingLayout from '@weco/content/views/layouts/ThematicBrowsingLayout';
 
-export type Props = {
-  apiToolbarLinks: ApiToolbarLink[];
-};
-
-const CollectionsTypesPage: NextPage<Props> = ({ apiToolbarLinks }) => {
+const CollectionsTypesAndTechniquesPage: NextPage & {
+  getLayout?: (page: ReactElement) => ReactElement;
+} = () => {
   return (
-    <PageLayout
-      title="Types and techniques" // TODO confirm
-      description={pageDescriptions.collections.typesAndTechniques}
-      url={{ pathname: '/collections/types-and-techniques' }}
-      jsonLd={{ '@type': 'WebPage' }}
-      openGraphType="website"
-      siteSection="collections"
-      apiToolbarLinks={apiToolbarLinks}
-    >
-      <PageHeader variant="landing" title="Types and techniques" />
-    </PageLayout>
+    <Container>
+      <Space $v={{ size: 'md', properties: ['margin-top', 'margin-bottom'] }}>
+        <p>Types and techniques content</p>
+      </Space>
+    </Container>
   );
 };
 
-export default CollectionsTypesPage;
+CollectionsTypesAndTechniquesPage.getLayout = page => {
+  return (
+    <ThematicBrowsingLayout
+      title="Types and techniques" // TODO confirm
+      description={pageDescriptions.collections.typesAndTechniques}
+      pageMeta={{
+        urlPathname: '/types-and-techniques',
+      }}
+    >
+      {page}
+    </ThematicBrowsingLayout>
+  );
+};
+
+export default CollectionsTypesAndTechniquesPage;
