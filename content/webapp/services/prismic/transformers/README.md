@@ -51,6 +51,7 @@ When transforming a relationship field:
 
 - Only rely on fields that are expected to be present on relationship `data` (because it is usually populated by `fetchLinks`).
 - Be defensive about optional fields (e.g. `uid` can be absent for some relationships; if your domain type requires it, return `undefined`).
+- Filter out incomplete relationships before transforming: relationships from `fetchLinks` may lack nested fields required by document transformers (e.g. see exhibitions.ts exhibits filtering).
 
 ### 4) Avoid `any` / `unknown as RawXDocument` casts
 

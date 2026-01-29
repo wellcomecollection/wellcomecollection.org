@@ -451,7 +451,10 @@ export type StructuredSearchQuery = {
   'article-series': string[];
 };
 
-export type WithCardFormat = {
+// Generic format type shared by all content types that have a format field.
+// Previously we had separate WithArticleFormat, WithCardFormat, etc., but after
+// the Prismic upgrade they all became identical (generic ContentRelationshipField).
+export type WithFormat = {
   format: prismic.ContentRelationshipField;
 };
 
@@ -460,23 +463,3 @@ export type ExhibitionRelatedContentPrismicDocument =
   | RawEventsDocument
   | RawArticlesDocument
   | RawBooksDocument;
-
-export type WithArticleFormat = {
-  format: prismic.ContentRelationshipField;
-};
-
-export type WithGuideFormat = {
-  format: prismic.ContentRelationshipField;
-};
-
-export type WithPageFormat = {
-  format: prismic.ContentRelationshipField;
-};
-
-export type WithProjectFormat = {
-  format: prismic.ContentRelationshipField;
-};
-
-export type WithEventFormat = {
-  format: prismic.ContentRelationshipField;
-};

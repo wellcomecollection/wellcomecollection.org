@@ -428,6 +428,10 @@ export function transformContentListSlice(
       title: asText(slice.primary.title),
       items: contents
         .map(content => {
+          // Note: These relationship fields come with full document data via
+          // commonPrismicFieldsFetchLinks (title, promo, body, etc.), so they can be safely
+          // transformed as full documents. The casts are necessary because TypeScript sees
+          // them as ContentRelationshipField, not full PrismicDocuments.
           switch (content.type) {
             case 'pages':
               return transformPage(content as unknown as RawPagesDocument);

@@ -198,6 +198,11 @@ export const defaultSerializer: JSXFunctionSerializer = (
   }
 };
 
+/**
+ * Safely extract the first string child from a React node.
+ * Used by dropCapSerializer to get the first characters for drop cap styling.
+ * Handles both direct strings and React elements with string children.
+ */
 const getFirstStringChild = (node: unknown): string | undefined => {
   if (typeof node === 'string') return node;
 

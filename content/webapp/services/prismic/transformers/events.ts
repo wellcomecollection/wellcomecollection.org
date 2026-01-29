@@ -79,6 +79,9 @@ export function getFirstStartTime(times: EventTime[]): Date | undefined {
     : undefined;
 }
 
+// The new @prismicio packages (v2/v3) use broader generic types:
+// `string` instead of specific locales like 'en-gb', and `unknown` for data fields.
+// This function accepts the generic GroupField type that Prismic now provides.
 export function transformEventPolicyLabels(
   fragment:
     | RawEventsDocumentData['policies']

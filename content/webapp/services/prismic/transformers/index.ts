@@ -16,12 +16,7 @@ import {
   GenericDocWithPromo,
   PromoSliceZone,
   RelatedGenericDoc,
-  WithArticleFormat,
-  WithCardFormat,
-  WithEventFormat,
-  WithGuideFormat,
-  WithPageFormat,
-  WithProjectFormat,
+  WithFormat,
 } from '@weco/content/services/prismic/types';
 import { Format } from '@weco/content/types/format';
 import { GenericContentFields } from '@weco/content/types/generic-content-fields';
@@ -29,13 +24,7 @@ import { GenericContentFields } from '@weco/content/types/generic-content-fields
 import { transformImagePromo } from './images';
 
 export function transformFormat(document: {
-  data:
-    | WithArticleFormat
-    | WithCardFormat
-    | WithEventFormat
-    | WithGuideFormat
-    | WithPageFormat
-    | WithProjectFormat;
+  data: WithFormat;
 }): Format | undefined {
   const { format } = document.data;
 
@@ -116,20 +105,26 @@ export function transformGenericFieldsFromRelationship(field: {
 }): GenericContentFields {
   const { data } = field;
 
+  // Helper to check if an unknown value is an editorial image slice with the expected structure
+  const isEditorialImageSlice = (
+    slice: unknown
+  ): slice is prismic.Slice<
+    'editorialImage',
+    { image?: prismic.ImageField }
+  > => {
+    return (
+      slice !== null &&
+      typeof slice === 'object' &&
+      'slice_type' in slice &&
+      (slice as { slice_type: string }).slice_type === 'editorialImage'
+    );
+  };
+
   // Only process promo if it exists in the fetched data
   // (not all relationships include promo in fetchLinks)
   const promoSlices =
     Array.isArray(data.promo) && data.promo.length > 0
-      ? (data.promo as unknown[]).filter(
-          (slice): slice is prismic.Slice<'editorialImage'> =>
-            Boolean(
-              slice &&
-              typeof slice === 'object' &&
-              'slice_type' in slice &&
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              (slice as any).slice_type === 'editorialImage'
-            )
-        )
+      ? (data.promo as unknown[]).filter(isEditorialImageSlice)
       : [];
 
   const promo =
@@ -139,12 +134,9 @@ export function transformGenericFieldsFromRelationship(field: {
 
   // We keep `image` alongside `promo` for existing consumers.
   const primaryPromo = promoSlices.find(slice => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const maybeImage = (slice as any)?.primary?.image;
-    return Boolean(maybeImage);
+    return Boolean(slice.primary?.image);
   });
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const maybeImage = (primaryPromo as any)?.primary?.image;
+  const maybeImage = primaryPromo?.primary?.image;
   const image: ImageType | undefined =
     maybeImage && maybeImage !== null
       ? transformImage(

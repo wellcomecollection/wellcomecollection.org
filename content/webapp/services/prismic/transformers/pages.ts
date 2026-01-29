@@ -1,3 +1,4 @@
+import * as prismic from '@prismicio/client';
 import flattenDeep from 'lodash.flattendeep';
 
 import { SiteSection } from '@weco/common/model/site-section';
@@ -48,15 +49,17 @@ export function transformPage(document: RawPagesDocument): Page {
   const parentPages = data?.parents
     ? data.parents
         .map(parentItem => {
-          const parent = parentItem.parent;
+          const parent = parentItem.parent as unknown;
 
-          return isFilledLinkToDocumentWithData(parent) &&
-            parent.type === 'pages'
+          return isFilledLinkToDocumentWithData(
+            parent as prismic.ContentRelationshipField
+          ) &&
+            (parent as prismic.FilledContentRelationshipField).type === 'pages'
             ? {
                 ...transformPage(parent as unknown as RawPagesDocument),
                 order: parentItem.order!,
                 type: 'pages' as const,
-                tags: parent.tags,
+                tags: (parent as prismic.FilledContentRelationshipField).tags,
               }
             : undefined;
         })

@@ -1,9 +1,6 @@
 import * as prismic from '@prismicio/client';
 
-import {
-  ExhibitionFormatsDocument as RawExhibitionFormatsDocument,
-  ExhibitionsDocument as RawExhibitionsDocument,
-} from '@weco/common/prismicio-types';
+import { ExhibitionsDocument as RawExhibitionsDocument } from '@weco/common/prismicio-types';
 import {
   transformLink,
   transformTimestamp,
@@ -18,7 +15,6 @@ import {
   Exhibit,
   Exhibition,
   ExhibitionBasic,
-  ExhibitionFormat,
   ExhibitionRelatedContent,
 } from '@weco/content/types/exhibitions';
 
@@ -37,18 +33,8 @@ import { transformVideoEmbed } from './embeds';
 import { noAltTextBecausePromo } from './images';
 import { transformMultiContent } from './multi-content';
 import { transformQuery } from './paginated-results';
-import { transformPlace } from './places';
+import { transformPlaceFromRelationship } from './places';
 import { transformSeasonsFromRelationshipGroup } from './seasons';
-
-function transformExhibitionFormat(
-  format: RawExhibitionFormatsDocument
-): ExhibitionFormat {
-  return {
-    id: format.id,
-    title: (format.data && asText(format.data.title)) || '',
-    description: format.data && asHtml(format.data.description),
-  };
-}
 
 export function transformExhibition(
   document: RawExhibitionsDocument
@@ -91,10 +77,14 @@ export function transformExhibition(
   const bslLeafletVideo =
     data.bslLeafletVideo && transformVideoEmbed(data.bslLeafletVideo);
 
-  // TODO: Work out how to get this to type check without the 'as any'.
   const format = isFilledLinkToDocumentWithData(data.format)
-    ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      transformExhibitionFormat(data.format as any)
+    ? {
+        id: data.format.id,
+        title: asText(data.format.data.title as prismic.RichTextField) || '',
+        description: asHtml(
+          data.format.data.description as prismic.RichTextField
+        ),
+      }
     : undefined;
 
   const start = transformTimestamp(data.start)!;
@@ -123,8 +113,7 @@ export function transformExhibition(
     });
 
   const place = isFilledLinkToDocumentWithData(data.place)
-    ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      transformPlace(data.place as any)
+    ? transformPlaceFromRelationship(data.place)
     : undefined;
 
   const contributors = transformContributors(document);
