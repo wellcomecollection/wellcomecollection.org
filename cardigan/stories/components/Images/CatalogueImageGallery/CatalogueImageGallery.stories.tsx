@@ -11,12 +11,12 @@ const meta: Meta = {
   component: CatalogueImageGallery,
   args: {
     variant: 'scrollable',
-    label: 'Hello there, this is some text',
+    detailsCopy: 'Hello there, this is some text',
     imageCount: 10,
     scrollButtonsAfter: false,
   },
   argTypes: {
-    label: { name: 'Label', control: 'text' },
+    detailsCopy: { name: 'Details copy', control: 'text' },
     imageCount: {
       name: 'Number of images',
       control: 'select',
