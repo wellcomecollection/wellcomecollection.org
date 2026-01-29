@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
+import { redactUrl } from '@weco/common/utils/logging';
+
 /**
  * Next.js Middleware for Preview Cookie Management
  *
@@ -25,6 +27,11 @@ import type { NextRequest } from 'next/server';
  * - pages/api/preview.ts - Prismic preview API endpoint that redirects to preview content
  */
 export function middleware(request: NextRequest) {
+  const { method } = request;
+  const url = redactUrl(request.nextUrl.pathname + request.nextUrl.search);
+
+  console.log(`<-- ${method} ${url}`);
+
   const response = NextResponse.next();
 
   // Set preview cookie based on subdomain

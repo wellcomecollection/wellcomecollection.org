@@ -10,6 +10,10 @@ export async function buildStoriesRss(req: NextApiRequest) {
 
   const stories = await fetchStoriesRss(client);
 
+  if (stories.results.length === 0) {
+    console.warn('No stories found for RSS feed, defaulting pubDate to now()');
+  }
+
   const rssFeed = new RSS({
     title: 'Wellcome Collection stories',
     description:

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-import { redactUrl } from '@weco/identity/utils/logging';
+import { redactUrl } from '@weco/common/utils/logging';
 
 export function middleware(request: NextRequest) {
   const { method } = request;
