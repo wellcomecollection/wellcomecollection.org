@@ -115,10 +115,10 @@ export function groupEventsByMonth<T extends HasTimeRanges>(
   events: T[]
 ): GroupedEvent<T>[] {
   // Work out the min/max bounds for the list of events.
-  const earliestStartTime = minDate(
+  const earliestFutureStartTime = minDate(
     events.map(getEarliestFutureStartTime).filter(isNotUndefined)
   );
-  const latestStartTime = maxDate(
+  const latestFutureStartTime = maxDate(
     events.map(getLatestFutureStartTime).filter(isNotUndefined)
   );
 
@@ -127,8 +127,8 @@ export function groupEventsByMonth<T extends HasTimeRanges>(
   // This gives us the list of months that will appear in the segmented control
   // on the "What's on" page
   const monthSpan = getMonthsInDateRange({
-    startDate: earliestStartTime,
-    endDate: latestStartTime,
+    startDate: earliestFutureStartTime,
+    endDate: latestFutureStartTime,
   });
 
   // For each month, work out (a) what events should be included and
