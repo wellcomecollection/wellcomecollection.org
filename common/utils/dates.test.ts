@@ -284,7 +284,7 @@ describe('minDate and maxDate', () => {
     }
   );
 
-  it('returns undefined for an empty array', () => {
+  it('returns undefined for empty array', () => {
     expect(minDate([])).toBeUndefined();
     expect(maxDate([])).toBeUndefined();
   });
