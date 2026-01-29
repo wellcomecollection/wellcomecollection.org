@@ -18,6 +18,11 @@ export async function createApp() {
   const nextHandler = nextApp.getRequestHandler();
 
   const server = createServer((req, res) => {
+    // Handle healthcheck at the server level
+    // Note: There's also a Next.js API route at pages/api/management/healthcheck.ts
+    // but we need this inline handler because the /management/healthcheck path is
+    // accessed directly at the server level (before Next.js routing) for load balancer
+    // health checks and container orchestration.
     if (req.url === '/management/healthcheck') {
       res.statusCode = 200;
       res.setHeader('content-type', 'application/json; charset=utf-8');

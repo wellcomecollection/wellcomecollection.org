@@ -16,6 +16,9 @@ const appPromise = nextApp
     await initServerData();
 
     const server = createServer((req, res) => {
+      // Handle healthcheck at the server level for load balancer and container orchestration.
+      // This needs to be handled before Next.js routing to ensure it responds quickly
+      // and reliably for infrastructure health checks.
       if (req.url === '/management/healthcheck') {
         res.statusCode = 200;
         res.setHeader('content-type', 'application/json; charset=utf-8');

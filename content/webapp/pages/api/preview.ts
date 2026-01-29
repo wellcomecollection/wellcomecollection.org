@@ -5,6 +5,27 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { createClient } from '@weco/content/services/prismic/fetch';
 
+/**
+ * Prismic Preview API Handler
+ *
+ * This Next.js API route handles preview requests from Prismic CMS.
+ *
+ * ## How Prismic previews work:
+ * 1. User clicks "Preview" in Prismic dashboard
+ * 2. Prismic redirects to this endpoint with preview tokens in the URL
+ * 3. This handler resolves the preview URL using Prismic's API
+ * 4. Sets the 'isPreview' cookie (if not already set)
+ * 5. Clears the Prismic preview cookie (legacy cleanup)
+ * 6. Redirects user to the actual preview content
+ *
+ * ## Cookie management:
+ * - Sets 'isPreview=true' cookie with httpOnly=false (for client-side access)
+ * - Clears Prismic's internal preview cookie by overwriting it
+ *
+ * ## Related files:
+ * - middleware.ts - Also sets preview cookie for preview.* subdomains
+ * - services/prismic/link-resolver - Converts Prismic docs to URLs
+ */
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { client } = createClient({ req });
