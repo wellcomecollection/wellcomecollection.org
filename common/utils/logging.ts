@@ -1,5 +1,3 @@
-import { format as formatUrl, parse } from 'url';
-
 // This function redacts query parameters in URLs, so we have a URL that's
 // safe to log.  For example, we might get a log including:
 //
@@ -15,31 +13,36 @@ import { format as formatUrl, parse } from 'url';
 // It is deliberately un-picky about what it redacts, because we'd rather
 // remove something innocent (e.g. ?refresh=true) than miss something sensitive.
 export const redactUrl = (url: string): string => {
-  // Note: we use a deprecated API here because we're working with
-  // relative URLs, e.g. `/account`.
-  //
-  // The WHATWG URL API that the deprecation message suggests doesn't
-  // work for this use case; it wants absolute URLs.
-  const parsedUrl = parse(url);
+  let u: URL;
+  let isRelative = false;
+
+  try {
+    // Try to parse as an absolute URL first
+    u = new URL(url);
+  } catch {
+    // If that fails, assume it's a relative URL and provide a base
+    u = new URL(url, 'http://redact.url');
+    isRelative = true;
+  }
+
+  const keys = Array.from(u.searchParams.keys());
 
   // If there are no query parameters to redact, we don't need to do anything.
-  if (parsedUrl.query === null) {
+  if (keys.length === 0) {
     return url;
   }
 
-  const params = new URLSearchParams(parsedUrl.query);
+  // Redact all query parameters
+  keys.forEach(key => {
+    u.searchParams.set(key, '[redacted]');
+  });
 
-  for (const key of params.keys()) {
-    params.set(key, '[redacted]');
-  }
+  // Reconstruct the URL string
+  const redactedUrl = isRelative
+    ? u.pathname + u.search + u.hash
+    : u.toString();
 
-  parsedUrl.query = params.toString();
-  parsedUrl.search = `?${params.toString()}`;
-
-  // When the square brackets get URL-encoded, they're replaced with
-  // percent characters, e.g. `/account?token=%5Bredacted%5D`.
-  //
-  // Because they aren't actually URL characters, we put back the
-  // original brackets for ease of readability.
-  return formatUrl(parsedUrl).replace(/%5Bredacted%5D/g, '[redacted]');
+  // URLSearchParams encodes brackets (e.g., %5Bredacted%5D).
+  // We decode them back for better readability in logs.
+  return redactedUrl.replace(/%5Bredacted%5D/g, '[redacted]');
 };
