@@ -283,6 +283,11 @@ describe('minDate and maxDate', () => {
       expect(maxDate(dates)).toBe(date3);
     }
   );
+
+  it('returns undefined for an empty array', () => {
+    expect(minDate([])).toBeUndefined();
+    expect(maxDate([])).toBeUndefined();
+  });
 });
 
 describe('getLondonTimezone', () => {
