@@ -189,7 +189,7 @@ export function countDaysBetween(a: Date, b: Date): number {
   return Math.floor((a.valueOf() - b.valueOf()) / millisecondsInDay);
 }
 
-/** Returns the earliest date from a list. */
+/** Returns the earliest date from a list, or undefined if the list is empty. */
 export function minDate(dates: Date[]): Date | undefined {
   return dates.reduce<Date | undefined>(
     (a, b) => (a === undefined ? b : a < b ? a : b),
@@ -197,7 +197,7 @@ export function minDate(dates: Date[]): Date | undefined {
   );
 }
 
-/** Returns the latest date from a list. */
+/** Returns the latest date from a list, or undefined if the list is empty. */
 export function maxDate(dates: Date[]): Date | undefined {
   return dates.reduce<Date | undefined>(
     (a, b) => (a === undefined ? b : a > b ? a : b),
