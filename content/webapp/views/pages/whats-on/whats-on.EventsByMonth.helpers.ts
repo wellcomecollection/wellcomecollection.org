@@ -43,9 +43,13 @@ export function getMonthsInDateRange({
   startDate,
   endDate,
 }: {
-  startDate: Date;
-  endDate: Date;
+  startDate: Date | undefined;
+  endDate: Date | undefined;
 }): YearMonth[] {
+  if (!startDate || !endDate) {
+    return [];
+  }
+
   console.assert(
     startDate <= endDate,
     `Asked to find months in date range start=${startDate}, end=${endDate}`
