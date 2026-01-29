@@ -169,9 +169,12 @@ export function getDatesBetween({
   startDate,
   endDate,
 }: {
-  startDate: Date;
-  endDate: Date;
+  startDate: Date | undefined;
+  endDate: Date | undefined;
 }): Date[] {
+  if (!startDate || !endDate) {
+    return [];
+  }
   const dateArray: Date[] = [];
   let currentDate = startDate;
   while (currentDate <= endDate) {
