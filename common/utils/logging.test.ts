@@ -1,4 +1,4 @@
-import { redactUrl } from '@weco/identity/utils/logging';
+import { redactUrl } from '@weco/common/utils/logging';
 
 describe('redactUrl', () => {
   it('redacts query parameters in URLs', () => {

@@ -23,12 +23,10 @@
   "dependencies": {
     "@auth0/nextjs-auth0": "^3.5.0",
     "@hookform/error-message": "^2.0.1",
-    "@koa/router": "^15.2.0",
     "@weco/common": "1.0.0",
     "axios": "^1.13.2",
     "dotenv": "^17.2.1",
     "jsonwebtoken": "^9.0.0",
-    "koa": "^3.1.1",
     "next": "15.5.9",
     "next-router-mock": "^0.9.3",
     "react": "^19.1.0",
