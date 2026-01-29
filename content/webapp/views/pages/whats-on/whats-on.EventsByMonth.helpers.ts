@@ -43,9 +43,13 @@ export function getMonthsInDateRange({
   startDate,
   endDate,
 }: {
-  startDate: Date;
-  endDate: Date;
+  startDate: Date | undefined;
+  endDate: Date | undefined;
 }): YearMonth[] {
+  if (!startDate || !endDate) {
+    return [];
+  }
+
   console.assert(
     startDate <= endDate,
     `Asked to find months in date range start=${startDate}, end=${endDate}`
@@ -80,7 +84,9 @@ function isInMonth(d: Date, yearMonth: YearMonth): boolean {
   );
 }
 
-function getEarliestStartTime({ times }: HasTimeRanges): Date {
+function getEarliestFutureStartTime({
+  times,
+}: HasTimeRanges): Date | undefined {
   return minDate(
     times
       .filter(
@@ -90,7 +96,7 @@ function getEarliestStartTime({ times }: HasTimeRanges): Date {
   );
 }
 
-function getLatestStartTime({ times }: HasTimeRanges): Date {
+function getLatestFutureStartTime({ times }: HasTimeRanges): Date | undefined {
   return maxDate(
     times
       .filter(
@@ -109,16 +115,20 @@ export function groupEventsByMonth<T extends HasTimeRanges>(
   events: T[]
 ): GroupedEvent<T>[] {
   // Work out the min/max bounds for the list of events.
-  const earliestStartTime = minDate(events.map(getEarliestStartTime));
-  const latestStartTime = maxDate(events.map(getLatestStartTime));
+  const earliestFutureStartTime = minDate(
+    events.map(getEarliestFutureStartTime).filter(isNotUndefined)
+  );
+  const latestFutureStartTime = maxDate(
+    events.map(getLatestFutureStartTime).filter(isNotUndefined)
+  );
 
   // Work out what months this should cover
   //
   // This gives us the list of months that will appear in the segmented control
   // on the "What's on" page
   const monthSpan = getMonthsInDateRange({
-    startDate: earliestStartTime,
-    endDate: latestStartTime,
+    startDate: earliestFutureStartTime,
+    endDate: latestFutureStartTime,
   });
 
   // For each month, work out (a) what events should be included and

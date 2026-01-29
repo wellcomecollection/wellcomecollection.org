@@ -218,6 +218,33 @@ describe('getDatesBetween', () => {
       new Date('2001-01-04T00:00:00Z'),
     ]);
   });
+
+  it('returns an empty array when startDate is undefined', () => {
+    const result = getDatesBetween({
+      startDate: undefined,
+      endDate: new Date('2001-01-04T00:00:00Z'),
+    });
+
+    expect(result).toStrictEqual([]);
+  });
+
+  it('returns an empty array when endDate is undefined', () => {
+    const result = getDatesBetween({
+      startDate: new Date('2001-01-01T00:00:00Z'),
+      endDate: undefined,
+    });
+
+    expect(result).toStrictEqual([]);
+  });
+
+  it('returns an empty array when both startDate and endDate are undefined', () => {
+    const result = getDatesBetween({
+      startDate: undefined,
+      endDate: undefined,
+    });
+
+    expect(result).toStrictEqual([]);
+  });
 });
 
 describe('countDaysBetween', () => {
@@ -283,6 +310,11 @@ describe('minDate and maxDate', () => {
       expect(maxDate(dates)).toBe(date3);
     }
   );
+
+  it('returns undefined for empty array', () => {
+    expect(minDate([])).toBeUndefined();
+    expect(maxDate([])).toBeUndefined();
+  });
 });
 
 describe('getLondonTimezone', () => {
