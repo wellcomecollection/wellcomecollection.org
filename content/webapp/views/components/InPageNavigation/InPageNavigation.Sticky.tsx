@@ -52,6 +52,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
   const [clickedId, setClickedId] = useState<string | null>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const InPageNavigationStickyRef = useRef<HTMLDivElement>(null);
+  const navGridCellRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const listId = useId();
   const { isEnhanced, windowSize } = useAppContext();
@@ -59,19 +60,65 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
   const [isListActive, setIsListActive] = useState(true);
   const [scrollPosition, setScrollposition] = useState(0);
   const prevHasStuckRef = useRef(false);
+  const loadedWithHashRef = useRef(
+    typeof window !== 'undefined' && !!window.location.hash
+  );
 
   const shouldLockScroll = useMemo(() => {
     return windowSize !== 'md' && isListActive && hasStuck;
   }, [windowSize, isListActive, hasStuck]);
 
+  // Handle initial page load with hash
+  useEffect(() => {
+    if (loadedWithHashRef.current) {
+      const hash = window.location.hash.replace('#', '');
+      if (hash) {
+        // Prevent default browser scroll
+        window.history.scrollRestoration = 'manual';
+
+        // Manually set the nav state
+        setIsListActive(false);
+        setHasStuck(true);
+
+        // Wait for next frame to ensure layout is complete
+        requestAnimationFrame(() => {
+          const element = document.getElementById(hash);
+          if (element) {
+            element.scrollIntoView();
+          }
+        });
+      }
+    }
+  }, []);
+
   useEffect(() => {
     // We close the mobile nav if it's open when we're going from !hasStuck to hasStuck
 
-    if (hasStuck && !prevHasStuckRef.current && isListActive) {
-      setIsListActive(false);
+    if (hasStuck && !prevHasStuckRef.current) {
+      if (isListActive) {
+        setIsListActive(false);
+      }
+
+      // On small screens the nav becomes position: fixed when stuck,
+      // so scroll to the first element after the nav to keep the
+      // transition seamless. Skip when the user clicked a nav link
+      // or when the page loaded with a hash fragment (the browser is
+      // scrolling to that target).
+      if (
+        !clickedId &&
+        !loadedWithHashRef.current &&
+        windowSize !== 'md' &&
+        windowSize !== 'lg'
+      ) {
+        const nextEl = navGridCellRef.current?.nextElementSibling;
+        if (nextEl) {
+          nextEl.scrollIntoView();
+        }
+      }
+      loadedWithHashRef.current = false;
     }
     prevHasStuckRef.current = hasStuck;
-  }, [hasStuck, isListActive]);
+  }, [hasStuck, isListActive, clickedId, windowSize]);
 
   useEffect(() => {
     // We close the mobile nav if the user resizes their window to the large bp
@@ -85,7 +132,8 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setHasStuck(!entry.isIntersecting);
+        const isAboveViewport = entry.boundingClientRect.top <= 1;
+        setHasStuck(!entry.isIntersecting && isAboveViewport);
       },
       {
         root: document,
@@ -153,8 +201,8 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
 
   return (
     <NavGridCell
+      ref={navGridCellRef}
       $isOnWhite={!!isOnWhite}
-      $isEnhanced={isEnhanced}
       $sizeMap={sizeMap}
     >
       {shouldLockScroll && (
@@ -171,11 +219,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
           )}
         </>
       )}
-      <div ref={InPageNavigationStickyRef}></div>
-      {/* Placeholder to prevent jump when nav becomes fixed on mobile */}
-      {hasStuck && windowSize !== 'md' && windowSize !== 'lg' && (
-        <div style={{ height: buttonRef.current?.offsetHeight || 0 }} />
-      )}
+
       <FocusTrap
         active={isListActive && hasStuck}
         focusTrapOptions={{
@@ -337,6 +381,11 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
           </InPageNavList>
         </Root>
       </FocusTrap>
+      <div ref={InPageNavigationStickyRef}></div>
+      {/* Placeholder to prevent jump when nav becomes fixed on mobile */}
+      {hasStuck && windowSize !== 'md' && windowSize !== 'lg' && (
+        <div style={{ height: buttonRef.current?.offsetHeight || 0 }} />
+      )}
     </NavGridCell>
   );
 };
