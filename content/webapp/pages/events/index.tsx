@@ -42,7 +42,9 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const { page: pageQuery, ...restOfQuery } = context.query;
   const params = fromQuery(restOfQuery);
   const timespan = 'future';
-  const { apiFormat, uiFormat } = getEventFormats(params.format);
+  const { apiFormat, uiFormat } = getEventFormats({
+    paramsFormat: params.format,
+  });
 
   // Used for UI component props, so we don't show negated formats
   const eventsRouteProps = { ...params, timespan, format: uiFormat };

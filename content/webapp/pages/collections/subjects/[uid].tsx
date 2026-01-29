@@ -1,5 +1,3 @@
-import { NextPage } from 'next';
-
 import { PagesDocument as RawPagesDocument } from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -16,10 +14,6 @@ import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import WellcomeSubThemePage, {
   Props as WellcomeSubThemePageProps,
 } from '@weco/content/views/pages/collections/subjects/sub-theme';
-
-const Page: NextPage<WellcomeSubThemePageProps> = props => {
-  return <WellcomeSubThemePage {...props} />;
-};
 
 type Props = ServerSideProps<WellcomeSubThemePageProps>;
 
@@ -59,10 +53,10 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       props: serialiseProps<Props>({
         serverData,
         pageMeta: {
-          id: wellcomeSubThemePage.id,
-          uid: wellcomeSubThemePage.uid,
+          prismicId: wellcomeSubThemePage.id,
           image: wellcomeSubThemePage.promo?.image,
           description: wellcomeSubThemePage.promo?.caption,
+          urlPathname: `/subjects/${pageUid}`,
         },
         title: wellcomeSubThemePage.title,
         introText: wellcomeSubThemePage.introText ?? [],
@@ -73,4 +67,4 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   return { notFound: true };
 };
 
-export default Page;
+export default WellcomeSubThemePage;

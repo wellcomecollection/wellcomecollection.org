@@ -20,14 +20,15 @@ export const pageDescriptions = {
   books:
     'We publish thought-provoking books exploring health and human experiences.',
   collections: {
-    collections:
+    index:
       'Over 1.1 million items exploring art, health, culture and what it means to be human',
     newOnline:
       'Thousands of items from our collections have been digitised and are freely accessible online. Explore some of the recently added digitised and born-digital works.',
-    subjects: 'TODO',
-    peopleAndOrganizations: 'TODO',
-    places: 'TODO',
-    typesAndTechniques: 'TODO',
+    subjects: 'TODO write Subject metadescription',
+    peopleAndOrganisations:
+      'TODO write People and Organisations metadescription',
+    places: 'TODO write Places metadescription',
+    typesAndTechniques: 'TODO write Types and Techniques metadescription',
   },
   events:
     'Our events take place both online and in our building. Choose from an inspiring range of free talks, discussions and more.',
@@ -58,7 +59,7 @@ export const pageDescriptions = {
     concepts:
       'Search for themes related to health and human experience. Discover subjects, people, places and themes that connect our collections.',
     events:
-      'Search for past and up-coming events to discover our range of free tours, talks, workshops and more.',
+      'Search for past and upcoming events to discover our range of free tours, talks, exhibitions, workshops and more.',
   },
 };
 

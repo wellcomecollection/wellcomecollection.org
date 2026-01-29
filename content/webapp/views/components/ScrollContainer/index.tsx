@@ -4,49 +4,24 @@ import React, {
   RefObject,
   useRef,
 } from 'react';
-import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import { ContaineredLayout } from '@weco/common/views/components/Layout';
 import { SizeMap } from '@weco/common/views/components/styled/Grid';
-import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 
 import ScrollableNavigation from './ScrollContainer.Navigation';
-import ScrollShim from './ScrollContainer.styles';
-
-const ScrollButtonsContainer = styled(Space).attrs<{
-  $scrollButtonsAfter?: boolean;
-}>(props => ({
-  $v: {
-    size: 'sm',
-    properties: [props.$scrollButtonsAfter ? 'margin-top' : 'margin-bottom'],
-  },
-}))<{ $hasLabel?: boolean }>`
-  display: flex;
-  justify-content: ${props => (props.$hasLabel ? 'space-between' : 'flex-end')};
-  gap: ${props => props.theme.spacingUnits['100']};
-  align-items: center;
-  padding-bottom: ${props => props.theme.spacingUnits['050']};
-`;
-
-const Label = styled(Space).attrs({
-  className: font('sans', -2),
-})<{ $hasDarkBackground?: boolean }>`
-  color: ${props =>
-    props.theme.color(props.$hasDarkBackground ? 'neutral.400' : 'black')};
-`;
-
-const ContentContainer = styled(PlainList)`
-  display: flex;
-  overflow: hidden;
-  position: relative;
-  padding: 3px 0;
-`;
+import {
+  ContentContainer,
+  Description,
+  DetailsCopy,
+  ScrollButtonsContainer,
+  ScrollShim,
+} from './ScrollContainer.styles';
 
 type Props = PropsWithChildren<{
-  label?: string;
+  detailsCopy?: string;
+  description?: string;
   hasDarkBackground?: boolean;
   gridSizes?: SizeMap;
   hasLeftOffset?: boolean;
@@ -56,7 +31,8 @@ type Props = PropsWithChildren<{
 }>;
 
 const ScrollContainer: FunctionComponent<Props> = ({
-  label,
+  detailsCopy,
+  description,
   hasDarkBackground,
   gridSizes,
   hasLeftOffset,
@@ -70,7 +46,35 @@ const ScrollContainer: FunctionComponent<Props> = ({
 
   const gridValues = gridSizes ? Object.values(gridSizes).map(v => v[0]) : [];
 
-  const scrollButtons = (
+  const Copy = ({ addContainerWrapper }: { addContainerWrapper: boolean }) => {
+    if (!detailsCopy && !description) return null;
+
+    return (
+      <ConditionalWrapper
+        condition={!!gridSizes && addContainerWrapper}
+        wrapper={children => (
+          <ContaineredLayout gridSizes={gridSizes as SizeMap}>
+            {children}
+          </ContaineredLayout>
+        )}
+      >
+        <div>
+          {description && (
+            <Description $hasDarkBackground={hasDarkBackground}>
+              {description}
+            </Description>
+          )}
+          {detailsCopy && (
+            <DetailsCopy $hasDarkBackground={hasDarkBackground}>
+              {detailsCopy}
+            </DetailsCopy>
+          )}
+        </div>
+      </ConditionalWrapper>
+    );
+  };
+
+  const ScrollButtons = () => (
     <ConditionalWrapper
       condition={!!gridSizes}
       wrapper={children => (
@@ -80,10 +84,10 @@ const ScrollContainer: FunctionComponent<Props> = ({
       )}
     >
       <ScrollButtonsContainer
-        $hasLabel={!!label}
+        $hasContent={(!!detailsCopy || !!description) && !scrollButtonsAfter}
         $scrollButtonsAfter={scrollButtonsAfter}
       >
-        {label && <Label $hasDarkBackground={hasDarkBackground}>{label}</Label>}
+        {!scrollButtonsAfter && <Copy addContainerWrapper={false} />}
 
         <ScrollableNavigation
           containerRef={scrollContainerRef}
@@ -96,14 +100,23 @@ const ScrollContainer: FunctionComponent<Props> = ({
 
   return (
     <div data-component="scroll-container">
-      {!scrollButtonsAfter && scrollButtons}
+      <ConditionalWrapper
+        condition={!scrollButtonsAfter || !!detailsCopy || !!description}
+        wrapper={children => (
+          <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
+            {children}
+          </Space>
+        )}
+      >
+        {!scrollButtonsAfter ? <ScrollButtons /> : <Copy addContainerWrapper />}
+      </ConditionalWrapper>
 
       <ContentContainer ref={scrollContainerRef}>
         {useShim && gridSizes && <ScrollShim $gridValues={gridValues} />}
         {children}
       </ContentContainer>
 
-      {scrollButtonsAfter && scrollButtons}
+      {scrollButtonsAfter && <ScrollButtons />}
     </div>
   );
 };
