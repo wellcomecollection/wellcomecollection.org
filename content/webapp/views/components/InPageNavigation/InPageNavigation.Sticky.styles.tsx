@@ -286,6 +286,17 @@ export const NavGridCell = styled(GridCell)<{
   z-index: 3;
   position: relative;
 
+  /* container-type: inline-size (inherited from GridCell) creates a new containing
+     block for fixed-position descendants. This breaks the fixed positioning of
+     Root on mobile, so we reset it here. */
+  ${props =>
+    props.theme.mediaBetween(
+      'zero',
+      'md'
+    )(`
+    container-type: normal;
+  `)};
+
   &::before,
   &::after {
     content: '';
