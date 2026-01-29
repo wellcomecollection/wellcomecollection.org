@@ -80,7 +80,9 @@ function isInMonth(d: Date, yearMonth: YearMonth): boolean {
   );
 }
 
-function getEarliestStartTime({ times }: HasTimeRanges): Date {
+function getEarliestFutureStartTime({
+  times,
+}: HasTimeRanges): Date | undefined {
   return minDate(
     times
       .filter(
@@ -90,7 +92,7 @@ function getEarliestStartTime({ times }: HasTimeRanges): Date {
   );
 }
 
-function getLatestStartTime({ times }: HasTimeRanges): Date {
+function getLatestFutureStartTime({ times }: HasTimeRanges): Date | undefined {
   return maxDate(
     times
       .filter(
@@ -109,8 +111,12 @@ export function groupEventsByMonth<T extends HasTimeRanges>(
   events: T[]
 ): GroupedEvent<T>[] {
   // Work out the min/max bounds for the list of events.
-  const earliestStartTime = minDate(events.map(getEarliestStartTime));
-  const latestStartTime = maxDate(events.map(getLatestStartTime));
+  const earliestStartTime = minDate(
+    events.map(getEarliestFutureStartTime).filter(isNotUndefined)
+  );
+  const latestStartTime = maxDate(
+    events.map(getLatestFutureStartTime).filter(isNotUndefined)
+  );
 
   // Work out what months this should cover
   //
