@@ -1,6 +1,7 @@
 import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
+import { useToggles } from '@weco/common/server-data/Context';
 import {
   ContaineredLayout,
   gridSize12,
@@ -13,6 +14,7 @@ import { useThemeConcepts } from '@weco/content/hooks/useThemeConcepts';
 import { getConceptsByIds } from '@weco/content/pages/collections';
 import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { toConceptLink } from '@weco/content/views/components/ConceptLink';
+import MoreLink from '@weco/content/views/components/MoreLink';
 import ScrollContainer from '@weco/content/views/components/ScrollContainer';
 import SelectableTags from '@weco/content/views/components/SelectableTags';
 
@@ -121,6 +123,7 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
   initialConcepts,
   gridSizes,
 }) => {
+  const { thematicBrowsing } = useToggles();
   const { fetchConcepts, setCache } = useThemeConcepts(
     initialConcepts,
     getConceptsByIds
@@ -179,10 +182,18 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
     themeConfig.categories.findIndex(
       cat => cat.label === selectedCategoryLabel
     ) + 1;
+  const selectedCategoryUrl = themeConfig.categories.find(
+    cat => cat.label === selectedCategoryLabel
+  )?.url;
 
   return (
     <Space
-      $v={{ size: 'sm', properties: ['margin-top'] }}
+      $v={{
+        size: thematicBrowsing ? 'lg' : 'sm',
+        properties: thematicBrowsing
+          ? ['margin-bottom', 'margin-top']
+          : ['margin-top'],
+      }}
       data-component="BrowseByThemes"
     >
       <ContaineredLayout gridSizes={gridSize12()}>
@@ -200,7 +211,7 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
       </ContaineredLayout>
 
       <ScrollContainer
-        scrollButtonsAfter={true}
+        scrollButtonsAfter={!thematicBrowsing}
         gridSizes={gridSizes}
         containerRef={scrollContainerRef}
         useShim={true}
@@ -216,6 +227,17 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
           </ListItem>
         ))}
       </ScrollContainer>
+
+      {thematicBrowsing && selectedCategoryUrl && (
+        <ContaineredLayout gridSizes={gridSize12()}>
+          <Space $v={{ size: 'md', properties: ['margin-top'] }}>
+            <MoreLink
+              name={`Browse more ${selectedCategoryLabel.toLowerCase()}`}
+              url={selectedCategoryUrl}
+            />
+          </Space>
+        </ContaineredLayout>
+      )}
     </Space>
   );
 };

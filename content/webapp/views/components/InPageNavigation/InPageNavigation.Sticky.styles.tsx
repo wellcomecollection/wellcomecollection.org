@@ -11,8 +11,13 @@ import Space from '@weco/common/views/components/styled/Space';
 
 const leftOffset = '12px';
 
-export const InPageNavList = styled(PlainList)<{ $isOnWhite: boolean }>`
-  padding-bottom: ${props => props.theme.spacingUnits['150']};
+export const InPageNavList = styled(PlainList)<{
+  $isOnWhite: boolean;
+  $hasStuck: boolean;
+  $isListActive: boolean;
+}>`
+  padding-bottom: ${props =>
+    props.$hasStuck ? '0' : props.theme.spacingUnits['150']};
   border-bottom: 1px solid
     ${props => props.theme.color(props.$isOnWhite ? 'neutral.300' : 'white')};
 
@@ -21,9 +26,10 @@ export const InPageNavList = styled(PlainList)<{ $isOnWhite: boolean }>`
       'zero',
       'md'
     )(`
-      max-height: 90vh;
+      max-height: 60vh;
       overflow-x: hidden;
       overflow-y: auto;
+      ${!props.$isListActive ? 'display: none;' : ''}
     `)}
 
   ${props => props.theme.media('md')`
@@ -246,12 +252,7 @@ export const MobileNavButton = styled.button.attrs({
 
   .icon {
     transition: transform ${props => props.theme.transitionProperties};
-  }
-
-  nav:has(ul.is-hidden-s) & {
-    .icon {
-      transform: rotate(45deg);
-    }
+    ${props => !props.$isListActive && 'transform: rotate(45deg);'}
   }
 
   ${props => props.theme.media('md')`
@@ -284,8 +285,11 @@ export const NavGridCell = styled(GridCell)<{
     content: '';
     position: absolute;
     width: ${props => props.theme.containerPaddingVw};
-    bottom: 0;
-    top: 0;
+
+    /* These are -1px instead of 0 to account for iOS subpixel rendering artefacts
+    https://github.com/wellcomecollection/wellcomecollection.org/issues/12689 */
+    bottom: -1px;
+    top: -1px;
     transition: background-color ${props => props.theme.transitionProperties};
     background-color: var(--nav-grid-cell-background-color);
   }

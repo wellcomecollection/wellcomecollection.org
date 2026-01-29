@@ -1,9 +1,10 @@
-import { FunctionComponent, useEffect, useState } from 'react';
-import styled from 'styled-components';
+import { FunctionComponent, useState } from 'react';
+import styled, { css } from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import { toHtmlId } from '@weco/common/utils/grammar';
 import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import AnimatedUnderlineCSS, {
   AnimatedUnderlineProps,
 } from '@weco/common/views/components/styled/AnimatedUnderline';
@@ -17,10 +18,13 @@ type SelectableTagsProps = {
     gtmData?: DataGtmProps;
   }[];
   isMultiSelect?: boolean;
+  selectedTags?: string[];
   onChange?: (selected: string[]) => void;
 };
 
-const TagsWrapper = styled.div`
+export const SelectableTagsWrapper = styled.div.attrs({
+  className: font('sans-bold', -1),
+})`
   display: flex;
   flex-wrap: wrap;
   gap: 8px 12px;
@@ -30,7 +34,7 @@ const TagsWrapper = styled.div`
   `}
 `;
 
-const StyledInput = styled.label<
+export const StyledInputCSS = css<
   AnimatedUnderlineProps & { $isSelected: boolean }
 >`
   ${AnimatedUnderlineCSS}
@@ -50,6 +54,11 @@ const StyledInput = styled.label<
     color: ${props => props.theme.color(props.$isSelected ? 'white' : 'black')};
   }
 `;
+const StyledInput = styled.label<
+  AnimatedUnderlineProps & { $isSelected: boolean }
+>`
+  ${StyledInputCSS}
+`;
 
 const InputField = styled.input`
   position: absolute;
@@ -58,11 +67,10 @@ const InputField = styled.input`
   height: 0;
   width: 0;
 
-  &:focus-visible ~ ${StyledInput}, &:focus ~ ${StyledInput} {
+  &:focus-visible ~ ${StyledInput} {
     ${focusStyle};
   }
 
-  &:focus ~ ${StyledInput}:not(:focus-visible ~ ${StyledInput}),
   &:active ~ ${StyledInput} {
     box-shadow: none;
   }
@@ -70,14 +78,13 @@ const InputField = styled.input`
 
 export const SelectableTags: FunctionComponent<SelectableTagsProps> = ({
   tags,
+  selectedTags,
   isMultiSelect,
   onChange,
 }) => {
-  const [selected, setSelected] = useState<string[]>([tags[0]?.id]);
-
-  useEffect(() => {
-    setSelected([tags[0]?.id]);
-  }, [isMultiSelect]);
+  const [selected, setSelected] = useState<string[]>(
+    [...(selectedTags ?? [tags[0]?.id])].filter(isNotUndefined)
+  );
 
   if (tags.length === 0) return null;
 
@@ -111,7 +118,7 @@ export const SelectableTags: FunctionComponent<SelectableTagsProps> = ({
 
   return (
     <div data-component="selectable-tags">
-      <TagsWrapper className={font('sans-bold', -1)}>
+      <SelectableTagsWrapper>
         {tags.map((tag, index) => {
           const isSelected = selected.includes(tag.id);
           const gtmAttributes = dataGtmPropsToAttributes({
@@ -156,7 +163,7 @@ export const SelectableTags: FunctionComponent<SelectableTagsProps> = ({
             </div>
           );
         })}
-      </TagsWrapper>
+      </SelectableTagsWrapper>
     </div>
   );
 };

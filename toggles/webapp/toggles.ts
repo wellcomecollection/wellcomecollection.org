@@ -100,13 +100,6 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'exhibitionsInEvents',
-      title: 'Exhibitions in events',
-      initialValue: false,
-      description: 'Adds exhibitions to the events search results',
-      type: 'experimental',
-    },
-    {
       id: 'browseCollections',
       title: 'Browse collections by type and topic',
       initialValue: false,
@@ -127,6 +120,13 @@ const toggles = {
       initialValue: false,
       description:
         'Enables a two-column layout for pages with in-page navigation',
+      type: 'experimental',
+    },
+    {
+      id: 'thematicBrowsing',
+      title: 'Thematic browsing',
+      initialValue: false,
+      description: 'Enables access to new thematic browsing pages.',
       type: 'experimental',
     },
   ] as const,

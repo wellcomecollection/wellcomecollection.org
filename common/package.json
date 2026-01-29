@@ -41,7 +41,7 @@
     "url-template": "^2.0.8",
     "uuid": "^13.0.0",
     "typed.js": "^2.1.0",
-    "webpack-bundle-analyzer": "^5.0.1"
+    "webpack-bundle-analyzer": "^5.2.0"
   },
   "devDependencies": {
     "@slicemachine/adapter-next": "^0.3.36",

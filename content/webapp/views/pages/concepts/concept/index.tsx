@@ -129,13 +129,11 @@ const ConceptPage: NextPage<Props> = ({
       >
         <ThemeHeader concept={conceptResponse} />
 
-        <>
-          <DecorativeEdge
-            variant="wobbly"
-            backgroundColor={hasImages ? 'neutral.700' : 'white'}
-          />
-          <MobileNavBackground $isOnWhite={!hasImages} />
-        </>
+        <DecorativeEdge
+          variant="wobbly"
+          backgroundColor={hasImages ? 'neutral.700' : 'white'}
+        />
+        <MobileNavBackground $isOnWhite={!hasImages} />
 
         <Container>
           <Grid style={{ background: 'white', rowGap: 0 }}>

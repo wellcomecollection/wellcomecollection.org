@@ -18,7 +18,6 @@ type BodyStoryProps = ComponentProps<typeof Body> & {
 
 const meta: Meta<Omit<BodyStoryProps, 'gridSizes'> & { gridSizes: string }> = {
   title: 'Components/Body',
-  component: Body,
   args: {
     untransformedBody,
     introText: [
