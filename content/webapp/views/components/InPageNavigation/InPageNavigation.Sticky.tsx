@@ -288,6 +288,8 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
                     style={{
                       display: 'block',
                       position: 'absolute',
+                      textOverflow: 'ellipsis',
+                      overflow: 'hidden',
                       top: 0,
                       left: 0,
                       right: 0,
