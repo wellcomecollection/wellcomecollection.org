@@ -187,13 +187,17 @@ export function countDaysBetween(a: Date, b: Date): number {
 }
 
 /** Returns the earliest date from a list. */
-export function minDate(dates: Date[]): Date {
-  console.assert(dates.length > 0);
-  return dates.reduce((a, b) => (a < b ? a : b));
+export function minDate(dates: Date[]): Date | undefined {
+  return dates.reduce<Date | undefined>(
+    (a, b) => (a === undefined ? b : a < b ? a : b),
+    undefined
+  );
 }
 
 /** Returns the latest date from a list. */
-export function maxDate(dates: Date[]): Date {
-  console.assert(dates.length > 0);
-  return dates.reduce((a, b) => (a > b ? a : b));
+export function maxDate(dates: Date[]): Date | undefined {
+  return dates.reduce<Date | undefined>(
+    (a, b) => (a === undefined ? b : a > b ? a : b),
+    undefined
+  );
 }
