@@ -14,7 +14,7 @@
     "@popperjs/core": "^2.11.8",
     "@prismicio/client": "^7.18.1",
     "@prismicio/next": "^2.2.1",
-    "@prismicio/react": "^3.3.0",
+    "@prismicio/react": "^3.0.0",
     "@testing-library/jest-dom": "^6.9.0",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "14.6.1",

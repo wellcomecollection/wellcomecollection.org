@@ -3168,7 +3168,7 @@
     imgix-url-builder "^0.0.5"
     lz-string "^1.5.0"
 
-"@prismicio/react@^3.3.0":
+"@prismicio/react@^3.0.0":
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/@prismicio/react/-/react-3.3.0.tgz#996b1a95ea7e31f3a71ed07e2075452fb0fb18f2"
   integrity sha512-M9u0iKkU/Ir1JCmEhTLYcUf86n6+o3fTWw74CGW91E+cPwJZ5UZDqqwWSSUU++ByaEfbjoYOhvvaxlPlBzuicg==
