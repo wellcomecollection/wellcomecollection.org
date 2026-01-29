@@ -68,6 +68,29 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
     return windowSize !== 'md' && isListActive && hasStuck;
   }, [windowSize, isListActive, hasStuck]);
 
+  // Handle initial page load with hash
+  useEffect(() => {
+    if (loadedWithHashRef.current) {
+      const hash = window.location.hash.replace('#', '');
+      if (hash) {
+        // Prevent default browser scroll
+        window.history.scrollRestoration = 'manual';
+
+        // Manually set the nav state
+        setIsListActive(false);
+        setHasStuck(true);
+
+        // Wait for next frame to ensure layout is complete
+        requestAnimationFrame(() => {
+          const element = document.getElementById(hash);
+          if (element) {
+            element.scrollIntoView();
+          }
+        });
+      }
+    }
+  }, []);
+
   useEffect(() => {
     // We close the mobile nav if it's open when we're going from !hasStuck to hasStuck
 
