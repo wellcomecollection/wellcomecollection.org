@@ -116,22 +116,26 @@ export function transformGenericFieldsFromRelationship(field: {
 }): GenericContentFields {
   const { data } = field;
 
-  const promoSlices = Array.isArray(data.promo)
-    ? (data.promo as unknown[]).filter(
-        (slice): slice is prismic.Slice<'editorialImage'> =>
-          Boolean(
-            slice &&
-            typeof slice === 'object' &&
-            'slice_type' in slice &&
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            (slice as any).slice_type === 'editorialImage'
-          )
-      )
-    : [];
+  // Only process promo if it exists in the fetched data
+  // (not all relationships include promo in fetchLinks)
+  const promoSlices =
+    Array.isArray(data.promo) && data.promo.length > 0
+      ? (data.promo as unknown[]).filter(
+          (slice): slice is prismic.Slice<'editorialImage'> =>
+            Boolean(
+              slice &&
+              typeof slice === 'object' &&
+              'slice_type' in slice &&
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              (slice as any).slice_type === 'editorialImage'
+            )
+        )
+      : [];
 
-  const promo = promoSlices.length
-    ? transformImagePromo(promoSlices as unknown as PromoSliceZone)
-    : undefined;
+  const promo =
+    promoSlices.length > 0
+      ? transformImagePromo(promoSlices as unknown as PromoSliceZone)
+      : undefined;
 
   // We keep `image` alongside `promo` for existing consumers.
   const primaryPromo = promoSlices.find(slice => {
@@ -151,13 +155,19 @@ export function transformGenericFieldsFromRelationship(field: {
         )
       : undefined;
 
-  const untransformedBody = Array.isArray(data.body)
-    ? (data.body as prismic.Slice[])
-    : ([] as prismic.Slice[]);
+  // Only process body if it exists in the fetched data
+  // (not all relationships include body in fetchLinks)
+  const untransformedBody =
+    Array.isArray(data.body) && data.body.length > 0
+      ? (data.body as prismic.Slice[])
+      : ([] as prismic.Slice[]);
 
-  const untransformedStandfirst = untransformedBody.find(
-    (slice: prismic.Slice) => slice.slice_type === 'standfirst'
-  ) as RawStandfirstSlice | undefined;
+  const untransformedStandfirst =
+    untransformedBody.length > 0
+      ? (untransformedBody.find(
+          (slice: prismic.Slice) => slice.slice_type === 'standfirst'
+        ) as RawStandfirstSlice | undefined)
+      : undefined;
 
   const metadataDescription =
     Array.isArray(data.metadataDescription) ||

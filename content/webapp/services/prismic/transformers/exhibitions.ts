@@ -105,14 +105,22 @@ export function transformExhibition(
     transformSingleLevelGroup(data.seasons, 'season')
   );
 
-  const exhibits: Exhibit[] = transformSingleLevelGroup(
-    data.exhibits,
-    'item'
-  ).map(exhibit => {
-    return {
-      item: transformExhibition(exhibit as RawExhibitionsDocument),
-    };
-  });
+  // Only transform exhibits that are full documents (have complete data).
+  // When exhibits come from relationships/fetchLinks, they don't have all
+  // the required fields for transformExhibition, causing performance issues
+  // and errors as the transformer tries to access missing nested data.
+  const exhibits: Exhibit[] = transformSingleLevelGroup(data.exhibits, 'item')
+    .filter(exhibit => {
+      // Check if this is a full document by looking for required fields
+      // that wouldn't be present in a relationship
+      const maybeDoc = exhibit as RawExhibitionsDocument;
+      return maybeDoc.data && 'contributors' in maybeDoc.data;
+    })
+    .map(exhibit => {
+      return {
+        item: transformExhibition(exhibit as RawExhibitionsDocument),
+      };
+    });
 
   const place = isFilledLinkToDocumentWithData(data.place)
     ? // eslint-disable-next-line @typescript-eslint/no-explicit-any

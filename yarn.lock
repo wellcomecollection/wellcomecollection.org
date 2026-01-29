@@ -3126,10 +3126,10 @@
     tslib "^2.5.0"
     uuid "^9.0.0"
 
-"@prismicio/client@7.17.0", "@prismicio/client@7.21.3", "@prismicio/client@^7.1.0", "@prismicio/client@^7.21.3":
-  version "7.21.3"
-  resolved "https://registry.yarnpkg.com/@prismicio/client/-/client-7.21.3.tgz#98261a89eddcc25a50ba0fd2fc10cec4e73b5eb9"
-  integrity sha512-OQ/c+dfUcexYFEAhrN+0DrrKwEF5nHabOMJxAPXACpaVg9+itX2PX7YCqUXYEj7DTfOVTRbxyCyKqWprVtMi/w==
+"@prismicio/client@7.17.0", "@prismicio/client@7.18.1", "@prismicio/client@^7.1.0", "@prismicio/client@^7.18.1":
+  version "7.18.1"
+  resolved "https://registry.yarnpkg.com/@prismicio/client/-/client-7.18.1.tgz#d737cdc98a416184455d9395f905f7d2e18fd988"
+  integrity sha512-u27dBMQRbLmZoJbINvSYjqtkLS/rqwN4Z4HpqcHl6QF0cWEtvVE7JIDJArIuAAR+c2H0VXrfvcaEqNQV5RQhOg==
   dependencies:
     imgix-url-builder "^0.0.6"
 
@@ -3159,7 +3159,7 @@
     tslib "^2.3.1"
     uuid "^9.0.1"
 
-"@prismicio/next@^2.0.2":
+"@prismicio/next@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@prismicio/next/-/next-2.2.1.tgz#fb891ce17fd4f262f68b3b73f1690276f9d80220"
   integrity sha512-0y0xTQpUtwYM7yq4MvthLBRoPzHLXZzHqu0yA1LVdQhD/U50jlF6Op5BPiVo4DdktVAK1bD/KO4RyQF2mGygOA==
@@ -3168,7 +3168,7 @@
     imgix-url-builder "^0.0.5"
     lz-string "^1.5.0"
 
-"@prismicio/react@^3.2.2":
+"@prismicio/react@^3.3.0":
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/@prismicio/react/-/react-3.3.0.tgz#996b1a95ea7e31f3a71ed07e2075452fb0fb18f2"
   integrity sha512-M9u0iKkU/Ir1JCmEhTLYcUf86n6+o3fTWw74CGW91E+cPwJZ5UZDqqwWSSUU++ByaEfbjoYOhvvaxlPlBzuicg==
