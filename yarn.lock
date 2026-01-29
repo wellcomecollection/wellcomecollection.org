@@ -3168,12 +3168,19 @@
     imgix-url-builder "^0.0.5"
     lz-string "^1.5.0"
 
-"@prismicio/react@3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@prismicio/react/-/react-3.0.0.tgz#4771a777401a076e758f763c39b136cd032efc1f"
-  integrity sha512-LJht0hijpfkVp/lXiX+pmU2ffoHWrwvhkoMe/Da6vwe9n37erwTtn0027Kz4eODfCGfoJ+1qgILyPb76+OgeKg==
+"@prismicio/react@2.9.2":
+  version "2.9.2"
+  resolved "https://registry.yarnpkg.com/@prismicio/react/-/react-2.9.2.tgz#b050971036d9a4c31072a2fc9ee909f28ec4b7ce"
+  integrity sha512-aXTIYI1DNbBMaaDd4czW8foqJku2VXVGqI4n34w2BKMBPXqugCcL1dqaKtsyreza3bo0nE5C6YhUyil4rx70BA==
   dependencies:
-    esm-env "^1.2.2"
+    "@prismicio/richtext" "^2.1.5"
+
+"@prismicio/richtext@^2.1.5":
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/@prismicio/richtext/-/richtext-2.1.5.tgz#8a433939765bead2a521150fb15af0b49c6af421"
+  integrity sha512-Sf6iCsciPmfK3uQeFmeY9RTRSuhrCVzyU39OkiJ1VJn8O0531pKapGoWS+5WGxouJtE5+jGqV8L+L2mKP7NkXQ==
+  dependencies:
+    "@prismicio/types" "^0.2.7"
 
 "@prismicio/simulator@^0.1.4":
   version "0.1.4"
@@ -3208,6 +3215,11 @@
     newtype-ts "^0.3.5"
     tslib "^2.3.1"
     uuid "^9.0.0"
+
+"@prismicio/types@^0.2.7":
+  version "0.2.9"
+  resolved "https://registry.yarnpkg.com/@prismicio/types/-/types-0.2.9.tgz#9846b8830b52256b3090b2221a8240ba415b1b9f"
+  integrity sha512-1uhHnZTiGeCi+rmO507B8jtnUTCNetdgrC5sfZEw9zsCplfgBELt0+BN1RFsXWLbZbyvR9xzHcrJ87Ykqa8JZA==
 
 "@rollup/pluginutils@^5.0.2":
   version "5.3.0"
@@ -7034,11 +7046,6 @@ eslint@^9.39.1:
     minimatch "^3.1.2"
     natural-compare "^1.4.0"
     optionator "^0.9.3"
-
-esm-env@^1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/esm-env/-/esm-env-1.2.2.tgz#263c9455c55861f41618df31b20cb571fc20b75e"
-  integrity sha512-Epxrv+Nr/CaL4ZcFGPJIYLWFom+YeV1DqMLHJoEd9SYRxNbaFruBwfEX/kkHUJf55j2+TUbmDcmuilbP1TmXHA==
 
 espree@^10.0.1, espree@^10.4.0:
   version "10.4.0"
