@@ -50,12 +50,14 @@ import VideoTranscript from './IIIFItem.VideoTranscript';
 
 const Outline = styled(Space).attrs({
   $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
-  $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
 })<{ $border?: boolean }>`
+  padding-left: ${props => props.theme.spacingUnits['400']};
+  padding-right: ${props => props.theme.spacingUnits['400']};
   ${props =>
     props.$border
       ? `border: 1px solid; border-color:  ${props.theme.color('neutral.400')}`
       : ``}
+  height: 100%;
 `;
 
 const IconContainer = styled(Space).attrs({

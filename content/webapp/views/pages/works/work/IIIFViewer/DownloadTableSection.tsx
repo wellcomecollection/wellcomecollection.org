@@ -1,0 +1,68 @@
+import { FunctionComponent } from 'react';
+import { font } from '@weco/common/utils/classnames';
+import { TransformedCanvas } from '@weco/content/types/manifest';
+import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
+import DownloadTableRow from '@weco/content/views/pages/works/work/IIIFViewer/DownloadTableRow';
+import { queryParamToArrayIndex } from '.';
+import { getOriginalFiles } from '@weco/content/utils/iiif/v3';
+
+import {
+  DownloadTable,
+  DownloadTableContainer,
+  DownloadTitle,
+} from './DownloadTable.styles';
+
+type DownloadTableSectionProps = {
+  canvases: TransformedCanvas[];
+  workId: string;
+  canvas: number;
+};
+
+const DownloadTableSection: FunctionComponent<DownloadTableSectionProps> = ({
+  canvases,
+  workId,
+  canvas,
+}) => {
+  return (
+    <>
+      <DownloadTitle>Available files</DownloadTitle>
+      <DownloadTableContainer>
+        <DownloadTable>
+          <thead>
+            <tr className={font('sans-bold', -1)}>
+              <th>File</th>
+              <th className="is-hidden-s">Size</th>
+              <th>Download</th>
+            </tr>
+          </thead>
+          <tbody>
+            {canvases.map((canvasItem, index) => {
+              const canvasIndex = index + 1;
+              const canvasLink = toWorksItemLink({
+                workId,
+                props: {
+                  canvas: canvasIndex,
+                  shouldScrollToCanvas: false,
+                },
+              });
+              const downloads = getOriginalFiles(canvasItem);
+              const currentCanvasIndex = queryParamToArrayIndex(canvas) || 0;
+              return downloads.map(download => (
+                <DownloadTableRow
+                  key={canvasItem.id + download.id}
+                  canvasLink={canvasLink}
+                  canvas={canvasItem}
+                  item={download}
+                  isCurrent={index === currentCanvasIndex}
+                  index={canvasIndex}
+                />
+              ));
+            })}
+          </tbody>
+        </DownloadTable>
+      </DownloadTableContainer>
+    </>
+  );
+};
+
+export default DownloadTableSection;
