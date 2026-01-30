@@ -49,6 +49,8 @@ const DownloadTableRow: FunctionComponent<{
   const fileSize = canvas && getFileSize(canvas);
   const format = displayItem.format;
 
+  // Theoretically displayItem, which is the Body type from '@iiif/presentation-3', could be a string (a reference to an external resource), so we check for that.
+  // In practice we don't expect it
   if (typeof displayItem !== 'string') {
     return (
       <StyledTr $isCurrent={isCurrent}>
