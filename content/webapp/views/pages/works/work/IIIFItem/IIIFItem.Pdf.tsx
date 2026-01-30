@@ -7,7 +7,7 @@ import { getFileLabel } from '@weco/content/utils/works';
 
 import IIIFItemDownload from './IIIFItem.Download';
 
-const IframePdfViewer = styled.iframe<{ $isInViewer?: boolean }>`
+const IframePdfViewer = styled.iframe`
   width: 100%;
   height: 90vh;
   display: block;
