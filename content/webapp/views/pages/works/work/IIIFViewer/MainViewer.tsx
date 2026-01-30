@@ -59,6 +59,7 @@ const ItemWrapper = styled.div<{
   video {
     display: block;
     max-height: 100%;
+    max-width: 100%;
     margin: 0 auto;
   }
 `;
