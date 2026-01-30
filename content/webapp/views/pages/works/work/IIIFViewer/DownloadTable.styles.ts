@@ -5,6 +5,8 @@ import Space from '@weco/common/views/components/styled/Space';
 
 export const DownloadTableContainer = styled.div`
   overflow-y: auto;
+
+  --table-horizontal-padding: ${props => props.theme.spacingUnits['400']};
 `;
 
 export const DownloadTitle = styled(Space).attrs({
@@ -12,7 +14,7 @@ export const DownloadTitle = styled(Space).attrs({
   className: font('brand', 0),
   $v: { size: 'sm', properties: ['margin-top'] },
 })`
-  padding-left: ${props => props.theme.spacingUnit * 7}px;
+  padding-left: ${props => props.theme.spacingUnits['400']};
 `;
 
 export const DownloadTable = styled.table.attrs({
@@ -32,7 +34,7 @@ export const DownloadTable = styled.table.attrs({
 
   th:first-child,
   td:first-child {
-    padding-left: ${props => props.theme.spacingUnit * 7}px;
+    padding-left: var(--table-horizontal-padding);
   }
 
   th:nth-child(2),
@@ -44,7 +46,7 @@ export const DownloadTable = styled.table.attrs({
   td:last-child {
     width: 100px;
     text-align: right;
-    padding-right: ${props => props.theme.spacingUnit * 7}px;
+    padding-right: var(--table-horizontal-padding);
   }
 `;
 

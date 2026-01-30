@@ -51,8 +51,8 @@ import VideoTranscript from './IIIFItem.VideoTranscript';
 const Outline = styled(Space).attrs({
   $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
 })<{ $border?: boolean }>`
-  padding-left: ${props => props.theme.spacingUnit * 7}px;
-  padding-right: ${props => props.theme.spacingUnit * 7}px;
+  padding-left: ${props => props.theme.spacingUnits['400']};
+  padding-right: ${props => props.theme.spacingUnits['400']};
   ${props =>
     props.$border
       ? `border: 1px solid; border-color:  ${props.theme.color('neutral.400')}`
