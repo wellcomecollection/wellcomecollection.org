@@ -48,6 +48,7 @@ const ItemWrapper = styled.div<{
   ${props => !props.$isAudio && 'height: 100%;'}
   ${props => (props.$isImage || props.$isText) && 'min-height: 50vh;'}
   position: relative;
+  overflow: scroll;
 
   .pdf-wrapper,
   iframe {
