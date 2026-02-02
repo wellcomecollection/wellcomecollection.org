@@ -80,7 +80,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const client = createClient(context);
   const collectionsPagePromise = await fetchPage(
     client,
-    prismicPageIds.newCollections
+    prismicPageIds.collections
   );
 
   if (isNotUndefined(collectionsPagePromise)) {
@@ -152,7 +152,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     return {
       props: serialiseProps({
         pageMeta: {
-          id: collectionsPage.id,
+          prismicId: collectionsPage.id,
           image: collectionsPage.promo?.image,
           description: collectionsPage.promo?.caption,
         },
