@@ -1,18 +1,13 @@
-import type { NextApiRequest } from 'next';
 import RSS from 'rss';
 
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchStoriesRss } from '@weco/content/services/prismic/fetch/stories-rss';
 import { asText } from '@weco/content/services/prismic/transformers';
 
-export async function buildStoriesRss(req: NextApiRequest) {
-  const client = createClient({ req });
+export async function buildStoriesRss(req) {
+  const client = createClient(req);
 
   const stories = await fetchStoriesRss(client);
-
-  if (stories.results.length === 0) {
-    console.warn('No stories found for RSS feed, defaulting pubDate to now()');
-  }
 
   const rssFeed = new RSS({
     title: 'Wellcome Collection stories',
@@ -24,7 +19,7 @@ export async function buildStoriesRss(req: NextApiRequest) {
       'https://i.wellcomecollection.org/assets/icons/android-chrome-512x512.png',
     language: 'en',
     categories: ['Science', 'Medicine', 'Art'],
-    pubDate: stories.results[0]?.first_publication_date ?? new Date(),
+    pubDate: stories.results[0].first_publication_date,
   });
 
   stories.results.forEach(story => {

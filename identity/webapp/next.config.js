@@ -54,16 +54,6 @@ const config = function () {
     },
     serverRuntimeConfig: getConfig(),
     transpilePackages: ['@weco/common'],
-    // Trust proxy headers in production
-    // This is needed because the app runs behind nginx/CloudFront proxies.
-    // When trustHostHeader is true, Next.js will trust the X-Forwarded-Host
-    // and X-Forwarded-Proto headers from the proxy, which is necessary for
-    // correct URL resolution and redirects in production.
-    ...(isProd && {
-      experimental: {
-        trustHostHeader: true,
-      },
-    }),
     ...withBundleAnalyzerConfig,
   };
 };
