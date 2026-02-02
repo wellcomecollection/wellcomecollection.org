@@ -48,6 +48,11 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
   // that has some events in it (as long as we have JS)
   const [activeId, setActiveId] = useState<string | undefined>();
 
+  // Guard against empty state: if no events have future times, return early
+  if (monthsWithEvents.length === 0) {
+    return null;
+  }
+
   return (
     <>
       <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>

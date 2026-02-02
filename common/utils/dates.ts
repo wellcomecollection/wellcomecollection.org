@@ -169,9 +169,12 @@ export function getDatesBetween({
   startDate,
   endDate,
 }: {
-  startDate: Date;
-  endDate: Date;
+  startDate: Date | undefined;
+  endDate: Date | undefined;
 }): Date[] {
+  if (!startDate || !endDate) {
+    return [];
+  }
   const dateArray: Date[] = [];
   let currentDate = startDate;
   while (currentDate <= endDate) {
@@ -186,14 +189,14 @@ export function countDaysBetween(a: Date, b: Date): number {
   return Math.floor((a.valueOf() - b.valueOf()) / millisecondsInDay);
 }
 
-/** Returns the earliest date from a list. */
-export function minDate(dates: Date[]): Date {
-  console.assert(dates.length > 0);
+/** Returns the earliest date from a list, or undefined if the list is empty. */
+export function minDate(dates: Date[]): Date | undefined {
+  if (dates.length === 0) return undefined;
   return dates.reduce((a, b) => (a < b ? a : b));
 }
 
-/** Returns the latest date from a list. */
-export function maxDate(dates: Date[]): Date {
-  console.assert(dates.length > 0);
+/** Returns the latest date from a list, or undefined if the list is empty. */
+export function maxDate(dates: Date[]): Date | undefined {
+  if (dates.length === 0) return undefined;
   return dates.reduce((a, b) => (a > b ? a : b));
 }
