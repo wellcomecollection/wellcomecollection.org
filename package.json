@@ -50,7 +50,6 @@
     "@types/gtag.js": "^0.0.12",
     "@types/jest": "^30.0.0",
     "@types/jsonwebtoken": "^9.0.7",
-    "@types/koa": "^3.0.1",
     "@types/lodash.debounce": "^4.0.7",
     "@types/node": "24.10.0",
     "@types/prompts": "^2.4.4",

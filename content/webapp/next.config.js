@@ -14,8 +14,12 @@ const apiRewrites = [
     destination: `/api/newsletter-signup`,
   },
   {
-    source: '/content/management/healthcheck',
-    destination: `/api/content/management/healthcheck`,
+    source: '/rss',
+    destination: `/api/rss`,
+  },
+  {
+    source: '/preview',
+    destination: `/api/preview`,
   },
 ];
 
