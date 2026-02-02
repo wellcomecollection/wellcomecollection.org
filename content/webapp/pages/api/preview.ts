@@ -12,19 +12,20 @@ import { createClient } from '@weco/content/services/prismic/fetch';
  *
  * ## How Prismic previews work:
  * 1. User clicks "Preview" in Prismic dashboard
- * 2. Prismic redirects to this endpoint with preview tokens in the URL
- * 3. This handler resolves the preview URL using Prismic's API
- * 4. Sets the 'isPreview' cookie (if not already set)
- * 5. Clears the Prismic preview cookie (legacy cleanup)
+ * 2. Prismic redirects to this endpoint with preview tokens in the URL query params
+ * 3. This handler resolves the preview URL using Prismic's API via `resolvePreviewURL()`
+ * 4. Prismic's SDK automatically sets the 'io.prismic.preview' cookie with the preview ref
+ * 5. We set our own 'isPreview=true' cookie for app-level preview mode detection
  * 6. Redirects user to the actual preview content
  *
  * ## Cookie management:
- * - Sets 'isPreview=true' cookie with httpOnly=false (for client-side access)
- * - Clears Prismic's internal preview cookie by overwriting it
+ * - Prismic SDK sets 'io.prismic.preview' cookie containing the preview ref token
+ * - We set 'isPreview=true' cookie with httpOnly=false (for client-side preview detection)
  *
  * ## Related files:
- * - middleware.ts - Also sets preview cookie for preview.* subdomains
+ * - middleware.ts - Also sets 'isPreview' cookie for preview.* subdomains
  * - services/prismic/link-resolver - Converts Prismic docs to URLs
+ * - services/prismic/fetch/index.ts - createClient calls enableAutoPreviewsFromReq()
  */
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -86,20 +87,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       defaultURL: '/',
     });
 
-    // Kill any cookie we had set, as we think it is causing issues.
-    // Note: historically this was done in the Koa server with `ctx.cookies.set(prismic.cookie.preview)`.
-    // We preserve that behaviour by overwriting the cookie with an empty value (without Max-Age=0).
-    // This should clear legacy/invalid values without explicitly expiring the cookie.
-    const killPrismicPreviewCookie = `${prismic.cookie.preview}=; Path=/;`;
-
+    // Set the isPreview cookie if not already present
+    // This cookie is used by our application to enable preview mode
     const hasIsPreviewCookie = typeof req.cookies?.isPreview === 'string';
 
-    res.setHeader(
-      'Set-Cookie',
-      !hasIsPreviewCookie
-        ? [killPrismicPreviewCookie, `isPreview=true; Path=/; HttpOnly=false`]
-        : [killPrismicPreviewCookie]
-    );
+    if (!hasIsPreviewCookie) {
+      res.setHeader('Set-Cookie', `isPreview=true; Path=/; HttpOnly=false`);
+    }
     // Redirect to the resolved URL
     res.redirect(307, url);
   } catch (error) {
