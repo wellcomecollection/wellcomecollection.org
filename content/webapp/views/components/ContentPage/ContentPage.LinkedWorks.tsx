@@ -69,7 +69,7 @@ const LinkedWorks: FunctionComponent<LinkedWorkProps> = ({
       </ContaineredLayout>
 
       <ScrollContainer
-        label={`${linkedWorks.length} works from our catalogue`}
+        detailsCopy={`${linkedWorks.length} works from our catalogue`}
         gridSizes={gridSizes}
         useShim
       >
