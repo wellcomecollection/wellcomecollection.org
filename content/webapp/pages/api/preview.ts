@@ -13,13 +13,15 @@ import { createClient } from '@weco/content/services/prismic/fetch';
  * ## How Prismic previews work:
  * 1. User clicks "Preview" in Prismic dashboard
  * 2. Prismic redirects to this endpoint with preview tokens in the URL query params
- * 3. This handler resolves the preview URL using Prismic's API via `resolvePreviewURL()`
- * 4. Prismic's SDK automatically sets the 'io.prismic.preview' cookie with the preview ref
+ * 3. createClient() calls enableAutoPreviewsFromReq() which reads the preview tokens
+ *    and sets the 'io.prismic.preview' cookie with the preview ref
+ * 4. This handler resolves the preview URL using Prismic's API via `resolvePreviewURL()`
  * 5. We set our own 'isPreview=true' cookie for app-level preview mode detection
  * 6. Redirects user to the actual preview content
  *
  * ## Cookie management:
- * - Prismic SDK sets 'io.prismic.preview' cookie containing the preview ref token
+ * - enableAutoPreviewsFromReq() (called by createClient) sets 'io.prismic.preview' cookie
+ *   containing the preview ref token from the URL query params
  * - We set 'isPreview=true' cookie with httpOnly=false (for client-side preview detection)
  *
  * ## Related files:
