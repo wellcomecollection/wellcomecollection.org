@@ -327,4 +327,46 @@ describe('groupEventsByMonth', () => {
       },
     ]);
   });
+
+  it('handles events with future end dates but all scheduled times in the past', () => {
+    mockToday({ as: new Date('2022-11-10T13:00:00Z') });
+    // - Parent event has a future end date (Nov 20)
+    // - All scheduled times are in the past (Nov 10 @ 12:30, before current time 13:00)
+    const evWithPastScheduledTimes = {
+      times: [
+        {
+          range: {
+            startDateTime: new Date('2022-11-10T12:00:00.000Z'),
+            endDateTime: new Date('2022-11-10T12:30:00.000Z'),
+          },
+        },
+      ],
+      title: 'Event with past scheduled times',
+    };
+
+    const evWithFutureTimes = {
+      times: [
+        {
+          range: {
+            startDateTime: new Date('2022-11-15T10:00:00.000Z'),
+            endDateTime: new Date('2022-11-15T11:00:00.000Z'),
+          },
+        },
+      ],
+      title: 'Normal future event',
+    };
+
+    // Should not throw and should exclude the event with no future times
+    const groupedEvents = groupEventsByMonth([
+      evWithPastScheduledTimes,
+      evWithFutureTimes,
+    ]);
+
+    expect(groupedEvents).toStrictEqual([
+      {
+        month: { month: 'November', year: 2022 },
+        events: [evWithFutureTimes],
+      },
+    ]);
+  });
 });
