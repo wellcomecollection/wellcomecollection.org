@@ -40,7 +40,7 @@ const urls = [
   '/exhibitions/heart-n-soul-s-wall-of-change',
   '/events/embracing-the-goddess',
   '/event-series/saturday-studio',
-  '/concepts/n4fvtc49',
+  '/concepts/patspgf3',
   '/guides/archives-at-wellcome-collection',
   '/visual-stories/genetic-automata-visual-story',
 
