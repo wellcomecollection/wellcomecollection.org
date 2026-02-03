@@ -18,33 +18,37 @@ import useScrollVelocity from '@weco/content/hooks/useScrollVelocity';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { CanvasRotatedImage } from '@weco/content/types/item-viewer';
 import { TransformedCanvas } from '@weco/content/types/manifest';
-import {
-  hasNonImages,
-  TransformedAuthService,
-} from '@weco/content/utils/iiif/v3';
+import { TransformedAuthService } from '@weco/content/utils/iiif/v3';
 import { getDisplayItems } from '@weco/content/utils/iiif/v3/canvas';
 import IIIFItem from '@weco/content/views/pages/works/work/IIIFItem';
+import DownloadTableSection from '@weco/content/views/pages/works/work/IIIFViewer/DownloadTableSection';
 
 import { queryParamToArrayIndex } from '.';
-import { CanvasPaginator } from './Paginators';
 
-// Temporary styling for viewer to display audio, video and pdfs
-// will be tidied up in future work
-const ItemWrapper = styled.div`
-  margin: auto;
+const MainViewerContainer = styled.div<{ $useFixedList: boolean }>`
   height: 100%;
-
-  .item-wrapper {
-    margin: auto;
+  ${props =>
+    props.$useFixedList
+      ? `
+    overflow: hidden;
+  `
+      : `
     position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-    display: block;
-    height: auto;
-    width: 90%;
-    max-width: 800px;
-    max-height: 95%;
-  }
+    display: flex;
+    flex-direction: column;
+  `}
+`;
+
+const ItemWrapper = styled.div<{
+  $hasMultipleCanvases?: boolean;
+  $isAudio?: boolean;
+  $isImage?: boolean;
+  $isText?: boolean;
+}>`
+  ${props => !props.$isAudio && 'height: 100%;'}
+  ${props => (props.$isImage || props.$isText) && 'min-height: 50vh;'}
+  position: relative;
+  overflow: auto;
 
   .pdf-wrapper,
   iframe {
@@ -55,13 +59,12 @@ const ItemWrapper = styled.div`
 
   video {
     display: block;
-    margin: auto;
-    width: 100%;
-    max-height: calc(
-      100vh - ${props => props.theme.navHeight}px - 140px
-    ); /* 140px allows for the height of the header and the transcript link */
+    max-height: 100%;
+    max-width: 100%;
+    margin: 0 auto;
   }
-`; // minus height of the header
+`;
+
 type OverlayPositionData = {
   canvasNumber: number;
   overlayTop: number;
@@ -330,7 +333,10 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
           {displayItems.length > 0 &&
             displayItems.map(item => {
               return (
-                <ItemWrapper key={item.type + item.id}>
+                <ItemWrapper
+                  key={item.type + item.id}
+                  $isAudio={item.type === 'Sound'}
+                >
                   <IIIFItem
                     placeholderId={placeholderId}
                     item={item}
@@ -399,6 +405,7 @@ const MainViewer: FunctionComponent = () => {
     mainAreaHeight,
     mainAreaWidth,
     transformedManifest,
+    work,
     query,
     setShowZoomed,
     setShowFullscreenControl,
@@ -406,6 +413,7 @@ const MainViewer: FunctionComponent = () => {
     setShowControls,
     errorHandler,
     accessToken,
+    useFixedSizeList,
   } = useItemViewerContext();
   const { shouldScrollToCanvas, canvas } = query;
   const mainViewerRef = useRef<FixedSizeList>(null);
@@ -463,14 +471,17 @@ const MainViewer: FunctionComponent = () => {
   }, [canvas]);
 
   const displayItems = currentCanvas ? getDisplayItems(currentCanvas) : [];
-  const useFixedSizeList = !hasNonImages(canvases);
-  if (!useFixedSizeList) {
-    setShowFullscreenControl(false);
-  }
+  const hasMultipleCanvases = canvases && canvases.length > 1;
 
-  return (
-    <div data-testid="main-viewer" style={{ height: '100%' }}>
-      {useFixedSizeList ? (
+  useEffect(() => {
+    if (!useFixedSizeList) {
+      setShowFullscreenControl(false);
+    }
+  }, [useFixedSizeList, setShowFullscreenControl]);
+
+  if (useFixedSizeList) {
+    return (
+      <MainViewerContainer $useFixedList={true} data-testid="main-viewer">
         <FixedSizeList
           width={mainAreaWidth}
           style={{ width: `${mainAreaWidth}px`, margin: '0 auto' }}
@@ -494,32 +505,46 @@ const MainViewer: FunctionComponent = () => {
         >
           {ItemRenderer}
         </FixedSizeList>
-      ) : (
-        <>
-          {displayItems.map((item, i) => {
-            return (
-              <>
-                {currentCanvas ? (
-                  <ItemWrapper key={i}>
-                    <IIIFItem
-                      placeholderId={placeholderId}
-                      item={item}
-                      i={1}
-                      canvas={currentCanvas}
-                      titleOverride={`${canvas}/${canvases?.length}`}
-                      exclude={[]}
-                      isInViewer
-                      isDark={true}
-                    />
-                  </ItemWrapper>
-                ) : null}
-              </>
-            );
-          })}
-          <CanvasPaginator />;
-        </>
+      </MainViewerContainer>
+    );
+  }
+
+  return (
+    <MainViewerContainer $useFixedList={false} data-testid="main-viewer">
+      <>
+        {displayItems.map((item, i) => {
+          return (
+            currentCanvas && (
+              <ItemWrapper
+                key={item.type + item.id}
+                $hasMultipleCanvases={hasMultipleCanvases}
+                $isAudio={item.type === 'Sound'}
+                $isImage={item.type === 'Image'}
+                $isText={item.type === 'Text'}
+              >
+                <IIIFItem
+                  placeholderId={placeholderId}
+                  item={item}
+                  i={i}
+                  canvas={currentCanvas}
+                  titleOverride={`${canvas}/${canvases?.length}`}
+                  exclude={[]}
+                  isInViewer
+                  isDark={true}
+                />
+              </ItemWrapper>
+            )
+          );
+        })}
+      </>
+      {hasMultipleCanvases && (
+        <DownloadTableSection
+          canvases={canvases}
+          workId={work.id}
+          canvas={canvas}
+        />
       )}
-    </div>
+    </MainViewerContainer>
   );
 };
 

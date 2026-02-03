@@ -65,7 +65,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
     mainAreaRef,
     query,
     rotatedImages,
-    transformedManifest,
+    useFixedSizeList,
   } = useItemViewerContext();
   const imageWrapperRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
@@ -113,8 +113,9 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
 
   // If the visible canvas changes because it is scrolled into view
   // we update the canvas param to match
+  // Only applies when using FixedSizeList (scrollable viewer), not for paginated views
   useSkipInitialEffect(() => {
-    if (isOnScreen && transformedManifest) {
+    if (useFixedSizeList && isOnScreen) {
       const link = toWorksItemLink({
         workId: work.id,
         props: {
