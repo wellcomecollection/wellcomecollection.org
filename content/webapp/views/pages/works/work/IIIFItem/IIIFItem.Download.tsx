@@ -13,10 +13,8 @@ const DownloadContainer = styled(Space).attrs({
   $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
   $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
 })`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateY(-50%) translateX(-50%);
+  max-width: 640px;
+  margin: auto;
   background-color: ${props => props.theme.color('neutral.700')};
   border-radius: 6px;
   display: flex;
