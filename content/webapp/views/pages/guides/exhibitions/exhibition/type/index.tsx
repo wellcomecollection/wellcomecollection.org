@@ -77,7 +77,7 @@ const ExhibitionGuideTypePage: NextPage<Props> = ({
   userPreferenceSet,
   stopId,
 }) => {
-  const pathname = linkResolver(exhibitionGuide);
+  const pathname = `/guides/exhibitions/${exhibitionGuide.uid}/${type}`;
 
   const thisStopTitle = stopId
     ? isExhibitionGuide(exhibitionGuide) &&
