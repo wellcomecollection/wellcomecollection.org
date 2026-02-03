@@ -137,15 +137,12 @@ export function transformGenericFieldsFromRelationship(field: {
     return Boolean(slice.primary?.image);
   });
   const maybeImage = primaryPromo?.primary?.image;
-  const image: ImageType | undefined =
-    maybeImage && maybeImage !== null
-      ? transformImage(
-          maybeImage as
-            | prismic.EmptyImageFieldImage
-            | prismic.FilledImageFieldImage
-            | undefined
-        )
-      : undefined;
+  const image: ImageType | undefined = transformImage(
+    maybeImage as
+      | prismic.EmptyImageFieldImage
+      | prismic.FilledImageFieldImage
+      | undefined
+  );
 
   // Only process body if it exists in the fetched data
   // (not all relationships include body in fetchLinks)

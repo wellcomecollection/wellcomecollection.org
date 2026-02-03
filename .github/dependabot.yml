@@ -20,6 +20,8 @@ updates:
       - dependency-name: 'node-fetch'
       - dependency-name: '@auth0/nextjs-auth0'
       - dependency-name: 'react-window'
+      # https://github.com/prismicio/prismic-client/issues/435 can't update until this is addressed
+      - dependency-name: '@prismicio/*'
     groups:
       all:
         patterns: ['*']
