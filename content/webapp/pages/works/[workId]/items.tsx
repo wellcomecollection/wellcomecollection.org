@@ -1,10 +1,7 @@
 import { Manifest } from '@iiif/presentation-3';
 import { NextPage } from 'next';
 
-import {
-  DigitalLocation,
-  isDigitalLocation,
-} from '@weco/common/model/catalogue';
+import { DigitalLocation } from '@weco/common/model/catalogue';
 import { getServerData } from '@weco/common/server-data';
 import { appError } from '@weco/common/services/app';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -33,7 +30,10 @@ import { TransformedManifest } from '@weco/content/types/manifest';
 import { fetchJson } from '@weco/content/utils/http';
 import { getCollectionManifests } from '@weco/content/utils/iiif/v3';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import { getDigitalLocationOfType } from '@weco/content/utils/works';
+import {
+  getDigitalLocationInfo,
+  getDigitalLocationOfType,
+} from '@weco/content/utils/works';
 import { fromQuery } from '@weco/content/views/components/ItemLink';
 import { queryParamToArrayIndex } from '@weco/content/views/pages/works/work/IIIFViewer';
 import WorkItemPage, {
@@ -236,15 +236,22 @@ async function getParentManifest(
 }
 
 function createTzitzitWorkLink(work: Work): ApiToolbarLink | undefined {
-  // Look at digital item locations only
-  const digitalLocation: DigitalLocation | undefined = work.items
-    ?.map(item => item.locations.find(isDigitalLocation))
-    .find(i => i);
+  // Determine digital location. If the work has a iiif-presentation location and a iiif-image location
+  // we use the former
+  const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
+  const iiifPresentationLocation = getDigitalLocationOfType(
+    work,
+    'iiif-presentation'
+  );
+  const digitalLocation: DigitalLocation | undefined =
+    iiifPresentationLocation || iiifImageLocation;
+  const digitalLocationInfo =
+    digitalLocation && getDigitalLocationInfo(digitalLocation);
 
   return setTzitzitParams({
     title: work.title,
     sourceLink: `https://wellcomecollection.org/works/${work.id}/items`,
-    licence: digitalLocation?.license,
+    licence: digitalLocationInfo?.license,
     contributors: work.contributors,
   });
 }
