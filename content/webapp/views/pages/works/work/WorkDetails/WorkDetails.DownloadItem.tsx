@@ -119,10 +119,8 @@ const DownloadItem: FunctionComponent<{
               />
               {fileName}
             </td>
-            <td width="120" style={{ textAlign: 'right' }} title={formatString}>
-              {formatString}
-            </td>
-            <td width="60">
+            <td title={formatString}>{formatString}</td>
+            <td>
               {fileSize ? (
                 `${fileSize}`
               ) : (
@@ -132,7 +130,7 @@ const DownloadItem: FunctionComponent<{
                 </>
               )}
             </td>
-            <td width="100">
+            <td>
               <a data-gtm-trigger="download_table_link" href={displayItem.id}>
                 Download
               </a>
