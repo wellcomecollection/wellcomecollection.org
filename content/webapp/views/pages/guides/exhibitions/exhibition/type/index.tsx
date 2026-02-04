@@ -77,7 +77,7 @@ const ExhibitionGuideTypePage: NextPage<Props> = ({
   userPreferenceSet,
   stopId,
 }) => {
-  const pathname = `${linkResolver(exhibitionGuide)}/${type}`;
+  const pathname = `/guides/exhibitions/${exhibitionGuide.uid}/${type}`;
 
   const thisStopTitle = stopId
     ? isExhibitionGuide(exhibitionGuide) &&
@@ -122,7 +122,7 @@ const ExhibitionGuideTypePage: NextPage<Props> = ({
             },
             {
               text: `${exhibitionGuide.relatedExhibition?.title} Digital Guides`,
-              url: linkResolver(exhibitionGuide),
+              url: `/guides/exhibitions/${exhibitionGuide.uid}`,
               isHidden: !exhibitionGuide.relatedExhibition,
             },
           ],

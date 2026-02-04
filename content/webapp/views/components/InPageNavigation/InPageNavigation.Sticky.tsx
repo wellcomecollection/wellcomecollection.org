@@ -201,6 +201,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
 
   return (
     <NavGridCell
+      data-component="in-page-navigation-sticky"
       ref={navGridCellRef}
       $isOnWhite={!!isOnWhite}
       $sizeMap={sizeMap}
