@@ -49,9 +49,13 @@ export const DownloadTable = styled.table.attrs({
     padding-left: ${controlDimensions.controlWidth}px;
   }
 
+  td:first-child {
+    max-width: 10rem;
+  }
+
   th:nth-child(2),
   td:nth-child(2) {
-    width: 120px;
+    max-width: 6rem;
   }
 
   th:nth-child(3),
