@@ -40,7 +40,7 @@ const urls = [
   '/exhibitions/heart-n-soul-s-wall-of-change',
   '/events/embracing-the-goddess',
   '/event-series/saturday-studio',
-  '/concepts/n4fvtc49',
+  '/concepts/patspgf3',
   '/guides/archives-at-wellcome-collection',
   '/visual-stories/genetic-automata-visual-story',
 
@@ -72,6 +72,10 @@ const promises = urls.map(url =>
       // https://github.com/wellcomecollection/wellcomecollection.org/issues/11269
       'WCAG2AA.Principle2.Guideline2_4.2_4_1.H64.1',
     ],
+    // Hide InPageNavigation components from accessibility testing
+    // The component uses mix-blend-mode: difference which causes false positive
+    // contrast errors (1:1 ratio) that PA11y cannot properly evaluate
+    hideElements: '[data-component="in-page-navigation-sticky"]',
     log: {
       debug: console.log,
       error: console.error,
@@ -94,7 +98,10 @@ try {
                   url: result.pageUrl,
                   errors: result.issues.map(issue => ({
                     type: issue.type,
+                    code: issue.code,
                     message: issue.message,
+                    selector: issue.selector,
+                    context: issue.context,
                   })),
                 }
               : undefined;
