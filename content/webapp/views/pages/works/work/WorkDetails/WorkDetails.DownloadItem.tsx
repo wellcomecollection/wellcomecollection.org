@@ -49,6 +49,7 @@ export const DownloadTable = styled.table.attrs({
     padding-left: ${controlDimensions.controlWidth}px;
   }
 
+  th:first-child,
   td:first-child {
     max-width: 10rem;
   }
@@ -56,11 +57,13 @@ export const DownloadTable = styled.table.attrs({
   th:nth-child(2),
   td:nth-child(2) {
     max-width: 6rem;
+    text-align: right;
   }
 
   th:nth-child(3),
   td:nth-child(3) {
     width: 60px;
+    text-align: right;
   }
 
   th:last-child,
