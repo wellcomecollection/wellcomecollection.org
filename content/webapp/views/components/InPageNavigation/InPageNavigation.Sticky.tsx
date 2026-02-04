@@ -201,6 +201,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
 
   return (
     <NavGridCell
+      data-component="in-page-navigation-sticky"
       ref={navGridCellRef}
       $isOnWhite={!!isOnWhite}
       $sizeMap={sizeMap}
@@ -228,11 +229,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
           initialFocus: false,
         }}
       >
-        <Root
-          $hasStuck={hasStuck}
-          data-component="in-page-navigation-sticky"
-          data-in-page-navigation-sticky="true"
-        >
+        <Root $hasStuck={hasStuck} data-in-page-navigation-sticky="true">
           <h2 className={`${font('sans-bold', -1)} is-hidden-s is-hidden-m`}>
             {titleText}
           </h2>
