@@ -53,7 +53,7 @@ export const BackgroundOverlay = styled.div`
   bottom: 0;
   background-color: ${props => props.theme.color('black')};
   opacity: 0.7;
-  z-index: 1;
+  z-index: 2;
 `;
 
 export const ListItem = styled.li<{ $hasStuck: boolean; $isOnWhite: boolean }>`
