@@ -98,7 +98,10 @@ try {
                   url: result.pageUrl,
                   errors: result.issues.map(issue => ({
                     type: issue.type,
+                    code: issue.code,
                     message: issue.message,
+                    selector: issue.selector,
+                    context: issue.context,
                   })),
                 }
               : undefined;
