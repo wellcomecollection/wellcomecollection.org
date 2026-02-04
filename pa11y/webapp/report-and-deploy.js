@@ -61,18 +61,6 @@ const urls = [
   '/search/events?query=human',
 ].map(u => `${baseUrl}${u}`);
 
-// Filter function to remove specific issues based on component and rule type
-const shouldIgnoreIssue = issue => {
-  // Ignore colour contrast issues for InPageNavigation component
-  // because we're using `mix-blend-mode: difference` which confuses Pa11y
-  const isContrastIssue = issue.code.includes('Guideline1_4.1_4_3');
-  const isInPageNavigation =
-    issue.selector &&
-    issue.selector.includes('[data-component="in-page-navigation-sticky"]');
-
-  return isContrastIssue && isInPageNavigation;
-};
-
 const promises = urls.map(url =>
   pa11y(url, {
     timeout: 120000,
@@ -84,6 +72,10 @@ const promises = urls.map(url =>
       // https://github.com/wellcomecollection/wellcomecollection.org/issues/11269
       'WCAG2AA.Principle2.Guideline2_4.2_4_1.H64.1',
     ],
+    // Hide InPageNavigation components from accessibility testing
+    // The component uses mix-blend-mode: difference which causes false positive
+    // contrast errors (1:1 ratio) that PA11y cannot properly evaluate
+    hideElements: '[data-component="in-page-navigation-sticky"]',
     log: {
       debug: console.log,
       error: console.error,
@@ -97,14 +89,8 @@ try {
 
   Promise.all(promises)
     .then(async results => {
-      // Filter out ignored issues from results
-      const filteredResults = results.map(result => ({
-        ...result,
-        issues: result.issues.filter(issue => !shouldIgnoreIssue(issue)),
-      }));
-
       if (isPullRequestRun) {
-        const resultsLog = filteredResults
+        const resultsLog = results
           .map(result => {
             return result.issues.length > 0
               ? {
@@ -124,7 +110,7 @@ try {
           console.error(`!!! ${chalk.redBright('Fix these before merging')}`);
           console.log(...resultsLog);
 
-          const hasErrors = filteredResults.find(result =>
+          const hasErrors = results.find(result =>
             result.issues.find(issue => issue.type === 'error')
           );
 
@@ -137,7 +123,7 @@ try {
         console.info(chalk.greenBright('Reporting done!'));
 
         const params = {
-          Body: JSON.stringify({ results: filteredResults }),
+          Body: JSON.stringify({ results }),
           Bucket: 'dash.wellcomecollection.org',
           Key: 'pa11y/report.json',
           ACL: 'public-read',
