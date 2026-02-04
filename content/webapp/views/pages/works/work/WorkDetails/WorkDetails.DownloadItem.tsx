@@ -95,12 +95,15 @@ const DownloadItem: FunctionComponent<{
   const fileSize = canvas && getFileSize(canvas);
   const format = displayItem.format;
 
+  const fileName = itemLabel || canvas?.label || '';
+  const formatString = format ? format.split('/').pop() || '' : '';
+
   if (typeof displayItem !== 'string') {
     return (
       <DownloadTable>
         <tbody>
           <tr>
-            <td>
+            <td title={fileName}>
               <Icon
                 icon={
                   format?.endsWith('jpeg') || format?.endsWith('gif')
@@ -114,11 +117,11 @@ const DownloadItem: FunctionComponent<{
                     : 'height: 15px; width: 14px;'
                 }
               />
-              {`${itemLabel || canvas?.label}`}
+              {fileName}
             </td>
-            <td width="120" style={{ textAlign: 'right' }}>{`${
-              format ? `${format.split('/').pop()}` : ''
-            }`}</td>
+            <td width="120" style={{ textAlign: 'right' }} title={formatString}>
+              {formatString}
+            </td>
             <td width="60">
               {fileSize ? (
                 `${fileSize}`
