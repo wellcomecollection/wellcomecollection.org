@@ -1,3 +1,4 @@
+// eslint-data-component: intentionally omitted
 import { FunctionComponent } from 'react';
 
 import InPageNavigationSimple, {
@@ -15,21 +16,11 @@ const InPageNavigation: FunctionComponent<Props> = props => {
   const { variant } = props;
 
   if (variant === 'simple') {
-    return (
-      <InPageNavigationSimple
-        data-component="in-page-navigation-simple"
-        {...props}
-      />
-    );
+    return <InPageNavigationSimple {...props} />;
   }
 
   if (variant === 'sticky') {
-    return (
-      <InPageNavigationSticky
-        data-component="in-page-navigation-sticky"
-        {...props}
-      />
-    );
+    return <InPageNavigationSticky {...props} />;
   }
 };
 
