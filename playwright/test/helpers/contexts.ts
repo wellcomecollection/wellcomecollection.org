@@ -170,6 +170,14 @@ const itemWithReferenceNumber = async (
   await gotoWithoutCache(`${baseUrl}/works/qqra7v28/items`, page);
 };
 
+const singleImageItem = async (
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  await context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works/v57fxbug/images?id=jueq3ffv`, page);
+};
+
 const workWithPhysicalLocationOnly = async (
   context: BrowserContext,
   page: Page
@@ -350,6 +358,7 @@ export {
   multiVolumeItem,
   apiToolbarPage,
   search,
+  singleImageItem,
   visualStory,
   whatsOn,
   newOnline,
