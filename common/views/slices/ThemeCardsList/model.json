@@ -1,0 +1,39 @@
+{
+  "type": "SharedSlice",
+  "id": "themeCardsList",
+  "name": "ThemeCardsList",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "description": "Displays Theme cards in a horizontal slider.",
+      "version": "initial",
+      "imageUrl": "",
+      "docURL": "...",
+      "primary": {
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title",
+            "placeholder": ""
+          }
+        },
+        "description": {
+          "type": "Text",
+          "config": {
+            "label": "Description",
+            "placeholder": ""
+          }
+        }
+      },
+      "items": {
+        "concept_id": {
+          "type": "Text",
+          "config": {
+            "label": "Concept ID"
+          }
+        }
+      }
+    }
+  ]
+}

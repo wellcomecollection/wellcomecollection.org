@@ -1,0 +1,72 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"description": {
+				"__TYPE__": "FieldContent",
+				"value": "This category is a category!",
+				"type": "Text"
+			},
+			"title": {
+				"__TYPE__": "FieldContent",
+				"value": "Title",
+				"type": "Text"
+			}
+		},
+		"items": [
+			{
+				"__TYPE__": "GroupItemContent",
+				"value": [
+					[
+						"concept_id",
+						{
+							"__TYPE__": "FieldContent",
+							"type": "Text",
+							"value": "vb3xq295"
+						}
+					]
+				]
+			},
+			{
+				"__TYPE__": "GroupItemContent",
+				"value": [
+					[
+						"concept_id",
+						{
+							"__TYPE__": "FieldContent",
+							"type": "Text",
+							"value": "patspgf3"
+						}
+					]
+				]
+			},
+			{
+				"__TYPE__": "GroupItemContent",
+				"value": [
+					[
+						"concept_id",
+						{
+							"__TYPE__": "FieldContent",
+							"type": "Text",
+							"value": "e8kur96g"
+						}
+					]
+				]
+			},
+			{
+				"__TYPE__": "GroupItemContent",
+				"value": [
+					[
+						"concept_id",
+						{
+							"__TYPE__": "FieldContent",
+							"type": "Text",
+							"value": "u33bzxsb"
+						}
+					]
+				]
+			}
+		]
+	}
+]

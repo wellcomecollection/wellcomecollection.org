@@ -25,5 +25,6 @@ export const components = {
   text: dynamic(() => import('./Text')),
   textAndIcons: dynamic(() => import('./TextAndIcons')),
   textAndImage: dynamic(() => import('./TextAndImage')),
+  themeCardsList: dynamic(() => import('./ThemeCardsList')),
   titledTextList: dynamic(() => import('./TitledTextList')),
 };
