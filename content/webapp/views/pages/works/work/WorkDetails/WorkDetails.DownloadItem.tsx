@@ -49,14 +49,21 @@ export const DownloadTable = styled.table.attrs({
     padding-left: ${controlDimensions.controlWidth}px;
   }
 
+  th:first-child,
+  td:first-child {
+    max-width: 10rem;
+  }
+
   th:nth-child(2),
   td:nth-child(2) {
-    width: 120px;
+    max-width: 6rem;
+    text-align: right;
   }
 
   th:nth-child(3),
   td:nth-child(3) {
     width: 60px;
+    text-align: right;
   }
 
   th:last-child,
@@ -88,12 +95,15 @@ const DownloadItem: FunctionComponent<{
   const fileSize = canvas && getFileSize(canvas);
   const format = displayItem.format;
 
+  const fileName = itemLabel || canvas?.label || '';
+  const formatString = format ? format.split('/').pop() || '' : '';
+
   if (typeof displayItem !== 'string') {
     return (
       <DownloadTable>
         <tbody>
           <tr>
-            <td>
+            <td title={fileName}>
               <Icon
                 icon={
                   format?.endsWith('jpeg') || format?.endsWith('gif')
@@ -107,12 +117,10 @@ const DownloadItem: FunctionComponent<{
                     : 'height: 15px; width: 14px;'
                 }
               />
-              {`${itemLabel || canvas?.label}`}
+              {fileName}
             </td>
-            <td width="120" style={{ textAlign: 'right' }}>{`${
-              format ? `${format.split('/').pop()}` : ''
-            }`}</td>
-            <td width="60">
+            <td title={formatString}>{formatString}</td>
+            <td>
               {fileSize ? (
                 `${fileSize}`
               ) : (
@@ -122,7 +130,7 @@ const DownloadItem: FunctionComponent<{
                 </>
               )}
             </td>
-            <td width="100">
+            <td>
               <a data-gtm-trigger="download_table_link" href={displayItem.id}>
                 Download
               </a>
