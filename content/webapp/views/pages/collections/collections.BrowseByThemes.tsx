@@ -6,6 +6,7 @@ import {
   ContaineredLayout,
   gridSize12,
 } from '@weco/common/views/components/Layout';
+import ScrollContainer from '@weco/common/views/components/ScrollContainer';
 import { SizeMap } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import ThemeCard from '@weco/common/views/components/ThemeCard';
@@ -15,7 +16,6 @@ import { getConceptsByIds } from '@weco/content/pages/collections';
 import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { toConceptLink } from '@weco/content/views/components/ConceptLink';
 import MoreLink from '@weco/content/views/components/MoreLink';
-import ScrollContainer from '@weco/content/views/components/ScrollContainer';
 import SelectableTags from '@weco/content/views/components/SelectableTags';
 
 import type { ThemeConfig } from './themeBlockCategories';

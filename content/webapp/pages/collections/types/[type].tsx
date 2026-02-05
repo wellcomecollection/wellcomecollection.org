@@ -12,6 +12,7 @@ import {
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
+import ScrollContainer from '@weco/common/views/components/ScrollContainer';
 import Space from '@weco/common/views/components/styled/Space';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { ServerSideProps } from '@weco/common/views/pages/_app';
@@ -25,7 +26,6 @@ import {
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import RelatedWorksCard from '@weco/content/views/components/RelatedWorksCard';
-import ScrollContainer from '@weco/content/views/components/ScrollContainer';
 
 const ContentSection = styled.div`
   background-color: ${props => props.theme.color('warmNeutral.300')};

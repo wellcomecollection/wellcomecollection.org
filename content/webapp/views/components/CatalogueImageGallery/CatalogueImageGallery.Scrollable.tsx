@@ -1,9 +1,9 @@
 import { FunctionComponent } from 'react';
 
+import ScrollContainer from '@weco/common/views/components/ScrollContainer';
 import Space from '@weco/common/views/components/styled/Space';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
 import { useExpandedImage } from '@weco/content/views/components/ImageModal';
-import ScrollContainer from '@weco/content/views/components/ScrollContainer';
 
 import ImageCard from './CatalogueImageGallery.ImageCard';
 

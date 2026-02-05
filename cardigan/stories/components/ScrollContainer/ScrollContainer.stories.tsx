@@ -2,8 +2,8 @@ import { Meta, StoryObj } from '@storybook/react';
 import { styled } from 'storybook/theming';
 
 import { gridSize12 } from '@weco/common/views/components/Layout';
+import ScrollContainer from '@weco/common/views/components/ScrollContainer';
 import { themeValues } from '@weco/common/views/themes/config';
-import ScrollContainer from '@weco/content/views/components/ScrollContainer';
 
 const MockScrollableItem = styled.li`
   flex: 0 0 auto;
