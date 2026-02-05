@@ -112,13 +112,27 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
     return () => window.removeEventListener('resize', updateImagePosition);
   }, []);
 
-  // If the visible canvas changes because it is scrolled into view
-  // we update the canvas param to match
-  // Only applies when using FixedSizeList (scrollable viewer), not for paginated views
-  // shouldn't apply when there is no transformed manifest, e.g. when the viewer is used at
-  // works/{id}/images?id={imageId}
+  /**
+   * Updates the URL to match the visible canvas when scrolling through images.
+   *
+   * Context:
+   * - On /works/{id}/items pages: transformedManifest exists, useFixedSizeList varies
+   * - On /works/{id}/images?id={imageId} pages: no transformedManifest, single image view
+   *
+   * This effect only runs when ALL conditions are met:
+   * 1. useFixedSizeList: Using scrollable image grid (not paginated file list)
+   * 2. isOnScreen: Current canvas has scrolled into view
+   * 3. transformedManifest: Full manifest exists (not single image page)
+   *
+   * Without the transformedManifest check, single image pages would incorrectly
+   * redirect to the work detail page on load.
+   */
   useSkipInitialEffect(() => {
-    if (useFixedSizeList && isOnScreen && transformedManifest) {
+    // Only update URL when we have all three conditions:
+    const shouldUpdateUrl =
+      useFixedSizeList && isOnScreen && transformedManifest !== undefined;
+
+    if (shouldUpdateUrl) {
       const link = toWorksItemLink({
         workId: work.id,
         props: {
