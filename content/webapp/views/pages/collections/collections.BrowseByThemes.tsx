@@ -12,7 +12,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import ThemeCard from '@weco/common/views/components/ThemeCard';
 import { useConceptImageUrls } from '@weco/content/hooks/useConceptImageUrls';
 import { useThemeConcepts } from '@weco/content/hooks/useThemeConcepts';
-import { getConceptsByIds } from '@weco/content/pages/collections';
+import { getConceptsByIds } from '@weco/content/services/wellcome/catalogue/concepts';
 import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { toConceptLink } from '@weco/content/views/components/ConceptLink';
 import MoreLink from '@weco/content/views/components/MoreLink';

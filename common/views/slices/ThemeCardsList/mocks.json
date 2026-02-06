@@ -3,70 +3,78 @@
 		"__TYPE__": "SharedSliceContent",
 		"variation": "default",
 		"primary": {
-			"description": {
-				"__TYPE__": "FieldContent",
-				"value": "This category is a category!",
-				"type": "Text"
-			},
 			"title": {
 				"__TYPE__": "FieldContent",
-				"value": "Title",
-				"type": "Text"
+				"type": "Text",
+				"value": "Title"
+			},
+			"concepts_list": {
+				"__TYPE__": "GroupContentType",
+				"value": [
+					{
+						"__TYPE__": "GroupItemContent",
+						"value": [
+							[
+								"concept_id",
+								{
+									"__TYPE__": "FieldContent",
+									"type": "Text",
+									"value": "vb3xq295"
+								}
+							]
+						],
+						"key": "cf2c1541-d7a1-42d1-80d6-5696880e7299"
+					},
+					{
+						"__TYPE__": "GroupItemContent",
+						"value": [
+							[
+								"concept_id",
+								{
+									"__TYPE__": "FieldContent",
+									"type": "Text",
+									"value": "patspgf3"
+								}
+							]
+						],
+						"key": "5bd97872-322d-499e-94de-2cb8139ac111"
+					},
+					{
+						"__TYPE__": "GroupItemContent",
+						"value": [
+							[
+								"concept_id",
+								{
+									"__TYPE__": "FieldContent",
+									"type": "Text",
+									"value": "e8kur96g"
+								}
+							]
+						],
+						"key": "91a811e0-1ab4-4597-afc9-d42fc2502817"
+					},
+					{
+						"__TYPE__": "GroupItemContent",
+						"value": [
+							[
+								"concept_id",
+								{
+									"__TYPE__": "FieldContent",
+									"type": "Text",
+									"value": "u33bzxsb"
+								}
+							]
+						],
+						"key": "a61b8a70-aed8-420b-ade6-985c4009c56d"
+					}
+				]
+			},
+			"description": {
+				"__TYPE__": "FieldContent",
+				"type": "Text",
+				"value": "This category is a category!"
 			}
 		},
-		"items": [
-			{
-				"__TYPE__": "GroupItemContent",
-				"value": [
-					[
-						"concept_id",
-						{
-							"__TYPE__": "FieldContent",
-							"type": "Text",
-							"value": "vb3xq295"
-						}
-					]
-				]
-			},
-			{
-				"__TYPE__": "GroupItemContent",
-				"value": [
-					[
-						"concept_id",
-						{
-							"__TYPE__": "FieldContent",
-							"type": "Text",
-							"value": "patspgf3"
-						}
-					]
-				]
-			},
-			{
-				"__TYPE__": "GroupItemContent",
-				"value": [
-					[
-						"concept_id",
-						{
-							"__TYPE__": "FieldContent",
-							"type": "Text",
-							"value": "e8kur96g"
-						}
-					]
-				]
-			},
-			{
-				"__TYPE__": "GroupItemContent",
-				"value": [
-					[
-						"concept_id",
-						{
-							"__TYPE__": "FieldContent",
-							"type": "Text",
-							"value": "u33bzxsb"
-						}
-					]
-				]
-			}
-		]
+		"items": []
 	}
 ]

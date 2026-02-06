@@ -1,17 +1,16 @@
 import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import { useConceptImageUrls } from '@weco/common/hooks/useConceptImageUrls';
-import { getConceptsByIds } from '@weco/common/services/wellcome/catalogue/concepts';
-import { Concept } from '@weco/common/services/wellcome/catalogue/types';
 import { font } from '@weco/common/utils/classnames';
 import {
   ContaineredLayout,
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import ScrollContainer from '@weco/common/views/components/ScrollContainer';
-import Space from '@weco/common/views/components/styled/Space';
 import ThemeCard from '@weco/common/views/components/ThemeCard';
+import { useConceptImageUrls } from '@weco/content/hooks/useConceptImageUrls';
+import { getConceptsByIds } from '@weco/content/services/wellcome/catalogue/concepts';
+import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { toConceptLink } from '@weco/content/views/components/ConceptLink';
 
 type ThemeCardsListProps = {
@@ -88,6 +87,7 @@ const ListItem = styled.li`
 
 const Theme: FunctionComponent<{
   concept: Concept;
+  // TODO
   // categoryLabel: string;
   // categoryPosition: number;
   positionInList: number;
@@ -122,8 +122,6 @@ const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
 
   useEffect(() => {
     const fetchData = async () => {
-      const conceptIds: string[] = [];
-
       if (conceptIds.length > 0) {
         try {
           const result = await getConceptsByIds(conceptIds);
@@ -138,10 +136,7 @@ const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
   }, [conceptIds]);
 
   return (
-    <Space
-      data-component="theme-cards-list"
-      $v={{ size: 'xl', properties: ['margin-top'] }}
-    >
+    <div data-component="theme-cards-list">
       {title && (
         <ContaineredLayout gridSizes={gridSize12()}>
           {/* TODO which heading should this be? */}
@@ -170,7 +165,7 @@ const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
           ))}
         </ScrollContainer>
       )}
-    </Space>
+    </div>
   );
 };
 

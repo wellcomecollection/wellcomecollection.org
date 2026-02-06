@@ -14,7 +14,7 @@ import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchPage } from '@weco/content/services/prismic/fetch/pages';
 import { getInsideOurCollectionsCards } from '@weco/content/services/prismic/transformers/collections-landing';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
-import { getConcepts } from '@weco/content/services/wellcome/catalogue/concepts';
+import { getConceptsByIds } from '@weco/content/services/wellcome/catalogue/concepts';
 import {
   type Concept,
   toWorkBasic,
@@ -33,19 +33,6 @@ export type ThemeCategory = {
   label: string;
   concepts: string[];
 };
-
-export async function getConceptsByIds(ids: string[]): Promise<Concept[]> {
-  if (!ids || ids.length === 0) return [];
-
-  const result = await getConcepts({
-    params: { id: ids.join(',') },
-    toggles: {},
-  });
-
-  if ('results' in result) return result.results;
-
-  return [];
-}
 
 async function fetchFeaturedConcepts(): Promise<Concept[]> {
   try {

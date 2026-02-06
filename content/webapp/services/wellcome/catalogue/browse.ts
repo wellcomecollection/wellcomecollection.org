@@ -1,9 +1,8 @@
 import { getConcepts } from '@weco/content/services/wellcome/catalogue/concepts';
-import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { Toggles } from '@weco/toggles';
 
 import { catalogueQuery } from '.';
-import { toWorkBasic, Work, WorkBasic } from './types';
+import { Concept, toWorkBasic, Work, WorkBasic } from './types';
 import { WorkAggregations } from './types/aggregations';
 
 export type GenreWithCount = {

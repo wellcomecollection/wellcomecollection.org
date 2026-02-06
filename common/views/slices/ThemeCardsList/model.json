@@ -24,13 +24,21 @@
             "label": "Description",
             "placeholder": ""
           }
-        }
-      },
-      "items": {
-        "concept_id": {
-          "type": "Text",
+        },
+        "concepts_list": {
+          "type": "Group",
           "config": {
-            "label": "Concept ID"
+            "label": "Concepts list",
+            "repeat": true,
+            "fields": {
+              "concept_id": {
+                "type": "Text",
+                "config": {
+                  "label": "Concept ID",
+                  "placeholder": ""
+                }
+              }
+            }
           }
         }
       }

@@ -3778,27 +3778,27 @@ export type PageFormatsDocument<Lang extends string = string> =
   >;
 
 type PagesDocumentDataBodySlice =
-  | ThemeCardsListSlice
+  | AudioPlayerSlice
+  | CollectionVenueSlice
+  | ContactSlice
+  | ContentListSlice
+  | EditorialImageSlice
+  | EditorialImageGallerySlice
+  | EmbedSlice
   | FullWidthBannerSlice
   | GifVideoSlice
   | IframeSlice
-  | EditorialImageSlice
-  | EditorialImageGallerySlice
+  | InfoBlockSlice
   | MapSlice
-  | ContentListSlice
-  | EmbedSlice
-  | TitledTextListSlice
-  | TextAndImageSlice
-  | TextSlice
+  | QuoteSlice
   | SearchResultsSlice
-  | TextAndIconsSlice
   | StandfirstSlice
   | TagListSlice
-  | QuoteSlice
-  | InfoBlockSlice
-  | ContactSlice
-  | CollectionVenueSlice
-  | AudioPlayerSlice;
+  | TextSlice
+  | TextAndIconsSlice
+  | TextAndImageSlice
+  | ThemeCardsListSlice
+  | TitledTextListSlice;
 
 /**
  * Primary content in *Page → Slice Zone → Editorial image → Primary*
@@ -7464,6 +7464,21 @@ export type TextAndImageSlice = prismic.SharedSlice<
 >;
 
 /**
+ * Item in *ThemeCardsList → Default → Primary → Concepts list*
+ */
+export interface ThemeCardsListSliceDefaultPrimaryConceptsListItem {
+  /**
+   * Concept ID field in *ThemeCardsList → Default → Primary → Concepts list*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: themeCardsList.default.primary.concepts_list[].concept_id
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  concept_id: prismic.KeyTextField;
+}
+
+/**
  * Primary content in *ThemeCardsList → Default → Primary*
  */
 export interface ThemeCardsListSliceDefaultPrimary {
@@ -7486,21 +7501,18 @@ export interface ThemeCardsListSliceDefaultPrimary {
    * - **Documentation**: https://prismic.io/docs/fields/text
    */
   description: prismic.KeyTextField;
-}
 
-/**
- * Item in *ThemeCardsList → Default → Items*
- */
-export interface ThemeCardsListSliceDefaultItem {
   /**
-   * Concept ID field in *ThemeCardsList → Default → Items*
+   * Concepts list field in *ThemeCardsList → Default → Primary*
    *
-   * - **Field Type**: Text
+   * - **Field Type**: Group
    * - **Placeholder**: *None*
-   * - **API ID Path**: themeCardsList.default.items[].concept_id
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **API ID Path**: themeCardsList.default.primary.concepts_list[]
+   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
    */
-  concept_id: prismic.KeyTextField;
+  concepts_list: prismic.GroupField<
+    Simplify<ThemeCardsListSliceDefaultPrimaryConceptsListItem>
+  >;
 }
 
 /**
@@ -7513,7 +7525,7 @@ export interface ThemeCardsListSliceDefaultItem {
 export type ThemeCardsListSliceDefault = prismic.SharedSliceVariation<
   'default',
   Simplify<ThemeCardsListSliceDefaultPrimary>,
-  Simplify<ThemeCardsListSliceDefaultItem>
+  never
 >;
 
 /**
@@ -7882,7 +7894,7 @@ declare module '@prismicio/client' {
       TextAndImageSliceVariation,
       TextAndImageSliceDefault,
       ThemeCardsListSlice,
-      ThemeCardsListSliceDefaultItem,
+      ThemeCardsListSliceDefaultPrimaryConceptsListItem,
       ThemeCardsListSliceDefaultPrimary,
       ThemeCardsListSliceVariation,
       ThemeCardsListSliceDefault,
