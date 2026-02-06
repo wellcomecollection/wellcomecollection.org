@@ -1,11 +1,11 @@
 import { FunctionComponent, RefObject, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import useSwipeable, { SwipeDirection } from '@weco/common/hooks/useSwipeable';
 import { arrowSmall } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
+import useSwipeable, { SwipeDirection } from '@weco/content/hooks/useSwipeable';
 
 const ScrollButtonsContainer = styled(Space)<{
   $hasDarkBackground?: boolean;

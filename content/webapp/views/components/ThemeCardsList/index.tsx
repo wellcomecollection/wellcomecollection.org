@@ -6,12 +6,12 @@ import {
   ContaineredLayout,
   gridSize12,
 } from '@weco/common/views/components/Layout';
-import ScrollContainer from '@weco/common/views/components/ScrollContainer';
 import ThemeCard from '@weco/common/views/components/ThemeCard';
 import { useConceptImageUrls } from '@weco/content/hooks/useConceptImageUrls';
 import { getConceptsByIds } from '@weco/content/services/wellcome/catalogue/concepts';
 import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { toConceptLink } from '@weco/content/views/components/ConceptLink';
+import ScrollContainer from '@weco/content/views/components/ScrollContainer';
 
 type ThemeCardsListProps = {
   title?: string;
