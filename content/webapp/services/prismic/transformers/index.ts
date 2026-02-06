@@ -2,6 +2,8 @@ import * as prismic from '@prismicio/client';
 
 import { ImageType } from '@weco/common/model/image';
 import {
+  PagesDocumentDataBodySlice,
+  EditorialImageSlice as RawEditorialImageSlice,
   StandfirstSlice as RawStandfirstSlice,
   WebcomicSeriesDocument as RawWebcomicSeriesDocument,
 } from '@weco/common/prismicio-types';
@@ -18,6 +20,7 @@ import {
   RelatedGenericDoc,
   WithFormat,
 } from '@weco/content/services/prismic/types';
+import { isEditorialImage } from '@weco/content/types/body';
 import { Format } from '@weco/content/types/format';
 import { GenericContentFields } from '@weco/content/types/generic-content-fields';
 
@@ -105,26 +108,11 @@ export function transformGenericFieldsFromRelationship(field: {
 }): GenericContentFields {
   const { data } = field;
 
-  // Helper to check if an unknown value is an editorial image slice with the expected structure
-  const isEditorialImageSlice = (
-    slice: unknown
-  ): slice is prismic.Slice<
-    'editorialImage',
-    { image?: prismic.ImageField }
-  > => {
-    return (
-      slice !== null &&
-      typeof slice === 'object' &&
-      'slice_type' in slice &&
-      (slice as { slice_type: string }).slice_type === 'editorialImage'
-    );
-  };
-
   // Only process promo if it exists in the fetched data
   // (not all relationships include promo in fetchLinks)
   const promoSlices =
     Array.isArray(data.promo) && data.promo.length > 0
-      ? (data.promo as unknown[]).filter(isEditorialImageSlice)
+      ? (data.promo as unknown[]).filter(isEditorialImage)
       : [];
 
   const promo =
@@ -146,15 +134,15 @@ export function transformGenericFieldsFromRelationship(field: {
 
   // Only process body if it exists in the fetched data
   // (not all relationships include body in fetchLinks)
-  const untransformedBody =
-    Array.isArray(data.body) && data.body.length > 0
-      ? (data.body as prismic.Slice[])
-      : ([] as prismic.Slice[]);
+  const untransformedBody = (
+    Array.isArray(data.body) && data.body.length > 0 ? data.body : []
+  ) as prismic.SliceZone<PagesDocumentDataBodySlice>;
 
   const untransformedStandfirst =
     untransformedBody.length > 0
       ? (untransformedBody.find(
-          (slice: prismic.Slice) => slice.slice_type === 'standfirst'
+          (slice: PagesDocumentDataBodySlice) =>
+            slice.slice_type === 'standfirst'
         ) as RawStandfirstSlice | undefined)
       : undefined;
 
@@ -239,7 +227,7 @@ export function transformGenericFields(
   const primaryPromo =
     isGenericDocWithPromo(doc) && doc.data.promo.length > 0
       ? doc.data.promo
-          .filter((slice: prismic.Slice) => slice.primary.image)
+          .filter((slice: RawEditorialImageSlice) => slice.primary.image)
           .find(_ => _)
       : undefined;
 
@@ -249,7 +237,7 @@ export function transformGenericFields(
 
   const untransformedBody = data?.body || [];
   const untransformedStandfirst = untransformedBody.find(
-    (slice: prismic.Slice) => slice.slice_type === 'standfirst'
+    (slice: PagesDocumentDataBodySlice) => slice.slice_type === 'standfirst'
   ) as RawStandfirstSlice | undefined;
   const metadataDescription = isGenericDocWithMetaDescription(doc)
     ? asText(doc.data.metadataDescription)

@@ -1,3 +1,6 @@
+import * as prismic from '@prismicio/client';
+
+import { PagesDocumentDataBodySlice } from '@weco/common/prismicio-types';
 import { Exhibition } from '@weco/content/types/exhibitions';
 import { Props as WhatsOnProps } from '@weco/content/views/pages/whats-on';
 
@@ -5,7 +8,7 @@ const beingHuman: Exhibition = {
   id: 'XNFfsxAAANwqbNWD',
   uid: 'being-human',
   title: 'Being Human',
-  untransformedBody: [],
+  untransformedBody: [] as prismic.SliceZone<PagesDocumentDataBodySlice>,
   promo: {
     image: {
       contentUrl:
@@ -69,7 +72,7 @@ const beingHuman: Exhibition = {
   place: {
     id: 'Wn1gdSoAACgAH_-x',
     title: 'Being Human gallery',
-    untransformedBody: [],
+    untransformedBody: [] as prismic.SliceZone<PagesDocumentDataBodySlice>,
     labels: [],
     level: 1,
     information: [

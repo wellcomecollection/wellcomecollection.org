@@ -19,7 +19,9 @@ export function getFeaturedMedia(
   const { untransformedBody } = fields;
 
   const featuredVideo =
-    untransformedBody.length > 0 && isVideoEmbed(untransformedBody[0])
+    untransformedBody.length > 0 &&
+    untransformedBody[0] &&
+    isVideoEmbed(untransformedBody[0])
       ? untransformedBody[0]
       : undefined;
   const transformedFeaturedVideoSlice =

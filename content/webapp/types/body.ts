@@ -1,9 +1,9 @@
-import * as prismic from '@prismicio/client';
-
 import {
+  PagesDocumentDataBodySlice,
   ContentListSlice as RawContentListSlice,
   EditorialImageSlice as RawEditorialImageSlice,
   EmbedSlice as RawEmbedSlice,
+  FullWidthBannerSlice as RawFullWidthBannerSlice,
 } from '@weco/common/prismicio-types';
 
 import { ArticleBasic } from './articles';
@@ -23,25 +23,33 @@ export type Slice<TypeName extends string, Value> = {
 };
 
 export function isContentList(
-  slice: prismic.Slice
+  slice: PagesDocumentDataBodySlice | undefined
 ): slice is RawContentListSlice {
-  return slice.slice_type === 'contentList';
+  return !!slice && slice.slice_type === 'contentList';
 }
 
 export function isFullWidthBanner(
-  slice: prismic.Slice
-): slice is prismic.Slice<'fullWidthBanner'> {
-  return slice.slice_type === 'fullWidthBanner';
+  slice: PagesDocumentDataBodySlice | undefined
+): slice is RawFullWidthBannerSlice {
+  return !!slice && slice.slice_type === 'fullWidthBanner';
 }
 
-export function isVideoEmbed(slice: prismic.Slice): slice is RawEmbedSlice {
-  return slice.primary.provider_name === 'youtube';
+export function isVideoEmbed(
+  slice: PagesDocumentDataBodySlice | undefined
+): slice is RawEmbedSlice {
+  return (
+    !!slice &&
+    slice.slice_type === 'embed' &&
+    'primary' in slice &&
+    'provider_name' in slice.primary &&
+    slice.primary.provider_name === 'youtube'
+  );
 }
 
 export function isEditorialImage(
-  slice: prismic.Slice
+  slice: PagesDocumentDataBodySlice | undefined
 ): slice is RawEditorialImageSlice {
-  return slice.slice_type === 'editorialImage';
+  return !!slice && slice.slice_type === 'editorialImage';
 }
 
 export type ContentListItems =

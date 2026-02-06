@@ -4,6 +4,7 @@ import { NextPage } from 'next';
 import styled, { useTheme } from 'styled-components';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
+import { FullWidthBannerSlice as RawFullWidthBannerSlice } from '@weco/common/prismicio-types';
 import { useToggles } from '@weco/common/server-data/Context';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
@@ -61,7 +62,7 @@ export type Props = {
   introText: prismic.RichTextField;
   insideOurCollectionsCards: MultiContent[];
   featuredConcepts: Concept[];
-  fullWidthBanners?: prismic.Slice<'fullWidthBanner'>[];
+  fullWidthBanners?: RawFullWidthBannerSlice[];
   newOnlineDocuments: WorkBasic[];
 };
 

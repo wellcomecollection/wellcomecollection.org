@@ -2,7 +2,12 @@ import * as prismic from '@prismicio/client';
 import { NextPage } from 'next';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
-import { PagesDocument as RawPagesDocument } from '@weco/common/prismicio-types';
+import {
+  FullWidthBannerSlice as RawFullWidthBannerSlice,
+  PagesDocument as RawPagesDocument,
+  TextSlice as RawTextSlice,
+} from '@weco/common/prismicio-types';
+import { PagesDocumentDataBodySlice } from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
@@ -82,13 +87,14 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     const featuredConcepts = await fetchFeaturedConcepts();
 
     const bannerOne = collectionsPage.untransformedBody.find(
-      slice => slice.slice_type === 'fullWidthBanner'
-    );
+      (slice: PagesDocumentDataBodySlice) =>
+        slice.slice_type === 'fullWidthBanner'
+    ) as RawFullWidthBannerSlice | undefined;
 
     const bannerTwo = collectionsPage.untransformedBody.find(
-      slice =>
+      (slice: PagesDocumentDataBodySlice) =>
         slice.slice_type === 'fullWidthBanner' && slice.id !== bannerOne?.id
-    );
+    ) as RawFullWidthBannerSlice | undefined;
 
     const fullWidthBanners = [bannerOne, bannerTwo]
       .filter(isNotUndefined)
@@ -99,16 +105,20 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     // Find the "New online" text block in Prismic that contains work IDs
     // Format should be: "New online: [ptfqa2te, bbsjt2ex, a3cyqwec, sh37yy5n]"
     const newOnlineBlock = collectionsPage.untransformedBody.find(
-      slice =>
+      (slice: PagesDocumentDataBodySlice) =>
         slice.slice_type === 'text' &&
         Array.isArray(slice.primary.text) &&
         slice.primary.text.some((block: prismic.RTParagraphNode) =>
           block.text.includes('New online:')
         )
-    )?.primary.text?.[0]?.text;
+    ) as RawTextSlice | undefined;
+
+    const firstNode = newOnlineBlock?.primary.text?.[0];
+    const newOnlineBlockText =
+      firstNode && 'text' in firstNode ? firstNode.text : undefined;
 
     // Extract work IDs from square brackets
-    const match = newOnlineBlock?.match(/\[(.*?)\]/);
+    const match = newOnlineBlockText?.match(/\[(.*?)\]/);
     const newOnlineWorkIds: string[] = match
       ? match[1].split(',').map(id => id.trim())
       : [];

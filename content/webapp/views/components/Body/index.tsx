@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 import { officialLandingPagesUid } from '@weco/common/data/hardcoded-ids';
 import { ContentListSlice as RawContentListSlice } from '@weco/common/prismicio-types';
+import { PagesDocumentDataBodySlice } from '@weco/common/prismicio-types';
 import { useToggles } from '@weco/common/server-data/Context';
 import { classNames, font } from '@weco/common/utils/classnames';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
@@ -54,7 +55,7 @@ const BodyWrapper = styled.div<{ $splitBackground: boolean }>`
 `;
 
 export type Props = {
-  untransformedBody: prismic.Slice[];
+  untransformedBody: prismic.SliceZone<PagesDocumentDataBodySlice>;
   introText?: prismic.RichTextField;
   onThisPage?: Link[];
   showOnThisPage?: boolean;
@@ -133,15 +134,16 @@ const Body: FunctionComponent<Props> = ({
 }: Props) => {
   const { twoColumns } = useToggles();
   const filteredUntransformedBody = untransformedBody.filter(
-    slice => slice.slice_type !== 'standfirst'
+    (slice: PagesDocumentDataBodySlice) => slice.slice_type !== 'standfirst'
   );
 
   const firstTextSliceIndex =
     filteredUntransformedBody.find(slice => slice.slice_type === 'text')?.id ||
     '';
 
-  const sections: RawContentListSlice[] =
-    untransformedBody.filter(isContentList);
+  const sections: RawContentListSlice[] = untransformedBody.filter(
+    isContentList
+  ) as RawContentListSlice[];
 
   const sectionThemes: SectionTheme[] = [
     {

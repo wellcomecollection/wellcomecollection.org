@@ -2,6 +2,7 @@ import * as prismic from '@prismicio/client';
 
 import { CaptionedImage } from '@weco/common/model/captioned-image';
 import { Crop, ImageType } from '@weco/common/model/image';
+import { PagesDocumentDataBodySlice } from '@weco/common/prismicio-types';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import { Image, PromoSliceZone } from '@weco/content/services/prismic/types';
 import { ImagePromo } from '@weco/content/types/image-promo';
@@ -85,7 +86,10 @@ export function transformImagePromo(
 ): ImagePromo | undefined {
   const promoSlice =
     zone &&
-    zone.find((slice: prismic.Slice) => slice.slice_type === 'editorialImage');
+    zone.find(
+      (slice: PagesDocumentDataBodySlice) =>
+        slice.slice_type === 'editorialImage'
+    );
   const link = promoSlice && promoSlice.primary.link;
   // We introduced enforcing 16:9 half way through, so we have to do a check for it.
   const promoImage =
