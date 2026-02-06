@@ -26,9 +26,10 @@ describe('HTMLSerializers', () => {
         );
 
         expect(result).toBeDefined();
+        expect(result).not.toBeNull();
         // result.props.children[0] is an array [cappedFirstLetter, restOfString]
         // result.props.children[0][0] is the span with drop-cap class
-        expect(result.props.children[0][0].props.children).toBe('H');
+        expect(result!.props.children[0][0].props.children).toBe('H');
       });
 
       it('should handle a React element with string children', () => {
@@ -44,7 +45,8 @@ describe('HTMLSerializers', () => {
         );
 
         expect(result).toBeDefined();
-        expect(result.props.children[0][0].props.children).toBe('T');
+        expect(result).not.toBeNull();
+        expect(result!.props.children[0][0].props.children).toBe('T');
       });
 
       it('should return a regular paragraph when first child is not a string or element with string children', () => {
@@ -60,12 +62,13 @@ describe('HTMLSerializers', () => {
         );
 
         expect(result).toBeDefined();
+        expect(result).not.toBeNull();
         // Should return regular paragraph without drop cap
-        expect(result.props.className).toBeUndefined();
+        expect(result!.props.className).toBeUndefined();
       });
 
       it('should handle undefined children', () => {
-        const children = [undefined];
+        const children = [undefined] as any;
 
         const result = dropCapSerializer(
           paragraphType,
@@ -76,8 +79,9 @@ describe('HTMLSerializers', () => {
         );
 
         expect(result).toBeDefined();
+        expect(result).not.toBeNull();
         // Should return regular paragraph without drop cap
-        expect(result.props.className).toBeUndefined();
+        expect(result!.props.className).toBeUndefined();
       });
 
       it('should handle nested React elements', () => {
@@ -97,9 +101,10 @@ describe('HTMLSerializers', () => {
         );
 
         expect(result).toBeDefined();
+        expect(result).not.toBeNull();
         // First direct child of the strong element is the span, not a string
         // So should return regular paragraph
-        expect(result.props.className).toBeUndefined();
+        expect(result!.props.className).toBeUndefined();
       });
 
       it('should handle empty string', () => {
@@ -114,8 +119,9 @@ describe('HTMLSerializers', () => {
         );
 
         expect(result).toBeDefined();
+        expect(result).not.toBeNull();
         // Empty string means no first character, should return regular paragraph
-        expect(result.props.className).toBeUndefined();
+        expect(result!.props.className).toBeUndefined();
       });
 
       it('should handle numeric children', () => {
@@ -130,8 +136,9 @@ describe('HTMLSerializers', () => {
         );
 
         expect(result).toBeDefined();
+        expect(result).not.toBeNull();
         // Number is not a string, should return regular paragraph
-        expect(result.props.className).toBeUndefined();
+        expect(result!.props.className).toBeUndefined();
       });
 
       it('should handle element with multiple string children', () => {
@@ -152,8 +159,9 @@ describe('HTMLSerializers', () => {
         );
 
         expect(result).toBeDefined();
+        expect(result).not.toBeNull();
         // Should use first string child ('First')
-        expect(result.props.children[0][0].props.children).toBe('F');
+        expect(result!.props.children[0][0].props.children).toBe('F');
       });
     });
 
@@ -169,8 +177,9 @@ describe('HTMLSerializers', () => {
           mockKey
         );
 
-        expect(result.props.children[0][0].props.className).toBe('drop-cap');
-        expect(result.props.children[0][0].props.children).toBe('H');
+        expect(result).not.toBeNull();
+        expect(result!.props.children[0][0].props.className).toBe('drop-cap');
+        expect(result!.props.children[0][0].props.children).toBe('H');
       });
 
       it('should preserve remaining text after drop cap', () => {
@@ -184,10 +193,11 @@ describe('HTMLSerializers', () => {
           mockKey
         );
 
+        expect(result).not.toBeNull();
         // The first child is an array [cappedFirstLetter, restOfString]
-        expect(result.props.children[0]).toHaveLength(2);
+        expect(result!.props.children[0]).toHaveLength(2);
         // The rest of the string after the first letter
-        expect(result.props.children[0][1]).toBe('ello world');
+        expect(result!.props.children[0][1]).toBe('ello world');
       });
     });
   });
