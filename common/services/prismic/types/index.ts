@@ -32,36 +32,58 @@ export type PaginatedResults<T> = {
 };
 
 // Guards
-export function isFilledLinkToDocument<T, L, D extends DataInterface>(
+export function isFilledLinkToDocument<
+  T extends string = string,
+  L extends string = string,
+  D = unknown,
+>(
   field: prismic.ContentRelationshipField<T, L, D> | undefined
 ): field is prismic.FilledContentRelationshipField<T, L, D> {
-  return isNotUndefined(field) && 'id' in field && field.isBroken === false;
+  return (
+    isNotUndefined(field) &&
+    prismic.isFilled.contentRelationship(field) &&
+    field.isBroken === false
+  );
 }
 
-export function isFilledLinkToDocumentWithData<T, L, D extends DataInterface>(
+export function isFilledLinkToDocumentWithData<
+  T extends string = string,
+  L extends string = string,
+  D = unknown,
+>(
   field: prismic.ContentRelationshipField<T, L, D> | undefined
 ): field is prismic.FilledContentRelationshipField<T, L, D> & {
-  data: DataInterface;
+  data: D extends DataInterface ? D : DataInterface;
 } {
-  return isFilledLinkToDocument(field) && 'data' in field;
+  return isFilledLinkToDocument(field) && field.data != null;
+}
+
+export function isFilledLinkToDocumentWithTypedData<
+  TDoc extends prismic.PrismicDocument,
+  T extends string = string,
+  L extends string = string,
+>(
+  field: prismic.ContentRelationshipField<T, L, unknown> | undefined
+): field is prismic.FilledContentRelationshipField<
+  T,
+  L,
+  InferDataInterface<TDoc>
+> & {
+  data: InferDataInterface<TDoc>;
+} {
+  return isFilledLinkToDocument(field) && field.data != null;
 }
 
 export function isFilledLinkToWebField(
   field: prismic.LinkField
 ): field is prismic.FilledLinkToWebField {
-  return (
-    prismic.isFilled.link(field) && field.link_type === 'Web' && 'url' in field
-  );
+  return prismic.isFilled.link(field) && field.link_type === 'Web';
 }
 
 export function isFilledLinkToMediaField(
   field: prismic.LinkField
-): field is prismic.FilledLinkToWebField {
-  return (
-    prismic.isFilled.link(field) &&
-    field.link_type === 'Media' &&
-    'url' in field
-  );
+): field is prismic.FilledLinkToMediaField {
+  return prismic.isFilled.link(field) && field.link_type === 'Media';
 }
 
 export function isFilledSliceZone<

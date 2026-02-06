@@ -1,7 +1,7 @@
 // eslint-data-component: intentionally omitted
 import * as prismic from '@prismicio/client';
 import { JSXFunctionSerializer } from '@prismicio/react';
-import { Fragment } from 'react';
+import { Children, Fragment, isValidElement } from 'react';
 import styled from 'styled-components';
 
 import {
@@ -198,6 +198,25 @@ export const defaultSerializer: JSXFunctionSerializer = (
   }
 };
 
+/**
+ * Safely extract the first string child from a React node.
+ * Used by dropCapSerializer to get the first characters for drop cap styling.
+ * Handles both direct strings and React elements with string children.
+ */
+const getFirstStringChild = (node: unknown): string | undefined => {
+  if (typeof node === 'string') return node;
+
+  if (isValidElement(node)) {
+    const childArray = Children.toArray(
+      (node.props as { children?: React.ReactNode })?.children
+    );
+    const first = childArray[0];
+    return typeof first === 'string' ? first : undefined;
+  }
+
+  return undefined;
+};
+
 export const dropCapSerializer: JSXFunctionSerializer = (
   type,
   element,
@@ -210,12 +229,9 @@ export const dropCapSerializer: JSXFunctionSerializer = (
     children[0] !== undefined
   ) {
     const firstChild = children[0];
-    const firstCharacters =
-      firstChild.props &&
-      firstChild.props.children &&
-      firstChild.props.children[0];
+    const firstCharacters = getFirstStringChild(firstChild);
 
-    if (typeof firstCharacters !== 'string') {
+    if (!firstCharacters) {
       return <p key={key}>{children}</p>;
     }
 
