@@ -2,6 +2,7 @@ import { SliceComponentProps } from '@prismicio/react';
 import { FunctionComponent } from 'react';
 
 import { ThemeCardsListSlice as RawThemeCardsListSlice } from '@weco/common/prismicio-types';
+import { font } from '@weco/common/utils/classnames';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import { ContaineredLayout } from '@weco/common/views/components/Layout';
@@ -10,12 +11,12 @@ import { asText } from '@weco/content/services/prismic/transformers';
 import { SliceZoneContext } from '@weco/content/views/components/Body';
 import ThemeCardsList from '@weco/content/views/components/ThemeCardsList';
 
-export type ThemeCardsListProps = SliceComponentProps<
+type ThemeCardsListSliceProps = SliceComponentProps<
   RawThemeCardsListSlice,
   SliceZoneContext
 >;
 
-const ThemeCardsListSlice: FunctionComponent<ThemeCardsListProps> = ({
+const ThemeCardsListSlice: FunctionComponent<ThemeCardsListSliceProps> = ({
   slice,
   context,
 }) => {
@@ -24,6 +25,7 @@ const ThemeCardsListSlice: FunctionComponent<ThemeCardsListProps> = ({
     .filter(isNotUndefined);
   if (conceptIds.length === 0) return null;
 
+  const title = asText(slice.primary.title);
   return (
     <SpacingComponent $sliceType={slice.slice_type}>
       <ConditionalWrapper
@@ -34,10 +36,16 @@ const ThemeCardsListSlice: FunctionComponent<ThemeCardsListProps> = ({
           </ContaineredLayout>
         )}
       >
+        {/* TODO which heading should this be? Should we add options in slice? maybe it's a rich text with the choice. */}
+        {title && <h3 className={font('brand', 1)}>{title}</h3>}
+
         <ThemeCardsList
           conceptIds={conceptIds}
-          title={asText(slice.primary.title)}
           description={asText(slice.primary.description)}
+          gtmData={{
+            'category-label': asText(slice.primary.title) || '',
+            'category-position-in-list': '1', // Should always be single category
+          }}
         />
       </ConditionalWrapper>
     </SpacingComponent>

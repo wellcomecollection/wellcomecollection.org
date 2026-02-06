@@ -1,23 +1,15 @@
 import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
-import {
-  ContaineredLayout,
-  gridSize12,
-} from '@weco/common/views/components/Layout';
+import { DataGtmProps } from '@weco/common/utils/gtm';
+import { gridSize12 } from '@weco/common/views/components/Layout';
+import { SizeMap } from '@weco/common/views/components/styled/Grid';
 import ThemeCard from '@weco/common/views/components/ThemeCard';
 import { useConceptImageUrls } from '@weco/content/hooks/useConceptImageUrls';
 import { getConceptsByIds } from '@weco/content/services/wellcome/catalogue/concepts';
 import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { toConceptLink } from '@weco/content/views/components/ConceptLink';
 import ScrollContainer from '@weco/content/views/components/ScrollContainer';
-
-type ThemeCardsListProps = {
-  title?: string;
-  description?: string;
-  conceptIds: string[];
-};
 
 const ListItem = styled.li`
   --gutter-size: ${props => props.theme.gutter.small};
@@ -87,11 +79,8 @@ const ListItem = styled.li`
 
 const Theme: FunctionComponent<{
   concept: Concept;
-  // TODO
-  // categoryLabel: string;
-  // categoryPosition: number;
-  positionInList: number;
-}> = ({ concept, positionInList }) => {
+  gtmData: DataGtmProps;
+}> = ({ concept, gtmData }) => {
   const images = useConceptImageUrls(concept);
   const linkProps = toConceptLink({ conceptId: concept.id });
 
@@ -103,19 +92,28 @@ const Theme: FunctionComponent<{
       linkProps={linkProps}
       dataGtmProps={{
         trigger: 'theme_promo_card',
-        // 'category-label': categoryLabel,
-        // 'category-position-in-list': String(categoryPosition),
         id: concept.id,
-        'position-in-list': String(positionInList),
+        ...gtmData,
       }}
     />
   ) : null;
 };
 
+type ThemeCardsListProps = {
+  conceptIds: string[];
+  description?: string;
+  gtmData: {
+    ['category-label']: DataGtmProps['category-label'];
+    ['category-position-in-list']: DataGtmProps['category-position-in-list'];
+  };
+  gridSizes?: SizeMap;
+};
+
 const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
-  title,
-  description,
   conceptIds,
+  description,
+  gtmData,
+  gridSizes = gridSize12(),
 }) => {
   const scrollContainerRef = useRef<HTMLUListElement>(null);
   const [concepts, setConcepts] = useState<Concept[]>([]);
@@ -135,36 +133,27 @@ const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
     fetchData();
   }, [conceptIds]);
 
+  if (concepts.length === 0) return null;
+
   return (
     <div data-component="theme-cards-list">
-      {title && (
-        <ContaineredLayout gridSizes={gridSize12()}>
-          {/* TODO which heading should this be? */}
-          <h3 className={font('brand', 1)}>{title}</h3>
-        </ContaineredLayout>
-      )}
-
-      {concepts.length > 0 && (
-        <ScrollContainer
-          gridSizes={gridSize12()}
-          containerRef={scrollContainerRef}
-          useShim={true}
-          {...(description && {
-            description: description,
-          })}
-        >
-          {concepts.map((concept, index) => (
-            <ListItem key={concept.id}>
-              <Theme
-                concept={concept}
-                // categoryLabel={title}
-                // categoryPosition={1}
-                positionInList={index + 1}
-              />
-            </ListItem>
-          ))}
-        </ScrollContainer>
-      )}
+      <ScrollContainer
+        gridSizes={gridSizes}
+        containerRef={scrollContainerRef}
+        useShim
+        {...(description && {
+          description: description,
+        })}
+      >
+        {concepts.map((concept, i) => (
+          <ListItem key={concept.id}>
+            <Theme
+              concept={concept}
+              gtmData={{ ...gtmData, 'position-in-list': `${i + 1}` }}
+            />
+          </ListItem>
+        ))}
+      </ScrollContainer>
     </div>
   );
 };
