@@ -96,7 +96,7 @@ export const fetchBasicPage = async (
 
 export const fetchChildren = async (
   client: GetServerSidePropsPrismicClient,
-  page: Page
+  page: Pick<Page, 'id'>
 ): Promise<RawPagesDocument[]> => {
   const filters = [prismic.filter.at('my.pages.parents.parent', page.id)];
 

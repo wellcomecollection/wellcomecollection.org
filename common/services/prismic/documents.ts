@@ -96,7 +96,7 @@ export function emptyGlobalAlert(
 export function emptyPopupDialog(): RawPopupDialogDocument {
   return emptyDocumentWithoutUid<RawPopupDialogDocument>({
     isShown: false,
-    link: { link_type: 'Web' },
+    link: { link_type: 'Any' },
     linkText: null,
     openButtonText: null,
     text: [],

@@ -129,6 +129,14 @@ const toggles = {
       description: 'Enables access to new thematic browsing pages.',
       type: 'experimental',
     },
+    {
+      id: 'semanticSearchPrototype',
+      title: 'Semantic search prototype',
+      initialValue: false,
+      description:
+        'Enables the semantic search prototype with predefined search terms and API selection. Allows results to display in a side-by-side comparison view or individually.',
+      type: 'experimental',
+    },
   ] as const,
   // We have to include a reference to any test toggles here as well as in the cache dir
   // because they are deployed separately and consequently can't share a source of truth

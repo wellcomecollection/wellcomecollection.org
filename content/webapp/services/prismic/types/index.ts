@@ -282,6 +282,7 @@ export type WithExhibitionParents = {
     order: prismic.NumberField;
     parent: prismic.ContentRelationshipField<
       'exhibitions',
+      string,
       // We know this is an ExhibitionsDocument, but the type checker gets
       // unhappy about the circular reference:
       //
@@ -312,25 +313,13 @@ export const exhibitionsFetchLinks: FetchLinks<RawExhibitionsDocument> = [
 
 type Contributor =
   | prismic.EmptyLinkField<'Document'>
-  | prismic.FilledContentRelationshipField<
-      'people',
-      'en-gb',
-      InferDataInterface<RawPeopleDocument>
-    >
-  | prismic.FilledContentRelationshipField<
-      'organisations',
-      'en-gb',
-      InferDataInterface<RawOrganisationsDocument>
-    >;
+  | prismic.FilledContentRelationshipField<'people', string, unknown>
+  | prismic.FilledContentRelationshipField<'organisations', string, unknown>;
 
 export type WithContributors = {
   contributorsTitle: prismic.RichTextField;
   contributors: prismic.GroupField<{
-    role: prismic.ContentRelationshipField<
-      'editorial-contributor-roles',
-      'en-gb',
-      InferDataInterface<RawEditorialContributorRolesDocument>
-    >;
+    role: prismic.ContentRelationshipField<string, string, unknown>;
     contributor: Contributor;
     description: prismic.RichTextField;
   }>;
@@ -411,24 +400,30 @@ export const placesFetchLinks: FetchLinks<RawPlacesDocument> = [
 
 // Guards
 export function isFilledLinkToPersonField(
-  field: Contributor
+  field: unknown
 ): field is prismic.FilledContentRelationshipField<
   'people',
-  'en-gb',
+  string,
   InferDataInterface<RawPeopleDocument>
-> & { data: RawPeopleDocument } {
-  return isFilledLinkToDocumentWithData(field) && field.type === 'people';
+> & {
+  data: InferDataInterface<RawPeopleDocument>;
+} {
+  return (
+    isFilledLinkToDocumentWithData(field as prismic.ContentRelationshipField) &&
+    (field as prismic.FilledContentRelationshipField).type === 'people'
+  );
 }
 
 export function isFilledLinkToOrganisationField(
-  field: Contributor
+  field: unknown
 ): field is prismic.FilledContentRelationshipField<
   'organisations',
-  'en-gb',
+  string,
   InferDataInterface<RawOrganisationsDocument>
-> & { data: RawOrganisationsDocument } {
+> & { data: InferDataInterface<RawOrganisationsDocument> } {
   return (
-    isFilledLinkToDocumentWithData(field) && field.type === 'organisations'
+    isFilledLinkToDocumentWithData(field as prismic.ContentRelationshipField) &&
+    (field as prismic.FilledContentRelationshipField).type === 'organisations'
   );
 }
 
@@ -456,28 +451,11 @@ export type StructuredSearchQuery = {
   'article-series': string[];
 };
 
-type PrismicLabel = {
-  title: prismic.RichTextField;
-  description: prismic.RichTextField;
-};
-
-export type WithCardFormat = {
-  format:
-    | prismic.ContentRelationshipField<
-        'article-formats',
-        'en-gb',
-        InferDataInterface<RawArticleFormatsDocument>
-      >
-    | prismic.ContentRelationshipField<
-        'event-formats',
-        'en-gb',
-        InferDataInterface<RawEventFormatsDocument>
-      >
-    | prismic.ContentRelationshipField<
-        'labels',
-        'en-gb',
-        InferDataInterface<PrismicLabel>
-      >;
+// Generic format type shared by all content types that have a format field.
+// Previously we had separate WithArticleFormat, WithCardFormat, etc., but after
+// the Prismic upgrade they all became identical (generic ContentRelationshipField).
+export type WithFormat = {
+  format: prismic.ContentRelationshipField;
 };
 
 export type ExhibitionRelatedContentPrismicDocument =
@@ -485,43 +463,3 @@ export type ExhibitionRelatedContentPrismicDocument =
   | RawEventsDocument
   | RawArticlesDocument
   | RawBooksDocument;
-
-export type WithArticleFormat = {
-  format: prismic.ContentRelationshipField<
-    'article-formats',
-    'en-gb',
-    InferDataInterface<RawArticleFormatsDocument>
-  >;
-};
-
-export type WithGuideFormat = {
-  format: prismic.ContentRelationshipField<
-    'guide-formats',
-    'en-gb',
-    InferDataInterface<RawGuideFormatsDocument>
-  >;
-};
-
-export type WithPageFormat = {
-  format: prismic.ContentRelationshipField<
-    'page-formats',
-    'en-gb',
-    InferDataInterface<RawPageFormatsDocument>
-  >;
-};
-
-export type WithProjectFormat = {
-  format: prismic.ContentRelationshipField<
-    'project-formats',
-    'en-gb',
-    InferDataInterface<RawProjectFormatsDocument>
-  >;
-};
-
-export type WithEventFormat = {
-  format: prismic.ContentRelationshipField<
-    'event-formats',
-    'en-gb',
-    InferDataInterface<RawEventFormatsDocument>
-  >;
-};
