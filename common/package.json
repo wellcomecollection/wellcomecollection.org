@@ -12,7 +12,7 @@
     "@elastic/apm-rum": "^5.17.0",
     "@next/bundle-analyzer": "^15.5.7",
     "@popperjs/core": "^2.11.8",
-    "@prismicio/client": "^7.18.1",
+    "@prismicio/client": "^7.21.5-pr.437.5a3fcd8",
     "@prismicio/next": "^2.2.1",
     "@prismicio/react": "2.9.2",
     "@testing-library/jest-dom": "^6.9.0",
