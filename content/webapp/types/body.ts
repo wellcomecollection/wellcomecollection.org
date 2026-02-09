@@ -40,7 +40,6 @@ export function isVideoEmbed(
   return (
     !!slice &&
     slice.slice_type === 'embed' &&
-    'primary' in slice &&
     'provider_name' in slice.primary &&
     slice.primary.provider_name === 'youtube'
   );
