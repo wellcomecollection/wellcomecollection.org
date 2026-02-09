@@ -1,6 +1,7 @@
 import { FunctionComponent, PropsWithChildren } from 'react';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
+import { pageDescriptions } from '@weco/common/data/microcopy';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { Page } from '@weco/content/types/pages';
@@ -40,7 +41,11 @@ const ThematicBrowsingLayout: FunctionComponent<
       hideNewsletterPromo
       siteSection="collections"
       title={page.title}
-      description={page.metadataDescription || page.promo?.caption || ''}
+      description={
+        page.metadataDescription ||
+        page.promo?.caption ||
+        pageDescriptions.collections.index
+      }
       url={{ pathname: urlPathname }}
       image={page.image}
       apiToolbarLinks={apiToolbarLinks}
