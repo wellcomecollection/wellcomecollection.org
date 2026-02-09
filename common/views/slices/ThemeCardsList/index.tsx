@@ -36,17 +36,17 @@ const ThemeCardsListSlice: FunctionComponent<ThemeCardsListSliceProps> = ({
           </ContaineredLayout>
         )}
       >
-        {title && <h2 className={font('brand', 1)}>{title}</h2>}
-
-        <ThemeCardsList
-          conceptIds={conceptIds}
-          description={asText(slice.primary.description)}
-          gtmData={{
-            'category-label': asText(slice.primary.title) || '',
-            'category-position-in-list': '1', // Should always be single category
-          }}
-        />
+        {title && <h2 className={font('sans-bold', 2)}>{title}</h2>}
       </ConditionalWrapper>
+
+      <ThemeCardsList
+        conceptIds={conceptIds}
+        description={asText(slice.primary.description)}
+        gtmData={{
+          'category-label': asText(slice.primary.title) || '',
+          'category-position-in-list': '1', // Should always be single category
+        }}
+      />
     </SpacingComponent>
   );
 };

@@ -107,6 +107,7 @@ type ThemeCardsListProps = {
     ['category-position-in-list']: DataGtmProps['category-position-in-list'];
   };
   gridSizes?: SizeMap;
+  onConceptsFetched?: ({ count }: { count: number }) => void;
 };
 
 const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
@@ -114,6 +115,7 @@ const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
   description,
   gtmData,
   gridSizes = gridSize12(),
+  onConceptsFetched,
 }) => {
   const scrollContainerRef = useRef<HTMLUListElement>(null);
   const [concepts, setConcepts] = useState<Concept[]>([]);
@@ -124,13 +126,26 @@ const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
         try {
           const result = await getConceptsByIds(conceptIds);
           setConcepts(result);
+          onConceptsFetched?.({ count: result.length });
         } catch (error) {
           console.error('Failed to fetch concepts:', error);
+          setConcepts([]);
+          onConceptsFetched?.({ count: 0 });
         }
+      } else {
+        setConcepts([]);
+        onConceptsFetched?.({ count: 0 });
       }
     };
 
     fetchData();
+  }, [conceptIds, onConceptsFetched]);
+
+  // Reset scroll position when concept IDs change
+  useEffect(() => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollLeft = 0;
+    }
   }, [conceptIds]);
 
   if (concepts.length === 0) return null;

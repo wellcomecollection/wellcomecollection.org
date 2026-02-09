@@ -1,15 +1,13 @@
-import { FunctionComponent, useEffect, useRef, useState } from 'react';
+import { FunctionComponent, useState } from 'react';
 
 import { useToggles } from '@weco/common/server-data/Context';
+import { pluralize } from '@weco/common/utils/grammar';
 import {
   ContaineredLayout,
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import { SizeMap } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
-import { useThemeConcepts } from '@weco/content/hooks/useThemeConcepts';
-import { getConceptsByIds } from '@weco/content/services/wellcome/catalogue/concepts';
-import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import MoreLink from '@weco/content/views/components/MoreLink';
 import SelectableTags from '@weco/content/views/components/SelectableTags';
 import ThemeCardsList from '@weco/content/views/components/ThemeCardsList';
@@ -18,60 +16,38 @@ import type { ThemeConfig } from './themeBlockCategories';
 
 type BrowseByThemeProps = {
   themeConfig: ThemeConfig;
-  initialConcepts: Concept[];
   gridSizes: SizeMap;
 };
 
 const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
   themeConfig,
-  initialConcepts,
   gridSizes,
 }) => {
   const { thematicBrowsing } = useToggles();
-  const { fetchConcepts, setCache } = useThemeConcepts(
-    initialConcepts,
-    getConceptsByIds
+  const [conceptIds, setConceptIds] = useState<string[]>(
+    themeConfig.categories[0]?.concepts || []
   );
-
-  const scrollContainerRef = useRef<HTMLUListElement>(null);
-  const [displayedConcepts, setDisplayedConcepts] =
-    useState<Concept[]>(initialConcepts);
   const [selectedCategoryLabel, setSelectedCategoryLabel] = useState<string>(
     themeConfig.categories[0]?.label || ''
   );
   const [announcement, setAnnouncement] = useState('');
 
-  // Set the cache with the first category and display it
-  useEffect(() => {
-    const firstLabel = themeConfig.categories[0]?.label;
-    if (firstLabel) {
-      setCache(firstLabel, initialConcepts);
-      setSelectedCategoryLabel(firstLabel);
-    }
-    setDisplayedConcepts(initialConcepts);
-  }, [initialConcepts, themeConfig.categories, setCache]);
-
-  const handleCategoryChange = async (selectedIds: string[]) => {
+  const handleCategoryChange = (selectedIds: string[]) => {
     const selectedCategoryId = selectedIds[0];
     const category = themeConfig.categories.find(
       cat => cat.label === selectedCategoryId
     );
     if (category) {
       setSelectedCategoryLabel(category.label);
-      const result = await fetchConcepts(category);
-      setDisplayedConcepts(result);
-      setAnnouncement(
-        `Showing ${result.length} ${category.label.toLowerCase()} ${result.length === 1 ? 'theme' : 'themes'}`
-      );
+      setConceptIds(category.concepts);
     }
   };
 
-  // Reset scroll position when a new theme category is selected
-  useEffect(() => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollLeft = 0;
-    }
-  }, [displayedConcepts]);
+  const handleConceptsFetched = ({ count }: { count: number }) => {
+    setAnnouncement(
+      `Showing ${count} ${selectedCategoryLabel.toLowerCase()} ${pluralize(count, 'theme')}`
+    );
+  };
 
   const tagData = themeConfig.categories.map(category => ({
     id: category.label,
@@ -115,12 +91,13 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
       </ContaineredLayout>
 
       <ThemeCardsList
-        conceptIds={displayedConcepts.map(concept => concept.id)}
+        conceptIds={conceptIds}
         gridSizes={gridSizes}
         gtmData={{
           'category-label': selectedCategoryLabel,
           'category-position-in-list': `${selectedCategoryPosition}`,
         }}
+        onConceptsFetched={handleConceptsFetched}
       />
 
       {thematicBrowsing && selectedCategoryUrl && (
