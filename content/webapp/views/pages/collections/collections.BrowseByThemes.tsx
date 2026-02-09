@@ -1,5 +1,6 @@
 import { FunctionComponent, useState } from 'react';
 
+import { ThemeCardsListSlice as RawThemeCardsListSlice } from '@weco/common/prismicio-types';
 import { useToggles } from '@weco/common/server-data/Context';
 import { pluralize } from '@weco/common/utils/grammar';
 import {
@@ -8,6 +9,7 @@ import {
 } from '@weco/common/views/components/Layout';
 import { SizeMap } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
+import { transformThemeCardsList } from '@weco/content/services/prismic/transformers/body';
 import MoreLink from '@weco/content/views/components/MoreLink';
 import SelectableTags from '@weco/content/views/components/SelectableTags';
 import ThemeCardsList from '@weco/content/views/components/ThemeCardsList';
@@ -17,15 +19,21 @@ import type { ThemeConfig } from './themeBlockCategories';
 type BrowseByThemeProps = {
   themeConfig: ThemeConfig;
   gridSizes: SizeMap;
+  themesCardsListSlices: RawThemeCardsListSlice[];
 };
 
 const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
   themeConfig,
   gridSizes,
+  themesCardsListSlices,
 }) => {
   const { thematicBrowsing } = useToggles();
+  const transformedThemeCardsListSlices = themesCardsListSlices.map(
+    transformThemeCardsList
+  );
+
   const [conceptIds, setConceptIds] = useState<string[]>(
-    themeConfig.categories[0]?.concepts || []
+    transformedThemeCardsListSlices?.[0]?.value.conceptIds || []
   );
   const [selectedCategoryLabel, setSelectedCategoryLabel] = useState<string>(
     themeConfig.categories[0]?.label || ''

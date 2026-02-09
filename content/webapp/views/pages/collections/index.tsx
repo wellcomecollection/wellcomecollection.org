@@ -4,7 +4,10 @@ import { NextPage } from 'next';
 import styled, { useTheme } from 'styled-components';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
-import { FullWidthBannerSlice as RawFullWidthBannerSlice } from '@weco/common/prismicio-types';
+import {
+  FullWidthBannerSlice as RawFullWidthBannerSlice,
+  ThemeCardsListSlice as RawThemeCardsListSlice,
+} from '@weco/common/prismicio-types';
 import { useToggles } from '@weco/common/server-data/Context';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
@@ -58,6 +61,7 @@ export type Props = {
   title: string;
   introText: prismic.RichTextField;
   insideOurCollectionsCards: MultiContent[];
+  themesCardsListSlices: RawThemeCardsListSlice[];
   fullWidthBanners?: RawFullWidthBannerSlice[];
   newOnlineDocuments: WorkBasic[];
 };
@@ -67,6 +71,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
   title,
   introText,
   insideOurCollectionsCards,
+  themesCardsListSlices,
   fullWidthBanners,
   newOnlineDocuments,
 }) => {
@@ -111,20 +116,23 @@ const CollectionsLandingPage: NextPage<Props> = ({
         </ContaineredLayout>
       </div>
 
-      <MainBackground
-        data-component="full-width-banner"
-        $isDefaultVariant={true}
-      >
-        <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
-          <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
-            <SectionHeader title="Browse by theme" gridSize={gridSize12()} />
+      {themesCardsListSlices.length > 0 && (
+        <MainBackground
+          data-component="full-width-banner"
+          $isDefaultVariant={true}
+        >
+          <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
+            <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
+              <SectionHeader title="Browse by theme" gridSize={gridSize12()} />
+            </Space>
+            <BrowseByThemes
+              themeConfig={themeBlockCategories}
+              gridSizes={gridSize12()}
+              themeCardsListSlices={themesCardsListSlices}
+            />
           </Space>
-          <BrowseByThemes
-            themeConfig={themeBlockCategories}
-            gridSizes={gridSize12()}
-          />
-        </Space>
-      </MainBackground>
+        </MainBackground>
+      )}
 
       {browseCollections && (
         <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>

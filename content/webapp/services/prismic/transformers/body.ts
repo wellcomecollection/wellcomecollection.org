@@ -27,6 +27,7 @@ import {
   TagListSlice as RawTagListSlice,
   TextAndIconsSlice as RawTextAndIconsSlice,
   TextAndImageSlice as RawTextAndImageSlice,
+  ThemeCardsListSlice as RawThemeCardsListSlice,
   TitledTextListSlice as RawTitledTextListSlice,
 } from '@weco/common/prismicio-types';
 import {
@@ -58,6 +59,7 @@ import {
   TextAndIconsItem,
   TextAndImageItem,
 } from '@weco/content/views/components/TextAndImageOrIcons';
+import { ThemeCardsListProps } from '@weco/content/views/components/ThemeCardsList';
 import { Props as TitledTextListProps } from '@weco/content/views/components/TitledTextList';
 
 import { asRichText, asText, asTitle } from '.';
@@ -214,6 +216,20 @@ export function transformFullWidthBanner(
       },
     };
   }
+}
+
+export function transformThemeCardsList(
+  slice: RawThemeCardsListSlice
+): Slice<'themeCardsList', Omit<ThemeCardsListProps, 'gtmData'>> {
+  return {
+    type: 'themeCardsList',
+    value: {
+      description: asText(slice.primary.description),
+      conceptIds: slice.primary.concepts_list
+        .map(concept => asText(concept.concept_id))
+        .filter(isNotUndefined),
+    },
+  };
 }
 
 export function transformGifVideoSlice(

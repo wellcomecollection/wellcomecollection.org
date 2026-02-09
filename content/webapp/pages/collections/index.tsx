@@ -6,6 +6,7 @@ import {
   FullWidthBannerSlice as RawFullWidthBannerSlice,
   PagesDocument as RawPagesDocument,
   TextSlice as RawTextSlice,
+  ThemeCardsListSlice as RawThemeCardsListSlice,
 } from '@weco/common/prismicio-types';
 import { PagesDocumentDataBodySlice } from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
@@ -71,6 +72,11 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       .filter(isNotUndefined)
       .filter(isFullWidthBanner);
 
+    const themesCardsListSlices = collectionsPage.untransformedBody.filter(
+      (slice: PagesDocumentDataBodySlice) =>
+        slice.slice_type === 'themeCardsList'
+    ) as RawThemeCardsListSlice[] | undefined;
+
     let newOnlineDocuments: WorkBasic[] = [];
 
     // Find the "New online" text block in Prismic that contains work IDs
@@ -128,6 +134,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         introText: collectionsPage.introText ?? [],
         insideOurCollectionsCards,
         fullWidthBanners,
+        themesCardsListSlices: themesCardsListSlices || [],
         newOnlineDocuments,
         serverData,
       }),
