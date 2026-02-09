@@ -20,23 +20,19 @@ type BrowseByThemeProps = {
   themeCardsListSlices: RawThemeCardsListSlice[];
 };
 
-type ApprovedThemeCategories =
-  | 'People and organisations'
-  | 'Subjects'
-  | 'Places'
-  | 'Types and techniques';
-
-const approvedThemeCategories: ApprovedThemeCategories[] = [
+const ApprovedThemeCategories = [
   'People and organisations',
   'Subjects',
   'Places',
   'Types and techniques',
-];
+] as const;
+export type ApprovedThemeCategoriesType =
+  (typeof ApprovedThemeCategories)[number];
 
 const isApprovedThemeCategory = (
   value: string
-): value is ApprovedThemeCategories =>
-  approvedThemeCategories.includes(value as ApprovedThemeCategories);
+): value is ApprovedThemeCategoriesType =>
+  ApprovedThemeCategories.includes(value as ApprovedThemeCategoriesType);
 
 const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
   gridSizes,
@@ -52,7 +48,7 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
       (
         slice
       ): slice is typeof slice & {
-        value: { title: ApprovedThemeCategories | 'Featured' };
+        value: { title: ApprovedThemeCategoriesType | 'Featured' };
       } => Boolean(slice.value.title)
     );
 
