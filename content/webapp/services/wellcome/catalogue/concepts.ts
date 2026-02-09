@@ -55,11 +55,21 @@ export async function getConcepts(
   return catalogueQuery('concepts', props);
 }
 
+/**
+ * Fetch concepts (topics) from the concepts API
+ * Returns concepts that can be used for browse topics
+ */
 export async function getConceptsByIds(ids: string[]): Promise<Concept[]> {
   if (!ids || ids.length === 0) return [];
 
+  // Filter to valid canonical IDs before querying
+  // Important for editor-configured slice content
+  const validIds = ids.filter(looksLikeCanonicalId);
+
+  if (validIds.length === 0) return [];
+
   const result = await getConcepts({
-    params: { id: ids.join(',') },
+    params: { id: validIds.join(',') },
     toggles: {},
   });
 

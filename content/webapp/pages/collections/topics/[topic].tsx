@@ -18,7 +18,7 @@ import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { ServerSideProps } from '@weco/common/views/pages/_app';
 import { topicDescriptions } from '@weco/content/data/browse/topics';
 import { catalogueQuery } from '@weco/content/services/wellcome/catalogue';
-import { getConceptsByIds } from '@weco/content/services/wellcome/catalogue/browse';
+import { getConceptsByIds } from '@weco/content/services/wellcome/catalogue/concepts';
 import {
   Concept,
   toWorkBasic,

@@ -3,7 +3,7 @@ import { FunctionComponent, useEffect, useState } from 'react';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import { BrowseTopic, randomTopicPool } from '@weco/content/data/browse/topics';
 import { catalogueQuery } from '@weco/content/services/wellcome/catalogue';
-import { getConceptsByIds } from '@weco/content/services/wellcome/catalogue/browse';
+import { getConceptsByIds } from '@weco/content/services/wellcome/catalogue/concepts';
 import {
   Concept,
   Image,
