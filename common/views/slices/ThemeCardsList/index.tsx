@@ -36,8 +36,7 @@ const ThemeCardsListSlice: FunctionComponent<ThemeCardsListSliceProps> = ({
           </ContaineredLayout>
         )}
       >
-        {/* TODO which heading should this be? Should we add options in slice? maybe it's a rich text with the choice. */}
-        {title && <h3 className={font('brand', 1)}>{title}</h3>}
+        {title && <h2 className={font('brand', 1)}>{title}</h2>}
 
         <ThemeCardsList
           conceptIds={conceptIds}
