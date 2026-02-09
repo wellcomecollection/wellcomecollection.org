@@ -15,7 +15,7 @@
     "next": "15.5.10",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "styled-components": "^6.1.11",
+    "styled-components": "^6.3.9",
     "typescript": "^5.9.3"
   }
 }
