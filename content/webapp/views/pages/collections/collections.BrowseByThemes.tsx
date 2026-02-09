@@ -20,6 +20,24 @@ type BrowseByThemeProps = {
   themeCardsListSlices: RawThemeCardsListSlice[];
 };
 
+type ApprovedThemeCategories =
+  | 'People and organisations'
+  | 'Subjects'
+  | 'Places'
+  | 'Types and techniques';
+
+const approvedThemeCategories: ApprovedThemeCategories[] = [
+  'People and organisations',
+  'Subjects',
+  'Places',
+  'Types and techniques',
+];
+
+const isApprovedThemeCategory = (
+  value: string
+): value is ApprovedThemeCategories =>
+  approvedThemeCategories.includes(value as ApprovedThemeCategories);
+
 const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
   gridSizes,
   themeCardsListSlices,
@@ -30,25 +48,31 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
   // as the title is used as the category label
   const transformedThemeCardsListSlices = themeCardsListSlices
     .map(transformThemeCardsList)
-    .filter((slice): slice is typeof slice & { value: { title: string } } =>
-      Boolean(slice.value.title)
+    .filter(
+      (
+        slice
+      ): slice is typeof slice & {
+        value: { title: ApprovedThemeCategories | 'Featured' };
+      } => Boolean(slice.value.title)
     );
 
+  const initialSlice = transformedThemeCardsListSlices[0];
+
   const [conceptIds, setConceptIds] = useState<string[]>(
-    transformedThemeCardsListSlices[0].value.conceptIds || []
+    initialSlice?.value.conceptIds || []
   );
   const [selectedCategoryLabel, setSelectedCategoryLabel] = useState<string>(
-    transformedThemeCardsListSlices[0].value.title || 'Featured'
+    initialSlice?.value.title || 'Featured'
   );
   const [announcement, setAnnouncement] = useState('');
 
   if (transformedThemeCardsListSlices.length === 0) return null;
 
-  const handleCategoryChange = (selectedIds: string[]) => {
-    const selectedCategoryId = selectedIds[0];
+  const handleCategoryChange = (clickedCategory: string[]) => {
     const category = transformedThemeCardsListSlices.find(
-      cat => cat.value.title === selectedCategoryId
+      cat => cat.value.title === clickedCategory[0]
     );
+
     if (category) {
       setSelectedCategoryLabel(category.value.title);
       setConceptIds(category.value.conceptIds);
@@ -109,7 +133,7 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
         onConceptsFetched={handleConceptsFetched}
       />
 
-      {thematicBrowsing && selectedCategoryLabel !== 'Featured' && (
+      {thematicBrowsing && isApprovedThemeCategory(selectedCategoryLabel) && (
         <ContaineredLayout gridSizes={gridSize12()}>
           <Space $v={{ size: 'md', properties: ['margin-top'] }}>
             <MoreLink
