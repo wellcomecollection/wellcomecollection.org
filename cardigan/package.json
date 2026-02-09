@@ -9,11 +9,11 @@
     "chromatic": "chromatic --only-changed"
   },
   "dependencies": {
-    "@faker-js/faker": "^10.1.0",
+    "@faker-js/faker": "^10.3.0",
     "@storybook/addon-a11y": "10.2.0",
     "@storybook/addon-docs": "10.2.0",
     "@storybook/cli": "10.2.0",
-    "chromatic": "^13.3.0",
+    "chromatic": "^15.0.0",
     "next": "15.5.10",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
