@@ -134,7 +134,7 @@ const Body: FunctionComponent<Props> = ({
 }: Props) => {
   const { twoColumns } = useToggles();
   const filteredUntransformedBody = untransformedBody.filter(
-    (slice: PagesDocumentDataBodySlice) => slice.slice_type !== 'standfirst'
+    (slice: prismic.Slice) => slice.slice_type !== 'standfirst'
   );
 
   const firstTextSliceIndex =

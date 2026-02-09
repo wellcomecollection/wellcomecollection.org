@@ -141,8 +141,7 @@ export function transformGenericFieldsFromRelationship(field: {
   const untransformedStandfirst =
     untransformedBody.length > 0
       ? (untransformedBody.find(
-          (slice: PagesDocumentDataBodySlice) =>
-            slice.slice_type === 'standfirst'
+          (slice: prismic.Slice) => slice.slice_type === 'standfirst'
         ) as RawStandfirstSlice | undefined)
       : undefined;
 
@@ -237,7 +236,7 @@ export function transformGenericFields(
 
   const untransformedBody = data?.body || [];
   const untransformedStandfirst = untransformedBody.find(
-    (slice: PagesDocumentDataBodySlice) => slice.slice_type === 'standfirst'
+    (slice: prismic.Slice) => slice.slice_type === 'standfirst'
   ) as RawStandfirstSlice | undefined;
   const metadataDescription = isGenericDocWithMetaDescription(doc)
     ? asText(doc.data.metadataDescription)

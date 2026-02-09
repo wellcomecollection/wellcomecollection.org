@@ -1,8 +1,6 @@
 import { faker } from '@faker-js/faker';
-import * as prismic from '@prismicio/client';
 
 import untransformedBody from '@weco/cardigan/stories/data/untransformed-body';
-import { PagesDocumentDataBodySlice } from '@weco/common/prismicio-types';
 import {
   ArticleBasic,
   Article as TransformedPrismicArticle,
@@ -29,8 +27,7 @@ export const bannerCardItem: Season = {
   type: 'seasons',
   id: 'bannerCardItem',
   uid: 'what-does-it-mean',
-  untransformedBody: [] as prismic.SliceZone<PagesDocumentDataBodySlice>,
-
+  untransformedBody: [],
   labels: [],
   title: 'What does it mean to be human, now?',
   start: new Date('2021-01-05T00:00:00.000Z'),
@@ -99,7 +96,7 @@ export const event: Event = {
   title: 'Event title',
   audiences: [],
   availableOnline: true,
-  untransformedBody: [] as prismic.SliceZone<PagesDocumentDataBodySlice>,
+  untransformedBody: [],
   bookingType: 'First come, first served',
   contributors: [],
   eventbriteId: '',
@@ -140,7 +137,7 @@ export const event: Event = {
     {
       id: 'WoLtUioAACkANrUM',
       title: 'Viewing Room',
-      untransformedBody: [] as prismic.SliceZone<PagesDocumentDataBodySlice>,
+      untransformedBody: [],
       labels: [],
       level: 2,
       capacity: 20,
@@ -396,7 +393,7 @@ export const article: TransformedPrismicArticle = {
           },
         },
       ],
-      untransformedBody: [] as prismic.SliceZone<PagesDocumentDataBodySlice>,
+      untransformedBody: [],
       promo: {
         caption: '',
         image: {
