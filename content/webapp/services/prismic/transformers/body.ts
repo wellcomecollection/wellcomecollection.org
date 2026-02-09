@@ -59,7 +59,6 @@ import {
   TextAndIconsItem,
   TextAndImageItem,
 } from '@weco/content/views/components/TextAndImageOrIcons';
-import { ThemeCardsListProps } from '@weco/content/views/components/ThemeCardsList';
 import { Props as TitledTextListProps } from '@weco/content/views/components/TitledTextList';
 
 import { asRichText, asText, asTitle } from '.';
@@ -218,12 +217,14 @@ export function transformFullWidthBanner(
   }
 }
 
+type ThemeCardsListSliceValue = {
+  title?: string;
+  description?: string;
+  conceptIds: string[];
+};
 export function transformThemeCardsList(
   slice: RawThemeCardsListSlice
-): Slice<
-  'themeCardsList',
-  Omit<ThemeCardsListProps, 'gtmData'> & { title?: string }
-> {
+): Slice<'themeCardsList', ThemeCardsListSliceValue> {
   return {
     type: 'themeCardsList',
     value: {
