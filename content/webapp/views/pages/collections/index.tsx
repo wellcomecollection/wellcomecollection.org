@@ -4,6 +4,7 @@ import { NextPage } from 'next';
 import styled, { useTheme } from 'styled-components';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
+import { ImageType } from '@weco/common/model/image';
 import { useToggles } from '@weco/common/server-data/Context';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
@@ -27,7 +28,6 @@ import CardGrid from '@weco/content/views/components/CardGrid';
 import MoreLink from '@weco/content/views/components/MoreLink';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
 import WorkCards from '@weco/content/views/components/WorkCards';
-import { CollectionsPrismicPageMeta } from '@weco/content/views/layouts/ThematicBrowsingLayout';
 import BrowseByThemes from '@weco/content/views/pages/collections/collections.BrowseByThemes';
 import WorkTypesList from '@weco/content/views/pages/collections/collections.WorkTypesList';
 import { themeBlockCategories } from '@weco/content/views/pages/collections/themeBlockCategories';
@@ -55,6 +55,12 @@ const DecorativeEdgeContainer = styled(Space).attrs({
   margin-left: -${props => props.theme.containerPadding};
 `;
 
+type CollectionsPrismicPageMeta = {
+  prismicId: string;
+  image?: ImageType;
+  description?: string;
+  urlPathname?: string;
+};
 export type Props = {
   pageMeta: CollectionsPrismicPageMeta;
   title: string;

@@ -1,20 +1,18 @@
-import * as prismic from '@prismicio/client';
 import { NextPage } from 'next';
 import { ReactElement } from 'react';
 
-import { pageDescriptions } from '@weco/common/data/microcopy';
-import { gridSize12 } from '@weco/common/views/components/Layout';
+import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import {
+  ContaineredLayout,
+  gridSize12,
+} from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import { Page } from '@weco/content/types/pages';
 import Body from '@weco/content/views/components/Body';
-import { CollectionsPrismicPageMeta } from '@weco/content/views/layouts/ThematicBrowsingLayout';
 import ThematicBrowsingLayout from '@weco/content/views/layouts/ThematicBrowsingLayout';
 
 export type Props = {
   thematicBrowsingPage: Page;
-  title: string;
-  introText: prismic.RichTextField; // TODO?
-  pageMeta: CollectionsPrismicPageMeta;
 };
 
 const CollectionsSubjectsPage: NextPage<Props> & {
@@ -28,23 +26,25 @@ const CollectionsSubjectsPage: NextPage<Props> & {
         pageUid={thematicBrowsingPage.uid}
         gridSizes={gridSize12()}
       />
-      <ul>
-        <li>
-          <a href="/collections/subjects/military-and-war">Military and war</a>
-        </li>
-      </ul>
+      <ContaineredLayout gridSizes={gridSize12()}>
+        <ul>
+          <li>
+            <a href="/collections/subjects/military-and-war">
+              Military and war
+            </a>
+          </li>
+        </ul>
+      </ContaineredLayout>
     </Space>
   );
 };
 
 CollectionsSubjectsPage.getLayout = page => {
-  const { pageMeta, title } = page.props;
-
   return (
     <ThematicBrowsingLayout
-      title={title}
-      description={pageMeta.description || pageDescriptions.collections.index}
-      pageMeta={pageMeta}
+      page={page.props.thematicBrowsingPage}
+      apiToolbarLinks={[createPrismicLink(page.props.thematicBrowsingPage.id)]}
+      currentCategory="subjects"
     >
       {page}
     </ThematicBrowsingLayout>

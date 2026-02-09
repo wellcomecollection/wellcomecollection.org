@@ -1,4 +1,3 @@
-// TODO move thematic browsing pages here and use a different rendering if it's them?
 import { NextPage } from 'next';
 
 import { looksLikePrismicId } from '@weco/common/services/prismic';

@@ -39,14 +39,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     return {
       props: serialiseProps<Props>({
         serverData,
-        pageMeta: {
-          prismicId: pageDoc.id,
-          image: pageDoc.promo?.image,
-          description: pageDoc.promo?.caption,
-          urlPathname: '/types-and-techniques',
-        },
-        title: pageDoc.title,
-        introText: pageDoc.introText ?? [],
         thematicBrowsingPage: pageDoc,
       }),
     };
