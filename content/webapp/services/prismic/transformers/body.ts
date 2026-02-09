@@ -220,10 +220,14 @@ export function transformFullWidthBanner(
 
 export function transformThemeCardsList(
   slice: RawThemeCardsListSlice
-): Slice<'themeCardsList', Omit<ThemeCardsListProps, 'gtmData'>> {
+): Slice<
+  'themeCardsList',
+  Omit<ThemeCardsListProps, 'gtmData'> & { title?: string }
+> {
   return {
     type: 'themeCardsList',
     value: {
+      title: asText(slice.primary.title),
       description: asText(slice.primary.description),
       conceptIds: slice.primary.concepts_list
         .map(concept => asText(concept.concept_id))

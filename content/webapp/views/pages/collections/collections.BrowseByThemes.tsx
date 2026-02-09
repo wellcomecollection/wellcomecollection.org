@@ -1,8 +1,9 @@
 import { FunctionComponent, useState } from 'react';
 
+import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { ThemeCardsListSlice as RawThemeCardsListSlice } from '@weco/common/prismicio-types';
 import { useToggles } from '@weco/common/server-data/Context';
-import { pluralize } from '@weco/common/utils/grammar';
+import { dasherize, pluralize } from '@weco/common/utils/grammar';
 import {
   ContaineredLayout,
   gridSize12,
@@ -14,40 +15,43 @@ import MoreLink from '@weco/content/views/components/MoreLink';
 import SelectableTags from '@weco/content/views/components/SelectableTags';
 import ThemeCardsList from '@weco/content/views/components/ThemeCardsList';
 
-import type { ThemeConfig } from './themeBlockCategories';
-
 type BrowseByThemeProps = {
-  themeConfig: ThemeConfig;
   gridSizes: SizeMap;
-  themesCardsListSlices: RawThemeCardsListSlice[];
+  themeCardsListSlices: RawThemeCardsListSlice[];
 };
 
 const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
-  themeConfig,
   gridSizes,
-  themesCardsListSlices,
+  themeCardsListSlices,
 }) => {
   const { thematicBrowsing } = useToggles();
-  const transformedThemeCardsListSlices = themesCardsListSlices.map(
-    transformThemeCardsList
-  );
+
+  // Transform slices but ensure we only keep those with a title
+  // as the title is used as the category label
+  const transformedThemeCardsListSlices = themeCardsListSlices
+    .map(transformThemeCardsList)
+    .filter((slice): slice is typeof slice & { value: { title: string } } =>
+      Boolean(slice.value.title)
+    );
 
   const [conceptIds, setConceptIds] = useState<string[]>(
-    transformedThemeCardsListSlices?.[0]?.value.conceptIds || []
+    transformedThemeCardsListSlices[0].value.conceptIds || []
   );
   const [selectedCategoryLabel, setSelectedCategoryLabel] = useState<string>(
-    themeConfig.categories[0]?.label || ''
+    transformedThemeCardsListSlices[0].value.title || 'Featured'
   );
   const [announcement, setAnnouncement] = useState('');
 
+  if (transformedThemeCardsListSlices.length === 0) return null;
+
   const handleCategoryChange = (selectedIds: string[]) => {
     const selectedCategoryId = selectedIds[0];
-    const category = themeConfig.categories.find(
-      cat => cat.label === selectedCategoryId
+    const category = transformedThemeCardsListSlices.find(
+      cat => cat.value.title === selectedCategoryId
     );
     if (category) {
-      setSelectedCategoryLabel(category.label);
-      setConceptIds(category.concepts);
+      setSelectedCategoryLabel(category.value.title);
+      setConceptIds(category.value.conceptIds);
     }
   };
 
@@ -57,22 +61,19 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
     );
   };
 
-  const tagData = themeConfig.categories.map(category => ({
-    id: category.label,
-    label: category.label,
+  const tagData = transformedThemeCardsListSlices.map(category => ({
+    id: category.value.title,
+    label: category.value.title,
     gtmData: {
       trigger: 'selectable_tag',
-      label: category.label,
+      label: category.value.title,
     },
   }));
 
   const selectedCategoryPosition =
-    themeConfig.categories.findIndex(
-      cat => cat.label === selectedCategoryLabel
+    transformedThemeCardsListSlices.findIndex(
+      cat => cat.value.title === selectedCategoryLabel
     ) + 1;
-  const selectedCategoryUrl = themeConfig.categories.find(
-    cat => cat.label === selectedCategoryLabel
-  )?.url;
 
   return (
     <Space
@@ -108,12 +109,12 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
         onConceptsFetched={handleConceptsFetched}
       />
 
-      {thematicBrowsing && selectedCategoryUrl && (
+      {thematicBrowsing && selectedCategoryLabel !== 'Featured' && (
         <ContaineredLayout gridSizes={gridSize12()}>
           <Space $v={{ size: 'md', properties: ['margin-top'] }}>
             <MoreLink
               name={`Browse more ${selectedCategoryLabel.toLowerCase()}`}
-              url={selectedCategoryUrl}
+              url={`${prismicPageIds.collections}/${dasherize(selectedCategoryLabel)}`}
             />
           </Space>
         </ContaineredLayout>

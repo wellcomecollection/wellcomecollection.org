@@ -31,7 +31,6 @@ import WorkCards from '@weco/content/views/components/WorkCards';
 import { CollectionsPrismicPageMeta } from '@weco/content/views/layouts/ThematicBrowsingLayout';
 import BrowseByThemes from '@weco/content/views/pages/collections/collections.BrowseByThemes';
 import WorkTypesList from '@weco/content/views/pages/collections/collections.WorkTypesList';
-import { themeBlockCategories } from '@weco/content/views/pages/collections/themeBlockCategories';
 
 const MainBackground = styled.div<{ $isDefaultVariant: boolean }>`
   position: relative;
@@ -61,7 +60,7 @@ export type Props = {
   title: string;
   introText: prismic.RichTextField;
   insideOurCollectionsCards: MultiContent[];
-  themesCardsListSlices: RawThemeCardsListSlice[];
+  themeCardsListSlices: RawThemeCardsListSlice[];
   fullWidthBanners?: RawFullWidthBannerSlice[];
   newOnlineDocuments: WorkBasic[];
 };
@@ -71,7 +70,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
   title,
   introText,
   insideOurCollectionsCards,
-  themesCardsListSlices,
+  themeCardsListSlices,
   fullWidthBanners,
   newOnlineDocuments,
 }) => {
@@ -116,7 +115,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
         </ContaineredLayout>
       </div>
 
-      {themesCardsListSlices.length > 0 && (
+      {themeCardsListSlices.length > 0 && (
         <MainBackground
           data-component="full-width-banner"
           $isDefaultVariant={true}
@@ -126,9 +125,8 @@ const CollectionsLandingPage: NextPage<Props> = ({
               <SectionHeader title="Browse by theme" gridSize={gridSize12()} />
             </Space>
             <BrowseByThemes
-              themeConfig={themeBlockCategories}
               gridSizes={gridSize12()}
-              themeCardsListSlices={themesCardsListSlices}
+              themeCardsListSlices={themeCardsListSlices}
             />
           </Space>
         </MainBackground>

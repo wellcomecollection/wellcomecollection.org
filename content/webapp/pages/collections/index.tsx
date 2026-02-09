@@ -3,6 +3,7 @@ import { NextPage } from 'next';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import {
+  PagesDocumentDataBodySlice,
   FullWidthBannerSlice as RawFullWidthBannerSlice,
   PagesDocument as RawPagesDocument,
   TextSlice as RawTextSlice,
@@ -70,7 +71,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       .filter(isNotUndefined)
       .filter(isFullWidthBanner);
 
-    const themesCardsListSlices = collectionsPage.untransformedBody.filter(
+    const themeCardsListSlices = collectionsPage.untransformedBody.filter(
       (slice: PagesDocumentDataBodySlice) =>
         slice.slice_type === 'themeCardsList'
     ) as RawThemeCardsListSlice[] | undefined;
@@ -132,7 +133,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         introText: collectionsPage.introText ?? [],
         insideOurCollectionsCards,
         fullWidthBanners,
-        themesCardsListSlices: themesCardsListSlices || [],
+        themeCardsListSlices: themeCardsListSlices || [],
         newOnlineDocuments,
         serverData,
       }),
