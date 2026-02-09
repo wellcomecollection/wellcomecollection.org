@@ -99,7 +99,7 @@ const Theme: FunctionComponent<{
   ) : null;
 };
 
-export type ThemeCardsListProps = {
+type ThemeCardsListProps = {
   conceptIds: string[];
   description?: string;
   gtmData: {
