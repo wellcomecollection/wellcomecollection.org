@@ -1,18 +1,15 @@
 import * as prismic from '@prismicio/client';
 
 import {
-  EventPoliciesDocument as RawEventPoliciesDocument,
   EventsDocument as RawEventsDocument,
   EventsDocumentData as RawEventsDocumentData,
   EventSeriesDocument as RawEventSeriesDocument,
-  PlacesDocument as RawPlacesDocument,
-  SeasonsDocument as RawSeasonsDocument,
   TeamsDocument as RawTeamsDocument,
 } from '@weco/common/prismicio-types';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 import {
-  InferDataInterface,
   isFilledLinkToDocumentWithData,
+  isFilledLinkToDocumentWithTypedData,
   isFilledLinkToWebField,
 } from '@weco/common/services/prismic/types';
 import {
@@ -52,8 +49,8 @@ import {
   transformEventSeriesToEventSeriesBasic,
 } from './event-series';
 import { noAltTextBecausePromo } from './images';
-import { transformPlace } from './places';
-import { transformSeason } from './seasons';
+import { transformPlacesFromRelationshipGroup } from './places';
+import { transformSeasonsFromRelationshipGroup } from './seasons';
 
 function transformEventBookingType(
   eventDoc: RawEventsDocument
@@ -82,22 +79,18 @@ export function getFirstStartTime(times: EventTime[]): Date | undefined {
     : undefined;
 }
 
+// The new @prismicio packages (v2/v3) use broader generic types:
+// `string` instead of specific locales like 'en-gb', and `unknown` for data fields.
+// This function accepts the generic GroupField type that Prismic now provides.
 export function transformEventPolicyLabels(
-  fragment: prismic.GroupField<{
-    policy: prismic.ContentRelationshipField<
-      'event-policy',
-      'en-gb',
-      InferDataInterface<RawEventPoliciesDocument>
-    >;
-  }>,
-  labelKey: string
+  fragment:
+    | RawEventsDocumentData['policies']
+    | RawEventsDocumentData['onlinePolicies']
 ): LabelField[] {
   return fragment
-    .map(label => label[labelKey])
-    .filter(Boolean)
-    .filter(label => label.isBroken === false)
-    .filter(label => isFilledLinkToDocumentWithData(label))
-    .map(label => transformLabelType(label));
+    .map(item => item.policy)
+    .filter(isFilledLinkToDocumentWithData)
+    .map(transformLabelType);
 }
 
 export function getEventbriteId(url: string): string | undefined {
@@ -115,18 +108,14 @@ export function getEventbriteId(url: string): string | undefined {
 }
 
 function transformBookingEnquiryTeam(
-  team: prismic.ContentRelationshipField<
-    'teams',
-    'en-gb',
-    InferDataInterface<RawTeamsDocument>
-  >
+  team: RawEventsDocumentData['bookingEnquiryTeam']
 ): Team | undefined {
-  return isFilledLinkToDocumentWithData(team)
+  return isFilledLinkToDocumentWithTypedData<RawTeamsDocument>(team)
     ? {
         id: team.id,
-        title: asText(team.data?.title) || '',
-        email: team.data!.email!,
-        phone: team.data!.phone!,
+        title: asText(team.data.title) || '',
+        email: team.data.email!,
+        phone: team.data.phone!,
       }
     : undefined;
 }
@@ -253,8 +242,8 @@ export function transformEvent(
     .map(series => transformEventSeries(series as RawEventSeriesDocument))
     .map(transformEventSeriesToEventSeriesBasic);
 
-  const seasons = transformSingleLevelGroup(data.seasons, 'season').map(
-    season => transformSeason(season as RawSeasonsDocument)
+  const seasons = transformSeasonsFromRelationshipGroup(
+    transformSingleLevelGroup(data.seasons, 'season')
   );
 
   const times: EventTime[] = transformEventTimes(document.id, data.times || []);
@@ -270,8 +259,8 @@ export function transformEvent(
     };
   });
 
-  const locations = transformSingleLevelGroup(data.locations, 'location').map(
-    location => transformPlace(location as RawPlacesDocument)
+  const locations = transformPlacesFromRelationshipGroup(
+    transformSingleLevelGroup(data.locations, 'location')
   );
 
   const contributors = transformContributors(document);
@@ -331,7 +320,7 @@ export function transformEvent(
     format,
     interpretations,
     policies: Array.isArray(data.policies)
-      ? transformEventPolicyLabels(data.policies, 'policy')
+      ? transformEventPolicyLabels(data.policies)
       : [],
     hasEarlyRegistration: data.hasEarlyRegistration === 'yes',
     series,
@@ -381,7 +370,7 @@ export function transformEvent(
         ? data.onlineBookingInformation
         : undefined,
     onlinePolicies: Array.isArray(data.onlinePolicies)
-      ? transformEventPolicyLabels(data.onlinePolicies, 'policy')
+      ? transformEventPolicyLabels(data.onlinePolicies)
       : [],
     onlineHasEarlyRegistration: Boolean(data.hasEarlyRegistration),
     onlineCost: data.onlineCost || undefined,

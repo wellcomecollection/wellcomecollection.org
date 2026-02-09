@@ -1,12 +1,13 @@
+import * as prismic from '@prismicio/client';
 import flattenDeep from 'lodash.flattendeep';
 
 import { SiteSection } from '@weco/common/model/site-section';
 import {
   PagesDocument as RawPagesDocument,
   PagesDocumentData as RawPagesDocumentData,
-  SeasonsDocument as RawSeasonsDocument,
 } from '@weco/common/prismicio-types';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
+import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
 import { dasherize } from '@weco/common/utils/grammar';
 import { isNotUndefined, isUndefined } from '@weco/common/utils/type-guards';
 import { links as headerLinks } from '@weco/common/views/components/Header';
@@ -20,7 +21,7 @@ import {
   transformSingleLevelGroup,
 } from '.';
 import { transformContributors } from './contributors';
-import { transformSeason } from './seasons';
+import { transformSeasonsFromRelationshipGroup } from './seasons';
 
 export function transformOnThisPage(
   body: RawPagesDocumentData['body']
@@ -41,20 +42,28 @@ export function transformPage(document: RawPagesDocument): Page {
   const { data } = document;
   const genericFields = transformGenericFields(document);
   const seasons = data?.seasons
-    ? transformSingleLevelGroup(data.seasons, 'season').map(season =>
-        transformSeason(season as RawSeasonsDocument)
+    ? transformSeasonsFromRelationshipGroup(
+        transformSingleLevelGroup(data.seasons, 'season')
       )
     : [];
   const parentPages = data?.parents
-    ? transformSingleLevelGroup(data.parents, 'parent').map((parent, index) => {
-        return {
-          ...transformPage(parent as RawPagesDocument),
-          order: data.parents[index].order!,
-          type: parent.type,
-          tags: parent.tags,
-          siteSection: parent.siteSection,
-        };
-      })
+    ? data.parents
+        .map(parentItem => {
+          const parent = parentItem.parent as unknown;
+
+          return isFilledLinkToDocumentWithData(
+            parent as prismic.ContentRelationshipField
+          ) &&
+            (parent as prismic.FilledContentRelationshipField).type === 'pages'
+            ? {
+                ...transformPage(parent as unknown as RawPagesDocument),
+                order: parentItem.order!,
+                type: 'pages' as const,
+                tags: (parent as prismic.FilledContentRelationshipField).tags,
+              }
+            : undefined;
+        })
+        .filter(isNotUndefined)
     : [];
 
   const introText = data?.introText;

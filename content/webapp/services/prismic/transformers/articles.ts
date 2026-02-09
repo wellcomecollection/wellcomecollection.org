@@ -3,7 +3,6 @@ import * as prismic from '@prismicio/client';
 import { Label } from '@weco/common/model/labels';
 import {
   ArticlesDocument as RawArticlesDocument,
-  SeasonsDocument as RawSeasonsDocument,
   SeriesDocument as RawSeriesDocument,
   WebcomicsDocument as RawWebcomicsDocument,
 } from '@weco/common/prismicio-types';
@@ -26,7 +25,7 @@ import {
 } from '.';
 import { transformContributors } from './contributors';
 import { noAltTextBecausePromo } from './images';
-import { transformSeason } from './seasons';
+import { transformSeasonsFromRelationshipGroup } from './seasons';
 import { transformSeries, transformSeriesToSeriesBasic } from './series';
 
 export function transformArticleToArticleBasic(article: Article): ArticleBasic {
@@ -139,8 +138,8 @@ export function transformArticle(
       : undefined,
     datePublished: new Date(datePublished),
     seasons: isArticle(document)
-      ? transformSingleLevelGroup(document.data.seasons, 'season').map(season =>
-          transformSeason(season as RawSeasonsDocument)
+      ? transformSeasonsFromRelationshipGroup(
+          transformSingleLevelGroup(document.data.seasons, 'season')
         )
       : [],
     exploreMoreDocument,

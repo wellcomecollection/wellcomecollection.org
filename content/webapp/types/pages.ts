@@ -8,22 +8,26 @@ import { GenericContentFields } from './generic-content-fields';
 import { Link } from './link';
 import { Season } from './seasons';
 
-export type ParentPage = Page & {
-  order: number;
-  type: 'pages' | 'exhibitions';
-  tags?: string[];
-};
-
-export type Page = GenericContentFields & {
-  type: 'pages';
+export type BasePage = GenericContentFields & {
   introText?: prismic.RichTextField;
   uid: string;
   format: Format | undefined;
   seasons: Season[];
-  parentPages: ParentPage[];
   onThisPage: Link[];
   datePublished?: Date;
   siteSection?: SiteSection;
   showOnThisPage: boolean;
   contributors: Contributor[];
+};
+
+export type ParentPage = BasePage & {
+  type: 'pages' | 'exhibitions';
+  parentPages: ParentPage[];
+  order: number;
+  tags?: string[];
+};
+
+export type Page = BasePage & {
+  type: 'pages';
+  parentPages: ParentPage[];
 };
