@@ -2,7 +2,6 @@ import * as prismic from '@prismicio/client';
 
 import { ImageType } from '@weco/common/model/image';
 import {
-  PagesDocumentDataBodySlice,
   EditorialImageSlice as RawEditorialImageSlice,
   SeriesDocument as RawSeriesDocument,
   StandfirstSlice as RawStandfirstSlice,
@@ -67,7 +66,7 @@ export function transformWebcomicSeries(
     schedule: [],
     seasons: [],
     items: [],
-    untransformedBody: [] as prismic.SliceZone<PagesDocumentDataBodySlice>,
+    untransformedBody: [],
   };
 }
 
@@ -76,7 +75,7 @@ export function transformSeries(document: RawSeriesDocument): Series {
   const genericFields = transformGenericFields(document);
   const untransformedBody = data.body || [];
   const untransformedStandfirst = untransformedBody.find(
-    (slice: PagesDocumentDataBodySlice) => slice.slice_type === 'standfirst'
+    (slice: prismic.Slice) => slice.slice_type === 'standfirst'
   ) as RawStandfirstSlice | undefined;
   const color = getSeriesColor(data.color || undefined);
   const schedule: ArticleScheduleItem[] = data.schedule

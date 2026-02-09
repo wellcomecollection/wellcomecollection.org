@@ -52,7 +52,7 @@ const baseEvent: Event = {
     title: 'Gallery tour',
     description: undefined,
   },
-  untransformedBody: [] as prismic.SliceZone<PagesDocumentDataBodySlice>,
+  untransformedBody: [],
   image,
   hasEarlyRegistration: false,
   labels: [

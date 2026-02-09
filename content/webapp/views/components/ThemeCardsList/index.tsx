@@ -155,10 +155,8 @@ const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
       <ScrollContainer
         gridSizes={gridSizes}
         containerRef={scrollContainerRef}
+        description={description}
         useShim
-        {...(description && {
-          description: description,
-        })}
       >
         {concepts.map((concept, i) => (
           <ListItem key={concept.id}>

@@ -1,9 +1,7 @@
-import * as prismic from '@prismicio/client';
 import { Meta, StoryObj } from '@storybook/react';
 
 import { imagesBaseUrl } from '@weco/cardigan/stories/data/images';
 import { ImageType } from '@weco/common/model/image';
-import { PagesDocumentDataBodySlice } from '@weco/common/prismicio-types';
 import { Season } from '@weco/content/types/seasons';
 import SeasonsHeader from '@weco/content/views/pages/seasons/season/season.Header';
 
@@ -51,7 +49,7 @@ const season: Season = {
       '32:15': image,
     },
   },
-  untransformedBody: [] as prismic.SliceZone<PagesDocumentDataBodySlice>,
+  untransformedBody: [],
   type: 'seasons',
 };
 
