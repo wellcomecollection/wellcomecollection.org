@@ -46,6 +46,7 @@ const ThemeCardsListSlice: FunctionComponent<ThemeCardsListSliceProps> = ({
           'category-label': asText(slice.primary.title) || '',
           'category-position-in-list': '1', // Should always be single category
         }}
+        gridSizes={context.gridSizes}
       />
     </SpacingComponent>
   );

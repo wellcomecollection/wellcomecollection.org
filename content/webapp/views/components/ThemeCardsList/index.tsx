@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { DataGtmProps } from '@weco/common/utils/gtm';
 import { gridSize12 } from '@weco/common/views/components/Layout';
 import { SizeMap } from '@weco/common/views/components/styled/Grid';
+import LL from '@weco/common/views/components/styled/LL';
 import ThemeCard from '@weco/common/views/components/ThemeCard';
 import { useConceptImageUrls } from '@weco/content/hooks/useConceptImageUrls';
 import { getConceptsByIds } from '@weco/content/services/wellcome/catalogue/concepts';
@@ -119,10 +120,12 @@ const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
 }) => {
   const scrollContainerRef = useRef<HTMLUListElement>(null);
   const [concepts, setConcepts] = useState<Concept[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       if (conceptIds.length > 0) {
+        setIsLoading(true);
         try {
           const result = await getConceptsByIds(conceptIds);
           setConcepts(result);
@@ -131,15 +134,18 @@ const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
           console.error('Failed to fetch concepts:', error);
           setConcepts([]);
           onConceptsFetched?.({ count: 0 });
+        } finally {
+          setIsLoading(false);
         }
       } else {
         setConcepts([]);
         onConceptsFetched?.({ count: 0 });
+        setIsLoading(false);
       }
     };
 
     fetchData();
-  }, [conceptIds, onConceptsFetched]);
+  }, [conceptIds]);
 
   // Reset scroll position when concept IDs change
   useEffect(() => {
@@ -148,7 +154,7 @@ const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
     }
   }, [conceptIds]);
 
-  if (concepts.length === 0) return null;
+  if (!isLoading && concepts.length === 0) return null;
 
   return (
     <div data-component="theme-cards-list">
@@ -158,14 +164,22 @@ const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
         description={description}
         useShim
       >
-        {concepts.map((concept, i) => (
-          <ListItem key={concept.id}>
-            <Theme
-              concept={concept}
-              gtmData={{ ...gtmData, 'position-in-list': `${i + 1}` }}
-            />
-          </ListItem>
-        ))}
+        {isLoading ? (
+          <div style={{ position: 'relative', height: '400px' }}>
+            <LL />
+          </div>
+        ) : (
+          <>
+            {concepts.map((concept, i) => (
+              <ListItem key={concept.id}>
+                <Theme
+                  concept={concept}
+                  gtmData={{ ...gtmData, 'position-in-list': `${i + 1}` }}
+                />
+              </ListItem>
+            ))}
+          </>
+        )}
       </ScrollContainer>
     </div>
   );
