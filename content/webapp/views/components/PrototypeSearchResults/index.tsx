@@ -17,8 +17,8 @@ const PROTOTYPE_PAGE_SIZE = 25;
 
 type Props = {
   works: WellcomeResultList<WorkBasic, WorkAggregations>;
-  concepts: CatalogueResultsList<Concept> | null | undefined;
-  images: CatalogueResultsList<Image> | null | undefined;
+  works2: CatalogueResultsList<Concept> | null | undefined; // TODO this is temorary until we switch to semantic search APIs, when this will become a different set of works results
+  works3: CatalogueResultsList<Image> | null | undefined; // TODO this is temorary until we switch to semantic search APIs, when this will become a different set of works results
   currentPage: number;
 };
 
@@ -91,8 +91,8 @@ const ResultCell = styled.div`
 
 const PrototypeSearchResults: FunctionComponent<Props> = ({
   works,
-  concepts,
-  images,
+  works2,
+  works3,
   currentPage,
 }) => {
   const calculateResultPosition = (index: number) =>
@@ -105,11 +105,11 @@ const PrototypeSearchResults: FunctionComponent<Props> = ({
         {works.totalResults > 0 && (
           <ColumnHeader>Alternative 1 ({works.totalResults})</ColumnHeader>
         )}
-        {concepts && concepts.totalResults > 0 && (
-          <ColumnHeader>Alternative 2 ({concepts.totalResults})</ColumnHeader>
+        {works2 && works2.totalResults > 0 && (
+          <ColumnHeader>Alternative 2 ({works2.totalResults})</ColumnHeader>
         )}
-        {images && images.totalResults > 0 && (
-          <ColumnHeader>Alternative 3 ({images.totalResults})</ColumnHeader>
+        {works3 && works3.totalResults > 0 && (
+          <ColumnHeader>Alternative 3 ({works3.totalResults})</ColumnHeader>
         )}
       </HeaderStack>
 
@@ -117,8 +117,8 @@ const PrototypeSearchResults: FunctionComponent<Props> = ({
         {Array.from({
           length: Math.max(
             works.results.length,
-            concepts?.results.length || 0,
-            images?.results.length || 0
+            works2?.results.length || 0,
+            works3?.results.length || 0
           ),
         }).map((_, i) => (
           <ResultRow key={i} $isAlternating={i % 2 === 1}>
@@ -133,13 +133,13 @@ const PrototypeSearchResults: FunctionComponent<Props> = ({
                 )}
               </ResultCell>
             )}
-            {concepts && concepts.totalResults > 0 && (
+            {works2 && works2.totalResults > 0 && (
               <ResultCell>
-                {concepts.results[i] && (
+                {works2.results[i] && (
                   <WorksSearchResult
                     work={{
-                      id: concepts.results[i].id,
-                      title: concepts.results[i].label,
+                      id: works2.results[i].id,
+                      title: works2.results[i].label,
                       languageId: undefined,
                       thumbnail: undefined,
                       referenceNumber: undefined,
@@ -154,15 +154,15 @@ const PrototypeSearchResults: FunctionComponent<Props> = ({
                 )}
               </ResultCell>
             )}
-            {images && images.totalResults > 0 && (
+            {works3 && works3.totalResults > 0 && (
               <ResultCell>
-                {images.results[i] && (
+                {works3.results[i] && (
                   <WorksSearchResult
                     work={{
-                      id: images.results[i].id,
-                      title: images.results[i].source.title,
+                      id: works3.results[i].id,
+                      title: works3.results[i].source.title,
                       languageId: undefined,
-                      thumbnail: images.results[i].thumbnail,
+                      thumbnail: works3.results[i].thumbnail,
                       referenceNumber: undefined,
                       productionDates: [],
                       archiveLabels: undefined,
