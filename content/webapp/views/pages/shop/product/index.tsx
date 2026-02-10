@@ -194,9 +194,11 @@ const ShopProductPage: NextPage<Props> = ({ product }) => {
               />
             ) : (
               <UnavailableMessage>
-                {selectedVariant && !selectedVariant.availableForSale
+                {selectedVariant &&
+                !selectedVariant.availableForSale &&
+                hasMultipleVariants(product.variants)
                   ? 'This variant is currently unavailable.'
-                  : 'This product is currently unavailable.'}
+                  : 'This product is out of stock.'}
               </UnavailableMessage>
             )}
           </Space>
