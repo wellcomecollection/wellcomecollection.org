@@ -13,6 +13,9 @@ import PaginationWrapper from '@weco/common/views/components/styled/PaginationWr
 import Space from '@weco/common/views/components/styled/Space';
 import { WellcomeResultList } from '@weco/content/services/wellcome';
 import {
+  CatalogueResultsList,
+  Concept,
+  Image,
   WorkAggregations,
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
@@ -32,6 +35,8 @@ import SearchNoResults from '@weco/content/views/pages/search/search.NoResults';
 
 export type Props = {
   works: WellcomeResultList<WorkBasic, WorkAggregations>;
+  works2?: CatalogueResultsList<Concept> | null; // TODO this is temorary until we switch to semantic search APIs, when this will become a different set of works results
+  works3?: CatalogueResultsList<Image> | null; // TODO this is temorary until we switch to semantic search APIs, when this will become a different set of works results
   worksRouteProps: WorksRouteProps;
   query: Query;
   apiToolbarLinks: ApiToolbarLink[];
@@ -44,7 +49,7 @@ const SortPaginationWrapper = styled.div`
 `;
 
 const WorksSearchPage: NextPage<Props> = withSearchLayout(
-  ({ works, worksRouteProps, query }) => {
+  ({ works, works2, works3, worksRouteProps, query }) => {
     const { query: queryString } = query;
 
     const { setLink } = useSearchContext();
@@ -55,7 +60,11 @@ const WorksSearchPage: NextPage<Props> = withSearchLayout(
 
     const filters = worksFilters({ works, props: worksRouteProps });
 
-    const hasNoResults = works.totalResults === 0;
+    const hasNoResults = semanticSearchPrototype
+      ? works.totalResults === 0 &&
+        (!works2 || works2.totalResults === 0) &&
+        (!works3 || works3.totalResults === 0)
+      : works.totalResults === 0;
     const hasActiveFilters = hasFilters({
       filters: [
         ...filters.map(f => f.id),
