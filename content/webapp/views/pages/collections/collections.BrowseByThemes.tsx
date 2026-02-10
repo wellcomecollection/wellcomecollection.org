@@ -30,9 +30,29 @@ export type ApprovedThemeCategoriesType =
   (typeof ApprovedThemeCategories)[number];
 
 const isApprovedThemeCategory = (
-  value: string
+  value?: string
 ): value is ApprovedThemeCategoriesType =>
+  value !== undefined &&
   ApprovedThemeCategories.includes(value as ApprovedThemeCategoriesType);
+
+// Check if a transformed slice is valid with an approved title and concept IDs
+const isValidThemeCardSlice = (
+  slice: ReturnType<typeof transformThemeCardsList>
+): slice is ReturnType<typeof transformThemeCardsList> & {
+  value: { title: ApprovedThemeCategoriesType | 'Featured' };
+} =>
+  (isApprovedThemeCategory(slice.value.title) ||
+    slice.value.title === 'Featured') &&
+  Array.isArray(slice.value.conceptIds) &&
+  slice.value.conceptIds.length > 0;
+
+// Check if there are any valid theme cards list slices
+// with approved titles and concept IDs
+export function hasValidThemeCardSlices(
+  slices: RawThemeCardsListSlice[]
+): boolean {
+  return slices.map(transformThemeCardsList).some(isValidThemeCardSlice);
+}
 
 const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
   gridSizes,
@@ -40,17 +60,10 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
 }) => {
   const { thematicBrowsing } = useToggles();
 
-  // Transform slices but ensure we only keep those with a title
-  // as the title is used as the category label
+  // Transform slices but ensure we only keep valid ones (approved title + concept IDs)
   const transformedThemeCardsListSlices = themeCardsListSlices
     .map(transformThemeCardsList)
-    .filter(
-      (
-        slice
-      ): slice is typeof slice & {
-        value: { title: ApprovedThemeCategoriesType | 'Featured' };
-      } => Boolean(slice.value.title)
-    );
+    .filter(isValidThemeCardSlice);
 
   const initialSlice = transformedThemeCardsListSlices[0];
 

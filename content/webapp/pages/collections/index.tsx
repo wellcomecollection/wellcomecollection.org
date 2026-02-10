@@ -74,7 +74,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     const themeCardsListSlices = collectionsPage.untransformedBody.filter(
       (slice: PagesDocumentDataBodySlice) =>
         slice.slice_type === 'themeCardsList'
-    ) as RawThemeCardsListSlice[] | undefined;
+    ) as RawThemeCardsListSlice[];
 
     let newOnlineDocuments: WorkBasic[] = [];
 

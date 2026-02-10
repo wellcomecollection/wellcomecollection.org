@@ -29,7 +29,9 @@ import MoreLink from '@weco/content/views/components/MoreLink';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
 import WorkCards from '@weco/content/views/components/WorkCards';
 import { CollectionsPrismicPageMeta } from '@weco/content/views/layouts/ThematicBrowsingLayout';
-import BrowseByThemes from '@weco/content/views/pages/collections/collections.BrowseByThemes';
+import BrowseByThemes, {
+  hasValidThemeCardSlices,
+} from '@weco/content/views/pages/collections/collections.BrowseByThemes';
 import WorkTypesList from '@weco/content/views/pages/collections/collections.WorkTypesList';
 
 const MainBackground = styled.div<{ $isDefaultVariant: boolean }>`
@@ -115,7 +117,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
         </ContaineredLayout>
       </div>
 
-      {themeCardsListSlices.length > 0 && (
+      {hasValidThemeCardSlices(themeCardsListSlices) && (
         <MainBackground
           data-component="full-width-banner"
           $isDefaultVariant={true}
