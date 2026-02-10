@@ -9,6 +9,9 @@
     },
     {
       "path": "./common"
+    },
+    {
+      "path": "./deploy"
     }
   ]
 }
