@@ -52,14 +52,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     return {
       props: serialiseProps<Props>({
         serverData,
-        pageMeta: {
-          prismicId: wellcomeSubThemePage.id,
-          image: wellcomeSubThemePage.promo?.image,
-          description: wellcomeSubThemePage.promo?.caption,
-          urlPathname: `/subjects/${pageUid}`,
-        },
-        title: wellcomeSubThemePage.title,
-        introText: wellcomeSubThemePage.introText ?? [],
+        thematicBrowsingPage: wellcomeSubThemePage,
+        curatedUid: pageUid,
       }),
     };
   }
