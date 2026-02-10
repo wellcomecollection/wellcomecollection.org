@@ -68,7 +68,7 @@ const ResultRow = styled.div<ResultRowProps>`
 
 const RowNumber = styled(Space).attrs({
   $v: { size: 'md', properties: ['padding-top'] },
-})<ResultRowProps>`
+})`
   font-size: 18px;
   font-weight: bold;
   min-width: 40px;
