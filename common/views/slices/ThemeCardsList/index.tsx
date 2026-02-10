@@ -43,8 +43,8 @@ const ThemeCardsListSlice: FunctionComponent<ThemeCardsListSliceProps> = ({
         conceptIds={conceptIds}
         description={asText(slice.primary.description)}
         gtmData={{
-          'category-label': asText(slice.primary.title) || '',
-          'category-position-in-list': '1', // Should always be single category
+          'category-label': asText(slice.primary.title),
+          'category-position-in-list': undefined, // Only for "tabbable" carousels
         }}
         gridSizes={context.gridSizes}
       />
