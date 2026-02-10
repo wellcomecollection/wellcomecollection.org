@@ -2,10 +2,7 @@ import { NextPage } from 'next';
 import { ReactElement } from 'react';
 
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import {
-  ContaineredLayout,
-  gridSize12,
-} from '@weco/common/views/components/Layout';
+import { gridSize12 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import { Page } from '@weco/content/types/pages';
 import Body from '@weco/content/views/components/Body';
@@ -26,15 +23,6 @@ const CollectionsSubjectsPage: NextPage<Props> & {
         pageUid={thematicBrowsingPage.uid}
         gridSizes={gridSize12()}
       />
-      <ContaineredLayout gridSizes={gridSize12()}>
-        <ul>
-          <li>
-            <a href="/collections/subjects/military-and-war">
-              Military and war
-            </a>
-          </li>
-        </ul>
-      </ContaineredLayout>
     </Space>
   );
 };
