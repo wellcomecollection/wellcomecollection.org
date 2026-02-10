@@ -169,7 +169,7 @@ const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
         useShim
       >
         {isLoading ? (
-          <div style={{ position: 'relative', height: '400px' }}>
+          <div style={{ position: 'relative', height: '400px', width: '100%' }}>
             <LL />
           </div>
         ) : (
