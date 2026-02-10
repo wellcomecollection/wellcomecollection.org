@@ -107,6 +107,57 @@ const PrototypeSearchResults: FunctionComponent<Props> = ({
     [works.results.length, works2?.results.length, works3?.results.length]
   );
 
+  const renderResultCell = (
+    data:
+      | WellcomeResultList<WorkBasic, WorkAggregations>
+      | CatalogueResultsList<Concept>
+      | CatalogueResultsList<Image>
+      | null
+      | undefined,
+    index: number,
+    isWorkBasic: boolean = true
+  ) => {
+    if (!data || data.totalResults === 0 || !data.results[index]) {
+      return null;
+    }
+
+    return (
+      <ResultCell>
+        {isWorkBasic ? (
+          <WorksSearchResult
+            work={data.results[index] as WorkBasic}
+            resultPosition={calculateResultPosition(index)}
+          />
+        ) : (
+          // TODO: When switching to getWorks, replace manual object construction with: work={data.results[index]}
+          <WorksSearchResult
+            work={{
+              id: (data.results[index] as Concept | Image).id,
+              title:
+                (data.results[index] as Concept).label ||
+                (data.results[index] as Image).source.title,
+              languageId: undefined,
+              thumbnail: (data.results[index] as Image).thumbnail,
+              referenceNumber: undefined,
+              productionDates: [],
+              archiveLabels: undefined,
+              cardLabels: [
+                {
+                  text: (data.results[index] as Concept).label
+                    ? 'Concept'
+                    : 'Image',
+                },
+              ],
+              primaryContributorLabel: undefined,
+              notes: [],
+            }}
+            resultPosition={calculateResultPosition(index)}
+          />
+        )}
+      </ResultCell>
+    );
+  };
+
   return (
     <>
       <HeaderStack data-component="prototype-search-results">
@@ -126,60 +177,9 @@ const PrototypeSearchResults: FunctionComponent<Props> = ({
         {rows.map((_, i) => (
           <ResultRow key={i} $isAlternating={i % 2 === 1}>
             <RowNumber>{calculateResultPosition(i)}.</RowNumber>
-            {works.totalResults > 0 && (
-              <ResultCell>
-                {works.results[i] && (
-                  <WorksSearchResult
-                    work={works.results[i]}
-                    resultPosition={calculateResultPosition(i)}
-                  />
-                )}
-              </ResultCell>
-            )}
-            {works2 && works2.totalResults > 0 && (
-              <ResultCell>
-                {/* TODO: When switching to getWorks, replace manual object construction with: work={works2.results[i]} */}
-                {works2.results[i] && (
-                  <WorksSearchResult
-                    work={{
-                      id: works2.results[i].id,
-                      title: works2.results[i].label,
-                      languageId: undefined,
-                      thumbnail: undefined,
-                      referenceNumber: undefined,
-                      productionDates: [],
-                      archiveLabels: undefined,
-                      cardLabels: [{ text: 'Concept' }],
-                      primaryContributorLabel: undefined,
-                      notes: [],
-                    }}
-                    resultPosition={calculateResultPosition(i)}
-                  />
-                )}
-              </ResultCell>
-            )}
-            {works3 && works3.totalResults > 0 && (
-              <ResultCell>
-                {/* TODO: When switching to getWorks, replace manual object construction with: work={works3.results[i]} */}
-                {works3.results[i] && (
-                  <WorksSearchResult
-                    work={{
-                      id: works3.results[i].id,
-                      title: works3.results[i].source.title,
-                      languageId: undefined,
-                      thumbnail: works3.results[i].thumbnail,
-                      referenceNumber: undefined,
-                      productionDates: [],
-                      archiveLabels: undefined,
-                      cardLabels: [{ text: 'Image' }],
-                      primaryContributorLabel: undefined,
-                      notes: [],
-                    }}
-                    resultPosition={calculateResultPosition(i)}
-                  />
-                )}
-              </ResultCell>
-            )}
+            {renderResultCell(works, i, true)}
+            {renderResultCell(works2, i, false)}
+            {renderResultCell(works3, i, false)}
           </ResultRow>
         ))}
       </ResultsGrid>
