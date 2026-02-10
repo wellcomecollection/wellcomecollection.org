@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { useSearchContext } from '@weco/common/contexts/SearchContext';
+import { useToggles } from '@weco/common/server-data/Context';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import { pluralize } from '@weco/common/utils/grammar';
 import { linkResolver, SEARCH_PAGES_FORM_ID } from '@weco/common/utils/search';
@@ -51,6 +52,7 @@ const SortPaginationWrapper = styled.div`
 const WorksSearchPage: NextPage<Props> = withSearchLayout(
   ({ works, works2, works3, worksRouteProps, query }) => {
     const { query: queryString } = query;
+    const { semanticSearchPrototype } = useToggles();
 
     const { setLink } = useSearchContext();
     useEffect(() => {
@@ -106,42 +108,43 @@ const WorksSearchPage: NextPage<Props> = withSearchLayout(
 
         <Space $v={{ size: 'md', properties: ['padding-bottom'] }}>
           <Container>
-            {(!hasNoResults || (hasNoResults && hasActiveFilters)) && (
-              <>
-                <Space
-                  $v={{
-                    size: 'md',
-                    properties: ['padding-top', 'padding-bottom'],
-                  }}
-                >
-                  <SearchFilters
-                    query={queryString}
-                    linkResolver={params =>
-                      linkResolver({ params, pathname: '/search/works' })
-                    }
-                    searchFormId={SEARCH_PAGES_FORM_ID}
-                    changeHandler={() => {
-                      const form =
-                        document.getElementById(SEARCH_PAGES_FORM_ID);
-                      if (form) {
-                        // Set data attribute to indicate this is a filter change, not a query change
-                        form.dataset.gtmIsFilterChange = 'true';
-                        form.dispatchEvent(
-                          new window.Event('submit', {
-                            cancelable: true,
-                            bubbles: true,
-                          })
-                        );
-                        // Remove the attribute after dispatch
-                        delete form.dataset.gtmIsFilterChange;
-                      }
+            {!semanticSearchPrototype &&
+              (!hasNoResults || (hasNoResults && hasActiveFilters)) && (
+                <>
+                  <Space
+                    $v={{
+                      size: 'md',
+                      properties: ['padding-top', 'padding-bottom'],
                     }}
-                    filters={filters}
-                    hasNoResults={hasNoResults}
-                  />
-                </Space>
-              </>
-            )}
+                  >
+                    <SearchFilters
+                      query={queryString}
+                      linkResolver={params =>
+                        linkResolver({ params, pathname: '/search/works' })
+                      }
+                      searchFormId={SEARCH_PAGES_FORM_ID}
+                      changeHandler={() => {
+                        const form =
+                          document.getElementById(SEARCH_PAGES_FORM_ID);
+                        if (form) {
+                          // Set data attribute to indicate this is a filter change, not a query change
+                          form.dataset.gtmIsFilterChange = 'true';
+                          form.dispatchEvent(
+                            new window.Event('submit', {
+                              cancelable: true,
+                              bubbles: true,
+                            })
+                          );
+                          // Remove the attribute after dispatch
+                          delete form.dataset.gtmIsFilterChange;
+                        }
+                      }}
+                      filters={filters}
+                      hasNoResults={hasNoResults}
+                    />
+                  </Space>
+                </>
+              )}
 
             {hasNoResults ? (
               <SearchNoResults
