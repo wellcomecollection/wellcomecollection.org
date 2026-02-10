@@ -30,12 +30,16 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     return appError(context, 400, page.message);
   }
 
-  const products = await fetchShopProducts({ page, pageSize: 21 });
+  const query =
+    typeof context.query.query === 'string' ? context.query.query : undefined;
+
+  const products = await fetchShopProducts({ page, pageSize: 10, query });
   const serverData = await getServerData(context);
 
   return {
     props: serialiseProps<Props>({
       products,
+      query,
       serverData,
     }),
   };

@@ -13,8 +13,8 @@ const SHOPIFY_STOREFRONT_ACCESS_TOKEN =
 // GraphQL queries
 
 const PRODUCTS_QUERY = `
-  query Products($first: Int!, $after: String) {
-    products(first: $first, after: $after) {
+  query Products($first: Int!, $after: String, $query: String) {
+    products(first: $first, after: $after, query: $query) {
       edges {
         cursor
         node {
@@ -278,9 +278,11 @@ type CartCreateResponse = {
 export async function fetchShopProducts({
   page,
   pageSize,
+  query,
 }: {
   page: number;
   pageSize: number;
+  query?: string;
 }): Promise<PaginatedResults<ShopProductBasic>> {
   // Shopify uses cursor-based pagination, so we iterate to reach the requested page
   let cursor: string | null = null;
@@ -290,6 +292,7 @@ export async function fetchShopProducts({
     const data = await shopifyFetch<ProductsResponse>(PRODUCTS_QUERY, {
       first: pageSize,
       after: cursor,
+      query,
     });
 
     if (!data.products.pageInfo.hasNextPage) {
@@ -310,6 +313,7 @@ export async function fetchShopProducts({
   const data = await shopifyFetch<ProductsResponse>(PRODUCTS_QUERY, {
     first: pageSize,
     after: cursor,
+    query,
   });
 
   const results = data.products.edges.map(edge =>
