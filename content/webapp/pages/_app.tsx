@@ -1,10 +1,21 @@
 import NextApp, { AppContext, AppProps } from 'next/app';
 import { ReactElement } from 'react';
+import { ThemeProvider } from 'styled-components';
 
 import App from '@weco/common/views/pages/_app';
+import themeValues from '@weco/common/views/themes/default';
+import { CartContextProvider } from '@weco/content/contexts/CartContext';
+import CartDrawer from '@weco/content/views/components/CartDrawer';
 
 export default function ContentApp(props: AppProps): ReactElement {
-  return <App {...props} />;
+  return (
+    <CartContextProvider>
+      <App {...props} />
+      <ThemeProvider theme={themeValues}>
+        <CartDrawer />
+      </ThemeProvider>
+    </CartContextProvider>
+  );
 }
 
 // This is here to disable Automatic Static Optimisation as per
