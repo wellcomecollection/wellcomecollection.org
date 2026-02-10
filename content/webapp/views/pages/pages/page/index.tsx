@@ -1,3 +1,4 @@
+import * as prismic from '@prismicio/client';
 import { NextPage } from 'next';
 import { ReactElement } from 'react';
 
@@ -6,6 +7,7 @@ import {
   prismicPageIds,
 } from '@weco/common/data/hardcoded-ids';
 import { SiteSection } from '@weco/common/model/site-section';
+import { PagesDocumentDataBodySlice } from '@weco/common/prismicio-types';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import {
   headerBackgroundLs,
@@ -94,7 +96,10 @@ export const PagePage: NextPage<Props> = ({
     isNotUndefined(featuredPicture) || isNotUndefined(featuredVideo);
 
   const untransformedBody = hasFeaturedMedia
-    ? page.untransformedBody.slice(1, page.untransformedBody.length)
+    ? (page.untransformedBody.slice(
+        1,
+        page.untransformedBody.length
+      ) as prismic.SliceZone<PagesDocumentDataBodySlice>)
     : page.untransformedBody;
 
   const featuredMedia = featuredPicture ? (

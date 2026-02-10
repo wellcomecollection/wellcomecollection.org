@@ -1,5 +1,4 @@
 import { getConcepts } from '@weco/content/services/wellcome/catalogue/concepts';
-import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { Toggles } from '@weco/toggles';
 
 import { catalogueQuery } from '.';
@@ -118,21 +117,4 @@ export async function fetchConceptIdByLabel(
     console.error(`Error fetching concept ID for label: ${label}`, error);
     return undefined;
   }
-}
-
-/**
- * Fetch concepts (topics) from the concepts API
- * Returns concepts that can be used for browse topics
- */
-export async function getConceptsByIds(ids: string[]): Promise<Concept[]> {
-  if (!ids || ids.length === 0) return [];
-
-  const result = await getConcepts({
-    params: { id: ids.join(',') },
-    toggles: {},
-  });
-
-  if ('results' in result) return result.results;
-
-  return [];
 }

@@ -4,6 +4,7 @@ import { NextPage } from 'next';
 import styled, { useTheme } from 'styled-components';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
+import { FullWidthBannerSlice as RawFullWidthBannerSlice } from '@weco/common/prismicio-types';
 import { useToggles } from '@weco/common/server-data/Context';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
@@ -18,10 +19,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { components } from '@weco/common/views/slices';
 import { useCollectionStats } from '@weco/content/hooks/useCollectionStats';
-import type {
-  Concept,
-  WorkBasic,
-} from '@weco/content/services/wellcome/catalogue/types';
+import type { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import { MultiContent } from '@weco/content/types/multi-content';
 import CardGrid from '@weco/content/views/components/CardGrid';
 import MoreLink from '@weco/content/views/components/MoreLink';
@@ -60,8 +58,7 @@ export type Props = {
   title: string;
   introText: prismic.RichTextField;
   insideOurCollectionsCards: MultiContent[];
-  featuredConcepts: Concept[];
-  fullWidthBanners?: prismic.Slice<'fullWidthBanner'>[];
+  fullWidthBanners?: RawFullWidthBannerSlice[];
   newOnlineDocuments: WorkBasic[];
 };
 
@@ -70,7 +67,6 @@ const CollectionsLandingPage: NextPage<Props> = ({
   title,
   introText,
   insideOurCollectionsCards,
-  featuredConcepts,
   fullWidthBanners,
   newOnlineDocuments,
 }) => {
@@ -125,7 +121,6 @@ const CollectionsLandingPage: NextPage<Props> = ({
           </Space>
           <BrowseByThemes
             themeConfig={themeBlockCategories}
-            initialConcepts={featuredConcepts}
             gridSizes={gridSize12()}
           />
         </Space>
