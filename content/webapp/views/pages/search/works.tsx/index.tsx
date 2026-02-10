@@ -24,6 +24,7 @@ import { worksFilters } from '@weco/content/services/wellcome/common/filters';
 import { Query } from '@weco/content/types/search';
 import { getActiveFiltersLabel, hasFilters } from '@weco/content/utils/search';
 import Pagination from '@weco/content/views/components/Pagination';
+import PrototypeSearchResults from '@weco/content/views/components/PrototypeSearchResults';
 import SearchFilters from '@weco/content/views/components/SearchFilters';
 import {
   toSearchWorksLink,
@@ -151,6 +152,41 @@ const WorksSearchPage: NextPage<Props> = withSearchLayout(
                 query={queryString}
                 hasFilters={hasActiveFilters}
               />
+            ) : semanticSearchPrototype ? (
+              <>
+                <PaginationWrapper $verticalSpacing="md">
+                  <span role="status">
+                    Results:{' '}
+                    {works.totalResults > 0 && `${works.totalResults} works`}
+                    {works2 &&
+                      works2.totalResults > 0 &&
+                      `${works.totalResults > 0 ? ', ' : ''}${works2.totalResults} works (variant 2)`}
+                    {works3 &&
+                      works3.totalResults > 0 &&
+                      `${works.totalResults > 0 || (works2 && works2.totalResults > 0) ? ', ' : ''}${works3.totalResults} works (variant 3)`}
+                  </span>
+                </PaginationWrapper>
+
+                <main>
+                  <PrototypeSearchResults
+                    works={works}
+                    works2={works2}
+                    works3={works3}
+                    currentPage={worksRouteProps.page}
+                  />
+
+                  <PaginationWrapper $verticalSpacing="md" $alignRight>
+                    <Pagination
+                      totalPages={Math.max(
+                        works.totalPages,
+                        works2?.totalPages || 0,
+                        works3?.totalPages || 0
+                      )}
+                      ariaLabel="search pagination"
+                    />
+                  </PaginationWrapper>
+                </main>
+              </>
             ) : (
               <>
                 <PaginationWrapper $verticalSpacing="md">
