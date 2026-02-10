@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
 import Script from 'next/script';
-import { FunctionComponent, PropsWithChildren } from 'react';
+import { FunctionComponent, PropsWithChildren, ReactNode } from 'react';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import {
@@ -40,8 +40,9 @@ import PopupDialog from '@weco/common/views/components/PopupDialog';
 import Favicons from './PageLayout.Favicons';
 
 type HeaderProps = {
-  customNavLinks: NavLink[];
+  customNavLinks?: NavLink[];
   isMinimalHeader?: boolean;
+  headerExtra?: ReactNode;
 };
 
 type SkipToContentLink = {

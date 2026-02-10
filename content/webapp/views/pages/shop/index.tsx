@@ -19,6 +19,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { ShopProductBasic } from '@weco/content/types/shop';
+import CartHeaderButton from '@weco/content/views/components/CartHeaderButton';
 import Pagination from '@weco/content/views/components/Pagination';
 import ShopSearchDropdown from '@weco/content/views/components/ShopSearchDropdown';
 
@@ -70,6 +71,7 @@ const ShopPage: NextPage<Props> = ({ products, query }) => {
       url={{ pathname: '/shop' }}
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType="website"
+      headerProps={{ headerExtra: <CartHeaderButton /> }}
     >
       <SpacingSection>
         <PageHeader

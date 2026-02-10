@@ -96,6 +96,7 @@ export { default as saveTo } from './components/SaveTo';
 export { default as scroll } from './components/Scroll';
 export { default as search } from './components/Search';
 export { default as share } from './components/Share';
+export { default as shoppingBag } from './components/ShoppingBag';
 export { default as singlePage } from './components/SinglePage';
 export { default as smartphone } from './components/Smartphone';
 export { default as snowflake } from './components/Snowflake';

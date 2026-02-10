@@ -14,6 +14,7 @@ import SpacingSection from '@weco/common/views/components/styled/SpacingSection'
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { useCartContext } from '@weco/content/contexts/CartContext';
 import { ShopProduct, ShopProductVariant } from '@weco/content/types/shop';
+import CartHeaderButton from '@weco/content/views/components/CartHeaderButton';
 
 const ProductImage = styled.img`
   width: 100%;
@@ -115,6 +116,7 @@ const ShopProductPage: NextPage<Props> = ({ product }) => {
       url={{ pathname: `/shop/${product.handle}` }}
       jsonLd={{ '@type': 'Product' }}
       openGraphType="website"
+      headerProps={{ headerExtra: <CartHeaderButton /> }}
     >
       <SpacingSection>
         <PageHeader

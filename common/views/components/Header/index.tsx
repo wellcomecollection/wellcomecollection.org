@@ -1,6 +1,6 @@
 import { FocusTrap } from 'focus-trap-react';
 import NextLink from 'next/link';
-import { FunctionComponent, useRef, useState } from 'react';
+import { FunctionComponent, ReactNode, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
@@ -45,6 +45,7 @@ type Props = {
   siteSection?: SiteSection;
   customNavLinks?: NavLink[];
   isMinimalHeader?: boolean;
+  headerExtra?: ReactNode;
 };
 
 export const links: NavLink[] = [
@@ -93,6 +94,7 @@ const Header: FunctionComponent<Props> = ({
   customNavLinks,
   // We don't display login and search on certain pages, e.g. exhibition guides
   isMinimalHeader = false,
+  headerExtra,
 }) => {
   const [burgerMenuIsActive, setBurgerMenuIsActive] = useState(false);
   const [searchDropdownIsActive, setSearchDropdownIsActive] = useState(false);
@@ -196,6 +198,7 @@ const Header: FunctionComponent<Props> = ({
                     </>
                   )}
 
+                  {headerExtra}
                   {!isMinimalHeader && <DesktopSignIn />}
                 </HeaderActions>
               </NavLoginWrapper>
