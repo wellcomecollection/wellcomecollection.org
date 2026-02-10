@@ -1,6 +1,8 @@
+import * as prismic from '@prismicio/client';
 import { FunctionComponent } from 'react';
 
 import { SiteSection } from '@weco/common/model/site-section';
+import { PagesDocumentDataBodySlice } from '@weco/common/prismicio-types';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
@@ -49,7 +51,10 @@ export const Guide: FunctionComponent<Props> = ({ guide, jsonLd }) => {
     isNotUndefined(featuredPicture) || isNotUndefined(featuredVideo);
 
   const untransformedBody = hasFeaturedMedia
-    ? guide.untransformedBody.slice(1, guide.untransformedBody.length)
+    ? (guide.untransformedBody.slice(
+        1,
+        guide.untransformedBody.length
+      ) as prismic.SliceZone<PagesDocumentDataBodySlice>)
     : guide.untransformedBody;
 
   const featuredMedia = featuredPicture ? (

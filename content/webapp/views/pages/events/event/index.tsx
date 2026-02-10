@@ -11,6 +11,7 @@ import {
 } from '@weco/common/data/hardcoded-ids';
 import { a11y } from '@weco/common/data/microcopy';
 import { arrow, email, ticket } from '@weco/common/icons';
+import { PagesDocumentDataBodySlice } from '@weco/common/prismicio-types';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { font } from '@weco/common/utils/classnames';
@@ -118,9 +119,13 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
   const maybeFeaturedMedia = getFeaturedMedia(event);
   const hasFeaturedVideo =
     event.untransformedBody.length > 0 &&
+    event.untransformedBody[0] &&
     isVideoEmbed(event.untransformedBody[0]);
   const untransformedBody = hasFeaturedVideo
-    ? event.untransformedBody.slice(1, event.untransformedBody.length)
+    ? (event.untransformedBody.slice(
+        1,
+        event.untransformedBody.length
+      ) as prismic.SliceZone<PagesDocumentDataBodySlice>)
     : event.untransformedBody;
   const eventFormat = event.format ? [{ text: event.format.title }] : [];
   const eventAudiences = event.audiences.map(a => ({ text: a.title }));
