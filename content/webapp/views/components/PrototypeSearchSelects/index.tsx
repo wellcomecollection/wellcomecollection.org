@@ -76,9 +76,9 @@ const PrototypeSearchSelects: FunctionComponent<Props> = ({
               form={SEARCH_PAGES_FORM_ID}
             >
               <option value="all">All results</option>
-              <option value="works">Alternative 1</option>
-              <option value="concepts">Alternative 2</option>
-              <option value="images">Alternative 3</option>
+              <option value="alternative1">Alternative 1</option>
+              <option value="alternative2">Alternative 2</option>
+              <option value="alternative3">Alternative 3</option>
             </select>
           </SelectContainer>
         </div>
