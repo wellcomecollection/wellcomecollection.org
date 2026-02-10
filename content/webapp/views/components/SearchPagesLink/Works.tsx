@@ -35,6 +35,7 @@ const emptyWorksProps: WorksProps = {
   'partOf.title': undefined,
   'production.dates.from': undefined,
   'production.dates.to': undefined,
+  elasticCluster: undefined,
 };
 
 const codecMap = {
@@ -57,6 +58,7 @@ const codecMap = {
   'partOf.title': maybeStringCodec,
   'production.dates.from': maybeStringCodec,
   'production.dates.to': maybeStringCodec,
+  elasticCluster: maybeStringCodec,
 };
 
 export type WorksProps = FromCodecMap<typeof codecMap>;
