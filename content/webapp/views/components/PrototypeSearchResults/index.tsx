@@ -117,8 +117,9 @@ const PrototypeSearchResults: FunctionComponent<Props> = ({
     index: number,
     isWorkBasic: boolean = true
   ) => {
-    if (!data || data.totalResults === 0 || !data.results[index]) {
-      return null;
+    // Always render the cell to maintain column structure
+    if (!data || !data.results[index]) {
+      return <ResultCell />;
     }
 
     return (
@@ -162,13 +163,13 @@ const PrototypeSearchResults: FunctionComponent<Props> = ({
     <>
       <HeaderStack data-component="prototype-search-results">
         <HeaderSpacer />
-        {works.totalResults > 0 && (
+        {works && (
           <ColumnHeader>Alternative 1 ({works.totalResults})</ColumnHeader>
         )}
-        {works2 && works2.totalResults > 0 && (
+        {works2 && (
           <ColumnHeader>Alternative 2 ({works2.totalResults})</ColumnHeader>
         )}
-        {works3 && works3.totalResults > 0 && (
+        {works3 && (
           <ColumnHeader>Alternative 3 ({works3.totalResults})</ColumnHeader>
         )}
       </HeaderStack>
