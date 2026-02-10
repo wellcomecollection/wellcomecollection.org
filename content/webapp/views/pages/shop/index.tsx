@@ -1,6 +1,7 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useCallback, useState } from 'react';
+import styled from 'styled-components';
 
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { pluralize } from '@weco/common/utils/grammar';
@@ -19,8 +20,13 @@ import SpacingSection from '@weco/common/views/components/styled/SpacingSection'
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { ShopProductBasic } from '@weco/content/types/shop';
 import Pagination from '@weco/content/views/components/Pagination';
+import ShopSearchDropdown from '@weco/content/views/components/ShopSearchDropdown';
 
 import ShopProductCard from './shop.ProductCard';
+
+const SearchFormWrapper = styled.div`
+  position: relative;
+`;
 
 const SHOP_SEARCH_FORM_ID = 'shop-search-form';
 
@@ -32,9 +38,11 @@ export type Props = {
 const ShopPage: NextPage<Props> = ({ products, query }) => {
   const router = useRouter();
   const [inputValue, setInputValue] = useState(query || '');
+  const [showDropdown, setShowDropdown] = useState(false);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    setShowDropdown(false);
     const trimmed = inputValue.trim();
     if (trimmed) {
       router.push({ pathname: '/shop', query: { query: trimmed } });
@@ -42,6 +50,18 @@ const ShopPage: NextPage<Props> = ({ products, query }) => {
       router.push('/shop');
     }
   };
+
+  const handleInputChange = useCallback(
+    (value: string) => {
+      setInputValue(value);
+      setShowDropdown(value.trim().length > 0);
+    },
+    [setInputValue]
+  );
+
+  const handleDropdownClose = useCallback(() => {
+    setShowDropdown(false);
+  }, []);
 
   return (
     <PageLayout
@@ -63,15 +83,22 @@ const ShopPage: NextPage<Props> = ({ products, query }) => {
 
         <ContaineredLayout gridSizes={gridSize12()}>
           <Space $v={{ size: 'lg', properties: ['margin-bottom'] }}>
-            <form id={SHOP_SEARCH_FORM_ID} onSubmit={handleSubmit}>
-              <SearchBar
-                inputValue={inputValue}
-                setInputValue={setInputValue}
-                placeholder="Search the shop"
-                form={SHOP_SEARCH_FORM_ID}
-                location="page"
+            <SearchFormWrapper>
+              <form id={SHOP_SEARCH_FORM_ID} onSubmit={handleSubmit}>
+                <SearchBar
+                  inputValue={inputValue}
+                  setInputValue={handleInputChange}
+                  placeholder="Search the shop"
+                  form={SHOP_SEARCH_FORM_ID}
+                  location="page"
+                />
+              </form>
+              <ShopSearchDropdown
+                query={inputValue}
+                isVisible={showDropdown}
+                onClose={handleDropdownClose}
               />
-            </form>
+            </SearchFormWrapper>
           </Space>
         </ContaineredLayout>
 

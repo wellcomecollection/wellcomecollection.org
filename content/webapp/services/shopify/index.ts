@@ -4,6 +4,7 @@ import {
   ShopProduct,
   ShopProductBasic,
   ShopProductVariant,
+  ShopSearchSuggestion,
 } from '@weco/content/types/shop';
 
 const SHOPIFY_STORE_DOMAIN = process.env.SHOPIFY_STORE_DOMAIN;
@@ -93,6 +94,30 @@ const PRODUCT_BY_HANDLE_QUERY = `
               amount
               currencyCode
             }
+          }
+        }
+      }
+    }
+  }
+`;
+
+const PREDICTIVE_SEARCH_QUERY = `
+  query PredictiveSearch($query: String!, $limit: Int) {
+    predictiveSearch(query: $query, limit: $limit, types: [PRODUCT]) {
+      products {
+        id
+        handle
+        title
+        featuredImage {
+          url
+          altText
+          width
+          height
+        }
+        priceRange {
+          minVariantPrice {
+            amount
+            currencyCode
           }
         }
       }
@@ -369,4 +394,41 @@ export async function createShopCheckout(
   }
 
   return data.cartCreate.cart?.checkoutUrl;
+}
+
+type PredictiveSearchResponse = {
+  predictiveSearch: {
+    products: {
+      id: string;
+      handle: string;
+      title: string;
+      featuredImage: ShopifyImageNode | null;
+      priceRange: {
+        minVariantPrice: { amount: string; currencyCode: string };
+      };
+    }[];
+  };
+};
+
+export async function predictiveSearch(
+  query: string,
+  limit = 6
+): Promise<ShopSearchSuggestion[]> {
+  const data = await shopifyFetch<PredictiveSearchResponse>(
+    PREDICTIVE_SEARCH_QUERY,
+    { query, limit }
+  );
+
+  return data.predictiveSearch.products.map(product => ({
+    id: product.id,
+    handle: product.handle,
+    title: product.title,
+    featuredImage: product.featuredImage
+      ? transformImage(product.featuredImage)
+      : null,
+    price: {
+      amount: product.priceRange.minVariantPrice.amount,
+      currencyCode: product.priceRange.minVariantPrice.currencyCode,
+    },
+  }));
 }

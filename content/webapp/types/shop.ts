@@ -36,6 +36,14 @@ export type ShopProduct = ShopProductBasic & {
   availableForSale: boolean;
 };
 
+export type ShopSearchSuggestion = {
+  id: string;
+  handle: string;
+  title: string;
+  featuredImage: ShopImage | null;
+  price: ShopPrice;
+};
+
 export type CartItem = {
   variantId: string;
   productHandle: string;
