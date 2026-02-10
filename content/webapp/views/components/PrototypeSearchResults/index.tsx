@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useMemo } from 'react';
 import styled from 'styled-components';
 
 import Space from '@weco/common/views/components/styled/Space';
@@ -95,6 +95,18 @@ const PrototypeSearchResults: FunctionComponent<Props> = ({
   const calculateResultPosition = (index: number) =>
     (currentPage - 1) * 25 + (index + 1); // 25 is the pageSize
 
+  const rows = useMemo(
+    () =>
+      Array.from({
+        length: Math.max(
+          works.results.length,
+          works2?.results.length || 0,
+          works3?.results.length || 0
+        ),
+      }),
+    [works.results.length, works2?.results.length, works3?.results.length]
+  );
+
   return (
     <>
       <HeaderStack data-component="prototype-search-results">
@@ -111,13 +123,7 @@ const PrototypeSearchResults: FunctionComponent<Props> = ({
       </HeaderStack>
 
       <ResultsGrid>
-        {Array.from({
-          length: Math.max(
-            works.results.length,
-            works2?.results.length || 0,
-            works3?.results.length || 0
-          ),
-        }).map((_, i) => (
+        {rows.map((_, i) => (
           <ResultRow key={i} $isAlternating={i % 2 === 1}>
             <RowNumber>{calculateResultPosition(i)}.</RowNumber>
             {works.totalResults > 0 && (
