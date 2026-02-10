@@ -1,62 +1,38 @@
-import { useRouter } from 'next/router';
-import { ComponentProps, FunctionComponent, PropsWithChildren } from 'react';
+import { FunctionComponent, PropsWithChildren } from 'react';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
-import { ImageType } from '@weco/common/model/image';
+import { pageDescriptions } from '@weco/common/data/microcopy';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
+import { Page } from '@weco/content/types/pages';
 
 import ThematicBrowsingHeader from './ThematicBrowsing.Header';
 
-const categories = [
-  'people-and-organisations',
-  'types-and-techniques',
-  'subjects',
-  'places',
-] as const;
-export type ThematicBrowsingCategories = (typeof categories)[number];
+export type ThematicBrowsingCategories =
+  | 'people-and-organisations'
+  | 'types-and-techniques'
+  | 'subjects'
+  | 'places';
 
-function isValidThematicBrowsingCategory(
-  type?: string
-): type is ThematicBrowsingCategories {
-  return categories.includes(type as ThematicBrowsingCategories);
-}
-
-export type CollectionsStaticPageMeta = {
-  urlPathname?: string;
-};
-export type CollectionsPrismicPageMeta = CollectionsStaticPageMeta & {
-  prismicId: string;
-  image?: ImageType;
-  description?: string;
-};
-
-export type ThematicBrowsingLayoutProps = PropsWithChildren<{
-  title: string;
-  description: string;
-  pageMeta: CollectionsPrismicPageMeta | CollectionsStaticPageMeta;
+type ThematicBrowsingLayoutProps = PropsWithChildren<{
+  page: Page;
+  currentCategory: ThematicBrowsingCategories;
+  subPageUid?: string;
+  extraBreadcrumbs?: { url: string; text: string }[];
   apiToolbarLinks?: ApiToolbarLink[]; // TODO add links when we have them
-  headerProps?: Partial<
-    Omit<ComponentProps<typeof ThematicBrowsingHeader>, 'currentCategory'>
-  >;
 }>;
 
 const ThematicBrowsingLayout: FunctionComponent<
   ThematicBrowsingLayoutProps
 > = ({
   children,
-  title,
-  description,
-  pageMeta,
+  page,
+  currentCategory,
+  subPageUid,
+  extraBreadcrumbs,
   apiToolbarLinks = [],
-  headerProps,
 }) => {
-  const router = useRouter();
-
-  const currentCategory = router.pathname
-    .split('/')
-    .filter(Boolean)
-    .find(isValidThematicBrowsingCategory);
+  const urlPathname = `/${prismicPageIds.collections}/${currentCategory}${subPageUid ? `/${subPageUid}` : ''}`;
 
   return (
     <PageLayout
@@ -64,24 +40,22 @@ const ThematicBrowsingLayout: FunctionComponent<
       jsonLd={{ '@type': 'WebPage' }}
       hideNewsletterPromo
       siteSection="collections"
-      title={title}
+      title={page.title}
       description={
-        'description' in pageMeta && pageMeta.description
-          ? pageMeta.description
-          : description
+        page.metadataDescription ||
+        page.promo?.caption ||
+        pageDescriptions.collections.index
       }
-      url={{
-        pathname: `/${prismicPageIds.collections}${pageMeta.urlPathname || ''}`,
-      }}
-      {...('image' in pageMeta && { image: pageMeta.image })}
-      {...(apiToolbarLinks.length > 0 && { apiToolbarLinks })}
+      url={{ pathname: urlPathname }}
+      image={page.image}
+      apiToolbarLinks={apiToolbarLinks}
     >
       {currentCategory ? (
         <ThematicBrowsingHeader
-          uiTitle={headerProps?.uiTitle ?? title}
-          uiDescription={headerProps?.uiDescription}
+          title={page.title}
+          introText={page.introText}
+          extraBreadcrumbs={extraBreadcrumbs}
           currentCategory={currentCategory}
-          extraBreadcrumbs={headerProps?.extraBreadcrumbs}
         />
       ) : (
         <p>Category not found</p>

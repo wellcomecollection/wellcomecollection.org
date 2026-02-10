@@ -23,6 +23,10 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   // TODO add core subjects page when officialised and implemented
   const collectionsHiddenPages = {
     collectionsLanding: ['collections', 'aKb_ahAAAB8AhtQC'],
+    places: ['thematic-browsing-places', 'aYYbgBIAACUA8_PS'],
+    peopleAndOrganisations: ['thematic-browsing-people', 'aYYhzRIAACQA8_2V'],
+    typesAndTechniques: ['thematic-browsing-types', 'aYYiGRIAACQA8_4N'],
+    subjects: ['thematic-browsing-subjects', 'aYYi7RIAACUA8_9m'],
     militaryAndWar: ['subjects-military-and-war', 'aXNKABEAACAAypp_'],
   };
   const flattenedHiddenPages = Object.values(collectionsHiddenPages).flat();

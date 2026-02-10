@@ -1,31 +1,38 @@
 import { NextPage } from 'next';
 import { ReactElement } from 'react';
 
-import { pageDescriptions } from '@weco/common/data/microcopy';
-import { Container } from '@weco/common/views/components/styled/Container';
+import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import { gridSize12 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
+import { Page } from '@weco/content/types/pages';
+import Body from '@weco/content/views/components/Body';
 import ThematicBrowsingLayout from '@weco/content/views/layouts/ThematicBrowsingLayout';
 
-const CollectionsPlacesPage: NextPage & {
-  getLayout?: (page: ReactElement) => ReactElement;
-} = () => {
+export type Props = {
+  thematicBrowsingPage: Page;
+};
+
+const CollectionsPlacesPage: NextPage<Props> & {
+  getLayout?: (page: ReactElement<Props>) => ReactElement;
+} = ({ thematicBrowsingPage }) => {
   return (
-    <Container>
-      <Space $v={{ size: 'md', properties: ['margin-top', 'margin-bottom'] }}>
-        <p>Places content</p>
-      </Space>
-    </Container>
+    <Space $v={{ size: 'md', properties: ['margin-top', 'margin-bottom'] }}>
+      <Body
+        untransformedBody={thematicBrowsingPage.untransformedBody}
+        pageId={thematicBrowsingPage.id}
+        pageUid={thematicBrowsingPage.uid}
+        gridSizes={gridSize12()}
+      />
+    </Space>
   );
 };
 
 CollectionsPlacesPage.getLayout = page => {
   return (
     <ThematicBrowsingLayout
-      title="Places" // TODO confirm
-      description={pageDescriptions.collections.places}
-      pageMeta={{
-        urlPathname: '/places',
-      }}
+      page={page.props.thematicBrowsingPage}
+      apiToolbarLinks={[createPrismicLink(page.props.thematicBrowsingPage.id)]}
+      currentCategory="places"
     >
       {page}
     </ThematicBrowsingLayout>

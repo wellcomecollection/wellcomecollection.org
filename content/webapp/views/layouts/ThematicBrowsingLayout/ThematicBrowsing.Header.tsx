@@ -25,14 +25,14 @@ const ThematicBrowsingHeaderContainer = styled(Space).attrs({
 `;
 
 const ThematicBrowsingHeader = ({
-  uiTitle,
+  title,
   currentCategory,
-  uiDescription,
+  introText,
   extraBreadcrumbs,
 }: {
-  uiTitle: string;
+  title: string;
   currentCategory: ThematicBrowsingCategories;
-  uiDescription?: string | prismic.RichTextField;
+  introText?: string | prismic.RichTextField;
   extraBreadcrumbs?: { url: string; text: string }[];
 }) => {
   return (
@@ -58,16 +58,16 @@ const ThematicBrowsingHeader = ({
           </Space>
 
           <Layout gridSizes={gridSize10(false)}>
-            <h1 className={font('brand', 4)}>{uiTitle}</h1>
+            <h1 className={font('brand', 4)}>{title}</h1>
           </Layout>
 
-          {uiDescription && (
+          {introText && (
             <Layout gridSizes={gridSize8(false)}>
               <div className={`${font('sans', 1)} body-text`}>
-                {typeof uiDescription !== 'string' ? (
-                  <PrismicHtmlBlock html={uiDescription} />
+                {typeof introText !== 'string' ? (
+                  <PrismicHtmlBlock html={introText} />
                 ) : (
-                  <p>{uiDescription}</p>
+                  <p>{introText}</p>
                 )}
               </div>
             </Layout>
