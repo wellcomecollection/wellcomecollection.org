@@ -12,9 +12,6 @@ import {
 } from '@weco/content/services/wellcome/catalogue/types';
 import WorksSearchResult from '@weco/content/views/components/WorksSearchResults/WorksSearchResults.Result';
 
-// PROTOTYPE: Remove this constant when semanticSearchPrototype toggle is removed
-const PROTOTYPE_PAGE_SIZE = 25;
-
 type Props = {
   works: WellcomeResultList<WorkBasic, WorkAggregations>;
   works2: CatalogueResultsList<Concept> | null | undefined; // TODO this is temorary until we switch to semantic search APIs, when this will become a different set of works results
@@ -96,7 +93,7 @@ const PrototypeSearchResults: FunctionComponent<Props> = ({
   currentPage,
 }) => {
   const calculateResultPosition = (index: number) =>
-    (currentPage - 1) * PROTOTYPE_PAGE_SIZE + (index + 1);
+    (currentPage - 1) * 25 + (index + 1); // 25 is the pageSize
 
   return (
     <>
@@ -135,6 +132,7 @@ const PrototypeSearchResults: FunctionComponent<Props> = ({
             )}
             {works2 && works2.totalResults > 0 && (
               <ResultCell>
+                {/* TODO: When switching to getWorks, replace manual object construction with: work={works2.results[i]} */}
                 {works2.results[i] && (
                   <WorksSearchResult
                     work={{
@@ -156,6 +154,7 @@ const PrototypeSearchResults: FunctionComponent<Props> = ({
             )}
             {works3 && works3.totalResults > 0 && (
               <ResultCell>
+                {/* TODO: When switching to getWorks, replace manual object construction with: work={works3.results[i]} */}
                 {works3.results[i] && (
                   <WorksSearchResult
                     work={{
