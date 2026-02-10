@@ -52,15 +52,21 @@ ENV_TAG="env.stage"
 BACKUP_TAG="env.stage.pre-dev"
 
 # App configuration
-declare -A APP_REPOS=(
-    ["content"]="uk.ac.wellcome/content_webapp"
-    ["identity"]="uk.ac.wellcome/identity_webapp"
-)
+get_repo() {
+    case "$1" in
+        content)  echo "uk.ac.wellcome/content_webapp" ;;
+        identity) echo "uk.ac.wellcome/identity_webapp" ;;
+        *)        return 1 ;;
+    esac
+}
 
-declare -A APP_SERVICES=(
-    ["content"]="content-17092020-stage"
-    ["identity"]="identity-18012021-stage"
-)
+get_service() {
+    case "$1" in
+        content)  echo "content-17092020-stage" ;;
+        identity) echo "identity-18012021-stage" ;;
+        *)        return 1 ;;
+    esac
+}
 
 # Get script directory and repo root
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -134,7 +140,8 @@ get_ref_tag_for_image() {
 # Backup the current env.stage tag before overwriting
 backup_current_tag() {
     local app="$1"
-    local repo="${APP_REPOS[$app]}"
+    local repo
+    repo=$(get_repo "$app")
 
     log_info "Backing up current $ENV_TAG tag..."
 
@@ -177,8 +184,9 @@ backup_current_tag() {
 # Restore env.stage from the backup tag
 restore_from_backup() {
     local app="$1"
-    local repo="${APP_REPOS[$app]}"
-    local service="${APP_SERVICES[$app]}"
+    local repo service
+    repo=$(get_repo "$app")
+    service=$(get_service "$app")
 
     echo ""
     echo -e "${BLUE}========================================${NC}"
@@ -268,7 +276,8 @@ ecr_login() {
 
 build_image() {
     local app="$1"
-    local repo="${APP_REPOS[$app]}"
+    local repo
+    repo=$(get_repo "$app")
     local image_uri="$ECR_REGISTRY/$repo:$DEV_TAG"
     local dockerfile="$app/Dockerfile"
 
@@ -288,7 +297,8 @@ build_image() {
 
 push_image() {
     local app="$1"
-    local repo="${APP_REPOS[$app]}"
+    local repo
+    repo=$(get_repo "$app")
     local image_uri="$ECR_REGISTRY/$repo:$DEV_TAG"
 
     log_info "Pushing $app image to ECR..."
@@ -298,7 +308,8 @@ push_image() {
 
 retag_image() {
     local app="$1"
-    local repo="${APP_REPOS[$app]}"
+    local repo
+    repo=$(get_repo "$app")
 
     log_info "Retagging $DEV_TAG -> $ENV_TAG for $repo..."
 
@@ -344,7 +355,8 @@ retag_image() {
 
 deploy_service() {
     local app="$1"
-    local service="${APP_SERVICES[$app]}"
+    local service
+    service=$(get_service "$app")
 
     log_info "Forcing new deployment of $service in $CLUSTER..."
     aws ecs update-service \
@@ -378,7 +390,7 @@ main() {
             exit 1
         fi
         local app="$2"
-        if [[ ! -v "APP_REPOS[$app]" ]]; then
+        if ! get_repo "$app" >/dev/null 2>&1; then
             log_error "Invalid app: $app"
             echo "Valid apps: content, identity"
             exit 1
@@ -391,7 +403,7 @@ main() {
     local app="$command"
 
     # Validate app argument
-    if [[ ! -v "APP_REPOS[$app]" ]]; then
+    if ! get_repo "$app" >/dev/null 2>&1; then
         log_error "Invalid app or command: $app"
         echo "Valid apps: content, identity"
         echo "Valid commands: restore"
