@@ -36,6 +36,8 @@ const ThemeCardsListSlice: FunctionComponent<ThemeCardsListSliceProps> = ({
           </ContaineredLayout>
         )}
       >
+        {/* TODO move this to the component because it needs alignment with the arrows.... 
+        Will need to add a boolean that only displays it if it comes from the slice */}
         {title && <h2 className={font('sans-bold', 2)}>{title}</h2>}
       </ConditionalWrapper>
 
