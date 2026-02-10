@@ -6,6 +6,7 @@ import { font } from '@weco/common/utils/classnames';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import { ContaineredLayout } from '@weco/common/views/components/Layout';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
+import { asText } from '@weco/content/services/prismic/transformers';
 import { transformThemeCardsList } from '@weco/content/services/prismic/transformers/body';
 import { SliceZoneContext } from '@weco/content/views/components/Body';
 import ThemeCardsList from '@weco/content/views/components/ThemeCardsList';
@@ -44,8 +45,8 @@ const ThemeCardsListSlice: FunctionComponent<ThemeCardsListSliceProps> = ({
         conceptIds={transformedSlice.value.conceptIds}
         description={transformedSlice.value.description}
         gtmData={{
-          'category-label': transformedSlice.value.title || '',
-          'category-position-in-list': '1', // Should always be single category
+          'category-label': asText(slice.primary.title),
+          'category-position-in-list': undefined, // Only for "tabbable" carousels
         }}
         gridSizes={context.gridSizes}
       />

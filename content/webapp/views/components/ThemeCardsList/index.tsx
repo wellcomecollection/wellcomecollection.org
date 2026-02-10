@@ -103,9 +103,13 @@ const Theme: FunctionComponent<{
 type ThemeCardsListProps = {
   conceptIds: string[];
   description?: string;
+  // If the following is to be undefined, it should be on purpose and not because of a forgotten prop.
+  // This is why we don't make the individual properties optional
   gtmData: {
-    ['category-label']: DataGtmProps['category-label'];
-    ['category-position-in-list']: DataGtmProps['category-position-in-list'];
+    ['category-label']: DataGtmProps['category-label'] | undefined;
+    ['category-position-in-list']:
+      | DataGtmProps['category-position-in-list']
+      | undefined;
   };
   gridSizes?: SizeMap;
   onConceptsFetched?: ({ count }: { count: number }) => void;
