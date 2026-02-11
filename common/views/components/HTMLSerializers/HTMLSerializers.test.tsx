@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as prismic from '@prismicio/client';
+import { render } from '@testing-library/react';
 import { createElement } from 'react';
 
 import { dropCapSerializer } from './index';
@@ -25,11 +26,11 @@ describe('HTMLSerializers', () => {
           mockKey
         );
 
-        expect(result).toBeDefined();
-        expect(result).not.toBeNull();
-        // result.props.children[0] is an array [cappedFirstLetter, restOfString]
-        // result.props.children[0][0] is the span with drop-cap class
-        expect(result!.props.children[0][0].props.children).toBe('H');
+        const { container } = render(<>{result}</>);
+        const dropCapElement = container.querySelector('.drop-cap');
+
+        expect(dropCapElement).toBeInTheDocument();
+        expect(dropCapElement).toHaveTextContent('H');
       });
 
       it('should handle a React element with string children', () => {
@@ -44,9 +45,11 @@ describe('HTMLSerializers', () => {
           mockKey
         );
 
-        expect(result).toBeDefined();
-        expect(result).not.toBeNull();
-        expect(result!.props.children[0][0].props.children).toBe('T');
+        const { container } = render(<>{result}</>);
+        const dropCapElement = container.querySelector('.drop-cap');
+
+        expect(dropCapElement).toBeInTheDocument();
+        expect(dropCapElement).toHaveTextContent('T');
       });
 
       it('should return a regular paragraph when first child is not a string or element with string children', () => {
@@ -61,10 +64,10 @@ describe('HTMLSerializers', () => {
           mockKey
         );
 
-        expect(result).toBeDefined();
-        expect(result).not.toBeNull();
-        // Should return regular paragraph without drop cap
-        expect(result!.props.className).toBeUndefined();
+        const { container } = render(<>{result}</>);
+        const dropCapElement = container.querySelector('.drop-cap');
+
+        expect(dropCapElement).not.toBeInTheDocument();
       });
 
       it('should handle undefined children', () => {
@@ -78,10 +81,10 @@ describe('HTMLSerializers', () => {
           mockKey
         );
 
-        expect(result).toBeDefined();
-        expect(result).not.toBeNull();
-        // Should return regular paragraph without drop cap
-        expect(result!.props.className).toBeUndefined();
+        const { container } = render(<>{result}</>);
+        const dropCapElement = container.querySelector('.drop-cap');
+
+        expect(dropCapElement).not.toBeInTheDocument();
       });
 
       it('should handle nested React elements', () => {
@@ -100,11 +103,10 @@ describe('HTMLSerializers', () => {
           mockKey
         );
 
-        expect(result).toBeDefined();
-        expect(result).not.toBeNull();
-        // First direct child of the strong element is the span, not a string
-        // So should return regular paragraph
-        expect(result!.props.className).toBeUndefined();
+        const { container } = render(<>{result}</>);
+        const dropCapElement = container.querySelector('.drop-cap');
+
+        expect(dropCapElement).not.toBeInTheDocument();
       });
 
       it('should handle empty string', () => {
@@ -118,10 +120,10 @@ describe('HTMLSerializers', () => {
           mockKey
         );
 
-        expect(result).toBeDefined();
-        expect(result).not.toBeNull();
-        // Empty string means no first character, should return regular paragraph
-        expect(result!.props.className).toBeUndefined();
+        const { container } = render(<>{result}</>);
+        const dropCapElement = container.querySelector('.drop-cap');
+
+        expect(dropCapElement).not.toBeInTheDocument();
       });
 
       it('should handle numeric children', () => {
@@ -135,10 +137,10 @@ describe('HTMLSerializers', () => {
           mockKey
         );
 
-        expect(result).toBeDefined();
-        expect(result).not.toBeNull();
-        // Number is not a string, should return regular paragraph
-        expect(result!.props.className).toBeUndefined();
+        const { container } = render(<>{result}</>);
+        const dropCapElement = container.querySelector('.drop-cap');
+
+        expect(dropCapElement).not.toBeInTheDocument();
       });
 
       it('should handle element with multiple string children', () => {
@@ -158,10 +160,11 @@ describe('HTMLSerializers', () => {
           mockKey
         );
 
-        expect(result).toBeDefined();
-        expect(result).not.toBeNull();
-        // Should use first string child ('First')
-        expect(result!.props.children[0][0].props.children).toBe('F');
+        const { container } = render(<>{result}</>);
+        const dropCapElement = container.querySelector('.drop-cap');
+
+        expect(dropCapElement).toBeInTheDocument();
+        expect(dropCapElement).toHaveTextContent('F');
       });
     });
 
@@ -177,9 +180,11 @@ describe('HTMLSerializers', () => {
           mockKey
         );
 
-        expect(result).not.toBeNull();
-        expect(result!.props.children[0][0].props.className).toBe('drop-cap');
-        expect(result!.props.children[0][0].props.children).toBe('H');
+        const { container } = render(<>{result}</>);
+        const dropCapElement = container.querySelector('.drop-cap');
+
+        expect(dropCapElement).toBeInTheDocument();
+        expect(dropCapElement).toHaveTextContent('H');
       });
 
       it('should preserve remaining text after drop cap', () => {
@@ -193,11 +198,12 @@ describe('HTMLSerializers', () => {
           mockKey
         );
 
-        expect(result).not.toBeNull();
-        // The first child is an array [cappedFirstLetter, restOfString]
-        expect(result!.props.children[0]).toHaveLength(2);
-        // The rest of the string after the first letter
-        expect(result!.props.children[0][1]).toBe('ello world');
+        const { container } = render(<>{result}</>);
+        const paragraph = container.querySelector('p');
+
+        expect(paragraph).toBeInTheDocument();
+        expect(paragraph).toHaveTextContent('Hello world');
+        expect(container.querySelector('.drop-cap')).toHaveTextContent('H');
       });
     });
   });
