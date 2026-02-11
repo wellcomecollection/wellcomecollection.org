@@ -42,6 +42,10 @@ const config = {
         monorepoRoot,
         'node_modules/@prismicio/react'
       ),
+      '@prismicio/client/richtext': resolve(
+        monorepoRoot,
+        'node_modules/@prismicio/client/dist/richtext.js'
+      ),
       '@prismicio/client': resolve(
         monorepoRoot,
         'node_modules/@prismicio/client'
