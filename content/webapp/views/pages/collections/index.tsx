@@ -5,7 +5,10 @@ import styled, { useTheme } from 'styled-components';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { ImageType } from '@weco/common/model/image';
-import { FullWidthBannerSlice as RawFullWidthBannerSlice } from '@weco/common/prismicio-types';
+import {
+  FullWidthBannerSlice as RawFullWidthBannerSlice,
+  ThemeCardsListSlice as RawThemeCardsListSlice,
+} from '@weco/common/prismicio-types';
 import { useToggles } from '@weco/common/server-data/Context';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
@@ -26,9 +29,10 @@ import CardGrid from '@weco/content/views/components/CardGrid';
 import MoreLink from '@weco/content/views/components/MoreLink';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
 import WorkCards from '@weco/content/views/components/WorkCards';
-import BrowseByThemes from '@weco/content/views/pages/collections/collections.BrowseByThemes';
+import BrowseByThemes, {
+  hasValidThemeCardSlices,
+} from '@weco/content/views/pages/collections/collections.BrowseByThemes';
 import WorkTypesList from '@weco/content/views/pages/collections/collections.WorkTypesList';
-import { themeBlockCategories } from '@weco/content/views/pages/collections/themeBlockCategories';
 
 const MainBackground = styled.div<{ $isDefaultVariant: boolean }>`
   position: relative;
@@ -64,6 +68,7 @@ export type Props = {
   title: string;
   introText: prismic.RichTextField;
   insideOurCollectionsCards: MultiContent[];
+  themeCardsListSlices: RawThemeCardsListSlice[];
   fullWidthBanners?: RawFullWidthBannerSlice[];
   newOnlineDocuments: WorkBasic[];
 };
@@ -73,6 +78,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
   title,
   introText,
   insideOurCollectionsCards,
+  themeCardsListSlices,
   fullWidthBanners,
   newOnlineDocuments,
 }) => {
@@ -117,20 +123,22 @@ const CollectionsLandingPage: NextPage<Props> = ({
         </ContaineredLayout>
       </div>
 
-      <MainBackground
-        data-component="full-width-banner"
-        $isDefaultVariant={true}
-      >
-        <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
-          <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
-            <SectionHeader title="Browse by theme" gridSize={gridSize12()} />
+      {hasValidThemeCardSlices(themeCardsListSlices) && (
+        <MainBackground
+          data-component="full-width-banner"
+          $isDefaultVariant={true}
+        >
+          <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
+            <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
+              <SectionHeader title="Browse by theme" gridSize={gridSize12()} />
+            </Space>
+            <BrowseByThemes
+              gridSizes={gridSize12()}
+              themeCardsListSlices={themeCardsListSlices}
+            />
           </Space>
-          <BrowseByThemes
-            themeConfig={themeBlockCategories}
-            gridSizes={gridSize12()}
-          />
-        </Space>
-      </MainBackground>
+        </MainBackground>
+      )}
 
       {browseCollections && (
         <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>

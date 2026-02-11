@@ -3,9 +3,11 @@ import { NextPage } from 'next';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import {
+  PagesDocumentDataBodySlice,
   FullWidthBannerSlice as RawFullWidthBannerSlice,
   PagesDocument as RawPagesDocument,
   TextSlice as RawTextSlice,
+  ThemeCardsListSlice as RawThemeCardsListSlice,
 } from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -69,6 +71,11 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       .filter(isNotUndefined)
       .filter(isFullWidthBanner);
 
+    const themeCardsListSlices = collectionsPage.untransformedBody.filter(
+      (slice: PagesDocumentDataBodySlice) =>
+        slice.slice_type === 'themeCardsList'
+    ) as RawThemeCardsListSlice[];
+
     let newOnlineDocuments: WorkBasic[] = [];
 
     // Find the "New online" text block in Prismic that contains work IDs
@@ -126,6 +133,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         introText: collectionsPage.introText ?? [],
         insideOurCollectionsCards,
         fullWidthBanners,
+        themeCardsListSlices: themeCardsListSlices || [],
         newOnlineDocuments,
         serverData,
       }),
