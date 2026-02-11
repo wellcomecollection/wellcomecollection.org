@@ -25,17 +25,15 @@ const CollectionsTypesPage: NextPage<Props> & {
 
   return (
     <Space $v={{ size: 'md', properties: ['margin-top', 'margin-bottom'] }}>
-      <Space $v={{ size: 'lg', properties: ['margin-bottom'] }}>
-        <ContaineredLayout gridSizes={gridSize12()}>
-          <Space $v={{ size: 'lg', properties: ['margin-bottom'] }}>
-            <h2 className={font('sans-bold', 2)}>
-              Types of materials in the collections
-            </h2>
-          </Space>
+      <ContaineredLayout gridSizes={gridSize12()}>
+        <Space $v={{ size: 'lg', properties: ['margin-bottom'] }}>
+          <h2 className={font('sans-bold', 2)}>
+            Types of materials in the collections
+          </h2>
+        </Space>
 
-          <WorkTypesList collectionStats={collectionStats} />
-        </ContaineredLayout>
-      </Space>
+        <WorkTypesList collectionStats={collectionStats} />
+      </ContaineredLayout>
 
       <Body
         untransformedBody={thematicBrowsingPage.untransformedBody}

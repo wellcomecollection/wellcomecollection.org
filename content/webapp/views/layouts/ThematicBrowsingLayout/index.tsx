@@ -57,7 +57,7 @@ const ThematicBrowsingLayout: FunctionComponent<
         extraBreadcrumbs={extraBreadcrumbs}
         currentCategory={currentCategory}
       />
-      <Space $v={{ size: 'lg', properties: ['margin-top', 'margin-bottom'] }}>
+      <Space $v={{ size: 'md', properties: ['padding-top', 'padding-bottom'] }}>
         {children}
       </Space>
     </PageLayout>
