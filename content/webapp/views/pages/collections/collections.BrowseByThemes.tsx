@@ -20,34 +20,44 @@ type BrowseByThemeProps = {
   themeCardsListSlices: RawThemeCardsListSlice[];
 };
 
-const ApprovedThemeCategories = [
+// Categories that have dedicated browse pages
+const BrowsableThemeCategories = [
   'People and organisations',
   'Subjects',
   'Places',
   'Types and techniques',
 ] as const;
-export type ApprovedThemeCategoriesType =
-  (typeof ApprovedThemeCategories)[number];
+export type BrowsableThemeCategoriesType =
+  (typeof BrowsableThemeCategories)[number];
 
-const isApprovedThemeCategory = (
+// All valid theme categories (includes 'Featured' which doesn't have a browse page)
+const ValidThemeCategories = ['Featured', ...BrowsableThemeCategories] as const;
+type ValidThemeCategoriesType = (typeof ValidThemeCategories)[number];
+
+const isBrowsableCategory = (
   value?: string
-): value is ApprovedThemeCategoriesType =>
+): value is BrowsableThemeCategoriesType =>
   value !== undefined &&
-  ApprovedThemeCategories.includes(value as ApprovedThemeCategoriesType);
+  BrowsableThemeCategories.includes(value as BrowsableThemeCategoriesType);
 
-// Check if a transformed slice is valid with an approved title and concept IDs
+const isValidThemeCategory = (
+  value?: string
+): value is ValidThemeCategoriesType =>
+  value !== undefined &&
+  ValidThemeCategories.includes(value as ValidThemeCategoriesType);
+
+// Check if a transformed slice is valid with a valid title and concept IDs
 const isValidThemeCardSlice = (
   slice: ReturnType<typeof transformThemeCardsList>
 ): slice is ReturnType<typeof transformThemeCardsList> & {
-  value: { title: ApprovedThemeCategoriesType | 'Featured' };
+  value: { title: ValidThemeCategoriesType };
 } =>
-  (isApprovedThemeCategory(slice.value.title) ||
-    slice.value.title === 'Featured') &&
+  isValidThemeCategory(slice.value.title) &&
   Array.isArray(slice.value.conceptIds) &&
   slice.value.conceptIds.length > 0;
 
 // Check if there are any valid theme cards list slices
-// with approved titles and concept IDs
+// with valid titles and concept IDs
 export function hasValidThemeCardSlices(
   slices: RawThemeCardsListSlice[]
 ): boolean {
@@ -60,7 +70,7 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
 }) => {
   const { thematicBrowsing } = useToggles();
 
-  // Transform slices but ensure we only keep valid ones (approved title + concept IDs)
+  // Transform slices but ensure we only keep valid ones (valid title + concept IDs)
   const transformedThemeCardsListSlices = themeCardsListSlices
     .map(transformThemeCardsList)
     .filter(isValidThemeCardSlice);
@@ -142,7 +152,7 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
         onConceptsFetched={handleConceptsFetched}
       />
 
-      {thematicBrowsing && isApprovedThemeCategory(selectedCategoryLabel) && (
+      {thematicBrowsing && isBrowsableCategory(selectedCategoryLabel) && (
         <ContaineredLayout gridSizes={gridSize12()}>
           <Space $v={{ size: 'md', properties: ['margin-top'] }}>
             <MoreLink
