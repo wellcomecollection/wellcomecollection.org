@@ -27,6 +27,7 @@ import {
   TagListSlice as RawTagListSlice,
   TextAndIconsSlice as RawTextAndIconsSlice,
   TextAndImageSlice as RawTextAndImageSlice,
+  ThemeCardsListSlice as RawThemeCardsListSlice,
   TitledTextListSlice as RawTitledTextListSlice,
 } from '@weco/common/prismicio-types';
 import {
@@ -214,6 +215,26 @@ export function transformFullWidthBanner(
       },
     };
   }
+}
+
+type ThemeCardsListSliceValue = {
+  title?: string;
+  description?: string;
+  conceptIds: string[];
+};
+export function transformThemeCardsList(
+  slice: RawThemeCardsListSlice
+): Slice<'themeCardsList', ThemeCardsListSliceValue> {
+  return {
+    type: 'themeCardsList',
+    value: {
+      title: asText(slice.primary.title),
+      description: asText(slice.primary.description),
+      conceptIds: slice.primary.concepts_list
+        .map(concept => asText(concept.concept_id))
+        .filter(isNotUndefined),
+    },
+  };
 }
 
 export function transformGifVideoSlice(

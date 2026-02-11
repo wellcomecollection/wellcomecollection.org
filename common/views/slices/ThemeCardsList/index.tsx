@@ -2,9 +2,8 @@ import { SliceComponentProps } from '@prismicio/react';
 import { FunctionComponent } from 'react';
 
 import { ThemeCardsListSlice as RawThemeCardsListSlice } from '@weco/common/prismicio-types';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
-import { asText } from '@weco/content/services/prismic/transformers';
+import { transformThemeCardsList } from '@weco/content/services/prismic/transformers/body';
 import { SliceZoneContext } from '@weco/content/views/components/Body';
 import ThemeCardsList from '@weco/content/views/components/ThemeCardsList';
 
@@ -17,19 +16,18 @@ const ThemeCardsListSlice: FunctionComponent<ThemeCardsListSliceProps> = ({
   slice,
   context,
 }) => {
-  const conceptIds = slice.primary.concepts_list
-    .map(concept => asText(concept.concept_id))
-    .filter(isNotUndefined);
-  if (conceptIds.length === 0) return null;
+  const transformedSlice = transformThemeCardsList(slice);
 
-  const title = asText(slice.primary.title);
+  if (transformedSlice.value.conceptIds.length === 0) return null;
+
+  const title = transformedSlice.value.title;
 
   return (
     <SpacingComponent $sliceType={slice.slice_type}>
       <ThemeCardsList
-        conceptIds={conceptIds}
-        description={asText(slice.primary.description)}
         sliceTitle={title}
+        conceptIds={transformedSlice.value.conceptIds}
+        description={transformedSlice.value.description}
         gtmData={{
           'category-label': title,
           'category-position-in-list': undefined, // Only for "tabbable" carousels
