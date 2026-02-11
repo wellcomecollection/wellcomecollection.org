@@ -24,7 +24,7 @@ const CollectionsTypesPage: NextPage<Props> & {
   const { data: collectionStats } = useCollectionStats();
 
   return (
-    <Space $v={{ size: 'md', properties: ['margin-top', 'margin-bottom'] }}>
+    <>
       <ContaineredLayout gridSizes={gridSize12()}>
         <Space $v={{ size: 'lg', properties: ['margin-bottom'] }}>
           <h2 className={font('sans-bold', 2)}>
@@ -41,7 +41,7 @@ const CollectionsTypesPage: NextPage<Props> & {
         pageUid={thematicBrowsingPage.uid}
         gridSizes={gridSize12()}
       />
-    </Space>
+    </>
   );
 };
 
