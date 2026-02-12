@@ -1,10 +1,12 @@
 import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
+import { font } from '@weco/common/utils/classnames';
 import { DataGtmProps } from '@weco/common/utils/gtm';
 import { gridSize12 } from '@weco/common/views/components/Layout';
 import { SizeMap } from '@weco/common/views/components/styled/Grid';
 import LL from '@weco/common/views/components/styled/LL';
+import Space from '@weco/common/views/components/styled/Space';
 import ThemeCard from '@weco/common/views/components/ThemeCard';
 import { useConceptImageUrls } from '@weco/content/hooks/useConceptImageUrls';
 import { getConceptsByIds } from '@weco/content/services/wellcome/catalogue/concepts';
@@ -76,6 +78,11 @@ const ListItem = styled.li`
       }
     `);
   }}
+`;
+
+const Description = styled.p`
+  color: ${props => props.theme.color('black')};
+  margin-bottom: 0;
 `;
 
 const Theme: FunctionComponent<{
@@ -167,9 +174,18 @@ const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
       <ScrollContainer
         gridSizes={gridSizes}
         containerRef={scrollContainerRef}
-        sliceTitle={sliceTitle}
-        description={description}
         useShim
+        CopyContent={
+          <>
+            {sliceTitle && (
+              <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
+                <h2 className={font('sans-bold', 2)}>{sliceTitle}</h2>
+              </Space>
+            )}
+
+            {description && <Description>{description}</Description>}
+          </>
+        }
       >
         {isLoading ? (
           <div style={{ position: 'relative', height: '400px', width: '100%' }}>
