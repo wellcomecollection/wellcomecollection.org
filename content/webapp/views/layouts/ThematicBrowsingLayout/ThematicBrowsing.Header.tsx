@@ -72,6 +72,18 @@ const ThematicBrowsingHeader = ({
               </div>
             </Layout>
           )}
+
+          {title === 'Subjects' && (
+            <Space $v={{ size: 'md', properties: ['margin-top'] }}>
+              <ul>
+                <li>
+                  <a href="/collections/subjects/military-and-war">
+                    Military and war
+                  </a>
+                </li>
+              </ul>
+            </Space>
+          )}
         </Container>
       </ThematicBrowsingHeaderContainer>
 

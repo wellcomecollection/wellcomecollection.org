@@ -3,6 +3,7 @@ import { FunctionComponent, PropsWithChildren } from 'react';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
+import Space from '@weco/common/views/components/styled/Space';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { Page } from '@weco/content/types/pages';
 
@@ -50,17 +51,15 @@ const ThematicBrowsingLayout: FunctionComponent<
       image={page.image}
       apiToolbarLinks={apiToolbarLinks}
     >
-      {currentCategory ? (
-        <ThematicBrowsingHeader
-          title={page.title}
-          introText={page.introText}
-          extraBreadcrumbs={extraBreadcrumbs}
-          currentCategory={currentCategory}
-        />
-      ) : (
-        <p>Category not found</p>
-      )}
-      {children}
+      <ThematicBrowsingHeader
+        title={page.title}
+        introText={page.introText}
+        extraBreadcrumbs={extraBreadcrumbs}
+        currentCategory={currentCategory}
+      />
+      <Space $v={{ size: 'md', properties: ['padding-top', 'padding-bottom'] }}>
+        {children}
+      </Space>
     </PageLayout>
   );
 };

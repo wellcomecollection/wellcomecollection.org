@@ -111,6 +111,7 @@ type ThemeCardsListProps = {
       | DataGtmProps['category-position-in-list']
       | undefined;
   };
+  sliceTitle?: string;
   gridSizes?: SizeMap;
   onConceptsFetched?: ({ count }: { count: number }) => void;
 };
@@ -118,6 +119,7 @@ type ThemeCardsListProps = {
 const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
   conceptIds,
   description,
+  sliceTitle,
   gtmData,
   gridSizes = gridSize12(),
   onConceptsFetched,
@@ -165,6 +167,7 @@ const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
       <ScrollContainer
         gridSizes={gridSizes}
         containerRef={scrollContainerRef}
+        sliceTitle={sliceTitle}
         description={description}
         useShim
       >
