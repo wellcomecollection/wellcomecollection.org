@@ -176,15 +176,17 @@ const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
         containerRef={scrollContainerRef}
         useShim
         CopyContent={
-          <>
-            {sliceTitle && (
-              <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
-                <h2 className={font('sans-bold', 2)}>{sliceTitle}</h2>
-              </Space>
-            )}
+          sliceTitle || description ? (
+            <>
+              {sliceTitle && (
+                <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
+                  <h2 className={font('sans-bold', 2)}>{sliceTitle}</h2>
+                </Space>
+              )}
 
-            {description && <Description>{description}</Description>}
-          </>
+              {description && <Description>{description}</Description>}
+            </>
+          ) : undefined
         }
       >
         {isLoading ? (
