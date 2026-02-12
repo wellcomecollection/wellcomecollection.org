@@ -27,7 +27,8 @@ describe('HTMLSerializers', () => {
         );
 
         const { container } = render(<>{result}</>);
-        const dropCapElement = container.querySelector('.drop-cap');
+        const dropCapElement =
+          container.querySelector<HTMLElement>('.drop-cap');
 
         expect(dropCapElement).toBeInTheDocument();
         expect(dropCapElement).toHaveTextContent('H');
@@ -46,7 +47,8 @@ describe('HTMLSerializers', () => {
         );
 
         const { container } = render(<>{result}</>);
-        const dropCapElement = container.querySelector('.drop-cap');
+        const dropCapElement =
+          container.querySelector<HTMLElement>('.drop-cap');
 
         expect(dropCapElement).toBeInTheDocument();
         expect(dropCapElement).toHaveTextContent('T');
@@ -65,7 +67,8 @@ describe('HTMLSerializers', () => {
         );
 
         const { container } = render(<>{result}</>);
-        const dropCapElement = container.querySelector('.drop-cap');
+        const dropCapElement =
+          container.querySelector<HTMLElement>('.drop-cap');
 
         expect(dropCapElement).not.toBeInTheDocument();
       });
@@ -82,7 +85,8 @@ describe('HTMLSerializers', () => {
         );
 
         const { container } = render(<>{result}</>);
-        const dropCapElement = container.querySelector('.drop-cap');
+        const dropCapElement =
+          container.querySelector<HTMLElement>('.drop-cap');
 
         expect(dropCapElement).not.toBeInTheDocument();
       });
@@ -104,7 +108,8 @@ describe('HTMLSerializers', () => {
         );
 
         const { container } = render(<>{result}</>);
-        const dropCapElement = container.querySelector('.drop-cap');
+        const dropCapElement =
+          container.querySelector<HTMLElement>('.drop-cap');
 
         expect(dropCapElement).not.toBeInTheDocument();
       });
@@ -121,7 +126,8 @@ describe('HTMLSerializers', () => {
         );
 
         const { container } = render(<>{result}</>);
-        const dropCapElement = container.querySelector('.drop-cap');
+        const dropCapElement =
+          container.querySelector<HTMLElement>('.drop-cap');
 
         expect(dropCapElement).not.toBeInTheDocument();
       });
@@ -138,7 +144,8 @@ describe('HTMLSerializers', () => {
         );
 
         const { container } = render(<>{result}</>);
-        const dropCapElement = container.querySelector('.drop-cap');
+        const dropCapElement =
+          container.querySelector<HTMLElement>('.drop-cap');
 
         expect(dropCapElement).not.toBeInTheDocument();
       });
@@ -161,7 +168,8 @@ describe('HTMLSerializers', () => {
         );
 
         const { container } = render(<>{result}</>);
-        const dropCapElement = container.querySelector('.drop-cap');
+        const dropCapElement =
+          container.querySelector<HTMLElement>('.drop-cap');
 
         expect(dropCapElement).toBeInTheDocument();
         expect(dropCapElement).toHaveTextContent('F');
@@ -181,7 +189,8 @@ describe('HTMLSerializers', () => {
         );
 
         const { container } = render(<>{result}</>);
-        const dropCapElement = container.querySelector('.drop-cap');
+        const dropCapElement =
+          container.querySelector<HTMLElement>('.drop-cap');
 
         expect(dropCapElement).toBeInTheDocument();
         expect(dropCapElement).toHaveTextContent('H');
@@ -199,11 +208,13 @@ describe('HTMLSerializers', () => {
         );
 
         const { container } = render(<>{result}</>);
-        const paragraph = container.querySelector('p');
+        const paragraph = container.querySelector<HTMLElement>('p');
 
         expect(paragraph).toBeInTheDocument();
         expect(paragraph).toHaveTextContent('Hello world');
-        expect(container.querySelector('.drop-cap')).toHaveTextContent('H');
+        expect(
+          container.querySelector<HTMLElement>('.drop-cap')
+        ).toHaveTextContent('H');
       });
     });
   });
