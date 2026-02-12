@@ -1,7 +1,10 @@
 import { Meta, StoryObj } from '@storybook/react';
+import { ComponentProps } from 'react';
 import { styled } from 'storybook/theming';
 
+import { font } from '@weco/common/utils/classnames';
 import { gridSize12 } from '@weco/common/views/components/Layout';
+import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
 import ScrollContainer from '@weco/content/views/components/ScrollContainer';
 
@@ -17,22 +20,30 @@ const MockScrollableItem = styled.li`
   color: ${themeValues.color('white')};
 `;
 
-const meta: Meta<typeof ScrollContainer> = {
+const DetailsCopy = styled.span`
+  color: ${themeValues.color('black')};
+`;
+
+type StoryProps = ComponentProps<typeof ScrollContainer> & {
+  hasCopy: boolean;
+};
+
+const meta: Meta<StoryProps> = {
   title: 'Components/ScrollContainer',
   component: ScrollContainer,
   args: {
-    detailsCopy: 'Scroll container details (x results)',
-    description:
-      'Description about manuscripts in the Collection, number of collections and percentage within the collection.',
     hasDarkBackground: false,
     hasLeftOffset: false,
     scrollButtonsAfter: false,
     useShim: true,
     gridSizes: gridSize12(),
+    hasCopy: true,
   },
   argTypes: {
-    detailsCopy: { name: 'Details copy', control: 'text' },
-    description: { name: 'Description', control: 'text' },
+    hasCopy: {
+      name: 'Has extra copy added through code',
+      control: 'boolean',
+    },
     hasDarkBackground: {
       name: 'Has dark background',
       control: 'boolean',
@@ -49,6 +60,7 @@ const meta: Meta<typeof ScrollContainer> = {
       name: 'Use scroll shim',
       control: 'boolean',
     },
+    CopyContent: { table: { disable: true } },
     containerRef: { table: { disable: true } },
     gridSizes: { table: { disable: true } },
   },
@@ -61,10 +73,10 @@ const meta: Meta<typeof ScrollContainer> = {
 
 export default meta;
 
-type Story = StoryObj<typeof ScrollContainer>;
+type Story = StoryObj<StoryProps>;
 
 const Template = args => {
-  const { hasDarkBackground } = args;
+  const { hasDarkBackground, hasCopy } = args;
 
   return (
     <div
@@ -75,7 +87,23 @@ const Template = args => {
           : 'transparent',
       }}
     >
-      <ScrollContainer {...args}>
+      <ScrollContainer
+        {...args}
+        CopyContent={
+          hasCopy ? (
+            <>
+              <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
+                <h2 className={font('sans-bold', 2)}>
+                  Title for this component
+                </h2>
+              </Space>
+              <DetailsCopy className={font('sans', -2)}>
+                Scroll container details (x results)
+              </DetailsCopy>
+            </>
+          ) : undefined
+        }
+      >
         <MockScrollableItem>Item 1</MockScrollableItem>
         <MockScrollableItem>Item 2</MockScrollableItem>
         <MockScrollableItem>Item 3</MockScrollableItem>

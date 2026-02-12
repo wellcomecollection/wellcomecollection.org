@@ -1,5 +1,7 @@
 import { FunctionComponent } from 'react';
+import styled from 'styled-components';
 
+import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
 import { useExpandedImage } from '@weco/content/views/components/ImageModal';
@@ -15,6 +17,12 @@ export type Props = {
   scrollButtonsAfter?: boolean;
 };
 
+const DetailsCopy = styled.span.attrs({
+  className: font('sans', -2),
+})`
+  color: ${props => props.theme.color('neutral.400')};
+`;
+
 const CatalogueImageGalleryScrollable: FunctionComponent<Props> = ({
   images,
   detailsCopy,
@@ -24,10 +32,12 @@ const CatalogueImageGalleryScrollable: FunctionComponent<Props> = ({
 
   return (
     <ScrollContainer
-      detailsCopy={detailsCopy}
       hasDarkBackground
       hasLeftOffset
       scrollButtonsAfter={scrollButtonsAfter}
+      CopyContent={
+        detailsCopy ? <DetailsCopy>{detailsCopy}</DetailsCopy> : undefined
+      }
     >
       {images.map((image, index) => (
         <li key={image.id} style={{ maxWidth: '90vw' }}>
