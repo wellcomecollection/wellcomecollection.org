@@ -42,6 +42,9 @@ const config = {
         monorepoRoot,
         'node_modules/@prismicio/react'
       ),
+      // Work around Storybook + Vite subpath export resolution for Prismic rich text.
+      '@prismicio/client/richtext':
+        require.resolve('@prismicio/client/richtext'),
       '@prismicio/client': resolve(
         monorepoRoot,
         'node_modules/@prismicio/client'
