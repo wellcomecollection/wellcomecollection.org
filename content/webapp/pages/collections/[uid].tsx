@@ -28,6 +28,10 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     typesAndTechniques: ['thematic-browsing-types', 'aYYiGRIAACQA8_4N'],
     subjects: ['thematic-browsing-subjects', 'aYYi7RIAACUA8_9m'],
     militaryAndWar: ['subjects-military-and-war', 'aXNKABEAACAAypp_'],
+    medicineCareAndTreatment: [
+      'subjects-medicine-care-and-treatment',
+      'aY2jMBAAACEAHkc6',
+    ],
   };
   const flattenedHiddenPages = Object.values(collectionsHiddenPages).flat();
 
