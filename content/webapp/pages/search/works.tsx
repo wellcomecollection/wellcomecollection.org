@@ -98,7 +98,10 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   const searchIn = typeof query.searchIn === 'string' ? query.searchIn : 'all';
 
-  const semanticSearchPrototype = true; // serverData.toggles.semanticSearchPrototype;
+  const semanticSearchPrototype =
+    serverData.toggles.semanticSearchPrototype.value;
+  const semanticSearchComparison =
+    serverData.toggles.semanticSearchComparison.value;
 
   // TODO use when we update to semantic search APIs
   // Map searchIn to elasticCluster parameter for semantic search API
@@ -111,9 +114,9 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   // };
 
   // Determine which APIs to fetch from based on searchIn parameter
-  // Note: searchIn is only used when semanticSearchPrototype toggle is enabled
+  // Note: searchIn is only used when semanticSearchPrototype or semanticSearchComparison toggles are enabled
   const shouldFetchWorks =
-    !semanticSearchPrototype ||
+    (!semanticSearchPrototype && !semanticSearchComparison) ||
     searchIn === 'all' ||
     searchIn === 'alternative1';
   const shouldFetchAlternative2 =
@@ -154,7 +157,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   let works2: CatalogueResultsList<Concept> | null = null;
   let works3: CatalogueResultsList<Image> | null = null;
 
-  if (semanticSearchPrototype) {
+  if (semanticSearchPrototype || semanticSearchComparison) {
     const works2Promise = shouldFetchAlternative2
       ? getConcepts({
           params: { query: params.query, page: params.page },
