@@ -37,8 +37,8 @@ import SearchNoResults from '@weco/content/views/pages/search/search.NoResults';
 
 export type Props = {
   works: WellcomeResultList<WorkBasic, WorkAggregations>;
-  works2?: CatalogueResultsList<Concept> | null; // TODO this is temorary until we switch to semantic search APIs, when this will become a different set of works results
-  works3?: CatalogueResultsList<Image> | null; // TODO this is temorary until we switch to semantic search APIs, when this will become a different set of works results
+  works2?: CatalogueResultsList<Concept> | null; // TODO this is temporary until we switch to semantic search APIs, when this will become a different set of works results
+  works3?: CatalogueResultsList<Image> | null; // TODO this is temporary until we switch to semantic search APIs, when this will become a different set of works results
   worksRouteProps: WorksRouteProps;
   query: Query;
   apiToolbarLinks: ApiToolbarLink[];

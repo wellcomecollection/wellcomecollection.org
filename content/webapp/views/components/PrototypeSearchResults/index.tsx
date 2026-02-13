@@ -13,9 +13,9 @@ import {
 import WorksSearchResult from '@weco/content/views/components/WorksSearchResults/WorksSearchResults.Result';
 
 type Props = {
-  works: WellcomeResultList<WorkBasic, WorkAggregations>;
-  works2: CatalogueResultsList<Concept> | null | undefined; // TODO this is temorary until we switch to semantic search APIs, when this will become a different set of works results
-  works3: CatalogueResultsList<Image> | null | undefined; // TODO this is temorary until we switch to semantic search APIs, when this will become a different set of works results
+  works: WellcomeResultList<WorkBasic, WorkAggregations> | null | undefined;
+  works2: CatalogueResultsList<Concept> | null | undefined; // TODO this is temporary until we switch to semantic search APIs, when this will become a different set of works results
+  works3: CatalogueResultsList<Image> | null | undefined; // TODO this is temporary until we switch to semantic search APIs, when this will become a different set of works results
   currentPage: number;
 };
 
