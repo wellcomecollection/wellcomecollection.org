@@ -219,6 +219,8 @@ const WorksSearchPage: NextPage<Props> = withSearchLayout(
             ) : (
               <>
                 {(() => {
+                  // TODO: Remove this entire block when semanticSearchPrototype toggle is removed
+                  // This handles individual API selection in prototype mode
                   // Determine which API results to use based on the selected API from the searchIn query parameter
                   // Only check searchIn if semanticSearchPrototype is enabled
                   const searchIn =
@@ -231,6 +233,7 @@ const WorksSearchPage: NextPage<Props> = withSearchLayout(
                     selectedTotalPages = works.totalPages;
                     selectedTotalResults = works.totalResults;
                   } else if (searchIn === 'alternative2') {
+                    // TODO: Remove this transformation when switching to semantic search getWorks API
                     // Transform Concept results to WorkBasic format
                     selectedWorks =
                       works2?.results?.map(result => ({
@@ -248,6 +251,7 @@ const WorksSearchPage: NextPage<Props> = withSearchLayout(
                     selectedTotalPages = works2?.totalPages || 0;
                     selectedTotalResults = works2?.totalResults || 0;
                   } else if (searchIn === 'alternative3') {
+                    // TODO: Remove this transformation when switching to semantic search getWorks API
                     // Transform Image results to WorkBasic format
                     selectedWorks =
                       works3?.results?.map(result => ({
