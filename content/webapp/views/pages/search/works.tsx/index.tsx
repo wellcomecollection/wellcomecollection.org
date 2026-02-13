@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { useSearchContext } from '@weco/common/contexts/SearchContext';
+import { useToggles } from '@weco/common/server-data/Context';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import { pluralize } from '@weco/common/utils/grammar';
 import { linkResolver, SEARCH_PAGES_FORM_ID } from '@weco/common/utils/search';
@@ -13,6 +14,9 @@ import PaginationWrapper from '@weco/common/views/components/styled/PaginationWr
 import Space from '@weco/common/views/components/styled/Space';
 import { WellcomeResultList } from '@weco/content/services/wellcome';
 import {
+  CatalogueResultsList,
+  Concept,
+  Image,
   WorkAggregations,
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
@@ -20,6 +24,7 @@ import { worksFilters } from '@weco/content/services/wellcome/common/filters';
 import { Query } from '@weco/content/types/search';
 import { getActiveFiltersLabel, hasFilters } from '@weco/content/utils/search';
 import Pagination from '@weco/content/views/components/Pagination';
+import PrototypeSearchResults from '@weco/content/views/components/PrototypeSearchResults';
 import SearchFilters from '@weco/content/views/components/SearchFilters';
 import {
   toSearchWorksLink,
@@ -32,6 +37,8 @@ import SearchNoResults from '@weco/content/views/pages/search/search.NoResults';
 
 export type Props = {
   works: WellcomeResultList<WorkBasic, WorkAggregations>;
+  works2?: CatalogueResultsList<Concept> | null; // TODO this is temporary until we switch to semantic search APIs, when this will become a different set of works results
+  works3?: CatalogueResultsList<Image> | null; // TODO this is temporary until we switch to semantic search APIs, when this will become a different set of works results
   worksRouteProps: WorksRouteProps;
   query: Query;
   apiToolbarLinks: ApiToolbarLink[];
@@ -44,8 +51,9 @@ const SortPaginationWrapper = styled.div`
 `;
 
 const WorksSearchPage: NextPage<Props> = withSearchLayout(
-  ({ works, worksRouteProps, query }) => {
+  ({ works, works2, works3, worksRouteProps, query }) => {
     const { query: queryString } = query;
+    const { semanticSearchPrototype, semanticSearchComparison } = useToggles();
 
     const { setLink } = useSearchContext();
     useEffect(() => {
@@ -55,7 +63,12 @@ const WorksSearchPage: NextPage<Props> = withSearchLayout(
 
     const filters = worksFilters({ works, props: worksRouteProps });
 
-    const hasNoResults = works.totalResults === 0;
+    const hasNoResults =
+      semanticSearchPrototype || semanticSearchComparison
+        ? works.totalResults === 0 &&
+          (!works2 || works2.totalResults === 0) &&
+          (!works3 || works3.totalResults === 0)
+        : works.totalResults === 0;
     const hasActiveFilters = hasFilters({
       filters: [
         ...filters.map(f => f.id),
@@ -97,113 +110,241 @@ const WorksSearchPage: NextPage<Props> = withSearchLayout(
 
         <Space $v={{ size: 'md', properties: ['padding-bottom'] }}>
           <Container>
-            {(!hasNoResults || (hasNoResults && hasActiveFilters)) && (
-              <>
-                <Space
-                  $v={{
-                    size: 'md',
-                    properties: ['padding-top', 'padding-bottom'],
-                  }}
-                >
-                  <SearchFilters
-                    query={queryString}
-                    linkResolver={params =>
-                      linkResolver({ params, pathname: '/search/works' })
-                    }
-                    searchFormId={SEARCH_PAGES_FORM_ID}
-                    changeHandler={() => {
-                      const form =
-                        document.getElementById(SEARCH_PAGES_FORM_ID);
-                      if (form) {
-                        // Set data attribute to indicate this is a filter change, not a query change
-                        form.dataset.gtmIsFilterChange = 'true';
-                        form.dispatchEvent(
-                          new window.Event('submit', {
-                            cancelable: true,
-                            bubbles: true,
-                          })
-                        );
-                        // Remove the attribute after dispatch
-                        delete form.dataset.gtmIsFilterChange;
-                      }
+            {!semanticSearchPrototype &&
+              !semanticSearchComparison &&
+              (!hasNoResults || (hasNoResults && hasActiveFilters)) && (
+                <>
+                  <Space
+                    $v={{
+                      size: 'md',
+                      properties: ['padding-top', 'padding-bottom'],
                     }}
-                    filters={filters}
-                    hasNoResults={hasNoResults}
-                  />
-                </Space>
-              </>
-            )}
+                  >
+                    <SearchFilters
+                      query={queryString}
+                      linkResolver={params =>
+                        linkResolver({ params, pathname: '/search/works' })
+                      }
+                      searchFormId={SEARCH_PAGES_FORM_ID}
+                      changeHandler={() => {
+                        const form =
+                          document.getElementById(SEARCH_PAGES_FORM_ID);
+                        if (form) {
+                          // Set data attribute to indicate this is a filter change, not a query change
+                          form.dataset.gtmIsFilterChange = 'true';
+                          form.dispatchEvent(
+                            new window.Event('submit', {
+                              cancelable: true,
+                              bubbles: true,
+                            })
+                          );
+                          // Remove the attribute after dispatch
+                          delete form.dataset.gtmIsFilterChange;
+                        }
+                      }}
+                      filters={filters}
+                      hasNoResults={hasNoResults}
+                    />
+                  </Space>
+                </>
+              )}
 
             {hasNoResults ? (
               <SearchNoResults
                 query={queryString}
                 hasFilters={hasActiveFilters}
               />
+            ) : semanticSearchComparison && query.searchIn === 'all' ? (
+              <>
+                {(() => {
+                  // Use totalPages from the result set with the most results
+                  const resultSets = [
+                    { results: works.totalResults, pages: works.totalPages },
+                    works2
+                      ? {
+                          results: works2.totalResults,
+                          pages: works2.totalPages,
+                        }
+                      : null,
+                    works3
+                      ? {
+                          results: works3.totalResults,
+                          pages: works3.totalPages,
+                        }
+                      : null,
+                  ].filter(
+                    (set): set is { results: number; pages: number } =>
+                      set !== null
+                  );
+
+                  const maxResultsSet = resultSets.reduce((max, current) =>
+                    current.results > max.results ? current : max
+                  );
+
+                  const totalPages = maxResultsSet.pages;
+
+                  return (
+                    <>
+                      <PaginationWrapper $verticalSpacing="md">
+                        <span role="status">
+                          Results: {works && `${works.totalResults} works`}
+                          {works2 && `${works2.totalResults} works (variant 2)`}
+                          {works3 && `${works3.totalResults} works (variant 3)`}
+                        </span>
+                        <Pagination
+                          totalPages={totalPages}
+                          ariaLabel="search pagination"
+                        />
+                      </PaginationWrapper>
+
+                      <main>
+                        <PrototypeSearchResults
+                          works={works}
+                          works2={works2}
+                          works3={works3}
+                          currentPage={worksRouteProps.page}
+                        />
+
+                        <PaginationWrapper $verticalSpacing="md" $alignRight>
+                          <Pagination
+                            totalPages={totalPages}
+                            ariaLabel="search pagination"
+                          />
+                        </PaginationWrapper>
+                      </main>
+                    </>
+                  );
+                })()}
+              </>
             ) : (
               <>
-                <PaginationWrapper $verticalSpacing="md">
-                  <span role="status">
-                    {pluralize(works.totalResults, 'result')}
-                    {activeFiltersLabels.length > 0 && (
-                      <span className="visually-hidden">
-                        {' '}
-                        filtered with: {activeFiltersLabels.join(', ')}
-                      </span>
-                    )}
-                  </span>
+                {(() => {
+                  // TODO: Remove this entire block when semanticSearchPrototype toggle is removed
+                  // This handles individual API selection in prototype mode
+                  // Determine which API results to use based on the selected API from the searchIn query parameter
+                  // Only check searchIn if semanticSearchPrototype or semanticSearchComparison is enabled
+                  const searchIn =
+                    (semanticSearchPrototype || semanticSearchComparison) &&
+                    query.searchIn
+                      ? query.searchIn
+                      : 'alternative1';
+                  let selectedWorks, selectedTotalPages, selectedTotalResults;
+                  if (searchIn === 'alternative1') {
+                    selectedWorks = works.results;
+                    selectedTotalPages = works.totalPages;
+                    selectedTotalResults = works.totalResults;
+                  } else if (searchIn === 'alternative2') {
+                    // TODO: Remove this transformation when switching to semantic search getWorks API
+                    // Transform Concept results to WorkBasic format
+                    selectedWorks =
+                      works2?.results?.map(result => ({
+                        id: result.id,
+                        title: result.label,
+                        languageId: undefined,
+                        thumbnail: undefined,
+                        referenceNumber: undefined,
+                        productionDates: [],
+                        archiveLabels: undefined,
+                        cardLabels: [{ text: 'Concept' }],
+                        primaryContributorLabel: undefined,
+                        notes: [],
+                      })) || [];
+                    selectedTotalPages = works2?.totalPages || 0;
+                    selectedTotalResults = works2?.totalResults || 0;
+                  } else if (searchIn === 'alternative3') {
+                    // TODO: Remove this transformation when switching to semantic search getWorks API
+                    // Transform Image results to WorkBasic format
+                    selectedWorks =
+                      works3?.results?.map(result => ({
+                        id: result.id,
+                        title: result.source.title,
+                        languageId: undefined,
+                        thumbnail: result.thumbnail,
+                        referenceNumber: undefined,
+                        productionDates: [],
+                        archiveLabels: undefined,
+                        cardLabels: [{ text: 'Image' }],
+                        primaryContributorLabel: undefined,
+                        notes: [],
+                      })) || [];
+                    selectedTotalPages = works3?.totalPages || 0;
+                    selectedTotalResults = works3?.totalResults || 0;
+                  } else {
+                    selectedWorks = works.results;
+                    selectedTotalPages = works.totalPages;
+                    selectedTotalResults = works.totalResults;
+                  }
 
-                  <SortPaginationWrapper>
-                    <Sort
-                      formId={SEARCH_PAGES_FORM_ID}
-                      options={[
-                        // Default value to be left empty so it's not added to the URL query
-                        { value: '', text: 'Relevance' },
-                        {
-                          value: 'production.dates.asc',
-                          text: 'Oldest to newest',
-                        },
-                        {
-                          value: 'production.dates.desc',
-                          text: 'Newest to oldest',
-                        },
-                      ]}
-                      jsLessOptions={{
-                        sort: [
-                          { value: '', text: 'Relevance' },
-                          {
-                            value: 'production.dates',
-                            text: 'Production dates',
-                          },
-                        ],
-                        sortOrder: [
-                          { value: 'asc', text: 'Ascending' },
-                          { value: 'desc', text: 'Descending' },
-                        ],
-                      }}
-                      defaultValues={{
-                        sort: worksRouteProps.sort,
-                        sortOrder: worksRouteProps.sortOrder,
-                      }}
-                    />
+                  return (
+                    <>
+                      <PaginationWrapper $verticalSpacing="md">
+                        <span role="status">
+                          {pluralize(selectedTotalResults, 'result')}
+                          {activeFiltersLabels.length > 0 && (
+                            <span className="visually-hidden">
+                              {' '}
+                              filtered with: {activeFiltersLabels.join(', ')}
+                            </span>
+                          )}
+                        </span>
 
-                    <Pagination
-                      totalPages={works.totalPages}
-                      ariaLabel="Catalogue search pagination"
-                      isHiddenMobile
-                    />
-                  </SortPaginationWrapper>
-                </PaginationWrapper>
+                        <SortPaginationWrapper>
+                          {!semanticSearchPrototype && (
+                            <Sort
+                              formId={SEARCH_PAGES_FORM_ID}
+                              options={[
+                                // Default value to be left empty so it's not added to the URL query
+                                { value: '', text: 'Relevance' },
+                                {
+                                  value: 'production.dates.asc',
+                                  text: 'Oldest to newest',
+                                },
+                                {
+                                  value: 'production.dates.desc',
+                                  text: 'Newest to oldest',
+                                },
+                              ]}
+                              jsLessOptions={{
+                                sort: [
+                                  { value: '', text: 'Relevance' },
+                                  {
+                                    value: 'production.dates',
+                                    text: 'Production dates',
+                                  },
+                                ],
+                                sortOrder: [
+                                  { value: 'asc', text: 'Ascending' },
+                                  { value: 'desc', text: 'Descending' },
+                                ],
+                              }}
+                              defaultValues={{
+                                sort: worksRouteProps.sort,
+                                sortOrder: worksRouteProps.sortOrder,
+                              }}
+                            />
+                          )}
 
-                <main>
-                  <WorksSearchResults works={works.results} />
-                </main>
+                          <Pagination
+                            totalPages={selectedTotalPages}
+                            ariaLabel="Catalogue search pagination"
+                            isHiddenMobile
+                          />
+                        </SortPaginationWrapper>
+                      </PaginationWrapper>
 
-                <PaginationWrapper $verticalSpacing="md" $alignRight>
-                  <Pagination
-                    totalPages={works.totalPages}
-                    ariaLabel="Catalogue search pagination"
-                  />
-                </PaginationWrapper>
+                      <main>
+                        <WorksSearchResults works={selectedWorks} />
+                      </main>
+
+                      <PaginationWrapper $verticalSpacing="md" $alignRight>
+                        <Pagination
+                          totalPages={selectedTotalPages}
+                          ariaLabel="Catalogue search pagination"
+                        />
+                      </PaginationWrapper>
+                    </>
+                  );
+                })()}
               </>
             )}
           </Container>
