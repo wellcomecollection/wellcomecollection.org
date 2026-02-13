@@ -157,14 +157,17 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
           {capitalize(currentSearchCategory)} search
         </h1>
 
-        {semanticSearchPrototype ? (
+        {semanticSearchPrototype || semanticSearchComparison ? (
           <PrototypeSearchSelects
             currentQuery={queryValue}
             currentApiSelection={
               typeof router.query.searchIn === 'string'
                 ? router.query.searchIn
-                : 'all'
+                : semanticSearchComparison
+                  ? 'all'
+                  : 'alternative1'
             }
+            showAllResultsOption={semanticSearchComparison}
           />
         ) : (
           <SearchBarContainer
