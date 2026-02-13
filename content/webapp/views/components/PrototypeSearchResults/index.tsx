@@ -99,12 +99,12 @@ const PrototypeSearchResults: FunctionComponent<Props> = ({
     () =>
       Array.from({
         length: Math.max(
-          works.results.length,
+          works?.results.length || 0,
           works2?.results.length || 0,
           works3?.results.length || 0
         ),
       }),
-    [works.results.length, works2?.results.length, works3?.results.length]
+    [works?.results.length, works2?.results.length, works3?.results.length]
   );
 
   const renderResultCell = (
