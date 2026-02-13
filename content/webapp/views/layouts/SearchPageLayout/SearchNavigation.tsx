@@ -48,7 +48,8 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
   currentQueryValue: queryValue,
 }) => {
   const router = useRouter();
-  const { conceptsSearch, semanticSearchPrototype } = useToggles();
+  const { conceptsSearch, semanticSearchPrototype, semanticSearchComparison } =
+    useToggles();
 
   // Variable naming note:
   //
@@ -184,7 +185,7 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
           </SearchBarContainer>
         )}
       </form>
-      {!semanticSearchPrototype && (
+      {!semanticSearchPrototype && !semanticSearchComparison && (
         <TabsBorder $visible={true}>
           <Tabs
             tabBehaviour="navigate"
