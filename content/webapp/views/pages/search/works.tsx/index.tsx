@@ -222,9 +222,10 @@ const WorksSearchPage: NextPage<Props> = withSearchLayout(
                   // TODO: Remove this entire block when semanticSearchPrototype toggle is removed
                   // This handles individual API selection in prototype mode
                   // Determine which API results to use based on the selected API from the searchIn query parameter
-                  // Only check searchIn if semanticSearchPrototype is enabled
+                  // Only check searchIn if semanticSearchPrototype or semanticSearchComparison is enabled
                   const searchIn =
-                    semanticSearchPrototype && query.searchIn
+                    (semanticSearchPrototype || semanticSearchComparison) &&
+                    query.searchIn
                       ? query.searchIn
                       : 'alternative1';
                   let selectedWorks, selectedTotalPages, selectedTotalResults;
