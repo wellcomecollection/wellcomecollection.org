@@ -8,6 +8,7 @@ import {
   physicalDescriptionMetadataItem,
 } from '@weco/content/__mocks__/iiif-manifest-v3';
 import {
+  getFileTypeLabel,
   getIIIFMetadata,
   getIIIFPresentationCredit,
   getItemsStatus,
@@ -380,5 +381,110 @@ describe('isPDFCanvas', () => {
       painting: [],
     });
     expect(isPDFCanvas(canvas)).toBe(false);
+  });
+});
+
+describe('getFileTypeLabel', () => {
+  it('returns file for mixed PDF and image', () => {
+    const canvases = [
+      createMockCanvas({
+        original: [
+          {
+            type: 'Text',
+            format: 'application/pdf',
+          },
+        ],
+      }),
+      createMockCanvas({
+        painting: [
+          {
+            id: 'i1',
+            type: 'Image',
+            format: 'image/jpeg',
+          },
+        ],
+      }),
+    ];
+    expect(getFileTypeLabel(canvases.length, false, canvases)).toBe('2 files');
+  });
+
+  it('returns image for all images', () => {
+    const canvases = [
+      createMockCanvas({
+        painting: [
+          {
+            id: 'i1',
+            type: 'Image',
+            format: 'image/jpeg',
+          },
+        ],
+      }),
+      createMockCanvas({
+        painting: [
+          {
+            id: 'i2',
+            type: 'Image',
+            format: 'image/png',
+          },
+        ],
+      }),
+    ];
+    expect(getFileTypeLabel(canvases.length, false, canvases)).toBe('2 images');
+  });
+
+  it('returns file for mixed video and image', () => {
+    const canvases = [
+      createMockCanvas({
+        painting: [
+          {
+            id: 'v1',
+            type: 'Video',
+            format: 'video/mp4',
+          },
+        ],
+      }),
+      createMockCanvas({
+        painting: [
+          {
+            id: 'i1',
+            type: 'Image',
+            format: 'image/jpeg',
+          },
+        ],
+      }),
+    ];
+    expect(getFileTypeLabel(canvases.length, false, canvases)).toBe('2 files');
+  });
+
+  it('returns video file when only videos present', () => {
+    const canvases = [
+      createMockCanvas({
+        painting: [
+          {
+            id: 'v1',
+            type: 'Video',
+            format: 'video/mp4',
+          },
+        ],
+      }),
+    ];
+    expect(getFileTypeLabel(canvases.length, false, canvases)).toBe(
+      '1 video file'
+    );
+  });
+
+  it('returns file when hasNonStandardItems is true', () => {
+    const canvases = [
+      createMockCanvas({
+        painting: [
+          {
+            id: 'i1',
+            type: 'Image',
+            format: 'image/jpeg',
+          },
+        ],
+      }),
+    ];
+    expect(getFileTypeLabel(canvases.length, true, canvases)).toBe('1 file');
   });
 });
