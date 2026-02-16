@@ -39,7 +39,7 @@ const ThematicBrowsingNavigation: FunctionComponent<{
       <SelectableTagsWrapper as={PlainList}>
         {tagItems.map((tag, i) => {
           const dataGtmProps: DataGtmProps = {
-            trigger: 'thematic_browsing_link',
+            trigger: 'thematic_browsing_navigation_link',
             label: tag.label,
             'position-in-list': `${i + 1}`,
           };
