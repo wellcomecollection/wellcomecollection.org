@@ -12,16 +12,16 @@ const MockScrollableItem = styled.li`
   flex: 0 0 auto;
   width: 400px;
   height: 300px;
-  background-color: ${themeValues.color('neutral.600')};
+  background-color: ${props => props.theme.color('neutral.600')};
   margin-right: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${themeValues.color('white')};
+  color: ${props => props.theme.color('white')};
 `;
 
 const DetailsCopy = styled.span`
-  color: ${themeValues.color('black')};
+  color: ${props => props.theme.color('black')};
 `;
 
 type StoryProps = ComponentProps<typeof ScrollContainer> & {
