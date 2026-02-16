@@ -285,7 +285,10 @@ WellcomeSubThemePage.getLayout = page => {
   return (
     <ThematicBrowsingLayout
       page={page.props.thematicBrowsingPage}
-      apiToolbarLinks={[createPrismicLink(page.props.thematicBrowsingPage.id)]}
+      apiToolbarLinks={[
+        ...page.props.apiToolbarLinks,
+        createPrismicLink(page.props.thematicBrowsingPage.id),
+      ]}
       currentCategory="subjects"
       subPageUid={page.props.curatedUid}
       extraBreadcrumbs={[

@@ -10,7 +10,6 @@ import { serialiseProps } from '@weco/common/utils/json';
 import { getQueryPropertyValue } from '@weco/common/utils/search';
 import { getQueryResults } from '@weco/common/utils/search';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
-import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import {
   ServerSideProps,
   ServerSidePropsOrAppError,
@@ -22,7 +21,6 @@ import { transformPage } from '@weco/content/services/prismic/transformers/pages
 import { getConcept } from '@weco/content/services/wellcome/catalogue/concepts';
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import {
-  Concept as ConceptType,
   toWorkBasic,
   Work,
 } from '@weco/content/services/wellcome/catalogue/types';
@@ -30,7 +28,6 @@ import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
 import { Article } from '@weco/content/types/articles';
 import {
   allRecordsLinkParams,
-  getDisplayIdentifierType,
   queryParams,
 } from '@weco/content/utils/concepts';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
@@ -40,31 +37,6 @@ import WellcomeSubThemePage, {
 import { SectionData } from '@weco/content/views/pages/concepts/concept/concept.helpers';
 
 type Props = ServerSideProps<WellcomeSubThemePageProps>;
-
-function createApiToolbarLinks(concept: ConceptType): ApiToolbarLink[] {
-  const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/concepts/${concept.id}`;
-
-  const apiLink = {
-    id: 'json',
-    label: 'JSON',
-    link: apiUrl,
-  };
-
-  const identifiers = (concept.identifiers || []).map(id =>
-    id.identifierType.id === 'label-derived'
-      ? {
-          id: id.value,
-          label: 'Label-derived identifier',
-        }
-      : {
-          id: id.value,
-          label: getDisplayIdentifierType(id.identifierType),
-          value: id.value,
-        }
-  );
-
-  return [apiLink, ...identifiers];
-}
 
 export const getServerSideProps: ServerSidePropsOrAppError<
   Props
@@ -151,10 +123,11 @@ export const getServerSideProps: ServerSidePropsOrAppError<
      */
 
     /**
-     * Images
+     * Images and Works
      * */
+    const MOCK_CONCEPT_ID = 'patspgf3';
     const conceptResponse = await getConcept({
-      id: 'patspgf3',
+      id: MOCK_CONCEPT_ID,
       toggles: serverData.toggles,
     });
 
@@ -248,7 +221,13 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
     const totalResults = getLabelTotals();
 
-    const apiToolbarLinks = createApiToolbarLinks(conceptResponse);
+    const apiToolbarLinks = [
+      {
+        id: 'json',
+        label: 'JSON',
+        link: `https://api.wellcomecollection.org/catalogue/v2/concepts/${MOCK_CONCEPT_ID}`,
+      },
+    ];
 
     const worksAndImagesAbout: SectionData = {
       works: worksAbout && {
