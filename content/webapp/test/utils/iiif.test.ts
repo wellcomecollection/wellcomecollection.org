@@ -18,6 +18,24 @@ import {
 } from '@weco/content/utils/iiif/v3';
 
 const canvases = getTransformedCanvases(manifest as Manifest);
+
+// Test helper to create mock TransformedCanvas-like objects
+const createMockCanvas = (overrides = {}) => ({
+  id: 'test-canvas',
+  type: 'Canvas' as const,
+  width: 100,
+  height: 100,
+  imageServiceId: undefined,
+  hasRestrictedImage: false,
+  label: 'Test Canvas',
+  textServiceId: undefined,
+  thumbnailImage: undefined,
+  painting: [],
+  original: [],
+  supplementing: [],
+  metadata: [],
+  ...overrides,
+});
 const structures = [
   {
     id: 'https://iiif.wellcomecollection.org/presentation/b21538906/ranges/LOG_0001',
@@ -222,23 +240,6 @@ describe('Determines if a iiif-manifest includes non standard items', () => {
 });
 
 describe('isPDFCanvas', () => {
-  const createMockCanvas = (overrides = {}) => ({
-    id: 'test-canvas',
-    type: 'Canvas' as const,
-    width: 100,
-    height: 100,
-    imageServiceId: undefined,
-    hasRestrictedImage: false,
-    label: 'Test Canvas',
-    textServiceId: undefined,
-    thumbnailImage: undefined,
-    painting: [],
-    original: [],
-    supplementing: [],
-    metadata: [],
-    ...overrides,
-  });
-
   it('returns false for undefined canvas', () => {
     expect(isPDFCanvas(undefined)).toBe(false);
   });
