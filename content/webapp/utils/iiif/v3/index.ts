@@ -579,8 +579,8 @@ export function isPDFCanvas(canvas?: TransformedCanvas): boolean {
         return false;
       });
     } else {
-      return supplement[0] && 'format' in supplement[0]
-        ? supplement[0].format === 'application/pdf'
+      return supplement && 'format' in supplement
+        ? supplement.format === 'application/pdf'
         : false;
     }
   });
