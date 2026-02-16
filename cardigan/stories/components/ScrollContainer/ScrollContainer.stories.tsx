@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { ComponentProps } from 'react';
-import { styled } from 'storybook/theming';
+import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import { gridSize12 } from '@weco/common/views/components/Layout';
