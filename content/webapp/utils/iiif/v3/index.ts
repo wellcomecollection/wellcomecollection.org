@@ -76,10 +76,15 @@ export function transformLabel(
 }
 
 export function getFileTypeLabel(
+  collectionManifestsCount: number | undefined,
   canvasCount: number,
   hasNonStandardItems: boolean,
   canvases?: TransformedCanvas[]
 ): string {
+  // If this is a multi-manifest collection, prefer volumes label
+  if (collectionManifestsCount && collectionManifestsCount > 0)
+    return pluralize(collectionManifestsCount, 'volume');
+
   // Check if all items are PDFs
   const allPdfs = canvases?.every(canvas => isPDFCanvas(canvas)) || false;
   if (allPdfs) return pluralize(canvasCount, 'PDF file');
