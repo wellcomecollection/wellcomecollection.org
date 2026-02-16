@@ -121,21 +121,43 @@ const WellcomeSubThemePage: NextPage<Props> & {
   worksAndImagesAbout,
   relatedTopics,
 }) => {
-  const lcPageTitle = thematicBrowsingPage.title.toLowerCase();
-  //TODO add conditionals to only display what's actually on the page
+  const lowerCasePageTitle = thematicBrowsingPage.title.toLowerCase();
   const onThisPage = [
-    {
-      text: `New works in ${lcPageTitle}`,
-      url: `#new-online`,
-    },
-    { text: `Stories about ${lcPageTitle}`, url: `#stories` },
-    { text: `Images about ${lcPageTitle}`, url: `#images-about` },
-    { text: `Works about ${lcPageTitle}`, url: `#works-about` },
-    { text: `Related topics about ${lcPageTitle}`, url: `#related-topics` },
+    ...(newOnlineWorks.length > 0
+      ? [
+          {
+            text: `New works in ${lowerCasePageTitle}`,
+            url: `#new-online`,
+          },
+        ]
+      : []),
+    ...(relatedStories.length > 0
+      ? [
+          {
+            text: `Stories about ${lowerCasePageTitle}`,
+            url: `#stories`,
+          },
+        ]
+      : []),
+    ...(worksAndImagesAbout.images &&
+    worksAndImagesAbout.images.totalResults > 0
+      ? [{ text: `Images from the collections`, url: `#images-about` }]
+      : []),
+    ...(worksAndImagesAbout.works && worksAndImagesAbout.works.totalResults > 0
+      ? [{ text: `Works from the collections`, url: `#works-about` }]
+      : []),
+    ...(relatedTopics.length > 0
+      ? [
+          {
+            text: `Related topics`,
+            url: `#related-topics`,
+          },
+        ]
+      : []),
   ];
 
   const firstTenImages = useMemo(
-    () => worksAndImagesAbout?.images?.pageResults.slice(0, 10) || [],
+    () => worksAndImagesAbout.images?.pageResults.slice(0, 10) || [],
     [worksAndImagesAbout]
   );
 
@@ -162,7 +184,7 @@ const WellcomeSubThemePage: NextPage<Props> & {
 
             {newOnlineWorks.length > 0 && (
               <Space $v={{ size: 'xl', properties: ['padding-top'] }}>
-                <Title id="new-online">New works in {lcPageTitle}</Title>
+                <Title id="new-online">New works in {lowerCasePageTitle}</Title>
 
                 <Space $v={{ size: 'md', properties: ['margin-top'] }}>
                   <WorkCards works={newOnlineWorks} columns={3} />
@@ -174,7 +196,7 @@ const WellcomeSubThemePage: NextPage<Props> & {
             {/* Figure out what solution we'd like to go with... */}
             {relatedStories?.length > 0 && (
               <Space $v={{ size: 'xl', properties: ['padding-top'] }}>
-                <Title id="stories">Stories about {lcPageTitle}</Title>
+                <Title id="stories">Stories about {lowerCasePageTitle}</Title>
 
                 <StoryCardContainer>
                   <Space $v={{ size: 'md', properties: ['padding-bottom'] }}>
@@ -205,7 +227,7 @@ const WellcomeSubThemePage: NextPage<Props> & {
                     <Space $v={{ size: 'xl', properties: ['padding-top'] }}>
                       <ThemeImagesWrapper>
                         <Title id="images-about" $hasDarkBackground>
-                          Images about {lcPageTitle}
+                          Images about {lowerCasePageTitle}
                         </Title>
 
                         <CatalogueImageGallery
@@ -227,7 +249,9 @@ const WellcomeSubThemePage: NextPage<Props> & {
                 {worksAndImagesAbout.works &&
                   worksAndImagesAbout.works.pageResults.length > 0 && (
                     <Space $v={{ size: 'xl', properties: ['padding-top'] }}>
-                      <Title id="works-about">Works about {lcPageTitle}</Title>
+                      <Title id="works-about">
+                        Works about {lowerCasePageTitle}
+                      </Title>
 
                       {/* TODO add tabs */}
 
@@ -252,6 +276,7 @@ const WellcomeSubThemePage: NextPage<Props> & {
                         <RelatedConceptItem key={item.id}>
                           <Space className={font('sans', -1)}>
                             <Button
+                              // TODO add the relevant tracking info
                               // {...(dataGtmTriggerName && {
                               //   dataGtmProps: {
                               //     trigger: dataGtmTriggerName,

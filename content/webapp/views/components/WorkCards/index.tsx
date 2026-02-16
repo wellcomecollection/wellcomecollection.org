@@ -41,7 +41,7 @@ const WorkContainer = styled.li<{ $columns: 3 | 4 }>`
 
   ${props =>
     props.theme.media('md')(`
-    flex: 0 0 calc(${props.$columns === 4 ? '25%' : '33.3333%'} - var(--gap));
+    flex: 0 0 calc(100% / ${props.$columns} - var(--gap));
   `)}
 `;
 
