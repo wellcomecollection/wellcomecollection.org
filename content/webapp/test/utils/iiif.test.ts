@@ -405,7 +405,9 @@ describe('getFileTypeLabel', () => {
         ],
       }),
     ];
-    expect(getFileTypeLabel(canvases.length, false, canvases)).toBe('2 files');
+    expect(getFileTypeLabel(undefined, canvases.length, false, canvases)).toBe(
+      '2 files'
+    );
   });
 
   it('returns image for all images', () => {
@@ -429,7 +431,9 @@ describe('getFileTypeLabel', () => {
         ],
       }),
     ];
-    expect(getFileTypeLabel(canvases.length, false, canvases)).toBe('2 images');
+    expect(getFileTypeLabel(undefined, canvases.length, false, canvases)).toBe(
+      '2 images'
+    );
   });
 
   it('returns file for mixed video and image', () => {
@@ -453,7 +457,9 @@ describe('getFileTypeLabel', () => {
         ],
       }),
     ];
-    expect(getFileTypeLabel(canvases.length, false, canvases)).toBe('2 files');
+    expect(getFileTypeLabel(undefined, canvases.length, false, canvases)).toBe(
+      '2 files'
+    );
   });
 
   it('returns video file when only videos present', () => {
@@ -468,7 +474,7 @@ describe('getFileTypeLabel', () => {
         ],
       }),
     ];
-    expect(getFileTypeLabel(canvases.length, false, canvases)).toBe(
+    expect(getFileTypeLabel(undefined, canvases.length, false, canvases)).toBe(
       '1 video file'
     );
   });
@@ -485,6 +491,25 @@ describe('getFileTypeLabel', () => {
         ],
       }),
     ];
-    expect(getFileTypeLabel(canvases.length, true, canvases)).toBe('1 file');
+    expect(getFileTypeLabel(undefined, canvases.length, true, canvases)).toBe(
+      '1 file'
+    );
+  });
+
+  it('returns volume label when collectionManifestsCount is present', () => {
+    const canvases = [
+      createMockCanvas({
+        painting: [
+          {
+            id: 'i1',
+            type: 'Image',
+            format: 'image/jpeg',
+          },
+        ],
+      }),
+    ];
+    expect(getFileTypeLabel(3, canvases.length, false, canvases)).toBe(
+      '3 volumes'
+    );
   });
 });
