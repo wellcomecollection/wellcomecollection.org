@@ -250,7 +250,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         images: totalResults.imagesAbout,
       },
     };
-    console.log(worksAndImagesAbout.works);
     /** */
 
     return {
