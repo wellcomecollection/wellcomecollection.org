@@ -1,12 +1,17 @@
 import { SliceZone } from '@prismicio/react';
 import { NextPage } from 'next';
-import { ReactElement } from 'react';
+import { ReactElement, useMemo } from 'react';
 import styled from 'styled-components';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { ThemeCardsListSlice as RawThemeCardsListSlice } from '@weco/common/prismicio-types';
 import { font } from '@weco/common/utils/classnames';
-import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import { pluralize } from '@weco/common/utils/grammar';
+import {
+  ApiToolbarLink,
+  createPrismicLink,
+} from '@weco/common/views/components/ApiToolbar';
+import Button from '@weco/common/views/components/Buttons';
 import { Container } from '@weco/common/views/components/styled/Container';
 import {
   Grid,
@@ -16,23 +21,39 @@ import {
 } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import { components } from '@weco/common/views/slices';
-import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
+import { themeValues } from '@weco/common/views/themes/config';
+import {
+  RelatedConcept,
+  WorkBasic,
+} from '@weco/content/services/wellcome/catalogue/types';
 import { Article } from '@weco/content/types/articles';
 import { Page } from '@weco/content/types/pages';
+import CatalogueImageGallery from '@weco/content/views/components/CatalogueImageGallery';
 import InPageNavigation from '@weco/content/views/components/InPageNavigation';
 import StoryCard from '@weco/content/views/components/StoryCard';
 import WorkCards from '@weco/content/views/components/WorkCards';
+import WorksSearchResults from '@weco/content/views/components/WorksSearchResults';
 import ThematicBrowsingLayout from '@weco/content/views/layouts/ThematicBrowsingLayout';
+// TODO: centralise type
+import { SectionData } from '@weco/content/views/pages/concepts/concept/concept.helpers';
 
 export type Props = {
   thematicBrowsingPage: Page;
+  apiToolbarLinks: ApiToolbarLink[];
   curatedUid: string;
   categoryThemeCardsList?: RawThemeCardsListSlice;
   newOnlineWorks: WorkBasic[];
   relatedStories: Article[];
+  worksAndImagesAbout: SectionData;
+  relatedTopics: RelatedConcept[];
 };
 
-const Title = styled.h2.attrs({ className: font('sans-bold', 2) })``;
+const Title = styled.h2.attrs({ className: font('sans-bold', 2) })<{
+  $hasDarkBackground?: boolean;
+}>`
+  color: ${props =>
+    props.$hasDarkBackground ? props.theme.color('white') : 'inherit'};
+`;
 
 const StoryCardContainer = styled.div`
   -webkit-overflow-scrolling: touch;
@@ -68,6 +89,28 @@ const StoryCardContainer = styled.div`
   }
 `;
 
+const ThemeImagesWrapper = styled(Space).attrs({
+  $v: { size: 'xl', properties: ['padding-bottom'] },
+})`
+  background-color: ${props => props.theme.color('neutral.700')};
+`;
+
+const RelatedConceptsContainer = styled.div.attrs({
+  className: font('sans-bold', -1),
+})`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: ${props => props.theme.spacingUnits['100']};
+`;
+const RelatedConceptItem = styled.div.attrs({
+  className: font('sans', -2),
+})`
+  display: flex;
+  align-items: center;
+  gap: ${props => props.theme.spacingUnits['100']};
+`;
+
 const WellcomeSubThemePage: NextPage<Props> & {
   getLayout?: (page: ReactElement<Props>) => ReactElement;
 } = ({
@@ -75,16 +118,26 @@ const WellcomeSubThemePage: NextPage<Props> & {
   categoryThemeCardsList,
   newOnlineWorks,
   relatedStories,
+  worksAndImagesAbout,
+  relatedTopics,
 }) => {
   const lcPageTitle = thematicBrowsingPage.title.toLowerCase();
-  //TODO add conditionals
+  //TODO add conditionals to only display what's actually on the page
   const onThisPage = [
     {
       text: `New works in ${lcPageTitle}`,
       url: `#new-online`,
     },
     { text: `Stories about ${lcPageTitle}`, url: `#stories` },
+    { text: `Images about ${lcPageTitle}`, url: `#images-about` },
+    { text: `Works about ${lcPageTitle}`, url: `#works-about` },
+    { text: `Related topics about ${lcPageTitle}`, url: `#related-topics` },
   ];
+
+  const firstTenImages = useMemo(
+    () => worksAndImagesAbout?.images?.pageResults.slice(0, 10) || [],
+    [worksAndImagesAbout]
+  );
 
   return (
     <Container>
@@ -98,6 +151,8 @@ const WellcomeSubThemePage: NextPage<Props> & {
 
         <GridCell $sizeMap={{ s: [12], m: [12], l: [9], xl: [7] }}>
           <Space $v={{ size: 'sm', properties: ['padding-top'] }}>
+            {/* TODO this doesn't work within the container. */}
+            {/* Also, does it not appear in the side menu? It has no heading. */}
             {categoryThemeCardsList && (
               <SliceZone
                 slices={[categoryThemeCardsList]}
@@ -106,26 +161,20 @@ const WellcomeSubThemePage: NextPage<Props> & {
             )}
 
             {newOnlineWorks.length > 0 && (
-              <Space
-                $v={{ size: 'xl', properties: ['padding-top'] }}
-                id="new-online"
-              >
-                <Space $v={{ size: 'md', properties: ['margin-top'] }}>
-                  <Title>New works in {lcPageTitle}</Title>
+              <Space $v={{ size: 'xl', properties: ['padding-top'] }}>
+                <Title id="new-online">New works in {lcPageTitle}</Title>
 
-                  <Space $v={{ size: 'md', properties: ['margin-top'] }}>
-                    <WorkCards works={newOnlineWorks} columns={3} />
-                  </Space>
+                <Space $v={{ size: 'md', properties: ['margin-top'] }}>
+                  <WorkCards works={newOnlineWorks} columns={3} />
                 </Space>
               </Space>
             )}
 
+            {/* TODO this uses Content List, which doesn't return labels or Part of */}
+            {/* Figure out what solution we'd like to go with... */}
             {relatedStories?.length > 0 && (
-              <Space
-                $v={{ size: 'xl', properties: ['padding-top'] }}
-                id="stories"
-              >
-                <Title>Stories about {lcPageTitle}</Title>
+              <Space $v={{ size: 'xl', properties: ['padding-top'] }}>
+                <Title id="stories">Stories about {lcPageTitle}</Title>
 
                 <StoryCardContainer>
                   <Space $v={{ size: 'md', properties: ['padding-bottom'] }}>
@@ -146,6 +195,84 @@ const WellcomeSubThemePage: NextPage<Props> & {
                   </Space>
                 </StoryCardContainer>
               </Space>
+            )}
+
+            {worksAndImagesAbout && (
+              <>
+                {/* TODO this doesn't work within the container. */}
+                {worksAndImagesAbout.images &&
+                  worksAndImagesAbout.images.pageResults.length > 0 && (
+                    <Space $v={{ size: 'xl', properties: ['padding-top'] }}>
+                      <ThemeImagesWrapper>
+                        <Title id="images-about" $hasDarkBackground>
+                          Images about {lcPageTitle}
+                        </Title>
+
+                        <CatalogueImageGallery
+                          // Show the first 10 images, unless the total is 12 or fewer, in which case show all images
+                          images={
+                            worksAndImagesAbout.images.totalResults > 12
+                              ? firstTenImages
+                              : worksAndImagesAbout.images.pageResults
+                          }
+                          detailsCopy={`${pluralize(worksAndImagesAbout.images.totalResults, 'image')} from works`}
+                          variant="scrollable"
+                        />
+
+                        {/* TODO add View more button */}
+                      </ThemeImagesWrapper>
+                    </Space>
+                  )}
+
+                {worksAndImagesAbout.works &&
+                  worksAndImagesAbout.works.pageResults.length > 0 && (
+                    <Space $v={{ size: 'xl', properties: ['padding-top'] }}>
+                      <Title id="works-about">Works about {lcPageTitle}</Title>
+
+                      {/* TODO add tabs */}
+
+                      <Space $v={{ size: 'md', properties: ['margin-top'] }}>
+                        <WorksSearchResults
+                          works={worksAndImagesAbout.works.pageResults}
+                        />
+                      </Space>
+                      {/* TODO add View more button */}
+                    </Space>
+                  )}
+              </>
+            )}
+
+            {relatedTopics && relatedTopics.length > 0 && (
+              <>
+                <Space $v={{ size: 'xl', properties: ['padding-top'] }}>
+                  <Title id="related-topics">Related topics</Title>
+                  <Space $v={{ size: 'md', properties: ['margin-top'] }}>
+                    <RelatedConceptsContainer>
+                      {relatedTopics.map(item => (
+                        <RelatedConceptItem key={item.id}>
+                          <Space className={font('sans', -1)}>
+                            <Button
+                              // {...(dataGtmTriggerName && {
+                              //   dataGtmProps: {
+                              //     trigger: dataGtmTriggerName,
+                              //     'position-in-list': `${index + 1}`,
+                              //   },
+                              // })}
+                              variant="ButtonSolidLink"
+                              colors={
+                                themeValues.buttonColors.slateTransparentBlack
+                              }
+                              text={item.label}
+                              link={`/concepts/${item.id}`}
+                              size="small"
+                            />
+                          </Space>
+                        </RelatedConceptItem>
+                      ))}
+                    </RelatedConceptsContainer>
+                  </Space>
+                </Space>
+              </>
             )}
           </Space>
         </GridCell>
