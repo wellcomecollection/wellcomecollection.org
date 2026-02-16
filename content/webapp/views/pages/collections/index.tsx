@@ -4,6 +4,11 @@ import { NextPage } from 'next';
 import styled, { useTheme } from 'styled-components';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
+import { ImageType } from '@weco/common/model/image';
+import {
+  FullWidthBannerSlice as RawFullWidthBannerSlice,
+  ThemeCardsListSlice as RawThemeCardsListSlice,
+} from '@weco/common/prismicio-types';
 import { useToggles } from '@weco/common/server-data/Context';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
@@ -18,19 +23,16 @@ import Space from '@weco/common/views/components/styled/Space';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { components } from '@weco/common/views/slices';
 import { useCollectionStats } from '@weco/content/hooks/useCollectionStats';
-import type {
-  Concept,
-  WorkBasic,
-} from '@weco/content/services/wellcome/catalogue/types';
+import type { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import { MultiContent } from '@weco/content/types/multi-content';
 import CardGrid from '@weco/content/views/components/CardGrid';
 import MoreLink from '@weco/content/views/components/MoreLink';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
 import WorkCards from '@weco/content/views/components/WorkCards';
-import { CollectionsPrismicPageMeta } from '@weco/content/views/layouts/ThematicBrowsingLayout';
-import BrowseByThemes from '@weco/content/views/pages/collections/collections.BrowseByThemes';
+import BrowseByThemes, {
+  hasValidThemeCardSlices,
+} from '@weco/content/views/pages/collections/collections.BrowseByThemes';
 import WorkTypesList from '@weco/content/views/pages/collections/collections.WorkTypesList';
-import { themeBlockCategories } from '@weco/content/views/pages/collections/themeBlockCategories';
 
 const MainBackground = styled.div<{ $isDefaultVariant: boolean }>`
   position: relative;
@@ -55,13 +57,19 @@ const DecorativeEdgeContainer = styled(Space).attrs({
   margin-left: -${props => props.theme.containerPadding};
 `;
 
+type CollectionsPrismicPageMeta = {
+  prismicId: string;
+  image?: ImageType;
+  description?: string;
+  urlPathname?: string;
+};
 export type Props = {
   pageMeta: CollectionsPrismicPageMeta;
   title: string;
   introText: prismic.RichTextField;
   insideOurCollectionsCards: MultiContent[];
-  featuredConcepts: Concept[];
-  fullWidthBanners?: prismic.Slice<'fullWidthBanner'>[];
+  themeCardsListSlices: RawThemeCardsListSlice[];
+  fullWidthBanners?: RawFullWidthBannerSlice[];
   newOnlineDocuments: WorkBasic[];
 };
 
@@ -70,7 +78,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
   title,
   introText,
   insideOurCollectionsCards,
-  featuredConcepts,
+  themeCardsListSlices,
   fullWidthBanners,
   newOnlineDocuments,
 }) => {
@@ -115,21 +123,22 @@ const CollectionsLandingPage: NextPage<Props> = ({
         </ContaineredLayout>
       </div>
 
-      <MainBackground
-        data-component="full-width-banner"
-        $isDefaultVariant={true}
-      >
-        <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
-          <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
-            <SectionHeader title="Browse by theme" gridSize={gridSize12()} />
+      {hasValidThemeCardSlices(themeCardsListSlices) && (
+        <MainBackground
+          data-component="full-width-banner"
+          $isDefaultVariant={true}
+        >
+          <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
+            <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
+              <SectionHeader title="Browse by theme" gridSize={gridSize12()} />
+            </Space>
+            <BrowseByThemes
+              gridSizes={gridSize12()}
+              themeCardsListSlices={themeCardsListSlices}
+            />
           </Space>
-          <BrowseByThemes
-            themeConfig={themeBlockCategories}
-            initialConcepts={featuredConcepts}
-            gridSizes={gridSize12()}
-          />
-        </Space>
-      </MainBackground>
+        </MainBackground>
+      )}
 
       {browseCollections && (
         <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>

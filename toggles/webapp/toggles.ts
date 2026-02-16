@@ -134,7 +134,15 @@ const toggles = {
       title: 'Semantic search prototype',
       initialValue: false,
       description:
-        'Enables the semantic search prototype with predefined search terms and API selection. Allows results to display in a side-by-side comparison view or individually.',
+        'Enables the semantic search prototype with predefined search terms and API selection.',
+      type: 'experimental',
+    },
+    {
+      id: 'semanticSearchComparison',
+      title: 'Semantic search comparison',
+      initialValue: false,
+      description:
+        'Displays the semantic search results side by side with the standard search results for comparison.',
       type: 'experimental',
     },
   ] as const,

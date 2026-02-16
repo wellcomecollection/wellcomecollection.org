@@ -1,10 +1,6 @@
 import * as prismic from '@prismicio/client';
 
-import {
-  ExhibitionFormatsDocument as RawExhibitionFormatsDocument,
-  ExhibitionsDocument as RawExhibitionsDocument,
-  SeasonsDocument as RawSeasonsDocument,
-} from '@weco/common/prismicio-types';
+import { ExhibitionsDocument as RawExhibitionsDocument } from '@weco/common/prismicio-types';
 import {
   transformLink,
   transformTimestamp,
@@ -19,7 +15,6 @@ import {
   Exhibit,
   Exhibition,
   ExhibitionBasic,
-  ExhibitionFormat,
   ExhibitionRelatedContent,
 } from '@weco/content/types/exhibitions';
 
@@ -38,18 +33,8 @@ import { transformVideoEmbed } from './embeds';
 import { noAltTextBecausePromo } from './images';
 import { transformMultiContent } from './multi-content';
 import { transformQuery } from './paginated-results';
-import { transformPlace } from './places';
-import { transformSeason } from './seasons';
-
-function transformExhibitionFormat(
-  format: RawExhibitionFormatsDocument
-): ExhibitionFormat {
-  return {
-    id: format.id,
-    title: (format.data && asText(format.data.title)) || '',
-    description: format.data && asHtml(format.data.description),
-  };
-}
+import { transformPlaceFromRelationship } from './places';
+import { transformSeasonsFromRelationshipGroup } from './seasons';
 
 export function transformExhibition(
   document: RawExhibitionsDocument
@@ -92,32 +77,43 @@ export function transformExhibition(
   const bslLeafletVideo =
     data.bslLeafletVideo && transformVideoEmbed(data.bslLeafletVideo);
 
-  // TODO: Work out how to get this to type check without the 'as any'.
   const format = isFilledLinkToDocumentWithData(data.format)
-    ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      transformExhibitionFormat(data.format as any)
+    ? {
+        id: data.format.id,
+        title: asText(data.format.data.title as prismic.RichTextField) || '',
+        description: asHtml(
+          data.format.data.description as prismic.RichTextField
+        ),
+      }
     : undefined;
 
   const start = transformTimestamp(data.start)!;
   const end = data.end ? transformTimestamp(data.end) : undefined;
   const statusOverride = asText(data.statusOverride);
 
-  const seasons = transformSingleLevelGroup(data.seasons, 'season').map(
-    season => transformSeason(season as RawSeasonsDocument)
+  const seasons = transformSeasonsFromRelationshipGroup(
+    transformSingleLevelGroup(data.seasons, 'season')
   );
 
-  const exhibits: Exhibit[] = transformSingleLevelGroup(
-    data.exhibits,
-    'item'
-  ).map(exhibit => {
-    return {
-      item: transformExhibition(exhibit as RawExhibitionsDocument),
-    };
-  });
+  // Only transform exhibits that are full documents (have complete data).
+  // When exhibits come from relationships/fetchLinks, they don't have all
+  // the required fields for transformExhibition, causing performance issues
+  // and errors as the transformer tries to access missing nested data.
+  const exhibits: Exhibit[] = transformSingleLevelGroup(data.exhibits, 'item')
+    .filter(exhibit => {
+      // Check if this is a full document by looking for required fields
+      // that wouldn't be present in a relationship
+      const maybeDoc = exhibit as RawExhibitionsDocument;
+      return maybeDoc.data && 'contributors' in maybeDoc.data;
+    })
+    .map(exhibit => {
+      return {
+        item: transformExhibition(exhibit as RawExhibitionsDocument),
+      };
+    });
 
   const place = isFilledLinkToDocumentWithData(data.place)
-    ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      transformPlace(data.place as any)
+    ? transformPlaceFromRelationship(data.place)
     : undefined;
 
   const contributors = transformContributors(document);

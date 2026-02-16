@@ -2,7 +2,7 @@ import * as prismic from '@prismicio/client';
 
 import { ImageType } from '@weco/common/model/image';
 import {
-  SeasonsDocument as RawSeasonsDocument,
+  EditorialImageSlice as RawEditorialImageSlice,
   SeriesDocument as RawSeriesDocument,
   StandfirstSlice as RawStandfirstSlice,
   WebcomicSeriesDocument as RawWebcomicSeriesDocument,
@@ -24,7 +24,7 @@ import {
 } from '.';
 import { transformContributors } from './contributors';
 import { transformImagePromo } from './images';
-import { transformSeason } from './seasons';
+import { transformSeasonsFromRelationshipGroup } from './seasons';
 
 export function transformWebcomicSeries(
   doc: RawWebcomicSeriesDocument
@@ -37,7 +37,7 @@ export function transformWebcomicSeries(
   const primaryPromo =
     isGenericDocWithPromo(doc) && data.promo.length > 0
       ? data.promo
-          .filter((slice: prismic.Slice) => slice.primary.image)
+          .filter((slice: RawEditorialImageSlice) => slice.primary.image)
           .find(_ => _)
       : undefined;
 
@@ -97,8 +97,8 @@ export function transformSeries(document: RawSeriesDocument): Series {
         .filter(item => isNotUndefined(item)) as ArticleScheduleItem[])
     : [];
   const labels = [{ text: schedule.length > 0 ? 'Serial' : 'Series' }];
-  const seasons = transformSingleLevelGroup(data.seasons, 'season').map(
-    season => transformSeason(season as RawSeasonsDocument)
+  const seasons = transformSeasonsFromRelationshipGroup(
+    transformSingleLevelGroup(data.seasons, 'season')
   );
   const contributors = transformContributors(document);
 

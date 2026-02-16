@@ -23,11 +23,11 @@ import {
   PagesDocument as RawPagesDocument,
   QuoteSlice as RawQuoteSlice,
   SearchResultsSlice as RawSearchResultsSlice,
-  SeasonsDocument as RawSeasonsDocument,
   StandfirstSlice as RawStandfirstSlice,
   TagListSlice as RawTagListSlice,
   TextAndIconsSlice as RawTextAndIconsSlice,
   TextAndImageSlice as RawTextAndImageSlice,
+  ThemeCardsListSlice as RawThemeCardsListSlice,
   TitledTextListSlice as RawTitledTextListSlice,
 } from '@weco/common/prismicio-types';
 import {
@@ -75,7 +75,7 @@ import { transformExhibition } from './exhibitions';
 import { transformGuide } from './guides';
 import { transformCaptionedImage } from './images';
 import { transformPage } from './pages';
-import { transformSeason } from './seasons';
+import { transformSeasonFromRelationship } from './seasons';
 
 export function transformStandfirstSlice(
   slice: RawStandfirstSlice
@@ -215,6 +215,26 @@ export function transformFullWidthBanner(
       },
     };
   }
+}
+
+type ThemeCardsListSliceValue = {
+  title?: string;
+  description?: string;
+  conceptIds: string[];
+};
+export function transformThemeCardsList(
+  slice: RawThemeCardsListSlice
+): Slice<'themeCardsList', ThemeCardsListSliceValue> {
+  return {
+    type: 'themeCardsList',
+    value: {
+      title: asText(slice.primary.title),
+      description: asText(slice.primary.description),
+      conceptIds: slice.primary.concepts_list
+        .map(concept => asText(concept.concept_id))
+        .filter(isNotUndefined),
+    },
+  };
 }
 
 export function transformGifVideoSlice(
@@ -429,6 +449,10 @@ export function transformContentListSlice(
       title: asText(slice.primary.title),
       items: contents
         .map(content => {
+          // Note: These relationship fields come with full document data via
+          // commonPrismicFieldsFetchLinks (title, promo, body, etc.), so they can be safely
+          // transformed as full documents. The casts are necessary because TypeScript sees
+          // them as ContentRelationshipField, not full PrismicDocuments.
           switch (content.type) {
             case 'pages':
               return transformPage(content as unknown as RawPagesDocument);
@@ -451,7 +475,7 @@ export function transformContentListSlice(
                 content as unknown as RawEventsDocument
               );
             case 'seasons':
-              return transformSeason(content as unknown as RawSeasonsDocument);
+              return transformSeasonFromRelationship(content);
             case 'card':
               return transformCard(content as unknown as RawCardDocument);
             default:

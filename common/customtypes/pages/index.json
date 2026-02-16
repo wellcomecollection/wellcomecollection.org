@@ -56,6 +56,27 @@
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
+            "audioPlayer": {
+              "type": "SharedSlice"
+            },
+            "collectionVenue": {
+              "type": "SharedSlice"
+            },
+            "contact": {
+              "type": "SharedSlice"
+            },
+            "contentList": {
+              "type": "SharedSlice"
+            },
+            "editorialImage": {
+              "type": "SharedSlice"
+            },
+            "editorialImageGallery": {
+              "type": "SharedSlice"
+            },
+            "embed": {
+              "type": "SharedSlice"
+            },
             "fullWidthBanner": {
               "type": "SharedSlice"
             },
@@ -65,34 +86,16 @@
             "iframe": {
               "type": "SharedSlice"
             },
-            "editorialImage": {
-              "type": "SharedSlice"
-            },
-            "editorialImageGallery": {
+            "infoBlock": {
               "type": "SharedSlice"
             },
             "map": {
               "type": "SharedSlice"
             },
-            "contentList": {
-              "type": "SharedSlice"
-            },
-            "embed": {
-              "type": "SharedSlice"
-            },
-            "titledTextList": {
-              "type": "SharedSlice"
-            },
-            "textAndImage": {
-              "type": "SharedSlice"
-            },
-            "text": {
+            "quote": {
               "type": "SharedSlice"
             },
             "searchResults": {
-              "type": "SharedSlice"
-            },
-            "textAndIcons": {
               "type": "SharedSlice"
             },
             "standfirst": {
@@ -101,19 +104,19 @@
             "tagList": {
               "type": "SharedSlice"
             },
-            "quote": {
+            "text": {
               "type": "SharedSlice"
             },
-            "infoBlock": {
+            "textAndIcons": {
               "type": "SharedSlice"
             },
-            "contact": {
+            "textAndImage": {
               "type": "SharedSlice"
             },
-            "collectionVenue": {
+            "themeCardsList": {
               "type": "SharedSlice"
             },
-            "audioPlayer": {
+            "titledTextList": {
               "type": "SharedSlice"
             }
           }

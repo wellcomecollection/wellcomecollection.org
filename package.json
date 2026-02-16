@@ -94,7 +94,7 @@
     "whatwg-fetch": "^3.6.2"
   },
   "resolutions": {
-    "@prismicio/client": "7.8.0",
+    "@prismicio/client": "7.18.1",
     "@types/react": "19.2.2"
   },
   "private": true,

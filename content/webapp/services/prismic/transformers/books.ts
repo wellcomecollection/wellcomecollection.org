@@ -1,7 +1,4 @@
-import {
-  BooksDocument as RawBooksDocument,
-  SeasonsDocument as RawSeasonsDocument,
-} from '@weco/common/prismicio-types';
+import { BooksDocument as RawBooksDocument } from '@weco/common/prismicio-types';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 import { isFilledLinkToWebField } from '@weco/common/services/prismic/types';
 import { Book, BookBasic } from '@weco/content/types/books';
@@ -14,7 +11,7 @@ import {
 } from '.';
 import { transformContributors } from './contributors';
 import { transformPromoToCaptionedImage } from './images';
-import { transformSeason } from './seasons';
+import { transformSeasonsFromRelationshipGroup } from './seasons';
 
 export function transformBookToBookBasic(book: Book): BookBasic {
   // returns what is required to render BookCards and book JSON-LD
@@ -40,8 +37,8 @@ export function transformBook(document: RawBooksDocument): Book {
     (data.promo.length > 0
       ? transformPromoToCaptionedImage(data.promo)
       : undefined);
-  const seasons = transformSingleLevelGroup(data.seasons, 'season').map(
-    season => transformSeason(season as RawSeasonsDocument)
+  const seasons = transformSeasonsFromRelationshipGroup(
+    transformSingleLevelGroup(data.seasons, 'season')
   );
   const contributors = transformContributors(document);
 

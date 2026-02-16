@@ -27,9 +27,12 @@ it('rounds up the reading time to the next minute', () => {
 });
 
 it('handles longer pieces', () => {
-  const result = calculateReadingTime(
-    [...Array(100)].map(() => exampleTextSlice)
-  );
+  // calculateReadingTime expects a non-empty array (tuple type [T, ...T[]])
+  // so we provide at least one element before spreading the rest
+  const result = calculateReadingTime([
+    exampleTextSlice,
+    ...Array(99).fill(exampleTextSlice),
+  ]);
 
   expect(result).toBe('2 minutes');
 });
