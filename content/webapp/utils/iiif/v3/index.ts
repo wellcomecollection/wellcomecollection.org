@@ -21,6 +21,7 @@ import {
   TechnicalProperties,
 } from '@iiif/presentation-3';
 
+import { pluralize } from '@weco/common/utils/grammar';
 import { isNotUndefined, isString } from '@weco/common/utils/type-guards';
 import {
   Auth,
@@ -72,6 +73,41 @@ export function transformLabel(
   if (typeof label === 'string' || label === undefined) return label;
 
   return getDisplayLabel(label);
+}
+
+export function getFileTypeLabel(
+  canvasCount: number,
+  hasNonStandardItems: boolean,
+  canvases?: TransformedCanvas[]
+): string {
+  // Check if all items are PDFs
+  const allPdfs = canvases?.every(canvas => isPDFCanvas(canvas)) || false;
+  if (allPdfs) return pluralize(canvasCount, 'PDF file');
+
+  // Non-standard items should be treated as generic files
+  if (hasNonStandardItems) return pluralize(canvasCount, 'file');
+
+  // Count distinct standard file types to detect mixed content
+  const hasVideo = hasItemType(canvases, 'Video');
+  const hasAudio =
+    hasItemType(canvases, 'Sound') || hasItemType(canvases, 'Audio');
+  const hasPdfs = canvases?.some(canvas => isPDFCanvas(canvas)) || false;
+  const hasImages = hasItemType(canvases, 'Image');
+
+  const typeCount = [hasVideo, hasAudio, hasPdfs, hasImages].filter(
+    Boolean
+  ).length;
+
+  // Mixed content -> generic 'file'
+  if (typeCount > 1) return pluralize(canvasCount, 'file');
+
+  // Single specific type
+  if (hasVideo) return pluralize(canvasCount, 'video file');
+  if (hasAudio) return pluralize(canvasCount, 'audio file');
+  if (hasPdfs) return pluralize(canvasCount, 'PDF file');
+  if (hasImages) return pluralize(canvasCount, 'image');
+
+  return pluralize(canvasCount, 'image');
 }
 
 // It appears that iiif-manifests for born digital items can exist without the items property
