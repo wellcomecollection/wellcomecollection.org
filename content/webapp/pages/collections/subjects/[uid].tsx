@@ -102,6 +102,11 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     /** */
 
     /**
+     * Featured contributors
+     * TODO
+     */
+
+    /**
      * Related stories
      */
     const contentListSlice = wellcomeSubThemePage.untransformedBody.find(
@@ -260,6 +265,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         categoryThemeCardsList: themeCardsListSlice,
         curatedUid: pageUid,
         newOnlineWorks: newOnlineWorks.map(toWorkBasic),
+        frequentCollaborators:
+          conceptResponse.relatedConcepts?.frequentCollaborators || [],
         relatedStories,
         worksAndImagesAbout,
         relatedTopics: conceptResponse.relatedConcepts?.relatedTopics || [],

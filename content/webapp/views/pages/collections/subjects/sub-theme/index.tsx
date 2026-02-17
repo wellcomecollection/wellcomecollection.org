@@ -21,10 +21,11 @@ import {
 } from '@weco/content/services/wellcome/catalogue/types';
 import { Article } from '@weco/content/types/articles';
 import { Page } from '@weco/content/types/pages';
+import CollaboratorCards from '@weco/content/views/components/CollaboratorCards';
 import InPageNavigation from '@weco/content/views/components/InPageNavigation';
 import WorkCards from '@weco/content/views/components/WorkCards';
 import ThematicBrowsingLayout from '@weco/content/views/layouts/ThematicBrowsingLayout';
-// TODO: centralise type
+// TODO: centralise
 import { SectionData } from '@weco/content/views/pages/concepts/concept/concept.helpers';
 
 import SubThemeImages from './sub-theme.Images';
@@ -51,8 +52,8 @@ export type Props = {
   curatedUid: string;
   categoryThemeCardsList?: RawThemeCardsListSlice;
   newOnlineWorks: WorkBasic[];
+  frequentCollaborators: RelatedConcept[];
   relatedStories: Article[];
-
   // This type is not great but this whole section will
   // probably be removed when we have a better idea of
   // what we want to show on these pages.
@@ -94,6 +95,7 @@ const WellcomeSubThemePage: NextPage<Props> & {
   thematicBrowsingPage,
   categoryThemeCardsList,
   newOnlineWorks,
+  frequentCollaborators,
   relatedStories,
   worksAndImagesAbout,
   relatedTopics,
@@ -160,6 +162,15 @@ const WellcomeSubThemePage: NextPage<Props> & {
                 id="new-online"
               >
                 <WorkCards works={newOnlineWorks} columns={3} />
+              </SectionContainer>
+            )}
+
+            {frequentCollaborators.length > 0 && (
+              <SectionContainer
+                title={`Frequent collaborators on ${lowerCasePageTitle}`}
+                id="frequent-collaborators"
+              >
+                <CollaboratorCards collaborators={frequentCollaborators} />
               </SectionContainer>
             )}
 

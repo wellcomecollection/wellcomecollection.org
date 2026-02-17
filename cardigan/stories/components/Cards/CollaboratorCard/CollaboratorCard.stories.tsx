@@ -1,43 +1,47 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { ComponentProps } from 'react';
-import styled from 'styled-components';
 
-import { organisation, user } from '@weco/common/icons';
-import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
-import CollaboratorCard from '@weco/content/views/pages/concepts/concept/concept.Collaborators.Card';
+import CollaboratorCards from '@weco/content/views/components/CollaboratorCards';
 
-type StoryProps = ComponentProps<typeof CollaboratorCard> & {
+type StoryProps = ComponentProps<typeof CollaboratorCards> & {
   numberOfCards: number;
 };
 
 const meta: Meta<StoryProps> = {
   title: 'Components/Cards/CollaboratorCard',
-  component: CollaboratorCard,
+  component: CollaboratorCards,
   args: {
-    href: '/concepts/1234567',
-    label: 'This is some text',
-    icon: user,
-    numberOfCards: 1,
+    collaborators: [
+      {
+        label: 'Royal College of Physicians of Edinburgh',
+        id: 'nvedx6az',
+        conceptType: 'Organisation',
+      },
+      {
+        label: 'Francis Darwin',
+        id: 'adx5dvg6',
+        conceptType: 'Person',
+      },
+      {
+        label: 'Gavin de Beer',
+        id: 'jt2q9muw',
+        conceptType: 'Person',
+      },
+      {
+        label: 'Royal College of Physicians of Edinburgh',
+        id: 'nvedx6az',
+        conceptType: 'Organisation',
+      },
+    ],
+    numberOfCards: 2,
   },
   argTypes: {
-    href: {
-      table: {
-        disable: true,
-      },
-    },
-    icon: {
-      options: ['user', 'organisation'],
-      control: 'radio',
-      mapping: {
-        user,
-        organisation,
-      },
-    },
+    collaborators: { table: { disable: true } },
     numberOfCards: {
       control: {
         type: 'range',
         min: 1,
-        max: 3,
+        max: 4,
       },
     },
   },
@@ -47,29 +51,16 @@ export default meta;
 
 type Story = StoryObj<StoryProps>;
 
-const CollaboratorsWrapper = styled(Grid)`
-  max-width: 792px;
-  gap: ${props => props.theme.spacingUnits['200']};
-  row-gap: ${props => props.theme.spacingUnits['150']};
-`;
+const Template = ({ numberOfCards, ...args }: StoryProps) => {
+  return (
+    <CollaboratorCards
+      {...args}
+      collaborators={args.collaborators?.slice(0, numberOfCards)}
+    />
+  );
+};
 
 export const Basic: Story = {
   name: 'CollaboratorCard',
-  render: args => (
-    <CollaboratorsWrapper>
-      {Array.from({ length: args.numberOfCards }).map(i => (
-        <GridCell
-          $sizeMap={{
-            s: [12],
-            m: [4],
-            l: [4],
-            xl: [4],
-          }}
-          key={`card-${i}`}
-        >
-          <CollaboratorCard {...args} />
-        </GridCell>
-      ))}
-    </CollaboratorsWrapper>
-  ),
+  render: args => <Template {...args} />,
 };
