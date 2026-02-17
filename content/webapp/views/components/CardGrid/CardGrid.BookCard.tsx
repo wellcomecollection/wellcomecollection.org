@@ -35,7 +35,7 @@ const LinkSpace = styled(Space).attrs<LinkSpaceAttrs>(props => ({
 `;
 
 const Title = styled.h3.attrs({
-  className: font('brand', 0),
+  className: font('brand-bold', 0),
 })`
   margin: 0;
 `;

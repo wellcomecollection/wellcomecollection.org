@@ -20,7 +20,7 @@ const FontName = styled.h2.attrs({
 `;
 
 const sizes = [-2, -1, 0, 1, 2, 4, 5];
-const fontFamilies = ['sans', 'sans-bold', 'brand', 'mono'];
+const fontFamilies = ['sans', 'sans-bold', 'brand', 'brand-bold', 'mono'];
 
 const Typography = ({ text }) => {
   return (

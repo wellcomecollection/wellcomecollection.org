@@ -70,7 +70,7 @@ export const Basic: Story = {
         }}
         Readme={Readme}
       >
-        <h2 className={font('brand', 2)}>
+        <h2 className={font('brand-bold', 2)}>
           Remote diagnosis from wee to the Web
         </h2>
         <p className={font('sans', -1)}>

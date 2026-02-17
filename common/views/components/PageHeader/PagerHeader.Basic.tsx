@@ -45,7 +45,7 @@ const HighlightedHeading: FunctionComponent<{ text: string | ReactNode }> = ({
   text: string | ReactNode;
 }) => {
   return (
-    <h1 className={font('brand', 2)}>
+    <h1 className={font('brand-bold', 2)}>
       <Heading
         $v={{
           size: 'xs',

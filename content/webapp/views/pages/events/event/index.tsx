@@ -343,7 +343,7 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
 
         {accessResourceLinks && accessResourceLinks.length > 0 && (
           <>
-            <h2 className={font('brand', 1)}>Event access content</h2>
+            <h2 className={font('brand-bold', 1)}>Event access content</h2>
             <Space $v={{ size: 'md', properties: ['padding-bottom'] }}>
               <ResourcesList>
                 {accessResourceLinks.map((link, i) => {

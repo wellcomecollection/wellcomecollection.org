@@ -15,7 +15,7 @@ import { GridCell, SizeMap } from '@weco/common/views/components/styled/Grid';
 import CompactCard, { HasImageProps } from '.';
 
 const getBaseTitleClass = number => {
-  return font('brand', number);
+  return font('brand-bold', number);
 };
 
 const mockOnClick = jest.fn();
@@ -62,7 +62,7 @@ const TextWrapper = styled(GridCell).attrs<HasImageProps>(props => {
 })<HasImageProps>``;
 
 const TitleWrapper = styled.div.attrs({
-  className: font('brand', 0),
+  className: font('brand-bold', 0),
 })``;
 
 const extraClass = 'my_extra_extra_class';
