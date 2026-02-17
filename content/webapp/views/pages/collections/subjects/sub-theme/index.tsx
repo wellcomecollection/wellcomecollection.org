@@ -46,6 +46,21 @@ const SectionWrapper = styled(Space).attrs({
   background-color: ${props => props.theme.color('neutral.700')};
 `;
 
+const StretchWrapper = styled.div`
+  ${props => props.theme.pageGridOffset('margin-right')};
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: calc(100vw - 100%);
+    top: 0;
+    background: ${props => props.theme.color('neutral.700')};
+    bottom: 0;
+    right: 100%;
+    z-index: 0;
+  }
+`;
+
 export type Props = {
   thematicBrowsingPage: Page;
   apiToolbarLinks: ApiToolbarLink[];
@@ -75,17 +90,17 @@ const SectionContainer = ({
   children: React.ReactNode;
 }) => {
   return (
-    <Space $v={{ size: 'xl', properties: ['padding-top'] }}>
-      <ConditionalWrapper
-        condition={!!hasDarkBackground}
-        wrapper={children => <SectionWrapper>{children}</SectionWrapper>}
-      >
+    <ConditionalWrapper
+      condition={!!hasDarkBackground}
+      wrapper={children => <SectionWrapper>{children}</SectionWrapper>}
+    >
+      <Space $v={{ size: 'xl', properties: ['padding-top'] }}>
         <Title id={id} $hasDarkBackground={hasDarkBackground}>
           {title}
         </Title>
         {children}
-      </ConditionalWrapper>
-    </Space>
+      </Space>
+    </ConditionalWrapper>
   );
 };
 
@@ -185,13 +200,17 @@ const WellcomeSubThemePage: NextPage<Props> & {
 
             {worksAndImagesAbout.images &&
               worksAndImagesAbout.images.totalResults > 0 && (
-                <SectionContainer
-                  title={`Images about ${lowerCasePageTitle}`}
-                  id="images-about"
-                  hasDarkBackground
-                >
-                  <SubThemeImages images={worksAndImagesAbout.images} />
-                </SectionContainer>
+                <>
+                  <StretchWrapper>
+                    <SectionWrapper>
+                      <Title id="images-about" $hasDarkBackground>
+                        Images about {lowerCasePageTitle}
+                      </Title>
+
+                      <SubThemeImages images={worksAndImagesAbout.images} />
+                    </SectionWrapper>
+                  </StretchWrapper>
+                </>
               )}
 
             {worksAndImagesAbout.works &&

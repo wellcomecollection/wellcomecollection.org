@@ -102,11 +102,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     /** */
 
     /**
-     * Featured contributors
-     * TODO
-     */
-
-    /**
      * Related stories
      */
     const contentListSlice = wellcomeSubThemePage.untransformedBody.find(
