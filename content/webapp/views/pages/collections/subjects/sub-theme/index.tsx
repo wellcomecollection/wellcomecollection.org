@@ -25,7 +25,7 @@ import CollaboratorCards from '@weco/content/views/components/CollaboratorCards'
 import InPageNavigation from '@weco/content/views/components/InPageNavigation';
 import WorkCards from '@weco/content/views/components/WorkCards';
 import ThematicBrowsingLayout from '@weco/content/views/layouts/ThematicBrowsingLayout';
-// TODO: centralise
+// TODO: centralise if we still need it after the compound concept is being fetched
 import { SectionData } from '@weco/content/views/pages/concepts/concept/concept.helpers';
 
 import SubThemeImages from './sub-theme.Images';
@@ -121,6 +121,9 @@ const WellcomeSubThemePage: NextPage<Props> & {
 }) => {
   const lowerCasePageTitle = thematicBrowsingPage.title.toLowerCase();
   const onThisPage = [
+    ...(categoryThemeCardsList
+      ? [{ text: 'About this topic', url: `#about` }] // TODO this id doesn't exist yet, might need to change
+      : []),
     ...(newOnlineWorks.length > 0
       ? [
           {
@@ -166,7 +169,7 @@ const WellcomeSubThemePage: NextPage<Props> & {
 
         <GridCell $sizeMap={{ s: [12], m: [12], l: [9], xl: [9] }}>
           <Space $v={{ size: 'sm', properties: ['padding-top'] }}>
-            {/* TODO does it not appear in the side menu? It has no heading. */}
+            {/* TODO add a heading for the In-Page nav */}
             {categoryThemeCardsList && (
               <StretchWrapper>
                 <SliceZone
@@ -182,7 +185,9 @@ const WellcomeSubThemePage: NextPage<Props> & {
                 title={`New works in ${lowerCasePageTitle}`}
                 id="new-online"
               >
-                <WorkCards works={newOnlineWorks} columns={3} />
+                <Space $v={{ size: 'lg', properties: ['margin-top'] }}>
+                  <WorkCards works={newOnlineWorks} columns={3} />
+                </Space>
               </SectionContainer>
             )}
 

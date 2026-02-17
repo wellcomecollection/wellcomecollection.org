@@ -34,7 +34,7 @@ const SubThemeRelatedTopics = ({
           <RelatedConceptItem key={item.id}>
             <Space className={font('sans', -1)}>
               <Button
-                // TODO add the relevant tracking info
+                // TODO confirm relevant tracking info with Mankeet
                 // {...(dataGtmTriggerName && {
                 //   dataGtmProps: {
                 //     trigger: dataGtmTriggerName,
