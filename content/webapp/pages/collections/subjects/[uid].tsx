@@ -25,7 +25,6 @@ import {
   Work,
 } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
-import { Article } from '@weco/content/types/articles';
 import {
   allRecordsLinkParams,
   queryParams,
@@ -112,9 +111,10 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       ? transformContentListSlice(contentListSlice)?.value.items
       : [];
 
-    const relatedStories: Article[] = contentListItems.filter(
-      content => content.type === 'articles'
-    ) as Article[];
+    const relatedStoriesId = contentListItems
+      .filter(content => content.type === 'articles')
+      .map(story => story.id)
+      .filter(isNotUndefined);
     /** */
 
     /** Archives
@@ -262,7 +262,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         newOnlineWorks: newOnlineWorks.map(toWorkBasic),
         frequentCollaborators:
           conceptResponse.relatedConcepts?.frequentCollaborators || [],
-        relatedStories,
+        relatedStoriesId,
         worksAndImagesAbout,
         relatedTopics: conceptResponse.relatedConcepts?.relatedTopics || [],
       }),

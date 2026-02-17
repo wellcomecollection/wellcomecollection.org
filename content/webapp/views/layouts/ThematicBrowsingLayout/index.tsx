@@ -51,6 +51,7 @@ const ThematicBrowsingLayout: FunctionComponent<
       image={page.image}
       apiToolbarLinks={apiToolbarLinks}
       headerProps={{ hasColorBackground: true }}
+      clipOverflowX
     >
       <ThematicBrowsingHeader
         title={page.title}
