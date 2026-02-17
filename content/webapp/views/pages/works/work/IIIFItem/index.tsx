@@ -300,7 +300,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           isRestricted={isRestricted}
         >
           <AudioPlayer
-            isDark
+            isDark={isDark}
             audioFile={item.id}
             title={getFileLabel(canvas.label, titleOverride) || ''}
           />
