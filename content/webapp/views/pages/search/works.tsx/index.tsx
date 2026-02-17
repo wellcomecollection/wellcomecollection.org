@@ -111,7 +111,6 @@ const WorksSearchPage: NextPage<Props> = withSearchLayout(
         <Space $v={{ size: 'md', properties: ['padding-bottom'] }}>
           <Container>
             {!semanticSearchPrototype &&
-              !semanticSearchComparison &&
               (!hasNoResults || (hasNoResults && hasActiveFilters)) && (
                 <>
                   <Space
