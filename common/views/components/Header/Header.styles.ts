@@ -16,7 +16,6 @@ export const NavLoginWrapper = styled.div`
 type WrapperProps = {
   $isBurgerOpen: boolean;
   $hasColorBackground?: boolean;
-  $isSearchActive: boolean;
 };
 export const Wrapper = styled.div<WrapperProps>`
   display: flex;
@@ -29,13 +28,7 @@ export const Wrapper = styled.div<WrapperProps>`
     props.theme.color(
       props.$hasColorBackground ? 'accent.lightGreen' : 'white'
     )};
-  border-bottom: 1px solid
-    ${props =>
-      props.theme.color(
-        props.$hasColorBackground && !props.$isSearchActive
-          ? 'accent.lightGreen'
-          : 'warmNeutral.400'
-      )};
+  border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
   height: ${props => props.theme.navHeight}px;
 
   ${props =>

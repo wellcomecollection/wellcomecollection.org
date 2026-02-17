@@ -114,7 +114,6 @@ const Header: FunctionComponent<Props> = ({
         <Wrapper
           $isBurgerOpen={burgerMenuIsActive}
           $hasColorBackground={hasColorBackground}
-          $isSearchActive={searchDropdownIsActive}
         >
           <div style={{ position: 'relative' }}>
             <HeaderContainer>
