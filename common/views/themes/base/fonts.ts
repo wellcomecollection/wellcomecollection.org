@@ -36,6 +36,7 @@ export const fonts = css<GlobalStyleProps>`
         format('woff');
     font-weight: bold;
     font-style: normal;
+    font-display: swap;
   }
 
   @font-face {
@@ -47,6 +48,7 @@ export const fonts = css<GlobalStyleProps>`
         format('woff');
     font-weight: normal;
     font-style: normal;
+    font-display: swap;
   }
 
   @font-face {
