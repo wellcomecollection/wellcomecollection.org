@@ -166,12 +166,12 @@ export const typography = css<GlobalStyleProps>`
     letter-spacing: 0.0044em;
 
     h1 {
-      ${fontFamilyMixin('brand')}
+      ${fontFamilyMixin('brand', true)}
       ${fontSizeMixin(4)}
     }
 
     h2 {
-      ${fontFamilyMixin('brand')}
+      ${fontFamilyMixin('brand', true)}
       ${fontSizeMixin(2)}
     }
 
@@ -226,7 +226,7 @@ export const typography = css<GlobalStyleProps>`
   }
 
   .drop-cap {
-    ${fontFamilyMixin('brand')}
+    ${fontFamilyMixin('brand', true)}
     font-size: 3em;
     color: ${props => props.theme.color('black')};
     float: left;
@@ -258,7 +258,7 @@ export const typography = css<GlobalStyleProps>`
     position: relative;
 
     &::before {
-      ${fontFamilyMixin('brand')}
+      ${fontFamilyMixin('brand', true)}
       position: absolute;
       content: '“';
       color: ${props => props.theme.color('accent.blue')};
