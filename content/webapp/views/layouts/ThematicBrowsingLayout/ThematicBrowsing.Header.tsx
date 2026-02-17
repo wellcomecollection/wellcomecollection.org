@@ -58,7 +58,7 @@ const ThematicBrowsingHeader = ({
           </Space>
 
           <Layout gridSizes={gridSize10(false)}>
-            <h1 className={font('brand', 4)}>{title}</h1>
+            <h1 className={font('brand-bold', 4)}>{title}</h1>
           </Layout>
 
           {introText && (
@@ -71,6 +71,18 @@ const ThematicBrowsingHeader = ({
                 )}
               </div>
             </Layout>
+          )}
+
+          {title === 'Subjects' && (
+            <Space $v={{ size: 'md', properties: ['margin-top'] }}>
+              <ul>
+                <li>
+                  <a href="/collections/subjects/military-and-war">
+                    Military and war
+                  </a>
+                </li>
+              </ul>
+            </Space>
           )}
         </Container>
       </ThematicBrowsingHeaderContainer>

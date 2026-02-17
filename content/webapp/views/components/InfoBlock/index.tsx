@@ -24,7 +24,7 @@ const InfoBlock: FunctionComponent<Props> = ({
 }: Props): ReactElement<Props> => {
   return (
     <Wrapper data-component="info-block">
-      <h2 id={dasherize(title)} className={font('brand', 1)}>
+      <h2 id={dasherize(title)} className={font('brand-bold', 1)}>
         {title}
       </h2>
       <div className="spaced-text body-text">

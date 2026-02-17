@@ -14,7 +14,7 @@ export const MobileNavBackground = styled(Space).attrs({
 `;
 
 export const FromCollectionsHeading = styled.h2.attrs({
-  className: font('brand', 2),
+  className: font('brand-bold', 2),
 })<{ $color: PaletteColor }>`
   color: ${props => props.theme.color(props.$color)};
   margin-bottom: 0;

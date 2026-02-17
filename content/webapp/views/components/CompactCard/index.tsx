@@ -52,7 +52,7 @@ type CompactArticleProps = ArticleCardProps & {
 export type Props = CompactCardProps | CompactArticleProps;
 
 const BaseTitleWrapper = styled.h3.attrs({
-  className: font('brand', 1),
+  className: font('brand-bold', 1),
 })`
   margin: 0;
 `;

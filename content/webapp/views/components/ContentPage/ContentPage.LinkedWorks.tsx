@@ -34,6 +34,12 @@ const ListItem = styled.li`
     `)}
 `;
 
+const DetailsCopy = styled.span.attrs({
+  className: font('sans', -2),
+})`
+  color: ${props => props.theme.color('black')};
+`;
+
 type LinkedWorkProps = {
   linkedWorks: ContentApiLinkedWork[];
   gridSizes: SizeMap;
@@ -65,13 +71,15 @@ const LinkedWorks: FunctionComponent<LinkedWorkProps> = ({
   return (
     <FullWidthRow>
       <ContaineredLayout gridSizes={gridSizes as SizeMap}>
-        <h2 className={font('brand', 1)}>Featured in this article</h2>
+        <h2 className={font('brand-bold', 1)}>Featured in this article</h2>
       </ContaineredLayout>
 
       <ScrollContainer
-        detailsCopy={`${linkedWorks.length} works from our catalogue`}
         gridSizes={gridSizes}
         useShim
+        CopyContent={
+          <DetailsCopy>{`${linkedWorks.length} works from our catalogue`}</DetailsCopy>
+        }
       >
         {linkedWorks.map((work, i) => {
           return (

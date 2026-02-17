@@ -108,7 +108,7 @@ const NewsletterPromo: FunctionComponent = () => {
     >
       <Container>
         <ContaineredLayout gridSizes={gridSize8()}>
-          <h2 className={font('brand', 1)} style={{ textAlign: 'center' }}>
+          <h2 className={font('brand-bold', 1)} style={{ textAlign: 'center' }}>
             {isSuccess ? 'Thank you for signing up!' : 'Stay in the know'}
           </h2>
           {!isSuccess && (

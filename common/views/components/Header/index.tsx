@@ -141,7 +141,7 @@ const Header: FunctionComponent<Props> = ({
                   id="header-nav"
                   aria-labelledby="header-burger-trigger"
                 >
-                  <HeaderList className={font('brand', -1)}>
+                  <HeaderList className={font('brand-bold', -1)}>
                     {(customNavLinks || links).map((link, i) => (
                       <HeaderItem key={i}>
                         <HeaderLink
