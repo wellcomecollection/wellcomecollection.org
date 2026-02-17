@@ -15,6 +15,8 @@ export const NavLoginWrapper = styled.div`
 
 type WrapperProps = {
   $isBurgerOpen: boolean;
+  $hasColorBackground?: boolean;
+  $isSearchActive: boolean;
 };
 export const Wrapper = styled.div<WrapperProps>`
   display: flex;
@@ -23,8 +25,17 @@ export const Wrapper = styled.div<WrapperProps>`
   justify-content: center;
   position: relative;
   z-index: 6;
-  background-color: ${props => props.theme.color('white')};
-  border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
+  background-color: ${props =>
+    props.theme.color(
+      props.$hasColorBackground ? 'accent.lightGreen' : 'white'
+    )};
+  border-bottom: 1px solid
+    ${props =>
+      props.theme.color(
+        props.$hasColorBackground && !props.$isSearchActive
+          ? 'accent.lightGreen'
+          : 'warmNeutral.400'
+      )};
   height: ${props => props.theme.navHeight}px;
 
   ${props =>
@@ -124,7 +135,10 @@ export const HeaderBrand = styled.div<{ $isMinimalHeader: boolean }>`
     margin: 0 auto;
   }
 `;
-export const HeaderNav = styled.nav<{ $burgerMenuisActive: boolean }>`
+export const HeaderNav = styled.nav<{
+  $burgerMenuisActive: boolean;
+  $hasColorBackground?: boolean;
+}>`
   display: ${props => (props.$burgerMenuisActive ? 'block' : 'none')};
   background: ${props => props.theme.color('white')};
   position: absolute;
@@ -144,13 +158,16 @@ export const HeaderNav = styled.nav<{ $burgerMenuisActive: boolean }>`
     overflow: auto;
   `)}
 
-  ${props.theme.media('headerMedium')`
+  ${props.theme.media('headerMedium')(`
     position: static;
     display: block;
     margin-top: 0;
     padding-left: 0;
     padding-right: 0;
-  `}
+      background: ${props.theme.color(
+        props.$hasColorBackground ? 'accent.lightGreen' : 'white'
+      )};
+  `)}
 `}
 `;
 

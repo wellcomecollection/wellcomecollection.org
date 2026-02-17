@@ -127,6 +127,7 @@ const ConceptPage: NextPage<Props> = ({
         hideNewsletterPromo={true}
         apiToolbarLinks={apiToolbarLinks}
         clipOverflowX={true}
+        headerProps={{ hasColorBackground: true }}
       >
         <ThemeHeader concept={conceptResponse} />
 

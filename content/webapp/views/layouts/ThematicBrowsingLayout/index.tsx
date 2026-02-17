@@ -50,6 +50,7 @@ const ThematicBrowsingLayout: FunctionComponent<
       url={{ pathname: urlPathname }}
       image={page.image}
       apiToolbarLinks={apiToolbarLinks}
+      headerProps={{ hasColorBackground: true }}
     >
       <ThematicBrowsingHeader
         title={page.title}
