@@ -142,7 +142,7 @@ const toggles = {
       title: 'Semantic search comparison',
       initialValue: false,
       description:
-        'Displays the semantic search results side by side with the standard search results for comparison.',
+        'Allows use of semantic searches and facilitates the display of the semantic search results side by side with the standard search results for comparison.',
       type: 'experimental',
     },
   ] as const,
