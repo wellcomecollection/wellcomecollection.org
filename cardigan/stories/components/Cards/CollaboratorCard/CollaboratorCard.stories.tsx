@@ -8,7 +8,7 @@ type StoryProps = ComponentProps<typeof CollaboratorCards> & {
 };
 
 const meta: Meta<StoryProps> = {
-  title: 'Components/Cards/CollaboratorCard',
+  title: 'Components/Cards/CollaboratorCards',
   component: CollaboratorCards,
   args: {
     collaborators: [
@@ -37,6 +37,7 @@ const meta: Meta<StoryProps> = {
   },
   argTypes: {
     collaborators: { table: { disable: true } },
+    maxCards: { table: { disable: true } },
     numberOfCards: {
       control: {
         type: 'range',
@@ -61,6 +62,6 @@ const Template = ({ numberOfCards, ...args }: StoryProps) => {
 };
 
 export const Basic: Story = {
-  name: 'CollaboratorCard',
+  name: 'CollaboratorCards',
   render: args => <Template {...args} />,
 };

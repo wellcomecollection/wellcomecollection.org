@@ -21,7 +21,7 @@ const SubThemeWorks = ({
   // Or do we make it link to a search results page with the relevant filters applied? That might be easier.
   return (
     <>
-      {works.workTypes.length && (
+      {works.workTypes.length > 0 && (
         <Tabs
           tabBehaviour="switch"
           label="Works by type"

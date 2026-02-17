@@ -179,6 +179,7 @@ const ConceptPage: NextPage<Props> = ({
                       </h2>
                       <CollaboratorCards
                         collaborators={frequentCollaborators}
+                        maxCards={4}
                       />
                     </section>
                   </Space>

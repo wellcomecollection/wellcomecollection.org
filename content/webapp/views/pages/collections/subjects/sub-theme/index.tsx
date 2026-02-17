@@ -1,6 +1,6 @@
 import { SliceZone } from '@prismicio/react';
 import { NextPage } from 'next';
-import { ReactElement } from 'react';
+import { ReactElement, ReactNode } from 'react';
 import styled from 'styled-components';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
@@ -91,7 +91,7 @@ const SectionContainer = ({
   title: string;
   id: string;
   hasDarkBackground?: boolean;
-  children: React.ReactNode;
+  children: ReactNode;
 }) => {
   return (
     <ConditionalWrapper
@@ -228,7 +228,7 @@ const WellcomeSubThemePage: NextPage<Props> & {
               worksAndImagesAbout.works.totalResults > 0 && (
                 <SectionContainer
                   title={`Works about ${lowerCasePageTitle}`}
-                  id="images-about"
+                  id="works-about"
                 >
                   <SubThemeWorks works={worksAndImagesAbout.works} />
                 </SectionContainer>
