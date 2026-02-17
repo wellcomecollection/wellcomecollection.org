@@ -55,7 +55,7 @@ const ContentWrapper = styled(Space).attrs({
 
 const Title = styled.h3.attrs<{ $size: 'large' | 'medium' | 'small' }>(
   props => ({
-    className: font('brand', props.$size === 'large' ? 2 : 1),
+    className: font('brand-bold', props.$size === 'large' ? 2 : 1),
   })
 )<{ $size: 'large' | 'medium' | 'small' }>`
   margin: 0 0 ${props => props.theme.spacingUnit}px 0;

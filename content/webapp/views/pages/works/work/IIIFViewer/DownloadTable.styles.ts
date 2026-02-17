@@ -11,7 +11,7 @@ export const DownloadTableContainer = styled.div`
 
 export const DownloadTitle = styled(Space).attrs({
   as: 'h2',
-  className: font('brand', 0),
+  className: font('brand-bold', 0),
   $v: { size: 'sm', properties: ['margin-top'] },
 })`
   padding-left: ${props => props.theme.spacingUnits['400']};

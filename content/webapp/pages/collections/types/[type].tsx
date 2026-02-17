@@ -55,13 +55,13 @@ const SubTypeHeader = styled.div`
 `;
 
 const SubTypeTitle = styled.h2.attrs({
-  className: font('brand', 1),
+  className: font('brand-bold', 1),
 })`
   margin: 0;
 `;
 
 const SubTypeLink = styled(Link).attrs({
-  className: font('brand', 1),
+  className: font('brand-bold', 1),
 })`
   margin: 0;
   text-decoration: underline;

@@ -58,7 +58,7 @@ const SubTopicHeader = styled.div`
 `;
 
 const SubTopicLink = styled(Link).attrs({
-  className: font('brand', 1),
+  className: font('brand-bold', 1),
 })`
   margin: 0;
   text-decoration: underline;
@@ -93,7 +93,7 @@ const CollaboratorsWrapper = styled.div`
 `;
 
 const CollaboratorsTitle = styled.h3.attrs({
-  className: font('brand', -1),
+  className: font('brand-bold', -1),
 })`
   margin: 0 0 ${props => props.theme.spacingUnit * 2}px 0;
   color: ${props => props.theme.color('black')};

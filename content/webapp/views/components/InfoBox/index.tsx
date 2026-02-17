@@ -40,7 +40,7 @@ const InfoBox: FunctionComponent<Props> = ({
 }) => {
   return (
     <div data-component="info-box">
-      <h2 className={font('brand', hasBiggerHeading ? 2 : 1)}>{title}</h2>
+      <h2 className={font('brand-bold', hasBiggerHeading ? 2 : 1)}>{title}</h2>
 
       <InfoContainer>
         {items.map(({ title, description, icon }, i) => (
