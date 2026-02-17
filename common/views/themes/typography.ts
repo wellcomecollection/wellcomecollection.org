@@ -28,9 +28,15 @@ export const fontFamilyMixin = (
   family: FontFamily,
   isBold?: boolean
 ): string => {
+  const weight = isBold
+    ? family === 'brand'
+      ? 'bold'
+      : 'semibold'
+    : 'regular';
+
   return `
   font-family: ${fontFamilies[family]};
-  font-weight: ${designSystemTheme.font.weight[family === 'brand' ? (isBold ? 'bold' : 'regular') : isBold ? 'semibold' : 'regular']};
+  font-weight: ${designSystemTheme.font.weight[weight]};
   `;
 };
 
