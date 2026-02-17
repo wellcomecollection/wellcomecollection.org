@@ -58,7 +58,7 @@ const ContentWrapper = styled(Space).attrs({
 `;
 
 const Title = styled.h3.attrs({
-  className: font('brand', 1),
+  className: font('brand-bold', 1),
 })`
   margin: 0 0 ${props => props.theme.spacingUnit}px 0;
 `;

@@ -39,6 +39,17 @@ export const fonts = css<GlobalStyleProps>`
   }
 
   @font-face {
+    font-family: 'Wellcome';
+    src:
+      url('https://i.wellcomecollection.org/assets/fonts/Wellcome-Regular.woff2')
+        format('woff2'),
+      url('https://i.wellcomecollection.org/assets/fonts/Wellcome-Regular.woff')
+        format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  @font-face {
     font-family: 'IBM Plex Mono';
     src: url('https://i.wellcomecollection.org/assets/fonts/IBMPlexMono-Regular.woff2');
     font-weight: 400;

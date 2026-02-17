@@ -138,7 +138,7 @@ const FeaturedCardArticle: FunctionComponent<FeaturedCardArticleProps> = ({
       background={background}
       textColor={textColor}
     >
-      <h2 className={font('brand', 2)}>{article.title}</h2>
+      <h2 className={font('brand-bold', 2)}>{article.title}</h2>
       {article.caption && <p className={font('sans', -1)}>{article.caption}</p>}
       {article.seriesTitle && (
         <Space $v={{ size: 'md', properties: ['margin-top'] }}>
@@ -165,7 +165,7 @@ const FeaturedCardExhibition: FunctionComponent<
       textColor={textColor}
     >
       <div>
-        <h3 className={font('brand', 2)}>{exhibition.title}</h3>
+        <h3 className={font('brand-bold', 2)}>{exhibition.title}</h3>
         {!exhibition.statusOverride && exhibition.start && exhibition.end && (
           <DateWrapper as="p">
             <DateRange start={exhibition.start} end={exhibition.end} />

@@ -40,7 +40,7 @@ const SearchResults: FunctionComponent<Props> = ({
           !summary ? { size: 'sm', properties: ['margin-bottom'] } : undefined
         }
       >
-        <h2 id={id} className={font('brand', 1)}>
+        <h2 id={id} className={font('brand-bold', 1)}>
           {title}
         </h2>
       </Space>

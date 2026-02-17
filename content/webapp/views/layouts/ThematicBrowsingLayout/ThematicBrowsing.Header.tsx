@@ -58,7 +58,7 @@ const ThematicBrowsingHeader = ({
           </Space>
 
           <Layout gridSizes={gridSize10(false)}>
-            <h1 className={font('brand', 4)}>{title}</h1>
+            <h1 className={font('brand-bold', 4)}>{title}</h1>
           </Layout>
 
           {introText && (

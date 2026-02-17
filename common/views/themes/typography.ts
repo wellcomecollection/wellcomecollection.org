@@ -30,7 +30,7 @@ export const fontFamilyMixin = (
 ): string => {
   return `
   font-family: ${fontFamilies[family]};
-  font-weight: ${designSystemTheme.font.weight[family === 'brand' ? 'bold' : isBold ? 'semibold' : 'regular']};
+  font-weight: ${designSystemTheme.font.weight[family === 'brand' ? (isBold ? 'bold' : 'regular') : isBold ? 'semibold' : 'regular']};
   `;
 };
 
@@ -41,6 +41,10 @@ export const typography = css<GlobalStyleProps>`
 
   .font-sans {
     ${fontFamilyMixin('sans')};
+  }
+
+  .font-brand-bold {
+    ${fontFamilyMixin('brand', true)};
   }
 
   .font-brand {

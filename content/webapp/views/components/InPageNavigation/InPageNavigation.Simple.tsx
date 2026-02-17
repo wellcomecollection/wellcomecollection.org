@@ -26,7 +26,7 @@ export type Props = {
 const InPageNavigationSimple: FunctionComponent<Props> = ({ links }) => {
   return (
     <Root data-component="in-page-navigation-simple">
-      <h2 className={font('brand', 0)}>What’s on this page</h2>
+      <h2 className={font('brand-bold', 0)}>What’s on this page</h2>
       <PlainList>
         {links.map((link: Link) => (
           <li key={link.url}>

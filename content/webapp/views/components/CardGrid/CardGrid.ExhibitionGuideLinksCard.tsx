@@ -77,7 +77,7 @@ const ExhibitionGuideLinksCard: FunctionComponent<Props> = ({
         <Space
           $v={{ size: 'sm', properties: ['margin-top', 'margin-bottom'] }}
           as="h3"
-          className={font('brand', 1)}
+          className={font('brand-bold', 1)}
         >
           {exhibitionGuide.title}
         </Space>

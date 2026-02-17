@@ -86,7 +86,7 @@ const WorkStoriesOnWorks: FunctionComponent<Props> = ({
     <SectionWrapper>
       <Container>
         <Space $v={{ size: 'md', properties: ['padding-top'] }}>
-          <h2 className={font('brand', 1)}>Stories featuring this work</h2>
+          <h2 className={font('brand-bold', 1)}>Stories featuring this work</h2>
         </Space>
 
         <Space $v={{ size: 'sm', properties: ['padding-top'] }}>

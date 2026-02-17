@@ -84,7 +84,7 @@ const VisuallySimilarImages: FunctionComponent<Props> = ({
 
   return similarImages.length === 0 ? null : (
     <>
-      <h3 className={font('brand', -1)}>Visually similar images</h3>
+      <h3 className={font('brand-bold', -1)}>Visually similar images</h3>
 
       <Wrapper>
         {similarImages.map(related => (

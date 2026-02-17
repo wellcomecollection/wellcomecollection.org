@@ -77,7 +77,7 @@ const TypeOption: FunctionComponent<Props> = ({ url, title, type }) => {
     <TypeItem>
       <TypeLink href={url} $backgroundColor="warmNeutral.300" onClick={onClick}>
         <CardBody style={{ height: '100%' }}>
-          <h2 className={font('brand', 1)}>{title}</h2>
+          <h2 className={font('brand-bold', 1)}>{title}</h2>
 
           <TypeIconsWrapper>
             <RelevantGuideIcons types={[type]} />

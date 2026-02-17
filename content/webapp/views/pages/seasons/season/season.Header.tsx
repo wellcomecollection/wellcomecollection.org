@@ -61,7 +61,7 @@ const SeasonsHeader: FunctionComponent<Props> = ({ season }) => {
                     <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
                       <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
                         <h1
-                          className={font('brand', 4)}
+                          className={font('brand-bold', 4)}
                           style={{ display: 'inline-block', marginBottom: 0 }}
                         >
                           {title}
