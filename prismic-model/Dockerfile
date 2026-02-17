@@ -1,4 +1,4 @@
-FROM public.ecr.aws/docker/library/node:24-bookworm-slim
+FROM public.ecr.aws/docker/library/node:24.13.0-bookworm-slim
 
 COPY ./package.json /repo/package.json
 COPY ./yarn.lock /repo/yarn.lock

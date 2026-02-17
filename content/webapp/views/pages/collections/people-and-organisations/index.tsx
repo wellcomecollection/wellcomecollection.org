@@ -3,7 +3,6 @@ import { ReactElement } from 'react';
 
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { gridSize12 } from '@weco/common/views/components/Layout';
-import Space from '@weco/common/views/components/styled/Space';
 import { Page } from '@weco/content/types/pages';
 import Body from '@weco/content/views/components/Body';
 import ThematicBrowsingLayout from '@weco/content/views/layouts/ThematicBrowsingLayout';
@@ -16,14 +15,12 @@ const CollectionsPeoplePage: NextPage<Props> & {
   getLayout?: (page: ReactElement<Props>) => ReactElement;
 } = ({ thematicBrowsingPage }) => {
   return (
-    <Space $v={{ size: 'md', properties: ['margin-top', 'margin-bottom'] }}>
-      <Body
-        untransformedBody={thematicBrowsingPage.untransformedBody}
-        pageId={thematicBrowsingPage.id}
-        pageUid={thematicBrowsingPage.uid}
-        gridSizes={gridSize12()}
-      />
-    </Space>
+    <Body
+      untransformedBody={thematicBrowsingPage.untransformedBody}
+      pageId={thematicBrowsingPage.id}
+      pageUid={thematicBrowsingPage.uid}
+      gridSizes={gridSize12()}
+    />
   );
 };
 

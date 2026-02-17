@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import { styled } from 'styled-components';
+import styled from 'styled-components';
 
 import { chevron, closedFolder, openFolder } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
