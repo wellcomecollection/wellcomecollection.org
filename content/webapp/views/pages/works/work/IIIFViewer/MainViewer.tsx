@@ -47,7 +47,7 @@ const ItemWrapper = styled.div<{
 }>`
   ${props => !props.$isAudio && 'height: 100%;'}
   ${props =>
-    props.$isImage || props.$isText ? 'min-height: 50vh;' : 'min-height: 30vh;'}
+    (props.$isImage || props.$isText) ? 'min-height: 50vh;' : 'min-height: 30vh;'}
   position: relative;
   overflow: auto;
 
