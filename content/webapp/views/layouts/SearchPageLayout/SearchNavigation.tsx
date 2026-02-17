@@ -157,7 +157,7 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
           {capitalize(currentSearchCategory)} search
         </h1>
 
-        {semanticSearchPrototype || semanticSearchComparison ? (
+        {(semanticSearchPrototype || semanticSearchComparison) && (
           <PrototypeSearchSelects
             currentQuery={queryValue}
             currentApiSelection={
@@ -169,7 +169,9 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
             }
             showAllResultsOption={semanticSearchComparison}
           />
-        ) : (
+        )}
+
+        {!semanticSearchPrototype && (
           <SearchBarContainer
             $v={{ size: 'md', properties: ['margin-top', 'margin-bottom'] }}
           >
@@ -188,7 +190,7 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
           </SearchBarContainer>
         )}
       </form>
-      {!semanticSearchPrototype && !semanticSearchComparison && (
+      {!semanticSearchPrototype && (
         <TabsBorder $visible={true}>
           <Tabs
             tabBehaviour="navigate"
