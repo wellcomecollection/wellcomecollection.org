@@ -19,7 +19,6 @@ const SubThemeImages = ({ images }: { images: ReturnedResults<ImageType> }) => {
     [images]
   );
 
-  /* TODO this doesn't work within the container. */
   return (
     <ThemeImagesWrapper>
       <CatalogueImageGallery

@@ -105,6 +105,7 @@ export type SliceZoneContext = {
   gridSizes?: SizeMap;
   comicPreviousNext?: ComicPreviousNextProps;
   contentType?: 'short-film' | 'visual-story' | 'standalone-image-gallery';
+  hasNoShim?: boolean;
 };
 
 export const defaultContext: SliceZoneContext = {
@@ -115,6 +116,7 @@ export const defaultContext: SliceZoneContext = {
   pageUid: '',
   hasLandingPageFormat: false,
   isDropCapped: false,
+  hasNoShim: false,
 };
 
 const Body: FunctionComponent<Props> = ({

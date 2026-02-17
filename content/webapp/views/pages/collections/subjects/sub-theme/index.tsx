@@ -46,19 +46,23 @@ const SectionWrapper = styled(Space).attrs({
   background-color: ${props => props.theme.color('neutral.700')};
 `;
 
-const StretchWrapper = styled.div`
+const StretchWrapper = styled.div<{ $hasDarkBackground?: boolean }>`
   ${props => props.theme.pageGridOffset('margin-right')};
 
-  &::before {
-    content: '';
-    position: absolute;
-    width: calc(100vw - 100%);
-    top: 0;
-    background: ${props => props.theme.color('neutral.700')};
-    bottom: 0;
-    right: 100%;
-    z-index: 0;
-  }
+  ${props =>
+    props.$hasDarkBackground &&
+    `
+    &::before {
+      content: '';
+      position: absolute;
+      width: calc(100vw - 100%);
+      top: 0;
+      background: ${props.theme.color('neutral.700')};
+      bottom: 0;
+      right: 100%;
+      z-index: 0;
+    }
+  `}
 `;
 
 export type Props = {
@@ -162,13 +166,15 @@ const WellcomeSubThemePage: NextPage<Props> & {
 
         <GridCell $sizeMap={{ s: [12], m: [12], l: [9], xl: [9] }}>
           <Space $v={{ size: 'sm', properties: ['padding-top'] }}>
-            {/* TODO this doesn't work within the container. */}
-            {/* Also, does it not appear in the side menu? It has no heading. */}
+            {/* TODO does it not appear in the side menu? It has no heading. */}
             {categoryThemeCardsList && (
-              <SliceZone
-                slices={[categoryThemeCardsList]}
-                components={components}
-              />
+              <StretchWrapper>
+                <SliceZone
+                  slices={[categoryThemeCardsList]}
+                  components={components}
+                  context={{ hasNoShim: true }}
+                />
+              </StretchWrapper>
             )}
 
             {newOnlineWorks.length > 0 && (
@@ -201,7 +207,7 @@ const WellcomeSubThemePage: NextPage<Props> & {
             {worksAndImagesAbout.images &&
               worksAndImagesAbout.images.totalResults > 0 && (
                 <>
-                  <StretchWrapper>
+                  <StretchWrapper $hasDarkBackground>
                     <SectionWrapper>
                       <Title id="images-about" $hasDarkBackground>
                         Images about {lowerCasePageTitle}
