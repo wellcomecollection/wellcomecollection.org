@@ -1,10 +1,13 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import {
   GridCellScroll,
   GridScroll,
 } from '@weco/common/views/components/styled/Grid';
+import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
+import { fetchMultiContentClientSide } from '@weco/content/services/prismic/fetch/multi-content';
 import { Article } from '@weco/content/types/articles';
 import StoryCard from '@weco/content/views/components/StoryCard';
 
@@ -42,20 +45,51 @@ const StoryCardContainer = styled.div`
   }
 `;
 
-const SubThemeStories = ({ relatedStories }: { relatedStories: Article[] }) => {
-  // TODO this uses Content List, which doesn't return labels or Part of
-  // Figure out what solution we'd like to go with...
+const SubThemeStories = ({
+  relatedStoriesId,
+}: {
+  relatedStoriesId: string[];
+}) => {
+  const [orderedStories, setOrderedStories] = useState<Article[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchStories = async () => {
+      const storyPromise = await fetchMultiContentClientSide(
+        relatedStoriesId.map(id => `id:${id}`).join(' ')
+      );
+
+      if (storyPromise?.results) {
+        setOrderedStories(
+          relatedStoriesId
+            .map(id => storyPromise.results.find(story => story.id === id))
+            .filter(Boolean) as Article[]
+        );
+      }
+      setIsLoading(false);
+    };
+
+    fetchStories();
+  }, [relatedStoriesId]);
+
+  if (isLoading)
+    return (
+      <div style={{ position: 'relative', height: '400px' }}>
+        <LL />
+      </div>
+    );
+
   return (
     <StoryCardContainer>
       <Space $v={{ size: 'md', properties: ['padding-bottom'] }}>
         <GridScroll className="card-theme card-theme--transparent">
-          {relatedStories.map(article => (
+          {orderedStories.map(article => (
             <GridCellScroll
               key={article.id}
               $sizeMap={{ m: [6], l: [4], xl: [4] }}
             >
               <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
-                <StoryCard variant="prismic" article={article} />
+                <StoryCard variant="prismic" article={article} showAllLabels />
               </Space>
             </GridCellScroll>
           ))}

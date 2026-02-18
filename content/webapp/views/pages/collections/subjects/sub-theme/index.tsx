@@ -19,9 +19,11 @@ import {
   RelatedConcept,
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
-import { Article } from '@weco/content/types/articles';
 import { Page } from '@weco/content/types/pages';
 import CollaboratorCards from '@weco/content/views/components/CollaboratorCards';
+import ImageModal, {
+  useExpandedImage,
+} from '@weco/content/views/components/ImageModal';
 import InPageNavigation from '@weco/content/views/components/InPageNavigation';
 import WorkCards from '@weco/content/views/components/WorkCards';
 import ThematicBrowsingLayout from '@weco/content/views/layouts/ThematicBrowsingLayout';
@@ -77,7 +79,7 @@ export type Props = {
   categoryThemeCardsList?: RawThemeCardsListSlice;
   newOnlineWorks: WorkBasic[];
   frequentCollaborators: RelatedConcept[];
-  relatedStories: Article[];
+  relatedStoriesId: string[];
   // This type is not great but this whole section will
   // probably be removed when we have a better idea of
   // what we want to show on these pages.
@@ -120,10 +122,14 @@ const WellcomeSubThemePage: NextPage<Props> & {
   categoryThemeCardsList,
   newOnlineWorks,
   frequentCollaborators,
-  relatedStories,
+  relatedStoriesId,
   worksAndImagesAbout,
   relatedTopics,
 }) => {
+  const [expandedImage, setExpandedImage] = useExpandedImage(
+    worksAndImagesAbout.images?.pageResults || []
+  );
+
   const lowerCasePageTitle = thematicBrowsingPage.title.toLowerCase();
   const onThisPage = [
     ...(categoryThemeCardsList
@@ -137,7 +143,15 @@ const WellcomeSubThemePage: NextPage<Props> & {
           },
         ]
       : []),
-    ...(relatedStories.length > 0
+    ...(frequentCollaborators.length > 0
+      ? [
+          {
+            text: 'Frequent collaborators',
+            url: `#frequent-collaborators`,
+          },
+        ]
+      : []),
+    ...(relatedStoriesId.length > 0
       ? [
           {
             text: `Stories about ${lowerCasePageTitle}`,
@@ -174,9 +188,10 @@ const WellcomeSubThemePage: NextPage<Props> & {
 
         <GridCell $sizeMap={{ s: [12], m: [12], l: [9], xl: [9] }}>
           <Space $v={{ size: 'sm', properties: ['padding-top'] }}>
-            {/* TODO add a heading for the In-Page nav */}
             {categoryThemeCardsList && (
               <StretchWrapper>
+                <Title id="about">About this topic</Title>
+
                 <SliceZone
                   slices={[categoryThemeCardsList]}
                   components={components}
@@ -198,35 +213,33 @@ const WellcomeSubThemePage: NextPage<Props> & {
 
             {frequentCollaborators.length > 0 && (
               <SectionContainer
-                title={`Frequent collaborators on ${lowerCasePageTitle}`}
+                title="Frequent collaborators"
                 id="frequent-collaborators"
               >
                 <CollaboratorCards collaborators={frequentCollaborators} />
               </SectionContainer>
             )}
 
-            {relatedStories?.length !== 0 && (
+            {relatedStoriesId?.length > 0 && (
               <SectionContainer
                 title={`Stories about ${lowerCasePageTitle}`}
                 id="stories"
               >
-                <SubThemeStories relatedStories={relatedStories} />
+                <SubThemeStories relatedStoriesId={relatedStoriesId} />
               </SectionContainer>
             )}
 
             {worksAndImagesAbout.images &&
               worksAndImagesAbout.images.totalResults > 0 && (
-                <>
-                  <StretchWrapper $hasDarkBackground>
-                    <SectionWrapper>
-                      <Title id="images-about" $hasDarkBackground>
-                        Images about {lowerCasePageTitle}
-                      </Title>
+                <StretchWrapper $hasDarkBackground>
+                  <SectionWrapper>
+                    <Title id="images-about" $hasDarkBackground>
+                      Images about {lowerCasePageTitle}
+                    </Title>
 
-                      <SubThemeImages images={worksAndImagesAbout.images} />
-                    </SectionWrapper>
-                  </StretchWrapper>
-                </>
+                    <SubThemeImages images={worksAndImagesAbout.images} />
+                  </SectionWrapper>
+                </StretchWrapper>
               )}
 
             {worksAndImagesAbout.works &&
@@ -247,6 +260,21 @@ const WellcomeSubThemePage: NextPage<Props> & {
           </Space>
         </GridCell>
       </PageGrid>
+
+      {worksAndImagesAbout.images &&
+        worksAndImagesAbout.images.totalResults > 0 && (
+          <>
+            {/* https://frontendmasters.com/blog/containers-context/
+            A Safari bug is forcing this to live here instead of its parent, ImageResults.
+            The bug got fixed in Safari 18.2 (I think) but we support the latest two versions.
+            It would be nice to move it back inside ImageResults once we're two versions ahead. */}
+            <ImageModal
+              images={worksAndImagesAbout.images?.pageResults}
+              expandedImage={expandedImage}
+              setExpandedImage={setExpandedImage}
+            />
+          </>
+        )}
     </Container>
   );
 };
