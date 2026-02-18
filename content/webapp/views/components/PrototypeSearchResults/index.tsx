@@ -4,9 +4,6 @@ import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import { WellcomeResultList } from '@weco/content/services/wellcome';
 import {
-  CatalogueResultsList,
-  Concept,
-  Image,
   WorkAggregations,
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
@@ -14,8 +11,8 @@ import WorksSearchResult from '@weco/content/views/components/WorksSearchResults
 
 type Props = {
   works: WellcomeResultList<WorkBasic, WorkAggregations> | null | undefined;
-  works2: CatalogueResultsList<Concept> | null | undefined; // TODO this is temporary until we switch to semantic search APIs, when this will become a different set of works results
-  works3: CatalogueResultsList<Image> | null | undefined; // TODO this is temporary until we switch to semantic search APIs, when this will become a different set of works results
+  works2: WellcomeResultList<WorkBasic, WorkAggregations> | null | undefined;
+  works3: WellcomeResultList<WorkBasic, WorkAggregations> | null | undefined;
   currentPage: number;
 };
 
@@ -110,12 +107,11 @@ const PrototypeSearchResults: FunctionComponent<Props> = ({
   const renderResultCell = (
     data:
       | WellcomeResultList<WorkBasic, WorkAggregations>
-      | CatalogueResultsList<Concept>
-      | CatalogueResultsList<Image>
+      | WellcomeResultList<WorkBasic, WorkAggregations>
+      | WellcomeResultList<WorkBasic, WorkAggregations>
       | null
       | undefined,
-    index: number,
-    isWorkBasic: boolean = true
+    index: number
   ) => {
     // Always render the cell to maintain column structure
     if (!data || !data.results[index]) {
@@ -124,37 +120,10 @@ const PrototypeSearchResults: FunctionComponent<Props> = ({
 
     return (
       <ResultCell>
-        {isWorkBasic ? (
-          <WorksSearchResult
-            work={data.results[index] as WorkBasic}
-            resultPosition={calculateResultPosition(index)}
-          />
-        ) : (
-          // TODO: When switching to getWorks, replace manual object construction with: work={data.results[index]}
-          <WorksSearchResult
-            work={{
-              id: (data.results[index] as Concept | Image).id,
-              title:
-                (data.results[index] as Concept).label ||
-                (data.results[index] as Image).source.title,
-              languageId: undefined,
-              thumbnail: (data.results[index] as Image).thumbnail,
-              referenceNumber: undefined,
-              productionDates: [],
-              archiveLabels: undefined,
-              cardLabels: [
-                {
-                  text: (data.results[index] as Concept).label
-                    ? 'Concept'
-                    : 'Image',
-                },
-              ],
-              primaryContributorLabel: undefined,
-              notes: [],
-            }}
-            resultPosition={calculateResultPosition(index)}
-          />
-        )}
+        <WorksSearchResult
+          work={data.results[index]}
+          resultPosition={calculateResultPosition(index)}
+        />
       </ResultCell>
     );
   };
@@ -178,9 +147,9 @@ const PrototypeSearchResults: FunctionComponent<Props> = ({
         {rows.map((_, i) => (
           <ResultRow key={i} $isAlternating={i % 2 === 1}>
             <RowNumber>{calculateResultPosition(i)}.</RowNumber>
-            {renderResultCell(works, i, true)}
-            {renderResultCell(works2, i, false)}
-            {renderResultCell(works3, i, false)}
+            {renderResultCell(works, i)}
+            {renderResultCell(works2, i)}
+            {renderResultCell(works3, i)}
           </ResultRow>
         ))}
       </ResultsGrid>

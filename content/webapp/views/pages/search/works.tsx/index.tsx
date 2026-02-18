@@ -14,9 +14,6 @@ import PaginationWrapper from '@weco/common/views/components/styled/PaginationWr
 import Space from '@weco/common/views/components/styled/Space';
 import { WellcomeResultList } from '@weco/content/services/wellcome';
 import {
-  CatalogueResultsList,
-  Concept,
-  Image,
   WorkAggregations,
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
@@ -37,8 +34,8 @@ import SearchNoResults from '@weco/content/views/pages/search/search.NoResults';
 
 export type Props = {
   works: WellcomeResultList<WorkBasic, WorkAggregations>;
-  works2?: CatalogueResultsList<Concept> | null; // TODO this is temporary until we switch to semantic search APIs, when this will become a different set of works results
-  works3?: CatalogueResultsList<Image> | null; // TODO this is temporary until we switch to semantic search APIs, when this will become a different set of works results
+  works2?: WellcomeResultList<WorkBasic, WorkAggregations> | null;
+  works3?: WellcomeResultList<WorkBasic, WorkAggregations> | null;
   worksRouteProps: WorksRouteProps;
   query: Query;
   apiToolbarLinks: ApiToolbarLink[];
@@ -186,9 +183,13 @@ const WorksSearchPage: NextPage<Props> = withSearchLayout(
                     <>
                       <PaginationWrapper $verticalSpacing="md">
                         <span role="status">
-                          Results: {works && `${works.totalResults} works`}
-                          {works2 && `${works2.totalResults} works (variant 2)`}
-                          {works3 && `${works3.totalResults} works (variant 3)`}
+                          Results:{' '}
+                          {works &&
+                            `${works.totalResults} works ${works2 || works3 ? '(alternative 1)' : ''}`}
+                          {works2 &&
+                            `, ${works2.totalResults} works (alternative 2)`}
+                          {works3 &&
+                            `, ${works3.totalResults} works (alternative 3)`}
                         </span>
                         <Pagination
                           totalPages={totalPages}
@@ -233,39 +234,11 @@ const WorksSearchPage: NextPage<Props> = withSearchLayout(
                     selectedTotalPages = works.totalPages;
                     selectedTotalResults = works.totalResults;
                   } else if (searchIn === 'alternative2') {
-                    // TODO: Remove this transformation when switching to semantic search getWorks API
-                    // Transform Concept results to WorkBasic format
-                    selectedWorks =
-                      works2?.results?.map(result => ({
-                        id: result.id,
-                        title: result.label,
-                        languageId: undefined,
-                        thumbnail: undefined,
-                        referenceNumber: undefined,
-                        productionDates: [],
-                        archiveLabels: undefined,
-                        cardLabels: [{ text: 'Concept' }],
-                        primaryContributorLabel: undefined,
-                        notes: [],
-                      })) || [];
+                    selectedWorks = works2?.results || [];
                     selectedTotalPages = works2?.totalPages || 0;
                     selectedTotalResults = works2?.totalResults || 0;
                   } else if (searchIn === 'alternative3') {
-                    // TODO: Remove this transformation when switching to semantic search getWorks API
-                    // Transform Image results to WorkBasic format
-                    selectedWorks =
-                      works3?.results?.map(result => ({
-                        id: result.id,
-                        title: result.source.title,
-                        languageId: undefined,
-                        thumbnail: result.thumbnail,
-                        referenceNumber: undefined,
-                        productionDates: [],
-                        archiveLabels: undefined,
-                        cardLabels: [{ text: 'Image' }],
-                        primaryContributorLabel: undefined,
-                        notes: [],
-                      })) || [];
+                    selectedWorks = works3?.results || [];
                     selectedTotalPages = works3?.totalPages || 0;
                     selectedTotalResults = works3?.totalResults || 0;
                   } else {
