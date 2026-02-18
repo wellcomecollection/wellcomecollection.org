@@ -12,8 +12,8 @@ aws s3 cp "$ASSETS/humans.txt" s3://i.wellcomecollection.org/humans.txt \
   --content-type "text/plain; charset=utf-8" \
   --content-encoding "utf-8"
 
-# Note: robots.txt is now served from the Next.js app public folder
-# and is deployed per environment during the Docker build process.
+# Note: robots.txt is now served dynamically via Next.js API routes
+# with environment-specific content selected at runtime.
 # See config/robots/ for environment-specific robots.txt files.
 
 # This is used to verify that we own the domain in
