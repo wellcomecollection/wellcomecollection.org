@@ -14,7 +14,7 @@ import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { toConceptLink } from '@weco/content/views/components/ConceptLink';
 import ScrollContainer from '@weco/content/views/components/ScrollContainer';
 
-const ListItem = styled.li`
+const ListItem = styled.li<{ $usesShim?: boolean }>`
   --gutter-size: ${props => props.theme.gutter.small};
   flex: 0 0 auto;
   width: 400px;
@@ -40,9 +40,18 @@ const ListItem = styled.li`
 
       padding: 0 0 0 var(--gutter-size);
 
-      &:nth-child(2) {
-        padding-left: 0;
-        width: calc((100vw - (${paddingCalc}) - (${smGutter} * 11)) / 2 + (${smGutter} * 5));
+      ${
+        props.$usesShim
+          ? `
+          &:nth-child(2) {
+            padding-left: 0;
+            width: calc((100vw - (${paddingCalc}) - (${smGutter} * 11)) / 2 + (${smGutter} * 5));
+          }`
+          : `
+          &:first-child {
+            padding-left: 0;
+            width: calc((100vw - (${paddingCalc}) - (${smGutter} * 11)) / 2 + (${smGutter} * 5));
+          } `
       }
       &:last-child {
         padding-right: var(--gutter-size);
@@ -66,9 +75,18 @@ const ListItem = styled.li`
       /* Max-width at lg: ((${lg} - (${paddingCalc})) - (${mdGutter} * 11)) / 12 × 4 + (${mdGutter} * 4) */
       max-width: calc(((${lg} - (${paddingCalc})) - (${mdGutter} * 11)) / 12 * 4 + (${mdGutter} * 4));
 
-      &:nth-child(2){
-        width: calc((100vw - (${paddingCalc}) - (${mdGutter} * 11)) / 3 + (${mdGutter} * 3));
-        max-width: calc(((${lg} - (${paddingCalc})) - (${mdGutter} * 11)) / 12 * 4 + (${mdGutter} * 3));
+      ${
+        props.$usesShim
+          ? `
+          &:nth-child(2) {
+            width: calc((100vw - (${paddingCalc}) - (${mdGutter} * 11)) / 3 + (${mdGutter} * 3));
+            max-width: calc(((${lg} - (${paddingCalc})) - (${mdGutter} * 11)) / 12 * 4 + (${mdGutter} * 3));
+          }`
+          : `
+          &:first-child {
+            width: calc((100vw - (${paddingCalc}) - (${mdGutter} * 11)) / 3 + (${mdGutter} * 3));
+            max-width: calc(((${lg} - (${paddingCalc})) - (${mdGutter} * 11)) / 12 * 4 + (${mdGutter} * 3));
+          }`
       }
 
       &:last-child {
@@ -119,6 +137,7 @@ type ThemeCardsListProps = {
       | undefined;
   };
   sliceTitle?: string;
+  useShim?: boolean;
   gridSizes?: SizeMap;
   onConceptsFetched?: ({ count }: { count: number }) => void;
 };
@@ -127,6 +146,7 @@ const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
   conceptIds,
   description,
   sliceTitle,
+  useShim,
   gtmData,
   gridSizes = gridSize12(),
   onConceptsFetched,
@@ -174,7 +194,7 @@ const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
       <ScrollContainer
         gridSizes={gridSizes}
         containerRef={scrollContainerRef}
-        useShim
+        useShim={useShim}
         CopyContent={
           sliceTitle || description ? (
             <>
@@ -196,7 +216,7 @@ const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
         ) : (
           <>
             {concepts.map((concept, i) => (
-              <ListItem key={concept.id}>
+              <ListItem key={concept.id} $usesShim={useShim}>
                 <Theme
                   concept={concept}
                   gtmData={{ ...gtmData, 'position-in-list': `${i + 1}` }}

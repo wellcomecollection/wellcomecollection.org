@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { FunctionComponent, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
-import { user as userIcon } from '@weco/common/icons';
 import { getServerData } from '@weco/common/server-data';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { font } from '@weco/common/utils/classnames';
@@ -21,14 +20,15 @@ import { catalogueQuery } from '@weco/content/services/wellcome/catalogue';
 import { getConceptsByIds } from '@weco/content/services/wellcome/catalogue/concepts';
 import {
   Concept,
+  RelatedConcept,
   toWorkBasic,
   Work,
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
+import CollaboratorCards from '@weco/content/views/components/CollaboratorCards';
 import RelatedWorksCard from '@weco/content/views/components/RelatedWorksCard';
 import ScrollContainer from '@weco/content/views/components/ScrollContainer';
-import CollaboratorCard from '@weco/content/views/pages/concepts/concept/concept.Collaborators.Card';
 
 const ContentSection = styled.div`
   background-color: ${props => props.theme.color('warmNeutral.300')};
@@ -90,6 +90,10 @@ const WorkItem = styled.li`
 
 const CollaboratorsWrapper = styled.div`
   margin-top: ${props => props.theme.spacingUnit * 3}px;
+
+  a {
+    background-color: ${props => props.theme.color('white')};
+  }
 `;
 
 const CollaboratorsTitle = styled.h3.attrs({
@@ -97,16 +101,6 @@ const CollaboratorsTitle = styled.h3.attrs({
 })`
   margin: 0 0 ${props => props.theme.spacingUnit * 2}px 0;
   color: ${props => props.theme.color('black')};
-`;
-
-const CollaboratorsList = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: ${props => props.theme.spacingUnit * 2}px;
-
-  a {
-    background-color: ${props => props.theme.color('white')};
-  }
 `;
 
 const IntroText = styled.p.attrs({
@@ -257,16 +251,13 @@ const TopicDetailPage: FunctionComponent<Props> = ({
                           <CollaboratorsTitle>
                             Notable people
                           </CollaboratorsTitle>
-                          <CollaboratorsList>
-                            {peopleBySubTopic[subTopic.id].map(person => (
-                              <CollaboratorCard
-                                key={person.id}
-                                href={`/concepts/${person.id}`}
-                                label={person.label}
-                                icon={userIcon}
-                              />
-                            ))}
-                          </CollaboratorsList>
+                          <CollaboratorCards
+                            collaborators={
+                              peopleBySubTopic[
+                                subTopic.id
+                              ] as unknown as RelatedConcept[]
+                            }
+                          />
                         </CollaboratorsWrapper>
                       )}
 

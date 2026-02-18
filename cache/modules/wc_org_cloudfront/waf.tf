@@ -89,9 +89,37 @@ resource "aws_wafv2_web_acl" "wc_org" {
     allow {}
   }
 
+  dynamic "rule" {
+    for_each = length(var.allowed_countries) > 0 ? [1] : []
+    content {
+      name     = "geo-restriction"
+      priority = 0
+
+      action {
+        block {}
+      }
+
+      statement {
+        not_statement {
+          statement {
+            geo_match_statement {
+              country_codes = var.allowed_countries
+            }
+          }
+        }
+      }
+
+      visibility_config {
+        cloudwatch_metrics_enabled = true
+        sampled_requests_enabled   = true
+        metric_name                = "geo-restriction-${var.namespace}"
+      }
+    }
+  }
+
   rule {
     name     = "ip-allowlist"
-    priority = 0
+    priority = 1
 
     action {
       allow {}
@@ -112,7 +140,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "ip-watchlist"
-    priority = 1
+    priority = 2
 
     action {
       count {}
@@ -133,7 +161,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "managed-ip-blocking"
-    priority = 2
+    priority = 3
 
     override_action {
       none {}
@@ -156,7 +184,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "geo-rate-limit-APAC"
-    priority = 3
+    priority = 4
 
     action {
       block {
@@ -180,6 +208,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
               "CN",
               "SG",
               "HK",
+              "VN",
             ]
           }
         }
@@ -195,7 +224,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "geo-rate-limit-LATAM"
-    priority = 4
+    priority = 5
 
     action {
       block {
@@ -232,7 +261,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "blanket-rate-limiting"
-    priority = 5
+    priority = 6
 
     action {
       block {}
@@ -254,7 +283,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "restrictive-rate-limiting"
-    priority = 6
+    priority = 7
 
     action {
       block {}
@@ -292,7 +321,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-crs
   rule {
     name     = "core-rule-group"
-    priority = 7
+    priority = 8
 
     override_action {
       none {}
@@ -315,7 +344,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-use-case.html#aws-managed-rule-groups-use-case-sql-db
   rule {
     name     = "sqli-rule-group"
-    priority = 8
+    priority = 9
 
     override_action {
       none {}
@@ -338,7 +367,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-known-bad-inputs
   rule {
     name     = "known-bad-inputs-rule-group"
-    priority = 9
+    priority = 10
 
     override_action {
       none {}
@@ -360,7 +389,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "bot-control-rule-group"
-    priority = 10
+    priority = 11
 
     // Because the Bot Control rules are quite aggressive, they block some useful bots
     // such as Updown. While we could add overrides for specific bots, we don"t want to have to
@@ -407,7 +436,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "bot-user-agent-manual"
-    priority = 11
+    priority = 12
 
     action {
       block {}
@@ -503,7 +532,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "apac-captcha-consent-block"
-    priority = 12
+    priority = 13
 
     action {
       captcha {}
@@ -528,7 +557,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
                     match_pattern {
                       included_cookies = ["CookieControl"]
                     }
-                    match_scope      = "ALL"
+                    match_scope       = "ALL"
                     oversize_handling = "MATCH"
                   }
                 }

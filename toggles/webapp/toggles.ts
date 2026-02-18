@@ -84,19 +84,19 @@ const toggles = {
       type: 'permanent',
     },
     {
-      id: 'extendedViewer',
-      title: 'Allow viewer to render video, audio and pdfs',
-      initialValue: false,
-      description:
-        'Displays a new version of the viewer that can render video, audio and pdfs in addition to images',
-      type: 'experimental',
-    },
-    {
       id: 'themePagesAllFields',
       title: 'Show all fields on theme pages',
       initialValue: false,
       description:
         'Show all experimental fields on theme pages, including alternative labels, broader topics, etc.',
+      type: 'permanent',
+    },
+    {
+      id: 'extendedViewer',
+      title: 'Allow viewer to render video, audio and pdfs',
+      initialValue: false,
+      description:
+        'Displays a new version of the viewer that can render video, audio and pdfs in addition to images',
       type: 'experimental',
     },
     {

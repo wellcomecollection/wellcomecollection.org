@@ -40,8 +40,9 @@ import PopupDialog from '@weco/common/views/components/PopupDialog';
 import Favicons from './PageLayout.Favicons';
 
 type HeaderProps = {
-  customNavLinks: NavLink[];
+  customNavLinks?: NavLink[];
   isMinimalHeader?: boolean;
+  hasColorBackground?: boolean;
 };
 
 type SkipToContentLink = {
