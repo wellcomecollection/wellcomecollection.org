@@ -385,7 +385,7 @@ describe('isPDFCanvas', () => {
 });
 
 describe('getFileTypeLabel', () => {
-  it('returns file for mixed PDF and image', () => {
+  it('returns the correct amount of items and "file(s)" for when there is a mixture of PDFs and images', () => {
     const canvases = [
       createMockCanvas({
         original: [
@@ -410,7 +410,7 @@ describe('getFileTypeLabel', () => {
     );
   });
 
-  it('returns image for all images', () => {
+  it('returns the correct amount of items and "image(s)" when we only have images', () => {
     const canvases = [
       createMockCanvas({
         painting: [
@@ -436,7 +436,7 @@ describe('getFileTypeLabel', () => {
     );
   });
 
-  it('returns file for mixed video and image', () => {
+  it('returns the correct amount of items and "file(s)" for when there is a mixture of video and image', () => {
     const canvases = [
       createMockCanvas({
         painting: [
@@ -462,7 +462,7 @@ describe('getFileTypeLabel', () => {
     );
   });
 
-  it('returns video file when only videos present', () => {
+  it('returns the correct amount of items and "video file(s)" when only videos present', () => {
     const canvases = [
       createMockCanvas({
         painting: [
@@ -479,7 +479,7 @@ describe('getFileTypeLabel', () => {
     );
   });
 
-  it('returns file when hasNonStandardItems is true', () => {
+  it('returns the correct amount of items and "file(s)" when hasNonStandardItems is true', () => {
     const canvases = [
       createMockCanvas({
         painting: [
@@ -496,7 +496,7 @@ describe('getFileTypeLabel', () => {
     );
   });
 
-  it('returns volume label when collectionManifestsCount is present', () => {
+  it('returns the correct amount of items and "volumes" when collectionManifestsCount is present', () => {
     const canvases = [
       createMockCanvas({
         painting: [
