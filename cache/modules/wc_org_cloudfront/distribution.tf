@@ -32,6 +32,13 @@ resource "aws_cloudfront_distribution" "wc_org" {
     origin_id   = local.assets_origin_id
   }
 
+  // Environment-specific assets origin (for robots.txt with environment folders)
+  origin {
+    domain_name = var.assets_origin.bucket_endpoint
+    origin_id   = local.env_assets_origin_id
+    origin_path = "/${var.environment}"
+  }
+
   # Don't cache 404s
   custom_error_response {
     error_code            = 404
@@ -277,9 +284,9 @@ resource "aws_cloudfront_distribution" "wc_org" {
   }
 
   ordered_cache_behavior {
-    # Serve environment-specific robots.txt (e.g., /robots-prod.txt, /robots-stage.txt)
-    path_pattern     = "/robots-${var.environment}.txt"
-    target_origin_id = local.assets_origin_id
+    # Serve environment-specific robots.txt from /{environment}/robots.txt in S3
+    path_pattern     = "/robots.txt"
+    target_origin_id = local.env_assets_origin_id
 
     allowed_methods        = local.stateless_methods
     cached_methods         = local.stateless_methods

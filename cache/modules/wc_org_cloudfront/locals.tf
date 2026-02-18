@@ -1,6 +1,7 @@
 locals {
-  alb_origin_id    = "origin"
-  assets_origin_id = "S3-${var.assets_origin.website_uri}"
+  alb_origin_id         = "origin"
+  assets_origin_id      = "S3-${var.assets_origin.website_uri}"
+  env_assets_origin_id  = "S3-${var.assets_origin.website_uri}-${var.environment}"
 
   all_methods       = ["HEAD", "GET", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
   stateless_methods = ["HEAD", "GET", "OPTIONS"]
