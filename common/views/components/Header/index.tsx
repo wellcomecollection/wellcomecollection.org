@@ -147,7 +147,7 @@ const Header: FunctionComponent<Props> = ({
                   $burgerMenuisActive={burgerMenuIsActive}
                   $hasColorBackground={hasColorBackground}
                 >
-                  <HeaderList className={font('brand', -1)}>
+                  <HeaderList className={font('brand-bold', -1)}>
                     {(customNavLinks || links).map((link, i) => (
                       <HeaderItem key={i}>
                         <HeaderLink

@@ -71,7 +71,7 @@ const LinkedWorks: FunctionComponent<LinkedWorkProps> = ({
   return (
     <FullWidthRow>
       <ContaineredLayout gridSizes={gridSizes as SizeMap}>
-        <h2 className={font('brand', 1)}>Featured in this article</h2>
+        <h2 className={font('brand-bold', 1)}>Featured in this article</h2>
       </ContaineredLayout>
 
       <ScrollContainer

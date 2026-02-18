@@ -33,7 +33,7 @@ const ThemeCardsListSlice: FunctionComponent<ThemeCardsListSliceProps> = ({
           'category-position-in-list': undefined, // Only for "tabbable" carousels
         }}
         gridSizes={context.gridSizes}
-        useShim={context.hasNoShim || true}
+        useShim={context.hasNoShim ? false : true}
       />
     </SpacingComponent>
   );

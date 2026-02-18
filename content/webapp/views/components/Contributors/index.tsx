@@ -74,7 +74,7 @@ const Contributors: FunctionComponent<Props> = ({
 
   return (
     <div data-component="contributors">
-      <h2 className={font('brand', 1)}>
+      <h2 className={font('brand-bold', 1)}>
         {isNotUndefined(titleOverride)
           ? titleOverride
           : getContributorsTitle(roles, titlePrefix)}

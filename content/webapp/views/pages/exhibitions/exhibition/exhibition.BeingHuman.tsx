@@ -62,7 +62,7 @@ const ExhibitionBeingHuman = ({
           <Space
             as="h2"
             $v={{ size: 'sm', properties: ['margin-bottom'] }}
-            className={font('brand', 1)}
+            className={font('brand-bold', 1)}
           >{`${exhibitionFormat} access content`}</Space>
           {(accessResourceLinks.length > 0 ||
             exhibition.accessResourcesPdfs.length > 0) && (

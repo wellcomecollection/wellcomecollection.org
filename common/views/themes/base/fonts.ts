@@ -36,6 +36,19 @@ export const fonts = css<GlobalStyleProps>`
         format('woff');
     font-weight: bold;
     font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Wellcome';
+    src:
+      url('https://i.wellcomecollection.org/assets/fonts/Wellcome-Regular.woff2')
+        format('woff2'),
+      url('https://i.wellcomecollection.org/assets/fonts/Wellcome-Regular.woff')
+        format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
   }
 
   @font-face {

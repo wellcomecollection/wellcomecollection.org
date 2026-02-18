@@ -32,14 +32,14 @@ const CardButton = styled.button`
 `;
 
 const Title = styled.h3.attrs({
-  className: font('brand', 2),
+  className: font('brand-bold', 2),
 })`
   margin: 0 0 ${props => props.theme.spacingUnit * 2}px 0;
   text-align: center;
 `;
 
 const TopicLink = styled(Link).attrs({
-  className: font('brand', 1),
+  className: font('brand-bold', 1),
 })`
   margin: ${props => props.theme.spacingUnit * 2}px 0 0 0;
   text-align: center;
