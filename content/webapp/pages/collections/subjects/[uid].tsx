@@ -34,7 +34,6 @@ import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import WellcomeSubThemePage, {
   Props as WellcomeSubThemePageProps,
 } from '@weco/content/views/pages/collections/subjects/sub-theme';
-import { SectionData } from '@weco/content/views/pages/concepts/concept/concept.helpers';
 
 type Props = ServerSideProps<WellcomeSubThemePageProps>;
 
@@ -152,7 +151,10 @@ export const getServerSideProps: ServerSidePropsOrAppError<
           }),
         byLabel: (sectionName: string) =>
           getWorks({
-            params: allRecordsLinkParams(sectionName, conceptResponse),
+            params: {
+              ...allRecordsLinkParams(sectionName, conceptResponse),
+              aggregations: ['workType'],
+            },
             toggles: serverData.toggles,
             pageSize: 5,
           }),
@@ -229,18 +231,25 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       },
     ];
 
-    const worksAndImagesAbout: SectionData = {
-      works: worksAbout && {
-        ...worksAbout,
-        pageResults: worksAbout.pageResults.map(toWorkBasic),
-      },
+    const worksAndImagesAbout = {
+      ...(worksAbout && {
+        works: {
+          ...worksAbout,
+          pageResults: worksAbout.pageResults.map(toWorkBasic),
+          workTypes:
+            ('aggregations' in worksAboutResponseByLabel &&
+              worksAboutResponseByLabel.aggregations?.workType?.buckets.map(
+                bucket => ({ label: bucket.data.label, count: bucket.count })
+              )) ||
+            [],
+        },
+      }),
       images: imagesAbout,
       totalResults: {
         works: totalResults.worksAbout,
         images: totalResults.imagesAbout,
       },
     };
-
     /** */
 
     return {
@@ -251,6 +260,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         categoryThemeCardsList: themeCardsListSlice,
         curatedUid: pageUid,
         newOnlineWorks: newOnlineWorks.map(toWorkBasic),
+        frequentCollaborators:
+          conceptResponse.relatedConcepts?.frequentCollaborators || [],
         relatedStories,
         worksAndImagesAbout,
         relatedTopics: conceptResponse.relatedConcepts?.relatedTopics || [],
