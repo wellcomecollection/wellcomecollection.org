@@ -33,6 +33,11 @@ import SubThemeRelatedTopics from './sub-theme.RelatedTopics';
 import SubThemeStories from './sub-theme.Stories';
 import SubThemeWorks from './sub-theme.Works';
 
+const PageGrid = styled(Grid)`
+  background: ${props => props.theme.color('white')};
+  row-gap: 0;
+`;
+
 const Title = styled.h2.attrs({ className: font('sans-bold', 2) })<{
   $hasDarkBackground?: boolean;
 }>`
@@ -159,7 +164,7 @@ const WellcomeSubThemePage: NextPage<Props> & {
 
   return (
     <Container>
-      <Grid style={{ background: 'white', rowGap: 0 }}>
+      <PageGrid>
         <InPageNavigation
           variant="sticky"
           links={onThisPage}
@@ -241,7 +246,7 @@ const WellcomeSubThemePage: NextPage<Props> & {
             )}
           </Space>
         </GridCell>
-      </Grid>
+      </PageGrid>
     </Container>
   );
 };
