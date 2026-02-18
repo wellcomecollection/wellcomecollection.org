@@ -180,6 +180,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
               "CN",
               "SG",
               "HK",
+              "VN",
             ]
           }
         }

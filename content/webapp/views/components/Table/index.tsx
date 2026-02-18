@@ -188,7 +188,7 @@ const Table: FunctionComponent<Props> = ({
   return (
     <div data-component="table">
       {caption && (
-        <h2 className={font('brand', 1)} aria-hidden="true">
+        <h2 className={font('brand-bold', 1)} aria-hidden="true">
           {caption}
         </h2>
       )}

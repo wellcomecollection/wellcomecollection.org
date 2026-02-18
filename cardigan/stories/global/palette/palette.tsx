@@ -34,7 +34,7 @@ const SectionWrapper = styled.div`
   margin: 1rem 0;
 `;
 
-const SectionTitle = styled.h2.attrs({ className: font('brand', 1) })`
+const SectionTitle = styled.h2.attrs({ className: font('brand-bold', 1) })`
   padding: 2rem 0 0;
 `;
 
