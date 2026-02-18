@@ -89,7 +89,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
     allow {}
   }
 
-  
+
 
   rule {
     name     = "ip-allowlist"
@@ -531,7 +531,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
                     match_pattern {
                       included_cookies = ["CookieControl"]
                     }
-                    match_scope      = "ALL"
+                    match_scope       = "ALL"
                     oversize_handling = "MATCH"
                   }
                 }
@@ -557,7 +557,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   dynamic "rule" {
     for_each = length(var.allowed_countries) > 0 ? [1] : []
     content {
-      name     = "UK-US-IE-only"
+      name     = "geo-restriction"
       priority = 0
 
       action {
@@ -577,7 +577,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
       visibility_config {
         cloudwatch_metrics_enabled = true
         sampled_requests_enabled   = true
-        metric_name                = "UK-US-IE-only-${var.namespace}"
+        metric_name                = "geo-restriction-${var.namespace}"
       }
     }
   }
