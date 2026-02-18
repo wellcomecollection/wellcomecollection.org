@@ -12,7 +12,9 @@ aws s3 cp "$ASSETS/humans.txt" s3://i.wellcomecollection.org/humans.txt \
   --content-type "text/plain; charset=utf-8" \
   --content-encoding "utf-8"
 
-aws s3 cp "$ASSETS/robots.txt" s3://i.wellcomecollection.org/robots.txt --acl public-read
+aws s3 cp "$ASSETS/robots-prod.txt" s3://i.wellcomecollection.org/robots-prod.txt --acl public-read
+aws s3 cp "$ASSETS/robots-stage.txt" s3://i.wellcomecollection.org/robots-stage.txt --acl public-read
+aws s3 cp "$ASSETS/robots-e2e.txt" s3://i.wellcomecollection.org/robots-e2e.txt --acl public-read
 
 # This is used to verify that we own the domain in
 # the Google Search Console.

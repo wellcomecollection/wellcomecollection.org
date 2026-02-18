@@ -29,4 +29,5 @@ module "stage_wc_org_cloudfront_distribution" {
   allowed_countries = ["GB", "US", "IE"]
 
   header_shared_secret = local.current_shared_secret
+  environment          = "stage"
 }

@@ -56,3 +56,8 @@ variable "allowed_countries" {
   type    = list(string)
   default = []
 }
+
+variable "environment" {
+  description = "The deployment environment (e.g., prod, stage, dev)"
+  type        = string
+}

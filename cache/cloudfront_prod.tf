@@ -30,6 +30,7 @@ module "prod_wc_org_cloudfront_distribution" {
   waf_ip_allowlist  = local.waf_ip_allowlist
 
   header_shared_secret = local.current_shared_secret
+  environment          = "prod"
 }
 
 data "aws_lambda_function" "versioned_edge_lambda_request" {

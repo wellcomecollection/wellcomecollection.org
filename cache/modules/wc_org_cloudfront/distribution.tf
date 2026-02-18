@@ -277,7 +277,8 @@ resource "aws_cloudfront_distribution" "wc_org" {
   }
 
   ordered_cache_behavior {
-    path_pattern     = "/robots.txt"
+    # Serve environment-specific robots.txt (e.g., /robots-prod.txt, /robots-stage.txt)
+    path_pattern     = "/robots-${var.environment}.txt"
     target_origin_id = local.assets_origin_id
 
     allowed_methods        = local.stateless_methods

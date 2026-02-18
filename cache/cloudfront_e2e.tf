@@ -49,4 +49,5 @@ module "e2e_wc_org_cloudfront_distribution" {
   waf_ip_allowlist  = local.waf_ip_allowlist
 
   header_shared_secret = local.current_shared_secret
+  environment          = "e2e"
 }
