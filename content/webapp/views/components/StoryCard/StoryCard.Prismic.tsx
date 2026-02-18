@@ -37,10 +37,12 @@ export type Props = {
   article: ArticleBasic;
   hidePromoText?: boolean;
   sizesQueries?: string;
+  showAllLabels?: boolean;
 };
 
 const StoryCard: FunctionComponent<Props> = ({
   article,
+  showAllLabels,
   hidePromoText = false,
 }) => {
   const image = article.promo?.image;
@@ -52,9 +54,12 @@ const StoryCard: FunctionComponent<Props> = ({
 
   const isSerial = article.series.some(series => series.schedule.length > 0);
 
-  const labels = [article.format?.title, isSerial ? 'Serial' : undefined]
-    .filter(isNotUndefined)
-    .map(text => ({ text }));
+  const labels =
+    showAllLabels && article.labels.length > 0
+      ? article.labels.map(label => ({ text: label.text }))
+      : [article.format?.title, isSerial ? 'Serial' : undefined]
+          .filter(isNotUndefined)
+          .map(text => ({ text }));
 
   return (
     <CardOuter href={url}>
@@ -67,12 +72,7 @@ const StoryCard: FunctionComponent<Props> = ({
             //
             // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
             image={{ ...image, alt: '' }}
-            sizes={{
-              lg: 1 / 3,
-              md: 1 / 3,
-              sm: 1 / 2,
-              zero: 1,
-            }}
+            sizes={{ lg: 1 / 3, md: 1 / 3, sm: 1 / 2, zero: 1 }}
             quality="low"
           />
         )}
@@ -89,11 +89,13 @@ const StoryCard: FunctionComponent<Props> = ({
             />
           )}
           <CardTitle>{article.title}</CardTitle>
+
           {!hidePromoText && isNotUndefined(article.promo?.caption) && (
             <Caption>{article.promo?.caption}</Caption>
           )}
         </div>
       </CardBody>
+
       {article.series.length > 0 && (
         <CardPostBody>
           {article.series.map(series => (
