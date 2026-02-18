@@ -20,6 +20,7 @@ import { Toggles } from '@weco/toggles';
 type DocumentInitialPropsWithTogglesAndGa = DocumentInitialProps & {
   toggles: Toggles;
   consentStatus: ConsentStatusProps;
+  environment?: string;
 };
 class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
   static async getInitialProps(
@@ -43,10 +44,14 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
         ? pageProps.serverData?.consentStatus
         : getErrorPageConsent({ req: ctx.req, res: ctx.res });
 
+      // Get environment from APM_ENVIRONMENT for robots meta tag
+      const environment = process.env.APM_ENVIRONMENT || 'dev';
+
       return {
         ...initialProps,
         toggles: pageProps?.serverData?.toggles,
         consentStatus,
+        environment,
         styles: (
           <>
             {initialProps.styles}
@@ -60,10 +65,18 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
   }
 
   render(): ReactElement<DocumentInitialProps> {
+    // Add noindex meta tag for non-production environments
+    const shouldNoindex = this.props.environment !== 'prod';
+
     return (
       <Html lang="en">
         <Head>
           <>
+            {/* Prevent indexing of non-production environments */}
+            {shouldNoindex && (
+              <meta name="robots" content="noindex, nofollow" />
+            )}
+
             {/* Adding toggles etc. to the datalayer so they are available to events in Google Tag Manager */}
             <Ga4DataLayer
               consentStatus={this.props.consentStatus}

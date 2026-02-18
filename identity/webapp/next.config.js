@@ -41,6 +41,14 @@ const config = function () {
     // Are you having problems with this? Make sure CloudFront is forwarding Accept-Encoding headers to our apps!
     compress: false,
     publicRuntimeConfig: { apmConfig: apmConfig.client('identity-webapp') },
+    async rewrites() {
+      return [
+        {
+          source: '/robots.txt',
+          destination: '/api/robots',
+        },
+      ];
+    },
     async redirects() {
       return [
         {

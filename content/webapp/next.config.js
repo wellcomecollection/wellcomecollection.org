@@ -6,6 +6,10 @@ const localConcurrentDevelopment =
 
 const apiRewrites = [
   {
+    source: '/robots.txt',
+    destination: `/api/robots`,
+  },
+  {
     source: '/content/management/healthcheck',
     destination: `/api/content/management/healthcheck`,
   },
