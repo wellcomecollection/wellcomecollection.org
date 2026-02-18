@@ -6,6 +6,7 @@ const meta: Meta<typeof ArchiveCard> = {
   title: 'Components/Cards/ArchiveCard',
   component: ArchiveCard,
   args: {
+    id: 'cardigan',
     label: 'Personal archives',
     title: 'Audrey Amiss',
     description:

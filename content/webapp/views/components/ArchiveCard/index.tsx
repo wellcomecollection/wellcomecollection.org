@@ -61,7 +61,7 @@ const IconWrapper = styled(Space).attrs({
   background: ${props => props.theme.color('black')};
 `;
 
-const Date = styled(Space).attrs({
+const DateText = styled(Space).attrs({
   $v: { size: 'xs', properties: ['margin-bottom'] },
 })``;
 
@@ -107,6 +107,7 @@ const ArchiveCard: FunctionComponent<Props> = ({
           <ContributorRow>
             <IconWrapper>
               <Icon
+                title={isOrganisation ? 'organisation' : 'person'}
                 iconColor="white"
                 icon={isOrganisation ? organisation : user}
                 matchText
@@ -114,7 +115,7 @@ const ArchiveCard: FunctionComponent<Props> = ({
             </IconWrapper>
             <span>{contributor}</span>
           </ContributorRow>
-          <Date>Date: {date}</Date>
+          <DateText>Date: {date}</DateText>
           <Extent>Contains: {extent}</Extent>
         </div>
       </Root>
