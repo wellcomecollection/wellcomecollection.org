@@ -89,7 +89,33 @@ resource "aws_wafv2_web_acl" "wc_org" {
     allow {}
   }
 
+  dynamic "rule" {
+    for_each = length(var.allowed_countries) > 0 ? [1] : []
+    content {
+      name     = "geo-restriction"
+      priority = 0
 
+      action {
+        block {}
+      }
+
+      statement {
+        not_statement {
+          statement {
+            geo_match_statement {
+              country_codes = var.allowed_countries
+            }
+          }
+        }
+      }
+
+      visibility_config {
+        cloudwatch_metrics_enabled = true
+        sampled_requests_enabled   = true
+        metric_name                = "geo-restriction-${var.namespace}"
+      }
+    }
+  }
 
   rule {
     name     = "ip-allowlist"
@@ -551,34 +577,6 @@ resource "aws_wafv2_web_acl" "wc_org" {
       cloudwatch_metrics_enabled = true
       metric_name                = "apac-captcha-consent-block"
       sampled_requests_enabled   = true
-    }
-  }
-
-  dynamic "rule" {
-    for_each = length(var.allowed_countries) > 0 ? [1] : []
-    content {
-      name     = "geo-restriction"
-      priority = 0
-
-      action {
-        block {}
-      }
-
-      statement {
-        not_statement {
-          statement {
-            geo_match_statement {
-              country_codes = var.allowed_countries
-            }
-          }
-        }
-      }
-
-      visibility_config {
-        cloudwatch_metrics_enabled = true
-        sampled_requests_enabled   = true
-        metric_name                = "geo-restriction-${var.namespace}"
-      }
     }
   }
 
