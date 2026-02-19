@@ -5917,16 +5917,6 @@ export interface ArchiveCardListSliceDefaultPrimary {
   title: prismic.KeyTextField;
 
   /**
-   * Description field in *ArchiveCardList → Default → Primary*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: archiveCardList.default.primary.description
-   * - **Documentation**: https://prismic.io/docs/fields/text
-   */
-  description: prismic.KeyTextField;
-
-  /**
    * Archive items field in *ArchiveCardList → Default → Primary*
    *
    * - **Field Type**: Group

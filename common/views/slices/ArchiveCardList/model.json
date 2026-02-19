@@ -18,13 +18,6 @@
             "placeholder": "e.g. Featured archives"
           }
         },
-        "description": {
-          "type": "Text",
-          "config": {
-            "label": "Description",
-            "placeholder": ""
-          }
-        },
         "items": {
           "type": "Group",
           "config": {
