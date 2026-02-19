@@ -112,10 +112,10 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       .map(item => item.id)
       .filter((id): id is string => !!id);
 
-    const archiveWorks = await getArchiveWorks(
-      archiveCardIds,
-      serverData.toggles
-    );
+    const archiveWorks =
+      archiveCardIds.length > 0
+        ? await getArchiveWorks(archiveCardIds, serverData.toggles)
+        : {};
 
     const siblings: SiblingsGroup<PageType>[] = (
       await fetchSiblings(client, page)
