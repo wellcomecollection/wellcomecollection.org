@@ -8,15 +8,35 @@ import {
   physicalDescriptionMetadataItem,
 } from '@weco/content/__mocks__/iiif-manifest-v3';
 import {
+  getFileTypeLabel,
   getIIIFMetadata,
   getIIIFPresentationCredit,
   getItemsStatus,
   getMultiVolumeLabel,
   getTransformedCanvases,
   groupRanges,
+  isPDFCanvas,
 } from '@weco/content/utils/iiif/v3';
 
 const canvases = getTransformedCanvases(manifest as Manifest);
+
+// Test helper to create mock TransformedCanvas-like objects
+const createMockCanvas = (overrides = {}) => ({
+  id: 'test-canvas',
+  type: 'Canvas' as const,
+  width: 100,
+  height: 100,
+  imageServiceId: undefined,
+  hasRestrictedImage: false,
+  label: 'Test Canvas',
+  textServiceId: undefined,
+  thumbnailImage: undefined,
+  painting: [],
+  original: [],
+  supplementing: [],
+  metadata: [],
+  ...overrides,
+});
 const structures = [
   {
     id: 'https://iiif.wellcomecollection.org/presentation/b21538906/ranges/LOG_0001',
@@ -217,5 +237,279 @@ describe('Determines if a iiif-manifest includes non standard items', () => {
       manifestNoStandard as unknown as Manifest
     );
     expect(itemsStatus).toEqual('noStandard');
+  });
+});
+
+describe('isPDFCanvas', () => {
+  it('returns false for undefined canvas', () => {
+    expect(isPDFCanvas(undefined)).toBe(false);
+  });
+
+  it('returns false for canvas with no PDF content', () => {
+    const canvas = createMockCanvas();
+    expect(isPDFCanvas(canvas)).toBe(false);
+  });
+
+  it('returns true for born digital PDF with application/pdf in original', () => {
+    const canvas = createMockCanvas({
+      original: [
+        {
+          id: 'test-pdf',
+          type: 'Image',
+          format: 'application/pdf',
+          label: 'PDF',
+        },
+      ],
+    });
+    expect(isPDFCanvas(canvas)).toBe(true);
+  });
+
+  it('returns true for PDF supplement with no paintings', () => {
+    const canvas = createMockCanvas({
+      supplementing: [
+        {
+          id: 'test-supplement',
+          type: 'Text',
+          format: 'application/pdf',
+        },
+      ],
+      painting: [],
+    });
+    expect(isPDFCanvas(canvas)).toBe(true);
+  });
+
+  it('returns false for PDF supplement with paintings (e.g., video with PDF transcript)', () => {
+    const canvas = createMockCanvas({
+      supplementing: [
+        {
+          id: 'test-supplement',
+          type: 'Text',
+          format: 'application/pdf',
+        },
+      ],
+      painting: [
+        {
+          id: 'test-video',
+          type: 'Video',
+          format: 'video/mp4',
+        },
+      ],
+    });
+    expect(isPDFCanvas(canvas)).toBe(false);
+  });
+
+  it('returns true for PDF supplement with ChoiceBody containing PDF', () => {
+    const canvas = createMockCanvas({
+      supplementing: [
+        {
+          type: 'Choice',
+          items: [
+            {
+              id: 'test-choice-pdf',
+              type: 'Text',
+              format: 'application/pdf',
+            },
+          ],
+        },
+      ],
+      painting: [],
+    });
+    expect(isPDFCanvas(canvas)).toBe(true);
+  });
+
+  it('returns false for ChoiceBody with string items', () => {
+    const canvas = createMockCanvas({
+      supplementing: [
+        {
+          type: 'Choice',
+          items: ['string-item'],
+        },
+      ],
+      painting: [],
+    });
+    expect(isPDFCanvas(canvas)).toBe(false);
+  });
+
+  it('returns false for ChoiceBody with non-PDF items', () => {
+    const canvas = createMockCanvas({
+      supplementing: [
+        {
+          type: 'Choice',
+          items: [
+            {
+              id: 'test-choice-image',
+              type: 'Image',
+              format: 'image/jpeg',
+            },
+          ],
+        },
+      ],
+      painting: [],
+    });
+    expect(isPDFCanvas(canvas)).toBe(false);
+  });
+
+  it('returns true for born digital PDF even with paintings', () => {
+    const canvas = createMockCanvas({
+      original: [
+        {
+          id: 'test-pdf',
+          type: 'Image',
+          format: 'application/pdf',
+          label: 'PDF',
+        },
+      ],
+      painting: [
+        {
+          id: 'test-image',
+          type: 'Image',
+          format: 'image/jpeg',
+        },
+      ],
+    });
+    expect(isPDFCanvas(canvas)).toBe(true);
+  });
+
+  it('returns false for supplement without format property', () => {
+    const canvas = createMockCanvas({
+      supplementing: [
+        {
+          id: 'test-supplement',
+          type: 'Text',
+        },
+      ],
+      painting: [],
+    });
+    expect(isPDFCanvas(canvas)).toBe(false);
+  });
+});
+
+describe('getFileTypeLabel', () => {
+  it('returns the correct amount of items and "file(s)" for when there is a mixture of PDFs and images', () => {
+    const canvases = [
+      createMockCanvas({
+        original: [
+          {
+            type: 'Text',
+            format: 'application/pdf',
+          },
+        ],
+      }),
+      createMockCanvas({
+        painting: [
+          {
+            id: 'i1',
+            type: 'Image',
+            format: 'image/jpeg',
+          },
+        ],
+      }),
+    ];
+    expect(getFileTypeLabel(undefined, canvases.length, false, canvases)).toBe(
+      '2 files'
+    );
+  });
+
+  it('returns the correct amount of items and "image(s)" when we only have images', () => {
+    const canvases = [
+      createMockCanvas({
+        painting: [
+          {
+            id: 'i1',
+            type: 'Image',
+            format: 'image/jpeg',
+          },
+        ],
+      }),
+      createMockCanvas({
+        painting: [
+          {
+            id: 'i2',
+            type: 'Image',
+            format: 'image/png',
+          },
+        ],
+      }),
+    ];
+    expect(getFileTypeLabel(undefined, canvases.length, false, canvases)).toBe(
+      '2 images'
+    );
+  });
+
+  it('returns the correct amount of items and "file(s)" for when there is a mixture of video and image', () => {
+    const canvases = [
+      createMockCanvas({
+        painting: [
+          {
+            id: 'v1',
+            type: 'Video',
+            format: 'video/mp4',
+          },
+        ],
+      }),
+      createMockCanvas({
+        painting: [
+          {
+            id: 'i1',
+            type: 'Image',
+            format: 'image/jpeg',
+          },
+        ],
+      }),
+    ];
+    expect(getFileTypeLabel(undefined, canvases.length, false, canvases)).toBe(
+      '2 files'
+    );
+  });
+
+  it('returns the correct amount of items and "video file(s)" when only videos present', () => {
+    const canvases = [
+      createMockCanvas({
+        painting: [
+          {
+            id: 'v1',
+            type: 'Video',
+            format: 'video/mp4',
+          },
+        ],
+      }),
+    ];
+    expect(getFileTypeLabel(undefined, canvases.length, false, canvases)).toBe(
+      '1 video file'
+    );
+  });
+
+  it('returns the correct amount of items and "file(s)" when hasNonStandardItems is true', () => {
+    const canvases = [
+      createMockCanvas({
+        painting: [
+          {
+            id: 'i1',
+            type: 'Image',
+            format: 'image/jpeg',
+          },
+        ],
+      }),
+    ];
+    expect(getFileTypeLabel(undefined, canvases.length, true, canvases)).toBe(
+      '1 file'
+    );
+  });
+
+  it('returns the correct amount of items and "volumes" when collectionManifestsCount is present', () => {
+    const canvases = [
+      createMockCanvas({
+        painting: [
+          {
+            id: 'i1',
+            type: 'Image',
+            format: 'image/jpeg',
+          },
+        ],
+      }),
+    ];
+    expect(getFileTypeLabel(3, canvases.length, false, canvases)).toBe(
+      '3 volumes'
+    );
   });
 });
