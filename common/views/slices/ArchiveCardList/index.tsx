@@ -50,7 +50,7 @@ const ArchiveCardListSlice: FunctionComponent<ArchiveCardListSliceProps> = ({
     <SpacingComponent $sliceType={slice.slice_type}>
       <Container>
         {title && (
-          <Space $v={{ size: 'lg', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
             <h2 className={font('sans-bold', 2)}>{title}</h2>
           </Space>
         )}
