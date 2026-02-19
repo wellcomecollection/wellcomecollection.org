@@ -13,7 +13,6 @@ import {
 } from '@weco/common/data/microcopy';
 import { information } from '@weco/common/icons';
 import { LinkProps } from '@weco/common/model/link-props';
-import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import Icon from '@weco/common/views/components/Icon';
@@ -44,7 +43,6 @@ import VideoPlayer from '@weco/content/views/components/VideoPlayer';
 import IIIFItemPdf from '@weco/content/views/pages/works/work/IIIFItem/IIIFItem.Pdf';
 import ImageViewer from '@weco/content/views/pages/works/work/IIIFViewer/ImageViewer';
 
-import IIIFItemAudioVideoLink from './IIIFItem.AudioVideo';
 import IIIFItemDownload from './IIIFItem.Download';
 import VideoTranscript from './IIIFItem.VideoTranscript';
 
@@ -85,7 +83,6 @@ const Choice: FunctionComponent<
   i,
   itemUrl,
   isDark,
-  isInViewer,
 }) => {
   // We may have multiple items, such as videos of different formats
   // but we only show the first of these currently
@@ -104,7 +101,6 @@ const Choice: FunctionComponent<
             exclude={exclude}
             itemUrl={itemUrl}
             isDark={isDark}
-            isInViewer={isInViewer}
           />
         </>
       );
@@ -172,7 +168,6 @@ type ItemProps = {
   exclude: (ContentResource['type'] | 'Audio' | ChoiceBody['type'])[]; // Allows us to prevent specific types being rendered
   setImageRect?: (v: DOMRect) => void;
   setImageContainerRect?: (v: DOMRect) => void;
-  isInViewer?: boolean;
   itemUrl?: LinkProps;
   isDark?: boolean;
 };
@@ -254,14 +249,12 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
   exclude,
   setImageRect,
   setImageContainerRect,
-  isInViewer,
   itemUrl,
   isDark,
 }) => {
   const { userIsStaffWithRestricted } = useUserContext();
   const isRestricted = isItemRestricted(item);
   const shouldShowItem = isRestricted && !userIsStaffWithRestricted;
-  const { extendedViewer } = useToggles();
   const itemLabel =
     'label' in item
       ? getLabelString(item.label as InternationalString)
@@ -292,7 +285,6 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           setImageContainerRect={setImageContainerRect}
           itemUrl={itemUrl}
           isDark={isDark}
-          isInViewer={isInViewer}
         />
       );
 
@@ -307,30 +299,11 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           canvas={canvas}
           isRestricted={isRestricted}
         >
-          {extendedViewer ? (
-            isInViewer ? (
-              <AudioPlayer
-                isDark
-                audioFile={item.id}
-                title={getFileLabel(canvas.label, titleOverride) || ''}
-              />
-            ) : (
-              <IIIFItemAudioVideoLink
-                canvas={canvas}
-                i={i}
-                isRestricted={isRestricted}
-                item={item}
-                itemUrl={itemUrl}
-              />
-            )
-          ) : (
-            <>
-              <AudioPlayer
-                audioFile={item.id}
-                title={getFileLabel(canvas.label, titleOverride) || ''}
-              />
-            </>
-          )}
+          <AudioPlayer
+            isDark={isDark}
+            audioFile={item.id}
+            title={getFileLabel(canvas.label, titleOverride) || ''}
+          />
         </IIIFItemWrapper>
       );
 
@@ -343,27 +316,17 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           canvas={canvas}
           isRestricted={isRestricted}
         >
-          {extendedViewer && !isInViewer ? (
-            <IIIFItemAudioVideoLink
-              canvas={canvas}
-              i={i}
-              isRestricted={isRestricted}
-              item={item}
-              itemUrl={itemUrl}
+          <>
+            <VideoPlayer
+              placeholderId={placeholderId}
+              video={item}
+              showDownloadOptions={true}
             />
-          ) : (
-            <>
-              <VideoPlayer
-                placeholderId={placeholderId}
-                video={item}
-                showDownloadOptions={true}
-              />
-              <VideoTranscript
-                supplementing={canvas.supplementing}
-                isDark={isDark}
-              />
-            </>
-          )}
+            <VideoTranscript
+              supplementing={canvas.supplementing}
+              isDark={isDark}
+            />
+          </>
         </IIIFItemWrapper>
       );
 

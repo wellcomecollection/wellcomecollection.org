@@ -379,6 +379,7 @@ export function showItemLink({
   accessCondition,
   canvases,
   itemsStatus,
+  extendedViewer,
 }: {
   userIsStaffWithRestricted: boolean;
   allOriginalPdfs: boolean;
@@ -387,7 +388,9 @@ export function showItemLink({
   accessCondition?: string;
   canvases?: TransformedCanvas[];
   itemsStatus?: ItemsStatus;
+  extendedViewer?: boolean;
 }): boolean {
+  // TODO update these comments when we remove the extendedViewer toggle and always link to the item page for audio/video.
   // In general we don't show the item link if there are born digital items present, i.e. canvases with a behavior of placeholder, because we display download links on the page instead.
   // The exception to this is if ALL the items are born digital and they are ALL pdfs, as we know we can show them on the items page.
   // We also don't show the item link if there are video or sound items present because we display the players on the page instead. The exception to this is if they are restricted items and the user has a role of 'StaffWithRestricted'.
@@ -409,9 +412,9 @@ export function showItemLink({
   } else if (
     hasIIIFManifest &&
     digitalLocation &&
-    !hasVideo &&
-    !hasSound &&
-    (itemsStatus === 'allStandard' || allOriginalPdfs)
+    // TODO: Remove extendedViewer and (!hasVideo && !hasSound) check when we are happy to remove the toggle and always show the item link for sound and video items
+    ((!hasVideo && !hasSound) || extendedViewer) &&
+    (itemsStatus === 'allStandard' || allOriginalPdfs) // If/when we want to show the link for non standard, i.e. Born Digital items we need to remove the itemsStatus check, but for now we want to hide the link if there are non standard items present unless they are all original pdfs, as we know we are happy to show those on the items page.
   ) {
     return true;
   } else {
