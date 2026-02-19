@@ -242,26 +242,28 @@ const WorksSearchPage: NextPage<Props> = withSearchLayout(
                     query.searchIn
                       ? query.searchIn
                       : semanticSearchComparison
-                      ? 'all'
-                      : 'alternative1';
-                  let selectedWorks, selectedTotalPages, selectedTotalResults;
-                  if (searchIn === 'alternative1') {
-                    selectedWorks = works.results;
-                    selectedTotalPages = works.totalPages;
-                    selectedTotalResults = works.totalResults;
-                  } else if (searchIn === 'alternative2') {
-                    selectedWorks = works2?.results || [];
-                    selectedTotalPages = works2?.totalPages || 0;
-                    selectedTotalResults = works2?.totalResults || 0;
-                  } else if (searchIn === 'alternative3') {
-                    selectedWorks = works3?.results || [];
-                    selectedTotalPages = works3?.totalPages || 0;
-                    selectedTotalResults = works3?.totalResults || 0;
-                  } else {
-                    selectedWorks = works.results;
-                    selectedTotalPages = works.totalPages;
-                    selectedTotalResults = works.totalResults;
-                  }
+                        ? 'all'
+                        : 'alternative1';
+                  const selectedWorksData =
+                    searchIn === 'alternative2'
+                      ? works2 || {
+                          results: [],
+                          totalPages: 0,
+                          totalResults: 0,
+                        }
+                      : searchIn === 'alternative3'
+                        ? works3 || {
+                            results: [],
+                            totalPages: 0,
+                            totalResults: 0,
+                          }
+                        : works;
+
+                  const {
+                    results: selectedWorks,
+                    totalPages: selectedTotalPages,
+                    totalResults: selectedTotalResults,
+                  } = selectedWorksData;
 
                   return (
                     <>
