@@ -18,18 +18,25 @@ type ArchiveCardListSliceProps = SliceComponentProps<
 
 const ArchiveCardListSlice: FunctionComponent<ArchiveCardListSliceProps> = ({
   slice,
+  context,
 }) => {
-  const { title, description, items } = slice.primary;
+  const { title, items } = slice.primary;
+  const archiveWorks = context?.archiveWorks ?? {};
 
   const cards = items
     .map(item => {
       const id = item.id;
       if (!id) return undefined;
+      const work = archiveWorks[id];
       return {
         id,
         label: item.label || '',
         description: item.archive_description || '',
         isOrganisation: item.is_organisation ?? false,
+        title: work?.title,
+        contributor: work?.primaryContributorLabel,
+        date: work?.productionDates[0],
+        extent: work?.physicalDescription,
       };
     })
     .filter(isNotUndefined);
@@ -44,11 +51,6 @@ const ArchiveCardListSlice: FunctionComponent<ArchiveCardListSliceProps> = ({
         {title && (
           <Space $v={{ size: 'lg', properties: ['margin-bottom'] }}>
             <h2 className={font('sans-bold', 2)}>{title}</h2>
-            {description && (
-              <Space $v={{ size: 'xs', properties: ['margin-top'] }}>
-                <p className={font('sans', -1)}>{description}</p>
-              </Space>
-            )}
           </Space>
         )}
         <Grid>
