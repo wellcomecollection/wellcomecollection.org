@@ -58,7 +58,21 @@ const WorksSearchPage: NextPage<Props> = withSearchLayout(
       setLink(link);
     }, [worksRouteProps]);
 
-    const filters = worksFilters({ works, props: worksRouteProps });
+    // Use the correct works data for filters based on selected alternative
+    let worksForFilters = works;
+    if (semanticSearchPrototype || semanticSearchComparison) {
+      const searchIn = query.searchIn;
+      if (searchIn === 'alternative2' && works2) {
+        worksForFilters = works2;
+      } else if (searchIn === 'alternative3' && works3) {
+        worksForFilters = works3;
+      }
+    }
+
+    const filters = worksFilters({
+      works: worksForFilters,
+      props: worksRouteProps,
+    });
 
     const hasNoResults =
       semanticSearchPrototype || semanticSearchComparison
