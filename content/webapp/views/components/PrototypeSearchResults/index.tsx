@@ -105,21 +105,17 @@ const PrototypeSearchResults: FunctionComponent<Props> = ({
   );
 
   const renderResultCell = (
-    data:
-      | WellcomeResultList<WorkBasic, WorkAggregations>
-      | WellcomeResultList<WorkBasic, WorkAggregations>
-      | WellcomeResultList<WorkBasic, WorkAggregations>
-      | null
-      | undefined,
-    index: number
+    data: WellcomeResultList<WorkBasic, WorkAggregations> | null | undefined,
+    index: number,
+    keyValue?: string | number
   ) => {
     // Always render the cell to maintain column structure
     if (!data || !data.results[index]) {
-      return <ResultCell />;
+      return <ResultCell key={keyValue ?? index} />;
     }
 
     return (
-      <ResultCell>
+      <ResultCell key={keyValue ?? index}>
         <WorksSearchResult
           work={data.results[index]}
           resultPosition={calculateResultPosition(index)}
@@ -132,24 +128,24 @@ const PrototypeSearchResults: FunctionComponent<Props> = ({
     <>
       <HeaderStack data-component="prototype-search-results">
         <HeaderSpacer />
-        {works && (
-          <ColumnHeader>Alternative 1 ({works.totalResults})</ColumnHeader>
-        )}
-        {works2 && (
-          <ColumnHeader>Alternative 2 ({works2.totalResults})</ColumnHeader>
-        )}
-        {works3 && (
-          <ColumnHeader>Alternative 3 ({works3.totalResults})</ColumnHeader>
-        )}
+        <ColumnHeader>
+          Alternative 1 ({works ? works.totalResults : 'Unavailable'})
+        </ColumnHeader>
+        <ColumnHeader>
+          Alternative 2 ({works2 ? works2.totalResults : 'Unavailable'})
+        </ColumnHeader>
+        <ColumnHeader>
+          Alternative 3 ({works3 ? works3.totalResults : 'Unavailable'})
+        </ColumnHeader>
       </HeaderStack>
 
       <ResultsGrid>
         {rows.map((_, i) => (
           <ResultRow key={i} $isAlternating={i % 2 === 1}>
             <RowNumber>{calculateResultPosition(i)}.</RowNumber>
-            {renderResultCell(works, i)}
-            {renderResultCell(works2, i)}
-            {renderResultCell(works3, i)}
+            {renderResultCell(works, i, 'alt1')}
+            {renderResultCell(works2, i, 'alt2')}
+            {renderResultCell(works3, i, 'alt3')}
           </ResultRow>
         ))}
       </ResultsGrid>
