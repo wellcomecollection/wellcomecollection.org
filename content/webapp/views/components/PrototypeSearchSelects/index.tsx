@@ -33,10 +33,8 @@ const PrototypeSearchSelects: FunctionComponent<Props> = ({
   const { semanticSearchPrototype, semanticSearchComparison } = useToggles();
   const defaultApiSelection = showAllResultsOption ? 'all' : 'alternative1';
   const handleChange = () => {
-    const form = document.getElementById(
-      SEARCH_PAGES_FORM_ID
-    ) as HTMLFormElement;
-    if (form) {
+    const form = document.getElementById(SEARCH_PAGES_FORM_ID);
+    if (form instanceof HTMLFormElement) {
       form.requestSubmit();
     }
   };
