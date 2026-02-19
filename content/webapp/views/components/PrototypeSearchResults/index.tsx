@@ -52,7 +52,7 @@ const ResultRow = styled.div<ResultRowProps>`
   gap: 32px;
   align-items: stretch;
   background-color: ${props =>
-    props.$isAlternating ? props.theme.color('neutral.300' : 'transparent')};
+    props.theme.color(props.$isAlternating ? 'neutral.300' : 'transparent')};
 
   &:last-child {
     border-bottom: none;
