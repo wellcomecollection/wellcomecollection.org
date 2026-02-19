@@ -75,7 +75,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         '!closed',
       ],
       sort: 'items.locations.createdDate',
-      'items.locations.createdDate.to': new Date('2026-02-18'),
+      'items.locations.createdDate.to': '2026-02-18',
       sortOrder: 'desc',
     },
     pageSize: 3,
