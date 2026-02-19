@@ -36,6 +36,8 @@ const ArchiveCardListSlice: FunctionComponent<ArchiveCardListSliceProps> = ({
 
   if (cards.length === 0) return null;
 
+  const lxlColumns: [number] = cards.length >= 4 ? [3] : [4];
+
   return (
     <SpacingComponent $sliceType={slice.slice_type}>
       <Container>
@@ -53,7 +55,7 @@ const ArchiveCardListSlice: FunctionComponent<ArchiveCardListSliceProps> = ({
           {cards.map(card => (
             <GridCell
               key={card.id}
-              $sizeMap={{ s: [12], m: [6], l: [3], xl: [3] }}
+              $sizeMap={{ s: [12], m: [6], l: lxlColumns, xl: lxlColumns }}
             >
               <ArchiveCard {...card} />
             </GridCell>
