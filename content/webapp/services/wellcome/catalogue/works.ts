@@ -24,6 +24,13 @@ import {
   Work,
 } from './types';
 
+export type ArchiveWorkData = {
+  title: string;
+  productionDates: string[];
+  primaryContributorLabel: string | undefined;
+  physicalDescription: string;
+};
+
 type GetWorkProps = {
   id: string;
   toggles: Toggles;
@@ -165,6 +172,36 @@ export async function getWorkClientSide(workId: string): Promise<WorkResponse> {
   } else {
     return resp;
   }
+}
+
+export async function getArchiveWorks(
+  ids: string[],
+  toggles: Toggles
+): Promise<Record<string, ArchiveWorkData>> {
+  const results = await Promise.all(
+    ids.map(id =>
+      getWork({ id, toggles, include: ['production', 'contributors'] })
+    )
+  );
+
+  return Object.fromEntries(
+    results
+      .filter(result => result.type !== 'Error' && result.type !== 'Redirect')
+      .map(result => {
+        const work = result as Extract<typeof result, { id: string }>;
+        const date = work.production?.[0]?.dates?.[0]?.label;
+        const contributor = work.contributors.find(c => c.primary)?.agent.label;
+        return [
+          work.id,
+          {
+            title: work.title,
+            productionDates: date ? [date] : [],
+            primaryContributorLabel: contributor,
+            physicalDescription: work.physicalDescription,
+          } satisfies ArchiveWorkData,
+        ];
+      })
+  );
 }
 
 export async function getWorkItemsClientSide(

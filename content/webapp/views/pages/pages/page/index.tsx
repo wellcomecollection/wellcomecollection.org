@@ -28,6 +28,7 @@ import VideoEmbed from '@weco/common/views/components/VideoEmbed';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { PageFormatIds } from '@weco/content/data/content-format-ids';
 import { transformEmbedSlice } from '@weco/content/services/prismic/transformers/body';
+import { ArchiveWorkData } from '@weco/content/services/wellcome/catalogue/works';
 import { isEditorialImage, isVideoEmbed } from '@weco/content/types/body';
 import { Page as PageType } from '@weco/content/types/pages';
 import { SiblingsGroup } from '@weco/content/types/siblings-group';
@@ -44,6 +45,7 @@ export type Props = {
   ordersInParents: OrderInParent[];
   staticContent: ReactElement | null;
   jsonLd: JsonLdObj;
+  archiveWorks?: Record<string, ArchiveWorkData>;
 };
 
 export type OrderInParent = {
@@ -63,6 +65,7 @@ export const PagePage: NextPage<Props> = ({
   ordersInParents,
   staticContent,
   jsonLd,
+  archiveWorks,
 }) => {
   const DateInfo = page.datePublished && (
     <HTMLDateAndTime variant="date" date={page.datePublished} />
@@ -263,6 +266,7 @@ export const PagePage: NextPage<Props> = ({
             isOfficialLandingPage={isOfficialLandingPage}
             staticContent={staticContent}
             gridSizes={gridSize8()}
+            archiveWorks={archiveWorks}
           />
         }
         /**

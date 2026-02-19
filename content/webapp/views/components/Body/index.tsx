@@ -27,6 +27,7 @@ import SpacingComponent from '@weco/common/views/components/styled/SpacingCompon
 import { components } from '@weco/common/views/slices';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import { transformContentListSlice } from '@weco/content/services/prismic/transformers/body';
+import { ArchiveWorkData } from '@weco/content/services/wellcome/catalogue/works';
 import { isContentList } from '@weco/content/types/body';
 import { convertItemToCardProps } from '@weco/content/types/card';
 import { Link } from '@weco/content/types/link';
@@ -68,6 +69,7 @@ export type Props = {
   staticContent?: ReactElement | null;
   comicPreviousNext?: ComicPreviousNextProps;
   contentType?: 'short-film' | 'visual-story' | 'standalone-image-gallery';
+  archiveWorks?: Record<string, ArchiveWorkData>;
 };
 
 type SectionTheme = {
@@ -105,6 +107,7 @@ export type SliceZoneContext = {
   gridSizes?: SizeMap;
   comicPreviousNext?: ComicPreviousNextProps;
   contentType?: 'short-film' | 'visual-story' | 'standalone-image-gallery';
+  archiveWorks?: Record<string, ArchiveWorkData>;
 };
 
 export const defaultContext: SliceZoneContext = {
@@ -131,6 +134,7 @@ const Body: FunctionComponent<Props> = ({
   staticContent = null,
   comicPreviousNext,
   contentType,
+  archiveWorks,
 }: Props) => {
   const { twoColumns } = useToggles();
   const filteredUntransformedBody = untransformedBody.filter(
@@ -366,6 +370,7 @@ const Body: FunctionComponent<Props> = ({
             isDropCapped,
             contentType,
             isShortFilm,
+            archiveWorks,
           }}
         />
       </BodyWrapper>
