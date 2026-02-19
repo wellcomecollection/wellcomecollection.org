@@ -37,6 +37,7 @@ describe('WorksLink', () => {
         workType: 'a,b,c',
         'production.dates.from': '1500',
         'production.dates.to': '1900',
+        'items.locations.createdDate.from': '2020-01-01',
         notValid: '( ͡° ͜ʖ ͡°)',
       };
       const worksRouteState: WorksProps = fromQuery(query);
@@ -47,6 +48,8 @@ describe('WorksLink', () => {
         workType: ['a', 'b', 'c'],
         'items.locations.locationType': [],
         'items.locations.accessConditions.status': [],
+        'items.locations.createdDate.from': '2020-01-01',
+        'items.locations.createdDate.to': undefined,
         availabilities: [],
         sort: undefined,
         sortOrder: undefined,
