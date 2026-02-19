@@ -28,7 +28,7 @@ export type ArchiveWorkData = {
   title: string;
   productionDates: string[];
   primaryContributorLabel: string | undefined;
-  physicalDescription: string;
+  physicalDescription: string | undefined;
 };
 
 type GetWorkProps = {
@@ -197,7 +197,7 @@ export async function getArchiveWorks(
             title: work.title,
             productionDates: date ? [date] : [],
             primaryContributorLabel: contributor,
-            physicalDescription: work.physicalDescription,
+            physicalDescription: work.physicalDescription || undefined,
           } satisfies ArchiveWorkData,
         ];
       })
