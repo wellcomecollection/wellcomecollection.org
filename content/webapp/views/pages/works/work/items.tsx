@@ -219,6 +219,8 @@ const WorkItemPage: NextPage<Props> = ({
       so we check for the presence of a pdf in the original property of the canvas.
       If it has one we show the IIIFItemList, unless we are using the extended viewer.
       */}
+      {/* TODO  when we promote extendedViewer code to default we can remove this block
+      as we'll always show the viewer for PDFs*/}
       {(!hasImage || hasPdf) && showViewer && !extendedViewer && (
         <ContaineredLayout gridSizes={gridSize12()}>
           <Space
@@ -281,6 +283,7 @@ const WorkItemPage: NextPage<Props> = ({
         </div>
       </Modal>
 
+      {/* TODO  when we promote extendedViewer code to default we can remove the following conditionals, except for showViewer */}
       {showViewer &&
         ((mainImageService && currentCanvas) ||
           iiifImageLocation ||

@@ -4,6 +4,7 @@ import { useTheme } from 'styled-components';
 
 import { pageDescriptionConcepts } from '@weco/common/data/microcopy';
 import { useToggles } from '@weco/common/server-data/Context';
+import { font } from '@weco/common/utils/classnames';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
 import { Container } from '@weco/common/views/components/styled/Container';
@@ -12,13 +13,13 @@ import Space from '@weco/common/views/components/styled/Space';
 import { useConceptPageContext } from '@weco/content/contexts/ConceptPageContext';
 import { Concept as ConceptType } from '@weco/content/services/wellcome/catalogue/types';
 import { Link } from '@weco/content/types/link';
+import CollaboratorCards from '@weco/content/views/components/CollaboratorCards';
 import ImageModal, {
   useExpandedImage,
 } from '@weco/content/views/components/ImageModal';
 import InPageNavigation from '@weco/content/views/components/InPageNavigation';
 import CataloguePageLayout from '@weco/content/views/layouts/CataloguePageLayout';
 
-import Collaborators from './concept.Collaborators';
 import ThemeHeader from './concept.Header';
 import { ThemePageSectionsData, themeTabOrder } from './concept.helpers';
 import ImagesResults from './concept.ImagesResults';
@@ -126,6 +127,7 @@ const ConceptPage: NextPage<Props> = ({
         hideNewsletterPromo={true}
         apiToolbarLinks={apiToolbarLinks}
         clipOverflowX={true}
+        headerProps={{ hasColorBackground: true }}
       >
         <ThemeHeader concept={conceptResponse} />
 
@@ -169,7 +171,18 @@ const ConceptPage: NextPage<Props> = ({
                       properties: ['margin-top', 'margin-bottom'],
                     }}
                   >
-                    <Collaborators concepts={frequentCollaborators} />
+                    <section>
+                      <h2
+                        className={font('brand-bold', 2)}
+                        id="frequent-collaborators"
+                      >
+                        {config.collaborators.label || 'Frequent collaborators'}
+                      </h2>
+                      <CollaboratorCards
+                        collaborators={frequentCollaborators}
+                        maxCards={4}
+                      />
+                    </section>
                   </Space>
                 </>
               )}
