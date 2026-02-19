@@ -61,11 +61,9 @@ const IconWrapper = styled(Space).attrs({
   background: ${props => props.theme.color('black')};
 `;
 
-const DateText = styled(Space).attrs({
-  $v: { size: 'xs', properties: ['margin-bottom'] },
-})``;
-
-const Extent = styled.span`
+const Extent = styled(Space).attrs({
+  $v: { size: 'xs', properties: ['margin-top'] },
+})`
   ${props => props.theme.clampLines(3)};
 `;
 
@@ -76,8 +74,8 @@ type Props = {
   description: string;
   contributor: string;
   isOrganisation: boolean;
-  date: string;
-  extent: string;
+  date?: string;
+  extent?: string;
 };
 
 const ArchiveCard: FunctionComponent<Props> = ({
@@ -115,8 +113,8 @@ const ArchiveCard: FunctionComponent<Props> = ({
             </IconWrapper>
             <span>{contributor}</span>
           </ContributorRow>
-          <DateText>Date: {date}</DateText>
-          <Extent>Contains: {extent}</Extent>
+          {date && <span>Date: {date}</span>}
+          {extent && <Extent>Contains: {extent}</Extent>}
         </div>
       </Root>
     </NextLink>
