@@ -16,6 +16,7 @@ const Root = styled(Space).attrs({
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: 100%;
   background: ${props => props.theme.color('warmNeutral.300')};
   border-radius: ${props => props.theme.borderRadiusUnit}px;
 `;
@@ -92,7 +93,7 @@ const ArchiveCard: FunctionComponent<Props> = ({
     <NextLink
       data-component="archive-card"
       {...toWorkLink({ id })}
-      style={{ textDecoration: 'none', display: 'block' }}
+      style={{ textDecoration: 'none', display: 'block', height: '100%' }}
     >
       <Root>
         <div>
