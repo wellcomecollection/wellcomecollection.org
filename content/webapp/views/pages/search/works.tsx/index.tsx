@@ -241,6 +241,8 @@ const WorksSearchPage: NextPage<Props> = withSearchLayout(
                     (semanticSearchPrototype || semanticSearchComparison) &&
                     query.searchIn
                       ? query.searchIn
+                      : semanticSearchComparison
+                      ? 'all'
                       : 'alternative1';
                   let selectedWorks, selectedTotalPages, selectedTotalResults;
                   if (searchIn === 'alternative1') {
