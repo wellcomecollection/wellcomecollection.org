@@ -164,7 +164,8 @@ const WorksSearchPage: NextPage<Props> = withSearchLayout(
                 query={queryString}
                 hasFilters={hasActiveFilters}
               />
-            ) : semanticSearchComparison && query.searchIn === 'all' ? (
+            ) : semanticSearchComparison &&
+              worksRouteProps.searchIn === 'all' ? (
               <>
                 {(() => {
                   // Use totalPages from the result set with the most results
@@ -235,15 +236,8 @@ const WorksSearchPage: NextPage<Props> = withSearchLayout(
                 {(() => {
                   // TODO: Remove this entire block when semanticSearchPrototype toggle is removed
                   // This handles individual API selection in prototype mode
-                  // Determine which API results to use based on the selected API from the searchIn query parameter
-                  // Only check searchIn if semanticSearchPrototype or semanticSearchComparison is enabled
-                  const searchIn =
-                    (semanticSearchPrototype || semanticSearchComparison) &&
-                    query.searchIn
-                      ? query.searchIn
-                      : semanticSearchComparison
-                        ? 'all'
-                        : 'alternative1';
+                  // Use worksRouteProps.searchIn which has server-side defaults applied
+                  const searchIn = worksRouteProps.searchIn || 'alternative1';
                   const selectedWorksData =
                     searchIn === 'alternative2'
                       ? works2 || {

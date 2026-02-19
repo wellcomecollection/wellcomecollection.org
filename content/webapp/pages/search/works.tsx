@@ -36,7 +36,26 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   setCacheControl(context.res, cacheTTL.search);
   const serverData = await getServerData(context);
   const query = context.query;
-  const params = fromQuery(query);
+  // TODO can remove searchIn when we remove the `semanticSearch...` toggles,
+  const semanticSearchPrototype =
+    serverData.toggles.semanticSearchPrototype.value;
+  const semanticSearchComparison =
+    serverData.toggles.semanticSearchComparison.value;
+
+  let params = fromQuery(query);
+
+  // If no `searchIn` is present in the URL, default it based on which toggle
+  // is active: comparison mode -> `all`, prototype mode -> `alternative1`.
+  if (!query.searchIn) {
+    if (semanticSearchComparison) {
+      params = { ...params, searchIn: 'all' };
+    } else if (semanticSearchPrototype) {
+      params = { ...params, searchIn: 'alternative1' };
+    }
+  }
+
+  const searchIn =
+    typeof params.searchIn === 'string' ? params.searchIn : 'all';
 
   const defaultProps = serialiseProps({
     serverData,
@@ -78,13 +97,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     ...params,
     aggregations,
   };
-
-  const searchIn = typeof query.searchIn === 'string' ? query.searchIn : 'all';
-
-  const semanticSearchPrototype =
-    serverData.toggles.semanticSearchPrototype.value;
-  const semanticSearchComparison =
-    serverData.toggles.semanticSearchComparison.value;
 
   // Map searchIn to elasticCluster parameter for semantic search API
   const getElasticCluster = (
