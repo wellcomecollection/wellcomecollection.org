@@ -70,9 +70,9 @@ const Extent = styled(Space).attrs({
 type Props = {
   id: string;
   label: string;
-  title: string;
+  title?: string;
   description: string;
-  contributor: string;
+  contributor?: string;
   isOrganisation: boolean;
   date?: string;
   extent?: string;
@@ -97,7 +97,7 @@ const ArchiveCard: FunctionComponent<Props> = ({
       <Root>
         <div>
           <Label>{label}</Label>
-          <Title>{title}</Title>
+          {title && <Title>{title}</Title>}
           <Description>{description}</Description>
         </div>
 

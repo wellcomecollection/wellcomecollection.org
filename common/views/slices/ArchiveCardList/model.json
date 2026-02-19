@@ -1,0 +1,70 @@
+{
+  "type": "SharedSlice",
+  "id": "archiveCardList",
+  "name": "ArchiveCardList",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "description": "Displays a curated list of archive cards.",
+      "version": "initial",
+      "imageUrl": "",
+      "docURL": "...",
+      "primary": {
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title",
+            "placeholder": "e.g. Featured archives"
+          }
+        },
+        "description": {
+          "type": "Text",
+          "config": {
+            "label": "Description",
+            "placeholder": ""
+          }
+        },
+        "items": {
+          "type": "Group",
+          "config": {
+            "label": "Archive items",
+            "repeat": true,
+            "fields": {
+              "id": {
+                "type": "Text",
+                "config": {
+                  "label": "Work ID",
+                  "placeholder": "e.g. ab1cd234"
+                }
+              },
+              "label": {
+                "type": "Text",
+                "config": {
+                  "label": "Label",
+                  "placeholder": "e.g. Personal archives"
+                }
+              },
+              "archive_description": {
+                "type": "Text",
+                "config": {
+                  "label": "Description",
+                  "placeholder": ""
+                }
+              },
+              "is_organisation": {
+                "type": "Boolean",
+                "config": {
+                  "label": "Organisation or person icon",
+                  "default_value": false,
+                  "placeholder_true": "Organisation",
+                  "placeholder_false": "Person"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
