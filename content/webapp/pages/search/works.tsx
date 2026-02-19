@@ -129,7 +129,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     };
   }
 
-  // Fetch from multiple APIs for semantic search comparison
+  // Results from semantic searches will be fetched in parallel, but only if needed based on the searchIn parameter
   let works2: WellcomeResultList<WorkBasic, WorkAggregations> | null = null;
   let works3: WellcomeResultList<WorkBasic, WorkAggregations> | null = null;
 
