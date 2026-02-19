@@ -28,15 +28,16 @@ const ArchiveCardListSlice: FunctionComponent<ArchiveCardListSliceProps> = ({
       const id = item.id;
       if (!id) return undefined;
       const work = archiveWorks[id];
+      if (!work) return undefined;
       return {
         id,
         label: item.label || '',
         description: item.archive_description || '',
         isOrganisation: item.is_organisation ?? false,
-        title: work?.title,
-        contributor: work?.primaryContributorLabel,
-        date: work?.productionDates[0],
-        extent: work?.physicalDescription,
+        title: work.title,
+        contributor: work.primaryContributorLabel,
+        date: work.productionDates[0],
+        extent: work.physicalDescription,
       };
     })
     .filter(isNotUndefined);
