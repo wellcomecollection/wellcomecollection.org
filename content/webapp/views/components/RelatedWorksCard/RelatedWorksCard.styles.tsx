@@ -1,14 +1,6 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
-
-const clampLineStyles = css<{ $linesToClamp: number }>`
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-line-clamp: ${props => props.$linesToClamp};
-`;
 
 export const Card = styled.a<{ $isHover?: boolean }>`
   display: flex;
@@ -76,7 +68,7 @@ export const TextWrapper = styled.div`
 export const Title = styled.h2.attrs<{ $isHover?: boolean }>(props => ({
   className: !props.$isHover ? font('sans-bold', -1) : font('sans', -1),
 }))<{ $linesToClamp: number }>`
-  ${clampLineStyles};
+  ${props => props.theme.clampLines(props.$linesToClamp)};
   color: ${props => props.theme.color('black')};
   margin-top: ${props =>
     props.$isHover ? 0 : props.theme.spacingUnits['050']};
@@ -87,7 +79,7 @@ export const Title = styled.h2.attrs<{ $isHover?: boolean }>(props => ({
 `;
 
 export const LineClamp = styled.div<{ $linesToClamp: number }>`
-  ${clampLineStyles};
+  ${props => props.theme.clampLines(props.$linesToClamp)};
 `;
 
 export const ImageWrapper = styled.div<{ $isHover?: boolean }>`
