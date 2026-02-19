@@ -4,6 +4,8 @@ export type CatalogueWorksApiProps = {
   workType?: string[];
   'items.locations.locationType'?: string[];
   'items.locations.accessConditions.status'?: string[];
+  'items.locations.createdDate.to'?: string;
+  'items.locations.createdDate.from'?: string;
   availabilities?: string[];
   sort?: string;
   sortOrder?: string;

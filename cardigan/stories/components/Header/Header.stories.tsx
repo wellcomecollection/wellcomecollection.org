@@ -10,10 +10,12 @@ const meta: Meta<typeof Header> = {
   args: {
     siteSection: 'stories',
     isMinimalHeader: false,
+    hasColorBackground: false,
   },
   argTypes: {
     customNavLinks: { table: { disable: true } },
     isMinimalHeader: { name: 'Is minimal header', control: 'boolean' },
+    hasColorBackground: { name: 'Has colored background', control: 'boolean' },
     siteSection: {
       name: 'Selected site section',
       control: 'radio',

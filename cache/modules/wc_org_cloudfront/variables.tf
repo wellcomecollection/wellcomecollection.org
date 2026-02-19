@@ -51,3 +51,8 @@ variable "waf_ip_allowlist" {
 variable "header_shared_secret" {
   type = string
 }
+
+variable "allowed_countries" {
+  type    = list(string)
+  default = []
+}
