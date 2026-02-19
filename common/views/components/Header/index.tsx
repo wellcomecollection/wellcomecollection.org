@@ -45,6 +45,7 @@ type Props = {
   siteSection?: SiteSection;
   customNavLinks?: NavLink[];
   isMinimalHeader?: boolean;
+  hasColorBackground?: boolean;
 };
 
 export const links: NavLink[] = [
@@ -91,6 +92,7 @@ export const exhibitionGuidesLinks: NavLink[] = [
 const Header: FunctionComponent<Props> = ({
   siteSection,
   customNavLinks,
+  hasColorBackground,
   // We don't display login and search on certain pages, e.g. exhibition guides
   isMinimalHeader = false,
 }) => {
@@ -109,7 +111,10 @@ const Header: FunctionComponent<Props> = ({
         data-component="header"
         data-lock-scroll={searchDropdownIsActive || burgerMenuIsActive}
       >
-        <Wrapper $isBurgerOpen={burgerMenuIsActive}>
+        <Wrapper
+          $isBurgerOpen={burgerMenuIsActive}
+          $hasColorBackground={hasColorBackground}
+        >
           <div style={{ position: 'relative' }}>
             <HeaderContainer>
               <Burger>
@@ -137,9 +142,10 @@ const Header: FunctionComponent<Props> = ({
               </HeaderBrand>
               <NavLoginWrapper>
                 <HeaderNav
-                  $burgerMenuisActive={burgerMenuIsActive}
                   id="header-nav"
                   aria-labelledby="header-burger-trigger"
+                  $burgerMenuisActive={burgerMenuIsActive}
+                  $hasColorBackground={hasColorBackground}
                 >
                   <HeaderList className={font('brand-bold', -1)}>
                     {(customNavLinks || links).map((link, i) => (
@@ -208,6 +214,7 @@ const Header: FunctionComponent<Props> = ({
             isActive={searchDropdownIsActive}
             handleCloseModal={() => setSearchDropdownIsActive(false)}
             searchButtonRef={searchButtonRef}
+            hasColorBackground={hasColorBackground}
           />
         )}
       </header>

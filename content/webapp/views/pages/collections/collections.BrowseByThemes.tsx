@@ -150,6 +150,7 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
           'category-position-in-list': `${selectedCategoryPosition}`,
         }}
         onConceptsFetched={handleConceptsFetched}
+        useShim
       />
 
       {thematicBrowsing && isBrowsableCategory(selectedCategoryLabel) && (

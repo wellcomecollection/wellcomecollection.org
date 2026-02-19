@@ -46,7 +46,8 @@ const ItemWrapper = styled.div<{
   $isText?: boolean;
 }>`
   ${props => !props.$isAudio && 'height: 100%;'}
-  ${props => (props.$isImage || props.$isText) && 'min-height: 50vh;'}
+  ${props =>
+    props.$isImage || props.$isText ? 'min-height: 50vh;' : 'min-height: 30vh;'}
   position: relative;
   overflow: auto;
 
@@ -346,7 +347,6 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
                     exclude={[]}
                     setImageRect={setImageRect}
                     setImageContainerRect={setImageContainerRect}
-                    isInViewer
                   />
                 </ItemWrapper>
               );
@@ -529,7 +529,6 @@ const MainViewer: FunctionComponent = () => {
                   canvas={currentCanvas}
                   titleOverride={`${canvas}/${canvases?.length}`}
                   exclude={[]}
-                  isInViewer
                   isDark={true}
                 />
               </ItemWrapper>
