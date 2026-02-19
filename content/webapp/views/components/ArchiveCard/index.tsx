@@ -112,7 +112,7 @@ const ArchiveCard: FunctionComponent<Props> = ({
                 matchText
               />
             </IconWrapper>
-            <span>{contributor}</span>
+            {contributor && <span>{contributor}</span>}
           </ContributorRow>
           {date && <span>Date: {date}</span>}
           {extent && <Extent>Contains: {extent}</Extent>}
