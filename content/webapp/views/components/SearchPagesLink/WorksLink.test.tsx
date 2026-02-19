@@ -11,6 +11,8 @@ describe('WorksLink', () => {
         workType: [],
         'items.locations.locationType': [],
         'items.locations.accessConditions.status': [],
+        'items.locations.createdDate.to': undefined,
+        'items.locations.createdDate.from': undefined,
         availabilities: [],
         sort: undefined,
         sortOrder: undefined,
