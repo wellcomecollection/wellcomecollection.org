@@ -134,7 +134,7 @@ const toggles = {
       title: 'Semantic search prototype',
       initialValue: false,
       description:
-        'Enables the semantic search prototype with predefined search terms and API selection.',
+        'Enables the semantic search prototype with predefined search terms and API selection. If the semantic search comparison toggle is enabled, its functionality will supercede this toggle.',
       type: 'experimental',
     },
     {
