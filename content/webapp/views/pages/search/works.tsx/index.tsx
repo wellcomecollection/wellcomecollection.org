@@ -117,6 +117,21 @@ const WorksSearchPage: NextPage<Props> = withSearchLayout(
               )}
             />
           )}
+          {(semanticSearchPrototype || semanticSearchComparison) && (
+            <>
+              <meta name="robots" content="noindex, nofollow" />
+              <link
+                rel="canonical"
+                href={convertUrlToString(
+                  toSearchWorksLink({
+                    ...worksRouteProps,
+                    // Ensure the canonical points to the non-experimental variant
+                    searchIn: undefined,
+                  }).href
+                )}
+              />
+            </>
+          )}
         </Head>
 
         <Space $v={{ size: 'md', properties: ['padding-bottom'] }}>
