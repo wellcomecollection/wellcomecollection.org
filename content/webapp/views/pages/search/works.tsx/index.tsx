@@ -34,8 +34,8 @@ import SearchNoResults from '@weco/content/views/pages/search/search.NoResults';
 
 export type Props = {
   works: WellcomeResultList<WorkBasic, WorkAggregations>;
-  works2?: WellcomeResultList<WorkBasic, WorkAggregations> | null;
-  works3?: WellcomeResultList<WorkBasic, WorkAggregations> | null;
+  works2?: WellcomeResultList<WorkBasic, WorkAggregations>;
+  works3?: WellcomeResultList<WorkBasic, WorkAggregations>;
   worksRouteProps: WorksRouteProps;
   query: Query;
   apiToolbarLinks: ApiToolbarLink[];

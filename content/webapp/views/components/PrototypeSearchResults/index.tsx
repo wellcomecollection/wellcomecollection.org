@@ -10,9 +10,9 @@ import {
 import WorksSearchResult from '@weco/content/views/components/WorksSearchResults/WorksSearchResults.Result';
 
 type Props = {
-  works: WellcomeResultList<WorkBasic, WorkAggregations> | null | undefined;
-  works2: WellcomeResultList<WorkBasic, WorkAggregations> | null | undefined;
-  works3: WellcomeResultList<WorkBasic, WorkAggregations> | null | undefined;
+  works?: WellcomeResultList<WorkBasic, WorkAggregations>;
+  works2?: WellcomeResultList<WorkBasic, WorkAggregations>;
+  works3?: WellcomeResultList<WorkBasic, WorkAggregations>;
   currentPage: number;
 };
 
@@ -105,7 +105,7 @@ const PrototypeSearchResults: FunctionComponent<Props> = ({
   );
 
   const renderResultCell = (
-    data: WellcomeResultList<WorkBasic, WorkAggregations> | null | undefined,
+    data: WellcomeResultList<WorkBasic, WorkAggregations> | undefined,
     index: number,
     keyValue?: string | number
   ) => {
@@ -129,13 +129,13 @@ const PrototypeSearchResults: FunctionComponent<Props> = ({
       <HeaderStack data-component="prototype-search-results">
         <HeaderSpacer />
         <ColumnHeader>
-          Alternative 1 ({works ? works.totalResults : 'Unavailable'})
+          Alternative 1 ({works?.totalResults ?? 'Unavailable'})
         </ColumnHeader>
         <ColumnHeader>
-          Alternative 2 ({works2 ? works2.totalResults : 'Unavailable'})
+          Alternative 2 ({works2?.totalResults ?? 'Unavailable'})
         </ColumnHeader>
         <ColumnHeader>
-          Alternative 3 ({works3 ? works3.totalResults : 'Unavailable'})
+          Alternative 3 ({works3?.totalResults ?? 'Unavailable'})
         </ColumnHeader>
       </HeaderStack>
 
