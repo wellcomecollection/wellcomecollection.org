@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { useSearchContext } from '@weco/common/contexts/SearchContext';
 import { useToggles } from '@weco/common/server-data/Context';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
-import { pluralize } from '@weco/common/utils/grammar';
+import { formatNumber, pluralize } from '@weco/common/utils/grammar';
 import { linkResolver, SEARCH_PAGES_FORM_ID } from '@weco/common/utils/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Container } from '@weco/common/views/components/styled/Container';
@@ -215,11 +215,11 @@ const WorksSearchPage: NextPage<Props> = withSearchLayout(
                         <span role="status">
                           Results:{' '}
                           {works &&
-                            `${works.totalResults} works ${works2 || works3 ? '(alternative 1)' : ''}`}
+                            `${formatNumber(works.totalResults)} works ${works2 || works3 ? '(alternative 1)' : ''}`}
                           {works2 &&
-                            `, ${works2.totalResults} works (alternative 2)`}
+                            ` | ${formatNumber(works2.totalResults)} works (alternative 2)`}
                           {works3 &&
-                            `, ${works3.totalResults} works (alternative 3)`}
+                            ` | ${formatNumber(works3.totalResults)} works (alternative 3)`}
                         </span>
                         <Pagination
                           totalPages={totalPages}
