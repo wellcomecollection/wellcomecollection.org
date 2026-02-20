@@ -42,10 +42,18 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const semanticSearchComparison =
     serverData.toggles.semanticSearchComparison.value;
 
+  // NOTE: The following logic exists to support two feature toggles used
+  // for the semantic-search experiment (`semanticSearchPrototype` and
+  // `semanticSearchComparison`). When those toggles are removed, the
+  // surrounding code (defaulting `searchIn`, fetching `works2`/`works3`,
+  // and alternative-selection branches) should be removed as part of
+  // cleanup — these comments are here to make that follow-up easier.
+
   let params = fromQuery(query);
 
   // If no `searchIn` is present in the URL, default it based on which toggle
   // is active: comparison mode -> `all`, prototype mode -> `alternative1`.
+  // TODO: remove this defaulting when semantic search toggles are removed.
   if (!query.searchIn) {
     if (semanticSearchComparison) {
       params = { ...params, searchIn: 'all' };
@@ -146,6 +154,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   let works3: WellcomeResultList<WorkBasic, WorkAggregations> | null = null;
 
   if (semanticSearchPrototype || semanticSearchComparison) {
+    // TODO: remove works2/works3 parallel fetches when semantic search
+    // prototype/comparison toggles are retired.
     const works2Promise = shouldFetchAlternative2
       ? getWorks({
           params: {
