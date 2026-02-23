@@ -1,10 +1,7 @@
 import { NextPage } from 'next';
 
 import { isSiteSection } from '@weco/common/model/site-section';
-import {
-  ArchiveCardListSlice,
-  PagesDocumentDataBodySlice,
-} from '@weco/common/prismicio-types';
+import { PagesDocumentDataBodySlice } from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -15,6 +12,7 @@ import {
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
 import { createClient } from '@weco/content/services/prismic/fetch';
+import { getBodySliceContexts } from '@weco/content/services/prismic/fetch/body-slice-contexts';
 import {
   fetchBasicPage,
   fetchChildren,
@@ -23,7 +21,6 @@ import {
 } from '@weco/content/services/prismic/fetch/pages';
 import { contentLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
-import { getArchiveWorks } from '@weco/content/services/wellcome/catalogue/works';
 import { Page as PageType } from '@weco/content/types/pages';
 import { SiblingsGroup } from '@weco/content/types/siblings-group';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
@@ -103,23 +100,10 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     const page = transformPage(pageDocument);
 
     const bodySlices = pageDocument.data.body as PagesDocumentDataBodySlice[];
-    const archiveCardIds = bodySlices
-      .filter(
-        (slice): slice is ArchiveCardListSlice =>
-          slice.slice_type === 'archiveCardList'
-      )
-      .flatMap(slice => slice.primary.items)
-      .map(item => item.id)
-      .filter((id): id is string => !!id);
-
-    const archiveWorks =
-      archiveCardIds.length > 0
-        ? await getArchiveWorks(archiveCardIds, serverData.toggles)
-        : {};
-
-    const bodySliceContexts = {
-      archiveWorks,
-    };
+    const bodySliceContexts = await getBodySliceContexts(
+      bodySlices,
+      serverData.toggles
+    );
 
     const siblings: SiblingsGroup<PageType>[] = (
       await fetchSiblings(client, page)
