@@ -3,12 +3,6 @@ import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 
-export const DownloadTableContainer = styled.div`
-  overflow-y: auto;
-
-  --table-horizontal-padding: ${props => props.theme.spacingUnits['400']};
-`;
-
 export const DownloadTitle = styled(Space).attrs({
   as: 'h2',
   className: font('brand-bold', 0),
