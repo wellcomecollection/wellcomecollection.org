@@ -301,6 +301,16 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
           </div>
         </AccordionItem>
 
+        {/* // TODO keep open, mix with below  */}
+        {hasMultipleCanvases && !useFixedSizeList && (
+          // <AccordionItem title="Contents">
+          <DownloadTableSection
+            canvases={canvases}
+            workId={work.id}
+            canvas={currentCanvasQueryParam}
+          />
+          // </AccordionItem>
+        )}
         {Boolean(structures && structures.length > 0) && (
           <AccordionItem title="Contents">
             <ViewerStructures />
@@ -324,13 +334,6 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
         <Inner>
           <IIIFSearchWithin />
         </Inner>
-      )}
-      {hasMultipleCanvases && !useFixedSizeList && (
-        <DownloadTableSection
-          canvases={canvases}
-          workId={work.id}
-          canvas={currentCanvasQueryParam}
-        />
       )}
     </>
   );
