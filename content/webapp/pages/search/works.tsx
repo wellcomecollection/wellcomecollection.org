@@ -36,7 +36,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   setCacheControl(context.res, cacheTTL.search);
   const serverData = await getServerData(context);
   const query = context.query;
-  // TODO can remove searchIn when we remove the `semanticSearch...` toggles,
+  // TODO can remove searchIn when we remove the `semanticSearchPrototype` and `semanticSearchComparison` toggles,
   const semanticSearchPrototype =
     serverData.toggles.semanticSearchPrototype.value;
   const semanticSearchComparison =
