@@ -1,6 +1,7 @@
 import { NextPage } from 'next';
 
 import { isSiteSection } from '@weco/common/model/site-section';
+import { PagesDocumentDataBodySlice } from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -11,6 +12,7 @@ import {
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
 import { createClient } from '@weco/content/services/prismic/fetch';
+import { getBodySliceContexts } from '@weco/content/services/prismic/fetch/body-slice-contexts';
 import {
   fetchBasicPage,
   fetchChildren,
@@ -97,6 +99,12 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
     const page = transformPage(pageDocument);
 
+    const bodySlices = pageDocument.data.body as PagesDocumentDataBodySlice[];
+    const bodySliceContexts = await getBodySliceContexts(
+      bodySlices,
+      serverData.toggles
+    );
+
     const siblings: SiblingsGroup<PageType>[] = (
       await fetchSiblings(client, page)
     ).map(group => {
@@ -135,6 +143,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         staticContent: null,
         jsonLd,
         serverData,
+        bodySliceContexts,
       }),
     };
   }
