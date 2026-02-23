@@ -95,6 +95,8 @@ export const ViewerButton = styled.button.attrs({
 const TopBar = styled.div<{
   $isZooming: boolean;
   $isDesktopSidebarActive: boolean;
+  $useFixedList?: boolean;
+  $hasMultipleCanvases?: boolean;
 }>`
   display: ${props => (props.$isZooming ? 'none' : 'grid')};
   min-height: 52px;
@@ -104,7 +106,10 @@ const TopBar = styled.div<{
   color: ${props => props.theme.color('white')};
   justify-content: space-between;
   grid-template-columns:
-    [left-edge] minmax(200px, 3fr)
+    [left-edge] ${props =>
+      props.$useFixedList || !props.$hasMultipleCanvases
+        ? 'minmax(200px, 3fr)'
+        : 'minmax(200px, 630px)'}
     [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
 
   ${props => props.theme.media('sm')`
@@ -112,9 +117,9 @@ const TopBar = styled.div<{
   `}
 
   ${props =>
-    props.theme.media('lg')`
-      grid-template-columns: [left-edge] minmax(200px, 330px) [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
-  `}
+    props.theme.media('lg')(
+      `grid-template-columns: [left-edge] ${props.$useFixedList || !props.$hasMultipleCanvases ? 'minmax(200px, 330px)' : 'minmax(200px, 630px)'} [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];`
+    )}
 
   ${props =>
     !props.$isDesktopSidebarActive &&
@@ -208,6 +213,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
     query,
     viewerRef,
     showFullscreenControl,
+    useFixedSizeList,
   } = useItemViewerContext();
   const { canvas } = query;
   const { canvases, rendering } = { ...transformedManifest };
@@ -281,6 +287,8 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
     <TopBar
       $isZooming={showZoomed}
       $isDesktopSidebarActive={isDesktopSidebarActive}
+      $useFixedList={useFixedSizeList}
+      $hasMultipleCanvases={!!(canvases && canvases.length > 1)}
     >
       <Sidebar $isZooming={showZoomed}>
         {isEnhanced && !showZoomed && (

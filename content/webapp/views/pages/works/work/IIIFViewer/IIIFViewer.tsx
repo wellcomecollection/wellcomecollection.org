@@ -65,6 +65,8 @@ const ZoomedImage = dynamic(() => import('./ZoomedImage'), {
 
 type GridProps = {
   $isFullSupportBrowser: boolean;
+  $useFixedList?: boolean;
+  $multipleCanvases?: boolean;
 };
 
 const Grid = styled.div<GridProps>`
@@ -75,7 +77,10 @@ const Grid = styled.div<GridProps>`
       : 'auto'};
   overflow: hidden;
   grid-template-columns:
-    [left-edge] minmax(200px, 3fr)
+    [left-edge] ${props =>
+      props.$useFixedList || !props.$multipleCanvases
+        ? 'minmax(200px, 3fr)'
+        : 'minmax(200px, 630px)'}
     [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
   grid-template-rows: [top-edge] min-content [desktop-main-start desktop-topbar-end] 1fr [mobile-bottombar-start mobile-main-end] min-content [bottom-edge];
 
@@ -93,9 +98,10 @@ const Grid = styled.div<GridProps>`
     `}
   }
 
-  ${props => props.theme.media('lg')`
-    grid-template-columns: [left-edge] minmax(200px, 330px) [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
-  `}
+  ${props =>
+    props.theme.media('lg')(
+      `grid-template-columns: [left-edge] ${props.$useFixedList || !props.$multipleCanvases ? 'minmax(200px, 330px)' : 'minmax(200px, 630px)'} [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];`
+    )}
 `;
 
 const Sidebar = styled.div<{
@@ -136,6 +142,7 @@ const Main = styled.div<{
   $isDesktopSidebarActive: boolean;
   $isFullSupportBrowser: boolean;
   $hasOnlyImages: boolean; // we adjust the grid area on mobile when this isn't true
+  $hasMultipleCanvases?: boolean;
 }>`
   background: ${props => props.theme.color('black')};
   color: ${props => props.theme.color('white')};
@@ -148,7 +155,7 @@ const Main = styled.div<{
   width: ${props => (props.$isFullSupportBrowser ? 'auto' : '100vw')};
   grid-area: ${props =>
     props.$isFullSupportBrowser
-      ? props.$hasOnlyImages
+      ? props.$hasOnlyImages && !props.$hasMultipleCanvases
         ? 'desktop-main-start / left-edge / mobile-main-end / right-edge'
         : 'desktop-main-start / left-edge / bottom-edge / right-edge'
       : 'auto'};
@@ -251,6 +258,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   // we only render certain parts of the UI when hasOnlyImages is true
   const hasOnlyImages = !hasNonImages(transformedManifest?.canvases || []);
   const useFixedSizeList = hasOnlyImages;
+  const multipleCanvases = (transformedManifest?.canvases?.length || 0) > 1;
 
   // We need to reset the MainAreaWidth and MainAreaHeight
   // when the available space changes.
@@ -335,7 +343,12 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         useFixedSizeList,
       }}
     >
-      <Grid ref={viewerRef} $isFullSupportBrowser={isFullSupportBrowser}>
+      <Grid
+        ref={viewerRef}
+        $isFullSupportBrowser={isFullSupportBrowser}
+        $useFixedList={useFixedSizeList}
+        $multipleCanvases={multipleCanvases}
+      >
         <Sidebar
           $isActiveMobile={isMobileSidebarActive}
           $isActiveDesktop={isDesktopSidebarActive}
@@ -345,6 +358,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
             <ViewerSidebar
               iiifImageLocation={iiifImageLocation}
               iiifPresentationLocation={iiifPresentationLocation}
+              hasMultipleCanvases={multipleCanvases}
             />
           </DelayVisibility>
         </Sidebar>
@@ -363,6 +377,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
           $isDesktopSidebarActive={isDesktopSidebarActive}
           $isFullSupportBrowser={isFullSupportBrowser}
           $hasOnlyImages={hasOnlyImages}
+          $hasMultipleCanvases={multipleCanvases}
         >
           <DelayVisibility>
             {!showZoomed && hasOnlyImages && <ImageViewerControls />}
