@@ -3,14 +3,6 @@ import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 
-export const DownloadTitle = styled(Space).attrs({
-  as: 'h2',
-  className: font('brand-bold', 0),
-  $v: { size: 'sm', properties: ['margin-top'] },
-})`
-  padding-left: ${props => props.theme.spacingUnits['400']};
-`;
-
 export const DownloadTable = styled.table.attrs({
   className: font('sans', -1),
 })`
