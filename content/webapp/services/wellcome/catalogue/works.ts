@@ -178,17 +178,27 @@ export async function getArchiveWorks(
   ids: string[],
   toggles: Toggles
 ): Promise<Record<string, ArchiveWorkData>> {
-  const results = await Promise.all(
+  const settled = await Promise.allSettled(
     ids.map(id =>
       getWork({ id, toggles, include: ['production', 'contributors'] })
     )
   );
 
   return Object.fromEntries(
-    results
-      .filter(result => result.type !== 'Error' && result.type !== 'Redirect')
-      .map(result => {
-        const work = result as Extract<typeof result, { id: string }>;
+    settled
+      .flatMap((outcome, i) => {
+        if (outcome.status === 'rejected') {
+          console.warn(
+            `Failed to fetch archive work ${ids[i]}:`,
+            outcome.reason
+          );
+          return [];
+        }
+        const result = outcome.value;
+        if (result.type === 'Error' || result.type === 'Redirect') return [];
+        return [result];
+      })
+      .map(work => {
         const date = work.production?.[0]?.dates?.[0]?.label;
         const contributor = work.contributors.find(c => c.primary)?.agent.label;
         return [
