@@ -55,6 +55,10 @@ const BodyWrapper = styled.div<{ $splitBackground: boolean }>`
 `}
 `;
 
+export type BodySliceContexts = {
+  archiveWorks?: Record<string, ArchiveWorkData>;
+};
+
 export type Props = {
   untransformedBody: prismic.SliceZone<PagesDocumentDataBodySlice>;
   introText?: prismic.RichTextField;
@@ -69,7 +73,7 @@ export type Props = {
   staticContent?: ReactElement | null;
   comicPreviousNext?: ComicPreviousNextProps;
   contentType?: 'short-film' | 'visual-story' | 'standalone-image-gallery';
-  archiveWorks?: Record<string, ArchiveWorkData>;
+  bodySliceContexts?: BodySliceContexts;
 };
 
 type SectionTheme = {
@@ -136,7 +140,7 @@ const Body: FunctionComponent<Props> = ({
   staticContent = null,
   comicPreviousNext,
   contentType,
-  archiveWorks,
+  bodySliceContexts,
 }: Props) => {
   const { twoColumns } = useToggles();
   const filteredUntransformedBody = untransformedBody.filter(
@@ -372,7 +376,7 @@ const Body: FunctionComponent<Props> = ({
             isDropCapped,
             contentType,
             isShortFilm,
-            archiveWorks,
+            ...bodySliceContexts,
           }}
         />
       </BodyWrapper>

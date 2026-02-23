@@ -117,6 +117,10 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         ? await getArchiveWorks(archiveCardIds, serverData.toggles)
         : {};
 
+    const bodySliceContexts = {
+      archiveWorks,
+    };
+
     const siblings: SiblingsGroup<PageType>[] = (
       await fetchSiblings(client, page)
     ).map(group => {
@@ -155,7 +159,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         staticContent: null,
         jsonLd,
         serverData,
-        archiveWorks,
+        bodySliceContexts,
       }),
     };
   }
