@@ -5,7 +5,11 @@ import { ArchiveCardListSlice as RawArchiveCardListSlice } from '@weco/common/pr
 import { font } from '@weco/common/utils/classnames';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { Container } from '@weco/common/views/components/styled/Container';
-import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
+import {
+  Grid,
+  GridCell,
+  StartSpan,
+} from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import ArchiveCard from '@weco/content/views/components/ArchiveCard';
@@ -44,7 +48,7 @@ const ArchiveCardListSlice: FunctionComponent<ArchiveCardListSliceProps> = ({
 
   if (cards.length === 0) return null;
 
-  const colsToSpan: [number] = cards.length >= 4 ? [3] : [4];
+  const colsToSpan: StartSpan = cards.length >= 4 ? [3] : [4];
 
   return (
     <SpacingComponent $sliceType={slice.slice_type}>
