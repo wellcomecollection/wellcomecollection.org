@@ -25,6 +25,7 @@ import { getDigitalLocationInfo } from '@weco/content/utils/works';
 import LinkLabels from '@weco/content/views/components/LinkLabels';
 import WorkLink from '@weco/content/views/components/WorkLink';
 import WorkTitle from '@weco/content/views/components/WorkTitle';
+import DownloadTableSection from '@weco/content/views/pages/works/work/IIIFViewer/DownloadTableSection';
 
 import IIIFSearchWithin from './IIIFSearchWithin';
 import MultipleManifestList from './MultipleManifestList';
@@ -146,15 +147,18 @@ const AccordionItem = ({ title, children, testId }: AccordionItemProps) => {
 type ViewerSidebarProps = OptionalToUndefined<{
   iiifImageLocation?: DigitalLocation;
   iiifPresentationLocation?: DigitalLocation;
+  hasMultipleCanvases?: boolean;
 }>;
 
 const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
   iiifImageLocation,
   iiifPresentationLocation,
+  hasMultipleCanvases,
 }) => {
-  const { work, transformedManifest, parentManifest } = useItemViewerContext();
+  const { work, transformedManifest, parentManifest, useFixedSizeList } =
+    useItemViewerContext();
   const { userIsStaffWithRestricted } = useUserContext();
-
+  const canvases = transformedManifest?.canvases ?? [];
   const matchingManifest =
     parentManifest &&
     parentManifest.canvases.find(canvas => {
@@ -192,6 +196,11 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
   const manifestNeedsRegeneration =
     authServices?.external?.id ===
     'https://iiif.wellcomecollection.org/auth/restrictedlogin';
+
+  const currentCanvasQueryParam =
+    parentManifest && matchingManifest && parentManifest.canvases
+      ? parentManifest.canvases.findIndex(c => c.id === matchingManifest.id) + 1
+      : 0;
 
   return (
     <>
@@ -315,6 +324,13 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
         <Inner>
           <IIIFSearchWithin />
         </Inner>
+      )}
+      {hasMultipleCanvases && !useFixedSizeList && (
+        <DownloadTableSection
+          canvases={canvases}
+          workId={work.id}
+          canvas={currentCanvasQueryParam}
+        />
       )}
     </>
   );

@@ -21,7 +21,6 @@ import { TransformedCanvas } from '@weco/content/types/manifest';
 import { TransformedAuthService } from '@weco/content/utils/iiif/v3';
 import { getDisplayItems } from '@weco/content/utils/iiif/v3/canvas';
 import IIIFItem from '@weco/content/views/pages/works/work/IIIFItem';
-import DownloadTableSection from '@weco/content/views/pages/works/work/IIIFViewer/DownloadTableSection';
 
 import { queryParamToArrayIndex } from '.';
 
@@ -405,7 +404,6 @@ const MainViewer: FunctionComponent = () => {
     mainAreaHeight,
     mainAreaWidth,
     transformedManifest,
-    work,
     query,
     setShowZoomed,
     setShowFullscreenControl,
@@ -536,13 +534,6 @@ const MainViewer: FunctionComponent = () => {
           );
         })}
       </>
-      {hasMultipleCanvases && (
-        <DownloadTableSection
-          canvases={canvases}
-          workId={work.id}
-          canvas={canvas}
-        />
-      )}
     </MainViewerContainer>
   );
 };
