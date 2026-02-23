@@ -65,16 +65,6 @@ const DownloadTableRow: FunctionComponent<{
             {itemLabel}
           </NextLink>
         </td>
-        <td className="is-hidden-s">
-          {fileSize ? (
-            `${fileSize}`
-          ) : (
-            <>
-              <span aria-hidden="true">- -</span>
-              <span className="visually-hidden">unknown</span>
-            </>
-          )}
-        </td>
         <td>
           <a
             data-gtm-trigger="download_table_link"
@@ -87,7 +77,7 @@ const DownloadTableRow: FunctionComponent<{
             <IconWrapper>
               <Icon icon={download} />
             </IconWrapper>
-            Download
+            {`Download${fileSize ? ` (${fileSize})` : ''}`}
           </a>
         </td>
       </StyledTr>

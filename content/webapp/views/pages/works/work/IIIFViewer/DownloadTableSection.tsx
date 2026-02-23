@@ -25,7 +25,6 @@ const DownloadTableSection: FunctionComponent<DownloadTableSectionProps> = ({
       <thead>
         <tr className={font('sans-bold', -1)}>
           <th>File</th>
-          <th className="is-hidden-s">Size</th>
           <th>Download</th>
         </tr>
       </thead>
@@ -40,7 +39,10 @@ const DownloadTableSection: FunctionComponent<DownloadTableSectionProps> = ({
             },
           });
           const downloads = getOriginalFiles(canvasItem);
-          const currentCanvasIndex = queryParamToArrayIndex(canvas) || 0;
+          const currentCanvasIndex =
+            typeof canvas === 'number' && canvas > 0
+              ? queryParamToArrayIndex(canvas)
+              : -1;
           return downloads.map(download => (
             <DownloadTableRow
               key={canvasItem.id + download.id}
