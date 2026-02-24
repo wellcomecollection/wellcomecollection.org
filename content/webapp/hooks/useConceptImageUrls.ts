@@ -11,11 +11,31 @@ import { queryParams } from '@weco/content/utils/concepts';
 /**
  * If the optional displayImages property is not present on the concept,
  * fetch up to 4 images related to the concept.
+ *
+ * Fallback strategy by concept type:
+ * - Person/Organisation/Agent: displayImages → imagesBy → topped up with imagesAbout
+ * - Genre: displayImages → imagesIn (images of that type/technique) → topped up with imagesAbout
+ * - All others: displayImages → imagesAbout
  */
 
 const imagesCache: Map<string, string[]> = new Map();
 
 export type ConceptImagesArray = [string?, string?, string?, string?];
+
+async function fetchImagesBySection(
+  sectionName: string,
+  concept: Concept,
+  limit: number
+): Promise<string[]> {
+  const params = queryParams(sectionName, concept);
+  const result = await getImages({ params, toggles: {}, pageSize: limit });
+  if (!('results' in result) || result.results.length === 0) return [];
+  return result.results
+    .slice(0, limit)
+    .map(image =>
+      convertIiifImageUri(image.locations[0].url, limit === 1 ? 500 : 250)
+    );
+}
 
 export function useConceptImageUrls(concept: Concept): ConceptImagesArray {
   const [images, setImages] = useState<string[]>([]);
@@ -49,18 +69,34 @@ export function useConceptImageUrls(concept: Concept): ConceptImagesArray {
       }
 
       let fetchedImages: string[] = [];
-      const params = queryParams('imagesAbout', concept);
+
+      const topUpWithAbout = async (images: string[]) => {
+        if (images.length >= 4) return images;
+        const aboutImages = await fetchImagesBySection(
+          'imagesAbout',
+          concept,
+          4 - images.length
+        );
+        return [...images, ...aboutImages];
+      };
+
       try {
-        const result = await getImages({ params, toggles: {}, pageSize: 4 });
-        if ('results' in result && result.results.length > 0) {
-          fetchedImages = result.results
-            .slice(0, 4)
-            .map(image =>
-              convertIiifImageUri(
-                image.locations[0].url,
-                result.results.length === 1 ? 500 : 250
-              )
-            );
+        if (
+          concept.type === 'Agent' ||
+          concept.type === 'Person' ||
+          concept.type === 'Organisation'
+        ) {
+          // Prioritise images by this person/organisation/agent, then top up with imagesAbout
+          fetchedImages = await topUpWithAbout(
+            await fetchImagesBySection('imagesBy', concept, 4)
+          );
+        } else if (concept.type === 'Genre') {
+          // Prioritise images of this type/technique (imagesIn), then top up with imagesAbout
+          fetchedImages = await topUpWithAbout(
+            await fetchImagesBySection('imagesIn', concept, 4)
+          );
+        } else {
+          fetchedImages = await fetchImagesBySection('imagesAbout', concept, 4);
         }
 
         imagesCache.set(cacheKey, fetchedImages);
@@ -79,7 +115,7 @@ export function useConceptImageUrls(concept: Concept): ConceptImagesArray {
     return () => {
       isMounted = false;
     };
-  }, [cacheKey, concept.displayImages]);
+  }, [cacheKey, concept.displayImages, concept.type]);
 
   return [images[0], images[1], images[2], images[3]] as ConceptImagesArray;
 }
