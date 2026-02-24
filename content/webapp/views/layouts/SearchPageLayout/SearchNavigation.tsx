@@ -15,6 +15,7 @@ import {
 } from '@weco/common/utils/search';
 import SearchBar from '@weco/common/views/components/SearchBar';
 import Space from '@weco/common/views/components/styled/Space';
+import PrototypeSearchSelects from '@weco/content/views/components/PrototypeSearchSelects';
 import Tabs from '@weco/content/views/components/Tabs';
 const SearchBarContainer = styled(Space)`
   ${props => props.theme.media('sm', 'max-width')`
@@ -47,7 +48,8 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
   currentQueryValue: queryValue,
 }) => {
   const router = useRouter();
-  const { conceptsSearch } = useToggles();
+  const { conceptsSearch, semanticSearchPrototype, semanticSearchComparison } =
+    useToggles();
 
   // Variable naming note:
   //
@@ -155,32 +157,50 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
           {capitalize(currentSearchCategory)} search
         </h1>
 
-        <SearchBarContainer
-          $v={{ size: 'md', properties: ['margin-top', 'margin-bottom'] }}
-        >
-          <SearchBar
-            variant="default"
-            inputValue={inputValue}
-            setInputValue={setInputValue}
-            placeholder={
-              currentSearchCategory === 'events'
-                ? 'Search for events and exhibitions'
-                : searchLabelText[currentSearchCategory]
+        {(semanticSearchPrototype || semanticSearchComparison) && (
+          <PrototypeSearchSelects
+            currentQuery={queryValue}
+            currentApiSelection={
+              typeof router.query.searchIn === 'string'
+                ? router.query.searchIn
+                : semanticSearchComparison
+                  ? 'all'
+                  : 'alternative1'
             }
-            form={SEARCH_PAGES_FORM_ID}
-            location="search"
+            showAllResultsOption={semanticSearchComparison}
           />
-        </SearchBarContainer>
+        )}
+
+        {!semanticSearchPrototype && (
+          <SearchBarContainer
+            $v={{ size: 'md', properties: ['margin-top', 'margin-bottom'] }}
+          >
+            <SearchBar
+              variant="default"
+              inputValue={inputValue}
+              setInputValue={setInputValue}
+              placeholder={
+                currentSearchCategory === 'events'
+                  ? 'Search for events and exhibitions'
+                  : searchLabelText[currentSearchCategory]
+              }
+              form={SEARCH_PAGES_FORM_ID}
+              location="search"
+            />
+          </SearchBarContainer>
+        )}
       </form>
-      <TabsBorder $visible={true}>
-        <Tabs
-          tabBehaviour="navigate"
-          hideBorder={true}
-          label="Search Categories"
-          items={tabItems}
-          currentSection={currentSearchCategory}
-        />
-      </TabsBorder>
+      {!semanticSearchPrototype && (
+        <TabsBorder $visible={true}>
+          <Tabs
+            tabBehaviour="navigate"
+            hideBorder={true}
+            label="Search Categories"
+            items={tabItems}
+            currentSection={currentSearchCategory}
+          />
+        </TabsBorder>
+      )}
     </>
   );
 };

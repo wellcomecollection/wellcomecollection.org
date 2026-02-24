@@ -1,10 +1,10 @@
-import { fromQuery, WorksProps } from './Works';
+import { fromQuery } from './Works';
 
 describe('WorksLink', () => {
   describe('fromQuery', () => {
     it('handles a query without any values', () => {
       const query = {};
-      const worksRouteState: WorksProps = fromQuery(query);
+      const worksRouteState = fromQuery(query);
       expect(worksRouteState).toStrictEqual({
         query: '',
         page: 1,
@@ -27,6 +27,7 @@ describe('WorksLink', () => {
         'contributors.agent.label': [],
         'contributors.concepts': [],
         identifiers: [],
+        searchIn: undefined,
       });
     });
 
@@ -40,7 +41,7 @@ describe('WorksLink', () => {
         'items.locations.createdDate.from': '2020-01-01',
         notValid: '( ͡° ͜ʖ ͡°)',
       };
-      const worksRouteState: WorksProps = fromQuery(query);
+      const worksRouteState = fromQuery(query);
 
       expect(worksRouteState).toStrictEqual({
         query: 'gargoyles',
@@ -64,6 +65,7 @@ describe('WorksLink', () => {
         'contributors.agent.label': [],
         'contributors.concepts': [],
         identifiers: [],
+        searchIn: undefined,
       });
     });
   });
