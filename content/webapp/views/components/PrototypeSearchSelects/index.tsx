@@ -42,12 +42,15 @@ const PrototypeSearchSelects: FunctionComponent<Props> = ({
   };
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
-    Router.events.on('routeChangeStart', setIsLoading.bind(null, true));
-    Router.events.on('routeChangeComplete', setIsLoading.bind(null, false));
+    const handleRouteChangeStart = () => setIsLoading(true);
+    const handleRouteChangeComplete = () => setIsLoading(false);
+
+    Router.events.on('routeChangeStart', handleRouteChangeStart);
+    Router.events.on('routeChangeComplete', handleRouteChangeComplete);
 
     return () => {
-      Router.events.off('routeChangeStart', setIsLoading.bind(null, true));
-      Router.events.off('routeChangeComplete', setIsLoading.bind(null, false));
+      Router.events.off('routeChangeStart', handleRouteChangeStart);
+      Router.events.off('routeChangeComplete', handleRouteChangeComplete);
     };
   }, []);
 
