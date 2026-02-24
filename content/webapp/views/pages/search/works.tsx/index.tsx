@@ -12,7 +12,10 @@ import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Container } from '@weco/common/views/components/styled/Container';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
-import { WellcomeResultList } from '@weco/content/services/wellcome';
+import {
+  WellcomeApiError,
+  WellcomeResultList,
+} from '@weco/content/services/wellcome';
 import {
   WorkAggregations,
   WorkBasic,
@@ -34,8 +37,8 @@ import SearchNoResults from '@weco/content/views/pages/search/search.NoResults';
 
 export type Props = {
   works: WellcomeResultList<WorkBasic, WorkAggregations>;
-  works2?: WellcomeResultList<WorkBasic, WorkAggregations>;
-  works3?: WellcomeResultList<WorkBasic, WorkAggregations>;
+  works2?: WellcomeResultList<WorkBasic, WorkAggregations> | WellcomeApiError;
+  works3?: WellcomeResultList<WorkBasic, WorkAggregations> | WellcomeApiError;
   worksRouteProps: WorksRouteProps;
   query: Query;
   apiToolbarLinks: ApiToolbarLink[];
@@ -52,6 +55,26 @@ const WorksSearchPage: NextPage<Props> = withSearchLayout(
     const { query: queryString } = query;
     const { semanticSearchPrototype, semanticSearchComparison } = useToggles();
 
+    // Extract error messages if works2/works3 are errors
+    const works2Error =
+      works2 && 'type' in works2 && works2.type === 'Error'
+        ? works2.description || works2.label
+        : undefined;
+    const works3Error =
+      works3 && 'type' in works3 && works3.type === 'Error'
+        ? works3.description || works3.label
+        : undefined;
+
+    // Get actual result data (not errors)
+    const works2Data =
+      works2 && (!('type' in works2) || works2.type !== 'Error')
+        ? works2
+        : undefined;
+    const works3Data =
+      works3 && (!('type' in works3) || works3.type !== 'Error')
+        ? works3
+        : undefined;
+
     const { setLink } = useSearchContext();
     useEffect(() => {
       const link = toSearchWorksLink({ ...worksRouteProps });
@@ -62,10 +85,10 @@ const WorksSearchPage: NextPage<Props> = withSearchLayout(
     let worksForFilters = works;
     if (semanticSearchPrototype || semanticSearchComparison) {
       const searchIn = query.searchIn;
-      if (searchIn === 'alternative2' && works2) {
-        worksForFilters = works2;
-      } else if (searchIn === 'alternative3' && works3) {
-        worksForFilters = works3;
+      if (searchIn === 'alternative2' && works2Data) {
+        worksForFilters = works2Data;
+      } else if (searchIn === 'alternative3' && works3Data) {
+        worksForFilters = works3Data;
       }
     }
 
@@ -74,12 +97,28 @@ const WorksSearchPage: NextPage<Props> = withSearchLayout(
       props: worksRouteProps,
     });
 
-    const hasNoResults =
-      semanticSearchPrototype || semanticSearchComparison
-        ? works.totalResults === 0 &&
-          (!works2 || works2.totalResults === 0) &&
-          (!works3 || works3.totalResults === 0)
-        : works.totalResults === 0;
+    const hasNoResults = (() => {
+      if (semanticSearchPrototype) {
+        const searchIn = query.searchIn || 'alternative1';
+        if (searchIn === 'alternative2') {
+          return !works2Error && (!works2Data || works2Data.totalResults === 0);
+        } else if (searchIn === 'alternative3') {
+          return !works3Error && (!works3Data || works3Data.totalResults === 0);
+        } else {
+          return works.totalResults === 0;
+        }
+      } else if (semanticSearchComparison) {
+        return (
+          works.totalResults === 0 &&
+          (!works2Data || works2Data.totalResults === 0) &&
+          (!works3Data || works3Data.totalResults === 0) &&
+          !works2Error &&
+          !works3Error
+        );
+      } else {
+        return works.totalResults === 0;
+      }
+    })();
     const hasActiveFilters = hasFilters({
       filters: [
         ...filters.map(f => f.id),
@@ -186,16 +225,16 @@ const WorksSearchPage: NextPage<Props> = withSearchLayout(
                   // Use totalPages from the result set with the most results
                   const resultSets = [
                     { results: works.totalResults, pages: works.totalPages },
-                    works2
+                    works2Data
                       ? {
-                          results: works2.totalResults,
-                          pages: works2.totalPages,
+                          results: works2Data.totalResults,
+                          pages: works2Data.totalPages,
                         }
                       : null,
-                    works3
+                    works3Data
                       ? {
-                          results: works3.totalResults,
-                          pages: works3.totalPages,
+                          results: works3Data.totalResults,
+                          pages: works3Data.totalPages,
                         }
                       : null,
                   ].filter(
@@ -215,11 +254,11 @@ const WorksSearchPage: NextPage<Props> = withSearchLayout(
                         <span role="status">
                           Results:{' '}
                           {works &&
-                            `${formatNumber(works.totalResults)} works ${works2 || works3 ? '(alternative 1)' : ''}`}
-                          {works2 &&
-                            ` | ${formatNumber(works2.totalResults)} works (alternative 2)`}
-                          {works3 &&
-                            ` | ${formatNumber(works3.totalResults)} works (alternative 3)`}
+                            `${formatNumber(works.totalResults)} works ${works2Data || works3Data ? '(alternative 1)' : ''}`}
+                          {works2Data &&
+                            ` | ${formatNumber(works2Data.totalResults)} works (alternative 2)`}
+                          {works3Data &&
+                            ` | ${formatNumber(works3Data.totalResults)} works (alternative 3)`}
                         </span>
                         <Pagination
                           totalPages={totalPages}
@@ -230,8 +269,10 @@ const WorksSearchPage: NextPage<Props> = withSearchLayout(
                       <main>
                         <PrototypeSearchResults
                           works={works}
-                          works2={works2}
-                          works3={works3}
+                          works2={works2Data}
+                          works3={works3Data}
+                          works2Error={works2Error}
+                          works3Error={works3Error}
                           currentPage={worksRouteProps.page}
                         />
 
@@ -255,24 +296,52 @@ const WorksSearchPage: NextPage<Props> = withSearchLayout(
                   const searchIn = worksRouteProps.searchIn || 'alternative1';
                   const selectedWorksData =
                     searchIn === 'alternative2'
-                      ? works2 || {
+                      ? works2Data || {
                           results: [],
                           totalPages: 0,
                           totalResults: 0,
                         }
                       : searchIn === 'alternative3'
-                        ? works3 || {
+                        ? works3Data || {
                             results: [],
                             totalPages: 0,
                             totalResults: 0,
                           }
                         : works;
 
+                  const selectedError =
+                    searchIn === 'alternative2'
+                      ? works2Error
+                      : searchIn === 'alternative3'
+                        ? works3Error
+                        : undefined;
+
                   const {
                     results: selectedWorks,
                     totalPages: selectedTotalPages,
                     totalResults: selectedTotalResults,
                   } = selectedWorksData;
+
+                  if (selectedError) {
+                    return (
+                      <>
+                        <Space
+                          $v={{
+                            size: 'md',
+                            properties: ['padding-top', 'padding-bottom'],
+                          }}
+                        >
+                          <div role="alert" aria-live="assertive">
+                            <p>
+                              Alternative search temporarily unavailable —
+                              please try again.
+                            </p>
+                            <strong>Error:</strong> {selectedError}
+                          </div>
+                        </Space>
+                      </>
+                    );
+                  }
 
                   return (
                     <>

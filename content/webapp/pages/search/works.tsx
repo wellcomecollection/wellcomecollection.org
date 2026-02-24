@@ -9,6 +9,7 @@ import {
 } from '@weco/common/views/pages/_app';
 import {
   emptyResultList,
+  WellcomeApiError,
   WellcomeResultList,
 } from '@weco/content/services/wellcome';
 import {
@@ -150,10 +151,14 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   }
 
   // Results from semantic searches will be fetched in parallel, but only if needed based on the searchIn parameter
-  let works2: WellcomeResultList<WorkBasic, WorkAggregations> | undefined =
-    undefined;
-  let works3: WellcomeResultList<WorkBasic, WorkAggregations> | undefined =
-    undefined;
+  let works2:
+    | WellcomeResultList<WorkBasic, WorkAggregations>
+    | WellcomeApiError
+    | undefined = undefined;
+  let works3:
+    | WellcomeResultList<WorkBasic, WorkAggregations>
+    | WellcomeApiError
+    | undefined = undefined;
 
   if (semanticSearchPrototype || semanticSearchComparison) {
     // TODO: remove works2/works3 parallel fetches when semantic search
@@ -185,15 +190,17 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       works3Promise,
     ]);
 
-    works2 =
-      works2Result && works2Result.type !== 'Error'
+    works2 = works2Result
+      ? works2Result.type !== 'Error'
         ? { ...works2Result, results: works2Result.results.map(toWorkBasic) }
-        : undefined;
+        : works2Result
+      : undefined;
 
-    works3 =
-      works3Result && works3Result.type !== 'Error'
+    works3 = works3Result
+      ? works3Result.type !== 'Error'
         ? { ...works3Result, results: works3Result.results.map(toWorkBasic) }
-        : undefined;
+        : works3Result
+      : undefined;
   }
 
   return {

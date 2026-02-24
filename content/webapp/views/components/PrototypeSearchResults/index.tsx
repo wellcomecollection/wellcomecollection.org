@@ -13,6 +13,8 @@ type Props = {
   works?: WellcomeResultList<WorkBasic, WorkAggregations>;
   works2?: WellcomeResultList<WorkBasic, WorkAggregations>;
   works3?: WellcomeResultList<WorkBasic, WorkAggregations>;
+  works2Error?: string;
+  works3Error?: string;
   currentPage: number;
 };
 
@@ -87,6 +89,8 @@ const PrototypeSearchResults: FunctionComponent<Props> = ({
   works,
   works2,
   works3,
+  works2Error,
+  works3Error,
   currentPage,
 }) => {
   const calculateResultPosition = (index: number) =>
@@ -107,8 +111,20 @@ const PrototypeSearchResults: FunctionComponent<Props> = ({
   const renderResultCell = (
     data: WellcomeResultList<WorkBasic, WorkAggregations> | undefined,
     index: number,
-    keyValue?: string | number
+    keyValue?: string | number,
+    error?: string
   ) => {
+    // If this column has an error and no data, show an error placeholder
+    if ((!data || !data.results[index]) && index === 0 && error) {
+      return (
+        <ResultCell key={keyValue ?? index}>
+          <div role="alert" aria-live="polite">
+            <strong>Error:</strong> {error}
+          </div>
+        </ResultCell>
+      );
+    }
+
     // Always render the cell to maintain column structure
     if (!data || !data.results[index]) {
       return <ResultCell key={keyValue ?? index} />;
@@ -132,10 +148,12 @@ const PrototypeSearchResults: FunctionComponent<Props> = ({
           Alternative 1 ({works?.totalResults ?? 'Unavailable'})
         </ColumnHeader>
         <ColumnHeader>
-          Alternative 2 ({works2?.totalResults ?? 'Unavailable'})
+          Alternative 2 (
+          {works2Error ? 'Error' : (works2?.totalResults ?? 'Unavailable')})
         </ColumnHeader>
         <ColumnHeader>
-          Alternative 3 ({works3?.totalResults ?? 'Unavailable'})
+          Alternative 3 (
+          {works3Error ? 'Error' : (works3?.totalResults ?? 'Unavailable')})
         </ColumnHeader>
       </HeaderStack>
 
@@ -144,8 +162,8 @@ const PrototypeSearchResults: FunctionComponent<Props> = ({
           <ResultRow key={i} $isAlternating={i % 2 === 1}>
             <RowNumber>{calculateResultPosition(i)}.</RowNumber>
             {renderResultCell(works, i, 'alt1')}
-            {renderResultCell(works2, i, 'alt2')}
-            {renderResultCell(works3, i, 'alt3')}
+            {renderResultCell(works2, i, 'alt2', works2Error)}
+            {renderResultCell(works3, i, 'alt3', works3Error)}
           </ResultRow>
         ))}
       </ResultsGrid>
