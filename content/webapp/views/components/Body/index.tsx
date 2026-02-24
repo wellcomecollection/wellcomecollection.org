@@ -300,7 +300,6 @@ const Body: FunctionComponent<Props> = ({
         <Container>
           <Grid style={{ background: 'white', rowGap: 0 }}>
             <InPageNavigation
-              variant="sticky"
               links={onThisPage!}
               sizeMap={{ s: [12], m: [12], l: [3], xl: [3] }}
               isOnWhite
