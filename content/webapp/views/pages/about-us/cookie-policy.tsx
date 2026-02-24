@@ -2,7 +2,6 @@ import { SliceZone } from '@prismicio/react';
 import { NextPage } from 'next';
 
 import { cookiesTableCopy } from '@weco/common/data/cookies';
-import { useToggles } from '@weco/common/server-data/Context';
 import { landingHeaderBackgroundLs } from '@weco/common/utils/backgrounds';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { policyUpdatedDate } from '@weco/common/views/components/CivicUK';
@@ -33,7 +32,6 @@ const CookieTable = ({ rows }: { rows: string[][] }) => {
 };
 
 const CookiePolicyPage: NextPage<page.Props> = props => {
-  const { twoColumns } = useToggles();
   const { onThisPage, showOnThisPage } = props.page;
 
   // This copy should be exactly what can be found in the text slices representing the tables
@@ -54,7 +52,7 @@ const CookiePolicyPage: NextPage<page.Props> = props => {
 
   const displayOnThisPage =
     showOnThisPage && onThisPage && onThisPage.length > 2;
-  const isTwoColumns = !!(twoColumns && displayOnThisPage);
+  const isTwoColumns = !!displayOnThisPage;
 
   return (
     <PageLayout
