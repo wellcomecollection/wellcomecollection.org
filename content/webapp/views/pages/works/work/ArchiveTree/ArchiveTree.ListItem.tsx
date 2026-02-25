@@ -110,6 +110,7 @@ type ListItemProps = ListProps & {
   posInSet: number;
   index: number;
   shouldFetchChildren: boolean;
+  flatMode?: boolean;
 };
 
 function getTabIndex({
@@ -146,6 +147,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
   showFirstLevelGuideline,
   ItemRenderer,
   shouldFetchChildren,
+  flatMode = false,
 }: ListItemProps) => {
   const { isEnhanced } = useAppContext();
   const isEndNode = item.work.totalParts === 0;
@@ -232,6 +234,10 @@ const ListItem: FunctionComponent<ListItemProps> = ({
           tree: fullTree,
         });
 
+        if (flatMode && (LEFT.includes(key) || RIGHT.includes(key))) {
+          return;
+        }
+
         switch (true) {
           case RIGHT.includes(key): {
             // When focus is on an open node, moves focus to the first child node.
@@ -295,6 +301,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
         }
       }}
       onClick={event => {
+        if (flatMode) return;
         // We had previously used event.stopPropagation() to stop the clicking
         // of an inner TreeItem from bubbling up to any outer TreeItems, but
         // this prevented a GTM trigger that we have set on download links from
@@ -324,10 +331,11 @@ const ListItem: FunctionComponent<ListItemProps> = ({
           showFirstLevelGuideline={showFirstLevelGuideline}
           hasControl={hasControl}
           highlightCondition={highlightCondition}
+          flatMode={flatMode}
         />
       )}
 
-      {item.children && item.openStatus && (
+      {item.children && (flatMode || item.openStatus) && (
         <NestedList
           currentWorkId={currentWorkId}
           archiveTree={item.children}
@@ -341,6 +349,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
           showFirstLevelGuideline={showFirstLevelGuideline}
           ItemRenderer={ItemRenderer}
           shouldFetchChildren={shouldFetchChildren}
+          flatMode={flatMode}
         />
       )}
     </TreeItem>

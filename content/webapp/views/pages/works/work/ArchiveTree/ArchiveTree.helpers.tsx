@@ -36,6 +36,7 @@ export type ListProps = {
   ItemRenderer: FunctionComponent<
     DownloadItemRendererProps | WorkItemRendererProps
   >;
+  flatMode?: boolean;
 };
 
 export const isRelatedWork = (
