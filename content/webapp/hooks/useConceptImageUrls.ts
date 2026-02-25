@@ -9,7 +9,7 @@ import type { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { queryParams } from '@weco/content/utils/concepts';
 
 /**
- * If the optional displayImages property is not present on the concept,
+ * If displayImages is empty,
  * fetch up to 4 images related to the concept.
  *
  * Fallback strategy by concept type:
