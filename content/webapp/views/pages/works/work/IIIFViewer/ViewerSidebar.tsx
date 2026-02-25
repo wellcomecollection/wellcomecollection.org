@@ -7,6 +7,7 @@ import {
 } from 'react';
 import styled from 'styled-components';
 
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { arrow, chevron, info2 } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
@@ -19,13 +20,19 @@ import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import {
   getAuthServices,
   getMultiVolumeLabel,
+  getOriginalFiles,
 } from '@weco/content/utils/iiif/v3';
 import { removeTrailingFullStop, toHtmlId } from '@weco/content/utils/string';
 import { getDigitalLocationInfo } from '@weco/content/utils/works';
 import LinkLabels from '@weco/content/views/components/LinkLabels';
 import WorkLink from '@weco/content/views/components/WorkLink';
 import WorkTitle from '@weco/content/views/components/WorkTitle';
-import DownloadTableSection from '@weco/content/views/pages/works/work/IIIFViewer/DownloadTableSection';
+import NestedList from '@weco/content/views/pages/works/work/ArchiveTree/ArchiveTree.NestedList';
+import DownloadItemRenderer, {
+  DownloadItemRendererProps,
+} from '@weco/content/views/pages/works/work/work.DownloadItemRenderer';
+import { createDownloadTree } from '@weco/content/views/pages/works/work/work.helpers';
+import { UiTree } from '@weco/content/views/pages/works/work/work.types';
 
 import IIIFSearchWithin from './IIIFSearchWithin';
 import MultipleManifestList from './MultipleManifestList';
@@ -103,17 +110,36 @@ const AccordionButton = styled.button`
   }
 `;
 
+const TreeGuidelines = styled.div`
+  --archive-tree-guideline-color: ${props => props.theme.color('white')};
+  --archive-tree-control-size: 20px;
+  --archive-tree-control-background: ${props => props.theme.color('white')};
+  --archive-tree-control-border: 1px solid
+    ${props => props.theme.color('black')};
+
+  ul[role='tree'] {
+    margin: 0;
+    padding: 0;
+  }
+`;
+
 type AccordionItemProps = PropsWithChildren<{
   title: string;
   testId?: string;
+  defaultOpen?: boolean;
 }>;
 
-const AccordionItem = ({ title, children, testId }: AccordionItemProps) => {
-  const [isActive, setIsActive] = useState(true);
+const AccordionItem = ({
+  title,
+  children,
+  testId,
+  defaultOpen = false,
+}: AccordionItemProps) => {
+  const [isActive, setIsActive] = useState(defaultOpen);
 
   useEffect(() => {
-    setIsActive(false);
-  }, []);
+    setIsActive(defaultOpen);
+  }, [defaultOpen]);
 
   return (
     <Item data-testid={testId}>
@@ -158,7 +184,18 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
   const { work, transformedManifest, parentManifest, useFixedSizeList } =
     useItemViewerContext();
   const { userIsStaffWithRestricted } = useUserContext();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { isEnhanced } = useAppContext();
+  const [tabbableId, setTabbableId] = useState<string>();
+  const [archiveTree, setArchiveTree] = useState<UiTree>([]);
   const canvases = transformedManifest?.canvases ?? [];
+  const canvasIndexById = canvases.reduce(
+    (acc, canvas, index) => {
+      acc[canvas.id] = index + 1;
+      return acc;
+    },
+    {} as Record<string, number>
+  );
   const matchingManifest =
     parentManifest &&
     parentManifest.canvases.find(canvas => {
@@ -197,10 +234,66 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
     authServices?.external?.id ===
     'https://iiif.wellcomecollection.org/auth/restrictedlogin';
 
-  const currentCanvasQueryParam =
-    parentManifest && matchingManifest && parentManifest.canvases
-      ? parentManifest.canvases.findIndex(c => c.id === matchingManifest.id) + 1
-      : 0;
+  // Create tree from structures if available, otherwise flat tree from canvases
+  useEffect(() => {
+    if (hasMultipleCanvases && !useFixedSizeList) {
+      let tree: UiTree = [];
+
+      if (structures && structures.length > 0) {
+        // Use structures to build hierarchical tree, but skip the wrapper
+        tree = createDownloadTree(structures, canvases);
+        // Skip the top-level "objects" wrapper if present
+        if (
+          tree.length === 1 &&
+          tree[0].work.id === 'objects' &&
+          tree[0].children
+        ) {
+          tree = tree[0].children;
+        }
+      } else {
+        // Build flat tree from canvases
+        tree = canvases.map((canvas, index) => ({
+          openStatus: true,
+          work: {
+            ...canvas,
+            title: `File ${index + 1}`,
+            downloads: getOriginalFiles(canvas),
+            totalParts: 0,
+          },
+        }));
+      }
+
+      // Expand all items by default
+      const expandAll = (items: UiTree): UiTree => {
+        return items.map(item => ({
+          ...item,
+          openStatus: true,
+          children: item.children ? expandAll(item.children) : undefined,
+        }));
+      };
+
+      setArchiveTree(expandAll(tree));
+    }
+  }, [canvases, hasMultipleCanvases, useFixedSizeList, structures]);
+
+  useEffect(() => {
+    const elementToFocus = tabbableId && document.getElementById(tabbableId);
+    if (elementToFocus) {
+      elementToFocus.focus();
+    }
+  }, [archiveTree, tabbableId]);
+
+  const SidebarDownloadItemRenderer: FunctionComponent<
+    DownloadItemRendererProps
+  > = props => (
+    <DownloadItemRenderer
+      {...props}
+      linkToCanvas={true}
+      chevronColor="black"
+      workId={work.id}
+      canvasIndexById={canvasIndexById}
+    />
+  );
 
   return (
     <>
@@ -301,17 +394,32 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
           </div>
         </AccordionItem>
 
-        {/* // TODO keep open, mix with below  */}
-        {hasMultipleCanvases && !useFixedSizeList && (
-          // <AccordionItem title="Contents">
-          <DownloadTableSection
-            canvases={canvases}
-            workId={work.id}
-            canvas={currentCanvasQueryParam}
-          />
-          // </AccordionItem>
+        {hasMultipleCanvases && !useFixedSizeList && archiveTree.length > 0 && (
+          <AccordionItem title="Contents" defaultOpen={true}>
+            <TreeGuidelines>
+              <div style={{ overflow: 'visible' }}>
+                <div style={{ display: 'inline-table', minWidth: '100%' }}>
+                  <NestedList
+                    currentWorkId={work.id}
+                    fullTree={archiveTree}
+                    setArchiveTree={setArchiveTree}
+                    archiveTree={archiveTree}
+                    level={1}
+                    tabbableId={tabbableId}
+                    setTabbableId={setTabbableId}
+                    archiveAncestorArray={[]}
+                    firstItemTabbable={true}
+                    showFirstLevelGuideline={true}
+                    ItemRenderer={SidebarDownloadItemRenderer}
+                    shouldFetchChildren={false}
+                  />
+                </div>
+              </div>
+            </TreeGuidelines>
+          </AccordionItem>
         )}
-        {Boolean(structures && structures.length > 0) && (
+
+        {Boolean(structures && structures.length > 0) && useFixedSizeList && (
           <AccordionItem title="Contents">
             <ViewerStructures />
           </AccordionItem>
