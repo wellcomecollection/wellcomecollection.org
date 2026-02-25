@@ -163,13 +163,14 @@ const ListItem: FunctionComponent<ListItemProps> = ({
       ? 'secondary'
       : undefined;
 
-  const hasControl = Boolean(
+  const hasGuideline = Boolean(
     item?.work?.totalParts && item?.work?.totalParts > 0
   );
+  const hasControl = Boolean(hasGuideline);
 
   const showGuideline =
     isEnhanced &&
-    hasControl &&
+    hasGuideline &&
     item.openStatus &&
     (level > 1 || showFirstLevelGuideline);
 
