@@ -32,9 +32,7 @@ async function fetchImagesBySection(
   if (!('results' in result) || result.results.length === 0) return [];
   return result.results
     .slice(0, limit)
-    .map(image =>
-      convertIiifImageUri(image.locations[0].url, limit === 1 ? 500 : 250)
-    );
+    .map(image => convertIiifImageUri(image.locations[0].url, 250));
 }
 
 export function useConceptImageUrls(concept: Concept): ConceptImagesArray {
@@ -99,9 +97,15 @@ export function useConceptImageUrls(concept: Concept): ConceptImagesArray {
           fetchedImages = await fetchImagesBySection('imagesAbout', concept, 4);
         }
 
-        imagesCache.set(cacheKey, fetchedImages);
+        // Use a larger size when only one image is available, matching the single-image layout
+        const sizedImages =
+          fetchedImages.length === 1
+            ? [convertIiifImageUri(fetchedImages[0], 500)]
+            : fetchedImages;
 
-        if (isMounted) setImages(fetchedImages);
+        imagesCache.set(cacheKey, sizedImages);
+
+        if (isMounted) setImages(sizedImages);
       } catch (error) {
         console.error('Failed to fetch concept images:', error);
 
