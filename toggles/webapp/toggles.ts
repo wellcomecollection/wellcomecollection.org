@@ -115,14 +115,6 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'twoColumns',
-      title: 'Two columns layout',
-      initialValue: false,
-      description:
-        'Enables a two-column layout for pages with in-page navigation',
-      type: 'experimental',
-    },
-    {
       id: 'thematicBrowsing',
       title: 'Thematic browsing',
       initialValue: false,
