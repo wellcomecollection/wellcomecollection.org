@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import { officialLandingPagesUid } from '@weco/common/data/hardcoded-ids';
 import { ContentListSlice as RawContentListSlice } from '@weco/common/prismicio-types';
 import { PagesDocumentDataBodySlice } from '@weco/common/prismicio-types';
-import { useToggles } from '@weco/common/server-data/Context';
 import { classNames, font } from '@weco/common/utils/classnames';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
@@ -23,7 +22,6 @@ import {
   SizeMap,
 } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
-import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import { components } from '@weco/common/views/slices';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import { transformContentListSlice } from '@weco/content/services/prismic/transformers/body';
@@ -142,7 +140,6 @@ const Body: FunctionComponent<Props> = ({
   contentType,
   bodySliceContexts,
 }: Props) => {
-  const { twoColumns } = useToggles();
   const filteredUntransformedBody = untransformedBody.filter(
     (slice: prismic.Slice) => slice.slice_type !== 'standfirst'
   );
@@ -294,7 +291,7 @@ const Body: FunctionComponent<Props> = ({
 
   const displayOnThisPage =
     showOnThisPage && onThisPage && onThisPage.length > 2;
-  const isTwoColumns = !!(twoColumns && displayOnThisPage);
+  const isTwoColumns = !!displayOnThisPage;
 
   return (
     <ConditionalWrapper
@@ -303,7 +300,6 @@ const Body: FunctionComponent<Props> = ({
         <Container>
           <Grid style={{ background: 'white', rowGap: 0 }}>
             <InPageNavigation
-              variant="sticky"
               links={onThisPage!}
               sizeMap={{ s: [12], m: [12], l: [3], xl: [3] }}
               isOnWhite
@@ -344,21 +340,6 @@ const Body: FunctionComponent<Props> = ({
           )}
 
         {staticContent}
-
-        {!isTwoColumns && displayOnThisPage && (
-          <SpacingComponent>
-            <ConditionalWrapper
-              condition={!!gridSizes}
-              wrapper={children => (
-                <ContaineredLayout gridSizes={gridSizes!}>
-                  {children}
-                </ContaineredLayout>
-              )}
-            >
-              <InPageNavigation links={onThisPage} variant="simple" />
-            </ConditionalWrapper>
-          </SpacingComponent>
-        )}
 
         {hasLandingPageFormat && <LandingPageSections sections={sections} />}
 
