@@ -29,6 +29,7 @@ export type WorkItemRendererProps = {
   currentWorkId: string;
   highlightCondition: 'primary' | 'secondary' | undefined;
   showFirstLevelGuideline: boolean;
+  flatMode?: boolean;
 };
 
 const WorkItem: FunctionComponent<WorkItemRendererProps> = ({
