@@ -111,6 +111,7 @@ type ListItemProps = ListProps & {
   index: number;
   shouldFetchChildren: boolean;
   flatMode?: boolean;
+  darkMode?: boolean;
 };
 
 function getTabIndex({
@@ -148,6 +149,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
   ItemRenderer,
   shouldFetchChildren,
   flatMode = false,
+  darkMode = false,
 }: ListItemProps) => {
   const { isEnhanced } = useAppContext();
   const isEndNode = item.work.totalParts === 0;
@@ -166,7 +168,6 @@ const ListItem: FunctionComponent<ListItemProps> = ({
   const hasGuideline = Boolean(
     item?.work?.totalParts && item?.work?.totalParts > 0
   );
-  const hasControl = Boolean(hasGuideline);
 
   const showGuideline =
     isEnhanced &&
@@ -198,6 +199,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
       role={isEnhanced ? 'treeitem' : undefined}
       $isEnhanced={isEnhanced}
       $showGuideline={showGuideline}
+      $darkMode={darkMode}
       aria-level={isEnhanced ? level : undefined}
       aria-setsize={isEnhanced ? setSize : undefined}
       aria-posinset={isEnhanced ? posInSet : undefined}
@@ -326,9 +328,10 @@ const ListItem: FunctionComponent<ListItemProps> = ({
           isEnhanced={isEnhanced}
           level={level}
           showFirstLevelGuideline={showFirstLevelGuideline}
-          hasControl={hasControl}
           highlightCondition={highlightCondition}
           flatMode={flatMode}
+          darkMode={darkMode}
+          hasControl={hasGuideline}
         />
       )}
 
@@ -347,6 +350,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
           ItemRenderer={ItemRenderer}
           shouldFetchChildren={shouldFetchChildren}
           flatMode={flatMode}
+          darkMode={darkMode}
         />
       )}
     </TreeItem>
