@@ -7,7 +7,6 @@ import {
 } from 'react';
 import styled from 'styled-components';
 
-import { useAppContext } from '@weco/common/contexts/AppContext';
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { arrow, chevron, info2 } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
@@ -33,6 +32,7 @@ import DownloadItemRenderer, {
 } from '@weco/content/views/pages/works/work/work.DownloadItemRenderer';
 import { createDownloadTree } from '@weco/content/views/pages/works/work/work.helpers';
 import { UiTree } from '@weco/content/views/pages/works/work/work.types';
+import WorksTree from '@weco/content/views/pages/works/work/workDetails/WorkDetails.Tree'; //TODO need items tree to use here and on works page?
 
 import IIIFSearchWithin from './IIIFSearchWithin';
 import MultipleManifestList from './MultipleManifestList';
@@ -110,19 +110,6 @@ const AccordionButton = styled.button`
   }
 `;
 
-const TreeGuidelines = styled.div`
-  --archive-tree-guideline-color: ${props => props.theme.color('white')};
-  --archive-tree-control-size: 20px;
-  --archive-tree-control-background: ${props => props.theme.color('white')};
-  --archive-tree-control-border: 1px solid
-    ${props => props.theme.color('black')};
-
-  ul[role='tree'] {
-    margin: 0;
-    padding: 0;
-  }
-`;
-
 type AccordionItemProps = PropsWithChildren<{
   title: string;
   testId?: string;
@@ -184,8 +171,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
   const { work, transformedManifest, parentManifest, useFixedSizeList } =
     useItemViewerContext();
   const { userIsStaffWithRestricted } = useUserContext();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { isEnhanced } = useAppContext();
+
   const [tabbableId, setTabbableId] = useState<string>();
   const [archiveTree, setArchiveTree] = useState<UiTree>([]);
   const canvases = transformedManifest?.canvases ?? [];
@@ -289,7 +275,6 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
     <DownloadItemRenderer
       {...props}
       linkToCanvas={true}
-      chevronColor="black"
       workId={work.id}
       canvasIndexById={canvasIndexById}
     />
@@ -396,26 +381,26 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
 
         {hasMultipleCanvases && !useFixedSizeList && archiveTree.length > 0 && (
           <AccordionItem title="Contents" defaultOpen={true}>
-            <TreeGuidelines>
-              <div style={{ overflow: 'visible' }}>
-                <div style={{ display: 'inline-table', minWidth: '100%' }}>
-                  <NestedList
-                    currentWorkId={work.id}
-                    fullTree={archiveTree}
-                    setArchiveTree={setArchiveTree}
-                    archiveTree={archiveTree}
-                    level={1}
-                    tabbableId={tabbableId}
-                    setTabbableId={setTabbableId}
-                    archiveAncestorArray={[]}
-                    firstItemTabbable={true}
-                    showFirstLevelGuideline={true}
-                    ItemRenderer={SidebarDownloadItemRenderer}
-                    shouldFetchChildren={false}
-                  />
-                </div>
-              </div>
-            </TreeGuidelines>
+            <WorksTree
+              darkMode={true}
+              hasStructures={Boolean(structures && structures.length > 0)}
+            >
+              <NestedList
+                currentWorkId={work.id}
+                fullTree={archiveTree}
+                setArchiveTree={setArchiveTree}
+                archiveTree={archiveTree}
+                level={1}
+                tabbableId={tabbableId}
+                setTabbableId={setTabbableId}
+                archiveAncestorArray={[]}
+                firstItemTabbable={true}
+                showFirstLevelGuideline={true}
+                ItemRenderer={SidebarDownloadItemRenderer}
+                shouldFetchChildren={false}
+                darkMode={true}
+              />
+            </WorksTree>
           </AccordionItem>
         )}
 
