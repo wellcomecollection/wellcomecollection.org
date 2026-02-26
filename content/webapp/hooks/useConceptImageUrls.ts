@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
+import { ServerDataContext } from '@weco/common/server-data/Context';
 import {
   convertIiifImageUri,
   iiifImageTemplate,
@@ -7,6 +8,7 @@ import {
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import type { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { queryParams } from '@weco/content/utils/concepts';
+import { Toggles } from '@weco/toggles';
 
 /**
  * If displayImages is empty,
@@ -25,10 +27,11 @@ export type ConceptImagesArray = [string?, string?, string?, string?];
 async function fetchImagesBySection(
   sectionName: string,
   concept: Concept,
-  limit: number
+  limit: number,
+  toggles: Toggles
 ): Promise<string[]> {
   const params = queryParams(sectionName, concept);
-  const result = await getImages({ params, toggles: {}, pageSize: limit });
+  const result = await getImages({ params, toggles, pageSize: limit });
   if (!('results' in result) || result.results.length === 0) return [];
   return result.results
     .slice(0, limit)
@@ -37,6 +40,7 @@ async function fetchImagesBySection(
 
 export function useConceptImageUrls(concept: Concept): ConceptImagesArray {
   const [images, setImages] = useState<string[]>([]);
+  const { toggles } = useContext(ServerDataContext);
 
   const cacheKey = concept.id;
 
@@ -73,7 +77,8 @@ export function useConceptImageUrls(concept: Concept): ConceptImagesArray {
         const aboutImages = await fetchImagesBySection(
           'imagesAbout',
           concept,
-          4 - images.length
+          4 - images.length,
+          toggles
         );
         return [...images, ...aboutImages];
       };
@@ -86,15 +91,20 @@ export function useConceptImageUrls(concept: Concept): ConceptImagesArray {
         ) {
           // Prioritise images by this person/organisation/agent, then top up with imagesAbout
           fetchedImages = await topUpWithAbout(
-            await fetchImagesBySection('imagesBy', concept, 4)
+            await fetchImagesBySection('imagesBy', concept, 4, toggles)
           );
         } else if (concept.type === 'Genre') {
           // Prioritise images of this type/technique (imagesIn), then top up with imagesAbout
           fetchedImages = await topUpWithAbout(
-            await fetchImagesBySection('imagesIn', concept, 4)
+            await fetchImagesBySection('imagesIn', concept, 4, toggles)
           );
         } else {
-          fetchedImages = await fetchImagesBySection('imagesAbout', concept, 4);
+          fetchedImages = await fetchImagesBySection(
+            'imagesAbout',
+            concept,
+            4,
+            toggles
+          );
         }
 
         // Use a larger size when only one image is available, matching the single-image layout
@@ -119,7 +129,7 @@ export function useConceptImageUrls(concept: Concept): ConceptImagesArray {
     return () => {
       isMounted = false;
     };
-  }, [cacheKey, concept.displayImages, concept.type]);
+  }, [cacheKey, concept.displayImages, concept.type, toggles]);
 
   return [images[0], images[1], images[2], images[3]] as ConceptImagesArray;
 }
