@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
+import { ServerDataContext } from '@weco/common/server-data/Context';
 import {
   convertIiifImageUri,
   iiifImageTemplate,
@@ -7,18 +8,39 @@ import {
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import type { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { queryParams } from '@weco/content/utils/concepts';
+import { Toggles } from '@weco/toggles';
 
 /**
- * If the optional displayImages property is not present on the concept,
+ * If displayImages is empty,
  * fetch up to 4 images related to the concept.
+ *
+ * Fallback strategy by concept type:
+ * - Person/Organisation/Agent: displayImages → imagesBy → topped up with imagesAbout
+ * - Genre: displayImages → imagesIn (images of that type/technique) → topped up with imagesAbout
+ * - All others: displayImages → imagesAbout
  */
 
 const imagesCache: Map<string, string[]> = new Map();
 
 export type ConceptImagesArray = [string?, string?, string?, string?];
 
+async function fetchImagesBySection(
+  sectionName: string,
+  concept: Concept,
+  limit: number,
+  toggles: Toggles
+): Promise<string[]> {
+  const params = queryParams(sectionName, concept);
+  const result = await getImages({ params, toggles, pageSize: limit });
+  if (!('results' in result) || result.results.length === 0) return [];
+  return result.results
+    .slice(0, limit)
+    .map(image => convertIiifImageUri(image.locations[0].url, 250));
+}
+
 export function useConceptImageUrls(concept: Concept): ConceptImagesArray {
   const [images, setImages] = useState<string[]>([]);
+  const { toggles } = useContext(ServerDataContext);
 
   const cacheKey = concept.id;
 
@@ -49,23 +71,51 @@ export function useConceptImageUrls(concept: Concept): ConceptImagesArray {
       }
 
       let fetchedImages: string[] = [];
-      const params = queryParams('imagesAbout', concept);
+
+      const topUpWithAbout = async (images: string[]) => {
+        if (images.length >= 4) return images;
+        const aboutImages = await fetchImagesBySection(
+          'imagesAbout',
+          concept,
+          4 - images.length,
+          toggles
+        );
+        return [...images, ...aboutImages];
+      };
+
       try {
-        const result = await getImages({ params, toggles: {}, pageSize: 4 });
-        if ('results' in result && result.results.length > 0) {
-          fetchedImages = result.results
-            .slice(0, 4)
-            .map(image =>
-              convertIiifImageUri(
-                image.locations[0].url,
-                result.results.length === 1 ? 500 : 250
-              )
-            );
+        if (
+          concept.type === 'Agent' ||
+          concept.type === 'Person' ||
+          concept.type === 'Organisation'
+        ) {
+          // Prioritise images by this person/organisation/agent, then top up with imagesAbout
+          fetchedImages = await topUpWithAbout(
+            await fetchImagesBySection('imagesBy', concept, 4, toggles)
+          );
+        } else if (concept.type === 'Genre') {
+          // Prioritise images of this type/technique (imagesIn), then top up with imagesAbout
+          fetchedImages = await topUpWithAbout(
+            await fetchImagesBySection('imagesIn', concept, 4, toggles)
+          );
+        } else {
+          fetchedImages = await fetchImagesBySection(
+            'imagesAbout',
+            concept,
+            4,
+            toggles
+          );
         }
 
-        imagesCache.set(cacheKey, fetchedImages);
+        // Use a larger size when only one image is available, matching the single-image layout
+        const sizedImages =
+          fetchedImages.length === 1
+            ? [convertIiifImageUri(fetchedImages[0], 500)]
+            : fetchedImages;
 
-        if (isMounted) setImages(fetchedImages);
+        imagesCache.set(cacheKey, sizedImages);
+
+        if (isMounted) setImages(sizedImages);
       } catch (error) {
         console.error('Failed to fetch concept images:', error);
 
@@ -79,7 +129,7 @@ export function useConceptImageUrls(concept: Concept): ConceptImagesArray {
     return () => {
       isMounted = false;
     };
-  }, [cacheKey, concept.displayImages]);
+  }, [cacheKey, concept.displayImages, concept.type, toggles]);
 
   return [images[0], images[1], images[2], images[3]] as ConceptImagesArray;
 }
