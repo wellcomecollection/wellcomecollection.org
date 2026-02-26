@@ -68,7 +68,6 @@ describe('ContentTypeInfo byline', () => {
           role: {
             id: commissioningEditorRoleId,
             title: 'Commissioning editor',
-            describedBy: 'commissioned',
           },
         },
       ],
@@ -93,7 +92,6 @@ describe('ContentTypeInfo byline', () => {
           role: {
             id: commissioningEditorRoleId,
             title: 'Commissioning editor',
-            describedBy: 'commissioned',
           },
         },
       ],
