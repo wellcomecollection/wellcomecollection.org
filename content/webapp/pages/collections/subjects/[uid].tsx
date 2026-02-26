@@ -172,8 +172,14 @@ export const getServerSideProps: ServerSidePropsOrAppError<
           }),
       },
       images: {
-        // Images API doesn't support filtering by subject concept IDs,
-        // so we only use label-based filtering
+        byId: () =>
+          getImages({
+            params: {
+              'source.subjects': CONCEPT_GROUPS[pageUid],
+            },
+            toggles: serverData.toggles,
+            pageSize: 12,
+          }),
         byLabel: () =>
           getImages({
             params: {
@@ -187,17 +193,19 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
     const worksAboutPromiseById = getConceptDocs.works.byId();
     const worksAboutPromiseByLabel = getConceptDocs.works.byLabel();
-    // Images: only one query needed since byId and byLabel would be identical
-    const imagesAboutPromise = getConceptDocs.images.byLabel();
+    const imagesAboutPromiseById = getConceptDocs.images.byId();
+    const imagesAboutPromiseByLabel = getConceptDocs.images.byLabel();
 
     const [
       worksAboutResponseById,
       worksAboutResponseByLabel,
-      imagesAboutResponse,
+      imagesAboutResponseById,
+      imagesAboutResponseByLabel,
     ] = await Promise.all([
       worksAboutPromiseById,
       worksAboutPromiseByLabel,
-      imagesAboutPromise,
+      imagesAboutPromiseById,
+      imagesAboutPromiseByLabel,
     ]);
 
     const worksAbout = getQueryResults({
@@ -206,7 +214,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     });
     const imagesAbout = getQueryResults({
       categoryName: 'images about',
-      queryResults: imagesAboutResponse,
+      queryResults: imagesAboutResponseById,
     });
 
     const getLabelTotals = () => {
@@ -216,7 +224,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       })?.totalResults;
       const imagesAboutByLabelTotalResults = getQueryResults({
         categoryName: 'images about',
-        queryResults: imagesAboutResponse,
+        queryResults: imagesAboutResponseByLabel,
       })?.totalResults;
 
       return {
