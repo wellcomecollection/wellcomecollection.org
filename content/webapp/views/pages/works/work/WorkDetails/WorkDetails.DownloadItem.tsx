@@ -23,7 +23,7 @@ import { controlDimensions } from '@weco/content/views/pages/works/work/work.hel
 
 export const DownloadTable = styled.table.attrs({
   className: font('sans', -2),
-})`
+})<{ $padFirstHeading?: boolean }>`
   position: relative;
   height: ${controlDimensions.controlHeight}px;
   white-space: nowrap;
@@ -45,9 +45,13 @@ export const DownloadTable = styled.table.attrs({
     padding-right: 10px;
   }
 
-  th:first-child {
-    padding-left: ${controlDimensions.controlWidth}px;
-  }
+  ${props =>
+    props.$padFirstHeading &&
+    `
+    th:first-child {
+      padding-left: ${controlDimensions.controlWidth}px;
+    }
+  `}
 
   th:first-child,
   td:first-child {

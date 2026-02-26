@@ -17,25 +17,31 @@ export const TreeHeadings = styled(Space)<{ $darkMode?: boolean }>`
     !props.$darkMode && `background: ${props.theme.color('warmNeutral.300')};`}
 `;
 
-const TreeContainer = styled.div`
-  background: linear-gradient(
-    to bottom,
-    ${props => props.theme.color('warmNeutral.200')},
-    ${props => props.theme.color('warmNeutral.200')} 50%,
-    ${props => props.theme.color('white')} 50%,
-    ${props => props.theme.color('white')}
-  );
-  background-size: 100% ${controlDimensions.controlHeight * 2}px;
+const TreeContainer = styled.div<{ $darkMode?: boolean }>`
+  ${props =>
+    !props.$darkMode &&
+    `
+    background: linear-gradient(
+      to bottom,
+      ${props.theme.color('warmNeutral.200')},
+      ${props.theme.color('warmNeutral.200')} 50%,
+      ${props.theme.color('white')} 50%,
+      ${props.theme.color('white')}
+    );
+    background-size: 100% ${controlDimensions.controlHeight * 2}px;
+  `}
 `;
 
-const WorksTree: FunctionComponent<PropsWithChildren> = ({ children }) => {
+const WorksTree: FunctionComponent<
+  PropsWithChildren<{ darkMode?: boolean; hasStructures?: boolean }>
+> = ({ children, darkMode = false, hasStructures = true }) => {
   const { isEnhanced } = useAppContext();
 
   return (
     <div style={{ overflow: 'visible' }}>
       <div style={{ display: 'inline-table', minWidth: '100%' }}>
-        <TreeHeadings aria-hidden="true">
-          <DownloadTable>
+        <TreeHeadings aria-hidden="true" $darkMode={darkMode}>
+          <DownloadTable $padFirstHeading={hasStructures}>
             <thead>
               <tr>
                 <th>Name</th>
@@ -46,8 +52,12 @@ const WorksTree: FunctionComponent<PropsWithChildren> = ({ children }) => {
             </thead>
           </DownloadTable>
         </TreeHeadings>
-        <TreeContainer>
-          <Tree $isEnhanced={isEnhanced} $showFirstLevelGuideline={true}>
+        <TreeContainer $darkMode={darkMode}>
+          <Tree
+            $isEnhanced={isEnhanced}
+            $showFirstLevelGuideline={true}
+            $darkMode={darkMode}
+          >
             {isEnhanced && (
               <TreeInstructions>{`Download tree: ${treeInstructions}`}</TreeInstructions>
             )}
