@@ -112,6 +112,7 @@ type ListItemProps = ListProps & {
   shouldFetchChildren: boolean;
   flatMode?: boolean;
   darkMode?: boolean;
+  itemRendererProps?: Record<string, unknown>;
 };
 
 function getTabIndex({
@@ -150,6 +151,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
   shouldFetchChildren,
   flatMode = false,
   darkMode = false,
+  itemRendererProps,
 }: ListItemProps) => {
   const { isEnhanced } = useAppContext();
   const isEndNode = item.work.totalParts === 0;
@@ -332,6 +334,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
           flatMode={flatMode}
           darkMode={darkMode}
           hasControl={hasGuideline}
+          {...itemRendererProps}
         />
       )}
 
@@ -351,6 +354,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
           shouldFetchChildren={shouldFetchChildren}
           flatMode={flatMode}
           darkMode={darkMode}
+          itemRendererProps={itemRendererProps}
         />
       )}
     </TreeItem>

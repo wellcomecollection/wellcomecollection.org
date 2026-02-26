@@ -15,6 +15,7 @@ export const Tree = styled.div<{
   $isEnhanced?: boolean;
   $showFirstLevelGuideline?: boolean;
   $maxWidth?: number;
+  $darkMode?: boolean;
 }>`
   ul {
     position: relative;
@@ -33,7 +34,10 @@ export const Tree = styled.div<{
       content: ${props => (props.$isEnhanced ? `'${treeInstructions}'` : null)};
       z-index: 2;
       top: 0;
-      background: ${props => props.theme.color('yellow')};
+      background: ${props =>
+        props.$darkMode
+          ? props.theme.color('neutral.600')
+          : props.theme.color('yellow')};
       padding: ${props => `${props.theme.spacingUnit * 2}px`};
       margin: ${props => `${props.theme.spacingUnit}px`};
       border-radius: ${props => `${props.theme.borderRadiusUnit}px`};

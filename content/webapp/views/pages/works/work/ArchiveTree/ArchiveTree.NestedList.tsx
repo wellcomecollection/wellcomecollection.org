@@ -12,6 +12,7 @@ type NestedListProps = Omit<ListProps, 'item'> & {
   shouldFetchChildren: boolean;
   flatMode?: boolean;
   darkMode?: boolean;
+  itemRendererProps?: Record<string, unknown>;
 };
 
 const NestedList: FunctionComponent<NestedListProps> = ({
@@ -29,6 +30,7 @@ const NestedList: FunctionComponent<NestedListProps> = ({
   shouldFetchChildren,
   flatMode = false,
   darkMode = false,
+  itemRendererProps,
 }: NestedListProps) => {
   const { isEnhanced } = useAppContext();
   return (
@@ -63,6 +65,7 @@ const NestedList: FunctionComponent<NestedListProps> = ({
                 shouldFetchChildren={shouldFetchChildren}
                 flatMode={flatMode}
                 darkMode={darkMode}
+                itemRendererProps={itemRendererProps}
               />
             )
           );

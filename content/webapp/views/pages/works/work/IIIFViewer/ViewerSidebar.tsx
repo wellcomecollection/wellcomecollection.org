@@ -27,9 +27,7 @@ import LinkLabels from '@weco/content/views/components/LinkLabels';
 import WorkLink from '@weco/content/views/components/WorkLink';
 import WorkTitle from '@weco/content/views/components/WorkTitle';
 import NestedList from '@weco/content/views/pages/works/work/ArchiveTree/ArchiveTree.NestedList';
-import DownloadItemRenderer, {
-  DownloadItemRendererProps,
-} from '@weco/content/views/pages/works/work/work.DownloadItemRenderer';
+import DownloadItemRenderer from '@weco/content/views/pages/works/work/work.DownloadItemRenderer';
 import { createDownloadTree } from '@weco/content/views/pages/works/work/work.helpers';
 import { UiTree } from '@weco/content/views/pages/works/work/work.types';
 import WorksTree from '@weco/content/views/pages/works/work/workDetails/WorkDetails.Tree'; //TODO need items tree to use here and on works page?
@@ -269,17 +267,6 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
     }
   }, [archiveTree, tabbableId]);
 
-  const SidebarDownloadItemRenderer: FunctionComponent<
-    DownloadItemRendererProps
-  > = props => (
-    <DownloadItemRenderer
-      {...props}
-      linkToCanvas={true}
-      workId={work.id}
-      canvasIndexById={canvasIndexById}
-    />
-  );
-
   return (
     <>
       {isWorkVisibleWithPermission && (
@@ -396,9 +383,14 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
                 archiveAncestorArray={[]}
                 firstItemTabbable={true}
                 showFirstLevelGuideline={true}
-                ItemRenderer={SidebarDownloadItemRenderer}
+                ItemRenderer={DownloadItemRenderer}
                 shouldFetchChildren={false}
                 darkMode={true}
+                itemRendererProps={{
+                  linkToCanvas: true,
+                  workId: work.id,
+                  canvasIndexById,
+                }}
               />
             </WorksTree>
           </AccordionItem>

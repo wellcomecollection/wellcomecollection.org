@@ -9,7 +9,6 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { file, imageFile } from '@weco/common/icons';
-import { LinkProps } from '@weco/common/model/link-props';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import {
@@ -21,6 +20,7 @@ import {
   getLabelString,
   isChoiceBody,
 } from '@weco/content/utils/iiif/v3';
+import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
 import { controlDimensions } from '@weco/content/views/pages/works/work/work.helpers';
 
 export const DownloadTable = styled.table.attrs({
@@ -87,13 +87,31 @@ const getLabel = (item: Body) => {
   }
 };
 
-const DownloadItem: FunctionComponent<{
+type DownloadItemProps = {
   canvas: TransformedCanvas | undefined;
   item: (ContentResource | CustomContentResource | ChoiceBody) & {
     format?: string;
   };
-  canvasLink?: LinkProps;
-}> = ({ canvas, item, canvasLink }) => {
+} & (
+  | {
+      linkToCanvas: true;
+      workId: string;
+      canvasIndex: number;
+    }
+  | {
+      linkToCanvas?: false;
+      workId?: string;
+      canvasIndex?: number;
+    }
+);
+
+const DownloadItem: FunctionComponent<DownloadItemProps> = ({
+  canvas,
+  item,
+  workId,
+  canvasIndex,
+  linkToCanvas = false,
+}) => {
   // If there is a choice then we only show the first one
   const displayItem = (isChoiceBody(item) ? item.items[0] : item) as Body & {
     format?: string;
@@ -104,6 +122,16 @@ const DownloadItem: FunctionComponent<{
 
   const fileName = itemLabel || canvas?.label || '';
   const formatString = format ? format.split('/').pop() || '' : '';
+  const canvasLink =
+    linkToCanvas && workId && canvasIndex
+      ? toWorksItemLink({
+          workId,
+          props: {
+            canvas: canvasIndex,
+            shouldScrollToCanvas: false,
+          },
+        })
+      : undefined;
 
   const fileIcon = (
     <Icon
@@ -125,12 +153,12 @@ const DownloadItem: FunctionComponent<{
       style={{ display: 'inline-flex', alignItems: 'center' }}
     >
       {fileIcon}
-      {fileName}
+      {fileName}aaa
     </NextLink>
   ) : (
     <>
       {fileIcon}
-      {fileName}
+      {fileName}bbb
     </>
   );
 

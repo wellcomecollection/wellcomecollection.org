@@ -368,6 +368,7 @@ const WorkDetailsAvailableOnline = ({
                     showFirstLevelGuideline={true}
                     ItemRenderer={DownloadItemRenderer}
                     shouldFetchChildren={false}
+                    itemRendererProps={{}}
                   />
                 </WorksTree>
               </div>

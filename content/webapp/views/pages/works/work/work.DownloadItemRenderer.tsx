@@ -24,6 +24,11 @@ export type DownloadItemRendererProps = {
   isEnhanced: boolean;
   hasControl: boolean;
   highlightCondition: 'primary' | 'secondary' | undefined;
+  workId?: string;
+  canvasIndexById?: Record<string, number>;
+  linkToCanvas?: boolean;
+  flatMode?: boolean;
+  darkMode?: boolean;
 };
 
 const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
@@ -31,15 +36,29 @@ const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
   isEnhanced,
   hasControl,
   highlightCondition,
+  workId,
+  canvasIndexById,
+  linkToCanvas = false,
+  flatMode = false,
+  darkMode = false,
 }) => {
+  const canvasIndex = canvasIndexById?.[item.work.id];
   return (
     <ItemWrapper>
       {isEnhanced && hasControl && (
         <TreeControl
           data-gtm-trigger="tree_chevron"
           $highlightCondition={highlightCondition}
+          $flatMode={flatMode}
+          $darkMode={darkMode}
         >
-          <Icon rotate={item.openStatus ? undefined : 270} icon={chevron} />
+          {!flatMode && (
+            <Icon
+              rotate={item.openStatus ? undefined : 270}
+              icon={chevron}
+              iconColor={darkMode ? 'white' : 'black'}
+            />
+          )}
         </TreeControl>
       )}
 
@@ -58,11 +77,24 @@ const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
 
       {item.work.type === 'Canvas' &&
         item.work?.downloads?.map(download => {
-          return (
+          const shouldLinkToCanvas =
+            linkToCanvas && workId !== undefined && canvasIndex !== undefined;
+
+          return shouldLinkToCanvas ? (
             <DownloadItem
               key={download.id}
               canvas={item.work as TransformedCanvas}
               item={download}
+              workId={workId}
+              canvasIndex={canvasIndex}
+              linkToCanvas={true}
+            />
+          ) : (
+            <DownloadItem
+              key={download.id}
+              canvas={item.work as TransformedCanvas}
+              item={download}
+              linkToCanvas={false}
             />
           );
         })}
