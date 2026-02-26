@@ -44,7 +44,7 @@ const ContentTypeInfo = (article: Article) => (
     <ContentTypeWrapper>
       <Space $v={{ size: 'xs', properties: ['margin-top'] }}>
         <ContentTypeText>
-          {/*We don't want to show commissioning editors in the byline at the top of articles. We filter them out here, and only show them as the last contributor(s) in the Contributors component at the end of articles*/}
+          {/* We don't want to show commissioning editors in the byline at the top of articles. We filter them out here, and only show them as the last contributor(s) in the Contributors component at the end of articles */}
           {article.contributors.length > 0 &&
             article.contributors
               .filter(({ role }) => role?.id !== commissioningEditorRoleId)
