@@ -116,9 +116,17 @@ const toggles = {
     },
     {
       id: 'thematicBrowsing',
-      title: 'Thematic browsing',
+      title: 'Thematic browsing: category pages',
       initialValue: false,
-      description: 'Enables access to new thematic browsing pages.',
+      description: 'Enables access to new thematic browsing category pages.',
+      type: 'experimental',
+    },
+    {
+      id: 'thematicBrowsingSubCategory',
+      title: 'Thematic browsing: sub-category pages',
+      initialValue: false,
+      description:
+        'Enables access to new thematic browsing sub-category pages.',
       type: 'experimental',
     },
     {
