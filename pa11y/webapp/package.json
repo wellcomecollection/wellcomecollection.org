@@ -7,8 +7,8 @@
   "dependencies": {
     "aws-sdk": "^2.1692.0",
     "chalk": "^4.1.2",
-    "pa11y": "8.0.0",
-    "puppeteer": "22.13.1",
+    "pa11y": "9.1.0",
+    "puppeteer": "24.37.5",
     "yargs": "^17.7.2"
   }
 }
