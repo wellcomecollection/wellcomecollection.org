@@ -11,6 +11,7 @@ type NestedListProps = Omit<ListProps, 'item'> & {
   archiveTree: UiTree;
   shouldFetchChildren: boolean;
   flatMode?: boolean;
+  darkMode?: boolean;
 };
 
 const NestedList: FunctionComponent<NestedListProps> = ({
@@ -27,6 +28,7 @@ const NestedList: FunctionComponent<NestedListProps> = ({
   ItemRenderer,
   shouldFetchChildren,
   flatMode = false,
+  darkMode = false,
 }: NestedListProps) => {
   const { isEnhanced } = useAppContext();
   return (
@@ -60,6 +62,7 @@ const NestedList: FunctionComponent<NestedListProps> = ({
                 ItemRenderer={ItemRenderer}
                 shouldFetchChildren={shouldFetchChildren}
                 flatMode={flatMode}
+                darkMode={darkMode}
               />
             )
           );

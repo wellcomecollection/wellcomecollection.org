@@ -6,6 +6,11 @@ import { controlDimensions } from '@weco/content/views/pages/works/work/work.hel
 
 import { TreeItemProps, verticalGuidePosition } from './ArchiveTree.helpers';
 
+export type TreeItemStyledProps = TreeItemProps & {
+  $darkMode?: boolean;
+  $listItem?: boolean;
+};
+
 export const TreeContainer = styled.div`
   border-right: 1px solid ${props => props.theme.color('warmNeutral.400')};
 `;
@@ -19,9 +24,9 @@ export const ButtonWrap = styled(Space).attrs({
   }
 `;
 
-export const TreeItem = styled.li.attrs<TreeItemProps>(props => ({
+export const TreeItem = styled.li.attrs<TreeItemStyledProps>(props => ({
   className: props.$showGuideline ? 'guideline' : '',
-}))<TreeItemProps>`
+}))<TreeItemStyledProps>`
   position: relative;
   list-style: ${props => (props.$isEnhanced ? 'none' : 'disc')};
 
@@ -33,7 +38,11 @@ export const TreeItem = styled.li.attrs<TreeItemProps>(props => ({
   }
 
   &.guideline::before {
-    border-left: 1px solid ${props => props.theme.color('yellow')};
+    border-left: 1px solid
+      ${props =>
+        props.$darkMode
+          ? props.theme.color('neutral.600')
+          : props.theme.color('yellow')};
     width: 0;
     top: ${verticalGuidePosition}px;
     left: ${controlDimensions.controlWidth / 2}px;
@@ -47,15 +56,26 @@ export const TreeItem = styled.li.attrs<TreeItemProps>(props => ({
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: ${props => props.theme.color('yellow')};
+    background: ${props =>
+      props.$darkMode
+        ? props.theme.color('neutral.600')
+        : props.theme.color('yellow')};
     left: ${controlDimensions.controlWidth / 2 - 3}px;
     bottom: ${controlDimensions.controlHeight / 2}px;
   }
 `;
 
-export const TreeControl = styled.span<{ $highlightCondition?: string }>`
+export type TreeControlStyledProps = {
+  $highlightCondition?: string;
+  $flatMode?: boolean;
+  $controlBackground?: string;
+  $controlBorder?: string;
+  $darkMode?: boolean;
+};
+
+export const TreeControl = styled.span<TreeControlStyledProps>`
   display: inline-block;
-  cursor: pointer;
+  cursor: ${props => (props.$flatMode ? 'default' : 'pointer')};
   height: ${controlDimensions.controlHeight}px;
   width: ${controlDimensions.controlWidth}px;
   min-width: ${controlDimensions.controlWidth}px;
@@ -67,36 +87,48 @@ export const TreeControl = styled.span<{ $highlightCondition?: string }>`
     position: absolute;
     height: ${controlDimensions.circleHeight}px;
     width: ${controlDimensions.circleWidth}px;
-
-    /* centre the circle in the control */
-    top: ${(controlDimensions.controlHeight - controlDimensions.circleHeight) /
-    2}px;
-    left: ${(controlDimensions.controlWidth - controlDimensions.circleWidth) /
-    2}px;
-
+    top: calc(
+      (
+          ${controlDimensions.controlHeight}px -
+            ${controlDimensions.circleHeight}px
+        ) /
+        2
+    );
+    left: calc(
+      (
+          ${controlDimensions.controlWidth}px -
+            ${controlDimensions.circleWidth}px
+        ) /
+        2
+    );
     background: ${props =>
-      props.theme.color(
-        props.$highlightCondition === 'primary'
-          ? 'yellow'
-          : props.$highlightCondition === 'secondary'
-            ? 'lightYellow'
-            : 'neutral.300'
-      )};
+      props.$controlBackground ||
+      (props.$darkMode
+        ? props.theme.color('neutral.600')
+        : props.theme.color(
+            props.$highlightCondition === 'primary'
+              ? 'yellow'
+              : props.$highlightCondition === 'secondary'
+                ? 'lightYellow'
+                : 'neutral.300'
+          ))};
     border: ${props =>
-      props.$highlightCondition === 'secondary'
-        ? `1px solid ${props.theme.color('yellow')}`
-        : `2px solid ${props.theme.color('white')}`};
+      props.$controlBorder ||
+      (props.$darkMode
+        ? `2px solid ${props.theme.color('neutral.700')}`
+        : props.$highlightCondition === 'secondary'
+          ? `1px solid ${props.theme.color('yellow')}`
+          : `2px solid ${props.theme.color('white')}`)};
     border-radius: 50%;
   }
 
   .icon {
     position: absolute;
     z-index: 1;
-
-    /* centre the icon in the control
-       icons have a height and width of 24px */
     top: ${(controlDimensions.controlHeight - 24) / 2}px;
     left: ${(controlDimensions.controlWidth - 24) / 2}px;
+    color: ${props =>
+      props.$darkMode ? props.theme.color('white') : 'inherit'};
   }
 `;
 
