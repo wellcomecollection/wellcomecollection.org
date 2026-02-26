@@ -12,10 +12,9 @@ import {
 
 import { DownloadTable } from './WorkDetails.DownloadItem';
 
-export const TreeHeadings = styled(Space).attrs({
-  $v: { size: 'xl', properties: ['margin-top'] },
-})`
-  background: ${props => props.theme.color('warmNeutral.300')};
+export const TreeHeadings = styled(Space)<{ $darkMode?: boolean }>`
+  ${props =>
+    !props.$darkMode && `background: ${props.theme.color('warmNeutral.300')};`}
 `;
 
 const TreeContainer = styled.div`

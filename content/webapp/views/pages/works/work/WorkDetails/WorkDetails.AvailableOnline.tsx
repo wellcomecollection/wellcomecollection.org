@@ -349,7 +349,9 @@ const WorkDetailsAvailableOnline = ({
                 Contains {canvases?.length} files
               </p>
             )}
-            <MessageBox>{bornDigitalMessage}</MessageBox>
+            <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
+              <MessageBox>{bornDigitalMessage}</MessageBox>
+            </Space>
             <div style={{ overflow: 'visible' }}>
               <div style={{ display: 'inline-table', minWidth: '100%' }}>
                 <WorksTree>
