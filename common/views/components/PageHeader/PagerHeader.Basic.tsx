@@ -39,18 +39,11 @@ const Heading = styled(Space)`
   box-decoration-break: clone;
 `;
 
-const HighlightedHeading: FunctionComponent<{ text: string | ReactNode }> = ({
-  text,
-}: {
-  text: string | ReactNode;
-}) => {
+const HighlightedHeading: FunctionComponent<{ text: string }> = ({ text }) => {
   return (
     <h1 className={font('brand-bold', 2)}>
       <Heading
-        $v={{
-          size: 'xs',
-          properties: ['padding-top', 'padding-bottom'],
-        }}
+        $v={{ size: 'xs', properties: ['padding-top', 'padding-bottom'] }}
         $h={{ size: 'sm', properties: ['padding-left', 'padding-right'] }}
       >
         {text}
@@ -60,7 +53,7 @@ const HighlightedHeading: FunctionComponent<{ text: string | ReactNode }> = ({
 };
 
 export type Props = {
-  title: string | ReactNode;
+  title: string;
   breadcrumbs?: ComponentProps<typeof Breadcrumb>;
   amendedLabels?: ComponentProps<typeof LabelsList>;
   ContentTypeInfo?: ReactNode;

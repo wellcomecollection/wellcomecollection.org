@@ -1,11 +1,12 @@
 import { FunctionComponent } from 'react';
+
 import { font } from '@weco/common/utils/classnames';
 import { TransformedCanvas } from '@weco/content/types/manifest';
+import { getOriginalFiles } from '@weco/content/utils/iiif/v3';
 import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
 import DownloadTableRow from '@weco/content/views/pages/works/work/IIIFViewer/DownloadTableRow';
-import { queryParamToArrayIndex } from '.';
-import { getOriginalFiles } from '@weco/content/utils/iiif/v3';
 
+import { queryParamToArrayIndex } from '.';
 import {
   DownloadTable,
   DownloadTableContainer,
