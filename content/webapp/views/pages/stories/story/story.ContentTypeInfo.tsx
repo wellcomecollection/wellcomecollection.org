@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 
+import { commissioningEditorRoleId } from '@weco/common/data/hardcoded-ids';
 import { font } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
 import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
 import Space from '@weco/common/views/components/styled/Space';
 import Standfirst from '@weco/common/views/slices/Standfirst';
 import { Article } from '@weco/content/types/articles';
-import { COMMISSIONING_EDITOR_DESCRIBED_BY } from '@weco/content/types/contributors';
 
 const ContentTypeWrapper = styled.div`
   display: flex;
@@ -47,10 +47,7 @@ const ContentTypeInfo = (article: Article) => (
           {/*We don't want to show commissioning editors in the byline at the top of articles. We filter them out here, and only show them as the last contributor(s) in the Contributors component at the end of articles*/}
           {article.contributors.length > 0 &&
             article.contributors
-              .filter(
-                ({ role }) =>
-                  role?.describedBy !== COMMISSIONING_EDITOR_DESCRIBED_BY
-              )
+              .filter(({ role }) => role?.id !== commissioningEditorRoleId)
               .map(({ contributor, role }, i) => (
                 <ContentTypeInfoSection
                   data-testid="contributor-name"

@@ -44,8 +44,3 @@ export type ContributorBasic = {
     name?: string;
   };
 };
-
-// The value of `role.describedBy` used to identify commissioning editors.
-// Contributors with this role are displayed only at the end of articles,
-// not in the top byline.
-export const COMMISSIONING_EDITOR_DESCRIBED_BY = 'commissioned';

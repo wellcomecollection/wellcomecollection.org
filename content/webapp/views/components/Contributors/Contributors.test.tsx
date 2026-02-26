@@ -1,8 +1,6 @@
+import { commissioningEditorRoleId } from '@weco/common/data/hardcoded-ids';
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
-import {
-  COMMISSIONING_EDITOR_DESCRIBED_BY,
-  Contributor,
-} from '@weco/content/types/contributors';
+import { Contributor } from '@weco/content/types/contributors';
 
 import Contributors, {
   Props as ContributorProps,
@@ -72,9 +70,8 @@ describe('Contributors', () => {
     const commissioningEditor: Contributor = {
       contributor: makePerson('Jane Smith'),
       role: {
-        id: 'commissioning-role-id',
+        id: commissioningEditorRoleId,
         title: 'Commissioning editor',
-        describedBy: COMMISSIONING_EDITOR_DESCRIBED_BY,
       },
     };
 

@@ -3,6 +3,7 @@ import { Children, ReactElement, ReactNode, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { officialLandingPagesUid } from '@weco/common/data/hardcoded-ids';
+import { commissioningEditorRoleId } from '@weco/common/data/hardcoded-ids';
 import { useToggles } from '@weco/common/server-data/Context';
 import { ContentApiType } from '@weco/common/services/prismic/content-types';
 import { ElementFromComponent } from '@weco/common/utils/utility-types';
@@ -18,10 +19,7 @@ import SpacingComponent from '@weco/common/views/components/styled/SpacingCompon
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import ContentPageContext from '@weco/content/contexts/ContentPageContext';
 import { ContentApiLinkedWork } from '@weco/content/services/wellcome/content/types/api';
-import {
-  COMMISSIONING_EDITOR_DESCRIBED_BY,
-  Contributor,
-} from '@weco/content/types/contributors';
+import { Contributor } from '@weco/content/types/contributors';
 import { Season } from '@weco/content/types/seasons';
 import { Props as BodyProps } from '@weco/content/views/components/Body';
 import Contributors from '@weco/content/views/components/Contributors';
@@ -159,14 +157,10 @@ const ContentPage = ({
                 <Contributors
                   contributors={[
                     ...contributors.filter(
-                      c =>
-                        c.role?.describedBy !==
-                        COMMISSIONING_EDITOR_DESCRIBED_BY
+                      c => c.role?.id !== commissioningEditorRoleId
                     ),
                     ...contributors.filter(
-                      c =>
-                        c.role?.describedBy ===
-                        COMMISSIONING_EDITOR_DESCRIBED_BY
+                      c => c.role?.id === commissioningEditorRoleId
                     ),
                   ]}
                   titleOverride={contributorTitle}
