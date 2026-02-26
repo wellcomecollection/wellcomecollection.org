@@ -29,7 +29,7 @@ export type WorkItemRendererProps = {
   currentWorkId: string;
   highlightCondition: 'primary' | 'secondary' | undefined;
   showFirstLevelGuideline: boolean;
-  isDarkMode?: boolean;
+  darkMode?: boolean;
 };
 
 const WorkItem: FunctionComponent<WorkItemRendererProps> = ({
@@ -40,7 +40,7 @@ const WorkItem: FunctionComponent<WorkItemRendererProps> = ({
   currentWorkId,
   highlightCondition,
   showFirstLevelGuideline,
-  isDarkMode,
+  darkMode,
 }) => {
   const { isEnhanced } = useAppContext();
   return (
@@ -55,7 +55,7 @@ const WorkItem: FunctionComponent<WorkItemRendererProps> = ({
         <TreeControl
           data-gtm-trigger="tree_chevron"
           $highlightCondition={highlightCondition}
-          $darkMode={isDarkMode}
+          $darkMode={darkMode}
         >
           <Icon rotate={item.openStatus ? undefined : 270} icon={chevron} />
         </TreeControl>
