@@ -153,12 +153,12 @@ const DownloadItem: FunctionComponent<DownloadItemProps> = ({
       style={{ display: 'inline-flex', alignItems: 'center' }}
     >
       {fileIcon}
-      {fileName}aaa
+      {fileName}
     </NextLink>
   ) : (
     <>
       {fileIcon}
-      {fileName}bbb
+      {fileName}
     </>
   );
 
