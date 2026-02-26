@@ -235,10 +235,6 @@ const ListItem: FunctionComponent<ListItemProps> = ({
           tree: fullTree,
         });
 
-        if (flatMode && (LEFT.includes(key) || RIGHT.includes(key))) {
-          return;
-        }
-
         switch (true) {
           case RIGHT.includes(key): {
             // When focus is on an open node, moves focus to the first child node.
