@@ -1,4 +1,8 @@
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
+import {
+  COMMISSIONING_EDITOR_DESCRIBED_BY,
+  Contributor,
+} from '@weco/content/types/contributors';
 
 import Contributors, {
   Props as ContributorProps,
@@ -33,6 +37,23 @@ test('multi contributor, single roles, flattened', async () => {
   expect(title).toEqual(['Guides']);
 });
 
+const defaultImage = {
+  width: 64,
+  height: 64,
+  contentUrl: 'https://example.com/image.png',
+  alt: '',
+};
+
+function makePerson(name: string): Contributor['contributor'] {
+  return {
+    type: 'people',
+    id: name,
+    name,
+    image: defaultImage,
+    sameAs: [],
+  };
+}
+
 describe('Contributors', () => {
   it('returns nothing if there are no visible contributors', () => {
     // e.g. https://wellcomecollection.org/collections
@@ -43,5 +64,26 @@ describe('Contributors', () => {
     const { container } = renderWithTheme(<Contributors {...props} />);
 
     expect(container.innerHTML).toBe('');
+  });
+
+  it('renders a commissioning editor when passed in the contributors list', () => {
+    // Commissioning editors are filtered/sorted by the parent component (ContentPage)
+    // before being passed here. This test verifies they render correctly when included.
+    const commissioningEditor: Contributor = {
+      contributor: makePerson('Jane Smith'),
+      role: {
+        id: 'commissioning-role-id',
+        title: 'Commissioning editor',
+        describedBy: COMMISSIONING_EDITOR_DESCRIBED_BY,
+      },
+    };
+
+    const props: ContributorProps = {
+      contributors: [commissioningEditor],
+    };
+
+    const { getByText } = renderWithTheme(<Contributors {...props} />);
+
+    expect(getByText('Jane Smith')).toBeTruthy();
   });
 });

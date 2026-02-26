@@ -18,7 +18,10 @@ import SpacingComponent from '@weco/common/views/components/styled/SpacingCompon
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import ContentPageContext from '@weco/content/contexts/ContentPageContext';
 import { ContentApiLinkedWork } from '@weco/content/services/wellcome/content/types/api';
-import { Contributor } from '@weco/content/types/contributors';
+import {
+  COMMISSIONING_EDITOR_DESCRIBED_BY,
+  Contributor,
+} from '@weco/content/types/contributors';
 import { Season } from '@weco/content/types/seasons';
 import { Props as BodyProps } from '@weco/content/views/components/Body';
 import Contributors from '@weco/content/views/components/Contributors';
@@ -154,7 +157,18 @@ const ContentPage = ({
             <SpacingSection>
               <ContaineredLayout gridSizes={gridSize8()}>
                 <Contributors
-                  contributors={contributors}
+                  contributors={[
+                    ...contributors.filter(
+                      c =>
+                        c.role?.describedBy !==
+                        COMMISSIONING_EDITOR_DESCRIBED_BY
+                    ),
+                    ...contributors.filter(
+                      c =>
+                        c.role?.describedBy ===
+                        COMMISSIONING_EDITOR_DESCRIBED_BY
+                    ),
+                  ]}
                   titleOverride={contributorTitle}
                 />
               </ContaineredLayout>
