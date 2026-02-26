@@ -4,10 +4,12 @@ import {
   ContentResource,
   InternationalString,
 } from '@iiif/presentation-3';
+import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { file, imageFile } from '@weco/common/icons';
+import { LinkProps } from '@weco/common/model/link-props';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import {
@@ -90,7 +92,8 @@ const DownloadItem: FunctionComponent<{
   item: (ContentResource | CustomContentResource | ChoiceBody) & {
     format?: string;
   };
-}> = ({ canvas, item }) => {
+  canvasLink?: LinkProps;
+}> = ({ canvas, item, canvasLink }) => {
   // If there is a choice then we only show the first one
   const displayItem = (isChoiceBody(item) ? item.items[0] : item) as Body & {
     format?: string;
@@ -102,27 +105,41 @@ const DownloadItem: FunctionComponent<{
   const fileName = itemLabel || canvas?.label || '';
   const formatString = format ? format.split('/').pop() || '' : '';
 
+  const fileIcon = (
+    <Icon
+      icon={
+        format?.endsWith('jpeg') || format?.endsWith('gif') ? imageFile : file
+      }
+      matchText={true}
+      sizeOverride={
+        format?.endsWith('jpeg') || format?.endsWith('gif')
+          ? undefined
+          : 'height: 15px; width: 14px;'
+      }
+    />
+  );
+
+  const fileNameContent = canvasLink ? (
+    <NextLink
+      {...canvasLink}
+      style={{ display: 'inline-flex', alignItems: 'center' }}
+    >
+      {fileIcon}
+      {fileName}
+    </NextLink>
+  ) : (
+    <>
+      {fileIcon}
+      {fileName}
+    </>
+  );
+
   if (typeof displayItem !== 'string') {
     return (
       <DownloadTable>
         <tbody>
           <tr>
-            <td title={fileName}>
-              <Icon
-                icon={
-                  format?.endsWith('jpeg') || format?.endsWith('gif')
-                    ? imageFile
-                    : file
-                }
-                matchText={true}
-                sizeOverride={
-                  format?.endsWith('jpeg') || format?.endsWith('gif')
-                    ? undefined
-                    : 'height: 15px; width: 14px;'
-                }
-              />
-              {fileName}
-            </td>
+            <td title={fileName}>{fileNameContent}</td>
             <td title={formatString}>{formatString}</td>
             <td>
               {fileSize ? (
