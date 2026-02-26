@@ -77,13 +77,13 @@ const ThematicBrowsingHeader = ({
             <Space $v={{ size: 'md', properties: ['margin-top'] }}>
               <ul>
                 <li>
-                  <a href="/collections/subjects/medicine-care-and-treatment">
-                    Medicine, care and treatment
+                  <a href="/collections/subjects/sex-sexual-health-and-reproduction">
+                    Sex, sexual health and reproduction
                   </a>
                 </li>
                 <li>
-                  <a href="/collections/subjects/military-and-war">
-                    Military and war
+                  <a href="/collections/subjects/medicine-care-and-treatment">
+                    Medicine, care and treatment
                   </a>
                 </li>
               </ul>

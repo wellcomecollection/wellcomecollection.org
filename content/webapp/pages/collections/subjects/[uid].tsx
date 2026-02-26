@@ -18,23 +18,29 @@ import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchPage } from '@weco/content/services/prismic/fetch/pages';
 import { transformContentListSlice } from '@weco/content/services/prismic/transformers/body';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
-import { getConcept } from '@weco/content/services/wellcome/catalogue/concepts';
+import { getConcepts } from '@weco/content/services/wellcome/catalogue/concepts';
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import {
   toWorkBasic,
   Work,
 } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
-import {
-  allRecordsLinkParams,
-  queryParams,
-} from '@weco/content/utils/concepts';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import WellcomeSubThemePage, {
   Props as WellcomeSubThemePageProps,
 } from '@weco/content/views/pages/collections/subjects/sub-theme';
 
 type Props = ServerSideProps<WellcomeSubThemePageProps>;
+
+const CONCEPT_GROUPS: Record<string, string[]> = {
+  'medicine-care-and-treatment': ['hvngn3u7', 'raz92g59'],
+  'sex-sexual-health-and-reproduction': [
+    'brm4ha66',
+    'bmfun6aj',
+    'gynqvms7',
+    'bn2pe2v6',
+  ],
+};
 
 export const getServerSideProps: ServerSidePropsOrAppError<
   Props
@@ -43,8 +49,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const serverData = await getServerData(context);
 
   // Ensure this is a valid subject page
-  // TODO grow list when "core concepts" are officialised
-  const subjectsEnum = ['military-and-war', 'medicine-care-and-treatment'];
+  const subjectsEnum = Object.keys(CONCEPT_GROUPS);
   const pageUid = getQueryPropertyValue(context.query.uid);
 
   if (
@@ -66,7 +71,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const newOnlineWorks: Work[] = [];
   const newOnlineWorksQuery = await getWorks({
     params: {
-      'subjects.label': ['Pharmacy', 'Veterinary Medicine'],
+      subjects: CONCEPT_GROUPS[pageUid],
       availabilities: ['online'],
       // Exclude items that are not openly accessible online
       'items.locations.accessConditions.status': [
@@ -125,9 +130,10 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     /**
      * Images and Works
      * */
-    const MOCK_CONCEPT_ID = 'patspgf3';
-    const conceptResponse = await getConcept({
-      id: MOCK_CONCEPT_ID,
+    const conceptResponse = await getConcepts({
+      params: {
+        id: CONCEPT_GROUPS[pageUid].join(','),
+      },
       toggles: serverData.toggles,
     });
 
@@ -142,18 +148,23 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       );
     }
 
+    // Extract all labels from the multiple concepts for label-based queries
+    const conceptLabels = conceptResponse.results.map(c => c.label);
+
     const getConceptDocs = {
       works: {
-        byId: (sectionName: string) =>
+        byId: () =>
           getWorks({
-            params: queryParams(sectionName, conceptResponse),
+            params: {
+              subjects: CONCEPT_GROUPS[pageUid],
+            },
             toggles: serverData.toggles,
             pageSize: 5,
           }),
-        byLabel: (sectionName: string) =>
+        byLabel: () =>
           getWorks({
             params: {
-              ...allRecordsLinkParams(sectionName, conceptResponse),
+              'subjects.label': conceptLabels,
               aggregations: ['workType'],
             },
             toggles: serverData.toggles,
@@ -161,39 +172,39 @@ export const getServerSideProps: ServerSidePropsOrAppError<
           }),
       },
       images: {
-        byId: (sectionName: string) =>
+        byId: () =>
           getImages({
-            params: queryParams(sectionName, conceptResponse),
+            params: {
+              'source.subjects': CONCEPT_GROUPS[pageUid],
+            },
             toggles: serverData.toggles,
             pageSize: 12,
           }),
-        byLabel: (sectionName: string) =>
+        byLabel: () =>
           getImages({
-            params: allRecordsLinkParams(sectionName, conceptResponse),
+            params: {
+              'source.subjects.label': conceptLabels,
+            },
             toggles: serverData.toggles,
             pageSize: 12,
           }),
       },
     };
 
-    const worksAboutPromiseById = getConceptDocs.works.byId('worksAbout');
-    const imagesAboutPromiseById = getConceptDocs.images.byId('imagesAbout');
-
-    const worksAboutPromiseByLabel = getConceptDocs.works.byLabel('worksAbout');
-    const imagesAboutPromiseByLabel =
-      getConceptDocs.images.byLabel('imagesAbout');
+    const worksAboutPromiseById = getConceptDocs.works.byId();
+    const worksAboutPromiseByLabel = getConceptDocs.works.byLabel();
+    const imagesAboutPromiseById = getConceptDocs.images.byId();
+    const imagesAboutPromiseByLabel = getConceptDocs.images.byLabel();
 
     const [
       worksAboutResponseById,
-      imagesAboutResponseById,
-
       worksAboutResponseByLabel,
+      imagesAboutResponseById,
       imagesAboutResponseByLabel,
     ] = await Promise.all([
       worksAboutPromiseById,
-      imagesAboutPromiseById,
-
       worksAboutPromiseByLabel,
+      imagesAboutPromiseById,
       imagesAboutPromiseByLabel,
     ]);
 
@@ -228,7 +239,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       {
         id: 'json',
         label: 'JSON',
-        link: `https://api.wellcomecollection.org/catalogue/v2/concepts/${MOCK_CONCEPT_ID}`,
+        link: `https://api.wellcomecollection.org/catalogue/v2/concepts?id=${CONCEPT_GROUPS[pageUid].join(',')}`,
       },
     ];
 
@@ -253,6 +264,38 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     };
     /** */
 
+    /**
+     * Frequent collaborators
+     * Deduplicate collaborators across multiple concepts by using a Map
+     * keyed by collaborator id, then convert back to an array
+     * */
+    const frequentCollaboratorsMap = new Map();
+    conceptResponse.results.forEach(concept => {
+      concept.relatedConcepts?.frequentCollaborators?.forEach(collaborator => {
+        if (!frequentCollaboratorsMap.has(collaborator.id)) {
+          frequentCollaboratorsMap.set(collaborator.id, collaborator);
+        }
+      });
+    });
+    const frequentCollaborators = Array.from(frequentCollaboratorsMap.values());
+    /** */
+
+    /**
+     * Related topics
+     * Deduplicate topics across multiple concepts by using a Map
+     * keyed by topic id, then convert back to an array
+     * */
+    const relatedTopicsMap = new Map();
+    conceptResponse.results.forEach(concept => {
+      concept.relatedConcepts?.relatedTopics?.forEach(topic => {
+        if (!relatedTopicsMap.has(topic.id)) {
+          relatedTopicsMap.set(topic.id, topic);
+        }
+      });
+    });
+    const relatedTopics = Array.from(relatedTopicsMap.values());
+    /** */
+
     return {
       props: serialiseProps<Props>({
         serverData,
@@ -261,11 +304,10 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         categoryThemeCardsList: themeCardsListSlice,
         curatedUid: pageUid,
         newOnlineWorks: newOnlineWorks.map(toWorkBasic),
-        frequentCollaborators:
-          conceptResponse.relatedConcepts?.frequentCollaborators || [],
+        frequentCollaborators,
         relatedStoriesId,
         worksAndImagesAbout,
-        relatedTopics: conceptResponse.relatedConcepts?.relatedTopics || [],
+        relatedTopics,
       }),
     };
   }

@@ -27,10 +27,13 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     peopleAndOrganisations: ['thematic-browsing-people', 'aYYhzRIAACQA8_2V'],
     typesAndTechniques: ['thematic-browsing-types', 'aYYiGRIAACQA8_4N'],
     subjects: ['thematic-browsing-subjects', 'aYYi7RIAACUA8_9m'],
-    militaryAndWar: ['subjects-military-and-war', 'aXNKABEAACAAypp_'],
     medicineCareAndTreatment: [
       'subjects-medicine-care-and-treatment',
       'aY2jMBAAACEAHkc6',
+    ],
+    sexSexualHealthAndReproduction: [
+      'subjects-sex-sexual-health-and-reproduction',
+      'aaBgRBAAACMAxoYU',
     ],
   };
   const flattenedHiddenPages = Object.values(collectionsHiddenPages).flat();

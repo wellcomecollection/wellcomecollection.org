@@ -37,6 +37,7 @@ export type CatalogueImagesApiProps = {
   'production.dates.from'?: string;
   'production.dates.to'?: string;
   'source.genres.concepts'?: string[];
+  'source.subjects'?: string[];
   'source.subjects.label'?: string[];
   'source.contributors.agent.label'?: string[];
   color?: string;
