@@ -3,12 +3,8 @@ import NextLink from 'next/link';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { useAppContext } from '@weco/common/contexts/AppContext';
 import { useUserContext } from '@weco/common/contexts/UserContext';
-import {
-  bornDigitalMessage,
-  treeInstructions,
-} from '@weco/common/data/microcopy';
+import { bornDigitalMessage } from '@weco/common/data/microcopy';
 import { eye, info2 } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { LinkProps } from '@weco/common/model/link-props';
@@ -45,20 +41,13 @@ import Download from '@weco/content/views/components/Download';
 import NestedList from '@weco/content/views/pages/works/work/ArchiveTree/ArchiveTree.NestedList';
 import IIIFItemList from '@weco/content/views/pages/works/work/IIIFItemList';
 import DownloadItemRenderer from '@weco/content/views/pages/works/work/work.DownloadItemRenderer';
-import {
-  controlDimensions,
-  createDownloadTree,
-} from '@weco/content/views/pages/works/work/work.helpers';
-import {
-  Tree,
-  TreeInstructions,
-} from '@weco/content/views/pages/works/work/work.styles';
+import { createDownloadTree } from '@weco/content/views/pages/works/work/work.helpers';
 import { UiTree } from '@weco/content/views/pages/works/work/work.types';
 
-import { DownloadTable } from './WorkDetails.DownloadItem';
 import IIIFClickthrough from './WorkDetails.IIIFClickthrough';
 import WorkDetailsLicence from './WorkDetails.Licence';
 import WorkDetailsSection from './WorkDetails.Section';
+import WorksTree from './WorkDetails.Tree';
 
 const RestrictedMessage = styled(Space).attrs({
   $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
@@ -92,23 +81,6 @@ const RestrictedMessageTitle = styled.div`
     padding-left: 8px;
     margin-bottom: 0;
   }
-`;
-
-const TreeHeadings = styled(Space).attrs({
-  $v: { size: 'xl', properties: ['margin-top'] },
-})`
-  background: ${props => props.theme.color('warmNeutral.300')};
-`;
-
-const TreeContainer = styled.div`
-  background: linear-gradient(
-    to bottom,
-    ${props => props.theme.color('warmNeutral.200')},
-    ${props => props.theme.color('warmNeutral.200')} 50%,
-    ${props => props.theme.color('white')} 50%,
-    ${props => props.theme.color('white')}
-  );
-  background-size: 100% ${controlDimensions.controlHeight * 2}px;
 `;
 
 const MessageBox = styled(Space).attrs({
@@ -347,7 +319,6 @@ const WorkDetailsAvailableOnline = ({
       elementToFocus.focus();
     }
   }, [archiveTree, tabbableId]);
-  const { isEnhanced } = useAppContext();
 
   useEffect(() => {
     setOrigin(window.origin);
@@ -381,42 +352,22 @@ const WorkDetailsAvailableOnline = ({
             <MessageBox>{bornDigitalMessage}</MessageBox>
             <div style={{ overflow: 'visible' }}>
               <div style={{ display: 'inline-table', minWidth: '100%' }}>
-                <TreeHeadings aria-hidden="true">
-                  <DownloadTable>
-                    <thead>
-                      <tr>
-                        <th>Name</th>
-                        <th>File format</th>
-                        <th>Size</th>
-                        <th>Download</th>
-                      </tr>
-                    </thead>
-                  </DownloadTable>
-                </TreeHeadings>
-                <TreeContainer>
-                  <Tree
-                    $isEnhanced={isEnhanced}
-                    $showFirstLevelGuideline={true}
-                  >
-                    {isEnhanced && (
-                      <TreeInstructions>{`Download tree: ${treeInstructions}`}</TreeInstructions>
-                    )}
-                    <NestedList
-                      currentWorkId={work.id}
-                      fullTree={archiveTree}
-                      setArchiveTree={setArchiveTree}
-                      archiveTree={archiveTree}
-                      level={1}
-                      tabbableId={tabbableId}
-                      setTabbableId={setTabbableId}
-                      archiveAncestorArray={[]}
-                      firstItemTabbable={true}
-                      showFirstLevelGuideline={true}
-                      ItemRenderer={DownloadItemRenderer}
-                      shouldFetchChildren={false}
-                    />
-                  </Tree>
-                </TreeContainer>
+                <WorksTree>
+                  <NestedList
+                    currentWorkId={work.id}
+                    fullTree={archiveTree}
+                    setArchiveTree={setArchiveTree}
+                    archiveTree={archiveTree}
+                    level={1}
+                    tabbableId={tabbableId}
+                    setTabbableId={setTabbableId}
+                    archiveAncestorArray={[]}
+                    firstItemTabbable={true}
+                    showFirstLevelGuideline={true}
+                    ItemRenderer={DownloadItemRenderer}
+                    shouldFetchChildren={false}
+                  />
+                </WorksTree>
               </div>
             </div>
           </>
