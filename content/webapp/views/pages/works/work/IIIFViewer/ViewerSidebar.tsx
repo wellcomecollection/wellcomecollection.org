@@ -166,8 +166,9 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
   iiifPresentationLocation,
   hasMultipleCanvases,
 }) => {
-  const { work, transformedManifest, parentManifest, useFixedSizeList } =
+  const { work, transformedManifest, parentManifest, useFixedSizeList, query } =
     useItemViewerContext();
+  const { canvas } = query || {};
   const { userIsStaffWithRestricted } = useUserContext();
 
   const [tabbableId, setTabbableId] = useState<string>();
@@ -390,6 +391,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
                   linkToCanvas: true,
                   workId: work.id,
                   canvasIndexById,
+                  currentCanvasIndex: canvas,
                 }}
               />
             </WorksTree>

@@ -29,6 +29,7 @@ export type DownloadItemRendererProps = {
   linkToCanvas?: boolean;
   flatMode?: boolean;
   darkMode?: boolean;
+  currentCanvasIndex?: number;
 };
 
 const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
@@ -41,6 +42,7 @@ const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
   linkToCanvas = false,
   flatMode = false,
   darkMode = false,
+  currentCanvasIndex = 0,
 }) => {
   const canvasIndex = canvasIndexById?.[item.work.id];
   return (
@@ -88,6 +90,7 @@ const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
               workId={workId}
               canvasIndex={canvasIndex}
               linkToCanvas={true}
+              currentCanvasIndex={currentCanvasIndex}
             />
           ) : (
             <DownloadItem
@@ -95,6 +98,7 @@ const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
               canvas={item.work as TransformedCanvas}
               item={download}
               linkToCanvas={false}
+              currentCanvasIndex={currentCanvasIndex}
             />
           );
         })}

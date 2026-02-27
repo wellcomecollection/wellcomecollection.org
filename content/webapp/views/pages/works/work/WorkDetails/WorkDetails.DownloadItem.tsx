@@ -25,12 +25,32 @@ import { controlDimensions } from '@weco/content/views/pages/works/work/work.hel
 
 export const DownloadTable = styled.table.attrs({
   className: font('sans', -2),
-})<{ $padFirstHeading?: boolean }>`
+})<{ $padFirstHeading?: boolean; $isActive?: boolean }>`
+  border-collapse: collapse;
   position: relative;
   height: ${controlDimensions.controlHeight}px;
   white-space: nowrap;
   margin: 0;
   width: 100%;
+
+  ${props =>
+    props.$isActive &&
+    `
+      tr {
+        background: ${props.theme.color('black')};
+
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -10px;
+          bottom: 0;
+          width: 10px;
+          background: ${props.theme.color('black')};
+          border-left: 4px solid ${props.theme.color('yellow')};
+        }
+      }
+    `}
 
   .icon {
     position: relative;
@@ -92,6 +112,7 @@ type DownloadItemProps = {
   item: (ContentResource | CustomContentResource | ChoiceBody) & {
     format?: string;
   };
+  currentCanvasIndex?: number;
 } & (
   | {
       linkToCanvas: true;
@@ -111,7 +132,13 @@ const DownloadItem: FunctionComponent<DownloadItemProps> = ({
   workId,
   canvasIndex,
   linkToCanvas = false,
+  currentCanvasIndex,
 }) => {
+  const isActive =
+    linkToCanvas &&
+    canvasIndex !== undefined &&
+    currentCanvasIndex === canvasIndex;
+
   // If there is a choice then we only show the first one
   const displayItem = (isChoiceBody(item) ? item.items[0] : item) as Body & {
     format?: string;
@@ -164,7 +191,7 @@ const DownloadItem: FunctionComponent<DownloadItemProps> = ({
 
   if (typeof displayItem !== 'string') {
     return (
-      <DownloadTable>
+      <DownloadTable $isActive={isActive}>
         <tbody>
           <tr>
             <td title={fileName}>{fileNameContent}</td>
