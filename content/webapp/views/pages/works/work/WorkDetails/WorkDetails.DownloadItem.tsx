@@ -178,6 +178,7 @@ const DownloadItem: FunctionComponent<DownloadItemProps> = ({
     <NextLink
       {...canvasLink}
       style={{ display: 'inline-flex', alignItems: 'center' }}
+      aria-current={isActive ? 'page' : undefined}
     >
       {fileIcon}
       {fileName}
