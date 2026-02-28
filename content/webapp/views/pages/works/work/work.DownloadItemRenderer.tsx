@@ -80,7 +80,9 @@ const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
       {item.work.type === 'Canvas' &&
         item.work?.downloads?.map(download => {
           const shouldLinkToCanvas =
-            linkToCanvas && workId !== undefined && canvasIndex !== undefined;
+            linkToCanvas &&
+            workId !== undefined &&
+            typeof canvasIndex === 'number';
 
           return shouldLinkToCanvas ? (
             <DownloadItem

@@ -334,6 +334,17 @@ const ListItem: FunctionComponent<ListItemProps> = ({
           flatMode={flatMode}
           darkMode={darkMode}
           hasControl={hasGuideline}
+          /*
+            Only pass a canvasIndex to the renderer for canvas nodes.
+            The index is looked up from the tree-based canvasIndexById mapping,
+            which ensures the index matches the visual tree order (not the flat array).
+            For non-canvas nodes (e.g. ranges/folders), canvasIndex is undefined.
+          */
+          canvasIndex={
+            item.work.type === 'Canvas' && itemRendererProps?.canvasIndexById
+              ? itemRendererProps.canvasIndexById[item.work.id]
+              : undefined
+          }
           {...itemRendererProps}
         />
       )}
