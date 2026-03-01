@@ -65,7 +65,14 @@ const NestedList: FunctionComponent<NestedListProps> = ({
                 shouldFetchChildren={shouldFetchChildren}
                 flatMode={flatMode}
                 darkMode={darkMode}
-                itemRendererProps={itemRendererProps}
+                itemRendererProps={{
+                  ...itemRendererProps,
+                  canvasIndex:
+                    item.work.type === 'Canvas' &&
+                    itemRendererProps?.canvasIndexById
+                      ? itemRendererProps.canvasIndexById[item.work.id]
+                      : undefined,
+                }}
               />
             )
           );
