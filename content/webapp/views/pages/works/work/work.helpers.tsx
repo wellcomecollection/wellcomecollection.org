@@ -88,3 +88,27 @@ export function createDownloadTree(
   };
   return [topLevelItem];
 }
+
+// Traverse a UiTree and assign sequential canvas indices in tree order
+// This ensures that canvas indices match the visual order in the NestedList, including nested folders/ranges.
+export function getTreeCanvasIndexById(tree: UiTree): Record<string, number> {
+  let index = 1;
+  const canvasIndexById: Record<string, number> = {};
+
+  // Depth-first traversal: assign index to each canvas node as encountered
+  function traverse(nodes: UiTree) {
+    for (const node of nodes) {
+      // Only canvases get an index; ranges/folders are skipped
+      if (node.work.type === 'Canvas') {
+        canvasIndexById[node.work.id] = index++;
+      }
+      // Recursively traverse children (if any)
+      if (node.children) {
+        traverse(node.children);
+      }
+    }
+  }
+
+  traverse(tree);
+  return canvasIndexById;
+}
