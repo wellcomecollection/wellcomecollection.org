@@ -28,7 +28,10 @@ import WorkLink from '@weco/content/views/components/WorkLink';
 import WorkTitle from '@weco/content/views/components/WorkTitle';
 import NestedList from '@weco/content/views/pages/works/work/ArchiveTree/ArchiveTree.NestedList';
 import DownloadItemRenderer from '@weco/content/views/pages/works/work/work.DownloadItemRenderer';
-import { createDownloadTree } from '@weco/content/views/pages/works/work/work.helpers';
+import {
+  createDownloadTree,
+  getTreeCanvasIndexById,
+} from '@weco/content/views/pages/works/work/work.helpers';
 import { UiTree } from '@weco/content/views/pages/works/work/work.types';
 import WorksTree from '@weco/content/views/pages/works/work/workDetails/WorkDetails.Tree'; //TODO need items tree to use here and on works page?
 
@@ -174,13 +177,8 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
   const [tabbableId, setTabbableId] = useState<string>();
   const [archiveTree, setArchiveTree] = useState<UiTree>([]);
   const canvases = transformedManifest?.canvases ?? [];
-  const canvasIndexById = canvases.reduce(
-    (acc, canvas, index) => {
-      acc[canvas.id] = index + 1;
-      return acc;
-    },
-    {} as Record<string, number>
-  );
+  // Use tree-based index mapping for correct order
+  const canvasIndexById = getTreeCanvasIndexById(archiveTree);
   const matchingManifest =
     parentManifest &&
     parentManifest.canvases.find(canvas => {
