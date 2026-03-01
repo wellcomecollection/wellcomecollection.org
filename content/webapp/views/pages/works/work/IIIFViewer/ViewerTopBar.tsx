@@ -163,6 +163,7 @@ const Main = styled(Space).attrs({
   justify-content: flex-end;
 
   ${props => props.theme.media('sm')`
+    min-width: 450px;
     justify-content: space-between;
   `}
 `;

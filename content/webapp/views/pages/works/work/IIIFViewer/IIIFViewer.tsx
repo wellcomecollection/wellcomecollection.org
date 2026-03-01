@@ -162,6 +162,7 @@ const Main = styled.div<{
 
   ${props =>
     props.theme.media('sm')(`
+      min-width: 450px;
       width: auto;
       grid-area: desktop-main-start / ${
         props.$isDesktopSidebarActive ? 'main-start' : 'left-edge'
