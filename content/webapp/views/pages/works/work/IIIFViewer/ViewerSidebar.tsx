@@ -33,7 +33,7 @@ import {
   getTreeCanvasIndexById,
 } from '@weco/content/views/pages/works/work/work.helpers';
 import { UiTree } from '@weco/content/views/pages/works/work/work.types';
-import WorksTree from '@weco/content/views/pages/works/work/workDetails/WorkDetails.Tree';
+import WorksTree from '@weco/content/views/pages/works/work/WorkDetails/WorkDetails.Tree';
 
 import IIIFSearchWithin from './IIIFSearchWithin';
 import MultipleManifestList from './MultipleManifestList';
