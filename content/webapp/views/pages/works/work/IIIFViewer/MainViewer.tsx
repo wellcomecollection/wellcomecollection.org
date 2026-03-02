@@ -488,7 +488,7 @@ const MainViewer: FunctionComponent = () => {
   const hasMultipleCanvases = canvases && canvases.length > 1;
 
   useEffect(() => {
-    if (hasOnlyImages) {
+    if (!hasOnlyImages) {
       setShowFullscreenControl(false);
     }
   }, [hasOnlyImages, setShowFullscreenControl]);

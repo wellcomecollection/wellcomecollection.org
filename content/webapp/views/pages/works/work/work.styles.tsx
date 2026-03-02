@@ -48,6 +48,10 @@ export const Tree = styled.div<{
       display: block;
     }
 
+    li {
+      list-style: none;
+    }
+
     ul {
       content: '';
       width: auto;

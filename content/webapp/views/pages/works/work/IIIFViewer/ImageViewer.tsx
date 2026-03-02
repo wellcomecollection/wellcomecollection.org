@@ -2,6 +2,7 @@ import Router from 'next/router';
 import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { IIIFUriProps } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '@weco/common/utils/image-sizes';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
@@ -12,7 +13,7 @@ import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
 import { arrayIndexToQueryParam, queryParamToArrayIndex } from '.';
 import IIIFViewerImage from './IIIFViewerImage';
 
-const ImageWrapper = styled.div`
+const ImageWrapper = styled.div<{ $isFullSupportBrowser: boolean }>`
   position: absolute;
   top: 0;
   left: 0;
@@ -21,16 +22,23 @@ const ImageWrapper = styled.div`
   padding: 0;
 
   img {
-    margin: auto;
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-    display: block;
-    width: auto;
-    height: auto;
-    max-width: 80%;
-    max-height: 95%;
+    margin: 10px auto;
     overflow: scroll; /* for alt text, which can be long */
+    width: unset;
+    height: revert-layer;
+    display: block;
+
+    ${props =>
+      props.$isFullSupportBrowser &&
+      `
+      position: relative;
+      top: 50%;
+      width: auto;
+      height: auto;
+      transform: translateY(-50%);
+      max-width: 80%;
+      max-height: 95%;
+    `}
   }
 `;
 
@@ -58,6 +66,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   setImageRect,
   setImageContainerRect,
 }) => {
+  const { isFullSupportBrowser } = useAppContext();
   const {
     work,
     errorHandler,
@@ -175,7 +184,11 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   }, []);
 
   return (
-    <ImageWrapper onLoad={loadHandler} ref={imageWrapperRef}>
+    <ImageWrapper
+      onLoad={loadHandler}
+      ref={imageWrapperRef}
+      $isFullSupportBrowser={isFullSupportBrowser}
+    >
       <IIIFViewerImage
         index={index}
         ref={imageRef}
