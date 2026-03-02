@@ -283,6 +283,15 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     undefined
   );
   const handleResize = () => {
+    // Prevent resize logic when in fullscreen mode for native video player
+    // it causes the fullscreen mode to exit
+    if (
+      document.fullscreenElement &&
+      document.fullscreenElement.tagName.toLowerCase() === 'video'
+    ) {
+      return;
+    }
+
     setIsResizing(true);
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
