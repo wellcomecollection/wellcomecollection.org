@@ -412,6 +412,7 @@ const MainViewer: FunctionComponent = () => {
     errorHandler,
     accessToken,
     useFixedSizeList,
+    canvasIndexById,
   } = useItemViewerContext();
   const { shouldScrollToCanvas, canvas } = query;
   const mainViewerRef = useRef<FixedSizeList>(null);
@@ -427,7 +428,17 @@ const MainViewer: FunctionComponent = () => {
   const { canvases, auth, placeholderId } = {
     ...transformedManifest,
   };
-  const currentCanvas = canvases?.[queryParamToArrayIndex(canvas)];
+
+  // Canvas order is determined by structures if we have them, which aren't always the same
+  // as the order of canvases in items. The canvasIndexById provides a mapping from canvas ID
+  // to the correct display index based on the archival structure. If no structured mapping exists,
+  // we fall back to the array index position of canvases.
+  const currentCanvasId = Object.keys(canvasIndexById || {}).find(
+    id => canvasIndexById[id] === canvas
+  );
+  const currentCanvas = currentCanvasId
+    ? canvases?.find(c => c.id === currentCanvasId)
+    : canvases?.[queryParamToArrayIndex(canvas)];
 
   const externalAccessService = auth?.externalAccessService;
 
