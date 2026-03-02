@@ -161,7 +161,6 @@ type ViewerSidebarProps = OptionalToUndefined<{
 const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
   iiifImageLocation,
   iiifPresentationLocation,
-  hasMultipleCanvases,
 }) => {
   const {
     work,
@@ -322,7 +321,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
           </div>
         </AccordionItem>
 
-        {hasMultipleCanvases && !useFixedSizeList && archiveTree.length > 0 && (
+        {archiveTree.length > 0 && (
           <AccordionItem title="Contents" defaultOpen={true}>
             <WorksTree
               darkMode={true}
