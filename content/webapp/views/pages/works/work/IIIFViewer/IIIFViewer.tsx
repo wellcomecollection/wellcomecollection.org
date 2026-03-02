@@ -21,10 +21,7 @@ import {
 import { TransformedManifest } from '@weco/content/types/manifest';
 import { hasNonImages } from '@weco/content/utils/iiif/v3';
 import { fromQuery } from '@weco/content/views/components/ItemLink';
-import {
-  createDownloadTree,
-  getTreeCanvasIndexById,
-} from '@weco/content/views/pages/works/work/work.helpers';
+import { getTreeCanvasIndexById } from '@weco/content/views/pages/works/work/work.helpers';
 import { UiTree } from '@weco/content/views/pages/works/work/work.types';
 
 import { DelayVisibility, queryParamToArrayIndex } from '.';
@@ -48,6 +45,7 @@ type IIIFViewerProps = {
   setSearchResults: (v) => void;
   parentManifest?: ParentManifest;
   accessToken?: string;
+  initialArchiveTree?: UiTree;
 };
 
 const LoadingComponent = () => (
@@ -224,6 +222,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   setSearchResults,
   parentManifest,
   accessToken,
+  initialArchiveTree,
 }: IIIFViewerProps) => {
   const router = useRouter();
   const {
@@ -247,8 +246,10 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const [mainAreaHeight, setMainAreaHeight] = useState(500);
   const [mainAreaWidth, setMainAreaWidth] = useState(1000);
   const [isResizing, setIsResizing] = useState(false);
-  const [archiveTree, setArchiveTree] = useState<UiTree>([]);
-  const canvases = transformedManifest?.canvases ?? [];
+  // Use server-provided archiveTree (items route provides it, images route doesn't need it)
+  const [archiveTree, setArchiveTree] = useState<UiTree>(
+    initialArchiveTree || []
+  );
   const canvasIndexById = getTreeCanvasIndexById(archiveTree);
   const currentCanvas =
     transformedManifest?.canvases[queryParamToArrayIndex(canvas)];
@@ -317,29 +318,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   useEffect(() => {
     handleResize();
   }, [isDesktopSidebarActive]);
-
-  // Create tree from structures if available, otherwise flat tree from canvases
-  useEffect(() => {
-    if (multipleCanvases && !hasOnlyImages) {
-      // Use structures to build hierarchical tree, or fall back to flat tree from canvases
-      // Skip top-level 'objects' node and expand all items by default
-      const tree = createDownloadTree(
-        transformedManifest?.structures,
-        canvases,
-        {
-          skipObjectsNode: true,
-          openByDefault: true,
-        }
-      );
-
-      setArchiveTree(tree);
-    }
-  }, [
-    canvases,
-    multipleCanvases,
-    hasOnlyImages,
-    transformedManifest?.structures,
-  ]);
 
   return (
     <ItemViewerContext.Provider
