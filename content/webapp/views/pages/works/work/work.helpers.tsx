@@ -23,7 +23,8 @@ export const controlDimensions = {
 function convertStructuresToTree(
   structures: Manifest['structures'],
   canvases: TransformedCanvas[] | undefined,
-  parentId: string
+  parentId: string,
+  openByDefault = false
 ): UiTree {
   const items = structures && structures.length > 0 ? structures : canvases;
   return (
@@ -31,7 +32,7 @@ function convertStructuresToTree(
       ?.map(item => {
         if (isRange(item)) {
           return {
-            openStatus: false,
+            openStatus: openByDefault,
             parentId,
             work: {
               ...item,
@@ -41,7 +42,8 @@ function convertStructuresToTree(
             children: convertStructuresToTree(
               item.items?.filter(item => !isString(item)) as Range[],
               canvases,
-              item.id
+              item.id,
+              openByDefault
             ),
           };
         } else if (isCanvas(item)) {
@@ -54,7 +56,7 @@ function convertStructuresToTree(
             ? getOriginalFiles(transformedCanvas)
             : [];
           return {
-            openStatus: false,
+            openStatus: openByDefault,
             parentId,
             work: {
               ...transformedCanvas,
@@ -72,11 +74,18 @@ function convertStructuresToTree(
 
 export function createDownloadTree(
   structures: Manifest['structures'],
-  canvases: TransformedCanvas[] | undefined
+  canvases: TransformedCanvas[] | undefined,
+  options?: { skipObjectsNode?: boolean; openByDefault?: boolean }
 ): UiTree {
-  const downloads = convertStructuresToTree(structures, canvases, 'objects');
+  const openByDefault = options?.openByDefault ?? false;
+  const downloads = convertStructuresToTree(
+    structures,
+    canvases,
+    'objects',
+    openByDefault
+  );
   const topLevelItem = {
-    openStatus: false,
+    openStatus: openByDefault,
     work: {
       id: 'objects',
       type: 'Range',
@@ -86,6 +95,10 @@ export function createDownloadTree(
     } as RangeWork,
     children: downloads,
   };
+  // If skipObjectsNode is true don't wrap it in an objects range
+  if (options?.skipObjectsNode) {
+    return downloads;
+  }
   return [topLevelItem];
 }
 

@@ -19,7 +19,7 @@ import {
   ParentManifest,
 } from '@weco/content/types/item-viewer';
 import { TransformedManifest } from '@weco/content/types/manifest';
-import { getOriginalFiles, hasNonImages } from '@weco/content/utils/iiif/v3';
+import { hasNonImages } from '@weco/content/utils/iiif/v3';
 import { fromQuery } from '@weco/content/views/components/ItemLink';
 import {
   createDownloadTree,
@@ -320,45 +320,18 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   // Create tree from structures if available, otherwise flat tree from canvases
   useEffect(() => {
     if (multipleCanvases && !useFixedSizeList) {
-      let tree: UiTree = [];
-
-      if (
-        transformedManifest?.structures &&
-        transformedManifest.structures.length > 0
-      ) {
-        // Use structures to build hierarchical tree
-        tree = createDownloadTree(transformedManifest.structures, canvases);
-        // Skip the top-level "objects" wrapper if present
-        if (
-          tree.length === 1 &&
-          tree[0].work.id === 'objects' &&
-          tree[0].children
-        ) {
-          tree = tree[0].children;
+      // Use structures to build hierarchical tree, or fall back to flat tree from canvases
+      // Skip top-level 'objects' node and expand all items by default
+      const tree = createDownloadTree(
+        transformedManifest?.structures,
+        canvases,
+        {
+          skipObjectsNode: true,
+          openByDefault: true,
         }
-      } else {
-        // Build flat tree from canvases
-        tree = canvases.map((canvas, index) => ({
-          openStatus: true,
-          work: {
-            ...canvas,
-            title: `File ${index + 1}`,
-            downloads: getOriginalFiles(canvas),
-            totalParts: 0,
-          },
-        }));
-      }
+      );
 
-      // Expand all items by default
-      const expandAll = (items: UiTree): UiTree => {
-        return items.map(item => ({
-          ...item,
-          openStatus: true,
-          children: item.children ? expandAll(item.children) : undefined,
-        }));
-      };
-
-      setArchiveTree(expandAll(tree));
+      setArchiveTree(tree);
     }
   }, [
     canvases,
