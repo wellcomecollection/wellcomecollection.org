@@ -352,27 +352,41 @@ const WorkDetailsAvailableOnline = ({
             <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
               <MessageBox>{bornDigitalMessage}</MessageBox>
             </Space>
-            <div style={{ overflow: 'visible' }}>
-              <div style={{ display: 'inline-table', minWidth: '100%' }}>
-                <WorksTree>
-                  <NestedList
-                    currentWorkId={work.id}
-                    fullTree={archiveTree}
-                    setArchiveTree={setArchiveTree}
-                    archiveTree={archiveTree}
-                    level={1}
-                    tabbableId={tabbableId}
-                    setTabbableId={setTabbableId}
-                    archiveAncestorArray={[]}
-                    firstItemTabbable={true}
-                    showFirstLevelGuideline={true}
-                    ItemRenderer={DownloadItemRenderer}
-                    shouldFetchChildren={false}
-                    itemRendererProps={{}}
-                  />
-                </WorksTree>
+            {shouldShowItemLink ? (
+              <ItemPageLink
+                work={work}
+                itemUrl={itemUrl}
+                canvases={canvases}
+                collectionManifestsCount={collectionManifestsCount}
+                canvasCount={canvasCount}
+                downloadOptions={downloadOptions}
+                digitalLocationInfo={digitalLocationInfo}
+                authServices={authServices}
+                itemsStatus={itemsStatus}
+              />
+            ) : (
+              <div style={{ overflow: 'visible' }}>
+                <div style={{ display: 'inline-table', minWidth: '100%' }}>
+                  <WorksTree>
+                    <NestedList
+                      currentWorkId={work.id}
+                      fullTree={archiveTree}
+                      setArchiveTree={setArchiveTree}
+                      archiveTree={archiveTree}
+                      level={1}
+                      tabbableId={tabbableId}
+                      setTabbableId={setTabbableId}
+                      archiveAncestorArray={[]}
+                      firstItemTabbable={true}
+                      showFirstLevelGuideline={true}
+                      ItemRenderer={DownloadItemRenderer}
+                      shouldFetchChildren={false}
+                      itemRendererProps={{}}
+                    />
+                  </WorksTree>
+                </div>
               </div>
-            </div>
+            )}
           </>
         )}
 
