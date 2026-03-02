@@ -42,6 +42,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         '!restricted',
         '!closed',
       ],
+      'items.locations.createdDate.to': '2026-02-18',
       sort: 'items.locations.createdDate',
       sortOrder: 'desc',
       page,

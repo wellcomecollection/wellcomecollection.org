@@ -40,7 +40,6 @@ const InPageNavigationInColsContext: FunctionComponent<{
   topColor?: PaletteColor;
 }> = args => {
   const fixedArgs = {
-    isSticky: true,
     links,
   };
 
@@ -54,7 +53,6 @@ const InPageNavigationInColsContext: FunctionComponent<{
       <BackgroundGrid $percent={40} $topColor={args.topColor}>
         <InPageNavigation
           {...fixedArgs}
-          variant="sticky"
           sizeMap={{ s: [12], m: [12], l: [3], xl: [3] }}
         />
 

@@ -329,6 +329,16 @@ function makeSpacePropertyValues(
     .join('');
 }
 
+function clampLines(lines: number) {
+  return css`
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: ${lines};
+  `;
+}
+
 export const themeValues = {
   spacingUnit: 6,
   borderRadiusUnit: 6,
@@ -386,6 +396,7 @@ export const themeValues = {
     greenGreenWhite,
   },
   spacedTextTopMargin: '1.55em',
+  clampLines,
 };
 
 export type Breakpoint = keyof typeof sizes;

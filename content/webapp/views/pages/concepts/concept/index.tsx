@@ -140,7 +140,6 @@ const ConceptPage: NextPage<Props> = ({
         <Container>
           <Grid style={{ background: 'white', rowGap: 0 }}>
             <InPageNavigation
-              variant="sticky"
               links={navLinks}
               isOnWhite={!hasImages}
               sizeMap={{ s: [12], m: [12], l: [3], xl: [2] }}

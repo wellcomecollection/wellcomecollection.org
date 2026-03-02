@@ -100,26 +100,10 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'browseCollections',
-      title: 'Browse collections by type and topic',
-      initialValue: false,
-      description:
-        'Enables the new browse collections pages at /collections/types and /collections/topics',
-      type: 'experimental',
-    },
-    {
       id: 'a11yPrototype',
       title: 'Accessibility prototype page',
       initialValue: false,
       description: 'Allows access to the accessibility prototype page',
-      type: 'experimental',
-    },
-    {
-      id: 'twoColumns',
-      title: 'Two columns layout',
-      initialValue: false,
-      description:
-        'Enables a two-column layout for pages with in-page navigation',
       type: 'experimental',
     },
     {
@@ -134,7 +118,7 @@ const toggles = {
       title: 'Semantic search prototype',
       initialValue: false,
       description:
-        'Enables the semantic search prototype with predefined search terms and API selection.',
+        'Enables the semantic search prototype with predefined search terms and API selection. If enabled, please ensure the Semantic search comparison toggle is disabled.',
       type: 'experimental',
     },
     {
@@ -142,7 +126,7 @@ const toggles = {
       title: 'Semantic search comparison',
       initialValue: false,
       description:
-        'Displays the semantic search results side by side with the standard search results for comparison.',
+        'Allows use of semantic searches and facilitates the display of the semantic search results side by side with the standard search results for comparison. If enabled, please ensure the Semantic search prototype toggle is disabled.',
       type: 'experimental',
     },
   ] as const,

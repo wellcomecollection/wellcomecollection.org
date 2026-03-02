@@ -913,13 +913,3 @@ export const getVideoAudioDownloadOptions = (canvas?: TransformedCanvas) => {
   }
   return finalOptions.flat().filter(Boolean).filter(isNotUndefined) || [];
 };
-
-export const getCanvasPaintingItem = (canvas?: TransformedCanvas) => {
-  if (!canvas || !canvas?.painting) return undefined;
-
-  return isChoiceBody(canvas.painting[0])
-    ? typeof canvas.painting[0].items[0] !== 'string'
-      ? canvas.painting[0].items[0]
-      : undefined
-    : canvas.painting[0];
-};

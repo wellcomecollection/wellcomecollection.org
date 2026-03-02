@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-type StartSpan = [span: number, start?: number];
+export type StartSpan = [span: number, start?: number];
 export type SizeMap = Record<string, StartSpan>;
 
 export const Grid = styled.div<{ $noGap?: boolean }>`

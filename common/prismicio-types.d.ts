@@ -3778,6 +3778,7 @@ export type PageFormatsDocument<Lang extends string = string> =
   >;
 
 type PagesDocumentDataBodySlice =
+  | ArchiveCardListSlice
   | AudioPlayerSlice
   | CollectionVenueSlice
   | ContactSlice
@@ -5856,6 +5857,109 @@ export type AllDocumentTypes =
   | WebcomicsDocument;
 
 /**
+ * Item in *ArchiveCardList → Default → Primary → Archive items*
+ */
+export interface ArchiveCardListSliceDefaultPrimaryItemsItem {
+  /**
+   * Work ID field in *ArchiveCardList → Default → Primary → Archive items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: e.g. ab1cd234
+   * - **API ID Path**: archiveCardList.default.primary.items[].id
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  id: prismic.KeyTextField;
+
+  /**
+   * Label field in *ArchiveCardList → Default → Primary → Archive items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: e.g. Personal archives
+   * - **API ID Path**: archiveCardList.default.primary.items[].label
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  label: prismic.KeyTextField;
+
+  /**
+   * Description field in *ArchiveCardList → Default → Primary → Archive items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: archiveCardList.default.primary.items[].archive_description
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  archive_description: prismic.KeyTextField;
+
+  /**
+   * Is organisation? field in *ArchiveCardList → Default → Primary → Archive items*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: archiveCardList.default.primary.items[].is_organisation
+   * - **Documentation**: https://prismic.io/docs/fields/boolean
+   */
+  is_organisation: prismic.BooleanField;
+}
+
+/**
+ * Primary content in *ArchiveCardList → Default → Primary*
+ */
+export interface ArchiveCardListSliceDefaultPrimary {
+  /**
+   * Title field in *ArchiveCardList → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: e.g. Featured archives
+   * - **API ID Path**: archiveCardList.default.primary.title
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  title: prismic.KeyTextField;
+
+  /**
+   * Archive items field in *ArchiveCardList → Default → Primary*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: archiveCardList.default.primary.items[]
+   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   */
+  items: prismic.GroupField<
+    Simplify<ArchiveCardListSliceDefaultPrimaryItemsItem>
+  >;
+}
+
+/**
+ * Default variation for ArchiveCardList Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Displays a curated list of archive cards.
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type ArchiveCardListSliceDefault = prismic.SharedSliceVariation<
+  'default',
+  Simplify<ArchiveCardListSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *ArchiveCardList*
+ */
+type ArchiveCardListSliceVariation = ArchiveCardListSliceDefault;
+
+/**
+ * ArchiveCardList Shared Slice
+ *
+ * - **API ID**: `archiveCardList`
+ * - **Description**: *None*
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type ArchiveCardListSlice = prismic.SharedSlice<
+  'archiveCardList',
+  ArchiveCardListSliceVariation
+>;
+
+/**
  * Primary content in *AudioPlayer → Default → Primary*
  */
 export interface AudioPlayerSliceDefaultPrimary {
@@ -7799,6 +7903,11 @@ declare module '@prismicio/client' {
       WebcomicsDocumentDataPromoSlice,
       WebcomicsDocumentDataSeriesItem,
       AllDocumentTypes,
+      ArchiveCardListSlice,
+      ArchiveCardListSliceDefaultPrimaryItemsItem,
+      ArchiveCardListSliceDefaultPrimary,
+      ArchiveCardListSliceVariation,
+      ArchiveCardListSliceDefault,
       AudioPlayerSlice,
       AudioPlayerSliceDefaultPrimary,
       AudioPlayerSliceVariation,

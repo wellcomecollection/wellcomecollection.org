@@ -4,6 +4,8 @@ export type CatalogueWorksApiProps = {
   workType?: string[];
   'items.locations.locationType'?: string[];
   'items.locations.accessConditions.status'?: string[];
+  'items.locations.createdDate.to'?: string;
+  'items.locations.createdDate.from'?: string;
   availabilities?: string[];
   sort?: string;
   sortOrder?: string;
@@ -18,6 +20,13 @@ export type CatalogueWorksApiProps = {
   languages?: string[];
   identifiers?: string[];
   aggregations?: string[];
+  // Optional override for selecting a specific Elastic cluster for
+  // semantic-search prototype experiments. Expected values:
+  // - 'openai'
+  // - 'elser'
+  // This is intentionally optional and experimental; production callers
+  // should omit this.
+  elasticCluster?: 'openai' | 'elser';
 };
 
 export type CatalogueImagesApiProps = {

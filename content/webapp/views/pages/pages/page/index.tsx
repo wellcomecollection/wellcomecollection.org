@@ -31,6 +31,7 @@ import { transformEmbedSlice } from '@weco/content/services/prismic/transformers
 import { isEditorialImage, isVideoEmbed } from '@weco/content/types/body';
 import { Page as PageType } from '@weco/content/types/pages';
 import { SiblingsGroup } from '@weco/content/types/siblings-group';
+import { BodySliceContexts } from '@weco/content/views/components/Body';
 import Body from '@weco/content/views/components/Body';
 import CardGrid from '@weco/content/views/components/CardGrid';
 import ContentPage from '@weco/content/views/components/ContentPage';
@@ -44,6 +45,7 @@ export type Props = {
   ordersInParents: OrderInParent[];
   staticContent: ReactElement | null;
   jsonLd: JsonLdObj;
+  bodySliceContexts?: BodySliceContexts;
 };
 
 export type OrderInParent = {
@@ -63,6 +65,7 @@ export const PagePage: NextPage<Props> = ({
   ordersInParents,
   staticContent,
   jsonLd,
+  bodySliceContexts,
 }) => {
   const DateInfo = page.datePublished && (
     <HTMLDateAndTime variant="date" date={page.datePublished} />
@@ -263,6 +266,7 @@ export const PagePage: NextPage<Props> = ({
             isOfficialLandingPage={isOfficialLandingPage}
             staticContent={staticContent}
             gridSizes={gridSize8()}
+            bodySliceContexts={bodySliceContexts}
           />
         }
         /**

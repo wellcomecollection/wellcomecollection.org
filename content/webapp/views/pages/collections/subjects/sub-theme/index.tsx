@@ -180,7 +180,6 @@ const WellcomeSubThemePage: NextPage<Props> & {
     <Container>
       <PageGrid>
         <InPageNavigation
-          variant="sticky"
           links={onThisPage}
           sizeMap={{ s: [12], m: [12], l: [3], xl: [3] }}
           isOnWhite
