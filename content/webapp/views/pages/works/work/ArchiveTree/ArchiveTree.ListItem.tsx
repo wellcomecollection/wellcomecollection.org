@@ -110,7 +110,6 @@ type ListItemProps = ListProps & {
   posInSet: number;
   index: number;
   shouldFetchChildren: boolean;
-  flatMode?: boolean;
   darkMode?: boolean;
   itemRendererProps?: Record<string, unknown>;
 };
@@ -149,7 +148,6 @@ const ListItem: FunctionComponent<ListItemProps> = ({
   showFirstLevelGuideline,
   ItemRenderer,
   shouldFetchChildren,
-  flatMode = false,
   darkMode = false,
   itemRendererProps,
 }: ListItemProps) => {
@@ -302,7 +300,6 @@ const ListItem: FunctionComponent<ListItemProps> = ({
         }
       }}
       onClick={event => {
-        if (flatMode) return;
         // We had previously used event.stopPropagation() to stop the clicking
         // of an inner TreeItem from bubbling up to any outer TreeItems, but
         // this prevented a GTM trigger that we have set on download links from
@@ -331,14 +328,13 @@ const ListItem: FunctionComponent<ListItemProps> = ({
           level={level}
           showFirstLevelGuideline={showFirstLevelGuideline}
           highlightCondition={highlightCondition}
-          flatMode={flatMode}
           darkMode={darkMode}
           hasControl={hasGuideline}
           {...itemRendererProps}
         />
       )}
 
-      {item.children && (flatMode || item.openStatus) && (
+      {item.children && item.openStatus && (
         <NestedList
           currentWorkId={currentWorkId}
           archiveTree={item.children}
@@ -352,7 +348,6 @@ const ListItem: FunctionComponent<ListItemProps> = ({
           showFirstLevelGuideline={showFirstLevelGuideline}
           ItemRenderer={ItemRenderer}
           shouldFetchChildren={shouldFetchChildren}
-          flatMode={flatMode}
           darkMode={darkMode}
           itemRendererProps={itemRendererProps}
         />

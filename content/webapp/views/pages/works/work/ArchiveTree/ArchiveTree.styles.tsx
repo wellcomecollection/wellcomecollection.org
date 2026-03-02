@@ -67,7 +67,6 @@ export const TreeItem = styled.li.attrs<TreeItemStyledProps>(props => ({
 
 export type TreeControlStyledProps = {
   $highlightCondition?: string;
-  $flatMode?: boolean;
   $controlBackground?: string;
   $controlBorder?: string;
   $darkMode?: boolean;
@@ -75,7 +74,7 @@ export type TreeControlStyledProps = {
 
 export const TreeControl = styled.span<TreeControlStyledProps>`
   display: inline-block;
-  cursor: ${props => (props.$flatMode ? 'default' : 'pointer')};
+  cursor: pointer;
   height: ${controlDimensions.controlHeight}px;
   width: ${controlDimensions.controlWidth}px;
   min-width: ${controlDimensions.controlWidth}px;
