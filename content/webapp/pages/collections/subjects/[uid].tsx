@@ -53,7 +53,10 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const pageUid = getQueryPropertyValue(context.query.uid);
 
   if (
-    !serverData.toggles.thematicBrowsing.value ||
+    !(
+      serverData.toggles.thematicBrowsing.value &&
+      serverData.toggles.thematicBrowsingSubCategory.value
+    ) ||
     !pageUid ||
     !subjectsEnum.includes(pageUid)
   ) {
