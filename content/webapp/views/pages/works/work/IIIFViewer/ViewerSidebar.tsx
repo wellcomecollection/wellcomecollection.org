@@ -347,6 +347,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
                   canvasIndexById,
                   currentCanvasIndex: canvas,
                   itemOnClick: () => setIsMobileSidebarActive(false),
+                  canvases: transformedManifest?.canvases,
                 }}
               />
             </WorksTree>

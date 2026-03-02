@@ -25,6 +25,7 @@ export type DownloadItemRendererProps = {
   hasControl: boolean;
   highlightCondition: 'primary' | 'secondary' | undefined;
   workId?: string;
+  canvases?: TransformedCanvas[];
   canvasIndexById?: Record<string, number>;
   linkToCanvas?: boolean;
   darkMode?: boolean;
@@ -38,13 +39,22 @@ const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
   hasControl,
   highlightCondition,
   workId,
+  canvases,
   canvasIndexById,
   linkToCanvas = false,
   darkMode = false,
   currentCanvasIndex = 0,
   itemOnClick,
 }) => {
-  const canvasIndex = canvasIndexById?.[item.work.id];
+  // Only use canvasIndexById if it contains all canvases
+  const hasCompleteStructure =
+    canvasIndexById &&
+    canvases &&
+    Object.keys(canvasIndexById).length === canvases.length;
+
+  const canvasIndex = hasCompleteStructure
+    ? canvasIndexById[item.work.id]
+    : canvases?.findIndex(canvas => canvas.id === item.work.id);
   return (
     <ItemWrapper>
       {isEnhanced && hasControl && (
