@@ -21,6 +21,7 @@ import { transformPage } from '@weco/content/services/prismic/transformers/pages
 import { getConcepts } from '@weco/content/services/wellcome/catalogue/concepts';
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import {
+  RelatedConcept,
   toWorkBasic,
   Work,
 } from '@weco/content/services/wellcome/catalogue/types';
@@ -253,7 +254,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         works: {
           ...worksAbout,
           pageResults: worksAbout.pageResults.map(toWorkBasic),
-          totalResults: totalResults.worksAbout || 0,
+          totalResults: totalResults.worksAbout ?? worksAbout.totalResults,
           workTypes:
             ('aggregations' in worksAboutResponseByLabel &&
               worksAboutResponseByLabel.aggregations?.workType?.buckets.map(
@@ -263,7 +264,10 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         },
       }),
       ...(imagesAbout && {
-        images: { ...imagesAbout, totalResults: totalResults.imagesAbout || 0 },
+        images: {
+          ...imagesAbout,
+          totalResults: totalResults.imagesAbout ?? imagesAbout.totalResults,
+        },
       }),
       displayLabels,
     };
@@ -274,7 +278,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
      * Deduplicate collaborators across multiple concepts by using a Map
      * keyed by collaborator id, then convert back to an array
      * */
-    const frequentCollaboratorsMap = new Map();
+    // Typed Map for type safety
+    const frequentCollaboratorsMap = new Map<string, RelatedConcept>();
     conceptResponse.results.forEach(concept => {
       concept.relatedConcepts?.frequentCollaborators?.forEach(collaborator => {
         if (!frequentCollaboratorsMap.has(collaborator.id)) {
@@ -290,7 +295,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
      * Deduplicate topics across multiple concepts by using a Map
      * keyed by topic id, then convert back to an array
      * */
-    const relatedTopicsMap = new Map();
+    const relatedTopicsMap = new Map<string, RelatedConcept>();
     conceptResponse.results.forEach(concept => {
       concept.relatedConcepts?.relatedTopics?.forEach(topic => {
         if (!relatedTopicsMap.has(topic.id)) {
