@@ -100,14 +100,6 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'browseCollections',
-      title: 'Browse collections by type and topic',
-      initialValue: false,
-      description:
-        'Enables the new browse collections pages at /collections/types and /collections/topics',
-      type: 'experimental',
-    },
-    {
       id: 'a11yPrototype',
       title: 'Accessibility prototype page',
       initialValue: false,
