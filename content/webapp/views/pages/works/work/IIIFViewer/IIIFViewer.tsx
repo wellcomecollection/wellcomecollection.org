@@ -455,17 +455,19 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
             />
           </Zoom>
         )}
-        {isFullSupportBrowser && hasOnlyImages && (
+        {isFullSupportBrowser && (
           <>
             <BottomBar>
               <ViewerBottomBar />
             </BottomBar>
-            <ThumbnailsWrapper
-              $isActive={gridVisible}
-              $isDesktopSidebarActive={isDesktopSidebarActive}
-            >
-              <GridViewer />
-            </ThumbnailsWrapper>
+            {hasOnlyImages && (
+              <ThumbnailsWrapper
+                $isActive={gridVisible}
+                $isDesktopSidebarActive={isDesktopSidebarActive}
+              >
+                <GridViewer />
+              </ThumbnailsWrapper>
+            )}
           </>
         )}
       </Grid>
