@@ -252,6 +252,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         works: {
           ...worksAbout,
           pageResults: worksAbout.pageResults.map(toWorkBasic),
+          totalResults: totalResults.worksAbout || 0,
           workTypes:
             ('aggregations' in worksAboutResponseByLabel &&
               worksAboutResponseByLabel.aggregations?.workType?.buckets.map(
@@ -260,11 +261,9 @@ export const getServerSideProps: ServerSidePropsOrAppError<
             [],
         },
       }),
-      images: imagesAbout,
-      totalResults: {
-        works: totalResults.worksAbout,
-        images: totalResults.imagesAbout,
-      },
+      ...(imagesAbout && {
+        images: { ...imagesAbout, totalResults: totalResults.imagesAbout || 0 },
+      }),
     };
     /** */
 

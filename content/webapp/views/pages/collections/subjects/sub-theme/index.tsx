@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { ThemeCardsListSlice as RawThemeCardsListSlice } from '@weco/common/prismicio-types';
 import { font } from '@weco/common/utils/classnames';
+import { ReturnedResults } from '@weco/common/utils/search';
 import {
   ApiToolbarLink,
   createPrismicLink,
@@ -16,6 +17,7 @@ import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import { components } from '@weco/common/views/slices';
 import {
+  Image as ImageType,
   RelatedConcept,
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
@@ -27,8 +29,6 @@ import ImageModal, {
 import InPageNavigation from '@weco/content/views/components/InPageNavigation';
 import WorkCards from '@weco/content/views/components/WorkCards';
 import ThematicBrowsingLayout from '@weco/content/views/layouts/ThematicBrowsingLayout';
-// TODO: centralise if we still need it after the compound concept is being fetched
-import { SectionData } from '@weco/content/views/pages/concepts/concept/concept.helpers';
 
 import SubThemeImages from './sub-theme.Images';
 import SubThemeRelatedTopics from './sub-theme.RelatedTopics';
@@ -83,9 +83,11 @@ export type Props = {
   // This type is not great but this whole section will
   // probably be removed when we have a better idea of
   // what we want to show on these pages.
-  worksAndImagesAbout: SectionData & {
-    works?: { workTypes: unknown[] };
+  worksAndImagesAbout: {
+    works?: ReturnedResults<WorkBasic> & { workTypes: unknown[] };
+    images?: ReturnedResults<ImageType>;
   };
+
   relatedTopics: RelatedConcept[];
 };
 
