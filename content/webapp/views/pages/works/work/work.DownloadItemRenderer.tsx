@@ -30,6 +30,7 @@ export type DownloadItemRendererProps = {
   flatMode?: boolean;
   darkMode?: boolean;
   currentCanvasIndex?: number;
+  itemOnClick?: () => void;
 };
 
 const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
@@ -43,6 +44,7 @@ const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
   flatMode = false,
   darkMode = false,
   currentCanvasIndex = 0,
+  itemOnClick,
 }) => {
   const canvasIndex = canvasIndexById?.[item.work.id];
   return (
@@ -93,6 +95,7 @@ const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
               canvasIndex={canvasIndex}
               linkToCanvas={true}
               currentCanvasIndex={currentCanvasIndex}
+              onClick={itemOnClick}
             />
           ) : (
             <DownloadItem

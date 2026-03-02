@@ -169,8 +169,14 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
   iiifPresentationLocation,
   hasMultipleCanvases,
 }) => {
-  const { work, transformedManifest, parentManifest, useFixedSizeList, query } =
-    useItemViewerContext();
+  const {
+    work,
+    transformedManifest,
+    parentManifest,
+    useFixedSizeList,
+    query,
+    setIsMobileSidebarActive,
+  } = useItemViewerContext();
   const { canvas } = query || {};
   const { userIsStaffWithRestricted } = useUserContext();
 
@@ -382,14 +388,15 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
                 archiveAncestorArray={[]}
                 firstItemTabbable={true}
                 showFirstLevelGuideline={true}
-                ItemRenderer={DownloadItemRenderer}
                 shouldFetchChildren={false}
                 darkMode={true}
+                ItemRenderer={DownloadItemRenderer}
                 itemRendererProps={{
                   linkToCanvas: true,
                   workId: work.id,
                   canvasIndexById,
                   currentCanvasIndex: canvas,
+                  itemOnClick: () => setIsMobileSidebarActive(false),
                 }}
               />
             </WorksTree>
