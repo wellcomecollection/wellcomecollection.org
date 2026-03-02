@@ -437,7 +437,6 @@ const MainViewer: FunctionComponent = () => {
   // otherwise we fall back to array indexing.
   const hasCompleteStructure =
     canvasIndexById && Object.keys(canvasIndexById).length === canvases?.length;
-  console.log('hasCompleteStructure', hasCompleteStructure);
   const currentCanvasId = hasCompleteStructure
     ? Object.keys(canvasIndexById).find(id => canvasIndexById[id] === canvas)
     : undefined;
