@@ -95,7 +95,8 @@ const ViewerBottomBar: FunctionComponent = () => {
   const { canvas } = query;
 
   // Navigation logic for previous/next canvas
-  const hasCompleteStructure = Object.keys(canvasIndexById).length > 0;
+  const hasCompleteStructure =
+    Object.keys(canvasIndexById).length === canvases?.length;
   const totalCanvases = hasCompleteStructure
     ? Object.keys(canvasIndexById).length
     : canvases?.length || 0;
