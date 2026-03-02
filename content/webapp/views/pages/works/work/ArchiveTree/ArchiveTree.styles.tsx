@@ -28,7 +28,6 @@ export const TreeItem = styled.li.attrs<TreeItemStyledProps>(props => ({
   className: props.$showGuideline ? 'guideline' : '',
 }))<TreeItemStyledProps>`
   position: relative;
-  list-style: ${props => (props.$isEnhanced ? 'none' : 'disc')};
 
   &.guideline::before,
   &.guideline::after {
