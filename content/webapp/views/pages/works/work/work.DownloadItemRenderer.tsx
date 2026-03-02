@@ -46,15 +46,22 @@ const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
   currentCanvasIndex = 0,
   itemOnClick,
 }) => {
-  // Only use canvasIndexById if it contains all canvases
+  // Only use canvasIndexById if the structure contains all canvases
   const hasCompleteStructure =
     canvasIndexById &&
     canvases &&
     Object.keys(canvasIndexById).length === canvases.length;
 
+  // findIndex is 0-based and returns -1 if not found
+  // Convert to 1-based index for toWorksItemLink, or undefined if not found
+  const fallbackIndex = canvases?.findIndex(
+    canvas => canvas.id === item.work.id
+  );
   const canvasIndex = hasCompleteStructure
     ? canvasIndexById[item.work.id]
-    : canvases?.findIndex(canvas => canvas.id === item.work.id);
+    : fallbackIndex !== undefined && fallbackIndex >= 0
+      ? fallbackIndex + 1
+      : undefined;
   return (
     <ItemWrapper>
       {isEnhanced && hasControl && (
@@ -89,7 +96,8 @@ const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
           const shouldLinkToCanvas =
             linkToCanvas &&
             workId !== undefined &&
-            typeof canvasIndex === 'number';
+            typeof canvasIndex === 'number' &&
+            canvasIndex > 0;
 
           return shouldLinkToCanvas ? (
             <DownloadItem
