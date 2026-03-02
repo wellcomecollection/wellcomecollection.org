@@ -139,6 +139,7 @@ const DownloadItem: FunctionComponent<DownloadItemProps> = ({
   const isActive =
     linkToCanvas &&
     canvasIndex !== undefined &&
+    canvasIndex >= 1 &&
     currentCanvasIndex === canvasIndex;
 
   // If there is a choice then we only show the first one
@@ -152,7 +153,7 @@ const DownloadItem: FunctionComponent<DownloadItemProps> = ({
   const fileName = itemLabel || canvas?.label || '';
   const formatString = format ? format.split('/').pop() || '' : '';
   const canvasLink =
-    linkToCanvas && workId && canvasIndex
+    linkToCanvas && workId && canvasIndex !== undefined && canvasIndex >= 1
       ? toWorksItemLink({
           workId,
           props: {
