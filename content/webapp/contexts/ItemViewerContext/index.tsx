@@ -11,6 +11,7 @@ import {
   ParentManifest,
 } from '@weco/content/types/item-viewer';
 import { TransformedManifest } from '@weco/content/types/manifest';
+import { UiTree } from '@weco/content/views/pages/works/work/work.types';
 
 type Props = {
   // DATA props:
@@ -21,6 +22,9 @@ type Props = {
   searchResults: SearchResults | null;
   setSearchResults: (v) => void;
   accessToken: string | undefined;
+  archiveTree: UiTree;
+  setArchiveTree: (v: UiTree) => void;
+  canvasIndexById: Record<string, number>;
 
   // UI props:
   viewerRef: RefObject<HTMLDivElement | null> | undefined;
@@ -97,6 +101,9 @@ const ItemViewerContext = createContext<Props>({
   searchResults: results,
   setSearchResults: () => undefined,
   accessToken: undefined,
+  archiveTree: [],
+  setArchiveTree: () => undefined,
+  canvasIndexById: {},
 
   // UI props:
   viewerRef: undefined,

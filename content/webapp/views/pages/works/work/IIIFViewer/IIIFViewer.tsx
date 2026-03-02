@@ -19,8 +19,13 @@ import {
   ParentManifest,
 } from '@weco/content/types/item-viewer';
 import { TransformedManifest } from '@weco/content/types/manifest';
-import { hasNonImages } from '@weco/content/utils/iiif/v3';
+import { getOriginalFiles, hasNonImages } from '@weco/content/utils/iiif/v3';
 import { fromQuery } from '@weco/content/views/components/ItemLink';
+import {
+  createDownloadTree,
+  getTreeCanvasIndexById,
+} from '@weco/content/views/pages/works/work/work.helpers';
+import { UiTree } from '@weco/content/views/pages/works/work/work.types';
 
 import { DelayVisibility, queryParamToArrayIndex } from '.';
 import GridViewer from './GridViewer';
@@ -242,6 +247,9 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const [mainAreaHeight, setMainAreaHeight] = useState(500);
   const [mainAreaWidth, setMainAreaWidth] = useState(1000);
   const [isResizing, setIsResizing] = useState(false);
+  const [archiveTree, setArchiveTree] = useState<UiTree>([]);
+  const canvases = transformedManifest?.canvases ?? [];
+  const canvasIndexById = getTreeCanvasIndexById(archiveTree);
   const currentCanvas =
     transformedManifest?.canvases[queryParamToArrayIndex(canvas)];
   const mainImageService = { '@id': currentCanvas?.imageServiceId };
@@ -300,6 +308,56 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     handleResize();
   }, [isDesktopSidebarActive]);
 
+  // Create tree from structures if available, otherwise flat tree from canvases
+  useEffect(() => {
+    if (multipleCanvases && !useFixedSizeList) {
+      let tree: UiTree = [];
+
+      if (
+        transformedManifest?.structures &&
+        transformedManifest.structures.length > 0
+      ) {
+        // Use structures to build hierarchical tree
+        tree = createDownloadTree(transformedManifest.structures, canvases);
+        // Skip the top-level "objects" wrapper if present
+        if (
+          tree.length === 1 &&
+          tree[0].work.id === 'objects' &&
+          tree[0].children
+        ) {
+          tree = tree[0].children;
+        }
+      } else {
+        // Build flat tree from canvases
+        tree = canvases.map((canvas, index) => ({
+          openStatus: true,
+          work: {
+            ...canvas,
+            title: `File ${index + 1}`,
+            downloads: getOriginalFiles(canvas),
+            totalParts: 0,
+          },
+        }));
+      }
+
+      // Expand all items by default
+      const expandAll = (items: UiTree): UiTree => {
+        return items.map(item => ({
+          ...item,
+          openStatus: true,
+          children: item.children ? expandAll(item.children) : undefined,
+        }));
+      };
+
+      setArchiveTree(expandAll(tree));
+    }
+  }, [
+    canvases,
+    multipleCanvases,
+    useFixedSizeList,
+    transformedManifest?.structures,
+  ]);
+
   return (
     <ItemViewerContext.Provider
       value={{
@@ -316,6 +374,9 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         parentManifest,
         searchResults,
         setSearchResults,
+        archiveTree,
+        setArchiveTree,
+        canvasIndexById,
 
         // UI Props:
         viewerRef,

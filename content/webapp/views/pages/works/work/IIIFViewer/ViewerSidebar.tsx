@@ -19,7 +19,6 @@ import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import {
   getAuthServices,
   getMultiVolumeLabel,
-  getOriginalFiles,
 } from '@weco/content/utils/iiif/v3';
 import { removeTrailingFullStop, toHtmlId } from '@weco/content/utils/string';
 import { getDigitalLocationInfo } from '@weco/content/utils/works';
@@ -28,11 +27,6 @@ import WorkLink from '@weco/content/views/components/WorkLink';
 import WorkTitle from '@weco/content/views/components/WorkTitle';
 import NestedList from '@weco/content/views/pages/works/work/ArchiveTree/ArchiveTree.NestedList';
 import DownloadItemRenderer from '@weco/content/views/pages/works/work/work.DownloadItemRenderer';
-import {
-  createDownloadTree,
-  getTreeCanvasIndexById,
-} from '@weco/content/views/pages/works/work/work.helpers';
-import { UiTree } from '@weco/content/views/pages/works/work/work.types';
 import WorksTree from '@weco/content/views/pages/works/work/WorkDetails/WorkDetails.Tree';
 
 import IIIFSearchWithin from './IIIFSearchWithin';
@@ -176,15 +170,14 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
     useFixedSizeList,
     query,
     setIsMobileSidebarActive,
+    archiveTree,
+    setArchiveTree,
+    canvasIndexById,
   } = useItemViewerContext();
   const { canvas } = query || {};
   const { userIsStaffWithRestricted } = useUserContext();
 
   const [tabbableId, setTabbableId] = useState<string>();
-  const [archiveTree, setArchiveTree] = useState<UiTree>([]);
-  const canvases = transformedManifest?.canvases ?? [];
-  // Use tree-based index mapping for correct order
-  const canvasIndexById = getTreeCanvasIndexById(archiveTree);
   const matchingManifest =
     parentManifest &&
     parentManifest.canvases.find(canvas => {
@@ -222,48 +215,6 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
   const manifestNeedsRegeneration =
     authServices?.external?.id ===
     'https://iiif.wellcomecollection.org/auth/restrictedlogin';
-
-  // Create tree from structures if available, otherwise flat tree from canvases
-  useEffect(() => {
-    if (hasMultipleCanvases && !useFixedSizeList) {
-      let tree: UiTree = [];
-
-      if (structures && structures.length > 0) {
-        // Use structures to build hierarchical tree, but skip the wrapper
-        tree = createDownloadTree(structures, canvases);
-        // Skip the top-level "objects" wrapper if present
-        if (
-          tree.length === 1 &&
-          tree[0].work.id === 'objects' &&
-          tree[0].children
-        ) {
-          tree = tree[0].children;
-        }
-      } else {
-        // Build flat tree from canvases
-        tree = canvases.map((canvas, index) => ({
-          openStatus: true,
-          work: {
-            ...canvas,
-            title: `File ${index + 1}`,
-            downloads: getOriginalFiles(canvas),
-            totalParts: 0,
-          },
-        }));
-      }
-
-      // Expand all items by default
-      const expandAll = (items: UiTree): UiTree => {
-        return items.map(item => ({
-          ...item,
-          openStatus: true,
-          children: item.children ? expandAll(item.children) : undefined,
-        }));
-      };
-
-      setArchiveTree(expandAll(tree));
-    }
-  }, [canvases, hasMultipleCanvases, useFixedSizeList, structures]);
 
   useEffect(() => {
     const elementToFocus = tabbableId && document.getElementById(tabbableId);
