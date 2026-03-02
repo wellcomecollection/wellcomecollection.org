@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import styled from 'styled-components';
 
 import { pluralize } from '@weco/common/utils/grammar';
@@ -22,33 +21,29 @@ const SubThemeImages = ({
   subThemeName: string;
   images: ReturnedResults<ImageType>;
   conceptsDisplayLabels: string[];
-}) => {
-  const firstTenImages = useMemo(
-    () => images.pageResults.slice(0, 10) || [],
-    [images]
-  );
+}) => (
+  <ThemeImagesWrapper>
+    <CatalogueImageGallery
+      images={
+        images.totalResults > 12
+          ? images.pageResults.slice(0, 10)
+          : images.pageResults
+      }
+      detailsCopy={`${pluralize(images.totalResults, 'image')} from works`}
+      variant="scrollable"
+    />
 
-  return (
-    <ThemeImagesWrapper>
-      <CatalogueImageGallery
-        // Show the first 10 images, unless the total is 12 or fewer, in which case show all images
-        images={images.totalResults > 12 ? firstTenImages : images.pageResults}
-        detailsCopy={`${pluralize(images.totalResults, 'image')} from works`}
-        variant="scrollable"
+    <Space $v={{ size: 'md', properties: ['margin-top'] }}>
+      <MoreLink
+        ariaLabel={`View all images about ${subThemeName}`}
+        name="View all"
+        url={toSearchImagesLink({
+          'source.subjects.label': conceptsDisplayLabels,
+        })}
+        colors={themeValues.buttonColors.greenGreenWhite}
       />
-
-      <Space $v={{ size: 'md', properties: ['margin-top'] }}>
-        <MoreLink
-          ariaLabel={`View all images about ${subThemeName}`}
-          name="View all"
-          url={toSearchImagesLink({
-            'source.subjects.label': conceptsDisplayLabels,
-          })}
-          colors={themeValues.buttonColors.greenGreenWhite}
-        />
-      </Space>
-    </ThemeImagesWrapper>
-  );
-};
+    </Space>
+  </ThemeImagesWrapper>
+);
 
 export default SubThemeImages;

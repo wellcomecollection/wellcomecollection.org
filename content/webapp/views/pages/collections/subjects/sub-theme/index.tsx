@@ -72,6 +72,12 @@ const StretchWrapper = styled.div<{ $hasDarkBackground?: boolean }>`
   `}
 `;
 
+type WorksAndImagesResponse = {
+  works?: ReturnedResults<WorkBasic> & { workTypes: unknown[] };
+  images?: ReturnedResults<ImageType>;
+  displayLabels: string[];
+};
+
 export type Props = {
   thematicBrowsingPage: Page;
   apiToolbarLinks: ApiToolbarLink[];
@@ -80,15 +86,7 @@ export type Props = {
   newOnlineWorks: WorkBasic[];
   frequentCollaborators: RelatedConcept[];
   relatedStoriesId: string[];
-  // This type is not great but this whole section will
-  // probably be removed when we have a better idea of
-  // what we want to show on these pages.
-  worksAndImagesAbout: {
-    works?: ReturnedResults<WorkBasic> & { workTypes: unknown[] };
-    images?: ReturnedResults<ImageType>;
-    displayLabels: string[];
-  };
-
+  worksAndImagesAbout: WorksAndImagesResponse;
   relatedTopics: RelatedConcept[];
 };
 
