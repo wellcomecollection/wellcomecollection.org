@@ -11,6 +11,7 @@ import styled from 'styled-components';
 import { file, imageFile } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
+import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import {
   CustomContentResource,
   TransformedCanvas,
@@ -134,6 +135,7 @@ const DownloadItem: FunctionComponent<DownloadItemProps> = ({
   linkToCanvas = false,
   currentCanvasIndex,
 }) => {
+  const { setIsMobileSidebarActive } = useItemViewerContext();
   const isActive =
     linkToCanvas &&
     canvasIndex !== undefined &&
@@ -179,6 +181,7 @@ const DownloadItem: FunctionComponent<DownloadItemProps> = ({
       {...canvasLink}
       style={{ display: 'inline-flex', alignItems: 'center' }}
       aria-current={isActive ? 'page' : undefined}
+      onClick={() => setIsMobileSidebarActive(false)}
     >
       {fileIcon}
       {fileName}
