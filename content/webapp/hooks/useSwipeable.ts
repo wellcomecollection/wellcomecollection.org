@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useState } from 'react';
+import { RefObject, useEffect, useRef } from 'react';
 
 export type SwipeDirection = 'left' | 'right';
 
@@ -10,37 +10,48 @@ const useSwipeable = (
   onSwipe: (direction: SwipeDirection) => void,
   swipeDistanceThreshold = 50
 ) => {
-  const [touchStart, setTouchStart] = useState(null);
-  const [touchEnd, setTouchEnd] = useState(null);
+  const touchStartRef = useRef<number | null>(null);
+  const touchEndRef = useRef<number | null>(null);
+  const onSwipeRef = useRef(onSwipe);
 
-  const onTouchStart = e => {
-    setTouchEnd(null);
-    setTouchStart(e.targetTouches[0].clientX);
-  };
-
-  const onTouchMove = e => setTouchEnd(e.targetTouches[0].clientX);
-
-  const onTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
-
-    if (Math.abs(touchStart - touchEnd) > swipeDistanceThreshold) {
-      onSwipe(touchStart > touchEnd ? 'right' : 'left');
-    }
-  };
+  // Keep onSwipeRef current without re-registering listeners
+  useEffect(() => {
+    onSwipeRef.current = onSwipe;
+  });
 
   useEffect(() => {
-    if (!targetRef.current) return;
+    const el = targetRef.current;
+    if (!el) return;
 
-    targetRef.current.addEventListener('touchstart', onTouchStart);
-    targetRef.current.addEventListener('touchmove', onTouchMove);
-    targetRef.current.addEventListener('touchend', onTouchEnd);
+    const onTouchStart = (event: TouchEvent) => {
+      touchEndRef.current = null;
+      touchStartRef.current = event.targetTouches[0].clientX;
+    };
+
+    const onTouchMove = (event: TouchEvent) => {
+      touchEndRef.current = event.targetTouches[0].clientX;
+    };
+
+    const onTouchEnd = () => {
+      const start = touchStartRef.current;
+      const end = touchEndRef.current;
+      if (!start || !end) return;
+
+      if (Math.abs(start - end) > swipeDistanceThreshold) {
+        onSwipeRef.current(start > end ? 'right' : 'left');
+      }
+    };
+
+    el.addEventListener('touchstart', onTouchStart, { passive: true });
+    el.addEventListener('touchmove', onTouchMove, { passive: true });
+    el.addEventListener('touchend', onTouchEnd);
 
     return () => {
-      targetRef.current?.removeEventListener('touchstart', onTouchStart);
-      targetRef.current?.removeEventListener('touchmove', onTouchMove);
-      targetRef.current?.removeEventListener('touchend', onTouchEnd);
+      el.removeEventListener('touchstart', onTouchStart);
+      el.removeEventListener('touchmove', onTouchMove);
+      el.removeEventListener('touchend', onTouchEnd);
     };
-  });
+  }, [targetRef, swipeDistanceThreshold]);
 };
 
 export default useSwipeable;
