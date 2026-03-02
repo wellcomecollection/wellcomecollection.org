@@ -66,6 +66,7 @@ const InPageNavigation: FunctionComponent<Props> = ({
       const hash = window.location.hash.replace('#', '');
       if (hash) {
         // Prevent default browser scroll
+        const previousScrollRestoration = window.history.scrollRestoration;
         window.history.scrollRestoration = 'manual';
 
         // Manually set the nav state
@@ -78,6 +79,8 @@ const InPageNavigation: FunctionComponent<Props> = ({
           if (element) {
             element.scrollIntoView();
           }
+          // Restore previous browser scroll value after
+          window.history.scrollRestoration = previousScrollRestoration;
         });
       }
     }
