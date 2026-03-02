@@ -21,7 +21,7 @@ import {
   MobileNavButton,
   NavGridCell,
   Root,
-} from './InPageNavigation.Sticky.styles';
+} from './InPageNavigation.styles';
 
 export type Props = {
   links: Link[];
@@ -217,7 +217,7 @@ const InPageNavigation: FunctionComponent<Props> = ({
           initialFocus: false,
         }}
       >
-        <Root $hasStuck={hasStuck} data-in-page-navigation-sticky="true">
+        <Root $hasStuck={hasStuck} data-in-page-navigation="true">
           <h2 className={`${font('sans-bold', -1)} is-hidden-s is-hidden-m`}>
             {titleText}
           </h2>
