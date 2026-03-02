@@ -50,11 +50,11 @@ type Props = {
   isResizing: boolean;
   errorHandler?: () => void;
   /**
-   * Indicates whether the viewer uses a FixedSizeList (true when all items are images)
-   * or file list view (when there are non image items, e.g. audio/video/PDFs, other).
-   * Controls URL updating behavior and styling.
+   * Indicates whether all canvases contain only images (true)
+   * or if there are non-image items (audio/video/PDFs, other) (false).
+   * Used to determine which viewer layout to use.
    */
-  useFixedSizeList: boolean;
+  hasOnlyImages: boolean;
 };
 
 export const results = {
@@ -128,7 +128,7 @@ const ItemViewerContext = createContext<Props>({
   setRotatedImages: () => undefined,
   isResizing: false,
   errorHandler: () => undefined,
-  useFixedSizeList: false,
+  hasOnlyImages: false,
 });
 
 export function useItemViewerContext(): Props {

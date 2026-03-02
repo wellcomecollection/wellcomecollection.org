@@ -266,6 +266,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   );
   // we only render certain parts of the UI when hasOnlyImages is true
   const hasOnlyImages = !hasNonImages(transformedManifest?.canvases || []);
+  // useFixedSizeList is true when all items are images (using FixedSizeList for virtualization)
   const useFixedSizeList = hasOnlyImages;
   const multipleCanvases = (transformedManifest?.canvases?.length || 0) > 1;
 
@@ -319,7 +320,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
 
   // Create tree from structures if available, otherwise flat tree from canvases
   useEffect(() => {
-    if (multipleCanvases && !useFixedSizeList) {
+    if (multipleCanvases && !hasOnlyImages) {
       // Use structures to build hierarchical tree, or fall back to flat tree from canvases
       // Skip top-level 'objects' node and expand all items by default
       const tree = createDownloadTree(
@@ -336,7 +337,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   }, [
     canvases,
     multipleCanvases,
-    useFixedSizeList,
+    hasOnlyImages,
     transformedManifest?.structures,
   ]);
 
@@ -384,7 +385,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         isResizing,
         errorHandler: handleImageError,
         accessToken,
-        useFixedSizeList,
+        hasOnlyImages,
       }}
     >
       <Grid
@@ -412,7 +413,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
               iiifImageLocation={
                 shouldUseIifImageLocation ? iiifImageLocation : undefined
               }
-              hasOnlyImages={hasOnlyImages}
             />
           </DelayVisibility>
         </Topbar>

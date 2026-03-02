@@ -65,7 +65,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
     mainAreaRef,
     query,
     rotatedImages,
-    useFixedSizeList,
+    hasOnlyImages,
     transformedManifest,
   } = useItemViewerContext();
   const imageWrapperRef = useRef<HTMLDivElement>(null);
@@ -116,11 +116,11 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
    * Updates the URL to match the visible canvas when scrolling through images.
    *
    * Context:
-   * - On /works/{id}/items pages: transformedManifest exists, useFixedSizeList varies
+   * - On /works/{id}/items pages: transformedManifest exists, hasOnlyImages varies
    * - On /works/{id}/images?id={imageId} pages: no transformedManifest, single image view
    *
    * This effect only runs when ALL conditions are met:
-   * 1. useFixedSizeList: Using scrollable image grid (not paginated file list)
+   * 1. hasOnlyImages: Using scrollable image grid (not paginated file list)
    * 2. isOnScreen: Current canvas has scrolled into view
    * 3. transformedManifest: Full manifest exists (not single image page)
    *
@@ -130,7 +130,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   useSkipInitialEffect(() => {
     // Only update URL when we have all three conditions:
     const shouldUpdateUrl =
-      useFixedSizeList && isOnScreen && transformedManifest !== undefined;
+      hasOnlyImages && isOnScreen && transformedManifest !== undefined;
 
     if (shouldUpdateUrl) {
       const link = toWorksItemLink({

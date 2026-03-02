@@ -190,12 +190,10 @@ const RightZone = styled.div`
 
 type ViewerTopBarProps = OptionalToUndefined<{
   iiifImageLocation?: DigitalLocation;
-  hasOnlyImages: boolean;
 }>;
 
 const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
   iiifImageLocation,
-  hasOnlyImages,
 }) => {
   const { isEnhanced, isFullSupportBrowser } = useAppContext();
 
@@ -214,7 +212,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
     query,
     viewerRef,
     showFullscreenControl,
-    useFixedSizeList,
+    hasOnlyImages,
   } = useItemViewerContext();
   const { canvas } = query;
   const { canvases, rendering } = { ...transformedManifest };
@@ -288,7 +286,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
     <TopBar
       $isZooming={showZoomed}
       $isDesktopSidebarActive={isDesktopSidebarActive}
-      $useFixedList={useFixedSizeList}
+      $useFixedList={hasOnlyImages}
       $hasMultipleCanvases={!!(canvases && canvases.length > 1)}
     >
       <Sidebar $isZooming={showZoomed}>
@@ -366,7 +364,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
               {!(
                 canvases[queryParamToArrayIndex(canvas)]?.label?.trim() === '-'
               ) &&
-                Boolean(useFixedSizeList) &&
+                Boolean(hasOnlyImages) &&
                 `page ${canvases[
                   queryParamToArrayIndex(canvas)
                 ]?.label?.trim()}`}

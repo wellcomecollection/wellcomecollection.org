@@ -166,7 +166,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
     work,
     transformedManifest,
     parentManifest,
-    useFixedSizeList,
+    hasOnlyImages,
     query,
     setIsMobileSidebarActive,
     archiveTree,
@@ -354,7 +354,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
           </AccordionItem>
         )}
 
-        {Boolean(structures && structures.length > 0) && useFixedSizeList && (
+        {Boolean(structures && structures.length > 0) && hasOnlyImages && (
           <AccordionItem title="Contents">
             <ViewerStructures />
           </AccordionItem>

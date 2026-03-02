@@ -411,7 +411,7 @@ const MainViewer: FunctionComponent = () => {
     setShowControls,
     errorHandler,
     accessToken,
-    useFixedSizeList,
+    hasOnlyImages,
     canvasIndexById,
   } = useItemViewerContext();
   const { shouldScrollToCanvas, canvas } = query;
@@ -488,12 +488,12 @@ const MainViewer: FunctionComponent = () => {
   const hasMultipleCanvases = canvases && canvases.length > 1;
 
   useEffect(() => {
-    if (!useFixedSizeList) {
+    if (hasOnlyImages) {
       setShowFullscreenControl(false);
     }
-  }, [useFixedSizeList, setShowFullscreenControl]);
+  }, [hasOnlyImages, setShowFullscreenControl]);
 
-  if (useFixedSizeList) {
+  if (hasOnlyImages) {
     return (
       <MainViewerContainer $useFixedList={true} data-testid="main-viewer">
         <FixedSizeList
