@@ -151,9 +151,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       );
     }
 
-    // Extract all labels from the multiple concepts for label-based queries
-    const conceptLabels = conceptResponse.results.map(c => c.label);
-
     const getConceptDocs = {
       works: {
         byId: () =>
@@ -167,7 +164,9 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         byLabel: () =>
           getWorks({
             params: {
-              'subjects.label': conceptLabels,
+              'subjects.label': conceptResponse.results.map(
+                c => c.displayLabel
+              ),
               aggregations: ['workType'],
             },
             toggles: serverData.toggles,
@@ -186,7 +185,9 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         byLabel: () =>
           getImages({
             params: {
-              'source.subjects.label': conceptLabels,
+              'source.subjects.label': conceptResponse.results.map(
+                c => c.label
+              ),
             },
             toggles: serverData.toggles,
             pageSize: 12,
