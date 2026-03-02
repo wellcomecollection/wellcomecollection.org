@@ -86,6 +86,7 @@ export type Props = {
   worksAndImagesAbout: {
     works?: ReturnedResults<WorkBasic> & { workTypes: unknown[] };
     images?: ReturnedResults<ImageType>;
+    displayLabels: string[];
   };
 
   relatedTopics: RelatedConcept[];
@@ -238,7 +239,11 @@ const WellcomeSubThemePage: NextPage<Props> & {
                       Images about {lowerCasePageTitle}
                     </Title>
 
-                    <SubThemeImages images={worksAndImagesAbout.images} />
+                    <SubThemeImages
+                      subThemeName={lowerCasePageTitle}
+                      images={worksAndImagesAbout.images}
+                      conceptsDisplayLabels={worksAndImagesAbout.displayLabels}
+                    />
                   </SectionWrapper>
                 </StretchWrapper>
               )}
@@ -249,7 +254,11 @@ const WellcomeSubThemePage: NextPage<Props> & {
                   title={`Works about ${lowerCasePageTitle}`}
                   id="works-about"
                 >
-                  <SubThemeWorks works={worksAndImagesAbout.works} />
+                  <SubThemeWorks
+                    subThemeName={lowerCasePageTitle}
+                    works={worksAndImagesAbout.works}
+                    conceptsDisplayLabels={worksAndImagesAbout.displayLabels}
+                  />
                 </SectionContainer>
               )}
 

@@ -151,6 +151,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       );
     }
 
+    const displayLabels = conceptResponse.results.map(c => c.displayLabel);
+
     const getConceptDocs = {
       works: {
         byId: () =>
@@ -164,9 +166,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         byLabel: () =>
           getWorks({
             params: {
-              'subjects.label': conceptResponse.results.map(
-                c => c.displayLabel
-              ),
+              'subjects.label': displayLabels,
               aggregations: ['workType'],
             },
             toggles: serverData.toggles,
@@ -264,6 +264,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       ...(imagesAbout && {
         images: { ...imagesAbout, totalResults: totalResults.imagesAbout || 0 },
       }),
+      displayLabels,
     };
     /** */
 

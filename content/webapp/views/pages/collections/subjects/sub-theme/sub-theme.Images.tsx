@@ -4,16 +4,25 @@ import styled from 'styled-components';
 import { pluralize } from '@weco/common/utils/grammar';
 import { ReturnedResults } from '@weco/common/utils/search';
 import Space from '@weco/common/views/components/styled/Space';
+import { themeValues } from '@weco/common/views/themes/config';
 import { Image as ImageType } from '@weco/content/services/wellcome/catalogue/types';
 import CatalogueImageGallery from '@weco/content/views/components/CatalogueImageGallery';
+import MoreLink from '@weco/content/views/components/MoreLink';
+import { toSearchImagesLink } from '@weco/content/views/components/SearchPagesLink/Images';
 
-const ThemeImagesWrapper = styled(Space).attrs({
-  $v: { size: 'xl', properties: ['padding-bottom'] },
-})`
+const ThemeImagesWrapper = styled.div`
   background-color: ${props => props.theme.color('neutral.700')};
 `;
 
-const SubThemeImages = ({ images }: { images: ReturnedResults<ImageType> }) => {
+const SubThemeImages = ({
+  subThemeName,
+  images,
+  conceptsDisplayLabels,
+}: {
+  subThemeName: string;
+  images: ReturnedResults<ImageType>;
+  conceptsDisplayLabels: string[];
+}) => {
   const firstTenImages = useMemo(
     () => images.pageResults.slice(0, 10) || [],
     [images]
@@ -28,7 +37,16 @@ const SubThemeImages = ({ images }: { images: ReturnedResults<ImageType> }) => {
         variant="scrollable"
       />
 
-      {/* TODO add View more button, but where does it point to when it's a high-level concept? */}
+      <Space $v={{ size: 'md', properties: ['margin-top'] }}>
+        <MoreLink
+          ariaLabel={`View all images about ${subThemeName}`}
+          name="View all"
+          url={toSearchImagesLink({
+            'source.subjects.label': conceptsDisplayLabels,
+          })}
+          colors={themeValues.buttonColors.greenGreenWhite}
+        />
+      </Space>
     </ThemeImagesWrapper>
   );
 };
