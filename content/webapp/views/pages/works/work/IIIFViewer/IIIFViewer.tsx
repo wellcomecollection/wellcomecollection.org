@@ -403,18 +403,20 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         >
           <DelayVisibility>
             {!showZoomed && hasOnlyImages && <ImageViewerControls />}
-            {hasIiifImage && !hasImageService && isFullSupportBrowser && (
-              <ImageViewer
-                infoUrl={iiifImageLocation.url}
-                id={imageUrl}
-                width={800}
-                index={0}
-                alt={work?.description || work?.title || ''}
-                urlTemplate={urlTemplate}
-              />
-            )}
+            {hasIiifImage &&
+              !hasImageService &&
+              (isFullSupportBrowser || !hasOnlyImages) && (
+                <ImageViewer
+                  infoUrl={iiifImageLocation.url}
+                  id={imageUrl}
+                  width={800}
+                  index={0}
+                  alt={work?.description || work?.title || ''}
+                  urlTemplate={urlTemplate}
+                />
+              )}
 
-            {imageUrl && !isFullSupportBrowser && (
+            {imageUrl && !isFullSupportBrowser && hasOnlyImages && (
               <NoScriptImage urlTemplate={urlTemplate} canvasOcr={canvasOcr} />
             )}
 
