@@ -69,7 +69,7 @@ const ZoomedImage = dynamic(() => import('./ZoomedImage'), {
 type GridProps = {
   $isFullSupportBrowser: boolean;
   $useFixedList?: boolean;
-  $multipleCanvases?: boolean;
+  $hasMultipleCanvases?: boolean;
 };
 
 const Grid = styled.div<GridProps>`
@@ -81,7 +81,7 @@ const Grid = styled.div<GridProps>`
   overflow: hidden;
   grid-template-columns:
     [left-edge] ${props =>
-      props.$useFixedList || !props.$multipleCanvases
+      props.$useFixedList || !props.$hasMultipleCanvases
         ? 'minmax(200px, 3fr)'
         : 'minmax(200px, 630px)'}
     [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
@@ -103,7 +103,7 @@ const Grid = styled.div<GridProps>`
 
   ${props =>
     props.theme.media('lg')(
-      `grid-template-columns: [left-edge] ${props.$useFixedList || !props.$multipleCanvases ? 'minmax(200px, 330px)' : 'minmax(200px, 630px)'} [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];`
+      `grid-template-columns: [left-edge] ${props.$useFixedList || !props.$hasMultipleCanvases ? 'minmax(200px, 330px)' : 'minmax(200px, 630px)'} [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];`
     )}
 `;
 
@@ -269,7 +269,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const hasOnlyImages = !hasNonImages(transformedManifest?.canvases || []);
   // useFixedSizeList is true when all items are images (using FixedSizeList for virtualization)
   const useFixedSizeList = hasOnlyImages;
-  const multipleCanvases = (transformedManifest?.canvases?.length || 0) > 1;
+  const hasMultipleCanvases = (transformedManifest?.canvases?.length || 0) > 1;
 
   // We need to reset the MainAreaWidth and MainAreaHeight
   // when the available space changes.
@@ -374,7 +374,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         ref={viewerRef}
         $isFullSupportBrowser={isFullSupportBrowser}
         $useFixedList={useFixedSizeList}
-        $multipleCanvases={multipleCanvases}
+        $hasMultipleCanvases={hasMultipleCanvases}
       >
         <Sidebar
           $isActiveMobile={isMobileSidebarActive}
@@ -385,7 +385,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
             <ViewerSidebar
               iiifImageLocation={iiifImageLocation}
               iiifPresentationLocation={iiifPresentationLocation}
-              hasMultipleCanvases={multipleCanvases}
+              hasMultipleCanvases={hasMultipleCanvases}
             />
           </DelayVisibility>
         </Sidebar>
@@ -403,7 +403,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
           $isDesktopSidebarActive={isDesktopSidebarActive}
           $isFullSupportBrowser={isFullSupportBrowser}
           $hasOnlyImages={hasOnlyImages}
-          $hasMultipleCanvases={multipleCanvases}
+          $hasMultipleCanvases={hasMultipleCanvases}
         >
           <DelayVisibility>
             {!showZoomed && hasOnlyImages && <ImageViewerControls />}

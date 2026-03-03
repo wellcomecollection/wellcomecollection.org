@@ -173,10 +173,10 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     const serverSearchResults = await getSearchResults();
 
     // Build archive tree on server for progressive enhancement
-    const multipleCanvases = (canvases?.length || 0) > 1;
+    const hasMultipleCanvases = (canvases?.length || 0) > 1;
     const hasOnlyImages = !hasNonImages(canvases || []);
     const archiveTree: UiTree =
-      multipleCanvases && !hasOnlyImages
+      hasMultipleCanvases && !hasOnlyImages
         ? createDownloadTree(displayManifest.structures, canvases, {
             skipObjectsNode: true,
             openByDefault: true,
