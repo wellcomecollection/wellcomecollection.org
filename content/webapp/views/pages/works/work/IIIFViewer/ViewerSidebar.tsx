@@ -326,7 +326,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
         {archiveTree.length > 0 && (
           <AccordionItem title="Contents" defaultOpen={true}>
             <WorksTree
-              darkMode={true}
+              isDarkMode={true}
               hasStructures={Boolean(structures && structures.length > 0)}
             >
               <NestedList
@@ -341,7 +341,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
                 firstItemTabbable={true}
                 showFirstLevelGuideline={true}
                 shouldFetchChildren={false}
-                darkMode={true}
+                isDarkMode={true}
                 ItemRenderer={DownloadItemRenderer}
                 itemRendererProps={{
                   linkToCanvas: true,

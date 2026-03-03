@@ -10,7 +10,7 @@ import ListItem from './ArchiveTree.ListItem';
 type NestedListProps = Omit<ListProps, 'item'> & {
   archiveTree: UiTree;
   shouldFetchChildren: boolean;
-  darkMode?: boolean;
+  isDarkMode?: boolean;
   itemRendererProps?: Record<string, unknown>;
 };
 
@@ -27,7 +27,7 @@ const NestedList: FunctionComponent<NestedListProps> = ({
   showFirstLevelGuideline,
   ItemRenderer,
   shouldFetchChildren,
-  darkMode = false,
+  isDarkMode = false,
   itemRendererProps,
 }: NestedListProps) => {
   const { isEnhanced } = useAppContext();
@@ -61,7 +61,7 @@ const NestedList: FunctionComponent<NestedListProps> = ({
                 showFirstLevelGuideline={showFirstLevelGuideline}
                 ItemRenderer={ItemRenderer}
                 shouldFetchChildren={shouldFetchChildren}
-                darkMode={darkMode}
+                isDarkMode={isDarkMode}
                 itemRendererProps={itemRendererProps}
               />
             )

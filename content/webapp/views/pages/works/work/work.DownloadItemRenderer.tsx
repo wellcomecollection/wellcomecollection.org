@@ -28,7 +28,7 @@ export type DownloadItemRendererProps = {
   canvases?: TransformedCanvas[];
   canvasIndexById?: Record<string, number>;
   linkToCanvas?: boolean;
-  darkMode?: boolean;
+  isDarkMode?: boolean;
   currentCanvasIndex?: number;
   itemOnClick?: () => void;
 };
@@ -42,7 +42,7 @@ const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
   canvases,
   canvasIndexById,
   linkToCanvas = false,
-  darkMode = false,
+  isDarkMode = false,
   currentCanvasIndex = 0,
   itemOnClick,
 }) => {
@@ -68,12 +68,12 @@ const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
         <TreeControl
           data-gtm-trigger="tree_chevron"
           $highlightCondition={highlightCondition}
-          $darkMode={darkMode}
+          $isDarkMode={isDarkMode}
         >
           <Icon
             rotate={item.openStatus ? undefined : 270}
             icon={chevron}
-            iconColor={darkMode ? 'white' : 'black'}
+            iconColor={isDarkMode ? 'white' : 'black'}
           />
         </TreeControl>
       )}

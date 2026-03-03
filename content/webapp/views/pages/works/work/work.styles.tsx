@@ -15,7 +15,7 @@ export const Tree = styled.div<{
   $isEnhanced?: boolean;
   $showFirstLevelGuideline?: boolean;
   $maxWidth?: number;
-  $darkMode?: boolean;
+  $isDarkMode?: boolean;
 }>`
   ul {
     position: relative;
@@ -35,7 +35,7 @@ export const Tree = styled.div<{
       z-index: 2;
       top: 0;
       background: ${props =>
-        props.$darkMode
+        props.$isDarkMode
           ? props.theme.color('neutral.600')
           : props.theme.color('yellow')};
       padding: ${props => `${props.theme.spacingUnit * 2}px`};

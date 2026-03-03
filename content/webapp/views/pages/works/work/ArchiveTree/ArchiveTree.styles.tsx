@@ -7,7 +7,7 @@ import { controlDimensions } from '@weco/content/views/pages/works/work/work.hel
 import { TreeItemProps, verticalGuidePosition } from './ArchiveTree.helpers';
 
 export type TreeItemStyledProps = TreeItemProps & {
-  $darkMode?: boolean;
+  $isDarkMode?: boolean;
   $listItem?: boolean;
 };
 
@@ -39,7 +39,7 @@ export const TreeItem = styled.li.attrs<TreeItemStyledProps>(props => ({
   &.guideline::before {
     border-left: 1px solid
       ${props =>
-        props.$darkMode
+        props.$isDarkMode
           ? props.theme.color('neutral.600')
           : props.theme.color('yellow')};
     width: 0;
@@ -56,7 +56,7 @@ export const TreeItem = styled.li.attrs<TreeItemStyledProps>(props => ({
     height: 6px;
     border-radius: 50%;
     background: ${props =>
-      props.$darkMode
+      props.$isDarkMode
         ? props.theme.color('neutral.600')
         : props.theme.color('yellow')};
     left: ${controlDimensions.controlWidth / 2 - 3}px;
@@ -68,7 +68,7 @@ export type TreeControlStyledProps = {
   $highlightCondition?: string;
   $controlBackground?: string;
   $controlBorder?: string;
-  $darkMode?: boolean;
+  $isDarkMode?: boolean;
 };
 
 export const TreeControl = styled.span<TreeControlStyledProps>`
@@ -101,7 +101,7 @@ export const TreeControl = styled.span<TreeControlStyledProps>`
     );
     background: ${props =>
       props.$controlBackground ||
-      (props.$darkMode
+      (props.$isDarkMode
         ? props.theme.color('neutral.600')
         : props.theme.color(
             props.$highlightCondition === 'primary'
@@ -112,7 +112,7 @@ export const TreeControl = styled.span<TreeControlStyledProps>`
           ))};
     border: ${props =>
       props.$controlBorder ||
-      (props.$darkMode
+      (props.$isDarkMode
         ? `2px solid ${props.theme.color('neutral.700')}`
         : props.$highlightCondition === 'secondary'
           ? `1px solid ${props.theme.color('yellow')}`
@@ -126,7 +126,7 @@ export const TreeControl = styled.span<TreeControlStyledProps>`
     top: ${(controlDimensions.controlHeight - 24) / 2}px;
     left: ${(controlDimensions.controlWidth - 24) / 2}px;
     color: ${props =>
-      props.$darkMode ? props.theme.color('white') : 'inherit'};
+      props.$isDarkMode ? props.theme.color('white') : 'inherit'};
   }
 `;
 

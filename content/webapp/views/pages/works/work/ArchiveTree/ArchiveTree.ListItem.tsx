@@ -110,7 +110,7 @@ type ListItemProps = ListProps & {
   posInSet: number;
   index: number;
   shouldFetchChildren: boolean;
-  darkMode?: boolean;
+  isDarkMode?: boolean;
   itemRendererProps?: Record<string, unknown>;
 };
 
@@ -148,7 +148,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
   showFirstLevelGuideline,
   ItemRenderer,
   shouldFetchChildren,
-  darkMode = false,
+  isDarkMode = false,
   itemRendererProps,
 }: ListItemProps) => {
   const { isEnhanced } = useAppContext();
@@ -199,7 +199,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
       role={isEnhanced ? 'treeitem' : undefined}
       $isEnhanced={isEnhanced}
       $showGuideline={showGuideline}
-      $darkMode={darkMode}
+      $isDarkMode={isDarkMode}
       aria-level={isEnhanced ? level : undefined}
       aria-setsize={isEnhanced ? setSize : undefined}
       aria-posinset={isEnhanced ? posInSet : undefined}
@@ -328,7 +328,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
           level={level}
           showFirstLevelGuideline={showFirstLevelGuideline}
           highlightCondition={highlightCondition}
-          darkMode={darkMode}
+          isDarkMode={isDarkMode}
           hasControl={hasGuideline}
           {...itemRendererProps}
         />
@@ -348,7 +348,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
           showFirstLevelGuideline={showFirstLevelGuideline}
           ItemRenderer={ItemRenderer}
           shouldFetchChildren={shouldFetchChildren}
-          darkMode={darkMode}
+          isDarkMode={isDarkMode}
           itemRendererProps={itemRendererProps}
         />
       )}

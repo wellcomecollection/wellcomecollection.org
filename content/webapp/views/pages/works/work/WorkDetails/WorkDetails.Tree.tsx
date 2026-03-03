@@ -12,14 +12,15 @@ import {
 
 import { DownloadTable } from './WorkDetails.DownloadItem';
 
-export const TreeHeadings = styled(Space)<{ $darkMode?: boolean }>`
+export const TreeHeadings = styled(Space)<{ $isDarkMode?: boolean }>`
   ${props =>
-    !props.$darkMode && `background: ${props.theme.color('warmNeutral.300')};`}
+    !props.$isDarkMode &&
+    `background: ${props.theme.color('warmNeutral.300')};`}
 `;
 
-const TreeContainer = styled.div<{ $darkMode?: boolean }>`
+const TreeContainer = styled.div<{ $isDarkMode?: boolean }>`
   ${props =>
-    !props.$darkMode &&
+    !props.$isDarkMode &&
     `
     background: linear-gradient(
       to bottom,
@@ -33,14 +34,14 @@ const TreeContainer = styled.div<{ $darkMode?: boolean }>`
 `;
 
 const WorksTree: FunctionComponent<
-  PropsWithChildren<{ darkMode?: boolean; hasStructures?: boolean }>
-> = ({ children, darkMode = false, hasStructures = true }) => {
+  PropsWithChildren<{ isDarkMode?: boolean; hasStructures?: boolean }>
+> = ({ children, isDarkMode = false, hasStructures = true }) => {
   const { isEnhanced } = useAppContext();
 
   return (
     <div style={{ overflow: 'visible' }}>
       <div style={{ display: 'inline-table', minWidth: '100%' }}>
-        <TreeHeadings aria-hidden="true" $darkMode={darkMode}>
+        <TreeHeadings aria-hidden="true" $isDarkMode={isDarkMode}>
           <DownloadTable $padFirstHeading={hasStructures}>
             <thead>
               <tr>
@@ -52,11 +53,11 @@ const WorksTree: FunctionComponent<
             </thead>
           </DownloadTable>
         </TreeHeadings>
-        <TreeContainer $darkMode={darkMode}>
+        <TreeContainer $isDarkMode={isDarkMode}>
           <Tree
             $isEnhanced={isEnhanced}
             $showFirstLevelGuideline={true}
-            $darkMode={darkMode}
+            $isDarkMode={isDarkMode}
           >
             {isEnhanced && (
               <TreeInstructions>{`Download tree: ${treeInstructions}`}</TreeInstructions>
