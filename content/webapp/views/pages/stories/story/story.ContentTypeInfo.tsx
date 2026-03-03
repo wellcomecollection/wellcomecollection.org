@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
+import { commissioningEditorRoleId } from '@weco/common/data/hardcoded-ids';
 import { font } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
 import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
@@ -43,23 +44,28 @@ const ContentTypeInfo = (article: Article) => (
     <ContentTypeWrapper>
       <Space $v={{ size: 'xs', properties: ['margin-top'] }}>
         <ContentTypeText>
+          {/* We don't want to show commissioning editors in the byline at the top of articles. We filter them out here, and only show them as the last contributor(s) in the Contributors component at the end of articles */}
           {article.contributors.length > 0 &&
-            article.contributors.map(({ contributor, role }, i) => (
-              <ContentTypeInfoSection
-                data-testid="contributor-name"
-                key={contributor.id}
-              >
-                {role && role.describedBy && (
-                  <span>
-                    {i === 0 ? capitalize(role.describedBy) : role.describedBy}{' '}
-                    by{' '}
+            article.contributors
+              .filter(({ role }) => role?.id !== commissioningEditorRoleId)
+              .map(({ contributor, role }, i) => (
+                <ContentTypeInfoSection
+                  data-testid="contributor-name"
+                  key={contributor.id}
+                >
+                  {role && role.describedBy && (
+                    <span>
+                      {i === 0
+                        ? capitalize(role.describedBy)
+                        : role.describedBy}{' '}
+                      by{' '}
+                    </span>
+                  )}
+                  <span className={font('sans-bold', -2)}>
+                    {contributor.name}
                   </span>
-                )}
-                <span className={font('sans-bold', -2)}>
-                  {contributor.name}
-                </span>
-              </ContentTypeInfoSection>
-            ))}
+                </ContentTypeInfoSection>
+              ))}
           {article.readingTime ? (
             <ContentTypeInfoSection>
               average reading time{' '}

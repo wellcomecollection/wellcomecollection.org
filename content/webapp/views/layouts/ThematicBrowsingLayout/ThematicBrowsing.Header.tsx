@@ -1,6 +1,7 @@
 import * as prismic from '@prismicio/client';
 import styled from 'styled-components';
 
+import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import Breadcrumb, {
   getBreadcrumbItems,
@@ -35,6 +36,8 @@ const ThematicBrowsingHeader = ({
   introText?: string | prismic.RichTextField;
   extraBreadcrumbs?: { url: string; text: string }[];
 }) => {
+  const { thematicBrowsingSubCategory } = useToggles();
+
   return (
     <>
       <ThematicBrowsingHeaderContainer>
@@ -73,17 +76,17 @@ const ThematicBrowsingHeader = ({
             </Layout>
           )}
 
-          {title === 'Subjects' && (
+          {title === 'Subjects' && thematicBrowsingSubCategory && (
             <Space $v={{ size: 'md', properties: ['margin-top'] }}>
               <ul>
                 <li>
-                  <a href="/collections/subjects/medicine-care-and-treatment">
-                    Medicine, care and treatment
+                  <a href="/collections/subjects/sex-sexual-health-and-reproduction">
+                    Sex, sexual health and reproduction
                   </a>
                 </li>
                 <li>
-                  <a href="/collections/subjects/military-and-war">
-                    Military and war
+                  <a href="/collections/subjects/medicine-care-and-treatment">
+                    Medicine, care and treatment
                   </a>
                 </li>
               </ul>
