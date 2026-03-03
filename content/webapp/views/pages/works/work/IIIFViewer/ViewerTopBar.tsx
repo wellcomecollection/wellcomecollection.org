@@ -364,7 +364,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
               {!(
                 canvases[queryParamToArrayIndex(canvas)]?.label?.trim() === '-'
               ) &&
-                Boolean(hasOnlyImages) &&
+                hasOnlyImages &&
                 `page ${canvases[
                   queryParamToArrayIndex(canvas)
                 ]?.label?.trim()}`}
