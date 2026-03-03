@@ -7,6 +7,7 @@ import {
 } from 'react';
 import styled from 'styled-components';
 
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { arrow, chevron, info2 } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
@@ -117,7 +118,8 @@ const AccordionItem = ({
   testId,
   defaultOpen = false,
 }: AccordionItemProps) => {
-  const [isActive, setIsActive] = useState(defaultOpen);
+  const { isEnhanced } = useAppContext();
+  const [isActive, setIsActive] = useState(isEnhanced ? defaultOpen : true);
 
   useEffect(() => {
     setIsActive(defaultOpen);
