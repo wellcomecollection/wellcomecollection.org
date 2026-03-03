@@ -72,7 +72,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   const eventsQueryPromise = fetchEvents(client, {
     period: 'current-and-coming-up',
-    pageSize: 100,
+    pageSize: 40,
   });
 
   const availableOnlineEventsQueryPromise = fetchEvents(client, {
