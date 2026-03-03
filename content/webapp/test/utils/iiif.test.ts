@@ -33,6 +33,7 @@ const createMockCanvas = (overrides = {}) => ({
   thumbnailImage: undefined,
   painting: [],
   original: [],
+  rendering: [],
   supplementing: [],
   metadata: [],
   ...overrides,

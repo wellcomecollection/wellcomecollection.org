@@ -95,7 +95,7 @@ const DownloadItem: FunctionComponent<{
   const fileSize = canvas && getFileSize(canvas);
   const format = displayItem.format;
 
-  const fileName = itemLabel || canvas?.label || '';
+  const fileName = canvas?.label || itemLabel || '';
   const formatString = format ? format.split('/').pop() || '' : '';
 
   if (typeof displayItem !== 'string') {
