@@ -250,7 +250,10 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const [archiveTree, setArchiveTree] = useState<UiTree>(
     initialArchiveTree || []
   );
-  const canvasIndexById = getTreeCanvasIndexById(archiveTree);
+  const canvasIndexById = useMemo(
+    () => getTreeCanvasIndexById(archiveTree),
+    [archiveTree]
+  );
   const currentCanvas =
     transformedManifest?.canvases[queryParamToArrayIndex(canvas)];
   const mainImageService = { '@id': currentCanvas?.imageServiceId };
