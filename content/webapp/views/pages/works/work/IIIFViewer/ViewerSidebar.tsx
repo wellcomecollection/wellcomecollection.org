@@ -157,7 +157,6 @@ const AccordionItem = ({
 type ViewerSidebarProps = OptionalToUndefined<{
   iiifImageLocation?: DigitalLocation;
   iiifPresentationLocation?: DigitalLocation;
-  hasMultipleCanvases?: boolean;
 }>;
 
 const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({

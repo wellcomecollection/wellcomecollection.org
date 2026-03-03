@@ -388,7 +388,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
             <ViewerSidebar
               iiifImageLocation={iiifImageLocation}
               iiifPresentationLocation={iiifPresentationLocation}
-              hasMultipleCanvases={hasMultipleCanvases}
             />
           </DelayVisibility>
         </Sidebar>
