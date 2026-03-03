@@ -65,7 +65,6 @@ const NavButton = styled.a<{ $disabled?: boolean }>`
       ? `
     opacity: 0.5;
     cursor: not-allowed;
-    pointer-events: none;
   `
       : `
     &:hover {
