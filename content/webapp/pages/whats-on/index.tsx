@@ -19,10 +19,7 @@ import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchEvents } from '@weco/content/services/prismic/fetch/events';
 import { fetchExhibitions } from '@weco/content/services/prismic/fetch/exhibitions';
 import { fetchPage } from '@weco/content/services/prismic/fetch/pages';
-import {
-  transformEvent,
-  transformEventBasic,
-} from '@weco/content/services/prismic/transformers/events';
+import { transformEventBasic } from '@weco/content/services/prismic/transformers/events';
 import { transformExhibitionsQuery } from '@weco/content/services/prismic/transformers/exhibitions';
 import {
   eventLd,
@@ -99,19 +96,17 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   const dateRange = getRangeForPeriod(period);
 
-  const events = transformQuery(eventsQuery, transformEvent).results;
   const exhibitions = transformExhibitionsQuery(exhibitionsQuery).results;
+  const basicEvents = transformQuery(eventsQuery, transformEventBasic).results;
   const availableOnlineEvents = transformQuery(
     availableOnlineEventsQuery,
     transformEventBasic
   ).results;
 
-  const basicEvents = transformQuery(eventsQuery, transformEventBasic).results;
-
-  if (period && events && exhibitions) {
+  if (period && basicEvents && exhibitions) {
     const jsonLd = [
       ...exhibitions.map(exhibitionLd),
-      ...events.map(eventLd),
+      ...basicEvents.map(eventLd),
     ] as JsonLdObj[];
 
     return {
