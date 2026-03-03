@@ -365,27 +365,23 @@ const WorkDetailsAvailableOnline = ({
                 itemsStatus={itemsStatus}
               />
             ) : (
-              <div style={{ overflow: 'visible' }}>
-                <div style={{ display: 'inline-table', minWidth: '100%' }}>
-                  <WorksTree>
-                    <NestedList
-                      currentWorkId={work.id}
-                      fullTree={archiveTree}
-                      setArchiveTree={setArchiveTree}
-                      archiveTree={archiveTree}
-                      level={1}
-                      tabbableId={tabbableId}
-                      setTabbableId={setTabbableId}
-                      archiveAncestorArray={[]}
-                      firstItemTabbable={true}
-                      showFirstLevelGuideline={true}
-                      ItemRenderer={DownloadItemRenderer}
-                      shouldFetchChildren={false}
-                      itemRendererProps={{}}
-                    />
-                  </WorksTree>
-                </div>
-              </div>
+              <WorksTree>
+                <NestedList
+                  currentWorkId={work.id}
+                  fullTree={archiveTree}
+                  setArchiveTree={setArchiveTree}
+                  archiveTree={archiveTree}
+                  level={1}
+                  tabbableId={tabbableId}
+                  setTabbableId={setTabbableId}
+                  archiveAncestorArray={[]}
+                  firstItemTabbable={true}
+                  showFirstLevelGuideline={true}
+                  ItemRenderer={DownloadItemRenderer}
+                  shouldFetchChildren={false}
+                  itemRendererProps={{}}
+                />
+              </WorksTree>
             )}
           </>
         )}
