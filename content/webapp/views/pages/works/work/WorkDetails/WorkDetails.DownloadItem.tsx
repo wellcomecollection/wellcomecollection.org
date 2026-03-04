@@ -4,6 +4,7 @@ import {
   ContentResource,
   InternationalString,
 } from '@iiif/presentation-3';
+import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
@@ -19,16 +20,37 @@ import {
   getLabelString,
   isChoiceBody,
 } from '@weco/content/utils/iiif/v3';
+import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
 import { controlDimensions } from '@weco/content/views/pages/works/work/work.helpers';
 
 export const DownloadTable = styled.table.attrs({
   className: font('sans', -2),
-})`
+})<{ $padFirstHeading?: boolean; $isActive?: boolean }>`
+  border-collapse: collapse;
   position: relative;
   height: ${controlDimensions.controlHeight}px;
   white-space: nowrap;
   margin: 0;
   width: 100%;
+
+  ${props =>
+    props.$isActive &&
+    `
+      tr {
+        background: ${props.theme.color('black')};
+
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -10px;
+          bottom: 0;
+          width: 10px;
+          background: ${props.theme.color('black')};
+          border-left: 4px solid ${props.theme.color('yellow')};
+        }
+      }
+    `}
 
   .icon {
     position: relative;
@@ -45,9 +67,13 @@ export const DownloadTable = styled.table.attrs({
     padding-right: 10px;
   }
 
-  th:first-child {
-    padding-left: ${controlDimensions.controlWidth}px;
-  }
+  ${props =>
+    props.$padFirstHeading &&
+    `
+    th:first-child {
+      padding-left: ${controlDimensions.controlWidth}px;
+    }
+  `}
 
   th:first-child,
   td:first-child {
@@ -81,12 +107,41 @@ const getLabel = (item: Body) => {
   }
 };
 
-const DownloadItem: FunctionComponent<{
+type DownloadItemProps = {
   canvas: TransformedCanvas | undefined;
   item: (ContentResource | CustomContentResource | ChoiceBody) & {
     format?: string;
   };
-}> = ({ canvas, item }) => {
+  currentCanvasIndex?: number;
+  onClick?: () => void;
+} & (
+  | {
+      linkToCanvas: true;
+      workId: string;
+      canvasIndex: number;
+    }
+  | {
+      linkToCanvas?: false;
+      workId?: string;
+      canvasIndex?: number;
+    }
+);
+
+const DownloadItem: FunctionComponent<DownloadItemProps> = ({
+  canvas,
+  item,
+  workId,
+  canvasIndex,
+  linkToCanvas = false,
+  currentCanvasIndex,
+  onClick,
+}) => {
+  const isActive =
+    linkToCanvas &&
+    canvasIndex !== undefined &&
+    canvasIndex >= 1 &&
+    currentCanvasIndex === canvasIndex;
+
   // If there is a choice then we only show the first one
   const displayItem = (isChoiceBody(item) ? item.items[0] : item) as Body & {
     format?: string;
@@ -97,28 +152,54 @@ const DownloadItem: FunctionComponent<{
 
   const fileName = canvas?.label || itemLabel || '';
   const formatString = format ? format.split('/').pop() || '' : '';
+  const canvasLink =
+    linkToCanvas && workId && canvasIndex !== undefined && canvasIndex >= 1
+      ? toWorksItemLink({
+          workId,
+          props: {
+            canvas: canvasIndex,
+            shouldScrollToCanvas: false,
+          },
+        })
+      : undefined;
+
+  const fileIcon = (
+    <Icon
+      icon={
+        format?.endsWith('jpeg') || format?.endsWith('gif') ? imageFile : file
+      }
+      matchText={true}
+      sizeOverride={
+        format?.endsWith('jpeg') || format?.endsWith('gif')
+          ? undefined
+          : 'height: 15px; width: 14px;'
+      }
+    />
+  );
+
+  const fileNameContent = canvasLink ? (
+    <NextLink
+      {...canvasLink}
+      style={{ display: 'inline-flex', alignItems: 'center' }}
+      aria-current={isActive ? 'page' : undefined}
+      onClick={onClick}
+    >
+      {fileIcon}
+      {fileName}
+    </NextLink>
+  ) : (
+    <>
+      {fileIcon}
+      {fileName}
+    </>
+  );
 
   if (typeof displayItem !== 'string') {
     return (
-      <DownloadTable>
+      <DownloadTable $isActive={isActive}>
         <tbody>
           <tr>
-            <td title={fileName}>
-              <Icon
-                icon={
-                  format?.endsWith('jpeg') || format?.endsWith('gif')
-                    ? imageFile
-                    : file
-                }
-                matchText={true}
-                sizeOverride={
-                  format?.endsWith('jpeg') || format?.endsWith('gif')
-                    ? undefined
-                    : 'height: 15px; width: 14px;'
-                }
-              />
-              {fileName}
-            </td>
+            <td title={fileName}>{fileNameContent}</td>
             <td title={formatString}>{formatString}</td>
             <td>
               {fileSize ? (

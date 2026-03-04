@@ -2,6 +2,8 @@ import { NextPage } from 'next';
 
 import { getServerData } from '@weco/common/server-data';
 import { appError } from '@weco/common/services/app';
+import { addDays, today } from '@weco/common/utils/dates';
+import { formatIso8601Date } from '@weco/common/utils/format-date';
 import { serialiseProps } from '@weco/common/utils/json';
 import {
   ServerSideProps,
@@ -33,6 +35,11 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   const serverData = await getServerData(context);
 
+  // We want to show works that have been made available online from 00:01 yesterday
+  // as some works require more time to properly build and we got errors in the past
+  // https://github.com/wellcomecollection/wellcomecollection.org/issues/12787
+  const yesterday = formatIso8601Date(addDays(today(), -1));
+
   const works = await getWorks({
     params: {
       availabilities: ['online'],
@@ -42,7 +49,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         '!restricted',
         '!closed',
       ],
-      'items.locations.createdDate.to': '2026-02-18',
+      'items.locations.createdDate.to': yesterday,
       sort: 'items.locations.createdDate',
       sortOrder: 'desc',
       page,

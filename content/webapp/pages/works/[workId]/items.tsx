@@ -31,7 +31,10 @@ import { getWork } from '@weco/content/services/wellcome/catalogue/works';
 import { toCompressedTransformedManifest } from '@weco/content/types/compressed-manifest';
 import { TransformedManifest } from '@weco/content/types/manifest';
 import { fetchJson } from '@weco/content/utils/http';
-import { getCollectionManifests } from '@weco/content/utils/iiif/v3';
+import {
+  getCollectionManifests,
+  hasNonImages,
+} from '@weco/content/utils/iiif/v3';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { getDigitalLocationOfType } from '@weco/content/utils/works';
 import { fromQuery } from '@weco/content/views/components/ItemLink';
@@ -39,6 +42,8 @@ import { queryParamToArrayIndex } from '@weco/content/views/pages/works/work/III
 import WorkItemPage, {
   Props as WorkItemPageProps,
 } from '@weco/content/views/pages/works/work/items';
+import { createDownloadTree } from '@weco/content/views/pages/works/work/work.helpers';
+import { UiTree } from '@weco/content/views/pages/works/work/work.types';
 
 const Page: NextPage<WorkItemPageProps> = props => {
   return <WorkItemPage {...props} />;
@@ -167,10 +172,22 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
     const serverSearchResults = await getSearchResults();
 
+    // Build archive tree on server for progressive enhancement
+    const hasMultipleCanvases = (canvases?.length || 0) > 1;
+    const hasOnlyImages = !hasNonImages(canvases || []);
+    const archiveTree: UiTree =
+      hasMultipleCanvases && !hasOnlyImages
+        ? createDownloadTree(displayManifest.structures, canvases, {
+            skipObjectsNode: true,
+            openByDefault: true,
+          })
+        : [];
+
     return {
       props: serialiseProps<Props>({
         compressedTransformedManifest:
           toCompressedTransformedManifest(displayManifest),
+        archiveTree,
         canvasOcr,
         canvas,
         iiifImageLocation,

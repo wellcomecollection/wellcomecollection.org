@@ -98,6 +98,7 @@ export type EventBasic = HasTimes & {
   availableOnline: boolean;
   series: EventSeriesBasic[];
   cost?: string;
+  contributors: Contributor[];
 };
 
 export type Event = GenericContentFields & {

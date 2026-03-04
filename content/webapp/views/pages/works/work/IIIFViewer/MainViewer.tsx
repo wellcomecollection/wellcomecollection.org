@@ -21,7 +21,6 @@ import { TransformedCanvas } from '@weco/content/types/manifest';
 import { TransformedAuthService } from '@weco/content/utils/iiif/v3';
 import { getDisplayItems } from '@weco/content/utils/iiif/v3/canvas';
 import IIIFItem from '@weco/content/views/pages/works/work/IIIFItem';
-import DownloadTableSection from '@weco/content/views/pages/works/work/IIIFViewer/DownloadTableSection';
 
 import { queryParamToArrayIndex } from '.';
 
@@ -405,7 +404,6 @@ const MainViewer: FunctionComponent = () => {
     mainAreaHeight,
     mainAreaWidth,
     transformedManifest,
-    work,
     query,
     setShowZoomed,
     setShowFullscreenControl,
@@ -413,7 +411,8 @@ const MainViewer: FunctionComponent = () => {
     setShowControls,
     errorHandler,
     accessToken,
-    useFixedSizeList,
+    hasOnlyImages,
+    canvasIndexById,
   } = useItemViewerContext();
   const { shouldScrollToCanvas, canvas } = query;
   const mainViewerRef = useRef<FixedSizeList>(null);
@@ -429,7 +428,22 @@ const MainViewer: FunctionComponent = () => {
   const { canvases, auth, placeholderId } = {
     ...transformedManifest,
   };
-  const currentCanvas = canvases?.[queryParamToArrayIndex(canvas)];
+
+  // Canvas order is determined by structures if we have them, which aren't always the same
+  // as the order of canvases in the items array.
+  // The canvasIndexById provides a mapping between the canvas ID
+  // and the correct display index based on the archival structure.
+  // We only use this mapping if it contains all canvases to ensure consistent ordering -
+  // otherwise we fall back to array indexing.
+  const hasCompleteStructure =
+    canvasIndexById && Object.keys(canvasIndexById).length === canvases?.length;
+  const currentCanvasId = hasCompleteStructure
+    ? Object.keys(canvasIndexById).find(id => canvasIndexById[id] === canvas)
+    : undefined;
+
+  const currentCanvas = currentCanvasId
+    ? canvases?.find(c => c.id === currentCanvasId)
+    : canvases?.[queryParamToArrayIndex(canvas)];
 
   const externalAccessService = auth?.externalAccessService;
 
@@ -474,12 +488,12 @@ const MainViewer: FunctionComponent = () => {
   const hasMultipleCanvases = canvases && canvases.length > 1;
 
   useEffect(() => {
-    if (!useFixedSizeList) {
+    if (!hasOnlyImages) {
       setShowFullscreenControl(false);
     }
-  }, [useFixedSizeList, setShowFullscreenControl]);
+  }, [hasOnlyImages, setShowFullscreenControl]);
 
-  if (useFixedSizeList) {
+  if (hasOnlyImages) {
     return (
       <MainViewerContainer $useFixedList={true} data-testid="main-viewer">
         <FixedSizeList
@@ -536,13 +550,6 @@ const MainViewer: FunctionComponent = () => {
           );
         })}
       </>
-      {hasMultipleCanvases && (
-        <DownloadTableSection
-          canvases={canvases}
-          workId={work.id}
-          canvas={canvas}
-        />
-      )}
     </MainViewerContainer>
   );
 };
