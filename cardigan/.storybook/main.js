@@ -58,6 +58,7 @@ const config = {
       'next/image': resolve(monorepoRoot, 'node_modules/next/image.js'),
       'next/link': resolve(monorepoRoot, 'node_modules/next/link.js'),
       'next/head': resolve(monorepoRoot, 'node_modules/next/head.js'),
+      undici: resolve(__dirname, './mocks/undici.js'),
     };
 
     return config;
