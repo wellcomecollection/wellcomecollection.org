@@ -1,5 +1,4 @@
-import { HttpsAgent as Agent } from 'agentkeepalive';
-import fetch, { Response } from 'node-fetch';
+import { Agent } from 'undici';
 
 import { Toggles } from '@weco/toggles';
 
@@ -114,34 +113,39 @@ export type QueryProps<Params> = {
   toggles: Toggles;
 };
 
-// By default, the next.js polyfill for node-fetch enables keep-alive by default.
-// https://nextjs.org/docs/api-reference/next.config.js/disabling-http-keep-alive
+// Node.js native fetch (powered by undici) uses keep-alive connections by default,
+// but with timeout values that don't match our server configuration.
+// https://nodejs.org/api/globals.html#fetch
 //
-// This is great, but it leads us occasionally to see errors like this one:
+// This leads us occasionally to see errors like this one:
 //
 //      FetchError: request to https://api.wellcomecollection.org/catalogue/v2/works/...
 //      failed, reason: read ECONNRESET
 //
-// That's because the (client) HTTP agent is keeping the socket open indefinitely, but
-// the server has other ideas:
+// That's because the default keep-alive timeout doesn't align with the server:
 //
 // - default "idle-timeout" in akka-http is 60s https://doc.akka.io/docs/akka-http/current/configuration.html
 // - NLBs have a fixed idle timeout of 350s https://docs.aws.amazon.com/elasticloadbalancing/latest/network/network-load-balancers.html#connection-idle-timeout
 //
-// As such, we use an agent which is configured to expire free sockets after 59s
+// As such, we use a custom undici agent configured to expire free sockets after 59s
+// (1s less than the server timeout) to prevent connection resets.
 // A good explanation of the problem, as well as the solution, is available here:
-
 // https://connectreport.com/blog/tuning-http-keep-alive-in-node-js/
 const agentKeepAlive = new Agent({
-  keepAlive: true,
-  freeSocketTimeout: 1000 * 59, // 1s less than the akka-http idle timeout
+  keepAliveTimeout: 1000 * 59, // 1s less than the akka-http idle timeout
+  keepAliveMaxTimeout: 1000 * 59,
 });
 
 export const wellcomeApiFetch = (
   url: string,
   options?: Record<string, string>
 ): Promise<Response> => {
-  return fetch(url, { ...options, agent: agentKeepAlive });
+  // Node.js native fetch supports the dispatcher option for configuring the HTTP agent
+  // The type assertion is needed because TypeScript's built-in RequestInit doesn't include dispatcher
+  return fetch(url, {
+    ...options,
+    dispatcher: agentKeepAlive,
+  } as RequestInit);
 };
 
 export const wellcomeApiError = (): WellcomeApiError => ({
