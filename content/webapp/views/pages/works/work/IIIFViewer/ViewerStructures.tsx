@@ -39,7 +39,7 @@ export const Item = styled(Space).attrs({
   ${props =>
     props.$isActive &&
     `
-      background: #222;
+      background: ${props.theme.color('black')};
 
       &::before {
         content: '';
@@ -110,6 +110,8 @@ const Structures: FunctionComponent<Props> = ({
                   data-gtm-trigger="contents_nav"
                   aria-current={
                     currentCanvasIndex === arrayIndexToQueryParam(canvasIndex)
+                      ? 'page'
+                      : undefined
                   }
                   onClick={() => {
                     setIsMobileSidebarActive(false);

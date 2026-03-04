@@ -2,6 +2,7 @@ import * as prismic from '@prismicio/client';
 
 import { ImageType } from '@weco/common/model/image';
 import {
+  EditorialImageSlice as RawEditorialImageSlice,
   SeriesDocument as RawSeriesDocument,
   StandfirstSlice as RawStandfirstSlice,
   WebcomicSeriesDocument as RawWebcomicSeriesDocument,
@@ -36,7 +37,7 @@ export function transformWebcomicSeries(
   const primaryPromo =
     isGenericDocWithPromo(doc) && data.promo.length > 0
       ? data.promo
-          .filter((slice: prismic.Slice) => slice.primary.image)
+          .filter((slice: RawEditorialImageSlice) => slice.primary.image)
           .find(_ => _)
       : undefined;
 

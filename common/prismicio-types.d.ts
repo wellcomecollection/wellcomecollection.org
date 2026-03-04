@@ -309,7 +309,7 @@ interface ArticlesDocumentData {
    * - **Tab**: Story
    * - **Documentation**: https://prismic.io/docs/slices
    */
-  body: prismic.SliceZone<ArticlesDocumentDataBodySlice> /**
+  body: prismic.SliceZone<ArticlesDocumentDataBodySlice>; /**
    * Contributors field in *Story*
    *
    * - **Field Type**: Group
@@ -317,7 +317,7 @@ interface ArticlesDocumentData {
    * - **API ID Path**: articles.contributors[]
    * - **Tab**: Contributors
    * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
-   */;
+   */
   contributors: prismic.GroupField<
     Simplify<ArticlesDocumentDataContributorsItem>
   >;
@@ -331,7 +331,7 @@ interface ArticlesDocumentData {
    * - **Tab**: Contributors
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
-  contributorsTitle: prismic.RichTextField /**
+  contributorsTitle: prismic.RichTextField; /**
    * Slice Zone field in *Story*
    *
    * - **Field Type**: Slice Zone
@@ -339,8 +339,8 @@ interface ArticlesDocumentData {
    * - **API ID Path**: articles.promo[]
    * - **Tab**: Promo
    * - **Documentation**: https://prismic.io/docs/slices
-   */;
-  promo: prismic.SliceZone<ArticlesDocumentDataPromoSlice> /**
+   */
+  promo: prismic.SliceZone<ArticlesDocumentDataPromoSlice>; /**
    * Metadata description field in *Story*
    *
    * - **Field Type**: Rich Text
@@ -348,8 +348,8 @@ interface ArticlesDocumentData {
    * - **API ID Path**: articles.metadataDescription
    * - **Tab**: Metadata
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
-   */;
-  metadataDescription: prismic.RichTextField /**
+   */
+  metadataDescription: prismic.RichTextField; /**
    * "Explore more" document field in *Story*
    *
    * - **Field Type**: Content Relationship
@@ -357,7 +357,7 @@ interface ArticlesDocumentData {
    * - **API ID Path**: articles.exploreMoreDocument
    * - **Tab**: Content relationships
    * - **Documentation**: https://prismic.io/docs/fields/content-relationship
-   */;
+   */
   exploreMoreDocument:
     | prismic.ContentRelationshipField<'articles'>
     | prismic.ContentRelationshipField<'exhibitions'>;
@@ -393,7 +393,7 @@ interface ArticlesDocumentData {
    * - **Tab**: Content relationships
    * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
    */
-  parents: prismic.GroupField<Simplify<ArticlesDocumentDataParentsItem>> /**
+  parents: prismic.GroupField<Simplify<ArticlesDocumentDataParentsItem>>; /**
    * Override pub. date in UI+ContentAPI field in *Story*
    *
    * - **Field Type**: Timestamp
@@ -401,7 +401,7 @@ interface ArticlesDocumentData {
    * - **API ID Path**: articles.publishDate
    * - **Tab**: Overrides
    * - **Documentation**: https://prismic.io/docs/fields/timestamp
-   */;
+   */
   publishDate: prismic.TimestampField;
 }
 
@@ -751,7 +751,7 @@ interface BooksDocumentData {
    * - **Tab**: Book
    * - **Documentation**: https://prismic.io/docs/slices
    */
-  body: prismic.SliceZone<BooksDocumentDataBodySlice> /**
+  body: prismic.SliceZone<BooksDocumentDataBodySlice>; /**
    * Contributors field in *Book*
    *
    * - **Field Type**: Group
@@ -759,7 +759,7 @@ interface BooksDocumentData {
    * - **API ID Path**: books.contributors[]
    * - **Tab**: Contributors
    * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
-   */;
+   */
   contributors: prismic.GroupField<Simplify<BooksDocumentDataContributorsItem>>;
 
   /**
@@ -771,7 +771,7 @@ interface BooksDocumentData {
    * - **Tab**: Contributors
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
-  contributorsTitle: prismic.RichTextField /**
+  contributorsTitle: prismic.RichTextField; /**
    * Slice Zone field in *Book*
    *
    * - **Field Type**: Slice Zone
@@ -779,8 +779,8 @@ interface BooksDocumentData {
    * - **API ID Path**: books.promo[]
    * - **Tab**: Promo
    * - **Documentation**: https://prismic.io/docs/slices
-   */;
-  promo: prismic.SliceZone<BooksDocumentDataPromoSlice> /**
+   */
+  promo: prismic.SliceZone<BooksDocumentDataPromoSlice>; /**
    * Metadata description field in *Book*
    *
    * - **Field Type**: Rich Text
@@ -788,8 +788,8 @@ interface BooksDocumentData {
    * - **API ID Path**: books.metadataDescription
    * - **Tab**: Metadata
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
-   */;
-  metadataDescription: prismic.RichTextField /**
+   */
+  metadataDescription: prismic.RichTextField; /**
    * Seasons field in *Book*
    *
    * - **Field Type**: Group
@@ -797,7 +797,7 @@ interface BooksDocumentData {
    * - **API ID Path**: books.seasons[]
    * - **Tab**: Content relationships
    * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
-   */;
+   */
   seasons: prismic.GroupField<Simplify<BooksDocumentDataSeasonsItem>>;
 
   /**
@@ -1182,7 +1182,7 @@ interface CollectionVenueDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
-  linkText: prismic.RichTextField /**
+  linkText: prismic.RichTextField; /**
    * Monday's times field in *Collection venue*
    *
    * - **Field Type**: Group
@@ -1190,7 +1190,7 @@ interface CollectionVenueDocumentData {
    * - **API ID Path**: collection-venue.monday[]
    * - **Tab**: Regular opening times
    * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
-   */;
+   */
   monday: prismic.GroupField<Simplify<CollectionVenueDocumentDataMondayItem>>;
 
   /**
@@ -1265,7 +1265,7 @@ interface CollectionVenueDocumentData {
    */
   sunday: prismic.GroupField<
     Simplify<CollectionVenueDocumentDataSundayItem>
-  > /**
+  >; /**
    * Modified day opening times field in *Collection venue*
    *
    * - **Field Type**: Group
@@ -1273,7 +1273,7 @@ interface CollectionVenueDocumentData {
    * - **API ID Path**: collection-venue.modifiedDayOpeningTimes[]
    * - **Tab**: Modified opening times
    * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
-   */;
+   */
   modifiedDayOpeningTimes: prismic.GroupField<
     Simplify<CollectionVenueDocumentDataModifiedDayOpeningTimesItem>
   >;
@@ -1553,7 +1553,7 @@ interface EventSeriesDocumentData {
    * - **Tab**: Event series
    * - **Documentation**: https://prismic.io/docs/slices
    */
-  body: prismic.SliceZone<EventSeriesDocumentDataBodySlice> /**
+  body: prismic.SliceZone<EventSeriesDocumentDataBodySlice>; /**
    * Contributors field in *Event series*
    *
    * - **Field Type**: Group
@@ -1561,7 +1561,7 @@ interface EventSeriesDocumentData {
    * - **API ID Path**: event-series.contributors[]
    * - **Tab**: Contributors
    * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
-   */;
+   */
   contributors: prismic.GroupField<
     Simplify<EventSeriesDocumentDataContributorsItem>
   >;
@@ -1575,7 +1575,7 @@ interface EventSeriesDocumentData {
    * - **Tab**: Contributors
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
-  contributorsTitle: prismic.RichTextField /**
+  contributorsTitle: prismic.RichTextField; /**
    * Slice Zone field in *Event series*
    *
    * - **Field Type**: Slice Zone
@@ -1583,8 +1583,8 @@ interface EventSeriesDocumentData {
    * - **API ID Path**: event-series.promo[]
    * - **Tab**: Promo
    * - **Documentation**: https://prismic.io/docs/slices
-   */;
-  promo: prismic.SliceZone<EventSeriesDocumentDataPromoSlice> /**
+   */
+  promo: prismic.SliceZone<EventSeriesDocumentDataPromoSlice>; /**
    * Metadata description field in *Event series*
    *
    * - **Field Type**: Rich Text
@@ -1592,7 +1592,7 @@ interface EventSeriesDocumentData {
    * - **API ID Path**: event-series.metadataDescription
    * - **Tab**: Metadata
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
-   */;
+   */
   metadataDescription: prismic.RichTextField;
 }
 
@@ -2028,7 +2028,7 @@ interface EventsDocumentData {
    * - **Tab**: Event
    * - **Documentation**: https://prismic.io/docs/slices
    */
-  body: prismic.SliceZone<EventsDocumentDataBodySlice> /**
+  body: prismic.SliceZone<EventsDocumentDataBodySlice>; /**
    * Interpretations field in *Event*
    *
    * - **Field Type**: Group
@@ -2036,7 +2036,7 @@ interface EventsDocumentData {
    * - **API ID Path**: events.interpretations[]
    * - **Tab**: Access
    * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
-   */;
+   */
   interpretations: prismic.GroupField<
     Simplify<EventsDocumentDataInterpretationsItem>
   >;
@@ -2050,7 +2050,7 @@ interface EventsDocumentData {
    * - **Tab**: Access
    * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
    */
-  audiences: prismic.GroupField<Simplify<EventsDocumentDataAudiencesItem>> /**
+  audiences: prismic.GroupField<Simplify<EventsDocumentDataAudiencesItem>>; /**
    * Ticket sales start field in *Event*
    *
    * - **Field Type**: Timestamp
@@ -2058,7 +2058,7 @@ interface EventsDocumentData {
    * - **API ID Path**: events.ticketSalesStart
    * - **Tab**: Reservation
    * - **Documentation**: https://prismic.io/docs/fields/timestamp
-   */;
+   */
   ticketSalesStart: prismic.TimestampField;
 
   /**
@@ -2153,7 +2153,7 @@ interface EventsDocumentData {
    * - **Tab**: Reservation
    * - **Documentation**: https://prismic.io/docs/fields/text
    */
-  cost: prismic.KeyTextField /**
+  cost: prismic.KeyTextField; /**
    * Ticket sales start field in *Event*
    *
    * - **Field Type**: Timestamp
@@ -2161,7 +2161,7 @@ interface EventsDocumentData {
    * - **API ID Path**: events.onlineTicketSalesStart
    * - **Tab**: Online reservation
    * - **Documentation**: https://prismic.io/docs/fields/timestamp
-   */;
+   */
   onlineTicketSalesStart: prismic.TimestampField;
 
   /**
@@ -2258,7 +2258,7 @@ interface EventsDocumentData {
    * - **Tab**: Online reservation
    * - **Documentation**: https://prismic.io/docs/fields/text
    */
-  onlineCost: prismic.KeyTextField /**
+  onlineCost: prismic.KeyTextField; /**
    * Events field in *Event*
    *
    * - **Field Type**: Group
@@ -2266,8 +2266,8 @@ interface EventsDocumentData {
    * - **API ID Path**: events.schedule[]
    * - **Tab**: Schedule
    * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
-   */;
-  schedule: prismic.GroupField<Simplify<EventsDocumentDataScheduleItem>> /**
+   */
+  schedule: prismic.GroupField<Simplify<EventsDocumentDataScheduleItem>>; /**
    * Contributors field in *Event*
    *
    * - **Field Type**: Group
@@ -2275,7 +2275,7 @@ interface EventsDocumentData {
    * - **API ID Path**: events.contributors[]
    * - **Tab**: Contributors
    * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
-   */;
+   */
   contributors: prismic.GroupField<
     Simplify<EventsDocumentDataContributorsItem>
   >;
@@ -2289,7 +2289,7 @@ interface EventsDocumentData {
    * - **Tab**: Contributors
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
-  contributorsTitle: prismic.RichTextField /**
+  contributorsTitle: prismic.RichTextField; /**
    * Slice Zone field in *Event*
    *
    * - **Field Type**: Slice Zone
@@ -2297,8 +2297,8 @@ interface EventsDocumentData {
    * - **API ID Path**: events.promo[]
    * - **Tab**: Promo
    * - **Documentation**: https://prismic.io/docs/slices
-   */;
-  promo: prismic.SliceZone<EventsDocumentDataPromoSlice> /**
+   */
+  promo: prismic.SliceZone<EventsDocumentDataPromoSlice>; /**
    * Metadata description field in *Event*
    *
    * - **Field Type**: Rich Text
@@ -2306,8 +2306,8 @@ interface EventsDocumentData {
    * - **API ID Path**: events.metadataDescription
    * - **Tab**: Metadata
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
-   */;
-  metadataDescription: prismic.RichTextField /**
+   */
+  metadataDescription: prismic.RichTextField; /**
    * Event series field in *Event*
    *
    * - **Field Type**: Group
@@ -2315,7 +2315,7 @@ interface EventsDocumentData {
    * - **API ID Path**: events.series[]
    * - **Tab**: Content relationships
    * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
-   */;
+   */
   series: prismic.GroupField<Simplify<EventsDocumentDataSeriesItem>>;
 
   /**
@@ -2549,7 +2549,7 @@ interface ExhibitionGuidesDocumentData {
    * - **Tab**: Guide
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
-  introText: prismic.RichTextField /**
+  introText: prismic.RichTextField; /**
    * Guide Component field in *Exhibition guide*
    *
    * - **Field Type**: Group
@@ -2557,7 +2557,7 @@ interface ExhibitionGuidesDocumentData {
    * - **API ID Path**: exhibition-guides.components[]
    * - **Tab**: Components
    * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
-   */;
+   */
   components: prismic.GroupField<
     Simplify<ExhibitionGuidesDocumentDataComponentsItem>
   >;
@@ -3135,7 +3135,7 @@ interface ExhibitionsDocumentData {
    * - **Tab**: Exhibition
    * - **Documentation**: https://prismic.io/docs/slices
    */
-  body: prismic.SliceZone<ExhibitionsDocumentDataBodySlice> /**
+  body: prismic.SliceZone<ExhibitionsDocumentDataBodySlice>; /**
    * Exhibits field in *Exhibition*
    *
    * - **Field Type**: Group
@@ -3143,7 +3143,7 @@ interface ExhibitionsDocumentData {
    * - **API ID Path**: exhibitions.exhibits[]
    * - **Tab**: In this exhibition
    * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
-   */;
+   */
   exhibits: prismic.GroupField<Simplify<ExhibitionsDocumentDataExhibitsItem>>;
 
   /**
@@ -3155,7 +3155,7 @@ interface ExhibitionsDocumentData {
    * - **Tab**: In this exhibition
    * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
    */
-  events: prismic.GroupField<Simplify<ExhibitionsDocumentDataEventsItem>> /**
+  events: prismic.GroupField<Simplify<ExhibitionsDocumentDataEventsItem>>; /**
    * Articles field in *Exhibition*
    *
    * - **Field Type**: Group
@@ -3163,10 +3163,10 @@ interface ExhibitionsDocumentData {
    * - **API ID Path**: exhibitions.articles[]
    * - **Tab**: About this exhibition
    * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
-   */;
+   */
   articles: prismic.GroupField<
     Simplify<ExhibitionsDocumentDataArticlesItem>
-  > /**
+  >; /**
    * Interpretations field in *Exhibition*
    *
    * - **Field Type**: Group
@@ -3174,7 +3174,7 @@ interface ExhibitionsDocumentData {
    * - **API ID Path**: exhibitions.interpretations[]
    * - **Tab**: Access
    * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
-   */;
+   */
   interpretations: prismic.GroupField<
     Simplify<ExhibitionsDocumentDataInterpretationsItem>
   >;
@@ -3201,7 +3201,7 @@ interface ExhibitionsDocumentData {
    * - **Tab**: Access
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
-  accessResourcesText: prismic.RichTextField /**
+  accessResourcesText: prismic.RichTextField; /**
    * Contributors field in *Exhibition*
    *
    * - **Field Type**: Group
@@ -3209,7 +3209,7 @@ interface ExhibitionsDocumentData {
    * - **API ID Path**: exhibitions.contributors[]
    * - **Tab**: Contributors
    * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
-   */;
+   */
   contributors: prismic.GroupField<
     Simplify<ExhibitionsDocumentDataContributorsItem>
   >;
@@ -3223,7 +3223,7 @@ interface ExhibitionsDocumentData {
    * - **Tab**: Contributors
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
-  contributorsTitle: prismic.RichTextField /**
+  contributorsTitle: prismic.RichTextField; /**
    * Slice Zone field in *Exhibition*
    *
    * - **Field Type**: Slice Zone
@@ -3231,8 +3231,8 @@ interface ExhibitionsDocumentData {
    * - **API ID Path**: exhibitions.promo[]
    * - **Tab**: Promo
    * - **Documentation**: https://prismic.io/docs/slices
-   */;
-  promo: prismic.SliceZone<ExhibitionsDocumentDataPromoSlice> /**
+   */
+  promo: prismic.SliceZone<ExhibitionsDocumentDataPromoSlice>; /**
    * Metadata description field in *Exhibition*
    *
    * - **Field Type**: Rich Text
@@ -3240,8 +3240,8 @@ interface ExhibitionsDocumentData {
    * - **API ID Path**: exhibitions.metadataDescription
    * - **Tab**: Metadata
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
-   */;
-  metadataDescription: prismic.RichTextField /**
+   */
+  metadataDescription: prismic.RichTextField; /**
    * Seasons field in *Exhibition*
    *
    * - **Field Type**: Group
@@ -3249,7 +3249,7 @@ interface ExhibitionsDocumentData {
    * - **API ID Path**: exhibitions.seasons[]
    * - **Tab**: Content relationships
    * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
-   */;
+   */
   seasons: prismic.GroupField<Simplify<ExhibitionsDocumentDataSeasonsItem>>;
 
   /**
@@ -3503,7 +3503,7 @@ interface GuidesDocumentData {
    * - **Tab**: Guide
    * - **Documentation**: https://prismic.io/docs/slices
    */
-  body: prismic.SliceZone<GuidesDocumentDataBodySlice> /**
+  body: prismic.SliceZone<GuidesDocumentDataBodySlice>; /**
    * Slice Zone field in *Guide*
    *
    * - **Field Type**: Slice Zone
@@ -3511,8 +3511,8 @@ interface GuidesDocumentData {
    * - **API ID Path**: guides.promo[]
    * - **Tab**: Promo
    * - **Documentation**: https://prismic.io/docs/slices
-   */;
-  promo: prismic.SliceZone<GuidesDocumentDataPromoSlice> /**
+   */
+  promo: prismic.SliceZone<GuidesDocumentDataPromoSlice>; /**
    * Metadata description field in *Guide*
    *
    * - **Field Type**: Rich Text
@@ -3520,7 +3520,7 @@ interface GuidesDocumentData {
    * - **API ID Path**: guides.metadataDescription
    * - **Tab**: Metadata
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
-   */;
+   */
   metadataDescription: prismic.RichTextField;
 }
 
@@ -3778,26 +3778,28 @@ export type PageFormatsDocument<Lang extends string = string> =
   >;
 
 type PagesDocumentDataBodySlice =
+  | ArchiveCardListSlice
+  | AudioPlayerSlice
+  | CollectionVenueSlice
+  | ContactSlice
+  | ContentListSlice
+  | EditorialImageSlice
+  | EditorialImageGallerySlice
+  | EmbedSlice
   | FullWidthBannerSlice
   | GifVideoSlice
   | IframeSlice
-  | EditorialImageSlice
-  | EditorialImageGallerySlice
+  | InfoBlockSlice
   | MapSlice
-  | ContentListSlice
-  | EmbedSlice
-  | TitledTextListSlice
-  | TextAndImageSlice
-  | TextSlice
+  | QuoteSlice
   | SearchResultsSlice
-  | TextAndIconsSlice
   | StandfirstSlice
   | TagListSlice
-  | QuoteSlice
-  | InfoBlockSlice
-  | ContactSlice
-  | CollectionVenueSlice
-  | AudioPlayerSlice;
+  | TextSlice
+  | TextAndIconsSlice
+  | TextAndImageSlice
+  | ThemeCardsListSlice
+  | TitledTextListSlice;
 
 /**
  * Primary content in *Page → Slice Zone → Editorial image → Primary*
@@ -3993,7 +3995,7 @@ interface PagesDocumentData {
    * - **Tab**: Page
    * - **Documentation**: https://prismic.io/docs/slices
    */
-  body: prismic.SliceZone<PagesDocumentDataBodySlice> /**
+  body: prismic.SliceZone<PagesDocumentDataBodySlice>; /**
    * Slice Zone field in *Page*
    *
    * - **Field Type**: Slice Zone
@@ -4001,8 +4003,8 @@ interface PagesDocumentData {
    * - **API ID Path**: pages.promo[]
    * - **Tab**: Promo
    * - **Documentation**: https://prismic.io/docs/slices
-   */;
-  promo: prismic.SliceZone<PagesDocumentDataPromoSlice> /**
+   */
+  promo: prismic.SliceZone<PagesDocumentDataPromoSlice>; /**
    * Metadata description field in *Page*
    *
    * - **Field Type**: Rich Text
@@ -4010,8 +4012,8 @@ interface PagesDocumentData {
    * - **API ID Path**: pages.metadataDescription
    * - **Tab**: Metadata
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
-   */;
-  metadataDescription: prismic.RichTextField /**
+   */
+  metadataDescription: prismic.RichTextField; /**
    * Seasons field in *Page*
    *
    * - **Field Type**: Group
@@ -4019,7 +4021,7 @@ interface PagesDocumentData {
    * - **API ID Path**: pages.seasons[]
    * - **Tab**: Content relationships
    * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
-   */;
+   */
   seasons: prismic.GroupField<Simplify<PagesDocumentDataSeasonsItem>>;
 
   /**
@@ -4031,7 +4033,7 @@ interface PagesDocumentData {
    * - **Tab**: Content relationships
    * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
    */
-  parents: prismic.GroupField<Simplify<PagesDocumentDataParentsItem>> /**
+  parents: prismic.GroupField<Simplify<PagesDocumentDataParentsItem>>; /**
    * Contributors field in *Page*
    *
    * - **Field Type**: Group
@@ -4039,7 +4041,7 @@ interface PagesDocumentData {
    * - **API ID Path**: pages.contributors[]
    * - **Tab**: Contributors
    * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
-   */;
+   */
   contributors: prismic.GroupField<Simplify<PagesDocumentDataContributorsItem>>;
 
   /**
@@ -4594,7 +4596,7 @@ interface ProjectsDocumentData {
    * - **Tab**: Project
    * - **Documentation**: https://prismic.io/docs/slices
    */
-  body: prismic.SliceZone<ProjectsDocumentDataBodySlice> /**
+  body: prismic.SliceZone<ProjectsDocumentDataBodySlice>; /**
    * Contributors field in *Project*
    *
    * - **Field Type**: Group
@@ -4602,7 +4604,7 @@ interface ProjectsDocumentData {
    * - **API ID Path**: projects.contributors[]
    * - **Tab**: Contributors
    * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
-   */;
+   */
   contributors: prismic.GroupField<
     Simplify<ProjectsDocumentDataContributorsItem>
   >;
@@ -4616,7 +4618,7 @@ interface ProjectsDocumentData {
    * - **Tab**: Contributors
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
-  contributorsTitle: prismic.RichTextField /**
+  contributorsTitle: prismic.RichTextField; /**
    * Slice Zone field in *Project*
    *
    * - **Field Type**: Slice Zone
@@ -4624,8 +4626,8 @@ interface ProjectsDocumentData {
    * - **API ID Path**: projects.promo[]
    * - **Tab**: Promo
    * - **Documentation**: https://prismic.io/docs/slices
-   */;
-  promo: prismic.SliceZone<ProjectsDocumentDataPromoSlice> /**
+   */
+  promo: prismic.SliceZone<ProjectsDocumentDataPromoSlice>; /**
    * Seasons field in *Project*
    *
    * - **Field Type**: Group
@@ -4633,8 +4635,8 @@ interface ProjectsDocumentData {
    * - **API ID Path**: projects.seasons[]
    * - **Tab**: Content relationships
    * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
-   */;
-  seasons: prismic.GroupField<Simplify<ProjectsDocumentDataSeasonsItem>> /**
+   */
+  seasons: prismic.GroupField<Simplify<ProjectsDocumentDataSeasonsItem>>; /**
    * Metadata description field in *Project*
    *
    * - **Field Type**: Rich Text
@@ -4642,7 +4644,7 @@ interface ProjectsDocumentData {
    * - **API ID Path**: projects.metadataDescription
    * - **Tab**: Metadata
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
-   */;
+   */
   metadataDescription: prismic.RichTextField;
 }
 
@@ -4776,7 +4778,7 @@ interface SeasonsDocumentData {
    * - **Tab**: Season
    * - **Documentation**: https://prismic.io/docs/slices
    */
-  body: prismic.SliceZone<SeasonsDocumentDataBodySlice> /**
+  body: prismic.SliceZone<SeasonsDocumentDataBodySlice>; /**
    * Slice Zone field in *Season*
    *
    * - **Field Type**: Slice Zone
@@ -4784,7 +4786,7 @@ interface SeasonsDocumentData {
    * - **API ID Path**: seasons.promo[]
    * - **Tab**: Promo
    * - **Documentation**: https://prismic.io/docs/slices
-   */;
+   */
   promo: prismic.SliceZone<SeasonsDocumentDataPromoSlice>;
 }
 
@@ -4996,7 +4998,7 @@ interface SeriesDocumentData {
    * - **Tab**: Story series
    * - **Documentation**: https://prismic.io/docs/slices
    */
-  body: prismic.SliceZone<SeriesDocumentDataBodySlice> /**
+  body: prismic.SliceZone<SeriesDocumentDataBodySlice>; /**
    * Schedule field in *Story series*
    *
    * - **Field Type**: Group
@@ -5004,8 +5006,8 @@ interface SeriesDocumentData {
    * - **API ID Path**: series.schedule[]
    * - **Tab**: Schedule
    * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
-   */;
-  schedule: prismic.GroupField<Simplify<SeriesDocumentDataScheduleItem>> /**
+   */
+  schedule: prismic.GroupField<Simplify<SeriesDocumentDataScheduleItem>>; /**
    * Contributors field in *Story series*
    *
    * - **Field Type**: Group
@@ -5013,7 +5015,7 @@ interface SeriesDocumentData {
    * - **API ID Path**: series.contributors[]
    * - **Tab**: Contributors
    * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
-   */;
+   */
   contributors: prismic.GroupField<
     Simplify<SeriesDocumentDataContributorsItem>
   >;
@@ -5027,7 +5029,7 @@ interface SeriesDocumentData {
    * - **Tab**: Contributors
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
-  contributorsTitle: prismic.RichTextField /**
+  contributorsTitle: prismic.RichTextField; /**
    * Slice Zone field in *Story series*
    *
    * - **Field Type**: Slice Zone
@@ -5035,8 +5037,8 @@ interface SeriesDocumentData {
    * - **API ID Path**: series.promo[]
    * - **Tab**: Promo
    * - **Documentation**: https://prismic.io/docs/slices
-   */;
-  promo: prismic.SliceZone<SeriesDocumentDataPromoSlice> /**
+   */
+  promo: prismic.SliceZone<SeriesDocumentDataPromoSlice>; /**
    * Metadata description field in *Story series*
    *
    * - **Field Type**: Rich Text
@@ -5044,8 +5046,8 @@ interface SeriesDocumentData {
    * - **API ID Path**: series.metadataDescription
    * - **Tab**: Metadata
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
-   */;
-  metadataDescription: prismic.RichTextField /**
+   */
+  metadataDescription: prismic.RichTextField; /**
    * Seasons field in *Story series*
    *
    * - **Field Type**: Group
@@ -5053,8 +5055,8 @@ interface SeriesDocumentData {
    * - **API ID Path**: series.seasons[]
    * - **Tab**: Content relationships
    * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
-   */;
-  seasons: prismic.GroupField<Simplify<SeriesDocumentDataSeasonsItem>> /**
+   */
+  seasons: prismic.GroupField<Simplify<SeriesDocumentDataSeasonsItem>>; /**
    * Override published date field in *Story series*
    *
    * - **Field Type**: Timestamp
@@ -5062,7 +5064,7 @@ interface SeriesDocumentData {
    * - **API ID Path**: series.publishDate
    * - **Tab**: Overrides
    * - **Documentation**: https://prismic.io/docs/fields/timestamp
-   */;
+   */
   publishDate: prismic.TimestampField;
 }
 
@@ -5124,7 +5126,7 @@ interface StoriesLandingDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
-  introText: prismic.RichTextField /**
+  introText: prismic.RichTextField; /**
    * Title field in *Stories landing*
    *
    * - **Field Type**: Rich Text
@@ -5132,7 +5134,7 @@ interface StoriesLandingDocumentData {
    * - **API ID Path**: stories-landing.storiesTitle
    * - **Tab**: Featured stories/series
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
-   */;
+   */
   storiesTitle: prismic.RichTextField;
 
   /**
@@ -5157,7 +5159,7 @@ interface StoriesLandingDocumentData {
    */
   stories: prismic.GroupField<
     Simplify<StoriesLandingDocumentDataStoriesItem>
-  > /**
+  >; /**
    * Title field in *Stories landing*
    *
    * - **Field Type**: Rich Text
@@ -5165,7 +5167,7 @@ interface StoriesLandingDocumentData {
    * - **API ID Path**: stories-landing.booksTitle
    * - **Tab**: Featured books
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
-   */;
+   */
   booksTitle: prismic.RichTextField;
 
   /**
@@ -5385,7 +5387,7 @@ interface VisualStoriesDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/slices
    */
-  body: prismic.SliceZone<VisualStoriesDocumentDataBodySlice> /**
+  body: prismic.SliceZone<VisualStoriesDocumentDataBodySlice>; /**
    * Slice Zone field in *Visual story*
    *
    * - **Field Type**: Slice Zone
@@ -5393,7 +5395,7 @@ interface VisualStoriesDocumentData {
    * - **API ID Path**: visual-stories.promo[]
    * - **Tab**: Promo
    * - **Documentation**: https://prismic.io/docs/slices
-   */;
+   */
   promo: prismic.SliceZone<VisualStoriesDocumentDataPromoSlice>;
 }
 
@@ -5521,7 +5523,7 @@ interface WebcomicSeriesDocumentData {
    * - **Tab**: [Deprecated] Webcomic series
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
-  description: prismic.RichTextField /**
+  description: prismic.RichTextField; /**
    * Contributors field in *[Deprecated] Webcomic series*
    *
    * - **Field Type**: Group
@@ -5529,7 +5531,7 @@ interface WebcomicSeriesDocumentData {
    * - **API ID Path**: webcomic-series.contributors[]
    * - **Tab**: Contributors
    * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
-   */;
+   */
   contributors: prismic.GroupField<
     Simplify<WebcomicSeriesDocumentDataContributorsItem>
   >;
@@ -5543,7 +5545,7 @@ interface WebcomicSeriesDocumentData {
    * - **Tab**: Contributors
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
-  contributorsTitle: prismic.RichTextField /**
+  contributorsTitle: prismic.RichTextField; /**
    * Slice Zone field in *[Deprecated] Webcomic series*
    *
    * - **Field Type**: Slice Zone
@@ -5551,8 +5553,8 @@ interface WebcomicSeriesDocumentData {
    * - **API ID Path**: webcomic-series.promo[]
    * - **Tab**: Promo
    * - **Documentation**: https://prismic.io/docs/slices
-   */;
-  promo: prismic.SliceZone<WebcomicSeriesDocumentDataPromoSlice> /**
+   */
+  promo: prismic.SliceZone<WebcomicSeriesDocumentDataPromoSlice>; /**
    * Metadata description field in *[Deprecated] Webcomic series*
    *
    * - **Field Type**: Rich Text
@@ -5560,7 +5562,7 @@ interface WebcomicSeriesDocumentData {
    * - **API ID Path**: webcomic-series.metadataDescription
    * - **Tab**: Metadata
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
-   */;
+   */
   metadataDescription: prismic.RichTextField;
 }
 
@@ -5738,7 +5740,7 @@ interface WebcomicsDocumentData {
    * - **Tab**: Webcomic
    * - **Documentation**: https://prismic.io/docs/slices
    */
-  body: prismic.SliceZone<WebcomicsDocumentDataBodySlice> /**
+  body: prismic.SliceZone<WebcomicsDocumentDataBodySlice>; /**
    * Contributors field in *Webcomic*
    *
    * - **Field Type**: Group
@@ -5746,7 +5748,7 @@ interface WebcomicsDocumentData {
    * - **API ID Path**: webcomics.contributors[]
    * - **Tab**: Contributors
    * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
-   */;
+   */
   contributors: prismic.GroupField<
     Simplify<WebcomicsDocumentDataContributorsItem>
   >;
@@ -5760,7 +5762,7 @@ interface WebcomicsDocumentData {
    * - **Tab**: Contributors
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
-  contributorsTitle: prismic.RichTextField /**
+  contributorsTitle: prismic.RichTextField; /**
    * Slice Zone field in *Webcomic*
    *
    * - **Field Type**: Slice Zone
@@ -5768,8 +5770,8 @@ interface WebcomicsDocumentData {
    * - **API ID Path**: webcomics.promo[]
    * - **Tab**: Promo
    * - **Documentation**: https://prismic.io/docs/slices
-   */;
-  promo: prismic.SliceZone<WebcomicsDocumentDataPromoSlice> /**
+   */
+  promo: prismic.SliceZone<WebcomicsDocumentDataPromoSlice>; /**
    * Metadata description field in *Webcomic*
    *
    * - **Field Type**: Rich Text
@@ -5777,8 +5779,8 @@ interface WebcomicsDocumentData {
    * - **API ID Path**: webcomics.metadataDescription
    * - **Tab**: Metadata
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
-   */;
-  metadataDescription: prismic.RichTextField /**
+   */
+  metadataDescription: prismic.RichTextField; /**
    * Series field in *Webcomic*
    *
    * - **Field Type**: Group
@@ -5786,8 +5788,8 @@ interface WebcomicsDocumentData {
    * - **API ID Path**: webcomics.series[]
    * - **Tab**: Content relationships
    * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
-   */;
-  series: prismic.GroupField<Simplify<WebcomicsDocumentDataSeriesItem>> /**
+   */
+  series: prismic.GroupField<Simplify<WebcomicsDocumentDataSeriesItem>>; /**
    * Override publish date rendering. This will not affect ordering field in *Webcomic*
    *
    * - **Field Type**: Timestamp
@@ -5795,7 +5797,7 @@ interface WebcomicsDocumentData {
    * - **API ID Path**: webcomics.publishDate
    * - **Tab**: Overrides
    * - **Documentation**: https://prismic.io/docs/fields/timestamp
-   */;
+   */
   publishDate: prismic.TimestampField;
 }
 
@@ -5853,6 +5855,109 @@ export type AllDocumentTypes =
   | VisualStoriesDocument
   | WebcomicSeriesDocument
   | WebcomicsDocument;
+
+/**
+ * Item in *ArchiveCardList → Default → Primary → Archive items*
+ */
+export interface ArchiveCardListSliceDefaultPrimaryItemsItem {
+  /**
+   * Work ID field in *ArchiveCardList → Default → Primary → Archive items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: e.g. ab1cd234
+   * - **API ID Path**: archiveCardList.default.primary.items[].id
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  id: prismic.KeyTextField;
+
+  /**
+   * Label field in *ArchiveCardList → Default → Primary → Archive items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: e.g. Personal archives
+   * - **API ID Path**: archiveCardList.default.primary.items[].label
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  label: prismic.KeyTextField;
+
+  /**
+   * Description field in *ArchiveCardList → Default → Primary → Archive items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: archiveCardList.default.primary.items[].archive_description
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  archive_description: prismic.KeyTextField;
+
+  /**
+   * Is organisation? field in *ArchiveCardList → Default → Primary → Archive items*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: archiveCardList.default.primary.items[].is_organisation
+   * - **Documentation**: https://prismic.io/docs/fields/boolean
+   */
+  is_organisation: prismic.BooleanField;
+}
+
+/**
+ * Primary content in *ArchiveCardList → Default → Primary*
+ */
+export interface ArchiveCardListSliceDefaultPrimary {
+  /**
+   * Title field in *ArchiveCardList → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: e.g. Featured archives
+   * - **API ID Path**: archiveCardList.default.primary.title
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  title: prismic.KeyTextField;
+
+  /**
+   * Archive items field in *ArchiveCardList → Default → Primary*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: archiveCardList.default.primary.items[]
+   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   */
+  items: prismic.GroupField<
+    Simplify<ArchiveCardListSliceDefaultPrimaryItemsItem>
+  >;
+}
+
+/**
+ * Default variation for ArchiveCardList Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Displays a curated list of archive cards.
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type ArchiveCardListSliceDefault = prismic.SharedSliceVariation<
+  'default',
+  Simplify<ArchiveCardListSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *ArchiveCardList*
+ */
+type ArchiveCardListSliceVariation = ArchiveCardListSliceDefault;
+
+/**
+ * ArchiveCardList Shared Slice
+ *
+ * - **API ID**: `archiveCardList`
+ * - **Description**: *None*
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type ArchiveCardListSlice = prismic.SharedSlice<
+  'archiveCardList',
+  ArchiveCardListSliceVariation
+>;
 
 /**
  * Primary content in *AudioPlayer → Default → Primary*
@@ -7463,6 +7568,88 @@ export type TextAndImageSlice = prismic.SharedSlice<
 >;
 
 /**
+ * Item in *ThemeCardsList → Default → Primary → Concepts list*
+ */
+export interface ThemeCardsListSliceDefaultPrimaryConceptsListItem {
+  /**
+   * Concept ID field in *ThemeCardsList → Default → Primary → Concepts list*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: themeCardsList.default.primary.concepts_list[].concept_id
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  concept_id: prismic.KeyTextField;
+}
+
+/**
+ * Primary content in *ThemeCardsList → Default → Primary*
+ */
+export interface ThemeCardsListSliceDefaultPrimary {
+  /**
+   * Title field in *ThemeCardsList → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: themeCardsList.default.primary.title
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  title: prismic.KeyTextField;
+
+  /**
+   * Description field in *ThemeCardsList → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: themeCardsList.default.primary.description
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  description: prismic.KeyTextField;
+
+  /**
+   * Concepts list field in *ThemeCardsList → Default → Primary*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: themeCardsList.default.primary.concepts_list[]
+   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   */
+  concepts_list: prismic.GroupField<
+    Simplify<ThemeCardsListSliceDefaultPrimaryConceptsListItem>
+  >;
+}
+
+/**
+ * Default variation for ThemeCardsList Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Displays Theme cards in a horizontal slider.
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type ThemeCardsListSliceDefault = prismic.SharedSliceVariation<
+  'default',
+  Simplify<ThemeCardsListSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *ThemeCardsList*
+ */
+type ThemeCardsListSliceVariation = ThemeCardsListSliceDefault;
+
+/**
+ * ThemeCardsList Shared Slice
+ *
+ * - **API ID**: `themeCardsList`
+ * - **Description**: *None*
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type ThemeCardsListSlice = prismic.SharedSlice<
+  'themeCardsList',
+  ThemeCardsListSliceVariation
+>;
+
+/**
  * Primary content in *TitledTextList → Items*
  */
 export interface TitledTextListSliceDefaultItem {
@@ -7716,6 +7903,11 @@ declare module '@prismicio/client' {
       WebcomicsDocumentDataPromoSlice,
       WebcomicsDocumentDataSeriesItem,
       AllDocumentTypes,
+      ArchiveCardListSlice,
+      ArchiveCardListSliceDefaultPrimaryItemsItem,
+      ArchiveCardListSliceDefaultPrimary,
+      ArchiveCardListSliceVariation,
+      ArchiveCardListSliceDefault,
       AudioPlayerSlice,
       AudioPlayerSliceDefaultPrimary,
       AudioPlayerSliceVariation,
@@ -7810,6 +8002,11 @@ declare module '@prismicio/client' {
       TextAndImageSliceDefaultPrimary,
       TextAndImageSliceVariation,
       TextAndImageSliceDefault,
+      ThemeCardsListSlice,
+      ThemeCardsListSliceDefaultPrimaryConceptsListItem,
+      ThemeCardsListSliceDefaultPrimary,
+      ThemeCardsListSliceVariation,
+      ThemeCardsListSliceDefault,
       TitledTextListSlice,
       TitledTextListSliceDefaultItem,
       TitledTextListSliceVariation,

@@ -9,7 +9,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { ConceptImagesArray } from '@weco/content/hooks/useConceptImageUrls';
 
 const Title = styled(Space).attrs({
-  className: font('brand', 1),
+  className: font('brand-bold', 1),
   as: 'h3',
   $v: { size: 'xs', properties: ['margin-bottom'] },
 })``;

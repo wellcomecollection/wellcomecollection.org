@@ -19,7 +19,7 @@ import ZoomedPrismicImage from '@weco/content/views/components/ZoomedPrismicImag
 
 export const StandaloneTitle = styled(Space).attrs({
   as: 'h2',
-  className: `${font('brand', 2)}`,
+  className: `${font('brand-bold', 2)}`,
   $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
   $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
 })`
@@ -34,13 +34,13 @@ type LevelProps = { $level: number };
 
 export const ContextTitle = styled(Space).attrs<LevelProps>(props => ({
   as: `h${props.$level}` as KnownTarget,
-  className: font('brand', 1),
+  className: font('brand-bold', 1),
   $v: { size: 'sm', properties: ['margin-bottom'] },
 }))<LevelProps>``;
 
 const TranscriptTitle = styled(Space).attrs<LevelProps>(props => ({
   as: `h${props.$level}` as KnownTarget,
-  className: font('brand', 0),
+  className: font('brand-bold', 0),
   $v: { size: 'sm', properties: ['margin-bottom'] },
 }))<LevelProps>``;
 
@@ -61,7 +61,7 @@ export const ContextContainer = styled(Space).attrs<ContextContainerProps>(
 
 export const TombstoneTitle = styled(Space).attrs<LevelProps>(props => ({
   as: `h${props.$level}` as KnownTarget,
-  className: font('brand', 1),
+  className: font('brand-bold', 1),
   $v: { size: 'xs', properties: ['margin-bottom'] },
 }))<LevelProps>``;
 

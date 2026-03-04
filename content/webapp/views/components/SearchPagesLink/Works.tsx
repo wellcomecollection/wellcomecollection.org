@@ -21,6 +21,8 @@ const emptyWorksProps: WorksProps = {
   workType: [],
   'items.locations.locationType': [],
   'items.locations.accessConditions.status': [],
+  'items.locations.createdDate.to': undefined,
+  'items.locations.createdDate.from': undefined,
   availabilities: [],
   languages: [],
   'genres.label': [],
@@ -35,6 +37,7 @@ const emptyWorksProps: WorksProps = {
   'partOf.title': undefined,
   'production.dates.from': undefined,
   'production.dates.to': undefined,
+  searchIn: undefined,
 };
 
 const codecMap = {
@@ -43,6 +46,8 @@ const codecMap = {
   workType: csvCodec,
   'items.locations.locationType': csvCodec,
   'items.locations.accessConditions.status': csvCodec,
+  'items.locations.createdDate.to': maybeStringCodec,
+  'items.locations.createdDate.from': maybeStringCodec,
   availabilities: csvCodec,
   languages: csvCodec,
   'genres.label': quotedCsvCodec,
@@ -57,6 +62,7 @@ const codecMap = {
   'partOf.title': maybeStringCodec,
   'production.dates.from': maybeStringCodec,
   'production.dates.to': maybeStringCodec,
+  searchIn: maybeStringCodec,
 };
 
 export type WorksProps = FromCodecMap<typeof codecMap>;

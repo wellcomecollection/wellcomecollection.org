@@ -3,6 +3,7 @@ import { NextPage } from 'next';
 
 import { homepageId } from '@weco/common/data/hardcoded-ids';
 import {
+  ContentListSlice,
   PagesDocument as RawPagesDocument,
   StandfirstSlice as RawStandfirstSlice,
 } from '@weco/common/prismicio-types';
@@ -88,7 +89,9 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const untransformedStandfirst = untransformedBody.find(
     (slice: prismic.Slice) => slice.slice_type === 'standfirst'
   ) as RawStandfirstSlice | undefined;
-  const contentLists = page.untransformedBody.filter(isContentList);
+  const contentLists = page.untransformedBody.filter(
+    isContentList
+  ) as ContentListSlice[];
 
   const headerList = contentLists.length === 2 ? contentLists[0] : null;
   const transformedHeaderList =

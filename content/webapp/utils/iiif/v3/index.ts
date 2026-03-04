@@ -21,6 +21,7 @@ import {
   TechnicalProperties,
 } from '@iiif/presentation-3';
 
+import { pluralize } from '@weco/common/utils/grammar';
 import { isNotUndefined, isString } from '@weco/common/utils/type-guards';
 import {
   Auth,
@@ -72,6 +73,46 @@ export function transformLabel(
   if (typeof label === 'string' || label === undefined) return label;
 
   return getDisplayLabel(label);
+}
+
+export function getFileTypeLabel(
+  collectionManifestsCount: number | undefined,
+  canvasCount: number,
+  hasNonStandardItems: boolean,
+  canvases?: TransformedCanvas[]
+): string {
+  // If this is a multi-manifest collection, prefer volumes label
+  if (collectionManifestsCount && collectionManifestsCount > 0)
+    return pluralize(collectionManifestsCount, 'volume');
+
+  // Check if all items are PDFs
+  const allPdfs = canvases?.every(canvas => isPDFCanvas(canvas)) || false;
+  if (allPdfs) return pluralize(canvasCount, 'PDF file');
+
+  // Non-standard items should be treated as generic files
+  if (hasNonStandardItems) return pluralize(canvasCount, 'file');
+
+  // Count distinct standard file types to detect mixed content
+  const hasVideo = hasItemType(canvases, 'Video');
+  const hasAudio =
+    hasItemType(canvases, 'Sound') || hasItemType(canvases, 'Audio');
+  const hasPdfs = canvases?.some(canvas => isPDFCanvas(canvas)) || false;
+  const hasImages = hasItemType(canvases, 'Image');
+
+  const typeCount = [hasVideo, hasAudio, hasPdfs, hasImages].filter(
+    Boolean
+  ).length;
+
+  // Mixed content -> generic 'file'
+  if (typeCount > 1) return pluralize(canvasCount, 'file');
+
+  // Single specific type
+  if (hasVideo) return pluralize(canvasCount, 'video file');
+  if (hasAudio) return pluralize(canvasCount, 'audio file');
+  if (hasPdfs) return pluralize(canvasCount, 'PDF file');
+  if (hasImages) return pluralize(canvasCount, 'image');
+
+  return pluralize(canvasCount, 'image');
 }
 
 // It appears that iiif-manifests for born digital items can exist without the items property
@@ -579,8 +620,8 @@ export function isPDFCanvas(canvas?: TransformedCanvas): boolean {
         return false;
       });
     } else {
-      return supplement[0] && 'format' in supplement[0]
-        ? supplement[0].format === 'application/pdf'
+      return supplement && 'format' in supplement
+        ? supplement.format === 'application/pdf'
         : false;
     }
   });
@@ -871,14 +912,4 @@ export const getVideoAudioDownloadOptions = (canvas?: TransformedCanvas) => {
     });
   }
   return finalOptions.flat().filter(Boolean).filter(isNotUndefined) || [];
-};
-
-export const getCanvasPaintingItem = (canvas?: TransformedCanvas) => {
-  if (!canvas || !canvas?.painting) return undefined;
-
-  return isChoiceBody(canvas.painting[0])
-    ? typeof canvas.painting[0].items[0] !== 'string'
-      ? canvas.painting[0].items[0]
-      : undefined
-    : canvas.painting[0];
 };

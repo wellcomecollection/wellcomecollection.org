@@ -197,7 +197,7 @@ const EventScheduleItem: FunctionComponent<Props> = ({
             <Space
               $v={{ size: 'xs', properties: ['margin-bottom'] }}
               as="h5"
-              className={font('brand', 1)}
+              className={font('brand-bold', 1)}
             >
               {event.title}
             </Space>

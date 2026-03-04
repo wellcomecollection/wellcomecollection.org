@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -17,19 +16,6 @@ export const ScrollButtonsContainer = styled(Space)<{
     props.$scrollButtonsAfter
       ? 'margin-top: ' + props.theme.spacingUnits['150'] + ';'
       : ''}
-`;
-
-export const DetailsCopy = styled.span.attrs({
-  className: font('sans', -2),
-})<{ $hasDarkBackground?: boolean }>`
-  color: ${props =>
-    props.theme.color(props.$hasDarkBackground ? 'neutral.400' : 'black')};
-`;
-
-export const Description = styled.p<{ $hasDarkBackground?: boolean }>`
-  color: ${props =>
-    props.theme.color(props.$hasDarkBackground ? 'neutral.400' : 'black')};
-  margin-bottom: 0;
 `;
 
 export const ContentContainer = styled(PlainList)`

@@ -24,11 +24,6 @@ export const pageDescriptions = {
       'Over 1.1 million items exploring art, health, culture and what it means to be human',
     newOnline:
       'Thousands of items from our collections have been digitised and are freely accessible online. Explore some of the recently added digitised and born-digital works.',
-    subjects: 'TODO write Subject metadescription',
-    peopleAndOrganisations:
-      'TODO write People and Organisations metadescription',
-    places: 'TODO write Places metadescription',
-    typesAndTechniques: 'TODO write Types and Techniques metadescription',
   },
   events:
     'Our events take place both online and in our building. Choose from an inspiring range of free talks, discussions and more.',

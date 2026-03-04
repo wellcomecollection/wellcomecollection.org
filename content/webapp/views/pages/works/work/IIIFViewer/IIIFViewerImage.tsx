@@ -1,6 +1,7 @@
 import { forwardRef, useState } from 'react';
 import styled from 'styled-components';
 
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import LL from '@weco/common/views/components/styled/LL';
 import { convertRequestUriToInfoUri } from '@weco/content/utils/iiif/convert-iiif-uri';
@@ -61,11 +62,12 @@ const IIIFViewerImage = (
   }: Props,
   ref
 ) => {
+  const { isFullSupportBrowser } = useAppContext();
   const [tryLoadingSmallerImg, setTryLoadingSmallerImg] = useState(true);
   const [hasLoaded, setHasLoaded] = useState(false);
   return (
     <>
-      {!hasLoaded && <LL $lighten={true} />}
+      {!hasLoaded && isFullSupportBrowser && <LL $lighten={true} />}
       <Image
         data-testid={index !== undefined ? `image-${index}` : null}
         ref={ref}

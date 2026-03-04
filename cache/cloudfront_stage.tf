@@ -25,6 +25,8 @@ module "stage_wc_org_cloudfront_distribution" {
   request_policies  = module.cloudfront_policies.request_policies
   response_policies = module.cloudfront_policies.response_policies
   waf_ip_allowlist  = local.waf_ip_allowlist
+  /* We only need access where servers are running and we don't want to allow access from other countries as we have seen malicious traffic which disrupted staging. */
+  allowed_countries = ["GB", "US", "IE"]
 
   header_shared_secret = local.current_shared_secret
 }

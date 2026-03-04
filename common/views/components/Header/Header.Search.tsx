@@ -22,23 +22,28 @@ const Overlay = styled.div.attrs<OverlayProps>(props => ({
 
 const SearchBarWrapper = styled(Space).attrs({
   $v: { size: 'xl', properties: ['padding-bottom'] },
-})`
+})<{ $hasColorBackground?: boolean }>`
   position: absolute;
   width: 100%;
   ${props => props.theme.makeSpacePropertyValues('md', ['padding-top'])};
-  background-color: ${props => props.theme.color('white')};
+  background-color: ${props =>
+    props.theme.color(
+      props.$hasColorBackground ? 'accent.lightGreen' : 'white'
+    )};
 `;
 
 type Props = {
   isActive: boolean;
   handleCloseModal: () => void;
   searchButtonRef: RefObject<HTMLButtonElement | null>;
+  hasColorBackground?: boolean;
 };
 
 const HeaderSearch = ({
   isActive,
   handleCloseModal,
   searchButtonRef,
+  hasColorBackground,
 }: Props) => {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -84,6 +89,7 @@ const HeaderSearch = ({
       <SearchBarWrapper
         ref={isActive ? wrapperRef : undefined}
         onClick={e => e.stopPropagation()}
+        $hasColorBackground={hasColorBackground}
       >
         <Container>
           <SearchForm inputRef={inputRef} />

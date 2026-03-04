@@ -1,6 +1,8 @@
+import * as prismic from '@prismicio/client';
 import { NextPage } from 'next';
 import { ReactElement } from 'react';
 
+import { PagesDocumentDataBodySlice } from '@weco/common/prismicio-types';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
@@ -48,7 +50,10 @@ export const ProjectPage: NextPage<Props> = ({
     isNotUndefined(featuredPicture) || isNotUndefined(featuredVideo);
 
   const untransformedBody = hasFeaturedMedia
-    ? project.untransformedBody.slice(1, project.untransformedBody.length)
+    ? (project.untransformedBody.slice(
+        1,
+        project.untransformedBody.length
+      ) as prismic.SliceZone<PagesDocumentDataBodySlice>)
     : project.untransformedBody;
 
   const featuredMedia = featuredPicture ? (

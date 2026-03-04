@@ -1,5 +1,6 @@
 import React, {
   FunctionComponent,
+  JSX,
   PropsWithChildren,
   RefObject,
   useRef,
@@ -13,32 +14,28 @@ import Space from '@weco/common/views/components/styled/Space';
 import ScrollableNavigation from './ScrollContainer.Navigation';
 import {
   ContentContainer,
-  Description,
-  DetailsCopy,
   ScrollButtonsContainer,
   ScrollShim,
 } from './ScrollContainer.styles';
 
 type Props = PropsWithChildren<{
-  detailsCopy?: string;
-  description?: string;
   hasDarkBackground?: boolean;
   gridSizes?: SizeMap;
   hasLeftOffset?: boolean;
   scrollButtonsAfter?: boolean;
   containerRef?: RefObject<HTMLUListElement | null>;
+  CopyContent?: JSX.Element;
   useShim?: boolean;
 }>;
 
 const ScrollContainer: FunctionComponent<Props> = ({
-  detailsCopy,
-  description,
   hasDarkBackground,
   gridSizes,
   hasLeftOffset,
   scrollButtonsAfter = false,
   containerRef,
   useShim = false,
+  CopyContent,
   children,
 }) => {
   const fallbackRef = useRef<HTMLUListElement>(null);
@@ -47,7 +44,7 @@ const ScrollContainer: FunctionComponent<Props> = ({
   const gridValues = gridSizes ? Object.values(gridSizes).map(v => v[0]) : [];
 
   const Copy = ({ addContainerWrapper }: { addContainerWrapper: boolean }) => {
-    if (!detailsCopy && !description) return null;
+    if (!CopyContent) return null;
 
     return (
       <ConditionalWrapper
@@ -58,18 +55,7 @@ const ScrollContainer: FunctionComponent<Props> = ({
           </ContaineredLayout>
         )}
       >
-        <div>
-          {description && (
-            <Description $hasDarkBackground={hasDarkBackground}>
-              {description}
-            </Description>
-          )}
-          {detailsCopy && (
-            <DetailsCopy $hasDarkBackground={hasDarkBackground}>
-              {detailsCopy}
-            </DetailsCopy>
-          )}
-        </div>
+        <div>{CopyContent}</div>
       </ConditionalWrapper>
     );
   };
@@ -84,7 +70,7 @@ const ScrollContainer: FunctionComponent<Props> = ({
       )}
     >
       <ScrollButtonsContainer
-        $hasContent={(!!detailsCopy || !!description) && !scrollButtonsAfter}
+        $hasContent={!!CopyContent && !scrollButtonsAfter}
         $scrollButtonsAfter={scrollButtonsAfter}
       >
         {!scrollButtonsAfter && <Copy addContainerWrapper={false} />}
@@ -101,7 +87,7 @@ const ScrollContainer: FunctionComponent<Props> = ({
   return (
     <div data-component="scroll-container">
       <ConditionalWrapper
-        condition={!scrollButtonsAfter || !!detailsCopy || !!description}
+        condition={!scrollButtonsAfter || !!CopyContent}
         wrapper={children => (
           <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
             {children}

@@ -1,3 +1,4 @@
+import * as prismic from '@prismicio/client';
 import { NextPage } from 'next';
 import { ReactElement } from 'react';
 
@@ -6,6 +7,7 @@ import {
   prismicPageIds,
 } from '@weco/common/data/hardcoded-ids';
 import { SiteSection } from '@weco/common/model/site-section';
+import { PagesDocumentDataBodySlice } from '@weco/common/prismicio-types';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import {
   headerBackgroundLs,
@@ -29,6 +31,7 @@ import { transformEmbedSlice } from '@weco/content/services/prismic/transformers
 import { isEditorialImage, isVideoEmbed } from '@weco/content/types/body';
 import { Page as PageType } from '@weco/content/types/pages';
 import { SiblingsGroup } from '@weco/content/types/siblings-group';
+import { BodySliceContexts } from '@weco/content/views/components/Body';
 import Body from '@weco/content/views/components/Body';
 import CardGrid from '@weco/content/views/components/CardGrid';
 import ContentPage from '@weco/content/views/components/ContentPage';
@@ -42,6 +45,7 @@ export type Props = {
   ordersInParents: OrderInParent[];
   staticContent: ReactElement | null;
   jsonLd: JsonLdObj;
+  bodySliceContexts?: BodySliceContexts;
 };
 
 export type OrderInParent = {
@@ -61,6 +65,7 @@ export const PagePage: NextPage<Props> = ({
   ordersInParents,
   staticContent,
   jsonLd,
+  bodySliceContexts,
 }) => {
   const DateInfo = page.datePublished && (
     <HTMLDateAndTime variant="date" date={page.datePublished} />
@@ -94,7 +99,10 @@ export const PagePage: NextPage<Props> = ({
     isNotUndefined(featuredPicture) || isNotUndefined(featuredVideo);
 
   const untransformedBody = hasFeaturedMedia
-    ? page.untransformedBody.slice(1, page.untransformedBody.length)
+    ? (page.untransformedBody.slice(
+        1,
+        page.untransformedBody.length
+      ) as prismic.SliceZone<PagesDocumentDataBodySlice>)
     : page.untransformedBody;
 
   const featuredMedia = featuredPicture ? (
@@ -258,6 +266,7 @@ export const PagePage: NextPage<Props> = ({
             isOfficialLandingPage={isOfficialLandingPage}
             staticContent={staticContent}
             gridSizes={gridSize8()}
+            bodySliceContexts={bodySliceContexts}
           />
         }
         /**

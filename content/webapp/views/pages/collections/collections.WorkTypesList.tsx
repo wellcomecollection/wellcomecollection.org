@@ -301,7 +301,7 @@ const WorkTypeItem: FunctionComponent<WorkTypeItemProps> = ({
           <div>
             <CountDisplayContainer
               aria-hidden="true"
-              className={font('brand', 1)}
+              className={font('brand-bold', 1)}
               ref={el => {
                 countContainerRef.current = el as HTMLDivElement | null;
                 if (registerNumberRef)

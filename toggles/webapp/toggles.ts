@@ -84,27 +84,19 @@ const toggles = {
       type: 'permanent',
     },
     {
-      id: 'extendedViewer',
-      title: 'Allow viewer to render video, audio and pdfs',
-      initialValue: false,
-      description:
-        'Displays a new version of the viewer that can render video, audio and pdfs in addition to images',
-      type: 'experimental',
-    },
-    {
       id: 'themePagesAllFields',
       title: 'Show all fields on theme pages',
       initialValue: false,
       description:
         'Show all experimental fields on theme pages, including alternative labels, broader topics, etc.',
-      type: 'experimental',
+      type: 'permanent',
     },
     {
-      id: 'browseCollections',
-      title: 'Browse collections by type and topic',
+      id: 'extendedViewer',
+      title: 'Allow viewer to render video, audio and pdfs',
       initialValue: false,
       description:
-        'Enables the new browse collections pages at /collections/types and /collections/topics',
+        'Displays a new version of the viewer that can render video, audio and pdfs in addition to images',
       type: 'experimental',
     },
     {
@@ -115,18 +107,18 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'twoColumns',
-      title: 'Two columns layout',
+      id: 'thematicBrowsing',
+      title: 'Thematic browsing: category pages',
       initialValue: false,
-      description:
-        'Enables a two-column layout for pages with in-page navigation',
+      description: 'Enables access to new thematic browsing category pages.',
       type: 'experimental',
     },
     {
-      id: 'thematicBrowsing',
-      title: 'Thematic browsing',
+      id: 'thematicBrowsingSubCategory',
+      title: 'Thematic browsing: sub-category pages',
       initialValue: false,
-      description: 'Enables access to new thematic browsing pages.',
+      description:
+        'Enables access to new thematic browsing sub-category pages.',
       type: 'experimental',
     },
     {
@@ -134,7 +126,15 @@ const toggles = {
       title: 'Semantic search prototype',
       initialValue: false,
       description:
-        'Enables the semantic search prototype with predefined search terms and API selection. Allows results to display in a side-by-side comparison view or individually.',
+        'Enables the semantic search prototype with predefined search terms and API selection. If enabled, please ensure the Semantic search comparison toggle is disabled.',
+      type: 'experimental',
+    },
+    {
+      id: 'semanticSearchComparison',
+      title: 'Semantic search comparison',
+      initialValue: false,
+      description:
+        'Allows use of semantic searches and facilitates the display of the semantic search results side by side with the standard search results for comparison. If enabled, please ensure the Semantic search prototype toggle is disabled.',
       type: 'experimental',
     },
   ] as const,

@@ -169,7 +169,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
           <Space
             $v={{ size: 'md', properties: ['padding-top', 'padding-bottom'] }}
           >
-            <h1 className={font('brand', 5)}>Library account</h1>
+            <h1 className={font('brand-bold', 5)}>Library account</h1>
           </Space>
         </ContaineredLayout>
         <div className="is-hidden-s">

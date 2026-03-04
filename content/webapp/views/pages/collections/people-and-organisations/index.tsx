@@ -1,31 +1,35 @@
 import { NextPage } from 'next';
 import { ReactElement } from 'react';
 
-import { pageDescriptions } from '@weco/common/data/microcopy';
-import { Container } from '@weco/common/views/components/styled/Container';
-import Space from '@weco/common/views/components/styled/Space';
+import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import { gridSize12 } from '@weco/common/views/components/Layout';
+import { Page } from '@weco/content/types/pages';
+import Body from '@weco/content/views/components/Body';
 import ThematicBrowsingLayout from '@weco/content/views/layouts/ThematicBrowsingLayout';
 
-const CollectionsPeoplePage: NextPage & {
-  getLayout?: (page: ReactElement) => ReactElement;
-} = () => {
+export type Props = {
+  thematicBrowsingPage: Page;
+};
+
+const CollectionsPeoplePage: NextPage<Props> & {
+  getLayout?: (page: ReactElement<Props>) => ReactElement;
+} = ({ thematicBrowsingPage }) => {
   return (
-    <Container>
-      <Space $v={{ size: 'md', properties: ['margin-top', 'margin-bottom'] }}>
-        <p>People and organisations content</p>
-      </Space>
-    </Container>
+    <Body
+      untransformedBody={thematicBrowsingPage.untransformedBody}
+      pageId={thematicBrowsingPage.id}
+      pageUid={thematicBrowsingPage.uid}
+      gridSizes={gridSize12()}
+    />
   );
 };
 
 CollectionsPeoplePage.getLayout = page => {
   return (
     <ThematicBrowsingLayout
-      title="People and organisations" // TODO confirm
-      description={pageDescriptions.collections.peopleAndOrganisations}
-      pageMeta={{
-        urlPathname: '/people-and-organisations',
-      }}
+      page={page.props.thematicBrowsingPage}
+      apiToolbarLinks={[createPrismicLink(page.props.thematicBrowsingPage.id)]}
+      currentCategory="people-and-organisations"
     >
       {page}
     </ThematicBrowsingLayout>

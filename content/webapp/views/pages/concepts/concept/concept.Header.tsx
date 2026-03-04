@@ -24,7 +24,7 @@ const ConceptHero = styled(Space).attrs({
 
 const Title = styled(Space).attrs({
   as: 'h1',
-  className: font('brand', 4),
+  className: font('brand-bold', 4),
   $v: { size: '2xs', properties: ['margin-bottom'] },
 })``;
 

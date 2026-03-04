@@ -110,6 +110,8 @@ type ListItemProps = ListProps & {
   posInSet: number;
   index: number;
   shouldFetchChildren: boolean;
+  isDarkMode?: boolean;
+  itemRendererProps?: Record<string, unknown>;
 };
 
 function getTabIndex({
@@ -146,6 +148,8 @@ const ListItem: FunctionComponent<ListItemProps> = ({
   showFirstLevelGuideline,
   ItemRenderer,
   shouldFetchChildren,
+  isDarkMode = false,
+  itemRendererProps,
 }: ListItemProps) => {
   const { isEnhanced } = useAppContext();
   const isEndNode = item.work.totalParts === 0;
@@ -161,13 +165,13 @@ const ListItem: FunctionComponent<ListItemProps> = ({
       ? 'secondary'
       : undefined;
 
-  const hasControl = Boolean(
+  const hasGuideline = Boolean(
     item?.work?.totalParts && item?.work?.totalParts > 0
   );
 
   const showGuideline =
     isEnhanced &&
-    hasControl &&
+    hasGuideline &&
     item.openStatus &&
     (level > 1 || showFirstLevelGuideline);
 
@@ -195,6 +199,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
       role={isEnhanced ? 'treeitem' : undefined}
       $isEnhanced={isEnhanced}
       $showGuideline={showGuideline}
+      $isDarkMode={isDarkMode}
       aria-level={isEnhanced ? level : undefined}
       aria-setsize={isEnhanced ? setSize : undefined}
       aria-posinset={isEnhanced ? posInSet : undefined}
@@ -322,8 +327,10 @@ const ListItem: FunctionComponent<ListItemProps> = ({
           isEnhanced={isEnhanced}
           level={level}
           showFirstLevelGuideline={showFirstLevelGuideline}
-          hasControl={hasControl}
           highlightCondition={highlightCondition}
+          isDarkMode={isDarkMode}
+          hasControl={hasGuideline}
+          {...itemRendererProps}
         />
       )}
 
@@ -341,6 +348,8 @@ const ListItem: FunctionComponent<ListItemProps> = ({
           showFirstLevelGuideline={showFirstLevelGuideline}
           ItemRenderer={ItemRenderer}
           shouldFetchChildren={shouldFetchChildren}
+          isDarkMode={isDarkMode}
+          itemRendererProps={itemRendererProps}
         />
       )}
     </TreeItem>

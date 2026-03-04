@@ -133,7 +133,7 @@ const BannerCard: FunctionComponent<Props> = ({
         )}
         <Space
           as="h2"
-          className={font('brand', 2)}
+          className={font('brand-bold', 2)}
           $v={{ size: 'sm', properties: ['margin-top', 'margin-bottom'] }}
         >
           {title}

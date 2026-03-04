@@ -95,6 +95,8 @@ export const ViewerButton = styled.button.attrs({
 const TopBar = styled.div<{
   $isZooming: boolean;
   $isDesktopSidebarActive: boolean;
+  $useFixedList?: boolean;
+  $hasMultipleCanvases?: boolean;
 }>`
   display: ${props => (props.$isZooming ? 'none' : 'grid')};
   min-height: 52px;
@@ -104,7 +106,10 @@ const TopBar = styled.div<{
   color: ${props => props.theme.color('white')};
   justify-content: space-between;
   grid-template-columns:
-    [left-edge] minmax(200px, 3fr)
+    [left-edge] ${props =>
+      props.$useFixedList || !props.$hasMultipleCanvases
+        ? 'minmax(200px, 3fr)'
+        : 'minmax(200px, 630px)'}
     [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
 
   ${props => props.theme.media('sm')`
@@ -112,9 +117,9 @@ const TopBar = styled.div<{
   `}
 
   ${props =>
-    props.theme.media('lg')`
-      grid-template-columns: [left-edge] minmax(200px, 330px) [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
-  `}
+    props.theme.media('lg')(
+      `grid-template-columns: [left-edge] ${props.$useFixedList || !props.$hasMultipleCanvases ? 'minmax(200px, 330px)' : 'minmax(200px, 630px)'} [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];`
+    )}
 
   ${props =>
     !props.$isDesktopSidebarActive &&
@@ -158,6 +163,7 @@ const Main = styled(Space).attrs({
   justify-content: flex-end;
 
   ${props => props.theme.media('sm')`
+    min-width: 450px;
     justify-content: space-between;
   `}
 `;
@@ -184,12 +190,10 @@ const RightZone = styled.div`
 
 type ViewerTopBarProps = OptionalToUndefined<{
   iiifImageLocation?: DigitalLocation;
-  hasOnlyImages: boolean;
 }>;
 
 const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
   iiifImageLocation,
-  hasOnlyImages,
 }) => {
   const { isEnhanced, isFullSupportBrowser } = useAppContext();
 
@@ -208,6 +212,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
     query,
     viewerRef,
     showFullscreenControl,
+    hasOnlyImages,
   } = useItemViewerContext();
   const { canvas } = query;
   const { canvases, rendering } = { ...transformedManifest };
@@ -281,6 +286,8 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
     <TopBar
       $isZooming={showZoomed}
       $isDesktopSidebarActive={isDesktopSidebarActive}
+      $useFixedList={hasOnlyImages}
+      $hasMultipleCanvases={!!(canvases && canvases.length > 1)}
     >
       <Sidebar $isZooming={showZoomed}>
         {isEnhanced && !showZoomed && (
@@ -357,74 +364,74 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
               {!(
                 canvases[queryParamToArrayIndex(canvas)]?.label?.trim() === '-'
               ) &&
-                `${hasOnlyImages ? 'page ' : ''}${canvases[
+                hasOnlyImages &&
+                `page ${canvases[
                   queryParamToArrayIndex(canvas)
                 ]?.label?.trim()}`}
             </>
           )}
         </MiddleZone>
-        {(hasOnlyImages || canvases?.length === 1) && (
-          <RightZone>
-            {isEnhanced && (
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                {!showZoomed && downloadOptions.length > 0 && (
-                  <Space $h={{ size: 'xs', properties: ['margin-right'] }}>
-                    <Download
-                      ariaControlsId="itemDownloads"
-                      downloadOptions={downloadOptions}
-                      useDarkControl={true}
-                      isInline={true}
-                    />
-                  </Space>
-                )}
 
-                {isFullscreenEnabled && showFullscreenControl && (
-                  <ViewerButton
-                    className="viewer-desktop"
-                    $isDark
-                    onClick={() => {
-                      if (viewerRef && viewerRef.current) {
-                        if (
-                          !document.fullscreenElement &&
-                          !document['webkitFullscreenElement']
+        <RightZone>
+          {isEnhanced && (
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              {downloadOptions.length > 0 && (
+                <Space $h={{ size: 'xs', properties: ['margin-right'] }}>
+                  <Download
+                    ariaControlsId="itemDownloads"
+                    downloadOptions={downloadOptions}
+                    useDarkControl={true}
+                    isInline={true}
+                  />
+                </Space>
+              )}
+
+              {isFullscreenEnabled && showFullscreenControl && (
+                <ViewerButton
+                  className="viewer-desktop"
+                  $isDark
+                  onClick={() => {
+                    if (viewerRef && viewerRef.current) {
+                      if (
+                        !document.fullscreenElement &&
+                        !document['webkitFullscreenElement']
+                      ) {
+                        if (viewerRef.current.requestFullscreen) {
+                          viewerRef.current.requestFullscreen();
+                        } else if (
+                          viewerRef.current['webkitRequestFullscreen']
                         ) {
-                          if (viewerRef.current.requestFullscreen) {
-                            viewerRef.current.requestFullscreen();
-                          } else if (
-                            viewerRef.current['webkitRequestFullscreen']
-                          ) {
-                            viewerRef.current['webkitRequestFullscreen']();
-                          }
-                        } else {
-                          if (document.exitFullscreen) {
-                            document.exitFullscreen();
-                          } else if (document['webkitExitFullscreen']) {
-                            document['webkitExitFullscreen']();
-                          }
+                          viewerRef.current['webkitRequestFullscreen']();
+                        }
+                      } else {
+                        if (document.exitFullscreen) {
+                          document.exitFullscreen();
+                        } else if (document['webkitExitFullscreen']) {
+                          document['webkitExitFullscreen']();
                         }
                       }
-                    }}
-                  >
-                    {document.fullscreenElement ||
-                    document['webkitFullscreenElement'] ? (
-                      <>
-                        <Icon icon={minimise} />
-                        <span style={{ marginLeft: '7px' }}>
-                          Exit full screen
-                        </span>
-                      </>
-                    ) : (
-                      <>
-                        <Icon icon={maximise} />
-                        <span style={{ marginLeft: '7px' }}>Full screen</span>
-                      </>
-                    )}
-                  </ViewerButton>
-                )}
-              </div>
-            )}
-          </RightZone>
-        )}
+                    }
+                  }}
+                >
+                  {document.fullscreenElement ||
+                  document['webkitFullscreenElement'] ? (
+                    <>
+                      <Icon icon={minimise} />
+                      <span style={{ marginLeft: '7px' }}>
+                        Exit full screen
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <Icon icon={maximise} />
+                      <span style={{ marginLeft: '7px' }}>Full screen</span>
+                    </>
+                  )}
+                </ViewerButton>
+              )}
+            </div>
+          )}
+        </RightZone>
       </Main>
     </TopBar>
   );

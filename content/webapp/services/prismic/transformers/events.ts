@@ -493,6 +493,7 @@ export function transformEventBasic(document: RawEventsDocument): EventBasic {
     availableOnline,
     series,
     cost,
+    contributors,
   } = event;
 
   return {
@@ -519,6 +520,7 @@ export function transformEventBasic(document: RawEventsDocument): EventBasic {
     availableOnline,
     series,
     cost,
+    contributors,
   };
 }
 

@@ -25,7 +25,7 @@ const OtherExhibitionGuides: FunctionComponent<Props> = ({
     <Space $v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}>
       <ContaineredLayout gridSizes={gridSize8(false)}>
         <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
-          <h2 className={font('brand', 1)}>
+          <h2 className={font('brand-bold', 1)}>
             Other exhibition guides available
           </h2>
         </Space>

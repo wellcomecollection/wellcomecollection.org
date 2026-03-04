@@ -54,7 +54,7 @@ const FacilityCard: FunctionComponent<FacilityCardType> = ({
 
         <CardBody>
           <div>
-            <h3 className={font('brand', 0)}>{title}</h3>
+            <h3 className={font('brand-bold', 0)}>{title}</h3>
             <Description>{description}</Description>
 
             {metaText && (

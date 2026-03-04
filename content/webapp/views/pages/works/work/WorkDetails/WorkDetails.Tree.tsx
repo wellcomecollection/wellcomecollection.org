@@ -12,31 +12,37 @@ import {
 
 import { DownloadTable } from './WorkDetails.DownloadItem';
 
-export const TreeHeadings = styled(Space).attrs({
-  $v: { size: 'xl', properties: ['margin-top'] },
-})`
-  background: ${props => props.theme.color('warmNeutral.300')};
+export const TreeHeadings = styled(Space)<{ $isDarkMode?: boolean }>`
+  ${props =>
+    !props.$isDarkMode &&
+    `background: ${props.theme.color('warmNeutral.300')};`}
 `;
 
-const TreeContainer = styled.div`
-  background: linear-gradient(
-    to bottom,
-    ${props => props.theme.color('warmNeutral.200')},
-    ${props => props.theme.color('warmNeutral.200')} 50%,
-    ${props => props.theme.color('white')} 50%,
-    ${props => props.theme.color('white')}
-  );
-  background-size: 100% ${controlDimensions.controlHeight * 2}px;
+const TreeContainer = styled.div<{ $isDarkMode?: boolean }>`
+  ${props =>
+    !props.$isDarkMode &&
+    `
+    background: linear-gradient(
+      to bottom,
+      ${props.theme.color('warmNeutral.200')},
+      ${props.theme.color('warmNeutral.200')} 50%,
+      ${props.theme.color('white')} 50%,
+      ${props.theme.color('white')}
+    );
+    background-size: 100% ${controlDimensions.controlHeight * 2}px;
+  `}
 `;
 
-const WorksTree: FunctionComponent<PropsWithChildren> = ({ children }) => {
+const WorksTree: FunctionComponent<
+  PropsWithChildren<{ isDarkMode?: boolean; hasStructures?: boolean }>
+> = ({ children, isDarkMode = false, hasStructures = true }) => {
   const { isEnhanced } = useAppContext();
 
   return (
     <div style={{ overflow: 'visible' }}>
       <div style={{ display: 'inline-table', minWidth: '100%' }}>
-        <TreeHeadings aria-hidden="true">
-          <DownloadTable>
+        <TreeHeadings aria-hidden="true" $isDarkMode={isDarkMode}>
+          <DownloadTable $padFirstHeading={hasStructures}>
             <thead>
               <tr>
                 <th>Name</th>
@@ -47,8 +53,12 @@ const WorksTree: FunctionComponent<PropsWithChildren> = ({ children }) => {
             </thead>
           </DownloadTable>
         </TreeHeadings>
-        <TreeContainer>
-          <Tree $isEnhanced={isEnhanced} $showFirstLevelGuideline={true}>
+        <TreeContainer $isDarkMode={isDarkMode}>
+          <Tree
+            $isEnhanced={isEnhanced}
+            $showFirstLevelGuideline={true}
+            $isDarkMode={isDarkMode}
+          >
             {isEnhanced && (
               <TreeInstructions>{`Download tree: ${treeInstructions}`}</TreeInstructions>
             )}

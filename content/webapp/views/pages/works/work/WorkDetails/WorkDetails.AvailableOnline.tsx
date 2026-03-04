@@ -3,18 +3,13 @@ import NextLink from 'next/link';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { useAppContext } from '@weco/common/contexts/AppContext';
 import { useUserContext } from '@weco/common/contexts/UserContext';
-import {
-  bornDigitalMessage,
-  treeInstructions,
-} from '@weco/common/data/microcopy';
+import { bornDigitalMessage } from '@weco/common/data/microcopy';
 import { eye, info2 } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { LinkProps } from '@weco/common/model/link-props';
 import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
-import { pluralize } from '@weco/common/utils/grammar';
 import Button from '@weco/common/views/components/Buttons';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import DownloadLink from '@weco/common/views/components/DownloadLink';
@@ -27,38 +22,32 @@ import Space from '@weco/common/views/components/styled/Space';
 import { Note, Work } from '@weco/content/services/wellcome/catalogue/types';
 import {
   DownloadOption,
+  ItemsStatus,
   TransformedCanvas,
   TransformedManifest,
 } from '@weco/content/types/manifest';
 import {
   AuthServices,
   getAuthServices,
-  getCanvasPaintingItem,
+  getFileTypeLabel,
   getFormatString,
   getIframeTokenSrc,
   getLabelString,
-  isAllOriginalPdfs,
-  isAudioCanvas,
+  hasItemType,
+  isPDFCanvas,
 } from '@weco/content/utils/iiif/v3';
 import { DigitalLocationInfo } from '@weco/content/utils/works';
 import Download from '@weco/content/views/components/Download';
 import NestedList from '@weco/content/views/pages/works/work/ArchiveTree/ArchiveTree.NestedList';
 import IIIFItemList from '@weco/content/views/pages/works/work/IIIFItemList';
 import DownloadItemRenderer from '@weco/content/views/pages/works/work/work.DownloadItemRenderer';
-import {
-  controlDimensions,
-  createDownloadTree,
-} from '@weco/content/views/pages/works/work/work.helpers';
-import {
-  Tree,
-  TreeInstructions,
-} from '@weco/content/views/pages/works/work/work.styles';
+import { createDownloadTree } from '@weco/content/views/pages/works/work/work.helpers';
 import { UiTree } from '@weco/content/views/pages/works/work/work.types';
 
-import { DownloadTable } from './WorkDetails.DownloadItem';
 import IIIFClickthrough from './WorkDetails.IIIFClickthrough';
 import WorkDetailsLicence from './WorkDetails.Licence';
 import WorkDetailsSection from './WorkDetails.Section';
+import WorksTree from './WorkDetails.Tree';
 
 const RestrictedMessage = styled(Space).attrs({
   $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
@@ -92,23 +81,6 @@ const RestrictedMessageTitle = styled.div`
     padding-left: 8px;
     margin-bottom: 0;
   }
-`;
-
-const TreeHeadings = styled(Space).attrs({
-  $v: { size: 'xl', properties: ['margin-top'] },
-})`
-  background: ${props => props.theme.color('warmNeutral.300')};
-`;
-
-const TreeContainer = styled.div`
-  background: linear-gradient(
-    to bottom,
-    ${props => props.theme.color('warmNeutral.200')},
-    ${props => props.theme.color('warmNeutral.200')} 50%,
-    ${props => props.theme.color('white')} 50%,
-    ${props => props.theme.color('white')}
-  );
-  background-size: 100% ${controlDimensions.controlHeight * 2}px;
 `;
 
 const MessageBox = styled(Space).attrs({
@@ -147,6 +119,7 @@ type ItemPageLinkProps = {
   canvases?: TransformedCanvas[];
   digitalLocationInfo?: DigitalLocationInfo;
   authServices?: AuthServices;
+  itemsStatus?: ItemsStatus;
 };
 const ItemPageLink = ({
   work,
@@ -157,10 +130,12 @@ const ItemPageLink = ({
   canvases,
   digitalLocationInfo,
   authServices,
+  itemsStatus,
 }: ItemPageLinkProps) => {
   const { userIsStaffWithRestricted } = useUserContext();
   const { extendedViewer } = useToggles();
 
+  // TODO can remove when we move over to extendedViewer permanently
   const isDownloadable =
     digitalLocationInfo?.accessCondition !== 'open-with-advisory' &&
     downloadOptions.length > 0;
@@ -173,12 +148,8 @@ const ItemPageLink = ({
     authServices?.external?.id ===
     'https://iiif.wellcomecollection.org/auth/restrictedlogin';
 
-  // Make sure paintings are all video or audio
-  const isAllAudioOrVideo = !(
-    canvases?.find(canvas => !isAudioCanvas(getCanvasPaintingItem(canvas))) &&
-    canvases?.find(canvas => getCanvasPaintingItem(canvas)?.type !== 'Video')
-  );
-
+  const hasNonStandardItems =
+    itemsStatus !== undefined && itemsStatus !== 'allStandard';
   return (
     <>
       {work.thumbnail && (
@@ -204,92 +175,83 @@ const ItemPageLink = ({
           </ConditionalWrapper>
         </Space>
       )}
+      <ConditionalWrapper
+        condition={isWorkVisibleWithPermission}
+        wrapper={children => (
+          <Layout gridSizes={extendedViewer ? gridSize12() : gridSize8(false)}>
+            <RestrictedMessage>
+              <RestrictedMessageTitle>
+                <Icon icon={info2} />
+                <h3 className={font('sans-bold', 0)}>Restricted item</h3>
+              </RestrictedMessageTitle>
 
-      {isAllAudioOrVideo && extendedViewer ? (
-        <IIIFItemList
-          canvases={canvases}
-          exclude={['Image', 'Text']}
-          placeholderId="placeholderId"
-          itemUrl={itemUrl}
-        />
-      ) : (
-        <ConditionalWrapper
-          condition={isWorkVisibleWithPermission}
-          wrapper={children => (
-            <Layout
-              gridSizes={extendedViewer ? gridSize12() : gridSize8(false)}
-            >
-              <RestrictedMessage>
-                <RestrictedMessageTitle>
-                  <Icon icon={info2} />
-                  <h3 className={font('sans-bold', 0)}>Restricted item</h3>
-                </RestrictedMessageTitle>
-
-                <p style={{ marginBottom: '1rem' }}>
-                  Only staff with the right permissions can view this item
-                  online.
-                </p>
-
-                {manifestNeedsRegeneration && (
-                  <p style={{ marginBottom: '1rem' }}>
-                    The manifest for this work needs to be regenerated in order
-                    for staff with restricted access to be able to view it.
-                  </p>
-                )}
-                {children}
-              </RestrictedMessage>
-            </Layout>
-          )}
-        >
-          {((collectionManifestsCount && collectionManifestsCount > 0) ||
-            (canvasCount && canvasCount > 0)) && (
-            <ConditionalWrapper
-              condition={isWorkVisibleWithPermission}
-              wrapper={children => (
-                <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
-                  {children}
-                </Space>
-              )}
-            >
-              <p className={font('mono', -2)} style={{ marginBottom: 0 }}>
-                Contains:{' '}
-                {collectionManifestsCount && collectionManifestsCount > 0
-                  ? pluralize(collectionManifestsCount, 'volume')
-                  : canvasCount
-                    ? pluralize(canvasCount, 'image')
-                    : null}
+              <p style={{ marginBottom: '1rem' }}>
+                Only staff with the right permissions can view this item online.
               </p>
-            </ConditionalWrapper>
-          )}
 
-          {(itemUrl || isDownloadable) && (
-            <Space
-              $v={{ size: 'xs', properties: ['margin-top'] }}
-              style={{ display: 'flex' }}
-            >
-              {itemUrl && (
-                <Space
-                  as="span"
-                  $h={{ size: 'sm', properties: ['margin-right'] }}
-                >
-                  <Button
-                    variant="ButtonSolidLink"
-                    icon={eye}
-                    text="View"
-                    link={itemUrl}
-                  />
-                </Space>
+              {manifestNeedsRegeneration && (
+                <p style={{ marginBottom: '1rem' }}>
+                  The manifest for this work needs to be regenerated in order
+                  for staff with restricted access to be able to view it.
+                </p>
               )}
-              {isDownloadable && (
-                <Download
-                  ariaControlsId="itemDownloads"
-                  downloadOptions={downloadOptions}
+              {children}
+            </RestrictedMessage>
+          </Layout>
+        )}
+      >
+        {((collectionManifestsCount && collectionManifestsCount > 0) ||
+          (canvasCount && canvasCount > 0)) && (
+          <ConditionalWrapper
+            condition={isWorkVisibleWithPermission}
+            wrapper={children => (
+              <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
+                {children}
+              </Space>
+            )}
+          >
+            <p className={font('mono', -2)} style={{ marginBottom: 0 }}>
+              Contains:{' '}
+              {(collectionManifestsCount && collectionManifestsCount > 0) ||
+              canvasCount
+                ? getFileTypeLabel(
+                    collectionManifestsCount,
+                    canvasCount || 0,
+                    hasNonStandardItems,
+                    canvases
+                  )
+                : null}
+            </p>
+          </ConditionalWrapper>
+        )}
+
+        {(itemUrl || (isDownloadable && !extendedViewer)) && (
+          <Space
+            $v={{ size: 'xs', properties: ['margin-top'] }}
+            style={{ display: 'flex' }}
+          >
+            {itemUrl && (
+              <Space
+                as="span"
+                $h={{ size: 'sm', properties: ['margin-right'] }}
+              >
+                <Button
+                  variant="ButtonSolidLink"
+                  icon={eye}
+                  text="View"
+                  link={itemUrl}
                 />
-              )}
-            </Space>
-          )}
-        </ConditionalWrapper>
-      )}
+              </Space>
+            )}
+            {isDownloadable && !extendedViewer && (
+              <Download
+                ariaControlsId="itemDownloads"
+                downloadOptions={downloadOptions}
+              />
+            )}
+          </Space>
+        )}
+      </ConditionalWrapper>
     </>
   );
 };
@@ -317,6 +279,8 @@ const WorkDetailsAvailableOnline = ({
     rendering,
   } = { ...transformedManifest };
 
+  const { extendedViewer } = useToggles();
+
   const tokenService = getIframeTokenSrc({
     workId: work.id,
     origin,
@@ -329,8 +293,14 @@ const WorkDetailsAvailableOnline = ({
 
   const [tabbableId, setTabbableId] = useState<string>();
   const [archiveTree, setArchiveTree] = useState<UiTree>([]);
-  const allOriginalPdfs = isAllOriginalPdfs(canvases || []);
+  const allOriginalPdfs =
+    canvases?.every(canvas => isPDFCanvas(canvas)) || false;
   const clickThroughService = authServices?.active;
+
+  // Check for audio/video content
+  const hasVideo = hasItemType(canvases, 'Video');
+  const hasAudio =
+    hasItemType(canvases, 'Sound') || hasItemType(canvases, 'Audio');
 
   // We temporarily want to show the download tree for multiple PDFs
   // See: https://github.com/wellcomecollection/wellcomecollection.org/issues/12089
@@ -349,7 +319,6 @@ const WorkDetailsAvailableOnline = ({
       elementToFocus.focus();
     }
   }, [archiveTree, tabbableId]);
-  const { isEnhanced } = useAppContext();
 
   useEffect(() => {
     setOrigin(window.origin);
@@ -380,47 +349,40 @@ const WorkDetailsAvailableOnline = ({
                 Contains {canvases?.length} files
               </p>
             )}
-            <MessageBox>{bornDigitalMessage}</MessageBox>
-            <div style={{ overflow: 'visible' }}>
-              <div style={{ display: 'inline-table', minWidth: '100%' }}>
-                <TreeHeadings aria-hidden="true">
-                  <DownloadTable>
-                    <thead>
-                      <tr>
-                        <th>Name</th>
-                        <th>File format</th>
-                        <th>Size</th>
-                        <th>Download</th>
-                      </tr>
-                    </thead>
-                  </DownloadTable>
-                </TreeHeadings>
-                <TreeContainer>
-                  <Tree
-                    $isEnhanced={isEnhanced}
-                    $showFirstLevelGuideline={true}
-                  >
-                    {isEnhanced && (
-                      <TreeInstructions>{`Download tree: ${treeInstructions}`}</TreeInstructions>
-                    )}
-                    <NestedList
-                      currentWorkId={work.id}
-                      fullTree={archiveTree}
-                      setArchiveTree={setArchiveTree}
-                      archiveTree={archiveTree}
-                      level={1}
-                      tabbableId={tabbableId}
-                      setTabbableId={setTabbableId}
-                      archiveAncestorArray={[]}
-                      firstItemTabbable={true}
-                      showFirstLevelGuideline={true}
-                      ItemRenderer={DownloadItemRenderer}
-                      shouldFetchChildren={false}
-                    />
-                  </Tree>
-                </TreeContainer>
-              </div>
-            </div>
+            <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
+              <MessageBox>{bornDigitalMessage}</MessageBox>
+            </Space>
+            {shouldShowItemLink ? (
+              <ItemPageLink
+                work={work}
+                itemUrl={itemUrl}
+                canvases={canvases}
+                collectionManifestsCount={collectionManifestsCount}
+                canvasCount={canvasCount}
+                downloadOptions={downloadOptions}
+                digitalLocationInfo={digitalLocationInfo}
+                authServices={authServices}
+                itemsStatus={itemsStatus}
+              />
+            ) : (
+              <WorksTree>
+                <NestedList
+                  currentWorkId={work.id}
+                  fullTree={archiveTree}
+                  setArchiveTree={setArchiveTree}
+                  archiveTree={archiveTree}
+                  level={1}
+                  tabbableId={tabbableId}
+                  setTabbableId={setTabbableId}
+                  archiveAncestorArray={[]}
+                  firstItemTabbable={true}
+                  showFirstLevelGuideline={true}
+                  ItemRenderer={DownloadItemRenderer}
+                  shouldFetchChildren={false}
+                  itemRendererProps={{}}
+                />
+              </WorksTree>
+            )}
           </>
         )}
 
@@ -431,47 +393,48 @@ const WorkDetailsAvailableOnline = ({
         {(!hasNonStandardItems ||
           (allOriginalPdfs && canvases?.length === 1)) && (
           <>
-            {!shouldShowItemLink && (
-              <>
-                <IIIFItemList
-                  canvases={canvases}
-                  exclude={['Image', 'Text']}
-                  placeholderId={placeholderId}
-                  itemUrl={itemUrl}
-                />
-                {rendering?.map(r => {
-                  const rendering = r as ContentResource & {
-                    format?: string;
-                  };
-                  if (rendering.id && 'label' in rendering) {
-                    const labelString = getLabelString(
-                      rendering.label as InternationalString
-                    );
-                    const label = labelString
-                      ?.toLowerCase()
-                      .includes('transcript')
-                      ? `Transcript of ${work.title}`
-                      : labelString;
+            {(hasVideo || hasAudio) &&
+              !extendedViewer && ( // TODO extendedViewer: we can remove this whole block once we are happy to use the item page for audio/video content, as we will always show the item page link for these types of content once the toggle is removed.
+                <>
+                  <IIIFItemList
+                    canvases={canvases}
+                    exclude={['Image', 'Text']}
+                    placeholderId={placeholderId}
+                    itemUrl={itemUrl}
+                  />
+                  {rendering?.map(r => {
+                    const rendering = r as ContentResource & {
+                      format?: string;
+                    };
+                    if (rendering.id && 'label' in rendering) {
+                      const labelString = getLabelString(
+                        rendering.label as InternationalString
+                      );
+                      const label = labelString
+                        ?.toLowerCase()
+                        .includes('transcript')
+                        ? `Transcript of ${work.title}`
+                        : labelString;
 
-                    return (
-                      <Space
-                        key={rendering.id}
-                        $v={{ size: 'xs', properties: ['margin-top'] }}
-                      >
-                        <DownloadLink
-                          href={rendering.id}
-                          linkText={label || 'Download'}
-                          format={getFormatString(rendering.format)}
-                          mimeType={rendering.format || ''}
-                        />
-                      </Space>
-                    );
-                  } else {
-                    return null;
-                  }
-                })}
-              </>
-            )}
+                      return (
+                        <Space
+                          key={rendering.id}
+                          $v={{ size: 'xs', properties: ['margin-top'] }}
+                        >
+                          <DownloadLink
+                            href={rendering.id}
+                            linkText={label || 'Download'}
+                            format={getFormatString(rendering.format)}
+                            mimeType={rendering.format || ''}
+                          />
+                        </Space>
+                      );
+                    } else {
+                      return null;
+                    }
+                  })}
+                </>
+              )}
 
             {shouldShowItemLink && (
               <ItemPageLink

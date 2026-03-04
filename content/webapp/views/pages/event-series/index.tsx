@@ -96,7 +96,7 @@ const EventSeriesPage: NextPage<Props> = ({
                 title="Coming up"
               />
             ) : (
-              <h2 className={font('brand', 1)}>No upcoming events</h2>
+              <h2 className={font('brand-bold', 1)}>No upcoming events</h2>
             )}
           </>
         )}

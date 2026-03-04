@@ -1,5 +1,5 @@
 # This image should be built with the parent directory as context
-FROM public.ecr.aws/docker/library/node:24-bookworm-slim
+FROM public.ecr.aws/docker/library/node:24.13.0-bookworm-slim
 
 ARG NEXT_PUBLIC_CIVICUK_API_KEY
 

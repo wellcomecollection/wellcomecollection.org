@@ -34,7 +34,7 @@ type SectionHeadingProps = {
 export const SectionHeading = styled(Space).attrs<SectionHeadingProps>(
   props => ({
     as: props.as || 'h2',
-    className: font('brand', 1),
+    className: font('brand-bold', 1),
     $v: {
       size: 'sm',
       properties: props.$addBottomPadding ? ['padding-bottom'] : [],

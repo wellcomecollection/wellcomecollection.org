@@ -2,7 +2,13 @@ import * as prismic from '@prismicio/client';
 import { NextPage } from 'next';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
-import { PagesDocument as RawPagesDocument } from '@weco/common/prismicio-types';
+import {
+  PagesDocumentDataBodySlice,
+  FullWidthBannerSlice as RawFullWidthBannerSlice,
+  PagesDocument as RawPagesDocument,
+  TextSlice as RawTextSlice,
+  ThemeCardsListSlice as RawThemeCardsListSlice,
+} from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
@@ -14,9 +20,7 @@ import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchPage } from '@weco/content/services/prismic/fetch/pages';
 import { getInsideOurCollectionsCards } from '@weco/content/services/prismic/transformers/collections-landing';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
-import { getConcepts } from '@weco/content/services/wellcome/catalogue/concepts';
 import {
-  type Concept,
   toWorkBasic,
   Work,
   type WorkBasic,
@@ -27,43 +31,6 @@ import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import CollectionsLandingPage, {
   Props as CollectionsLandingPageProps,
 } from '@weco/content/views/pages/collections';
-import { themeBlockCategories } from '@weco/content/views/pages/collections/themeBlockCategories';
-
-export type ThemeCategory = {
-  label: string;
-  concepts: string[];
-};
-
-export async function getConceptsByIds(ids: string[]): Promise<Concept[]> {
-  if (!ids || ids.length === 0) return [];
-
-  const result = await getConcepts({
-    params: { id: ids.join(',') },
-    toggles: {},
-  });
-
-  if ('results' in result) return result.results;
-
-  return [];
-}
-
-async function fetchFeaturedConcepts(): Promise<Concept[]> {
-  try {
-    const featuredCategory = themeBlockCategories.categories.find(
-      (category: ThemeCategory) => category.label === 'Featured'
-    );
-
-    if (!featuredCategory || !featuredCategory.concepts) {
-      console.warn('No featured category found in theme config');
-      return [];
-    }
-
-    return getConceptsByIds(featuredCategory.concepts);
-  } catch (error) {
-    console.error('Error fetching featured concepts:', error);
-    return [];
-  }
-}
 
 const Page: NextPage<CollectionsLandingPageProps> = props => {
   return <CollectionsLandingPage {...props} />;
@@ -91,37 +58,43 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     const insideOurCollectionsCards =
       getInsideOurCollectionsCards(collectionsPage);
 
-    // Fetch featured concepts for the theme block
-    const featuredConcepts = await fetchFeaturedConcepts();
-
     const bannerOne = collectionsPage.untransformedBody.find(
-      slice => slice.slice_type === 'fullWidthBanner'
-    );
+      (slice: prismic.Slice) => slice.slice_type === 'fullWidthBanner'
+    ) as RawFullWidthBannerSlice | undefined;
 
     const bannerTwo = collectionsPage.untransformedBody.find(
-      slice =>
+      (slice: prismic.Slice) =>
         slice.slice_type === 'fullWidthBanner' && slice.id !== bannerOne?.id
-    );
+    ) as RawFullWidthBannerSlice | undefined;
 
     const fullWidthBanners = [bannerOne, bannerTwo]
       .filter(isNotUndefined)
       .filter(isFullWidthBanner);
+
+    const themeCardsListSlices = collectionsPage.untransformedBody.filter(
+      (slice: PagesDocumentDataBodySlice) =>
+        slice.slice_type === 'themeCardsList'
+    ) as RawThemeCardsListSlice[];
 
     let newOnlineDocuments: WorkBasic[] = [];
 
     // Find the "New online" text block in Prismic that contains work IDs
     // Format should be: "New online: [ptfqa2te, bbsjt2ex, a3cyqwec, sh37yy5n]"
     const newOnlineBlock = collectionsPage.untransformedBody.find(
-      slice =>
+      (slice: prismic.Slice) =>
         slice.slice_type === 'text' &&
         Array.isArray(slice.primary.text) &&
         slice.primary.text.some((block: prismic.RTParagraphNode) =>
           block.text.includes('New online:')
         )
-    )?.primary.text?.[0]?.text;
+    ) as RawTextSlice | undefined;
+
+    const firstNode = newOnlineBlock?.primary.text?.[0];
+    const newOnlineBlockText =
+      firstNode && 'text' in firstNode ? firstNode.text : undefined;
 
     // Extract work IDs from square brackets
-    const match = newOnlineBlock?.match(/\[(.*?)\]/);
+    const match = newOnlineBlockText?.match(/\[(.*?)\]/);
     const newOnlineWorkIds: string[] = match
       ? match[1].split(',').map(id => id.trim())
       : [];
@@ -159,8 +132,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         title: collectionsPage.title,
         introText: collectionsPage.introText ?? [],
         insideOurCollectionsCards,
-        featuredConcepts,
         fullWidthBanners,
+        themeCardsListSlices: themeCardsListSlices || [],
         newOnlineDocuments,
         serverData,
       }),

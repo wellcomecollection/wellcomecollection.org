@@ -35,6 +35,7 @@ import { fromQuery } from '@weco/content/views/components/ItemLink';
 import WorkLink from '@weco/content/views/components/WorkLink';
 import CataloguePageLayout from '@weco/content/views/layouts/CataloguePageLayout';
 import IIIFItemList from '@weco/content/views/pages/works/work/IIIFItemList';
+import { UiTree } from '@weco/content/views/pages/works/work/work.types';
 
 import IIIFViewer, { queryParamToArrayIndex } from './IIIFViewer';
 
@@ -64,6 +65,7 @@ export type Props = {
   serverSearchResults: SearchResults | null;
   parentManifest?: ParentManifest;
   apiToolbarLinks: ApiToolbarLink[];
+  archiveTree?: UiTree;
 };
 
 const WorkItemPage: NextPage<Props> = ({
@@ -76,6 +78,7 @@ const WorkItemPage: NextPage<Props> = ({
   canvas: serverCanvas,
   serverSearchResults,
   parentManifest,
+  archiveTree,
 }) => {
   const router = useRouter();
   const [routerCanvas, setRouterCanvas] = useState<number | undefined>(
@@ -219,6 +222,8 @@ const WorkItemPage: NextPage<Props> = ({
       so we check for the presence of a pdf in the original property of the canvas.
       If it has one we show the IIIFItemList, unless we are using the extended viewer.
       */}
+      {/* TODO  when we promote extendedViewer code to default we can remove this block
+      as we'll always show the viewer for PDFs*/}
       {(!hasImage || hasPdf) && showViewer && !extendedViewer && (
         <ContaineredLayout gridSizes={gridSize12()}>
           <Space
@@ -281,6 +286,7 @@ const WorkItemPage: NextPage<Props> = ({
         </div>
       </Modal>
 
+      {/* TODO  when we promote extendedViewer code to default we can remove the following conditionals, except for showViewer */}
       {showViewer &&
         ((mainImageService && currentCanvas) ||
           iiifImageLocation ||
@@ -291,6 +297,7 @@ const WorkItemPage: NextPage<Props> = ({
             canvasOcr={canvasOcr}
             iiifImageLocation={iiifImageLocation}
             iiifPresentationLocation={iiifPresentationLocation}
+            initialArchiveTree={archiveTree}
             handleImageError={() => {
               // If the image fails to load, we check to see if it's because the cookie is missing/no longer valid
               reloadAuthIframe(document, iframeId);

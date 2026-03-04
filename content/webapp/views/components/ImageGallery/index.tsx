@@ -138,7 +138,7 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
             </Space>
             <h2
               id={title ? dasherize(title) : `gallery-${id}`}
-              className={font('brand', 1)}
+              className={font('brand-bold', 1)}
               ref={headingRef}
             >
               {title || 'In pictures'}

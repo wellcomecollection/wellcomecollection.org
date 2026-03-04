@@ -206,7 +206,7 @@ const Exhibition: FunctionComponent<Props> = ({
                 <GridCell $sizeMap={{ s: [12] }}>
                   <Space
                     as="h2"
-                    className={font('brand', 1)}
+                    className={font('brand-bold', 1)}
                     $v={{
                       size: 'md',
                       properties: ['margin-top', 'margin-bottom'],

@@ -40,7 +40,7 @@ export function createDefaultCollectionStats(): CollectionStats {
   return {
     booksAndJournals: {
       id: 'books-journals',
-      label: 'Books and Journals',
+      label: 'Books and journals',
       count: null,
       fallbackCount: 550000,
     },

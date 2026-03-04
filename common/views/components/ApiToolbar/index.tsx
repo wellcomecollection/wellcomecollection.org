@@ -142,7 +142,7 @@ const ApiToolbar: FunctionComponent<Props> = ({ links = [] }) => {
           flexGrow: 1,
         }}
       >
-        <span className={font('brand', 0)} style={{ marginLeft: '10px' }}>
+        <span className={font('brand-bold', 0)} style={{ marginLeft: '10px' }}>
           API toolbar
         </span>
         <LinkList>

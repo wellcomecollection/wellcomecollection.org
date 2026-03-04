@@ -27,7 +27,7 @@ const EventScheduleList: FunctionComponent<{
               <Space
                 $v={{ size: 'sm', properties: ['margin-bottom'] }}
                 as="h3"
-                className={font('brand', 0)}
+                className={font('brand-bold', 0)}
               >
                 {eventsGroup.label}
               </Space>
@@ -78,7 +78,7 @@ const EventSchedule: FunctionComponent<Props> = ({ schedule }) => {
     <div data-component="event-schedule">
       {futureEvents.length > 0 && (
         <>
-          <h2 className={font('brand', 1)}>Events</h2>
+          <h2 className={font('brand-bold', 1)}>Events</h2>
           <EventScheduleList
             groupedEvents={futureEvents}
             isNotLinkedIds={isNotLinkedIds}
@@ -87,7 +87,7 @@ const EventSchedule: FunctionComponent<Props> = ({ schedule }) => {
       )}
       {pastEvents.length > 0 && (
         <>
-          <h2 className={font('brand', 1)}>Past events</h2>
+          <h2 className={font('brand-bold', 1)}>Past events</h2>
           <EventScheduleList
             groupedEvents={pastEvents}
             isNotLinkedIds={isNotLinkedIds}

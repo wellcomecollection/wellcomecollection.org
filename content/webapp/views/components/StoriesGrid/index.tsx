@@ -152,7 +152,7 @@ const StoriesGrid: FunctionComponent<Props> = ({
                   <LabelsList labels={[{ text: article.format.label }]} />
                 </DesktopLabel>
 
-                <h3 className={font('brand', 0)}>{article.title}</h3>
+                <h3 className={font('brand-bold', 0)}>{article.title}</h3>
 
                 {!isCompact &&
                   (article.publicationDate ||

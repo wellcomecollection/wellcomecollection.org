@@ -35,7 +35,7 @@ class AsyncSearchResults extends Component<Props, State> {
       <>
         {this.props.title && (
           <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
-            <h2 className={font('brand', 1)} style={{ marginBottom: 0 }}>
+            <h2 className={font('brand-bold', 1)} style={{ marginBottom: 0 }}>
               {this.props.title}
             </h2>
           </Space>

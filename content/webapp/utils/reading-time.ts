@@ -6,12 +6,15 @@ import {
   QuoteSlice as RawQuoteSlice,
   TextSlice as RawTextSlice,
 } from '@weco/common/prismicio-types';
+import { PagesDocumentDataBodySlice } from '@weco/common/prismicio-types';
 import { pluralize } from '@weco/common/utils/grammar';
 import { asText } from '@weco/content/services/prismic/transformers';
 import { Format } from '@weco/content/types/format';
 
 // Calculating the full reading time of the article by getting all article text
-function allArticleText(genericBody: prismic.Slice[]) {
+function allArticleText(
+  genericBody: prismic.SliceZone<PagesDocumentDataBodySlice>
+) {
   return genericBody
     .map(slice => {
       switch (slice.slice_type) {
@@ -27,7 +30,7 @@ function allArticleText(genericBody: prismic.Slice[]) {
 }
 
 export function calculateReadingTime(
-  body: prismic.Slice[]
+  body: prismic.SliceZone<PagesDocumentDataBodySlice>
 ): string | undefined {
   const articleText = allArticleText(body);
 
