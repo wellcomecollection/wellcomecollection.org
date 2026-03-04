@@ -94,7 +94,7 @@ export function fromCompressedManifest(
     thumbnailImageWidth,
     painting,
     original,
-    rendering,
+    rendering = id.map(() => []),
     supplementing,
     metadata,
   } = compressedCanvases;
