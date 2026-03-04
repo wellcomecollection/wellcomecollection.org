@@ -1,5 +1,3 @@
-import { Agent } from 'undici';
-
 import { Toggles } from '@weco/toggles';
 
 type envOptions = 'prod' | 'stage' | 'dev';
@@ -131,20 +129,31 @@ export type QueryProps<Params> = {
 // (1s less than the server timeout) to prevent connection resets.
 // A good explanation of the problem, as well as the solution, is available here:
 // https://connectreport.com/blog/tuning-http-keep-alive-in-node-js/
-const agentKeepAlive = new Agent({
-  keepAliveTimeout: 1000 * 59, // 1s less than the akka-http idle timeout
-  keepAliveMaxTimeout: 1000 * 59,
-});
 
-export const wellcomeApiFetch = (
+// Lazy-load undici.Agent (server-side only)
+// We use dynamic import so undici isn't bundled into the client-side JavaScript
+let agentKeepAlive: unknown = null;
+async function getAgent() {
+  if (!agentKeepAlive) {
+    const { Agent } = await import('undici');
+    agentKeepAlive = new Agent({
+      keepAliveTimeout: 1000 * 59, // 1s less than the akka-http idle timeout
+      keepAliveMaxTimeout: 1000 * 59,
+    });
+  }
+  return agentKeepAlive;
+}
+
+export const wellcomeApiFetch = async (
   url: string,
   options?: Record<string, string>
 ): Promise<Response> => {
   // Node.js native fetch supports the dispatcher option for configuring the HTTP agent
   // The type assertion is needed because TypeScript's built-in RequestInit doesn't include dispatcher
+  const agent = await getAgent();
   return fetch(url, {
     ...options,
-    dispatcher: agentKeepAlive,
+    dispatcher: agent,
   } as RequestInit);
 };
 
