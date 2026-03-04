@@ -24,7 +24,7 @@
     "@storybook/nextjs-vite": "10.2.0",
     "eslint-plugin-storybook": "10.2.0",
     "msw": "^2.12.7",
-    "storybook": "10.2.0",
+    "storybook": "10.2.10",
     "vite": "^7.0.0"
   }
 }
