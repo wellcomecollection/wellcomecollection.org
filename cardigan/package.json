@@ -21,10 +21,10 @@
     "webpack": "^5.105.4"
   },
   "devDependencies": {
-    "@storybook/nextjs-vite": "10.2.0",
-    "eslint-plugin-storybook": "10.2.0",
+    "@storybook/nextjs-vite": "10.2.15",
+    "eslint-plugin-storybook": "10.2.15",
     "msw": "^2.12.7",
-    "storybook": "10.2.10",
+    "storybook": "10.2.15",
     "vite": "^7.0.0"
   }
 }
