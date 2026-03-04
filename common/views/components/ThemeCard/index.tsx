@@ -12,7 +12,11 @@ const Title = styled(Space).attrs({
   className: font('brand', 1),
   as: 'h3',
   $v: { size: 'xs', properties: ['margin-bottom'] },
-})``;
+})`
+  &:last-child {
+    margin-bottom: 0;
+  }
+`;
 
 const CardWrapper = styled.div`
   position: relative;
