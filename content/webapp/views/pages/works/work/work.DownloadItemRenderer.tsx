@@ -24,6 +24,13 @@ export type DownloadItemRendererProps = {
   isEnhanced: boolean;
   hasControl: boolean;
   highlightCondition: 'primary' | 'secondary' | undefined;
+  workId?: string;
+  canvases?: TransformedCanvas[];
+  canvasIndexById?: Record<string, number>;
+  linkToCanvas?: boolean;
+  isDarkMode?: boolean;
+  currentCanvasIndex?: number;
+  itemOnClick?: () => void;
 };
 
 const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
@@ -31,15 +38,43 @@ const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
   isEnhanced,
   hasControl,
   highlightCondition,
+  workId,
+  canvases,
+  canvasIndexById,
+  linkToCanvas = false,
+  isDarkMode = false,
+  currentCanvasIndex = 0,
+  itemOnClick,
 }) => {
+  // Only use canvasIndexById if the structure contains all canvases
+  const hasCompleteStructure =
+    canvasIndexById &&
+    canvases &&
+    Object.keys(canvasIndexById).length === canvases.length;
+
+  // findIndex is 0-based and returns -1 if not found
+  // Convert to 1-based index for toWorksItemLink, or undefined if not found
+  const fallbackIndex = canvases?.findIndex(
+    canvas => canvas.id === item.work.id
+  );
+  const canvasIndex = hasCompleteStructure
+    ? canvasIndexById[item.work.id]
+    : fallbackIndex !== undefined && fallbackIndex >= 0
+      ? fallbackIndex + 1
+      : undefined;
   return (
     <ItemWrapper>
       {isEnhanced && hasControl && (
         <TreeControl
           data-gtm-trigger="tree_chevron"
           $highlightCondition={highlightCondition}
+          $isDarkMode={isDarkMode}
         >
-          <Icon rotate={item.openStatus ? undefined : 270} icon={chevron} />
+          <Icon
+            rotate={item.openStatus ? undefined : 270}
+            icon={chevron}
+            iconColor={isDarkMode ? 'white' : 'black'}
+          />
         </TreeControl>
       )}
 
@@ -58,11 +93,30 @@ const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
 
       {item.work.type === 'Canvas' &&
         item.work?.downloads?.map(download => {
-          return (
+          const shouldLinkToCanvas =
+            linkToCanvas &&
+            workId !== undefined &&
+            typeof canvasIndex === 'number' &&
+            canvasIndex > 0;
+
+          return shouldLinkToCanvas ? (
             <DownloadItem
               key={download.id}
               canvas={item.work as TransformedCanvas}
               item={download}
+              workId={workId}
+              canvasIndex={canvasIndex}
+              linkToCanvas={true}
+              currentCanvasIndex={currentCanvasIndex}
+              onClick={itemOnClick}
+            />
+          ) : (
+            <DownloadItem
+              key={download.id}
+              canvas={item.work as TransformedCanvas}
+              item={download}
+              linkToCanvas={false}
+              currentCanvasIndex={currentCanvasIndex}
             />
           );
         })}

@@ -7,6 +7,7 @@ import {
 } from 'react';
 import styled from 'styled-components';
 
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { arrow, chevron, info2 } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
@@ -25,6 +26,9 @@ import { getDigitalLocationInfo } from '@weco/content/utils/works';
 import LinkLabels from '@weco/content/views/components/LinkLabels';
 import WorkLink from '@weco/content/views/components/WorkLink';
 import WorkTitle from '@weco/content/views/components/WorkTitle';
+import NestedList from '@weco/content/views/pages/works/work/ArchiveTree/ArchiveTree.NestedList';
+import DownloadItemRenderer from '@weco/content/views/pages/works/work/work.DownloadItemRenderer';
+import WorksTree from '@weco/content/views/pages/works/work/WorkDetails/WorkDetails.Tree';
 
 import IIIFSearchWithin from './IIIFSearchWithin';
 import MultipleManifestList from './MultipleManifestList';
@@ -105,14 +109,21 @@ const AccordionButton = styled.button`
 type AccordionItemProps = PropsWithChildren<{
   title: string;
   testId?: string;
+  defaultOpen?: boolean;
 }>;
 
-const AccordionItem = ({ title, children, testId }: AccordionItemProps) => {
-  const [isActive, setIsActive] = useState(true);
+const AccordionItem = ({
+  title,
+  children,
+  testId,
+  defaultOpen = false,
+}: AccordionItemProps) => {
+  const { isEnhanced } = useAppContext();
+  const [isActive, setIsActive] = useState(isEnhanced ? defaultOpen : true);
 
   useEffect(() => {
-    setIsActive(false);
-  }, []);
+    setIsActive(defaultOpen);
+  }, [defaultOpen]);
 
   return (
     <Item data-testid={testId}>
@@ -152,9 +163,21 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
   iiifImageLocation,
   iiifPresentationLocation,
 }) => {
-  const { work, transformedManifest, parentManifest } = useItemViewerContext();
+  const {
+    work,
+    transformedManifest,
+    parentManifest,
+    hasOnlyImages,
+    query,
+    setIsMobileSidebarActive,
+    archiveTree,
+    setArchiveTree,
+    canvasIndexById,
+  } = useItemViewerContext();
+  const { canvas } = query || {};
   const { userIsStaffWithRestricted } = useUserContext();
 
+  const [tabbableId, setTabbableId] = useState<string>();
   const matchingManifest =
     parentManifest &&
     parentManifest.canvases.find(canvas => {
@@ -192,6 +215,13 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
   const manifestNeedsRegeneration =
     authServices?.external?.id ===
     'https://iiif.wellcomecollection.org/auth/restrictedlogin';
+
+  useEffect(() => {
+    const elementToFocus = tabbableId && document.getElementById(tabbableId);
+    if (elementToFocus) {
+      elementToFocus.focus();
+    }
+  }, [archiveTree, tabbableId]);
 
   return (
     <>
@@ -292,7 +322,40 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
           </div>
         </AccordionItem>
 
-        {Boolean(structures && structures.length > 0) && (
+        {archiveTree.length > 0 && (
+          <AccordionItem title="Contents" defaultOpen={true}>
+            <WorksTree
+              isDarkMode={true}
+              hasStructures={Boolean(structures && structures.length > 0)}
+            >
+              <NestedList
+                currentWorkId={work.id}
+                fullTree={archiveTree}
+                setArchiveTree={setArchiveTree}
+                archiveTree={archiveTree}
+                level={1}
+                tabbableId={tabbableId}
+                setTabbableId={setTabbableId}
+                archiveAncestorArray={[]}
+                firstItemTabbable={true}
+                showFirstLevelGuideline={true}
+                shouldFetchChildren={false}
+                isDarkMode={true}
+                ItemRenderer={DownloadItemRenderer}
+                itemRendererProps={{
+                  linkToCanvas: true,
+                  workId: work.id,
+                  canvasIndexById,
+                  currentCanvasIndex: canvas,
+                  itemOnClick: () => setIsMobileSidebarActive(false),
+                  canvases: transformedManifest?.canvases,
+                }}
+              />
+            </WorksTree>
+          </AccordionItem>
+        )}
+
+        {Boolean(structures && structures.length > 0) && hasOnlyImages && (
           <AccordionItem title="Contents">
             <ViewerStructures />
           </AccordionItem>
