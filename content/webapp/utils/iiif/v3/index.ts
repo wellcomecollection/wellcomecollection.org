@@ -408,8 +408,11 @@ export function checkModalRequired(params: checkModalParams): boolean {
     return true;
   }
 
-  // Restricted files require modal unless user is staff
-  if (auth.accessRequirements.includes('Restricted files')) {
+  // Restricted files require modal unless user is staff, except if 'Open' is also present
+  if (
+    auth.accessRequirements.includes('Restricted files') &&
+    !auth.accessRequirements.includes('Open')
+  ) {
     return !userIsStaffWithRestricted;
   }
 
