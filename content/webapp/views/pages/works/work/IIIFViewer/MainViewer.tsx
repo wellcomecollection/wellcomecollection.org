@@ -31,22 +31,11 @@ const MainViewerContainer = styled.div<{ $useFixedList: boolean }>`
   `
       : `
     position: relative;
-    display: flex;
-    flex-direction: column;
   `}
 `;
 
-const ItemWrapper = styled.div<{
-  $hasMultipleCanvases?: boolean;
-  $isAudio?: boolean;
-  $isImage?: boolean;
-  $isText?: boolean;
-}>`
-  ${props => !props.$isAudio && 'height: 100%;'}
-  ${props =>
-    props.$isImage || props.$isText ? 'min-height: 50vh;' : 'min-height: 30vh;'}
-  position: relative;
-  overflow: auto;
+const ItemWrapper = styled.div`
+  height: 100%;
 
   .pdf-wrapper,
   iframe {
@@ -300,10 +289,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
           {displayItems.length > 0 &&
             displayItems.map(item => {
               return (
-                <ItemWrapper
-                  key={item.type + item.id}
-                  $isAudio={item.type === 'Sound'}
-                >
+                <ItemWrapper key={item.type + item.id}>
                   <IIIFItem
                     placeholderId={placeholderId}
                     item={item}
@@ -313,6 +299,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
                     exclude={[]}
                     setImageRect={setImageRect}
                     setImageContainerRect={setImageContainerRect}
+                    externalAccessService={externalAccessService}
                   />
                 </ItemWrapper>
               );
@@ -452,7 +439,6 @@ const MainViewer: FunctionComponent = () => {
   }, [canvas]);
 
   const displayItems = currentCanvas ? getDisplayItems(currentCanvas) : [];
-  const hasMultipleCanvases = canvases && canvases.length > 1;
 
   useEffect(() => {
     if (!hasOnlyImages) {
@@ -496,13 +482,7 @@ const MainViewer: FunctionComponent = () => {
         {displayItems.map((item, i) => {
           return (
             currentCanvas && (
-              <ItemWrapper
-                key={item.type + item.id}
-                $hasMultipleCanvases={hasMultipleCanvases}
-                $isAudio={item.type === 'Sound'}
-                $isImage={item.type === 'Image'}
-                $isText={item.type === 'Text'}
-              >
+              <ItemWrapper key={item.type + item.id}>
                 <IIIFItem
                   placeholderId={placeholderId}
                   item={item}
