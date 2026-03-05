@@ -72,8 +72,17 @@ const StretchWrapper = styled.div<{ $hasDarkBackground?: boolean }>`
   `}
 `;
 
+type TransformedWorkTypeBucket = {
+  id: string;
+  label: string;
+  count: number;
+};
+export type WorksForTabs = ReturnedResults<WorkBasic> & {
+  workTypes: TransformedWorkTypeBucket[];
+};
+
 type WorksAndImagesResponse = {
-  works?: ReturnedResults<WorkBasic> & { workTypes: unknown[] };
+  works?: WorksForTabs;
   images?: ReturnedResults<ImageType>;
   displayLabels: string[];
 };
@@ -277,7 +286,7 @@ const WellcomeSubThemePage: NextPage<Props> & {
             The bug got fixed in Safari 18.2 (I think) but we support the latest two versions.
             It would be nice to move it back inside ImageResults once we're two versions ahead. */}
             <ImageModal
-              images={worksAndImagesAbout.images?.pageResults}
+              images={worksAndImagesAbout.images.pageResults}
               expandedImage={expandedImage}
               setExpandedImage={setExpandedImage}
             />
