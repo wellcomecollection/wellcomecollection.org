@@ -199,7 +199,7 @@ const PublicRestrictedMessage: FunctionComponent<{
             }}
           />
         )}
-        <p className={font('sans', -1)}>{restrictedItemMessage}</p>
+        {restrictedItemMessage}
       </div>
     </MessageContainer>
   );
