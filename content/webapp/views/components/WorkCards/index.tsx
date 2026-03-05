@@ -2,6 +2,7 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import PlainList from '@weco/common/views/components/styled/PlainList';
+import Space from '@weco/common/views/components/styled/Space';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import WorkCard from '@weco/content/views/components/WorkCards/WorkCards.Card';
 
@@ -55,13 +56,19 @@ const WorkCards: FunctionComponent<Props> = ({ works, columns = 4 }) => {
   if (works.length === 1) return <WorkCard item={works[0]} />;
 
   return (
-    <WorksList data-component="work-cards">
-      {works.map(item => (
-        <WorkContainer key={item.id} $columns={columns}>
-          <WorkCard item={item} />
-        </WorkContainer>
-      ))}
-    </WorksList>
+    // This 'md' space accounts for the `bottom` value of the `PopoutCardImage` in  WorkCards.Card.tsx
+    <Space
+      $v={{ size: 'md', properties: ['padding-top'] }}
+      data-component="work-cards"
+    >
+      <WorksList>
+        {works.map(item => (
+          <WorkContainer key={item.id} $columns={columns}>
+            <WorkCard item={item} />
+          </WorkContainer>
+        ))}
+      </WorksList>
+    </Space>
   );
 };
 
