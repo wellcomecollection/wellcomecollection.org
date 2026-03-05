@@ -398,21 +398,23 @@ type checkModalParams = {
 
 export function checkModalRequired(params: checkModalParams): boolean {
   const { userIsStaffWithRestricted, auth } = params;
-  const authServices = getAuthServices({ auth });
-  if (authServices?.active) {
-    return true;
-  } else if (authServices?.external) {
-    if (
-      auth?.accessRequirements.includes('Open') ||
-      userIsStaffWithRestricted
-    ) {
-      return false;
-    } else {
-      return true;
-    }
-  } else {
+
+  if (!auth?.accessRequirements?.length) {
     return false;
   }
+
+  // Open with advisory always requires modal for clickthrough
+  if (auth.accessRequirements.includes('Open with advisory')) {
+    return true;
+  }
+
+  // Restricted files require modal unless user is staff
+  if (auth.accessRequirements.includes('Restricted files')) {
+    return !userIsStaffWithRestricted;
+  }
+
+  // Open content doesn't need modal
+  return false;
 }
 
 export function getAnnotationsOfMotivation(
