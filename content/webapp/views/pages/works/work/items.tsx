@@ -259,28 +259,29 @@ const WorkItemPage: NextPage<Props> = ({
               }}
             />
           )}
-          {auth?.accessRequirements.includes('Open') && origin && (
-            <Space
-              style={{ display: 'inline-flex' }}
-              $h={{ size: 'sm', properties: ['margin-right'] }}
-              $v={{ size: 'sm', properties: ['margin-top'] }}
-            >
-              <Button
-                variant="ButtonSolid"
-                dataGtmProps={{ trigger: 'show_the_content' }}
-                text="Show the content"
-                clickHandler={() => {
-                  const authServiceWindow = window.open(
-                    `${modalContent?.id || ''}?origin=${origin}`
-                  );
-                  authServiceWindow &&
-                    authServiceWindow.addEventListener('unload', function () {
-                      reloadAuthIframe(document, iframeId);
-                    });
-                }}
-              />
-            </Space>
-          )}
+          {auth?.accessRequirements.includes('Open with advisory') &&
+            origin && (
+              <Space
+                style={{ display: 'inline-flex' }}
+                $h={{ size: 'sm', properties: ['margin-right'] }}
+                $v={{ size: 'sm', properties: ['margin-top'] }}
+              >
+                <Button
+                  variant="ButtonSolid"
+                  dataGtmProps={{ trigger: 'show_the_content' }}
+                  text="Show the content"
+                  clickHandler={() => {
+                    const authServiceWindow = window.open(
+                      `${modalContent?.id || ''}?origin=${origin}`
+                    );
+                    authServiceWindow &&
+                      authServiceWindow.addEventListener('unload', function () {
+                        reloadAuthIframe(document, iframeId);
+                      });
+                  }}
+                />
+              </Space>
+            )}
           <WorkLink id={workId}>Take me back to the item page</WorkLink>
         </div>
       </Modal>
