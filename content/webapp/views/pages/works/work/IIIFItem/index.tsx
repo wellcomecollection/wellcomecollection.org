@@ -46,6 +46,17 @@ import ImageViewer from '@weco/content/views/pages/works/work/IIIFViewer/ImageVi
 import IIIFItemDownload from './IIIFItem.Download';
 import VideoTranscript from './IIIFItem.VideoTranscript';
 
+const MessageContainer = styled.div`
+  min-width: 360px;
+  max-width: 60%;
+  margin: 0 auto;
+  border: 1px solid ${props => props.theme.color('neutral.600')};
+  height: 80%;
+  margin-top: 50%;
+  transform: translateY(-50%);
+  padding: 10%;
+`;
+
 const Outline = styled(Space).attrs({
   $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
 })<{ $border?: boolean }>`
@@ -170,27 +181,30 @@ type ItemProps = {
   setImageContainerRect?: (v: DOMRect) => void;
   itemUrl?: LinkProps;
   isDark?: boolean;
+  externalAccessService?: { label?: string; description?: string };
 };
 
+//TODO should the is be the externalAccess service, which I think is manifest level, check, or message of something from the item
 const PublicRestrictedMessage: FunctionComponent<{
-  canvas: TransformedCanvas;
-  titleOverride?: string;
-}> = ({ canvas, titleOverride }) => {
-  const audioLabel = getFileLabel(canvas.label, titleOverride);
-
+  externalAccessService?: { label?: string; description?: string };
+}> = ({ externalAccessService }) => {
   return (
-    <div className="audio">
-      {audioLabel && (
-        <Space
-          className={font('sans-bold', -1)}
-          $v={{ size: 'sm', properties: ['margin-bottom'] }}
-        >
-          {audioLabel}
-        </Space>
+    <MessageContainer>
+      {externalAccessService?.label && (
+        <h2 className={font('sans-bold', 0)}>{externalAccessService.label}</h2>
       )}
-
-      <p className={font('sans', -1)}>{restrictedItemMessage}</p>
-    </div>
+      <div className={font('sans', -1)}>
+        {externalAccessService?.description && (
+          <p
+            className={font('sans', -1)}
+            dangerouslySetInnerHTML={{
+              __html: externalAccessService.description,
+            }}
+          />
+        )}
+        <p className={font('sans', -1)}>{restrictedItemMessage}</p>
+      </div>
+    </MessageContainer>
   );
 };
 
@@ -209,24 +223,21 @@ const StaffRestrictedMessage: FunctionComponent = () => {
 const IIIFItemWrapper: FunctionComponent<{
   shouldShowItem: boolean;
   className: string;
-  titleOverride?: string;
-  canvas: TransformedCanvas;
   isRestricted: boolean;
+  externalAccessService?: { label?: string; description?: string };
   children: ReactNode | undefined;
 }> = ({
   shouldShowItem,
   className,
-  titleOverride,
-  canvas,
   isRestricted,
+  externalAccessService,
   children,
 }) => {
   if (shouldShowItem) {
     return (
       <Outline className="item-wrapper">
         <PublicRestrictedMessage
-          canvas={canvas}
-          titleOverride={titleOverride}
+          externalAccessService={externalAccessService}
         />
       </Outline>
     );
@@ -251,6 +262,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
   setImageContainerRect,
   itemUrl,
   isDark,
+  externalAccessService,
 }) => {
   const { userIsStaffWithRestricted } = useUserContext();
   const isRestricted = isItemRestricted(item);
@@ -277,6 +289,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           setImageContainerRect={setImageContainerRect}
           itemUrl={itemUrl}
           isDark={isDark}
+          externalAccessService={externalAccessService}
         />
       );
 
@@ -287,9 +300,8 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
         <IIIFItemWrapper
           shouldShowItem={shouldShowItem}
           className="item-wrapper"
-          titleOverride={titleOverride}
-          canvas={canvas}
           isRestricted={isRestricted}
+          externalAccessService={externalAccessService}
         >
           <AudioPlayer
             isDark={isDark}
@@ -304,9 +316,8 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
         <IIIFItemWrapper
           shouldShowItem={shouldShowItem}
           className="item-wrapper"
-          titleOverride={titleOverride}
-          canvas={canvas}
           isRestricted={isRestricted}
+          externalAccessService={externalAccessService}
         >
           <>
             <VideoPlayer
@@ -327,9 +338,8 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
         <IIIFItemWrapper
           shouldShowItem={shouldShowItem}
           className="pdf-wrapper"
-          titleOverride={titleOverride}
-          canvas={canvas}
           isRestricted={isRestricted}
+          externalAccessService={externalAccessService}
         >
           <IIIFItemPdf
             src={item.id}
@@ -353,9 +363,8 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
                   <IIIFItemWrapper
                     shouldShowItem={shouldShowItem}
                     className="item-wrapper"
-                    titleOverride={titleOverride}
-                    canvas={canvas}
                     isRestricted={isRestricted}
+                    externalAccessService={externalAccessService}
                   >
                     <IIIFItemDownload
                       key={original.id}
