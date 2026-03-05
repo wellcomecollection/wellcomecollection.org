@@ -92,6 +92,7 @@ const Choice: FunctionComponent<
   i,
   itemUrl,
   isDark,
+  externalAccessService,
 }) => {
   // We may have multiple items, such as videos of different formats
   // but we only show the first of these currently
@@ -110,6 +111,7 @@ const Choice: FunctionComponent<
             exclude={exclude}
             itemUrl={itemUrl}
             isDark={isDark}
+            externalAccessService={externalAccessService}
           />
         </>
       );
