@@ -182,7 +182,6 @@ type ItemProps = {
   externalAccessService?: { label?: string; description?: string };
 };
 
-//TODO should the is be the externalAccess service, which I think is manifest level, check, or message of something from the item
 const PublicRestrictedMessage: FunctionComponent<{
   externalAccessService?: { label?: string; description?: string };
 }> = ({ externalAccessService }) => {
