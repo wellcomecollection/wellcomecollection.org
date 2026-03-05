@@ -374,13 +374,20 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
         );
       } else {
         return (
-          <IIIFImage
-            index={i}
-            item={item}
-            canvas={canvas}
-            setImageRect={setImageRect}
-            setImageContainerRect={setImageContainerRect}
-          />
+          <IIIFItemWrapper
+            shouldShowItem={shouldShowItem}
+            className="item-wrapper"
+            isRestricted={isRestricted}
+            externalAccessService={externalAccessService}
+          >
+            <IIIFImage
+              index={i}
+              item={item}
+              canvas={canvas}
+              setImageRect={setImageRect}
+              setImageContainerRect={setImageContainerRect}
+            />
+          </IIIFItemWrapper>
         );
       }
 
