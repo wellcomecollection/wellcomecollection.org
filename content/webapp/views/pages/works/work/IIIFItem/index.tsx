@@ -267,6 +267,21 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
   const { userIsStaffWithRestricted } = useUserContext();
   const isRestricted = hasRestrictedItem(canvas);
 
+  // Replace "image" with "item" in description if the item is not an image
+  // or if it's an image but has originals, which means the image is just a placeholder for the original item
+  const adjustedExternalAccessService =
+    externalAccessService &&
+    (item.type !== 'Image' ||
+      (item.type === 'Image' && canvas.original.length > 0))
+      ? {
+          ...externalAccessService,
+          description: externalAccessService.description?.replace(
+            /\bimage\b/gi,
+            'item'
+          ),
+        }
+      : externalAccessService;
+
   const shouldShowItem = isRestricted && !userIsStaffWithRestricted;
   const itemLabel =
     'label' in item
@@ -290,7 +305,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           setImageContainerRect={setImageContainerRect}
           itemUrl={itemUrl}
           isDark={isDark}
-          externalAccessService={externalAccessService}
+          externalAccessService={adjustedExternalAccessService}
         />
       );
 
@@ -302,7 +317,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           shouldShowItem={shouldShowItem}
           className="item-wrapper"
           isRestricted={isRestricted}
-          externalAccessService={externalAccessService}
+          externalAccessService={adjustedExternalAccessService}
         >
           <AudioPlayer
             isDark={isDark}
@@ -318,7 +333,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           shouldShowItem={shouldShowItem}
           className="item-wrapper"
           isRestricted={isRestricted}
-          externalAccessService={externalAccessService}
+          externalAccessService={adjustedExternalAccessService}
         >
           <>
             <VideoPlayer
@@ -340,7 +355,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           shouldShowItem={shouldShowItem}
           className="pdf-wrapper"
           isRestricted={isRestricted}
-          externalAccessService={externalAccessService}
+          externalAccessService={adjustedExternalAccessService}
         >
           <IIIFItemPdf
             src={item.id}
@@ -365,7 +380,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
                     shouldShowItem={shouldShowItem}
                     className="item-wrapper"
                     isRestricted={isRestricted}
-                    externalAccessService={externalAccessService}
+                    externalAccessService={adjustedExternalAccessService}
                   >
                     <IIIFItemDownload
                       key={original.id}
@@ -391,7 +406,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
             shouldShowItem={shouldShowItem}
             className="item-wrapper"
             isRestricted={isRestricted}
-            externalAccessService={externalAccessService}
+            externalAccessService={adjustedExternalAccessService}
           >
             <IIIFImage
               index={i}
