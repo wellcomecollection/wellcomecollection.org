@@ -29,12 +29,12 @@ import {
   TransformedCanvas,
 } from '@weco/content/types/manifest';
 import { convertRequestUriToInfoUri } from '@weco/content/utils/iiif/convert-iiif-uri';
+import { hasRestrictedItem } from '@weco/content/utils/iiif/v3';
 import {
   getFileSize,
   getFormatString,
   getImageServiceFromItem,
   getLabelString,
-  isItemRestricted,
 } from '@weco/content/utils/iiif/v3';
 import { getFileLabel } from '@weco/content/utils/works';
 import AudioPlayer from '@weco/content/views/components/AudioPlayer';
@@ -265,7 +265,8 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
   externalAccessService,
 }) => {
   const { userIsStaffWithRestricted } = useUserContext();
-  const isRestricted = isItemRestricted(item);
+  const isRestricted = hasRestrictedItem(canvas);
+
   const shouldShowItem = isRestricted && !userIsStaffWithRestricted;
   const itemLabel =
     'label' in item
