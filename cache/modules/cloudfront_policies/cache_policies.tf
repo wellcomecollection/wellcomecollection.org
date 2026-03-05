@@ -152,6 +152,46 @@ resource "aws_cloudfront_cache_policy" "short_lived_toggles_only" {
   }
 }
 
+resource "aws_cloudfront_cache_policy" "weco_apps_e2e" {
+  name    = "weco-apps-e2e"
+  comment = "Minimal caching for e2e environment to ensure tests always run against fresh content"
+
+  min_ttl     = 0
+  default_ttl = 0
+  max_ttl     = local.one_minute
+
+  parameters_in_cache_key_and_forwarded_to_origin {
+    enable_accept_encoding_gzip = true
+
+    cookies_config {
+      cookie_behavior = "whitelist"
+
+      cookies {
+        items = sort(
+          distinct(
+            concat(
+              local.toggles_cookies,
+              local.userpreference_cookies,
+            )
+          )
+        )
+      }
+    }
+
+    headers_config {
+      header_behavior = "whitelist"
+
+      headers {
+        items = ["Host"]
+      }
+    }
+
+    query_strings_config {
+      query_string_behavior = "all"
+    }
+  }
+}
+
 data "aws_cloudfront_cache_policy" "managed_caching_disabled" {
   name = "Managed-CachingDisabled"
 }
