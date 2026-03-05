@@ -1,8 +1,8 @@
 import 'styled-components';
-import theme from '@weco/common/views/themes/default';
-
-type ThemeInterface = typeof theme;
+import { ThemeInterface } from '@weco/common/views/themes/default';
 
 declare module 'styled-components' {
-  export type DefaultTheme = ThemeInterface;
+  // Augmenting DefaultTheme with our theme type
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+  export interface DefaultTheme extends ThemeInterface {}
 }
