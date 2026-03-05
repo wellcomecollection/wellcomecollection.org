@@ -24,11 +24,13 @@ import {
 import { pluralize } from '@weco/common/utils/grammar';
 import { isNotUndefined, isString } from '@weco/common/utils/type-guards';
 import {
+  allowedManifestAccessRequirements,
   Auth,
   CustomContentResource,
   CustomSpecificationBehaviors,
   DownloadOption,
   ItemsStatus,
+  ManifestAccessRequirement,
   ServiceWithMetadata,
   TransformedCanvas,
 } from '@weco/content/types/manifest';
@@ -299,13 +301,6 @@ export function getIIIFMetadata(
     data => getDisplayLabel(data.label) === label
   );
 }
-const allowedManifestAccessRequirements = [
-  'Restricted files',
-  'Open with advisory',
-  'Open',
-] as const;
-type ManifestAccessRequirement =
-  (typeof allowedManifestAccessRequirements)[number];
 // See: https://github.com/wellcomecollection/platform/issues/5630
 // for backgound to this function
 // If no access-control-hints service is found, returns ['Open'].

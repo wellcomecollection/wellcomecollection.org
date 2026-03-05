@@ -13,6 +13,7 @@ import {
   getFirstCollectionManifestLocation,
   getIIIFPresentationCredit,
   getItemsStatus,
+  getManifestAccessRequirements,
   getSearchService,
   getStructures,
   getTitle,
@@ -58,6 +59,8 @@ export function transformManifest(
 
   const firstCollectionManifestLocation =
     getFirstCollectionManifestLocation(manifestV3);
+
+  const manifestAccessRequirements = getManifestAccessRequirements(manifestV3);
   const isTotallyRestricted = checkIsTotallyRestricted(
     externalAccessService,
     isAnyImageOpen
@@ -119,6 +122,7 @@ export function transformManifest(
       activeAccessService: transformedActiveAccessService,
       tokenService: transformedTokenService,
       isTotallyRestricted,
+      accessRequirements: manifestAccessRequirements,
     },
     // TODO If more than one access service is available, the client should interact with them in the order external, (kiosk - not needed for us), active - but only if logged in staff, otherwise go straight to active
   };

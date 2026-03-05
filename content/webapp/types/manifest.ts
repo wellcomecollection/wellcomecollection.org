@@ -11,6 +11,14 @@ import {
   SpecificationBehaviors,
 } from '@iiif/presentation-3';
 
+export const allowedManifestAccessRequirements = [
+  'Restricted files',
+  'Open with advisory',
+  'Open',
+] as const;
+export type ManifestAccessRequirement =
+  (typeof allowedManifestAccessRequirements)[number];
+
 // Augment IIIF Service type to include metadata property
 // This is used for the access control hints service, which has metadata that we want to use to determine the access status of the manifest.
 // See: https://github.com/wellcomecollection/platform/issues/5630
@@ -64,6 +72,7 @@ export type Auth = {
   externalAccessService: TransformedAuthService | undefined;
   activeAccessService: TransformedAuthService | undefined;
   tokenService: TransformedAuthService | undefined;
+  accessRequirements: ManifestAccessRequirement[];
   isTotallyRestricted: boolean;
 };
 
