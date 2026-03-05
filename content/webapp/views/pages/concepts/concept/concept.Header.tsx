@@ -71,7 +71,7 @@ const ThemeHeader: FunctionComponent<{
   concept: Concept;
   hasImages?: boolean;
 }> = ({ concept, hasImages }) => {
-  const { themePagesAllFields } = useToggles();
+  const { themePagesAllFields, thematicBrowsing } = useToggles();
   const { config } = useConceptPageContext();
   const router = useRouter();
 
@@ -116,21 +116,20 @@ const ThemeHeader: FunctionComponent<{
     <>
       <ConceptHero>
         <Container>
-          <Space
-            $v={{
-              size: 'sm',
-              properties: ['margin-top', 'margin-bottom'],
-            }}
-          >
-            <Breadcrumb
-              items={
-                getBreadcrumbItems(
-                  'collections',
-                  [getBreadcrumbParent()].filter(isNotUndefined)
-                ).items
-              }
-            />
-          </Space>
+          {thematicBrowsing && (
+            <Space
+              $v={{ size: 'sm', properties: ['margin-top', 'margin-bottom'] }}
+            >
+              <Breadcrumb
+                items={
+                  getBreadcrumbItems(
+                    'collections',
+                    [getBreadcrumbParent()].filter(isNotUndefined)
+                  ).items
+                }
+              />
+            </Space>
+          )}
 
           <Layout gridSizes={gridSize10(false)}>
             <h1 className={font('brand-bold', 4)}>{concept.displayLabel}</h1>
