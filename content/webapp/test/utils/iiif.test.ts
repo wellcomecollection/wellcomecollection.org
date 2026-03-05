@@ -27,7 +27,6 @@ const createMockCanvas = (overrides = {}) => ({
   width: 100,
   height: 100,
   imageServiceId: undefined,
-  hasRestrictedImage: false,
   label: 'Test Canvas',
   textServiceId: undefined,
   thumbnailImage: undefined,

@@ -23,7 +23,6 @@ type CompressedTransformedCanvases = {
   width: (number | undefined)[];
   height: (number | undefined)[];
   imageServiceId: CommonParts;
-  restrictedImageIds: string[];
   label: CommonParts;
   textServiceId: CommonParts;
   thumbnailImageUrl: CommonParts;
@@ -53,9 +52,6 @@ export function toCompressedTransformedManifest(
       width: canvases.map(c => c.width),
       height: canvases.map(c => c.height),
       imageServiceId: toCommonParts(canvases.map(c => c.imageServiceId)),
-      restrictedImageIds: canvases
-        .filter(c => c.hasRestrictedImage)
-        .map(c => c.id),
       label: toCommonParts(canvases.map(c => c.label)),
       textServiceId: toCommonParts(canvases.map(c => c.textServiceId)),
       thumbnailImageUrl: toCommonParts(
@@ -88,7 +84,6 @@ export function fromCompressedManifest(
     type,
     width,
     height,
-    restrictedImageIds,
     thumbnailImageWidth,
     painting,
     original,
@@ -105,7 +100,6 @@ export function fromCompressedManifest(
       width: width[index],
       height: height[index],
       imageServiceId: imageServiceId[index],
-      hasRestrictedImage: restrictedImageIds.includes(id[index]),
       label: label[index],
       textServiceId: textServiceId[index],
       thumbnailImage:

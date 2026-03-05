@@ -342,20 +342,6 @@ export function getFirstCollectionManifestLocation(
   }
 }
 
-function isImageRestricted(canvas: Canvas): boolean {
-  const imageService = getImageServiceFromCanvas(canvas);
-  const v2Services = imageService?.service as BodyService2;
-  const imageAuthProbeService = getImageAuthProbeService(v2Services || []);
-  return (
-    imageAuthProbeService?.service.some(
-      s =>
-        s?.id ===
-          'https://iiif.wellcomecollection.org/auth/v2/access/restrictedlogin' ||
-        false
-    ) || false
-  );
-}
-
 export function isItemRestricted(painting): boolean {
   if (isChoiceBody(painting)) return false;
   if (!painting.service) return false;
@@ -500,7 +486,6 @@ export function transformCanvas(canvas: Canvas): TransformedCanvas {
 
   const imageService = getImageServiceFromCanvas(canvas);
   const imageServiceId = getImageServiceId(imageService);
-  const hasRestrictedImage = isImageRestricted(canvas);
 
   return {
     id,
@@ -508,7 +493,6 @@ export function transformCanvas(canvas: Canvas): TransformedCanvas {
     width,
     height,
     imageServiceId,
-    hasRestrictedImage,
     label,
     textServiceId,
     thumbnailImage,
