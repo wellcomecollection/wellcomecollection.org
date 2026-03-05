@@ -62,10 +62,8 @@ export function transformManifest(
 
   const manifestAccessRequirements = getManifestAccessRequirements(manifestV3);
   const isTotallyRestricted = checkIsTotallyRestricted(
-    externalAccessService,
-    isAnyImageOpen
+    manifestAccessRequirements
   );
-
   const searchService = getSearchService(manifestV3);
   const structures = getStructures(manifestV3);
   const groupedStructures = groupRanges(

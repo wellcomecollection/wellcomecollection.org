@@ -428,10 +428,13 @@ export function checkModalRequired(params: checkModalParams): boolean {
 }
 
 export function checkIsTotallyRestricted(
-  externalAuthService: AuthAccessService2External | undefined,
-  isAnyImageOpen: boolean
+  manifestAccessRequirements: ManifestAccessRequirement[]
 ): boolean {
-  return Boolean(externalAuthService && !isAnyImageOpen);
+  // If the manifest has any access requirement that isn't 'Restricted files',
+  // e.g. 'Open with advisory' or 'Open', then it's not totally restricted
+  return manifestAccessRequirements.every(
+    requirement => requirement === 'Restricted files'
+  );
 }
 
 export function getAnnotationsOfMotivation(
