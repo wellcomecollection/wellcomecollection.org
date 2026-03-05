@@ -2,7 +2,6 @@ import { AuthAccessService2, Collection, Manifest } from '@iiif/presentation-3';
 
 import { TransformedManifest } from '@weco/content/types/manifest';
 import {
-  checkIsAnyImageOpen,
   checkIsTotallyRestricted,
   getActiveAuthAccessService,
   getAnnotationsOfMotivation,
@@ -37,7 +36,6 @@ export function transformManifest(
   const collectionManifestsCount = manifests.length;
   const transformedCanvases = getTransformedCanvases(manifestV3);
   const canvasCount = transformedCanvases.length;
-  const isAnyImageOpen = checkIsAnyImageOpen(transformedCanvases);
   // Auth services from IIIF Auth API 2.0:
   // https://iiif.io/api/auth/2.0/
   const authAccessServices = getAuthAccessServices(manifestV3);
@@ -107,7 +105,6 @@ export function transformManifest(
     title,
     manifests,
     collectionManifestsCount,
-    isAnyImageOpen,
     canvases: transformedCanvases,
     canvasCount,
     structures: groupedStructures,

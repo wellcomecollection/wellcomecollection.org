@@ -408,16 +408,18 @@ export function getIframeTokenSrc({
 type checkModalParams = {
   userIsStaffWithRestricted: boolean;
   auth?: Auth;
-  isAnyImageOpen?: boolean;
 };
 
 export function checkModalRequired(params: checkModalParams): boolean {
-  const { userIsStaffWithRestricted, auth, isAnyImageOpen } = params;
+  const { userIsStaffWithRestricted, auth } = params;
   const authServices = getAuthServices({ auth });
   if (authServices?.active) {
     return true;
   } else if (authServices?.external) {
-    if (isAnyImageOpen || userIsStaffWithRestricted) {
+    if (
+      auth?.accessRequirements.includes('Open') ||
+      userIsStaffWithRestricted
+    ) {
       return false;
     } else {
       return true;

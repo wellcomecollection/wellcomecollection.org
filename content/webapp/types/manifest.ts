@@ -85,7 +85,6 @@ export type TransformedManifest = {
   canvasCount: number;
   collectionManifestsCount: number;
   iiifCredit?: string;
-  isAnyImageOpen: boolean;
   isCollectionManifest: boolean;
   parentManifestUrl: string | undefined;
   searchService: Service | undefined;

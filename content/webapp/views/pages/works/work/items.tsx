@@ -102,14 +102,13 @@ const WorkItemPage: NextPage<Props> = ({
   const [origin, setOrigin] = useState<string>();
   const [showModal, setShowModal] = useState(false);
   const [showViewer, setShowViewer] = useState(true);
-  const { title, isAnyImageOpen, canvases, placeholderId, auth } = {
+  const { title, canvases, placeholderId, auth } = {
     ...transformedManifest,
   };
 
   const needsModal = checkModalRequired({
     userIsStaffWithRestricted,
     auth,
-    isAnyImageOpen,
   });
   const [accessToken, setAccessToken] = useState();
   const [searchResults, setSearchResults] = useState(serverSearchResults);
@@ -260,7 +259,7 @@ const WorkItemPage: NextPage<Props> = ({
               }}
             />
           )}
-          {isAnyImageOpen && origin && (
+          {auth?.accessRequirements.includes('Open') && origin && (
             <Space
               style={{ display: 'inline-flex' }}
               $h={{ size: 'sm', properties: ['margin-right'] }}
