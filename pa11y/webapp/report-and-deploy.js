@@ -75,7 +75,7 @@ const promises = urls.map(url =>
     // Hide InPageNavigation components from accessibility testing
     // The component uses mix-blend-mode: difference which causes false positive
     // contrast errors (1:1 ratio) that PA11y cannot properly evaluate
-    hideElements: '[data-component="in-page-navigation-sticky"]',
+    hideElements: '[data-component="in-page-navigation"]',
     log: {
       debug: console.log,
       error: console.error,
