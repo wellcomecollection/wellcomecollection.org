@@ -48,12 +48,10 @@ import VideoTranscript from './IIIFItem.VideoTranscript';
 
 const MessageContainer = styled.div`
   min-width: 360px;
-  max-width: 60%;
+  max-width: 600px;
   margin: 0 auto;
   border: 1px solid ${props => props.theme.color('neutral.600')};
   height: 80%;
-  margin-top: 50%;
-  transform: translateY(-50%);
   padding: 10%;
 `;
 
