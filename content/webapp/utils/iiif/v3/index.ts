@@ -909,3 +909,13 @@ export const getVideoAudioDownloadOptions = (canvas?: TransformedCanvas) => {
   }
   return finalOptions.flat().filter(Boolean).filter(isNotUndefined) || [];
 };
+
+// Returns true if any item in painting,
+// original, or supplementing arrays is restricted.
+export function hasRestrictedItem(canvas: TransformedCanvas): boolean {
+  return (
+    (canvas.painting?.some(item => isItemRestricted(item)) ?? false) ||
+    (canvas.original?.some(original => isItemRestricted(original)) ?? false) ||
+    (canvas.supplementing?.some(supp => isItemRestricted(supp)) ?? false)
+  );
+}
