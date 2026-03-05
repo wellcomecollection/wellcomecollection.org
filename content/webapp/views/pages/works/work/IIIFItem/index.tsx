@@ -341,6 +341,9 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
       );
 
     case item.type === 'Image' && !exclude.includes('Image'):
+      // If there are original items then the image is just a placeholder
+      // for these so we show the download options for the original items
+      // rather than the image itself
       if (canvas.original.length > 0) {
         return (
           <>
