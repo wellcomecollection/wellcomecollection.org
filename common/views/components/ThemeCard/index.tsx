@@ -9,10 +9,14 @@ import Space from '@weco/common/views/components/styled/Space';
 import { ConceptImagesArray } from '@weco/content/hooks/useConceptImageUrls';
 
 const Title = styled(Space).attrs({
-  className: font('brand-bold', 1),
+  className: font('brand', 1),
   as: 'h3',
   $v: { size: 'xs', properties: ['margin-bottom'] },
-})``;
+})`
+  &:last-child {
+    margin-bottom: 0;
+  }
+`;
 
 const CardWrapper = styled.div`
   position: relative;
@@ -72,6 +76,9 @@ const TextContent = styled(Space).attrs({
   bottom: 0;
   left: 0;
   right: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 
   &::before {
     content: '';
