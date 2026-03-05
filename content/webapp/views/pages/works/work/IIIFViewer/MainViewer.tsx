@@ -224,7 +224,9 @@ function getPositionData({
 }
 
 const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
-  const { scrollVelocity, canvases, placeholderId } = data;
+  const { scrollVelocity, canvases, placeholderId, externalAccessService } =
+    data;
+
   const currentCanvas = canvases[index];
   const { searchResults, rotatedImages } = useItemViewerContext();
   const [imageRect, setImageRect] = useState<DOMRect | undefined>();
@@ -384,6 +386,7 @@ const MainViewer: FunctionComponent = () => {
   };
 
   // Canvas order is determined by structures if we have them, which aren't always the same
+  const externalAccessService = auth?.externalAccessService;
   // as the order of canvases in the items array.
   // The canvasIndexById provides a mapping between the canvas ID
   // and the correct display index based on the archival structure.
@@ -398,8 +401,6 @@ const MainViewer: FunctionComponent = () => {
   const currentCanvas = currentCanvasId
     ? canvases?.find(c => c.id === currentCanvasId)
     : canvases?.[queryParamToArrayIndex(canvas)];
-
-  const externalAccessService = auth?.externalAccessService;
 
   // We hide the zoom and rotation controls while the user is scrolling
   function handleOnScroll({ scrollOffset }) {
@@ -491,6 +492,7 @@ const MainViewer: FunctionComponent = () => {
                   titleOverride={`${canvas}/${canvases?.length}`}
                   exclude={[]}
                   isDark={true}
+                  externalAccessService={externalAccessService}
                 />
               </ItemWrapper>
             )
