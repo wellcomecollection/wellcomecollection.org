@@ -67,7 +67,7 @@ describe('workTypeAggregations', () => {
       expect(result).toEqual({
         booksAndJournals: {
           id: 'books-journals',
-          label: 'Books and Journals',
+          label: 'Books and journals',
           count: 102000, // 100000 + 2000
           fallbackCount: 550000,
         },
@@ -113,7 +113,7 @@ describe('workTypeAggregations', () => {
       expect(result).toEqual({
         booksAndJournals: {
           id: 'books-journals',
-          label: 'Books and Journals',
+          label: 'Books and journals',
           count: null,
           fallbackCount: 550000,
         },
