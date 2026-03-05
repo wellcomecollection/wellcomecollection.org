@@ -119,9 +119,12 @@ const WorkItemPage: NextPage<Props> = ({
 
   const hasImage = hasItemType(canvases, 'Image');
   const hasPdf = hasOriginalPdf(canvases);
-  const isTotallyRestricted = auth?.accessRequirements.every(
-    requirement => requirement === 'Restricted files'
-  );
+  const isTotallyRestricted =
+    auth?.accessRequirements &&
+    auth.accessRequirements.length > 0 &&
+    auth.accessRequirements.every(
+      requirement => requirement === 'Restricted files'
+    );
   const shouldUseAuthMessageIframe = auth?.tokenService && origin;
   // showViewer is true by default, so the noScriptViewer is available without javascript
   // if javascript is available we set it to false and then determine whether the clickthrough modal is required
