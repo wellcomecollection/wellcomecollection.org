@@ -280,19 +280,6 @@ export function getImageAuthProbeService(
       : undefined;
 }
 
-// We don't know at the top-level of a manifest whether any of the canvases contain images that are open access.
-// The top-level only holds information about whether the item contains _any_ images with an authService.
-// N.B. this will be changed in the future: https://github.com/wellcomecollection/platform/issues/5630
-// Individual images hold information about their own authService (if it has one).
-// So we check if any canvas _doesn't_ have an authService, and treat the whole item as open access if that's the case.
-// This allows us to determine whether or not to show the viewer at all.
-// N.B. the individual items within the viewer won't display if they are restricted.
-export function checkIsAnyImageOpen(
-  transformedCanvases: TransformedCanvas[]
-): boolean {
-  return transformedCanvases.some(canvas => !canvas.hasRestrictedImage);
-}
-
 export function getIIIFMetadata(
   manifest: Manifest | Collection,
   label: string
