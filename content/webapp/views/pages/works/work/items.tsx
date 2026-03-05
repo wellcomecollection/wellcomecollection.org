@@ -22,7 +22,6 @@ import {
   fromCompressedManifest,
 } from '@weco/content/types/compressed-manifest';
 import { ParentManifest } from '@weco/content/types/item-viewer';
-import { Auth } from '@weco/content/types/manifest';
 import {
   checkModalRequired,
   getAuthServices,
@@ -49,10 +48,6 @@ function reloadAuthIframe(document: Document, id: string) {
   // assigning the iframe src to itself reloads the iframe and refires the window.message event
   // eslint-disable-next-line no-self-assign
   if (authMessageIframe) authMessageIframe.src = authMessageIframe.src;
-}
-
-function getIsTotallyRestricted({ auth }: { auth: Auth | undefined }) {
-  return auth?.isTotallyRestricted;
 }
 
 export type Props = {
@@ -124,7 +119,9 @@ const WorkItemPage: NextPage<Props> = ({
 
   const hasImage = hasItemType(canvases, 'Image');
   const hasPdf = hasOriginalPdf(canvases);
-  const isTotallyRestricted = getIsTotallyRestricted({ auth });
+  const isTotallyRestricted = auth?.accessRequirements.every(
+    requirement => requirement === 'Restricted files'
+  );
   const shouldUseAuthMessageIframe = auth?.tokenService && origin;
   // showViewer is true by default, so the noScriptViewer is available without javascript
   // if javascript is available we set it to false and then determine whether the clickthrough modal is required

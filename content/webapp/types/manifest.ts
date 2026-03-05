@@ -73,7 +73,6 @@ export type Auth = {
   activeAccessService: TransformedAuthService | undefined;
   tokenService: TransformedAuthService | undefined;
   accessRequirements: ManifestAccessRequirement[];
-  isTotallyRestricted: boolean;
 };
 
 export type TransformedManifest = {

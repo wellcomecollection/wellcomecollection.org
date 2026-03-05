@@ -2,7 +2,6 @@ import { AuthAccessService2, Collection, Manifest } from '@iiif/presentation-3';
 
 import { TransformedManifest } from '@weco/content/types/manifest';
 import {
-  checkIsTotallyRestricted,
   getActiveAuthAccessService,
   getAnnotationsOfMotivation,
   getAuthAccessServices,
@@ -59,9 +58,6 @@ export function transformManifest(
     getFirstCollectionManifestLocation(manifestV3);
 
   const manifestAccessRequirements = getManifestAccessRequirements(manifestV3);
-  const isTotallyRestricted = checkIsTotallyRestricted(
-    manifestAccessRequirements
-  );
   const searchService = getSearchService(manifestV3);
   const structures = getStructures(manifestV3);
   const groupedStructures = groupRanges(
@@ -116,7 +112,6 @@ export function transformManifest(
       externalAccessService: transformedExternalAccessService,
       activeAccessService: transformedActiveAccessService,
       tokenService: transformedTokenService,
-      isTotallyRestricted,
       accessRequirements: manifestAccessRequirements,
     },
     // TODO If more than one access service is available, the client should interact with them in the order external, (kiosk - not needed for us), active - but only if logged in staff, otherwise go straight to active

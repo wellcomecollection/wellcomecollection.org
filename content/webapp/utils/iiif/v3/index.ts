@@ -429,16 +429,6 @@ export function checkModalRequired(params: checkModalParams): boolean {
   }
 }
 
-export function checkIsTotallyRestricted(
-  manifestAccessRequirements: ManifestAccessRequirement[]
-): boolean {
-  // If the manifest has any access requirement that isn't 'Restricted files',
-  // e.g. 'Open with advisory' or 'Open', then it's not totally restricted
-  return manifestAccessRequirements.every(
-    requirement => requirement === 'Restricted files'
-  );
-}
-
 export function getAnnotationsOfMotivation(
   items: Canvas['items'],
   motivation: TechnicalProperties['motivation']
