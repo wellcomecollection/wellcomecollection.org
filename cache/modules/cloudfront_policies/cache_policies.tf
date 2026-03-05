@@ -157,12 +157,11 @@ resource "aws_cloudfront_cache_policy" "weco_apps_e2e" {
   comment = "Minimal caching for e2e environment to ensure tests always run against fresh content"
 
   // Minimal TTLs to ensure e2e tests always get fresh content
-  // - default_ttl = 0 means no caching by default
-  // - max_ttl = 1 minute allows brief caching only if the origin explicitly sets Cache-Control headers
+  // - All TTLs set to 0 to completely prevent caching, regardless of origin Cache-Control headers
   // This eliminates the need for CloudFront cache invalidation before test runs
   min_ttl     = 0
   default_ttl = 0
-  max_ttl     = local.one_minute
+  max_ttl     = 0
 
   parameters_in_cache_key_and_forwarded_to_origin {
     // https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html#cache-policy-compressed-objects
