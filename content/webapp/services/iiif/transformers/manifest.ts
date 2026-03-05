@@ -29,7 +29,6 @@ export function transformManifest(
   manifestV3: Manifest | Collection
 ): TransformedManifest {
   const title = getTitle(manifestV3.label);
-  const services = manifestV3.services || [];
   const iiifCredit = getIIIFPresentationCredit(manifestV3);
   const id = manifestV3.id || '';
   const parentManifestUrl = manifestV3.partOf?.[0].id;
@@ -102,7 +101,6 @@ export function transformManifest(
     itemsStatus,
     id,
     firstCollectionManifestLocation,
-    services,
     iiifCredit,
     parentManifestUrl,
     title,

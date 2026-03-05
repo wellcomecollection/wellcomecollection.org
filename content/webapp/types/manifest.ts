@@ -72,7 +72,6 @@ export type TransformedManifest = {
   itemsStatus: ItemsStatus;
   title: string;
   id: string;
-  services: Service[];
   canvases: TransformedCanvas[];
   canvasCount: number;
   collectionManifestsCount: number;
