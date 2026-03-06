@@ -36,6 +36,7 @@ import {
   getImageServiceFromItem,
   getLabelString,
 } from '@weco/content/utils/iiif/v3';
+import type { TransformedAuthService } from '@weco/content/utils/iiif/v3';
 import { getFileLabel } from '@weco/content/utils/works';
 import AudioPlayer from '@weco/content/views/components/AudioPlayer';
 import BetaMessage from '@weco/content/views/components/BetaMessage';
@@ -181,11 +182,11 @@ type ItemProps = {
   setImageContainerRect?: (v: DOMRect) => void;
   itemUrl?: LinkProps;
   isDark?: boolean;
-  externalAccessService?: { label?: string; description?: string };
+  externalAccessService?: TransformedAuthService;
 };
 
 const PublicRestrictedMessage: FunctionComponent<{
-  externalAccessService?: { label?: string; description?: string };
+  externalAccessService?: import('@weco/content/utils/iiif/v3').TransformedAuthService;
 }> = ({ externalAccessService }) => {
   return (
     <MessageContainer>
@@ -223,7 +224,7 @@ const IIIFItemWrapper: FunctionComponent<{
   shouldShowItem: boolean;
   className: string;
   isRestricted: boolean;
-  externalAccessService?: { label?: string; description?: string };
+  externalAccessService?: TransformedAuthService;
   children: ReactNode | undefined;
 }> = ({
   shouldShowItem,
