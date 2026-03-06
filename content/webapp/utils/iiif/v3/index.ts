@@ -24,11 +24,13 @@ import {
 import { pluralize } from '@weco/common/utils/grammar';
 import { isNotUndefined, isString } from '@weco/common/utils/type-guards';
 import {
+  allowedManifestAccessRequirements,
   Auth,
   CustomContentResource,
   CustomSpecificationBehaviors,
   DownloadOption,
   ItemsStatus,
+  ManifestAccessRequirement,
   ServiceWithMetadata,
   TransformedCanvas,
 } from '@weco/content/types/manifest';
@@ -278,19 +280,6 @@ export function getImageAuthProbeService(
       : undefined;
 }
 
-// We don't know at the top-level of a manifest whether any of the canvases contain images that are open access.
-// The top-level only holds information about whether the item contains _any_ images with an authService.
-// N.B. this will be changed in the future: https://github.com/wellcomecollection/platform/issues/5630
-// Individual images hold information about their own authService (if it has one).
-// So we check if any canvas _doesn't_ have an authService, and treat the whole item as open access if that's the case.
-// This allows us to determine whether or not to show the viewer at all.
-// N.B. the individual items within the viewer won't display if they are restricted.
-export function checkIsAnyImageOpen(
-  transformedCanvases: TransformedCanvas[]
-): boolean {
-  return transformedCanvases.some(canvas => !canvas.hasRestrictedImage);
-}
-
 export function getIIIFMetadata(
   manifest: Manifest | Collection,
   label: string
@@ -299,13 +288,6 @@ export function getIIIFMetadata(
     data => getDisplayLabel(data.label) === label
   );
 }
-const allowedManifestAccessRequirements = [
-  'Restricted files',
-  'Open with advisory',
-  'Open',
-] as const;
-type ManifestAccessRequirement =
-  (typeof allowedManifestAccessRequirements)[number];
 // See: https://github.com/wellcomecollection/platform/issues/5630
 // for background to this function
 // If no access-control-hints service is found, returns ['Open'].
@@ -426,16 +408,18 @@ export function getIframeTokenSrc({
 type checkModalParams = {
   userIsStaffWithRestricted: boolean;
   auth?: Auth;
-  isAnyImageOpen?: boolean;
 };
 
 export function checkModalRequired(params: checkModalParams): boolean {
-  const { userIsStaffWithRestricted, auth, isAnyImageOpen } = params;
+  const { userIsStaffWithRestricted, auth } = params;
   const authServices = getAuthServices({ auth });
   if (authServices?.active) {
     return true;
   } else if (authServices?.external) {
-    if (isAnyImageOpen || userIsStaffWithRestricted) {
+    if (
+      auth?.accessRequirements.includes('Open') ||
+      userIsStaffWithRestricted
+    ) {
       return false;
     } else {
       return true;
@@ -443,13 +427,6 @@ export function checkModalRequired(params: checkModalParams): boolean {
   } else {
     return false;
   }
-}
-
-export function checkIsTotallyRestricted(
-  externalAuthService: AuthAccessService2External | undefined,
-  isAnyImageOpen: boolean
-): boolean {
-  return Boolean(externalAuthService && !isAnyImageOpen);
 }
 
 export function getAnnotationsOfMotivation(

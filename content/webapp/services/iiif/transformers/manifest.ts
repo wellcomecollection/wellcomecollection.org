@@ -2,8 +2,6 @@ import { AuthAccessService2, Collection, Manifest } from '@iiif/presentation-3';
 
 import { TransformedManifest } from '@weco/content/types/manifest';
 import {
-  checkIsAnyImageOpen,
-  checkIsTotallyRestricted,
   getActiveAuthAccessService,
   getAnnotationsOfMotivation,
   getAuthAccessServices,
@@ -13,6 +11,7 @@ import {
   getFirstCollectionManifestLocation,
   getIIIFPresentationCredit,
   getItemsStatus,
+  getManifestAccessRequirements,
   getSearchService,
   getStructures,
   getTitle,
@@ -29,7 +28,6 @@ export function transformManifest(
   manifestV3: Manifest | Collection
 ): TransformedManifest {
   const title = getTitle(manifestV3.label);
-  const services = manifestV3.services || [];
   const iiifCredit = getIIIFPresentationCredit(manifestV3);
   const id = manifestV3.id || '';
   const parentManifestUrl = manifestV3.partOf?.[0].id;
@@ -37,7 +35,6 @@ export function transformManifest(
   const collectionManifestsCount = manifests.length;
   const transformedCanvases = getTransformedCanvases(manifestV3);
   const canvasCount = transformedCanvases.length;
-  const isAnyImageOpen = checkIsAnyImageOpen(transformedCanvases);
   // Auth services from IIIF Auth API 2.0:
   // https://iiif.io/api/auth/2.0/
   const authAccessServices = getAuthAccessServices(manifestV3);
@@ -59,11 +56,8 @@ export function transformManifest(
 
   const firstCollectionManifestLocation =
     getFirstCollectionManifestLocation(manifestV3);
-  const isTotallyRestricted = checkIsTotallyRestricted(
-    externalAccessService,
-    isAnyImageOpen
-  );
 
+  const manifestAccessRequirements = getManifestAccessRequirements(manifestV3);
   const searchService = getSearchService(manifestV3);
   const structures = getStructures(manifestV3);
   const groupedStructures = groupRanges(
@@ -102,13 +96,11 @@ export function transformManifest(
     itemsStatus,
     id,
     firstCollectionManifestLocation,
-    services,
     iiifCredit,
     parentManifestUrl,
     title,
     manifests,
     collectionManifestsCount,
-    isAnyImageOpen,
     canvases: transformedCanvases,
     canvasCount,
     structures: groupedStructures,
@@ -120,8 +112,7 @@ export function transformManifest(
       externalAccessService: transformedExternalAccessService,
       activeAccessService: transformedActiveAccessService,
       tokenService: transformedTokenService,
-      isTotallyRestricted,
+      accessRequirements: manifestAccessRequirements,
     },
-    // TODO If more than one access service is available, the client should interact with them in the order external, (kiosk - not needed for us), active - but only if logged in staff, otherwise go straight to active
   };
 }
