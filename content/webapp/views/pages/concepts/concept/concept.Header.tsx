@@ -22,14 +22,9 @@ import SourcedDescription from '@weco/content/views/components/SourcedDescriptio
 
 import RelatedConceptsGroup from './concept.RelatedConceptsGroup';
 
-const ConceptHero = styled(Space).attrs<{ $hasBreadcrumbs: boolean }>(
-  props => ({
-    $v: {
-      size: props.$hasBreadcrumbs ? 'sm' : 'xl',
-      properties: ['padding-top'],
-    },
-  })
-)`
+const ConceptHero = styled(Space).attrs({
+  $v: { size: 'md', properties: ['padding-top'] },
+})`
   background-color: ${props => props.theme.color('accent.lightGreen')};
   padding-bottom: ${props => props.theme.gutter.xlarge};
 `;
@@ -122,19 +117,15 @@ const ThemeHeader: FunctionComponent<{
         'collections',
         [getBreadcrumbParent({ type: concept.type })].filter(isNotUndefined)
       )
-    : { items: [] };
+    : getBreadcrumbItems('collections');
 
   return (
     <>
-      <ConceptHero $hasBreadcrumbs={breadcrumbs.items.length > 0}>
+      <ConceptHero>
         <Container>
-          {thematicBrowsing && (
-            <Space
-              $v={{ size: 'sm', properties: ['margin-top', 'margin-bottom'] }}
-            >
-              <Breadcrumb items={breadcrumbs.items} />
-            </Space>
-          )}
+          <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
+            <Breadcrumb items={breadcrumbs.items} />
+          </Space>
 
           <Layout gridSizes={gridSize10(false)}>
             <h1 className={font('brand-bold', 4)}>{concept.displayLabel}</h1>
