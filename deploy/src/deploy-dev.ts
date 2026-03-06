@@ -31,12 +31,32 @@ import { logBanner, logError, logInfo, logSuccess } from './logger';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, '../..');
 
+/**
+ * Load AWS credential providers for the required profiles.
+ *
+ * Both profiles must be configured in ~/.aws/config:
+ * - platform-developer: For public ECR access (base images)
+ * - experience-developer: For private ECR and ECS operations
+ */
 function getCredentials() {
   const platformCreds = fromIni({ profile: 'platform-developer' });
   const experienceCreds = fromIni({ profile: 'experience-developer' });
   return { platformCreds, experienceCreds };
 }
 
+/**
+ * Build and deploy a dev image to the staging environment.
+ *
+ * Workflow:
+ * 1. Authenticate with ECR registries
+ * 2. Build Docker image with 'dev' tag
+ * 3. Push image to private ECR
+ * 4. Backup current staging image
+ * 5. Retag dev image as staging image
+ * 6. Trigger ECS redeployment and wait for stabilization
+ *
+ * @param app - Application to deploy (content or identity)
+ */
 async function deploy(app: AppName) {
   const { repo, service } = getAppConfig(app);
   const imageUri = `${ECR_REGISTRY}/${repo}:${DEV_TAG}`;
@@ -76,6 +96,19 @@ async function deploy(app: AppName) {
   logBanner(`Successfully deployed ${app} to staging`, 'green');
 }
 
+/**
+ * Restore an app to its pre-dev deployment state.
+ *
+ * Reverts the staging environment to the image that was running before
+ * the most recent dev deployment. Requires a backup tag to exist.
+ *
+ * Workflow:
+ * 1. Find the backup image (env.stage.pre-dev tag)
+ * 2. Retag it back to env.stage
+ * 3. Trigger ECS redeployment and wait for stabilization
+ *
+ * @param app - Application to restore (content or identity)
+ */
 async function restore(app: AppName) {
   const { repo, service } = getAppConfig(app);
 

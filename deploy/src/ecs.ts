@@ -6,6 +6,16 @@ import {
 
 import { logInfo, logSuccess } from './logger';
 
+/**
+ * Trigger a new ECS deployment without changing the task definition.
+ *
+ * This forces ECS to pull a fresh image from ECR even if the tag hasn't changed,
+ * which is necessary after retagging an image in ECR.
+ *
+ * @param client - Authenticated ECS client
+ * @param cluster - ECS cluster name
+ * @param service - ECS service name
+ */
 export async function forceNewDeployment(
   client: ECSClient,
   cluster: string,
@@ -24,6 +34,18 @@ export async function forceNewDeployment(
   logSuccess('Triggered deployment');
 }
 
+/**
+ * Wait for an ECS service deployment to complete and stabilize.
+ *
+ * Polls every 6 seconds for up to 10 minutes. A service is considered stable when:
+ * - The deployment is complete
+ * - All desired tasks are running
+ * - No tasks are in PENDING state
+ *
+ * @param client - Authenticated ECS client
+ * @param cluster - ECS cluster name
+ * @param service - ECS service name
+ */
 export async function waitForServiceStable(
   client: ECSClient,
   cluster: string,
