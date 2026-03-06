@@ -1,6 +1,6 @@
 import { Manifest } from '@iiif/presentation-3';
 
-import { ServiceWithMetadata } from '@weco/content/types/manifest';
+import type { ServiceWithMetadata } from '@weco/content/types/manifest';
 
 import { getManifestAccessRequirements, transformLabel } from '.';
 
