@@ -114,6 +114,5 @@ export function transformManifest(
       tokenService: transformedTokenService,
       accessRequirements: manifestAccessRequirements,
     },
-    // TODO If more than one access service is available, the client should interact with them in the order external, (kiosk - not needed for us), active - but only if logged in staff, otherwise go straight to active
   };
 }
