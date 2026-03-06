@@ -274,10 +274,9 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
       (item.type === 'Image' && canvas.original.length > 0))
       ? {
           ...externalAccessService,
-          description: externalAccessService.description?.replace(
-            /\bimage\b/gi,
-            'item'
-          ),
+          description: externalAccessService.description
+            ?.replace(/\bimage\b/gi, 'item')
+            ?.replace(/\bviewed\b/gi, 'accessed'),
         }
       : externalAccessService;
 
