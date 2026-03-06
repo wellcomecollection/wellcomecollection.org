@@ -307,7 +307,7 @@ const allowedManifestAccessRequirements = [
 type ManifestAccessRequirement =
   (typeof allowedManifestAccessRequirements)[number];
 // See: https://github.com/wellcomecollection/platform/issues/5630
-// for backgound to this function
+// for background to this function
 // If no access-control-hints service is found, returns ['Open'].
 export function getManifestAccessRequirements(
   manifest: Manifest | Collection
