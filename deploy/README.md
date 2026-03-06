@@ -18,13 +18,15 @@ You also need Docker running locally.
 The tool validates operations and provides actionable error messages:
 
 - **AWS credential/permission errors** propagate with full details (not silently ignored)
-- **Network failures** are reported with context about which operation failed  
+- **Network failures** are reported with context about which operation failed
 - **Docker daemon errors** show Docker's error output (e.g., "Cannot connect to the Docker daemon")
 - **Missing images** are clearly distinguished from infrastructure failures
+- **Repository configuration errors** surface when repository names in config.ts don't match AWS
 
 Common issues:
 - If Docker login fails, ensure Docker is running and your AWS credentials are valid
 - If image not found, check the tag exists: `aws ecr describe-images --repository-name <repo>`
+- If repository not found, verify repository names in `deploy/src/config.ts` match ECR
 - If deployment times out, check ECS console for task health issues
 
 ## Usage

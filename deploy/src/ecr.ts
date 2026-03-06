@@ -5,29 +5,28 @@ import {
   ImageAlreadyExistsException,
   ImageNotFoundException,
   PutImageCommand,
-  RepositoryNotFoundException,
 } from '@aws-sdk/client-ecr';
 
 import { BACKUP_TAG, DEV_TAG, ENV_TAG } from './config';
 import { logInfo, logSuccess } from './logger';
 
 /**
- * Helper to treat ECR "not found" errors as null/empty but rethrow
- * auth/network/permission errors so they're actionable.
+ * Helper to treat ECR "image not found" errors as null/empty but rethrow
+ * all other errors so they're actionable.
  *
- * This prevents silent failures where credential or network issues are
- * mistaken for "image not found" scenarios.
+ * This prevents silent failures where credential, network, permission, or
+ * repository configuration issues are mistaken for "image not found" scenarios.
+ *
+ * Note: RepositoryNotFoundException is NOT treated as "not found" - it indicates
+ * a configuration error (wrong repo name) and will be rethrown.
  *
  * @param error - The caught error
- * @param notFoundValue - Value to return for "not found" cases
- * @returns The notFoundValue if error is ImageNotFound/RepositoryNotFound
- * @throws The original error if it's not a "not found" case
+ * @param notFoundValue - Value to return for "image not found" cases
+ * @returns The notFoundValue if error is ImageNotFoundException
+ * @throws The original error for all other cases (including RepositoryNotFoundException)
  */
 function handleECRError<T>(error: unknown, notFoundValue: T): T {
-  if (
-    error instanceof ImageNotFoundException ||
-    error instanceof RepositoryNotFoundException
-  ) {
+  if (error instanceof ImageNotFoundException) {
     return notFoundValue;
   }
   throw error;
