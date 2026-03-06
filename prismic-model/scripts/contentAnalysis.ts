@@ -2,12 +2,11 @@ import fs from 'fs';
 import yargs from 'yargs';
 
 import { createClient as createPrismicClient } from '@weco/common/services/prismic/fetch';
-
-import { success } from './console';
 import {
   downloadPrismicSnapshot,
   getPrismicDocuments,
-} from './downloadSnapshot';
+} from '@weco/prismic-model/scripts/downloadSnapshot';
+import { info, success } from '@weco/prismic-model/utils/console';
 
 const { type, report, printUrl } = yargs(process.argv.slice(2))
   .usage('Usage: $0 --type [string] --report [boolean] --printUrl [boolean]')
@@ -76,18 +75,18 @@ async function main() {
     success('Reporting done!');
   }
 
-  console.info(`=== Content Type count (${contentTypesArray.length}) ==`);
+  info(`=== Content Type count (${contentTypesArray.length}) ==`);
   contentTypesArray
     .sort((a, b) => a[1] - b[1])
     .forEach(entry =>
-      console.info(`${String(entry[1]).padStart(6, ' ')}\t${entry[0]}`)
+      info(`${String(entry[1]).padStart(6, ' ')}\t${entry[0]}`)
     );
-  console.info('');
+  console.log('');
 
   if (type) {
     console.info(matches);
-    console.info(`found ${matches.length}`);
   }
+  info(`Found ${matches.length}${type ? ' ' + type : ''} documents`);
 }
 
 main();
