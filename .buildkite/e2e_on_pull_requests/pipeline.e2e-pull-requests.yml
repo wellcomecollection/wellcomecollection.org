@@ -33,11 +33,18 @@
 
   depends_on: deploy-to-e2e-environment
 
+  concurrency_group: "dotorg-e2e-on-pull-requests-gate"
+  concurrency: 1
+
   agents:
     queue: nano
 
 - label: "Run pa11y tests"
   depends_on: deploy-to-e2e-environment
+
+  concurrency_group: "dotorg-e2e-on-pull-requests-gate"
+  concurrency: 1
+
   plugins:
     - docker-compose#v3.5.0:
         run: pa11y
