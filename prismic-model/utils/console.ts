@@ -1,17 +1,17 @@
-import chalk from 'chalk';
+import { styleText } from 'util';
 
 export function success(message: string): void {
-  console.log(chalk.greenBright(message));
+  console.log(styleText('greenBright', message));
 }
 
 export function warn(message: string): void {
-  console.log(chalk.yellow(message));
+  console.log(styleText('yellow', message));
 }
 
 export function error(message: string): void {
-  console.error(`!!! ${chalk.redBright(message)}`);
+  console.error(`!!! ${styleText('redBright', message)}`);
 }
 
 export function info(message: string): void {
-  console.info(chalk.blue(message));
+  console.info(styleText('blue', message));
 }
