@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
@@ -67,50 +66,51 @@ const ThemeAlternativeLabels: FunctionComponent<{
   );
 };
 
+const getBreadcrumbParent = ({
+  type,
+}: {
+  type: string;
+}): { text: string; url: string } | undefined => {
+  switch (type) {
+    case 'Genre':
+    case 'Concept':
+    case 'Meeting':
+    case 'Period':
+      return {
+        text: 'Types and techniques',
+        url: `/${prismicPageIds.collections}/types-and-techniques`,
+      };
+    case 'Subject':
+      return {
+        text: 'Subjects',
+        url: `/${prismicPageIds.collections}/subjects`,
+      };
+    case 'Person':
+    case 'Organisation':
+    case 'Agent':
+      return {
+        text: 'People and organisations',
+        url: `/${prismicPageIds.collections}/people-and-organisations`,
+      };
+    case 'Place':
+      return {
+        text: 'Places',
+        url: `/${prismicPageIds.collections}/places`,
+      };
+    default:
+      return undefined;
+  }
+};
+
 const ThemeHeader: FunctionComponent<{
   concept: Concept;
   hasImages?: boolean;
 }> = ({ concept, hasImages }) => {
   const { themePagesAllFields, thematicBrowsing } = useToggles();
   const { config } = useConceptPageContext();
-  const router = useRouter();
 
   const { narrowerThan, fieldsOfWork, people, relatedTo, broaderThan } =
     concept.relatedConcepts || {};
-
-  const getBreadcrumbParent = (): { text: string; url: string } | undefined => {
-    const baseUrl = `${router.basePath}/${prismicPageIds.collections}`;
-
-    switch (concept.type) {
-      case 'Genre':
-      case 'Concept':
-      case 'Meeting':
-      case 'Period':
-        return {
-          text: 'Types and techniques',
-          url: `${baseUrl}/types-and-techniques`,
-        };
-      case 'Subject':
-        return {
-          text: 'Subjects',
-          url: `${baseUrl}/subjects`,
-        };
-      case 'Person':
-      case 'Organisation':
-      case 'Agent':
-        return {
-          text: 'People and organisations',
-          url: `${baseUrl}/people-and-organisations`,
-        };
-      case 'Place':
-        return {
-          text: 'Places',
-          url: `${baseUrl}/places`,
-        };
-      default:
-        return undefined;
-    }
-  };
 
   return (
     <>
@@ -124,7 +124,9 @@ const ThemeHeader: FunctionComponent<{
                 items={
                   getBreadcrumbItems(
                     'collections',
-                    [getBreadcrumbParent()].filter(isNotUndefined)
+                    [getBreadcrumbParent({ type: concept.type })].filter(
+                      isNotUndefined
+                    )
                   ).items
                 }
               />
