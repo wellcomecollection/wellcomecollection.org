@@ -112,25 +112,25 @@ You can run both apps together with the following command:
 
 ### Deploying dev builds to staging
 
-You can deploy a local build directly to the staging environment using `deploy-dev.sh`. This **bypasses CI entirely** and deploys your local code to staging immediately.
+You can deploy a local build directly to the staging environment using `yarn deploy-dev`. This **bypasses CI entirely** and deploys your local code to staging immediately.
 
 ```bash
 # Deploy content webapp to staging
-./scripts/deploy-dev.sh content
+yarn deploy-dev content
 
 # Deploy identity webapp to staging
-./scripts/deploy-dev.sh identity
+yarn deploy-dev identity
 
 # Restore staging to its previous state
-./scripts/deploy-dev.sh restore content
-./scripts/deploy-dev.sh restore identity
+yarn deploy-dev restore content
+yarn deploy-dev restore identity
 ```
 
-**⚠️ Important:** This script overrides the `env.stage` tag in ECR, which affects all staging deployments. Before using:
+**⚠️ Important:** This command overrides the `env.stage` tag in ECR, which affects all staging deployments. Before using:
 
 1. **Coordinate with other experience team developers** to ensure no one else is testing on staging
-2. The script automatically backs up the previous image as `env.stage.pre-dev`
-3. **Always restore when finished** using `./scripts/deploy-dev.sh restore <app>` so CI deployments resume normally
+2. The tool automatically backs up the previous image as `env.stage.pre-dev`
+3. **Always restore when finished** using `yarn deploy-dev restore <app>` so CI deployments resume normally
 4. If CI deploys while your dev image is running, `env.stage` will be updated to the CI build (your backup remains available for reference)
 
 Prerequisites: You need `platform-developer` and `experience-developer` AWS profiles configured.

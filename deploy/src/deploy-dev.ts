@@ -31,12 +31,32 @@ import { logBanner, logError, logInfo, logSuccess } from './logger';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, '../..');
 
+/**
+ * Load AWS credential providers for the required profiles.
+ *
+ * Both profiles must be configured in ~/.aws/config:
+ * - platform-developer: For public ECR access (base images)
+ * - experience-developer: For private ECR and ECS operations
+ */
 function getCredentials() {
   const platformCreds = fromIni({ profile: 'platform-developer' });
   const experienceCreds = fromIni({ profile: 'experience-developer' });
   return { platformCreds, experienceCreds };
 }
 
+/**
+ * Build and deploy a dev image to the staging environment.
+ *
+ * Workflow:
+ * 1. Authenticate with ECR registries
+ * 2. Build Docker image with 'dev' tag
+ * 3. Push image to private ECR
+ * 4. Backup current staging image
+ * 5. Retag dev image as staging image
+ * 6. Trigger ECS redeployment and wait for stabilization
+ *
+ * @param app - Application to deploy (content or identity)
+ */
 async function deploy(app: AppName) {
   const { repo, service } = getAppConfig(app);
   const imageUri = `${ECR_REGISTRY}/${repo}:${DEV_TAG}`;
@@ -76,6 +96,21 @@ async function deploy(app: AppName) {
   logBanner(`Successfully deployed ${app} to staging`, 'green');
 }
 
+/**
+ * Restore an app's staging image from its backup snapshot.
+ *
+ * Restores the ENV_TAG image from the BACKUP_TAG snapshot in ECR. The
+ * specific image restored depends on how BACKUP_TAG is managed (for example,
+ * whether it is updated on each dev deployment or kept as an original
+ * pre-dev backup). Requires a backup tag to exist.
+ *
+ * Workflow:
+ * 1. Find the backup image tagged with BACKUP_TAG (e.g. env.stage.pre-dev)
+ * 2. Retag it to ENV_TAG (e.g. env.stage)
+ * 3. Trigger ECS redeployment and wait for stabilization
+ *
+ * @param app - Application to restore (content or identity)
+ */
 async function restore(app: AppName) {
   const { repo, service } = getAppConfig(app);
 

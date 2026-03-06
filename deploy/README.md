@@ -13,6 +13,22 @@ You need the following AWS profiles configured in `~/.aws/config`:
 
 You also need Docker running locally.
 
+## Error Handling
+
+The tool validates operations and provides actionable error messages:
+
+- **AWS credential/permission errors** propagate with full details (not silently ignored)
+- **Network failures** are reported with context about which operation failed
+- **Docker daemon errors** show Docker's error output (e.g., "Cannot connect to the Docker daemon")
+- **Missing images** are clearly distinguished from infrastructure failures
+- **Repository configuration errors** surface when repository names in config.ts don't match AWS
+
+Common issues:
+- If Docker login fails, ensure Docker is running and your AWS credentials are valid
+- If image not found, check the tag exists: `aws ecr describe-images --repository-name <repo>`
+- If repository not found, verify repository names in `deploy/src/config.ts` match ECR
+- If deployment times out, check ECS console for task health issues
+
 ## Usage
 
 From the repo root:
@@ -54,3 +70,5 @@ yarn deploy-dev content
 1. Finds the `env.stage.pre-dev` backup image
 2. Retags it back to `env.stage`
 3. Forces an ECS redeployment and waits for the service to stabilise
+
+**Note:** Restore will fail if no backup exists (i.e., you haven't deployed a dev build yet, or the backup tag was manually deleted). The tool always creates a backup before deploying, so you can safely restore after any dev deployment.
