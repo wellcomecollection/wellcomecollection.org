@@ -65,7 +65,7 @@ resource "aws_cloudfront_distribution" "wc_org" {
     cached_methods         = local.stateless_methods
     viewer_protocol_policy = "redirect-to-https"
 
-    cache_policy_id            = var.cache_policies["weco-apps"]
+    cache_policy_id            = var.cache_policies[local.cache_policy_name]
     origin_request_policy_id   = var.request_policies["host-query-and-toggles"]
     response_headers_policy_id = var.response_policies["weco-security"]
 
@@ -87,7 +87,7 @@ resource "aws_cloudfront_distribution" "wc_org" {
     cached_methods         = local.stateless_methods
     viewer_protocol_policy = "redirect-to-https"
 
-    cache_policy_id            = var.cache_policies["weco-apps"]
+    cache_policy_id            = var.cache_policies[local.cache_policy_name]
     origin_request_policy_id   = var.request_policies["host-query-and-toggles"]
     response_headers_policy_id = var.response_policies["weco-security"]
 
@@ -132,7 +132,7 @@ resource "aws_cloudfront_distribution" "wc_org" {
     cached_methods         = local.stateless_methods
     viewer_protocol_policy = "redirect-to-https"
 
-    cache_policy_id            = var.cache_policies["weco-apps"]
+    cache_policy_id            = var.cache_policies[local.cache_policy_name]
     origin_request_policy_id   = var.request_policies["host-query-and-toggles"]
     response_headers_policy_id = var.response_policies["weco-security"]
 
@@ -154,7 +154,7 @@ resource "aws_cloudfront_distribution" "wc_org" {
     cached_methods         = local.stateless_methods
     viewer_protocol_policy = "redirect-to-https"
 
-    cache_policy_id            = var.cache_policies["weco-apps"]
+    cache_policy_id            = var.cache_policies[local.cache_policy_name]
     origin_request_policy_id   = var.request_policies["host-query-and-toggles"]
     response_headers_policy_id = var.response_policies["weco-security"]
 
@@ -176,7 +176,7 @@ resource "aws_cloudfront_distribution" "wc_org" {
     cached_methods         = local.stateless_methods
     viewer_protocol_policy = "redirect-to-https"
 
-    cache_policy_id            = var.cache_policies["weco-apps"]
+    cache_policy_id            = var.cache_policies[local.cache_policy_name]
     origin_request_policy_id   = var.request_policies["host-query-and-toggles"]
     response_headers_policy_id = var.response_policies["weco-security"]
 
@@ -200,7 +200,8 @@ resource "aws_cloudfront_distribution" "wc_org" {
     viewer_protocol_policy = "redirect-to-https"
 
     # Props on pages are liable to change and so it's safest to respect all query params here
-    cache_policy_id            = var.cache_policies["weco-apps-all-params"]
+    # Use e2e-specific policy for test environment to ensure fresh data
+    cache_policy_id            = var.namespace == "e2e" ? var.cache_policies[local.cache_policy_name] : var.cache_policies["weco-apps-all-params"]
     origin_request_policy_id   = var.request_policies["host-query-and-toggles"]
     response_headers_policy_id = var.response_policies["weco-security"]
   }
@@ -236,7 +237,7 @@ resource "aws_cloudfront_distribution" "wc_org" {
       }
     }
 
-    cache_policy_id            = var.cache_policies["weco-apps"]
+    cache_policy_id            = var.cache_policies[local.cache_policy_name]
     origin_request_policy_id   = var.request_policies["host-query-and-toggles"]
     response_headers_policy_id = var.response_policies["weco-security"]
   }
@@ -249,7 +250,7 @@ resource "aws_cloudfront_distribution" "wc_org" {
     cached_methods         = local.stateless_methods
     viewer_protocol_policy = "redirect-to-https"
 
-    cache_policy_id          = var.cache_policies["weco-apps"]
+    cache_policy_id          = var.cache_policies[local.cache_policy_name]
     origin_request_policy_id = var.request_policies["host-query-and-toggles"]
 
     // We can't apply the security headers policy to Slice Machine routes, as
