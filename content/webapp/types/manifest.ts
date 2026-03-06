@@ -1,4 +1,4 @@
-import {
+import type {
   ChoiceBody,
   CollectionItems,
   ContentResource,
@@ -11,7 +11,14 @@ import {
   SpecificationBehaviors,
 } from '@iiif/presentation-3';
 
-import { TransformedAuthService } from '@weco/content/utils/iiif/v3';
+// Augment IIIF Service type to include metadata property
+// This is used for the access control hints service, which has metadata that we want to use to determine the access status of the manifest.
+// See: https://github.com/wellcomecollection/platform/issues/5630
+export type ServiceWithMetadata = Service & {
+  metadata?: MetadataItem[];
+};
+
+import type { TransformedAuthService } from '@weco/content/utils/iiif/v3';
 
 export type ThumbnailImage = { url: string; width: number };
 

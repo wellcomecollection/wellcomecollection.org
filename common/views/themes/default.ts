@@ -103,3 +103,7 @@ export const createThemeValues = (toggles: Toggles) => {
 // Production code should use ThemeProvider with createThemeValues(toggles) for toggle-aware themes
 export default themeValues;
 export { GlobalStyle, cls };
+
+// Export ThemeInterface for styled-components type augmentation
+// Used by workspace styled.d.ts files to augment DefaultTheme
+export type ThemeInterface = typeof themeValues;

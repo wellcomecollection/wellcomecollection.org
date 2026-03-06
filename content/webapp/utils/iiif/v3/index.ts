@@ -29,6 +29,7 @@ import {
   CustomSpecificationBehaviors,
   DownloadOption,
   ItemsStatus,
+  ServiceWithMetadata,
   TransformedCanvas,
 } from '@weco/content/types/manifest';
 import { IIIFItemProps } from '@weco/content/views/pages/works/work/IIIFItem';
@@ -297,6 +298,40 @@ export function getIIIFMetadata(
   return (manifest.metadata || []).find(
     data => getDisplayLabel(data.label) === label
   );
+}
+const allowedManifestAccessRequirements = [
+  'Restricted files',
+  'Open with advisory',
+  'Open',
+] as const;
+type ManifestAccessRequirement =
+  (typeof allowedManifestAccessRequirements)[number];
+// See: https://github.com/wellcomecollection/platform/issues/5630
+// for background to this function
+// If no access-control-hints service is found, returns ['Open'].
+export function getManifestAccessRequirements(
+  manifest: Manifest | Collection
+): ManifestAccessRequirement[] {
+  const services = manifest.services || [];
+
+  const accessControlHints = services.find(
+    service =>
+      service.profile ===
+      'http://wellcomelibrary.org/ld/iiif-ext/access-control-hints'
+  ) as ServiceWithMetadata | undefined;
+
+  if (accessControlHints?.metadata) {
+    const labels = accessControlHints.metadata
+      .map(item => getLabelString(item.label))
+      .filter((label): label is ManifestAccessRequirement =>
+        allowedManifestAccessRequirements.includes(
+          label as ManifestAccessRequirement
+        )
+      );
+    return labels.length > 0 ? labels : ['Open'];
+  }
+
+  return ['Open'];
 }
 
 export function getIIIFPresentationCredit(
