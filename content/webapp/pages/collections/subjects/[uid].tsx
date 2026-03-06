@@ -264,7 +264,11 @@ export const getServerSideProps: ServerSidePropsOrAppError<
           workTypes:
             ('aggregations' in worksAboutResponseByLabel &&
               worksAboutResponseByLabel.aggregations?.workType?.buckets.map(
-                bucket => ({ label: bucket.data.label, count: bucket.count })
+                bucket => ({
+                  id: bucket.data.id,
+                  label: bucket.data.label,
+                  count: bucket.count,
+                })
               )) ||
             [],
         },
