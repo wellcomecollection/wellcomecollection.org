@@ -40,7 +40,11 @@ const PageGrid = styled(Grid)`
   row-gap: 0;
 `;
 
-const Title = styled.h2.attrs({ className: font('sans-bold', 2) })<{
+const Title = styled(Space).attrs({
+  className: font('sans-bold', 2),
+  as: 'h2',
+  $v: { size: 'md', properties: ['margin-bottom'] },
+})<{
   $hasDarkBackground?: boolean;
 }>`
   color: ${props =>
@@ -205,9 +209,7 @@ const WellcomeSubThemePage: NextPage<Props> & {
                 title={`New works in ${lowerCasePageTitle}`}
                 id="new-online"
               >
-                <Space $v={{ size: 'lg', properties: ['margin-top'] }}>
-                  <WorkCards works={newOnlineWorks} columns={3} />
-                </Space>
+                <WorkCards works={newOnlineWorks} columns={3} />
               </SectionContainer>
             )}
 
