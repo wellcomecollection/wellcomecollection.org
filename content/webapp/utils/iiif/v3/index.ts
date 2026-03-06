@@ -342,20 +342,6 @@ export function getFirstCollectionManifestLocation(
   }
 }
 
-function isImageRestricted(canvas: Canvas): boolean {
-  const imageService = getImageServiceFromCanvas(canvas);
-  const v2Services = imageService?.service as BodyService2;
-  const imageAuthProbeService = getImageAuthProbeService(v2Services || []);
-  return (
-    imageAuthProbeService?.service.some(
-      s =>
-        s?.id ===
-          'https://iiif.wellcomecollection.org/auth/v2/access/restrictedlogin' ||
-        false
-    ) || false
-  );
-}
-
 export function isItemRestricted(painting): boolean {
   if (isChoiceBody(painting)) return false;
   if (!painting.service) return false;
@@ -412,21 +398,26 @@ type checkModalParams = {
 
 export function checkModalRequired(params: checkModalParams): boolean {
   const { userIsStaffWithRestricted, auth } = params;
-  const authServices = getAuthServices({ auth });
-  if (authServices?.active) {
-    return true;
-  } else if (authServices?.external) {
-    if (
-      auth?.accessRequirements.includes('Open') ||
-      userIsStaffWithRestricted
-    ) {
-      return false;
-    } else {
-      return true;
-    }
-  } else {
+
+  if (!auth?.accessRequirements?.length) {
     return false;
   }
+
+  // Open with advisory always requires modal for clickthrough
+  if (auth.accessRequirements.includes('Open with advisory')) {
+    return true;
+  }
+
+  // Restricted files require modal unless user is staff, except if 'Open' is also present
+  if (
+    auth.accessRequirements.includes('Restricted files') &&
+    !auth.accessRequirements.includes('Open')
+  ) {
+    return !userIsStaffWithRestricted;
+  }
+
+  // Open content doesn't need modal
+  return false;
 }
 
 export function getAnnotationsOfMotivation(
@@ -500,7 +491,6 @@ export function transformCanvas(canvas: Canvas): TransformedCanvas {
 
   const imageService = getImageServiceFromCanvas(canvas);
   const imageServiceId = getImageServiceId(imageService);
-  const hasRestrictedImage = isImageRestricted(canvas);
 
   return {
     id,
@@ -508,7 +498,6 @@ export function transformCanvas(canvas: Canvas): TransformedCanvas {
     width,
     height,
     imageServiceId,
-    hasRestrictedImage,
     label,
     textServiceId,
     thumbnailImage,
@@ -925,3 +914,13 @@ export const getVideoAudioDownloadOptions = (canvas?: TransformedCanvas) => {
   }
   return finalOptions.flat().filter(Boolean).filter(isNotUndefined) || [];
 };
+
+// Returns true if any item in painting,
+// original, or supplementing arrays is restricted.
+export function hasRestrictedItem(canvas: TransformedCanvas): boolean {
+  return (
+    (canvas.painting?.some(item => isItemRestricted(item)) ?? false) ||
+    (canvas.original?.some(original => isItemRestricted(original)) ?? false) ||
+    (canvas.supplementing?.some(supp => isItemRestricted(supp)) ?? false)
+  );
+}

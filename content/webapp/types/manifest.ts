@@ -42,7 +42,6 @@ export type TransformedCanvas = {
   width: number | undefined;
   height: number | undefined;
   imageServiceId: string | undefined;
-  hasRestrictedImage: boolean;
   label: string | undefined;
   textServiceId: string | undefined;
   thumbnailImage: ThumbnailImage | undefined;
@@ -85,11 +84,11 @@ export type TransformedManifest = {
   collectionManifestsCount: number;
   iiifCredit?: string;
   isCollectionManifest: boolean;
-  parentManifestUrl: string | undefined;
-  searchService: Service | undefined;
+  parentManifestUrl?: string;
+  searchService?: Service;
   structures: Manifest['structures'];
   manifests: CollectionItems[];
-  placeholderId: string | undefined;
+  placeholderId?: string;
   rendering: ContentResource[];
   auth: Auth;
 };
