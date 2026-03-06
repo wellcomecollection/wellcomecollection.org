@@ -22,9 +22,14 @@ import SourcedDescription from '@weco/content/views/components/SourcedDescriptio
 
 import RelatedConceptsGroup from './concept.RelatedConceptsGroup';
 
-const ConceptHero = styled(Space).attrs({
-  $v: { size: 'sm', properties: ['padding-top'] },
-})`
+const ConceptHero = styled(Space).attrs<{ $hasBreadcrumbs: boolean }>(
+  props => ({
+    $v: {
+      size: props.$hasBreadcrumbs ? 'sm' : 'xl',
+      properties: ['padding-top'],
+    },
+  })
+)`
   background-color: ${props => props.theme.color('accent.lightGreen')};
   padding-bottom: ${props => props.theme.gutter.xlarge};
 `;
@@ -112,24 +117,22 @@ const ThemeHeader: FunctionComponent<{
   const { narrowerThan, fieldsOfWork, people, relatedTo, broaderThan } =
     concept.relatedConcepts || {};
 
+  const breadcrumbs = thematicBrowsing
+    ? getBreadcrumbItems(
+        'collections',
+        [getBreadcrumbParent({ type: concept.type })].filter(isNotUndefined)
+      )
+    : { items: [] };
+
   return (
     <>
-      <ConceptHero>
+      <ConceptHero $hasBreadcrumbs={breadcrumbs.items.length > 0}>
         <Container>
           {thematicBrowsing && (
             <Space
               $v={{ size: 'sm', properties: ['margin-top', 'margin-bottom'] }}
             >
-              <Breadcrumb
-                items={
-                  getBreadcrumbItems(
-                    'collections',
-                    [getBreadcrumbParent({ type: concept.type })].filter(
-                      isNotUndefined
-                    )
-                  ).items
-                }
-              />
+              <Breadcrumb items={breadcrumbs.items} />
             </Space>
           )}
 
@@ -146,13 +149,16 @@ const ThemeHeader: FunctionComponent<{
             (config.sourcedDescription.display ||
               concept.description.sourceLabel === 'weco-authority') && (
               <Layout gridSizes={gridSize8(false)}>
-                <div className={`${font('sans', 1)} body-text`}>
+                <Space
+                  className={`${font('sans', 1)} body-text`}
+                  $v={{ size: 'sm', properties: ['margin-bottom'] }}
+                >
                   <SourcedDescription
                     description={capitalize(concept.description.text)}
                     source={concept.description.sourceLabel}
                     href={concept.description.sourceUrl}
                   />
-                </div>
+                </Space>
               </Layout>
             )}
 
