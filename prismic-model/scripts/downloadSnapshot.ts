@@ -7,8 +7,7 @@
 import fs from 'fs';
 
 import { createClient as createPrismicClient } from '@weco/common/services/prismic/fetch';
-
-import { error, success } from './console';
+import { error, success } from '@weco/prismic-model/utils/console';
 
 /** Returns a list of all the Prismic documents in a given snapshot directory. */
 /* eslint-disable @typescript-eslint/no-explicit-any */

@@ -11,3 +11,7 @@ export function warn(message: string): void {
 export function error(message: string): void {
   console.error(`!!! ${chalk.redBright(message)}`);
 }
+
+export function info(message: string): void {
+  console.info(chalk.blue(message));
+}

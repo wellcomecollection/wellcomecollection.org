@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import yargs from 'yargs';
 
 import 'dotenv/config';
+import { error } from '@weco/prismic-model/utils/console';
 
 const { type } = yargs(process.argv.slice(2))
   .usage('Usage: $0 --type [customTypeId]')
@@ -19,11 +20,11 @@ async function init() {
   const password = process.env.PRISMIC_PASSWORD;
 
   if (!repository) {
-    console.error('no repository key found');
+    error('no repository key found');
     process.exit(1);
   }
   if (!apiKey) {
-    console.error('no api key found');
+    error('no api key found');
     process.exit(1);
   }
 
@@ -40,17 +41,17 @@ async function init() {
 
   fs.writeFile('migration.log', '', err => {
     if (err) {
-      console.error(err);
+      error(`${err}`);
     }
   });
 
   async function migrateDoc(doc, token) {
     if (!repository) {
-      console.error('no repository key found');
+      error('no repository key found');
       process.exit(1);
     }
     if (!apiKey) {
-      console.error('no api key found');
+      error('no api key found');
       process.exit(1);
     }
 
@@ -84,7 +85,7 @@ async function init() {
         // probably rate limited – make sure we log the id so we can manually migrate later
         fs.appendFile('migration.log', `${doc.id}\n\n`, err => {
           if (err) {
-            console.error(err);
+            error(`${err}`);
           }
         });
       }
@@ -92,11 +93,11 @@ async function init() {
       const { message } = error;
       fs.appendFile('migration.log', `${message}\n\n`, err => {
         if (err) {
-          console.error(err);
+          error(`${err}`);
         }
       });
 
-      console.error(message);
+      error(message);
     }
   }
 

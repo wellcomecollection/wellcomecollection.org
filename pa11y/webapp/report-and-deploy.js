@@ -1,7 +1,7 @@
 const AWS = require('aws-sdk');
-const chalk = require('chalk');
 const events = require('events');
 const pa11y = require('pa11y');
+const { styleText } = require('util');
 const yargs = require('yargs');
 
 const s3 = new AWS.S3({ apiVersion: '2006-03-01' });
@@ -110,7 +110,9 @@ try {
           .flat();
 
         if (resultsLog.length > 0) {
-          console.error(`!!! ${chalk.redBright('Fix these before merging')}`);
+          console.error(
+            `!!! ${styleText('redBright', 'Fix these before merging')}`
+          );
           console.log(...resultsLog);
 
           const hasErrors = results.find(result =>
@@ -119,11 +121,11 @@ try {
 
           process.exit(hasErrors ? 1 : 0);
         } else {
-          console.log(chalk.greenBright('Report done, no errors found'));
+          console.log(styleText('greenBright', 'Report done, no errors found'));
           process.exit(0);
         }
       } else {
-        console.info(chalk.greenBright('Reporting done!'));
+        console.info(styleText('greenBright', 'Reporting done!'));
 
         const params = {
           Body: JSON.stringify({ results }),
@@ -135,11 +137,15 @@ try {
 
         s3.putObject(params, function (err) {
           if (err) {
-            console.error(chalk.redBright('Error uploading report.json'));
+            console.error(
+              styleText('redBright', 'Error uploading report.json')
+            );
             console.log(err, err.stack);
             process.exit(1);
           } else {
-            console.log('Finished uploading report.json');
+            console.log(
+              styleText('greenBright', 'Finished uploading report.json')
+            );
 
             cloudfront.createInvalidation(
               {
@@ -151,7 +157,13 @@ try {
               },
               function (err) {
                 if (err) console.log(err, err.stack);
-                else console.log('Flushed CloudFront cache for report.json');
+                else
+                  console.log(
+                    styleText(
+                      'greenBright',
+                      'Flushed CloudFront cache for report.json'
+                    )
+                  );
               }
             );
           }
