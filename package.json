@@ -20,6 +20,7 @@
     "test:all:unit": "yarn test:common && yarn test:content && yarn test:identity",
     "e2e-stage": "yarn test:playwright && yarn test:playwright:mobile",
     "config-local-apis": "./scripts/configure-local-apis.sh",
+    "deploy-dev": "yarn workspace @weco/deploy deploy-dev",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "lint:css": "stylelint \"**/*.{js,ts,tsx}\"",
     "tsc": "yarn workspaces run tsc --noEmit --skipLibCheck"
@@ -102,6 +103,7 @@
     "cardigan",
     "common",
     "content/webapp",
+    "deploy",
     "identity/webapp",
     "prismic-model",
     "toggles/webapp"
