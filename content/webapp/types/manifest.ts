@@ -11,6 +11,14 @@ import type {
   SpecificationBehaviors,
 } from '@iiif/presentation-3';
 
+export const allowedManifestAccessRequirements = [
+  'Restricted files',
+  'Open with advisory',
+  'Open',
+] as const;
+export type ManifestAccessRequirement =
+  (typeof allowedManifestAccessRequirements)[number];
+
 // Augment IIIF Service type to include metadata property
 // This is used for the access control hints service, which has metadata that we want to use to determine the access status of the manifest.
 // See: https://github.com/wellcomecollection/platform/issues/5630
@@ -34,7 +42,6 @@ export type TransformedCanvas = {
   width: number | undefined;
   height: number | undefined;
   imageServiceId: string | undefined;
-  hasRestrictedImage: boolean;
   label: string | undefined;
   textServiceId: string | undefined;
   thumbnailImage: ThumbnailImage | undefined;
@@ -64,7 +71,7 @@ export type Auth = {
   externalAccessService: TransformedAuthService | undefined;
   activeAccessService: TransformedAuthService | undefined;
   tokenService: TransformedAuthService | undefined;
-  isTotallyRestricted: boolean;
+  accessRequirements: ManifestAccessRequirement[];
 };
 
 export type TransformedManifest = {
@@ -72,18 +79,16 @@ export type TransformedManifest = {
   itemsStatus: ItemsStatus;
   title: string;
   id: string;
-  services: Service[];
   canvases: TransformedCanvas[];
   canvasCount: number;
   collectionManifestsCount: number;
   iiifCredit?: string;
-  isAnyImageOpen: boolean;
   isCollectionManifest: boolean;
-  parentManifestUrl: string | undefined;
-  searchService: Service | undefined;
+  parentManifestUrl?: string;
+  searchService?: Service;
   structures: Manifest['structures'];
   manifests: CollectionItems[];
-  placeholderId: string | undefined;
+  placeholderId?: string;
   rendering: ContentResource[];
   auth: Auth;
 };

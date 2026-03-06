@@ -24,11 +24,13 @@ import {
 import { pluralize } from '@weco/common/utils/grammar';
 import { isNotUndefined, isString } from '@weco/common/utils/type-guards';
 import {
+  allowedManifestAccessRequirements,
   Auth,
   CustomContentResource,
   CustomSpecificationBehaviors,
   DownloadOption,
   ItemsStatus,
+  ManifestAccessRequirement,
   ServiceWithMetadata,
   TransformedCanvas,
 } from '@weco/content/types/manifest';
@@ -278,19 +280,6 @@ export function getImageAuthProbeService(
       : undefined;
 }
 
-// We don't know at the top-level of a manifest whether any of the canvases contain images that are open access.
-// The top-level only holds information about whether the item contains _any_ images with an authService.
-// N.B. this will be changed in the future: https://github.com/wellcomecollection/platform/issues/5630
-// Individual images hold information about their own authService (if it has one).
-// So we check if any canvas _doesn't_ have an authService, and treat the whole item as open access if that's the case.
-// This allows us to determine whether or not to show the viewer at all.
-// N.B. the individual items within the viewer won't display if they are restricted.
-export function checkIsAnyImageOpen(
-  transformedCanvases: TransformedCanvas[]
-): boolean {
-  return transformedCanvases.some(canvas => !canvas.hasRestrictedImage);
-}
-
 export function getIIIFMetadata(
   manifest: Manifest | Collection,
   label: string
@@ -299,13 +288,6 @@ export function getIIIFMetadata(
     data => getDisplayLabel(data.label) === label
   );
 }
-const allowedManifestAccessRequirements = [
-  'Restricted files',
-  'Open with advisory',
-  'Open',
-] as const;
-type ManifestAccessRequirement =
-  (typeof allowedManifestAccessRequirements)[number];
 // See: https://github.com/wellcomecollection/platform/issues/5630
 // for background to this function
 // If no access-control-hints service is found, returns ['Open'].
@@ -360,20 +342,6 @@ export function getFirstCollectionManifestLocation(
   }
 }
 
-function isImageRestricted(canvas: Canvas): boolean {
-  const imageService = getImageServiceFromCanvas(canvas);
-  const v2Services = imageService?.service as BodyService2;
-  const imageAuthProbeService = getImageAuthProbeService(v2Services || []);
-  return (
-    imageAuthProbeService?.service.some(
-      s =>
-        s?.id ===
-          'https://iiif.wellcomecollection.org/auth/v2/access/restrictedlogin' ||
-        false
-    ) || false
-  );
-}
-
 export function isItemRestricted(painting): boolean {
   if (isChoiceBody(painting)) return false;
   if (!painting.service) return false;
@@ -426,30 +394,30 @@ export function getIframeTokenSrc({
 type checkModalParams = {
   userIsStaffWithRestricted: boolean;
   auth?: Auth;
-  isAnyImageOpen?: boolean;
 };
 
 export function checkModalRequired(params: checkModalParams): boolean {
-  const { userIsStaffWithRestricted, auth, isAnyImageOpen } = params;
-  const authServices = getAuthServices({ auth });
-  if (authServices?.active) {
-    return true;
-  } else if (authServices?.external) {
-    if (isAnyImageOpen || userIsStaffWithRestricted) {
-      return false;
-    } else {
-      return true;
-    }
-  } else {
+  const { userIsStaffWithRestricted, auth } = params;
+
+  if (!auth?.accessRequirements?.length) {
     return false;
   }
-}
 
-export function checkIsTotallyRestricted(
-  externalAuthService: AuthAccessService2External | undefined,
-  isAnyImageOpen: boolean
-): boolean {
-  return Boolean(externalAuthService && !isAnyImageOpen);
+  // Open with advisory always requires modal for clickthrough
+  if (auth.accessRequirements.includes('Open with advisory')) {
+    return true;
+  }
+
+  // Restricted files require modal unless user is staff, except if 'Open' is also present
+  if (
+    auth.accessRequirements.includes('Restricted files') &&
+    !auth.accessRequirements.includes('Open')
+  ) {
+    return !userIsStaffWithRestricted;
+  }
+
+  // Open content doesn't need modal
+  return false;
 }
 
 export function getAnnotationsOfMotivation(
@@ -523,7 +491,6 @@ export function transformCanvas(canvas: Canvas): TransformedCanvas {
 
   const imageService = getImageServiceFromCanvas(canvas);
   const imageServiceId = getImageServiceId(imageService);
-  const hasRestrictedImage = isImageRestricted(canvas);
 
   return {
     id,
@@ -531,7 +498,6 @@ export function transformCanvas(canvas: Canvas): TransformedCanvas {
     width,
     height,
     imageServiceId,
-    hasRestrictedImage,
     label,
     textServiceId,
     thumbnailImage,
@@ -948,3 +914,13 @@ export const getVideoAudioDownloadOptions = (canvas?: TransformedCanvas) => {
   }
   return finalOptions.flat().filter(Boolean).filter(isNotUndefined) || [];
 };
+
+// Returns true if any item in painting,
+// original, or supplementing arrays is restricted.
+export function hasRestrictedItem(canvas: TransformedCanvas): boolean {
+  return (
+    (canvas.painting?.some(item => isItemRestricted(item)) ?? false) ||
+    (canvas.original?.some(original => isItemRestricted(original)) ?? false) ||
+    (canvas.supplementing?.some(supp => isItemRestricted(supp)) ?? false)
+  );
+}

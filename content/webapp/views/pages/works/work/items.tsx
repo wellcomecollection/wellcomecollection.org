@@ -22,7 +22,6 @@ import {
   fromCompressedManifest,
 } from '@weco/content/types/compressed-manifest';
 import { ParentManifest } from '@weco/content/types/item-viewer';
-import { Auth } from '@weco/content/types/manifest';
 import {
   checkModalRequired,
   getAuthServices,
@@ -49,10 +48,6 @@ function reloadAuthIframe(document: Document, id: string) {
   // assigning the iframe src to itself reloads the iframe and refires the window.message event
   // eslint-disable-next-line no-self-assign
   if (authMessageIframe) authMessageIframe.src = authMessageIframe.src;
-}
-
-function getIsTotallyRestricted({ auth }: { auth: Auth | undefined }) {
-  return auth?.isTotallyRestricted;
 }
 
 export type Props = {
@@ -102,14 +97,13 @@ const WorkItemPage: NextPage<Props> = ({
   const [origin, setOrigin] = useState<string>();
   const [showModal, setShowModal] = useState(false);
   const [showViewer, setShowViewer] = useState(true);
-  const { title, isAnyImageOpen, canvases, placeholderId, auth } = {
+  const { title, canvases, placeholderId, auth } = {
     ...transformedManifest,
   };
 
   const needsModal = checkModalRequired({
     userIsStaffWithRestricted,
     auth,
-    isAnyImageOpen,
   });
   const [accessToken, setAccessToken] = useState();
   const [searchResults, setSearchResults] = useState(serverSearchResults);
@@ -125,7 +119,12 @@ const WorkItemPage: NextPage<Props> = ({
 
   const hasImage = hasItemType(canvases, 'Image');
   const hasPdf = hasOriginalPdf(canvases);
-  const isTotallyRestricted = getIsTotallyRestricted({ auth });
+  const isTotallyRestricted =
+    auth?.accessRequirements &&
+    auth.accessRequirements.length > 0 &&
+    auth.accessRequirements.every(
+      requirement => requirement === 'Restricted files'
+    );
   const shouldUseAuthMessageIframe = auth?.tokenService && origin;
   // showViewer is true by default, so the noScriptViewer is available without javascript
   // if javascript is available we set it to false and then determine whether the clickthrough modal is required
@@ -260,28 +259,29 @@ const WorkItemPage: NextPage<Props> = ({
               }}
             />
           )}
-          {isAnyImageOpen && origin && (
-            <Space
-              style={{ display: 'inline-flex' }}
-              $h={{ size: 'sm', properties: ['margin-right'] }}
-              $v={{ size: 'sm', properties: ['margin-top'] }}
-            >
-              <Button
-                variant="ButtonSolid"
-                dataGtmProps={{ trigger: 'show_the_content' }}
-                text="Show the content"
-                clickHandler={() => {
-                  const authServiceWindow = window.open(
-                    `${modalContent?.id || ''}?origin=${origin}`
-                  );
-                  authServiceWindow &&
-                    authServiceWindow.addEventListener('unload', function () {
-                      reloadAuthIframe(document, iframeId);
-                    });
-                }}
-              />
-            </Space>
-          )}
+          {auth?.accessRequirements.includes('Open with advisory') &&
+            origin && (
+              <Space
+                style={{ display: 'inline-flex' }}
+                $h={{ size: 'sm', properties: ['margin-right'] }}
+                $v={{ size: 'sm', properties: ['margin-top'] }}
+              >
+                <Button
+                  variant="ButtonSolid"
+                  dataGtmProps={{ trigger: 'show_the_content' }}
+                  text="Show the content"
+                  clickHandler={() => {
+                    const authServiceWindow = window.open(
+                      `${modalContent?.id || ''}?origin=${origin}`
+                    );
+                    authServiceWindow &&
+                      authServiceWindow.addEventListener('unload', function () {
+                        reloadAuthIframe(document, iframeId);
+                      });
+                  }}
+                />
+              </Space>
+            )}
           <WorkLink id={workId}>Take me back to the item page</WorkLink>
         </div>
       </Modal>

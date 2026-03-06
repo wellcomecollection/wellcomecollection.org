@@ -117,12 +117,19 @@ const itemWithOnlyOpenAccess = async (
   await context.addCookies(requiredCookies);
   await gotoWithoutCache(`${baseUrl}/works/w8t2vh3w/items`, page);
 };
-const itemWithOnlyRestrictedAccess = async (
+const itemWithOnlyRestrictedAccessImages = async (
   context: BrowserContext,
   page: Page
 ): Promise<void> => {
   await context.addCookies(requiredCookies);
   await gotoWithoutCache(`${baseUrl}/works/a24nhdcv/items`, page);
+};
+const itemWithOnlyRestrictedAccessNonImages = async (
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  await context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works/my6bzerr/items`, page);
 };
 const itemWithRestrictedAndOpenAccess = async (
   context: BrowserContext,
@@ -348,7 +355,8 @@ export {
   itemWithAltText,
   itemWithNonRestrictedAndOpenAccess,
   itemWithOnlyOpenAccess,
-  itemWithOnlyRestrictedAccess,
+  itemWithOnlyRestrictedAccessImages,
+  itemWithOnlyRestrictedAccessNonImages,
   itemWithReferenceNumber,
   itemWithRestrictedAndNonRestrictedAccess,
   itemWithRestrictedAndOpenAccess,
