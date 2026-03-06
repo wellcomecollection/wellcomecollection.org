@@ -97,14 +97,16 @@ async function deploy(app: AppName) {
 }
 
 /**
- * Restore an app to its pre-dev deployment state.
+ * Restore an app's staging image from its backup snapshot.
  *
- * Reverts the staging environment to the image that was running before
- * the most recent dev deployment. Requires a backup tag to exist.
+ * Restores the ENV_TAG image from the BACKUP_TAG snapshot in ECR. The
+ * specific image restored depends on how BACKUP_TAG is managed (for example,
+ * whether it is updated on each dev deployment or kept as an original
+ * pre-dev backup). Requires a backup tag to exist.
  *
  * Workflow:
- * 1. Find the backup image (env.stage.pre-dev tag)
- * 2. Retag it back to env.stage
+ * 1. Find the backup image tagged with BACKUP_TAG (e.g. env.stage.pre-dev)
+ * 2. Retag it to ENV_TAG (e.g. env.stage)
  * 3. Trigger ECS redeployment and wait for stabilization
  *
  * @param app - Application to restore (content or identity)

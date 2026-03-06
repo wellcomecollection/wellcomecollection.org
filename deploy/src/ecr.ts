@@ -153,7 +153,7 @@ export async function getRefTagForImage(
  *
  * Copies the ENV_TAG image to BACKUP_TAG so it can be restored later.
  * If no ENV_TAG exists (first deployment), skips backup gracefully.
- * If the backup tag already exists on this image, reports success without error.
+ * If the backup tag already exists (and cannot be overwritten), reports success without error.
  *
  * @param client - Authenticated ECR client
  * @param repo - ECR repository name
@@ -181,7 +181,9 @@ export async function backupCurrentTag(
   } catch (error) {
     // Only ignore if the tag already exists; rethrow auth/network/permission errors
     if (error instanceof ImageAlreadyExistsException) {
-      logSuccess(`Image already tagged as ${BACKUP_TAG}`);
+      logSuccess(
+        `Backup tag ${BACKUP_TAG} already exists; leaving existing backup in place`
+      );
     } else {
       throw error;
     }
