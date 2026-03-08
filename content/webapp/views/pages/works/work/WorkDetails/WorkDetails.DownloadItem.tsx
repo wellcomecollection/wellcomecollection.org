@@ -15,6 +15,7 @@ import {
   CustomContentResource,
   TransformedCanvas,
 } from '@weco/content/types/manifest';
+import { hasRestrictedItem } from '@weco/content/utils/iiif/v3';
 import {
   getFileSize,
   getLabelString,
@@ -136,6 +137,7 @@ const DownloadItem: FunctionComponent<DownloadItemProps> = ({
   currentCanvasIndex,
   onClick,
 }) => {
+  const isRestricted = canvas && hasRestrictedItem(canvas);
   const isActive =
     linkToCanvas &&
     canvasIndex !== undefined &&
@@ -212,9 +214,13 @@ const DownloadItem: FunctionComponent<DownloadItemProps> = ({
               )}
             </td>
             <td>
-              <a data-gtm-trigger="download_table_link" href={displayItem.id}>
-                Download
-              </a>
+              {!isRestricted ? (
+                <a data-gtm-trigger="download_table_link" href={displayItem.id}>
+                  Download
+                </a>
+              ) : (
+                <>Restricted</>
+              )}
             </td>
           </tr>
         </tbody>
