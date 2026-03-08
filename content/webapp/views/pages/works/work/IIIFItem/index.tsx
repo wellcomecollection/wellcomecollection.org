@@ -3,7 +3,14 @@ import {
   ContentResource,
   InternationalString,
 } from '@iiif/presentation-3';
-import { FunctionComponent, ReactNode, useEffect, useState } from 'react';
+import Router from 'next/router';
+import {
+  FunctionComponent,
+  ReactNode,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import styled from 'styled-components';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
@@ -21,6 +28,9 @@ import {
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
+import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
+import useOnScreen from '@weco/content/hooks/useOnScreen';
+import useSkipInitialEffect from '@weco/content/hooks/useSkipInitialEffect';
 import { fetchCanvasOcr } from '@weco/content/services/iiif/fetch/canvasOcr';
 import { transformCanvasOcr } from '@weco/content/services/iiif/transformers/canvasOcr';
 import { missingAltTextMessage } from '@weco/content/services/wellcome/catalogue/works';
@@ -40,8 +50,10 @@ import type { TransformedAuthService } from '@weco/content/utils/iiif/v3';
 import { getFileLabel } from '@weco/content/utils/works';
 import AudioPlayer from '@weco/content/views/components/AudioPlayer';
 import BetaMessage from '@weco/content/views/components/BetaMessage';
+import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
 import VideoPlayer from '@weco/content/views/components/VideoPlayer';
 import IIIFItemPdf from '@weco/content/views/pages/works/work/IIIFItem/IIIFItem.Pdf';
+import { arrayIndexToQueryParam } from '@weco/content/views/pages/works/work/IIIFViewer';
 import ImageViewer from '@weco/content/views/pages/works/work/IIIFViewer/ImageViewer';
 
 import IIIFItemDownload from './IIIFItem.Download';
@@ -226,16 +238,59 @@ const IIIFItemWrapper: FunctionComponent<{
   isRestricted: boolean;
   externalAccessService?: TransformedAuthService;
   children: ReactNode | undefined;
+  index: number;
 }> = ({
   shouldShowItem,
   className,
   isRestricted,
   externalAccessService,
   children,
+  index,
 }) => {
+  const { work, mainAreaRef, query, hasOnlyImages, transformedManifest } =
+    useItemViewerContext();
+  const ref = useRef<HTMLDivElement>(null);
+  const isOnScreen = useOnScreen({
+    root: mainAreaRef?.current || undefined,
+    ref,
+    threshold: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
+  });
+
+  /**
+   * Updates the URL to match the visible canvas when scrolling through images.
+   *
+   * Context:
+   * - On /works/{id}/items pages: transformedManifest exists, hasOnlyImages varies
+   * - On /works/{id}/images?id={imageId} pages: no transformedManifest, single image view
+   *
+   * This effect only runs when ALL conditions are met:
+   * 1. hasOnlyImages: Using scrollable image grid (not paginated file list)
+   * 2. isOnScreen: Current canvas has scrolled into view
+   * 3. transformedManifest: Full manifest exists (not single image page)
+   *
+   * Without the transformedManifest check, single image pages would incorrectly
+   * redirect to the work detail page on load.
+   */
+  useSkipInitialEffect(() => {
+    const shouldUpdateUrl =
+      hasOnlyImages && isOnScreen && transformedManifest !== undefined;
+    if (shouldUpdateUrl) {
+      const link = toWorksItemLink({
+        workId: work.id,
+        props: {
+          manifest: query.manifest,
+          query: query.query,
+          canvas: arrayIndexToQueryParam(index),
+          shouldScrollToCanvas: false,
+        },
+      });
+      Router.replace(link.href);
+    }
+  }, [isOnScreen]);
+
   if (shouldShowItem) {
     return (
-      <Outline className="item-wrapper">
+      <Outline className="item-wrapper" ref={ref}>
         <PublicRestrictedMessage
           externalAccessService={externalAccessService}
         />
@@ -243,7 +298,7 @@ const IIIFItemWrapper: FunctionComponent<{
     );
   } else {
     return (
-      <Outline $border={isRestricted} className={className}>
+      <Outline $border={isRestricted} className={className} ref={ref}>
         {isRestricted && <StaffRestrictedMessage />}
         {children}
       </Outline>
@@ -266,7 +321,6 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
 }) => {
   const { userIsStaffWithRestricted } = useUserContext();
   const isRestricted = hasRestrictedItem(canvas);
-
   // Replace "image" with "item" in description if the item is not an image
   // or if it's an image but has originals, which means the image is just a placeholder for the original item
   const adjustedExternalAccessService =
@@ -317,6 +371,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           className="item-wrapper"
           isRestricted={isRestricted}
           externalAccessService={adjustedExternalAccessService}
+          index={i}
         >
           <AudioPlayer
             isDark={isDark}
@@ -333,6 +388,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           className="item-wrapper"
           isRestricted={isRestricted}
           externalAccessService={adjustedExternalAccessService}
+          index={i}
         >
           <>
             <VideoPlayer
@@ -355,6 +411,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           className="pdf-wrapper"
           isRestricted={isRestricted}
           externalAccessService={adjustedExternalAccessService}
+          index={i}
         >
           <IIIFItemPdf
             src={item.id}
@@ -380,6 +437,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
                     className="item-wrapper"
                     isRestricted={isRestricted}
                     externalAccessService={adjustedExternalAccessService}
+                    index={i}
                   >
                     <IIIFItemDownload
                       key={original.id}
@@ -406,6 +464,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
             className="item-wrapper"
             isRestricted={isRestricted}
             externalAccessService={adjustedExternalAccessService}
+            index={i}
           >
             <IIIFImage
               index={i}
