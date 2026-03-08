@@ -18,6 +18,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import useIsFullscreenEnabled from '@weco/content/hooks/useIsFullscreenEnabled';
 import useTransformedIIIFImage from '@weco/content/hooks/useTransformedIIIFImage';
+import { hasRestrictedItem } from '@weco/content/utils/iiif/v3';
 import {
   getDownloadOptionsFromCanvasRenderingAndSupplementing,
   getDownloadOptionsFromManifestRendering,
@@ -230,6 +231,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
     })
     .flat()
     .filter(Boolean) || []) as ImageService[];
+  const isRestricted = currentCanvas && hasRestrictedItem(currentCanvas);
 
   // Works can have a DigitalLocation of type iiif-presentation and/or iiif-image.
   // For a iiif-presentation DigitalLocation we get the download options from the manifest to which it points.
@@ -375,7 +377,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
         <RightZone>
           {isEnhanced && (
             <div style={{ display: 'flex', alignItems: 'center' }}>
-              {downloadOptions.length > 0 && (
+              {downloadOptions.length > 0 && !isRestricted && (
                 <Space $h={{ size: 'xs', properties: ['margin-right'] }}>
                   <Download
                     ariaControlsId="itemDownloads"
