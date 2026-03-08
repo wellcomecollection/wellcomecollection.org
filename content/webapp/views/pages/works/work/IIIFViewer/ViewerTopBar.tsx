@@ -187,6 +187,7 @@ const RightZone = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  width: 200px;
 `;
 
 type ViewerTopBarProps = OptionalToUndefined<{
