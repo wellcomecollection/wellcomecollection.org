@@ -3,6 +3,7 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
+import { useUserContext } from '@weco/common/contexts/UserContext';
 import {
   chevrons,
   gridView,
@@ -220,6 +221,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
   const { canvases, rendering } = { ...transformedManifest };
   const currentCanvas = canvases?.[queryParamToArrayIndex(query.canvas)];
   const transformedIIIFImage = useTransformedIIIFImage(work);
+  const { userIsStaffWithRestricted } = useUserContext();
   const imageServices = (currentCanvas?.painting
     .map(p => {
       if (isChoiceBody(p)) {
@@ -378,16 +380,17 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
         <RightZone>
           {isEnhanced && (
             <div style={{ display: 'flex', alignItems: 'center' }}>
-              {downloadOptions.length > 0 && !isRestricted && (
-                <Space $h={{ size: 'xs', properties: ['margin-right'] }}>
-                  <Download
-                    ariaControlsId="itemDownloads"
-                    downloadOptions={downloadOptions}
-                    useDarkControl={true}
-                    isInline={true}
-                  />
-                </Space>
-              )}
+              {downloadOptions.length > 0 &&
+                (!isRestricted || userIsStaffWithRestricted) && (
+                  <Space $h={{ size: 'xs', properties: ['margin-right'] }}>
+                    <Download
+                      ariaControlsId="itemDownloads"
+                      downloadOptions={downloadOptions}
+                      useDarkControl={true}
+                      isInline={true}
+                    />
+                  </Space>
+                )}
 
               {isFullscreenEnabled && showFullscreenControl && (
                 <ViewerButton

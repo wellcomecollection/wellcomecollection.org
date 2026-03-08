@@ -8,6 +8,7 @@ import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
+import { useUserContext } from '@weco/common/contexts/UserContext';
 import { file, imageFile } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
@@ -137,6 +138,7 @@ const DownloadItem: FunctionComponent<DownloadItemProps> = ({
   currentCanvasIndex,
   onClick,
 }) => {
+  const { userIsStaffWithRestricted } = useUserContext();
   const isRestricted = canvas && hasRestrictedItem(canvas);
   const isActive =
     linkToCanvas &&
@@ -214,7 +216,7 @@ const DownloadItem: FunctionComponent<DownloadItemProps> = ({
               )}
             </td>
             <td>
-              {!isRestricted ? (
+              {!isRestricted || userIsStaffWithRestricted ? (
                 <a data-gtm-trigger="download_table_link" href={displayItem.id}>
                   Download
                 </a>
