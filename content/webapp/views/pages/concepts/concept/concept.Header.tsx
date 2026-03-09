@@ -1,9 +1,15 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
+import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
+import Breadcrumb, {
+  getBreadcrumbItems,
+} from '@weco/common/views/components/Breadcrumb';
+import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
 import Layout, {
   gridSize10,
   gridSize8,
@@ -17,20 +23,11 @@ import SourcedDescription from '@weco/content/views/components/SourcedDescriptio
 import RelatedConceptsGroup from './concept.RelatedConceptsGroup';
 
 const ConceptHero = styled(Space).attrs({
-  $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'md', properties: ['padding-top'] },
 })`
   background-color: ${props => props.theme.color('accent.lightGreen')};
+  padding-bottom: ${props => props.theme.gutter.xlarge};
 `;
-
-const Title = styled(Space).attrs({
-  as: 'h1',
-  className: font('brand-bold', 4),
-  $v: { size: '2xs', properties: ['margin-bottom'] },
-})``;
-
-const ThemeDescription = styled.div.attrs({
-  className: `${font('sans', 1)} body-text`,
-})``;
 
 const AlternativeLabels = styled(Space).attrs({
   className: font('sans', -2),
@@ -69,81 +66,139 @@ const ThemeAlternativeLabels: FunctionComponent<{
   );
 };
 
+const getBreadcrumbParent = ({
+  type,
+}: {
+  type: string;
+}): { text: string; url: string } | undefined => {
+  switch (type) {
+    case 'Genre':
+    case 'Concept':
+    case 'Meeting':
+    case 'Period':
+      return {
+        text: 'Types and techniques',
+        url: `/${prismicPageIds.collections}/types-and-techniques`,
+      };
+    case 'Subject':
+      return {
+        text: 'Subjects',
+        url: `/${prismicPageIds.collections}/subjects`,
+      };
+    case 'Person':
+    case 'Organisation':
+    case 'Agent':
+      return {
+        text: 'People and organisations',
+        url: `/${prismicPageIds.collections}/people-and-organisations`,
+      };
+    case 'Place':
+      return {
+        text: 'Places',
+        url: `/${prismicPageIds.collections}/places`,
+      };
+    default:
+      return undefined;
+  }
+};
+
 const ThemeHeader: FunctionComponent<{
   concept: Concept;
-}> = ({ concept }) => {
-  const { themePagesAllFields } = useToggles();
+  hasImages?: boolean;
+}> = ({ concept, hasImages }) => {
+  const { themePagesAllFields, thematicBrowsing } = useToggles();
   const { config } = useConceptPageContext();
 
   const { narrowerThan, fieldsOfWork, people, relatedTo, broaderThan } =
     concept.relatedConcepts || {};
 
+  const breadcrumbs = thematicBrowsing
+    ? getBreadcrumbItems(
+        'collections',
+        [getBreadcrumbParent({ type: concept.type })].filter(isNotUndefined)
+      )
+    : getBreadcrumbItems('collections');
+
   return (
-    <ConceptHero>
-      <Container>
-        <Layout gridSizes={gridSize10(false)}>
-          <Title>{concept.displayLabel}</Title>
-          {themePagesAllFields && (
-            <ThemeAlternativeLabels
-              alternativeLabels={concept.alternativeLabels}
-            />
-          )}
-        </Layout>
+    <>
+      <ConceptHero>
+        <Container>
+          <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
+            <Breadcrumb items={breadcrumbs.items} />
+          </Space>
 
-        {concept.description &&
-          (config.sourcedDescription.display ||
-            concept.description.sourceLabel === 'weco-authority') && (
-            <Layout gridSizes={gridSize8(false)}>
-              <ThemeDescription>
-                <SourcedDescription
-                  description={capitalize(concept.description.text)}
-                  source={concept.description.sourceLabel}
-                  href={concept.description.sourceUrl}
+          <Layout gridSizes={gridSize10(false)}>
+            <h1 className={font('brand-bold', 4)}>{concept.displayLabel}</h1>
+            {themePagesAllFields && (
+              <ThemeAlternativeLabels
+                alternativeLabels={concept.alternativeLabels}
+              />
+            )}
+          </Layout>
+
+          {concept.description &&
+            (config.sourcedDescription.display ||
+              concept.description.sourceLabel === 'weco-authority') && (
+              <Layout gridSizes={gridSize8(false)}>
+                <Space
+                  className={`${font('sans', 1)} body-text`}
+                  $v={{ size: 'sm', properties: ['margin-bottom'] }}
+                >
+                  <SourcedDescription
+                    description={capitalize(concept.description.text)}
+                    source={concept.description.sourceLabel}
+                    href={concept.description.sourceUrl}
+                  />
+                </Space>
+              </Layout>
+            )}
+
+          <>
+            {config.fieldOrArea.display && (
+              <RelatedConceptsGroup
+                dataGtmTriggerName="field_of_work"
+                label={config.fieldOrArea.label || 'Field of work'}
+                labelType="inline"
+                relatedConcepts={fieldsOfWork}
+              />
+            )}
+
+            {config.partOf.display && (
+              <RelatedConceptsGroup
+                label={config.partOf.label || 'Part of'}
+                labelType="inline"
+                relatedConcepts={narrowerThan}
+              />
+            )}
+
+            {themePagesAllFields && (
+              <>
+                <RelatedConceptsGroup
+                  label="Notable people in this field"
+                  labelType="heading"
+                  relatedConcepts={people}
                 />
-              </ThemeDescription>
-            </Layout>
-          )}
+                <RelatedConceptsGroup
+                  label="Related to"
+                  labelType="heading"
+                  relatedConcepts={relatedTo}
+                />
+                <RelatedConceptsGroup
+                  label="Broader than"
+                  labelType="heading"
+                  relatedConcepts={broaderThan}
+                />
+              </>
+            )}
+          </>
+        </Container>
+      </ConceptHero>
 
-        <>
-          {config.fieldOrArea.display && (
-            <RelatedConceptsGroup
-              dataGtmTriggerName="field_of_work"
-              label={config.fieldOrArea.label || 'Field of work'}
-              labelType="inline"
-              relatedConcepts={fieldsOfWork}
-            />
-          )}
-
-          {config.partOf.display && (
-            <RelatedConceptsGroup
-              label={config.partOf.label || 'Part of'}
-              labelType="inline"
-              relatedConcepts={narrowerThan}
-            />
-          )}
-
-          {themePagesAllFields && (
-            <>
-              <RelatedConceptsGroup
-                label="Notable people in this field"
-                labelType="heading"
-                relatedConcepts={people}
-              />
-              <RelatedConceptsGroup
-                label="Related to"
-                labelType="heading"
-                relatedConcepts={relatedTo}
-              />
-              <RelatedConceptsGroup
-                label="Broader than"
-                labelType="heading"
-                relatedConcepts={broaderThan}
-              />
-            </>
-          )}
-        </>
-      </Container>
-    </ConceptHero>
+      <DecorativeEdge
+        variant="wobbly"
+        backgroundColor={hasImages ? 'neutral.700' : 'white'}
+      />
+    </>
   );
 };
 export default ThemeHeader;

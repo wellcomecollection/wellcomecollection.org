@@ -212,13 +212,13 @@ export const bornDigitalMessage = (
 );
 
 export const restrictedItemMessage = (
-  <>
-    This item is unavailable online. Email{' '}
+  <p>
+    Email{' '}
     <a href="mailto:collections@wellcomecollection.org">
       collections@wellcomecollection.org
     </a>{' '}
     to request access to the full version.
-  </>
+  </p>
 );
 
 export const accessibilityProvisionText =

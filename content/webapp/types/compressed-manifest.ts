@@ -23,13 +23,13 @@ type CompressedTransformedCanvases = {
   width: (number | undefined)[];
   height: (number | undefined)[];
   imageServiceId: CommonParts;
-  restrictedImageIds: string[];
   label: CommonParts;
   textServiceId: CommonParts;
   thumbnailImageUrl: CommonParts;
   thumbnailImageWidth: (number | undefined)[];
   painting: (ChoiceBody | ContentResource)[][];
   original: CustomContentResource[][];
+  rendering: ContentResource[][];
   supplementing: (ChoiceBody | ContentResource)[][];
   metadata: MetadataItem[][];
 };
@@ -53,9 +53,6 @@ export function toCompressedTransformedManifest(
       width: canvases.map(c => c.width),
       height: canvases.map(c => c.height),
       imageServiceId: toCommonParts(canvases.map(c => c.imageServiceId)),
-      restrictedImageIds: canvases
-        .filter(c => c.hasRestrictedImage)
-        .map(c => c.id),
       label: toCommonParts(canvases.map(c => c.label)),
       textServiceId: toCommonParts(canvases.map(c => c.textServiceId)),
       thumbnailImageUrl: toCommonParts(
@@ -64,6 +61,7 @@ export function toCompressedTransformedManifest(
       thumbnailImageWidth: canvases.map(c => c.thumbnailImage?.width),
       painting: canvases.map(c => c.painting),
       original: canvases.map(c => c.original),
+      rendering: canvases.map(c => c.rendering),
       supplementing: canvases.map(c => c.supplementing),
       metadata: canvases.map(c => c.metadata),
     },
@@ -88,10 +86,10 @@ export function fromCompressedManifest(
     type,
     width,
     height,
-    restrictedImageIds,
     thumbnailImageWidth,
     painting,
     original,
+    rendering = id.map(() => []),
     supplementing,
     metadata,
   } = compressedCanvases;
@@ -105,7 +103,6 @@ export function fromCompressedManifest(
       width: width[index],
       height: height[index],
       imageServiceId: imageServiceId[index],
-      hasRestrictedImage: restrictedImageIds.includes(id[index]),
       label: label[index],
       textServiceId: textServiceId[index],
       thumbnailImage:
@@ -117,6 +114,7 @@ export function fromCompressedManifest(
           : undefined,
       painting: painting[index],
       original: original[index],
+      rendering: rendering[index],
       supplementing: supplementing[index],
       metadata: metadata[index],
     };
