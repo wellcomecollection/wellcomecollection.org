@@ -94,7 +94,7 @@ const ArchiveCard: FunctionComponent<Props> = ({
       style={{ textDecoration: 'none', display: 'block', height: '100%' }}
     >
       <Root>
-        <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
+        <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
           {label && <Label>{label}</Label>}
           <Title>{title}</Title>
           {description && <Description>{description}</Description>}
