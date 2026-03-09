@@ -6,6 +6,7 @@ import {
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
 import { createClient } from '@weco/content/services/prismic/fetch';
+import { getBodySliceContexts } from '@weco/content/services/prismic/fetch/body-slice-contexts';
 import { fetchPage } from '@weco/content/services/prismic/fetch/pages';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
@@ -36,10 +37,16 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   if (isNotUndefined(thematicBrowsingPage)) {
     const pageDoc = transformPage(thematicBrowsingPage);
 
+    const bodySliceContexts = await getBodySliceContexts(
+      pageDoc.untransformedBody,
+      serverData.toggles
+    );
+
     return {
       props: serialiseProps<Props>({
         serverData,
         thematicBrowsingPage: pageDoc,
+        bodySliceContexts,
       }),
     };
   }

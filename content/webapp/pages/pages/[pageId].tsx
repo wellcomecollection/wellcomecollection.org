@@ -1,7 +1,6 @@
 import { NextPage } from 'next';
 
 import { isSiteSection } from '@weco/common/model/site-section';
-import { PagesDocumentDataBodySlice } from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -99,9 +98,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
     const page = transformPage(pageDocument);
 
-    const bodySlices = pageDocument.data.body as PagesDocumentDataBodySlice[];
     const bodySliceContexts = await getBodySliceContexts(
-      bodySlices,
+      page.untransformedBody,
       serverData.toggles
     );
 
