@@ -367,7 +367,7 @@ const MainViewer: FunctionComponent = () => {
     setShowControls,
     errorHandler,
     accessToken,
-    hasOnlyImages,
+    hasOnlyRenderableImages,
     canvasIndexById,
   } = useItemViewerContext();
   const { shouldScrollToCanvas, canvas } = query;
@@ -442,12 +442,12 @@ const MainViewer: FunctionComponent = () => {
   const displayItems = currentCanvas ? getDisplayItems(currentCanvas) : [];
 
   useEffect(() => {
-    if (!hasOnlyImages) {
+    if (!hasOnlyRenderableImages) {
       setShowFullscreenControl(false);
     }
-  }, [hasOnlyImages, setShowFullscreenControl]);
+  }, [hasOnlyRenderableImages, setShowFullscreenControl]);
 
-  if (hasOnlyImages) {
+  if (hasOnlyRenderableImages) {
     return (
       <MainViewerContainer $useFixedList={true} data-testid="main-viewer">
         <FixedSizeList

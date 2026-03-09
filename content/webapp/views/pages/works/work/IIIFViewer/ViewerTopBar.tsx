@@ -212,7 +212,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
     query,
     viewerRef,
     showFullscreenControl,
-    hasOnlyImages,
+    hasOnlyRenderableImages,
   } = useItemViewerContext();
   const { canvas } = query;
   const { canvases, rendering } = { ...transformedManifest };
@@ -286,7 +286,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
     <TopBar
       $isZooming={showZoomed}
       $isDesktopSidebarActive={isDesktopSidebarActive}
-      $useFixedList={hasOnlyImages}
+      $useFixedList={hasOnlyRenderableImages}
       $hasMultipleCanvases={!!(canvases && canvases.length > 1)}
     >
       <Sidebar $isZooming={showZoomed}>
@@ -323,7 +323,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
         )}
       </Sidebar>
       <Main>
-        {hasOnlyImages && (
+        {hasOnlyRenderableImages && (
           <LeftZone className="viewer-desktop">
             {!showZoomed &&
               canvases &&
@@ -364,7 +364,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
               {!(
                 canvases[queryParamToArrayIndex(canvas)]?.label?.trim() === '-'
               ) &&
-                hasOnlyImages &&
+                hasOnlyRenderableImages &&
                 `page ${canvases[
                   queryParamToArrayIndex(canvas)
                 ]?.label?.trim()}`}

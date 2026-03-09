@@ -74,7 +74,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
     mainAreaRef,
     query,
     rotatedImages,
-    hasOnlyImages,
+    hasOnlyRenderableImages,
     transformedManifest,
   } = useItemViewerContext();
   const imageWrapperRef = useRef<HTMLDivElement>(null);
@@ -129,7 +129,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
    * - On /works/{id}/images?id={imageId} pages: no transformedManifest, single image view
    *
    * This effect only runs when ALL conditions are met:
-   * 1. hasOnlyImages: Using scrollable image grid (not paginated file list)
+   * 1. hasOnlyRenderableImages: Using scrollable image grid (not paginated file list)
    * 2. isOnScreen: Current canvas has scrolled into view
    * 3. transformedManifest: Full manifest exists (not single image page)
    *
@@ -139,7 +139,9 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   useSkipInitialEffect(() => {
     // Only update URL when we have all three conditions:
     const shouldUpdateUrl =
-      hasOnlyImages && isOnScreen && transformedManifest !== undefined;
+      hasOnlyRenderableImages &&
+      isOnScreen &&
+      transformedManifest !== undefined;
 
     if (shouldUpdateUrl) {
       const link = toWorksItemLink({
