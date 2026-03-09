@@ -29,6 +29,7 @@ type CompressedTransformedCanvases = {
   thumbnailImageWidth: (number | undefined)[];
   painting: (ChoiceBody | ContentResource)[][];
   original: CustomContentResource[][];
+  rendering: ContentResource[][];
   supplementing: (ChoiceBody | ContentResource)[][];
   metadata: MetadataItem[][];
 };
@@ -60,6 +61,7 @@ export function toCompressedTransformedManifest(
       thumbnailImageWidth: canvases.map(c => c.thumbnailImage?.width),
       painting: canvases.map(c => c.painting),
       original: canvases.map(c => c.original),
+      rendering: canvases.map(c => c.rendering),
       supplementing: canvases.map(c => c.supplementing),
       metadata: canvases.map(c => c.metadata),
     },
@@ -87,6 +89,7 @@ export function fromCompressedManifest(
     thumbnailImageWidth,
     painting,
     original,
+    rendering = id.map(() => []),
     supplementing,
     metadata,
   } = compressedCanvases;
@@ -111,6 +114,7 @@ export function fromCompressedManifest(
           : undefined,
       painting: painting[index],
       original: original[index],
+      rendering: rendering[index],
       supplementing: supplementing[index],
       metadata: metadata[index],
     };
