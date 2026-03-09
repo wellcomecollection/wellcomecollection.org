@@ -746,11 +746,14 @@ export function getItemsStatus(manifest: Manifest | Collection): ItemsStatus {
 export function hasNonImages(
   canvases: TransformedCanvas[] | undefined
 ): boolean {
+  const isNonImage = p =>
+    p.type !== 'Image' || p.format === 'image/vnd.adobe.photoshop';
   const hasNonImage = canvases?.some(c => {
+    console.log(JSON.stringify(c, null, 2));
     return (
-      c.painting.some(p => p.type !== 'Image') ||
-      c.original.some(p => p.type !== 'Image') ||
-      c.supplementing.some(p => p.type !== 'Image')
+      c.painting.some(isNonImage) ||
+      c.original.some(isNonImage) ||
+      c.supplementing.some(isNonImage)
     );
   });
   return !!hasNonImage;
