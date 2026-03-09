@@ -140,11 +140,11 @@ const CollectionsLandingPage: NextPage<Props> = ({
 
       {newOnlineDocuments.length > 0 && (
         <Space $v={{ size: 'sm', properties: ['margin-top', 'margin-bottom'] }}>
-          <SectionHeader title="New online" gridSize={gridSize12()} />
+          <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
+            <SectionHeader title="New online" gridSize={gridSize12()} />
+          </Space>
           <ContaineredLayout gridSizes={gridSize12()}>
-            <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
-              <WorkCards works={newOnlineDocuments} />
-            </Space>
+            <WorkCards works={newOnlineDocuments} />
 
             <MoreLink
               url="/collections/new-online"
