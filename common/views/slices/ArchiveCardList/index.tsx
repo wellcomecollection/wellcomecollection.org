@@ -12,6 +12,7 @@ import {
 } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
+import { asText } from '@weco/content/services/prismic/transformers';
 import ArchiveCard from '@weco/content/views/components/ArchiveCard';
 import { SliceZoneContext } from '@weco/content/views/components/Body';
 
@@ -37,8 +38,8 @@ const ArchiveCardListSlice: FunctionComponent<ArchiveCardListSliceProps> = ({
 
       return {
         id,
-        label: item.label,
-        description: item.archive_description,
+        label: asText(item.label),
+        description: asText(item.archive_description),
         isOrganisation: item.is_organisation ?? false,
         title: work.title,
         contributor: work.primaryContributorLabel,
