@@ -31,12 +31,14 @@ const ArchiveCardListSlice: FunctionComponent<ArchiveCardListSliceProps> = ({
     .map(item => {
       const id = item.id;
       if (!id) return undefined;
+
       const work = archiveWorks[id];
       if (!work) return undefined;
+
       return {
         id,
-        label: item.label || '',
-        description: item.archive_description || '',
+        label: item.label,
+        description: item.archive_description,
         isOrganisation: item.is_organisation ?? false,
         title: work.title,
         contributor: work.primaryContributorLabel,
