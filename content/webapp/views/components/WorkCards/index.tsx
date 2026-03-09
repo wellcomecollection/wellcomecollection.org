@@ -4,7 +4,9 @@ import styled from 'styled-components';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
-import WorkCard from '@weco/content/views/components/WorkCards/WorkCards.Card';
+import WorkCard, {
+  POPOUT_IMAGE_OFFSET,
+} from '@weco/content/views/components/WorkCards/WorkCards.Card';
 
 const WorksList = styled(PlainList)`
   ${props => `
@@ -53,21 +55,23 @@ type Props = {
 
 const WorkCards: FunctionComponent<Props> = ({ works, columns = 4 }) => {
   if (works.length === 0) return null;
-  if (works.length === 1) return <WorkCard item={works[0]} />;
 
   return (
-    // This 'md' space accounts for the `bottom` value of the `PopoutCardImage` in  WorkCards.Card.tsx
     <Space
-      $v={{ size: 'md', properties: ['padding-top'] }}
+      $v={{ size: POPOUT_IMAGE_OFFSET, properties: ['padding-top'] }}
       data-component="work-cards"
     >
-      <WorksList>
-        {works.map(item => (
-          <WorkContainer key={item.id} $columns={columns}>
-            <WorkCard item={item} />
-          </WorkContainer>
-        ))}
-      </WorksList>
+      {works.length === 1 ? (
+        <WorkCard item={works[0]} />
+      ) : (
+        <WorksList>
+          {works.map(item => (
+            <WorkContainer key={item.id} $columns={columns}>
+              <WorkCard item={item} />
+            </WorkContainer>
+          ))}
+        </WorksList>
+      )}
     </Space>
   );
 };

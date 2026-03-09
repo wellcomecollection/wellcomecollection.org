@@ -7,6 +7,8 @@ import LabelsList from '@weco/common/views/components/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 
+export const POPOUT_IMAGE_OFFSET = 'md' as const;
+
 // Ensures the image container takes up the same amount of vertical space
 // regardless of the image height
 const Shim = styled.div<{ $hasImage: boolean }>`
@@ -24,7 +26,7 @@ const PopoutCardImageContainer = styled.div<{ $hasImage: boolean }>`
 `;
 
 const PopoutCardImage = styled(Space).attrs({
-  $v: { size: 'md', properties: ['bottom'] },
+  $v: { size: POPOUT_IMAGE_OFFSET, properties: ['bottom'] },
 })`
   position: relative;
   width: 66%;
