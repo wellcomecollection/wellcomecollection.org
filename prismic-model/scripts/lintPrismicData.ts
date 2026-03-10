@@ -21,7 +21,11 @@ import {
   downloadPrismicSnapshot,
   getPrismicDocuments,
 } from '@weco/prismic-model/scripts/downloadSnapshot';
-import { error, info, success } from '@weco/prismic-model/utils/console';
+import {
+  logError,
+  logInfo,
+  logSuccess,
+} from '@weco/prismic-model/utils/console';
 
 type ErrorProps = {
   id: string;
@@ -433,9 +437,7 @@ async function run() {
         errors,
       });
 
-      console.log(
-        info(`https://wellcomecollection.prismic.io/builder/pages/${doc.id}`)
-      );
+      logInfo(`https://wellcomecollection.prismic.io/builder/pages/${doc.id}`);
       for (const msg of errors) {
         console.log(`- ${msg}`);
       }
@@ -488,15 +490,13 @@ async function run() {
   await cloudFrontClient.send(command);
 
   if (totalErrors === 0) {
-    console.log(success('✅ No errors detected'));
+    logSuccess('✅ No errors detected');
   } else {
-    console.log(
-      error(`🚨 ${totalErrors} error${totalErrors > 1 ? 's' : ''} detected`)
-    );
+    logError(`🚨 ${totalErrors} error${totalErrors > 1 ? 's' : ''} detected`);
   }
 }
 
 run().catch(err => {
-  error(`${err}`);
+  logError(`${err}`);
   process.exit(1);
 });

@@ -1,17 +1,17 @@
 import { styleText } from 'util';
 
-export function success(message: string): void {
+export function logSuccess(message: string): void {
   console.log(styleText('greenBright', message));
 }
 
-export function warn(message: string): void {
+export function logWarn(message: string): void {
   console.log(styleText('yellow', message));
 }
 
-export function error(message: string): void {
+export function logError(message: string): void {
   console.error(`!!! ${styleText('redBright', message)}`);
 }
 
-export function info(message: string): void {
+export function logInfo(message: string): void {
   console.info(styleText('blue', message));
 }

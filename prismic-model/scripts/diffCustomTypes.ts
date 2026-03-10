@@ -3,7 +3,7 @@ import { diffString } from 'json-diff';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { isCi } from '@weco/prismic-model/config';
 import { printDelta, removeUndefinedProps } from '@weco/prismic-model/utils';
-import { error, success } from '@weco/prismic-model/utils/console';
+import { logError, logSuccess } from '@weco/prismic-model/utils/console';
 import {
   Credentials,
   getContentTypes,
@@ -57,13 +57,17 @@ export default async function diffContentTypes(
 
   if (typesDeltas.length > 0 || sliceDeltas.length > 0) {
     typesDeltas.length > 0 &&
-      error(`Diffs found on ${typesDeltas.map(delta => delta.id).join(', ')}`);
+      logError(
+        `Diffs found on ${typesDeltas.map(delta => delta.id).join(', ')}`
+      );
     sliceDeltas.length > 0 &&
-      error(`Diffs found on ${sliceDeltas.map(delta => delta.id).join(', ')}`);
+      logError(
+        `Diffs found on ${sliceDeltas.map(delta => delta.id).join(', ')}`
+      );
     process.exit(1);
   }
 
-  success('No diffs found on custom types or slices');
+  logSuccess('No diffs found on custom types or slices');
 }
 
 async function run() {
