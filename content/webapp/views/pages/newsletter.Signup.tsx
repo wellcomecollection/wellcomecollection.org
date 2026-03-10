@@ -165,8 +165,8 @@ const NewsletterSignup: FunctionComponent<Props> = ({
                   id={newsletterAddressBook.slug}
                   type="checkbox"
                   text={newsletterAddressBook.label}
-                  value={`addressbook_${newsletterAddressBook.id}`}
-                  name={`addressbook_${newsletterAddressBook.id}`}
+                  value={`addressbooK_${newsletterAddressBook.id}`}
+                  name={`addressbooK_${newsletterAddressBook.id}`}
                   checked={checkedInputs.includes(newsletterAddressBook.slug)}
                   onChange={updateCheckedInputs}
                 />
@@ -185,11 +185,8 @@ const NewsletterSignup: FunctionComponent<Props> = ({
                     id={addressBook.slug}
                     type="checkbox"
                     text={addressBook.label}
-                    // This might benefit from a review once in a while, it seems that the name
-                    // of the field has changed sometime between 2022 and 2023, which stopped new
-                    // subscriptions
-                    value={`addressbook_${addressBook.id}`}
-                    name={`addressbook_${addressBook.id}`}
+                    value={`addressbooK_${addressBook.id}`}
+                    name={`addressbooK_${addressBook.id}`}
                     checked={checkedInputs.includes(addressBook.slug)}
                     onChange={updateCheckedInputs}
                   />
