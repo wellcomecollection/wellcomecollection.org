@@ -32,8 +32,11 @@ const NewsletterSignup: FunctionComponent<Props> = ({
 }: Props) => {
   const [checkedInputs, setCheckedInputs] = useState<string[]>([]);
   const [hasCheckedMarketing, setHasCheckedMarketing] = useState(false);
+  const [hasCheckedAudience, setHasCheckedAudience] = useState(false);
   const [noValidate, setNoValidate] = useState(false);
   const [emailValue, setEmailValue] = useState('');
+  const [firstNameValue, setFirstNameValue] = useState('');
+  const [lastNameValue, setLastNameValue] = useState('');
   const emailValidation = useValidation();
 
   function updateCheckedInputs(event: SyntheticEvent<HTMLInputElement>) {
@@ -56,9 +59,21 @@ const NewsletterSignup: FunctionComponent<Props> = ({
     event.currentTarget.submit();
   }
 
+  const isButtonDisabled =
+    checkedInputs.length === 0 ||
+    !firstNameValue.trim() ||
+    !lastNameValue.trim() ||
+    !emailValidation.isValid;
+
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+
   useEffect(() => {
     setNoValidate(true);
   }, []);
+
+  useEffect(() => {
+    setButtonDisabled(isButtonDisabled);
+  }, [isButtonDisabled]);
 
   return (
     <>
@@ -110,8 +125,8 @@ const NewsletterSignup: FunctionComponent<Props> = ({
             Want to hear more from us?
           </p>
           <p>
-            Sign up to our newsletter to find out what’s on, read our latest
-            stories and get involved.
+            Sign up to our regular newsletters to explore health and the human
+            experience.
           </p>
         </Space>
       )}
@@ -138,14 +153,79 @@ const NewsletterSignup: FunctionComponent<Props> = ({
             value=""
           />
 
-          {/* Subscribes user to What's On/default newsletter */}
-          <input
-            type="hidden"
-            name="addressBookId"
-            value={newsletterAddressBook.id}
-          />
+          <fieldset>
+            <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
+              <legend className={font('sans-bold', 0)}>
+                Select each newsletter you'd like to receive:
+              </legend>
+            </Space>
+            <PlainList style={{ marginBottom: '0' }}>
+              <Space as="li" $v={{ size: 'sm', properties: ['margin-bottom'] }}>
+                <CheckboxRadio
+                  id={newsletterAddressBook.slug}
+                  type="checkbox"
+                  text={newsletterAddressBook.label}
+                  value={`addressbook_${newsletterAddressBook.id}`}
+                  name={`addressbook_${newsletterAddressBook.id}`}
+                  checked={checkedInputs.includes(newsletterAddressBook.slug)}
+                  onChange={updateCheckedInputs}
+                />
+              </Space>
+              {secondaryAddressBooks.map((addressBook, index) => (
+                <Space
+                  as="li"
+                  key={addressBook.slug}
+                  $v={
+                    index < secondaryAddressBooks.length - 1
+                      ? { size: 'sm', properties: ['margin-bottom'] }
+                      : undefined
+                  }
+                >
+                  <CheckboxRadio
+                    id={addressBook.slug}
+                    type="checkbox"
+                    text={addressBook.label}
+                    // This might benefit from a review once in a while, it seems that the name
+                    // of the field has changed sometime between 2022 and 2023, which stopped new
+                    // subscriptions
+                    value={`addressbook_${addressBook.id}`}
+                    name={`addressbook_${addressBook.id}`}
+                    checked={checkedInputs.includes(addressBook.slug)}
+                    onChange={updateCheckedInputs}
+                  />
+                </Space>
+              ))}
+            </PlainList>
+          </fieldset>
 
-          <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
+          <Space
+            $v={{ size: 'lg', properties: ['margin-top', 'margin-bottom'] }}
+          >
+            <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
+              <TextInput
+                id="FIRSTNAME"
+                label="Your first name"
+                name="cd_FIRSTNAME"
+                type="text"
+                value={firstNameValue}
+                setValue={setFirstNameValue}
+                errorMessage="This is a required field"
+                required
+              />
+            </Space>
+            <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
+              <TextInput
+                id="LASTNAME"
+                label="Your last name"
+                name="cd_LASTNAME"
+                type="text"
+                value={lastNameValue}
+                setValue={setLastNameValue}
+                errorMessage="This is a required field"
+                required
+              />
+            </Space>
+
             <TextInput
               id="email"
               label="Your email address"
@@ -158,81 +238,67 @@ const NewsletterSignup: FunctionComponent<Props> = ({
               {...emailValidation}
             />
           </Space>
-
           <Space
-            as="fieldset"
-            $v={{ size: 'xs', properties: ['margin-bottom'] }}
+            $v={{ size: 'md', properties: ['margin-top', 'margin-bottom'] }}
           >
-            <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
-              <legend className={font('sans-bold', 0)}>
-                You might also be interested in receiving updates on:
-              </legend>
-            </Space>
-            <PlainList>
-              {secondaryAddressBooks.map(addressBook => (
-                <Space
-                  as="li"
-                  key={addressBook.slug}
-                  $v={{ size: 'sm', properties: ['margin-bottom'] }}
-                >
-                  <CheckboxRadio
-                    id={addressBook.slug}
-                    type="checkbox"
-                    text={addressBook.label}
-                    // This might benefit from a review once in a while, it seems that the name
-                    // of the field has changed sometime between 2022 and 2023, which stopped new
-                    // subscriptions
-                    value={`addressbooK_${addressBook.id}`}
-                    name={`addressbooK_${addressBook.id}`}
-                    checked={checkedInputs.includes(addressBook.slug)}
-                    onChange={updateCheckedInputs}
-                  />
-                </Space>
-              ))}
-            </PlainList>
-
-            <Space $v={{ size: 'md', properties: ['margin-top'] }}>
-              <CheckboxRadio
-                id="MARKETINGPERMISSIONS"
-                name="cd_MARKETINGPERMISSIONS"
-                type="checkbox"
-                checked={hasCheckedMarketing}
-                onChange={() => {
-                  setHasCheckedMarketing(currentValue => !currentValue);
-                }}
-                text={
-                  <p className={font('sans', -2)}>
-                    Tick this box if you’re happy to receive other emails about
-                    Wellcome Collection, upcoming events and exhibitions and/or
-                    other relevant opportunities.
-                  </p>
-                }
-              />
-            </Space>
+            <CheckboxRadio
+              id="MARKETINGPERMISSIONS"
+              name="cd_MARKETINGPERMISSIONS"
+              type="checkbox"
+              checked={hasCheckedMarketing}
+              onChange={() => {
+                setHasCheckedMarketing(currentValue => !currentValue);
+              }}
+              text={
+                <p className={font('sans', -2)}>
+                  Tick this box if you’re happy to receive other emails about
+                  Wellcome Collection, upcoming events and exhibitions and/or
+                  other relevant opportunities.
+                </p>
+              }
+            />
+            <CheckboxRadio
+              id="AUDIENCEPERMISSIONS"
+              name="cd_AUDIENCEPERMISSIONS"
+              type="checkbox"
+              checked={hasCheckedAudience}
+              onChange={() => {
+                setHasCheckedAudience(currentValue => !currentValue);
+              }}
+              text={
+                <p className={font('sans', -2)}>
+                  Tick this box if you’d be happy for us to use your information
+                  to help us understand our audience, and show you relevant
+                  adverts about Wellcome Collection on social networks (such as
+                  Facebook, Instagram and LinkedIn).
+                </p>
+              }
+            />
+            <p className={font('sans', -2)}>
+              By clicking subscribe, you agree to receive this newsletter. You
+              can unsubscribe any time. For information about how we handle your
+              data,{' '}
+              <a
+                href="https://wellcome.org/who-we-are/privacy-and-terms"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                please read our privacy notice
+              </a>
+              .
+            </p>
           </Space>
 
           <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
             <Button
+              disabled={buttonDisabled}
               variant="ButtonSolid"
-              text="Subscribe"
+              text={`Subscribe to your newsletter${checkedInputs.length > 1 ? 's' : ''}`}
               dataGtmProps={{
                 trigger: 'newsletter_signup_subscribe',
               }}
             />
           </Space>
-
-          <p className={font('sans', -2)}>
-            By clicking subscribe, you agree to receive this newsletter. You can
-            unsubscribe any time. For information about how we handle your data,{' '}
-            <a
-              href="https://wellcome.org/who-we-are/privacy-and-terms"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              please read our privacy notice
-            </a>
-            .
-          </p>
         </form>
       )}
     </>
