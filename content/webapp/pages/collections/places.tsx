@@ -10,11 +10,10 @@ import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchPage } from '@weco/content/services/prismic/fetch/pages';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import CollectionsPlacesPage, {
-  Props as CollectionsPlacesPageProps,
-} from '@weco/content/views/pages/collections/places';
+import { ThematicBrowsingCategoryPageProps } from '@weco/content/views/layouts/ThematicBrowsingLayout';
+import CollectionsPlacesPage from '@weco/content/views/pages/collections/places';
 
-type Props = ServerSideProps<CollectionsPlacesPageProps>;
+type Props = ServerSideProps<ThematicBrowsingCategoryPageProps>;
 
 export const getServerSideProps: ServerSidePropsOrAppError<
   Props

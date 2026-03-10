@@ -23,6 +23,7 @@ import {
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
 import { Page } from '@weco/content/types/pages';
+import { BodySliceContexts } from '@weco/content/views/components/Body';
 import CollaboratorCards from '@weco/content/views/components/CollaboratorCards';
 import ImageModal, {
   useExpandedImage,
@@ -102,6 +103,7 @@ export type Props = {
   relatedStoriesId: string[];
   worksAndImagesAbout: WorksAndImagesResponse;
   relatedTopics: RelatedConcept[];
+  bodySliceContexts?: BodySliceContexts;
   jsonLd: JsonLdObj;
 };
 
@@ -301,7 +303,6 @@ const WellcomeSubThemePage: NextPage<Props> & {
 };
 
 WellcomeSubThemePage.getLayout = page => {
-  console.log(page.props.jsonLd);
   return (
     <ThematicBrowsingLayout
       page={page.props.thematicBrowsingPage}

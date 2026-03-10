@@ -7,6 +7,7 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import Space from '@weco/common/views/components/styled/Space';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { Page } from '@weco/content/types/pages';
+import { BodySliceContexts } from '@weco/content/views/components/Body';
 
 import ThematicBrowsingHeader from './ThematicBrowsing.Header';
 
@@ -15,6 +16,12 @@ export type ThematicBrowsingCategories =
   | 'types-and-techniques'
   | 'subjects'
   | 'places';
+
+export type ThematicBrowsingCategoryPageProps = {
+  thematicBrowsingPage: Page;
+  jsonLd: JsonLdObj;
+  bodySliceContexts?: BodySliceContexts;
+};
 
 type ThematicBrowsingLayoutProps = PropsWithChildren<{
   page: Page;

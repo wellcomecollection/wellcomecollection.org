@@ -2,17 +2,11 @@ import { NextPage } from 'next';
 import { ReactElement } from 'react';
 
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import { gridSize12 } from '@weco/common/views/components/Layout';
-import { Page } from '@weco/content/types/pages';
-import Body, { BodySliceContexts } from '@weco/content/views/components/Body';
-import ThematicBrowsingLayout from '@weco/content/views/layouts/ThematicBrowsingLayout';
-
-export type Props = {
-  thematicBrowsingPage: Page;
-  bodySliceContexts?: BodySliceContexts;
-  jsonLd: JsonLdObj;
-};
+import Body from '@weco/content/views/components/Body';
+import ThematicBrowsingLayout, {
+  ThematicBrowsingCategoryPageProps as Props,
+} from '@weco/content/views/layouts/ThematicBrowsingLayout';
 
 const CollectionsPeoplePage: NextPage<Props> & {
   getLayout?: (page: ReactElement<Props>) => ReactElement;
