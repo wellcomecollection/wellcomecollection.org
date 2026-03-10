@@ -1,6 +1,7 @@
 import { FunctionComponent, SyntheticEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import {
   newsletterAddressBook,
   secondaryAddressBooks,
@@ -30,6 +31,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
   isError,
   isConfirmed,
 }: Props) => {
+  const { isEnhanced } = useAppContext();
   const [checkedInputs, setCheckedInputs] = useState<string[]>([]);
   const [hasCheckedMarketing, setHasCheckedMarketing] = useState(false);
   const [hasCheckedAudience, setHasCheckedAudience] = useState(false);
@@ -49,31 +51,25 @@ const NewsletterSignup: FunctionComponent<Props> = ({
     setCheckedInputs(newInputs);
   }
 
-  function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    emailValidation.setShowValidity(true);
-
-    if (!emailValidation.isValid) return;
-
-    event.currentTarget.submit();
-  }
-
   const isButtonDisabled =
     checkedInputs.length === 0 ||
     !firstNameValue.trim() ||
     !lastNameValue.trim() ||
     !emailValidation.isValid;
 
-  const [buttonDisabled, setButtonDisabled] = useState(false);
+  function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    emailValidation.setShowValidity(true);
+
+    if (isButtonDisabled) return;
+
+    event.currentTarget.submit();
+  }
 
   useEffect(() => {
     setNoValidate(true);
   }, []);
-
-  useEffect(() => {
-    setButtonDisabled(isButtonDisabled);
-  }, [isButtonDisabled]);
 
   return (
     <>
@@ -286,7 +282,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
 
           <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
             <Button
-              disabled={buttonDisabled}
+              disabled={isEnhanced && isButtonDisabled}
               variant="ButtonSolid"
               text={`Subscribe to your newsletter${checkedInputs.length > 1 ? 's' : ''}`}
               dataGtmProps={{
