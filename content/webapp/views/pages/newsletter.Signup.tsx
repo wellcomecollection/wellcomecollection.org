@@ -209,7 +209,6 @@ const NewsletterSignup: FunctionComponent<Props> = ({
                 type="text"
                 value={firstNameValue}
                 setValue={setFirstNameValue}
-                errorMessage="This is a required field"
                 required
               />
             </Space>
@@ -221,7 +220,6 @@ const NewsletterSignup: FunctionComponent<Props> = ({
                 type="text"
                 value={lastNameValue}
                 setValue={setLastNameValue}
-                errorMessage="This is a required field"
                 required
               />
             </Space>
