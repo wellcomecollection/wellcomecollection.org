@@ -13,6 +13,7 @@ import {
   getIIIFPresentationCredit,
   getItemsStatus,
   getMultiVolumeLabel,
+  getOriginalFiles,
   getTransformedCanvases,
   groupRanges,
   isPDFCanvas,
@@ -27,12 +28,12 @@ const createMockCanvas = (overrides = {}) => ({
   width: 100,
   height: 100,
   imageServiceId: undefined,
-  hasRestrictedImage: false,
   label: 'Test Canvas',
   textServiceId: undefined,
   thumbnailImage: undefined,
   painting: [],
   original: [],
+  rendering: [],
   supplementing: [],
   metadata: [],
   ...overrides,
@@ -511,5 +512,70 @@ describe('getFileTypeLabel', () => {
     expect(getFileTypeLabel(3, canvases.length, false, canvases)).toBe(
       '3 volumes'
     );
+  });
+});
+
+describe('getOriginalFiles', () => {
+  const originalFile = {
+    id: 'original.pdf',
+    type: 'Text',
+    format: 'application/pdf',
+    behavior: 'original',
+  };
+  const renderingFile = {
+    id: 'rendering.doc',
+    type: 'Text',
+    format: 'application/msword',
+  };
+  const paintingFile = {
+    id: 'painting.jpg',
+    type: 'Image',
+    format: 'image/jpeg',
+  };
+  const supplementingFile = {
+    id: 'supplement.pdf',
+    type: 'Text',
+    format: 'application/pdf',
+  };
+
+  it('returns original when present', () => {
+    const canvas = createMockCanvas({ original: [originalFile] });
+    expect(getOriginalFiles(canvas)).toEqual([originalFile]);
+  });
+
+  it('returns rendering when original is empty', () => {
+    const canvas = createMockCanvas({ rendering: [renderingFile] });
+    expect(getOriginalFiles(canvas)).toEqual([renderingFile]);
+  });
+
+  it('returns painting when original and rendering are empty', () => {
+    const canvas = createMockCanvas({ painting: [paintingFile] });
+    expect(getOriginalFiles(canvas)).toEqual([paintingFile]);
+  });
+
+  it('returns supplementing when original, rendering, and painting are empty', () => {
+    const canvas = createMockCanvas({ supplementing: [supplementingFile] });
+    expect(getOriginalFiles(canvas)).toEqual([supplementingFile]);
+  });
+
+  it('makes original take priority over rendering', () => {
+    const canvas = createMockCanvas({
+      original: [originalFile],
+      rendering: [renderingFile],
+    });
+    expect(getOriginalFiles(canvas)).toEqual([originalFile]);
+  });
+
+  it('makes rendering take priority over painting', () => {
+    const canvas = createMockCanvas({
+      rendering: [renderingFile],
+      painting: [paintingFile],
+    });
+    expect(getOriginalFiles(canvas)).toEqual([renderingFile]);
+  });
+
+  it('returns empty array when all sources are empty', () => {
+    const canvas = createMockCanvas();
+    expect(getOriginalFiles(canvas)).toEqual([]);
   });
 });

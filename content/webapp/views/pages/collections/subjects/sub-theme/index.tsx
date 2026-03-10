@@ -40,7 +40,11 @@ const PageGrid = styled(Grid)`
   row-gap: 0;
 `;
 
-const Title = styled.h2.attrs({ className: font('sans-bold', 2) })<{
+const Title = styled(Space).attrs({
+  className: font('sans-bold', 2),
+  as: 'h2',
+  $v: { size: 'md', properties: ['margin-bottom'] },
+})<{
   $hasDarkBackground?: boolean;
 }>`
   color: ${props =>
@@ -72,8 +76,17 @@ const StretchWrapper = styled.div<{ $hasDarkBackground?: boolean }>`
   `}
 `;
 
+type TransformedWorkTypeBucket = {
+  id: string;
+  label: string;
+  count: number;
+};
+export type WorksForTabs = ReturnedResults<WorkBasic> & {
+  workTypes: TransformedWorkTypeBucket[];
+};
+
 type WorksAndImagesResponse = {
-  works?: ReturnedResults<WorkBasic> & { workTypes: unknown[] };
+  works?: WorksForTabs;
   images?: ReturnedResults<ImageType>;
   displayLabels: string[];
 };
@@ -205,9 +218,7 @@ const WellcomeSubThemePage: NextPage<Props> & {
                 title={`New works in ${lowerCasePageTitle}`}
                 id="new-online"
               >
-                <Space $v={{ size: 'lg', properties: ['margin-top'] }}>
-                  <WorkCards works={newOnlineWorks} columns={3} />
-                </Space>
+                <WorkCards works={newOnlineWorks} columns={3} />
               </SectionContainer>
             )}
 
@@ -277,7 +288,7 @@ const WellcomeSubThemePage: NextPage<Props> & {
             The bug got fixed in Safari 18.2 (I think) but we support the latest two versions.
             It would be nice to move it back inside ImageResults once we're two versions ahead. */}
             <ImageModal
-              images={worksAndImagesAbout.images?.pageResults}
+              images={worksAndImagesAbout.images.pageResults}
               expandedImage={expandedImage}
               setExpandedImage={setExpandedImage}
             />

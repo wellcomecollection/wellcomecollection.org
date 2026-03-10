@@ -1,7 +1,5 @@
 import 'styled-components';
-import theme from '@weco/common/views/themes/default';
-
-type ThemeInterface = typeof theme;
+import { ThemeInterface } from '@weco/common/views/themes/default';
 
 declare module 'styled-components' {
   // Augmenting DefaultTheme with our theme type

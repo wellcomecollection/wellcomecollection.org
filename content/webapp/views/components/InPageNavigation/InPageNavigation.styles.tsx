@@ -178,6 +178,7 @@ export const InPageNavAnimatedLink = styled(
 
     &::before {
       background: ${props.theme.color('white')};
+    }
     `)}
 `;
 
