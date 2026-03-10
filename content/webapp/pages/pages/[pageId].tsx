@@ -38,16 +38,18 @@ type Props = ServerSideProps<PagePageProps>;
 export const getGenericPageProps = async ({
   page,
   serverData,
+  canonicalUrl,
 }: {
   page: PageType;
   serverData: SimplifiedServerData;
+  canonicalUrl?: string;
 }) => {
   const bodySliceContexts = await getBodySliceContexts(
     page.untransformedBody,
     serverData.toggles
   );
 
-  const jsonLd = genericPageLd(page);
+  const jsonLd = genericPageLd({ page, canonicalUrl });
 
   return {
     jsonLd,

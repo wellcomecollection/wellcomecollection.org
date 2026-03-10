@@ -1,3 +1,4 @@
+import { thematicBrowsingPaths } from '@weco/common/data/hardcoded-ids';
 import {
   PagesDocumentDataBodySlice,
   ContentListSlice as RawContentListSlice,
@@ -329,7 +330,10 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         relatedStoriesId,
         worksAndImagesAbout,
         relatedTopics,
-        jsonLd: genericPageLd(wellcomeSubThemePage),
+        jsonLd: genericPageLd({
+          page: wellcomeSubThemePage,
+          canonicalUrl: `${thematicBrowsingPaths.subjects}/${pageUid}`,
+        }),
       }),
     };
   }

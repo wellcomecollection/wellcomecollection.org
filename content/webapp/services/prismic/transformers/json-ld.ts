@@ -297,9 +297,15 @@ function orgLd(org: Organization) {
   );
 }
 
-export function genericPageLd(page: Page): JsonLdObj {
+export function genericPageLd({
+  page,
+  canonicalUrl,
+}: {
+  page: Page;
+  canonicalUrl?: string;
+}): JsonLdObj {
   const promoImage = page.promo?.image;
-  const url = linkResolver(page);
+  const url = canonicalUrl || linkResolver(page);
 
   return objToJsonLd(
     {

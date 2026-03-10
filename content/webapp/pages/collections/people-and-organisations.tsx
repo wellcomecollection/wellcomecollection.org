@@ -1,3 +1,4 @@
+import { thematicBrowsingPaths } from '@weco/common/data/hardcoded-ids';
 import { getServerData } from '@weco/common/server-data';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
@@ -39,6 +40,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     const genericPageProps = await getGenericPageProps({
       page: pageDoc,
       serverData,
+      canonicalUrl: thematicBrowsingPaths.peopleAndOrganisations,
     });
 
     return {
