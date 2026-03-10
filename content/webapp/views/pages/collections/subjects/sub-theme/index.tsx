@@ -12,6 +12,7 @@ import {
   createPrismicLink,
 } from '@weco/common/views/components/ApiToolbar';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
@@ -101,6 +102,7 @@ export type Props = {
   relatedStoriesId: string[];
   worksAndImagesAbout: WorksAndImagesResponse;
   relatedTopics: RelatedConcept[];
+  jsonLd: JsonLdObj;
 };
 
 const SectionContainer = ({
@@ -299,6 +301,7 @@ const WellcomeSubThemePage: NextPage<Props> & {
 };
 
 WellcomeSubThemePage.getLayout = page => {
+  console.log(page.props.jsonLd);
   return (
     <ThematicBrowsingLayout
       page={page.props.thematicBrowsingPage}
@@ -311,6 +314,7 @@ WellcomeSubThemePage.getLayout = page => {
       extraBreadcrumbs={[
         { url: `/${prismicPageIds.collections}/subjects`, text: 'Subjects' },
       ]}
+      jsonLd={page.props.jsonLd}
     >
       {page}
     </ThematicBrowsingLayout>

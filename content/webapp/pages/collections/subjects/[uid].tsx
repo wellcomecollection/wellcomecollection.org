@@ -19,6 +19,7 @@ import {
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchPage } from '@weco/content/services/prismic/fetch/pages';
 import { transformContentListSlice } from '@weco/content/services/prismic/transformers/body';
+import { genericPageLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
 import { getConcepts } from '@weco/content/services/wellcome/catalogue/concepts';
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
@@ -328,6 +329,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         relatedStoriesId,
         worksAndImagesAbout,
         relatedTopics,
+        jsonLd: genericPageLd(wellcomeSubThemePage),
       }),
     };
   }

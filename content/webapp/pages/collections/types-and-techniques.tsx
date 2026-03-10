@@ -5,6 +5,7 @@ import {
   ServerSideProps,
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
+import { getGenericPageProps } from '@weco/content/pages/pages/[pageId]';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchPage } from '@weco/content/services/prismic/fetch/pages';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
@@ -36,8 +37,14 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   if (isNotUndefined(thematicBrowsingPage)) {
     const pageDoc = transformPage(thematicBrowsingPage);
 
+    const genericPageProps = await getGenericPageProps({
+      page: pageDoc,
+      serverData,
+    });
+
     return {
       props: serialiseProps<Props>({
+        ...genericPageProps,
         serverData,
         thematicBrowsingPage: pageDoc,
       }),

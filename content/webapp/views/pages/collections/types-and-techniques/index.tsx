@@ -3,6 +3,7 @@ import { ReactElement } from 'react';
 
 import { font } from '@weco/common/utils/classnames';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import {
   ContaineredLayout,
   gridSize12,
@@ -16,6 +17,7 @@ import WorkTypesList from '@weco/content/views/pages/collections/collections.Wor
 
 export type Props = {
   thematicBrowsingPage: Page;
+  jsonLd: JsonLdObj;
 };
 
 const CollectionsTypesPage: NextPage<Props> & {
@@ -51,6 +53,7 @@ CollectionsTypesPage.getLayout = page => {
       page={page.props.thematicBrowsingPage}
       apiToolbarLinks={[createPrismicLink(page.props.thematicBrowsingPage.id)]}
       currentCategory="types-and-techniques"
+      jsonLd={page.props.jsonLd}
     >
       {page}
     </ThematicBrowsingLayout>
