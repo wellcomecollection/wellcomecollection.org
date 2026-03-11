@@ -27,7 +27,7 @@ const ListItem = styled.li<{ $usesShim?: boolean }>`
     !props.$usesShim
       ? `
       &:first-child {
-        padding-left:0;
+        padding-left: 0;
       }
       `
       : ''}

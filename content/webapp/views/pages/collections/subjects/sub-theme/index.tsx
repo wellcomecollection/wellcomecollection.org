@@ -58,7 +58,7 @@ const SectionWrapper = styled(Space).attrs({
   background-color: ${props => props.theme.color('neutral.700')};
 `;
 
-const StretchWrapper = styled.div<{ $hasDarkBackground?: boolean }>`
+const StretchWrapper = styled.section<{ $hasDarkBackground?: boolean }>`
   ${props => props.theme.pageGridOffset('margin-right')};
 
   ${props =>
@@ -78,6 +78,17 @@ const StretchWrapper = styled.div<{ $hasDarkBackground?: boolean }>`
 `;
 
 const ThemeCardsListSection = styled(StretchWrapper)`
+  /* Enough space to clear the sticky header 
+  This is usually applied to h2 (in typography.ts
+  But we don't have one here. */
+
+  scroll-margin-top: 3rem;
+
+  @media (min-width: ${props => props.theme.sizes.md}) {
+    /* Align the top of the heading with the top of the side navigation */
+    scroll-margin-top: ${props => props.theme.getSpaceValue('md', 'md')};
+  }
+
   .container {
     padding-left: 0;
   }
