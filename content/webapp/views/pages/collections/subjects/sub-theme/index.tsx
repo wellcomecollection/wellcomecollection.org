@@ -89,7 +89,7 @@ const ThemeCardsListSection = styled(StretchWrapper)`
     scroll-margin-top: ${props => props.theme.getSpaceValue('md', 'md')};
   }
 
-  .container {
+  ${Container} {
     padding-left: 0;
   }
 `;

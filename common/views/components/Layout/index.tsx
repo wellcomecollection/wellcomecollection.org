@@ -58,7 +58,7 @@ const ContaineredLayout: FunctionComponent<Props> = ({
   gridSizes,
   children,
 }) => (
-  <Container className="container">
+  <Container>
     <Grid>
       <GridCell $sizeMap={gridSizes}>{children}</GridCell>
     </Grid>
