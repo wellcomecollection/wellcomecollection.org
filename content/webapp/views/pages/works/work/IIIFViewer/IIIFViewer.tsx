@@ -21,6 +21,8 @@ import {
 import { TransformedManifest } from '@weco/content/types/manifest';
 import { hasNonImages } from '@weco/content/utils/iiif/v3';
 import { fromQuery } from '@weco/content/views/components/ItemLink';
+import { getTreeCanvasIndexById } from '@weco/content/views/pages/works/work/work.helpers';
+import { UiTree } from '@weco/content/views/pages/works/work/work.types';
 
 import { DelayVisibility, queryParamToArrayIndex } from '.';
 import GridViewer from './GridViewer';
@@ -43,6 +45,7 @@ type IIIFViewerProps = {
   setSearchResults: (v) => void;
   parentManifest?: ParentManifest;
   accessToken?: string;
+  initialArchiveTree?: UiTree;
 };
 
 const LoadingComponent = () => (
@@ -65,6 +68,8 @@ const ZoomedImage = dynamic(() => import('./ZoomedImage'), {
 
 type GridProps = {
   $isFullSupportBrowser: boolean;
+  $useFixedList?: boolean;
+  $hasMultipleCanvases?: boolean;
 };
 
 const Grid = styled.div<GridProps>`
@@ -75,7 +80,10 @@ const Grid = styled.div<GridProps>`
       : 'auto'};
   overflow: hidden;
   grid-template-columns:
-    [left-edge] minmax(200px, 3fr)
+    [left-edge] ${props =>
+      props.$useFixedList || !props.$hasMultipleCanvases
+        ? 'minmax(200px, 3fr)'
+        : 'minmax(200px, 630px)'}
     [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
   grid-template-rows: [top-edge] min-content [desktop-main-start desktop-topbar-end] 1fr [mobile-bottombar-start mobile-main-end] min-content [bottom-edge];
 
@@ -93,9 +101,10 @@ const Grid = styled.div<GridProps>`
     `}
   }
 
-  ${props => props.theme.media('lg')`
-    grid-template-columns: [left-edge] minmax(200px, 330px) [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
-  `}
+  ${props =>
+    props.theme.media('lg')(
+      `grid-template-columns: [left-edge] ${props.$useFixedList || !props.$hasMultipleCanvases ? 'minmax(200px, 330px)' : 'minmax(200px, 630px)'} [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];`
+    )}
 `;
 
 const Sidebar = styled.div<{
@@ -136,6 +145,7 @@ const Main = styled.div<{
   $isDesktopSidebarActive: boolean;
   $isFullSupportBrowser: boolean;
   $hasOnlyImages: boolean; // we adjust the grid area on mobile when this isn't true
+  $hasMultipleCanvases?: boolean;
 }>`
   background: ${props => props.theme.color('black')};
   color: ${props => props.theme.color('white')};
@@ -148,13 +158,14 @@ const Main = styled.div<{
   width: ${props => (props.$isFullSupportBrowser ? 'auto' : '100vw')};
   grid-area: ${props =>
     props.$isFullSupportBrowser
-      ? props.$hasOnlyImages
+      ? props.$hasOnlyImages && !props.$hasMultipleCanvases
         ? 'desktop-main-start / left-edge / mobile-main-end / right-edge'
         : 'desktop-main-start / left-edge / bottom-edge / right-edge'
       : 'auto'};
 
   ${props =>
     props.theme.media('sm')(`
+      min-width: 450px;
       width: auto;
       grid-area: desktop-main-start / ${
         props.$isDesktopSidebarActive ? 'main-start' : 'left-edge'
@@ -211,6 +222,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   setSearchResults,
   parentManifest,
   accessToken,
+  initialArchiveTree,
 }: IIIFViewerProps) => {
   const router = useRouter();
   const {
@@ -234,6 +246,14 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const [mainAreaHeight, setMainAreaHeight] = useState(500);
   const [mainAreaWidth, setMainAreaWidth] = useState(1000);
   const [isResizing, setIsResizing] = useState(false);
+  // Use server-provided archiveTree (items route provides it, images route doesn't need it)
+  const [archiveTree, setArchiveTree] = useState<UiTree>(
+    initialArchiveTree || []
+  );
+  const canvasIndexById = useMemo(
+    () => getTreeCanvasIndexById(archiveTree),
+    [archiveTree]
+  );
   const currentCanvas =
     transformedManifest?.canvases[queryParamToArrayIndex(canvas)];
   const mainImageService = { '@id': currentCanvas?.imageServiceId };
@@ -250,7 +270,9 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   );
   // we only render certain parts of the UI when hasOnlyImages is true
   const hasOnlyImages = !hasNonImages(transformedManifest?.canvases || []);
+  // useFixedSizeList is true when all items are images (using FixedSizeList for virtualization)
   const useFixedSizeList = hasOnlyImages;
+  const hasMultipleCanvases = (transformedManifest?.canvases?.length || 0) > 1;
 
   // We need to reset the MainAreaWidth and MainAreaHeight
   // when the available space changes.
@@ -266,6 +288,19 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     undefined
   );
   const handleResize = () => {
+    // Prevent resize logic when in fullscreen mode for native video player
+    // it causes the fullscreen mode to exit
+    const fullscreenElement =
+      document.fullscreenElement ||
+      (document as Document & { webkitFullscreenElement?: Element })
+        .webkitFullscreenElement;
+    if (
+      fullscreenElement &&
+      fullscreenElement.tagName.toLowerCase() === 'video'
+    ) {
+      return;
+    }
+
     setIsResizing(true);
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
@@ -307,6 +342,9 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         parentManifest,
         searchResults,
         setSearchResults,
+        archiveTree,
+        setArchiveTree,
+        canvasIndexById,
 
         // UI Props:
         viewerRef,
@@ -332,10 +370,15 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         isResizing,
         errorHandler: handleImageError,
         accessToken,
-        useFixedSizeList,
+        hasOnlyImages,
       }}
     >
-      <Grid ref={viewerRef} $isFullSupportBrowser={isFullSupportBrowser}>
+      <Grid
+        ref={viewerRef}
+        $isFullSupportBrowser={isFullSupportBrowser}
+        $useFixedList={useFixedSizeList}
+        $hasMultipleCanvases={hasMultipleCanvases}
+      >
         <Sidebar
           $isActiveMobile={isMobileSidebarActive}
           $isActiveDesktop={isDesktopSidebarActive}
@@ -354,7 +397,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
               iiifImageLocation={
                 shouldUseIifImageLocation ? iiifImageLocation : undefined
               }
-              hasOnlyImages={hasOnlyImages}
             />
           </DelayVisibility>
         </Topbar>
@@ -363,21 +405,24 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
           $isDesktopSidebarActive={isDesktopSidebarActive}
           $isFullSupportBrowser={isFullSupportBrowser}
           $hasOnlyImages={hasOnlyImages}
+          $hasMultipleCanvases={hasMultipleCanvases}
         >
           <DelayVisibility>
             {!showZoomed && hasOnlyImages && <ImageViewerControls />}
-            {hasIiifImage && !hasImageService && isFullSupportBrowser && (
-              <ImageViewer
-                infoUrl={iiifImageLocation.url}
-                id={imageUrl}
-                width={800}
-                index={0}
-                alt={work?.description || work?.title || ''}
-                urlTemplate={urlTemplate}
-              />
-            )}
+            {hasIiifImage &&
+              !hasImageService &&
+              (isFullSupportBrowser || !hasOnlyImages) && (
+                <ImageViewer
+                  infoUrl={iiifImageLocation.url}
+                  id={imageUrl}
+                  width={800}
+                  index={0}
+                  alt={work?.description || work?.title || ''}
+                  urlTemplate={urlTemplate}
+                />
+              )}
 
-            {imageUrl && !isFullSupportBrowser && (
+            {imageUrl && !isFullSupportBrowser && hasOnlyImages && (
               <NoScriptImage urlTemplate={urlTemplate} canvasOcr={canvasOcr} />
             )}
 
@@ -396,17 +441,19 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
             />
           </Zoom>
         )}
-        {isFullSupportBrowser && hasOnlyImages && (
+        {isFullSupportBrowser && (
           <>
             <BottomBar>
               <ViewerBottomBar />
             </BottomBar>
-            <ThumbnailsWrapper
-              $isActive={gridVisible}
-              $isDesktopSidebarActive={isDesktopSidebarActive}
-            >
-              <GridViewer />
-            </ThumbnailsWrapper>
+            {hasOnlyImages && (
+              <ThumbnailsWrapper
+                $isActive={gridVisible}
+                $isDesktopSidebarActive={isDesktopSidebarActive}
+              >
+                <GridViewer />
+              </ThumbnailsWrapper>
+            )}
           </>
         )}
       </Grid>

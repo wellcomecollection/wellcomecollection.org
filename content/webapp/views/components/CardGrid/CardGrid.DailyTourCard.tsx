@@ -32,6 +32,7 @@ export const data: EventBasic = {
   isOnline: false,
   availableOnline: false,
   type: 'events',
+  contributors: [],
 };
 
 const DailyTourCard: FunctionComponent = () => (

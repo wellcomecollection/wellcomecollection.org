@@ -1,3 +1,4 @@
+import { thematicBrowsingPaths } from '@weco/common/data/hardcoded-ids';
 import {
   PagesDocumentDataBodySlice,
   ContentListSlice as RawContentListSlice,
@@ -6,6 +7,8 @@ import {
 } from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
 import { appError } from '@weco/common/services/app';
+import { addDays, today } from '@weco/common/utils/dates';
+import { formatIso8601Date } from '@weco/common/utils/format-date';
 import { serialiseProps } from '@weco/common/utils/json';
 import { getQueryPropertyValue } from '@weco/common/utils/search';
 import { getQueryResults } from '@weco/common/utils/search';
@@ -17,6 +20,7 @@ import {
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchPage } from '@weco/content/services/prismic/fetch/pages';
 import { transformContentListSlice } from '@weco/content/services/prismic/transformers/body';
+import { genericPageLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
 import { getConcepts } from '@weco/content/services/wellcome/catalogue/concepts';
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
@@ -74,6 +78,10 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     'subjects-' + pageUid
   );
 
+  // We want to show works that have been made available online from 00:01 yesterday
+  // as some works require more time to properly build and we got errors in the past
+  // https://github.com/wellcomecollection/wellcomecollection.org/issues/12787
+  const yesterday = formatIso8601Date(addDays(today(), -1));
   const newOnlineWorks: Work[] = [];
   const newOnlineWorksQuery = await getWorks({
     params: {
@@ -85,7 +93,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         '!restricted',
         '!closed',
       ],
-      'items.locations.createdDate.to': '2026-02-18',
+      'items.locations.createdDate.to': yesterday,
       sort: 'items.locations.createdDate',
       sortOrder: 'desc',
     },
@@ -258,7 +266,11 @@ export const getServerSideProps: ServerSidePropsOrAppError<
           workTypes:
             ('aggregations' in worksAboutResponseByLabel &&
               worksAboutResponseByLabel.aggregations?.workType?.buckets.map(
-                bucket => ({ label: bucket.data.label, count: bucket.count })
+                bucket => ({
+                  id: bucket.data.id,
+                  label: bucket.data.label,
+                  count: bucket.count,
+                })
               )) ||
             [],
         },
@@ -318,6 +330,10 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         relatedStoriesId,
         worksAndImagesAbout,
         relatedTopics,
+        jsonLd: genericPageLd({
+          page: wellcomeSubThemePage,
+          canonicalUrl: `${thematicBrowsingPaths.subjects}/${pageUid}`,
+        }),
       }),
     };
   }

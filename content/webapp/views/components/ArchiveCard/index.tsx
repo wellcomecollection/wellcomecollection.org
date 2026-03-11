@@ -37,11 +37,9 @@ const Title = styled(Space).attrs({
   }
 `;
 
-const Description = styled(Space).attrs({
-  as: 'p',
-  $v: { size: 'xl', properties: ['margin-bottom'] },
-})`
+const Description = styled.p`
   ${props => props.theme.clampLines(6)};
+  margin-bottom: 0;
 `;
 
 const ContributorRow = styled(Space).attrs({
@@ -70,9 +68,9 @@ const Extent = styled(Space).attrs({
 
 type Props = {
   id: string;
-  label: string;
   title: string;
-  description: string;
+  label?: string;
+  description?: string;
   contributor?: string;
   isOrganisation: boolean;
   date?: string;
@@ -81,8 +79,8 @@ type Props = {
 
 const ArchiveCard: FunctionComponent<Props> = ({
   id,
-  label,
   title,
+  label,
   description,
   contributor,
   isOrganisation,
@@ -96,27 +94,31 @@ const ArchiveCard: FunctionComponent<Props> = ({
       style={{ textDecoration: 'none', display: 'block', height: '100%' }}
     >
       <Root>
-        <div>
-          <Label>{label}</Label>
+        <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
+          {label && <Label>{label}</Label>}
           <Title>{title}</Title>
-          <Description>{description}</Description>
-        </div>
+          {description && <Description>{description}</Description>}
+        </Space>
 
-        <div>
-          <ContributorRow>
-            <IconWrapper>
-              <Icon
-                title={isOrganisation ? 'organisation' : 'person'}
-                iconColor="white"
-                icon={isOrganisation ? organisation : user}
-                matchText
-              />
-            </IconWrapper>
-            {contributor && <span>{contributor}</span>}
-          </ContributorRow>
-          {date && <span>Date: {date}</span>}
-          {extent && <Extent>Contains: {extent}</Extent>}
-        </div>
+        {(contributor || date || extent) && (
+          <div>
+            {contributor && (
+              <ContributorRow>
+                <IconWrapper>
+                  <Icon
+                    title={isOrganisation ? 'organisation' : 'person'}
+                    iconColor="white"
+                    icon={isOrganisation ? organisation : user}
+                    matchText
+                  />
+                </IconWrapper>
+                <span>{contributor}</span>
+              </ContributorRow>
+            )}
+            {date && <span>Date: {date}</span>}
+            {extent && <Extent>Contains: {extent}</Extent>}
+          </div>
+        )}
       </Root>
     </NextLink>
   );

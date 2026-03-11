@@ -1,3 +1,4 @@
+import { thematicBrowsingPaths } from '@weco/common/data/hardcoded-ids';
 import { getServerData } from '@weco/common/server-data';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
@@ -5,15 +6,15 @@ import {
   ServerSideProps,
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
+import { getGenericPageProps } from '@weco/content/pages/pages/[pageId]';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchPage } from '@weco/content/services/prismic/fetch/pages';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import CollectionsPlacesPage, {
-  Props as CollectionsPlacesPageProps,
-} from '@weco/content/views/pages/collections/places';
+import { ThematicBrowsingCategoryPageProps } from '@weco/content/views/layouts/ThematicBrowsingLayout';
+import CollectionsPlacesPage from '@weco/content/views/pages/collections/places';
 
-type Props = ServerSideProps<CollectionsPlacesPageProps>;
+type Props = ServerSideProps<ThematicBrowsingCategoryPageProps>;
 
 export const getServerSideProps: ServerSidePropsOrAppError<
   Props
@@ -36,8 +37,15 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   if (isNotUndefined(thematicBrowsingPage)) {
     const pageDoc = transformPage(thematicBrowsingPage);
 
+    const genericPageProps = await getGenericPageProps({
+      page: pageDoc,
+      serverData,
+      canonicalUrl: thematicBrowsingPaths.places,
+    });
+
     return {
       props: serialiseProps<Props>({
+        ...genericPageProps,
         serverData,
         thematicBrowsingPage: pageDoc,
       }),

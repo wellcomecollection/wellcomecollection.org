@@ -10,8 +10,6 @@ import {
 import { areEqual, FixedSizeList } from 'react-window';
 import styled from 'styled-components';
 
-import { useUserContext } from '@weco/common/contexts/UserContext';
-import { font } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import useScrollVelocity from '@weco/content/hooks/useScrollVelocity';
@@ -21,7 +19,6 @@ import { TransformedCanvas } from '@weco/content/types/manifest';
 import { TransformedAuthService } from '@weco/content/utils/iiif/v3';
 import { getDisplayItems } from '@weco/content/utils/iiif/v3/canvas';
 import IIIFItem from '@weco/content/views/pages/works/work/IIIFItem';
-import DownloadTableSection from '@weco/content/views/pages/works/work/IIIFViewer/DownloadTableSection';
 
 import { queryParamToArrayIndex } from '.';
 
@@ -34,22 +31,11 @@ const MainViewerContainer = styled.div<{ $useFixedList: boolean }>`
   `
       : `
     position: relative;
-    display: flex;
-    flex-direction: column;
   `}
 `;
 
-const ItemWrapper = styled.div<{
-  $hasMultipleCanvases?: boolean;
-  $isAudio?: boolean;
-  $isImage?: boolean;
-  $isText?: boolean;
-}>`
-  ${props => !props.$isAudio && 'height: 100%;'}
-  ${props =>
-    props.$isImage || props.$isText ? 'min-height: 50vh;' : 'min-height: 30vh;'}
-  position: relative;
-  overflow: auto;
+const ItemWrapper = styled.div`
+  height: 100%;
 
   .pdf-wrapper,
   iframe {
@@ -98,17 +84,6 @@ const SearchTermHighlight = styled.div<SearchTermHighlightProps>`
   transform-origin: 0 0;
   transform: ${props => `rotate(${props.$rotation}deg)`};
   mix-blend-mode: color;
-`;
-
-const MessageContainer = styled.div`
-  min-width: 360px;
-  max-width: 60%;
-  margin: 0 auto;
-  border: 1px solid ${props => props.theme.color('neutral.600')};
-  height: 80%;
-  margin-top: 50%;
-  transform: translateY(-50%);
-  padding: 10%;
 `;
 
 type ItemRendererProps = {
@@ -249,11 +224,10 @@ function getPositionData({
 }
 
 const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
-  const { scrollVelocity, canvases, externalAccessService, placeholderId } =
+  const { scrollVelocity, canvases, placeholderId, externalAccessService } =
     data;
+
   const currentCanvas = canvases[index];
-  const { userIsStaffWithRestricted } = useUserContext();
-  const isRestricted = currentCanvas.hasRestrictedImage;
   const { searchResults, rotatedImages } = useItemViewerContext();
   const [imageRect, setImageRect] = useState<DOMRect | undefined>();
   const [imageContainerRect, setImageContainerRect] = useState<
@@ -298,23 +272,6 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <LL $lighten={true} />
         </div>
-      ) : isRestricted && !userIsStaffWithRestricted ? (
-        // We always want to show the restricted message to users without a role of 'StaffWithRestricted'
-        // If the user has the correct role then officially we should check the probe service repsonse before trying to load the image.
-        // https://iiif.io/api/auth/2.0/#probe-service
-        // However, we've opted to just try and load the image if the accessToken is available rather than making an additional call
-        // In our case the probe service doesn't offer any information other than whether the image would load, so we may as well try that directly.
-        <MessageContainer>
-          <h2 className={font('sans-bold', 0)}>
-            {externalAccessService?.label}
-          </h2>
-          <p
-            className={font('sans', -1)}
-            dangerouslySetInnerHTML={{
-              __html: externalAccessService?.description || '',
-            }}
-          />
-        </MessageContainer>
       ) : (
         <>
           {overlayPositionData &&
@@ -334,10 +291,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
           {displayItems.length > 0 &&
             displayItems.map(item => {
               return (
-                <ItemWrapper
-                  key={item.type + item.id}
-                  $isAudio={item.type === 'Sound'}
-                >
+                <ItemWrapper key={item.type + item.id}>
                   <IIIFItem
                     placeholderId={placeholderId}
                     item={item}
@@ -347,6 +301,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
                     exclude={[]}
                     setImageRect={setImageRect}
                     setImageContainerRect={setImageContainerRect}
+                    externalAccessService={externalAccessService}
                   />
                 </ItemWrapper>
               );
@@ -405,7 +360,6 @@ const MainViewer: FunctionComponent = () => {
     mainAreaHeight,
     mainAreaWidth,
     transformedManifest,
-    work,
     query,
     setShowZoomed,
     setShowFullscreenControl,
@@ -413,7 +367,8 @@ const MainViewer: FunctionComponent = () => {
     setShowControls,
     errorHandler,
     accessToken,
-    useFixedSizeList,
+    hasOnlyImages,
+    canvasIndexById,
   } = useItemViewerContext();
   const { shouldScrollToCanvas, canvas } = query;
   const mainViewerRef = useRef<FixedSizeList>(null);
@@ -429,9 +384,23 @@ const MainViewer: FunctionComponent = () => {
   const { canvases, auth, placeholderId } = {
     ...transformedManifest,
   };
-  const currentCanvas = canvases?.[queryParamToArrayIndex(canvas)];
 
+  // Canvas order is determined by structures if we have them, which aren't always the same
   const externalAccessService = auth?.externalAccessService;
+  // as the order of canvases in the items array.
+  // The canvasIndexById provides a mapping between the canvas ID
+  // and the correct display index based on the archival structure.
+  // We only use this mapping if it contains all canvases to ensure consistent ordering -
+  // otherwise we fall back to array indexing.
+  const hasCompleteStructure =
+    canvasIndexById && Object.keys(canvasIndexById).length === canvases?.length;
+  const currentCanvasId = hasCompleteStructure
+    ? Object.keys(canvasIndexById).find(id => canvasIndexById[id] === canvas)
+    : undefined;
+
+  const currentCanvas = currentCanvasId
+    ? canvases?.find(c => c.id === currentCanvasId)
+    : canvases?.[queryParamToArrayIndex(canvas)];
 
   // We hide the zoom and rotation controls while the user is scrolling
   function handleOnScroll({ scrollOffset }) {
@@ -471,15 +440,14 @@ const MainViewer: FunctionComponent = () => {
   }, [canvas]);
 
   const displayItems = currentCanvas ? getDisplayItems(currentCanvas) : [];
-  const hasMultipleCanvases = canvases && canvases.length > 1;
 
   useEffect(() => {
-    if (!useFixedSizeList) {
+    if (!hasOnlyImages) {
       setShowFullscreenControl(false);
     }
-  }, [useFixedSizeList, setShowFullscreenControl]);
+  }, [hasOnlyImages, setShowFullscreenControl]);
 
-  if (useFixedSizeList) {
+  if (hasOnlyImages) {
     return (
       <MainViewerContainer $useFixedList={true} data-testid="main-viewer">
         <FixedSizeList
@@ -515,13 +483,7 @@ const MainViewer: FunctionComponent = () => {
         {displayItems.map((item, i) => {
           return (
             currentCanvas && (
-              <ItemWrapper
-                key={item.type + item.id}
-                $hasMultipleCanvases={hasMultipleCanvases}
-                $isAudio={item.type === 'Sound'}
-                $isImage={item.type === 'Image'}
-                $isText={item.type === 'Text'}
-              >
+              <ItemWrapper key={item.type + item.id}>
                 <IIIFItem
                   placeholderId={placeholderId}
                   item={item}
@@ -530,19 +492,13 @@ const MainViewer: FunctionComponent = () => {
                   titleOverride={`${canvas}/${canvases?.length}`}
                   exclude={[]}
                   isDark={true}
+                  externalAccessService={externalAccessService}
                 />
               </ItemWrapper>
             )
           );
         })}
       </>
-      {hasMultipleCanvases && (
-        <DownloadTableSection
-          canvases={canvases}
-          workId={work.id}
-          canvas={canvas}
-        />
-      )}
     </MainViewerContainer>
   );
 };

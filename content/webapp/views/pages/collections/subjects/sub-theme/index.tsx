@@ -12,6 +12,7 @@ import {
   createPrismicLink,
 } from '@weco/common/views/components/ApiToolbar';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
@@ -40,7 +41,11 @@ const PageGrid = styled(Grid)`
   row-gap: 0;
 `;
 
-const Title = styled.h2.attrs({ className: font('sans-bold', 2) })<{
+const Title = styled(Space).attrs({
+  className: font('sans-bold', 2),
+  as: 'h2',
+  $v: { size: 'md', properties: ['margin-bottom'] },
+})<{
   $hasDarkBackground?: boolean;
 }>`
   color: ${props =>
@@ -72,8 +77,17 @@ const StretchWrapper = styled.div<{ $hasDarkBackground?: boolean }>`
   `}
 `;
 
+type TransformedWorkTypeBucket = {
+  id: string;
+  label: string;
+  count: number;
+};
+export type WorksForTabs = ReturnedResults<WorkBasic> & {
+  workTypes: TransformedWorkTypeBucket[];
+};
+
 type WorksAndImagesResponse = {
-  works?: ReturnedResults<WorkBasic> & { workTypes: unknown[] };
+  works?: WorksForTabs;
   images?: ReturnedResults<ImageType>;
   displayLabels: string[];
 };
@@ -88,6 +102,7 @@ export type Props = {
   relatedStoriesId: string[];
   worksAndImagesAbout: WorksAndImagesResponse;
   relatedTopics: RelatedConcept[];
+  jsonLd: JsonLdObj;
 };
 
 const SectionContainer = ({
@@ -205,9 +220,7 @@ const WellcomeSubThemePage: NextPage<Props> & {
                 title={`New works in ${lowerCasePageTitle}`}
                 id="new-online"
               >
-                <Space $v={{ size: 'lg', properties: ['margin-top'] }}>
-                  <WorkCards works={newOnlineWorks} columns={3} />
-                </Space>
+                <WorkCards works={newOnlineWorks} columns={3} />
               </SectionContainer>
             )}
 
@@ -277,7 +290,7 @@ const WellcomeSubThemePage: NextPage<Props> & {
             The bug got fixed in Safari 18.2 (I think) but we support the latest two versions.
             It would be nice to move it back inside ImageResults once we're two versions ahead. */}
             <ImageModal
-              images={worksAndImagesAbout.images?.pageResults}
+              images={worksAndImagesAbout.images.pageResults}
               expandedImage={expandedImage}
               setExpandedImage={setExpandedImage}
             />
@@ -300,6 +313,7 @@ WellcomeSubThemePage.getLayout = page => {
       extraBreadcrumbs={[
         { url: `/${prismicPageIds.collections}/subjects`, text: 'Subjects' },
       ]}
+      jsonLd={page.props.jsonLd}
     >
       {page}
     </ThematicBrowsingLayout>

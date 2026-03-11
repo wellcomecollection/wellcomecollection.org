@@ -13,7 +13,7 @@ import {
 } from '@weco/content/services/wellcome/content/types/api';
 import { Article } from '@weco/content/types/articles';
 import { Contributor } from '@weco/content/types/contributors';
-import { Event } from '@weco/content/types/events';
+import { Event, EventBasic } from '@weco/content/types/events';
 import {
   ExhibitionGuide,
   ExhibitionHighlightTour,
@@ -99,7 +99,7 @@ export function exhibitionLd(exhibition: Exhibition): JsonLdObj {
   );
 }
 
-export function eventLd(event: Event): JsonLdObj[] {
+export function eventLd(event: Event | EventBasic): JsonLdObj[] {
   const promoImage = event.promo?.image;
   return event.times
     .map(eventTime => {
@@ -294,6 +294,31 @@ function orgLd(org: Organization) {
       },
       { type: 'Organization' }
     )
+  );
+}
+
+export function genericPageLd({
+  page,
+  canonicalUrl,
+}: {
+  page: Page;
+  canonicalUrl?: string;
+}): JsonLdObj {
+  const promoImage = page.promo?.image;
+  const url = canonicalUrl || linkResolver(page);
+
+  return objToJsonLd(
+    {
+      name: page.title,
+      headline: page.title,
+      description: page.promo?.caption,
+      image: promoImage ? getImageUrlAtSize(promoImage, { w: 600 }) : undefined,
+      datePublished: page.datePublished,
+      dateModified: page.datePublished,
+      publisher: orgLd(wellcomeCollectionGallery),
+      mainEntityOfPage: `https://wellcomecollection.org${url}`,
+    },
+    { type: 'WebPage' }
   );
 }
 
