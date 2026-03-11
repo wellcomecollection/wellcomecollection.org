@@ -40,7 +40,7 @@ type Props = ServerSideProps<WellcomeSubThemePageProps>;
 // We are hand-selecting concept ids for each subject page
 // so we can show results for multiple related concepts
 const CONCEPT_GROUPS: Record<string, string[]> = {
-  'medicine-care-and-treatment': ['hvngn3u7', 'raz92g59', 'patspgf3'],
+  'medicine-care-and-treatment': ['hvngn3u7', 'raz92g59'],
   'sex-sexual-health-and-reproduction': [
     'brm4ha66',
     'bmfun6aj',
