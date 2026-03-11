@@ -85,6 +85,11 @@ const ThematicBrowsingHeader = ({
                   </a>
                 </li>
                 <li>
+                  <a href="/collections/subjects/public-health">
+                    Public health
+                  </a>
+                </li>
+                <li>
                   <a href="/collections/subjects/medicine-care-and-treatment">
                     Medicine, care and treatment
                   </a>

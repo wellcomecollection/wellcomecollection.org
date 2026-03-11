@@ -58,7 +58,7 @@ const SectionWrapper = styled(Space).attrs({
   background-color: ${props => props.theme.color('neutral.700')};
 `;
 
-const StretchWrapper = styled.div<{ $hasDarkBackground?: boolean }>`
+const StretchWrapper = styled.section<{ $hasDarkBackground?: boolean }>`
   ${props => props.theme.pageGridOffset('margin-right')};
 
   ${props =>
@@ -75,6 +75,23 @@ const StretchWrapper = styled.div<{ $hasDarkBackground?: boolean }>`
       z-index: 0;
     }
   `}
+`;
+
+const ThemeCardsListSection = styled(StretchWrapper)`
+  /* Enough space to clear the sticky header 
+  This is usually applied to h2 (in typography.ts
+  But we don't have one here. */
+
+  scroll-margin-top: 3rem;
+
+  @media (min-width: ${props => props.theme.sizes.md}) {
+    /* Align the top of the heading with the top of the side navigation */
+    scroll-margin-top: ${props => props.theme.getSpaceValue('md', 'md')};
+  }
+
+  ${Container} {
+    padding-left: 0;
+  }
 `;
 
 type TransformedWorkTypeBucket = {
@@ -146,10 +163,21 @@ const WellcomeSubThemePage: NextPage<Props> & {
     worksAndImagesAbout.images?.pageResults || []
   );
 
+  const categoryThemeCardsListTitle = 'About this topic';
+  const categoryThemeCardsListWithTitle = categoryThemeCardsList
+    ? {
+        ...categoryThemeCardsList,
+        primary: {
+          ...categoryThemeCardsList.primary,
+          title: categoryThemeCardsListTitle,
+        },
+      }
+    : undefined;
+
   const lowerCasePageTitle = thematicBrowsingPage.title.toLowerCase();
   const onThisPage = [
     ...(categoryThemeCardsList
-      ? [{ text: 'About this topic', url: `#about` }] // TODO this id doesn't exist yet, might need to change
+      ? [{ text: categoryThemeCardsListTitle, url: `#theme-cards` }]
       : []),
     ...(newOnlineWorks.length > 0
       ? [
@@ -203,16 +231,14 @@ const WellcomeSubThemePage: NextPage<Props> & {
 
         <GridCell $sizeMap={{ s: [12], m: [12], l: [9], xl: [9] }}>
           <Space $v={{ size: 'sm', properties: ['padding-top'] }}>
-            {categoryThemeCardsList && (
-              <StretchWrapper>
-                <Title id="about">About this topic</Title>
-
+            {categoryThemeCardsListWithTitle && (
+              <ThemeCardsListSection id="theme-cards">
                 <SliceZone
-                  slices={[categoryThemeCardsList]}
+                  slices={[categoryThemeCardsListWithTitle]}
                   components={components}
                   context={{ hasNoShim: true }}
                 />
-              </StretchWrapper>
+              </ThemeCardsListSection>
             )}
 
             {newOnlineWorks.length > 0 && (
