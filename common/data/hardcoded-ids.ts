@@ -64,6 +64,13 @@ export const prismicPageIds = {
   youth: 'young-people',
 };
 
+export const thematicBrowsingPaths = {
+  peopleAndOrganisations: `/${prismicPageIds.collections}/people-and-organisations`,
+  places: `/${prismicPageIds.collections}/places`,
+  typesAndTechniques: `/${prismicPageIds.collections}/types-and-techniques`,
+  subjects: `/${prismicPageIds.collections}/subjects`,
+} as const;
+
 export const eventPolicyIds = {
   schoolBooking: 'W4Vx5h4AACIAehqz',
   dropIn: 'W3RJeikAACIAF2Mw',
