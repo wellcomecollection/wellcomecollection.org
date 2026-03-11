@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import yargs from 'yargs';
 
 import 'dotenv/config';
-import { logError } from '@weco/prismic-model/utils/console';
+import { logError } from '@weco/common/utils/console-logs';
 
 const { type } = yargs(process.argv.slice(2))
   .usage('Usage: $0 --type [customTypeId]')

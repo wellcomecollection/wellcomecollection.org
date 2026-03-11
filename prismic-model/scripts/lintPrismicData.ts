@@ -16,16 +16,12 @@ import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import fs from 'fs';
 import yargs from 'yargs';
 
+import { logError, logInfo, logSuccess } from '@weco/common/utils/console-logs';
 import { pluralize } from '@weco/common/utils/grammar';
 import {
   downloadPrismicSnapshot,
   getPrismicDocuments,
 } from '@weco/prismic-model/scripts/downloadSnapshot';
-import {
-  logError,
-  logInfo,
-  logSuccess,
-} from '@weco/prismic-model/utils/console';
 
 type ErrorProps = {
   id: string;
@@ -490,9 +486,9 @@ async function run() {
   await cloudFrontClient.send(command);
 
   if (totalErrors === 0) {
-    logSuccess('✅ No errors detected');
+    logSuccess('No errors detected');
   } else {
-    logError(`🚨 ${totalErrors} error${totalErrors > 1 ? 's' : ''} detected`);
+    logError(`${totalErrors} error${totalErrors > 1 ? 's' : ''} detected`);
   }
 }
 
