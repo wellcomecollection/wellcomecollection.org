@@ -35,6 +35,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       'subjects-sex-sexual-health-and-reproduction',
       'aaBgRBAAACMAxoYU',
     ],
+    publicHealth: ['subjects-public-health', 'abGHbREAACAAi2gO'],
   };
   const flattenedHiddenPages = Object.values(collectionsHiddenPages).flat();
 
