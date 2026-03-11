@@ -11,7 +11,8 @@
 import fetch from 'node-fetch';
 import tqdm from 'tqdm';
 
-import { error } from './console';
+import { logError } from '@weco/prismic-model/utils/console';
+
 import {
   downloadPrismicSnapshot,
   getPrismicDocuments,
@@ -79,11 +80,11 @@ async function run() {
   }
 
   for (const message of pageErrors) {
-    error(message);
+    logError(message);
   }
 }
 
 run().catch(err => {
-  error(err);
+  logError(`${err}`);
   process.exit(1);
 });

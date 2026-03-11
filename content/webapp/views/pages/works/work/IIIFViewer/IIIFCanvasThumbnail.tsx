@@ -10,7 +10,11 @@ import Icon from '@weco/common/views/components/Icon';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
 import { TransformedCanvas } from '@weco/content/types/manifest';
-import { isChoiceBody, isPDFCanvas } from '@weco/content/utils/iiif/v3';
+import {
+  hasRestrictedItem,
+  isChoiceBody,
+  isPDFCanvas,
+} from '@weco/content/utils/iiif/v3';
 import { IIIFItemProps } from '@weco/content/views/pages/works/work/IIIFItem';
 
 import IIIFViewerImage from './IIIFViewerImage';
@@ -91,7 +95,7 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
 }: IIIFCanvasThumbnailProps) => {
   const [thumbnailLoaded, setThumbnailLoaded] = useState(false);
   const { userIsStaffWithRestricted } = useUserContext();
-  const isRestricted = canvas.hasRestrictedImage;
+  const isRestricted = hasRestrictedItem(canvas);
   const urlTemplate = canvas.imageServiceId
     ? iiifImageTemplate(canvas.imageServiceId)
     : undefined;

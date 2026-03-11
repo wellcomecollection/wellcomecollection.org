@@ -1,5 +1,11 @@
 - label: ':docker: build common'
   key: 'build_common'
+  retry:
+    automatic:
+      - exit_status: -1
+        limit: 2
+      - exit_status: 143  # SIGTERM
+        limit: 2
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: 'arn:aws:iam::130871440101:role/experience-ci'
@@ -12,6 +18,12 @@
 
 - label: ':docker: build content'
   key: 'build_content'
+  retry:
+    automatic:
+      - exit_status: -1
+        limit: 2
+      - exit_status: 143  # SIGTERM
+        limit: 2
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: 'arn:aws:iam::130871440101:role/experience-ci'
@@ -29,6 +41,12 @@
 
 - label: ':docker: build edge_lambdas'
   key: 'build_edge_lambdas'
+  retry:
+    automatic:
+      - exit_status: -1
+        limit: 2
+      - exit_status: 143  # SIGTERM
+        limit: 2
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: 'arn:aws:iam::130871440101:role/experience-ci'
@@ -41,6 +59,12 @@
 
 - label: ':docker: build identity'
   key: 'build_identity'
+  retry:
+    automatic:
+      - exit_status: -1
+        limit: 2
+      - exit_status: 143  # SIGTERM
+        limit: 2
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: 'arn:aws:iam::130871440101:role/experience-ci'

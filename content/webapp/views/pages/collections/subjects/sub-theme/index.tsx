@@ -12,6 +12,7 @@ import {
   createPrismicLink,
 } from '@weco/common/views/components/ApiToolbar';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
@@ -40,7 +41,11 @@ const PageGrid = styled(Grid)`
   row-gap: 0;
 `;
 
-const Title = styled.h2.attrs({ className: font('sans-bold', 2) })<{
+const Title = styled(Space).attrs({
+  className: font('sans-bold', 2),
+  as: 'h2',
+  $v: { size: 'md', properties: ['margin-bottom'] },
+})<{
   $hasDarkBackground?: boolean;
 }>`
   color: ${props =>
@@ -53,7 +58,7 @@ const SectionWrapper = styled(Space).attrs({
   background-color: ${props => props.theme.color('neutral.700')};
 `;
 
-const StretchWrapper = styled.div<{ $hasDarkBackground?: boolean }>`
+const StretchWrapper = styled.section<{ $hasDarkBackground?: boolean }>`
   ${props => props.theme.pageGridOffset('margin-right')};
 
   ${props =>
@@ -72,8 +77,34 @@ const StretchWrapper = styled.div<{ $hasDarkBackground?: boolean }>`
   `}
 `;
 
+const ThemeCardsListSection = styled(StretchWrapper)`
+  /* Enough space to clear the sticky header 
+  This is usually applied to h2 (in typography.ts
+  But we don't have one here. */
+
+  scroll-margin-top: 3rem;
+
+  @media (min-width: ${props => props.theme.sizes.md}) {
+    /* Align the top of the heading with the top of the side navigation */
+    scroll-margin-top: ${props => props.theme.getSpaceValue('md', 'md')};
+  }
+
+  ${Container} {
+    padding-left: 0;
+  }
+`;
+
+type TransformedWorkTypeBucket = {
+  id: string;
+  label: string;
+  count: number;
+};
+export type WorksForTabs = ReturnedResults<WorkBasic> & {
+  workTypes: TransformedWorkTypeBucket[];
+};
+
 type WorksAndImagesResponse = {
-  works?: ReturnedResults<WorkBasic> & { workTypes: unknown[] };
+  works?: WorksForTabs;
   images?: ReturnedResults<ImageType>;
   displayLabels: string[];
 };
@@ -88,6 +119,7 @@ export type Props = {
   relatedStoriesId: string[];
   worksAndImagesAbout: WorksAndImagesResponse;
   relatedTopics: RelatedConcept[];
+  jsonLd: JsonLdObj;
 };
 
 const SectionContainer = ({
@@ -131,10 +163,21 @@ const WellcomeSubThemePage: NextPage<Props> & {
     worksAndImagesAbout.images?.pageResults || []
   );
 
+  const categoryThemeCardsListTitle = 'About this topic';
+  const categoryThemeCardsListWithTitle = categoryThemeCardsList
+    ? {
+        ...categoryThemeCardsList,
+        primary: {
+          ...categoryThemeCardsList.primary,
+          title: categoryThemeCardsListTitle,
+        },
+      }
+    : undefined;
+
   const lowerCasePageTitle = thematicBrowsingPage.title.toLowerCase();
   const onThisPage = [
     ...(categoryThemeCardsList
-      ? [{ text: 'About this topic', url: `#about` }] // TODO this id doesn't exist yet, might need to change
+      ? [{ text: categoryThemeCardsListTitle, url: `#theme-cards` }]
       : []),
     ...(newOnlineWorks.length > 0
       ? [
@@ -188,16 +231,14 @@ const WellcomeSubThemePage: NextPage<Props> & {
 
         <GridCell $sizeMap={{ s: [12], m: [12], l: [9], xl: [9] }}>
           <Space $v={{ size: 'sm', properties: ['padding-top'] }}>
-            {categoryThemeCardsList && (
-              <StretchWrapper>
-                <Title id="about">About this topic</Title>
-
+            {categoryThemeCardsListWithTitle && (
+              <ThemeCardsListSection id="theme-cards">
                 <SliceZone
-                  slices={[categoryThemeCardsList]}
+                  slices={[categoryThemeCardsListWithTitle]}
                   components={components}
                   context={{ hasNoShim: true }}
                 />
-              </StretchWrapper>
+              </ThemeCardsListSection>
             )}
 
             {newOnlineWorks.length > 0 && (
@@ -205,9 +246,7 @@ const WellcomeSubThemePage: NextPage<Props> & {
                 title={`New works in ${lowerCasePageTitle}`}
                 id="new-online"
               >
-                <Space $v={{ size: 'lg', properties: ['margin-top'] }}>
-                  <WorkCards works={newOnlineWorks} columns={3} />
-                </Space>
+                <WorkCards works={newOnlineWorks} columns={3} />
               </SectionContainer>
             )}
 
@@ -277,7 +316,7 @@ const WellcomeSubThemePage: NextPage<Props> & {
             The bug got fixed in Safari 18.2 (I think) but we support the latest two versions.
             It would be nice to move it back inside ImageResults once we're two versions ahead. */}
             <ImageModal
-              images={worksAndImagesAbout.images?.pageResults}
+              images={worksAndImagesAbout.images.pageResults}
               expandedImage={expandedImage}
               setExpandedImage={setExpandedImage}
             />
@@ -300,6 +339,7 @@ WellcomeSubThemePage.getLayout = page => {
       extraBreadcrumbs={[
         { url: `/${prismicPageIds.collections}/subjects`, text: 'Subjects' },
       ]}
+      jsonLd={page.props.jsonLd}
     >
       {page}
     </ThematicBrowsingLayout>

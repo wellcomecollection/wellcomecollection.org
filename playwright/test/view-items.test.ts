@@ -5,7 +5,8 @@ import {
   itemWithAltText,
   itemWithNonRestrictedAndOpenAccess,
   itemWithOnlyOpenAccess,
-  itemWithOnlyRestrictedAccess,
+  itemWithOnlyRestrictedAccessImages,
+  itemWithOnlyRestrictedAccessNonImages,
   itemWithReferenceNumber,
   itemWithRestrictedAndNonRestrictedAccess,
   itemWithRestrictedAndOpenAccess,
@@ -234,11 +235,11 @@ test('(18) | An item with a mix of restricted and open access items will not dis
   await expect(page.getByTestId('image-0')).toBeInViewport();
 });
 
-test('(19) | An item with only restricted access items will display a modal with no option to view the content', async ({
+test('(19) | An item with only restricted access images will display a modal with no option to view the content', async ({
   page,
   context,
 }) => {
-  await itemWithOnlyRestrictedAccess(context, page);
+  await itemWithOnlyRestrictedAccessImages(context, page);
   await expect(
     page.getByRole('heading', { name: 'Restricted material' })
   ).toBeVisible();
@@ -246,7 +247,19 @@ test('(19) | An item with only restricted access items will display a modal with
   await expect(page.getByTestId('image-0')).toBeHidden();
 });
 
-test('(20) | An item with a mix of restricted and non-restricted access items will display a modal that offers access to the content', async ({
+test('(20) | An item with only restricted access non image items will display a modal with no option to view the content', async ({
+  page,
+  context,
+}) => {
+  await itemWithOnlyRestrictedAccessNonImages(context, page);
+  await expect(
+    page.getByRole('heading', { name: 'Restricted material' })
+  ).toBeVisible();
+  await expect(page.getByText('Show the content')).toBeHidden();
+  await expect(page.getByTestId('image-0')).toBeHidden();
+});
+
+test('(21) | An item with a mix of restricted and non-restricted access items will display a modal that offers access to the content', async ({
   page,
   context,
 }) => {
@@ -259,7 +272,7 @@ test('(20) | An item with a mix of restricted and non-restricted access items wi
   await expect(page.getByTestId('image-0')).toBeHidden();
 });
 
-test('(21) | An item with a mix of non-restricted and open access items will display a modal that offers access to the content', async ({
+test('(22) | An item with a mix of non-restricted and open access items will display a modal that offers access to the content', async ({
   page,
   context,
 }) => {
@@ -272,7 +285,7 @@ test('(21) | An item with a mix of non-restricted and open access items will dis
   await expect(page.getByTestId('image-0')).toBeHidden();
 });
 
-test('(22) | Clicking thumbnail grid items updates the main viewer', async ({
+test('(23) | Clicking thumbnail grid items updates the main viewer', async ({
   page,
   context,
 }) => {
