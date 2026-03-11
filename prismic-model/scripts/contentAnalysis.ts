@@ -2,11 +2,11 @@ import fs from 'fs';
 import yargs from 'yargs';
 
 import { createClient as createPrismicClient } from '@weco/common/services/prismic/fetch';
+import { logInfo, logSuccess } from '@weco/common/utils/console-logs';
 import {
   downloadPrismicSnapshot,
   getPrismicDocuments,
 } from '@weco/prismic-model/scripts/downloadSnapshot';
-import { logInfo, logSuccess } from '@weco/prismic-model/utils/console';
 
 const { type, report, printUrl } = yargs(process.argv.slice(2))
   .usage('Usage: $0 --type [string] --report [boolean] --printUrl [boolean]')

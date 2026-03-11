@@ -27,8 +27,8 @@
 import fs from 'fs';
 import yargs from 'yargs';
 
+import { logInfo, logSuccess } from '@weco/common/utils/console-logs';
 import { components } from '@weco/common/views/slices';
-import { logInfo, logSuccess } from '@weco/prismic-model/utils/console';
 
 import {
   downloadPrismicSnapshot,
