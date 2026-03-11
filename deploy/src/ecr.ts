@@ -7,8 +7,9 @@ import {
   PutImageCommand,
 } from '@aws-sdk/client-ecr';
 
+import { logInfo, logSuccess } from '@weco/common/utils/console-logs';
+
 import { BACKUP_TAG, DEV_TAG, ENV_TAG } from './config';
-import { logInfo, logSuccess } from './logger';
 
 /**
  * Helper to treat ECR "image not found" errors as null/empty but rethrow

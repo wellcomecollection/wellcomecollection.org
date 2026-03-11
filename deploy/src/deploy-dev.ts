@@ -7,6 +7,13 @@ import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
 import {
+  logBanner,
+  logError,
+  logInfo,
+  logSuccess,
+} from '@weco/common/utils/console-logs';
+
+import {
   type AppName,
   BACKUP_TAG,
   CLUSTER,
@@ -26,7 +33,6 @@ import {
 } from './ecr';
 import { loginToPrivateEcr, loginToPublicEcr } from './ecr-login';
 import { forceNewDeployment, waitForServiceStable } from './ecs';
-import { logBanner, logError, logInfo, logSuccess } from './logger';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, '../..');

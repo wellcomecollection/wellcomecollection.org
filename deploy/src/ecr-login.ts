@@ -6,13 +6,14 @@ import {
 import type { AwsCredentialIdentityProvider } from '@aws-sdk/types';
 import { execFileSync } from 'child_process';
 
+import { logInfo, logSuccess } from '@weco/common/utils/console-logs';
+
 import {
   ECR_PUBLIC_REGION,
   ECR_PUBLIC_REGISTRY,
   ECR_REGION,
   ECR_REGISTRY,
 } from './config';
-import { logInfo, logSuccess } from './logger';
 
 /**
  * Authenticate Docker with an ECR registry using a password.

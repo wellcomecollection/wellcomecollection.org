@@ -12,7 +12,7 @@
     "@aws-sdk/client-ecr-public": "^3.946.0",
     "@aws-sdk/client-ecs": "^3.946.0",
     "@aws-sdk/credential-providers": "^3.946.0",
-    "chalk": "^4.1.2",
+    "@weco/common": "1.0.0",
     "yargs": "^17.2.1"
   },
   "devDependencies": {

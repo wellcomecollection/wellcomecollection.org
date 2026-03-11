@@ -4,7 +4,7 @@ import {
   waitUntilServicesStable,
 } from '@aws-sdk/client-ecs';
 
-import { logInfo, logSuccess } from './logger';
+import { logInfo, logSuccess } from '@weco/common/utils/console-logs';
 
 /**
  * Trigger a new ECS deployment without changing the task definition.

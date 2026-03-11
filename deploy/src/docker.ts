@@ -1,6 +1,6 @@
 import { execFileSync } from 'child_process';
 
-import { logInfo, logSuccess } from './logger';
+import { logInfo, logSuccess } from '@weco/common/utils/console-logs';
 
 /**
  * Build a Docker image for an app using its Dockerfile.
