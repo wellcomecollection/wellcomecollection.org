@@ -40,6 +40,8 @@ const NewsletterSignup: FunctionComponent<Props> = ({
   const [firstNameValue, setFirstNameValue] = useState('');
   const [lastNameValue, setLastNameValue] = useState('');
   const emailValidation = useValidation();
+  const firstNameValidation = useValidation();
+  const lastNameValidation = useValidation();
 
   function updateCheckedInputs(event: SyntheticEvent<HTMLInputElement>) {
     const isChecked = event.currentTarget.checked;
@@ -51,18 +53,22 @@ const NewsletterSignup: FunctionComponent<Props> = ({
     setCheckedInputs(newInputs);
   }
 
-  const isButtonDisabled =
-    checkedInputs.length === 0 ||
-    !firstNameValue.trim() ||
-    !lastNameValue.trim() ||
-    !emailValidation.isValid;
+  const isButtonDisabled = checkedInputs.length === 0;
 
   function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
 
     emailValidation.setShowValidity(true);
+    firstNameValidation.setShowValidity(true);
+    lastNameValidation.setShowValidity(true);
 
-    if (isButtonDisabled) return;
+    if (
+      isButtonDisabled ||
+      !firstNameValidation.isValid ||
+      !lastNameValidation.isValid ||
+      !emailValidation.isValid
+    )
+      return;
 
     event.currentTarget.submit();
   }
@@ -203,7 +209,9 @@ const NewsletterSignup: FunctionComponent<Props> = ({
                 type="text"
                 value={firstNameValue}
                 setValue={setFirstNameValue}
+                errorMessage="Enter your first name"
                 required
+                {...firstNameValidation}
               />
             </Space>
             <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
@@ -214,7 +222,9 @@ const NewsletterSignup: FunctionComponent<Props> = ({
                 type="text"
                 value={lastNameValue}
                 setValue={setLastNameValue}
+                errorMessage="Enter your last name"
                 required
+                {...lastNameValidation}
               />
             </Space>
 
