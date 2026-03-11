@@ -77,6 +77,12 @@ const StretchWrapper = styled.div<{ $hasDarkBackground?: boolean }>`
   `}
 `;
 
+const ThemeCardsListSection = styled(StretchWrapper)`
+  .container {
+    padding-left: 0;
+  }
+`;
+
 type TransformedWorkTypeBucket = {
   id: string;
   label: string;
@@ -146,10 +152,21 @@ const WellcomeSubThemePage: NextPage<Props> & {
     worksAndImagesAbout.images?.pageResults || []
   );
 
+  const categoryThemeCardsListTitle = 'About this topic';
+  const categoryThemeCardsListWithTitle = categoryThemeCardsList
+    ? {
+        ...categoryThemeCardsList,
+        primary: {
+          ...categoryThemeCardsList.primary,
+          title: categoryThemeCardsListTitle,
+        },
+      }
+    : undefined;
+
   const lowerCasePageTitle = thematicBrowsingPage.title.toLowerCase();
   const onThisPage = [
     ...(categoryThemeCardsList
-      ? [{ text: 'About this topic', url: `#about` }] // TODO this id doesn't exist yet, might need to change
+      ? [{ text: categoryThemeCardsListTitle, url: `#theme-cards` }]
       : []),
     ...(newOnlineWorks.length > 0
       ? [
@@ -203,16 +220,14 @@ const WellcomeSubThemePage: NextPage<Props> & {
 
         <GridCell $sizeMap={{ s: [12], m: [12], l: [9], xl: [9] }}>
           <Space $v={{ size: 'sm', properties: ['padding-top'] }}>
-            {categoryThemeCardsList && (
-              <StretchWrapper>
-                <Title id="about">About this topic</Title>
-
+            {categoryThemeCardsListWithTitle && (
+              <ThemeCardsListSection id="theme-cards">
                 <SliceZone
-                  slices={[categoryThemeCardsList]}
+                  slices={[categoryThemeCardsListWithTitle]}
                   components={components}
                   context={{ hasNoShim: true }}
                 />
-              </StretchWrapper>
+              </ThemeCardsListSection>
             )}
 
             {newOnlineWorks.length > 0 && (
