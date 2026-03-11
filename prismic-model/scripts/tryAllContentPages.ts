@@ -11,7 +11,7 @@
 import fetch from 'node-fetch';
 import tqdm from 'tqdm';
 
-import { logError } from '@weco/prismic-model/utils/console';
+import { logError } from '@weco/common/utils/console-logs';
 
 import {
   downloadPrismicSnapshot,

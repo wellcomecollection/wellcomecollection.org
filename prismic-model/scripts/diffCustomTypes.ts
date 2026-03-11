@@ -1,9 +1,9 @@
 import { diffString } from 'json-diff';
 
+import { logError, logSuccess } from '@weco/common/utils/console-logs';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { isCi } from '@weco/prismic-model/config';
 import { printDelta, removeUndefinedProps } from '@weco/prismic-model/utils';
-import { logError, logSuccess } from '@weco/prismic-model/utils/console';
 import {
   Credentials,
   getContentTypes,
