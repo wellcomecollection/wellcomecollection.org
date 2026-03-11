@@ -1,8 +1,8 @@
 import { NextPage } from 'next';
 
 import { isSiteSection } from '@weco/common/model/site-section';
-import { PagesDocumentDataBodySlice } from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
+import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { serialiseProps } from '@weco/common/utils/json';
 import { toMaybeString } from '@weco/common/utils/routes';
@@ -19,7 +19,7 @@ import {
   fetchPage,
   fetchSiblings,
 } from '@weco/content/services/prismic/fetch/pages';
-import { contentLd } from '@weco/content/services/prismic/transformers/json-ld';
+import { genericPageLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
 import { Page as PageType } from '@weco/content/types/pages';
 import { SiblingsGroup } from '@weco/content/types/siblings-group';
@@ -34,6 +34,28 @@ export const Page: NextPage<PagePageProps> = props => {
 };
 
 type Props = ServerSideProps<PagePageProps>;
+
+export const getGenericPageProps = async ({
+  page,
+  serverData,
+  canonicalUrl,
+}: {
+  page: PageType;
+  serverData: SimplifiedServerData;
+  canonicalUrl?: string;
+}) => {
+  const bodySliceContexts = await getBodySliceContexts(
+    page.untransformedBody,
+    serverData.toggles
+  );
+
+  const jsonLd = genericPageLd({ page, canonicalUrl });
+
+  return {
+    jsonLd,
+    bodySliceContexts,
+  };
+};
 
 export const getServerSideProps: ServerSidePropsOrAppError<
   Props
@@ -99,11 +121,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
     const page = transformPage(pageDocument);
 
-    const bodySlices = pageDocument.data.body as PagesDocumentDataBodySlice[];
-    const bodySliceContexts = await getBodySliceContexts(
-      bodySlices,
-      serverData.toggles
-    );
+    const genericProps = await getGenericPageProps({ page, serverData });
 
     const siblings: SiblingsGroup<PageType>[] = (
       await fetchSiblings(client, page)
@@ -132,18 +150,15 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       siblings: (await fetchChildren(client, page)).map(transformPage),
     };
 
-    const jsonLd = contentLd(page);
-
     return {
       props: serialiseProps<Props>({
+        ...genericProps,
         page,
         siblings,
         children,
         ordersInParents,
         staticContent: null,
-        jsonLd,
         serverData,
-        bodySliceContexts,
       }),
     };
   }

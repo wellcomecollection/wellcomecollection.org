@@ -198,7 +198,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
       rate_based_statement {
         aggregate_key_type    = "CONSTANT"
         evaluation_window_sec = 60
-        limit                 = 500
+        limit                 = 250
 
         scope_down_statement {
           geo_match_statement {
@@ -260,8 +260,107 @@ resource "aws_wafv2_web_acl" "wc_org" {
   }
 
   rule {
-    name     = "blanket-rate-limiting"
+    name     = "latam-captcha-consent-block"
     priority = 6
+
+    action {
+      captcha {}
+    }
+
+    statement {
+      and_statement {
+        statement {
+          geo_match_statement {
+            country_codes = ["BR"]
+          }
+        }
+        statement {
+          not_statement {
+            statement {
+              size_constraint_statement {
+                comparison_operator = "GT"
+                size                = 0
+
+                field_to_match {
+                  cookies {
+                    match_pattern {
+                      included_cookies = ["CookieControl"]
+                    }
+                    match_scope       = "ALL"
+                    oversize_handling = "MATCH"
+                  }
+                }
+
+                text_transformation {
+                  priority = 0
+                  type     = "NONE"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "latam-captcha-consent-block"
+      sampled_requests_enabled   = true
+    }
+  }
+  rule {
+    name     = "apac-captcha-consent-block"
+    priority = 7
+
+    action {
+      captcha {}
+    }
+
+    statement {
+      and_statement {
+        statement {
+          geo_match_statement {
+            country_codes = ["CN", "JP", "SG", "TW"]
+          }
+        }
+        statement {
+          not_statement {
+            statement {
+              size_constraint_statement {
+                comparison_operator = "GT"
+                size                = 0
+
+                field_to_match {
+                  cookies {
+                    match_pattern {
+                      included_cookies = ["CookieControl"]
+                    }
+                    match_scope       = "ALL"
+                    oversize_handling = "MATCH"
+                  }
+                }
+
+                text_transformation {
+                  priority = 0
+                  type     = "NONE"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "apac-captcha-consent-block"
+      sampled_requests_enabled   = true
+    }
+  }
+
+  rule {
+    name     = "blanket-rate-limiting"
+    priority = 8
 
     action {
       block {}
@@ -283,7 +382,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "restrictive-rate-limiting"
-    priority = 7
+    priority = 9
 
     action {
       block {}
@@ -321,7 +420,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-crs
   rule {
     name     = "core-rule-group"
-    priority = 8
+    priority = 10
 
     override_action {
       none {}
@@ -344,7 +443,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-use-case.html#aws-managed-rule-groups-use-case-sql-db
   rule {
     name     = "sqli-rule-group"
-    priority = 9
+    priority = 11
 
     override_action {
       none {}
@@ -367,7 +466,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-known-bad-inputs
   rule {
     name     = "known-bad-inputs-rule-group"
-    priority = 10
+    priority = 12
 
     override_action {
       none {}
@@ -389,7 +488,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "bot-control-rule-group"
-    priority = 11
+    priority = 13
 
     // Because the Bot Control rules are quite aggressive, they block some useful bots
     // such as Updown. While we could add overrides for specific bots, we don"t want to have to
@@ -436,7 +535,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "bot-user-agent-manual"
-    priority = 12
+    priority = 14
 
     action {
       block {}
@@ -529,57 +628,6 @@ resource "aws_wafv2_web_acl" "wc_org" {
       sampled_requests_enabled   = true
     }
   }
-
-  rule {
-    name     = "apac-captcha-consent-block"
-    priority = 13
-
-    action {
-      captcha {}
-    }
-
-    statement {
-      and_statement {
-        statement {
-          geo_match_statement {
-            country_codes = ["CN", "JP", "SG", "TW"]
-          }
-        }
-        statement {
-          not_statement {
-            statement {
-              size_constraint_statement {
-                comparison_operator = "GT"
-                size                = 0
-
-                field_to_match {
-                  cookies {
-                    match_pattern {
-                      included_cookies = ["CookieControl"]
-                    }
-                    match_scope       = "ALL"
-                    oversize_handling = "MATCH"
-                  }
-                }
-
-                text_transformation {
-                  priority = 0
-                  type     = "NONE"
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      metric_name                = "apac-captcha-consent-block"
-      sampled_requests_enabled   = true
-    }
-  }
-
   visibility_config {
     cloudwatch_metrics_enabled = true
     sampled_requests_enabled   = true
