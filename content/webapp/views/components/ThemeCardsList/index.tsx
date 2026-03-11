@@ -6,11 +6,13 @@ import { DataGtmProps } from '@weco/common/utils/gtm';
 import { gridSize12 } from '@weco/common/views/components/Layout';
 import { SizeMap } from '@weco/common/views/components/styled/Grid';
 import LL from '@weco/common/views/components/styled/LL';
-import Space from '@weco/common/views/components/styled/Space';
 import ThemeCard from '@weco/common/views/components/ThemeCard';
 import { useConceptImageUrls } from '@weco/content/hooks/useConceptImageUrls';
 import { getConceptsByIds } from '@weco/content/services/wellcome/catalogue/concepts';
-import { Concept } from '@weco/content/services/wellcome/catalogue/types';
+import {
+  Concept,
+  ConceptType,
+} from '@weco/content/services/wellcome/catalogue/types';
 import { toConceptLink } from '@weco/content/views/components/ConceptLink';
 import ScrollContainer from '@weco/content/views/components/ScrollContainer';
 
@@ -20,6 +22,15 @@ const ListItem = styled.li<{ $usesShim?: boolean }>`
   width: 400px;
   max-width: 90vw;
   padding-left: var(--gutter-size);
+
+  ${props =>
+    !props.$usesShim
+      ? `
+      &:first-child {
+        padding-left: 0;
+      }
+      `
+      : ''}
 
   &:last-child {
     width: calc(400px + var(--gutter-size));
@@ -106,15 +117,22 @@ const Description = styled.p`
 const Theme: FunctionComponent<{
   concept: Concept;
   gtmData: DataGtmProps;
-}> = ({ concept, gtmData }) => {
+  showDescriptionForTypes?: ConceptType[];
+}> = ({ concept, gtmData, showDescriptionForTypes }) => {
   const images = useConceptImageUrls(concept);
   const linkProps = toConceptLink({ conceptId: concept.id });
+
+  const description =
+    showDescriptionForTypes === undefined ||
+    showDescriptionForTypes.includes(concept.type)
+      ? concept.description?.text
+      : undefined;
 
   return linkProps && concept.displayLabel ? (
     <ThemeCard
       images={images}
       title={concept.displayLabel}
-      description={concept.description?.text}
+      description={description}
       linkProps={linkProps}
       dataGtmProps={{
         trigger: 'theme_promo_card',
@@ -140,6 +158,7 @@ type ThemeCardsListProps = {
   useShim?: boolean;
   gridSizes?: SizeMap;
   onConceptsFetched?: ({ count }: { count: number }) => void;
+  showDescriptionForTypes?: ConceptType[];
 };
 
 const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
@@ -150,6 +169,7 @@ const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
   gtmData,
   gridSizes = gridSize12(),
   onConceptsFetched,
+  showDescriptionForTypes,
 }) => {
   const scrollContainerRef = useRef<HTMLUListElement>(null);
   const [concepts, setConcepts] = useState<Concept[]>([]);
@@ -199,9 +219,7 @@ const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
           sliceTitle || description ? (
             <>
               {sliceTitle && (
-                <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
-                  <h2 className={font('sans-bold', 2)}>{sliceTitle}</h2>
-                </Space>
+                <h2 className={font('sans-bold', 2)}>{sliceTitle}</h2>
               )}
 
               {description && <Description>{description}</Description>}
@@ -220,6 +238,7 @@ const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
                 <Theme
                   concept={concept}
                   gtmData={{ ...gtmData, 'position-in-list': `${i + 1}` }}
+                  showDescriptionForTypes={showDescriptionForTypes}
                 />
               </ListItem>
             ))}

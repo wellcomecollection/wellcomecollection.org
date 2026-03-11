@@ -6,7 +6,6 @@ import { pageDescriptionConcepts } from '@weco/common/data/microcopy';
 import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
-import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
@@ -129,12 +128,8 @@ const ConceptPage: NextPage<Props> = ({
         clipOverflowX={true}
         headerProps={{ hasColorBackground: true }}
       >
-        <ThemeHeader concept={conceptResponse} />
+        <ThemeHeader concept={conceptResponse} hasImages={hasImages} />
 
-        <DecorativeEdge
-          variant="wobbly"
-          backgroundColor={hasImages ? 'neutral.700' : 'white'}
-        />
         <MobileNavBackground $isOnWhite={!hasImages} />
 
         <Container>

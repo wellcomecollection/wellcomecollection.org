@@ -34,6 +34,7 @@ const ThemeCardsListSlice: FunctionComponent<ThemeCardsListSliceProps> = ({
         }}
         gridSizes={context.gridSizes}
         useShim={!context.hasNoShim}
+        showDescriptionForTypes={['Agent', 'Person', 'Organisation']}
       />
     </SpacingComponent>
   );

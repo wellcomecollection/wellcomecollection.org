@@ -1,13 +1,5 @@
 import { FocusTrap } from 'focus-trap-react';
-import {
-  Fragment,
-  FunctionComponent,
-  useEffect,
-  useId,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { FunctionComponent, useEffect, useId, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 
@@ -29,13 +21,15 @@ import {
   MobileNavButton,
   NavGridCell,
   Root,
-} from './InPageNavigation.Sticky.styles';
+} from './InPageNavigation.styles';
 
 export type Props = {
   links: Link[];
   sizeMap: SizeMap;
   isOnWhite?: boolean;
 };
+
+const titleText = 'On this page';
 
 const InPageNavigation: FunctionComponent<Props> = ({
   links,
@@ -58,15 +52,13 @@ const InPageNavigation: FunctionComponent<Props> = ({
   const { isEnhanced, windowSize } = useAppContext();
   const [hasStuck, setHasStuck] = useState(false);
   const [isListActive, setIsListActive] = useState(true);
-  const [scrollPosition, setScrollposition] = useState(0);
+  const [scrollPosition, setScrollPosition] = useState(0);
   const prevHasStuckRef = useRef(false);
   const loadedWithHashRef = useRef(
     typeof window !== 'undefined' && !!window.location.hash
   );
 
-  const shouldLockScroll = useMemo(() => {
-    return windowSize !== 'md' && isListActive && hasStuck;
-  }, [windowSize, isListActive, hasStuck]);
+  const shouldLockScroll = windowSize !== 'md' && isListActive && hasStuck;
 
   // Handle initial page load with hash
   useEffect(() => {
@@ -74,6 +66,7 @@ const InPageNavigation: FunctionComponent<Props> = ({
       const hash = window.location.hash.replace('#', '');
       if (hash) {
         // Prevent default browser scroll
+        const previousScrollRestoration = window.history.scrollRestoration;
         window.history.scrollRestoration = 'manual';
 
         // Manually set the nav state
@@ -86,6 +79,8 @@ const InPageNavigation: FunctionComponent<Props> = ({
           if (element) {
             element.scrollIntoView();
           }
+          // Restore previous browser scroll value after
+          window.history.scrollRestoration = previousScrollRestoration;
         });
       }
     }
@@ -142,7 +137,9 @@ const InPageNavigation: FunctionComponent<Props> = ({
     );
 
     observer.observe(inPageNavigationRef.current);
-  }, [inPageNavigationRef.current]);
+
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (!clickedId) return;
@@ -187,21 +184,15 @@ const InPageNavigation: FunctionComponent<Props> = ({
   // Determine the active id based on whether sticky is enabled
   const activeId = clickedId || observedActiveId;
 
-  const titleText = 'On this page';
+  const activeLinkText =
+    links.find(link => link.url.replace('#', '') === activeId)?.text ||
+    titleText;
 
-  const [activeLinkText, setActiveLinkText] = useState(titleText);
   const textRef = useRef<HTMLSpanElement>(null);
-
-  useEffect(() => {
-    setActiveLinkText(
-      links.find(link => link.url.replace('#', '') === activeId)?.text ||
-        titleText
-    );
-  }, [activeId]);
 
   return (
     <NavGridCell
-      data-component="in-page-navigation-sticky"
+      data-component="in-page-navigation"
       ref={navGridCellRef}
       $isOnWhite={!!isOnWhite}
       $sizeMap={sizeMap}
@@ -229,7 +220,7 @@ const InPageNavigation: FunctionComponent<Props> = ({
           initialFocus: false,
         }}
       >
-        <Root $hasStuck={hasStuck} data-in-page-navigation-sticky="true">
+        <Root $hasStuck={hasStuck} data-in-page-navigation="true">
           <h2 className={`${font('sans-bold', -1)} is-hidden-s is-hidden-m`}>
             {titleText}
           </h2>
@@ -243,7 +234,7 @@ const InPageNavigation: FunctionComponent<Props> = ({
             aria-controls={listId}
             onClick={() => {
               if (!isListActive) {
-                setScrollposition(window.scrollY);
+                setScrollPosition(window.scrollY);
               } else {
                 window.scrollTo({
                   top: scrollPosition,
@@ -322,63 +313,65 @@ const InPageNavigation: FunctionComponent<Props> = ({
               const id = link.url.replace('#', '');
               const isActive = activeId === id;
               return (
-                <Fragment key={link.url}>
-                  <ListItem $hasStuck={hasStuck} $isOnWhite={!!isOnWhite}>
-                    <InPageNavAnimatedLink
-                      href={link.url}
-                      $hasStuck={hasStuck}
-                      $isActive={isActive}
-                      $isOnWhite={!!isOnWhite}
-                      $lineColor={
-                        hasStuck ? 'black' : isOnWhite ? 'black' : 'white'
-                      }
-                      {...dataGtmPropsToAttributes({
-                        trigger: 'link_click_page_position',
-                        'position-in-list': `${index + 1}`,
-                        label: id,
-                      })}
-                      onClick={e => {
-                        e.preventDefault();
-                        setClickedId(id);
-                        setIsListActive(false);
+                <ListItem
+                  key={link.url}
+                  $hasStuck={hasStuck}
+                  $isOnWhite={!!isOnWhite}
+                >
+                  <InPageNavAnimatedLink
+                    href={link.url}
+                    $hasStuck={hasStuck}
+                    $isActive={isActive}
+                    $isOnWhite={!!isOnWhite}
+                    $lineColor={
+                      hasStuck ? 'black' : isOnWhite ? 'black' : 'white'
+                    }
+                    {...dataGtmPropsToAttributes({
+                      trigger: 'link_click_page_position',
+                      'position-in-list': `${index + 1}`,
+                      label: id,
+                    })}
+                    onClick={e => {
+                      e.preventDefault();
+                      setClickedId(id);
+                      setIsListActive(false);
 
-                        const element = document.getElementById(id);
-                        if (element) {
-                          const buttonHeight =
-                            buttonRef.current?.offsetHeight || 0;
+                      const element = document.getElementById(id);
+                      if (element) {
+                        const buttonHeight =
+                          buttonRef.current?.offsetHeight || 0;
 
-                          const elementPosition =
-                            element.getBoundingClientRect().top;
-                          let offsetPosition = elementPosition + window.scrollY;
+                        const elementPosition =
+                          element.getBoundingClientRect().top;
+                        let offsetPosition = elementPosition + window.scrollY;
 
-                          // On mobile (below md breakpoint)
-                          if (windowSize !== 'md' && windowSize !== 'lg') {
-                            // When hasStuck is false and the list was open before clicking,
-                            // account for the list height that will be removed when the list closes
-                            if (!hasStuck && isListActive && listRef.current) {
-                              offsetPosition -= listRef.current.offsetHeight;
-                            }
-
-                            // Account for the fixed button height that will overlay the content
-                            // plus 1px for the border
-                            offsetPosition -= buttonHeight + 1;
-                          } else {
-                            // Desktop behavior: account for scroll-margin-top
-                            offsetPosition -= 32;
+                        // On mobile (below md breakpoint)
+                        if (windowSize !== 'md' && windowSize !== 'lg') {
+                          // When hasStuck is false and the list was open before clicking,
+                          // account for the list height that will be removed when the list closes
+                          if (!hasStuck && isListActive && listRef.current) {
+                            offsetPosition -= listRef.current.offsetHeight;
                           }
 
-                          window.scrollTo({
-                            top: offsetPosition,
-                            behavior: 'smooth',
-                          });
-                          window.history.replaceState(null, '', `#${id}`);
+                          // Account for the fixed button height that will overlay the content
+                          // plus 1px for the border
+                          offsetPosition -= buttonHeight + 1;
+                        } else {
+                          // Desktop behavior: account for scroll-margin-top
+                          offsetPosition -= 32;
                         }
-                      }}
-                    >
-                      <span>{link.text}</span>
-                    </InPageNavAnimatedLink>
-                  </ListItem>
-                </Fragment>
+
+                        window.scrollTo({
+                          top: offsetPosition,
+                          behavior: 'smooth',
+                        });
+                        window.history.replaceState(null, '', `#${id}`);
+                      }
+                    }}
+                  >
+                    <span>{link.text}</span>
+                  </InPageNavAnimatedLink>
+                </ListItem>
               );
             })}
           </InPageNavList>

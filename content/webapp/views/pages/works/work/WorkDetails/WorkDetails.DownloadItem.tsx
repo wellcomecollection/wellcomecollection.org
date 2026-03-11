@@ -150,7 +150,7 @@ const DownloadItem: FunctionComponent<DownloadItemProps> = ({
   const fileSize = canvas && getFileSize(canvas);
   const format = displayItem.format;
 
-  const fileName = itemLabel || canvas?.label || '';
+  const fileName = canvas?.label || itemLabel || '';
   const formatString = format ? format.split('/').pop() || '' : '';
   const canvasLink =
     linkToCanvas && workId && canvasIndex !== undefined && canvasIndex >= 1
