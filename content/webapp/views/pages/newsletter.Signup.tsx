@@ -1,7 +1,12 @@
-import { FunctionComponent, SyntheticEvent, useEffect, useState } from 'react';
+import {
+  FunctionComponent,
+  SyntheticEvent,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import styled from 'styled-components';
 
-import { useAppContext } from '@weco/common/contexts/AppContext';
 import {
   newsletterAddressBook,
   secondaryAddressBooks,
@@ -12,12 +17,22 @@ import { font } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio';
 import Space from '@weco/common/views/components/styled/Space';
-import TextInput from '@weco/common/views/components/TextInput';
+import TextInput, {
+  InputErrorMessage,
+} from '@weco/common/views/components/TextInput';
 
 const PlainList = styled.ul`
   list-style: none;
   padding: 0;
   margin-top: 0;
+`;
+
+const NewsletterFieldset = styled.fieldset<{ $hasError: boolean }>`
+  border: 1px solid
+    ${props =>
+      props.$hasError ? props.theme.color('validation.red') : 'transparent'};
+  padding: ${props => (props.$hasError ? '1rem' : '0')};
+  margin: 0;
 `;
 
 type Props = {
@@ -31,17 +46,20 @@ const NewsletterSignup: FunctionComponent<Props> = ({
   isError,
   isConfirmed,
 }: Props) => {
-  const { isEnhanced } = useAppContext();
   const [checkedInputs, setCheckedInputs] = useState<string[]>([]);
   const [hasCheckedMarketing, setHasCheckedMarketing] = useState(false);
   const [hasCheckedAudience, setHasCheckedAudience] = useState(false);
   const [noValidate, setNoValidate] = useState(false);
+  const [showCheckboxError, setShowCheckboxError] = useState(false);
   const [emailValue, setEmailValue] = useState('');
   const [firstNameValue, setFirstNameValue] = useState('');
   const [lastNameValue, setLastNameValue] = useState('');
   const emailValidation = useValidation();
   const firstNameValidation = useValidation();
   const lastNameValidation = useValidation();
+  const firstNameRef = useRef<HTMLInputElement>(null);
+  const lastNameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
 
   function updateCheckedInputs(event: SyntheticEvent<HTMLInputElement>) {
     const isChecked = event.currentTarget.checked;
@@ -50,25 +68,40 @@ const NewsletterSignup: FunctionComponent<Props> = ({
     const newInputs = isChecked
       ? checkedInputs.concat(id)
       : checkedInputs.filter(c => c !== id);
-    setCheckedInputs(newInputs);
-  }
 
-  const isButtonDisabled = checkedInputs.length === 0;
+    setCheckedInputs(newInputs);
+
+    if (isChecked) setShowCheckboxError(false);
+  }
 
   function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    emailValidation.setShowValidity(true);
-    firstNameValidation.setShowValidity(true);
-    lastNameValidation.setShowValidity(true);
+    const noCheckboxSelected = checkedInputs.length === 0;
+    setShowCheckboxError(noCheckboxSelected);
+    if (!firstNameValidation.isValid) firstNameValidation.setShowValidity(true);
+    if (!lastNameValidation.isValid) lastNameValidation.setShowValidity(true);
+    if (!emailValidation.isValid) emailValidation.setShowValidity(true);
 
     if (
-      isButtonDisabled ||
+      noCheckboxSelected ||
       !firstNameValidation.isValid ||
       !lastNameValidation.isValid ||
       !emailValidation.isValid
-    )
+    ) {
+      if (noCheckboxSelected) {
+        (
+          document.getElementById(newsletterAddressBook.slug) as HTMLElement
+        )?.focus();
+      } else if (!firstNameValidation.isValid) {
+        firstNameRef.current?.focus();
+      } else if (!lastNameValidation.isValid) {
+        lastNameRef.current?.focus();
+      } else {
+        emailRef.current?.focus();
+      }
       return;
+    }
 
     event.currentTarget.submit();
   }
@@ -155,7 +188,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
             value=""
           />
 
-          <fieldset>
+          <NewsletterFieldset $hasError={showCheckboxError}>
             <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
               <legend className={font('sans-bold', 0)}>
                 Select each newsletter you'd like to receive:
@@ -196,13 +229,19 @@ const NewsletterSignup: FunctionComponent<Props> = ({
                 </Space>
               ))}
             </PlainList>
-          </fieldset>
+            {showCheckboxError && (
+              <Space $v={{ size: 'xs', properties: ['margin-top'] }}>
+                <InputErrorMessage errorMessage="Select at least one newsletter" />
+              </Space>
+            )}
+          </NewsletterFieldset>
 
           <Space
             $v={{ size: 'lg', properties: ['margin-top', 'margin-bottom'] }}
           >
             <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
               <TextInput
+                ref={firstNameRef}
                 id="FIRSTNAME"
                 label="Your first name"
                 name="cd_FIRSTNAME"
@@ -216,6 +255,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
             </Space>
             <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
               <TextInput
+                ref={lastNameRef}
                 id="LASTNAME"
                 label="Your last name"
                 name="cd_LASTNAME"
@@ -229,6 +269,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
             </Space>
 
             <TextInput
+              ref={emailRef}
               id="email"
               label="Your email address"
               name="Email"
@@ -293,7 +334,6 @@ const NewsletterSignup: FunctionComponent<Props> = ({
 
           <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
             <Button
-              disabled={isEnhanced && isButtonDisabled}
               variant="ButtonSolid"
               text={`Subscribe to your newsletter${checkedInputs.length > 1 ? 's' : ''}`}
               dataGtmProps={{
