@@ -47,6 +47,14 @@ const CONCEPT_GROUPS: Record<string, string[]> = {
     'gynqvms7',
     'bn2pe2v6',
   ],
+  'public-health': [
+    'c8q553d2',
+    'hqbh7xar',
+    'c3br959t',
+    'h72fhc38',
+    'vsnwvu9k',
+    'eg8kmtpb',
+  ],
 };
 
 export const getServerSideProps: ServerSidePropsOrAppError<
