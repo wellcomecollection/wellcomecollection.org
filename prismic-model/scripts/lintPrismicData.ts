@@ -13,17 +13,19 @@ import {
   CreateInvalidationCommand,
 } from '@aws-sdk/client-cloudfront';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
-import chalk from 'chalk';
 import fs from 'fs';
 import yargs from 'yargs';
 
 import { pluralize } from '@weco/common/utils/grammar';
-
-import { error } from './console';
 import {
   downloadPrismicSnapshot,
   getPrismicDocuments,
-} from './downloadSnapshot';
+} from '@weco/prismic-model/scripts/downloadSnapshot';
+import {
+  logError,
+  logInfo,
+  logSuccess,
+} from '@weco/prismic-model/utils/console';
 
 type ErrorProps = {
   id: string;
@@ -435,11 +437,7 @@ async function run() {
         errors,
       });
 
-      console.log(
-        chalk.blue(
-          `https://wellcomecollection.prismic.io/builder/pages/${doc.id}`
-        )
-      );
+      logInfo(`https://wellcomecollection.prismic.io/builder/pages/${doc.id}`);
       for (const msg of errors) {
         console.log(`- ${msg}`);
       }
@@ -492,15 +490,13 @@ async function run() {
   await cloudFrontClient.send(command);
 
   if (totalErrors === 0) {
-    console.log(chalk.green('✅ No errors detected'));
+    logSuccess('✅ No errors detected');
   } else {
-    console.log(
-      chalk.red(`🚨 ${totalErrors} error${totalErrors > 1 ? 's' : ''} detected`)
-    );
+    logError(`🚨 ${totalErrors} error${totalErrors > 1 ? 's' : ''} detected`);
   }
 }
 
 run().catch(err => {
-  error(err);
+  logError(`${err}`);
   process.exit(1);
 });
