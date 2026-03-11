@@ -6,22 +6,51 @@ import {
 import type { AwsCredentialIdentityProvider } from '@aws-sdk/types';
 import { execFileSync } from 'child_process';
 
+import { logInfo, logSuccess } from '@weco/common/utils/console-logs';
+
 import {
   ECR_PUBLIC_REGION,
   ECR_PUBLIC_REGISTRY,
   ECR_REGION,
   ECR_REGISTRY,
 } from './config';
-import { logInfo, logSuccess } from './logger';
 
+/**
+ * Authenticate Docker with an ECR registry using a password.
+ *
+ * Executes `docker login --password-stdin` to avoid exposing credentials in process lists.
+ * Inherits stderr so Docker error messages are visible if login fails.
+ *
+ * @param registry - ECR registry URL to authenticate with
+ * @param password - ECR authorization token (from AWS API)
+ * @throws Error with context if Docker login fails
+ */
 function dockerLogin(registry: string, password: string): void {
-  execFileSync(
-    'docker',
-    ['login', '--username', 'AWS', '--password-stdin', registry],
-    { input: password, stdio: ['pipe', 'pipe', 'pipe'] }
-  );
+  try {
+    execFileSync(
+      'docker',
+      ['login', '--username', 'AWS', '--password-stdin', registry],
+      {
+        input: password,
+        // Inherit stderr so Docker error messages are visible if login fails
+        stdio: ['pipe', 'pipe', 'inherit'],
+      }
+    );
+  } catch (error) {
+    throw new Error(`Docker login failed for ${registry}. Is Docker running?`, {
+      cause: error,
+    });
+  }
 }
 
+/**
+ * Authenticate Docker with the public ECR registry.
+ *
+ * Public ECR is used for pulling public base images during docker build.
+ * Requires AWS credentials (platform-developer profile).
+ *
+ * @param credentials - AWS credential provider (optional, uses default if not provided)
+ */
 export async function loginToPublicEcr(
   credentials?: AwsCredentialIdentityProvider
 ): Promise<void> {
@@ -46,6 +75,14 @@ export async function loginToPublicEcr(
   logSuccess('Logged in to public ECR');
 }
 
+/**
+ * Authenticate Docker with the private ECR registry.
+ *
+ * Private ECR hosts Wellcome Collection's application images.
+ * Requires AWS credentials (experience-developer profile).
+ *
+ * @param credentials - AWS credential provider (optional, uses default if not provided)
+ */
 export async function loginToPrivateEcr(
   credentials?: AwsCredentialIdentityProvider
 ): Promise<void> {
