@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
+import { thematicBrowsingPaths } from '@weco/common/data/hardcoded-ids';
 import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
@@ -23,7 +23,7 @@ import SourcedDescription from '@weco/content/views/components/SourcedDescriptio
 import RelatedConceptsGroup from './concept.RelatedConceptsGroup';
 
 const ConceptHero = styled(Space).attrs({
-  $v: { size: 'sm', properties: ['padding-top'] },
+  $v: { size: 'md', properties: ['padding-top'] },
 })`
   background-color: ${props => props.theme.color('accent.lightGreen')};
   padding-bottom: ${props => props.theme.gutter.xlarge};
@@ -78,24 +78,24 @@ const getBreadcrumbParent = ({
     case 'Period':
       return {
         text: 'Types and techniques',
-        url: `/${prismicPageIds.collections}/types-and-techniques`,
+        url: thematicBrowsingPaths.typesAndTechniques,
       };
     case 'Subject':
       return {
         text: 'Subjects',
-        url: `/${prismicPageIds.collections}/subjects`,
+        url: thematicBrowsingPaths.subjects,
       };
     case 'Person':
     case 'Organisation':
     case 'Agent':
       return {
         text: 'People and organisations',
-        url: `/${prismicPageIds.collections}/people-and-organisations`,
+        url: thematicBrowsingPaths.peopleAndOrganisations,
       };
     case 'Place':
       return {
         text: 'Places',
-        url: `/${prismicPageIds.collections}/places`,
+        url: thematicBrowsingPaths.places,
       };
     default:
       return undefined;
@@ -112,26 +112,20 @@ const ThemeHeader: FunctionComponent<{
   const { narrowerThan, fieldsOfWork, people, relatedTo, broaderThan } =
     concept.relatedConcepts || {};
 
+  const breadcrumbs = thematicBrowsing
+    ? getBreadcrumbItems(
+        'collections',
+        [getBreadcrumbParent({ type: concept.type })].filter(isNotUndefined)
+      )
+    : getBreadcrumbItems('collections');
+
   return (
     <>
       <ConceptHero>
         <Container>
-          {thematicBrowsing && (
-            <Space
-              $v={{ size: 'sm', properties: ['margin-top', 'margin-bottom'] }}
-            >
-              <Breadcrumb
-                items={
-                  getBreadcrumbItems(
-                    'collections',
-                    [getBreadcrumbParent({ type: concept.type })].filter(
-                      isNotUndefined
-                    )
-                  ).items
-                }
-              />
-            </Space>
-          )}
+          <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
+            <Breadcrumb items={breadcrumbs.items} />
+          </Space>
 
           <Layout gridSizes={gridSize10(false)}>
             <h1 className={font('brand-bold', 4)}>{concept.displayLabel}</h1>
@@ -146,13 +140,16 @@ const ThemeHeader: FunctionComponent<{
             (config.sourcedDescription.display ||
               concept.description.sourceLabel === 'weco-authority') && (
               <Layout gridSizes={gridSize8(false)}>
-                <div className={`${font('sans', 1)} body-text`}>
+                <Space
+                  className={`${font('sans', 1)} body-text`}
+                  $v={{ size: 'sm', properties: ['margin-bottom'] }}
+                >
                   <SourcedDescription
                     description={capitalize(concept.description.text)}
                     source={concept.description.sourceLabel}
                     href={concept.description.sourceUrl}
                   />
-                </div>
+                </Space>
               </Layout>
             )}
 

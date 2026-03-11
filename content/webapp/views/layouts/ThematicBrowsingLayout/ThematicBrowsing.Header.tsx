@@ -19,7 +19,7 @@ import { ThematicBrowsingCategories } from '.';
 import ThematicBrowsingNavigation from './ThematicBrowsing.Navigation';
 
 const ThematicBrowsingHeaderContainer = styled(Space).attrs({
-  $v: { size: 'sm', properties: ['padding-top'] },
+  $v: { size: 'md', properties: ['padding-top'] },
 })`
   background-color: ${props => props.theme.color('accent.lightGreen')};
   padding-bottom: ${props => props.theme.gutter.xlarge};
@@ -45,7 +45,7 @@ const ThematicBrowsingHeader = ({
           <Space
             $v={{
               size: 'sm',
-              properties: ['margin-top', 'margin-bottom'],
+              properties: ['margin-bottom'],
               overrides: { md: '150' },
             }}
           >
@@ -82,6 +82,11 @@ const ThematicBrowsingHeader = ({
                 <li>
                   <a href="/collections/subjects/sex-sexual-health-and-reproduction">
                     Sex, sexual health and reproduction
+                  </a>
+                </li>
+                <li>
+                  <a href="/collections/subjects/public-health">
+                    Public health
                   </a>
                 </li>
                 <li>

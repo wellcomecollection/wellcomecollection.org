@@ -1,3 +1,4 @@
+import { thematicBrowsingPaths } from '@weco/common/data/hardcoded-ids';
 import {
   PagesDocumentDataBodySlice,
   ContentListSlice as RawContentListSlice,
@@ -19,6 +20,7 @@ import {
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchPage } from '@weco/content/services/prismic/fetch/pages';
 import { transformContentListSlice } from '@weco/content/services/prismic/transformers/body';
+import { genericPageLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
 import { getConcepts } from '@weco/content/services/wellcome/catalogue/concepts';
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
@@ -44,6 +46,14 @@ const CONCEPT_GROUPS: Record<string, string[]> = {
     'bmfun6aj',
     'gynqvms7',
     'bn2pe2v6',
+  ],
+  'public-health': [
+    'c8q553d2',
+    'hqbh7xar',
+    'c3br959t',
+    'h72fhc38',
+    'vsnwvu9k',
+    'eg8kmtpb',
   ],
 };
 
@@ -264,7 +274,11 @@ export const getServerSideProps: ServerSidePropsOrAppError<
           workTypes:
             ('aggregations' in worksAboutResponseByLabel &&
               worksAboutResponseByLabel.aggregations?.workType?.buckets.map(
-                bucket => ({ label: bucket.data.label, count: bucket.count })
+                bucket => ({
+                  id: bucket.data.id,
+                  label: bucket.data.label,
+                  count: bucket.count,
+                })
               )) ||
             [],
         },
@@ -324,6 +338,10 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         relatedStoriesId,
         worksAndImagesAbout,
         relatedTopics,
+        jsonLd: genericPageLd({
+          page: wellcomeSubThemePage,
+          canonicalUrl: `${thematicBrowsingPaths.subjects}/${pageUid}`,
+        }),
       }),
     };
   }
