@@ -1,4 +1,6 @@
-require('dotenv').config();
+const process = require('node:process');
+
+process.loadEnvFile();
 
 const port = Number(process.env.PORT) || 3000;
 

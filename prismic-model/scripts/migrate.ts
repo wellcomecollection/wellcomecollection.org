@@ -1,10 +1,12 @@
 import { createClient } from '@prismicio/client';
 import fetch from 'node-fetch';
 import fs from 'node:fs';
+import process from 'node:process';
 import yargs from 'yargs';
 
-import 'dotenv/config';
 import { logError } from '@weco/common/utils/console-logs';
+
+process.loadEnvFile();
 
 const { type } = yargs(process.argv.slice(2))
   .usage('Usage: $0 --type [customTypeId]')
