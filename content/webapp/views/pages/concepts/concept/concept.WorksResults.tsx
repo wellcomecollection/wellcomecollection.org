@@ -61,7 +61,7 @@ const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
       id: tabType,
       text: getSectionTypeLabel(tabType, config, 'works'),
       dataGtmProps: {
-        label: getSectionTypeLabel(tabType, config, 'works') || '"',
+        label: getSectionTypeLabel(tabType, config, 'works') || '""',
       },
     }));
 
