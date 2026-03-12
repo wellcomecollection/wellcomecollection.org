@@ -29,7 +29,7 @@ type SwitchSelectableTextLink = {
   text: ReactNode;
   url?: string;
   icon?: IconSvg;
-  dataGtmProps: { label: DataGtmProps['category-label'] };
+  dataGtmProps: { label: DataGtmProps['label'] };
 };
 
 export type Props = {
