@@ -6,7 +6,14 @@ import yargs from 'yargs';
 
 import { logError } from '@weco/common/utils/console-logs';
 
-process.loadEnvFile();
+// Load .env file if it exists (optional in production/CI)
+try {
+  process.loadEnvFile();
+} catch (error) {
+  logError(
+    `.env file not found, continuing with environment variables: ${error}`
+  );
+}
 
 const { type } = yargs(process.argv.slice(2))
   .usage('Usage: $0 --type [customTypeId]')

@@ -1,6 +1,13 @@
 const process = require('node:process');
 
-process.loadEnvFile();
+// Load .env file if it exists (optional in production/CI)
+try {
+  process.loadEnvFile();
+} catch (error) {
+  console.error(
+    `No .env file found, continuing with environment variables: ${error}`
+  );
+}
 
 const port = Number(process.env.PORT) || 3000;
 
