@@ -1,6 +1,6 @@
-import chalk from 'chalk';
 import Table from 'cli-table3';
 import logUpdate from 'log-update';
+import { styleText } from 'util';
 
 import { Failures, Result } from './check-url';
 
@@ -30,11 +30,11 @@ export const resultTable = ({
     const table = new Table();
     const rows = Object.entries(data).map(([url, state]) => {
       if (state === 'pending') {
-        return [chalk.yellow(url), '⏳'];
+        return [styleText('yellow', url), '⏳'];
       } else if (state.success) {
-        return [chalk.green(url), '✅'];
+        return [styleText('green', url), '✅'];
       } else {
-        return [chalk.red(url), '❌'];
+        return [styleText('red', url), '❌'];
       }
     });
     table.push(...rows);
@@ -65,18 +65,22 @@ export const resultTable = ({
         .map(pair => pair as [string, Failures]);
 
       if (failures.length === 0) {
-        console.log(chalk.green(`Checks for ${urls.length} URLs succeeded`));
+        console.log(
+          styleText('green', `Checks for ${urls.length} URLs succeeded`)
+        );
         return true;
       }
 
-      console.log(chalk.red(`Checks for ${failures.length} URLs failed:`));
+      console.log(
+        styleText('red', `Checks for ${failures.length} URLs failed:`)
+      );
 
       const table = new Table();
       table.push(
         ...failures.map(([url, state]) => [
-          chalk.red(url),
+          styleText('red', url),
           state.failures
-            .map(({ description }) => chalk.yellow('- ' + description))
+            .map(({ description }) => styleText('yellow', '- ' + description))
             .join('\n'),
         ])
       );
