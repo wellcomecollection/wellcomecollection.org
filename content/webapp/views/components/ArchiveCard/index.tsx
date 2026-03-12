@@ -82,7 +82,7 @@ type Props = {
   isOrganisation: boolean;
   date?: string;
   extent?: string;
-  dataGtmProps: DataGtmProps;
+  dataGtmProps?: DataGtmProps;
 };
 
 const ArchiveCard: FunctionComponent<Props> = ({
