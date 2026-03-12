@@ -70,7 +70,6 @@ const ArchiveCardListSlice: FunctionComponent<ArchiveCardListSliceProps> = ({
               <ArchiveCard
                 {...card}
                 dataGtmProps={{
-                  trigger: 'archive-card',
                   'category-label': title ? asText(title) : '""',
                   'result-id': card.id,
                   'position-in-list': `${index + 1}`,
