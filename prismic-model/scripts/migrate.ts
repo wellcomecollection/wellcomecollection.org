@@ -1,19 +1,10 @@
 import { createClient } from '@prismicio/client';
+import 'dotenv/config';
 import fetch from 'node-fetch';
 import fs from 'node:fs';
-import process from 'node:process';
 import yargs from 'yargs';
 
 import { logError } from '@weco/common/utils/console-logs';
-
-// Load .env file if it exists (optional in production/CI)
-try {
-  process.loadEnvFile();
-} catch (error) {
-  logError(
-    `.env file not found, continuing with environment variables: ${error}`
-  );
-}
 
 const { type } = yargs(process.argv.slice(2))
   .usage('Usage: $0 --type [customTypeId]')

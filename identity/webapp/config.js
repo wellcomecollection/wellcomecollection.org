@@ -1,13 +1,4 @@
-const process = require('node:process');
-
-// Load .env file if it exists (optional in production/CI)
-try {
-  process.loadEnvFile();
-} catch (error) {
-  console.error(
-    `No .env file found, continuing with environment variables: ${error}`
-  );
-}
+require('dotenv').config();
 
 const port = Number(process.env.PORT) || 3000;
 
