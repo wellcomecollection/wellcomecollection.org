@@ -3,13 +3,13 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "migrate": "ts-node ./scripts/migrate",
-    "contentAnalysis": "ts-node ./scripts/contentAnalysis",
-    "sliceAnalysis": "ts-node ./scripts/sliceAnalysis",
-    "diffCustomTypes": "ts-node ./scripts/diffCustomTypes",
-    "downloadSnapshot": "ts-node ./scripts/downloadSnapshot",
-    "lintPrismicData": "ts-node ./scripts/lintPrismicData",
-    "tryAllContentPages": "ts-node ./scripts/tryAllContentPages"
+    "migrate": "tsx ./scripts/migrate",
+    "contentAnalysis": "tsx ./scripts/contentAnalysis",
+    "sliceAnalysis": "tsx ./scripts/sliceAnalysis",
+    "diffCustomTypes": "tsx ./scripts/diffCustomTypes",
+    "downloadSnapshot": "tsx ./scripts/downloadSnapshot",
+    "lintPrismicData": "tsx ./scripts/lintPrismicData",
+    "tryAllContentPages": "tsx ./scripts/tryAllContentPages"
   },
   "dependencies": {
     "@aws-sdk/client-cloudfront": "^3.1000.0",
@@ -22,7 +22,6 @@
     "@weco/ts-aws": "^1.0.1",
     "json-diff": "^1.0.6",
     "tqdm": "^2.0.3",
-    "ts-node": "^10.4.0",
     "yargs": "^17.2.1"
   },
   "devDependencies": {
