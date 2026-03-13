@@ -36,6 +36,9 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
             month,
             // Add daily tour promo to each month's events array during grouping
             events: events.concat(dailyTourPromo),
+            dataGtmProps: {
+              label: month.month,
+            },
           };
         })
         .slice(0, 4) // never show more than 4 months

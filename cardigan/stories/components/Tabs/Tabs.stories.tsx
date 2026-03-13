@@ -60,16 +60,25 @@ const meta: Meta<typeof Tabs> = {
         id: 'all',
         text: 'All',
         url: '#one',
+        dataGtmProps: {
+          label: 'All',
+        },
       },
       {
         id: 'slightly-longer',
         text: 'Slightly longer title to test with',
         url: '#two',
+        dataGtmProps: {
+          label: 'Slightly longer title to test with',
+        },
       },
       {
         id: 'pictures',
         text: 'Pictures',
         url: '#three',
+        dataGtmProps: {
+          label: 'Pictures',
+        },
       },
     ],
   },
