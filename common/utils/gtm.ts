@@ -5,7 +5,6 @@ type DataGtmAttr =
   | 'id'
   | 'label'
   | 'position-in-list'
-  | 'result-id'
   | 'trigger';
 export type DataGtmProps = Partial<Record<DataGtmAttr, string>>;
 
