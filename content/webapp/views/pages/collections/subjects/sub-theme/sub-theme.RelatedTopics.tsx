@@ -40,7 +40,7 @@ const SubThemeRelatedTopics = ({
                 link={`/concepts/${item.id}`}
                 size="small"
                 dataGtmProps={{
-                  trigger: 'frequent_collaborators',
+                  trigger: 'related_topics',
                   'position-in-list': `${index + 1}`,
                 }}
               />
