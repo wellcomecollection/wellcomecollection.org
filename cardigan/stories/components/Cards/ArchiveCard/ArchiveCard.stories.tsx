@@ -19,6 +19,7 @@ const meta: Meta<typeof ArchiveCard> = {
   },
   argTypes: {
     id: { table: { disable: true } },
+    dataGtmProps: { table: { disable: true } },
   },
   parameters: {
     gridSizes: {

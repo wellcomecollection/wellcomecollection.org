@@ -12,6 +12,7 @@ import {
 } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
+import { asText } from '@weco/content/services/prismic/transformers';
 import ArchiveCard from '@weco/content/views/components/ArchiveCard';
 import { SliceZoneContext } from '@weco/content/views/components/Body';
 
@@ -31,12 +32,14 @@ const ArchiveCardListSlice: FunctionComponent<ArchiveCardListSliceProps> = ({
     .map(item => {
       const id = item.id;
       if (!id) return undefined;
+
       const work = archiveWorks[id];
       if (!work) return undefined;
+
       return {
         id,
-        label: item.label || '',
-        description: item.archive_description || '',
+        label: asText(item.label),
+        description: asText(item.archive_description),
         isOrganisation: item.is_organisation ?? false,
         title: work.title,
         contributor: work.primaryContributorLabel,
@@ -59,12 +62,19 @@ const ArchiveCardListSlice: FunctionComponent<ArchiveCardListSliceProps> = ({
           </Space>
         )}
         <Grid>
-          {cards.map(card => (
+          {cards.map((card, index) => (
             <GridCell
               key={card.id}
               $sizeMap={{ s: [12], m: [6], l: colsToSpan, xl: colsToSpan }}
             >
-              <ArchiveCard {...card} />
+              <ArchiveCard
+                {...card}
+                dataGtmProps={{
+                  'category-label': title ? asText(title) : '""',
+                  'result-id': card.id,
+                  'position-in-list': `${index + 1}`,
+                }}
+              />
             </GridCell>
           ))}
         </Grid>

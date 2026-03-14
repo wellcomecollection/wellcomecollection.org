@@ -6,7 +6,6 @@ import { DataGtmProps } from '@weco/common/utils/gtm';
 import { gridSize12 } from '@weco/common/views/components/Layout';
 import { SizeMap } from '@weco/common/views/components/styled/Grid';
 import LL from '@weco/common/views/components/styled/LL';
-import Space from '@weco/common/views/components/styled/Space';
 import ThemeCard from '@weco/common/views/components/ThemeCard';
 import { useConceptImageUrls } from '@weco/content/hooks/useConceptImageUrls';
 import { getConceptsByIds } from '@weco/content/services/wellcome/catalogue/concepts';
@@ -23,6 +22,15 @@ const ListItem = styled.li<{ $usesShim?: boolean }>`
   width: 400px;
   max-width: 90vw;
   padding-left: var(--gutter-size);
+
+  ${props =>
+    !props.$usesShim
+      ? `
+      &:first-child {
+        padding-left: 0;
+      }
+      `
+      : ''}
 
   &:last-child {
     width: calc(400px + var(--gutter-size));
@@ -211,9 +219,7 @@ const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
           sliceTitle || description ? (
             <>
               {sliceTitle && (
-                <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
-                  <h2 className={font('sans-bold', 2)}>{sliceTitle}</h2>
-                </Space>
+                <h2 className={font('sans-bold', 2)}>{sliceTitle}</h2>
               )}
 
               {description && <Description>{description}</Description>}

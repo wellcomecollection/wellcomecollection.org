@@ -27,9 +27,9 @@
 import fs from 'fs';
 import yargs from 'yargs';
 
+import { logInfo, logSuccess } from '@weco/common/utils/console-logs';
 import { components } from '@weco/common/views/slices';
 
-import { success } from './console';
 import {
   downloadPrismicSnapshot,
   getPrismicDocuments,
@@ -130,22 +130,22 @@ async function main() {
       err => {
         if (err) console.log(err);
         else {
-          success('File written successfully');
+          logSuccess('File written successfully');
         }
       }
     );
-    success('Reporting done!');
+    logSuccess('Reporting done!');
   }
-  console.info(`=== Slice count (${slicesArray.length}) ==`);
+  logInfo(`=== Slice count (${slicesArray.length}) ==`);
   slicesArray
     .sort((a, b) => a[1] - b[1])
     .forEach(entry =>
-      console.info(`${String(entry[1]).padStart(6, ' ')}\t${entry[0]}`)
+      logInfo(`${String(entry[1]).padStart(6, ' ')}\t${entry[0]}`)
     );
-  console.info('');
+  console.log('');
 
   console.info(contentTypeMatches);
-  console.info(
+  logInfo(
     `found ${
       slicesMatches ? slicesMatches + ' ' + type : totalSlices + ' slices'
     } in ${contentTypeMatches.length} ${contentTFinal.join(', ')}`

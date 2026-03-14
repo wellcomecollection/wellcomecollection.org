@@ -60,6 +60,9 @@ const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
     .map(tabType => ({
       id: tabType,
       text: getSectionTypeLabel(tabType, config, 'works'),
+      dataGtmProps: {
+        label: getSectionTypeLabel(tabType, config, 'works') || '""',
+      },
     }));
 
   const [selectedTab, setSelectedTab] = useState<ThemeTabType | null>(

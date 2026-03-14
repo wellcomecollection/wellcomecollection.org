@@ -47,6 +47,7 @@ export type TransformedCanvas = {
   thumbnailImage: ThumbnailImage | undefined;
   painting: (ChoiceBody | ContentResource)[];
   original: CustomContentResource[];
+  rendering: ContentResource[];
   supplementing: (ChoiceBody | ContentResource)[];
   metadata: MetadataItem[];
 };

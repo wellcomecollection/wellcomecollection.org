@@ -162,9 +162,7 @@ export function getDownloadOptionsFromManifestRendering(
 export function getDownloadOptionsFromCanvasRenderingAndSupplementing(
   canvas: TransformedCanvas
 ): DownloadOption[] {
-  return [...(canvas.original || []), ...(canvas.supplementing || [])].map(
-    item => convertToDownloadOption(item)
-  );
+  return getOriginalFiles(canvas).map(item => convertToDownloadOption(item));
 }
 
 export function getTitle(
@@ -503,6 +501,7 @@ export function transformCanvas(canvas: Canvas): TransformedCanvas {
     thumbnailImage,
     painting,
     original,
+    rendering: canvas.rendering || [],
     supplementing,
     metadata: canvas.metadata || [],
   };
@@ -649,13 +648,14 @@ export function isCollection(
 }
 
 // We sometimes want to offer the original file for download.
-// There are 3 potential sources for this.
-// 1) the rendering property of the item with a behavior value that includes 'original'.
-// This will exist if the canvas is for a 'Born Digital'
+// There are 4 potential sources for this, checked in priority order.
+// 1) Content resources with a behavior value that includes 'original'.
+// This will exist if the canvas is for a 'Born Digital' item.
 // see: https://github.com/wellcomecollection/docs/blob/main/rfcs/046-born-digital-iiif/README.md
-// 2) the Annotations with a motivation of 'painting'.
+// 2) The canvas-level rendering property, which provides alternative representations of the canvas.
+// 3) The Annotations with a motivation of 'painting',
 // which is the thing we would normally display to the user.
-// 3) the Annotations with a motivation of 'supplementing'.
+// 4) The Annotations with a motivation of 'supplementing'.
 // We do this to find pdfs that were added to manifests before DLCS changes, which took place in May 2023.
 // (N.B. after this time the pdfs follow the Born Digital pattern)
 export function getOriginalFiles(
@@ -664,9 +664,11 @@ export function getOriginalFiles(
   const downloadData =
     canvas.original.length > 0
       ? canvas.original
-      : canvas.painting.length > 0
-        ? canvas.painting
-        : canvas.supplementing;
+      : canvas.rendering.length > 0
+        ? canvas.rendering
+        : canvas.painting.length > 0
+          ? canvas.painting
+          : canvas.supplementing;
   return downloadData || [];
 }
 
