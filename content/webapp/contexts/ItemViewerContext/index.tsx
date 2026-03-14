@@ -54,7 +54,7 @@ type Props = {
    * or if there are non-image items (audio/video/PDFs, other) (false).
    * Used to determine which viewer layout to use.
    */
-  hasOnlyImages: boolean;
+  hasOnlyRenderableImages: boolean;
 };
 
 export const results = {
@@ -128,7 +128,7 @@ const ItemViewerContext = createContext<Props>({
   setRotatedImages: () => undefined,
   isResizing: false,
   errorHandler: () => undefined,
-  hasOnlyImages: false,
+  hasOnlyRenderableImages: false,
 });
 
 export function useItemViewerContext(): Props {
