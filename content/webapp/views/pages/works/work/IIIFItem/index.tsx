@@ -72,15 +72,11 @@ const MessageContainer = styled.div`
 const Outline = styled(Space).attrs({
   $v: {
     size: 'md',
-    properties: [
-      'margin-top',
-      'margin-bottom',
-      'padding-top',
-      'padding-bottom',
-    ],
+    properties: ['margin-top', 'margin-bottom'],
   },
   $h: { size: 'lg', properties: ['margin-left', 'margin-right'] },
 })<{ $border?: boolean }>`
+  position: relative;
   padding-left: ${props => props.theme.spacingUnits['400']};
   padding-right: ${props => props.theme.spacingUnits['400']};
   ${props =>
@@ -235,7 +231,10 @@ const PublicRestrictedMessage: FunctionComponent<{
 
 const StaffRestrictedMessage: FunctionComponent = () => {
   return (
-    <p className={font('sans', -1)} style={{ display: 'flex' }}>
+    <p
+      className={font('sans', -1)}
+      style={{ display: 'flex', marginTop: '10px' }}
+    >
       <IconContainer>
         <Icon icon={information} />
       </IconContainer>
