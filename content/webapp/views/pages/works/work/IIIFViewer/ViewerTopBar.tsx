@@ -3,6 +3,7 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
+import { useUserContext } from '@weco/common/contexts/UserContext';
 import {
   chevrons,
   gridView,
@@ -18,6 +19,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import useIsFullscreenEnabled from '@weco/content/hooks/useIsFullscreenEnabled';
 import useTransformedIIIFImage from '@weco/content/hooks/useTransformedIIIFImage';
+import { hasRestrictedItem } from '@weco/content/utils/iiif/v3';
 import {
   getDownloadOptionsFromCanvasRenderingAndSupplementing,
   getDownloadOptionsFromManifestRendering,
@@ -186,6 +188,7 @@ const RightZone = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  width: 200px;
 `;
 
 type ViewerTopBarProps = OptionalToUndefined<{
@@ -218,6 +221,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
   const { canvases, rendering } = { ...transformedManifest };
   const currentCanvas = canvases?.[queryParamToArrayIndex(query.canvas)];
   const transformedIIIFImage = useTransformedIIIFImage(work);
+  const { userIsStaffWithRestricted } = useUserContext();
   const imageServices = (currentCanvas?.painting
     .map(p => {
       if (isChoiceBody(p)) {
@@ -230,6 +234,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
     })
     .flat()
     .filter(Boolean) || []) as ImageService[];
+  const isRestricted = currentCanvas && hasRestrictedItem(currentCanvas);
 
   // Works can have a DigitalLocation of type iiif-presentation and/or iiif-image.
   // For a iiif-presentation DigitalLocation we get the download options from the manifest to which it points.
@@ -375,16 +380,17 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
         <RightZone>
           {isEnhanced && (
             <div style={{ display: 'flex', alignItems: 'center' }}>
-              {downloadOptions.length > 0 && (
-                <Space $h={{ size: 'xs', properties: ['margin-right'] }}>
-                  <Download
-                    ariaControlsId="itemDownloads"
-                    downloadOptions={downloadOptions}
-                    useDarkControl={true}
-                    isInline={true}
-                  />
-                </Space>
-              )}
+              {downloadOptions.length > 0 &&
+                (!isRestricted || userIsStaffWithRestricted) && (
+                  <Space $h={{ size: 'xs', properties: ['margin-right'] }}>
+                    <Download
+                      ariaControlsId="itemDownloads"
+                      downloadOptions={downloadOptions}
+                      useDarkControl={true}
+                      isInline={true}
+                    />
+                  </Space>
+                )}
 
               {isFullscreenEnabled && showFullscreenControl && (
                 <ViewerButton
