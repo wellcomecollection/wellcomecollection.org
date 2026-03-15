@@ -50,9 +50,10 @@ type Props = {
   isResizing: boolean;
   errorHandler?: () => void;
   /**
-   * Indicates whether all canvases contain only images (true)
-   * or if there are non-image items (audio/video/PDFs, other) (false).
-   * Used to determine which viewer layout to use.
+   * Indicates whether all canvases have only image resources and no `original`
+   * files (true), or if there are any non-image items or originals (false).
+   * Controls whether the viewer uses the fixed-list image layout or the
+   * paginated viewer layout.
    */
   hasOnlyRenderableImages: boolean;
 };
