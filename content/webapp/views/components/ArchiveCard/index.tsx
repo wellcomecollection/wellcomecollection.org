@@ -4,9 +4,16 @@ import styled from 'styled-components';
 
 import { organisation, user } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
+import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { toWorkLink } from '@weco/content/views/components/WorkLink';
+
+const Wrapper = styled(NextLink)`
+  text-decoration: none;
+  display: block;
+  height: 100%;
+`;
 
 const Root = styled(Space).attrs({
   className: font('sans', -2),
@@ -75,6 +82,7 @@ type Props = {
   isOrganisation: boolean;
   date?: string;
   extent?: string;
+  dataGtmProps?: DataGtmProps;
 };
 
 const ArchiveCard: FunctionComponent<Props> = ({
@@ -86,12 +94,13 @@ const ArchiveCard: FunctionComponent<Props> = ({
   isOrganisation,
   date,
   extent,
+  dataGtmProps,
 }) => {
   return (
-    <NextLink
+    <Wrapper
       data-component="archive-card"
       {...toWorkLink({ id })}
-      style={{ textDecoration: 'none', display: 'block', height: '100%' }}
+      {...dataGtmPropsToAttributes(dataGtmProps)}
     >
       <Root>
         <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
@@ -120,7 +129,7 @@ const ArchiveCard: FunctionComponent<Props> = ({
           </div>
         )}
       </Root>
-    </NextLink>
+    </Wrapper>
   );
 };
 

@@ -62,12 +62,19 @@ const ArchiveCardListSlice: FunctionComponent<ArchiveCardListSliceProps> = ({
           </Space>
         )}
         <Grid>
-          {cards.map(card => (
+          {cards.map((card, index) => (
             <GridCell
               key={card.id}
               $sizeMap={{ s: [12], m: [6], l: colsToSpan, xl: colsToSpan }}
             >
-              <ArchiveCard {...card} />
+              <ArchiveCard
+                {...card}
+                dataGtmProps={{
+                  'category-label': title ? asText(title) : '""',
+                  id: card.id,
+                  'position-in-list': `${index + 1}`,
+                }}
+              />
             </GridCell>
           ))}
         </Grid>

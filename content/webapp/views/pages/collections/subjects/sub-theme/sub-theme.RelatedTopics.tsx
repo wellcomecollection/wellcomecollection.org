@@ -30,22 +30,19 @@ const SubThemeRelatedTopics = ({
   return (
     <Space $v={{ size: 'md', properties: ['margin-top'] }}>
       <RelatedConceptsContainer>
-        {relatedTopics.map(item => (
+        {relatedTopics.map((item, index) => (
           <RelatedConceptItem key={item.id}>
             <Space className={font('sans', -1)}>
               <Button
-                // TODO confirm relevant tracking info with Mankeet
-                // {...(dataGtmTriggerName && {
-                //   dataGtmProps: {
-                //     trigger: dataGtmTriggerName,
-                //     'position-in-list': `${index + 1}`,
-                //   },
-                // })}
                 variant="ButtonSolidLink"
                 colors={themeValues.buttonColors.slateTransparentBlack}
                 text={item.label}
                 link={`/concepts/${item.id}`}
                 size="small"
+                dataGtmProps={{
+                  trigger: 'related_topics',
+                  'position-in-list': `${index + 1}`,
+                }}
               />
             </Space>
           </RelatedConceptItem>

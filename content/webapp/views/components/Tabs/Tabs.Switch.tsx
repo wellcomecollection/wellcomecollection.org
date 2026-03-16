@@ -10,6 +10,7 @@ import {
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { IconSvg } from '@weco/common/icons';
 import { toSnakeCase } from '@weco/common/utils/grammar';
+import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
@@ -28,9 +29,7 @@ type SwitchSelectableTextLink = {
   text: ReactNode;
   url?: string;
   icon?: IconSvg;
-  gtmData?: {
-    category: string;
-  };
+  dataGtmProps: { label: DataGtmProps['label'] };
 };
 
 export type Props = {
@@ -106,7 +105,7 @@ const TabsSwitch: FunctionComponent<Props> = ({
       ref={tabListRef}
       aria-label={label}
     >
-      {items.map(item => {
+      {items.map((item, index) => {
         const isSelected = isEnhanced && selectedTab === item.id;
         return (
           <Tab
@@ -137,10 +136,11 @@ const TabsSwitch: FunctionComponent<Props> = ({
               <NavItemInner
                 $selected={isSelected}
                 $isWhite={isWhite}
-                data-gtm-trigger={`tab_${toSnakeCase(label)}`}
-                data-gtm-label={item.text}
-                data-gtm-category={item.gtmData?.category}
-                data-gtm-position-in-list={items.indexOf(item) + 1}
+                {...dataGtmPropsToAttributes({
+                  ...item.dataGtmProps,
+                  trigger: `tab_${toSnakeCase(label)}`,
+                  'position-in-list': `${index + 1}`,
+                })}
               >
                 <NavItemShim>{item.text}</NavItemShim>
                 <ConditionalWrapper
