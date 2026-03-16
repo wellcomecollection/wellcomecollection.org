@@ -287,6 +287,7 @@ describe('hasNonImagesOrOriginals', () => {
             id: 'https://example.com/file.pdf',
             type: 'Image',
             format: 'application/pdf',
+            behavior: 'original' as const,
           },
         ],
       }),
