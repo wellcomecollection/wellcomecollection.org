@@ -15,7 +15,7 @@ const HeadingLink = styled.a.attrs({
   color: ${props => props.theme.color('accent.green')};
 `;
 
-const TextContainer = styled.div`
+const TextContainer = styled.div.attrs({ className: 'body-text' })`
   *:last-child {
     margin-bottom: ${props => props.theme.spacingUnit}px;
   }
