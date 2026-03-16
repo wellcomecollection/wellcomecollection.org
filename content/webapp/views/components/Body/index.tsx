@@ -316,14 +316,14 @@ const Body: FunctionComponent<Props> = ({
     >
       <BodyWrapper
         data-component="body"
-        className={`content-type-${contentType}`}
+        className={`content-type-${contentType} body-text`}
         $splitBackground={isShortFilm}
       >
         {!officialLandingPagesUid.includes(pageUid) &&
           introText &&
           introText.length > 0 && (
             <ContaineredLayout gridSizes={gridSize8(!isOfficialLandingPage)}>
-              <div className="body-text spaced-text">
+              <div className="spaced-text">
                 <Space
                   $v={{
                     size: isOfficialLandingPage ? 'xl' : 'md',
