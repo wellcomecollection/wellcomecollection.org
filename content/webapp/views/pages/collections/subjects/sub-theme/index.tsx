@@ -52,7 +52,15 @@ const Title = styled(Space).attrs({
     props.$hasDarkBackground ? props.theme.color('white') : 'inherit'};
 `;
 
-const SectionWrapper = styled(Space).attrs({
+const SpacingWrapper = styled(Space).attrs({
+  $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
+})`
+  &:first-child {
+    padding-top: 0;
+  }
+`;
+
+const DarkSectionWrapper = styled(Space).attrs({
   $v: { size: 'lg', properties: ['padding-top', 'padding-bottom'] },
 })`
   background-color: ${props => props.theme.color('neutral.700')};
@@ -136,14 +144,14 @@ const SectionContainer = ({
   return (
     <ConditionalWrapper
       condition={!!hasDarkBackground}
-      wrapper={children => <SectionWrapper>{children}</SectionWrapper>}
+      wrapper={children => <DarkSectionWrapper>{children}</DarkSectionWrapper>}
     >
-      <Space $v={{ size: 'xl', properties: ['padding-top'] }}>
+      <SpacingWrapper>
         <Title id={id} $hasDarkBackground={hasDarkBackground}>
           {title}
         </Title>
         {children}
-      </Space>
+      </SpacingWrapper>
     </ConditionalWrapper>
   );
 };
@@ -163,22 +171,8 @@ const WellcomeSubThemePage: NextPage<Props> & {
     worksAndImagesAbout.images?.pageResults || []
   );
 
-  const categoryThemeCardsListTitle = 'About this topic';
-  const categoryThemeCardsListWithTitle = categoryThemeCardsList
-    ? {
-        ...categoryThemeCardsList,
-        primary: {
-          ...categoryThemeCardsList.primary,
-          title: categoryThemeCardsListTitle,
-        },
-      }
-    : undefined;
-
   const lowerCasePageTitle = thematicBrowsingPage.title.toLowerCase();
   const onThisPage = [
-    ...(categoryThemeCardsList
-      ? [{ text: categoryThemeCardsListTitle, url: `#theme-cards` }]
-      : []),
     ...(newOnlineWorks.length > 0
       ? [
           {
@@ -222,6 +216,18 @@ const WellcomeSubThemePage: NextPage<Props> & {
 
   return (
     <Container>
+      {categoryThemeCardsList && (
+        <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
+          <ThemeCardsListSection>
+            <SliceZone
+              slices={[categoryThemeCardsList]}
+              components={components}
+              context={{ hasNoShim: true }}
+            />
+          </ThemeCardsListSection>
+        </Space>
+      )}
+
       <PageGrid>
         <InPageNavigation
           links={onThisPage}
@@ -230,17 +236,7 @@ const WellcomeSubThemePage: NextPage<Props> & {
         />
 
         <GridCell $sizeMap={{ s: [12], m: [12], l: [9], xl: [9] }}>
-          <Space $v={{ size: 'sm', properties: ['padding-top'] }}>
-            {categoryThemeCardsListWithTitle && (
-              <ThemeCardsListSection id="theme-cards">
-                <SliceZone
-                  slices={[categoryThemeCardsListWithTitle]}
-                  components={components}
-                  context={{ hasNoShim: true }}
-                />
-              </ThemeCardsListSection>
-            )}
-
+          <Space $v={{ size: 'md', properties: ['padding-top'] }}>
             {newOnlineWorks.length > 0 && (
               <SectionContainer
                 title={`New works in ${lowerCasePageTitle}`}
@@ -271,7 +267,7 @@ const WellcomeSubThemePage: NextPage<Props> & {
             {worksAndImagesAbout.images &&
               worksAndImagesAbout.images.totalResults > 0 && (
                 <StretchWrapper $hasDarkBackground>
-                  <SectionWrapper>
+                  <DarkSectionWrapper>
                     <Title id="images-about" $hasDarkBackground>
                       Images about {lowerCasePageTitle}
                     </Title>
@@ -281,7 +277,7 @@ const WellcomeSubThemePage: NextPage<Props> & {
                       images={worksAndImagesAbout.images}
                       conceptsDisplayLabels={worksAndImagesAbout.displayLabels}
                     />
-                  </SectionWrapper>
+                  </DarkSectionWrapper>
                 </StretchWrapper>
               )}
 
