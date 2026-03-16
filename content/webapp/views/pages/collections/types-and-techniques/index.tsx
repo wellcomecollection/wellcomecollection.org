@@ -9,18 +9,15 @@ import {
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import { useCollectionStats } from '@weco/content/hooks/useCollectionStats';
-import { Page } from '@weco/content/types/pages';
 import Body from '@weco/content/views/components/Body';
-import ThematicBrowsingLayout from '@weco/content/views/layouts/ThematicBrowsingLayout';
+import ThematicBrowsingLayout, {
+  ThematicBrowsingCategoryPageProps as Props,
+} from '@weco/content/views/layouts/ThematicBrowsingLayout';
 import WorkTypesList from '@weco/content/views/pages/collections/collections.WorkTypesList';
-
-export type Props = {
-  thematicBrowsingPage: Page;
-};
 
 const CollectionsTypesPage: NextPage<Props> & {
   getLayout?: (page: ReactElement<Props>) => ReactElement;
-} = ({ thematicBrowsingPage }) => {
+} = ({ thematicBrowsingPage, bodySliceContexts }) => {
   const { data: collectionStats } = useCollectionStats();
 
   return (
@@ -40,6 +37,7 @@ const CollectionsTypesPage: NextPage<Props> & {
         pageId={thematicBrowsingPage.id}
         pageUid={thematicBrowsingPage.uid}
         gridSizes={gridSize12()}
+        bodySliceContexts={bodySliceContexts}
       />
     </>
   );
@@ -51,6 +49,7 @@ CollectionsTypesPage.getLayout = page => {
       page={page.props.thematicBrowsingPage}
       apiToolbarLinks={[createPrismicLink(page.props.thematicBrowsingPage.id)]}
       currentCategory="types-and-techniques"
+      jsonLd={page.props.jsonLd}
     >
       {page}
     </ThematicBrowsingLayout>

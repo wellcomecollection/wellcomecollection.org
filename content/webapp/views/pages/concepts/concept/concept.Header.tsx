@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
+import { thematicBrowsingPaths } from '@weco/common/data/hardcoded-ids';
 import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
@@ -78,24 +78,24 @@ const getBreadcrumbParent = ({
     case 'Period':
       return {
         text: 'Types and techniques',
-        url: `/${prismicPageIds.collections}/types-and-techniques`,
+        url: thematicBrowsingPaths.typesAndTechniques,
       };
     case 'Subject':
       return {
         text: 'Subjects',
-        url: `/${prismicPageIds.collections}/subjects`,
+        url: thematicBrowsingPaths.subjects,
       };
     case 'Person':
     case 'Organisation':
     case 'Agent':
       return {
         text: 'People and organisations',
-        url: `/${prismicPageIds.collections}/people-and-organisations`,
+        url: thematicBrowsingPaths.peopleAndOrganisations,
       };
     case 'Place':
       return {
         text: 'Places',
-        url: `/${prismicPageIds.collections}/places`,
+        url: thematicBrowsingPaths.places,
       };
     default:
       return undefined;

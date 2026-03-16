@@ -7,8 +7,7 @@
 import fs from 'fs';
 
 import { createClient as createPrismicClient } from '@weco/common/services/prismic/fetch';
-
-import { error, success } from './console';
+import { logError, logSuccess } from '@weco/common/utils/console-logs';
 
 /** Returns a list of all the Prismic documents in a given snapshot directory. */
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -37,13 +36,13 @@ export async function downloadPrismicSnapshot(): Promise<string> {
 
   fs.writeFileSync(snapshotFile, JSON.stringify(documents, null, 2));
 
-  success(`Downloaded Prismic snapshot to ${snapshotFile}`);
+  logSuccess(`Downloaded Prismic snapshot to ${snapshotFile}`);
   return snapshotFile;
 }
 
 if (require.main === module) {
   downloadPrismicSnapshot().catch(err => {
-    error(err);
+    logError(err);
     process.exit(1);
   });
 }

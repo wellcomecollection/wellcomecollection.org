@@ -297,6 +297,31 @@ function orgLd(org: Organization) {
   );
 }
 
+export function genericPageLd({
+  page,
+  canonicalUrl,
+}: {
+  page: Page;
+  canonicalUrl?: string;
+}): JsonLdObj {
+  const promoImage = page.promo?.image;
+  const url = canonicalUrl || linkResolver(page);
+
+  return objToJsonLd(
+    {
+      name: page.title,
+      headline: page.title,
+      description: page.promo?.caption,
+      image: promoImage ? getImageUrlAtSize(promoImage, { w: 600 }) : undefined,
+      datePublished: page.datePublished,
+      dateModified: page.datePublished,
+      publisher: orgLd(wellcomeCollectionGallery),
+      mainEntityOfPage: `https://wellcomecollection.org${url}`,
+    },
+    { type: 'WebPage' }
+  );
+}
+
 export function contentLd(content: Page | Guide | Project | Season): JsonLdObj {
   const contributors =
     content.type === 'seasons' || content.type === 'guides'

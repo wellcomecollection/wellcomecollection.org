@@ -3,9 +3,11 @@ import { FunctionComponent, PropsWithChildren } from 'react';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import Space from '@weco/common/views/components/styled/Space';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { Page } from '@weco/content/types/pages';
+import { BodySliceContexts } from '@weco/content/views/components/Body';
 
 import ThematicBrowsingHeader from './ThematicBrowsing.Header';
 
@@ -15,9 +17,16 @@ export type ThematicBrowsingCategories =
   | 'subjects'
   | 'places';
 
+export type ThematicBrowsingCategoryPageProps = {
+  thematicBrowsingPage: Page;
+  jsonLd: JsonLdObj;
+  bodySliceContexts?: BodySliceContexts;
+};
+
 type ThematicBrowsingLayoutProps = PropsWithChildren<{
   page: Page;
   currentCategory: ThematicBrowsingCategories;
+  jsonLd: JsonLdObj;
   subPageUid?: string;
   extraBreadcrumbs?: { url: string; text: string }[];
   apiToolbarLinks?: ApiToolbarLink[]; // TODO add links when we have them
@@ -28,6 +37,7 @@ const ThematicBrowsingLayout: FunctionComponent<
 > = ({
   children,
   page,
+  jsonLd,
   currentCategory,
   subPageUid,
   extraBreadcrumbs,
@@ -38,7 +48,7 @@ const ThematicBrowsingLayout: FunctionComponent<
   return (
     <PageLayout
       openGraphType={'website' as const}
-      jsonLd={{ '@type': 'WebPage' }}
+      jsonLd={jsonLd}
       hideNewsletterPromo
       siteSection="collections"
       title={page.title}

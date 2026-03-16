@@ -1,4 +1,3 @@
-import Router from 'next/router';
 import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
@@ -6,11 +5,8 @@ import { useAppContext } from '@weco/common/contexts/AppContext';
 import { IIIFUriProps } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '@weco/common/utils/image-sizes';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
-import useOnScreen from '@weco/content/hooks/useOnScreen';
-import useSkipInitialEffect from '@weco/content/hooks/useSkipInitialEffect';
-import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
 
-import { arrayIndexToQueryParam, queryParamToArrayIndex } from '.';
+import { queryParamToArrayIndex } from '.';
 import IIIFViewerImage from './IIIFViewerImage';
 
 const ImageWrapper = styled.div<{ $isFullSupportBrowser: boolean }>`
@@ -67,23 +63,10 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   setImageContainerRect,
 }) => {
   const { isFullSupportBrowser } = useAppContext();
-  const {
-    work,
-    errorHandler,
-    setShowZoomed,
-    mainAreaRef,
-    query,
-    rotatedImages,
-    hasOnlyImages,
-    transformedManifest,
-  } = useItemViewerContext();
+  const { work, errorHandler, setShowZoomed, rotatedImages } =
+    useItemViewerContext();
   const imageWrapperRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
-  const isOnScreen = useOnScreen({
-    root: mainAreaRef?.current || undefined,
-    ref: imageWrapperRef || undefined,
-    threshold: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
-  });
   const [imageSrc, setImageSrc] = useState(urlTemplate({ size: '640,' }));
   const [imageSrcSet, setImageSrcSet] = useState(
     imageSizes(2048)
@@ -120,40 +103,6 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
 
     return () => window.removeEventListener('resize', updateImagePosition);
   }, []);
-
-  /**
-   * Updates the URL to match the visible canvas when scrolling through images.
-   *
-   * Context:
-   * - On /works/{id}/items pages: transformedManifest exists, hasOnlyImages varies
-   * - On /works/{id}/images?id={imageId} pages: no transformedManifest, single image view
-   *
-   * This effect only runs when ALL conditions are met:
-   * 1. hasOnlyImages: Using scrollable image grid (not paginated file list)
-   * 2. isOnScreen: Current canvas has scrolled into view
-   * 3. transformedManifest: Full manifest exists (not single image page)
-   *
-   * Without the transformedManifest check, single image pages would incorrectly
-   * redirect to the work detail page on load.
-   */
-  useSkipInitialEffect(() => {
-    // Only update URL when we have all three conditions:
-    const shouldUpdateUrl =
-      hasOnlyImages && isOnScreen && transformedManifest !== undefined;
-
-    if (shouldUpdateUrl) {
-      const link = toWorksItemLink({
-        workId: work.id,
-        props: {
-          manifest: query.manifest,
-          query: query.query,
-          canvas: arrayIndexToQueryParam(index),
-          shouldScrollToCanvas: false,
-        },
-      });
-      Router.replace(link.href);
-    }
-  }, [isOnScreen]);
 
   useEffect(() => {
     setImageSrc(urlTemplate({ size: '640,', rotation }));
