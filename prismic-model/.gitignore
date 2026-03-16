@@ -1,4 +1,5 @@
 snapshot.*
+snapshots/
 node_modules
 contentReport.json
 sliceReport.json
