@@ -12,7 +12,7 @@
   "dependencies": {
     "@playwright/test": "^1.58.2",
     "@tsconfig/node24": "^24.0.0",
-    "@types/node": "^24.0.0",
+    "@types/node": "^24.10.0",
     "chalk": "^4.1.2",
     "cli-table3": "^0.6.5",
     "commander": "^9.3.0",
