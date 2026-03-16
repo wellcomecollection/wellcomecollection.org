@@ -302,6 +302,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
                     setImageRect={setImageRect}
                     setImageContainerRect={setImageContainerRect}
                     externalAccessService={externalAccessService}
+                    shouldScrollToUpdateUrl={true}
                   />
                 </ItemWrapper>
               );

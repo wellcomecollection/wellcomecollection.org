@@ -1,5 +1,12 @@
 # Setup terraform for this service
 terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 6.34.0"
+    }
+  }
+
   backend "s3" {
     key            = "build-state/cache.tfstate"
     dynamodb_table = "terraform-locktable"

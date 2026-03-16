@@ -4,16 +4,10 @@ import * as origin from './origin';
 import testRequest from './test_event_request';
 import testResponse from './test_event_response';
 
-test('request', () => {
-  const requestCallback = jest.fn((_, request) => request);
-  const responseCallback = jest.fn((_, request) => request);
+test('request', async () => {
+  const requestResult = await origin.request(testRequest, {} as Context);
+  const responseResult = await origin.response(testResponse, {} as Context);
 
-  origin.request(testRequest, {} as Context, requestCallback);
-  origin.response(testResponse, {} as Context, responseCallback);
-
-  expect(typeof requestCallback.mock.calls[0][1]).toBe('object');
-  expect(typeof responseCallback.mock.calls[0][1]).toBe('object');
-
-  expect(requestCallback.mock.calls.length).toBe(1);
-  expect(responseCallback.mock.calls.length).toBe(1);
+  expect(typeof requestResult).toBe('object');
+  expect(typeof responseResult).toBe('object');
 });
