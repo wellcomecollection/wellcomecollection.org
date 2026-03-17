@@ -14,17 +14,16 @@ export const Title = styled(Space).attrs({
   className: font('sans-bold', 2),
   as: 'h2',
   $v: { size: 'md', properties: ['margin-bottom'] },
-})<{
-  $hasDarkBackground?: boolean;
-}>`
-  color: ${props =>
-    props.$hasDarkBackground ? props.theme.color('white') : 'inherit'};
-`;
+})``;
 
 export const DarkSectionWrapper = styled(Space).attrs({
   $v: { size: 'lg', properties: ['padding-top', 'padding-bottom'] },
 })`
   background-color: ${props => props.theme.color('neutral.700')};
+
+  ${Title} {
+    color: ${props => props.theme.color('white')};
+  }
 `;
 
 export const StretchWrapper = styled.section<{ $hasDarkBackground?: boolean }>`
@@ -48,7 +47,7 @@ export const StretchWrapper = styled.section<{ $hasDarkBackground?: boolean }>`
 
 export const ThemeCardsListSection = styled(StretchWrapper)`
   /* Enough space to clear the sticky header 
-  This is usually applied to h2 (in typography.ts
+  This is usually applied to h2 (in typography.ts)
   But we don't have one here. */
 
   scroll-margin-top: 3rem;

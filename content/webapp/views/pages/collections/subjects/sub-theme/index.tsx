@@ -125,7 +125,7 @@ const WellcomeSubThemePage: NextPage<Props> & {
     hasNavigation
       ? { s: [12], m: [12], l: [9], xl: [9] }
       : { s: [12], m: [12], l: [12], xl: [12] }
-  ) as SizeMap;
+  ) satisfies SizeMap;
 
   return (
     <Container>
@@ -185,7 +185,7 @@ const WellcomeSubThemePage: NextPage<Props> & {
             {hasImagesAbout && (
               <StretchWrapper $hasDarkBackground>
                 <DarkSectionWrapper>
-                  <Title id="images-about" $hasDarkBackground>
+                  <Title id="images-about">
                     Images about {lowerCasePageTitle}
                   </Title>
 

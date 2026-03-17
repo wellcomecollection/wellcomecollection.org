@@ -7,9 +7,9 @@ import Space from '@weco/common/views/components/styled/Space';
 import { DarkSectionWrapper, Title } from './sub-theme.styles';
 
 const SpacingWrapper = styled(Space).attrs({
-  $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'xl', properties: ['margin-top', 'margin-bottom'] },
 })<{ $isFirst?: boolean }>`
-  ${props => props.$isFirst && `padding-top: 0;`}
+  ${props => props.$isFirst && `margin-top: 0;`}
 `;
 
 const SectionContainer = ({
@@ -31,9 +31,7 @@ const SectionContainer = ({
       wrapper={children => <DarkSectionWrapper>{children}</DarkSectionWrapper>}
     >
       <SpacingWrapper $isFirst={isFirst}>
-        <Title id={id} $hasDarkBackground={hasDarkBackground}>
-          {title}
-        </Title>
+        <Title id={id}>{title}</Title>
         {children}
       </SpacingWrapper>
     </ConditionalWrapper>
