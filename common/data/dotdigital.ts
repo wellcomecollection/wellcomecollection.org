@@ -8,30 +8,29 @@ type AddressBook = {
 export const newsletterAddressBook: AddressBook = {
   id: 40131,
   slug: 'newsletter',
-  label: 'Newsletter',
+  label:
+    'What’s On newsletter: Be one of the first to hear about what’s happening onsite and online at Wellcome Collection.',
 };
 
 export const secondaryAddressBooks: AddressBook[] = [
   {
     id: 43073739,
     slug: 'accessibility',
-    label: 'Access events, tours and activities',
+    label:
+      'Access newsletter: Stay up to date about accessible tours, events and activities with our access newsletter.',
   },
   {
-    id: 40132,
+    id: 39507938,
     slug: 'young_people_14-19',
-    label: 'Events and activities for 14 to 19 year-olds',
+    label:
+      'Youth newsletter: Are you aged 14-19 years old? Get updates for free events and workshops where you can meet other young creatives and experts.',
   },
   {
     id: 40130,
     slug: 'teachers',
-    label: 'Events and activities for teachers and schools',
+    label:
+      'Teachers newsletter: Are you a teacher? Learn about free relevant events and workshops for your students.',
     description:
       'Study days and other events for secondary school teachers and school groups',
-  },
-  {
-    id: 40133,
-    slug: 'youth_and_community_workers',
-    label: 'Updates for youth and community workers',
   },
 ];

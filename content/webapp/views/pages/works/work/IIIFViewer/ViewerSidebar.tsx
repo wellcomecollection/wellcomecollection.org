@@ -167,7 +167,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
     work,
     transformedManifest,
     parentManifest,
-    hasOnlyImages,
+    hasOnlyRenderableImages,
     query,
     setIsMobileSidebarActive,
     archiveTree,
@@ -355,11 +355,12 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
           </AccordionItem>
         )}
 
-        {Boolean(structures && structures.length > 0) && hasOnlyImages && (
-          <AccordionItem title="Contents">
-            <ViewerStructures />
-          </AccordionItem>
-        )}
+        {Boolean(structures && structures.length > 0) &&
+          hasOnlyRenderableImages && (
+            <AccordionItem title="Contents">
+              <ViewerStructures />
+            </AccordionItem>
+          )}
         {/*
           Note: this check for `behavior === 'multi-part'` is repeated in items.tsx to
           avoid sending unnecessary data about parent manifests that we're not going
