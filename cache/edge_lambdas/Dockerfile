@@ -1,4 +1,4 @@
-FROM public.ecr.aws/docker/library/node:20-bookworm-slim
+FROM public.ecr.aws/docker/library/node:24.13.0-bookworm-slim
 
 RUN apt-get update && apt-get install -yq --no-install-recommends git
 

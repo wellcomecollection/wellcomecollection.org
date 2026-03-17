@@ -64,7 +64,7 @@ const ImageOrIcons = styled(Space).attrs({
   }
 `;
 
-const Text = styled.div.attrs({ className: 'spaced-text' })`
+const Text = styled.div.attrs({ className: 'body-text spaced-text' })`
   flex-basis: 100%;
 
   ${props => props.theme.media('sm')`

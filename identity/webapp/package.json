@@ -9,8 +9,8 @@
   "author": "Wellcome Collection <digital@wellcomecollection.org>",
   "license": "MIT",
   "scripts": {
-    "start": "NODE_ENV=production ts-node-transpile-only -r tsconfig-paths/register index.ts",
-    "start:dev": "PORT=3003 CREDENTIALS=$(AWS_PROFILE=identity-developer aws secretsmanager get-secret-value --secret-id=identity/stage/local_dev_client/credentials) NODE_ENV=development nodemon index.ts",
+    "start": "NODE_ENV=production tsx index.ts",
+    "start:dev": "PORT=3003 CREDENTIALS=$(AWS_PROFILE=identity-developer aws secretsmanager get-secret-value --secret-id=identity/stage/local_dev_client/credentials) NODE_ENV=development tsx watch index.ts",
     "watch:client": "yarn build:frontend --watch",
     "build": "NODE_ENV=production && yarn build:next",
     "build:next": "next build",
@@ -34,8 +34,6 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-hook-form": "^7.68.0",
-    "styled-components": "6.1.3",
-    "ts-node": "^10.9.1",
-    "tsconfig-paths": "^4.2.0"
+    "styled-components": "^6.3.11"
   }
 }

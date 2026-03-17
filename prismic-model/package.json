@@ -3,13 +3,13 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "migrate": "ts-node migrate",
-    "contentAnalysis": "ts-node contentAnalysis",
-    "sliceAnalysis": "ts-node sliceAnalysis",
-    "diffCustomTypes": "ts-node diffCustomTypes",
-    "downloadSnapshot": "ts-node downloadSnapshot",
-    "lintPrismicData": "ts-node lintPrismicData",
-    "tryAllContentPages": "ts-node tryAllContentPages"
+    "migrate": "tsx ./scripts/migrate",
+    "contentAnalysis": "tsx ./scripts/contentAnalysis",
+    "sliceAnalysis": "tsx ./scripts/sliceAnalysis",
+    "diffCustomTypes": "tsx ./scripts/diffCustomTypes",
+    "downloadSnapshot": "tsx ./scripts/downloadSnapshot",
+    "lintPrismicData": "tsx ./scripts/lintPrismicData",
+    "tryAllContentPages": "tsx ./scripts/tryAllContentPages"
   },
   "dependencies": {
     "@aws-sdk/client-cloudfront": "^3.1000.0",
@@ -20,11 +20,12 @@
     "@types/yargs": "^17.0.5",
     "@weco/common": "1.0.0",
     "@weco/ts-aws": "^1.0.1",
-    "chalk": "^4.1.2",
     "dotenv": "^17.3.1",
     "json-diff": "^1.0.6",
     "tqdm": "^2.0.3",
-    "ts-node": "^10.4.0",
     "yargs": "^17.2.1"
+  },
+  "devDependencies": {
+    "styled-components": "^6.3.11"
   }
 }

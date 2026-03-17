@@ -3,7 +3,15 @@ import {
   ContentResource,
   InternationalString,
 } from '@iiif/presentation-3';
-import { FunctionComponent, ReactNode, useEffect, useState } from 'react';
+import Router from 'next/router';
+import {
+  FunctionComponent,
+  ReactNode,
+  RefObject,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import styled from 'styled-components';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
@@ -21,6 +29,9 @@ import {
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
+import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
+import useOnScreen from '@weco/content/hooks/useOnScreen';
+import useSkipInitialEffect from '@weco/content/hooks/useSkipInitialEffect';
 import { fetchCanvasOcr } from '@weco/content/services/iiif/fetch/canvasOcr';
 import { transformCanvasOcr } from '@weco/content/services/iiif/transformers/canvasOcr';
 import { missingAltTextMessage } from '@weco/content/services/wellcome/catalogue/works';
@@ -29,32 +40,49 @@ import {
   TransformedCanvas,
 } from '@weco/content/types/manifest';
 import { convertRequestUriToInfoUri } from '@weco/content/utils/iiif/convert-iiif-uri';
+import { hasRestrictedItem } from '@weco/content/utils/iiif/v3';
 import {
   getFileSize,
   getFormatString,
   getImageServiceFromItem,
   getLabelString,
-  isItemRestricted,
 } from '@weco/content/utils/iiif/v3';
+import type { TransformedAuthService } from '@weco/content/utils/iiif/v3';
 import { getFileLabel } from '@weco/content/utils/works';
 import AudioPlayer from '@weco/content/views/components/AudioPlayer';
 import BetaMessage from '@weco/content/views/components/BetaMessage';
+import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
 import VideoPlayer from '@weco/content/views/components/VideoPlayer';
 import IIIFItemPdf from '@weco/content/views/pages/works/work/IIIFItem/IIIFItem.Pdf';
+import { arrayIndexToQueryParam } from '@weco/content/views/pages/works/work/IIIFViewer';
 import ImageViewer from '@weco/content/views/pages/works/work/IIIFViewer/ImageViewer';
 
 import IIIFItemDownload from './IIIFItem.Download';
 import VideoTranscript from './IIIFItem.VideoTranscript';
 
+const MessageContainer = styled.div`
+  min-width: 360px;
+  max-width: 600px;
+  margin: 0 auto;
+  border: 1px solid ${props => props.theme.color('neutral.600')};
+  height: 80%;
+  padding: 10%;
+`;
+
 const Outline = styled(Space).attrs({
-  $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
+  $v: {
+    size: 'md',
+    properties: ['margin-top', 'margin-bottom'],
+  },
+  $h: { size: 'lg', properties: ['margin-left', 'margin-right'] },
 })<{ $border?: boolean }>`
+  position: relative;
   padding-left: ${props => props.theme.spacingUnits['400']};
   padding-right: ${props => props.theme.spacingUnits['400']};
   ${props =>
     props.$border
       ? `border: 1px solid; border-color:  ${props.theme.color('neutral.400')}`
-      : ``}
+      : ``};
   height: 100%;
 `;
 
@@ -83,6 +111,8 @@ const Choice: FunctionComponent<
   i,
   itemUrl,
   isDark,
+  externalAccessService,
+  shouldScrollToUpdateUrl,
 }) => {
   // We may have multiple items, such as videos of different formats
   // but we only show the first of these currently
@@ -101,6 +131,8 @@ const Choice: FunctionComponent<
             exclude={exclude}
             itemUrl={itemUrl}
             isDark={isDark}
+            externalAccessService={externalAccessService}
+            shouldScrollToUpdateUrl={shouldScrollToUpdateUrl}
           />
         </>
       );
@@ -170,33 +202,39 @@ type ItemProps = {
   setImageContainerRect?: (v: DOMRect) => void;
   itemUrl?: LinkProps;
   isDark?: boolean;
+  externalAccessService?: TransformedAuthService;
+  shouldScrollToUpdateUrl?: boolean;
 };
 
 const PublicRestrictedMessage: FunctionComponent<{
-  canvas: TransformedCanvas;
-  titleOverride?: string;
-}> = ({ canvas, titleOverride }) => {
-  const audioLabel = getFileLabel(canvas.label, titleOverride);
-
+  externalAccessService?: import('@weco/content/utils/iiif/v3').TransformedAuthService;
+}> = ({ externalAccessService }) => {
   return (
-    <div className="audio">
-      {audioLabel && (
-        <Space
-          className={font('sans-bold', -1)}
-          $v={{ size: 'sm', properties: ['margin-bottom'] }}
-        >
-          {audioLabel}
-        </Space>
+    <MessageContainer>
+      {externalAccessService?.label && (
+        <h2 className={font('sans-bold', 0)}>{externalAccessService.label}</h2>
       )}
-
-      <p className={font('sans', -1)}>{restrictedItemMessage}</p>
-    </div>
+      <div className={font('sans', -1)}>
+        {externalAccessService?.description && (
+          <p
+            className={font('sans', -1)}
+            dangerouslySetInnerHTML={{
+              __html: externalAccessService.description,
+            }}
+          />
+        )}
+        {restrictedItemMessage}
+      </div>
+    </MessageContainer>
   );
 };
 
 const StaffRestrictedMessage: FunctionComponent = () => {
   return (
-    <p className={font('sans', -1)} style={{ display: 'flex' }}>
+    <p
+      className={font('sans', -1)}
+      style={{ display: 'flex', marginTop: '10px' }}
+    >
       <IconContainer>
         <Icon icon={information} />
       </IconContainer>
@@ -209,35 +247,89 @@ const StaffRestrictedMessage: FunctionComponent = () => {
 const IIIFItemWrapper: FunctionComponent<{
   shouldShowItem: boolean;
   className: string;
-  titleOverride?: string;
-  canvas: TransformedCanvas;
   isRestricted: boolean;
+  externalAccessService?: TransformedAuthService;
   children: ReactNode | undefined;
+  containerRef?: RefObject<HTMLDivElement | null>;
 }> = ({
   shouldShowItem,
   className,
-  titleOverride,
-  canvas,
   isRestricted,
+  externalAccessService,
   children,
+  containerRef,
 }) => {
   if (shouldShowItem) {
     return (
-      <Outline className="item-wrapper">
+      <Outline className="item-wrapper" ref={containerRef}>
         <PublicRestrictedMessage
-          canvas={canvas}
-          titleOverride={titleOverride}
+          externalAccessService={externalAccessService}
         />
       </Outline>
     );
   } else {
     return (
-      <Outline $border={isRestricted} className={className}>
+      <Outline $border={isRestricted} className={className} ref={containerRef}>
         {isRestricted && <StaffRestrictedMessage />}
         {children}
       </Outline>
     );
   }
+};
+
+// Wraps IIIFItemWrapper with an intersection observer that keeps the URL in
+// sync with the visible canvas when scrolling through images in the viewer.
+// Only used for the IIIFImage case because we only scroll when all items are images
+
+const IIIFItemWrapperWithObserver: FunctionComponent<{
+  shouldShowItem: boolean;
+  className: string;
+  isRestricted: boolean;
+  externalAccessService?: TransformedAuthService;
+  children: ReactNode | undefined;
+  index: number;
+}> = ({
+  shouldShowItem,
+  className,
+  isRestricted,
+  externalAccessService,
+  children,
+  index,
+}) => {
+  const { work, mainAreaRef, query } = useItemViewerContext();
+  const ref = useRef<HTMLDivElement>(null);
+  const isOnScreen = useOnScreen({
+    root: mainAreaRef?.current || undefined,
+    ref,
+    threshold: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
+  });
+
+  useSkipInitialEffect(() => {
+    if (isOnScreen) {
+      const link = toWorksItemLink({
+        workId: work.id,
+        props: {
+          manifest: query.manifest,
+          query: query.query,
+          canvas: arrayIndexToQueryParam(index),
+          shouldScrollToCanvas: false,
+        },
+      });
+      Router.replace(link.href);
+    }
+  }, [isOnScreen]);
+
+  return (
+    <IIIFItemWrapper
+      shouldShowItem={shouldShowItem}
+      className={className}
+      isRestricted={isRestricted}
+      externalAccessService={externalAccessService}
+      containerRef={ref}
+    >
+      {children}
+    </IIIFItemWrapper>
+  );
 };
 
 const IIIFItem: FunctionComponent<ItemProps> = ({
@@ -251,9 +343,25 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
   setImageContainerRect,
   itemUrl,
   isDark,
+  externalAccessService,
+  shouldScrollToUpdateUrl,
 }) => {
   const { userIsStaffWithRestricted } = useUserContext();
-  const isRestricted = isItemRestricted(item);
+  const isRestricted = hasRestrictedItem(canvas);
+  // Replace "image" with "item" in description if the item is not an image
+  // or if it's an image but has originals, which means the image is just a placeholder for the original item
+  const adjustedExternalAccessService =
+    externalAccessService &&
+    (item.type !== 'Image' ||
+      (item.type === 'Image' && canvas.original.length > 0))
+      ? {
+          ...externalAccessService,
+          description: externalAccessService.description
+            ?.replace(/\bimage\b/gi, 'item')
+            ?.replace(/\bviewed\b/gi, 'accessed'),
+        }
+      : externalAccessService;
+
   const shouldShowItem = isRestricted && !userIsStaffWithRestricted;
   const itemLabel =
     'label' in item
@@ -261,14 +369,6 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
       : canvas.label?.trim() !== '-'
         ? canvas.label
         : undefined;
-  // N.B. Restricted images are handled differently from restricted audio/video and text.
-  // The isItemRestricted function doesn't account for restricted images.
-  // Instead there is a hasRestrictedImage property on the TransformedCanvas which is used by
-  // the ItemRenderer in MainViewer to decide whether or not to display the image.
-  // This is ok as we only ever have one image to a canvas.
-  // Theoretically, a canvas could contain more than one image (e.g. a painting and an x-ray of the painting)
-  // Therefore we may want to handle images here in the same way as everything else.
-  // Doing so would also make things simpler to understand.
   switch (true) {
     case item.type === 'Choice' && !exclude.includes('Choice'):
       return (
@@ -285,6 +385,8 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           setImageContainerRect={setImageContainerRect}
           itemUrl={itemUrl}
           isDark={isDark}
+          externalAccessService={adjustedExternalAccessService}
+          shouldScrollToUpdateUrl={shouldScrollToUpdateUrl}
         />
       );
 
@@ -295,9 +397,8 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
         <IIIFItemWrapper
           shouldShowItem={shouldShowItem}
           className="item-wrapper"
-          titleOverride={titleOverride}
-          canvas={canvas}
           isRestricted={isRestricted}
+          externalAccessService={adjustedExternalAccessService}
         >
           <AudioPlayer
             isDark={isDark}
@@ -312,9 +413,8 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
         <IIIFItemWrapper
           shouldShowItem={shouldShowItem}
           className="item-wrapper"
-          titleOverride={titleOverride}
-          canvas={canvas}
           isRestricted={isRestricted}
+          externalAccessService={adjustedExternalAccessService}
         >
           <>
             <VideoPlayer
@@ -335,9 +435,8 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
         <IIIFItemWrapper
           shouldShowItem={shouldShowItem}
           className="pdf-wrapper"
-          titleOverride={titleOverride}
-          canvas={canvas}
           isRestricted={isRestricted}
+          externalAccessService={adjustedExternalAccessService}
         >
           <IIIFItemPdf
             src={item.id}
@@ -349,6 +448,9 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
       );
 
     case item.type === 'Image' && !exclude.includes('Image'):
+      // If there are original items then the image is just a placeholder
+      // for these so we show the download options for the original items
+      // rather than the image itself
       if (canvas.original.length > 0) {
         return (
           <>
@@ -358,9 +460,8 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
                   <IIIFItemWrapper
                     shouldShowItem={shouldShowItem}
                     className="item-wrapper"
-                    titleOverride={titleOverride}
-                    canvas={canvas}
                     isRestricted={isRestricted}
+                    externalAccessService={adjustedExternalAccessService}
                   >
                     <IIIFItemDownload
                       key={original.id}
@@ -381,7 +482,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           </>
         );
       } else {
-        return (
+        const imageContent = (
           <IIIFImage
             index={i}
             item={item}
@@ -389,6 +490,29 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
             setImageRect={setImageRect}
             setImageContainerRect={setImageContainerRect}
           />
+        );
+        if (shouldScrollToUpdateUrl) {
+          return (
+            <IIIFItemWrapperWithObserver
+              shouldShowItem={shouldShowItem}
+              className="item-wrapper"
+              isRestricted={isRestricted}
+              externalAccessService={adjustedExternalAccessService}
+              index={i}
+            >
+              {imageContent}
+            </IIIFItemWrapperWithObserver>
+          );
+        }
+        return (
+          <IIIFItemWrapper
+            shouldShowItem={shouldShowItem}
+            className="item-wrapper"
+            isRestricted={isRestricted}
+            externalAccessService={adjustedExternalAccessService}
+          >
+            {imageContent}
+          </IIIFItemWrapper>
         );
       }
 

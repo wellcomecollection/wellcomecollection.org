@@ -85,15 +85,15 @@ const NewOnlinePage: NextPage<Props> = ({ works, apiToolbarLinks }) => {
         )}
 
         <Container>
-          <Space $v={{ size: 'md', properties: ['margin-top'] }}>
-            {works.results.length > 0 ? (
-              <WorkCards works={works.results} />
-            ) : (
+          {works.results.length > 0 ? (
+            <WorkCards works={works.results} />
+          ) : (
+            <Space $v={{ size: 'md', properties: ['margin-top'] }}>
               <ContaineredLayout gridSizes={gridSize12()}>
                 <p>There are no results.</p>
               </ContaineredLayout>
-            )}
-          </Space>
+            </Space>
+          )}
         </Container>
 
         {works.totalPages > 1 && (
