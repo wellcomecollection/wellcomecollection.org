@@ -20,6 +20,6 @@ aws s3 cp "$ASSETS/robots.txt" s3://i.wellcomecollection.org/robots.txt --acl pu
 # See https://wellcome.slack.com/archives/C3TQSF63C/p1655464291878209
 aws s3 cp "$ASSETS/googlea25c86e91ccc343b.html" s3://i.wellcomecollection.org/googlea25c86e91ccc343b.html --acl public-read
 
-aws s3 sync "$ASSETS/fonts" s3://i.wellcomecollection.org/assets/fonts --acl public-read
+aws s3 sync "$ASSETS/fonts" s3://i.wellcomecollection.org/assets/fonts --acl public-read --cache-control "public, max-age=31536000, immutable"
 aws s3 sync "$ASSETS/icons" s3://i.wellcomecollection.org/assets/icons --acl public-read
 aws s3 sync "$ASSETS/images" s3://i.wellcomecollection.org/assets/images --acl public-read
