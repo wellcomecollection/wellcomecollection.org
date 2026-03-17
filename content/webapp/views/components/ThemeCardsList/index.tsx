@@ -29,6 +29,7 @@ const ListItem = styled.li<{ $usesShim?: boolean }>`
       &:first-child {
         padding-left: 0;
         width: calc(400px - var(--gutter-size));
+        max-width: calc(90vw - var(--gutter-size));
       }
       `
       : ''}
