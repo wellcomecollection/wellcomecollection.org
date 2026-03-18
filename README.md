@@ -129,9 +129,9 @@ yarn deploy-dev restore identity
 **⚠️ Important:** This command overrides the `env.stage` tag in ECR, which affects all staging deployments. Before using:
 
 1. **Coordinate with other experience team developers** to ensure no one else is testing on staging
-2. The tool automatically backs up the previous image as `env.stage.pre-dev`
+2. If an existing `env.stage` image is present, the tool backs it up as `env.stage.pre-dev` (if no existing image is found, no backup is created and restore won't be available)
 3. **Always restore when finished** using `yarn deploy-dev restore <app>` so CI deployments resume normally
-4. If CI deploys while your dev image is running, `env.stage` will be updated to the CI build (your backup remains available for reference)
+4. If CI deploys while your dev image is running, `env.stage` will be updated to the CI build (your backup remains available for reference, if it was created)
 
 Prerequisites: You need `platform-developer` and `experience-developer` AWS profiles configured.
 

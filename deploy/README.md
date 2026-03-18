@@ -73,4 +73,4 @@ yarn deploy-dev content
 2. Retags it back to `env.stage`
 3. Forces an ECS redeployment and waits for the service to stabilise
 
-**Note:** Restore will fail if no backup exists (i.e., you haven't deployed a dev build yet, or the backup tag was manually deleted). The tool always creates a backup before deploying, so you can safely restore after any dev deployment.
+**Note:** Restore will fail if no backup exists (i.e., you haven't deployed a dev build yet, the existing staging image was absent at deploy time, or the backup tag was manually deleted). The tool creates a backup when an existing staging image is present, so you can safely restore after any dev deployment where one existed.

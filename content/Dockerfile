@@ -16,8 +16,7 @@ RUN yarn --frozen-lockfile && yarn cache clean
 
 COPY content/webapp .
 
-ENV NODE_OPTIONS=--max-old-space-size=4096
-RUN yarn build && yarn cache clean
+RUN NODE_OPTIONS=--max-old-space-size=4096 yarn build && yarn cache clean
 
 # The following are from https://nextjs.org/docs/deployment#docker-image
 RUN addgroup --system --gid 1001 nodejs
