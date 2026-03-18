@@ -80,6 +80,7 @@ export const HeroPicture: FunctionComponent<{
     <Picture
       images={[{ ...widescreenImage, minWidth: theme.sizes.sm }, squareImage]}
       isFull={true}
+      priority
     />
   );
 };
