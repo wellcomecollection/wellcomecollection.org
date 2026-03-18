@@ -26,6 +26,7 @@ export type Props = {
   maxWidth?: number;
   quality: 'low' | 'high';
   desaturate?: boolean;
+  priority?: boolean;
 };
 
 /**
@@ -114,6 +115,7 @@ const PrismicImage: FunctionComponent<Props> = ({
   maxWidth,
   quality,
   desaturate = false,
+  priority = false,
 }) => {
   const sizesString = sizes
     ? convertBreakpointSizesToSizes(sizes).join(', ')
@@ -137,6 +139,8 @@ const PrismicImage: FunctionComponent<Props> = ({
       sizes={imgSizes || sizesString}
       placeholder="blur"
       blurDataURL={whiteBackgroundHalfOpacity}
+      priority={priority}
+      fetchPriority={priority ? 'high' : undefined}
     />
   );
 };

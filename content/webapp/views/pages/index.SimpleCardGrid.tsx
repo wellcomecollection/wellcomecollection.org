@@ -20,9 +20,13 @@ type Props = {
 
 type CardGridFeaturedCardProps = {
   item: CardType;
+  priority?: boolean;
 };
 
-const CardGridFeaturedCard = ({ item }: CardGridFeaturedCardProps) => {
+const CardGridFeaturedCard = ({
+  item,
+  priority,
+}: CardGridFeaturedCardProps) => {
   const image = getCrop(item.image, '16:9');
 
   return (
@@ -58,6 +62,7 @@ const CardGridFeaturedCard = ({ item }: CardGridFeaturedCardProps) => {
         }}
         background="neutral.700"
         textColor="white"
+        priority={priority}
       >
         {item.title && <h2 className={font('brand-bold', 2)}>{item.title}</h2>}
         {item.description && (
@@ -79,7 +84,7 @@ const SimpleCardGrid: FunctionComponent<Props> = ({
   return (
     <>
       {featuredCard && isFeaturedFirst && (
-        <CardGridFeaturedCard item={featuredCard} />
+        <CardGridFeaturedCard item={featuredCard} priority />
       )}
       <Container>
         <Grid>

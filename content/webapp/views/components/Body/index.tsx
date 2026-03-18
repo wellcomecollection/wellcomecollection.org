@@ -208,6 +208,7 @@ const Body: FunctionComponent<Props> = ({
               background={sectionTheme.featuredCardBackground}
               textColor={sectionTheme.featuredCardText}
               isReversed={false}
+              priority={isFirst}
             >
               <h3 className={font('brand-bold', 2)}>{firstItem.title}</h3>
               {isCardType && firstItem.description && (
