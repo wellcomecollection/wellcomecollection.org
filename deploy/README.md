@@ -31,7 +31,9 @@ Common issues:
 
 ## Usage
 
-From the repo root:
+Start Docker.
+
+Then, from the repo root:
 
 ```sh
 # Build and deploy the content webapp to staging
