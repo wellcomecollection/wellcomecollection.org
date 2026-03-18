@@ -105,7 +105,7 @@ const Homepage: NextPage<Props> = ({
         <ContaineredLayout gridSizes={gridSize10(false)}>
           <SpacingSection>
             <Space
-              $v={{ size: 'md', properties: ['margin-top'] }}
+              $v={{ size: 'xl', properties: ['margin-top'] }}
               className={font('brand-bold', 4)}
             >
               <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>

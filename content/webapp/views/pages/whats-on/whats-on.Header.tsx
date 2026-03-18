@@ -43,7 +43,7 @@ const Header: FunctionComponent<HeaderProps> = ({
   todaysOpeningHours,
 }) => {
   return (
-    <Space $v={{ size: 'md', properties: ['padding-top'] }}>
+    <Space $v={{ size: 'xl', properties: ['padding-top'] }}>
       <Container>
         <Grid>
           <GridCell
