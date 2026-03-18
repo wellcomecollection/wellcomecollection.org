@@ -39,7 +39,4 @@ tsconfig.tsbuildinfo
 # AI
 .claude/
 
-# Prismic restore outputs
-prismic-model/restore/snapshot/
-prismic-model/restore/assets/
-prismic-model/restore/status/
+
