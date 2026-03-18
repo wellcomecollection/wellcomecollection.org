@@ -3,27 +3,10 @@ import {
   ListObjectsV2Command,
   S3Client,
 } from '@aws-sdk/client-s3';
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import * as fs from 'fs';
 import * as path from 'path';
 import { Readable } from 'stream';
 import { pipeline } from 'stream/promises';
-
-export async function generatePresignedUrl(
-  bucket: string,
-  key: string,
-  region = 'eu-west-1',
-  expiresIn = 3600
-): Promise<string> {
-  const s3Client = new S3Client({ region });
-
-  return getSignedUrl(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    s3Client as any, // bypasses the type mismatch caused by conflicting @smithy/smithy-client versions, avoids the complexity of forcing smithy versions across a large monorepo that could break other things.
-    new GetObjectCommand({ Bucket: bucket, Key: key }),
-    { expiresIn }
-  );
-}
 
 export interface DownloadLatestS3FileParams {
   bucket: string;
