@@ -26,7 +26,7 @@ import * as path from 'path';
 import * as readline from 'readline';
 import { Readable } from 'stream';
 
-import { downloadLatestS3File } from './s3-utils';
+import { downloadLatestS3File, downloadLatestSnapshot } from './s3-utils';
 import 'dotenv/config';
 
 const bucketFromEnv = process.env.PRISMIC_S3_BUCKET;
@@ -38,8 +38,6 @@ const s3Client = new S3Client({ region: 'eu-west-1' });
 // S3 key prefixes for the two backup types, and local directories to download them into
 const ASSETS_PREFIX = 'media-library/prismic-assets-';
 const ASSETS_OUTPUT_DIR = './restore/assets/';
-const SNAPSHOT_PREFIX = 'snapshots/prismic-snapshot-';
-const SNAPSHOT_OUTPUT_DIR = './restore/snapshot/';
 
 // Downloads the most recent assets manifest JSON from S3 (prismic-assets-*.json).
 // This file contains metadata for every asset in the Prismic media library.
@@ -50,18 +48,6 @@ async function downloadLatestAssetsList(): Promise<string> {
     prefix: ASSETS_PREFIX,
     region: 'eu-west-1',
     outputDir: path.resolve(ASSETS_OUTPUT_DIR),
-  });
-}
-
-// Downloads the most recent Prismic content snapshot from S3 (prismic-snapshot-*.json).
-// This file contains all published documents and is used to determine which assets are referenced.
-async function downloadLatestSnapshot(): Promise<string> {
-  console.log('Downloading latest snapshot from S3...');
-  return downloadLatestS3File({
-    bucket,
-    prefix: SNAPSHOT_PREFIX,
-    region: 'eu-west-1',
-    outputDir: path.resolve(SNAPSHOT_OUTPUT_DIR),
   });
 }
 
@@ -307,7 +293,7 @@ async function init() {
   const token = getWriteApiToken();
 
   // Step 1: Download the latest snapshot and assets manifest from S3
-  const latestSnapshotPath = await downloadLatestSnapshot();
+  const latestSnapshotPath = await downloadLatestSnapshot(bucket);
   const latestAssetsPath = await downloadLatestAssetsList();
 
   // Status files track progress and allow the script to be safely resumed

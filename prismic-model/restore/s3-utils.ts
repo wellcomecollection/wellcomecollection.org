@@ -57,6 +57,11 @@ export async function downloadLatestS3File({
   const fileName = path.basename(latest.Key);
   const outputPath = path.join(outputDir, fileName);
 
+  // Ensure output directory exists
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true });
+  }
+
   // Always remove old files matching the current prefix that are not the latest
   const prefixBase = path.basename(prefix).replace(/[-_]+$/, '');
   const files = fs.readdirSync(outputDir);
@@ -66,11 +71,6 @@ export async function downloadLatestS3File({
       fs.unlinkSync(oldPath);
       console.log(`Removed old file: ${oldPath}`);
     }
-  }
-
-  // Ensure output directory exists
-  if (!fs.existsSync(outputDir)) {
-    fs.mkdirSync(outputDir, { recursive: true });
   }
 
   if (fs.existsSync(outputPath)) {
@@ -92,4 +92,21 @@ export async function downloadLatestS3File({
 
   console.log(`File saved to ${outputPath}`);
   return outputPath;
+}
+
+const SNAPSHOT_PREFIX = 'snapshots/prismic-snapshot-';
+const SNAPSHOT_OUTPUT_DIR = path.resolve('./restore/snapshot/');
+
+/**
+ * Downloads the latest Prismic content snapshot from S3.
+ * Shared between restore-prismic-assets and restore-prismic-content.
+ */
+export async function downloadLatestSnapshot(bucket: string): Promise<string> {
+  console.log('Downloading latest snapshot from S3...');
+  return downloadLatestS3File({
+    bucket,
+    prefix: SNAPSHOT_PREFIX,
+    region: 'eu-west-1',
+    outputDir: SNAPSHOT_OUTPUT_DIR,
+  });
 }
