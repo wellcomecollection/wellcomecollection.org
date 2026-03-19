@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 
 import { secrets } from '@weco/prismic-model/config';
-import { setEnvsFromSecrets } from '@weco/ts-aws';
+import { setEnvsFromSecrets } from '@weco/prismic-model/utils/aws';
 
 type CustomType = {
   id: string;

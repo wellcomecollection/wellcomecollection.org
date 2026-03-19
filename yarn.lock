@@ -226,7 +226,7 @@
     "@smithy/util-waiter" "^4.2.10"
     tslib "^2.6.2"
 
-"@aws-sdk/client-secrets-manager@^3.1000.0", "@aws-sdk/client-secrets-manager@^3.40.0":
+"@aws-sdk/client-secrets-manager@^3.1000.0":
   version "3.1002.0"
   resolved "https://registry.yarnpkg.com/@aws-sdk/client-secrets-manager/-/client-secrets-manager-3.1002.0.tgz#0cc0c996ca53c862b2a809c6fe7653fa4530d93b"
   integrity sha512-7UjWXrGpUxcVfLa/avPosc8KBGCjqixLeqCqXxZMoo/AZLNYDxYGW8wk/eoxkaoW+yZbVPqPSLeJ5/6dPztZrQ==
@@ -271,7 +271,7 @@
     "@smithy/util-utf8" "^4.2.1"
     tslib "^2.6.2"
 
-"@aws-sdk/client-sts@^3.1000.0", "@aws-sdk/client-sts@^3.22.0":
+"@aws-sdk/client-sts@^3.1000.0":
   version "3.1002.0"
   resolved "https://registry.yarnpkg.com/@aws-sdk/client-sts/-/client-sts-3.1002.0.tgz#8d4ac0267eaf496d8feb3382acb106559b29ecd9"
   integrity sha512-KoWtMWq0o95k/8hMl2gzrxFehP3FxIH3j7k8gsOWW9qP/OyfU/Dp7KyopjuXSPQSE0HqjFibefExEdFbMr15Cw==
@@ -4827,14 +4827,6 @@
   dependencies:
     "@webassemblyjs/ast" "1.14.1"
     "@xtuc/long" "4.2.2"
-
-"@weco/ts-aws@^1.0.1":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@weco/ts-aws/-/ts-aws-1.0.2.tgz#14c6282efc0505a37535424f1fd96498f328d505"
-  integrity sha512-I+O/xMADeYbGF4UFRK1f4H3ONNuDUtR3X/WiYjuejjCzQpBnpdMEOUFcv8XLUhsmNUNjn7O/sseYT54uLhXWMA==
-  dependencies:
-    "@aws-sdk/client-secrets-manager" "^3.40.0"
-    "@aws-sdk/client-sts" "^3.22.0"
 
 "@wellcometrust/wellcome-design-system@^2.0.0":
   version "2.0.1"

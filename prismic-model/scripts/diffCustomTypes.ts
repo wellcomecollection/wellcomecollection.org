@@ -4,12 +4,12 @@ import { logError, logSuccess } from '@weco/common/utils/console-logs';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { isCi } from '@weco/prismic-model/config';
 import { printDelta, removeUndefinedProps } from '@weco/prismic-model/utils';
+import { getCreds } from '@weco/prismic-model/utils/aws';
 import {
   Credentials,
   getContentTypes,
   getSharedSlices,
 } from '@weco/prismic-model/utils/prismic';
-import { getCreds } from '@weco/ts-aws';
 
 export default async function diffContentTypes(
   credentials?: Credentials
