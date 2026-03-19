@@ -93,9 +93,10 @@ const CivicUK = ({ apiKey, defer }: { apiKey: string; defer?: boolean }) => {
   };
 
   // Defer the Civic script for returning users who have interacted with the banner.
-  // The config is wrapped in DOMContentLoaded (which fires
-  // after deferred scripts) so CookieControl is defined when .load() is called.
-  // On a first visit, the script remains render-blocking.
+  // The config script uses type="module" when deferred — module scripts are implicitly
+  // deferred and execute in document order after preceding defer scripts, so
+  // CookieControl is guaranteed to be defined when .load() is called.
+  // On a first visit, both scripts remain render-blocking.
   const cookieControlConfig = `CookieControl.load({
             product: 'PRO_MULTISITE',
             apiKey: '${apiKey}',
@@ -173,10 +174,6 @@ const CivicUK = ({ apiKey, defer }: { apiKey: string; defer?: boolean }) => {
             text: ${JSON.stringify(text)}
           });`;
 
-  const configScript = defer
-    ? `document.addEventListener("DOMContentLoaded", function() { ${cookieControlConfig} });`
-    : cookieControlConfig;
-
   return (
     <>
       <script
@@ -185,8 +182,9 @@ const CivicUK = ({ apiKey, defer }: { apiKey: string; defer?: boolean }) => {
         defer={defer}
       ></script>
       <script
+        type={defer ? 'module' : 'text/javascript'}
         dangerouslySetInnerHTML={{
-          __html: configScript,
+          __html: cookieControlConfig,
         }}
       />
     </>
