@@ -111,6 +111,15 @@ const ListItem = styled.li<{ $usesShim?: boolean }>`
   }}
 `;
 
+const Title = styled.h2.attrs({
+  className: font('sans-bold', 2),
+})<{ $hasDescriptionSibling: boolean }>`
+  ${props =>
+    props.$hasDescriptionSibling
+      ? props.theme.makeSpacePropertyValues('xs', ['margin-bottom'])
+      : 'margin-bottom: 0'};
+`;
+
 const Description = styled.p`
   color: ${props => props.theme.color('black')};
   margin-bottom: 0;
@@ -221,7 +230,9 @@ const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
           sliceTitle || description ? (
             <>
               {sliceTitle && (
-                <h2 className={font('sans-bold', 2)}>{sliceTitle}</h2>
+                <Title $hasDescriptionSibling={!!description}>
+                  {sliceTitle}
+                </Title>
               )}
 
               {description && <Description>{description}</Description>}

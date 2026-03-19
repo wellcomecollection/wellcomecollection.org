@@ -19,7 +19,7 @@ import { ThematicBrowsingCategories } from '.';
 import ThematicBrowsingNavigation from './ThematicBrowsing.Navigation';
 
 const ThematicBrowsingHeaderContainer = styled(Space).attrs({
-  $v: { size: 'md', properties: ['padding-top'] },
+  $v: { size: 'sm', properties: ['padding-top'] },
 })`
   background-color: ${props => props.theme.color('accent.lightGreen')};
   padding-bottom: ${props => props.theme.gutter.xlarge};
