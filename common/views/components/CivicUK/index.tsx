@@ -50,7 +50,7 @@ const necessaryCookies = () => {
 
 const analyticsCookies = ['_gid', '_gat', '_ga*', 'ajs_anonymous_id'];
 
-const CivicUK = ({ apiKey }: { apiKey: string }) => {
+const CivicUK = ({ apiKey, defer }: { apiKey: string; defer?: boolean }) => {
   const theme = useTheme();
 
   const notifyTitleStyles = `
@@ -92,15 +92,11 @@ const CivicUK = ({ apiKey }: { apiKey: string }) => {
     rejectSettings: 'Essential only',
   };
 
-  return (
-    <>
-      <script
-        src="https://cc.cdn.civiccomputing.com/9/cookieControl-9.x.min.js"
-        type="text/javascript"
-      ></script>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `CookieControl.load({
+  // Defer the Civic script for returning users who have interacted with the banner.
+  // The config is wrapped in DOMContentLoaded (which fires
+  // after deferred scripts) so CookieControl is defined when .load() is called.
+  // On a first visit, the script remains render-blocking.
+  const cookieControlConfig = `CookieControl.load({
             product: 'PRO_MULTISITE',
             apiKey: '${apiKey}',
             initialState: 'notify',
@@ -175,7 +171,22 @@ const CivicUK = ({ apiKey }: { apiKey: string }) => {
             statement: ${JSON.stringify(statement)},
             branding: ${JSON.stringify(branding)},
             text: ${JSON.stringify(text)}
-          });`,
+          });`;
+
+  const configScript = defer
+    ? `document.addEventListener("DOMContentLoaded", function() { ${cookieControlConfig} });`
+    : cookieControlConfig;
+
+  return (
+    <>
+      <script
+        src="https://cc.cdn.civiccomputing.com/9/cookieControl-9.x.min.js"
+        type="text/javascript"
+        defer={defer}
+      ></script>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: configScript,
         }}
       />
     </>
