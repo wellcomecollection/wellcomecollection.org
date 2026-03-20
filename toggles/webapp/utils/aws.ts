@@ -5,25 +5,36 @@ import {
   AwsAccess,
   awsAccounts,
 } from '@weco/common/data/aws-accounts';
+import { region } from '@weco/toggles/config';
 
 export type { AccountName };
 
-const client = new STSClient({ region: 'eu-west-1' });
+const client = new STSClient({ region });
 
 export async function getCreds(
   name: AccountName,
   access: AwsAccess = 'read_only'
 ) {
+  const roleArn = `arn:aws:iam::${awsAccounts[name].account}:role/${name}-${access}`;
   const command = new AssumeRoleCommand({
-    RoleArn: `arn:aws:iam::${awsAccounts[name].account}:role/${name}-${access}`,
+    RoleArn: roleArn,
     RoleSessionName: `${name}-${access}`,
   });
 
-  const data = await client.send(command);
+  const { Credentials } = await client.send(command);
+  if (
+    !Credentials?.AccessKeyId ||
+    !Credentials.SecretAccessKey ||
+    !Credentials.SessionToken
+  ) {
+    throw new Error(
+      `Failed to assume role ${roleArn}: missing credentials in STS response`
+    );
+  }
 
   return {
-    accessKeyId: data.Credentials!.AccessKeyId!,
-    secretAccessKey: data.Credentials!.SecretAccessKey!,
-    sessionToken: data.Credentials!.SessionToken!,
+    accessKeyId: Credentials.AccessKeyId,
+    secretAccessKey: Credentials.SecretAccessKey,
+    sessionToken: Credentials.SessionToken,
   };
 }

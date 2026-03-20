@@ -18,17 +18,27 @@ export async function getCreds(
   name: AccountName,
   access: AwsAccess = 'read_only'
 ) {
+  const roleArn = `arn:aws:iam::${awsAccounts[name].account}:role/${name}-${access}`;
   const command = new AssumeRoleCommand({
-    RoleArn: `arn:aws:iam::${awsAccounts[name].account}:role/${name}-${access}`,
+    RoleArn: roleArn,
     RoleSessionName: `${name}-${access}`,
   });
 
-  const data = await stsClient.send(command);
+  const { Credentials } = await stsClient.send(command);
+  if (
+    !Credentials?.AccessKeyId ||
+    !Credentials.SecretAccessKey ||
+    !Credentials.SessionToken
+  ) {
+    throw new Error(
+      `Failed to assume role ${roleArn}: missing credentials in STS response`
+    );
+  }
 
   return {
-    accessKeyId: data.Credentials!.AccessKeyId!,
-    secretAccessKey: data.Credentials!.SecretAccessKey!,
-    sessionToken: data.Credentials!.SessionToken!,
+    accessKeyId: Credentials.AccessKeyId,
+    secretAccessKey: Credentials.SecretAccessKey,
+    sessionToken: Credentials.SessionToken,
   };
 }
 
@@ -51,14 +61,15 @@ export async function setEnvsFromSecrets(
     )
   );
 
-  const envs = Object.keys(secrets).map((env, i) => [
-    env,
-    responses[i].SecretString,
-  ]);
-
-  for (const [env, val] of envs) {
-    if (env) {
-      process.env[env] = val;
+  const entries = Object.entries(secrets);
+  for (let i = 0; i < entries.length; i++) {
+    const [env] = entries[i];
+    const secretString = responses[i].SecretString;
+    if (secretString === undefined) {
+      throw new Error(
+        `Secret for env var "${env}" did not return a string value.`
+      );
     }
+    process.env[env] = secretString;
   }
 }
