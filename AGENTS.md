@@ -116,7 +116,7 @@ Use `@weco/common` imports, not relative paths across package boundaries.
 
 ## Pull Requests
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for our PR process and expectations.
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for general contribution guidelines and repository conventions.
 
 Our PR template (configured in GitHub's interface) asks for:
 - **What does this change?** - Detail the problem, why the change is needed, and how it solves it
