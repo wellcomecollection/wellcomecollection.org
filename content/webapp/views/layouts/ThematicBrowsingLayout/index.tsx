@@ -12,11 +12,14 @@ import { BodySliceContexts } from '@weco/content/views/components/Body';
 
 import ThematicBrowsingHeader from './ThematicBrowsing.Header';
 
-const Wrapper = styled(Space).attrs({
-  $v: { size: 'md', properties: ['padding-top'] },
-})`
-  ${props => props.theme.makeSpacePropertyValues('xl', ['padding-bottom'])};
-`;
+const Wrapper = styled(Space).attrs<{ $hasPaddingBottom?: boolean }>(props => ({
+  $v: {
+    size: 'xl',
+    properties: props.$hasPaddingBottom
+      ? ['padding-top', 'padding-bottom']
+      : ['padding-top'],
+  },
+}))``;
 
 export type ThematicBrowsingCategories =
   | 'people-and-organisations'
@@ -76,7 +79,7 @@ const ThematicBrowsingLayout: FunctionComponent<
         extraBreadcrumbs={extraBreadcrumbs}
         currentCategory={currentCategory}
       />
-      <Wrapper>{children}</Wrapper>
+      <Wrapper $hasPaddingBottom={!subPageUid}>{children}</Wrapper>
     </PageLayout>
   );
 };

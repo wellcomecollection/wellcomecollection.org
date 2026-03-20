@@ -312,18 +312,19 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
     /**
      * Related topics
-     * Deduplicate topics across multiple concepts by using a Map
-     * keyed by topic id, then convert back to an array
+     * Collect unique related topics across all concepts, max 16
      * */
-    const relatedTopicsMap = new Map<string, RelatedConcept>();
+    const relatedTopicsSet = new Set<string>();
+    const relatedTopics: RelatedConcept[] = [];
+
     conceptResponse.results.forEach(concept => {
       concept.relatedConcepts?.relatedTopics?.forEach(topic => {
-        if (!relatedTopicsMap.has(topic.id)) {
-          relatedTopicsMap.set(topic.id, topic);
+        if (!relatedTopicsSet.has(topic.id) && relatedTopics.length < 16) {
+          relatedTopicsSet.add(topic.id);
+          relatedTopics.push(topic);
         }
       });
     });
-    const relatedTopics = Array.from(relatedTopicsMap.values());
     /** */
 
     return {

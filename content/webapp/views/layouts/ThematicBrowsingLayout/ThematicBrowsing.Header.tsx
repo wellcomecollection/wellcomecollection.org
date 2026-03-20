@@ -22,7 +22,8 @@ const ThematicBrowsingHeaderContainer = styled(Space).attrs({
   $v: { size: 'sm', properties: ['padding-top'] },
 })`
   background-color: ${props => props.theme.color('accent.lightGreen')};
-  padding-bottom: ${props => props.theme.gutter.xlarge};
+
+  ${props => props.theme.makeSpacePropertyValues('xl', ['padding-bottom'])};
 `;
 
 const ThematicBrowsingHeader = ({
