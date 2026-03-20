@@ -65,7 +65,7 @@ Next.js code runs in both Node.js (server-side rendering) and the browser (clien
 - Use dynamic imports `await import()` for Node.js-only packages
 - Add webpack config to exclude server-only packages from client bundles
 
-Example: [common/utils/undici-agent.ts](./common/utils/undici-agent.ts) shows how to safely handle server-only dependencies.
+Example: When adding utilities that rely on server-only dependencies (for example HTTP clients or Node.js core modules), ensure they are only imported and executed in server contexts using runtime checks and appropriate webpack configuration.
 
 **Why this matters:** Server-only packages that try to load in the browser will cause "Cannot find module" errors even with webpack exclusion. You need both webpack config AND runtime checks.
 
