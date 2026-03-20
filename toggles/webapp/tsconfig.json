@@ -3,6 +3,6 @@
   "compilerOptions": {
     "composite": true,
     "module": "esnext",
-    "moduleResolution": "bundler",
+    "moduleResolution": "bundler"
   }
 }
