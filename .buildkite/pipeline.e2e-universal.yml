@@ -1,6 +1,10 @@
 steps:
   - label: "build e2e test image"
     command: ./playwright/get_playwright_image.sh
+    retry:
+      automatic:
+        - exit_status: 143  # SIGTERM
+          limit: 2
     plugins:
       - wellcomecollection/aws-assume-role#v0.2.2:
           role: "arn:aws:iam::130871440101:role/experience-ci"
@@ -10,6 +14,12 @@ steps:
   - wait
 
   - label: "Check URLs"
+    retry:
+      automatic:
+        - exit_status: 255  # docker-compose plugin exits with 255 on infrastructure interrupts
+          limit: 2
+        - exit_status: 143  # SIGTERM
+          limit: 2
     plugins:
       - wellcomecollection/aws-assume-role#v0.2.2:
           role: "arn:aws:iam::130871440101:role/experience-ci"
@@ -24,6 +34,12 @@ steps:
           command: ["bash", "check_urls.sh"]
 
   - label: "e2e test:desktop [$DEPLOYMENT_ENVIRONMENT]"
+    retry:
+      automatic:
+        - exit_status: 255  # docker-compose plugin exits with 255 on infrastructure interrupts
+          limit: 2
+        - exit_status: 143  # SIGTERM
+          limit: 2
     plugins:
       - wellcomecollection/aws-assume-role#v0.2.2:
           role: "arn:aws:iam::130871440101:role/experience-ci"
@@ -40,6 +56,12 @@ steps:
       queue: scala # High parallelism for expensive tests
 
   - label: "e2e test:mobile [$DEPLOYMENT_ENVIRONMENT]"
+    retry:
+      automatic:
+        - exit_status: 255  # docker-compose plugin exits with 255 on infrastructure interrupts
+          limit: 2
+        - exit_status: 143  # SIGTERM
+          limit: 2
     plugins:
       - wellcomecollection/aws-assume-role#v0.2.2:
           role: "arn:aws:iam::130871440101:role/experience-ci"
