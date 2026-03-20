@@ -116,7 +116,7 @@ export type QueryProps<Params> = {
 // See common/utils/undici-agent.ts for details.
 export const wellcomeApiFetch = async (
   url: string,
-  options?: Record<string, string>
+  options?: RequestInit
 ): Promise<Response> => {
   return fetchWithUndiciAgent(url, options);
 };

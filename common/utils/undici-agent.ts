@@ -21,18 +21,38 @@
 
 // Lazy-load undici.Agent (server-side only)
 // We use dynamic import so undici isn't bundled into the client-side JavaScript
-let agentKeepAlive: unknown = null;
+// Cache both the agent and the initialization promise to prevent concurrent initialization
+let agentKeepAlive: import('undici').Dispatcher | null = null;
+let agentPromise: Promise<import('undici').Dispatcher | null> | null = null;
 
-export async function getUndiciAgent() {
+export async function getUndiciAgent(): Promise<
+  import('undici').Dispatcher | null
+> {
   // Only load undici on the server side
-  if (typeof window === 'undefined' && !agentKeepAlive) {
-    const { Agent } = await import('undici');
-    agentKeepAlive = new Agent({
-      keepAliveTimeout: 1000 * 59, // 1s less than the akka-http idle timeout
-      keepAliveMaxTimeout: 1000 * 59,
+  if (typeof window === 'undefined') {
+    // If we're already initializing, return the existing promise
+    if (agentPromise) {
+      return agentPromise;
+    }
+
+    // If already initialized, return the cached agent
+    if (agentKeepAlive) {
+      return agentKeepAlive;
+    }
+
+    // Initialize once and cache the promise to prevent race conditions
+    agentPromise = import('undici').then(({ Agent }) => {
+      agentKeepAlive = new Agent({
+        keepAliveTimeout: 1000 * 59, // 1s less than the akka-http idle timeout
+        keepAliveMaxTimeout: 1000 * 59,
+      });
+      return agentKeepAlive;
     });
+
+    return agentPromise;
   }
-  return agentKeepAlive;
+
+  return null;
 }
 
 /**
@@ -59,6 +79,12 @@ export async function fetchWithUndiciAgent(
   // Node.js native fetch supports the dispatcher option for configuring the HTTP agent
   // The type assertion is needed because TypeScript's built-in RequestInit doesn't include dispatcher
   const agent = await getUndiciAgent();
+
+  // If agent initialization failed for some reason, fall back to regular fetch
+  if (!agent) {
+    return fetch(url, options);
+  }
+
   return fetch(url, {
     ...options,
     dispatcher: agent,
