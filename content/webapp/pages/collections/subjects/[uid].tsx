@@ -312,19 +312,28 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
     /**
      * Related topics
-     * Collect unique related topics across all concepts, max 16
+     * Round-robin through concepts: take 1st topic from each, then 2nd from each, etc.
      * */
     const relatedTopicsSet = new Set<string>();
     const relatedTopics: RelatedConcept[] = [];
+    const conceptTopics = conceptResponse.results.map(
+      c => c.relatedConcepts?.relatedTopics || []
+    );
 
-    conceptResponse.results.forEach(concept => {
-      concept.relatedConcepts?.relatedTopics?.forEach(topic => {
-        if (!relatedTopicsSet.has(topic.id) && relatedTopics.length < 16) {
-          relatedTopicsSet.add(topic.id);
-          relatedTopics.push(topic);
+    const maxTopics = Math.max(...conceptTopics.map(t => t.length));
+
+    for (let i = 0; i < maxTopics && relatedTopics.length < 16; i++) {
+      for (const topics of conceptTopics) {
+        if (
+          topics[i] &&
+          !relatedTopicsSet.has(topics[i].id) &&
+          relatedTopics.length < 16
+        ) {
+          relatedTopicsSet.add(topics[i].id);
+          relatedTopics.push(topics[i]);
         }
-      });
-    });
+      }
+    }
     /** */
 
     return {
