@@ -1,8 +1,8 @@
 import { createClient } from '@prismicio/client';
+import 'dotenv/config';
 import fs from 'node:fs';
 import yargs from 'yargs';
 
-import 'dotenv/config';
 import { logError } from '@weco/common/utils/console-logs';
 
 const { type } = yargs(process.argv.slice(2))

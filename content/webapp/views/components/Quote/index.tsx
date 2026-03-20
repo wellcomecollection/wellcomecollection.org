@@ -17,6 +17,7 @@ const Blockquote = styled.blockquote.attrs<{ $isPullOrReview: boolean }>(
     className: classNames({
       'quote--pull': props.$isPullOrReview,
       [font('sans', 2)]: props.$isPullOrReview,
+      'body-text': true,
       quote: true,
     }),
   })

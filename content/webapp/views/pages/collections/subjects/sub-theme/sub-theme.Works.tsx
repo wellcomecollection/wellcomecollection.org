@@ -155,10 +155,16 @@ const SubThemeWorks = ({
             {
               id: ALL_WORKS_TAB_ID,
               text: `All (${formatNumber(works.totalResults)})`,
+              dataGtmProps: {
+                label: 'All',
+              },
             },
             ...works.workTypes.map(workType => ({
               id: workType.id,
               text: `${workType.label} (${formatNumber(workType.count)})`,
+              dataGtmProps: {
+                label: workType.label,
+              },
             })),
           ]}
           selectedTab={selectedTab}
