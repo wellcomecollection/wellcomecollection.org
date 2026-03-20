@@ -94,7 +94,7 @@ We aim for WCAG AA compliance as a minimum. Implement accessible patterns:
 Follow these patterns consistently:
 - Component files: PascalCase (`Header.tsx`, `PageLayout.tsx`)
 - Utility files: kebab-case (`undici-agent.ts`, `json-ld.ts`)
-- Test files: same name as source with `.test.ts` suffix
+- Test files: same name as source with `.test.ts` / `.test.tsx` suffix (match the source extension, e.g. `Component.tsx` → `Component.test.tsx`)
 - Type declarations: `.d.ts` extension for ambient declarations
 - Service/utility folders: use `index.ts` as the main export point
 
