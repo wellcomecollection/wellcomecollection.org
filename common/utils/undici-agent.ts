@@ -24,7 +24,8 @@
 let agentKeepAlive: unknown = null;
 
 export async function getUndiciAgent() {
-  if (!agentKeepAlive) {
+  // Only load undici on the server side
+  if (typeof window === 'undefined' && !agentKeepAlive) {
     const { Agent } = await import('undici');
     agentKeepAlive = new Agent({
       keepAliveTimeout: 1000 * 59, // 1s less than the akka-http idle timeout
@@ -38,6 +39,9 @@ export async function getUndiciAgent() {
  * Fetch wrapper that uses the shared undici agent for proper keep-alive configuration.
  * Use this instead of the global fetch when you need to prevent connection reset errors.
  *
+ * Server-side: Uses undici agent with custom keep-alive settings
+ * Client-side: Falls back to regular fetch (undici not available in browser)
+ *
  * @param url - The URL or Request object to fetch
  * @param options - Optional RequestInit options
  * @returns Promise<Response>
@@ -46,6 +50,12 @@ export async function fetchWithUndiciAgent(
   url: RequestInfo | URL,
   options?: RequestInit
 ): Promise<Response> {
+  // On the client side, just use regular fetch
+  // On the server side, use undici agent for proper keep-alive configuration
+  if (typeof window !== 'undefined') {
+    return fetch(url, options);
+  }
+
   // Node.js native fetch supports the dispatcher option for configuring the HTTP agent
   // The type assertion is needed because TypeScript's built-in RequestInit doesn't include dispatcher
   const agent = await getUndiciAgent();
