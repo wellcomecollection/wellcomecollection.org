@@ -41,13 +41,20 @@ export async function getUndiciAgent(): Promise<
     }
 
     // Initialize once and cache the promise to prevent race conditions
-    agentPromise = import('undici').then(({ Agent }) => {
-      agentKeepAlive = new Agent({
-        keepAliveTimeout: 1000 * 59, // 1s less than the akka-http idle timeout
-        keepAliveMaxTimeout: 1000 * 59,
+    agentPromise = import('undici')
+      .then(({ Agent }) => {
+        agentKeepAlive = new Agent({
+          keepAliveTimeout: 1000 * 59, // 1s less than the akka-http idle timeout
+          keepAliveMaxTimeout: 1000 * 59,
+        });
+        return agentKeepAlive;
+      })
+      .catch(error => {
+        // If initialization fails, reset the promise cache so subsequent calls can retry
+        console.error('Failed to initialize undici agent:', error);
+        agentPromise = null;
+        return null;
       });
-      return agentKeepAlive;
-    });
 
     return agentPromise;
   }
