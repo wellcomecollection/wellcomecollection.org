@@ -6,9 +6,9 @@ Patterns and conventions to check for when reviewing pull requests. General codi
 
 ## TODOs and Technical Debt
 
-When you see new TODOs being added, ask whether this is the right time to add it or if it should be addressed in the current PR. However, don't suggest removing existing TODOs - they're there for a reason and the team will address them when ready.
+When you see new TODOs being added, ask whether this is the right time to add it or if it should be addressed in the current PR.
 
-If there are existing TODOs in the code being changed, check whether they are still relevant or if they can be removed. In both cases, flag it to the developer.
+For existing TODOs in the code being changed, check whether they are still relevant. If a TODO is clearly obsolete or the work has already been completed, you can suggest removing or updating it; otherwise, leave it in place, but you may note any apparent staleness to the author.
 
 ## Documentation
 
