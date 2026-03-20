@@ -320,14 +320,19 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       c => c.relatedConcepts?.relatedTopics || []
     );
 
+    const MAX_RELATED_TOPICS = 16;
     const maxTopics = Math.max(...conceptTopics.map(t => t.length));
 
-    for (let i = 0; i < maxTopics && relatedTopics.length < 16; i++) {
+    for (
+      let i = 0;
+      i < maxTopics && relatedTopics.length < MAX_RELATED_TOPICS;
+      i++
+    ) {
       for (const topics of conceptTopics) {
         if (
           topics[i] &&
           !relatedTopicsSet.has(topics[i].id) &&
-          relatedTopics.length < 16
+          relatedTopics.length < MAX_RELATED_TOPICS
         ) {
           relatedTopicsSet.add(topics[i].id);
           relatedTopics.push(topics[i]);
