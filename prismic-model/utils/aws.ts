@@ -9,10 +9,9 @@ import {
   AwsAccess,
   awsAccounts,
 } from '@weco/common/data/aws-accounts';
+import { region } from '@weco/prismic-model/config';
 
-export type { AccountName };
-
-const stsClient = new STSClient({ region: 'eu-west-1' });
+const stsClient = new STSClient({ region });
 
 export async function getCreds(
   name: AccountName,
@@ -50,7 +49,7 @@ export async function setEnvsFromSecrets(
 ): Promise<void> {
   const secretsManagerClient = new SecretsManagerClient({
     credentials,
-    region: 'eu-west-1',
+    region,
   });
 
   const responses = await Promise.all(

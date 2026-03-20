@@ -7,8 +7,6 @@ import {
 } from '@weco/common/data/aws-accounts';
 import { region } from '@weco/toggles/config';
 
-export type { AccountName };
-
 const client = new STSClient({ region });
 
 export async function getCreds(
