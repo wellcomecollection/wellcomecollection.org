@@ -2,6 +2,7 @@ import * as prismic from '@prismicio/client';
 
 import sliceMachineConfig from '@weco/common/slicemachine.config.json';
 import { isUndefined } from '@weco/common/utils/type-guards';
+import { fetchWithUndiciAgent } from '@weco/common/utils/undici-agent';
 
 export function createClient(isPrismicStage?: boolean): prismic.Client {
   // We use an access token for Prismic in prod to avoid certain classes of
@@ -20,6 +21,10 @@ export function createClient(isPrismicStage?: boolean): prismic.Client {
   // See also: https://prismic.io/docs/access-token
   // See also: https://github.com/wellcomecollection/wellcomecollection.org/issues/8309
   //
+  // We also configure the fetch function with undici agent for proper keep-alive
+  // configuration to prevent connection resets. This is similar to wellcomeApiFetch.
+  // See: https://connectreport.com/blog/tuning-http-keep-alive-in-node-js/
+  //
   const accessToken = isPrismicStage
     ? process.env.PRISMIC_ACCESS_TOKEN_STAGE
     : process.env.PRISMIC_ACCESS_TOKEN;
@@ -32,7 +37,7 @@ export function createClient(isPrismicStage?: boolean): prismic.Client {
     `wellcomecollection${isPrismicStage ? '-stage' : ''}`
   );
   const client = prismic.createClient(endpoint, {
-    fetch,
+    fetch: fetchWithUndiciAgent,
     accessToken,
     ...sliceMachineConfig,
   });

@@ -1,3 +1,4 @@
+import { fetchWithUndiciAgent } from '@weco/common/utils/undici-agent';
 import { Toggles } from '@weco/toggles';
 
 type envOptions = 'prod' | 'stage' | 'dev';
@@ -111,50 +112,13 @@ export type QueryProps<Params> = {
   toggles: Toggles;
 };
 
-// Node.js native fetch (powered by undici) uses keep-alive connections by default,
-// but with timeout values that don't match our server configuration.
-// https://nodejs.org/api/globals.html#fetch
-//
-// This leads us occasionally to see errors like this one:
-//
-//      FetchError: request to https://api.wellcomecollection.org/catalogue/v2/works/...
-//      failed, reason: read ECONNRESET
-//
-// That's because the default keep-alive timeout doesn't align with the server:
-//
-// - default "idle-timeout" in akka-http is 60s https://doc.akka.io/docs/akka-http/current/configuration.html
-// - NLBs have a fixed idle timeout of 350s https://docs.aws.amazon.com/elasticloadbalancing/latest/network/network-load-balancers.html#connection-idle-timeout
-//
-// As such, we use a custom undici agent configured to expire free sockets after 59s
-// (1s less than the server timeout) to prevent connection resets.
-// A good explanation of the problem, as well as the solution, is available here:
-// https://connectreport.com/blog/tuning-http-keep-alive-in-node-js/
-
-// Lazy-load undici.Agent (server-side only)
-// We use dynamic import so undici isn't bundled into the client-side JavaScript
-let agentKeepAlive: unknown = null;
-async function getAgent() {
-  if (!agentKeepAlive) {
-    const { Agent } = await import('undici');
-    agentKeepAlive = new Agent({
-      keepAliveTimeout: 1000 * 59, // 1s less than the akka-http idle timeout
-      keepAliveMaxTimeout: 1000 * 59,
-    });
-  }
-  return agentKeepAlive;
-}
-
+// Use shared undici agent configuration for keep-alive connections.
+// See common/utils/undici-agent.ts for details.
 export const wellcomeApiFetch = async (
   url: string,
   options?: Record<string, string>
 ): Promise<Response> => {
-  // Node.js native fetch supports the dispatcher option for configuring the HTTP agent
-  // The type assertion is needed because TypeScript's built-in RequestInit doesn't include dispatcher
-  const agent = await getAgent();
-  return fetch(url, {
-    ...options,
-    dispatcher: agent,
-  } as RequestInit);
+  return fetchWithUndiciAgent(url, options);
 };
 
 export const wellcomeApiError = (): WellcomeApiError => ({
