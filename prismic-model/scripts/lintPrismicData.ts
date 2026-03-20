@@ -18,6 +18,7 @@ import yargs from 'yargs';
 
 import { logError, logInfo, logSuccess } from '@weco/common/utils/console-logs';
 import { pluralize } from '@weco/common/utils/grammar';
+import { region } from '@weco/prismic-model/config';
 import {
   downloadPrismicSnapshot,
   getPrismicDocuments,
@@ -457,7 +458,7 @@ async function run() {
     }
   }
 
-  const s3Client = new S3Client({ region: 'eu-west-1' });
+  const s3Client = new S3Client({ region });
 
   console.log('Uploading Prismic linting reporting to S3');
   const putObjectCommand = new PutObjectCommand({
@@ -475,7 +476,7 @@ async function run() {
 
   await s3Client.send(putObjectCommand);
 
-  const cloudFrontClient = new CloudFrontClient({ region: 'eu-west-1' });
+  const cloudFrontClient = new CloudFrontClient({ region });
   const command = new CreateInvalidationCommand({
     DistributionId: 'EIOS79GG23UUY',
     InvalidationBatch: {
