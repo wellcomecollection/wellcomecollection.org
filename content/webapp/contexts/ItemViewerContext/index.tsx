@@ -6,6 +6,7 @@ import {
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
 import {
+  CanvasContrastImage,
   CanvasRotatedImage,
   ItemViewerQuery,
   ParentManifest,
@@ -47,6 +48,12 @@ type Props = {
   setShowControls: (v: boolean) => void;
   rotatedImages: CanvasRotatedImage[];
   setRotatedImages: (v: CanvasRotatedImage[]) => void;
+  invertedImages: number[];
+  setInvertedImages: (v: number[]) => void;
+  grayscaleImages: number[];
+  setGrayscaleImages: (v: number[]) => void;
+  contrastedImages: CanvasContrastImage[];
+  setContrastedImages: (v: CanvasContrastImage[]) => void;
   isResizing: boolean;
   errorHandler?: () => void;
   /**
@@ -127,6 +134,12 @@ const ItemViewerContext = createContext<Props>({
   setShowFullscreenControl: () => undefined,
   rotatedImages: [],
   setRotatedImages: () => undefined,
+  invertedImages: [],
+  setInvertedImages: () => undefined,
+  grayscaleImages: [],
+  setGrayscaleImages: () => undefined,
+  contrastedImages: [],
+  setContrastedImages: () => undefined,
   isResizing: false,
   errorHandler: () => undefined,
   hasOnlyRenderableImages: false,

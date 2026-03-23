@@ -15,6 +15,7 @@ import {
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
 import {
+  CanvasContrastImage,
   CanvasRotatedImage,
   ParentManifest,
 } from '@weco/content/types/item-viewer';
@@ -246,6 +247,11 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const [mainAreaHeight, setMainAreaHeight] = useState(500);
   const [mainAreaWidth, setMainAreaWidth] = useState(1000);
   const [isResizing, setIsResizing] = useState(false);
+  const [invertedImages, setInvertedImages] = useState<number[]>([]);
+  const [grayscaleImages, setGrayscaleImages] = useState<number[]>([]);
+  const [contrastedImages, setContrastedImages] = useState<
+    CanvasContrastImage[]
+  >([]);
   // Use server-provided archiveTree (items route provides it, images route doesn't need it)
   const [archiveTree, setArchiveTree] = useState<UiTree>(
     initialArchiveTree || []
@@ -373,6 +379,12 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         errorHandler: handleImageError,
         accessToken,
         hasOnlyRenderableImages,
+        invertedImages,
+        setInvertedImages,
+        grayscaleImages,
+        setGrayscaleImages,
+        contrastedImages,
+        setContrastedImages,
       }}
     >
       <Grid
