@@ -38,7 +38,10 @@ export function getPrismicLintingReport(): Promise<ReportData> {
   const reportUrl =
     'https://dash.wellcomecollection.org/prismic-linting/report.json';
 
-  return fetch(reportUrl).then(resp => resp.json());
+  return fetch(reportUrl).then(resp => {
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    return resp.json();
+  });
 }
 
 type ErrorProps = {

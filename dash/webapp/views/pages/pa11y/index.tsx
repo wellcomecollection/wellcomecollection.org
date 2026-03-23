@@ -78,7 +78,10 @@ const Pa11yPage: FunctionComponent = () => {
 
   useEffect(() => {
     fetch('https://dash.wellcomecollection.org/pa11y/report.json')
-      .then(resp => resp.json())
+      .then(resp => {
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        return resp.json();
+      })
       .then(json => setResultsList(json))
       .catch(() =>
         setResultsList({
@@ -194,7 +197,7 @@ const Pa11yPage: FunctionComponent = () => {
                         return (
                           <Issue
                             $type={group.type}
-                            key={`${group.type}-${group.message}`}
+                            key={`${group.type}-${group.message}-${group.selector}`}
                           >
                             <Description>
                               {group.type}: {group.message}
@@ -207,8 +210,10 @@ const Pa11yPage: FunctionComponent = () => {
 
                             <div>{pluralise(issues.length, 'Context')}</div>
 
-                            {issues.map(issue => (
-                              <Pre key={issue.context}>{issue.context}</Pre>
+                            {issues.map((issue, i) => (
+                              <Pre key={`${issue.context}-${i}`}>
+                                {issue.context}
+                              </Pre>
                             ))}
 
                             <div style={{ marginTop: tokens.spacing.sm }}>

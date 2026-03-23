@@ -26,12 +26,13 @@ const SwitchTrack = styled.div<{ $checked: boolean; $disabled: boolean }>`
   transition: background-color 200ms ease;
   cursor: ${props => (props.$disabled ? 'not-allowed' : 'pointer')};
 
-  &:hover:not(:disabled) {
-    background-color: ${props =>
-      props.$checked
-        ? tokens.colors.success.text
-        : tokens.colors.text.secondary};
-  }
+  ${props =>
+    !props.$disabled &&
+    `
+    &:hover {
+      background-color: ${props.$checked ? tokens.colors.success.text : tokens.colors.text.secondary};
+    }
+  `}
 `;
 
 const SwitchThumb = styled.div<{ $checked: boolean }>`
@@ -97,6 +98,7 @@ const ToggleSwitch: FunctionComponent<ToggleSwitchProps> = ({
       onKeyDown={handleKeyDown}
       role="switch"
       aria-checked={checked}
+      aria-disabled={disabled}
       aria-label={name}
       tabIndex={disabled ? -1 : 0}
     >

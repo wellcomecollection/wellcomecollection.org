@@ -22,21 +22,23 @@ import {
 import { getPrismicLintingReport } from './prismic-linting';
 
 const Dashboard: FunctionComponent = () => {
-  const [prismicLintResults, setPrismicLintResults] = useState<{
-    totalErrors: number;
-  } | null>(null);
-  const [pa11yResults, setPa11yResults] = useState<{
-    totalErrors: number;
-    totalWarnings: number;
-  } | null>(null);
+  const [prismicLintResults, setPrismicLintResults] = useState<
+    { totalErrors: number } | 'failed' | null
+  >(null);
+  const [pa11yResults, setPa11yResults] = useState<
+    { totalErrors: number; totalWarnings: number } | 'failed' | null
+  >(null);
 
   useEffect(() => {
     getPrismicLintingReport()
       .then(json => setPrismicLintResults(json))
-      .catch(() => setPrismicLintResults(null));
+      .catch(() => setPrismicLintResults('failed'));
 
     fetch('https://dash.wellcomecollection.org/pa11y/report.json')
-      .then(resp => resp.json())
+      .then(resp => {
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        return resp.json();
+      })
       .then(json => {
         const results = json.results || [];
         const totalErrors = results.reduce(
@@ -51,7 +53,7 @@ const Dashboard: FunctionComponent = () => {
         );
         setPa11yResults({ totalErrors, totalWarnings });
       })
-      .catch(() => setPa11yResults({ totalErrors: 0, totalWarnings: 0 }));
+      .catch(() => setPa11yResults('failed'));
   }, []);
 
   return (
@@ -83,7 +85,9 @@ const Dashboard: FunctionComponent = () => {
               <CardDescription>
                 Automated accessibility testing results across the site.
               </CardDescription>
-              {pa11yResults ? (
+              {pa11yResults === 'failed' ? (
+                <CardStatus $type="error">Failed to load report</CardStatus>
+              ) : pa11yResults ? (
                 pa11yResults.totalErrors === 0 ? (
                   <CardStatus $type="success">✓ No errors found</CardStatus>
                 ) : (
@@ -105,7 +109,9 @@ const Dashboard: FunctionComponent = () => {
               <CardDescription>
                 Content quality checks for Prismic CMS entries.
               </CardDescription>
-              {prismicLintResults ? (
+              {prismicLintResults === 'failed' ? (
+                <CardStatus $type="error">Failed to load report</CardStatus>
+              ) : prismicLintResults ? (
                 prismicLintResults.totalErrors === 0 ? (
                   <CardStatus $type="success">✓ No issues found</CardStatus>
                 ) : (
