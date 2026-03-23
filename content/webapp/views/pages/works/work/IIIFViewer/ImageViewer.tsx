@@ -63,8 +63,15 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   setImageContainerRect,
 }) => {
   const { isFullSupportBrowser } = useAppContext();
-  const { work, errorHandler, setShowZoomed, rotatedImages } =
-    useItemViewerContext();
+  const {
+    work,
+    errorHandler,
+    setShowZoomed,
+    rotatedImages,
+    invertedImages,
+    grayscaleImages,
+    contrastedImages,
+  } = useItemViewerContext();
   const imageWrapperRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const [imageSrc, setImageSrc] = useState(urlTemplate({ size: '640,' }));
@@ -83,7 +90,21 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
     canvas => queryParamToArrayIndex(canvas.canvas) === index
   );
 
+  const useInvertedColours = invertedImages.find(
+    canvas => queryParamToArrayIndex(canvas) === index
+  );
+
+  const useGrayscaleColours = grayscaleImages.find(
+    canvas => queryParamToArrayIndex(canvas) === index
+  );
+
   const rotation = matching ? matching.rotation : 0;
+
+  // Get current contrast for this canvas/index
+  const matchingContrast = contrastedImages?.find(
+    c => queryParamToArrayIndex(c.canvas) === index
+  );
+  const contrast = matchingContrast?.contrast;
 
   function updateImagePosition() {
     const imageRect = imageRef?.current?.getBoundingClientRect();
@@ -157,6 +178,9 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
         }}
         errorHandler={errorHandler}
         zoomOnClick={true}
+        useInvertedColours={!!useInvertedColours}
+        useGrayscaleColours={!!useGrayscaleColours}
+        contrast={contrast}
       />
     </ImageWrapper>
   );

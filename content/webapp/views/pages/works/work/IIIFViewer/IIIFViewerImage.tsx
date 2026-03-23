@@ -18,11 +18,25 @@ async function getImageMax(url: string): Promise<number> {
   }
 }
 
-const Image = styled.img<{ $highlightImage?: boolean; $zoomOnClick?: boolean }>`
-  ${props =>
-    props.$highlightImage
-      ? `filter: grayscale(100%) brightness(70%) sepia(40%) hue-rotate(-120deg) saturate(400%) contrast(1);`
-      : ''}; /* the filter is used for highlighting thumbnails that contain search terms */
+const Image = styled.img<{
+  $highlightImage?: boolean;
+  $zoomOnClick?: boolean;
+  $useInvertedColours?: boolean;
+  $useGrayscaleColours?: boolean;
+  $contrast?: number;
+}>`
+  ${props => {
+    if (props.$highlightImage) {
+      // highlight filter for thumbnails that contain search terms
+      return `filter: grayscale(100%) brightness(70%) sepia(40%) hue-rotate(-120deg) saturate(400%) contrast(1);`;
+    }
+    let filter = '';
+    if (props.$useInvertedColours) filter += 'invert(100%) ';
+    if (props.$useGrayscaleColours) filter += 'grayscale(100%) ';
+    if (typeof props.$contrast === 'number' && props.$contrast !== 100)
+      filter += `contrast(${props.$contrast}%) `;
+    return filter.trim() ? `filter: ${filter.trim()};` : '';
+  }};
   cursor: ${props => (props.$zoomOnClick ? 'zoom-in' : undefined)};
 `;
 
@@ -41,6 +55,9 @@ type Props = {
   tabIndex?: number;
   highlightImage?: boolean;
   zoomOnClick?: boolean;
+  useInvertedColours?: boolean;
+  useGrayscaleColours?: boolean;
+  contrast?: number;
 };
 
 const IIIFViewerImage = (
@@ -59,6 +76,9 @@ const IIIFViewerImage = (
     tabIndex,
     highlightImage,
     zoomOnClick,
+    useInvertedColours,
+    useGrayscaleColours,
+    contrast,
   }: Props,
   ref
 ) => {
@@ -113,6 +133,9 @@ const IIIFViewerImage = (
         srcSet={srcSet}
         sizes={sizes}
         alt={alt}
+        $useInvertedColours={!!useInvertedColours}
+        $useGrayscaleColours={!!useGrayscaleColours}
+        $contrast={contrast}
       />
     </>
   );
