@@ -66,7 +66,7 @@ const Brand = styled.div`
   }
 `;
 
-const LogoLink = styled.a`
+const LogoLink = styled(Link)`
   display: flex;
   align-items: center;
   gap: ${tokens.spacing.md};

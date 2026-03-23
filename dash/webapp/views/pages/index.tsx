@@ -140,7 +140,7 @@ const Dashboard: FunctionComponent = () => {
                   href="https://github.com/wellcomecollection/wellcomecollection.org"
                   rel="noreferrer"
                 >
-                  wc.org Github repo
+                  wc.org GitHub repo
                 </a>
               </li>
               <li>

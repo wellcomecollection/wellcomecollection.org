@@ -47,13 +47,6 @@ const SwitchThumb = styled.div<{ $checked: boolean }>`
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 `;
 
-const HiddenInput = styled.input`
-  position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
-`;
-
 const Label = styled.span<{ $disabled: boolean }>`
   font-size: ${tokens.typography.fontSize.small};
   color: ${props =>
@@ -67,7 +60,6 @@ type ToggleSwitchProps = {
   disabled?: boolean;
   label: string;
   name: string;
-  id: string;
 };
 
 const ToggleSwitch: FunctionComponent<ToggleSwitchProps> = ({
@@ -76,7 +68,6 @@ const ToggleSwitch: FunctionComponent<ToggleSwitchProps> = ({
   disabled = false,
   label,
   name,
-  id,
 }) => {
   const handleChange = () => {
     if (!disabled) {
@@ -102,15 +93,6 @@ const ToggleSwitch: FunctionComponent<ToggleSwitchProps> = ({
       aria-label={name}
       tabIndex={disabled ? -1 : 0}
     >
-      <HiddenInput
-        type="checkbox"
-        checked={checked}
-        onChange={handleChange}
-        disabled={disabled}
-        id={id}
-        tabIndex={-1}
-        aria-hidden="true"
-      />
       <SwitchTrack $checked={checked} $disabled={disabled}>
         <SwitchThumb $checked={checked} />
       </SwitchTrack>

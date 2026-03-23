@@ -49,20 +49,60 @@ const TogglesPage: FunctionComponent = () => {
       .then(resp => resp.json())
       .then(json => {
         setToggles(json.toggles);
-        setAbTests(json.tests);
+
+        const mockAbTests: AbTest[] = [
+          {
+            id: 'searchResultsLayout',
+            title: 'Search results layout',
+            range: [0, 49],
+            defaultValue: false,
+            description:
+              'Try the new grid-based search results layout instead of the current list view.',
+            type: 'stage',
+          },
+          {
+            id: 'donationBanner',
+            title: 'Donation banner placement',
+            range: [0, 30],
+            defaultValue: false,
+            description:
+              'Show donation banner at the top of article pages instead of the sidebar.',
+            type: 'stage',
+          },
+          {
+            id: 'imageViewerV2',
+            title: 'Image viewer v2',
+            range: [0, 20],
+            defaultValue: false,
+            description:
+              'Use the new IIIF-based image viewer with improved zoom and navigation.',
+            type: 'stage',
+          },
+        ];
+
+        const allTests = [...(json.tests || []), ...mockAbTests];
+        setAbTests(allTests);
 
         const cookies = getCookies();
-        const initialStates = (json.toggles as Toggle[]).reduce(
-          (acc, toggle) => {
-            const cookieKey = `toggle_${toggle.id}`;
-            acc[toggle.id] =
-              cookieKey in cookies
-                ? cookies[cookieKey] === 'true'
-                : toggle.defaultValue;
-            return acc;
-          },
-          {} as ToggleStates
-        );
+        const initialStates: ToggleStates = {};
+
+        // Toggles: cookie value or default
+        for (const toggle of json.toggles as Toggle[]) {
+          const cookieKey = `toggle_${toggle.id}`;
+          initialStates[toggle.id] =
+            cookieKey in cookies
+              ? cookies[cookieKey] === 'true'
+              : toggle.defaultValue;
+        }
+
+        // AB tests: cookie value or undefined (= randomly allocate)
+        for (const test of allTests) {
+          const cookieKey = `toggle_${test.id}`;
+          if (cookieKey in cookies) {
+            initialStates[test.id] = cookies[cookieKey] === 'true';
+          }
+        }
+
         setToggleStates(initialStates);
       })
       .catch(() =>
@@ -113,15 +153,31 @@ const TogglesPage: FunctionComponent = () => {
 
   const reset = useCallback(
     () =>
-      setToggleStates(
-        toggles.reduce((state, { id, defaultValue }) => {
+      setToggleStates(prev => {
+        const next = { ...prev };
+        for (const { id, defaultValue } of toggles) {
           deleteCookieCustom(id);
-          state[id] = defaultValue;
-          return state;
-        }, {} as ToggleStates)
-      ),
+          next[id] = defaultValue;
+        }
+        return next;
+      }),
     [toggles]
   );
+
+  const resetAbTests = useCallback(() => {
+    setToggleStates(prev => {
+      const next = { ...prev };
+      for (const { id } of abTests) {
+        deleteCookieCustom(id);
+        delete next[id];
+      }
+      return next;
+    });
+    setMessage({
+      text: '🔄 All A/B tests have been reset to random allocation.',
+      isError: false,
+    });
+  }, [abTests]);
 
   useEffect(() => {
     if (toggles.length === 0) return;
@@ -235,7 +291,7 @@ const TogglesPage: FunctionComponent = () => {
               }}
               aria-label="Reset all feature toggles to default values"
             >
-              Reset all to default values
+              Reset toggles to defaults
             </ResetButton>
           </div>
         </main>
@@ -300,6 +356,7 @@ const TogglesPage: FunctionComponent = () => {
               filteredAbTests={filteredAbTests}
               toggleStates={toggleStates}
               setToggleStates={setToggleStates}
+              onReset={resetAbTests}
             />
           </SectionInner>
         </Section>

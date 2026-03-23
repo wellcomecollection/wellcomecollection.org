@@ -80,7 +80,6 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
 
                 <ToggleControls>
                   <ToggleSwitch
-                    id={`toggle-switch-${toggle.id}`}
                     checked={isOn}
                     disabled={isPublicOn}
                     onChange={checked => {

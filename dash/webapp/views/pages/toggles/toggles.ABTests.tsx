@@ -7,7 +7,7 @@ import {
   setCookieCustom,
   ToggleStates,
 } from './toggles.helpers';
-import { ToggleList, ToggleListItem } from './toggles.styles';
+import { ResetButton, ToggleList, ToggleListItem } from './toggles.styles';
 
 const RadioGroup = styled.fieldset`
   border: none;
@@ -44,14 +44,30 @@ const ABTests = ({
   filteredAbTests,
   toggleStates,
   setToggleStates,
+  onReset,
 }: {
   filteredAbTests: AbTest[];
   toggleStates: ToggleStates;
   setToggleStates: React.Dispatch<React.SetStateAction<ToggleStates>>;
+  onReset: () => void;
 }) => {
   return (
     <>
-      <h2>A/B tests</h2>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
+        <h2>A/B tests</h2>
+        <ResetButton
+          onClick={onReset}
+          aria-label="Reset all A/B tests to random allocation"
+        >
+          Reset to random allocation
+        </ResetButton>
+      </div>
       <p>
         You can opt in to a test, explicitly opt out, or be randomly allocated
         according to our A/B decision rules.
