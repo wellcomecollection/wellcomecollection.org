@@ -154,9 +154,7 @@ const Pa11yPage: FunctionComponent = () => {
           </div>
 
           {failures.length > 0 && (
-            <ReportDetails
-              aria-label={`${pluralise(failures.length, 'page')} with issues`}
-            >
+            <>
               {failures.map(
                 ({
                   documentTitle,
@@ -227,7 +225,7 @@ const Pa11yPage: FunctionComponent = () => {
                   );
                 }
               )}
-            </ReportDetails>
+            </>
           )}
 
           {successes.length > 0 && (

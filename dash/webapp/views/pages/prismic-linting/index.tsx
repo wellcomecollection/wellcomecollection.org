@@ -117,6 +117,32 @@ const PrismicLintingPage: FunctionComponent = () => {
             )}
           </div>
 
+          {resultsList.errors.length > 0 &&
+            resultsList.errors.map(e => (
+              <section key={e.id}>
+                <h3>
+                  <a
+                    href={`https://wellcomecollection.prismic.io/builder/pages/${encodeURIComponent(e.id)}`}
+                  >
+                    {e.title && e.title.length > 0 ? (
+                      <>
+                        {e.title[0].text} ({e.type} {e.id})
+                      </>
+                    ) : (
+                      <>
+                        {e.type} {e.id}
+                      </>
+                    )}
+                  </a>
+                </h3>
+                <ul>
+                  {e.errors.map(message => (
+                    <li key={message}>{message}</li>
+                  ))}
+                </ul>
+              </section>
+            ))}
+
           {resultsList.checks && resultsList.checks.length > 0 && (
             <ReportDetails
               aria-label={`${pluralise(resultsList.checks.length, 'check')} we run`}
@@ -137,41 +163,6 @@ const PrismicLintingPage: FunctionComponent = () => {
                   </li>
                 ))}
               </ul>
-            </ReportDetails>
-          )}
-
-          {resultsList.errors.length > 0 && (
-            <ReportDetails
-              aria-label={`${pluralise(resultsList.errors.length, 'page')} with issues`}
-            >
-              <ReportSummary>
-                Pages with issues ({resultsList.errors.length})
-              </ReportSummary>
-
-              {resultsList.errors.map(e => (
-                <section key={e.id}>
-                  <h3>
-                    <a
-                      href={`https://wellcomecollection.prismic.io/builder/pages/${encodeURIComponent(e.id)}`}
-                    >
-                      {e.title && e.title.length > 0 ? (
-                        <>
-                          {e.title[0].text} ({e.type} {e.id})
-                        </>
-                      ) : (
-                        <>
-                          {e.type} {e.id}
-                        </>
-                      )}
-                    </a>
-                  </h3>
-                  <ul>
-                    {e.errors.map(message => (
-                      <li key={message}>{message}</li>
-                    ))}
-                  </ul>
-                </section>
-              ))}
             </ReportDetails>
           )}
 
