@@ -50,6 +50,20 @@ const TogglesPage: FunctionComponent = () => {
       .then(json => {
         setToggles(json.toggles);
         setAbTests(json.tests);
+
+        const cookies = getCookies();
+        const initialStates = (json.toggles as Toggle[]).reduce(
+          (acc, toggle) => {
+            const cookieKey = `toggle_${toggle.id}`;
+            acc[toggle.id] =
+              cookieKey in cookies
+                ? cookies[cookieKey] === 'true'
+                : toggle.defaultValue;
+            return acc;
+          },
+          {} as ToggleStates
+        );
+        setToggleStates(initialStates);
       })
       .catch(() =>
         setMessage({
@@ -57,16 +71,6 @@ const TogglesPage: FunctionComponent = () => {
           isError: true,
         })
       );
-
-    const cookies = getCookies();
-
-    const initialToggles = Object.keys(cookies).reduce((acc, key) => {
-      if (key.startsWith('toggle_')) {
-        acc[key.replace('toggle_', '')] = cookies[key] === 'true';
-      }
-      return acc;
-    }, {} as ToggleStates);
-    setToggleStates(initialToggles);
   }, []);
 
   const handleToggle = useCallback(
@@ -119,6 +123,8 @@ const TogglesPage: FunctionComponent = () => {
   );
 
   useEffect(() => {
+    if (toggles.length === 0) return;
+
     if (resetToggles !== undefined) {
       reset();
       setMessage({
@@ -130,7 +136,7 @@ const TogglesPage: FunctionComponent = () => {
     } else if (disableToggle) {
       handleToggle(disableToggle as string, 'disable');
     }
-  }, [enableToggle, disableToggle, resetToggles, handleToggle, reset]);
+  }, [enableToggle, disableToggle, resetToggles, handleToggle, reset, toggles]);
 
   const filterToggles = (toggleList: Toggle[]) => {
     if (!searchQuery) return toggleList;

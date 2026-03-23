@@ -32,7 +32,7 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
         {toggles.map(toggle => {
           const isPublicOn = toggle.defaultValue === true;
           const currentState = toggleStates[toggle.id];
-          const isOn = currentState === true;
+          const isOn = (currentState ?? toggle.defaultValue) === true;
 
           return (
             <ToggleListItem key={toggle.id} id={`toggle-${toggle.id}`}>
