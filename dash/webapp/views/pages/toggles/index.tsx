@@ -49,39 +49,7 @@ const TogglesPage: FunctionComponent = () => {
       .then(resp => resp.json())
       .then(json => {
         setToggles(json.toggles);
-
-        const mockAbTests: AbTest[] = [
-          {
-            id: 'searchResultsLayout',
-            title: 'Search results layout',
-            range: [0, 49],
-            defaultValue: false,
-            description:
-              'Try the new grid-based search results layout instead of the current list view.',
-            type: 'stage',
-          },
-          {
-            id: 'donationBanner',
-            title: 'Donation banner placement',
-            range: [0, 30],
-            defaultValue: false,
-            description:
-              'Show donation banner at the top of article pages instead of the sidebar.',
-            type: 'stage',
-          },
-          {
-            id: 'imageViewerV2',
-            title: 'Image viewer v2',
-            range: [0, 20],
-            defaultValue: false,
-            description:
-              'Use the new IIIF-based image viewer with improved zoom and navigation.',
-            type: 'stage',
-          },
-        ];
-
-        const allTests = [...(json.tests || []), ...mockAbTests];
-        setAbTests(allTests);
+        setAbTests(json.tests);
 
         const cookies = getCookies();
         const initialStates: ToggleStates = {};
@@ -96,7 +64,7 @@ const TogglesPage: FunctionComponent = () => {
         }
 
         // AB tests: cookie value or undefined (= randomly allocate)
-        for (const test of allTests) {
+        for (const test of json.tests as AbTest[]) {
           const cookieKey = `toggle_${test.id}`;
           if (cookieKey in cookies) {
             initialStates[test.id] = cookies[cookieKey] === 'true';
