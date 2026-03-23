@@ -1,6 +1,7 @@
 import { Canvas, Manifest } from '@iiif/presentation-3';
 
 export type CanvasRotatedImage = { canvas: number; rotation: number };
+export type CanvasContrastImage = { canvas: number; contrast: number };
 
 export type ItemViewerQuery = {
   canvas: number;
