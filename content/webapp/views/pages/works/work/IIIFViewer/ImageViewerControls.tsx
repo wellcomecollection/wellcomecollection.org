@@ -1,13 +1,28 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { rotateRight, zoomIn } from '@weco/common/icons';
+import {
+  grayscale,
+  invertColours,
+  rotateRight,
+  zoomIn,
+} from '@weco/common/icons';
 import Control from '@weco/common/views/components/Control';
 import Space from '@weco/common/views/components/styled/Space';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
-import { CanvasRotatedImage } from '@weco/content/types/item-viewer';
+
+import {
+  toggleCanvasInArray,
+  updateContrastImages,
+  updateRotatedImages,
+} from './imageFilterUtils';
 
 const ImageViewerControlsEl = styled.div<{ $showControls?: boolean }>`
+  .contrast-slider {
+    width: 120px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
   position: absolute;
   bottom: 5%;
   right: 10%;
@@ -33,41 +48,6 @@ const ImageViewerControlsEl = styled.div<{ $showControls?: boolean }>`
   }
 `;
 
-function updateRotatedImages({
-  rotatedImages,
-  canvasParam,
-}: {
-  rotatedImages: CanvasRotatedImage[];
-  canvasParam: number;
-}): CanvasRotatedImage[] {
-  const matchingIndex = rotatedImages.findIndex(
-    rotation => rotation.canvas === canvasParam
-  );
-  if (matchingIndex >= 0) {
-    return rotatedImages.map((rotatedImage, i) => {
-      if (matchingIndex === i) {
-        const currentRotationValue = rotatedImages[matchingIndex].rotation;
-        const newRotationValue =
-          currentRotationValue < 270 ? currentRotationValue + 90 : 0;
-        return {
-          canvas: rotatedImage.canvas,
-          rotation: newRotationValue,
-        };
-      } else {
-        return rotatedImage;
-      }
-    });
-  } else {
-    return [
-      ...rotatedImages,
-      {
-        canvas: canvasParam,
-        rotation: 90,
-      },
-    ];
-  }
-}
-
 const ImageViewerControls: FunctionComponent = () => {
   const {
     showControls,
@@ -75,9 +55,17 @@ const ImageViewerControls: FunctionComponent = () => {
     query,
     setRotatedImages,
     setShowZoomed,
+    grayscaleImages,
+    setGrayscaleImages,
+    invertedImages,
+    setInvertedImages,
+    contrastedImages,
+    setContrastedImages,
   } = useItemViewerContext();
   const { canvas } = query;
-
+  const currentContrast = Number(
+    contrastedImages?.find(c => c.canvas === canvas)?.contrast ?? 100
+  );
   return (
     <ImageViewerControlsEl $showControls={showControls}>
       <Space
@@ -102,11 +90,55 @@ const ImageViewerControls: FunctionComponent = () => {
           text="Rotate"
           icon={rotateRight}
           clickHandler={() => {
-            setRotatedImages(
-              updateRotatedImages({
-                rotatedImages,
-                canvasParam: canvas,
-              })
+            setRotatedImages(updateRotatedImages(rotatedImages, canvas));
+          }}
+        />
+      </Space>
+      <Space
+        $h={{ size: 'xs', properties: ['margin-left'] }}
+        $v={{ size: 'md', properties: ['margin-bottom'] }}
+      >
+        <Control
+          colorScheme="black-on-white"
+          text="Invert colours"
+          icon={invertColours}
+          clickHandler={() => {
+            setInvertedImages(toggleCanvasInArray(invertedImages, canvas));
+          }}
+        />
+      </Space>
+      <Space
+        $h={{ size: 'xs', properties: ['margin-left'] }}
+        $v={{ size: 'md', properties: ['margin-bottom'] }}
+      >
+        <Control
+          colorScheme="black-on-white"
+          text="Grayscale"
+          icon={grayscale}
+          clickHandler={() => {
+            setGrayscaleImages(toggleCanvasInArray(grayscaleImages, canvas));
+          }}
+        />
+      </Space>
+      {/* TODO styling */}
+      <Space
+        $h={{ size: 'xs', properties: ['margin-left'] }}
+        $v={{ size: 'md', properties: ['margin-bottom'] }}
+      >
+        <label htmlFor="contrast" className="visually-hidden">
+          Contrast
+        </label>
+        <input
+          type="range"
+          id="contrast"
+          className="contrast-slider"
+          min={50}
+          max={200}
+          value={currentContrast}
+          onChange={e => {
+            const value = Number(e.target.value);
+            setContrastedImages(
+              updateContrastImages(contrastedImages, canvas, value)
             );
           }}
         />

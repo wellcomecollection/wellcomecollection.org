@@ -8,7 +8,14 @@ import {
 } from 'react';
 import styled from 'styled-components';
 
-import { cross, minus, plus, rotateRight } from '@weco/common/icons';
+import {
+  cross,
+  grayscale,
+  invertColours,
+  minus,
+  plus,
+  rotateRight,
+} from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 import Control from '@weco/common/views/components/Control';
@@ -17,6 +24,12 @@ import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import { convertRequestUriToInfoUri } from '@weco/content/utils/iiif/convert-iiif-uri';
 
 import { queryParamToArrayIndex } from '.';
+import {
+  buildCssFilter,
+  toggleCanvasInArray,
+  updateContrastImages,
+  updateRotatedImages,
+} from './imageFilterUtils';
 
 const ZoomedImageContainer = styled.div`
   position: relative;
@@ -51,9 +64,29 @@ type ZoomedImageProps = OptionalToUndefined<{
 const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
   iiifImageLocation,
 }) => {
-  const { transformedManifest, query, setShowZoomed } = useItemViewerContext();
+  const {
+    transformedManifest,
+    query,
+    setShowZoomed,
+    invertedImages,
+    setInvertedImages,
+    grayscaleImages,
+    setGrayscaleImages,
+    contrastedImages,
+    setContrastedImages,
+    rotatedImages,
+    setRotatedImages,
+  } = useItemViewerContext();
+  const { canvas: canvasParam } = query;
   const currentCanvas =
-    transformedManifest?.canvases[queryParamToArrayIndex(query.canvas)];
+    transformedManifest?.canvases[queryParamToArrayIndex(canvasParam)];
+
+  const isInverted = invertedImages.includes(canvasParam);
+  const isGrayscale = grayscaleImages.includes(canvasParam);
+  const currentContrast =
+    contrastedImages?.find(c => c.canvas === canvasParam)?.contrast ?? 100;
+  const currentRotation =
+    rotatedImages.find(r => r.canvas === canvasParam)?.rotation ?? 0;
   const mainImageService = {
     '@id': currentCanvas?.imageServiceId || '',
   };
@@ -61,7 +94,9 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
     ? iiifImageLocation.url
     : convertRequestUriToInfoUri(mainImageService['@id']);
   const [scriptError, setScriptError] = useState(false);
-  const [viewer, setViewer] = useState(null);
+  const [viewer, setViewer] = useState<ReturnType<typeof openseadragon> | null>(
+    null
+  );
   const viewerRef: MutableRefObject<{ destroy: () => void } | null> =
     useRef(null);
   const zoomStep = 0.5;
@@ -125,6 +160,26 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
     return () => viewerRef.current?.destroy();
   }, []);
 
+  // Apply CSS filters to the OSD container whenever invert/grayscale/contrast changes
+  useEffect(() => {
+    const osdContainer = zoomedImage.current?.querySelector<HTMLDivElement>(
+      '#image-viewer-zoomedImage'
+    );
+    if (!osdContainer) return;
+    const filter = buildCssFilter({
+      isInverted,
+      isGrayscale,
+      contrast: currentContrast,
+    });
+    osdContainer.style.filter = filter;
+  }, [isInverted, isGrayscale, currentContrast, viewer]);
+
+  // Sync rotation from context to the OSD viewer
+  useEffect(() => {
+    if (!viewer) return;
+    viewer.viewport.setRotation(currentRotation);
+  }, [currentRotation, viewer]);
+
   function doZoomIn(viewer) {
     if (!viewer) {
       return;
@@ -160,9 +215,16 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
     }
   }
 
-  function handleRotate(viewer) {
-    if (!viewer) return;
-    viewer.viewport.setRotation(viewer.viewport.getRotation() + 90);
+  function handleRotate() {
+    setRotatedImages(updateRotatedImages(rotatedImages, canvasParam));
+  }
+
+  function handleInvertColours() {
+    setInvertedImages(toggleCanvasInArray(invertedImages, canvasParam));
+  }
+
+  function handleGrayscale() {
+    setGrayscaleImages(toggleCanvasInArray(grayscaleImages, canvasParam));
   }
 
   function handleTrapStartKeyDown(event) {
@@ -249,8 +311,61 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
               colorScheme="black-on-white"
               text="Rotate"
               icon={rotateRight}
-              clickHandler={() => {
-                handleRotate(viewer);
+              clickHandler={handleRotate}
+            />
+          </Space>
+          <Space
+            as="span"
+            $h={{
+              size: 'sm',
+              properties: ['margin-left'],
+            }}
+          >
+            <Control
+              colorScheme="black-on-white"
+              text="Invert colours"
+              icon={invertColours}
+              clickHandler={handleInvertColours}
+            />
+          </Space>
+          <Space
+            as="span"
+            $h={{
+              size: 'sm',
+              properties: ['margin-left'],
+            }}
+          >
+            <Control
+              colorScheme="black-on-white"
+              text="Grayscale"
+              icon={grayscale}
+              clickHandler={handleGrayscale}
+            />
+          </Space>
+          <Space
+            as="span"
+            $h={{
+              size: 'sm',
+              properties: ['margin-left'],
+            }}
+          >
+            <label htmlFor="zoom-contrast" className="visually-hidden">
+              Contrast
+            </label>
+            <input
+              type="range"
+              id="zoom-contrast"
+              min={50}
+              max={200}
+              value={currentContrast}
+              onChange={e => {
+                setContrastedImages(
+                  updateContrastImages(
+                    contrastedImages,
+                    canvasParam,
+                    Number(e.target.value)
+                  )
+                );
               }}
             />
           </Space>
