@@ -89,13 +89,14 @@ const TogglesPage: FunctionComponent = () => {
             isEnabled: true,
           });
         } else {
+          const toggle = toggles.find(t => t.id === toggleId);
           deleteCookieCustom(toggleId);
           setToggleStates(prev => ({
             ...prev,
-            [toggleId]: false,
+            [toggleId]: toggle?.defaultValue ?? false,
           }));
           setMessage({
-            text: `🔵 Toggle "${toggleId}" has been successfully disabled!`,
+            text: `🔵 Toggle "${toggleId}" has been reset to its default value.`,
             isError: false,
             isEnabled: false,
           });
