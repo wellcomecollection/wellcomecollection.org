@@ -48,6 +48,18 @@ const ContrastSlider = styled.div`
   }
 `;
 
+const ControlsWrapper = styled.div`
+  display: contents;
+
+  button[aria-pressed='true'] {
+    background: ${props => props.theme.color('yellow')};
+
+    .icon__shape {
+      fill: ${props => props.theme.color('neutral.700')};
+    }
+  }
+`;
+
 type Props = {
   canvas: number;
   zoomControls: ReactNode;
@@ -74,11 +86,13 @@ const SharedImageViewerControls: FunctionComponent<Props> = ({
     setContrastedImages,
   } = useItemViewerContext();
 
+  const isInverted = invertedImages.includes(canvas);
+  const isGrayscale = grayscaleImages.includes(canvas);
   const currentContrast =
     contrastedImages?.find(c => c.canvas === canvas)?.contrast ?? 100;
 
   return (
-    <>
+    <ControlsWrapper>
       {zoomControls}
       <Space $h={{ size: 'xs', properties: ['margin-left'] }}>
         <Control
@@ -95,6 +109,7 @@ const SharedImageViewerControls: FunctionComponent<Props> = ({
           colorScheme="black-on-white"
           text="Invert colours"
           icon={invertColours}
+          ariaPressed={isInverted ? 'true' : 'false'}
           clickHandler={() => {
             setInvertedImages(toggleCanvasInArray(invertedImages, canvas));
           }}
@@ -105,6 +120,7 @@ const SharedImageViewerControls: FunctionComponent<Props> = ({
           colorScheme="black-on-white"
           text="Grayscale"
           icon={grayscale}
+          ariaPressed={isGrayscale ? 'true' : 'false'}
           clickHandler={() => {
             setGrayscaleImages(toggleCanvasInArray(grayscaleImages, canvas));
           }}
@@ -151,7 +167,7 @@ const SharedImageViewerControls: FunctionComponent<Props> = ({
         />
       </Space>
       {closeButton}
-    </>
+    </ControlsWrapper>
   );
 };
 
