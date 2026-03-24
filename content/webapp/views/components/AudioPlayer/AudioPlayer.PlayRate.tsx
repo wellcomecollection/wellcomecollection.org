@@ -1,5 +1,5 @@
 import { FocusTrap } from 'focus-trap-react';
-import { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
@@ -90,6 +90,7 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
   id,
 }) => {
   const [isPlayrateActive, setIsPlayrateActive] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
   const { audioPlaybackRate, setAudioPlaybackRate } = useAppContext();
   const speeds = [0.5, 1, 1.5, 2];
 
@@ -108,19 +109,23 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
   }
 
   function toggleShowHidePlayRate() {
-    console.log(isPlayrateActive);
     setIsPlayrateActive(!isPlayrateActive);
   }
 
-  // useEffect(() => {
-  //   function handleClickOutside() {
-  //     setIsPlayrateActive(false);
-  //   }
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        setIsPlayrateActive(false);
+      }
+    }
 
-  //   document.addEventListener('click', handleClickOutside);
+    document.addEventListener('click', handleClickOutside);
 
-  //   return () => document.removeEventListener('click', handleClickOutside);
-  // }, []);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, []);
 
   return (
     <FocusTrap
@@ -129,7 +134,7 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
         clickOutsideDeactivates: true,
       }}
     >
-      <div style={{ position: 'relative' }}>
+      <div ref={containerRef} style={{ position: 'relative' }}>
         <TogglePlayRateButton
           $isDark={isDark}
           onClick={toggleShowHidePlayRate}
