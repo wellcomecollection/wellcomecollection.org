@@ -2,12 +2,14 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import {
+  contrast,
   grayscale,
   invertColours,
   rotateRight,
   zoomIn,
 } from '@weco/common/icons';
 import Control from '@weco/common/views/components/Control';
+import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 
@@ -17,12 +19,37 @@ import {
   updateRotatedImages,
 } from './imageFilterUtils';
 
-const ImageViewerControlsEl = styled.div<{ $showControls?: boolean }>`
-  .contrast-slider {
-    width: 120px;
-    margin-left: 8px;
-    vertical-align: middle;
+const ContrastSlider = styled.div`
+  display: inline-flex;
+  align-items: center;
+  height: 46px;
+  background: ${props => props.theme.color('white')};
+  border-radius: 23px;
+  padding-right: 10px;
+
+  label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    cursor: pointer;
+
+    .icon__shape {
+      fill: ${props => props.theme.color('neutral.700')};
+    }
   }
+
+  input[type='range'] {
+    width: 80px;
+    margin: 0;
+    cursor: pointer;
+    accent-color: ${props => props.theme.color('yellow')};
+  }
+`;
+
+const ImageViewerControlsEl = styled.div<{ $showControls?: boolean }>`
   position: absolute;
   bottom: 5%;
   right: 10%;
@@ -63,9 +90,8 @@ const ImageViewerControls: FunctionComponent = () => {
     setContrastedImages,
   } = useItemViewerContext();
   const { canvas } = query;
-  const currentContrast = Number(
-    contrastedImages?.find(c => c.canvas === canvas)?.contrast ?? 100
-  );
+  const currentContrast =
+    contrastedImages?.find(c => c.canvas === canvas)?.contrast ?? 100;
   return (
     <ImageViewerControlsEl $showControls={showControls}>
       <Space
@@ -120,28 +146,32 @@ const ImageViewerControls: FunctionComponent = () => {
           }}
         />
       </Space>
-      {/* TODO styling */}
       <Space
         $h={{ size: 'xs', properties: ['margin-left'] }}
         $v={{ size: 'md', properties: ['margin-bottom'] }}
       >
-        <label htmlFor="contrast" className="visually-hidden">
-          Contrast
-        </label>
-        <input
-          type="range"
-          id="contrast"
-          className="contrast-slider"
-          min={50}
-          max={200}
-          value={currentContrast}
-          onChange={e => {
-            const value = Number(e.target.value);
-            setContrastedImages(
-              updateContrastImages(contrastedImages, canvas, value)
-            );
-          }}
-        />
+        <ContrastSlider>
+          <label htmlFor="contrast">
+            <Icon icon={contrast} />
+            <span className="visually-hidden">Contrast</span>
+          </label>
+          <input
+            type="range"
+            id="contrast"
+            min={50}
+            max={200}
+            value={currentContrast}
+            onChange={e => {
+              setContrastedImages(
+                updateContrastImages(
+                  contrastedImages,
+                  canvas,
+                  Number(e.target.value)
+                )
+              );
+            }}
+          />
+        </ContrastSlider>
       </Space>
     </ImageViewerControlsEl>
   );

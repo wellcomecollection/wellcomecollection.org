@@ -9,6 +9,7 @@ import {
 import styled from 'styled-components';
 
 import {
+  contrast,
   cross,
   grayscale,
   invertColours,
@@ -19,6 +20,7 @@ import {
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 import Control from '@weco/common/views/components/Control';
+import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import { convertRequestUriToInfoUri } from '@weco/content/utils/iiif/convert-iiif-uri';
@@ -49,6 +51,36 @@ const Controls = styled.div`
 
 const Image = styled.div`
   height: 100%;
+`;
+
+const ContrastSlider = styled.div`
+  display: inline-flex;
+  align-items: center;
+  height: 46px;
+  background: ${props => props.theme.color('white')};
+  border-radius: 23px;
+  padding-right: 10px;
+
+  label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    cursor: pointer;
+
+    .icon__shape {
+      fill: ${props => props.theme.color('neutral.700')};
+    }
+  }
+
+  input[type='range'] {
+    width: 80px;
+    margin: 0;
+    cursor: pointer;
+    accent-color: ${props => props.theme.color('yellow')};
+  }
 `;
 
 const ErrorMessage = () => (
@@ -349,25 +381,28 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
               properties: ['margin-left'],
             }}
           >
-            <label htmlFor="zoom-contrast" className="visually-hidden">
-              Contrast
-            </label>
-            <input
-              type="range"
-              id="zoom-contrast"
-              min={50}
-              max={200}
-              value={currentContrast}
-              onChange={e => {
-                setContrastedImages(
-                  updateContrastImages(
-                    contrastedImages,
-                    canvasParam,
-                    Number(e.target.value)
-                  )
-                );
-              }}
-            />
+            <ContrastSlider>
+              <label htmlFor="zoom-contrast">
+                <Icon icon={contrast} />
+                <span className="visually-hidden">Contrast</span>
+              </label>
+              <input
+                type="range"
+                id="zoom-contrast"
+                min={50}
+                max={200}
+                value={currentContrast}
+                onChange={e => {
+                  setContrastedImages(
+                    updateContrastImages(
+                      contrastedImages,
+                      canvasParam,
+                      Number(e.target.value)
+                    )
+                  );
+                }}
+              />
+            </ContrastSlider>
           </Space>
           <Space
             as="span"
