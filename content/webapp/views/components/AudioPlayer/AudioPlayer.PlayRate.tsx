@@ -52,12 +52,25 @@ const PlayRateButton = styled.div.attrs({
 `;
 
 const PlayRateList = styled.div<{ $isActive: boolean; $isDark: boolean }>`
-  position-anchor: --play-rate-button;
-  position: fixed;
-  bottom: anchor(top);
-  right: anchor(right);
   margin-bottom: 10px;
-  position-try-fallbacks: --below;
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+
+  @supports (position-anchor: --play-rate-button) {
+    position-anchor: --play-rate-button;
+    position: fixed;
+    bottom: anchor(top);
+    right: anchor(right);
+    position-try-fallbacks: --below;
+
+    @position-try --below {
+      bottom: auto;
+      top: anchor(bottom);
+      margin-top: 10px;
+      margin-bottom: 0;
+    }
+  }
 
   padding: ${props => props.theme.spacingUnits['100']} 0;
   list-style: none;
@@ -73,13 +86,6 @@ const PlayRateList = styled.div<{ $isActive: boolean; $isDark: boolean }>`
   ul {
     margin: 0;
     padding: 0;
-  }
-
-  @position-try --below {
-    bottom: auto;
-    top: anchor(bottom);
-    margin-top: 10px;
-    margin-bottom: 0;
   }
 `;
 
