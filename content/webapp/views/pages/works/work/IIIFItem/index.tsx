@@ -61,6 +61,9 @@ import IIIFItemDownload from './IIIFItem.Download';
 import VideoTranscript from './IIIFItem.VideoTranscript';
 
 const MessageContainer = styled.div`
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
   min-width: 360px;
   max-width: 600px;
   margin: 0 auto;
