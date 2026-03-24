@@ -79,7 +79,7 @@ const PlayRateList = styled.div<{ $isActive: boolean; $isDark: boolean }>`
     props.$isDark
       ? props.theme.color('neutral.700')
       : props.theme.color('white')};
-  z-index: 2;
+  z-index: 5;
   border-radius: 8px;
   box-shadow: ${props => props.theme.basicBoxShadow};
 
@@ -100,7 +100,7 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
   isDark,
   id,
 }) => {
-  const [isPlayrateActive, setIsPlayrateActive] = useState(false);
+  const [isPlayRateActive, setIsPlayRateActive] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const { audioPlaybackRate, setAudioPlaybackRate } = useAppContext();
   const speeds = [0.5, 1, 1.5, 2];
@@ -116,11 +116,11 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
   function updatePlaybackRate(speed: number) {
     setAudioPlaybackRate(speed);
     audioPlayer.playbackRate = speed;
-    setIsPlayrateActive(false);
+    setIsPlayRateActive(false);
   }
 
   function toggleShowHidePlayRate() {
-    setIsPlayrateActive(!isPlayrateActive);
+    setIsPlayRateActive(!isPlayRateActive);
   }
 
   useEffect(() => {
@@ -129,7 +129,7 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
         containerRef.current &&
         !containerRef.current.contains(event.target as Node)
       ) {
-        setIsPlayrateActive(false);
+        setIsPlayRateActive(false);
       }
     }
 
@@ -140,7 +140,7 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
 
   return (
     <FocusTrap
-      active={isPlayrateActive}
+      active={isPlayRateActive}
       focusTrapOptions={{
         clickOutsideDeactivates: true,
       }}
@@ -150,12 +150,12 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
           $isDark={isDark}
           onClick={toggleShowHidePlayRate}
           aria-controls={id}
-          aria-expanded={isPlayrateActive}
+          aria-expanded={isPlayRateActive}
         >
           Speed
           <span className={font('sans-bold', 0)}>{audioPlaybackRate}x</span>
         </TogglePlayRateButton>
-        <PlayRateList id={id} $isActive={isPlayrateActive} $isDark={isDark}>
+        <PlayRateList id={id} $isActive={isPlayRateActive} $isDark={isDark}>
           <ul>
             {speeds.map(speed => {
               return (
