@@ -28,7 +28,7 @@ const Image = styled.img<{
   ${props => {
     if (props.$highlightImage) {
       // highlight filter for thumbnails that contain search terms
-      return `filter: grayscale(100%) brightness(70%) sepia(40%) hue-rotate(-120deg) saturate(400%) contrast(1);`;
+      return `filter: grayscale(100%) sepia(100%) hue-rotate(15deg) saturate(400%) brightness(115%);`;
     }
     let filter = '';
     if (props.$useInvertedColours) filter += 'invert(100%) ';
