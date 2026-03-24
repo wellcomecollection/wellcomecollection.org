@@ -7,6 +7,11 @@ import { check } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 
+const PlayRateContainer = styled.div`
+  position: relative;
+  anchor-scope: --play-rate-button;
+`;
+
 const TogglePlayRateButton = styled.button.attrs({
   className: font('sans', -2),
 })<{ $isDark: boolean }>`
@@ -134,7 +139,7 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
         clickOutsideDeactivates: true,
       }}
     >
-      <div ref={containerRef} style={{ position: 'relative' }}>
+      <PlayRateContainer ref={containerRef}>
         <TogglePlayRateButton
           $isDark={isDark}
           onClick={toggleShowHidePlayRate}
@@ -168,7 +173,7 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
             })}
           </ul>
         </PlayRateList>
-      </div>
+      </PlayRateContainer>
     </FocusTrap>
   );
 };
