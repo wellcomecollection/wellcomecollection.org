@@ -8,32 +8,17 @@ import {
 } from 'react';
 import styled from 'styled-components';
 
-import {
-  contrast,
-  cross,
-  grayscale,
-  invertColours,
-  minus,
-  plus,
-  refresh,
-  rotateRight,
-} from '@weco/common/icons';
+import { cross, minus, plus } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 import Control from '@weco/common/views/components/Control';
-import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import { convertRequestUriToInfoUri } from '@weco/content/utils/iiif/convert-iiif-uri';
 
 import { queryParamToArrayIndex } from '.';
-import {
-  buildCssFilter,
-  toggleCanvasInArray,
-  updateContrastImages,
-  updateRotatedImages,
-} from './imageFilterUtils';
-import { ContrastSlider } from './ImageViewerControls.styles';
+import { buildCssFilter } from './imageFilterUtils';
+import SharedImageViewerControls from './SharedImageViewerControls';
 
 const ZoomedImageContainer = styled.div`
   position: relative;
@@ -73,13 +58,9 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
     query,
     setShowZoomed,
     invertedImages,
-    setInvertedImages,
     grayscaleImages,
-    setGrayscaleImages,
     contrastedImages,
-    setContrastedImages,
     rotatedImages,
-    setRotatedImages,
   } = useItemViewerContext();
   const { canvas: canvasParam } = query;
   const currentCanvas =
@@ -219,18 +200,6 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
     }
   }
 
-  function handleRotate() {
-    setRotatedImages(updateRotatedImages(rotatedImages, canvasParam));
-  }
-
-  function handleInvertColours() {
-    setInvertedImages(toggleCanvasInArray(invertedImages, canvasParam));
-  }
-
-  function handleGrayscale() {
-    setGrayscaleImages(toggleCanvasInArray(grayscaleImages, canvasParam));
-  }
-
   function handleTrapStartKeyDown(event) {
     if (event.shiftKey && event.keyCode === 9) {
       event.preventDefault();
@@ -270,157 +239,53 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
             size: 'md',
             properties: ['margin-left', 'margin-right'],
           }}
+          style={{ display: 'flex', alignItems: 'center' }}
         >
-          <Space
-            as="span"
-            $h={{
-              size: 'sm',
-              properties: ['margin-left'],
+          <SharedImageViewerControls
+            canvas={canvasParam}
+            contrastInputId="zoom-contrast"
+            onExtraReset={() => {
+              if (viewer) viewer.viewport.goHome();
             }}
-          >
-            <Control
-              ref={firstControl}
-              colorScheme="black-on-white"
-              text="Zoom in"
-              icon={plus}
-              clickHandler={() => {
-                handleZoomIn(viewer);
-              }}
-            />
-          </Space>
-          <Space
-            as="span"
-            $h={{
-              size: 'sm',
-              properties: ['margin-left'],
-            }}
-          >
-            <Control
-              colorScheme="black-on-white"
-              text="Zoom out"
-              icon={minus}
-              clickHandler={() => {
-                handleZoomOut(viewer);
-              }}
-            />
-          </Space>
-          <Space
-            as="span"
-            $h={{
-              size: 'sm',
-              properties: ['margin-left'],
-            }}
-          >
-            <Control
-              colorScheme="black-on-white"
-              text="Rotate"
-              icon={rotateRight}
-              clickHandler={handleRotate}
-            />
-          </Space>
-          <Space
-            as="span"
-            $h={{
-              size: 'sm',
-              properties: ['margin-left'],
-            }}
-          >
-            <Control
-              colorScheme="black-on-white"
-              text="Invert colours"
-              icon={invertColours}
-              clickHandler={handleInvertColours}
-            />
-          </Space>
-          <Space
-            as="span"
-            $h={{
-              size: 'sm',
-              properties: ['margin-left'],
-            }}
-          >
-            <Control
-              colorScheme="black-on-white"
-              text="Grayscale"
-              icon={grayscale}
-              clickHandler={handleGrayscale}
-            />
-          </Space>
-          <Space
-            as="span"
-            $h={{
-              size: 'sm',
-              properties: ['margin-left'],
-            }}
-          >
-            <ContrastSlider>
-              <label htmlFor="zoom-contrast">
-                <Icon icon={contrast} />
-                <span className="visually-hidden">Contrast</span>
-              </label>
-              <input
-                type="range"
-                id="zoom-contrast"
-                min={50}
-                max={200}
-                value={currentContrast}
-                onChange={e => {
-                  setContrastedImages(
-                    updateContrastImages(
-                      contrastedImages,
-                      canvasParam,
-                      Number(e.target.value)
-                    )
-                  );
-                }}
-              />
-            </ContrastSlider>
-          </Space>
-          <Space
-            as="span"
-            $h={{
-              size: 'sm',
-              properties: ['margin-left'],
-            }}
-          >
-            <Control
-              colorScheme="black-on-white"
-              text="Reset"
-              icon={refresh}
-              clickHandler={() => {
-                setInvertedImages(
-                  invertedImages.filter(c => c !== canvasParam)
-                );
-                setGrayscaleImages(
-                  grayscaleImages.filter(c => c !== canvasParam)
-                );
-                setContrastedImages(
-                  contrastedImages.filter(c => c.canvas !== canvasParam)
-                );
-                setRotatedImages(
-                  rotatedImages.filter(r => r.canvas !== canvasParam)
-                );
-                if (viewer) viewer.viewport.goHome();
-              }}
-            />
-          </Space>
-          <Space
-            as="span"
-            $h={{
-              size: 'sm',
-              properties: ['margin-left'],
-            }}
-          >
-            <Control
-              ref={lastControl}
-              colorScheme="black-on-white"
-              text="Close"
-              icon={cross}
-              clickHandler={() => {
-                setShowZoomed(false);
-              }}
-            />
-          </Space>
+            zoomControls={
+              <>
+                <Space $h={{ size: 'xs', properties: ['margin-left'] }}>
+                  <Control
+                    ref={firstControl}
+                    colorScheme="black-on-white"
+                    text="Zoom in"
+                    icon={plus}
+                    clickHandler={() => {
+                      handleZoomIn(viewer);
+                    }}
+                  />
+                </Space>
+                <Space $h={{ size: 'xs', properties: ['margin-left'] }}>
+                  <Control
+                    colorScheme="black-on-white"
+                    text="Zoom out"
+                    icon={minus}
+                    clickHandler={() => {
+                      handleZoomOut(viewer);
+                    }}
+                  />
+                </Space>
+              </>
+            }
+            closeButton={
+              <Space $h={{ size: 'xs', properties: ['margin-left'] }}>
+                <Control
+                  ref={lastControl}
+                  colorScheme="black-on-white"
+                  text="Close"
+                  icon={cross}
+                  clickHandler={() => {
+                    setShowZoomed(false);
+                  }}
+                />
+              </Space>
+            }
+          />
         </Space>
       </Controls>
       <Image id="image-viewer-zoomedImage">
