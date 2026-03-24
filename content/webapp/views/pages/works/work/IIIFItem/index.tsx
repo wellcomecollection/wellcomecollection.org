@@ -69,20 +69,17 @@ const MessageContainer = styled.div`
   padding: 10%;
 `;
 
-const Outline = styled(Space).attrs({
-  $v: {
-    size: 'md',
-    properties: ['margin-top', 'margin-bottom'],
-  },
-  $h: { size: 'lg', properties: ['margin-left', 'margin-right'] },
-})<{ $border?: boolean }>`
+const Outline = styled(Space)<{ $border?: boolean }>`
   position: relative;
-  padding-left: ${props => props.theme.spacingUnits['400']};
-  padding-right: ${props => props.theme.spacingUnits['400']};
   ${props =>
     props.$border
-      ? `border: 1px solid; border-color:  ${props.theme.color('neutral.400')}`
-      : ``};
+      ? `
+          padding-left: ${props.theme.spacingUnits['400']};
+          padding-right: ${props.theme.spacingUnits['400']};
+          border: 1px solid;
+          border-color:  ${props.theme.color('neutral.400')};
+        `
+      : ''};
   height: 100%;
 `;
 
