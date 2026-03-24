@@ -15,6 +15,7 @@ import {
   invertColours,
   minus,
   plus,
+  refresh,
   rotateRight,
 } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
@@ -374,6 +375,34 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
                 }}
               />
             </ContrastSlider>
+          </Space>
+          <Space
+            as="span"
+            $h={{
+              size: 'sm',
+              properties: ['margin-left'],
+            }}
+          >
+            <Control
+              colorScheme="black-on-white"
+              text="Reset"
+              icon={refresh}
+              clickHandler={() => {
+                setInvertedImages(
+                  invertedImages.filter(c => c !== canvasParam)
+                );
+                setGrayscaleImages(
+                  grayscaleImages.filter(c => c !== canvasParam)
+                );
+                setContrastedImages(
+                  contrastedImages.filter(c => c.canvas !== canvasParam)
+                );
+                setRotatedImages(
+                  rotatedImages.filter(r => r.canvas !== canvasParam)
+                );
+                if (viewer) viewer.viewport.goHome();
+              }}
+            />
           </Space>
           <Space
             as="span"

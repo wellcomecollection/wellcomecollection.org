@@ -5,6 +5,7 @@ import {
   contrast,
   grayscale,
   invertColours,
+  refresh,
   rotateRight,
   zoomIn,
 } from '@weco/common/icons';
@@ -143,6 +144,24 @@ const ImageViewerControls: FunctionComponent = () => {
             }}
           />
         </ContrastSlider>
+      </Space>
+      <Space
+        $h={{ size: 'xs', properties: ['margin-left'] }}
+        $v={{ size: 'md', properties: ['margin-bottom'] }}
+      >
+        <Control
+          colorScheme="black-on-white"
+          text="Reset"
+          icon={refresh}
+          clickHandler={() => {
+            setInvertedImages(invertedImages.filter(c => c !== canvas));
+            setGrayscaleImages(grayscaleImages.filter(c => c !== canvas));
+            setContrastedImages(
+              contrastedImages.filter(c => c.canvas !== canvas)
+            );
+            setRotatedImages(rotatedImages.filter(r => r.canvas !== canvas));
+          }}
+        />
       </Space>
     </ImageViewerControlsEl>
   );
