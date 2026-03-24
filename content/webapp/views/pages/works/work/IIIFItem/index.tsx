@@ -64,8 +64,8 @@ const MessageContainer = styled.div`
   position: relative;
   top: 50%;
   transform: translateY(-50%);
-  min-width: 360px;
-  max-width: 600px;
+  min-width: 300px;
+  max-width: 80%;
   margin: 0 auto;
   border: 1px solid ${props => props.theme.color('neutral.600')};
   height: 80%;
@@ -77,8 +77,6 @@ const Outline = styled(Space)<{ $border?: boolean }>`
   ${props =>
     props.$border
       ? `
-          padding-left: ${props.theme.spacingUnits['400']};
-          padding-right: ${props.theme.spacingUnits['400']};
           border: 1px solid;
           border-color:  ${props.theme.color('neutral.400')};
         `
