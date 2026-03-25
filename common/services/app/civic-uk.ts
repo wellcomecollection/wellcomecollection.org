@@ -47,10 +47,23 @@ export const getConsentState = (
 
 export const getAllConsentStates = (
   context?: GetServerSidePropsContext
-): ConsentStatusProps => ({
-  analytics: getConsentState('analytics', context),
-  marketing: getConsentState('marketing', context),
-});
+): ConsentStatusProps => {
+  const cookies = getCookies(context);
+  const consentCookie = cookies.CookieControl;
+
+  if (consentCookie !== undefined) {
+    const civicUKCookie: CivicUKCookie = JSON.parse(
+      decodeURIComponent(consentCookie)
+    );
+    return {
+      analytics: civicUKCookie.optionalCookies?.analytics === 'accepted',
+      marketing: civicUKCookie.optionalCookies?.marketing === 'accepted',
+      cookieExists: true,
+    };
+  }
+
+  return { analytics: false, marketing: false, cookieExists: false };
+};
 
 // Pages like error pages don't have access to server data
 // and need workarounds to behave like normal pages.
@@ -63,9 +76,10 @@ export const getErrorPageConsent = ({ req, res }) => {
     return {
       analytics: civicUKCookie?.optionalCookies?.analytics === 'accepted',
       marketing: civicUKCookie?.optionalCookies?.marketing === 'accepted',
+      cookieExists: true,
     };
   }
 
   // If not found, it's because consent has not yet been given.
-  return { analytics: false, marketing: false };
+  return { analytics: false, marketing: false, cookieExists: false };
 };

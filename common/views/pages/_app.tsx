@@ -172,7 +172,12 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
                   <GlobalSvgDefinitions />
                   <LoadingIndicator />
 
-                  {displayCookieBanner && <CivicUK apiKey={civicUkApiKey} />}
+                  {displayCookieBanner && (
+                    <CivicUK
+                      apiKey={civicUkApiKey}
+                      defer={serverData.consentStatus.cookieExists}
+                    />
+                  )}
                   <HotjarLoader />
 
                   {!pageProps.err &&
