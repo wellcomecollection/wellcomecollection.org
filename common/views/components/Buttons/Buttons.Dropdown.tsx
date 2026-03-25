@@ -7,7 +7,6 @@ import {
   useRef,
   useState,
 } from 'react';
-import { CSSTransition } from 'react-transition-group';
 import styled, { useTheme } from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
@@ -27,7 +26,10 @@ const DropdownWrapper = styled.div`
   position: relative;
 `;
 
-const Dropdown = styled(Space).attrs<{ $isTight: boolean }>(props => ({
+const Dropdown = styled(Space).attrs<{
+  $isTight: boolean;
+  $isActive: boolean;
+}>(props => ({
   $v: {
     size: props.$isTight ? 'xs' : 'sm',
     properties: ['padding-top', 'padding-bottom'],
@@ -41,8 +43,6 @@ const Dropdown = styled(Space).attrs<{ $isTight: boolean }>(props => ({
   $isEnhanced: boolean;
 }>`
   background-color: ${props => props.theme.color('white')};
-  margin-top: -2px;
-  z-index: ${props => (props.$isActive ? 2 : 1)};
   overflow: auto;
   white-space: nowrap;
   transition:
@@ -51,36 +51,7 @@ const Dropdown = styled(Space).attrs<{ $isTight: boolean }>(props => ({
   border-radius: ${props => props.theme.borderRadiusUnit}px;
   box-shadow: ${props => props.theme.basicBoxShadow};
   max-height: 40vh;
-
-  &,
-  &.fade-exit-done {
-    z-index: -1;
-    pointer-events: ${props => (props.$isEnhanced ? 'none' : 'all')};
-  }
-
-  &.fade-enter,
-  &.fade-exit,
-  &.fade-enter-done {
-    z-index: 2;
-    pointer-events: all;
-  }
-
-  &,
-  &.fade-enter,
-  &.fade-exit-active,
-  &.fade-exit-done {
-    opacity: ${props => (props.$isEnhanced ? 0 : 1)};
-    transform: translateY(5px);
-  }
-
-  &.fade-enter-active,
-  &.fade-enter-done {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
-
-const Popper = styled.div<{ $isVisible: boolean }>`
+  z-index: 1;
   position: absolute;
   top: 100%;
   margin: 10px;
@@ -99,10 +70,10 @@ const Popper = styled.div<{ $isVisible: boolean }>`
   }
 
   width: max-content;
-  height: ${props => (props.$isVisible ? 'auto' : 0)};
   max-width: calc(100vw - 20px);
-  z-index: ${props => (props.$isVisible ? 1 : -1)};
-  opacity: ${props => (props.$isVisible ? 1 : 0)};
+  opacity: ${props => (props.$isActive ? 1 : 0)};
+  transform: ${props =>
+    props.$isActive ? 'translateY(0)' : 'translateY(-10px)'};
 
   ${props => props.theme.media('md')`
     max-width: calc(50vw - 20px);
@@ -139,11 +110,9 @@ const DropdownButton: FunctionComponent<
   const theme = useTheme();
   const dropdownWrapperRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const popperRef = useRef(null);
 
   const [isActive, setIsActive] = useState(false);
   const [focusables, setFocusables] = useState<HTMLElement[]>([]);
-  const [isPopperVisible, setIsPopperVisible] = useState(false);
 
   useEffect(() => {
     function hideDropdownOnDocClick(event: MouseEvent) {
@@ -238,37 +207,25 @@ const DropdownButton: FunctionComponent<
           </Anchor>
         )}
         {isEnhanced && (
-          <Popper id={id} $isVisible={isPopperVisible}>
-            <CSSTransition
-              nodeRef={dropdownRef}
-              in={isActive}
-              classNames="fade"
-              timeout={350}
-              onEnter={() => setIsPopperVisible(true)}
-              onExited={() => setIsPopperVisible(false)}
-            >
-              <Dropdown
-                ref={dropdownRef}
-                $isActive={isActive}
-                $isEnhanced={isEnhanced}
-                $isTight={!!isTight}
-              >
-                {children}
-              </Dropdown>
-            </CSSTransition>
-          </Popper>
+          <Dropdown
+            inert={!isActive}
+            ref={dropdownRef}
+            $isActive={isActive}
+            $isEnhanced={isEnhanced}
+            $isTight={!!isTight}
+          >
+            {children}
+          </Dropdown>
         )}
         <noscript>
-          <Popper id={id} ref={popperRef} $isVisible={true}>
-            <Dropdown
-              ref={dropdownRef}
-              $isActive={isActive}
-              $isEnhanced={isEnhanced}
-              $isTight={!!isTight}
-            >
-              {children}
-            </Dropdown>
-          </Popper>
+          <Dropdown
+            ref={dropdownRef}
+            $isActive={true}
+            $isEnhanced={isEnhanced}
+            $isTight={!!isTight}
+          >
+            {children}
+          </Dropdown>
         </noscript>
       </DropdownWrapper>
     </FocusTrap>
