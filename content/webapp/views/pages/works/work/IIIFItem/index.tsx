@@ -217,7 +217,7 @@ const PublicRestrictedMessage: FunctionComponent<{
       )}
       <div className={font('sans', -1)}>
         {externalAccessService?.description && (
-          <p
+          <div
             className={font('sans', -1)}
             dangerouslySetInnerHTML={{
               __html: externalAccessService.description,
