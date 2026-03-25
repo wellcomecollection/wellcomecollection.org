@@ -128,7 +128,7 @@ const DropdownButton: FunctionComponent<
     return () => {
       document.removeEventListener('click', hideDropdownOnDocClick, false);
     };
-  });
+  }, []);
 
   useEffect(() => {
     dropdownRef.current &&
@@ -206,6 +206,7 @@ const DropdownButton: FunctionComponent<
         )}
         {isEnhanced && (
           <Dropdown
+            id={id}
             inert={!isActive}
             ref={dropdownRef}
             $isActive={isActive}
@@ -217,6 +218,7 @@ const DropdownButton: FunctionComponent<
         )}
         <noscript>
           <Dropdown
+            id={id}
             ref={dropdownRef}
             $isActive={true}
             $isEnhanced={isEnhanced}
