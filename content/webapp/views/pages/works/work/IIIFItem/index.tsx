@@ -73,15 +73,18 @@ const MessageContainer = styled.div`
 `;
 
 const Outline = styled(Space)<{ $border?: boolean }>`
-  position: relative;
-  ${props =>
-    props.$border
-      ? `
+  height: ${props => (props.$border ? 'calc(100% - 1em)' : '100%')};
+
+  img {
+    ${props =>
+      props.$border
+        ? `
           border: 1px solid;
-          border-color:  ${props.theme.color('neutral.400')};
+          border-color:  ${props.theme.color('neutral.600')};
+          padding: 2em;
         `
-      : ''};
-  height: 100%;
+        : ''};
+  }
 `;
 
 const IconContainer = styled(Space).attrs({
@@ -231,7 +234,12 @@ const StaffRestrictedMessage: FunctionComponent = () => {
   return (
     <p
       className={font('sans', -1)}
-      style={{ display: 'flex', marginTop: '10px' }}
+      style={{
+        display: 'inline-flex',
+        position: 'relative',
+        left: '50%',
+        transform: 'translateX(-50%)',
+      }}
     >
       <IconContainer>
         <Icon icon={information} />
