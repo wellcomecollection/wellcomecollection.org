@@ -7,7 +7,6 @@ import {
   useRef,
   useState,
 } from 'react';
-import { usePopper } from 'react-popper';
 import { CSSTransition } from 'react-transition-group';
 import styled, { useTheme } from 'styled-components';
 
@@ -18,7 +17,12 @@ import { BorderlessButton } from '@weco/common/views/components/BorderlessClicka
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 
+const Anchor = styled.span`
+  anchor-name: --dropdown-button;
+`;
+
 const DropdownWrapper = styled.div`
+  anchor-scope: --dropdown-button;
   display: inline-flex;
   position: relative;
 `;
@@ -77,6 +81,23 @@ const Dropdown = styled(Space).attrs<{ $isTight: boolean }>(props => ({
 `;
 
 const Popper = styled.div<{ $isVisible: boolean }>`
+  position: absolute;
+  top: 100%;
+  margin: 10px;
+
+  @supports (position-anchor: --dropdown-button) {
+    position-anchor: --dropdown-button;
+    position: fixed;
+    top: anchor(bottom);
+    justify-self: anchor-center;
+    position-try-fallbacks: --above;
+
+    @position-try --above {
+      top: auto;
+      bottom: anchor(top);
+    }
+  }
+
   width: max-content;
   height: ${props => (props.$isVisible ? 'auto' : 0)};
   max-width: calc(100vw - 20px);
@@ -123,20 +144,6 @@ const DropdownButton: FunctionComponent<
   const [isActive, setIsActive] = useState(false);
   const [focusables, setFocusables] = useState<HTMLElement[]>([]);
   const [isPopperVisible, setIsPopperVisible] = useState(false);
-  const { styles, attributes } = usePopper(
-    dropdownWrapperRef.current,
-    popperRef.current,
-    {
-      modifiers: [
-        {
-          name: 'preventOverflow',
-          options: {
-            padding: 10,
-          },
-        },
-      ],
-    }
-  );
 
   useEffect(() => {
     function hideDropdownOnDocClick(event: MouseEvent) {
@@ -190,48 +197,48 @@ const DropdownButton: FunctionComponent<
     >
       <DropdownWrapper ref={dropdownWrapperRef}>
         {buttonType === 'inline' && (
-          <Button
-            variant="ButtonSolid"
-            {...buttonProps}
-            size="small"
-            colors={
-              isOnDark
-                ? theme.buttonColors.whiteTransparentWhite
-                : theme.buttonColors.marbleWhiteCharcoal
-            }
-          />
+          <Anchor>
+            <Button
+              variant="ButtonSolid"
+              {...buttonProps}
+              size="small"
+              colors={
+                isOnDark
+                  ? theme.buttonColors.whiteTransparentWhite
+                  : theme.buttonColors.marbleWhiteCharcoal
+              }
+            />
+          </Anchor>
         )}
         {buttonType === 'outlined' && (
-          <Button
-            variant="ButtonSolid"
-            {...buttonProps}
-            colors={
-              isOnDark
-                ? theme.buttonColors.whiteTransparentWhite
-                : theme.buttonColors.greenTransparentGreen
-            }
-          />
+          <Anchor>
+            <Button
+              variant="ButtonSolid"
+              {...buttonProps}
+              colors={
+                isOnDark
+                  ? theme.buttonColors.whiteTransparentWhite
+                  : theme.buttonColors.greenTransparentGreen
+              }
+            />
+          </Anchor>
         )}
         {buttonType === 'borderless' && (
-          <BorderlessButton
-            aria-controls={id}
-            aria-expanded={isActive}
-            isActive={isActive}
-            clickHandler={() => setIsActive(!isActive)}
-            icon={chevron}
-            iconLeft={iconLeft}
-            text={label}
-            aria-label={ariaLabel}
-          />
+          <Anchor>
+            <BorderlessButton
+              aria-controls={id}
+              aria-expanded={isActive}
+              isActive={isActive}
+              clickHandler={() => setIsActive(!isActive)}
+              icon={chevron}
+              iconLeft={iconLeft}
+              text={label}
+              aria-label={ariaLabel}
+            />
+          </Anchor>
         )}
         {isEnhanced && (
-          <Popper
-            id={id}
-            ref={popperRef}
-            style={styles.popper}
-            {...(isEnhanced ? attributes.popper : {})}
-            $isVisible={isPopperVisible}
-          >
+          <Popper id={id} $isVisible={isPopperVisible}>
             <CSSTransition
               nodeRef={dropdownRef}
               in={isActive}
