@@ -117,7 +117,6 @@ const DropdownButton: FunctionComponent<
   useEffect(() => {
     function hideDropdownOnDocClick(event: MouseEvent) {
       if (
-        dropdownWrapperRef &&
         dropdownWrapperRef.current &&
         !dropdownWrapperRef.current.contains(event.target as HTMLDivElement)
       ) {
@@ -132,8 +131,7 @@ const DropdownButton: FunctionComponent<
   });
 
   useEffect(() => {
-    dropdownRef &&
-      dropdownRef.current &&
+    dropdownRef.current &&
       setFocusables(getFocusableElements(dropdownRef.current, true));
   }, [children]);
 
