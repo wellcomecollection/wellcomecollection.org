@@ -146,6 +146,7 @@ const ConceptPage: NextPage<Props> = ({
                   <ImagesResults
                     sectionsData={sectionsData}
                     concept={conceptResponse}
+                    portraitImages={conceptResponse.portraitImages}
                   />
                 </StretchWrapper>
               )}

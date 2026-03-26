@@ -148,6 +148,7 @@ export type Concept = {
   displayLabel: string;
   type: ConceptType;
   displayImages: DigitalLocation[];
+  portraitImages: DigitalLocation[];
   identifiers?: Identifier[];
   sameAs?: string[];
   description?: {

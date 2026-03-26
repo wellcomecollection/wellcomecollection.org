@@ -1,6 +1,7 @@
 import { FunctionComponent, useMemo } from 'react';
 import styled, { useTheme } from 'styled-components';
 
+import { DigitalLocation } from '@weco/common/model/catalogue';
 import { font } from '@weco/common/utils/classnames';
 import { capitalize, pluralize } from '@weco/common/utils/grammar';
 import { ReturnedResults } from '@weco/common/utils/search';
@@ -22,6 +23,7 @@ import {
   themeTabOrder,
   ThemeTabType,
 } from './concept.helpers';
+import PortraitImages from './concept.PortraitImages';
 import { FromCollectionsHeading } from './concept.styles';
 
 const ThemeImagesWrapper = styled(Space).attrs({
@@ -105,7 +107,8 @@ const ImageSection: FunctionComponent<Props> = ({
 const ImagesResults: FunctionComponent<{
   sectionsData: ThemePageSectionsData;
   concept: Concept;
-}> = ({ sectionsData, concept }) => {
+  portraitImages: DigitalLocation[];
+}> = ({ sectionsData, concept, portraitImages }) => {
   const isSectionEmpty = (section: SectionData) => {
     return !section.images || section.images.totalResults === 0;
   };
@@ -131,6 +134,12 @@ const ImagesResults: FunctionComponent<{
             type={tabType}
           />
         ))}
+        {portraitImages?.length > 0 && (
+          <PortraitImages
+            portraitImages={portraitImages}
+            displayLabel={concept.displayLabel}
+          />
+        )}
       </ThemeImagesWrapper>
     </>
   );
