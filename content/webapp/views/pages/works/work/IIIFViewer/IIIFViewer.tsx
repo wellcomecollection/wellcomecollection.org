@@ -4,6 +4,7 @@ import { FunctionComponent, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
+import { useUserContext } from '@weco/common/contexts/UserContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { useToggles } from '@weco/common/server-data/Context';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
@@ -246,6 +247,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const [mainAreaHeight, setMainAreaHeight] = useState(500);
   const [mainAreaWidth, setMainAreaWidth] = useState(1000);
   const [isResizing, setIsResizing] = useState(false);
+  const { userIsStaffWithRestricted } = useUserContext();
   // Use server-provided archiveTree (items route provides it, images route doesn't need it)
   const [archiveTree, setArchiveTree] = useState<UiTree>(
     initialArchiveTree || []
@@ -427,11 +429,13 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
             {imageUrl && !isFullSupportBrowser && hasOnlyRenderableImages && (
               <NoScriptImage urlTemplate={urlTemplate} canvasOcr={canvasOcr} />
             )}
-
             {/* If we hide the MainViewer when resizing the browser, it will then rerender with the correct canvas displayed */}
-            {(hasImageService || extendedViewer) && !isResizing && (
-              <MainViewer />
-            )}
+            {(hasImageService ||
+              extendedViewer ||
+              (userIsStaffWithRestricted &&
+                !extendedViewer &&
+                !!currentCanvas)) &&
+              !isResizing && <MainViewer />}
           </DelayVisibility>
         </Main>
         {showZoomed && isFullSupportBrowser && (

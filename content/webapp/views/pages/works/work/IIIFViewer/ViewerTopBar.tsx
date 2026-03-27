@@ -279,13 +279,16 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
 
   const videoAudioDownloadOptions = getVideoAudioDownloadOptions(currentCanvas);
 
+  // Sometimes the same download file can be available from multiple sources so we deduplicate them here based on their id which is the url to the file to be downloaded.
   const downloadOptions = [
     ...iiifImageDownloadOptions,
     ...canvasImageDownloads,
     ...canvasDownloadOptions,
     ...manifestDownloadOptions,
     ...videoAudioDownloadOptions,
-  ];
+  ].filter(
+    (option, index, self) => self.findIndex(o => o.id === option.id) === index
+  );
 
   return (
     <TopBar

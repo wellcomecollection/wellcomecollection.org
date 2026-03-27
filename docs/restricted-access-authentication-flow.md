@@ -36,7 +36,7 @@ And:
 
 #### Probe Service
 
-The IIIF spec recommends querying the Probe service with the access token to determine if the user has access. However, since the probe service only returns a 200 status without additional information, we simply use the presence of the `accessToken` as the condition for loading images.
+The IIIF spec recommends querying the Probe service with the access token to determine if the user has access. We now do this: once the `accessToken` is received, the viewer fetches the `AuthProbeService2` URL for the canvas with `credentials: 'include'` before attempting to render the image. The image only renders once the probe returns `{ status: 200 }`. This prevents the image request being made while the `dlcs-auth2-2` cookie is still propagating, avoiding a visible 401 error. If the probe URL is unavailable or the request fails, the viewer falls back to rendering immediately.
 
 ## Authentication Flow for Staff with Restricted Access
 
@@ -50,6 +50,7 @@ When a user is logged in with `StaffWithRestricted` role and visits an items pag
 
 1. User has `StaffWithRestricted` role
 2. An external auth service exists in the manifest (`authServices?.external`)
+3. `origin` state has been set (ensures the hidden auth iframe is mounted in the DOM before the popup fires)
 
 **What happens:**
 
@@ -63,8 +64,14 @@ When a user is logged in with `StaffWithRestricted` role and visits an items pag
    - Gets extended each time the browser requests protected images
    - Is automatically sent with subsequent image requests to prove authentication
    - Persists across page loads until it expires
-6. When the popup closes, an `unload` event triggers
-7. The `reloadAuthIframe` function is called to refresh the hidden auth iframe
+6. The page polls every 500ms for the popup window to close (`authServiceWindow.closed`)
+7. Once the popup is fully closed, `reloadAuthIframe` is called to refresh the hidden auth iframe
+
+**Why polling instead of the `unload` event:**
+The `unload` event fires on every intermediate redirect during the auth flow (before the auth server has finished setting the cookie), which could cause the iframe to reload before the `dlcs-auth2-2` cookie is valid. Polling for `window.closed` only fires once the popup is fully done.
+
+**Why wait for `origin` before opening the popup:**
+`origin` is set asynchronously via `useEffect` after mount. Only once `origin` is set does the hidden auth iframe exist in the DOM. Opening the popup before this would mean `reloadAuthIframe` finds no iframe to reload.
 
 **Note:** This popup may be blocked by browser popup blockers since it's not triggered by a direct user action. Users may need to allow popups for the site.
 
@@ -82,17 +89,20 @@ Once the `dlcs-auth2-2` cookie is set, the flow works the same way as clickthrou
 
 ### 4. Receiving the Access Token
 
-The page listens for messages from the iframe
+The page listens for messages from the iframe via a `window` `message` event listener. This listener is always registered (for both staff and non-staff users), so that staff users also receive the `accessToken` after their popup auth completes and the iframe reloads.
+
+For staff users (`needsModal = false`), receiving the token only updates `accessToken` state — it does not affect the modal or viewer visibility, which are already correctly set when the viewer initially renders.
 
 ### 5. Using the Token
 
-We use the presence of the access token as the condition for loading images, rather than querying the Probe service (which only returns a 200 status without additional information).
+Once the `accessToken` is received, the viewer probes the IIIF Probe service (see above) to confirm the `dlcs-auth2-2` cookie is in place before rendering the image. The image only renders once the probe confirms access.
 
 ### 6. Reloading Authentication
 
-The `reloadAuthIframe` function can be called to refresh the auth state:
+The `reloadAuthIframe` function can be called to refresh the auth state. It reloads the hidden iframe by reassigning `iframe.src = iframe.src`, which triggers a fresh token service round-trip.
 
 This is called when:
 
-- The auth popup closes (after user authenticates and the `dlcs-auth2-2` cookie is set)
+- The auth popup is detected as closed (via the 500ms polling interval)
 - An image fails to load (in case the `dlcs-auth2-2` cookie expired or became invalid)
+- An OpenSeadragon tile fails to load (`tile-load-failed` event)

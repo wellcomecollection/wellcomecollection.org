@@ -67,8 +67,8 @@ const IIIFItemDownload: FunctionComponent<Props> = ({
       <Buttons
         variant="ButtonSolidLink"
         link={src}
-        text="Open"
-        ariaLabel={`Open ${(displayLabel !== substituteTitle && label) || 'document'}`}
+        text={src.endsWith('.pdf') ? 'Open' : 'Download'}
+        ariaLabel={`${src.endsWith('.pdf') ? 'Open' : 'Download'} ${(displayLabel !== substituteTitle && label) || 'document'}`}
       />
       <span className={font('sans', -2)}>
         Size:{' '}

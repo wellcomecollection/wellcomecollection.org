@@ -63,7 +63,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   setImageContainerRect,
 }) => {
   const { isFullSupportBrowser } = useAppContext();
-  const { work, errorHandler, setShowZoomed, rotatedImages } =
+  const { work, errorHandler, setShowZoomed, rotatedImages, accessToken } =
     useItemViewerContext();
   const imageWrapperRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
@@ -139,6 +139,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
       $isFullSupportBrowser={isFullSupportBrowser}
     >
       <IIIFViewerImage
+        key={accessToken}
         index={index}
         ref={imageRef}
         tabIndex={0}

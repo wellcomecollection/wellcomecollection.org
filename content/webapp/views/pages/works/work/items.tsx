@@ -144,16 +144,21 @@ const WorkItemPage: NextPage<Props> = ({
   }, []);
 
   useEffect(() => {
-    if (userIsStaffWithRestricted && authServices?.external) {
+    if (userIsStaffWithRestricted && authServices?.external && origin) {
       const authServiceWindow = window.open(
         `${authServices?.external?.id || ''}?origin=${window.origin}`
       );
-      authServiceWindow &&
-        authServiceWindow.addEventListener('unload', function () {
-          reloadAuthIframe(document, iframeId);
-        });
+      if (authServiceWindow) {
+        const timer = setInterval(() => {
+          if (authServiceWindow.closed) {
+            clearInterval(timer);
+            reloadAuthIframe(document, iframeId);
+          }
+        }, 500);
+        return () => clearInterval(timer);
+      }
     }
-  }, [userIsStaffWithRestricted, authServices?.external?.id]);
+  }, [userIsStaffWithRestricted, authServices?.external?.id, origin]);
 
   useEffect(() => {
     function receiveMessage(event: MessageEvent) {
@@ -172,21 +177,25 @@ const WorkItemPage: NextPage<Props> = ({
       if (service?.origin === event.origin) {
         if (Object.prototype.hasOwnProperty.call(data, 'accessToken')) {
           setAccessToken(data.accessToken);
-          setShowModal(Boolean(isTotallyRestricted));
-          setShowViewer(!isTotallyRestricted);
-        } else {
+          // For staff users (needsModal=false) the modal/viewer state is already
+          // correctly initialised by the !needsModal block below, so we only
+          // update it here for the modal path where isTotallyRestricted matters.
+          if (needsModal) {
+            setShowModal(Boolean(isTotallyRestricted));
+            setShowViewer(!isTotallyRestricted);
+          }
+        } else if (needsModal) {
           setShowModal(true);
           setShowViewer(false);
         }
       }
     }
-    if (needsModal) {
-      window.addEventListener('message', receiveMessage);
-      return () => window.removeEventListener('message', receiveMessage);
-    } else {
+    window.addEventListener('message', receiveMessage);
+    if (!needsModal) {
       setShowModal(false);
       setShowViewer(true);
     }
+    return () => window.removeEventListener('message', receiveMessage);
   }, [needsModal]);
 
   return (
@@ -223,20 +232,23 @@ const WorkItemPage: NextPage<Props> = ({
       */}
       {/* TODO  when we promote extendedViewer code to default we can remove this block
       as we'll always show the viewer for PDFs*/}
-      {(!hasImage || hasPdf) && showViewer && !extendedViewer && (
-        <ContaineredLayout gridSizes={gridSize12()}>
-          <Space
-            className="body-text"
-            $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
-          >
-            <IIIFItemList
-              canvases={canvases}
-              exclude={['Image']}
-              placeholderId={placeholderId}
-            />
-          </Space>
-        </ContaineredLayout>
-      )}
+      {(!hasImage || hasPdf) &&
+        showViewer &&
+        !extendedViewer &&
+        !userIsStaffWithRestricted && ( // TODO if we promote the extended viewer to default we can remove this condition and the one in the MainViewer that checks for userIsStaffWithRestricted
+          <ContaineredLayout gridSizes={gridSize12()}>
+            <Space
+              className="body-text"
+              $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
+            >
+              <IIIFItemList
+                canvases={canvases}
+                exclude={['Image']}
+                placeholderId={placeholderId}
+              />
+            </Space>
+          </ContaineredLayout>
+        )}
 
       <Modal
         id="auth-modal"
@@ -274,10 +286,14 @@ const WorkItemPage: NextPage<Props> = ({
                     const authServiceWindow = window.open(
                       `${modalContent?.id || ''}?origin=${origin}`
                     );
-                    authServiceWindow &&
-                      authServiceWindow.addEventListener('unload', function () {
-                        reloadAuthIframe(document, iframeId);
-                      });
+                    if (authServiceWindow) {
+                      const timer = setInterval(() => {
+                        if (authServiceWindow.closed) {
+                          clearInterval(timer);
+                          reloadAuthIframe(document, iframeId);
+                        }
+                      }, 500);
+                    }
                   }}
                 />
               </Space>
@@ -290,7 +306,8 @@ const WorkItemPage: NextPage<Props> = ({
       {showViewer &&
         ((mainImageService && currentCanvas) ||
           iiifImageLocation ||
-          extendedViewer) && (
+          extendedViewer ||
+          (!extendedViewer && userIsStaffWithRestricted)) && (
           <IIIFViewer
             work={work}
             transformedManifest={transformedManifest}

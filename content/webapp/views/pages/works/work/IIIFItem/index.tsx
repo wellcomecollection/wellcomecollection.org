@@ -75,6 +75,14 @@ const MessageContainer = styled.div`
 const Outline = styled(Space)<{ $border?: boolean }>`
   height: ${props => (props.$border ? 'calc(100% - 1em)' : '100%')};
 
+  &.audio-wrapper,
+  &.video-wrapper,
+  &.download-wrapper {
+    max-width: 80%;
+    margin: 2em auto;
+    max-height: calc(100% - 4em);
+  }
+
   img {
     ${props =>
       props.$border
@@ -114,6 +122,7 @@ const Choice: FunctionComponent<
   isDark,
   externalAccessService,
   shouldScrollToUpdateUrl,
+  showVideoTranscript,
 }) => {
   // We may have multiple items, such as videos of different formats
   // but we only show the first of these currently
@@ -134,6 +143,7 @@ const Choice: FunctionComponent<
             isDark={isDark}
             externalAccessService={externalAccessService}
             shouldScrollToUpdateUrl={shouldScrollToUpdateUrl}
+            showVideoTranscript={showVideoTranscript}
           />
         </>
       );
@@ -205,6 +215,7 @@ type ItemProps = {
   isDark?: boolean;
   externalAccessService?: TransformedAuthService;
   shouldScrollToUpdateUrl?: boolean;
+  showVideoTranscript?: boolean;
 };
 
 const PublicRestrictedMessage: FunctionComponent<{
@@ -235,6 +246,7 @@ const StaffRestrictedMessage: FunctionComponent = () => {
     <p
       className={font('sans', -1)}
       style={{
+        top: '8px',
         display: 'inline-flex',
         position: 'relative',
         left: '50%',
@@ -351,9 +363,35 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
   isDark,
   externalAccessService,
   shouldScrollToUpdateUrl,
+  showVideoTranscript = true,
 }) => {
   const { userIsStaffWithRestricted } = useUserContext();
+  const { accessToken } = useItemViewerContext();
   const isRestricted = hasRestrictedItem(canvas);
+
+  // For restricted canvases, use the IIIF probe service to confirm the auth cookie
+  // is valid before attempting to load the image. This avoids a visible 401 error
+  // that would otherwise occur when the cookie hasn't fully propagated yet.
+  const [probeOk, setProbeOk] = useState(!isRestricted);
+  useEffect(() => {
+    if (!isRestricted || !accessToken) return;
+    const probeUrl = canvas.probeServiceId;
+    if (!probeUrl) {
+      // No probe URL available — fall back to rendering directly
+      setProbeOk(true);
+      return;
+    }
+    setProbeOk(false);
+    fetch(probeUrl, { credentials: 'include' })
+      .then(r => r.json())
+      .then((data: { status?: number }) => {
+        setProbeOk(data.status === 200);
+      })
+      .catch(() => {
+        // If the probe itself fails, render anyway and let the 401 recovery handle it
+        setProbeOk(true);
+      });
+  }, [accessToken]);
   // Replace "image" with "item" in description if the item is not an image
   // or if it's an image but has originals, which means the image is just a placeholder for the original item
   const adjustedExternalAccessService =
@@ -393,6 +431,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           isDark={isDark}
           externalAccessService={adjustedExternalAccessService}
           shouldScrollToUpdateUrl={shouldScrollToUpdateUrl}
+          showVideoTranscript={showVideoTranscript}
         />
       );
 
@@ -402,7 +441,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
       return (
         <IIIFItemWrapper
           shouldShowItem={shouldShowItem}
-          className="item-wrapper"
+          className="audio-wrapper"
           isRestricted={isRestricted}
           externalAccessService={adjustedExternalAccessService}
         >
@@ -418,7 +457,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
       return (
         <IIIFItemWrapper
           shouldShowItem={shouldShowItem}
-          className="item-wrapper"
+          className="video-wrapper"
           isRestricted={isRestricted}
           externalAccessService={adjustedExternalAccessService}
         >
@@ -428,10 +467,12 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
               video={item}
               showDownloadOptions={true}
             />
-            <VideoTranscript
-              supplementing={canvas.supplementing}
-              isDark={isDark}
-            />
+            {showVideoTranscript && (
+              <VideoTranscript
+                supplementing={canvas.supplementing}
+                isDark={isDark}
+              />
+            )}
           </>
         </IIIFItemWrapper>
       );
@@ -465,7 +506,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
                 original.id && (
                   <IIIFItemWrapper
                     shouldShowItem={shouldShowItem}
-                    className="item-wrapper"
+                    className="download-wrapper"
                     isRestricted={isRestricted}
                     externalAccessService={adjustedExternalAccessService}
                   >
@@ -506,7 +547,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
               externalAccessService={adjustedExternalAccessService}
               index={i}
             >
-              {imageContent}
+              {!isRestricted || probeOk ? imageContent : null}
             </IIIFItemWrapperWithObserver>
           );
         }
@@ -517,7 +558,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
             isRestricted={isRestricted}
             externalAccessService={adjustedExternalAccessService}
           >
-            {imageContent}
+            {!isRestricted || probeOk ? imageContent : null}
           </IIIFItemWrapper>
         );
       }

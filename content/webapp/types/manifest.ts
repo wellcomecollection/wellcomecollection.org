@@ -42,6 +42,7 @@ export type TransformedCanvas = {
   width: number | undefined;
   height: number | undefined;
   imageServiceId: string | undefined;
+  probeServiceId: string | undefined;
   label: string | undefined;
   textServiceId: string | undefined;
   thumbnailImage: ThumbnailImage | undefined;
