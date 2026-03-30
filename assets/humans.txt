@@ -14,7 +14,6 @@ Digital Production (digitisation):
  Daila Malafronte
  Ashley Ray
  Ezra Little
- Georgia E Whitney
  Eszter Bonyi
 
 Digital Editorial Content:
@@ -43,7 +42,6 @@ Digital Platform:
  Jonathan Cates
  Štěpán Brychta
  Dana Chan
- Antonia Langfelder
  Flora Bowden
  Mankeet Nirankari
 
@@ -101,6 +99,8 @@ Digital Platform:
  Kasia Bruzda
  Rosie Curran
  Daniel Sim
+ Georgia E Whitney
+ Antonia Langfelder
 
 /* THANKS */
 
