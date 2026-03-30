@@ -303,6 +303,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
                     setImageContainerRect={setImageContainerRect}
                     externalAccessService={externalAccessService}
                     shouldScrollToUpdateUrl={true}
+                    showVideoTranscript={false}
                   />
                 </ItemWrapper>
               );
@@ -494,6 +495,7 @@ const MainViewer: FunctionComponent = () => {
                   exclude={[]}
                   isDark={true}
                   externalAccessService={externalAccessService}
+                  showVideoTranscript={false}
                 />
               </ItemWrapper>
             )
