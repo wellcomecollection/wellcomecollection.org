@@ -144,16 +144,21 @@ const WorkItemPage: NextPage<Props> = ({
   }, []);
 
   useEffect(() => {
-    if (userIsStaffWithRestricted && authServices?.external) {
+    if (userIsStaffWithRestricted && authServices?.external && origin) {
       const authServiceWindow = window.open(
         `${authServices?.external?.id || ''}?origin=${window.origin}`
       );
-      authServiceWindow &&
-        authServiceWindow.addEventListener('unload', function () {
-          reloadAuthIframe(document, iframeId);
-        });
+      if (authServiceWindow) {
+        const timer = setInterval(() => {
+          if (authServiceWindow.closed) {
+            clearInterval(timer);
+            reloadAuthIframe(document, iframeId);
+          }
+        }, 500);
+        return () => clearInterval(timer);
+      }
     }
-  }, [userIsStaffWithRestricted, authServices?.external?.id]);
+  }, [userIsStaffWithRestricted, authServices?.external?.id, origin]);
 
   useEffect(() => {
     function receiveMessage(event: MessageEvent) {
@@ -278,10 +283,14 @@ const WorkItemPage: NextPage<Props> = ({
                     const authServiceWindow = window.open(
                       `${modalContent?.id || ''}?origin=${origin}`
                     );
-                    authServiceWindow &&
-                      authServiceWindow.addEventListener('unload', function () {
-                        reloadAuthIframe(document, iframeId);
-                      });
+                    if (authServiceWindow) {
+                      const timer = setInterval(() => {
+                        if (authServiceWindow.closed) {
+                          clearInterval(timer);
+                          reloadAuthIframe(document, iframeId);
+                        }
+                      }, 500);
+                    }
                   }}
                 />
               </Space>
