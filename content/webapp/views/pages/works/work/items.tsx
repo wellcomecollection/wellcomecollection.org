@@ -222,22 +222,25 @@ const WorkItemPage: NextPage<Props> = ({
       so we check for the presence of a pdf in the original property of the canvas.
       If it has one we show the IIIFItemList, unless we are using the extended viewer.
       */}
-      {/* TODO  when we promote extendedViewer code to default we can remove this block
+      {/* TODO extendedViewer: when we promote code to default we can remove this block
       as we'll always show the viewer for PDFs*/}
-      {(!hasImage || hasPdf) && showViewer && !extendedViewer && (
-        <ContaineredLayout gridSizes={gridSize12()}>
-          <Space
-            className="body-text"
-            $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
-          >
-            <IIIFItemList
-              canvases={canvases}
-              exclude={['Image']}
-              placeholderId={placeholderId}
-            />
-          </Space>
-        </ContaineredLayout>
-      )}
+      {(!hasImage || hasPdf) &&
+        showViewer &&
+        !extendedViewer &&
+        !userIsStaffWithRestricted && ( // We don't need this for userIsStaffWithRestricted, as they always get the viewer.
+          <ContaineredLayout gridSizes={gridSize12()}>
+            <Space
+              className="body-text"
+              $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
+            >
+              <IIIFItemList
+                canvases={canvases}
+                exclude={['Image']}
+                placeholderId={placeholderId}
+              />
+            </Space>
+          </ContaineredLayout>
+        )}
 
       <Modal
         id="auth-modal"
