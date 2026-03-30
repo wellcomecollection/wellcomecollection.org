@@ -162,7 +162,9 @@ export function getDownloadOptionsFromManifestRendering(
 export function getDownloadOptionsFromCanvasRenderingAndSupplementing(
   canvas: TransformedCanvas
 ): DownloadOption[] {
-  return getOriginalFiles(canvas).map(item => convertToDownloadOption(item));
+  return [...canvas.rendering, ...canvas.supplementing].map(
+    convertToDownloadOption
+  );
 }
 
 export function getTitle(
