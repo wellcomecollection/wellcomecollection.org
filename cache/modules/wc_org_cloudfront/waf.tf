@@ -160,29 +160,8 @@ resource "aws_wafv2_web_acl" "wc_org" {
   }
 
   rule {
-    name     = "allow-google-bots"
-    priority = 3
-
-    action {
-      allow {}
-    }
-
-    statement {
-      ip_set_reference_statement {
-        arn = aws_wafv2_ip_set.google_bots.arn
-      }
-    }
-
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      sampled_requests_enabled   = true
-      metric_name                = "allow-google-bots"
-    }
-  }
-
-  rule {
     name     = "managed-ip-blocking"
-    priority = 4
+    priority = 3
 
     override_action {
       none {}
@@ -205,7 +184,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "apac-captcha-consent-block"
-    priority = 5
+    priority = 4
 
     action {
       captcha {}
@@ -255,7 +234,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "latam-captcha-consent-block"
-    priority = 6
+    priority = 5
 
     action {
       captcha {}
@@ -305,7 +284,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "geo-rate-limit-APAC"
-    priority = 7
+    priority = 6
 
     action {
       block {
@@ -345,7 +324,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "geo-rate-limit-LATAM"
-    priority = 8
+    priority = 7
 
     action {
       block {
@@ -382,7 +361,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "blanket-rate-limiting"
-    priority = 9
+    priority = 8
 
     action {
       block {}
@@ -404,7 +383,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "restrictive-rate-limiting"
-    priority = 10
+    priority = 9
 
     action {
       block {}
@@ -442,7 +421,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-crs
   rule {
     name     = "core-rule-group"
-    priority = 11
+    priority = 10
 
     override_action {
       none {}
@@ -465,7 +444,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-use-case.html#aws-managed-rule-groups-use-case-sql-db
   rule {
     name     = "sqli-rule-group"
-    priority = 12
+    priority = 11
 
     override_action {
       none {}
@@ -488,7 +467,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-known-bad-inputs
   rule {
     name     = "known-bad-inputs-rule-group"
-    priority = 13
+    priority = 12
 
     override_action {
       none {}
@@ -510,7 +489,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "bot-control-rule-group"
-    priority = 14
+    priority = 13
 
     // Because the Bot Control rules are quite aggressive, they block some useful bots
     // such as Updown. While we could add overrides for specific bots, we don"t want to have to
@@ -557,7 +536,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "bot-user-agent-manual"
-    priority = 15
+    priority = 14
 
     action {
       block {}
@@ -666,23 +645,6 @@ resource "aws_wafv2_regex_pattern_set" "restricted_urls" {
     content {
       regex_string = regular_expression.value
     }
-  }
-}
-
-resource "aws_wafv2_ip_set" "google_bots" {
-  name        = "google-bots"
-  description = "Google bots: https://developers.google.com/crawling/docs/crawlers-fetchers/verify-google-requests"
-
-  scope              = "CLOUDFRONT"
-  ip_address_version = "IPV4"
-
-  // IPs managed externally via the AWS console.
-  // After `terraform import`, the real addresses live in state.
-  // ignore_changes prevents Terraform from overwriting them.
-  addresses = []
-
-  lifecycle {
-    ignore_changes = [addresses]
   }
 }
 
