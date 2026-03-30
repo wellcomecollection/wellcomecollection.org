@@ -294,7 +294,8 @@ const WorkItemPage: NextPage<Props> = ({
       {showViewer &&
         ((mainImageService && currentCanvas) ||
           iiifImageLocation ||
-          extendedViewer) && (
+          extendedViewer ||
+          (!extendedViewer && userIsStaffWithRestricted)) && (
           <IIIFViewer
             work={work}
             transformedManifest={transformedManifest}
