@@ -172,21 +172,22 @@ const WorkItemPage: NextPage<Props> = ({
       if (service?.origin === event.origin) {
         if (Object.prototype.hasOwnProperty.call(data, 'accessToken')) {
           setAccessToken(data.accessToken);
-          setShowModal(Boolean(isTotallyRestricted));
-          setShowViewer(!isTotallyRestricted);
-        } else {
+          if (needsModal) {
+            setShowModal(!!isTotallyRestricted);
+            setShowViewer(!isTotallyRestricted);
+          }
+        } else if (needsModal) {
           setShowModal(true);
           setShowViewer(false);
         }
       }
     }
-    if (needsModal) {
-      window.addEventListener('message', receiveMessage);
-      return () => window.removeEventListener('message', receiveMessage);
-    } else {
+    window.addEventListener('message', receiveMessage);
+    if (!needsModal) {
       setShowModal(false);
       setShowViewer(true);
     }
+    return () => window.removeEventListener('message', receiveMessage);
   }, [needsModal]);
 
   return (
