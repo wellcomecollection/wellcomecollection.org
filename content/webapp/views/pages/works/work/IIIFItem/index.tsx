@@ -75,6 +75,14 @@ const MessageContainer = styled.div`
 const Outline = styled(Space)<{ $border?: boolean }>`
   height: ${props => (props.$border ? 'calc(100% - 1em)' : '100%')};
 
+  &.audio-wrapper,
+  &.video-wrapper,
+  &.download-wrapper {
+    max-width: 80%;
+    margin: 2em auto;
+    max-height: calc(100% - 4em);
+  }
+
   img {
     ${props =>
       props.$border
@@ -114,6 +122,7 @@ const Choice: FunctionComponent<
   isDark,
   externalAccessService,
   shouldScrollToUpdateUrl,
+  showVideoTranscript,
 }) => {
   // We may have multiple items, such as videos of different formats
   // but we only show the first of these currently
@@ -134,6 +143,7 @@ const Choice: FunctionComponent<
             isDark={isDark}
             externalAccessService={externalAccessService}
             shouldScrollToUpdateUrl={shouldScrollToUpdateUrl}
+            showVideoTranscript={showVideoTranscript}
           />
         </>
       );
@@ -205,6 +215,7 @@ type ItemProps = {
   isDark?: boolean;
   externalAccessService?: TransformedAuthService;
   shouldScrollToUpdateUrl?: boolean;
+  showVideoTranscript?: boolean;
 };
 
 const PublicRestrictedMessage: FunctionComponent<{
@@ -235,6 +246,7 @@ const StaffRestrictedMessage: FunctionComponent = () => {
     <p
       className={font('sans', -1)}
       style={{
+        top: '8px',
         display: 'inline-flex',
         position: 'relative',
         left: '50%',
@@ -351,6 +363,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
   isDark,
   externalAccessService,
   shouldScrollToUpdateUrl,
+  showVideoTranscript = true,
 }) => {
   const { userIsStaffWithRestricted } = useUserContext();
   const isRestricted = hasRestrictedItem(canvas);
@@ -393,6 +406,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           isDark={isDark}
           externalAccessService={adjustedExternalAccessService}
           shouldScrollToUpdateUrl={shouldScrollToUpdateUrl}
+          showVideoTranscript={showVideoTranscript}
         />
       );
 
@@ -402,15 +416,17 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
       return (
         <IIIFItemWrapper
           shouldShowItem={shouldShowItem}
-          className="item-wrapper"
+          className="audio-wrapper"
           isRestricted={isRestricted}
           externalAccessService={adjustedExternalAccessService}
         >
-          <AudioPlayer
-            isDark={isDark}
-            audioFile={item.id}
-            title={getFileLabel(canvas.label, titleOverride) || ''}
-          />
+          {(!isRestricted || probeOk) && (
+            <AudioPlayer
+              isDark={isDark}
+              audioFile={item.id}
+              title={getFileLabel(canvas.label, titleOverride) || ''}
+            />
+          )}
         </IIIFItemWrapper>
       );
 
@@ -418,7 +434,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
       return (
         <IIIFItemWrapper
           shouldShowItem={shouldShowItem}
-          className="item-wrapper"
+          className="video-wrapper"
           isRestricted={isRestricted}
           externalAccessService={adjustedExternalAccessService}
         >
@@ -428,10 +444,12 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
               video={item}
               showDownloadOptions={true}
             />
-            <VideoTranscript
-              supplementing={canvas.supplementing}
-              isDark={isDark}
-            />
+            {showVideoTranscript && (
+              <VideoTranscript
+                supplementing={canvas.supplementing}
+                isDark={isDark}
+              />
+            )}
           </>
         </IIIFItemWrapper>
       );
@@ -465,7 +483,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
                 original.id && (
                   <IIIFItemWrapper
                     shouldShowItem={shouldShowItem}
-                    className="item-wrapper"
+                    className="download-wrapper"
                     isRestricted={isRestricted}
                     externalAccessService={adjustedExternalAccessService}
                   >
