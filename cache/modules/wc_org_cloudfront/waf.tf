@@ -160,8 +160,29 @@ resource "aws_wafv2_web_acl" "wc_org" {
   }
 
   rule {
-    name     = "managed-ip-blocking"
+    name     = "allow-google-bots"
     priority = 3
+
+    action {
+      allow {}
+    }
+
+    statement {
+      ip_set_reference_statement {
+        arn = aws_wafv2_ip_set.google_bots.arn
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      sampled_requests_enabled   = true
+      metric_name                = "allow-google-bots"
+    }
+  }
+
+  rule {
+    name     = "managed-ip-blocking"
+    priority = 4
 
     override_action {
       none {}
@@ -183,70 +204,43 @@ resource "aws_wafv2_web_acl" "wc_org" {
   }
 
   rule {
-    name     = "geo-rate-limit-APAC"
-    priority = 4
-
-    action {
-      block {
-        custom_response {
-          response_code = 429
-        }
-      }
-    }
-
-    statement {
-      rate_based_statement {
-        aggregate_key_type    = "CONSTANT"
-        evaluation_window_sec = 60
-        limit                 = 250
-
-        scope_down_statement {
-          geo_match_statement {
-            // We have seen significant bot traffic from these regions,
-            // so we rate limit to a lower threshold.
-            country_codes = [
-              "CN",
-              "SG",
-              "HK",
-              "VN",
-            ]
-          }
-        }
-      }
-    }
-
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      metric_name                = "geo-rate-limit-apac-${var.namespace}"
-      sampled_requests_enabled   = true
-    }
-  }
-
-  rule {
-    name     = "geo-rate-limit-LATAM"
+    name     = "apac-captcha-consent-block"
     priority = 5
 
     action {
-      block {
-        custom_response {
-          response_code = 429
-        }
-      }
+      captcha {}
     }
 
     statement {
-      rate_based_statement {
-        aggregate_key_type    = "CONSTANT"
-        evaluation_window_sec = 60
-        limit                 = 200
-
-        scope_down_statement {
+      and_statement {
+        statement {
           geo_match_statement {
-            // We have seen significant bot traffic from these regions,
-            // so we rate limit to a lower threshold.
-            country_codes = [
-              "BR",
-            ]
+            country_codes = ["CN", "JP", "SG", "TW", "VN"]
+          }
+        }
+        statement {
+          not_statement {
+            statement {
+              size_constraint_statement {
+                comparison_operator = "GT"
+                size                = 0
+
+                field_to_match {
+                  cookies {
+                    match_pattern {
+                      included_cookies = ["CookieControl"]
+                    }
+                    match_scope       = "ALL"
+                    oversize_handling = "MATCH"
+                  }
+                }
+
+                text_transformation {
+                  priority = 0
+                  type     = "NONE"
+                }
+              }
+            }
           }
         }
       }
@@ -254,7 +248,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
     visibility_config {
       cloudwatch_metrics_enabled = true
-      metric_name                = "geo-rate-limit-latam-${var.namespace}"
+      metric_name                = "apac-captcha-consent-block"
       sampled_requests_enabled   = true
     }
   }
@@ -308,44 +302,35 @@ resource "aws_wafv2_web_acl" "wc_org" {
       sampled_requests_enabled   = true
     }
   }
+
   rule {
-    name     = "apac-captcha-consent-block"
+    name     = "geo-rate-limit-APAC"
     priority = 7
 
     action {
-      captcha {}
+      block {
+        custom_response {
+          response_code = 429
+        }
+      }
     }
 
     statement {
-      and_statement {
-        statement {
+      rate_based_statement {
+        aggregate_key_type    = "CONSTANT"
+        evaluation_window_sec = 60
+        limit                 = 250
+
+        scope_down_statement {
           geo_match_statement {
-            country_codes = ["CN", "JP", "SG", "TW"]
-          }
-        }
-        statement {
-          not_statement {
-            statement {
-              size_constraint_statement {
-                comparison_operator = "GT"
-                size                = 0
-
-                field_to_match {
-                  cookies {
-                    match_pattern {
-                      included_cookies = ["CookieControl"]
-                    }
-                    match_scope       = "ALL"
-                    oversize_handling = "MATCH"
-                  }
-                }
-
-                text_transformation {
-                  priority = 0
-                  type     = "NONE"
-                }
-              }
-            }
+            // We have seen significant bot traffic from these regions,
+            // so we rate limit to a lower threshold.
+            country_codes = [
+              "CN",
+              "SG",
+              "HK",
+              "VN",
+            ]
           }
         }
       }
@@ -353,14 +338,51 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
     visibility_config {
       cloudwatch_metrics_enabled = true
-      metric_name                = "apac-captcha-consent-block"
+      metric_name                = "geo-rate-limit-apac-${var.namespace}"
+      sampled_requests_enabled   = true
+    }
+  }
+
+  rule {
+    name     = "geo-rate-limit-LATAM"
+    priority = 8
+
+    action {
+      block {
+        custom_response {
+          response_code = 429
+        }
+      }
+    }
+
+    statement {
+      rate_based_statement {
+        aggregate_key_type    = "CONSTANT"
+        evaluation_window_sec = 60
+        limit                 = 200
+
+        scope_down_statement {
+          geo_match_statement {
+            // We have seen significant bot traffic from these regions,
+            // so we rate limit to a lower threshold.
+            country_codes = [
+              "BR",
+            ]
+          }
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "geo-rate-limit-latam-${var.namespace}"
       sampled_requests_enabled   = true
     }
   }
 
   rule {
     name     = "blanket-rate-limiting"
-    priority = 8
+    priority = 9
 
     action {
       block {}
@@ -382,7 +404,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "restrictive-rate-limiting"
-    priority = 9
+    priority = 10
 
     action {
       block {}
@@ -420,7 +442,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-crs
   rule {
     name     = "core-rule-group"
-    priority = 10
+    priority = 11
 
     override_action {
       none {}
@@ -443,7 +465,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-use-case.html#aws-managed-rule-groups-use-case-sql-db
   rule {
     name     = "sqli-rule-group"
-    priority = 11
+    priority = 12
 
     override_action {
       none {}
@@ -466,7 +488,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-known-bad-inputs
   rule {
     name     = "known-bad-inputs-rule-group"
-    priority = 12
+    priority = 13
 
     override_action {
       none {}
@@ -488,7 +510,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "bot-control-rule-group"
-    priority = 13
+    priority = 14
 
     // Because the Bot Control rules are quite aggressive, they block some useful bots
     // such as Updown. While we could add overrides for specific bots, we don"t want to have to
@@ -535,7 +557,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "bot-user-agent-manual"
-    priority = 14
+    priority = 15
 
     action {
       block {}
@@ -644,6 +666,23 @@ resource "aws_wafv2_regex_pattern_set" "restricted_urls" {
     content {
       regex_string = regular_expression.value
     }
+  }
+}
+
+resource "aws_wafv2_ip_set" "google_bots" {
+  name        = "google-bots"
+  description = "Google bots: https://developers.google.com/crawling/docs/crawlers-fetchers/verify-google-requests"
+
+  scope              = "CLOUDFRONT"
+  ip_address_version = "IPV4"
+
+  // IPs managed externally via the AWS console.
+  // After `terraform import`, the real addresses live in state.
+  // ignore_changes prevents Terraform from overwriting them.
+  addresses = []
+
+  lifecycle {
+    ignore_changes = [addresses]
   }
 }
 
