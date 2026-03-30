@@ -61,28 +61,26 @@ import IIIFItemDownload from './IIIFItem.Download';
 import VideoTranscript from './IIIFItem.VideoTranscript';
 
 const MessageContainer = styled.div`
-  min-width: 360px;
-  max-width: 600px;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  min-width: 300px;
+  max-width: 80%;
   margin: 0 auto;
   border: 1px solid ${props => props.theme.color('neutral.600')};
   height: 80%;
   padding: 10%;
 `;
 
-const Outline = styled(Space).attrs({
-  $v: {
-    size: 'md',
-    properties: ['margin-top', 'margin-bottom'],
-  },
-  $h: { size: 'lg', properties: ['margin-left', 'margin-right'] },
-})<{ $border?: boolean }>`
+const Outline = styled(Space)<{ $border?: boolean }>`
   position: relative;
-  padding-left: ${props => props.theme.spacingUnits['400']};
-  padding-right: ${props => props.theme.spacingUnits['400']};
   ${props =>
     props.$border
-      ? `border: 1px solid; border-color:  ${props.theme.color('neutral.400')}`
-      : ``};
+      ? `
+          border: 1px solid;
+          border-color:  ${props.theme.color('neutral.400')};
+        `
+      : ''};
   height: 100%;
 `;
 

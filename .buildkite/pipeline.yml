@@ -2,7 +2,7 @@
   key: 'build_common'
   retry:
     automatic:
-      - exit_status: -1
+      - exit_status: 255  # bash wraps exit(-1) to 255, used by docker-compose plugin on interrupt
         limit: 2
       - exit_status: 143  # SIGTERM
         limit: 2
@@ -20,7 +20,7 @@
   key: 'build_content'
   retry:
     automatic:
-      - exit_status: -1
+      - exit_status: 255  # bash wraps exit(-1) to 255, used by docker-compose plugin on interrupt
         limit: 2
       - exit_status: 143  # SIGTERM
         limit: 2
@@ -43,7 +43,7 @@
   key: 'build_edge_lambdas'
   retry:
     automatic:
-      - exit_status: -1
+      - exit_status: 255  # bash wraps exit(-1) to 255, used by docker-compose plugin on interrupt
         limit: 2
       - exit_status: 143  # SIGTERM
         limit: 2
@@ -61,7 +61,7 @@
   key: 'build_identity'
   retry:
     automatic:
-      - exit_status: -1
+      - exit_status: 255  # bash wraps exit(-1) to 255, used by docker-compose plugin on interrupt
         limit: 2
       - exit_status: 143  # SIGTERM
         limit: 2
