@@ -120,12 +120,7 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
 
   return (
     <Space
-      $v={{
-        size: thematicBrowsing ? 'lg' : 'sm',
-        properties: thematicBrowsing
-          ? ['margin-bottom', 'margin-top']
-          : ['margin-top'],
-      }}
+      $v={{ size: 'sm', properties: ['margin-bottom'] }}
       data-component="BrowseByThemes"
     >
       <ContaineredLayout gridSizes={gridSize12()}>
