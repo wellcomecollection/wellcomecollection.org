@@ -5,7 +5,8 @@
     "report-and-deploy": "node report-and-deploy.js"
   },
   "dependencies": {
-    "aws-sdk": "^2.1692.0",
+    "@aws-sdk/client-cloudfront": "^3.1014.0",
+    "@aws-sdk/client-s3": "^3.1014.0",
     "pa11y": "9.1.0",
     "puppeteer": "24.37.5",
     "yargs": "^17.7.2"
