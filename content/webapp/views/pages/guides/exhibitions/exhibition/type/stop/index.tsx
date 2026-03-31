@@ -219,11 +219,7 @@ const ExhibitionGuideStopPage: NextPage<Props> = ({
         {type === 'audio-without-descriptions' && currentStop.audio && (
           <AudioPlayerNewWrapper>
             <Container>
-              <AudioPlayer
-                audioFile={currentStop.audio}
-                isDark={true}
-                playRateOpensUpward={true}
-              />
+              <AudioPlayer audioFile={currentStop.audio} isDark={true} />
             </Container>
           </AudioPlayerNewWrapper>
         )}

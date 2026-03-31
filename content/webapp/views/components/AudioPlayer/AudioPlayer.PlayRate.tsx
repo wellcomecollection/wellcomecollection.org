@@ -52,10 +52,14 @@ const PlayRateButton = styled.div.attrs({
 `;
 
 const PlayRateList = styled.div<{
-  $isActive: boolean;
   $isDark: boolean;
-  $alwaysAbove?: boolean;
 }>`
+  /* Reset popover UA styles */
+  inset: unset;
+  margin: 0;
+  padding: 0;
+  border: none;
+
   margin-bottom: 10px;
   position: absolute;
   bottom: 100%;
@@ -63,10 +67,7 @@ const PlayRateList = styled.div<{
 
   @supports (position-anchor: --play-rate-button) {
     position-anchor: --play-rate-button;
-
-    /* position: absolute avoids Safari anchor resolution bug when inside a
-       position: fixed container. */
-    position: ${props => (props.$alwaysAbove ? 'absolute' : 'fixed')};
+    position: fixed;
     bottom: anchor(top);
     right: anchor(right);
     position-try-fallbacks: --below;
@@ -79,14 +80,11 @@ const PlayRateList = styled.div<{
     }
   }
 
-  padding: ${props => props.theme.spacingUnits['100']} 0;
   list-style: none;
-  display: ${props => (props.$isActive ? 'block' : 'none')};
   background-color: ${props =>
     props.$isDark
       ? props.theme.color('neutral.700')
       : props.theme.color('white')};
-  z-index: 6;
   border-radius: 8px;
   box-shadow: ${props => props.theme.basicBoxShadow};
 
@@ -100,17 +98,15 @@ type PlayRateProps = {
   audioPlayer: HTMLAudioElement;
   id: string;
   isDark: boolean;
-  opensUpward?: boolean;
 };
 
 const PlayRate: FunctionComponent<PlayRateProps> = ({
   audioPlayer,
   isDark,
   id,
-  opensUpward,
 }) => {
   const [isPlayRateActive, setIsPlayRateActive] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const popoverRef = useRef<HTMLDivElement>(null);
   const { audioPlaybackRate, setAudioPlaybackRate } = useAppContext();
   const speeds = [0.5, 1, 1.5, 2];
 
@@ -122,30 +118,32 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
     audioPlayer.playbackRate = audioPlaybackRate;
   }, [id]);
 
+  // Sync React state with popover toggle events (e.g. light-dismiss)
+  useEffect(() => {
+    const el = popoverRef.current;
+    if (!el) return;
+
+    function handleToggle(event: Event) {
+      setIsPlayRateActive((event as ToggleEvent).newState === 'open');
+    }
+
+    el.addEventListener('toggle', handleToggle);
+    return () => el.removeEventListener('toggle', handleToggle);
+  }, []);
+
   function updatePlaybackRate(speed: number) {
     setAudioPlaybackRate(speed);
     audioPlayer.playbackRate = speed;
-    setIsPlayRateActive(false);
+    popoverRef.current?.hidePopover();
   }
 
   function toggleShowHidePlayRate() {
-    setIsPlayRateActive(!isPlayRateActive);
-  }
-
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(event.target as Node)
-      ) {
-        setIsPlayRateActive(false);
-      }
+    if (isPlayRateActive) {
+      popoverRef.current?.hidePopover();
+    } else {
+      popoverRef.current?.showPopover();
     }
-
-    document.addEventListener('click', handleClickOutside);
-
-    return () => document.removeEventListener('click', handleClickOutside);
-  }, []);
+  }
 
   return (
     <FocusTrap
@@ -154,7 +152,7 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
         clickOutsideDeactivates: true,
       }}
     >
-      <PlayRateContainer ref={containerRef}>
+      <PlayRateContainer>
         <TogglePlayRateButton
           $isDark={isDark}
           onClick={toggleShowHidePlayRate}
@@ -165,10 +163,12 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
           <span className={font('sans-bold', 0)}>{audioPlaybackRate}x</span>
         </TogglePlayRateButton>
         <PlayRateList
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore -- popover is not yet in React 18's HTMLAttributes
+          popover="auto"
+          ref={popoverRef}
           id={id}
-          $isActive={isPlayRateActive}
           $isDark={isDark}
-          $alwaysAbove={opensUpward}
         >
           <ul>
             {speeds.map(speed => {
