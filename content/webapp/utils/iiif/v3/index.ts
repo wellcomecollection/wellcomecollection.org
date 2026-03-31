@@ -361,6 +361,15 @@ export function isItemRestricted(painting): boolean {
   });
 }
 
+// Returns the AuthProbeService2 URL for a painting item, if it is restricted.
+export function getProbeServiceId(painting): string | undefined {
+  if (isChoiceBody(painting) || !painting.service) return undefined;
+  const probe = (painting.service as { type: string; id: string }[]).find(
+    s => s.type === 'AuthProbeService2'
+  );
+  return probe?.id;
+}
+
 export type AuthServices = {
   active?: TransformedAuthService;
   external?: TransformedAuthService;
