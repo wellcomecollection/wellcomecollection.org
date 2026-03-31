@@ -294,23 +294,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     /** */
 
     /**
-     * Frequent collaborators
-     * Deduplicate collaborators across multiple concepts by using a Map
-     * keyed by collaborator id, then convert back to an array
-     * */
-    // Typed Map for type safety
-    const frequentCollaboratorsMap = new Map<string, RelatedConcept>();
-    conceptResponse.results.forEach(concept => {
-      concept.relatedConcepts?.frequentCollaborators?.forEach(collaborator => {
-        if (!frequentCollaboratorsMap.has(collaborator.id)) {
-          frequentCollaboratorsMap.set(collaborator.id, collaborator);
-        }
-      });
-    });
-    const frequentCollaborators = Array.from(frequentCollaboratorsMap.values());
-    /** */
-
-    /**
      * Related topics
      * Round-robin through concepts: take 1st topic from each, then 2nd from each, etc.
      * */
@@ -349,7 +332,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         categoryThemeCardsList: themeCardsListSlice,
         curatedUid: pageUid,
         newOnlineWorks: newOnlineWorks.map(toWorkBasic),
-        frequentCollaborators,
         relatedStoriesId,
         worksAndImagesAbout,
         relatedTopics,
