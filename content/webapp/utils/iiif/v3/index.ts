@@ -500,6 +500,7 @@ export function transformCanvas(canvas: Canvas): TransformedCanvas {
 
   const imageService = getImageServiceFromCanvas(canvas);
   const imageServiceId = getImageServiceId(imageService);
+  const probeServiceId = painting.map(p => getProbeServiceId(p)).find(Boolean);
 
   return {
     id,
@@ -507,6 +508,7 @@ export function transformCanvas(canvas: Canvas): TransformedCanvas {
     width,
     height,
     imageServiceId,
+    probeServiceId,
     label,
     textServiceId,
     thumbnailImage,
@@ -935,6 +937,7 @@ export const getVideoAudioDownloadOptions = (canvas?: TransformedCanvas) => {
       finalOptions.push(formatItemInfo(item));
     });
   }
+
   return finalOptions.flat().filter(Boolean).filter(isNotUndefined) || [];
 };
 
