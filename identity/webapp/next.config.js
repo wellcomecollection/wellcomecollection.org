@@ -54,6 +54,18 @@ const config = function () {
     },
     serverRuntimeConfig: getConfig(),
     transpilePackages: ['@weco/common'],
+    webpack: (config, { isServer, webpack }) => {
+      // Exclude undici from client-side bundles
+      // undici is a Node.js-only package and should only be used server-side
+      if (!isServer) {
+        config.plugins.push(
+          new webpack.IgnorePlugin({
+            resourceRegExp: /^undici$/,
+          })
+        );
+      }
+      return config;
+    },
     ...withBundleAnalyzerConfig,
   };
 };

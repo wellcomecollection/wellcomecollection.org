@@ -38,6 +38,54 @@ const { slackWebhookUrl } = yargs(process.argv.slice(2))
   })
   .parseSync();
 
+// Metadata describing each check, included in the report so the
+// dashboard can display it without hardcoding.
+const checks = [
+  {
+    name: 'Outlook safelinks',
+    description: 'URLs that have been copy/pasted from email',
+  },
+  {
+    name: 'Invalid link formats',
+    description:
+      "Links that don't start with http://, https://, /, mailto:, or tel:",
+  },
+  {
+    name: 'Preview links',
+    description:
+      'Links to preview.wellcomecollection.org instead of the live site',
+  },
+  {
+    name: 'Broken interpretation types',
+    description: 'Events with missing interpretation type links',
+  },
+  {
+    name: 'Contributor links',
+    description: "URLs that don't start with http:// or https://",
+  },
+  {
+    name: 'Promo images',
+    description:
+      'Articles missing promo images or required aspect ratios (square, 32:15, 16:9)',
+  },
+  {
+    name: 'Audio/video duration',
+    description: 'Format should be xx:xx (e.g. 03:30)',
+  },
+  {
+    name: 'Incomplete contributor data',
+    description: '"Same as" fields with either link or title missing',
+  },
+  {
+    name: 'Missing UIDs',
+    description: "Documents that should have a UID but don't",
+  },
+  {
+    name: 'Misplaced H2 tags',
+    description: 'H2 headings in text slices (should use H3)',
+  },
+];
+
 // Look for eur01 safelinks.  These occur when somebody has copied
 // a URL directly from Outlook and isn't using the original URL.
 //
@@ -465,6 +513,7 @@ async function run() {
     Bucket: 'dash.wellcomecollection.org',
     Key: 'prismic-linting/report.json',
     Body: JSON.stringify({
+      checks,
       errors: allErrors,
       totalErrors,
       ref: snapshotFile.split('.')[snapshotFile.split('.').length - 1],

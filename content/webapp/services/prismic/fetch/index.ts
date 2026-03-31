@@ -1,6 +1,5 @@
 import * as prismic from '@prismicio/client';
 import { GetServerSidePropsContext, NextApiRequest } from 'next';
-import fetch from 'node-fetch';
 
 import { SiteSection } from '@weco/common/model/site-section';
 import {
