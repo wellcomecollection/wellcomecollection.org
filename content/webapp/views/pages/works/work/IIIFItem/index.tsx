@@ -396,7 +396,9 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
 
     function pollProbe() {
       if (!probeUrl) return;
-      fetch(probeUrl, { credentials: 'include' })
+      fetch(probeUrl, {
+        headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : {},
+      })
         .then(r => r.json())
         .then((data: { status?: number }) => {
           if (cancelled) return;
