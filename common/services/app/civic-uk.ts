@@ -49,20 +49,11 @@ export const getAllConsentStates = (
   context?: GetServerSidePropsContext
 ): ConsentStatusProps => {
   const cookies = getCookies(context);
-  const consentCookie = cookies.CookieControl;
-
-  if (consentCookie !== undefined) {
-    const civicUKCookie: CivicUKCookie = JSON.parse(
-      decodeURIComponent(consentCookie)
-    );
-    return {
-      analytics: civicUKCookie.optionalCookies?.analytics === 'accepted',
-      marketing: civicUKCookie.optionalCookies?.marketing === 'accepted',
-      cookieExists: true,
-    };
-  }
-
-  return { analytics: false, marketing: false, cookieExists: false };
+  return {
+    analytics: getConsentState('analytics', context),
+    marketing: getConsentState('marketing', context),
+    cookieExists: cookies.CookieControl !== undefined,
+  };
 };
 
 // Pages like error pages don't have access to server data
