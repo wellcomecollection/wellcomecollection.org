@@ -1,10 +1,10 @@
-// This is a utility for getting axios instances with an OAuth access
+// This is a utility for getting fetch clients with an OAuth access
 // token in the default headers.
 //
 // It's based on a file that does the same thing in the identity repo:
 // https://github.com/wellcomecollection/identity/blob/5ceab09040b253fb79d7b5399ef31bda9571ad0c/packages/shared/identity-common/src/auth.ts
 
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import { FetchClient } from './fetch-helpers';
 
 type Token = {
   accessToken: string;
@@ -15,15 +15,21 @@ type Token = {
 // before that after which we'll request a new token
 const tokenExpiryThreshold = 30;
 
+type ClientConfig = {
+  baseURL?: string;
+  headers?: HeadersInit;
+  timeout?: number;
+};
+
 export const authenticatedInstanceFactory = (
   getToken: () => Promise<Token>,
-  getInstanceConfig: () => AxiosRequestConfig = () => ({})
-): (() => Promise<AxiosInstance>) => {
-  let instance: AxiosInstance | undefined;
+  getInstanceConfig: () => ClientConfig = () => ({})
+): (() => Promise<FetchClient>) => {
+  let instance: FetchClient | undefined;
   let accessToken: string | undefined;
   let expiresAt = 0;
 
-  return async (): Promise<AxiosInstance> => {
+  return async (): Promise<FetchClient> => {
     const expiryCutoff = Math.ceil(Date.now() / 1000) + tokenExpiryThreshold;
     const needsRefresh = Boolean(!accessToken || expiresAt <= expiryCutoff);
     if (needsRefresh || !instance) {
@@ -46,7 +52,7 @@ export const authenticatedInstanceFactory = (
       // from getInstanceConfig(), so it blats them.
       const instanceConfig = getInstanceConfig();
 
-      instance = axios.create({
+      instance = new FetchClient({
         ...instanceConfig,
         headers: {
           Authorization: `Bearer ${accessToken}`,

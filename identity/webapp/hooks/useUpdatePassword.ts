@@ -1,7 +1,8 @@
-import axios, { AxiosError } from 'axios';
 import { useState } from 'react';
 
 import { UpdatePasswordSchema } from '@weco/identity/types/schemas/update-password';
+import { accountApiClient } from '@weco/identity/utils/api-client';
+import { FetchError } from '@weco/identity/utils/fetch-helpers';
 
 export enum UpdatePasswordError {
   INCORRECT_PASSWORD,
@@ -26,47 +27,47 @@ export function useUpdatePassword(): UseUpdatePasswordMutation {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<UpdatePasswordError>();
 
-  const updatePassword: UseUpdatePasswordMutation['updatePassword'] = (
+  const updatePassword: UseUpdatePasswordMutation['updatePassword'] = async (
     updatePasswordBody,
     onComplete
   ) => {
     setIsLoading(true);
-    axios
-      .put('/account/api/users/me/password', updatePasswordBody)
-      .then(() => {
-        setIsSuccess(true);
-        onComplete();
-      })
-      .catch((err: AxiosError) => {
-        switch (err.response?.status) {
-          case 400: {
-            if (err.message.includes('PIN is not valid : PIN is trivial')) {
-              setError(UpdatePasswordError.REPEATED_CHARACTERS);
-              break;
-            } else {
-              setError(UpdatePasswordError.UNKNOWN);
-              break;
-            }
-          }
-          case 401: {
-            setError(UpdatePasswordError.INCORRECT_PASSWORD);
+    try {
+      await accountApiClient.put('/users/me/password', updatePasswordBody);
+      setIsSuccess(true);
+      onComplete();
+    } catch (err) {
+      const fetchErr = err as FetchError;
+      switch (fetchErr.response?.status) {
+        case 400: {
+          if (fetchErr.message.includes('PIN is not valid : PIN is trivial')) {
+            setError(UpdatePasswordError.REPEATED_CHARACTERS);
             break;
-          }
-          case 422: {
-            setError(UpdatePasswordError.DID_NOT_MEET_POLICY);
-            break;
-          }
-          case 429: {
-            setError(UpdatePasswordError.BRUTE_FORCE_BLOCKED);
-            break;
-          }
-          default: {
+          } else {
             setError(UpdatePasswordError.UNKNOWN);
             break;
           }
         }
-      })
-      .finally(() => setIsLoading(false));
+        case 401: {
+          setError(UpdatePasswordError.INCORRECT_PASSWORD);
+          break;
+        }
+        case 422: {
+          setError(UpdatePasswordError.DID_NOT_MEET_POLICY);
+          break;
+        }
+        case 429: {
+          setError(UpdatePasswordError.BRUTE_FORCE_BLOCKED);
+          break;
+        }
+        default: {
+          setError(UpdatePasswordError.UNKNOWN);
+          break;
+        }
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return { updatePassword, isLoading, isSuccess, error };

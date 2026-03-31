@@ -1,9 +1,10 @@
-import axios from 'axios';
 import { useState } from 'react';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { UserInfo } from '@weco/common/model/user';
 import { UpdateUserSchema } from '@weco/identity/types/schemas/update-user';
+import { accountApiClient } from '@weco/identity/utils/api-client';
+import { FetchError } from '@weco/identity/utils/fetch-helpers';
 
 export enum UpdateUserError {
   EMAIL_ALREADY_EXISTS = 'EMAIL_ALREADY_EXISTS',
@@ -34,17 +35,15 @@ export function useUpdateUser(): UseUpdateUserMutation {
   ) => {
     setState('loading');
     try {
-      const updateResponse = await axios.put(
-        '/account/api/users/me',
-        userDetails
-      );
+      const response = await accountApiClient.put('/users/me', userDetails);
       await refreshUserSession();
       setState('success');
-      const updatedUser = updateResponse.data as UserInfo;
+      const updatedUser = response.data as UserInfo;
       onComplete(updatedUser);
     } catch (err) {
       setState('error');
-      switch (err.response?.status) {
+      const fetchErr = err as FetchError;
+      switch (fetchErr.response?.status) {
         case 401: {
           setError(UpdateUserError.INCORRECT_PASSWORD);
           break;
