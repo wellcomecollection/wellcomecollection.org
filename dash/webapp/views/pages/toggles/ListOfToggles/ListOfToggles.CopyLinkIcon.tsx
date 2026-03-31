@@ -1,7 +1,9 @@
 import { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
 
-export const copyEnableLink = async (toggleId: string): Promise<void> => {
+import { tokens } from '@weco/dash/views/themes/tokens';
+
+const copyEnableLink = async (toggleId: string): Promise<void> => {
   const url = `${window.location.origin}${window.location.pathname}?enableToggle=${encodeURIComponent(
     toggleId
   )}`;
@@ -15,28 +17,28 @@ const IconButton = styled.button`
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  color: #00635b;
-  border-radius: 4px;
+  color: ${tokens.colors.success.main};
+  border-radius: ${tokens.borderRadius.small};
   position: relative;
   line-height: 1;
 
   &:hover {
-    background: #e0f5f3;
+    background: ${tokens.colors.success.light};
   }
 
   &:focus-visible {
-    outline: 2px solid #009e8c;
-    outline-offset: 2px;
+    outline: ${tokens.focus.outline};
+    box-shadow: ${tokens.focus.boxShadow};
   }
 `;
 
 const CopiedBadge = styled.span`
-  font-size: 11px;
-  color: #055d00;
-  background: #d9f5d3;
+  font-size: ${tokens.typography.fontSize.small};
+  color: ${tokens.colors.success.text};
+  background: ${tokens.colors.success.light};
   padding: 2px 6px;
   border-radius: 10px;
-  margin-left: 4px;
+  margin-left: ${tokens.spacing.xs};
   animation: fade-in-out 2s ease forwards;
 
   @keyframes fade-in-out {
@@ -95,7 +97,11 @@ const CopyLinkIcon: FunctionComponent<CopyLinkIconProps> = ({
           <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.72-1.71" />
         </svg>
       </IconButton>
-      {copied && <CopiedBadge>Copied!</CopiedBadge>}
+      {copied && (
+        <CopiedBadge role="status" aria-live="polite">
+          Copied!
+        </CopiedBadge>
+      )}
     </span>
   );
 };
