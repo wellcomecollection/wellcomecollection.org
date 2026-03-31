@@ -56,3 +56,8 @@ variable "allowed_countries" {
   type    = list(string)
   default = []
 }
+
+variable "google_bots_ip_set_arn" {
+  type        = string
+  description = "ARN of the shared google-bots IP set (defined at root level)"
+}
