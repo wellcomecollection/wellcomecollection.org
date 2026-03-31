@@ -162,14 +162,7 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
           Speed
           <span className={font('sans-bold', 0)}>{audioPlaybackRate}x</span>
         </TogglePlayRateButton>
-        <PlayRateList
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore -- popover is not yet in React 18's HTMLAttributes
-          popover="auto"
-          ref={popoverRef}
-          id={id}
-          $isDark={isDark}
-        >
+        <PlayRateList popover="auto" ref={popoverRef} id={id} $isDark={isDark}>
           <ul>
             {speeds.map(speed => {
               return (
