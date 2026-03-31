@@ -23,13 +23,15 @@ const CollectionsTypesPage: NextPage<Props> & {
   return (
     <>
       <ContaineredLayout gridSizes={gridSize12()}>
-        <Space $v={{ size: 'lg', properties: ['margin-bottom'] }}>
-          <h2 className={font('sans-bold', 2)}>
-            Types of materials in the collections
-          </h2>
-        </Space>
+        <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'lg', properties: ['margin-bottom'] }}>
+            <h2 className={font('sans-bold', 2)}>
+              Types of materials in the collections
+            </h2>
+          </Space>
 
-        <WorkTypesList collectionStats={collectionStats} />
+          <WorkTypesList collectionStats={collectionStats} />
+        </Space>
       </ContaineredLayout>
 
       <Body
