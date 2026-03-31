@@ -366,7 +366,65 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
   showVideoTranscript = true,
 }) => {
   const { userIsStaffWithRestricted } = useUserContext();
+  const { accessToken } = useItemViewerContext();
   const isRestricted = hasRestrictedItem(canvas);
+
+  // This only affects users with userIsStaffWithRestricted = true
+  // and the user has authenticated with DLCS, i.e. when an accessToken is set
+  // In that case, for restricted canvases, we use the IIIF probe service
+  // to confirm the auth cookie is valid before attempting to render the media.
+
+  // Non-staff users always see PublicRestrictedMessage regardless of probeOk
+
+  // N.B. We intentionally fall back to rendering (setProbeOk(true)) rather than blocking staff indefinitely, but this should reduce the chance of a visible 401 error for restricted files due to cookie propagation delays.
+
+  const [probeOk, setProbeOk] = useState(!isRestricted);
+  useEffect(() => {
+    if (!isRestricted || !accessToken) return;
+    const probeUrl = canvas.probeServiceId;
+    if (!probeUrl) {
+      // No probe URL available — fall back to rendering directly
+      setProbeOk(true);
+      return;
+    }
+    setProbeOk(false);
+
+    let cancelled = false;
+    const maxAttempts = 5;
+    const delay = 400;
+    let attempts = 0;
+
+    function pollProbe() {
+      if (!probeUrl) return;
+      fetch(probeUrl, { credentials: 'include' })
+        .then(r => r.json())
+        .then((data: { status?: number }) => {
+          if (cancelled) return;
+          if (data.status === 200) {
+            setProbeOk(true);
+          } else if (attempts < maxAttempts) {
+            attempts++;
+            setTimeout(pollProbe, delay);
+          } else {
+            setProbeOk(true); // fallback after timeout
+          }
+        })
+        .catch(() => {
+          if (cancelled) return;
+          if (attempts < maxAttempts) {
+            attempts++;
+            setTimeout(pollProbe, delay);
+          } else {
+            setProbeOk(true); // fallback after timeout
+          }
+        });
+    }
+
+    pollProbe();
+    return () => {
+      cancelled = true;
+    };
+  }, [accessToken]);
   // Replace "image" with "item" in description if the item is not an image
   // or if it's an image but has originals, which means the image is just a placeholder for the original item
   const adjustedExternalAccessService =
@@ -438,19 +496,21 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           isRestricted={isRestricted}
           externalAccessService={adjustedExternalAccessService}
         >
-          <>
-            <VideoPlayer
-              placeholderId={placeholderId}
-              video={item}
-              showDownloadOptions={true}
-            />
-            {showVideoTranscript && (
-              <VideoTranscript
-                supplementing={canvas.supplementing}
-                isDark={isDark}
+          {(!isRestricted || probeOk) && (
+            <>
+              <VideoPlayer
+                placeholderId={placeholderId}
+                video={item}
+                showDownloadOptions={true}
               />
-            )}
-          </>
+              {showVideoTranscript && (
+                <VideoTranscript
+                  supplementing={canvas.supplementing}
+                  isDark={isDark}
+                />
+              )}
+            </>
+          )}
         </IIIFItemWrapper>
       );
 
@@ -462,12 +522,16 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           isRestricted={isRestricted}
           externalAccessService={adjustedExternalAccessService}
         >
-          <IIIFItemPdf
-            src={item.id}
-            label={itemLabel}
-            fileSize={getFileSize(canvas)}
-            format={'format' in item ? getFormatString(item.format) : undefined}
-          />
+          {(!isRestricted || probeOk) && (
+            <IIIFItemPdf
+              src={item.id}
+              label={itemLabel}
+              fileSize={getFileSize(canvas)}
+              format={
+                'format' in item ? getFormatString(item.format) : undefined
+              }
+            />
+          )}
         </IIIFItemWrapper>
       );
 
@@ -487,18 +551,20 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
                     isRestricted={isRestricted}
                     externalAccessService={adjustedExternalAccessService}
                   >
-                    <IIIFItemDownload
-                      key={original.id}
-                      src={original.id}
-                      label={itemLabel}
-                      fileSize={getFileSize(canvas)}
-                      format={
-                        'format' in item
-                          ? getFormatString(item.format)
-                          : undefined
-                      }
-                      showWarning={true}
-                    />
+                    {(!isRestricted || probeOk) && (
+                      <IIIFItemDownload
+                        key={original.id}
+                        src={original.id}
+                        label={itemLabel}
+                        fileSize={getFileSize(canvas)}
+                        format={
+                          'format' in item
+                            ? getFormatString(item.format)
+                            : undefined
+                        }
+                        showWarning={true}
+                      />
+                    )}
                   </IIIFItemWrapper>
                 )
               );
@@ -524,7 +590,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
               externalAccessService={adjustedExternalAccessService}
               index={i}
             >
-              {imageContent}
+              {!isRestricted || probeOk ? imageContent : null}
             </IIIFItemWrapperWithObserver>
           );
         }
@@ -535,7 +601,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
             isRestricted={isRestricted}
             externalAccessService={adjustedExternalAccessService}
           >
-            {imageContent}
+            {!isRestricted || probeOk ? imageContent : null}
           </IIIFItemWrapper>
         );
       }
