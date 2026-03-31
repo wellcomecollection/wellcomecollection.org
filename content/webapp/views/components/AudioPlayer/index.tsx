@@ -36,6 +36,7 @@ export type AudioPlayerProps = {
   transcript?: prismic.RichTextField;
   titleProps?: { role: string; 'aria-level': number };
   isDark?: boolean;
+  playRateOpensUpward?: boolean;
 };
 
 export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
@@ -44,6 +45,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
   isDark,
   transcript,
   titleProps,
+  playRateOpensUpward,
 }) => {
   const { isEnhanced } = useAppContext();
   const [currentTime, setCurrentTime] = useState(0);
@@ -251,6 +253,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
                 id={audioFile}
                 audioPlayer={audioPlayerRef.current}
                 isDark={!!isDark}
+                opensUpward={playRateOpensUpward}
               />
             </PlayerRateWrapper>
           )}

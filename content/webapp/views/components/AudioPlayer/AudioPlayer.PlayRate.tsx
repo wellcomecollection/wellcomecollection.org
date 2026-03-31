@@ -51,7 +51,11 @@ const PlayRateButton = styled.div.attrs({
   }
 `;
 
-const PlayRateList = styled.div<{ $isActive: boolean; $isDark: boolean }>`
+const PlayRateList = styled.div<{
+  $isActive: boolean;
+  $isDark: boolean;
+  $alwaysAbove?: boolean;
+}>`
   margin-bottom: 10px;
   position: absolute;
   bottom: 100%;
@@ -59,7 +63,10 @@ const PlayRateList = styled.div<{ $isActive: boolean; $isDark: boolean }>`
 
   @supports (position-anchor: --play-rate-button) {
     position-anchor: --play-rate-button;
-    position: fixed;
+
+    /* position: absolute avoids Safari anchor resolution bug when inside a
+       position: fixed container. */
+    position: ${props => (props.$alwaysAbove ? 'absolute' : 'fixed')};
     bottom: anchor(top);
     right: anchor(right);
     position-try-fallbacks: --below;
@@ -79,7 +86,7 @@ const PlayRateList = styled.div<{ $isActive: boolean; $isDark: boolean }>`
     props.$isDark
       ? props.theme.color('neutral.700')
       : props.theme.color('white')};
-  z-index: 5;
+  z-index: 6;
   border-radius: 8px;
   box-shadow: ${props => props.theme.basicBoxShadow};
 
@@ -93,12 +100,14 @@ type PlayRateProps = {
   audioPlayer: HTMLAudioElement;
   id: string;
   isDark: boolean;
+  opensUpward?: boolean;
 };
 
 const PlayRate: FunctionComponent<PlayRateProps> = ({
   audioPlayer,
   isDark,
   id,
+  opensUpward,
 }) => {
   const [isPlayRateActive, setIsPlayRateActive] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -155,7 +164,12 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
           Speed
           <span className={font('sans-bold', 0)}>{audioPlaybackRate}x</span>
         </TogglePlayRateButton>
-        <PlayRateList id={id} $isActive={isPlayRateActive} $isDark={isDark}>
+        <PlayRateList
+          id={id}
+          $isActive={isPlayRateActive}
+          $isDark={isDark}
+          $alwaysAbove={opensUpward}
+        >
           <ul>
             {speeds.map(speed => {
               return (
