@@ -1,11 +1,15 @@
-const AWS = require('aws-sdk');
+const {
+  CloudFrontClient,
+  CreateInvalidationCommand,
+} = require('@aws-sdk/client-cloudfront');
+const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
 const events = require('events');
 const pa11y = require('pa11y');
 const { styleText } = require('util');
 const yargs = require('yargs');
 
-const s3 = new AWS.S3({ apiVersion: '2006-03-01' });
-const cloudfront = new AWS.CloudFront();
+const s3Client = new S3Client({ region: 'eu-west-1' });
+const cloudFrontClient = new CloudFrontClient({ region: 'eu-west-1' });
 
 events.EventEmitter.defaultMaxListeners = 25;
 
@@ -127,47 +131,40 @@ try {
       } else {
         console.info(styleText('greenBright', 'Reporting done!'));
 
-        const params = {
-          Body: JSON.stringify({ results }),
-          Bucket: 'dash.wellcomecollection.org',
-          Key: 'pa11y/report.json',
-          ACL: 'public-read',
-          ContentType: 'application/json',
-        };
+        try {
+          await s3Client.send(
+            new PutObjectCommand({
+              Body: JSON.stringify({
+                results,
+                timestamp: new Date().toISOString(),
+              }),
+              Bucket: 'dash.wellcomecollection.org',
+              Key: 'pa11y/report.json',
+              ACL: 'public-read',
+              ContentType: 'application/json',
+            })
+          );
+          console.log(
+            styleText('greenBright', 'Finished uploading report.json')
+          );
 
-        s3.putObject(params, function (err) {
-          if (err) {
-            console.error(
-              styleText('redBright', 'Error uploading report.json')
-            );
-            console.log(err, err.stack);
-            process.exit(1);
-          } else {
-            console.log(
-              styleText('greenBright', 'Finished uploading report.json')
-            );
-
-            cloudfront.createInvalidation(
-              {
-                DistributionId: 'EIOS79GG23UUY',
-                InvalidationBatch: {
-                  Paths: { Items: ['/pa11y/report.json'], Quantity: 1 },
-                  CallerReference: `Pa11yDeployInvalidationCallerReference${Date.now()}`,
-                },
+          await cloudFrontClient.send(
+            new CreateInvalidationCommand({
+              DistributionId: 'EIOS79GG23UUY',
+              InvalidationBatch: {
+                Paths: { Items: ['/pa11y/report.json'], Quantity: 1 },
+                CallerReference: `Pa11yDeployInvalidationCallerReference${Date.now()}`,
               },
-              function (err) {
-                if (err) console.log(err, err.stack);
-                else
-                  console.log(
-                    styleText(
-                      'greenBright',
-                      'Flushed CloudFront cache for report.json'
-                    )
-                  );
-              }
-            );
-          }
-        });
+            })
+          );
+          console.log(
+            styleText('greenBright', 'Flushed CloudFront cache for report.json')
+          );
+        } catch (err) {
+          console.error(styleText('redBright', 'Error uploading report.json'));
+          console.log(err);
+          process.exit(1);
+        }
       }
     })
     .catch(error => {

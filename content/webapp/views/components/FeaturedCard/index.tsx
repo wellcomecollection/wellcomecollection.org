@@ -34,18 +34,21 @@ type FeaturedCardProps = PartialFeaturedCard & {
   textColor: PaletteColor;
   isReversed?: boolean;
   children: React.ReactNode;
+  priority?: boolean;
 };
 
 type FeaturedCardArticleProps = {
   article: Article;
   background: PaletteColor;
   textColor: PaletteColor;
+  priority?: boolean;
 };
 
 type FeaturedCardExhibitionProps = {
   exhibition: ExhibitionBasic;
   background: PaletteColor;
   textColor: PaletteColor;
+  priority?: boolean;
 };
 
 const FeaturedCardBasic: FunctionComponent<FeaturedCardProps> = props => {
@@ -57,6 +60,7 @@ const FeaturedCardBasic: FunctionComponent<FeaturedCardProps> = props => {
     textColor,
     background,
     isReversed = false,
+    priority = false,
   } = props;
 
   return (
@@ -81,6 +85,7 @@ const FeaturedCardBasic: FunctionComponent<FeaturedCardProps> = props => {
                 zero: 1,
               }}
               quality="low"
+              priority={priority}
             />
           )}
         </FeaturedCardLeft>

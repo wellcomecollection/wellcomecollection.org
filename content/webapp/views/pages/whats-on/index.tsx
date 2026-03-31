@@ -158,6 +158,7 @@ const WhatsOnPage: NextPage<Props> = props => {
                             exhibition={firstExhibition}
                             background="warmNeutral.300"
                             textColor="black"
+                            priority
                           />
                         </ContaineredLayout>
                       ) : (

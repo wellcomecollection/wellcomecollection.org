@@ -294,36 +294,34 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     /** */
 
     /**
-     * Frequent collaborators
-     * Deduplicate collaborators across multiple concepts by using a Map
-     * keyed by collaborator id, then convert back to an array
-     * */
-    // Typed Map for type safety
-    const frequentCollaboratorsMap = new Map<string, RelatedConcept>();
-    conceptResponse.results.forEach(concept => {
-      concept.relatedConcepts?.frequentCollaborators?.forEach(collaborator => {
-        if (!frequentCollaboratorsMap.has(collaborator.id)) {
-          frequentCollaboratorsMap.set(collaborator.id, collaborator);
-        }
-      });
-    });
-    const frequentCollaborators = Array.from(frequentCollaboratorsMap.values());
-    /** */
-
-    /**
      * Related topics
-     * Deduplicate topics across multiple concepts by using a Map
-     * keyed by topic id, then convert back to an array
+     * Round-robin through concepts: take 1st topic from each, then 2nd from each, etc.
      * */
-    const relatedTopicsMap = new Map<string, RelatedConcept>();
-    conceptResponse.results.forEach(concept => {
-      concept.relatedConcepts?.relatedTopics?.forEach(topic => {
-        if (!relatedTopicsMap.has(topic.id)) {
-          relatedTopicsMap.set(topic.id, topic);
+    const relatedTopicsSet = new Set<string>();
+    const relatedTopics: RelatedConcept[] = [];
+    const conceptTopics = conceptResponse.results.map(
+      c => c.relatedConcepts?.relatedTopics || []
+    );
+
+    const MAX_RELATED_TOPICS = 16;
+    const maxTopics = Math.max(...conceptTopics.map(t => t.length));
+
+    for (
+      let i = 0;
+      i < maxTopics && relatedTopics.length < MAX_RELATED_TOPICS;
+      i++
+    ) {
+      for (const topics of conceptTopics) {
+        if (
+          topics[i] &&
+          !relatedTopicsSet.has(topics[i].id) &&
+          relatedTopics.length < MAX_RELATED_TOPICS
+        ) {
+          relatedTopicsSet.add(topics[i].id);
+          relatedTopics.push(topics[i]);
         }
-      });
-    });
-    const relatedTopics = Array.from(relatedTopicsMap.values());
+      }
+    }
     /** */
 
     return {
@@ -334,7 +332,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         categoryThemeCardsList: themeCardsListSlice,
         curatedUid: pageUid,
         newOnlineWorks: newOnlineWorks.map(toWorkBasic),
-        frequentCollaborators,
         relatedStoriesId,
         worksAndImagesAbout,
         relatedTopics,

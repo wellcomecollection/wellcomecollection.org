@@ -739,18 +739,28 @@ export function getItemsStatus(manifest: Manifest | Collection): ItemsStatus {
   }
 }
 
-// The viewer uses react-window's FixedSizeList if we are only displaying images
-// If we are displaying other things e.g. audio/video/pdf/other born digital files
-// then we display one item at a time with pagination.
-// So we need to determine if any of these are types are present.
-export function hasNonImages(
+// Determines if a set of canvases contains any non-image items or original files.
+// Returns true if any canvas contains:
+// - a non-image item in rendering, painting, or supplementing arrays
+// - any original files (which are always considered non-image/"non-standard")
+// - Returns false only if all canvases contain only images and have no original files.
+// This is used to customise the IIIFViewer UI
+// If we only have images to display we present a different interface to when we have other types of files to display, e.g. audio, video, pdf, or when we have the option to download original files.
+// If we have any original files we know we have non image things, i.e. non standard files, including pdfs that follow the born digital pattern,
+// We have to check for non image standard items for audio and video files
+// and also pdfs that don't follow the born digital pattern.
+// N.B. it's possible for all items to identify as images but be non standard,
+// e.g. wellcomecollection.org/works/c4ujea53/items, https://iiif.wellcomecollection.org/presentation/PPDBL/A/1/41, but these will be caught by the original files check.
+export function hasNonImagesOrOriginals(
   canvases: TransformedCanvas[] | undefined
 ): boolean {
+  const isNonImage = p => p.type !== 'Image';
   const hasNonImage = canvases?.some(c => {
     return (
-      c.painting.some(p => p.type !== 'Image') ||
-      c.original.some(p => p.type !== 'Image') ||
-      c.supplementing.some(p => p.type !== 'Image')
+      c.rendering.some(isNonImage) ||
+      c.painting.some(isNonImage) ||
+      c.supplementing.some(isNonImage) ||
+      c.original.length > 0
     );
   });
   return !!hasNonImage;

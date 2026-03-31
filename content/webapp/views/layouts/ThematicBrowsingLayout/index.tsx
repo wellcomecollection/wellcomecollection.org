@@ -1,4 +1,5 @@
 import { FunctionComponent, PropsWithChildren } from 'react';
+import styled from 'styled-components';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { pageDescriptions } from '@weco/common/data/microcopy';
@@ -10,6 +11,15 @@ import { Page } from '@weco/content/types/pages';
 import { BodySliceContexts } from '@weco/content/views/components/Body';
 
 import ThematicBrowsingHeader from './ThematicBrowsing.Header';
+
+const Wrapper = styled(Space).attrs<{ $hasPaddingBottom?: boolean }>(props => ({
+  $v: {
+    size: 'xl',
+    properties: props.$hasPaddingBottom
+      ? ['padding-top', 'padding-bottom']
+      : ['padding-top'],
+  },
+}))``;
 
 export type ThematicBrowsingCategories =
   | 'people-and-organisations'
@@ -69,9 +79,7 @@ const ThematicBrowsingLayout: FunctionComponent<
         extraBreadcrumbs={extraBreadcrumbs}
         currentCategory={currentCategory}
       />
-      <Space $v={{ size: 'md', properties: ['padding-top', 'padding-bottom'] }}>
-        {children}
-      </Space>
+      <Wrapper $hasPaddingBottom={!subPageUid}>{children}</Wrapper>
     </PageLayout>
   );
 };

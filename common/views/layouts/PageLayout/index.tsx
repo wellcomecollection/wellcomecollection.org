@@ -244,11 +244,6 @@ const PageLayoutComponent: NextPage<Props> = ({
       */}
 
       <Script
-        src="https://i.wellcomecollection.org/assets/libs/picturefill.min.js"
-        async
-      />
-
-      <Script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(jsonLd),

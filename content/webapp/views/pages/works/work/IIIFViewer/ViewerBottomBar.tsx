@@ -87,7 +87,7 @@ const ViewerBottomBar: FunctionComponent = () => {
     work,
     query,
     canvasIndexById,
-    hasOnlyImages,
+    hasOnlyRenderableImages,
   } = useItemViewerContext();
 
   const { canvases } = { ...transformedManifest };
@@ -111,7 +111,7 @@ const ViewerBottomBar: FunctionComponent = () => {
 
   return (
     <BottomBar>
-      {!hasOnlyImages && hasMultipleCanvases ? (
+      {!hasOnlyRenderableImages && hasMultipleCanvases ? (
         <NavigationBar>
           {previousCanvasLink ? (
             <NextLink {...previousCanvasLink} passHref legacyBehavior>
