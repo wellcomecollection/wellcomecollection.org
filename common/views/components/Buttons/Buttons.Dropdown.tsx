@@ -143,6 +143,20 @@ const DropdownButton: FunctionComponent<
     }
   }, [isActive, focusables]);
 
+  useEffect(() => {
+    if (!isActive) return;
+
+    function handleEscape(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        setIsActive(false);
+      }
+    }
+
+    document.addEventListener('keydown', handleEscape);
+
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [isActive]);
+
   const buttonProps = {
     isActive,
     clickHandler: () => setIsActive(!isActive),
