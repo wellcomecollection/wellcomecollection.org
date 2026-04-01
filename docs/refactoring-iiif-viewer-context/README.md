@@ -1,0 +1,76 @@
+# IIIF Viewer Context Refactoring
+
+**Status:** Not started  
+**Created:** 1 April 2026  
+**Estimated effort:** 10-13 hours  
+**Priority:** Medium  
+
+## Quick Start
+
+This folder contains a comprehensive plan to refactor the IIIF Viewer context to eliminate code duplication and centralise derived state calculations.
+
+**Key principle:** Write automated tests BEFORE refactoring (test-first approach), then use manual testing for extra confidence.
+
+## Table of Contents
+
+### Understanding the Problem
+- [01 - Overview](./01-overview.md) - Problem statement, current architecture, and duplication examples
+- [02 - Normalisation Strategy](./02-normalisation-strategy.md) - Why and how we normalise variant implementations
+- [03 - Naming Conventions](./03-naming-conventions.md) - Crystal-clear boolean naming patterns
+
+### Approach
+- [04 - Test-First Methodology](./04-test-first-approach.md) - **Write tests BEFORE refactoring** (automated tests are priority)
+- [05 - Feature Flag Strategy](./05-feature-flag-strategy.md) - Safe rollout with feature flags
+
+### Implementation Phases
+- [06 - Phase 0: Feature Flag Setup](./06-phase-0-feature-flag.md) (1 hour)
+- [07 - Phase 1: Canvas Data](./07-phase-1-canvas-data.md) (6-7 hours) - **Includes comprehensive automated tests**
+- [08 - Phase 2: Download Logic](./08-phase-2-download-logic.md) (2 hours)
+- [09 - Phase 3: Restriction Status](./09-phase-3-restriction-status.md) (1 hour)
+- [10 - Phase 4: Duplicate Index Calls](./10-phase-4-duplicate-calls.md) (30 mins)
+- [11 - Phase 5: Cleanup](./11-phase-5-cleanup.md) (1-2 hours)
+
+### Reference
+- [12 - Migration Checklist](./12-migration-checklist.md) - Step-by-step checklist for each phase
+- [13 - Testing Strategy](./13-testing-strategy.md) - **Automated tests (priority) + manual testing checklist**
+- [14 - Risks & Success Metrics](./14-risks-and-success.md) - Risk mitigation and success criteria
+- [Testing Guide](./refactoring-iiif-viewer-context-testing.md) - Detailed test examples with TypeScript types
+
+## Quick Navigation
+
+### I want to understand the refactoring
+→ Start with [01-overview.md](./01-overview.md)
+
+### I want to implement Phase 1
+→ Read [07-phase-1-canvas-data.md](./07-phase-1-canvas-data.md) and [Testing Guide](./refactoring-iiif-viewer-context-testing.md)
+
+### I want to see test examples
+→ Go to [Testing Guide](./refactoring-iiif-viewer-context-testing.md) for complete TypeScript test examples
+
+### I want the testing checklist
+→ See [13-testing-strategy.md](./13-testing-strategy.md) for automated test requirements and manual testing checklist
+
+## Key Principles
+
+1. **Automated tests BEFORE refactoring** - Build comprehensive test coverage first
+2. **Feature flag everything** - Safe rollout with instant rollback capability
+3. **Crystal-clear naming** - Use `is...`, `has...`, `can...`, `should...` patterns for booleans
+4. **Test-first workflow** - Green → Green refactoring (tests pass before and after)
+5. **Manual tests as backup** - Comprehensive checklist for extra confidence
+6. **Context for shared state only** - Only add to context if used by 2+ components or likely to be needed soon
+7. **Hooks for complex logic** - Extract to custom hooks for testability, even if only used once
+
+## Progress Tracking
+
+- [ ] Phase 0: Feature Flag Setup
+- [ ] Phase 1: Canvas Data (with automated tests)
+- [ ] Phase 2: Download Logic
+- [ ] Phase 3: Restriction Status
+- [ ] Phase 4: Duplicate Calls
+- [ ] Phase 5: Cleanup
+
+---
+
+**Related Documentation:**
+- [AGENTS.md](../../AGENTS.md) - Development guidelines (British English, coding standards)
+- [.github/copilot-instructions.md](../../.github/copilot-instructions.md) - PR review guidelines
