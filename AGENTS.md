@@ -14,7 +14,7 @@ Guidelines for AI assistants working on the Wellcome Collection codebase.
 - Test your changes locally where possible
 - Check that imports and dependencies are correct
 
-Use British English spelling throughout. Write casually and keep explanations clear. Don't use emojis or bold text in responses.
+Use British English spelling throughout everything that is not code (e.g. CSS values are in American English). Write casually and keep explanations clear. Don't use emojis or bold text in responses.
 
 ## Workspace Structure
 
@@ -26,6 +26,15 @@ This is a monorepo with multiple Next.js apps managed by Yarn workspaces:
 - `dash/webapp/` - internal dashboard
 
 All shared code lives in `common/` and is imported using `@weco/` package names, not relative paths across package boundaries.
+
+## Prismic values
+<!-- https://app.gitbook.com/o/-LumfFcEMKx4gYXKAZTQ/s/451yLOIRTl5YiAJ88yIL/api-id-name-casing#future-api-id-naming -->
+As the site has evolved we have introduced some inconsistencies in how we have named Prismic custom types, slices, and their fields. Some are kebab-case, some are camelCaseand some are snake_case. Some are singular when they should have been plural. We put together an RFC to decide how we want to approach these names in future. We also discussed whether we wanted to unify what we already have but concluded that the effort and risk involved in changing existing API IDs wasn't worth it.
+
+### Future API ID naming
+- Custom type IDs should be kebab-case. Plural for repeatable types (e.g. `exhibition-highlight-tours` and singular for singleton types (e.g. `global-alert`). This involves overriding the default snake_caseids that Prismic will suggest
+- Field IDs for all Custom types and Slices should be camelCase (e.g. `datePublished`). This involves overriding the default snake_case ids that Prismic will suggest
+- Slice IDs should be snake_case (e.g. `guide_section_heading`) – this is the default from Prismic and can't be overridden in the UI
 
 ## Build and Test
 

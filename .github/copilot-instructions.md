@@ -31,6 +31,7 @@ We aim for WCAG AA compliance as a minimum. When reviewing, check for:
 - Colour contrast ratios
 - ARIA attributes used correctly (not over-used)
 - Focus management in interactive components
+- Screen reader navigation and announcements
 
 ## Duplication and Code Reuse
 
