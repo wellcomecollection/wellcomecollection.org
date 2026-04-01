@@ -40,7 +40,14 @@ export function useUpdatePassword(): UseUpdatePasswordMutation {
       const fetchErr = err as FetchError;
       switch (fetchErr.response?.status) {
         case 400: {
-          if (fetchErr.message.includes('PIN is not valid : PIN is trivial')) {
+          // Check response data for backend validation message
+          const errorData = fetchErr.response?.data;
+          const errorMessage =
+            typeof errorData === 'object' && errorData !== null
+              ? JSON.stringify(errorData)
+              : String(errorData || '');
+
+          if (errorMessage.includes('PIN is not valid : PIN is trivial')) {
             setError(UpdatePasswordError.REPEATED_CHARACTERS);
             break;
           } else {

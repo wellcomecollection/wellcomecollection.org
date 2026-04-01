@@ -123,11 +123,23 @@ export class FetchClient {
     const headers = this.mergeHeaders(options?.headers);
 
     const controller = new AbortController();
-    const signal = options?.signal || controller.signal;
-
     let timeoutId: NodeJS.Timeout | undefined;
+
+    // Combine caller's signal with timeout signal
+    let signal = options?.signal;
     if (this.timeout) {
       timeoutId = setTimeout(() => controller.abort(), this.timeout);
+
+      // If caller provided a signal, combine it with our timeout controller
+      if (options?.signal) {
+        // Listen to caller's signal and abort our controller
+        options.signal.addEventListener('abort', () => controller.abort(), {
+          once: true,
+        });
+        signal = controller.signal;
+      } else {
+        signal = controller.signal;
+      }
     }
 
     try {
@@ -196,10 +208,11 @@ export class FetchClient {
   ): Promise<{ status: number; data: unknown }> {
     const response = await this.executeRequest(url, {
       method: 'PUT',
-      body: data ? JSON.stringify(data) : undefined,
-      headers: data
-        ? { 'Content-Type': 'application/json', ...config?.headers }
-        : config?.headers,
+      body: data !== undefined ? JSON.stringify(data) : undefined,
+      headers:
+        data !== undefined
+          ? { 'Content-Type': 'application/json', ...config?.headers }
+          : config?.headers,
     });
     const responseData = await parseResponseData(response);
     return { status: response.status, data: responseData };

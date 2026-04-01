@@ -27,7 +27,12 @@ const identityApiClient = authenticatedInstanceFactory(
     );
 
     if (response.status !== 200) {
-      throw new Error(`Failed to get OAuth token: ${response.status}`);
+      const errorBody = await response
+        .text()
+        .catch(() => 'Unable to read error body');
+      throw new Error(
+        `Failed to get OAuth token: ${response.status} ${response.statusText}. Body: ${errorBody}`
+      );
     }
 
     const data = await response.json();
