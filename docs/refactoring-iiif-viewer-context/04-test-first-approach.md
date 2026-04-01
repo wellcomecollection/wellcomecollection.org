@@ -20,7 +20,7 @@ For each phase:
 1. **Write automated tests FIRST** for current behaviour (characterisation tests)
 2. **Verify tests pass** with current implementation (establish baseline)
 3. **Make refactoring changes** to implementation
-4. **Tests should still pass** (green → green refactor)
+4. **Tests should still pass** (green to green refactor)
 5. **Add new tests** for improved functionality if needed
 6. **(Optional) Run manual test checklist** for extra confidence
 
@@ -87,12 +87,12 @@ See [13-testing-strategy.md](./13-testing-strategy.md) for the complete manual t
 ## Red-Green-Refactor Cycle
 
 ```
-1. RED    → Write failing test (or test for current behaviour)
-2. GREEN  → Make test pass with minimal code
-3. REFACTOR → Improve code while keeping tests green
+1. RED    - Write failing test (or test for current behaviour)
+2. GREEN  - Make test pass with minimal code
+3. REFACTOR - Improve code while keeping tests green
 ```
 
-For this refactoring, we're doing **GREEN → GREEN refactoring**:
+For this refactoring, we're doing **GREEN to GREEN refactoring**:
 - Tests pass with current implementation (GREEN)
 - Refactor code
 - Tests still pass with new implementation (still GREEN)

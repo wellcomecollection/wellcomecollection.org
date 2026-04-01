@@ -100,7 +100,7 @@ export const toggles = {
 
 ### Phase 4: Default to ON
 - After confidence is high (e.g., 1-2 weeks with no issues)
-- Change `defaultValue: false` → `defaultValue: true`
+- Change `defaultValue: false` to `defaultValue: true`
 - Users can still opt out if needed
 - Continue monitoring
 
@@ -108,9 +108,9 @@ export const toggles = {
 - After toggle defaulting to ON for 1+ week with no issues
 - Remove feature flag entirely
 - Delete `.legacy.tsx` files
-- Rename `.refactored.tsx` → `.tsx`
+- Rename `.refactored.tsx` to `.tsx`
 - Delete `ItemViewerContext` (old context)
-- Rename `ItemViewerContextV2` → `ItemViewerContext`
+- Rename `ItemViewerContextV2` to `ItemViewerContext`
 
 ---
 

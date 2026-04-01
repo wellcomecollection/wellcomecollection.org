@@ -10,7 +10,7 @@
 1. Write comprehensive automated tests for current behaviour
 2. Verify tests pass (establish baseline)
 3. Make refactoring changes
-4. Tests still pass (green → green refactoring)
+4. Tests still pass (green to green refactoring)
 5. (Optional) Run manual testing checklist for extra confidence
 
 **Why automated tests first?**
@@ -30,23 +30,23 @@ You MUST have automated tests covering:
 **File:** `content/webapp/contexts/ItemViewerContextV2/ItemViewerContextV2.test.tsx`
 
 Test ALL derived values:
-- [ ] `currentCanvasIndex` - calculated from query.canvas parameter
-- [ ] `currentCanvas` - extracted from transformedManifest.canvases
+- [ ] `currentCanvasIndex` - calculated from `query.canvas` parameter
+- [ ] `currentCanvas` - extracted from `transformedManifest.canvases`
 - [ ] `mainImageService` - extracted from canvas with fallback handling
 - [ ] `hasMultipleCanvases` - true when >1 canvas
-- [ ] `isCurrentCanvasRestricted` - detects RestrictedAccess condition
-- [ ] `isFirstCanvas` - true when currentCanvasIndex === 0
+- [ ] `isCurrentCanvasRestricted` - detects `RestrictedAccess` condition
+- [ ] `isFirstCanvas` - true when `currentCanvasIndex === 0`
 - [ ] `isLastCanvas` - true when at last canvas
-- [ ] `canNavigateNext` - !isLastCanvas && hasMultipleCanvases
-- [ ] `canNavigatePrevious` - !isFirstCanvas && hasMultipleCanvases
-- [ ] `hasIiifImageService` - checks for imageServiceId
+- [ ] `canNavigateNext` - `!isLastCanvas && hasMultipleCanvases`
+- [ ] `canNavigatePrevious` - `!isFirstCanvas && hasMultipleCanvases`
+- [ ] `hasIiifImageService` - checks for `imageServiceId`
 - [ ] `isImageZoomable` - checks if zoom is supported
-- [ ] `isWorkBornDigital` - checks work.production type
+- [ ] `isWorkBornDigital` - checks `work.production` type
 
 Test all edge cases:
-- [ ] Undefined transformedManifest
+- [ ] Undefined `transformedManifest`
 - [ ] Empty canvases array
-- [ ] Canvas without imageServiceId
+- [ ] Canvas without `imageServiceId`
 - [ ] Invalid canvas index (too high)
 - [ ] Null/undefined values
 
@@ -54,26 +54,26 @@ Test all edge cases:
 **Files:** Component `.refactored.test.tsx` files
 
 Test that components actually consume context values:
-- [ ] **IIIFViewer.refactored.test.tsx**
-  - [ ] Provides currentCanvas to children
+- [ ] **`IIIFViewer.refactored.test.tsx`**
+  - [ ] Provides `currentCanvas` to children
   - [  ] Provides navigation booleans to children
   - [ ] Provides boolean flags for conditional rendering
   
-- [ ] **ViewerTopBar.refactored.test.tsx**
-  - [ ] Uses currentCanvas from context (not calculating)
+- [ ] **`ViewerTopBar.refactored.test.tsx`**
+  - [ ] Uses `currentCanvas` from context (not calculating)
   - [ ] Uses navigation booleans for button states
-  - [ ] Uses isCurrentCanvasRestricted for restriction badge
-  - [ ] Uses hasDownloadOptions for download button
+  - [ ] Uses `isCurrentCanvasRestricted` for restriction badge
+  - [ ] Uses `hasDownloadOptions` for download button
   
-- [ ] **ZoomedImage.refactored.test.tsx**
-  - [ ] Uses currentCanvas from context
-  - [ ] Uses mainImageService from context
-  - [ ] Handles empty mainImageService correctly
+- [ ] **`ZoomedImage.refactored.test.tsx`**
+  - [ ] Uses `currentCanvas` from context
+  - [ ] Uses `mainImageService` from context
+  - [ ] Handles empty `mainImageService` correctly
 
 #### Mock Utilities
 **File:** `content/webapp/contexts/ItemViewerContextV2/test-utils.ts`
 
-- [ ] mockDefaultContext with proper TypeScript types
+- [ ] `mockDefaultContext` with proper TypeScript types
 - [ ] Helper functions for creating test manifests
 - [ ] Helper functions for creating test canvases
 - [ ] All mocks properly typed (no `any`)
@@ -90,7 +90,7 @@ describe('ItemViewerContextV2 - Derived Canvas Data', () => {
     const contextValue: ItemViewerContextV2Props = {
       ...mockDefaultContext,
       query: { canvas: 3, manifest: 1, page: 1, shouldScrollToCanvas: true, query: '' },
-      currentCanvasIndex: 2, // canvas=3 → index 2 (1-indexed to 0-indexed)
+      currentCanvasIndex: 2, // canvas=3 to index 2 (1-indexed to 0-indexed)
     };
 
     render(
@@ -197,27 +197,21 @@ Different components previously calculated `currentCanvas` differently. Verify t
 
 | Component | Previous Implementation | What to Test |
 |-----------|------------------------|--------------|
-| ViewerTopBar | `canvases?.[index]` | Download options appear, canvas title shows |
-| ZoomedImage | `transformedManifest?.canvases[index]` | Zoom shows correct canvas image |
-| MainViewer | May calculate independently | Canvas scrolling works, canvas displays correctly |
-| Thumbnails | Used queryParamToArrayIndex directly | Correct thumbnail highlighted |
-
-**Critical:** Open same work with toggle OFF (legacy) and ON (refactored). Verify identical behaviour.
-
-#### Test `mainImageService` Normalisation
+| `ViewerTopBar` | `canvases?.[index]` | Download options appear, canvas title shows |
+| `ZoomedImage` | `transformedManifest?.canvases[index]` | Zoom shows correct canvas image |
+| `MainViewer` | May calculate independently | Canvas scrolling works, canvas displays correctly |
+| `Thumbnails` | Used `queryParamToArrayIndex` directly | Correct thumbnail highlighted |
 
 **Key question:** Verify the `|| ''` fallback only exists where genuinely needed.
 
 | Component | Previous Implementation | What to Test |
 |-----------|------------------------|--------------|
-| IIIFViewer | No `\|\| ''` fallback | iiifImageTemplate handles undefined correctly |
-| ZoomedImage | Had `\|\| ''` fallback | Verify convertRequestUriToInfoUri still works |
+| `IIIFViewer` | No `\|\| ''` fallback | `iiifImageTemplate` handles undefined correctly |
+| `ZoomedImage` | Had `\|\| ''` fallback | Verify `convertRequestUriToInfoUri` still works |
 
 **Test both:**
-1. Canvas WITH imageServiceId - zoom should work
-2. Canvas WITHOUT imageServiceId - should fall back gracefully, no errors
-
-### Browser Compatibility
+1. Canvas WITH `imageServiceId` - zoom should work
+2. Canvas WITHOUT `imageServiceId` - should fall back gracefully, no errors
 
 **Critical:** Test on all supported browsers BEFORE releasing.
 

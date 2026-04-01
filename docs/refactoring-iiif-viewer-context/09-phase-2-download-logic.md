@@ -21,19 +21,19 @@ Extract download options logic from ViewerTopBar.tsx into a reusable custom hook
 - ChoiceBody handling
 
 **Why a hook instead of context?**
-- ❌ **Not for context:** Only used in ViewerTopBar (one component)
-- ✅ **Perfect for hook:** Complex logic (65 lines) worth extracting for testability
-- ✅ **Potentially reusable:** Other components might need download options in the future
+- Not for context: Only used in `ViewerTopBar` (one component)
+- Perfect for hook: Complex logic (65 lines) worth extracting for testability
+- Potentially reusable: Other components might need download options in the future
 
 **Solution:** Move all this into `useDownloadOptions` hook:
 - Easier to test (no component rendering needed)
 - Reusable if other components need download options
-- Clearer component code (ViewerTopBar focuses on presentation)
+- Clearer component code (`ViewerTopBar` focuses on presentation)
 - Business logic separate from presentation
 
 ## Steps
 
-### 2.1 Write Tests FIRST for useDownloadOptions Hook
+### 2.1 Write Tests FIRST for `useDownloadOptions` Hook
 
 **File:** `content/webapp/hooks/useDownloadOptions.test.ts`
 
@@ -56,9 +56,9 @@ describe('useImageServices', () => {
 });
 ```
 
-**Critical:** Test the complex branches (ChoiceBody, video/audio, multiple download types).
+**Critical:** Test the complex branches (`ChoiceBody`, video/audio, multiple download types).
 
-### 2.2 Create useDownloadOptions Hook
+### 2.2 Create `useDownloadOptions` Hook
 
 **File:** `content/webapp/hooks/useDownloadOptions.ts`
 
@@ -89,7 +89,7 @@ export function useDownloadOptions(iiifImageLocation?: DigitalLocation) {
 }
 ```
 
-### 2.3 Update ViewerTopBar to Use Hook
+### 2.3 Update `ViewerTopBar` to Use Hook
 
 **File:** `content/webapp/views/pages/works/work/IIIFViewer/ViewerTopBar.refactored.tsx`
 
@@ -103,7 +103,7 @@ import { useDownloadOptions } from '@weco/content/hooks/useDownloadOptions';
 const downloadOptions = useDownloadOptions(iiifImageLocation);
 ```
 
-**Result:** ~65 lines removed from ViewerTopBar! 🎉
+Result: ~65 lines removed from `ViewerTopBar`.
 
 ### 2.4 Run Tests
 
@@ -128,8 +128,8 @@ All should pass.
 
 ## Success Criteria
 
-- [ ] Tests for useDownloadOptions pass
-- [ ] ViewerTopBar ~65 lines shorter
+- [ ] Tests for `useDownloadOptions` pass
+- [ ] `ViewerTopBar` ~65 lines shorter
 - [ ] Download dropdown still works identically
 - [ ] All download types still appear correctly
 

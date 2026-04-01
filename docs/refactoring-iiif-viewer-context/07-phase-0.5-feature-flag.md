@@ -1,14 +1,20 @@
-# Phase 0: Feature Flag Setup
+# Phase 0.5: Feature Flag Setup
 
 [← Back to Index](./README.md)
 
 **Effort:** 1 hour  
 **Risk:** None (no behaviour change)  
-**Priority:** Required first step  
+**Priority:** Required after Phase 0 (Type Audit)  
+**Previous:** [Phase 0: Type Audit](./06-phase-0-type-audit.md)  
+**Next:** [Phase 1: Canvas Data](./08-phase-1-canvas-data.md)  
 
 ## Goal
 
 Set up infrastructure for safe refactoring using feature flags. At the end of this phase, you'll have two identical implementations (legacy and refactored) with the ability to toggle between them.
+
+## Prerequisites
+
+Complete [Phase 0: Type Audit](./06-phase-0-type-audit.md) first to ensure all types are correct before starting refactoring.
 
 ## Steps
 

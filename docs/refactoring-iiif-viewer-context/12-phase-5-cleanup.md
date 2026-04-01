@@ -50,7 +50,7 @@ rm MainViewer.legacy.tsx
 ### 5.3 Rename Refactored Files to Standard Names
 
 ```bash
-# Rename .refactored.tsx → .tsx
+# Rename .refactored.tsx to .tsx
 mv IIIFViewer.refactored.tsx IIIFViewer.tsx
 mv ViewerTopBar.refactored.tsx ViewerTopBar.tsx
 mv ZoomedImage.refactored.tsx ZoomedImage.tsx
@@ -104,7 +104,7 @@ Rename test files and update imports:
 ```bash
 mv ItemViewerContextV2.test.tsx ItemViewerContext.test.tsx
 mv IIIFViewer.refactored.test.tsx IIIFViewer.test.tsx
-# Update imports in test files from V2 → standard
+# Update imports in test files from V2 to standard
 ```
 
 ### 5.9 Type Cleanup
@@ -132,7 +132,7 @@ Ensure all TypeScript types reflect the final context shape. Remove any temporar
 
 ---
 
-**Congratulations!** 🎉 The IIIF Viewer context refactoring is complete!
+The IIIF Viewer context refactoring is complete!
 
 **See also:**
 - [14-risks-and-success.md](./14-risks-and-success.md) - Final success metrics

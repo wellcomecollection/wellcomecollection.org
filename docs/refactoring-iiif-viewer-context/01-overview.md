@@ -27,12 +27,12 @@ Currently provides:
 
 | Component | Duplicated Logic |
 |-----------|------------------|
-| `IIIFViewer.tsx` | currentCanvas, canvasIndexById, hasOnlyRenderableImages, hasMultipleCanvases, mainImageService, urlTemplate |
-| `ViewerTopBar.tsx` | currentCanvas, imageServices extraction, download options (50+ lines), isRestricted |
-| `ZoomedImage.tsx` | currentCanvas, mainImageService |
-| `MainViewer.tsx` | currentCanvas access, rotation calculations |
-| `Thumbnails.tsx` | queryParamToArrayIndex calls |
-| `NoScriptImage.tsx` | queryParamToArrayIndex calls |
+| `IIIFViewer.tsx` | `currentCanvas`, `canvasIndexById`, `hasOnlyRenderableImages`, `hasMultipleCanvases`, `mainImageService`, `urlTemplate` |
+| `ViewerTopBar.tsx` | `currentCanvas`, `imageServices` extraction, download options (50+ lines), `isRestricted` |
+| `ZoomedImage.tsx` | `currentCanvas`, `mainImageService` |
+| `MainViewer.tsx` | `currentCanvas` access, rotation calculations |
+| `Thumbnails.tsx` | `queryParamToArrayIndex` calls |
+| `NoScriptImage.tsx` | `queryParamToArrayIndex` calls |
 
 ### Specific Duplication Examples
 
@@ -49,41 +49,41 @@ const currentCanvas = transformedManifest?.canvases[queryParamToArrayIndex(query
 ```
 
 **Download options logic - only in ViewerTopBar.tsx (lines 245-291):**
-- Calculate iiifImageDownloadOptions
-- Extract canvasImageDownloads from imageServices
-- Get canvasDownloadOptions from current canvas
-- Get manifestDownloadOptions from rendering
-- Get videoAudioDownloadOptions
+- Calculate `iiifImageDownloadOptions`
+- Extract `canvasImageDownloads` from `imageServices`
+- Get `canvasDownloadOptions` from current canvas
+- Get `manifestDownloadOptions` from rendering
+- Get `videoAudioDownloadOptions`
 - Combine all options
 
 **Note:** Download logic is only in one file, but it's ~65 lines of complex business logic. **This will go into a custom hook** (not context) for testability and potential reuse.
 
 **Image services extraction - ViewerTopBar.tsx (lines 226-238):**
-Complex mapping with ChoiceBody handling, only done once but could be reusable.
+Complex mapping with `ChoiceBody` handling, only done once but could be reusable.
 
 ## What Goes Where?
 
-### → Context (ItemViewerContextV2)
+### Context (`ItemViewerContextV2`)
 **Use for:** Values needed by **2+ components** OR likely to be needed by multiple components soon.
 
-✅ **Moving to context:**
+Moving to context:
 - `currentCanvas` - used in 4 files
 - `currentCanvasIndex` - used in 3+ files
 - `mainImageService` - used in 2 files
 - `hasMultipleCanvases` - affects layout across components
 - Navigation booleans - used by navigation UI across components
-- `isCurrentCanvasRestricted` - only in ViewerTopBar now, but likely needed for download restrictions, visibility rules, etc.
+- `isCurrentCanvasRestricted` - only in `ViewerTopBar` now, but likely needed for download restrictions, visibility rules, etc.
 
-### → Custom Hook
+### Custom Hook
 **Use for:** Complex logic that's **reusable or needs testing**, even if only used in one place.
 
-✅ **Moving to hook:**
-- Download options logic - 65 lines, complex business logic, only in ViewerTopBar but worth extracting for testability
+Moving to hook:
+- Download options logic - 65 lines, complex business logic, only in `ViewerTopBar` but worth extracting for testability
 
-### → Local Component State
+### Local Component State
 **Use for:** Simple logic only used in **one component** with no reuse potential.
 
-✅ **Staying local:**
+Staying local:
 - Component-specific UI state
 - Simple calculations not shared
 - One-off transformations

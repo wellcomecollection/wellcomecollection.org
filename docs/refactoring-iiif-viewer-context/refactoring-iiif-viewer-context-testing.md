@@ -57,7 +57,7 @@ describe('ItemViewerContextV2 - Derived Canvas Data', () => {
     const contextValue: ItemViewerContextV2Props = {
       ...mockDefaultContext,
       query: { canvas: 3, manifest: 1, page: 1, shouldScrollToCanvas: true, query: '' },
-      currentCanvasIndex: 2, // canvas=3 → index 2
+      currentCanvasIndex: 2, // canvas=3 to index 2
     };
 
     render(
@@ -237,8 +237,9 @@ describe('ItemViewerContextV2 - Derived Canvas Data', () => {
 ```typescript
 import type { ItemViewerContextV2Props } from './index';
 import type { TransformedManifest } from '@weco/content/types/manifest';
-import type { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
+import type { WorkBasic, Work } from '@weco/content/services/wellcome/catalogue/types';
 import type { CanvasRotatedImage } from '@weco/content/types/item-viewer';
+import type { UiTree } from '@weco/content/views/pages/works/work/work.types';
 
 export const mockDefaultContext: ItemViewerContextV2Props = {
   // EXISTING PROPS (unchanged)
@@ -251,33 +252,56 @@ export const mockDefaultContext: ItemViewerContextV2Props = {
   },
   work: { 
     id: 'test', 
-    title: 'Test Work', 
-    production: [] 
-  } as WorkBasic,
+    title: 'Test Work',
+    alternativeTitles: [],
+    description: undefined,
+    languageId: undefined,
+    thumbnail: undefined,
+    referenceNumber: undefined,
+    productionDates: [],
+    archiveLabels: undefined,
+    cardLabels: [],
+    primaryContributorLabel: undefined,
+    notes: [],
+  } as WorkBasic & Pick<Work, 'description'>,
   transformedManifest: undefined as TransformedManifest | undefined,
   parentManifest: undefined,
-  searchResults: [],
+  searchResults: null,
   setSearchResults: jest.fn(),
-  archiveTree: undefined,
+  accessToken: undefined,
+  archiveTree: [] as UiTree,
   setArchiveTree: jest.fn(),
   canvasIndexById: {},
-  isSidebarOpen: false,
-  setSidebarOpen: jest.fn(),
-  gridVisible: false,
-  setGridVisible: jest.fn(),
-  rotatedImages: {} as Record<string, CanvasRotatedImage>,
-  setRotatedImages: jest.fn(),
-  isFullscreen: false,
-  setFullscreen: jest.fn(),
-  showZoomed: false,
-  setShowZoomed: jest.fn(),
+  
+  // UI PROPS
   viewerRef: { current: null },
   mainAreaRef: { current: null },
+  mainAreaWidth: 1000,
+  mainAreaHeight: 500,
+  gridVisible: false,
+  setGridVisible: jest.fn(),
+  isFullscreen: false,
+  setIsFullscreen: jest.fn(),
+  isDesktopSidebarActive: true,
+  setIsDesktopSidebarActive: jest.fn(),
+  isMobileSidebarActive: false,
+  setIsMobileSidebarActive: jest.fn(),
+  showZoomed: false,
+  setShowZoomed: jest.fn(),
+  showFullscreenControl: false,
+  setShowFullscreenControl: jest.fn(),
+  showControls: false,
+  setShowControls: jest.fn(),
+  rotatedImages: [] as CanvasRotatedImage[],
+  setRotatedImages: jest.fn(),
+  isResizing: false,
+  errorHandler: undefined,
+  hasOnlyRenderableImages: false,
   
-  // NEW: DERIVED CANVAS DATA
+  // NEW: DERIVED CANVAS DATA (Phase 1)
   currentCanvasIndex: 0,
   currentCanvas: undefined,
-  mainImageService: { '@id': '' },
+  mainImageService: { '@id': undefined },
   urlTemplate: undefined,
   imageUrl: undefined,
   

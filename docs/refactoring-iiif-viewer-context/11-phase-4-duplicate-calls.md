@@ -44,9 +44,9 @@ grep -r "queryParamToArrayIndex(query.canvas)" .
 
 ### Expected files (update each):
 
-1. **Thumbnails.tsx** (lines 38, 49)
-2. **NoScriptImage.tsx** (line 42)
-3. **MultipleManifestList.tsx** (lines 23, 37)
+1. **`Thumbnails.tsx`** (lines 38, 49)
+2. **`NoScriptImage.tsx`** (line 42)
+3. **`MultipleManifestList.tsx`** (lines 23, 37)
 4. Any others found
 
 ### Replace pattern:

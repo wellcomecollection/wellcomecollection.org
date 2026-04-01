@@ -208,25 +208,25 @@
 
 ## Success Criteria
 
-**The refactoring is successful if:**
+The refactoring is successful if:
 
-1. ✅ All automated tests pass when toggle is enabled
-2. ✅ Performance metrics unchanged or improved
-3. ✅ Error rate in production unchanged
-4. ✅ Code is more maintainable (team consensus)
-5. ✅ 150+ lines of code removed
-6. ✅ Zero duplication of derived calculations
-7. ✅ Feature flag successfully removed (cleanup complete)
-8. ✅ Team agrees code is easier to understand
+1. All automated tests pass when toggle is enabled
+2. Performance metrics unchanged or improved
+3. Error rate in production unchanged
+4. Code is more maintainable (team consensus)
+5. 150+ lines of code removed
+6. Zero duplication of derived calculations
+7. Feature flag successfully removed (cleanup complete)
+8. Team agrees code is easier to understand
 
-**The refactoring has failed if:**
+The refactoring has failed if:
 
-1. ❌ Tests reveal regressions we can't fix
-2. ❌ Performance degrades significantly
-3. ❌ Error rate spikes in production
-4. ❌ Must revert to legacy implementation
-5. ❌ Team finds new code harder to understand
-6. ❌ User-facing bugs introduced
+1. Tests reveal regressions we can't fix
+2. Performance degrades significantly
+3. Error rate spikes in production
+4. Must revert to legacy implementation
+5. Team finds new code harder to understand
+6. User-facing bugs introduced
 
 ---
 
@@ -239,7 +239,7 @@ After this refactor succeeds, consider these next steps:
 If context grows too large:
 
 ```
-ItemViewerContext → Split into:
+ItemViewerContext - Split into:
   ├── ItemViewerDataContext (work, manifest, derived data)
   └── ItemViewerUIContext (sidebar, zoom, grid, fullscreen)
 ```

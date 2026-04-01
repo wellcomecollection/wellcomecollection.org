@@ -84,13 +84,13 @@ const hasIiifImageService = Boolean(currentCanvas?.imageServiceId);
 }}>
 ```
 
-### 1.3 Update ItemViewerContextV2 Types
+### 1.3 Update `ItemViewerContextV2` Types
 
 Add all new props to the TypeScript interface with clear types.
 
 ### 1.4 Update Components to Use Context
 
-**ViewerTopBar.refactored.tsx** - Remove local calculations, use context:
+**`ViewerTopBar.refactored.tsx`** - Remove local calculations, use context:
 ```typescript
 const {
   currentCanvas,
@@ -103,9 +103,9 @@ const {
 // Use values directly from context
 ```
 
-**ZoomedImage.refactored.tsx** - Use `currentCanvas` and `mainImageService` from context
+**`ZoomedImage.refactored.tsx`** - Use `currentCanvas` and `mainImageService` from context
 
-**MainViewer.refactored.tsx** - Use `currentCanvas` from context
+**`MainViewer.refactored.tsx`** - Use `currentCanvas` from context
 
 **Styled components** - Use `hasMultipleCanvases` from context
 
@@ -117,7 +117,7 @@ yarn test IIIFViewer.refactored
 yarn test ViewerTopBar.refactored
 ```
 
-All tests should pass! 🎉
+All tests should pass.
 
 ### 1.6 (Optional) Manual Testing
 

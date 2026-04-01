@@ -13,7 +13,26 @@ This checklist helps you track progress through each phase. Check off items as y
 
 ---
 
-## Phase 0: Feature Flag Setup
+## Phase 0: Type Audit and Cleanup
+
+**Duration: 45-60 minutes**
+
+- [ ] Fix `setSearchResults: (v) => void` to `setSearchResults: (v: SearchResults | null) => void` in:
+  - [ ] `content/webapp/contexts/ItemViewerContext/index.tsx` (line 23)
+  - [ ] `content/webapp/views/pages/works/work/IIIFViewer/IIIFViewer.tsx` (line 45)
+- [ ] (Optional) Add `ImageService` type to `content/webapp/types/item-viewer.ts`
+- [ ] Document existing type structure in Phase 0 doc
+- [ ] Run `yarn tsc --noEmit` from root
+- [ ] Verify no TypeScript errors in ItemViewer files
+- [ ] Commit type fixes
+
+**Time checkpoint:** Should take 45-60 minutes
+
+---
+
+## Phase 0.5: Feature Flag Setup
+
+**Duration: 1 hour**
 
 - [ ] Add `iiifViewerRefactored` toggle definition in `toggles/webapp/app/toggles.ts`
 - [ ] Create `content/webapp/contexts/ItemViewerContextV2` directory
@@ -34,7 +53,7 @@ This checklist helps you track progress through each phase. Check off items as y
 
 ## Phase 1: Derived Canvas Data
 
-### 1.1:Write Automated Tests FIRST
+### 1.1: Write Automated Tests FIRST
 
 - [ ] Create `content/webapp/contexts/ItemViewerContextV2/ItemViewerContextV2.test.tsx`
 - [ ] Create `content/webapp/contexts/ItemViewerContextV2/test-utils.ts` with typed mocks
@@ -47,7 +66,7 @@ This checklist helps you track progress through each phase. Check off items as y
 
 ### 1.2 Implementation
 
-- [ ] Add derived values to IIIFViewer.refactored.tsx provider
+- [ ] Add derived values to `IIIFViewer.refactored.tsx` provider
   - [ ] `currentCanvasIndex`
   - [ ] `currentCanvas`
   - [ ] `mainImageService`
@@ -56,10 +75,10 @@ This checklist helps you track progress through each phase. Check off items as y
   - [ ] `canNavigateNext`, `canNavigatePrevious`
   - [ ] `isCurrentCanvasRestricted`
   - [ ] `hasIiifImageService`
-- [ ] Update ItemViewerContextV2 type definition
-- [ ] Update ViewerTopBar.refactored.tsx to use context values
-- [ ] Update ZoomedImage.refactored.tsx to use context values
-- [ ] Update MainViewer.refactored.tsx to use context values
+- [ ] Update `ItemViewerContextV2` type definition
+- [ ] Update `ViewerTopBar.refactored.tsx` to use context values
+- [ ] Update `ZoomedImage.refactored.tsx` to use context values
+- [ ] Update `MainViewer.refactored.tsx` to use context values
 - [ ] Update styled components to use `hasMultipleCanvases`
 
 ### 1.3 Verification
@@ -84,16 +103,16 @@ This checklist helps you track progress through each phase. Check off items as y
 - [ ] Test canvas rendering downloads (PDFs)
 - [ ] Test manifest downloads
 - [ ] Test video/audio downloads
-- [ ] Test ChoiceBody handling
+- [ ] Test `ChoiceBody` handling
 - [ ] Test memoization
 - [ ] All tests pass
 
 ### 2.2 Implementation
 
 - [ ] Create `content/webapp/hooks/useDownloadOptions.ts`
-- [ ] Extract download logic from ViewerTopBar
-- [ ] Update ViewerTopBar.refactored.tsx to use hook
-- [ ] Remove ~65 lines from ViewerTopBar
+- [ ] Extract download logic from `ViewerTopBar`
+- [ ] Update `ViewerTopBar.refactored.tsx` to use hook
+- [ ] Remove ~65 lines from `ViewerTopBar`
 
 ### 2.3 Verification
 
@@ -139,11 +158,11 @@ This checklist helps you track progress through each phase. Check off items as y
 **Only do this after toggle defaults to ON for 1+ week with no issues!**
 
 - [ ] Remove feature flag from `toggles.ts`
-- [ ] Delete all `.legacy.tsx` files- [ ] Rename `.refactored.tsx` → `.tsx`
+- [ ] Delete all `.legacy.tsx` files- [ ] Rename `.refactored.tsx` to `.tsx`
 - [ ] Delete wrapper `index.tsx`
 - [ ] Delete old `ItemViewerContext` directory
-- [ ] Rename `ItemViewerContextV2` → `ItemViewerContext`
-- [ ] Update all imports from V2 → standard
+- [ ] Rename `ItemViewerContextV2` to `ItemViewerContext`
+- [ ] Update all imports from V2 to standard
 - [ ] Rename test files (remove .refactored)
 - [ ] Update test imports
 - [ ] Run all tests - still pass

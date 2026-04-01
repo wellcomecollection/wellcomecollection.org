@@ -12,7 +12,7 @@ Add `isCurrentCanvasRestricted` to context instead of calculating it in ViewerTo
 
 ## Why?
 
-- ViewerTopBar calculates this value
+- `ViewerTopBar` calculates this value
 - Other components might need it too
 - Centralise restriction logic in one place
 - Clear boolean name makes intent obvious
@@ -30,7 +30,7 @@ type Props = {
 };
 ```
 
-### 3.2 Calculate in IIIFViewer.refactored.tsx
+### 3.2 Calculate in `IIIFViewer.refactored.tsx`
 
 ```typescript
 const isCurrentCanvasRestricted = currentCanvas 
@@ -43,7 +43,7 @@ const isCurrentCanvasRestricted = currentCanvas
 }}>
 ```
 
-### 3.3 Update ViewerTopBar.refactored.tsx
+### 3.3 Update `ViewerTopBar.refactored.tsx`
 
 ```typescript
 // REMOVE:
@@ -66,7 +66,7 @@ const { isCurrentCanvasRestricted } = useItemViewerContextV2();
 ## Success Criteria
 
 - [ ] `isCurrentCanvasRestricted` in context
-- [ ] ViewerTopBar uses context value
+- [ ] `ViewerTopBar` uses context value
 - [ ] Restricted badge appears correctly
 
 ## Time: ~1 hour
