@@ -108,11 +108,25 @@ export class FetchClient {
     return `${this.baseURL}${url}`;
   }
 
-  private mergeHeaders(headers?: HeadersInit): HeadersInit {
-    return {
-      ...this.defaultHeaders,
-      ...headers,
-    };
+  private mergeHeaders(headers?: HeadersInit): Record<string, string> {
+    // Normalize HeadersInit to plain object to handle all valid forms:
+    // - Plain object: { 'Content-Type': 'application/json' }
+    // - Headers instance: new Headers()
+    // - Array of tuples: [['Content-Type', 'application/json']]
+    const normalized = new Headers(this.defaultHeaders);
+    if (headers) {
+      const additional = new Headers(headers);
+      additional.forEach((value, key) => {
+        normalized.set(key, value);
+      });
+    }
+
+    // Convert back to plain object for fetch
+    const result: Record<string, string> = {};
+    normalized.forEach((value, key) => {
+      result[key] = value;
+    });
+    return result;
   }
 
   private async executeRequest(
@@ -132,10 +146,15 @@ export class FetchClient {
 
       // If caller provided a signal, combine it with our timeout controller
       if (options?.signal) {
-        // Listen to caller's signal and abort our controller
-        options.signal.addEventListener('abort', () => controller.abort(), {
-          once: true,
-        });
+        // Check if already aborted - abort immediately if so
+        if (options.signal.aborted) {
+          controller.abort();
+        } else {
+          // Listen to caller's signal and abort our controller
+          options.signal.addEventListener('abort', () => controller.abort(), {
+            once: true,
+          });
+        }
         signal = controller.signal;
       } else {
         signal = controller.signal;
@@ -157,6 +176,21 @@ export class FetchClient {
     }
   }
 
+  private prepareRequestBody(
+    method: string,
+    data?: unknown
+  ): { body?: string; extraHeaders?: Record<string, string> } {
+    // Only add body for methods that support it (not GET/HEAD)
+    const upperMethod = method.toUpperCase();
+    if (data !== undefined && upperMethod !== 'GET' && upperMethod !== 'HEAD') {
+      return {
+        body: JSON.stringify(data),
+        extraHeaders: { 'Content-Type': 'application/json' },
+      };
+    }
+    return {};
+  }
+
   async request(options: {
     url: string;
     method?: string;
@@ -174,24 +208,19 @@ export class FetchClient {
       signal,
     } = options;
 
-    const requestOptions: RequestInit & {
-      validateStatus?: (status: number) => boolean;
-    } = {
+    const { body, extraHeaders } = this.prepareRequestBody(method, data);
+    const mergedHeaders = this.mergeHeaders(headers);
+
+    const response = await this.executeRequest(url, {
       method,
-      headers: this.mergeHeaders(headers),
+      body,
+      headers: extraHeaders
+        ? { ...mergedHeaders, ...extraHeaders }
+        : mergedHeaders,
       validateStatus,
       signal,
-    };
+    });
 
-    if (data !== undefined) {
-      requestOptions.body = JSON.stringify(data);
-      requestOptions.headers = {
-        ...requestOptions.headers,
-        'Content-Type': 'application/json',
-      };
-    }
-
-    const response = await this.executeRequest(url, requestOptions);
     const responseData = await parseResponseData(response);
 
     return {
@@ -206,14 +235,17 @@ export class FetchClient {
     data?: unknown,
     config?: { headers?: HeadersInit }
   ): Promise<{ status: number; data: unknown }> {
+    const { body, extraHeaders } = this.prepareRequestBody('PUT', data);
+    const mergedHeaders = this.mergeHeaders(config?.headers);
+
     const response = await this.executeRequest(url, {
       method: 'PUT',
-      body: data !== undefined ? JSON.stringify(data) : undefined,
-      headers:
-        data !== undefined
-          ? { 'Content-Type': 'application/json', ...config?.headers }
-          : config?.headers,
+      body,
+      headers: extraHeaders
+        ? { ...mergedHeaders, ...extraHeaders }
+        : mergedHeaders,
     });
+
     const responseData = await parseResponseData(response);
     return { status: response.status, data: responseData };
   }

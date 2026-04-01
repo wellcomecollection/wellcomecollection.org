@@ -31,20 +31,25 @@ export function useRequestDelete(): UseRequestDeleteMutation {
       );
       setIsSuccess(true);
     } catch (err) {
-      const fetchErr = err as FetchError;
-      switch (fetchErr.response?.status) {
-        case 401: {
-          setError(RequestDeleteError.INCORRECT_PASSWORD);
-          break;
+      // Ensure error is FetchError before accessing response property
+      if (err instanceof FetchError) {
+        switch (err.response?.status) {
+          case 401: {
+            setError(RequestDeleteError.INCORRECT_PASSWORD);
+            break;
+          }
+          case 429: {
+            setError(RequestDeleteError.BRUTE_FORCE_BLOCKED);
+            break;
+          }
+          default: {
+            setError(RequestDeleteError.UNKNOWN);
+            break;
+          }
         }
-        case 429: {
-          setError(RequestDeleteError.BRUTE_FORCE_BLOCKED);
-          break;
-        }
-        default: {
-          setError(RequestDeleteError.UNKNOWN);
-          break;
-        }
+      } else {
+        // Non-FetchError (network error, etc.)
+        setError(RequestDeleteError.UNKNOWN);
       }
     } finally {
       setIsLoading(false);

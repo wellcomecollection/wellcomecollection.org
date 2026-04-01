@@ -37,40 +37,45 @@ export function useUpdatePassword(): UseUpdatePasswordMutation {
       setIsSuccess(true);
       onComplete();
     } catch (err) {
-      const fetchErr = err as FetchError;
-      switch (fetchErr.response?.status) {
-        case 400: {
-          // Check response data for backend validation message
-          const errorData = fetchErr.response?.data;
-          const errorMessage =
-            typeof errorData === 'object' && errorData !== null
-              ? JSON.stringify(errorData)
-              : String(errorData || '');
+      // Ensure error is FetchError before accessing response property
+      if (err instanceof FetchError) {
+        switch (err.response?.status) {
+          case 400: {
+            // Check response data for backend validation message
+            const errorData = err.response?.data;
+            const errorMessage =
+              typeof errorData === 'object' && errorData !== null
+                ? JSON.stringify(errorData)
+                : String(errorData || '');
 
-          if (errorMessage.includes('PIN is not valid : PIN is trivial')) {
-            setError(UpdatePasswordError.REPEATED_CHARACTERS);
+            if (errorMessage.includes('PIN is not valid : PIN is trivial')) {
+              setError(UpdatePasswordError.REPEATED_CHARACTERS);
+              break;
+            } else {
+              setError(UpdatePasswordError.UNKNOWN);
+              break;
+            }
+          }
+          case 401: {
+            setError(UpdatePasswordError.INCORRECT_PASSWORD);
             break;
-          } else {
+          }
+          case 422: {
+            setError(UpdatePasswordError.DID_NOT_MEET_POLICY);
+            break;
+          }
+          case 429: {
+            setError(UpdatePasswordError.BRUTE_FORCE_BLOCKED);
+            break;
+          }
+          default: {
             setError(UpdatePasswordError.UNKNOWN);
             break;
           }
         }
-        case 401: {
-          setError(UpdatePasswordError.INCORRECT_PASSWORD);
-          break;
-        }
-        case 422: {
-          setError(UpdatePasswordError.DID_NOT_MEET_POLICY);
-          break;
-        }
-        case 429: {
-          setError(UpdatePasswordError.BRUTE_FORCE_BLOCKED);
-          break;
-        }
-        default: {
-          setError(UpdatePasswordError.UNKNOWN);
-          break;
-        }
+      } else {
+        // Non-FetchError (network error, etc.)
+        setError(UpdatePasswordError.UNKNOWN);
       }
     } finally {
       setIsLoading(false);

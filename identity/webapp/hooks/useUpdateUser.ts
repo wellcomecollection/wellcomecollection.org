@@ -42,24 +42,29 @@ export function useUpdateUser(): UseUpdateUserMutation {
       onComplete(updatedUser);
     } catch (err) {
       setState('error');
-      const fetchErr = err as FetchError;
-      switch (fetchErr.response?.status) {
-        case 401: {
-          setError(UpdateUserError.INCORRECT_PASSWORD);
-          break;
+      // Ensure error is FetchError before accessing response property
+      if (err instanceof FetchError) {
+        switch (err.response?.status) {
+          case 401: {
+            setError(UpdateUserError.INCORRECT_PASSWORD);
+            break;
+          }
+          case 409: {
+            setError(UpdateUserError.EMAIL_ALREADY_EXISTS);
+            break;
+          }
+          case 429: {
+            setError(UpdateUserError.BRUTE_FORCE_BLOCKED);
+            break;
+          }
+          default: {
+            setError(UpdateUserError.UNKNOWN);
+            break;
+          }
         }
-        case 409: {
-          setError(UpdateUserError.EMAIL_ALREADY_EXISTS);
-          break;
-        }
-        case 429: {
-          setError(UpdateUserError.BRUTE_FORCE_BLOCKED);
-          break;
-        }
-        default: {
-          setError(UpdateUserError.UNKNOWN);
-          break;
-        }
+      } else {
+        // Non-FetchError (network error, etc.)
+        setError(UpdateUserError.UNKNOWN);
       }
     }
   };
