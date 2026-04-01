@@ -28,5 +28,6 @@ module "stage_wc_org_cloudfront_distribution" {
   /* We only need access where servers are running and we don't want to allow access from other countries as we have seen malicious traffic which disrupted staging. */
   allowed_countries = ["GB", "US", "IE"]
 
-  header_shared_secret = local.current_shared_secret
+  google_bots_ip_set_arn = aws_wafv2_ip_set.google_bots.arn
+  header_shared_secret   = local.current_shared_secret
 }
