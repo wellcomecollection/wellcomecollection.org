@@ -59,15 +59,10 @@ const PlayRateList = styled.div<{
   margin: 0;
   padding: 0;
   border: none;
-
-  margin-bottom: 10px;
-  position: absolute;
-  bottom: 100%;
-  right: 0;
+  position: fixed;
 
   @supports (position-anchor: --play-rate-button) {
     position-anchor: --play-rate-button;
-    position: fixed;
     bottom: anchor(top);
     right: anchor(right);
     position-try-fallbacks: --below;
@@ -107,6 +102,7 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
 }) => {
   const [isPlayRateActive, setIsPlayRateActive] = useState(false);
   const popoverRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const { audioPlaybackRate, setAudioPlaybackRate } = useAppContext();
   const speeds = [0.5, 1, 1.5, 2];
 
@@ -141,6 +137,15 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
     if (isPlayRateActive) {
       popoverRef.current?.hidePopover();
     } else {
+      if (
+        !CSS.supports('position-anchor', '--x') &&
+        buttonRef.current &&
+        popoverRef.current
+      ) {
+        const rect = buttonRef.current.getBoundingClientRect();
+        popoverRef.current.style.bottom = `${window.innerHeight - rect.top + 10}px`;
+        popoverRef.current.style.right = `${window.innerWidth - rect.right}px`;
+      }
       popoverRef.current?.showPopover();
     }
   }
@@ -154,6 +159,7 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
     >
       <PlayRateContainer>
         <TogglePlayRateButton
+          ref={buttonRef}
           $isDark={isDark}
           onClick={toggleShowHidePlayRate}
           aria-controls={id}
