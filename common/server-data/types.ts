@@ -25,6 +25,7 @@ export type SimplifiedServerData = {
 export type ConsentStatusProps = {
   analytics: boolean;
   marketing: boolean;
+  cookieExists: boolean;
 };
 
 export const defaultServerData: SimplifiedServerData = {
@@ -33,6 +34,7 @@ export const defaultServerData: SimplifiedServerData = {
   consentStatus: {
     analytics: false,
     marketing: false,
+    cookieExists: false,
   },
 };
 

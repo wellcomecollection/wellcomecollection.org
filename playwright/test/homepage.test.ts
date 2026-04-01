@@ -1,6 +1,11 @@
 import { expect, test } from '@playwright/test';
+import { Page } from 'playwright';
 
-import { gotoWithoutCache, mediaOffice } from './helpers/contexts';
+import {
+  gotoWithoutCache,
+  mediaOffice,
+  requiredCookies,
+} from './helpers/contexts';
 import { baseUrl } from './helpers/utils';
 
 // See the comment in content/webapp/pages/index.tsx about why this is important
@@ -38,4 +43,30 @@ test('(3) | Cookie banner only displays if CookieControl cookie has not already 
 
   await mediaOffice(context, page);
   await expect(cookieBanner).not.toBeAttached();
+});
+
+const civicConfigScriptIsModule = (page: Page) =>
+  page.evaluate(() => {
+    const scripts = Array.from(document.querySelectorAll('script[type]'));
+    return scripts.some(
+      s =>
+        s.getAttribute('type') === 'module' &&
+        s.textContent?.includes('CookieControl.load')
+    );
+  });
+
+test('(4) | CivicUK config script is not a module on first visit', async ({
+  page,
+}) => {
+  await gotoWithoutCache(baseUrl, page);
+  expect(await civicConfigScriptIsModule(page)).toBe(false);
+});
+
+test('(5) | CivicUK config script is a module when CookieControl cookie is present', async ({
+  context,
+  page,
+}) => {
+  await context.addCookies(requiredCookies);
+  await gotoWithoutCache(baseUrl, page);
+  expect(await civicConfigScriptIsModule(page)).toBe(true);
 });
