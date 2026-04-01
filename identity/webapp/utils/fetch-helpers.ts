@@ -38,18 +38,29 @@ export class FetchError extends Error {
 }
 
 /**
- * Parse response body as JSON with error handling
+ * Parse response body with fallback handling
+ * Tries JSON first, falls back to text for error responses
  */
 async function parseResponseData(response: Response): Promise<unknown> {
   const contentType = response.headers.get('content-type');
+
+  // Try to read as text first so we don't lose error details
+  const text = await response.text();
+
+  if (!text) return null;
+
+  // If content-type suggests JSON, try to parse it
   if (contentType?.includes('application/json')) {
     try {
-      return await response.json();
+      return JSON.parse(text);
     } catch {
-      return null;
+      // JSON parse failed, return the raw text
+      return text;
     }
   }
-  return null;
+
+  // For non-JSON responses, return as-is
+  return text;
 }
 
 /**
@@ -71,7 +82,8 @@ export async function fetchWithErrorHandling(
     : response.ok;
 
   if (!isValid) {
-    const data = await parseResponseData(response);
+    // Clone response before consuming body for error
+    const data = await parseResponseData(response.clone());
     throw new FetchError(
       `Request failed with status ${response.status}`,
       response,
@@ -138,11 +150,14 @@ export class FetchClient {
 
     const controller = new AbortController();
     let timeoutId: NodeJS.Timeout | undefined;
+    let abortListener: (() => void) | undefined;
 
     // Combine caller's signal with timeout signal
     let signal = options?.signal;
     if (this.timeout) {
-      timeoutId = setTimeout(() => controller.abort(), this.timeout);
+      timeoutId = setTimeout(() => {
+        controller.abort(new Error(`Request timeout after ${this.timeout}ms`));
+      }, this.timeout);
 
       // If caller provided a signal, combine it with our timeout controller
       if (options?.signal) {
@@ -151,7 +166,8 @@ export class FetchClient {
           controller.abort();
         } else {
           // Listen to caller's signal and abort our controller
-          options.signal.addEventListener('abort', () => controller.abort(), {
+          abortListener = () => controller.abort();
+          options.signal.addEventListener('abort', abortListener, {
             once: true,
           });
         }
@@ -173,6 +189,11 @@ export class FetchClient {
     } catch (error) {
       if (timeoutId) clearTimeout(timeoutId);
       throw error;
+    } finally {
+      // Clean up event listener if request completed before signal was aborted
+      if (abortListener && options?.signal) {
+        options.signal.removeEventListener('abort', abortListener);
+      }
     }
   }
 
@@ -234,7 +255,7 @@ export class FetchClient {
     url: string,
     data?: unknown,
     config?: { headers?: HeadersInit }
-  ): Promise<{ status: number; data: unknown }> {
+  ): Promise<{ status: number; data: unknown; statusText: string }> {
     const { body, extraHeaders } = this.prepareRequestBody('PUT', data);
     const mergedHeaders = this.mergeHeaders(config?.headers);
 
@@ -247,13 +268,24 @@ export class FetchClient {
     });
 
     const responseData = await parseResponseData(response);
-    return { status: response.status, data: responseData };
+    return {
+      status: response.status,
+      statusText: response.statusText,
+      data: responseData,
+    };
   }
 
   get defaults() {
+    // Normalize defaultHeaders to plain object for safe spreading by callers
+    const normalized = new Headers(this.defaultHeaders);
+    const result: Record<string, string> = {};
+    normalized.forEach((value, key) => {
+      result[key] = value;
+    });
+
     return {
       headers: {
-        common: this.defaultHeaders,
+        common: result,
       },
     };
   }
