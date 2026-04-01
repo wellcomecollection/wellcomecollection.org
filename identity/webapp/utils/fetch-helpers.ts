@@ -230,14 +230,16 @@ export class FetchClient {
     } = options;
 
     const { body, extraHeaders } = this.prepareRequestBody(method, data);
-    const mergedHeaders = this.mergeHeaders(headers);
+
+    // Combine caller headers with Content-Type if needed
+    const combinedHeaders = extraHeaders
+      ? { ...headers, ...extraHeaders }
+      : headers;
 
     const response = await this.executeRequest(url, {
       method,
       body,
-      headers: extraHeaders
-        ? { ...mergedHeaders, ...extraHeaders }
-        : mergedHeaders,
+      headers: combinedHeaders,
       validateStatus,
       signal,
     });
@@ -257,14 +259,16 @@ export class FetchClient {
     config?: { headers?: HeadersInit }
   ): Promise<{ status: number; data: unknown; statusText: string }> {
     const { body, extraHeaders } = this.prepareRequestBody('PUT', data);
-    const mergedHeaders = this.mergeHeaders(config?.headers);
+
+    // Combine caller headers with Content-Type if needed
+    const combinedHeaders = extraHeaders
+      ? { ...config?.headers, ...extraHeaders }
+      : config?.headers;
 
     const response = await this.executeRequest(url, {
       method: 'PUT',
       body,
-      headers: extraHeaders
-        ? { ...mergedHeaders, ...extraHeaders }
-        : mergedHeaders,
+      headers: combinedHeaders,
     });
 
     const responseData = await parseResponseData(response);
