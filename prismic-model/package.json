@@ -12,14 +12,14 @@
     "tryAllContentPages": "tsx ./scripts/tryAllContentPages"
   },
   "dependencies": {
-    "@aws-sdk/client-cloudfront": "^3.1000.0",
-    "@aws-sdk/client-s3": "^3.1000.0",
-    "@aws-sdk/client-secrets-manager": "^3.1000.0",
-    "@aws-sdk/client-sts": "^3.1000.0",
+    "@aws-sdk/client-cloudfront": "^3.1022.0",
+    "@aws-sdk/client-s3": "^3.1022.0",
+    "@aws-sdk/client-secrets-manager": "^3.1022.0",
+    "@aws-sdk/client-sts": "^3.1022.0",
     "@types/node": "^24.10.0",
     "@types/yargs": "^17.0.5",
     "@weco/common": "1.0.0",
-    "dotenv": "^17.3.1",
+    "dotenv": "^17.4.0",
     "json-diff": "^1.0.6",
     "tqdm": "^2.0.3",
     "yargs": "^17.2.1"
