@@ -79,4 +79,4 @@ const { currentCanvasIndex } = useItemViewerContextV2();
 
 ---
 
-**Next:** [Phase 5: Cleanup](./11-phase-5-cleanup.md)
+**Next:** [Phase 5: Cleanup](./12-phase-5-cleanup.md)

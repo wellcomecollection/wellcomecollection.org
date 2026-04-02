@@ -84,27 +84,20 @@ export const toggles = {
 
 ### Phase 1: Development
 - Feature flag OFF by default
-- Developers can enable locally for testing
+- Developers can enable for testing
 - All automated tests must pass with flag ON and OFF
 
 ### Phase 2: Internal Testing
 - Enable for team members to verify functionality
 - Test with real data on staging/production
-- Monitor for errors in Sentry
 
-### Phase 3: Public Toggle
-- Make toggle publicly available in toggles dashboard
-- Users can opt in if they want to try the refactored version
-- Monitor metrics (errors, performance, user reports)
-- Can disable toggle immediately if issues detected
-
-### Phase 4: Default to ON
+### Phase 3: Default to ON
 - After confidence is high (e.g., 1-2 weeks with no issues)
-- Change `defaultValue: false` to `defaultValue: true`
+- Make toggle publicly available
 - Users can still opt out if needed
 - Continue monitoring
 
-### Phase 5: Cleanup
+### Phase 4: Cleanup
 - After toggle defaulting to ON for 1+ week with no issues
 - Remove feature flag entirely
 - Delete `.legacy.tsx` files
@@ -114,4 +107,4 @@ export const toggles = {
 
 ---
 
-**Next:** [06 - Phase 0: Feature Flag Setup](./06-phase-0-feature-flag.md)
+**Next:** [06 - Phase 0: Type Audit](./06-phase-0-type-audit.md)

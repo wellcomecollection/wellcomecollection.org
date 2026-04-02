@@ -144,4 +144,4 @@ Total: ~4 hours
 
 ---
 
-**Next:** [Phase 3: Restriction Status](./09-phase-3-restriction-status.md)
+**Next:** [Phase 3: Restriction Status](./10-phase-3-restriction-status.md)

@@ -73,4 +73,4 @@ const { isCurrentCanvasRestricted } = useItemViewerContextV2();
 
 ---
 
-**Next:** [Phase 4: Duplicate Index Calls](./10-phase-4-duplicate-calls.md)
+**Next:** [Phase 4: Duplicate Index Calls](./11-phase-4-duplicate-calls.md)

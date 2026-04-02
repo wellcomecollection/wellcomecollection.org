@@ -23,7 +23,7 @@ This folder contains a comprehensive plan to refactor the IIIF Viewer context to
 - [05 - Feature Flag Strategy](./05-feature-flag-strategy.md) - Safe rollout with feature flags
 
 ### Implementation Phases
-- [06 - Phase 0: Type Audit](./06-phase-0-type-audit.md) (45-60 mins) - **Do this first: Fix implicit `any` types**
+- [06 - Phase 0: Type Audit](./06-phase-0-type-audit.md) (1-1.5 hours) - Do this first: Fix implicit `any` types & validate against official specs
 - [07 - Phase 0.5: Feature Flag Setup](./07-phase-0.5-feature-flag.md) (1 hour)
 - [08 - Phase 1: Canvas Data](./08-phase-1-canvas-data.md) (6-7 hours) - **Includes comprehensive automated tests**
 - [09 - Phase 2: Download Logic](./09-phase-2-download-logic.md) (2 hours)
@@ -35,6 +35,7 @@ This folder contains a comprehensive plan to refactor the IIIF Viewer context to
 - [13 - Migration Checklist](./13-migration-checklist.md) - Step-by-step checklist for each phase
 - [14 - Testing Strategy](./14-testing-strategy.md) - **Automated tests (priority) + manual testing checklist**
 - [15 - Risks & Success Metrics](./15-risks-and-success.md) - Risk mitigation and success criteria
+- [16 - Future Improvements](./16-future-improvements.md) - Post-refactor architectural improvements
 - [Testing Guide](./refactoring-iiif-viewer-context-testing.md) - Detailed test examples with TypeScript types
 
 ## Quick Navigation
@@ -60,8 +61,7 @@ See [14-testing-strategy.md](./14-testing-strategy.md) for automated test requir
 5. **Test-first workflow** - Green to Green refactoring (tests pass before and after)
 6. **Manual tests as backup** - Comprehensive checklist for extra confidence
 7. **Context for shared state only** - Only add to context if used by 2+ components or likely to be needed soon
-8. **Hooks for complex logic** - Extract to custom hooks for testability, even if only used once
-
+8. **Hooks for complex logic** - Extract to custom hooks for testability, even if only used once8. **Split components with drastically different modes** - See [Future Improvements](./16-future-improvements.md) for details
 ## Progress Tracking
 
 - [ ] Phase 0: Feature Flag Setup

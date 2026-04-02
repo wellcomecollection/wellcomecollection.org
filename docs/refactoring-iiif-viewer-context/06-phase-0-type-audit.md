@@ -1,7 +1,7 @@
 # Phase 0: Type Audit and Cleanup
 
-**Duration:** 1-2 hours  
-**Priority:** Critical - Must complete before refactoring
+Duration: 1-2 hours  
+Priority: Critical - Must complete before refactoring
 
 ## Overview
 
@@ -9,43 +9,64 @@ Before refactoring, audit and fix all types in the ItemViewer section to ensure 
 
 ## Findings from Actual Codebase
 
-### Types Are Mostly Good! ✓
+### Types Are Mostly Good! 
 
-The ItemViewer section has **mostly well-typed code**:
+The ItemViewer section has mostly well-typed code:
 - All components have explicit prop types
 - Core types are well-defined in `content/webapp/types/manifest.ts` and `content/webapp/types/item-viewer.ts`
 - Most functions have proper return types
 - No widespread use of `any`
 
+### Already Using Official IIIF Types
+
+The codebase already uses the official IIIF Presentation 3.0 types:
+- Package: `@iiif/presentation-3` (v2.1.3)
+- Importing official types: `Manifest`, `Canvas`, `ContentResource`, `ChoiceBody`, `InternationalString`, etc.
+- Source: https://iiif.io/api/presentation/3.0/
+
+Custom types extend official types:
+```typescript
+// TransformedCanvas extends official IIIF Canvas structure
+export type TransformedCanvas = {
+  id: string;
+  type: NonNullable<ResourceType>;  // Uses official ResourceType
+  // ... adds Wellcome-specific transformations
+  painting: (ChoiceBody | ContentResource)[];  // Uses official types
+  metadata: MetadataItem[];  // Uses official MetadataItem
+};
+```
+
+This is best practice - use official types where available, extend for custom needs.
+
 ### Issues Found
 
 #### 1. Implicit `any` in `setSearchResults` (2 locations)
 
-**Problem:**
+Problem:
 ```typescript
-// content/webapp/contexts/ItemViewerContext/index.tsx (line 23)
-setSearchResults: (v) => void;  // ❌ 'v' is implicitly 'any'
+// content/webapp/contexts/ItemViewerContext/index.tsx
+setSearchResults: (v) => void;  // 'v' is implicitly 'any'
 
-// content/webapp/views/pages/works/work/IIIFViewer/IIIFViewer.tsx (line 45)
-setSearchResults: (v) => void;  // ❌ 'v' is implicitly 'any'
+// content/webapp/views/pages/works/work/IIIFViewer/IIIFViewer.tsx
+setSearchResults: (v) => void;  // 'v' is implicitly 'any'
 ```
 
-**Fix:**
+Fix:
 ```typescript
-setSearchResults: (v: SearchResults | null) => void;  // ✅
+setSearchResults: (v: SearchResults | null) => void;  // OK
 ```
 
 #### 2. Missing Type Documentation for Common Patterns
 
 While types exist, several commonly-used patterns don't have named types:
 
-**Pattern: Image Service Object**
+Pattern: Image Service Object
 ```typescript
 // Used in multiple files (ZoomedImage.tsx, IIIFViewer.tsx)
 const mainImageService = { '@id': currentCanvas?.imageServiceId };
 ```
 
-**Recommendation:** Add a named type for clarity:
+Recommendation: Add a named type for clarity:
 ```typescript
 // content/webapp/types/item-viewer.ts
 export type ImageService = {
@@ -57,11 +78,11 @@ export type ImageService = {
 
 ### 1. Fix Implicit `any` Types
 
-**Files to edit:**
-- `content/webapp/contexts/ItemViewerContext/index.tsx` (line 23)
-- `content/webapp/views/pages/works/work/IIIFViewer/IIIFViewer.tsx` (line 45)
+Files to edit:
+- `content/webapp/contexts/ItemViewerContext/index.tsx`
+- `content/webapp/views/pages/works/work/IIIFViewer/IIIFViewer.tsx`
 
-**Change:**
+Change:
 ```diff
 - setSearchResults: (v) => void;
 + setSearchResults: (v: SearchResults | null) => void;
@@ -69,7 +90,7 @@ export type ImageService = {
 
 ### 2. Add Missing Type Definitions (Optional but Recommended)
 
-**File:** `content/webapp/types/item-viewer.ts`
+File: `content/webapp/types/item-viewer.ts`
 
 Add type for image service pattern:
 
@@ -103,32 +124,32 @@ This makes the pattern explicit and easier to understand when refactoring.
 
 Before refactoring, understand what types are already available:
 
-**Data Types:**
-- `TransformedManifest` - `content/webapp/types/manifest.ts` (line 78)
-- `TransformedCanvas` - `content/webapp/types/manifest.ts` (line 39)
-- `WorkBasic` - `content/webapp/services/wellcome/catalogue/types/work.ts` (line 14)
-- `Work` - `content/webapp/services/wellcome/catalogue/types/index.ts` (line 35)
+Data Types:
+- `TransformedManifest` - `content/webapp/types/manifest.ts`
+- `TransformedCanvas` - `content/webapp/types/manifest.ts`
+- `WorkBasic` - `content/webapp/services/wellcome/catalogue/types/work.ts`
+- `Work` - `content/webapp/services/wellcome/catalogue/types/index.ts`
 - `SearchResults` - `@weco/content/services/iiif/types/search/v3`
 - `UiTree` - `@weco/content/views/pages/works/work/work.types`
 
-**ItemViewer Types:**
-- `CanvasRotatedImage` - `content/webapp/types/item-viewer.ts` (line 3)
-- `ItemViewerQuery` - `content/webapp/types/item-viewer.ts` (line 5)
-- `ParentManifest` - `content/webapp/types/item-viewer.ts` (line 13)
+ItemViewer Types:
+- `CanvasRotatedImage` - `content/webapp/types/item-viewer.ts`
+- `ItemViewerQuery` - `content/webapp/types/item-viewer.ts`
+- `ParentManifest` - `content/webapp/types/item-viewer.ts`
 
-**Context Type:**
-- `Props` (ItemViewerContext) - `content/webapp/contexts/ItemViewerContext/index.tsx` (line 16)
+Context Type:
+- `Props` (ItemViewerContext) - `content/webapp/contexts/ItemViewerContext/index.tsx`
 
 ### 4. Verify Component Prop Types
 
-**Check these files have explicit prop types** (they do, but verify):
-- `IIIFViewer.tsx` - `IIIFViewerProps` (line 38)
-- `ViewerTopBar.tsx` - `ViewerTopBarProps` (line 194)
-- `ZoomedImage.tsx` - `ZoomedImageProps` (line 48)
-- `ImageViewer.tsx` - `ImageViewerProps` (line 43)
+Check these files have explicit prop types (they do, but verify):
+- `IIIFViewer.tsx` - `IIIFViewerProps`
+- `ViewerTopBar.tsx` - `ViewerTopBarProps`
+- `ZoomedImage.tsx` - `ZoomedImageProps`
+- `ImageViewer.tsx` - `ImageViewerProps`
 - `MainViewer.tsx` - Component props defined inline
 
-All components checked have proper prop types. ✓
+All components checked have proper prop types.
 
 ### 5. Run TypeScript Compiler
 
@@ -138,6 +159,32 @@ yarn tsc --noEmit
 ```
 
 Fix any errors that appear in ItemViewer/IIIFViewer files.
+
+### 6. Validate Against Official Specs (Recommended)
+
+Since you're using official IIIF types, verify your custom types align correctly:
+
+Check IIIF Type Usage:
+```typVerified custom types properly use official `@iiif/presentation-3` types
+- [ ] (Optional) Checked if Catalogue API has OpenAPI spec for type generation
+- [ ] escript
+//  Good: Using official types directly
+import { Canvas, Manifest, ContentResource } from '@iiif/presentation-3';
+
+//  Good: Extending official types
+export type TransformedCanvas = {
+  // Uses official IIIF types as building blocks
+  painting: (ChoiceBody | ContentResource)[];
+  metadata: MetadataItem[];
+};
+
+//  Avoid: Redefining what IIIF already provides
+// Don't create your own Canvas type when @iiif/presentation-3 has one
+```
+
+Wellcome Catalogue API Types:
+
+Your Catalogue API types (`Work`, `WorkBasic`, `Item`, etc.) are manually defined. Consider centralising those types within the organisation.
 
 ## Acceptance Criteria
 
@@ -149,18 +196,23 @@ Fix any errors that appear in ItemViewer/IIIFViewer files.
 
 ## What This Phase Achieves
 
-1. **Type Safety** - No implicit `any` in critical functions
-2. **Documentation** - Clear understanding of existing types
-3. **Foundation** - Solid base for refactoring with confidence
-4. **Consistency** - All types follow same patterns
+1. Type Safety - No implicit `any` in critical functions
+2. Official Types - Verified use of `@iiif/presentation-3` official IIIF types
+3. Documentation - Clear understanding of existing types and their sources
+4. Foundation - Solid base for refactoring with confidence
+5. Consistency - All types follow same patterns and use official specs where available
 
 ## Time Estimate
 
 - Fix implicit `any` types: 10 minutes
 - Add optional `ImageService` type: 5 minutes
 - Document existing types: 15 minutes
+- Validate IIIF type usage: 10 minutes
+- Check for Catalogue API OpenAPI spec: 10 minutes (if available)
 - Run tsc and verify: 15-30 minutes
-- **Total: 45-60 minutes** (much faster than originally estimated!)
+- Total: 1-1.5 hours (faster than originally estimated)
+
+Optional: If Catalogue API has OpenAPI spec and you want to generate types, add 30-60 minutes.
 
 ## Next Steps
 

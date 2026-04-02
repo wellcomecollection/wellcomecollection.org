@@ -142,12 +142,12 @@ import ItemViewerContextV2 from '@weco/common/contexts/ItemViewerContextV2';
 
 ## Next Steps
 
-Once Phase 0 is complete and verified, proceed to:
+Once Phase 0.5 is complete and verified, proceed to:
 
-**[Phase 1: Canvas Data](./07-phase-1-canvas-data.md)** - Add derived canvas values and boolean flags to context (with automated tests first!)
+**[Phase 1: Canvas Data](./08-phase-1-canvas-data.md)** - Add derived canvas values and boolean flags to context (with automated tests first!)
 
 ---
 
 **See also:**
-- [Migration Checklist](./12-migration-checklist.md) - Detailed verification steps
+- [Migration Checklist](./13-migration-checklist.md) - Detailed verification steps
 - [Feature Flag Strategy](./05-feature-flag-strategy.md) - Why we use feature flags

@@ -311,4 +311,4 @@ Before marking a phase complete:
 **See also:**
 - [refactoring-iiif-viewer-context-testing.md](./refactoring-iiif-viewer-context-testing.md) - Complete TypeScript test examples
 - [04-test-first-approach.md](./04-test-first-approach.md) - Why we test first
-- [12-migration-checklist.md](./12-migration-checklist.md) - Per-phase checklists
+- [13-migration-checklist.md](./13-migration-checklist.md) - Per-phase checklists

@@ -97,7 +97,7 @@ For this refactoring, we're doing **GREEN to GREEN refactoring**:
 - Refactor code
 - Tests still pass with new implementation (still GREEN)
 
-##Automated Test Examples
+## Automated Test Examples
 
 See detailed examples in [refactoring-iiif-viewer-context-testing.md](./refactoring-iiif-viewer-context-testing.md).
 

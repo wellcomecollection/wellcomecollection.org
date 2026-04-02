@@ -230,23 +230,14 @@ The refactoring has failed if:
 
 ---
 
-## Future Improvements
+## Next Steps
 
-After this refactor succeeds, consider these next steps:
+After successfully completing this refactoring:
 
-### 1. Further Context Splitting
-
-If context grows too large:
-
-```
-ItemViewerContext - Split into:
-  ├── ItemViewerDataContext (work, manifest, derived data)
-  └── ItemViewerUIContext (sidebar, zoom, grid, fullscreen)
-```
-
-**Benefit:** More granular re-rendering control
-
-### 2. TypeScript Discriminated Unions
+1. Monitor production metrics for 1-2 weeks with toggle enabled
+2. Review team feedback on code maintainability
+3. If all success criteria met, proceed to [Phase 5: Cleanup](./12-phase-5-cleanup.md)
+4. Consider [Future Improvements](./16-future-improvements.md) like component splitting
 
 For different viewer modes:
 
@@ -292,4 +283,4 @@ If context re-renders become an issue:
 
 **See also:**
 - [13-testing-strategy.md](./13-testing-strategy.md) - How to verify success
-- [12-migration-checklist.md](./12-migration-checklist.md) - Track your progress
+- [13-migration-checklist.md](./13-migration-checklist.md) - Track your progress

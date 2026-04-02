@@ -15,18 +15,20 @@ This checklist helps you track progress through each phase. Check off items as y
 
 ## Phase 0: Type Audit and Cleanup
 
-**Duration: 45-60 minutes**
+Duration: 1-1.5 hours
 
 - [ ] Fix `setSearchResults: (v) => void` to `setSearchResults: (v: SearchResults | null) => void` in:
-  - [ ] `content/webapp/contexts/ItemViewerContext/index.tsx` (line 23)
-  - [ ] `content/webapp/views/pages/works/work/IIIFViewer/IIIFViewer.tsx` (line 45)
+  - [ ] `content/webapp/contexts/ItemViewerContext/index.tsx`
+  - [ ] `content/webapp/views/pages/works/work/IIIFViewer/IIIFViewer.tsx`
 - [ ] (Optional) Add `ImageService` type to `content/webapp/types/item-viewer.ts`
 - [ ] Document existing type structure in Phase 0 doc
+- [ ] Verify custom types properly use `@iiif/presentation-3` official types
+- [ ] (Optional) Check if Catalogue API has OpenAPI spec at https://developers.wellcomecollection.org/api/catalogue
 - [ ] Run `yarn tsc --noEmit` from root
 - [ ] Verify no TypeScript errors in ItemViewer files
 - [ ] Commit type fixes
 
-**Time checkpoint:** Should take 45-60 minutes
+**Time checkpoint:** Should take 1-1.5 hours
 
 ---
 
@@ -86,7 +88,7 @@ This checklist helps you track progress through each phase. Check off items as y
 - [ ] Run automated tests - all pass
 - [ ] `yarn tsc` - no TypeScript errors
 - [ ] Toggle flag OFF/ON - behaviour identical
-- [ ] (Optional) Manual testing checklist from [13-testing-strategy.md](./13-testing-strategy.md)
+- [ ] (Optional) Manual testing checklist from [14-testing-strategy.md](./14-testing-strategy.md)
 
 **Time checkpoint:** Should take ~6-7 hours total (3h tests + 3-4h implementation)
 
