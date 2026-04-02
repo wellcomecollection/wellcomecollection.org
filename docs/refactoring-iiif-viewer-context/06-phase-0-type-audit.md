@@ -200,6 +200,7 @@ Since you're using official IIIF types, verify your custom types align correctly
 
 Check IIIF Type Usage:
 Verified custom types properly use official `@iiif/presentation-3` types
+```typescript
 //  Good: Using official types directly
 import { Canvas, Manifest, ContentResource } from '@iiif/presentation-3';
 
@@ -214,7 +215,7 @@ export type TransformedCanvas = {
 // Don't create your own Canvas type when @iiif/presentation-3 has one
 ```
 
-Wellcome Catalogue API Types:
+#### Wellcome Catalogue API Types:
 
 Your Catalogue API types (`Work`, `WorkBasic`, `Item`, etc.) are manually defined. Consider centralising those types within the organisation.
 
