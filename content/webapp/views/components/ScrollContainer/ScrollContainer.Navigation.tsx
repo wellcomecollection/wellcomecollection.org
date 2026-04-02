@@ -24,7 +24,6 @@ const ScrollButton = styled('button').attrs({
   className: font('sans', -2),
 })`
   color: var(--button-color);
-  cursor: pointer;
   display: flex;
   flex-direction: column;
   justify-content: center;
