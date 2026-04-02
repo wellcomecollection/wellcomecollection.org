@@ -44,6 +44,7 @@ type Props = {
   accessResourceLinks: (Link & { type: string })[];
   exhibitionTexts: ExhibitionTextsDocument[];
   exhibitionHighlightTours: ExhibitionHighlightToursDocument[];
+  shouldHideRelatedStories: boolean;
 };
 
 export type ExhibitionOf = (ExhibitionType | EventBasic)[];
@@ -69,6 +70,7 @@ const Exhibition: FunctionComponent<Props> = ({
   accessResourceLinks,
   exhibitionTexts,
   exhibitionHighlightTours,
+  shouldHideRelatedStories,
 }) => {
   const [isModalActive, setIsModalActive] = useState(false);
 
@@ -259,17 +261,18 @@ const Exhibition: FunctionComponent<Props> = ({
             </>
           )}
 
-          {aboutThisExhibitionContent.length > 0 && (
-            <Space
-              $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
-            >
-              <SearchResults
-                variant="default"
-                items={aboutThisExhibitionContent}
-                title="Related stories"
-              />
-            </Space>
-          )}
+          {!shouldHideRelatedStories &&
+            aboutThisExhibitionContent.length > 0 && (
+              <Space
+                $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
+              >
+                <SearchResults
+                  variant="default"
+                  items={aboutThisExhibitionContent}
+                  title="Related stories"
+                />
+              </Space>
+            )}
 
           {exhibition.contributors.length > 0 && (
             <Contributors contributors={exhibition.contributors} />

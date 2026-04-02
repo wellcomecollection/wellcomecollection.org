@@ -70,6 +70,8 @@ const ExhibitionPage: NextPage<Props> = ({
     });
   }, [exhibition.relatedIds, relatedPages]);
 
+  const isTendernessAndRageExhibition = exhibition.id === 'aY8u9xAAACEAIL8z';
+
   return (
     <PageLayout
       title={exhibition.title}
@@ -97,12 +99,15 @@ const ExhibitionPage: NextPage<Props> = ({
           accessResourceLinks={accessResourceLinks}
           exhibitionTexts={exhibitionTexts}
           exhibitionHighlightTours={exhibitionHighlightTours}
+          shouldHideRelatedStories={
+            !!(exhibitionAndCollection && isTendernessAndRageExhibition)
+          }
         />
       )}
 
       {exhibitionAndCollection && (
         <ExhibitionCollectionsContent
-          isTendernessAndRageExhibition={exhibition.id === 'aY8u9xAAACEAIL8z'}
+          isTendernessAndRageExhibition={isTendernessAndRageExhibition}
           aboutThisExhibitionContent={aboutThisExhibitionContent}
           conceptIds={[]}
           videos={[]}
