@@ -238,10 +238,4 @@ Your Catalogue API types (`Work`, `WorkBasic`, `Item`, etc.) are manually define
 
 ## Next Steps
 
-After completing this phase:
-1. [Phase 0.5: Feature Flag Setup](./07-phase-0.5-feature-flag.md) (1 hour)
-2. [Phase 1: Canvas Data Refactoring](./08-phase-1-canvas-data.md) (6-7 hours)
-
----
-
-**Next:** [Phase 0.5: Feature Flag Setup](./07-phase-0.5-feature-flag.md)
+[Phase 0.5: Feature Flag Setup](./07-phase-0.5-feature-flag.md)
