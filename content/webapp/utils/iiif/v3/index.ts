@@ -38,6 +38,14 @@ import { IIIFItemProps } from '@weco/content/views/pages/works/work/IIIFItem';
 
 import { getOriginal, getThumbnailImage } from './canvas';
 
+export const isChoiceBody = (
+  item: IIIFItemProps | undefined
+): item is ChoiceBody => {
+  return Boolean(
+    item && typeof item !== 'string' && 'type' in item && item.type === 'Choice'
+  );
+};
+
 // The label we want to use to distinguish between parts of a multi-volume work
 // (e.g. 'Copy 1' or 'Volume 1') can currently exist in either the first or
 // second position of an array, with the item title appearing in the other
@@ -162,9 +170,10 @@ export function getDownloadOptionsFromManifestRendering(
 export function getDownloadOptionsFromCanvasRenderingAndSupplementing(
   canvas: TransformedCanvas
 ): DownloadOption[] {
-  return [...canvas.rendering, ...canvas.supplementing].map(
-    convertToDownloadOption
-  );
+  return [...canvas.rendering, ...canvas.supplementing]
+    .flatMap(item => (isChoiceBody(item) ? item.items : [item]))
+    .filter((item): item is ContentResource => typeof item !== 'string')
+    .map(convertToDownloadOption);
 }
 
 export function getTitle(
@@ -213,14 +222,6 @@ function getCanvasTextServiceId(canvas: Canvas): string | undefined {
   });
   return textAnnotation?.id;
 }
-
-export const isChoiceBody = (
-  item: IIIFItemProps | undefined
-): item is ChoiceBody => {
-  return Boolean(
-    item && typeof item !== 'string' && 'type' in item && item.type === 'Choice'
-  );
-};
 
 // Temporary types, as the provided AnnotationBody doesn't seem to be correct
 type AnnotationPageBody = {
