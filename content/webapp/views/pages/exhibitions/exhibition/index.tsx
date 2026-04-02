@@ -45,9 +45,8 @@ const ExhibitionPage: NextPage<Props> = ({
   exhibitionHighlightTours,
   jsonLd,
 }) => {
-  const [relatedContent, setRelatedContent] = useState<
-    (ExhibitionType | EventBasic | PageType)[]
-  >([]);
+  const [relatedContent, setRelatedContent] =
+    useState<(ExhibitionType | EventBasic | PageType)[]>(relatedPages);
   const [aboutThisExhibitionContent, setAboutThisExhibitionContent] = useState<
     AboutThisExhibitionContent[]
   >([]);
@@ -57,20 +56,26 @@ const ExhibitionPage: NextPage<Props> = ({
   useEffect(() => {
     const ids = exhibition.relatedIds;
 
-    fetchExhibitionRelatedContentClientSide(ids).then(fetchedRelatedContent => {
-      if (isNotUndefined(fetchedRelatedContent)) {
-        setRelatedContent([
-          ...fetchedRelatedContent.relatedExhibitionsAndEvents,
-          ...relatedPages,
-        ]);
-        setAboutThisExhibitionContent(
-          fetchedRelatedContent.aboutThisExhibitionContent
-        );
-      }
-    });
+    fetchExhibitionRelatedContentClientSide(ids)
+      .then(fetchedRelatedContent => {
+        if (isNotUndefined(fetchedRelatedContent)) {
+          setRelatedContent([
+            ...fetchedRelatedContent.relatedExhibitionsAndEvents,
+            ...relatedPages,
+          ]);
+          setAboutThisExhibitionContent(
+            fetchedRelatedContent.aboutThisExhibitionContent
+          );
+        }
+      })
+      .catch(() => {
+        // On network error, keep showing relatedPages (from initial state)
+      });
   }, [exhibition.relatedIds, relatedPages]);
 
-  const isTendernessAndRageExhibition = exhibition.id === 'aY8u9xAAACEAIL8z';
+  const isTendernessAndRageExhibition =
+    exhibition.id === 'aY8u9xAAACEAIL8z' ||
+    exhibition.uid === 'tenderness-and-rage';
 
   return (
     <PageLayout
