@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document explains how the authentication flow works for staff members with restricted access permissions (role = `userIsStaffWithRestricted`) when viewing restricted items on the /works/{workId}/items page.
+This document explains how the authentication flow works for staff members with restricted access permissions (role = `StaffWithRestricted`, exposed in the UI as `userIsStaffWithRestricted`) when viewing restricted items on the /works/{workId}/items page.
 
 ## Background
 
