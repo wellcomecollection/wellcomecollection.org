@@ -24,6 +24,7 @@ const ScrollButton = styled('button').attrs({
   className: font('sans', -2),
 })`
   color: var(--button-color);
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -36,6 +37,11 @@ const ScrollButton = styled('button').attrs({
 
   &:disabled {
     color: ${props => props.theme.color('neutral.500')};
+    cursor: not-allowed;
+  }
+
+  &:not(:disabled):hover {
+    text-decoration: underline;
   }
 `;
 type Props = {
