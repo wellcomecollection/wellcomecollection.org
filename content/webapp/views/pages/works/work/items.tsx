@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
@@ -106,6 +106,10 @@ const WorkItemPage: NextPage<Props> = ({
     auth,
   });
   const [accessToken, setAccessToken] = useState();
+  const clickThroughTimerRef = useRef<
+    ReturnType<typeof setInterval> | undefined
+  >(undefined);
+  useEffect(() => () => clearInterval(clickThroughTimerRef.current), []);
   const [searchResults, setSearchResults] = useState(serverSearchResults);
   const authServices = getAuthServices({ auth });
   const currentCanvas = canvases?.[queryParamToArrayIndex(canvas)];
@@ -284,9 +288,10 @@ const WorkItemPage: NextPage<Props> = ({
                       `${modalContent?.id || ''}?origin=${origin}`
                     );
                     if (authServiceWindow) {
-                      const timer = setInterval(() => {
+                      clickThroughTimerRef.current = setInterval(() => {
                         if (authServiceWindow.closed) {
-                          clearInterval(timer);
+                          clearInterval(clickThroughTimerRef.current);
+                          clickThroughTimerRef.current = undefined;
                           reloadAuthIframe(document, iframeId);
                         }
                       }, 500);
