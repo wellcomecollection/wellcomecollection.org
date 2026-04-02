@@ -54,10 +54,25 @@ const ExhibitionPage: NextPage<Props> = ({
   const { exhibitionAndCollection } = useToggles();
 
   useEffect(() => {
+    let isMounted = true;
+
+    // Reset state immediately to avoid showing stale data from previous exhibition
+    setRelatedContent(relatedPages);
+    setAboutThisExhibitionContent([]);
+
     const ids = exhibition.relatedIds;
+
+    // Short-circuit if no related IDs to avoid unnecessary network request
+    if (ids.length === 0) {
+      return () => {
+        isMounted = false;
+      };
+    }
 
     fetchExhibitionRelatedContentClientSide(ids)
       .then(fetchedRelatedContent => {
+        if (!isMounted) return;
+
         if (isNotUndefined(fetchedRelatedContent)) {
           setRelatedContent([
             ...fetchedRelatedContent.relatedExhibitionsAndEvents,
@@ -67,11 +82,17 @@ const ExhibitionPage: NextPage<Props> = ({
             fetchedRelatedContent.aboutThisExhibitionContent
           );
         }
+        // Else: fetch returned undefined, keep showing just relatedPages
       })
       .catch(() => {
-        // On network error, keep showing relatedPages (from initial state)
+        if (!isMounted) return;
+        // On network error, keep showing just relatedPages
       });
-  }, [exhibition.relatedIds, relatedPages]);
+
+    return () => {
+      isMounted = false;
+    };
+  }, [exhibition.id, relatedPages]);
 
   const isTendernessAndRageExhibition =
     exhibition.id === 'aY8u9xAAACEAIL8z' ||

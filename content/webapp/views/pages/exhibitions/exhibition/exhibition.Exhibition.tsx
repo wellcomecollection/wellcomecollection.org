@@ -103,7 +103,9 @@ const Exhibition: FunctionComponent<Props> = ({
       ? 'Exhibition'
       : exhibition.format.title;
 
-  const isCurrentExhibition = exhibition.end && !isPast(exhibition.end);
+  const isCurrentExhibition = Boolean(
+    exhibition.end && !isPast(exhibition.end)
+  );
 
   const Header = (
     <>
