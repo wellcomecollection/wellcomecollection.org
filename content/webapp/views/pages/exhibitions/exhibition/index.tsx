@@ -1,23 +1,32 @@
 import { NextPage } from 'next';
+import { useEffect, useState } from 'react';
 
 import {
   ExhibitionHighlightToursDocument,
   ExhibitionTextsDocument,
 } from '@weco/common/prismicio-types';
+import { useToggles } from '@weco/common/server-data/Context';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
-import { Exhibition as ExhibitionType } from '@weco/content/types/exhibitions';
+import { fetchExhibitionRelatedContentClientSide } from '@weco/content/services/prismic/fetch/exhibitions';
+import { EventBasic } from '@weco/content/types/events';
+import {
+  AboutThisExhibitionContent,
+  Exhibition as ExhibitionType,
+} from '@weco/content/types/exhibitions';
 import { Link } from '@weco/content/types/link';
 import { Page as PageType } from '@weco/content/types/pages';
 
+import ExhibitionCollectionsContent from './exhibition.Collections';
 import Exhibition from './exhibition.Exhibition';
 import Installation from './exhibition.Installation';
 
 export type Props = {
   exhibition: ExhibitionType;
   jsonLd: JsonLdObj;
-  pages: PageType[];
+  relatedPages: PageType[];
   accessResourceLinks: (Link & { type: string })[];
   exhibitionTexts: ExhibitionTextsDocument[];
   exhibitionHighlightTours: ExhibitionHighlightToursDocument[];
@@ -30,12 +39,37 @@ export type Props = {
  */
 const ExhibitionPage: NextPage<Props> = ({
   exhibition,
-  pages,
+  relatedPages,
   accessResourceLinks,
   exhibitionTexts,
   exhibitionHighlightTours,
   jsonLd,
 }) => {
+  const [relatedContent, setRelatedContent] = useState<
+    (ExhibitionType | EventBasic | PageType)[]
+  >([]);
+  const [aboutThisExhibitionContent, setAboutThisExhibitionContent] = useState<
+    AboutThisExhibitionContent[]
+  >([]);
+
+  const { exhibitionAndCollection } = useToggles();
+
+  useEffect(() => {
+    const ids = exhibition.relatedIds;
+
+    fetchExhibitionRelatedContentClientSide(ids).then(fetchedRelatedContent => {
+      if (isNotUndefined(fetchedRelatedContent)) {
+        setRelatedContent([
+          ...fetchedRelatedContent.relatedExhibitionsAndEvents,
+          ...relatedPages,
+        ]);
+        setAboutThisExhibitionContent(
+          fetchedRelatedContent.aboutThisExhibitionContent
+        );
+      }
+    });
+  }, [exhibition.relatedIds, relatedPages]);
+
   return (
     <PageLayout
       title={exhibition.title}
@@ -50,14 +84,28 @@ const ExhibitionPage: NextPage<Props> = ({
       apiToolbarLinks={[createPrismicLink(exhibition.id)]}
     >
       {exhibition.format && exhibition.format.title === 'Installation' ? (
-        <Installation installation={exhibition} pages={pages} />
+        <Installation
+          installation={exhibition}
+          relatedContent={relatedContent}
+          aboutThisExhibitionContent={aboutThisExhibitionContent}
+        />
       ) : (
         <Exhibition
           exhibition={exhibition}
-          pages={pages}
+          relatedContent={relatedContent}
+          aboutThisExhibitionContent={aboutThisExhibitionContent}
           accessResourceLinks={accessResourceLinks}
           exhibitionTexts={exhibitionTexts}
           exhibitionHighlightTours={exhibitionHighlightTours}
+        />
+      )}
+
+      {exhibitionAndCollection && (
+        <ExhibitionCollectionsContent
+          isTendernessAndRageExhibition={exhibition.id === 'aY8u9xAAACEAIL8z'}
+          aboutThisExhibitionContent={aboutThisExhibitionContent}
+          conceptIds={[]}
+          videos={[]}
         />
       )}
     </PageLayout>

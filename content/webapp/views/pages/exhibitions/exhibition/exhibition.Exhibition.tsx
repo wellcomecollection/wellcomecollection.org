@@ -1,5 +1,5 @@
 import NextLink from 'next/link';
-import { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent, useState } from 'react';
 
 import { getCrop } from '@weco/common/model/image';
 import {
@@ -9,17 +9,15 @@ import {
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font } from '@weco/common/utils/classnames';
 import { isPast } from '@weco/common/utils/dates';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb';
 import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
 import { gridSize8 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
-import { fetchExhibitionRelatedContentClientSide } from '@weco/content/services/prismic/fetch/exhibitions';
 import { EventBasic } from '@weco/content/types/events';
 import {
-  ExhibitionAbout,
+  AboutThisExhibitionContent,
   Exhibition as ExhibitionType,
 } from '@weco/content/types/exhibitions';
 import { Link } from '@weco/content/types/link';
@@ -41,7 +39,8 @@ import { getInfoItems } from './exhibition.helpers';
 
 type Props = {
   exhibition: ExhibitionType;
-  pages: PageType[];
+  relatedContent: (ExhibitionType | EventBasic | PageType)[];
+  aboutThisExhibitionContent: AboutThisExhibitionContent[];
   accessResourceLinks: (Link & { type: string })[];
   exhibitionTexts: ExhibitionTextsDocument[];
   exhibitionHighlightTours: ExhibitionHighlightToursDocument[];
@@ -49,33 +48,33 @@ type Props = {
 
 export type ExhibitionOf = (ExhibitionType | EventBasic)[];
 
+const DateInfo = ({
+  endDate,
+  startDate,
+}: {
+  endDate?: Date;
+  startDate: Date;
+}) => {
+  return endDate ? (
+    <DateRange start={startDate} end={endDate} />
+  ) : (
+    <HTMLDateAndTime variant="date" date={startDate} />
+  );
+};
+
 const Exhibition: FunctionComponent<Props> = ({
   exhibition,
-  pages,
+  relatedContent,
+  aboutThisExhibitionContent,
   accessResourceLinks,
   exhibitionTexts,
   exhibitionHighlightTours,
 }) => {
-  const [exhibitionOfs, setExhibitionOfs] = useState<ExhibitionOf>([]);
-  const [exhibitionAbouts, setExhibitionAbouts] = useState<ExhibitionAbout[]>(
-    []
-  );
   const [isModalActive, setIsModalActive] = useState(false);
 
   const visualStoryLink = accessResourceLinks.find(
     link => link.type === 'visual-story'
   );
-
-  useEffect(() => {
-    const ids = exhibition.relatedIds;
-
-    fetchExhibitionRelatedContentClientSide(ids).then(relatedContent => {
-      if (isNotUndefined(relatedContent)) {
-        setExhibitionOfs(relatedContent.exhibitionOfs);
-        setExhibitionAbouts(relatedContent.exhibitionAbouts);
-      }
-    });
-  }, []);
 
   const extraBreadcrumbs = [
     {
@@ -89,12 +88,6 @@ const Exhibition: FunctionComponent<Props> = ({
     },
   ];
 
-  const DateInfo = exhibition.end ? (
-    <DateRange start={exhibition.start} end={exhibition.end} />
-  ) : (
-    <HTMLDateAndTime variant="date" date={exhibition.start} />
-  );
-
   // This is for content that we don't have the crops for in Prismic.
   const squareImage = getCrop(exhibition.image, 'square');
   const widescreenImage = getCrop(exhibition.image, '16:9');
@@ -107,6 +100,8 @@ const Exhibition: FunctionComponent<Props> = ({
     !exhibition.format || exhibition.format?.title === 'Permanent exhibition'
       ? 'Exhibition'
       : exhibition.format.title;
+
+  const isCurrentExhibition = exhibition.end && !isPast(exhibition.end);
 
   const Header = (
     <>
@@ -124,7 +119,10 @@ const Exhibition: FunctionComponent<Props> = ({
                 style={{ display: 'flex', flexWrap: 'wrap' }}
               >
                 <Space $h={{ size: 'sm', properties: ['margin-right'] }}>
-                  {DateInfo}
+                  <DateInfo
+                    startDate={exhibition.start}
+                    endDate={exhibition.end}
+                  />
                 </Space>
                 <StatusIndicator
                   start={exhibition.start}
@@ -177,30 +175,29 @@ const Exhibition: FunctionComponent<Props> = ({
           exhibition={exhibition}
           accessResourceLinks={accessResourceLinks}
           exhibitionFormat={exhibitionFormat}
-          exhibitionOfs={exhibitionOfs}
-          exhibitionAbouts={exhibitionAbouts}
-          pages={pages}
+          relatedContent={relatedContent}
+          aboutThisExhibitionContent={aboutThisExhibitionContent}
         />
       ) : (
         <>
-          {exhibition.end && !isPast(exhibition.end) && (
+          {isCurrentExhibition && (
             <InfoBox title="Visit us" items={getInfoItems(exhibition)} />
           )}
 
-          {(exhibitionOfs.length > 0 || pages.length > 0) && (
+          {relatedContent.length > 0 && (
             <Space
               $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
             >
               <SearchResults
                 variant="default"
                 id="events-list"
-                items={[...exhibitionOfs, ...pages]}
+                items={relatedContent}
                 title={`${exhibitionFormat} events`}
               />
             </Space>
           )}
 
-          {exhibition.end && !isPast(exhibition.end) && (
+          {isCurrentExhibition && (
             <>
               <Grid>
                 <GridCell $sizeMap={{ s: [12] }}>
@@ -262,13 +259,13 @@ const Exhibition: FunctionComponent<Props> = ({
             </>
           )}
 
-          {exhibitionAbouts.length > 0 && (
+          {aboutThisExhibitionContent.length > 0 && (
             <Space
               $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
             >
               <SearchResults
                 variant="default"
-                items={exhibitionAbouts}
+                items={aboutThisExhibitionContent}
                 title="Related stories"
               />
             </Space>

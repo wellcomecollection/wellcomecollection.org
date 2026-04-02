@@ -43,11 +43,10 @@ function getBorderColor({
 
 const ExhibitionBeingHuman = ({
   exhibition,
+  relatedContent,
+  aboutThisExhibitionContent,
   accessResourceLinks,
-  exhibitionAbouts,
   exhibitionFormat,
-  exhibitionOfs,
-  pages,
 }) => {
   const hasResources = Boolean(
     exhibition.accessResourcesText ||
@@ -135,12 +134,12 @@ const ExhibitionBeingHuman = ({
         <Contributors contributors={exhibition.contributors} />
       )}
 
-      {(exhibitionOfs.length > 0 || pages.length > 0) && (
+      {relatedContent.length > 0 && (
         <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
           <SearchResults
             variant="default"
             id="events-list"
-            items={[...exhibitionOfs, ...pages]}
+            items={relatedContent}
             title={`${exhibitionFormat} events`}
           />
         </Space>
@@ -171,10 +170,10 @@ const ExhibitionBeingHuman = ({
         </Space>
       )}
 
-      {exhibitionAbouts.length > 0 && (
+      {aboutThisExhibitionContent.length > 0 && (
         <SearchResults
           variant="default"
-          items={exhibitionAbouts}
+          items={aboutThisExhibitionContent}
           title="Related stories"
         />
       )}
