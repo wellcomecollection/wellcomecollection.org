@@ -78,7 +78,10 @@ export function fromCompressedManifest(
 
   const id = fromCommonParts(compressedCanvases.id) as string[];
   const imageServiceId = fromCommonParts(compressedCanvases.imageServiceId);
-  const probeServiceId = fromCommonParts(compressedCanvases.probeServiceId);
+  const probeServiceId =
+    compressedCanvases.probeServiceId != null
+      ? fromCommonParts(compressedCanvases.probeServiceId)
+      : id.map(() => undefined);
   const label = fromCommonParts(compressedCanvases.label);
   const textServiceId = fromCommonParts(compressedCanvases.textServiceId);
   const thumbnailImageUrl = fromCommonParts(
