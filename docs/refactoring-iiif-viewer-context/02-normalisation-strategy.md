@@ -24,8 +24,8 @@ For each duplicated value, we choose the most defensive/complete version:
 | Value | Current Variations | Canonical Version | Rationale |
 |-------|-------------------|-------------------|-----------|
 | `currentCanvas` | `canvases?.[i]` vs `transformedManifest?.canvases[i]` (accessing same data via different paths) | Use `transformedManifest?.canvases[i]` | More explicit about data source |
-| `mainImageService` | With/without `\|\| ''` fallback | Include `\|\| ''` only if downstream code requires it | ZoomedImage has fallback because convertRequestUriToInfoUri expects string. IIIFViewer doesn't need it. **Check actual usage before adding fallback.** |
-| `hasMultipleCanvases` | Not in context | Add to context | Calculated in IIIFViewer, used in multiple components |
+| `mainImageService` | With/without `\|\| ''` fallback | Include `\|\| ''` only if downstream code requires it | `ZoomedImage` has fallback because `convertRequestUriToInfoUri` expects string. `IIIFViewer` doesn't need it. **Check actual usage before adding fallback.** |
+| `hasMultipleCanvases` | Not in context | Add to context | Calculated in `IIIFViewer`, used in multiple components |
 
 ## Normalisation Testing Requirements
 

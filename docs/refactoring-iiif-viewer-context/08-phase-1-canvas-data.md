@@ -8,13 +8,13 @@
 
 ## Goal
 
-Add derived canvas data and boolean flags that are **used by multiple components** to ItemViewerContextV2. Components read these values instead of calculating them independently.
+Add derived canvas data and boolean flags that are **used by multiple components** to `ItemViewerContextV2`. Components read these values instead of calculating them independently.
 
 **Decision criteria:** Only add to context if:
 1. Value is calculated in 2+ components (eliminates duplication), OR
 2. Value will likely be needed by multiple components soon (e.g., `isCurrentCanvasRestricted` for download restrictions)
 
-**Note:** Download logic stays OUT of context (goes to a hook instead) because it's only used in ViewerTopBar.
+**Note:** Download logic stays OUT of context (goes to a hook instead) because it's only used in `ViewerTopBar`.
 
 ## Critical: Automated Tests FIRST
 
@@ -46,7 +46,7 @@ See [Testing Guide](./refactoring-iiif-viewer-context-testing.md) for complete e
 
 ### 1.2 Make Tests Pass (Implementation)
 
-Once tests are written, add the derived values to IIIFViewer.refactored.tsx:
+Once tests are written, add the derived values to `IIIFViewer.refactored.tsx`:
 
 ```typescript
 // Derived canvas data

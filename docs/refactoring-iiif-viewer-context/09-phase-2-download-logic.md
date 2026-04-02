@@ -8,11 +8,11 @@
 
 ## Goal
 
-Extract download options logic from ViewerTopBar.tsx into a reusable custom hook. This removes ~65 lines of complex business logic from the component and makes it testable in isolation.
+Extract download options logic from `ViewerTopBar.tsx` into a reusable custom hook. This removes ~65 lines of complex business logic from the component and makes it testable in isolation.
 
 ## Why Extract to a Hook (Not Context)?
 
-**Current problem:** ViewerTopBar.tsx has 65+ lines of download option calculations:
+**Current problem:** `ViewerTopBar.tsx` has 65+ lines of download option calculations:
 - IIIF image downloads
 - Canvas image downloads from services
 - Canvas rendering downloads (PDFs)

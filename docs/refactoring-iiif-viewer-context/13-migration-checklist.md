@@ -24,7 +24,7 @@ Duration: 1-1.5 hours
 - [ ] Document existing type structure in Phase 0 doc
 - [ ] Verify custom types properly use `@iiif/presentation-3` official types
 - [ ] (Optional) Check if Catalogue API has OpenAPI spec at https://developers.wellcomecollection.org/api/catalogue
-- [ ] Run `yarn tsc --noEmit` from root
+- [ ] Run `yarn tsc`
 - [ ] Verify no TypeScript errors in ItemViewer files
 - [ ] Commit type fixes
 
@@ -215,3 +215,7 @@ Duration: 1-1.5 hours
 **Total: 13.5-15.5 hours**
 
 (Original estimate was 10-13 hours, but automated testing adds time upfront that saves debugging time later)
+
+---
+
+**Next:** [Testing Strategy](./14-testing-strategy.md)

@@ -54,6 +54,29 @@
 
 ---
 
+### Normalisation Risk
+
+**Risk:** When normalising variant implementations (e.g., `currentCanvas` calculated differently in `ViewerTopBar` vs `ZoomedImage`), the chosen canonical version might not handle all edge cases that the variants handled.
+
+**Likelihood:** Low (with characterisation tests)  
+**Impact:** Medium  
+
+**Mitigation:**
+- Write characterisation tests BEFORE refactoring
+- Test all edge cases from all variants
+- Document why canonical version was chosen
+- Review each variant's fallback behaviour
+- Side-by-side comparison testing
+
+**Detection:**
+- Tests fail during refactoring
+- Manual testing reveals edge case failures
+- Unexpected undefined/null values
+
+**Rollback:** Fix canonical implementation to handle all edge cases, or disable toggle.
+
+---
+
 ### Type Safety Issues
 
 **Risk:** TypeScript type errors during refactoring, especially with complex IIIF types.
@@ -140,11 +163,11 @@
 - **DRY improvement:** Zero duplication of:
   - `currentCanvas` calculation (was in 4 files)
   - `queryParamToArrayIndex` calls (was in 3 files)
-  - Download options logic (was only in ViewerTopBar, now reusable)
+  - Download options logic (was only in `ViewerTopBar`, now reusable)
   
 - **Cyclomatic complexity:** Reduced by ~15-20 points
-  - ViewerTopBar complexity reduced significantly
-  - IIIFViewer complexity reduced
+  - `ViewerTopBar` complexity reduced significantly
+  - `IIIFViewer` complexity reduced
   
 - **Test coverage:** Increased to >80% for IIIF Viewer components
   - ItemViewerContext: 100% coverage
@@ -284,3 +307,7 @@ If context re-renders become an issue:
 **See also:**
 - [13-testing-strategy.md](./13-testing-strategy.md) - How to verify success
 - [13-migration-checklist.md](./13-migration-checklist.md) - Track your progress
+
+---
+
+**Next:** [Future Improvements](./16-future-improvements.md)

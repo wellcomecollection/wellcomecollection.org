@@ -74,6 +74,41 @@ export type ImageService = {
 };
 ```
 
+#### 3. Type Centralisation
+
+Types should live in predictable locations to avoid duplication and confusion:
+
+Current type locations:
+- IIIF-related types: `content/webapp/types/manifest.ts`
+- ItemViewer-specific types: `content/webapp/types/item-viewer.ts`
+- Catalogue API types: `content/webapp/services/wellcome/catalogue/types/`
+- Component-specific types: Defined near components when only used locally
+
+Principles for type centralisation:
+- Shared types used across multiple features belong in `content/webapp/types/`
+- API response types belong near their service in `content/webapp/services/`
+- Component-specific types can stay in component files if only used there
+- Don't duplicate types - import and reuse existing definitions
+- When unsure, check if a type already exists before creating a new one
+
+Check for type duplication:
+- Search for similar type names before adding new types
+- Look for inline type definitions that could use existing types
+- Consolidate multiple definitions of the same concept
+
+Example of good centralisation:
+```typescript
+// Good: Reusing centralised type
+import { TransformedCanvas } from '@weco/content/types/manifest';
+
+// Bad: Redefining what already exists
+type MyCanvas = {
+  id: string;
+  width: number;
+  // ... duplicating TransformedCanvas
+};
+```
+
 ## Tasks
 
 ### 1. Fix Implicit `any` Types
@@ -147,27 +182,24 @@ Check these files have explicit prop types (they do, but verify):
 - `ViewerTopBar.tsx` - `ViewerTopBarProps`
 - `ZoomedImage.tsx` - `ZoomedImageProps`
 - `ImageViewer.tsx` - `ImageViewerProps`
-- `MainViewer.tsx` - Component props defined inline
+- `MainViewer.tsx` - component props defined inline
 
 All components checked have proper prop types.
 
 ### 5. Run TypeScript Compiler
 
 ```bash
-cd /Users/cantinr/Projects/wellcomecollection.org
-yarn tsc --noEmit
+yarn tsc
 ```
 
-Fix any errors that appear in ItemViewer/IIIFViewer files.
+Fix any errors that appear in `ItemViewer`/`IIIFViewer` files.
 
-### 6. Validate Against Official Specs (Recommended)
+### 6. Validate Against Official Specs
 
 Since you're using official IIIF types, verify your custom types align correctly:
 
 Check IIIF Type Usage:
-```typVerified custom types properly use official `@iiif/presentation-3` types
-- [ ] (Optional) Checked if Catalogue API has OpenAPI spec for type generation
-- [ ] escript
+Verified custom types properly use official `@iiif/presentation-3` types
 //  Good: Using official types directly
 import { Canvas, Manifest, ContentResource } from '@iiif/presentation-3';
 
@@ -191,7 +223,8 @@ Your Catalogue API types (`Work`, `WorkBasic`, `Item`, etc.) are manually define
 - [ ] Fixed both `setSearchResults` implicit `any` types
 - [ ] (Optional) Added `ImageService` type to `content/webapp/types/item-viewer.ts`
 - [ ] Documented existing type structure for reference
-- [ ] `yarn tsc --noEmit` runs without errors in ItemViewer files
+- [ ] Checked for duplicate type definitions across files
+- [ ] `yarn tsc` runs without errors in ItemViewer files
 - [ ] All team members understand what types exist and where they live
 
 ## What This Phase Achieves
@@ -202,20 +235,12 @@ Your Catalogue API types (`Work`, `WorkBasic`, `Item`, etc.) are manually define
 4. Foundation - Solid base for refactoring with confidence
 5. Consistency - All types follow same patterns and use official specs where available
 
-## Time Estimate
-
-- Fix implicit `any` types: 10 minutes
-- Add optional `ImageService` type: 5 minutes
-- Document existing types: 15 minutes
-- Validate IIIF type usage: 10 minutes
-- Check for Catalogue API OpenAPI spec: 10 minutes (if available)
-- Run tsc and verify: 15-30 minutes
-- Total: 1-1.5 hours (faster than originally estimated)
-
-Optional: If Catalogue API has OpenAPI spec and you want to generate types, add 30-60 minutes.
-
 ## Next Steps
 
 After completing this phase:
 1. [Phase 0.5: Feature Flag Setup](./07-phase-0.5-feature-flag.md) (1 hour)
 2. [Phase 1: Canvas Data Refactoring](./08-phase-1-canvas-data.md) (6-7 hours)
+
+---
+
+**Next:** [Phase 0.5: Feature Flag Setup](./07-phase-0.5-feature-flag.md)

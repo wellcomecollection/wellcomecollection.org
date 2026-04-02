@@ -8,7 +8,7 @@
 
 ## Goal
 
-Add `isCurrentCanvasRestricted` to context instead of calculating it in ViewerTopBar.
+Add `isCurrentCanvasRestricted` to context instead of calculating it in `ViewerTopBar`.
 
 ## Why?
 

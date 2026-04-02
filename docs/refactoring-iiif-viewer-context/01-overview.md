@@ -48,7 +48,7 @@ const currentCanvas = canvases?.[queryParamToArrayIndex(query.canvas)];
 const currentCanvas = transformedManifest?.canvases[queryParamToArrayIndex(query.canvas)];
 ```
 
-**Download options logic - only in ViewerTopBar.tsx (lines 245-291):**
+**Download options logic - only in `ViewerTopBar.tsx` (lines 245-291):**
 - Calculate `iiifImageDownloadOptions`
 - Extract `canvasImageDownloads` from `imageServices`
 - Get `canvasDownloadOptions` from current canvas
@@ -58,7 +58,7 @@ const currentCanvas = transformedManifest?.canvases[queryParamToArrayIndex(query
 
 **Note:** Download logic is only in one file, but it's ~65 lines of complex business logic. **This will go into a custom hook** (not context) for testability and potential reuse.
 
-**Image services extraction - ViewerTopBar.tsx (lines 226-238):**
+**Image services extraction - `ViewerTopBar.tsx` (lines 226-238):**
 Complex mapping with `ChoiceBody` handling, only done once but could be reusable.
 
 ## What Goes Where?
