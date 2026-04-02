@@ -21,7 +21,6 @@ import {
 } from '@weco/content/services/wellcome/catalogue/types';
 import { Link } from '@weco/content/types/link';
 import { Page } from '@weco/content/types/pages';
-import CollaboratorCards from '@weco/content/views/components/CollaboratorCards';
 import ImageModal, {
   useExpandedImage,
 } from '@weco/content/views/components/ImageModal';
@@ -63,7 +62,6 @@ export type Props = {
   curatedUid: string;
   categoryThemeCardsList?: RawThemeCardsListSlice;
   newOnlineWorks: WorkBasic[];
-  frequentCollaborators: RelatedConcept[];
   relatedStoriesId: string[];
   worksAndImagesAbout: WorksAndImagesResponse;
   relatedTopics: RelatedConcept[];
@@ -76,7 +74,6 @@ const WellcomeSubThemePage: NextPage<Props> & {
   thematicBrowsingPage,
   categoryThemeCardsList,
   newOnlineWorks,
-  frequentCollaborators,
   relatedStoriesId,
   worksAndImagesAbout,
   relatedTopics,
@@ -92,7 +89,6 @@ const WellcomeSubThemePage: NextPage<Props> & {
   const hasImagesAbout = !!(
     worksAndImagesAbout.images && worksAndImagesAbout.images.totalResults > 0
   );
-  const hasFrequentCollaborators = frequentCollaborators.length > 0;
   const hasRelatedTopics = relatedTopics.length > 0;
 
   const lowerCasePageTitle = thematicBrowsingPage.title.toLowerCase();
@@ -100,10 +96,6 @@ const WellcomeSubThemePage: NextPage<Props> & {
     hasNewOnlineWorks && {
       text: `New works in ${lowerCasePageTitle}`,
       url: `#new-online`,
-    },
-    hasFrequentCollaborators && {
-      text: 'Frequent collaborators',
-      url: `#frequent-collaborators`,
     },
     hasRelatedStories && {
       text: `Stories about ${lowerCasePageTitle}`,
@@ -162,21 +154,11 @@ const WellcomeSubThemePage: NextPage<Props> & {
               </SectionContainer>
             )}
 
-            {hasFrequentCollaborators && (
-              <SectionContainer
-                title="Frequent collaborators"
-                id="frequent-collaborators"
-                isFirst={!hasNewOnlineWorks}
-              >
-                <CollaboratorCards collaborators={frequentCollaborators} />
-              </SectionContainer>
-            )}
-
             {hasRelatedStories && (
               <SectionContainer
                 title={`Stories about ${lowerCasePageTitle}`}
                 id="stories"
-                isFirst={!hasNewOnlineWorks && !hasFrequentCollaborators}
+                isFirst={!hasNewOnlineWorks}
               >
                 <SubThemeStories relatedStoriesId={relatedStoriesId} />
               </SectionContainer>
@@ -203,10 +185,7 @@ const WellcomeSubThemePage: NextPage<Props> & {
                 title={`Works about ${lowerCasePageTitle}`}
                 id="works-about"
                 isFirst={
-                  !hasNewOnlineWorks &&
-                  !hasFrequentCollaborators &&
-                  !hasRelatedStories &&
-                  !hasImagesAbout
+                  !hasNewOnlineWorks && !hasRelatedStories && !hasImagesAbout
                 }
               >
                 <SubThemeWorks
@@ -223,7 +202,6 @@ const WellcomeSubThemePage: NextPage<Props> & {
                 id="related-topics"
                 isFirst={
                   !hasNewOnlineWorks &&
-                  !hasFrequentCollaborators &&
                   !hasRelatedStories &&
                   !hasImagesAbout &&
                   !hasWorksAbout

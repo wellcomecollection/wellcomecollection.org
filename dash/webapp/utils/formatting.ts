@@ -1,3 +1,7 @@
+export function pluralise(count: number, noun: string, suffix = 's'): string {
+  return `${count} ${noun}${count !== 1 ? suffix : ''}`;
+}
+
 // Renders a date in the local timezone, including day of the week.
 // e.g. "Fri, 22 May 2020"
 const dateFormatter = new Intl.DateTimeFormat([], {
@@ -29,7 +33,8 @@ export function getHumanFriendlyDateString(iso8601DateString: string): string {
 
   // When are today and yesterday?
   const today = new Date();
-  const yesterday = new Date().setDate(today.getDate() - 1);
+  const yesterday = new Date();
+  yesterday.setDate(today.getDate() - 1);
 
   // We have to compare the *formatted* dates rather than the actual dates --
   // for example, if the UTC date and the localised date fall on either side
