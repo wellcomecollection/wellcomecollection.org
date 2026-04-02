@@ -14,7 +14,7 @@ import ItemRequestModal from '.';
 jest.spyOn(Context, 'usePrismicData').mockImplementation(() => prismicData);
 
 const mockDateNow = (dateToMock: string) => {
-  jest.useFakeTimers().setSystemTime(new Date(dateToMock));
+  jest.useFakeTimers().setSystemTime(new Date(dateToMock).getTime());
 };
 
 const RequestModal: FunctionComponent = () => {
