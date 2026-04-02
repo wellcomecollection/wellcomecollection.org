@@ -1,5 +1,8 @@
 import { secrets } from '@weco/prismic-model/config';
-import { setEnvsFromSecrets } from '@weco/ts-aws';
+import {
+  AwsCredentials,
+  setEnvsFromSecrets,
+} from '@weco/prismic-model/utils/aws';
 
 type CustomType = {
   id: string;
@@ -14,12 +17,6 @@ type SliceType = {
   id: string;
   name: string;
   variations: { imageUrl: string }[];
-};
-
-export type Credentials = {
-  accessKeyId: string;
-  secretAccessKey: string;
-  sessionToken: string;
 };
 
 async function getLocalType(id: string): Promise<CustomType | undefined> {
@@ -40,7 +37,7 @@ async function getLocalSlice(name: string): Promise<SliceType | undefined> {
 }
 
 export async function getContentTypes(
-  credentials?: Credentials
+  credentials?: AwsCredentials
 ): Promise<{ id: string; remote: CustomType; local?: CustomType }[]> {
   await setEnvsFromSecrets(secrets, credentials);
 
@@ -69,7 +66,7 @@ export async function getContentTypes(
 }
 
 export async function getSharedSlices(
-  credentials?: Credentials
+  credentials?: AwsCredentials
 ): Promise<{ id: string; remote: SliceType; local?: SliceType }[]> {
   await setEnvsFromSecrets(secrets, credentials);
 

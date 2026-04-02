@@ -2,7 +2,7 @@ import { S3Client } from '@aws-sdk/client-s3';
 
 import { region } from '@weco/toggles/config';
 import { deploy } from '@weco/toggles/deploy';
-import { getCreds } from '@weco/ts-aws';
+import { getCreds } from '@weco/toggles/utils/aws';
 
 export const isCi = process.env.CI === 'true';
 
