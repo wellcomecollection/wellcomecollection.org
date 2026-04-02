@@ -380,7 +380,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
 
   const [probeOk, setProbeOk] = useState(!isRestricted);
   useEffect(() => {
-    if (!isRestricted || !accessToken) return;
+    if (!isRestricted || !accessToken || !userIsStaffWithRestricted) return;
     const probeUrl = canvas.probeServiceId;
     if (!probeUrl) {
       // No probe URL available — fall back to rendering directly
@@ -426,7 +426,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
     return () => {
       cancelled = true;
     };
-  }, [accessToken]);
+  }, [accessToken, userIsStaffWithRestricted]);
   // Replace "image" with "item" in description if the item is not an image
   // or if it's an image but has originals, which means the image is just a placeholder for the original item
   const adjustedExternalAccessService =
