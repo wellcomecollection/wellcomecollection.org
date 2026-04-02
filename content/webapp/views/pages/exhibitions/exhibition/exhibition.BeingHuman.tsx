@@ -1,5 +1,6 @@
 // We should aim to delete this as soon as possible
 // https://github.com/wellcomecollection/wellcomecollection.org/issues/11732
+import { FunctionComponent } from 'react';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { arrow, download } from '@weco/common/icons';
@@ -11,6 +12,13 @@ import Icon from '@weco/common/views/components/Icon';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
+import { EventBasic } from '@weco/content/types/events';
+import {
+  AboutThisExhibitionContent,
+  Exhibition as ExhibitionType,
+} from '@weco/content/types/exhibitions';
+import { Link } from '@weco/content/types/link';
+import { Page as PageType } from '@weco/content/types/pages';
 import Contributors from '@weco/content/views/components/Contributors';
 import InfoBox from '@weco/content/views/components/InfoBox';
 import SearchResults from '@weco/content/views/components/SearchResults';
@@ -22,6 +30,14 @@ import {
 } from '@weco/content/views/components/styled/AccessResources';
 
 import { getInfoItems } from './exhibition.helpers';
+
+type Props = {
+  exhibition: ExhibitionType;
+  relatedContent: (ExhibitionType | EventBasic | PageType)[];
+  aboutThisExhibitionContent: AboutThisExhibitionContent[];
+  accessResourceLinks: (Link & { type: string })[];
+  exhibitionFormat: string;
+};
 
 function getBorderColor({
   type,
@@ -41,7 +57,7 @@ function getBorderColor({
   }
 }
 
-const ExhibitionBeingHuman = ({
+const ExhibitionBeingHuman: FunctionComponent<Props> = ({
   exhibition,
   relatedContent,
   aboutThisExhibitionContent,
