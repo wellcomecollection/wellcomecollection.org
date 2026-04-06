@@ -379,11 +379,24 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
   // N.B. We intentionally fall back to rendering (setProbeOk(true)) rather than blocking staff indefinitely, but this should reduce the chance of a visible 401 error for restricted files due to cookie propagation delays.
 
   const [probeOk, setProbeOk] = useState(!isRestricted);
+  // Tracks which canvas ID the probe last succeeded for.
+  // Each canvas is probed independently; token refreshes on the same canvas
+  // skip re-probing to avoid a race where the probe resolves before the
+  // refreshed cookie is ready for image requests.
+  const probeSucceededForCanvas = useRef<string | undefined>(undefined);
   useEffect(() => {
-    if (!isRestricted || !accessToken || !userIsStaffWithRestricted) return;
+    if (!isRestricted) {
+      // Canvas changed to an unrestricted one — ensure probeOk reflects that.
+      setProbeOk(true);
+      return;
+    }
+    if (!accessToken || !userIsStaffWithRestricted) return;
+    // If the probe already succeeded for this specific canvas, don't re-gate.
+    if (probeSucceededForCanvas.current === canvas.id) return;
     const probeUrl = canvas.probeServiceId;
     if (!probeUrl) {
       // No probe URL available — fall back to rendering directly
+      probeSucceededForCanvas.current = canvas.id;
       setProbeOk(true);
       return;
     }
@@ -395,7 +408,10 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
     let attempts = 0;
 
     function pollProbe() {
+      // Guard against firing a fetch after unmount when a setTimeout is still pending
+      if (cancelled) return;
       if (!probeUrl) return;
+      attempts++;
       fetch(probeUrl, {
         headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : {},
       })
@@ -403,20 +419,21 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
         .then((data: { status?: number }) => {
           if (cancelled) return;
           if (data.status === 200) {
+            probeSucceededForCanvas.current = canvas.id;
             setProbeOk(true);
           } else if (attempts < maxAttempts) {
-            attempts++;
             setTimeout(pollProbe, delay);
           } else {
+            probeSucceededForCanvas.current = canvas.id;
             setProbeOk(true); // fallback after timeout
           }
         })
         .catch(() => {
           if (cancelled) return;
           if (attempts < maxAttempts) {
-            attempts++;
             setTimeout(pollProbe, delay);
           } else {
+            probeSucceededForCanvas.current = canvas.id;
             setProbeOk(true); // fallback after timeout
           }
         });
@@ -426,7 +443,13 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
     return () => {
       cancelled = true;
     };
-  }, [accessToken, userIsStaffWithRestricted]);
+  }, [
+    accessToken,
+    userIsStaffWithRestricted,
+    canvas.id,
+    canvas.probeServiceId,
+    isRestricted,
+  ]);
   // Replace "image" with "item" in description if the item is not an image
   // or if it's an image but has originals, which means the image is just a placeholder for the original item
   const adjustedExternalAccessService =
