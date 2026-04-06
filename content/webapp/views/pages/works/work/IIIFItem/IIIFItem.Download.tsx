@@ -40,19 +40,31 @@ type Props = {
   showWarning?: boolean;
 };
 
+function isPdf(src: string, format?: string): boolean {
+  if (format) return format === 'application/pdf';
+  try {
+    return new URL(src).pathname.toLowerCase().endsWith('.pdf');
+  } catch {
+    return src.toLowerCase().endsWith('.pdf');
+  }
+}
+
 const IIIFItemDownload: FunctionComponent<Props> = ({
   src,
   label,
   fileSize,
+  format,
   showWarning = false,
 }: Props) => {
   const substituteTitle = 'unknown title';
   const displayLabel = getFileLabel(label, substituteTitle);
+  const isFilePdf = isPdf(src, format);
+  const action = isFilePdf ? 'Open' : 'Download';
 
   return (
     <DownloadContainer>
       <Icon
-        icon={src.endsWith('.pdf') ? pdf : file}
+        icon={isFilePdf ? pdf : file}
         sizeOverride="width: 48px; height: 48px;"
       />
       <Space
@@ -67,8 +79,8 @@ const IIIFItemDownload: FunctionComponent<Props> = ({
       <Buttons
         variant="ButtonSolidLink"
         link={src}
-        text={src.endsWith('.pdf') ? 'Open' : 'Download'}
-        ariaLabel={`${src.endsWith('.pdf') ? 'Open' : 'Download'} ${(displayLabel !== substituteTitle && label) || 'document'}`}
+        text={action}
+        ariaLabel={`${action} ${(displayLabel !== substituteTitle && label) || 'document'}`}
       />
       <span className={font('sans', -2)}>
         Size:{' '}
