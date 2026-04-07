@@ -85,7 +85,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     return {
       props: serialiseProps<Props>({
         exhibition: exhibitionDoc,
-        pages: relatedPages?.results || [],
+        relatedPages: relatedPages?.results || [],
         accessResourceLinks: [...exhibitionGuidesLinks, ...visualStoriesLinks],
         exhibitionTexts,
         exhibitionHighlightTours,

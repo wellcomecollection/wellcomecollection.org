@@ -36,6 +36,11 @@ const ScrollButton = styled('button').attrs({
 
   &:disabled {
     color: ${props => props.theme.color('neutral.500')};
+    cursor: not-allowed;
+  }
+
+  &:not(:disabled):hover {
+    text-decoration: underline;
   }
 `;
 type Props = {

@@ -10,7 +10,7 @@ import {
 } from '@aws-sdk/client-s3';
 import { Readable } from 'stream';
 
-import { getCreds } from '@weco/ts-aws';
+import { getCreds } from '@weco/toggles/utils/aws';
 
 import { TogglesResp } from '.';
 import { bucket, key, region } from './config';

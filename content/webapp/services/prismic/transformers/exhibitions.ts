@@ -258,13 +258,13 @@ export const transformExhibitionRelatedContent = (
   });
 
   return {
-    exhibitionOfs: parsedContent.filter(
+    relatedExhibitionsAndEvents: parsedContent.filter(
       doc =>
         doc.type === 'exhibitions' ||
         doc.type === 'events' ||
         doc.type === 'event-series'
     ),
-    exhibitionAbouts: parsedContent.filter(
+    aboutThisExhibitionContent: parsedContent.filter(
       doc =>
         doc.type === 'books' || doc.type === 'articles' || doc.type === 'series'
     ),

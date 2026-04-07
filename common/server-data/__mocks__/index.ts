@@ -25,6 +25,7 @@ export async function getServerData(): Promise<ServerData> {
     consentStatus: {
       analytics: false,
       marketing: false,
+      cookieExists: false,
     },
   };
 }
