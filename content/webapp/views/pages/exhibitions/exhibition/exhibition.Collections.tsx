@@ -33,8 +33,9 @@ const ExhibitionCollectionsContent = ({
   // If this trial is successful, we will want to expand this to other exhibitions in the future.
   const shouldDisplayStories =
     isTendernessAndRageExhibition && aboutThisExhibitionContent.length > 0;
-  const shouldDisplayThemes =
-    themeCardsListSlice && themeCardsListSlice.value.conceptIds.length > 0;
+  const shouldDisplayThemes = Boolean(
+    themeCardsListSlice && themeCardsListSlice.value.conceptIds.length > 0
+  );
 
   const shouldDisplay =
     shouldDisplayStories || shouldDisplayThemes || videos.length > 0;
@@ -53,7 +54,7 @@ const ExhibitionCollectionsContent = ({
         {shouldDisplayStories && <p>Stories section</p>}
       </Container>
 
-      {shouldDisplayThemes && (
+      {shouldDisplayThemes && themeCardsListSlice && (
         <ThemeCardsList
           conceptIds={themeCardsListSlice.value.conceptIds}
           gtmData={{
@@ -66,7 +67,11 @@ const ExhibitionCollectionsContent = ({
         />
       )}
 
-      <Container>{videos.length > 0 && <p>Videos section</p>}</Container>
+      {videos.length > 0 && (
+        <Container>
+          <p>Videos section</p>
+        </Container>
+      )}
     </Wrapper>
   );
 };
