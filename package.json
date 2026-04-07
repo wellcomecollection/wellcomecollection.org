@@ -65,7 +65,7 @@
     "babel-plugin-styled-components": "^2.1.4",
     "babel-plugin-transform-typescript-metadata": "^0.4.0",
     "babel-preset-react": "^6.24.1",
-    "eslint": "^9.39.1",
+    "eslint": "^10.2.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-jest": "^29.15.0",
@@ -90,7 +90,7 @@
     "ts-jest": "29.4.0",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
-    "undici": "^7.24.5",
+    "undici": "^8.0.2",
     "whatwg-fetch": "^3.6.2"
   },
   "resolutions": {
