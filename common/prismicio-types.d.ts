@@ -2770,6 +2770,7 @@ export type ExhibitionTextsDocument<Lang extends string = string> =
   >;
 
 type ExhibitionsDocumentDataBodySlice =
+  | ThemeCardsListSlice
   | GifVideoSlice
   | IframeSlice
   | EditorialImageSlice
@@ -5891,7 +5892,7 @@ export interface ArchiveCardListSliceDefaultPrimaryItemsItem {
   archive_description: prismic.KeyTextField;
 
   /**
-   * Is organisation? field in *ArchiveCardList → Default → Primary → Archive items*
+   * Organisation or person icon field in *ArchiveCardList → Default → Primary → Archive items*
    *
    * - **Field Type**: Boolean
    * - **Placeholder**: *None*
