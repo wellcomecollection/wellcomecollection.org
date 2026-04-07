@@ -25,8 +25,8 @@ export default async (
 
   if (parsedParams.length === 0) {
     return res.status(200).json({
-      exhibitionOfs: [],
-      exhibitionAbouts: [],
+      relatedExhibitionsAndEvents: [],
+      aboutThisExhibitionContent: [],
     });
   }
 

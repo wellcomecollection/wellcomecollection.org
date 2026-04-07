@@ -64,11 +64,11 @@ export type Exhibit = {
   item: Exhibition;
 };
 
-export type ExhibitionAbout = Book | Article | Series;
+export type AboutThisExhibitionContent = Book | Article | Series;
 
 export type ExhibitionRelatedContent = {
-  exhibitionOfs: (Exhibition | EventBasic)[];
-  exhibitionAbouts: ExhibitionAbout[];
+  relatedExhibitionsAndEvents: (Exhibition | EventBasic)[];
+  aboutThisExhibitionContent: AboutThisExhibitionContent[];
 };
 
 export type AccessPDF = Link & { size: number };
