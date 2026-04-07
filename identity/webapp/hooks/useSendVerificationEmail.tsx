@@ -1,5 +1,6 @@
-import axios from 'axios';
 import { useState } from 'react';
+
+import { accountApiClient } from '@weco/identity/utils/api-client';
 
 // These are the four states:
 //
@@ -28,9 +29,10 @@ export function useSendVerificationEmail(): UseSendVerificationEmailProps {
   const sendVerificationEmail = async () => {
     setState('loading');
     try {
-      const response = await axios.post(
-        '/account/api/users/me/send-verification-email'
-      );
+      const response = await accountApiClient.request({
+        url: '/users/me/send-verification-email',
+        method: 'POST',
+      });
 
       if (response.status !== 204) {
         throw new Error(

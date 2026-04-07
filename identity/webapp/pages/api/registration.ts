@@ -1,8 +1,8 @@
-import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import getConfig from 'next/config';
 
+import { fetchWithUndiciAgent } from '@weco/common/utils/undici-agent';
 import { authenticatedInstanceFactory } from '@weco/identity/utils/auth';
 import { decodeToken } from '@weco/identity/utils/jwt-codec';
 
@@ -10,20 +10,33 @@ const { serverRuntimeConfig: config } = getConfig();
 
 const identityApiClient = authenticatedInstanceFactory(
   async () => {
-    const response = await axios.post(
+    const response = await fetchWithUndiciAgent(
       `https://${config.auth0.domain}/oauth/token`,
       {
-        client_id: config.auth0.clientID,
-        client_secret: config.auth0.clientSecret,
-        audience: config.remoteApi.host,
-        grant_type: 'client_credentials',
-      },
-      {
-        validateStatus: (status: number) => status === 200,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          client_id: config.auth0.clientID,
+          client_secret: config.auth0.clientSecret,
+          audience: config.remoteApi.host,
+          grant_type: 'client_credentials',
+        }),
       }
     );
 
-    const accessToken = response.data.access_token;
+    if (response.status !== 200) {
+      const errorBody = await response
+        .text()
+        .catch(() => 'Unable to read error body');
+      throw new Error(
+        `Failed to get OAuth token: ${response.status} ${response.statusText}. Body: ${errorBody}`
+      );
+    }
+
+    const data = await response.json();
+    const accessToken = data.access_token;
     const decodedToken = jwt.decode(accessToken);
     if (decodedToken && typeof decodedToken === 'object' && decodedToken.exp) {
       return { accessToken, expiresAt: decodedToken.exp };
@@ -110,9 +123,9 @@ export default async (
   const redirectUri = `https://${issuer}/continue?state=${state}`;
 
   try {
-    const axios = await identityApiClient();
+    const client = await identityApiClient();
 
-    await axios.put(`/users/${userId}/registration`, {
+    await client.put(`/users/${userId}/registration`, {
       firstName,
       lastName,
     });

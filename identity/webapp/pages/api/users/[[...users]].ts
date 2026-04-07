@@ -1,13 +1,13 @@
 import { AccessTokenError } from '@auth0/nextjs-auth0';
-import axios, { AxiosInstance, Method as AxiosMethod } from 'axios';
 import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
 import getConfig from 'next/config';
 
 import auth0 from '@weco/identity/utils/auth0';
+import { FetchClient } from '@weco/identity/utils/fetch-helpers';
 
 const { serverRuntimeConfig: config } = getConfig();
 
-export const identityAxios: AxiosInstance = axios.create({
+export const identityFetchClient: FetchClient = new FetchClient({
   baseURL: config.remoteApi.host,
   headers: {
     'x-api-key': config.remoteApi.apiKey,
@@ -19,13 +19,17 @@ const handleIdentityApiRequest: NextApiHandler = auth0.withApiAuthRequired(
     try {
       const { accessToken } = await auth0.getAccessToken(req, res);
       const path = '/users/' + (req.query.users as string[]).join('/');
-      const remoteResponse = await identityAxios
+
+      // GET and HEAD requests cannot have a body
+      const method = req.method || 'GET';
+      const remoteResponse = await identityFetchClient
         .request({
           url: path,
-          method: req.method as AxiosMethod,
-          data: req.body,
+          method,
+          // Only include body for methods that support it
+          ...(method !== 'GET' && method !== 'HEAD' ? { data: req.body } : {}),
           headers: {
-            ...identityAxios.defaults.headers.common,
+            ...identityFetchClient.defaults.headers.common,
             Authorization: `Bearer ${accessToken}`,
           },
           validateStatus: (status: number) => status >= 200 && status < 500,
