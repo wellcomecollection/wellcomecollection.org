@@ -118,7 +118,15 @@ export const getServerData = async (
   context: GetServerSidePropsContext
 ): Promise<SimplifiedServerData> => {
   const togglesResp = await read('toggles', handlers.toggles.defaultValue);
-  const prismic = await read('prismic', handlers.prismic.defaultValue);
+
+  // Check if Prismic stage toggle is enabled
+  const isPrismicStage = context.req.cookies?.toggle_prismicStage === 'true';
+
+  // If stage toggle is enabled, fetch fresh data from stage instead of using cache
+  const prismic = isPrismicStage
+    ? await import('./prismic').then(m => m.fetchPrismicValues(true))
+    : await read('prismic', handlers.prismic.defaultValue);
+
   const { toggle } = context.query;
 
   const enableToggle: string | undefined =

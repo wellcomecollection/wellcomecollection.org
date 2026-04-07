@@ -65,8 +65,10 @@ export const handler: Handler<SimplifiedPrismicData, PrismicData> = {
   fetch: fetchPrismicValues,
 };
 
-async function fetchPrismicValues(): Promise<PrismicData> {
-  const client = createPrismicClient();
+export async function fetchPrismicValues(
+  isPrismicStage?: boolean
+): Promise<PrismicData> {
+  const client = createPrismicClient(isPrismicStage);
 
   const collectionVenuesResultPromise = client.get({
     filters: [

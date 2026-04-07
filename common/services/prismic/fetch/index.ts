@@ -33,9 +33,10 @@ export function createClient(isPrismicStage?: boolean): prismic.Client {
     console.warn('No access token specified for Prismic client');
   }
 
-  const endpoint = prismic.getRepositoryEndpoint(
-    `wellcomecollection${isPrismicStage ? '-stage' : ''}`
-  );
+  const repositoryName = isPrismicStage
+    ? 'wellcomecollection-stage'
+    : 'wellcomecollection';
+  const endpoint = prismic.getRepositoryEndpoint(repositoryName);
   const client = prismic.createClient(endpoint, {
     fetch: fetchWithUndiciAgent,
     accessToken,
