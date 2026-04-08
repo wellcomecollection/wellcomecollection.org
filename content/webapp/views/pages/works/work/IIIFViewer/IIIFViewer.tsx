@@ -133,6 +133,7 @@ const Sidebar = styled.div<{
   background: ${props => props.theme.color('neutral.700')};
   color: ${props => props.theme.color('white')};
   overflow: auto;
+  min-width: 0;
   z-index: 5;
 `;
 
