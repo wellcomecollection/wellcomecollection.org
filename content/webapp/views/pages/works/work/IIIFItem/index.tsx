@@ -267,6 +267,7 @@ const IIIFItemWrapper: FunctionComponent<{
   shouldShowItem: boolean;
   className: string;
   isRestricted: boolean;
+  probeOk: boolean;
   externalAccessService?: TransformedAuthService;
   children: ReactNode | undefined;
   containerRef?: RefObject<HTMLDivElement | null>;
@@ -274,6 +275,7 @@ const IIIFItemWrapper: FunctionComponent<{
   shouldShowItem,
   className,
   isRestricted,
+  probeOk,
   externalAccessService,
   children,
   containerRef,
@@ -290,7 +292,7 @@ const IIIFItemWrapper: FunctionComponent<{
     return (
       <Outline $border={isRestricted} className={className} ref={containerRef}>
         {isRestricted && <StaffRestrictedMessage />}
-        {children}
+        {(!isRestricted || probeOk) && children}
       </Outline>
     );
   }
@@ -304,6 +306,7 @@ const IIIFItemWrapperWithObserver: FunctionComponent<{
   shouldShowItem: boolean;
   className: string;
   isRestricted: boolean;
+  probeOk: boolean;
   externalAccessService?: TransformedAuthService;
   children: ReactNode | undefined;
   index: number;
@@ -311,6 +314,7 @@ const IIIFItemWrapperWithObserver: FunctionComponent<{
   shouldShowItem,
   className,
   isRestricted,
+  probeOk,
   externalAccessService,
   children,
   index,
@@ -343,6 +347,7 @@ const IIIFItemWrapperWithObserver: FunctionComponent<{
       shouldShowItem={shouldShowItem}
       className={className}
       isRestricted={isRestricted}
+      probeOk={probeOk}
       externalAccessService={externalAccessService}
       containerRef={ref}
     >
@@ -420,15 +425,14 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           shouldShowItem={shouldShowItem}
           className="audio-wrapper"
           isRestricted={isRestricted}
+          probeOk={probeOk}
           externalAccessService={adjustedExternalAccessService}
         >
-          {(!isRestricted || probeOk) && (
-            <AudioPlayer
-              isDark={isDark}
-              audioFile={item.id}
-              title={getFileLabel(canvas.label, titleOverride) || ''}
-            />
-          )}
+          <AudioPlayer
+            isDark={isDark}
+            audioFile={item.id}
+            title={getFileLabel(canvas.label, titleOverride) || ''}
+          />
         </IIIFItemWrapper>
       );
 
@@ -438,23 +442,22 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           shouldShowItem={shouldShowItem}
           className="video-wrapper"
           isRestricted={isRestricted}
+          probeOk={probeOk}
           externalAccessService={adjustedExternalAccessService}
         >
-          {(!isRestricted || probeOk) && (
-            <>
-              <VideoPlayer
-                placeholderId={placeholderId}
-                video={item}
-                showDownloadOptions={true}
+          <>
+            <VideoPlayer
+              placeholderId={placeholderId}
+              video={item}
+              showDownloadOptions={true}
+            />
+            {showVideoTranscript && (
+              <VideoTranscript
+                supplementing={canvas.supplementing}
+                isDark={isDark}
               />
-              {showVideoTranscript && (
-                <VideoTranscript
-                  supplementing={canvas.supplementing}
-                  isDark={isDark}
-                />
-              )}
-            </>
-          )}
+            )}
+          </>
         </IIIFItemWrapper>
       );
 
@@ -464,18 +467,15 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           shouldShowItem={shouldShowItem}
           className="pdf-wrapper"
           isRestricted={isRestricted}
+          probeOk={probeOk}
           externalAccessService={adjustedExternalAccessService}
         >
-          {(!isRestricted || probeOk) && (
-            <IIIFItemPdf
-              src={item.id}
-              label={itemLabel}
-              fileSize={getFileSize(canvas)}
-              format={
-                'format' in item ? getFormatString(item.format) : undefined
-              }
-            />
-          )}
+          <IIIFItemPdf
+            src={item.id}
+            label={itemLabel}
+            fileSize={getFileSize(canvas)}
+            format={'format' in item ? getFormatString(item.format) : undefined}
+          />
         </IIIFItemWrapper>
       );
 
@@ -493,22 +493,21 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
                     shouldShowItem={shouldShowItem}
                     className="download-wrapper"
                     isRestricted={isRestricted}
+                    probeOk={probeOk}
                     externalAccessService={adjustedExternalAccessService}
                   >
-                    {(!isRestricted || probeOk) && (
-                      <IIIFItemDownload
-                        key={original.id}
-                        src={original.id}
-                        label={itemLabel}
-                        fileSize={getFileSize(canvas)}
-                        format={
-                          'format' in item
-                            ? getFormatString(item.format)
-                            : undefined
-                        }
-                        showWarning={true}
-                      />
-                    )}
+                    <IIIFItemDownload
+                      key={original.id}
+                      src={original.id}
+                      label={itemLabel}
+                      fileSize={getFileSize(canvas)}
+                      format={
+                        'format' in item
+                          ? getFormatString(item.format)
+                          : undefined
+                      }
+                      showWarning={true}
+                    />
                   </IIIFItemWrapper>
                 )
               );
@@ -531,10 +530,11 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
               shouldShowItem={shouldShowItem}
               className="item-wrapper"
               isRestricted={isRestricted}
+              probeOk={probeOk}
               externalAccessService={adjustedExternalAccessService}
               index={i}
             >
-              {!isRestricted || probeOk ? imageContent : null}
+              {imageContent}
             </IIIFItemWrapperWithObserver>
           );
         }
@@ -543,9 +543,10 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
             shouldShowItem={shouldShowItem}
             className="item-wrapper"
             isRestricted={isRestricted}
+            probeOk={probeOk}
             externalAccessService={adjustedExternalAccessService}
           >
-            {!isRestricted || probeOk ? imageContent : null}
+            {imageContent}
           </IIIFItemWrapper>
         );
       }
