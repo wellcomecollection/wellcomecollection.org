@@ -42,8 +42,8 @@ const useIIIFProbeService = (canvas: TransformedCanvas): boolean => {
     setProbeOk(false);
 
     let cancelled = false;
-    const maxAttempts = 5;
-    const delay = 400;
+    const MAX_ATTEMPTS = 5;
+    const DELAY = 400;
     let attempts = 0;
 
     function pollProbe() {
@@ -58,8 +58,8 @@ const useIIIFProbeService = (canvas: TransformedCanvas): boolean => {
           if (data.status === 200) {
             probeSucceededForCanvas.current = canvas.id;
             setProbeOk(true);
-          } else if (attempts < maxAttempts) {
-            setTimeout(pollProbe, delay);
+          } else if (attempts < MAX_ATTEMPTS) {
+            setTimeout(pollProbe, DELAY);
           } else {
             probeSucceededForCanvas.current = canvas.id;
             setProbeOk(true);
@@ -67,8 +67,8 @@ const useIIIFProbeService = (canvas: TransformedCanvas): boolean => {
         })
         .catch(() => {
           if (cancelled) return;
-          if (attempts < maxAttempts) {
-            setTimeout(pollProbe, delay);
+          if (attempts < MAX_ATTEMPTS) {
+            setTimeout(pollProbe, DELAY);
           } else {
             probeSucceededForCanvas.current = canvas.id;
             setProbeOk(true);
