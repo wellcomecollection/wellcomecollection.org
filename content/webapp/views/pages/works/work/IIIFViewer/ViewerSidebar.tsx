@@ -9,7 +9,7 @@ import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { useUserContext } from '@weco/common/contexts/UserContext';
-import { arrow, chevron, info2 } from '@weco/common/icons';
+import { arrow, chevron } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
@@ -17,10 +17,7 @@ import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
-import {
-  getAuthServices,
-  getMultiVolumeLabel,
-} from '@weco/content/utils/iiif/v3';
+import { getMultiVolumeLabel } from '@weco/content/utils/iiif/v3';
 import { removeTrailingFullStop, toHtmlId } from '@weco/content/utils/string';
 import { getDigitalLocationInfo } from '@weco/content/utils/works';
 import LinkLabels from '@weco/content/views/components/LinkLabels';
@@ -28,6 +25,7 @@ import WorkLink from '@weco/content/views/components/WorkLink';
 import WorkTitle from '@weco/content/views/components/WorkTitle';
 import NestedList from '@weco/content/views/pages/works/work/ArchiveTree/ArchiveTree.NestedList';
 import DownloadItemRenderer from '@weco/content/views/pages/works/work/work.DownloadItemRenderer';
+import RestrictedItemMessage from '@weco/content/views/pages/works/work/work.RestrictedItemMessage';
 import WorksTree from '@weco/content/views/pages/works/work/WorkDetails/WorkDetails.Tree';
 
 import IIIFSearchWithin from './IIIFSearchWithin';
@@ -35,24 +33,21 @@ import MultipleManifestList from './MultipleManifestList';
 import ViewerStructures from './ViewerStructures';
 
 const RestrictedMessage = styled(Space).attrs({
-  $h: { size: 'sm', properties: ['margin-left', 'margin-right'] },
+  $h: {
+    size: 'sm',
+    properties: [
+      'margin-left',
+      'margin-right',
+      'padding-left',
+      'padding-right',
+    ],
+  },
+  $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
 })`
   background: ${props => props.theme.color('neutral.200')};
   color: ${props => props.theme.color('black')};
   border-radius: 3px;
   border-left: 5px solid #1672f3;
-`;
-
-const RestrictedMessageTitle = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 4px;
-
-  h2 {
-    padding-left: 8px;
-    margin-bottom: 0;
-    color: ${props => props.theme.color('accent.blue')};
-  }
 `;
 
 const Inner = styled(Space).attrs({
@@ -190,7 +185,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
     matchingManifest?.label &&
     getMultiVolumeLabel(matchingManifest.label, work?.title || '');
 
-  const { structures, searchService, auth } = { ...transformedManifest };
+  const { structures, searchService } = { ...transformedManifest };
 
   const digitalLocation: DigitalLocation | undefined =
     iiifPresentationLocation || iiifImageLocation;
@@ -210,12 +205,6 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
     digitalLocationInfo?.accessCondition === 'restricted' &&
     userIsStaffWithRestricted;
 
-  const authServices = getAuthServices({ auth });
-
-  const manifestNeedsRegeneration =
-    authServices?.external?.id ===
-    'https://iiif.wellcomecollection.org/auth/restrictedlogin';
-
   useEffect(() => {
     const elementToFocus = tabbableId && document.getElementById(tabbableId);
     if (elementToFocus) {
@@ -227,27 +216,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
     <>
       {isWorkVisibleWithPermission && (
         <RestrictedMessage>
-          <Space
-            $h={{ size: 'sm', properties: ['padding-left', 'padding-right'] }}
-            $v={{ size: 'xs', properties: ['padding-top', 'padding-bottom'] }}
-            className={font('sans', -1)}
-          >
-            <RestrictedMessageTitle>
-              <Icon icon={info2} iconColor="accent.blue" />
-              <h2 className={font('sans-bold', -1)}>Restricted item</h2>
-            </RestrictedMessageTitle>
-
-            <p style={{ marginBottom: manifestNeedsRegeneration ? '1rem' : 0 }}>
-              Only staff with the right permissions can view this item online.
-            </p>
-
-            {manifestNeedsRegeneration && (
-              <p style={{ marginBottom: 0 }}>
-                The manifest for this work needs to be regenerated in order for
-                staff with restricted access to be able to view it.
-              </p>
-            )}
-          </Space>
+          <RestrictedItemMessage plural={true} />
         </RestrictedMessage>
       )}
       <Inner className={font('sans-bold', -1)}>

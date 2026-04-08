@@ -19,11 +19,9 @@ import {
   restrictedItemMessage,
   unavailableContentMessage,
 } from '@weco/common/data/microcopy';
-import { information } from '@weco/common/icons';
 import { LinkProps } from '@weco/common/model/link-props';
 import { font } from '@weco/common/utils/classnames';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
-import Icon from '@weco/common/views/components/Icon';
 import {
   ContaineredLayout,
   gridSize12,
@@ -57,6 +55,7 @@ import VideoPlayer from '@weco/content/views/components/VideoPlayer';
 import IIIFItemPdf from '@weco/content/views/pages/works/work/IIIFItem/IIIFItem.Pdf';
 import { arrayIndexToQueryParam } from '@weco/content/views/pages/works/work/IIIFViewer';
 import ImageViewer from '@weco/content/views/pages/works/work/IIIFViewer/ImageViewer';
+import RestrictedItemMessage from '@weco/content/views/pages/works/work/work.RestrictedItemMessage';
 
 import IIIFItemDownload from './IIIFItem.Download';
 import VideoTranscript from './IIIFItem.VideoTranscript';
@@ -73,39 +72,49 @@ const MessageContainer = styled.div`
   padding: 10%;
 `;
 
-const Outline = styled(Space)<{ $border?: boolean }>`
-  height: ${props => (props.$border ? 'calc(100% - 1em)' : '100%')};
+const RestrictedMessage = styled.div.attrs({})`
+  display: inline;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+
+  @supports (position-anchor: --restricted-item) {
+    position-anchor: --restricted-item;
+    bottom: anchor(top);
+    left: anchor(left);
+    transform: translateY(-1em);
+  }
+
+  p {
+    margin: 0;
+  }
+`;
+
+const Outline = styled(Space)<{ $isRestricted?: boolean }>`
+  height: ${props => (props.$isRestricted ? 'calc(100% - 1em)' : '100%')};
 
   &.audio-wrapper,
   &.video-wrapper,
   &.download-wrapper {
+    > * {
+      ${props =>
+        props.$isRestricted ? 'anchor-name: --restricted-item' : null};
+    }
     max-width: 80%;
-    margin: 2em auto;
+    margin: ${props => (props.$isRestricted ? '5em auto' : '2em auto')};
     max-height: calc(100% - 4em);
   }
 
   img {
     ${props =>
-      props.$border
+      props.$isRestricted
         ? `
+          anchor-name: --restricted-item;
           border: 1px solid;
           border-color:  ${props.theme.color('neutral.600')};
           padding: 2em;
         `
         : ''};
-  }
-`;
-
-const IconContainer = styled(Space).attrs({
-  $h: { size: 'xs', properties: ['margin-right'] },
-})`
-  .icon {
-    position: relative;
-    top: 1px;
-    border-radius: 50%;
-    border: 2px solid;
-    width: 22px;
-    height: 22px;
   }
 `;
 
@@ -242,27 +251,6 @@ const PublicRestrictedMessage: FunctionComponent<{
   );
 };
 
-const StaffRestrictedMessage: FunctionComponent = () => {
-  return (
-    <p
-      className={font('sans', -1)}
-      style={{
-        top: '8px',
-        display: 'inline-flex',
-        position: 'relative',
-        left: '50%',
-        transform: 'translateX(-50%)',
-      }}
-    >
-      <IconContainer>
-        <Icon icon={information} />
-      </IconContainer>
-      <span className={font('sans-bold', -1)}>Restricted item:</span> &nbsp;Only
-      staff with the right permission can access this item online.
-    </p>
-  );
-};
-
 const IIIFItemWrapper: FunctionComponent<{
   shouldShowItem: boolean;
   className: string;
@@ -290,9 +278,17 @@ const IIIFItemWrapper: FunctionComponent<{
     );
   } else {
     return (
-      <Outline $border={isRestricted} className={className} ref={containerRef}>
-        {isRestricted && <StaffRestrictedMessage />}
+      <Outline
+        $isRestricted={isRestricted}
+        className={className}
+        ref={containerRef}
+      >
         {(!isRestricted || probeOk) && children}
+        {isRestricted && (
+          <RestrictedMessage>
+            <RestrictedItemMessage />
+          </RestrictedMessage>
+        )}
       </Outline>
     );
   }
@@ -423,7 +419,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
       return (
         <IIIFItemWrapper
           shouldShowItem={shouldShowItem}
-          className="audio-wrapper"
+          className="item-wrapper audio-wrapper"
           isRestricted={isRestricted}
           probeOk={probeOk}
           externalAccessService={adjustedExternalAccessService}
@@ -440,7 +436,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
       return (
         <IIIFItemWrapper
           shouldShowItem={shouldShowItem}
-          className="video-wrapper"
+          className="item-wrapper video-wrapper"
           isRestricted={isRestricted}
           probeOk={probeOk}
           externalAccessService={adjustedExternalAccessService}
@@ -465,7 +461,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
       return (
         <IIIFItemWrapper
           shouldShowItem={shouldShowItem}
-          className="pdf-wrapper"
+          className="item-wrapper pdf-wrapper"
           isRestricted={isRestricted}
           probeOk={probeOk}
           externalAccessService={adjustedExternalAccessService}
@@ -491,7 +487,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
                 original.id && (
                   <IIIFItemWrapper
                     shouldShowItem={shouldShowItem}
-                    className="download-wrapper"
+                    className="item-wrapper download-wrapper"
                     isRestricted={isRestricted}
                     probeOk={probeOk}
                     externalAccessService={adjustedExternalAccessService}
@@ -528,7 +524,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           return (
             <IIIFItemWrapperWithObserver
               shouldShowItem={shouldShowItem}
-              className="item-wrapper"
+              className="item-wrapper image-wrapper"
               isRestricted={isRestricted}
               probeOk={probeOk}
               externalAccessService={adjustedExternalAccessService}
@@ -541,7 +537,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
         return (
           <IIIFItemWrapper
             shouldShowItem={shouldShowItem}
-            className="item-wrapper"
+            className="item-wrapper image-wrapper"
             isRestricted={isRestricted}
             probeOk={probeOk}
             externalAccessService={adjustedExternalAccessService}
