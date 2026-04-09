@@ -217,7 +217,7 @@ export function transformFullWidthBanner(
   }
 }
 
-type ThemeCardsListSliceValue = {
+export type ThemeCardsListSliceValue = {
   title?: string;
   description?: string;
   conceptIds: string[];

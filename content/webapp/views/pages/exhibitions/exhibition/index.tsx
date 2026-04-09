@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import {
   ExhibitionHighlightToursDocument,
   ExhibitionTextsDocument,
+  ThemeCardsListSlice as RawThemeCardsListSlice,
 } from '@weco/common/prismicio-types';
 import { useToggles } from '@weco/common/server-data/Context';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
@@ -30,6 +31,7 @@ export type Props = {
   accessResourceLinks: (Link & { type: string })[];
   exhibitionTexts: ExhibitionTextsDocument[];
   exhibitionHighlightTours: ExhibitionHighlightToursDocument[];
+  rawThemeCardsListSlice?: RawThemeCardsListSlice;
 };
 
 /**
@@ -43,6 +45,7 @@ const ExhibitionPage: NextPage<Props> = ({
   accessResourceLinks,
   exhibitionTexts,
   exhibitionHighlightTours,
+  rawThemeCardsListSlice,
   jsonLd,
 }) => {
   const [relatedContent, setRelatedContent] =
@@ -135,7 +138,7 @@ const ExhibitionPage: NextPage<Props> = ({
         <ExhibitionCollectionsContent
           isTendernessAndRageExhibition={isTendernessAndRageExhibition}
           aboutThisExhibitionContent={aboutThisExhibitionContent}
-          conceptIds={[]}
+          rawThemeCardsListSlice={rawThemeCardsListSlice}
           videos={[]}
         />
       )}
