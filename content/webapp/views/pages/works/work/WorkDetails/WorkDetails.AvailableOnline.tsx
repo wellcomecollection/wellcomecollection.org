@@ -26,7 +26,6 @@ import {
   TransformedManifest,
 } from '@weco/content/types/manifest';
 import {
-  AuthServices,
   getAuthServices,
   getFileTypeLabel,
   getFormatString,
@@ -107,7 +106,6 @@ type ItemPageLinkProps = {
   canvasCount?: number;
   canvases?: TransformedCanvas[];
   digitalLocationInfo?: DigitalLocationInfo;
-  authServices?: AuthServices;
   itemsStatus?: ItemsStatus;
 };
 const ItemPageLink = ({
@@ -334,7 +332,6 @@ const WorkDetailsAvailableOnline = ({
                 canvasCount={canvasCount}
                 downloadOptions={downloadOptions}
                 digitalLocationInfo={digitalLocationInfo}
-                authServices={authServices}
                 itemsStatus={itemsStatus}
               />
             ) : (
@@ -419,7 +416,6 @@ const WorkDetailsAvailableOnline = ({
                 canvasCount={canvasCount}
                 downloadOptions={downloadOptions}
                 digitalLocationInfo={digitalLocationInfo}
-                authServices={authServices}
               />
             )}
           </>
