@@ -126,7 +126,10 @@ const Table: FunctionComponent<Props> = ({
 
     if (tableWidth && tableWrapWidth) {
       setIsLeftActive(tableWrapScrollLeft > 0);
-      setIsRightActive(tableWrapScrollLeft < tableWidth - tableWrapWidth);
+      // Math.ceil on both sides handles Chrome Android sub-pixel precision issues
+      setIsRightActive(
+        Math.ceil(tableWrapScrollLeft) < Math.ceil(tableWidth - tableWrapWidth)
+      );
     }
   }
 
