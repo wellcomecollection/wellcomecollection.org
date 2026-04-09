@@ -1,14 +1,11 @@
 import styled from 'styled-components';
 
-import { ThemeCardsListSlice as RawThemeCardsListSlice } from '@weco/common/prismicio-types';
 import { font } from '@weco/common/utils/classnames';
 import { Container } from '@weco/common/views/components/styled/Container';
-import {
-  GridCellScroll,
-  GridScroll,
-} from '@weco/common/views/components/styled/Grid';
+import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
-import { transformThemeCardsList } from '@weco/content/services/prismic/transformers/body';
+import { ThemeCardsListSliceValue } from '@weco/content/services/prismic/transformers/body';
+import { Slice } from '@weco/content/types/body';
 import { convertItemToCardProps } from '@weco/content/types/card';
 import { AboutThisExhibitionContent } from '@weco/content/types/exhibitions';
 import Card from '@weco/content/views/components/Card';
@@ -23,56 +20,17 @@ export const Wrapper = styled(Space).attrs({
   background: ${props => props.theme.color('warmNeutral.300')};
 `;
 
-// Stole this from sub-theme.Stories.tsx
-const StoryCardContainer = styled.div`
-  -webkit-overflow-scrolling: touch;
-
-  /* former .container--scroll */
-  ${props =>
-    props.theme.mediaBetween(
-      'zero',
-      'sm'
-    )(`
-    max-width: none;
-    width: auto;
-    overflow: auto;
-
-    &::-webkit-scrollbar {
-      height: 18px;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      border-radius: 0;
-      border-style: solid;
-      border-width: 0 ${props.theme.containerPadding} 12px;
-      background: ${props.theme.color('neutral.400')};
-    }
-  `)}
-
-  &::-webkit-scrollbar {
-    background: ${props => props.theme.color('warmNeutral.300')};
-  }
-
-  &::-webkit-scrollbar-thumb {
-    border-color: ${props => props.theme.color('warmNeutral.300')};
-  }
-`;
-
 const ExhibitionCollectionsContent = ({
   isTendernessAndRageExhibition,
-  rawThemeCardsListSlice,
+  themeCardsListSlice,
   videos,
   aboutThisExhibitionContent,
 }: {
   isTendernessAndRageExhibition: boolean;
-  rawThemeCardsListSlice?: RawThemeCardsListSlice;
+  themeCardsListSlice?: Slice<'themeCardsList', ThemeCardsListSliceValue>;
   videos: string[];
   aboutThisExhibitionContent: AboutThisExhibitionContent[];
 }) => {
-  // Transform the slice here, similar to thematic browsing approach
-  const themeCardsListSlice = rawThemeCardsListSlice
-    ? transformThemeCardsList(rawThemeCardsListSlice)
-    : undefined;
   // For now, we only want to trial displaying stories here for the Tenderness and Rage exhibition.
   // If this trial is successful, we will want to expand this to other exhibitions in the future.
   const shouldDisplayStories =
@@ -103,29 +61,24 @@ const ExhibitionCollectionsContent = ({
               <h2 className={font('sans-bold', 2)}>Read related stories</h2>
             </Space>
 
-            <StoryCardContainer>
-              <GridScroll className="card-theme card-theme--transparent">
-                {aboutThisExhibitionContent.map(item => (
-                  <GridCellScroll
-                    key={item.id}
-                    $sizeMap={{ m: [6], l: [4], xl: [4] }}
-                  >
-                    <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
-                      {item.type === 'articles' && (
-                        <StoryCard
-                          variant="prismic"
-                          article={item}
-                          showAllLabels
-                        />
-                      )}
-                      {item.type === 'series' && (
-                        <Card item={convertItemToCardProps(item)} />
-                      )}
-                    </Space>
-                  </GridCellScroll>
-                ))}
-              </GridScroll>
-            </StoryCardContainer>
+            <Grid className="card-theme card-theme--transparent">
+              {aboutThisExhibitionContent.map(item => (
+                <GridCell key={item.id} $sizeMap={{ m: [6], l: [4], xl: [4] }}>
+                  <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
+                    {item.type === 'articles' && (
+                      <StoryCard
+                        variant="prismic"
+                        article={item}
+                        showAllLabels
+                      />
+                    )}
+                    {item.type === 'series' && (
+                      <Card item={convertItemToCardProps(item)} />
+                    )}
+                  </Space>
+                </GridCell>
+              ))}
+            </Grid>
           </Space>
         )}
       </Container>
