@@ -267,7 +267,7 @@ const IIIFItemWrapper: FunctionComponent<{
   shouldShowItem: boolean;
   className: string;
   isRestricted: boolean;
-  probeOk: boolean;
+  isProbeOk: boolean;
   externalAccessService?: TransformedAuthService;
   children: ReactNode | undefined;
   containerRef?: RefObject<HTMLDivElement | null>;
@@ -275,7 +275,7 @@ const IIIFItemWrapper: FunctionComponent<{
   shouldShowItem,
   className,
   isRestricted,
-  probeOk,
+  isProbeOk,
   externalAccessService,
   children,
   containerRef,
@@ -292,7 +292,7 @@ const IIIFItemWrapper: FunctionComponent<{
     return (
       <Outline $border={isRestricted} className={className} ref={containerRef}>
         {isRestricted && <StaffRestrictedMessage />}
-        {(!isRestricted || probeOk) && children}
+        {(!isRestricted || isProbeOk) && children}
       </Outline>
     );
   }
@@ -306,7 +306,7 @@ const IIIFItemWrapperWithObserver: FunctionComponent<{
   shouldShowItem: boolean;
   className: string;
   isRestricted: boolean;
-  probeOk: boolean;
+  isProbeOk: boolean;
   externalAccessService?: TransformedAuthService;
   children: ReactNode | undefined;
   index: number;
@@ -314,7 +314,7 @@ const IIIFItemWrapperWithObserver: FunctionComponent<{
   shouldShowItem,
   className,
   isRestricted,
-  probeOk,
+  isProbeOk,
   externalAccessService,
   children,
   index,
@@ -347,7 +347,7 @@ const IIIFItemWrapperWithObserver: FunctionComponent<{
       shouldShowItem={shouldShowItem}
       className={className}
       isRestricted={isRestricted}
-      probeOk={probeOk}
+      isProbeOk={isProbeOk}
       externalAccessService={externalAccessService}
       containerRef={ref}
     >
@@ -373,7 +373,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
 }) => {
   const { userIsStaffWithRestricted } = useUserContext();
   const isRestricted = hasRestrictedItem(canvas);
-  const probeOk = useIIIFProbeService(canvas);
+  const isProbeOk = useIIIFProbeService(canvas);
   // Replace "image" with "item" in description if the item is not an image
   // or if it's an image but has originals, which means the image is just a placeholder for the original item
   const adjustedExternalAccessService =
@@ -425,7 +425,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           shouldShowItem={shouldShowItem}
           className="audio-wrapper"
           isRestricted={isRestricted}
-          probeOk={probeOk}
+          isProbeOk={isProbeOk}
           externalAccessService={adjustedExternalAccessService}
         >
           <AudioPlayer
@@ -442,7 +442,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           shouldShowItem={shouldShowItem}
           className="video-wrapper"
           isRestricted={isRestricted}
-          probeOk={probeOk}
+          isProbeOk={isProbeOk}
           externalAccessService={adjustedExternalAccessService}
         >
           <>
@@ -467,7 +467,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           shouldShowItem={shouldShowItem}
           className="pdf-wrapper"
           isRestricted={isRestricted}
-          probeOk={probeOk}
+          isProbeOk={isProbeOk}
           externalAccessService={adjustedExternalAccessService}
         >
           <IIIFItemPdf
@@ -493,7 +493,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
                     shouldShowItem={shouldShowItem}
                     className="download-wrapper"
                     isRestricted={isRestricted}
-                    probeOk={probeOk}
+                    isProbeOk={isProbeOk}
                     externalAccessService={adjustedExternalAccessService}
                   >
                     <IIIFItemDownload
@@ -530,7 +530,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
               shouldShowItem={shouldShowItem}
               className="item-wrapper"
               isRestricted={isRestricted}
-              probeOk={probeOk}
+              isProbeOk={isProbeOk}
               externalAccessService={adjustedExternalAccessService}
               index={i}
             >
@@ -543,7 +543,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
             shouldShowItem={shouldShowItem}
             className="item-wrapper"
             isRestricted={isRestricted}
-            probeOk={probeOk}
+            isProbeOk={isProbeOk}
             externalAccessService={adjustedExternalAccessService}
           >
             {imageContent}
