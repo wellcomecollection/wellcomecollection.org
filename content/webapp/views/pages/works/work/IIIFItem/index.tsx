@@ -91,6 +91,7 @@ const RestrictedMessage = styled.div.attrs({})`
 `;
 
 const Outline = styled(Space)<{ $isRestricted?: boolean }>`
+  position: relative;
   height: ${props => (props.$isRestricted ? 'calc(100% - 1em)' : '100%')};
 
   &.audio-wrapper,
