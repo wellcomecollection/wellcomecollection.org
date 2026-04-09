@@ -58,7 +58,7 @@ const ExhibitionCollectionsContent = ({
         {shouldDisplayStories && (
           <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
             <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
-              <h2 className={font('sans-bold', 2)}>Read related stories</h2>
+              <h3 className={font('brand-bold', 1)}>Read related stories</h3>
             </Space>
 
             <Grid className="card-theme card-theme--transparent">
@@ -92,6 +92,8 @@ const ExhibitionCollectionsContent = ({
           }}
           sliceTitle={themeCardsListSlice.value.title}
           description={themeCardsListSlice.value.description}
+          headingLevel={3}
+          fontFamily="brand-bold"
           useShim
         />
       )}
