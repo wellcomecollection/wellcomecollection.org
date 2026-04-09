@@ -413,7 +413,7 @@ export function showItemLink({
     hasIIIFManifest &&
     digitalLocation &&
     // TODO: Remove extendedViewer and (!hasVideo && !hasSound) check when we are happy to remove the toggle and always show the item link for sound and video items
-    ((!hasVideo && !hasSound) || extendedViewer) &&
+    ((!hasVideo && !hasSound) || extendedViewer || userIsStaffWithRestricted) &&
     (itemsStatus === 'allStandard' || allOriginalPdfs) // If/when we want to show the link for non standard, i.e. Born Digital items we need to remove the itemsStatus check, but for now we want to hide the link if there are non standard items present unless they are all original pdfs, as we know we are happy to show those on the items page.
   ) {
     return true;
