@@ -65,8 +65,9 @@ const ScrollableNavigation: FunctionComponent<Props> = ({
       const maxScrollLeft = container.scrollWidth - container.clientWidth;
 
       // Determine whether each button should be enabled or disabled based on current scroll position
+      // Math.round is required because Chrome Android does not round numbers consistently
       setCanScrollLeft(container.scrollLeft > 0);
-      setCanScrollRight(Math.ceil(container.scrollLeft) < maxScrollLeft);
+      setCanScrollRight(Math.round(container.scrollLeft) < maxScrollLeft);
     };
 
     updateScrollButtons();
