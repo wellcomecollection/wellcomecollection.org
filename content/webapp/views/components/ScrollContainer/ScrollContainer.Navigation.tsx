@@ -65,11 +65,9 @@ const ScrollableNavigation: FunctionComponent<Props> = ({
       const maxScrollLeft = container.scrollWidth - container.clientWidth;
 
       // Determine whether each button should be enabled or disabled based on current scroll position
-      // Math.ceil on both sides handles Chrome Android sub-pixel precision issues
+      // Check if within 1px of the end to handle Chrome Android sub-pixel precision issues
       setCanScrollLeft(container.scrollLeft > 0);
-      setCanScrollRight(
-        Math.ceil(container.scrollLeft) < Math.ceil(maxScrollLeft)
-      );
+      setCanScrollRight(container.scrollLeft < maxScrollLeft - 1);
     };
 
     updateScrollButtons();
