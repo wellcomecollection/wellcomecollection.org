@@ -6,4 +6,6 @@ sliceReport.json
 .env
 
 # Restore script outputs
-restore/
+restore/snapshot/
+restore/assets/
+restore/status/
