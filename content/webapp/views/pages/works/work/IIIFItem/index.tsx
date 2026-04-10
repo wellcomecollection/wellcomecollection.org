@@ -271,7 +271,7 @@ const IIIFItemWrapper: FunctionComponent<{
 }) => {
   if (shouldShowItem) {
     return (
-      <Outline className="item-wrapper" ref={containerRef}>
+      <Outline ref={containerRef}>
         <PublicRestrictedMessage
           externalAccessService={externalAccessService}
         />
@@ -420,7 +420,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
       return (
         <IIIFItemWrapper
           shouldShowItem={shouldShowItem}
-          className="item-wrapper audio-wrapper"
+          className="audio-wrapper"
           isRestricted={isRestricted}
           isProbeOk={isProbeOk}
           externalAccessService={adjustedExternalAccessService}
@@ -437,7 +437,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
       return (
         <IIIFItemWrapper
           shouldShowItem={shouldShowItem}
-          className="item-wrapper video-wrapper"
+          className="video-wrapper"
           isRestricted={isRestricted}
           isProbeOk={isProbeOk}
           externalAccessService={adjustedExternalAccessService}
@@ -462,7 +462,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
       return (
         <IIIFItemWrapper
           shouldShowItem={shouldShowItem}
-          className="item-wrapper pdf-wrapper"
+          className="pdf-wrapper"
           isRestricted={isRestricted}
           isProbeOk={isProbeOk}
           externalAccessService={adjustedExternalAccessService}
@@ -488,7 +488,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
                 original.id && (
                   <IIIFItemWrapper
                     shouldShowItem={shouldShowItem}
-                    className="item-wrapper download-wrapper"
+                    className="download-wrapper"
                     isRestricted={isRestricted}
                     isProbeOk={isProbeOk}
                     externalAccessService={adjustedExternalAccessService}
@@ -525,7 +525,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           return (
             <IIIFItemWrapperWithObserver
               shouldShowItem={shouldShowItem}
-              className="item-wrapper image-wrapper"
+              className="image-wrapper"
               isRestricted={isRestricted}
               isProbeOk={isProbeOk}
               externalAccessService={adjustedExternalAccessService}
@@ -538,7 +538,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
         return (
           <IIIFItemWrapper
             shouldShowItem={shouldShowItem}
-            className="item-wrapper image-wrapper"
+            className="image-wrapper"
             isRestricted={isRestricted}
             isProbeOk={isProbeOk}
             externalAccessService={adjustedExternalAccessService}
