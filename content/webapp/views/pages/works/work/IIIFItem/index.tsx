@@ -73,49 +73,22 @@ const MessageContainer = styled.div`
 `;
 
 const RestrictedMessage = styled.div.attrs({})`
-  display: inline;
-  position: absolute;
+  position: relative;
+  display: inline-block;
   left: 50%;
   transform: translateX(-50%);
-
-  @supports (position-anchor: --restricted-item) {
-    position-anchor: --restricted-item;
-    bottom: anchor(top);
-    left: anchor(left);
-    transform: translateY(-1em);
-  }
-
-  p {
-    margin: 0;
-  }
 `;
 
-const Outline = styled(Space)<{ $isRestricted?: boolean }>`
+const ItemWrapper = styled(Space)<{ $isRestricted?: boolean }>`
   position: relative;
-  height: ${props => (props.$isRestricted ? 'calc(100% - 1em)' : '100%')};
+  height: 100%;
 
   &.audio-wrapper,
   &.video-wrapper,
   &.download-wrapper {
-    > * {
-      ${props =>
-        props.$isRestricted ? 'anchor-name: --restricted-item' : null};
-    }
     max-width: 80%;
-    margin: ${props => (props.$isRestricted ? '5em auto' : '2em auto')};
+    margin: 2em auto;
     max-height: calc(100% - 4em);
-  }
-
-  img {
-    ${props =>
-      props.$isRestricted
-        ? `
-          anchor-name: --restricted-item;
-          border: 1px solid;
-          border-color:  ${props.theme.color('neutral.600')};
-          padding: 2em;
-        `
-        : ''};
   }
 `;
 
@@ -167,9 +140,17 @@ const IIIFImage: FunctionComponent<{
   index: number;
   item: ItemProps['item'];
   canvas: TransformedCanvas;
+  isRestricted?: boolean;
   setImageRect?: (v: DOMRect) => void;
   setImageContainerRect?: (v: DOMRect) => void;
-}> = ({ index, item, canvas, setImageRect, setImageContainerRect }) => {
+}> = ({
+  index,
+  item,
+  canvas,
+  isRestricted,
+  setImageRect,
+  setImageContainerRect,
+}) => {
   const [ocrText, setOcrText] = useState(missingAltTextMessage);
   const imageService = getImageServiceFromItem(item);
   const imageUrl = imageService?.['@id'] || '';
@@ -194,6 +175,7 @@ const IIIFImage: FunctionComponent<{
         index={index}
         alt={ocrText}
         urlTemplate={urlTemplate}
+        isRestricted={isRestricted}
         setImageRect={setImageRect}
         setImageContainerRect={setImageContainerRect}
       />
@@ -271,26 +253,26 @@ const IIIFItemWrapper: FunctionComponent<{
 }) => {
   if (shouldShowItem) {
     return (
-      <Outline ref={containerRef}>
+      <ItemWrapper ref={containerRef}>
         <PublicRestrictedMessage
           externalAccessService={externalAccessService}
         />
-      </Outline>
+      </ItemWrapper>
     );
   } else {
     return (
-      <Outline
+      <ItemWrapper
         $isRestricted={isRestricted}
         className={className}
         ref={containerRef}
       >
-        {(!isRestricted || isProbeOk) && children}
         {isRestricted && (
           <RestrictedMessage>
             <RestrictedItemMessage />
           </RestrictedMessage>
         )}
-      </Outline>
+        {(!isRestricted || isProbeOk) && children}
+      </ItemWrapper>
     );
   }
 };
@@ -517,6 +499,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
             index={i}
             item={item}
             canvas={canvas}
+            isRestricted={isRestricted}
             setImageRect={setImageRect}
             setImageContainerRect={setImageContainerRect}
           />
