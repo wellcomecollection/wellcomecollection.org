@@ -418,7 +418,14 @@ async function init() {
   const failedAssetIds: string[] = [];
 
   // Step 5: Upload each missing asset, writing progress as we go
+  // Enforce Prismic API rate limit: 1 request per second
+  const MIN_INTERVAL_MS = 1000;
+  const MAX_RETRIES = 3;
+  const INITIAL_RETRY_DELAY_MS = 1000;
+
   for (const asset of assetsToUpload) {
+    const uploadStartTime = Date.now();
+
     // Remove old id from filename for upload
     let uploadFilename = deriveFilename(asset);
     if (uploadFilename.startsWith(`${asset.id}-`)) {
@@ -427,18 +434,36 @@ async function init() {
     // Prepend previous id to notes
     const notesWithId =
       `previous id: ${asset.id}` + (asset.notes ? `\n${asset.notes}` : '');
-    const result = await uploadAsset(
-      {
-        id: asset.id,
-        s3Key: `${ASSETS_PREFIX}${deriveFilename(asset)}`,
-        filename: uploadFilename,
-        notes: notesWithId,
-        credits: asset.credits,
-        alt: asset.alt,
-      },
-      token,
-      repository
-    );
+
+    let result = null;
+    let attempt = 1;
+    let retryDelayMs = INITIAL_RETRY_DELAY_MS;
+
+    while (!result && attempt <= MAX_RETRIES) {
+      result = await uploadAsset(
+        {
+          id: asset.id,
+          s3Key: `${ASSETS_PREFIX}${deriveFilename(asset)}`,
+          filename: uploadFilename,
+          notes: notesWithId,
+          credits: asset.credits,
+          alt: asset.alt,
+        },
+        token,
+        repository
+      );
+
+      if (!result && attempt < MAX_RETRIES) {
+        console.log(
+          `Upload failed for asset ${asset.id}. Retrying in ${retryDelayMs}ms... (attempt ${attempt + 1}/${MAX_RETRIES})`
+        );
+        await new Promise(r => setTimeout(r, retryDelayMs));
+        retryDelayMs *= 2; // exponential backoff
+      }
+
+      attempt++;
+    }
+
     if (result) {
       // Persist the ID mapping immediately so progress is saved on each upload
       idMap[asset.id] = result.id;
@@ -455,15 +480,23 @@ async function init() {
       }
       console.log(`Uploaded asset ${asset.id} -> ${result.id}`);
     } else {
-      // Record failures immediately so they can be retried separately
+      // Record failures only after all retries exhausted
+      console.log(
+        `Asset ${asset.id} failed after ${MAX_RETRIES} attempts. Recording for manual retry.`
+      );
       failedAssetIds.push(asset.id);
       fs.writeFileSync(
         failedAssetsFile,
         JSON.stringify(failedAssetIds, null, 2)
       );
     }
-    // Prismic API rate limit: 1 request per second
-    await new Promise(r => setTimeout(r, 100));
+
+    // Respect rate limit by waiting for remaining time in the 1-second interval
+    const elapsedMs = Date.now() - uploadStartTime;
+    const waitMs = Math.max(0, MIN_INTERVAL_MS - elapsedMs);
+    if (waitMs > 0) {
+      await new Promise(r => setTimeout(r, waitMs));
+    }
   }
 
   if (failedAssetIds.length > 0) {
