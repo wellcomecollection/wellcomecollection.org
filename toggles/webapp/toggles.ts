@@ -137,6 +137,13 @@ const toggles = {
         'Allows use of semantic searches and facilitates the display of the semantic search results side by side with the standard search results for comparison. If enabled, please ensure the Semantic search prototype toggle is disabled.',
       type: 'experimental',
     },
+    {
+      id: 'exhibitionAndCollection',
+      title: 'Exhibition pages and Collection content',
+      initialValue: false,
+      description: 'Adds Collection content to Exhibition pages.',
+      type: 'experimental',
+    },
   ] as const,
   // We have to include a reference to any test toggles here as well as in the cache dir
   // because they are deployed separately and consequently can't share a source of truth

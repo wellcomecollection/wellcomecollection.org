@@ -5,6 +5,7 @@ const {
 const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
 const events = require('events');
 const pa11y = require('pa11y');
+const { setTimeout } = require('timers');
 const { styleText } = require('util');
 const yargs = require('yargs');
 
@@ -65,8 +66,12 @@ const urls = [
   '/search/events?query=human',
 ].map(u => `${baseUrl}${u}`);
 
-const promises = urls.map(url =>
-  pa11y(url, {
+// Helper to add a delay between batches of requests; requests within a batch
+// still run concurrently.
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+const runPa11y = async url => {
+  return pa11y(url, {
     timeout: 120000,
     chromeLaunchConfig: {
       args: ['--no-sandbox'],
@@ -85,14 +90,59 @@ const promises = urls.map(url =>
       error: console.error,
       info: console.info,
     },
-  })
-);
+  });
+};
+
+// Run pa11y in batches to avoid rate limiting while keeping reasonable speed
+async function runAllTests() {
+  const results = [];
+  const batchSize = 3;
+  const delayBetweenBatches = 1000; // 1 second between batches
+
+  for (let i = 0; i < urls.length; i += batchSize) {
+    if (i > 0) {
+      await delay(delayBetweenBatches);
+    }
+
+    const batch = urls.slice(i, i + batchSize);
+    const batchResults = await Promise.all(batch.map(url => runPa11y(url)));
+    results.push(...batchResults);
+  }
+
+  return results;
+}
 
 try {
   console.info('Pa11y: Starting report');
 
-  Promise.all(promises)
+  runAllTests()
     .then(async results => {
+      // Check for pages that failed to load (e.g., due to 429 errors)
+      // When a page gets a 429 error, CloudFront returns an error page with title "wellcomecollection.org"
+      // instead of the actual page title which includes " | Wellcome Collection"
+      const failedPages = results
+        .map((result, i) => ({ result, url: urls[i] }))
+        .filter(
+          ({ result }) =>
+            !result.documentTitle ||
+            !result.pageUrl ||
+            result.documentTitle === 'wellcomecollection.org'
+        );
+
+      if (failedPages.length > 0) {
+        console.error(
+          styleText(
+            'redBright',
+            `${failedPages.length} page(s) failed to load - likely due to rate limiting (429 errors)`
+          )
+        );
+        console.error(
+          'Failed URLs:',
+          failedPages.map(({ url }) => url)
+        );
+        process.exit(1);
+      }
+
       if (isPullRequestRun) {
         const resultsLog = results
           .map(result => {

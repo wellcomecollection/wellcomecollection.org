@@ -303,6 +303,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
                     setImageContainerRect={setImageContainerRect}
                     externalAccessService={externalAccessService}
                     shouldScrollToUpdateUrl={true}
+                    showVideoTranscript={false}
                   />
                 </ItemWrapper>
               );
@@ -405,14 +406,13 @@ const MainViewer: FunctionComponent = () => {
 
   // We hide the zoom and rotation controls while the user is scrolling
   function handleOnScroll({ scrollOffset }) {
+    if (!currentCanvas?.imageServiceId) return;
     timer.current && clearTimeout(timer.current);
     setShowControls(false);
     setNewScrollOffset(scrollOffset);
 
     timer.current = setTimeout(() => {
-      if (currentCanvas?.imageServiceId) {
-        setShowControls(true);
-      }
+      setShowControls(true);
     }, 500);
   }
 
@@ -494,6 +494,7 @@ const MainViewer: FunctionComponent = () => {
                   exclude={[]}
                   isDark={true}
                   externalAccessService={externalAccessService}
+                  showVideoTranscript={false}
                 />
               </ItemWrapper>
             )
