@@ -5,6 +5,7 @@ const {
 const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
 const events = require('events');
 const pa11y = require('pa11y');
+const { setTimeout } = require('timers');
 const { styleText } = require('util');
 const yargs = require('yargs');
 
@@ -65,8 +66,12 @@ const urls = [
   '/search/events?query=human',
 ].map(u => `${baseUrl}${u}`);
 
-const promises = urls.map(url =>
-  pa11y(url, {
+// Helper to add delay between requests
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+const runPa11yWithDelay = async (url, delayMs) => {
+  await delay(delayMs);
+  return pa11y(url, {
     timeout: 120000,
     chromeLaunchConfig: {
       args: ['--no-sandbox'],
@@ -85,7 +90,12 @@ const promises = urls.map(url =>
       error: console.error,
       info: console.info,
     },
-  })
+  });
+};
+
+const promises = urls.map((url, index) =>
+  // Add 1 second delay between each request to avoid rate limiting in GitHub Actions
+  runPa11yWithDelay(url, index * 1000)
 );
 
 try {
@@ -93,6 +103,26 @@ try {
 
   Promise.all(promises)
     .then(async results => {
+      // Check for pages that failed to load (e.g., due to 429 errors)
+      // Map results with their URLs by index, then filter for failures
+      const failedPages = results
+        .map((result, i) => ({ result, url: urls[i] }))
+        .filter(({ result }) => !result.documentTitle || !result.pageUrl);
+
+      if (failedPages.length > 0) {
+        console.error(
+          styleText(
+            'redBright',
+            `${failedPages.length} page(s) failed to load - likely due to rate limiting (429 errors)`
+          )
+        );
+        console.error(
+          'Failed URLs:',
+          failedPages.map(({ url }) => url)
+        );
+        process.exit(1);
+      }
+
       if (isPullRequestRun) {
         const resultsLog = results
           .map(result => {
