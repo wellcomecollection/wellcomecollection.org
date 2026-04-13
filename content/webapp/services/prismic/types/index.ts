@@ -462,4 +462,5 @@ export type ExhibitionRelatedContentPrismicDocument =
   | RawExhibitionsDocument
   | RawEventsDocument
   | RawArticlesDocument
-  | RawBooksDocument;
+  | RawSeriesDocument
+  | RawWebcomicsDocument;
