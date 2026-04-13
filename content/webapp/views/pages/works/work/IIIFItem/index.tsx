@@ -73,10 +73,28 @@ const MessageContainer = styled.div`
 `;
 
 const RestrictedMessage = styled.div.attrs({})`
+  margin: 2em auto 0;
+
+  p {
+    margin: 0;
+  }
+`;
+
+const ImageItemLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+`;
+
+const ImageViewerContainer = styled.div`
   position: relative;
-  display: inline-block;
-  left: 50%;
-  transform: translateX(-50%);
+  flex: 1;
+  min-height: 0;
+`;
+
+const ImageViewerPositioned = styled.div`
+  position: absolute;
+  inset: 0;
 `;
 
 const ItemWrapper = styled(Space)<{ $isRestricted?: boolean }>`
@@ -167,18 +185,29 @@ const IIIFImage: FunctionComponent<{
 
   if (urlTemplate) {
     return (
-      <ImageViewer
-        infoUrl={infoUrl}
-        id={imageUrl}
-        width={canvas.width || 0}
-        height={canvas.height || 0}
-        index={index}
-        alt={ocrText}
-        urlTemplate={urlTemplate}
-        isRestricted={isRestricted}
-        setImageRect={setImageRect}
-        setImageContainerRect={setImageContainerRect}
-      />
+      <ImageItemLayout>
+        {isRestricted && (
+          <RestrictedMessage>
+            <RestrictedItemMessage />
+          </RestrictedMessage>
+        )}
+        <ImageViewerContainer>
+          <ImageViewerPositioned>
+            <ImageViewer
+              infoUrl={infoUrl}
+              id={imageUrl}
+              width={canvas.width || 0}
+              height={canvas.height || 0}
+              index={index}
+              alt={ocrText}
+              urlTemplate={urlTemplate}
+              isRestricted={isRestricted}
+              setImageRect={setImageRect}
+              setImageContainerRect={setImageContainerRect}
+            />
+          </ImageViewerPositioned>
+        </ImageViewerContainer>
+      </ImageItemLayout>
     );
   } else {
     return <img src={item.id} alt={ocrText} />;
@@ -266,7 +295,7 @@ const IIIFItemWrapper: FunctionComponent<{
         className={className}
         ref={containerRef}
       >
-        {isRestricted && (
+        {isRestricted && className !== 'image-wrapper' && (
           <RestrictedMessage>
             <RestrictedItemMessage />
           </RestrictedMessage>
