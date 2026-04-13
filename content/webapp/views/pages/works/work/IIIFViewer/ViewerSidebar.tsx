@@ -324,34 +324,40 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
 
         {archiveTree.length > 0 && (
           <AccordionItem title="Contents" defaultOpen={true}>
-            <WorksTree
-              isDarkMode={true}
-              hasStructures={Boolean(structures && structures.length > 0)}
+            <div
+              style={{
+                overflow: 'auto',
+              }}
             >
-              <NestedList
-                currentWorkId={work.id}
-                fullTree={archiveTree}
-                setArchiveTree={setArchiveTree}
-                archiveTree={archiveTree}
-                level={1}
-                tabbableId={tabbableId}
-                setTabbableId={setTabbableId}
-                archiveAncestorArray={[]}
-                firstItemTabbable={true}
-                showFirstLevelGuideline={true}
-                shouldFetchChildren={false}
+              <WorksTree
                 isDarkMode={true}
-                ItemRenderer={DownloadItemRenderer}
-                itemRendererProps={{
-                  linkToCanvas: true,
-                  workId: work.id,
-                  canvasIndexById,
-                  currentCanvasIndex: canvas,
-                  itemOnClick: () => setIsMobileSidebarActive(false),
-                  canvases: transformedManifest?.canvases,
-                }}
-              />
-            </WorksTree>
+                hasStructures={Boolean(structures && structures.length > 0)}
+              >
+                <NestedList
+                  currentWorkId={work.id}
+                  fullTree={archiveTree}
+                  setArchiveTree={setArchiveTree}
+                  archiveTree={archiveTree}
+                  level={1}
+                  tabbableId={tabbableId}
+                  setTabbableId={setTabbableId}
+                  archiveAncestorArray={[]}
+                  firstItemTabbable={true}
+                  showFirstLevelGuideline={true}
+                  shouldFetchChildren={false}
+                  isDarkMode={true}
+                  ItemRenderer={DownloadItemRenderer}
+                  itemRendererProps={{
+                    linkToCanvas: true,
+                    workId: work.id,
+                    canvasIndexById,
+                    currentCanvasIndex: canvas,
+                    itemOnClick: () => setIsMobileSidebarActive(false),
+                    canvases: transformedManifest?.canvases,
+                  }}
+                />
+              </WorksTree>
+            </div>
           </AccordionItem>
         )}
 
