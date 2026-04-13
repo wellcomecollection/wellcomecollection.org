@@ -117,24 +117,22 @@ try {
   runAllTests()
     .then(async results => {
       // Check for pages that failed to load properly
-      // Valid Wellcome Collection pages have titles ending with " | Wellcome Collection"
-      // Error pages (429, 403, 503, etc.) from CloudFront return generic error page titles
+      // Valid Wellcome Collection pages contain "Wellcome Collection"
+      // Error pages (429, 403, 503, etc.) from CloudFront return "wellcomecollection.org" (lowercase)
       const failedPages = results
         .map((result, i) => ({ result, url: urls[i] }))
         .filter(({ result }) => {
-          // Check if the page loaded successfully
+          // Page completely failed to load
           if (!result.documentTitle || !result.pageUrl) {
-            return true; // Page completely failed to load
+            return true;
           }
 
-          // Check if it's an error page (CloudFront error pages don't have proper titles)
-          // Valid pages should end with " | Wellcome Collection"
-          // Exception: The homepage title is just "Wellcome Collection"
-          const isHomepage =
-            result.pageUrl === baseUrl || result.pageUrl === baseUrl + '/';
-          const hasValidTitle = isHomepage
-            ? result.documentTitle === 'Wellcome Collection'
-            : result.documentTitle.endsWith(' | Wellcome Collection');
+          // Check if title contains "Wellcome Collection" (case-sensitive)
+          // Valid pages: "Wellcome Collection | ..." or "... | Wellcome Collection"
+          // Error pages: "wellcomecollection.org" (no match)
+          const hasValidTitle = result.documentTitle.includes(
+            'Wellcome Collection'
+          );
 
           return !hasValidTitle;
         });
