@@ -23,7 +23,7 @@ const meta: Meta<StoryProps> = {
     cols: {
       control: { type: 'radio' },
       options: [4, 3],
-      description: 'Column width variant: 4col (default) or 3col',
+      description: 'Column width variant: 4 (default) or 3',
     },
   },
   parameters: {
