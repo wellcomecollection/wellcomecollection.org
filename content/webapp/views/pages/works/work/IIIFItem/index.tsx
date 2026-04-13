@@ -201,7 +201,6 @@ const IIIFImage: FunctionComponent<{
               index={index}
               alt={ocrText}
               urlTemplate={urlTemplate}
-              isRestricted={isRestricted}
               setImageRect={setImageRect}
               setImageContainerRect={setImageContainerRect}
             />

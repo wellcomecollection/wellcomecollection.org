@@ -11,12 +11,11 @@ import IIIFViewerImage from './IIIFViewerImage';
 
 const ImageWrapper = styled.div<{
   $isFullSupportBrowser: boolean;
-  $isRestricted?: boolean;
 }>`
   position: absolute;
-  top: ${props => (props.$isRestricted ? '2em' : '0')};
+  top: 0;
   left: 0;
-  bottom: ${props => (props.$isRestricted ? '2em' : '0')};
+  bottom: 0;
   right: 20px;
   padding: 0;
 
@@ -50,7 +49,6 @@ type ImageViewerProps = {
   urlTemplate: (v: IIIFUriProps) => string;
   loadHandler?: () => void;
   index: number;
-  isRestricted?: boolean;
   setImageRect?: (v: DOMRect) => void;
   setImageContainerRect?: (v: DOMRect) => void;
 };
@@ -63,7 +61,6 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   urlTemplate,
   loadHandler,
   index,
-  isRestricted,
   setImageRect,
   setImageContainerRect,
 }) => {
@@ -142,7 +139,6 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
       onLoad={loadHandler}
       ref={imageWrapperRef}
       $isFullSupportBrowser={isFullSupportBrowser}
-      $isRestricted={isRestricted}
     >
       <IIIFViewerImage
         index={index}
