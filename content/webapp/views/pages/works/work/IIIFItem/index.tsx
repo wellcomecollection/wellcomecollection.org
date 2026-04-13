@@ -74,6 +74,7 @@ const MessageContainer = styled.div`
 
 const RestrictedMessage = styled.div.attrs({})`
   margin: 2em auto 0;
+  padding: 0 2em;
 
   p {
     margin: 0;
