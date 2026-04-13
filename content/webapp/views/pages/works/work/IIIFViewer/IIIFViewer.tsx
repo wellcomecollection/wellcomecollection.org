@@ -4,6 +4,7 @@ import { FunctionComponent, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
+import { useUserContext } from '@weco/common/contexts/UserContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { useToggles } from '@weco/common/server-data/Context';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
@@ -132,6 +133,7 @@ const Sidebar = styled.div<{
   background: ${props => props.theme.color('neutral.700')};
   color: ${props => props.theme.color('white')};
   overflow: auto;
+  min-width: 0;
   z-index: 5;
 `;
 
@@ -246,6 +248,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const [mainAreaHeight, setMainAreaHeight] = useState(500);
   const [mainAreaWidth, setMainAreaWidth] = useState(1000);
   const [isResizing, setIsResizing] = useState(false);
+  const { userIsStaffWithRestricted } = useUserContext();
   // Use server-provided archiveTree (items route provides it, images route doesn't need it)
   const [archiveTree, setArchiveTree] = useState<UiTree>(
     initialArchiveTree || []
@@ -427,11 +430,14 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
             {imageUrl && !isFullSupportBrowser && hasOnlyRenderableImages && (
               <NoScriptImage urlTemplate={urlTemplate} canvasOcr={canvasOcr} />
             )}
-
             {/* If we hide the MainViewer when resizing the browser, it will then rerender with the correct canvas displayed */}
-            {(hasImageService || extendedViewer) && !isResizing && (
-              <MainViewer />
-            )}
+            {/* We want to show it for userIsStaffWithRestricted regardless of whether the extendedViewer is active */}
+            {(hasImageService ||
+              extendedViewer ||
+              (userIsStaffWithRestricted &&
+                !extendedViewer &&
+                !!currentCanvas)) &&
+              !isResizing && <MainViewer />}
           </DelayVisibility>
         </Main>
         {showZoomed && isFullSupportBrowser && (

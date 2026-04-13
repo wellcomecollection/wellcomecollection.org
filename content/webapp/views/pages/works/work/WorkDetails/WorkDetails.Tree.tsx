@@ -39,7 +39,7 @@ const WorksTree: FunctionComponent<
   const { isEnhanced } = useAppContext();
 
   return (
-    <div style={{ overflow: 'visible' }}>
+    <div style={{ overflowX: 'auto', width: '100%' }}>
       <div style={{ display: 'inline-table', minWidth: '100%' }}>
         <TreeHeadings aria-hidden="true" $isDarkMode={isDarkMode}>
           <DownloadTable $padFirstHeading={hasStructures}>
