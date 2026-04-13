@@ -20,9 +20,16 @@ export const ScrollButtonsContainer = styled(Space)<{
 
 export const ContentContainer = styled(PlainList)`
   display: flex;
-  overflow: hidden;
+  overflow: scroll hidden;
+  -webkit-overflow-scrolling: touch;
   position: relative;
   padding: 3px 0;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
 `;
 
 export const ScrollShim = styled.li<{ $gridValues: number[] }>`

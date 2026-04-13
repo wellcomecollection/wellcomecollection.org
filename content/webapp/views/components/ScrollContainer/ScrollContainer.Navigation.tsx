@@ -56,27 +56,63 @@ const ScrollableNavigation: FunctionComponent<Props> = ({
 }: Props) => {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
+  const [debugInfo, setDebugInfo] = useState<string>('');
+  const [elementInfo, setElementInfo] = useState<string>('');
 
   useEffect(() => {
     const container = containerRef.current;
-    if (!container) return;
+    if (!container) {
+      setElementInfo('NO CONTAINER REF!');
+      return;
+    }
+
+    // Show what element we're tracking
+    const elemInfo = `tag:${container.tagName} display:${window.getComputedStyle(container).display} overflow:${window.getComputedStyle(container).overflowX}`;
+    setElementInfo(elemInfo);
 
     const updateScrollButtons = () => {
       const maxScrollLeft = container.scrollWidth - container.clientWidth;
 
       // Determine whether each button should be enabled or disabled based on current scroll position
-      // Check if within 1px of the end to handle Chrome Android sub-pixel precision issues
       setCanScrollLeft(container.scrollLeft > 0);
-      setCanScrollRight(container.scrollLeft < maxScrollLeft - 1);
+      setCanScrollRight(Math.ceil(container.scrollLeft) < maxScrollLeft);
+
+      // Debug: Show scroll values on screen (remove after testing)
+      if (
+        typeof window !== 'undefined' &&
+        window.location?.href?.includes('people-and-organisations')
+      ) {
+        const now = new Date().getSeconds();
+        const ms = new Date().getMilliseconds();
+        const parent = container.parentElement;
+        const parentScrollLeft = parent?.scrollLeft ?? 0;
+        const windowScrollX = window.scrollX;
+
+        const debugStr = `[${now}s:${ms}ms] sL:${container.scrollLeft.toFixed(2)} parentSL:${parentScrollLeft.toFixed(2)} winSX:${windowScrollX.toFixed(2)} sW:${container.scrollWidth} cW:${container.clientWidth}`;
+        setDebugInfo(debugStr);
+      }
     };
 
     updateScrollButtons();
 
+    // Poll every 500ms to see values change
+    const interval = setInterval(updateScrollButtons, 500);
+
     container.addEventListener('scroll', updateScrollButtons);
+    container.addEventListener('touchend', updateScrollButtons);
     window.addEventListener('resize', updateScrollButtons);
 
+    // Watch for content size changes (images loading, etc.)
+    const resizeObserver = new ResizeObserver(() => {
+      updateScrollButtons();
+    });
+    resizeObserver.observe(container);
+
     return () => {
+      clearInterval(interval);
+      resizeObserver.disconnect();
       container.removeEventListener('scroll', updateScrollButtons);
+      container.removeEventListener('touchend', updateScrollButtons);
       window.removeEventListener('resize', updateScrollButtons);
     };
   }, []);
@@ -150,27 +186,65 @@ const ScrollableNavigation: FunctionComponent<Props> = ({
   if (!canScrollLeft && !canScrollRight) return null;
 
   return (
-    <ScrollButtonsContainer
-      $hasDarkBackground={hasDarkBackground}
-      $hasLeftOffset={hasLeftOffset}
-    >
-      <ScrollButton
-        disabled={!canScrollLeft}
-        onClick={() => scrollByChildImageWidth('left')}
+    <>
+      {elementInfo && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            background: 'orange',
+            color: 'black',
+            padding: '5px',
+            fontSize: '11px',
+            zIndex: 9999,
+            wordBreak: 'break-all',
+          }}
+        >
+          {elementInfo}
+        </div>
+      )}
+      {debugInfo && (
+        <div
+          style={{
+            position: 'fixed',
+            top: '30px',
+            left: 0,
+            right: 0,
+            background: 'yellow',
+            color: 'black',
+            padding: '10px',
+            fontSize: '12px',
+            zIndex: 9999,
+            wordBreak: 'break-all',
+          }}
+        >
+          {debugInfo}
+        </div>
+      )}
+      <ScrollButtonsContainer
+        $hasDarkBackground={hasDarkBackground}
+        $hasLeftOffset={hasLeftOffset}
       >
-        <Icon icon={arrowSmall} rotate={180} />
-        <span aria-hidden="true">Prev</span>
-        <span className="visually-hidden">Previous</span>
-      </ScrollButton>
+        <ScrollButton
+          disabled={!canScrollLeft}
+          onClick={() => scrollByChildImageWidth('left')}
+        >
+          <Icon icon={arrowSmall} rotate={180} />
+          <span aria-hidden="true">Prev</span>
+          <span className="visually-hidden">Previous</span>
+        </ScrollButton>
 
-      <ScrollButton
-        disabled={!canScrollRight}
-        onClick={() => scrollByChildImageWidth('right')}
-      >
-        <Icon icon={arrowSmall} />
-        Next
-      </ScrollButton>
-    </ScrollButtonsContainer>
+        <ScrollButton
+          disabled={!canScrollRight}
+          onClick={() => scrollByChildImageWidth('right')}
+        >
+          <Icon icon={arrowSmall} />
+          Next
+        </ScrollButton>
+      </ScrollButtonsContainer>
+    </>
   );
 };
 export default ScrollableNavigation;
