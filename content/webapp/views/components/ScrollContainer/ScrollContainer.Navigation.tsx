@@ -66,8 +66,7 @@ const ScrollableNavigation: FunctionComponent<Props> = ({
 
       // Determine whether each button should be enabled or disabled based on current scroll position
       setCanScrollLeft(container.scrollLeft > 0);
-      // Show button only if there's more than 1 whole pixel remaining to scroll.
-      // Math.floor handles sub-pixel gaps (e.g., 1.05px gap = 1 whole pixel = not enough to scroll)
+      // Button should be active only if there's more than 1 whole pixel remaining to scroll.
       setCanScrollRight(Math.floor(maxScrollLeft - container.scrollLeft) > 1);
     };
 
@@ -77,14 +76,7 @@ const ScrollableNavigation: FunctionComponent<Props> = ({
     container.addEventListener('touchend', updateScrollButtons);
     window.addEventListener('resize', updateScrollButtons);
 
-    // Watch for content size changes (images loading, etc.)
-    const resizeObserver = new ResizeObserver(() => {
-      updateScrollButtons();
-    });
-    resizeObserver.observe(container);
-
     return () => {
-      resizeObserver.disconnect();
       container.removeEventListener('scroll', updateScrollButtons);
       container.removeEventListener('touchend', updateScrollButtons);
       window.removeEventListener('resize', updateScrollButtons);
@@ -160,29 +152,27 @@ const ScrollableNavigation: FunctionComponent<Props> = ({
   if (!canScrollLeft && !canScrollRight) return null;
 
   return (
-    <>
-      <ScrollButtonsContainer
-        $hasDarkBackground={hasDarkBackground}
-        $hasLeftOffset={hasLeftOffset}
+    <ScrollButtonsContainer
+      $hasDarkBackground={hasDarkBackground}
+      $hasLeftOffset={hasLeftOffset}
+    >
+      <ScrollButton
+        disabled={!canScrollLeft}
+        onClick={() => scrollByChildImageWidth('left')}
       >
-        <ScrollButton
-          disabled={!canScrollLeft}
-          onClick={() => scrollByChildImageWidth('left')}
-        >
-          <Icon icon={arrowSmall} rotate={180} />
-          <span aria-hidden="true">Prev</span>
-          <span className="visually-hidden">Previous</span>
-        </ScrollButton>
+        <Icon icon={arrowSmall} rotate={180} />
+        <span aria-hidden="true">Prev</span>
+        <span className="visually-hidden">Previous</span>
+      </ScrollButton>
 
-        <ScrollButton
-          disabled={!canScrollRight}
-          onClick={() => scrollByChildImageWidth('right')}
-        >
-          <Icon icon={arrowSmall} />
-          Next
-        </ScrollButton>
-      </ScrollButtonsContainer>
-    </>
+      <ScrollButton
+        disabled={!canScrollRight}
+        onClick={() => scrollByChildImageWidth('right')}
+      >
+        <Icon icon={arrowSmall} />
+        Next
+      </ScrollButton>
+    </ScrollButtonsContainer>
   );
 };
 export default ScrollableNavigation;
