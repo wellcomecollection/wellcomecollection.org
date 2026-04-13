@@ -8,13 +8,12 @@ import * as path from 'path';
 import { Readable } from 'stream';
 import { pipeline } from 'stream/promises';
 
-export interface DownloadLatestS3FileParams {
+export type DownloadLatestS3FileParams = {
   bucket: string;
   prefix: string;
   region?: string;
   outputDir: string;
-  filter?: (obj: { Key?: string; LastModified?: Date }) => boolean;
-}
+};
 
 /**
  * Downloads the latest file from S3 matching the prefix and saves it to outputDir.
