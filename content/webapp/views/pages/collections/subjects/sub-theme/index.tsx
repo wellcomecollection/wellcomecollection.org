@@ -127,7 +127,7 @@ const WellcomeSubThemePage: NextPage<Props> & {
             <SliceZone
               slices={[categoryThemeCardsList]}
               components={components}
-              context={{ hasNoShim: true }}
+              context={{ hasNoShim: true, themeCardCols: 3 }}
             />
           </ThemeCardsListSection>
         </Space>

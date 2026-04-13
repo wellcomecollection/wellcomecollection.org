@@ -20,7 +20,8 @@ const Theme: FunctionComponent<{
   concept: Concept;
   gtmData: DataGtmProps;
   showDescriptionForTypes?: ConceptType[];
-}> = ({ concept, gtmData, showDescriptionForTypes }) => {
+  cols?: 3 | 4;
+}> = ({ concept, gtmData, showDescriptionForTypes, cols }) => {
   const images = useConceptImageUrls(concept);
   const linkProps = toConceptLink({ conceptId: concept.id });
 
@@ -36,6 +37,7 @@ const Theme: FunctionComponent<{
       title={concept.displayLabel}
       description={description}
       linkProps={linkProps}
+      cols={cols}
       dataGtmProps={{
         trigger: 'theme_promo_card',
         id: concept.id,
@@ -63,6 +65,7 @@ type ThemeCardsListProps = {
   showDescriptionForTypes?: ConceptType[];
   headingLevel?: 2 | 3;
   fontFamily?: 'brand-bold' | 'sans-bold';
+  cols?: 3 | 4;
 };
 
 const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
@@ -76,6 +79,7 @@ const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
   showDescriptionForTypes,
   headingLevel = 2,
   fontFamily = 'sans-bold',
+  cols,
 }) => {
   const scrollContainerRef = useRef<HTMLUListElement>(null);
   const [concepts, setConcepts] = useState<Concept[]>([]);
@@ -146,11 +150,12 @@ const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
         ) : (
           <>
             {concepts.map((concept, i) => (
-              <ListItem key={concept.id} $usesShim={useShim}>
+              <ListItem key={concept.id} $usesShim={useShim} $cols={cols}>
                 <Theme
                   concept={concept}
                   gtmData={{ ...gtmData, 'position-in-list': `${i + 1}` }}
                   showDescriptionForTypes={showDescriptionForTypes}
+                  cols={cols}
                 />
               </ListItem>
             ))}
