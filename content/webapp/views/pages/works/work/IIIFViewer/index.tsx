@@ -32,6 +32,7 @@ export const DelayVisibility = styled.div`
   opacity: 0;
   animation: 0.2s ${show} 1.5s forwards;
   height: 100%;
+  min-width: 0;
 `;
 
 export default IIIFViewer;

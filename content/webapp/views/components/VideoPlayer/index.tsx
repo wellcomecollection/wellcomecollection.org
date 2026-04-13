@@ -1,5 +1,6 @@
 import { ChoiceBody, ContentResource } from '@iiif/presentation-3';
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
+import styled from 'styled-components';
 
 import { useAVTracking } from '@weco/content/hooks/useAVTracking';
 import { CustomContentResource } from '@weco/content/types/manifest';
@@ -18,14 +19,39 @@ type Props = {
   showDownloadOptions: boolean;
 };
 
+const StyledVideo = styled.video<{
+  $posterFailed: boolean;
+  $aspectRatio: string;
+}>`
+  aspect-ratio: ${props => props.$aspectRatio};
+  ${props =>
+    props.$posterFailed && `background: ${props.theme.color('neutral.700')};`}
+`;
+
 const VideoPlayer: FunctionComponent<Props> = ({
   video,
   placeholderId,
   showDownloadOptions,
 }: Props) => {
   const { trackPlay, trackEnded, trackTimeUpdate } = useAVTracking('video');
+  const width = 'width' in video ? video.width : undefined;
+  const height = 'height' in video ? video.height : undefined;
+  const aspectRatio = width && height ? `${width} / ${height}` : '16 / 9';
+
+  const [posterFailed, setPosterFailed] = useState(!placeholderId);
+  useEffect(() => {
+    if (!placeholderId) {
+      setPosterFailed(true);
+      return;
+    }
+    const img = new Image();
+    img.onload = () => setPosterFailed(false);
+    img.onerror = () => setPosterFailed(true);
+    img.src = placeholderId;
+  }, [placeholderId]);
+
   return (
-    <video
+    <StyledVideo
       data-component="video-player"
       onPlay={event => {
         trackPlay(event);
@@ -36,10 +62,12 @@ const VideoPlayer: FunctionComponent<Props> = ({
       controls
       preload="none"
       poster={placeholderId}
+      $posterFailed={posterFailed}
+      $aspectRatio={aspectRatio}
     >
       <source src={video.id} type={video.format} />
       Sorry, your browser doesn&apos;t support embedded video.
-    </video>
+    </StyledVideo>
   );
 };
 
