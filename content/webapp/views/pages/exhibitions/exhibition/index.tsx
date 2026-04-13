@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import {
   ExhibitionHighlightToursDocument,
   ExhibitionTextsDocument,
-  ThemeCardsListSlice as RawThemeCardsListSlice,
 } from '@weco/common/prismicio-types';
 import { useToggles } from '@weco/common/server-data/Context';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
@@ -12,6 +11,8 @@ import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { fetchExhibitionRelatedContentClientSide } from '@weco/content/services/prismic/fetch/exhibitions';
+import { ThemeCardsListSliceValue } from '@weco/content/services/prismic/transformers/body';
+import { Slice } from '@weco/content/types/body';
 import { EventBasic } from '@weco/content/types/events';
 import {
   AboutThisExhibitionContent,
@@ -31,7 +32,7 @@ export type Props = {
   accessResourceLinks: (Link & { type: string })[];
   exhibitionTexts: ExhibitionTextsDocument[];
   exhibitionHighlightTours: ExhibitionHighlightToursDocument[];
-  rawThemeCardsListSlice?: RawThemeCardsListSlice;
+  themeCardsListSlice?: Slice<'themeCardsList', ThemeCardsListSliceValue>;
 };
 
 /**
@@ -45,7 +46,7 @@ const ExhibitionPage: NextPage<Props> = ({
   accessResourceLinks,
   exhibitionTexts,
   exhibitionHighlightTours,
-  rawThemeCardsListSlice,
+  themeCardsListSlice,
   jsonLd,
 }) => {
   const [relatedContent, setRelatedContent] =
@@ -138,7 +139,7 @@ const ExhibitionPage: NextPage<Props> = ({
         <ExhibitionCollectionsContent
           isTendernessAndRageExhibition={isTendernessAndRageExhibition}
           aboutThisExhibitionContent={aboutThisExhibitionContent}
-          rawThemeCardsListSlice={rawThemeCardsListSlice}
+          themeCardsListSlice={themeCardsListSlice}
           videos={[]}
         />
       )}

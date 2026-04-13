@@ -19,6 +19,7 @@ import {
 } from '@weco/common/views/pages/_app';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchExhibition } from '@weco/content/services/prismic/fetch/exhibitions';
+import { transformThemeCardsList } from '@weco/content/services/prismic/transformers/body';
 import { transformExhibition } from '@weco/content/services/prismic/transformers/exhibitions';
 import { exhibitionLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
@@ -72,6 +73,11 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         slice.slice_type === 'themeCardsList'
     ) as RawThemeCardsListSlice | undefined;
 
+    const themeCardsListSlice =
+      rawThemeCardsListSlice && serverData.toggles.exhibitionAndCollection.value
+        ? transformThemeCardsList(rawThemeCardsListSlice)
+        : undefined;
+
     // Filter out themeCardsList from body since we render it separately
     const bodyWithoutThemeCardsList = exhibitionDoc.untransformedBody.filter(
       (slice: PagesDocumentDataBodySlice) =>
@@ -108,9 +114,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         accessResourceLinks: [...exhibitionGuidesLinks, ...visualStoriesLinks],
         exhibitionTexts,
         exhibitionHighlightTours,
-        rawThemeCardsListSlice: serverData.toggles.exhibitionAndCollection.value
-          ? rawThemeCardsListSlice
-          : undefined,
+        themeCardsListSlice,
         jsonLd,
         serverData,
       }),

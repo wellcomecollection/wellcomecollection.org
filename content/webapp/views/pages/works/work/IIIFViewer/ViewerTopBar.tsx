@@ -188,7 +188,7 @@ const RightZone = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  width: 200px;
+  width: 150px;
 `;
 
 type ViewerTopBarProps = OptionalToUndefined<{
@@ -279,13 +279,20 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
 
   const videoAudioDownloadOptions = getVideoAudioDownloadOptions(currentCanvas);
 
+  // We need multiple sources for downloads to cover the different
+  // ways in which a download can be made available in a iiif manifest.
+  // However, sometimes the same download file can be available
+  // from multiple sources, so we deduplicate them here based on their id
+  // which is the url to the file to be downloaded.
   const downloadOptions = [
     ...iiifImageDownloadOptions,
     ...canvasImageDownloads,
     ...canvasDownloadOptions,
     ...manifestDownloadOptions,
     ...videoAudioDownloadOptions,
-  ];
+  ].filter(
+    (option, index, self) => self.findIndex(o => o.id === option.id) === index
+  );
 
   return (
     <TopBar

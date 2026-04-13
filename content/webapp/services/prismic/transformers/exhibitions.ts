@@ -258,8 +258,7 @@ export const transformExhibitionRelatedContent = (
         doc.type === 'event-series'
     ),
     aboutThisExhibitionContent: parsedContent.filter(
-      doc =>
-        doc.type === 'books' || doc.type === 'articles' || doc.type === 'series'
+      doc => doc.type === 'articles' || doc.type === 'series'
     ),
   } as ExhibitionRelatedContent;
 };
