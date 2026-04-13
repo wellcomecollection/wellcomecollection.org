@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
@@ -106,6 +106,10 @@ const WorkItemPage: NextPage<Props> = ({
     auth,
   });
   const [accessToken, setAccessToken] = useState();
+  const clickThroughTimerRef = useRef<
+    ReturnType<typeof setInterval> | undefined
+  >(undefined);
+  useEffect(() => () => clearInterval(clickThroughTimerRef.current), []);
   const [searchResults, setSearchResults] = useState(serverSearchResults);
   const authServices = getAuthServices({ auth });
   const currentCanvas = canvases?.[queryParamToArrayIndex(canvas)];
@@ -144,16 +148,21 @@ const WorkItemPage: NextPage<Props> = ({
   }, []);
 
   useEffect(() => {
-    if (userIsStaffWithRestricted && authServices?.external) {
+    if (userIsStaffWithRestricted && authServices?.external && origin) {
       const authServiceWindow = window.open(
         `${authServices?.external?.id || ''}?origin=${window.origin}`
       );
-      authServiceWindow &&
-        authServiceWindow.addEventListener('unload', function () {
-          reloadAuthIframe(document, iframeId);
-        });
+      if (authServiceWindow) {
+        const timer = setInterval(() => {
+          if (authServiceWindow.closed) {
+            clearInterval(timer);
+            reloadAuthIframe(document, iframeId);
+          }
+        }, 500);
+        return () => clearInterval(timer);
+      }
     }
-  }, [userIsStaffWithRestricted, authServices?.external?.id]);
+  }, [userIsStaffWithRestricted, authServices?.external?.id, origin]);
 
   useEffect(() => {
     function receiveMessage(event: MessageEvent) {
@@ -172,21 +181,22 @@ const WorkItemPage: NextPage<Props> = ({
       if (service?.origin === event.origin) {
         if (Object.prototype.hasOwnProperty.call(data, 'accessToken')) {
           setAccessToken(data.accessToken);
-          setShowModal(Boolean(isTotallyRestricted));
-          setShowViewer(!isTotallyRestricted);
-        } else {
+          if (needsModal) {
+            setShowModal(!!isTotallyRestricted);
+            setShowViewer(!isTotallyRestricted);
+          }
+        } else if (needsModal) {
           setShowModal(true);
           setShowViewer(false);
         }
       }
     }
-    if (needsModal) {
-      window.addEventListener('message', receiveMessage);
-      return () => window.removeEventListener('message', receiveMessage);
-    } else {
+    window.addEventListener('message', receiveMessage);
+    if (!needsModal) {
       setShowModal(false);
       setShowViewer(true);
     }
+    return () => window.removeEventListener('message', receiveMessage);
   }, [needsModal]);
 
   return (
@@ -221,22 +231,25 @@ const WorkItemPage: NextPage<Props> = ({
       so we check for the presence of a pdf in the original property of the canvas.
       If it has one we show the IIIFItemList, unless we are using the extended viewer.
       */}
-      {/* TODO  when we promote extendedViewer code to default we can remove this block
+      {/* TODO extendedViewer: when we promote code to default we can remove this block
       as we'll always show the viewer for PDFs*/}
-      {(!hasImage || hasPdf) && showViewer && !extendedViewer && (
-        <ContaineredLayout gridSizes={gridSize12()}>
-          <Space
-            className="body-text"
-            $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
-          >
-            <IIIFItemList
-              canvases={canvases}
-              exclude={['Image']}
-              placeholderId={placeholderId}
-            />
-          </Space>
-        </ContaineredLayout>
-      )}
+      {(!hasImage || hasPdf) &&
+        showViewer &&
+        !extendedViewer &&
+        !userIsStaffWithRestricted && ( // We don't need this for userIsStaffWithRestricted, as they always get the viewer.
+          <ContaineredLayout gridSizes={gridSize12()}>
+            <Space
+              className="body-text"
+              $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
+            >
+              <IIIFItemList
+                canvases={canvases}
+                exclude={['Image']}
+                placeholderId={placeholderId}
+              />
+            </Space>
+          </ContaineredLayout>
+        )}
 
       <Modal
         id="auth-modal"
@@ -274,10 +287,15 @@ const WorkItemPage: NextPage<Props> = ({
                     const authServiceWindow = window.open(
                       `${modalContent?.id || ''}?origin=${origin}`
                     );
-                    authServiceWindow &&
-                      authServiceWindow.addEventListener('unload', function () {
-                        reloadAuthIframe(document, iframeId);
-                      });
+                    if (authServiceWindow) {
+                      clickThroughTimerRef.current = setInterval(() => {
+                        if (authServiceWindow.closed) {
+                          clearInterval(clickThroughTimerRef.current);
+                          clickThroughTimerRef.current = undefined;
+                          reloadAuthIframe(document, iframeId);
+                        }
+                      }, 500);
+                    }
                   }}
                 />
               </Space>
@@ -290,7 +308,8 @@ const WorkItemPage: NextPage<Props> = ({
       {showViewer &&
         ((mainImageService && currentCanvas) ||
           iiifImageLocation ||
-          extendedViewer) && (
+          extendedViewer ||
+          (!extendedViewer && userIsStaffWithRestricted)) && (
           <IIIFViewer
             work={work}
             transformedManifest={transformedManifest}

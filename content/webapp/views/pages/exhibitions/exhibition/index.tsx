@@ -11,6 +11,8 @@ import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { fetchExhibitionRelatedContentClientSide } from '@weco/content/services/prismic/fetch/exhibitions';
+import { ThemeCardsListSliceValue } from '@weco/content/services/prismic/transformers/body';
+import { Slice } from '@weco/content/types/body';
 import { EventBasic } from '@weco/content/types/events';
 import {
   AboutThisExhibitionContent,
@@ -30,6 +32,7 @@ export type Props = {
   accessResourceLinks: (Link & { type: string })[];
   exhibitionTexts: ExhibitionTextsDocument[];
   exhibitionHighlightTours: ExhibitionHighlightToursDocument[];
+  themeCardsListSlice?: Slice<'themeCardsList', ThemeCardsListSliceValue>;
 };
 
 /**
@@ -43,6 +46,7 @@ const ExhibitionPage: NextPage<Props> = ({
   accessResourceLinks,
   exhibitionTexts,
   exhibitionHighlightTours,
+  themeCardsListSlice,
   jsonLd,
 }) => {
   const [relatedContent, setRelatedContent] =
@@ -135,7 +139,7 @@ const ExhibitionPage: NextPage<Props> = ({
         <ExhibitionCollectionsContent
           isTendernessAndRageExhibition={isTendernessAndRageExhibition}
           aboutThisExhibitionContent={aboutThisExhibitionContent}
-          conceptIds={[]}
+          themeCardsListSlice={themeCardsListSlice}
           videos={[]}
         />
       )}

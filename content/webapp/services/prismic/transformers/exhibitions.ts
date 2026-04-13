@@ -118,14 +118,22 @@ export function transformExhibition(
 
   const contributors = transformContributors(document);
 
-  const exhibition = {
+  const isPermanent = data.isPermanent === 'yes';
+  const labels = isPermanent
+    ? [{ text: 'Permanent exhibition' }]
+    : format
+      ? [{ text: format.title }]
+      : [{ text: 'Exhibition' }];
+
+  return {
+    type: 'exhibitions',
     ...genericFields,
     uid: document.uid,
     shortTitle: data.shortTitle && asText(data.shortTitle),
     format,
     start,
     end,
-    isPermanent: data.isPermanent === 'yes',
+    isPermanent,
     statusOverride,
     place,
     exhibits,
@@ -135,23 +143,8 @@ export function transformExhibition(
     accessResourcesPdfs,
     accessResourcesText,
     bslLeafletVideo,
+    labels,
   };
-
-  const labels = exhibition.isPermanent
-    ? [
-        {
-          text: 'Permanent exhibition',
-        },
-      ]
-    : exhibition.format
-      ? [
-          {
-            text: exhibition.format.title,
-          },
-        ]
-      : [{ text: 'Exhibition' }];
-
-  return { ...exhibition, type: 'exhibitions', labels };
 }
 
 export function transformExhibitionToExhibitionBasic(
@@ -265,8 +258,7 @@ export const transformExhibitionRelatedContent = (
         doc.type === 'event-series'
     ),
     aboutThisExhibitionContent: parsedContent.filter(
-      doc =>
-        doc.type === 'books' || doc.type === 'articles' || doc.type === 'series'
+      doc => doc.type === 'articles' || doc.type === 'series'
     ),
   } as ExhibitionRelatedContent;
 };

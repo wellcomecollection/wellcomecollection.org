@@ -110,6 +110,31 @@ You can run both apps together with the following command:
 
 **Note:** both apps should have the same `NEXT_PUBLIC_API_ENV_OVERRIDE` value in their `.env` files.
 
+### Deploying dev builds to staging
+
+You can deploy a local build directly to the staging environment using `yarn deploy-dev`. This **bypasses CI entirely** and deploys your local code to staging immediately.
+
+```bash
+# Deploy content webapp to staging
+yarn deploy-dev content
+
+# Deploy identity webapp to staging
+yarn deploy-dev identity
+
+# Restore staging to its previous state
+yarn deploy-dev restore content
+yarn deploy-dev restore identity
+```
+
+**⚠️ Important:** This command overrides the `env.stage` tag in ECR, which affects all staging deployments. Before using:
+
+1. **Coordinate with other experience team developers** to ensure no one else is testing on staging
+2. If an existing `env.stage` image is present, the tool backs it up as `env.stage.pre-dev` (if no existing image is found, no backup is created and restore won't be available)
+3. **Always restore when finished** using `yarn deploy-dev restore <app>` so CI deployments resume normally
+4. If CI deploys while your dev image is running, `env.stage` will be updated to the CI build (your backup remains available for reference, if it was created)
+
+Prerequisites: You need `platform-developer` and `experience-developer` AWS profiles configured.
+
 ### Running CI steps locally
 
 In order to reproduce a build step locally you can run the same `docker compose` command that [Buildkite](https://buildkite.com/wellcomecollection/experience) runs.
@@ -165,11 +190,21 @@ services:
 
 You will need to add a `command`, `volumes` and `environment` block to specify the required command and mount your AWS credentials in the running container.
 
+Ensure you are logged in to ECR Public with the profile you have specified in the `AWS_PROFILE` environment variable. You can do this with the following command:
+
+```shell script
+ aws ecr-public get-login-password \                                                                                                                                                  
+--region us-east-1 \  
+--profile platform-developer | docker login \
+--username AWS \
+--password-stdin public.ecr.aws
+```
+
 You can then run `docker compose` commands as would occur in the CI environment.
 
 ```shell script
-docker compose edge_lambdas build
-docker compose edge_lambdas run
+docker compose build edge_lambdas
+docker compose run edge_lambdas
 ```
 
 ## Linting
