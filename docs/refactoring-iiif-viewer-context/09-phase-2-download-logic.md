@@ -10,6 +10,8 @@
 
 Extract download options logic from `ViewerTopBar.tsx` into a reusable custom hook. This removes ~65 lines of complex business logic from the component and makes it testable in isolation.
 
+**Note:** The `restricted-images` merge already added download deduplication and improved ChoiceBody handling. This phase integrates those changes into the hook.
+
 ## Why Extract to a Hook (Not Context)?
 
 **Current problem:** `ViewerTopBar.tsx` has 65+ lines of download option calculations:
@@ -46,6 +48,7 @@ describe('useDownloadOptions', () => {
   it('should include manifest-level downloads', () => { ... });
   it('should include video/audio downloads', () => { ... });
   it('should handle ChoiceBody items correctly', () => { ... });
+  it('should deduplicate downloads with same id', () => { ... });  // NEW from restricted-images
   it('should memoise results and only recalculate when dependencies change', () => { ... });
 });
 
@@ -56,7 +59,7 @@ describe('useImageServices', () => {
 });
 ```
 
-**Critical:** Test the complex branches (`ChoiceBody`, video/audio, multiple download types).
+**Critical:** Test the complex branches (`ChoiceBody`, video/audio, multiple download types, deduplication).
 
 ### 2.2 Create `useDownloadOptions` Hook
 
@@ -78,14 +81,37 @@ export function useDownloadOptions(iiifImageLocation?: DigitalLocation) {
     const manifestDownloadOptions = /* ... */;
     const videoAudioDownloadOptions = /* ... */;
 
-    return [
+    // Combine all options
+    const allOptions = [
       ...iiifImageDownloadOptions,
       ...canvasImageDownloads,
       ...canvasDownloadOptions,
       ...manifestDownloadOptions,
       ...videoAudioDownloadOptions,
     ];
+
+    // Deduplicate by download URL (id)
+    // Added in restricted-images merge - prevents same file appearing multiple times
+    // when it's available from multiple sources in the IIIF manifest
+    return allOptions.filter(
+      (option, index, self) => 
+        self.findIndex(o => o.id === option.id) === index
+    );
   }, [currentCanvas, transformedManifest, iiifImageLocation, /* ... */]);
+}
+```
+
+**Note:** The `restricted-images` merge improved `getDownloadOptionsFromCanvasRenderingAndSupplementing` to properly handle ChoiceBody items:
+
+```typescript
+// In utils/iiif/v3/index.ts (already implemented)
+export function getDownloadOptionsFromCanvasRenderingAndSupplementing(
+  canvas: TransformedCanvas
+): DownloadOption[] {
+  return [...canvas.rendering, ...canvas.supplementing]
+    .flatMap(item => (isChoiceBody(item) ? item.items : [item]))
+    .filter((item): item is ContentResource => typeof item !== 'string')
+    .map(convertToDownloadOption);
 }
 ```
 

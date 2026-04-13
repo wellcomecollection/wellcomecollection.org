@@ -17,6 +17,8 @@ Add `isCurrentCanvasRestricted` to context instead of calculating it in `ViewerT
 - Centralise restriction logic in one place
 - Clear boolean name makes intent obvious
 
+**Note:** The `restricted-images` merge added the canonical `hasRestrictedItem()` helper that should be used for all restriction checks.
+
 ## Steps
 
 ### 3.1 Add to Context Type

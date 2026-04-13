@@ -34,7 +34,7 @@ Test ALL derived values:
 - [ ] `currentCanvas` - extracted from `transformedManifest.canvases`
 - [ ] `mainImageService` - extracted from canvas with fallback handling
 - [ ] `hasMultipleCanvases` - true when >1 canvas
-- [ ] `isCurrentCanvasRestricted` - detects `RestrictedAccess` condition
+- [ ] `isCurrentCanvasRestricted` - uses `hasRestrictedItem()` helper (from `restricted-images` merge)
 - [ ] `isFirstCanvas` - true when `currentCanvasIndex === 0`
 - [ ] `isLastCanvas` - true when at last canvas
 - [ ] `canNavigateNext` - `!isLastCanvas && hasMultipleCanvases`
@@ -42,13 +42,22 @@ Test ALL derived values:
 - [ ] `hasIiifImageService` - checks for `imageServiceId`
 - [ ] `isImageZoomable` - checks if zoom is supported
 - [ ] `isWorkBornDigital` - checks `work.production` type
+- [ ] `currentProbeServiceId` - extracted from canvas (optional, if added to context)
 
 Test all edge cases:
 - [ ] Undefined `transformedManifest`
 - [ ] Empty canvases array
 - [ ] Canvas without `imageServiceId`
+- [ ] Canvas without `probeServiceId` (non-restricted)
+- [ ] Canvas with `probeServiceId` (restricted)
 - [ ] Invalid canvas index (too high)
 - [ ] Null/undefined values
+
+**New (from `restricted-images` merge):**
+- [ ] `isCurrentCanvasRestricted` returns true for restricted canvas
+- [ ] `isCurrentCanvasRestricted` returns false for non-restricted canvas
+- [ ] `currentProbeServiceId` extracted correctly when present
+- [ ] `currentProbeServiceId` is undefined when absent
 
 #### Component Integration Tests
 **Files:** Component `.refactored.test.tsx` files
@@ -69,6 +78,29 @@ Test that components actually consume context values:
   - [ ] Uses `currentCanvas` from context
   - [ ] Uses `mainImageService` from context
   - [ ] Handles empty `mainImageService` correctly
+
+#### Download Options Hook Tests (Phase 2)
+**File:** `content/webapp/hooks/useDownloadOptions.test.ts`
+
+Test download option calculations:
+- [ ] Returns empty array when no canvas or manifest
+- [ ] Includes IIIF image download options
+- [ ] Includes canvas image downloads from services
+- [ ] Includes canvas rendering downloads (PDFs)
+- [ ] Includes manifest-level downloads
+- [ ] Includes video/audio downloads
+- [ ] Handles ChoiceBody items correctly
+- [ ] **Deduplicates downloads with same id** (from `restricted-images` merge)
+- [ ] Memoises results correctly
+- [ ] Updates when dependencies change
+
+Test edge cases:
+- [ ] Multiple downloads with different URLs (all included)
+- [ ] Multiple downloads with same URL (only one included after dedup)
+- [ ] ChoiceBody in `rendering` array
+- [ ] ChoiceBody in `supplementing` array
+- [ ] Empty download arrays
+- [ ] Restricted downloads for staff vs non-staff users
 
 #### Mock Utilities
 **File:** `content/webapp/contexts/ItemViewerContextV2/test-utils.ts`

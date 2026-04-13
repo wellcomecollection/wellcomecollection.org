@@ -55,8 +55,9 @@ const currentCanvas = transformedManifest?.canvases[queryParamToArrayIndex(query
 - Get `manifestDownloadOptions` from rendering
 - Get `videoAudioDownloadOptions`
 - Combine all options
+- Deduplicate by download URL (added in `restricted-images` merge)
 
-**Note:** Download logic is only in one file, but it's ~65 lines of complex business logic. **This will go into a custom hook** (not context) for testability and potential reuse.
+**Note:** Download logic is only in one file, but it's ~65 lines of complex business logic (now ~80 with deduplication). **This will go into a custom hook** (not context) for testability and potential reuse.
 
 **Image services extraction - `ViewerTopBar.tsx` (lines 226-238):**
 Complex mapping with `ChoiceBody` handling, only done once but could be reusable.

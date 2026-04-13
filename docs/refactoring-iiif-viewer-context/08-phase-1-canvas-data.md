@@ -60,13 +60,18 @@ const isFirstCanvas = currentCanvasIndex === 0;
 const isLastCanvas = currentCanvasIndex === totalCanvases - 1;
 const canNavigateNext = !isLastCanvas && hasMultipleCanvases;
 const canNavigatePrevious = !isFirstCanvas && hasMultipleCanvases;
-const isCurrentCanvasRestricted = Boolean(
-  currentCanvas?.accessConditions?.some(ac => ac.type === 'RestrictedAccess')
-);
+const isCurrentCanvasRestricted = currentCanvas 
+  ? hasRestrictedItem(currentCanvas)  // Use helper from restricted-images merge
+  : false;
 
 // Image service data
 const mainImageService = { '@id': currentCanvas?.imageServiceId || '' };
 const hasIiifImageService = Boolean(currentCanvas?.imageServiceId);
+
+// Probe service data (added in restricted-images merge)
+// Note: Probe state itself stays in useIIIFProbeService hook (used in 2 places)
+// Only add probeServiceId if other components need it beyond the hook
+const currentProbeServiceId = currentCanvas?.probeServiceId;
 
 // Add to context provider
 <ItemViewerContextV2.Provider value={{
@@ -81,8 +86,12 @@ const hasIiifImageService = Boolean(currentCanvas?.imageServiceId);
   canNavigatePrevious,
   isCurrentCanvasRestricted,
   hasIiifImageService,
+  // Optionally add if needed by multiple components:
+  // currentProbeServiceId,
 }}>
 ```
+
+**Note on probe service:** The `restricted-images` merge added `probeServiceId` to `TransformedCanvas` and a `useIIIFProbeService` hook. The hook handles probe polling state internally. Only add `currentProbeServiceId` to context if components beyond `MainViewer` and `ItemWrapper` need it.
 
 ### 1.3 Update `ItemViewerContextV2` Types
 
