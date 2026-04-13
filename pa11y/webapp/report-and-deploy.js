@@ -116,29 +116,41 @@ try {
 
   runAllTests()
     .then(async results => {
-      // Check for pages that failed to load (e.g., due to 429 errors)
-      // When a page gets a 429 error, CloudFront returns an error page with title "wellcomecollection.org"
-      // instead of the actual page title which includes " | Wellcome Collection"
+      // Check for pages that failed to load properly
+      // Valid Wellcome Collection pages have titles ending with " | Wellcome Collection"
+      // Error pages (429, 403, 503, etc.) from CloudFront return generic error page titles
       const failedPages = results
         .map((result, i) => ({ result, url: urls[i] }))
-        .filter(
-          ({ result }) =>
-            !result.documentTitle ||
-            !result.pageUrl ||
-            result.documentTitle === 'wellcomecollection.org'
-        );
+        .filter(({ result }) => {
+          // Check if the page loaded successfully
+          if (!result.documentTitle || !result.pageUrl) {
+            return true; // Page completely failed to load
+          }
+
+          // Check if it's an error page (CloudFront error pages don't have proper titles)
+          // Valid pages should end with " | Wellcome Collection"
+          // Exception: The homepage title is just "Wellcome Collection"
+          const isHomepage =
+            result.pageUrl === baseUrl || result.pageUrl === baseUrl + '/';
+          const hasValidTitle = isHomepage
+            ? result.documentTitle === 'Wellcome Collection'
+            : result.documentTitle.endsWith(' | Wellcome Collection');
+
+          return !hasValidTitle;
+        });
 
       if (failedPages.length > 0) {
         console.error(
           styleText(
             'redBright',
-            `${failedPages.length} page(s) failed to load - likely due to rate limiting (429 errors)`
+            `${failedPages.length} page(s) failed to load properly`
           )
         );
-        console.error(
-          'Failed URLs:',
-          failedPages.map(({ url }) => url)
-        );
+        failedPages.forEach(({ url, result }) => {
+          console.error(
+            `  - ${url} (title: "${result.documentTitle || 'missing'}")`
+          );
+        });
         process.exit(1);
       }
 
