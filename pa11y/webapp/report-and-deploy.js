@@ -66,7 +66,8 @@ const urls = [
   '/search/events?query=human',
 ].map(u => `${baseUrl}${u}`);
 
-// Helper to add delay between requests
+// Helper to add a delay between batches of requests; requests within a batch
+// still run concurrently.
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 const runPa11y = async url => {
