@@ -56,47 +56,22 @@ const ScrollableNavigation: FunctionComponent<Props> = ({
 }: Props) => {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
-  const [debugInfo, setDebugInfo] = useState<string>('');
-  const [elementInfo, setElementInfo] = useState<string>('');
 
   useEffect(() => {
     const container = containerRef.current;
-    if (!container) {
-      setElementInfo('NO CONTAINER REF!');
-      return;
-    }
-
-    // Show what element we're tracking
-    const elemInfo = `tag:${container.tagName} display:${window.getComputedStyle(container).display} overflow:${window.getComputedStyle(container).overflowX}`;
-    setElementInfo(elemInfo);
+    if (!container) return;
 
     const updateScrollButtons = () => {
       const maxScrollLeft = container.scrollWidth - container.clientWidth;
 
       // Determine whether each button should be enabled or disabled based on current scroll position
       setCanScrollLeft(container.scrollLeft > 0);
-      setCanScrollRight(Math.ceil(container.scrollLeft) < maxScrollLeft);
-
-      // Debug: Show scroll values on screen (remove after testing)
-      if (
-        typeof window !== 'undefined' &&
-        window.location?.href?.includes('people-and-organisations')
-      ) {
-        const now = new Date().getSeconds();
-        const ms = new Date().getMilliseconds();
-        const parent = container.parentElement;
-        const parentScrollLeft = parent?.scrollLeft ?? 0;
-        const windowScrollX = window.scrollX;
-
-        const debugStr = `[${now}s:${ms}ms] sL:${container.scrollLeft.toFixed(2)} parentSL:${parentScrollLeft.toFixed(2)} winSX:${windowScrollX.toFixed(2)} sW:${container.scrollWidth} cW:${container.clientWidth}`;
-        setDebugInfo(debugStr);
-      }
+      // Show button only if there's more than 1 whole pixel remaining to scroll.
+      // Math.floor handles sub-pixel gaps (e.g., 1.05px gap = 1 whole pixel = not enough to scroll)
+      setCanScrollRight(Math.floor(maxScrollLeft - container.scrollLeft) > 1);
     };
 
     updateScrollButtons();
-
-    // Poll every 500ms to see values change
-    const interval = setInterval(updateScrollButtons, 500);
 
     container.addEventListener('scroll', updateScrollButtons);
     container.addEventListener('touchend', updateScrollButtons);
@@ -109,7 +84,6 @@ const ScrollableNavigation: FunctionComponent<Props> = ({
     resizeObserver.observe(container);
 
     return () => {
-      clearInterval(interval);
       resizeObserver.disconnect();
       container.removeEventListener('scroll', updateScrollButtons);
       container.removeEventListener('touchend', updateScrollButtons);
@@ -187,42 +161,6 @@ const ScrollableNavigation: FunctionComponent<Props> = ({
 
   return (
     <>
-      {elementInfo && (
-        <div
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            background: 'orange',
-            color: 'black',
-            padding: '5px',
-            fontSize: '11px',
-            zIndex: 9999,
-            wordBreak: 'break-all',
-          }}
-        >
-          {elementInfo}
-        </div>
-      )}
-      {debugInfo && (
-        <div
-          style={{
-            position: 'fixed',
-            top: '30px',
-            left: 0,
-            right: 0,
-            background: 'yellow',
-            color: 'black',
-            padding: '10px',
-            fontSize: '12px',
-            zIndex: 9999,
-            wordBreak: 'break-all',
-          }}
-        >
-          {debugInfo}
-        </div>
-      )}
       <ScrollButtonsContainer
         $hasDarkBackground={hasDarkBackground}
         $hasLeftOffset={hasLeftOffset}
