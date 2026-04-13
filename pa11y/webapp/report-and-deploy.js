@@ -69,8 +69,7 @@ const urls = [
 // Helper to add delay between requests
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-const runPa11yWithDelay = async (url, delayMs) => {
-  await delay(delayMs);
+const runPa11y = async url => {
   return pa11y(url, {
     timeout: 120000,
     chromeLaunchConfig: {
@@ -93,21 +92,41 @@ const runPa11yWithDelay = async (url, delayMs) => {
   });
 };
 
-const promises = urls.map((url, index) =>
-  // Add 1 second delay between each request to avoid rate limiting in GitHub Actions
-  runPa11yWithDelay(url, index * 1000)
-);
+// Run pa11y in batches to avoid rate limiting while keeping reasonable speed
+async function runAllTests() {
+  const results = [];
+  const batchSize = 3;
+  const delayBetweenBatches = 1000; // 1 second between batches
+
+  for (let i = 0; i < urls.length; i += batchSize) {
+    if (i > 0) {
+      await delay(delayBetweenBatches);
+    }
+
+    const batch = urls.slice(i, i + batchSize);
+    const batchResults = await Promise.all(batch.map(url => runPa11y(url)));
+    results.push(...batchResults);
+  }
+
+  return results;
+}
 
 try {
   console.info('Pa11y: Starting report');
 
-  Promise.all(promises)
+  runAllTests()
     .then(async results => {
       // Check for pages that failed to load (e.g., due to 429 errors)
-      // Map results with their URLs by index, then filter for failures
+      // When a page gets a 429 error, CloudFront returns an error page with title "wellcomecollection.org"
+      // instead of the actual page title which includes " | Wellcome Collection"
       const failedPages = results
         .map((result, i) => ({ result, url: urls[i] }))
-        .filter(({ result }) => !result.documentTitle || !result.pageUrl);
+        .filter(
+          ({ result }) =>
+            !result.documentTitle ||
+            !result.pageUrl ||
+            result.documentTitle === 'wellcomecollection.org'
+        );
 
       if (failedPages.length > 0) {
         console.error(
