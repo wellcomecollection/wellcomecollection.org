@@ -243,12 +243,14 @@ const ItemPageLink = ({
                 />
               </Space>
             )}
-            {isDownloadable && !extendedViewer && (
-              <Download
-                ariaControlsId="itemDownloads"
-                downloadOptions={downloadOptions}
-              />
-            )}
+            {isDownloadable &&
+              !extendedViewer &&
+              !userIsStaffWithRestricted && (
+                <Download
+                  ariaControlsId="itemDownloads"
+                  downloadOptions={downloadOptions}
+                />
+              )}
           </Space>
         )}
       </ConditionalWrapper>
@@ -280,7 +282,7 @@ const WorkDetailsAvailableOnline = ({
   } = { ...transformedManifest };
 
   const { extendedViewer } = useToggles();
-
+  const { userIsStaffWithRestricted } = useUserContext();
   const tokenService = getIframeTokenSrc({
     workId: work.id,
     origin,
@@ -394,7 +396,8 @@ const WorkDetailsAvailableOnline = ({
           (allOriginalPdfs && canvases?.length === 1)) && (
           <>
             {(hasVideo || hasAudio) &&
-              !extendedViewer && ( // TODO extendedViewer: we can remove this whole block once we are happy to use the item page for audio/video content, as we will always show the item page link for these types of content once the toggle is removed.
+              !extendedViewer &&
+              !userIsStaffWithRestricted && ( // TODO extendedViewer: we can remove this whole block once we are happy to use the item page for audio/video content, as we will always show the item page link for these types of content once the toggle is removed.
                 <>
                   <IIIFItemList
                     canvases={canvases}

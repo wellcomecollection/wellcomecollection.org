@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document explains how the authentication flow works for staff members with restricted access permissions (role = `StaffWithRestricted`) when viewing restricted items in the IIIF viewer.
+This document explains how the authentication flow works for staff members with restricted access permissions (role = `StaffWithRestricted`, exposed in the UI as `userIsStaffWithRestricted`) when viewing restricted items on the /works/{workId}/items page.
 
 ## Background
 
@@ -32,11 +32,11 @@ And:
 > "There is no access service. Any URI specified in the id property must be ignored."
 > "The client must immediately use the related access token service..."
 
-**However**, in our implementation there IS an access service provided by the `id` of the external service, and we DO use it. This is necessary because logging in via Auth0 is a separate system and doesn't provide the DLCS authorizing cookie we need.
+**However**, in our implementation there IS an access service provided by the `id` of the external service, and we **DO** use it. This is necessary because logging in via Auth0 is a separate system and doesn't provide the DLCS authorizing cookie we need.
 
 #### Probe Service
 
-The IIIF spec recommends querying the Probe service with the access token to determine if the user has access. However, since the probe service only returns a 200 status without additional information, we simply use the presence of the `accessToken` as the condition for loading images.
+The IIIF spec recommends querying the Probe service for a resource, with the access token, to determine if the user has access. For restricted items, once the `accessToken` is received, the viewer polls the `AuthProbeService2` URL before attempting to render it. The viewer retries the probe every 400ms for up to 2 seconds (5 attempts). The item only renders once the probe returns `{ status: 200 }`, or if the timeout is reached or the probe URL is unavailable. This polling gives the `dlcs-auth2-2` cookie extra time to propagate, reducing the chance of a visible 401 error, while rendering as soon as possible. If the probe never succeeds, the viewer falls back to rendering anyway, so users are not blocked.
 
 ## Authentication Flow for Staff with Restricted Access
 
@@ -50,6 +50,7 @@ When a user is logged in with `StaffWithRestricted` role and visits an items pag
 
 1. User has `StaffWithRestricted` role
 2. An external auth service exists in the manifest (`authServices?.external`)
+3. `origin` state has been set (ensures the hidden auth iframe is mounted in the DOM before the popup fires)
 
 **What happens:**
 
@@ -63,8 +64,9 @@ When a user is logged in with `StaffWithRestricted` role and visits an items pag
    - Gets extended each time the browser requests protected images
    - Is automatically sent with subsequent image requests to prove authentication
    - Persists across page loads until it expires
-6. When the popup closes, an `unload` event triggers
-7. The `reloadAuthIframe` function is called to refresh the hidden auth iframe
+6. The page polls every 500ms for the popup window to close (`authServiceWindow.closed`)
+7. Once the popup is fully closed, `reloadAuthIframe` is called to refresh the hidden auth iframe
+
 
 **Note:** This popup may be blocked by browser popup blockers since it's not triggered by a direct user action. Users may need to allow popups for the site.
 
@@ -86,13 +88,14 @@ The page listens for messages from the iframe
 
 ### 5. Using the Token
 
-We use the presence of the access token as the condition for loading images, rather than querying the Probe service (which only returns a 200 status without additional information).
+Once the `accessToken` is received, the viewer probes the IIIF Probe service (see above) to confirm the `dlcs-auth2-2` cookie is in place before rendering items.
 
 ### 6. Reloading Authentication
 
-The `reloadAuthIframe` function can be called to refresh the auth state:
+The `reloadAuthIframe` function can be called to refresh the auth state. It reloads the hidden iframe by reassigning `iframe.src = iframe.src`, which triggers a fresh token service round-trip.
 
 This is called when:
 
-- The auth popup closes (after user authenticates and the `dlcs-auth2-2` cookie is set)
+- The auth popup is detected as closed (via the 500ms polling interval)
 - An image fails to load (in case the `dlcs-auth2-2` cookie expired or became invalid)
+- An OpenSeadragon tile fails to load (`tile-load-failed` event)

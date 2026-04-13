@@ -30,6 +30,7 @@ import {
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
+import useIIIFProbeService from '@weco/content/hooks/useIIIFProbeService';
 import useOnScreen from '@weco/content/hooks/useOnScreen';
 import useSkipInitialEffect from '@weco/content/hooks/useSkipInitialEffect';
 import { fetchCanvasOcr } from '@weco/content/services/iiif/fetch/canvasOcr';
@@ -73,15 +74,26 @@ const MessageContainer = styled.div`
 `;
 
 const Outline = styled(Space)<{ $border?: boolean }>`
-  position: relative;
-  ${props =>
-    props.$border
-      ? `
+  height: ${props => (props.$border ? 'calc(100% - 1em)' : '100%')};
+
+  &.audio-wrapper,
+  &.video-wrapper,
+  &.download-wrapper {
+    max-width: 80%;
+    margin: 2em auto;
+    max-height: calc(100% - 4em);
+  }
+
+  img {
+    ${props =>
+      props.$border
+        ? `
           border: 1px solid;
-          border-color:  ${props.theme.color('neutral.400')};
+          border-color:  ${props.theme.color('neutral.600')};
+          padding: 2em;
         `
-      : ''};
-  height: 100%;
+        : ''};
+  }
 `;
 
 const IconContainer = styled(Space).attrs({
@@ -111,6 +123,7 @@ const Choice: FunctionComponent<
   isDark,
   externalAccessService,
   shouldScrollToUpdateUrl,
+  showVideoTranscript,
 }) => {
   // We may have multiple items, such as videos of different formats
   // but we only show the first of these currently
@@ -131,6 +144,7 @@ const Choice: FunctionComponent<
             isDark={isDark}
             externalAccessService={externalAccessService}
             shouldScrollToUpdateUrl={shouldScrollToUpdateUrl}
+            showVideoTranscript={showVideoTranscript}
           />
         </>
       );
@@ -202,6 +216,7 @@ type ItemProps = {
   isDark?: boolean;
   externalAccessService?: TransformedAuthService;
   shouldScrollToUpdateUrl?: boolean;
+  showVideoTranscript?: boolean;
 };
 
 const PublicRestrictedMessage: FunctionComponent<{
@@ -214,7 +229,7 @@ const PublicRestrictedMessage: FunctionComponent<{
       )}
       <div className={font('sans', -1)}>
         {externalAccessService?.description && (
-          <p
+          <div
             className={font('sans', -1)}
             dangerouslySetInnerHTML={{
               __html: externalAccessService.description,
@@ -231,7 +246,13 @@ const StaffRestrictedMessage: FunctionComponent = () => {
   return (
     <p
       className={font('sans', -1)}
-      style={{ display: 'flex', marginTop: '10px' }}
+      style={{
+        top: '8px',
+        display: 'inline-flex',
+        position: 'relative',
+        left: '50%',
+        transform: 'translateX(-50%)',
+      }}
     >
       <IconContainer>
         <Icon icon={information} />
@@ -246,6 +267,7 @@ const IIIFItemWrapper: FunctionComponent<{
   shouldShowItem: boolean;
   className: string;
   isRestricted: boolean;
+  isProbeOk: boolean;
   externalAccessService?: TransformedAuthService;
   children: ReactNode | undefined;
   containerRef?: RefObject<HTMLDivElement | null>;
@@ -253,6 +275,7 @@ const IIIFItemWrapper: FunctionComponent<{
   shouldShowItem,
   className,
   isRestricted,
+  isProbeOk,
   externalAccessService,
   children,
   containerRef,
@@ -269,7 +292,7 @@ const IIIFItemWrapper: FunctionComponent<{
     return (
       <Outline $border={isRestricted} className={className} ref={containerRef}>
         {isRestricted && <StaffRestrictedMessage />}
-        {children}
+        {(!isRestricted || isProbeOk) && children}
       </Outline>
     );
   }
@@ -283,6 +306,7 @@ const IIIFItemWrapperWithObserver: FunctionComponent<{
   shouldShowItem: boolean;
   className: string;
   isRestricted: boolean;
+  isProbeOk: boolean;
   externalAccessService?: TransformedAuthService;
   children: ReactNode | undefined;
   index: number;
@@ -290,6 +314,7 @@ const IIIFItemWrapperWithObserver: FunctionComponent<{
   shouldShowItem,
   className,
   isRestricted,
+  isProbeOk,
   externalAccessService,
   children,
   index,
@@ -322,6 +347,7 @@ const IIIFItemWrapperWithObserver: FunctionComponent<{
       shouldShowItem={shouldShowItem}
       className={className}
       isRestricted={isRestricted}
+      isProbeOk={isProbeOk}
       externalAccessService={externalAccessService}
       containerRef={ref}
     >
@@ -343,9 +369,11 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
   isDark,
   externalAccessService,
   shouldScrollToUpdateUrl,
+  showVideoTranscript = true,
 }) => {
   const { userIsStaffWithRestricted } = useUserContext();
   const isRestricted = hasRestrictedItem(canvas);
+  const isProbeOk = useIIIFProbeService(canvas);
   // Replace "image" with "item" in description if the item is not an image
   // or if it's an image but has originals, which means the image is just a placeholder for the original item
   const adjustedExternalAccessService =
@@ -385,6 +413,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           isDark={isDark}
           externalAccessService={adjustedExternalAccessService}
           shouldScrollToUpdateUrl={shouldScrollToUpdateUrl}
+          showVideoTranscript={showVideoTranscript}
         />
       );
 
@@ -394,8 +423,9 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
       return (
         <IIIFItemWrapper
           shouldShowItem={shouldShowItem}
-          className="item-wrapper"
+          className="audio-wrapper"
           isRestricted={isRestricted}
+          isProbeOk={isProbeOk}
           externalAccessService={adjustedExternalAccessService}
         >
           <AudioPlayer
@@ -410,8 +440,9 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
       return (
         <IIIFItemWrapper
           shouldShowItem={shouldShowItem}
-          className="item-wrapper"
+          className="video-wrapper"
           isRestricted={isRestricted}
+          isProbeOk={isProbeOk}
           externalAccessService={adjustedExternalAccessService}
         >
           <>
@@ -420,10 +451,12 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
               video={item}
               showDownloadOptions={true}
             />
-            <VideoTranscript
-              supplementing={canvas.supplementing}
-              isDark={isDark}
-            />
+            {showVideoTranscript && (
+              <VideoTranscript
+                supplementing={canvas.supplementing}
+                isDark={isDark}
+              />
+            )}
           </>
         </IIIFItemWrapper>
       );
@@ -434,6 +467,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           shouldShowItem={shouldShowItem}
           className="pdf-wrapper"
           isRestricted={isRestricted}
+          isProbeOk={isProbeOk}
           externalAccessService={adjustedExternalAccessService}
         >
           <IIIFItemPdf
@@ -457,8 +491,9 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
                 original.id && (
                   <IIIFItemWrapper
                     shouldShowItem={shouldShowItem}
-                    className="item-wrapper"
+                    className="download-wrapper"
                     isRestricted={isRestricted}
+                    isProbeOk={isProbeOk}
                     externalAccessService={adjustedExternalAccessService}
                   >
                     <IIIFItemDownload
@@ -495,6 +530,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
               shouldShowItem={shouldShowItem}
               className="item-wrapper"
               isRestricted={isRestricted}
+              isProbeOk={isProbeOk}
               externalAccessService={adjustedExternalAccessService}
               index={i}
             >
@@ -507,6 +543,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
             shouldShowItem={shouldShowItem}
             className="item-wrapper"
             isRestricted={isRestricted}
+            isProbeOk={isProbeOk}
             externalAccessService={adjustedExternalAccessService}
           >
             {imageContent}
