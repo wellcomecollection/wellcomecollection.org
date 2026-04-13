@@ -73,12 +73,10 @@ const ScrollableNavigation: FunctionComponent<Props> = ({
     updateScrollButtons();
 
     container.addEventListener('scroll', updateScrollButtons);
-    container.addEventListener('touchend', updateScrollButtons);
     window.addEventListener('resize', updateScrollButtons);
 
     return () => {
       container.removeEventListener('scroll', updateScrollButtons);
-      container.removeEventListener('touchend', updateScrollButtons);
       window.removeEventListener('resize', updateScrollButtons);
     };
   }, []);

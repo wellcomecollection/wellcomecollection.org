@@ -20,8 +20,7 @@ export const ScrollButtonsContainer = styled(Space)<{
 
 export const ContentContainer = styled(PlainList)`
   display: flex;
-  overflow: scroll hidden;
-  -webkit-overflow-scrolling: touch;
+  overflow: hidden;
   position: relative;
   padding: 3px 0;
 `;
