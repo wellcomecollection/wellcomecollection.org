@@ -220,19 +220,12 @@ function urlPathSegment(url: string): string {
 // Uploads a single asset to the Prismic Asset API.
 // Downloads source bytes from either a direct URL or S3 using current AWS credentials,
 // then uploads to Prismic as multipart/form-data with optional metadata.
-async function streamToBuffer(stream: Readable): Promise<Buffer> {
-  const chunks: Buffer[] = [];
-  for await (const chunk of stream) {
-    chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
-  }
-  return Buffer.concat(chunks);
-}
 
-async function fetchAssetBinary(
+async function fetchAssetStream(
   s3Bucket: string,
   s3KeyOrUrl: string,
   assetId: string
-): Promise<Buffer> {
+): Promise<Readable> {
   if (/^https?:\/\//i.test(s3KeyOrUrl)) {
     const fileResponse = await fetch(s3KeyOrUrl);
     if (!fileResponse.ok) {
@@ -240,7 +233,11 @@ async function fetchAssetBinary(
         `Failed to download source file for asset ${assetId}: ${fileResponse.status} ${fileResponse.statusText}`
       );
     }
-    return fileResponse.buffer();
+    const bodyStream = fileResponse.body as Readable | null;
+    if (!bodyStream) {
+      throw new Error(`No file body returned for asset ${assetId}`);
+    }
+    return bodyStream;
   }
 
   const s3UrlMatch = /^s3:\/\/([^/]+)\/(.+)$/.exec(s3KeyOrUrl);
@@ -255,7 +252,7 @@ async function fetchAssetBinary(
     throw new Error(`No file body returned for asset ${assetId}`);
   }
 
-  return streamToBuffer(bodyStream);
+  return bodyStream;
 }
 
 async function uploadAsset(
@@ -270,9 +267,9 @@ async function uploadAsset(
   token: string,
   repository: string
 ): Promise<{ id: string; url: string } | null> {
-  let fileBuffer: Buffer;
+  let fileStream: Readable;
   try {
-    fileBuffer = await fetchAssetBinary(bucket, asset.s3Key, asset.id);
+    fileStream = await fetchAssetStream(bucket, asset.s3Key, asset.id);
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error);
     if (/credentials|ExpiredToken|token expired/i.test(msg)) {
@@ -286,7 +283,7 @@ async function uploadAsset(
   }
 
   const formData = new FormData();
-  formData.append('file', fileBuffer, { filename: asset.filename });
+  formData.append('file', fileStream, { filename: asset.filename });
 
   const notes = asset.notes?.trim();
   const credits = asset.credits?.trim();
@@ -435,12 +432,11 @@ async function init() {
     const notesWithId =
       `previous id: ${asset.id}` + (asset.notes ? `\n${asset.notes}` : '');
 
-    let result = null;
-    let attempt = 1;
+    let result: { id: string; url: string } | null = null;
     let retryDelayMs = INITIAL_RETRY_DELAY_MS;
 
-    while (!result && attempt <= MAX_RETRIES) {
-      result = await uploadAsset(
+    for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+      const uploadResult = await uploadAsset(
         {
           id: asset.id,
           s3Key: `${ASSETS_PREFIX}${deriveFilename(asset)}`,
@@ -453,15 +449,18 @@ async function init() {
         repository
       );
 
-      if (!result && attempt < MAX_RETRIES) {
+      if (uploadResult) {
+        result = uploadResult;
+        break;
+      }
+
+      if (attempt < MAX_RETRIES) {
         console.log(
           `Upload failed for asset ${asset.id}. Retrying in ${retryDelayMs}ms... (attempt ${attempt + 1}/${MAX_RETRIES})`
         );
         await new Promise(r => setTimeout(r, retryDelayMs));
         retryDelayMs *= 2; // exponential backoff
       }
-
-      attempt++;
     }
 
     if (result) {
