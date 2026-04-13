@@ -104,10 +104,10 @@ try {
   Promise.all(promises)
     .then(async results => {
       // Check for pages that failed to load (e.g., due to 429 errors)
-      const failedPages = results.filter(result => {
-        // If documentTitle is empty or pageUrl is missing, the page didn't load properly
-        return !result.documentTitle || !result.pageUrl;
-      });
+      // Map results with their URLs by index, then filter for failures
+      const failedPages = results
+        .map((result, i) => ({ result, url: urls[i] }))
+        .filter(({ result }) => !result.documentTitle || !result.pageUrl);
 
       if (failedPages.length > 0) {
         console.error(
@@ -118,7 +118,7 @@ try {
         );
         console.error(
           'Failed URLs:',
-          failedPages.map(r => urls[results.indexOf(r)])
+          failedPages.map(({ url }) => url)
         );
         process.exit(1);
       }
