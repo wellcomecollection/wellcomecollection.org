@@ -10,7 +10,7 @@
     "downloadSnapshot": "tsx ./scripts/downloadSnapshot",
     "lintPrismicData": "tsx ./scripts/lintPrismicData",
     "tryAllContentPages": "tsx ./scripts/tryAllContentPages",
-    "restorePrismicAssets": "AWS_PROFILE=catalogue-developer tsx ./restore/restore-prismic-assets.ts",
+    "restorePrismicAssets": "AWS_PROFILE=catalogue-developer tsx ./restore/restore-prismic-assets.ts"
   },
   "dependencies": {
     "@aws-sdk/client-cloudfront": "^3.1000.0",
