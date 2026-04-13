@@ -270,6 +270,7 @@ const IIIFItemWrapper: FunctionComponent<{
   externalAccessService?: TransformedAuthService;
   children: ReactNode | undefined;
   containerRef?: RefObject<HTMLDivElement | null>;
+  removeRestrictedMessage?: boolean;
 }> = ({
   shouldShowItem,
   className,
@@ -278,6 +279,7 @@ const IIIFItemWrapper: FunctionComponent<{
   externalAccessService,
   children,
   containerRef,
+  removeRestrictedMessage = false,
 }) => {
   if (shouldShowItem) {
     return (
@@ -294,7 +296,7 @@ const IIIFItemWrapper: FunctionComponent<{
         className={className}
         ref={containerRef}
       >
-        {isRestricted && className !== 'image-wrapper' && (
+        {isRestricted && !removeRestrictedMessage && (
           <RestrictedMessage>
             <RestrictedItemMessage />
           </RestrictedMessage>
@@ -317,6 +319,7 @@ const IIIFItemWrapperWithObserver: FunctionComponent<{
   externalAccessService?: TransformedAuthService;
   children: ReactNode | undefined;
   index: number;
+  removeRestrictedMessage?: boolean;
 }> = ({
   shouldShowItem,
   className,
@@ -325,6 +328,7 @@ const IIIFItemWrapperWithObserver: FunctionComponent<{
   externalAccessService,
   children,
   index,
+  removeRestrictedMessage = false,
 }) => {
   const { work, mainAreaRef, query } = useItemViewerContext();
   const ref = useRef<HTMLDivElement>(null);
@@ -357,6 +361,7 @@ const IIIFItemWrapperWithObserver: FunctionComponent<{
       isProbeOk={isProbeOk}
       externalAccessService={externalAccessService}
       containerRef={ref}
+      removeRestrictedMessage={removeRestrictedMessage}
     >
       {children}
     </IIIFItemWrapper>
@@ -541,6 +546,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
               isProbeOk={isProbeOk}
               externalAccessService={adjustedExternalAccessService}
               index={i}
+              removeRestrictedMessage={true}
             >
               {imageContent}
             </IIIFItemWrapperWithObserver>
@@ -553,6 +559,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
             isRestricted={isRestricted}
             isProbeOk={isProbeOk}
             externalAccessService={adjustedExternalAccessService}
+            removeRestrictedMessage={true}
           >
             {imageContent}
           </IIIFItemWrapper>
