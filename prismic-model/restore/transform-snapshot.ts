@@ -160,35 +160,15 @@ function init() {
   // backfilling) re-stringify and normalise the final output.
   let content = fs.readFileSync(snapshotPath, 'utf-8');
 
-  // Step 3: Pass 1/2 — replace old asset IDs with new ones (skipped if no map).
-  // Single-pass alternation regex is O(fileSize) rather than O(fileSize × idCount).
-  // Two-pass placeholder strategy guards against the case where a new ID equals an old one.
+  // Step 3/4: text-level replacement passes. We run slug replacements first because
+  // slug-map keys include the original asset ID. If ID replacement ran first, many
+  // slug keys would no longer match and filename slug correction would be skipped.
   const PLACEHOLDER = '__RESTORE_PLACEHOLDER__';
 
-  if (oldIds.length > 0) {
-    const escapedIds = oldIds.map(id =>
-      id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-    );
-    const pass1Re = new RegExp(escapedIds.join('|'), 'g');
-    let pass1Replacements = 0;
-    content = content.replace(pass1Re, match => {
-      pass1Replacements++;
-      return `${idMap[match]}${PLACEHOLDER}`;
-    });
-    let pass2Count = 0;
-    content = content.replace(new RegExp(PLACEHOLDER, 'g'), () => {
-      pass2Count++;
-      return '';
-    });
-    console.log(
-      `Pass 1/2 complete: replaced ${pass1Replacements} asset IDs (${pass2Count} cleaned up)`
-    );
-  }
-
-  // Step 5 (optional): Pass 3 & 4 — replace full URL path segments using the slug map.
+  // Pass 1/2 (optional): replace full URL path segments using the slug map.
   // This corrects the filename portion of asset URLs which may differ from the source
   // because Prismic URL-sanitises filenames at upload time (spaces stripped, chars encoded).
-  // Uses the same placeholder strategy as Passes 1/2 to prevent collision.
+  // Uses a two-pass placeholder strategy to prevent collision.
   if (oldSlugs.length > 0) {
     const escapedSlugs = oldSlugs.map(s =>
       s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
@@ -205,7 +185,30 @@ function init() {
       return '';
     });
     console.log(
-      `Pass 3/4 complete: replaced ${pass3Replacements} URL path segments (${pass4Count} cleaned up)`
+      `Pass 1/2 complete: replaced ${pass3Replacements} URL path segments (${pass4Count} cleaned up)`
+    );
+  }
+
+  // Pass 3/4: replace old asset IDs with new ones (skipped if no map).
+  // Single-pass alternation regex is O(fileSize) rather than O(fileSize × idCount).
+  // Two-pass placeholder strategy guards against the case where a new ID equals an old one.
+  if (oldIds.length > 0) {
+    const escapedIds = oldIds.map(id =>
+      id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    );
+    const pass1Re = new RegExp(escapedIds.join('|'), 'g');
+    let pass1Replacements = 0;
+    content = content.replace(pass1Re, match => {
+      pass1Replacements++;
+      return `${idMap[match]}${PLACEHOLDER}`;
+    });
+    let pass2Count = 0;
+    content = content.replace(new RegExp(PLACEHOLDER, 'g'), () => {
+      pass2Count++;
+      return '';
+    });
+    console.log(
+      `Pass 3/4 complete: replaced ${pass1Replacements} asset IDs (${pass2Count} cleaned up)`
     );
   }
   // Prismic embeds the repo name in two URL patterns:
@@ -238,7 +241,7 @@ function init() {
     });
 
     console.log(
-      `Pass 3 complete: rewrote ${imagesCount} images.prismic.io URLs and ${cdnCount} cdn.prismic.io URLs`
+      `Pass 5 complete: rewrote ${imagesCount} images.prismic.io URLs and ${cdnCount} cdn.prismic.io URLs`
     );
   }
   // Step 6: Backfill publishDate on articles
