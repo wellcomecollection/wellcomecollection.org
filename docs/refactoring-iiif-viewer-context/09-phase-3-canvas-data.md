@@ -1,14 +1,16 @@
-# Phase 1: Canvas Data to Context
+# Phase 3: Canvas Data to Context
 
 [← Back to Index](./README.md)
 
 **Effort:** 3 hours (tests) + 3-4 hours (refactoring) = **6-7 hours total**  
 **Risk:** Low (tests prevent regressions)  
 **Priority:** High (foundation for other phases)  
+**Previous:** [Phase 2: Split MainViewer Components](./08-phase-2-split-components.md)  
+**Next:** [Phase 4: Download Logic](./10-phase-4-download-logic.md)  
 
 ## Goal
 
-Add derived canvas data and boolean flags that are **used by multiple components** to `ItemViewerContextV2`. Components read these values instead of calculating them independently.
+Add derived canvas data and boolean flags that are used by multiple components to `ItemViewerContextV2`. Components read these values instead of calculating them independently.
 
 **Decision criteria:** Only add to context if:
 1. Value is calculated in 2+ components (eliminates duplication), OR
@@ -173,4 +175,4 @@ Total: 6-7 hours
 
 ---
 
-**Next:** [Phase 2: Download Logic](./09-phase-2-download-logic.md)
+**Next:** [Phase 4: Download Logic](./10-phase-4-download-logic.md)

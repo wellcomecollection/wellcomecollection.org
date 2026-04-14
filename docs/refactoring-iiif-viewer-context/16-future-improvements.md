@@ -4,7 +4,7 @@
 
 After the main refactoring succeeds, consider these architectural improvements.
 
-## 1. Split Components with Drastically Different Modes
+## 1. Further Context Splitting
 
 ### Problem: Components with Two Faces
 

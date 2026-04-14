@@ -39,7 +39,7 @@ For each phase:
 
 For Phase 1 (Canvas Data), you need:
 
-1. **Context unit tests** - `ItemViewerContextV2.test.tsx`
+1. **Context unit tests** - `ItemViewerContext.V2.test.tsx`
    - Test all derived canvas data calculations
    - Test all boolean flags
    - Test edge cases (undefined, null, empty arrays)
@@ -100,32 +100,6 @@ For this refactoring, we're doing **GREEN to GREEN refactoring**:
 ## Automated Test Examples
 
 See detailed examples in [refactoring-iiif-viewer-context-testing.md](./refactoring-iiif-viewer-context-testing.md).
-
-Quick example:
-
-```typescript
-describe('ItemViewerContextV2 - Navigation Booleans', () => {
-  it('should correctly calculate navigation state for first canvas', () => {
-    const contextValue = {
-      ...mockDefaultContext,
-      currentCanvasIndex: 0,
-      transformedManifest: { canvases: [{ id: 'c1' }, { id: 'c2' }, { id: 'c3' }] },
-      hasMultipleCanvases: true,
-      isFirstCanvas: true,
-      isLastCanvas: false,
-      canNavigateNext: true,
-      canNavigatePrevious: false,
-    };
-
-    render(<ItemViewerContextV2.Provider value={contextValue}>
-      <ContextValueDisplay />
-    </ItemViewerContextV2.Provider>);
-
-    expect(screen.getByTestId('isFirstCanvas')).toHaveTextContent('true');
-    expect(screen.getByTestId('canNavigatePrevious')).toHaveTextContent('false');
-  });
-});
-```
 
 ---
 

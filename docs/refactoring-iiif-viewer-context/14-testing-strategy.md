@@ -196,11 +196,60 @@ Test with these specific work types:
   - [ ] PDF download option appears
   - [ ] PDF downloads correctly
 
+### Specific Test Works
+
+Test each work type with all three authentication states. For each scenario, verify behavior is **identical** with toggle ON vs toggle OFF:
+- **Logged out** - no authentication
+- **Logged in (regular user)** - standard library member
+- **Logged in (restricted access)** - user with restricted content access
+
+#### Restricted Whole Item
+- Work page: https://www-dev.wellcomecollection.org/works/rp9jnamu
+- Items page: https://www-dev.wellcomecollection.org/works/rp9jnamu/items
+
+Test with: Logged out | Logged in (regular) | Logged in (restricted)
+
+#### Restricted/Clickthrough Mix
+- Work page: https://www-dev.wellcomecollection.org/works/pnud3fzb
+- Items page: https://www-dev.wellcomecollection.org/works/pnud3fzb/items
+
+Test with: Logged out | Logged in (regular) | Logged in (restricted)
+
+#### Restricted Audio
+- Work page: https://www-dev.wellcomecollection.org/works/esd6gs3s
+- Items page: https://www-dev.wellcomecollection.org/works/esd6gs3s/items
+
+Test with: Logged out | Logged in (regular) | Logged in (restricted)
+
+#### Restricted Video
+- Work page: https://www-dev.wellcomecollection.org/works/zsgh5y3z
+- Items page: https://www-dev.wellcomecollection.org/works/zsgh5y3z/items
+
+Test with: Logged out | Logged in (regular) | Logged in (restricted)
+
+#### Restricted Born Digital
+- Work page: https://www-dev.wellcomecollection.org/works/my6bzerr
+- Items page: https://www-dev.wellcomecollection.org/works/my6bzerr/items
+
+Test with: Logged out | Logged in (regular) | Logged in (restricted)
+
+#### Regular Video (unrestricted)
+- Work page: https://www-dev.wellcomecollection.org/works/a9w3qy3j
+- Items page: https://www-dev.wellcomecollection.org/works/a9w3qy3j/items
+
+Test with: Logged out | Logged in (regular) | Logged in (restricted)
+
 ### Edge Cases
 
 - [ ] **Works with no manifest**
   - [ ] Error message displays gracefully
   - [ ] No JavaScript errors
+  
+- [ ] **Works with JavaScript disabled (progressive enhancement)**
+  - [ ] NoScriptImage component renders on server
+  - [ ] Image is visible without JavaScript enabled
+  - [ ] OCR text is accessible (check view source)
+  - [ ] Page doesn't appear broken
   
 - [ ] **Works with empty canvases**
   - [ ] Handles gracefully

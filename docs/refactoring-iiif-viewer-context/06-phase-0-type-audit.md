@@ -96,18 +96,6 @@ Check for type duplication:
 - Look for inline type definitions that could use existing types
 - Consolidate multiple definitions of the same concept
 
-Example of good centralisation:
-```typescript
-// Good: Reusing centralised type
-import { TransformedCanvas } from '@weco/content/types/manifest';
-
-// Bad: Redefining what already exists
-type MyCanvas = {
-  id: string;
-  width: number;
-  // ... duplicating TransformedCanvas
-};
-```
 
 ## Tasks
 
@@ -196,7 +184,7 @@ Fix any errors that appear in `ItemViewer`/`IIIFViewer` files.
 
 ### 6. Validate Against Official Specs
 
-Since you're using official IIIF types, verify your custom types align correctly:
+Since you're using official IIIF types, verify your custom types align correctly and you're not duplicating them:
 
 Check IIIF Type Usage:
 Verified custom types properly use official `@iiif/presentation-3` types
@@ -238,4 +226,4 @@ Your Catalogue API types (`Work`, `WorkBasic`, `Item`, etc.) are manually define
 
 ## Next Steps
 
-[Phase 0.5: Feature Flag Setup](./07-phase-0.5-feature-flag.md)
+**Next:** [Phase 1: Feature Flag Setup](./07-phase-1-feature-flag.md)

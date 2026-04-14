@@ -547,7 +547,7 @@ describe('ViewerTopBar.refactored - Context Consumption', () => {
 
 ## Manual Testing Checklist
 
-See Phase 1.8 in the main refactoring document for the complete manual testing checklist.
+See [14-testing-strategy.md](./14-testing-strategy.md) for the complete manual testing checklist.
 
 ---
 

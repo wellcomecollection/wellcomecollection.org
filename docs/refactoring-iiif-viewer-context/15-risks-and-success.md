@@ -25,8 +25,6 @@
 - Lighthouse performance scores decrease
 - User reports of lag or slowness
 
-**Rollback:** Disable feature flag immediately.
-
 ---
 
 ### Breaking Changes
@@ -213,20 +211,6 @@
 - Code review comments: Fewer questions about "what does this do?"
 - Bug reports: Fewer viewer-related bugs after refactor
 
-### Production Metrics
-
-**Target:** No user-facing impact (seamless transition)
-
-- **Error rate:** No increase in Sentry errors
-- **User sessions:** No drop in completion rate
-- **Engagement:** No drop in viewer usage
-- **Support tickets:** No increase in viewer-related support requests
-
-**How to monitor:**
-- Sentry dashboard while toggle is public
-- Google Analytics - compare metrics week-over-week
-- Support ticket tracking
-
 ---
 
 ## Success Criteria
@@ -283,17 +267,7 @@ const searchMatches = useSearchMatches(currentCanvas, searchTerm);
 
 **Benefit:** Reusable, testable search logic
 
-### 4. Consider State Management Library
-
-If context re-renders become an issue:
-
-- Zustand (lightweight, similar API to context)
-- Jotai (atom-based, granular updates)
-- Redux Toolkit (if we need more structure)
-
-**Benefit:** Better render performance at scale
-
-### 5. Performance Optimizations
+### 4. Performance Optimizations
 
 - Lazy load large canvases
 - Virtual scrolling for 100+ canvas works

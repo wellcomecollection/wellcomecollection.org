@@ -1,4 +1,4 @@
-# Phase 0.5: Feature Flag Setup
+# Phase 1: Feature Flag Setup
 
 [← Back to Index](./README.md)
 
@@ -6,7 +6,7 @@
 **Risk:** None (no behaviour change)  
 **Priority:** Required after Phase 0 (Type Audit)  
 **Previous:** [Phase 0: Type Audit](./06-phase-0-type-audit.md)  
-**Next:** [Phase 1: Canvas Data](./08-phase-1-canvas-data.md)  
+**Next:** [Phase 2: Split MainViewer Components](./08-phase-2-split-components.md)  
 
 ## Goal
 
@@ -27,25 +27,15 @@ export const toggles = {
   // ... existing toggles ...
   iiifViewerRefactored: {
     id: 'iiifViewerRefactored',
-    title: 'IIIF Viewer - Refactored Context',
-    defaultValue: false, // Start disabled
-    description: 'Use refactored ItemViewerContext with centralised derived values',
+    title: 'IIIF Viewer - Refactored',
+    defaultValue: false, 
+    description: 'Use refactored Item Viewer',
   },
 };
 ```
 
 ### 0.2 Create New Context Structure
-
-```bash
-# Create new context directory
-mkdir -p content/webapp/contexts/ItemViewerContextV2
-
-# Copy existing context as starting point (will be heavily modified in Phase 1)
-cp content/webapp/contexts/ItemViewerContext/index.tsx \
-   content/webapp/contexts/ItemViewerContextV2/index.tsx
-```
-
-**Note:** ItemViewerContextV2 will have the same props initially, but we'll add derived values in Phase 1.
+Create new context directory as `content/webapp/contexts/ItemViewerContextV2/index.tsx` by copying `content/webapp/contexts/ItemViewerContext/index.tsx`.
 
 ### 0.3 Rename Existing Components to .legacy.tsx
 
@@ -68,6 +58,8 @@ import dynamic from 'next/dynamic';
 import { useToggles } from '@weco/toggles/webapp/hooks';
 import { IIIFViewerProps } from './types';
 
+// Note: dynamic() server-renders by default (ssr: true is implicit)
+// This preserves NoScriptImage functionality for users without JavaScript
 const IIIFViewerLegacy = dynamic(() => import('./IIIFViewer.legacy'));
 const IIIFViewerRefactored = dynamic(() => import('./IIIFViewer.refactored'));
 
@@ -82,7 +74,10 @@ export default function IIIFViewer(props: IIIFViewerProps) {
 }
 ```
 
-**Important:** Legacy components import `ItemViewerContext`, refactored components import `ItemViewerContextV2`.
+**Important:** 
+- Legacy components import `ItemViewerContext`, refactored components import `ItemViewerContextV2`
+- Dynamic imports are server-rendered by default - `NoScriptImage` will still work without JavaScript
+- Do NOT add `{ ssr: false }` to the dynamic imports as this would break progressive enhancement
 
 ### 0.5 Create Initial .refactored.tsx Files
 
@@ -142,9 +137,9 @@ import ItemViewerContextV2 from '@weco/common/contexts/ItemViewerContextV2';
 
 ## Next Steps
 
-Once Phase 0.5 is complete and verified, proceed to:
+Once Phase 1 is complete and verified, proceed to:
 
-**[Phase 1: Canvas Data](./08-phase-1-canvas-data.md)** - Add derived canvas values and boolean flags to context (with automated tests first!)
+**[Phase 2: Split MainViewer Components](./08-phase-2-split-components.md)** - Split MainViewer before context refactoring (cleaner architecture)
 
 ---
 

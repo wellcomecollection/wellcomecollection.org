@@ -2,7 +2,7 @@
 
 **Status:** Not started  
 **Created:** 1 April 2026  
-**Estimated effort:** 11-14 hours  
+**Estimated effort:** 14-17 hours  
 **Priority:** Medium  
 
 ## Quick Start
@@ -24,12 +24,13 @@ This folder contains a comprehensive plan to refactor the IIIF Viewer context to
 
 ### Implementation Phases
 - [06 - Phase 0: Type Audit](./06-phase-0-type-audit.md) (1-1.5 hours) - Do this first: Fix implicit `any` types & validate against official specs
-- [07 - Phase 0.5: Feature Flag Setup](./07-phase-0.5-feature-flag.md) (1 hour)
-- [08 - Phase 1: Canvas Data](./08-phase-1-canvas-data.md) (6-7 hours) - **Includes comprehensive automated tests**
-- [09 - Phase 2: Download Logic](./09-phase-2-download-logic.md) (2 hours)
-- [10 - Phase 3: Restriction Status](./10-phase-3-restriction-status.md) (1 hour)
-- [11 - Phase 4: Duplicate Index Calls](./11-phase-4-duplicate-calls.md) (30 mins)
-- [12 - Phase 5: Cleanup](./12-phase-5-cleanup.md) (1-2 hours)
+- [07 - Phase 1: Feature Flag Setup](./07-phase-1-feature-flag.md) (1 hour)
+- [08 - Phase 2: Split MainViewer Components](./08-phase-2-split-components.md) (3-4 hours) - Split before context refactoring
+- [09 - Phase 3: Canvas Data](./09-phase-3-canvas-data.md) (6-7 hours) - **Includes comprehensive automated tests**
+- [10 - Phase 4: Download Logic](./10-phase-4-download-logic.md) (2 hours)
+- [11 - Phase 5: Restriction Status](./11-phase-5-restriction-status.md) (1 hour)
+- [12 - Phase 6: Duplicate Index Calls](./12-phase-6-duplicate-calls.md) (30 mins)
+- [13 - Phase 7: Cleanup](./13-phase-7-cleanup.md) (1-2 hours)
 
 ### Reference
 - [13 - Migration Checklist](./13-migration-checklist.md) - Step-by-step checklist for each phase
@@ -43,8 +44,8 @@ This folder contains a comprehensive plan to refactor the IIIF Viewer context to
 ### I want to understand the refactoring
 Start with [01-overview.md](./01-overview.md)
 
-### I want to implement Phase 1
-Read [08-phase-1-canvas-data.md](./08-phase-1-canvas-data.md) and [Testing Guide](./refactoring-iiif-viewer-context-testing.md)
+### I want to implement Phase 3
+Read [09-phase-3-canvas-data.md](./09-phase-3-canvas-data.md) and [Testing Guide](./refactoring-iiif-viewer-context-testing.md)
 
 ### I want to see test examples
 Go to [Testing Guide](./refactoring-iiif-viewer-context-testing.md) for complete TypeScript test examples
@@ -64,12 +65,14 @@ See [14-testing-strategy.md](./14-testing-strategy.md) for automated test requir
 8. **Hooks for complex logic** - Extract to custom hooks for testability, even if only used once8. **Split components with drastically different modes** - See [Future Improvements](./16-future-improvements.md) for details
 ## Progress Tracking
 
-- [ ] Phase 0: Feature Flag Setup
-- [ ] Phase 1: Canvas Data (with automated tests)
-- [ ] Phase 2: Download Logic
-- [ ] Phase 3: Restriction Status
-- [ ] Phase 4: Duplicate Calls
-- [ ] Phase 5: Cleanup
+- [ ] Phase 0: Type Audit
+- [ ] Phase 1: Feature Flag Setup
+- [ ] Phase 2: Split MainViewer Components
+- [ ] Phase 3: Canvas Data (with automated tests)
+- [ ] Phase 4: Download Logic
+- [ ] Phase 5: Restriction Status
+- [ ] Phase 6: Duplicate Calls
+- [ ] Phase 7: Cleanup
 
 ---
 

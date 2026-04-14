@@ -1,10 +1,12 @@
-# Phase 3: Restriction Status
+# Phase 5: Restriction Status
 
 [← Back to Index](./README.md)
 
 **Effort:** 1 hour  
 **Risk:** Low  
 **Priority:** Low  
+**Previous:** [Phase 4: Download Logic](./10-phase-4-download-logic.md)  
+**Next:** [Phase 6: Duplicate Index Calls](./12-phase-6-duplicate-calls.md)  
 
 ## Goal
 
@@ -75,4 +77,4 @@ const { isCurrentCanvasRestricted } = useItemViewerContextV2();
 
 ---
 
-**Next:** [Phase 4: Duplicate Index Calls](./11-phase-4-duplicate-calls.md)
+**Next:** [Phase 6: Duplicate Index Calls](./12-phase-6-duplicate-calls.md)

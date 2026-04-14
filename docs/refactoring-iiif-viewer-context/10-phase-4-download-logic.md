@@ -1,10 +1,12 @@
-# Phase 2: Download Logic Hook
+# Phase 4: Download Logic Hook
 
 [← Back to Index](./README.md)
 
 **Effort:** 2 hours (tests) + 2 hours (implementation) = **4 hours total**  
 **Risk:** Medium (mitigated by tests)  
 **Priority:** Medium  
+**Previous:** [Phase 3: Canvas Data](./09-phase-3-canvas-data.md)  
+**Next:** [Phase 5: Restriction Status](./11-phase-5-restriction-status.md)  
 
 ## Goal
 
@@ -58,8 +60,6 @@ describe('useImageServices', () => {
   it('should handle undefined currentCanvas', () => { ... });
 });
 ```
-
-**Critical:** Test the complex branches (`ChoiceBody`, video/audio, multiple download types, deduplication).
 
 ### 2.2 Create `useDownloadOptions` Hook
 
@@ -170,4 +170,4 @@ Total: ~4 hours
 
 ---
 
-**Next:** [Phase 3: Restriction Status](./10-phase-3-restriction-status.md)
+**Next:** [Phase 5: Restriction Status](./11-phase-5-restriction-status.md)

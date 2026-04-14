@@ -50,6 +50,8 @@ import dynamic from 'next/dynamic';
 import { useToggles } from '@weco/toggles/webapp/hooks';
 import { IIIFViewerProps } from './types';
 
+// Important: dynamic() server-renders by default
+// Do NOT add { ssr: false } as this would break NoScriptImage functionality
 const IIIFViewerLegacy = dynamic(() => import('./IIIFViewer.legacy'));
 const IIIFViewerRefactored = dynamic(() => import('./IIIFViewer.refactored'));
 
@@ -92,9 +94,7 @@ export const toggles = {
 - Test with real data on staging/production
 
 ### Phase 3: Default to ON
-- After confidence is high (e.g., 1-2 weeks with no issues)
 - Make toggle publicly available
-- Users can still opt out if needed
 - Continue monitoring
 
 ### Phase 4: Cleanup

@@ -32,7 +32,7 @@ Duration: 1-1.5 hours
 
 ---
 
-## Phase 0.5: Feature Flag Setup
+## Phase 1: Feature Flag Setup
 
 **Duration: 1 hour**
 
@@ -53,9 +53,29 @@ Duration: 1-1.5 hours
 
 ---
 
-## Phase 1: Derived Canvas Data
+## Phase 2: Split MainViewer Components
 
-### 1.1: Write Automated Tests FIRST
+**Duration: 3-4 hours**
+
+- [ ] Create `VirtualizedImageViewer.tsx` (extract from MainViewer)
+- [ ] Create `PaginatedItemViewer.tsx` (extract from MainViewer)
+- [ ] Update `MainViewer.tsx` to be simple router component
+- [ ] Write tests for `VirtualizedImageViewer.test.tsx`
+- [ ] Write tests for `PaginatedItemViewer.test.tsx`
+- [ ] Write tests for `MainViewer.test.tsx` (routing logic)
+- [ ] Verify image-only works still render correctly
+- [ ] Verify archive works still render correctly
+- [ ] No regression in E2E tests
+- [ ] No console errors
+- [ ] Bundle size hasn't increased significantly
+
+**Time checkpoint:** Should take ~3-4 hours
+
+---
+
+## Phase 3: Derived Canvas Data
+
+### 3.1: Write Automated Tests FIRST
 
 - [ ] Create `content/webapp/contexts/ItemViewerContextV2/ItemViewerContextV2.test.tsx`
 - [ ] Create `content/webapp/contexts/ItemViewerContextV2/test-utils.ts` with typed mocks
@@ -66,7 +86,7 @@ Duration: 1-1.5 hours
 - [ ] Create `ViewerTopBar.refactored.test.tsx` component tests
 - [ ] Run tests - all pass with current (minimal) implementation
 
-### 1.2 Implementation
+### 3.2 Implementation
 
 - [ ] Add derived values to `IIIFViewer.refactored.tsx` provider
   - [ ] `currentCanvasIndex`
@@ -83,7 +103,7 @@ Duration: 1-1.5 hours
 - [ ] Update `MainViewer.refactored.tsx` to use context values
 - [ ] Update styled components to use `hasMultipleCanvases`
 
-### 1.3 Verification
+### 3.3 Verification
 
 - [ ] Run automated tests - all pass
 - [ ] `yarn tsc` - no TypeScript errors
@@ -94,9 +114,9 @@ Duration: 1-1.5 hours
 
 ---
 
-## Phase 2: Download Logic Hook
+## Phase 4: Download Logic Hook
 
-### 2.1 Write Tests FIRST
+### 4.1 Write Tests FIRST
 
 - [ ] Create `content/webapp/hooks/useDownloadOptions.test.ts`
 - [ ] Test empty case (no canvas/manifest)
@@ -109,14 +129,14 @@ Duration: 1-1.5 hours
 - [ ] Test memoization
 - [ ] All tests pass
 
-### 2.2 Implementation
+### 4.2 Implementation
 
 - [ ] Create `content/webapp/hooks/useDownloadOptions.ts`
 - [ ] Extract download logic from `ViewerTopBar`
 - [ ] Update `ViewerTopBar.refactored.tsx` to use hook
 - [ ] Remove ~65 lines from `ViewerTopBar`
 
-### 2.3 Verification
+### 4.3 Verification
 
 - [ ] Run automated tests - all pass
 - [ ] Download dropdown appears
@@ -128,7 +148,7 @@ Duration: 1-1.5 hours
 
 ---
 
-## Phase 3: Restriction Status
+## Phase 5: Restriction Status
 
 - [ ] Add `isCurrentCanvasRestricted` to context type
 - [ ] Calculate in IIIFViewer.refactored.tsx
@@ -141,7 +161,7 @@ Duration: 1-1.5 hours
 
 ---
 
-## Phase 4: Duplicate Index Calls
+## Phase 6: Duplicate Index Calls
 
 - [ ] Find all `queryParamToArrayIndex(query.canvas)` calls
 - [ ] Update Thumbnails.tsx to use `currentCanvasIndex` from context
@@ -155,7 +175,7 @@ Duration: 1-1.5 hours
 
 ---
 
-## Phase 5: Cleanup (After Defaulting to ON)
+## Phase 7: Cleanup (After Defaulting to ON)
 
 **Only do this after toggle defaults to ON for 1+ week with no issues!**
 
@@ -197,7 +217,7 @@ Duration: 1-1.5 hours
 - [ ] **Default to ON** - Change defaultValue to true (users can still opt out)
 - [ ] **Monitor more** - Watch for issues with new default
 - [ ] **Wait 1+ week** - Ensure stability with new default
-- [ ] **Cleanup** - Remove feature flag entirely (Phase 5)
+- [ ] **Cleanup** - Remove feature flag entirely (Phase 7)
 
 **If issues at any stage:** Disable toggle or revert default, investigate, fix, try again.
 
@@ -205,16 +225,16 @@ Duration: 1-1.5 hours
 
 ## Total Time Estimate
 
-- Phase 0: 1 hour
-- Phase 1: 6-7 hours
-- Phase 2: 4 hours
-- Phase 3: 1 hour
-- Phase 4: 30 minutes
-- Phase 5: 1-2 hours
+- Phase 0: 1-1.5 hours
+- Phase 1: 1 hour
+- Phase 2: 3-4 hours
+- Phase 3: 6-7 hours
+- Phase 4: 4 hours
+- Phase 5: 1 hour
+- Phase 6: 30 minutes
+- Phase 7: 1-2 hours
 
-**Total: 13.5-15.5 hours**
-
-(Original estimate was 10-13 hours, but automated testing adds time upfront that saves debugging time later)
+**Total: 17.5-21 hours**
 
 ---
 

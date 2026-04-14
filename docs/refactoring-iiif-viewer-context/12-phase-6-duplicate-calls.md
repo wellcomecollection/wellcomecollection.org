@@ -1,10 +1,12 @@
-# Phase 4: Eliminate Duplicate Index Calls
+# Phase 6: Eliminate Duplicate Index Calls
 
 [← Back to Index](./README.md)
 
 **Effort:** 30 minutes  
 **Risk:** Low  
 **Priority:** Medium  
+**Previous:** [Phase 5: Restriction Status](./11-phase-5-restriction-status.md)  
+**Next:** [Phase 7: Cleanup](./13-phase-7-cleanup.md)  
 
 ## Goal
 
@@ -79,4 +81,4 @@ const { currentCanvasIndex } = useItemViewerContextV2();
 
 ---
 
-**Next:** [Phase 5: Cleanup](./12-phase-5-cleanup.md)
+**Next:** [Phase 7: Cleanup](./13-phase-7-cleanup.md)

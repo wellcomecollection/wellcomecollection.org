@@ -1,10 +1,11 @@
-# Phase 5: Cleanup
+# Phase 7: Cleanup
 
 [← Back to Index](./README.md)
 
 **Effort:** 1-2 hours  
 **Risk:** Low  
 **Priority:** Required (after toggle has been defaulted to ON)  
+**Previous:** [Phase 6: Duplicate Index Calls](./12-phase-6-duplicate-calls.md)
 
 ## Goal
 
@@ -13,7 +14,7 @@ Clean up feature flag infrastructure after successful adoption. Remove legacy co
 ## When to Do This
 
 **Only after:**
-- Toggle defaulted to ON for 1+ week
+- Toggle defaulted to ON for 1+ week and PM approved
 - No issues reported
 - All metrics stable
 - Team confidence is high
@@ -46,6 +47,8 @@ rm ZoomedImage.legacy.tsx
 rm MainViewer.legacy.tsx
 # ... any other .legacy.tsx files
 ```
+
+Also remove types that are not in use anymore.
 
 ### 5.3 Rename Refactored Files to Standard Names
 
