@@ -6,9 +6,9 @@
  * restore/status/content-id-map.json so already-uploaded documents are not duplicated.
  *
  * Usage:
- *   yarn ts-node restore/restore-prismic-content.ts [--snapshot <path>] [--type <customTypeId>]
+ *   yarn restorePrismicContent [--snapshot <path>] [--type <customTypeId>]
  *
- * Always run rewrite-snapshot-asset-ids.ts before this script. The rewrite script
+ * Always run transform-snapshot.ts before this script. The transform script
  * handles asset ID replacement, URL slug correction, and article publishDate
  * backfilling — all of which are needed even when no assets changed.
  *
