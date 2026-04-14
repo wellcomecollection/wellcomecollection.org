@@ -116,7 +116,6 @@ All three append-only files are written to the gitignored `restore/status/` dire
 --source-repo <name>   Source repository name (e.g. wellcomecollection) — required for URL rewriting
 --target-repo <name>   Target repository name — required for URL rewriting
 --snapshot <path>      Override the source snapshot (default: latest in ./restore/snapshot/)
---map <path>           Override the asset ID map (default: ./restore/status/asset-id-map.json)
 --out <path>           Override the output path (default: ./restore/snapshot/prismic-snapshot-rewritten.json)
 ```
 
