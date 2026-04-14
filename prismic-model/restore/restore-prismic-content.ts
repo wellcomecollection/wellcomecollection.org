@@ -66,6 +66,11 @@ async function findDestinationId(
   const apiResponse = await fetch(
     `https://${repository}.cdn.prismic.io/api/v2`
   );
+  if (!apiResponse.ok) {
+    throw new Error(
+      `Failed to fetch Prismic API for repository "${repository}": HTTP ${apiResponse.status} ${apiResponse.statusText}`
+    );
+  }
   const api = (await apiResponse.json()) as any;
 
   // Try all refs (master + any migration/draft releases) to find
@@ -83,6 +88,11 @@ async function findDestinationId(
     searchUrl.searchParams.set('ref', ref);
 
     const searchResponse = await fetch(searchUrl.toString());
+    if (!searchResponse.ok) {
+      throw new Error(
+        `Failed to search Prismic repository at ref "${ref}": HTTP ${searchResponse.status} ${searchResponse.statusText}`
+      );
+    }
     const results = (await searchResponse.json()) as any;
     const id = results.results?.[0]?.id;
 
