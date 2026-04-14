@@ -21,8 +21,13 @@ const Title = styled(Space).attrs({
 const CardWrapper = styled.div<{ $cols?: 3 | 4 }>`
   position: relative;
   width: 100%;
-  max-width: ${props => (props.$cols === 3 ? '19rem' : '25rem')};
+  max-width: 25rem;
   margin: 0 auto;
+
+  ${props =>
+    props.theme.media('md')(`
+    max-width: ${props.$cols === 3 ? '19rem' : '25rem'};
+  `)}
   display: block;
   color: ${props => props.theme.color('white')};
   container-type: inline-size;
