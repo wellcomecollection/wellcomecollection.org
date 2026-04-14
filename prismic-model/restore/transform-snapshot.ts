@@ -254,11 +254,18 @@ function init() {
   let publishDateCount = 0;
   for (const doc of docs) {
     const d = doc as Record<string, unknown>;
+    const data =
+      d.data && typeof d.data === 'object'
+        ? (d.data as Record<string, unknown>)
+        : null;
     if (
       d.type === 'articles' &&
-      !(d.data as Record<string, unknown>)?.publishDate &&
+      !data?.publishDate &&
       d.first_publication_date
     ) {
+      if (!data) {
+        d.data = {};
+      }
       (d.data as Record<string, unknown>).publishDate =
         d.first_publication_date;
       publishDateCount++;
