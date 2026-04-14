@@ -155,8 +155,9 @@ function init() {
     );
   }
 
-  // Read the snapshot as a raw string so we can do text-level replacements
-  // without risking JSON round-trip changes to unrelated values.
+  // Read the snapshot as a raw string so we can do text-level ID/URL replacements
+  // before any later JSON.parse/JSON.stringify steps (for example publishDate
+  // backfilling) re-stringify and normalise the final output.
   let content = fs.readFileSync(snapshotPath, 'utf-8');
 
   // Step 3: Pass 1/2 — replace old asset IDs with new ones (skipped if no map).
