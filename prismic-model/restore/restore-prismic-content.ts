@@ -127,13 +127,14 @@ async function uploadDoc(
   const richTextTitle = doc.data?.title?.[0]?.text;
   const nameTitle = doc.data?.name;
 
-  // Sanitize interpretations: isPrimary must be 'yes' or null
-  // TODO why is this happening?
-  // TODO can we fix this at source? // or in the rewrite script
-  const interpretations = doc.data?.interpretations?.map((item: any) => ({
-    ...item,
-    isPrimary: item.isPrimary === 'yes' ? 'yes' : null,
-  }));
+  // Snapshot data can contain legacy/non-conforming interpretation values.
+  // Normalize `isPrimary` here to the Migration API's accepted values.
+  const interpretations = Array.isArray(doc.data?.interpretations)
+    ? doc.data.interpretations.map((item: any) => ({
+        ...item,
+        isPrimary: item.isPrimary === 'yes' ? 'yes' : null,
+      }))
+    : undefined;
 
   const body = {
     ...doc,
