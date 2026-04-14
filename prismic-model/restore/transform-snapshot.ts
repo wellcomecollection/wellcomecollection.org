@@ -27,12 +27,11 @@
  *
  * Usage:
  *   yarn transformSnapshot \
- *     [--snapshot <path>] [--map <path>] [--out <path>] \
+ *     [--snapshot <path>] [--out <path>] \
  *     [--source-repo <name>] [--target-repo <name>]
  *
  * Defaults:
  *   --snapshot  Latest file in ./restore/snapshot/
- *   --map       ./restore/status/asset-id-map.json
  *   --out       ./restore/snapshot/prismic-snapshot-rewritten.json (fixed; always overwritten)
  */
 import * as fs from 'fs';
@@ -47,16 +46,12 @@ import 'dotenv/config';
 
 const argv = yargs(process.argv.slice(2))
   .usage(
-    'Usage: $0 [--snapshot <path>] [--map <path>] [--out <path>] [--source-repo <name>] [--target-repo <name>]'
+    'Usage: $0 [--snapshot <path>] [--out <path>] [--source-repo <name>] [--target-repo <name>]'
   )
   .options({
     snapshot: {
       type: 'string',
       description: 'Path to the source snapshot JSON file',
-    },
-    map: {
-      type: 'string',
-      description: 'Path to asset-id-map.json',
     },
     out: {
       type: 'string',
@@ -113,7 +108,7 @@ function resolveSnapshotPath(): string {
 function init() {
   // Step 1: Resolve input paths
   const snapshotPath = resolveSnapshotPath();
-  const mapPath = argv.map ? path.resolve(argv.map) : DEFAULT_MAP;
+  const mapPath = DEFAULT_MAP;
 
   // The asset ID map may not exist when no assets were re-uploaded (Scenario 2).
   // In that case we skip ID/slug rewriting and only apply the publishDate backfill.
