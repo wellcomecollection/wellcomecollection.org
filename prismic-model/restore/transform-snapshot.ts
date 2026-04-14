@@ -78,6 +78,7 @@ const argv = yargs(process.argv.slice(2))
 const SNAPSHOT_DIR = path.resolve('./restore/snapshot/');
 const DEFAULT_MAP = path.resolve('./restore/status/asset-id-map.json');
 const DEFAULT_SLUG_MAP = path.resolve('./restore/status/asset-slug-map.json');
+const REWRITTEN_SNAPSHOT_FILENAME = 'prismic-snapshot-rewritten.json';
 
 function resolveSnapshotPath(): string {
   if (argv.snapshot) return path.resolve(argv.snapshot);
@@ -88,7 +89,7 @@ function resolveSnapshotPath(): string {
   }
   const files = fs
     .readdirSync(SNAPSHOT_DIR)
-    .filter(f => f.endsWith('.json'))
+    .filter(f => f.endsWith('.json') && f !== REWRITTEN_SNAPSHOT_FILENAME)
     .map(f => ({
       name: f,
       mtime: fs.statSync(path.join(SNAPSHOT_DIR, f)).mtimeMs,
@@ -96,7 +97,9 @@ function resolveSnapshotPath(): string {
     .sort((a, b) => b.mtime - a.mtime);
 
   if (files.length === 0) {
-    throw new Error(`No JSON files found in ${SNAPSHOT_DIR}`);
+    throw new Error(
+      `No source JSON files found in ${SNAPSHOT_DIR} (excluding ${REWRITTEN_SNAPSHOT_FILENAME})`
+    );
   }
   return path.join(SNAPSHOT_DIR, files[0].name);
 }
@@ -121,7 +124,7 @@ function init() {
 
   // Always write to a fixed filename so there is only ever one rewritten snapshot.
   // The --out flag can override this if needed.
-  const defaultOut = path.join(SNAPSHOT_DIR, 'prismic-snapshot-rewritten.json');
+  const defaultOut = path.join(SNAPSHOT_DIR, REWRITTEN_SNAPSHOT_FILENAME);
   const outPath = argv.out ? path.resolve(argv.out) : defaultOut;
 
   console.log(`Source snapshot : ${snapshotPath}`);
