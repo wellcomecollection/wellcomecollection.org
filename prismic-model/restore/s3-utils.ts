@@ -8,6 +8,12 @@ import * as path from 'path';
 import { Readable } from 'stream';
 import { pipeline } from 'stream/promises';
 
+const SNAPSHOT_PREFIX = 'snapshots/prismic-snapshot-';
+const SNAPSHOT_OUTPUT_DIR = path.resolve('./restore/snapshot/');
+// Fixed output filename produced by transform-snapshot.ts — exported so that script
+// can import from one place rather than maintaining a duplicate constant.
+export const REWRITTEN_SNAPSHOT_FILENAME = 'prismic-snapshot-rewritten.json';
+
 export type DownloadLatestS3FileParams = {
   bucket: string;
   prefix: string;
@@ -61,11 +67,17 @@ export async function downloadLatestS3File({
     fs.mkdirSync(outputDir, { recursive: true });
   }
 
-  // Always remove old files matching the current prefix that are not the latest
-  const prefixBase = path.basename(prefix).replace(/[-_]+$/, '');
+  // Always remove old files matching the current prefix that are not the latest.
+  // Explicitly skip REWRITTEN_SNAPSHOT_FILENAME as an extra guard since it shares
+  // the same prefix.
+  const prefixBase = path.basename(prefix);
   const files = fs.readdirSync(outputDir);
   for (const file of files) {
-    if (file.startsWith(prefixBase) && file !== fileName) {
+    if (
+      file.startsWith(prefixBase) &&
+      file !== fileName &&
+      file !== REWRITTEN_SNAPSHOT_FILENAME
+    ) {
       const oldPath = path.join(outputDir, file);
       fs.unlinkSync(oldPath);
       console.log(`Removed old file: ${oldPath}`);
@@ -92,9 +104,6 @@ export async function downloadLatestS3File({
   console.log(`File saved to ${outputPath}`);
   return outputPath;
 }
-
-const SNAPSHOT_PREFIX = 'snapshots/prismic-snapshot-';
-const SNAPSHOT_OUTPUT_DIR = path.resolve('./restore/snapshot/');
 
 /**
  * Downloads the latest Prismic content snapshot from S3.

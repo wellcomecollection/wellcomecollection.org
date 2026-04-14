@@ -39,6 +39,7 @@ import * as path from 'path';
 import yargs from 'yargs';
 
 import 'dotenv/config';
+import { REWRITTEN_SNAPSHOT_FILENAME } from './s3-utils';
 
 // ---------------------------------------------------------------------------
 // CLI arguments
@@ -78,7 +79,6 @@ const argv = yargs(process.argv.slice(2))
 const SNAPSHOT_DIR = path.resolve('./restore/snapshot/');
 const DEFAULT_MAP = path.resolve('./restore/status/asset-id-map.json');
 const DEFAULT_SLUG_MAP = path.resolve('./restore/status/asset-slug-map.json');
-const REWRITTEN_SNAPSHOT_FILENAME = 'prismic-snapshot-rewritten.json';
 
 function resolveSnapshotPath(): string {
   if (argv.snapshot) return path.resolve(argv.snapshot);
