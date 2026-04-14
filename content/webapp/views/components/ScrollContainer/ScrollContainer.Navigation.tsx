@@ -66,7 +66,8 @@ const ScrollableNavigation: FunctionComponent<Props> = ({
 
       // Determine whether each button should be enabled or disabled based on current scroll position
       setCanScrollLeft(container.scrollLeft > 0);
-      setCanScrollRight(Math.ceil(container.scrollLeft) < maxScrollLeft);
+      // Button should be active only if there's more than 1 whole pixel remaining to scroll.
+      setCanScrollRight(Math.floor(maxScrollLeft - container.scrollLeft) > 1);
     };
 
     updateScrollButtons();
