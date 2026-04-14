@@ -9,3 +9,5 @@ sliceReport.json
 restore/snapshot/
 restore/assets/
 restore/status/
+restore.log
+restore-content.log
