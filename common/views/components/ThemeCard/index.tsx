@@ -18,16 +18,11 @@ const Title = styled(Space).attrs({
   }
 `;
 
-const CardWrapper = styled.div<{ $cols?: 3 | 4 }>`
+const CardWrapper = styled.div`
   position: relative;
   width: 100%;
   max-width: 25rem;
   margin: 0 auto;
-
-  ${props =>
-    props.theme.media('md')(`
-    max-width: ${props.$cols === 3 ? '19rem' : '25rem'};
-  `)}
   display: block;
   color: ${props => props.theme.color('white')};
   container-type: inline-size;
@@ -116,7 +111,6 @@ export type ThemeCardProps = {
   description?: string;
   linkProps: LinkProps;
   dataGtmProps?: DataGtmProps;
-  cols?: 3 | 4;
 };
 
 const ThemeCard: FunctionComponent<ThemeCardProps> = ({
@@ -125,7 +119,6 @@ const ThemeCard: FunctionComponent<ThemeCardProps> = ({
   description,
   linkProps,
   dataGtmProps,
-  cols = 4,
 }) => {
   const imageCount = images.filter(Boolean).length;
   const isSingleImage = imageCount === 1;
@@ -156,7 +149,7 @@ const ThemeCard: FunctionComponent<ThemeCardProps> = ({
       {...linkProps}
       {...dataGtmPropsToAttributes(dataGtmProps)}
     >
-      <CardWrapper data-component="theme-promo" $cols={cols}>
+      <CardWrapper data-component="theme-promo">
         <CompositeGrid $isSingleImage={isSingleImage}>
           {slots.map((slot, index) => (
             <ImageContainer key={index}>

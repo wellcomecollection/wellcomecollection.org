@@ -20,11 +20,6 @@ const meta: Meta<StoryProps> = {
       control: { type: 'range', min: 0, max: 4, step: 1 },
       description: 'Number of images to display (0-4)',
     },
-    cols: {
-      control: { type: 'radio' },
-      options: [4, 3],
-      description: 'Column width variant: 4 (default) or 3',
-    },
   },
   parameters: {
     gridSizes: {
@@ -55,7 +50,6 @@ export const Basic: Story = {
       },
     },
     imageCount: 4,
-    cols: 4,
   },
   render: args => {
     const { imageCount = 4, ...componentProps } = args;

@@ -20,8 +20,7 @@ const Theme: FunctionComponent<{
   concept: Concept;
   gtmData: DataGtmProps;
   showDescriptionForTypes?: ConceptType[];
-  cols?: 3 | 4;
-}> = ({ concept, gtmData, showDescriptionForTypes, cols }) => {
+}> = ({ concept, gtmData, showDescriptionForTypes }) => {
   const images = useConceptImageUrls(concept);
   const linkProps = toConceptLink({ conceptId: concept.id });
 
@@ -37,7 +36,6 @@ const Theme: FunctionComponent<{
       title={concept.displayLabel}
       description={description}
       linkProps={linkProps}
-      cols={cols}
       dataGtmProps={{
         trigger: 'theme_promo_card',
         id: concept.id,
@@ -155,7 +153,6 @@ const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
                   concept={concept}
                   gtmData={{ ...gtmData, 'position-in-list': `${i + 1}` }}
                   showDescriptionForTypes={showDescriptionForTypes}
-                  cols={cols}
                 />
               </ListItem>
             ))}
