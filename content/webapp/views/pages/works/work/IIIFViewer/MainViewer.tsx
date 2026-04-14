@@ -16,7 +16,10 @@ import useScrollVelocity from '@weco/content/hooks/useScrollVelocity';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { CanvasRotatedImage } from '@weco/content/types/item-viewer';
 import { TransformedCanvas } from '@weco/content/types/manifest';
-import { TransformedAuthService } from '@weco/content/utils/iiif/v3';
+import {
+  hasRestrictedItem,
+  TransformedAuthService,
+} from '@weco/content/utils/iiif/v3';
 import { getDisplayItems } from '@weco/content/utils/iiif/v3/canvas';
 import IIIFItem from '@weco/content/views/pages/works/work/IIIFItem';
 
@@ -34,8 +37,9 @@ const MainViewerContainer = styled.div<{ $useFixedList: boolean }>`
   `}
 `;
 
-const ItemWrapper = styled.div`
+const ItemWrapper = styled.div<{ $firstItemIsRestricted?: boolean }>`
   height: 100%;
+  ${props => (props.$firstItemIsRestricted ? 'margin-top: 2em;' : null)}
 
   .pdf-wrapper,
   iframe {
@@ -97,6 +101,7 @@ type ItemRendererProps = {
     externalAccessService?: TransformedAuthService;
     accessToken?: string;
     placeholderId?: string;
+    firstItemIsRestricted?: boolean;
   };
 };
 
@@ -224,8 +229,13 @@ function getPositionData({
 }
 
 const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
-  const { scrollVelocity, canvases, placeholderId, externalAccessService } =
-    data;
+  const {
+    scrollVelocity,
+    canvases,
+    placeholderId,
+    externalAccessService,
+    firstItemIsRestricted,
+  } = data;
 
   const currentCanvas = canvases[index];
   const { searchResults, rotatedImages } = useItemViewerContext();
@@ -291,7 +301,10 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
           {displayItems.length > 0 &&
             displayItems.map(item => {
               return (
-                <ItemWrapper key={item.type + item.id}>
+                <ItemWrapper
+                  key={item.type + item.id}
+                  $firstItemIsRestricted={firstItemIsRestricted}
+                >
                   <IIIFItem
                     placeholderId={placeholderId}
                     item={item}
@@ -387,6 +400,10 @@ const MainViewer: FunctionComponent = () => {
     ...transformedManifest,
   };
 
+  const firstItemIsRestricted = canvases?.[0]
+    ? hasRestrictedItem(canvases[0])
+    : false;
+
   // Canvas order is determined by structures if we have them, which aren't always the same
   const externalAccessService = auth?.externalAccessService;
   // as the order of canvases in the items array.
@@ -466,6 +483,7 @@ const MainViewer: FunctionComponent = () => {
             canvas,
             accessToken,
             placeholderId,
+            firstItemIsRestricted,
           }}
           itemSize={mainAreaWidth}
           onItemsRendered={debounceHandleOnItemsRendered.current}
