@@ -26,8 +26,6 @@ export const ContentContainer = styled(PlainList)`
 `;
 
 export const ScrollShim = styled.li<{ $gridValues: number[] }>`
-  display: none;
-
   --container-padding: ${props => props.theme.containerPadding};
   --number-of-columns: ${props => (12 - props.$gridValues[0]) / 2};
   --gap-value: ${props => props.theme.gutter.small};
@@ -45,7 +43,6 @@ export const ScrollShim = styled.li<{ $gridValues: number[] }>`
 
   ${props =>
     props.theme.media('sm')(`
-      display: block;
       --number-of-columns: ${(12 - props.$gridValues[1]) / 2};
       --gap-value: ${props.theme.gutter.medium};
   `)}
