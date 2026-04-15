@@ -77,7 +77,7 @@ const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
   showDescriptionForTypes,
   headingLevel = 2,
   fontFamily = 'sans-bold',
-  cols,
+  cols = 4,
 }) => {
   const scrollContainerRef = useRef<HTMLUListElement>(null);
   const [concepts, setConcepts] = useState<Concept[]>([]);
