@@ -24,6 +24,10 @@ export const ContentContainer = styled(PlainList)`
   position: relative;
   padding: 3px 0;
 
+  li:first-child {
+    padding-left: 0;
+  }
+
   &:has(.scroll-shim) {
     li:nth-child(2) {
       padding-left: 0;
