@@ -10,15 +10,19 @@ export const ListItem = styled.li<{ $usesShim?: boolean }>`
   padding-left: var(--gutter-size);
 
   ${props =>
-    !props.$usesShim
+    props.$usesShim
       ? `
-      &:first-child {
-        padding-left: 0;
+      &:nth-child(2) {
         width: calc(400px - var(--gutter-size));
         max-width: calc(90vw - var(--gutter-size));
       }
       `
-      : ''}
+      : `
+      &:first-child {
+        width: calc(400px - var(--gutter-size));
+        max-width: calc(90vw - var(--gutter-size));
+      }
+      `}
 
   &:last-child {
     width: calc(400px + var(--gutter-size));
@@ -43,7 +47,6 @@ export const ListItem = styled.li<{ $usesShim?: boolean }>`
         props.$usesShim
           ? `
           &:nth-child(2) {
-            padding-left: 0;
             width: calc((100vw - (${paddingCalc}) - (${smGutter} * 11)) / 2 + (${smGutter} * 5));
           }`
           : `
