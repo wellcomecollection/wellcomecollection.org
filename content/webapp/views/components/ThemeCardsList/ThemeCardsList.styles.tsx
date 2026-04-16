@@ -13,14 +13,12 @@ export const ListItem = styled.li<{ $usesShim?: boolean }>`
     props.$usesShim
       ? `
       &:nth-child(2) {
-        padding-left: 0;
         width: calc(400px - var(--gutter-size));
         max-width: calc(90vw - var(--gutter-size));
       }
       `
       : `
       &:first-child {
-        padding-left: 0;
         width: calc(400px - var(--gutter-size));
         max-width: calc(90vw - var(--gutter-size));
       }
