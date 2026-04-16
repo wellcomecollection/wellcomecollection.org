@@ -73,6 +73,8 @@ const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 const runPa11y = async url => {
   return pa11y(url, {
     timeout: 120000,
+    userAgent:
+      'WellcomeCollection-Pa11y/1.0 (GitHub Actions; accessibility testing)',
     chromeLaunchConfig: {
       args: ['--no-sandbox'],
     },
