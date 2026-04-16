@@ -2,7 +2,10 @@ import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 
-export const ListItem = styled.li<{ $usesShim?: boolean }>`
+export const ListItem = styled.li<{
+  $usesShim?: boolean;
+  $cols?: 3 | 4;
+}>`
   --gutter-size: ${props => props.theme.gutter.small};
   flex: 0 0 auto;
   width: 400px;
@@ -66,35 +69,37 @@ export const ListItem = styled.li<{ $usesShim?: boolean }>`
     const mdGutter = props.theme.gutter.large;
     const lg = props.theme.sizes.lg;
     const paddingCalc = `${props.theme.containerPaddingVw} * 2`;
+    const is3col = props.$cols === 3;
+
+    // 4col: (totalWidth - 11 × gutter) / 3 + N × gutter
+    // 3col: (totalWidth - 11 × gutter) / 4 + N × gutter
+    const divisor = is3col ? '4' : '3';
+    const cols = is3col ? '3' : '4';
 
     return props.theme.media('md')(`
       --gutter-size: ${mdGutter};
-      /* 4 columns of 12 at md breakpoint */
-      /* Formula: ((100vw - padding) - (11 × gutter)) / 12 × 4 + (4 × gutter) */
-      /* Simplified: calc((100vw - (${paddingCalc}) - (${mdGutter} * 11)) / 3 + (${mdGutter} * 4)) */
-      width: calc((100vw - (${paddingCalc}) - (${mdGutter} * 11)) / 3 + (${mdGutter} * 4));
-
-      /* Max-width at lg: ((${lg} - (${paddingCalc})) - (${mdGutter} * 11)) / 12 × 4 + (${mdGutter} * 4) */
-      max-width: calc(((${lg} - (${paddingCalc})) - (${mdGutter} * 11)) / 12 * 4 + (${mdGutter} * 4));
+      /* ${cols} columns of 12 at md breakpoint */
+      width: calc((100vw - (${paddingCalc}) - (${mdGutter} * 11)) / ${divisor} + (${mdGutter} * ${cols}));
+      max-width: calc(((${lg} - (${paddingCalc})) - (${mdGutter} * 11)) / 12 * ${cols} + (${mdGutter} * ${cols}));
 
       ${
         props.$usesShim
           ? `
           &:nth-child(2) {
-            width: calc((100vw - (${paddingCalc}) - (${mdGutter} * 11)) / 3 + (${mdGutter} * 3));
-            max-width: calc(((${lg} - (${paddingCalc})) - (${mdGutter} * 11)) / 12 * 4 + (${mdGutter} * 3));
+            width: calc((100vw - (${paddingCalc}) - (${mdGutter} * 11)) / ${divisor} + (${mdGutter} * ${is3col ? '2' : '3'}));
+            max-width: calc(((${lg} - (${paddingCalc})) - (${mdGutter} * 11)) / 12 * ${cols} + (${mdGutter} * ${is3col ? '2' : '3'}));
           }`
           : `
           &:first-child {
-            width: calc((100vw - (${paddingCalc}) - (${mdGutter} * 11)) / 3 + (${mdGutter} * 3));
-            max-width: calc(((${lg} - (${paddingCalc})) - (${mdGutter} * 11)) / 12 * 4 + (${mdGutter} * 3));
+            width: calc((100vw - (${paddingCalc}) - (${mdGutter} * 11)) / ${divisor} + (${mdGutter} * ${is3col ? '2' : '3'}));
+            max-width: calc(((${lg} - (${paddingCalc})) - (${mdGutter} * 11)) / 12 * ${cols} + (${mdGutter} * ${is3col ? '2' : '3'}));
           }`
       }
 
       &:last-child {
         padding-right: var(--gutter-size);
-        width: calc((100vw - (${paddingCalc}) - (${mdGutter} * 11)) / 3 + (${mdGutter} * 5));
-        max-width: calc(((${lg} - (${paddingCalc})) - (${mdGutter} * 11)) / 12 * 4 + (${mdGutter} * 5));
+        width: calc((100vw - (${paddingCalc}) - (${mdGutter} * 11)) / ${divisor} + (${mdGutter} * ${is3col ? '4' : '5'}));
+        max-width: calc(((${lg} - (${paddingCalc})) - (${mdGutter} * 11)) / 12 * ${cols} + (${mdGutter} * ${is3col ? '4' : '5'}));
       }
     `);
   }}
