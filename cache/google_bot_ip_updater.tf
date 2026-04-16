@@ -1,6 +1,21 @@
 # Automated Google Bot IP Updater
 # Fetches latest IP ranges from Google and updates the WAF IP set daily
 
+# Lambda layer with AWS SDK v3 WAFv2 client
+data "archive_file" "wafv2_sdk_layer" {
+  type        = "zip"
+  source_dir  = "${path.module}/lambda_layers/wafv2_sdk/nodejs"
+  output_path = "${path.module}/lambda_layers/wafv2_sdk/layer.zip"
+}
+
+resource "aws_lambda_layer_version" "wafv2_sdk" {
+  filename            = data.archive_file.wafv2_sdk_layer.output_path
+  layer_name          = "wafv2-sdk"
+  source_code_hash    = data.archive_file.wafv2_sdk_layer.output_base64sha256
+  compatible_runtimes = ["nodejs24.x"]
+  description         = "AWS SDK v3 WAFv2 client"
+}
+
 # Lambda function to update Google bot IPs
 module "google_bot_ip_updater" {
   source = "./modules/lambda"
@@ -15,6 +30,7 @@ module "google_bot_ip_updater" {
   source_file           = "${path.module}/update_google_bot_ips.js"
   alarm_topic_arn       = aws_sns_topic.google_bot_ip_updater_alerts.arn
   log_retention_in_days = 30
+  layers                = [aws_lambda_layer_version.wafv2_sdk.arn]
 
   environment_variables = {
     IP_SET_ID = aws_wafv2_ip_set.google_bots.id
@@ -107,6 +123,9 @@ resource "aws_cloudwatch_log_metric_filter" "ip_change_validation_failure" {
     namespace = "GoogleBotIPUpdater"
     value     = "1"
   }
+
+  # Ensure the log group exists before creating the filter
+  depends_on = [module.google_bot_ip_updater]
 }
 
 resource "aws_cloudwatch_metric_alarm" "ip_change_validation_failure" {

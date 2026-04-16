@@ -1,0 +1,8 @@
+{
+  "name": "wafv2-sdk-layer",
+  "version": "1.0.0",
+  "description": "AWS SDK v3 WAFv2 client for Lambda layer",
+  "dependencies": {
+    "@aws-sdk/client-wafv2": "^3.0.0"
+  }
+}
