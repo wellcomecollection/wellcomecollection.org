@@ -113,3 +113,28 @@ terraform apply terraform.plan
 3. Make a second PR to update the [`locals.tf`](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/cache/locals.tf) from the result of the previous step
 4. Merge and deploy the first PR and check the UI and toggle changes have been removed on `www-stage`
 5. Merge the second PR and apply the terraform change resulting from the updated locals.tf and check the UI and toggle changes have been removed in production
+## Google Bot IP Updater
+
+Automated Lambda function that keeps the WAF IP allowlist for Google bots up to date.
+
+**What it does:**
+- Fetches latest Google bot IP ranges from [Google's published lists](https://developers.google.com/static/crawling/ipranges/)
+- Updates the `google-bots` WAF IP set daily at 2 AM UTC
+- Has a 10% change gate to prevent unexpected large changes
+- Sends alerts on failures via SNS
+
+**Manual testing:**
+```bash
+aws lambda invoke \
+  --function-name google-bot-ip-updater \
+  --region us-east-1 \
+  response.json
+```
+
+**Logs:** `/aws/lambda/google-bot-ip-updater`
+
+**Files:**
+- [`update_google_bot_ips.js`](./update_google_bot_ips.js) - Lambda function
+- [`google_bot_ip_updater.tf`](./google_bot_ip_updater.tf) - Infrastructure
+
+If the Lambda fails with "IP count change exceeds maximum", check Google's source URLs manually - it may be a legitimate change or an API issue.

@@ -8,6 +8,8 @@ Guidelines for AI assistants working on the Wellcome Collection codebase.
 
 **Ask questions before implementing.** If requirements are unclear, the approach is ambiguous, or there are multiple reasonable solutions, ask rather than guessing. This saves rework and ensures we build the right thing.
 
+Consider our version of Node by consulting `.nvmrc`.
+
 **Complete your work properly.** Before considering a task done:
 - Fix all linting errors
 - If necessary, run `yarn tsc` from the root to check TypeScript errors
@@ -106,6 +108,8 @@ Follow these patterns consistently:
 - Test files: same name as source with `.test.ts` / `.test.tsx` suffix (match the source extension, e.g. `Component.tsx` → `Component.test.tsx`)
 - Type declarations: `.d.ts` extension for ambient declarations
 - Service/utility folders: use `index.ts` as the main export point
+
+**Exception: Infrastructure code** (`cache/`, `infrastructure/`) uses snake_case for Terraform/Lambda files to match AWS and infrastructure tooling conventions (`cloudfront_prod.tf`, `update_google_bot_ips.js`).
 
 ## Avoid Duplication
 
