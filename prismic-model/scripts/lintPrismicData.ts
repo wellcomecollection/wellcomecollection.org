@@ -157,8 +157,8 @@ function detectNonHTTPWWWLinks(doc: any): string[] {
 // the object to get more debugging information, but I hope this
 // is good enough for now.
 function detectPreviewLinks(doc: any): string[] {
-  // Match http/https URL-like substrings, stopping at whitespace or common HTML delimiters.
-  const urls = JSON.stringify(doc).match(/https?:\/\/[^\s"'<>]+/gi) ?? [];
+  // Match http/https URL-like substrings, stopping at whitespace, backslashes, or common HTML delimiters.
+  const urls = JSON.stringify(doc).match(/https?:\/\/[^\\\s"'<>]+/gi) ?? [];
 
   for (const rawUrl of urls) {
     try {
@@ -168,7 +168,7 @@ function detectPreviewLinks(doc: any): string[] {
         ];
       }
     } catch {
-      return [`${rawUrl} looks like a URL but is not valid, please check it.`];
+      continue;
     }
   }
 
