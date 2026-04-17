@@ -3,7 +3,7 @@
 
 resource "aws_wafv2_ip_set" "google_bots" {
   name        = "google-bots"
-  description = "Google bot IP ranges automatically updated from https://developers.google.com/search/apis/ipranges/"
+  description = "Google bot IP ranges automatically updated from https://developers.google.com/static/crawling/ipranges/common-crawlers.json and https://developers.google.com/static/crawling/ipranges/special-crawlers.json"
 
   scope              = "CLOUDFRONT"
   ip_address_version = "IPV4"

@@ -10,7 +10,7 @@ To update the layer dependencies:
 
 ```bash
 cd lambda_layers/wafv2_sdk/nodejs
-npm install --production
+yarn install --frozen-lockfile --production
 ```
 
 The Terraform configuration will automatically zip the nodejs directory (including node_modules) and deploy the layer.
