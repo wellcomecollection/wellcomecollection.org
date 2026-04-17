@@ -23,11 +23,21 @@ export const ContentContainer = styled(PlainList)`
   overflow: hidden;
   position: relative;
   padding: 3px 0;
+
+  li:first-child {
+    padding-left: 0;
+  }
+
+  &:has(.scroll-shim) {
+    li:nth-child(2) {
+      padding-left: 0;
+    }
+  }
 `;
 
-export const ScrollShim = styled.li<{ $gridValues: number[] }>`
-  display: none;
-
+export const ScrollShim = styled.li.attrs({
+  className: 'scroll-shim',
+})<{ $gridValues: number[] }>`
   --container-padding: ${props => props.theme.containerPadding};
   --number-of-columns: ${props => (12 - props.$gridValues[0]) / 2};
   --gap-value: ${props => props.theme.gutter.small};
@@ -45,7 +55,6 @@ export const ScrollShim = styled.li<{ $gridValues: number[] }>`
 
   ${props =>
     props.theme.media('sm')(`
-      display: block;
       --number-of-columns: ${(12 - props.$gridValues[1]) / 2};
       --gap-value: ${props.theme.gutter.medium};
   `)}
