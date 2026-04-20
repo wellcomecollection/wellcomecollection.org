@@ -106,21 +106,28 @@ function validateIPChange(currentIPs, newIPs) {
     return;
   }
 
-  const change = Math.abs(newCount - currentCount);
-  const changePercent = (change / currentCount) * 100;
+  const currentIPsSet = new Set(currentIPs);
+  const newIPsSet = new Set(newIPs);
+  const addedCount = newIPs.filter(ip => !currentIPsSet.has(ip)).length;
+  const removedCount = currentIPs.filter(ip => !newIPsSet.has(ip)).length;
+  const changedCount = addedCount + removedCount;
+  const changePercent = (changedCount / currentCount) * 100;
 
   console.log(`Current IP count: ${currentCount}`);
   console.log(`New IP count: ${newCount}`);
-  console.log(`Change: ${change} IPs (${changePercent.toFixed(2)}%)`);
+  console.log(
+    `Changed IPs: ${changedCount} (added: ${addedCount}, removed: ${removedCount}) (${changePercent.toFixed(2)}%)`
+  );
 
   if (changePercent > MAX_CHANGE_PERCENT) {
     throw new Error(
-      `IP count change of ${changePercent.toFixed(2)}% exceeds maximum allowed (${MAX_CHANGE_PERCENT}%). ` +
-        `Current: ${currentCount}, New: ${newCount}. This may indicate an issue with the source data.`
+      `IP content change of ${changePercent.toFixed(2)}% exceeds maximum allowed (${MAX_CHANGE_PERCENT}%). ` +
+        `Changed: ${changedCount} (added: ${addedCount}, removed: ${removedCount}), Current: ${currentCount}, New: ${newCount}. ` +
+        `This may indicate an issue with the source data.`
     );
   }
 
-  console.log('✓ IP count change is within acceptable limits');
+  console.log('✓ IP content change is within acceptable limits');
 }
 
 /**

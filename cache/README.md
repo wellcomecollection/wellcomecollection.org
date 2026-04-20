@@ -119,7 +119,7 @@ terraform apply terraform.plan
 Automated Lambda function that keeps the WAF IP allowlist for Google bots up to date.
 
 **What it does:**
-- Fetches latest Google bot IP ranges from [Google's published lists](https://developers.google.com/static/crawling/ipranges/)
+- Fetches latest Google bot IP ranges from Google's published lists [of common](https://developers.google.com/static/crawling/ipranges/common-crawlers.json) and [special](https://developers.google.com/static/crawling/ipranges/special-crawlers.json) crawlers.
 - Updates the `google-bots` WAF IP set daily at 2 AM UTC
 - Has a 10% change gate to prevent unexpected large changes
 - Sends alerts on failures via SNS
