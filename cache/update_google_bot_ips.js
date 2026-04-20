@@ -87,51 +87,31 @@ async function getCurrentIPSet(ipSetId) {
     throw new Error(`IP set '${IP_SET_NAME}' not found`);
   }
 
-  return {
-    ipSet: response.IPSet,
-    lockToken: response.LockToken,
-  };
+  return response.IPSet;
 }
 
 /**
- * Validate that the content change in IPs is within acceptable limits.
- *
- * We use the symmetric difference (added + removed) rather than net count,
- * so large swaps with the same total count are still detected.
+ * Validate that the change in IP count is within acceptable limits
  */
 function validateIPChange(currentIPs, newIPs) {
   const currentCount = currentIPs.length;
   const newCount = newIPs.length;
-
-  // Allow initial population
-  if (currentCount === 0) {
-    console.log(`Initial population: adding ${newCount} IPs`);
-    return;
-  }
-
-  const currentIPsSet = new Set(currentIPs);
-  const newIPsSet = new Set(newIPs);
-
-  const addedCount = newIPs.filter(ip => !currentIPsSet.has(ip)).length;
-  const removedCount = currentIPs.filter(ip => !newIPsSet.has(ip)).length;
-  const changedCount = addedCount + removedCount;
-  const changePercent = (changedCount / currentCount) * 100;
+  const change = Math.abs(newCount - currentCount);
+  const changePercent =
+    currentCount === 0 ? 100 : (change / currentCount) * 100;
 
   console.log(`Current IP count: ${currentCount}`);
   console.log(`New IP count: ${newCount}`);
-  console.log(
-    `Changed IPs: ${changedCount} (added: ${addedCount}, removed: ${removedCount}) (${changePercent.toFixed(2)}%)`
-  );
+  console.log(`Change: ${change} IPs (${changePercent.toFixed(2)}%)`);
 
   if (changePercent > MAX_CHANGE_PERCENT) {
     throw new Error(
-      `IP content change of ${changePercent.toFixed(2)}% exceeds maximum allowed (${MAX_CHANGE_PERCENT}%). ` +
-        `Changed: ${changedCount} (added: ${addedCount}, removed: ${removedCount}), Current: ${currentCount}, New: ${newCount}. ` +
-        `This may indicate an issue with the source data.`
+      `IP count change of ${changePercent.toFixed(2)}% exceeds maximum allowed (${MAX_CHANGE_PERCENT}%). ` +
+        `Current: ${currentCount}, New: ${newCount}. This may indicate an issue with the source data.`
     );
   }
 
-  console.log('IP content change is within acceptable limits');
+  console.log('✓ IP count change is within acceptable limits');
 }
 
 /**
@@ -168,7 +148,7 @@ exports.handler = async () => {
     }
 
     // Get current IP set
-    const { ipSet, lockToken } = await getCurrentIPSet(ipSetId);
+    const ipSet = await getCurrentIPSet(ipSetId);
     const currentIPs = ipSet.Addresses || [];
 
     // Fetch latest IPs from Google
@@ -196,7 +176,7 @@ exports.handler = async () => {
     validateIPChange(currentIPs, newIPs);
 
     // Update the IP set
-    await updateIPSet(ipSet.Id, lockToken, newIPs);
+    await updateIPSet(ipSet.Id, ipSet.LockToken, newIPs);
 
     // Calculate added and removed IPs for reporting
     const addedIPs = newIPs.filter(ip => !currentIPsSet.has(ip));

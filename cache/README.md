@@ -123,9 +123,7 @@ Automated Lambda function that keeps the WAF IP allowlist for Google bots up to 
 - Has a 10% change gate to prevent unexpected large changes
 - Sends alerts on failures via SNS
 
-**Manual invocation (updates production):**
-
-To trigger an immediate update without waiting for the scheduled run:
+**Manual testing:**
 ```bash
 aws lambda invoke \
   --function-name google-bot-ip-updater \
@@ -138,16 +136,5 @@ aws lambda invoke \
 **Files:**
 - [`update_google_bot_ips.js`](./update_google_bot_ips.js) - Lambda function
 - [`google_bot_ip_updater.tf`](./google_bot_ip_updater.tf) - Infrastructure
-- [`lambda_layers/wafv2_sdk/`](./lambda_layers/wafv2_sdk/) - Lambda layer with AWS SDK v3 WAFv2 client
-
-**Dependencies:**
-The Lambda uses a Lambda layer to provide the `@aws-sdk/client-wafv2` package. To update the layer dependencies:
-
-```bash
-cd lambda_layers/wafv2_sdk/nodejs
-npm install --production
-```
-
-Then apply the Terraform changes to deploy the updated layer.
 
 If the Lambda fails with "IP count change exceeds maximum", check Google's source URLs manually - it may be a legitimate change or an API issue.
