@@ -33,8 +33,7 @@ resource "aws_iam_role_policy" "google_bot_ip_updater_waf_access" {
         Effect = "Allow"
         Action = [
           "wafv2:GetIPSet",
-          "wafv2:UpdateIPSet",
-          "wafv2:ListIPSets"
+          "wafv2:UpdateIPSet"
         ]
         Resource = aws_wafv2_ip_set.google_bots.arn
       }
