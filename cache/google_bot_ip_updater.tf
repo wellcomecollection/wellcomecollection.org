@@ -107,6 +107,8 @@ resource "aws_cloudwatch_log_metric_filter" "ip_change_validation_failure" {
     namespace = "GoogleBotIPUpdater"
     value     = "1"
   }
+
+  depends_on = [module.google_bot_ip_updater]
 }
 
 resource "aws_cloudwatch_metric_alarm" "ip_change_validation_failure" {

@@ -11,4 +11,9 @@ resource "aws_wafv2_ip_set" "google_bots" {
   # Addresses are managed by the google-bot-ip-updater Lambda function
   # Initial empty list - Lambda will populate on first run
   addresses = []
+
+  lifecycle {
+    # Lambda manages the addresses field - don't let Terraform overwrite it
+    ignore_changes = [addresses]
+  }
 }

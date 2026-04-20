@@ -87,7 +87,10 @@ async function getCurrentIPSet(ipSetId) {
     throw new Error(`IP set '${IP_SET_NAME}' not found`);
   }
 
-  return response.IPSet;
+  return {
+    ipSet: response.IPSet,
+    lockToken: response.LockToken,
+  };
 }
 
 /**
@@ -96,9 +99,15 @@ async function getCurrentIPSet(ipSetId) {
 function validateIPChange(currentIPs, newIPs) {
   const currentCount = currentIPs.length;
   const newCount = newIPs.length;
+
+  // Allow initial population when the IP set is empty
+  if (currentCount === 0) {
+    console.log(`Initial population: adding ${newCount} IPs`);
+    return;
+  }
+
   const change = Math.abs(newCount - currentCount);
-  const changePercent =
-    currentCount === 0 ? 100 : (change / currentCount) * 100;
+  const changePercent = (change / currentCount) * 100;
 
   console.log(`Current IP count: ${currentCount}`);
   console.log(`New IP count: ${newCount}`);
@@ -148,7 +157,7 @@ exports.handler = async () => {
     }
 
     // Get current IP set
-    const ipSet = await getCurrentIPSet(ipSetId);
+    const { ipSet, lockToken } = await getCurrentIPSet(ipSetId);
     const currentIPs = ipSet.Addresses || [];
 
     // Fetch latest IPs from Google
@@ -176,7 +185,7 @@ exports.handler = async () => {
     validateIPChange(currentIPs, newIPs);
 
     // Update the IP set
-    await updateIPSet(ipSet.Id, ipSet.LockToken, newIPs);
+    await updateIPSet(ipSet.Id, lockToken, newIPs);
 
     // Calculate added and removed IPs for reporting
     const addedIPs = newIPs.filter(ip => !currentIPsSet.has(ip));
