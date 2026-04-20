@@ -1,12 +1,32 @@
 /* eslint-env node */
 /* global fetch */
+
+// We rate-limit the USA in WAF (`geo-rate-limit-USA`)
+// but we want to make sure SEO is not affected by this.
+// This Lambda function will run on a schedule to fetch the latest
+// Google bot IP ranges and update the whitelisted IP set accordingly.
+
 const {
   WAFv2Client,
   GetIPSetCommand,
   UpdateIPSetCommand,
 } = require('@aws-sdk/client-wafv2');
+const { styleText } = require('util');
 
-const wafClient = new WAFv2Client({ region: 'us-east-1' }); // CloudFront resources are in us-east-1
+// Logging helpers matching @weco/common/utils/console-logs conventions
+function logInfo(message) {
+  console.log(styleText('blue', `==> ${message}`));
+}
+
+function logSuccess(message) {
+  console.log(styleText('green', `✓ ${message}`));
+}
+
+function logError(message) {
+  console.error(styleText('red', `✗ ${message}`));
+}
+
+const wafClient = new WAFv2Client({ region: 'us-east-1' });
 
 const IP_SET_NAME = 'google-bots';
 const IP_SET_SCOPE = 'CLOUDFRONT';
@@ -35,7 +55,7 @@ async function fetchJson(url) {
  */
 function extractIpv4Addresses(jsonData) {
   if (!jsonData.prefixes || !Array.isArray(jsonData.prefixes)) {
-    console.warn('Unexpected JSON structure:', JSON.stringify(jsonData));
+    logError(`Unexpected JSON structure: ${JSON.stringify(jsonData)}`);
     return [];
   }
 
@@ -48,7 +68,7 @@ function extractIpv4Addresses(jsonData) {
  * Fetch all Google bot IPv4 addresses from both sources
  */
 async function fetchGoogleBotIPs() {
-  console.log('Fetching Google bot IP ranges...');
+  logInfo('Fetching Google bot IP ranges...');
 
   const results = await Promise.all(
     GOOGLE_IP_SOURCES.map(async url => {
@@ -56,7 +76,7 @@ async function fetchGoogleBotIPs() {
         const data = await fetchJson(url);
         return extractIpv4Addresses(data);
       } catch (error) {
-        console.error(`Error fetching ${url}:`, error);
+        logError(`Error fetching ${url}: ${error}`);
         throw error;
       }
     })
@@ -64,7 +84,7 @@ async function fetchGoogleBotIPs() {
 
   // Flatten and deduplicate
   const allIPs = [...new Set(results.flat())];
-  console.log(`Fetched ${allIPs.length} unique IPv4 addresses`);
+  logInfo(`Fetched ${allIPs.length} unique IPv4 addresses`);
 
   return allIPs.sort();
 }
@@ -73,7 +93,7 @@ async function fetchGoogleBotIPs() {
  * Get current IP set from WAF
  */
 async function getCurrentIPSet(ipSetId) {
-  console.log(`Fetching current IP set: ${ipSetId}`);
+  logInfo(`Fetching current IP set: ${ipSetId}`);
 
   const response = await wafClient.send(
     new GetIPSetCommand({
@@ -102,20 +122,23 @@ function validateIPChange(currentIPs, newIPs) {
 
   // Allow initial population when the IP set is empty
   if (currentCount === 0) {
-    console.log(`Initial population: adding ${newCount} IPs`);
+    logInfo(`Initial population: adding ${newCount} IPs`);
     return;
   }
 
   const currentIPsSet = new Set(currentIPs);
   const newIPsSet = new Set(newIPs);
+
+  // Use the symmetric difference (added + removed) rather than net count change,
+  // so swapping many prefixes without changing the total still triggers the gate.
   const addedCount = newIPs.filter(ip => !currentIPsSet.has(ip)).length;
   const removedCount = currentIPs.filter(ip => !newIPsSet.has(ip)).length;
   const changedCount = addedCount + removedCount;
   const changePercent = (changedCount / currentCount) * 100;
 
-  console.log(`Current IP count: ${currentCount}`);
-  console.log(`New IP count: ${newCount}`);
-  console.log(
+  logInfo(`Current IP count: ${currentCount}`);
+  logInfo(`New IP count: ${newCount}`);
+  logInfo(
     `Changed IPs: ${changedCount} (added: ${addedCount}, removed: ${removedCount}) (${changePercent.toFixed(2)}%)`
   );
 
@@ -127,14 +150,14 @@ function validateIPChange(currentIPs, newIPs) {
     );
   }
 
-  console.log('✓ IP content change is within acceptable limits');
+  logSuccess('IP content change is within acceptable limits');
 }
 
 /**
  * Update the WAF IP set with new addresses
  */
 async function updateIPSet(ipSetId, lockToken, newAddresses) {
-  console.log(
+  logInfo(
     `Updating IP set ${ipSetId} with ${newAddresses.length} addresses...`
   );
 
@@ -148,7 +171,7 @@ async function updateIPSet(ipSetId, lockToken, newAddresses) {
     })
   );
 
-  console.log('IP set updated successfully');
+  logSuccess('IP set updated successfully');
 }
 
 /**
@@ -156,7 +179,7 @@ async function updateIPSet(ipSetId, lockToken, newAddresses) {
  */
 exports.handler = async () => {
   try {
-    console.log('Starting Google bot IP update process...');
+    logInfo('Starting Google bot IP update process...');
 
     const ipSetId = process.env.IP_SET_ID;
     if (!ipSetId) {
@@ -178,7 +201,7 @@ exports.handler = async () => {
       newIPs.some(ip => !currentIPsSet.has(ip));
 
     if (!hasChanges) {
-      console.log('No changes detected. IP set is already up to date.');
+      logSuccess('No changes detected. IP set is already up to date.');
       return {
         statusCode: 200,
         body: JSON.stringify({
@@ -198,8 +221,8 @@ exports.handler = async () => {
     const addedIPs = newIPs.filter(ip => !currentIPsSet.has(ip));
     const removedIPs = currentIPs.filter(ip => !newIPsSet.has(ip));
 
-    console.log(`Added ${addedIPs.length} IPs:`, addedIPs);
-    console.log(`Removed ${removedIPs.length} IPs:`, removedIPs);
+    logInfo(`Added ${addedIPs.length} IPs: ${JSON.stringify(addedIPs)}`);
+    logInfo(`Removed ${removedIPs.length} IPs: ${JSON.stringify(removedIPs)}`);
 
     return {
       statusCode: 200,
@@ -212,7 +235,7 @@ exports.handler = async () => {
       }),
     };
   } catch (error) {
-    console.error('Error updating Google bot IPs:', error);
+    logError(`Error updating Google bot IPs: ${error}`);
     throw error; // Re-throw to trigger Lambda failure alarm
   }
 };
