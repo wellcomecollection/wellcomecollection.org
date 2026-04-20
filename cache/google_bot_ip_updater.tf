@@ -13,7 +13,7 @@ module "google_bot_ip_updater" {
   memory_size = 256
 
   source_file           = "${path.module}/update_google_bot_ips.js"
-  alarm_topic_arn       = local.monitoring_infra["chatbot_topic_arn"]
+  extra_source_files    = ["${path.module}/update_google_bot_ips.helpers.js"]
   log_retention_in_days = 30
 
   environment_variables = {
@@ -78,7 +78,6 @@ resource "aws_cloudwatch_metric_alarm" "google_bot_ip_updater_throttles" {
   }
 
   alarm_description = "Alert when Google bot IP updater Lambda is throttled"
-  alarm_actions     = [local.monitoring_infra["chatbot_topic_arn"]]
 }
 
 # CloudWatch alarm for validation failures (when IP change > 10%)
@@ -109,7 +108,6 @@ resource "aws_cloudwatch_metric_alarm" "ip_change_validation_failure" {
   treat_missing_data  = "notBreaching"
 
   alarm_description = "Alert when Google bot IP update fails validation (>10% change detected)"
-  alarm_actions     = [local.monitoring_infra["chatbot_topic_arn"]]
 }
 
 # Output for manual testing

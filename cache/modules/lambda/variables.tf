@@ -18,6 +18,7 @@ variable "timeout" {
 
 variable "alarm_topic_arn" {
   description = "ARN of the topic where to send notification for lambda errors"
+  default     = ""
 }
 
 variable "environment_variables" {
@@ -26,6 +27,11 @@ variable "environment_variables" {
 
 variable "source_file" {
   type = string
+}
+
+variable "extra_source_files" {
+  type    = list(string)
+  default = []
 }
 
 variable "memory_size" {

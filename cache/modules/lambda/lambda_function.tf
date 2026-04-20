@@ -1,7 +1,19 @@
 data "archive_file" "deployment_package" {
   type        = "zip"
-  source_file = var.source_file
   output_path = "${var.source_file}.zip"
+
+  source {
+    content  = file(abspath(var.source_file))
+    filename = basename(var.source_file)
+  }
+
+  dynamic "source" {
+    for_each = var.extra_source_files
+    content {
+      content  = file(abspath(source.value))
+      filename = basename(source.value)
+    }
+  }
 }
 
 resource "aws_lambda_function" "lambda_function" {
@@ -44,5 +56,5 @@ resource "aws_cloudwatch_metric_alarm" "lambda_alarm" {
   }
 
   alarm_description = "This metric monitors lambda errors for function: ${var.name}"
-  alarm_actions     = [var.alarm_topic_arn]
+  alarm_actions     = var.alarm_topic_arn != "" ? [var.alarm_topic_arn] : []
 }

@@ -7,7 +7,7 @@
 // Google bot IP ranges and update the whitelisted IP set accordingly.
 
 const {
-  WAFv2Client,
+  WAFV2Client,
   GetIPSetCommand,
   UpdateIPSetCommand,
 } = require('@aws-sdk/client-wafv2');
@@ -20,7 +20,7 @@ const {
   logError,
 } = require('./update_google_bot_ips.helpers');
 
-const wafClient = new WAFv2Client({ region: 'us-east-1' });
+const wafClient = new WAFV2Client({ region: 'us-east-1' });
 
 const IP_SET_NAME = 'google-bots';
 const IP_SET_SCOPE = 'CLOUDFRONT';
