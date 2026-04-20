@@ -113,6 +113,7 @@ terraform apply terraform.plan
 3. Make a second PR to update the [`locals.tf`](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/cache/locals.tf) from the result of the previous step
 4. Merge and deploy the first PR and check the UI and toggle changes have been removed on `www-stage`
 5. Merge the second PR and apply the terraform change resulting from the updated locals.tf and check the UI and toggle changes have been removed in production
+
 ## Google Bot IP Updater
 
 Automated Lambda function that keeps the WAF IP allowlist for Google bots up to date.
