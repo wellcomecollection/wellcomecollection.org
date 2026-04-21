@@ -71,7 +71,7 @@ async function downloadLatestAssetsList(): Promise<string> {
   return downloadLatestS3File({
     bucket,
     prefix: ASSETS_MANIFEST_PREFIX,
-    region: 'eu-west-1',
+    region,
     outputDir: path.resolve(ASSETS_OUTPUT_DIR),
   });
 }
