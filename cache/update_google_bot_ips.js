@@ -14,7 +14,7 @@ const {
 
 const {
   extractIpv4Addresses,
-  validateIPChange: _validateIPChange,
+  validateIPChange,
   logInfo,
   logSuccess,
   logError,
@@ -89,37 +89,6 @@ async function getCurrentIPSet(ipSetId) {
     ipSet: response.IPSet,
     lockToken: response.LockToken,
   };
-}
-
-/**
- * Validate that the change in IP count is within acceptable limits
- */
-function validateIPChange(currentIPs, newIPs) {
-  const currentCount = currentIPs.length;
-  const newCount = newIPs.length;
-
-  // Allow initial population when the IP set is empty
-  if (currentCount === 0) {
-    logInfo(`Initial population: adding ${newCount} IPs`);
-    return;
-  }
-
-  const currentIPsSet = new Set(currentIPs);
-  const newIPsSet = new Set(newIPs);
-  const addedCount = newIPs.filter(ip => !currentIPsSet.has(ip)).length;
-  const removedCount = currentIPs.filter(ip => !newIPsSet.has(ip)).length;
-  const changedCount = addedCount + removedCount;
-  const changePercent = (changedCount / currentCount) * 100;
-
-  logInfo(`Current IP count: ${currentCount}`);
-  logInfo(`New IP count: ${newCount}`);
-  logInfo(
-    `Changed IPs: ${changedCount} (added: ${addedCount}, removed: ${removedCount}) (${changePercent.toFixed(2)}%)`
-  );
-
-  _validateIPChange(currentIPs, newIPs);
-
-  logSuccess('IP content change is within acceptable limits');
 }
 
 /**
