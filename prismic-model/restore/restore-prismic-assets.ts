@@ -26,6 +26,8 @@ import * as path from 'path';
 import * as readline from 'readline';
 import { Readable } from 'stream';
 
+import { region } from '@weco/prismic-model/config';
+
 import { downloadLatestS3File, downloadLatestSnapshot } from './s3-utils';
 import 'dotenv/config';
 
@@ -33,7 +35,7 @@ const bucketFromEnv = process.env.PRISMIC_S3_BUCKET;
 if (!bucketFromEnv)
   throw new Error('PRISMIC_S3_BUCKET environment variable is required');
 const bucket = bucketFromEnv;
-const s3Client = new S3Client({ region: 'eu-west-1' });
+const s3Client = new S3Client({ region });
 
 // S3 key prefixes for the two backup types, and local directories to download them into
 const ASSETS_MANIFEST_PREFIX = 'media-library/prismic-assets-';
