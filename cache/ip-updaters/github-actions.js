@@ -143,8 +143,12 @@ exports.handler = async () => {
     const addedIPs = newIPs.filter(ip => !currentIPsSet.has(ip));
     const removedIPs = currentIPs.filter(ip => !newIPsSet.has(ip));
 
-    logInfo(`Added ${addedIPs.length} IPs: ${JSON.stringify(addedIPs)}`);
-    logInfo(`Removed ${removedIPs.length} IPs: ${JSON.stringify(removedIPs)}`);
+    const sample = arr =>
+      arr.length <= 10
+        ? JSON.stringify(arr)
+        : `${JSON.stringify(arr.slice(0, 10))} and ${arr.length - 10} more`;
+    logInfo(`Added ${addedIPs.length} IPs: ${sample(addedIPs)}`);
+    logInfo(`Removed ${removedIPs.length} IPs: ${sample(removedIPs)}`);
 
     return {
       statusCode: 200,
