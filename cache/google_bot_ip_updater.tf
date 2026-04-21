@@ -99,7 +99,7 @@ resource "aws_cloudwatch_log_metric_filter" "ip_change_validation_failure" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "ip_change_validation_failure" {
-  alarm_name          = "google-bot-ip-validation-failure"
+  alarm_name          = "lambda-google-bot-ip-validation-failure"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = "1"
   metric_name         = "ValidationFailures"
