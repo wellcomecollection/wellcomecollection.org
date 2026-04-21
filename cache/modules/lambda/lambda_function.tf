@@ -56,5 +56,5 @@ resource "aws_cloudwatch_metric_alarm" "lambda_alarm" {
   }
 
   alarm_description = "This metric monitors lambda errors for function: ${var.name}"
-  alarm_actions     = var.alarm_topic_arn != "" ? [var.alarm_topic_arn] : []
+  alarm_actions     = [var.alarm_topic_arn]
 }

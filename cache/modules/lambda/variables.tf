@@ -18,7 +18,6 @@ variable "timeout" {
 
 variable "alarm_topic_arn" {
   description = "ARN of the topic where to send notification for lambda errors"
-  default     = ""
 }
 
 variable "environment_variables" {
