@@ -26,6 +26,12 @@ import * as path from 'path';
 import * as readline from 'readline';
 import { Readable } from 'stream';
 
+import {
+  logBanner,
+  logError,
+  logInfo,
+  logSuccess,
+} from '@weco/common/utils/console-logs';
 import { region } from '@weco/prismic-model/config';
 
 import { downloadLatestS3File, downloadLatestSnapshot } from './s3-utils';
@@ -67,7 +73,7 @@ function deriveFilename(asset: any): string {
 // Downloads the most recent assets manifest JSON from S3 (prismic-assets-*.json).
 // This file contains metadata for every asset in the Prismic media library.
 async function downloadLatestAssetsList(): Promise<string> {
-  console.log('Downloading latest assets list from S3...');
+  logInfo('Downloading latest assets list from S3...');
   return downloadLatestS3File({
     bucket,
     prefix: ASSETS_MANIFEST_PREFIX,
@@ -88,7 +94,7 @@ function writeUsedAssetIds({
   snapshotPath: string;
   outputFile: string;
 }) {
-  console.log('Determining which assets are being used...');
+  logInfo('Determining which assets are being used...');
   const resolvedAssetsPath = path.resolve(assetsPath);
   const resolvedSnapshotPath = path.resolve(snapshotPath);
   const resolvedOutputFile = path.resolve(outputFile);
@@ -124,8 +130,8 @@ function writeUsedAssetIds({
   const total = assets.length;
   const used = usedAssetIds.length;
   const percent = ((used / total) * 100).toFixed(2);
-  console.log(`Wrote ${used} used asset ids to ${resolvedOutputFile}`);
-  console.log(`Used assets: ${used}/${total} (${percent}%)`);
+  logSuccess(`Wrote ${used} used asset ids to ${resolvedOutputFile}`);
+  logInfo(`Used assets: ${used}/${total} (${percent}%)`);
 }
 
 // Reads the target Prismic repository name from env
@@ -171,7 +177,7 @@ async function fetchAllTargetRepoAssets(
   const pageSize = 5000;
   let isLastPage = false;
 
-  console.log(`Fetching existing assets from target repo "${repository}"...`);
+  logInfo(`Fetching existing assets from target repo "${repository}"...`);
 
   while (!isLastPage) {
     const url = new URL(assetsUrlBase);
@@ -198,9 +204,7 @@ async function fetchAllTargetRepoAssets(
       if (item.id) allIds.push(item.id);
     }
 
-    console.log(
-      `Fetched ${items.length} assets (total so far: ${allIds.length})`
-    );
+    logInfo(`Fetched ${items.length} assets (total so far: ${allIds.length})`);
 
     isLastPage = items.length < pageSize;
     cursor = json.cursor;
@@ -208,7 +212,7 @@ async function fetchAllTargetRepoAssets(
     if (!isLastPage) await new Promise(r => setTimeout(r, 1000));
   }
 
-  console.log(`Found ${allIds.length} existing assets in target repo`);
+  logSuccess(`Found ${allIds.length} existing assets in target repo`);
   return allIds;
 }
 
@@ -275,12 +279,12 @@ async function uploadAsset(
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error);
     if (/credentials|ExpiredToken|token expired/i.test(msg)) {
-      console.error(
+      logError(
         'AWS credentials expired. Re-authenticate and re-run — previous progress is saved.'
       );
       process.exit(1);
     }
-    console.error(error);
+    logError(msg);
     return null;
   }
 
@@ -306,7 +310,7 @@ async function uploadAsset(
     body: formData,
   });
   if (!response.ok) {
-    console.error(
+    logError(
       `Failed to upload asset ${asset.id}: ${response.status} ${response.statusText}`
     );
     return null;
@@ -367,7 +371,7 @@ async function init() {
     existingAssetsFile,
     JSON.stringify(existingAssetIds, null, 2)
   );
-  console.log(
+  logSuccess(
     `Wrote ${existingAssetIds.length} existing asset IDs to ${existingAssetsFile}`
   );
   const existingAssetIdSet = new Set(existingAssetIds);
@@ -395,9 +399,7 @@ async function init() {
     : {};
 
   if (Object.keys(idMap).length > 0) {
-    console.log(
-      `Loaded ${Object.keys(idMap).length} existing asset ID mappings`
-    );
+    logInfo(`Loaded ${Object.keys(idMap).length} existing asset ID mappings`);
   }
 
   const assetsToUpload = usedAssets.filter(
@@ -410,7 +412,7 @@ async function init() {
   );
 
   if (!proceed) {
-    console.log('Aborted');
+    logInfo('Aborted');
     process.exit(0);
   }
 
@@ -457,7 +459,7 @@ async function init() {
       }
 
       if (attempt < MAX_RETRIES) {
-        console.log(
+        logInfo(
           `Upload failed for asset ${asset.id}. Retrying in ${retryDelayMs}ms... (attempt ${attempt + 1}/${MAX_RETRIES})`
         );
         await new Promise(r => setTimeout(r, retryDelayMs));
@@ -479,10 +481,10 @@ async function init() {
         slugMap[oldSlug] = newSlug;
         fs.writeFileSync(assetSlugMapFile, JSON.stringify(slugMap, null, 2));
       }
-      console.log(`Uploaded asset ${asset.id} -> ${result.id}`);
+      logSuccess(`Uploaded asset ${asset.id} -> ${result.id}`);
     } else {
       // Record failures only after all retries exhausted
-      console.log(
+      logError(
         `Asset ${asset.id} failed after ${MAX_RETRIES} attempts. Recording for manual retry.`
       );
       failedAssetIds.push(asset.id);
@@ -501,7 +503,7 @@ async function init() {
   }
 
   if (failedAssetIds.length > 0) {
-    console.log(
+    logError(
       `${failedAssetIds.length} assets failed to upload. See ${failedAssetsFile}`
     );
   }
@@ -509,14 +511,19 @@ async function init() {
   const failedCount = failedAssetIds.length;
   const totalUsed = usedAssets.length;
   const remaining = totalUsed - uploadedCount - failedCount;
-  console.log(`\nSummary:`);
-  console.log(`Uploaded: ${uploadedCount}`);
-  console.log(`Failed: ${failedCount}`);
-  console.log(`Remaining: ${remaining}`);
-  console.log(`Done. Asset ID map saved to ${assetIdMapFile}`);
+  logBanner('Summary', 'green');
+  logSuccess(`Uploaded: ${uploadedCount}`);
+  if (failedCount > 0) {
+    logError(`Failed: ${failedCount}`);
+  } else {
+    logSuccess('Failed: 0');
+  }
+  logInfo(`Remaining: ${remaining}`);
+  logSuccess(`Done. Asset ID map saved to ${assetIdMapFile}`);
 }
 
 init().catch(error => {
-  console.error('Error downloading latest assets list:', error);
+  const message = error instanceof Error ? error.message : String(error);
+  logError(`Error restoring assets: ${message}`);
   process.exit(1);
 });
