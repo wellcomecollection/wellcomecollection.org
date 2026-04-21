@@ -41,8 +41,10 @@ async function fetchGitHubActionsIPs() {
     throw new Error(`Unexpected JSON structure from ${GITHUB_META_URL}`);
   }
 
-  // Filter to IPv4 only (WAF IP set is IPV4)
-  const ipv4Ranges = data.actions.filter(cidr => !cidr.includes(':'));
+  // Filter to IPv4 only (WAF IP set is IPV4) and deduplicate
+  const ipv4Ranges = [
+    ...new Set(data.actions.filter(cidr => !cidr.includes(':'))),
+  ];
 
   logInfo(`Fetched ${ipv4Ranges.length} unique IPv4 ranges`);
 
