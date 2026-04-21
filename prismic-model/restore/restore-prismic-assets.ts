@@ -9,7 +9,7 @@
  *   4. Uploading only the missing used assets via the Prismic Asset API,
  *      fetching file bytes from S3 with AWS credentials and posting multipart/form-data.
  *   5. Tracking old → new asset ID mappings in asset-id-map.json so:
- *    1) the script can be safely resumed if interrupted without creating duplicates, and
+ *      1) the script can be safely resumed if interrupted without creating duplicates, and
  *      2) we can update the asset ids in the content snapshot file before restoring the content
  *   6. Recording any failed uploads to asset-upload-failed.json for retry.
  *
