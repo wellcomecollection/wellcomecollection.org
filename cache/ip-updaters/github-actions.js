@@ -1,6 +1,3 @@
-/* eslint-env node */
-/* global fetch */
-
 // We rate-limit traffic in WAF but want to make sure GitHub Actions
 // runners are not blocked. This Lambda fetches the latest GitHub Actions
 // IP ranges and updates the whitelisted IP set accordingly.
@@ -12,6 +9,7 @@ const {
 } = require('@aws-sdk/client-wafv2');
 
 const {
+  fetchJson,
   validateIPChange,
   logInfo,
   logSuccess,
@@ -32,20 +30,12 @@ const GITHUB_META_URL = 'https://api.github.com/meta';
 async function fetchGitHubActionsIPs() {
   logInfo('Fetching GitHub Actions IP ranges...');
 
-  const response = await fetch(GITHUB_META_URL, {
+  const data = await fetchJson(GITHUB_META_URL, {
     headers: {
       Accept: 'application/json',
       'User-Agent': 'wellcomecollection-ip-updater',
     },
   });
-
-  if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${GITHUB_META_URL}: ${response.statusText}`
-    );
-  }
-
-  const data = await response.json();
 
   if (!data.actions || !Array.isArray(data.actions)) {
     throw new Error(`Unexpected JSON structure from ${GITHUB_META_URL}`);

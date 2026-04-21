@@ -1,6 +1,3 @@
-/* eslint-env node */
-/* global fetch */
-
 // We rate-limit the USA in WAF (`geo-rate-limit-USA`)
 // but we want to make sure SEO is not affected by this.
 // This Lambda function will run on a schedule to fetch the latest
@@ -14,6 +11,7 @@ const {
 
 const {
   extractIpv4Addresses,
+  fetchJson,
   validateIPChange,
   logInfo,
   logSuccess,
@@ -30,17 +28,6 @@ const GOOGLE_IP_SOURCES = [
   'https://developers.google.com/static/crawling/ipranges/common-crawlers.json',
   'https://developers.google.com/static/crawling/ipranges/special-crawlers.json',
 ];
-
-/**
- * Fetch and parse JSON from a URL
- */
-async function fetchJson(url) {
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`Failed to fetch ${url}: ${response.statusText}`);
-  }
-  return response.json();
-}
 
 /**
  * Fetch all Google bot IPv4 addresses from both sources
