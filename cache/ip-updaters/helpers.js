@@ -41,6 +41,7 @@ function extractIpv4Addresses(jsonData) {
 function validateIPChange(currentIPs, newIPs) {
   // Allow initial population when the IP set is empty
   if (currentIPs.length === 0) {
+    logInfo(`Initial population: adding ${newIPs.length} IPs`);
     return;
   }
 
@@ -52,6 +53,12 @@ function validateIPChange(currentIPs, newIPs) {
   const changedCount = addedCount + removedCount;
   const changePercent = (changedCount / currentIPs.length) * 100;
 
+  logInfo(`Current IP count: ${currentIPs.length}`);
+  logInfo(`New IP count: ${newIPs.length}`);
+  logInfo(
+    `Changed IPs: ${changedCount} (added: ${addedCount}, removed: ${removedCount}) (${changePercent.toFixed(2)}%)`
+  );
+
   if (changePercent > MAX_CHANGE_PERCENT) {
     throw new Error(
       `IP content change of ${changePercent.toFixed(2)}% exceeds maximum allowed (${MAX_CHANGE_PERCENT}%). ` +
@@ -60,6 +67,8 @@ function validateIPChange(currentIPs, newIPs) {
         `This may indicate an issue with the source data.`
     );
   }
+
+  logSuccess('IP content change is within acceptable limits');
 }
 
 module.exports = {
