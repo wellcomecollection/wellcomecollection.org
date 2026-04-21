@@ -81,20 +81,18 @@ const SubThemeStories = ({
 
   return (
     <StoryCardContainer>
-      <Space $v={{ size: 'md', properties: ['padding-bottom'] }}>
-        <GridScroll className="card-theme card-theme--transparent">
-          {orderedStories.map(article => (
-            <GridCellScroll
-              key={article.id}
-              $sizeMap={{ m: [6], l: [4], xl: [4] }}
-            >
-              <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
-                <StoryCard variant="prismic" article={article} showAllLabels />
-              </Space>
-            </GridCellScroll>
-          ))}
-        </GridScroll>
-      </Space>
+      <GridScroll className="card-theme card-theme--transparent">
+        {orderedStories.map(article => (
+          <GridCellScroll
+            key={article.id}
+            $sizeMap={{ m: [6], l: [4], xl: [4] }}
+          >
+            <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
+              <StoryCard variant="prismic" article={article} showAllLabels />
+            </Space>
+          </GridCellScroll>
+        ))}
+      </GridScroll>
     </StoryCardContainer>
   );
 };

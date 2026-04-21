@@ -33,7 +33,7 @@ import { TransformedManifest } from '@weco/content/types/manifest';
 import { fetchJson } from '@weco/content/utils/http';
 import {
   getCollectionManifests,
-  hasNonImages,
+  hasNonImagesOrOriginals,
 } from '@weco/content/utils/iiif/v3';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { getDigitalLocationOfType } from '@weco/content/utils/works';
@@ -174,9 +174,9 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
     // Build archive tree on server for progressive enhancement
     const hasMultipleCanvases = (canvases?.length || 0) > 1;
-    const hasOnlyImages = !hasNonImages(canvases || []);
+    const hasOnlyRenderableImages = !hasNonImagesOrOriginals(canvases || []);
     const archiveTree: UiTree =
-      hasMultipleCanvases && !hasOnlyImages
+      hasMultipleCanvases && !hasOnlyRenderableImages
         ? createDownloadTree(displayManifest.structures, canvases, {
             skipObjectsNode: true,
             openByDefault: true,

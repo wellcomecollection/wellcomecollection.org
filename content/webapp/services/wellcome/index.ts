@@ -1,6 +1,4 @@
-import { HttpsAgent as Agent } from 'agentkeepalive';
-import fetch, { Response } from 'node-fetch';
-
+import { fetchWithUndiciAgent } from '@weco/common/utils/undici-agent';
 import { Toggles } from '@weco/toggles';
 
 type envOptions = 'prod' | 'stage' | 'dev';
@@ -114,34 +112,13 @@ export type QueryProps<Params> = {
   toggles: Toggles;
 };
 
-// By default, the next.js polyfill for node-fetch enables keep-alive by default.
-// https://nextjs.org/docs/api-reference/next.config.js/disabling-http-keep-alive
-//
-// This is great, but it leads us occasionally to see errors like this one:
-//
-//      FetchError: request to https://api.wellcomecollection.org/catalogue/v2/works/...
-//      failed, reason: read ECONNRESET
-//
-// That's because the (client) HTTP agent is keeping the socket open indefinitely, but
-// the server has other ideas:
-//
-// - default "idle-timeout" in akka-http is 60s https://doc.akka.io/docs/akka-http/current/configuration.html
-// - NLBs have a fixed idle timeout of 350s https://docs.aws.amazon.com/elasticloadbalancing/latest/network/network-load-balancers.html#connection-idle-timeout
-//
-// As such, we use an agent which is configured to expire free sockets after 59s
-// A good explanation of the problem, as well as the solution, is available here:
-
-// https://connectreport.com/blog/tuning-http-keep-alive-in-node-js/
-const agentKeepAlive = new Agent({
-  keepAlive: true,
-  freeSocketTimeout: 1000 * 59, // 1s less than the akka-http idle timeout
-});
-
-export const wellcomeApiFetch = (
+// Use shared undici agent configuration for keep-alive connections.
+// See common/utils/undici-agent.ts for details.
+export const wellcomeApiFetch = async (
   url: string,
-  options?: Record<string, string>
+  options?: RequestInit
 ): Promise<Response> => {
-  return fetch(url, { ...options, agent: agentKeepAlive });
+  return fetchWithUndiciAgent(url, options);
 };
 
 export const wellcomeApiError = (): WellcomeApiError => ({

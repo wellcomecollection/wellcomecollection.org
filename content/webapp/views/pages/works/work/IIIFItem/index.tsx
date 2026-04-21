@@ -19,17 +19,16 @@ import {
   restrictedItemMessage,
   unavailableContentMessage,
 } from '@weco/common/data/microcopy';
-import { information } from '@weco/common/icons';
 import { LinkProps } from '@weco/common/model/link-props';
 import { font } from '@weco/common/utils/classnames';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
-import Icon from '@weco/common/views/components/Icon';
 import {
   ContaineredLayout,
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
+import useIIIFProbeService from '@weco/content/hooks/useIIIFProbeService';
 import useOnScreen from '@weco/content/hooks/useOnScreen';
 import useSkipInitialEffect from '@weco/content/hooks/useSkipInitialEffect';
 import { fetchCanvasOcr } from '@weco/content/services/iiif/fetch/canvasOcr';
@@ -56,46 +55,59 @@ import VideoPlayer from '@weco/content/views/components/VideoPlayer';
 import IIIFItemPdf from '@weco/content/views/pages/works/work/IIIFItem/IIIFItem.Pdf';
 import { arrayIndexToQueryParam } from '@weco/content/views/pages/works/work/IIIFViewer';
 import ImageViewer from '@weco/content/views/pages/works/work/IIIFViewer/ImageViewer';
+import RestrictedItemMessage from '@weco/content/views/pages/works/work/work.RestrictedItemMessage';
 
 import IIIFItemDownload from './IIIFItem.Download';
 import VideoTranscript from './IIIFItem.VideoTranscript';
 
 const MessageContainer = styled.div`
-  min-width: 360px;
-  max-width: 600px;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  min-width: 300px;
+  max-width: 80%;
   margin: 0 auto;
   border: 1px solid ${props => props.theme.color('neutral.600')};
   height: 80%;
   padding: 10%;
 `;
 
-const Outline = styled(Space).attrs({
-  $v: {
-    size: 'md',
-    properties: ['margin-top', 'margin-bottom'],
-  },
-  $h: { size: 'lg', properties: ['margin-left', 'margin-right'] },
-})<{ $border?: boolean }>`
-  position: relative;
-  padding-left: ${props => props.theme.spacingUnits['400']};
-  padding-right: ${props => props.theme.spacingUnits['400']};
-  ${props =>
-    props.$border
-      ? `border: 1px solid; border-color:  ${props.theme.color('neutral.400')}`
-      : ``};
+const RestrictedMessage = styled.div.attrs({})`
+  margin: 2em auto 0;
+  padding: 0 2em;
+
+  p {
+    margin: 0;
+  }
+`;
+
+const ImageItemLayout = styled.div`
+  display: flex;
+  flex-direction: column;
   height: 100%;
 `;
 
-const IconContainer = styled(Space).attrs({
-  $h: { size: 'xs', properties: ['margin-right'] },
-})`
-  .icon {
-    position: relative;
-    top: 1px;
-    border-radius: 50%;
-    border: 2px solid;
-    width: 22px;
-    height: 22px;
+const ImageViewerContainer = styled.div`
+  position: relative;
+  flex: 1;
+  min-height: 0;
+`;
+
+const ImageViewerPositioned = styled.div`
+  position: absolute;
+  inset: 0;
+`;
+
+const ItemWrapper = styled(Space)<{ $isRestricted?: boolean }>`
+  position: relative;
+  height: 100%;
+
+  &.audio-wrapper,
+  &.video-wrapper,
+  &.download-wrapper {
+    max-width: 80%;
+    margin: 2em auto;
+    max-height: calc(100% - 4em);
   }
 `;
 
@@ -113,6 +125,7 @@ const Choice: FunctionComponent<
   isDark,
   externalAccessService,
   shouldScrollToUpdateUrl,
+  showVideoTranscript,
 }) => {
   // We may have multiple items, such as videos of different formats
   // but we only show the first of these currently
@@ -133,6 +146,7 @@ const Choice: FunctionComponent<
             isDark={isDark}
             externalAccessService={externalAccessService}
             shouldScrollToUpdateUrl={shouldScrollToUpdateUrl}
+            showVideoTranscript={showVideoTranscript}
           />
         </>
       );
@@ -145,9 +159,17 @@ const IIIFImage: FunctionComponent<{
   index: number;
   item: ItemProps['item'];
   canvas: TransformedCanvas;
+  isRestricted?: boolean;
   setImageRect?: (v: DOMRect) => void;
   setImageContainerRect?: (v: DOMRect) => void;
-}> = ({ index, item, canvas, setImageRect, setImageContainerRect }) => {
+}> = ({
+  index,
+  item,
+  canvas,
+  isRestricted,
+  setImageRect,
+  setImageContainerRect,
+}) => {
   const [ocrText, setOcrText] = useState(missingAltTextMessage);
   const imageService = getImageServiceFromItem(item);
   const imageUrl = imageService?.['@id'] || '';
@@ -164,17 +186,28 @@ const IIIFImage: FunctionComponent<{
 
   if (urlTemplate) {
     return (
-      <ImageViewer
-        infoUrl={infoUrl}
-        id={imageUrl}
-        width={canvas.width || 0}
-        height={canvas.height || 0}
-        index={index}
-        alt={ocrText}
-        urlTemplate={urlTemplate}
-        setImageRect={setImageRect}
-        setImageContainerRect={setImageContainerRect}
-      />
+      <ImageItemLayout>
+        {isRestricted && (
+          <RestrictedMessage>
+            <RestrictedItemMessage />
+          </RestrictedMessage>
+        )}
+        <ImageViewerContainer>
+          <ImageViewerPositioned>
+            <ImageViewer
+              infoUrl={infoUrl}
+              id={imageUrl}
+              width={canvas.width || 0}
+              height={canvas.height || 0}
+              index={index}
+              alt={ocrText}
+              urlTemplate={urlTemplate}
+              setImageRect={setImageRect}
+              setImageContainerRect={setImageContainerRect}
+            />
+          </ImageViewerPositioned>
+        </ImageViewerContainer>
+      </ImageItemLayout>
     );
   } else {
     return <img src={item.id} alt={ocrText} />;
@@ -204,6 +237,7 @@ type ItemProps = {
   isDark?: boolean;
   externalAccessService?: TransformedAuthService;
   shouldScrollToUpdateUrl?: boolean;
+  showVideoTranscript?: boolean;
 };
 
 const PublicRestrictedMessage: FunctionComponent<{
@@ -216,7 +250,7 @@ const PublicRestrictedMessage: FunctionComponent<{
       )}
       <div className={font('sans', -1)}>
         {externalAccessService?.description && (
-          <p
+          <div
             className={font('sans', -1)}
             dangerouslySetInnerHTML={{
               __html: externalAccessService.description,
@@ -229,50 +263,47 @@ const PublicRestrictedMessage: FunctionComponent<{
   );
 };
 
-const StaffRestrictedMessage: FunctionComponent = () => {
-  return (
-    <p
-      className={font('sans', -1)}
-      style={{ display: 'flex', marginTop: '10px' }}
-    >
-      <IconContainer>
-        <Icon icon={information} />
-      </IconContainer>
-      <span className={font('sans-bold', -1)}>Restricted item:</span> &nbsp;Only
-      staff with the right permission can access this item online.
-    </p>
-  );
-};
-
 const IIIFItemWrapper: FunctionComponent<{
   shouldShowItem: boolean;
   className: string;
   isRestricted: boolean;
+  isProbeOk: boolean;
   externalAccessService?: TransformedAuthService;
   children: ReactNode | undefined;
   containerRef?: RefObject<HTMLDivElement | null>;
+  removeRestrictedMessage?: boolean;
 }> = ({
   shouldShowItem,
   className,
   isRestricted,
+  isProbeOk,
   externalAccessService,
   children,
   containerRef,
+  removeRestrictedMessage = false,
 }) => {
   if (shouldShowItem) {
     return (
-      <Outline className="item-wrapper" ref={containerRef}>
+      <ItemWrapper ref={containerRef}>
         <PublicRestrictedMessage
           externalAccessService={externalAccessService}
         />
-      </Outline>
+      </ItemWrapper>
     );
   } else {
     return (
-      <Outline $border={isRestricted} className={className} ref={containerRef}>
-        {isRestricted && <StaffRestrictedMessage />}
-        {children}
-      </Outline>
+      <ItemWrapper
+        $isRestricted={isRestricted}
+        className={className}
+        ref={containerRef}
+      >
+        {isRestricted && !removeRestrictedMessage && (
+          <RestrictedMessage>
+            <RestrictedItemMessage />
+          </RestrictedMessage>
+        )}
+        {(!isRestricted || isProbeOk) && children}
+      </ItemWrapper>
     );
   }
 };
@@ -285,16 +316,20 @@ const IIIFItemWrapperWithObserver: FunctionComponent<{
   shouldShowItem: boolean;
   className: string;
   isRestricted: boolean;
+  isProbeOk: boolean;
   externalAccessService?: TransformedAuthService;
   children: ReactNode | undefined;
   index: number;
+  removeRestrictedMessage?: boolean;
 }> = ({
   shouldShowItem,
   className,
   isRestricted,
+  isProbeOk,
   externalAccessService,
   children,
   index,
+  removeRestrictedMessage = false,
 }) => {
   const { work, mainAreaRef, query } = useItemViewerContext();
   const ref = useRef<HTMLDivElement>(null);
@@ -324,8 +359,10 @@ const IIIFItemWrapperWithObserver: FunctionComponent<{
       shouldShowItem={shouldShowItem}
       className={className}
       isRestricted={isRestricted}
+      isProbeOk={isProbeOk}
       externalAccessService={externalAccessService}
       containerRef={ref}
+      removeRestrictedMessage={removeRestrictedMessage}
     >
       {children}
     </IIIFItemWrapper>
@@ -345,9 +382,11 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
   isDark,
   externalAccessService,
   shouldScrollToUpdateUrl,
+  showVideoTranscript = true,
 }) => {
   const { userIsStaffWithRestricted } = useUserContext();
   const isRestricted = hasRestrictedItem(canvas);
+  const isProbeOk = useIIIFProbeService(canvas);
   // Replace "image" with "item" in description if the item is not an image
   // or if it's an image but has originals, which means the image is just a placeholder for the original item
   const adjustedExternalAccessService =
@@ -387,6 +426,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           isDark={isDark}
           externalAccessService={adjustedExternalAccessService}
           shouldScrollToUpdateUrl={shouldScrollToUpdateUrl}
+          showVideoTranscript={showVideoTranscript}
         />
       );
 
@@ -396,8 +436,9 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
       return (
         <IIIFItemWrapper
           shouldShowItem={shouldShowItem}
-          className="item-wrapper"
+          className="audio-wrapper"
           isRestricted={isRestricted}
+          isProbeOk={isProbeOk}
           externalAccessService={adjustedExternalAccessService}
         >
           <AudioPlayer
@@ -412,8 +453,9 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
       return (
         <IIIFItemWrapper
           shouldShowItem={shouldShowItem}
-          className="item-wrapper"
+          className="video-wrapper"
           isRestricted={isRestricted}
+          isProbeOk={isProbeOk}
           externalAccessService={adjustedExternalAccessService}
         >
           <>
@@ -422,10 +464,12 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
               video={item}
               showDownloadOptions={true}
             />
-            <VideoTranscript
-              supplementing={canvas.supplementing}
-              isDark={isDark}
-            />
+            {showVideoTranscript && (
+              <VideoTranscript
+                supplementing={canvas.supplementing}
+                isDark={isDark}
+              />
+            )}
           </>
         </IIIFItemWrapper>
       );
@@ -436,6 +480,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           shouldShowItem={shouldShowItem}
           className="pdf-wrapper"
           isRestricted={isRestricted}
+          isProbeOk={isProbeOk}
           externalAccessService={adjustedExternalAccessService}
         >
           <IIIFItemPdf
@@ -459,8 +504,9 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
                 original.id && (
                   <IIIFItemWrapper
                     shouldShowItem={shouldShowItem}
-                    className="item-wrapper"
+                    className="download-wrapper"
                     isRestricted={isRestricted}
+                    isProbeOk={isProbeOk}
                     externalAccessService={adjustedExternalAccessService}
                   >
                     <IIIFItemDownload
@@ -487,6 +533,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
             index={i}
             item={item}
             canvas={canvas}
+            isRestricted={isRestricted}
             setImageRect={setImageRect}
             setImageContainerRect={setImageContainerRect}
           />
@@ -495,10 +542,12 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           return (
             <IIIFItemWrapperWithObserver
               shouldShowItem={shouldShowItem}
-              className="item-wrapper"
+              className="image-wrapper"
               isRestricted={isRestricted}
+              isProbeOk={isProbeOk}
               externalAccessService={adjustedExternalAccessService}
               index={i}
+              removeRestrictedMessage={true}
             >
               {imageContent}
             </IIIFItemWrapperWithObserver>
@@ -507,9 +556,11 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
         return (
           <IIIFItemWrapper
             shouldShowItem={shouldShowItem}
-            className="item-wrapper"
+            className="image-wrapper"
             isRestricted={isRestricted}
+            isProbeOk={isProbeOk}
             externalAccessService={adjustedExternalAccessService}
+            removeRestrictedMessage={true}
           >
             {imageContent}
           </IIIFItemWrapper>

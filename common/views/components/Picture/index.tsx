@@ -18,11 +18,13 @@ const Img = styled.img.attrs({ className: 'image' })`
 type Props = {
   images: PictureProps[];
   isFull: boolean;
+  priority?: boolean;
 };
 
 export const Picture: FunctionComponent<Props> = ({
   images,
   isFull = false,
+  priority = false,
 }: Props) => {
   const lastImage = images[images.length - 1];
   const { tasl } = lastImage;
@@ -56,6 +58,7 @@ export const Picture: FunctionComponent<Props> = ({
           <Img
             src={convertImageUri(lastImage.contentUrl, 1200)}
             alt={lastImage.alt || ''}
+            fetchPriority={priority ? 'high' : undefined}
           />
         )}
       </picture>

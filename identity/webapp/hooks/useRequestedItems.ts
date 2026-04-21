@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useState } from 'react';
 
 import {
@@ -6,6 +5,7 @@ import {
   useAbortSignalEffect,
 } from '@weco/common/hooks/useAbortSignalEffect';
 import { RequestsList } from '@weco/common/model/requesting';
+import { accountApiClient } from '@weco/identity/utils/api-client';
 
 type State = 'initial' | 'loading' | 'success' | 'failed';
 
@@ -24,13 +24,13 @@ export function useRequestedItems(): UseRequestedItems {
   async function fetchRequests(abortSignal?: AbortSignal) {
     setState('loading');
     try {
-      const items = await axios.get('/account/api/users/me/item-requests', {
+      const response = await accountApiClient.request({
+        url: '/users/me/item-requests',
+        method: 'GET',
         signal: abortSignal,
       });
-      if (items.data) {
-        setRequestedItems(items.data);
-        setState('success');
-      }
+      setRequestedItems(response.data as RequestsList);
+      setState('success');
     } catch {
       if (!abortSignal?.aborted) {
         setState('failed');
