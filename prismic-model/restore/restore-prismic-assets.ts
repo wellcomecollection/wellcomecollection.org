@@ -72,6 +72,16 @@ const ASSETS_OUTPUT_DIR = './restore/assets/';
 // S3 prefix where the individual asset files are stored
 const ASSETS_PREFIX = 'media-library/assets/';
 
+function readJsonFile<T>(filePath: string): T {
+  try {
+    const content = fs.readFileSync(filePath, 'utf-8');
+    return JSON.parse(content) as T;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    throw new Error(`Failed to read JSON from ${filePath}: ${message}`);
+  }
+}
+
 // Derives the S3 filename for an asset using the same logic as the backup script.
 function deriveFilename(asset: PrismicAsset): string {
   if (asset && typeof asset.filename === 'string') {
@@ -120,10 +130,8 @@ function writeUsedAssetIds({
   const resolvedAssetsPath = path.resolve(assetsPath);
   const resolvedSnapshotPath = path.resolve(snapshotPath);
   const resolvedOutputFile = path.resolve(outputFile);
-  const assets = JSON.parse(fs.readFileSync(resolvedAssetsPath, 'utf8'));
-  const snapshotDocs = JSON.parse(
-    fs.readFileSync(resolvedSnapshotPath, 'utf8')
-  );
+  const assets = readJsonFile<PrismicAsset[]>(resolvedAssetsPath);
+  const snapshotDocs = readJsonFile<unknown[]>(resolvedSnapshotPath);
   // Recursively collect all string values from snapshot
   function collectStrings(obj: unknown, set: Set<string>) {
     if (typeof obj === 'string') {
@@ -371,21 +379,19 @@ async function init() {
 
   // Build the list of used assets that need to be uploaded.
   const usedAssetIdSet = new Set<string>(
-    JSON.parse(fs.readFileSync(usedAssetsFile, 'utf-8'))
+    readJsonFile<string[]>(usedAssetsFile)
   );
-  const allAssets: PrismicAsset[] = JSON.parse(
-    fs.readFileSync(latestAssetsPath, 'utf-8')
-  );
+  const allAssets = readJsonFile<PrismicAsset[]>(latestAssetsPath);
   const usedAssets = allAssets.filter(a => usedAssetIdSet.has(a.id));
 
   // Load the ID map from any previous run so we can resume without re-uploading
   const idMap: Record<string, string> = fs.existsSync(assetIdMapFile)
-    ? JSON.parse(fs.readFileSync(assetIdMapFile, 'utf-8'))
+    ? readJsonFile<Record<string, string>>(assetIdMapFile)
     : {};
 
   // Load the slug map (old URL path segment -> new URL path segment) from any previous run
   const slugMap: Record<string, string> = fs.existsSync(assetSlugMapFile)
-    ? JSON.parse(fs.readFileSync(assetSlugMapFile, 'utf-8'))
+    ? readJsonFile<Record<string, string>>(assetSlugMapFile)
     : {};
 
   if (Object.keys(idMap).length > 0) {
