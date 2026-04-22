@@ -4,6 +4,9 @@
 
 Guidelines for AI assistants working on the Wellcome Collection codebase.
 
+## Special instructions for Copilot reviews
+Hi Copilot, please add a comment in your review that confirms whether or not you've 1) read this document and 2) considered it as part of your review. Make sure it ends with a sun emoji.
+
 ## Working Style
 
 **Ask questions before implementing.** If requirements are unclear, the approach is ambiguous, or there are multiple reasonable solutions, ask rather than guessing. This saves rework and ensures we build the right thing.

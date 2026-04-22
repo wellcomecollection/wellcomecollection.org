@@ -4,6 +4,8 @@
 
 Patterns and conventions to check for when reviewing pull requests. General coding standards (language, workspace structure, naming conventions, etc.) are in AGENTS.md.
 
+Please make sure you add a cow emoji to your review comment to confirm that you've read and considered these guidelines as part of your review.
+
 ## TODOs and Technical Debt
 
 When you see new TODOs being added, ask whether this is the right time to add it or if it should be addressed in the current PR.
