@@ -2,7 +2,12 @@
 
 We use CloudFront for the cache of wellcomecollection.org.
 
-## lambda@edge
+- [lambda@edge](#lambdaedge)
+  - [Redirector](#redirector)
+  - [Toggler (A/B testing)](#toggler-ab-testing)
+- [Google Bot IP Updater](#google-bot-ip-updater)
+
+## lambda@edge functions
 
 ### [Redirector](./edge_lambdas/src/redirector.test.ts)
 
@@ -59,9 +64,9 @@ end
 
 `toggler` runs @ the `origin-request` and `origin-response` of [the lambda@edgfe lifecycle](https://docs.aws.amazon.com/lambda/latest/dg/lambda-edge.html).
 
-### Steps to create an A/B test
+#### Steps to create an A/B test
 
-#### Adding the test
+##### Adding the test
 1. Add a test object to [`toggler.ts`](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/cache/edge_lambdas/src/toggler.ts) and add an equivalent test object with the same id (without the `when` key) to [`toggles.ts`](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/toggles/webapp/toggles.ts)  – this second object is important because it allows us to determine [what should be sent to GA](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/common/services/app/analytics-scripts/google-analytics.tsx)
 
 **toggler.ts**
@@ -107,9 +112,43 @@ terraform apply terraform.plan
 8. Update [`locals.tf`](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/cache/locals.tf) with values from previous terraform and re-run the terraform steps above to get the changes in to production
 9. Use the toggle to conditionally serve different UI in the same way as you would for feature flags
 
-#### Removing the test
+##### Removing the test
 1. Remove the test objects from `toggler.ts` and `toggles.ts` that were added above and remove any code that responds to the toggle cookie in the same PR. _Note: if there's clear evidence that we will move ahead with the UI code from the test condition, we may want to keep it and remove the control condition code at this stage rather than going back to the state before the test started_
 2. Deploy the new lambdas and apply the terraform changes as per steps 2–5 of ["adding the test"](#adding-the-test) above.
 3. Make a second PR to update the [`locals.tf`](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/cache/locals.tf) from the result of the previous step
 4. Merge and deploy the first PR and check the UI and toggle changes have been removed on `www-stage`
 5. Merge the second PR and apply the terraform change resulting from the updated locals.tf and check the UI and toggle changes have been removed in production
+
+## Google Bot IP Updater
+
+Automated Lambda function that keeps the WAF IP allowlist for Google bots up to date.
+
+**What it does:**
+- Fetches latest Google bot IP ranges from Google's published lists [of common](https://developers.google.com/static/crawling/ipranges/common-crawlers.json) and [special](https://developers.google.com/static/crawling/ipranges/special-crawlers.json) crawlers.
+- Updates the `google-bots` WAF IP set daily at 2 AM UTC
+- Has a 10% change gate to prevent unexpected large changes
+- Sends alerts on failures via SNS
+
+**Manual testing:**
+```bash
+aws lambda invoke \
+  --function-name google-bot-ip-updater \
+  --region us-east-1 \
+  response.json
+```
+
+**Logs:** `/aws/lambda/google-bot-ip-updater`
+
+**Files:**
+- [`update_google_bot_ips.js`](./update_google_bot_ips.js) - Lambda function
+- [`update_google_bot_ips_helpers.js`](./update_google_bot_ips_helpers.js) - Shared helpers (validation, IP extraction, logging)
+- [`update_google_bot_ips.test.js`](./update_google_bot_ips.test.js) - Tests
+- [`google_bot_ip_updater.tf`](./google_bot_ip_updater.tf) - Infrastructure
+
+**Running tests:**
+```bash
+cd cache
+node --test update_google_bot_ips.test.js
+```
+
+If the Lambda fails with "IP count change exceeds maximum", check Google's source URLs manually - it may be a legitimate change or an API issue.

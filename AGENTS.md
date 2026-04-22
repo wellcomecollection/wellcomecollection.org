@@ -8,6 +8,8 @@ Guidelines for AI assistants working on the Wellcome Collection codebase. Shared
 
 **Ask questions before implementing.** If requirements are unclear, the approach is ambiguous, or there are multiple reasonable solutions, ask rather than guessing. This saves rework and ensures we build the right thing.
 
+Consider our version of Node by consulting `.nvmrc`.
+
 **Complete your work properly.** Before considering a task done:
 - Fix all linting errors
 - If necessary, run `yarn tsc` from the root to check TypeScript errors
