@@ -228,12 +228,8 @@ async function fetchAssetStream(
   s3Key: string,
   assetId: string
 ): Promise<Readable> {
-  const s3UrlMatch = /^s3:\/\/([^/]+)\/(.+)$/.exec(s3Key);
-  const sourceBucket = s3UrlMatch?.[1] ?? s3Bucket;
-  const sourceKey = (s3UrlMatch?.[2] ?? s3Key).replace(/^\/+/, '');
-
   const getResponse = await s3Client.send(
-    new GetObjectCommand({ Bucket: sourceBucket, Key: sourceKey })
+    new GetObjectCommand({ Bucket: s3Bucket, Key: s3Key })
   );
   const bodyStream = getResponse.Body as Readable | undefined;
   if (!bodyStream) {
