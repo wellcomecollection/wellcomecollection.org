@@ -1,11 +1,8 @@
 # Wellcome Collection Development Guidelines
 
-**These guidelines are for active development and coding tasks.** For PR review guidelines, see [.github/copilot-instructions.md](.github/copilot-instructions.md).
+**These guidelines are for active development and coding tasks.** Shared coding standards and PR review guidelines are in [.github/copilot-instructions.md](.github/copilot-instructions.md).
 
-Guidelines for AI assistants working on the Wellcome Collection codebase.
-
-## Special instructions for Copilot reviews
-Hi Copilot, please add a comment in your review that confirms whether or not you've 1) read this document and 2) considered it as part of your review. Make sure it ends with a sun emoji.
+Guidelines for AI assistants working on the Wellcome Collection codebase. Shared coding standards (naming, accessibility, duplication, workspace structure, Prismic conventions) are in [.github/copilot-instructions.md](.github/copilot-instructions.md) — don't duplicate them here. The sections below cover agent-specific operational guidance.
 
 ## Working Style
 
@@ -19,27 +16,7 @@ Consider our version of Node by consulting `.nvmrc`.
 - Test your changes locally where possible
 - Check that imports and dependencies are correct
 
-Use British English spelling throughout everything that is not code (e.g. CSS values are in American English). Write casually and keep explanations clear. Don't use emojis or bold text in responses.
-
-## Workspace Structure
-
-This is a monorepo with multiple Next.js apps managed by Yarn workspaces:
-- `common/` - shared code used by all apps (components, utilities, services, types)
-- `content/webapp/` - main public-facing website (stories, exhibitions, events, catalogue)
-- `identity/webapp/` - account management app (login, registration, library membership)
-- `toggles/webapp/` - feature flags management
-- `dash/webapp/` - internal dashboard
-
-All shared code lives in `common/` and is imported using `@weco/` package names, not relative paths across package boundaries.
-
-## Prismic values
-<!-- https://app.gitbook.com/o/-LumfFcEMKx4gYXKAZTQ/s/451yLOIRTl5YiAJ88yIL/api-id-name-casing#future-api-id-naming -->
-As the site has evolved we have introduced some inconsistencies in how we have named Prismic custom types, slices, and their fields. Some are kebab-case, some are camelCaseand some are snake_case. Some are singular when they should have been plural. We put together an RFC to decide how we want to approach these names in future. We also discussed whether we wanted to unify what we already have but concluded that the effort and risk involved in changing existing API IDs wasn't worth it.
-
-### Future API ID naming
-- Custom type IDs should be kebab-case. Plural for repeatable types (e.g. `exhibition-highlight-tours` and singular for singleton types (e.g. `global-alert`). This involves overriding the default snake_caseids that Prismic will suggest
-- Field IDs for all Custom types and Slices should be camelCase (e.g. `datePublished`). This involves overriding the default snake_case ids that Prismic will suggest
-- Slice IDs should be snake_case (e.g. `guide_section_heading`) – this is the default from Prismic and can't be overridden in the UI
+Write casually and keep explanations clear. Don't use emojis or bold text in responses.
 
 ## Build and Test
 
@@ -91,44 +68,6 @@ The team is strong on front-end but may benefit from extra explanation of backen
 - **Docker and deployment**: How code gets built and deployed to production.
 
 When implementing backend code, explain the reasoning behind technical decisions, not just what the code does.
-
-## Accessibility
-
-We aim for WCAG AA compliance as a minimum. Implement accessible patterns:
-
-- Use semantic HTML (proper heading hierarchy, landmarks, form labels)
-- Ensure keyboard navigation works for all interactive elements
-- Provide alt text for meaningful images (empty alt="" for decorative ones)
-- Check colour contrast ratios meet AA standards
-- Use ARIA attributes correctly (don't over-use them - semantic HTML is usually better)
-- Manage focus properly in interactive components (modals, dropdowns, etc.)
-
-## Naming Conventions
-
-Follow these patterns consistently:
-- Component files: PascalCase (`Header.tsx`, `PageLayout.tsx`)
-- Utility files: kebab-case (`undici-agent.ts`, `json-ld.ts`)
-- Test files: same name as source with `.test.ts` / `.test.tsx` suffix (match the source extension, e.g. `Component.tsx` → `Component.test.tsx`)
-- Type declarations: `.d.ts` extension for ambient declarations
-- Service/utility folders: use `index.ts` as the main export point
-
-**Exception: Infrastructure code** (`cache/`, `infrastructure/`) uses snake_case for Terraform/Lambda files to match AWS and infrastructure tooling conventions (`cloudfront_prod.tf`, `update_google_bot_ips.js`).
-
-## Avoid Duplication
-
-Before creating new utilities, helpers, or services:
-1. Search `common/utils/` and `common/services/` for existing implementations
-2. Check if similar logic exists elsewhere in the codebase
-3. If you find duplication, refactor to use a shared utility instead of creating a new one
-4. When removing dependencies, clean up unused imports and delete obsolete files
-
-Key locations for shared code:
-- `common/utils/` - shared utilities
-- `common/services/` - shared services (API clients, etc.)
-- `content/webapp/services/prismic/transformers/` - Prismic content transformers
-- `content/webapp/services/` - API clients for catalogue, content, concepts
-
-Use `@weco/common` imports, not relative paths across package boundaries.
 
 ## Pull Requests
 
