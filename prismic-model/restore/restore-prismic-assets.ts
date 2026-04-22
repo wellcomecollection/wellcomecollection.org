@@ -411,9 +411,9 @@ async function init() {
 
   // Step 5: Upload each missing asset, writing progress as we go
   // Enforce Prismic API rate limit: 1 request per second
-  const MIN_INTERVAL_MS = 1000;
-  const MAX_RETRIES = 3;
-  const INITIAL_RETRY_DELAY_MS = 1000;
+  const minIntervalMs = 1000;
+  const maxRetries = 3;
+  const initialRetryDelayMs = 1000;
 
   for (const asset of assetsToUpload) {
     const uploadStartTime = Date.now();
@@ -428,9 +428,9 @@ async function init() {
       `previous id: ${asset.id}` + (asset.notes ? `\n${asset.notes}` : '');
 
     let result: { id: string; url: string } | null = null;
-    let retryDelayMs = INITIAL_RETRY_DELAY_MS;
+    let retryDelayMs = initialRetryDelayMs;
 
-    for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
       const uploadResult = await uploadAsset(
         {
           id: asset.id,
@@ -449,9 +449,9 @@ async function init() {
         break;
       }
 
-      if (attempt < MAX_RETRIES) {
+      if (attempt < maxRetries) {
         logInfo(
-          `Upload failed for asset ${asset.id}. Retrying in ${retryDelayMs}ms... (attempt ${attempt + 1}/${MAX_RETRIES})`
+          `Upload failed for asset ${asset.id}. Retrying in ${retryDelayMs}ms... (attempt ${attempt + 1}/${maxRetries})`
         );
         await new Promise(r => setTimeout(r, retryDelayMs));
         retryDelayMs *= 2; // exponential backoff
@@ -476,7 +476,7 @@ async function init() {
     } else {
       // Record failures only after all retries exhausted
       logError(
-        `Asset ${asset.id} failed after ${MAX_RETRIES} attempts. Recording for manual retry.`
+        `Asset ${asset.id} failed after ${maxRetries} attempts. Recording for manual retry.`
       );
       failedAssetIds.push(asset.id);
       fs.writeFileSync(
@@ -487,7 +487,7 @@ async function init() {
 
     // Respect rate limit by waiting for remaining time in the 1-second interval
     const elapsedMs = Date.now() - uploadStartTime;
-    const waitMs = Math.max(0, MIN_INTERVAL_MS - elapsedMs);
+    const waitMs = Math.max(0, minIntervalMs - elapsedMs);
     if (waitMs > 0) {
       await new Promise(r => setTimeout(r, waitMs));
     }
