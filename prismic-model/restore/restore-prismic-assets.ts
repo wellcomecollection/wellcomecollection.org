@@ -370,7 +370,6 @@ async function init() {
   const existingAssetIdSet = new Set(existingAssetIds);
 
   // Build the list of used assets that need to be uploaded.
-  // Use a Set for O(1) lookups rather than Array.includes (O(n) per check).
   const usedAssetIdSet = new Set<string>(
     JSON.parse(fs.readFileSync(usedAssetsFile, 'utf-8'))
   );
