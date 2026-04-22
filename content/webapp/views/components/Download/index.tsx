@@ -8,7 +8,6 @@ import DownloadLink from '@weco/common/views/components/DownloadLink';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import { DownloadOption } from '@weco/content/types/manifest';
-import { getFormatString } from '@weco/content/utils/iiif/v3';
 
 export const DownloadOptions = styled.div.attrs({
   className: font('sans-bold', 0),
@@ -60,25 +59,20 @@ const Download: FunctionComponent<Props> = ({
         <DownloadOptions className={font('sans-bold', -1)}>
           <SpacingComponent>
             <PlainList>
-              {downloadOptions.map(option => {
-                const format = getFormatString(option.format);
-
-                return (
-                  <li key={option.id}>
-                    <DownloadLink
-                      href={option.id}
-                      linkText={
-                        option.format === 'application/pdf' &&
-                        option.label !== 'PDF Transcript'
-                          ? 'Whole item'
-                          : option.label
-                      }
-                      format={format}
-                      mimeType={option.format}
-                    />
-                  </li>
-                );
-              })}
+              {downloadOptions.map(option => (
+                <li key={option.id}>
+                  <DownloadLink
+                    href={option.id}
+                    linkText={
+                      option.format === 'application/pdf' &&
+                      option.label !== 'PDF Transcript'
+                        ? 'Whole item'
+                        : option.label
+                    }
+                    format={option.format}
+                  />
+                </li>
+              ))}
             </PlainList>
           </SpacingComponent>
         </DownloadOptions>

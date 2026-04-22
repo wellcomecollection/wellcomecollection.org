@@ -3,8 +3,10 @@ import styled from 'styled-components';
 
 import { download } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
+import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
+import { getFormatString } from '@weco/content/utils/iiif/v3';
 
 const DownloadLinkStyle = styled.a.attrs<{ $isDark?: boolean }>(props => ({
   className: props.$isDark ? font('sans', -1) : font('sans-bold', -1),
@@ -67,20 +69,21 @@ type Props = {
   isTabbable?: boolean;
   href: string;
   format?: string;
-  mimeType: string;
   isDark?: boolean;
 } & DisplayText;
+
 const DownloadLink: FunctionComponent<Props> = ({
   isTabbable = true,
   href,
   linkText,
   format,
-  mimeType,
   children,
   isDark,
 }: Props) => {
   const Wrapper = linkText ? DownloadLinkStyle : DownloadLinkUnStyled;
   const iconColor = isDark ? 'yellow' : 'accent.green';
+  const readableFormat = format ? getFormatString(format) : undefined;
+
   return (
     <Wrapper
       $isDark={isDark}
@@ -89,8 +92,10 @@ const DownloadLink: FunctionComponent<Props> = ({
       rel="noopener noreferrer"
       href={href}
       data-component="download-link"
-      data-gtm-trigger="download_link"
-      data-gtm-mime-type={mimeType}
+      {...dataGtmPropsToAttributes({
+        'mime-type': format || 'null', // Default value requested by analyst
+        trigger: 'download_link',
+      })}
     >
       <span
         style={
@@ -102,10 +107,12 @@ const DownloadLink: FunctionComponent<Props> = ({
         <IconWrapper $forceInline={!!children}>
           <Icon icon={download} matchText={!!children} iconColor={iconColor} />
         </IconWrapper>
+
         <TextToDisplay $isDark={isDark}>{linkText || children}</TextToDisplay>
-        {format && (
+
+        {readableFormat && (
           <Format as="span" $isDark={isDark}>
-            ({format})
+            ({readableFormat})
           </Format>
         )}
       </span>

@@ -28,7 +28,6 @@ import {
 import {
   getAuthServices,
   getFileTypeLabel,
-  getFormatString,
   getIframeTokenSrc,
   getLabelString,
   hasItemType,
@@ -395,8 +394,7 @@ const WorkDetailsAvailableOnline = ({
                           <DownloadLink
                             href={rendering.id}
                             linkText={label || 'Download'}
-                            format={getFormatString(rendering.format)}
-                            mimeType={rendering.format || ''}
+                            format={rendering.format}
                           />
                         </Space>
                       );
