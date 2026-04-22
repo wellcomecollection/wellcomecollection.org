@@ -220,31 +220,17 @@ async function fetchAllTargetRepoAssets(
 }
 
 // Uploads a single asset to the Prismic Asset API.
-// Downloads source bytes from either a direct URL or S3 using current AWS credentials,
+// Downloads source bytes from S3 using current AWS credentials,
 // then uploads to Prismic as multipart/form-data with optional metadata.
 
 async function fetchAssetStream(
   s3Bucket: string,
-  s3KeyOrUrl: string,
+  s3Key: string,
   assetId: string
 ): Promise<Readable> {
-  if (/^https?:\/\//i.test(s3KeyOrUrl)) {
-    const fileResponse = await fetch(s3KeyOrUrl);
-    if (!fileResponse.ok) {
-      throw new Error(
-        `Failed to download source file for asset ${assetId}: ${fileResponse.status} ${fileResponse.statusText}`
-      );
-    }
-    const bodyStream = fileResponse.body as Readable | null;
-    if (!bodyStream) {
-      throw new Error(`No file body returned for asset ${assetId}`);
-    }
-    return bodyStream;
-  }
-
-  const s3UrlMatch = /^s3:\/\/([^/]+)\/(.+)$/.exec(s3KeyOrUrl);
+  const s3UrlMatch = /^s3:\/\/([^/]+)\/(.+)$/.exec(s3Key);
   const sourceBucket = s3UrlMatch?.[1] ?? s3Bucket;
-  const sourceKey = (s3UrlMatch?.[2] ?? s3KeyOrUrl).replace(/^\/+/, '');
+  const sourceKey = (s3UrlMatch?.[2] ?? s3Key).replace(/^\/+/, '');
 
   const getResponse = await s3Client.send(
     new GetObjectCommand({ Bucket: sourceBucket, Key: sourceKey })
