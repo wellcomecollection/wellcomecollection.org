@@ -6,7 +6,6 @@ import { font } from '@weco/common/utils/classnames';
 import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-import { getFormatString } from '@weco/content/utils/iiif/v3';
 
 const DownloadLinkStyle = styled.a.attrs<{ $isDark?: boolean }>(props => ({
   className: props.$isDark ? font('sans', -1) : font('sans-bold', -1),
@@ -64,6 +63,26 @@ type DisplayText =
       children?: never;
       linkText: string;
     };
+
+function getFormatString(format?: string): string {
+  switch (format) {
+    case 'application/pdf':
+      return 'PDF';
+    case 'text/plain':
+      return 'PLAIN';
+    case 'image/jpeg':
+      return 'JPG';
+    case 'video/mp4':
+      return 'MP4';
+    case 'video/webm':
+      return 'WebM';
+    case 'audio/mp3':
+    case 'audio/x-mpeg-3':
+      return 'MP3';
+    default:
+      return 'unknown format';
+  }
+}
 
 type Props = {
   isTabbable?: boolean;
