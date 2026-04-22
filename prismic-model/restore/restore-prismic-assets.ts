@@ -33,8 +33,11 @@ import {
   logSuccess,
 } from '@weco/common/utils/console-logs';
 import { region } from '@weco/prismic-model/config';
-
-import { downloadLatestS3File, downloadLatestSnapshot } from './s3-utils';
+import { urlPathSegment } from '@weco/prismic-model/restore/restore-utils';
+import {
+  downloadLatestS3File,
+  downloadLatestSnapshot,
+} from '@weco/prismic-model/restore/s3-utils';
 import 'dotenv/config';
 
 const bucketFromEnv = process.env.PRISMIC_S3_BUCKET;
@@ -214,13 +217,6 @@ async function fetchAllTargetRepoAssets(
 
   logSuccess(`Found ${allIds.length} existing assets in target repo`);
   return allIds;
-}
-
-// Extracts the URL path segment (filename portion without query string) from a Prismic asset URL.
-// e.g. "https://images.prismic.io/repo/abc_file.jpg?auto=format" -> "abc_file.jpg"
-function urlPathSegment(url: string): string {
-  if (!url) return '';
-  return url.split('?')[0].split('/').pop() ?? '';
 }
 
 // Uploads a single asset to the Prismic Asset API.
