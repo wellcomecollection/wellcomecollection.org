@@ -40,6 +40,26 @@ import {
 } from '@weco/prismic-model/restore/s3-utils';
 import 'dotenv/config';
 
+type PrismicAsset = {
+  id: string;
+  filename?: string;
+  extension?: string;
+  notes?: string;
+  credits?: string;
+  alt?: string;
+  url?: string;
+};
+
+type PrismicAssetsListResponse = {
+  items: { id: string }[];
+  cursor?: string;
+};
+
+type PrismicAssetUploadResponse = {
+  id: string;
+  url?: string;
+};
+
 const bucketFromEnv = process.env.PRISMIC_S3_BUCKET;
 if (!bucketFromEnv)
   throw new Error('PRISMIC_S3_BUCKET environment variable is required');
@@ -53,8 +73,7 @@ const ASSETS_OUTPUT_DIR = './restore/assets/';
 const ASSETS_PREFIX = 'media-library/assets/';
 
 // Derives the S3 filename for an asset using the same logic as the backup script.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function deriveFilename(asset: any): string {
+function deriveFilename(asset: PrismicAsset): string {
   if (asset && typeof asset.filename === 'string') {
     const cleanFilename = asset.filename.trim();
     if (cleanFilename) {
@@ -174,7 +193,6 @@ async function fetchAllTargetRepoAssets(
   repository: string
 ): Promise<string[]> {
   const assetsUrlBase = 'https://asset-api.prismic.io/assets';
-  /* eslint-disable @typescript-eslint/no-explicit-any */
   const allIds: string[] = [];
   let cursor: string | undefined;
   const pageSize = 5000;
@@ -200,8 +218,7 @@ async function fetchAllTargetRepoAssets(
       );
     }
 
-    const json = (await res.json()) as any;
-    /* eslint-enable @typescript-eslint/no-explicit-any */
+    const json = (await res.json()) as PrismicAssetsListResponse;
     const items: { id: string }[] = Array.isArray(json.items) ? json.items : [];
     for (const item of items) {
       if (item.id) allIds.push(item.id);
@@ -293,11 +310,9 @@ async function uploadAsset(
     );
     return null;
   }
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  const result = (await response.json()) as any;
-  /* eslint-enable @typescript-eslint/no-explicit-any */
+  const result = (await response.json()) as PrismicAssetUploadResponse;
   if (!result.id) return null;
-  return { id: result.id as string, url: (result.url as string) ?? '' };
+  return { id: result.id, url: result.url ?? '' };
 }
 
 async function init() {
@@ -359,11 +374,9 @@ async function init() {
   const usedAssetIdSet = new Set<string>(
     JSON.parse(fs.readFileSync(usedAssetsFile, 'utf-8'))
   );
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  const allAssets: any[] = JSON.parse(
+  const allAssets: PrismicAsset[] = JSON.parse(
     fs.readFileSync(latestAssetsPath, 'utf-8')
   );
-  /* eslint-enable @typescript-eslint/no-explicit-any */
   const usedAssets = allAssets.filter(a => usedAssetIdSet.has(a.id));
 
   // Load the ID map from any previous run so we can resume without re-uploading
