@@ -14,7 +14,7 @@ Guidelines for AI assistants working on the Wellcome Collection codebase. Shared
 - Test your changes locally where possible
 - Check that imports and dependencies are correct
 
-Use British English spelling throughout everything that is not code (e.g. CSS values are in American English). Write casually and keep explanations clear. Don't use emojis or bold text in responses.
+Write casually and keep explanations clear. Don't use emojis or bold text in responses.
 
 ## Build and Test
 
