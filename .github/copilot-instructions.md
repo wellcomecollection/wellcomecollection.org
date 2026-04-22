@@ -50,7 +50,7 @@ Key locations for shared code:
 - `content/webapp/services/prismic/transformers/` - Prismic transformers
 - `content/webapp/services/` - API clients for catalogue, content, concepts
 
-Use `@weco/common` imports, not relative paths across package boundaries. If you see duplication, flag it and suggest the existing shared implementation.
+Use `@weco/` package names, not relative paths across package boundaries. If you see duplication, flag it and suggest the existing shared implementation.
 
 ## Prismic Conventions
 <!-- https://app.gitbook.com/o/-LumfFcEMKx4gYXKAZTQ/s/451yLOIRTl5YiAJ88yIL/api-id-name-casing#future-api-id-naming -->

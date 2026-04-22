@@ -2,7 +2,7 @@
 
 **These guidelines are for active development and coding tasks.** Shared coding standards and PR review guidelines are in [.github/copilot-instructions.md](.github/copilot-instructions.md).
 
-Guidelines for AI assistants working on the Wellcome Collection codebase. Shared coding standards (naming, accessibility, duplication, workspace structure, Prismic conventions) are in [.github/copilot-instructions.md](.github/copilot-instructions.md) — don't duplicate them here.
+Guidelines for AI assistants working on the Wellcome Collection codebase. Shared coding standards (naming, accessibility, duplication, workspace structure, Prismic conventions) are in [.github/copilot-instructions.md](.github/copilot-instructions.md) — don't duplicate them here. The sections below cover agent-specific operational guidance.
 
 ## Working Style
 
