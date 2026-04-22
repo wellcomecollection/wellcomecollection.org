@@ -150,7 +150,7 @@ function writeUsedAssetIds({
   const snapshotStrings = new Set<string>();
   for (const doc of snapshotDocs) {
     // Remove top-level id from doc before collecting strings, we know we don't want to match asset IDs against document IDs
-    const { id, ...rest } = doc;
+    const { id, ...rest } = doc as Record<string, unknown>;
     collectStrings(rest, snapshotStrings);
   }
   const usedAssetIds = assets
