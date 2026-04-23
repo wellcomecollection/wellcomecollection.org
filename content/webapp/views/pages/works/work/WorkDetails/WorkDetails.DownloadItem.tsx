@@ -11,6 +11,7 @@ import styled from 'styled-components';
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { file, imageFile } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
+import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
 import {
   CustomContentResource,
@@ -217,7 +218,13 @@ const DownloadItem: FunctionComponent<DownloadItemProps> = ({
             </td>
             <td>
               {!isRestricted || userIsStaffWithRestricted ? (
-                <a data-gtm-trigger="download_table_link" href={displayItem.id}>
+                <a
+                  href={displayItem.id}
+                  {...dataGtmPropsToAttributes({
+                    trigger: 'download_table_link',
+                    'mime-type': format || 'null', // Default value requested by analyst
+                  })}
+                >
                   Download
                 </a>
               ) : (
