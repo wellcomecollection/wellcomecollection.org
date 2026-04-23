@@ -4,6 +4,7 @@ import { Venue } from '@weco/common/model/opening-hours';
 import {
   ArticlesDocument as RawArticlesDocument,
   AudioPlayerSlice as RawAudioPlayerSlice,
+  BooksDocument as RawBooksDocument,
   CardDocument as RawCardDocument,
   CollectionVenueSlice as RawCollectionVenueSlice,
   ContactSlice as RawContactSlice,
@@ -63,6 +64,7 @@ import { Props as TitledTextListProps } from '@weco/content/views/components/Tit
 
 import { asRichText, asText, asTitle } from '.';
 import { transformArticle } from './articles';
+import { transformBook } from './books';
 import { transformCard } from './card';
 import {
   getSoundCloudEmbedUrl,
@@ -217,7 +219,7 @@ export function transformFullWidthBanner(
   }
 }
 
-type ThemeCardsListSliceValue = {
+export type ThemeCardsListSliceValue = {
   title?: string;
   description?: string;
   conceptIds: string[];
@@ -466,6 +468,8 @@ export function transformContentListSlice(
               return transformExhibition(
                 content as unknown as RawExhibitionsDocument
               );
+            case 'books':
+              return transformBook(content as unknown as RawBooksDocument);
             case 'articles':
               return transformArticle(
                 content as unknown as RawArticlesDocument

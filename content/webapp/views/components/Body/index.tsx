@@ -55,6 +55,7 @@ const BodyWrapper = styled.div<{ $splitBackground: boolean }>`
 
 export type BodySliceContexts = {
   archiveWorks?: Record<string, ArchiveWorkData>;
+  themeCardCols?: 3 | 4;
 };
 
 export type Props = {
@@ -111,6 +112,7 @@ export type SliceZoneContext = {
   contentType?: 'short-film' | 'visual-story' | 'standalone-image-gallery';
   archiveWorks?: Record<string, ArchiveWorkData>;
   hasNoShim?: boolean;
+  themeCardCols?: 3 | 4;
 };
 
 export const defaultContext: SliceZoneContext = {
@@ -208,6 +210,7 @@ const Body: FunctionComponent<Props> = ({
               background={sectionTheme.featuredCardBackground}
               textColor={sectionTheme.featuredCardText}
               isReversed={false}
+              priority={isFirst}
             >
               <h3 className={font('brand-bold', 2)}>{firstItem.title}</h3>
               {isCardType && firstItem.description && (

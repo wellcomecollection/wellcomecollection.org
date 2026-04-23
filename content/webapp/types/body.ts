@@ -15,7 +15,6 @@ import { ExhibitionBasic } from './exhibitions';
 import { Guide } from './guides';
 import { Page } from './pages';
 import { Season } from './seasons';
-import { Series, SeriesBasic } from './series';
 
 export type Slice<TypeName extends string, Value> = {
   type: TypeName;
@@ -58,8 +57,6 @@ export type ContentListItems =
   | EventBasic
   | ArticleBasic
   | ExhibitionBasic
-  | Series
-  | SeriesBasic
   | Guide
   | Season;
 

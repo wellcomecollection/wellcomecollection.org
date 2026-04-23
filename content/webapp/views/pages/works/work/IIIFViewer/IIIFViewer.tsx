@@ -4,6 +4,7 @@ import { FunctionComponent, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
+import { useUserContext } from '@weco/common/contexts/UserContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { useToggles } from '@weco/common/server-data/Context';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
@@ -19,7 +20,7 @@ import {
   ParentManifest,
 } from '@weco/content/types/item-viewer';
 import { TransformedManifest } from '@weco/content/types/manifest';
-import { hasNonImages } from '@weco/content/utils/iiif/v3';
+import { hasNonImagesOrOriginals } from '@weco/content/utils/iiif/v3';
 import { fromQuery } from '@weco/content/views/components/ItemLink';
 import { getTreeCanvasIndexById } from '@weco/content/views/pages/works/work/work.helpers';
 import { UiTree } from '@weco/content/views/pages/works/work/work.types';
@@ -132,6 +133,7 @@ const Sidebar = styled.div<{
   background: ${props => props.theme.color('neutral.700')};
   color: ${props => props.theme.color('white')};
   overflow: auto;
+  min-width: 0;
   z-index: 5;
 `;
 
@@ -144,7 +146,7 @@ const Topbar = styled.div`
 const Main = styled.div<{
   $isDesktopSidebarActive: boolean;
   $isFullSupportBrowser: boolean;
-  $hasOnlyImages: boolean; // we adjust the grid area on mobile when this isn't true
+  $hasOnlyRenderableImages: boolean;
   $hasMultipleCanvases?: boolean;
 }>`
   background: ${props => props.theme.color('black')};
@@ -158,7 +160,7 @@ const Main = styled.div<{
   width: ${props => (props.$isFullSupportBrowser ? 'auto' : '100vw')};
   grid-area: ${props =>
     props.$isFullSupportBrowser
-      ? props.$hasOnlyImages && !props.$hasMultipleCanvases
+      ? props.$hasOnlyRenderableImages && !props.$hasMultipleCanvases
         ? 'desktop-main-start / left-edge / mobile-main-end / right-edge'
         : 'desktop-main-start / left-edge / bottom-edge / right-edge'
       : 'auto'};
@@ -246,6 +248,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const [mainAreaHeight, setMainAreaHeight] = useState(500);
   const [mainAreaWidth, setMainAreaWidth] = useState(1000);
   const [isResizing, setIsResizing] = useState(false);
+  const { userIsStaffWithRestricted } = useUserContext();
   // Use server-provided archiveTree (items route provides it, images route doesn't need it)
   const [archiveTree, setArchiveTree] = useState<UiTree>(
     initialArchiveTree || []
@@ -268,10 +271,12 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const [showControls, setShowControls] = useState(
     Boolean(hasIiifImage && !hasImageService)
   );
-  // we only render certain parts of the UI when hasOnlyImages is true
-  const hasOnlyImages = !hasNonImages(transformedManifest?.canvases || []);
+  // we only render certain parts of the UI when hasOnlyRenderableImages is true
+  const hasOnlyRenderableImages = !hasNonImagesOrOriginals(
+    transformedManifest?.canvases || []
+  );
   // useFixedSizeList is true when all items are images (using FixedSizeList for virtualization)
-  const useFixedSizeList = hasOnlyImages;
+  const useFixedSizeList = hasOnlyRenderableImages;
   const hasMultipleCanvases = (transformedManifest?.canvases?.length || 0) > 1;
 
   // We need to reset the MainAreaWidth and MainAreaHeight
@@ -370,7 +375,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         isResizing,
         errorHandler: handleImageError,
         accessToken,
-        hasOnlyImages,
+        hasOnlyRenderableImages,
       }}
     >
       <Grid
@@ -404,14 +409,14 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
           ref={mainAreaRef}
           $isDesktopSidebarActive={isDesktopSidebarActive}
           $isFullSupportBrowser={isFullSupportBrowser}
-          $hasOnlyImages={hasOnlyImages}
+          $hasOnlyRenderableImages={hasOnlyRenderableImages}
           $hasMultipleCanvases={hasMultipleCanvases}
         >
           <DelayVisibility>
-            {!showZoomed && hasOnlyImages && <ImageViewerControls />}
+            {!showZoomed && hasOnlyRenderableImages && <ImageViewerControls />}
             {hasIiifImage &&
               !hasImageService &&
-              (isFullSupportBrowser || !hasOnlyImages) && (
+              (isFullSupportBrowser || !hasOnlyRenderableImages) && (
                 <ImageViewer
                   infoUrl={iiifImageLocation.url}
                   id={imageUrl}
@@ -422,14 +427,17 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
                 />
               )}
 
-            {imageUrl && !isFullSupportBrowser && hasOnlyImages && (
+            {imageUrl && !isFullSupportBrowser && hasOnlyRenderableImages && (
               <NoScriptImage urlTemplate={urlTemplate} canvasOcr={canvasOcr} />
             )}
-
             {/* If we hide the MainViewer when resizing the browser, it will then rerender with the correct canvas displayed */}
-            {(hasImageService || extendedViewer) && !isResizing && (
-              <MainViewer />
-            )}
+            {/* We want to show it for userIsStaffWithRestricted regardless of whether the extendedViewer is active */}
+            {(hasImageService ||
+              extendedViewer ||
+              (userIsStaffWithRestricted &&
+                !extendedViewer &&
+                !!currentCanvas)) &&
+              !isResizing && <MainViewer />}
           </DelayVisibility>
         </Main>
         {showZoomed && isFullSupportBrowser && (
@@ -446,7 +454,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
             <BottomBar>
               <ViewerBottomBar />
             </BottomBar>
-            {hasOnlyImages && (
+            {hasOnlyRenderableImages && (
               <ThumbnailsWrapper
                 $isActive={gridVisible}
                 $isDesktopSidebarActive={isDesktopSidebarActive}

@@ -9,7 +9,9 @@ import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import { queryParamToArrayIndex } from '.';
 import IIIFViewerImage from './IIIFViewerImage';
 
-const ImageWrapper = styled.div<{ $isFullSupportBrowser: boolean }>`
+const ImageWrapper = styled.div<{
+  $isFullSupportBrowser: boolean;
+}>`
   position: absolute;
   top: 0;
   left: 0;

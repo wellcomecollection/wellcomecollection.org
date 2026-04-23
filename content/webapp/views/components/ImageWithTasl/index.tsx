@@ -56,6 +56,7 @@ function getFeaturedPictureWithTasl(editorialImage: RawEditorialImageSlice) {
           image={image}
           sizes={{ lg: 1, md: 1, sm: 1, zero: 1 }}
           quality="low"
+          priority
         />
       }
       tasl={image?.tasl}

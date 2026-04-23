@@ -42,7 +42,7 @@ const LandingPageHeader: FunctionComponent<Props> = ({
     <>
       <ContaineredLayout gridSizes={gridSize12()}>
         <Wrapper
-          $v={{ size: 'xl', properties: ['margin-bottom', 'margin-top'] }}
+          $v={{ size: 'lg', properties: ['margin-bottom', 'margin-top'] }}
         >
           <TitleWrapper $isOfficialLandingPage>{title}</TitleWrapper>
 

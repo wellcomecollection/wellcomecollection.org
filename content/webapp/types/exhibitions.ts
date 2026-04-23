@@ -6,7 +6,6 @@ import { Props as VideoEmbedProps } from '@weco/common/views/components/VideoEmb
 import { Link } from '@weco/content/types/link';
 
 import { Article } from './articles';
-import { Book } from './books';
 import { Contributor, ContributorBasic } from './contributors';
 import { EventBasic } from './events';
 import { GenericContentFields } from './generic-content-fields';
@@ -64,11 +63,11 @@ export type Exhibit = {
   item: Exhibition;
 };
 
-export type ExhibitionAbout = Book | Article | Series;
+export type AboutThisExhibitionContent = Article | Series;
 
 export type ExhibitionRelatedContent = {
-  exhibitionOfs: (Exhibition | EventBasic)[];
-  exhibitionAbouts: ExhibitionAbout[];
+  relatedExhibitionsAndEvents: (Exhibition | EventBasic)[];
+  aboutThisExhibitionContent: AboutThisExhibitionContent[];
 };
 
 export type AccessPDF = Link & { size: number };
