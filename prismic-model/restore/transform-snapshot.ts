@@ -38,6 +38,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import yargs from 'yargs';
 
+import { logError, logInfo, logSuccess } from '@weco/common/utils/console-logs';
 import 'dotenv/config';
 
 // ---------------------------------------------------------------------------
@@ -117,7 +118,7 @@ function init() {
   // In that case we skip ID/slug rewriting and only apply the publishDate backfill.
   const mapExists = fs.existsSync(mapPath);
   if (!mapExists) {
-    console.log(
+    logInfo(
       `Asset ID map not found at ${mapPath} — skipping ID and URL slug rewriting.`
     );
   }
@@ -127,15 +128,15 @@ function init() {
   const defaultOut = path.join(SNAPSHOT_DIR, REWRITTEN_SNAPSHOT_FILENAME);
   const outPath = argv.out ? path.resolve(argv.out) : defaultOut;
 
-  console.log(`Source snapshot : ${snapshotPath}`);
-  console.log(`Asset ID map    : ${mapExists ? mapPath : '(none)'}`);
-  console.log(`Output path     : ${outPath}`);
+  logInfo(`Source snapshot : ${snapshotPath}`);
+  logInfo(`Asset ID map    : ${mapExists ? mapPath : '(none)'}`);
+  logInfo(`Output path     : ${outPath}`);
 
   const sourceRepo = argv.sourceRepo;
   const targetRepo = argv.targetRepo;
   const rewriteUrls = sourceRepo && targetRepo && sourceRepo !== targetRepo;
   if (rewriteUrls) {
-    console.log(`Repo name rewrite: "${sourceRepo}" → "${targetRepo}"`);
+    logInfo(`Repo name rewrite: "${sourceRepo}" → "${targetRepo}"`);
   }
 
   // Step 2: Load inputs
@@ -153,7 +154,7 @@ function init() {
     : {};
   const oldSlugs = Object.keys(slugMap);
   if (oldSlugs.length > 0) {
-    console.log(
+    logInfo(
       `Loaded ${oldSlugs.length} URL slug mappings from ${DEFAULT_SLUG_MAP}`
     );
   }
@@ -187,7 +188,7 @@ function init() {
       pass4Count++;
       return '';
     });
-    console.log(
+    logSuccess(
       `Pass 1/2 complete: replaced ${pass3Replacements} URL path segments (${pass4Count} cleaned up)`
     );
   }
@@ -210,7 +211,7 @@ function init() {
       pass2Count++;
       return '';
     });
-    console.log(
+    logSuccess(
       `Pass 3/4 complete: replaced ${pass1Replacements} asset IDs (${pass2Count} cleaned up)`
     );
   }
@@ -243,7 +244,7 @@ function init() {
       return `https://${targetRepo}${middle}${targetRepo}${slash}`;
     });
 
-    console.log(
+    logSuccess(
       `Pass 5 complete: rewrote ${imagesCount} images.prismic.io URLs and ${cdnCount} cdn.prismic.io URLs`
     );
   }
@@ -275,7 +276,7 @@ function init() {
     }
   }
   content = JSON.stringify(docs, null, 2);
-  console.log(
+  logSuccess(
     `Pass publishDate: backfilled publishDate on ${publishDateCount} articles`
   );
 
@@ -290,10 +291,16 @@ function init() {
 
   // Step 8: Write the output file
   fs.writeFileSync(outPath, content, 'utf-8');
-  console.log(`\nRewritten snapshot written to ${outPath}`);
-  console.log(
+  logSuccess(`Rewritten snapshot written to ${outPath}`);
+  logInfo(
     'You can now pass this file to restore-prismic-content.ts via --snapshot.'
   );
 }
 
-init();
+try {
+  init();
+} catch (error) {
+  const message = error instanceof Error ? error.message : String(error);
+  logError(`Error transforming snapshot: ${message}`);
+  process.exit(1);
+}
