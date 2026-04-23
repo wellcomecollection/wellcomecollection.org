@@ -39,7 +39,10 @@ import * as path from 'path';
 import yargs from 'yargs';
 
 import { logError, logInfo, logSuccess } from '@weco/common/utils/console-logs';
-import { readJsonFile } from '@weco/prismic-model/restore/restore-utils';
+import {
+  escapeRegex,
+  readJsonFile,
+} from '@weco/prismic-model/restore/restore-utils';
 import 'dotenv/config';
 
 // ---------------------------------------------------------------------------
@@ -175,9 +178,8 @@ function init() {
   // because Prismic URL-sanitises filenames at upload time (spaces stripped, chars encoded).
   // Uses a two-pass placeholder strategy to prevent collision.
   if (oldSlugs.length > 0) {
-    const escapedSlugs = oldSlugs.map(s =>
-      s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-    );
+    const escapedSlugs = oldSlugs.map(escapeRegex);
+    // Regex: (slug1|slug2|slug3|...) - matches any old URL path segment globally
     const pass3Re = new RegExp(escapedSlugs.join('|'), 'g');
     let pass3Replacements = 0;
     content = content.replace(pass3Re, match => {
@@ -185,6 +187,7 @@ function init() {
       return `${slugMap[match]}${PLACEHOLDER}`;
     });
     let pass4Count = 0;
+    // Regex: matches the placeholder suffix to remove it
     content = content.replace(new RegExp(PLACEHOLDER, 'g'), () => {
       pass4Count++;
       return '';
@@ -195,12 +198,10 @@ function init() {
   }
 
   // Pass 3/4: replace old asset IDs with new ones (skipped if no map).
-  // Single-pass alternation regex is O(fileSize) rather than O(fileSize × idCount).
   // Two-pass placeholder strategy guards against the case where a new ID equals an old one.
   if (oldIds.length > 0) {
-    const escapedIds = oldIds.map(id =>
-      id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-    );
+    const escapedIds = oldIds.map(escapeRegex);
+    // Regex: (id1|id2|id3|...) - matches any old asset ID globally
     const pass1Re = new RegExp(escapedIds.join('|'), 'g');
     let pass1Replacements = 0;
     content = content.replace(pass1Re, match => {
@@ -208,6 +209,7 @@ function init() {
       return `${idMap[match]}${PLACEHOLDER}`;
     });
     let pass2Count = 0;
+    // Regex: matches the placeholder suffix to remove it
     content = content.replace(new RegExp(PLACEHOLDER, 'g'), () => {
       pass2Count++;
       return '';
@@ -221,9 +223,10 @@ function init() {
   //   https://<repo>.cdn.prismic.io/<repo>/...
   // Both must be updated when restoring to a repository with a different name.
   if (rewriteUrls) {
-    const escapedSource = sourceRepo!.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const escapedSource = escapeRegex(sourceRepo!);
 
-    // Replace https://images.prismic.io/<source-repo>/
+    // Regex: (https://images\.prismic\.io/)<repo>(/?) - matches images.prismic.io URLs
+    // Capture groups: $1=prefix, $2=optional trailing slash
     const imagesRe = new RegExp(
       `(https://images\\.prismic\\.io/)${escapedSource}(/?)`,
       'g'
@@ -234,7 +237,8 @@ function init() {
       return `${prefix}${targetRepo}${slash}`;
     });
 
-    // Replace https://<source-repo>.cdn.prismic.io/<source-repo>/
+    // Regex: https://<repo>(\.cdn\.prismic\.io/)<repo>(/) - matches cdn.prismic.io URLs
+    // Capture groups: $1=middle domain part, $2=trailing slash
     const cdnRe = new RegExp(
       `https://${escapedSource}(\\.cdn\\.prismic\\.io/)${escapedSource}(/)`,
       'g'
