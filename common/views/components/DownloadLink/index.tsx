@@ -47,9 +47,6 @@ const TextToDisplay = styled.span<{ $isDark?: boolean }>`
   text-underline-offset: 0.1em;
 `;
 
-/**
- * TODO: figure out why Icon isn't able to be wrapped by styled...
- */
 const IconWrapper = styled(Space).attrs<{
   $forceInline: boolean;
 }>({ $h: { size: 'xs', properties: ['margin-right'] } })`
