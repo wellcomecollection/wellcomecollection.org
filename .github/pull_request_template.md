@@ -7,7 +7,7 @@
 
 ## How to test
 
-<!-- Provide instructions to help others verify the change. This could take the form of "On PROD, do X and witness Y. On this branch, do X and witness Z. " -->
+<!-- Provide instructions to help others verify the change. This could take the form of "On PROD, do X and witness Y. On this branch, do X and witness Z." -->
 
 
 ## Have we considered potential risks?
