@@ -48,5 +48,6 @@ module "e2e_wc_org_cloudfront_distribution" {
   response_policies = module.cloudfront_policies.response_policies
   waf_ip_allowlist  = local.waf_ip_allowlist
 
-  header_shared_secret = local.current_shared_secret
+  google_bots_ip_set_arn = aws_wafv2_ip_set.google_bots.arn
+  header_shared_secret   = local.current_shared_secret
 }

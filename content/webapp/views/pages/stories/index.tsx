@@ -105,6 +105,7 @@ const StoriesPage: NextPage<Props> = ({
                 article={firstArticle}
                 background="neutral.700"
                 textColor="white"
+                priority
               />
             </ContaineredLayout>
           </Space>

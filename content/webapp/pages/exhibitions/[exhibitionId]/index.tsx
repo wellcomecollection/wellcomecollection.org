@@ -4,6 +4,10 @@ import {
   exhibitionGuideLinkText,
   visualStoryLinkText,
 } from '@weco/common/data/microcopy';
+import {
+  PagesDocumentDataBodySlice,
+  ThemeCardsListSlice as RawThemeCardsListSlice,
+} from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
@@ -15,6 +19,7 @@ import {
 } from '@weco/common/views/pages/_app';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchExhibition } from '@weco/content/services/prismic/fetch/exhibitions';
+import { transformThemeCardsList } from '@weco/content/services/prismic/transformers/body';
 import { transformExhibition } from '@weco/content/services/prismic/transformers/exhibitions';
 import { exhibitionLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
@@ -62,6 +67,23 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     const exhibitionDoc = transformExhibition(exhibition);
     const relatedPages = transformQuery(pages, transformPage);
 
+    // Extract themeCardsList from body to render separately
+    const rawThemeCardsListSlice = exhibitionDoc.untransformedBody.find(
+      (slice: PagesDocumentDataBodySlice) =>
+        slice.slice_type === 'themeCardsList'
+    ) as RawThemeCardsListSlice | undefined;
+
+    const themeCardsListSlice =
+      rawThemeCardsListSlice && serverData.toggles.exhibitionAndCollection.value
+        ? transformThemeCardsList(rawThemeCardsListSlice)
+        : undefined;
+
+    // Filter out themeCardsList from body since we render it separately
+    const bodyWithoutThemeCardsList = exhibitionDoc.untransformedBody.filter(
+      (slice: PagesDocumentDataBodySlice) =>
+        slice.slice_type !== 'themeCardsList'
+    ) as typeof exhibitionDoc.untransformedBody;
+
     const visualStoriesLinks = visualStories.results.map(visualStory => {
       const url = linkResolver(visualStory);
       return {
@@ -84,11 +106,15 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
     return {
       props: serialiseProps<Props>({
-        exhibition: exhibitionDoc,
-        pages: relatedPages?.results || [],
+        exhibition: {
+          ...exhibitionDoc,
+          untransformedBody: bodyWithoutThemeCardsList,
+        },
+        relatedPages: relatedPages?.results || [],
         accessResourceLinks: [...exhibitionGuidesLinks, ...visualStoriesLinks],
         exhibitionTexts,
         exhibitionHighlightTours,
+        themeCardsListSlice,
         jsonLd,
         serverData,
       }),

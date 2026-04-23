@@ -39,6 +39,7 @@ export function getFeaturedMedia(
             zero: 1,
           }}
           quality="low"
+          priority
         />
       }
       tasl={widescreenImage.tasl}
@@ -55,6 +56,7 @@ export function getFeaturedMedia(
             zero: 1,
           }}
           quality="low"
+          priority
         />
       }
       tasl={image.tasl}
@@ -78,6 +80,7 @@ export const HeroPicture: FunctionComponent<{
     <Picture
       images={[{ ...widescreenImage, minWidth: theme.sizes.sm }, squareImage]}
       isFull={true}
+      priority
     />
   );
 };

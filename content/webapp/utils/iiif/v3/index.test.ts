@@ -1,8 +1,13 @@
 import { Manifest } from '@iiif/presentation-3';
 
 import type { ServiceWithMetadata } from '@weco/content/types/manifest';
+import type { TransformedCanvas } from '@weco/content/types/manifest';
 
-import { getManifestAccessRequirements, transformLabel } from '.';
+import {
+  getManifestAccessRequirements,
+  hasNonImagesOrOriginals,
+  transformLabel,
+} from '.';
 
 function createTestManifest(overrides: Partial<Manifest> = {}): Manifest {
   return {
@@ -198,5 +203,114 @@ describe('getManifestAccessRequirements', () => {
 
     const result = getManifestAccessRequirements(manifest);
     expect(result).toEqual(['Restricted files', 'Open with advisory', 'Open']);
+  });
+});
+
+function createImageCanvas(
+  overrides: Partial<TransformedCanvas> = {}
+): TransformedCanvas {
+  return {
+    id: 'https://example.com/canvas/1',
+    type: 'Canvas',
+    width: 100,
+    height: 100,
+    imageServiceId: 'https://example.com/image/1',
+    label: 'Page 1',
+    textServiceId: undefined,
+    thumbnailImage: undefined,
+    painting: [{ id: 'https://example.com/image/1', type: 'Image' }],
+    original: [],
+    rendering: [],
+    supplementing: [],
+    metadata: [],
+    ...overrides,
+  };
+}
+
+describe('hasNonImagesOrOriginals', () => {
+  it('returns false when all canvases have only Image paintings and no originals', () => {
+    const canvases = [
+      createImageCanvas(),
+      createImageCanvas({ id: 'https://example.com/canvas/2' }),
+    ];
+    expect(hasNonImagesOrOriginals(canvases)).toBe(false);
+  });
+
+  it('returns false for an empty canvases array', () => {
+    expect(hasNonImagesOrOriginals([])).toBe(false);
+  });
+
+  it('returns false for undefined', () => {
+    expect(hasNonImagesOrOriginals(undefined)).toBe(false);
+  });
+
+  it('returns true when a canvas has a non-Image item in painting', () => {
+    const canvases = [
+      createImageCanvas({
+        painting: [{ id: 'https://example.com/video/1', type: 'Video' }],
+      }),
+    ];
+    expect(hasNonImagesOrOriginals(canvases)).toBe(true);
+  });
+
+  it('returns true when a canvas has a non-Image item in rendering', () => {
+    const canvases = [
+      createImageCanvas({
+        rendering: [{ id: 'https://example.com/audio/1', type: 'Sound' }],
+      }),
+    ];
+    expect(hasNonImagesOrOriginals(canvases)).toBe(true);
+  });
+
+  it('returns true when a canvas has a non-Image item in supplementing', () => {
+    const canvases = [
+      createImageCanvas({
+        supplementing: [
+          {
+            id: 'https://example.com/doc.pdf',
+            type: 'Text',
+            format: 'application/pdf',
+          },
+        ],
+      }),
+    ];
+    expect(hasNonImagesOrOriginals(canvases)).toBe(true);
+  });
+
+  it('returns true when any canvas has original files', () => {
+    const canvases = [
+      createImageCanvas(),
+      createImageCanvas({
+        id: 'https://example.com/canvas/2',
+        original: [
+          {
+            id: 'https://example.com/file.pdf',
+            type: 'Image',
+            format: 'application/pdf',
+            behavior: 'original' as const,
+          },
+        ],
+      }),
+    ];
+    expect(hasNonImagesOrOriginals(canvases)).toBe(true);
+  });
+
+  it('returns false when all canvases are image-only even with empty arrays', () => {
+    const canvases = [
+      createImageCanvas({ rendering: [], supplementing: [], original: [] }),
+    ];
+    expect(hasNonImagesOrOriginals(canvases)).toBe(false);
+  });
+
+  it('returns true when only one of many canvases has a non-Image painting', () => {
+    const canvases = [
+      createImageCanvas(),
+      createImageCanvas({ id: 'https://example.com/canvas/2' }),
+      createImageCanvas({
+        id: 'https://example.com/canvas/3',
+        painting: [{ id: 'https://example.com/audio/1', type: 'Sound' }],
+      }),
+    ];
+    expect(hasNonImagesOrOriginals(canvases)).toBe(true);
   });
 });

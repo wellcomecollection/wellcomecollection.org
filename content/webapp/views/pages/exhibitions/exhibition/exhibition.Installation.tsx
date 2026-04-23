@@ -11,12 +11,10 @@ import HeaderBackground from '@weco/common/views/components/HeaderBackground';
 import { gridSize8 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import Space from '@weco/common/views/components/styled/Space';
+import { fetchExhibitExhibition } from '@weco/content/services/prismic/fetch/exhibitions';
+import { EventBasic } from '@weco/content/types/events';
 import {
-  fetchExhibitExhibition,
-  fetchExhibitionRelatedContentClientSide,
-} from '@weco/content/services/prismic/fetch/exhibitions';
-import {
-  ExhibitionAbout,
+  AboutThisExhibitionContent,
   Exhibition as InstallationType,
 } from '@weco/content/types/exhibitions';
 import { Page as PageType } from '@weco/content/types/pages';
@@ -29,20 +27,20 @@ import SearchResults from '@weco/content/views/components/SearchResults';
 import StatusIndicator from '@weco/content/views/components/StatusIndicator';
 
 import DateAndStatusIndicator from './exhibition.DateAndStatusIndicator';
-import { ExhibitionOf } from './exhibition.Exhibition';
 import { getInfoItems } from './exhibition.helpers';
 
 type Props = {
   installation: InstallationType;
-  pages: PageType[];
+  relatedContent: (InstallationType | EventBasic | PageType)[];
+  aboutThisExhibitionContent: AboutThisExhibitionContent[];
 };
 
-const Installation: FunctionComponent<Props> = ({ installation, pages }) => {
+const Installation: FunctionComponent<Props> = ({
+  installation,
+  relatedContent,
+  aboutThisExhibitionContent,
+}) => {
   const [partOf, setPartOf] = useState<InstallationType>();
-  const [exhibitionOfs, setExhibitionOfs] = useState<ExhibitionOf>([]);
-  const [exhibitionAbouts, setExhibitionAbouts] = useState<ExhibitionAbout[]>(
-    []
-  );
   const [isModalActive, setIsModalActive] = useState(false);
 
   useEffect(() => {
@@ -51,16 +49,7 @@ const Installation: FunctionComponent<Props> = ({ installation, pages }) => {
         setPartOf(exhibition);
       }
     });
-
-    fetchExhibitionRelatedContentClientSide(installation.relatedIds).then(
-      relatedContent => {
-        if (isNotUndefined(relatedContent)) {
-          setExhibitionOfs(relatedContent.exhibitionOfs);
-          setExhibitionAbouts(relatedContent.exhibitionAbouts);
-        }
-      }
-    );
-  }, []);
+  }, [installation.id]);
 
   const FeaturedMedia = getFeaturedMedia(installation);
 
@@ -122,6 +111,9 @@ const Installation: FunctionComponent<Props> = ({ installation, pages }) => {
     </>
   );
 
+  const hasRelatedContent =
+    relatedContent.length > 0 || aboutThisExhibitionContent.length > 0;
+
   return (
     <ContentPage
       id={installation.id}
@@ -161,32 +153,27 @@ const Installation: FunctionComponent<Props> = ({ installation, pages }) => {
         </InfoBox>
       )}
 
-      {(exhibitionOfs.length > 0 ||
-        pages.length > 0 ||
-        exhibitionAbouts.length > 0) && (
+      {hasRelatedContent && (
         <Space $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}>
-          {(exhibitionOfs.length > 0 || pages.length > 0) && (
+          {relatedContent.length > 0 && (
             <SearchResults
               variant="default"
               id="events-list"
-              items={[...exhibitionOfs, ...pages]}
+              items={relatedContent}
               title="Installation events"
             />
           )}
 
-          {exhibitionAbouts.length > 0 && (
+          {aboutThisExhibitionContent.length > 0 && (
             <Space
               $v={{
                 size: 'xl',
-                properties:
-                  exhibitionOfs.length > 0 || pages.length > 0
-                    ? ['margin-top']
-                    : [],
+                properties: relatedContent.length > 0 ? ['margin-top'] : [],
               }}
             >
               <SearchResults
                 variant="default"
-                items={exhibitionAbouts}
+                items={aboutThisExhibitionContent}
                 title="Related stories"
               />
             </Space>

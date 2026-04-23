@@ -1,7 +1,12 @@
 import { Claims } from '@auth0/nextjs-auth0';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { FunctionComponent, PropsWithChildren, useState } from 'react';
+import {
+  Fragment,
+  FunctionComponent,
+  PropsWithChildren,
+  useState,
+} from 'react';
 import { useTheme } from 'styled-components';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
@@ -62,10 +67,10 @@ const DetailList: FunctionComponent<{
   return (
     <StyledDl>
       {listItems.map(item => (
-        <>
+        <Fragment key={item.label}>
           <dt className={font('sans-bold', -1)}>{item.label}</dt>
           <StyledDd className={font('sans', -1)}>{item.value}</StyledDd>
-        </>
+        </Fragment>
       ))}
     </StyledDl>
   );

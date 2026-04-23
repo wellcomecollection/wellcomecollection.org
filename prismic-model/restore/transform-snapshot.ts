@@ -43,6 +43,11 @@ import * as fs from 'fs';
 import * as path from 'path';
 import yargs from 'yargs';
 
+import { logError, logInfo, logSuccess } from '@weco/common/utils/console-logs';
+import {
+  escapeRegex,
+  readJsonFile,
+} from '@weco/prismic-model/restore/restore-utils';
 import 'dotenv/config';
 import {
   downloadLatestSnapshot,
@@ -136,7 +141,7 @@ async function init() {
   // In that case we skip ID/slug rewriting and only apply the publishDate backfill.
   const mapExists = fs.existsSync(mapPath);
   if (!mapExists) {
-    console.log(
+    logInfo(
       `Asset ID map not found at ${mapPath} — skipping ID and URL slug rewriting.`
     );
   }
@@ -146,20 +151,20 @@ async function init() {
   const defaultOut = path.join(SNAPSHOT_DIR, REWRITTEN_SNAPSHOT_FILENAME);
   const outPath = argv.out ? path.resolve(argv.out) : defaultOut;
 
-  console.log(`Source snapshot : ${snapshotPath}`);
-  console.log(`Asset ID map    : ${mapExists ? mapPath : '(none)'}`);
-  console.log(`Output path     : ${outPath}`);
+  logInfo(`Source snapshot : ${snapshotPath}`);
+  logInfo(`Asset ID map    : ${mapExists ? mapPath : '(none)'}`);
+  logInfo(`Output path     : ${outPath}`);
 
   const sourceRepo = argv.sourceRepo;
   const targetRepo = argv.targetRepo;
   const rewriteUrls = sourceRepo && targetRepo && sourceRepo !== targetRepo;
   if (rewriteUrls) {
-    console.log(`Repo name rewrite: "${sourceRepo}" → "${targetRepo}"`);
+    logInfo(`Repo name rewrite: "${sourceRepo}" → "${targetRepo}"`);
   }
 
   // Step 2: Load inputs
   const idMap: Record<string, string> = mapExists
-    ? JSON.parse(fs.readFileSync(mapPath, 'utf-8'))
+    ? readJsonFile<Record<string, string>>(mapPath)
     : {};
   const oldIds = Object.keys(idMap);
 
@@ -168,11 +173,11 @@ async function init() {
   // When present this gives exact URL replacements; when absent we fall back to
   // ID-only replacement which handles the id portion but not the filename slug.
   const slugMap: Record<string, string> = fs.existsSync(DEFAULT_SLUG_MAP)
-    ? JSON.parse(fs.readFileSync(DEFAULT_SLUG_MAP, 'utf-8'))
+    ? readJsonFile<Record<string, string>>(DEFAULT_SLUG_MAP)
     : {};
   const oldSlugs = Object.keys(slugMap);
   if (oldSlugs.length > 0) {
-    console.log(
+    logInfo(
       `Loaded ${oldSlugs.length} URL slug mappings from ${DEFAULT_SLUG_MAP}`
     );
   }
@@ -192,9 +197,8 @@ async function init() {
   // because Prismic URL-sanitises filenames at upload time (spaces stripped, chars encoded).
   // Uses a two-pass placeholder strategy to prevent collision.
   if (oldSlugs.length > 0) {
-    const escapedSlugs = oldSlugs.map(s =>
-      s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-    );
+    const escapedSlugs = oldSlugs.map(escapeRegex);
+    // Regex: (slug1|slug2|slug3|...) - matches any old URL path segment globally
     const pass3Re = new RegExp(escapedSlugs.join('|'), 'g');
     let pass3Replacements = 0;
     content = content.replace(pass3Re, match => {
@@ -202,22 +206,21 @@ async function init() {
       return `${slugMap[match]}${PLACEHOLDER}`;
     });
     let pass4Count = 0;
+    // Regex: matches the placeholder suffix to remove it
     content = content.replace(new RegExp(PLACEHOLDER, 'g'), () => {
       pass4Count++;
       return '';
     });
-    console.log(
+    logSuccess(
       `Pass 1/2 complete: replaced ${pass3Replacements} URL path segments (${pass4Count} cleaned up)`
     );
   }
 
   // Pass 3/4: replace old asset IDs with new ones (skipped if no map).
-  // Single-pass alternation regex is O(fileSize) rather than O(fileSize × idCount).
   // Two-pass placeholder strategy guards against the case where a new ID equals an old one.
   if (oldIds.length > 0) {
-    const escapedIds = oldIds.map(id =>
-      id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-    );
+    const escapedIds = oldIds.map(escapeRegex);
+    // Regex: (id1|id2|id3|...) - matches any old asset ID globally
     const pass1Re = new RegExp(escapedIds.join('|'), 'g');
     let pass1Replacements = 0;
     content = content.replace(pass1Re, match => {
@@ -225,11 +228,12 @@ async function init() {
       return `${idMap[match]}${PLACEHOLDER}`;
     });
     let pass2Count = 0;
+    // Regex: matches the placeholder suffix to remove it
     content = content.replace(new RegExp(PLACEHOLDER, 'g'), () => {
       pass2Count++;
       return '';
     });
-    console.log(
+    logSuccess(
       `Pass 3/4 complete: replaced ${pass1Replacements} asset IDs (${pass2Count} cleaned up)`
     );
   }
@@ -238,9 +242,10 @@ async function init() {
   //   https://<repo>.cdn.prismic.io/<repo>/...
   // Both must be updated when restoring to a repository with a different name.
   if (rewriteUrls) {
-    const escapedSource = sourceRepo!.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const escapedSource = escapeRegex(sourceRepo!);
 
-    // Replace https://images.prismic.io/<source-repo>/
+    // Regex: (https://images\.prismic\.io/)<repo>(/?) - matches images.prismic.io URLs
+    // Capture groups: $1=prefix, $2=optional trailing slash
     const imagesRe = new RegExp(
       `(https://images\\.prismic\\.io/)${escapedSource}(/?)`,
       'g'
@@ -251,7 +256,8 @@ async function init() {
       return `${prefix}${targetRepo}${slash}`;
     });
 
-    // Replace https://<source-repo>.cdn.prismic.io/<source-repo>/
+    // Regex: https://<repo>(\.cdn\.prismic\.io/)<repo>(/) - matches cdn.prismic.io URLs
+    // Capture groups: $1=middle domain part, $2=trailing slash
     const cdnRe = new RegExp(
       `https://${escapedSource}(\\.cdn\\.prismic\\.io/)${escapedSource}(/)`,
       'g'
@@ -262,7 +268,7 @@ async function init() {
       return `https://${targetRepo}${middle}${targetRepo}${slash}`;
     });
 
-    console.log(
+    logSuccess(
       `Pass 5 complete: rewrote ${imagesCount} images.prismic.io URLs and ${cdnCount} cdn.prismic.io URLs`
     );
   }
@@ -294,7 +300,7 @@ async function init() {
     }
   }
   content = JSON.stringify(docs, null, 2);
-  console.log(
+  logSuccess(
     `Pass publishDate: backfilled publishDate on ${publishDateCount} articles`
   );
 
@@ -309,10 +315,16 @@ async function init() {
 
   // Step 8: Write the output file
   fs.writeFileSync(outPath, content, 'utf-8');
-  console.log(`\nRewritten snapshot written to ${outPath}`);
-  console.log(
+  logSuccess(`Rewritten snapshot written to ${outPath}`);
+  logInfo(
     'You can now pass this file to restore-prismic-content.ts via --snapshot.'
   );
 }
 
-init();
+try {
+  init();
+} catch (error) {
+  const message = error instanceof Error ? error.message : String(error);
+  logError(`Error transforming snapshot: ${message}`);
+  process.exit(1);
+}

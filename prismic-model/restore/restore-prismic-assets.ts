@@ -9,7 +9,7 @@
  *   4. Uploading only the missing used assets via the Prismic Asset API,
  *      fetching file bytes from S3 with AWS credentials and posting multipart/form-data.
  *   5. Tracking old → new asset ID mappings in asset-id-map.json so:
- *    1) the script can be safely resumed if interrupted without creating duplicates, and
+ *      1) the script can be safely resumed if interrupted without creating duplicates, and
  *      2) we can update the asset ids in the content snapshot file before restoring the content
  *   6. Recording any failed uploads to asset-upload-failed.json for retry.
  *
@@ -26,14 +26,48 @@ import * as path from 'path';
 import * as readline from 'readline';
 import { Readable } from 'stream';
 
-import { downloadLatestS3File, downloadLatestSnapshot } from './s3-utils';
+import {
+  logBanner,
+  logError,
+  logInfo,
+  logSuccess,
+} from '@weco/common/utils/console-logs';
+import { region } from '@weco/prismic-model/config';
+import {
+  readJsonFile,
+  urlPathSegment,
+} from '@weco/prismic-model/restore/restore-utils';
+import {
+  downloadLatestS3File,
+  downloadLatestSnapshot,
+} from '@weco/prismic-model/restore/s3-utils';
 import 'dotenv/config';
+
+type PrismicAsset = {
+  id: string;
+  filename?: string;
+  extension?: string;
+  notes?: string;
+  credits?: string;
+  alt?: string;
+  url?: string;
+};
+
+type PrismicAssetsListResponse = {
+  items: { id: string }[];
+  cursor?: string;
+};
+
+type PrismicAssetUploadResponse = {
+  id: string;
+  url?: string;
+};
 
 const bucketFromEnv = process.env.PRISMIC_S3_BUCKET;
 if (!bucketFromEnv)
   throw new Error('PRISMIC_S3_BUCKET environment variable is required');
 const bucket = bucketFromEnv;
-const s3Client = new S3Client({ region: 'eu-west-1' });
+const s3Client = new S3Client({ region });
 
 // S3 key prefixes for the two backup types, and local directories to download them into
 const ASSETS_MANIFEST_PREFIX = 'media-library/prismic-assets-';
@@ -42,8 +76,7 @@ const ASSETS_OUTPUT_DIR = './restore/assets/';
 const ASSETS_PREFIX = 'media-library/assets/';
 
 // Derives the S3 filename for an asset using the same logic as the backup script.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function deriveFilename(asset: any): string {
+function deriveFilename(asset: PrismicAsset): string {
   if (asset && typeof asset.filename === 'string') {
     const cleanFilename = asset.filename.trim();
     if (cleanFilename) {
@@ -65,11 +98,11 @@ function deriveFilename(asset: any): string {
 // Downloads the most recent assets manifest JSON from S3 (prismic-assets-*.json).
 // This file contains metadata for every asset in the Prismic media library.
 async function downloadLatestAssetsList(): Promise<string> {
-  console.log('Downloading latest assets list from S3...');
+  logInfo('Downloading latest assets list from S3...');
   return downloadLatestS3File({
     bucket,
     prefix: ASSETS_MANIFEST_PREFIX,
-    region: 'eu-west-1',
+    region,
     outputDir: path.resolve(ASSETS_OUTPUT_DIR),
   });
 }
@@ -86,14 +119,12 @@ function writeUsedAssetIds({
   snapshotPath: string;
   outputFile: string;
 }) {
-  console.log('Determining which assets are being used...');
+  logInfo('Determining which assets are being used...');
   const resolvedAssetsPath = path.resolve(assetsPath);
   const resolvedSnapshotPath = path.resolve(snapshotPath);
   const resolvedOutputFile = path.resolve(outputFile);
-  const assets = JSON.parse(fs.readFileSync(resolvedAssetsPath, 'utf8'));
-  const snapshotDocs = JSON.parse(
-    fs.readFileSync(resolvedSnapshotPath, 'utf8')
-  );
+  const assets = readJsonFile<PrismicAsset[]>(resolvedAssetsPath);
+  const snapshotDocs = readJsonFile<unknown[]>(resolvedSnapshotPath);
   // Recursively collect all string values from snapshot
   function collectStrings(obj: unknown, set: Set<string>) {
     if (typeof obj === 'string') {
@@ -112,7 +143,7 @@ function writeUsedAssetIds({
   const snapshotStrings = new Set<string>();
   for (const doc of snapshotDocs) {
     // Remove top-level id from doc before collecting strings, we know we don't want to match asset IDs against document IDs
-    const { id, ...rest } = doc;
+    const { id, ...rest } = doc as Record<string, unknown>;
     collectStrings(rest, snapshotStrings);
   }
   const usedAssetIds = assets
@@ -122,8 +153,8 @@ function writeUsedAssetIds({
   const total = assets.length;
   const used = usedAssetIds.length;
   const percent = ((used / total) * 100).toFixed(2);
-  console.log(`Wrote ${used} used asset ids to ${resolvedOutputFile}`);
-  console.log(`Used assets: ${used}/${total} (${percent}%)`);
+  logSuccess(`Wrote ${used} used asset ids to ${resolvedOutputFile}`);
+  logInfo(`Used assets: ${used}/${total} (${percent}%)`);
 }
 
 // Reads the target Prismic repository name from env
@@ -163,13 +194,12 @@ async function fetchAllTargetRepoAssets(
   repository: string
 ): Promise<string[]> {
   const assetsUrlBase = 'https://asset-api.prismic.io/assets';
-  /* eslint-disable @typescript-eslint/no-explicit-any */
   const allIds: string[] = [];
   let cursor: string | undefined;
   const pageSize = 5000;
   let isLastPage = false;
 
-  console.log(`Fetching existing assets from target repo "${repository}"...`);
+  logInfo(`Fetching existing assets from target repo "${repository}"...`);
 
   while (!isLastPage) {
     const url = new URL(assetsUrlBase);
@@ -189,16 +219,13 @@ async function fetchAllTargetRepoAssets(
       );
     }
 
-    const json = (await res.json()) as any;
-    /* eslint-enable @typescript-eslint/no-explicit-any */
+    const json = (await res.json()) as PrismicAssetsListResponse;
     const items: { id: string }[] = Array.isArray(json.items) ? json.items : [];
     for (const item of items) {
       if (item.id) allIds.push(item.id);
     }
 
-    console.log(
-      `Fetched ${items.length} assets (total so far: ${allIds.length})`
-    );
+    logInfo(`Fetched ${items.length} assets (total so far: ${allIds.length})`);
 
     isLastPage = items.length < pageSize;
     cursor = json.cursor;
@@ -206,46 +233,21 @@ async function fetchAllTargetRepoAssets(
     if (!isLastPage) await new Promise(r => setTimeout(r, 1000));
   }
 
-  console.log(`Found ${allIds.length} existing assets in target repo`);
+  logSuccess(`Found ${allIds.length} existing assets in target repo`);
   return allIds;
 }
 
-// Extracts the URL path segment (filename portion without query string) from a Prismic asset URL.
-// e.g. "https://images.prismic.io/repo/abc_file.jpg?auto=format" -> "abc_file.jpg"
-function urlPathSegment(url: string): string {
-  if (!url) return '';
-  return url.split('?')[0].split('/').pop() ?? '';
-}
-
 // Uploads a single asset to the Prismic Asset API.
-// Downloads source bytes from either a direct URL or S3 using current AWS credentials,
+// Downloads source bytes from S3 using current AWS credentials,
 // then uploads to Prismic as multipart/form-data with optional metadata.
 
 async function fetchAssetStream(
   s3Bucket: string,
-  s3KeyOrUrl: string,
+  s3Key: string,
   assetId: string
 ): Promise<Readable> {
-  if (/^https?:\/\//i.test(s3KeyOrUrl)) {
-    const fileResponse = await fetch(s3KeyOrUrl);
-    if (!fileResponse.ok) {
-      throw new Error(
-        `Failed to download source file for asset ${assetId}: ${fileResponse.status} ${fileResponse.statusText}`
-      );
-    }
-    const bodyStream = fileResponse.body as Readable | null;
-    if (!bodyStream) {
-      throw new Error(`No file body returned for asset ${assetId}`);
-    }
-    return bodyStream;
-  }
-
-  const s3UrlMatch = /^s3:\/\/([^/]+)\/(.+)$/.exec(s3KeyOrUrl);
-  const sourceBucket = s3UrlMatch?.[1] ?? s3Bucket;
-  const sourceKey = (s3UrlMatch?.[2] ?? s3KeyOrUrl).replace(/^\/+/, '');
-
   const getResponse = await s3Client.send(
-    new GetObjectCommand({ Bucket: sourceBucket, Key: sourceKey })
+    new GetObjectCommand({ Bucket: s3Bucket, Key: s3Key })
   );
   const bodyStream = getResponse.Body as Readable | undefined;
   if (!bodyStream) {
@@ -273,15 +275,16 @@ async function uploadAsset(
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error);
     if (/credentials|ExpiredToken|token expired/i.test(msg)) {
-      console.error(
+      logError(
         'AWS credentials expired. Re-authenticate and re-run — previous progress is saved.'
       );
       process.exit(1);
     }
-    console.error(error);
+    logError(msg);
     return null;
   }
 
+  // form-data properly supports streaming Node.js Readable streams
   const formData = new FormData();
   formData.append('file', fileStream, { filename: asset.filename });
 
@@ -293,7 +296,7 @@ async function uploadAsset(
   if (credits) formData.append('credits', credits);
   if (alt) formData.append('alt', alt);
 
-  const response = await fetch(`https://asset-api.prismic.io/assets`, {
+  const response = await fetch('https://asset-api.prismic.io/assets', {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`,
@@ -303,17 +306,17 @@ async function uploadAsset(
     },
     body: formData,
   });
+
   if (!response.ok) {
-    console.error(
+    logError(
       `Failed to upload asset ${asset.id}: ${response.status} ${response.statusText}`
     );
     return null;
   }
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  const result = (await response.json()) as any;
-  /* eslint-enable @typescript-eslint/no-explicit-any */
+
+  const result = (await response.json()) as PrismicAssetUploadResponse;
   if (!result.id) return null;
-  return { id: result.id as string, url: (result.url as string) ?? '' };
+  return { id: result.id, url: result.url ?? '' };
 }
 
 async function init() {
@@ -365,37 +368,30 @@ async function init() {
     existingAssetsFile,
     JSON.stringify(existingAssetIds, null, 2)
   );
-  console.log(
+  logSuccess(
     `Wrote ${existingAssetIds.length} existing asset IDs to ${existingAssetsFile}`
   );
   const existingAssetIdSet = new Set(existingAssetIds);
 
   // Build the list of used assets that need to be uploaded.
-  // Use a Set for O(1) lookups rather than Array.includes (O(n) per check).
   const usedAssetIdSet = new Set<string>(
-    JSON.parse(fs.readFileSync(usedAssetsFile, 'utf-8'))
+    readJsonFile<string[]>(usedAssetsFile)
   );
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  const allAssets: any[] = JSON.parse(
-    fs.readFileSync(latestAssetsPath, 'utf-8')
-  );
-  /* eslint-enable @typescript-eslint/no-explicit-any */
+  const allAssets = readJsonFile<PrismicAsset[]>(latestAssetsPath);
   const usedAssets = allAssets.filter(a => usedAssetIdSet.has(a.id));
 
   // Load the ID map from any previous run so we can resume without re-uploading
   const idMap: Record<string, string> = fs.existsSync(assetIdMapFile)
-    ? JSON.parse(fs.readFileSync(assetIdMapFile, 'utf-8'))
+    ? readJsonFile<Record<string, string>>(assetIdMapFile)
     : {};
 
   // Load the slug map (old URL path segment -> new URL path segment) from any previous run
   const slugMap: Record<string, string> = fs.existsSync(assetSlugMapFile)
-    ? JSON.parse(fs.readFileSync(assetSlugMapFile, 'utf-8'))
+    ? readJsonFile<Record<string, string>>(assetSlugMapFile)
     : {};
 
   if (Object.keys(idMap).length > 0) {
-    console.log(
-      `Loaded ${Object.keys(idMap).length} existing asset ID mappings`
-    );
+    logInfo(`Loaded ${Object.keys(idMap).length} existing asset ID mappings`);
   }
 
   const assetsToUpload = usedAssets.filter(
@@ -408,7 +404,7 @@ async function init() {
   );
 
   if (!proceed) {
-    console.log('Aborted');
+    logInfo('Aborted');
     process.exit(0);
   }
 
@@ -416,9 +412,9 @@ async function init() {
 
   // Step 5: Upload each missing asset, writing progress as we go
   // Enforce Prismic API rate limit: 1 request per second
-  const MIN_INTERVAL_MS = 1000;
-  const MAX_RETRIES = 3;
-  const INITIAL_RETRY_DELAY_MS = 1000;
+  const minIntervalMs = 1000;
+  const maxRetries = 3;
+  const initialRetryDelayMs = 1000;
 
   for (const asset of assetsToUpload) {
     const uploadStartTime = Date.now();
@@ -433,9 +429,9 @@ async function init() {
       `previous id: ${asset.id}` + (asset.notes ? `\n${asset.notes}` : '');
 
     let result: { id: string; url: string } | null = null;
-    let retryDelayMs = INITIAL_RETRY_DELAY_MS;
+    let retryDelayMs = initialRetryDelayMs;
 
-    for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
       const uploadResult = await uploadAsset(
         {
           id: asset.id,
@@ -454,9 +450,9 @@ async function init() {
         break;
       }
 
-      if (attempt < MAX_RETRIES) {
-        console.log(
-          `Upload failed for asset ${asset.id}. Retrying in ${retryDelayMs}ms... (attempt ${attempt + 1}/${MAX_RETRIES})`
+      if (attempt < maxRetries) {
+        logInfo(
+          `Upload failed for asset ${asset.id}. Retrying in ${retryDelayMs}ms... (attempt ${attempt + 1}/${maxRetries})`
         );
         await new Promise(r => setTimeout(r, retryDelayMs));
         retryDelayMs *= 2; // exponential backoff
@@ -477,11 +473,11 @@ async function init() {
         slugMap[oldSlug] = newSlug;
         fs.writeFileSync(assetSlugMapFile, JSON.stringify(slugMap, null, 2));
       }
-      console.log(`Uploaded asset ${asset.id} -> ${result.id}`);
+      logSuccess(`Uploaded asset ${asset.id} -> ${result.id}`);
     } else {
       // Record failures only after all retries exhausted
-      console.log(
-        `Asset ${asset.id} failed after ${MAX_RETRIES} attempts. Recording for manual retry.`
+      logError(
+        `Asset ${asset.id} failed after ${maxRetries} attempts. Recording for manual retry.`
       );
       failedAssetIds.push(asset.id);
       fs.writeFileSync(
@@ -492,14 +488,14 @@ async function init() {
 
     // Respect rate limit by waiting for remaining time in the 1-second interval
     const elapsedMs = Date.now() - uploadStartTime;
-    const waitMs = Math.max(0, MIN_INTERVAL_MS - elapsedMs);
+    const waitMs = Math.max(0, minIntervalMs - elapsedMs);
     if (waitMs > 0) {
       await new Promise(r => setTimeout(r, waitMs));
     }
   }
 
   if (failedAssetIds.length > 0) {
-    console.log(
+    logError(
       `${failedAssetIds.length} assets failed to upload. See ${failedAssetsFile}`
     );
   }
@@ -507,14 +503,19 @@ async function init() {
   const failedCount = failedAssetIds.length;
   const totalUsed = usedAssets.length;
   const remaining = totalUsed - uploadedCount - failedCount;
-  console.log(`\nSummary:`);
-  console.log(`Uploaded: ${uploadedCount}`);
-  console.log(`Failed: ${failedCount}`);
-  console.log(`Remaining: ${remaining}`);
-  console.log(`Done. Asset ID map saved to ${assetIdMapFile}`);
+  logBanner('Summary', 'green');
+  logSuccess(`Uploaded: ${uploadedCount}`);
+  if (failedCount > 0) {
+    logError(`Failed: ${failedCount}`);
+  } else {
+    logSuccess('Failed: 0');
+  }
+  logInfo(`Remaining: ${remaining}`);
+  logSuccess(`Done. Asset ID map saved to ${assetIdMapFile}`);
 }
 
 init().catch(error => {
-  console.error('Error downloading latest assets list:', error);
+  const message = error instanceof Error ? error.message : String(error);
+  logError(`Error restoring assets: ${message}`);
   process.exit(1);
 });

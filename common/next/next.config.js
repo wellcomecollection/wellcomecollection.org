@@ -58,6 +58,16 @@ const createConfig =
           )
         );
 
+        // Exclude undici from client-side bundles
+        // undici is a Node.js-only package and should only be used server-side
+        if (!isServer) {
+          config.plugins.push(
+            new webpack.IgnorePlugin({
+              resourceRegExp: /^undici$/,
+            })
+          );
+        }
+
         if (shouldAnalyzeBundle) {
           // This path is relative to the .next directory
           const bundleEnvironment = isServer ? 'server' : 'client';

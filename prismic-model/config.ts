@@ -4,3 +4,4 @@ export const secrets = {
     isCi ? 'ci' : 'dev'
   }/prismic_bearer_token`,
 };
+export const region = 'eu-west-1';
