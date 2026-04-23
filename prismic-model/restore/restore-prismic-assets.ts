@@ -21,6 +21,7 @@
 import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import FormData from 'form-data';
 import * as fs from 'fs';
+import fetch from 'node-fetch';
 import * as path from 'path';
 import * as readline from 'readline';
 import { Readable } from 'stream';
@@ -290,6 +291,7 @@ async function uploadAsset(
     return null;
   }
 
+  // form-data properly supports streaming Node.js Readable streams
   const formData = new FormData();
   formData.append('file', fileStream, { filename: asset.filename });
 
@@ -301,7 +303,7 @@ async function uploadAsset(
   if (credits) formData.append('credits', credits);
   if (alt) formData.append('alt', alt);
 
-  const response = await fetch(`https://asset-api.prismic.io/assets`, {
+  const response = await fetch('https://asset-api.prismic.io/assets', {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`,
@@ -311,12 +313,14 @@ async function uploadAsset(
     },
     body: formData,
   });
+
   if (!response.ok) {
     logError(
       `Failed to upload asset ${asset.id}: ${response.status} ${response.statusText}`
     );
     return null;
   }
+
   const result = (await response.json()) as PrismicAssetUploadResponse;
   if (!result.id) return null;
   return { id: result.id, url: result.url ?? '' };
