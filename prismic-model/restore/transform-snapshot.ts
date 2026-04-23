@@ -39,6 +39,7 @@ import * as path from 'path';
 import yargs from 'yargs';
 
 import { logError, logInfo, logSuccess } from '@weco/common/utils/console-logs';
+import { readJsonFile } from '@weco/prismic-model/restore/restore-utils';
 import 'dotenv/config';
 
 // ---------------------------------------------------------------------------
@@ -141,7 +142,7 @@ function init() {
 
   // Step 2: Load inputs
   const idMap: Record<string, string> = mapExists
-    ? JSON.parse(fs.readFileSync(mapPath, 'utf-8'))
+    ? readJsonFile<Record<string, string>>(mapPath)
     : {};
   const oldIds = Object.keys(idMap);
 
@@ -150,7 +151,7 @@ function init() {
   // When present this gives exact URL replacements; when absent we fall back to
   // ID-only replacement which handles the id portion but not the filename slug.
   const slugMap: Record<string, string> = fs.existsSync(DEFAULT_SLUG_MAP)
-    ? JSON.parse(fs.readFileSync(DEFAULT_SLUG_MAP, 'utf-8'))
+    ? readJsonFile<Record<string, string>>(DEFAULT_SLUG_MAP)
     : {};
   const oldSlugs = Object.keys(slugMap);
   if (oldSlugs.length > 0) {

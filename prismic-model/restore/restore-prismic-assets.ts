@@ -33,7 +33,10 @@ import {
   logSuccess,
 } from '@weco/common/utils/console-logs';
 import { region } from '@weco/prismic-model/config';
-import { urlPathSegment } from '@weco/prismic-model/restore/restore-utils';
+import {
+  readJsonFile,
+  urlPathSegment,
+} from '@weco/prismic-model/restore/restore-utils';
 import {
   downloadLatestS3File,
   downloadLatestSnapshot,
@@ -71,16 +74,6 @@ const ASSETS_MANIFEST_PREFIX = 'media-library/prismic-assets-';
 const ASSETS_OUTPUT_DIR = './restore/assets/';
 // S3 prefix where the individual asset files are stored
 const ASSETS_PREFIX = 'media-library/assets/';
-
-function readJsonFile<T>(filePath: string): T {
-  try {
-    const content = fs.readFileSync(filePath, 'utf-8');
-    return JSON.parse(content) as T;
-  } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    throw new Error(`Failed to read JSON from ${filePath}: ${message}`);
-  }
-}
 
 // Derives the S3 filename for an asset using the same logic as the backup script.
 function deriveFilename(asset: PrismicAsset): string {
