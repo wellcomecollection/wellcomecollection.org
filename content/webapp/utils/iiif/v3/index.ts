@@ -780,26 +780,6 @@ export function hasNonImagesOrOriginals(
   return !!hasNonImage;
 }
 
-export function getFormatString(format?: string): string {
-  switch (format) {
-    case 'application/pdf':
-      return 'PDF';
-    case 'text/plain':
-      return 'PLAIN';
-    case 'image/jpeg':
-      return 'JPG';
-    case 'video/mp4':
-      return 'MP4';
-    case 'video/webm':
-      return 'WebM';
-    case 'audio/mp3':
-    case 'audio/x-mpeg-3':
-      return 'MP3';
-    default:
-      return 'unknown format';
-  }
-}
-
 export function getStructures(manifest: Manifest | Collection): Range[] {
   if (isCollection(manifest)) {
     return [];

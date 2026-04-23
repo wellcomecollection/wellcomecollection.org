@@ -148,9 +148,13 @@ export const defaultSerializer: JSXFunctionSerializer = (
         return (
           <DownloadLink
             href={linkUrl}
-            mimeType={getMimeTypeFromExtension(
-              (fileExtension && fileExtension[0].substring(1)) || ''
-            )}
+            format={
+              fileExtension
+                ? getMimeTypeFromExtension(
+                    fileExtension && fileExtension[0].substring(1)
+                  )
+                : undefined
+            }
           >
             {children}{' '}
             <span style={{ whiteSpace: 'nowrap' }}>
