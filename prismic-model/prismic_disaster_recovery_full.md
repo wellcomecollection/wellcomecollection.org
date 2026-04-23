@@ -27,7 +27,7 @@ This document describes practical disaster-recovery (DR) scenarios for Prismic a
 
 > **Time to recover (worst case Scenario 1 estimate):** ~3–4 hours for assets (≈10,000 assets at 1 req/sec) + ~1.5 hours for content (≈5,000 documents at 1 req/sec), plus repository/custom types setup etc. Plan for a full day.
 
-> **Tip:** Practice the full Scenario 1 runbook at least once a year — it is the most operationally demanding scenario and benefits from familiarity before an emergency.
+> **Tip:** Practice the full Scenario 1 runbook at least once a quarter — it is the most operationally demanding scenario and benefits from familiarity before an emergency.
 
 ---
 
