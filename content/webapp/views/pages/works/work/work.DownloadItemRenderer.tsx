@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { chevron, closedFolder, openFolder } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
+import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
 import { TransformedCanvas } from '@weco/content/types/manifest';
 import { controlDimensions } from '@weco/content/views/pages/works/work/work.helpers';
@@ -23,6 +24,7 @@ export type DownloadItemRendererProps = {
   item: UiTreeNode;
   isEnhanced: boolean;
   hasControl: boolean;
+  level: number;
   highlightCondition: 'primary' | 'secondary' | undefined;
   workId?: string;
   canvases?: TransformedCanvas[];
@@ -37,6 +39,7 @@ const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
   item,
   isEnhanced,
   hasControl,
+  level,
   highlightCondition,
   workId,
   canvases,
@@ -64,10 +67,14 @@ const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
       : undefined;
 
   return (
-    <ItemWrapper>
+    <ItemWrapper
+      {...dataGtmPropsToAttributes({
+        trigger: 'tree_chevron',
+        'data-tree-level': String(level),
+      })}
+    >
       {isEnhanced && hasControl && (
         <TreeControl
-          data-gtm-trigger="tree_chevron"
           $highlightCondition={highlightCondition}
           $isDarkMode={isDarkMode}
         >
