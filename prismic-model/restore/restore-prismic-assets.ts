@@ -21,7 +21,6 @@
 import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import FormData from 'form-data';
 import * as fs from 'fs';
-import fetch from 'node-fetch';
 import * as path from 'path';
 import * as readline from 'readline';
 import { Readable } from 'stream';
