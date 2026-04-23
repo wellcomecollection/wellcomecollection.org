@@ -513,7 +513,9 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
                       src={original.id}
                       label={itemLabel}
                       fileSize={getFileSize(canvas)}
-                      format={'format' in item ? item.format : undefined}
+                      format={
+                        'format' in original ? original.format : undefined
+                      }
                       showWarning={true}
                     />
                   </IIIFItemWrapper>
