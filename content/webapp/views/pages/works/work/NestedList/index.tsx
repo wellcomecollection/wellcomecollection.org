@@ -4,8 +4,8 @@ import { useAppContext } from '@weco/common/contexts/AppContext';
 import { font } from '@weco/common/utils/classnames';
 import { UiTree } from '@weco/content/views/pages/works/work/work.types';
 
-import { ListProps } from './ArchiveTree.helpers';
-import ListItem from './ArchiveTree.ListItem';
+import { ListProps } from './NestedList.helpers';
+import ListItem from './NestedList.ListItem';
 
 type NestedListProps = Omit<ListProps, 'item'> & {
   archiveTree: UiTree;
@@ -72,3 +72,6 @@ const NestedList: FunctionComponent<NestedListProps> = ({
 };
 
 export default NestedList;
+
+export { TreeControl } from './NestedList.styles';
+export { isRelatedWork } from './NestedList.helpers';
