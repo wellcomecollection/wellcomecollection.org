@@ -19,11 +19,12 @@
  *   PRISMIC_WRITE_API_TOKEN  - Prismic write API token for the target repository
  */
 import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import FormData from 'form-data';
 import * as fs from 'fs';
+import fetch from 'node-fetch';
 import * as path from 'path';
 import * as readline from 'readline';
 import { Readable } from 'stream';
-import { FormData, request } from 'undici';
 
 import {
   logBanner,
@@ -290,9 +291,9 @@ async function uploadAsset(
     return null;
   }
 
-  // Undici's FormData supports streams directly for efficient large file uploads
+  // form-data properly supports streaming Node.js Readable streams
   const formData = new FormData();
-  formData.append('file', fileStream, asset.filename);
+  formData.append('file', fileStream, { filename: asset.filename });
 
   const notes = asset.notes?.trim();
   const credits = asset.credits?.trim();
@@ -302,25 +303,25 @@ async function uploadAsset(
   if (credits) formData.append('credits', credits);
   if (alt) formData.append('alt', alt);
 
-  const { statusCode, body } = await request(
-    'https://asset-api.prismic.io/assets',
-    {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        repository,
-        Accept: 'application/json',
-      },
-      body: formData,
-    }
-  );
+  const response = await fetch('https://asset-api.prismic.io/assets', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      repository,
+      Accept: 'application/json',
+      ...formData.getHeaders(),
+    },
+    body: formData,
+  });
 
-  if (statusCode !== 200 && statusCode !== 201) {
-    logError(`Failed to upload asset ${asset.id}: ${statusCode}`);
+  if (!response.ok) {
+    logError(
+      `Failed to upload asset ${asset.id}: ${response.status} ${response.statusText}`
+    );
     return null;
   }
 
-  const result = (await body.json()) as PrismicAssetUploadResponse;
+  const result = (await response.json()) as PrismicAssetUploadResponse;
   if (!result.id) return null;
   return { id: result.id, url: result.url ?? '' };
 }
