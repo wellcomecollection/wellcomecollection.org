@@ -61,8 +61,3 @@ variable "google_bots_ip_set_arn" {
   type        = string
   description = "ARN of the shared google-bots IP set (defined at root level)"
 }
-
-variable "github_actions_ip_set_arn" {
-  type        = string
-  description = "ARN of the shared github-actions IP set (defined at root level)"
-}
