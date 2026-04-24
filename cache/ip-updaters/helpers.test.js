@@ -2,10 +2,7 @@
 const assert = require('node:assert/strict');
 const { describe, it } = require('node:test');
 
-const {
-  validateIPChange,
-  extractIpv4Addresses,
-} = require('./update_google_bot_ips.helpers');
+const { validateIPChange, extractIpv4Addresses } = require('./helpers');
 
 describe('validateIPChange', () => {
   it('allows initial population when current list is empty', () => {

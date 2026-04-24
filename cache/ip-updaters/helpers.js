@@ -1,4 +1,5 @@
 /* eslint-env node */
+/* global fetch */
 
 const { styleText } = require('util');
 
@@ -71,8 +72,23 @@ function validateIPChange(currentIPs, newIPs) {
   logSuccess('IP content change is within acceptable limits');
 }
 
+/**
+ * Fetch and parse JSON from a URL
+ */
+async function fetchJson(url, options) {
+  const response = await fetch(url, options);
+  if (!response.ok) {
+    const body = await response.text().catch(() => '');
+    throw new Error(
+      `Failed to fetch ${url}: ${response.status} ${response.statusText}${body ? ` - ${body.slice(0, 200)}` : ''}`
+    );
+  }
+  return response.json();
+}
+
 module.exports = {
   extractIpv4Addresses,
+  fetchJson,
   validateIPChange,
   logInfo,
   logSuccess,

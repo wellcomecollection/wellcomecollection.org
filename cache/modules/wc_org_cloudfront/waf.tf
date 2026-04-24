@@ -181,8 +181,29 @@ resource "aws_wafv2_web_acl" "wc_org" {
   }
 
   rule {
-    name     = "managed-ip-blocking"
+    name     = "allow-github-actions"
     priority = 4
+
+    action {
+      allow {}
+    }
+
+    statement {
+      ip_set_reference_statement {
+        arn = var.github_actions_ip_set_arn
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      sampled_requests_enabled   = true
+      metric_name                = "allow-github-actions-${var.namespace}"
+    }
+  }
+
+  rule {
+    name     = "managed-ip-blocking"
+    priority = 5
 
     override_action {
       none {}
@@ -205,7 +226,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "apac-captcha-consent-block"
-    priority = 5
+    priority = 6
 
     action {
       captcha {}
@@ -255,7 +276,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "latam-captcha-consent-block"
-    priority = 6
+    priority = 7
 
     action {
       captcha {}
@@ -305,7 +326,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "geo-rate-limit-USA"
-    priority = 7
+    priority = 8
 
     action {
       block {
@@ -340,7 +361,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "geo-rate-limit-APAC"
-    priority = 8
+    priority = 9
 
     action {
       block {
@@ -380,7 +401,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "geo-rate-limit-LATAM"
-    priority = 9
+    priority = 10
 
     action {
       block {
@@ -417,7 +438,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "blanket-rate-limiting"
-    priority = 10
+    priority = 11
 
     action {
       block {}
@@ -439,7 +460,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "restrictive-rate-limiting"
-    priority = 11
+    priority = 12
 
     action {
       block {}
@@ -477,7 +498,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-crs
   rule {
     name     = "core-rule-group"
-    priority = 12
+    priority = 13
 
     override_action {
       none {}
@@ -500,7 +521,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-use-case.html#aws-managed-rule-groups-use-case-sql-db
   rule {
     name     = "sqli-rule-group"
-    priority = 13
+    priority = 14
 
     override_action {
       none {}
@@ -523,7 +544,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-known-bad-inputs
   rule {
     name     = "known-bad-inputs-rule-group"
-    priority = 14
+    priority = 15
 
     override_action {
       none {}
@@ -545,7 +566,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "bot-control-rule-group"
-    priority = 15
+    priority = 16
 
     // Because the Bot Control rules are quite aggressive, they block some useful bots
     // such as Updown. While we could add overrides for specific bots, we don"t want to have to
@@ -592,7 +613,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "bot-user-agent-manual"
-    priority = 16
+    priority = 17
 
     action {
       block {}

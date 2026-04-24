@@ -1,10 +1,6 @@
-/* eslint-env node */
-/* global fetch */
-
-// We rate-limit the USA in WAF (`geo-rate-limit-USA`)
-// but we want to make sure SEO is not affected by this.
-// This Lambda function will run on a schedule to fetch the latest
-// Google bot IP ranges and update the whitelisted IP set accordingly.
+// We rate-limit traffic in WAF but want to make sure GitHub Actions
+// runners are not blocked. This Lambda fetches the latest GitHub Actions
+// IP ranges and updates the whitelisted IP set accordingly.
 
 const {
   WAFV2Client,
@@ -13,58 +9,46 @@ const {
 } = require('@aws-sdk/client-wafv2');
 
 const {
-  extractIpv4Addresses,
+  fetchJson,
   validateIPChange,
   logInfo,
   logSuccess,
   logError,
-} = require('./update_google_bot_ips.helpers');
+} = require('./helpers');
 
 const wafClient = new WAFV2Client({ region: 'us-east-1' });
 
-const IP_SET_NAME = 'google-bots';
+const IP_SET_NAME = 'github-actions';
 const IP_SET_SCOPE = 'CLOUDFRONT';
 
-// Google's IP range sources
-const GOOGLE_IP_SOURCES = [
-  'https://developers.google.com/static/crawling/ipranges/common-crawlers.json',
-  'https://developers.google.com/static/crawling/ipranges/special-crawlers.json',
-];
+const GITHUB_META_URL = 'https://api.github.com/meta';
 
 /**
- * Fetch and parse JSON from a URL
+ * Fetch GitHub Actions IPv4 CIDR ranges from the /meta endpoint.
+ * The response shape is { "actions": ["x.x.x.x/y", "::1/128", ...], ... }
  */
-async function fetchJson(url) {
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`Failed to fetch ${url}: ${response.statusText}`);
+async function fetchGitHubActionsIPs() {
+  logInfo('Fetching GitHub Actions IP ranges...');
+
+  const data = await fetchJson(GITHUB_META_URL, {
+    headers: {
+      Accept: 'application/json',
+      'User-Agent': 'wellcomecollection-ip-updater',
+    },
+  });
+
+  if (!data.actions || !Array.isArray(data.actions)) {
+    throw new Error(`Unexpected JSON structure from ${GITHUB_META_URL}`);
   }
-  return response.json();
-}
 
-/**
- * Fetch all Google bot IPv4 addresses from both sources
- */
-async function fetchGoogleBotIPs() {
-  logInfo('Fetching Google bot IP ranges...');
+  // Filter to IPv4 only (WAF IP set is IPV4) and deduplicate
+  const ipv4Ranges = [
+    ...new Set(data.actions.filter(cidr => !cidr.includes(':'))),
+  ];
 
-  const results = await Promise.all(
-    GOOGLE_IP_SOURCES.map(async url => {
-      try {
-        const data = await fetchJson(url);
-        return extractIpv4Addresses(data);
-      } catch (error) {
-        logError(`Error fetching ${url}: ${error}`);
-        throw error;
-      }
-    })
-  );
+  logInfo(`Fetched ${ipv4Ranges.length} unique IPv4 ranges`);
 
-  // Flatten and deduplicate
-  const allIPs = [...new Set(results.flat())];
-  logInfo(`Fetched ${allIPs.length} unique IPv4 addresses`);
-
-  return allIPs.sort();
+  return ipv4Ranges.sort();
 }
 
 /**
@@ -117,7 +101,7 @@ async function updateIPSet(ipSetId, lockToken, newAddresses) {
  */
 exports.handler = async () => {
   try {
-    logInfo('Starting Google bot IP update process...');
+    logInfo('Starting GitHub Actions IP update process...');
 
     const ipSetId = process.env.IP_SET_ID;
     if (!ipSetId) {
@@ -128,8 +112,8 @@ exports.handler = async () => {
     const { ipSet, lockToken } = await getCurrentIPSet(ipSetId);
     const currentIPs = ipSet.Addresses || [];
 
-    // Fetch latest IPs from Google
-    const newIPs = await fetchGoogleBotIPs();
+    // Fetch latest IPs from GitHub
+    const newIPs = await fetchGitHubActionsIPs();
 
     // Check if there are any changes
     const currentIPsSet = new Set(currentIPs);
@@ -159,8 +143,12 @@ exports.handler = async () => {
     const addedIPs = newIPs.filter(ip => !currentIPsSet.has(ip));
     const removedIPs = currentIPs.filter(ip => !newIPsSet.has(ip));
 
-    logInfo(`Added ${addedIPs.length} IPs: ${JSON.stringify(addedIPs)}`);
-    logInfo(`Removed ${removedIPs.length} IPs: ${JSON.stringify(removedIPs)}`);
+    const sample = arr =>
+      arr.length <= 10
+        ? JSON.stringify(arr)
+        : `${JSON.stringify(arr.slice(0, 10))} and ${arr.length - 10} more`;
+    logInfo(`Added ${addedIPs.length} IPs: ${sample(addedIPs)}`);
+    logInfo(`Removed ${removedIPs.length} IPs: ${sample(removedIPs)}`);
 
     return {
       statusCode: 200,
@@ -173,7 +161,7 @@ exports.handler = async () => {
       }),
     };
   } catch (error) {
-    logError(`Error updating Google bot IPs: ${error}`);
+    logError(`Error updating GitHub Actions IPs: ${error}`);
     throw error; // Re-throw to trigger Lambda failure alarm
   }
 };
