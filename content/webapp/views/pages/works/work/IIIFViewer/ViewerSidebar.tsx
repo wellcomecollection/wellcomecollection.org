@@ -24,7 +24,7 @@ import { getDigitalLocationInfo } from '@weco/content/utils/works';
 import LinkLabels from '@weco/content/views/components/LinkLabels';
 import WorkLink from '@weco/content/views/components/WorkLink';
 import WorkTitle from '@weco/content/views/components/WorkTitle';
-import NestedList from '@weco/content/views/pages/works/work/ArchiveTree/ArchiveTree.NestedList';
+import NestedList from '@weco/content/views/pages/works/work/NestedList';
 import DownloadItemRenderer from '@weco/content/views/pages/works/work/work.DownloadItemRenderer';
 import RestrictedItemMessage from '@weco/content/views/pages/works/work/work.RestrictedItemMessage';
 import WorksTree from '@weco/content/views/pages/works/work/WorkDetails/WorkDetails.Tree';

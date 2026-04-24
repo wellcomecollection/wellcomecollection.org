@@ -35,8 +35,8 @@ import {
 } from '@weco/content/utils/iiif/v3';
 import { DigitalLocationInfo } from '@weco/content/utils/works';
 import Download from '@weco/content/views/components/Download';
-import NestedList from '@weco/content/views/pages/works/work/ArchiveTree/ArchiveTree.NestedList';
 import IIIFItemList from '@weco/content/views/pages/works/work/IIIFItemList';
+import NestedList from '@weco/content/views/pages/works/work/NestedList';
 import DownloadItemRenderer from '@weco/content/views/pages/works/work/work.DownloadItemRenderer';
 import { createDownloadTree } from '@weco/content/views/pages/works/work/work.helpers';
 import RestrictedItemMessage from '@weco/content/views/pages/works/work/work.RestrictedItemMessage';

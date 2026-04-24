@@ -7,10 +7,13 @@ import { classNames, font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import { toWorkLink } from '@weco/content/views/components/WorkLink';
 import WorkTitle from '@weco/content/views/components/WorkTitle';
+import {
+  isRelatedWork,
+  TreeControl,
+} from '@weco/content/views/pages/works/work/NestedList';
 import { UiTreeNode } from '@weco/content/views/pages/works/work/work.types';
 
-import { isRelatedWork } from './ArchiveTree.helpers';
-import { StyledLink, TreeControl } from './ArchiveTree.styles';
+import { StyledLink } from './ArchiveTree.styles';
 
 const RefNumber = styled.span.attrs({
   className: font('sans', -2),
@@ -60,6 +63,7 @@ const WorkItem: FunctionComponent<WorkItemRendererProps> = ({
           <Icon rotate={item.openStatus ? undefined : 270} icon={chevron} />
         </TreeControl>
       )}
+
       <StyledLink
         {...toWorkLink({ id: item.work.id, scroll: false })}
         className={classNames({
