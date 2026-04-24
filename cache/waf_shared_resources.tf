@@ -17,3 +17,20 @@ resource "aws_wafv2_ip_set" "google_bots" {
     ignore_changes = [addresses]
   }
 }
+
+resource "aws_wafv2_ip_set" "github_actions" {
+  name        = "github-actions"
+  description = "GitHub Actions IP ranges automatically updated from https://api.github.com/meta"
+
+  scope              = "CLOUDFRONT"
+  ip_address_version = "IPV4"
+
+  # Addresses are managed by the github-actions-ip-updater Lambda function
+  # Initial empty list - Lambda will populate on first run
+  addresses = []
+
+  lifecycle {
+    # Lambda manages the addresses field - don't let Terraform overwrite it
+    ignore_changes = [addresses]
+  }
+}

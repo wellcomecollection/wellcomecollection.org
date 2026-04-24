@@ -7,13 +7,13 @@ module "google_bot_ip_updater" {
 
   name        = "google-bot-ip-updater"
   description = "Automatically updates Google bot IP ranges in WAF from Google's published lists"
-  handler     = "update_google_bot_ips.handler"
+  handler     = "google-bots.handler"
   runtime     = "nodejs24.x"
   timeout     = 60
   memory_size = 256
 
-  source_file           = "${path.module}/update_google_bot_ips.js"
-  extra_source_files    = ["${path.module}/update_google_bot_ips.helpers.js"]
+  source_file           = "${path.module}/ip-updaters/google-bots.js"
+  extra_source_files    = ["${path.module}/ip-updaters/helpers.js"]
   alarm_topic_arn       = local.monitoring_infra["chatbot_topic_arns"]["us-east-1"]
   log_retention_in_days = 30
 
