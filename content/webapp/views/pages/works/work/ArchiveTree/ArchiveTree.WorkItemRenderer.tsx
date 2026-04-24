@@ -47,14 +47,11 @@ const WorkItem: FunctionComponent<WorkItemRendererProps> = ({
   isDarkMode,
 }) => {
   const { isEnhanced } = useAppContext();
+
   return (
     <div
       style={{ display: 'flex', width: '100%' }}
       className={font('sans', -2)}
-      {...dataGtmPropsToAttributes({
-        trigger: 'tree_chevron',
-        'data-tree-level': String(level),
-      })}
     >
       {isEnhanced && (level > 1 || showFirstLevelGuideline) && hasControl && (
         <TreeControl
@@ -74,10 +71,6 @@ const WorkItem: FunctionComponent<WorkItemRendererProps> = ({
         tabIndex={isEnhanced ? (isSelected ? 0 : -1) : 0}
         $isCurrent={currentWorkId === item.work.id}
         $hasControl={hasControl}
-        {...dataGtmPropsToAttributes({
-          trigger: 'tree_link',
-          'data-tree-level': String(level),
-        })}
         onClickCapture={event => {
           // Prevent row-level tree_chevron tracking when the link is clicked.
           event.stopPropagation();
@@ -86,8 +79,14 @@ const WorkItem: FunctionComponent<WorkItemRendererProps> = ({
           // We don't want to open the branch, when the work link is activated
           event.stopPropagation();
         }}
+        {...dataGtmPropsToAttributes({
+          trigger: 'tree_link',
+          label: `${item.work.title}${isRelatedWork(item.work) ? ` (${item.work.referenceNumber})` : ''}`,
+          'data-tree-level': String(level),
+        })}
       >
         <WorkTitle title={item.work.title} />
+
         {isRelatedWork(item.work) && (
           <RefNumber>{item.work.referenceNumber}</RefNumber>
         )}

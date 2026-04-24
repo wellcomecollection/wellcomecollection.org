@@ -65,11 +65,6 @@ export const TreeControl = styled.span<TreeControlStyledProps>`
   position: relative;
   z-index: 1;
 
-  .icon,
-  .icon * {
-    pointer-events: none;
-  }
-
   &::before {
     content: '';
     position: absolute;

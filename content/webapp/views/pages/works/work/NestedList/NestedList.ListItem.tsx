@@ -11,6 +11,7 @@ import NestedList from '.';
 import {
   getAriaLabel,
   getTabbableIds,
+  isRelatedWork,
   ListProps,
   updateChildren,
 } from './NestedList.helpers';
@@ -165,17 +166,27 @@ const ListItem: FunctionComponent<ListItemProps> = ({
       ? 'secondary'
       : undefined;
 
-  const hasGuideline = Boolean(
+  const isExpandable = Boolean(
     item?.work?.totalParts && item?.work?.totalParts > 0
   );
 
   const showGuideline =
     isEnhanced &&
-    hasGuideline &&
+    isExpandable &&
     item.openStatus &&
     (level > 1 || showFirstLevelGuideline);
 
   function toggleBranch() {
+    if (isExpandable) {
+      window.dataLayer?.push({
+        event: 'tree_chevron',
+        treeItem: {
+          level: String(level),
+          label: `${item.work.title}${isRelatedWork(item.work) ? ` (${item.work.referenceNumber})` : ''}`,
+        },
+      });
+    }
+
     if (item.children === undefined && shouldFetchChildren) {
       expandTree({
         item,
@@ -329,7 +340,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
           showFirstLevelGuideline={showFirstLevelGuideline}
           highlightCondition={highlightCondition}
           isDarkMode={isDarkMode}
-          hasControl={hasGuideline}
+          hasControl={isExpandable}
           {...itemRendererProps}
         />
       )}
