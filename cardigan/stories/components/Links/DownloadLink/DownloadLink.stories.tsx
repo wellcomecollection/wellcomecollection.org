@@ -8,20 +8,19 @@ const meta: Meta<typeof DownloadLink> = {
   args: {
     href: '/',
     linkText: 'Download file',
-    format: 'PDF',
+    format: 'application/pdf',
     isDark: false,
   },
   argTypes: {
     href: { table: { disable: true } },
     isTabbable: { table: { disable: true } },
-    mimeType: { table: { disable: true } },
     linkText: {
       name: 'Text',
     },
     format: {
       name: 'Format',
       control: 'radio',
-      options: ['PDF', 'JPEG', 'MP3', undefined],
+      options: ['application/pdf', 'image/jpeg', 'audio/mpeg', undefined],
     },
     isDark: {
       name: 'isDark: is on a dark background',

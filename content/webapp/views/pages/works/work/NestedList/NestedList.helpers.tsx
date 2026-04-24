@@ -1,6 +1,7 @@
 import { FunctionComponent } from 'react';
 
 import { RelatedWork } from '@weco/content/services/wellcome/catalogue/types';
+import { WorkItemRendererProps } from '@weco/content/views/pages/works/work/ArchiveTree/ArchiveTree.WorkItemRenderer';
 import { DownloadItemRendererProps } from '@weco/content/views/pages/works/work/work.DownloadItemRenderer';
 import { controlDimensions } from '@weco/content/views/pages/works/work/work.helpers';
 import {
@@ -9,8 +10,6 @@ import {
   UiTree,
   UiTreeNode,
 } from '@weco/content/views/pages/works/work/work.types';
-
-import { WorkItemRendererProps } from './ArchiveTree.WorkItemRenderer';
 
 export const verticalGuidePosition =
   controlDimensions.controlHeight / 2 +

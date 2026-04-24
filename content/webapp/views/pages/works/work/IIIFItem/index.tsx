@@ -42,7 +42,6 @@ import { convertRequestUriToInfoUri } from '@weco/content/utils/iiif/convert-iii
 import { hasRestrictedItem } from '@weco/content/utils/iiif/v3';
 import {
   getFileSize,
-  getFormatString,
   getImageServiceFromItem,
   getLabelString,
 } from '@weco/content/utils/iiif/v3';
@@ -487,7 +486,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
             src={item.id}
             label={itemLabel}
             fileSize={getFileSize(canvas)}
-            format={'format' in item ? getFormatString(item.format) : undefined}
+            format={'format' in item ? item.format : undefined}
           />
         </IIIFItemWrapper>
       );
@@ -515,9 +514,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
                       label={itemLabel}
                       fileSize={getFileSize(canvas)}
                       format={
-                        'format' in item
-                          ? getFormatString(item.format)
-                          : undefined
+                        'format' in original ? original.format : undefined
                       }
                       showWarning={true}
                     />

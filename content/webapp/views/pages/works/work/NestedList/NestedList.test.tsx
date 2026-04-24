@@ -1,4 +1,4 @@
-import { getTabbableIds } from './ArchiveTree.helpers';
+import { getTabbableIds } from './NestedList.helpers';
 
 describe('getTabbableIds', () => {
   it('finds all IDs', () => {
@@ -16,7 +16,7 @@ describe('getTabbableIds', () => {
     expect(result).toStrictEqual(['PENROSE', 'CRICK']);
   });
 
-  it('includes IDs of nodes which aren’t open', () => {
+  it('includes IDs of nodes which are not open', () => {
     const tree = [
       {
         work: { id: 'PENROSE' },

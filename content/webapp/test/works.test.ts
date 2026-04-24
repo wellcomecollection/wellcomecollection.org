@@ -1,4 +1,3 @@
-import { idArray, uiTree } from '@weco/content/__mocks__/uiTree';
 import {
   legacyWorkWithMixedPartOf,
   legacyWorkWithPartOf,
@@ -15,7 +14,6 @@ import {
   getItemsWith,
   getProductionDates,
 } from '@weco/content/utils/works';
-import { getTabbableIds } from '@weco/content/views/pages/works/work/ArchiveTree/ArchiveTree.helpers';
 
 describe('getProductionDates', () => {
   it('extracts date labels from a work', () => {
@@ -310,13 +308,6 @@ it('Does not return non-archive parents', () => {
       availabilities: [],
     },
   ]);
-});
-
-describe('getTabbableIds', () => {
-  it('gets the ids from only the open branches of a uiTree and returns them as a flat array', () => {
-    const tabbableIds = getTabbableIds(uiTree);
-    expect(idArray).toEqual(tabbableIds);
-  });
 });
 
 describe('getDigitalLocationOfType', () => {

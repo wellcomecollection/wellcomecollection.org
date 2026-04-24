@@ -9,7 +9,7 @@ import { controlDimensions } from '@weco/content/views/pages/works/work/work.hel
 import { UiTreeNode } from '@weco/content/views/pages/works/work/work.types';
 import DownloadItem from '@weco/content/views/pages/works/work/WorkDetails/WorkDetails.DownloadItem';
 
-import { TreeControl } from './ArchiveTree/ArchiveTree.styles';
+import { TreeControl } from './NestedList';
 
 const ItemWrapper = styled.div.attrs({
   className: font('sans', -2),
@@ -62,6 +62,7 @@ const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
     : fallbackIndex !== undefined && fallbackIndex >= 0
       ? fallbackIndex + 1
       : undefined;
+
   return (
     <ItemWrapper>
       {isEnhanced && hasControl && (

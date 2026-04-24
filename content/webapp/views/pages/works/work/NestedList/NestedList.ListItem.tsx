@@ -7,14 +7,14 @@ import {
   UiTreeNode,
 } from '@weco/content/views/pages/works/work/work.types';
 
+import NestedList from '.';
 import {
   getAriaLabel,
   getTabbableIds,
   ListProps,
   updateChildren,
-} from './ArchiveTree.helpers';
-import NestedList from './ArchiveTree.NestedList';
-import { TreeItem } from './ArchiveTree.styles';
+} from './NestedList.helpers';
+import { TreeItem } from './NestedList.styles';
 
 const LEFT = [37, 'ArrowLeft'];
 const RIGHT = [39, 'ArrowRight'];
