@@ -182,7 +182,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
         event: 'tree_chevron',
         treeItem: {
           level: String(level),
-          label: `${item.work.title}${isRelatedWork(item.work) ? ` (${item.work.referenceNumber})` : ''}`,
+          label: `${item.work.title}${isRelatedWork(item.work) && item.work.referenceNumber ? ` (${item.work.referenceNumber})` : ''}`,
         },
       });
     }
