@@ -29,6 +29,8 @@ import fetch from 'node-fetch';
 import * as readline from 'readline';
 import yargs from 'yargs';
 
+import { logError, logInfo, logSuccess } from '@weco/common/utils/console-logs';
+
 import { downloadLatestSnapshot } from './s3-utils';
 
 import 'dotenv/config';
@@ -161,7 +163,7 @@ async function uploadDoc(
       }
     );
     const result = (await response.json()) as any;
-    console.log(result);
+    logInfo(JSON.stringify(result));
     return result.id ?? null;
   }
 
@@ -188,7 +190,7 @@ async function uploadDoc(
           : null);
 
       if (!destinationId) {
-        console.log(`Could not find destination ID for ${doc.type} ${doc.uid}`);
+        logError(`Could not find destination ID for ${doc.type} ${doc.uid}`);
         fs.appendFile(
           'restore-content.log',
           `${doc.id}: could not find destination ID for uid "${doc.uid}"
@@ -211,7 +213,7 @@ async function uploadDoc(
       );
     } else {
       // Some other 400 error — log it and return
-      console.log(response.status, responseBody);
+      logError(`${response.status} ${JSON.stringify(responseBody)}`);
       fs.appendFile(
         'restore.log',
         `${doc.id}: ${JSON.stringify(responseBody)}\n\n`,
@@ -225,7 +227,7 @@ async function uploadDoc(
 
   try {
     const result = (await response.json()) as any;
-    console.log(result);
+    logInfo(JSON.stringify(result));
 
     if (!result.id) {
       // probably rate limited – log the id so we can manually restore later
@@ -241,7 +243,7 @@ async function uploadDoc(
     fs.appendFile('restore.log', `${message}\n\n`, err => {
       if (err) console.error(err);
     });
-    console.error(message);
+    logError(message);
     return null;
   }
 }
@@ -295,7 +297,7 @@ async function init() {
   let snapshotPath: string;
   if (snapshotArg) {
     snapshotPath = snapshotArg;
-    console.log(`Using provided snapshot: ${snapshotPath}`);
+    logInfo(`Using provided snapshot: ${snapshotPath}`);
   } else {
     if (!bucket) {
       throw new Error(
@@ -305,11 +307,11 @@ async function init() {
     snapshotPath = await downloadLatestSnapshot(bucket);
   }
 
-  console.log(`Reading snapshot from ${snapshotPath}...`);
+  logInfo(`Reading snapshot from ${snapshotPath}...`);
   /* eslint-disable @typescript-eslint/no-explicit-any */
   const docs: any[] = JSON.parse(fs.readFileSync(snapshotPath, 'utf-8'));
   /* eslint-enable @typescript-eslint/no-explicit-any */
-  console.log(`Loaded ${docs.length} documents`);
+  logInfo(`Loaded ${docs.length} documents`);
 
   // Step 2: Optionally filter to a single type if --type was passed
   const filteredDocs = filterType
@@ -317,7 +319,7 @@ async function init() {
     : docs;
 
   if (filterType) {
-    console.log(
+    logInfo(
       `Filtering to type "${filterType}": ${filteredDocs.length} documents`
     );
   }
@@ -333,7 +335,7 @@ async function init() {
   );
 
   if (!proceed) {
-    console.log('Aborted');
+    logInfo('Aborted');
     process.exit(0);
   }
 
@@ -356,7 +358,7 @@ async function init() {
       : []
   );
   if (idMap.size > 0) {
-    console.log(`Loaded ${idMap.size} existing ID mappings from ${idMapFile}`);
+    logInfo(`Loaded ${idMap.size} existing ID mappings from ${idMapFile}`);
   }
 
   // Step 5: Upload each document, persisting the ID map after every success
@@ -373,11 +375,15 @@ async function init() {
     }
   }
 
-  console.log(`ID map written to ${idMapFile} (${idMap.size} entries)`);
-  console.log('Done');
-  console.log(
+  logSuccess(`ID map written to ${idMapFile} (${idMap.size} entries)`);
+  logSuccess('Done');
+  logInfo(
     `When you have finished updating hardcoded-ids.ts (Step 6), delete the restore/status/ directory.`
   );
 }
 
-init();
+init().catch(error => {
+  const message = error instanceof Error ? error.message : String(error);
+  logError(`Error restoring content: ${message}`);
+  process.exit(1);
+});
