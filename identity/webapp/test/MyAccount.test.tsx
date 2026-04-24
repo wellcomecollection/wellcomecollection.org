@@ -45,6 +45,7 @@ jest.mock('@weco/identity/utils/api-client', () => ({
     request: jest.fn(),
   },
 }));
+/* eslint-enable @typescript-eslint/no-require-imports */
 
 const mockRequest = accountApiClient.request as jest.Mock;
 const mockPut = accountApiClient.put as jest.Mock;
