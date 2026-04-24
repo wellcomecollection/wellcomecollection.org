@@ -77,7 +77,7 @@ const WorkItem: FunctionComponent<WorkItemRendererProps> = ({
         }}
         {...dataGtmPropsToAttributes({
           trigger: 'tree_link',
-          label: `${item.work.title}${isRelatedWork(item.work) ? ` (${item.work.referenceNumber})` : ''}`,
+          label: `${item.work.title}${isRelatedWork(item.work) && item.work.referenceNumber ? ` (${item.work.referenceNumber})` : ''}`,
           'data-tree-level': String(level),
         })}
       >
