@@ -71,10 +71,6 @@ const WorkItem: FunctionComponent<WorkItemRendererProps> = ({
         tabIndex={isEnhanced ? (isSelected ? 0 : -1) : 0}
         $isCurrent={currentWorkId === item.work.id}
         $hasControl={hasControl}
-        onClickCapture={event => {
-          // Prevent row-level tree_chevron tracking when the link is clicked.
-          event.stopPropagation();
-        }}
         onClick={event => {
           // We don't want to open the branch, when the work link is activated
           event.stopPropagation();
