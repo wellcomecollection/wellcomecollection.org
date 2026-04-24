@@ -57,6 +57,12 @@ const bucket: string = BUCKET ?? '';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+function appendToLog(message: string): void {
+  fs.appendFile('restore.log', message, err => {
+    if (err) console.error(err);
+  });
+}
+
 // Searches the target Prismic repository for a document by type + UID.
 // Checks every available ref (master and any draft/release refs) so that
 // documents created as drafts in a previous run can also be found.
@@ -191,14 +197,8 @@ async function uploadDoc(
 
       if (!destinationId) {
         logError(`Could not find destination ID for ${doc.type} ${doc.uid}`);
-        fs.appendFile(
-          'restore-content.log',
-          `${doc.id}: could not find destination ID for uid "${doc.uid}"
-
-`,
-          err => {
-            if (err) console.error(err);
-          }
+        appendToLog(
+          `${doc.id}: could not find destination ID for uid "${doc.uid}"\n\n`
         );
         return null;
       }
@@ -214,13 +214,7 @@ async function uploadDoc(
     } else {
       // Some other 400 error — log it and return
       logError(`${response.status} ${JSON.stringify(responseBody)}`);
-      fs.appendFile(
-        'restore.log',
-        `${doc.id}: ${JSON.stringify(responseBody)}\n\n`,
-        err => {
-          if (err) console.error(err);
-        }
-      );
+      appendToLog(`${doc.id}: ${JSON.stringify(responseBody)}\n\n`);
       return null;
     }
   }
@@ -231,18 +225,14 @@ async function uploadDoc(
 
     if (!result.id) {
       // probably rate limited – log the id so we can manually restore later
-      fs.appendFile('restore.log', `${doc.id}\n\n`, err => {
-        if (err) console.error(err);
-      });
+      appendToLog(`${doc.id}\n\n`);
       return null;
     }
 
     return result.id as string;
   } catch (error) {
     const { message } = error as Error;
-    fs.appendFile('restore.log', `${message}\n\n`, err => {
-      if (err) console.error(err);
-    });
+    appendToLog(`${message}\n\n`);
     logError(message);
     return null;
   }
