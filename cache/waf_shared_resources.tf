@@ -3,17 +3,34 @@
 
 resource "aws_wafv2_ip_set" "google_bots" {
   name        = "google-bots"
-  description = "Google bot IP ranges from https://developers.google.com/search/apis/ipranges/googlebot.json"
+  description = "Google bot IP ranges automatically updated from https://developers.google.com/static/crawling/ipranges/common-crawlers.json and https://developers.google.com/static/crawling/ipranges/special-crawlers.json"
 
   scope              = "CLOUDFRONT"
   ip_address_version = "IPV4"
 
-  # IPs are managed manually in the AWS WAF console
-  # Shared across all environments (prod, stage, e2e)
+  # Addresses are managed by the google-bot-ip-updater Lambda function
+  # Initial empty list - Lambda will populate on first run
   addresses = []
 
-  # Prevent Terraform from overwriting manual updates
   lifecycle {
+    # Lambda manages the addresses field - don't let Terraform overwrite it
+    ignore_changes = [addresses]
+  }
+}
+
+resource "aws_wafv2_ip_set" "github_actions" {
+  name        = "github-actions"
+  description = "GitHub Actions IP ranges automatically updated from https://api.github.com/meta"
+
+  scope              = "CLOUDFRONT"
+  ip_address_version = "IPV4"
+
+  # Addresses are managed by the github-actions-ip-updater Lambda function
+  # Initial empty list - Lambda will populate on first run
+  addresses = []
+
+  lifecycle {
+    # Lambda manages the addresses field - don't let Terraform overwrite it
     ignore_changes = [addresses]
   }
 }

@@ -14,6 +14,7 @@ import {
 } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorkClientSide } from '@weco/content/services/wellcome/catalogue/works';
 import { getArchiveAncestorArray } from '@weco/content/utils/works';
+import NestedList from '@weco/content/views/pages/works/work/NestedList';
 import {
   Tree,
   TreeInstructions,
@@ -23,7 +24,6 @@ import {
   UiTreeNode,
 } from '@weco/content/views/pages/works/work/work.types';
 
-import NestedList from './ArchiveTree.NestedList';
 import { ButtonWrap, TreeContainer } from './ArchiveTree.styles';
 import WorkItem from './ArchiveTree.WorkItemRenderer';
 

@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { bornDigitalMessage } from '@weco/common/data/microcopy';
-import { eye, info2 } from '@weco/common/icons';
+import { eye } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { LinkProps } from '@weco/common/model/link-props';
 import { useToggles } from '@weco/common/server-data/Context';
@@ -13,7 +13,6 @@ import { font } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import DownloadLink from '@weco/common/views/components/DownloadLink';
-import Icon from '@weco/common/views/components/Icon';
 import Layout, {
   gridSize12,
   gridSize8,
@@ -27,10 +26,8 @@ import {
   TransformedManifest,
 } from '@weco/content/types/manifest';
 import {
-  AuthServices,
   getAuthServices,
   getFileTypeLabel,
-  getFormatString,
   getIframeTokenSrc,
   getLabelString,
   hasItemType,
@@ -38,10 +35,11 @@ import {
 } from '@weco/content/utils/iiif/v3';
 import { DigitalLocationInfo } from '@weco/content/utils/works';
 import Download from '@weco/content/views/components/Download';
-import NestedList from '@weco/content/views/pages/works/work/ArchiveTree/ArchiveTree.NestedList';
 import IIIFItemList from '@weco/content/views/pages/works/work/IIIFItemList';
+import NestedList from '@weco/content/views/pages/works/work/NestedList';
 import DownloadItemRenderer from '@weco/content/views/pages/works/work/work.DownloadItemRenderer';
 import { createDownloadTree } from '@weco/content/views/pages/works/work/work.helpers';
+import RestrictedItemMessage from '@weco/content/views/pages/works/work/work.RestrictedItemMessage';
 import { UiTree } from '@weco/content/views/pages/works/work/work.types';
 
 import IIIFClickthrough from './WorkDetails.IIIFClickthrough';
@@ -69,17 +67,6 @@ const RestrictedMessage = styled(Space).attrs({
     border-radius: 3px;
     background-color: ${props => props.theme.color('black')};
     z-index: -1;
-  }
-`;
-
-const RestrictedMessageTitle = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 4px;
-
-  h3 {
-    padding-left: 8px;
-    margin-bottom: 0;
   }
 `;
 
@@ -118,7 +105,6 @@ type ItemPageLinkProps = {
   canvasCount?: number;
   canvases?: TransformedCanvas[];
   digitalLocationInfo?: DigitalLocationInfo;
-  authServices?: AuthServices;
   itemsStatus?: ItemsStatus;
 };
 const ItemPageLink = ({
@@ -129,7 +115,6 @@ const ItemPageLink = ({
   canvasCount,
   canvases,
   digitalLocationInfo,
-  authServices,
   itemsStatus,
 }: ItemPageLinkProps) => {
   const { userIsStaffWithRestricted } = useUserContext();
@@ -143,10 +128,6 @@ const ItemPageLink = ({
   const isWorkVisibleWithPermission =
     digitalLocationInfo?.accessCondition === 'restricted' &&
     userIsStaffWithRestricted;
-
-  const manifestNeedsRegeneration =
-    authServices?.external?.id ===
-    'https://iiif.wellcomecollection.org/auth/restrictedlogin';
 
   const hasNonStandardItems =
     itemsStatus !== undefined && itemsStatus !== 'allStandard';
@@ -180,22 +161,9 @@ const ItemPageLink = ({
         wrapper={children => (
           <Layout gridSizes={extendedViewer ? gridSize12() : gridSize8(false)}>
             <RestrictedMessage>
-              <RestrictedMessageTitle>
-                <Icon icon={info2} />
-                <h3 className={font('sans-bold', 0)}>Restricted item</h3>
-              </RestrictedMessageTitle>
-
-              <p style={{ marginBottom: '1rem' }}>
-                Only staff with the right permissions can view this item online.
-              </p>
-
-              {manifestNeedsRegeneration && (
-                <p style={{ marginBottom: '1rem' }}>
-                  The manifest for this work needs to be regenerated in order
-                  for staff with restricted access to be able to view it.
-                </p>
-              )}
-              {children}
+              <RestrictedItemMessage headingLevel={3} plural={true}>
+                {children}
+              </RestrictedItemMessage>
             </RestrictedMessage>
           </Layout>
         )}
@@ -363,7 +331,6 @@ const WorkDetailsAvailableOnline = ({
                 canvasCount={canvasCount}
                 downloadOptions={downloadOptions}
                 digitalLocationInfo={digitalLocationInfo}
-                authServices={authServices}
                 itemsStatus={itemsStatus}
               />
             ) : (
@@ -427,8 +394,7 @@ const WorkDetailsAvailableOnline = ({
                           <DownloadLink
                             href={rendering.id}
                             linkText={label || 'Download'}
-                            format={getFormatString(rendering.format)}
-                            mimeType={rendering.format || ''}
+                            format={rendering.format}
                           />
                         </Space>
                       );
@@ -448,7 +414,6 @@ const WorkDetailsAvailableOnline = ({
                 canvasCount={canvasCount}
                 downloadOptions={downloadOptions}
                 digitalLocationInfo={digitalLocationInfo}
-                authServices={authServices}
               />
             )}
           </>

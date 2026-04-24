@@ -39,7 +39,7 @@ const CollectionsTypesPage: NextPage<Props> & {
         pageId={thematicBrowsingPage.id}
         pageUid={thematicBrowsingPage.uid}
         gridSizes={gridSize12()}
-        bodySliceContexts={bodySliceContexts}
+        bodySliceContexts={{ ...bodySliceContexts, themeCardCols: 3 }}
       />
     </>
   );

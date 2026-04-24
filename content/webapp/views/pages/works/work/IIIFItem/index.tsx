@@ -19,11 +19,9 @@ import {
   restrictedItemMessage,
   unavailableContentMessage,
 } from '@weco/common/data/microcopy';
-import { information } from '@weco/common/icons';
 import { LinkProps } from '@weco/common/model/link-props';
 import { font } from '@weco/common/utils/classnames';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
-import Icon from '@weco/common/views/components/Icon';
 import {
   ContaineredLayout,
   gridSize12,
@@ -44,7 +42,6 @@ import { convertRequestUriToInfoUri } from '@weco/content/utils/iiif/convert-iii
 import { hasRestrictedItem } from '@weco/content/utils/iiif/v3';
 import {
   getFileSize,
-  getFormatString,
   getImageServiceFromItem,
   getLabelString,
 } from '@weco/content/utils/iiif/v3';
@@ -57,6 +54,7 @@ import VideoPlayer from '@weco/content/views/components/VideoPlayer';
 import IIIFItemPdf from '@weco/content/views/pages/works/work/IIIFItem/IIIFItem.Pdf';
 import { arrayIndexToQueryParam } from '@weco/content/views/pages/works/work/IIIFViewer';
 import ImageViewer from '@weco/content/views/pages/works/work/IIIFViewer/ImageViewer';
+import RestrictedItemMessage from '@weco/content/views/pages/works/work/work.RestrictedItemMessage';
 
 import IIIFItemDownload from './IIIFItem.Download';
 import VideoTranscript from './IIIFItem.VideoTranscript';
@@ -73,8 +71,35 @@ const MessageContainer = styled.div`
   padding: 10%;
 `;
 
-const Outline = styled(Space)<{ $border?: boolean }>`
-  height: ${props => (props.$border ? 'calc(100% - 1em)' : '100%')};
+const RestrictedMessage = styled.div.attrs({})`
+  margin: 2em auto 0;
+  padding: 0 2em;
+
+  p {
+    margin: 0;
+  }
+`;
+
+const ImageItemLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+`;
+
+const ImageViewerContainer = styled.div`
+  position: relative;
+  flex: 1;
+  min-height: 0;
+`;
+
+const ImageViewerPositioned = styled.div`
+  position: absolute;
+  inset: 0;
+`;
+
+const ItemWrapper = styled(Space)<{ $isRestricted?: boolean }>`
+  position: relative;
+  height: 100%;
 
   &.audio-wrapper,
   &.video-wrapper,
@@ -82,30 +107,6 @@ const Outline = styled(Space)<{ $border?: boolean }>`
     max-width: 80%;
     margin: 2em auto;
     max-height: calc(100% - 4em);
-  }
-
-  img {
-    ${props =>
-      props.$border
-        ? `
-          border: 1px solid;
-          border-color:  ${props.theme.color('neutral.600')};
-          padding: 2em;
-        `
-        : ''};
-  }
-`;
-
-const IconContainer = styled(Space).attrs({
-  $h: { size: 'xs', properties: ['margin-right'] },
-})`
-  .icon {
-    position: relative;
-    top: 1px;
-    border-radius: 50%;
-    border: 2px solid;
-    width: 22px;
-    height: 22px;
   }
 `;
 
@@ -157,9 +158,17 @@ const IIIFImage: FunctionComponent<{
   index: number;
   item: ItemProps['item'];
   canvas: TransformedCanvas;
+  isRestricted?: boolean;
   setImageRect?: (v: DOMRect) => void;
   setImageContainerRect?: (v: DOMRect) => void;
-}> = ({ index, item, canvas, setImageRect, setImageContainerRect }) => {
+}> = ({
+  index,
+  item,
+  canvas,
+  isRestricted,
+  setImageRect,
+  setImageContainerRect,
+}) => {
   const [ocrText, setOcrText] = useState(missingAltTextMessage);
   const imageService = getImageServiceFromItem(item);
   const imageUrl = imageService?.['@id'] || '';
@@ -176,17 +185,28 @@ const IIIFImage: FunctionComponent<{
 
   if (urlTemplate) {
     return (
-      <ImageViewer
-        infoUrl={infoUrl}
-        id={imageUrl}
-        width={canvas.width || 0}
-        height={canvas.height || 0}
-        index={index}
-        alt={ocrText}
-        urlTemplate={urlTemplate}
-        setImageRect={setImageRect}
-        setImageContainerRect={setImageContainerRect}
-      />
+      <ImageItemLayout>
+        {isRestricted && (
+          <RestrictedMessage>
+            <RestrictedItemMessage />
+          </RestrictedMessage>
+        )}
+        <ImageViewerContainer>
+          <ImageViewerPositioned>
+            <ImageViewer
+              infoUrl={infoUrl}
+              id={imageUrl}
+              width={canvas.width || 0}
+              height={canvas.height || 0}
+              index={index}
+              alt={ocrText}
+              urlTemplate={urlTemplate}
+              setImageRect={setImageRect}
+              setImageContainerRect={setImageContainerRect}
+            />
+          </ImageViewerPositioned>
+        </ImageViewerContainer>
+      </ImageItemLayout>
     );
   } else {
     return <img src={item.id} alt={ocrText} />;
@@ -242,27 +262,6 @@ const PublicRestrictedMessage: FunctionComponent<{
   );
 };
 
-const StaffRestrictedMessage: FunctionComponent = () => {
-  return (
-    <p
-      className={font('sans', -1)}
-      style={{
-        top: '8px',
-        display: 'inline-flex',
-        position: 'relative',
-        left: '50%',
-        transform: 'translateX(-50%)',
-      }}
-    >
-      <IconContainer>
-        <Icon icon={information} />
-      </IconContainer>
-      <span className={font('sans-bold', -1)}>Restricted item:</span> &nbsp;Only
-      staff with the right permission can access this item online.
-    </p>
-  );
-};
-
 const IIIFItemWrapper: FunctionComponent<{
   shouldShowItem: boolean;
   className: string;
@@ -271,6 +270,7 @@ const IIIFItemWrapper: FunctionComponent<{
   externalAccessService?: TransformedAuthService;
   children: ReactNode | undefined;
   containerRef?: RefObject<HTMLDivElement | null>;
+  removeRestrictedMessage?: boolean;
 }> = ({
   shouldShowItem,
   className,
@@ -279,21 +279,30 @@ const IIIFItemWrapper: FunctionComponent<{
   externalAccessService,
   children,
   containerRef,
+  removeRestrictedMessage = false,
 }) => {
   if (shouldShowItem) {
     return (
-      <Outline className="item-wrapper" ref={containerRef}>
+      <ItemWrapper ref={containerRef}>
         <PublicRestrictedMessage
           externalAccessService={externalAccessService}
         />
-      </Outline>
+      </ItemWrapper>
     );
   } else {
     return (
-      <Outline $border={isRestricted} className={className} ref={containerRef}>
-        {isRestricted && <StaffRestrictedMessage />}
+      <ItemWrapper
+        $isRestricted={isRestricted}
+        className={className}
+        ref={containerRef}
+      >
+        {isRestricted && !removeRestrictedMessage && (
+          <RestrictedMessage>
+            <RestrictedItemMessage />
+          </RestrictedMessage>
+        )}
         {(!isRestricted || isProbeOk) && children}
-      </Outline>
+      </ItemWrapper>
     );
   }
 };
@@ -310,6 +319,7 @@ const IIIFItemWrapperWithObserver: FunctionComponent<{
   externalAccessService?: TransformedAuthService;
   children: ReactNode | undefined;
   index: number;
+  removeRestrictedMessage?: boolean;
 }> = ({
   shouldShowItem,
   className,
@@ -318,6 +328,7 @@ const IIIFItemWrapperWithObserver: FunctionComponent<{
   externalAccessService,
   children,
   index,
+  removeRestrictedMessage = false,
 }) => {
   const { work, mainAreaRef, query } = useItemViewerContext();
   const ref = useRef<HTMLDivElement>(null);
@@ -350,6 +361,7 @@ const IIIFItemWrapperWithObserver: FunctionComponent<{
       isProbeOk={isProbeOk}
       externalAccessService={externalAccessService}
       containerRef={ref}
+      removeRestrictedMessage={removeRestrictedMessage}
     >
       {children}
     </IIIFItemWrapper>
@@ -474,7 +486,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
             src={item.id}
             label={itemLabel}
             fileSize={getFileSize(canvas)}
-            format={'format' in item ? getFormatString(item.format) : undefined}
+            format={'format' in item ? item.format : undefined}
           />
         </IIIFItemWrapper>
       );
@@ -502,9 +514,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
                       label={itemLabel}
                       fileSize={getFileSize(canvas)}
                       format={
-                        'format' in item
-                          ? getFormatString(item.format)
-                          : undefined
+                        'format' in original ? original.format : undefined
                       }
                       showWarning={true}
                     />
@@ -520,6 +530,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
             index={i}
             item={item}
             canvas={canvas}
+            isRestricted={isRestricted}
             setImageRect={setImageRect}
             setImageContainerRect={setImageContainerRect}
           />
@@ -528,11 +539,12 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           return (
             <IIIFItemWrapperWithObserver
               shouldShowItem={shouldShowItem}
-              className="item-wrapper"
+              className="image-wrapper"
               isRestricted={isRestricted}
               isProbeOk={isProbeOk}
               externalAccessService={adjustedExternalAccessService}
               index={i}
+              removeRestrictedMessage={true}
             >
               {imageContent}
             </IIIFItemWrapperWithObserver>
@@ -541,10 +553,11 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
         return (
           <IIIFItemWrapper
             shouldShowItem={shouldShowItem}
-            className="item-wrapper"
+            className="image-wrapper"
             isRestricted={isRestricted}
             isProbeOk={isProbeOk}
             externalAccessService={adjustedExternalAccessService}
+            removeRestrictedMessage={true}
           >
             {imageContent}
           </IIIFItemWrapper>

@@ -66,11 +66,11 @@ const urls = [
   '/search/events?query=human',
 ].map(u => `${baseUrl}${u}`);
 
-// Helper to add delay between requests
+// Helper to add a delay between batches of requests; requests within a batch
+// still run concurrently.
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-const runPa11yWithDelay = async (url, delayMs) => {
-  await delay(delayMs);
+const runPa11y = async url => {
   return pa11y(url, {
     timeout: 120000,
     chromeLaunchConfig: {
@@ -93,33 +93,63 @@ const runPa11yWithDelay = async (url, delayMs) => {
   });
 };
 
-const promises = urls.map((url, index) =>
-  // Add 1 second delay between each request to avoid rate limiting in GitHub Actions
-  runPa11yWithDelay(url, index * 1000)
-);
+// Run pa11y in batches to avoid rate limiting while keeping reasonable speed
+async function runAllTests() {
+  const results = [];
+  const batchSize = 3;
+  const delayBetweenBatches = 1000; // 1 second between batches
+
+  for (let i = 0; i < urls.length; i += batchSize) {
+    if (i > 0) {
+      await delay(delayBetweenBatches);
+    }
+
+    const batch = urls.slice(i, i + batchSize);
+    const batchResults = await Promise.all(batch.map(url => runPa11y(url)));
+    results.push(...batchResults);
+  }
+
+  return results;
+}
 
 try {
   console.info('Pa11y: Starting report');
 
-  Promise.all(promises)
+  runAllTests()
     .then(async results => {
-      // Check for pages that failed to load (e.g., due to 429 errors)
-      // Map results with their URLs by index, then filter for failures
+      // Check for pages that failed to load properly
+      // Valid Wellcome Collection pages contain "Wellcome Collection"
+      // Error pages (429, 403, 503, etc.) from CloudFront return "wellcomecollection.org" (lowercase)
       const failedPages = results
         .map((result, i) => ({ result, url: urls[i] }))
-        .filter(({ result }) => !result.documentTitle || !result.pageUrl);
+        .filter(({ result }) => {
+          // Page completely failed to load
+          if (!result.documentTitle || !result.pageUrl) {
+            return true;
+          }
+
+          // Check if title contains "Wellcome Collection" (case-sensitive)
+          // Valid pages: "Wellcome Collection | ..." or "... | Wellcome Collection"
+          // Error pages: "wellcomecollection.org" (no match)
+          const hasValidTitle = result.documentTitle.includes(
+            'Wellcome Collection'
+          );
+
+          return !hasValidTitle;
+        });
 
       if (failedPages.length > 0) {
         console.error(
           styleText(
             'redBright',
-            `${failedPages.length} page(s) failed to load - likely due to rate limiting (429 errors)`
+            `${failedPages.length} page(s) failed to load properly`
           )
         );
-        console.error(
-          'Failed URLs:',
-          failedPages.map(({ url }) => url)
-        );
+        failedPages.forEach(({ url, result }) => {
+          console.error(
+            `  - ${url} (title: "${result.documentTitle || 'missing'}")`
+          );
+        });
         process.exit(1);
       }
 

@@ -1,11 +1,16 @@
 import styled from 'styled-components';
 
-import { ThemeCardsListSlice as RawThemeCardsListSlice } from '@weco/common/prismicio-types';
+import { font } from '@weco/common/utils/classnames';
 import { Container } from '@weco/common/views/components/styled/Container';
+import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
-import { transformThemeCardsList } from '@weco/content/services/prismic/transformers/body';
+import { ThemeCardsListSliceValue } from '@weco/content/services/prismic/transformers/body';
+import { Slice } from '@weco/content/types/body';
+import { convertItemToCardProps } from '@weco/content/types/card';
 import { AboutThisExhibitionContent } from '@weco/content/types/exhibitions';
+import Card from '@weco/content/views/components/Card';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
+import StoryCard from '@weco/content/views/components/StoryCard';
 import ThemeCardsList from '@weco/content/views/components/ThemeCardsList';
 
 export const Wrapper = styled(Space).attrs({
@@ -14,21 +19,18 @@ export const Wrapper = styled(Space).attrs({
 })`
   background: ${props => props.theme.color('warmNeutral.300')};
 `;
+
 const ExhibitionCollectionsContent = ({
   isTendernessAndRageExhibition,
-  rawThemeCardsListSlice,
+  themeCardsListSlice,
   videos,
   aboutThisExhibitionContent,
 }: {
   isTendernessAndRageExhibition: boolean;
-  rawThemeCardsListSlice?: RawThemeCardsListSlice;
+  themeCardsListSlice?: Slice<'themeCardsList', ThemeCardsListSliceValue>;
   videos: string[];
   aboutThisExhibitionContent: AboutThisExhibitionContent[];
 }) => {
-  // Transform the slice here, similar to thematic browsing approach
-  const themeCardsListSlice = rawThemeCardsListSlice
-    ? transformThemeCardsList(rawThemeCardsListSlice)
-    : undefined;
   // For now, we only want to trial displaying stories here for the Tenderness and Rage exhibition.
   // If this trial is successful, we will want to expand this to other exhibitions in the future.
   const shouldDisplayStories =
@@ -46,12 +48,39 @@ const ExhibitionCollectionsContent = ({
     <Wrapper>
       <Container>
         <SectionHeader title="Further reading" />
-        <p>
-          Explore the subjects and stories inspired by the topics in the
-          exhibition
-        </p>
+        <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
+          <p>
+            Explore the subjects and stories inspired by the topics in the
+            exhibition
+          </p>
+        </Space>
 
-        {shouldDisplayStories && <p>Stories section</p>}
+        {shouldDisplayStories && (
+          <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
+            <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
+              <h3 className={font('brand-bold', 1)}>Read related stories</h3>
+            </Space>
+
+            <Grid className="card-theme card-theme--transparent">
+              {aboutThisExhibitionContent.map(item => (
+                <GridCell key={item.id} $sizeMap={{ m: [6], l: [4], xl: [4] }}>
+                  <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
+                    {item.type === 'articles' && (
+                      <StoryCard
+                        variant="prismic"
+                        article={item}
+                        showAllLabels
+                      />
+                    )}
+                    {item.type === 'series' && (
+                      <Card item={convertItemToCardProps(item)} />
+                    )}
+                  </Space>
+                </GridCell>
+              ))}
+            </Grid>
+          </Space>
+        )}
       </Container>
 
       {shouldDisplayThemes && themeCardsListSlice && (
@@ -63,6 +92,8 @@ const ExhibitionCollectionsContent = ({
           }}
           sliceTitle={themeCardsListSlice.value.title}
           description={themeCardsListSlice.value.description}
+          headingLevel={3}
+          fontFamily="brand-bold"
           useShim
         />
       )}
