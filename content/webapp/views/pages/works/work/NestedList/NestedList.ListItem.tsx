@@ -176,7 +176,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
     item.openStatus &&
     (level > 1 || showFirstLevelGuideline);
 
-  function toggleBranch() {
+  function trackChevron() {
     if (isExpandable) {
       window.dataLayer?.push({
         event: 'tree_chevron',
@@ -186,6 +186,10 @@ const ListItem: FunctionComponent<ListItemProps> = ({
         },
       });
     }
+  }
+
+  function toggleBranch() {
+    trackChevron();
 
     if (item.children === undefined && shouldFetchChildren) {
       expandTree({
@@ -276,6 +280,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
               item.work.totalParts &&
               item.work.totalParts > 0
             ) {
+              trackChevron();
               setArchiveTree(
                 updateOpenStatus({
                   id: item.work.id,
