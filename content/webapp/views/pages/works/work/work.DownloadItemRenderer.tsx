@@ -67,7 +67,6 @@ const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
     <ItemWrapper>
       {isEnhanced && hasControl && (
         <TreeControl
-          data-gtm-trigger="tree_chevron"
           $highlightCondition={highlightCondition}
           $isDarkMode={isDarkMode}
         >

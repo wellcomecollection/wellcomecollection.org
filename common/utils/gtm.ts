@@ -2,6 +2,7 @@ type DataGtmAttr =
   | 'category'
   | 'category-label'
   | 'category-position-in-list'
+  | 'data-tree-level'
   | 'id'
   | 'label'
   | 'mime-type'

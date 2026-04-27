@@ -20,8 +20,6 @@ export const ButtonWrap = styled(Space).attrs({
 type StyledLinkProps = {
   $isCurrent?: boolean;
   $hasControl?: boolean;
-  'data-gtm-trigger': 'tree_link';
-  'data-gtm-data-tree-level': number;
 };
 
 export const StyledLink = styled(NextLink)<StyledLinkProps>`
@@ -37,6 +35,11 @@ export const StyledLink = styled(NextLink)<StyledLinkProps>`
       ? `-${controlDimensions.controlWidth / 2}px`
       : `${controlDimensions.controlWidth / 2}px`};
   text-decoration: none;
+
+  /* Ensures GTM reads data attributes from the link, not its children */
+  > * {
+    pointer-events: none;
+  }
 
   /* Keeping this readable */
   /* stylelint-disable declaration-block-no-redundant-longhand-properties */
