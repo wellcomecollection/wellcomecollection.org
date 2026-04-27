@@ -449,7 +449,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
             />
           </Zoom>
         )}
-        {isFullSupportBrowser && (
+        {isFullSupportBrowser && !isMobileSidebarActive && (
           <>
             <BottomBar>
               <ViewerBottomBar />
