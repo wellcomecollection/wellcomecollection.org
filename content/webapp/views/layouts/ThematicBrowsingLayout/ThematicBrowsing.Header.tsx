@@ -17,6 +17,7 @@ import Space from '@weco/common/views/components/styled/Space';
 
 import { ThematicBrowsingCategories } from '.';
 import ThematicBrowsingNavigation from './ThematicBrowsing.Navigation';
+import SubjectsMenu from './ThematicBrowsing.SubjectsMenu';
 
 const ThematicBrowsingHeaderContainer = styled(Space).attrs({
   $v: { size: 'sm', properties: ['padding-top'] },
@@ -79,23 +80,7 @@ const ThematicBrowsingHeader = ({
 
           {title === 'Subjects' && thematicBrowsingSubCategory && (
             <Space $v={{ size: 'md', properties: ['margin-top'] }}>
-              <ul>
-                <li>
-                  <a href="/collections/subjects/sex-sexual-health-and-reproduction">
-                    Sex, sexual health and reproduction
-                  </a>
-                </li>
-                <li>
-                  <a href="/collections/subjects/public-health">
-                    Public health
-                  </a>
-                </li>
-                <li>
-                  <a href="/collections/subjects/medicine-care-and-treatment">
-                    Medicine, care and treatment
-                  </a>
-                </li>
-              </ul>
+              <SubjectsMenu />
             </Space>
           )}
         </Container>
