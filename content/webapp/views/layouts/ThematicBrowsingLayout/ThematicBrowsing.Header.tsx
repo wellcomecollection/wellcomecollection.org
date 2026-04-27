@@ -79,7 +79,9 @@ const ThematicBrowsingHeader = ({
           )}
 
           {title === 'Subjects' && thematicBrowsingSubCategory && (
-            <Space $v={{ size: 'md', properties: ['margin-top'] }}>
+            <Space
+              $v={{ size: 'sm', properties: ['margin-top', 'margin-bottom'] }}
+            >
               <SubjectsMenu />
             </Space>
           )}
