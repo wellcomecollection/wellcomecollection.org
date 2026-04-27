@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { ThemeProvider } from 'styled-components';
 
 import theme from '@weco/common/views/themes/default';
-import ValidatedPage from '@weco/identity/pages/validated';
+import ValidatedPage from '@weco/identity/views/pages/validated';
 
 // avoid rendering header SVG to help with debugging tests
 jest.mock('@weco/identity/views/layouts/IdentityPageLayout', () => {
@@ -16,23 +16,6 @@ jest.mock('@weco/common/server-data', () => ({
   __esModule: true,
   getServerData: async () =>
     (await import('@weco/common/server-data/types')).defaultServerData,
-}));
-
-jest.mock('next/config', () => () => ({
-  serverRuntimeConfig: {
-    sessionKeys: 'test_test_test',
-    siteBaseUrl: 'http://test.test',
-    identityBasePath: '/account',
-    auth0: {
-      domain: 'test.test',
-      clientID: 'test',
-      clientSecret: 'test',
-    },
-    remoteApi: {
-      host: 'test.test',
-      apiKey: 'test',
-    },
-  },
 }));
 
 const renderPage = (location: string) => {
