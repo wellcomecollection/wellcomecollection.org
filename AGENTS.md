@@ -76,7 +76,6 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for general contribution guidelines and
 Our PR template (configured in GitHub's interface) asks for:
 - **What does this change?** - Detail the problem, why the change is needed, and how it solves it
 - **How to test** - Instructions to verify the change (e.g., "On PROD, do X and see Y. On this branch, do X and see Z.")
-- **How can we measure success?** - Expected impact (reduced errors, simplified journeys, etc.) and how to prove it
 - **Have we considered potential risks?** - Potential risks, mitigations, and whether alarms are needed
 
 When writing PR descriptions, follow this structure and provide enough detail for the PR to be understandable in the future.
