@@ -100,13 +100,6 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'a11yPrototype',
-      title: 'Accessibility prototype page',
-      initialValue: false,
-      description: 'Allows access to the accessibility prototype page',
-      type: 'experimental',
-    },
-    {
       id: 'thematicBrowsing',
       title: 'Thematic browsing: category pages',
       initialValue: false,
