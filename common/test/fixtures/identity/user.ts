@@ -1,5 +1,7 @@
+import { PropsWithChildren } from 'react';
+
 import { RequestsList } from '@weco/common/model/requesting';
-import { Auth0UserProfile, UserInfo } from '@weco/common/model/user';
+import { UserInfo } from '@weco/common/model/user';
 
 export const mockUser: UserInfo = {
   userId: '7654321',
@@ -11,21 +13,7 @@ export const mockUser: UserInfo = {
   role: 'Staff',
 };
 
-export const mockAuth0Profile: Auth0UserProfile = {
-  'https://wellcomecollection.org/patron_barcode': mockUser.barcode,
-  'https://wellcomecollection.org/patron_role': mockUser.role,
-  email: mockUser.email,
-  email_verified: mockUser.emailValidated,
-  family_name: mockUser.lastName,
-  given_name: mockUser.firstName,
-  name: `${mockUser.firstName} ${mockUser.lastName}`,
-  nickname: `${mockUser.firstName[0]}.${mockUser.lastName}`.toLowerCase(),
-  picture: 'https://test.test/picture.jpg',
-  sub: `auth0|p${mockUser.userId}`,
-  updated_at: '2021-12-10T12:55:52.958Z',
-};
-
-export const mockRequestItem = {
+const mockRequestItem = {
   item: {
     id: 'abcdefgh',
     title: 'Test Item',
@@ -50,4 +38,30 @@ export const mockItemRequests: RequestsList = {
   results: [mockRequestItem],
   totalResults: 1,
   type: 'ResultList',
+};
+
+/**
+ * Creates a mock for @weco/common/contexts/UserContext.
+ *
+ * Usage:
+ *   jest.mock('@weco/common/contexts/UserContext', () => {
+ *     const { mockUserContext } = require('@weco/common/test/fixtures/identity/user');
+ *     return mockUserContext();
+ *   });
+ *
+ * The returned useUserContext is a jest.fn(), so individual tests
+ * can override it with mockReturnValueOnce if needed.
+ */
+export const mockUserContext = (user: UserInfo = mockUser) => {
+  const useUserContext = jest.fn().mockReturnValue({
+    user,
+    userIsStaffWithRestricted: false,
+    state: 'signedin' as const,
+    reload: jest.fn(),
+  });
+
+  return {
+    useUserContext,
+    UserContextProvider: ({ children }: PropsWithChildren) => children,
+  };
 };

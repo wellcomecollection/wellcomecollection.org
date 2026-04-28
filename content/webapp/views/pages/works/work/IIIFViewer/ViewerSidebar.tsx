@@ -12,6 +12,7 @@ import { useUserContext } from '@weco/common/contexts/UserContext';
 import { arrow, chevron } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { classNames, font } from '@weco/common/utils/classnames';
+import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 import Icon from '@weco/common/views/components/Icon';
@@ -23,7 +24,7 @@ import { getDigitalLocationInfo } from '@weco/content/utils/works';
 import LinkLabels from '@weco/content/views/components/LinkLabels';
 import WorkLink from '@weco/content/views/components/WorkLink';
 import WorkTitle from '@weco/content/views/components/WorkTitle';
-import NestedList from '@weco/content/views/pages/works/work/ArchiveTree/ArchiveTree.NestedList';
+import NestedList from '@weco/content/views/pages/works/work/NestedList';
 import DownloadItemRenderer from '@weco/content/views/pages/works/work/work.DownloadItemRenderer';
 import RestrictedItemMessage from '@weco/content/views/pages/works/work/work.RestrictedItemMessage';
 import WorksTree from '@weco/content/views/pages/works/work/WorkDetails/WorkDetails.Tree';
@@ -103,12 +104,14 @@ const AccordionButton = styled.button`
 
 type AccordionItemProps = PropsWithChildren<{
   title: string;
+  gtmData: DataGtmProps;
   testId?: string;
   defaultOpen?: boolean;
 }>;
 
 const AccordionItem = ({
   title,
+  gtmData,
   children,
   testId,
   defaultOpen = false,
@@ -122,7 +125,10 @@ const AccordionItem = ({
 
   return (
     <Item data-testid={testId}>
-      <AccordionInner onClick={() => setIsActive(!isActive)}>
+      <AccordionInner
+        onClick={() => setIsActive(!isActive)}
+        {...dataGtmPropsToAttributes(gtmData)}
+      >
         <AccordionButton
           aria-expanded={isActive ? 'true' : 'false'}
           aria-controls={toHtmlId(title)}
@@ -263,8 +269,12 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
           </WorkLink>
         </Space>
       </Inner>
+
       <Inner>
-        <AccordionItem title="Licence and re-use">
+        <AccordionItem
+          title="Licence and re-use"
+          gtmData={{ trigger: 'licence_and_re_use' }}
+        >
           <div className={font('sans', -2)}>
             {license && license.label && (
               <p>
@@ -292,12 +302,12 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
         </AccordionItem>
 
         {archiveTree.length > 0 && (
-          <AccordionItem title="Contents" defaultOpen={true}>
-            <div
-              style={{
-                overflow: 'auto',
-              }}
-            >
+          <AccordionItem
+            title="Contents"
+            gtmData={{ trigger: 'contents' }}
+            defaultOpen
+          >
+            <div style={{ overflow: 'auto' }}>
               <WorksTree
                 isDarkMode={true}
                 hasStructures={Boolean(structures && structures.length > 0)}
@@ -332,10 +342,11 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
 
         {Boolean(structures && structures.length > 0) &&
           hasOnlyRenderableImages && (
-            <AccordionItem title="Contents">
+            <AccordionItem title="Contents" gtmData={{ trigger: 'contents' }}>
               <ViewerStructures />
             </AccordionItem>
           )}
+
         {/*
           Note: this check for `behavior === 'multi-part'` is repeated in items.tsx to
           avoid sending unnecessary data about parent manifests that we're not going
@@ -345,11 +356,12 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
         {parentManifest &&
           parentManifest.behavior?.[0] === 'multi-part' &&
           parentManifest.canvases && (
-            <AccordionItem title="Volumes">
+            <AccordionItem title="Volumes" gtmData={{ trigger: 'volumes' }}>
               <MultipleManifestList />
             </AccordionItem>
           )}
       </Inner>
+
       {searchService && (
         <Inner>
           <IIIFSearchWithin />

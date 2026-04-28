@@ -28,6 +28,11 @@ variable "source_file" {
   type = string
 }
 
+variable "extra_source_files" {
+  type    = list(string)
+  default = []
+}
+
 variable "memory_size" {
   default = 128
 }

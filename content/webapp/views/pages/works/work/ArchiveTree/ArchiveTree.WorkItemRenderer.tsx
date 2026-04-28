@@ -4,13 +4,17 @@ import styled from 'styled-components';
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { chevron } from '@weco/common/icons';
 import { classNames, font } from '@weco/common/utils/classnames';
+import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
 import { toWorkLink } from '@weco/content/views/components/WorkLink';
 import WorkTitle from '@weco/content/views/components/WorkTitle';
+import {
+  isRelatedWork,
+  TreeControl,
+} from '@weco/content/views/pages/works/work/NestedList';
 import { UiTreeNode } from '@weco/content/views/pages/works/work/work.types';
 
-import { isRelatedWork } from './ArchiveTree.helpers';
-import { StyledLink, TreeControl } from './ArchiveTree.styles';
+import { StyledLink } from './ArchiveTree.styles';
 
 const RefNumber = styled.span.attrs({
   className: font('sans', -2),
@@ -43,23 +47,21 @@ const WorkItem: FunctionComponent<WorkItemRendererProps> = ({
   isDarkMode,
 }) => {
   const { isEnhanced } = useAppContext();
+
   return (
     <div
-      style={{
-        display: 'flex',
-        width: '100%',
-      }}
+      style={{ display: 'flex', width: '100%' }}
       className={font('sans', -2)}
     >
       {isEnhanced && (level > 1 || showFirstLevelGuideline) && hasControl && (
         <TreeControl
-          data-gtm-trigger="tree_chevron"
           $highlightCondition={highlightCondition}
           $isDarkMode={isDarkMode}
         >
           <Icon rotate={item.openStatus ? undefined : 270} icon={chevron} />
         </TreeControl>
       )}
+
       <StyledLink
         {...toWorkLink({ id: item.work.id, scroll: false })}
         className={classNames({
@@ -69,14 +71,18 @@ const WorkItem: FunctionComponent<WorkItemRendererProps> = ({
         tabIndex={isEnhanced ? (isSelected ? 0 : -1) : 0}
         $isCurrent={currentWorkId === item.work.id}
         $hasControl={hasControl}
-        data-gtm-trigger="tree_link"
-        data-gtm-data-tree-level={level}
         onClick={event => {
           // We don't want to open the branch, when the work link is activated
           event.stopPropagation();
         }}
+        {...dataGtmPropsToAttributes({
+          trigger: 'tree_link',
+          label: `${item.work.title}${isRelatedWork(item.work) && item.work.referenceNumber ? ` (${item.work.referenceNumber})` : ''}`,
+          'data-tree-level': String(level),
+        })}
       >
         <WorkTitle title={item.work.title} />
+
         {isRelatedWork(item.work) && (
           <RefNumber>{item.work.referenceNumber}</RefNumber>
         )}

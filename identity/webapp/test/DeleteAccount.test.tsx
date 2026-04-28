@@ -1,13 +1,22 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { rest } from 'msw';
 import { ThemeProvider } from 'styled-components';
 
 import theme from '@weco/common/views/themes/default';
+import { accountApiClient } from '@weco/identity/utils/api-client';
+import { FetchError } from '@weco/identity/utils/fetch-helpers';
 import { ChangeDetailsModalContentProps } from '@weco/identity/views/components/ChangeDetailsModal';
 import DeleteAccount from '@weco/identity/views/pages/index.DeleteAccount';
 
-import { server } from './mocks/server';
+jest.mock('@weco/identity/utils/api-client', () => ({
+  accountApiClient: {
+    put: jest.fn(),
+    get: jest.fn(),
+    post: jest.fn(),
+  },
+}));
+
+const mockPut = accountApiClient.put as jest.Mock;
 
 const defaultProps: ChangeDetailsModalContentProps = {
   onComplete: () => null,
@@ -24,6 +33,11 @@ const renderComponent = (props: Partial<ChangeDetailsModalContentProps> = {}) =>
   );
 
 describe('DeleteAccount', () => {
+  beforeEach(() => {
+    mockPut.mockReset();
+    mockPut.mockResolvedValue({ status: 200, data: null, statusText: 'OK' });
+  });
+
   it('renders correctly', () => {
     renderComponent();
     expect(
@@ -97,11 +111,9 @@ describe('DeleteAccount', () => {
 
   describe('shows an error after submission', () => {
     it('with an incorrect current password', async () => {
-      server.use(
-        rest.put('/account/api/users/me/deletion-request', (req, res, ctx) => {
-          return res(ctx.status(401));
-        })
-      );
+      const error = new FetchError('Request failed');
+      error.response = { status: 401, statusText: 'Unauthorized', data: null };
+      mockPut.mockRejectedValueOnce(error);
       renderComponent();
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
 
@@ -116,11 +128,13 @@ describe('DeleteAccount', () => {
     });
 
     it('when the users account is brute force restricted', async () => {
-      server.use(
-        rest.put('/account/api/users/me/deletion-request', (req, res, ctx) => {
-          return res(ctx.status(429));
-        })
-      );
+      const error = new FetchError('Request failed');
+      error.response = {
+        status: 429,
+        statusText: 'Too Many Requests',
+        data: null,
+      };
+      mockPut.mockRejectedValueOnce(error);
       renderComponent();
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
 
@@ -135,11 +149,13 @@ describe('DeleteAccount', () => {
     });
 
     it('when another error occurs', async () => {
-      server.use(
-        rest.put('/account/api/users/me/deletion-request', (req, res, ctx) => {
-          return res(ctx.status(500));
-        })
-      );
+      const error = new FetchError('Request failed');
+      error.response = {
+        status: 500,
+        statusText: 'Internal Server Error',
+        data: null,
+      };
+      mockPut.mockRejectedValueOnce(error);
       renderComponent();
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
 
