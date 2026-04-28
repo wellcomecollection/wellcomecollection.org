@@ -2,7 +2,7 @@
  * transform-snapshot.ts
  *
  * Prepares a Prismic content snapshot for import. Must always be run after
- * restore-prismic-assets.ts and before restore-prismic-content.ts.
+ * (or in lieu of) restore-prismic-assets, and before restore-prismic-content.
  *
  * Transformations applied:
  *   - Rewrites old asset IDs to new IDs using asset-id-map.json
@@ -31,8 +31,13 @@
  *     [--source-repo <name>] [--target-repo <name>]
  *
  * Defaults:
- *   --snapshot  Latest file in ./restore/snapshot/
+ *   --snapshot  Latest file in ./restore/snapshot/; if not found locally, downloads from S3
  *   --out       ./restore/snapshot/prismic-snapshot-rewritten.json (fixed; always overwritten)
+ *
+ * When using Scenario 2 (no assets to restore), PRISMIC_S3_BUCKET must be set in .env
+ * so the script can download the snapshot. When using Scenario 1, provide --snapshot
+ * directly or ensure a snapshot exists in ./restore/snapshot/ (may already be downloaded
+ * by restore-prismic-assets.ts).
  */
 import * as fs from 'fs';
 import * as path from 'path';
@@ -44,6 +49,10 @@ import {
   readJsonFile,
 } from '@weco/prismic-model/restore/restore-utils';
 import 'dotenv/config';
+import {
+  downloadLatestSnapshot,
+  REWRITTEN_SNAPSHOT_FILENAME,
+} from './s3-utils';
 
 // ---------------------------------------------------------------------------
 // CLI arguments
@@ -83,39 +92,49 @@ const argv = yargs(process.argv.slice(2))
 const SNAPSHOT_DIR = path.resolve('./restore/snapshot/');
 const DEFAULT_MAP = path.resolve('./restore/status/asset-id-map.json');
 const DEFAULT_SLUG_MAP = path.resolve('./restore/status/asset-slug-map.json');
-const REWRITTEN_SNAPSHOT_FILENAME = 'prismic-snapshot-rewritten.json';
 
-function resolveSnapshotPath(): string {
+// PRISMIC_S3_BUCKET is only required when no local snapshot exists
+const BUCKET = process.env.PRISMIC_S3_BUCKET;
+const bucket: string = BUCKET ?? '';
+
+async function resolveSnapshotPath(): Promise<string> {
   if (argv.snapshot) return path.resolve(argv.snapshot);
 
-  // Pick the newest file in the snapshot directory
-  if (!fs.existsSync(SNAPSHOT_DIR)) {
-    throw new Error(`Snapshot directory not found: ${SNAPSHOT_DIR}`);
-  }
-  const files = fs
-    .readdirSync(SNAPSHOT_DIR)
-    .filter(f => f.endsWith('.json') && f !== REWRITTEN_SNAPSHOT_FILENAME)
-    .map(f => ({
-      name: f,
-      mtime: fs.statSync(path.join(SNAPSHOT_DIR, f)).mtimeMs,
-    }))
-    .sort((a, b) => b.mtime - a.mtime);
+  // Try to find an existing snapshot locally
+  if (fs.existsSync(SNAPSHOT_DIR)) {
+    const files = fs
+      .readdirSync(SNAPSHOT_DIR)
+      .filter(f => f.endsWith('.json') && f !== REWRITTEN_SNAPSHOT_FILENAME)
+      .map(f => ({
+        name: f,
+        mtime: fs.statSync(path.join(SNAPSHOT_DIR, f)).mtimeMs,
+      }))
+      .sort((a, b) => b.mtime - a.mtime);
 
-  if (files.length === 0) {
+    if (files.length > 0) {
+      return path.join(SNAPSHOT_DIR, files[0].name);
+    }
+  }
+
+  // No local snapshot found; try to download from S3 (needed for Scenario 2)
+  if (!bucket) {
     throw new Error(
-      `No source JSON files found in ${SNAPSHOT_DIR} (excluding ${REWRITTEN_SNAPSHOT_FILENAME})`
+      `No source snapshot found in ${SNAPSHOT_DIR} and PRISMIC_S3_BUCKET environment variable is not set. ` +
+        `Either: provide --snapshot, or set PRISMIC_S3_BUCKET to download the latest snapshot from S3.`
     );
   }
-  return path.join(SNAPSHOT_DIR, files[0].name);
+
+  console.log('No local snapshot found; downloading latest from S3...');
+  return downloadLatestSnapshot(bucket);
 }
 
 // ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
 
-function init() {
-  // Step 1: Resolve input paths
-  const snapshotPath = resolveSnapshotPath();
+async function init() {
+  // Step 1: Resolve input paths (may download from S3 if needed)
+  const snapshotPath = await resolveSnapshotPath();
   const mapPath = DEFAULT_MAP;
 
   // The asset ID map may not exist when no assets were re-uploaded (Scenario 2).

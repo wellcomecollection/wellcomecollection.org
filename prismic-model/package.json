@@ -11,6 +11,7 @@
     "lintPrismicData": "tsx ./scripts/lintPrismicData",
     "tryAllContentPages": "tsx ./scripts/tryAllContentPages",
     "restorePrismicAssets": "AWS_PROFILE=catalogue-developer tsx ./restore/restore-prismic-assets.ts",
+    "restorePrismicContent": "AWS_PROFILE=catalogue-developer tsx ./restore/restore-prismic-content.ts",
     "transformSnapshot": "tsx ./restore/transform-snapshot.ts"
   },
   "dependencies": {

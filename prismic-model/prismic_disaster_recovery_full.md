@@ -94,7 +94,7 @@ The scripts write progress files to `restore/status/`. Understanding them helps 
 | `content-id-map.json`      | Append-only — **do not delete until restore is complete** | old document ID → new document ID; prevents re-creating docs on resume  |
 | `asset-upload-failed.json` | Replaced each run                                         | IDs that failed to upload in the most recent run                        |
 
-All three append-only files are written to the gitignored `restore/status/` directory. At the end of a successful `restorePrismicContent` run the script will offer to delete them.
+All three append-only files are written to the gitignored `restore/status/` directory. After a successful `restorePrismicContent` run, you can delete them once you are sure the restore is complete and you do not need to resume it.
 
 > **Resuming after interruption:** Simply re-run the same script. It will skip anything already recorded in the map files.
 
@@ -116,7 +116,6 @@ All three append-only files are written to the gitignored `restore/status/` dire
 --source-repo <name>   Source repository name (e.g. wellcomecollection) — required for URL rewriting
 --target-repo <name>   Target repository name — required for URL rewriting
 --snapshot <path>      Override the source snapshot (default: latest in ./restore/snapshot/)
---map <path>           Override the asset ID map (default: ./restore/status/asset-id-map.json)
 --out <path>           Override the output path (default: ./restore/snapshot/prismic-snapshot-rewritten.json)
 ```
 
