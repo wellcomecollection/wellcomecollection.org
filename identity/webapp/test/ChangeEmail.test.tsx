@@ -1,15 +1,34 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { rest } from 'msw';
 import { ThemeProvider } from 'styled-components';
 
-import { UserContextProvider } from '@weco/common/contexts/UserContext';
 import { mockUser } from '@weco/common/test/fixtures/identity/user';
 import theme from '@weco/common/views/themes/default';
+import { accountApiClient } from '@weco/identity/utils/api-client';
+import { FetchError } from '@weco/identity/utils/fetch-helpers';
 import { ChangeDetailsModalContentProps } from '@weco/identity/views/components/ChangeDetailsModal';
 import ChangeEmail from '@weco/identity/views/pages/index.ChangeEmail';
 
-import { server } from './mocks/server';
+jest.mock('@weco/identity/utils/api-client', () => ({
+  accountApiClient: {
+    put: jest.fn(),
+    get: jest.fn(),
+    post: jest.fn(),
+  },
+}));
+
+// jest.mock factories are hoisted above imports, so we must use require()
+// rather than the top-level import to access mockUserContext here.
+/* eslint-disable @typescript-eslint/no-require-imports */
+jest.mock('@weco/common/contexts/UserContext', () => {
+  const {
+    mockUserContext,
+  } = require('@weco/common/test/fixtures/identity/user');
+  return mockUserContext();
+});
+/* eslint-enable @typescript-eslint/no-require-imports */
+
+const mockPut = accountApiClient.put as jest.Mock;
 
 const defaultProps: ChangeDetailsModalContentProps = {
   onComplete: () => null,
@@ -21,13 +40,22 @@ const defaultProps: ChangeDetailsModalContentProps = {
 const renderComponent = (props: Partial<ChangeDetailsModalContentProps> = {}) =>
   render(
     <ThemeProvider theme={theme}>
-      <UserContextProvider>
-        <ChangeEmail {...defaultProps} {...props} />
-      </UserContextProvider>
+      <ChangeEmail {...defaultProps} {...props} />
     </ThemeProvider>
   );
 
 describe('ChangeEmail', () => {
+  beforeEach(() => {
+    mockPut.mockReset();
+    mockPut.mockImplementation((_url: string, data: Record<string, unknown>) =>
+      Promise.resolve({
+        status: 200,
+        data: { ...mockUser, ...data },
+        statusText: 'OK',
+      })
+    );
+  });
+
   it('renders correctly', async () => {
     renderComponent();
     await waitFor(() => {
@@ -100,16 +128,12 @@ describe('ChangeEmail', () => {
 
     rerender(
       <ThemeProvider theme={theme}>
-        <UserContextProvider>
-          <ChangeEmail {...defaultProps} isActive={false} />
-        </UserContextProvider>
+        <ChangeEmail {...defaultProps} isActive={false} />
       </ThemeProvider>
     );
     rerender(
       <ThemeProvider theme={theme}>
-        <UserContextProvider>
-          <ChangeEmail {...defaultProps} isActive={true} />
-        </UserContextProvider>
+        <ChangeEmail {...defaultProps} isActive={true} />
       </ThemeProvider>
     );
     await expect(emailAddressInput).toHaveValue('');
@@ -234,11 +258,9 @@ describe('ChangeEmail', () => {
 
   describe('shows an error after submission', () => {
     it('when the password is incorrect', async () => {
-      server.use(
-        rest.put('/account/api/users/me', (req, res, ctx) => {
-          return res(ctx.status(401));
-        })
-      );
+      const error = new FetchError('Request failed');
+      error.response = { status: 401, statusText: 'Unauthorized', data: null };
+      mockPut.mockRejectedValueOnce(error);
       renderComponent();
       const emailAddressInput = await screen.findByLabelText(/email address/i);
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
@@ -259,11 +281,13 @@ describe('ChangeEmail', () => {
     });
 
     it('when the users account is brute force restricted', async () => {
-      server.use(
-        rest.put('/account/api/users/me', (req, res, ctx) => {
-          return res(ctx.status(429));
-        })
-      );
+      const error = new FetchError('Request failed');
+      error.response = {
+        status: 429,
+        statusText: 'Too Many Requests',
+        data: null,
+      };
+      mockPut.mockRejectedValueOnce(error);
       renderComponent();
       const emailAddressInput = await screen.findByLabelText(/email address/i);
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
@@ -284,11 +308,9 @@ describe('ChangeEmail', () => {
     });
 
     it('when the email address is in use', async () => {
-      server.use(
-        rest.put('/account/api/users/me', (req, res, ctx) => {
-          return res(ctx.status(409));
-        })
-      );
+      const error = new FetchError('Request failed');
+      error.response = { status: 409, statusText: 'Conflict', data: null };
+      mockPut.mockRejectedValueOnce(error);
       renderComponent();
       const emailAddressInput = await screen.findByLabelText(/email address/i);
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
@@ -309,11 +331,13 @@ describe('ChangeEmail', () => {
     });
 
     it('when another error occurs', async () => {
-      server.use(
-        rest.put('/account/api/users/me', (req, res, ctx) => {
-          return res(ctx.status(500));
-        })
-      );
+      const error = new FetchError('Request failed');
+      error.response = {
+        status: 500,
+        statusText: 'Internal Server Error',
+        data: null,
+      };
+      mockPut.mockRejectedValueOnce(error);
       renderComponent();
       const emailAddressInput = await screen.findByLabelText(/email address/i);
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();

@@ -7,14 +7,15 @@ import {
   UiTreeNode,
 } from '@weco/content/views/pages/works/work/work.types';
 
+import NestedList from '.';
 import {
   getAriaLabel,
   getTabbableIds,
+  isRelatedWork,
   ListProps,
   updateChildren,
-} from './ArchiveTree.helpers';
-import NestedList from './ArchiveTree.NestedList';
-import { TreeItem } from './ArchiveTree.styles';
+} from './NestedList.helpers';
+import { TreeItem } from './NestedList.styles';
 
 const LEFT = [37, 'ArrowLeft'];
 const RIGHT = [39, 'ArrowRight'];
@@ -165,17 +166,31 @@ const ListItem: FunctionComponent<ListItemProps> = ({
       ? 'secondary'
       : undefined;
 
-  const hasGuideline = Boolean(
+  const isExpandable = Boolean(
     item?.work?.totalParts && item?.work?.totalParts > 0
   );
 
   const showGuideline =
     isEnhanced &&
-    hasGuideline &&
+    isExpandable &&
     item.openStatus &&
     (level > 1 || showFirstLevelGuideline);
 
+  function trackChevron() {
+    if (isExpandable) {
+      window.dataLayer?.push({
+        event: 'tree_chevron',
+        treeItem: {
+          level: String(level),
+          label: `${item.work.title}${isRelatedWork(item.work) && item.work.referenceNumber ? ` (${item.work.referenceNumber})` : ''}`,
+        },
+      });
+    }
+  }
+
   function toggleBranch() {
+    trackChevron();
+
     if (item.children === undefined && shouldFetchChildren) {
       expandTree({
         item,
@@ -265,6 +280,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
               item.work.totalParts &&
               item.work.totalParts > 0
             ) {
+              trackChevron();
               setArchiveTree(
                 updateOpenStatus({
                   id: item.work.id,
@@ -329,7 +345,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
           showFirstLevelGuideline={showFirstLevelGuideline}
           highlightCondition={highlightCondition}
           isDarkMode={isDarkMode}
-          hasControl={hasGuideline}
+          hasControl={isExpandable}
           {...itemRendererProps}
         />
       )}

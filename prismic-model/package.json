@@ -31,6 +31,6 @@
     "yargs": "^17.2.1"
   },
   "devDependencies": {
-    "styled-components": "^6.3.11"
+    "styled-components": "6.3.12"
   }
 }

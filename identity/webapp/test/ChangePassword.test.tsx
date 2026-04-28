@@ -1,13 +1,22 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { rest } from 'msw';
 import { ThemeProvider } from 'styled-components';
 
 import theme from '@weco/common/views/themes/default';
+import { accountApiClient } from '@weco/identity/utils/api-client';
+import { FetchError } from '@weco/identity/utils/fetch-helpers';
 import { ChangeDetailsModalContentProps } from '@weco/identity/views/components/ChangeDetailsModal';
 import ChangePassword from '@weco/identity/views/pages/index.ChangePassword';
 
-import { server } from './mocks/server';
+jest.mock('@weco/identity/utils/api-client', () => ({
+  accountApiClient: {
+    put: jest.fn(),
+    get: jest.fn(),
+    post: jest.fn(),
+  },
+}));
+
+const mockPut = accountApiClient.put as jest.Mock;
 
 const defaultProps: ChangeDetailsModalContentProps = {
   onComplete: () => null,
@@ -24,6 +33,11 @@ const renderComponent = (props: Partial<ChangeDetailsModalContentProps> = {}) =>
   );
 
 describe('ChangePassword', () => {
+  beforeEach(() => {
+    mockPut.mockReset();
+    mockPut.mockResolvedValue({ status: 200, data: null, statusText: 'OK' });
+  });
+
   it('renders correctly', () => {
     renderComponent();
     expect(
@@ -322,11 +336,9 @@ describe('ChangePassword', () => {
 
   describe('shows an error after submission', () => {
     it('when the current password is incorrect', async () => {
-      server.use(
-        rest.put('/account/api/users/me/password', (req, res, ctx) => {
-          return res.once(ctx.status(401));
-        })
-      );
+      const error = new FetchError('Request failed');
+      error.response = { status: 401, statusText: 'Unauthorized', data: null };
+      mockPut.mockRejectedValueOnce(error);
       renderComponent();
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
 
@@ -352,11 +364,13 @@ describe('ChangePassword', () => {
     });
 
     it('when the users account is brute force restricted', async () => {
-      server.use(
-        rest.put('/account/api/users/me/password', (req, res, ctx) => {
-          return res.once(ctx.status(429));
-        })
-      );
+      const error = new FetchError('Request failed');
+      error.response = {
+        status: 429,
+        statusText: 'Too Many Requests',
+        data: null,
+      };
+      mockPut.mockRejectedValueOnce(error);
       renderComponent();
 
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
@@ -383,11 +397,13 @@ describe('ChangePassword', () => {
     });
 
     it('when the new password does not meet the Auth0 policy requirements', async () => {
-      server.use(
-        rest.put('/account/api/users/me/password', (req, res, ctx) => {
-          return res.once(ctx.status(422));
-        })
-      );
+      const error = new FetchError('Request failed');
+      error.response = {
+        status: 422,
+        statusText: 'Unprocessable Entity',
+        data: null,
+      };
+      mockPut.mockRejectedValueOnce(error);
       renderComponent();
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
 
@@ -413,11 +429,13 @@ describe('ChangePassword', () => {
     });
 
     it('when another error occurs', async () => {
-      server.use(
-        rest.put('/account/api/users/me/password', (req, res, ctx) => {
-          return res.once(ctx.status(500));
-        })
-      );
+      const error = new FetchError('Request failed');
+      error.response = {
+        status: 500,
+        statusText: 'Internal Server Error',
+        data: null,
+      };
+      mockPut.mockRejectedValueOnce(error);
       renderComponent();
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
 

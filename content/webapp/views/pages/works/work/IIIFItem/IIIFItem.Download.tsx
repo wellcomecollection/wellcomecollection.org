@@ -67,21 +67,29 @@ const IIIFItemDownload: FunctionComponent<Props> = ({
         icon={isFilePdf ? pdf : file}
         sizeOverride="width: 48px; height: 48px;"
       />
+
       <Space
         className={font('sans-bold', -1)}
         $v={{ size: 'sm', properties: ['margin-top', 'margin-bottom'] }}
       >
         {displayLabel}
       </Space>
+
       {showWarning && (
         <div className={font('sans', -2)}>{bornDigitalWarning}</div>
       )}
+
       <Buttons
         variant="ButtonSolidLink"
         link={src}
         text={action}
         ariaLabel={`${action} ${(displayLabel !== substituteTitle && label) || 'document'}`}
+        dataGtmProps={{
+          trigger: 'canvas_download_link',
+          'mime-type': format || 'null', // Default value requested by analyst
+        }}
       />
+
       <span className={font('sans', -2)}>
         Size:{' '}
         <span className={font('sans-bold', -2)}>{fileSize || 'unknown'}</span>
