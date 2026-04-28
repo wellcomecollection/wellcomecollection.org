@@ -67,7 +67,6 @@ When a user is logged in with `StaffWithRestricted` role and visits an items pag
 6. The page polls every 500ms for the popup window to close (`authServiceWindow.closed`)
 7. Once the popup is fully closed, `reloadAuthIframe` is called to refresh the hidden auth iframe
 
-
 **Note:** This popup may be blocked by browser popup blockers since it's not triggered by a direct user action. Users may need to allow popups for the site.
 
 ### 3. Hidden Iframe Token Exchange
@@ -99,3 +98,14 @@ This is called when:
 - The auth popup is detected as closed (via the 500ms polling interval)
 - An image fails to load (in case the `dlcs-auth2-2` cookie expired or became invalid)
 - An OpenSeadragon tile fails to load (`tile-load-failed` event)
+
+## Development & Testing
+
+When testing restricted IIIF items:
+
+- **You must allow popups for the site** in your browser settings
+- The authentication flow automatically opens a popup window when a user with `StaffWithRestricted` role visits an items page with restricted content
+- If popups are blocked, the authentication flow will fail silently and restricted items won't display
+- To enable popups in Chrome: Click the popup blocked icon in the address bar, or go to Settings > Privacy and security > Site Settings > Pop-ups
+
+The popup code is located in [content/webapp/views/pages/works/work/items.tsx](content/webapp/views/pages/works/work/items.tsx#L151-L165).
