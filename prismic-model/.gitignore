@@ -1,5 +1,11 @@
 snapshot.*
+snapshots/
 node_modules
 contentReport.json
 sliceReport.json
 .env
+
+# Restore script outputs
+restore/snapshot/
+restore/assets/
+restore/status/

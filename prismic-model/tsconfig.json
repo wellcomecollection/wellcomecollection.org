@@ -1,6 +1,7 @@
 {
   "extends": "../config/tsconfig-base",
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
     "composite": true,
     "module": "commonjs",
     "moduleResolution": "node"
