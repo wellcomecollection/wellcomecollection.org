@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { subjectCategories } from '@weco/common/data/hardcoded-ids';
 import { font } from '@weco/common/utils/classnames';
+import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 
 const SubCategoriesList = styled(PlainList)`
@@ -39,15 +40,24 @@ const CardLink = styled(NextLink)`
 const SubCategoryListItem = ({
   path,
   title,
+  index,
 }: {
   path: string;
   title: string;
+  index: number;
 }) => {
   const basePath = '/collections/subjects';
 
   return (
     <li>
-      <CardLink href={{ pathname: `${basePath}/${path}` }}>
+      <CardLink
+        href={{ pathname: `${basePath}/${path}` }}
+        {...dataGtmPropsToAttributes({
+          'category-label': 'Subjects',
+          label: title,
+          'position-in-list': String(index + 1),
+        })}
+      >
         <SubjectImage
           src="https://api.images.cat/150/150/958cc734-06e2-433d-a82d-cbb32b02f3e5"
           alt="TODO?"
@@ -60,9 +70,14 @@ const SubCategoryListItem = ({
 
 const SubjectsMenu = () => {
   return (
-    <SubCategoriesList>
-      {subjectCategories.map(({ path, title }) => (
-        <SubCategoryListItem key={path} path={path} title={title} />
+    <SubCategoriesList data-component="thematic-subjects-menu">
+      {subjectCategories.map(({ path, title }, index) => (
+        <SubCategoryListItem
+          key={path}
+          path={path}
+          title={title}
+          index={index}
+        />
       ))}
     </SubCategoriesList>
   );
