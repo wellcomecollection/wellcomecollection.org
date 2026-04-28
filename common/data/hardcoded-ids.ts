@@ -71,6 +71,63 @@ export const thematicBrowsingPaths = {
   subjects: `/${prismicPageIds.collections}/subjects`,
 } as const;
 
+export const subjectCategories = [
+  {
+    path: 'mental-health',
+    title: 'Mental health & the mind',
+    prismicUid: 'subjects-mental-health',
+    prismicId: 'ae9ocRIAACIA9RQz',
+  },
+  {
+    path: 'the-human-body',
+    title: 'The human body',
+    prismicUid: 'subjects-the-human-body',
+    prismicId: 'ae9okxIAACEA9RR6',
+  },
+  {
+    path: 'public-health',
+    title: 'Public health',
+    prismicUid: 'subjects-public-health',
+    prismicId: 'abGHbREAACAAi2gO',
+  },
+  {
+    path: 'medical-care-and-practices',
+    title: 'Medical care and practices',
+    prismicUid: 'subjects-medical-care-and-practices',
+    prismicId: 'aY2jMBAAACEAHkc6',
+  },
+  {
+    path: 'sex-sexual-health-and-reproduction',
+    title: 'Sex, sexual health and reproduction',
+    prismicUid: 'subjects-sex-sexual-health-and-reproduction',
+    prismicId: 'aaBgRBAAACMAxoYU',
+  },
+  {
+    path: 'diseases-disorders-and-conditions',
+    title: 'Diseases, disorders and conditions',
+    prismicUid: 'subjects-diseases-disorders-and-conditions',
+    prismicId: 'ae9otRIAACEA9RSz',
+  },
+  {
+    path: 'the-natural-world-and-environment',
+    title: 'The natural world and environment',
+    prismicUid: 'subjects-the-natural-world-and-environment',
+    prismicId: 'ae9pMBIAACEA9RWR',
+  },
+  {
+    path: 'society-arts-and-culture',
+    title: 'Society, arts and culture',
+    prismicUid: 'subjects-society-arts-and-culture',
+    prismicId: 'ae9pVxIAACEA9RXc',
+  },
+  {
+    path: 'religion-spirituality-and-the-occult',
+    title: 'Religion, spirituality and the occult',
+    prismicUid: 'subjects-religion-spirituality-and-the-occult',
+    prismicId: 'ae9pfxIAACQA9RYw',
+  },
+] as const;
+
 export const eventPolicyIds = {
   schoolBooking: 'W4Vx5h4AACIAehqz',
   dropIn: 'W3RJeikAACIAF2Mw',
