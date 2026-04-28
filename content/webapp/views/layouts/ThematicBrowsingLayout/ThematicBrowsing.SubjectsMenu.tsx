@@ -8,8 +8,14 @@ import PlainList from '@weco/common/views/components/styled/PlainList';
 
 const SubCategoriesList = styled(PlainList)`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(88px, 1fr));
-  gap: ${props => props.theme.gutter.medium};
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  gap: ${props => props.theme.gutter.small};
+
+  ${props =>
+    props.theme.media('sm')(`
+      grid-template-columns: repeat(auto-fit, minmax(105px, 1fr));
+      gap: ${props.theme.gutter.medium};
+  `)}
 `;
 
 const SubjectImage = styled.img`
