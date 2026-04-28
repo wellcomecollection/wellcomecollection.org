@@ -21,7 +21,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   // These are pages that are not to be found via the /collections/[uid] route
   // but have their own dedicated routes
-  // TODO add core subjects page when officialised and implemented
   const collectionsHiddenPages = {
     collectionsLanding: ['collections', 'aKb_ahAAAB8AhtQC'],
     places: ['thematic-browsing-places', 'aYYbgBIAACUA8_PS'],
