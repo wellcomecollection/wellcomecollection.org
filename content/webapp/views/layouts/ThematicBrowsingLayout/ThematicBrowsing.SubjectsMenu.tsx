@@ -8,14 +8,24 @@ import PlainList from '@weco/common/views/components/styled/PlainList';
 
 const SubCategoriesList = styled(PlainList)`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  grid-template-columns: 1fr 1fr 1fr;
   gap: ${props => props.theme.gutter.small};
 
   ${props =>
     props.theme.media('sm')(`
-      grid-template-columns: repeat(auto-fit, minmax(105px, 1fr));
+      grid-template-columns: repeat(20, 1fr);
       gap: ${props.theme.gutter.medium};
   `)}
+
+  ${props =>
+    props.theme.media('md')`
+      grid-template-columns: repeat(12 , 1fr);
+  `}
+
+  ${props =>
+    props.theme.media('lg')`
+      grid-template-columns: repeat(9 , 1fr);
+  `}
 `;
 
 const SubjectImage = styled.img`
@@ -23,6 +33,35 @@ const SubjectImage = styled.img`
   margin-bottom: 5px;
   border-radius: 4px;
   transition: transform ${props => props.theme.transitionProperties};
+`;
+
+const CardListItem = styled.li`
+  ${props => props.theme.media('sm')`
+    grid-column: auto / span 4;
+    
+    &:nth-child(6) {
+      grid-column-start: 3;
+    }
+  `}
+
+  ${props => props.theme.media('md')`
+    grid-column: auto / span 2;
+    
+    &:nth-child(7) {
+      grid-column-start: 4;
+    }
+    &:nth-child(6) {
+      grid-column-start: inherit;
+    }
+  `}
+
+  ${props => props.theme.media('lg')`
+    grid-column: span 1;
+    
+    &:nth-child(7) {
+      grid-column-start: inherit;
+    }
+  `}
 `;
 
 const CardLink = styled(NextLink)`
@@ -55,7 +94,7 @@ const SubCategoryListItem = ({
   const basePath = '/collections/subjects';
 
   return (
-    <li>
+    <CardListItem>
       <CardLink
         href={{ pathname: `${basePath}/${path}` }}
         {...dataGtmPropsToAttributes({
@@ -70,7 +109,7 @@ const SubCategoryListItem = ({
         />
         <span className={font('sans-bold', -1)}>{title}</span>
       </CardLink>
-    </li>
+    </CardListItem>
   );
 };
 
