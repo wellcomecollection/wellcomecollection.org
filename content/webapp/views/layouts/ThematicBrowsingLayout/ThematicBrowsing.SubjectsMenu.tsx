@@ -60,7 +60,7 @@ const SubCategoryListItem = ({
       >
         <SubjectImage
           src="https://api.images.cat/150/150/958cc734-06e2-433d-a82d-cbb32b02f3e5"
-          alt="TODO?"
+          alt=""
         />
         <span className={font('sans-bold', -1)}>{title}</span>
       </CardLink>
