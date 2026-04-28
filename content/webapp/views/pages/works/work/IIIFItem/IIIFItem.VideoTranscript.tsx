@@ -8,7 +8,6 @@ import { FunctionComponent } from 'react';
 
 import DownloadLink from '@weco/common/views/components/DownloadLink';
 import Space from '@weco/common/views/components/styled/Space';
-import { getFormatString } from '@weco/content/utils/iiif/v3';
 
 type Props = {
   supplementing: (ContentResource | ChoiceBody)[];
@@ -34,8 +33,7 @@ const VideoTranscript: FunctionComponent<Props> = ({
               <DownloadLink
                 href={displayItem.id}
                 linkText="Transcript of video"
-                format={getFormatString(displayItem.format)}
-                mimeType={displayItem.format || ''}
+                format={displayItem.format}
                 isDark={isDark}
               />
             </Space>
