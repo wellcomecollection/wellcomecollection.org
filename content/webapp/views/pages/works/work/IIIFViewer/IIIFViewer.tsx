@@ -451,9 +451,11 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         )}
         {isFullSupportBrowser && (
           <>
-            <BottomBar>
-              <ViewerBottomBar />
-            </BottomBar>
+            {!isMobileSidebarActive && (
+              <BottomBar>
+                <ViewerBottomBar />
+              </BottomBar>
+            )}
             {hasOnlyRenderableImages && (
               <ThumbnailsWrapper
                 $isActive={gridVisible}
