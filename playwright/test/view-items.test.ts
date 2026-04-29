@@ -443,3 +443,7 @@ test('(32) | Renders the PDF document on Desktop or an "Open" link on Mobile', a
     await expect(openLink).toBeVisible({ timeout: 10000 });
   }
 });
+test('(33) | PDF download options are available', async ({ page, context }) => {
+  await itemWithPdf(context, page);
+  await checkDownloadsAvailable(page);
+});
