@@ -30,6 +30,11 @@ const checkDownloadsAvailable = async (page: Page) => {
   await expect(page.locator('#itemDownloads a')).not.toHaveCount(0);
 };
 
+const checkInfoPanelHasHeading = async (page: Page) => {
+  await accessSidebarOnMobile(page);
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+};
+
 test.describe.configure({ mode: 'parallel' });
 
 test('(1) | The images can be zoomed', async ({ page, context }) => {
@@ -366,10 +371,16 @@ test('(25) | Video playback controls are functional', async ({
   // Check that native controls are enabled
   await expect(video).toHaveAttribute('controls');
 });
+
 test('(26) | Video download options are available', async ({
   page,
   context,
 }) => {
   await itemWithVideo(context, page);
   await checkDownloadsAvailable(page);
+});
+
+test('(27) | Video info panel displays heading', async ({ page, context }) => {
+  await itemWithVideo(context, page);
+  await checkInfoPanelHasHeading(page);
 });
