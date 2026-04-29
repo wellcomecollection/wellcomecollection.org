@@ -225,6 +225,38 @@ const workWithBornDigitalDownloads = async (
   await gotoWithoutCache(`${baseUrl}/works/htzhunbw`, page);
 };
 
+const itemWithVideo = async (
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  await context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works/sx4p4b75/items`, page);
+};
+
+const itemWithAudio = async (
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  await context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works/tp9njewm/items`, page);
+};
+
+const itemWithPdf = async (
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  await context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works/zu2q4k2w/items`, page);
+};
+
+const itemWithMixedBornDigital = async (
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  await context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works/dn9jwck6/items`, page);
+};
+
 const search = async (
   context: BrowserContext,
   page: Page,
@@ -353,15 +385,19 @@ export {
   event,
   isMobile,
   itemWithAltText,
+  itemWithAudio,
   itemWithNonRestrictedAndOpenAccess,
   itemWithOnlyOpenAccess,
   itemWithOnlyRestrictedAccessImages,
   itemWithOnlyRestrictedAccessNonImages,
+  itemWithPdf,
   itemWithReferenceNumber,
   itemWithRestrictedAndNonRestrictedAccess,
   itemWithRestrictedAndOpenAccess,
   itemWithSearchAndStructures,
   itemWithSearchAndStructuresAndQuery,
+  itemWithVideo,
+  itemWithMixedBornDigital,
   mediaOffice,
   multiVolumeItem,
   apiToolbarPage,
