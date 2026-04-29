@@ -3,11 +3,13 @@ import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { cross, play } from '@weco/common/icons';
+import { ImageType } from '@weco/common/model/image';
 import { getConsentState } from '@weco/common/services/app/civic-uk';
 import { font } from '@weco/common/utils/classnames';
 import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
 import Icon from '@weco/common/views/components/Icon';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
+import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
 
 export type VideoProvider = 'YouTube' | 'Vimeo';
@@ -15,7 +17,7 @@ export type VideoProvider = 'YouTube' | 'Vimeo';
 export type Props = {
   embedUrl: string;
   videoProvider?: VideoProvider;
-  posterUrl?: string;
+  posterImage?: ImageType;
   duration?: string;
   title?: string;
   transcript?: prismic.RichTextField;
@@ -44,12 +46,14 @@ const PosterContainer = styled.div`
   background: ${props => props.theme.color('black')};
 `;
 
-const PosterImage = styled.img`
+const PosterImageWrapper = styled.div`
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+
+  img {
+    height: 100%;
+    object-fit: cover;
+  }
 `;
 
 const ControlsOverlay = styled(Space).attrs({
@@ -161,7 +165,7 @@ const VideoIframe = styled.iframe`
 const PortraitVideoEmbed: FunctionComponent<Props> = ({
   embedUrl,
   videoProvider,
-  posterUrl,
+  posterImage,
   duration,
   title,
   transcript,
@@ -219,7 +223,11 @@ const PortraitVideoEmbed: FunctionComponent<Props> = ({
       <CardButton onClick={openDialog}>
         <div data-chromatic="ignore">
           <PosterContainer>
-            {posterUrl && <PosterImage src={posterUrl} alt="" />}
+            {posterImage && (
+              <PosterImageWrapper>
+                <PrismicImage image={posterImage} quality="low" />
+              </PosterImageWrapper>
+            )}
             <ControlsOverlay aria-hidden="true">
               <PlayCircle>
                 <Icon

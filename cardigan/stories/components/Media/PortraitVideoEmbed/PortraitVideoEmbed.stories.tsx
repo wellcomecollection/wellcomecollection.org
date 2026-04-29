@@ -1,6 +1,7 @@
 import * as prismic from '@prismicio/client';
 import { Meta, StoryObj } from '@storybook/react';
 
+import { ImageType } from '@weco/common/model/image';
 import PortraitVideoEmbed from '@weco/common/views/components/PortraitVideoEmbed';
 
 const sampleTranscript: prismic.RichTextField = [
@@ -16,13 +17,20 @@ const sampleTranscript: prismic.RichTextField = [
   },
 ];
 
+const samplePosterImage: ImageType = {
+  contentUrl: 'https://picsum.photos/seed/portrait/400/711',
+  width: 400,
+  height: 711,
+  alt: null,
+};
+
 const meta: Meta<typeof PortraitVideoEmbed> = {
   title: 'Components/Media/PortraitVideoEmbed',
   component: PortraitVideoEmbed,
   args: {
     embedUrl: 'https://www.youtube.com/embed/1bmRUZLqYSw?feature=oembed',
     videoProvider: 'YouTube',
-    posterUrl: 'https://picsum.photos/seed/portrait/400/711',
+    posterImage: samplePosterImage,
     duration: '1:23 mins',
     title: 'What can we learn from cholera recovery?',
     transcript: sampleTranscript,
@@ -30,14 +38,11 @@ const meta: Meta<typeof PortraitVideoEmbed> = {
   argTypes: {
     embedUrl: { table: { disable: true } },
     transcript: { table: { disable: true } },
+    posterImage: { table: { disable: true } },
     videoProvider: {
       name: 'Video provider',
       control: { type: 'radio' },
       options: ['YouTube', 'Vimeo'],
-    },
-    posterUrl: {
-      name: 'Poster image URL',
-      control: 'text',
     },
     duration: {
       name: 'Duration',
