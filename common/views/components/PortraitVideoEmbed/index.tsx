@@ -212,15 +212,22 @@ const PortraitVideoEmbed: FunctionComponent<Props> = ({
     dialogRef.current?.close();
   };
 
-  const videoSrc = isYouTube
-    ? `${embedUrl}&enablejsapi=1&autoplay=1`
-    : isVimeo
-      ? `${embedUrl}&autoplay=1${!hasAnalyticsConsent ? '&dnt=1' : ''}`
-      : undefined;
+  const buildVideoSrc = (): string | undefined => {
+    if (!isYouTube && !isVimeo) return undefined;
+    const url = new URL(embedUrl);
+    url.searchParams.set('autoplay', '1');
+    if (isYouTube) {
+      url.searchParams.set('enablejsapi', '1');
+    } else if (!hasAnalyticsConsent) {
+      url.searchParams.set('dnt', '1');
+    }
+    return url.toString();
+  };
+  const videoSrc = buildVideoSrc();
 
   return (
     <div data-component="portrait-video-embed">
-      <CardButton onClick={openDialog}>
+      <CardButton type="button" onClick={openDialog}>
         <div data-chromatic="ignore">
           <PosterContainer>
             {posterImage && (
@@ -252,7 +259,12 @@ const PortraitVideoEmbed: FunctionComponent<Props> = ({
         aria-label={title || 'Video'}
         onClick={e => e.target === dialogRef.current && closeDialog()}
       >
-        <CloseButton onClick={closeDialog} aria-label="Close video" autoFocus>
+        <CloseButton
+          type="button"
+          onClick={closeDialog}
+          aria-label="Close video"
+          autoFocus
+        >
           <Icon icon={cross} iconColor="white" />
         </CloseButton>
         <DialogVideoContainer>
