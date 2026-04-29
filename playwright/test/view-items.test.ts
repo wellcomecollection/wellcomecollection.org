@@ -3,10 +3,12 @@ import { expect, Page, test } from '@playwright/test';
 import {
   isMobile,
   itemWithAltText,
+  itemWithAudio,
   itemWithNonRestrictedAndOpenAccess,
   itemWithOnlyOpenAccess,
   itemWithOnlyRestrictedAccessImages,
   itemWithOnlyRestrictedAccessNonImages,
+  itemWithPdf,
   itemWithReferenceNumber,
   itemWithRestrictedAndNonRestrictedAccess,
   itemWithRestrictedAndOpenAccess,
