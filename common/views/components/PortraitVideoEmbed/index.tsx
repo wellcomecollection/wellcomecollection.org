@@ -8,6 +8,7 @@ import { font } from '@weco/common/utils/classnames';
 import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
 import Icon from '@weco/common/views/components/Icon';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
+import Space from '@weco/common/views/components/styled/Space';
 
 export type VideoProvider = 'YouTube' | 'Vimeo';
 
@@ -51,28 +52,28 @@ const PosterImage = styled.img`
   object-fit: cover;
 `;
 
-const ControlsOverlay = styled.div`
+const ControlsOverlay = styled(Space).attrs({
+  $v: { size: 'xs', properties: ['bottom'] },
+  $h: { size: 'xs', properties: ['left'] },
+})`
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 100%);
+  ${props => props.theme.makeSpacePropertyValues('xs', ['column-gap'])};
+  padding: 3px 10px 3px 3px;
+  background: ${props => props.theme.color('black')};
+  border-radius: 9999px;
 `;
 
 const PlayCircle = styled.span`
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  width: 40px;
-  height: 40px;
+  padding: 5px;
   border-radius: 50%;
-  background: ${props => props.theme.color('white')};
-  color: ${props => props.theme.color('black')};
+  border: 2px solid ${props => props.theme.color('white')};
+  background: ${props => props.theme.color('black')};
+  color: ${props => props.theme.color('white')};
 `;
 
 const DurationText = styled.span.attrs({
@@ -81,10 +82,16 @@ const DurationText = styled.span.attrs({
   color: ${props => props.theme.color('white')};
 `;
 
-const CardTitle = styled.p.attrs({
+const CardTitle = styled(Space).attrs({
+  $v: { size: 'xs', properties: ['margin-top'] },
+  as: 'p',
   className: font('sans', 0),
 })`
-  margin-top: ${props => props.theme.spacingUnit * 2}px;
+  line-height: 1.6;
+
+  ${CardButton}:hover & {
+    text-decoration: underline;
+  }
 `;
 
 const VideoDialog = styled.dialog`
@@ -101,7 +108,10 @@ const VideoDialog = styled.dialog`
   }
 `;
 
-const TranscriptPanel = styled.div`
+const TranscriptPanel = styled(Space).attrs({
+  $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'xs', properties: ['padding-left', 'padding-right'] },
+})`
   position: absolute;
   bottom: 0;
   left: 0;
@@ -111,13 +121,12 @@ const TranscriptPanel = styled.div`
   overflow-y: auto;
   overscroll-behavior: contain;
   background: ${props => props.theme.color('white')};
-  padding: ${props => props.theme.spacingUnit * 2}px;
 `;
 
 const CloseButton = styled.button`
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 0;
+  right: 0;
   z-index: 1;
   display: flex;
   align-items: center;
@@ -126,7 +135,6 @@ const CloseButton = styled.button`
   height: 36px;
   border-radius: 50%;
   border: 0;
-  background: rgba(0, 0, 0, 0.5);
   cursor: pointer;
   color: ${props => props.theme.color('white')};
 
@@ -138,7 +146,7 @@ const CloseButton = styled.button`
 
 const DialogVideoContainer = styled.div`
   position: absolute;
-  inset: 0;
+  inset: 0 0 35px;
 `;
 
 const VideoIframe = styled.iframe`
@@ -214,7 +222,10 @@ const PortraitVideoEmbed: FunctionComponent<Props> = ({
             {posterUrl && <PosterImage src={posterUrl} alt="" />}
             <ControlsOverlay aria-hidden="true">
               <PlayCircle>
-                <Icon icon={play} />
+                <Icon
+                  icon={play}
+                  sizeOverride="width: 11px; height: 11px; left: 1px;"
+                />
               </PlayCircle>
               {duration && <DurationText>{duration}</DurationText>}
             </ControlsOverlay>

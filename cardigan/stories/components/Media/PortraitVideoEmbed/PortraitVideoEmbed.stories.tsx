@@ -23,7 +23,7 @@ const meta: Meta<typeof PortraitVideoEmbed> = {
     embedUrl: 'https://www.youtube.com/embed/1bmRUZLqYSw?feature=oembed',
     videoProvider: 'YouTube',
     posterUrl: 'https://picsum.photos/seed/portrait/400/711',
-    duration: '1:23',
+    duration: '1:23 mins',
     title: 'What can we learn from cholera recovery?',
     transcript: sampleTranscript,
   },
