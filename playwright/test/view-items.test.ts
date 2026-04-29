@@ -416,3 +416,7 @@ test('(30) | Audio download options are available', async ({
   await itemWithAudio(context, page);
   await checkDownloadsAvailable(page);
 });
+test('(31) | Audio info panel displays heading', async ({ page, context }) => {
+  await itemWithAudio(context, page);
+  await checkInfoPanelHasHeading(page);
+});
