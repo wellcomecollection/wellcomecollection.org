@@ -447,3 +447,7 @@ test('(33) | PDF download options are available', async ({ page, context }) => {
   await itemWithPdf(context, page);
   await checkDownloadsAvailable(page);
 });
+test('(34) | PDF info panel displays heading', async ({ page, context }) => {
+  await itemWithPdf(context, page);
+  await checkInfoPanelHasHeading(page);
+});
