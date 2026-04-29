@@ -420,3 +420,24 @@ test('(31) | Audio info panel displays heading', async ({ page, context }) => {
   await itemWithAudio(context, page);
   await checkInfoPanelHasHeading(page);
 });
+test('(32) | Renders the PDF document on Desktop or an "Open" link on Mobile', async ({
+  page,
+  context,
+}) => {
+  await itemWithPdf(context, page);
+  const pdfIframe = page.locator('iframe[type="application/pdf"]');
+
+  if (!isMobile(page)) {
+    // On desktop, PDF is embedded in an iframe
+    await expect(pdfIframe).toBeVisible();
+  }
+
+  if (isMobile(page)) {
+    // On mobile, the PDF iframe is not rendered at all
+    await expect(pdfIframe).not.toBeAttached();
+    // Instead, look for a download or open link
+    const openLink = page.getByRole('link', { name: /open/i });
+    // Wait for it to be visible first, then check if hidden (will fail)
+    await expect(openLink).toBeVisible({ timeout: 10000 });
+  }
+});
