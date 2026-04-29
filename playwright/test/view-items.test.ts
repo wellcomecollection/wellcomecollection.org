@@ -22,6 +22,13 @@ const accessSidebarOnMobile = async (page: Page) => {
   }
 };
 
+const checkDownloadsAvailable = async (page: Page) => {
+  await expect(page.locator('#itemDownloads')).toHaveAttribute('inert');
+  await page.locator('[aria-controls="itemDownloads"]').click();
+  await expect(page.locator('#itemDownloads')).not.toHaveAttribute('inert');
+  await expect(page.locator('#itemDownloads a')).not.toHaveCount(0);
+};
+
 test.describe.configure({ mode: 'parallel' });
 
 test('(1) | The images can be zoomed', async ({ page, context }) => {
@@ -61,7 +68,7 @@ test('(3) | An image of the current canvas can be downloaded', async ({
   context,
 }) => {
   await multiVolumeItem(context, page);
-  await page.getByRole('button', { name: 'Downloads' }).click();
+  await checkDownloadsAvailable(page);
 
   const smallImageLink = page
     .getByRole('link')
@@ -73,7 +80,7 @@ test('(3) | An image of the current canvas can be downloaded', async ({
 
 test('(4) | The entire item can be downloaded', async ({ page, context }) => {
   await multiVolumeItem(context, page);
-  await page.getByRole('button', { name: 'Downloads' }).click();
+  await checkDownloadsAvailable(page);
 
   const smallImageLink = page
     .getByRole('link')
