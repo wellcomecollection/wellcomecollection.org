@@ -392,3 +392,20 @@ test('(28) | Audio player is visible and renders', async ({
   // Check for custom audio player's play button
   await expect(page.getByRole('button', { name: 'Play' })).toBeVisible();
 });
+test('(29) | Audio playback controls are functional', async ({
+  page,
+  context,
+}) => {
+  await itemWithAudio(context, page);
+  const playButton = page.getByRole('button', { name: 'Play' });
+  await expect(playButton).toBeVisible();
+
+  // Click play button
+  await playButton.click();
+
+  // After clicking, button's accessible name should change to Pause
+  await expect(page.getByRole('button', { name: 'Pause' })).toBeVisible();
+
+  // And aria-pressed should be true
+  await expect(page.locator('button[aria-pressed="true"]')).toBeVisible();
+});
