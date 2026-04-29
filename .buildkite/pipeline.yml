@@ -88,14 +88,14 @@
         role: 'arn:aws:iam::130871440101:role/experience-ci'
     - ecr#v2.1.1:
         login: true
-  command: ['bash', '.buildkite/scripts/run_prismic_diff_if_needed.sh', 'run']
+  command: 'bash .buildkite/scripts/run_prismic_diff_if_needed.sh run'
   agents:
     queue: nano
 
 - label: 'require acknowledgement if prismic diff failed'
   branches: 'main'
   depends_on: 'diff_prismic_model'
-  command: ['bash', '.buildkite/scripts/run_prismic_diff_if_needed.sh', 'acknowledge']
+  command: 'bash .buildkite/scripts/run_prismic_diff_if_needed.sh acknowledge'
   agents:
     queue: nano
 
