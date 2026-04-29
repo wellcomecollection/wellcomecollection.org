@@ -205,13 +205,15 @@ const PortraitVideoEmbed: FunctionComponent<Props> = ({
   }, []);
 
   const openDialog = () => {
+    if (dialogRef.current?.open) return;
     setIsOpen(true);
     dialogRef.current?.showModal();
     closeButtonRef.current?.focus();
   };
 
   const closeDialog = () => {
-    dialogRef.current?.close();
+    if (!dialogRef.current?.open) return;
+    dialogRef.current.close();
   };
 
   const buildVideoSrc = (): string | undefined => {
