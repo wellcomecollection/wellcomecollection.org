@@ -21,7 +21,7 @@ const meta: Meta<typeof PortraitVideoEmbed> = {
   title: 'Components/Media/PortraitVideoEmbed',
   component: PortraitVideoEmbed,
   args: {
-    embedUrl: 'https://www.youtube.com/embed/1bmRUZLqYSw?feature=oembed',
+    embedUrl: 'https://www.youtube.com/embed/jS7I9286_Bg?feature=oembed',
     videoProvider: 'YouTube',
     posterImage: image(),
     duration: '1:23 mins',

@@ -150,7 +150,7 @@ const CloseButton = styled.button`
 
 const DialogVideoContainer = styled.div`
   position: absolute;
-  inset: 0 0 35px;
+  inset: 0;
 `;
 
 const VideoIframe = styled.iframe`
@@ -247,7 +247,11 @@ const PortraitVideoEmbed: FunctionComponent<Props> = ({
         </div>
       </CardButton>
 
-      <VideoDialog ref={dialogRef} aria-label={title || 'Video'}>
+      <VideoDialog
+        ref={dialogRef}
+        aria-label={title || 'Video'}
+        onClick={e => e.target === dialogRef.current && closeDialog()}
+      >
         <CloseButton onClick={closeDialog} aria-label="Close video" autoFocus>
           <Icon icon={cross} iconColor="white" />
         </CloseButton>
