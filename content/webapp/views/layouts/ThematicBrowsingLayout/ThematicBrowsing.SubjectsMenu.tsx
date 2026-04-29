@@ -9,12 +9,12 @@ import PlainList from '@weco/common/views/components/styled/PlainList';
 const SubCategoriesList = styled(PlainList)`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: ${props => props.theme.gutter.small};
+  gap: ${props => props.theme.getSpaceValue('md', 'zero')};
 
   ${props =>
     props.theme.media('sm')(`
       grid-template-columns: repeat(20, 1fr);
-      gap: ${props.theme.gutter.medium};
+      gap: ${props.theme.getSpaceValue('md', 'sm')};
   `)}
 
   ${props =>
@@ -28,10 +28,19 @@ const SubCategoriesList = styled(PlainList)`
   `}
 `;
 
-const SubjectImage = styled.img`
-  max-width: 90%;
-  margin-bottom: 5px;
+const ImageContainer = styled.div`
   border-radius: 4px;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  margin-bottom: 5px;
+`;
+
+const SubjectImage = styled.img`
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  display: block;
   transition: transform ${props => props.theme.transitionProperties};
 `;
 
@@ -69,6 +78,7 @@ const CardLink = styled(NextLink)`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+  line-height: 1.3;
 
   text-decoration: none;
   text-align: center;
@@ -103,10 +113,12 @@ const SubCategoryListItem = ({
           'position-in-list': String(index + 1),
         })}
       >
-        <SubjectImage
-          src="https://api.images.cat/150/150/958cc734-06e2-433d-a82d-cbb32b02f3e5"
-          alt=""
-        />
+        <ImageContainer>
+          <SubjectImage
+            src="https://api.images.cat/150/150/958cc734-06e2-433d-a82d-cbb32b02f3e5"
+            alt=""
+          />
+        </ImageContainer>
         <span className={font('sans-bold', -1)}>{title}</span>
       </CardLink>
     </CardListItem>
@@ -115,16 +127,18 @@ const SubCategoryListItem = ({
 
 const SubjectsMenu = () => {
   return (
-    <SubCategoriesList data-component="thematic-subjects-menu">
-      {subjectCategories.map(({ path, title }, index) => (
-        <SubCategoryListItem
-          key={path}
-          path={path}
-          title={title}
-          index={index}
-        />
-      ))}
-    </SubCategoriesList>
+    <nav>
+      <SubCategoriesList data-component="thematic-subjects-menu">
+        {subjectCategories.map(({ path, title }, index) => (
+          <SubCategoryListItem
+            key={path}
+            path={path}
+            title={title}
+            index={index}
+          />
+        ))}
+      </SubCategoriesList>
+    </nav>
   );
 };
 
