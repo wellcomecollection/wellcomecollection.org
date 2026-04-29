@@ -127,7 +127,7 @@ const SubCategoryListItem = ({
 
 const SubjectsMenu = () => {
   return (
-    <nav>
+    <nav aria-label="Subject sub-categories">
       <SubCategoriesList data-component="thematic-subjects-menu">
         {subjectCategories.map(({ path, title }, index) => (
           <SubCategoryListItem
