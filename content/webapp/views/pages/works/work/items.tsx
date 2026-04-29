@@ -147,6 +147,9 @@ const WorkItemPage: NextPage<Props> = ({
     setOrigin(`${window.origin}`);
   }, []);
 
+  // IMPORTANT FOR DEVELOPMENT: This popup may be blocked by browser popup blockers.
+  // When testing restricted items, ensure popups are allowed for the site.
+  // See docs/restricted-access-authentication-flow.md for details.
   useEffect(() => {
     if (userIsStaffWithRestricted && authServices?.external && origin) {
       const authServiceWindow = window.open(

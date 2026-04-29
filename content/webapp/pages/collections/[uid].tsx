@@ -1,5 +1,6 @@
 import { NextPage } from 'next';
 
+import { subjectCategories } from '@weco/common/data/hardcoded-ids';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import {
   ServerSideProps,
@@ -20,22 +21,15 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   // These are pages that are not to be found via the /collections/[uid] route
   // but have their own dedicated routes
-  // TODO add core subjects page when officialised and implemented
   const collectionsHiddenPages = {
     collectionsLanding: ['collections', 'aKb_ahAAAB8AhtQC'],
     places: ['thematic-browsing-places', 'aYYbgBIAACUA8_PS'],
     peopleAndOrganisations: ['thematic-browsing-people', 'aYYhzRIAACQA8_2V'],
     typesAndTechniques: ['thematic-browsing-types', 'aYYiGRIAACQA8_4N'],
     subjects: ['thematic-browsing-subjects', 'aYYi7RIAACUA8_9m'],
-    medicineCareAndTreatment: [
-      'subjects-medicine-care-and-treatment',
-      'aY2jMBAAACEAHkc6',
-    ],
-    sexSexualHealthAndReproduction: [
-      'subjects-sex-sexual-health-and-reproduction',
-      'aaBgRBAAACMAxoYU',
-    ],
-    publicHealth: ['subjects-public-health', 'abGHbREAACAAi2gO'],
+    ...Object.fromEntries(
+      subjectCategories.map(s => [s.path, [s.prismicUid, s.prismicId]])
+    ),
   };
   const flattenedHiddenPages = Object.values(collectionsHiddenPages).flat();
 
