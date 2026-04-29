@@ -108,4 +108,4 @@ When testing restricted IIIF items:
 - If popups are blocked, the authentication flow will fail silently and restricted items won't display
 - To enable popups in Chrome: Click the popup blocked icon in the address bar, or go to Settings > Privacy and security > Site Settings > Pop-ups
 
-The popup code is located in [content/webapp/views/pages/works/work/items.tsx](content/webapp/views/pages/works/work/items.tsx#L151-L165).
+The popup code is located in [content/webapp/views/pages/works/work/items.tsx](content/webapp/views/pages/works/work/items.tsx).
