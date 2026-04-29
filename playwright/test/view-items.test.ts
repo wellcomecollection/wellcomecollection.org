@@ -12,6 +12,7 @@ import {
   itemWithRestrictedAndOpenAccess,
   itemWithSearchAndStructures,
   itemWithSearchAndStructuresAndQuery,
+  itemWithVideo,
   multiVolumeItem,
 } from './helpers/contexts';
 import { apiResponse } from './mocks/search-within';
@@ -344,4 +345,13 @@ test('(23) | Clicking thumbnail grid items updates the main viewer', async ({
 
   // Verify the correct image is now in the viewport (canvas 3 = image index 2)
   await expect(page.getByTestId('image-2')).toBeInViewport();
+});
+
+test('(24) | Video player is visible and renders', async ({
+  page,
+  context,
+}) => {
+  await itemWithVideo(context, page);
+  // Check for video element or video player container
+  await expect(page.locator('video')).toBeVisible();
 });
