@@ -38,7 +38,8 @@ const CardButton = styled.button`
   }
 `;
 
-const PosterContainer = styled.div`
+const PosterContainer = styled.span`
+  display: block;
   position: relative;
   padding-bottom: 177.78%; /* 9:16 portrait */
   height: 0;
@@ -46,7 +47,8 @@ const PosterContainer = styled.div`
   background: ${props => props.theme.color('black')};
 `;
 
-const PosterImageWrapper = styled.div`
+const PosterImageWrapper = styled.span`
+  display: block;
   position: absolute;
   inset: 0;
 
@@ -59,6 +61,7 @@ const PosterImageWrapper = styled.div`
 const ControlsOverlay = styled(Space).attrs({
   $v: { size: 'xs', properties: ['bottom'] },
   $h: { size: 'xs', properties: ['left'] },
+  as: 'span',
 })`
   position: absolute;
   display: flex;
@@ -88,9 +91,10 @@ const DurationText = styled.span.attrs({
 
 const CardTitle = styled(Space).attrs({
   $v: { size: 'xs', properties: ['margin-top'] },
-  as: 'p',
+  as: 'span',
   className: font('sans', 0),
 })`
+  display: block;
   line-height: 1.6;
 
   ${CardButton}:hover & {
@@ -232,11 +236,14 @@ const PortraitVideoEmbed: FunctionComponent<Props> = ({
   return (
     <div data-component="portrait-video-embed">
       <CardButton type="button" onClick={openDialog}>
-        <div data-chromatic="ignore">
+        <span style={{ display: 'block' }}>
           <PosterContainer>
             {posterImage && (
               <PosterImageWrapper>
-                <PrismicImage image={posterImage} quality="low" />
+                <PrismicImage
+                  image={{ ...posterImage, alt: null }}
+                  quality="low"
+                />
               </PosterImageWrapper>
             )}
             <ControlsOverlay aria-hidden="true">
@@ -255,7 +262,7 @@ const PortraitVideoEmbed: FunctionComponent<Props> = ({
           ) : (
             <span className="visually-hidden">Play video</span>
           )}
-        </div>
+        </span>
       </CardButton>
 
       <VideoDialog
