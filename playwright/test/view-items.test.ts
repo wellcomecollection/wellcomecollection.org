@@ -355,3 +355,14 @@ test('(24) | Video player is visible and renders', async ({
   // Check for video element or video player container
   await expect(page.locator('video')).toBeVisible();
 });
+
+test('(25) | Video playback controls are functional', async ({
+  page,
+  context,
+}) => {
+  await itemWithVideo(context, page);
+  const video = page.locator('video');
+  await expect(video).toBeVisible();
+  // Check that native controls are enabled
+  await expect(video).toHaveAttribute('controls');
+});
