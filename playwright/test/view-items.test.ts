@@ -366,3 +366,10 @@ test('(25) | Video playback controls are functional', async ({
   // Check that native controls are enabled
   await expect(video).toHaveAttribute('controls');
 });
+test('(26) | Video download options are available', async ({
+  page,
+  context,
+}) => {
+  await itemWithVideo(context, page);
+  await checkDownloadsAvailable(page);
+});
