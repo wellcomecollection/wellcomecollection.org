@@ -83,10 +83,14 @@ const stageApiToggleCookie = createCookie({
   name: 'toggle_stagingApi',
   value: 'true',
 });
+const tbCategoryCookie = createCookie({
+  name: 'toggle_thematicBrowsing',
+  value: 'true',
+});
 
 export const requiredCookies = useStageApis
-  ? [acceptCookieCookie, stageApiToggleCookie]
-  : [acceptCookieCookie];
+  ? [acceptCookieCookie, stageApiToggleCookie, tbCategoryCookie]
+  : [acceptCookieCookie, tbCategoryCookie];
 
 const multiVolumeItem = async (
   context: BrowserContext,
