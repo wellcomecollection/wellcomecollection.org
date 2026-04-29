@@ -172,6 +172,7 @@ const PortraitVideoEmbed: FunctionComponent<Props> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
   const id = embedUrl.match(/embed\/(.*?)(?:\?|$)/)?.[1];
   const hasAnalyticsConsent = getConsentState('analytics');
   const isYouTube = videoProvider === 'YouTube';
@@ -206,6 +207,7 @@ const PortraitVideoEmbed: FunctionComponent<Props> = ({
   const openDialog = () => {
     setIsOpen(true);
     dialogRef.current?.showModal();
+    closeButtonRef.current?.focus();
   };
 
   const closeDialog = () => {
@@ -260,10 +262,10 @@ const PortraitVideoEmbed: FunctionComponent<Props> = ({
         onClick={e => e.target === dialogRef.current && closeDialog()}
       >
         <CloseButton
+          ref={closeButtonRef}
           type="button"
           onClick={closeDialog}
           aria-label="Close video"
-          autoFocus
         >
           <Icon icon={cross} iconColor="white" />
         </CloseButton>
