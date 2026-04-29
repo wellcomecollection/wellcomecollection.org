@@ -409,3 +409,10 @@ test('(29) | Audio playback controls are functional', async ({
   // And aria-pressed should be true
   await expect(page.locator('button[aria-pressed="true"]')).toBeVisible();
 });
+test('(30) | Audio download options are available', async ({
+  page,
+  context,
+}) => {
+  await itemWithAudio(context, page);
+  await checkDownloadsAvailable(page);
+});
