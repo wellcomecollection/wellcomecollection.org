@@ -1,4 +1,7 @@
-import { thematicBrowsingPaths } from '@weco/common/data/hardcoded-ids';
+import {
+  subjectCategories,
+  thematicBrowsingPaths,
+} from '@weco/common/data/hardcoded-ids';
 import {
   PagesDocumentDataBodySlice,
   ContentListSlice as RawContentListSlice,
@@ -39,14 +42,12 @@ type Props = ServerSideProps<WellcomeSubThemePageProps>;
 
 // We are hand-selecting concept ids for each subject page
 // so we can show results for multiple related concepts
-const CONCEPT_GROUPS: Record<string, string[]> = {
-  'medicine-care-and-treatment': ['hvngn3u7', 'raz92g59'],
-  'sex-sexual-health-and-reproduction': [
-    'brm4ha66',
-    'bmfun6aj',
-    'gynqvms7',
-    'bn2pe2v6',
-  ],
+const CONCEPT_GROUPS: Record<
+  (typeof subjectCategories)[number]['path'],
+  string[]
+> = {
+  'mental-health': [],
+  'the-human-body': [],
   'public-health': [
     'c8q553d2',
     'hqbh7xar',
@@ -55,6 +56,17 @@ const CONCEPT_GROUPS: Record<string, string[]> = {
     'vsnwvu9k',
     'eg8kmtpb',
   ],
+  'medical-care-and-practices': ['hvngn3u7', 'raz92g59'],
+  'sex-sexual-health-and-reproduction': [
+    'brm4ha66',
+    'bmfun6aj',
+    'gynqvms7',
+    'bn2pe2v6',
+  ],
+  'diseases-disorders-and-conditions': [],
+  'the-natural-world-and-environment': [],
+  'society-arts-and-culture': [],
+  'religion-spirituality-and-the-occult': [],
 };
 
 export const getServerSideProps: ServerSidePropsOrAppError<

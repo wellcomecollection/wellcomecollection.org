@@ -79,7 +79,12 @@ const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
       )}
 
       {item.work.type === 'Range' && (
-        <span style={{ lineHeight: `${controlDimensions.controlHeight}px` }}>
+        <span
+          style={{
+            lineHeight: `${controlDimensions.controlHeight}px`,
+            whiteSpace: 'nowrap',
+          }}
+        >
           <span style={{ marginRight: '10px' }}>
             <Icon
               icon={item.openStatus ? openFolder : closedFolder}

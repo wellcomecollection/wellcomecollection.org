@@ -157,13 +157,19 @@ function detectNonHTTPWWWLinks(doc: any): string[] {
 // the object to get more debugging information, but I hope this
 // is good enough for now.
 function detectPreviewLinks(doc: any): string[] {
-  if (
-    JSON.stringify(doc).indexOf('https://preview.wellcomecollection.org/') !==
-    -1
-  ) {
-    return [
-      'One of the links is a preview.wellcomecollection.org URL, which should be replaced with a link to the live site.',
-    ];
+  // Match http/https URL-like substrings, stopping at whitespace, backslashes, or common HTML delimiters.
+  const urls = JSON.stringify(doc).match(/https?:\/\/[^\\\s"'<>]+/gi) ?? [];
+
+  for (const rawUrl of urls) {
+    try {
+      if (new URL(rawUrl).hostname === 'preview.wellcomecollection.org') {
+        return [
+          'One of the links is a preview.wellcomecollection.org URL, which should be replaced with a link to the live site.',
+        ];
+      }
+    } catch {
+      continue;
+    }
   }
 
   return [];
