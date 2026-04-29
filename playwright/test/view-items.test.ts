@@ -384,3 +384,11 @@ test('(27) | Video info panel displays heading', async ({ page, context }) => {
   await itemWithVideo(context, page);
   await checkInfoPanelHasHeading(page);
 });
+test('(28) | Audio player is visible and renders', async ({
+  page,
+  context,
+}) => {
+  await itemWithAudio(context, page);
+  // Check for custom audio player's play button
+  await expect(page.getByRole('button', { name: 'Play' })).toBeVisible();
+});
