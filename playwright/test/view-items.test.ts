@@ -387,7 +387,7 @@ test('(24) | Video player is visible and renders', async ({
   await expect(page.locator('video')).toBeVisible();
 });
 
-test('(25) | Video playback controls are functional', async ({
+test('(25) | Video playback controls are present', async ({
   page,
   context,
 }) => {
