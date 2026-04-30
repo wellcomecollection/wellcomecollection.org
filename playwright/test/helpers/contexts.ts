@@ -83,10 +83,19 @@ const stageApiToggleCookie = createCookie({
   name: 'toggle_stagingApi',
   value: 'true',
 });
+const extendedViewerToggleCookie = createCookie({
+  name: 'toggle_extendedViewer',
+  value: 'true',
+});
 
 export const requiredCookies = useStageApis
   ? [acceptCookieCookie, stageApiToggleCookie]
   : [acceptCookieCookie];
+
+const requiredCookiesWithExtendedViewer = [
+  ...requiredCookies,
+  extendedViewerToggleCookie,
+];
 
 const multiVolumeItem = async (
   context: BrowserContext,
@@ -229,15 +238,7 @@ const itemWithVideo = async (
   context: BrowserContext,
   page: Page
 ): Promise<void> => {
-  await context.addCookies([
-    ...requiredCookies,
-    {
-      name: 'toggle_extendedViewer',
-      value: 'true',
-      domain: new URL(baseUrl).host,
-      path: '/',
-    },
-  ]);
+  await context.addCookies(requiredCookiesWithExtendedViewer);
   await gotoWithoutCache(`${baseUrl}/works/sx4p4b75/items`, page);
 };
 
@@ -245,15 +246,7 @@ const itemWithAudio = async (
   context: BrowserContext,
   page: Page
 ): Promise<void> => {
-  await context.addCookies([
-    ...requiredCookies,
-    {
-      name: 'toggle_extendedViewer',
-      value: 'true',
-      domain: new URL(baseUrl).host,
-      path: '/',
-    },
-  ]);
+  await context.addCookies(requiredCookiesWithExtendedViewer);
   await gotoWithoutCache(`${baseUrl}/works/tp9njewm/items`, page);
 };
 
@@ -261,15 +254,7 @@ const itemWithPdf = async (
   context: BrowserContext,
   page: Page
 ): Promise<void> => {
-  await context.addCookies([
-    ...requiredCookies,
-    {
-      name: 'toggle_extendedViewer',
-      value: 'true',
-      domain: new URL(baseUrl).host,
-      path: '/',
-    },
-  ]);
+  await context.addCookies(requiredCookiesWithExtendedViewer);
   await gotoWithoutCache(`${baseUrl}/works/zu2q4k2w/items`, page);
 };
 
@@ -277,15 +262,7 @@ const itemWithMixedBornDigital = async (
   context: BrowserContext,
   page: Page
 ): Promise<void> => {
-  await context.addCookies([
-    ...requiredCookies,
-    {
-      name: 'toggle_extendedViewer',
-      value: 'true',
-      domain: new URL(baseUrl).host,
-      path: '/',
-    },
-  ]);
+  await context.addCookies(requiredCookiesWithExtendedViewer);
   await gotoWithoutCache(`${baseUrl}/works/dn9jwck6/items`, page);
 };
 
