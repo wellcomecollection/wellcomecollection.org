@@ -564,3 +564,10 @@ test('(37) | Born digital have downloads', async ({ page, context }) => {
   const downloadLink = page.getByRole('link', { name: /download/i });
   await expect(downloadLink.first()).toBeVisible();
 });
+test('(38) | Born digital info panel displays heading', async ({
+  page,
+  context,
+}) => {
+  await itemWithMixedBornDigital(context, page);
+  await checkInfoPanelHasHeading(page);
+});
