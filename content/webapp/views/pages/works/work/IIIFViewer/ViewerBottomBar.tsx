@@ -110,7 +110,7 @@ const ViewerBottomBar: FunctionComponent = () => {
   const hasMultipleCanvases = (canvases?.length || 0) > 1;
 
   return (
-    <BottomBar>
+    <BottomBar data-testid="bottombar">
       {!hasOnlyRenderableImages && hasMultipleCanvases ? (
         <NavigationBar>
           {previousCanvasLink ? (
@@ -127,7 +127,7 @@ const ViewerBottomBar: FunctionComponent = () => {
             </NavButton>
           )}
           <span className={font('sans', -1)} style={{ color: 'white' }}>
-            {canvas} / {totalCanvases}
+            {canvas}/{totalCanvases}
           </span>
           {nextCanvasLink ? (
             <NextLink {...nextCanvasLink} passHref legacyBehavior>

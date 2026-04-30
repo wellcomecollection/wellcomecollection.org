@@ -3,15 +3,19 @@ import { expect, Page, test } from '@playwright/test';
 import {
   isMobile,
   itemWithAltText,
+  itemWithAudio,
+  itemWithMixedBornDigital,
   itemWithNonRestrictedAndOpenAccess,
   itemWithOnlyOpenAccess,
   itemWithOnlyRestrictedAccessImages,
   itemWithOnlyRestrictedAccessNonImages,
+  itemWithPdf,
   itemWithReferenceNumber,
   itemWithRestrictedAndNonRestrictedAccess,
   itemWithRestrictedAndOpenAccess,
   itemWithSearchAndStructures,
   itemWithSearchAndStructuresAndQuery,
+  itemWithVideo,
   multiVolumeItem,
 } from './helpers/contexts';
 import { apiResponse } from './mocks/search-within';
@@ -20,6 +24,41 @@ const accessSidebarOnMobile = async (page: Page) => {
   if (isMobile(page)) {
     await page.getByRole('button', { name: 'Show info' }).click();
   }
+};
+
+const checkDownloadsAvailable = async (page: Page) => {
+  await expect(page.locator('#itemDownloads')).toHaveAttribute('inert');
+  await page.locator('[aria-controls="itemDownloads"]').click();
+  await expect(page.locator('#itemDownloads')).not.toHaveAttribute('inert');
+  await expect(page.locator('#itemDownloads a')).not.toHaveCount(0);
+};
+
+const checkInfoPanelHasHeading = async (page: Page) => {
+  await accessSidebarOnMobile(page);
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+};
+
+const checkPageIndicator = async (
+  page: Page,
+  expectedText: string,
+  location: 'topbar' | 'bottombar'
+) => {
+  const bar = page.locator(`[data-testid="${location}"]`);
+  await expect(bar.getByText(expectedText)).toBeVisible();
+};
+
+const checkAriaSelected = async (
+  page: Page,
+  expectedText: string,
+  shouldBeVisible: boolean
+) => {
+  const listItem = page.locator('[aria-selected="true"]');
+  if (shouldBeVisible) {
+    await expect(listItem).toBeVisible();
+  } else {
+    await expect(listItem).toBeHidden();
+  }
+  await expect(listItem).toContainText(expectedText);
 };
 
 test.describe.configure({ mode: 'parallel' });
@@ -61,7 +100,7 @@ test('(3) | An image of the current canvas can be downloaded', async ({
   context,
 }) => {
   await multiVolumeItem(context, page);
-  await page.getByRole('button', { name: 'Downloads' }).click();
+  await checkDownloadsAvailable(page);
 
   const smallImageLink = page
     .getByRole('link')
@@ -73,7 +112,7 @@ test('(3) | An image of the current canvas can be downloaded', async ({
 
 test('(4) | The entire item can be downloaded', async ({ page, context }) => {
   await multiVolumeItem(context, page);
-  await page.getByRole('button', { name: 'Downloads' }).click();
+  await checkDownloadsAvailable(page);
 
   const smallImageLink = page
     .getByRole('link')
@@ -337,4 +376,215 @@ test('(23) | Clicking thumbnail grid items updates the main viewer', async ({
 
   // Verify the correct image is now in the viewport (canvas 3 = image index 2)
   await expect(page.getByTestId('image-2')).toBeInViewport();
+});
+
+test('(24) | Video player is visible and renders', async ({
+  page,
+  context,
+}) => {
+  await itemWithVideo(context, page);
+  // Check for video element or video player container
+  await expect(page.locator('video')).toBeVisible();
+});
+
+test('(25) | Video playback controls are present', async ({
+  page,
+  context,
+}) => {
+  await itemWithVideo(context, page);
+  const video = page.locator('video');
+  await expect(video).toBeVisible();
+  // Check that native controls are enabled
+  await expect(video).toHaveAttribute('controls');
+});
+
+test('(26) | Video download options are available', async ({
+  page,
+  context,
+}) => {
+  await itemWithVideo(context, page);
+  await checkDownloadsAvailable(page);
+});
+
+test('(27) | Video info panel displays heading', async ({ page, context }) => {
+  await itemWithVideo(context, page);
+  await checkInfoPanelHasHeading(page);
+});
+test('(28) | Audio player is visible and renders', async ({
+  page,
+  context,
+}) => {
+  await itemWithAudio(context, page);
+  // Check for custom audio player's play button
+  await expect(page.getByRole('button', { name: 'Play' })).toBeVisible();
+});
+test('(29) | Audio playback controls are functional', async ({
+  page,
+  context,
+}) => {
+  await itemWithAudio(context, page);
+  const playButton = page.getByRole('button', { name: 'Play' });
+  await expect(playButton).toBeVisible();
+
+  // Click play button
+  await playButton.click();
+
+  // After clicking, button's accessible name should change to Pause
+  await expect(page.getByRole('button', { name: 'Pause' })).toBeVisible();
+
+  // And aria-pressed should be true
+  await expect(page.locator('button[aria-pressed="true"]')).toBeVisible();
+});
+test('(30) | Audio download options are available', async ({
+  page,
+  context,
+}) => {
+  await itemWithAudio(context, page);
+  await checkDownloadsAvailable(page);
+});
+test('(31) | Audio info panel displays heading', async ({ page, context }) => {
+  await itemWithAudio(context, page);
+  await checkInfoPanelHasHeading(page);
+});
+
+test('(32) | Renders the PDF document on Desktop or an "Open" link on Mobile', async ({
+  page,
+  context,
+}) => {
+  await itemWithPdf(context, page);
+  const pdfIframe = page.locator('iframe[title]');
+
+  if (!isMobile(page)) {
+    // On desktop, PDF is embedded in an iframe
+    await expect(pdfIframe).toBeVisible();
+  }
+
+  if (isMobile(page)) {
+    // On mobile, the PDF iframe is not rendered
+    await expect(pdfIframe).not.toBeAttached();
+    // Instead, an open link is provided
+    const openLink = page.getByRole('link', { name: /open/i });
+    await expect(openLink).toBeVisible({ timeout: 10000 });
+  }
+});
+
+test('(33) | PDF download options are available', async ({ page, context }) => {
+  await itemWithPdf(context, page);
+  await checkDownloadsAvailable(page);
+});
+
+test('(34) | PDF info panel displays heading', async ({ page, context }) => {
+  await itemWithPdf(context, page);
+  await checkInfoPanelHasHeading(page);
+});
+
+test('(35) | PDF file links update selected item, page indicator and pdf', async ({
+  page,
+  context,
+}) => {
+  await itemWithPdf(context, page);
+
+  if (!isMobile(page)) {
+    // Click the PDF link
+    const pdfLink = page.getByRole('link', { name: 'Sally-Anne_Hulton.pdf' });
+    await pdfLink.click();
+
+    await checkAriaSelected(page, 'Sally-Anne_Hulton.pdf', true);
+    await checkPageIndicator(page, '5/27', 'topbar');
+
+    // Check that the iframe source is set to the PDF file
+    const pdfIframe = page.locator('iframe[title]');
+    await expect(pdfIframe).toHaveAttribute(
+      'src',
+      'https://iiif.wellcomecollection.org/file/SAREN_N_3_5---Advanced_Nephrology_Course_Part_1_-_28_September-1_October_2009---Monday---Sally-Anne_Hulton.pdf'
+    );
+  }
+  if (isMobile(page)) {
+    // On mobile, need to show info panel first
+    await accessSidebarOnMobile(page);
+
+    // Click the PDF link
+    const pdfLink = page.getByRole('link', { name: 'Sally-Anne_Hulton.pdf' });
+    await pdfLink.click();
+
+    // It will be hidden on mobile because the sidebar closes when the link is clicked
+    await checkAriaSelected(page, 'Sally-Anne_Hulton.pdf', false);
+    await checkPageIndicator(page, '5/27', 'bottombar');
+
+    const openLink = page.getByRole('link', { name: /open/i });
+    await expect(openLink).toBeVisible({ timeout: 10000 });
+    // Check that the open link points to the correct PDF file
+    expect(await openLink.getAttribute('href')).toEqual(
+      'https://iiif.wellcomecollection.org/file/SAREN_N_3_5---Advanced_Nephrology_Course_Part_1_-_28_September-1_October_2009---Monday---Sally-Anne_Hulton.pdf'
+    );
+  }
+});
+test('(36) | Born digital files display and links update selected item and display media', async ({
+  page,
+  context,
+}) => {
+  await itemWithMixedBornDigital(context, page);
+
+  if (!isMobile(page)) {
+    // Find and verify download link is initially visible in the viewer
+    const mainViewer = page.getByTestId('main-viewer');
+    const downloadLink = mainViewer.getByRole('link', { name: /download/i });
+    await expect(downloadLink.first()).toBeVisible();
+
+    // Click the slide1.wav link
+    const audioLink = page.getByRole('link', { name: 'slide1.wav' });
+    await audioLink.click();
+
+    await checkAriaSelected(page, 'slide1.wav', true);
+
+    // Check that the audio player is displayed
+    await expect(page.getByRole('button', { name: 'Play' })).toBeVisible();
+  }
+
+  if (isMobile(page)) {
+    // Find and verify download link is initially visible in the viewer
+    const mainViewer = page.getByTestId('main-viewer');
+    const downloadLink = mainViewer.getByRole('link', { name: /download/i });
+    await expect(downloadLink.first()).toBeVisible();
+
+    // On mobile, need to show info panel
+    await accessSidebarOnMobile(page);
+    const audioLink = page.getByRole('link', { name: 'slide1.wav' });
+    await audioLink.click();
+
+    // It will be hidden on mobile because the sidebar closes when the link is clicked
+    await checkAriaSelected(page, 'slide1.wav', false);
+
+    // Check that the audio player is displayed
+    await expect(page.getByRole('button', { name: 'Play' })).toBeVisible();
+  }
+});
+test('(37) | Born digital have downloads', async ({ page, context }) => {
+  await itemWithMixedBornDigital(context, page);
+  const downloadLink = page.getByRole('link', { name: /download/i });
+  await expect(downloadLink.first()).toBeVisible();
+});
+test('(38) | Born digital info panel displays heading', async ({
+  page,
+  context,
+}) => {
+  await itemWithMixedBornDigital(context, page);
+  await checkInfoPanelHasHeading(page);
+});
+test('(39) | Mobile pagination updates content in main viewer', async ({
+  page,
+  context,
+}) => {
+  await itemWithPdf(context, page);
+
+  if (isMobile(page)) {
+    await checkPageIndicator(page, '1/27', 'bottombar');
+    const bottombar = page.locator('[data-testid="bottombar"]');
+    const nextLink = bottombar.getByRole('link', { name: /next/i });
+    await nextLink.click();
+    await checkPageIndicator(page, '2/27', 'bottombar');
+    const previousLink = bottombar.getByRole('link', { name: /previous/i });
+    await previousLink.click();
+    await checkPageIndicator(page, '1/27', 'bottombar');
+  }
 });
