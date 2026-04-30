@@ -571,3 +571,20 @@ test('(38) | Born digital info panel displays heading', async ({
   await itemWithMixedBornDigital(context, page);
   await checkInfoPanelHasHeading(page);
 });
+test('(39) | Mobile pagination updates content in main viewer', async ({
+  page,
+  context,
+}) => {
+  await itemWithPdf(context, page);
+
+  if (isMobile(page)) {
+    await checkPageIndicator(page, '1/27', 'bottombar');
+    const bottombar = page.locator('[data-testid="bottombar"]');
+    const nextLink = bottombar.getByRole('link', { name: /next/i });
+    await nextLink.click();
+    await checkPageIndicator(page, '2/27', 'bottombar');
+    const previousLink = bottombar.getByRole('link', { name: /previous/i });
+    await previousLink.click();
+    await checkPageIndicator(page, '1/27', 'bottombar');
+  }
+});
