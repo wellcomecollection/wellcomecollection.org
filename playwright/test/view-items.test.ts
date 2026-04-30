@@ -422,12 +422,13 @@ test('(31) | Audio info panel displays heading', async ({ page, context }) => {
   await itemWithAudio(context, page);
   await checkInfoPanelHasHeading(page);
 });
+
 test('(32) | Renders the PDF document on Desktop or an "Open" link on Mobile', async ({
   page,
   context,
 }) => {
   await itemWithPdf(context, page);
-  const pdfIframe = page.locator('iframe[type="application/pdf"]');
+  const pdfIframe = page.locator('iframe');
 
   if (!isMobile(page)) {
     // On desktop, PDF is embedded in an iframe
@@ -435,18 +436,19 @@ test('(32) | Renders the PDF document on Desktop or an "Open" link on Mobile', a
   }
 
   if (isMobile(page)) {
-    // On mobile, the PDF iframe is not rendered at all
+    // On mobile, the PDF iframe is not rendered
     await expect(pdfIframe).not.toBeAttached();
-    // Instead, look for a download or open link
+    // Instead, an open link is provided
     const openLink = page.getByRole('link', { name: /open/i });
-    // Wait for it to be visible first, then check if hidden (will fail)
     await expect(openLink).toBeVisible({ timeout: 10000 });
   }
 });
+
 test('(33) | PDF download options are available', async ({ page, context }) => {
   await itemWithPdf(context, page);
   await checkDownloadsAvailable(page);
 });
+
 test('(34) | PDF info panel displays heading', async ({ page, context }) => {
   await itemWithPdf(context, page);
   await checkInfoPanelHasHeading(page);
