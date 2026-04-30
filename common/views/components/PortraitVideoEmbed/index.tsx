@@ -8,6 +8,12 @@ import { ImageType } from '@weco/common/model/image';
 import { font } from '@weco/common/utils/classnames';
 import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
 import Icon from '@weco/common/views/components/Icon';
+import {
+  DialogVideoContainer,
+  TranscriptPanel,
+  VideoDialog,
+  VideoIframe,
+} from '@weco/common/views/components/PortraitVideoEmbed/PortraitVideoDialog.styles';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
@@ -21,6 +27,9 @@ export type Props = {
   duration?: string;
   title?: string;
   transcript?: prismic.RichTextField;
+  /** When provided, the card triggers this callback and renders no dialog.
+   *  The caller is responsible for showing the video. */
+  onOpen?: () => void;
 };
 
 const CardButton = styled.button`
@@ -31,11 +40,6 @@ const CardButton = styled.button`
   cursor: pointer;
   text-align: left;
   background: none;
-
-  &:focus-visible {
-    outline: 3px solid ${props => props.theme.color('yellow')};
-    outline-offset: 3px;
-  }
 `;
 
 const PosterContainer = styled.span`
@@ -102,34 +106,6 @@ const CardTitle = styled(Space).attrs({
   }
 `;
 
-const VideoDialog = styled.dialog`
-  padding: 0;
-  border: 0;
-  background: ${props => props.theme.color('black')};
-  width: min(400px, calc(90dvh * 9 / 16), 90vw);
-  aspect-ratio: 9 / 16;
-  overflow: hidden;
-
-  &::backdrop {
-    background: rgba(0, 0, 0, 0.85);
-  }
-`;
-
-const TranscriptPanel = styled(Space).attrs({
-  $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
-  $h: { size: 'xs', properties: ['padding-left', 'padding-right'] },
-})`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 1;
-  max-height: 85%;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  background: ${props => props.theme.color('white')};
-`;
-
 const CloseButton = styled.button`
   position: absolute;
   top: 0;
@@ -144,25 +120,6 @@ const CloseButton = styled.button`
   border: 0;
   cursor: pointer;
   color: ${props => props.theme.color('white')};
-
-  &:focus-visible {
-    outline: 3px solid ${props => props.theme.color('yellow')};
-    outline-offset: 2px;
-  }
-`;
-
-const DialogVideoContainer = styled.div`
-  position: absolute;
-  inset: 0;
-`;
-
-const VideoIframe = styled.iframe`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
 `;
 
 const PortraitVideoEmbed: FunctionComponent<Props> = ({
@@ -172,6 +129,7 @@ const PortraitVideoEmbed: FunctionComponent<Props> = ({
   duration,
   title,
   transcript,
+  onOpen,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -202,7 +160,7 @@ const PortraitVideoEmbed: FunctionComponent<Props> = ({
 
   return (
     <div data-component="portrait-video-embed">
-      <CardButton type="button" onClick={openDialog}>
+      <CardButton type="button" onClick={onOpen ?? openDialog}>
         <span style={{ display: 'block' }}>
           <PosterContainer>
             {posterImage && (
@@ -232,43 +190,45 @@ const PortraitVideoEmbed: FunctionComponent<Props> = ({
         </span>
       </CardButton>
 
-      <VideoDialog
-        ref={dialogRef}
-        aria-label={title || 'Video'}
-        onClick={e => e.target === dialogRef.current && closeDialog()}
-      >
-        <CloseButton
-          ref={closeButtonRef}
-          type="button"
-          onClick={closeDialog}
-          aria-label="Close video"
+      {!onOpen && (
+        <VideoDialog
+          ref={dialogRef}
+          aria-label={title || 'Video'}
+          onClick={e => e.target === dialogRef.current && closeDialog()}
         >
-          <Icon icon={cross} iconColor="white" />
-        </CloseButton>
-        <DialogVideoContainer>
-          {isOpen && videoSrc && (
-            <VideoIframe
-              title={title || 'Video'}
-              allowFullScreen={true}
-              allow="autoplay; picture-in-picture"
-              src={videoSrc}
-            />
+          <CloseButton
+            ref={closeButtonRef}
+            type="button"
+            onClick={closeDialog}
+            aria-label="Close video"
+          >
+            <Icon icon={cross} iconColor="white" />
+          </CloseButton>
+          <DialogVideoContainer>
+            {isOpen && videoSrc && (
+              <VideoIframe
+                title={title || 'Video'}
+                allowFullScreen={true}
+                allow="autoplay; picture-in-picture"
+                src={videoSrc}
+              />
+            )}
+          </DialogVideoContainer>
+          {!!(transcript?.length && transcript.length > 0) && (
+            <TranscriptPanel>
+              <CollapsibleContent
+                id={`portraitVideoTranscript-${uid}`}
+                controlText={{
+                  defaultText: 'Read the transcript',
+                  contentShowingText: 'Hide the transcript',
+                }}
+              >
+                <PrismicHtmlBlock html={transcript} />
+              </CollapsibleContent>
+            </TranscriptPanel>
           )}
-        </DialogVideoContainer>
-        {!!(transcript?.length && transcript.length > 0) && (
-          <TranscriptPanel>
-            <CollapsibleContent
-              id={`portraitVideoTranscript-${uid}`}
-              controlText={{
-                defaultText: 'Read the transcript',
-                contentShowingText: 'Hide the transcript',
-              }}
-            >
-              <PrismicHtmlBlock html={transcript} />
-            </CollapsibleContent>
-          </TranscriptPanel>
-        )}
-      </VideoDialog>
+        </VideoDialog>
+      )}
     </div>
   );
 };
