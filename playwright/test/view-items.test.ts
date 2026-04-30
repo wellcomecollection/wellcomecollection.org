@@ -4,6 +4,7 @@ import {
   isMobile,
   itemWithAltText,
   itemWithAudio,
+  itemWithMixedBornDigital,
   itemWithNonRestrictedAndOpenAccess,
   itemWithOnlyOpenAccess,
   itemWithOnlyRestrictedAccessImages,
@@ -516,5 +517,45 @@ test('(35) | PDF file links update selected item, page indicator and pdf', async
     expect(await openLink.getAttribute('href')).toEqual(
       'https://iiif.wellcomecollection.org/file/SAREN_N_3_5---Advanced_Nephrology_Course_Part_1_-_28_September-1_October_2009---Monday---Sally-Anne_Hulton.pdf'
     );
+  }
+});
+test('(36) | Born digital files display and links update selected item and display media', async ({
+  page,
+  context,
+}) => {
+  await itemWithMixedBornDigital(context, page);
+
+  if (!isMobile(page)) {
+    // Find and verify download link is initially visible in the viewer
+    const mainViewer = page.getByTestId('main-viewer');
+    const downloadLink = mainViewer.getByRole('link', { name: /download/i });
+    await expect(downloadLink.first()).toBeVisible();
+
+    // Click the slide1.wav link
+    const audioLink = page.getByRole('link', { name: 'slide1.wav' });
+    await audioLink.click();
+
+    await checkAriaSelected(page, 'slide1.wav', true);
+
+    // Check that the audio player is displayed
+    await expect(page.getByRole('button', { name: 'Play' })).toBeVisible();
+  }
+
+  if (isMobile(page)) {
+    // Find and verify download link is initially visible in the viewer
+    const mainViewer = page.getByTestId('main-viewer');
+    const downloadLink = mainViewer.getByRole('link', { name: /download/i });
+    await expect(downloadLink.first()).toBeVisible();
+
+    // On mobile, need to show info panel
+    await accessSidebarOnMobile(page);
+    const audioLink = page.getByRole('link', { name: 'slide1.wav' });
+    await audioLink.click();
+
+    // It will be hidden on mobile because the sidebar closes when the link is clicked
+    await checkAriaSelected(page, 'slide1.wav', false);
+
+    // Check that the audio player is displayed
+    await expect(page.getByRole('button', { name: 'Play' })).toBeVisible();
   }
 });
