@@ -559,3 +559,8 @@ test('(36) | Born digital files display and links update selected item and displ
     await expect(page.getByRole('button', { name: 'Play' })).toBeVisible();
   }
 });
+test('(37) | Born digital have downloads', async ({ page, context }) => {
+  await itemWithMixedBornDigital(context, page);
+  const downloadLink = page.getByRole('link', { name: /download/i });
+  await expect(downloadLink.first()).toBeVisible();
+});
