@@ -37,6 +37,29 @@ const checkInfoPanelHasHeading = async (page: Page) => {
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
 };
 
+const checkPageIndicator = async (
+  page: Page,
+  expectedText: string,
+  location: 'topbar' | 'bottombar'
+) => {
+  const bar = page.locator(`[data-testid="${location}"]`);
+  await expect(bar.getByText(expectedText)).toBeVisible();
+};
+
+const checkAriaSelected = async (
+  page: Page,
+  expectedText: string,
+  shouldBeVisible: boolean
+) => {
+  const listItem = page.locator('[aria-selected="true"]');
+  if (shouldBeVisible) {
+    await expect(listItem).toBeVisible();
+  } else {
+    await expect(listItem).toBeHidden();
+  }
+  await expect(listItem).toContainText(expectedText);
+};
+
 test.describe.configure({ mode: 'parallel' });
 
 test('(1) | The images can be zoomed', async ({ page, context }) => {
@@ -452,4 +475,46 @@ test('(33) | PDF download options are available', async ({ page, context }) => {
 test('(34) | PDF info panel displays heading', async ({ page, context }) => {
   await itemWithPdf(context, page);
   await checkInfoPanelHasHeading(page);
+});
+
+test('(35) | PDF file links update selected item, page indicator and pdf', async ({
+  page,
+  context,
+}) => {
+  await itemWithPdf(context, page);
+
+  if (!isMobile(page)) {
+    // Click the PDF link
+    const pdfLink = page.getByRole('link', { name: 'Sally-Anne_Hulton.pdf' });
+    await pdfLink.click();
+
+    await checkAriaSelected(page, 'Sally-Anne_Hulton.pdf', true);
+    await checkPageIndicator(page, '5/27', 'topbar');
+
+    // Check that the iframe source is set to the PDF file
+    const pdfIframe = page.locator('iframe');
+    await expect(pdfIframe).toHaveAttribute(
+      'src',
+      'https://iiif.wellcomecollection.org/file/SAREN_N_3_5---Advanced_Nephrology_Course_Part_1_-_28_September-1_October_2009---Monday---Sally-Anne_Hulton.pdf'
+    );
+  }
+  if (isMobile(page)) {
+    // On mobile, need to show info panel first
+    await accessSidebarOnMobile(page);
+
+    // Click the PDF link
+    const pdfLink = page.getByRole('link', { name: 'Sally-Anne_Hulton.pdf' });
+    await pdfLink.click();
+
+    // It will be hidden on mobile because the sidebar closes when the link is clicked
+    await checkAriaSelected(page, 'Sally-Anne_Hulton.pdf', false);
+    await checkPageIndicator(page, '5/27', 'bottombar');
+
+    const openLink = page.getByRole('link', { name: /open/i });
+    await expect(openLink).toBeVisible({ timeout: 10000 });
+    // Check that the open link points to the correct PDF file
+    expect(await openLink.getAttribute('href')).toEqual(
+      'https://iiif.wellcomecollection.org/file/SAREN_N_3_5---Advanced_Nephrology_Course_Part_1_-_28_September-1_October_2009---Monday---Sally-Anne_Hulton.pdf'
+    );
+  }
 });
