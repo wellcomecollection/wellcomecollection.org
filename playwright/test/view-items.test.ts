@@ -452,7 +452,7 @@ test('(32) | Renders the PDF document on Desktop or an "Open" link on Mobile', a
   context,
 }) => {
   await itemWithPdf(context, page);
-  const pdfIframe = page.locator('iframe');
+  const pdfIframe = page.locator('iframe[title]');
 
   if (!isMobile(page)) {
     // On desktop, PDF is embedded in an iframe
@@ -493,7 +493,7 @@ test('(35) | PDF file links update selected item, page indicator and pdf', async
     await checkPageIndicator(page, '5/27', 'topbar');
 
     // Check that the iframe source is set to the PDF file
-    const pdfIframe = page.locator('iframe');
+    const pdfIframe = page.locator('iframe[title]');
     await expect(pdfIframe).toHaveAttribute(
       'src',
       'https://iiif.wellcomecollection.org/file/SAREN_N_3_5---Advanced_Nephrology_Course_Part_1_-_28_September-1_October_2009---Monday---Sally-Anne_Hulton.pdf'
