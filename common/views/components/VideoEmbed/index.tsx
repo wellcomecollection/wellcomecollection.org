@@ -1,14 +1,14 @@
 import * as prismic from '@prismicio/client';
-import { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
 
-import { getConsentState } from '@weco/common/services/app/civic-uk';
+import useVideoEmbed, { VideoProvider } from '@weco/common/hooks/useVideoEmbed';
 import Caption from '@weco/common/views/components/Caption';
 import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
 import { IframeContainer } from '@weco/common/views/components/Iframe';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 
-export type VideoProvider = 'YouTube' | 'Vimeo';
+export type { VideoProvider };
 
 export type Props = {
   embedUrl: string;
@@ -69,42 +69,13 @@ const VideoEmbed: FunctionComponent<Props> = ({
   hasFullSizePoster,
 }: Props) => {
   const [isActive, setIsActive] = useState(false);
-  const id = embedUrl.match(/embed\/(.*)\?/)?.[1];
-  const hasAnalyticsConsent = getConsentState('analytics');
-  const isYouTube = videoProvider === 'YouTube';
-  const isVimeo = videoProvider === 'Vimeo';
-
-  useEffect(() => {
-    if (isYouTube && hasAnalyticsConsent) {
-      // GA4 automatically tracks YouTube engagement, but requires the iframe api
-      // script to have been loaded on the page. Since we're lazyloading youtube
-      // videos, we have to add the script ourselves (and check that we haven't
-      // done so already). The following is a version of 'option 3' from this article:
-      // https://www.analyticsmania.com/post/youtube-tracking-google-tag-manager-solved/
-      const scriptId = 'youtube-iframe-api';
-      const youtubeIframeApi = document.getElementById(scriptId);
-
-      if (youtubeIframeApi) return;
-
-      const s = document.createElement('script');
-      s.id = scriptId;
-      s.type = 'text/javascript';
-      s.async = true;
-      s.src = '//www.youtube.com/iframe_api';
-
-      const firstScript = document.getElementsByTagName('script')[0];
-      firstScript.parentNode?.insertBefore(s, firstScript);
-    }
-  }, []);
-
-  const videoSrc = isYouTube
-    ? `${embedUrl}&enablejsapi=1&autoplay=1`
-    : isVimeo
-      ? `${embedUrl}&autoplay=1${!hasAnalyticsConsent ? '&dnt=1' : ''}`
-      : undefined;
+  const { isYouTube, isVimeo, videoSrc, videoId, uid } = useVideoEmbed(
+    embedUrl,
+    videoProvider
+  );
 
   const thumbnailSrc = isYouTube
-    ? `https://img.youtube.com/vi/${id}/${
+    ? `https://img.youtube.com/vi/${videoId}/${
         hasFullSizePoster ? 'maxresdefault' : 'hqdefault'
       }.jpg`
     : isVimeo
@@ -141,7 +112,7 @@ const VideoEmbed: FunctionComponent<Props> = ({
 
       {!!(transcript?.length && transcript.length > 0) && (
         <CollapsibleContent
-          id={`embedVideoTranscript-${id}`}
+          id={`embedVideoTranscript-${uid}`}
           controlText={{
             defaultText: 'Read the transcript',
             contentShowingText: 'Hide the transcript',

@@ -2,9 +2,9 @@ import * as prismic from '@prismicio/client';
 import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
+import useVideoEmbed, { VideoProvider } from '@weco/common/hooks/useVideoEmbed';
 import { cross, play } from '@weco/common/icons';
 import { ImageType } from '@weco/common/model/image';
-import { getConsentState } from '@weco/common/services/app/civic-uk';
 import { font } from '@weco/common/utils/classnames';
 import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
 import Icon from '@weco/common/views/components/Icon';
@@ -12,7 +12,7 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
 
-export type VideoProvider = 'YouTube' | 'Vimeo';
+export type { VideoProvider };
 
 export type Props = {
   embedUrl: string;
@@ -109,7 +109,6 @@ const VideoDialog = styled.dialog`
   width: min(400px, calc(90dvh * 9 / 16), 90vw);
   aspect-ratio: 9 / 16;
   overflow: hidden;
-  position: relative;
 
   &::backdrop {
     background: rgba(0, 0, 0, 0.85);
@@ -177,26 +176,7 @@ const PortraitVideoEmbed: FunctionComponent<Props> = ({
   const [isOpen, setIsOpen] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
-  const id = embedUrl.match(/embed\/(.*?)(?:\?|$)/)?.[1];
-  const hasAnalyticsConsent = getConsentState('analytics');
-  const isYouTube = videoProvider === 'YouTube';
-  const isVimeo = videoProvider === 'Vimeo';
-
-  useEffect(() => {
-    if (isYouTube && hasAnalyticsConsent) {
-      const scriptId = 'youtube-iframe-api';
-      if (document.getElementById(scriptId)) return;
-
-      const s = document.createElement('script');
-      s.id = scriptId;
-      s.type = 'text/javascript';
-      s.async = true;
-      s.src = '//www.youtube.com/iframe_api';
-
-      const firstScript = document.getElementsByTagName('script')[0];
-      firstScript.parentNode?.insertBefore(s, firstScript);
-    }
-  }, []);
+  const { videoSrc, uid } = useVideoEmbed(embedUrl, videoProvider);
 
   // Sync React state when dialog is dismissed by any browser mechanism (e.g. Esc key)
   // so the iframe is unmounted and the video stops playing
@@ -212,26 +192,13 @@ const PortraitVideoEmbed: FunctionComponent<Props> = ({
     if (dialogRef.current?.open) return;
     setIsOpen(true);
     dialogRef.current?.showModal();
-    closeButtonRef.current?.focus();
+    closeButtonRef.current?.focus({ preventScroll: true });
   };
 
   const closeDialog = () => {
     if (!dialogRef.current?.open) return;
     dialogRef.current.close();
   };
-
-  const buildVideoSrc = (): string | undefined => {
-    if (!isYouTube && !isVimeo) return undefined;
-    const url = new URL(embedUrl);
-    url.searchParams.set('autoplay', '1');
-    if (isYouTube) {
-      url.searchParams.set('enablejsapi', '1');
-    } else if (!hasAnalyticsConsent) {
-      url.searchParams.set('dnt', '1');
-    }
-    return url.toString();
-  };
-  const videoSrc = buildVideoSrc();
 
   return (
     <div data-component="portrait-video-embed">
@@ -291,7 +258,7 @@ const PortraitVideoEmbed: FunctionComponent<Props> = ({
         {!!(transcript?.length && transcript.length > 0) && (
           <TranscriptPanel>
             <CollapsibleContent
-              id={`portraitVideoTranscript-${id}`}
+              id={`portraitVideoTranscript-${uid}`}
               controlText={{
                 defaultText: 'Read the transcript',
                 contentShowingText: 'Hide the transcript',

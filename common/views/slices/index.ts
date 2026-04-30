@@ -19,6 +19,7 @@ export const components = {
   iframe: dynamic(() => import('./Iframe')),
   infoBlock: dynamic(() => import('./InfoBlock')),
   map: dynamic(() => import('./Map')),
+  portraitVideoList: dynamic(() => import('./PortraitVideoList')),
   quote: dynamic(() => import('./Quote')),
   searchResults: dynamic(() => import('./SearchResults')),
   standfirst: dynamic(() => import('./Standfirst')),
