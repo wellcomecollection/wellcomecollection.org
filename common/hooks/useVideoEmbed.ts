@@ -12,18 +12,34 @@ type UseVideoEmbedReturn = {
   uid: string;
 };
 
+const youTubeHosts = new Set([
+  'www.youtube.com',
+  'youtube.com',
+  'youtu.be',
+  'www.youtube-nocookie.com',
+  'youtube-nocookie.com',
+]);
+const vimeoHosts = new Set(['vimeo.com', 'player.vimeo.com']);
+
+const getHostname = (url: string): string => {
+  try {
+    return new URL(url).hostname;
+  } catch {
+    return '';
+  }
+};
+
 const useVideoEmbed = (
   embedUrl: string,
   videoProvider?: VideoProvider
 ): UseVideoEmbedReturn => {
   const hasAnalyticsConsent = getConsentState('analytics');
+  const hostname = getHostname(embedUrl);
   const isYouTube =
     videoProvider === 'YouTube' ||
-    (!videoProvider &&
-      (embedUrl.includes('youtube.com') || embedUrl.includes('youtu.be')));
+    (!videoProvider && youTubeHosts.has(hostname));
   const isVimeo =
-    videoProvider === 'Vimeo' ||
-    (!videoProvider && embedUrl.includes('vimeo.com'));
+    videoProvider === 'Vimeo' || (!videoProvider && vimeoHosts.has(hostname));
 
   useEffect(() => {
     if (isYouTube && hasAnalyticsConsent) {

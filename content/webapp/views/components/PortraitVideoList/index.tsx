@@ -9,9 +9,14 @@ import CollapsibleContent from '@weco/common/views/components/CollapsibleContent
 import Icon from '@weco/common/views/components/Icon';
 import { gridSize12 } from '@weco/common/views/components/Layout';
 import PortraitVideoEmbed from '@weco/common/views/components/PortraitVideoEmbed';
+import {
+  DialogVideoContainer,
+  TranscriptPanel,
+  VideoDialog,
+  VideoIframe,
+} from '@weco/common/views/components/PortraitVideoEmbed/PortraitVideoDialog.styles';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import { SizeMap } from '@weco/common/views/components/styled/Grid';
-import Space from '@weco/common/views/components/styled/Space';
 import ScrollContainer from '@weco/content/views/components/ScrollContainer';
 import { ListItem } from '@weco/content/views/components/ScrollContainer/ScrollContainer.styles';
 
@@ -31,19 +36,6 @@ type Props = {
   gridSizes?: SizeMap;
   useShim?: boolean;
 };
-
-const VideoDialog = styled.dialog`
-  padding: 0;
-  border: 0;
-  background: ${props => props.theme.color('black')};
-  width: min(400px, calc(90dvh * 9 / 16), 90vw);
-  aspect-ratio: 9 / 16;
-  overflow: hidden;
-
-  &::backdrop {
-    background: rgba(0, 0, 0, 0.85);
-  }
-`;
 
 const DialogControls = styled.span`
   position: absolute;
@@ -73,35 +65,10 @@ const DialogButton = styled.button`
   background: transparent;
   color: ${props => props.theme.color('white')};
   pointer-events: auto;
-`;
 
-const DialogVideoContainer = styled.div`
-  position: absolute;
-  inset: 0;
-`;
-
-const VideoIframe = styled.iframe`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-`;
-
-const TranscriptPanel = styled(Space).attrs({
-  $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
-  $h: { size: 'xs', properties: ['padding-left', 'padding-right'] },
-})`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 1;
-  max-height: 85%;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  background: ${props => props.theme.color('white')};
+  &:disabled {
+    visibility: hidden;
+  }
 `;
 
 const PortraitVideoList: FunctionComponent<Props> = ({
@@ -143,8 +110,10 @@ const PortraitVideoList: FunctionComponent<Props> = ({
   };
 
   const navigate = (dir: -1 | 1) => {
-    if (activeIndex === null) return;
-    setActiveIndex(activeIndex + dir);
+    setActiveIndex(prev => {
+      if (prev === null) return prev;
+      return Math.max(0, Math.min(items.length - 1, prev + dir));
+    });
   };
 
   if (items.length === 0) return null;
@@ -184,7 +153,7 @@ const PortraitVideoList: FunctionComponent<Props> = ({
               type="button"
               onClick={() => navigate(-1)}
               aria-label={prevLabel}
-              style={{ visibility: hasPrev ? 'visible' : 'hidden' }}
+              disabled={!hasPrev}
             >
               <Icon icon={chevron} rotate={90} iconColor="white" />
             </DialogButton>
@@ -192,7 +161,7 @@ const PortraitVideoList: FunctionComponent<Props> = ({
               type="button"
               onClick={() => navigate(1)}
               aria-label={nextLabel}
-              style={{ visibility: hasNext ? 'visible' : 'hidden' }}
+              disabled={!hasNext}
             >
               <Icon icon={chevron} rotate={270} iconColor="white" />
             </DialogButton>
