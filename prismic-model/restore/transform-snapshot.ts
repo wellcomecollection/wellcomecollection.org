@@ -6,22 +6,19 @@
  *
  * Transformations applied:
  *   - Rewrites old asset IDs to new IDs using asset-id-map.json
+ *   - Rewrites old content document IDs to new IDs using content-id-map.json
  *   - Corrects asset URL path segments using asset-slug-map.json
  *   - Backfills publishDate on articles from first_publication_date
  *   - Optionally rewrites the repository name in Prismic asset URLs
  *
- * The ID rewrite is done in two passes to guard against collisions where a new asset ID
- * happens to equal one of the old asset IDs:
+ * The ID rewrites are done in two passes to guard against collisions where a new ID
+ * happens to equal one of the old IDs:
  *
  *   Pass 1 — Replace every old ID with "<newId>__RESTORE_PLACEHOLDER__"
  *   Pass 2 — Strip the "__RESTORE_PLACEHOLDER__" suffix from every replaced value
  *
- * If --source-repo and --target-repo are both provided (and differ), a third pass rewrites
- * the repository name wherever it appears in Prismic asset URLs:
- *
- *   Pass 3 — Replace repository name in:
- *     https://images.prismic.io/<source-repo>/
- *     https://<source-repo>.cdn.prismic.io/<source-repo>/
+ * If --source-repo and --target-repo are both provided (and differ), a final pass rewrites
+ * the repository name wherever it appears in Prismic asset URLs.
  *
  * The result is written to a new file; the original snapshot is not modified.
  *
@@ -38,6 +35,12 @@
  * so the script can download the snapshot. When using Scenario 1, provide --snapshot
  * directly or ensure a snapshot exists in ./restore/snapshot/ (may already be downloaded
  * by restore-prismic-assets.ts).
+ *
+ * Two-stage workflow for content relationship fields:
+ *   1. First run (before content uploaded): only asset IDs are rewritten
+ *   2. After first content upload: content-id-map.json is created
+ *   3. Second run: both asset and content IDs are rewritten
+ *   4. Second content upload: content relationships now reference correct IDs
  */
 import * as fs from 'fs';
 import * as path from 'path';
@@ -48,6 +51,7 @@ import {
   escapeRegex,
   readJsonFile,
 } from '@weco/prismic-model/restore/restore-utils';
+
 import 'dotenv/config';
 import {
   downloadLatestSnapshot,
