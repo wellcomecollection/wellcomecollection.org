@@ -100,11 +100,11 @@ All three append-only files are written to the gitignored `restore/status/` dire
 
 ### Script Reference
 
-| Script             | Command                      | Description                                                                                                                                                                                                    |
-| ------------------ | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Restore assets     | `yarn restorePrismicAssets`  | Downloads the assets manifest and snapshot, uploads missing assets to the target repo, writes `asset-id-map.json` and `asset-slug-map.json`                                                                    |
+| Script             | Command                      | Description                                                                                                                                                                                                                                                                                                                                                      |
+| ------------------ | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Restore assets     | `yarn restorePrismicAssets`  | Downloads the assets manifest and snapshot, uploads missing assets to the target repo, writes `asset-id-map.json` and `asset-slug-map.json`                                                                                                                                                                                                                      |
 | Transform snapshot | `yarn transformSnapshot`     | Prepares the snapshot for import: rewrites asset IDs, content document IDs (if content-id-map.json exists), fixes URL slugs, backfills article publish dates, optionally rewrites repo name in asset URLs; writes `restore/snapshot/prismic-snapshot-rewritten.json`. Automatically detects which maps are available and only applies available transformations. |
-| Restore content    | `yarn restorePrismicContent` | Uploads documents from a snapshot to the target repo using the Migration API, creates/updates `content-id-map.json` to track old ID → new ID mappings                                                                                                                                   |
+| Restore content    | `yarn restorePrismicContent` | Uploads documents from a snapshot to the target repo using the Migration API, creates/updates `content-id-map.json` to track old ID → new ID mappings                                                                                                                                                                                                            |
 
 **Flags:**
 
@@ -230,6 +230,7 @@ yarn transformSnapshot \
 ```
 
 This second run will:
+
 - Apply all the same asset ID and URL transformations as before.
 - **Additionally** replace old content document IDs with new ones in relationship fields.
 
