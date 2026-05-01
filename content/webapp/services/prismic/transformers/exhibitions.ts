@@ -144,6 +144,7 @@ export function transformExhibition(
     accessResourcesText,
     bslLeafletVideo,
     labels,
+    untransformedPortraitVideos: data.portrait_videos || [],
   };
 }
 
