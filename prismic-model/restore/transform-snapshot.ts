@@ -153,7 +153,7 @@ async function init() {
 
   if (!assetMapExists) {
     logInfo(
-      `Asset ID map not found at ${assetMapPath} — skipping asset ID and URL slug rewriting.`
+      `Asset ID map not found at ${assetMapPath} — skipping asset ID rewriting.`
     );
   }
   if (!contentMapExists) {
