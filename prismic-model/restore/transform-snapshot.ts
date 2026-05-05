@@ -11,11 +11,11 @@
  *   - Backfills publishDate on articles from first_publication_date
  *   - Optionally rewrites the repository name in Prismic asset URLs
  *
- * The ID rewrites are done in two passes to guard against collisions where a new ID
- * happens to equal one of the old IDs:
+ * Replacements that could collide with existing values are applied using a
+ * two-pass placeholder strategy:
  *
- *   Pass 1 — Replace every old ID with "<newId>__RESTORE_PLACEHOLDER__"
- *   Pass 2 — Strip the "__RESTORE_PLACEHOLDER__" suffix from every replaced value
+ *   1. Replace every matched value with "<newValue>__RESTORE_PLACEHOLDER__"
+ *   2. Strip the "__RESTORE_PLACEHOLDER__" suffix from every replaced value
  *
  * If --source-repo and --target-repo are both provided (and differ), a final pass rewrites
  * the repository name wherever it appears in Prismic asset URLs.
