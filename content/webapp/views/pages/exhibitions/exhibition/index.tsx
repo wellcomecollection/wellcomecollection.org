@@ -151,7 +151,7 @@ const ExhibitionPage: NextPage<Props> = ({
         <SliceZone
           slices={exhibition.untransformedPortraitVideos}
           components={components}
-          context={{ gridSizes: gridSize12() }}
+          context={{ gridSizes: gridSize12(), hasNoShim: false }}
         />
       )}
     </PageLayout>

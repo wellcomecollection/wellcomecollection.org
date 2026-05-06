@@ -136,7 +136,7 @@ const PortraitVideoList: FunctionComponent<Props> = ({
         CopyContent={title ? <Title>{title}</Title> : undefined}
       >
         {items.map((item, i) => (
-          <ListItem key={i} $usesShim={useShim} $cols={3}>
+          <ListItem key={item.embedUrl} $usesShim={useShim} $cols={3}>
             <PortraitVideoEmbed {...item} onOpen={() => openAt(i)} />
           </ListItem>
         ))}
