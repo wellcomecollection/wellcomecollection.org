@@ -34,8 +34,7 @@ export function createClient(isPrismicStage?: boolean): prismic.Client {
   }
 
   const endpoint = prismic.getRepositoryEndpoint(
-    // `wellcomecollection${isPrismicStage ? '-stage' : ''}`
-    `wellcomecollection-stage`
+    `wellcomecollection${isPrismicStage ? '-stage' : ''}`
   );
   const client = prismic.createClient(endpoint, {
     fetch: fetchWithUndiciAgent,
