@@ -6,10 +6,10 @@ import PortraitVideoList from '@weco/content/views/components/PortraitVideoList'
 
 const items = [
   {
-    embedUrl: 'https://www.youtube.com/embed/FwyPPIhSpdA',
+    embedUrl: 'https://player.vimeo.com/video/613729649',
     posterImage: image(),
     duration: '1:23 mins',
-    title: 'What can we learn from cholera recovery?',
+    title: 'What can we learn from cholera recovery on Vimeo?',
     transcript: [
       {
         type: 'paragraph' as const,
