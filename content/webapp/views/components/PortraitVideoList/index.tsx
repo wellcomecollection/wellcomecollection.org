@@ -113,7 +113,12 @@ const PortraitVideoList: FunctionComponent<Props> = ({
       >
         {items.map((item, i) => (
           <ListItem key={item.embedUrl} $usesShim={useShim} $cols={3}>
-            <PortraitVideoEmbed {...item} onOpen={() => openAt(i)} />
+            <PortraitVideoEmbed
+              posterImage={item.posterImage}
+              duration={item.duration}
+              title={item.title}
+              onOpen={() => openAt(i)}
+            />
           </ListItem>
         ))}
       </ScrollContainer>
