@@ -49,12 +49,12 @@ const ControlsOverlay = styled(Space).attrs({
   $v: { size: 'xs', properties: ['bottom'] },
   $h: { size: 'xs', properties: ['left'] },
   as: 'span',
-})`
+})<{ hasDuration: boolean }>`
   position: absolute;
   display: flex;
   align-items: center;
   ${props => props.theme.makeSpacePropertyValues('xs', ['column-gap'])};
-  padding: 3px 10px 3px 3px;
+  padding: 3px ${props => (props.hasDuration ? '10px' : '3px')} 3px 3px;
   background: ${props => props.theme.color('black')};
   border-radius: 9999px;
 `;
@@ -79,7 +79,7 @@ const DurationText = styled.span.attrs({
 const CardTitle = styled(Space).attrs({
   $v: { size: 'xs', properties: ['margin-top'] },
   as: 'span',
-  className: font('sans', 0),
+  className: font('sans', -1),
 })`
   display: block;
   line-height: 1.6;
@@ -107,7 +107,7 @@ const PortraitVideoEmbed: FunctionComponent<Props> = ({
               />
             </PosterImageWrapper>
           )}
-          <ControlsOverlay aria-hidden="true">
+          <ControlsOverlay hasDuration={!!duration} aria-hidden="true">
             <PlayCircle>
               <Icon
                 icon={play}

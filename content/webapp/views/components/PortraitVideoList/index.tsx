@@ -1,13 +1,20 @@
 import * as prismic from '@prismicio/client';
 import { FunctionComponent, useEffect, useRef, useState } from 'react';
 
+import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import useVideoEmbed from '@weco/common/hooks/useVideoEmbed';
 import { chevron, cross } from '@weco/common/icons';
 import { ImageType } from '@weco/common/model/image';
+import { font } from '@weco/common/utils/classnames';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import Icon from '@weco/common/views/components/Icon';
-import { gridSize12 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize12,
+} from '@weco/common/views/components/Layout';
 import PortraitVideoEmbed from '@weco/common/views/components/PortraitVideoEmbed';
 import {
+  CookiePolicyLink,
   DialogButton,
   DialogControls,
   DialogVideoContainer,
@@ -21,8 +28,6 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import { SizeMap } from '@weco/common/views/components/styled/Grid';
 import ScrollContainer from '@weco/content/views/components/ScrollContainer';
 import { ListItem } from '@weco/content/views/components/ScrollContainer/ScrollContainer.styles';
-
-import { Title } from './PortraitVideoList.styles';
 
 export type PortraitVideoItem = {
   embedUrl: string;
@@ -109,7 +114,9 @@ const PortraitVideoList: FunctionComponent<Props> = ({
       <ScrollContainer
         gridSizes={gridSizes}
         useShim={useShim}
-        CopyContent={title ? <Title>{title}</Title> : undefined}
+        CopyContent={
+          title ? <h2 className={font('brand-bold', 1)}>{title}</h2> : undefined
+        }
       >
         {items.map((item, i) => (
           <ListItem key={i} $usesShim={useShim} $cols={3}>
@@ -190,6 +197,21 @@ const PortraitVideoList: FunctionComponent<Props> = ({
           )}
         </DialogVideoContainer>
       </VideoDialog>
+      <ConditionalWrapper
+        condition={!!useShim}
+        wrapper={children => (
+          <ContaineredLayout gridSizes={gridSizes}>
+            {children}
+          </ContaineredLayout>
+        )}
+      >
+        <CookiePolicyLink>
+          Pressing play on the videos will set a third-party cookie. Please read
+          our{' '}
+          <a href={`/about-us/${prismicPageIds.cookiePolicy}`}>cookie policy</a>{' '}
+          for more information.
+        </CookiePolicyLink>
+      </ConditionalWrapper>
     </div>
   );
 };

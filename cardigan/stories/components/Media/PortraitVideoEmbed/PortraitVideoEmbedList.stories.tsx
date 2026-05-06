@@ -117,6 +117,24 @@ const items = [
       },
     ] satisfies prismic.RichTextField,
   },
+  {
+    embedUrl: 'https://www.youtube.com/embed/FwyPPIhSpdA',
+    posterImage: image(),
+    duration: '1:23 mins',
+    title: 'What can we learn from cholera recovery?',
+    transcript: [
+      {
+        type: 'paragraph' as const,
+        text: 'In the nineteenth century, cholera swept through cities across the world, killing thousands. But some people recovered. What allowed them to survive, and what can we learn from their stories today?',
+        spans: [],
+      },
+      {
+        type: 'paragraph' as const,
+        text: 'Historians and scientists are now piecing together the evidence — from patient records, to letters, to early clinical trials — to understand the biology of survival.',
+        spans: [],
+      },
+    ] satisfies prismic.RichTextField,
+  },
 ];
 
 const meta: Meta<typeof PortraitVideoList> = {
@@ -125,6 +143,7 @@ const meta: Meta<typeof PortraitVideoList> = {
   args: {
     title: 'Short films',
     items,
+    useShim: true,
   },
   argTypes: {
     items: { table: { disable: true } },
