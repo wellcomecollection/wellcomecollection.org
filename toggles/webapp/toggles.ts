@@ -35,14 +35,6 @@ const toggles = {
       type: 'permanent',
     },
     {
-      id: 'inGallery',
-      title: 'Gallery display mode',
-      initialValue: false,
-      description:
-        'Enables gallery-specific features such as removing external links and showing inactivity redirect after 10 minutes',
-      type: 'permanent',
-    },
-    {
       id: 'conceptsSearch',
       title: 'Concepts search',
       initialValue: false,
@@ -151,6 +143,14 @@ const toggles = {
       initialValue: false,
       description: 'Allows testing of vertical videos.',
       type: 'experimental',
+    },
+    {
+      id: 'inGallery',
+      title: 'Gallery display mode',
+      initialValue: false,
+      description:
+        'Enables gallery-specific features such as removing external links and showing inactivity redirect after 10 minutes',
+      type: 'permanent',
     },
   ] as const,
   // We have to include a reference to any test toggles here as well as in the cache dir
