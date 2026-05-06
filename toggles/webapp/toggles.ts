@@ -150,7 +150,7 @@ const toggles = {
       initialValue: false,
       description:
         'Enables gallery-specific features such as removing external links and showing inactivity redirect after 10 minutes',
-      type: 'permanent',
+      type: 'experimental',
     },
   ] as const,
   // We have to include a reference to any test toggles here as well as in the cache dir
