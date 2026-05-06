@@ -55,7 +55,7 @@ const useVideoEmbed = (
       const firstScript = document.getElementsByTagName('script')[0];
       firstScript.parentNode?.insertBefore(s, firstScript);
     }
-  }, []);
+  }, [isYouTube, hasAnalyticsConsent]);
 
   const uid = useId();
   const videoId = embedUrl.match(/embed\/(.*?)(?:\?|$)/)?.[1];
