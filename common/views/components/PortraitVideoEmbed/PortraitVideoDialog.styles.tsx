@@ -89,7 +89,7 @@ export const TranscriptOverlay = styled(Space).attrs({
   inset: 0;
   z-index: 1;
   overflow-y: auto;
-  overscroll-behavior: contain;
+  overscroll-behavior: none;
   background: ${props => props.theme.color('black')};
   color: ${props => props.theme.color('white')};
   display: ${props => (props.$hidden ? 'none' : 'block')};

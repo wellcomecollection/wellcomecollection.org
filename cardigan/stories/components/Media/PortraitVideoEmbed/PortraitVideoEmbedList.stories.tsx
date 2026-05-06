@@ -31,6 +31,46 @@ const items = [
     transcript: [
       {
         type: 'paragraph' as const,
+        text: 'This is a long transcript so it should be scrollable.',
+        spans: [],
+      },
+      {
+        type: 'paragraph' as const,
+        text: "Researchers are uncovering how genetic variation shapes an individual's response to infection, offering new hope for treatments tailored to the person, not just the disease.",
+        spans: [],
+      },
+      {
+        type: 'paragraph' as const,
+        text: 'Every cell in the human body carries instructions for both life and death. Understanding how those instructions are read — and misread — is at the heart of modern medicine.',
+        spans: [],
+      },
+      {
+        type: 'paragraph' as const,
+        text: "Researchers are uncovering how genetic variation shapes an individual's response to infection, offering new hope for treatments tailored to the person, not just the disease.",
+        spans: [],
+      },
+      {
+        type: 'paragraph' as const,
+        text: 'Every cell in the human body carries instructions for both life and death. Understanding how those instructions are read — and misread — is at the heart of modern medicine.',
+        spans: [],
+      },
+      {
+        type: 'paragraph' as const,
+        text: "Researchers are uncovering how genetic variation shapes an individual's response to infection, offering new hope for treatments tailored to the person, not just the disease.",
+        spans: [],
+      },
+      {
+        type: 'paragraph' as const,
+        text: 'Every cell in the human body carries instructions for both life and death. Understanding how those instructions are read — and misread — is at the heart of modern medicine.',
+        spans: [],
+      },
+      {
+        type: 'paragraph' as const,
+        text: "Researchers are uncovering how genetic variation shapes an individual's response to infection, offering new hope for treatments tailored to the person, not just the disease.",
+        spans: [],
+      },
+      {
+        type: 'paragraph' as const,
         text: 'Every cell in the human body carries instructions for both life and death. Understanding how those instructions are read — and misread — is at the heart of modern medicine.',
         spans: [],
       },
