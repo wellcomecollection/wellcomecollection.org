@@ -149,7 +149,7 @@ const toggles = {
       title: 'Gallery display mode',
       initialValue: false,
       description:
-        'Enables gallery-specific features such as removing external links and showing inactivity redirect after 10 minutes',
+        'Enables gallery-specific features such as removing external links and showing an inactivity redirect after a period of inactivity',
       type: 'experimental',
     },
   ] as const,
