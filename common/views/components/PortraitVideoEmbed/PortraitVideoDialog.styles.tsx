@@ -80,11 +80,12 @@ export const VideoIframe = styled.iframe`
 export const TranscriptOverlay = styled(Space).attrs({
   $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
   $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
-})`
+})<{ $hidden: boolean }>`
   position: absolute;
   inset: 0;
   z-index: 1;
   overflow-y: auto;
   overscroll-behavior: contain;
   background: ${props => props.theme.color('white')};
+  display: ${props => (props.$hidden ? 'none' : 'block')};
 `;

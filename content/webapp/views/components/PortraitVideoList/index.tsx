@@ -58,7 +58,7 @@ const PortraitVideoList: FunctionComponent<Props> = ({
   );
 
   // Hook must be called unconditionally; passes empty string when no item is active
-  const { videoSrc } = useVideoEmbed(activeItem?.embedUrl ?? '');
+  const { videoSrc, uid } = useVideoEmbed(activeItem?.embedUrl ?? '');
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -147,9 +147,10 @@ const PortraitVideoList: FunctionComponent<Props> = ({
               <CaptionsButton
                 type="button"
                 onClick={() => setTranscriptOpen(prev => !prev)}
-                aria-pressed={transcriptOpen}
+                aria-expanded={transcriptOpen}
+                aria-controls={uid}
               >
-                {transcriptOpen ? 'Hide captions' : 'Show captions'}
+                {transcriptOpen ? 'Hide transcript' : 'Show transcript'}
               </CaptionsButton>
             )}
             <DialogButton
@@ -173,8 +174,12 @@ const PortraitVideoList: FunctionComponent<Props> = ({
               src={videoSrc}
             />
           )}
-          {transcriptOpen && activeItem?.transcript && (
-            <TranscriptOverlay>
+          {activeItem?.transcript && (
+            <TranscriptOverlay
+              id={uid}
+              $hidden={!transcriptOpen}
+              aria-hidden={!transcriptOpen}
+            >
               <PrismicHtmlBlock html={activeItem.transcript} />
             </TranscriptOverlay>
           )}

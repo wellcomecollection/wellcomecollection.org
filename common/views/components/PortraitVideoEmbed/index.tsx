@@ -122,7 +122,7 @@ const PortraitVideoEmbed: FunctionComponent<Props> = ({
   const [transcriptOpen, setTranscriptOpen] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
-  const { videoSrc } = useVideoEmbed(embedUrl, videoProvider);
+  const { videoSrc, uid } = useVideoEmbed(embedUrl, videoProvider);
   const hasTranscript = !!(transcript?.length && transcript.length > 0);
 
   // Sync React state when dialog is dismissed by any browser mechanism (e.g. Esc key)
@@ -195,7 +195,8 @@ const PortraitVideoEmbed: FunctionComponent<Props> = ({
                 <CaptionsButton
                   type="button"
                   onClick={() => setTranscriptOpen(prev => !prev)}
-                  aria-pressed={transcriptOpen}
+                  aria-expanded={transcriptOpen}
+                  aria-controls={uid}
                 >
                   {transcriptOpen ? 'Hide captions' : 'Show captions'}
                 </CaptionsButton>
@@ -219,8 +220,12 @@ const PortraitVideoEmbed: FunctionComponent<Props> = ({
                 src={videoSrc}
               />
             )}
-            {transcriptOpen && transcript && (
-              <TranscriptOverlay>
+            {transcript && (
+              <TranscriptOverlay
+                id={uid}
+                $hidden={!transcriptOpen}
+                aria-hidden={!transcriptOpen}
+              >
                 <PrismicHtmlBlock html={transcript} />
               </TranscriptOverlay>
             )}
