@@ -128,17 +128,17 @@ const PortraitVideoList: FunctionComponent<Props> = ({
             <DialogButton
               type="button"
               onClick={() => navigate(-1)}
-              aria-label={prevLabel}
               disabled={!hasPrev}
             >
+              <span className="visually-hidden">{prevLabel}</span>
               <Icon icon={chevron} rotate={90} iconColor="white" />
             </DialogButton>
             <DialogButton
               type="button"
               onClick={() => navigate(1)}
-              aria-label={nextLabel}
               disabled={!hasNext}
             >
+              <span className="visually-hidden">{nextLabel}</span>
               <Icon icon={chevron} rotate={270} iconColor="white" />
             </DialogButton>
           </NavGroup>
