@@ -8,11 +8,11 @@ import { ImageType } from '@weco/common/model/image';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import {
-  CaptionsButton,
   DialogButton,
   DialogControls,
   DialogVideoContainer,
   NavGroup,
+  TranscriptButton,
   TranscriptOverlay,
   VideoDialog,
   VideoIframe,
@@ -192,14 +192,14 @@ const PortraitVideoEmbed: FunctionComponent<Props> = ({
             <NavGroup />
             <NavGroup>
               {hasTranscript && (
-                <CaptionsButton
+                <TranscriptButton
                   type="button"
                   onClick={() => setTranscriptOpen(prev => !prev)}
                   aria-expanded={transcriptOpen}
                   aria-controls={uid}
                 >
                   {transcriptOpen ? 'Hide captions' : 'Show captions'}
-                </CaptionsButton>
+                </TranscriptButton>
               )}
               <DialogButton
                 ref={closeButtonRef}

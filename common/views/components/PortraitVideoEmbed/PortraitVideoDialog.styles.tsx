@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
+import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 
 export const DialogControls = styled.span`
@@ -29,7 +30,10 @@ export const DialogButton = styled.button`
   }
 `;
 
-export const CaptionsButton = styled.button`
+export const TranscriptButton = styled.button.attrs({
+  type: 'button',
+  className: font('sans', -2),
+})`
   display: flex;
   align-items: center;
   height: 36px;
@@ -38,7 +42,6 @@ export const CaptionsButton = styled.button`
   cursor: pointer;
   background: transparent;
   color: ${props => props.theme.color('white')};
-  font-size: 0.8rem;
   text-decoration: underline;
 `;
 
@@ -80,12 +83,14 @@ export const VideoIframe = styled.iframe`
 export const TranscriptOverlay = styled(Space).attrs({
   $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
   $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
+  className: font('sans', -1),
 })<{ $hidden: boolean }>`
   position: absolute;
   inset: 0;
   z-index: 1;
   overflow-y: auto;
   overscroll-behavior: contain;
-  background: ${props => props.theme.color('white')};
+  background: ${props => props.theme.color('black')};
+  color: ${props => props.theme.color('white')};
   display: ${props => (props.$hidden ? 'none' : 'block')};
 `;
