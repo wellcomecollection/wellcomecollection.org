@@ -2,6 +2,46 @@ import styled from 'styled-components';
 
 import Space from '@weco/common/views/components/styled/Space';
 
+export const DialogControls = styled.span`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-shrink: 0;
+`;
+
+export const NavGroup = styled.span`
+  display: flex;
+`;
+
+export const DialogButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  cursor: pointer;
+  background: transparent;
+  color: ${props => props.theme.color('white')};
+
+  &:disabled {
+    visibility: hidden;
+  }
+`;
+
+export const CaptionsButton = styled.button`
+  display: flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 8px;
+  border: 0;
+  cursor: pointer;
+  background: transparent;
+  color: ${props => props.theme.color('white')};
+  font-size: 0.8rem;
+  text-decoration: underline;
+`;
+
 export const VideoDialog = styled.dialog`
   padding: 0;
   border: 0;
@@ -21,6 +61,7 @@ export const VideoDialog = styled.dialog`
 `;
 
 export const DialogVideoContainer = styled.div`
+  flex-shrink: 0;
   position: relative;
   width: 100%;
   aspect-ratio: 9 / 16;
@@ -36,16 +77,13 @@ export const VideoIframe = styled.iframe`
   border: 0;
 `;
 
-export const TranscriptPanel = styled(Space).attrs({
-  $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
-  $h: { size: 'xs', properties: ['padding-left', 'padding-right'] },
+export const TranscriptOverlay = styled(Space).attrs({
+  $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
 })`
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  inset: 0;
   z-index: 1;
-  max-height: 85%;
   overflow-y: auto;
   overscroll-behavior: contain;
   background: ${props => props.theme.color('white')};

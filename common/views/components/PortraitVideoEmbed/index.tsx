@@ -6,11 +6,14 @@ import useVideoEmbed, { VideoProvider } from '@weco/common/hooks/useVideoEmbed';
 import { cross, play } from '@weco/common/icons';
 import { ImageType } from '@weco/common/model/image';
 import { font } from '@weco/common/utils/classnames';
-import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
 import Icon from '@weco/common/views/components/Icon';
 import {
+  CaptionsButton,
+  DialogButton,
+  DialogControls,
   DialogVideoContainer,
-  TranscriptPanel,
+  NavGroup,
+  TranscriptOverlay,
   VideoDialog,
   VideoIframe,
 } from '@weco/common/views/components/PortraitVideoEmbed/PortraitVideoDialog.styles';
@@ -106,22 +109,6 @@ const CardTitle = styled(Space).attrs({
   }
 `;
 
-const CloseButton = styled.button`
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 0;
-  cursor: pointer;
-  color: ${props => props.theme.color('white')};
-`;
-
 const PortraitVideoEmbed: FunctionComponent<Props> = ({
   embedUrl,
   videoProvider,
@@ -132,16 +119,21 @@ const PortraitVideoEmbed: FunctionComponent<Props> = ({
   onOpen,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [transcriptOpen, setTranscriptOpen] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
-  const { videoSrc, uid } = useVideoEmbed(embedUrl, videoProvider);
+  const { videoSrc } = useVideoEmbed(embedUrl, videoProvider);
+  const hasTranscript = !!(transcript?.length && transcript.length > 0);
 
   // Sync React state when dialog is dismissed by any browser mechanism (e.g. Esc key)
   // so the iframe is unmounted and the video stops playing
   useEffect(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
-    const handleClose = () => setIsOpen(false);
+    const handleClose = () => {
+      setIsOpen(false);
+      setTranscriptOpen(false);
+    };
     dialog.addEventListener('close', handleClose);
     return () => dialog.removeEventListener('close', handleClose);
   }, []);
@@ -196,14 +188,28 @@ const PortraitVideoEmbed: FunctionComponent<Props> = ({
           aria-label={title || 'Video'}
           onClick={e => e.target === dialogRef.current && closeDialog()}
         >
-          <CloseButton
-            ref={closeButtonRef}
-            type="button"
-            onClick={closeDialog}
-            aria-label="Close video"
-          >
-            <Icon icon={cross} iconColor="white" />
-          </CloseButton>
+          <DialogControls>
+            <NavGroup />
+            <NavGroup>
+              {hasTranscript && (
+                <CaptionsButton
+                  type="button"
+                  onClick={() => setTranscriptOpen(prev => !prev)}
+                  aria-pressed={transcriptOpen}
+                >
+                  {transcriptOpen ? 'Hide captions' : 'Show captions'}
+                </CaptionsButton>
+              )}
+              <DialogButton
+                ref={closeButtonRef}
+                type="button"
+                onClick={closeDialog}
+                aria-label="Close video"
+              >
+                <Icon icon={cross} iconColor="white" />
+              </DialogButton>
+            </NavGroup>
+          </DialogControls>
           <DialogVideoContainer>
             {isOpen && videoSrc && (
               <VideoIframe
@@ -213,20 +219,12 @@ const PortraitVideoEmbed: FunctionComponent<Props> = ({
                 src={videoSrc}
               />
             )}
-          </DialogVideoContainer>
-          {!!(transcript?.length && transcript.length > 0) && (
-            <TranscriptPanel>
-              <CollapsibleContent
-                id={`portraitVideoTranscript-${uid}`}
-                controlText={{
-                  defaultText: 'Read the transcript',
-                  contentShowingText: 'Hide the transcript',
-                }}
-              >
+            {transcriptOpen && transcript && (
+              <TranscriptOverlay>
                 <PrismicHtmlBlock html={transcript} />
-              </CollapsibleContent>
-            </TranscriptPanel>
-          )}
+              </TranscriptOverlay>
+            )}
+          </DialogVideoContainer>
         </VideoDialog>
       )}
     </div>

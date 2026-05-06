@@ -1,17 +1,19 @@
 import * as prismic from '@prismicio/client';
 import { FunctionComponent, useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
 
 import useVideoEmbed from '@weco/common/hooks/useVideoEmbed';
 import { chevron, cross } from '@weco/common/icons';
 import { ImageType } from '@weco/common/model/image';
-import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
 import Icon from '@weco/common/views/components/Icon';
 import { gridSize12 } from '@weco/common/views/components/Layout';
 import PortraitVideoEmbed from '@weco/common/views/components/PortraitVideoEmbed';
 import {
+  CaptionsButton,
+  DialogButton,
+  DialogControls,
   DialogVideoContainer,
-  TranscriptPanel,
+  NavGroup,
+  TranscriptOverlay,
   VideoDialog,
   VideoIframe,
 } from '@weco/common/views/components/PortraitVideoEmbed/PortraitVideoDialog.styles';
@@ -37,33 +39,6 @@ type Props = {
   useShim?: boolean;
 };
 
-const DialogControls = styled.span`
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-shrink: 0;
-`;
-
-const NavGroup = styled.span`
-  display: flex;
-`;
-
-const DialogButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border: 0;
-  cursor: pointer;
-  background: transparent;
-  color: ${props => props.theme.color('white')};
-
-  &:disabled {
-    visibility: hidden;
-  }
-`;
-
 const PortraitVideoList: FunctionComponent<Props> = ({
   title,
   items,
@@ -71,15 +46,19 @@ const PortraitVideoList: FunctionComponent<Props> = ({
   useShim,
 }) => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [transcriptOpen, setTranscriptOpen] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   const activeItem = activeIndex !== null ? items[activeIndex] : null;
   const hasPrev = activeIndex !== null && activeIndex > 0;
   const hasNext = activeIndex !== null && activeIndex < items.length - 1;
+  const hasTranscript = !!(
+    activeItem?.transcript?.length && activeItem.transcript.length > 0
+  );
 
   // Hook must be called unconditionally; passes empty string when no item is active
-  const { videoSrc, uid } = useVideoEmbed(activeItem?.embedUrl ?? '');
+  const { videoSrc } = useVideoEmbed(activeItem?.embedUrl ?? '');
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -88,6 +67,10 @@ const PortraitVideoList: FunctionComponent<Props> = ({
     dialog.addEventListener('close', handleClose);
     return () => dialog.removeEventListener('close', handleClose);
   }, []);
+
+  useEffect(() => {
+    setTranscriptOpen(false);
+  }, [activeIndex]);
 
   const openAt = (index: number) => {
     setActiveIndex(index);
@@ -159,14 +142,25 @@ const PortraitVideoList: FunctionComponent<Props> = ({
               <Icon icon={chevron} rotate={270} iconColor="white" />
             </DialogButton>
           </NavGroup>
-          <DialogButton
-            ref={closeButtonRef}
-            type="button"
-            onClick={closeDialog}
-            aria-label="Close video"
-          >
-            <Icon icon={cross} iconColor="white" />
-          </DialogButton>
+          <NavGroup>
+            {hasTranscript && (
+              <CaptionsButton
+                type="button"
+                onClick={() => setTranscriptOpen(prev => !prev)}
+                aria-pressed={transcriptOpen}
+              >
+                {transcriptOpen ? 'Hide captions' : 'Show captions'}
+              </CaptionsButton>
+            )}
+            <DialogButton
+              ref={closeButtonRef}
+              type="button"
+              onClick={closeDialog}
+              aria-label="Close video"
+            >
+              <Icon icon={cross} iconColor="white" />
+            </DialogButton>
+          </NavGroup>
         </DialogControls>
 
         <DialogVideoContainer>
@@ -179,20 +173,10 @@ const PortraitVideoList: FunctionComponent<Props> = ({
               src={videoSrc}
             />
           )}
-          {!!(
-            activeItem?.transcript?.length && activeItem.transcript.length > 0
-          ) && (
-            <TranscriptPanel key={activeIndex}>
-              <CollapsibleContent
-                id={`portraitVideoListTranscript-${uid}`}
-                controlText={{
-                  defaultText: 'Read the transcript',
-                  contentShowingText: 'Hide the transcript',
-                }}
-              >
-                <PrismicHtmlBlock html={activeItem.transcript} />
-              </CollapsibleContent>
-            </TranscriptPanel>
+          {transcriptOpen && activeItem?.transcript && (
+            <TranscriptOverlay>
+              <PrismicHtmlBlock html={activeItem.transcript} />
+            </TranscriptOverlay>
           )}
         </DialogVideoContainer>
       </VideoDialog>
