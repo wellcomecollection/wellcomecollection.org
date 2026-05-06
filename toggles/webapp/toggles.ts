@@ -144,6 +144,14 @@ const toggles = {
       description: 'Allows testing of vertical videos.',
       type: 'experimental',
     },
+    {
+      id: 'inGallery',
+      title: 'Gallery display mode',
+      initialValue: false,
+      description:
+        'Enables gallery-specific features such as removing external links and showing an inactivity redirect after a period of inactivity',
+      type: 'experimental',
+    },
   ] as const,
   // We have to include a reference to any test toggles here as well as in the cache dir
   // because they are deployed separately and consequently can't share a source of truth
