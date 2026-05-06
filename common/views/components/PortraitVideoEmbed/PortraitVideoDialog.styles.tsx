@@ -7,8 +7,13 @@ export const VideoDialog = styled.dialog`
   border: 0;
   background: ${props => props.theme.color('black')};
   width: min(400px, calc(90dvh * 9 / 16), 90vw);
-  aspect-ratio: 9 / 16;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
+
+  &:not([open]) {
+    display: none;
+  }
 
   &::backdrop {
     background: rgba(0, 0, 0, 0.85);
@@ -16,8 +21,10 @@ export const VideoDialog = styled.dialog`
 `;
 
 export const DialogVideoContainer = styled.div`
-  position: absolute;
-  inset: 0;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  overflow: hidden;
 `;
 
 export const VideoIframe = styled.iframe`

@@ -38,20 +38,14 @@ type Props = {
 };
 
 const DialogControls = styled.span`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  pointer-events: none;
+  flex-shrink: 0;
 `;
 
 const NavGroup = styled.span`
   display: flex;
-  pointer-events: auto;
 `;
 
 const DialogButton = styled.button`
@@ -64,7 +58,6 @@ const DialogButton = styled.button`
   cursor: pointer;
   background: transparent;
   color: ${props => props.theme.color('white')};
-  pointer-events: auto;
 
   &:disabled {
     visibility: hidden;
@@ -186,23 +179,22 @@ const PortraitVideoList: FunctionComponent<Props> = ({
               src={videoSrc}
             />
           )}
+          {!!(
+            activeItem?.transcript?.length && activeItem.transcript.length > 0
+          ) && (
+            <TranscriptPanel key={activeIndex}>
+              <CollapsibleContent
+                id={`portraitVideoListTranscript-${uid}`}
+                controlText={{
+                  defaultText: 'Read the transcript',
+                  contentShowingText: 'Hide the transcript',
+                }}
+              >
+                <PrismicHtmlBlock html={activeItem.transcript} />
+              </CollapsibleContent>
+            </TranscriptPanel>
+          )}
         </DialogVideoContainer>
-
-        {!!(
-          activeItem?.transcript?.length && activeItem.transcript.length > 0
-        ) && (
-          <TranscriptPanel key={activeIndex}>
-            <CollapsibleContent
-              id={`portraitVideoListTranscript-${uid}`}
-              controlText={{
-                defaultText: 'Read the transcript',
-                contentShowingText: 'Hide the transcript',
-              }}
-            >
-              <PrismicHtmlBlock html={activeItem.transcript} />
-            </CollapsibleContent>
-          </TranscriptPanel>
-        )}
       </VideoDialog>
     </div>
   );
