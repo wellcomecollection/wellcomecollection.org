@@ -62,14 +62,18 @@ const useVideoEmbed = (
 
   const videoSrc = (() => {
     if (!isYouTube && !isVimeo) return undefined;
-    const url = new URL(embedUrl);
-    url.searchParams.set('autoplay', '1');
-    if (isYouTube) {
-      url.searchParams.set('enablejsapi', '1');
-    } else if (!hasAnalyticsConsent) {
-      url.searchParams.set('dnt', '1');
+    try {
+      const url = new URL(embedUrl);
+      url.searchParams.set('autoplay', '1');
+      if (isYouTube) {
+        url.searchParams.set('enablejsapi', '1');
+      } else if (!hasAnalyticsConsent) {
+        url.searchParams.set('dnt', '1');
+      }
+      return url.toString();
+    } catch {
+      return undefined;
     }
-    return url.toString();
   })();
 
   return { isYouTube, isVimeo, videoSrc, videoId, uid };
