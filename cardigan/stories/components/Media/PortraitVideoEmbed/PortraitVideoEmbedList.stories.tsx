@@ -7,6 +7,7 @@ import PortraitVideoList from '@weco/content/views/components/PortraitVideoList'
 const items = [
   {
     embedUrl: 'https://player.vimeo.com/video/613729649',
+    videoProvider: 'Vimeo' as const,
     posterImage: image(),
     duration: '1:23 mins',
     title: 'What can we learn from cholera recovery on Vimeo?',
@@ -25,6 +26,7 @@ const items = [
   },
   {
     embedUrl: 'https://www.youtube.com/embed/OQjVA9ALpvY',
+    videoProvider: 'YouTube' as const,
     posterImage: image(),
     duration: '2:45 mins',
     title: 'The biology of survival',
@@ -83,6 +85,7 @@ const items = [
   },
   {
     embedUrl: 'https://www.youtube.com/embed/Rgty5IrbhqE',
+    videoProvider: 'YouTube' as const,
     posterImage: image(),
     duration: '3:10 mins',
     title: 'Patient records and early clinical trials',
@@ -101,6 +104,7 @@ const items = [
   },
   {
     embedUrl: 'https://www.youtube.com/embed/5xkvL8NrQ88',
+    videoProvider: 'YouTube' as const,
     posterImage: image(),
     duration: '1:55 mins',
     title: 'Letters from the epidemic',
@@ -119,6 +123,7 @@ const items = [
   },
   {
     embedUrl: 'https://www.youtube.com/embed/FwyPPIhSpdA',
+    videoProvider: 'YouTube' as const,
     posterImage: image(),
     duration: '1:23 mins',
     title: 'What can we learn from cholera recovery?',
