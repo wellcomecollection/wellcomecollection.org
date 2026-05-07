@@ -20,11 +20,12 @@
         }
       },
       "items": {
-        "embed_url": {
-          "type": "Text",
+        "embed": {
+          "type": "Embed",
+          "fieldset": "Embed",
           "config": {
-            "label": "Embed URL",
-            "placeholder": ""
+            "label": "Embed",
+            "placeholder": "For YouTube shorts urls, replace '/shorts/' with '/watch?v='"
           }
         },
         "poster_image": {

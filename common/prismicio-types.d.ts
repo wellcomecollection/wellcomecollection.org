@@ -3138,15 +3138,13 @@ interface ExhibitionsDocumentData {
    * - **Tab**: Exhibition
    * - **Documentation**: https://prismic.io/docs/slices
    */
-  body: prismic.SliceZone<ExhibitionsDocumentDataBodySlice>;
-
-  /**
-   * Portrait Videos field in *Exhibition*
+  body: prismic.SliceZone<ExhibitionsDocumentDataBodySlice>; /**
+   * Onward journeys field in *Exhibition*
    *
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.portrait_videos[]
-   * - **Tab**: Exhibition
+   * - **Tab**: Onward journeys
    * - **Documentation**: https://prismic.io/docs/slices
    */
   portrait_videos: prismic.SliceZone<ExhibitionsDocumentDataPortraitVideosSlice>; /**
@@ -7200,14 +7198,14 @@ export interface PortraitVideoListSliceDefaultPrimary {
  */
 export interface PortraitVideoListSliceDefaultItem {
   /**
-   * Embed URL field in *PortraitVideoList → Items*
+   * Embed field in *PortraitVideoList → Items*
    *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: portraitVideoList.items[].embed_url
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Field Type**: Embed
+   * - **Placeholder**: For YouTube shorts urls, replace '/shorts/' with '/watch?v='
+   * - **API ID Path**: portraitVideoList.items[].embed
+   * - **Documentation**: https://prismic.io/docs/fields/embed
    */
-  embed_url: prismic.KeyTextField;
+  embed: prismic.EmbedField;
 
   /**
    * Poster image field in *PortraitVideoList → Items*

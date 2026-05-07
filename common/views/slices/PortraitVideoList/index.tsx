@@ -4,6 +4,7 @@ import { FunctionComponent } from 'react';
 import { PortraitVideoListSlice as RawPortraitVideoListSlice } from '@weco/common/prismicio-types';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
+import { transformVideoEmbed } from '@weco/content/services/prismic/transformers/embeds';
 import { SliceZoneContext } from '@weco/content/views/components/Body';
 import PortraitVideoList from '@weco/content/views/components/PortraitVideoList';
 
@@ -15,15 +16,20 @@ type PortraitVideoListSliceProps = SliceComponentProps<
 const PortraitVideoListSlice: FunctionComponent<
   PortraitVideoListSliceProps
 > = ({ slice, context }) => {
-  const items = slice.items
-    .filter(item => !!item.embed_url)
-    .map(item => ({
-      embedUrl: item.embed_url as string,
-      posterImage: transformImage(item.poster_image) ?? undefined,
-      duration: item.duration ?? undefined,
-      title: item.title ?? undefined,
-      transcript: item.transcript,
-    }));
+  const items = slice.items.flatMap(item => {
+    const embed = transformVideoEmbed(item.embed);
+    if (!embed) return [];
+    return [
+      {
+        embedUrl: embed.embedUrl,
+        videoProvider: embed.videoProvider,
+        posterImage: transformImage(item.poster_image) ?? undefined,
+        duration: item.duration ?? undefined,
+        title: item.title ?? undefined,
+        transcript: item.transcript,
+      },
+    ];
+  });
 
   if (items.length === 0) return null;
 

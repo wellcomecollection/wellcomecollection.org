@@ -2,7 +2,7 @@ import * as prismic from '@prismicio/client';
 import { FunctionComponent, useEffect, useRef, useState } from 'react';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
-import useVideoEmbed from '@weco/common/hooks/useVideoEmbed';
+import useVideoEmbed, { VideoProvider } from '@weco/common/hooks/useVideoEmbed';
 import { chevron, cross } from '@weco/common/icons';
 import { ImageType } from '@weco/common/model/image';
 import { font } from '@weco/common/utils/classnames';
@@ -31,6 +31,7 @@ import { ListItem } from '@weco/content/views/components/ScrollContainer/ScrollC
 
 export type PortraitVideoItem = {
   embedUrl: string;
+  videoProvider?: VideoProvider;
   posterImage?: ImageType;
   duration?: string;
   title?: string;
@@ -63,7 +64,10 @@ const PortraitVideoList: FunctionComponent<Props> = ({
   );
 
   // Hook must be called unconditionally; passes empty string when no item is active
-  const { videoSrc, uid } = useVideoEmbed(activeItem?.embedUrl ?? '');
+  const { videoSrc, uid } = useVideoEmbed(
+    activeItem?.embedUrl ?? '',
+    activeItem?.videoProvider
+  );
 
   useEffect(() => {
     const dialog = dialogRef.current;
