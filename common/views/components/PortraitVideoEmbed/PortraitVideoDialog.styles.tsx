@@ -18,8 +18,8 @@ export const DialogButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   border: 0;
   cursor: pointer;
   background: transparent;
