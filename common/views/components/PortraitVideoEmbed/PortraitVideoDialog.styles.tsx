@@ -12,6 +12,7 @@ export const DialogControls = styled.span`
 
 export const NavGroup = styled.span`
   display: flex;
+  align-items: center;
 `;
 
 export const DialogButton = styled.button`

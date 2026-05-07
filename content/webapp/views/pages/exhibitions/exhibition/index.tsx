@@ -1,4 +1,3 @@
-import { SliceZone } from '@prismicio/react';
 import { NextPage } from 'next';
 import { useEffect, useState } from 'react';
 
@@ -10,9 +9,7 @@ import { useToggles } from '@weco/common/server-data/Context';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
-import { gridSize12 } from '@weco/common/views/components/Layout';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
-import { components } from '@weco/common/views/slices';
 import { fetchExhibitionRelatedContentClientSide } from '@weco/content/services/prismic/fetch/exhibitions';
 import { ThemeCardsListSliceValue } from '@weco/content/services/prismic/transformers/body';
 import { Slice } from '@weco/content/types/body';
@@ -58,7 +55,7 @@ const ExhibitionPage: NextPage<Props> = ({
     AboutThisExhibitionContent[]
   >([]);
 
-  const { exhibitionAndCollection, verticalVideos } = useToggles();
+  const { exhibitionAndCollection } = useToggles();
 
   useEffect(() => {
     let isMounted = true;
@@ -143,15 +140,7 @@ const ExhibitionPage: NextPage<Props> = ({
           isTendernessAndRageExhibition={isTendernessAndRageExhibition}
           aboutThisExhibitionContent={aboutThisExhibitionContent}
           themeCardsListSlice={themeCardsListSlice}
-          videos={[]}
-        />
-      )}
-
-      {verticalVideos && exhibition.untransformedPortraitVideos?.length > 0 && (
-        <SliceZone
-          slices={exhibition.untransformedPortraitVideos}
-          components={components}
-          context={{ gridSizes: gridSize12(), hasNoShim: false }}
+          videos={exhibition.untransformedPortraitVideos}
         />
       )}
     </PageLayout>
