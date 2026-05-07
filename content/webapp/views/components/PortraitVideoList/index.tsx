@@ -169,8 +169,8 @@ const PortraitVideoList: FunctionComponent<Props> = ({
               ref={closeButtonRef}
               type="button"
               onClick={closeDialog}
-              aria-label="Close video"
             >
+              <span className="visually-hidden">Close video</span>
               <Icon icon={cross} iconColor="white" />
             </DialogButton>
           </NavGroup>
