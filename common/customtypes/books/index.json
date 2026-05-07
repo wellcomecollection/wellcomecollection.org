@@ -88,6 +88,13 @@
           "placeholder": ""
         }
       },
+      "test": {
+        "type": "Text",
+        "config": {
+          "label": "test",
+          "placeholder": ""
+        }
+      },
       "body": {
         "type": "Slices",
         "fieldset": "Slice Zone",

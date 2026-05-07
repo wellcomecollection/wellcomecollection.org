@@ -743,6 +743,17 @@ interface BooksDocumentData {
   datePublished: prismic.TimestampField;
 
   /**
+   * test field in *Book*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.test
+   * - **Tab**: Book
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  test: prismic.KeyTextField;
+
+  /**
    * Slice Zone field in *Book*
    *
    * - **Field Type**: Slice Zone
@@ -2770,26 +2781,26 @@ export type ExhibitionTextsDocument<Lang extends string = string> =
   >;
 
 type ExhibitionsDocumentDataBodySlice =
-  | ThemeCardsListSlice
-  | GifVideoSlice
-  | IframeSlice
+  | AudioPlayerSlice
+  | CollectionVenueSlice
+  | ContactSlice
+  | ContentListSlice
   | EditorialImageSlice
   | EditorialImageGallerySlice
-  | MapSlice
-  | ContentListSlice
   | EmbedSlice
-  | TitledTextListSlice
-  | TextAndImageSlice
-  | TextSlice
+  | GifVideoSlice
+  | IframeSlice
+  | InfoBlockSlice
+  | MapSlice
+  | QuoteSlice
   | SearchResultsSlice
-  | TextAndIconsSlice
   | StandfirstSlice
   | TagListSlice
-  | QuoteSlice
-  | InfoBlockSlice
-  | ContactSlice
-  | CollectionVenueSlice
-  | AudioPlayerSlice;
+  | TextSlice
+  | TextAndIconsSlice
+  | TextAndImageSlice
+  | ThemeCardsListSlice
+  | TitledTextListSlice;
 
 /**
  * Item in *Exhibition → Exhibits*
