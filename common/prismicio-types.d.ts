@@ -743,17 +743,6 @@ interface BooksDocumentData {
   datePublished: prismic.TimestampField;
 
   /**
-   * test field in *Book*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: books.test
-   * - **Tab**: Book
-   * - **Documentation**: https://prismic.io/docs/fields/text
-   */
-  test: prismic.KeyTextField;
-
-  /**
    * Slice Zone field in *Book*
    *
    * - **Field Type**: Slice Zone
