@@ -81,8 +81,6 @@ module.exports = [
   {
     files: ['**/*.js', '**/*.jsx'],
     languageOptions: {
-      // ESLint 10 crashes with @babel/eslint-parser in this repo, so let espree
-      // handle JS/JSX files directly and only opt into JSX syntax here.
       parserOptions: {
         ecmaVersion: 'latest',
         ecmaFeatures: {
