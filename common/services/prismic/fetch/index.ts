@@ -1,8 +1,8 @@
 import * as prismic from '@prismicio/client';
 
 import sliceMachineConfig from '@weco/common/slicemachine.config.json';
+import { fetchWithTrustedHosts } from '@weco/common/utils/trusted-fetch';
 import { isUndefined } from '@weco/common/utils/type-guards';
-import { fetchWithUndiciAgent } from '@weco/common/utils/undici-agent';
 
 export function createClient(isPrismicStage?: boolean): prismic.Client {
   // We use an access token for Prismic in prod to avoid certain classes of
@@ -36,8 +36,9 @@ export function createClient(isPrismicStage?: boolean): prismic.Client {
   const endpoint = prismic.getRepositoryEndpoint(
     `wellcomecollection${isPrismicStage ? '-stage' : ''}`
   );
+  const allowedHost = new URL(endpoint).hostname;
   const client = prismic.createClient(endpoint, {
-    fetch: fetchWithUndiciAgent,
+    fetch: (url, options) => fetchWithTrustedHosts(url, options, [allowedHost]),
     accessToken,
     ...sliceMachineConfig,
   });

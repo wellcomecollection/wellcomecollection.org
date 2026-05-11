@@ -1,4 +1,4 @@
-import { fetchWithUndiciAgent } from '@weco/common/utils/undici-agent';
+import { fetchWithTrustedHosts } from '@weco/common/utils/trusted-fetch';
 import { Toggles } from '@weco/toggles';
 
 type envOptions = 'prod' | 'stage' | 'dev';
@@ -17,6 +17,9 @@ export const rootUris = {
   stage: 'https://api-stage.wellcomecollection.org',
   dev: 'https://api-dev.wellcomecollection.org',
 };
+const ALLOWED_HOSTS = Object.values(rootUris).map(
+  rootUri => new URL(rootUri).hostname
+);
 
 type ApiEnvOptions = {
   catalogue: envOptions;
@@ -118,7 +121,7 @@ export const wellcomeApiFetch = async (
   url: string,
   options?: RequestInit
 ): Promise<Response> => {
-  return fetchWithUndiciAgent(url, options);
+  return fetchWithTrustedHosts(url, options, ALLOWED_HOSTS);
 };
 
 export const wellcomeApiError = (): WellcomeApiError => ({

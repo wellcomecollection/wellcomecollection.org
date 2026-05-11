@@ -1,4 +1,13 @@
+import { fetchWithUndiciAgent } from '@weco/common/utils/undici-agent';
 import { FetchClient, FetchError } from '@weco/identity/utils/fetch-helpers';
+
+jest.mock('@weco/common/utils/undici-agent', () => ({
+  fetchWithUndiciAgent: jest.fn(),
+}));
+
+const mockedFetchWithUndiciAgent = fetchWithUndiciAgent as jest.MockedFunction<
+  typeof fetchWithUndiciAgent
+>;
 
 describe('FetchError', () => {
   it('should create error with response details', () => {
@@ -25,6 +34,22 @@ describe('FetchError', () => {
 });
 
 describe('FetchClient', () => {
+  beforeEach(() => {
+    mockedFetchWithUndiciAgent.mockReset();
+    mockedFetchWithUndiciAgent.mockImplementation(
+      async (_url: RequestInfo | URL, options?: RequestInit) => {
+        if (options?.signal?.aborted) {
+          throw new DOMException('This operation was aborted', 'AbortError');
+        }
+
+        return new Response('{}', {
+          status: 200,
+          headers: { 'content-type': 'application/json' },
+        });
+      }
+    );
+  });
+
   it('should create instance with baseURL and headers', () => {
     const client = new FetchClient({
       baseURL: 'http://api.local',
@@ -75,5 +100,30 @@ describe('FetchClient', () => {
         signal: controller.signal,
       })
     ).rejects.toThrow();
+  });
+
+  it('should allow requests for relative baseURL clients', async () => {
+    const client = new FetchClient({ baseURL: '/account/api' });
+
+    await client.request({ url: '/users/me' });
+
+    expect(mockedFetchWithUndiciAgent).toHaveBeenCalledWith(
+      '/account/api/users/me',
+      expect.objectContaining({
+        method: 'GET',
+      })
+    );
+  });
+
+  it('should block absolute URLs for relative baseURL clients', async () => {
+    const client = new FetchClient({ baseURL: '/account/api' });
+
+    await expect(
+      client.request({ url: 'https://example.com/evil' })
+    ).rejects.toThrow(
+      'Blocked absolute URL request for relative-base client: https://example.com/evil'
+    );
+
+    expect(mockedFetchWithUndiciAgent).not.toHaveBeenCalled();
   });
 });

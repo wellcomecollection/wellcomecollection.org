@@ -37,6 +37,14 @@ export class FetchError extends Error {
   }
 }
 
+function getHostname(url: string): string {
+  return new URL(url).hostname.toLowerCase();
+}
+
+function isAbsoluteHttpUrl(url: string): boolean {
+  return /^https?:\/\//i.test(url);
+}
+
 /**
  * Parse response body with fallback handling
  * Tries JSON first, falls back to text for error responses
@@ -67,13 +75,12 @@ async function parseResponseData(response: Response): Promise<unknown> {
  * Wrapper around fetch that throws FetchError for non-2xx responses
  * Similar to axios behavior of throwing on error status codes
  */
-export async function fetchWithErrorHandling(
+async function fetchWithErrorHandling(
   url: RequestInfo | URL,
   options?: RequestInit & { validateStatus?: (status: number) => boolean }
 ): Promise<Response> {
   const { validateStatus, ...fetchOptions } = options || {};
 
-  // Use undici agent on server, regular fetch on client
   const response = await fetchWithUndiciAgent(url, fetchOptions);
 
   // Custom validation function or default to 2xx check
@@ -147,6 +154,35 @@ export class FetchClient {
   ): Promise<Response> {
     const fullUrl = this.buildUrl(url);
     const headers = this.mergeHeaders(options?.headers);
+    const baseURL = this.baseURL;
+
+    if (!baseURL) {
+      throw new Error(
+        'FetchClient requires a baseURL to execute trusted requests'
+      );
+    }
+
+    if (isAbsoluteHttpUrl(baseURL)) {
+      const trustedHost = getHostname(baseURL);
+      const requestHost = getHostname(fullUrl);
+      if (requestHost !== trustedHost) {
+        throw new Error(
+          `Blocked request to untrusted host: ${requestHost}. Expected: ${trustedHost}`
+        );
+      }
+    } else {
+      if (isAbsoluteHttpUrl(fullUrl)) {
+        throw new Error(
+          `Blocked absolute URL request for relative-base client: ${fullUrl}`
+        );
+      }
+
+      if (!fullUrl.startsWith(baseURL)) {
+        throw new Error(
+          `Blocked request outside configured base path: ${fullUrl}`
+        );
+      }
+    }
 
     const controller = new AbortController();
     let timeoutId: NodeJS.Timeout | undefined;
