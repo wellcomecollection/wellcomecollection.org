@@ -17,8 +17,6 @@ updates:
       # Needs more work, they have their own ticket. Remove them from this list once tickets are Done.
       - dependency-name: 'next'
       - dependency-name: '@next/*'
-      - dependency-name: 'typescript-eslint'
-      - dependency-name: '@typescript-eslint/*'
       - dependency-name: '@babel/*'
       - dependency-name: 'openseadragon'
       - dependency-name: '@auth0/nextjs-auth0'
