@@ -25,6 +25,7 @@ updates:
       - dependency-name: 'openseadragon'
       - dependency-name: '@auth0/nextjs-auth0'
       - dependency-name: 'react-window'
+      - dependency-name: 'undici'
     groups:
       all:
         patterns: ['*']
