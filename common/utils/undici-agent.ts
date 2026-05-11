@@ -92,17 +92,8 @@ export async function fetchWithUndiciAgent(
     return fetch(url, options);
   }
 
-  try {
-    return await fetch(url, {
-      ...options,
-      dispatcher: agent,
-    } as RequestInit);
-  } catch (error) {
-    // If the custom dispatcher is rejected by the current fetch runtime,
-    // fall back to regular fetch rather than failing the entire request.
-    console.warn('Falling back to default fetch without undici dispatcher', {
-      error,
-    });
-    return fetch(url, options);
-  }
+  return fetch(url, {
+    ...options,
+    dispatcher: agent,
+  } as RequestInit);
 }
