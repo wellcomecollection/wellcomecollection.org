@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { Venue } from '@weco/common/model/opening-hours';
+import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import Divider from '@weco/common/views/components/Divider';
 import FindUs from '@weco/common/views/components/FindUs';
@@ -14,7 +15,6 @@ import FooterA11y from './Footer.A11y';
 import FooterNav from './Footer.Nav';
 import FooterSocial from './Footer.Social';
 import FooterWellcomeLogo from './Footer.WellcomeLogo';
-
 type Props = {
   venues: Venue[];
 };
@@ -177,6 +177,7 @@ const BackToTopButton = styled.button.attrs({
 // Component
 const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
   const footer = useRef<HTMLDivElement>(null);
+  const { inGallery = false } = useToggles();
 
   const hasVenuesInfo = Array.isArray(venues) && venues.length > 0;
 
@@ -187,64 +188,67 @@ const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
           <FooterWellcomeLogo />
         </h3>
 
-        <FooterNavigationContainer>
-          <FindUsContainer>
-            <FindUs hideAccessibility={true} />
-          </FindUsContainer>
+        {!inGallery && (
+          <>
+            <FooterNavigationContainer>
+              <FindUsContainer>
+                <FindUs hideAccessibility={true} />
+              </FindUsContainer>
 
-          <OpeningTimesContainer>
-            {/* Error pages do not receive serverData so should only display
+              <OpeningTimesContainer>
+                {/* Error pages do not receive serverData so should only display
             openingtimes link */}
-            {hasVenuesInfo && (
-              <>
-                <h4 className={font('sans-bold', -1)}>
-                  Today&rsquo;s opening times
-                </h4>
-                <OpeningTimes venues={venues} />
-              </>
-            )}
-            <Space
-              as="p"
-              $v={{
-                size: 'sm',
-                properties: hasVenuesInfo ? ['margin-top'] : [],
-              }}
-              style={{ marginBottom: 0 }}
-            >
-              <a href={`/visit-us/${prismicPageIds.openingTimes}`}>
-                Opening times
-              </a>
-            </Space>
-          </OpeningTimesContainer>
+                {hasVenuesInfo && (
+                  <>
+                    <h4 className={font('sans-bold', -1)}>
+                      Today&rsquo;s opening times
+                    </h4>
+                    <OpeningTimes venues={venues} />
+                  </>
+                )}
+                <Space
+                  as="p"
+                  $v={{
+                    size: 'sm',
+                    properties: hasVenuesInfo ? ['margin-top'] : [],
+                  }}
+                  style={{ marginBottom: 0 }}
+                >
+                  <a href={`/visit-us/${prismicPageIds.openingTimes}`}>
+                    Opening times
+                  </a>
+                </Space>
+              </OpeningTimesContainer>
 
-          <FooterA11y />
+              <FooterA11y />
 
-          <InternalNavigationContainer>
-            <FooterNav
-              type="InternalNavigation"
-              ariaLabel="Useful internal links"
-            />
-          </InternalNavigationContainer>
-        </FooterNavigationContainer>
+              <InternalNavigationContainer>
+                <FooterNav
+                  type="InternalNavigation"
+                  ariaLabel="Useful internal links"
+                />
+              </InternalNavigationContainer>
+            </FooterNavigationContainer>
 
-        <FullWidthDivider>
-          <Divider lineColor="neutral.700" />
-        </FullWidthDivider>
+            <FullWidthDivider>
+              <Divider lineColor="neutral.700" />
+            </FullWidthDivider>
 
-        <PoliciesAndSocials>
-          <PoliciesContainer>
-            <FooterNav
-              isInline
-              type="PoliciesNavigation"
-              ariaLabel="Policies navigation"
-            />
-          </PoliciesContainer>
+            <PoliciesAndSocials>
+              <PoliciesContainer>
+                <FooterNav
+                  isInline
+                  type="PoliciesNavigation"
+                  ariaLabel="Policies navigation"
+                />
+              </PoliciesContainer>
 
-          <SocialsContainer>
-            <FooterSocial />
-          </SocialsContainer>
-        </PoliciesAndSocials>
-
+              <SocialsContainer>
+                <FooterSocial />
+              </SocialsContainer>
+            </PoliciesAndSocials>
+          </>
+        )}
         <FooterBottom>
           <FooterLicense>
             Except where otherwise noted, content on this site is licensed under
