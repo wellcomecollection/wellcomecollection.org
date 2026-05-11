@@ -9,9 +9,11 @@ import { searchLabelText } from '@weco/common/data/microcopy';
 import { cross, search } from '@weco/common/icons';
 import WellcomeCollectionBlack from '@weco/common/icons/wellcome_collection_black';
 import { SiteSection } from '@weco/common/model/site-section';
+import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 
+import HeaderExhibitionNav from './Header.ExhibitionNav';
 import HeaderSearch from './Header.Search';
 import DesktopSignIn from './Header.SignIn.Desktop';
 import MobileSignIn from './Header.SignIn.Mobile';
@@ -46,6 +48,7 @@ type Props = {
   customNavLinks?: NavLink[];
   isMinimalHeader?: boolean;
   hasColorBackground?: boolean;
+  currentUrl?: string;
 };
 
 export const links: NavLink[] = [
@@ -95,11 +98,14 @@ const Header: FunctionComponent<Props> = ({
   hasColorBackground,
   // We don't display login and search on certain pages, e.g. exhibition guides
   isMinimalHeader = false,
+  currentUrl,
 }) => {
   const [burgerMenuIsActive, setBurgerMenuIsActive] = useState(false);
   const [searchDropdownIsActive, setSearchDropdownIsActive] = useState(false);
   const searchButtonRef = useRef<HTMLButtonElement>(null);
   const { isEnhanced } = useAppContext();
+  const { inGallery = false } = useToggles();
+  const displayMinimalHeader = isMinimalHeader || inGallery;
 
   return (
     <FocusTrap
@@ -135,38 +141,57 @@ const Header: FunctionComponent<Props> = ({
                   <span />
                 </BurgerTrigger>
               </Burger>
-              <HeaderBrand $isMinimalHeader={isMinimalHeader}>
-                <a href="/">
-                  <WellcomeCollectionBlack />
-                </a>
+              <HeaderBrand $isMinimalHeader={displayMinimalHeader}>
+                {!inGallery ? (
+                  <a href="/">
+                    <WellcomeCollectionBlack />
+                  </a>
+                ) : (
+                  <span>
+                    <WellcomeCollectionBlack />
+                  </span>
+                )}
               </HeaderBrand>
               <NavLoginWrapper>
-                <HeaderNav
-                  id="header-nav"
-                  aria-labelledby="header-burger-trigger"
-                  $burgerMenuisActive={burgerMenuIsActive}
-                  $hasColorBackground={hasColorBackground}
-                >
-                  <HeaderList className={font('brand-bold', -1)}>
-                    {(customNavLinks || links).map((link, i) => (
-                      <HeaderItem key={i}>
-                        <HeaderLink
-                          $burgerMenuisActive={link.siteSection === siteSection}
-                          href={link.href}
-                          {...(link.siteSection === siteSection
-                            ? { 'aria-current': true }
-                            : {})}
-                        >
-                          {link.title}
-                        </HeaderLink>
-                      </HeaderItem>
-                    ))}
-                  </HeaderList>
-                  {!isMinimalHeader && <MobileSignIn />}
-                </HeaderNav>
+                {inGallery && currentUrl ? (
+                  <HeaderNav
+                    id="header-nav"
+                    aria-labelledby="header-burger-trigger"
+                    $burgerMenuisActive={burgerMenuIsActive}
+                    $hasColorBackground={hasColorBackground}
+                  >
+                    <HeaderExhibitionNav currentUrl={currentUrl} />
+                  </HeaderNav>
+                ) : (
+                  <HeaderNav
+                    id="header-nav"
+                    aria-labelledby="header-burger-trigger"
+                    $burgerMenuisActive={burgerMenuIsActive}
+                    $hasColorBackground={hasColorBackground}
+                  >
+                    <HeaderList className={font('brand-bold', -1)}>
+                      {(customNavLinks || links).map((link, i) => (
+                        <HeaderItem key={i}>
+                          <HeaderLink
+                            $burgerMenuisActive={
+                              link.siteSection === siteSection
+                            }
+                            href={link.href}
+                            {...(link.siteSection === siteSection
+                              ? { 'aria-current': true }
+                              : {})}
+                          >
+                            {link.title}
+                          </HeaderLink>
+                        </HeaderItem>
+                      ))}
+                    </HeaderList>
+                    {!displayMinimalHeader && <MobileSignIn />}
+                  </HeaderNav>
+                )}
 
                 <HeaderActions>
-                  {!isMinimalHeader && (
+                  {!displayMinimalHeader && (
                     <>
                       {!isEnhanced ? (
                         <NextLink href="/search">
@@ -202,14 +227,14 @@ const Header: FunctionComponent<Props> = ({
                     </>
                   )}
 
-                  {!isMinimalHeader && <DesktopSignIn />}
+                  {!displayMinimalHeader && <DesktopSignIn />}
                 </HeaderActions>
               </NavLoginWrapper>
             </HeaderContainer>
           </div>
         </Wrapper>
 
-        {!isMinimalHeader && (
+        {!displayMinimalHeader && (
           <HeaderSearch
             isActive={searchDropdownIsActive}
             handleCloseModal={() => setSearchDropdownIsActive(false)}

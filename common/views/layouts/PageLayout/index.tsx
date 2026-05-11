@@ -31,6 +31,7 @@ import ApiToolbar, {
   ApiToolbarLink,
 } from '@weco/common/views/components/ApiToolbar';
 import Footer from '@weco/common/views/components/Footer';
+import GalleryInactivityRedirect from '@weco/common/views/components/GalleryInactivityRedirect';
 import Header, { NavLink } from '@weco/common/views/components/Header';
 import InfoBanner from '@weco/common/views/components/InfoBanner';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
@@ -43,6 +44,7 @@ type HeaderProps = {
   customNavLinks?: NavLink[];
   isMinimalHeader?: boolean;
   hasColorBackground?: boolean;
+  currentUrl?: string;
 };
 
 type SkipToContentLink = {
@@ -284,7 +286,13 @@ const PageLayoutComponent: NextPage<Props> = ({
         <a className="visually-hidden visually-hidden-focusable" href="#main">
           Skip to main content
         </a>
-        {!hideHeader && <Header siteSection={siteSection} {...headerProps} />}
+        {!hideHeader && (
+          <Header
+            siteSection={siteSection}
+            {...headerProps}
+            currentUrl={urlString}
+          />
+        )}
         {issuesBanner && <InfoBanner variant="websiteIssues" />}
         {globalAlert.data.isShown === 'show' &&
           (!globalAlert.data.routeRegex ||
@@ -303,6 +311,7 @@ const PageLayoutComponent: NextPage<Props> = ({
             urlString.match(new RegExp(popupDialog.data.routeRegex))) && (
             <PopupDialog document={popupDialog} />
           )}
+        <GalleryInactivityRedirect />
         <div
           id="main"
           className="main"
