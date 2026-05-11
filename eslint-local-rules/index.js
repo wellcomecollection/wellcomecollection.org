@@ -31,7 +31,7 @@ module.exports = {
     },
 
     create(context) {
-      const filename = context.getFilename();
+      const filename = context.filename;
 
       // Regex explanation:
       //   - /components/ : must be in a components folder
@@ -55,7 +55,7 @@ module.exports = {
       return {
         // On program start, check for opt-out comment
         Program() {
-          const sourceCode = context.getSourceCode();
+          const sourceCode = context.sourceCode;
           const comments = sourceCode.getAllComments();
           intentionallyOmitted = comments.some(comment =>
             /eslint-data-component:\s*intentionally omitted/i.test(

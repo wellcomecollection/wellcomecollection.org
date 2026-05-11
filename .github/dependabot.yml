@@ -17,8 +17,6 @@ updates:
       # Needs more work, they have their own ticket. Remove them from this list once tickets are Done.
       - dependency-name: 'next'
       - dependency-name: '@next/*'
-      - dependency-name: 'eslint'
-      - dependency-name: '@eslint/*'
       - dependency-name: 'typescript-eslint'
       - dependency-name: '@typescript-eslint/*'
       - dependency-name: '@babel/*'

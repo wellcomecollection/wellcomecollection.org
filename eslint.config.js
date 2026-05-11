@@ -48,7 +48,6 @@ const sharedRules = {
   ],
   'no-return-assign': 'off',
   'prettier/prettier': 'error',
-  'react/jsx-uses-vars': 'error',
   'react/no-deprecated': 'error',
   'react/react-in-jsx-scope': 'off',
   'react/jsx-curly-brace-presence': [

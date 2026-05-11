@@ -71,24 +71,18 @@ async function createSubscription({
   const { message } = newJson;
   const isSuppressed = message && message.match(/ERROR_CONTACT_SUPPRESSED/);
 
-  let status = '';
-
   // …but if the email has been suppressed, we resubscribe it
-  if (isSuppressed) {
-    const resubscribeResponse = await fetch(
-      `${newsletterApiUrl}/contacts/resubscribe`,
-      {
-        method: 'POST',
-        headers,
-        body: resubscribeBody,
-      }
-    );
-
-    const resubscribeJson = await resubscribeResponse.json();
-    status = resubscribeJson.status;
-  } else {
-    status = newJson.status;
-  }
+  const status = isSuppressed
+    ? (
+        await (
+          await fetch(`${newsletterApiUrl}/contacts/resubscribe`, {
+            method: 'POST',
+            headers,
+            body: resubscribeBody,
+          })
+        ).json()
+      ).status
+    : newJson.status;
 
   switch (status) {
     case 'ContactChallenged':

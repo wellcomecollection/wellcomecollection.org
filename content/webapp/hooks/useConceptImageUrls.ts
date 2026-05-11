@@ -70,8 +70,6 @@ export function useConceptImageUrls(concept: Concept): ConceptImagesArray {
         return;
       }
 
-      let fetchedImages: string[] = [];
-
       const topUpWithAbout = async (images: string[]) => {
         if (images.length >= 4) return images;
         const aboutImages = await fetchImagesBySection(
@@ -84,28 +82,20 @@ export function useConceptImageUrls(concept: Concept): ConceptImagesArray {
       };
 
       try {
-        if (
+        const fetchedImages =
           concept.type === 'Agent' ||
           concept.type === 'Person' ||
           concept.type === 'Organisation'
-        ) {
-          // Prioritise images by this person/organisation/agent, then top up with imagesAbout
-          fetchedImages = await topUpWithAbout(
-            await fetchImagesBySection('imagesBy', concept, 4, toggles)
-          );
-        } else if (concept.type === 'Genre') {
-          // Prioritise images of this type/technique (imagesIn), then top up with imagesAbout
-          fetchedImages = await topUpWithAbout(
-            await fetchImagesBySection('imagesIn', concept, 4, toggles)
-          );
-        } else {
-          fetchedImages = await fetchImagesBySection(
-            'imagesAbout',
-            concept,
-            4,
-            toggles
-          );
-        }
+            ? // Prioritise images by this person/organisation/agent, then top up with imagesAbout
+              await topUpWithAbout(
+                await fetchImagesBySection('imagesBy', concept, 4, toggles)
+              )
+            : concept.type === 'Genre'
+              ? // Prioritise images of this type/technique (imagesIn), then top up with imagesAbout
+                await topUpWithAbout(
+                  await fetchImagesBySection('imagesIn', concept, 4, toggles)
+                )
+              : await fetchImagesBySection('imagesAbout', concept, 4, toggles);
 
         // Use a larger size when only one image is available, matching the single-image layout
         const sizedImages =
