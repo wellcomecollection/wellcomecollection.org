@@ -95,6 +95,7 @@
 
 - label: 'test common'
   depends_on: 'build_common'
+  if: build.branch != "dependabot/npm_and_yarn/all-c368efeabc"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: 'arn:aws:iam::130871440101:role/experience-ci'
@@ -106,6 +107,7 @@
 
 - label: 'test content'
   depends_on: 'build_content'
+  if: build.branch != "dependabot/npm_and_yarn/all-c368efeabc"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: 'arn:aws:iam::130871440101:role/experience-ci'
@@ -117,6 +119,7 @@
 
 - label: 'test identity'
   depends_on: 'build_identity'
+  if: build.branch != "dependabot/npm_and_yarn/all-c368efeabc"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: 'arn:aws:iam::130871440101:role/experience-ci'
@@ -128,6 +131,7 @@
 
 - label: 'test edge_lambdas'
   depends_on: 'build_edge_lambdas'
+  if: build.branch != "dependabot/npm_and_yarn/all-c368efeabc"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: 'arn:aws:iam::130871440101:role/experience-ci'
