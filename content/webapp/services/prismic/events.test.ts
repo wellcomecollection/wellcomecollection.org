@@ -52,6 +52,7 @@ describe('orderEventsByNextAvailableDate', () => {
         },
       ],
       title: 'What You See / Don’t See When…',
+      id: 'ev-what-you-see',
     };
 
     mockToday({ as: new Date('2022-11-18T12:00:00Z') });

@@ -22,7 +22,7 @@ jest.mock('next/dynamic', () => (func: () => Promise<unknown>) => {
   func().then((module: { default: typeof component }) => {
     component = module.default;
   });
-  const DynamicComponent = (...args: unknown[]) => component?.(...args);
+  const DynamicComponent = (...args: unknown[]) => component?.(...args) ?? null;
   DynamicComponent.displayName = 'LoadableComponent';
   DynamicComponent.preload = jest.fn();
   return DynamicComponent;

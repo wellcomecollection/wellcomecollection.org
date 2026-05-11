@@ -12,7 +12,9 @@ import { formatDayDate } from '@weco/common/utils/format-date';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { EventTime, HasTimes } from '@weco/content/types/events';
 
-function getNextDateInFuture(event: HasTimes): Date | undefined {
+function getNextDateInFuture(
+  event: HasTimes & { id: string }
+): Date | undefined {
   const futureTimes = event.times.filter(
     time =>
       isFuture(time.range.startDateTime) || isFuture(time.range.endDateTime)
@@ -26,9 +28,8 @@ function getNextDateInFuture(event: HasTimes): Date | undefined {
     // If we do return an empty list here, it implies there's a mismatch
     // between what different functions think of as a "future" event, so
     // drop a warning so we know to investigate.
-    const eventId = (event as unknown as { id: string }).id;
     console.warn(
-      `No future times – why did we call getNextDateInFuture(${eventId})?`
+      `No future times – why did we call getNextDateInFuture(${event.id})?`
     );
 
     return undefined;
@@ -75,9 +76,9 @@ export function filterEventsForWeekend<T extends HasTimes>(events: T[]): T[] {
   return filterEventsByTimeRange(events, start, end);
 }
 
-export function orderEventsByNextAvailableDate<T extends HasTimes>(
-  events: T[]
-): T[] {
+export function orderEventsByNextAvailableDate<
+  T extends HasTimes & { id: string },
+>(events: T[]): T[] {
   return events
     .map(event => {
       const nextFutureDate = getNextDateInFuture(event);
