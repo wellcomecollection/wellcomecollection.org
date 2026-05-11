@@ -31,6 +31,7 @@ module.exports = {
     },
 
     create(context) {
+      // ESLint 10 removed getFilename()/getSourceCode() in favour of properties.
       const filename = context.filename;
 
       // Regex explanation:
