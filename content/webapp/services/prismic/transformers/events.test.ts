@@ -1,3 +1,4 @@
+import { EventsDocument as RawEventsDocument } from '@weco/common/prismicio-types';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 import { groupEventsByDay } from '@weco/content/services/prismic/events';
 import { EventTime } from '@weco/content/types/events';
@@ -139,13 +140,11 @@ describe('transformEventBasicTimes', () => {
         isFullyBooked: { inVenue: false, online: false },
       },
     ];
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    const document: any = {
-      /* eslint-enable @typescript-eslint/no-explicit-any */
+    const document = {
       data: {
         schedule: [{ event: { link_type: 'Document' }, isNotLinked: null }],
       },
-    };
+    } as unknown as RawEventsDocument;
 
     expect(transformEventBasicTimes(summaryTimes, document)).toBe(summaryTimes);
   });
@@ -164,9 +163,7 @@ describe('transformEventBasicTimes', () => {
         isFullyBooked: { inVenue: false, online: false },
       },
     ];
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    const document: any = {
-      /* eslint-enable @typescript-eslint/no-explicit-any */
+    const document = {
       data: {
         schedule: [
           {
@@ -231,7 +228,7 @@ describe('transformEventBasicTimes', () => {
           },
         ],
       },
-    };
+    } as unknown as RawEventsDocument;
 
     expect(transformEventBasicTimes(summaryTimes, document)).toBe(summaryTimes);
   });
@@ -268,9 +265,7 @@ describe('transformEventBasicTimes', () => {
       isFullyBooked: null,
       onlineIsFullyBooked: null,
     };
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    const document: any = {
-      /* eslint-enable @typescript-eslint/no-explicit-any */
+    const document = {
       data: {
         schedule: [
           {
@@ -305,7 +300,7 @@ describe('transformEventBasicTimes', () => {
           },
         ],
       },
-    };
+    } as unknown as RawEventsDocument;
 
     expect(transformEventBasicTimes(summaryTimes, document)).toStrictEqual([
       {
