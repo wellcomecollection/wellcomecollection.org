@@ -1,4 +1,3 @@
-const babelParser = require('@babel/eslint-parser');
 const js = require('@eslint/js');
 const prettierConfig = require('eslint-config-prettier');
 const importPlugin = require('eslint-plugin-import');
@@ -82,14 +81,10 @@ module.exports = [
   {
     files: ['**/*.js', '**/*.jsx'],
     languageOptions: {
-      parser: babelParser,
       parserOptions: {
+        ecmaVersion: 'latest',
         ecmaFeatures: {
           jsx: true,
-        },
-        requireConfigFile: false,
-        babelOptions: {
-          presets: ['@babel/preset-react'],
         },
       },
       globals: {

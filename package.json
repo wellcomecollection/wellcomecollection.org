@@ -37,12 +37,10 @@
   "homepage": "https://github.com/wellcomecollection/wellcomecollection.org#readme",
   "devDependencies": {
     "@babel/core": "^7.12.13",
-    "@babel/eslint-parser": "^7.22.9",
     "@babel/plugin-proposal-private-methods": "^7.18.6",
     "@babel/plugin-transform-react-jsx": "^7.21.0",
     "@babel/polyfill": "^7.0.0",
     "@babel/preset-env": "^7.2.0",
-    "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.28.5",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.9.0",
