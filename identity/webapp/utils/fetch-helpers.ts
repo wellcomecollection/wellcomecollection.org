@@ -37,12 +37,20 @@ export class FetchError extends Error {
   }
 }
 
-function getHostname(url: string): string {
-  return new URL(url).hostname.toLowerCase();
+function getOrigin(url: string): string {
+  return new URL(url).origin.toLowerCase();
 }
 
 function isAbsoluteHttpUrl(url: string): boolean {
   return /^https?:\/\//i.test(url);
+}
+
+function normalisePathname(pathOrUrl: string): string {
+  return new URL(pathOrUrl, 'https://trusted.local').pathname;
+}
+
+function ensureTrailingSlash(path: string): string {
+  return path.endsWith('/') ? path : `${path}/`;
 }
 
 /**
@@ -163,11 +171,11 @@ export class FetchClient {
     }
 
     if (isAbsoluteHttpUrl(baseURL)) {
-      const trustedHost = getHostname(baseURL);
-      const requestHost = getHostname(fullUrl);
-      if (requestHost !== trustedHost) {
+      const trustedOrigin = getOrigin(baseURL);
+      const requestOrigin = getOrigin(fullUrl);
+      if (requestOrigin !== trustedOrigin) {
         throw new Error(
-          `Blocked request to untrusted host: ${requestHost}. Expected: ${trustedHost}`
+          `Blocked request to untrusted origin: ${requestOrigin}. Expected: ${trustedOrigin}`
         );
       }
     } else {
@@ -177,9 +185,17 @@ export class FetchClient {
         );
       }
 
-      if (!fullUrl.startsWith(baseURL)) {
+      const normalisedBasePath = ensureTrailingSlash(
+        normalisePathname(baseURL)
+      );
+      const normalisedRequestPath = normalisePathname(fullUrl);
+      const isWithinBasePath =
+        normalisedRequestPath === normalisedBasePath.slice(0, -1) ||
+        normalisedRequestPath.startsWith(normalisedBasePath);
+
+      if (!isWithinBasePath) {
         throw new Error(
-          `Blocked request outside configured base path: ${fullUrl}`
+          `Blocked request outside configured base path: ${normalisedRequestPath}`
         );
       }
     }

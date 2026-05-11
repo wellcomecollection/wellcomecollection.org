@@ -1,5 +1,9 @@
 import { fetchWithUndiciAgent } from '@weco/common/utils/undici-agent';
 
+function isHttpProtocol(protocol: string): boolean {
+  return protocol === 'http:' || protocol === 'https:';
+}
+
 // Convert supported RequestInfo shapes into a URL so host checks are consistent.
 function parseRequestUrl(url: RequestInfo | URL): URL {
   if (url instanceof URL) {
@@ -17,9 +21,9 @@ function parseRequestUrl(url: RequestInfo | URL): URL {
   throw new Error('Unsupported URL type for trusted fetch');
 }
 
-// Allow callers to pass either hostnames or full URLs, and compare using hostname only.
-function normaliseAllowedHosts(allowedHosts: string[]): Set<string> {
-  const hosts = new Set<string>();
+// Allow callers to pass either origins or hostnames; compare using normalised origins.
+function normaliseAllowedOrigins(allowedHosts: string[]): Set<string> {
+  const origins = new Set<string>();
 
   for (const host of allowedHosts) {
     const trimmedHost = host.trim();
@@ -30,13 +34,17 @@ function normaliseAllowedHosts(allowedHosts: string[]): Set<string> {
         trimmedHost.startsWith('http://') || trimmedHost.startsWith('https://')
           ? new URL(trimmedHost)
           : new URL(`https://${trimmedHost}`);
-      hosts.add(asUrl.hostname.toLowerCase());
+      if (!isHttpProtocol(asUrl.protocol)) {
+        continue;
+      }
+
+      origins.add(asUrl.origin.toLowerCase());
     } catch {
       // Ignore malformed allowlist entries.
     }
   }
 
-  return hosts;
+  return origins;
 }
 
 // Wrapper around outbound fetch that enforces a host allowlist before any network call.
@@ -45,15 +53,21 @@ export async function fetchWithTrustedHosts(
   options: RequestInit | undefined,
   allowedHosts: string[]
 ): Promise<Response> {
-  const trustedHosts = normaliseAllowedHosts(allowedHosts);
-  if (trustedHosts.size === 0) {
+  const trustedOrigins = normaliseAllowedOrigins(allowedHosts);
+  if (trustedOrigins.size === 0) {
     throw new Error('No trusted hosts configured for trusted fetch');
   }
 
   const parsedUrl = parseRequestUrl(url);
-  if (!trustedHosts.has(parsedUrl.hostname.toLowerCase())) {
+  if (!isHttpProtocol(parsedUrl.protocol)) {
     throw new Error(
-      `Blocked outgoing request to untrusted host: ${parsedUrl.hostname}`
+      `Blocked outgoing request with unsupported scheme: ${parsedUrl.protocol}`
+    );
+  }
+
+  if (!trustedOrigins.has(parsedUrl.origin.toLowerCase())) {
+    throw new Error(
+      `Blocked outgoing request to untrusted origin: ${parsedUrl.origin}`
     );
   }
 

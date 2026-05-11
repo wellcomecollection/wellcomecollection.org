@@ -126,4 +126,38 @@ describe('FetchClient', () => {
 
     expect(mockedFetchWithUndiciAgent).not.toHaveBeenCalled();
   });
+
+  it('should block requests outside base path after pathname normalisation', async () => {
+    const client = new FetchClient({ baseURL: '/account/api' });
+
+    await expect(client.request({ url: '/../admin' })).rejects.toThrow(
+      'Blocked request outside configured base path: /account/admin'
+    );
+
+    expect(mockedFetchWithUndiciAgent).not.toHaveBeenCalled();
+  });
+
+  it('should block absolute URLs with scheme mismatch for absolute baseURL clients', async () => {
+    const client = new FetchClient({ baseURL: 'https://api.local' });
+
+    await expect(
+      client.request({ url: 'http://api.local/test' })
+    ).rejects.toThrow(
+      'Blocked request to untrusted origin: http://api.local. Expected: https://api.local'
+    );
+
+    expect(mockedFetchWithUndiciAgent).not.toHaveBeenCalled();
+  });
+
+  it('should block absolute URLs with port mismatch for absolute baseURL clients', async () => {
+    const client = new FetchClient({ baseURL: 'https://api.local' });
+
+    await expect(
+      client.request({ url: 'https://api.local:4444/test' })
+    ).rejects.toThrow(
+      'Blocked request to untrusted origin: https://api.local:4444. Expected: https://api.local'
+    );
+
+    expect(mockedFetchWithUndiciAgent).not.toHaveBeenCalled();
+  });
 });

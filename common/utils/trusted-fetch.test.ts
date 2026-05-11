@@ -31,7 +31,9 @@ describe('fetchWithTrustedHosts', () => {
 
     const [calledUrl, calledOptions] = mockFetchWithUndiciAgent.mock.calls[0];
     expect(calledUrl).toBeInstanceOf(URL);
-    expect((calledUrl as URL).hostname).toBe('api.wellcomecollection.org');
+    expect((calledUrl as URL).origin).toBe(
+      'https://api.wellcomecollection.org'
+    );
     expect(calledOptions).toEqual(options);
   });
 
@@ -54,7 +56,7 @@ describe('fetchWithTrustedHosts', () => {
         'api.wellcomecollection.org',
       ])
     ).rejects.toThrow(
-      'Blocked outgoing request to untrusted host: example.com'
+      'Blocked outgoing request to untrusted origin: https://example.com'
     );
 
     expect(mockFetchWithUndiciAgent).not.toHaveBeenCalled();
@@ -68,6 +70,34 @@ describe('fetchWithTrustedHosts', () => {
         ['', '   ', '://not-a-host']
       )
     ).rejects.toThrow('No trusted hosts configured for trusted fetch');
+
+    expect(mockFetchWithUndiciAgent).not.toHaveBeenCalled();
+  });
+
+  it('blocks requests when scheme differs from allowlisted origin', async () => {
+    await expect(
+      fetchWithTrustedHosts(
+        'http://api.wellcomecollection.org/works',
+        undefined,
+        ['api.wellcomecollection.org']
+      )
+    ).rejects.toThrow(
+      'Blocked outgoing request to untrusted origin: http://api.wellcomecollection.org'
+    );
+
+    expect(mockFetchWithUndiciAgent).not.toHaveBeenCalled();
+  });
+
+  it('blocks requests when port differs from allowlisted origin', async () => {
+    await expect(
+      fetchWithTrustedHosts(
+        'https://api.wellcomecollection.org:4444/works',
+        undefined,
+        ['https://api.wellcomecollection.org']
+      )
+    ).rejects.toThrow(
+      'Blocked outgoing request to untrusted origin: https://api.wellcomecollection.org:4444'
+    );
 
     expect(mockFetchWithUndiciAgent).not.toHaveBeenCalled();
   });
