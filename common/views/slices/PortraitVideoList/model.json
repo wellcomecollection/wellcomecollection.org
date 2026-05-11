@@ -1,0 +1,63 @@
+{
+  "type": "SharedSlice",
+  "id": "portraitVideoList",
+  "name": "PortraitVideoList",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "description": "A scrollable list of portrait videos.",
+      "version": "initial",
+      "imageUrl": "",
+      "docURL": "",
+      "primary": {
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title",
+            "placeholder": ""
+          }
+        }
+      },
+      "items": {
+        "embed": {
+          "type": "Embed",
+          "fieldset": "Embed",
+          "config": {
+            "label": "Embed",
+            "placeholder": "For YouTube shorts urls, replace '/shorts/' with '/watch?v='"
+          }
+        },
+        "poster_image": {
+          "type": "Image",
+          "config": {
+            "label": "Poster image",
+            "constraint": {},
+            "thumbnails": []
+          }
+        },
+        "duration": {
+          "type": "Text",
+          "config": {
+            "label": "Duration",
+            "placeholder": "e.g. 2:30"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title",
+            "placeholder": ""
+          }
+        },
+        "transcript": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Transcript",
+            "multi": "paragraph,heading2,heading3,strong,em,list-item,o-list-item"
+          }
+        }
+      }
+    }
+  ]
+}
