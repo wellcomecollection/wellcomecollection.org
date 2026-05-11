@@ -93,8 +93,11 @@ const Icon: FunctionComponent<Props> = ({
         (() => {
           const result = icon({});
           // Only render if result is not a Promise
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          if (result && typeof (result as any).then === 'function') {
+          if (
+            result &&
+            typeof (result as unknown as PromiseLike<unknown>).then ===
+              'function'
+          ) {
             // If it's a Promise, do not render anything
             return null;
           }
