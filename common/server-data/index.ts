@@ -22,7 +22,7 @@ import { simplifyServerData } from '@weco/common/services/prismic/transformers/s
 
 import prismicHandler from './prismic';
 import togglesHandler, { getTogglesFromContext } from './toggles';
-import { SimplifiedServerData } from './types';
+import { defaultExhibitionExtras, SimplifiedServerData } from './types';
 
 export type Handler<DefaultData, FetchedData> = {
   defaultValue: DefaultData;
@@ -137,7 +137,12 @@ export const getServerData = async (
 
   const consentStatus = getAllConsentStates(context);
 
-  const serverData = { toggles, prismic, consentStatus };
+  const serverData = {
+    toggles,
+    prismic,
+    consentStatus,
+    exhibitionExtras: defaultExhibitionExtras,
+  };
 
   return simplifyServerData(serverData);
 };
