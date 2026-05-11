@@ -1,20 +1,14 @@
 import * as prismic from '@prismicio/client';
 import { FunctionComponent, useEffect, useRef, useState } from 'react';
 
-import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import useVideoEmbed, { VideoProvider } from '@weco/common/hooks/useVideoEmbed';
 import { chevron, cross } from '@weco/common/icons';
 import { ImageType } from '@weco/common/model/image';
 import { font } from '@weco/common/utils/classnames';
-import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import Icon from '@weco/common/views/components/Icon';
-import {
-  ContaineredLayout,
-  gridSize12,
-} from '@weco/common/views/components/Layout';
+import { gridSize12 } from '@weco/common/views/components/Layout';
 import PortraitVideoEmbed from '@weco/common/views/components/PortraitVideoEmbed';
 import {
-  CookiePolicyLink,
   DialogButton,
   DialogControls,
   DialogVideoContainer,
@@ -201,21 +195,6 @@ const PortraitVideoList: FunctionComponent<Props> = ({
           )}
         </DialogVideoContainer>
       </VideoDialog>
-      <ConditionalWrapper
-        condition={!!useShim}
-        wrapper={children => (
-          <ContaineredLayout gridSizes={gridSizes}>
-            {children}
-          </ContaineredLayout>
-        )}
-      >
-        <CookiePolicyLink>
-          Pressing play on the videos will set a third-party cookie. Please read
-          our{' '}
-          <a href={`/about-us/${prismicPageIds.cookiePolicy}`}>cookie policy</a>{' '}
-          for more information.
-        </CookiePolicyLink>
-      </ConditionalWrapper>
     </div>
   );
 };

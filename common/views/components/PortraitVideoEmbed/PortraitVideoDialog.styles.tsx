@@ -95,11 +95,3 @@ export const TranscriptOverlay = styled(Space).attrs({
   color: ${props => props.theme.color('white')};
   display: ${props => (props.$hidden ? 'none' : 'block')};
 `;
-
-export const CookiePolicyLink = styled(Space).attrs({
-  as: 'p',
-  $v: { size: 'sm', properties: ['margin-top'] },
-  className: font('sans', -2),
-})`
-  text-box-trim: trim-start;
-`;
