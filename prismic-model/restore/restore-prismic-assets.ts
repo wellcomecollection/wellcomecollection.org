@@ -26,6 +26,7 @@ import * as path from 'path';
 import * as readline from 'readline';
 import { Readable } from 'stream';
 
+// Test
 import {
   logBanner,
   logError,
