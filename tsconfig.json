@@ -2,16 +2,25 @@
   "files": [],
   "references": [
     {
-      "path": "./identity/webapp"
-    },
-    {
-      "path": "./content/webapp"
+      "path": "./cardigan"
     },
     {
       "path": "./common"
     },
     {
+      "path": "./content/webapp"
+    },
+    {
       "path": "./deploy"
+    },
+    {
+      "path": "./identity/webapp"
+    },
+    {
+      "path": "./prismic-model"
+    },
+    {
+      "path": "./toggles/webapp"
     }
   ]
 }
