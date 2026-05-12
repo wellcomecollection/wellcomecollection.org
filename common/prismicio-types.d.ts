@@ -2770,26 +2770,28 @@ export type ExhibitionTextsDocument<Lang extends string = string> =
   >;
 
 type ExhibitionsDocumentDataBodySlice =
-  | ThemeCardsListSlice
-  | GifVideoSlice
-  | IframeSlice
+  | AudioPlayerSlice
+  | CollectionVenueSlice
+  | ContactSlice
+  | ContentListSlice
   | EditorialImageSlice
   | EditorialImageGallerySlice
-  | MapSlice
-  | ContentListSlice
   | EmbedSlice
-  | TitledTextListSlice
-  | TextAndImageSlice
-  | TextSlice
+  | GifVideoSlice
+  | IframeSlice
+  | InfoBlockSlice
+  | MapSlice
+  | QuoteSlice
   | SearchResultsSlice
-  | TextAndIconsSlice
   | StandfirstSlice
   | TagListSlice
-  | QuoteSlice
-  | InfoBlockSlice
-  | ContactSlice
-  | CollectionVenueSlice
-  | AudioPlayerSlice;
+  | TextSlice
+  | TextAndIconsSlice
+  | TextAndImageSlice
+  | ThemeCardsListSlice
+  | TitledTextListSlice;
+
+type ExhibitionsDocumentDataPortraitVideosSlice = PortraitVideoListSlice;
 
 /**
  * Item in *Exhibition → Exhibits*
@@ -3137,6 +3139,15 @@ interface ExhibitionsDocumentData {
    * - **Documentation**: https://prismic.io/docs/slices
    */
   body: prismic.SliceZone<ExhibitionsDocumentDataBodySlice>; /**
+   * Onward journeys field in *Exhibition*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.portrait_videos[]
+   * - **Tab**: Onward journeys
+   * - **Documentation**: https://prismic.io/docs/slices
+   */
+  portrait_videos: prismic.SliceZone<ExhibitionsDocumentDataPortraitVideosSlice>; /**
    * Exhibits field in *Exhibition*
    *
    * - **Field Type**: Group
@@ -7168,6 +7179,106 @@ type MapSliceVariation = MapSliceDefault;
 export type MapSlice = prismic.SharedSlice<'map', MapSliceVariation>;
 
 /**
+ * Primary content in *PortraitVideoList → Default → Primary*
+ */
+export interface PortraitVideoListSliceDefaultPrimary {
+  /**
+   * Title field in *PortraitVideoList → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: portraitVideoList.default.primary.title
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  title: prismic.KeyTextField;
+}
+
+/**
+ * Primary content in *PortraitVideoList → Items*
+ */
+export interface PortraitVideoListSliceDefaultItem {
+  /**
+   * Embed field in *PortraitVideoList → Items*
+   *
+   * - **Field Type**: Embed
+   * - **Placeholder**: For YouTube Shorts, replace '/shorts/' with '/watch?v='
+   * - **API ID Path**: portraitVideoList.items[].embed
+   * - **Documentation**: https://prismic.io/docs/fields/embed
+   */
+  embed: prismic.EmbedField;
+
+  /**
+   * Poster image field in *PortraitVideoList → Items*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: portraitVideoList.items[].poster_image
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  poster_image: prismic.ImageField<never>;
+
+  /**
+   * Duration field in *PortraitVideoList → Items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: e.g. 2:30
+   * - **API ID Path**: portraitVideoList.items[].duration
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  duration: prismic.KeyTextField;
+
+  /**
+   * Title field in *PortraitVideoList → Items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Leave this blank to use the title from the embed
+   * - **API ID Path**: portraitVideoList.items[].title
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  title: prismic.KeyTextField;
+
+  /**
+   * Transcript field in *PortraitVideoList → Items*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: portraitVideoList.items[].transcript
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  transcript: prismic.RichTextField;
+}
+
+/**
+ * Default variation for PortraitVideoList Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: A scrollable list of portrait videos.
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type PortraitVideoListSliceDefault = prismic.SharedSliceVariation<
+  'default',
+  Simplify<PortraitVideoListSliceDefaultPrimary>,
+  Simplify<PortraitVideoListSliceDefaultItem>
+>;
+
+/**
+ * Slice variation for *PortraitVideoList*
+ */
+type PortraitVideoListSliceVariation = PortraitVideoListSliceDefault;
+
+/**
+ * PortraitVideoList Shared Slice
+ *
+ * - **API ID**: `portraitVideoList`
+ * - **Description**: *None*
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type PortraitVideoListSlice = prismic.SharedSlice<
+  'portraitVideoList',
+  PortraitVideoListSliceVariation
+>;
+
+/**
  * Primary content in *Quote → Default → Primary*
  */
 export interface QuoteSliceDefaultPrimary {
@@ -7814,6 +7925,7 @@ declare module '@prismicio/client' {
       ExhibitionsDocument,
       ExhibitionsDocumentData,
       ExhibitionsDocumentDataBodySlice,
+      ExhibitionsDocumentDataPortraitVideosSlice,
       ExhibitionsDocumentDataExhibitsItem,
       ExhibitionsDocumentDataEventsItem,
       ExhibitionsDocumentDataArticlesItem,
@@ -7973,6 +8085,11 @@ declare module '@prismicio/client' {
       MapSliceDefaultPrimary,
       MapSliceVariation,
       MapSliceDefault,
+      PortraitVideoListSlice,
+      PortraitVideoListSliceDefaultPrimary,
+      PortraitVideoListSliceDefaultItem,
+      PortraitVideoListSliceVariation,
+      PortraitVideoListSliceDefault,
       QuoteSlice,
       QuoteSliceDefaultPrimary,
       QuoteSliceVariation,

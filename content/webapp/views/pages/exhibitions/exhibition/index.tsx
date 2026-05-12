@@ -140,7 +140,7 @@ const ExhibitionPage: NextPage<Props> = ({
           isTendernessAndRageExhibition={isTendernessAndRageExhibition}
           aboutThisExhibitionContent={aboutThisExhibitionContent}
           themeCardsListSlice={themeCardsListSlice}
-          videos={[]}
+          videos={exhibition.untransformedPortraitVideos}
         />
       )}
     </PageLayout>
