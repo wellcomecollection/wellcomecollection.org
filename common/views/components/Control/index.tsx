@@ -199,7 +199,8 @@ const BaseControl: ForwardRefRenderFunction<HTMLButtonElement, Props> = (
     dataGtmTrigger,
     dataTestId,
   }: Props,
-  ref: any // eslint-disable-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ref: any
 ) => {
   const attrs = {
     id,

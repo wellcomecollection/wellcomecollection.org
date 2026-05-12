@@ -37,12 +37,8 @@ import {
   isFilledLinkToDocumentWithData,
 } from '@weco/common/services/prismic/types';
 export type InferCustomType<T> =
-  T extends prismic.PrismicDocument<
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    any,
-    /* eslint-enable @typescript-eslint/no-explicit-any */
-    infer CustomType
-  >
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  T extends prismic.PrismicDocument<infer _Data, infer CustomType>
     ? CustomType
     : never;
 

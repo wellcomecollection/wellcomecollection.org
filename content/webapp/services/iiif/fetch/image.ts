@@ -5,7 +5,7 @@ export async function fetchIIIFImageJson(
   location: string
 ): Promise<IIIFImage | undefined> {
   try {
-    const imageJson = await fetchJson(location);
+    const imageJson = await fetchJson<IIIFImage>(location);
     return imageJson;
   } catch (e) {
     console.warn(e);

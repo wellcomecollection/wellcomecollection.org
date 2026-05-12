@@ -34,15 +34,18 @@ const auth0IdToPublic = (subjectClaim: string): string => {
   }
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const isFullAuth0Profile = (data: any): data is Auth0UserProfile =>
-  data &&
-  data.given_name &&
-  data.family_name &&
-  data.email &&
-  data.sub &&
-  data['https://wellcomecollection.org/patron_barcode'] &&
-  data['https://wellcomecollection.org/patron_role'];
+export const isFullAuth0Profile = (data: unknown): data is Auth0UserProfile => {
+  const d = data as Record<string, unknown>;
+  return (
+    !!d &&
+    !!d.given_name &&
+    !!d.family_name &&
+    !!d.email &&
+    !!d.sub &&
+    !!d['https://wellcomecollection.org/patron_barcode'] &&
+    !!d['https://wellcomecollection.org/patron_role']
+  );
+};
 
 export const auth0UserProfileToUserInfo = (
   auth0Profile?: Auth0UserProfile
