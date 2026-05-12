@@ -7201,7 +7201,7 @@ export interface PortraitVideoListSliceDefaultItem {
    * Embed field in *PortraitVideoList → Items*
    *
    * - **Field Type**: Embed
-   * - **Placeholder**: For YouTube shorts urls, replace '/shorts/' with '/watch?v='
+   * - **Placeholder**: For YouTube Shorts, replace '/shorts/' with '/watch?v='
    * - **API ID Path**: portraitVideoList.items[].embed
    * - **Documentation**: https://prismic.io/docs/fields/embed
    */
@@ -7231,7 +7231,7 @@ export interface PortraitVideoListSliceDefaultItem {
    * Title field in *PortraitVideoList → Items*
    *
    * - **Field Type**: Text
-   * - **Placeholder**: *None*
+   * - **Placeholder**: Leave this blank to use the title from the embed
    * - **API ID Path**: portraitVideoList.items[].title
    * - **Documentation**: https://prismic.io/docs/fields/text
    */
