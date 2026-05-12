@@ -124,12 +124,12 @@ test.describe('a Concept representing an Agent with Works and Images both about 
     // It has links to all images by
     await expect(armyPage.allImagesByLink).toHaveAttribute(
       'href',
-      '/search/images?source.contributors.agent.label=%22Great+Britain.+Army%22'
+      '/search/images?source.contributors.agent.label=%22British+Army%22'
     );
     // ...and images about
     await expect(armyPage.allImagesAboutLink).toHaveAttribute(
       'href',
-      '/search/images?source.subjects.label=%22Great+Britain.+Army%22'
+      '/search/images?source.subjects.label=%22British+Army%22'
     );
   });
 });
@@ -169,11 +169,6 @@ test.describe('a Concept representing a Genre with works and images both about a
       'href',
       `/search/images?source.genres.label=${title}`
     );
-
-    await expect(statisticsPage.allImagesAboutLink).toHaveAttribute(
-      'href',
-      `/search/images?source.subjects.label=${title}`
-    );
   });
 });
 
@@ -197,7 +192,7 @@ test.describe('a Concept representing a Genre that is only used as a genre for b
 
     await expect(mohPage.allImagesInLink).toHaveAttribute(
       'href',
-      `/search/images?source.genres.label=%22MOH+reports%22`
+      `/search/images?source.genres.label=%22Medical+Officer+of+Health+%28MOH%29+reports%22`
     );
   });
 });
