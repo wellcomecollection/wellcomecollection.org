@@ -1,4 +1,3 @@
-const babelParser = require('@babel/eslint-parser');
 const js = require('@eslint/js');
 const prettierConfig = require('eslint-config-prettier');
 const importPlugin = require('eslint-plugin-import');
@@ -48,7 +47,6 @@ const sharedRules = {
   ],
   'no-return-assign': 'off',
   'prettier/prettier': 'error',
-  'react/jsx-uses-vars': 'error',
   'react/no-deprecated': 'error',
   'react/react-in-jsx-scope': 'off',
   'react/jsx-curly-brace-presence': [
@@ -83,14 +81,11 @@ module.exports = [
   {
     files: ['**/*.js', '**/*.jsx'],
     languageOptions: {
-      parser: babelParser,
       parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
         ecmaFeatures: {
           jsx: true,
-        },
-        requireConfigFile: false,
-        babelOptions: {
-          presets: ['@babel/preset-react'],
         },
       },
       globals: {

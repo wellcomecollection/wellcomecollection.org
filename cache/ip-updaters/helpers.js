@@ -1,4 +1,3 @@
-/* eslint-env node */
 /* global fetch */
 
 const { styleText } = require('util');

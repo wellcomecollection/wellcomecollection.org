@@ -95,8 +95,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7174
   // See https://github.com/wellcomecollection/wellcomecollection.org/issues/8448
   //
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [completedItemRequests, _] = useState<string[]>([]);
+  const [completedItemRequests] = useState<string[]>([]);
 
   function wasJustRequested(item: PhysicalItem): boolean {
     return item.id ? completedItemRequests.indexOf(item.id) !== -1 : false;
