@@ -92,7 +92,6 @@ test.describe('a Concept representing an Agent with no Images', () => {
 });
 
 test.describe('a Concept representing an Agent with Works and Images both about and by them', () => {
-  // Temporarily skip test. See https://wellcome.slack.com/archives/C02ANCYL90E/p1778571606333069
   test('has both works and image sections grouped into "by" and "about" sections', async ({
     armyPage,
   }) => {
@@ -179,7 +178,6 @@ test.describe('a Concept representing a Genre with works and images both about a
 });
 
 test.describe('a Concept representing a Genre that is only used as a genre for both works and images', () => {
-  // Temporarily skip test. See https://wellcome.slack.com/archives/C02ANCYL90E/p1778571606333069
   test('has both works and image sections showing records in that genre', async ({
     mohPage,
   }) => {
