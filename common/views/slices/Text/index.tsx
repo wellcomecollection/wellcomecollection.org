@@ -7,9 +7,9 @@ import { useToggles } from '@weco/common/server-data/Context';
 import { classNames } from '@weco/common/utils/classnames';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import {
-  accessibilitySerializer,
+  createAccessibilitySerializer,
   createDefaultSerializer,
-  dropCapSerializer,
+  createDropCapSerializer,
 } from '@weco/common/views/components/HTMLSerializers';
 import { ContaineredLayout } from '@weco/common/views/components/Layout';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
@@ -33,6 +33,8 @@ const Text: FunctionComponent<TextProps> = ({ slice, context }) => {
     options.pageUid === 'prototype-a11y-november-2025';
 
   const defaultSerializer = createDefaultSerializer(inGallery);
+  const dropCap = createDropCapSerializer(inGallery);
+  const accessibility = createAccessibilitySerializer(inGallery);
 
   return (
     <SpacingComponent $sliceType={slice.slice_type}>
@@ -54,14 +56,12 @@ const Text: FunctionComponent<TextProps> = ({ slice, context }) => {
             <>
               <PrismicHtmlBlock
                 html={[slice.primary.text[0]] as prismic.RichTextField}
-                htmlSerializer={dropCapSerializer}
+                htmlSerializer={dropCap}
               />
               <PrismicHtmlBlock
                 html={slice.primary.text.slice(1) as prismic.RichTextField}
                 htmlSerializer={
-                  isAccessibilityPage
-                    ? accessibilitySerializer
-                    : defaultSerializer
+                  isAccessibilityPage ? accessibility : defaultSerializer
                 }
               />
             </>
@@ -69,9 +69,7 @@ const Text: FunctionComponent<TextProps> = ({ slice, context }) => {
             <PrismicHtmlBlock
               html={slice.primary.text}
               htmlSerializer={
-                isAccessibilityPage
-                  ? accessibilitySerializer
-                  : defaultSerializer
+                isAccessibilityPage ? accessibility : defaultSerializer
               }
             />
           )}
