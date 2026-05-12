@@ -25,7 +25,7 @@ test('(1) | The users changes tabs; the query (but not the filters) should be ma
   ).toBeVisible();
   await page.getByRole('link', { name: 'Catalogue' }).click();
   await slowExpect(page).toHaveURL(
-    `${baseUrl}${urlWithParams('/search/works', { query: 'art of science' })}`
+    `${baseUrl}${urlWithParams('/search/works', { query: 'art of science' }, { browserUrl: true })}`
   );
 });
 
