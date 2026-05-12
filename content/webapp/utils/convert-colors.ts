@@ -41,32 +41,34 @@ export const rgbToHsl = ({ r, g, b }: RGB): HSL => {
   const cmin = Math.min(r, g, b);
   const cmax = Math.max(r, g, b);
   const delta = cmax - cmin;
+  let h: number;
+  let s: number;
+  let l: number;
 
   // Calculate hue
-  const rawHue =
-    delta === 0
-      ? 0
-      : cmax === r
-        ? ((g - b) / delta) % 6
-        : cmax === g
-          ? (b - r) / delta + 2
-          : (r - g) / delta + 4;
+  // No difference
+  if (delta === 0) h = 0;
+  // Red is max
+  else if (cmax === r) h = ((g - b) / delta) % 6;
+  // Green is max
+  else if (cmax === g) h = (b - r) / delta + 2;
+  // Blue is max
+  else h = (r - g) / delta + 4;
 
-  let h = Math.round(rawHue * 60);
+  h = Math.round(h * 60);
 
   // Make negative hues positive behind 360°
   if (h < 0) h += 360;
 
   // Calculate lightness
-  const lightness = (cmax + cmin) / 2;
+  l = (cmax + cmin) / 2;
 
   // Calculate saturation
-  const saturation =
-    delta === 0 ? 0 : delta / (1 - Math.abs(2 * lightness - 1));
+  s = delta === 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
 
   // Multiply l and s by 100
-  const s = +(saturation * 100).toFixed(1);
-  const l = +(lightness * 100).toFixed(1);
+  s = +(s * 100).toFixed(1);
+  l = +(l * 100).toFixed(1);
 
   return { h, s, l };
 };
