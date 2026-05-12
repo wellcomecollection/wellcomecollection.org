@@ -6,10 +6,11 @@ import styled from 'styled-components';
 import { officialLandingPagesUid } from '@weco/common/data/hardcoded-ids';
 import { ContentListSlice as RawContentListSlice } from '@weco/common/prismicio-types';
 import { PagesDocumentDataBodySlice } from '@weco/common/prismicio-types';
+import { useToggles } from '@weco/common/server-data/Context';
 import { classNames, font } from '@weco/common/utils/classnames';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
-import { defaultSerializer } from '@weco/common/views/components/HTMLSerializers';
+import { createDefaultSerializer } from '@weco/common/views/components/HTMLSerializers';
 import {
   ContaineredLayout,
   gridSize12,
@@ -142,6 +143,9 @@ const Body: FunctionComponent<Props> = ({
   contentType,
   bodySliceContexts,
 }: Props) => {
+  const { inGallery = false } = useToggles();
+  const htmlSerializer = createDefaultSerializer(inGallery);
+
   const filteredUntransformedBody = untransformedBody.filter(
     (slice: prismic.Slice) => slice.slice_type !== 'standfirst'
   );
@@ -335,7 +339,7 @@ const Body: FunctionComponent<Props> = ({
                 >
                   <FeaturedText
                     html={introText}
-                    htmlSerializer={defaultSerializer}
+                    htmlSerializer={htmlSerializer}
                   />
                 </Space>
               </div>

@@ -232,37 +232,39 @@ const getFirstStringChild = (node: unknown): string | undefined => {
   return undefined;
 };
 
-export const dropCapSerializer: JSXFunctionSerializer = (
-  type,
-  element,
-  content,
-  children,
-  key
-) => {
-  if (
-    type === prismic.RichTextNodeType.paragraph &&
-    children[0] !== undefined
-  ) {
-    const firstChild = children[0];
-    const firstCharacters = getFirstStringChild(firstChild);
+export const createDropCapSerializer = (
+  inGallery = false
+): JSXFunctionSerializer => {
+  const fallbackSerializer = createDefaultSerializer(inGallery);
 
-    if (!firstCharacters) {
-      return <p key={key}>{children}</p>;
+  return (type, element, content, children, key) => {
+    if (
+      type === prismic.RichTextNodeType.paragraph &&
+      children[0] !== undefined
+    ) {
+      const firstChild = children[0];
+      const firstCharacters = getFirstStringChild(firstChild);
+
+      if (!firstCharacters) {
+        return <p key={key}>{children}</p>;
+      }
+
+      const firstLetter = firstCharacters.charAt(0);
+      const cappedFirstLetter = (
+        <span key={key} className="drop-cap">
+          {firstLetter}
+        </span>
+      );
+      const newfirstCharacters = [cappedFirstLetter, firstCharacters.slice(1)];
+      const childrenWithDropCap = [newfirstCharacters, ...children.slice(1)];
+
+      return <p key={key}>{childrenWithDropCap}</p>;
     }
-
-    const firstLetter = firstCharacters.charAt(0);
-    const cappedFirstLetter = (
-      <span key={key} className="drop-cap">
-        {firstLetter}
-      </span>
-    );
-    const newfirstCharacters = [cappedFirstLetter, firstCharacters.slice(1)];
-    const childrenWithDropCap = [newfirstCharacters, ...children.slice(1)];
-
-    return <p key={key}>{childrenWithDropCap}</p>;
-  }
-  return defaultSerializer(type, element, content, children, key);
+    return fallbackSerializer(type, element, content, children, key);
+  };
 };
+
+export const dropCapSerializer = createDropCapSerializer(false);
 
 const ACCESSIBILITY_ICON_MAP: Record<string, IconSvg> = {
   bsl: bslSquare,
@@ -271,49 +273,53 @@ const ACCESSIBILITY_ICON_MAP: Record<string, IconSvg> = {
   'induction loops': inductionLoop,
 };
 
-export const accessibilitySerializer: JSXFunctionSerializer = (
-  type,
-  element,
-  content,
-  children,
-  key
-) => {
-  let icon: IconSvg | null = null;
-  const isH1 = element.type === prismic.RichTextNodeType.heading1;
-  const isH2 = element.type === prismic.RichTextNodeType.heading2;
-  const isH3 = element.type === prismic.RichTextNodeType.heading3;
+export const createAccessibilitySerializer = (
+  inGallery = false
+): JSXFunctionSerializer => {
+  const fallbackSerializer = createDefaultSerializer(inGallery);
 
-  // Only check text for heading elements
-  if (isH1 || isH2 || isH3) {
-    const text = element.text || '';
-    const lowerText = text.toLowerCase();
-    icon = ACCESSIBILITY_ICON_MAP[lowerText] || null;
+  return (type, element, content, children, key) => {
+    let icon: IconSvg | null = null;
+    const isH1 = element.type === prismic.RichTextNodeType.heading1;
+    const isH2 = element.type === prismic.RichTextNodeType.heading2;
+    const isH3 = element.type === prismic.RichTextNodeType.heading3;
 
-    const HeadingTag = isH1 ? 'h1' : isH2 ? 'h2' : 'h3';
-    const headingProps = isH1 ? { key } : { key, id: dasherize(element.text) };
+    // Only check text for heading elements
+    if (isH1 || isH2 || isH3) {
+      const text = element.text || '';
+      const lowerText = text.toLowerCase();
+      icon = ACCESSIBILITY_ICON_MAP[lowerText] || null;
 
-    return (
-      <HeadingTag {...headingProps}>
-        <ConditionalWrapper
-          condition={!!icon}
-          wrapper={children => (
-            <span
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-              }}
-            >
-              <Icon icon={icon!} sizeOverride="width: 32px; height: 32px;" />
-              <span>{children}</span>
-            </span>
-          )}
-        >
-          {children}
-        </ConditionalWrapper>
-      </HeadingTag>
-    );
-  }
+      const HeadingTag = isH1 ? 'h1' : isH2 ? 'h2' : 'h3';
+      const headingProps = isH1
+        ? { key }
+        : { key, id: dasherize(element.text) };
 
-  return defaultSerializer(type, element, content, children, key);
+      return (
+        <HeadingTag {...headingProps}>
+          <ConditionalWrapper
+            condition={!!icon}
+            wrapper={children => (
+              <span
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                }}
+              >
+                <Icon icon={icon!} sizeOverride="width: 32px; height: 32px;" />
+                <span>{children}</span>
+              </span>
+            )}
+          >
+            {children}
+          </ConditionalWrapper>
+        </HeadingTag>
+      );
+    }
+
+    return fallbackSerializer(type, element, content, children, key);
+  };
 };
+
+export const accessibilitySerializer = createAccessibilitySerializer(false);
