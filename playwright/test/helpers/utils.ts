@@ -23,5 +23,7 @@ export function urlWithParams(
   params: Record<string, string>
 ): string {
   const query = new URLSearchParams(params).toString();
-  return `${path}?${query}`;
+  if (!query) return path;
+  const separator = path.includes('?') ? '&' : '?';
+  return `${path}${separator}${query}`;
 }
