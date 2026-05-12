@@ -12,3 +12,16 @@ export const useStageApis = process.env.USE_STAGE_APIS
 export const slowExpect = expect.configure({ timeout: 10000 });
 
 export const ItemViewerURLRegex = /\/works\/[a-zA-Z0-9]+\/images[?]id=/;
+
+/** Build a URL with properly encoded query params from readable values.
+ *
+ *  e.g. urlWithParams('/search/works', { 'subjects.label': '"British Army"' })
+ *  → '/search/works?subjects.label=%22British+Army%22'
+ */
+export function urlWithParams(
+  path: string,
+  params: Record<string, string>
+): string {
+  const query = new URLSearchParams(params).toString();
+  return `${path}?${query}`;
+}

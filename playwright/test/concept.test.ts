@@ -1,6 +1,7 @@
 import { test as base, expect } from '@playwright/test';
 
 import { concept } from './helpers/contexts';
+import { urlWithParams } from './helpers/utils';
 import { ConceptPage } from './pages/concept';
 
 const test = base.extend<{
@@ -112,24 +113,32 @@ test.describe('a Concept representing an Agent with Works and Images both about 
     await armyPage.worksAboutTab.click();
     await expect(armyPage.allWorksLink).toHaveAttribute(
       'href',
-      '/search/works?subjects.label=%22British+Army%22'
+      urlWithParams('/search/works', {
+        'subjects.label': '"British Army"',
+      })
     );
 
     await armyPage.worksByTab.click();
     await expect(armyPage.allWorksLink).toHaveAttribute(
       'href',
-      '/search/works?contributors.agent.label=%22British+Army%22'
+      urlWithParams('/search/works', {
+        'contributors.agent.label': '"British Army"',
+      })
     );
 
     // It has links to all images by
     await expect(armyPage.allImagesByLink).toHaveAttribute(
       'href',
-      '/search/images?source.contributors.agent.label=%22British+Army%22'
+      urlWithParams('/search/images', {
+        'source.contributors.agent.label': '"British Army"',
+      })
     );
     // ...and images about
     await expect(armyPage.allImagesAboutLink).toHaveAttribute(
       'href',
-      '/search/images?source.subjects.label=%22British+Army%22'
+      urlWithParams('/search/images', {
+        'source.subjects.label': '"British Army"',
+      })
     );
   });
 });
@@ -189,15 +198,19 @@ test.describe('a Concept representing a Genre that is only used as a genre for b
     await expect(mohPage.worksAboutTab).not.toBeVisible();
     await expect(mohPage.worksInTab).not.toBeVisible();
 
-    // It has links to filtered searches, (not using encodeURIComponent because the genre includes '+'")
+    // It has links to filtered searches
     await expect(mohPage.allWorksLink).toHaveAttribute(
       'href',
-      `/search/works?genres.label=%22Medical+Officer+of+Health+%28MOH%29+reports%22`
+      urlWithParams('/search/works', {
+        'genres.label': '"Medical Officer of Health (MOH) reports"',
+      })
     );
 
     await expect(mohPage.allImagesInLink).toHaveAttribute(
       'href',
-      `/search/images?source.genres.label=%22Medical+Officer+of+Health+%28MOH%29+reports%22`
+      urlWithParams('/search/images', {
+        'source.genres.label': '"Medical Officer of Health (MOH) reports"',
+      })
     );
   });
 });
