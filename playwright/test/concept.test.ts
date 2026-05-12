@@ -169,6 +169,8 @@ test.describe('a Concept representing a Genre with works and images both about a
       'href',
       `/search/images?source.genres.label=${title}`
     );
+
+    await expect(statisticsPage.allImagesAboutLink).not.toBeVisible();
   });
 });
 
