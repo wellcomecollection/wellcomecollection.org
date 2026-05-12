@@ -25,7 +25,7 @@
           "fieldset": "Embed",
           "config": {
             "label": "Embed",
-            "placeholder": "For YouTube shorts urls, replace '/shorts/' with '/watch?v='"
+            "placeholder": "For YouTube Shorts, replace '/shorts/' with '/watch?v='"
           }
         },
         "poster_image": {
@@ -47,7 +47,7 @@
           "type": "Text",
           "config": {
             "label": "Title",
-            "placeholder": ""
+            "placeholder": "Leave this blank to use the title from the embed"
           }
         },
         "transcript": {
