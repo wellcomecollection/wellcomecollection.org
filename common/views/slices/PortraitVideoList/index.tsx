@@ -23,7 +23,16 @@ const PortraitVideoListSlice: FunctionComponent<
       {
         embedUrl: embed.embedUrl,
         videoProvider: embed.videoProvider,
-        posterImage: transformImage(item.poster_image) ?? undefined,
+        posterImage:
+          transformImage(item.poster_image) ??
+          (embed.thumbnailUrl
+            ? {
+                contentUrl: embed.thumbnailUrl,
+                width: embed.thumbnailWidth ?? 0,
+                height: embed.thumbnailHeight ?? 0,
+                alt: null,
+              }
+            : undefined),
         duration: item.duration ?? undefined,
         title: item.title || embed.title || undefined,
         transcript: item.transcript,

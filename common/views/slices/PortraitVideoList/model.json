@@ -24,14 +24,14 @@
           "type": "Embed",
           "fieldset": "Embed",
           "config": {
-            "label": "Embed",
-            "placeholder": "For YouTube Shorts, replace '/shorts/' with '/watch?v='"
+            "label": "Embed (for YouTube Shorts, replace '/shorts/' with '/watch?v=')",
+            "placeholder": ""
           }
         },
         "poster_image": {
           "type": "Image",
           "config": {
-            "label": "Poster image",
+            "label": "Poster image (leave blank to use the thumbnail from the embed)",
             "constraint": {},
             "thumbnails": []
           }
@@ -40,14 +40,14 @@
           "type": "Text",
           "config": {
             "label": "Duration",
-            "placeholder": "e.g. 2:30"
+            "placeholder": "e.g. 02:30"
           }
         },
         "title": {
           "type": "Text",
           "config": {
-            "label": "Title",
-            "placeholder": "Leave this blank to use the title from the embed"
+            "label": "Title (leave this blank to use the title from the embed)",
+            "placeholder": ""
           }
         },
         "transcript": {
