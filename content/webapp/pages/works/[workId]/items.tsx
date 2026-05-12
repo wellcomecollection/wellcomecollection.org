@@ -246,7 +246,9 @@ async function getParentManifest(
   parentManifestUrl: string | undefined
 ): Promise<Manifest | undefined> {
   try {
-    return parentManifestUrl && (await fetchJson(parentManifestUrl));
+    return parentManifestUrl
+      ? await fetchJson<Manifest>(parentManifestUrl)
+      : undefined;
   } catch {
     return undefined;
   }

@@ -435,7 +435,6 @@ const MainViewer: FunctionComponent = () => {
 
   // We display the canvas indicated by the canvas (index) when the page first loads
   function handleOnItemsRendered() {
-    let currentCanvas: TransformedCanvas | undefined;
     if (firstRenderRef.current) {
       const viewer = mainViewerRef?.current;
       scrollViewer({ currentCanvas, canvas, viewer, mainAreaWidth });

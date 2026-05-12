@@ -15,16 +15,16 @@ type Props = {
 };
 
 const predefinedTerms = [
-  'brain',
-  'witch',
-  'chinese medicine',
-  'aids',
-  'flowers',
-  'history of psychiatry book 21st century',
-  'medicinal drugs of india',
-  'medical officer of health',
-  'burke and hare murders',
-  'eighteenth century collections online',
+  'Brain',
+  'Chinese medicine',
+  'Florence Nightingale',
+  'AIDS',
+  'Flowers',
+  'History of psychiatry book 21st century',
+  'Medicinal drugs of India',
+  'Medical officer of health',
+  'Eighteenth century collections online',
+  'The history of witches and wizards',
 ];
 
 const PrototypeSearchSelects: FunctionComponent<Props> = ({

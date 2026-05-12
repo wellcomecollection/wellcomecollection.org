@@ -48,6 +48,7 @@ import {
   escapeRegex,
   readJsonFile,
 } from '@weco/prismic-model/restore/restore-utils';
+
 import 'dotenv/config';
 import {
   downloadLatestSnapshot,
@@ -309,7 +310,8 @@ async function init() {
     JSON.parse(content);
   } catch (err) {
     throw new Error(
-      `Rewritten content is not valid JSON — aborting before writing. Error: ${err}`
+      `Rewritten content is not valid JSON — aborting before writing.`,
+      { cause: err }
     );
   }
 

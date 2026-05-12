@@ -16,7 +16,9 @@ export function readJsonFile<T>(filePath: string): T {
     return JSON.parse(content) as T;
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    throw new Error(`Failed to read JSON from ${filePath}: ${message}`);
+    throw new Error(`Failed to read JSON from ${filePath}: ${message}`, {
+      cause: error,
+    });
   }
 }
 

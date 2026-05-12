@@ -43,9 +43,7 @@ const sizesClasses = Object.keys(themeValues.sizes).reduce((acc, size) => {
 const cls = {
   ...classes,
   ...sizesClasses,
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-} as any as Classes & SizedClasses;
-/* eslint-enable @typescript-eslint/no-explicit-any */
+} as unknown as Classes & SizedClasses;
 
 export type GlobalStyleProps = {
   toggles?: Toggles;

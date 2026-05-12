@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-export async function fetchJson(url: string): Promise<any> {
-  /* eslint-enable @typescript-eslint/no-explicit-any */
+export async function fetchJson<T = unknown>(url: string): Promise<T> {
   return fetch(url).then(resp => resp.json());
 }

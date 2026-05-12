@@ -5,9 +5,7 @@ import { Middleware } from 'koa-compose';
 async function errorMiddleware(
   ctx: Koa.DefaultContext,
   next: Koa.Next
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-): Promise<any> {
-  /* eslint-enable @typescript-eslint/no-explicit-any */
+): ReturnType<Koa.Next> {
   try {
     await next();
   } catch (error) {

@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as prismic from '@prismicio/client';
 import { render } from '@testing-library/react';
-import { createElement } from 'react';
+import { createElement, ReactNode } from 'react';
 
 import { dropCapSerializer } from './index';
 
@@ -17,7 +16,7 @@ describe('HTMLSerializers', () => {
 
     describe('getFirstStringChild behavior', () => {
       it('should handle a direct string child', () => {
-        const children = ['Hello world'] as any;
+        const children = ['Hello world'] as unknown as ReactNode[];
         const result = dropCapSerializer(
           paragraphType,
           mockElement,
@@ -74,7 +73,7 @@ describe('HTMLSerializers', () => {
       });
 
       it('should handle undefined children', () => {
-        const children = [undefined] as any;
+        const children = [undefined] as unknown as ReactNode[];
 
         const result = dropCapSerializer(
           paragraphType,
@@ -115,7 +114,7 @@ describe('HTMLSerializers', () => {
       });
 
       it('should handle empty string', () => {
-        const children = [''] as any;
+        const children = [''] as unknown as ReactNode[];
 
         const result = dropCapSerializer(
           paragraphType,
@@ -133,7 +132,7 @@ describe('HTMLSerializers', () => {
       });
 
       it('should handle numeric children', () => {
-        const children = [42] as any;
+        const children = [42] as unknown as ReactNode[];
 
         const result = dropCapSerializer(
           paragraphType,
@@ -178,7 +177,7 @@ describe('HTMLSerializers', () => {
 
     describe('drop cap styling', () => {
       it('should apply drop cap to first letter', () => {
-        const children = ['Hello world'] as any;
+        const children = ['Hello world'] as unknown as ReactNode[];
 
         const result = dropCapSerializer(
           paragraphType,
@@ -197,7 +196,7 @@ describe('HTMLSerializers', () => {
       });
 
       it('should preserve remaining text after drop cap', () => {
-        const children = ['Hello world'] as any;
+        const children = ['Hello world'] as unknown as ReactNode[];
 
         const result = dropCapSerializer(
           paragraphType,

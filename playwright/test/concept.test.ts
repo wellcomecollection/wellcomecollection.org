@@ -6,7 +6,7 @@ import { ConceptPage } from './pages/concept';
 const test = base.extend<{
   armyPage: ConceptPage;
   mohPage: ConceptPage;
-  statisticsPage: ConceptPage;
+  paintingsPage: ConceptPage;
   thackrahPage: ConceptPage;
 }>({
   armyPage: async ({ context, page }, use) => {
@@ -23,11 +23,11 @@ const test = base.extend<{
     await use(mohPage);
   },
 
-  statisticsPage: async ({ context, page }, use) => {
+  paintingsPage: async ({ context, page }, use) => {
     // A Genre chosen because it has works and images both about and using the technique
-    await concept('y2yes53w', context, page);
-    const statisticsPage = new ConceptPage(page, 'type/technique');
-    await use(statisticsPage);
+    await concept('xfgyamy4', context, page);
+    const paintingsPage = new ConceptPage(page, 'type/technique');
+    await use(paintingsPage);
   },
 
   thackrahPage: async ({ context, page }, use) => {
@@ -124,53 +124,53 @@ test.describe('a Concept representing an Agent with Works and Images both about 
     // It has links to all images by
     await expect(armyPage.allImagesByLink).toHaveAttribute(
       'href',
-      '/search/images?source.contributors.agent.label=%22Great+Britain.+Army%22'
+      '/search/images?source.contributors.agent.label=%22British+Army%22'
     );
     // ...and images about
     await expect(armyPage.allImagesAboutLink).toHaveAttribute(
       'href',
-      '/search/images?source.subjects.label=%22Great+Britain.+Army%22'
+      '/search/images?source.subjects.label=%22British+Army%22'
     );
   });
 });
 
 test.describe('a Concept representing a Genre with works and images both about and using them', () => {
   test('has both works and image sections, each with about and using tabs', async ({
-    statisticsPage,
+    paintingsPage,
   }) => {
-    const title = encodeURIComponent('"Statistics"');
+    const title = encodeURIComponent('"Paintings"');
     // It has two tabs (works)
-    await expect(statisticsPage.worksAboutTab).toBeVisible();
-    await expect(statisticsPage.worksInTab).toBeVisible();
+    await expect(paintingsPage.worksAboutTab).toBeVisible();
+    await expect(paintingsPage.worksInTab).toBeVisible();
 
     // It has images
-    await expect(statisticsPage.imagesSection).toBeVisible();
+    await expect(paintingsPage.imagesSection).toBeVisible();
 
     // The "works in" panel should be visible initially
-    await expect(statisticsPage.worksInTabPanel).toBeVisible();
+    await expect(paintingsPage.worksInTabPanel).toBeVisible();
     await expect(
-      statisticsPage.worksInTabPanel.getByRole('listitem')
+      paintingsPage.worksInTabPanel.getByRole('listitem')
     ).not.toHaveCount(0);
 
     // It has links to filtered searches
-    await statisticsPage.worksInTab.click();
-    await expect(statisticsPage.allWorksLink).toHaveAttribute(
+    await paintingsPage.worksInTab.click();
+    await expect(paintingsPage.allWorksLink).toHaveAttribute(
       'href',
       `/search/works?genres.label=${title}`
     );
 
-    await statisticsPage.worksAboutTab.click();
-    await expect(statisticsPage.allWorksLink).toHaveAttribute(
+    await paintingsPage.worksAboutTab.click();
+    await expect(paintingsPage.allWorksLink).toHaveAttribute(
       'href',
       `/search/works?subjects.label=${title}`
     );
 
-    await expect(statisticsPage.allImagesInLink).toHaveAttribute(
+    await expect(paintingsPage.allImagesInLink).toHaveAttribute(
       'href',
       `/search/images?source.genres.label=${title}`
     );
 
-    await expect(statisticsPage.allImagesAboutLink).toHaveAttribute(
+    await expect(paintingsPage.allImagesAboutLink).toHaveAttribute(
       'href',
       `/search/images?source.subjects.label=${title}`
     );
@@ -197,7 +197,7 @@ test.describe('a Concept representing a Genre that is only used as a genre for b
 
     await expect(mohPage.allImagesInLink).toHaveAttribute(
       'href',
-      `/search/images?source.genres.label=%22MOH+reports%22`
+      `/search/images?source.genres.label=%22Medical+Officer+of+Health+%28MOH%29+reports%22`
     );
   });
 });

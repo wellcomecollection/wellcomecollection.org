@@ -1,5 +1,5 @@
 import { FunctionComponent, PropsWithChildren } from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled, { DefaultTheme, keyframes } from 'styled-components';
 
 type Props = {
   isLoading: boolean;
@@ -7,8 +7,7 @@ type Props = {
   maxWidth?: string;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const getGradient = (theme: any) => {
+const getGradient = (theme: DefaultTheme) => {
   const bgColor = theme.colors['neutral.300'];
   const highlightColor = 'rgb(255, 255, 255, 0.6)';
 

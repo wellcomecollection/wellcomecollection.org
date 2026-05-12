@@ -70,7 +70,7 @@ export function useConceptImageUrls(concept: Concept): ConceptImagesArray {
         return;
       }
 
-      let fetchedImages: string[] = [];
+      let fetchedImages: string[];
 
       const topUpWithAbout = async (images: string[]) => {
         if (images.length >= 4) return images;
