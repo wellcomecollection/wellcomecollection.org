@@ -47,7 +47,6 @@ const cls = {
 
 export type GlobalStyleProps = {
   toggles?: Toggles;
-  isFontsLoaded?: boolean;
 };
 
 const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
