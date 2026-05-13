@@ -1,8 +1,6 @@
 import { css } from 'styled-components';
 
-import { GlobalStyleProps } from '@weco/common/views/themes/default';
-
-export const fonts = css<GlobalStyleProps>`
+export const fonts = css`
   @font-face {
     font-family: 'Inter';
     font-style: normal;
