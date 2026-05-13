@@ -150,7 +150,8 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
         srcSet={imageSrcSet}
         sizes="(min-width: 860px) 800px, calc(92.59vw + 22px)"
         lang={work.languageId}
-        alt={alt}
+        aria-labelledby={`image-${index}`}
+        alt=""
         clickHandler={() => {
           setShowZoomed(true);
         }}
@@ -160,6 +161,9 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
         errorHandler={errorHandler}
         zoomOnClick={true}
       />
+      <span className="visually-hidden" id={`image-${index}`}>
+        {alt}
+      </span>
     </ImageWrapper>
   );
 };
