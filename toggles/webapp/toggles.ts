@@ -152,6 +152,14 @@ const toggles = {
         'Enables gallery-specific features such as removing external links and showing an inactivity redirect after a period of inactivity',
       type: 'experimental',
     },
+    {
+      id: 'storiesKiosk',
+      title: 'Stories in kiosk mode',
+      initialValue: false,
+      description:
+        'Allows testing of stories in kiosk mode, for the Reading room iPads.',
+      type: 'experimental',
+    },
   ] as const,
   // We have to include a reference to any test toggles here as well as in the cache dir
   // because they are deployed separately and consequently can't share a source of truth
