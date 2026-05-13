@@ -31,7 +31,7 @@
         "poster_image": {
           "type": "Image",
           "config": {
-            "label": "Poster image (leave blank to use the thumbnail from the embed)",
+            "label": "Poster image (optional)",
             "constraint": {},
             "thumbnails": []
           }
