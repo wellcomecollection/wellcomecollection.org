@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 import { apiToolbarPage } from './helpers/contexts';
+import { urlWithParams } from './helpers/utils';
 
 test('(1) | Does not create a tzitzit link for images in copyright', async ({
   page,
@@ -28,7 +29,15 @@ test('(2) | Creates a tzitzit link for item pages', async ({
   const url = await anchor.getAttribute('href');
 
   expect(url).toBe(
-    'https://s3-eu-west-1.amazonaws.com/tzitzit.wellcomecollection.org/index.html?title=Fish+schizophrene.&sourceName=Wellcome+Collection&sourceLink=https%3A%2F%2Fwellcomecollection.org%2Fworks%2Fccg335hm%2Fitems&author=Bryan+Charnley'
+    urlWithParams(
+      'https://s3-eu-west-1.amazonaws.com/tzitzit.wellcomecollection.org/index.html',
+      {
+        title: 'Fish schizophrene.',
+        sourceName: 'Wellcome Collection',
+        sourceLink: 'https://wellcomecollection.org/works/ccg335hm/items',
+        author: 'Bryan Charnley',
+      }
+    )
   );
 });
 
@@ -44,6 +53,16 @@ test('(3) | Creates a tzitzit link for image pages', async ({
   const url = await anchor.getAttribute('href');
 
   expect(url).toBe(
-    'https://s3-eu-west-1.amazonaws.com/tzitzit.wellcomecollection.org/index.html?title=Fish+schizophrene.&sourceName=Wellcome+Collection&sourceLink=https%3A%2F%2Fwellcomecollection.org%2Fworks%2Fccg335hm%2Fimages%3Fid%3Dsrfsqn7t&licence=CC-BY-NC&author=Bryan+Charnley'
+    urlWithParams(
+      'https://s3-eu-west-1.amazonaws.com/tzitzit.wellcomecollection.org/index.html',
+      {
+        title: 'Fish schizophrene.',
+        sourceName: 'Wellcome Collection',
+        sourceLink:
+          'https://wellcomecollection.org/works/ccg335hm/images?id=srfsqn7t',
+        licence: 'CC-BY-NC',
+        author: 'Bryan Charnley',
+      }
+    )
   );
 });
