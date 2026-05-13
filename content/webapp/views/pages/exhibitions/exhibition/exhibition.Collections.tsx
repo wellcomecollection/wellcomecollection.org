@@ -47,7 +47,9 @@ const ExhibitionCollectionsContent = ({
   const { verticalVideos } = useToggles();
 
   const shouldDisplay =
-    shouldDisplayStories || shouldDisplayThemes || videos.length > 0;
+    shouldDisplayStories ||
+    shouldDisplayThemes ||
+    (videos.length > 0 && verticalVideos);
 
   if (!shouldDisplay) return null;
 
