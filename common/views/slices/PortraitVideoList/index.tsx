@@ -25,11 +25,11 @@ const PortraitVideoListSlice: FunctionComponent<
         videoProvider: embed.videoProvider,
         posterImage:
           transformImage(item.poster_image) ??
-          (embed.thumbnailUrl
+          (embed.thumbnailUrl && embed.thumbnailWidth && embed.thumbnailHeight
             ? {
                 contentUrl: embed.thumbnailUrl,
-                width: embed.thumbnailWidth ?? 0,
-                height: embed.thumbnailHeight ?? 0,
+                width: embed.thumbnailWidth,
+                height: embed.thumbnailHeight,
                 alt: null,
               }
             : undefined),
