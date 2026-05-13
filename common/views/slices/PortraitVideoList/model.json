@@ -46,7 +46,7 @@
         "title": {
           "type": "Text",
           "config": {
-            "label": "Title (leave this blank to use the title from the embed)",
+            "label": "Title (optional)",
             "placeholder": ""
           }
         },
