@@ -149,7 +149,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
         srcSet={imageSrcSet}
         sizes="(min-width: 860px) 800px, calc(92.59vw + 22px)"
         lang={work.languageId}
-        aria-describedby={`image-${index + 1}`}
+        aria-describedby={alt ? `image-${index + 1}` : undefined}
         alt={`digitised image ${index + 1}`}
         clickHandler={() => {
           setShowZoomed(true);
@@ -160,9 +160,11 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
         errorHandler={errorHandler}
         zoomOnClick={true}
       />
-      <span className="visually-hidden" id={`image-${index + 1}`}>
-        {alt}
-      </span>
+      {alt ? (
+        <span className="visually-hidden" id={`image-${index + 1}`}>
+          {alt}
+        </span>
+      ) : null}
     </ImageWrapper>
   );
 };
