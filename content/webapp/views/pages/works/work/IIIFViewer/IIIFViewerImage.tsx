@@ -34,7 +34,7 @@ type Props = {
   srcSet: string | undefined;
   sizes: string | undefined;
   alt: string;
-  'aria-describedby'?: string;
+  ariaDescribedBy?: string;
   lang?: string;
   clickHandler?: () => void | Promise<void>;
   loadHandler?: () => void | Promise<void>;
@@ -53,7 +53,7 @@ const IIIFViewerImage = (
     srcSet,
     sizes,
     alt,
-    'aria-describedby': ariaDescribeddBy,
+    ariaDescribedBy,
     lang,
     clickHandler,
     loadHandler,
@@ -75,7 +75,7 @@ const IIIFViewerImage = (
         ref={ref}
         tabIndex={tabIndex}
         lang={lang}
-        aria-describedby={ariaDescribeddBy}
+        aria-describedby={ariaDescribedBy}
         width={width}
         height={height}
         className="image"
