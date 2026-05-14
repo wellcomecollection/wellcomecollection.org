@@ -150,7 +150,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
         sizes="(min-width: 860px) 800px, calc(92.59vw + 22px)"
         lang={work.languageId}
         aria-describedby={`image-${index + 1}`}
-        alt={`image ${index + 1}`}
+        alt={`digitised image ${index + 1}`}
         clickHandler={() => {
           setShowZoomed(true);
         }}
