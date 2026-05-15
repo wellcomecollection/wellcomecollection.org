@@ -91,7 +91,7 @@ async function findDestinationId(
     );
     searchUrl.searchParams.set(
       'q',
-      `[[at(document.type,"${type}")][at(my.${type}.uid,"${uid}")]]`
+      `[[at(document.type,"${type}")][at(document.uid,"${uid}")]]`
     );
     searchUrl.searchParams.set('ref', ref);
 
@@ -144,6 +144,18 @@ async function uploadDoc(
       }))
     : undefined;
 
+  // Normalize isPermanent to Migration API's accepted values (yes or null)
+  const isPermanent = doc.data?.isPermanent === 'yes' ? 'yes' : null;
+
+  // Normalize times array boolean fields (isFullyBooked, onlineIsFullyBooked)
+  const times = Array.isArray(doc.data?.times)
+    ? doc.data.times.map((item: any) => ({
+        ...item,
+        isFullyBooked: item.isFullyBooked === 'yes' ? 'yes' : null,
+        onlineIsFullyBooked: item.onlineIsFullyBooked === 'yes' ? 'yes' : null,
+      }))
+    : undefined;
+
   const body = {
     ...doc,
     title:
@@ -154,6 +166,8 @@ async function uploadDoc(
     data: {
       ...doc.data,
       ...(interpretations && { interpretations }),
+      ...(doc.data?.isPermanent !== undefined && { isPermanent }),
+      ...(times && { times }),
     },
   };
 
