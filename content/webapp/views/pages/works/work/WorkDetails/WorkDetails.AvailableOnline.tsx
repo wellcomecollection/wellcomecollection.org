@@ -120,10 +120,14 @@ const ItemPageLink = ({
   const { userIsStaffWithRestricted } = useUserContext();
   const { extendedViewer } = useToggles();
 
-  // TODO can remove when we move over to extendedViewer permanently
   const isDownloadable =
     digitalLocationInfo?.accessCondition !== 'open-with-advisory' &&
     downloadOptions.length > 0;
+
+  const canDownload =
+    isDownloadable &&
+    (digitalLocationInfo?.accessCondition !== 'restricted' ||
+      userIsStaffWithRestricted);
 
   const isWorkVisibleWithPermission =
     digitalLocationInfo?.accessCondition === 'restricted' &&
@@ -193,7 +197,7 @@ const ItemPageLink = ({
           </ConditionalWrapper>
         )}
 
-        {(itemUrl || (isDownloadable && !extendedViewer)) && (
+        {(itemUrl || canDownload) && (
           <Space
             $v={{ size: 'xs', properties: ['margin-top'] }}
             style={{ display: 'flex' }}
@@ -211,14 +215,12 @@ const ItemPageLink = ({
                 />
               </Space>
             )}
-            {isDownloadable &&
-              !extendedViewer &&
-              !userIsStaffWithRestricted && (
-                <Download
-                  ariaControlsId="itemDownloads"
-                  downloadOptions={downloadOptions}
-                />
-              )}
+            {canDownload && (
+              <Download
+                ariaControlsId="itemDownloads"
+                downloadOptions={downloadOptions}
+              />
+            )}
           </Space>
         )}
       </ConditionalWrapper>
