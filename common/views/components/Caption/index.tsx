@@ -2,8 +2,9 @@ import * as prismic from '@prismicio/client';
 import { FunctionComponent, ReactNode } from 'react';
 import styled from 'styled-components';
 
+import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
-import { defaultSerializer } from '@weco/common/views/components/HTMLSerializers';
+import { createDefaultSerializer } from '@weco/common/views/components/HTMLSerializers';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -47,6 +48,9 @@ const Caption: FunctionComponent<Props> = ({
   preCaptionNode,
   width,
 }: Props) => {
+  const { inGallery = false } = useToggles();
+  const htmlSerializer = createDefaultSerializer(inGallery);
+
   return (
     // In order to be valid html, a figcaption should appear as the first or
     // last element in a figure. We have previously made this happen
@@ -60,10 +64,7 @@ const Caption: FunctionComponent<Props> = ({
         <CaptionWrapper>
           {preCaptionNode}
           <CaptionText>
-            <PrismicHtmlBlock
-              html={caption}
-              htmlSerializer={defaultSerializer}
-            />
+            <PrismicHtmlBlock html={caption} htmlSerializer={htmlSerializer} />
           </CaptionText>
         </CaptionWrapper>
       </figcaption>

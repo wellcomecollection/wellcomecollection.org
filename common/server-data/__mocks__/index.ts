@@ -1,5 +1,8 @@
 import { CollectionVenueDocument as RawCollectionVenueDocument } from '@weco/common/prismicio-types';
-import { ServerData } from '@weco/common/server-data/types';
+import {
+  defaultExhibitionExtras,
+  ServerData,
+} from '@weco/common/server-data/types';
 import {
   emptyGlobalAlert,
   emptyPopupDialog,
@@ -27,5 +30,6 @@ export async function getServerData(): Promise<ServerData> {
       marketing: false,
       cookieExists: false,
     },
+    exhibitionExtras: defaultExhibitionExtras,
   };
 }

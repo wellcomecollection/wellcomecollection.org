@@ -6,6 +6,7 @@ import {
 } from 'react';
 import styled from 'styled-components';
 
+import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import AccessibilityProvision from '@weco/common/views/components/AccessibilityProvision';
 import Breadcrumb from '@weco/common/views/components/Breadcrumb';
@@ -94,6 +95,7 @@ const BasicPageHeader: FunctionComponent<Props> = ({
   ) : (
     <TitleWrapper>{title}</TitleWrapper>
   );
+  const { inGallery = false } = useToggles();
 
   const hasMedia = FeaturedMedia || HeroPicture;
 
@@ -120,7 +122,7 @@ const BasicPageHeader: FunctionComponent<Props> = ({
                   : ['margin-bottom', 'padding-bottom'],
             }}
           >
-            {hasBreadcrumbItems && (
+            {hasBreadcrumbItems && !inGallery && (
               // We need to keep some space below the breadcrumbs to prevent
               // 'highlighted' headings from being partially concealed
               <Space

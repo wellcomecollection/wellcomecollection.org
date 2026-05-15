@@ -4,10 +4,11 @@ import { FunctionComponent } from 'react';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { arrow, download } from '@weco/common/icons';
+import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import { isPast } from '@weco/common/utils/dates';
 import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
-import { defaultSerializer } from '@weco/common/views/components/HTMLSerializers';
+import { createDefaultSerializer } from '@weco/common/views/components/HTMLSerializers';
 import Icon from '@weco/common/views/components/Icon';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
@@ -64,6 +65,9 @@ const ExhibitionBeingHuman: FunctionComponent<Props> = ({
   accessResourceLinks,
   exhibitionFormat,
 }) => {
+  const { inGallery = false } = useToggles();
+  const htmlSerializer = createDefaultSerializer(inGallery);
+
   const hasResources = Boolean(
     exhibition.accessResourcesText ||
     exhibition.accessResourcesPdfs.length > 0 ||
@@ -140,7 +144,7 @@ const ExhibitionBeingHuman: FunctionComponent<Props> = ({
           {exhibition.accessResourcesText && (
             <PrismicHtmlBlock
               html={exhibition.accessResourcesText}
-              htmlSerializer={defaultSerializer}
+              htmlSerializer={htmlSerializer}
             />
           )}
         </>

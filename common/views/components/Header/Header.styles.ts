@@ -123,7 +123,7 @@ export const HeaderBrand = styled.div<{ $isMinimalHeader: boolean }>`
   `)}
 `}
 
-  a {
+  a, span {
     display: inline-block;
     margin: 0 auto;
   }

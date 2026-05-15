@@ -4,8 +4,9 @@ import * as prismic from '@prismicio/client';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
+import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
-import { defaultSerializer } from '@weco/common/views/components/HTMLSerializers';
+import { createDefaultSerializer } from '@weco/common/views/components/HTMLSerializers';
 import {
   ContaineredLayout,
   gridSize10,
@@ -38,6 +39,9 @@ const LandingPageHeader: FunctionComponent<Props> = ({
   introText,
   FeaturedMedia,
 }) => {
+  const { inGallery = false } = useToggles();
+  const htmlSerializer = createDefaultSerializer(inGallery);
+
   return (
     <>
       <ContaineredLayout gridSizes={gridSize12()}>
@@ -52,7 +56,7 @@ const LandingPageHeader: FunctionComponent<Props> = ({
                 <ContentWrapper>
                   <PrismicHtmlBlock
                     html={introText}
-                    htmlSerializer={defaultSerializer}
+                    htmlSerializer={htmlSerializer}
                   />
                 </ContentWrapper>
               </GridCell>
