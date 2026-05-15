@@ -6,22 +6,19 @@
  *
  * Transformations applied:
  *   - Rewrites old asset IDs to new IDs using asset-id-map.json
+ *   - Rewrites old content document IDs to new IDs using content-id-map.json
  *   - Corrects asset URL path segments using asset-slug-map.json
  *   - Backfills publishDate on articles from first_publication_date
  *   - Optionally rewrites the repository name in Prismic asset URLs
  *
- * The ID rewrite is done in two passes to guard against collisions where a new asset ID
- * happens to equal one of the old asset IDs:
+ * Replacements that could collide with existing values are applied using a
+ * two-pass placeholder strategy:
  *
- *   Pass 1 — Replace every old ID with "<newId>__RESTORE_PLACEHOLDER__"
- *   Pass 2 — Strip the "__RESTORE_PLACEHOLDER__" suffix from every replaced value
+ *   1. Replace every matched value with "<newValue>__RESTORE_PLACEHOLDER__"
+ *   2. Strip the "__RESTORE_PLACEHOLDER__" suffix from every replaced value
  *
- * If --source-repo and --target-repo are both provided (and differ), a third pass rewrites
- * the repository name wherever it appears in Prismic asset URLs:
- *
- *   Pass 3 — Replace repository name in:
- *     https://images.prismic.io/<source-repo>/
- *     https://<source-repo>.cdn.prismic.io/<source-repo>/
+ * If --source-repo and --target-repo are both provided (and differ), a final pass rewrites
+ * the repository name wherever it appears in Prismic asset URLs.
  *
  * The result is written to a new file; the original snapshot is not modified.
  *
@@ -38,6 +35,12 @@
  * so the script can download the snapshot. When using Scenario 1, provide --snapshot
  * directly or ensure a snapshot exists in ./restore/snapshot/ (may already be downloaded
  * by restore-prismic-assets.ts).
+ *
+ * Two-stage workflow for content relationship fields:
+ *   1. First run (before content uploaded): only asset IDs are rewritten
+ *   2. After first content upload: content-id-map.json is created
+ *   3. Second run: both asset and content IDs are rewritten
+ *   4. Second content upload: content relationships now reference correct IDs
  */
 import * as fs from 'fs';
 import * as path from 'path';
@@ -91,7 +94,10 @@ const argv = yargs(process.argv.slice(2))
 // ---------------------------------------------------------------------------
 
 const SNAPSHOT_DIR = path.resolve('./restore/snapshot/');
-const DEFAULT_MAP = path.resolve('./restore/status/asset-id-map.json');
+const DEFAULT_ASSET_MAP = path.resolve('./restore/status/asset-id-map.json');
+const DEFAULT_CONTENT_MAP = path.resolve(
+  './restore/status/content-id-map.json'
+);
 const DEFAULT_SLUG_MAP = path.resolve('./restore/status/asset-slug-map.json');
 
 // PRISMIC_S3_BUCKET is only required when no local snapshot exists
@@ -136,14 +142,23 @@ async function resolveSnapshotPath(): Promise<string> {
 async function init() {
   // Step 1: Resolve input paths (may download from S3 if needed)
   const snapshotPath = await resolveSnapshotPath();
-  const mapPath = DEFAULT_MAP;
+  const assetMapPath = DEFAULT_ASSET_MAP;
+  const contentMapPath = DEFAULT_CONTENT_MAP;
 
   // The asset ID map may not exist when no assets were re-uploaded (Scenario 2).
-  // In that case we skip ID/slug rewriting and only apply the publishDate backfill.
-  const mapExists = fs.existsSync(mapPath);
-  if (!mapExists) {
+  // The content ID map may not exist before the first content upload.
+  // The script will apply whichever transformations have their required maps available.
+  const assetMapExists = fs.existsSync(assetMapPath);
+  const contentMapExists = fs.existsSync(contentMapPath);
+
+  if (!assetMapExists) {
     logInfo(
-      `Asset ID map not found at ${mapPath} — skipping ID and URL slug rewriting.`
+      `Asset ID map not found at ${assetMapPath} — skipping asset ID rewriting.`
+    );
+  }
+  if (!contentMapExists) {
+    logInfo(
+      `Content ID map not found at ${contentMapPath} — skipping content ID rewriting.`
     );
   }
 
@@ -153,7 +168,8 @@ async function init() {
   const outPath = argv.out ? path.resolve(argv.out) : defaultOut;
 
   logInfo(`Source snapshot : ${snapshotPath}`);
-  logInfo(`Asset ID map    : ${mapExists ? mapPath : '(none)'}`);
+  logInfo(`Asset ID map    : ${assetMapExists ? assetMapPath : '(none)'}`);
+  logInfo(`Content ID map  : ${contentMapExists ? contentMapPath : '(none)'}`);
   logInfo(`Output path     : ${outPath}`);
 
   const sourceRepo = argv.sourceRepo;
@@ -164,10 +180,15 @@ async function init() {
   }
 
   // Step 2: Load inputs
-  const idMap: Record<string, string> = mapExists
-    ? readJsonFile<Record<string, string>>(mapPath)
+  const assetIdMap: Record<string, string> = assetMapExists
+    ? readJsonFile<Record<string, string>>(assetMapPath)
     : {};
-  const oldIds = Object.keys(idMap);
+  const oldAssetIds = Object.keys(assetIdMap);
+
+  const contentIdMap: Record<string, string> = contentMapExists
+    ? readJsonFile<Record<string, string>>(contentMapPath)
+    : {};
+  const oldContentIds = Object.keys(contentIdMap);
 
   // Load the URL slug map if it exists (produced by restore-prismic-assets.ts).
   // Maps old URL path segments (e.g. "oldId_originalFile.jpg") to new path segments.
@@ -219,23 +240,46 @@ async function init() {
 
   // Pass 3/4: replace old asset IDs with new ones (skipped if no map).
   // Two-pass placeholder strategy guards against the case where a new ID equals an old one.
-  if (oldIds.length > 0) {
-    const escapedIds = oldIds.map(escapeRegex);
+  if (oldAssetIds.length > 0) {
+    const escapedIds = oldAssetIds.map(escapeRegex);
     // Regex: (id1|id2|id3|...) - matches any old asset ID globally
-    const pass1Re = new RegExp(escapedIds.join('|'), 'g');
-    let pass1Replacements = 0;
-    content = content.replace(pass1Re, match => {
-      pass1Replacements++;
-      return `${idMap[match]}${PLACEHOLDER}`;
+    const pass3Re = new RegExp(escapedIds.join('|'), 'g');
+    let pass3Replacements = 0;
+    content = content.replace(pass3Re, match => {
+      pass3Replacements++;
+      return `${assetIdMap[match]}${PLACEHOLDER}`;
     });
-    let pass2Count = 0;
+    let pass4Count = 0;
     // Regex: matches the placeholder suffix to remove it
     content = content.replace(new RegExp(PLACEHOLDER, 'g'), () => {
-      pass2Count++;
+      pass4Count++;
       return '';
     });
     logSuccess(
-      `Pass 3/4 complete: replaced ${pass1Replacements} asset IDs (${pass2Count} cleaned up)`
+      `Pass 3/4 complete: replaced ${pass3Replacements} asset IDs (${pass4Count} cleaned up)`
+    );
+  }
+
+  // Pass 5/6: replace old content document IDs with new ones (skipped if no map).
+  // This corrects content relationship fields that reference other documents.
+  // Two-pass placeholder strategy guards against the case where a new ID equals an old one.
+  if (oldContentIds.length > 0) {
+    const escapedIds = oldContentIds.map(escapeRegex);
+    // Regex: (id1|id2|id3|...) - matches any old content document ID globally
+    const pass5Re = new RegExp(escapedIds.join('|'), 'g');
+    let pass5Replacements = 0;
+    content = content.replace(pass5Re, match => {
+      pass5Replacements++;
+      return `${contentIdMap[match]}${PLACEHOLDER}`;
+    });
+    let pass6Count = 0;
+    // Regex: matches the placeholder suffix to remove it
+    content = content.replace(new RegExp(PLACEHOLDER, 'g'), () => {
+      pass6Count++;
+      return '';
+    });
+    logSuccess(
+      `Pass 5/6 complete: replaced ${pass5Replacements} content document IDs (${pass6Count} cleaned up)`
     );
   }
   // Prismic embeds the repo name in two URL patterns:
@@ -270,10 +314,10 @@ async function init() {
     });
 
     logSuccess(
-      `Pass 5 complete: rewrote ${imagesCount} images.prismic.io URLs and ${cdnCount} cdn.prismic.io URLs`
+      `Pass 7 complete: rewrote ${imagesCount} images.prismic.io URLs and ${cdnCount} cdn.prismic.io URLs`
     );
   }
-  // Step 6: Backfill publishDate on articles
+  // Step 8: Backfill publishDate on articles
   // Articles restored to a new repo receive a new first_publication_date, so we
   // preserve the original publication date by setting publishDate from
   // first_publication_date whenever it is absent. This keeps list-page ordering
@@ -305,7 +349,7 @@ async function init() {
     `Pass publishDate: backfilled publishDate on ${publishDateCount} articles`
   );
 
-  // Step 7: Validate the result is still valid JSON before writing
+  // Step 9: Validate the result is still valid JSON before writing
   try {
     JSON.parse(content);
   } catch (err) {
@@ -315,7 +359,7 @@ async function init() {
     );
   }
 
-  // Step 8: Write the output file
+  // Step 10: Write the output file
   fs.writeFileSync(outPath, content, 'utf-8');
   logSuccess(`Rewritten snapshot written to ${outPath}`);
   logInfo(

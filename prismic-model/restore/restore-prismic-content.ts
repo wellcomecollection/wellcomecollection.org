@@ -91,7 +91,7 @@ async function findDestinationId(
     );
     searchUrl.searchParams.set(
       'q',
-      `[[at(document.type,"${type}")][at(my.${type}.uid,"${uid}")]]`
+      `[[at(document.type,"${type}")][at(document.uid,"${uid}")]]`
     );
     searchUrl.searchParams.set('ref', ref);
 
