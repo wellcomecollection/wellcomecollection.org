@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 
-import { TestId, ToggleId } from '@weco/toggles';
+import { ContextValues, TestId, ToggleId } from '@weco/toggles';
 
 import { SimplifiedPrismicData } from './prismic';
 import { defaultServerData, SimplifiedServerData } from './types';
@@ -35,4 +35,9 @@ export const useToggles = (): ClientToggleValues => {
 export const usePrismicData = (): SimplifiedPrismicData => {
   const data = useContext(ServerDataContext);
   return data.prismic;
+};
+
+export const useContexts = (): ContextValues => {
+  const data = useContext(ServerDataContext);
+  return data.contexts;
 };

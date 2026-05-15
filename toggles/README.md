@@ -6,7 +6,7 @@ different cohorts of people and stakeholders safely and incrementally.
 There is [a great article by Martin Fowler][martin-fowler-feature-toggles] on the subject.
 
 ## Categories
-We currently use three categories of toggles:
+We currently use three categories of toggles, plus contexts:
 
 ### 1. Feature development toggle
 
@@ -39,6 +39,18 @@ You can read more about it there.
 
 We replicate the tests in [the Lambda@Edge](../cache/edge_lambdas/src/toggler.ts) here to allow
 people to explicitly set which cohort they would like to be in.
+
+### 4. Contexts
+
+Contexts are structured data cookies used for configuring the application in specific environments
+(e.g. kiosk mode for in-venue experiences). Unlike toggles and tests which are boolean values,
+contexts hold JSON objects with arbitrary configuration.
+
+Context cookies are prefixed with `context_` and their values are JSON-encoded. For example:
+`context_kiosk={"device":"RR-iPad1"}`
+
+Contexts are defined in `toggles/webapp/toggles.ts` and accessed on the client via the
+`useContexts()` hook from `@weco/common/server-data/Context`.
 
 
 ## Deployment

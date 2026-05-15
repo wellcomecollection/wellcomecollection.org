@@ -29,8 +29,9 @@ const WorksApi = async (
       },
     ],
     tests: [],
+    contexts: [],
   };
-  const toggles = getTogglesFromContext(togglesResp, { req });
+  const { toggles } = getTogglesFromContext(togglesResp, { req });
 
   const response = await getWork({ id: workId, toggles });
 
