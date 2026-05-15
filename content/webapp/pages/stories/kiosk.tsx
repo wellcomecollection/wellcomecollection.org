@@ -9,7 +9,12 @@ import {
 } from '@weco/common/views/pages/_app';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchPage } from '@weco/content/services/prismic/fetch/pages';
+import { fetchSeriesById } from '@weco/content/services/prismic/fetch/series';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
+import {
+  transformSeries,
+  transformSeriesToSeriesBasic,
+} from '@weco/content/services/prismic/transformers/series';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import KioskStoriesListingPage, {
   Props as KioskStoriesListingPageProps,
@@ -38,9 +43,23 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   if (isNotUndefined(pageDocument)) {
     const page = transformPage(pageDocument);
 
+    const pickingSkinSeries = await fetchSeriesById(
+      client,
+      'ZlgpmhEAACIAr-YE',
+      'series'
+    );
+    const beautyBoardroomSeries = await fetchSeriesById(
+      client,
+      'ZS5vzRIAACcAM_SF',
+      'series'
+    );
+
     return {
       props: serialiseProps<Props>({
         page,
+        hardCodedSeries: [pickingSkinSeries, beautyBoardroomSeries]
+          .filter(isNotUndefined)
+          .map(doc => transformSeriesToSeriesBasic(transformSeries(doc))),
         serverData,
       }),
     };
