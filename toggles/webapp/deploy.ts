@@ -60,6 +60,7 @@ export async function deploy(client: S3Client): Promise<void> {
   const togglesAndTests: TogglesResp = {
     toggles: togglesToDeploy,
     tests: localToggles.tests,
+    contexts: localToggles.contexts,
   };
 
   // GA4 now limits event parameter values to 100 characters: https://support.google.com/analytics/answer/9267744?hl=en

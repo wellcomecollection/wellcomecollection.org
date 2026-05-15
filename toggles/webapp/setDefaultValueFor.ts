@@ -21,14 +21,15 @@ export async function setDefaultValueFor(client: S3Client): Promise<void> {
     return toggle;
   });
 
-  const togglesAndTests = {
+  const togglesTestsAndContexts = {
     toggles,
     tests: remoteToggles.tests,
+    contexts: remoteToggles.contexts,
   };
 
   const { $metadata: putObjectResponseMetadata } = await putTogglesObject(
     client,
-    togglesAndTests
+    togglesTestsAndContexts
   );
 
   if (putObjectResponseMetadata.httpStatusCode === 200) {

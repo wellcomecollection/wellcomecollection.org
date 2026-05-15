@@ -124,7 +124,7 @@ export const getServerData = async (
   const enableToggle: string | undefined =
     typeof toggle === 'string' ? toggle : undefined;
 
-  const toggles = getTogglesFromContext(togglesResp, context);
+  const { toggles, contexts } = getTogglesFromContext(togglesResp, context);
 
   const isEnableToggleValid = Object.keys(toggles).some(
     id => id === enableToggle
@@ -137,7 +137,7 @@ export const getServerData = async (
 
   const consentStatus = getAllConsentStates(context);
 
-  const serverData = { toggles, prismic, consentStatus };
+  const serverData = { toggles, contexts, prismic, consentStatus };
 
   return simplifyServerData(serverData);
 };

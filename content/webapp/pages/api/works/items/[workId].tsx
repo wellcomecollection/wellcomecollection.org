@@ -70,8 +70,9 @@ const ItemsApi = async (
       },
     ],
     tests: [],
+    contexts: [],
   };
-  const toggles = getTogglesFromContext(togglesResp, { req });
+  const { toggles } = getTogglesFromContext(togglesResp, { req });
   const { workId } = req.query;
 
   if (!isString(workId) || !looksLikeCanonicalId(workId)) {

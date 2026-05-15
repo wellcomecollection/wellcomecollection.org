@@ -23,6 +23,13 @@ export type ABTest = {
   range: [number, number];
 };
 
+export type ContextDefinition = {
+  id: string;
+  title: string;
+  description: string;
+  initialValue: Record<string, unknown>;
+};
+
 const toggles = {
   // This should probably be called `features` as we have feature toggles, and a/b testing toggles.
   // Toggles of type 'stage' will only be applied on stage
@@ -164,6 +171,15 @@ const toggles = {
   // We have to include a reference to any test toggles here as well as in the cache dir
   // because they are deployed separately and consequently can't share a source of truth
   tests: [] as ABTest[],
+  // Contexts hold structured data that change site behaviour, but aren't simple on/off feature toggles.
+  contexts: [
+    {
+      id: 'kiosk',
+      title: 'Kiosk mode',
+      initialValue: {},
+      description: 'Enables kiosk mode for in-venue experiences',
+    },
+  ] as const,
 };
 
 export default toggles;
