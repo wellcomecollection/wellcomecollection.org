@@ -43,16 +43,10 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   if (isNotUndefined(pageDocument)) {
     const page = transformPage(pageDocument);
 
-    const pickingSkinSeries = await fetchSeriesById(
-      client,
-      'ZlgpmhEAACIAr-YE',
-      'series'
-    );
-    const beautyBoardroomSeries = await fetchSeriesById(
-      client,
-      'ZS5vzRIAACcAM_SF',
-      'series'
-    );
+    const [pickingSkinSeries, beautyBoardroomSeries] = await Promise.all([
+      fetchSeriesById(client, 'ZlgpmhEAACIAr-YE', 'series'),
+      fetchSeriesById(client, 'ZS5vzRIAACcAM_SF', 'series'),
+    ]);
 
     return {
       props: serialiseProps<Props>({
