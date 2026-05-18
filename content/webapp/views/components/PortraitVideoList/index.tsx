@@ -166,6 +166,7 @@ const PortraitVideoList: FunctionComponent<Props> = ({
                 onClick={() => setTranscriptOpen(prev => !prev)}
                 aria-expanded={transcriptOpen}
                 aria-controls={uid}
+                data-gtm-trigger={`video_modal_${transcriptOpen ? 'hide' : 'show'}_transcript`}
               >
                 {transcriptOpen ? 'Hide transcript' : 'Show transcript'}
               </TranscriptButton>
