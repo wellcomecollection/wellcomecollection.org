@@ -37,11 +37,15 @@ type StorySectionProps = {
 const StorySection = ({ title, articles }: StorySectionProps) => {
   if (articles.length === 0) return null;
 
+  const hasTitle = title.trim().length > 0;
+
   return (
     <Space $v={{ size: 'xl', properties: ['padding-bottom'] }}>
-      <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
-        <SectionHeader title={title} gridSize={gridSize12()} />
-      </Space>
+      {hasTitle && (
+        <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
+          <SectionHeader title={title} gridSize={gridSize12()} />
+        </Space>
+      )}
 
       <Container>
         <SpacingComponent>
