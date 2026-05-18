@@ -144,6 +144,7 @@ const PortraitVideoList: FunctionComponent<Props> = ({
               type="button"
               onClick={() => navigate(-1)}
               disabled={!hasPrev}
+              data-gtm-trigger="video_modal_nav_left"
             >
               <span className="visually-hidden">{prevLabel}</span>
               <Icon icon={chevron} rotate={90} iconColor="white" />
@@ -152,6 +153,7 @@ const PortraitVideoList: FunctionComponent<Props> = ({
               type="button"
               onClick={() => navigate(1)}
               disabled={!hasNext}
+              data-gtm-trigger="video_modal_nav_right"
             >
               <span className="visually-hidden">{nextLabel}</span>
               <Icon icon={chevron} rotate={270} iconColor="white" />
