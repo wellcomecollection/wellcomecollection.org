@@ -252,8 +252,8 @@ test('(15) | The location of the search results should be displayed', async ({
 
 test('(16) | Images should have unique alt text', async ({ page, context }) => {
   await itemWithAltText({ canvasNumber: 2 }, context, page);
-  await expect(page.getByAltText('22102033982')).toBeVisible();
-  expect(await page.getByAltText('22102033982').count()).toEqual(1);
+  await expect(page.getByAltText('digitised image 2')).toBeVisible();
+  expect(await page.getByAltText('digitised image 2').count()).toEqual(1);
 });
 
 test('(17) | An item with only open access items will not display a modal and display the content', async ({
@@ -587,4 +587,16 @@ test('(39) | Mobile pagination updates content in main viewer', async ({
     await previousLink.click();
     await checkPageIndicator(page, '1/27', 'bottombar');
   }
+});
+test('(40) | OCR text should be accessible to screenreaders', async ({
+  page,
+  context,
+}) => {
+  await itemWithAltText({ canvasNumber: 2 }, context, page);
+  const img = page.getByAltText('digitised image 2');
+  await expect(img).toBeVisible();
+
+  const describedById = await img.getAttribute('aria-describedby');
+  expect(describedById).toBeTruthy();
+  await expect(page.locator(`#${describedById}`)).toContainText('22102033982');
 });
