@@ -86,17 +86,7 @@ export const SectionInner = styled.div`
     a {
       color: inherit;
       text-decoration: none;
-      opacity: 0;
       margin-left: ${tokens.spacing.xs};
-      transition: opacity 0.15s;
-    }
-
-    &:hover a {
-      opacity: 0.4;
-    }
-
-    a:hover {
-      opacity: 1;
     }
   }
 `;

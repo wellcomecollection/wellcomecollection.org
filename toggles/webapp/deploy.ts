@@ -50,10 +50,17 @@ export const withDefaultValuesUnmodified = (
 export async function deploy(client: S3Client): Promise<void> {
   const remoteToggles = await getTogglesObject(client);
 
-  const featureFlagsToDeploy = withDefaultValuesUnmodified(
-    remoteToggles.featureFlags,
-    [...localToggles.featureFlags]
-  );
+  // Backward compat: S3 may still have the old shape ({ toggles: [...] })
+  // until this deploy writes the new format.
+  const remoteFeatureFlags =
+    remoteToggles.featureFlags ??
+    (remoteToggles as unknown as { toggles: TogglesResp['featureFlags'] })
+      .toggles ??
+    [];
+
+  const featureFlagsToDeploy = withDefaultValuesUnmodified(remoteFeatureFlags, [
+    ...localToggles.featureFlags,
+  ]);
 
   // We don't bother looking at the `.tests` during deployments as the `defaultValue`s
   // don't do anything as values are randomly assigned.
