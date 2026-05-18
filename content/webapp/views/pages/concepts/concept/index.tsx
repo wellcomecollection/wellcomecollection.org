@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { useTheme } from 'styled-components';
 
 import { pageDescriptionConcepts } from '@weco/common/data/microcopy';
-import { useToggles } from '@weco/common/server-data/Context';
+import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Container } from '@weco/common/views/components/styled/Container';
@@ -48,7 +48,7 @@ const ConceptPage: NextPage<Props> = ({
         .flat(),
     [sectionsData]
   );
-  const { themePagesAllFields } = useToggles();
+  const { themePagesAllFields } = useFeatureFlags();
   const [expandedImage, setExpandedImage] = useExpandedImage(allImages);
   const { config } = useConceptPageContext();
   const theme = useTheme();

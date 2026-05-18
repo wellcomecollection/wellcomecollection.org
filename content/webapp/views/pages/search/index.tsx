@@ -5,7 +5,7 @@ import { useSearchContext } from '@weco/common/contexts/SearchContext';
 import { arrow } from '@weco/common/icons';
 import {
   ServerDataContext,
-  useToggles,
+  useFeatureFlags,
 } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import { formatNumber } from '@weco/common/utils/grammar';
@@ -65,7 +65,7 @@ const SearchPage: NextPage<Props> = withSearchLayout(
     const { query: queryString } = query;
     const { extraApiToolbarLinks, setExtraApiToolbarLinks } =
       useSearchContext();
-    const { apiToolbar } = useToggles();
+    const { apiToolbar } = useFeatureFlags();
     const params = fromQuery(query);
     const data = useContext(ServerDataContext);
     const { setLink } = useSearchContext();

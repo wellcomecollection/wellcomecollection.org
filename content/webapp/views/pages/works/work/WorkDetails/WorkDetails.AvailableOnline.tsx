@@ -8,7 +8,7 @@ import { bornDigitalMessage } from '@weco/common/data/microcopy';
 import { eye } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { LinkProps } from '@weco/common/model/link-props';
-import { useToggles } from '@weco/common/server-data/Context';
+import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
@@ -118,7 +118,7 @@ const ItemPageLink = ({
   itemsStatus,
 }: ItemPageLinkProps) => {
   const { userIsStaffWithRestricted } = useUserContext();
-  const { extendedViewer } = useToggles();
+  const { extendedViewer } = useFeatureFlags();
 
   const isDownloadable =
     digitalLocationInfo?.accessCondition !== 'open-with-advisory' &&
@@ -251,7 +251,7 @@ const WorkDetailsAvailableOnline = ({
     rendering,
   } = { ...transformedManifest };
 
-  const { extendedViewer } = useToggles();
+  const { extendedViewer } = useFeatureFlags();
   const { userIsStaffWithRestricted } = useUserContext();
   const tokenService = getIframeTokenSrc({
     workId: work.id,

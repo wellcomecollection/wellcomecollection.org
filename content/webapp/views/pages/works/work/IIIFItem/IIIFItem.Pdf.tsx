@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
-import { useToggles } from '@weco/common/server-data/Context';
+import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { getFileLabel } from '@weco/content/utils/works';
 
 import IIIFItemDownload from './IIIFItem.Download';
@@ -30,7 +30,7 @@ const IIIFItemPdf: FunctionComponent<Props> = ({
   format,
 }: Props) => {
   const { isMobileOrTabletDevice } = useAppContext();
-  const { extendedViewer } = useToggles();
+  const { extendedViewer } = useFeatureFlags();
   const substituteTitle = 'unknown title';
   const displayLabel = getFileLabel(label, substituteTitle);
 
