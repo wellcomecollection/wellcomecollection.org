@@ -82,6 +82,22 @@ export const SectionInner = styled.div`
     margin-bottom: ${tokens.spacing.md};
     font-size: ${tokens.typography.fontSize.h4};
     scroll-margin-top: 60px;
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      opacity: 0;
+      margin-left: ${tokens.spacing.xs};
+      transition: opacity 0.15s;
+    }
+
+    &:hover a {
+      opacity: 0.4;
+    }
+
+    a:hover {
+      opacity: 1;
+    }
   }
 `;
 
