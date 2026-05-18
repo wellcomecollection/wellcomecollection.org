@@ -74,13 +74,24 @@ const TogglesMessage: FunctionComponent = () => {
 
       // Get the readable name
       if (activeTogglesInBrowser.length > 0) {
-        const allToggles = [...togglesList.toggles, ...togglesList.tests];
+        const allToggles = [...togglesList.featureFlags, ...togglesList.tests];
+        const activeModes = togglesList.modes.filter(mode => {
+          const cookieValue = getCookies()[`toggle_${mode.id}`];
+          if (!cookieValue) return false;
+          try {
+            const parsed = JSON.parse(cookieValue);
+            return parsed.isActive === true;
+          } catch {
+            return false;
+          }
+        });
         const activeToggleNames = activeTogglesInBrowser
           .map(
             id =>
               Object.values(allToggles).find(toggle => toggle.id === id)?.title
           )
-          .filter(f => f);
+          .filter(f => f)
+          .concat(activeModes.map(m => m.title));
         return activeToggleNames as string[];
       } else {
         return [];

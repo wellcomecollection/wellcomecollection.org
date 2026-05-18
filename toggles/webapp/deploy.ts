@@ -50,17 +50,18 @@ export const withDefaultValuesUnmodified = (
 export async function deploy(client: S3Client): Promise<void> {
   const remoteToggles = await getTogglesObject(client);
 
-  const togglesToDeploy = withDefaultValuesUnmodified(remoteToggles.toggles, [
-    ...localToggles.toggles,
-  ]);
+  const togglesToDeploy = withDefaultValuesUnmodified(
+    remoteToggles.featureFlags,
+    [...localToggles.featureFlags]
+  );
 
   // We don't bother looking at the `.tests` during deployments as the `defaultValue`s
   // don't do anything as values are randomly assigned.
   // We should probably look at the structure of features vs tests.
   const togglesAndTests: TogglesResp = {
-    toggles: togglesToDeploy,
+    featureFlags: togglesToDeploy,
     tests: localToggles.tests,
-    contexts: localToggles.contexts,
+    modes: localToggles.modes,
   };
 
   // GA4 now limits event parameter values to 100 characters: https://support.google.com/analytics/answer/9267744?hl=en

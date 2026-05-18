@@ -1,29 +1,29 @@
 import toggleConfig, {
   ABTest,
-  ContextDefinition,
+  ModeDefinition,
   PublishedToggle,
   ToggleTypes,
 } from './toggles';
 
-export type ToggleId = (typeof toggleConfig.toggles)[number]['id'];
+export type FeatureFlagId = (typeof toggleConfig.featureFlags)[number]['id'];
 export type TestId = (typeof toggleConfig.tests)[number]['id'];
-export type ContextId = (typeof toggleConfig.contexts)[number]['id'];
+export type ModeId = (typeof toggleConfig.modes)[number]['id'];
 
 // As togglesConfig is what is served at https://toggles.wellcomecollection.org/toggles.json
 // This allows methods fetching that URL to type the data fetched
 export type TogglesResp = {
-  toggles: PublishedToggle[];
+  featureFlags: PublishedToggle[];
   tests: ABTest[];
-  contexts: readonly ContextDefinition[];
+  modes: readonly ModeDefinition[];
 };
 
 // Don't be tempted to make the keys on this optional - keeping them
 // as required means we catch dead code left over from removed toggles
-export type Toggles = Record<
-  ToggleId | TestId,
-  { value: boolean | undefined; type: ToggleTypes }
->;
+type FeatureFlagOrTestValue = { value: boolean | undefined; type: ToggleTypes };
+type ModeValue = {
+  value: Record<string, unknown> | undefined;
+  type: 'mode';
+};
+type ToggleValue = FeatureFlagOrTestValue | ModeValue;
 
-export type ContextValues = Partial<
-  Record<ContextId, Record<string, unknown> | undefined>
->;
+export type Toggles = Record<FeatureFlagId | TestId | ModeId, ToggleValue>;

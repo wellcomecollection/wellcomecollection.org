@@ -6,7 +6,7 @@ different cohorts of people and stakeholders safely and incrementally.
 There is [a great article by Martin Fowler][martin-fowler-feature-toggles] on the subject.
 
 ## Categories
-We currently use three categories of toggles, plus contexts:
+We currently use three categories of toggles, plus modes:
 
 ### 1. Feature development toggle
 
@@ -40,17 +40,28 @@ You can read more about it there.
 We replicate the tests in [the Lambda@Edge](../cache/edge_lambdas/src/toggler.ts) here to allow
 people to explicitly set which cohort they would like to be in.
 
-### 4. Contexts
+### 4. Modes
 
-Contexts are structured data cookies used for configuring the application in specific environments
+Modes are structured data cookies used for configuring the application in specific environments
 (e.g. kiosk mode for in-venue experiences). Unlike toggles and tests which are boolean values,
-contexts hold JSON objects with arbitrary configuration.
+modes hold JSON objects with arbitrary configuration.
 
-Context cookies are prefixed with `context_` and their values are JSON-encoded. For example:
-`context_kiosk={"device":"RR-iPad1"}`
+Mode cookies are prefixed with `toggle_` and their values are JSON-encoded. For example:
+`toggle_kiosk={"device":"RR-iPad1"}`
 
-Contexts are defined in `toggles/webapp/toggles.ts` and accessed on the client via the
-`useContexts()` hook from `@weco/common/server-data/Context`.
+Modes are defined in `toggles/webapp/toggles.ts` and hold JSON objects with arbitrary configuration.
+
+
+## Accessing toggles
+
+All toggles (feature flags, A/B tests, and modes) are accessed on the client via hooks from `@weco/common/server-data/Context`:
+
+- `useFeatureFlags()` - returns feature flags (permanent, experimental, stage toggles)
+- `useTests()` - returns A/B tests
+- `useModes()` - returns mode configurations
+- `useToggles()` - *(legacy)* returns both feature flags and tests combined for backward compatibility
+
+For new code, prefer the granular hooks above. Existing code using `useToggles()` will continue to work.
 
 
 ## Deployment

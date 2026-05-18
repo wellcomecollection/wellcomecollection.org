@@ -9,7 +9,7 @@ const argv = yargs(hideBin(process.argv)).parseSync();
 export async function setDefaultValueFor(client: S3Client): Promise<void> {
   const remoteToggles = await getTogglesObject(client);
 
-  const toggles = remoteToggles.toggles.map(toggle => {
+  const featureFlags = remoteToggles.featureFlags.map(toggle => {
     const arg = argv[toggle.id];
     if (arg && (arg === 'true' || arg === 'false')) {
       const defaultValue = arg === 'true';
@@ -21,15 +21,15 @@ export async function setDefaultValueFor(client: S3Client): Promise<void> {
     return toggle;
   });
 
-  const togglesTestsAndContexts = {
-    toggles,
+  const config = {
+    featureFlags,
     tests: remoteToggles.tests,
-    contexts: remoteToggles.contexts,
+    modes: remoteToggles.modes,
   };
 
   const { $metadata: putObjectResponseMetadata } = await putTogglesObject(
     client,
-    togglesTestsAndContexts
+    config
   );
 
   if (putObjectResponseMetadata.httpStatusCode === 200) {

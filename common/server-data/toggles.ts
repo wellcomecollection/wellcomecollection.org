@@ -1,11 +1,11 @@
 import { getCookies } from 'cookies-next';
 import { IncomingMessage } from 'http';
 
-import { ContextValues, Toggles, TogglesResp } from '@weco/toggles';
+import { Toggles, TogglesResp } from '@weco/toggles';
 
 import { Handler } from './';
 
-const defaultValue = { toggles: [], tests: [], contexts: [] };
+const defaultValue = { featureFlags: [], tests: [], modes: [] };
 
 async function fetchToggles(): Promise<TogglesResp> {
   const resp = await fetch(
@@ -36,10 +36,10 @@ type Context = {
 export function getTogglesFromContext(
   togglesResp: TogglesResp,
   context: Context
-): { toggles: Toggles; contexts: ContextValues } {
+): Toggles {
   const isStage = context.req.headers.host?.startsWith('www-stage');
   const allCookies = getCookies(context);
-  const toggles = [...togglesResp.toggles]
+  const featureFlags = [...togglesResp.featureFlags]
     .filter(toggle => {
       return !(!isStage && toggle.type === 'stage');
     })
@@ -77,8 +77,8 @@ export function getTogglesFromContext(
     };
   }, {} as Toggles);
 
-  const contexts = togglesResp.contexts.reduce((acc, ctx) => {
-    const cookieValue = allCookies[`context_${ctx.id}`];
+  const modes = togglesResp.modes.reduce((acc, mode) => {
+    const cookieValue = allCookies[`toggle_${mode.id}`];
     let parsed: Record<string, unknown> | undefined;
 
     if (cookieValue) {
@@ -91,11 +91,14 @@ export function getTogglesFromContext(
 
     return {
       ...acc,
-      [ctx.id]: parsed,
+      [mode.id]: {
+        value: parsed,
+        type: 'mode' as const,
+      },
     };
-  }, {} as ContextValues);
+  }, {} as Toggles);
 
-  return { toggles: { ...toggles, ...tests } as Toggles, contexts };
+  return { ...featureFlags, ...tests, ...modes } as Toggles;
 }
 
 export default togglesHandler;

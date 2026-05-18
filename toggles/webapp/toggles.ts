@@ -23,7 +23,7 @@ export type ABTest = {
   range: [number, number];
 };
 
-export type ContextDefinition = {
+export type ModeDefinition = {
   id: string;
   title: string;
   description: string;
@@ -31,9 +31,8 @@ export type ContextDefinition = {
 };
 
 const toggles = {
-  // This should probably be called `features` as we have feature toggles, and a/b testing toggles.
   // Toggles of type 'stage' will only be applied on stage
-  toggles: [
+  featureFlags: [
     {
       id: 'apiToolbar',
       title: 'API toolbar',
@@ -172,11 +171,11 @@ const toggles = {
   // because they are deployed separately and consequently can't share a source of truth
   tests: [] as ABTest[],
   // Contexts hold structured data that change site behaviour, but aren't simple on/off feature toggles.
-  contexts: [
+  modes: [
     {
       id: 'kiosk',
       title: 'Kiosk mode',
-      initialValue: {},
+      initialValue: { isActive: false },
       description: 'Enables kiosk mode for in-venue experiences',
     },
   ] as const,
