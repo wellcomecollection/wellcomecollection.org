@@ -48,14 +48,17 @@ const TogglesPage: FunctionComponent = () => {
     fetch('https://toggles.wellcomecollection.org/toggles.json')
       .then(resp => resp.json())
       .then(json => {
-        setToggles(json.featureFlags ?? json.toggles);
-        setAbTests(json.tests);
+        const featureFlags: Toggle[] = json.featureFlags ?? json.toggles ?? [];
+        const tests: AbTest[] = json.tests ?? [];
+
+        setToggles(featureFlags);
+        setAbTests(tests);
 
         const cookies = getCookies();
         const initialStates: ToggleStates = {};
 
         // Toggles: cookie value or default
-        for (const toggle of json.toggles as Toggle[]) {
+        for (const toggle of featureFlags) {
           const cookieKey = `toggle_${toggle.id}`;
           initialStates[toggle.id] =
             cookieKey in cookies
@@ -64,7 +67,7 @@ const TogglesPage: FunctionComponent = () => {
         }
 
         // AB tests: cookie value or undefined (= randomly allocate)
-        for (const test of json.tests as AbTest[]) {
+        for (const test of tests) {
           const cookieKey = `toggle_${test.id}`;
           if (cookieKey in cookies) {
             initialStates[test.id] = cookies[cookieKey] === 'true';
