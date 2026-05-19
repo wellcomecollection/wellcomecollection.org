@@ -203,7 +203,6 @@ const InactivityRedirect: FunctionComponent<Props> = ({ redirectUrl }) => {
       isActive={isWarningActive}
       setIsActive={handleCancelRedirect}
       id="kiosk-inactivity-warning"
-      dataTestId="kiosk-inactivity-warning"
       openButtonRef={modalButtonRef}
       showOverlay={true}
     >

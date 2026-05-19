@@ -1,10 +1,8 @@
 import { NextPage } from 'next';
 
-import { KioskProvider } from '@weco/common/contexts/KioskContext';
 import { getServerData } from '@weco/common/server-data';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
-import InactivityRedirect from '@weco/common/views/components/InactivityRedirect';
 import {
   ServerSideProps,
   ServerSidePropsOrAppError,
@@ -23,12 +21,7 @@ import KioskStoriesListingPage, {
 } from '@weco/content/views/pages/stories/kiosk';
 
 const Page: NextPage<KioskStoriesListingPageProps> = props => {
-  return (
-    <KioskProvider isActive>
-      <InactivityRedirect redirectUrl="/stories/kiosk" />
-      <KioskStoriesListingPage {...props} />
-    </KioskProvider>
-  );
+  return <KioskStoriesListingPage {...props} />;
 };
 
 type Props = ServerSideProps<KioskStoriesListingPageProps>;
