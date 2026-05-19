@@ -131,10 +131,10 @@ const Contributor: FunctionComponent<ContributorType> = ({
 
           {role && role.title && <Role>{role.title}</Role>}
 
-          {!isKiosk && contributor.sameAs.length > 0 && (
+          {contributor.sameAs.length > 0 && (
             <LinkLabels
               items={contributor.sameAs.map(({ link, title }) => ({
-                url: link,
+                url: isKiosk ? undefined : link,
                 text: title,
               }))}
             />
