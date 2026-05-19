@@ -1,7 +1,7 @@
 import { getCookies } from 'cookies-next';
 import { IncomingMessage } from 'http';
 
-import { FeatureFlags, Tests, TogglesResp } from '@weco/toggles';
+import { FeatureFlags, Tests, Toggles, TogglesResp } from '@weco/toggles';
 
 import { Handler } from './';
 
@@ -36,7 +36,7 @@ export type Context = {
 export function getTogglesFromContext(
   togglesResp: TogglesResp,
   context: Context
-): { featureFlags: FeatureFlags; tests: Tests } {
+): Toggles {
   const isStage = context.req.headers.host?.startsWith('www-stage');
   const allCookies = getCookies(context);
   // Support both old ({ toggles: [...] }) and new ({ featureFlags: [...] }) JSON formats
