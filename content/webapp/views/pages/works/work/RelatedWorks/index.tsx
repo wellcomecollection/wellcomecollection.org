@@ -1,7 +1,7 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { ServerDataContext } from '@weco/common/server-data/Context';
+import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
@@ -51,7 +51,7 @@ const RelatedWorks = ({
   typesTechniques,
   date,
 }: WorkQueryProps) => {
-  const { toggles } = useContext(ServerDataContext);
+  const { stagingApi } = useFeatureFlags();
   const [isLoading, setIsLoading] = useState(true);
   const [relatedWorksTabs, setRelatedWorksTabs] = useState<RelatedWork>();
   const [selectedTab, setSelectedTab] = useState<string | undefined>();
@@ -67,7 +67,7 @@ const RelatedWorks = ({
         subjects,
         typesTechniques,
         date,
-        featureFlags: toggles.featureFlags,
+        shouldUseStagingApi: stagingApi,
         setIsLoading,
       }).then(data => {
         setRelatedWorksTabs(data);

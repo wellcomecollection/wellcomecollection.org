@@ -6,7 +6,6 @@ import {
   WellcomeApiError,
   wellcomeApiFetch,
 } from '@weco/content/services/wellcome/';
-import { FeatureFlags } from '@weco/toggles';
 
 import { catalogueQuery, looksLikeCanonicalId, notFound } from '.';
 import {
@@ -17,20 +16,20 @@ import {
 
 type GetConceptProps = {
   id: string;
-  featureFlags: FeatureFlags;
+  shouldUseStagingApi?: boolean;
 };
 
 type ConceptResponse = Concept | WellcomeApiError;
 
 export async function getConcept({
   id,
-  featureFlags,
+  shouldUseStagingApi,
 }: GetConceptProps): Promise<ConceptResponse> {
   if (!looksLikeCanonicalId(id)) {
     return notFound();
   }
 
-  const apiOptions = globalApiOptions(featureFlags);
+  const apiOptions = globalApiOptions(shouldUseStagingApi);
 
   const url = `${rootUris[apiOptions.env.concepts]}/catalogue/v2/concepts/${id}`;
 
@@ -59,7 +58,10 @@ export async function getConcepts(
  * Fetch concepts (topics) from the concepts API
  * Returns concepts that can be used for browse topics
  */
-export async function getConceptsByIds(ids: string[]): Promise<Concept[]> {
+export async function getConceptsByIds(
+  ids: string[],
+  shouldUseStagingApi?: boolean
+): Promise<Concept[]> {
   if (!ids || ids.length === 0) return [];
 
   // Filter to valid canonical IDs before querying
@@ -70,7 +72,7 @@ export async function getConceptsByIds(ids: string[]): Promise<Concept[]> {
 
   const result = await getConcepts({
     params: { id: validIds.join(',') },
-    featureFlags: {} as FeatureFlags,
+    shouldUseStagingApi,
   });
 
   if ('results' in result) return result.results;

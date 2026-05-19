@@ -118,7 +118,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       sortOrder: 'desc',
     },
     pageSize: 3,
-    featureFlags: serverData.toggles.featureFlags,
+    shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
   });
 
   if (newOnlineWorksQuery.type !== 'Error') {
@@ -167,7 +167,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       params: {
         id: CONCEPT_GROUPS[pageUid].join(','),
       },
-      featureFlags: serverData.toggles.featureFlags,
+      shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
     });
 
     if (conceptResponse.type === 'Error') {
@@ -190,7 +190,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
             params: {
               subjects: CONCEPT_GROUPS[pageUid],
             },
-            featureFlags: serverData.toggles.featureFlags,
+            shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
             pageSize: 5,
           }),
         byLabel: () =>
@@ -199,7 +199,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
               'subjects.label': displayLabels,
               aggregations: ['workType'],
             },
-            featureFlags: serverData.toggles.featureFlags,
+            shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
             pageSize: 5,
           }),
       },
@@ -209,7 +209,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
             params: {
               'source.subjects': CONCEPT_GROUPS[pageUid],
             },
-            featureFlags: serverData.toggles.featureFlags,
+            shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
             pageSize: 12,
           }),
         byLabel: () =>
@@ -219,7 +219,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
                 c => c.label
               ),
             },
-            featureFlags: serverData.toggles.featureFlags,
+            shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
             pageSize: 12,
           }),
       },

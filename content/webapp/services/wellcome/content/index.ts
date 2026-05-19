@@ -6,15 +6,14 @@ import {
   WellcomeApiError,
   wellcomeApiQuery,
 } from '@weco/content/services/wellcome';
-import { FeatureFlags } from '@weco/toggles';
 
 import { ContentResultsList, ResultType } from './types/api';
 
 export async function contentListQuery<Params, Result extends ResultType>(
   endpoint: string,
-  { params, featureFlags, pageSize }: QueryProps<Params>
+  { params, shouldUseStagingApi, pageSize }: QueryProps<Params>
 ): Promise<ContentResultsList<Result> | WellcomeApiError> {
-  const apiOptions = globalApiOptions(featureFlags);
+  const apiOptions = globalApiOptions(shouldUseStagingApi);
   const extendedParams = {
     ...params,
     pageSize,
@@ -33,9 +32,9 @@ export async function contentListQuery<Params, Result extends ResultType>(
 
 export async function contentDocumentQuery<Result extends ResultType>(
   endpoint: string,
-  { featureFlags }: { featureFlags?: FeatureFlags }
+  { shouldUseStagingApi }: { shouldUseStagingApi?: boolean }
 ): Promise<Result | WellcomeApiError> {
-  const apiOptions = globalApiOptions(featureFlags);
+  const apiOptions = globalApiOptions(shouldUseStagingApi);
 
   const url = `${rootUris[apiOptions.env.content]}/content/v0/${endpoint}`;
 

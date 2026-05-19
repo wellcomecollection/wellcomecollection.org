@@ -36,7 +36,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   const workResponse = await getWork({
     id: workId,
-    featureFlags: serverData.toggles.featureFlags,
+    shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
   });
 
   if (workResponse.type === 'Redirect') {

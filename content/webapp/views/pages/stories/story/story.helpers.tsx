@@ -2,7 +2,6 @@ import { ReactElement } from 'react';
 
 import { bodySquabblesSeries } from '@weco/common/data/hardcoded-ids';
 import { ExhibitionsDocument as RawExhibitionsDocument } from '@weco/common/prismicio-types';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 import { isPast } from '@weco/common/utils/dates';
 import { fetchFromClientSide } from '@weco/content/services/prismic/fetch';
@@ -57,7 +56,7 @@ export const getRelatedDoc = async (
   setRelatedDocument: (
     doc: ExhibitionBasic | ContentAPIArticle | undefined
   ) => void,
-  serverData: SimplifiedServerData
+  shouldUseStagingApi?: boolean
 ) => {
   if (article.exploreMoreDocument?.type === 'exhibitions') {
     const relatedExhibition = await fetchFromClientSide<RawExhibitionsDocument>(
@@ -89,7 +88,7 @@ export const getRelatedDoc = async (
   if (article.exploreMoreDocument?.type === 'articles') {
     const relatedArticle = await getArticle({
       id: article.exploreMoreDocument.id,
-      featureFlags: serverData.toggles.featureFlags,
+      shouldUseStagingApi,
     });
 
     if (relatedArticle?.type === 'Article') {
@@ -100,14 +99,14 @@ export const getRelatedDoc = async (
 
 export const getLinkedWorks = async ({
   id,
-  useStaging = false,
+  shouldUseStagingApi,
 }: {
   id: string;
-  useStaging?: boolean;
+  shouldUseStagingApi?: boolean;
 }): Promise<ContentApiLinkedWork[]> => {
   const addressable = await getAddressable({
     id,
-    useStaging,
+    shouldUseStagingApi,
   });
 
   if (addressable.type !== 'Error') {

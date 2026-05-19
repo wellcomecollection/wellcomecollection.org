@@ -46,7 +46,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const articlesResponsePromise = getArticles({
     params: {},
     pageSize: 11,
-    featureFlags: serverData.toggles.featureFlags,
+    shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
   });
 
   const [articlesResponse, storiesLandingDoc, comicsQuery] = await Promise.all([

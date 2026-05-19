@@ -133,7 +133,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     const worksResult = await getWorks({
       params: worksApiProps,
       pageSize: 25,
-      featureFlags: serverData.toggles.featureFlags,
+      shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
     });
 
     if (worksResult.type === 'Error') {
@@ -170,7 +170,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
             elasticCluster: getElasticCluster('alternative2'),
           },
           pageSize: 25,
-          featureFlags: serverData.toggles.featureFlags,
+          shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
         })
       : Promise.resolve(null);
 
@@ -181,7 +181,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
             elasticCluster: getElasticCluster('alternative3'),
           },
           pageSize: 25,
-          featureFlags: serverData.toggles.featureFlags,
+          shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
         })
       : Promise.resolve(null);
 

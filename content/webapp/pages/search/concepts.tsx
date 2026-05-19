@@ -69,7 +69,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const concepts = await getConcepts({
     params,
     pageSize: 25,
-    featureFlags: serverData.toggles.featureFlags,
+    shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
   });
 
   if (concepts.type === 'Error') {

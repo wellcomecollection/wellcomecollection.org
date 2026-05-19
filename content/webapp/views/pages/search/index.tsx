@@ -1,12 +1,9 @@
 import { NextPage } from 'next';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { useSearchContext } from '@weco/common/contexts/SearchContext';
 import { arrow } from '@weco/common/icons';
-import {
-  ServerDataContext,
-  useFeatureFlags,
-} from '@weco/common/server-data/Context';
+import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import { formatNumber } from '@weco/common/utils/grammar';
 import { getQueryResults } from '@weco/common/utils/search';
@@ -65,9 +62,8 @@ const SearchPage: NextPage<Props> = withSearchLayout(
     const { query: queryString } = query;
     const { extraApiToolbarLinks, setExtraApiToolbarLinks } =
       useSearchContext();
-    const { apiToolbar } = useFeatureFlags();
+    const { apiToolbar, stagingApi } = useFeatureFlags();
     const params = fromQuery(query);
-    const data = useContext(ServerDataContext);
     const { setLink } = useSearchContext();
     const [clientSideWorkTypes, setClientSideWorkTypes] = useState<
       WorkTypes | undefined
@@ -102,7 +98,7 @@ const SearchPage: NextPage<Props> = withSearchLayout(
             aggregations: ['workType'],
           },
           pageSize: 1,
-          featureFlags: data.toggles.featureFlags,
+          shouldUseStagingApi: stagingApi,
         });
 
         const workTypeBuckets = getQueryWorkTypeBuckets({
@@ -128,7 +124,7 @@ const SearchPage: NextPage<Props> = withSearchLayout(
         const imagesResults = await getImages({
           params,
           pageSize: 7,
-          featureFlags: data.toggles.featureFlags,
+          shouldUseStagingApi: stagingApi,
         });
 
         const images = getQueryResults({

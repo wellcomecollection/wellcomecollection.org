@@ -11,7 +11,7 @@ import {
 } from '@weco/content/services/wellcome';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import { ItemsList } from '@weco/content/services/wellcome/catalogue/types';
-import { FeatureFlags, TogglesResp } from '@weco/toggles';
+import { TogglesResp } from '@weco/toggles';
 
 function getApiUrl(apiOptions: GlobalApiOptions, workId: string): string {
   return `${rootUris[apiOptions.env.catalogue]}/catalogue/v2/works/${workId}/items`;
@@ -32,12 +32,12 @@ function getApiKey(apiOptions: GlobalApiOptions): string {
 
 async function fetchWorkItems({
   workId,
-  featureFlags,
+  shouldUseStagingApi,
 }: {
   workId: string;
-  featureFlags: FeatureFlags;
+  shouldUseStagingApi?: boolean;
 }): Promise<ItemsList | WellcomeApiError> {
-  const apiOptions = globalApiOptions(featureFlags);
+  const apiOptions = globalApiOptions(shouldUseStagingApi);
   const apiUrl = getApiUrl(apiOptions, workId);
   try {
     const items = await fetch(apiUrl, {
@@ -79,7 +79,7 @@ const ItemsApi = async (
     return;
   }
   const response = await fetchWorkItems({
-    featureFlags,
+    shouldUseStagingApi: featureFlags.stagingApi,
     workId,
   });
   res.setHeader('Content-Type', 'application/json');

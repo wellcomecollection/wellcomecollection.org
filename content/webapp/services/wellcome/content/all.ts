@@ -4,7 +4,6 @@ import {
   ContentApiProps,
   ContentResultsList,
 } from '@weco/content/services/wellcome/content/types/api';
-import { FeatureFlags } from '@weco/toggles';
 
 import { contentDocumentQuery, contentListQuery } from '.';
 
@@ -21,19 +20,14 @@ export async function getAddressables(
 
 export async function getAddressable({
   id,
-  useStaging = false,
+  shouldUseStagingApi,
 }: {
   id: string;
-  useStaging?: boolean;
+  shouldUseStagingApi?: boolean;
 }): Promise<Addressable | WellcomeApiError> {
-  // Create minimal toggles object just for this call
-  const featureFlags = useStaging
-    ? ({ stagingApi: true } as FeatureFlags)
-    : undefined;
-
   const getAddressableResult = await contentDocumentQuery<Addressable>(
     `all/${id}`,
-    { featureFlags }
+    { shouldUseStagingApi }
   );
 
   return getAddressableResult;

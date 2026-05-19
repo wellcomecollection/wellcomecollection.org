@@ -62,7 +62,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       ),
     },
     pageSize: 25,
-    featureFlags: serverData.toggles.featureFlags,
+    shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
   });
 
   if (eventResponseList?.type === 'Error') {

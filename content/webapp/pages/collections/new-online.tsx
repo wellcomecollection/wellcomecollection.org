@@ -55,7 +55,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       page,
     },
     pageSize: 32,
-    featureFlags: serverData.toggles.featureFlags,
+    shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
   });
 
   if (works.type === 'Error') {

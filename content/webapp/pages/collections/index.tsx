@@ -106,7 +106,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
           params: {
             identifiers: newOnlineWorkIds,
           },
-          featureFlags: serverData.toggles.featureFlags,
+          shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
         });
 
         if (works.type !== 'Error') {
