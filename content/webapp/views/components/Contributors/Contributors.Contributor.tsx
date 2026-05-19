@@ -1,8 +1,10 @@
 import { FunctionComponent, PropsWithChildren } from 'react';
 import styled from 'styled-components';
 
+import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { getCrop } from '@weco/common/model/image';
 import { font } from '@weco/common/utils/classnames';
+import { createSerializer } from '@weco/common/views/components/HTMLSerializers';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
@@ -66,6 +68,7 @@ const Contributor: FunctionComponent<ContributorType> = ({
   role,
   description,
 }) => {
+  const isKiosk = useKiosk();
   const descriptionToRender = description || contributor.description;
 
   // Contributor images should always be square.
@@ -128,7 +131,7 @@ const Contributor: FunctionComponent<ContributorType> = ({
 
           {role && role.title && <Role>{role.title}</Role>}
 
-          {contributor.sameAs.length > 0 && (
+          {!isKiosk && contributor.sameAs.length > 0 && (
             <LinkLabels
               items={contributor.sameAs.map(({ link, title }) => ({
                 url: link,
@@ -139,7 +142,12 @@ const Contributor: FunctionComponent<ContributorType> = ({
 
           {descriptionToRender && (
             <Description>
-              <PrismicHtmlBlock html={descriptionToRender} />
+              <PrismicHtmlBlock
+                html={descriptionToRender}
+                htmlSerializer={createSerializer({
+                  stripExternalLinks: isKiosk,
+                })}
+              />
             </Description>
           )}
         </div>

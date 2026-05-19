@@ -2,7 +2,7 @@ import * as prismic from '@prismicio/client';
 import { render } from '@testing-library/react';
 import { createElement, ReactNode } from 'react';
 
-import { dropCapSerializer } from './index';
+import { createSerializer, dropCapSerializer } from './index';
 
 describe('HTMLSerializers', () => {
   describe('dropCapSerializer', () => {
@@ -215,6 +215,90 @@ describe('HTMLSerializers', () => {
           container.querySelector<HTMLElement>('.drop-cap')
         ).toHaveTextContent('H');
       });
+    });
+  });
+
+  describe('createSerializer', () => {
+    const hyperlinkType = prismic.RichTextNodeType.hyperlink;
+    const mockKey = 'link-key';
+    const mockContent = '';
+    const children = ['Click here'] as unknown as ReactNode[];
+
+    it('strips external links when stripExternalLinks is true', () => {
+      const serializer = createSerializer({ stripExternalLinks: true });
+      const element = {
+        type: hyperlinkType,
+        data: { link_type: 'Web', url: 'https://www.bbc.co.uk/news' },
+        text: '',
+        start: 0,
+        end: 10,
+      } as unknown as prismic.RTAnyNode;
+
+      const result = serializer(
+        hyperlinkType,
+        element,
+        mockContent,
+        children,
+        mockKey
+      );
+
+      const { container } = render(<>{result}</>);
+      expect(container.querySelector('a')).not.toBeInTheDocument();
+      expect(container).toHaveTextContent('Click here');
+    });
+
+    it('keeps internal links when stripExternalLinks is true', () => {
+      const serializer = createSerializer({ stripExternalLinks: true });
+      const element = {
+        type: hyperlinkType,
+        data: {
+          link_type: 'Web',
+          url: 'https://wellcomecollection.org/stories',
+        },
+        text: '',
+        start: 0,
+        end: 10,
+      } as unknown as prismic.RTAnyNode;
+
+      const result = serializer(
+        hyperlinkType,
+        element,
+        mockContent,
+        children,
+        mockKey
+      );
+
+      const { container } = render(<>{result}</>);
+      const link = container.querySelector('a');
+      expect(link).toBeInTheDocument();
+      expect(link).toHaveAttribute(
+        'href',
+        'https://wellcomecollection.org/stories'
+      );
+    });
+
+    it('keeps all links when stripExternalLinks is false', () => {
+      const serializer = createSerializer({ stripExternalLinks: false });
+      const element = {
+        type: hyperlinkType,
+        data: { link_type: 'Web', url: 'https://www.bbc.co.uk/news' },
+        text: '',
+        start: 0,
+        end: 10,
+      } as unknown as prismic.RTAnyNode;
+
+      const result = serializer(
+        hyperlinkType,
+        element,
+        mockContent,
+        children,
+        mockKey
+      );
+
+      const { container } = render(<>{result}</>);
+      const link = container.querySelector('a');
+      expect(link).toBeInTheDocument();
+      expect(link).toHaveAttribute('href', 'https://www.bbc.co.uk/news');
     });
   });
 });

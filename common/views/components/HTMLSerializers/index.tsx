@@ -202,6 +202,38 @@ export const defaultSerializer: JSXFunctionSerializer = (
   }
 };
 
+function isInternalLink(url: string): boolean {
+  if (url.startsWith('/') || url.startsWith('#')) return true;
+  try {
+    const parsed = new URL(url);
+    return parsed.hostname.endsWith('wellcomecollection.org');
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Creates a serializer that optionally strips external links,
+ * rendering their text content without the anchor tag.
+ */
+export const createSerializer = ({
+  stripExternalLinks = false,
+}: {
+  stripExternalLinks?: boolean;
+} = {}): JSXFunctionSerializer => {
+  if (!stripExternalLinks) return defaultSerializer;
+
+  return (type, element, content, children, key) => {
+    if (element.type === prismic.RichTextNodeType.hyperlink) {
+      const linkUrl = prismic.asLink(element.data, { linkResolver }) || '';
+      if (!isInternalLink(linkUrl)) {
+        return <span key={key}>{children}</span>;
+      }
+    }
+    return defaultSerializer(type, element, content, children, key);
+  };
+};
+
 /**
  * Safely extract the first string child from a React node.
  * Used by dropCapSerializer to get the first characters for drop cap styling.

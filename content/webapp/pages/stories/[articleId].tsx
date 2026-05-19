@@ -1,9 +1,12 @@
 import { NextPage } from 'next';
 
+import { KioskProvider } from '@weco/common/contexts/KioskContext';
 import { getServerData } from '@weco/common/server-data';
+import { useToggles } from '@weco/common/server-data/Context';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
+import InactivityRedirect from '@weco/common/views/components/InactivityRedirect';
 import {
   ServerSideProps,
   ServerSidePropsOrAppError,
@@ -18,7 +21,14 @@ import ArticlePage, {
 } from '@weco/content/views/pages/stories/story';
 
 const Page: NextPage<ArticlePageProps> = props => {
-  return <ArticlePage {...props} />;
+  const { storiesKiosk } = useToggles();
+
+  return (
+    <KioskProvider isActive={!!storiesKiosk}>
+      {storiesKiosk && <InactivityRedirect redirectUrl="/stories/kiosk" />}
+      <ArticlePage {...props} />
+    </KioskProvider>
+  );
 };
 
 type Props = ServerSideProps<ArticlePageProps>;
