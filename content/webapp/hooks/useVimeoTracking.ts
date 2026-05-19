@@ -1,3 +1,4 @@
+import Player from '@vimeo/player';
 import { RefObject, useEffect } from 'react';
 
 import { getConsentState } from '@weco/common/services/app/civic-uk';
@@ -27,8 +28,6 @@ export function useVimeoTracking({
       return;
     }
 
-    let isCurrent = true;
-    let player: import('@vimeo/player').default | undefined;
     let didStart = false;
 
     const trackEvent = (eventName: string) => {
@@ -38,26 +37,21 @@ export function useVimeoTracking({
       });
     };
 
-    import('@vimeo/player').then(({ default: Player }) => {
-      if (!isCurrent || !iframeRef.current) return;
-      player = new Player(iframeRef.current);
-      player.on('play', () => {
-        if (didStart) return;
-        didStart = true;
-        trackEvent('video_start');
-      });
-      player.on('ended', () => {
-        trackEvent('video_complete');
-        didStart = false;
-      });
+    const player = new Player(iframeRef.current);
+    player.on('play', () => {
+      if (didStart) return;
+      didStart = true;
+      trackEvent('video_start');
+    });
+    player.on('ended', () => {
+      trackEvent('video_complete');
+      didStart = false;
     });
 
     return () => {
-      isCurrent = false;
-      player?.off('play');
-      player?.off('pause');
-      player?.off('ended');
-      player?.destroy().catch(() => undefined);
+      player.off('play');
+      player.off('ended');
+      player.destroy().catch(() => undefined);
     };
   }, [isVimeo, hasAnalyticsConsent, activeIndex, title]);
 }
