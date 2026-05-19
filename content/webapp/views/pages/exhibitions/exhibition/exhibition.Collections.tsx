@@ -71,7 +71,7 @@ const ExhibitionCollectionsContent = ({
             </Space>
 
             <Grid className="card-theme card-theme--transparent">
-              {aboutThisExhibitionContent.map(item => (
+              {aboutThisExhibitionContent.map((item, index) => (
                 <GridCell key={item.id} $sizeMap={{ m: [6], l: [4], xl: [4] }}>
                   <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
                     {item.type === 'articles' && (
@@ -79,6 +79,7 @@ const ExhibitionCollectionsContent = ({
                         variant="prismic"
                         article={item}
                         showAllLabels
+                        positionInList={index + 1}
                       />
                     )}
                     {item.type === 'series' && (
