@@ -203,7 +203,8 @@ export const defaultSerializer: JSXFunctionSerializer = (
 };
 
 function isInternalLink(url: string): boolean {
-  if (url.startsWith('/') || url.startsWith('#')) return true;
+  if (url.startsWith('#')) return true;
+  if (url.startsWith('/') && !url.startsWith('//')) return true;
   try {
     const parsed = new URL(url);
     return (

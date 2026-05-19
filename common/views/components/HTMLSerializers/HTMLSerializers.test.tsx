@@ -300,5 +300,28 @@ describe('HTMLSerializers', () => {
       expect(link).toBeInTheDocument();
       expect(link).toHaveAttribute('href', 'https://www.bbc.co.uk/news');
     });
+
+    it('strips protocol-relative URLs as external', () => {
+      const serializer = createSerializer({ stripExternalLinks: true });
+      const element = {
+        type: hyperlinkType,
+        data: { link_type: 'Web', url: '//example.com/page' },
+        text: '',
+        start: 0,
+        end: 10,
+      } as unknown as prismic.RTAnyNode;
+
+      const result = serializer(
+        hyperlinkType,
+        element,
+        mockContent,
+        children,
+        mockKey
+      );
+
+      const { container } = render(<>{result}</>);
+      expect(container.querySelector('a')).not.toBeInTheDocument();
+      expect(container).toHaveTextContent('Click here');
+    });
   });
 });
