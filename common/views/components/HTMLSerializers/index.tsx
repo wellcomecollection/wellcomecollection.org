@@ -206,7 +206,10 @@ function isInternalLink(url: string): boolean {
   if (url.startsWith('/') || url.startsWith('#')) return true;
   try {
     const parsed = new URL(url);
-    return parsed.hostname.endsWith('wellcomecollection.org');
+    return (
+      parsed.hostname === 'wellcomecollection.org' ||
+      parsed.hostname.endsWith('.wellcomecollection.org')
+    );
   } catch {
     return false;
   }
