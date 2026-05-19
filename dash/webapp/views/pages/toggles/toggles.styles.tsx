@@ -84,9 +84,13 @@ export const SectionInner = styled.div`
     scroll-margin-top: 60px;
 
     a {
-      color: inherit;
+      color: ${tokens.colors.info.main};
       text-decoration: none;
       margin-left: ${tokens.spacing.xs};
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 `;
