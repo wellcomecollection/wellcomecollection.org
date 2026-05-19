@@ -98,7 +98,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       ],
     },
     pageSize: 24,
-    toggles: serverData.toggles,
+    featureFlags: serverData.toggles.featureFlags,
   });
 
   if (eventResponseList?.type === 'Error') {

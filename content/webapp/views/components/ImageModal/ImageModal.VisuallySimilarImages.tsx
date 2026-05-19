@@ -60,7 +60,7 @@ const VisuallySimilarImages: FunctionComponent<Props> = ({
     const fetchVisuallySimilarImages = async () => {
       const { image: fullImage } = await getImage({
         id: originalId,
-        toggles,
+        featureFlags: toggles.featureFlags,
         include: ['withSimilarFeatures'],
       });
       if (fullImage.type === 'Image') {

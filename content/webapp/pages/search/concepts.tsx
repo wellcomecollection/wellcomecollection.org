@@ -29,7 +29,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const serverData = await getServerData(context);
 
   // Redirect to main search page if concepts search toggle is disabled
-  if (!serverData.toggles.conceptsSearch?.value) {
+  if (!serverData.toggles.featureFlags.conceptsSearch) {
     return {
       redirect: {
         destination: '/search',
@@ -69,7 +69,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const concepts = await getConcepts({
     params,
     pageSize: 25,
-    toggles: serverData.toggles,
+    featureFlags: serverData.toggles.featureFlags,
   });
 
   if (concepts.type === 'Error') {

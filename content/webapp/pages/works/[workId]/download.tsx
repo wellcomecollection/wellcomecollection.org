@@ -39,7 +39,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   const work = await getWork({
     id: workId,
-    toggles: serverData.toggles,
+    featureFlags: serverData.toggles.featureFlags,
   });
 
   if (work.type === 'Error') {

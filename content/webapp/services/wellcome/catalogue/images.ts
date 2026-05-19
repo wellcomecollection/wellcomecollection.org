@@ -13,7 +13,7 @@ import {
   ImagesProps,
   toQuery,
 } from '@weco/content/views/components/SearchPagesLink/Images';
-import { Toggles } from '@weco/toggles';
+import { FeatureFlags } from '@weco/toggles';
 
 import { catalogueQuery, looksLikeCanonicalId, notFound } from '.';
 import { CatalogueImagesApiProps, CatalogueResultsList, Image } from './types';
@@ -26,7 +26,7 @@ type ImageInclude =
 
 type GetImageProps = {
   id: string;
-  toggles: Toggles;
+  featureFlags: FeatureFlags;
   include?: ImageInclude[];
 };
 
@@ -71,14 +71,14 @@ type ImageResponse = {
 
 export async function getImage({
   id,
-  toggles,
+  featureFlags,
   include = [],
 }: GetImageProps): Promise<ImageResponse> {
   if (!looksLikeCanonicalId(id)) {
     return { image: notFound() };
   }
 
-  const apiOptions = globalApiOptions(toggles);
+  const apiOptions = globalApiOptions(featureFlags);
 
   const params = {
     include,

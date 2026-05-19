@@ -1,6 +1,6 @@
 import { createGlobalStyle, css } from 'styled-components';
 
-import { Toggles } from '@weco/toggles';
+import { FeatureFlags } from '@weco/toggles';
 
 import { fonts } from './base/fonts';
 import { layout } from './base/layout';
@@ -46,7 +46,7 @@ const cls = {
 } as unknown as Classes & SizedClasses;
 
 export type GlobalStyleProps = {
-  toggles?: Toggles;
+  toggles?: FeatureFlags;
 };
 
 const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
@@ -86,7 +86,7 @@ const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
 
 // Theme factory that creates a theme with appropriate color function based on toggles
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const createThemeValues = (toggles: Toggles) => {
+export const createThemeValues = (toggles: FeatureFlags) => {
   // Manipulate themeValues with toggles here
 
   return {

@@ -6,15 +6,15 @@ import {
   WellcomeApiError,
   wellcomeApiQuery,
 } from '@weco/content/services/wellcome';
-import { Toggles } from '@weco/toggles';
+import { FeatureFlags } from '@weco/toggles';
 
 import { ContentResultsList, ResultType } from './types/api';
 
 export async function contentListQuery<Params, Result extends ResultType>(
   endpoint: string,
-  { params, toggles, pageSize }: QueryProps<Params>
+  { params, featureFlags, pageSize }: QueryProps<Params>
 ): Promise<ContentResultsList<Result> | WellcomeApiError> {
-  const apiOptions = globalApiOptions(toggles);
+  const apiOptions = globalApiOptions(featureFlags);
   const extendedParams = {
     ...params,
     pageSize,
@@ -33,9 +33,9 @@ export async function contentListQuery<Params, Result extends ResultType>(
 
 export async function contentDocumentQuery<Result extends ResultType>(
   endpoint: string,
-  { toggles }: { toggles?: Toggles }
+  { featureFlags }: { featureFlags?: FeatureFlags }
 ): Promise<Result | WellcomeApiError> {
-  const apiOptions = globalApiOptions(toggles);
+  const apiOptions = globalApiOptions(featureFlags);
 
   const url = `${rootUris[apiOptions.env.content]}/content/v0/${endpoint}`;
 

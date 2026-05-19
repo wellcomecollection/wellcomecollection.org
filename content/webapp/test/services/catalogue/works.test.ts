@@ -1,9 +1,10 @@
 import { getWork } from '@weco/content/services/wellcome/catalogue/works';
+import { FeatureFlags } from '@weco/toggles';
 
 it('returns a 404 Not Found for a work ID that’s not alphanumeric', () => {
   const id = 'a\u200Bb';
 
-  getWork({ id, toggles: {} }).then(result => {
+  getWork({ id, featureFlags: {} as FeatureFlags }).then(result => {
     expect(result).toStrictEqual({
       errorType: 'http',
       httpStatus: 404,

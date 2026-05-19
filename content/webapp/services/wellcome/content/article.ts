@@ -1,19 +1,19 @@
 import { WellcomeApiError } from '@weco/content/services/wellcome';
-import { Toggles } from '@weco/toggles';
+import { FeatureFlags } from '@weco/toggles';
 
 import { contentDocumentQuery } from '.';
 import { Article } from './types/api';
 
 export async function getArticle({
   id,
-  toggles,
+  featureFlags,
 }: {
   id: string;
-  toggles: Toggles;
+  featureFlags: FeatureFlags;
 }): Promise<Article | WellcomeApiError> {
   const getArticleResult = await contentDocumentQuery<Article>(
     `articles/${id}`,
-    { toggles }
+    { featureFlags }
   );
 
   return getArticleResult;

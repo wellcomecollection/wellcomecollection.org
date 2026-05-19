@@ -22,7 +22,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   setCacheControl(context.res);
   const serverData = await getServerData(context);
 
-  if (!serverData.toggles.thematicBrowsing.value) {
+  if (!serverData.toggles.featureFlags.thematicBrowsing) {
     return {
       notFound: true,
     };

@@ -23,9 +23,9 @@ export const notFound = (): WellcomeApiError => ({
 
 export async function catalogueQuery<Params, Result extends ResultType>(
   endpoint: string,
-  { params, toggles, pageSize }: QueryProps<Params>
+  { params, featureFlags, pageSize }: QueryProps<Params>
 ): Promise<CatalogueResultsList<Result> | WellcomeApiError> {
-  const apiOptions = globalApiOptions(toggles);
+  const apiOptions = globalApiOptions(featureFlags);
   const extendedParams = {
     ...params,
     pageSize,

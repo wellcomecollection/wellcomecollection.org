@@ -8,7 +8,7 @@ import {
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import type { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { queryParams } from '@weco/content/utils/concepts';
-import { Toggles } from '@weco/toggles';
+import { FeatureFlags } from '@weco/toggles';
 
 /**
  * If displayImages is empty,
@@ -28,10 +28,10 @@ async function fetchImagesBySection(
   sectionName: string,
   concept: Concept,
   limit: number,
-  toggles: Toggles
+  featureFlags: FeatureFlags
 ): Promise<string[]> {
   const params = queryParams(sectionName, concept);
-  const result = await getImages({ params, toggles, pageSize: limit });
+  const result = await getImages({ params, featureFlags, pageSize: limit });
   if (!('results' in result) || result.results.length === 0) return [];
   return result.results
     .slice(0, limit)
@@ -78,7 +78,7 @@ export function useConceptImageUrls(concept: Concept): ConceptImagesArray {
           'imagesAbout',
           concept,
           4 - images.length,
-          toggles
+          toggles.featureFlags
         );
         return [...images, ...aboutImages];
       };
@@ -91,19 +91,29 @@ export function useConceptImageUrls(concept: Concept): ConceptImagesArray {
         ) {
           // Prioritise images by this person/organisation/agent, then top up with imagesAbout
           fetchedImages = await topUpWithAbout(
-            await fetchImagesBySection('imagesBy', concept, 4, toggles)
+            await fetchImagesBySection(
+              'imagesBy',
+              concept,
+              4,
+              toggles.featureFlags
+            )
           );
         } else if (concept.type === 'Genre') {
           // Prioritise images of this type/technique (imagesIn), then top up with imagesAbout
           fetchedImages = await topUpWithAbout(
-            await fetchImagesBySection('imagesIn', concept, 4, toggles)
+            await fetchImagesBySection(
+              'imagesIn',
+              concept,
+              4,
+              toggles.featureFlags
+            )
           );
         } else {
           fetchedImages = await fetchImagesBySection(
             'imagesAbout',
             concept,
             4,
-            toggles
+            toggles.featureFlags
           );
         }
 

@@ -50,7 +50,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const articlesResponsePromise = getArticles({
     params: {},
     pageSize: 4,
-    toggles: serverData.toggles,
+    featureFlags: serverData.toggles.featureFlags,
   });
 
   const eventsQueryPromise = fetchEvents(client, {

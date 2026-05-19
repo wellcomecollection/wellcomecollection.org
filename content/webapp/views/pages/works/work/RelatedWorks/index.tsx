@@ -67,7 +67,7 @@ const RelatedWorks = ({
         subjects,
         typesTechniques,
         date,
-        toggles,
+        featureFlags: toggles.featureFlags,
         setIsLoading,
       }).then(data => {
         setRelatedWorksTabs(data);

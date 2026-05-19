@@ -85,7 +85,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   const conceptResponse = await getConcept({
     id: conceptId,
-    toggles: serverData.toggles,
+    featureFlags: serverData.toggles.featureFlags,
   });
 
   if (conceptResponse.type === 'Error') {
@@ -104,13 +104,13 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       byId: (sectionName: string) =>
         getWorks({
           params: queryParams(sectionName, conceptResponse),
-          toggles: serverData.toggles,
+          featureFlags: serverData.toggles.featureFlags,
           pageSize: 5,
         }),
       byLabel: (sectionName: string) =>
         getWorks({
           params: allRecordsLinkParams(sectionName, conceptResponse),
-          toggles: serverData.toggles,
+          featureFlags: serverData.toggles.featureFlags,
           pageSize: 5,
         }),
     },
@@ -118,13 +118,13 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       byId: (sectionName: string) =>
         getImages({
           params: queryParams(sectionName, conceptResponse),
-          toggles: serverData.toggles,
+          featureFlags: serverData.toggles.featureFlags,
           pageSize: 12,
         }),
       byLabel: (sectionName: string) =>
         getImages({
           params: allRecordsLinkParams(sectionName, conceptResponse),
-          toggles: serverData.toggles,
+          featureFlags: serverData.toggles.featureFlags,
           pageSize: 12,
         }),
     },

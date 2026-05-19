@@ -81,8 +81,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   if (
     !(
-      serverData.toggles.thematicBrowsing.value &&
-      serverData.toggles.thematicBrowsingSubCategory.value
+      serverData.toggles.featureFlags.thematicBrowsing &&
+      serverData.toggles.featureFlags.thematicBrowsingSubCategory
     ) ||
     !pageUid ||
     !subjectsEnum.includes(pageUid)
@@ -118,7 +118,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       sortOrder: 'desc',
     },
     pageSize: 3,
-    toggles: serverData.toggles,
+    featureFlags: serverData.toggles.featureFlags,
   });
 
   if (newOnlineWorksQuery.type !== 'Error') {
@@ -167,7 +167,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       params: {
         id: CONCEPT_GROUPS[pageUid].join(','),
       },
-      toggles: serverData.toggles,
+      featureFlags: serverData.toggles.featureFlags,
     });
 
     if (conceptResponse.type === 'Error') {
@@ -190,7 +190,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
             params: {
               subjects: CONCEPT_GROUPS[pageUid],
             },
-            toggles: serverData.toggles,
+            featureFlags: serverData.toggles.featureFlags,
             pageSize: 5,
           }),
         byLabel: () =>
@@ -199,7 +199,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
               'subjects.label': displayLabels,
               aggregations: ['workType'],
             },
-            toggles: serverData.toggles,
+            featureFlags: serverData.toggles.featureFlags,
             pageSize: 5,
           }),
       },
@@ -209,7 +209,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
             params: {
               'source.subjects': CONCEPT_GROUPS[pageUid],
             },
-            toggles: serverData.toggles,
+            featureFlags: serverData.toggles.featureFlags,
             pageSize: 12,
           }),
         byLabel: () =>
@@ -219,7 +219,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
                 c => c.label
               ),
             },
-            toggles: serverData.toggles,
+            featureFlags: serverData.toggles.featureFlags,
             pageSize: 12,
           }),
       },

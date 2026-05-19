@@ -159,11 +159,13 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
     <>
       <ApmContextProvider>
         <ServerDataContext.Provider value={serverData}>
-          <ThemeProvider theme={createThemeValues(serverData.toggles)}>
+          <ThemeProvider
+            theme={createThemeValues(serverData.toggles.featureFlags)}
+          >
             <UserContextProvider>
               <AppContextProvider>
                 <SearchContextProvider>
-                  <GlobalStyle toggles={serverData.toggles} />
+                  <GlobalStyle toggles={serverData.toggles.featureFlags} />
 
                   <GlobalSvgDefinitions />
                   <LoadingIndicator />

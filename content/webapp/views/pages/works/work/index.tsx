@@ -202,7 +202,7 @@ export const WorkPage: NextPage<Props> = ({
         <StoriesOnWorks
           workId={work.id}
           showDivider={hasAtLeastOneSubject(work.subjects)}
-          toggles={serverData.toggles}
+          featureFlags={serverData.toggles.featureFlags}
         />
 
         {/* If the work has no subjects, it's not worth adding this component */}

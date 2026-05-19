@@ -42,7 +42,10 @@ const useExpandedImage = (
         setExpandedImage(imageMap[hash]);
       } else {
         // if it's not, fetch the image and then update
-        const { image } = await getImage({ id: hash, toggles });
+        const { image } = await getImage({
+          id: hash,
+          featureFlags: toggles.featureFlags,
+        });
 
         if (image.type === 'Image') {
           imageMap[image.id] = image;

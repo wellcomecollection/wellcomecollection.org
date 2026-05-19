@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 
-import { FeatureFlagId, TestId } from '@weco/toggles';
+import { FeatureFlags, Tests } from '@weco/toggles';
 
 import { SimplifiedPrismicData } from './prismic';
 import { defaultServerData, SimplifiedServerData } from './types';
@@ -21,27 +21,14 @@ export const ServerDataContext =
  * `const { toggles: { featureFlagName } } = useContext(ServerDataContext)`
  */
 
-type FeatureFlagValue = Record<FeatureFlagId, boolean | undefined>;
-type ABTestValue = Record<TestId, boolean | undefined>;
-
-export const useFeatureFlags = (): FeatureFlagValue => {
+export const useFeatureFlags = (): FeatureFlags => {
   const data = useContext(ServerDataContext);
-  return Object.keys(data.toggles)
-    .filter(key => data.toggles[key].type !== 'test')
-    .reduce((acc, key) => {
-      acc[key as FeatureFlagId] = data.toggles[key].value;
-      return acc;
-    }, {} as FeatureFlagValue);
+  return data.toggles.featureFlags;
 };
 
-export const useABTest = (): ABTestValue => {
+export const useABTest = (): Tests => {
   const data = useContext(ServerDataContext);
-  return Object.keys(data.toggles)
-    .filter(key => data.toggles[key].type === 'test')
-    .reduce((acc, key) => {
-      acc[key as TestId] = data.toggles[key].value;
-      return acc;
-    }, {} as ABTestValue);
+  return data.toggles.tests;
 };
 
 export const usePrismicData = (): SimplifiedPrismicData => {

@@ -69,7 +69,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       aggregations: ['format', 'contributors.contributor'],
     },
     pageSize: 25,
-    toggles: serverData.toggles,
+    featureFlags: serverData.toggles.featureFlags,
   });
 
   if (storyResponseList?.type === 'Error') {

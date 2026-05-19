@@ -6,7 +6,7 @@ import {
   toWorkBasic,
   Work,
 } from '@weco/content/services/wellcome/catalogue/types';
-import { Toggles } from '@weco/toggles';
+import { FeatureFlags } from '@weco/toggles';
 
 import { RelatedWork, WorkQueryProps } from '.';
 
@@ -35,10 +35,10 @@ export const fetchRelatedWorks = async ({
   subjects,
   typesTechniques,
   date,
-  toggles,
+  featureFlags,
   setIsLoading,
 }: WorkQueryProps & {
-  toggles: Toggles;
+  featureFlags: FeatureFlags;
   setIsLoading: (isLoading: boolean) => void;
 }): Promise<RelatedWork | undefined> => {
   setIsLoading(true);
@@ -58,7 +58,7 @@ export const fetchRelatedWorks = async ({
     params
   ): Promise<WellcomeApiError | CatalogueResultsList<Work>> =>
     await catalogueQuery('works', {
-      toggles,
+      featureFlags,
       // Always fetch 4 works in case we get the current work back, then we will still have 3 to show.
       pageSize: 4,
       params: {

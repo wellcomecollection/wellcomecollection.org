@@ -55,7 +55,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     const contentResults = await getAddressables({
       params: query,
       pageSize: 20,
-      toggles: serverData.toggles,
+      featureFlags: serverData.toggles.featureFlags,
     });
 
     if (contentResults.type === 'Error') {

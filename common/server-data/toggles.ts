@@ -1,7 +1,7 @@
 import { getCookies } from 'cookies-next';
 import { IncomingMessage } from 'http';
 
-import { Toggles, TogglesResp } from '@weco/toggles';
+import { FeatureFlags, Tests, TogglesResp } from '@weco/toggles';
 
 import { Handler } from './';
 
@@ -36,7 +36,7 @@ export type Context = {
 export function getTogglesFromContext(
   togglesResp: TogglesResp,
   context: Context
-): Toggles {
+): { featureFlags: FeatureFlags; tests: Tests } {
   const isStage = context.req.headers.host?.startsWith('www-stage');
   const allCookies = getCookies(context);
   // Support both old ({ toggles: [...] }) and new ({ featureFlags: [...] }) JSON formats
@@ -52,15 +52,12 @@ export function getTogglesFromContext(
     .reduce(
       (acc, toggle) => ({
         ...acc,
-        [toggle.id]: {
-          value:
-            allCookies[`toggle_${toggle.id}`] === 'true'
-              ? true
-              : toggle.defaultValue,
-          type: toggle.type,
-        },
+        [toggle.id]:
+          allCookies[`toggle_${toggle.id}`] === 'true'
+            ? true
+            : toggle.defaultValue,
       }),
-      {} as Toggles
+      {} as FeatureFlags
     );
   const tests = togglesResp.tests.reduce((acc, test) => {
     function testToggleValue(Id: string): boolean | undefined {
@@ -76,13 +73,10 @@ export function getTogglesFromContext(
     }
     return {
       ...acc,
-      [test.id]: {
-        value: testToggleValue(test.id),
-        type: 'test',
-      },
+      [test.id]: testToggleValue(test.id),
     };
-  }, {} as Toggles);
-  return { ...featureFlags, ...tests } as Toggles;
+  }, {} as Tests);
+  return { featureFlags, tests };
 }
 
 export default togglesHandler;

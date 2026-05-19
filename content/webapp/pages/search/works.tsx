@@ -39,9 +39,9 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const query = context.query;
   // TODO can remove searchIn when we remove the `semanticSearchPrototype` and `semanticSearchComparison` toggles,
   const semanticSearchPrototype =
-    serverData.toggles.semanticSearchPrototype.value;
+    serverData.toggles.featureFlags.semanticSearchPrototype;
   const semanticSearchComparison =
-    serverData.toggles.semanticSearchComparison.value;
+    serverData.toggles.featureFlags.semanticSearchComparison;
 
   // NOTE: The following logic exists to support two feature toggles used
   // for the semantic-search experiment (`semanticSearchPrototype` and
@@ -91,7 +91,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     };
   }
 
-  const aggregations = serverData.toggles.aggregationsInSearch?.value
+  const aggregations = serverData.toggles.featureFlags.aggregationsInSearch
     ? [
         'workType',
         'availabilities',
@@ -133,7 +133,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     const worksResult = await getWorks({
       params: worksApiProps,
       pageSize: 25,
-      toggles: serverData.toggles,
+      featureFlags: serverData.toggles.featureFlags,
     });
 
     if (worksResult.type === 'Error') {
@@ -170,7 +170,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
             elasticCluster: getElasticCluster('alternative2'),
           },
           pageSize: 25,
-          toggles: serverData.toggles,
+          featureFlags: serverData.toggles.featureFlags,
         })
       : Promise.resolve(null);
 
@@ -181,7 +181,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
             elasticCluster: getElasticCluster('alternative3'),
           },
           pageSize: 25,
-          toggles: serverData.toggles,
+          featureFlags: serverData.toggles.featureFlags,
         })
       : Promise.resolve(null);
 

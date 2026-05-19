@@ -6,7 +6,7 @@ import {
   WellcomeApiError,
   wellcomeApiFetch,
 } from '@weco/content/services/wellcome/';
-import { Toggles } from '@weco/toggles';
+import { FeatureFlags } from '@weco/toggles';
 
 import { catalogueQuery, looksLikeCanonicalId, notFound } from '.';
 import {
@@ -17,20 +17,20 @@ import {
 
 type GetConceptProps = {
   id: string;
-  toggles: Toggles;
+  featureFlags: FeatureFlags;
 };
 
 type ConceptResponse = Concept | WellcomeApiError;
 
 export async function getConcept({
   id,
-  toggles,
+  featureFlags,
 }: GetConceptProps): Promise<ConceptResponse> {
   if (!looksLikeCanonicalId(id)) {
     return notFound();
   }
 
-  const apiOptions = globalApiOptions(toggles);
+  const apiOptions = globalApiOptions(featureFlags);
 
   const url = `${rootUris[apiOptions.env.concepts]}/catalogue/v2/concepts/${id}`;
 
@@ -70,7 +70,7 @@ export async function getConceptsByIds(ids: string[]): Promise<Concept[]> {
 
   const result = await getConcepts({
     params: { id: validIds.join(',') },
-    toggles: {},
+    featureFlags: {} as FeatureFlags,
   });
 
   if ('results' in result) return result.results;

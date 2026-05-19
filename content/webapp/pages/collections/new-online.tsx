@@ -55,7 +55,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       page,
     },
     pageSize: 32,
-    toggles: serverData.toggles,
+    featureFlags: serverData.toggles.featureFlags,
   });
 
   if (works.type === 'Error') {

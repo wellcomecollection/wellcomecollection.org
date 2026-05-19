@@ -89,7 +89,7 @@ export const getRelatedDoc = async (
   if (article.exploreMoreDocument?.type === 'articles') {
     const relatedArticle = await getArticle({
       id: article.exploreMoreDocument.id,
-      toggles: serverData.toggles,
+      featureFlags: serverData.toggles.featureFlags,
     });
 
     if (relatedArticle?.type === 'Article') {

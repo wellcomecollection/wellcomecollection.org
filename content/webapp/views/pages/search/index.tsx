@@ -102,7 +102,7 @@ const SearchPage: NextPage<Props> = withSearchLayout(
             aggregations: ['workType'],
           },
           pageSize: 1,
-          toggles: data.toggles,
+          featureFlags: data.toggles.featureFlags,
         });
 
         const workTypeBuckets = getQueryWorkTypeBuckets({
@@ -128,7 +128,7 @@ const SearchPage: NextPage<Props> = withSearchLayout(
         const imagesResults = await getImages({
           params,
           pageSize: 7,
-          toggles: data.toggles,
+          featureFlags: data.toggles.featureFlags,
         });
 
         const images = getQueryResults({

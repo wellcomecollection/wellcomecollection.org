@@ -92,7 +92,7 @@ const SubThemeWorks = ({
             workType: [selectedTab],
           },
           pageSize: works.pageResults.length,
-          toggles,
+          featureFlags: toggles.featureFlags,
         });
 
         // Only update state if this is still the current tab (prevent race conditions)

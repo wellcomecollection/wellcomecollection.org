@@ -48,7 +48,7 @@ const TogglesPage: FunctionComponent = () => {
     fetch('https://toggles.wellcomecollection.org/toggles.json')
       .then(resp => resp.json())
       .then(json => {
-        setToggles(json.toggles);
+        setToggles(json.featureFlags ?? json.toggles);
         setAbTests(json.tests);
 
         const cookies = getCookies();

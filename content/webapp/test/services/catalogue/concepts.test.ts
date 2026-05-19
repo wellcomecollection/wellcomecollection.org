@@ -4,6 +4,7 @@ import {
   getConcepts,
 } from '@weco/content/services/wellcome/catalogue/concepts';
 import { conceptsApiResponse } from '@weco/content/test/fixtures/catalogueApi/concept';
+import { FeatureFlags } from '@weco/toggles';
 
 // Mock the catalogueQuery function
 jest.mock('@weco/content/services/wellcome/catalogue', () => ({
@@ -19,7 +20,7 @@ describe('getConcept', () => {
   it('returns a 404 Not Found for a concept ID that is not alphanumeric', () => {
     const id = 'a\u200Bb';
 
-    getConcept({ id, toggles: {} }).then(result => {
+    getConcept({ id, featureFlags: {} as FeatureFlags }).then(result => {
       expect(result).toStrictEqual({
         errorType: 'http',
         httpStatus: 404,
@@ -41,7 +42,7 @@ describe('getConcepts', () => {
 
     const props = {
       params: { page: 1 },
-      toggles: {},
+      featureFlags: {} as FeatureFlags,
       pageSize: 20,
     };
 
@@ -55,7 +56,7 @@ describe('getConcepts', () => {
 
     const props = {
       params: { query: 'test search', page: 1 },
-      toggles: {},
+      featureFlags: {} as FeatureFlags,
       pageSize: 20,
     };
 
@@ -69,7 +70,7 @@ describe('getConcepts', () => {
 
     const props = {
       params: { query: 'test search' },
-      toggles: {},
+      featureFlags: {} as FeatureFlags,
       pageSize: 20,
     };
 
@@ -83,7 +84,7 @@ describe('getConcepts', () => {
 
     const props = {
       params: { query: '' },
-      toggles: {},
+      featureFlags: {} as FeatureFlags,
       pageSize: 20,
     };
 
@@ -97,7 +98,7 @@ describe('getConcepts', () => {
 
     const props = {
       params: { query: 'test & search "with quotes"' },
-      toggles: {},
+      featureFlags: {} as FeatureFlags,
       pageSize: 20,
     };
 
@@ -111,7 +112,7 @@ describe('getConcepts', () => {
 
     const props = {
       params: { query: 'test', page: 3 },
-      toggles: {},
+      featureFlags: {} as FeatureFlags,
       pageSize: 50,
     };
 

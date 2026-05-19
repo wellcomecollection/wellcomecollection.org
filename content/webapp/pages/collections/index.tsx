@@ -106,7 +106,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
           params: {
             identifiers: newOnlineWorkIds,
           },
-          toggles: serverData.toggles,
+          featureFlags: serverData.toggles.featureFlags,
         });
 
         if (works.type !== 'Error') {
