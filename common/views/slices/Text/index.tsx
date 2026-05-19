@@ -9,7 +9,6 @@ import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper
 import {
   accessibilitySerializer,
   createSerializer,
-  dropCapSerializer,
 } from '@weco/common/views/components/HTMLSerializers';
 import { ContaineredLayout } from '@weco/common/views/components/Layout';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
@@ -56,7 +55,10 @@ const Text: FunctionComponent<TextProps> = ({ slice, context }) => {
             <>
               <PrismicHtmlBlock
                 html={[slice.primary.text[0]] as prismic.RichTextField}
-                htmlSerializer={dropCapSerializer}
+                htmlSerializer={createSerializer({
+                  stripExternalLinks: isKiosk,
+                  dropCap: true,
+                })}
               />
               <PrismicHtmlBlock
                 html={slice.primary.text.slice(1) as prismic.RichTextField}
