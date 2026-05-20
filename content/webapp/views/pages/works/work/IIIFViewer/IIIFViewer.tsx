@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import { useToggles } from '@weco/common/server-data/Context';
+import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import LL from '@weco/common/views/components/styled/LL';
 import ItemViewerContext from '@weco/content/contexts/ItemViewerContext';
@@ -234,7 +234,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     shouldScrollToCanvas = true,
     query = '',
   } = useMemo(() => fromQuery(router.query), [router.query]);
-  const { extendedViewer } = useToggles();
+  const { extendedViewer } = useFeatureFlags();
   const [gridVisible, setGridVisible] = useState(false);
   const { isFullSupportBrowser } = useAppContext();
   const viewerRef = useRef<HTMLDivElement>(null);

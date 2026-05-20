@@ -3,7 +3,7 @@ import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { searchLabelText } from '@weco/common/data/microcopy';
-import { useToggles } from '@weco/common/server-data/Context';
+import { useFeatureFlags } from '@weco/common/server-data/Context';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import { formDataAsUrlQuery } from '@weco/common/utils/forms';
 import { capitalize } from '@weco/common/utils/grammar';
@@ -49,7 +49,7 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
 }) => {
   const router = useRouter();
   const { conceptsSearch, semanticSearchPrototype, semanticSearchComparison } =
-    useToggles();
+    useFeatureFlags();
 
   // Variable naming note:
   //

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { requestingDisabled } from '@weco/common/data/microcopy';
 import { memberCard } from '@weco/common/icons';
-import { useToggles } from '@weco/common/server-data/Context';
+import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
@@ -74,7 +74,7 @@ const Reload: FunctionComponent<ReloadProps> = ({ reload }) => {
 
 const LibraryMembersBar: FunctionComponent = () => {
   const { state, reload } = useUserContext();
-  const { disableRequesting } = useToggles();
+  const { disableRequesting } = useFeatureFlags();
   if (disableRequesting) {
     return (
       <StyledComponent>

@@ -2,7 +2,7 @@ import { SliceZone } from '@prismicio/react';
 import styled from 'styled-components';
 
 import { PortraitVideoListSlice } from '@weco/common/prismicio-types';
-import { useToggles } from '@weco/common/server-data/Context';
+import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import { gridSize12 } from '@weco/common/views/components/Layout';
 import { Container } from '@weco/common/views/components/styled/Container';
@@ -44,7 +44,7 @@ const ExhibitionCollectionsContent = ({
     themeCardsListSlice && themeCardsListSlice.value.conceptIds.length > 0
   );
 
-  const { verticalVideos } = useToggles();
+  const { verticalVideos } = useFeatureFlags();
 
   const shouldDisplay =
     shouldDisplayStories ||

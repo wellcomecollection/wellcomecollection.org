@@ -60,7 +60,12 @@ const ABTests = ({
           alignItems: 'center',
         }}
       >
-        <h2>A/B tests</h2>
+        <h2 id="ab-tests">
+          A/B tests
+          <a href="#ab-tests" aria-label="Link to this section">
+            #
+          </a>
+        </h2>
         <ResetButton
           onClick={onReset}
           aria-label="Reset all A/B tests to random allocation"

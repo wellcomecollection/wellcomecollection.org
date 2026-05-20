@@ -82,6 +82,16 @@ export const SectionInner = styled.div`
     margin-bottom: ${tokens.spacing.md};
     font-size: ${tokens.typography.fontSize.h4};
     scroll-margin-top: 60px;
+
+    a {
+      color: ${tokens.colors.info.main};
+      text-decoration: none;
+      margin-left: ${tokens.spacing.xs};
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
 `;
 

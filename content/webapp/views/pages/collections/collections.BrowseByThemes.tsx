@@ -2,7 +2,7 @@ import { FunctionComponent, useState } from 'react';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { ThemeCardsListSlice as RawThemeCardsListSlice } from '@weco/common/prismicio-types';
-import { useToggles } from '@weco/common/server-data/Context';
+import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { dasherize, pluralize } from '@weco/common/utils/grammar';
 import {
   ContaineredLayout,
@@ -68,7 +68,7 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
   gridSizes,
   themeCardsListSlices,
 }) => {
-  const { thematicBrowsing } = useToggles();
+  const { thematicBrowsing } = useFeatureFlags();
 
   // Transform slices but ensure we only keep valid ones (valid title + concept IDs)
   const transformedThemeCardsListSlices = themeCardsListSlices
