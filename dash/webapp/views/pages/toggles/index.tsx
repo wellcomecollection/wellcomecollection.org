@@ -274,7 +274,7 @@ const TogglesPage: FunctionComponent = () => {
             <h2 id="general">
               Feature flags for general use
               <a href="#general" aria-label="Link to this section">
-                #
+                <span aria-hidden="true">#</span>
               </a>
             </h2>
             <ListOfToggles
@@ -292,7 +292,7 @@ const TogglesPage: FunctionComponent = () => {
             <h2 id="permanent">
               Feature flags for Digital team - Permanent
               <a href="#permanent" aria-label="Link to this section">
-                #
+                <span aria-hidden="true">#</span>
               </a>
             </h2>
             <ListOfToggles
@@ -310,7 +310,7 @@ const TogglesPage: FunctionComponent = () => {
             <h2 id="wip">
               Feature flags for Digital team - Work in progress
               <a href="#wip" aria-label="Link to this section">
-                #
+                <span aria-hidden="true">#</span>
               </a>
             </h2>
             <ListOfToggles
@@ -328,7 +328,7 @@ const TogglesPage: FunctionComponent = () => {
             <h2 id="staging">
               Feature flags for Digital team - Staging
               <a href="#staging" aria-label="Link to this section">
-                #
+                <span aria-hidden="true">#</span>
               </a>
             </h2>
             <ListOfToggles
