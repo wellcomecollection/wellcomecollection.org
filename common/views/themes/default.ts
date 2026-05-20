@@ -1,7 +1,5 @@
 import { createGlobalStyle, css } from 'styled-components';
 
-import { FeatureFlags } from '@weco/toggles';
-
 import { fonts } from './base/fonts';
 import { layout } from './base/layout';
 import { normalize } from './base/normalize';
@@ -45,11 +43,7 @@ const cls = {
   ...sizesClasses,
 } as unknown as Classes & SizedClasses;
 
-export type GlobalStyleProps = {
-  toggles?: FeatureFlags;
-};
-
-const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
+const GlobalStyle = createGlobalStyle`
   ${css`
     .${cls.displayBlock} {
       display: block;
@@ -84,20 +78,8 @@ const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
   ${typography}
 `;
 
-// Theme factory that creates a theme with appropriate color function based on toggles
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const createThemeValues = (toggles: FeatureFlags) => {
-  // Manipulate themeValues with toggles here
-
-  return {
-    ...themeValues,
-    // Overrides here
-  };
-};
-
 // Static theme instance for backward compatibility
 // Used by: TypeScript type definitions (styled.d.ts), test utilities, and Storybook configuration
-// Production code should use ThemeProvider with createThemeValues(toggles) for toggle-aware themes
 export default themeValues;
 export { GlobalStyle, cls };
 
