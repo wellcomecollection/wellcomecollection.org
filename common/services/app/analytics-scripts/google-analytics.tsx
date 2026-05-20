@@ -43,7 +43,7 @@ export const Ga4DataLayer: FunctionComponent<Props> = ({
   consentStatus,
 }) => {
   const abTestsToggleString = createABToggleString(data.toggles?.tests);
-  const device = getKioskDevice(data.toggles?.modes);
+  const kioskDevice = getKioskDevice(data.toggles?.modes);
 
   return (
     <script
@@ -77,9 +77,9 @@ export const Ga4DataLayer: FunctionComponent<Props> = ({
             }
 
             ${
-              device &&
+              kioskDevice &&
               `window.dataLayer.push({
-                device: '${device}'
+                device: '${kioskDevice}'
               });`
             }
           `,
