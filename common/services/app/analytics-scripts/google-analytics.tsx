@@ -72,14 +72,14 @@ export const Ga4DataLayer: FunctionComponent<Props> = ({
             ${
               abTestsToggleString &&
               `window.dataLayer.push({
-                toggles: '${abTestsToggleString}'
+                toggles: ${JSON.stringify(abTestsToggleString)}
               });`
             }
 
             ${
               kioskDevice &&
               `window.dataLayer.push({
-                device: '${kioskDevice}'
+                device: ${JSON.stringify(kioskDevice)}
               });`
             }
           `,
