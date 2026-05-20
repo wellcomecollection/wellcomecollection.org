@@ -38,12 +38,14 @@ export type Props = {
   hidePromoText?: boolean;
   sizesQueries?: string;
   showAllLabels?: boolean;
+  positionInList?: number;
 };
 
 const StoryCard: FunctionComponent<Props> = ({
   article,
   showAllLabels,
   hidePromoText = false,
+  positionInList,
 }) => {
   const image = article.promo?.image;
   const url = linkResolver(article);
@@ -62,7 +64,7 @@ const StoryCard: FunctionComponent<Props> = ({
           .map(text => ({ text }));
 
   return (
-    <CardOuter href={url}>
+    <CardOuter href={url} data-gtm-position-in-list={positionInList}>
       <CardImageWrapper>
         {isNotUndefined(image) && (
           <PrismicImage
