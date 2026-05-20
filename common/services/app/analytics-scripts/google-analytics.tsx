@@ -33,7 +33,7 @@ function createABToggleString(tests?: Tests): string | null {
   return entries.length > 0 ? entries.join(',') : null;
 }
 
-function getDevice(modes?: Modes): string | null {
+function getKioskDevice(modes?: Modes): string | null {
   if (!modes) return null;
   return modes.kioskMode ?? null;
 }
@@ -43,7 +43,7 @@ export const Ga4DataLayer: FunctionComponent<Props> = ({
   consentStatus,
 }) => {
   const abTestsToggleString = createABToggleString(data.toggles?.tests);
-  const device = getDevice(data.toggles?.modes);
+  const device = getKioskDevice(data.toggles?.modes);
 
   return (
     <script
