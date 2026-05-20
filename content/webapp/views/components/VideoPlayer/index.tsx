@@ -53,9 +53,7 @@ const VideoPlayer: FunctionComponent<Props> = ({
   return (
     <StyledVideo
       data-component="video-player"
-      onPlay={event => {
-        trackPlay(event);
-      }}
+      onPlay={trackPlay}
       onEnded={trackEnded}
       onTimeUpdate={trackTimeUpdate}
       controlsList={!showDownloadOptions ? 'nodownload' : undefined}

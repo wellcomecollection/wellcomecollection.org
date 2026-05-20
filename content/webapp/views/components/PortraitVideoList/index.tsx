@@ -20,6 +20,7 @@ import {
 } from '@weco/common/views/components/PortraitVideoEmbed/PortraitVideoDialog.styles';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import { SizeMap } from '@weco/common/views/components/styled/Grid';
+import { useVimeoTracking } from '@weco/content/hooks/useVimeoTracking';
 import ScrollContainer from '@weco/content/views/components/ScrollContainer';
 import { ListItem } from '@weco/content/views/components/ScrollContainer/ScrollContainer.styles';
 
@@ -49,6 +50,7 @@ const PortraitVideoList: FunctionComponent<Props> = ({
   const [transcriptOpen, setTranscriptOpen] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
   const activeItem = activeIndex !== null ? items[activeIndex] : null;
   const hasPrev = activeIndex !== null && activeIndex > 0;
@@ -58,10 +60,17 @@ const PortraitVideoList: FunctionComponent<Props> = ({
   );
 
   // Hook must be called unconditionally; passes empty string when no item is active
-  const { videoSrc, uid } = useVideoEmbed(
+  const { videoSrc, uid, isVimeo } = useVideoEmbed(
     activeItem?.embedUrl ?? '',
     activeItem?.videoProvider
   );
+
+  useVimeoTracking({
+    iframeRef,
+    activeIndex,
+    title: activeItem?.title,
+    isVimeo,
+  });
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -117,7 +126,12 @@ const PortraitVideoList: FunctionComponent<Props> = ({
         }
       >
         {items.map((item, i) => (
-          <ListItem key={i} $usesShim={useShim} $cols={3}>
+          <ListItem
+            key={item.title}
+            $usesShim={useShim}
+            $cols={3}
+            data-gtm-position-in-list={i + 1}
+          >
             <PortraitVideoEmbed
               posterImage={item.posterImage}
               duration={item.duration}
@@ -139,6 +153,7 @@ const PortraitVideoList: FunctionComponent<Props> = ({
               type="button"
               onClick={() => navigate(-1)}
               disabled={!hasPrev}
+              data-gtm-trigger="video_modal_nav_left"
             >
               <span className="visually-hidden">{prevLabel}</span>
               <Icon icon={chevron} rotate={90} iconColor="white" />
@@ -147,6 +162,7 @@ const PortraitVideoList: FunctionComponent<Props> = ({
               type="button"
               onClick={() => navigate(1)}
               disabled={!hasNext}
+              data-gtm-trigger="video_modal_nav_right"
             >
               <span className="visually-hidden">{nextLabel}</span>
               <Icon icon={chevron} rotate={270} iconColor="white" />
@@ -159,6 +175,7 @@ const PortraitVideoList: FunctionComponent<Props> = ({
                 onClick={() => setTranscriptOpen(prev => !prev)}
                 aria-expanded={transcriptOpen}
                 aria-controls={uid}
+                data-gtm-trigger={`video_modal_${transcriptOpen ? 'hide' : 'show'}_transcript`}
               >
                 {transcriptOpen ? 'Hide transcript' : 'Show transcript'}
               </TranscriptButton>
@@ -178,6 +195,7 @@ const PortraitVideoList: FunctionComponent<Props> = ({
           {activeIndex !== null && videoSrc && (
             <VideoIframe
               key={activeIndex}
+              ref={iframeRef}
               title={activeItem?.title || 'Video'}
               allowFullScreen={true}
               allow="autoplay; picture-in-picture"
