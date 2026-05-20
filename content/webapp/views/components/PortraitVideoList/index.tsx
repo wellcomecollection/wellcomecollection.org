@@ -127,7 +127,7 @@ const PortraitVideoList: FunctionComponent<Props> = ({
       >
         {items.map((item, i) => (
           <ListItem
-            key={i}
+            key={item.title}
             $usesShim={useShim}
             $cols={3}
             data-gtm-position-in-list={i + 1}
