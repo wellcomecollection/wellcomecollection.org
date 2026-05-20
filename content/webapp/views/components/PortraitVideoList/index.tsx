@@ -126,17 +126,13 @@ const PortraitVideoList: FunctionComponent<Props> = ({
         }
       >
         {items.map((item, i) => (
-          <ListItem
-            key={item.title}
-            $usesShim={useShim}
-            $cols={3}
-            data-gtm-position-in-list={i + 1}
-          >
+          <ListItem key={item.title} $usesShim={useShim} $cols={3}>
             <PortraitVideoEmbed
               posterImage={item.posterImage}
               duration={item.duration}
               title={item.title}
               onOpen={() => openAt(i)}
+              positionInList={i + 1}
             />
           </ListItem>
         ))}

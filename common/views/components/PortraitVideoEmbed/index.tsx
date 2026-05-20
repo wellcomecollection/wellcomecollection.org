@@ -13,6 +13,7 @@ type Props = {
   duration?: string;
   title?: string;
   onOpen: () => void;
+  positionInList?: number;
 };
 
 const CardButton = styled.button`
@@ -94,8 +95,12 @@ const PortraitVideoEmbed: FunctionComponent<Props> = ({
   duration,
   title,
   onOpen,
+  positionInList,
 }) => (
-  <div data-component="portrait-video-embed">
+  <div
+    data-component="portrait-video-embed"
+    data-gtm-position-in-list={positionInList}
+  >
     <CardButton type="button" onClick={onOpen}>
       <span style={{ display: 'block' }}>
         <PosterContainer>
