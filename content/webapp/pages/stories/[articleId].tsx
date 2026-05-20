@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 
 import { KioskProvider } from '@weco/common/contexts/KioskContext';
 import { getServerData } from '@weco/common/server-data';
-import { useToggles } from '@weco/common/server-data/Context';
+import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
@@ -21,7 +21,7 @@ import ArticlePage, {
 } from '@weco/content/views/pages/stories/story';
 
 const Page: NextPage<ArticlePageProps> = props => {
-  const { storiesKiosk } = useToggles();
+  const { storiesKiosk } = useFeatureFlags();
 
   return (
     <KioskProvider isActive={!!storiesKiosk}>
