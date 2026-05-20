@@ -48,7 +48,7 @@ const TogglesPage: FunctionComponent = () => {
     fetch('https://toggles.wellcomecollection.org/toggles.json')
       .then(resp => resp.json())
       .then(json => {
-        const featureFlags: Toggle[] = json.featureFlags ?? json.toggles ?? [];
+        const featureFlags: Toggle[] = json.featureFlags ?? [];
         const tests: AbTest[] = json.tests ?? [];
 
         setToggles(featureFlags);
