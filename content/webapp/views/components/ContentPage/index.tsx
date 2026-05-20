@@ -6,7 +6,7 @@ import {
   commissioningEditorRoleId,
   officialLandingPagesUid,
 } from '@weco/common/data/hardcoded-ids';
-import { useToggles } from '@weco/common/server-data/Context';
+import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { ContentApiType } from '@weco/common/services/prismic/content-types';
 import { ElementFromComponent } from '@weco/common/utils/utility-types';
 import {
@@ -73,7 +73,7 @@ const ContentPage = ({
   showStaticLinkedWorks,
   contentApiType,
 }: Props): ReactElement => {
-  const { stagingApi } = useToggles();
+  const { stagingApi } = useFeatureFlags();
 
   const [linkedWorks, setLinkedWorks] = useState<ContentApiLinkedWork[]>([]);
 

@@ -5,7 +5,7 @@ import { Toggles, TogglesResp } from '@weco/toggles';
 
 import { Handler } from './';
 
-const defaultValue = { toggles: [], tests: [] };
+const defaultValue = { featureFlags: [], tests: [] };
 
 async function fetchToggles(): Promise<TogglesResp> {
   const resp = await fetch(
@@ -20,7 +20,7 @@ const togglesHandler: Handler<TogglesResp, TogglesResp> = {
   fetch: fetchToggles,
 };
 
-type Context = {
+export type Context = {
   req: IncomingMessage & {
     cookies: Partial<{
       [key: string]: string;
@@ -39,7 +39,13 @@ export function getTogglesFromContext(
 ): Toggles {
   const isStage = context.req.headers.host?.startsWith('www-stage');
   const allCookies = getCookies(context);
-  const toggles = [...togglesResp.toggles]
+  // Support both old ({ toggles: [...] }) and new ({ featureFlags: [...] }) JSON formats
+  const featureFlagsList =
+    togglesResp.featureFlags ??
+    (togglesResp as unknown as { toggles: TogglesResp['featureFlags'] })
+      .toggles ??
+    [];
+  const featureFlags = featureFlagsList
     .filter(toggle => {
       return !(!isStage && toggle.type === 'stage');
     })
@@ -56,7 +62,7 @@ export function getTogglesFromContext(
       }),
       {} as Toggles
     );
-  const tests = [...togglesResp.tests].reduce((acc, test) => {
+  const tests = togglesResp.tests.reduce((acc, test) => {
     function testToggleValue(Id: string): boolean | undefined {
       const cookieValue = allCookies[`toggle_${Id}`];
       switch (cookieValue) {
@@ -76,7 +82,7 @@ export function getTogglesFromContext(
       },
     };
   }, {} as Toggles);
-  return { ...toggles, ...tests } as Toggles;
+  return { ...featureFlags, ...tests } as Toggles;
 }
 
 export default togglesHandler;

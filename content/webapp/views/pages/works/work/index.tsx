@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import { useToggles } from '@weco/common/server-data/Context';
+import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import Divider from '@weco/common/views/components/Divider';
@@ -63,7 +63,7 @@ export const WorkPage: NextPage<Props> = ({
   transformedManifest,
   serverData,
 }) => {
-  const { extendedViewer } = useToggles();
+  const { extendedViewer } = useFeatureFlags();
   const { userIsStaffWithRestricted } = useUserContext();
   const isArchive = !!(
     work.parts.length || getArchiveAncestorArray(work).length > 0

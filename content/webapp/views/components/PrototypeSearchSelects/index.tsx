@@ -2,7 +2,7 @@ import { Router } from 'next/router';
 import { FunctionComponent } from 'react';
 import { useEffect, useState } from 'react';
 
-import { useToggles } from '@weco/common/server-data/Context';
+import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import { SEARCH_PAGES_FORM_ID } from '@weco/common/utils/search';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
@@ -32,7 +32,8 @@ const PrototypeSearchSelects: FunctionComponent<Props> = ({
   currentApiSelection,
   showAllResultsOption = false,
 }) => {
-  const { semanticSearchPrototype, semanticSearchComparison } = useToggles();
+  const { semanticSearchPrototype, semanticSearchComparison } =
+    useFeatureFlags();
   const defaultApiSelection = showAllResultsOption ? 'all' : 'alternative1';
   const handleChange = () => {
     const form = document.getElementById(SEARCH_PAGES_FORM_ID);

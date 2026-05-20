@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 
-import { TestId, ToggleId } from '@weco/toggles';
+import { FeatureFlagId, TestId } from '@weco/toggles';
 
 import { SimplifiedPrismicData } from './prismic';
 import { defaultServerData, SimplifiedServerData } from './types';
@@ -16,20 +16,32 @@ export const ServerDataContext =
  * These are convenience methods to access properties off ServerData
  * without having to decontruct it. i.e.
  * This:
- * `const { toggleName } = useToggles()`
+ * `const { featureFlagName } = useFeatureFlags()`
  * Over:
- * `const { toggles: { toggleName } } = useContext(ServerDataContext)`
+ * `const { toggles: { featureFlagName } } = useContext(ServerDataContext)`
  */
 
-type ClientToggleValues = Record<ToggleId | TestId, boolean | undefined>;
+type FeatureFlagValue = Record<FeatureFlagId, boolean | undefined>;
+type ABTestValue = Record<TestId, boolean | undefined>;
 
-export const useToggles = (): ClientToggleValues => {
+export const useFeatureFlags = (): FeatureFlagValue => {
   const data = useContext(ServerDataContext);
-  const toggles = Object.keys(data.toggles).reduce((acc, key) => {
-    acc[key] = data.toggles[key].value;
-    return acc;
-  }, {});
-  return toggles;
+  return Object.keys(data.toggles)
+    .filter(key => data.toggles[key].type !== 'test')
+    .reduce((acc, key) => {
+      acc[key as FeatureFlagId] = data.toggles[key].value;
+      return acc;
+    }, {} as FeatureFlagValue);
+};
+
+export const useABTest = (): ABTestValue => {
+  const data = useContext(ServerDataContext);
+  return Object.keys(data.toggles)
+    .filter(key => data.toggles[key].type === 'test')
+    .reduce((acc, key) => {
+      acc[key as TestId] = data.toggles[key].value;
+      return acc;
+    }, {} as ABTestValue);
 };
 
 export const usePrismicData = (): SimplifiedPrismicData => {

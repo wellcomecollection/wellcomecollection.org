@@ -8,13 +8,17 @@ type ToggleBase = {
   documentationLink?: string;
 };
 
-export type ToggleDefinition = ToggleBase & {
+export type FeatureFlagDefinition = ToggleBase & {
   initialValue: boolean;
 };
 
-export type PublishedToggle = ToggleBase & {
+export type PublishedFeatureFlag = ToggleBase & {
   defaultValue: boolean;
 };
+
+// Backward compatibility aliases
+export type ToggleDefinition = FeatureFlagDefinition;
+export type PublishedToggle = PublishedFeatureFlag;
 
 export type ABTest = {
   id: string;
@@ -23,10 +27,10 @@ export type ABTest = {
   range: [number, number];
 };
 
-const toggles = {
-  // This should probably be called `features` as we have feature toggles, and a/b testing toggles.
+const toggleConfig = {
+  // Feature flags (permanent toggles, experiments, stage toggles)
   // Toggles of type 'stage' will only be applied on stage
-  toggles: [
+  featureFlags: [
     {
       id: 'apiToolbar',
       title: 'API toolbar',
@@ -166,4 +170,4 @@ const toggles = {
   tests: [] as ABTest[],
 };
 
-export default toggles;
+export default toggleConfig;

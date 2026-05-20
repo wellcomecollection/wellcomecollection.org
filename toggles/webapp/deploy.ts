@@ -50,21 +50,29 @@ export const withDefaultValuesUnmodified = (
 export async function deploy(client: S3Client): Promise<void> {
   const remoteToggles = await getTogglesObject(client);
 
-  const togglesToDeploy = withDefaultValuesUnmodified(remoteToggles.toggles, [
-    ...localToggles.toggles,
+  // Backward compat: S3 may still have the old shape ({ toggles: [...] })
+  // until this deploy writes the new format.
+  const remoteFeatureFlags =
+    remoteToggles.featureFlags ??
+    (remoteToggles as unknown as { toggles: TogglesResp['featureFlags'] })
+      .toggles ??
+    [];
+
+  const featureFlagsToDeploy = withDefaultValuesUnmodified(remoteFeatureFlags, [
+    ...localToggles.featureFlags,
   ]);
 
   // We don't bother looking at the `.tests` during deployments as the `defaultValue`s
   // don't do anything as values are randomly assigned.
   // We should probably look at the structure of features vs tests.
-  const togglesAndTests: TogglesResp = {
-    toggles: togglesToDeploy,
+  const toggles: TogglesResp = {
+    featureFlags: featureFlagsToDeploy,
     tests: localToggles.tests,
   };
 
   // GA4 now limits event parameter values to 100 characters: https://support.google.com/analytics/answer/9267744?hl=en
   // So instead of sending the whole toggles JSON blob we send a concatenated string of only the toggle names (preceeded with a ! if the toggle is false).
-  const potentialToggleString = togglesAndTests.tests
+  const potentialToggleString = toggles.tests
     .map(toggle => `!${toggle.id}`) // replicating the condition of all toggles being false gives the longest possible string.
     .join(',');
 
@@ -81,7 +89,7 @@ export async function deploy(client: S3Client): Promise<void> {
 
   const { $metadata: putObjectResponseMetadata } = await putTogglesObject(
     client,
-    togglesAndTests
+    toggles
   );
 
   if (putObjectResponseMetadata.httpStatusCode === 200) {
