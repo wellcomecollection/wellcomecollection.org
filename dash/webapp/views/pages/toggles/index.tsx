@@ -256,12 +256,25 @@ const TogglesPage: FunctionComponent = () => {
       )
     : abTests;
 
+  const filteredModes: ModeDefinition[] = searchQuery
+    ? modes.filter(m => {
+        const query = searchQuery.toLowerCase();
+        return (
+          m.title.toLowerCase().includes(query) ||
+          m.description.toLowerCase().includes(query) ||
+          m.id.toLowerCase().includes(query) ||
+          m.options.some(opt => opt.label.toLowerCase().includes(query))
+        );
+      })
+    : modes;
+
   const totalResults =
     generalFeatureFlags.length +
     permanentFeatureFlags.length +
     experimentalFeatureFlags.length +
     stageFeatureFlags.length +
-    filteredAbTests.length;
+    filteredAbTests.length +
+    filteredModes.length;
 
   return (
     <>
@@ -427,11 +440,11 @@ const TogglesPage: FunctionComponent = () => {
         </Section>
       )}
 
-      {(modes?.length > 0 || !searchQuery) && (
+      {(filteredModes.length > 0 || !searchQuery) && (
         <Section $background="light">
           <SectionInner>
             <Modes
-              modes={modes}
+              modes={filteredModes}
               modeStates={modeStates}
               setModeStates={setModeStates}
               onReset={() => {

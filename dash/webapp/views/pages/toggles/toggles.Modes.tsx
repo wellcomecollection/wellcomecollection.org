@@ -59,13 +59,18 @@ const Modes: FunctionComponent<ModesProps> = ({
     {modes.length > 0 ? (
       <ToggleList>
         {modes.map(mode => {
-          const currentValue = modeStates[mode.id];
+          const rawValue = modeStates[mode.id];
+          const currentValue = mode.options.some(opt => opt.id === rawValue)
+            ? rawValue
+            : '';
 
           return (
             <ToggleListItem key={mode.id}>
               <ToggleRow>
                 <ToggleInfo>
-                  <h3 style={{ margin: 0 }}>{mode.title}</h3>
+                  <h3 id={`mode-${mode.id}`} style={{ margin: 0 }}>
+                    {mode.title}
+                  </h3>
                   <p
                     style={{
                       margin: `${tokens.spacing.xs} 0`,
@@ -78,7 +83,8 @@ const Modes: FunctionComponent<ModesProps> = ({
 
                 <ToggleControls>
                   <ModeSelect
-                    value={currentValue || ''}
+                    aria-labelledby={`mode-${mode.id}`}
+                    value={currentValue}
                     onChange={e => {
                       const value = e.target.value;
                       if (value) {

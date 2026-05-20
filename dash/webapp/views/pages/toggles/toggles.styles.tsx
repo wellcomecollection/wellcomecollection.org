@@ -4,9 +4,10 @@ import { tokens } from '@weco/dash/views/themes/tokens';
 
 export const TableOfContentsList = styled.ul`
   list-style: none;
+  margin: 0 0 ${tokens.spacing.lg} 0;
   padding: 0;
   display: flex;
-  gap: 16px;
+  gap: ${tokens.spacing.md};
   flex-wrap: wrap;
   justify-content: center;
 `;
