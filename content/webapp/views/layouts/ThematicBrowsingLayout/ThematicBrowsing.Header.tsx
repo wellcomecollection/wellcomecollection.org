@@ -1,7 +1,7 @@
 import * as prismic from '@prismicio/client';
 import styled from 'styled-components';
 
-import { useToggles } from '@weco/common/server-data/Context';
+import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import Breadcrumb, {
   getBreadcrumbItems,
@@ -38,7 +38,7 @@ const ThematicBrowsingHeader = ({
   introText?: string | prismic.RichTextField;
   extraBreadcrumbs?: { url: string; text: string }[];
 }) => {
-  const { thematicBrowsingSubCategory } = useToggles();
+  const { thematicBrowsingSubCategory } = useFeatureFlags();
 
   return (
     <>

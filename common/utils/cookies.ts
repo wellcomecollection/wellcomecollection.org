@@ -1,4 +1,4 @@
-// You possibly/probably want `useToggles` instead of this. This function
+// You possibly/probably want `useFeatureFlags` instead of this. This function
 // returns an array of strings denoting which toggles a user has active/inactive.
 // Inactive toggles are prefixed with a !
 // This output is useful for display purposes (to show someone what they have turned

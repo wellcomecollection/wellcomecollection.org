@@ -48,14 +48,17 @@ const TogglesPage: FunctionComponent = () => {
     fetch('https://toggles.wellcomecollection.org/toggles.json')
       .then(resp => resp.json())
       .then(json => {
-        setToggles(json.toggles);
-        setAbTests(json.tests);
+        const featureFlags: Toggle[] = json.featureFlags ?? json.toggles ?? [];
+        const tests: AbTest[] = json.tests ?? [];
+
+        setToggles(featureFlags);
+        setAbTests(tests);
 
         const cookies = getCookies();
         const initialStates: ToggleStates = {};
 
         // Toggles: cookie value or default
-        for (const toggle of json.toggles as Toggle[]) {
+        for (const toggle of featureFlags) {
           const cookieKey = `toggle_${toggle.id}`;
           initialStates[toggle.id] =
             cookieKey in cookies
@@ -64,7 +67,7 @@ const TogglesPage: FunctionComponent = () => {
         }
 
         // AB tests: cookie value or undefined (= randomly allocate)
-        for (const test of json.tests as AbTest[]) {
+        for (const test of tests) {
           const cookieKey = `toggle_${test.id}`;
           if (cookieKey in cookies) {
             initialStates[test.id] = cookies[cookieKey] === 'true';
@@ -92,7 +95,7 @@ const TogglesPage: FunctionComponent = () => {
             [toggleId]: true,
           }));
           setMessage({
-            text: `✅ Toggle "${toggleId}" has been successfully enabled!`,
+            text: `✅ Feature flag "${toggleId}" has been successfully enabled!`,
             isError: false,
             isEnabled: true,
           });
@@ -104,14 +107,14 @@ const TogglesPage: FunctionComponent = () => {
             [toggleId]: toggle?.defaultValue ?? false,
           }));
           setMessage({
-            text: `🔵 Toggle "${toggleId}" has been reset to its default value.`,
+            text: `🔵 Feature flag "${toggleId}" has been reset to its default value.`,
             isError: false,
             isEnabled: false,
           });
         }
       } else {
         setMessage({
-          text: `❌ Toggle "${toggleId}" does not exist.`,
+          text: `❌ Feature flag "${toggleId}" does not exist.`,
           isError: true,
         });
       }
@@ -153,7 +156,7 @@ const TogglesPage: FunctionComponent = () => {
     if (resetToggles !== undefined) {
       reset();
       setMessage({
-        text: '🔄 All toggles have been reset to their default values.',
+        text: '🔄 All feature flags have been reset to their default values.',
         isError: false,
       });
     } else if (enableToggle) {
@@ -210,11 +213,11 @@ const TogglesPage: FunctionComponent = () => {
       <Header activePath="/toggles" />
       <PageContainer>
         <PageHeader>
-          <PageTitle>Feature Toggles</PageTitle>
+          <PageTitle>Toggles</PageTitle>
           <PageDescription>
-            Manage and test feature flags; changes only affect your own browser.
-            Toggles also have a public status which is set for 100% of users,
-            which is done through devs running a script.
+            Manage and test feature flags and A/B tests; changes only affect
+            your own browser. Feature flags also have a public status which is
+            set for 100% of users, which is done through devs running a script.
           </PageDescription>
         </PageHeader>
 
@@ -253,13 +256,13 @@ const TogglesPage: FunctionComponent = () => {
               onClick={() => {
                 reset();
                 setMessage({
-                  text: '🔄 All toggles have been reset to their default values.',
+                  text: '🔄 All feature flags have been reset to their default values.',
                   isError: false,
                 });
               }}
-              aria-label="Reset all feature toggles to default values"
+              aria-label="Reset all feature flags to default values"
             >
-              Reset toggles to defaults
+              Reset feature flags to defaults
             </ResetButton>
           </div>
         </main>
@@ -268,7 +271,12 @@ const TogglesPage: FunctionComponent = () => {
       {(generalToggles.length > 0 || !searchQuery) && (
         <Section $background="default" $hasNoTopPadding>
           <SectionInner>
-            <h2>Toggles for general use</h2>
+            <h2 id="general">
+              Feature flags for general use
+              <a href="#general" aria-label="Link to this section">
+                <span aria-hidden="true">#</span>
+              </a>
+            </h2>
             <ListOfToggles
               toggles={generalToggles}
               toggleStates={toggleStates}
@@ -281,7 +289,12 @@ const TogglesPage: FunctionComponent = () => {
       {(restOfPermanentToggles.length > 0 || !searchQuery) && (
         <Section $background="light">
           <SectionInner>
-            <h2>Toggles for Digital team - Permanent</h2>
+            <h2 id="permanent">
+              Feature flags for Digital team - Permanent
+              <a href="#permanent" aria-label="Link to this section">
+                <span aria-hidden="true">#</span>
+              </a>
+            </h2>
             <ListOfToggles
               toggles={restOfPermanentToggles}
               toggleStates={toggleStates}
@@ -294,7 +307,12 @@ const TogglesPage: FunctionComponent = () => {
       {(experimentalToggles.length > 0 || !searchQuery) && (
         <Section $background="alt">
           <SectionInner>
-            <h2>Toggles for Digital team - Work in progress</h2>
+            <h2 id="wip">
+              Feature flags for Digital team - Work in progress
+              <a href="#wip" aria-label="Link to this section">
+                <span aria-hidden="true">#</span>
+              </a>
+            </h2>
             <ListOfToggles
               toggles={experimentalToggles}
               toggleStates={toggleStates}
@@ -307,7 +325,12 @@ const TogglesPage: FunctionComponent = () => {
       {(stageToggles.length > 0 || !searchQuery) && (
         <Section $background="light">
           <SectionInner>
-            <h2>Toggles for Digital team - Staging</h2>
+            <h2 id="staging">
+              Feature flags for Digital team - Staging
+              <a href="#staging" aria-label="Link to this section">
+                <span aria-hidden="true">#</span>
+              </a>
+            </h2>
             <ListOfToggles
               toggles={stageToggles}
               toggleStates={toggleStates}

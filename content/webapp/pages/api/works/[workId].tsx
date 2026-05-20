@@ -19,7 +19,7 @@ const WorksApi = async (
   // this is a mega hack to get this working so we can remove toggles from the query
   // TODO : get toggles working here
   const togglesResp: TogglesResp = {
-    toggles: [
+    featureFlags: [
       {
         id: 'stagingApi',
         title: 'Staging API',

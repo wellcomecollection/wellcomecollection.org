@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import { useToggles } from '@weco/common/server-data/Context';
+import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import Button from '@weco/common/views/components/Buttons';
@@ -88,7 +88,7 @@ const WorkItemPage: NextPage<Props> = ({
   const canvas = routerCanvas || serverCanvas;
 
   const { userIsStaffWithRestricted } = useUserContext();
-  const { extendedViewer } = useToggles();
+  const { extendedViewer } = useFeatureFlags();
   const transformedManifest =
     compressedTransformedManifest &&
     fromCompressedManifest(compressedTransformedManifest);

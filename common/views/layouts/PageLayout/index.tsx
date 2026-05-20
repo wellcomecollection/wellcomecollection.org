@@ -16,7 +16,10 @@ import { wellcomeCollectionGallery } from '@weco/common/data/organization';
 import { getCrop, ImageType } from '@weco/common/model/image';
 import { Url } from '@weco/common/model/link-props';
 import { SiteSection } from '@weco/common/model/site-section';
-import { usePrismicData, useToggles } from '@weco/common/server-data/Context';
+import {
+  useFeatureFlags,
+  usePrismicData,
+} from '@weco/common/server-data/Context';
 import { getVenueById } from '@weco/common/services/prismic/opening-times';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
@@ -90,7 +93,7 @@ const PageLayoutComponent: NextPage<Props> = ({
   clipOverflowX = false,
   isNoIndex = false,
 }) => {
-  const { apiToolbar, issuesBanner } = useToggles();
+  const { apiToolbar, issuesBanner } = useFeatureFlags();
   const urlString = convertUrlToString(url);
   const fullTitle =
     title !== ''
