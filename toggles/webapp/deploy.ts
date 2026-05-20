@@ -3,12 +3,15 @@ import { info } from 'console';
 
 import { TogglesResp } from '.';
 import { getTogglesObject, putTogglesObject } from './s3-utils';
-import localToggles, { PublishedToggle, ToggleDefinition } from './toggles';
+import localToggles, {
+  FeatureFlagDefinition,
+  PublishedFeatureFlag,
+} from './toggles';
 
 export const withDefaultValuesUnmodified = (
-  publishedToggles: PublishedToggle[],
-  definitions: ToggleDefinition[]
-): PublishedToggle[] => {
+  publishedToggles: PublishedFeatureFlag[],
+  definitions: FeatureFlagDefinition[]
+): PublishedFeatureFlag[] => {
   /**
    * We don't deploy over the defaultValue as this can be set manually by
    * updating the toggle via setDefaultValueFor.  We want to make updating
@@ -49,14 +52,7 @@ export const withDefaultValuesUnmodified = (
 
 export async function deploy(client: S3Client): Promise<void> {
   const remoteToggles = await getTogglesObject(client);
-
-  // Backward compat: S3 may still have the old shape ({ toggles: [...] })
-  // until this deploy writes the new format.
-  const remoteFeatureFlags =
-    remoteToggles.featureFlags ??
-    (remoteToggles as unknown as { toggles: TogglesResp['featureFlags'] })
-      .toggles ??
-    [];
+  const remoteFeatureFlags = remoteToggles.featureFlags ?? [];
 
   const featureFlagsToDeploy = withDefaultValuesUnmodified(remoteFeatureFlags, [
     ...localToggles.featureFlags,

@@ -39,12 +39,7 @@ export function getTogglesFromContext(
 ): Toggles {
   const isStage = context.req.headers.host?.startsWith('www-stage');
   const allCookies = getCookies(context);
-  // Support both old ({ toggles: [...] }) and new ({ featureFlags: [...] }) JSON formats
-  const featureFlagsList =
-    togglesResp.featureFlags ??
-    (togglesResp as unknown as { toggles: TogglesResp['featureFlags'] })
-      .toggles ??
-    [];
+  const featureFlagsList = togglesResp.featureFlags ?? [];
   const featureFlags = featureFlagsList
     .filter(toggle => {
       return !(!isStage && toggle.type === 'stage');
