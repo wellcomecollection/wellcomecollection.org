@@ -1,5 +1,4 @@
 import { fetchWithUndiciAgent } from '@weco/common/utils/undici-agent';
-import { Toggles } from '@weco/toggles';
 
 type envOptions = 'prod' | 'stage' | 'dev';
 
@@ -29,15 +28,17 @@ export type GlobalApiOptions = {
   index?: string;
 };
 
-export const globalApiOptions = (toggles?: Toggles): GlobalApiOptions => {
-  const toggleDefinedApiOption =
-    DEFAULT_API_ENV_OVERRIDE || (toggles?.stagingApi?.value ? 'stage' : 'prod');
+export const globalApiOptions = (
+  shouldUseStagingApi?: boolean
+): GlobalApiOptions => {
+  const toggleDefinedApiEnv =
+    DEFAULT_API_ENV_OVERRIDE || (shouldUseStagingApi ? 'stage' : 'prod');
 
   const apiConfig = {
     env: {
-      catalogue: CATALOGUE_API_ENV_OVERRIDE ?? toggleDefinedApiOption,
-      concepts: CONCEPTS_API_ENV_OVERRIDE ?? toggleDefinedApiOption,
-      content: CONTENT_API_ENV_OVERRIDE ?? toggleDefinedApiOption,
+      catalogue: CATALOGUE_API_ENV_OVERRIDE ?? toggleDefinedApiEnv,
+      concepts: CONCEPTS_API_ENV_OVERRIDE ?? toggleDefinedApiEnv,
+      content: CONTENT_API_ENV_OVERRIDE ?? toggleDefinedApiEnv,
     },
   };
 
@@ -109,7 +110,7 @@ export type WellcomeAggregation<
 export type QueryProps<Params> = {
   params: Params;
   pageSize?: number;
-  toggles: Toggles;
+  shouldUseStagingApi?: boolean;
 };
 
 // Use shared undici agent configuration for keep-alive connections.

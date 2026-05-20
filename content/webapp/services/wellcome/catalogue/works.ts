@@ -13,7 +13,6 @@ import {
   toQuery,
   WorksProps,
 } from '@weco/content/views/components/SearchPagesLink/Works';
-import { Toggles } from '@weco/toggles';
 
 import { catalogueQuery, looksLikeCanonicalId, notFound } from '.';
 import {
@@ -33,7 +32,7 @@ export type ArchiveWorkData = {
 
 type GetWorkProps = {
   id: string;
-  toggles: Toggles;
+  shouldUseStagingApi?: boolean;
   include?: string[];
 };
 
@@ -109,14 +108,14 @@ type WorkResponse =
 
 export async function getWork({
   id,
-  toggles,
+  shouldUseStagingApi,
   include = workIncludes,
 }: GetWorkProps): Promise<WorkResponse> {
   if (!looksLikeCanonicalId(id)) {
     return notFound();
   }
 
-  const apiOptions = globalApiOptions(toggles);
+  const apiOptions = globalApiOptions(shouldUseStagingApi);
 
   const params = {
     include,
@@ -176,11 +175,15 @@ export async function getWorkClientSide(workId: string): Promise<WorkResponse> {
 
 export async function getArchiveWorks(
   ids: string[],
-  toggles: Toggles
+  shouldUseStagingApi?: boolean
 ): Promise<Record<string, ArchiveWorkData>> {
   const settled = await Promise.allSettled(
     ids.map(id =>
-      getWork({ id, toggles, include: ['production', 'contributors'] })
+      getWork({
+        id,
+        shouldUseStagingApi,
+        include: ['production', 'contributors'],
+      })
     )
   );
 

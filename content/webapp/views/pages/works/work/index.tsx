@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { useFeatureFlags } from '@weco/common/server-data/Context';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import Divider from '@weco/common/views/components/Divider';
 import SearchForm from '@weco/common/views/components/SearchForm';
@@ -54,14 +53,12 @@ export type Props = {
   work: WorkType;
   apiUrl: string;
   transformedManifest?: TransformedManifest;
-  serverData: SimplifiedServerData;
 };
 
 export const WorkPage: NextPage<Props> = ({
   work,
   apiUrl,
   transformedManifest,
-  serverData,
 }) => {
   const { extendedViewer } = useFeatureFlags();
   const { userIsStaffWithRestricted } = useUserContext();
@@ -202,7 +199,6 @@ export const WorkPage: NextPage<Props> = ({
         <StoriesOnWorks
           workId={work.id}
           showDivider={hasAtLeastOneSubject(work.subjects)}
-          toggles={serverData.toggles}
         />
 
         {/* If the work has no subjects, it's not worth adding this component */}

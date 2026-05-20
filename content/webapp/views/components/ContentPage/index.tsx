@@ -83,7 +83,7 @@ const ContentPage = ({
     try {
       const linkedWorksResults = await getLinkedWorks({
         id: `${id}.${contentApiType}`,
-        useStaging: stagingApi || false,
+        shouldUseStagingApi: stagingApi,
       });
 
       setLinkedWorks(() => {

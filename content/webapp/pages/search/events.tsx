@@ -98,7 +98,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       ],
     },
     pageSize: 24,
-    toggles: serverData.toggles,
+    shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
   });
 
   if (eventResponseList?.type === 'Error') {

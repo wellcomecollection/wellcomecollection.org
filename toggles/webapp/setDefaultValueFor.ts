@@ -25,7 +25,7 @@ export async function setDefaultValueFor(client: S3Client): Promise<void> {
 
   const toggles = {
     featureFlags,
-    tests: remoteToggles.tests,
+    tests: remoteToggles.tests ?? [],
   };
 
   const { $metadata: putObjectResponseMetadata } = await putTogglesObject(

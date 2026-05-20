@@ -1,14 +1,13 @@
 import {
   Dispatch,
   SetStateAction,
-  useContext,
   useEffect,
   useMemo,
   useRef,
   useState,
 } from 'react';
 
-import { ServerDataContext } from '@weco/common/server-data/Context';
+import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { getImage } from '@weco/content/services/wellcome/catalogue/images';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
 
@@ -16,7 +15,7 @@ const useExpandedImage = (
   images: Image[]
 ): [Image | undefined, Dispatch<SetStateAction<Image | undefined>>] => {
   const [expandedImage, setExpandedImage] = useState<Image | undefined>();
-  const { toggles } = useContext(ServerDataContext);
+  const { stagingApi } = useFeatureFlags();
   const hasBeenExpanded = useRef(false);
 
   const imageMap = useMemo<Record<string, Image>>(
@@ -42,7 +41,10 @@ const useExpandedImage = (
         setExpandedImage(imageMap[hash]);
       } else {
         // if it's not, fetch the image and then update
-        const { image } = await getImage({ id: hash, toggles });
+        const { image } = await getImage({
+          id: hash,
+          shouldUseStagingApi: stagingApi,
+        });
 
         if (image.type === 'Image') {
           imageMap[image.id] = image;

@@ -1,5 +1,6 @@
 import { FunctionComponent, useEffect, useRef, useState } from 'react';
 
+import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { DataGtmProps } from '@weco/common/utils/gtm';
 import { gridSize12 } from '@weco/common/views/components/Layout';
 import { SizeMap } from '@weco/common/views/components/styled/Grid';
@@ -82,13 +83,14 @@ const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
   const scrollContainerRef = useRef<HTMLUListElement>(null);
   const [concepts, setConcepts] = useState<Concept[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { stagingApi } = useFeatureFlags();
 
   useEffect(() => {
     const fetchData = async () => {
       if (conceptIds.length > 0) {
         setIsLoading(true);
         try {
-          const result = await getConceptsByIds(conceptIds);
+          const result = await getConceptsByIds(conceptIds, stagingApi);
           setConcepts(result);
           onConceptsFetched?.({ count: result.length });
         } catch (error) {

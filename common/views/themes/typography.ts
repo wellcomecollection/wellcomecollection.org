@@ -1,8 +1,6 @@
 import { theme as designSystemTheme } from '@wellcometrust/wellcome-design-system/theme';
 import { css } from 'styled-components';
 
-import { GlobalStyleProps } from './default';
-
 // Note: the design system font sizing uses vw units and clamp so that there is
 // a gradated change across viewport widths without a need for breakpoint changes.
 // We have considered the utility of a similar container query based approach using
@@ -17,9 +15,7 @@ const fontFamilies = {
   mono: designSystemTheme.font.family.mono,
 };
 
-const fontSizeMixin = (
-  size: -2 | -1 | 0 | 1 | 2 | 4 | 5
-) => css<GlobalStyleProps>`
+const fontSizeMixin = (size: -2 | -1 | 0 | 1 | 2 | 4 | 5) => css`
   font-size: ${designSystemTheme.font.size[`f${size}`]};
 `;
 type FontFamily = keyof typeof fontFamilies;
@@ -40,7 +36,7 @@ export const fontFamilyMixin = (
   `;
 };
 
-export const typography = css<GlobalStyleProps>`
+export const typography = css`
   .font-sans-bold {
     ${fontFamilyMixin('sans', true)};
   }
@@ -274,7 +270,7 @@ export const typography = css<GlobalStyleProps>`
   }
 `;
 
-export const makeFontSizeClasses = () => css<GlobalStyleProps>`
+export const makeFontSizeClasses = () => css`
   ${Object.entries(designSystemTheme.font.size)
     .map(([key, value]) => {
       return `.font-size-${key} {font-size: ${value}}`;

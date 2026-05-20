@@ -60,7 +60,11 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
     setSeries(article, setListOfSeries);
 
     if (article.exploreMoreDocument && !relatedDocument) {
-      getRelatedDoc(article, setRelatedDocument, serverData);
+      getRelatedDoc(
+        article,
+        setRelatedDocument,
+        serverData.toggles.featureFlags.stagingApi
+      );
     }
   }, []);
 

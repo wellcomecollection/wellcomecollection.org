@@ -30,9 +30,12 @@ const WorksApi = async (
     ],
     tests: [],
   };
-  const toggles = getTogglesFromContext(togglesResp, { req });
+  const { featureFlags } = getTogglesFromContext(togglesResp, { req });
 
-  const response = await getWork({ id: workId, toggles });
+  const response = await getWork({
+    id: workId,
+    shouldUseStagingApi: featureFlags.stagingApi,
+  });
 
   res.setHeader('Content-Type', 'application/json');
   res.setHeader('Access-Control-Allow-Origin', '*');

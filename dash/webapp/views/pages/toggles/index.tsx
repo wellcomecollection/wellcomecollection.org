@@ -84,6 +84,18 @@ const TogglesPage: FunctionComponent = () => {
       );
   }, []);
 
+  // Scroll to hash anchor after data loads (sections aren't in the DOM on first render)
+  useEffect(() => {
+    if (toggles.length === 0) return;
+    const hash = window.location.hash;
+    if (hash) {
+      const el = document.querySelector(hash);
+      if (el) {
+        el.scrollIntoView();
+      }
+    }
+  }, [toggles]);
+
   const handleToggle = useCallback(
     (toggleId: string, action: 'enable' | 'disable') => {
       const toggleExists = toggles.some(toggle => toggle.id === toggleId);

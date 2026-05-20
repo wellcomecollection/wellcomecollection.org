@@ -1,5 +1,4 @@
 import { WellcomeAggregation } from '@weco/content/services/wellcome';
-import { Toggles } from '@weco/toggles';
 
 import { catalogueQuery } from '.';
 import { WorkAggregations } from './types/aggregations';
@@ -93,11 +92,11 @@ export function transformWorkTypeAggregations(
 }
 
 export async function fetchWorksAggregations(
-  toggles: Toggles = {}
+  shouldUseStagingApi?: boolean
 ): Promise<WellcomeAggregation | null> {
   try {
     const result = await catalogueQuery('works', {
-      toggles,
+      shouldUseStagingApi,
       pageSize: 1,
       params: {
         aggregations: 'workType',
@@ -124,11 +123,11 @@ export async function fetchWorksAggregations(
 }
 
 export async function fetchImagesCount(
-  toggles: Toggles = {}
+  shouldUseStagingApi?: boolean
 ): Promise<number | null> {
   try {
     const result = await catalogueQuery('images', {
-      toggles,
+      shouldUseStagingApi,
       pageSize: 1,
       params: {},
     });
@@ -146,14 +145,14 @@ export async function fetchImagesCount(
 }
 
 export async function fetchCollectionStats(
-  toggles: Toggles = {}
+  shouldUseStagingApi?: boolean
 ): Promise<CollectionStats> {
   const collectionStats = createDefaultCollectionStats();
 
   try {
     const [worksResult, imagesResult] = await Promise.allSettled([
-      fetchWorksAggregations(toggles),
-      fetchImagesCount(toggles),
+      fetchWorksAggregations(shouldUseStagingApi),
+      fetchImagesCount(shouldUseStagingApi),
     ]);
 
     if (worksResult.status === 'fulfilled' && worksResult.value !== null) {

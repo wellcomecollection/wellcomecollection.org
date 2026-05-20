@@ -76,7 +76,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   const work = await getWork({
     id: context.query.workId,
-    toggles: serverData.toggles,
+    shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
     include: ['items', 'languages', 'contributors', 'production', 'notes'],
   });
 

@@ -4,11 +4,10 @@ import {
 } from '@weco/common/prismicio-types';
 import { getArchiveWorks } from '@weco/content/services/wellcome/catalogue/works';
 import { BodySliceContexts } from '@weco/content/views/components/Body';
-import { Toggles } from '@weco/toggles';
 
 export async function getBodySliceContexts(
   bodySlices: PagesDocumentDataBodySlice[],
-  toggles: Toggles
+  shouldUseStagingApi?: boolean
 ): Promise<BodySliceContexts> {
   const archiveCardIds = bodySlices
     .filter(
@@ -21,7 +20,7 @@ export async function getBodySliceContexts(
 
   const archiveWorks =
     archiveCardIds.length > 0
-      ? await getArchiveWorks(archiveCardIds, toggles)
+      ? await getArchiveWorks(archiveCardIds, shouldUseStagingApi)
       : {};
 
   return { archiveWorks };
