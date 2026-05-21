@@ -100,7 +100,6 @@ const PortraitVideoEmbed: FunctionComponent<Props> = ({
 }) => (
   <div
     data-component="portrait-video-embed"
-    data-gtm-position-in-list={positionInList}
     {...dataGtmPropsToAttributes({
       'position-in-list': `${positionInList}`,
       label: title,
