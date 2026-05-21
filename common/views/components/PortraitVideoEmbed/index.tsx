@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { play } from '@weco/common/icons';
 import { ImageType } from '@weco/common/model/image';
 import { font } from '@weco/common/utils/classnames';
+import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
@@ -100,6 +101,10 @@ const PortraitVideoEmbed: FunctionComponent<Props> = ({
   <div
     data-component="portrait-video-embed"
     data-gtm-position-in-list={positionInList}
+    {...dataGtmPropsToAttributes({
+      'position-in-list': `${positionInList}`,
+      label: title,
+    })}
   >
     <CardButton type="button" onClick={onOpen}>
       <span style={{ display: 'block' }}>
