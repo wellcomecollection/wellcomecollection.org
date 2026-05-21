@@ -101,8 +101,10 @@ const PortraitVideoEmbed: FunctionComponent<Props> = ({
   <div
     data-component="portrait-video-embed"
     {...dataGtmPropsToAttributes({
-      'position-in-list': `${positionInList}`,
-      label: title,
+      ...(positionInList !== undefined && {
+        'position-in-list': `${positionInList}`,
+      }),
+      ...(title !== undefined && { label: title }),
     })}
   >
     <CardButton type="button" onClick={onOpen}>
