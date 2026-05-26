@@ -75,7 +75,7 @@ const Dashboard: FunctionComponent = () => {
             <Card href="/toggles" role="listitem">
               <CardTitle>Toggles</CardTitle>
               <CardDescription>
-                Manage and test feature flags and A/B tests.
+                Manage and test feature flags, A/B tests, and modes.
               </CardDescription>
               <CardStatus $type="neutral">View all toggles →</CardStatus>
             </Card>

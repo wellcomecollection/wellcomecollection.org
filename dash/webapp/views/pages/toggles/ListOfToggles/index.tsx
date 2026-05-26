@@ -2,10 +2,7 @@ import { Dispatch, FunctionComponent, SetStateAction } from 'react';
 
 import { tokens } from '@weco/dash/views/themes/tokens';
 
-import { setCookieCustom, Toggle, ToggleStates } from '../toggles.helpers';
-import CopyLinkIcon from './ListOfToggles.CopyLinkIcon';
-import StatusBadge from './ListOfToggles.StatusBadge';
-import ToggleSwitch from './ListOfToggles.ToggleSwitch';
+import { FeatureFlag, setCookieCustom, ToggleStates } from '../toggles.helpers';
 import {
   ToggleControls,
   ToggleHeadingRow,
@@ -14,22 +11,42 @@ import {
   ToggleListItem,
   ToggleRow,
 } from '../toggles.styles';
+import CopyLinkIcon from './ListOfToggles.CopyLinkIcon';
+import StatusBadge from './ListOfToggles.StatusBadge';
+import ToggleSwitch from './ListOfToggles.ToggleSwitch';
 
 type ListOfTogglesProps = {
-  toggles: Toggle[];
+  title: string;
+  anchorId: string;
+  description?: string;
+  featureFlags: FeatureFlag[];
   toggleStates: ToggleStates;
   setToggleStates: Dispatch<SetStateAction<ToggleStates>>;
 };
 
 const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
-  toggles,
+  title,
+  anchorId,
+  description,
+  featureFlags,
   toggleStates,
   setToggleStates,
 }) => (
   <>
-    {toggles.length > 0 ? (
+    <h2 id={anchorId}>
+      {title}
+      <a href={`#${anchorId}`} aria-label="Link to this section">
+        <span aria-hidden="true">#</span>
+      </a>
+    </h2>
+    {description && (
+      <p style={{ marginTop: 0, color: tokens.colors.text.secondary }}>
+        {description}
+      </p>
+    )}
+    {featureFlags.length > 0 ? (
       <ToggleList>
-        {toggles.map(toggle => {
+        {featureFlags.map(toggle => {
           const isPublicOn = toggle.defaultValue === true;
           const currentState = toggleStates[toggle.id];
           const isOn = (currentState ?? toggle.defaultValue) === true;

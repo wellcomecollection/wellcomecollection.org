@@ -128,7 +128,10 @@ export const getServerData = async (
     typeof toggle === 'string' ? toggle : undefined;
 
   // Resolve toggle values from the cached config + user's cookies
-  const { featureFlags, tests } = getTogglesFromContext(togglesResp, context);
+  const { featureFlags, tests, modes } = getTogglesFromContext(
+    togglesResp,
+    context
+  );
 
   // If a valid toggle was requested via query param, set a cookie and enable it
   const allToggleIds = [...Object.keys(featureFlags), ...Object.keys(tests)];
@@ -146,7 +149,7 @@ export const getServerData = async (
   // Read cookie consent status (analytics, marketing)
   const consentStatus = getAllConsentStates(context);
 
-  const toggles: Toggles = { featureFlags, tests };
+  const toggles: Toggles = { featureFlags, tests, modes };
 
   const serverData = {
     toggles,
