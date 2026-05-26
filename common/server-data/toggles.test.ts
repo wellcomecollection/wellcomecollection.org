@@ -56,12 +56,18 @@ const stageOnlyFlag = {
   type: 'stage' as const,
 };
 
+const defaultTogglesResp: TogglesResp = {
+  featureFlags: [],
+  tests: [],
+  modes: [],
+};
+
 describe('getTogglesFromContext', () => {
   describe('featureFlags', () => {
     it('returns defaultValue when no cookie is set', () => {
       const togglesResp: TogglesResp = {
+        ...defaultTogglesResp,
         featureFlags: [stagingApiFlag, thematicBrowsingFlag],
-        tests: [],
       };
 
       const result = getTogglesFromContext(togglesResp, createContext());
@@ -72,8 +78,8 @@ describe('getTogglesFromContext', () => {
 
     it('returns true when cookie is "true"', () => {
       const togglesResp: TogglesResp = {
+        ...defaultTogglesResp,
         featureFlags: [stagingApiFlag],
-        tests: [],
       };
 
       const result = getTogglesFromContext(
@@ -86,8 +92,8 @@ describe('getTogglesFromContext', () => {
 
     it('returns defaultValue when cookie is "false" (not false)', () => {
       const togglesResp: TogglesResp = {
+        ...defaultTogglesResp,
         featureFlags: [stagingApiFlag],
-        tests: [],
       };
 
       const result = getTogglesFromContext(
@@ -101,8 +107,8 @@ describe('getTogglesFromContext', () => {
 
     it('returns defaultValue when cookie is any non-"true" string', () => {
       const togglesResp: TogglesResp = {
+        ...defaultTogglesResp,
         featureFlags: [thematicBrowsingFlag],
-        tests: [],
       };
 
       const result = getTogglesFromContext(
@@ -115,8 +121,8 @@ describe('getTogglesFromContext', () => {
 
     it('excludes stage-only flags on non-stage hosts', () => {
       const togglesResp: TogglesResp = {
+        ...defaultTogglesResp,
         featureFlags: [stageOnlyFlag],
-        tests: [],
       };
 
       const result = getTogglesFromContext(
@@ -130,8 +136,8 @@ describe('getTogglesFromContext', () => {
 
     it('includes stage-only flags on stage hosts', () => {
       const togglesResp: TogglesResp = {
+        ...defaultTogglesResp,
         featureFlags: [stageOnlyFlag],
-        tests: [],
       };
 
       const result = getTogglesFromContext(
@@ -151,7 +157,7 @@ describe('getTogglesFromContext', () => {
     // the result to access arbitrary keys
     it('returns true when cookie is "true"', () => {
       const togglesResp = {
-        featureFlags: [],
+        ...defaultTogglesResp,
         tests: [
           { id: 'sampleTest', title: 'Sample', type: 'test', range: [0, 100] },
         ],
@@ -167,7 +173,7 @@ describe('getTogglesFromContext', () => {
 
     it('returns false when cookie is "false"', () => {
       const togglesResp = {
-        featureFlags: [],
+        ...defaultTogglesResp,
         tests: [
           { id: 'sampleTest', title: 'Sample', type: 'test', range: [0, 100] },
         ],
@@ -183,7 +189,7 @@ describe('getTogglesFromContext', () => {
 
     it('returns undefined when no cookie is set', () => {
       const togglesResp = {
-        featureFlags: [],
+        ...defaultTogglesResp,
         tests: [
           { id: 'sampleTest', title: 'Sample', type: 'test', range: [0, 100] },
         ],
@@ -198,7 +204,7 @@ describe('getTogglesFromContext', () => {
 
     it('returns undefined when cookie is any non-boolean string', () => {
       const togglesResp = {
-        featureFlags: [],
+        ...defaultTogglesResp,
         tests: [
           { id: 'sampleTest', title: 'Sample', type: 'test', range: [0, 100] },
         ],
@@ -228,8 +234,7 @@ describe('getTogglesFromContext', () => {
 
     it('returns undefined when no cookie is set', () => {
       const togglesResp = {
-        featureFlags: [],
-        tests: [],
+        ...defaultTogglesResp,
         modes: [modeDefinition],
       } as unknown as TogglesResp;
 
@@ -242,8 +247,7 @@ describe('getTogglesFromContext', () => {
 
     it('returns the value when cookie matches a valid option', () => {
       const togglesResp = {
-        featureFlags: [],
-        tests: [],
+        ...defaultTogglesResp,
         modes: [modeDefinition],
       } as unknown as TogglesResp;
 
@@ -259,8 +263,7 @@ describe('getTogglesFromContext', () => {
 
     it('returns undefined when cookie is an empty string', () => {
       const togglesResp = {
-        featureFlags: [],
-        tests: [],
+        ...defaultTogglesResp,
         modes: [modeDefinition],
       } as unknown as TogglesResp;
 
@@ -276,8 +279,7 @@ describe('getTogglesFromContext', () => {
 
     it('returns undefined when cookie value is not a valid option', () => {
       const togglesResp = {
-        featureFlags: [],
-        tests: [],
+        ...defaultTogglesResp,
         modes: [modeDefinition],
       } as unknown as TogglesResp;
 

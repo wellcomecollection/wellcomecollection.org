@@ -70,6 +70,7 @@ const ItemsApi = async (
       },
     ],
     tests: [],
+    modes: [],
   };
   const { featureFlags } = getTogglesFromContext(togglesResp, { req });
   const { workId } = req.query;

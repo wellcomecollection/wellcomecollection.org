@@ -29,6 +29,7 @@ const WorksApi = async (
       },
     ],
     tests: [],
+    modes: [],
   };
   const { featureFlags } = getTogglesFromContext(togglesResp, { req });
 
