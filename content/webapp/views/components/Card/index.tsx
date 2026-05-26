@@ -16,6 +16,7 @@ export const CardImageWrapper = styled.div`
 
 type Props = {
   item: CardType;
+  positionInList?: number;
 };
 
 const sharedCardOuter = css`
@@ -171,11 +172,15 @@ export const CardTitle = styled(Space).attrs({
   transition: color 400ms ease;
 `;
 
-const Card: FunctionComponent<Props> = ({ item }: Props) => {
+const Card: FunctionComponent<Props> = ({ item, positionInList }: Props) => {
   const image = getCrop(item.image, '16:9');
 
   return (
-    <CardOuter data-component="card" href={item.link}>
+    <CardOuter
+      data-component="card"
+      data-gtm-position-in-list={positionInList}
+      href={item.link}
+    >
       <CardImageWrapper>
         {image && (
           <PrismicImage
