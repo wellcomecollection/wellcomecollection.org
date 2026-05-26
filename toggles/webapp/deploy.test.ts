@@ -1,7 +1,7 @@
 import { withDefaultValuesUnmodified } from './deploy';
-import { PublishedToggle, ToggleDefinition } from './toggles';
+import { FeatureFlagDefinition, PublishedFeatureFlag } from './toggles';
 
-function getPublishedToggle(id: number): PublishedToggle {
+function getPublishedToggle(id: number): PublishedFeatureFlag {
   return {
     id: `toggle-${id}`,
     title: `title-${id}`,
@@ -11,7 +11,7 @@ function getPublishedToggle(id: number): PublishedToggle {
   };
 }
 
-function getToggleDefinition(id: number): ToggleDefinition {
+function getToggleDefinition(id: number): FeatureFlagDefinition {
   return {
     id: `toggle-${id}`,
     title: `title-${id}`,
@@ -51,7 +51,7 @@ it('removes tests', () => {
 });
 
 it('updates existing toggles leaving defaultValue unmodified', () => {
-  const remote: PublishedToggle[] = [
+  const remote: PublishedFeatureFlag[] = [
     {
       id: 'id-1',
       title: 'title1',
@@ -75,7 +75,7 @@ it('updates existing toggles leaving defaultValue unmodified', () => {
     },
   ];
 
-  const definitions: ToggleDefinition[] = [
+  const definitions: FeatureFlagDefinition[] = [
     {
       id: 'id-1',
       title: 'updated title1',
@@ -101,7 +101,7 @@ it('updates existing toggles leaving defaultValue unmodified', () => {
 
   const newRemote = withDefaultValuesUnmodified(remote, definitions);
 
-  const expected: PublishedToggle[] = [
+  const expected: PublishedFeatureFlag[] = [
     {
       id: 'id-1',
       title: 'updated title1',

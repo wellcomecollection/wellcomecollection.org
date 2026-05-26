@@ -16,10 +16,6 @@ export type PublishedFeatureFlag = ToggleBase & {
   defaultValue: boolean;
 };
 
-// Backward compatibility aliases
-export type ToggleDefinition = FeatureFlagDefinition;
-export type PublishedToggle = PublishedFeatureFlag;
-
 export type ABTest = {
   id: string;
   title: string;
