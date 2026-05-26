@@ -36,7 +36,18 @@ export const compositeTypographyMixin = (
       ? t.heading[family ?? 'sans']?.[weight]?.[size]
       : t[category]?.[weight]?.[size];
 
-  if (!style) return css``;
+  if (!style) {
+    if (process.env.NODE_ENV !== 'production') {
+      const label =
+        category === 'heading'
+          ? `heading.${family ?? 'sans'}.${weight}.${size}`
+          : `${category}.${weight}.${size}`;
+      console.warn(
+        `compositeTypographyMixin: no typography value found for "${label}"`
+      );
+    }
+    return css``;
+  }
 
   return css`
     font-family: ${style.fontFamily};
