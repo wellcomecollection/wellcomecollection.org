@@ -53,7 +53,7 @@ const TogglesPage: FunctionComponent = () => {
     fetch('https://toggles.wellcomecollection.org/toggles.json')
       .then(resp => resp.json())
       .then(json => {
-        const flags: FeatureFlag[] = json.featureFlags ?? json.toggles ?? [];
+        const flags: FeatureFlag[] = json.featureFlags ?? [];
         const tests: AbTest[] = json.tests ?? [];
         // TODO: remove hardcoded fallback once modes are deployed to S3.
         // Until then, uncomment the fallback below to test the Modes UI locally.
