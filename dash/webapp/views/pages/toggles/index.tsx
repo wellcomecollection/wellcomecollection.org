@@ -55,26 +55,7 @@ const TogglesPage: FunctionComponent = () => {
       .then(json => {
         const flags: FeatureFlag[] = json.featureFlags ?? [];
         const tests: AbTest[] = json.tests ?? [];
-        // TODO: remove hardcoded fallback once modes are deployed to S3.
-        // Until then, uncomment the fallback below to test the Modes UI locally.
         const modeDefinitions: ModeDefinition[] = json.modes ?? [];
-        // const modeDefinitions: ModeDefinition[] = json.modes?.length
-        //   ? json.modes
-        //   : [
-        //       {
-        //         id: 'kioskMode',
-        //         title: 'Kiosk mode',
-        //         description:
-        //           'Activate kiosk mode to display content optimised for in-gallery screens.',
-        //         options: [
-        //           { id: 'RR-iPad1', label: 'Reading Room: iPad 1' },
-        //           { id: 'RR-iPad2', label: 'Reading Room: iPad 2' },
-        //           { id: 'RR-iPad3', label: 'Reading Room: iPad 3' },
-        //           { id: 'TR-iPad1', label: 'Tenderness & Rage: iPad 1' },
-        //           { id: 'TR-iPad2', label: 'Tenderness & Rage: iPad 2' },
-        //         ],
-        //       },
-        //     ];
 
         setFeatureFlags(flags);
         setAbTests(tests);
