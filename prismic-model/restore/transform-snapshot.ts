@@ -221,20 +221,20 @@ async function init() {
   if (oldSlugs.length > 0) {
     const escapedSlugs = oldSlugs.map(escapeRegex);
     // Regex: (slug1|slug2|slug3|...) - matches any old URL path segment globally
-    const pass3Re = new RegExp(escapedSlugs.join('|'), 'g');
-    let pass3Replacements = 0;
-    content = content.replace(pass3Re, match => {
-      pass3Replacements++;
+    const slugPattern = new RegExp(escapedSlugs.join('|'), 'g');
+    let slugReplacements = 0;
+    content = content.replace(slugPattern, match => {
+      slugReplacements++;
       return `${slugMap[match]}${PLACEHOLDER}`;
     });
-    let pass4Count = 0;
+    let slugPlaceholdersRemoved = 0;
     // Regex: matches the placeholder suffix to remove it
     content = content.replace(new RegExp(PLACEHOLDER, 'g'), () => {
-      pass4Count++;
+      slugPlaceholdersRemoved++;
       return '';
     });
     logSuccess(
-      `Pass 1/2 complete: replaced ${pass3Replacements} URL path segments (${pass4Count} cleaned up)`
+      `URL slug replacement complete: replaced ${slugReplacements} path segments (${slugPlaceholdersRemoved} placeholders removed)`
     );
   }
 
@@ -243,20 +243,20 @@ async function init() {
   if (oldAssetIds.length > 0) {
     const escapedIds = oldAssetIds.map(escapeRegex);
     // Regex: (id1|id2|id3|...) - matches any old asset ID globally
-    const pass3Re = new RegExp(escapedIds.join('|'), 'g');
-    let pass3Replacements = 0;
-    content = content.replace(pass3Re, match => {
-      pass3Replacements++;
+    const assetIdPattern = new RegExp(escapedIds.join('|'), 'g');
+    let assetIdReplacements = 0;
+    content = content.replace(assetIdPattern, match => {
+      assetIdReplacements++;
       return `${assetIdMap[match]}${PLACEHOLDER}`;
     });
-    let pass4Count = 0;
+    let assetIdPlaceholdersRemoved = 0;
     // Regex: matches the placeholder suffix to remove it
     content = content.replace(new RegExp(PLACEHOLDER, 'g'), () => {
-      pass4Count++;
+      assetIdPlaceholdersRemoved++;
       return '';
     });
     logSuccess(
-      `Pass 3/4 complete: replaced ${pass3Replacements} asset IDs (${pass4Count} cleaned up)`
+      `Asset ID replacement complete: replaced ${assetIdReplacements} asset IDs (${assetIdPlaceholdersRemoved} placeholders removed)`
     );
   }
 
@@ -266,20 +266,20 @@ async function init() {
   if (oldContentIds.length > 0) {
     const escapedIds = oldContentIds.map(escapeRegex);
     // Regex: (id1|id2|id3|...) - matches any old content document ID globally
-    const pass5Re = new RegExp(escapedIds.join('|'), 'g');
-    let pass5Replacements = 0;
-    content = content.replace(pass5Re, match => {
-      pass5Replacements++;
+    const contentIdPattern = new RegExp(escapedIds.join('|'), 'g');
+    let contentIdReplacements = 0;
+    content = content.replace(contentIdPattern, match => {
+      contentIdReplacements++;
       return `${contentIdMap[match]}${PLACEHOLDER}`;
     });
-    let pass6Count = 0;
+    let contentIdPlaceholdersRemoved = 0;
     // Regex: matches the placeholder suffix to remove it
     content = content.replace(new RegExp(PLACEHOLDER, 'g'), () => {
-      pass6Count++;
+      contentIdPlaceholdersRemoved++;
       return '';
     });
     logSuccess(
-      `Pass 5/6 complete: replaced ${pass5Replacements} content document IDs (${pass6Count} cleaned up)`
+      `Content ID replacement complete: replaced ${contentIdReplacements} content document IDs (${contentIdPlaceholdersRemoved} placeholders removed)`
     );
   }
   // Prismic embeds the repo name in two URL patterns:
@@ -314,7 +314,7 @@ async function init() {
     });
 
     logSuccess(
-      `Pass 7 complete: rewrote ${imagesCount} images.prismic.io URLs and ${cdnCount} cdn.prismic.io URLs`
+      `Repository URL rewriting complete: rewrote ${imagesCount} images.prismic.io URLs and ${cdnCount} cdn.prismic.io URLs`
     );
   }
   // Step 8: Backfill publishDate on articles
@@ -346,7 +346,7 @@ async function init() {
   }
   content = JSON.stringify(docs, null, 2);
   logSuccess(
-    `Pass publishDate: backfilled publishDate on ${publishDateCount} articles`
+    `Article publishDate backfill complete: set publishDate on ${publishDateCount} articles`
   );
 
   // Step 9: Validate the result is still valid JSON before writing
