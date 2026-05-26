@@ -2,7 +2,7 @@ import { Dispatch, FunctionComponent, SetStateAction } from 'react';
 import styled from 'styled-components';
 
 import { tokens } from '@weco/dash/views/themes/tokens';
-import { ModeDefinition } from '@weco/toggles/toggles';
+import { ModeDefinition } from '@weco/toggles';
 
 import { deleteCookieCustom, setCookieCustom } from './toggles.helpers';
 import {

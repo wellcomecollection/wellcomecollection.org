@@ -12,7 +12,7 @@ import {
   PageTitle,
 } from '@weco/dash/views/components/PageLayout';
 import { tokens } from '@weco/dash/views/themes/tokens';
-import { ModeDefinition } from '@weco/toggles/toggles';
+import { ModeDefinition } from '@weco/toggles';
 
 import ListOfToggles from './ListOfToggles';
 import ABTests, { AbTest } from './toggles.ABTests';
