@@ -12,24 +12,18 @@ import Modal from '@weco/common/views/components/Modal';
 
 import InactivityRedirectModal from './InactivityRedirect.Modal';
 
-const DEFAULT_INACTIVITY_TIMEOUT = 30 * 1000; // 30 seconds
-const DEFAULT_WARNING_COUNTDOWN = 30; // 30 seconds countdown before redirect
+const INACTIVITY_TIMEOUT = 30 * 1000; // 30 seconds
+const WARNING_COUNTDOWN = 30; // 30 seconds countdown before redirect
 
 type Props = {
   redirectUrl: string;
-  inactivityTimeout?: number;
-  warningCountdown?: number;
 };
 
-const InactivityRedirect: FunctionComponent<Props> = ({
-  redirectUrl,
-  inactivityTimeout = DEFAULT_INACTIVITY_TIMEOUT,
-  warningCountdown = DEFAULT_WARNING_COUNTDOWN,
-}) => {
+const InactivityRedirect: FunctionComponent<Props> = ({ redirectUrl }) => {
   const isKiosk = useKiosk();
   const router = useRouter();
   const [isWarningActive, setIsWarningActive] = useState(false);
-  const [countdown, setCountdown] = useState(warningCountdown);
+  const [countdown, setCountdown] = useState(WARNING_COUNTDOWN);
   const inactivityTimerRef = useRef<NodeJS.Timeout | null>(null);
   const countdownTimerRef = useRef<NodeJS.Timeout | null>(null);
   const redirectTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -55,13 +49,13 @@ const InactivityRedirect: FunctionComponent<Props> = ({
 
     inactivityTimerRef.current = setTimeout(() => {
       setIsWarningActive(true);
-      setCountdown(warningCountdown);
-    }, inactivityTimeout);
-  }, [isWarningActive, inactivityTimeout, warningCountdown]);
+      setCountdown(WARNING_COUNTDOWN);
+    }, INACTIVITY_TIMEOUT);
+  }, [isWarningActive]);
 
   const handleCancelRedirect = useCallback(() => {
     setIsWarningActive(false);
-    setCountdown(warningCountdown);
+    setCountdown(WARNING_COUNTDOWN);
 
     if (countdownTimerRef.current) {
       clearInterval(countdownTimerRef.current);
@@ -85,7 +79,7 @@ const InactivityRedirect: FunctionComponent<Props> = ({
   useEffect(() => {
     const handleRouteChange = () => {
       setIsWarningActive(false);
-      setCountdown(warningCountdown);
+      setCountdown(WARNING_COUNTDOWN);
 
       if (countdownTimerRef.current) {
         clearInterval(countdownTimerRef.current);
@@ -124,7 +118,7 @@ const InactivityRedirect: FunctionComponent<Props> = ({
 
       redirectTimerRef.current = setTimeout(() => {
         performRedirect();
-      }, warningCountdown * 1000);
+      }, WARNING_COUNTDOWN * 1000);
 
       return () => {
         if (countdownTimerRef.current) {
@@ -198,7 +192,7 @@ const InactivityRedirect: FunctionComponent<Props> = ({
     >
       <InactivityRedirectModal
         countdown={countdown}
-        warningCountdown={warningCountdown}
+        warningCountdown={WARNING_COUNTDOWN}
         onKeepBrowsing={handleCancelRedirect}
         onReset={performRedirect}
       />
