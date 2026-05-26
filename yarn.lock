@@ -3148,7 +3148,14 @@
     tslib "^2.5.0"
     uuid "^9.0.0"
 
-"@prismicio/client@7.17.0", "@prismicio/client@7.21.6", "@prismicio/client@^7.1.0", "@prismicio/client@^7.21.6":
+"@prismicio/client@7.17.0":
+  version "7.17.0"
+  resolved "https://registry.yarnpkg.com/@prismicio/client/-/client-7.17.0.tgz#7b8f12fbc76e02a23fe817a1a0d8410d83fc40f6"
+  integrity sha512-7e1ICYk4IAxKX8zmtCOy9e8rXeeT9A45ZgJY9lNNWqUaL1LW/ilXnh/SsAZG/G5q14JyRJHwBIGIzcKY9hjJhw==
+  dependencies:
+    imgix-url-builder "^0.0.5"
+
+"@prismicio/client@^7.1.0", "@prismicio/client@^7.21.6":
   version "7.21.6"
   resolved "https://registry.yarnpkg.com/@prismicio/client/-/client-7.21.6.tgz#04fabe495e7c382c2efa16a972d5fa3b3d294bc8"
   integrity sha512-dWp0qxldujorY0jR5pQOpW9gloFWOJfFxJPYqkDZqp4w59jIn8h0aiwOMFxh7AFZdLgINuM1BALQxnhPNSxgbA==
@@ -4985,10 +4992,10 @@
   resolved "https://registry.yarnpkg.com/@webcontainer/env/-/env-1.1.1.tgz#23021b2bb24befeeef53dba8996d1886b7016515"
   integrity sha512-6aN99yL695Hi9SuIk1oC88l9o0gmxL1nGWWQ/kNy81HigJ0FoaoTXpytCj6ItzgyCEwA9kF1wixsTuv5cjsgng==
 
-"@wellcometrust/wellcome-design-system@^2.0.0":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@wellcometrust/wellcome-design-system/-/wellcome-design-system-2.0.1.tgz#ef30c030b22d24d3f7ef4890f5d15ca58f44ac49"
-  integrity sha512-yHYv19XntF+NG47PTtK3S6auYYcpoEVKuS3GvKE395vjEjaluhjPblPr23UrOuI8xPM/30DZ0hH01Q5BMr1c0A==
+"@wellcometrust/wellcome-design-system@2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@wellcometrust/wellcome-design-system/-/wellcome-design-system-2.1.0.tgz#175fca379822f05bc09f7c911e1155f3c5886df1"
+  integrity sha512-wqXHPwevOp2LiEoAUsykdnmM6MdrEeqNgf4Z60hn/teWWmzZka/mE2UH23tnct3owWb8ett55C8kdSbYvKDAtw==
 
 "@xtuc/ieee754@^1.2.0":
   version "1.2.0"
@@ -7901,6 +7908,11 @@ image-size@^2.0.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/image-size/-/image-size-2.0.2.tgz#84a7b43704db5736f364bf0d1b029821299b4bdc"
   integrity sha512-IRqXKlaXwgSMAMtpNzZa1ZAe8m+Sa1770Dhk8VkSsP9LS+iHD62Zd8FQKs8fbPiagBE7BzoFX23cxFnwshpV6w==
+
+imgix-url-builder@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/imgix-url-builder/-/imgix-url-builder-0.0.5.tgz#641e4af7fc1443d3f9f30f3c1331e4c1a2ad9832"
+  integrity sha512-dCx3UlXghtsjySoqVCcHQHRikqDummwQEfKlxBUK/wrMzd+1ox/XX+zhqVuXKMVuZvCc84pVLEJyntQB0OOi/w==
 
 imgix-url-builder@^0.0.6:
   version "0.0.6"

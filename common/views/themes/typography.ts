@@ -1,4 +1,8 @@
-import { theme as designSystemTheme } from '@wellcometrust/wellcome-design-system/theme';
+import {
+  theme as designSystemTheme,
+  TypographySizeKey,
+  TypographyValue,
+} from '@wellcometrust/wellcome-design-system/theme';
 import { css } from 'styled-components';
 
 // Note: the design system font sizing uses vw units and clamp so that there is
@@ -19,6 +23,29 @@ const fontSizeMixin = (size: -2 | -1 | 0 | 1 | 2 | 4 | 5) => css`
   font-size: ${designSystemTheme.font.size[`f${size}`]};
 `;
 type FontFamily = keyof typeof fontFamilies;
+
+export const compositeTypographyMixin = (
+  category: 'body' | 'caption' | 'display' | 'label' | 'heading',
+  size: TypographySizeKey,
+  weight: 'regular' | 'strong',
+  family?: 'sans' | 'brand'
+) => {
+  const t = designSystemTheme.typography;
+  const style: TypographyValue | undefined =
+    category === 'heading'
+      ? t.heading[family ?? 'sans']?.[weight]?.[size]
+      : t[category]?.[weight]?.[size];
+
+  if (!style) return css``;
+
+  return css`
+    font-family: ${style.fontFamily};
+    font-weight: ${style.fontWeight};
+    font-size: ${style.fontSize};
+    line-height: ${style.lineHeight};
+    letter-spacing: ${style.letterSpacing};
+  `;
+};
 
 export const fontFamilyMixin = (
   family: FontFamily,
