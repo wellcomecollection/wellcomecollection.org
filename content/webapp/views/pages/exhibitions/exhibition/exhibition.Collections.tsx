@@ -25,6 +25,10 @@ export const Wrapper = styled(Space).attrs({
   background: ${props => props.theme.color('warmNeutral.300')};
 `;
 
+const SectionHeaderWrapper = styled.div`
+  margin-bottom: ${props => props.theme.spacingUnits['100']};
+`;
+
 const ExhibitionCollectionsContent = ({
   isTendernessAndRageExhibition,
   themeCardsListSlice,
@@ -56,7 +60,9 @@ const ExhibitionCollectionsContent = ({
   return (
     <Wrapper>
       <Container>
-        <SectionHeader title="Further reading" />
+        <SectionHeaderWrapper>
+          <SectionHeader title="Further reading" />
+        </SectionHeaderWrapper>
         <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
           <p>
             Explore the subjects and stories inspired by the topics in the
@@ -109,6 +115,7 @@ const ExhibitionCollectionsContent = ({
           />
         </Space>
       )}
+
       {verticalVideos && videos?.length > 0 && (
         <SliceZone
           slices={videos}
