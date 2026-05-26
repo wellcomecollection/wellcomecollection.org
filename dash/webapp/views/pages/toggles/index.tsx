@@ -12,7 +12,7 @@ import {
   PageTitle,
 } from '@weco/dash/views/components/PageLayout';
 import { tokens } from '@weco/dash/views/themes/tokens';
-import { ModeDefinition } from '@weco/toggles/toggles';
+import { ModeDefinition } from '@weco/toggles';
 
 import ListOfToggles from './ListOfToggles';
 import ABTests, { AbTest } from './toggles.ABTests';
@@ -53,28 +53,9 @@ const TogglesPage: FunctionComponent = () => {
     fetch('https://toggles.wellcomecollection.org/toggles.json')
       .then(resp => resp.json())
       .then(json => {
-        const flags: FeatureFlag[] = json.featureFlags ?? json.toggles ?? [];
+        const flags: FeatureFlag[] = json.featureFlags ?? [];
         const tests: AbTest[] = json.tests ?? [];
-        // TODO: remove hardcoded fallback once modes are deployed to S3.
-        // Until then, uncomment the fallback below to test the Modes UI locally.
         const modeDefinitions: ModeDefinition[] = json.modes ?? [];
-        // const modeDefinitions: ModeDefinition[] = json.modes?.length
-        //   ? json.modes
-        //   : [
-        //       {
-        //         id: 'kioskMode',
-        //         title: 'Kiosk mode',
-        //         description:
-        //           'Activate kiosk mode to display content optimised for in-gallery screens.',
-        //         options: [
-        //           { id: 'RR-iPad1', label: 'Reading Room: iPad 1' },
-        //           { id: 'RR-iPad2', label: 'Reading Room: iPad 2' },
-        //           { id: 'RR-iPad3', label: 'Reading Room: iPad 3' },
-        //           { id: 'TR-iPad1', label: 'Tenderness & Rage: iPad 1' },
-        //           { id: 'TR-iPad2', label: 'Tenderness & Rage: iPad 2' },
-        //         ],
-        //       },
-        //     ];
 
         setFeatureFlags(flags);
         setAbTests(tests);

@@ -215,34 +215,6 @@ describe('getTogglesFromContext', () => {
     });
   });
 
-  describe('backward compatibility', () => {
-    it('supports the old JSON format with toggles field', () => {
-      const togglesResp = {
-        toggles: [stagingApiFlag],
-        tests: [],
-      } as unknown as TogglesResp;
-
-      const result = getTogglesFromContext(togglesResp, createContext());
-
-      expect(result.featureFlags.stagingApi).toBe(false);
-    });
-
-    it('prefers featureFlags over toggles if both are present', () => {
-      const togglesResp = {
-        featureFlags: [stagingApiFlag],
-        toggles: [{ ...stagingApiFlag, id: 'oldField' }],
-        tests: [],
-      } as unknown as TogglesResp;
-
-      const result = getTogglesFromContext(togglesResp, createContext());
-
-      expect(result.featureFlags.stagingApi).toBe(false);
-      expect(
-        (result.featureFlags as Record<string, unknown>).oldField
-      ).toBeUndefined();
-    });
-  });
-
   describe('modes', () => {
     const modeDefinition = {
       id: 'kioskMode',

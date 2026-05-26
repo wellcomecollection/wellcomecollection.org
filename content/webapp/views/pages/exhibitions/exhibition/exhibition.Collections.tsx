@@ -83,7 +83,10 @@ const ExhibitionCollectionsContent = ({
                       />
                     )}
                     {item.type === 'series' && (
-                      <Card item={convertItemToCardProps(item)} />
+                      <Card
+                        item={convertItemToCardProps(item)}
+                        positionInList={index + 1}
+                      />
                     )}
                   </Space>
                 </GridCell>
