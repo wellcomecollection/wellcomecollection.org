@@ -57,6 +57,35 @@ const bucket: string = BUCKET ?? '';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+// Types for fields that need normalization to Migration API format
+type InterpretationItem = {
+  isPrimary?: unknown;
+  [key: string]: unknown;
+};
+
+type TimeSlot = {
+  isFullyBooked?: unknown;
+  onlineIsFullyBooked?: unknown;
+  [key: string]: unknown;
+};
+
+// Normalizes isPrimary field in interpretation items to Migration API's accepted values (yes or null)
+function normalizeInterpretation(item: InterpretationItem): InterpretationItem {
+  return {
+    ...item,
+    isPrimary: item.isPrimary === 'yes' ? 'yes' : null,
+  };
+}
+
+// Normalizes boolean fields in time slot items to Migration API's accepted values (yes or null)
+function normalizeTimeSlot(item: TimeSlot): TimeSlot {
+  return {
+    ...item,
+    isFullyBooked: item.isFullyBooked === 'yes' ? 'yes' : null,
+    onlineIsFullyBooked: item.onlineIsFullyBooked === 'yes' ? 'yes' : null,
+  };
+}
+
 function appendToLog(message: string): void {
   fs.appendFile('restore.log', message, err => {
     if (err) console.error(err);
@@ -135,25 +164,16 @@ async function uploadDoc(
   const richTextTitle = doc.data?.title?.[0]?.text;
   const nameTitle = doc.data?.name;
 
-  // Snapshot data can contain legacy/non-conforming interpretation values.
-  // Normalize `isPrimary` here to the Migration API's accepted values.
+  // Snapshot data can contain legacy/non-conforming values. Normalize to
+  // Migration API's accepted values (yes or null) for boolean-like fields.
   const interpretations = Array.isArray(doc.data?.interpretations)
-    ? doc.data.interpretations.map((item: any) => ({
-        ...item,
-        isPrimary: item.isPrimary === 'yes' ? 'yes' : null,
-      }))
+    ? doc.data.interpretations.map(normalizeInterpretation)
     : undefined;
 
-  // Normalize isPermanent to Migration API's accepted values (yes or null)
   const isPermanent = doc.data?.isPermanent === 'yes' ? 'yes' : null;
 
-  // Normalize times array boolean fields (isFullyBooked, onlineIsFullyBooked)
   const times = Array.isArray(doc.data?.times)
-    ? doc.data.times.map((item: any) => ({
-        ...item,
-        isFullyBooked: item.isFullyBooked === 'yes' ? 'yes' : null,
-        onlineIsFullyBooked: item.onlineIsFullyBooked === 'yes' ? 'yes' : null,
-      }))
+    ? doc.data.times.map(normalizeTimeSlot)
     : undefined;
 
   const body = {
