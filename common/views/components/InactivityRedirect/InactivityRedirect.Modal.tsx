@@ -55,7 +55,7 @@ const InactivityRedirectModal: FunctionComponent<Props> = ({
         This screen will reset in {warningCountdown} seconds for the next
         visitor.
       </p>
-      <CountdownText>{countdown}</CountdownText>
+      <CountdownText data-chromatic="ignore">{countdown}</CountdownText>
       <ButtonRow>
         <Button
           variant="ButtonSolid"
