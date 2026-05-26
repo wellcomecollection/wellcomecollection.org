@@ -2,8 +2,6 @@ import toggleConfig, { ABTest, PublishedFeatureFlag } from './toggles';
 
 export type FeatureFlagId = (typeof toggleConfig.featureFlags)[number]['id'];
 export type TestId = (typeof toggleConfig.tests)[number]['id'];
-// Backward compatibility alias
-export type ToggleId = FeatureFlagId;
 
 // As togglesConfig is what is served at https://toggles.wellcomecollection.org/toggles.json
 // This allows methods fetching that URL to type the data fetched
