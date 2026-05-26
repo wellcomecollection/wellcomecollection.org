@@ -17,9 +17,7 @@ const DEFAULT_WARNING_COUNTDOWN = 30; // 30 seconds countdown before redirect
 
 type Props = {
   redirectUrl: string;
-  /** Milliseconds of inactivity before showing the warning modal. Default: 30000 */
   inactivityTimeout?: number;
-  /** Seconds to count down before redirecting. Default: 30 */
   warningCountdown?: number;
 };
 
@@ -78,12 +76,10 @@ const InactivityRedirect: FunctionComponent<Props> = ({
   }, [resetInactivityTimer]);
 
   const handleUserActivity = useCallback(() => {
-    if (isWarningActive) {
-      handleCancelRedirect();
-    } else {
-      resetInactivityTimer();
-    }
-  }, [isWarningActive, handleCancelRedirect, resetInactivityTimer]);
+    if (isWarningActive) return;
+
+    resetInactivityTimer();
+  }, [isWarningActive, resetInactivityTimer]);
 
   // Clean up on route changes
   useEffect(() => {
@@ -144,6 +140,10 @@ const InactivityRedirect: FunctionComponent<Props> = ({
   // Set up activity listeners
   useEffect(() => {
     if (!isKiosk || isRedirectDestination) return;
+
+    if (isWarningActive) {
+      return;
+    }
 
     const events = [
       'mousedown',
