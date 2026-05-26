@@ -12,7 +12,7 @@ function getAbsolutePath(value) {
 const monorepoRoot = resolve(__dirname, '../..');
 
 const config = {
-  staticDirs: ['../public'],
+  staticDirs: ['../public', '../../content/webapp/public'],
   stories: [
     '../stories/global/**/*.mdx',
     '../stories/global/**/*.stories.tsx',

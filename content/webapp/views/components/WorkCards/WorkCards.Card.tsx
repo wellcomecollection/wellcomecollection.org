@@ -7,6 +7,8 @@ import LabelsList from '@weco/common/views/components/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 
+import { getFormatIconPath } from './WorkCards.FormatIcons';
+
 export const POPOUT_IMAGE_OFFSET = 'md' as const;
 
 // Ensures the image container takes up the same amount of vertical space
@@ -101,21 +103,41 @@ const NotAvailable = styled.span.attrs({
   text-align: center;
 `;
 
+const FormatIconContainer = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-2deg);
+  width: 100px;
+  height: 100px;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+`;
+
 type Props = {
   item: WorkBasic;
 };
 
 const WorkCard: FunctionComponent<Props> = ({ item }) => {
+  const formatLabel =
+    item.cardLabels?.length > 0 && !item.cardLabels[0].labelColor
+      ? item.cardLabels[0].text
+      : undefined;
+
+  const formatIconPath = formatLabel
+    ? getFormatIconPath(formatLabel)
+    : undefined;
+
   const transformedWork = {
     title: item.title,
     url: '/works/' + item.id,
     // `cardLabels` contains `workType` and `availabilities`, adding a labelColor to the latter.
     // As we only want the workType here, we filter out any with a labelColor.
     // It's not ideal but I prefer that to modifying a transformer that's heavily used elsewhere.
-    labels:
-      item.cardLabels?.length > 0 && !item.cardLabels[0].labelColor
-        ? [{ text: item.cardLabels[0].text }]
-        : [],
+    labels: formatLabel ? [{ text: formatLabel }] : [],
     imageUrl: item.thumbnail
       ? convertIiifImageUri(item.thumbnail.url, 400)
       : undefined,
@@ -134,6 +156,10 @@ const WorkCard: FunctionComponent<Props> = ({ item }) => {
               <PopoutCardImage>
                 <img alt="" src={transformedWork.imageUrl} />
               </PopoutCardImage>
+            ) : formatIconPath ? (
+              <FormatIconContainer>
+                <img alt="" src={formatIconPath} />
+              </FormatIconContainer>
             ) : (
               <NotAvailable>Preview not available</NotAvailable>
             )}
