@@ -214,4 +214,81 @@ describe('getTogglesFromContext', () => {
       ).toBeUndefined();
     });
   });
+
+  describe('modes', () => {
+    const modeDefinition = {
+      id: 'kioskMode',
+      title: 'Kiosk Mode',
+      description: 'Select which iPad this kiosk is running on',
+      options: [
+        { id: 'ipad-1', label: 'iPad 1' },
+        { id: 'ipad-2', label: 'iPad 2' },
+      ],
+    };
+
+    it('returns undefined when no cookie is set', () => {
+      const togglesResp = {
+        featureFlags: [],
+        tests: [],
+        modes: [modeDefinition],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(togglesResp, createContext());
+
+      expect(
+        (result.modes as Record<string, unknown>).kioskMode
+      ).toBeUndefined();
+    });
+
+    it('returns the value when cookie matches a valid option', () => {
+      const togglesResp = {
+        featureFlags: [],
+        tests: [],
+        modes: [modeDefinition],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_kioskMode: 'ipad-1' })
+      );
+
+      expect((result.modes as Record<string, unknown>).kioskMode).toBe(
+        'ipad-1'
+      );
+    });
+
+    it('returns undefined when cookie is an empty string', () => {
+      const togglesResp = {
+        featureFlags: [],
+        tests: [],
+        modes: [modeDefinition],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_kioskMode: '' })
+      );
+
+      expect(
+        (result.modes as Record<string, unknown>).kioskMode
+      ).toBeUndefined();
+    });
+
+    it('returns undefined when cookie value is not a valid option', () => {
+      const togglesResp = {
+        featureFlags: [],
+        tests: [],
+        modes: [modeDefinition],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_kioskMode: 'invalid-ipad' })
+      );
+
+      expect(
+        (result.modes as Record<string, unknown>).kioskMode
+      ).toBeUndefined();
+    });
+  });
 });

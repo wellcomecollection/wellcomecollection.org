@@ -51,6 +51,20 @@ export const withDefaultValuesUnmodified = (
 };
 
 export async function deploy(client: S3Client): Promise<void> {
+  // Check for duplicate IDs across feature flags, tests, and modes
+  const allIds = [
+    ...localToggles.featureFlags.map(f => f.id),
+    ...localToggles.tests.map(t => t.id),
+    ...localToggles.modes.map(m => m.id),
+  ];
+  const duplicates = allIds.filter((id, index) => allIds.indexOf(id) !== index);
+  if (duplicates.length > 0) {
+    throw new Error(
+      `Duplicate toggle IDs found across feature flags, tests, and modes: ${duplicates.join(', ')}. ` +
+        `All IDs must be unique because they share the toggle_ cookie prefix.`
+    );
+  }
+
   const remoteToggles = await getTogglesObject(client);
   const remoteFeatureFlags = remoteToggles.featureFlags ?? [];
 
@@ -64,6 +78,9 @@ export async function deploy(client: S3Client): Promise<void> {
   const toggles: TogglesResp = {
     featureFlags: featureFlagsToDeploy,
     tests: localToggles.tests,
+    // Spread to convert from readonly (due to `as const` in the config, which
+    // gives us literal ModeId types) to a mutable array for the response type.
+    modes: [...localToggles.modes],
   };
 
   // GA4 now limits event parameter values to 100 characters: https://support.google.com/analytics/answer/9267744?hl=en

@@ -66,14 +66,16 @@ const ABTests = ({
             #
           </a>
         </h2>
-        <ResetButton
-          onClick={onReset}
-          aria-label="Reset all A/B tests to random allocation"
-        >
-          Reset to random allocation
-        </ResetButton>
+        {filteredAbTests.some(test => toggleStates[test.id] !== undefined) && (
+          <ResetButton
+            onClick={onReset}
+            aria-label="Reset all A/B tests to random allocation"
+          >
+            Reset to random allocation
+          </ResetButton>
+        )}
       </div>
-      <p>
+      <p style={{ marginTop: 0, color: tokens.colors.text.secondary }}>
         You can opt in to a test, explicitly opt out, or be randomly allocated
         according to our A/B decision rules.
       </p>
