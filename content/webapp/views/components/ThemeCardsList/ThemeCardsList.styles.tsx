@@ -12,12 +12,10 @@ export const Title = styled.h2.attrs<{
   as: props.$headingLevel === 2 ? 'h2' : 'h3',
 }))<{ $hasDescriptionSibling: boolean }>`
   ${props =>
-    props.$hasDescriptionSibling
-      ? props.theme.makeSpacePropertyValues('xs', ['margin-bottom'])
-      : 'margin-bottom: 0'};
+    props.$hasDescriptionSibling &&
+    props.theme.makeSpacePropertyValues('xs', ['margin-bottom'])};
 `;
 
 export const Description = styled.p`
   color: ${props => props.theme.color('black')};
-  margin-bottom: 0;
 `;

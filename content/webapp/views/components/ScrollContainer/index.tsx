@@ -14,6 +14,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import ScrollableNavigation from './ScrollContainer.Navigation';
 import {
   ContentContainer,
+  CopyContainer,
   ScrollButtonsContainer,
   ScrollShim,
 } from './ScrollContainer.styles';
@@ -55,7 +56,7 @@ const ScrollContainer: FunctionComponent<Props> = ({
           </ContaineredLayout>
         )}
       >
-        <div>{CopyContent}</div>
+        <CopyContainer>{CopyContent}</CopyContainer>
       </ConditionalWrapper>
     );
   };

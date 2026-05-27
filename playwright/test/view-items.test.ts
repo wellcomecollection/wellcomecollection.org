@@ -159,7 +159,9 @@ test('(8) | Licence information should be available', async ({
   await expect(page.getByText('Credit:')).toBeVisible();
 });
 
-test('(9) | The image should rotate', async ({ page, context }) => {
+// Please unskip once this is fixed by Digirati
+// https://wellcome.slack.com/archives/CBT40CMKQ/p1779797736981459
+test.skip('(9) | The image should rotate', async ({ page, context }) => {
   await itemWithSearchAndStructures(context, page);
   await page.getByRole('button', { name: 'Rotate' }).click();
   const currentIndex = await page.getByTestId('active-index').textContent();
