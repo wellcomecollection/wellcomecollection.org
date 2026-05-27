@@ -1,3 +1,5 @@
+import { TypographySizeKey } from '@wellcometrust/wellcome-design-system/theme';
+
 // int(r|m|sb|b) = Inter(regular|medium|semi-bold|bold); wb = Wellcome Bold; lr = Lettera Regular
 type FontFamily = 'sans' | 'sans-bold' | 'brand' | 'brand-bold' | 'mono';
 type FontSize = -2 | -1 | 0 | 1 | 2 | 4 | 5;
@@ -12,6 +14,18 @@ export function fontSize(size: FontSize): string {
 
 export function font(family: FontFamily, size: FontSize): string {
   return `${fontFamily(family)} ${fontSize(size)}`;
+}
+
+export function compositeTypography(
+  category: 'body' | 'caption' | 'display' | 'label' | 'heading',
+  size: TypographySizeKey,
+  weight: 'regular' | 'strong',
+  family?: 'sans' | 'brand'
+): string {
+  if (category === 'heading') {
+    return `type-heading-${size}-${weight}-${family ?? 'sans'}`;
+  }
+  return `type-${category}-${size}-${weight}`;
 }
 
 type ClassNames = string[] | Record<string, boolean>;

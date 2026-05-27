@@ -1,5 +1,6 @@
 import {
   theme as designSystemTheme,
+  SizeVariants,
   TypographySizeKey,
   TypographyValue,
 } from '@wellcometrust/wellcome-design-system/theme';
@@ -23,40 +24,6 @@ const fontSizeMixin = (size: -2 | -1 | 0 | 1 | 2 | 4 | 5) => css`
   font-size: ${designSystemTheme.font.size[`f${size}`]};
 `;
 type FontFamily = keyof typeof fontFamilies;
-
-export const compositeTypographyMixin = (
-  category: 'body' | 'caption' | 'display' | 'label' | 'heading',
-  size: TypographySizeKey,
-  weight: 'regular' | 'strong',
-  family?: 'sans' | 'brand'
-) => {
-  const t = designSystemTheme.typography;
-  const style: TypographyValue | undefined =
-    category === 'heading'
-      ? t.heading[family ?? 'sans']?.[weight]?.[size]
-      : t[category]?.[weight]?.[size];
-
-  if (!style) {
-    if (process.env.NODE_ENV !== 'production') {
-      const label =
-        category === 'heading'
-          ? `heading.${family ?? 'sans'}.${weight}.${size}`
-          : `${category}.${weight}.${size}`;
-      console.warn(
-        `compositeTypographyMixin: no typography value found for "${label}"`
-      );
-    }
-    return css``;
-  }
-
-  return css`
-    font-family: ${style.fontFamily};
-    font-weight: ${style.fontWeight};
-    font-size: ${style.fontSize};
-    line-height: ${style.lineHeight};
-    letter-spacing: ${style.letterSpacing};
-  `;
-};
 
 export const fontFamilyMixin = (
   family: FontFamily,
@@ -315,3 +282,45 @@ export const makeFontSizeClasses = () => css`
     })
     .join(' ')}
 `;
+
+export const makeCompositeTypographyClasses = () => {
+  const t = designSystemTheme.typography;
+  const sizes: TypographySizeKey[] = ['xxl', 'xl', 'lg', 'md', 'sm', 'xs'];
+
+  const toDeclarations = ({
+    fontFamily,
+    fontWeight,
+    fontSize,
+    lineHeight,
+    letterSpacing,
+  }: TypographyValue) =>
+    `font-family: ${fontFamily}; font-weight: ${fontWeight}; font-size: ${fontSize}; line-height: ${lineHeight}; letter-spacing: ${letterSpacing};`;
+
+  const buildClasses = (
+    category: string,
+    weights: Partial<Record<'regular' | 'strong', SizeVariants>>,
+    family?: string
+  ): string[] =>
+    (Object.entries(weights) as [string, SizeVariants | undefined][]).flatMap(
+      ([weight, sizeVariants]) =>
+        sizes.flatMap(size => {
+          const style = sizeVariants?.[size];
+          if (!style) return [];
+          const className = family
+            ? `.type-${category}-${size}-${weight}-${family}`
+            : `.type-${category}-${size}-${weight}`;
+          return [`${className} { ${toDeclarations(style)} }`];
+        })
+    );
+
+  return css`
+    ${[
+      ...buildClasses('body', t.body),
+      ...buildClasses('display', t.display),
+      ...buildClasses('caption', t.caption),
+      ...buildClasses('label', t.label),
+      ...buildClasses('heading', t.heading.sans, 'sans'),
+      ...buildClasses('heading', t.heading.brand, 'brand'),
+    ].join(' ')}
+  `;
+};
