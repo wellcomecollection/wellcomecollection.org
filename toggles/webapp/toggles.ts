@@ -23,6 +23,18 @@ export type ABTest = {
   range: [number, number];
 };
 
+export type ModeOption = {
+  id: string;
+  label: string;
+};
+
+export type ModeDefinition = {
+  id: string;
+  title: string;
+  description: string;
+  options: readonly ModeOption[];
+};
+
 const toggleConfig = {
   // Feature flags (permanent toggles, experiments, stage toggles)
   // Toggles of type 'stage' will only be applied on stage
@@ -164,6 +176,23 @@ const toggleConfig = {
   // We have to include a reference to any test toggles here as well as in the cache dir
   // because they are deployed separately and consequently can't share a source of truth
   tests: [] as ABTest[],
+  // Modes are toggles whose value is a selected option string rather than a boolean.
+  // They are activated via a cookie containing the option value.
+  modes: [
+    {
+      id: 'kioskMode',
+      title: 'Kiosk mode',
+      description:
+        'Select which kiosk device this browser represents and it will activate kiosk-specific behaviour and layout.',
+      options: [
+        { id: 'RR-iPad1', label: 'Reading Room: iPad 1' },
+        { id: 'RR-iPad2', label: 'Reading Room: iPad 2' },
+        { id: 'RR-iPad3', label: 'Reading Room: iPad 3' },
+        { id: 'TR-iPad1', label: 'Tenderness & Rage: iPad 1' },
+        { id: 'TR-iPad2', label: 'Tenderness & Rage: iPad 2' },
+      ],
+    },
+  ] as const,
 };
 
 export default toggleConfig;

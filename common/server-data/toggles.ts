@@ -1,11 +1,17 @@
 import { getCookies } from 'cookies-next';
 import { IncomingMessage } from 'http';
 
-import { FeatureFlags, Tests, Toggles, TogglesResp } from '@weco/toggles';
+import {
+  FeatureFlags,
+  Modes,
+  Tests,
+  Toggles,
+  TogglesResp,
+} from '@weco/toggles';
 
 import { Handler } from './';
 
-const defaultValue = { featureFlags: [], tests: [] };
+const defaultValue = { featureFlags: [], tests: [], modes: [] };
 
 async function fetchToggles(): Promise<TogglesResp> {
   const resp = await fetch(
@@ -71,7 +77,19 @@ export function getTogglesFromContext(
       [test.id]: testToggleValue(test.id),
     };
   }, {} as Tests);
-  return { featureFlags, tests };
+
+  const modesList = togglesResp.modes ?? [];
+  const modes = modesList.reduce((acc, mode) => {
+    const cookieValue = allCookies[`toggle_${mode.id}`];
+    const isValid =
+      cookieValue && mode.options.some(opt => opt.id === cookieValue);
+    return {
+      ...acc,
+      [mode.id]: isValid ? cookieValue : undefined,
+    };
+  }, {} as Modes);
+
+  return { featureFlags, tests, modes };
 }
 
 export default togglesHandler;

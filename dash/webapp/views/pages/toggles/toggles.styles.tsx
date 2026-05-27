@@ -2,6 +2,16 @@ import styled from 'styled-components';
 
 import { tokens } from '@weco/dash/views/themes/tokens';
 
+export const TableOfContentsList = styled.ul`
+  list-style: none;
+  margin: 0 0 ${tokens.spacing.lg} 0;
+  padding: 0;
+  display: flex;
+  gap: ${tokens.spacing.md};
+  flex-wrap: wrap;
+  justify-content: center;
+`;
+
 export const ResetButton = styled.button`
   border: 2px solid ${tokens.colors.error.main};
   background-color: ${tokens.colors.error.light};
