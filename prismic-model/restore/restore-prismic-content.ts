@@ -5,6 +5,13 @@
  * using the Prismic Migration API. It is safe to interrupt and re-run — progress is tracked in
  * restore/status/content-id-map.json so already-uploaded documents are not duplicated.
  *
+ * Scenario 1 (new repo):
+ * - all IDs get remapped.
+ * - Subsequent runs use the content-id-map.json to find the new IDs and issue PUT requests to update the same documents rather than creating duplicates.
+ * Scenario 2 (existing repo with partial loss):
+ * - For existing docs POST resquest returns an error, then uses a PUT request to update document
+ * - For missing docs, POST succeeds but issues new IDs.
+ *
  * Usage:
  *   yarn restorePrismicContent [--snapshot <path>] [--type <customTypeId>]
  *
@@ -34,7 +41,6 @@ import { logError, logInfo, logSuccess } from '@weco/common/utils/console-logs';
 import { downloadLatestSnapshot } from './s3-utils';
 
 import 'dotenv/config';
-
 // CLI flags
 const { type: filterType, snapshot: snapshotArg } = yargs(process.argv.slice(2))
   .usage('Usage: $0 [--snapshot <path>] [--type <customTypeId>]')
