@@ -82,6 +82,7 @@ const query = {
 const work: WorkBasic & Pick<Work, 'description'> = {
   id: '',
   title: '',
+  workTypeId: undefined,
   description: undefined,
   languageId: undefined,
   thumbnail: undefined,
