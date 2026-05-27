@@ -181,9 +181,7 @@ The script is **safe to interrupt and resume** — re-running it will skip alrea
 Because the new repo issues new asset IDs and hosts assets under potentially different URLs, the snapshot must be rewritten before content is imported.
 
 ```bash
-yarn transformSnapshot \
-  --source-repo wellcomecollection \
-  --target-repo <new-repo-name>
+yarn transformSnapshot --source-repo wellcomecollection --target-repo <new-repo-name>
 ```
 
 This produces `restore/snapshot/prismic-snapshot-rewritten.json` with:
@@ -197,20 +195,15 @@ This produces `restore/snapshot/prismic-snapshot-rewritten.json` with:
 #### Step 5 — Restore content
 
 ```bash
-yarn restorePrismicContent \
-  --snapshot ./restore/snapshot/prismic-snapshot-rewritten.json
+yarn restorePrismicContent --snapshot ./restore/snapshot/prismic-snapshot-rewritten.json
 ```
 
 Or to restore one document type at a time (recommended for large repositories — process high-priority types first):
 
 ```bash
-yarn restorePrismicContent \
-  --snapshot ./restore/snapshot/prismic-snapshot-rewritten.json \
-  --type events
+yarn restorePrismicContent --snapshot ./restore/snapshot/prismic-snapshot-rewritten.json --type events
 
-yarn restorePrismicContent \
-  --snapshot ./restore/snapshot/prismic-snapshot-rewritten.json \
-  --type exhibitions
+yarn restorePrismicContent --snapshot ./restore/snapshot/prismic-snapshot-rewritten.json --type exhibitions
 ```
 
 The script uploads each document at 1 request/sec and is safe to interrupt and resume — already-created documents will be updated rather than duplicated.
