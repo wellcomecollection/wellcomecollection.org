@@ -14,6 +14,7 @@ import { Work } from '.';
 export type WorkBasic = OptionalToUndefined<{
   id: string;
   title: string;
+  workTypeId?: string;
   languageId?: string;
   thumbnail?: DigitalLocation;
   referenceNumber?: string;
@@ -25,7 +26,7 @@ export type WorkBasic = OptionalToUndefined<{
 }>;
 
 export function toWorkBasic(work: Work): WorkBasic {
-  const { id, title, thumbnail, referenceNumber, notes } = work;
+  const { id, title, thumbnail, referenceNumber, notes, workType } = work;
 
   // We only send a lang if it's unambiguous -- better to send
   // no language than the wrong one.
@@ -37,6 +38,7 @@ export function toWorkBasic(work: Work): WorkBasic {
   return {
     id,
     title,
+    workTypeId: workType?.id,
     thumbnail,
     referenceNumber,
     languageId,

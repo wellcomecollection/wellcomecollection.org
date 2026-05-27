@@ -127,9 +127,7 @@ const WorkCard: FunctionComponent<Props> = ({ item }) => {
       ? item.cardLabels[0].text
       : undefined;
 
-  const formatIconPath = formatLabel
-    ? getFormatIconPath(formatLabel)
-    : undefined;
+  const formatIconPath = getFormatIconPath(item.workTypeId);
 
   const transformedWork = {
     title: item.title,

@@ -8,25 +8,25 @@ import WorkCards from '@weco/content/views/components/WorkCards';
 faker.seed(123);
 
 const formatOptions = [
-  'Books',
-  'E-books',
-  'Journals',
-  'E-journals',
-  'Student dissertations',
-  'Archives and manuscripts',
-  'Manuscripts',
-  'Born digital archives',
-  'Pictures',
-  'Digital images',
-  'Maps',
-  'Audio',
-  'Video',
-  'Music',
-  'Film',
-  'CD-Roms',
-  'Ephemera',
-  '3-D objects',
-  'Mixed materials',
+  { label: 'Books', id: 'a' },
+  { label: 'E-books', id: 'a' },
+  { label: 'Journals', id: 'd' },
+  { label: 'E-journals', id: 'd' },
+  { label: 'Student dissertations', id: 'w' },
+  { label: 'Archives and manuscripts', id: 'h' },
+  { label: 'Manuscripts', id: 'b' },
+  { label: 'Born digital archives', id: 'hdig' },
+  { label: 'Pictures', id: 'k' },
+  { label: 'Digital images', id: 'q' },
+  { label: 'Maps', id: 'q' },
+  { label: 'Audio', id: 'i' },
+  { label: 'Video', id: 'g' },
+  { label: 'Music', id: 'c' },
+  { label: 'Film', id: 'n' },
+  { label: 'CD-Roms', id: 'm' },
+  { label: 'Ephemera', id: 'l' },
+  { label: '3-D objects', id: 'r' },
+  { label: 'Mixed materials', id: 'p' },
 ];
 
 // Extend the story type
@@ -60,7 +60,7 @@ const meta: Meta<StoryProps> = {
     format: {
       name: 'Work format',
       control: 'select',
-      options: formatOptions,
+      options: formatOptions.map(option => option.label),
       description: 'Work format (visible when hasImage is false)',
     },
     columns: {
@@ -69,10 +69,15 @@ const meta: Meta<StoryProps> = {
   },
   render: args => {
     const { numberOfCards, hasImage, format } = args;
+    const selectedFormat = formatOptions.find(
+      option => option.label === format
+    );
+
     args.works = Array.from({ length: numberOfCards }).map(() => ({
       ...workBasic,
       title: faker.lorem.lines(),
       thumbnail: hasImage ? workBasic.thumbnail : undefined,
+      workTypeId: selectedFormat?.id,
       cardLabels: format
         ? [{ text: format }, { text: 'Online', labelColor: 'white' }]
         : workBasic.cardLabels,
