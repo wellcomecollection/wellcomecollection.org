@@ -202,6 +202,20 @@ export const defaultSerializer: JSXFunctionSerializer = (
   }
 };
 
+function isInternalLink(url: string): boolean {
+  if (url.startsWith('#')) return true;
+  if (url.startsWith('/') && !url.startsWith('//')) return true;
+  try {
+    const parsed = new URL(url);
+    return (
+      parsed.hostname === 'wellcomecollection.org' ||
+      parsed.hostname.endsWith('.wellcomecollection.org')
+    );
+  } catch {
+    return false;
+  }
+}
+
 /**
  * Safely extract the first string child from a React node.
  * Used by dropCapSerializer to get the first characters for drop cap styling.
@@ -251,6 +265,36 @@ export const dropCapSerializer: JSXFunctionSerializer = (
     return <p key={key}>{childrenWithDropCap}</p>;
   }
   return defaultSerializer(type, element, content, children, key);
+};
+
+/**
+ * Creates a serializer that optionally strips external links and/or
+ * applies drop cap styling to the first paragraph.
+ */
+export const createSerializer = ({
+  stripExternalLinks = false,
+  dropCap = false,
+}: {
+  stripExternalLinks?: boolean;
+  dropCap?: boolean;
+} = {}): JSXFunctionSerializer => {
+  if (!stripExternalLinks && !dropCap) return defaultSerializer;
+  if (!stripExternalLinks && dropCap) return dropCapSerializer;
+
+  return (type, element, content, children, key) => {
+    if (element.type === prismic.RichTextNodeType.hyperlink) {
+      const linkUrl = prismic.asLink(element.data, { linkResolver }) || '';
+      if (!isInternalLink(linkUrl)) {
+        return <span key={key}>{children}</span>;
+      }
+    }
+
+    if (dropCap) {
+      return dropCapSerializer(type, element, content, children, key);
+    }
+
+    return defaultSerializer(type, element, content, children, key);
+  };
 };
 
 const ACCESSIBILITY_ICON_MAP: Record<string, IconSvg> = {

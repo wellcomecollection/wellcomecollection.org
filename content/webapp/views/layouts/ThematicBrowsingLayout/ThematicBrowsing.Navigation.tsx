@@ -35,7 +35,7 @@ const ThematicBrowsingNavigation: FunctionComponent<{
   ];
 
   return (
-    <nav>
+    <nav aria-label="Thematic browsing navigation">
       <SelectableTagsWrapper as={PlainList}>
         {tagItems.map((tag, i) => {
           const dataGtmProps: DataGtmProps = {

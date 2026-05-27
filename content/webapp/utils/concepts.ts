@@ -25,10 +25,13 @@ const linkKeys = {
     filter: 'contributors.agent.label',
     fields: ['displayLabel'],
   },
-  imagesAbout: { filter: 'source.subjects.label', fields: ['label'] },
-  imagesBy: { filter: 'source.contributors.agent.label', fields: ['label'] },
+  imagesAbout: { filter: 'source.subjects.label', fields: ['displayLabel'] },
+  imagesBy: {
+    filter: 'source.contributors.agent.label',
+    fields: ['displayLabel'],
+  },
   worksIn: { filter: 'genres.label', fields: ['displayLabel'] },
-  imagesIn: { filter: 'source.genres.label', fields: ['label'] },
+  imagesIn: { filter: 'source.genres.label', fields: ['displayLabel'] },
 };
 
 const keysById = {

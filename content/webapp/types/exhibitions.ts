@@ -57,6 +57,7 @@ export type Exhibition = GenericContentFields & {
   accessResourcesPdfs: AccessPDF[];
   accessResourcesText?: prismic.RichTextField;
   bslLeafletVideo?: VideoEmbedProps & { title?: string };
+  untransformedPortraitVideos: prismic.SliceZone<prismic.Content.ExhibitionsDocumentDataPortraitVideosSlice>;
 };
 
 export type Exhibit = {

@@ -89,9 +89,9 @@ export type ExhibitionGuideType = (typeof typeNames)[number];
 export function isValidExhibitionGuideType(
   type: string | string[] | undefined
 ): type is ExhibitionGuideType {
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  return typeNames.includes(type as any);
-  /* eslint-enable @typescript-eslint/no-explicit-any */
+  return (
+    typeof type === 'string' && typeNames.includes(type as ExhibitionGuideType)
+  );
 }
 
 export type ExhibitionText = ExhibitionGuideBasic & {

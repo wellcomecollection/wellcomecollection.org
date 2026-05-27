@@ -12,7 +12,7 @@
     "tryAllContentPages": "tsx ./scripts/tryAllContentPages",
     "restorePrismicAssets": "AWS_PROFILE=catalogue-developer tsx ./restore/restore-prismic-assets.ts",
     "restorePrismicContent": "AWS_PROFILE=catalogue-developer tsx ./restore/restore-prismic-content.ts",
-    "transformSnapshot": "tsx ./restore/transform-snapshot.ts"
+    "transformSnapshot": "AWS_PROFILE=catalogue-developer tsx ./restore/transform-snapshot.ts"
   },
   "dependencies": {
     "@aws-sdk/client-cloudfront": "^3.1000.0",
@@ -26,7 +26,7 @@
     "dotenv": "^17.3.1",
     "form-data": "^4.0.0",
     "json-diff": "^1.0.6",
-    "node-fetch": "^2.7.0",
+    "node-fetch": "^3.3.2",
     "tqdm": "^2.0.3",
     "yargs": "^17.2.1"
   },

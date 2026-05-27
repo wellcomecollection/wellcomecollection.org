@@ -15,7 +15,7 @@ export async function fetchCanvasOcr(
 ): Promise<TextJson | undefined> {
   if (canvas?.textServiceId) {
     try {
-      const textJson = await fetchJson(
+      const textJson = await fetchJson<TextJson>(
         encodeURI(canvas.textServiceId as string)
       );
       return textJson;

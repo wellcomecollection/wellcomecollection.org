@@ -6,7 +6,7 @@ import { gridSize12 } from '@weco/common/views/components/Layout';
 import ThemeCard from '@weco/common/views/components/ThemeCard';
 import { ConceptImagesArray } from '@weco/content/hooks/useConceptImageUrls';
 import ScrollContainer from '@weco/content/views/components/ScrollContainer';
-import { ListItem } from '@weco/content/views/components/ThemeCardsList/ThemeCardsList.styles';
+import { ListItem } from '@weco/content/views/components/ScrollContainer/ScrollContainer.styles';
 
 const cards = [
   {

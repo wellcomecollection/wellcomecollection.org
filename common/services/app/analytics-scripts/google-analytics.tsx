@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 
 import { ConsentStatusProps } from '@weco/common/server-data/types';
-import { Toggles } from '@weco/toggles';
+import { Modes, Tests, Toggles } from '@weco/toggles';
 
 // Don't use the next/script `Script` component for these as in
 // Next.js v11 it does not work when inside a `Head` component
@@ -16,36 +16,34 @@ type Props = {
 // GA4 now limits event parameter values to 100 characters: https://support.google.com/analytics/answer/9267744?hl=en
 // So instead of sending the whole toggles JSON blob, we only look at the "test" typed toggles and send a concatenated string made of the toggles' name
 // , preceeded with a! if its value is false.
-function createABToggleString(toggles: Toggles | undefined): string | null {
-  const testToggles = toggles
-    ? Object.keys(toggles).reduce((acc, key) => {
-        if (toggles?.[key].type === 'test') {
-          acc[key] = toggles?.[key].value;
-        }
-        return acc;
-      }, {})
-    : null;
-  return testToggles
-    ? Object.keys(testToggles)
-        .map(toggle => {
-          switch (testToggles[toggle]) {
-            case true:
-              return toggle;
-            case false:
-              return `!${toggle}`;
-            default:
-              return null;
-          }
-        })
-        .join(',')
-    : null;
+function createABToggleString(tests?: Tests): string | null {
+  if (!tests) return null;
+  const entries = Object.keys(tests)
+    .map(key => {
+      switch (tests[key]) {
+        case true:
+          return key;
+        case false:
+          return `!${key}`;
+        default:
+          return null;
+      }
+    })
+    .filter(Boolean);
+  return entries.length > 0 ? entries.join(',') : null;
+}
+
+function getKioskDevice(modes?: Modes): string | null {
+  if (!modes) return null;
+  return modes.kioskMode ?? null;
 }
 
 export const Ga4DataLayer: FunctionComponent<Props> = ({
   data,
   consentStatus,
 }) => {
-  const abTestsToggleString = createABToggleString(data.toggles);
+  const abTestsToggleString = createABToggleString(data.toggles?.tests);
+  const kioskDevice = getKioskDevice(data.toggles?.modes);
 
   return (
     <script
@@ -74,7 +72,14 @@ export const Ga4DataLayer: FunctionComponent<Props> = ({
             ${
               abTestsToggleString &&
               `window.dataLayer.push({
-                toggles: '${abTestsToggleString}'
+                toggles: ${JSON.stringify(abTestsToggleString)}
+              });`
+            }
+
+            ${
+              kioskDevice &&
+              `window.dataLayer.push({
+                device: ${JSON.stringify(kioskDevice)}
               });`
             }
           `,

@@ -1,7 +1,7 @@
-import { FunctionComponent, useContext, useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { ServerDataContext } from '@weco/common/server-data/Context';
+import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
 import { plainListStyles } from '@weco/common/views/components/styled/PlainList';
@@ -53,14 +53,14 @@ const VisuallySimilarImages: FunctionComponent<Props> = ({
 }: Props) => {
   const [similarImages, setSimilarImages] = useState<ImageType[]>([]);
   const [requestState, setRequestState] = useState<State>('initial');
-  const { toggles } = useContext(ServerDataContext);
+  const { stagingApi } = useFeatureFlags();
 
   useEffect(() => {
     setRequestState('loading');
     const fetchVisuallySimilarImages = async () => {
       const { image: fullImage } = await getImage({
         id: originalId,
-        toggles,
+        shouldUseStagingApi: stagingApi,
         include: ['withSimilarFeatures'],
       });
       if (fullImage.type === 'Image') {

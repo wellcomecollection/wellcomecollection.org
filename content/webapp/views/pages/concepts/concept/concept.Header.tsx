@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { thematicBrowsingPaths } from '@weco/common/data/hardcoded-ids';
-import { useToggles } from '@weco/common/server-data/Context';
+import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
@@ -106,7 +106,7 @@ const ThemeHeader: FunctionComponent<{
   concept: Concept;
   hasImages?: boolean;
 }> = ({ concept, hasImages }) => {
-  const { themePagesAllFields, thematicBrowsing } = useToggles();
+  const { themePagesAllFields, thematicBrowsing } = useFeatureFlags();
   const { config } = useConceptPageContext();
 
   const { narrowerThan, fieldsOfWork, people, relatedTo, broaderThan } =

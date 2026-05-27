@@ -39,8 +39,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     return appError(context, 500, 'Error connecting to auth');
   }
 
-  let token: string | JwtPayload = '';
-  let email = '';
+  let token: string | JwtPayload;
 
   // We can get an error here if somebody tries to use an invalid session token;
   // which we return as a user error.
@@ -58,9 +57,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     };
   }
 
-  if (typeof token !== 'string') {
-    email = token.email;
-  }
+  const email = typeof token === 'string' ? '' : token.email;
 
   return {
     props: serialiseProps<Props>({

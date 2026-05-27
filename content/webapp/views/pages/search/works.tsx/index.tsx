@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { useSearchContext } from '@weco/common/contexts/SearchContext';
-import { useToggles } from '@weco/common/server-data/Context';
+import { useFeatureFlags } from '@weco/common/server-data/Context';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import { formatNumber, pluralize } from '@weco/common/utils/grammar';
 import { linkResolver, SEARCH_PAGES_FORM_ID } from '@weco/common/utils/search';
@@ -53,7 +53,8 @@ const SortPaginationWrapper = styled.div`
 const WorksSearchPage: NextPage<Props> = withSearchLayout(
   ({ works, works2, works3, worksRouteProps, query }) => {
     const { query: queryString } = query;
-    const { semanticSearchPrototype, semanticSearchComparison } = useToggles();
+    const { semanticSearchPrototype, semanticSearchComparison } =
+      useFeatureFlags();
 
     // Extract error messages if works2/works3 are errors
     const works2Error =

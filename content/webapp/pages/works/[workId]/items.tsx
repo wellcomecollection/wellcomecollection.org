@@ -76,7 +76,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   const work = await getWork({
     id: context.query.workId,
-    toggles: serverData.toggles,
+    shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
     include: ['items', 'languages', 'contributors', 'production', 'notes'],
   });
 
@@ -246,7 +246,9 @@ async function getParentManifest(
   parentManifestUrl: string | undefined
 ): Promise<Manifest | undefined> {
   try {
-    return parentManifestUrl && (await fetchJson(parentManifestUrl));
+    return parentManifestUrl
+      ? await fetchJson<Manifest>(parentManifestUrl)
+      : undefined;
   } catch {
     return undefined;
   }

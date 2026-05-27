@@ -1,11 +1,17 @@
 import { getCookies } from 'cookies-next';
 import { IncomingMessage } from 'http';
 
-import { Toggles, TogglesResp } from '@weco/toggles';
+import {
+  FeatureFlags,
+  Modes,
+  Tests,
+  Toggles,
+  TogglesResp,
+} from '@weco/toggles';
 
 import { Handler } from './';
 
-const defaultValue = { toggles: [], tests: [] };
+const defaultValue = { featureFlags: [], tests: [], modes: [] };
 
 async function fetchToggles(): Promise<TogglesResp> {
   const resp = await fetch(
@@ -20,7 +26,7 @@ const togglesHandler: Handler<TogglesResp, TogglesResp> = {
   fetch: fetchToggles,
 };
 
-type Context = {
+export type Context = {
   req: IncomingMessage & {
     cookies: Partial<{
       [key: string]: string;
@@ -39,24 +45,22 @@ export function getTogglesFromContext(
 ): Toggles {
   const isStage = context.req.headers.host?.startsWith('www-stage');
   const allCookies = getCookies(context);
-  const toggles = [...togglesResp.toggles]
+  const featureFlagsList = togglesResp.featureFlags ?? [];
+  const featureFlags = featureFlagsList
     .filter(toggle => {
       return !(!isStage && toggle.type === 'stage');
     })
     .reduce(
       (acc, toggle) => ({
         ...acc,
-        [toggle.id]: {
-          value:
-            allCookies[`toggle_${toggle.id}`] === 'true'
-              ? true
-              : toggle.defaultValue,
-          type: toggle.type,
-        },
+        [toggle.id]:
+          allCookies[`toggle_${toggle.id}`] === 'true'
+            ? true
+            : toggle.defaultValue,
       }),
-      {} as Toggles
+      {} as FeatureFlags
     );
-  const tests = [...togglesResp.tests].reduce((acc, test) => {
+  const tests = togglesResp.tests.reduce((acc, test) => {
     function testToggleValue(Id: string): boolean | undefined {
       const cookieValue = allCookies[`toggle_${Id}`];
       switch (cookieValue) {
@@ -70,13 +74,22 @@ export function getTogglesFromContext(
     }
     return {
       ...acc,
-      [test.id]: {
-        value: testToggleValue(test.id),
-        type: 'test',
-      },
+      [test.id]: testToggleValue(test.id),
     };
-  }, {} as Toggles);
-  return { ...toggles, ...tests } as Toggles;
+  }, {} as Tests);
+
+  const modesList = togglesResp.modes ?? [];
+  const modes = modesList.reduce((acc, mode) => {
+    const cookieValue = allCookies[`toggle_${mode.id}`];
+    const isValid =
+      cookieValue && mode.options.some(opt => opt.id === cookieValue);
+    return {
+      ...acc,
+      [mode.id]: isValid ? cookieValue : undefined,
+    };
+  }, {} as Modes);
+
+  return { featureFlags, tests, modes };
 }
 
 export default togglesHandler;

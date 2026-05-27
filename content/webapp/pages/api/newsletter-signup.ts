@@ -71,7 +71,7 @@ async function createSubscription({
   const { message } = newJson;
   const isSuppressed = message && message.match(/ERROR_CONTACT_SUPPRESSED/);
 
-  let status = '';
+  let status: string;
 
   // …but if the email has been suppressed, we resubscribe it
   if (isSuppressed) {

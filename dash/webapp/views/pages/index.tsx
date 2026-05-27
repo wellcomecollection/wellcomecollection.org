@@ -66,16 +66,16 @@ const Dashboard: FunctionComponent = () => {
         <PageHeader>
           <PageTitle>Dashboard</PageTitle>
           <PageDescription>
-            Monitor site health, manage feature toggles, and access key tools.
+            Monitor site health, manage toggles, and access key tools.
           </PageDescription>
         </PageHeader>
 
         <main id="main-content">
           <CardsGrid role="list">
             <Card href="/toggles" role="listitem">
-              <CardTitle>Feature Toggles</CardTitle>
+              <CardTitle>Toggles</CardTitle>
               <CardDescription>
-                Manage and test feature flags across environments.
+                Manage and test feature flags, A/B tests, and modes.
               </CardDescription>
               <CardStatus $type="neutral">View all toggles →</CardStatus>
             </Card>

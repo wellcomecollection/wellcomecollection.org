@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as prismic from '@prismicio/client';
 import { render } from '@testing-library/react';
-import { createElement } from 'react';
+import { createElement, ReactNode } from 'react';
 
-import { dropCapSerializer } from './index';
+import { createSerializer, dropCapSerializer } from './index';
 
 describe('HTMLSerializers', () => {
   describe('dropCapSerializer', () => {
@@ -17,7 +16,7 @@ describe('HTMLSerializers', () => {
 
     describe('getFirstStringChild behavior', () => {
       it('should handle a direct string child', () => {
-        const children = ['Hello world'] as any;
+        const children = ['Hello world'] as unknown as ReactNode[];
         const result = dropCapSerializer(
           paragraphType,
           mockElement,
@@ -74,7 +73,7 @@ describe('HTMLSerializers', () => {
       });
 
       it('should handle undefined children', () => {
-        const children = [undefined] as any;
+        const children = [undefined] as unknown as ReactNode[];
 
         const result = dropCapSerializer(
           paragraphType,
@@ -115,7 +114,7 @@ describe('HTMLSerializers', () => {
       });
 
       it('should handle empty string', () => {
-        const children = [''] as any;
+        const children = [''] as unknown as ReactNode[];
 
         const result = dropCapSerializer(
           paragraphType,
@@ -133,7 +132,7 @@ describe('HTMLSerializers', () => {
       });
 
       it('should handle numeric children', () => {
-        const children = [42] as any;
+        const children = [42] as unknown as ReactNode[];
 
         const result = dropCapSerializer(
           paragraphType,
@@ -178,7 +177,7 @@ describe('HTMLSerializers', () => {
 
     describe('drop cap styling', () => {
       it('should apply drop cap to first letter', () => {
-        const children = ['Hello world'] as any;
+        const children = ['Hello world'] as unknown as ReactNode[];
 
         const result = dropCapSerializer(
           paragraphType,
@@ -197,7 +196,7 @@ describe('HTMLSerializers', () => {
       });
 
       it('should preserve remaining text after drop cap', () => {
-        const children = ['Hello world'] as any;
+        const children = ['Hello world'] as unknown as ReactNode[];
 
         const result = dropCapSerializer(
           paragraphType,
@@ -216,6 +215,113 @@ describe('HTMLSerializers', () => {
           container.querySelector<HTMLElement>('.drop-cap')
         ).toHaveTextContent('H');
       });
+    });
+  });
+
+  describe('createSerializer', () => {
+    const hyperlinkType = prismic.RichTextNodeType.hyperlink;
+    const mockKey = 'link-key';
+    const mockContent = '';
+    const children = ['Click here'] as unknown as ReactNode[];
+
+    it('strips external links when stripExternalLinks is true', () => {
+      const serializer = createSerializer({ stripExternalLinks: true });
+      const element = {
+        type: hyperlinkType,
+        data: { link_type: 'Web', url: 'https://www.bbc.co.uk/news' },
+        text: '',
+        start: 0,
+        end: 10,
+      } as unknown as prismic.RTAnyNode;
+
+      const result = serializer(
+        hyperlinkType,
+        element,
+        mockContent,
+        children,
+        mockKey
+      );
+
+      const { container } = render(<>{result}</>);
+      expect(container.querySelector('a')).not.toBeInTheDocument();
+      expect(container).toHaveTextContent('Click here');
+    });
+
+    it('keeps internal links when stripExternalLinks is true', () => {
+      const serializer = createSerializer({ stripExternalLinks: true });
+      const element = {
+        type: hyperlinkType,
+        data: {
+          link_type: 'Web',
+          url: 'https://wellcomecollection.org/stories',
+        },
+        text: '',
+        start: 0,
+        end: 10,
+      } as unknown as prismic.RTAnyNode;
+
+      const result = serializer(
+        hyperlinkType,
+        element,
+        mockContent,
+        children,
+        mockKey
+      );
+
+      const { container } = render(<>{result}</>);
+      const link = container.querySelector('a');
+      expect(link).toBeInTheDocument();
+      expect(link).toHaveAttribute(
+        'href',
+        'https://wellcomecollection.org/stories'
+      );
+    });
+
+    it('keeps all links when stripExternalLinks is false', () => {
+      const serializer = createSerializer({ stripExternalLinks: false });
+      const element = {
+        type: hyperlinkType,
+        data: { link_type: 'Web', url: 'https://www.bbc.co.uk/news' },
+        text: '',
+        start: 0,
+        end: 10,
+      } as unknown as prismic.RTAnyNode;
+
+      const result = serializer(
+        hyperlinkType,
+        element,
+        mockContent,
+        children,
+        mockKey
+      );
+
+      const { container } = render(<>{result}</>);
+      const link = container.querySelector('a');
+      expect(link).toBeInTheDocument();
+      expect(link).toHaveAttribute('href', 'https://www.bbc.co.uk/news');
+    });
+
+    it('strips protocol-relative URLs as external', () => {
+      const serializer = createSerializer({ stripExternalLinks: true });
+      const element = {
+        type: hyperlinkType,
+        data: { link_type: 'Web', url: '//example.com/page' },
+        text: '',
+        start: 0,
+        end: 10,
+      } as unknown as prismic.RTAnyNode;
+
+      const result = serializer(
+        hyperlinkType,
+        element,
+        mockContent,
+        children,
+        mockKey
+      );
+
+      const { container } = render(<>{result}</>);
+      expect(container.querySelector('a')).not.toBeInTheDocument();
+      expect(container).toHaveTextContent('Click here');
     });
   });
 });

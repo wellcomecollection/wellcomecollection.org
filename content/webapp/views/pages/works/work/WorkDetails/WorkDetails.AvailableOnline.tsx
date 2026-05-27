@@ -8,7 +8,7 @@ import { bornDigitalMessage } from '@weco/common/data/microcopy';
 import { eye } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { LinkProps } from '@weco/common/model/link-props';
-import { useToggles } from '@weco/common/server-data/Context';
+import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
@@ -118,12 +118,16 @@ const ItemPageLink = ({
   itemsStatus,
 }: ItemPageLinkProps) => {
   const { userIsStaffWithRestricted } = useUserContext();
-  const { extendedViewer } = useToggles();
+  const { extendedViewer } = useFeatureFlags();
 
-  // TODO can remove when we move over to extendedViewer permanently
   const isDownloadable =
     digitalLocationInfo?.accessCondition !== 'open-with-advisory' &&
     downloadOptions.length > 0;
+
+  const canDownload =
+    isDownloadable &&
+    (digitalLocationInfo?.accessCondition !== 'restricted' ||
+      userIsStaffWithRestricted);
 
   const isWorkVisibleWithPermission =
     digitalLocationInfo?.accessCondition === 'restricted' &&
@@ -193,7 +197,7 @@ const ItemPageLink = ({
           </ConditionalWrapper>
         )}
 
-        {(itemUrl || (isDownloadable && !extendedViewer)) && (
+        {(itemUrl || canDownload) && (
           <Space
             $v={{ size: 'xs', properties: ['margin-top'] }}
             style={{ display: 'flex' }}
@@ -211,14 +215,12 @@ const ItemPageLink = ({
                 />
               </Space>
             )}
-            {isDownloadable &&
-              !extendedViewer &&
-              !userIsStaffWithRestricted && (
-                <Download
-                  ariaControlsId="itemDownloads"
-                  downloadOptions={downloadOptions}
-                />
-              )}
+            {canDownload && (
+              <Download
+                ariaControlsId="itemDownloads"
+                downloadOptions={downloadOptions}
+              />
+            )}
           </Space>
         )}
       </ConditionalWrapper>
@@ -249,7 +251,7 @@ const WorkDetailsAvailableOnline = ({
     rendering,
   } = { ...transformedManifest };
 
-  const { extendedViewer } = useToggles();
+  const { extendedViewer } = useFeatureFlags();
   const { userIsStaffWithRestricted } = useUserContext();
   const tokenService = getIframeTokenSrc({
     workId: work.id,

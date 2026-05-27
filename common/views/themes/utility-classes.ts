@@ -1,7 +1,5 @@
 import { css } from 'styled-components';
 
-import { GlobalStyleProps } from './default';
-
 export const visuallyHiddenStyles = css`
   border: 0;
   clip: rect(0 0 0 0);
@@ -16,7 +14,7 @@ export const visuallyHiddenStyles = css`
 
 // Spring 2023: we went through utility classes and decided to only
 // keep the ones that had to do with display status/visibility.
-export const utilityClasses = css<GlobalStyleProps>`
+export const utilityClasses = css`
   .is-hidden {
     display: none !important;
   }

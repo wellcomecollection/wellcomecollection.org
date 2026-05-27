@@ -1,6 +1,6 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { ServerDataContext } from '@weco/common/server-data/Context';
+import { useFeatureFlags } from '@weco/common/server-data/Context';
 import {
   convertIiifImageUri,
   iiifImageTemplate,
@@ -8,7 +8,6 @@ import {
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import type { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { queryParams } from '@weco/content/utils/concepts';
-import { Toggles } from '@weco/toggles';
 
 /**
  * If displayImages is empty,
@@ -28,10 +27,14 @@ async function fetchImagesBySection(
   sectionName: string,
   concept: Concept,
   limit: number,
-  toggles: Toggles
+  shouldUseStagingApi?: boolean
 ): Promise<string[]> {
   const params = queryParams(sectionName, concept);
-  const result = await getImages({ params, toggles, pageSize: limit });
+  const result = await getImages({
+    params,
+    shouldUseStagingApi,
+    pageSize: limit,
+  });
   if (!('results' in result) || result.results.length === 0) return [];
   return result.results
     .slice(0, limit)
@@ -40,7 +43,7 @@ async function fetchImagesBySection(
 
 export function useConceptImageUrls(concept: Concept): ConceptImagesArray {
   const [images, setImages] = useState<string[]>([]);
-  const { toggles } = useContext(ServerDataContext);
+  const { stagingApi } = useFeatureFlags();
 
   const cacheKey = concept.id;
 
@@ -70,7 +73,7 @@ export function useConceptImageUrls(concept: Concept): ConceptImagesArray {
         return;
       }
 
-      let fetchedImages: string[] = [];
+      let fetchedImages: string[];
 
       const topUpWithAbout = async (images: string[]) => {
         if (images.length >= 4) return images;
@@ -78,7 +81,7 @@ export function useConceptImageUrls(concept: Concept): ConceptImagesArray {
           'imagesAbout',
           concept,
           4 - images.length,
-          toggles
+          stagingApi
         );
         return [...images, ...aboutImages];
       };
@@ -91,19 +94,19 @@ export function useConceptImageUrls(concept: Concept): ConceptImagesArray {
         ) {
           // Prioritise images by this person/organisation/agent, then top up with imagesAbout
           fetchedImages = await topUpWithAbout(
-            await fetchImagesBySection('imagesBy', concept, 4, toggles)
+            await fetchImagesBySection('imagesBy', concept, 4, stagingApi)
           );
         } else if (concept.type === 'Genre') {
           // Prioritise images of this type/technique (imagesIn), then top up with imagesAbout
           fetchedImages = await topUpWithAbout(
-            await fetchImagesBySection('imagesIn', concept, 4, toggles)
+            await fetchImagesBySection('imagesIn', concept, 4, stagingApi)
           );
         } else {
           fetchedImages = await fetchImagesBySection(
             'imagesAbout',
             concept,
             4,
-            toggles
+            stagingApi
           );
         }
 
@@ -129,7 +132,7 @@ export function useConceptImageUrls(concept: Concept): ConceptImagesArray {
     return () => {
       isMounted = false;
     };
-  }, [cacheKey, concept.displayImages, concept.type, toggles]);
+  }, [cacheKey, concept.displayImages, concept.type, stagingApi]);
 
   return [images[0], images[1], images[2], images[3]] as ConceptImagesArray;
 }

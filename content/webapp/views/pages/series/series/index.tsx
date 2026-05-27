@@ -1,6 +1,7 @@
 import { NextPage } from 'next';
 import styled from 'styled-components';
 
+import { useKiosk } from '@weco/common/contexts/KioskContext';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
@@ -37,10 +38,11 @@ export type Props = {
 
 const ArticleSeriesPage: NextPage<Props> = props => {
   const { series, articles, scheduledItems } = props;
+  const isKiosk = useKiosk();
   const breadcrumbs = {
     items: [
       {
-        url: '/stories',
+        url: isKiosk ? '/stories/kiosk' : '/stories',
         text: 'Stories',
       },
       {
@@ -49,6 +51,7 @@ const ArticleSeriesPage: NextPage<Props> = props => {
         isHidden: true,
       },
     ],
+    noHomeLink: isKiosk,
   };
 
   const ContentTypeInfo = series.untransformedStandfirst ? (
@@ -89,6 +92,9 @@ const ArticleSeriesPage: NextPage<Props> = props => {
       openGraphType="website"
       image={series.image}
       apiToolbarLinks={[createPrismicLink(series.id)]}
+      hideHeader={isKiosk}
+      hideFooter={isKiosk}
+      hideNewsletterPromo={isKiosk}
     >
       <ContentPage
         id={series.id}

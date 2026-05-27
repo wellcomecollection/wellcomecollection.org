@@ -3,7 +3,7 @@ import styled, { useTheme } from 'styled-components';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { sierraAccessMethodtoNewLabel } from '@weco/common/data/microcopy';
-import { useToggles } from '@weco/common/server-data/Context';
+import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
 import StackingTable from '@weco/common/views/components/StackingTable';
@@ -76,7 +76,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   isLast,
 }) => {
   const { state: userState } = useUserContext();
-  const { disableRequesting } = useToggles();
+  const { disableRequesting } = useFeatureFlags();
   const isArchive = useIsArchiveContext();
   const theme = useTheme();
   const requestButtonRef = useRef<HTMLButtonElement | null>(null);
@@ -95,8 +95,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7174
   // See https://github.com/wellcomecollection/wellcomecollection.org/issues/8448
   //
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [completedItemRequests, _] = useState<string[]>([]);
+  const [completedItemRequests] = useState<string[]>([]);
 
   function wasJustRequested(item: PhysicalItem): boolean {
     return item.id ? completedItemRequests.indexOf(item.id) !== -1 : false;

@@ -1,3 +1,5 @@
+import { UiTree } from '@weco/content/views/pages/works/work/work.types';
+
 import { getTabbableIds } from './NestedList.helpers';
 
 describe('getTabbableIds', () => {
@@ -10,9 +12,7 @@ describe('getTabbableIds', () => {
         work: { id: 'CRICK' },
       },
     ];
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    const result = getTabbableIds(tree as any);
-    /* eslint-enable @typescript-eslint/no-explicit-any */
+    const result = getTabbableIds(tree as unknown as UiTree);
     expect(result).toStrictEqual(['PENROSE', 'CRICK']);
   });
 
@@ -27,9 +27,7 @@ describe('getTabbableIds', () => {
         openStatus: false,
       },
     ];
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    const result = getTabbableIds(tree as any);
-    /* eslint-enable @typescript-eslint/no-explicit-any */
+    const result = getTabbableIds(tree as unknown as UiTree);
     expect(result).toStrictEqual(['PENROSE', 'CRICK']);
   });
 
@@ -69,9 +67,7 @@ describe('getTabbableIds', () => {
         ],
       },
     ];
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    const result = getTabbableIds(tree as any);
-    /* eslint-enable @typescript-eslint/no-explicit-any */
+    const result = getTabbableIds(tree as unknown as UiTree);
     expect(result).toStrictEqual([
       'PENROSE',
       'PENROSE/1',

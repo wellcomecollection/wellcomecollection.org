@@ -1,6 +1,6 @@
 import { deleteCookie, setCookie } from 'cookies-next';
 
-export type Toggle = {
+export type FeatureFlag = {
   id: string;
   title: string;
   defaultValue: boolean;
@@ -11,7 +11,7 @@ export type Toggle = {
 
 export type ToggleStates = { [id: string]: boolean | undefined };
 
-export const setCookieCustom = (key: string, value: 'true' | 'false') => {
+export const setCookieCustom = (key: string, value: string) => {
   const nowPlusOneYear = new Date();
   nowPlusOneYear.setFullYear(nowPlusOneYear.getFullYear() + 1);
 

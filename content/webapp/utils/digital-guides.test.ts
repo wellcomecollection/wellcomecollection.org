@@ -6,12 +6,10 @@ const baseUrl = '/guides/exhibitions/ZrHvtxEAACYAWmfc';
 const userPreferenceGuideType = 'bsl';
 
 const contextParams = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  req: undefined as any as IncomingMessage & {
+  req: undefined as unknown as IncomingMessage & {
     cookies: Partial<{ [key: string]: string }>;
   },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  res: undefined as any as ServerResponse<IncomingMessage>,
+  res: undefined as unknown as ServerResponse<IncomingMessage>,
 };
 
 describe('getGuidesRedirections', () => {

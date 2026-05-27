@@ -8,7 +8,7 @@ import Space from '@weco/common/views/components/styled/Space';
 // Extend the Window interface to include dataLayer
 declare global {
   interface Window {
-    // eslint-disable-next-line
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     dataLayer: Record<string, any>[] | undefined;
   }
 }

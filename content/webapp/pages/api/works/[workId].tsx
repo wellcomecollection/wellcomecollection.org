@@ -19,7 +19,7 @@ const WorksApi = async (
   // this is a mega hack to get this working so we can remove toggles from the query
   // TODO : get toggles working here
   const togglesResp: TogglesResp = {
-    toggles: [
+    featureFlags: [
       {
         id: 'stagingApi',
         title: 'Staging API',
@@ -29,10 +29,14 @@ const WorksApi = async (
       },
     ],
     tests: [],
+    modes: [],
   };
-  const toggles = getTogglesFromContext(togglesResp, { req });
+  const { featureFlags } = getTogglesFromContext(togglesResp, { req });
 
-  const response = await getWork({ id: workId, toggles });
+  const response = await getWork({
+    id: workId,
+    shouldUseStagingApi: featureFlags.stagingApi,
+  });
 
   res.setHeader('Content-Type', 'application/json');
   res.setHeader('Access-Control-Allow-Origin', '*');

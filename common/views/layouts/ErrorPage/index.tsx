@@ -59,7 +59,7 @@ const MessageBar = styled(Space).attrs({
  */
 const TogglesMessage: FunctionComponent = () => {
   // Note: we use this slightly non-standard construction rather than
-  // useToggles() because we don't have access to the server data context
+  // useFeatureFlags() because we don't have access to the server data context
   // here -- we can't use getServerSideProps on an error page.
   // See https://nextjs.org/docs/messages/404-get-initial-props
   const [toggles, setToggles] = useState<string[]>([]);
@@ -74,11 +74,16 @@ const TogglesMessage: FunctionComponent = () => {
 
       // Get the readable name
       if (activeTogglesInBrowser.length > 0) {
-        const allToggles = [...togglesList.toggles, ...togglesList.tests];
+        const flattenedTogglesList = [
+          ...togglesList.featureFlags,
+          ...togglesList.tests,
+        ];
         const activeToggleNames = activeTogglesInBrowser
           .map(
             id =>
-              Object.values(allToggles).find(toggle => toggle.id === id)?.title
+              Object.values(flattenedTogglesList).find(
+                toggle => toggle.id === id
+              )?.title
           )
           .filter(f => f);
         return activeToggleNames as string[];

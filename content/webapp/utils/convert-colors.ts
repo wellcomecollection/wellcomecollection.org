@@ -41,9 +41,9 @@ export const rgbToHsl = ({ r, g, b }: RGB): HSL => {
   const cmin = Math.min(r, g, b);
   const cmax = Math.max(r, g, b);
   const delta = cmax - cmin;
-  let h = 0;
-  let s = 0;
-  let l = 0;
+  let h: number;
+  let s: number;
+  let l: number;
 
   // Calculate hue
   // No difference

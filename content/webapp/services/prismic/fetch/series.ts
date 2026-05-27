@@ -23,14 +23,19 @@ const seriesFetcher = (contentType: 'webcomic-series' | 'series') =>
 
 export const fetchSeries = seriesFetcher('series').getByType;
 
-export const fetchSeriesById = async (
+type SeriesContentTypeMap = {
+  series: RawSeriesDocument;
+  'webcomic-series': RawWebcomicSeriesDocument;
+};
+
+export async function fetchSeriesById<T extends keyof SeriesContentTypeMap>(
   client: GetServerSidePropsPrismicClient,
   id: string,
-  contentType: 'webcomic-series' | 'series'
-): Promise<RawSeriesDocument | RawWebcomicSeriesDocument | undefined> => {
+  contentType: T
+): Promise<SeriesContentTypeMap[T] | undefined> {
   const seriesDocument =
     (await seriesFetcher(contentType).getByUid(client, id)) ||
     (await seriesFetcher(contentType).getById(client, id));
 
-  return seriesDocument;
-};
+  return seriesDocument as SeriesContentTypeMap[T] | undefined;
+}

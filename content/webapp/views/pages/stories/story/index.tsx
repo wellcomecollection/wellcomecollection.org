@@ -2,6 +2,7 @@ import { NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { getCrop } from '@weco/common/model/image';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
@@ -49,6 +50,7 @@ export type ArticleSeriesList = {
 }[];
 
 const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
+  const isKiosk = useKiosk();
   const [listOfSeries, setListOfSeries] = useState<ArticleSeriesList>();
   const [relatedDocument, setRelatedDocument] = useState<
     ExhibitionBasic | ContentAPIArticle | undefined
@@ -58,7 +60,11 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
     setSeries(article, setListOfSeries);
 
     if (article.exploreMoreDocument && !relatedDocument) {
-      getRelatedDoc(article, setRelatedDocument, serverData);
+      getRelatedDoc(
+        article,
+        setRelatedDocument,
+        serverData.toggles.featureFlags.stagingApi
+      );
     }
   }, []);
 
@@ -79,6 +85,16 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
       isHidden: true,
     },
   ];
+
+  const breadcrumbs = isKiosk
+    ? {
+        items: [
+          { text: 'Stories', url: '/stories/kiosk' },
+          ...extraBreadcrumbs,
+        ],
+        noHomeLink: true,
+      }
+    : getBreadcrumbItems('stories', extraBreadcrumbs);
 
   const isPodcast = article.format?.id === ArticleFormatIds.Podcast;
 
@@ -110,7 +126,7 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
   const Header = (
     <PageHeader
       variant="basic"
-      breadcrumbs={getBreadcrumbItems('stories', extraBreadcrumbs)}
+      breadcrumbs={breadcrumbs}
       labels={{ labels: article.labels }}
       title={article.title}
       ContentTypeInfo={ContentTypeInfo(article)}
@@ -158,6 +174,9 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
       siteSection="stories"
       image={article.image}
       apiToolbarLinks={[createPrismicLink(article.id)]}
+      hideHeader={isKiosk}
+      hideFooter={isKiosk}
+      hideNewsletterPromo={isKiosk}
     >
       <ContentPage
         id={article.id}

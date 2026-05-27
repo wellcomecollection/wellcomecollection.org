@@ -81,17 +81,23 @@
           - NEXT_PUBLIC_CIVICUK_API_KEY
 
 - label: 'diff prismic model'
+  key: 'diff_prismic_model'
   branches: 'main'
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: 'arn:aws:iam::130871440101:role/experience-ci'
     - ecr#v2.1.1:
         login: true
-    - docker-compose#v3.5.0:
-        run: prismic_model
-        env:
-          - CI
-        command: ['yarn', 'diffCustomTypes']
+  command: 'bash .buildkite/scripts/run_prismic_diff_if_needed.sh run'
+  agents:
+    queue: nano
+
+- label: 'require acknowledgement if prismic diff failed'
+  branches: 'main'
+  depends_on: 'diff_prismic_model'
+  command: 'bash .buildkite/scripts/run_prismic_diff_if_needed.sh acknowledge'
+  agents:
+    queue: nano
 
 - label: 'test common'
   depends_on: 'build_common'

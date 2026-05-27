@@ -3,7 +3,7 @@ import {
   defaultValue as prismicDefaultValue,
   SimplifiedPrismicData,
 } from '@weco/common/server-data/prismic';
-import { Toggles } from '@weco/toggles';
+import { FeatureFlags, Modes, Tests, Toggles } from '@weco/toggles';
 
 /**
  * The type is stored here rather than with the service because
@@ -29,7 +29,11 @@ export type ConsentStatusProps = {
 };
 
 export const defaultServerData: SimplifiedServerData = {
-  toggles: {},
+  toggles: {
+    featureFlags: {} as FeatureFlags,
+    tests: {} as Tests,
+    modes: {} as Modes,
+  },
   prismic: prismicDefaultValue,
   consentStatus: {
     analytics: false,

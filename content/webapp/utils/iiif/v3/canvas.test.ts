@@ -27,8 +27,7 @@ describe('getThumbnailImage', () => {
     });
 
     const canvas2 = b2178081x.items[0];
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    expect(getThumbnailImage(canvas2 as any)).toStrictEqual({
+    expect(getThumbnailImage(canvas2 as unknown as Canvas)).toStrictEqual({
       url: 'https://iiif-test.wellcomecollection.org/thumbs/b2178081x_0002_0005.jp2/full/299%2C/0/default.jpg',
       width: 299,
     });
@@ -39,8 +38,7 @@ describe('getThumbnailImage', () => {
     // image service on PDF thumbnails.
     // See https://github.com/wellcomecollection/wellcomecollection.org/issues/9727
     const canvas = b28462270.items[0];
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    expect(getThumbnailImage(canvas as any)).toStrictEqual({
+    expect(getThumbnailImage(canvas as unknown as Canvas)).toStrictEqual({
       url: 'https://iiif-test.wellcomecollection.org/extensions/born-digital/placeholder-thumb/fmt/20/application/pdf',
       width: 101,
     });

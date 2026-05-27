@@ -296,6 +296,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
 
   return (
     <TopBar
+      data-testid="topbar"
       $isZooming={showZoomed}
       $isDesktopSidebarActive={isDesktopSidebarActive}
       $useFixedList={hasOnlyRenderableImages}

@@ -21,7 +21,6 @@ const ImageWrapper = styled.div<{
 
   img {
     margin: 10px auto;
-    overflow: scroll; /* for alt text, which can be long */
     width: unset;
     height: revert-layer;
     display: block;
@@ -150,7 +149,8 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
         srcSet={imageSrcSet}
         sizes="(min-width: 860px) 800px, calc(92.59vw + 22px)"
         lang={work.languageId}
-        alt={alt}
+        ariaDescribedBy={alt ? `image-${index + 1}` : undefined}
+        alt={`digitised image ${index + 1}`}
         clickHandler={() => {
           setShowZoomed(true);
         }}
@@ -160,6 +160,11 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
         errorHandler={errorHandler}
         zoomOnClick={true}
       />
+      {alt ? (
+        <span className="visually-hidden" id={`image-${index + 1}`}>
+          {alt}
+        </span>
+      ) : null}
     </ImageWrapper>
   );
 };

@@ -19,6 +19,7 @@ import path from 'path';
 
 import { getAllConsentStates } from '@weco/common/services/app/civic-uk';
 import { simplifyServerData } from '@weco/common/services/prismic/transformers/server-data';
+import { Toggles } from '@weco/toggles';
 
 import prismicHandler from './prismic';
 import togglesHandler, { getTogglesFromContext } from './toggles';
@@ -117,27 +118,45 @@ export function clear(): void {
 export const getServerData = async (
   context: GetServerSidePropsContext
 ): Promise<SimplifiedServerData> => {
+  // Read the cached toggles and prismic data from disk (refreshed every minute)
   const togglesResp = await read('toggles', handlers.toggles.defaultValue);
   const prismic = await read('prismic', handlers.prismic.defaultValue);
-  const { toggle } = context.query;
 
+  // Support ?toggle=someToggleName in the URL to enable a toggle via query param
+  const { toggle } = context.query;
   const enableToggle: string | undefined =
     typeof toggle === 'string' ? toggle : undefined;
 
-  const toggles = getTogglesFromContext(togglesResp, context);
-
-  const isEnableToggleValid = Object.keys(toggles).some(
-    id => id === enableToggle
+  // Resolve toggle values from the cached config + user's cookies
+  const { featureFlags, tests, modes } = getTogglesFromContext(
+    togglesResp,
+    context
   );
+
+  // If a valid toggle was requested via query param, set a cookie and enable it
+  const allToggleIds = [...Object.keys(featureFlags), ...Object.keys(tests)];
+  const isEnableToggleValid = allToggleIds.some(id => id === enableToggle);
 
   if (enableToggle && isEnableToggleValid) {
     context.res.setHeader('Set-Cookie', `toggle_${enableToggle}=true; Path=/`);
-    toggles[enableToggle].value = true;
+    if (enableToggle in featureFlags) {
+      featureFlags[enableToggle] = true;
+    } else {
+      tests[enableToggle] = true;
+    }
   }
 
+  // Read cookie consent status (analytics, marketing)
   const consentStatus = getAllConsentStates(context);
 
-  const serverData = { toggles, prismic, consentStatus };
+  const toggles: Toggles = { featureFlags, tests, modes };
 
+  const serverData = {
+    toggles,
+    prismic,
+    consentStatus,
+  };
+
+  // Strip prismic data down to only what's needed client-side
   return simplifyServerData(serverData);
 };

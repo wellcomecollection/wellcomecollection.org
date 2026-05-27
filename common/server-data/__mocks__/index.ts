@@ -5,6 +5,7 @@ import {
   emptyPopupDialog,
   emptyPrismicQuery,
 } from '@weco/common/services/prismic/documents';
+import { FeatureFlags, Modes, Tests } from '@weco/toggles';
 
 export async function init(): Promise<void> {
   // we avoid writing to the filesystem so we can run this in CI
@@ -16,7 +17,11 @@ export function clear(): void {
 
 export async function getServerData(): Promise<ServerData> {
   return {
-    toggles: {},
+    toggles: {
+      featureFlags: {} as FeatureFlags,
+      tests: {} as Tests,
+      modes: {} as Modes,
+    },
     prismic: {
       globalAlert: emptyGlobalAlert(),
       popupDialog: emptyPopupDialog(),

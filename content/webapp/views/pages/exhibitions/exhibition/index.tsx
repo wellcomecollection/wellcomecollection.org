@@ -5,7 +5,7 @@ import {
   ExhibitionHighlightToursDocument,
   ExhibitionTextsDocument,
 } from '@weco/common/prismicio-types';
-import { useToggles } from '@weco/common/server-data/Context';
+import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
@@ -55,7 +55,7 @@ const ExhibitionPage: NextPage<Props> = ({
     AboutThisExhibitionContent[]
   >([]);
 
-  const { exhibitionAndCollection } = useToggles();
+  const { exhibitionAndCollection } = useFeatureFlags();
 
   useEffect(() => {
     let isMounted = true;
@@ -140,7 +140,7 @@ const ExhibitionPage: NextPage<Props> = ({
           isTendernessAndRageExhibition={isTendernessAndRageExhibition}
           aboutThisExhibitionContent={aboutThisExhibitionContent}
           themeCardsListSlice={themeCardsListSlice}
-          videos={[]}
+          videos={exhibition.untransformedPortraitVideos}
         />
       )}
     </PageLayout>

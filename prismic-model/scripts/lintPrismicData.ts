@@ -493,22 +493,22 @@ async function run() {
         console.log(`- ${msg}`);
       }
       console.log('');
+    }
+  }
 
-      // Send an alert to Editors if anything is found on a GitHub Action run
-      // https://github.com/wellcomecollection/wellcomecollection.org/actions/workflows/prismic-linting.yml
-      if (slackWebhookUrl) {
-        try {
-          await fetch(slackWebhookUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json; charset=UTF-8' },
-            body: JSON.stringify({
-              message: `The Prismic linting script has found ${pluralize(errors.length, 'thing')} that require${errors.length > 1 ? '' : 's'} your attention.`,
-            }),
-          });
-        } catch (e) {
-          console.log(e);
-        }
-      }
+  // Send a single alert to Editors if anything is found on a GitHub Action run
+  // https://github.com/wellcomecollection/wellcomecollection.org/actions/workflows/prismic-linting.yml
+  if (slackWebhookUrl && totalErrors > 0) {
+    try {
+      await fetch(slackWebhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+        body: JSON.stringify({
+          message: `The Prismic linting script has found ${pluralize(totalErrors, 'thing')} that require${totalErrors > 1 ? '' : 's'} your attention.`,
+        }),
+      });
+    } catch (e) {
+      console.log(e);
     }
   }
 

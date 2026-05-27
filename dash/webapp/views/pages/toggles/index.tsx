@@ -12,24 +12,27 @@ import {
   PageTitle,
 } from '@weco/dash/views/components/PageLayout';
 import { tokens } from '@weco/dash/views/themes/tokens';
+import { ModeDefinition } from '@weco/toggles';
 
 import ListOfToggles from './ListOfToggles';
 import ABTests, { AbTest } from './toggles.ABTests';
 import {
   deleteCookieCustom,
+  FeatureFlag,
   setCookieCustom,
-  Toggle,
   ToggleStates,
 } from './toggles.helpers';
+import Modes from './toggles.Modes';
 import {
   MessageBox,
   ResetButton,
   SearchInput,
   Section,
   SectionInner,
+  TableOfContentsList,
 } from './toggles.styles';
 
-const GENERAL_TOGGLE_IDS = ['apiToolbar', 'conceptsSearch'];
+const GENERAL_FEATURE_FLAG_IDS = ['apiToolbar', 'conceptsSearch'];
 
 const TogglesPage: FunctionComponent = () => {
   const router = useRouter();
@@ -40,22 +43,29 @@ const TogglesPage: FunctionComponent = () => {
     isEnabled?: boolean;
   } | null>(null);
   const [toggleStates, setToggleStates] = useState<ToggleStates>({});
-  const [toggles, setToggles] = useState<Toggle[]>([]);
+  const [featureFlags, setFeatureFlags] = useState<FeatureFlag[]>([]);
   const [abTests, setAbTests] = useState<AbTest[]>([]);
+  const [modes, setModes] = useState<ModeDefinition[]>([]);
+  const [modeStates, setModeStates] = useState<Record<string, string>>({});
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     fetch('https://toggles.wellcomecollection.org/toggles.json')
       .then(resp => resp.json())
       .then(json => {
-        setToggles(json.toggles);
-        setAbTests(json.tests);
+        const flags: FeatureFlag[] = json.featureFlags ?? [];
+        const tests: AbTest[] = json.tests ?? [];
+        const modeDefinitions: ModeDefinition[] = json.modes ?? [];
+
+        setFeatureFlags(flags);
+        setAbTests(tests);
+        setModes(modeDefinitions);
 
         const cookies = getCookies();
         const initialStates: ToggleStates = {};
 
-        // Toggles: cookie value or default
-        for (const toggle of json.toggles as Toggle[]) {
+        // Feature flags: cookie value or default
+        for (const toggle of flags) {
           const cookieKey = `toggle_${toggle.id}`;
           initialStates[toggle.id] =
             cookieKey in cookies
@@ -64,12 +74,23 @@ const TogglesPage: FunctionComponent = () => {
         }
 
         // AB tests: cookie value or undefined (= randomly allocate)
-        for (const test of json.tests as AbTest[]) {
+        for (const test of tests) {
           const cookieKey = `toggle_${test.id}`;
           if (cookieKey in cookies) {
             initialStates[test.id] = cookies[cookieKey] === 'true';
           }
         }
+
+        // Modes: read plain string cookie values
+        const initialModeStates: Record<string, string> = {};
+        for (const mode of modeDefinitions) {
+          const cookieKey = `toggle_${mode.id}`;
+          const cookieValue = cookies[cookieKey];
+          if (cookieValue && cookieValue.length > 0) {
+            initialModeStates[mode.id] = cookieValue;
+          }
+        }
+        setModeStates(initialModeStates);
 
         setToggleStates(initialStates);
       })
@@ -81,9 +102,21 @@ const TogglesPage: FunctionComponent = () => {
       );
   }, []);
 
-  const handleToggle = useCallback(
+  // Scroll to hash anchor after data loads (sections aren't in the DOM on first render)
+  useEffect(() => {
+    if (featureFlags.length === 0) return;
+    const hash = window.location.hash;
+    if (hash) {
+      const el = document.querySelector(hash);
+      if (el) {
+        el.scrollIntoView();
+      }
+    }
+  }, [featureFlags]);
+
+  const handleFeatureFlag = useCallback(
     (toggleId: string, action: 'enable' | 'disable') => {
-      const toggleExists = toggles.some(toggle => toggle.id === toggleId);
+      const toggleExists = featureFlags.some(toggle => toggle.id === toggleId);
       if (toggleExists) {
         if (action === 'enable') {
           setCookieCustom(toggleId, 'true');
@@ -92,44 +125,44 @@ const TogglesPage: FunctionComponent = () => {
             [toggleId]: true,
           }));
           setMessage({
-            text: `✅ Toggle "${toggleId}" has been successfully enabled!`,
+            text: `✅ Feature flag "${toggleId}" has been successfully enabled!`,
             isError: false,
             isEnabled: true,
           });
         } else {
-          const toggle = toggles.find(t => t.id === toggleId);
+          const toggle = featureFlags.find(t => t.id === toggleId);
           deleteCookieCustom(toggleId);
           setToggleStates(prev => ({
             ...prev,
             [toggleId]: toggle?.defaultValue ?? false,
           }));
           setMessage({
-            text: `🔵 Toggle "${toggleId}" has been reset to its default value.`,
+            text: `🔵 Feature flag "${toggleId}" has been reset to its default value.`,
             isError: false,
             isEnabled: false,
           });
         }
       } else {
         setMessage({
-          text: `❌ Toggle "${toggleId}" does not exist.`,
+          text: `❌ Feature flag "${toggleId}" does not exist.`,
           isError: true,
         });
       }
     },
-    [toggles]
+    [featureFlags]
   );
 
   const reset = useCallback(
     () =>
       setToggleStates(prev => {
         const next = { ...prev };
-        for (const { id, defaultValue } of toggles) {
+        for (const { id, defaultValue } of featureFlags) {
           deleteCookieCustom(id);
           next[id] = defaultValue;
         }
         return next;
       }),
-    [toggles]
+    [featureFlags]
   );
 
   const resetAbTests = useCallback(() => {
@@ -148,25 +181,32 @@ const TogglesPage: FunctionComponent = () => {
   }, [abTests]);
 
   useEffect(() => {
-    if (toggles.length === 0) return;
+    if (featureFlags.length === 0) return;
 
     if (resetToggles !== undefined) {
       reset();
       setMessage({
-        text: '🔄 All toggles have been reset to their default values.',
+        text: '🔄 All feature flags have been reset to their default values.',
         isError: false,
       });
     } else if (enableToggle) {
-      handleToggle(enableToggle as string, 'enable');
+      handleFeatureFlag(enableToggle as string, 'enable');
     } else if (disableToggle) {
-      handleToggle(disableToggle as string, 'disable');
+      handleFeatureFlag(disableToggle as string, 'disable');
     }
-  }, [enableToggle, disableToggle, resetToggles, handleToggle, reset, toggles]);
+  }, [
+    enableToggle,
+    disableToggle,
+    resetToggles,
+    handleFeatureFlag,
+    reset,
+    featureFlags,
+  ]);
 
-  const filterToggles = (toggleList: Toggle[]) => {
-    if (!searchQuery) return toggleList;
+  const filterFeatureFlags = (flagList: FeatureFlag[]) => {
+    if (!searchQuery) return flagList;
     const query = searchQuery.toLowerCase();
-    return toggleList.filter(
+    return flagList.filter(
       t =>
         t.title.toLowerCase().includes(query) ||
         t.description.toLowerCase().includes(query) ||
@@ -174,18 +214,20 @@ const TogglesPage: FunctionComponent = () => {
     );
   };
 
-  const generalToggles = filterToggles(
-    toggles.filter(t => GENERAL_TOGGLE_IDS.includes(t.id))
+  const generalFeatureFlags = filterFeatureFlags(
+    featureFlags.filter(t => GENERAL_FEATURE_FLAG_IDS.includes(t.id))
   );
-  const restOfPermanentToggles = filterToggles(
-    toggles
+  const permanentFeatureFlags = filterFeatureFlags(
+    featureFlags
       .filter(t => t.type === 'permanent')
-      .filter(t => !GENERAL_TOGGLE_IDS.includes(t.id))
+      .filter(t => !GENERAL_FEATURE_FLAG_IDS.includes(t.id))
   );
-  const experimentalToggles = filterToggles(
-    toggles.filter(t => t.type === 'experimental')
+  const experimentalFeatureFlags = filterFeatureFlags(
+    featureFlags.filter(t => t.type === 'experimental')
   );
-  const stageToggles = filterToggles(toggles.filter(t => t.type === 'stage'));
+  const stageFeatureFlags = filterFeatureFlags(
+    featureFlags.filter(t => t.type === 'stage')
+  );
   const filteredAbTests: AbTest[] = searchQuery
     ? abTests.filter(
         t =>
@@ -195,12 +237,25 @@ const TogglesPage: FunctionComponent = () => {
       )
     : abTests;
 
+  const filteredModes: ModeDefinition[] = searchQuery
+    ? modes.filter(m => {
+        const query = searchQuery.toLowerCase();
+        return (
+          m.title.toLowerCase().includes(query) ||
+          m.description.toLowerCase().includes(query) ||
+          m.id.toLowerCase().includes(query) ||
+          m.options.some(opt => opt.label.toLowerCase().includes(query))
+        );
+      })
+    : modes;
+
   const totalResults =
-    generalToggles.length +
-    restOfPermanentToggles.length +
-    experimentalToggles.length +
-    stageToggles.length +
-    filteredAbTests.length;
+    generalFeatureFlags.length +
+    permanentFeatureFlags.length +
+    experimentalFeatureFlags.length +
+    stageFeatureFlags.length +
+    filteredAbTests.length +
+    filteredModes.length;
 
   return (
     <>
@@ -210,11 +265,12 @@ const TogglesPage: FunctionComponent = () => {
       <Header activePath="/toggles" />
       <PageContainer>
         <PageHeader>
-          <PageTitle>Feature Toggles</PageTitle>
+          <PageTitle>Toggles</PageTitle>
           <PageDescription>
-            Manage and test feature flags; changes only affect your own browser.
-            Toggles also have a public status which is set for 100% of users,
-            which is done through devs running a script.
+            Manage and test feature flags, A/B tests, and modes; changes only
+            affect your own browser. Feature flags also have a public status
+            which is set for 100% of users, which is done through devs running a
+            script.
           </PageDescription>
         </PageHeader>
 
@@ -229,6 +285,29 @@ const TogglesPage: FunctionComponent = () => {
               {message.text}
             </MessageBox>
           )}
+
+          <nav aria-label="Table of contents">
+            <TableOfContentsList>
+              <li>
+                <a href="#general">General</a>
+              </li>
+              <li>
+                <a href="#permanent">Permanent</a>
+              </li>
+              <li>
+                <a href="#wip">Work in progress</a>
+              </li>
+              <li>
+                <a href="#staging">Staging</a>
+              </li>
+              <li>
+                <a href="#ab-tests">A/B tests</a>
+              </li>
+              <li>
+                <a href="#modes">Modes</a>
+              </li>
+            </TableOfContentsList>
+          </nav>
 
           <SearchInput
             type="search"
@@ -249,28 +328,34 @@ const TogglesPage: FunctionComponent = () => {
           )}
 
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <ResetButton
-              onClick={() => {
-                reset();
-                setMessage({
-                  text: '🔄 All toggles have been reset to their default values.',
-                  isError: false,
-                });
-              }}
-              aria-label="Reset all feature toggles to default values"
-            >
-              Reset toggles to defaults
-            </ResetButton>
+            {featureFlags.some(
+              flag => toggleStates[flag.id] !== flag.defaultValue
+            ) && (
+              <ResetButton
+                onClick={() => {
+                  reset();
+                  setMessage({
+                    text: '🔄 All feature flags have been reset to their default values.',
+                    isError: false,
+                  });
+                }}
+                aria-label="Reset all feature flags to default values"
+              >
+                Reset feature flags to defaults
+              </ResetButton>
+            )}
           </div>
         </main>
       </PageContainer>
 
-      {(generalToggles.length > 0 || !searchQuery) && (
+      {(generalFeatureFlags.length > 0 || !searchQuery) && (
         <Section $background="default" $hasNoTopPadding>
           <SectionInner>
-            <h2>Toggles for general use</h2>
             <ListOfToggles
-              toggles={generalToggles}
+              title="Feature flags for general use"
+              anchorId="general"
+              description="Permanent flags useful to all users."
+              featureFlags={generalFeatureFlags}
               toggleStates={toggleStates}
               setToggleStates={setToggleStates}
             />
@@ -278,12 +363,14 @@ const TogglesPage: FunctionComponent = () => {
         </Section>
       )}
 
-      {(restOfPermanentToggles.length > 0 || !searchQuery) && (
+      {(permanentFeatureFlags.length > 0 || !searchQuery) && (
         <Section $background="light">
           <SectionInner>
-            <h2>Toggles for Digital team - Permanent</h2>
             <ListOfToggles
-              toggles={restOfPermanentToggles}
+              title="Feature flags for Digital team - Permanent"
+              anchorId="permanent"
+              description="Long-lived flags that control established features."
+              featureFlags={permanentFeatureFlags}
               toggleStates={toggleStates}
               setToggleStates={setToggleStates}
             />
@@ -291,12 +378,14 @@ const TogglesPage: FunctionComponent = () => {
         </Section>
       )}
 
-      {(experimentalToggles.length > 0 || !searchQuery) && (
+      {(experimentalFeatureFlags.length > 0 || !searchQuery) && (
         <Section $background="alt">
           <SectionInner>
-            <h2>Toggles for Digital team - Work in progress</h2>
             <ListOfToggles
-              toggles={experimentalToggles}
+              title="Feature flags for Digital team - Work in progress"
+              anchorId="wip"
+              description="Experimental flags for features currently in development."
+              featureFlags={experimentalFeatureFlags}
               toggleStates={toggleStates}
               setToggleStates={setToggleStates}
             />
@@ -304,12 +393,14 @@ const TogglesPage: FunctionComponent = () => {
         </Section>
       )}
 
-      {(stageToggles.length > 0 || !searchQuery) && (
+      {(stageFeatureFlags.length > 0 || !searchQuery) && (
         <Section $background="light">
           <SectionInner>
-            <h2>Toggles for Digital team - Staging</h2>
             <ListOfToggles
-              toggles={stageToggles}
+              title="Feature flags for Digital team - Staging"
+              anchorId="staging"
+              description="These flags are only active on the staging environment (www-stage)."
+              featureFlags={stageFeatureFlags}
               toggleStates={toggleStates}
               setToggleStates={setToggleStates}
             />
@@ -325,6 +416,22 @@ const TogglesPage: FunctionComponent = () => {
               toggleStates={toggleStates}
               setToggleStates={setToggleStates}
               onReset={resetAbTests}
+            />
+          </SectionInner>
+        </Section>
+      )}
+
+      {(filteredModes.length > 0 || !searchQuery) && (
+        <Section $background="light">
+          <SectionInner>
+            <Modes
+              modes={filteredModes}
+              modeStates={modeStates}
+              setModeStates={setModeStates}
+              onReset={() => {
+                modes.forEach(mode => deleteCookieCustom(mode.id));
+                setModeStates({});
+              }}
             />
           </SectionInner>
         </Section>

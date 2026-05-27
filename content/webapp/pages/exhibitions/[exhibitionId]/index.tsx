@@ -74,7 +74,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     ) as RawThemeCardsListSlice | undefined;
 
     const themeCardsListSlice =
-      rawThemeCardsListSlice && serverData.toggles.exhibitionAndCollection.value
+      rawThemeCardsListSlice &&
+      serverData.toggles.featureFlags.exhibitionAndCollection
         ? transformThemeCardsList(rawThemeCardsListSlice)
         : undefined;
 

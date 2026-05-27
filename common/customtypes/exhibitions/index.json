@@ -148,6 +148,19 @@
         }
       }
     },
+    "Onward journeys": {
+      "portrait_videos": {
+        "type": "Slices",
+        "fieldset": "Onward journeys",
+        "config": {
+          "choices": {
+            "portraitVideoList": {
+              "type": "SharedSlice"
+            }
+          }
+        }
+      }
+    },
     "In this exhibition": {
       "exhibits": {
         "type": "Group",

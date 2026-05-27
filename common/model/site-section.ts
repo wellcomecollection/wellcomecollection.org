@@ -9,7 +9,9 @@ const siteSectionList = [
 ] as const;
 export type SiteSection = (typeof siteSectionList)[number];
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const isSiteSection = (section: any): section is SiteSection => {
-  return siteSectionList.includes(section);
+export const isSiteSection = (section: unknown): section is SiteSection => {
+  return (
+    typeof section === 'string' &&
+    (siteSectionList as readonly string[]).includes(section)
+  );
 };

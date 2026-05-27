@@ -20,19 +20,14 @@ export async function getAddressables(
 
 export async function getAddressable({
   id,
-  useStaging = false,
+  shouldUseStagingApi,
 }: {
   id: string;
-  useStaging?: boolean;
+  shouldUseStagingApi?: boolean;
 }): Promise<Addressable | WellcomeApiError> {
-  // Create minimal toggles object just for this call
-  const toggles = useStaging
-    ? { stagingApi: { value: true, type: 'stage' as const } }
-    : undefined;
-
   const getAddressableResult = await contentDocumentQuery<Addressable>(
     `all/${id}`,
-    { toggles }
+    { shouldUseStagingApi }
   );
 
   return getAddressableResult;
