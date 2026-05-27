@@ -100,11 +100,11 @@ All three append-only files are written to the gitignored `restore/status/` dire
 
 ### Script Reference
 
-| Script             | Command                      | Description                                                                                                                                                                                                    |
-| ------------------ | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Restore assets     | `yarn restorePrismicAssets`  | Downloads the assets manifest and snapshot, uploads missing assets to the target repo, writes `asset-id-map.json` and `asset-slug-map.json`                                                                    |
-| Transform snapshot | `yarn transformSnapshot`     | Prepares the snapshot for import: rewrites asset IDs, fixes URL slugs, backfills article publish dates, optionally rewrites repo name in asset URLs; writes `restore/snapshot/prismic-snapshot-rewritten.json` |
-| Restore content    | `yarn restorePrismicContent` | Uploads documents from a snapshot to the target repo using the Migration API                                                                                                                                   |
+| Script             | Command                      | Description                                                                                                                                                                                                                                                                                                                                                      |
+| ------------------ | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Restore assets     | `yarn restorePrismicAssets`  | Downloads the assets manifest and snapshot, uploads missing assets to the target repo, writes `asset-id-map.json` and `asset-slug-map.json`                                                                                                                                                                                                                      |
+| Transform snapshot | `yarn transformSnapshot`     | Prepares the snapshot for import: rewrites asset IDs, content document IDs (if content-id-map.json exists), fixes URL slugs, backfills article publish dates, optionally rewrites repo name in asset URLs; writes `restore/snapshot/prismic-snapshot-rewritten.json`. Automatically detects which maps are available and only applies available transformations. |
+| Restore content    | `yarn restorePrismicContent` | Uploads documents from a snapshot to the target repo using the Migration API, creates/updates `content-id-map.json` to track old ID → new ID mappings                                                                                                                                                                                                            |
 
 **Flags:**
 
@@ -176,7 +176,7 @@ The script is **safe to interrupt and resume** — re-running it will skip alrea
 
 > **Note:** If the asset upload runs for a long time (hours), your AWS credentials may expire before you reach Step 4. Run `aws sso login` again before running `transformSnapshot` if needed.
 
-#### Step 4 — Rewrite the snapshot
+#### Step 4 — Rewrite the snapshot (first pass)
 
 Because the new repo issues new asset IDs and hosts assets under potentially different URLs, the snapshot must be rewritten before content is imported.
 
@@ -194,7 +194,9 @@ This produces `restore/snapshot/prismic-snapshot-rewritten.json` with:
 
 > If the repository name is unchanged, omit `--source-repo` and `--target-repo`. The script will still rewrite asset IDs and URL slugs.
 
-#### Step 5 — Restore content
+> **Note:** Content relationship fields will not be corrected yet as `content-id-map.json` doesn't exist until after the first content upload. This is expected and will be fixed in Step 7.
+
+#### Step 5 — Restore content (first upload)
 
 ```bash
 yarn restorePrismicContent \
@@ -215,7 +217,35 @@ yarn restorePrismicContent \
 
 The script uploads each document at 1 request/sec and is safe to interrupt and resume — already-created documents will be updated rather than duplicated.
 
-#### Step 6 — Update hardcoded IDs
+After this completes, the script creates `restore/status/content-id-map.json` which maps old document IDs to new ones. This is needed to fix content relationships in the next steps.
+
+#### Step 6 — Rewrite the snapshot (second pass)
+
+Now that `content-id-map.json` exists, run the transform script again to fix content relationship fields:
+
+```bash
+yarn transformSnapshot \
+  --source-repo wellcomecollection \
+  --target-repo <new-repo-name>
+```
+
+This second run will:
+
+- Apply all the same asset ID and URL transformations as before.
+- **Additionally** replace old content document IDs with new ones in relationship fields.
+
+#### Step 7 — Restore content (second upload)
+
+Upload the snapshot again with corrected content relationships:
+
+```bash
+yarn restorePrismicContent \
+  --snapshot ./restore/snapshot/prismic-snapshot-rewritten.json
+```
+
+This updates all documents with the correct content relationship references. Documents won't be duplicated — they'll be updated in place using the IDs from `content-id-map.json`.
+
+#### Step 8 — Update hardcoded IDs
 
 Some document IDs are hardcoded in [`/common/data/hardcoded-ids.ts`](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/common/data/hardcoded-ids.ts). After the restore, check `restore/status/content-id-map.json` for the new IDs corresponding to each hardcoded entry and update the file.
 
@@ -223,11 +253,11 @@ Some document IDs are hardcoded in [`/common/data/hardcoded-ids.ts`](https://git
 
 Once the PR is merged, delete the `restore/status/` directory — it is gitignored and will be recreated from scratch on the next restore.
 
-#### Step 7 — Point the frontend to the new repo
+#### Step 9 — Point the frontend to the new repo
 
 See [Frontend Cutover Guide](#frontend-cutover-guide).
 
-#### Step 8 — Recreate webhooks and integrations
+#### Step 10 — Recreate webhooks and integrations
 
 After cutover recreate any webhooks that were configured in the old repository (build triggers, content-api indexing, cache purge, document unpublish). These are not backed up automatically.
 
@@ -237,7 +267,7 @@ After cutover recreate any webhooks that were configured in the old repository (
 
 **Symptoms:** Repository and media library are intact; some or all documents are missing or corrupted.
 
-Asset IDs in the snapshot are still valid, so no asset upload is needed. The `transformSnapshot` step is still required — it backfills `publishDate` on any articles that are recreated (they would otherwise get today's date as their publication date, breaking ordering in list pages).
+Asset IDs in the snapshot are still valid, so no asset upload is needed. Content document IDs are also still valid (documents still in the repo keep their original IDs), so the two-stage content upload process isn't needed. However, `transformSnapshot` should still be run — it backfills `publishDate` on any articles that are recreated (they would otherwise get today's date as their publication date, breaking ordering in list pages).
 
 ```bash
 cd prismic-model
