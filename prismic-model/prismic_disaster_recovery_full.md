@@ -245,9 +245,22 @@ yarn restorePrismicContent --snapshot ./restore/snapshot/prismic-snapshot-rewrit
 yarn restorePrismicContent --snapshot ./restore/snapshot/prismic-snapshot-rewritten.json --type articles
 ```
 
-Documents that already exist will be updated (PUT); missing documents will be created (POST). The script is safe to re-run.
+The script attempts to POST each document. If a document already exists (409 conflict), it falls back to PUT with the same ID to update it. Missing documents are created with new IDs. The script is safe to re-run.
 
-> **Note:** Because document IDs in the restored repo are the same as the original, no hardcoded ID updates or content-api reindex are needed.
+> **Important:** Documents that already exist keep their original IDs. Missing documents get new IDs when recreated. This means:
+>
+> - Hardcoded IDs in `common/data/hardcoded-ids.ts` need updating for any recreated documents (check `content-id-map.json`)
+> - Content relationships may break if recreated documents reference each other
+
+**If recreated documents have content relationships:** Run a second pass to fix them:
+
+```bash
+# After first restore, content-id-map.json now contains the new IDs
+yarn transformSnapshot
+yarn restorePrismicContent --snapshot ./restore/snapshot/prismic-snapshot-rewritten.json
+```
+
+The second `transformSnapshot` rewrites content relationship IDs using the map. The second restore updates all documents with corrected references.
 
 ---
 
