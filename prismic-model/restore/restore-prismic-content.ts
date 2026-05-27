@@ -98,61 +98,14 @@ function appendToLog(message: string): void {
   });
 }
 
-// Searches the target Prismic repository for a document by type + UID.
-// Checks every available ref (master and any draft/release refs) so that
-// documents created as drafts in a previous run can also be found.
-async function findDestinationId(
-  repository: string,
-  type: string,
-  uid: string
-): Promise<string | null> {
-  const apiResponse = await fetch(
-    `https://${repository}.cdn.prismic.io/api/v2`
-  );
-  if (!apiResponse.ok) {
-    throw new Error(
-      `Failed to fetch Prismic API for repository "${repository}": HTTP ${apiResponse.status} ${apiResponse.statusText}`
-    );
-  }
-  const api = (await apiResponse.json()) as any;
-
-  // Try all refs (master + any migration/draft releases) to find
-  // documents that may have been created as drafts in a previous run
-  const refs: string[] = (api.refs ?? []).map((r: any) => r.ref);
-
-  for (const ref of refs) {
-    const searchUrl = new URL(
-      `https://${repository}.cdn.prismic.io/api/v2/documents/search`
-    );
-    searchUrl.searchParams.set(
-      'q',
-      `[[at(document.type,"${type}")][at(document.uid,"${uid}")]]`
-    );
-    searchUrl.searchParams.set('ref', ref);
-
-    const searchResponse = await fetch(searchUrl.toString());
-    if (!searchResponse.ok) {
-      throw new Error(
-        `Failed to search Prismic repository at ref "${ref}": HTTP ${searchResponse.status} ${searchResponse.statusText}`
-      );
-    }
-    const results = (await searchResponse.json()) as any;
-    const id = results.results?.[0]?.id;
-
-    if (id) return id;
-  }
-
-  return null;
-}
-
 // Uploads a single document to the target repository via the Prismic Migration API.
 // Strategy:
-//   1. If the document was already uploaded in a previous run (present in idMap), issue a PUT
-//      to keep it up to date rather than attempting a duplicate POST.
+//   1. If the document was already uploaded in this restore session (present in idMap), issue a PUT
+//      to update it rather than attempting a duplicate POST.
 //   2. Otherwise POST to create the document.
-//   3. If the POST returns 400/409 (UID conflict), resolve the destination document ID and
-//      fall back to a PUT so the document is updated rather than duplicated.
-// Returns the new document ID on success, or null on failure.
+//   3. If POST returns 409 (conflict), assume the document exists with the same ID as in the
+//      snapshot (Scenario 2: partial loss where IDs are preserved) and issue a PUT to update it.
+// Returns the document ID on success, or null on failure.
 async function uploadDoc(
   doc: any,
   token: string,
@@ -220,28 +173,18 @@ async function uploadDoc(
     body: JSON.stringify(body),
   });
 
-  // If a document with this UID already exists, fall back to PUT (update)
+  // If a document with this UID already exists, fall back to PUT (update).
+  // In Scenario 2 (partial loss), document IDs are preserved, so we can assume
+  // the existing document has the same ID as in the snapshot.
   if (response.status === 400 || response.status === 409) {
     const responseBody = (await response.json()) as any;
     if (
       responseBody?.message === 'A document with this UID already exists' ||
       response.status === 409
     ) {
-      // Look up the destination document ID — check the local id map first
-      // (from a previous run), then fall back to querying all Prismic refs
-      const destinationId =
-        idMap.get(doc.id) ??
-        (doc.uid
-          ? await findDestinationId(repository, doc.type, doc.uid)
-          : null);
-
-      if (!destinationId) {
-        logError(`Could not find destination ID for ${doc.type} ${doc.uid}`);
-        appendToLog(
-          `${doc.id}: could not find destination ID for uid "${doc.uid}"\n\n`
-        );
-        return null;
-      }
+      // Assume the document exists with the same ID (Scenario 2) or we've already
+      // uploaded it in this session (check idMap again in case of race conditions)
+      const destinationId = idMap.get(doc.id) || doc.id;
 
       response = await fetch(
         `https://migration.prismic.io/documents/${destinationId}`,
@@ -375,7 +318,9 @@ async function init() {
 
   // Step 4: Load any ID mappings saved by a previous run so we can resume
   // without re-uploading documents that were already created.
-  // The map records { sourceId -> destinationId } for every successfully uploaded doc.
+  // The map records { snapshotId -> targetId } for every successfully uploaded doc.
+  // In Scenario 1 (new repo), IDs get remapped. In Scenario 2 (existing repo),
+  // IDs stay the same but are still recorded for consistency.
   const idMapFile = './restore/status/content-id-map.json';
   const idMap = new Map<string, string>(
     fs.existsSync(idMapFile)
