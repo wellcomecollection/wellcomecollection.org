@@ -107,7 +107,7 @@ const FormatIconContainer = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%) rotate(-2deg);
+  transform: translate(-50%, -50%);
   width: 100px;
   height: 100px;
 
@@ -122,11 +122,6 @@ type Props = {
 };
 
 const WorkCard: FunctionComponent<Props> = ({ item }) => {
-  const formatLabel =
-    item.cardLabels?.length > 0 && !item.cardLabels[0].labelColor
-      ? item.cardLabels[0].text
-      : undefined;
-
   const formatIconPath = getFormatIconPath(item.workTypeId);
 
   const transformedWork = {
@@ -135,7 +130,10 @@ const WorkCard: FunctionComponent<Props> = ({ item }) => {
     // `cardLabels` contains `workType` and `availabilities`, adding a labelColor to the latter.
     // As we only want the workType here, we filter out any with a labelColor.
     // It's not ideal but I prefer that to modifying a transformer that's heavily used elsewhere.
-    labels: formatLabel ? [{ text: formatLabel }] : [],
+    labels:
+      item.cardLabels?.length > 0 && !item.cardLabels[0].labelColor
+        ? [{ text: item.cardLabels[0].text }]
+        : [],
     imageUrl: item.thumbnail
       ? convertIiifImageUri(item.thumbnail.url, 400)
       : undefined,
