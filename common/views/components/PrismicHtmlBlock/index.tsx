@@ -20,11 +20,10 @@ const PrismicHtmlBlock: FunctionComponent<Props> = ({
   htmlSerializer,
 }) => {
   const isKiosk = useKiosk();
+  const baseSerializer = htmlSerializer ?? defaultSerializer;
   const serializer = isKiosk
-    ? htmlSerializer
-      ? withExternalLinkStripping(htmlSerializer)
-      : withExternalLinkStripping(defaultSerializer)
-    : htmlSerializer;
+    ? withExternalLinkStripping(baseSerializer)
+    : baseSerializer;
 
   return (
     <PrismicRichText
