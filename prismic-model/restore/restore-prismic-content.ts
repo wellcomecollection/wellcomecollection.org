@@ -100,8 +100,7 @@ function appendToLog(message: string): void {
 
 // Uploads a single document to the target repository via the Prismic Migration API.
 // Strategy:
-//   1. If the document was already uploaded in this restore session (present in idMap), issue a PUT
-//      to update it rather than attempting a duplicate POST.
+//   1. If the document was already uploaded in this restore session (present in idMap), issue a PUT to update it rather than attempting a duplicate POST.
 //   2. Otherwise POST to create the document.
 //   3. If POST returns 409 (conflict), assume the document exists with the same ID as in the
 //      snapshot (Scenario 2: partial loss where IDs are preserved) and issue a PUT to update it.
