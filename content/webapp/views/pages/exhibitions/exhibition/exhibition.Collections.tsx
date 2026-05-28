@@ -109,20 +109,15 @@ const ExhibitionCollectionsContent = ({
         )}
       </Container>
 
-      {shouldDisplayThemes && (
-        <SliceZone
-          // filter out videos if verticalVideos is false
-          slices={onwardJourneys.filter(
-            (slice: prismic.Slice) =>
-              verticalVideos ||
-              slice.slice_type !== 'portraitVideoList' ||
-              !Array.isArray(slice.items) ||
-              slice.items.length === 0
-          )}
-          components={components}
-          context={{ gridSizes: gridSize12(), hasNoShim: false }}
-        />
-      )}
+      <SliceZone
+        // filter out videos if verticalVideos is false
+        slices={onwardJourneys.filter(
+          (slice: prismic.Slice) =>
+            verticalVideos || slice.slice_type !== 'portraitVideoList'
+        )}
+        components={components}
+        context={{ gridSizes: gridSize12(), hasNoShim: false }}
+      />
     </Wrapper>
   );
 };
