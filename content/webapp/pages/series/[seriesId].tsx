@@ -8,7 +8,7 @@ import {
   WebcomicSeriesDocument,
 } from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
-import { useFeatureFlags } from '@weco/common/server-data/Context';
+import { useModes } from '@weco/common/server-data/Context';
 import { appError } from '@weco/common/services/app';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -41,11 +41,11 @@ import ArticleSeriesPage, {
 } from '@weco/content/views/pages/series/series';
 
 const Page: NextPage<ArticleSeriesPageProps> = props => {
-  const { storiesKiosk } = useFeatureFlags();
+  const { kioskMode } = useModes();
 
   return (
-    <KioskProvider isActive={!!storiesKiosk}>
-      {storiesKiosk && <InactivityRedirect redirectUrl="/stories/kiosk" />}
+    <KioskProvider isActive={!!kioskMode}>
+      {!!kioskMode && <InactivityRedirect redirectUrl="/stories/kiosk" />}
       <ArticleSeriesPage {...props} />
     </KioskProvider>
   );
