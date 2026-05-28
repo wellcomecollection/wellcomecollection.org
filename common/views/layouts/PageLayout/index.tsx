@@ -8,6 +8,7 @@ import {
   GlobalInfoBarContextProvider,
   useGlobalInfoBarContext,
 } from '@weco/common/contexts/GlobalInfoBarContext';
+import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { useSearchContext } from '@weco/common/contexts/SearchContext';
 import cookies from '@weco/common/data/cookies';
 import { collectionVenueId } from '@weco/common/data/hardcoded-ids';
@@ -94,6 +95,7 @@ const PageLayoutComponent: NextPage<Props> = ({
   isNoIndex = false,
 }) => {
   const { apiToolbar, issuesBanner } = useFeatureFlags();
+  const isKiosk = useKiosk();
   const urlString = convertUrlToString(url);
   const fullTitle =
     title !== ''
@@ -287,7 +289,9 @@ const PageLayoutComponent: NextPage<Props> = ({
         <a className="visually-hidden visually-hidden-focusable" href="#main">
           Skip to main content
         </a>
-        {!hideHeader && <Header siteSection={siteSection} {...headerProps} />}
+        {!hideHeader && !isKiosk && (
+          <Header siteSection={siteSection} {...headerProps} />
+        )}
         {issuesBanner && <InfoBanner variant="websiteIssues" />}
         {globalAlert.data.isShown === 'show' &&
           (!globalAlert.data.routeRegex ||
@@ -320,12 +324,12 @@ const PageLayoutComponent: NextPage<Props> = ({
           {children}
         </div>
 
-        {!hideNewsletterPromo && <NewsletterPromo />}
+        {!hideNewsletterPromo && !isKiosk && <NewsletterPromo />}
 
         {/* The no javascript version of the burger menu relies on the footer being present on the page,
         as we then use an anchor link to take people to the navigation links in the footer.
         We only completely remove the footer if you've got JS. If we've hidden the header, then we don't need to worry about this because the navigation links aren't there at all */}
-        {(!hideFooter || !isEnhanced) && <Footer venues={venues} />}
+        {(!hideFooter || !isEnhanced) && !isKiosk && <Footer venues={venues} />}
       </div>
     </>
   );

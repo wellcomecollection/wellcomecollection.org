@@ -63,6 +63,7 @@ const TogglesMessage: FunctionComponent = () => {
   // here -- we can't use getServerSideProps on an error page.
   // See https://nextjs.org/docs/messages/404-get-initial-props
   const [toggles, setToggles] = useState<string[]>([]);
+  const [hasActiveMode, setHasActiveMode] = useState(false);
 
   useEffect(() => {
     setToggles(() => {
@@ -72,11 +73,18 @@ const TogglesMessage: FunctionComponent = () => {
         getCookies()
       ).filter(v => !v.startsWith('!'));
 
+      const activeModes = activeTogglesInBrowser.filter(id =>
+        togglesList.modes.some(mode => mode.id === id)
+      );
+
+      setHasActiveMode(activeModes.length > 0);
+
       // Get the readable name
       if (activeTogglesInBrowser.length > 0) {
         const flattenedTogglesList = [
           ...togglesList.featureFlags,
           ...togglesList.tests,
+          ...togglesList.modes,
         ];
         const activeToggleNames = activeTogglesInBrowser
           .map(
@@ -110,10 +118,28 @@ const TogglesMessage: FunctionComponent = () => {
               ))}
             </ul>
             This could be what is causing this page to error,{' '}
-            <a href="https://dash.wellcomecollection.org/toggles">
+            <a
+              href="https://dash.wellcomecollection.org/toggles"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               please try resetting your toggles
             </a>
             .
+            {hasActiveMode && (
+              <Space $v={{ size: 'xs', properties: ['margin-top'] }}>
+                <strong>You are also not using the default view mode</strong>,
+                which could be changing the default experience.{' '}
+                <a
+                  href="https://dash.wellcomecollection.org/toggles/#modes"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  You can reset them here
+                </a>
+                .
+              </Space>
+            )}
           </Space>
         </MessageBar>
       </ContaineredLayout>
