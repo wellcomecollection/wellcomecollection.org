@@ -16,6 +16,8 @@ export function font(family: FontFamily, size: FontSize): string {
   return `${fontFamily(family)} ${fontSize(size)}`;
 }
 
+// Not all combinations of arguments produce a generated class — check
+// makeCompositeTypographyClasses in typography.ts for what exists.
 export function compositeTypography(
   category: 'body' | 'caption' | 'display' | 'label' | 'heading',
   size: TypographySizeKey,
