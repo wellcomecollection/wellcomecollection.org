@@ -2791,7 +2791,9 @@ type ExhibitionsDocumentDataBodySlice =
   | ThemeCardsListSlice
   | TitledTextListSlice;
 
-type ExhibitionsDocumentDataPortraitVideosSlice = PortraitVideoListSlice;
+type ExhibitionsDocumentDataOnwardJourneysSlice =
+  | PortraitVideoListSlice
+  | ThemeCardsListSlice;
 
 /**
  * Item in *Exhibition → Exhibits*
@@ -3139,15 +3141,15 @@ interface ExhibitionsDocumentData {
    * - **Documentation**: https://prismic.io/docs/slices
    */
   body: prismic.SliceZone<ExhibitionsDocumentDataBodySlice>; /**
-   * Onward journeys field in *Exhibition*
+   * Slice Zone field in *Exhibition*
    *
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
-   * - **API ID Path**: exhibitions.portrait_videos[]
+   * - **API ID Path**: exhibitions.onward_journeys[]
    * - **Tab**: Onward journeys
    * - **Documentation**: https://prismic.io/docs/slices
    */
-  portrait_videos: prismic.SliceZone<ExhibitionsDocumentDataPortraitVideosSlice>; /**
+  onward_journeys: prismic.SliceZone<ExhibitionsDocumentDataOnwardJourneysSlice>; /**
    * Exhibits field in *Exhibition*
    *
    * - **Field Type**: Group
@@ -7198,17 +7200,17 @@ export interface PortraitVideoListSliceDefaultPrimary {
  */
 export interface PortraitVideoListSliceDefaultItem {
   /**
-   * Embed field in *PortraitVideoList → Items*
+   * Embed (for YouTube Shorts, replace '/shorts/' with '/watch?v=') field in *PortraitVideoList → Items*
    *
    * - **Field Type**: Embed
-   * - **Placeholder**: For YouTube Shorts, replace '/shorts/' with '/watch?v='
+   * - **Placeholder**: *None*
    * - **API ID Path**: portraitVideoList.items[].embed
    * - **Documentation**: https://prismic.io/docs/fields/embed
    */
   embed: prismic.EmbedField;
 
   /**
-   * Poster image field in *PortraitVideoList → Items*
+   * Poster image (optional) field in *PortraitVideoList → Items*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
@@ -7221,17 +7223,17 @@ export interface PortraitVideoListSliceDefaultItem {
    * Duration field in *PortraitVideoList → Items*
    *
    * - **Field Type**: Text
-   * - **Placeholder**: e.g. 2:30
+   * - **Placeholder**: e.g. 02:30
    * - **API ID Path**: portraitVideoList.items[].duration
    * - **Documentation**: https://prismic.io/docs/fields/text
    */
   duration: prismic.KeyTextField;
 
   /**
-   * Title field in *PortraitVideoList → Items*
+   * Title (optional) field in *PortraitVideoList → Items*
    *
    * - **Field Type**: Text
-   * - **Placeholder**: Leave this blank to use the title from the embed
+   * - **Placeholder**: *None*
    * - **API ID Path**: portraitVideoList.items[].title
    * - **Documentation**: https://prismic.io/docs/fields/text
    */
@@ -7925,7 +7927,7 @@ declare module '@prismicio/client' {
       ExhibitionsDocument,
       ExhibitionsDocumentData,
       ExhibitionsDocumentDataBodySlice,
-      ExhibitionsDocumentDataPortraitVideosSlice,
+      ExhibitionsDocumentDataOnwardJourneysSlice,
       ExhibitionsDocumentDataExhibitsItem,
       ExhibitionsDocumentDataEventsItem,
       ExhibitionsDocumentDataArticlesItem,
