@@ -19,6 +19,17 @@ export function font(family: FontFamily, size: FontSize): string {
 // Not all combinations of arguments produce a generated class — check
 // makeCompositeTypographyClasses in typography.ts for what exists.
 export function compositeTypography(
+  category: 'heading',
+  size: TypographySizeKey,
+  weight: 'regular' | 'strong',
+  family?: 'sans' | 'brand'
+): string;
+export function compositeTypography(
+  category: 'body' | 'caption' | 'display' | 'label',
+  size: TypographySizeKey,
+  weight: 'regular' | 'strong'
+): string;
+export function compositeTypography(
   category: 'body' | 'caption' | 'display' | 'label' | 'heading',
   size: TypographySizeKey,
   weight: 'regular' | 'strong',
