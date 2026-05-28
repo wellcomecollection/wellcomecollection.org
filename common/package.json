@@ -21,7 +21,7 @@
     "@weco/toggles": "1.0.0",
     "@wellcometrust/wellcome-design-system": "^2.0.0",
     "babel-plugin-dynamic-import-node": "^2.3.3",
-    "babel-plugin-styled-components": "^2.1.4",
+    "babel-plugin-styled-components": "^2.3.0",
     "cookies-next": "^4.1.1",
     "elastic-apm-node": "^4.14.0",
     "focus-trap-react": "^11.0.3",
