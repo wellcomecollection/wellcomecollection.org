@@ -16,9 +16,7 @@ export type ModeId = (typeof toggleConfig.modes)[number]['id'];
 export type TogglesResp = {
   featureFlags: PublishedFeatureFlag[];
   tests: ABTest[];
-  // Optional because the S3 JSON won't include modes until the first deploy
-  // that includes them. Can be made required once modes are live.
-  modes?: ModeDefinition[];
+  modes: ModeDefinition[];
 };
 
 // Don't be tempted to make the keys on this optional - keeping them

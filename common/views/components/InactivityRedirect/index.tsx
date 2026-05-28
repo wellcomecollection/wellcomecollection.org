@@ -6,35 +6,14 @@ import {
   useRef,
   useState,
 } from 'react';
-import styled from 'styled-components';
 
 import { useKiosk } from '@weco/common/contexts/KioskContext';
 import Modal from '@weco/common/views/components/Modal';
 
+import InactivityRedirectModal from './InactivityRedirect.Modal';
+
 const INACTIVITY_TIMEOUT = 30 * 1000; // 30 seconds
 const WARNING_COUNTDOWN = 30; // 30 seconds countdown before redirect
-
-const RedirectModalContent = styled.div`
-  padding: 24px;
-  text-align: center;
-
-  p {
-    margin: 16px 0;
-    font-size: 18px;
-    line-height: 1.5;
-  }
-`;
-
-const RedirectModalTitle = styled.h2`
-  font-size: 32px;
-  font-weight: bold;
-  margin: 0 0 24px;
-`;
-
-const CountdownText = styled.strong`
-  font-size: 24px;
-  font-weight: bold;
-`;
 
 type Props = {
   redirectUrl: string;
@@ -55,6 +34,9 @@ const InactivityRedirect: FunctionComponent<Props> = ({ redirectUrl }) => {
 
   const performRedirect = useCallback(() => {
     setIsWarningActive(false);
+
+    gtag('event', 'auto_reset');
+
     router.push(redirectUrl);
   }, [router, redirectUrl]);
 
@@ -88,12 +70,10 @@ const InactivityRedirect: FunctionComponent<Props> = ({ redirectUrl }) => {
   }, [resetInactivityTimer]);
 
   const handleUserActivity = useCallback(() => {
-    if (isWarningActive) {
-      handleCancelRedirect();
-    } else {
-      resetInactivityTimer();
-    }
-  }, [isWarningActive, handleCancelRedirect, resetInactivityTimer]);
+    if (isWarningActive) return;
+
+    resetInactivityTimer();
+  }, [isWarningActive, resetInactivityTimer]);
 
   // Clean up on route changes
   useEffect(() => {
@@ -155,6 +135,10 @@ const InactivityRedirect: FunctionComponent<Props> = ({ redirectUrl }) => {
   useEffect(() => {
     if (!isKiosk || isRedirectDestination) return;
 
+    if (isWarningActive) {
+      return;
+    }
+
     const events = [
       'mousedown',
       'mousemove',
@@ -206,15 +190,12 @@ const InactivityRedirect: FunctionComponent<Props> = ({ redirectUrl }) => {
       openButtonRef={modalButtonRef}
       showOverlay={true}
     >
-      <RedirectModalContent>
-        <RedirectModalTitle>Are you still there?</RedirectModalTitle>
-        <p>
-          Due to inactivity, you will be redirected in{' '}
-          <CountdownText>{countdown}</CountdownText> second
-          {countdown !== 1 ? 's' : ''}.
-        </p>
-        <p>Tap the screen to stay on this page.</p>
-      </RedirectModalContent>
+      <InactivityRedirectModal
+        countdown={countdown}
+        warningCountdown={WARNING_COUNTDOWN}
+        onKeepBrowsing={handleCancelRedirect}
+        onReset={performRedirect}
+      />
     </Modal>
   );
 };

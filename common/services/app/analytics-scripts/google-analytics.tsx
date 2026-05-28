@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 
 import { ConsentStatusProps } from '@weco/common/server-data/types';
-import { Tests, Toggles } from '@weco/toggles';
+import { Modes, Tests, Toggles } from '@weco/toggles';
 
 // Don't use the next/script `Script` component for these as in
 // Next.js v11 it does not work when inside a `Head` component
@@ -33,11 +33,17 @@ function createABToggleString(tests?: Tests): string | null {
   return entries.length > 0 ? entries.join(',') : null;
 }
 
+function getKioskDevice(modes?: Modes): string | null {
+  if (!modes) return null;
+  return modes.kioskMode ?? null;
+}
+
 export const Ga4DataLayer: FunctionComponent<Props> = ({
   data,
   consentStatus,
 }) => {
   const abTestsToggleString = createABToggleString(data.toggles?.tests);
+  const kioskDevice = getKioskDevice(data.toggles?.modes);
 
   return (
     <script
@@ -66,7 +72,14 @@ export const Ga4DataLayer: FunctionComponent<Props> = ({
             ${
               abTestsToggleString &&
               `window.dataLayer.push({
-                toggles: '${abTestsToggleString}'
+                toggles: ${JSON.stringify(abTestsToggleString)}
+              });`
+            }
+
+            ${
+              kioskDevice &&
+              `window.dataLayer.push({
+                device: ${JSON.stringify(kioskDevice)}
               });`
             }
           `,
