@@ -79,6 +79,11 @@ export const defaultSerializer: JSXFunctionSerializer = (
       const wrapperClassList = ['block-img'];
       const img = <img src={element.url} alt={element.alt || ''} />;
 
+      // Note: none of our custom types allow image insertion in rich text fields,
+      // so the linkTo branch is never reached in practice. If that changes,
+      // withExternalLinkStripping does not cover this case (it only intercepts
+      // hyperlink nodes), so external link stripping in kiosk mode would need
+      // to be added here too.
       return (
         <p key={key} className={wrapperClassList.join(' ')}>
           {url ? (
@@ -268,19 +273,13 @@ export const dropCapSerializer: JSXFunctionSerializer = (
 };
 
 /**
- * Creates a serializer that optionally strips external links and/or
- * applies drop cap styling to the first paragraph.
+ * Wraps an existing serializer and replaces external hyperlinks with plain text,
+ * while preserving the wrapped serializer's behaviour for internal links and all
+ * other rich text nodes.
  */
-export const createSerializer = ({
-  stripExternalLinks = false,
-  dropCap = false,
-}: {
-  stripExternalLinks?: boolean;
-  dropCap?: boolean;
-} = {}): JSXFunctionSerializer => {
-  if (!stripExternalLinks && !dropCap) return defaultSerializer;
-  if (!stripExternalLinks && dropCap) return dropCapSerializer;
-
+export function withExternalLinkStripping(
+  serializer: JSXFunctionSerializer
+): JSXFunctionSerializer {
   return (type, element, content, children, key) => {
     if (element.type === prismic.RichTextNodeType.hyperlink) {
       const linkUrl = prismic.asLink(element.data, { linkResolver }) || '';
@@ -289,13 +288,9 @@ export const createSerializer = ({
       }
     }
 
-    if (dropCap) {
-      return dropCapSerializer(type, element, content, children, key);
-    }
-
-    return defaultSerializer(type, element, content, children, key);
+    return serializer(type, element, content, children, key);
   };
-};
+}
 
 const ACCESSIBILITY_ICON_MAP: Record<string, IconSvg> = {
   bsl: bslSquare,
