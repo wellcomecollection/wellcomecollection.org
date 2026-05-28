@@ -19,6 +19,8 @@ const Shim = styled.div<{ $hasImage: boolean }>`
 `;
 
 const PopoutCardImageContainer = styled.div<{ $hasImage: boolean }>`
+  display: grid;
+  place-items: center;
   position: ${props => (props.$hasImage ? 'relative' : 'absolute')};
   height: ${props => (props.$hasImage ? 'auto' : '100%')};
   bottom: 0;
@@ -32,11 +34,7 @@ const PopoutCardImage = styled(Space).attrs({
 })`
   position: relative;
   width: 66%;
-  left: 50%;
-  transform: translateX(-50%) rotate(2deg);
-
-  /** This fixes an alignment issue with cards without images **/
-  display: flex;
+  transform: rotate(2deg);
 
   img {
     width: auto;
@@ -96,18 +94,10 @@ const Meta = styled.p.attrs({
 const NotAvailable = styled.span.attrs({
   className: font('sans', -2),
 })`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(2deg);
-  text-align: center;
+  transform: rotate(2deg);
 `;
 
 const FormatIconContainer = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   width: 100px;
   height: 100px;
 
