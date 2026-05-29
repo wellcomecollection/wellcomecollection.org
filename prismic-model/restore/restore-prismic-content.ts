@@ -5,6 +5,13 @@
  * using the Prismic Migration API. It is safe to interrupt and re-run — progress is tracked in
  * restore/status/content-id-map.json so already-uploaded documents are not duplicated.
  *
+ * Scenario 1 (new repo):
+ * - all IDs get remapped.
+ * - Subsequent runs use the content-id-map.json to find the new IDs and issue PUT requests to update the same documents rather than creating duplicates.
+ * Scenario 2 (existing repo with partial loss):
+ * - For existing docs POST resquest returns an error, then uses a PUT request to update document
+ * - For missing docs, POST succeeds but issues new IDs.
+ *
  * Usage:
  *   yarn restorePrismicContent [--snapshot <path>] [--type <customTypeId>]
  *
@@ -34,7 +41,6 @@ import { logError, logInfo, logSuccess } from '@weco/common/utils/console-logs';
 import { downloadLatestSnapshot } from './s3-utils';
 
 import 'dotenv/config';
-
 // CLI flags
 const { type: filterType, snapshot: snapshotArg } = yargs(process.argv.slice(2))
   .usage('Usage: $0 [--snapshot <path>] [--type <customTypeId>]')
@@ -57,67 +63,48 @@ const bucket: string = BUCKET ?? '';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+// Types for fields that need normalization to Migration API format
+type InterpretationItem = {
+  isPrimary?: unknown;
+  [key: string]: unknown;
+};
+
+type TimeSlot = {
+  isFullyBooked?: unknown;
+  onlineIsFullyBooked?: unknown;
+  [key: string]: unknown;
+};
+
+// Normalizes isPrimary field in interpretation items to Migration API's accepted values (yes or null)
+function normalizeInterpretation(item: InterpretationItem): InterpretationItem {
+  return {
+    ...item,
+    isPrimary: item.isPrimary === 'yes' ? 'yes' : null,
+  };
+}
+
+// Normalizes boolean fields in time slot items to Migration API's accepted values (yes or null)
+function normalizeTimeSlot(item: TimeSlot): TimeSlot {
+  return {
+    ...item,
+    isFullyBooked: item.isFullyBooked === 'yes' ? 'yes' : null,
+    onlineIsFullyBooked: item.onlineIsFullyBooked === 'yes' ? 'yes' : null,
+  };
+}
+
 function appendToLog(message: string): void {
   fs.appendFile('restore.log', message, err => {
     if (err) console.error(err);
   });
 }
 
-// Searches the target Prismic repository for a document by type + UID.
-// Checks every available ref (master and any draft/release refs) so that
-// documents created as drafts in a previous run can also be found.
-async function findDestinationId(
-  repository: string,
-  type: string,
-  uid: string
-): Promise<string | null> {
-  const apiResponse = await fetch(
-    `https://${repository}.cdn.prismic.io/api/v2`
-  );
-  if (!apiResponse.ok) {
-    throw new Error(
-      `Failed to fetch Prismic API for repository "${repository}": HTTP ${apiResponse.status} ${apiResponse.statusText}`
-    );
-  }
-  const api = (await apiResponse.json()) as any;
-
-  // Try all refs (master + any migration/draft releases) to find
-  // documents that may have been created as drafts in a previous run
-  const refs: string[] = (api.refs ?? []).map((r: any) => r.ref);
-
-  for (const ref of refs) {
-    const searchUrl = new URL(
-      `https://${repository}.cdn.prismic.io/api/v2/documents/search`
-    );
-    searchUrl.searchParams.set(
-      'q',
-      `[[at(document.type,"${type}")][at(document.uid,"${uid}")]]`
-    );
-    searchUrl.searchParams.set('ref', ref);
-
-    const searchResponse = await fetch(searchUrl.toString());
-    if (!searchResponse.ok) {
-      throw new Error(
-        `Failed to search Prismic repository at ref "${ref}": HTTP ${searchResponse.status} ${searchResponse.statusText}`
-      );
-    }
-    const results = (await searchResponse.json()) as any;
-    const id = results.results?.[0]?.id;
-
-    if (id) return id;
-  }
-
-  return null;
-}
-
 // Uploads a single document to the target repository via the Prismic Migration API.
 // Strategy:
-//   1. If the document was already uploaded in a previous run (present in idMap), issue a PUT
-//      to keep it up to date rather than attempting a duplicate POST.
+//   1. If the document was already uploaded in this restore session (present in idMap), issue a PUT to update it rather than attempting a duplicate POST.
 //   2. Otherwise POST to create the document.
-//   3. If the POST returns 400/409 (UID conflict), resolve the destination document ID and
-//      fall back to a PUT so the document is updated rather than duplicated.
-// Returns the new document ID on success, or null on failure.
+//   3. If POST returns 409 (conflict), assume the document exists with the same ID as in the
+//      snapshot (Scenario 2: partial loss where IDs are preserved) and issue a PUT to update it.
+// Returns the document ID on success, or null on failure.
 async function uploadDoc(
   doc: any,
   token: string,
@@ -135,13 +122,16 @@ async function uploadDoc(
   const richTextTitle = doc.data?.title?.[0]?.text;
   const nameTitle = doc.data?.name;
 
-  // Snapshot data can contain legacy/non-conforming interpretation values.
-  // Normalize `isPrimary` here to the Migration API's accepted values.
+  // Snapshot data can contain legacy/non-conforming values. Normalize to
+  // Migration API's accepted values (yes or null) for boolean-like fields.
   const interpretations = Array.isArray(doc.data?.interpretations)
-    ? doc.data.interpretations.map((item: any) => ({
-        ...item,
-        isPrimary: item.isPrimary === 'yes' ? 'yes' : null,
-      }))
+    ? doc.data.interpretations.map(normalizeInterpretation)
+    : undefined;
+
+  const isPermanent = doc.data?.isPermanent === 'yes' ? 'yes' : null;
+
+  const times = Array.isArray(doc.data?.times)
+    ? doc.data.times.map(normalizeTimeSlot)
     : undefined;
 
   const body = {
@@ -154,6 +144,8 @@ async function uploadDoc(
     data: {
       ...doc.data,
       ...(interpretations && { interpretations }),
+      ...(doc.data?.isPermanent !== undefined && { isPermanent }),
+      ...(times && { times }),
     },
   };
 
@@ -180,28 +172,18 @@ async function uploadDoc(
     body: JSON.stringify(body),
   });
 
-  // If a document with this UID already exists, fall back to PUT (update)
+  // If a document with this UID already exists, fall back to PUT (update).
+  // In Scenario 2 (partial loss), document IDs are preserved, so we can assume
+  // the existing document has the same ID as in the snapshot.
   if (response.status === 400 || response.status === 409) {
     const responseBody = (await response.json()) as any;
     if (
       responseBody?.message === 'A document with this UID already exists' ||
       response.status === 409
     ) {
-      // Look up the destination document ID — check the local id map first
-      // (from a previous run), then fall back to querying all Prismic refs
-      const destinationId =
-        idMap.get(doc.id) ??
-        (doc.uid
-          ? await findDestinationId(repository, doc.type, doc.uid)
-          : null);
-
-      if (!destinationId) {
-        logError(`Could not find destination ID for ${doc.type} ${doc.uid}`);
-        appendToLog(
-          `${doc.id}: could not find destination ID for uid "${doc.uid}"\n\n`
-        );
-        return null;
-      }
+      // Assume the document exists with the same ID (Scenario 2) or we've already
+      // uploaded it in this session (check idMap again in case of race conditions)
+      const destinationId = idMap.get(doc.id) || doc.id;
 
       response = await fetch(
         `https://migration.prismic.io/documents/${destinationId}`,
@@ -335,7 +317,9 @@ async function init() {
 
   // Step 4: Load any ID mappings saved by a previous run so we can resume
   // without re-uploading documents that were already created.
-  // The map records { sourceId -> destinationId } for every successfully uploaded doc.
+  // The map records { snapshotId -> targetId } for every successfully uploaded doc.
+  // In Scenario 1 (new repo), IDs get remapped. In Scenario 2 (existing repo),
+  // IDs stay the same but are still recorded for consistency.
   const idMapFile = './restore/status/content-id-map.json';
   const idMap = new Map<string, string>(
     fs.existsSync(idMapFile)
