@@ -138,9 +138,6 @@
             "textAndImage": {
               "type": "SharedSlice"
             },
-            "themeCardsList": {
-              "type": "SharedSlice"
-            },
             "titledTextList": {
               "type": "SharedSlice"
             }
