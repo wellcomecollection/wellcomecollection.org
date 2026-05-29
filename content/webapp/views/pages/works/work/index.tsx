@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import Divider from '@weco/common/views/components/Divider';
 import SearchForm from '@weco/common/views/components/SearchForm';
@@ -60,7 +59,6 @@ export const WorkPage: NextPage<Props> = ({
   apiUrl,
   transformedManifest,
 }) => {
-  const { extendedViewer } = useFeatureFlags();
   const { userIsStaffWithRestricted } = useUserContext();
   const isArchive = !!(
     work.parts.length || getArchiveAncestorArray(work).length > 0
@@ -90,9 +88,7 @@ export const WorkPage: NextPage<Props> = ({
     hasIIIFManifest: !!transformedManifest,
     digitalLocation,
     accessCondition: digitalLocationInfo?.accessCondition,
-    canvases,
     itemsStatus,
-    extendedViewer,
   });
 
   const imageUrl =
