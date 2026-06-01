@@ -82,7 +82,8 @@ export function getTogglesFromContext(
   const modes = modesList.reduce((acc, mode) => {
     const cookieValue = allCookies[`toggle_${mode.id}`];
     const isValid =
-      cookieValue && mode.options.some(opt => opt.id === cookieValue);
+      typeof cookieValue === 'string' &&
+      mode.options.some(opt => opt.id === cookieValue);
     return {
       ...acc,
       [mode.id]: isValid ? cookieValue : null,
