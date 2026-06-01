@@ -27,7 +27,7 @@ export type Tests = Record<TestId, boolean | undefined>;
 /**
  * Modes are included in serverData returned from getServerSideProps.
  * We use null for an inactive mode because undefined values in props are not
- * JSON-serializable in Next.js.
+ * JSON-serialisable in Next.js.
  */
 export type ModeValue = string | null;
 export type Modes = Record<ModeId, ModeValue>;
