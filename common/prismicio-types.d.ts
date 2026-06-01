@@ -5973,6 +5973,85 @@ export type ArchiveCardListSlice = prismic.SharedSlice<
 >;
 
 /**
+ * Primary content in *CardListing → Default → Primary*
+ */
+export interface CardListingSliceDefaultPrimary {
+  /**
+   * Title field in *CardListing → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **API ID Path**: cardListing.default.primary.title
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  title: prismic.KeyTextField;
+
+  /**
+   * Description field in *CardListing → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **API ID Path**: cardListing.default.primary.description
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  description: prismic.KeyTextField;
+
+  /**
+   * Items have transparent background field in *CardListing → Default → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Default Value**: false
+   * - **API ID Path**: cardListing.default.primary.itemsHaveTransparentBackground
+   * - **Documentation**: https://prismic.io/docs/fields/boolean
+   */
+  itemsHaveTransparentBackground: prismic.BooleanField;
+}
+
+/**
+ * Item in *CardListing → Items*
+ */
+export interface CardListingSliceDefaultItem {
+  /**
+   * Content item field in *CardListing → Items*
+   *
+   * - **Field Type**: Content Relationship
+   * - **API ID Path**: cardListing.items[].content
+   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   */
+  content:
+    | prismic.ContentRelationshipField<'articles'>
+    | prismic.ContentRelationshipField<'series'>;
+}
+
+/**
+ * Default variation for CardListing Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: A curated list of story or series cards.
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type CardListingSliceDefault = prismic.SharedSliceVariation<
+  'default',
+  Simplify<CardListingSliceDefaultPrimary>,
+  Simplify<CardListingSliceDefaultItem>
+>;
+
+/**
+ * Slice variation for *CardListing*
+ */
+type CardListingSliceVariation = CardListingSliceDefault;
+
+/**
+ * CardListing Shared Slice
+ *
+ * - **API ID**: `cardListing`
+ * - **Description**: *None*
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type CardListingSlice = prismic.SharedSlice<
+  'cardListing',
+  CardListingSliceVariation
+>;
+
+/**
  * Primary content in *AudioPlayer → Default → Primary*
  */
 export interface AudioPlayerSliceDefaultPrimary {
@@ -8022,6 +8101,11 @@ declare module '@prismicio/client' {
       ArchiveCardListSliceDefaultPrimary,
       ArchiveCardListSliceVariation,
       ArchiveCardListSliceDefault,
+      CardListingSlice,
+      CardListingSliceDefaultPrimary,
+      CardListingSliceDefaultItem,
+      CardListingSliceVariation,
+      CardListingSliceDefault,
       AudioPlayerSlice,
       AudioPlayerSliceDefaultPrimary,
       AudioPlayerSliceVariation,
