@@ -5,14 +5,9 @@ import styled from 'styled-components';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import Button from '@weco/common/views/components/Buttons';
-import {
-  ContaineredLayout,
-  gridSize12,
-} from '@weco/common/views/components/Layout';
 import Modal from '@weco/common/views/components/Modal';
 import Space from '@weco/common/views/components/styled/Space';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
@@ -26,17 +21,14 @@ import {
   checkModalRequired,
   getAuthServices,
   getIframeTokenSrc,
-  hasItemType,
-  hasOriginalPdf,
 } from '@weco/content/utils/iiif/v3';
 import { removeIdiomaticTextTags } from '@weco/content/utils/string';
 import { fromQuery } from '@weco/content/views/components/ItemLink';
 import WorkLink from '@weco/content/views/components/WorkLink';
 import CataloguePageLayout from '@weco/content/views/layouts/CataloguePageLayout';
-import IIIFItemList from '@weco/content/views/pages/works/work/IIIFItemList';
 import { UiTree } from '@weco/content/views/pages/works/work/work.types';
 
-import IIIFViewer, { queryParamToArrayIndex } from './IIIFViewer';
+import IIIFViewer from './IIIFViewer';
 
 const IframeAuthMessage = styled.iframe`
   display: none;
@@ -53,7 +45,6 @@ function reloadAuthIframe(document: Document, id: string) {
 export type Props = {
   compressedTransformedManifest?: CompressedTransformedManifest;
   work: WorkBasic;
-  canvas: number;
   canvasOcr?: string;
   iiifImageLocation?: DigitalLocation;
   iiifPresentationLocation?: DigitalLocation;
@@ -70,25 +61,19 @@ const WorkItemPage: NextPage<Props> = ({
   iiifImageLocation,
   iiifPresentationLocation,
   apiToolbarLinks,
-  canvas: serverCanvas,
   serverSearchResults,
   parentManifest,
   archiveTree,
 }) => {
   const router = useRouter();
-  const [routerCanvas, setRouterCanvas] = useState<number | undefined>(
-    undefined
-  );
+  const [, setRouterCanvas] = useState<number | undefined>(undefined);
 
   useEffect(() => {
     const parsed = fromQuery(router.query);
     setRouterCanvas(parsed.canvas);
   }, [router.asPath, router.query]);
 
-  const canvas = routerCanvas || serverCanvas;
-
   const { userIsStaffWithRestricted } = useUserContext();
-  const { extendedViewer } = useFeatureFlags();
   const transformedManifest =
     compressedTransformedManifest &&
     fromCompressedManifest(compressedTransformedManifest);
@@ -97,7 +82,7 @@ const WorkItemPage: NextPage<Props> = ({
   const [origin, setOrigin] = useState<string>();
   const [showModal, setShowModal] = useState(false);
   const [showViewer, setShowViewer] = useState(true);
-  const { title, canvases, placeholderId, auth } = {
+  const { title, auth } = {
     ...transformedManifest,
   };
 
@@ -112,17 +97,8 @@ const WorkItemPage: NextPage<Props> = ({
   useEffect(() => () => clearInterval(clickThroughTimerRef.current), []);
   const [searchResults, setSearchResults] = useState(serverSearchResults);
   const authServices = getAuthServices({ auth });
-  const currentCanvas = canvases?.[queryParamToArrayIndex(canvas)];
-
   const displayTitle =
     title || (work && removeIdiomaticTextTags(work.title)) || '';
-  const { imageServiceId = '' } = { ...currentCanvas };
-  const mainImageService = imageServiceId && {
-    '@id': imageServiceId,
-  };
-
-  const hasImage = hasItemType(canvases, 'Image');
-  const hasPdf = hasOriginalPdf(canvases);
   const isTotallyRestricted =
     auth?.accessRequirements &&
     auth.accessRequirements.length > 0 &&
@@ -227,33 +203,6 @@ const WorkItemPage: NextPage<Props> = ({
         />
       )}
 
-      {/*
-      Pdfs that have been added to the iiif manifest using the born digital pattern
-      will have a hasImage value of true.
-      However, we don't show the viewer for these items,
-      so we check for the presence of a pdf in the original property of the canvas.
-      If it has one we show the IIIFItemList, unless we are using the extended viewer.
-      */}
-      {/* TODO extendedViewer: when we promote code to default we can remove this block
-      as we'll always show the viewer for PDFs*/}
-      {(!hasImage || hasPdf) &&
-        showViewer &&
-        !extendedViewer &&
-        !userIsStaffWithRestricted && ( // We don't need this for userIsStaffWithRestricted, as they always get the viewer.
-          <ContaineredLayout gridSizes={gridSize12()}>
-            <Space
-              className="body-text"
-              $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
-            >
-              <IIIFItemList
-                canvases={canvases}
-                exclude={['Image']}
-                placeholderId={placeholderId}
-              />
-            </Space>
-          </ContaineredLayout>
-        )}
-
       <Modal
         id="auth-modal"
         isActive={showModal}
@@ -307,29 +256,24 @@ const WorkItemPage: NextPage<Props> = ({
         </div>
       </Modal>
 
-      {/* TODO  when we promote extendedViewer code to default we can remove the following conditionals, except for showViewer */}
-      {showViewer &&
-        ((mainImageService && currentCanvas) ||
-          iiifImageLocation ||
-          extendedViewer ||
-          (!extendedViewer && userIsStaffWithRestricted)) && (
-          <IIIFViewer
-            work={work}
-            transformedManifest={transformedManifest}
-            canvasOcr={canvasOcr}
-            iiifImageLocation={iiifImageLocation}
-            iiifPresentationLocation={iiifPresentationLocation}
-            initialArchiveTree={archiveTree}
-            handleImageError={() => {
-              // If the image fails to load, we check to see if it's because the cookie is missing/no longer valid
-              reloadAuthIframe(document, iframeId);
-            }}
-            searchResults={searchResults}
-            setSearchResults={setSearchResults}
-            parentManifest={parentManifest}
-            accessToken={accessToken}
-          />
-        )}
+      {showViewer && (
+        <IIIFViewer
+          work={work}
+          transformedManifest={transformedManifest}
+          canvasOcr={canvasOcr}
+          iiifImageLocation={iiifImageLocation}
+          iiifPresentationLocation={iiifPresentationLocation}
+          initialArchiveTree={archiveTree}
+          handleImageError={() => {
+            // If the image fails to load, we check to see if it's because the cookie is missing/no longer valid
+            reloadAuthIframe(document, iframeId);
+          }}
+          searchResults={searchResults}
+          setSearchResults={setSearchResults}
+          parentManifest={parentManifest}
+          accessToken={accessToken}
+        />
+      )}
     </CataloguePageLayout>
   );
 };
