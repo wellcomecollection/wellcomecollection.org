@@ -24,8 +24,12 @@ export type TogglesResp = {
 export type FeatureFlags = Record<FeatureFlagId, boolean | undefined>;
 export type Tests = Record<TestId, boolean | undefined>;
 
-/** A mode value is the selected option string, or undefined if inactive */
-export type ModeValue = string | undefined;
+/**
+ * Modes are included in serverData returned from getServerSideProps.
+ * We use null for an inactive mode because undefined values in props are not
+ * JSON-serialisable in Next.js.
+ */
+export type ModeValue = string | null;
 export type Modes = Record<ModeId, ModeValue>;
 
 export type Toggles = {
