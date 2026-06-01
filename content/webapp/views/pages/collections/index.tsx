@@ -3,7 +3,6 @@ import { SliceZone } from '@prismicio/react';
 import { NextPage } from 'next';
 import styled, { useTheme } from 'styled-components';
 
-import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { ImageType } from '@weco/common/model/image';
 import {
@@ -84,7 +83,6 @@ const CollectionsLandingPage: NextPage<Props> = ({
 }) => {
   const { data: collectionStats } = useCollectionStats();
   const theme = useTheme();
-  const isKiosk = useKiosk();
 
   return (
     <PageLayout
@@ -108,22 +106,20 @@ const CollectionsLandingPage: NextPage<Props> = ({
         </DecorativeEdgeContainer>
       </ContaineredLayout>
 
-      {!isKiosk && (
-        <div style={{ backgroundColor: theme.color('accent.lightBlue') }}>
-          <ContaineredLayout gridSizes={gridSize10(false)}>
-            <Space
-              $v={{ size: 'sm', properties: ['padding-top', 'padding-bottom'] }}
-            >
-              <SearchForm
-                searchCategory="works"
-                location="page"
-                isNew
-                hasAvailableOnlineOnly
-              />
-            </Space>
-          </ContaineredLayout>
-        </div>
-      )}
+      <div style={{ backgroundColor: theme.color('accent.lightBlue') }}>
+        <ContaineredLayout gridSizes={gridSize10(false)}>
+          <Space
+            $v={{ size: 'sm', properties: ['padding-top', 'padding-bottom'] }}
+          >
+            <SearchForm
+              searchCategory="works"
+              location="page"
+              isNew
+              hasAvailableOnlineOnly
+            />
+          </Space>
+        </ContaineredLayout>
+      </div>
 
       {hasValidThemeCardSlices(themeCardsListSlices) && (
         <MainBackground
