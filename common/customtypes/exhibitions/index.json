@@ -138,9 +138,6 @@
             "textAndImage": {
               "type": "SharedSlice"
             },
-            "themeCardsList": {
-              "type": "SharedSlice"
-            },
             "titledTextList": {
               "type": "SharedSlice"
             }
@@ -149,12 +146,15 @@
       }
     },
     "Onward journeys": {
-      "portrait_videos": {
+      "onward_journeys": {
         "type": "Slices",
-        "fieldset": "Onward journeys",
+        "fieldset": "Slice Zone",
         "config": {
           "choices": {
             "portraitVideoList": {
+              "type": "SharedSlice"
+            },
+            "themeCardsList": {
               "type": "SharedSlice"
             }
           }

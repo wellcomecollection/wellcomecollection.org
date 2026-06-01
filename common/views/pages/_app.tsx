@@ -5,6 +5,7 @@ import { ThemeProvider } from 'styled-components';
 
 import { ApmContextProvider } from '@weco/common/contexts/ApmContext';
 import { AppContextProvider } from '@weco/common/contexts/AppContext';
+import { KioskProvider } from '@weco/common/contexts/KioskContext';
 import { SearchContextProvider } from '@weco/common/contexts/SearchContext';
 import { UserContextProvider } from '@weco/common/contexts/UserContext';
 import { useScrollTracking } from '@weco/common/hooks/useScrollTracking';
@@ -23,6 +24,7 @@ import usePrismicPreview from '@weco/common/services/app/usePrismicPreview';
 import { deserialiseProps } from '@weco/common/utils/json';
 import CivicUK from '@weco/common/views/components/CivicUK';
 import GlobalSvgDefinitions from '@weco/common/views/components/GlobalSvgDefinitions';
+import InactivityRedirect from '@weco/common/views/components/InactivityRedirect';
 import LoadingIndicator from '@weco/common/views/components/LoadingIndicator';
 import ErrorPage from '@weco/common/views/layouts/ErrorPage';
 import themeValues, { GlobalStyle } from '@weco/common/views/themes/default';
@@ -104,6 +106,8 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
 
   const serverData = isServerDataSet ? pageProps.serverData : defaultServerData;
 
+  const isKiosk = !!serverData.toggles.modes.kioskMode;
+
   useMaintainPageHeight();
 
   const onConsentChanged = (event: CookieConsentEvent) => {
@@ -153,13 +157,13 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
   const componentProps = deserialiseProps(pageProps) as Record<string, unknown>;
 
   return (
-    <>
-      <ApmContextProvider>
-        <ServerDataContext.Provider value={serverData}>
-          <ThemeProvider theme={themeValues}>
-            <UserContextProvider>
-              <AppContextProvider>
-                <SearchContextProvider>
+    <ApmContextProvider>
+      <ServerDataContext.Provider value={serverData}>
+        <ThemeProvider theme={themeValues}>
+          <UserContextProvider>
+            <AppContextProvider>
+              <SearchContextProvider>
+                <KioskProvider isActive={isKiosk}>
                   <GlobalStyle />
 
                   <GlobalSvgDefinitions />
@@ -181,13 +185,17 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
                       title={pageProps.err.message}
                     />
                   )}
-                </SearchContextProvider>
-              </AppContextProvider>
-            </UserContextProvider>
-          </ThemeProvider>
-        </ServerDataContext.Provider>
-      </ApmContextProvider>
-    </>
+
+                  {isKiosk && (
+                    <InactivityRedirect redirectUrl="/stories/kiosk" />
+                  )}
+                </KioskProvider>
+              </SearchContextProvider>
+            </AppContextProvider>
+          </UserContextProvider>
+        </ThemeProvider>
+      </ServerDataContext.Provider>
+    </ApmContextProvider>
   );
 };
 

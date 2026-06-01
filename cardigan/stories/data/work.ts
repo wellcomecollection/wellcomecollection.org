@@ -21,6 +21,7 @@ export const workBasic: WorkBasic = {
     },
     type: 'DigitalLocation',
   },
+  workTypeId: 'a',
   productionDates: ['1906'],
   cardLabels: [{ text: 'Books' }, { text: 'Online', labelColor: 'white' }],
   primaryContributorLabel: 'Mannel, Wilhelm, 1870-1935.',

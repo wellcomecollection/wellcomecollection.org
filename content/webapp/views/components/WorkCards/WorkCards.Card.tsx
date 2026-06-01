@@ -7,6 +7,8 @@ import LabelsList from '@weco/common/views/components/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 
+import { getFormatIconPath } from './WorkCards.FormatIcons';
+
 export const POPOUT_IMAGE_OFFSET = 'md' as const;
 
 // Ensures the image container takes up the same amount of vertical space
@@ -17,6 +19,8 @@ const Shim = styled.div<{ $hasImage: boolean }>`
 `;
 
 const PopoutCardImageContainer = styled.div<{ $hasImage: boolean }>`
+  display: grid;
+  place-items: center;
   position: ${props => (props.$hasImage ? 'relative' : 'absolute')};
   height: ${props => (props.$hasImage ? 'auto' : '100%')};
   bottom: 0;
@@ -30,11 +34,7 @@ const PopoutCardImage = styled(Space).attrs({
 })`
   position: relative;
   width: 66%;
-  left: 50%;
-  transform: translateX(-50%) rotate(2deg);
-
-  /** This fixes an alignment issue with cards without images **/
-  display: flex;
+  transform: rotate(2deg);
 
   img {
     width: auto;
@@ -94,11 +94,17 @@ const Meta = styled.p.attrs({
 const NotAvailable = styled.span.attrs({
   className: font('sans', -2),
 })`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(2deg);
-  text-align: center;
+  transform: rotate(2deg);
+`;
+
+const FormatIconContainer = styled.div`
+  width: 100px;
+  height: 100px;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 type Props = {
@@ -106,6 +112,8 @@ type Props = {
 };
 
 const WorkCard: FunctionComponent<Props> = ({ item }) => {
+  const formatIconPath = getFormatIconPath(item.workTypeId);
+
   const transformedWork = {
     title: item.title,
     url: '/works/' + item.id,
@@ -134,6 +142,10 @@ const WorkCard: FunctionComponent<Props> = ({ item }) => {
               <PopoutCardImage>
                 <img alt="" src={transformedWork.imageUrl} />
               </PopoutCardImage>
+            ) : formatIconPath ? (
+              <FormatIconContainer>
+                <img alt="" src={formatIconPath} />
+              </FormatIconContainer>
             ) : (
               <NotAvailable>Preview not available</NotAvailable>
             )}

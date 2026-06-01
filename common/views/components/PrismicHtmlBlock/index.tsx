@@ -3,7 +3,12 @@ import * as prismic from '@prismicio/client';
 import { JSXFunctionSerializer, PrismicRichText } from '@prismicio/react';
 import { FunctionComponent } from 'react';
 
+import { useKiosk } from '@weco/common/contexts/KioskContext';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
+import {
+  defaultSerializer,
+  withExternalLinkStripping,
+} from '@weco/common/views/components/HTMLSerializers';
 
 type Props = {
   html: prismic.RichTextField;
@@ -13,12 +18,20 @@ type Props = {
 const PrismicHtmlBlock: FunctionComponent<Props> = ({
   html,
   htmlSerializer,
-}) => (
-  <PrismicRichText
-    field={html}
-    components={htmlSerializer}
-    linkResolver={linkResolver}
-  />
-);
+}) => {
+  const isKiosk = useKiosk();
+  const baseSerializer = htmlSerializer ?? defaultSerializer;
+  const serializer = isKiosk
+    ? withExternalLinkStripping(baseSerializer)
+    : baseSerializer;
+
+  return (
+    <PrismicRichText
+      field={html}
+      components={serializer}
+      linkResolver={linkResolver}
+    />
+  );
+};
 
 export default PrismicHtmlBlock;

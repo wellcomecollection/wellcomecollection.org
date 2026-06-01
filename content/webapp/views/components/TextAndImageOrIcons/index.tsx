@@ -2,9 +2,7 @@ import * as prismic from '@prismicio/client';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { ImageType } from '@weco/common/model/image';
-import { createSerializer } from '@weco/common/views/components/HTMLSerializers';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
@@ -91,7 +89,6 @@ export type Props = {
 };
 
 const TextAndImageOrIcons: FunctionComponent<Props> = ({ item }) => {
-  const isKiosk = useKiosk();
   // Icons can be added indefinitely without necessarily having an image, so we are filtering it here
   const icons: ImageType[] = [];
   if (item.type === 'icons') {
@@ -124,10 +121,7 @@ const TextAndImageOrIcons: FunctionComponent<Props> = ({ item }) => {
           </ImageOrIcons>
         )}
         <Text>
-          <PrismicHtmlBlock
-            html={item.text}
-            htmlSerializer={createSerializer({ stripExternalLinks: isKiosk })}
-          />
+          <PrismicHtmlBlock html={item.text} />
         </Text>
       </MediaAndTextWrap>
     </DividingLine>

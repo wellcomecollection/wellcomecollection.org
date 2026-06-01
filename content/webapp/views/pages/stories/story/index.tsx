@@ -174,9 +174,6 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
       siteSection="stories"
       image={article.image}
       apiToolbarLinks={[createPrismicLink(article.id)]}
-      hideHeader={isKiosk}
-      hideFooter={isKiosk}
-      hideNewsletterPromo={isKiosk}
     >
       <ContentPage
         id={article.id}
