@@ -47,6 +47,9 @@ export function fontSize(size: FontSize): string {
   return `font-size-f${size}`;
 }
 
+/**
+ * @deprecated Prefer compositeTypography()
+ */
 export function font(family: FontFamily, size: FontSize): string {
   return `${fontFamily(family)} ${fontSize(size)}`;
 }
@@ -63,6 +66,7 @@ export function compositeTypography(
       : `type-${category}-${size}-${weight}`;
 
   if (
+    // Warn if there isn't a class for the given arguments
     process.env.NODE_ENV !== 'production' &&
     !validCompositeTypographyClasses.has(className)
   ) {
