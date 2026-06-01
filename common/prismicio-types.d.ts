@@ -2788,7 +2788,6 @@ type ExhibitionsDocumentDataBodySlice =
   | TextSlice
   | TextAndIconsSlice
   | TextAndImageSlice
-  | ThemeCardsListSlice
   | TitledTextListSlice;
 
 type ExhibitionsDocumentDataOnwardJourneysSlice =
