@@ -1,4 +1,3 @@
-import { ContentResource, InternationalString } from '@iiif/presentation-3';
 import NextLink from 'next/link';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -8,15 +7,10 @@ import { bornDigitalMessage } from '@weco/common/data/microcopy';
 import { eye } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { LinkProps } from '@weco/common/model/link-props';
-import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
-import DownloadLink from '@weco/common/views/components/DownloadLink';
-import Layout, {
-  gridSize12,
-  gridSize8,
-} from '@weco/common/views/components/Layout';
+import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import { Note, Work } from '@weco/content/services/wellcome/catalogue/types';
 import {
@@ -29,13 +23,10 @@ import {
   getAuthServices,
   getFileTypeLabel,
   getIframeTokenSrc,
-  getLabelString,
-  hasItemType,
   isPDFCanvas,
 } from '@weco/content/utils/iiif/v3';
 import { DigitalLocationInfo } from '@weco/content/utils/works';
 import Download from '@weco/content/views/components/Download';
-import IIIFItemList from '@weco/content/views/pages/works/work/IIIFItemList';
 import NestedList from '@weco/content/views/pages/works/work/NestedList';
 import DownloadItemRenderer from '@weco/content/views/pages/works/work/work.DownloadItemRenderer';
 import { createDownloadTree } from '@weco/content/views/pages/works/work/work.helpers';
@@ -118,7 +109,6 @@ const ItemPageLink = ({
   itemsStatus,
 }: ItemPageLinkProps) => {
   const { userIsStaffWithRestricted } = useUserContext();
-  const { extendedViewer } = useFeatureFlags();
 
   const isDownloadable =
     digitalLocationInfo?.accessCondition !== 'open-with-advisory' &&
@@ -163,7 +153,7 @@ const ItemPageLink = ({
       <ConditionalWrapper
         condition={isWorkVisibleWithPermission}
         wrapper={children => (
-          <Layout gridSizes={extendedViewer ? gridSize12() : gridSize8(false)}>
+          <Layout gridSizes={gridSize12()}>
             <RestrictedMessage>
               <RestrictedItemMessage headingLevel={3} plural={true}>
                 {children}
@@ -247,12 +237,8 @@ const WorkDetailsAvailableOnline = ({
     structures,
     itemsStatus,
     canvases,
-    placeholderId,
-    rendering,
   } = { ...transformedManifest };
 
-  const { extendedViewer } = useFeatureFlags();
-  const { userIsStaffWithRestricted } = useUserContext();
   const tokenService = getIframeTokenSrc({
     workId: work.id,
     origin,
@@ -268,11 +254,6 @@ const WorkDetailsAvailableOnline = ({
   const allOriginalPdfs =
     canvases?.every(canvas => isPDFCanvas(canvas)) || false;
   const clickThroughService = authServices?.active;
-
-  // Check for audio/video content
-  const hasVideo = hasItemType(canvases, 'Video');
-  const hasAudio =
-    hasItemType(canvases, 'Sound') || hasItemType(canvases, 'Audio');
 
   // We temporarily want to show the download tree for multiple PDFs
   // See: https://github.com/wellcomecollection/wellcomecollection.org/issues/12089
@@ -362,64 +343,18 @@ const WorkDetailsAvailableOnline = ({
           See: https://github.com/wellcomecollection/wellcomecollection.org/issues/12089
         */}
         {(!hasNonStandardItems ||
-          (allOriginalPdfs && canvases?.length === 1)) && (
-          <>
-            {(hasVideo || hasAudio) &&
-              !extendedViewer &&
-              !userIsStaffWithRestricted && ( // TODO extendedViewer: we can remove this whole block once we are happy to use the item page for audio/video content, as we will always show the item page link for these types of content once the toggle is removed.
-                <>
-                  <IIIFItemList
-                    canvases={canvases}
-                    exclude={['Image', 'Text']}
-                    placeholderId={placeholderId}
-                    itemUrl={itemUrl}
-                  />
-                  {rendering?.map(r => {
-                    const rendering = r as ContentResource & {
-                      format?: string;
-                    };
-                    if (rendering.id && 'label' in rendering) {
-                      const labelString = getLabelString(
-                        rendering.label as InternationalString
-                      );
-                      const label = labelString
-                        ?.toLowerCase()
-                        .includes('transcript')
-                        ? `Transcript of ${work.title}`
-                        : labelString;
-
-                      return (
-                        <Space
-                          key={rendering.id}
-                          $v={{ size: 'xs', properties: ['margin-top'] }}
-                        >
-                          <DownloadLink
-                            href={rendering.id}
-                            linkText={label || 'Download'}
-                            format={rendering.format}
-                          />
-                        </Space>
-                      );
-                    } else {
-                      return null;
-                    }
-                  })}
-                </>
-              )}
-
-            {shouldShowItemLink && (
-              <ItemPageLink
-                work={work}
-                itemUrl={itemUrl}
-                canvases={canvases}
-                collectionManifestsCount={collectionManifestsCount}
-                canvasCount={canvasCount}
-                downloadOptions={downloadOptions}
-                digitalLocationInfo={digitalLocationInfo}
-              />
-            )}
-          </>
-        )}
+          (allOriginalPdfs && canvases?.length === 1)) &&
+          shouldShowItemLink && (
+            <ItemPageLink
+              work={work}
+              itemUrl={itemUrl}
+              canvases={canvases}
+              collectionManifestsCount={collectionManifestsCount}
+              canvasCount={canvasCount}
+              downloadOptions={downloadOptions}
+              digitalLocationInfo={digitalLocationInfo}
+            />
+          )}
       </ConditionalWrapper>
 
       {digitalLocationInfo?.license && (
