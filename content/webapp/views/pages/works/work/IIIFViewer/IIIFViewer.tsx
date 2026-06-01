@@ -4,9 +4,7 @@ import { FunctionComponent, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
-import { useUserContext } from '@weco/common/contexts/UserContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import LL from '@weco/common/views/components/styled/LL';
 import ItemViewerContext from '@weco/content/contexts/ItemViewerContext';
@@ -234,7 +232,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     shouldScrollToCanvas = true,
     query = '',
   } = useMemo(() => fromQuery(router.query), [router.query]);
-  const { extendedViewer } = useFeatureFlags();
   const [gridVisible, setGridVisible] = useState(false);
   const { isFullSupportBrowser } = useAppContext();
   const viewerRef = useRef<HTMLDivElement>(null);
@@ -248,7 +245,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const [mainAreaHeight, setMainAreaHeight] = useState(500);
   const [mainAreaWidth, setMainAreaWidth] = useState(1000);
   const [isResizing, setIsResizing] = useState(false);
-  const { userIsStaffWithRestricted } = useUserContext();
   // Use server-provided archiveTree (items route provides it, images route doesn't need it)
   const [archiveTree, setArchiveTree] = useState<UiTree>(
     initialArchiveTree || []
@@ -431,13 +427,9 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
               <NoScriptImage urlTemplate={urlTemplate} canvasOcr={canvasOcr} />
             )}
             {/* If we hide the MainViewer when resizing the browser, it will then rerender with the correct canvas displayed */}
-            {/* We want to show it for userIsStaffWithRestricted regardless of whether the extendedViewer is active */}
-            {(hasImageService ||
-              extendedViewer ||
-              (userIsStaffWithRestricted &&
-                !extendedViewer &&
-                !!currentCanvas)) &&
-              !isResizing && <MainViewer />}
+            {(hasImageService || !!currentCanvas) && !isResizing && (
+              <MainViewer />
+            )}
           </DelayVisibility>
         </Main>
         {showZoomed && isFullSupportBrowser && (
