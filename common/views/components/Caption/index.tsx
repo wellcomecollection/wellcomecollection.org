@@ -2,9 +2,7 @@ import * as prismic from '@prismicio/client';
 import { FunctionComponent, ReactNode } from 'react';
 import styled from 'styled-components';
 
-import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { font } from '@weco/common/utils/classnames';
-import { createSerializer } from '@weco/common/views/components/HTMLSerializers';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -48,8 +46,6 @@ const Caption: FunctionComponent<Props> = ({
   preCaptionNode,
   width,
 }: Props) => {
-  const isKiosk = useKiosk();
-
   return (
     // In order to be valid html, a figcaption should appear as the first or
     // last element in a figure. We have previously made this happen
@@ -63,10 +59,7 @@ const Caption: FunctionComponent<Props> = ({
         <CaptionWrapper>
           {preCaptionNode}
           <CaptionText>
-            <PrismicHtmlBlock
-              html={caption}
-              htmlSerializer={createSerializer({ stripExternalLinks: isKiosk })}
-            />
+            <PrismicHtmlBlock html={caption} />
           </CaptionText>
         </CaptionWrapper>
       </figcaption>

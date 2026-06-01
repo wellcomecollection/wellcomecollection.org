@@ -19,7 +19,10 @@
         "config": {
           "label": "Related Document (e.g. Exhibition or Event)",
           "select": "document",
-          "customtypes": ["exhibitions", "events"]
+          "customtypes": [
+            "exhibitions",
+            "events"
+          ]
         }
       },
       "datePublished": {
@@ -47,28 +50,28 @@
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
+            "contact": {
+              "type": "SharedSlice"
+            },
+            "editorialImage": {
+              "type": "SharedSlice"
+            },
+            "embed": {
+              "type": "SharedSlice"
+            },
             "infoBlock": {
+              "type": "SharedSlice"
+            },
+            "standfirst": {
+              "type": "SharedSlice"
+            },
+            "text": {
               "type": "SharedSlice"
             },
             "textAndIcons": {
               "type": "SharedSlice"
             },
             "textAndImage": {
-              "type": "SharedSlice"
-            },
-            "embed": {
-              "type": "SharedSlice"
-            },
-            "editorialImage": {
-              "type": "SharedSlice"
-            },
-            "text": {
-              "type": "SharedSlice"
-            },
-            "contact": {
-              "type": "SharedSlice"
-            },
-            "standfirst": {
               "type": "SharedSlice"
             }
           }

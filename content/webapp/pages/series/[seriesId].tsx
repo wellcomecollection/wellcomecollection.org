@@ -1,18 +1,15 @@
 import * as prismic from '@prismicio/client';
 import { NextPage } from 'next';
 
-import { KioskProvider } from '@weco/common/contexts/KioskContext';
 import { bodySquabblesSeries as bodySquabblesSeriesId } from '@weco/common/data/hardcoded-ids';
 import {
   SeriesDocument,
   WebcomicSeriesDocument,
 } from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
-import { useFeatureFlags, useModes } from '@weco/common/server-data/Context';
 import { appError } from '@weco/common/services/app';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { serialiseProps } from '@weco/common/utils/json';
-import InactivityRedirect from '@weco/common/views/components/InactivityRedirect';
 import {
   ServerSideProps,
   ServerSidePropsOrAppError,
@@ -41,16 +38,7 @@ import ArticleSeriesPage, {
 } from '@weco/content/views/pages/series/series';
 
 const Page: NextPage<ArticleSeriesPageProps> = props => {
-  const { storiesKiosk } = useFeatureFlags();
-  const { kioskMode } = useModes();
-  const isKiosk = !!storiesKiosk || !!kioskMode;
-
-  return (
-    <KioskProvider isActive={isKiosk}>
-      {isKiosk && <InactivityRedirect redirectUrl="/stories/kiosk" />}
-      <ArticleSeriesPage {...props} />
-    </KioskProvider>
-  );
+  return <ArticleSeriesPage {...props} />;
 };
 
 type Props = ServerSideProps<ArticleSeriesPageProps>;

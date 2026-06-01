@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { getCrop } from '@weco/common/model/image';
 import { font } from '@weco/common/utils/classnames';
-import { createSerializer } from '@weco/common/views/components/HTMLSerializers';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
@@ -142,12 +141,7 @@ const Contributor: FunctionComponent<ContributorType> = ({
 
           {descriptionToRender && (
             <Description>
-              <PrismicHtmlBlock
-                html={descriptionToRender}
-                htmlSerializer={createSerializer({
-                  stripExternalLinks: isKiosk,
-                })}
-              />
+              <PrismicHtmlBlock html={descriptionToRender} />
             </Description>
           )}
         </div>

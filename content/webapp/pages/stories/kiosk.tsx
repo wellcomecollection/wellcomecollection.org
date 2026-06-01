@@ -32,10 +32,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   setCacheControl(context.res);
   const serverData = await getServerData(context);
 
-  if (
-    !serverData.toggles.featureFlags.storiesKiosk &&
-    !serverData.toggles.modes.kioskMode
-  ) {
+  if (!serverData.toggles.modes.kioskMode) {
     return { notFound: true };
   }
 
