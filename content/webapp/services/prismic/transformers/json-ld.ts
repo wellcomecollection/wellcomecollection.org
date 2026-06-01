@@ -234,7 +234,7 @@ export function articleLd(article: Article): JsonLdObj {
       image: article.promo?.image?.contentUrl,
       // TODO: isPartOf
       publisher: orgLd(wellcomeCollectionGallery),
-      url: `https://wellcomecollection.org/stories/${article.id}`,
+      url: `https://wellcomecollection.org/stories/${article.uid}`,
     },
     { type: 'Article' }
   );
@@ -276,7 +276,7 @@ export function articleLdContentApi(article: ArticleContentApi) {
           : undefined,
       image: article.image?.url,
       publisher: orgLd(wellcomeCollectionGallery),
-      url: `https://wellcomecollection.org/stories/${article.id}`,
+      url: `https://wellcomecollection.org/stories/${article.uid}`,
     },
     { type: 'Article' }
   );
