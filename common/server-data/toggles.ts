@@ -85,7 +85,7 @@ export function getTogglesFromContext(
       cookieValue && mode.options.some(opt => opt.id === cookieValue);
     return {
       ...acc,
-      [mode.id]: isValid ? cookieValue : undefined,
+      [mode.id]: isValid ? cookieValue : null,
     };
   }, {} as Modes);
 
