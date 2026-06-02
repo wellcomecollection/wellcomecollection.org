@@ -1,5 +1,4 @@
 import { NextPage } from 'next';
-import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
@@ -23,7 +22,6 @@ import {
   getIframeTokenSrc,
 } from '@weco/content/utils/iiif/v3';
 import { removeIdiomaticTextTags } from '@weco/content/utils/string';
-import { fromQuery } from '@weco/content/views/components/ItemLink';
 import WorkLink from '@weco/content/views/components/WorkLink';
 import CataloguePageLayout from '@weco/content/views/layouts/CataloguePageLayout';
 import { UiTree } from '@weco/content/views/pages/works/work/work.types';
@@ -65,14 +63,6 @@ const WorkItemPage: NextPage<Props> = ({
   parentManifest,
   archiveTree,
 }) => {
-  const router = useRouter();
-  const [, setRouterCanvas] = useState<number | undefined>(undefined);
-
-  useEffect(() => {
-    const parsed = fromQuery(router.query);
-    setRouterCanvas(parsed.canvas);
-  }, [router.asPath, router.query]);
-
   const { userIsStaffWithRestricted } = useUserContext();
   const transformedManifest =
     compressedTransformedManifest &&
