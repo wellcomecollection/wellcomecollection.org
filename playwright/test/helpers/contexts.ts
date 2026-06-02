@@ -229,7 +229,7 @@ const itemWithVideo = async (
   context: BrowserContext,
   page: Page
 ): Promise<void> => {
-  await context.addCookies(`requiredCookies`);
+  await context.addCookies(requiredCookies);
   await gotoWithoutCache(`${baseUrl}/works/sx4p4b75/items`, page);
 };
 
