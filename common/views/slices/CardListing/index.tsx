@@ -99,7 +99,7 @@ const CardListingSlice: FunctionComponent<CardListingSliceProps> = ({
         <Grid>
           {items.map((item, index) => (
             <GridCell
-              key={index}
+              key={item.data.id ?? index}
               className={classNames({
                 'card-theme card-theme--transparent':
                   !!itemsHaveTransparentBackground,
