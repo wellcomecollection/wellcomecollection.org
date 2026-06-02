@@ -1,7 +1,6 @@
 import { FunctionComponent, useRef } from 'react';
 import styled from 'styled-components';
 
-import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { Venue } from '@weco/common/model/opening-hours';
 import { font } from '@weco/common/utils/classnames';
@@ -18,6 +17,7 @@ import FooterWellcomeLogo from './Footer.WellcomeLogo';
 
 type Props = {
   venues: Venue[];
+  simpleFooter?: boolean;
 };
 
 // Styles
@@ -181,16 +181,18 @@ const BackToTopButton = styled.button.attrs({
 `;
 
 // Component
-const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
+const Footer: FunctionComponent<Props> = ({
+  venues,
+  simpleFooter = false,
+}: Props) => {
   const footer = useRef<HTMLDivElement>(null);
-  const isKiosk = useKiosk();
 
   const hasVenuesInfo = Array.isArray(venues) && venues.length > 0;
 
   return (
     <Wrapper ref={footer} data-component="footer">
       <Container>
-        {isKiosk ? (
+        {simpleFooter ? (
           <FooterLogoHeadingKiosk>
             <FooterWellcomeLogo />
           </FooterLogoHeadingKiosk>
@@ -199,7 +201,7 @@ const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
             <FooterWellcomeLogo />
           </h3>
         )}
-        {!isKiosk && (
+        {!simpleFooter && (
           <>
             <FooterNavigationContainer>
               <FindUsContainer>
@@ -244,9 +246,11 @@ const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
         )}
         {/* TODO should we just make the colour change universal */}
         <FullWidthDivider>
-          <Divider lineColor={`${isKiosk ? 'neutral.600' : 'neutral.700'}`} />
+          <Divider
+            lineColor={`${simpleFooter ? 'neutral.600' : 'neutral.700'}`}
+          />
         </FullWidthDivider>
-        {!isKiosk && (
+        {!simpleFooter && (
           <>
             <PoliciesAndSocials>
               <PoliciesContainer>
