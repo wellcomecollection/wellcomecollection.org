@@ -94,6 +94,10 @@ const ExhibitionPage: NextPage<Props> = ({
     };
   }, [exhibition.id, relatedPages]);
 
+  const isTendernessAndRageExhibition =
+    exhibition.id === 'aY8u9xAAACEAIL8z' ||
+    exhibition.uid === 'tenderness-and-rage';
+
   return (
     <PageLayout
       title={exhibition.title}
@@ -121,6 +125,9 @@ const ExhibitionPage: NextPage<Props> = ({
           accessResourceLinks={accessResourceLinks}
           exhibitionTexts={exhibitionTexts}
           exhibitionHighlightTours={exhibitionHighlightTours}
+          shouldHideRelatedStories={
+            !!(exhibitionAndCollection && isTendernessAndRageExhibition)
+          }
         />
       )}
 
