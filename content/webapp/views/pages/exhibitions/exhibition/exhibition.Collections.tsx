@@ -29,7 +29,10 @@ const ExhibitionCollectionsContent = ({
   const { verticalVideos } = useFeatureFlags();
 
   const shouldDisplayCardListings = onwardJourneys.some(
-    (slice: prismic.Slice) => slice.slice_type === 'cardListing'
+    (slice: prismic.Slice) =>
+      slice.slice_type === 'cardListing' &&
+      Array.isArray(slice.items) &&
+      slice.items.length > 0
   );
 
   const shouldDisplayThemes = onwardJourneys.some(
