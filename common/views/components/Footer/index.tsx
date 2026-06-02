@@ -1,6 +1,7 @@
 import { FunctionComponent, useRef } from 'react';
 import styled from 'styled-components';
 
+import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { Venue } from '@weco/common/model/opening-hours';
 import { font } from '@weco/common/utils/classnames';
@@ -33,6 +34,11 @@ const Wrapper = styled(Space).attrs({
 /** ************************ */
 // START OF FOOTER BODY STYLES
 /** ************************ */
+
+const FooterLogoHeadingKiosk = styled(Space).attrs({
+  as: 'h3',
+  $v: { size: 'lg', properties: ['margin-bottom'] },
+})``;
 
 const FooterNavigationContainer = styled(Space).attrs({
   $v: { size: 'md', properties: ['margin-bottom'] },
@@ -177,74 +183,86 @@ const BackToTopButton = styled.button.attrs({
 // Component
 const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
   const footer = useRef<HTMLDivElement>(null);
+  const isKiosk = useKiosk();
 
   const hasVenuesInfo = Array.isArray(venues) && venues.length > 0;
 
   return (
     <Wrapper ref={footer} data-component="footer">
       <Container>
-        <h3>
-          <FooterWellcomeLogo />
-        </h3>
+        {isKiosk ? (
+          <FooterLogoHeadingKiosk>
+            <FooterWellcomeLogo />
+          </FooterLogoHeadingKiosk>
+        ) : (
+          <h3>
+            <FooterWellcomeLogo />
+          </h3>
+        )}
+        {!isKiosk && (
+          <>
+            <FooterNavigationContainer>
+              <FindUsContainer>
+                <FindUs hideAccessibility={true} />
+              </FindUsContainer>
 
-        <FooterNavigationContainer>
-          <FindUsContainer>
-            <FindUs hideAccessibility={true} />
-          </FindUsContainer>
-
-          <OpeningTimesContainer>
-            {/* Error pages do not receive serverData so should only display
+              <OpeningTimesContainer>
+                {/* Error pages do not receive serverData so should only display
             openingtimes link */}
-            {hasVenuesInfo && (
-              <>
-                <h4 className={font('sans-bold', -1)}>
-                  Today&rsquo;s opening times
-                </h4>
-                <OpeningTimes venues={venues} />
-              </>
-            )}
-            <Space
-              as="p"
-              $v={{
-                size: 'sm',
-                properties: hasVenuesInfo ? ['margin-top'] : [],
-              }}
-              style={{ marginBottom: 0 }}
-            >
-              <a href={`/visit-us/${prismicPageIds.openingTimes}`}>
-                Opening times
-              </a>
-            </Space>
-          </OpeningTimesContainer>
+                {hasVenuesInfo && (
+                  <>
+                    <h4 className={font('sans-bold', -1)}>
+                      Today&rsquo;s opening times
+                    </h4>
+                    <OpeningTimes venues={venues} />
+                  </>
+                )}
+                <Space
+                  as="p"
+                  $v={{
+                    size: 'sm',
+                    properties: hasVenuesInfo ? ['margin-top'] : [],
+                  }}
+                  style={{ marginBottom: 0 }}
+                >
+                  <a href={`/visit-us/${prismicPageIds.openingTimes}`}>
+                    Opening times
+                  </a>
+                </Space>
+              </OpeningTimesContainer>
 
-          <FooterA11y />
+              <FooterA11y />
 
-          <InternalNavigationContainer>
-            <FooterNav
-              type="InternalNavigation"
-              ariaLabel="Useful internal links"
-            />
-          </InternalNavigationContainer>
-        </FooterNavigationContainer>
-
+              <InternalNavigationContainer>
+                <FooterNav
+                  type="InternalNavigation"
+                  ariaLabel="Useful internal links"
+                />
+              </InternalNavigationContainer>
+            </FooterNavigationContainer>
+          </>
+        )}
+        {/* TODO should we just make the colour change universal */}
         <FullWidthDivider>
-          <Divider lineColor="neutral.700" />
+          <Divider lineColor={`${isKiosk ? 'neutral.600' : 'neutral.700'}`} />
         </FullWidthDivider>
+        {!isKiosk && (
+          <>
+            <PoliciesAndSocials>
+              <PoliciesContainer>
+                <FooterNav
+                  isInline
+                  type="PoliciesNavigation"
+                  ariaLabel="Policies navigation"
+                />
+              </PoliciesContainer>
 
-        <PoliciesAndSocials>
-          <PoliciesContainer>
-            <FooterNav
-              isInline
-              type="PoliciesNavigation"
-              ariaLabel="Policies navigation"
-            />
-          </PoliciesContainer>
-
-          <SocialsContainer>
-            <FooterSocial />
-          </SocialsContainer>
-        </PoliciesAndSocials>
-
+              <SocialsContainer>
+                <FooterSocial />
+              </SocialsContainer>
+            </PoliciesAndSocials>
+          </>
+        )}
         <FooterBottom>
           <FooterLicense>
             Except where otherwise noted, content on this site is licensed under
