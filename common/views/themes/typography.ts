@@ -1,4 +1,9 @@
-import { theme as designSystemTheme } from '@wellcometrust/wellcome-design-system/theme';
+import {
+  theme as designSystemTheme,
+  SizeVariants,
+  TypographySizeKey,
+  TypographyValue,
+} from '@wellcometrust/wellcome-design-system/theme';
 import { css } from 'styled-components';
 
 // Note: the design system font sizing uses vw units and clamp so that there is
@@ -277,3 +282,45 @@ export const makeFontSizeClasses = () => css`
     })
     .join(' ')}
 `;
+
+export const makeCompositeTypographyClasses = () => {
+  const t = designSystemTheme.typography;
+  const sizes: TypographySizeKey[] = ['xxl', 'xl', 'lg', 'md', 'sm', 'xs'];
+
+  const toDeclarations = ({
+    fontFamily,
+    fontWeight,
+    fontSize,
+    lineHeight,
+    letterSpacing,
+  }: TypographyValue) =>
+    `font-family: ${fontFamily}; font-weight: ${fontWeight}; font-size: ${fontSize}; line-height: ${lineHeight}; letter-spacing: ${letterSpacing};`;
+
+  const buildClasses = (
+    category: string,
+    weights: Partial<Record<'regular' | 'strong', SizeVariants>>,
+    family?: string
+  ): string[] =>
+    (Object.entries(weights) as [string, SizeVariants | undefined][]).flatMap(
+      ([weight, sizeVariants]) =>
+        sizes.flatMap(size => {
+          const style = sizeVariants?.[size];
+          if (!style) return [];
+          const className = family
+            ? `.type-${category}-${size}-${weight}-${family}`
+            : `.type-${category}-${size}-${weight}`;
+          return [`${className} { ${toDeclarations(style)} }`];
+        })
+    );
+
+  return css`
+    ${[
+      ...buildClasses('body', t.body),
+      ...buildClasses('display', t.display),
+      ...buildClasses('caption', t.caption),
+      ...buildClasses('label', t.label),
+      ...buildClasses('heading', t.heading.sans, 'sans'),
+      ...buildClasses('heading', t.heading.brand, 'brand'),
+    ].join(' ')}
+  `;
+};

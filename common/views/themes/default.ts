@@ -6,7 +6,11 @@ import { normalize } from './base/normalize';
 import { row } from './base/row';
 import { wellcomeNormalize } from './base/wellcome-normalize';
 import { Size, themeValues } from './config';
-import { makeFontSizeClasses, typography } from './typography';
+import {
+  makeCompositeTypographyClasses,
+  makeFontSizeClasses,
+  typography,
+} from './typography';
 import { utilityClasses } from './utility-classes';
 
 type Classes = typeof classes;
@@ -75,6 +79,7 @@ const GlobalStyle = createGlobalStyle`
   ${row}
   ${fonts}
   ${makeFontSizeClasses()}
+  ${makeCompositeTypographyClasses()}
   ${typography}
 `;
 
