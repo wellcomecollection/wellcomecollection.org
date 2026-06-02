@@ -34,8 +34,8 @@ type CardListingSliceProps = SliceComponentProps<
   SliceZoneContext
 >;
 
-type ArticleItem = { type: 'article'; data: ArticleBasic };
-type SeriesItem = { type: 'series'; data: CardType };
+type ArticleItem = { type: 'article'; id: string; data: ArticleBasic };
+type SeriesItem = { type: 'series'; id: string; data: CardType };
 type CardListingItem = ArticleItem | SeriesItem;
 
 const CardListingSlice: FunctionComponent<CardListingSliceProps> = ({
@@ -61,6 +61,7 @@ const CardListingSlice: FunctionComponent<CardListingSliceProps> = ({
       if (content.type === 'articles') {
         return {
           type: 'article',
+          id: content.id,
           data: transformArticleToArticleBasic(
             transformArticle(content as unknown as RawArticlesDocument)
           ),
@@ -69,6 +70,7 @@ const CardListingSlice: FunctionComponent<CardListingSliceProps> = ({
       if (content.type === 'series') {
         return {
           type: 'series',
+          id: content.id,
           data: convertItemToCardProps(
             transformSeries(content as unknown as RawSeriesDocument)
           ),
@@ -99,7 +101,7 @@ const CardListingSlice: FunctionComponent<CardListingSliceProps> = ({
         <Grid>
           {items.map((item, index) => (
             <GridCell
-              key={item.data.id ?? index}
+              key={item.id}
               className={classNames({
                 'card-theme card-theme--transparent':
                   !!itemsHaveTransparentBackground,
