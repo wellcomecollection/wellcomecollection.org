@@ -244,11 +244,8 @@ const Footer: FunctionComponent<Props> = ({
             </FooterNavigationContainer>
           </>
         )}
-        {/* TODO should we just make the colour change universal */}
         <FullWidthDivider>
-          <Divider
-            lineColor={`${simpleFooter ? 'neutral.600' : 'neutral.700'}`}
-          />
+          <Divider lineColor="neutral.700" />
         </FullWidthDivider>
         {!simpleFooter && (
           <>
