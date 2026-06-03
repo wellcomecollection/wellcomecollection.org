@@ -113,17 +113,17 @@ export type ArticleFormatsDocument<Lang extends string = string> =
   >;
 
 type ArticlesDocumentDataBodySlice =
-  | EmbedSlice
   | AudioPlayerSlice
-  | TagListSlice
-  | IframeSlice
-  | EditorialImageGallerySlice
   | EditorialImageSlice
+  | EditorialImageGallerySlice
+  | EmbedSlice
   | GifVideoSlice
-  | TextSlice
-  | StandfirstSlice
+  | IframeSlice
   | InfoBlockSlice
-  | QuoteSlice;
+  | QuoteSlice
+  | StandfirstSlice
+  | TagListSlice
+  | TextSlice;
 
 /**
  * Item in *Story → Contributors*
@@ -490,25 +490,25 @@ export interface BooksDocumentDataReviewsItem {
 }
 
 type BooksDocumentDataBodySlice =
-  | GifVideoSlice
-  | IframeSlice
+  | AudioPlayerSlice
+  | CollectionVenueSlice
+  | ContactSlice
+  | ContentListSlice
   | EditorialImageSlice
   | EditorialImageGallerySlice
-  | MapSlice
-  | ContentListSlice
   | EmbedSlice
-  | TitledTextListSlice
-  | TextAndImageSlice
-  | TextSlice
+  | GifVideoSlice
+  | IframeSlice
+  | InfoBlockSlice
+  | MapSlice
+  | QuoteSlice
   | SearchResultsSlice
-  | TextAndIconsSlice
   | StandfirstSlice
   | TagListSlice
-  | QuoteSlice
-  | InfoBlockSlice
-  | ContactSlice
-  | CollectionVenueSlice
-  | AudioPlayerSlice;
+  | TextSlice
+  | TextAndIconsSlice
+  | TextAndImageSlice
+  | TitledTextListSlice;
 
 /**
  * Item in *Book → Contributors*
@@ -1425,25 +1425,25 @@ export type EventPoliciesDocument<Lang extends string = string> =
   >;
 
 type EventSeriesDocumentDataBodySlice =
-  | GifVideoSlice
-  | IframeSlice
+  | AudioPlayerSlice
+  | CollectionVenueSlice
+  | ContactSlice
+  | ContentListSlice
   | EditorialImageSlice
   | EditorialImageGallerySlice
-  | MapSlice
-  | ContentListSlice
   | EmbedSlice
-  | TitledTextListSlice
-  | TextAndImageSlice
-  | TextSlice
+  | GifVideoSlice
+  | IframeSlice
+  | InfoBlockSlice
+  | MapSlice
+  | QuoteSlice
   | SearchResultsSlice
-  | TextAndIconsSlice
   | StandfirstSlice
   | TagListSlice
-  | QuoteSlice
-  | InfoBlockSlice
-  | ContactSlice
-  | CollectionVenueSlice
-  | AudioPlayerSlice;
+  | TextSlice
+  | TextAndIconsSlice
+  | TextAndImageSlice
+  | TitledTextListSlice;
 
 /**
  * Item in *Event series → Contributors*
@@ -1673,25 +1673,25 @@ export interface EventsDocumentDataTimesItem {
 }
 
 type EventsDocumentDataBodySlice =
-  | GifVideoSlice
-  | IframeSlice
+  | AudioPlayerSlice
+  | CollectionVenueSlice
+  | ContactSlice
+  | ContentListSlice
   | EditorialImageSlice
   | EditorialImageGallerySlice
-  | MapSlice
-  | ContentListSlice
   | EmbedSlice
-  | TitledTextListSlice
-  | TextAndImageSlice
-  | TextSlice
+  | GifVideoSlice
+  | IframeSlice
+  | InfoBlockSlice
+  | MapSlice
+  | QuoteSlice
   | SearchResultsSlice
-  | TextAndIconsSlice
   | StandfirstSlice
   | TagListSlice
-  | QuoteSlice
-  | InfoBlockSlice
-  | ContactSlice
-  | CollectionVenueSlice
-  | AudioPlayerSlice;
+  | TextSlice
+  | TextAndIconsSlice
+  | TextAndImageSlice
+  | TitledTextListSlice;
 
 /**
  * Item in *Event → Interpretations*
@@ -2791,6 +2791,7 @@ type ExhibitionsDocumentDataBodySlice =
   | TitledTextListSlice;
 
 type ExhibitionsDocumentDataOnwardJourneysSlice =
+  | CardListingSlice
   | PortraitVideoListSlice
   | ThemeCardsListSlice;
 
@@ -3392,25 +3393,25 @@ export type GuideFormatsDocument<Lang extends string = string> =
   >;
 
 type GuidesDocumentDataBodySlice =
-  | GifVideoSlice
-  | IframeSlice
+  | AudioPlayerSlice
+  | CollectionVenueSlice
+  | ContactSlice
+  | ContentListSlice
   | EditorialImageSlice
   | EditorialImageGallerySlice
-  | MapSlice
-  | ContentListSlice
   | EmbedSlice
-  | TitledTextListSlice
-  | TextAndImageSlice
-  | TextSlice
+  | GifVideoSlice
+  | IframeSlice
+  | InfoBlockSlice
+  | MapSlice
+  | QuoteSlice
   | SearchResultsSlice
-  | TextAndIconsSlice
   | StandfirstSlice
   | TagListSlice
-  | QuoteSlice
-  | InfoBlockSlice
-  | ContactSlice
-  | CollectionVenueSlice
-  | AudioPlayerSlice;
+  | TextSlice
+  | TextAndIconsSlice
+  | TextAndImageSlice
+  | TitledTextListSlice;
 
 /**
  * Primary content in *Guide → Slice Zone → Editorial image → Primary*
@@ -3793,6 +3794,7 @@ export type PageFormatsDocument<Lang extends string = string> =
 type PagesDocumentDataBodySlice =
   | ArchiveCardListSlice
   | AudioPlayerSlice
+  | CardListingSlice
   | CollectionVenueSlice
   | ContactSlice
   | ContentListSlice
@@ -4183,25 +4185,25 @@ export type PeopleDocument<Lang extends string = string> =
   >;
 
 type PlacesDocumentDataBodySlice =
-  | GifVideoSlice
-  | IframeSlice
+  | AudioPlayerSlice
+  | CollectionVenueSlice
+  | ContactSlice
+  | ContentListSlice
   | EditorialImageSlice
   | EditorialImageGallerySlice
-  | MapSlice
-  | ContentListSlice
   | EmbedSlice
-  | TitledTextListSlice
-  | TextAndImageSlice
-  | TextSlice
+  | GifVideoSlice
+  | IframeSlice
+  | InfoBlockSlice
+  | MapSlice
+  | QuoteSlice
   | SearchResultsSlice
-  | TextAndIconsSlice
   | StandfirstSlice
   | TagListSlice
-  | QuoteSlice
-  | InfoBlockSlice
-  | ContactSlice
-  | CollectionVenueSlice
-  | AudioPlayerSlice;
+  | TextSlice
+  | TextAndIconsSlice
+  | TextAndImageSlice
+  | TitledTextListSlice;
 
 /**
  * Content for Place documents
@@ -4433,25 +4435,25 @@ export type ProjectFormatsDocument<Lang extends string = string> =
   >;
 
 type ProjectsDocumentDataBodySlice =
-  | GifVideoSlice
-  | IframeSlice
+  | AudioPlayerSlice
+  | CollectionVenueSlice
+  | ContactSlice
+  | ContentListSlice
   | EditorialImageSlice
   | EditorialImageGallerySlice
-  | MapSlice
-  | ContentListSlice
   | EmbedSlice
-  | TitledTextListSlice
-  | TextAndImageSlice
-  | TextSlice
+  | GifVideoSlice
+  | IframeSlice
+  | InfoBlockSlice
+  | MapSlice
+  | QuoteSlice
   | SearchResultsSlice
-  | TextAndIconsSlice
   | StandfirstSlice
   | TagListSlice
-  | QuoteSlice
-  | InfoBlockSlice
-  | ContactSlice
-  | CollectionVenueSlice
-  | AudioPlayerSlice;
+  | TextSlice
+  | TextAndIconsSlice
+  | TextAndImageSlice
+  | TitledTextListSlice;
 
 /**
  * Item in *Project → Contributors*
@@ -4678,25 +4680,25 @@ export type ProjectsDocument<Lang extends string = string> =
   >;
 
 type SeasonsDocumentDataBodySlice =
-  | GifVideoSlice
-  | IframeSlice
+  | AudioPlayerSlice
+  | CollectionVenueSlice
+  | ContactSlice
+  | ContentListSlice
   | EditorialImageSlice
   | EditorialImageGallerySlice
-  | MapSlice
-  | ContentListSlice
   | EmbedSlice
-  | TitledTextListSlice
-  | TextAndImageSlice
-  | TextSlice
+  | GifVideoSlice
+  | IframeSlice
+  | InfoBlockSlice
+  | MapSlice
+  | QuoteSlice
   | SearchResultsSlice
-  | TextAndIconsSlice
   | StandfirstSlice
   | TagListSlice
-  | QuoteSlice
-  | InfoBlockSlice
-  | ContactSlice
-  | CollectionVenueSlice
-  | AudioPlayerSlice;
+  | TextSlice
+  | TextAndIconsSlice
+  | TextAndImageSlice
+  | TitledTextListSlice;
 
 /**
  * Primary content in *Season → Slice Zone → Editorial image → Primary*
@@ -4820,25 +4822,25 @@ export type SeasonsDocument<Lang extends string = string> =
   >;
 
 type SeriesDocumentDataBodySlice =
-  | GifVideoSlice
-  | IframeSlice
+  | AudioPlayerSlice
+  | CollectionVenueSlice
+  | ContactSlice
+  | ContentListSlice
   | EditorialImageSlice
   | EditorialImageGallerySlice
-  | MapSlice
-  | ContentListSlice
   | EmbedSlice
-  | TitledTextListSlice
-  | TextAndImageSlice
-  | TextSlice
+  | GifVideoSlice
+  | IframeSlice
+  | InfoBlockSlice
+  | MapSlice
+  | QuoteSlice
   | SearchResultsSlice
-  | TextAndIconsSlice
   | StandfirstSlice
   | TagListSlice
-  | QuoteSlice
-  | InfoBlockSlice
-  | ContactSlice
-  | CollectionVenueSlice
-  | AudioPlayerSlice;
+  | TextSlice
+  | TextAndIconsSlice
+  | TextAndImageSlice
+  | TitledTextListSlice;
 
 /**
  * Item in *Story series → Schedule*
@@ -5284,14 +5286,14 @@ export type TeamsDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithoutUID<Simplify<TeamsDocumentData>, 'teams', Lang>;
 
 type VisualStoriesDocumentDataBodySlice =
-  | InfoBlockSlice
-  | TextAndIconsSlice
-  | TextAndImageSlice
-  | EmbedSlice
-  | EditorialImageSlice
-  | TextSlice
   | ContactSlice
-  | StandfirstSlice;
+  | EditorialImageSlice
+  | EmbedSlice
+  | InfoBlockSlice
+  | StandfirstSlice
+  | TextSlice
+  | TextAndIconsSlice
+  | TextAndImageSlice;
 
 /**
  * Primary content in *Visual story → Slice Zone → Editorial image → Primary*
@@ -5596,17 +5598,17 @@ export type WebcomicSeriesDocument<Lang extends string = string> =
   >;
 
 type WebcomicsDocumentDataBodySlice =
-  | EmbedSlice
   | AudioPlayerSlice
-  | TagListSlice
-  | IframeSlice
-  | EditorialImageGallerySlice
   | EditorialImageSlice
+  | EditorialImageGallerySlice
+  | EmbedSlice
   | GifVideoSlice
-  | TextSlice
-  | StandfirstSlice
+  | IframeSlice
   | InfoBlockSlice
-  | QuoteSlice;
+  | QuoteSlice
+  | StandfirstSlice
+  | TagListSlice
+  | TextSlice;
 
 /**
  * Item in *Webcomic → Contributors*
@@ -5973,85 +5975,6 @@ export type ArchiveCardListSlice = prismic.SharedSlice<
 >;
 
 /**
- * Primary content in *CardListing → Default → Primary*
- */
-export interface CardListingSliceDefaultPrimary {
-  /**
-   * Title field in *CardListing → Default → Primary*
-   *
-   * - **Field Type**: Text
-   * - **API ID Path**: cardListing.default.primary.title
-   * - **Documentation**: https://prismic.io/docs/fields/text
-   */
-  title: prismic.KeyTextField;
-
-  /**
-   * Description field in *CardListing → Default → Primary*
-   *
-   * - **Field Type**: Text
-   * - **API ID Path**: cardListing.default.primary.description
-   * - **Documentation**: https://prismic.io/docs/fields/text
-   */
-  description: prismic.KeyTextField;
-
-  /**
-   * Items have transparent background field in *CardListing → Default → Primary*
-   *
-   * - **Field Type**: Boolean
-   * - **Default Value**: false
-   * - **API ID Path**: cardListing.default.primary.itemsHaveTransparentBackground
-   * - **Documentation**: https://prismic.io/docs/fields/boolean
-   */
-  itemsHaveTransparentBackground: prismic.BooleanField;
-}
-
-/**
- * Item in *CardListing → Items*
- */
-export interface CardListingSliceDefaultItem {
-  /**
-   * Content item field in *CardListing → Items*
-   *
-   * - **Field Type**: Content Relationship
-   * - **API ID Path**: cardListing.items[].content
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
-   */
-  content:
-    | prismic.ContentRelationshipField<'articles'>
-    | prismic.ContentRelationshipField<'series'>;
-}
-
-/**
- * Default variation for CardListing Slice
- *
- * - **API ID**: `default`
- * - **Description**: A curated list of story or series cards.
- * - **Documentation**: https://prismic.io/docs/slices
- */
-export type CardListingSliceDefault = prismic.SharedSliceVariation<
-  'default',
-  Simplify<CardListingSliceDefaultPrimary>,
-  Simplify<CardListingSliceDefaultItem>
->;
-
-/**
- * Slice variation for *CardListing*
- */
-type CardListingSliceVariation = CardListingSliceDefault;
-
-/**
- * CardListing Shared Slice
- *
- * - **API ID**: `cardListing`
- * - **Description**: *None*
- * - **Documentation**: https://prismic.io/docs/slices
- */
-export type CardListingSlice = prismic.SharedSlice<
-  'cardListing',
-  CardListingSliceVariation
->;
-
-/**
  * Primary content in *AudioPlayer → Default → Primary*
  */
 export interface AudioPlayerSliceDefaultPrimary {
@@ -6114,6 +6037,78 @@ type AudioPlayerSliceVariation = AudioPlayerSliceDefault;
 export type AudioPlayerSlice = prismic.SharedSlice<
   'audioPlayer',
   AudioPlayerSliceVariation
+>;
+
+/**
+ * Primary content in *CardListing → Default → Primary*
+ */
+export interface CardListingSliceDefaultPrimary {
+  /**
+   * Title field in *CardListing → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: cardListing.default.primary.title
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  title: prismic.KeyTextField;
+
+  /**
+   * Description field in *CardListing → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: cardListing.default.primary.description
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  description: prismic.KeyTextField;
+}
+
+/**
+ * Primary content in *CardListing → Items*
+ */
+export interface CardListingSliceDefaultItem {
+  /**
+   * Content item field in *CardListing → Items*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: cardListing.items[].content
+   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   */
+  content:
+    | prismic.ContentRelationshipField<'articles'>
+    | prismic.ContentRelationshipField<'series'>;
+}
+
+/**
+ * Default variation for CardListing Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: A curated list of story or series cards.
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type CardListingSliceDefault = prismic.SharedSliceVariation<
+  'default',
+  Simplify<CardListingSliceDefaultPrimary>,
+  Simplify<CardListingSliceDefaultItem>
+>;
+
+/**
+ * Slice variation for *CardListing*
+ */
+type CardListingSliceVariation = CardListingSliceDefault;
+
+/**
+ * CardListing Shared Slice
+ *
+ * - **API ID**: `cardListing`
+ * - **Description**: *None*
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type CardListingSlice = prismic.SharedSlice<
+  'cardListing',
+  CardListingSliceVariation
 >;
 
 /**
@@ -8101,15 +8096,15 @@ declare module '@prismicio/client' {
       ArchiveCardListSliceDefaultPrimary,
       ArchiveCardListSliceVariation,
       ArchiveCardListSliceDefault,
+      AudioPlayerSlice,
+      AudioPlayerSliceDefaultPrimary,
+      AudioPlayerSliceVariation,
+      AudioPlayerSliceDefault,
       CardListingSlice,
       CardListingSliceDefaultPrimary,
       CardListingSliceDefaultItem,
       CardListingSliceVariation,
       CardListingSliceDefault,
-      AudioPlayerSlice,
-      AudioPlayerSliceDefaultPrimary,
-      AudioPlayerSliceVariation,
-      AudioPlayerSliceDefault,
       CollectionVenueSlice,
       CollectionVenueSliceDefaultPrimary,
       CollectionVenueSliceVariation,

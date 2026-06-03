@@ -24,15 +24,6 @@
             "label": "Description",
             "placeholder": ""
           }
-        },
-        "itemsHaveTransparentBackground": {
-          "type": "Boolean",
-          "config": {
-            "label": "Items have transparent background",
-            "default_value": false,
-            "placeholder_true": "Transparent",
-            "placeholder_false": "Grey"
-          }
         }
       },
       "items": {
@@ -41,7 +32,10 @@
           "config": {
             "label": "Content item",
             "select": "document",
-            "customtypes": ["articles", "series"]
+            "customtypes": [
+              "articles",
+              "series"
+            ]
           }
         }
       }

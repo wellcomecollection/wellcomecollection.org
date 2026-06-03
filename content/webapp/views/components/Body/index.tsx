@@ -111,6 +111,9 @@ export type SliceZoneContext = {
   contentType?: 'short-film' | 'visual-story' | 'standalone-image-gallery';
   archiveWorks?: Record<string, ArchiveWorkData>;
   hasNoShim?: boolean;
+  hasContainer?: boolean;
+  itemsHaveTransparentBackground?: boolean;
+  cardSizeMap?: SizeMap;
   themeCardCols?: 3 | 4;
 };
 
