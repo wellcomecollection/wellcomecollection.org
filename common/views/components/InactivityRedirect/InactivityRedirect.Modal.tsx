@@ -51,6 +51,7 @@ const InactivityRedirectModal: FunctionComponent<Props> = ({
   return (
     <RedirectModalContent
       role="alertdialog"
+      aria-modal="true"
       aria-labelledby="inactivity-modal-title"
       aria-describedby="inactivity-modal-desc"
     >
