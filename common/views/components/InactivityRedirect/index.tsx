@@ -194,6 +194,7 @@ const InactivityRedirect: FunctionComponent<Props> = ({ redirectUrl }) => {
       id="kiosk-inactivity-warning"
       openButtonRef={modalButtonRef}
       showOverlay={true}
+      removeCloseButton={true}
     >
       <InactivityRedirectModal
         countdown={countdown}
