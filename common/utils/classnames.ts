@@ -40,8 +40,8 @@ type FontFamily = 'sans' | 'sans-bold' | 'brand' | 'brand-bold' | 'mono';
 type FontSize = -2 | -1 | 0 | 1 | 2 | 4 | 5;
 
 // Parallel composite type class for each font(family, size) combination.
-// Entries are omitted where no direct equivalent exists in the new type scale
-// (font('sans', 2) and font('mono', -1)).
+// Where there is no direct equivalent in the composite type scale, we map to the
+// closest available style (e.g. font('sans', 2) and font('mono', -1)).
 // Ambiguous cases (body vs label, body vs heading) default to body.
 const fontCompositeMap: Partial<Record<string, string>> = {
   'sans:-2': 'type-body-sm-regular',
