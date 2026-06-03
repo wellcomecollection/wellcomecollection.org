@@ -12,7 +12,7 @@ import Modal from '@weco/common/views/components/Modal';
 
 import InactivityRedirectModal from './InactivityRedirect.Modal';
 
-const INACTIVITY_TIMEOUT = 30 * 1000; // 30 seconds
+const INACTIVITY_TIMEOUT = 110 * 1000; // 110 seconds
 const WARNING_COUNTDOWN = 30; // 30 seconds countdown before redirect
 
 type Props = {
