@@ -47,7 +47,7 @@ const cls = {
   ...sizesClasses,
 } as unknown as Classes & SizedClasses;
 
-const GlobalStyle = createGlobalStyle<{ $compositeTypography?: boolean }>`
+const GlobalStyle = createGlobalStyle<{ $compositeTypography: boolean }>`
   ${css`
     .${cls.displayBlock} {
       display: block;
