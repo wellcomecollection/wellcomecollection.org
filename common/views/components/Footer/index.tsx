@@ -35,7 +35,7 @@ const Wrapper = styled(Space).attrs({
 // START OF FOOTER BODY STYLES
 /** ************************ */
 
-const FooterLogoHeadingKiosk = styled(Space).attrs({
+const SimpleFooterLogoHeading = styled(Space).attrs({
   as: 'h3',
   $v: { size: 'lg', properties: ['margin-bottom'] },
 })``;
@@ -193,9 +193,9 @@ const Footer: FunctionComponent<Props> = ({
     <Wrapper ref={footer} data-component="footer">
       <Container>
         {simpleFooter ? (
-          <FooterLogoHeadingKiosk>
+          <SimpleFooterLogoHeading>
             <FooterWellcomeLogo />
-          </FooterLogoHeadingKiosk>
+          </SimpleFooterLogoHeading>
         ) : (
           <h3>
             <FooterWellcomeLogo />
