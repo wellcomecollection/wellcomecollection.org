@@ -56,8 +56,7 @@ const InactivityRedirectModal: FunctionComponent<Props> = ({
       aria-describedby="inactivity-modal-desc"
     >
       {/* Receives initial focus so screen readers announce the dialog context before the buttons */}
-      <span className="visually-hidden" tabIndex={0} />
-      <RedirectModalTitle id="inactivity-modal-title">
+      <RedirectModalTitle id="inactivity-modal-title" tabIndex={0}>
         Need more time?
       </RedirectModalTitle>
       <p id="inactivity-modal-desc">
