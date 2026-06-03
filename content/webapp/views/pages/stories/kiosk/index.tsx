@@ -48,7 +48,7 @@ const KioskStoriesListingPage = ({ page }: Props) => {
           slices={cardListingSlices}
           components={components}
           context={{
-            itemsHaveTransparentBackground: true,
+            itemsHaveTransparentBackground: false,
             cardSizeMap: { s: [12], m: [6], l: [6], xl: [6] },
           }}
         />
