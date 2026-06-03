@@ -92,9 +92,6 @@ const ArticleSeriesPage: NextPage<Props> = props => {
       openGraphType="website"
       image={series.image}
       apiToolbarLinks={[createPrismicLink(series.id)]}
-      hideHeader={isKiosk}
-      hideFooter={isKiosk}
-      hideNewsletterPromo={isKiosk}
     >
       <ContentPage
         id={series.id}

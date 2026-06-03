@@ -232,7 +232,7 @@ describe('getTogglesFromContext', () => {
       ],
     };
 
-    it('returns undefined when no cookie is set', () => {
+    it('returns null when no cookie is set', () => {
       const togglesResp = {
         ...defaultTogglesResp,
         modes: [modeDefinition],
@@ -240,9 +240,7 @@ describe('getTogglesFromContext', () => {
 
       const result = getTogglesFromContext(togglesResp, createContext());
 
-      expect(
-        (result.modes as Record<string, unknown>).kioskMode
-      ).toBeUndefined();
+      expect((result.modes as Record<string, unknown>).kioskMode).toBeNull();
     });
 
     it('returns the value when cookie matches a valid option', () => {
@@ -261,7 +259,7 @@ describe('getTogglesFromContext', () => {
       );
     });
 
-    it('returns undefined when cookie is an empty string', () => {
+    it('returns null when cookie is an empty string', () => {
       const togglesResp = {
         ...defaultTogglesResp,
         modes: [modeDefinition],
@@ -272,12 +270,10 @@ describe('getTogglesFromContext', () => {
         createContext({ toggle_kioskMode: '' })
       );
 
-      expect(
-        (result.modes as Record<string, unknown>).kioskMode
-      ).toBeUndefined();
+      expect((result.modes as Record<string, unknown>).kioskMode).toBeNull();
     });
 
-    it('returns undefined when cookie value is not a valid option', () => {
+    it('returns null when cookie value is not a valid option', () => {
       const togglesResp = {
         ...defaultTogglesResp,
         modes: [modeDefinition],
@@ -288,9 +284,7 @@ describe('getTogglesFromContext', () => {
         createContext({ toggle_kioskMode: 'invalid-ipad' })
       );
 
-      expect(
-        (result.modes as Record<string, unknown>).kioskMode
-      ).toBeUndefined();
+      expect((result.modes as Record<string, unknown>).kioskMode).toBeNull();
     });
   });
 });

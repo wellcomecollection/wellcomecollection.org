@@ -2788,10 +2788,11 @@ type ExhibitionsDocumentDataBodySlice =
   | TextSlice
   | TextAndIconsSlice
   | TextAndImageSlice
-  | ThemeCardsListSlice
   | TitledTextListSlice;
 
-type ExhibitionsDocumentDataPortraitVideosSlice = PortraitVideoListSlice;
+type ExhibitionsDocumentDataOnwardJourneysSlice =
+  | PortraitVideoListSlice
+  | ThemeCardsListSlice;
 
 /**
  * Item in *Exhibition → Exhibits*
@@ -3139,15 +3140,15 @@ interface ExhibitionsDocumentData {
    * - **Documentation**: https://prismic.io/docs/slices
    */
   body: prismic.SliceZone<ExhibitionsDocumentDataBodySlice>; /**
-   * Onward journeys field in *Exhibition*
+   * Slice Zone field in *Exhibition*
    *
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
-   * - **API ID Path**: exhibitions.portrait_videos[]
+   * - **API ID Path**: exhibitions.onward_journeys[]
    * - **Tab**: Onward journeys
    * - **Documentation**: https://prismic.io/docs/slices
    */
-  portrait_videos: prismic.SliceZone<ExhibitionsDocumentDataPortraitVideosSlice>; /**
+  onward_journeys: prismic.SliceZone<ExhibitionsDocumentDataOnwardJourneysSlice>; /**
    * Exhibits field in *Exhibition*
    *
    * - **Field Type**: Group
@@ -5972,6 +5973,85 @@ export type ArchiveCardListSlice = prismic.SharedSlice<
 >;
 
 /**
+ * Primary content in *CardListing → Default → Primary*
+ */
+export interface CardListingSliceDefaultPrimary {
+  /**
+   * Title field in *CardListing → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **API ID Path**: cardListing.default.primary.title
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  title: prismic.KeyTextField;
+
+  /**
+   * Description field in *CardListing → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **API ID Path**: cardListing.default.primary.description
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  description: prismic.KeyTextField;
+
+  /**
+   * Items have transparent background field in *CardListing → Default → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Default Value**: false
+   * - **API ID Path**: cardListing.default.primary.itemsHaveTransparentBackground
+   * - **Documentation**: https://prismic.io/docs/fields/boolean
+   */
+  itemsHaveTransparentBackground: prismic.BooleanField;
+}
+
+/**
+ * Item in *CardListing → Items*
+ */
+export interface CardListingSliceDefaultItem {
+  /**
+   * Content item field in *CardListing → Items*
+   *
+   * - **Field Type**: Content Relationship
+   * - **API ID Path**: cardListing.items[].content
+   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   */
+  content:
+    | prismic.ContentRelationshipField<'articles'>
+    | prismic.ContentRelationshipField<'series'>;
+}
+
+/**
+ * Default variation for CardListing Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: A curated list of story or series cards.
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type CardListingSliceDefault = prismic.SharedSliceVariation<
+  'default',
+  Simplify<CardListingSliceDefaultPrimary>,
+  Simplify<CardListingSliceDefaultItem>
+>;
+
+/**
+ * Slice variation for *CardListing*
+ */
+type CardListingSliceVariation = CardListingSliceDefault;
+
+/**
+ * CardListing Shared Slice
+ *
+ * - **API ID**: `cardListing`
+ * - **Description**: *None*
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type CardListingSlice = prismic.SharedSlice<
+  'cardListing',
+  CardListingSliceVariation
+>;
+
+/**
  * Primary content in *AudioPlayer → Default → Primary*
  */
 export interface AudioPlayerSliceDefaultPrimary {
@@ -7198,17 +7278,17 @@ export interface PortraitVideoListSliceDefaultPrimary {
  */
 export interface PortraitVideoListSliceDefaultItem {
   /**
-   * Embed field in *PortraitVideoList → Items*
+   * Embed (for YouTube Shorts, replace '/shorts/' with '/watch?v=') field in *PortraitVideoList → Items*
    *
    * - **Field Type**: Embed
-   * - **Placeholder**: For YouTube Shorts, replace '/shorts/' with '/watch?v='
+   * - **Placeholder**: *None*
    * - **API ID Path**: portraitVideoList.items[].embed
    * - **Documentation**: https://prismic.io/docs/fields/embed
    */
   embed: prismic.EmbedField;
 
   /**
-   * Poster image field in *PortraitVideoList → Items*
+   * Poster image (optional) field in *PortraitVideoList → Items*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
@@ -7221,17 +7301,17 @@ export interface PortraitVideoListSliceDefaultItem {
    * Duration field in *PortraitVideoList → Items*
    *
    * - **Field Type**: Text
-   * - **Placeholder**: e.g. 2:30
+   * - **Placeholder**: e.g. 02:30
    * - **API ID Path**: portraitVideoList.items[].duration
    * - **Documentation**: https://prismic.io/docs/fields/text
    */
   duration: prismic.KeyTextField;
 
   /**
-   * Title field in *PortraitVideoList → Items*
+   * Title (optional) field in *PortraitVideoList → Items*
    *
    * - **Field Type**: Text
-   * - **Placeholder**: Leave this blank to use the title from the embed
+   * - **Placeholder**: *None*
    * - **API ID Path**: portraitVideoList.items[].title
    * - **Documentation**: https://prismic.io/docs/fields/text
    */
@@ -7925,7 +8005,7 @@ declare module '@prismicio/client' {
       ExhibitionsDocument,
       ExhibitionsDocumentData,
       ExhibitionsDocumentDataBodySlice,
-      ExhibitionsDocumentDataPortraitVideosSlice,
+      ExhibitionsDocumentDataOnwardJourneysSlice,
       ExhibitionsDocumentDataExhibitsItem,
       ExhibitionsDocumentDataEventsItem,
       ExhibitionsDocumentDataArticlesItem,
@@ -8021,6 +8101,11 @@ declare module '@prismicio/client' {
       ArchiveCardListSliceDefaultPrimary,
       ArchiveCardListSliceVariation,
       ArchiveCardListSliceDefault,
+      CardListingSlice,
+      CardListingSliceDefaultPrimary,
+      CardListingSliceDefaultItem,
+      CardListingSliceVariation,
+      CardListingSliceDefault,
       AudioPlayerSlice,
       AudioPlayerSliceDefaultPrimary,
       AudioPlayerSliceVariation,

@@ -1,9 +1,11 @@
 import { NextPage } from 'next';
 import styled from 'styled-components';
 
+import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import Divider from '@weco/common/views/components/Divider';
 import SearchForm from '@weco/common/views/components/SearchForm';
 import { Container } from '@weco/common/views/components/styled/Container';
@@ -59,6 +61,7 @@ export const WorkPage: NextPage<Props> = ({
   apiUrl,
   transformedManifest,
 }) => {
+  const isKiosk = useKiosk();
   const { userIsStaffWithRestricted } = useUserContext();
   const isArchive = !!(
     work.parts.length || getArchiveAncestorArray(work).length > 0
@@ -121,76 +124,89 @@ export const WorkPage: NextPage<Props> = ({
         apiToolbarLinks={createApiToolbarWorkLinks(work, apiUrl)}
         hideNewsletterPromo={true}
       >
-        <Container>
-          <Space $v={{ size: 'md', properties: ['padding-top'] }}>
-            <SearchForm searchCategory="works" location="page" />
-          </Space>
+        {!isKiosk && (
+          <Container>
+            <Space $v={{ size: 'md', properties: ['padding-top'] }}>
+              <SearchForm searchCategory="works" location="page" />
+            </Space>
 
-          <Space
-            $v={{ size: 'xs', properties: ['padding-top', 'padding-bottom'] }}
-          >
-            <BackToResults />
-          </Space>
-        </Container>
-
-        {isArchive ? (
-          <>
-            <Container>
-              <Space
-                $v={{
-                  size: 'xs',
-                  properties: ['padding-top', 'padding-bottom'],
-                }}
-              >
-                <ArchiveBreadcrumb work={work} />
-              </Space>
-            </Container>
-            <Container>
-              <WorkHeader
-                work={toWorkBasic(work)}
-                collectionManifestsCount={
-                  shouldShowItemLink ? collectionManifestsCount : undefined
-                }
-              />
-            </Container>
-
-            <Container>
-              <Divider />
-              <ArchiveDetailsContainer>
-                <ArchiveTree work={work} />
-                <WorkDetailsWrapper>
-                  <WorkDetails
-                    work={work}
-                    shouldShowItemLink={shouldShowItemLink}
-                    iiifImageLocation={iiifImageLocation}
-                    digitalLocation={digitalLocation}
-                    digitalLocationInfo={digitalLocationInfo}
-                    transformedManifest={transformedManifest}
-                  />
-                </WorkDetailsWrapper>
-              </ArchiveDetailsContainer>
-            </Container>
-          </>
-        ) : (
-          <>
-            <Container>
-              <WorkHeader
-                work={toWorkBasic(work)}
-                collectionManifestsCount={
-                  shouldShowItemLink ? collectionManifestsCount : undefined
-                }
-              />
-            </Container>
-            <WorkDetails
-              work={work}
-              shouldShowItemLink={shouldShowItemLink}
-              iiifImageLocation={iiifImageLocation}
-              digitalLocation={digitalLocation}
-              digitalLocationInfo={digitalLocationInfo}
-              transformedManifest={transformedManifest}
-            />
-          </>
+            <Space
+              $v={{ size: 'xs', properties: ['padding-top', 'padding-bottom'] }}
+            >
+              <BackToResults />
+            </Space>
+          </Container>
         )}
+
+        <ConditionalWrapper
+          condition={isKiosk}
+          wrapper={children => (
+            <Space $v={{ size: 'md', properties: ['padding-top'] }}>
+              {children}
+            </Space>
+          )}
+        >
+          <>
+            {isArchive ? (
+              <>
+                <Container>
+                  <Space
+                    $v={{
+                      size: 'xs',
+                      properties: ['padding-top', 'padding-bottom'],
+                    }}
+                  >
+                    <ArchiveBreadcrumb work={work} />
+                  </Space>
+                </Container>
+                <Container>
+                  <WorkHeader
+                    work={toWorkBasic(work)}
+                    collectionManifestsCount={
+                      shouldShowItemLink ? collectionManifestsCount : undefined
+                    }
+                  />
+                </Container>
+
+                <Container>
+                  <Divider />
+                  <ArchiveDetailsContainer>
+                    <ArchiveTree work={work} />
+                    <WorkDetailsWrapper>
+                      <WorkDetails
+                        work={work}
+                        shouldShowItemLink={shouldShowItemLink}
+                        iiifImageLocation={iiifImageLocation}
+                        digitalLocation={digitalLocation}
+                        digitalLocationInfo={digitalLocationInfo}
+                        transformedManifest={transformedManifest}
+                      />
+                    </WorkDetailsWrapper>
+                  </ArchiveDetailsContainer>
+                </Container>
+              </>
+            ) : (
+              <>
+                <Container>
+                  <WorkHeader
+                    work={toWorkBasic(work)}
+                    collectionManifestsCount={
+                      shouldShowItemLink ? collectionManifestsCount : undefined
+                    }
+                  />
+                </Container>
+                <WorkDetails
+                  work={work}
+                  shouldShowItemLink={shouldShowItemLink}
+                  iiifImageLocation={iiifImageLocation}
+                  digitalLocation={digitalLocation}
+                  digitalLocationInfo={digitalLocationInfo}
+                  transformedManifest={transformedManifest}
+                />
+              </>
+            )}
+          </>
+        </ConditionalWrapper>
 
         <StoriesOnWorks
           workId={work.id}

@@ -32,13 +32,18 @@ const InactivityRedirect: FunctionComponent<Props> = ({ redirectUrl }) => {
   // Don't run on the redirect destination itself
   const isRedirectDestination = router.asPath === redirectUrl;
 
-  const performRedirect = useCallback(() => {
-    setIsWarningActive(false);
+  const performRedirect = useCallback(
+    ({ isAutomated }: { isAutomated: boolean }) => {
+      setIsWarningActive(false);
 
-    gtag('event', 'auto_reset');
+      if (isAutomated) {
+        gtag('event', 'auto_reset');
+      }
 
-    router.push(redirectUrl);
-  }, [router, redirectUrl]);
+      router.push(redirectUrl);
+    },
+    [router, redirectUrl]
+  );
 
   const resetInactivityTimer = useCallback(() => {
     if (inactivityTimerRef.current) {
@@ -117,7 +122,7 @@ const InactivityRedirect: FunctionComponent<Props> = ({ redirectUrl }) => {
       }, 1000);
 
       redirectTimerRef.current = setTimeout(() => {
-        performRedirect();
+        performRedirect({ isAutomated: true });
       }, WARNING_COUNTDOWN * 1000);
 
       return () => {
@@ -194,7 +199,7 @@ const InactivityRedirect: FunctionComponent<Props> = ({ redirectUrl }) => {
         countdown={countdown}
         warningCountdown={WARNING_COUNTDOWN}
         onKeepBrowsing={handleCancelRedirect}
-        onReset={performRedirect}
+        onReset={() => performRedirect({ isAutomated: false })}
       />
     </Modal>
   );

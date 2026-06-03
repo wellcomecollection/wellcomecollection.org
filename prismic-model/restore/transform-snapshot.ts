@@ -1,15 +1,15 @@
 /**
  * transform-snapshot.ts
  *
- * Prepares a Prismic content snapshot for import. Must always be run after
- * (or in lieu of) restore-prismic-assets, and before restore-prismic-content.
+ * Prepares a Prismic content snapshot for import.
+ * Must always be run before restore-prismic-content.
  *
- * Transformations applied:
+ * Transformations applied (not all may be applied, depending on the restore scenario and which maps are available):
  *   - Rewrites old asset IDs to new IDs using asset-id-map.json
- *   - Rewrites old content document IDs to new IDs using content-id-map.json
  *   - Corrects asset URL path segments using asset-slug-map.json
+ *   - Rewrites old content document IDs to new IDs using content-id-map.json
  *   - Backfills publishDate on articles from first_publication_date
- *   - Optionally rewrites the repository name in Prismic asset URLs
+ *   - Rewrites the repository name in Prismic asset URLs
  *
  * Replacements that could collide with existing values are applied using a
  * two-pass placeholder strategy:
@@ -29,12 +29,7 @@
  *
  * Defaults:
  *   --snapshot  Latest file in ./restore/snapshot/; if not found locally, downloads from S3
- *   --out       ./restore/snapshot/prismic-snapshot-rewritten.json (fixed; always overwritten)
- *
- * When using Scenario 2 (no assets to restore), PRISMIC_S3_BUCKET must be set in .env
- * so the script can download the snapshot. When using Scenario 1, provide --snapshot
- * directly or ensure a snapshot exists in ./restore/snapshot/ (may already be downloaded
- * by restore-prismic-assets.ts).
+ *   --out       ./restore/snapshot/prismic-snapshot-rewritten.json (always overwritten)
  *
  * Two-stage workflow for content relationship fields:
  *   1. First run (before content uploaded): only asset IDs are rewritten
@@ -42,6 +37,7 @@
  *   3. Second run: both asset and content IDs are rewritten
  *   4. Second content upload: content relationships now reference correct IDs
  */
+
 import * as fs from 'fs';
 import * as path from 'path';
 import yargs from 'yargs';
@@ -214,10 +210,10 @@ async function init() {
   // slug keys would no longer match and filename slug correction would be skipped.
   const PLACEHOLDER = '__RESTORE_PLACEHOLDER__';
 
-  // Pass 1/2 (optional): replace full URL path segments using the slug map.
+  // Pass 1 (optional): replace full URL path segments using the slug map.
   // This corrects the filename portion of asset URLs which may differ from the source
   // because Prismic URL-sanitises filenames at upload time (spaces stripped, chars encoded).
-  // Uses a two-pass placeholder strategy to prevent collision.
+  // Two-pass placeholder strategy guards against the case where a new ID equals an old one.
   if (oldSlugs.length > 0) {
     const escapedSlugs = oldSlugs.map(escapeRegex);
     // Regex: (slug1|slug2|slug3|...) - matches any old URL path segment globally
@@ -238,7 +234,7 @@ async function init() {
     );
   }
 
-  // Pass 3/4: replace old asset IDs with new ones (skipped if no map).
+  // Pass 2: replace old asset IDs with new ones (skipped if no map).
   // Two-pass placeholder strategy guards against the case where a new ID equals an old one.
   if (oldAssetIds.length > 0) {
     const escapedIds = oldAssetIds.map(escapeRegex);
@@ -260,7 +256,7 @@ async function init() {
     );
   }
 
-  // Pass 5/6: replace old content document IDs with new ones (skipped if no map).
+  // Pass 3: replace old content document IDs with new ones (skipped if no map).
   // This corrects content relationship fields that reference other documents.
   // Two-pass placeholder strategy guards against the case where a new ID equals an old one.
   if (oldContentIds.length > 0) {

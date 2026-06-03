@@ -85,7 +85,7 @@ const beingHuman: Exhibition = {
   exhibits: [],
   seasons: [],
   contributors: [],
-  untransformedPortraitVideos: [],
+  untransformedOnwardJourneys: [],
 };
 
 export const whatsOn: ({

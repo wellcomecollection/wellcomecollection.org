@@ -3,14 +3,12 @@ import { SliceZone } from '@prismicio/react';
 import { Fragment, FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
 
-import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { officialLandingPagesUid } from '@weco/common/data/hardcoded-ids';
 import { ContentListSlice as RawContentListSlice } from '@weco/common/prismicio-types';
 import { PagesDocumentDataBodySlice } from '@weco/common/prismicio-types';
 import { classNames, font } from '@weco/common/utils/classnames';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
-import { createSerializer } from '@weco/common/views/components/HTMLSerializers';
 import {
   ContaineredLayout,
   gridSize12,
@@ -143,7 +141,6 @@ const Body: FunctionComponent<Props> = ({
   contentType,
   bodySliceContexts,
 }: Props) => {
-  const isKiosk = useKiosk();
   const filteredUntransformedBody = untransformedBody.filter(
     (slice: prismic.Slice) => slice.slice_type !== 'standfirst'
   );
@@ -335,12 +332,7 @@ const Body: FunctionComponent<Props> = ({
                     properties: ['margin-bottom'],
                   }}
                 >
-                  <FeaturedText
-                    html={introText}
-                    htmlSerializer={createSerializer({
-                      stripExternalLinks: isKiosk,
-                    })}
-                  />
+                  <FeaturedText html={introText} />
                 </Space>
               </div>
             </ContaineredLayout>

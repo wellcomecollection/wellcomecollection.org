@@ -1,0 +1,50 @@
+{
+  "type": "SharedSlice",
+  "id": "cardListing",
+  "name": "CardListing",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "description": "A curated list of story or series cards.",
+      "version": "initial",
+      "imageUrl": "",
+      "docURL": "...",
+      "primary": {
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title",
+            "placeholder": ""
+          }
+        },
+        "description": {
+          "type": "Text",
+          "config": {
+            "label": "Description",
+            "placeholder": ""
+          }
+        },
+        "itemsHaveTransparentBackground": {
+          "type": "Boolean",
+          "config": {
+            "label": "Items have transparent background",
+            "default_value": false,
+            "placeholder_true": "Transparent",
+            "placeholder_false": "Grey"
+          }
+        }
+      },
+      "items": {
+        "content": {
+          "type": "Link",
+          "config": {
+            "label": "Content item",
+            "select": "document",
+            "customtypes": ["articles", "series"]
+          }
+        }
+      }
+    }
+  ]
+}

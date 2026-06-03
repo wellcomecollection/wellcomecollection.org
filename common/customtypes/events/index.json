@@ -19,7 +19,9 @@
         "config": {
           "label": "Format",
           "select": "document",
-          "customtypes": ["event-formats"]
+          "customtypes": [
+            "event-formats"
+          ]
         }
       },
       "locations": {
@@ -32,7 +34,9 @@
               "config": {
                 "label": "Location",
                 "select": "document",
-                "customtypes": ["places"]
+                "customtypes": [
+                  "places"
+                ]
               }
             }
           }
@@ -73,14 +77,18 @@
               "type": "Select",
               "config": {
                 "label": "In-venue fully booked",
-                "options": ["yes"]
+                "options": [
+                  "yes"
+                ]
               }
             },
             "onlineIsFullyBooked": {
               "type": "Select",
               "config": {
                 "label": "Online fully booked",
-                "options": ["yes"]
+                "options": [
+                  "yes"
+                ]
               }
             }
           }
@@ -105,10 +113,16 @@
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
-            "gifVideo": {
+            "audioPlayer": {
               "type": "SharedSlice"
             },
-            "iframe": {
+            "collectionVenue": {
+              "type": "SharedSlice"
+            },
+            "contact": {
+              "type": "SharedSlice"
+            },
+            "contentList": {
               "type": "SharedSlice"
             },
             "editorialImage": {
@@ -117,28 +131,25 @@
             "editorialImageGallery": {
               "type": "SharedSlice"
             },
-            "map": {
-              "type": "SharedSlice"
-            },
-            "contentList": {
-              "type": "SharedSlice"
-            },
             "embed": {
               "type": "SharedSlice"
             },
-            "titledTextList": {
+            "gifVideo": {
               "type": "SharedSlice"
             },
-            "textAndImage": {
+            "iframe": {
               "type": "SharedSlice"
             },
-            "text": {
+            "infoBlock": {
+              "type": "SharedSlice"
+            },
+            "map": {
+              "type": "SharedSlice"
+            },
+            "quote": {
               "type": "SharedSlice"
             },
             "searchResults": {
-              "type": "SharedSlice"
-            },
-            "textAndIcons": {
               "type": "SharedSlice"
             },
             "standfirst": {
@@ -147,19 +158,16 @@
             "tagList": {
               "type": "SharedSlice"
             },
-            "quote": {
+            "text": {
               "type": "SharedSlice"
             },
-            "infoBlock": {
+            "textAndIcons": {
               "type": "SharedSlice"
             },
-            "contact": {
+            "textAndImage": {
               "type": "SharedSlice"
             },
-            "collectionVenue": {
-              "type": "SharedSlice"
-            },
-            "audioPlayer": {
+            "titledTextList": {
               "type": "SharedSlice"
             }
           }
@@ -177,14 +185,18 @@
               "config": {
                 "label": "Interpretation",
                 "select": "document",
-                "customtypes": ["interpretation-types"]
+                "customtypes": [
+                  "interpretation-types"
+                ]
               }
             },
             "isPrimary": {
               "type": "Select",
               "config": {
                 "label": "Primary interprtation",
-                "options": ["yes"]
+                "options": [
+                  "yes"
+                ]
               }
             },
             "extraInformation": {
@@ -207,7 +219,9 @@
               "config": {
                 "label": "Audience",
                 "select": "document",
-                "customtypes": ["audiences"]
+                "customtypes": [
+                  "audiences"
+                ]
               }
             }
           }
@@ -226,7 +240,9 @@
         "config": {
           "label": "Booking enquiry team",
           "select": "document",
-          "customtypes": ["teams"]
+          "customtypes": [
+            "teams"
+          ]
         }
       },
       "eventbriteEvent": {
@@ -266,7 +282,9 @@
               "config": {
                 "label": "Policy",
                 "select": "document",
-                "customtypes": ["event-policies"]
+                "customtypes": [
+                  "event-policies"
+                ]
               }
             }
           }
@@ -276,7 +294,9 @@
         "type": "Select",
         "config": {
           "label": "Early registration",
-          "options": ["yes"]
+          "options": [
+            "yes"
+          ]
         }
       },
       "cost": {
@@ -298,7 +318,9 @@
         "config": {
           "label": "Booking enquiry team",
           "select": "document",
-          "customtypes": ["teams"]
+          "customtypes": [
+            "teams"
+          ]
         }
       },
       "onlineEventbriteEvent": {
@@ -338,7 +360,9 @@
               "config": {
                 "label": "Policy",
                 "select": "document",
-                "customtypes": ["event-policies"]
+                "customtypes": [
+                  "event-policies"
+                ]
               }
             }
           }
@@ -348,7 +372,9 @@
         "type": "Select",
         "config": {
           "label": "Early registration",
-          "options": ["yes"]
+          "options": [
+            "yes"
+          ]
         }
       },
       "onlineCost": {
@@ -369,14 +395,18 @@
               "config": {
                 "label": "Event",
                 "select": "document",
-                "customtypes": ["events"]
+                "customtypes": [
+                  "events"
+                ]
               }
             },
             "isNotLinked": {
               "type": "Select",
               "config": {
                 "label": "Suppress link to event",
-                "options": ["yes"]
+                "options": [
+                  "yes"
+                ]
               }
             }
           }
@@ -394,7 +424,9 @@
               "config": {
                 "label": "Role",
                 "select": "document",
-                "customtypes": ["editorial-contributor-roles"]
+                "customtypes": [
+                  "editorial-contributor-roles"
+                ]
               }
             },
             "contributor": {
@@ -402,7 +434,10 @@
               "config": {
                 "label": "Contributor",
                 "select": "document",
-                "customtypes": ["people", "organisations"]
+                "customtypes": [
+                  "people",
+                  "organisations"
+                ]
               }
             },
             "description": {
@@ -498,7 +533,9 @@
               "config": {
                 "label": "Series",
                 "select": "document",
-                "customtypes": ["event-series"]
+                "customtypes": [
+                  "event-series"
+                ]
               }
             }
           }
@@ -514,7 +551,9 @@
               "config": {
                 "label": "Season",
                 "select": "document",
-                "customtypes": ["seasons"],
+                "customtypes": [
+                  "seasons"
+                ],
                 "placeholder": "Select a Season"
               }
             }
@@ -537,7 +576,9 @@
               "config": {
                 "label": "Parent",
                 "select": "document",
-                "customtypes": ["exhibitions"],
+                "customtypes": [
+                  "exhibitions"
+                ],
                 "placeholder": "Select a parent"
               }
             }

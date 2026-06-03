@@ -2,7 +2,7 @@ import * as prismic from '@prismicio/client';
 import { render } from '@testing-library/react';
 import { createElement, ReactNode } from 'react';
 
-import { createSerializer, dropCapSerializer } from './index';
+import { dropCapSerializer, withExternalLinkStripping } from './index';
 
 describe('HTMLSerializers', () => {
   describe('dropCapSerializer', () => {
@@ -218,14 +218,14 @@ describe('HTMLSerializers', () => {
     });
   });
 
-  describe('createSerializer', () => {
+  describe('withExternalLinkStripping', () => {
     const hyperlinkType = prismic.RichTextNodeType.hyperlink;
     const mockKey = 'link-key';
     const mockContent = '';
     const children = ['Click here'] as unknown as ReactNode[];
+    const serializer = withExternalLinkStripping(dropCapSerializer);
 
-    it('strips external links when stripExternalLinks is true', () => {
-      const serializer = createSerializer({ stripExternalLinks: true });
+    it('strips external links', () => {
       const element = {
         type: hyperlinkType,
         data: { link_type: 'Web', url: 'https://www.bbc.co.uk/news' },
@@ -247,8 +247,7 @@ describe('HTMLSerializers', () => {
       expect(container).toHaveTextContent('Click here');
     });
 
-    it('keeps internal links when stripExternalLinks is true', () => {
-      const serializer = createSerializer({ stripExternalLinks: true });
+    it('keeps internal links', () => {
       const element = {
         type: hyperlinkType,
         data: {
@@ -277,32 +276,25 @@ describe('HTMLSerializers', () => {
       );
     });
 
-    it('keeps all links when stripExternalLinks is false', () => {
-      const serializer = createSerializer({ stripExternalLinks: false });
-      const element = {
-        type: hyperlinkType,
-        data: { link_type: 'Web', url: 'https://www.bbc.co.uk/news' },
-        text: '',
-        start: 0,
-        end: 10,
-      } as unknown as prismic.RTAnyNode;
-
+    it('preserves the wrapped serializer for non-hyperlink nodes', () => {
       const result = serializer(
-        hyperlinkType,
-        element,
-        mockContent,
-        children,
+        prismic.RichTextNodeType.paragraph,
+        {
+          type: prismic.RichTextNodeType.paragraph,
+          text: 'Hello world',
+          spans: [],
+        } as unknown as prismic.RTAnyNode,
+        'Hello world',
+        ['Hello world'] as unknown as ReactNode[],
         mockKey
       );
 
       const { container } = render(<>{result}</>);
-      const link = container.querySelector('a');
-      expect(link).toBeInTheDocument();
-      expect(link).toHaveAttribute('href', 'https://www.bbc.co.uk/news');
+      expect(container.querySelector('p')).toBeInTheDocument();
+      expect(container).toHaveTextContent('Hello world');
     });
 
     it('strips protocol-relative URLs as external', () => {
-      const serializer = createSerializer({ stripExternalLinks: true });
       const element = {
         type: hyperlinkType,
         data: { link_type: 'Web', url: '//example.com/page' },
