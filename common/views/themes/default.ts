@@ -47,7 +47,7 @@ const cls = {
   ...sizesClasses,
 } as unknown as Classes & SizedClasses;
 
-const GlobalStyle = createGlobalStyle`
+const GlobalStyle = createGlobalStyle<{ $compositeTypography?: boolean }>`
   ${css`
     .${cls.displayBlock} {
       display: block;
@@ -78,9 +78,9 @@ const GlobalStyle = createGlobalStyle`
   ${layout}
   ${row}
   ${fonts}
-  ${makeFontSizeClasses()}
-  ${makeCompositeTypographyClasses()}
+  ${({ $compositeTypography }) => !$compositeTypography && makeFontSizeClasses()}
   ${typography}
+  ${({ $compositeTypography }) => $compositeTypography && makeCompositeTypographyClasses()}
 `;
 
 // Static theme instance for backward compatibility

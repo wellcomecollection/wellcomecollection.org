@@ -39,6 +39,33 @@ const validCompositeTypographyClasses: Set<string> = (() => {
 type FontFamily = 'sans' | 'sans-bold' | 'brand' | 'brand-bold' | 'mono';
 type FontSize = -2 | -1 | 0 | 1 | 2 | 4 | 5;
 
+// Parallel composite type class for each font(family, size) combination.
+// Entries are omitted where no direct equivalent exists in the new type scale
+// (font('sans', 2) and font('mono', -1)).
+// Ambiguous cases (body vs label, body vs heading) default to body.
+const fontCompositeMap: Partial<Record<string, string>> = {
+  'sans:-2': 'type-body-sm-regular',
+  'sans:-1': 'type-body-md-regular',
+  'sans:0': 'type-body-lg-regular',
+  'sans:1': 'type-body-xl-regular',
+  'sans:2': 'type-body-xl-regular', // font('sans', 2) didn't have an exact match. This is the closest available
+  'sans-bold:-2': 'type-body-sm-strong',
+  'sans-bold:-1': 'type-body-md-strong',
+  'sans-bold:0': 'type-body-lg-strong',
+  'sans-bold:1': 'type-body-xl-strong',
+  'sans-bold:2': 'type-heading-xl-strong-sans',
+  'brand:0': 'type-heading-md-regular-brand',
+  'brand:1': 'type-heading-lg-regular-brand',
+  'brand-bold:-2': 'type-heading-xs-strong-brand',
+  'brand-bold:-1': 'type-heading-sm-strong-brand',
+  'brand-bold:0': 'type-heading-md-strong-brand',
+  'brand-bold:1': 'type-heading-lg-strong-brand',
+  'brand-bold:2': 'type-heading-xl-strong-brand',
+  'brand-bold:4': 'type-heading-xxl-strong-brand',
+  'brand-bold:5': 'type-display-md-strong',
+  'mono:-2': 'type-caption-md-regular',
+};
+
 export function fontFamily(family: FontFamily): string {
   return `font-${family}`;
 }
@@ -47,11 +74,13 @@ export function fontSize(size: FontSize): string {
   return `font-size-f${size}`;
 }
 
-/**
- * @deprecated Prefer compositeTypography()
- */
+// Interim measure to allow this function to output _both_ of the possible
+// typography class names. After we've QA-ed behind a toggle, I think we can
+// replace calls to `font` with equivalent calls to `compositeTypography`
 export function font(family: FontFamily, size: FontSize): string {
-  return `${fontFamily(family)} ${fontSize(size)}`;
+  const base = `${fontFamily(family)} ${fontSize(size)}`;
+  const composite = fontCompositeMap[`${family}:${size}`];
+  return composite ? `${base} ${composite}` : base;
 }
 
 export function compositeTypography(
