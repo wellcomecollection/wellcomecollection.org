@@ -49,13 +49,27 @@ const InactivityRedirectModal: FunctionComponent<Props> = ({
   onReset,
 }) => {
   return (
-    <RedirectModalContent>
-      <RedirectModalTitle>Need more time?</RedirectModalTitle>
-      <p>
+    <RedirectModalContent
+      role="alertdialog"
+      aria-labelledby="inactivity-modal-title"
+      aria-describedby="inactivity-modal-desc"
+    >
+      {/* Receives initial focus so screen readers announce the dialog context before the buttons */}
+      <span className="visually-hidden" tabIndex={0} />
+      <RedirectModalTitle id="inactivity-modal-title">
+        Need more time?
+      </RedirectModalTitle>
+      <p id="inactivity-modal-desc">
         This screen will reset in {warningCountdown} seconds for the next
-        visitor.
+        visitor<span className="visually-hidden"> due to inactivity</span>.{' '}
+        <span className="visually-hidden">
+          Select 'Keep browsing' to continue, or 'Reset now' to reset
+          immediately.
+        </span>
       </p>
-      <CountdownText data-chromatic="ignore">{countdown}</CountdownText>
+      <CountdownText data-chromatic="ignore" aria-hidden="true">
+        {countdown}
+      </CountdownText>
       <ButtonRow>
         <Button
           variant="ButtonSolid"
