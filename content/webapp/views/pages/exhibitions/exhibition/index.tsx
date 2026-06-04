@@ -133,8 +133,6 @@ const ExhibitionPage: NextPage<Props> = ({
 
       {exhibitionAndCollection && (
         <ExhibitionCollectionsContent
-          isTendernessAndRageExhibition={isTendernessAndRageExhibition}
-          aboutThisExhibitionContent={aboutThisExhibitionContent}
           onwardJourneys={exhibition.untransformedOnwardJourneys}
         />
       )}

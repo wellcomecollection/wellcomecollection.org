@@ -53,6 +53,7 @@ const fetchLinks = [
   ...placesFetchLinks,
   ...eventSeriesFetchLinks,
   ...articlesFetchLinks,
+  ...seriesFetchLinks,
   ...eventsFetchLinks,
   ...seasonsFetchLinks,
 ] as string[];

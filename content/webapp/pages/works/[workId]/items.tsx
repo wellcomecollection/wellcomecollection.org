@@ -189,7 +189,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
           toCompressedTransformedManifest(displayManifest),
         archiveTree,
         canvasOcr,
-        canvas,
         iiifImageLocation,
         iiifPresentationLocation,
         apiToolbarLinks,
@@ -227,7 +226,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       props: serialiseProps<Props>({
         compressedTransformedManifest: undefined,
         work: toWorkBasic(work),
-        canvas,
         iiifImageLocation,
         iiifPresentationLocation,
         apiToolbarLinks,
