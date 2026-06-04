@@ -7,13 +7,16 @@ function copy(obj: unknown) {
 }
 
 test('x-toggled header gets added, and sends the cookie to the client', () => {
+  // Match the exact toggle_outro cookie key only; avoid substring matches like toggle_noutro.
+  const outroCookiePattern = /(^|;\s*)toggle_outro=(true|false)(;|$)/;
+
   abTesting.setTests([
     {
       id: 'outro',
       title: 'Outro',
       range: [0, 100],
       when: request => {
-        return !!request.uri.match(/^\/articles\/*/);
+        return !!request.uri.match(/^\/stories\/*/);
       },
     },
     {
@@ -32,12 +35,8 @@ test('x-toggled header gets added, and sends the cookie to the client', () => {
   const modifiedRequest = testEventRequest.Records[0].cf.request;
 
   // 1. set the new value on the cookie forwarded to the application
-  expect(oldRequest.headers.cookie[0].value).not.toMatch(
-    /toggle_outro=(true|false)/
-  );
-  expect(modifiedRequest.headers.cookie[0].value).toMatch(
-    /toggle_outro=(true|false)/
-  );
+  expect(oldRequest.headers.cookie[0].value).not.toMatch(outroCookiePattern);
+  expect(modifiedRequest.headers.cookie[0].value).toMatch(outroCookiePattern);
 
   // expect toggle_wontwork not to exist before or after modification
   expect(oldRequest.headers.cookie[0].value).not.toMatch(
@@ -50,7 +49,7 @@ test('x-toggled header gets added, and sends the cookie to the client', () => {
   // 2. set the x-toggled that will be forwarded to the response
   expect(oldRequest.headers['x-toggled']).toBeUndefined();
   expect(modifiedRequest.headers['x-toggled'][0].value).toMatch(
-    /toggle_outro=(true|false)/
+    outroCookiePattern
   );
 
   abTesting.response(testEventResponse);
@@ -58,7 +57,7 @@ test('x-toggled header gets added, and sends the cookie to the client', () => {
 
   // 3. set cookie is set from x-toggled to lock the person in for the session
   expect(modifiedResponse.headers['set-cookie'][0].value).toMatch(
-    /toggle_outro=(true|false); Path=\/;/
+    /(^|;\s*)toggle_outro=(true|false); Path=\/;$/
   );
 });
 
