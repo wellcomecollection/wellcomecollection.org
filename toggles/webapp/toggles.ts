@@ -104,14 +104,6 @@ const toggleConfig = {
       type: 'permanent',
     },
     {
-      id: 'extendedViewer',
-      title: 'Allow viewer to render video, audio and pdfs',
-      initialValue: false,
-      description:
-        'Displays a new version of the viewer that can render video, audio and pdfs in addition to images',
-      type: 'experimental',
-    },
-    {
       id: 'thematicBrowsing',
       title: 'Thematic browsing: category pages',
       initialValue: false,
@@ -162,6 +154,14 @@ const toggleConfig = {
       initialValue: false,
       description:
         'Enables gallery-specific features such as removing external links and showing an inactivity redirect after a period of inactivity',
+      type: 'experimental',
+    },
+    {
+      id: 'compositeTypography',
+      title: 'Composite typography',
+      initialValue: false,
+      description:
+        'Uses the composite typography classes (.type-{x}) instead of the font classes (.font-{x}).',
       type: 'experimental',
     },
   ] as const,

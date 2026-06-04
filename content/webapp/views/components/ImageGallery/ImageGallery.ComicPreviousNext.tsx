@@ -110,7 +110,7 @@ const ComicPreviousNext: FunctionComponent<Props> = ({ previous, next }) => {
   return (
     <Root data-component="comic-previous-next">
       {previous && (
-        <Link href={`/articles/${previous.id}`} $isNext={false}>
+        <Link href={`/stories/${previous.uid}`} $isNext={false}>
           <Inner $isNext={false}>
             <TextWrap $isNext={false}>
               <InSeries>Previous in this series</InSeries>
@@ -123,7 +123,7 @@ const ComicPreviousNext: FunctionComponent<Props> = ({ previous, next }) => {
         </Link>
       )}
       {next && (
-        <Link href={`/articles/${next.id}`} $isNext={true}>
+        <Link href={`/stories/${next.uid}`} $isNext={true}>
           <Inner $isNext={true}>
             <TextWrap $isNext={true}>
               <InSeries>Next in this series</InSeries>

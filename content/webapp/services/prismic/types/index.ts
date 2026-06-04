@@ -328,6 +328,8 @@ export const audienceFetchLinks: FetchLinks<RawAudiencesDocument> = [
 
 export const articlesFetchLinks: FetchLinks<RawArticlesDocument> = [
   'articles.title',
+  'articles.promo',
+  'articles.series',
 ];
 
 const contributionRoleFetchLinks: FetchLinks<RawEditorialContributorRolesDocument> =

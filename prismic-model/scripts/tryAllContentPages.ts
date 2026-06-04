@@ -50,7 +50,7 @@ const nonVisibleTypes = new Set([
 function createUrl(prefix: string, { id, type }: PrismicDocument): string {
   switch (type) {
     case 'webcomics':
-      return `${prefix}/articles/${id}`;
+      return `${prefix}/stories/${id}`;
 
     case 'webcomic-series':
       return `${prefix}/series/${id}`;

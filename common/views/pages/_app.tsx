@@ -164,7 +164,11 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
             <AppContextProvider>
               <SearchContextProvider>
                 <KioskProvider isActive={isKiosk}>
-                  <GlobalStyle />
+                  <GlobalStyle
+                    $compositeTypography={
+                      !!serverData.toggles.featureFlags.compositeTypography
+                    }
+                  />
 
                   <GlobalSvgDefinitions />
                   <LoadingIndicator />

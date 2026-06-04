@@ -397,6 +397,7 @@ export const themeValues = {
   },
   spacedTextTopMargin: '1.55em',
   clampLines,
+  typography: designSystemTheme.typography,
 };
 
 export type Breakpoint = keyof typeof sizes;

@@ -198,7 +198,7 @@ function detectBrokenInterpretationTypeLinks(doc: any): string[] {
 }
 
 // Contributor links that don't begin with http or https will be treated as
-// relative URLs on the front-end, e.g. www.example.com becomes wc.org/articles/www.example.com.
+// relative URLs on the front-end, e.g. www.example.com becomes wc.org/stories/www.example.com.
 //
 // This obviously isn't what we want; this will find any cases where the link
 // doesn't have an http[s] prefix.
