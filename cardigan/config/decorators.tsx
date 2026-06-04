@@ -10,7 +10,7 @@ export const ContextDecorator: FunctionComponent<PropsWithChildren> = ({
 }) => {
   return (
     <ThemeProvider theme={theme}>
-      <GlobalStyle />
+      <GlobalStyle $compositeTypography={false} />
       <AppContextProvider>
         <div className="enhanced">{children}</div>
       </AppContextProvider>
