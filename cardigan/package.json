@@ -10,20 +10,20 @@
   },
   "dependencies": {
     "@faker-js/faker": "^10.1.0",
-    "@storybook/addon-a11y": "10.3.4",
-    "@storybook/addon-docs": "10.3.4",
-    "@storybook/cli": "10.3.4",
-    "chromatic": "^16.10.0",
+    "@storybook/addon-a11y": "10.4.2",
+    "@storybook/addon-docs": "10.4.2",
+    "@storybook/cli": "10.4.2",
+    "chromatic": "^17.2.0",
     "next": "15.5.18",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "typescript": "^5.9.3",
-    "webpack": "^5.105.4"
+    "webpack": "^5.107.2"
   },
   "devDependencies": {
-    "@storybook/nextjs-vite": "10.3.4",
-    "eslint-plugin-storybook": "10.3.4",
-    "storybook": "10.3.4",
+    "@storybook/nextjs-vite": "10.4.2",
+    "eslint-plugin-storybook": "10.4.2",
+    "storybook": "10.4.2",
     "util": "^0.12.5",
     "vite": "^7.3.2"
   }
