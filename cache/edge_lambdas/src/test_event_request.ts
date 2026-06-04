@@ -11,7 +11,7 @@ const request: CloudFrontRequestEvent = {
           eventType: 'origin-request',
         },
         request: {
-          uri: '/articles/things',
+          uri: '/stories/things',
           querystring: '',
           method: 'GET',
           clientIp: '2001:cdba::3257:9652',
