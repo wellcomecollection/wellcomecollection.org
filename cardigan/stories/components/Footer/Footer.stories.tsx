@@ -10,11 +10,11 @@ const meta: Meta<typeof Footer> = {
   component: Footer,
   args: {
     venues,
-    simpleFooter: false,
+    isSimpleFooter: false,
   },
   argTypes: {
     venues: { table: { disable: true } },
-    simpleFooter: {
+    isSimpleFooter: {
       control: { type: 'boolean' },
       description: 'Show the simplified footer variant',
     },

@@ -182,6 +182,7 @@ const BackToTopButton = styled.button.attrs({
 `;
 
 // Component
+
 const Footer: FunctionComponent<Props> = ({
   venues,
   isSimpleFooter = false,

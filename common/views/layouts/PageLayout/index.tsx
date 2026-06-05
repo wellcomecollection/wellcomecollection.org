@@ -331,7 +331,7 @@ const PageLayoutComponent: NextPage<Props> = ({
         We only completely remove the footer if you've got JS.
         In kiosk mode, we render a simplified footer without navigation links, but this is ok since we also remove the page header so there is no navigation at all */}
         {(!hideFooter || !isEnhanced) && (
-          <Footer venues={venues} simpleFooter={isKiosk} />
+          <Footer venues={venues} isSimpleFooter={isKiosk} />
         )}
       </div>
     </>
