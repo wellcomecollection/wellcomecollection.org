@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import Divider from '@weco/common/views/components/Divider';
@@ -62,7 +61,6 @@ export const WorkPage: NextPage<Props> = ({
   apiUrl,
   transformedManifest,
 }) => {
-  const { extendedViewer } = useFeatureFlags();
   const isKiosk = useKiosk();
   const { userIsStaffWithRestricted } = useUserContext();
   const isArchive = !!(
@@ -93,9 +91,7 @@ export const WorkPage: NextPage<Props> = ({
     hasIIIFManifest: !!transformedManifest,
     digitalLocation,
     accessCondition: digitalLocationInfo?.accessCondition,
-    canvases,
     itemsStatus,
-    extendedViewer,
   });
 
   const imageUrl =

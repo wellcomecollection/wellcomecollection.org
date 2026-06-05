@@ -17,6 +17,11 @@ export const BaseButtonInner = styled.span.attrs<{
   display: flex;
   align-items: center;
   height: 1em;
+
+  /* We need to do .{class}.{class} to override any line-height set by the font utility */
+  && {
+    line-height: 1;
+  }
 `;
 
 export const ButtonIconWrapper = styled(Space).attrs({

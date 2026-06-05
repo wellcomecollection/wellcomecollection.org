@@ -151,6 +151,9 @@
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
+            "cardListing": {
+              "type": "SharedSlice"
+            },
             "portraitVideoList": {
               "type": "SharedSlice"
             },
