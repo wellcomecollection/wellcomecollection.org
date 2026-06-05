@@ -60,10 +60,10 @@ const InactivityRedirectModal: FunctionComponent<Props> = ({
         Need more time?
       </RedirectModalTitle>
       <p id="inactivity-modal-desc">
-        This screen will reset in {warningCountdown} seconds for the next
-        visitor<span className="visually-hidden"> due to inactivity</span>.{' '}
+        Due to inactivity, this screen will reset to the homepage in less than{' '}
+        {warningCountdown} seconds.
         <span className="visually-hidden">
-          Select 'Keep browsing' to continue, or 'Reset now' to reset
+          Select 'Continue reading' to continue, or 'Reset now' to reset
           immediately.
         </span>
       </p>
@@ -73,7 +73,7 @@ const InactivityRedirectModal: FunctionComponent<Props> = ({
       <ButtonRow>
         <Button
           variant="ButtonSolid"
-          text="Keep browsing"
+          text="Continue reading"
           clickHandler={onKeepBrowsing}
           colors={themeValues.buttonColors.greenGreenWhite}
           dataGtmProps={{ trigger: 'reset-modal-keep-browsing-button' }}
