@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { Venue } from '@weco/common/model/opening-hours';
 import { font } from '@weco/common/utils/classnames';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import Divider from '@weco/common/views/components/Divider';
 import FindUs from '@weco/common/views/components/FindUs';
 import OpeningTimes from '@weco/common/views/components/OpeningTimes';
@@ -268,9 +269,16 @@ const Footer: FunctionComponent<Props> = ({
           <FooterLicense>
             Except where otherwise noted, content on this site is licensed under
             a{' '}
-            <a href="https://creativecommons.org/licenses/by/4.0/">
+            <ConditionalWrapper
+              condition={!isSimpleFooter}
+              wrapper={children => (
+                <a href="https://creativecommons.org/licenses/by/4.0/">
+                  {children}
+                </a>
+              )}
+            >
               Creative Commons Attribution 4.0 International Licence
-            </a>
+            </ConditionalWrapper>
           </FooterLicense>
 
           <BackToTopButton
