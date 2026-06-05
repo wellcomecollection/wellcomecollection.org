@@ -18,7 +18,7 @@ import FooterWellcomeLogo from './Footer.WellcomeLogo';
 
 type Props = {
   venues: Venue[];
-  simpleFooter?: boolean;
+  isSimpleFooter?: boolean;
 };
 
 // Styles
@@ -184,7 +184,7 @@ const BackToTopButton = styled.button.attrs({
 // Component
 const Footer: FunctionComponent<Props> = ({
   venues,
-  simpleFooter = false,
+  isSimpleFooter = false,
 }: Props) => {
   const footer = useRef<HTMLDivElement>(null);
 
@@ -193,7 +193,7 @@ const Footer: FunctionComponent<Props> = ({
   return (
     <Wrapper ref={footer} data-component="footer">
       <Container>
-        {simpleFooter ? (
+        {isSimpleFooter ? (
           <SimpleFooterLogoHeading>
             <FooterWellcomeLogo />
           </SimpleFooterLogoHeading>
@@ -202,7 +202,7 @@ const Footer: FunctionComponent<Props> = ({
             <FooterWellcomeLogo />
           </h3>
         )}
-        {!simpleFooter && (
+        {!isSimpleFooter && (
           <>
             <FooterNavigationContainer>
               <FindUsContainer>
@@ -248,7 +248,7 @@ const Footer: FunctionComponent<Props> = ({
         <FullWidthDivider>
           <Divider lineColor="neutral.700" />
         </FullWidthDivider>
-        {!simpleFooter && (
+        {!isSimpleFooter && (
           <>
             <PoliciesAndSocials>
               <PoliciesContainer>
