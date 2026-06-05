@@ -15,7 +15,12 @@ const LabelContainer = styled(Space).attrs({
   className: font('sans-bold', -2),
 })<LabelContainerProps>`
   white-space: nowrap;
-  line-height: 1;
+
+  /* We need to do .{class}.{class} to override any line-height set by the font utility */
+  && {
+    line-height: 1;
+  }
+
   color: ${props => props.theme.color(props.$fontColor)};
   background-color: ${props => props.theme.color(props.$labelColor)};
 

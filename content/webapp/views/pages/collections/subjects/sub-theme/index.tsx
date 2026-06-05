@@ -3,7 +3,11 @@ import { NextPage } from 'next';
 import { ReactElement } from 'react';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
-import { ThemeCardsListSlice as RawThemeCardsListSlice } from '@weco/common/prismicio-types';
+import {
+  PagesDocumentDataBodySlice,
+  CardListingSlice as RawCardListingSlice,
+  ThemeCardsListSlice as RawThemeCardsListSlice,
+} from '@weco/common/prismicio-types';
 import { ReturnedResults } from '@weco/common/utils/search';
 import {
   ApiToolbarLink,
@@ -31,7 +35,6 @@ import ThematicBrowsingLayout from '@weco/content/views/layouts/ThematicBrowsing
 import SubThemeImages from './sub-theme.Images';
 import SubThemeRelatedTopics from './sub-theme.RelatedTopics';
 import SectionContainer from './sub-theme.SectionContainer';
-import SubThemeStories from './sub-theme.Stories';
 import {
   DarkSectionWrapper,
   PageGrid,
@@ -62,7 +65,6 @@ export type Props = {
   curatedUid: string;
   categoryThemeCardsList?: RawThemeCardsListSlice;
   newOnlineWorks: WorkBasic[];
-  relatedStoriesId: string[];
   worksAndImagesAbout: WorksAndImagesResponse;
   relatedTopics: RelatedConcept[];
   jsonLd: JsonLdObj;
@@ -74,7 +76,6 @@ const WellcomeSubThemePage: NextPage<Props> & {
   thematicBrowsingPage,
   categoryThemeCardsList,
   newOnlineWorks,
-  relatedStoriesId,
   worksAndImagesAbout,
   relatedTopics,
 }) => {
@@ -82,8 +83,12 @@ const WellcomeSubThemePage: NextPage<Props> & {
     worksAndImagesAbout.images?.pageResults || []
   );
 
+  const cardListingSlices = thematicBrowsingPage.untransformedBody.filter(
+    (slice: PagesDocumentDataBodySlice): slice is RawCardListingSlice =>
+      slice.slice_type === 'cardListing'
+  );
   const hasNewOnlineWorks = newOnlineWorks.length > 0;
-  const hasRelatedStories = relatedStoriesId.length > 0;
+  const hasRelatedStories = cardListingSlices.some(slice => slice.items.length > 0);
   const hasWorksAbout =
     !!worksAndImagesAbout.works && worksAndImagesAbout.works.totalResults > 0;
   const hasImagesAbout = !!(
@@ -160,7 +165,15 @@ const WellcomeSubThemePage: NextPage<Props> & {
                 id="stories"
                 isFirst={!hasNewOnlineWorks}
               >
-                <SubThemeStories relatedStoriesId={relatedStoriesId} />
+                <SliceZone
+                  slices={cardListingSlices}
+                  components={components}
+                  context={{
+                    hasNoShim: true,
+                    hasContainer: true,
+                    itemsHaveTransparentBackground: true,
+                  }}
+                />
               </SectionContainer>
             )}
 

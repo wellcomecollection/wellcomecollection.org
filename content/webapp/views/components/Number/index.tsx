@@ -19,9 +19,10 @@ const Wrapper = styled(Space)<{ $backgroundColor?: PaletteColor }>`
   transform: rotateZ(-6deg);
   width: 24px;
   height: 24px;
-  display: inline-block;
+  display: inline-flex;
   border-radius: 3px;
-  text-align: center;
+  align-items: center;
+  justify-content: center;
 `;
 
 const NumberSpan = styled.span<{ $parentBackgroundColor?: PaletteColor }>`
@@ -32,7 +33,7 @@ const NumberSpan = styled.span<{ $parentBackgroundColor?: PaletteColor }>`
         ? 'black'
         : 'white'
     )};
-  transform: rotateZ(6deg) scale(1.2);
+  transform: rotateZ(6deg);
 `;
 
 const Number: FunctionComponent<Props> = ({

@@ -4,7 +4,6 @@ import {
 } from '@weco/common/data/hardcoded-ids';
 import {
   PagesDocumentDataBodySlice,
-  ContentListSlice as RawContentListSlice,
   PagesDocument as RawPagesDocument,
   ThemeCardsListSlice as RawThemeCardsListSlice,
 } from '@weco/common/prismicio-types';
@@ -22,7 +21,6 @@ import {
 } from '@weco/common/views/pages/_app';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchPage } from '@weco/content/services/prismic/fetch/pages';
-import { transformContentListSlice } from '@weco/content/services/prismic/transformers/body';
 import { genericPageLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
 import { getConcepts } from '@weco/content/services/wellcome/catalogue/concepts';
@@ -137,23 +135,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       (slice: PagesDocumentDataBodySlice) =>
         slice.slice_type === 'themeCardsList'
     ) as RawThemeCardsListSlice | undefined;
-    /** */
-
-    /**
-     * Related stories
-     */
-    const contentListSlice = wellcomeSubThemePage.untransformedBody.find(
-      (slice: PagesDocumentDataBodySlice) => slice.slice_type === 'contentList'
-    ) as RawContentListSlice | undefined;
-
-    const contentListItems = contentListSlice
-      ? transformContentListSlice(contentListSlice)?.value.items
-      : [];
-
-    const relatedStoriesId = contentListItems
-      .filter(content => content.type === 'articles')
-      .map(story => story.id)
-      .filter(isNotUndefined);
     /** */
 
     /** Archives
@@ -344,7 +325,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         categoryThemeCardsList: themeCardsListSlice,
         curatedUid: pageUid,
         newOnlineWorks: newOnlineWorks.map(toWorkBasic),
-        relatedStoriesId,
         worksAndImagesAbout,
         relatedTopics,
         jsonLd: genericPageLd({
