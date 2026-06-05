@@ -84,8 +84,6 @@ const KioskStoriesListingPage = ({ page, hardCodedSeries }: Props) => {
       apiToolbarLinks={[createPrismicLink(page.id)]}
       clipOverflowX
       hideNewsletterPromo
-      hideFooter
-      hideHeader
       isNoIndex
     >
       <PageHeader variant="landing" title={page.title} introText={introText} />
