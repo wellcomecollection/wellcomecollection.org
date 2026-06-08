@@ -8,7 +8,6 @@ import { transformCollectionVenues } from '@weco/common/services/prismic/transfo
 import Footer from '@weco/common/views/components/Footer';
 import Header from '@weco/common/views/components/Header';
 import { Favicons } from '@weco/common/views/layouts/PageLayout';
-import { GlobalStyle } from '@weco/common/views/themes/default';
 
 const Main = styled.div`
   ${props =>
@@ -34,7 +33,6 @@ const IdentityPageLayout: FunctionComponent<
       </Head>
       <Favicons />
 
-      <GlobalStyle />
       <Header siteSection="collections" />
       <Main>{children}</Main>
       {isEnhanced && <Footer venues={venues} />}
