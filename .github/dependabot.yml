@@ -22,6 +22,7 @@ updates:
       - dependency-name: '@auth0/nextjs-auth0'
       - dependency-name: 'react-window'
       - dependency-name: 'undici'
+      - dependency-name: 'preactjs/compressed-size-action'
     groups:
       all:
         patterns: ['*']
