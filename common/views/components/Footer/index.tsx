@@ -204,67 +204,63 @@ const Footer: FunctionComponent<Props> = ({
           </h3>
         )}
         {!isSimpleFooter && (
-          <>
-            <FooterNavigationContainer>
-              <FindUsContainer>
-                <FindUs hideAccessibility={true} />
-              </FindUsContainer>
+          <FooterNavigationContainer>
+            <FindUsContainer>
+              <FindUs hideAccessibility={true} />
+            </FindUsContainer>
 
-              <OpeningTimesContainer>
-                {/* Error pages do not receive serverData so should only display
+            <OpeningTimesContainer>
+              {/* Error pages do not receive serverData so should only display
             openingtimes link */}
-                {hasVenuesInfo && (
-                  <>
-                    <h4 className={font('sans-bold', -1)}>
-                      Today&rsquo;s opening times
-                    </h4>
-                    <OpeningTimes venues={venues} />
-                  </>
-                )}
-                <Space
-                  as="p"
-                  $v={{
-                    size: 'sm',
-                    properties: hasVenuesInfo ? ['margin-top'] : [],
-                  }}
-                  style={{ marginBottom: 0 }}
-                >
-                  <a href={`/visit-us/${prismicPageIds.openingTimes}`}>
-                    Opening times
-                  </a>
-                </Space>
-              </OpeningTimesContainer>
+              {hasVenuesInfo && (
+                <>
+                  <h4 className={font('sans-bold', -1)}>
+                    Today&rsquo;s opening times
+                  </h4>
+                  <OpeningTimes venues={venues} />
+                </>
+              )}
+              <Space
+                as="p"
+                $v={{
+                  size: 'sm',
+                  properties: hasVenuesInfo ? ['margin-top'] : [],
+                }}
+                style={{ marginBottom: 0 }}
+              >
+                <a href={`/visit-us/${prismicPageIds.openingTimes}`}>
+                  Opening times
+                </a>
+              </Space>
+            </OpeningTimesContainer>
 
-              <FooterA11y />
+            <FooterA11y />
 
-              <InternalNavigationContainer>
-                <FooterNav
-                  type="InternalNavigation"
-                  ariaLabel="Useful internal links"
-                />
-              </InternalNavigationContainer>
-            </FooterNavigationContainer>
-          </>
+            <InternalNavigationContainer>
+              <FooterNav
+                type="InternalNavigation"
+                ariaLabel="Useful internal links"
+              />
+            </InternalNavigationContainer>
+          </FooterNavigationContainer>
         )}
         <FullWidthDivider>
           <Divider lineColor="neutral.700" />
         </FullWidthDivider>
         {!isSimpleFooter && (
-          <>
-            <PoliciesAndSocials>
-              <PoliciesContainer>
-                <FooterNav
-                  isInline
-                  type="PoliciesNavigation"
-                  ariaLabel="Policies navigation"
-                />
-              </PoliciesContainer>
+          <PoliciesAndSocials>
+            <PoliciesContainer>
+              <FooterNav
+                isInline
+                type="PoliciesNavigation"
+                ariaLabel="Policies navigation"
+              />
+            </PoliciesContainer>
 
-              <SocialsContainer>
-                <FooterSocial />
-              </SocialsContainer>
-            </PoliciesAndSocials>
-          </>
+            <SocialsContainer>
+              <FooterSocial />
+            </SocialsContainer>
+          </PoliciesAndSocials>
         )}
         <FooterBottom>
           <FooterLicense>
