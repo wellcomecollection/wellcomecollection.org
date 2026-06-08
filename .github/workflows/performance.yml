@@ -30,10 +30,17 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 24
+          cache: yarn
+
+      - run: corepack enable
+
+      - run: yarn install --frozen-lockfile
+
       - uses: preactjs/compressed-size-action@v3
         with:
-          build-script: "build-webapps"
-          clean-script: "clean"
-          pattern: "**/webapp/{.next/static/chunks,lib/frontend/build}/**/*.js"
+          # Run via yarn so package.json scripts work
+          build-script: 'yarn build-webapps'
+          clean-script: 'yarn clean'
+          pattern: '**/webapp/{.next/static/chunks,lib/frontend/build}/**/*.js'
           strip-hash: "\\b[-\\.](\\w{20})\\.js$"
           minimum-change-threshold: 512 # Only report changes for > 0.5kb
