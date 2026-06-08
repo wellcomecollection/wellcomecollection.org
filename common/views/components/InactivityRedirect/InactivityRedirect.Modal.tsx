@@ -49,17 +49,31 @@ const InactivityRedirectModal: FunctionComponent<Props> = ({
   onReset,
 }) => {
   return (
-    <RedirectModalContent>
-      <RedirectModalTitle>Need more time?</RedirectModalTitle>
-      <p>
-        This screen will reset in {warningCountdown} seconds for the next
-        visitor.
+    <RedirectModalContent
+      role="alertdialog"
+      aria-modal="true"
+      aria-labelledby="inactivity-modal-title"
+      aria-describedby="inactivity-modal-desc"
+    >
+      {/* Receives initial focus so screen readers announce the dialog context before the buttons */}
+      <RedirectModalTitle id="inactivity-modal-title" tabIndex={0}>
+        Need more time?
+      </RedirectModalTitle>
+      <p id="inactivity-modal-desc">
+        Due to inactivity, this screen will reset to the homepage in less than{' '}
+        {warningCountdown} seconds.
+        <span className="visually-hidden">
+          Select 'Continue reading' to continue, or 'Reset now' to reset
+          immediately.
+        </span>
       </p>
-      <CountdownText data-chromatic="ignore">{countdown}</CountdownText>
+      <CountdownText data-chromatic="ignore" aria-hidden="true">
+        {countdown}
+      </CountdownText>
       <ButtonRow>
         <Button
           variant="ButtonSolid"
-          text="Keep browsing"
+          text="Continue reading"
           clickHandler={onKeepBrowsing}
           colors={themeValues.buttonColors.greenGreenWhite}
           dataGtmProps={{ trigger: 'reset-modal-keep-browsing-button' }}
