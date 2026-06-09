@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
 import MoreLink from '@weco/content/views/components/MoreLink';
 
 const StarPlusStar = styled.div`
@@ -8,51 +7,6 @@ const StarPlusStar = styled.div`
     margin-top: 1.55em;
   }
 `;
-const Font = styled.div`
-  padding: 10px 0 25px;
-  border-bottom: 1px solid ${props => props.theme.color('neutral.500')};
-`;
-
-const FontName = styled.h2.attrs({
-  className: font('sans-bold', -2),
-})`
-  color: ${props => props.theme.color('accent.purple')};
-`;
-
-const sizes = [-2, -1, 0, 1, 2, 4, 5];
-const fontFamilies = ['sans', 'sans-bold', 'brand', 'brand-bold', 'mono'];
-
-const Typography = ({ text }) => {
-  return (
-    <div>
-      {fontFamilies.map(font => (
-        <div key={font}>
-          {sizes.map(size => (
-            <Font key={size}>
-              <FontName>
-                <code>
-                  font-{font} font-size-f{size}
-                </code>
-              </FontName>
-              <p
-                className={`font-size-f${size} font-${font}`}
-                style={{ marginBottom: 0 }}
-              >
-                {text}
-              </p>
-            </Font>
-          ))}
-        </div>
-      ))}
-    </div>
-  );
-};
-
-const Template = args => <Typography {...args} />;
-export const families = Template.bind({});
-families.args = {
-  text: 'The quick brown fox jumped over the lazy dog',
-};
 
 const MiscTemplate = () => (
   <>
