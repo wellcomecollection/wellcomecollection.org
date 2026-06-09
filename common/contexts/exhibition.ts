@@ -1,4 +1,4 @@
-export type GalleryExhibitionData = {
+export type ExhibitionKioskData = {
   title: string;
   url: string;
   includedWorks: string[];
@@ -6,7 +6,7 @@ export type GalleryExhibitionData = {
   stories: string[];
 };
 
-export const defaultExhibitionExtras: Record<string, GalleryExhibitionData> = {
+export const exhibitionKioskContent: Record<string, ExhibitionKioskData> = {
   'tenderness-and-rage': {
     title: 'Tenderness and Rage',
     url: '/exhibitions/tenderness-and-rage',
