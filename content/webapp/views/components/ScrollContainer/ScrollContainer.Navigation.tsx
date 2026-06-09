@@ -23,6 +23,7 @@ const ScrollButtonsContainer = styled(Space)<{
 const ScrollButton = styled('button').attrs({
   className: font('sans', -2),
 })`
+  line-height: 1;
   color: var(--button-color);
   display: flex;
   flex-direction: column;
