@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { Venue } from '@weco/common/model/opening-hours';
 import { font } from '@weco/common/utils/classnames';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import Divider from '@weco/common/views/components/Divider';
 import FindUs from '@weco/common/views/components/FindUs';
 import OpeningTimes from '@weco/common/views/components/OpeningTimes';
@@ -17,6 +18,7 @@ import FooterWellcomeLogo from './Footer.WellcomeLogo';
 
 type Props = {
   venues: Venue[];
+  isSimpleFooter?: boolean;
 };
 
 // Styles
@@ -33,6 +35,11 @@ const Wrapper = styled(Space).attrs({
 /** ************************ */
 // START OF FOOTER BODY STYLES
 /** ************************ */
+
+const SimpleFooterLogoHeading = styled(Space).attrs({
+  as: 'h3',
+  $v: { size: 'lg', properties: ['margin-bottom'] },
+})``;
 
 const FooterNavigationContainer = styled(Space).attrs({
   $v: { size: 'md', properties: ['margin-bottom'] },
@@ -175,7 +182,11 @@ const BackToTopButton = styled.button.attrs({
 `;
 
 // Component
-const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
+
+const Footer: FunctionComponent<Props> = ({
+  venues,
+  isSimpleFooter = false,
+}: Props) => {
   const footer = useRef<HTMLDivElement>(null);
 
   const hasVenuesInfo = Array.isArray(venues) && venues.length > 0;
@@ -183,75 +194,88 @@ const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
   return (
     <Wrapper ref={footer} data-component="footer">
       <Container>
-        <h3>
-          <FooterWellcomeLogo />
-        </h3>
+        {isSimpleFooter ? (
+          <SimpleFooterLogoHeading>
+            <FooterWellcomeLogo />
+          </SimpleFooterLogoHeading>
+        ) : (
+          <h3>
+            <FooterWellcomeLogo />
+          </h3>
+        )}
+        {!isSimpleFooter && (
+          <FooterNavigationContainer>
+            <FindUsContainer>
+              <FindUs hideAccessibility={true} />
+            </FindUsContainer>
 
-        <FooterNavigationContainer>
-          <FindUsContainer>
-            <FindUs hideAccessibility={true} />
-          </FindUsContainer>
-
-          <OpeningTimesContainer>
-            {/* Error pages do not receive serverData so should only display
+            <OpeningTimesContainer>
+              {/* Error pages do not receive serverData so should only display
             openingtimes link */}
-            {hasVenuesInfo && (
-              <>
-                <h4 className={font('sans-bold', -1)}>
-                  Today&rsquo;s opening times
-                </h4>
-                <OpeningTimes venues={venues} />
-              </>
-            )}
-            <Space
-              as="p"
-              $v={{
-                size: 'sm',
-                properties: hasVenuesInfo ? ['margin-top'] : [],
-              }}
-              style={{ marginBottom: 0 }}
-            >
-              <a href={`/visit-us/${prismicPageIds.openingTimes}`}>
-                Opening times
-              </a>
-            </Space>
-          </OpeningTimesContainer>
+              {hasVenuesInfo && (
+                <>
+                  <h4 className={font('sans-bold', -1)}>
+                    Today&rsquo;s opening times
+                  </h4>
+                  <OpeningTimes venues={venues} />
+                </>
+              )}
+              <Space
+                as="p"
+                $v={{
+                  size: 'sm',
+                  properties: hasVenuesInfo ? ['margin-top'] : [],
+                }}
+                style={{ marginBottom: 0 }}
+              >
+                <a href={`/visit-us/${prismicPageIds.openingTimes}`}>
+                  Opening times
+                </a>
+              </Space>
+            </OpeningTimesContainer>
 
-          <FooterA11y />
+            <FooterA11y />
 
-          <InternalNavigationContainer>
-            <FooterNav
-              type="InternalNavigation"
-              ariaLabel="Useful internal links"
-            />
-          </InternalNavigationContainer>
-        </FooterNavigationContainer>
-
+            <InternalNavigationContainer>
+              <FooterNav
+                type="InternalNavigation"
+                ariaLabel="Useful internal links"
+              />
+            </InternalNavigationContainer>
+          </FooterNavigationContainer>
+        )}
         <FullWidthDivider>
           <Divider lineColor="neutral.700" />
         </FullWidthDivider>
+        {!isSimpleFooter && (
+          <PoliciesAndSocials>
+            <PoliciesContainer>
+              <FooterNav
+                isInline
+                type="PoliciesNavigation"
+                ariaLabel="Policies navigation"
+              />
+            </PoliciesContainer>
 
-        <PoliciesAndSocials>
-          <PoliciesContainer>
-            <FooterNav
-              isInline
-              type="PoliciesNavigation"
-              ariaLabel="Policies navigation"
-            />
-          </PoliciesContainer>
-
-          <SocialsContainer>
-            <FooterSocial />
-          </SocialsContainer>
-        </PoliciesAndSocials>
-
+            <SocialsContainer>
+              <FooterSocial />
+            </SocialsContainer>
+          </PoliciesAndSocials>
+        )}
         <FooterBottom>
           <FooterLicense>
             Except where otherwise noted, content on this site is licensed under
             a{' '}
-            <a href="https://creativecommons.org/licenses/by/4.0/">
+            <ConditionalWrapper
+              condition={!isSimpleFooter}
+              wrapper={children => (
+                <a href="https://creativecommons.org/licenses/by/4.0/">
+                  {children}
+                </a>
+              )}
+            >
               Creative Commons Attribution 4.0 International Licence
-            </a>
+            </ConditionalWrapper>
           </FooterLicense>
 
           <BackToTopButton

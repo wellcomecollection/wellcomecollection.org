@@ -29,7 +29,7 @@ const Control = styled.button.attrs({
   color: inherit;
   display: flex;
   align-items: center;
-
+  line-height: 1;
   cursor: pointer;
   padding: 0;
 `;
