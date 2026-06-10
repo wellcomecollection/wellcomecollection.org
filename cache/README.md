@@ -6,6 +6,7 @@ We use CloudFront for the cache of wellcomecollection.org.
   - [Redirector](#redirector)
   - [Toggler (A/B testing)](#toggler-ab-testing)
 - [Google Bot IP Updater](#google-bot-ip-updater)
+- [GitHub Actions IP Updater](#github-actions-ip-updater)
 
 ## lambda@edge functions
 
@@ -152,3 +153,43 @@ node --test update_google_bot_ips.test.js
 ```
 
 If the Lambda fails with "IP count change exceeds maximum", check Google's source URLs manually - it may be a legitimate change or an API issue.
+
+## GitHub Actions IP Updater
+
+Automated Lambda function that keeps the WAF IP allowlist for GitHub Actions runners up to date, so they are not blocked by WAF rate-limiting.
+
+**What it does:**
+- Fetches latest GitHub Actions IP ranges from the [GitHub /meta endpoint](https://api.github.com/meta)
+- Updates the `github-actions` WAF IP set daily at 3 AM UTC
+- Has a change gate (default 10%) to prevent unexpected large updates
+- Sends alerts on failures via SNS
+
+**Manual invocation:**
+```bash
+aws lambda invoke \
+  --function-name github-actions-ip-updater \
+  --region us-east-1 \
+  --payload '{}' \
+  /tmp/response.json \
+  --log-type Tail \
+  --query 'LogResult' \
+  --output text | base64 -d
+```
+
+**Logs:** `/aws/lambda/github-actions-ip-updater`
+
+**Files:**
+- [`ip-updaters/github-actions.js`](./ip-updaters/github-actions.js) - Lambda function
+- [`ip-updaters/helpers.js`](./ip-updaters/helpers.js) - Shared helpers (validation, IP extraction, logging)
+- [`ip-updaters/helpers.test.js`](./ip-updaters/helpers.test.js) - Tests
+- [`ip_updater_github_actions.tf`](./ip_updater_github_actions.tf) - Infrastructure
+
+**If the Lambda fails with "IP content change exceeds maximum":**
+
+GitHub occasionally makes large changes to their runner IP ranges. If the change is legitimate (you can verify by checking [api.github.com/meta](https://api.github.com/meta) directly):
+
+1. Install the WAF client locally:`npm init -y && npm install @aws-sdk/client-wafv2`
+2. Update `MAX_CHANGE_PERCENT` in [`ip-updaters/helpers.js`](./ip-updaters/helpers.js) to a value that allows the update to proceed
+3. Fetch the `IP_SET_ID`: `AWS_PROFILE=experience-developer aws wafv2 list-ip-sets --scope CLOUDFRONT --region us-east-1 \
+  --query "IPSets[?Name=='github-actions'].Id" --output text`
+4. Run the handler locally: `AWS_PROFILE=experience-developer IP_SET_ID=<ip-set-id-from-step-3> node -e "require('./github-actions').handler().then(console.log)"`
