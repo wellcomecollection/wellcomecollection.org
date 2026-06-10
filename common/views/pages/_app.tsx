@@ -162,7 +162,10 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
           <UserContextProvider>
             <AppContextProvider>
               <SearchContextProvider>
-                <KioskProvider isActive={isKiosk}>
+                <KioskProvider
+                  isActive={isKiosk}
+                  readingRoomStories={serverData.prismic.readingRoomStories}
+                >
                   <GlobalStyle
                     $compositeTypography={
                       !!serverData.toggles.featureFlags.compositeTypography

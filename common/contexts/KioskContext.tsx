@@ -5,30 +5,38 @@ import {
   useContext,
 } from 'react';
 
-import { exhibitionKioskContent, ExhibitionKioskData } from './exhibition';
+import { ReadingRoomStories } from '@weco/common/server-data/prismic';
+
+import { kiosksContent as initialKiosksContent, KioskContent } from './kiosk';
 
 type KioskContextType = {
   isKiosk: boolean;
-  kioskData: Record<string, ExhibitionKioskData>;
+  kiosksContent: Record<string, KioskContent>;
 };
 
 const KioskContext = createContext<KioskContextType>({
   isKiosk: false,
-  kioskData: exhibitionKioskContent,
+  kiosksContent: initialKiosksContent,
 });
 
 type KioskProviderProps = PropsWithChildren<{
   isActive: boolean;
+  readingRoomStories: ReadingRoomStories;
 }>;
 
 export const KioskProvider: FunctionComponent<KioskProviderProps> = ({
   isActive,
+  readingRoomStories,
   children,
 }) => {
+  // Merge server-fetched data with hardcoded content
+  const kiosksContent = {
+    ...initialKiosksContent,
+    RR: readingRoomStories,
+  };
+
   return (
-    <KioskContext.Provider
-      value={{ isKiosk: isActive, kioskData: exhibitionKioskContent }}
-    >
+    <KioskContext.Provider value={{ isKiosk: isActive, kiosksContent }}>
       {children}
     </KioskContext.Provider>
   );
@@ -39,7 +47,7 @@ export const useKiosk = (): boolean => {
   return isKiosk;
 };
 
-export const useKioskData = (): Record<string, ExhibitionKioskData> => {
-  const { kioskData } = useContext(KioskContext);
-  return kioskData;
+export const useKiosksContent = (): Record<string, KioskContent> => {
+  const { kiosksContent } = useContext(KioskContext);
+  return kiosksContent;
 };
