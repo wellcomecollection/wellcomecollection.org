@@ -186,7 +186,7 @@ aws lambda invoke \
 
 **If the Lambda fails with "IP content change of … exceeds maximum allowed":**
 
-GitHub occasionally makes large changes to their runner IP ranges. If the change is legitimate (you can verify by checking [api.github.com/meta](https://api.github.com/meta) directly):
+GitHub occasionally makes large changes to their runner IP ranges. If the change is legitimate (you can verify by checking [api.github.com/meta](https://api.github.com/meta) directly). You can also go consult the Lambda's logs to make sure the changes make sense (we log % changed, but also how many were removed and added).
 
 1. Install the WAF client locally:`npm init -y && npm install @aws-sdk/client-wafv2`
 2. Update `MAX_CHANGE_PERCENT` in [`ip-updaters/helpers.js`](./ip-updaters/helpers.js) to a value that allows the update to proceed. This should be a temporary change and not be merged in `main`.
