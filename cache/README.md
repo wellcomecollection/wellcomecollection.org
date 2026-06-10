@@ -184,7 +184,7 @@ aws lambda invoke \
 - [`ip-updaters/helpers.test.js`](./ip-updaters/helpers.test.js) - Tests
 - [`ip_updater_github_actions.tf`](./ip_updater_github_actions.tf) - Infrastructure
 
-**If the Lambda fails with "IP content change exceeds maximum":**
+**If the Lambda fails with "IP content change of … exceeds maximum allowed":**
 
 GitHub occasionally makes large changes to their runner IP ranges. If the change is legitimate (you can verify by checking [api.github.com/meta](https://api.github.com/meta) directly):
 
