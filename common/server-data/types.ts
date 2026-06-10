@@ -1,5 +1,4 @@
 import {
-  PrismicData,
   defaultValue as prismicDefaultValue,
   SimplifiedPrismicData,
 } from '@weco/common/server-data/prismic';
@@ -12,7 +11,7 @@ import { FeatureFlags, Modes, Tests, Toggles } from '@weco/toggles';
  */
 export type ServerData = {
   toggles: Toggles;
-  prismic: PrismicData;
+  prismic: SimplifiedPrismicData;
   consentStatus: ConsentStatusProps;
 };
 
