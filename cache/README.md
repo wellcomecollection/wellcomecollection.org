@@ -189,7 +189,7 @@ aws lambda invoke \
 GitHub occasionally makes large changes to their runner IP ranges. If the change is legitimate (you can verify by checking [api.github.com/meta](https://api.github.com/meta) directly):
 
 1. Install the WAF client locally:`npm init -y && npm install @aws-sdk/client-wafv2`
-2. Update `MAX_CHANGE_PERCENT` in [`ip-updaters/helpers.js`](./ip-updaters/helpers.js) to a value that allows the update to proceed
+2. Update `MAX_CHANGE_PERCENT` in [`ip-updaters/helpers.js`](./ip-updaters/helpers.js) to a value that allows the update to proceed. This should be a temporary change and not be merged in `main`.
 3. Fetch the `IP_SET_ID`:
    ```bash
    AWS_PROFILE=experience-developer aws wafv2 list-ip-sets --scope CLOUDFRONT --region us-east-1 \
