@@ -82,7 +82,7 @@
 
 - label: 'diff prismic model'
   key: 'diff_prismic_model'
-  branches: 'main'
+  # branches: 'main'
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: 'arn:aws:iam::130871440101:role/experience-ci'
