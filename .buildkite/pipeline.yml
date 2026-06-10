@@ -95,7 +95,7 @@
         command: ['bash', '.buildkite/scripts/run_prismic_diff_if_needed.sh', 'run']
 
 - label: 'require acknowledgement if prismic diff failed'
-  branches: 'main'
+  # branches: 'main'
   depends_on: 'diff_prismic_model'
   command: 'bash .buildkite/scripts/run_prismic_diff_if_needed.sh acknowledge'
   agents:
