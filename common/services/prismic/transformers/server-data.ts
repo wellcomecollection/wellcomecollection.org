@@ -95,12 +95,19 @@ function simplifyReadingRoomStories(
   doc: RawPagesDocument | null
 ): ReadingRoomStories {
   if (!doc) {
-    return { stories: [] };
+    return {};
   }
 
-  const storyIds: string[] = [];
+  const groupedStories: ReadingRoomStories = {};
+  let cardListingIndex = 0;
   for (const slice of doc.data.body) {
     if (slice.slice_type === 'cardListing' && 'items' in slice) {
+      const title =
+        ('primary' in slice && slice.primary.title) ||
+        `list-${cardListingIndex}`;
+      cardListingIndex++;
+
+      const storyIds: string[] = [];
       for (const item of slice.items) {
         if ('content' in item && item.content && 'uid' in item.content) {
           const uid = item.content.uid;
@@ -109,8 +116,12 @@ function simplifyReadingRoomStories(
           }
         }
       }
+
+      if (storyIds.length > 0) {
+        groupedStories[title] = storyIds;
+      }
     }
   }
 
-  return { stories: storyIds };
+  return groupedStories;
 }

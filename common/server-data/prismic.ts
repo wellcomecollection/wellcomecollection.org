@@ -27,7 +27,7 @@ export type ResultsLite = {
 };
 
 export type ReadingRoomStories = {
-  stories: string[];
+  [title: string]: string[];
 };
 
 export const defaultValue: SimplifiedPrismicData = {
