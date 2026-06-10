@@ -92,7 +92,7 @@
         run: prismic_model
         env:
           - CI
-        command: ['bash', '.buildkite/scripts/run_prismic_diff_if_needed.sh', 'run']
+        command: ['bash', '../.buildkite/scripts/run_prismic_diff_if_needed.sh', 'run']
 
 - label: 'require acknowledgement if prismic diff failed'
   # branches: 'main'
