@@ -24,7 +24,11 @@ export type ResultsLite = {
   results: RawCollectionVenueDocumentLite[];
 };
 
-export const defaultValue = {
+export type ReadingRoomStories = {
+  stories: string[]; // Array of story UIDs, extracted from the 'reading-room-stories' page in Prismic
+};
+
+export const defaultValue: SimplifiedPrismicData = {
   globalAlert: {
     data: {
       isShown: 'hide' as const,
@@ -46,18 +50,23 @@ export const defaultValue = {
   collectionVenues: {
     results: [],
   },
+  readingRoomStories: {
+    stories: [] as string[],
+  },
 };
 
 export type PrismicData = {
   globalAlert: RawGlobalAlertDocument;
   popupDialog: RawPopupDialogDocument;
   collectionVenues: prismic.Query<RawCollectionVenueDocument>;
+  readingRoomStories: ReadingRoomStories;
 };
 
 export type SimplifiedPrismicData = {
   globalAlert: { data: InferDataInterface<RawGlobalAlertDocument> };
   popupDialog: { data: InferDataInterface<RawPopupDialogDocument> };
   collectionVenues: ResultsLite;
+  readingRoomStories: ReadingRoomStories;
 };
 
 export const handler: Handler<SimplifiedPrismicData, PrismicData> = {
@@ -80,13 +89,22 @@ async function fetchPrismicValues(): Promise<PrismicData> {
   });
   const globalAlertResultPromise = client.getSingle('global-alert');
   const popupDialogResultPromise = client.getSingle('popup-dialog');
+  const readingRoomStoriesPromise = client.getByUID(
+    'pages',
+    'reading-room-stories'
+  );
 
-  const [collectionVenuesResult, globalAlertResult, popupDialogResult] =
-    await Promise.allSettled([
-      collectionVenuesResultPromise,
-      globalAlertResultPromise,
-      popupDialogResultPromise,
-    ]);
+  const [
+    collectionVenuesResult,
+    globalAlertResult,
+    popupDialogResult,
+    readingRoomStoriesResult,
+  ] = await Promise.allSettled([
+    collectionVenuesResultPromise,
+    globalAlertResultPromise,
+    popupDialogResultPromise,
+    readingRoomStoriesPromise,
+  ]);
 
   // If we don't get a result from Prismic for collectionVenues, we want to
   // bail out immediately, rather than writing bad server data.
@@ -106,6 +124,26 @@ async function fetchPrismicValues(): Promise<PrismicData> {
   // https://github.com/wellcomecollection/wellcomecollection.org/issues/10157
   // for the rationale behind treating these two and collectionVenues
   // differently.
+
+  // Extract story UIDs from reading room stories page
+  let readingRoomStories: ReadingRoomStories = defaultValue.readingRoomStories;
+  if (readingRoomStoriesResult.status === 'fulfilled') {
+    const storyIds: string[] = [];
+    for (const slice of readingRoomStoriesResult.value.data.body) {
+      if (slice.slice_type === 'cardListing' && 'items' in slice) {
+        for (const item of slice.items) {
+          if ('content' in item && item.content && 'uid' in item.content) {
+            const uid = item.content.uid;
+            if (uid) {
+              storyIds.push(uid);
+            }
+          }
+        }
+      }
+    }
+    readingRoomStories = { stories: storyIds };
+  }
+
   return {
     globalAlert:
       globalAlertResult.status === 'fulfilled'
@@ -116,6 +154,7 @@ async function fetchPrismicValues(): Promise<PrismicData> {
         ? popupDialogResult.value
         : defaultValue.popupDialog,
     collectionVenues: collectionVenuesResult.value,
+    readingRoomStories,
   } as PrismicData;
 }
 
