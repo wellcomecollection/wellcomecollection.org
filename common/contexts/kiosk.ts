@@ -39,13 +39,4 @@ export const kiosksContent: Record<string, KioskContent> = {
       'there-at-the-end',
     ],
   },
-  // TODO these are temporary for dvelopment, we will get these from Prismic
-  RR: {
-    stories: [
-      'school-for-deaf-children',
-      'sign-language-stories',
-      'mis-representations-of-gout',
-      'the-blue-space-blueprint',
-    ],
-  },
 };
