@@ -1,15 +1,13 @@
-export type ExhibitionKioskData = {
-  title: string;
-  url: string;
-  includedWorks: string[];
-  relatedWorks: string[];
-  stories: string[];
+export type KioskContent = {
+  includedWorks?: string[];
+  relatedWorks?: string[];
+  featuredWorks?: string[];
+  stories?: string[];
 };
 
-export const exhibitionKioskContent: Record<string, ExhibitionKioskData> = {
-  'tenderness-and-rage': {
-    title: 'Tenderness and Rage',
-    url: '/exhibitions/tenderness-and-rage',
+export const kiosksContent: Record<string, KioskContent> = {
+  // Property name should match kioskMode value up to the hyphen, e.g. TR-iPad1 and TR-iPad2 both use TR content
+  TR: {
     includedWorks: [
       'eudv2vbg', // AZT on trial
       'zeu8jvyg', // Retrovir packaging (NO IMAGE)
@@ -39,6 +37,15 @@ export const exhibitionKioskContent: Record<string, ExhibitionKioskData> = {
       'guerrilla-public-health',
       'aids-posters',
       'there-at-the-end',
+    ],
+  },
+  // TODO these are temporary for dvelopment, we will get these from Prismic
+  RR: {
+    stories: [
+      'school-for-deaf-children',
+      'sign-language-stories',
+      'mis-representations-of-gout',
+      'the-blue-space-blueprint',
     ],
   },
 };
