@@ -166,7 +166,7 @@ Automated Lambda function that keeps the WAF IP allowlist for GitHub Actions run
 
 **Manual invocation:**
 ```bash
-aws lambda invoke \
+AWS_PROFILE=experience-developer aws lambda invoke \
   --function-name github-actions-ip-updater \
   --region us-east-1 \
   --cli-binary-format raw-in-base64-out \
@@ -196,3 +196,4 @@ GitHub occasionally makes large changes to their runner IP ranges. If the change
      --query "IPSets[?Name=='github-actions'].Id" --output text
    ```
 4. Run the handler locally: `AWS_PROFILE=experience-developer IP_SET_ID=<ip-set-id-from-step-3> node -e "require('./ip-updaters/github-actions').handler().then(console.log)"`
+5. Manually invoke the Lambda (per instructions above). Output should contain `✓ No changes detected. IP set is already up to date.`
