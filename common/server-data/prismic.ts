@@ -4,9 +4,11 @@ import { collectionVenueId } from '@weco/common/data/hardcoded-ids';
 import {
   CollectionVenueDocument as RawCollectionVenueDocument,
   GlobalAlertDocument as RawGlobalAlertDocument,
+  PagesDocument as RawPagesDocument,
   PopupDialogDocument as RawPopupDialogDocument,
 } from '@weco/common/prismicio-types';
 import { createClient as createPrismicClient } from '@weco/common/services/prismic/fetch';
+import { simplifyPrismicData } from '@weco/common/services/prismic/transformers/server-data';
 import { InferDataInterface } from '@weco/common/services/prismic/types';
 
 import { Handler } from './';
@@ -25,7 +27,7 @@ export type ResultsLite = {
 };
 
 export type ReadingRoomStories = {
-  stories: string[]; // Array of story UIDs, extracted from the 'reading-room-stories' page in Prismic
+  stories: string[];
 };
 
 export const defaultValue: SimplifiedPrismicData = {
@@ -59,7 +61,7 @@ export type PrismicData = {
   globalAlert: RawGlobalAlertDocument;
   popupDialog: RawPopupDialogDocument;
   collectionVenues: prismic.Query<RawCollectionVenueDocument>;
-  readingRoomStories: ReadingRoomStories;
+  readingRoomStories: RawPagesDocument | null;
 };
 
 export type SimplifiedPrismicData = {
@@ -69,9 +71,12 @@ export type SimplifiedPrismicData = {
   readingRoomStories: ReadingRoomStories;
 };
 
-export const handler: Handler<SimplifiedPrismicData, PrismicData> = {
+export const handler: Handler<SimplifiedPrismicData, SimplifiedPrismicData> = {
   defaultValue,
-  fetch: fetchPrismicValues,
+  fetch: async () => {
+    const rawData = await fetchPrismicValues();
+    return simplifyPrismicData(rawData);
+  },
 };
 
 async function fetchPrismicValues(): Promise<PrismicData> {
@@ -124,26 +129,6 @@ async function fetchPrismicValues(): Promise<PrismicData> {
   // https://github.com/wellcomecollection/wellcomecollection.org/issues/10157
   // for the rationale behind treating these two and collectionVenues
   // differently.
-
-  // Extract story UIDs from reading room stories page
-  let readingRoomStories: ReadingRoomStories = defaultValue.readingRoomStories;
-  if (readingRoomStoriesResult.status === 'fulfilled') {
-    const storyIds: string[] = [];
-    for (const slice of readingRoomStoriesResult.value.data.body) {
-      if (slice.slice_type === 'cardListing' && 'items' in slice) {
-        for (const item of slice.items) {
-          if ('content' in item && item.content && 'uid' in item.content) {
-            const uid = item.content.uid;
-            if (uid) {
-              storyIds.push(uid);
-            }
-          }
-        }
-      }
-    }
-    readingRoomStories = { stories: storyIds };
-  }
-
   return {
     globalAlert:
       globalAlertResult.status === 'fulfilled'
@@ -154,7 +139,10 @@ async function fetchPrismicValues(): Promise<PrismicData> {
         ? popupDialogResult.value
         : defaultValue.popupDialog,
     collectionVenues: collectionVenuesResult.value,
-    readingRoomStories,
+    readingRoomStories:
+      readingRoomStoriesResult.status === 'fulfilled'
+        ? readingRoomStoriesResult.value
+        : null,
   } as PrismicData;
 }
 
