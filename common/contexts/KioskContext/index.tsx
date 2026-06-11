@@ -5,13 +5,13 @@ import {
   useContext,
 } from 'react';
 
-type KioskExperience = 'Tenderness and Rage' | 'Reading Room';
+type KioskExperienceName = 'Tenderness and Rage' | 'Reading Room';
 
 type KioskContextType = {
   isKiosk: boolean;
   isTendernessAndRageKiosk?: boolean;
   isReadingRoomKiosk?: boolean;
-  kioskExperience?: KioskExperience;
+  kioskExperienceName?: KioskExperienceName;
 };
 
 const KioskContext = createContext<KioskContextType>({ isKiosk: false });
@@ -27,7 +27,7 @@ export const useKiosk = (): KioskContextType => {
 
 export const getKioskExperienceName = (
   cookieContent: string | null
-): KioskExperience | undefined => {
+): KioskExperienceName | undefined => {
   if (!cookieContent) return undefined;
 
   const experienceId = cookieContent.split('-')[0];
@@ -54,7 +54,7 @@ export const KioskProvider: FunctionComponent<KioskProviderProps> = ({
     <KioskContext.Provider
       value={{
         isKiosk: !!cookieContent,
-        kioskExperience: experienceName,
+        kioskExperienceName: experienceName,
         isTendernessAndRageKiosk: experienceName === 'Tenderness and Rage',
         isReadingRoomKiosk: experienceName === 'Reading Room',
       }}
