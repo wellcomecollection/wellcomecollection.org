@@ -1,31 +1,31 @@
-// TODO ADDRESS THIS PROPERLY https://github.com/wellcomecollection/wellcomecollection.org/issues/10980
-// eslint-disable-next-line
-// @ts-nocheck
+import { AuthorizationError } from '@auth0/nextjs-auth0/errors';
 import {
-  initAuth0,
+  Auth0Client,
   PageRoute,
   WithPageAuthRequiredPageRouterOptions,
-} from '@auth0/nextjs-auth0';
+} from '@auth0/nextjs-auth0/server';
 import { GetServerSidePropsContext } from 'next';
-import getConfig from 'next/config';
+import { NextResponse } from 'next/server';
 import { ParsedUrlQuery } from 'querystring';
 
-const { serverRuntimeConfig } = getConfig();
-const config = serverRuntimeConfig as {
-  sessionKeys: string[];
-  sessionVersion: string;
-  siteBaseUrl: string;
-  identityBasePath: string;
-  auth0: {
-    domain: string;
-    clientID: string;
-    clientSecret: string;
-  };
-  remoteApi: {
-    host: string;
-    apiKey: string;
-  };
-};
+// This module is imported by middleware.ts, which Next.js bundles for the
+// edge runtime where `next/config` (serverRuntimeConfig) is unavailable, so
+// configuration is read straight from the environment. The fallbacks mirror
+// config.js: real values are never needed at build time.
+const port = Number(process.env.PORT) || 3000;
+export const siteBaseUrl =
+  process.env.SITE_BASE_URL ?? `http://localhost:${port}`;
+export const identityBasePath = '/account';
+
+const sessionKeys = process.env.SESSION_KEYS
+  ? process.env.SESSION_KEYS.split(',')
+  : ['build_keys'];
+
+// Versioning the session means that we can invalidate all users' sessions if
+// we need to, eg if we change the claims on the identity token
+const sessionVersion = 'v1';
+
+const auth0Domain = process.env.AUTH0_DOMAIN || 'build';
 
 const identityApiScopes = [
   'create:requests',
@@ -57,11 +57,6 @@ const profileScopes = [
   'weco:patron_role',
 ];
 
-const identityAuthorizationParams = {
-  audience: config.remoteApi.host,
-  scope: [...utilityScopes, ...profileScopes, ...identityApiScopes].join(' '),
-};
-
 const ONE_HOUR_S = 60 * 60;
 const ONE_DAY_S = 24 * ONE_HOUR_S;
 
@@ -70,39 +65,90 @@ const ONE_DAY_S = 24 * ONE_HOUR_S;
  * Always import auth0 from here! It's a singleton instance, and importing it elsewhere
  * as in the docs (ie from the npm package) will not work!
  */
-
-// See https://auth0.github.io/nextjs-auth0/modules/config.html
-const auth0 = initAuth0({
-  secret: config.sessionKeys,
-  issuerBaseURL: `https://${config.auth0.domain}`,
-  baseURL: config.siteBaseUrl + config.identityBasePath,
-  clientID: config.auth0.clientID,
-  clientSecret: config.auth0.clientSecret,
-  authorizationParams: {
-    response_type: 'code',
-    ...identityAuthorizationParams,
+const auth0 = new Auth0Client({
+  domain: auth0Domain,
+  clientId: process.env.AUTH0_CLIENT_ID || 'build',
+  clientSecret: process.env.AUTH0_CLIENT_SECRET || 'build',
+  // v4 only supports a single secret, not the v3 list of rotatable keys.
+  // Rotating SESSION_KEYS now signs everybody out (sessions last 7 days max).
+  secret: sessionKeys[0],
+  // The origin only: the /account prefix comes from NEXT_PUBLIC_BASE_PATH,
+  // which the SDK applies when building its own URLs (eg the callback URL)
+  appBaseUrl: siteBaseUrl,
+  authorizationParameters: {
+    audience: process.env.IDENTITY_API_HOST || 'build',
+    scope: [...utilityScopes, ...profileScopes, ...identityApiScopes].join(' '),
   },
+  // Where a plain login (no returnTo, eg the header sign-in link) lands.
+  // Resolved against the site origin by onCallback below.
+  signInReturnToPath: identityBasePath,
+  // Keep the same public URLs as v3 so that links in other webapps and the
+  // callback/logout URLs registered with the Auth0 tenant keep working.
+  // (/api/auth/me is served by pages/api/auth/me.ts, not by the SDK.)
   routes: {
-    postLogoutRedirect: config.siteBaseUrl,
+    login: '/api/auth/login',
+    logout: '/api/auth/logout',
+    callback: '/api/auth/callback',
   },
   session: {
     rolling: true, // Session expiry time is reset every time the user interacts with the server
     absoluteDuration: 7 * ONE_DAY_S, // 1 week
-    rollingDuration: 8 * ONE_HOUR_S, // 8 hours
-    name: `wecoIdentitySession_${config.sessionVersion}`,
+    inactivityDuration: 8 * ONE_HOUR_S, // 8 hours
+    cookie: {
+      name: `wecoIdentitySession_${sessionVersion}`,
+      // The default would be NEXT_PUBLIC_BASE_PATH; v3 set the cookie on /
+      path: '/',
+    },
+  },
+  // v4 keeps only the default OIDC claims on session.user; v3 kept every
+  // ID-token claim, and the rest of the site relies on the namespaced
+  // wellcomecollection.org claims (patron_barcode, patron_role)
+  beforeSessionSaved: async session => session,
+  onCallback: async (error, ctx) => {
+    const baseUrl = ctx.appBaseUrl ?? siteBaseUrl;
+
+    if (error) {
+      // Auth0 redirected back to us with an error (eg a user cancelling a
+      // flow gives ?error=access_denied): show it on our error page
+      if (error instanceof AuthorizationError) {
+        const params = new URLSearchParams({
+          error: error.cause.code,
+          error_description: error.cause.message,
+        });
+        return NextResponse.redirect(
+          new URL(`${identityBasePath}/error?${params}`, baseUrl)
+        );
+      }
+
+      // Anything else, eg somebody sending a deliberately malformed token or
+      // code. We deliberately omit the error message from the user-facing
+      // response: I don't think anybody will encounter this in normal
+      // running, and I'm not sure if that message could leak sensitive info.
+      console.warn(`Error in the Auth0 callback: ${error.message}`);
+      return new NextResponse('Something went wrong in the Auth0 callback', {
+        status: 500,
+      });
+    }
+
+    // We can't use the SDK's default redirect here: it prefixes
+    // NEXT_PUBLIC_BASE_PATH onto returnTo, but logins started from other
+    // webapps return to pages outside /account (eg /works/xyz)
+    return NextResponse.redirect(
+      new URL(ctx.returnTo || identityBasePath, baseUrl)
+    );
   },
 });
 
-// Wrapping the built-in method as per https://github.com/auth0/nextjs-auth0#base-path-and-internationalized-routing
-// in order to preserve basePath
+// Wrapping the built-in method in order to preserve basePath: the SDK works
+// from ctx.resolvedUrl, which doesn't include it
 export const withPageAuthRequiredSSR =
-  <P>(
-    opts?: WithPageAuthRequiredPageRouterOptions<P>
+  <P extends { [key: string]: unknown }>(
+    opts: WithPageAuthRequiredPageRouterOptions<P> = {}
   ): PageRoute<P, ParsedUrlQuery> =>
   (ctx: GetServerSidePropsContext) =>
     auth0.withPageAuthRequired<P>({
       ...opts,
-      returnTo: config.identityBasePath + (opts.returnTo ?? ctx.resolvedUrl),
+      returnTo: identityBasePath + (opts.returnTo ?? ctx.resolvedUrl),
     })(ctx);
 
 export default auth0;
