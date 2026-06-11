@@ -3198,14 +3198,7 @@
     tslib "^2.5.0"
     uuid "^9.0.0"
 
-"@prismicio/client@7.17.0":
-  version "7.17.0"
-  resolved "https://registry.yarnpkg.com/@prismicio/client/-/client-7.17.0.tgz#7b8f12fbc76e02a23fe817a1a0d8410d83fc40f6"
-  integrity sha512-7e1ICYk4IAxKX8zmtCOy9e8rXeeT9A45ZgJY9lNNWqUaL1LW/ilXnh/SsAZG/G5q14JyRJHwBIGIzcKY9hjJhw==
-  dependencies:
-    imgix-url-builder "^0.0.5"
-
-"@prismicio/client@^7.1.0", "@prismicio/client@^7.21.6":
+"@prismicio/client@7.17.0", "@prismicio/client@7.21.6", "@prismicio/client@^7.1.0", "@prismicio/client@^7.21.6":
   version "7.21.6"
   resolved "https://registry.yarnpkg.com/@prismicio/client/-/client-7.21.6.tgz#04fabe495e7c382c2efa16a972d5fa3b3d294bc8"
   integrity sha512-dWp0qxldujorY0jR5pQOpW9gloFWOJfFxJPYqkDZqp4w59jIn8h0aiwOMFxh7AFZdLgINuM1BALQxnhPNSxgbA==
@@ -7544,11 +7537,6 @@ image-size@^2.0.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/image-size/-/image-size-2.0.2.tgz#84a7b43704db5736f364bf0d1b029821299b4bdc"
   integrity sha512-IRqXKlaXwgSMAMtpNzZa1ZAe8m+Sa1770Dhk8VkSsP9LS+iHD62Zd8FQKs8fbPiagBE7BzoFX23cxFnwshpV6w==
-
-imgix-url-builder@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/imgix-url-builder/-/imgix-url-builder-0.0.5.tgz#641e4af7fc1443d3f9f30f3c1331e4c1a2ad9832"
-  integrity sha512-dCx3UlXghtsjySoqVCcHQHRikqDummwQEfKlxBUK/wrMzd+1ox/XX+zhqVuXKMVuZvCc84pVLEJyntQB0OOi/w==
 
 imgix-url-builder@^0.0.6:
   version "0.0.6"
