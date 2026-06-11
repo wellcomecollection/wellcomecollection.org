@@ -1,7 +1,7 @@
 import NextLink from 'next/link';
 import styled from 'styled-components';
 
-import { font, fontFamily } from '@weco/common/utils/classnames';
+import { compositeTypography, font } from '@weco/common/utils/classnames';
 import AnimatedUnderlineCSS, {
   AnimatedUnderlineProps,
 } from '@weco/common/views/components/styled/AnimatedUnderline';
@@ -145,7 +145,11 @@ type InPageNavAnimatedLinkProps = {
 export const InPageNavAnimatedLink = styled(
   AnimatedLink
 ).attrs<InPageNavAnimatedLinkProps>(props => ({
-  className: fontFamily(props.$isActive ? 'sans-bold' : 'sans'),
+  className: compositeTypography(
+    'body',
+    'md',
+    props.$isActive ? 'strong' : 'regular'
+  ),
 }))<InPageNavAnimatedLinkProps>`
   color: ${props =>
     props.theme.color(
