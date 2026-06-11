@@ -52,9 +52,7 @@ export const defaultValue: SimplifiedPrismicData = {
   collectionVenues: {
     results: [],
   },
-  readingRoomStories: {
-    stories: [] as string[],
-  },
+  readingRoomStories: {},
 };
 
 export type PrismicData = {
