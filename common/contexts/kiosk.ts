@@ -3,6 +3,7 @@ export type KioskContent = {
   relatedWorks?: string[];
   featuredWorks?: string[];
   stories?: string[];
+  [key: string]: string[] | undefined;
 };
 
 export const kiosksContent: Record<string, KioskContent> = {

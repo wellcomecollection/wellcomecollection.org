@@ -15,19 +15,13 @@ export type ServerData = {
   consentStatus: ConsentStatusProps;
 };
 
-export type SimplifiedServerData = {
-  toggles: Toggles;
-  prismic: SimplifiedPrismicData;
-  consentStatus: ConsentStatusProps;
-};
-
 export type ConsentStatusProps = {
   analytics: boolean;
   marketing: boolean;
   cookieExists: boolean;
 };
 
-export const defaultServerData: SimplifiedServerData = {
+export const defaultServerData: ServerData = {
   toggles: {
     featureFlags: {} as FeatureFlags,
     tests: {} as Tests,

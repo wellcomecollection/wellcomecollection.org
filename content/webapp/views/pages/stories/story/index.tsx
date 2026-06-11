@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { getCrop } from '@weco/common/model/image';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
+import { ServerData } from '@weco/common/server-data/types';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font } from '@weco/common/utils/classnames';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
@@ -41,7 +41,7 @@ const RelatedStoryContainer = styled.div`
 export type Props = {
   article: Article;
   jsonLd: JsonLdObj;
-  serverData: SimplifiedServerData;
+  serverData: ServerData;
 };
 
 export type ArticleSeriesList = {

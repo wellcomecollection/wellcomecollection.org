@@ -13,7 +13,7 @@ import { ServerDataContext } from '@weco/common/server-data/Context';
 import {
   defaultServerData,
   isServerData,
-  SimplifiedServerData,
+  ServerData,
 } from '@weco/common/server-data/types';
 import { AppErrorProps } from '@weco/common/services/app';
 import { HotjarLoader } from '@weco/common/services/app/analytics-scripts/hotjar-loader';
@@ -48,7 +48,7 @@ const dev = process.env.NODE_ENV !== 'production';
 const civicUkApiKey = process.env.NEXT_PUBLIC_CIVICUK_API_KEY;
 
 type GlobalProps = {
-  serverData: SimplifiedServerData;
+  serverData: ServerData;
 } & Partial<AppErrorProps>;
 
 // Type needs augmenting for getLayout
@@ -74,10 +74,10 @@ export type ServerSideProps<T = NonNullable<unknown>> = [T] extends [
   Record<string, never>,
 ]
   ? {
-      serverData: SimplifiedServerData;
+      serverData: ServerData;
     }
   : NotAny<T> & {
-      serverData: SimplifiedServerData;
+      serverData: ServerData;
     };
 
 export type ServerSidePropsOrAppError<T extends ServerSideProps<unknown>> =
