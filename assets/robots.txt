@@ -1,13 +1,19 @@
 User-agent: *
 Allow: /
 
-User-agent: magpie-crawler
+User-agent: anthropic-ai
 Disallow: /
 
-User-Agent: omgili
+User-agent: Applebot
 Disallow: /
 
-User-Agent: omgilibot
+User-agent: Applebot-Extended
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: ChatGPT-User
 Disallow: /
 
 User-agent: ClaudeBot
@@ -16,31 +22,31 @@ Disallow: /
 User-agent: Claude-Web
 Disallow: /
 
-User-agent: anthropic-ai
-Disallow: /
-
 User-agent: cohere-ai
 Disallow: /
 
-User-agent: Bytespider
+User-agent: GPTBot
+Disallow: /
+
+User-agent: magpie-crawler
+Disallow: /
+
+User-agent: OAI-SearchBot
+Disallow: /
+
+User-agent: omgili
+Disallow: /
+
+User-agent: omgilibot
+Disallow: /
+
+User-agent: PerplexityBot
 Disallow: /
 
 User-agent: PetalBot
 Disallow: /
 
 User-agent: Scrapy
-Disallow: /
-
-User-agent: GPTBot
-Disallow: /
-
-User-agent: ChatGPT-User
-Disallow: /
-
-User-Agent: PerplexityBot
-Disallow: /
-
-User-agent: OAI-SearchBot
 Disallow: /
 
 User-agent: YandexAdditional
