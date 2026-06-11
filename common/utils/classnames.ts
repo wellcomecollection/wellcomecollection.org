@@ -67,7 +67,7 @@ const fontCompositeMap: Partial<Record<string, string>> = {
   'mono:-1': 'type-caption-md-regular', // font('mono', -1) didn't have an exact match. This is the closest available
 };
 
-export function fontFamily(family: FontFamily): string {
+function fontFamily(family: FontFamily): string {
   return `font-${family}`;
 }
 

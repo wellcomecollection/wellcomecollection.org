@@ -61,7 +61,7 @@ export const WorkPage: NextPage<Props> = ({
   apiUrl,
   transformedManifest,
 }) => {
-  const isKiosk = useKiosk();
+  const { isKiosk } = useKiosk();
   const { userIsStaffWithRestricted } = useUserContext();
   const isArchive = !!(
     work.parts.length || getArchiveAncestorArray(work).length > 0

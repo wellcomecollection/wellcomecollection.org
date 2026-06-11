@@ -5,7 +5,10 @@ import { ThemeProvider } from 'styled-components';
 
 import { ApmContextProvider } from '@weco/common/contexts/ApmContext';
 import { AppContextProvider } from '@weco/common/contexts/AppContext';
-import { KioskProvider } from '@weco/common/contexts/KioskContext';
+import {
+  getKioskExperienceName,
+  KioskProvider,
+} from '@weco/common/contexts/KioskContext';
 import { SearchContextProvider } from '@weco/common/contexts/SearchContext';
 import { UserContextProvider } from '@weco/common/contexts/UserContext';
 import { useScrollTracking } from '@weco/common/hooks/useScrollTracking';
@@ -25,6 +28,7 @@ import { deserialiseProps } from '@weco/common/utils/json';
 import CivicUK from '@weco/common/views/components/CivicUK';
 import GlobalSvgDefinitions from '@weco/common/views/components/GlobalSvgDefinitions';
 import InactivityRedirect from '@weco/common/views/components/InactivityRedirect';
+import InfoBanner from '@weco/common/views/components/InfoBanner';
 import LoadingIndicator from '@weco/common/views/components/LoadingIndicator';
 import ErrorPage from '@weco/common/views/layouts/ErrorPage';
 import themeValues, { GlobalStyle } from '@weco/common/views/themes/default';
@@ -106,7 +110,8 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
 
   const serverData = isServerDataSet ? pageProps.serverData : defaultServerData;
 
-  const isKiosk = !!serverData.toggles.modes.kioskMode;
+  const kioskModeCookie = serverData.toggles.modes.kioskMode;
+  const experienceName = getKioskExperienceName(kioskModeCookie);
 
   useMaintainPageHeight();
 
@@ -163,7 +168,7 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
           <UserContextProvider>
             <AppContextProvider>
               <SearchContextProvider>
-                <KioskProvider isActive={isKiosk}>
+                <KioskProvider cookieContent={kioskModeCookie}>
                   <GlobalStyle
                     $compositeTypography={
                       !!serverData.toggles.featureFlags.compositeTypography
@@ -172,6 +177,10 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
 
                   <GlobalSvgDefinitions />
                   <LoadingIndicator />
+
+                  {experienceName === 'Tenderness and Rage' && (
+                    <InfoBanner variant="kioskTRBanners" />
+                  )}
 
                   {displayCookieBanner && (
                     <CivicUK
@@ -190,7 +199,7 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
                     />
                   )}
 
-                  {isKiosk && (
+                  {!!kioskModeCookie && (
                     <InactivityRedirect redirectUrl="/stories/kiosk" />
                   )}
                 </KioskProvider>
