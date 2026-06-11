@@ -14,6 +14,9 @@ import { css } from 'styled-components';
 // version if we encounter a situation where it would be clearly beneficial
 // https://github.com/wellcomecollection/wellcomecollection.org/issues/12324
 
+export const bodyStrongFontWeight =
+  designSystemTheme.typography.body.strong?.lg?.fontWeight;
+
 export const compositeTypographyMixin = (
   category: 'body' | 'caption' | 'display' | 'label' | 'heading',
   size: TypographySizeKey,
@@ -198,10 +201,7 @@ export const typography = css`
 
     strong,
     b {
-      ${compositeTypographyMixin('body', 'lg', 'strong')}
-      font-size: inherit;
-      line-height: inherit;
-      letter-spacing: inherit;
+      font-weight: ${designSystemTheme.typography.body.strong?.lg?.fontWeight};
     }
   }
 

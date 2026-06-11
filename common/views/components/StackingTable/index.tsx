@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
-import { compositeTypographyMixin } from '@weco/common/views/themes/typography';
+import { bodyStrongFontWeight } from '@weco/common/views/themes/typography';
 
 type TableProps = {
   $useFixedWidth: boolean;
@@ -117,10 +117,7 @@ const StyledTd = styled(Space).attrs<TdProps>(props => ({
       white-space: nowrap;
       content: ${props =>
         props.$cellContent ? `'${props.$cellContent}'` : ''};
-      ${compositeTypographyMixin('body', 'md', 'strong')}
-      font-size: inherit;
-      line-height: inherit;
-      letter-spacing: inherit;
+      font-weight: ${bodyStrongFontWeight};
     }
   }
 `;
