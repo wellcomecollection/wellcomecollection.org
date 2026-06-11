@@ -19,10 +19,7 @@ const InfoBanner: FunctionComponent<Props> = props => {
   return (
     <>
       {variant === 'kioskTRBanners' ? (
-        <TendernessAndRageKioskBanners
-          data-component="kiosk-tr-banners"
-          {...props}
-        />
+        <TendernessAndRageKioskBanners />
       ) : variant === 'websiteIssues' ? (
         <WebsiteIssuesBanner
           data-component="website-issues-banner"

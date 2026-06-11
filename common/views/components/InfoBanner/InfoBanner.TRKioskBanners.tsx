@@ -10,12 +10,12 @@ import {
 } from './InfoBanners.styles';
 
 const TendernessAndRageKioskBanners = () => (
-  <>
+  <div data-component="kiosk-tr-banners">
     <BannerContainer
       $backgroundColor="warmNeutral.300"
       role="region"
-      aria-labelledby="note"
-      id="notification"
+      aria-label="audio-note"
+      id="audio-notification"
     >
       <BannerWrapper>
         <CopyContainer>
@@ -24,15 +24,19 @@ const TendernessAndRageKioskBanners = () => (
             $v={{ size: '2xs', properties: ['margin-top'] }}
           >
             <Icon icon={mute} />
-            <span className="visually-hidden" id="note">
-              Notification
+            <span className="visually-hidden" id="audio-note">
+              Sound notification
             </span>
           </Space>
           <Copy>Sound will not play on this device.</Copy>
         </CopyContainer>
       </BannerWrapper>
     </BannerContainer>
-    <BannerContainer role="region" aria-labelledby="note" id="notification">
+    <BannerContainer
+      role="region"
+      aria-labelledby="content-note"
+      id="content-notification"
+    >
       <BannerWrapper>
         <CopyContainer>
           <Space
@@ -40,8 +44,8 @@ const TendernessAndRageKioskBanners = () => (
             $v={{ size: '2xs', properties: ['margin-top'] }}
           >
             <Icon icon={exclamation} />
-            <span className="visually-hidden" id="note">
-              Notification
+            <span className="visually-hidden" id="content-note">
+              Content notification
             </span>
           </Space>
           <Copy>
@@ -55,7 +59,7 @@ const TendernessAndRageKioskBanners = () => (
         </CopyContainer>
       </BannerWrapper>
     </BannerContainer>
-  </>
+  </div>
 );
 
 export default TendernessAndRageKioskBanners;

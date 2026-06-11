@@ -9,12 +9,16 @@ type KioskExperienceName = 'Tenderness and Rage' | 'Reading Room';
 
 type KioskContextType = {
   isKiosk: boolean;
-  isTendernessAndRageKiosk?: boolean;
-  isReadingRoomKiosk?: boolean;
+  isTendernessAndRageKiosk: boolean;
+  isReadingRoomKiosk: boolean;
   kioskExperienceName?: KioskExperienceName;
 };
 
-const KioskContext = createContext<KioskContextType>({ isKiosk: false });
+const KioskContext = createContext<KioskContextType>({
+  isKiosk: false,
+  isTendernessAndRageKiosk: false,
+  isReadingRoomKiosk: false,
+});
 
 type KioskProviderProps = PropsWithChildren<{
   cookieContent: string | null;
