@@ -38,7 +38,7 @@ export type Props = {
 
 const ArticleSeriesPage: NextPage<Props> = props => {
   const { series, articles, scheduledItems } = props;
-  const isKiosk = useKiosk();
+  const { isKiosk } = useKiosk();
   const breadcrumbs = {
     items: [
       {

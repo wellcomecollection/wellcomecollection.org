@@ -95,7 +95,7 @@ const PageLayoutComponent: NextPage<Props> = ({
   isNoIndex = false,
 }) => {
   const { apiToolbar, issuesBanner } = useFeatureFlags();
-  const isKiosk = useKiosk();
+  const { isKiosk } = useKiosk();
   const urlString = convertUrlToString(url);
   const fullTitle =
     title !== ''
@@ -289,10 +289,13 @@ const PageLayoutComponent: NextPage<Props> = ({
         <a className="visually-hidden visually-hidden-focusable" href="#main">
           Skip to main content
         </a>
+
         {!hideHeader && !isKiosk && (
           <Header siteSection={siteSection} {...headerProps} />
         )}
+
         {issuesBanner && <InfoBanner variant="websiteIssues" />}
+
         {globalAlert.data.isShown === 'show' &&
           (!globalAlert.data.routeRegex ||
             urlString.match(new RegExp(globalAlert.data.routeRegex))) && (
@@ -305,11 +308,13 @@ const PageLayoutComponent: NextPage<Props> = ({
               }}
             />
           )}
+
         {popupDialog?.data?.isShown &&
           (!popupDialog.data.routeRegex ||
             urlString.match(new RegExp(popupDialog.data.routeRegex))) && (
             <PopupDialog document={popupDialog} />
           )}
+
         <div
           id="main"
           className="main"
