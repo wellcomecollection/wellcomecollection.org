@@ -11,5 +11,15 @@ export default async (
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> => {
-  res.redirect(`${identityBasePath}/api/auth/login?screen_hint=signup`);
+  // Forward any query params (eg returnTo) to the login handler, as the v3
+  // signup handler did, but always force the signup screen.
+  const params = new URLSearchParams();
+  for (const [key, value] of Object.entries(req.query)) {
+    for (const v of Array.isArray(value) ? value : [value]) {
+      if (typeof v === 'string') params.append(key, v);
+    }
+  }
+  params.set('screen_hint', 'signup');
+
+  res.redirect(`${identityBasePath}/api/auth/login?${params.toString()}`);
 };
