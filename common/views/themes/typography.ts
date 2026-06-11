@@ -15,7 +15,7 @@ import { css } from 'styled-components';
 // https://github.com/wellcomecollection/wellcomecollection.org/issues/12324
 
 export const bodyStrongFontWeight =
-  designSystemTheme.typography.body.strong?.lg?.fontWeight;
+  designSystemTheme.typography.body.strong?.lg?.fontWeight ?? 'bold';
 
 export const compositeTypographyMixin = (
   category: 'body' | 'caption' | 'display' | 'label' | 'heading',
@@ -201,7 +201,7 @@ export const typography = css`
 
     strong,
     b {
-      font-weight: ${designSystemTheme.typography.body.strong?.lg?.fontWeight};
+      font-weight: ${bodyStrongFontWeight};
     }
   }
 
