@@ -3,6 +3,7 @@ import {
   FunctionComponent,
   PropsWithChildren,
   useContext,
+  useMemo,
 } from 'react';
 
 import { ReadingRoomStories } from '@weco/common/server-data/prismic';
@@ -30,15 +31,21 @@ export const KioskProvider: FunctionComponent<KioskProviderProps> = ({
   children,
 }) => {
   // Merge server-fetched data with hardcoded content
-  const kiosksContent = {
-    ...initialKiosksContent,
-    RR: readingRoomStories,
-  };
+  const kiosksContent = useMemo(
+    () => ({
+      ...initialKiosksContent,
+      RR: readingRoomStories,
+    }),
+    [readingRoomStories]
+  );
+
+  const value = useMemo(
+    () => ({ isKiosk: isActive, kiosksContent }),
+    [isActive, kiosksContent]
+  );
 
   return (
-    <KioskContext.Provider value={{ isKiosk: isActive, kiosksContent }}>
-      {children}
-    </KioskContext.Provider>
+    <KioskContext.Provider value={value}>{children}</KioskContext.Provider>
   );
 };
 
