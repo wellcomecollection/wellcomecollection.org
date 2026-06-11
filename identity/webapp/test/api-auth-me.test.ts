@@ -120,4 +120,16 @@ describe('/api/auth/me', () => {
 
     expect(res.statusCode).toBe(401);
   });
+
+  it('responds 500 when the profile cannot be fetched from Auth0', async () => {
+    mockedAuth0.getSession.mockResolvedValue({ user } as never);
+    mockedAuth0.getAccessToken.mockResolvedValue({ token: 'token' } as never);
+    global.fetch = jest.fn().mockResolvedValue({ ok: false, status: 429 });
+    const res = makeResponse();
+
+    await handler(makeRequest({ refetch: '' }), res);
+
+    expect(res.statusCode).toBe(500);
+    expect(mockedAuth0.updateSession).not.toHaveBeenCalled();
+  });
 });
