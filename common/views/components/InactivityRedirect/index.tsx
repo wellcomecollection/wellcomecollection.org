@@ -20,7 +20,7 @@ type Props = {
 };
 
 const InactivityRedirect: FunctionComponent<Props> = ({ redirectUrl }) => {
-  const { isKiosk } = useKiosk();
+  const { isKiosk, isDevModeKiosk } = useKiosk();
   const router = useRouter();
   const [isWarningActive, setIsWarningActive] = useState(false);
   const [countdown, setCountdown] = useState(WARNING_COUNTDOWN);
@@ -29,8 +29,9 @@ const InactivityRedirect: FunctionComponent<Props> = ({ redirectUrl }) => {
   const redirectTimerRef = useRef<NodeJS.Timeout | null>(null);
   const modalButtonRef = useRef<HTMLElement | null>(null);
 
-  // Don't run on the redirect destination itself
+  // Don't run on the redirect destination itself, or if in developer mode
   const isRedirectDestination = router.asPath === redirectUrl;
+  const shouldNotBeActive = !isKiosk || isDevModeKiosk || isRedirectDestination;
 
   const performRedirect = useCallback(
     ({ isAutomated }: { isAutomated: boolean }) => {
@@ -138,7 +139,7 @@ const InactivityRedirect: FunctionComponent<Props> = ({ redirectUrl }) => {
 
   // Set up activity listeners
   useEffect(() => {
-    if (!isKiosk || isRedirectDestination) return;
+    if (shouldNotBeActive) return;
 
     if (isWarningActive) {
       return;
@@ -182,9 +183,7 @@ const InactivityRedirect: FunctionComponent<Props> = ({ redirectUrl }) => {
     resetInactivityTimer,
   ]);
 
-  if (!isKiosk || isRedirectDestination) {
-    return null;
-  }
+  if (shouldNotBeActive) return null;
 
   return (
     <Modal

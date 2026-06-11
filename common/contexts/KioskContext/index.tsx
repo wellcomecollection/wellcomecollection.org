@@ -5,10 +5,14 @@ import {
   useContext,
 } from 'react';
 
-type KioskExperienceName = 'Tenderness and Rage' | 'Reading Room';
+type KioskExperienceName =
+  | 'Developer mode'
+  | 'Tenderness and Rage'
+  | 'Reading Room';
 
 type KioskContextType = {
   isKiosk: boolean;
+  isDevModeKiosk: boolean;
   isTendernessAndRageKiosk: boolean;
   isReadingRoomKiosk: boolean;
   kioskExperienceName?: KioskExperienceName;
@@ -16,6 +20,7 @@ type KioskContextType = {
 
 const KioskContext = createContext<KioskContextType>({
   isKiosk: false,
+  isDevModeKiosk: false,
   isTendernessAndRageKiosk: false,
   isReadingRoomKiosk: false,
 });
@@ -41,6 +46,8 @@ export const getKioskExperienceName = (
       return 'Reading Room';
     case 'TR':
       return 'Tenderness and Rage';
+    case 'devMode':
+      return 'Developer mode';
     default:
       break;
   }
@@ -59,6 +66,7 @@ export const KioskProvider: FunctionComponent<KioskProviderProps> = ({
       value={{
         isKiosk: !!cookieContent,
         kioskExperienceName: experienceName,
+        isDevModeKiosk: experienceName === 'Developer mode',
         isTendernessAndRageKiosk: experienceName === 'Tenderness and Rage',
         isReadingRoomKiosk: experienceName === 'Reading Room',
       }}
