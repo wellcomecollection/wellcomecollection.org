@@ -7,6 +7,10 @@ import {
   PagesDocument as RawPagesDocument,
   PopupDialogDocument as RawPopupDialogDocument,
 } from '@weco/common/prismicio-types';
+import {
+  emptyGlobalAlert,
+  emptyPopupDialog,
+} from '@weco/common/services/prismic/documents';
 import { createClient as createPrismicClient } from '@weco/common/services/prismic/fetch';
 import { simplifyPrismicData } from '@weco/common/services/prismic/transformers/server-data';
 import { InferDataInterface } from '@weco/common/services/prismic/types';
@@ -123,25 +127,27 @@ async function fetchPrismicValues(): Promise<PrismicData> {
   }
 
   // If we don't get data from Prismic for either the popupDialog or the
-  // globalAlert, we just send the defaultValue (which is hidden for both). See
+  // globalAlert, we use empty documents (which are hidden for both). These
+  // raw documents are then simplified by the transformer. See
   // https://github.com/wellcomecollection/wellcomecollection.org/issues/10157
   // for the rationale behind treating these two and collectionVenues
   // differently.
   return {
     globalAlert:
       globalAlertResult.status === 'fulfilled'
-        ? globalAlertResult.value
-        : defaultValue.globalAlert,
+        ? (globalAlertResult.value as RawGlobalAlertDocument)
+        : (emptyGlobalAlert() as RawGlobalAlertDocument),
     popupDialog:
       popupDialogResult.status === 'fulfilled'
-        ? popupDialogResult.value
-        : defaultValue.popupDialog,
-    collectionVenues: collectionVenuesResult.value,
+        ? (popupDialogResult.value as RawPopupDialogDocument)
+        : (emptyPopupDialog() as RawPopupDialogDocument),
+    collectionVenues:
+      collectionVenuesResult.value as prismic.Query<RawCollectionVenueDocument>,
     readingRoomStories:
       readingRoomStoriesResult.status === 'fulfilled'
-        ? readingRoomStoriesResult.value
+        ? (readingRoomStoriesResult.value as RawPagesDocument)
         : null,
-  } as PrismicData;
+  };
 }
 
 export default handler;
