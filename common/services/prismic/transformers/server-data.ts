@@ -12,16 +12,10 @@ import {
   ResultsLite,
   SimplifiedPrismicData,
 } from '@weco/common/server-data/prismic';
-import { ServerData } from '@weco/common/server-data/types';
 import { InferDataInterface } from '@weco/common/services/prismic/types';
 
 // We don't want to add the raw prismic data to the ServerDataContext
 // It gets included in the __NEXT_DATA__ script tag and adds unnecessary page weight
-export function simplifyServerData(serverData: ServerData): ServerData {
-  // Prismic data is already simplified when read from disk
-  return serverData;
-}
-
 export function simplifyPrismicData(
   prismicData: PrismicData
 ): SimplifiedPrismicData {
