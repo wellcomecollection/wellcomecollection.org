@@ -98,6 +98,11 @@ const auth0 = new Auth0Client({
     logout: '/api/auth/logout',
     callback: '/api/auth/callback',
   },
+  // By default v4 sets one __txn_<state> cookie per login attempt (so logins
+  // can race in parallel tabs), each lasting an hour: abandoned attempts pile
+  // up until the request blows nginx's header size limit. v3 used a single
+  // transaction cookie, so do the same.
+  enableParallelTransactions: false,
   session: {
     rolling: true, // Session expiry time is reset every time the user interacts with the server
     absoluteDuration: 7 * ONE_DAY_S, // 1 week
