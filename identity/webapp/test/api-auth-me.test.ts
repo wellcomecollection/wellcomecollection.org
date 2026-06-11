@@ -58,9 +58,15 @@ const user = {
   'https://wellcomecollection.org/patron_role': 'Reader',
 };
 
+const originalFetch = global.fetch;
+
 describe('/api/auth/me', () => {
   beforeEach(() => {
     jest.resetAllMocks();
+  });
+
+  afterEach(() => {
+    global.fetch = originalFetch;
   });
 
   it('responds 204 when there is no session', async () => {
