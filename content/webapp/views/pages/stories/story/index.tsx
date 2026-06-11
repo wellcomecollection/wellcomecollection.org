@@ -28,6 +28,7 @@ import { getFeaturedMedia, HeroPicture } from '@weco/content/utils/page-header';
 import Body from '@weco/content/views/components/Body';
 import ContentPage from '@weco/content/views/components/ContentPage';
 import FeaturedCard from '@weco/content/views/components/FeaturedCard';
+import KioskNavigation from '@weco/content/views/components/KioskNavigation';
 import PartNumberIndicator from '@weco/content/views/components/PartNumberIndicator';
 
 import ContentTypeInfo from './story.ContentTypeInfo';
@@ -205,6 +206,13 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
         seasons={article.seasons}
         showStaticLinkedWorks={!isInPicturesFormat}
       />
+
+      {/* // TODO this should go on PageLayout instead rather than individual pages, but would need to pass in type and id/uid to PageLayout - it could be on any page the user finds themselves on */}
+      {isKiosk && (
+        <Container>
+          <KioskNavigation pageId={article.uid} pageType="story" />
+        </Container>
+      )}
 
       {article.exploreMoreDocument && relatedDocument && (
         <>
