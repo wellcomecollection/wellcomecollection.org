@@ -4,6 +4,7 @@ import { FunctionComponent, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
+import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import LL from '@weco/common/views/components/styled/LL';
@@ -67,6 +68,7 @@ const ZoomedImage = dynamic(() => import('./ZoomedImage'), {
 
 type GridProps = {
   $isFullSupportBrowser: boolean;
+  $isTRKiosk?: boolean;
   $useFixedList?: boolean;
   $hasMultipleCanvases?: boolean;
 };
@@ -75,7 +77,7 @@ const Grid = styled.div<GridProps>`
   display: grid;
   height: ${props =>
     props.$isFullSupportBrowser
-      ? `calc(100vh - ${props.theme.navHeight}px)`
+      ? `calc(100vh - ${props.$isTRKiosk ? props.theme.kioskTRBannersHeight : props.theme.navHeight}px)`
       : 'auto'};
   overflow: hidden;
   grid-template-columns:
@@ -234,6 +236,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   } = useMemo(() => fromQuery(router.query), [router.query]);
   const [gridVisible, setGridVisible] = useState(false);
   const { isFullSupportBrowser } = useAppContext();
+  const { isTendernessAndRageKiosk } = useKiosk();
   const viewerRef = useRef<HTMLDivElement>(null);
   const mainAreaRef = useRef<HTMLDivElement>(null);
   const [isDesktopSidebarActive, setIsDesktopSidebarActive] = useState(true);
@@ -377,6 +380,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
       <Grid
         ref={viewerRef}
         $isFullSupportBrowser={isFullSupportBrowser}
+        $isTRKiosk={isTendernessAndRageKiosk}
         $useFixedList={useFixedSizeList}
         $hasMultipleCanvases={hasMultipleCanvases}
       >
