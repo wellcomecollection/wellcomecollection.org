@@ -2,22 +2,29 @@
 
 A manual regression script covering every user flow that touches identity and
 auth. Run it after changes to the identity webapp's auth stack (eg SDK
-upgrades, session changes) or to the Auth0 tenant. To track a run, copy this
-file into a GitHub issue and tick scenarios off as you go.
+upgrades, session changes) or to the Auth0 tenant — once after the stage
+deployment and again after the production deployment. To track a run, copy
+this file into a GitHub issue and tick scenarios off as you go.
 
-## Environment and prerequisites
+## Environments
 
-Run against **stage**: <https://www-stage.wellcomecollection.org>
+|                  | Stage                                                                | Production                                                        |
+| ---------------- | -------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| Base URL         | <https://www-stage.wellcomecollection.org>                           | <https://wellcomecollection.org>                                  |
+| Where email goes | The team **Mailtrap** account (stage sinks all outbound email there) | Real inboxes — sign up with an address whose inbox you can access |
+| Sierra           | **Production** Sierra (stage is configured against it)               | Production Sierra                                                 |
 
-- The registration flow can't be fully tested on a local www-dev site: the
-  stage Auth0 tenant's post-signup Action always redirects to www-stage.
-- Stage routes outbound email to **Mailtrap** — verification and confirmation
-  emails appear there, not in real inboxes. Make sure you have access to the
-  team's Mailtrap account before starting.
+Where a scenario says **the test inbox**, that means Mailtrap when testing
+stage, and your real inbox when testing production.
+
+The registration flow can't be fully tested on a local www-dev site: the
+stage Auth0 tenant's post-signup Action always redirects to www-stage.
+
+## Prerequisites
 
 You will need:
 
-- A fresh email address you can identify in Mailtrap (eg
+- A fresh email address you can find in the test inbox (eg
   `yourname+test1@wellcomecollection.org`) for the account created in
   feature 1
 - An existing **Reader** test account
@@ -25,9 +32,9 @@ You will need:
 - A work with requestable physical items, and a work with restricted items
 
 Features 1–8 are ordered as a lifecycle: the account created in feature 1 is
-used throughout and deleted in feature 8. **The stage environment works
-against production Sierra**, so registering creates a real patron record in
-the production library system — always finish with feature 8 so the deletion
+used throughout and deleted in feature 8. **Both environments work against
+production Sierra**, so registering creates a real patron record in the
+production library system — always finish with feature 8 so the deletion
 request is raised with the library team.
 
 ## 1. Joining the library
@@ -63,7 +70,7 @@ Then I am signed out and land on the application-received page showing the email
 ### Scenario 1.5: verification email
 
 Given I have completed the registration form
-When I check Mailtrap
+When I check the test inbox
 Then I see a verification email addressed to my signup email
 
 ### Scenario 1.6: verifying my email
@@ -143,7 +150,7 @@ Then I see my name, email address and library card number
 Given my email address is not verified
 When I view my account page
 Then I see a banner asking me to verify my email
-And when I choose "Send a new verification email" I see a confirmation message and a new email arrives in Mailtrap
+And when I choose "Send a new verification email" I see a confirmation message and a new email arrives in the test inbox
 
 ### Scenario 3.3: item requests section
 
@@ -161,7 +168,7 @@ Then I see either "Any item requests you make will appear here" (no requests) or
 Given I am signed in on my account page
 When I open Change email, enter a new address and my correct password, and submit
 Then I see an "Email updated" message and the displayed email changes without reloading the page
-And a verification email for the new address arrives in Mailtrap, and the unverified banner shows until I verify it
+And a verification email for the new address arrives in the test inbox, and the unverified banner shows until I verify it
 
 ### Scenario 4.2: wrong password
 
@@ -258,7 +265,7 @@ Then I see "Incorrect password" and my account is untouched
 
 When I confirm the deletion with my correct password
 Then I am signed out and land on the delete-request-received page
-And a confirmation email arrives in Mailtrap
+And a confirmation email arrives in the test inbox
 
 ## 9. Restricted access
 
