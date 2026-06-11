@@ -142,13 +142,14 @@ const auth0 = new Auth0Client({
 // Wrapping the built-in method in order to preserve basePath: the SDK works
 // from ctx.resolvedUrl, which doesn't include it
 export const withPageAuthRequiredSSR =
-  <P extends { [key: string]: unknown }>(
-    opts: WithPageAuthRequiredPageRouterOptions<P> = {}
-  ): PageRoute<P, ParsedUrlQuery> =>
-  (ctx: GetServerSidePropsContext) =>
-    auth0.withPageAuthRequired<P>({
-      ...opts,
-      returnTo: identityBasePath + (opts.returnTo ?? ctx.resolvedUrl),
-    })(ctx);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  <P extends { [key: string]: any }>(
+      opts: WithPageAuthRequiredPageRouterOptions<P> = {}
+    ): PageRoute<P, ParsedUrlQuery> =>
+    (ctx: GetServerSidePropsContext) =>
+      auth0.withPageAuthRequired<P>({
+        ...opts,
+        returnTo: identityBasePath + (opts.returnTo ?? ctx.resolvedUrl),
+      })(ctx);
 
 export default auth0;

@@ -10,5 +10,6 @@ import { identityBasePath } from '@weco/identity/utils/auth0';
 export default async (
   req: NextApiRequest,
   res: NextApiResponse
-): Promise<void> =>
+): Promise<void> => {
   res.redirect(`${identityBasePath}/api/auth/login?screen_hint=signup`);
+};
