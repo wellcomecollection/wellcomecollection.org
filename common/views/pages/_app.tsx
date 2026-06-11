@@ -13,7 +13,6 @@ import { ServerDataContext } from '@weco/common/server-data/Context';
 import {
   defaultServerData,
   isServerData,
-  ServerData,
   SimplifiedServerData,
 } from '@weco/common/server-data/types';
 import { AppErrorProps } from '@weco/common/services/app';
@@ -49,7 +48,7 @@ const dev = process.env.NODE_ENV !== 'production';
 const civicUkApiKey = process.env.NEXT_PUBLIC_CIVICUK_API_KEY;
 
 type GlobalProps = {
-  serverData: ServerData;
+  serverData: SimplifiedServerData;
 } & Partial<AppErrorProps>;
 
 // Type needs augmenting for getLayout
@@ -163,7 +162,10 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
           <UserContextProvider>
             <AppContextProvider>
               <SearchContextProvider>
-                <KioskProvider isActive={isKiosk}>
+                <KioskProvider
+                  isActive={isKiosk}
+                  readingRoomStories={serverData.prismic.readingRoomStories}
+                >
                   <GlobalStyle
                     $compositeTypography={
                       !!serverData.toggles.featureFlags.compositeTypography
