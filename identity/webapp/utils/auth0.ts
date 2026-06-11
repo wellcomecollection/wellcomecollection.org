@@ -73,8 +73,16 @@ const auth0 = new Auth0Client({
   // Rotating SESSION_KEYS now signs everybody out (sessions last 7 days max).
   secret: sessionKeys[0],
   // The origin only: the /account prefix comes from NEXT_PUBLIC_BASE_PATH,
-  // which the SDK applies when building its own URLs (eg the callback URL)
-  appBaseUrl: siteBaseUrl,
+  // which the SDK applies when building its own URLs (eg the callback URL).
+  //
+  // In local development the app is reached from several origins - directly
+  // on localhost, through the nginx proxy at www-dev.wellcomecollection.org
+  // (see scripts/configure-local-apis), and through the content webapp's
+  // /account rewrite. Leaving appBaseUrl unset makes the SDK resolve the
+  // origin from each request's (X-Forwarded-)Host headers, so the OAuth
+  // callback (and the state cookie it depends on) stays on whichever origin
+  // the browser is actually using.
+  appBaseUrl: process.env.NODE_ENV === 'development' ? undefined : siteBaseUrl,
   authorizationParameters: {
     audience: process.env.IDENTITY_API_HOST || 'build',
     scope: [...utilityScopes, ...profileScopes, ...identityApiScopes].join(' '),
