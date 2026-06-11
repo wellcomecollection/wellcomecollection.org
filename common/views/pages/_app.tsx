@@ -106,7 +106,7 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
 
   const serverData = isServerDataSet ? pageProps.serverData : defaultServerData;
 
-  const isKiosk = !!serverData.toggles.modes.kioskMode;
+  const kioskModeCookie = serverData.toggles.modes.kioskMode;
 
   useMaintainPageHeight();
 
@@ -163,7 +163,7 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
           <UserContextProvider>
             <AppContextProvider>
               <SearchContextProvider>
-                <KioskProvider isActive={isKiosk}>
+                <KioskProvider cookieContent={kioskModeCookie}>
                   <GlobalStyle
                     $compositeTypography={
                       !!serverData.toggles.featureFlags.compositeTypography
@@ -190,7 +190,7 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
                     />
                   )}
 
-                  {isKiosk && (
+                  {!!kioskModeCookie && (
                     <InactivityRedirect redirectUrl="/stories/kiosk" />
                   )}
                 </KioskProvider>

@@ -19,7 +19,7 @@ const PrismicHtmlBlock: FunctionComponent<Props> = ({
   html,
   htmlSerializer,
 }) => {
-  const isKiosk = useKiosk();
+  const { isKiosk } = useKiosk();
   const baseSerializer = htmlSerializer ?? defaultSerializer;
   const serializer = isKiosk
     ? withExternalLinkStripping(baseSerializer)

@@ -20,7 +20,7 @@ type Props = {
 };
 
 const InactivityRedirect: FunctionComponent<Props> = ({ redirectUrl }) => {
-  const isKiosk = useKiosk();
+  const { isKiosk } = useKiosk();
   const router = useRouter();
   const [isWarningActive, setIsWarningActive] = useState(false);
   const [countdown, setCountdown] = useState(WARNING_COUNTDOWN);
