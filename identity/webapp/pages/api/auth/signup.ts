@@ -1,11 +1,14 @@
-import auth0 from '@weco/identity/utils/auth0';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-// This will redirect the user directly to the sign-up page.
+import { identityBasePath } from '@weco/identity/utils/auth0';
+
+// This will redirect the user directly to the sign-up page: the SDK's login
+// handler forwards arbitrary authorization params from the query string.
 //
 // See
 // https://community.auth0.com/t/how-do-i-redirect-users-directly-to-the-hosted-signup-page/42520
-// https://github.com/auth0/nextjs-auth0/issues/16#issuecomment-898565337
-export default async (req, res) =>
-  auth0.handleLogin(req, res, {
-    authorizationParams: { screen_hint: 'signup' },
-  });
+export default async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<void> =>
+  res.redirect(`${identityBasePath}/api/auth/login?screen_hint=signup`);

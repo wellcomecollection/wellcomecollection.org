@@ -25,7 +25,7 @@ const sessionKeys = process.env.SESSION_KEYS
 // we need to, eg if we change the claims on the identity token
 const sessionVersion = 'v1';
 
-const auth0Domain = process.env.AUTH0_DOMAIN || 'build';
+export const auth0Domain = process.env.AUTH0_DOMAIN || 'build';
 
 const identityApiScopes = [
   'create:requests',
