@@ -3,7 +3,7 @@ export type KioskContent = {
   relatedWorks?: string[];
   featuredWorks?: string[];
   stories?: string[];
-  [key: string]: string[] | undefined; // Allow for additional properties for the Reaading Room stories
+  [key: string]: string[] | undefined; // Allow for additional properties for the Reading Room stories
 };
 
 export const kiosksContent: Record<string, KioskContent> = {
