@@ -29,7 +29,7 @@ const InactivityRedirect: FunctionComponent<Props> = ({ redirectUrl }) => {
   const redirectTimerRef = useRef<NodeJS.Timeout | null>(null);
   const modalButtonRef = useRef<HTMLElement | null>(null);
 
-  // Don't run on the redirect destination itself, or if in developer mode
+  // Don't run outside kiosk mode, on the redirect destination itself, or if in developer mode
   const isRedirectDestination = router.asPath === redirectUrl;
   const shouldNotBeActive = !isKiosk || isDevModeKiosk || isRedirectDestination;
 

@@ -23,7 +23,8 @@ export type KioskModeOptionId = Extract<
 type ExtractPrefix<T extends string> = T extends `${infer Prefix}-${string}`
   ? Prefix
   : T;
-// The distinct experience prefixes stored in the kiosk cookie, e.g. 'devMode' | 'RR' | 'TR'.
+// The distinct experience prefixes derived from the kiosk cookie value, e.g. 'devMode' | 'RR' | 'TR'.
+// The cookie stores the full option ID (e.g. 'RR-iPad1'); the prefix is the part before the first '-'.
 // Exported for use across the codebase wherever the cookie prefix is parsed or compared.
 export type KioskExperienceId = ExtractPrefix<KioskModeOptionId>;
 
