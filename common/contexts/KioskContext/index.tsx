@@ -5,14 +5,20 @@ import {
   useContext,
 } from 'react';
 
-type KioskExperience = 'TendernessAndRage' | 'ReadingRoom';
+type KioskExperienceName = 'Tenderness and Rage' | 'Reading Room';
 
 type KioskContextType = {
   isKiosk: boolean;
-  experience?: KioskExperience;
+  isTendernessAndRageKiosk: boolean;
+  isReadingRoomKiosk: boolean;
+  kioskExperienceName?: KioskExperienceName;
 };
 
-const KioskContext = createContext<KioskContextType>({ isKiosk: false });
+const KioskContext = createContext<KioskContextType>({
+  isKiosk: false,
+  isTendernessAndRageKiosk: false,
+  isReadingRoomKiosk: false,
+});
 
 type KioskProviderProps = PropsWithChildren<{
   cookieContent: string | null;
@@ -23,27 +29,39 @@ export const useKiosk = (): KioskContextType => {
   return contextState;
 };
 
-export const KioskProvider: FunctionComponent<KioskProviderProps> = ({
-  cookieContent,
-  children,
-}) => {
-  const experienceId = cookieContent?.split('-')[0];
-  let experienceName: KioskExperience | undefined;
+export const getKioskExperienceName = (
+  cookieContent: string | null
+): KioskExperienceName | undefined => {
+  if (!cookieContent) return undefined;
+
+  const experienceId = cookieContent.split('-')[0];
 
   switch (experienceId) {
     case 'RR':
-      experienceName = 'ReadingRoom';
-      break;
+      return 'Reading Room';
     case 'TR':
-      experienceName = 'TendernessAndRage';
-      break;
+      return 'Tenderness and Rage';
     default:
       break;
   }
 
+  return undefined;
+};
+
+export const KioskProvider: FunctionComponent<KioskProviderProps> = ({
+  cookieContent,
+  children,
+}) => {
+  const experienceName = getKioskExperienceName(cookieContent);
+
   return (
     <KioskContext.Provider
-      value={{ isKiosk: !!cookieContent, experience: experienceName }}
+      value={{
+        isKiosk: !!cookieContent,
+        kioskExperienceName: experienceName,
+        isTendernessAndRageKiosk: experienceName === 'Tenderness and Rage',
+        isReadingRoomKiosk: experienceName === 'Reading Room',
+      }}
     >
       {children}
     </KioskContext.Provider>

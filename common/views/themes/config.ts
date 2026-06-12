@@ -369,6 +369,7 @@ export const themeValues = {
   },
   spacingUnits: designSystemStaticSpacing,
   navHeight: 85,
+  kioskTRBannersHeight: 172, // Specific to the iPad specs
   fontVerticalOffset: '0.15em',
   colors,
   color: getColor,

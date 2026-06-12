@@ -14,62 +14,46 @@ import { css } from 'styled-components';
 // version if we encounter a situation where it would be clearly beneficial
 // https://github.com/wellcomecollection/wellcomecollection.org/issues/12324
 
-const fontFamilies = {
-  sans: designSystemTheme.font.family.sans,
-  brand: designSystemTheme.font.family.brand,
-  mono: designSystemTheme.font.family.mono,
-};
+export const bodyStrongFontWeight =
+  designSystemTheme.typography.body.strong?.lg?.fontWeight ?? 'bold';
 
-const fontSizeMixin = (size: -2 | -1 | 0 | 1 | 2 | 4 | 5) => css`
-  font-size: ${designSystemTheme.font.size[`f${size}`]};
-`;
-type FontFamily = keyof typeof fontFamilies;
+export const compositeTypographyMixin = (
+  category: 'body' | 'caption' | 'display' | 'label' | 'heading',
+  size: TypographySizeKey,
+  weight: 'regular' | 'strong',
+  family?: 'sans' | 'brand'
+) => {
+  const t = designSystemTheme.typography;
+  const weights: Partial<Record<'regular' | 'strong', SizeVariants>> =
+    category === 'heading'
+      ? t.heading[family ?? 'sans']
+      : category === 'body'
+        ? t.body
+        : category === 'display'
+          ? t.display
+          : category === 'caption'
+            ? t.caption
+            : t.label;
+  const style = weights[weight]?.[size];
 
-export const fontFamilyMixin = (
-  family: FontFamily,
-  isBold?: boolean
-): string => {
-  const weight = isBold
-    ? family === 'brand'
-      ? 'bold'
-      : 'semibold'
-    : 'regular';
+  if (!style) return css``;
 
-  return `
-  font-family: ${fontFamilies[family]};
-  font-weight: ${designSystemTheme.font.weight[weight]};
+  return css`
+    font-family: ${style.fontFamily};
+    font-weight: ${style.fontWeight};
+    font-size: ${style.fontSize};
+    line-height: ${style.lineHeight};
+    letter-spacing: ${style.letterSpacing};
   `;
 };
 
 export const typography = css`
-  .font-sans-bold {
-    ${fontFamilyMixin('sans', true)};
-  }
-
-  .font-sans {
-    ${fontFamilyMixin('sans')};
-  }
-
-  .font-brand-bold {
-    ${fontFamilyMixin('brand', true)};
-  }
-
-  .font-brand {
-    ${fontFamilyMixin('brand')};
-  }
-
-  .font-mono {
-    ${fontFamilyMixin('mono')};
-  }
-
   html {
     font-size: 100%;
   }
 
   body {
-    ${fontFamilyMixin('sans')}
-    ${fontSizeMixin(0)}
-    line-height: ${designSystemTheme['line-height'].lg};
+    ${compositeTypographyMixin('body', 'lg', 'regular')}
     color: ${props => props.theme.color('black')};
     font-variant-ligatures: no-common-ligatures;
     -webkit-font-smoothing: antialiased;
@@ -164,21 +148,16 @@ export const typography = css`
   }
 
   .body-text {
-    letter-spacing: 0.0044em;
-
     h1 {
-      ${fontFamilyMixin('brand', true)}
-      ${fontSizeMixin(4)}
+      ${compositeTypographyMixin('heading', 'xxl', 'strong', 'brand')}
     }
 
     h2 {
-      ${fontFamilyMixin('brand', true)}
-      ${fontSizeMixin(2)}
+      ${compositeTypographyMixin('heading', 'xl', 'strong', 'brand')}
     }
 
     h3 {
-      ${fontFamilyMixin('sans', true)}
-      ${fontSizeMixin(1)}
+      ${compositeTypographyMixin('body', 'xl', 'strong')}
     }
 
     *::selection {
@@ -222,12 +201,12 @@ export const typography = css`
 
     strong,
     b {
-      ${fontFamilyMixin('sans', true)};
+      font-weight: ${bodyStrongFontWeight};
     }
   }
 
   .drop-cap {
-    ${fontFamilyMixin('brand', true)}
+    ${compositeTypographyMixin('heading', 'xl', 'strong', 'brand')}
     font-size: 3em;
     color: ${props => props.theme.color('black')};
     float: left;
@@ -259,7 +238,7 @@ export const typography = css`
     position: relative;
 
     &::before {
-      ${fontFamilyMixin('brand', true)}
+      ${compositeTypographyMixin('heading', 'xl', 'strong', 'brand')}
       position: absolute;
       content: '“';
       color: ${props => props.theme.color('accent.blue')};

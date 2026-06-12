@@ -277,37 +277,44 @@ const PageLayoutComponent: NextPage<Props> = ({
           />
         )}
 
-        {skipToContentLinks.map(({ anchorId, label }) => (
-          <a
-            className="visually-hidden visually-hidden-focusable"
-            href={`#${anchorId}`}
-            key={anchorId}
-          >
-            {label}
-          </a>
-        ))}
-        <a className="visually-hidden visually-hidden-focusable" href="#main">
-          Skip to main content
-        </a>
+        {!isKiosk && (
+          <>
+            {skipToContentLinks.map(({ anchorId, label }) => (
+              <a
+                className="visually-hidden visually-hidden-focusable"
+                href={`#${anchorId}`}
+                key={anchorId}
+              >
+                {label}
+              </a>
+            ))}
+            <a
+              className="visually-hidden visually-hidden-focusable"
+              href="#main"
+            >
+              Skip to main content
+            </a>
 
-        {!hideHeader && !isKiosk && (
-          <Header siteSection={siteSection} {...headerProps} />
+            {!hideHeader && (
+              <Header siteSection={siteSection} {...headerProps} />
+            )}
+
+            {issuesBanner && <InfoBanner variant="websiteIssues" />}
+
+            {globalAlert.data.isShown === 'show' &&
+              (!globalAlert.data.routeRegex ||
+                urlString.match(new RegExp(globalAlert.data.routeRegex))) && (
+                <InfoBanner
+                  variant="default"
+                  document={globalAlert}
+                  cookieName={cookies.globalAlert}
+                  onVisibilityChange={isVisible => {
+                    globalInfoBar.setIsVisible(isVisible);
+                  }}
+                />
+              )}
+          </>
         )}
-
-        {issuesBanner && <InfoBanner variant="websiteIssues" />}
-
-        {globalAlert.data.isShown === 'show' &&
-          (!globalAlert.data.routeRegex ||
-            urlString.match(new RegExp(globalAlert.data.routeRegex))) && (
-            <InfoBanner
-              variant="default"
-              document={globalAlert}
-              cookieName={cookies.globalAlert}
-              onVisibilityChange={isVisible => {
-                globalInfoBar.setIsVisible(isVisible);
-              }}
-            />
-          )}
 
         {popupDialog?.data?.isShown &&
           (!popupDialog.data.routeRegex ||
