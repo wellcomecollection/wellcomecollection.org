@@ -20,7 +20,7 @@ type Props = {
 };
 
 const InactivityRedirect: FunctionComponent<Props> = ({ redirectUrl }) => {
-  const { isKiosk } = useKiosk();
+  const { isKiosk, isDevModeKiosk } = useKiosk();
   const router = useRouter();
   const [isWarningActive, setIsWarningActive] = useState(false);
   const [countdown, setCountdown] = useState(WARNING_COUNTDOWN);
@@ -29,8 +29,9 @@ const InactivityRedirect: FunctionComponent<Props> = ({ redirectUrl }) => {
   const redirectTimerRef = useRef<NodeJS.Timeout | null>(null);
   const modalButtonRef = useRef<HTMLElement | null>(null);
 
-  // Don't run on the redirect destination itself
+  // Don't run outside kiosk mode, on the redirect destination itself, or if in developer mode
   const isRedirectDestination = router.asPath === redirectUrl;
+  const shouldNotBeActive = !isKiosk || isDevModeKiosk || isRedirectDestination;
 
   const performRedirect = useCallback(
     ({ isAutomated }: { isAutomated: boolean }) => {
@@ -82,6 +83,8 @@ const InactivityRedirect: FunctionComponent<Props> = ({ redirectUrl }) => {
 
   // Clean up on route changes
   useEffect(() => {
+    if (shouldNotBeActive) return;
+
     const handleRouteChange = () => {
       setIsWarningActive(false);
       setCountdown(WARNING_COUNTDOWN);
@@ -104,10 +107,12 @@ const InactivityRedirect: FunctionComponent<Props> = ({ redirectUrl }) => {
     return () => {
       router.events.off('routeChangeStart', handleRouteChange);
     };
-  }, [router]);
+  }, [router, shouldNotBeActive]);
 
   // Countdown and redirect when warning is active
   useEffect(() => {
+    if (shouldNotBeActive) return;
+
     if (isWarningActive) {
       countdownTimerRef.current = setInterval(() => {
         setCountdown(prev => {
@@ -134,11 +139,11 @@ const InactivityRedirect: FunctionComponent<Props> = ({ redirectUrl }) => {
         }
       };
     }
-  }, [isWarningActive, performRedirect]);
+  }, [shouldNotBeActive, isWarningActive, performRedirect]);
 
   // Set up activity listeners
   useEffect(() => {
-    if (!isKiosk || isRedirectDestination) return;
+    if (shouldNotBeActive) return;
 
     if (isWarningActive) {
       return;
@@ -175,16 +180,13 @@ const InactivityRedirect: FunctionComponent<Props> = ({ redirectUrl }) => {
       }
     };
   }, [
-    isKiosk,
-    isRedirectDestination,
+    shouldNotBeActive,
     isWarningActive,
     handleUserActivity,
     resetInactivityTimer,
   ]);
 
-  if (!isKiosk || isRedirectDestination) {
-    return null;
-  }
+  if (shouldNotBeActive) return null;
 
   return (
     <Modal
