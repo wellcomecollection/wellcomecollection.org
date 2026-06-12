@@ -168,8 +168,29 @@ resource "aws_wafv2_web_acl" "wc_org" {
     }
 
     statement {
-      ip_set_reference_statement {
-        arn = var.google_bots_ip_set_arn
+      and_statement {
+        statement {
+          ip_set_reference_statement {
+            arn = var.google_bots_ip_set_arn
+          }
+        }
+        statement {
+          byte_match_statement {
+            positional_constraint = "CONTAINS"
+            search_string         = "Googlebot"
+
+            field_to_match {
+              single_header {
+                name = "user-agent"
+              }
+            }
+
+            text_transformation {
+              priority = 0
+              type     = "NONE"
+            }
+          }
+        }
       }
     }
 
@@ -630,75 +651,24 @@ resource "aws_wafv2_web_acl" "wc_org" {
             statement {
               byte_match_statement {
                 positional_constraint = "CONTAINS"
-                search_string         = "PetalBot"
-
-                field_to_match {
-                  single_header {
-                    name = "user-agent"
-                  }
-                }
-
-                text_transformation {
-                  priority = 0
-                  type     = "NONE"
-                }
-              }
-            }
-            statement {
-              byte_match_statement {
-                positional_constraint = "CONTAINS"
-                search_string         = "ClaudeBot"
-
-                field_to_match {
-                  single_header {
-                    name = "user-agent"
-                  }
-                }
-
-                text_transformation {
-                  priority = 0
-                  type     = "NONE"
-                }
-              }
-            }
-            statement {
-              byte_match_statement {
-                positional_constraint = "CONTAINS"
-                search_string         = "GPTBot"
-
-                field_to_match {
-                  single_header {
-                    name = "user-agent"
-                  }
-                }
-
-                text_transformation {
-                  priority = 0
-                  type     = "NONE"
-                }
-              }
-            }
-            statement {
-              byte_match_statement {
-                positional_constraint = "CONTAINS"
-                search_string         = "GoogleOther"
-
-                field_to_match {
-                  single_header {
-                    name = "user-agent"
-                  }
-                }
-
-                text_transformation {
-                  priority = 0
-                  type     = "NONE"
-                }
-              }
-            }
-            statement {
-              byte_match_statement {
-                positional_constraint = "CONTAINS"
                 search_string         = "Applebot"
+
+                field_to_match {
+                  single_header {
+                    name = "user-agent"
+                  }
+                }
+
+                text_transformation {
+                  priority = 0
+                  type     = "NONE"
+                }
+              }
+            }
+            statement {
+              byte_match_statement {
+                positional_constraint = "CONTAINS"
+                search_string         = "ChatGPT-User"
 
                 field_to_match {
                   single_header {
@@ -732,7 +702,41 @@ resource "aws_wafv2_web_acl" "wc_org" {
             statement {
               byte_match_statement {
                 positional_constraint = "CONTAINS"
-                search_string         = "ChatGPT-User"
+                search_string         = "ClaudeBot"
+
+                field_to_match {
+                  single_header {
+                    name = "user-agent"
+                  }
+                }
+
+                text_transformation {
+                  priority = 0
+                  type     = "NONE"
+                }
+              }
+            }
+            statement {
+              byte_match_statement {
+                positional_constraint = "CONTAINS"
+                search_string         = "GoogleOther"
+
+                field_to_match {
+                  single_header {
+                    name = "user-agent"
+                  }
+                }
+
+                text_transformation {
+                  priority = 0
+                  type     = "NONE"
+                }
+              }
+            }
+            statement {
+              byte_match_statement {
+                positional_constraint = "CONTAINS"
+                search_string         = "GPTBot"
 
                 field_to_match {
                   single_header {
@@ -767,6 +771,23 @@ resource "aws_wafv2_web_acl" "wc_org" {
               byte_match_statement {
                 positional_constraint = "CONTAINS"
                 search_string         = "PerplexityBot"
+
+                field_to_match {
+                  single_header {
+                    name = "user-agent"
+                  }
+                }
+
+                text_transformation {
+                  priority = 0
+                  type     = "NONE"
+                }
+              }
+            }
+            statement {
+              byte_match_statement {
+                positional_constraint = "CONTAINS"
+                search_string         = "PetalBot"
 
                 field_to_match {
                   single_header {

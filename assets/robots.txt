@@ -13,13 +13,7 @@ Disallow: /
 User-agent: Bytespider
 Disallow: /
 
-User-agent: ChatGPT-User
-Disallow: /
-
 User-agent: ClaudeBot
-Disallow: /
-
-User-agent: Claude-SearchBot
 Disallow: /
 
 User-agent: Claude-Web
@@ -34,16 +28,10 @@ Disallow: /
 User-agent: magpie-crawler
 Disallow: /
 
-User-agent: OAI-SearchBot
-Disallow: /
-
 User-agent: omgili
 Disallow: /
 
 User-agent: omgilibot
-Disallow: /
-
-User-agent: PerplexityBot
 Disallow: /
 
 User-agent: PetalBot
