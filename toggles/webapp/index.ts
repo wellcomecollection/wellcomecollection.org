@@ -11,6 +11,22 @@ export type FeatureFlagId = (typeof toggleConfig.featureFlags)[number]['id'];
 export type TestId = (typeof toggleConfig.tests)[number]['id'];
 export type ModeId = (typeof toggleConfig.modes)[number]['id'];
 
+// The full option IDs for the kioskMode toggle, e.g. 'devMode' | 'RR-iPad1' | 'TR-iPad1'.
+// Exported so the rest of the codebase can reference kiosk option IDs without hardcoding strings.
+export type KioskModeOptionId = Extract<
+  (typeof toggleConfig.modes)[number],
+  { id: 'kioskMode' }
+>['options'][number]['id'];
+
+// Extracts the experience prefix from a kiosk option ID.
+// e.g. 'RR-iPad1' -> 'RR', 'devMode' -> 'devMode'
+type ExtractPrefix<T extends string> = T extends `${infer Prefix}-${string}`
+  ? Prefix
+  : T;
+// The distinct experience prefixes stored in the kiosk cookie, e.g. 'devMode' | 'RR' | 'TR'.
+// Exported for use across the codebase wherever the cookie prefix is parsed or compared.
+export type KioskExperienceId = ExtractPrefix<KioskModeOptionId>;
+
 // As togglesConfig is what is served at https://toggles.wellcomecollection.org/toggles.json
 // This allows methods fetching that URL to type the data fetched
 export type TogglesResp = {

@@ -5,10 +5,16 @@ import {
   useContext,
 } from 'react';
 
+import { KioskExperienceId } from '@weco/toggles';
+
+export const kioskExperienceNames = {
+  developerMode: 'Developer mode',
+  tendernessAndRage: 'Tenderness and Rage',
+  readingRoom: 'Reading Room',
+} as const;
+
 type KioskExperienceName =
-  | 'Developer mode'
-  | 'Tenderness and Rage'
-  | 'Reading Room';
+  (typeof kioskExperienceNames)[keyof typeof kioskExperienceNames];
 
 type KioskContextType = {
   isKiosk: boolean;
@@ -39,15 +45,15 @@ export const getKioskExperienceName = (
 ): KioskExperienceName | undefined => {
   if (!cookieContent) return undefined;
 
-  const experienceId = cookieContent.split('-')[0];
+  const experienceId = cookieContent.split('-')[0] as KioskExperienceId;
 
   switch (experienceId) {
     case 'RR':
-      return 'Reading Room';
+      return kioskExperienceNames.readingRoom;
     case 'TR':
-      return 'Tenderness and Rage';
+      return kioskExperienceNames.tendernessAndRage;
     case 'devMode':
-      return 'Developer mode';
+      return kioskExperienceNames.developerMode;
     default:
       break;
   }
@@ -66,9 +72,10 @@ export const KioskProvider: FunctionComponent<KioskProviderProps> = ({
       value={{
         isKiosk: !!cookieContent,
         kioskExperienceName: experienceName,
-        isDevModeKiosk: experienceName === 'Developer mode',
-        isTendernessAndRageKiosk: experienceName === 'Tenderness and Rage',
-        isReadingRoomKiosk: experienceName === 'Reading Room',
+        isDevModeKiosk: experienceName === kioskExperienceNames.developerMode,
+        isTendernessAndRageKiosk:
+          experienceName === kioskExperienceNames.tendernessAndRage,
+        isReadingRoomKiosk: experienceName === kioskExperienceNames.readingRoom,
       }}
     >
       {children}
