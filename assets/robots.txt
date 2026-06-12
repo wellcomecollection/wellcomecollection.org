@@ -5,7 +5,8 @@ User-agent: anthropic-ai
 Disallow: /
 
 User-agent: Applebot
-Disallow: /
+Disallow: /works/*/items
+Disallow: /_next/data/*/works/*/items
 
 User-agent: Applebot-Extended
 Disallow: /

@@ -668,23 +668,6 @@ resource "aws_wafv2_web_acl" "wc_org" {
             statement {
               byte_match_statement {
                 positional_constraint = "CONTAINS"
-                search_string         = "ChatGPT-User"
-
-                field_to_match {
-                  single_header {
-                    name = "user-agent"
-                  }
-                }
-
-                text_transformation {
-                  priority = 0
-                  type     = "NONE"
-                }
-              }
-            }
-            statement {
-              byte_match_statement {
-                positional_constraint = "CONTAINS"
                 search_string         = "Claude-SearchBot"
 
                 field_to_match {
@@ -737,40 +720,6 @@ resource "aws_wafv2_web_acl" "wc_org" {
               byte_match_statement {
                 positional_constraint = "CONTAINS"
                 search_string         = "GPTBot"
-
-                field_to_match {
-                  single_header {
-                    name = "user-agent"
-                  }
-                }
-
-                text_transformation {
-                  priority = 0
-                  type     = "NONE"
-                }
-              }
-            }
-            statement {
-              byte_match_statement {
-                positional_constraint = "CONTAINS"
-                search_string         = "OAI-SearchBot"
-
-                field_to_match {
-                  single_header {
-                    name = "user-agent"
-                  }
-                }
-
-                text_transformation {
-                  priority = 0
-                  type     = "NONE"
-                }
-              }
-            }
-            statement {
-              byte_match_statement {
-                positional_constraint = "CONTAINS"
-                search_string         = "PerplexityBot"
 
                 field_to_match {
                   single_header {
