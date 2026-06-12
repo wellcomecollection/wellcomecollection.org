@@ -83,6 +83,8 @@ const InactivityRedirect: FunctionComponent<Props> = ({ redirectUrl }) => {
 
   // Clean up on route changes
   useEffect(() => {
+    if (shouldNotBeActive) return;
+
     const handleRouteChange = () => {
       setIsWarningActive(false);
       setCountdown(WARNING_COUNTDOWN);
@@ -105,10 +107,12 @@ const InactivityRedirect: FunctionComponent<Props> = ({ redirectUrl }) => {
     return () => {
       router.events.off('routeChangeStart', handleRouteChange);
     };
-  }, [router]);
+  }, [router, shouldNotBeActive]);
 
   // Countdown and redirect when warning is active
   useEffect(() => {
+    if (shouldNotBeActive) return;
+
     if (isWarningActive) {
       countdownTimerRef.current = setInterval(() => {
         setCountdown(prev => {
@@ -135,7 +139,7 @@ const InactivityRedirect: FunctionComponent<Props> = ({ redirectUrl }) => {
         }
       };
     }
-  }, [isWarningActive, performRedirect]);
+  }, [shouldNotBeActive, isWarningActive, performRedirect]);
 
   // Set up activity listeners
   useEffect(() => {
@@ -176,8 +180,7 @@ const InactivityRedirect: FunctionComponent<Props> = ({ redirectUrl }) => {
       }
     };
   }, [
-    isKiosk,
-    isRedirectDestination,
+    shouldNotBeActive,
     isWarningActive,
     handleUserActivity,
     resetInactivityTimer,
