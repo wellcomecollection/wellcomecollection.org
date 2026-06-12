@@ -37,7 +37,7 @@ async function fetchGoogleBotIPs() {
   logInfo('Fetching Google bot IP ranges...');
 
   const data = await fetchJson(GOOGLE_IP_SOURCE);
-  const allIPs = extractIpv4Addresses(data);
+  const allIPs = [...new Set(extractIpv4Addresses(data))];
 
   logInfo(`Fetched ${allIPs.length} unique IPv4 addresses`);
 
