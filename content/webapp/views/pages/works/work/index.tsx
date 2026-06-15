@@ -26,6 +26,7 @@ import {
   getDigitalLocationOfType,
   showItemLink,
 } from '@weco/content/utils/works';
+import KioskNavigation from '@weco/content/views/components/KioskNavigation';
 import CataloguePageLayout from '@weco/content/views/layouts/CataloguePageLayout';
 
 import ArchiveTree from './ArchiveTree';
@@ -123,6 +124,13 @@ export const WorkPage: NextPage<Props> = ({
         image={image}
         apiToolbarLinks={createApiToolbarWorkLinks(work, apiUrl)}
         hideNewsletterPromo={true}
+        kioskNavigation={
+          isKiosk ? (
+            <Container>
+              <KioskNavigation pageId={work.id} pageType="work" />
+            </Container>
+          ) : undefined
+        }
       >
         {!isKiosk && (
           <Container>

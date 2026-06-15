@@ -175,6 +175,13 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
       siteSection="stories"
       image={article.image}
       apiToolbarLinks={[createPrismicLink(article.id)]}
+      kioskNavigation={
+        isKiosk ? (
+          <Container>
+            <KioskNavigation pageId={article.uid} pageType="story" />
+          </Container>
+        ) : undefined
+      }
     >
       <ContentPage
         id={article.id}
@@ -206,13 +213,6 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
         seasons={article.seasons}
         showStaticLinkedWorks={!isInPicturesFormat}
       />
-
-      {/* // TODO this should go on PageLayout instead rather than individual pages, but would need to pass in type and id/uid to PageLayout - it could be on any page the user finds themselves on */}
-      {isKiosk && (
-        <Container>
-          <KioskNavigation pageId={article.uid} pageType="story" />
-        </Container>
-      )}
 
       {article.exploreMoreDocument && relatedDocument && (
         <>
