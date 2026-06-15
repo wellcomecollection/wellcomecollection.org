@@ -64,7 +64,7 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
                       dateActivated={toggle.dateActivated}
                     >
                       <h3
-                        style={{ margin: 0, cursor: 'help' }}
+                        style={{ margin: 0 }}
                         aria-labelledby={`heading-${toggle.id}`}
                       >
                         <span id={`heading-${toggle.id}`}>{toggle.title}</span>{' '}

@@ -9,18 +9,27 @@ type ToggleDatesProps = {
   children: ReactNode;
 };
 
-const formatDate = (isoString: string): string =>
-  new Date(isoString).toLocaleDateString('en-GB', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  });
+const formatDate = (isoString: string): string => {
+  // Display first 10 chars (YYYY-MM-DD format)
+  return isoString.slice(0, 10);
+};
 
 const calculateTimeAgo = (isoString: string): string => {
   const now = new Date();
   const then = new Date(isoString);
+
+  // Guard against invalid dates
+  if (isNaN(then.getTime())) {
+    return 'invalid date';
+  }
+
   const diffMs = now.getTime() - then.getTime();
   const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+  // Guard against future dates (treat as invalid)
+  if (diffDays < 0) {
+    return 'invalid date';
+  }
 
   const weeks = Math.round(diffDays / 7);
 
@@ -66,6 +75,7 @@ const Tooltip = styled.div<{ $visible: boolean }>`
 
 const HeadingWrapper = styled.div`
   position: relative;
+  cursor: help;
 `;
 
 const ToggleDates: FunctionComponent<ToggleDatesProps> = ({
@@ -83,7 +93,7 @@ const ToggleDates: FunctionComponent<ToggleDatesProps> = ({
       onMouseLeave={() => setShowTooltip(false)}
     >
       {children}
-      <Tooltip $visible={showTooltip}>
+      <Tooltip $visible={showTooltip} role="tooltip" aria-hidden={!showTooltip}>
         {dateCreated && (
           <div>
             <strong>Created:</strong> {formatDate(dateCreated)} (
