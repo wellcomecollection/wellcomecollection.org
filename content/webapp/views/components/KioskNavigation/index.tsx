@@ -2,8 +2,8 @@ import Link from 'next/link';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { KioskContent } from '@weco/common/contexts/kiosk';
 import { useKiosksContent } from '@weco/common/contexts/KioskContext';
+import { KioskContent } from '@weco/common/contexts/KioskContext/kiosk';
 import { useModes } from '@weco/common/server-data/Context';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -92,10 +92,6 @@ export const KioskNavigation: FunctionComponent<Props> = ({
     kiosksContent,
   });
 
-  const { currentIndex, prevPageId, nextPageId, totalCount } = {
-    ...navigation,
-  };
-
   // Determine URL path and label based on page type
   const urlPath = pageType === 'work' ? 'works' : 'stories';
   const label = pageType === 'work' ? 'Related works' : 'Related stories';
@@ -104,31 +100,37 @@ export const KioskNavigation: FunctionComponent<Props> = ({
     <KioskNavigationWrapper data-component="kiosk-navigation">
       <Space $v={{ size: 'md', properties: ['margin-top'] }}>
         Back to: Home
-        {label}
-        <div>
-          <div style={{ textAlign: 'center' }}>
-            <span>
-              {currentIndex !== undefined
-                ? `${currentIndex + 1} of ${totalCount}`
-                : ''}
-            </span>
-          </div>
-          <div style={{ textAlign: 'left' }}>
-            {prevPageId ? (
-              <Link href={`/${urlPath}/${prevPageId}`}>Prev</Link>
-            ) : (
-              'Prev'
-            )}
-          </div>
+        {navigation && (
+          <>
+            {label}
+            <div>
+              <div style={{ textAlign: 'center' }}>
+                <span>
+                  {navigation.currentIndex + 1} of {navigation.totalCount}
+                </span>
+              </div>
+              <div style={{ textAlign: 'left' }}>
+                {navigation.prevPageId ? (
+                  <Link href={`/${urlPath}/${navigation.prevPageId}`}>
+                    Prev
+                  </Link>
+                ) : (
+                  'Prev'
+                )}
+              </div>
 
-          <div style={{ textAlign: 'right' }}>
-            {nextPageId ? (
-              <Link href={`/${urlPath}/${nextPageId}`}>Next</Link>
-            ) : (
-              'Next'
-            )}
-          </div>
-        </div>
+              <div style={{ textAlign: 'right' }}>
+                {navigation.nextPageId ? (
+                  <Link href={`/${urlPath}/${navigation.nextPageId}`}>
+                    Next
+                  </Link>
+                ) : (
+                  'Next'
+                )}
+              </div>
+            </div>
+          </>
+        )}
       </Space>
     </KioskNavigationWrapper>
   );
