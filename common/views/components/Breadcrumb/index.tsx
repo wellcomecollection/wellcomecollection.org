@@ -1,5 +1,6 @@
 import { FunctionComponent } from 'react';
 
+import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { BreadcrumbItems, Breadcrumbs } from '@weco/common/model/breadcrumbs';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { breadcrumbsLd } from '@weco/common/utils/json-ld';
@@ -31,6 +32,8 @@ const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({
   items,
   noHomeLink,
 }) => {
+  const { isKiosk } = useKiosk();
+
   // We prepend a 'Home' breadcrumb at the start of every chain, so every page
   // will ideally always have a visible breadcrumb.
   const allItems = [
@@ -44,7 +47,7 @@ const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({
 
   const visibleItems = allItems.filter(({ isHidden }) => !isHidden);
 
-  if (visibleItems.length === 0) return null;
+  if (isKiosk || visibleItems.length === 0) return null;
 
   return (
     // TODO remove is-hidden-print class once we've made the breadcrumbs more useful
