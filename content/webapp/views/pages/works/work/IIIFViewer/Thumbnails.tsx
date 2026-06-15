@@ -1,6 +1,7 @@
 import NextLink from 'next/link';
 import styled from 'styled-components';
 
+import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
 
@@ -8,7 +9,7 @@ import { queryParamToArrayIndex } from '.';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 import { thumbnailsPageSize } from './Paginators';
 
-const ThumbnailsContainer = styled.div`
+const ThumbnailsContainer = styled.div<{ $isTRKiosk?: boolean }>`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
@@ -17,7 +18,7 @@ const ThumbnailsContainer = styled.div`
   height: 1800px;
   ${props => `
     ${props.theme.media('lg')(`
-    height: calc(100vh - ${props.theme.navHeight}px);
+    height: calc(100vh - ${props.$isTRKiosk ? props.theme.kioskTRBannersHeight : props.theme.navHeight}px);
     `)}
   `}
 `;
@@ -31,6 +32,7 @@ const ThumbnailLink = styled(NextLink)`
 
 export const Thumbnails = () => {
   const { work, query, transformedManifest } = useItemViewerContext();
+  const { isTendernessAndRageKiosk } = useKiosk();
   const { canvases } = { ...transformedManifest };
   const navigationCanvases = canvases
     ? [...Array(thumbnailsPageSize)]
@@ -42,7 +44,7 @@ export const Thumbnails = () => {
     : [];
 
   return (
-    <ThumbnailsContainer id="xyz">
+    <ThumbnailsContainer id="xyz" $isTRKiosk={isTendernessAndRageKiosk}>
       {navigationCanvases &&
         navigationCanvases.map((canvas, i) => {
           const canvasParam =

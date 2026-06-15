@@ -50,7 +50,7 @@ export type ArticleSeriesList = {
 }[];
 
 const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
-  const isKiosk = useKiosk();
+  const { isKiosk } = useKiosk();
   const [listOfSeries, setListOfSeries] = useState<ArticleSeriesList>();
   const [relatedDocument, setRelatedDocument] = useState<
     ExhibitionBasic | ContentAPIArticle | undefined

@@ -6,6 +6,7 @@ We use CloudFront for the cache of wellcomecollection.org.
   - [Redirector](#redirector)
   - [Toggler (A/B testing)](#toggler-ab-testing)
 - [Google Bot IP Updater](#google-bot-ip-updater)
+- [GitHub Actions IP Updater](#github-actions-ip-updater)
 
 ## lambda@edge functions
 
@@ -124,7 +125,7 @@ terraform apply terraform.plan
 Automated Lambda function that keeps the WAF IP allowlist for Google bots up to date.
 
 **What it does:**
-- Fetches latest Google bot IP ranges from Google's published lists [of common](https://developers.google.com/static/crawling/ipranges/common-crawlers.json) and [special](https://developers.google.com/static/crawling/ipranges/special-crawlers.json) crawlers.
+- Fetches latest Google bot IP ranges from Google's published list of [common crawlers](https://developers.google.com/static/crawling/ipranges/common-crawlers.json). The special-crawlers list is intentionally excluded — those bots (AdsBot, APIs-Google, etc.) don't send a `Googlebot` user agent, so including their IPs serves no purpose given how the WAF rule is configured.
 - Updates the `google-bots` WAF IP set daily at 2 AM UTC
 - Has a 10% change gate to prevent unexpected large changes
 - Sends alerts on failures via SNS
@@ -151,4 +152,48 @@ cd cache
 node --test update_google_bot_ips.test.js
 ```
 
-If the Lambda fails with "IP count change exceeds maximum", check Google's source URLs manually - it may be a legitimate change or an API issue.
+If the Lambda fails with "IP content change of … exceeds maximum allowed", check Google's source URLs manually - it may be a legitimate change or an API issue.
+
+## GitHub Actions IP Updater
+
+Automated Lambda function that keeps the WAF IP allowlist for GitHub Actions runners up to date, so they are not blocked by WAF rate-limiting.
+
+**What it does:**
+- Fetches latest GitHub Actions IP ranges from the [GitHub /meta endpoint](https://api.github.com/meta)
+- Updates the `github-actions` WAF IP set daily at 3 AM UTC
+- Has a change gate (default 10%) to prevent unexpected large updates
+- Sends alerts on failures via SNS
+
+**Manual invocation:**
+```bash
+AWS_PROFILE=experience-developer aws lambda invoke \
+  --function-name github-actions-ip-updater \
+  --region us-east-1 \
+  --cli-binary-format raw-in-base64-out \
+  --payload '{}' \
+  /tmp/response.json \
+  --log-type Tail \
+  --query 'LogResult' \
+  --output text | base64 -d
+
+**Logs:** `/aws/lambda/github-actions-ip-updater`
+
+**Files:**
+- [`ip-updaters/github-actions.js`](./ip-updaters/github-actions.js) - Lambda function
+- [`ip-updaters/helpers.js`](./ip-updaters/helpers.js) - Shared helpers (validation, IP extraction, logging)
+- [`ip-updaters/helpers.test.js`](./ip-updaters/helpers.test.js) - Tests
+- [`ip_updater_github_actions.tf`](./ip_updater_github_actions.tf) - Infrastructure
+
+**If the Lambda fails with "IP content change of … exceeds maximum allowed":**
+
+GitHub occasionally makes large changes to their runner IP ranges. If the change is legitimate (you can verify by checking [api.github.com/meta](https://api.github.com/meta) directly). You can also go consult the Lambda's logs to make sure the changes make sense (we log % changed, but also how many were removed and added).
+
+1. Install the WAF client locally:`npm init -y && npm install @aws-sdk/client-wafv2`
+2. Update `MAX_CHANGE_PERCENT` in [`ip-updaters/helpers.js`](./ip-updaters/helpers.js) to a value that allows the update to proceed. This should be a temporary change and not be merged in `main`.
+3. Fetch the `IP_SET_ID`:
+   ```bash
+   AWS_PROFILE=experience-developer aws wafv2 list-ip-sets --scope CLOUDFRONT --region us-east-1 \
+     --query "IPSets[?Name=='github-actions'].Id" --output text
+   ```
+4. Run the handler locally: `AWS_PROFILE=experience-developer IP_SET_ID=<ip-set-id-from-step-3> node -e "require('./ip-updaters/github-actions').handler().then(console.log)"`
+5. Manually invoke the Lambda (per instructions above). Output should contain `✓ No changes detected. IP set is already up to date.`
