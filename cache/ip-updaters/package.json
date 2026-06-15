@@ -1,0 +1,7 @@
+{
+  "name": "waf-ip-updaters",
+  "private": true,
+  "devDependencies": {
+    "@aws-sdk/client-wafv2": "*"
+  }
+}
