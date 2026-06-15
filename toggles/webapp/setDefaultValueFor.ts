@@ -18,6 +18,9 @@ export async function setDefaultValueFor(client: S3Client): Promise<void> {
       return {
         ...toggle,
         defaultValue,
+        // dateActivated tracks the most recent activation. Cleared on deactivation
+        // so it only ever reflects a currently-active toggle's activation date.
+        dateActivated: defaultValue ? new Date().toISOString() : undefined,
       };
     }
     return toggle;

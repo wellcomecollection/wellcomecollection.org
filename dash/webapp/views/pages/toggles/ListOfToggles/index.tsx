@@ -13,6 +13,7 @@ import {
 } from '../toggles.styles';
 import CopyLinkIcon from './ListOfToggles.CopyLinkIcon';
 import StatusBadge from './ListOfToggles.StatusBadge';
+import ToggleDates from './ListOfToggles.ToggleDates';
 import ToggleSwitch from './ListOfToggles.ToggleSwitch';
 
 type ListOfTogglesProps = {
@@ -49,20 +50,30 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
         {featureFlags.map(toggle => {
           const isPublicOn = toggle.defaultValue === true;
           const currentState = toggleStates[toggle.id];
-          const isOn = (currentState ?? toggle.defaultValue) === true;
+          const isOn = isPublicOn
+            ? true
+            : (currentState ?? toggle.defaultValue) === true;
 
           return (
             <ToggleListItem key={toggle.id} id={`toggle-${toggle.id}`}>
               <ToggleRow>
                 <ToggleInfo>
                   <ToggleHeadingRow>
-                    <h3
-                      style={{ margin: 0 }}
-                      aria-labelledby={`heading-${toggle.id}`}
+                    <ToggleDates
+                      dateCreated={toggle.dateCreated}
+                      dateActivated={toggle.dateActivated}
                     >
-                      <span id={`heading-${toggle.id}`}>{toggle.title}</span>{' '}
-                      <CopyLinkIcon toggleId={toggle.id} title={toggle.title} />
-                    </h3>
+                      <h3
+                        style={{ margin: 0, cursor: 'help' }}
+                        aria-labelledby={`heading-${toggle.id}`}
+                      >
+                        <span id={`heading-${toggle.id}`}>{toggle.title}</span>{' '}
+                        <CopyLinkIcon
+                          toggleId={toggle.id}
+                          title={toggle.title}
+                        />
+                      </h3>
+                    </ToggleDates>
                   </ToggleHeadingRow>
 
                   <div style={{ marginBottom: tokens.spacing.xs }}>
