@@ -108,9 +108,7 @@ const Modal: FunctionComponent<Props> = ({
           <Overlay
             data-lock-scroll="true"
             onClick={() => {
-              if (!removeCloseButton) {
-                setIsActive(false);
-              }
+              setIsActive(false);
             }}
           />
         )}
