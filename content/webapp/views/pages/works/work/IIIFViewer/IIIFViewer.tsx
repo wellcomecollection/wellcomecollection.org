@@ -69,6 +69,7 @@ const ZoomedImage = dynamic(() => import('./ZoomedImage'), {
 type GridProps = {
   $isFullSupportBrowser: boolean;
   $isTRKiosk?: boolean;
+  $isNonTRKiosk?: boolean;
   $useFixedList?: boolean;
   $hasMultipleCanvases?: boolean;
 };
@@ -77,7 +78,9 @@ const Grid = styled.div<GridProps>`
   display: grid;
   height: ${props =>
     props.$isFullSupportBrowser
-      ? `calc(100vh - ${props.$isTRKiosk ? props.theme.kioskTRBannersHeight : props.theme.navHeight}px)`
+      ? props.$isNonTRKiosk
+        ? '100vh'
+        : `calc(100vh - ${props.$isTRKiosk ? props.theme.kioskTRBannersHeight : props.theme.navHeight}px)`
       : 'auto'};
   overflow: hidden;
   grid-template-columns:
@@ -236,7 +239,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   } = useMemo(() => fromQuery(router.query), [router.query]);
   const [gridVisible, setGridVisible] = useState(false);
   const { isFullSupportBrowser } = useAppContext();
-  const { isTendernessAndRageKiosk } = useKiosk();
+  const { isKiosk, isTendernessAndRageKiosk } = useKiosk();
   const viewerRef = useRef<HTMLDivElement>(null);
   const mainAreaRef = useRef<HTMLDivElement>(null);
   const [isDesktopSidebarActive, setIsDesktopSidebarActive] = useState(true);
@@ -256,6 +259,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     () => getTreeCanvasIndexById(archiveTree),
     [archiveTree]
   );
+  console.log({ isTendernessAndRageKiosk });
   const currentCanvas =
     transformedManifest?.canvases[queryParamToArrayIndex(canvas)];
   const mainImageService = { '@id': currentCanvas?.imageServiceId };
@@ -381,6 +385,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         ref={viewerRef}
         $isFullSupportBrowser={isFullSupportBrowser}
         $isTRKiosk={isTendernessAndRageKiosk}
+        $isNonTRKiosk={isKiosk && !isTendernessAndRageKiosk}
         $useFixedList={useFixedSizeList}
         $hasMultipleCanvases={hasMultipleCanvases}
       >
