@@ -32,7 +32,7 @@ const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({
   items,
   noHomeLink,
 }) => {
-  const isKiosk = useKiosk();
+  const { isKiosk } = useKiosk();
 
   // We prepend a 'Home' breadcrumb at the start of every chain, so every page
   // will ideally always have a visible breadcrumb.
