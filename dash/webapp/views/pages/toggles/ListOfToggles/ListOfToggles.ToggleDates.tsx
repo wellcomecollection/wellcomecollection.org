@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode, useState } from 'react';
+import { FunctionComponent, ReactNode, useId, useState } from 'react';
 import styled from 'styled-components';
 
 import { tokens } from '@weco/dash/views/themes/tokens';
@@ -43,6 +43,10 @@ const Tooltip = styled.div<{ $visible: boolean }>`
   opacity: ${props => (props.$visible ? 1 : 0)};
   visibility: ${props => (props.$visible ? 'visible' : 'hidden')};
   transition: opacity 200ms ease;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
   z-index: 10;
 
   &::after {
@@ -74,6 +78,7 @@ const ToggleDates: FunctionComponent<ToggleDatesProps> = ({
   children,
 }) => {
   const [showTooltip, setShowTooltip] = useState(false);
+  const tooltipId = useId();
 
   if (!dateCreated && !dateActivated) return <>{children}</>;
 
@@ -81,9 +86,12 @@ const ToggleDates: FunctionComponent<ToggleDatesProps> = ({
     <HeadingWrapper
       onMouseEnter={() => setShowTooltip(true)}
       onMouseLeave={() => setShowTooltip(false)}
+      onFocus={() => setShowTooltip(true)}
+      onBlur={() => setShowTooltip(false)}
+      aria-describedby={tooltipId}
     >
       {children}
-      <Tooltip $visible={showTooltip}>
+      <Tooltip $visible={showTooltip} id={tooltipId} role="tooltip">
         {dateCreated && (
           <div>
             <strong>Created:</strong> {formatDate(dateCreated)} (
