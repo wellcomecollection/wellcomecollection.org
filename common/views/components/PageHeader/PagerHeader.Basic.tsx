@@ -6,6 +6,7 @@ import {
 } from 'react';
 import styled from 'styled-components';
 
+import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { font } from '@weco/common/utils/classnames';
 import AccessibilityProvision from '@weco/common/views/components/AccessibilityProvision';
 import Breadcrumb from '@weco/common/views/components/Breadcrumb';
@@ -96,10 +97,12 @@ const BasicPageHeader: FunctionComponent<Props> = ({
   );
 
   const hasMedia = FeaturedMedia || HeroPicture;
+  const { isKiosk } = useKiosk();
 
-  // As <Breadcrumb> will automatically add "Home" as the first breadcrumb unless "noHomeLink" is true
-  // This checks whether or not there are actually any items.
+  // As <Breadcrumb> will automatically add "Home" as the first breadcrumb unless "noHomeLink" is true,
+  // this checks whether or not there are actually any visible items.
   const hasBreadcrumbItems =
+    !isKiosk &&
     breadcrumbs &&
     (breadcrumbs.items.length > 0 ||
       !(breadcrumbs.items.length === 0 && breadcrumbs.noHomeLink));
@@ -137,7 +140,7 @@ const BasicPageHeader: FunctionComponent<Props> = ({
             <ConditionalWrapper
               condition={!hasBreadcrumbItems}
               wrapper={children => (
-                <Space $v={{ size: 'md', properties: ['margin-top'] }}>
+                <Space $v={{ size: 'lg', properties: ['margin-top'] }}>
                   {children}
                 </Space>
               )}
