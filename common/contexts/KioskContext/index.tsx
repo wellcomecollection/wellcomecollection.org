@@ -3,11 +3,14 @@ import {
   FunctionComponent,
   PropsWithChildren,
   useContext,
+  useMemo,
 } from 'react';
 
+import {
+  kiosksContent as initialKiosksContent,
+  KioskContent,
+} from '@weco/common/contexts/KioskContext/kiosk';
 import { ReadingRoomStories } from '@weco/common/server-data/prismic';
-
-import { kiosksContent as initialKiosksContent, KioskContent } from './kiosk';
 
 type KioskExperienceName = 'Tenderness and Rage' | 'Reading Room';
 
@@ -79,7 +82,7 @@ export const KioskProvider: FunctionComponent<KioskProviderProps> = ({
       isReadingRoomKiosk: experienceName === 'Reading Room',
       kiosksContent,
     }),
-    [isActive, kiosksContent]
+    [experienceName, kiosksContent]
   );
 
   return (
