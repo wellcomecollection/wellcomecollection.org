@@ -14,6 +14,7 @@ const KioskNavigationWrapper = styled.div`
   right: 0;
   background: ${props => props.theme.color('neutral.600')};
   color: ${props => props.theme.color('white')};
+  z-index: 1000;
 `;
 
 type PageType = 'work' | 'story';
