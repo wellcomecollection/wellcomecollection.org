@@ -651,6 +651,24 @@ resource "aws_wafv2_web_acl" "wc_org" {
             statement {
               byte_match_statement {
                 positional_constraint = "CONTAINS"
+                search_string         = "Amazonbot"
+
+                field_to_match {
+                  single_header {
+                    name = "user-agent"
+                  }
+                }
+
+                text_transformation {
+                  priority = 0
+                  type     = "NONE"
+                }
+              }
+            }
+
+            statement {
+              byte_match_statement {
+                positional_constraint = "CONTAINS"
                 search_string         = "Applebot"
 
                 field_to_match {
