@@ -18,7 +18,7 @@ const calculateTimeAgo = (isoString: string): string => {
   const now = new Date();
   const then = new Date(isoString);
 
-  // Guard against invalid dates
+  // Guard against invalid dates or unparseable strings
   if (isNaN(then.getTime())) {
     return 'invalid date';
   }
@@ -26,7 +26,7 @@ const calculateTimeAgo = (isoString: string): string => {
   const diffMs = now.getTime() - then.getTime();
   const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
 
-  // Guard against future dates (treat as invalid)
+  // Guard against clock skew or future dates
   if (diffDays < 0) {
     return 'invalid date';
   }

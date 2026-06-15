@@ -6,8 +6,6 @@ type ToggleBase = {
   description: string;
   type: ToggleTypes;
   documentationLink?: string;
-  dateCreated?: string;
-  dateActivated?: string;
 };
 
 export type FeatureFlagDefinition = ToggleBase & {
@@ -16,6 +14,8 @@ export type FeatureFlagDefinition = ToggleBase & {
 
 export type PublishedFeatureFlag = ToggleBase & {
   defaultValue: boolean;
+  dateCreated?: string;
+  dateActivated?: string;
 };
 
 export type ABTest = {
@@ -111,7 +111,6 @@ const toggleConfig = {
       initialValue: false,
       description: 'Enables access to new thematic browsing category pages.',
       type: 'experimental',
-      dateCreated: '2026-01-23T00:00:00Z',
     },
     {
       id: 'thematicBrowsingSubCategory',
@@ -120,7 +119,6 @@ const toggleConfig = {
       description:
         'Enables access to new thematic browsing sub-category pages.',
       type: 'experimental',
-      dateCreated: '2026-02-26T00:00:00Z',
     },
     {
       id: 'semanticSearchPrototype',
@@ -129,7 +127,6 @@ const toggleConfig = {
       description:
         'Enables the semantic search prototype with predefined search terms and API selection. If enabled, please ensure the Semantic search comparison toggle is disabled.',
       type: 'experimental',
-      dateCreated: '2026-02-09T00:00:00Z',
     },
     {
       id: 'semanticSearchComparison',
@@ -138,7 +135,6 @@ const toggleConfig = {
       description:
         'Allows use of semantic searches and facilitates the display of the semantic search results side by side with the standard search results for comparison. If enabled, please ensure the Semantic search prototype toggle is disabled.',
       type: 'experimental',
-      dateCreated: '2026-02-12T00:00:00Z',
     },
     {
       id: 'exhibitionAndCollection',
@@ -146,8 +142,6 @@ const toggleConfig = {
       initialValue: false,
       description: 'Adds Collection content to Exhibition pages.',
       type: 'experimental',
-      dateCreated: '2026-04-02T00:00:00Z',
-      dateActivated: '2026-06-09T00:00:00Z',
     },
     {
       id: 'verticalVideos',
@@ -155,7 +149,6 @@ const toggleConfig = {
       initialValue: false,
       description: 'Allows testing of vertical videos.',
       type: 'experimental',
-      dateCreated: '2026-04-28T00:00:00Z',
     },
     {
       id: 'compositeTypography',
@@ -164,8 +157,6 @@ const toggleConfig = {
       description:
         'Uses the composite typography classes (.type-{x}) instead of the font classes (.font-{x}).',
       type: 'experimental',
-      dateCreated: '2026-06-03T00:00:00Z',
-      dateActivated: '2026-06-08T00:00:00Z',
     },
   ] as const,
   // We have to include a reference to any test toggles here as well as in the cache dir

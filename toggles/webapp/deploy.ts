@@ -39,19 +39,11 @@ export const withDefaultValuesUnmodified = (
       : matchingToggle.defaultValue;
 
     // Set dateCreated only when the toggle first appears in S3.
-    // Falls back to the date defined in the toggle definition for pre-existing
-    // toggles that were created before this field was introduced.
-    const dateCreated = isNew
-      ? (toggle.dateCreated ?? new Date().toISOString())
-      : (matchingToggle.dateCreated ?? toggle.dateCreated);
+    const dateCreated = matchingToggle?.dateCreated ?? new Date().toISOString();
 
     // Set dateActivated only when the deployed toggle is actually active.
-    // Preserve the existing value for toggles already in S3, or use the definition date if provided.
-    // Clear dateActivated if the toggle is inactive to avoid showing activation dates for off toggles.
     const dateActivated = defaultValue
-      ? isNew
-        ? (toggle.dateActivated ?? new Date().toISOString())
-        : (matchingToggle.dateActivated ?? toggle.dateActivated)
+      ? (matchingToggle?.dateActivated ?? new Date().toISOString())
       : undefined;
 
     const { initialValue, ...otherFields } = toggle;
