@@ -259,7 +259,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     () => getTreeCanvasIndexById(archiveTree),
     [archiveTree]
   );
-  console.log({ isTendernessAndRageKiosk });
   const currentCanvas =
     transformedManifest?.canvases[queryParamToArrayIndex(canvas)];
   const mainImageService = { '@id': currentCanvas?.imageServiceId };
