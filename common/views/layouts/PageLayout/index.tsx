@@ -72,6 +72,7 @@ export type Props = PropsWithChildren<{
   skipToContentLinks?: SkipToContentLink[];
   clipOverflowX?: boolean; // See pageGridOffset
   isNoIndex?: boolean;
+  kioskNavigation?: React.ReactNode;
 }>;
 
 const PageLayoutComponent: NextPage<Props> = ({
@@ -93,6 +94,7 @@ const PageLayoutComponent: NextPage<Props> = ({
   skipToContentLinks = [],
   clipOverflowX = false,
   isNoIndex = false,
+  kioskNavigation,
 }) => {
   const { apiToolbar, issuesBanner } = useFeatureFlags();
   const { isKiosk } = useKiosk();
@@ -267,7 +269,12 @@ const PageLayoutComponent: NextPage<Props> = ({
         }}
       />
 
-      <div id="root">
+      <div
+        id="root"
+        style={{
+          paddingBottom: kioskNavigation ? '120px' : undefined,
+        }}
+      >
         {apiToolbar && (
           <ApiToolbar
             links={[
@@ -335,6 +342,8 @@ const PageLayoutComponent: NextPage<Props> = ({
         >
           {children}
         </div>
+
+        {kioskNavigation}
 
         {!hideNewsletterPromo && !isKiosk && <NewsletterPromo />}
 
