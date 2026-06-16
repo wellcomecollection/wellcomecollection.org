@@ -4,17 +4,36 @@ import styled from 'styled-components';
 
 import { useKiosksContent } from '@weco/common/contexts/KioskContext';
 import { KioskContent } from '@weco/common/contexts/KioskContext/kiosk';
+import { home } from '@weco/common/icons';
 import { useModes } from '@weco/common/server-data/Context';
+import { font } from '@weco/common/utils/classnames';
+import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
-const KioskNavigationWrapper = styled.div`
+const KioskNavigationWrapper = styled(Space).attrs({
+  $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
+  className: font('sans', -1),
+})`
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  background: ${props => props.theme.color('neutral.600')};
+  background: ${props => props.theme.color('neutral.700')};
   color: ${props => props.theme.color('white')};
   z-index: 1000;
+`;
+
+const HomeLink = styled(Link)`
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  color: inherit;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 type PageType = 'work' | 'story';
@@ -96,43 +115,41 @@ export const KioskNavigation: FunctionComponent<Props> = ({
   // Determine URL path and label based on page type
   const urlPath = pageType === 'work' ? 'works' : 'stories';
   const label = pageType === 'work' ? 'Related works' : 'Related stories';
+  const homeUrl = '/stories/kiosk';
 
   return (
     <KioskNavigationWrapper data-component="kiosk-navigation">
-      <Space $v={{ size: 'md', properties: ['margin-top'] }}>
-        Back to: Home
-        {navigation && (
-          <>
-            {label}
-            <div>
-              <div style={{ textAlign: 'center' }}>
-                <span>
-                  {navigation.currentIndex + 1} of {navigation.totalCount}
-                </span>
-              </div>
-              <div style={{ textAlign: 'left' }}>
-                {navigation.prevPageId ? (
-                  <Link href={`/${urlPath}/${navigation.prevPageId}`}>
-                    Prev
-                  </Link>
-                ) : (
-                  'Prev'
-                )}
-              </div>
-
-              <div style={{ textAlign: 'right' }}>
-                {navigation.nextPageId ? (
-                  <Link href={`/${urlPath}/${navigation.nextPageId}`}>
-                    Next
-                  </Link>
-                ) : (
-                  'Next'
-                )}
-              </div>
+      <HomeLink href={homeUrl}>
+        <Icon icon={home} />
+        <span>Back to: Home</span>
+      </HomeLink>
+      {navigation && (
+        <>
+          {label}
+          <div>
+            <div style={{ textAlign: 'center' }}>
+              <span>
+                {navigation.currentIndex + 1} of {navigation.totalCount}
+              </span>
             </div>
-          </>
-        )}
-      </Space>
+            <div style={{ textAlign: 'left' }}>
+              {navigation.prevPageId ? (
+                <Link href={`/${urlPath}/${navigation.prevPageId}`}>Prev</Link>
+              ) : (
+                'Prev'
+              )}
+            </div>
+
+            <div style={{ textAlign: 'right' }}>
+              {navigation.nextPageId ? (
+                <Link href={`/${urlPath}/${navigation.nextPageId}`}>Next</Link>
+              ) : (
+                'Next'
+              )}
+            </div>
+          </div>
+        </>
+      )}
     </KioskNavigationWrapper>
   );
 };
