@@ -1,6 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 
 import { KioskProvider } from '@weco/common/contexts/KioskContext';
+import { HistoryProvider } from '@weco/common/hooks/useNavigationHistory';
 import { ServerDataContext } from '@weco/common/server-data/Context';
 import { defaultServerData } from '@weco/common/server-data/types';
 import KioskNavigation from '@weco/content/views/components/KioskNavigation';
@@ -46,7 +47,9 @@ const meta: Meta<StoryArgs> = {
           cookieContent={context.args.kioskMode}
           readingRoomStories={{}}
         >
-          <Story />
+          <HistoryProvider>
+            <Story />
+          </HistoryProvider>
         </KioskProvider>
       </ServerDataContext.Provider>
     ),
