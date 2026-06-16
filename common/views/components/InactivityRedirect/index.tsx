@@ -15,12 +15,8 @@ import InactivityRedirectModal from './InactivityRedirect.Modal';
 const INACTIVITY_TIMEOUT = 60; // 60 seconds of inactivity before showing the warning modal
 const WARNING_COUNTDOWN = 30; // 30 seconds countdown before redirect
 
-type Props = {
-  redirectUrl: string;
-};
-
-const InactivityRedirect: FunctionComponent<Props> = ({ redirectUrl }) => {
-  const { isKiosk } = useKiosk();
+const InactivityRedirect: FunctionComponent = () => {
+  const { isKiosk, kioskHomeUrl } = useKiosk();
   const router = useRouter();
   const [isWarningActive, setIsWarningActive] = useState(false);
   const [countdown, setCountdown] = useState(WARNING_COUNTDOWN);
@@ -40,9 +36,9 @@ const InactivityRedirect: FunctionComponent<Props> = ({ redirectUrl }) => {
         gtag('event', 'auto_reset');
       }
 
-      router.push(redirectUrl);
+      router.push(kioskHomeUrl);
     },
-    [router, redirectUrl]
+    [router, kioskHomeUrl]
   );
 
   const resetInactivityTimer = useCallback(() => {
