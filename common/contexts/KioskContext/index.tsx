@@ -20,6 +20,7 @@ type KioskContextType = {
   isReadingRoomKiosk: boolean;
   kioskExperienceName?: KioskExperienceName;
   kiosksContent: Record<string, KioskContent>;
+  kioskHomeUrl: string;
 };
 
 const KioskContext = createContext<KioskContextType>({
@@ -27,6 +28,7 @@ const KioskContext = createContext<KioskContextType>({
   isTendernessAndRageKiosk: false,
   isReadingRoomKiosk: false,
   kiosksContent: initialKiosksContent,
+  kioskHomeUrl: '/',
 });
 
 type KioskProviderProps = PropsWithChildren<{
@@ -64,15 +66,23 @@ export const KioskProvider: FunctionComponent<KioskProviderProps> = ({
   children,
 }) => {
   const experienceName = getKioskExperienceName(cookieContent);
+  const experienceId = cookieContent?.split('-')[0];
 
   // Merge server-fetched data with hardcoded content
   const kiosksContent = useMemo(
     () => ({
       ...initialKiosksContent,
-      RR: readingRoomStories,
+      RR: {
+        ...initialKiosksContent.RR,
+        ...readingRoomStories,
+      },
     }),
     [readingRoomStories]
   );
+
+  const kioskHomeUrl = experienceId
+    ? initialKiosksContent[experienceId]?.homeUrl || '/'
+    : '/';
 
   const value = useMemo(
     () => ({
@@ -81,8 +91,9 @@ export const KioskProvider: FunctionComponent<KioskProviderProps> = ({
       isTendernessAndRageKiosk: experienceName === 'Tenderness and Rage',
       isReadingRoomKiosk: experienceName === 'Reading Room',
       kiosksContent,
+      kioskHomeUrl,
     }),
-    [experienceName, kiosksContent]
+    [experienceName, kiosksContent, kioskHomeUrl]
   );
 
   return (
