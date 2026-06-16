@@ -39,7 +39,7 @@ const HomeLink = styled(Link)`
   }
 `;
 
-const NavigationLinks = styled.div`
+const NavigationLinks = styled.nav`
   display: flex;
   align-items: center;
   ${props => `gap: ${props.theme.gutter.medium};`}
@@ -54,6 +54,7 @@ const navLinkStyles = `
 
 const NavLink = styled(Link)`
   ${navLinkStyles}
+  color: inherit;
   text-decoration: none;
 
   &:hover {
@@ -150,37 +151,54 @@ export const KioskNavigation: FunctionComponent<Props> = ({
   const homeUrl = '/stories/kiosk';
 
   return (
-    <KioskNavigationWrapper data-component="kiosk-navigation">
-      <HomeLink href={homeUrl}>
-        <Icon icon={home} />
+    <KioskNavigationWrapper
+      data-component="kiosk-navigation"
+      aria-label="Kiosk navigation"
+    >
+      <HomeLink href={homeUrl} aria-label="Return to kiosk home page">
+        <Icon icon={home} aria-hidden="true" />
         <span>Back to: Home</span>
       </HomeLink>
-      <NavigationLinks>
+      <NavigationLinks aria-label="Content navigation">
         {navigation && (
           <>
-            <span>{label}</span>
-            <span>
+            <span aria-label={`Viewing ${label.toLowerCase()}`}>{label}</span>
+            <span
+              aria-label={`Page ${navigation.currentIndex + 1} of ${navigation.totalCount}`}
+            >
               {navigation.currentIndex + 1} / {navigation.totalCount}
             </span>
             {navigation.prevPageId ? (
-              <NavLink href={`/${urlPath}/${navigation.prevPageId}`}>
-                <Icon icon={arrowSmall} rotate={180} />
+              <NavLink
+                href={`/${urlPath}/${navigation.prevPageId}`}
+                aria-label="Go to previous page"
+              >
+                <Icon icon={arrowSmall} rotate={180} aria-hidden="true" />
                 <span>Prev</span>
               </NavLink>
             ) : (
-              <DisabledNavLink>
-                <Icon icon={arrowSmall} rotate={180} />
+              <DisabledNavLink
+                aria-disabled="true"
+                aria-label="Previous page unavailable"
+              >
+                <Icon icon={arrowSmall} rotate={180} aria-hidden="true" />
                 <span>Prev</span>
               </DisabledNavLink>
             )}
             {navigation.nextPageId ? (
-              <NavLink href={`/${urlPath}/${navigation.nextPageId}`}>
-                <Icon icon={arrowSmall} />
+              <NavLink
+                href={`/${urlPath}/${navigation.nextPageId}`}
+                aria-label="Go to next page"
+              >
+                <Icon icon={arrowSmall} aria-hidden="true" />
                 <span>Next</span>
               </NavLink>
             ) : (
-              <DisabledNavLink>
-                <Icon icon={arrowSmall} />
+              <DisabledNavLink
+                aria-disabled="true"
+                aria-label="Next page unavailable"
+              >
+                <Icon icon={arrowSmall} aria-hidden="true" />
                 <span>Next</span>
               </DisabledNavLink>
             )}
