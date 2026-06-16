@@ -190,10 +190,7 @@ function createWAFIPUpdater({ ipSetName, processName, fetchIPs }) {
       };
     } catch (error) {
       logError(`${error.message}`);
-      return {
-        statusCode: 500,
-        body: JSON.stringify({ error: error.message }),
-      };
+      throw error; // Re-throw to trigger Lambda failure alarm
     }
   };
 }
