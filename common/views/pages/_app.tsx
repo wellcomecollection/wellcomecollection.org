@@ -11,6 +11,7 @@ import {
 } from '@weco/common/contexts/KioskContext';
 import { SearchContextProvider } from '@weco/common/contexts/SearchContext';
 import { UserContextProvider } from '@weco/common/contexts/UserContext';
+import { HistoryProvider } from '@weco/common/hooks/useNavigationHistory';
 import { useScrollTracking } from '@weco/common/hooks/useScrollTracking';
 import { ServerDataContext } from '@weco/common/server-data/Context';
 import {
@@ -25,6 +26,7 @@ import useMaintainPageHeight from '@weco/common/services/app/useMaintainPageHeig
 import usePrismicPreview from '@weco/common/services/app/usePrismicPreview';
 import { deserialiseProps } from '@weco/common/utils/json';
 import CivicUK from '@weco/common/views/components/CivicUK';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import GlobalSvgDefinitions from '@weco/common/views/components/GlobalSvgDefinitions';
 import InactivityRedirect from '@weco/common/views/components/InactivityRedirect';
 import InfoBanner from '@weco/common/views/components/InfoBanner';
@@ -171,37 +173,44 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
                   cookieContent={kioskModeCookie}
                   readingRoomStories={serverData.prismic.readingRoomStories}
                 >
-                  <GlobalStyle
-                    $compositeTypography={
-                      !!serverData.toggles.featureFlags.compositeTypography
-                    }
-                  />
-
-                  <GlobalSvgDefinitions />
-                  <LoadingIndicator />
-
-                  {experienceName === 'Tenderness and Rage' && (
-                    <InfoBanner variant="kioskTRBanners" />
-                  )}
-
-                  {displayCookieBanner && (
-                    <CivicUK
-                      apiKey={civicUkApiKey}
-                      defer={serverData.consentStatus.cookieExists}
+                  <ConditionalWrapper
+                    condition={!!kioskModeCookie}
+                    wrapper={children => (
+                      <HistoryProvider>{children}</HistoryProvider>
+                    )}
+                  >
+                    <GlobalStyle
+                      $compositeTypography={
+                        !!serverData.toggles.featureFlags.compositeTypography
+                      }
                     />
-                  )}
-                  <HotjarLoader />
 
-                  {!pageProps.err &&
-                    getLayout(<Component {...componentProps} />)}
-                  {pageProps.err && (
-                    <ErrorPage
-                      statusCode={pageProps.err.statusCode}
-                      title={pageProps.err.message}
-                    />
-                  )}
+                    <GlobalSvgDefinitions />
+                    <LoadingIndicator />
 
-                  {!!kioskModeCookie && <InactivityRedirect />}
+                    {experienceName === 'Tenderness and Rage' && (
+                      <InfoBanner variant="kioskTRBanners" />
+                    )}
+
+                    {displayCookieBanner && (
+                      <CivicUK
+                        apiKey={civicUkApiKey}
+                        defer={serverData.consentStatus.cookieExists}
+                      />
+                    )}
+                    <HotjarLoader />
+
+                    {!pageProps.err &&
+                      getLayout(<Component {...componentProps} />)}
+                    {pageProps.err && (
+                      <ErrorPage
+                        statusCode={pageProps.err.statusCode}
+                        title={pageProps.err.message}
+                      />
+                    )}
+
+                    {!!kioskModeCookie && <InactivityRedirect />}
+                  </ConditionalWrapper>
                 </KioskProvider>
               </SearchContextProvider>
             </AppContextProvider>
