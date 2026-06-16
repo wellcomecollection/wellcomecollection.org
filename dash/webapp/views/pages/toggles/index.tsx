@@ -309,18 +309,29 @@ const TogglesPage: FunctionComponent = () => {
             </TableOfContentsList>
           </nav>
 
+          <label
+            htmlFor="toggles-search"
+            style={{
+              display: 'block',
+              marginBottom: tokens.spacing.xs,
+              fontWeight: 600,
+            }}
+          >
+            Search toggles
+          </label>
           <SearchInput
+            id="toggles-search"
             type="search"
-            placeholder="Search toggles by name, description, or ID..."
+            placeholder="Search by name, description, or ID..."
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            aria-label="Search toggles"
           />
 
           <p
             style={{ color: tokens.colors.text.secondary }}
             role="status"
             aria-live="polite"
+            aria-atomic="true"
           >
             {searchQuery && `Found ${pluralise(totalResults, 'result')}`}
           </p>
