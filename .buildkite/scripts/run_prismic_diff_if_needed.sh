@@ -4,7 +4,8 @@ set -eo pipefail
 # Runs the Prismic diff and records pass/fail as Buildkite metadata.
 # This is intentionally non-blocking so deploys can continue when Prismic is unavailable.
 run_diff() {
-  if docker compose run -e CI prismic_model yarn diffCustomTypes; then
+  # Temporary: force failure to test the acknowledgement flow
+  if false; then
     buildkite-agent meta-data set prismic-diff-failed "no"
     echo "Prismic custom types diff passed."
   else
