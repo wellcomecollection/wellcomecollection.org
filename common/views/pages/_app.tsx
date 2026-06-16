@@ -201,9 +201,7 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
                     />
                   )}
 
-                  {!!kioskModeCookie && (
-                    <InactivityRedirect redirectUrl="/stories/kiosk" />
-                  )}
+                  {!!kioskModeCookie && <InactivityRedirect />}
                 </KioskProvider>
               </SearchContextProvider>
             </AppContextProvider>
