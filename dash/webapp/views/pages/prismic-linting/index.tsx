@@ -77,10 +77,10 @@ const PrismicLintingPage: FunctionComponent = () => {
         </Head>
         <Header activePath="/prismic-linting" />
         <PageContainer>
-          <PageHeader>
-            <PageTitle>Prismic Content Linting</PageTitle>
-          </PageHeader>
           <main id="main-content">
+            <PageHeader>
+              <PageTitle>Prismic Content Linting</PageTitle>
+            </PageHeader>
             <Issue $type="error">{resultsList.message}</Issue>
           </main>
         </PageContainer>
@@ -95,14 +95,14 @@ const PrismicLintingPage: FunctionComponent = () => {
       </Head>
       <Header activePath="/prismic-linting" />
       <PageContainer>
-        <PageHeader>
-          <PageTitle>Prismic Content Linting</PageTitle>
-          <PageDescription>
-            Content quality checks for Prismic CMS entries.
-          </PageDescription>
-        </PageHeader>
-
         <main id="main-content">
+          <PageHeader>
+            <PageTitle>Prismic Content Linting</PageTitle>
+            <PageDescription>
+              Content quality checks for Prismic CMS entries.
+            </PageDescription>
+          </PageHeader>
+
           <SectionHeading>Detected issues</SectionHeading>
 
           <div role="status" aria-live="polite">

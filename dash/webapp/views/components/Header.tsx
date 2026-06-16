@@ -145,6 +145,10 @@ const BurgerButton = styled.button<{ $isOpen: boolean }>`
         transform: rotate(-45deg);
       `}
     }
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
   }
 `;
 
@@ -264,9 +268,9 @@ const Header: FunctionComponent<{ activePath?: string }> = ({ activePath }) => {
           aria-label={menuOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={menuOpen}
         >
-          <span />
-          <span />
-          <span />
+          <span aria-hidden="true" />
+          <span aria-hidden="true" />
+          <span aria-hidden="true" />
         </BurgerButton>
 
         <Nav aria-label="Main navigation" $isOpen={menuOpen}>
