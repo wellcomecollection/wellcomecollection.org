@@ -272,7 +272,8 @@ const PageLayoutComponent: NextPage<Props> = ({
       <div
         id="root"
         style={{
-          paddingBottom: kioskNavigation ? '120px' : undefined,
+          // Match the fixed height of KioskNavigation (padding + content)
+          paddingBottom: kioskNavigation ? '88px' : undefined,
         }}
       >
         {apiToolbar && (
