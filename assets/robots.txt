@@ -1,10 +1,15 @@
 User-agent: *
 Allow: /
+Disallow: /account
+
+User-agent: Amazonbot
+Disallow: /
 
 User-agent: anthropic-ai
 Disallow: /
 
 User-agent: Applebot
+Disallow: /account
 Disallow: /works/*/items
 Disallow: /_next/data/*/works/*/items
 
