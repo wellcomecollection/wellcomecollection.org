@@ -7,9 +7,10 @@ import {
   SeriesDocument as RawSeriesDocument,
 } from '@weco/common/prismicio-types';
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
-import { classNames } from '@weco/common/utils/classnames';
+import { classNames, font } from '@weco/common/utils/classnames';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
+import { gridSize12 } from '@weco/common/views/components/Layout';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
@@ -26,6 +27,10 @@ import {
 } from '@weco/content/types/card';
 import { SliceZoneContext } from '@weco/content/views/components/Body';
 import Card from '@weco/content/views/components/Card';
+import FeaturedCard, {
+  convertCardToFeaturedCardProps,
+  convertItemToFeaturedCardProps,
+} from '@weco/content/views/components/FeaturedCard';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
 import StoryCard from '@weco/content/views/components/StoryCard';
 
@@ -52,6 +57,7 @@ const CardListingSlice: FunctionComponent<CardListingSliceProps> = ({
     l: [4],
     xl: [4],
   };
+  const isFirstCardFeatured = context?.isFirstCardFeatured ?? false;
 
   const items: CardListingItem[] = slice.items
     .map((item): CardListingItem | undefined => {
@@ -82,6 +88,10 @@ const CardListingSlice: FunctionComponent<CardListingSliceProps> = ({
 
   if (items.length === 0) return null;
 
+  const [firstItem, ...restItems] = items;
+  const featuredItem = isFirstCardFeatured ? firstItem : undefined;
+  const gridItems = isFirstCardFeatured ? restItems : items;
+
   return (
     <SpacingComponent $sliceType={slice.slice_type}>
       <ConditionalWrapper
@@ -98,29 +108,67 @@ const CardListingSlice: FunctionComponent<CardListingSliceProps> = ({
             <p>{description}</p>
           </Space>
         )}
-        <Grid>
-          {items.map((item, index) => (
-            <GridCell
-              key={item.id}
-              className={classNames({
-                'card-theme card-theme--transparent':
-                  !!itemsHaveTransparentBackground,
-              })}
-              $sizeMap={cardSizeMap}
-            >
-              {item.type === 'article' ? (
-                <StoryCard
-                  variant="prismic"
-                  article={item.data}
-                  showAllLabels
-                  positionInList={index + 1}
-                />
-              ) : (
-                <Card item={item.data} positionInList={index + 1} />
-              )}
-            </GridCell>
-          ))}
-        </Grid>
+        {featuredItem && (
+          <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
+            <Grid>
+              <GridCell $sizeMap={gridSize12()}>
+                <FeaturedCard
+                  {...(featuredItem.type === 'article'
+                    ? convertItemToFeaturedCardProps(featuredItem.data)
+                    : convertCardToFeaturedCardProps(featuredItem.data))}
+                  background="black"
+                  textColor="white"
+                >
+                  <h3 className={font('brand-bold', 2)}>
+                    {featuredItem.data.title}
+                  </h3>
+                  {featuredItem.type === 'series' &&
+                    featuredItem.data.description && (
+                      <p className={font('sans', -1)}>
+                        {featuredItem.data.description}
+                      </p>
+                    )}
+                  {featuredItem.type === 'article' &&
+                    featuredItem.data.promo?.caption && (
+                      <p className={font('sans', -1)}>
+                        {featuredItem.data.promo.caption}
+                      </p>
+                    )}
+                </FeaturedCard>
+              </GridCell>
+            </Grid>
+          </Space>
+        )}
+        {gridItems.length > 0 && (
+          <Grid>
+            {gridItems.map((item, index) => {
+              const positionInList = isFirstCardFeatured
+                ? index + 2
+                : index + 1;
+              return (
+                <GridCell
+                  key={item.id}
+                  className={classNames({
+                    'card-theme card-theme--transparent':
+                      !!itemsHaveTransparentBackground,
+                  })}
+                  $sizeMap={cardSizeMap}
+                >
+                  {item.type === 'article' ? (
+                    <StoryCard
+                      variant="prismic"
+                      article={item.data}
+                      showAllLabels
+                      positionInList={positionInList}
+                    />
+                  ) : (
+                    <Card item={item.data} positionInList={positionInList} />
+                  )}
+                </GridCell>
+              );
+            })}
+          </Grid>
+        )}
       </ConditionalWrapper>
     </SpacingComponent>
   );

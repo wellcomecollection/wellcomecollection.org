@@ -1,0 +1,54 @@
+{
+  "id": "explore-more",
+  "label": "Explore more",
+  "repeatable": true,
+  "status": true,
+  "format": "custom",
+  "json": {
+    "Main": {
+      "title": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Title",
+          "single": "heading1",
+          "useAsTitle": true
+        }
+      },
+      "description": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Description",
+          "placeholder": "",
+          "allowTargetBlank": true,
+          "multi": "paragraph,strong,em,hyperlink,list-item,o-list-item"
+        }
+      },
+      "related_exhibition": {
+        "type": "Link",
+        "config": {
+          "label": "Related exhibition",
+          "select": "document",
+          "customtypes": ["exhibitions"]
+        }
+      },
+      "uid": {
+        "type": "UID",
+        "config": {
+          "label": "uid",
+          "placeholder": ""
+        }
+      },
+      "slices": {
+        "type": "Slices",
+        "fieldset": "Slice Zone",
+        "config": {
+          "choices": {
+            "cardListing": {
+              "type": "SharedSlice"
+            }
+          }
+        }
+      }
+    }
+  }
+}

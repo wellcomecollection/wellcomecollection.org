@@ -15,6 +15,7 @@ const contentTypes = [
   'exhibition-guides',
   'exhibition-texts',
   'exhibition-highlight-tours',
+  'explore-more',
   'stories-landing',
   'visual-stories',
   'webcomic-series',

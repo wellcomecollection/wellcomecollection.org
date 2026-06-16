@@ -3294,6 +3294,73 @@ export type ExhibitionsDocument<Lang extends string = string> =
     Lang
   >;
 
+type ExploreMoreDocumentDataSlicesSlice = CardListingSlice;
+
+/**
+ * Content for Explore more documents
+ */
+interface ExploreMoreDocumentData {
+  /**
+   * Title field in *Explore more*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: explore-more.title
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  title: prismic.RichTextField;
+
+  /**
+   * Description field in *Explore more*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: explore-more.description
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  description: prismic.RichTextField;
+
+  /**
+   * Related exhibition field in *Explore more*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: explore-more.related_exhibition
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   */
+  related_exhibition: prismic.ContentRelationshipField<'exhibitions'>;
+
+  /**
+   * Slice Zone field in *Explore more*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: explore-more.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/slices
+   */
+  slices: prismic.SliceZone<ExploreMoreDocumentDataSlicesSlice>;
+}
+
+/**
+ * Explore more document from Prismic
+ *
+ * - **API ID**: `explore-more`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type ExploreMoreDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithUID<
+    Simplify<ExploreMoreDocumentData>,
+    'explore-more',
+    Lang
+  >;
+
 /**
  * Content for Global alert documents
  */
@@ -5850,6 +5917,7 @@ export type AllDocumentTypes =
   | ExhibitionResourcesDocument
   | ExhibitionTextsDocument
   | ExhibitionsDocument
+  | ExploreMoreDocument
   | GlobalAlertDocument
   | GuideFormatsDocument
   | GuidesDocument
@@ -8011,6 +8079,9 @@ declare module '@prismicio/client' {
       ExhibitionsDocumentDataPromoSlice,
       ExhibitionsDocumentDataSeasonsItem,
       ExhibitionsDocumentDataParentsItem,
+      ExploreMoreDocument,
+      ExploreMoreDocumentData,
+      ExploreMoreDocumentDataSlicesSlice,
       GlobalAlertDocument,
       GlobalAlertDocumentData,
       GuideFormatsDocument,
