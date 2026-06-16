@@ -14,7 +14,7 @@ Both send failure alerts via SNS.
 - [`google-bots.js`](./google-bots.js) — fetches Google bot IPv4 ranges (common-crawlers only; special-crawlers excluded as they don't send a Googlebot user-agent)
 - [`github-actions.js`](./github-actions.js) — fetches GitHub Actions runner IPv4 ranges
 - [`waf-updater.js`](./waf-updater.js) — shared engine: change validation, WAF get/update, IP extraction, logging
-- `waf-updater.test.js` — tests for the shared engine
+- `waf-updater.test.js` — tests for the shared engine (`yarn test` to run)
 - [`package.json`](./package.json) — local dev dependencies (`yarn install` before running locally)
 
 Terraform: [`ip_updater_google_bots.tf`](../ip_updater_google_bots.tf), [`ip_updater_github_actions.tf`](../ip_updater_github_actions.tf)
