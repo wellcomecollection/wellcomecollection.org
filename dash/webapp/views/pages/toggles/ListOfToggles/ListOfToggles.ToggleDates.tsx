@@ -98,7 +98,6 @@ const ToggleDates: FunctionComponent<ToggleDatesProps> = ({
       onMouseLeave={() => setShowTooltip(false)}
       onFocusCapture={() => setShowTooltip(true)}
       onBlurCapture={() => setShowTooltip(false)}
-      aria-describedby={tooltipId}
     >
       {children}
       <Tooltip

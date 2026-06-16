@@ -73,6 +73,10 @@ const LogoLink = styled(Link)`
   text-decoration: none;
   transition: opacity 150ms ease;
 
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
   &:hover {
     opacity: 0.8;
     color: ${tokens.colors.white};
@@ -205,6 +209,10 @@ const NavLink = styled(Link)<{ $isActive: boolean }>`
   position: relative;
   transition: color 400ms ease;
 
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
   &:hover {
     color: ${tokens.colors.white};
   }
@@ -218,6 +226,10 @@ const NavLink = styled(Link)<{ $isActive: boolean }>`
     height: 3px;
     background: ${tokens.colors.yellow};
     transition: width 200ms ease;
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
   }
 
   &:hover::after {

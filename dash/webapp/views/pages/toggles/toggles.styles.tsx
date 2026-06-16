@@ -25,6 +25,10 @@ export const ResetButton = styled.button`
   cursor: pointer;
   transition: all 150ms ease;
 
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
   &:hover {
     background-color: ${tokens.colors.error.main};
     color: ${tokens.colors.background.default};
