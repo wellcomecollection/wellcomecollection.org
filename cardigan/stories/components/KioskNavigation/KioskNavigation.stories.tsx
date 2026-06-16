@@ -19,29 +19,17 @@ const meta: Meta<StoryArgs> = {
   },
   argTypes: {
     pageId: {
-      name: 'Page ID',
-      control: 'text',
-      description:
-        'ID of a work or UID of a story included in a kiosk content list',
+      table: { disable: true },
     },
     pageType: {
-      name: 'Page Type',
-      control: 'select',
-      options: ['work', 'story'],
-      description: 'Type of page being navigated',
+      table: { disable: true },
     },
     kioskMode: {
       name: 'Kiosk Mode',
       control: 'select',
-      options: [
-        null,
-        'RR-iPad1',
-        'RR-iPad2',
-        'RR-iPad3',
-        'TR-iPad1',
-        'TR-iPad2',
-      ],
-      description: 'Select which kiosk device this browser represents',
+      options: [null, 'RR-iPad1', 'TR-iPad1'],
+      description:
+        'Select which kiosk mode to simulate. This will determine which content list is used for navigation.',
     },
   },
   decorators: [
@@ -57,7 +45,10 @@ const meta: Meta<StoryArgs> = {
           },
         }}
       >
-        <KioskProvider isActive={true} readingRoomStories={{}}>
+        <KioskProvider
+          cookieContent={context.args.kioskMode}
+          readingRoomStories={{}}
+        >
           <Story />
         </KioskProvider>
       </ServerDataContext.Provider>
