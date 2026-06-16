@@ -38,13 +38,19 @@ export const withDefaultValuesUnmodified = (
       ? toggle.initialValue
       : matchingToggle.defaultValue;
 
-    // Set dateCreated only when the toggle first appears in S3.
-    const dateCreated = matchingToggle?.dateCreated ?? new Date().toISOString();
+    // Only set dates for experimental toggles
+    const isExperimental = toggle.type === 'experimental';
 
-    // Set dateActivated only when the deployed toggle is actually active.
-    const dateActivated = defaultValue
-      ? (matchingToggle?.dateActivated ?? new Date().toISOString())
+    // Set dateCreated only when the toggle first appears in S3 (experimental toggles only).
+    const dateCreated = isExperimental
+      ? (matchingToggle?.dateCreated ?? new Date().toISOString())
       : undefined;
+
+    // Set dateActivated only when the deployed toggle is actually active (experimental toggles only).
+    const dateActivated =
+      isExperimental && defaultValue
+        ? (matchingToggle?.dateActivated ?? new Date().toISOString())
+        : undefined;
 
     const { initialValue, ...otherFields } = toggle;
 

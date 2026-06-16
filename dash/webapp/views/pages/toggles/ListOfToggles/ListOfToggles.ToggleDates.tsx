@@ -91,6 +91,8 @@ const ToggleDates: FunctionComponent<ToggleDatesProps> = ({
     <HeadingWrapper
       onMouseEnter={() => setShowTooltip(true)}
       onMouseLeave={() => setShowTooltip(false)}
+      onFocusCapture={() => setShowTooltip(true)}
+      onBlurCapture={() => setShowTooltip(false)}
     >
       {children}
       <Tooltip $visible={showTooltip} role="tooltip" aria-hidden={!showTooltip}>

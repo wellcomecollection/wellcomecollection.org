@@ -14,6 +14,7 @@ export type FeatureFlagDefinition = ToggleBase & {
 
 export type PublishedFeatureFlag = ToggleBase & {
   defaultValue: boolean;
+  // Dates are only populated for experimental toggles
   dateCreated?: string;
   dateActivated?: string;
 };
