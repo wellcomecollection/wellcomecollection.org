@@ -21,13 +21,10 @@ const meta: Meta<StoryArgs> = {
     pageId: {
       table: { disable: true },
     },
-    pageType: {
-      table: { disable: true },
-    },
     kioskMode: {
       name: 'Kiosk Mode',
       control: 'select',
-      options: [null, 'RR-iPad1', 'TR-iPad1'],
+      options: ['RR-iPad1', 'TR-iPad1'],
       description:
         'Select which kiosk mode to simulate. This will determine which content list is used for navigation.',
     },
