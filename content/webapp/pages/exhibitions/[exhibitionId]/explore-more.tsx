@@ -31,6 +31,12 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   setCacheControl(context.res, cacheTTL.events);
   const { exhibitionId } = context.query;
 
+  const serverData = await getServerData(context);
+
+  if (!serverData.toggles.modes.kioskMode) {
+    return { notFound: true };
+  }
+
   if (!looksLikePrismicId(exhibitionId)) {
     return { notFound: true };
   }
@@ -49,7 +55,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     return { notFound: true };
   }
 
-  const serverData = await getServerData(context);
   const exhibitionDoc = transformExhibition(exhibition);
   const exploreMoreDoc = transformExploreMore(exploreMore);
   const jsonLd = exhibitionLd(exhibitionDoc);

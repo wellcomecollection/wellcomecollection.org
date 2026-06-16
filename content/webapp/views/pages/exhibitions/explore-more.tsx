@@ -29,6 +29,7 @@ const ExploreMorePage: NextPage<Props> = ({
   return (
     <PageLayout
       title={exploreMore.title}
+      isNoIndex={true}
       description={
         exhibition.metadataDescription || exhibition.promo?.caption || ''
       }
