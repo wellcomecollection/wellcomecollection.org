@@ -1,13 +1,22 @@
 User-agent: *
 Allow: /
+Disallow: /account
 
-User-agent: magpie-crawler
+User-agent: Amazonbot
 Disallow: /
 
-User-Agent: omgili
+User-agent: anthropic-ai
 Disallow: /
 
-User-Agent: omgilibot
+User-agent: Applebot
+Disallow: /account
+Disallow: /works/*/items
+Disallow: /_next/data/*/works/*/items
+
+User-agent: Applebot-Extended
+Disallow: /
+
+User-agent: Bytespider
 Disallow: /
 
 User-agent: ClaudeBot
@@ -16,31 +25,25 @@ Disallow: /
 User-agent: Claude-Web
 Disallow: /
 
-User-agent: anthropic-ai
-Disallow: /
-
 User-agent: cohere-ai
 Disallow: /
 
-User-agent: Bytespider
+User-agent: GPTBot
+Disallow: /
+
+User-agent: magpie-crawler
+Disallow: /
+
+User-agent: omgili
+Disallow: /
+
+User-agent: omgilibot
 Disallow: /
 
 User-agent: PetalBot
 Disallow: /
 
 User-agent: Scrapy
-Disallow: /
-
-User-agent: GPTBot
-Disallow: /
-
-User-agent: ChatGPT-User
-Disallow: /
-
-User-Agent: PerplexityBot
-Disallow: /
-
-User-agent: OAI-SearchBot
 Disallow: /
 
 User-agent: YandexAdditional
