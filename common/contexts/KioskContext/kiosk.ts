@@ -1,14 +1,16 @@
 export type KioskContent = {
+  homeUrl: string;
   includedWorks?: string[];
   relatedWorks?: string[];
   featuredWorks?: string[];
   stories?: string[];
-  [key: string]: string[] | undefined; // Allow for additional properties for the Reading Room stories
+  [key: string]: string[] | undefined; // Allow for additional array properties (e.g., Reading Room stories)
 };
 
 export const kiosksContent: Record<string, KioskContent> = {
   // Property name should match kioskMode value up to the hyphen, e.g. TR-iPad1 and TR-iPad2 both use TR content
   TR: {
+    homeUrl: '/exhibitions/tenderness-and-rage/explore-more',
     includedWorks: [
       'eudv2vbg', // AZT on trial
       'zeu8jvyg', // Retrovir packaging (NO IMAGE)
@@ -39,5 +41,9 @@ export const kiosksContent: Record<string, KioskContent> = {
       'aids-posters',
       'there-at-the-end',
     ],
+  },
+  RR: {
+    homeUrl: '/stories/kiosk',
+    // Stories are added dynamically from server data
   },
 };
