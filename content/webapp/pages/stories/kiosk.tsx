@@ -35,7 +35,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const experienceName = getKioskExperienceName(kioskModeCookie);
 
   if (
-    !serverData.toggles.modes.kioskMode ||
+    !kioskModeCookie ||
     (experienceName !== kioskExperienceNames.readingRoom &&
       experienceName !== kioskExperienceNames.developerMode)
   ) {
