@@ -36,7 +36,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   if (
     !serverData.toggles.modes.kioskMode ||
-    experienceName !== kioskExperienceNames.readingRoom
+    (experienceName !== kioskExperienceNames.readingRoom &&
+      experienceName !== kioskExperienceNames.developerMode)
   ) {
     return { notFound: true };
   }
