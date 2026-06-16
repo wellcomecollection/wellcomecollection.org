@@ -4,7 +4,8 @@ import styled from 'styled-components';
 
 import { useKiosk, useKiosksContent } from '@weco/common/contexts/KioskContext';
 import { KioskContent } from '@weco/common/contexts/KioskContext/kiosk';
-import { arrowSmall, home } from '@weco/common/icons';
+import { useNavigationHistory } from '@weco/common/hooks/useNavigationHistory';
+import { arrowSmall, chevron, home } from '@weco/common/icons';
 import { useModes } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
@@ -28,6 +29,33 @@ const KioskNavigationWrapper = styled(Space).attrs({
   justify-content: space-between;
 `;
 
+const LeftSection = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+`;
+
+const HistoryNavigation = styled.div`
+  display: flex;
+  gap: 12px;
+`;
+
+const HistoryButton = styled.button`
+  width: 24px;
+  height: 24px;
+  color: inherit;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  &:hover:not(:disabled) {
+    opacity: 0.8;
+  }
+`;
+
 const HomeLink = styled(Link)`
   display: inline-flex;
   align-items: center;
@@ -40,7 +68,7 @@ const HomeLink = styled(Link)`
   }
 `;
 
-const NavigationLinks = styled.nav`
+const RightSection = styled.nav`
   display: flex;
   align-items: center;
   ${props => `gap: ${props.theme.gutter.medium};`}
@@ -139,6 +167,7 @@ export const KioskNavigation: FunctionComponent<Props> = memo(
     const { kioskMode } = useModes();
     const { isReadingRoomKiosk, kioskHomeUrl } = useKiosk();
     const kiosksContent = useKiosksContent();
+    const { back, forward, canGoBack, canGoForward } = useNavigationHistory();
 
     const navigation = useMemo(
       () =>
@@ -159,56 +188,72 @@ export const KioskNavigation: FunctionComponent<Props> = memo(
         data-component="kiosk-navigation"
         aria-label="Kiosk navigation"
       >
-        <HomeLink href={kioskHomeUrl} aria-label="Return to kiosk home page">
-          <Icon icon={home} aria-hidden="true" />
-          <span>Back to: Home</span>
-        </HomeLink>
-        <NavigationLinks aria-label="Content navigation">
-          {navigation && !isReadingRoomKiosk && (
-            <>
-              <span aria-label={`Viewing ${label.toLowerCase()}`}>{label}</span>
-              <span
-                aria-label={`Page ${navigation.currentIndex + 1} of ${navigation.totalCount}`}
+        <LeftSection>
+          <HistoryNavigation aria-label="Browser navigation">
+            <HistoryButton
+              onClick={back}
+              disabled={!canGoBack}
+              aria-label="Go back to previous page"
+            >
+              <Icon icon={chevron} rotate={90} aria-hidden="true" />
+            </HistoryButton>
+            <HistoryButton
+              onClick={forward}
+              disabled={!canGoForward}
+              aria-label="Go forward to next page"
+            >
+              <Icon icon={chevron} rotate={270} aria-hidden="true" />
+            </HistoryButton>
+          </HistoryNavigation>
+          <HomeLink href={kioskHomeUrl} aria-label="Return to kiosk home page">
+            <Icon icon={home} aria-hidden="true" />
+            <span>Back to: Home</span>
+          </HomeLink>
+        </LeftSection>
+        {navigation && !isReadingRoomKiosk && (
+          <RightSection aria-label="Content navigation">
+            <span aria-label={`Viewing ${label.toLowerCase()}`}>{label}</span>
+            <span
+              aria-label={`Page ${navigation.currentIndex + 1} of ${navigation.totalCount}`}
+            >
+              {navigation.currentIndex + 1} / {navigation.totalCount}
+            </span>
+            {navigation.prevPageId ? (
+              <NavLink
+                href={`/${urlPath}/${navigation.prevPageId}`}
+                aria-label="Go to previous page"
               >
-                {navigation.currentIndex + 1} / {navigation.totalCount}
-              </span>
-              {navigation.prevPageId ? (
-                <NavLink
-                  href={`/${urlPath}/${navigation.prevPageId}`}
-                  aria-label="Go to previous page"
-                >
-                  <Icon icon={arrowSmall} rotate={180} aria-hidden="true" />
-                  <span>Prev</span>
-                </NavLink>
-              ) : (
-                <DisabledNavLink
-                  aria-disabled="true"
-                  aria-label="Previous page unavailable"
-                >
-                  <Icon icon={arrowSmall} rotate={180} aria-hidden="true" />
-                  <span>Prev</span>
-                </DisabledNavLink>
-              )}
-              {navigation.nextPageId ? (
-                <NavLink
-                  href={`/${urlPath}/${navigation.nextPageId}`}
-                  aria-label="Go to next page"
-                >
-                  <Icon icon={arrowSmall} aria-hidden="true" />
-                  <span>Next</span>
-                </NavLink>
-              ) : (
-                <DisabledNavLink
-                  aria-disabled="true"
-                  aria-label="Next page unavailable"
-                >
-                  <Icon icon={arrowSmall} aria-hidden="true" />
-                  <span>Next</span>
-                </DisabledNavLink>
-              )}
-            </>
-          )}
-        </NavigationLinks>
+                <Icon icon={arrowSmall} rotate={180} aria-hidden="true" />
+                <span>Prev</span>
+              </NavLink>
+            ) : (
+              <DisabledNavLink
+                aria-disabled="true"
+                aria-label="Previous page unavailable"
+              >
+                <Icon icon={arrowSmall} rotate={180} aria-hidden="true" />
+                <span>Prev</span>
+              </DisabledNavLink>
+            )}
+            {navigation.nextPageId ? (
+              <NavLink
+                href={`/${urlPath}/${navigation.nextPageId}`}
+                aria-label="Go to next page"
+              >
+                <Icon icon={arrowSmall} aria-hidden="true" />
+                <span>Next</span>
+              </NavLink>
+            ) : (
+              <DisabledNavLink
+                aria-disabled="true"
+                aria-label="Next page unavailable"
+              >
+                <Icon icon={arrowSmall} aria-hidden="true" />
+                <span>Next</span>
+              </DisabledNavLink>
+            )}
+          </RightSection>
+        )}
       </KioskNavigationWrapper>
     );
   }
