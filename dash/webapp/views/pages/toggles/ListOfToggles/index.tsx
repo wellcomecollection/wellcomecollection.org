@@ -63,8 +63,11 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
                       dateCreated={toggle.dateCreated}
                       dateActivated={toggle.dateActivated}
                     >
-                      <h3 style={{ margin: 0 }} id={`heading-${toggle.id}`}>
-                        <span>{toggle.title}</span>{' '}
+                      <h3
+                        style={{ margin: 0 }}
+                        aria-labelledby={`heading-${toggle.id}`}
+                      >
+                        <span id={`heading-${toggle.id}`}>{toggle.title}</span>{' '}
                         <CopyLinkIcon
                           toggleId={toggle.id}
                           title={toggle.title}
