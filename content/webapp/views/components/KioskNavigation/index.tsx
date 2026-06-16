@@ -4,14 +4,14 @@ import styled from 'styled-components';
 
 import { useKiosksContent } from '@weco/common/contexts/KioskContext';
 import { KioskContent } from '@weco/common/contexts/KioskContext/kiosk';
-import { home } from '@weco/common/icons';
+import { arrowSmall, home } from '@weco/common/icons';
 import { useModes } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
 const KioskNavigationWrapper = styled(Space).attrs({
-  $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
   $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
   className: font('sans', -1),
 })`
@@ -22,6 +22,9 @@ const KioskNavigationWrapper = styled(Space).attrs({
   background: ${props => props.theme.color('neutral.700')};
   color: ${props => props.theme.color('white')};
   z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 const HomeLink = styled(Link)`
@@ -34,6 +37,35 @@ const HomeLink = styled(Link)`
   &:hover {
     text-decoration: underline;
   }
+`;
+
+const NavigationLinks = styled.div`
+  display: flex;
+  align-items: center;
+  ${props => `gap: ${props.theme.gutter.medium};`}
+`;
+
+const navLinkStyles = `
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+`;
+
+const NavLink = styled(Link)`
+  ${navLinkStyles}
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+const DisabledNavLink = styled.div`
+  ${navLinkStyles}
+  color: inherit;
+  cursor: not-allowed;
+  opacity: 0.5;
 `;
 
 type PageType = 'work' | 'story';
@@ -123,33 +155,38 @@ export const KioskNavigation: FunctionComponent<Props> = ({
         <Icon icon={home} />
         <span>Back to: Home</span>
       </HomeLink>
-      {navigation && (
-        <>
-          {label}
-          <div>
-            <div style={{ textAlign: 'center' }}>
-              <span>
-                {navigation.currentIndex + 1} of {navigation.totalCount}
-              </span>
-            </div>
-            <div style={{ textAlign: 'left' }}>
-              {navigation.prevPageId ? (
-                <Link href={`/${urlPath}/${navigation.prevPageId}`}>Prev</Link>
-              ) : (
-                'Prev'
-              )}
-            </div>
-
-            <div style={{ textAlign: 'right' }}>
-              {navigation.nextPageId ? (
-                <Link href={`/${urlPath}/${navigation.nextPageId}`}>Next</Link>
-              ) : (
-                'Next'
-              )}
-            </div>
-          </div>
-        </>
-      )}
+      <NavigationLinks>
+        {navigation && (
+          <>
+            <span>{label}</span>
+            <span>
+              {navigation.currentIndex + 1} / {navigation.totalCount}
+            </span>
+            {navigation.prevPageId ? (
+              <NavLink href={`/${urlPath}/${navigation.prevPageId}`}>
+                <Icon icon={arrowSmall} rotate={180} />
+                <span>Prev</span>
+              </NavLink>
+            ) : (
+              <DisabledNavLink>
+                <Icon icon={arrowSmall} rotate={180} />
+                <span>Prev</span>
+              </DisabledNavLink>
+            )}
+            {navigation.nextPageId ? (
+              <NavLink href={`/${urlPath}/${navigation.nextPageId}`}>
+                <Icon icon={arrowSmall} />
+                <span>Next</span>
+              </NavLink>
+            ) : (
+              <DisabledNavLink>
+                <Icon icon={arrowSmall} />
+                <span>Next</span>
+              </DisabledNavLink>
+            )}
+          </>
+        )}
+      </NavigationLinks>
     </KioskNavigationWrapper>
   );
 };
