@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { FunctionComponent } from 'react';
+import { FunctionComponent, memo, useMemo } from 'react';
 import styled from 'styled-components';
 
 import { useKiosk, useKiosksContent } from '@weco/common/contexts/KioskContext';
@@ -134,80 +134,86 @@ type Props = {
   pageType: PageType;
 };
 
-export const KioskNavigation: FunctionComponent<Props> = ({
-  pageId,
-  pageType,
-}) => {
-  const { kioskMode } = useModes();
-  const { isReadingRoomKiosk, kioskHomeUrl } = useKiosk();
-  const kiosksContent = useKiosksContent();
-  const navigation = findNavigationContent({
-    pageId,
-    kioskMode,
-    kiosksContent,
-  });
+export const KioskNavigation: FunctionComponent<Props> = memo(
+  ({ pageId, pageType }) => {
+    const { kioskMode } = useModes();
+    const { isReadingRoomKiosk, kioskHomeUrl } = useKiosk();
+    const kiosksContent = useKiosksContent();
 
-  // Determine URL path and label based on page type
-  const urlPath = pageType === 'work' ? 'works' : 'stories';
-  const label = pageType === 'work' ? 'Related works' : 'Related stories';
+    const navigation = useMemo(
+      () =>
+        findNavigationContent({
+          pageId,
+          kioskMode,
+          kiosksContent,
+        }),
+      [pageId, kioskMode, kiosksContent]
+    );
 
-  return (
-    <KioskNavigationWrapper
-      data-component="kiosk-navigation"
-      aria-label="Kiosk navigation"
-    >
-      <HomeLink href={kioskHomeUrl} aria-label="Return to kiosk home page">
-        <Icon icon={home} aria-hidden="true" />
-        <span>Back to: Home</span>
-      </HomeLink>
-      <NavigationLinks aria-label="Content navigation">
-        {navigation && !isReadingRoomKiosk && (
-          <>
-            <span aria-label={`Viewing ${label.toLowerCase()}`}>{label}</span>
-            <span
-              aria-label={`Page ${navigation.currentIndex + 1} of ${navigation.totalCount}`}
-            >
-              {navigation.currentIndex + 1} / {navigation.totalCount}
-            </span>
-            {navigation.prevPageId ? (
-              <NavLink
-                href={`/${urlPath}/${navigation.prevPageId}`}
-                aria-label="Go to previous page"
+    // Determine URL path and label based on page type
+    const urlPath = pageType === 'work' ? 'works' : 'stories';
+    const label = pageType === 'work' ? 'Related works' : 'Related stories';
+
+    return (
+      <KioskNavigationWrapper
+        data-component="kiosk-navigation"
+        aria-label="Kiosk navigation"
+      >
+        <HomeLink href={kioskHomeUrl} aria-label="Return to kiosk home page">
+          <Icon icon={home} aria-hidden="true" />
+          <span>Back to: Home</span>
+        </HomeLink>
+        <NavigationLinks aria-label="Content navigation">
+          {navigation && !isReadingRoomKiosk && (
+            <>
+              <span aria-label={`Viewing ${label.toLowerCase()}`}>{label}</span>
+              <span
+                aria-label={`Page ${navigation.currentIndex + 1} of ${navigation.totalCount}`}
               >
-                <Icon icon={arrowSmall} rotate={180} aria-hidden="true" />
-                <span>Prev</span>
-              </NavLink>
-            ) : (
-              <DisabledNavLink
-                aria-disabled="true"
-                aria-label="Previous page unavailable"
-              >
-                <Icon icon={arrowSmall} rotate={180} aria-hidden="true" />
-                <span>Prev</span>
-              </DisabledNavLink>
-            )}
-            {navigation.nextPageId ? (
-              <NavLink
-                href={`/${urlPath}/${navigation.nextPageId}`}
-                aria-label="Go to next page"
-              >
-                <Icon icon={arrowSmall} aria-hidden="true" />
-                <span>Next</span>
-              </NavLink>
-            ) : (
-              <DisabledNavLink
-                aria-disabled="true"
-                aria-label="Next page unavailable"
-              >
-                <Icon icon={arrowSmall} aria-hidden="true" />
-                <span>Next</span>
-              </DisabledNavLink>
-            )}
-          </>
-        )}
-      </NavigationLinks>
-    </KioskNavigationWrapper>
-  );
-};
+                {navigation.currentIndex + 1} / {navigation.totalCount}
+              </span>
+              {navigation.prevPageId ? (
+                <NavLink
+                  href={`/${urlPath}/${navigation.prevPageId}`}
+                  aria-label="Go to previous page"
+                >
+                  <Icon icon={arrowSmall} rotate={180} aria-hidden="true" />
+                  <span>Prev</span>
+                </NavLink>
+              ) : (
+                <DisabledNavLink
+                  aria-disabled="true"
+                  aria-label="Previous page unavailable"
+                >
+                  <Icon icon={arrowSmall} rotate={180} aria-hidden="true" />
+                  <span>Prev</span>
+                </DisabledNavLink>
+              )}
+              {navigation.nextPageId ? (
+                <NavLink
+                  href={`/${urlPath}/${navigation.nextPageId}`}
+                  aria-label="Go to next page"
+                >
+                  <Icon icon={arrowSmall} aria-hidden="true" />
+                  <span>Next</span>
+                </NavLink>
+              ) : (
+                <DisabledNavLink
+                  aria-disabled="true"
+                  aria-label="Next page unavailable"
+                >
+                  <Icon icon={arrowSmall} aria-hidden="true" />
+                  <span>Next</span>
+                </DisabledNavLink>
+              )}
+            </>
+          )}
+        </NavigationLinks>
+      </KioskNavigationWrapper>
+    );
+  }
+);
+
+KioskNavigation.displayName = 'KioskNavigation';
 
 export default KioskNavigation;
