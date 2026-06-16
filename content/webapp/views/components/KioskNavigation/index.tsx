@@ -139,7 +139,7 @@ export const KioskNavigation: FunctionComponent<Props> = ({
   pageType,
 }) => {
   const { kioskMode } = useModes();
-  const { isReadingRoomKiosk } = useKiosk();
+  const { isReadingRoomKiosk, kioskHomeUrl } = useKiosk();
   const kiosksContent = useKiosksContent();
   const navigation = findNavigationContent({
     pageId,
@@ -150,14 +150,13 @@ export const KioskNavigation: FunctionComponent<Props> = ({
   // Determine URL path and label based on page type
   const urlPath = pageType === 'work' ? 'works' : 'stories';
   const label = pageType === 'work' ? 'Related works' : 'Related stories';
-  const homeUrl = '/stories/kiosk';
 
   return (
     <KioskNavigationWrapper
       data-component="kiosk-navigation"
       aria-label="Kiosk navigation"
     >
-      <HomeLink href={homeUrl} aria-label="Return to kiosk home page">
+      <HomeLink href={kioskHomeUrl} aria-label="Return to kiosk home page">
         <Icon icon={home} aria-hidden="true" />
         <span>Back to: Home</span>
       </HomeLink>
