@@ -67,7 +67,7 @@ const Contributor: FunctionComponent<ContributorType> = ({
   role,
   description,
 }) => {
-  const isKiosk = useKiosk();
+  const { isKiosk } = useKiosk();
   const descriptionToRender = description || contributor.description;
 
   // Contributor images should always be square.

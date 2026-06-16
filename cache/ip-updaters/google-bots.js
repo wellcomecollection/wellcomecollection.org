@@ -23,32 +23,22 @@ const wafClient = new WAFV2Client({ region: 'us-east-1' });
 const IP_SET_NAME = 'google-bots';
 const IP_SET_SCOPE = 'CLOUDFRONT';
 
-// Google's IP range sources
-const GOOGLE_IP_SOURCES = [
-  'https://developers.google.com/static/crawling/ipranges/common-crawlers.json',
-  'https://developers.google.com/static/crawling/ipranges/special-crawlers.json',
-];
+// Google's IP range source.
+// Only common-crawlers is needed: the WAF rule requires both a Google IP and
+// a "Googlebot" user-agent string, and special-crawlers (AdsBot, APIs-Google,
+// etc.) never send a Googlebot UA so their IPs would never satisfy both conditions.
+const GOOGLE_IP_SOURCE =
+  'https://developers.google.com/static/crawling/ipranges/common-crawlers.json';
 
 /**
- * Fetch all Google bot IPv4 addresses from both sources
+ * Fetch all Google bot IPv4 addresses
  */
 async function fetchGoogleBotIPs() {
   logInfo('Fetching Google bot IP ranges...');
 
-  const results = await Promise.all(
-    GOOGLE_IP_SOURCES.map(async url => {
-      try {
-        const data = await fetchJson(url);
-        return extractIpv4Addresses(data);
-      } catch (error) {
-        logError(`Error fetching ${url}: ${error}`);
-        throw error;
-      }
-    })
-  );
+  const data = await fetchJson(GOOGLE_IP_SOURCE);
+  const allIPs = [...new Set(extractIpv4Addresses(data))];
 
-  // Flatten and deduplicate
-  const allIPs = [...new Set(results.flat())];
   logInfo(`Fetched ${allIPs.length} unique IPv4 addresses`);
 
   return allIPs.sort();
