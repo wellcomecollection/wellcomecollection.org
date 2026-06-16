@@ -26,7 +26,7 @@ const InactivityRedirect: FunctionComponent = () => {
   const modalButtonRef = useRef<HTMLElement | null>(null);
 
   // Don't run on the redirect destination itself
-  const isRedirectDestination = router.asPath === redirectUrl;
+  const isRedirectDestination = router.asPath === kioskHomeUrl;
 
   const performRedirect = useCallback(
     ({ isAutomated }: { isAutomated: boolean }) => {
