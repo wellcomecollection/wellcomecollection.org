@@ -23,7 +23,7 @@ export const fetchExploreMore = async (
     client,
     {
       filters: [
-        prismic.filter.at('my.explore-more.related_exhibition', exhibitionId),
+        prismic.filter.at('my.explore-more.relatedExhibition', exhibitionId),
       ],
       pageSize: 1,
     },

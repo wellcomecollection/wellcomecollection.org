@@ -3327,11 +3327,11 @@ interface ExploreMoreDocumentData {
    *
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
-   * - **API ID Path**: explore-more.related_exhibition
+   * - **API ID Path**: explore-more.relatedExhibition
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/fields/content-relationship
    */
-  related_exhibition: prismic.ContentRelationshipField<'exhibitions'>;
+  relatedExhibition: prismic.ContentRelationshipField<'exhibitions'>;
 
   /**
    * Slice Zone field in *Explore more*

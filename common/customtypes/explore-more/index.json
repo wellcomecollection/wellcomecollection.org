@@ -23,7 +23,7 @@
           "multi": "paragraph,strong,em,hyperlink,list-item,o-list-item"
         }
       },
-      "related_exhibition": {
+      "relatedExhibition": {
         "type": "Link",
         "config": {
           "label": "Related exhibition",
