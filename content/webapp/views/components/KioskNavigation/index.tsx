@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { useKiosksContent } from '@weco/common/contexts/KioskContext';
+import { useKiosk, useKiosksContent } from '@weco/common/contexts/KioskContext';
 import { KioskContent } from '@weco/common/contexts/KioskContext/kiosk';
 import { arrowSmall, home } from '@weco/common/icons';
 import { useModes } from '@weco/common/server-data/Context';
@@ -15,6 +15,7 @@ const KioskNavigationWrapper = styled(Space).attrs({
   $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
   className: font('sans', -1),
 })`
+  min-height: 88px;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -138,6 +139,7 @@ export const KioskNavigation: FunctionComponent<Props> = ({
   pageType,
 }) => {
   const { kioskMode } = useModes();
+  const { isReadingRoomKiosk } = useKiosk();
   const kiosksContent = useKiosksContent();
   const navigation = findNavigationContent({
     pageId,
@@ -160,7 +162,7 @@ export const KioskNavigation: FunctionComponent<Props> = ({
         <span>Back to: Home</span>
       </HomeLink>
       <NavigationLinks aria-label="Content navigation">
-        {navigation && (
+        {navigation && !isReadingRoomKiosk && (
           <>
             <span aria-label={`Viewing ${label.toLowerCase()}`}>{label}</span>
             <span
