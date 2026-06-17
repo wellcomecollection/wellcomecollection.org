@@ -147,6 +147,14 @@ type Rendering = {
   label?: string | InternationalString;
 };
 
+export function deduplicateDownloadOptions(
+  options: DownloadOption[]
+): DownloadOption[] {
+  return options.filter(
+    (option, index, self) => self.findIndex(o => o.id === option.id) === index
+  );
+}
+
 export function getDownloadOptionsFromManifestRendering(
   manifestRendering: Manifest['rendering']
 ): DownloadOption[] {
