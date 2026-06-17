@@ -5,17 +5,29 @@ import {
   useContext,
 } from 'react';
 
-type KioskExperienceName = 'Tenderness and Rage' | 'Reading Room';
+import { KioskExperienceId } from '@weco/toggles';
+
+export const kioskExperienceNames = {
+  developerMode: 'Developer mode',
+  tendernessAndRage: 'Tenderness and Rage',
+  readingRoom: 'Reading Room',
+} as const;
+
+type KioskExperienceName =
+  (typeof kioskExperienceNames)[keyof typeof kioskExperienceNames];
 
 type KioskContextType = {
   isKiosk: boolean;
+  isDevModeKiosk: boolean;
   isTendernessAndRageKiosk: boolean;
   isReadingRoomKiosk: boolean;
   kioskExperienceName?: KioskExperienceName;
+  kioskHomepageUrl?: string;
 };
 
 const KioskContext = createContext<KioskContextType>({
   isKiosk: false,
+  isDevModeKiosk: false,
   isTendernessAndRageKiosk: false,
   isReadingRoomKiosk: false,
 });
@@ -34,13 +46,15 @@ export const getKioskExperienceName = (
 ): KioskExperienceName | undefined => {
   if (!cookieContent) return undefined;
 
-  const experienceId = cookieContent.split('-')[0];
+  const experienceId = cookieContent.split('-')[0] as KioskExperienceId;
 
   switch (experienceId) {
     case 'RR':
-      return 'Reading Room';
+      return kioskExperienceNames.readingRoom;
     case 'TR':
-      return 'Tenderness and Rage';
+      return kioskExperienceNames.tendernessAndRage;
+    case 'devMode':
+      return kioskExperienceNames.developerMode;
     default:
       break;
   }
@@ -52,15 +66,30 @@ export const KioskProvider: FunctionComponent<KioskProviderProps> = ({
   cookieContent,
   children,
 }) => {
-  const experienceName = getKioskExperienceName(cookieContent);
+  const kioskExperienceName = getKioskExperienceName(cookieContent);
+
+  const isDevModeKiosk =
+    kioskExperienceName === kioskExperienceNames.developerMode;
+  const isTendernessAndRageKiosk =
+    kioskExperienceName === kioskExperienceNames.tendernessAndRage;
+  const isReadingRoomKiosk =
+    kioskExperienceName === kioskExperienceNames.readingRoom;
+
+  const kioskHomepageUrl = isTendernessAndRageKiosk
+    ? '/exhibitions/tenderness-and-rage/explore-more'
+    : isReadingRoomKiosk
+      ? '/stories/kiosk'
+      : undefined;
 
   return (
     <KioskContext.Provider
       value={{
         isKiosk: !!cookieContent,
-        kioskExperienceName: experienceName,
-        isTendernessAndRageKiosk: experienceName === 'Tenderness and Rage',
-        isReadingRoomKiosk: experienceName === 'Reading Room',
+        kioskExperienceName,
+        isDevModeKiosk,
+        isTendernessAndRageKiosk,
+        isReadingRoomKiosk,
+        kioskHomepageUrl,
       }}
     >
       {children}
