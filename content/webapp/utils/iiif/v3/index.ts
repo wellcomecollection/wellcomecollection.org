@@ -150,9 +150,13 @@ type Rendering = {
 export function deduplicateDownloadOptions(
   options: DownloadOption[]
 ): DownloadOption[] {
-  return options.filter(
-    (option, index, self) => self.findIndex(o => o.id === option.id) === index
-  );
+  const seen = new Set<string>();
+
+  return options.filter(option => {
+    if (seen.has(option.id)) return false;
+    seen.add(option.id);
+    return true;
+  });
 }
 
 export function getDownloadOptionsFromManifestRendering(
