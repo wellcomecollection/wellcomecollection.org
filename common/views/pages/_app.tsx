@@ -154,6 +154,9 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
     // Banner shouldn't appear in Prismic's Slice Simulator (or Page Builder)
     if (router.route === '/slice-simulator') return true;
 
+    // Banner shouldn't appear in kiosk mode (consent is always granted)
+    if (kioskModeCookie) return true;
+
     return false;
   };
 
