@@ -170,7 +170,7 @@ const toggleConfig = {
       id: 'kioskMode',
       title: 'Kiosk mode',
       description:
-        'Select which kiosk device this browser represents and it will activate kiosk-specific behaviour and layout. Developer mode is also available to allow testing of kiosk features without setting off the Inactivity modal.',
+        'Select which kiosk device this browser represents and it will activate kiosk-specific behaviour and layout.\n\nDeveloper mode is also available to allow testing of kiosk features without setting off the Inactivity modal.\n\n<strong>Selecting a kiosk mode will override any cookie consent settings and automatically grant consent for analytics and marketing.</strong>',
       options: [
         { id: 'devMode', label: 'Developer mode' },
         { id: 'RR-iPad1', label: 'Reading Room: iPad 1' },
