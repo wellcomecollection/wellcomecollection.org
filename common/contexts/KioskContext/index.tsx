@@ -22,6 +22,7 @@ type KioskContextType = {
   isTendernessAndRageKiosk: boolean;
   isReadingRoomKiosk: boolean;
   kioskExperienceName?: KioskExperienceName;
+  kioskHomepageUrl?: string;
 };
 
 const KioskContext = createContext<KioskContextType>({
@@ -65,17 +66,30 @@ export const KioskProvider: FunctionComponent<KioskProviderProps> = ({
   cookieContent,
   children,
 }) => {
-  const experienceName = getKioskExperienceName(cookieContent);
+  const kioskExperienceName = getKioskExperienceName(cookieContent);
+
+  const isDevModeKiosk =
+    kioskExperienceName === kioskExperienceNames.developerMode;
+  const isTendernessAndRageKiosk =
+    kioskExperienceName === kioskExperienceNames.tendernessAndRage;
+  const isReadingRoomKiosk =
+    kioskExperienceName === kioskExperienceNames.readingRoom;
+
+  const kioskHomepageUrl = isTendernessAndRageKiosk
+    ? '/exhibitions/tenderness-and-rage/explore-more'
+    : isReadingRoomKiosk
+      ? '/stories/kiosk'
+      : undefined;
 
   return (
     <KioskContext.Provider
       value={{
         isKiosk: !!cookieContent,
-        kioskExperienceName: experienceName,
-        isDevModeKiosk: experienceName === kioskExperienceNames.developerMode,
-        isTendernessAndRageKiosk:
-          experienceName === kioskExperienceNames.tendernessAndRage,
-        isReadingRoomKiosk: experienceName === kioskExperienceNames.readingRoom,
+        kioskExperienceName,
+        isDevModeKiosk,
+        isTendernessAndRageKiosk,
+        isReadingRoomKiosk,
+        kioskHomepageUrl,
       }}
     >
       {children}

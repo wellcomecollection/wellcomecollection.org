@@ -15,12 +15,8 @@ import InactivityRedirectModal from './InactivityRedirect.Modal';
 const INACTIVITY_TIMEOUT = 60 * 1000; // 60 seconds of inactivity before showing the warning modal
 const WARNING_COUNTDOWN = 30; // 30 seconds countdown before redirect
 
-type Props = {
-  redirectUrl: string;
-};
-
-const InactivityRedirect: FunctionComponent<Props> = ({ redirectUrl }) => {
-  const { isKiosk, isDevModeKiosk } = useKiosk();
+const InactivityRedirect: FunctionComponent = () => {
+  const { isKiosk, isDevModeKiosk, kioskHomepageUrl } = useKiosk();
   const router = useRouter();
   const [isWarningActive, setIsWarningActive] = useState(false);
   const [countdown, setCountdown] = useState(WARNING_COUNTDOWN);
@@ -30,8 +26,9 @@ const InactivityRedirect: FunctionComponent<Props> = ({ redirectUrl }) => {
   const modalButtonRef = useRef<HTMLElement | null>(null);
 
   // Don't run outside kiosk mode, on the redirect destination itself, or if in developer mode
-  const isRedirectDestination = router.asPath === redirectUrl;
-  const shouldNotBeActive = !isKiosk || isDevModeKiosk || isRedirectDestination;
+  const isRedirectDestination = router.asPath === kioskHomepageUrl;
+  const shouldNotBeActive =
+    !isKiosk || isDevModeKiosk || !kioskHomepageUrl || isRedirectDestination;
 
   const performRedirect = useCallback(
     ({ isAutomated }: { isAutomated: boolean }) => {
@@ -41,9 +38,11 @@ const InactivityRedirect: FunctionComponent<Props> = ({ redirectUrl }) => {
         gtag('event', 'auto_reset');
       }
 
-      router.push(redirectUrl);
+      // kioskHomepageUrl is guaranteed to be defined here because shouldNotBeActive
+      // would have returned null if it were undefined
+      router.push(kioskHomepageUrl!);
     },
-    [router, redirectUrl]
+    [router, kioskHomepageUrl]
   );
 
   const resetInactivityTimer = useCallback(() => {
