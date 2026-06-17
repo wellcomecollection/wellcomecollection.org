@@ -15,9 +15,14 @@ export async function setDefaultValueFor(client: S3Client): Promise<void> {
     const arg = argv[toggle.id];
     if (arg && (arg === 'true' || arg === 'false')) {
       const defaultValue = arg === 'true';
+      const isExperimental = toggle.type === 'experimental';
       return {
         ...toggle,
         defaultValue,
+        // dateActivated tracks the most recent activation (experimental toggles only).
+        // Cleared on deactivation so it only ever reflects a currently-active toggle's activation date.
+        dateActivated:
+          isExperimental && defaultValue ? new Date().toISOString() : undefined,
       };
     }
     return toggle;

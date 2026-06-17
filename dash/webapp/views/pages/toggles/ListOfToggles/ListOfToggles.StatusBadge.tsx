@@ -13,9 +13,10 @@ const BadgeContainer = styled.div<{ $active: boolean }>`
     props.$active
       ? tokens.colors.success.light
       : tokens.colors.background.paper};
-  border: 1px solid
-    ${props =>
-      props.$active ? tokens.colors.success.main : tokens.colors.text.disabled};
+  border: ${props =>
+    props.$active
+      ? `4px double ${tokens.colors.success.main}`
+      : `1px solid ${tokens.colors.text.disabled}`};
   font-size: ${tokens.typography.fontSize.small};
   font-weight: 600;
   color: ${props =>

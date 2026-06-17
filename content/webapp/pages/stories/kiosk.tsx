@@ -1,5 +1,9 @@
 import { NextPage } from 'next';
 
+import {
+  getKioskExperienceName,
+  kioskExperienceNames,
+} from '@weco/common/contexts/KioskContext';
 import { getServerData } from '@weco/common/server-data';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
@@ -27,7 +31,14 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   setCacheControl(context.res);
   const serverData = await getServerData(context);
 
-  if (!serverData.toggles.modes.kioskMode) {
+  const kioskModeCookie = serverData.toggles.modes.kioskMode;
+  const experienceName = getKioskExperienceName(kioskModeCookie);
+
+  if (
+    !kioskModeCookie ||
+    (experienceName !== kioskExperienceNames.readingRoom &&
+      experienceName !== kioskExperienceNames.developerMode)
+  ) {
     return { notFound: true };
   }
 
