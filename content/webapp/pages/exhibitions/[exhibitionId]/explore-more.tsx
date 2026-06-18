@@ -10,10 +10,10 @@ import {
 } from '@weco/common/views/pages/_app';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchExhibition } from '@weco/content/services/prismic/fetch/exhibitions';
-import { fetchExploreMore } from '@weco/content/services/prismic/fetch/explore-more';
+import { fetchPage } from '@weco/content/services/prismic/fetch/pages';
 import { transformExhibition } from '@weco/content/services/prismic/transformers/exhibitions';
-import { transformExploreMore } from '@weco/content/services/prismic/transformers/explore-more';
 import { exhibitionLd } from '@weco/content/services/prismic/transformers/json-ld';
+import { transformPage } from '@weco/content/services/prismic/transformers/pages';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import ExploreMorePage, {
   Props as ExploreMorePageProps,
@@ -49,20 +49,23 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   }
 
   const { exhibition } = exhibitionDocument;
-  const exploreMore = await fetchExploreMore(client, exhibition.id);
+  const exhibitionDoc = transformExhibition(exhibition);
 
-  if (!exploreMore) {
+  const pageDocument = await fetchPage(
+    client,
+    `${exhibitionDoc.uid}-explore-more`
+  );
+
+  if (!pageDocument) {
     return { notFound: true };
   }
 
-  const exhibitionDoc = transformExhibition(exhibition);
-  const exploreMoreDoc = transformExploreMore(exploreMore);
   const jsonLd = exhibitionLd(exhibitionDoc);
 
   return {
     props: serialiseProps<Props>({
       exhibition: exhibitionDoc,
-      exploreMore: exploreMoreDoc,
+      page: transformPage(pageDocument),
       jsonLd,
       serverData,
     }),

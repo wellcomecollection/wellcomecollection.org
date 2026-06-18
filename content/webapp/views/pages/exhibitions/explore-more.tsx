@@ -13,22 +13,18 @@ import SpacingSection from '@weco/common/views/components/styled/SpacingSection'
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { components } from '@weco/common/views/slices';
 import { Exhibition } from '@weco/content/types/exhibitions';
-import { ExploreMore } from '@weco/content/types/explore-more';
+import { Page } from '@weco/content/types/pages';
 
 export type Props = {
   exhibition: Exhibition;
-  exploreMore: ExploreMore;
+  page: Page;
   jsonLd: JsonLdObj;
 };
 
-const ExploreMorePage: NextPage<Props> = ({
-  exhibition,
-  exploreMore,
-  jsonLd,
-}) => {
+const ExploreMorePage: NextPage<Props> = ({ exhibition, page, jsonLd }) => {
   return (
     <PageLayout
-      title={exploreMore.title}
+      title={page.title}
       isNoIndex={true}
       description={
         exhibition.metadataDescription || exhibition.promo?.caption || ''
@@ -42,17 +38,17 @@ const ExploreMorePage: NextPage<Props> = ({
       <PageHeader
         variant="basic"
         breadcrumbs={{ items: [] }}
-        title={exploreMore.title}
+        title={page.title}
         isContentTypeInfoBeforeMedia={true}
         ContentTypeInfo={
-          exploreMore.description && (
-            <PageHeaderStandfirst html={exploreMore.description} />
-          )
+          page.introText && page.introText.length > 0 ? (
+            <PageHeaderStandfirst html={page.introText} />
+          ) : undefined
         }
       />
       <SpacingSection>
         <SliceZone
-          slices={exploreMore.slices}
+          slices={page.untransformedBody}
           components={components}
           context={{
             itemsHaveTransparentBackground: false,
