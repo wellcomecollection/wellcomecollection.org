@@ -192,6 +192,7 @@ export const KioskNavigation: FunctionComponent<Props> = memo(
         <LeftSection>
           <HistoryNavigation aria-label="Browser navigation">
             <HistoryButton
+              type="button"
               onClick={back}
               disabled={!canGoBack}
               aria-label="Go back to previous page"
@@ -199,6 +200,7 @@ export const KioskNavigation: FunctionComponent<Props> = memo(
               <Icon icon={chevron} rotate={90} aria-hidden="true" />
             </HistoryButton>
             <HistoryButton
+              type="button"
               onClick={forward}
               disabled={!canGoForward}
               aria-label="Go forward to next page"
