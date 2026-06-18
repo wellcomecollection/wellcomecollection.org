@@ -40,13 +40,16 @@ const InactivityRedirect: FunctionComponent<{ isCardiganStory?: boolean }> = ({
     ({ isAutomated }: { isAutomated: boolean }) => {
       setIsWarningActive(false);
 
+      // Don't redirect if kioskHomepageUrl is not defined (e.g., in Cardigan/Storybook)
+      if (!kioskHomepageUrl) {
+        return;
+      }
+
       if (isAutomated) {
         gtag('event', 'auto_reset');
       }
 
-      // kioskHomepageUrl is guaranteed to be defined here because shouldNotBeActive
-      // would have returned null if it were undefined
-      router.push(kioskHomepageUrl!);
+      router.push(kioskHomepageUrl);
     },
     [router, kioskHomepageUrl]
   );
@@ -65,7 +68,7 @@ const InactivityRedirect: FunctionComponent<{ isCardiganStory?: boolean }> = ({
       },
       isCardiganStory ? 100 : INACTIVITY_TIMEOUT
     );
-  }, [isWarningActive]);
+  }, [isWarningActive, isCardiganStory]);
 
   const handleCancelRedirect = useCallback(() => {
     setIsWarningActive(false);

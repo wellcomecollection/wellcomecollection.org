@@ -56,16 +56,15 @@ const InactivityRedirectModal: FunctionComponent<Props> = ({
       aria-labelledby="inactivity-modal-title"
       aria-describedby="inactivity-modal-desc"
     >
-      {/* Receives initial focus so screen readers announce the dialog context before the buttons */}
-      <RedirectModalTitle id="inactivity-modal-title" tabIndex={0}>
+      <RedirectModalTitle id="inactivity-modal-title">
         Still with us?
       </RedirectModalTitle>
 
       <p id="inactivity-modal-desc">
         Due to inactivity, this page will time out and reset to the homepage.
         <span className="visually-hidden">
-          Select 'Continue reading' to continue, or 'Reset now' to reset
-          immediately.
+          {countdown} seconds remaining. Select 'Continue reading' to continue,
+          or 'Reset now' to reset immediately.
         </span>
       </p>
 
