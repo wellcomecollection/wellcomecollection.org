@@ -15,7 +15,9 @@ import InactivityRedirectModal from './InactivityRedirect.Modal';
 const INACTIVITY_TIMEOUT = 60 * 1000; // 60 seconds of inactivity before showing the warning modal
 const WARNING_COUNTDOWN = 30; // 30 seconds countdown before redirect
 
-const InactivityRedirect: FunctionComponent = () => {
+const InactivityRedirect: FunctionComponent<{ isCardiganStory?: boolean }> = ({
+  isCardiganStory,
+}) => {
   const { isKiosk, isDevModeKiosk, kioskHomepageUrl } = useKiosk();
   const router = useRouter();
   const [isWarningActive, setIsWarningActive] = useState(false);
@@ -28,7 +30,11 @@ const InactivityRedirect: FunctionComponent = () => {
   // Don't run outside kiosk mode, on the redirect destination itself, or if in developer mode
   const isRedirectDestination = router.asPath === kioskHomepageUrl;
   const shouldNotBeActive =
-    !isKiosk || isDevModeKiosk || !kioskHomepageUrl || isRedirectDestination;
+    (!isKiosk ||
+      isDevModeKiosk ||
+      !kioskHomepageUrl ||
+      isRedirectDestination) &&
+    !isCardiganStory;
 
   const performRedirect = useCallback(
     ({ isAutomated }: { isAutomated: boolean }) => {
@@ -52,10 +58,13 @@ const InactivityRedirect: FunctionComponent = () => {
 
     if (isWarningActive) return;
 
-    inactivityTimerRef.current = setTimeout(() => {
-      setIsWarningActive(true);
-      setCountdown(WARNING_COUNTDOWN);
-    }, INACTIVITY_TIMEOUT);
+    inactivityTimerRef.current = setTimeout(
+      () => {
+        setIsWarningActive(true);
+        setCountdown(WARNING_COUNTDOWN);
+      },
+      isCardiganStory ? 100 : INACTIVITY_TIMEOUT
+    );
   }, [isWarningActive]);
 
   const handleCancelRedirect = useCallback(() => {
@@ -195,8 +204,8 @@ const InactivityRedirect: FunctionComponent = () => {
       id="kiosk-inactivity-warning"
       openButtonRef={modalButtonRef}
       showOverlay={true}
-      removeCloseButton={true}
       modalStyle="inactivity"
+      maxWidth="550px"
     >
       <InactivityRedirectModal
         countdown={countdown}

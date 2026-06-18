@@ -153,4 +153,5 @@ export const CalendarModal = styled(BaseModalWindow)`
 
 export const InactivityModal = styled(BaseModalWindow)`
   background-color: ${props => props.theme.color('warmNeutral.300')};
+  border-radius: 8px;
 `;

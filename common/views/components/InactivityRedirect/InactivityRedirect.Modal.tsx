@@ -1,6 +1,7 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
+import { font } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
 import { themeValues } from '@weco/common/views/themes/config';
 
@@ -15,13 +16,15 @@ const RedirectModalContent = styled.div`
   }
 `;
 
-const RedirectModalTitle = styled.h2`
+const RedirectModalTitle = styled.h2.attrs({
+  className: font('brand-bold', 1),
+})`
   font-size: 32px;
   font-weight: bold;
   margin: 0 0 24px;
 `;
 
-const CountdownText = styled.strong`
+const CountdownText = styled.span.attrs({ className: font('brand-bold', 5) })`
   display: block;
   font-size: 32px;
   font-weight: bold;
@@ -57,6 +60,7 @@ const InactivityRedirectModal: FunctionComponent<Props> = ({
       <RedirectModalTitle id="inactivity-modal-title" tabIndex={0}>
         Still with us?
       </RedirectModalTitle>
+
       <p id="inactivity-modal-desc">
         Due to inactivity, this page will time out and reset to the homepage.
         <span className="visually-hidden">
@@ -64,9 +68,11 @@ const InactivityRedirectModal: FunctionComponent<Props> = ({
           immediately.
         </span>
       </p>
+
       <CountdownText data-chromatic="ignore" aria-hidden="true">
         {countdown}
       </CountdownText>
+
       <ButtonRow>
         <Button
           variant="ButtonSolid"
