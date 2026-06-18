@@ -1,7 +1,7 @@
 import { SliceZone } from '@prismicio/react';
 import { NextPage } from 'next';
 
-import { font } from '@weco/common/utils/classnames';
+import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import {
   ContaineredLayout,
@@ -9,19 +9,32 @@ import {
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst';
+import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { components } from '@weco/common/views/slices';
+import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import { Exhibition } from '@weco/content/types/exhibitions';
 import { Page } from '@weco/content/types/pages';
+import ScrollContainer from '@weco/content/views/components/ScrollContainer';
+import { ListItem } from '@weco/content/views/components/ScrollContainer/ScrollContainer.styles';
+import SectionHeader from '@weco/content/views/components/SectionHeader';
+import WorkCard from '@weco/content/views/components/WorkCards/WorkCards.Card';
 
 export type Props = {
   exhibition: Exhibition;
   page: Page;
   jsonLd: JsonLdObj;
+  works: WorkBasic[];
 };
 
-const ExploreMorePage: NextPage<Props> = ({ exhibition, page, jsonLd }) => {
+const ExploreMorePage: NextPage<Props> = ({
+  exhibition,
+  page,
+  jsonLd,
+  works,
+}) => {
+  const { isKiosk } = useKiosk();
   return (
     <PageLayout
       title={page.title}
@@ -55,34 +68,34 @@ const ExploreMorePage: NextPage<Props> = ({ exhibition, page, jsonLd }) => {
           components={components}
           context={{
             itemsHaveTransparentBackground: false,
-            cardSizeMap: { s: [12], m: [6], l: [6], xl: [6] },
+            ...(isKiosk && {
+              cardSizeMap: { s: [12], m: [6], l: [6], xl: [6] },
+            }),
             isFirstCardFeatured: true,
           }}
         />
       </SpacingSection>
       <SpacingSection>
         <ContaineredLayout gridSizes={gridSize12()}>
-          <h2 className={font('brand-bold', 2)}>
-            Explore related items from our collections
-          </h2>
+          <SectionHeader title="On display in the exhibition" />
+          <Space $v={{ size: 'lg', properties: ['margin-top'] }}>
+            <p>
+              Learn more about the objects you can find in the exhibition from
+              our own collections.
+            </p>
+          </Space>
         </ContaineredLayout>
-      </SpacingSection>
-      <SpacingSection>
-        <ContaineredLayout gridSizes={gridSize12()}>
-          <h2 className={font('brand-bold', 2)}>
-            Browse our collections by theme
-          </h2>
-        </ContaineredLayout>
-      </SpacingSection>
-      <SpacingSection>
-        <ContaineredLayout gridSizes={gridSize12()}>
-          <h2 className={font('brand-bold', 2)}>
-            On display in the exhibition
-          </h2>
-        </ContaineredLayout>
+        {works.length > 0 && (
+          <ScrollContainer gridSizes={gridSize12()} useShim={true}>
+            {works.map(work => (
+              <ListItem key={work.id} $usesShim>
+                <WorkCard item={work} />
+              </ListItem>
+            ))}
+          </ScrollContainer>
+        )}
       </SpacingSection>
     </PageLayout>
   );
 };
-
 export default ExploreMorePage;

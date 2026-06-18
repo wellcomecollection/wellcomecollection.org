@@ -14,10 +14,22 @@ import { fetchPage } from '@weco/content/services/prismic/fetch/pages';
 import { transformExhibition } from '@weco/content/services/prismic/transformers/exhibitions';
 import { exhibitionLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
+import {
+  toWorkBasic,
+  WorkBasic,
+} from '@weco/content/services/wellcome/catalogue/types';
+import { getWork } from '@weco/content/services/wellcome/catalogue/works';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import ExploreMorePage, {
   Props as ExploreMorePageProps,
 } from '@weco/content/views/pages/exhibitions/explore-more';
+
+const EXHIBITION_WORK_IDS: string[] = [
+  'gr36peg6',
+  'yrgmq2b9',
+  'yh42fgue',
+  'eudv2vbg',
+];
 
 const Page: NextPage<ExploreMorePageProps> = props => {
   return <ExploreMorePage {...props} />;
@@ -60,6 +72,18 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     return { notFound: true };
   }
 
+  const shouldUseStagingApi = serverData.toggles.featureFlags.stagingApi;
+
+  const works: WorkBasic[] = (
+    await Promise.all(
+      EXHIBITION_WORK_IDS.map(id => getWork({ id, shouldUseStagingApi }))
+    )
+  ).flatMap(r => {
+    if (r.type === 'Error' || r.type === 'Redirect') return [];
+    const { url: _url, ...work } = r;
+    return [toWorkBasic(work)];
+  });
+
   const jsonLd = exhibitionLd(exhibitionDoc);
 
   return {
@@ -67,6 +91,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       exhibition: exhibitionDoc,
       page: transformPage(pageDocument),
       jsonLd,
+      works,
       serverData,
     }),
   };
