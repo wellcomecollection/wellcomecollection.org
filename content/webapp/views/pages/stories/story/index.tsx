@@ -2,7 +2,6 @@ import { NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { getCrop } from '@weco/common/model/image';
 import { ServerData } from '@weco/common/server-data/types';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
@@ -51,7 +50,6 @@ export type ArticleSeriesList = {
 }[];
 
 const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
-  const { isKiosk } = useKiosk();
   const [listOfSeries, setListOfSeries] = useState<ArticleSeriesList>();
   const [relatedDocument, setRelatedDocument] = useState<
     ExhibitionBasic | ContentAPIArticle | undefined
@@ -87,15 +85,7 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
     },
   ];
 
-  const breadcrumbs = isKiosk
-    ? {
-        items: [
-          { text: 'Stories', url: '/stories/kiosk' },
-          ...extraBreadcrumbs,
-        ],
-        noHomeLink: true,
-      }
-    : getBreadcrumbItems('stories', extraBreadcrumbs);
+  const breadcrumbs = getBreadcrumbItems('stories', extraBreadcrumbs);
 
   const isPodcast = article.format?.id === ArticleFormatIds.Podcast;
 

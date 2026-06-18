@@ -7,6 +7,7 @@ import { ApmContextProvider } from '@weco/common/contexts/ApmContext';
 import { AppContextProvider } from '@weco/common/contexts/AppContext';
 import {
   getKioskExperienceName,
+  kioskExperienceNames,
   KioskProvider,
 } from '@weco/common/contexts/KioskContext';
 import { SearchContextProvider } from '@weco/common/contexts/SearchContext';
@@ -180,7 +181,8 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
                   <GlobalSvgDefinitions />
                   <LoadingIndicator />
 
-                  {experienceName === 'Tenderness and Rage' && (
+                  {experienceName ===
+                    kioskExperienceNames.tendernessAndRage && (
                     <InfoBanner variant="kioskTRBanners" />
                   )}
 

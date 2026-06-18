@@ -16,7 +16,7 @@ const INACTIVITY_TIMEOUT = 60; // 60 seconds of inactivity before showing the wa
 const WARNING_COUNTDOWN = 30; // 30 seconds countdown before redirect
 
 const InactivityRedirect: FunctionComponent = () => {
-  const { isKiosk, kioskHomeUrl } = useKiosk();
+  const { isKiosk, isDevModeKiosk, kioskHomepageUrl } = useKiosk();
   const router = useRouter();
   const [isWarningActive, setIsWarningActive] = useState(false);
   const [countdown, setCountdown] = useState(WARNING_COUNTDOWN);
@@ -25,8 +25,10 @@ const InactivityRedirect: FunctionComponent = () => {
   const redirectTimerRef = useRef<NodeJS.Timeout | null>(null);
   const modalButtonRef = useRef<HTMLElement | null>(null);
 
-  // Don't run on the redirect destination itself
-  const isRedirectDestination = router.asPath === kioskHomeUrl;
+  // Don't run outside kiosk mode, on the redirect destination itself, or if in developer mode
+  const isRedirectDestination = router.asPath === kioskHomepageUrl;
+  const shouldNotBeActive =
+    !isKiosk || isDevModeKiosk || !kioskHomepageUrl || isRedirectDestination;
 
   const performRedirect = useCallback(
     ({ isAutomated }: { isAutomated: boolean }) => {
@@ -36,9 +38,11 @@ const InactivityRedirect: FunctionComponent = () => {
         gtag('event', 'auto_reset');
       }
 
-      router.push(kioskHomeUrl);
+      // kioskHomepageUrl is guaranteed to be defined here because shouldNotBeActive
+      // would have returned null if it were undefined
+      router.push(kioskHomepageUrl!);
     },
-    [router, kioskHomeUrl]
+    [router, kioskHomepageUrl]
   );
 
   const resetInactivityTimer = useCallback(() => {
@@ -78,6 +82,8 @@ const InactivityRedirect: FunctionComponent = () => {
 
   // Clean up on route changes
   useEffect(() => {
+    if (shouldNotBeActive) return;
+
     const handleRouteChange = () => {
       setIsWarningActive(false);
       setCountdown(WARNING_COUNTDOWN);
@@ -100,10 +106,12 @@ const InactivityRedirect: FunctionComponent = () => {
     return () => {
       router.events.off('routeChangeStart', handleRouteChange);
     };
-  }, [router]);
+  }, [router, shouldNotBeActive]);
 
   // Countdown and redirect when warning is active
   useEffect(() => {
+    if (shouldNotBeActive) return;
+
     if (isWarningActive) {
       countdownTimerRef.current = setInterval(() => {
         setCountdown(prev => {
@@ -130,11 +138,11 @@ const InactivityRedirect: FunctionComponent = () => {
         }
       };
     }
-  }, [isWarningActive, performRedirect]);
+  }, [shouldNotBeActive, isWarningActive, performRedirect]);
 
   // Set up activity listeners
   useEffect(() => {
-    if (!isKiosk || isRedirectDestination) return;
+    if (shouldNotBeActive) return;
 
     if (isWarningActive) {
       return;
@@ -171,16 +179,13 @@ const InactivityRedirect: FunctionComponent = () => {
       }
     };
   }, [
-    isKiosk,
-    isRedirectDestination,
+    shouldNotBeActive,
     isWarningActive,
     handleUserActivity,
     resetInactivityTimer,
   ]);
 
-  if (!isKiosk || isRedirectDestination) {
-    return null;
-  }
+  if (shouldNotBeActive) return null;
 
   return (
     <Modal
