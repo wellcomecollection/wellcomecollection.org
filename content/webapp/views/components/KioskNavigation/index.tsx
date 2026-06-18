@@ -165,7 +165,7 @@ type Props = {
 export const KioskNavigation: FunctionComponent<Props> = memo(
   ({ pageId, pageType }) => {
     const { kioskMode } = useModes();
-    const { isReadingRoomKiosk, kioskHomeUrl } = useKiosk();
+    const { isReadingRoomKiosk, kioskHomepageUrl } = useKiosk();
     const kiosksContent = useKiosksContent();
     const { back, forward, canGoBack, canGoForward } = useNavigationHistory();
 
@@ -205,7 +205,10 @@ export const KioskNavigation: FunctionComponent<Props> = memo(
               <Icon icon={chevron} rotate={270} aria-hidden="true" />
             </HistoryButton>
           </HistoryNavigation>
-          <HomeLink href={kioskHomeUrl} aria-label="Return to kiosk home page">
+          <HomeLink
+            href={kioskHomepageUrl || '/'}
+            aria-label="Return to kiosk home page"
+          >
             <Icon icon={home} aria-hidden="true" />
             <span>Back to: Home</span>
           </HomeLink>

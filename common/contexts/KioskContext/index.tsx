@@ -11,24 +11,33 @@ import {
   KioskContent,
 } from '@weco/common/contexts/KioskContext/kiosk';
 import { ReadingRoomStories } from '@weco/common/server-data/prismic';
+import { KioskExperienceId } from '@weco/toggles';
 
-type KioskExperienceName = 'Tenderness and Rage' | 'Reading Room';
+export const kioskExperienceNames = {
+  developerMode: 'Developer mode',
+  tendernessAndRage: 'Tenderness and Rage',
+  readingRoom: 'Reading Room',
+} as const;
+
+type KioskExperienceName =
+  (typeof kioskExperienceNames)[keyof typeof kioskExperienceNames];
 
 type KioskContextType = {
   isKiosk: boolean;
+  isDevModeKiosk: boolean;
   isTendernessAndRageKiosk: boolean;
   isReadingRoomKiosk: boolean;
   kioskExperienceName?: KioskExperienceName;
+  kioskHomepageUrl?: string;
   kiosksContent: Record<string, KioskContent>;
-  kioskHomeUrl: string;
 };
 
 const KioskContext = createContext<KioskContextType>({
   isKiosk: false,
+  isDevModeKiosk: false,
   isTendernessAndRageKiosk: false,
   isReadingRoomKiosk: false,
   kiosksContent: initialKiosksContent,
-  kioskHomeUrl: '/',
 });
 
 type KioskProviderProps = PropsWithChildren<{
@@ -46,13 +55,15 @@ export const getKioskExperienceName = (
 ): KioskExperienceName | undefined => {
   if (!cookieContent) return undefined;
 
-  const experienceId = cookieContent.split('-')[0];
+  const experienceId = cookieContent.split('-')[0] as KioskExperienceId;
 
   switch (experienceId) {
     case 'RR':
-      return 'Reading Room';
+      return kioskExperienceNames.readingRoom;
     case 'TR':
-      return 'Tenderness and Rage';
+      return kioskExperienceNames.tendernessAndRage;
+    case 'devMode':
+      return kioskExperienceNames.developerMode;
     default:
       break;
   }
@@ -65,35 +76,40 @@ export const KioskProvider: FunctionComponent<KioskProviderProps> = ({
   readingRoomStories,
   children,
 }) => {
-  const experienceName = getKioskExperienceName(cookieContent);
-  const experienceId = cookieContent?.split('-')[0];
+  const kioskExperienceName = getKioskExperienceName(cookieContent);
 
-  // Merge server-fetched data with hardcoded content
+  const isDevModeKiosk =
+    kioskExperienceName === kioskExperienceNames.developerMode;
+  const isTendernessAndRageKiosk =
+    kioskExperienceName === kioskExperienceNames.tendernessAndRage;
+  const isReadingRoomKiosk =
+    kioskExperienceName === kioskExperienceNames.readingRoom;
+
+  const kioskHomepageUrl = isTendernessAndRageKiosk
+    ? '/exhibitions/tenderness-and-rage/explore-more'
+    : isReadingRoomKiosk
+      ? '/stories/kiosk'
+      : undefined;
+
   const kiosksContent = useMemo(
     () => ({
       ...initialKiosksContent,
-      RR: {
-        ...initialKiosksContent.RR,
-        ...readingRoomStories,
-      },
+      RR: readingRoomStories as KioskContent,
     }),
     [readingRoomStories]
   );
 
-  const kioskHomeUrl = experienceId
-    ? initialKiosksContent[experienceId]?.homeUrl || '/'
-    : '/';
-
   const value = useMemo(
     () => ({
       isKiosk: !!cookieContent,
-      kioskExperienceName: experienceName,
-      isTendernessAndRageKiosk: experienceName === 'Tenderness and Rage',
-      isReadingRoomKiosk: experienceName === 'Reading Room',
+      kioskExperienceName,
+      isDevModeKiosk,
+      isTendernessAndRageKiosk,
+      isReadingRoomKiosk,
+      kioskHomepageUrl,
       kiosksContent,
-      kioskHomeUrl,
     }),
-    [experienceName, kiosksContent, kioskHomeUrl]
+    [kioskExperienceName, kiosksContent]
   );
 
   return (
@@ -102,6 +118,6 @@ export const KioskProvider: FunctionComponent<KioskProviderProps> = ({
 };
 
 export const useKiosksContent = (): Record<string, KioskContent> => {
-  const { kiosksContent } = useContext(KioskContext);
+  const { kiosksContent } = useKiosk();
   return kiosksContent;
 };

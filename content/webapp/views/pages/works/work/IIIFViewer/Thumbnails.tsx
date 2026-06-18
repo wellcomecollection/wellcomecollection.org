@@ -9,7 +9,10 @@ import { queryParamToArrayIndex } from '.';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 import { thumbnailsPageSize } from './Paginators';
 
-const ThumbnailsContainer = styled.div<{ $isTRKiosk?: boolean }>`
+const ThumbnailsContainer = styled.div<{
+  $isTRKiosk?: boolean;
+  $isNonTRKiosk?: boolean;
+}>`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
@@ -18,7 +21,7 @@ const ThumbnailsContainer = styled.div<{ $isTRKiosk?: boolean }>`
   height: 1800px;
   ${props => `
     ${props.theme.media('lg')(`
-    height: calc(100vh - ${props.$isTRKiosk ? props.theme.kioskTRBannersHeight : props.theme.navHeight}px);
+    height: ${props.$isNonTRKiosk ? '100vh' : `calc(100vh - ${props.$isTRKiosk ? props.theme.kioskTRBannersHeight : props.theme.navHeight}px)`};
     `)}
   `}
 `;
@@ -32,7 +35,7 @@ const ThumbnailLink = styled(NextLink)`
 
 export const Thumbnails = () => {
   const { work, query, transformedManifest } = useItemViewerContext();
-  const { isTendernessAndRageKiosk } = useKiosk();
+  const { isKiosk, isTendernessAndRageKiosk } = useKiosk();
   const { canvases } = { ...transformedManifest };
   const navigationCanvases = canvases
     ? [...Array(thumbnailsPageSize)]
@@ -44,7 +47,11 @@ export const Thumbnails = () => {
     : [];
 
   return (
-    <ThumbnailsContainer id="xyz" $isTRKiosk={isTendernessAndRageKiosk}>
+    <ThumbnailsContainer
+      id="xyz"
+      $isTRKiosk={isTendernessAndRageKiosk}
+      $isNonTRKiosk={isKiosk && !isTendernessAndRageKiosk}
+    >
       {navigationCanvases &&
         navigationCanvases.map((canvas, i) => {
           const canvasParam =

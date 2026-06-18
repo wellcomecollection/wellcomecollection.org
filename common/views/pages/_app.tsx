@@ -198,6 +198,13 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
                         defer={serverData.consentStatus.cookieExists}
                       />
                     )}
+
+                    {displayCookieBanner && (
+                      <CivicUK
+                        apiKey={civicUkApiKey}
+                        defer={serverData.consentStatus.cookieExists}
+                      />
+                    )}
                     <HotjarLoader />
 
                     {!pageProps.err &&

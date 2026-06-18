@@ -23,11 +23,9 @@ export const withDefaultValuesUnmodified = (
    */
   return definitions.map(toggle => {
     const matchingToggle = publishedToggles.find(({ id }) => id === toggle.id);
+    const isNew = typeof matchingToggle === 'undefined';
 
-    if (
-      typeof matchingToggle !== 'undefined' &&
-      matchingToggle.defaultValue !== toggle.initialValue
-    ) {
+    if (!isNew && matchingToggle.defaultValue !== toggle.initialValue) {
       info(
         `${toggle.id}: the published value is ${matchingToggle.defaultValue} and will not be replaced`
       );
@@ -36,16 +34,31 @@ export const withDefaultValuesUnmodified = (
       info('');
     }
 
-    const defaultValue =
-      typeof matchingToggle !== 'undefined'
-        ? matchingToggle?.defaultValue
-        : toggle.initialValue;
+    const defaultValue = isNew
+      ? toggle.initialValue
+      : matchingToggle.defaultValue;
+
+    // Only set dates for experimental toggles
+    const isExperimental = toggle.type === 'experimental';
+
+    // Set dateCreated only when the toggle first appears in S3 (experimental toggles only).
+    const dateCreated = isExperimental
+      ? (matchingToggle?.dateCreated ?? new Date().toISOString())
+      : undefined;
+
+    // Set dateActivated only when the deployed toggle is actually active (experimental toggles only).
+    const dateActivated =
+      isExperimental && defaultValue
+        ? (matchingToggle?.dateActivated ?? new Date().toISOString())
+        : undefined;
 
     const { initialValue, ...otherFields } = toggle;
 
     return {
       ...otherFields,
       defaultValue,
+      dateCreated,
+      dateActivated,
     };
   });
 };
