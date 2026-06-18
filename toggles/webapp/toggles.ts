@@ -14,6 +14,9 @@ export type FeatureFlagDefinition = ToggleBase & {
 
 export type PublishedFeatureFlag = ToggleBase & {
   defaultValue: boolean;
+  // Dates are only populated for experimental toggles
+  dateCreated?: string;
+  dateActivated?: string;
 };
 
 export type ABTest = {
@@ -149,14 +152,6 @@ const toggleConfig = {
       type: 'experimental',
     },
     {
-      id: 'inGallery',
-      title: 'Gallery display mode',
-      initialValue: false,
-      description:
-        'Enables gallery-specific features such as removing external links and showing an inactivity redirect after a period of inactivity',
-      type: 'experimental',
-    },
-    {
       id: 'compositeTypography',
       title: 'Composite typography',
       initialValue: false,
@@ -175,11 +170,11 @@ const toggleConfig = {
       id: 'kioskMode',
       title: 'Kiosk mode',
       description:
-        'Select which kiosk device this browser represents and it will activate kiosk-specific behaviour and layout.',
+        'Select which kiosk device this browser represents and it will activate kiosk-specific behaviour and layout. Developer mode is also available to allow testing of kiosk features without setting off the Inactivity modal.',
       options: [
+        { id: 'devMode', label: 'Developer mode' },
         { id: 'RR-iPad1', label: 'Reading Room: iPad 1' },
         { id: 'RR-iPad2', label: 'Reading Room: iPad 2' },
-        { id: 'RR-iPad3', label: 'Reading Room: iPad 3' },
         { id: 'TR-iPad1', label: 'Tenderness & Rage: iPad 1' },
         { id: 'TR-iPad2', label: 'Tenderness & Rage: iPad 2' },
       ],
