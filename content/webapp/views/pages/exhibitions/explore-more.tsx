@@ -27,7 +27,10 @@ const ExploreMorePage: NextPage<Props> = ({ exhibition, page, jsonLd }) => {
       title={page.title}
       isNoIndex={true}
       description={
-        exhibition.metadataDescription || exhibition.promo?.caption || ''
+        page.metadataDescription ||
+        exhibition.metadataDescription ||
+        exhibition.promo?.caption ||
+        ''
       }
       url={{ pathname: `/exhibitions/${exhibition.uid}/explore-more` }}
       jsonLd={jsonLd}
