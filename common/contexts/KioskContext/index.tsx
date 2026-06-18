@@ -10,6 +10,7 @@ import {
   kiosksContent as initialKiosksContent,
   KioskContent,
 } from '@weco/common/contexts/KioskContext/kiosk';
+import { ReadingRoomStories } from '@weco/common/server-data/prismic';
 import { KioskExperienceId } from '@weco/toggles';
 
 export const kioskExperienceNames = {
@@ -41,6 +42,7 @@ const KioskContext = createContext<KioskContextType>({
 
 type KioskProviderProps = PropsWithChildren<{
   cookieContent: string | null;
+  readingRoomStories: ReadingRoomStories;
 }>;
 
 export const useKiosk = (): KioskContextType => {
@@ -71,6 +73,7 @@ export const getKioskExperienceName = (
 
 export const KioskProvider: FunctionComponent<KioskProviderProps> = ({
   cookieContent,
+  readingRoomStories,
   children,
 }) => {
   const kioskExperienceName = getKioskExperienceName(cookieContent);
@@ -88,7 +91,13 @@ export const KioskProvider: FunctionComponent<KioskProviderProps> = ({
       ? '/stories/kiosk'
       : undefined;
 
-  const kiosksContent = initialKiosksContent;
+  const kiosksContent = useMemo(
+    () => ({
+      ...initialKiosksContent,
+      RR: readingRoomStories as KioskContent,
+    }),
+    [readingRoomStories]
+  );
 
   const value = useMemo(
     () => ({
@@ -100,7 +109,7 @@ export const KioskProvider: FunctionComponent<KioskProviderProps> = ({
       kioskHomepageUrl,
       kiosksContent,
     }),
-    [kioskExperienceName]
+    [kioskExperienceName, kiosksContent]
   );
 
   return (
@@ -109,6 +118,6 @@ export const KioskProvider: FunctionComponent<KioskProviderProps> = ({
 };
 
 export const useKiosksContent = (): Record<string, KioskContent> => {
-  const { kiosksContent } = useContext(KioskContext);
+  const { kiosksContent } = useKiosk();
   return kiosksContent;
 };
