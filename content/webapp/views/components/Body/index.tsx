@@ -115,6 +115,7 @@ export type SliceZoneContext = {
   itemsHaveTransparentBackground?: boolean;
   cardSizeMap?: SizeMap;
   themeCardCols?: 3 | 4;
+  isFirstCardFeatured?: boolean;
 };
 
 export const defaultContext: SliceZoneContext = {
