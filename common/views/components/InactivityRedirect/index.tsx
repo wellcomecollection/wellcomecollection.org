@@ -196,6 +196,7 @@ const InactivityRedirect: FunctionComponent = () => {
       openButtonRef={modalButtonRef}
       showOverlay={true}
       removeCloseButton={true}
+      modalStyle="inactivity"
     >
       <InactivityRedirectModal
         countdown={countdown}

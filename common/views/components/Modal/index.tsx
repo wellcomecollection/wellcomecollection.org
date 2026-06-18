@@ -19,6 +19,7 @@ import {
   CalendarModal,
   CloseButton,
   FiltersModal,
+  InactivityModal,
   Overlay,
   VideoModal,
 } from './Modal.styles';
@@ -33,7 +34,7 @@ type Props = PropsWithChildren<{
   openButtonRef?: MutableRefObject<HTMLElement | null>;
   removeCloseButton?: boolean;
   showOverlay?: boolean;
-  modalStyle?: 'filters' | 'calendar' | 'video';
+  modalStyle?: 'filters' | 'calendar' | 'video' | 'inactivity';
 }>;
 
 function determineModal(modalStyle: Props['modalStyle']) {
@@ -44,6 +45,8 @@ function determineModal(modalStyle: Props['modalStyle']) {
       return CalendarModal;
     case 'video':
       return VideoModal;
+    case 'inactivity':
+      return InactivityModal;
     default:
       return BaseModalWindow;
   }

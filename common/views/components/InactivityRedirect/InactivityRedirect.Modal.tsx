@@ -79,7 +79,7 @@ const InactivityRedirectModal: FunctionComponent<Props> = ({
           variant="ButtonSolid"
           text="Reset now"
           clickHandler={onReset}
-          colors={themeValues.buttonColors.yellowYellowBlack}
+          colors={themeValues.buttonColors.greenTransparentGreen}
           dataGtmProps={{ trigger: 'reset-modal-reset-now-button' }}
         />
       </ButtonRow>
