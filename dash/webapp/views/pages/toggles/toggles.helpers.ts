@@ -7,6 +7,8 @@ export type FeatureFlag = {
   description: string;
   type: 'permanent' | 'experimental' | 'test' | 'stage';
   documentationLink?: string;
+  dateCreated?: string;
+  dateActivated?: string;
 };
 
 export type ToggleStates = { [id: string]: boolean | undefined };
