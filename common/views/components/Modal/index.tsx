@@ -12,6 +12,7 @@ import { CSSTransition } from 'react-transition-group';
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { cross } from '@weco/common/icons';
 import { ACTIVE_COOKIE_BANNER_ID } from '@weco/common/services/app/civic-uk';
+import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
 
 import {
@@ -134,6 +135,7 @@ const Modal: FunctionComponent<Props> = ({
             {!removeCloseButton && (
               <CloseButton
                 data-testid="close-modal-button"
+                {...dataGtmPropsToAttributes({ id: 'close-modal-button' })}
                 ref={closeButtonRef}
                 onClick={() => {
                   setIsActive(false);
