@@ -15,6 +15,7 @@ const KioskNavigationWrapper = styled(Space).attrs({
   $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
   $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
   className: font('sans', -1),
+  as: 'nav',
 })`
   min-height: 88px;
   position: fixed;
