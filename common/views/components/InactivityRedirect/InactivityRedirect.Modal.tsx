@@ -3,39 +3,31 @@ import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
+import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
 
-const RedirectModalContent = styled.div`
-  padding: 24px;
+const RedirectModalContent = styled(Space).attrs({
+  $v: { size: 'md', properties: ['padding-top'] },
+})`
   text-align: center;
-
-  p {
-    margin: 16px 0;
-    font-size: 18px;
-    line-height: 1.5;
-  }
 `;
 
 const RedirectModalTitle = styled.h2.attrs({
   className: font('brand-bold', 1),
 })`
-  font-size: 32px;
-  font-weight: bold;
-  margin: 0 0 24px;
+  margin-bottom: ${props => props.theme.getSpaceValue('md', 'zero')};
 `;
 
-const CountdownText = styled.span.attrs({ className: font('brand-bold', 5) })`
-  display: block;
-  font-size: 32px;
-  font-weight: bold;
-  margin-top: 16px;
+const Copy = styled.p`
+  margin-bottom: ${props => props.theme.getSpaceValue('md', 'zero')};
 `;
 
-const ButtonRow = styled.div`
+const ButtonRow = styled(Space).attrs({
+  $v: { size: 'md', properties: ['margin-top'] },
+})`
   display: flex;
-  gap: 16px;
+  gap: 10px;
   justify-content: center;
-  margin-top: 24px;
 `;
 
 type Props = {
@@ -60,17 +52,21 @@ const InactivityRedirectModal: FunctionComponent<Props> = ({
         Still with us?
       </RedirectModalTitle>
 
-      <p id="inactivity-modal-desc">
+      <Copy id="inactivity-modal-desc">
         Due to inactivity, this page will time out and reset to the homepage.
         <span className="visually-hidden">
           {countdown} seconds remaining. Select 'Continue reading' to continue,
           or 'Reset now' to reset immediately.
         </span>
-      </p>
+      </Copy>
 
-      <CountdownText data-chromatic="ignore" aria-hidden="true">
+      <span
+        data-chromatic="ignore"
+        aria-hidden="true"
+        className={font('brand-bold', 5)}
+      >
         {countdown}
-      </CountdownText>
+      </span>
 
       <ButtonRow>
         <Button
