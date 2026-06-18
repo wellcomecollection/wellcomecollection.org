@@ -35,6 +35,7 @@ const ExploreMorePage: NextPage<Props> = ({
   works,
 }) => {
   const { isKiosk } = useKiosk();
+
   return (
     <PageLayout
       title={page.title}
