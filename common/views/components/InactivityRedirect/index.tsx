@@ -199,7 +199,6 @@ const InactivityRedirect: FunctionComponent = () => {
     >
       <InactivityRedirectModal
         countdown={countdown}
-        warningCountdown={WARNING_COUNTDOWN}
         onKeepBrowsing={handleCancelRedirect}
         onReset={() => performRedirect({ isAutomated: false })}
       />

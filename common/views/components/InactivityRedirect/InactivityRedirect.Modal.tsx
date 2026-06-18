@@ -37,14 +37,12 @@ const ButtonRow = styled.div`
 
 type Props = {
   countdown: number;
-  warningCountdown: number;
   onKeepBrowsing: () => void;
   onReset: () => void;
 };
 
 const InactivityRedirectModal: FunctionComponent<Props> = ({
   countdown,
-  warningCountdown,
   onKeepBrowsing,
   onReset,
 }) => {
@@ -57,11 +55,10 @@ const InactivityRedirectModal: FunctionComponent<Props> = ({
     >
       {/* Receives initial focus so screen readers announce the dialog context before the buttons */}
       <RedirectModalTitle id="inactivity-modal-title" tabIndex={0}>
-        Need more time?
+        Still with us?
       </RedirectModalTitle>
       <p id="inactivity-modal-desc">
-        Due to inactivity, this screen will reset to the homepage in less than{' '}
-        {warningCountdown} seconds.
+        Due to inactivity, this page will time out and reset to the homepage.
         <span className="visually-hidden">
           Select 'Continue reading' to continue, or 'Reset now' to reset
           immediately.
