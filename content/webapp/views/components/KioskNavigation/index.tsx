@@ -105,7 +105,6 @@ type NavigationContent = {
   totalCount: number;
   prevPageId?: string;
   nextPageId?: string;
-  listName?: string;
 };
 
 function findNavigationContent({
@@ -131,14 +130,12 @@ function findNavigationContent({
   // Search all arrays in the content object to find which one contains the pageId
   let items: string[] | undefined;
   let currentIndex = -1;
-  let listName: string | undefined;
 
-  for (const [key, value] of Object.entries(content)) {
+  for (const value of Object.values(content)) {
     if (Array.isArray(value)) {
       currentIndex = value.indexOf(pageId);
       if (currentIndex !== -1) {
         items = value;
-        listName = key;
         break;
       }
     }
@@ -157,7 +154,6 @@ function findNavigationContent({
     totalCount: items.length,
     prevPageId,
     nextPageId,
-    listName,
   };
 }
 
@@ -183,19 +179,9 @@ export const KioskNavigation: FunctionComponent<Props> = memo(
       [pageId, kioskMode, kiosksContent]
     );
 
-    // Determine URL path and label based on page type and list name
+    // Determine URL path and label based on page type
     const urlPath = pageType === 'work' ? 'works' : 'stories';
-
-    let label: string;
-    if (pageType === 'story') {
-      label = 'Related stories';
-    } else if (navigation?.listName === 'featuredWorks') {
-      label = 'Featured works';
-    } else if (navigation?.listName === 'includedWorks') {
-      label = 'Included works';
-    } else {
-      label = 'Related works';
-    }
+    const label = pageType === 'work' ? 'Related works' : 'Related stories';
 
     return (
       <KioskNavigationWrapper
