@@ -137,7 +137,7 @@ type Props = {
 export const KioskNavigation: FunctionComponent<Props> = memo(
   ({ pageId, pageType }) => {
     const { kioskMode } = useModes();
-    const { isReadingRoomKiosk, kioskHomeUrl } = useKiosk();
+    const { isReadingRoomKiosk, kioskHomepageUrl } = useKiosk();
     const kiosksContent = useKiosksContent();
 
     const navigation = useMemo(
@@ -159,7 +159,10 @@ export const KioskNavigation: FunctionComponent<Props> = memo(
         data-component="kiosk-navigation"
         aria-label="Kiosk navigation"
       >
-        <HomeLink href={kioskHomeUrl} aria-label="Return to kiosk home page">
+        <HomeLink
+          href={kioskHomepageUrl || '/'}
+          aria-label="Return to kiosk home page"
+        >
           <Icon icon={home} aria-hidden="true" />
           <span>Back to: Home</span>
         </HomeLink>

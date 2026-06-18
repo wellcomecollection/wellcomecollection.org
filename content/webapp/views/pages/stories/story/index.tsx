@@ -2,6 +2,7 @@ import { NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { getCrop } from '@weco/common/model/image';
 import { ServerData } from '@weco/common/server-data/types';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
@@ -54,7 +55,7 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
   const [relatedDocument, setRelatedDocument] = useState<
     ExhibitionBasic | ContentAPIArticle | undefined
   >();
-
+  const { isKiosk } = useKiosk();
   useEffect(() => {
     setSeries(article, setListOfSeries);
 
