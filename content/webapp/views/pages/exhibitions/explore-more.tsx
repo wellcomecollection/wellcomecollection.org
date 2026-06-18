@@ -1,6 +1,7 @@
 import { SliceZone } from '@prismicio/react';
 import { NextPage } from 'next';
 
+import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { font } from '@weco/common/utils/classnames';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import {
@@ -22,6 +23,8 @@ export type Props = {
 };
 
 const ExploreMorePage: NextPage<Props> = ({ exhibition, page, jsonLd }) => {
+  const { isKiosk } = useKiosk();
+
   return (
     <PageLayout
       title={page.title}
@@ -55,7 +58,9 @@ const ExploreMorePage: NextPage<Props> = ({ exhibition, page, jsonLd }) => {
           components={components}
           context={{
             itemsHaveTransparentBackground: false,
-            cardSizeMap: { s: [12], m: [6], l: [6], xl: [6] },
+            ...(isKiosk && {
+              cardSizeMap: { s: [12], m: [6], l: [6], xl: [6] },
+            }),
             isFirstCardFeatured: true,
           }}
         />
