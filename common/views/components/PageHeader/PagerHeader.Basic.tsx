@@ -104,8 +104,7 @@ const BasicPageHeader: FunctionComponent<Props> = ({
   const hasBreadcrumbItems =
     !isKiosk &&
     breadcrumbs &&
-    (!breadcrumbs.noHomeLink ||
-      breadcrumbs.items.some(item => !item.isHidden));
+    (!breadcrumbs.noHomeLink || breadcrumbs.items.some(item => !item.isHidden));
 
   return (
     <>
