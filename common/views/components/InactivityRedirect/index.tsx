@@ -12,7 +12,7 @@ import Modal from '@weco/common/views/components/Modal';
 
 import InactivityRedirectModal from './InactivityRedirect.Modal';
 
-const INACTIVITY_TIMEOUT = 60 * 1000; // 60 seconds of inactivity before showing the warning modal
+const INACTIVITY_TIMEOUT = 60; // 60 seconds of inactivity before showing the warning modal
 const WARNING_COUNTDOWN = 30; // 30 seconds countdown before redirect
 
 const InactivityRedirect: FunctionComponent = () => {
@@ -55,7 +55,7 @@ const InactivityRedirect: FunctionComponent = () => {
     inactivityTimerRef.current = setTimeout(() => {
       setIsWarningActive(true);
       setCountdown(WARNING_COUNTDOWN);
-    }, INACTIVITY_TIMEOUT);
+    }, INACTIVITY_TIMEOUT * 1000);
   }, [isWarningActive]);
 
   const handleCancelRedirect = useCallback(() => {
@@ -195,7 +195,6 @@ const InactivityRedirect: FunctionComponent = () => {
       id="kiosk-inactivity-warning"
       openButtonRef={modalButtonRef}
       showOverlay={true}
-      removeCloseButton={true}
     >
       <InactivityRedirectModal
         countdown={countdown}

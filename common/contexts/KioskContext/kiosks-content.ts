@@ -1,12 +1,12 @@
-export type KioskContent = {
+export type KiosksContentType = {
   includedWorks?: string[];
   relatedWorks?: string[];
   featuredWorks?: string[];
   stories?: string[];
-  [key: string]: string[] | undefined; // Allow for additional properties for the Reading Room stories
+  [key: string]: string[] | undefined; // Allow for additional array properties (e.g., Reading Room stories)
 };
 
-export const kiosksContent: Record<string, KioskContent> = {
+export const kiosksContent: Record<string, KiosksContentType> = {
   // Property name should match kioskMode value up to the hyphen, e.g. TR-iPad1 and TR-iPad2 both use TR content
   TR: {
     includedWorks: [
@@ -20,13 +20,13 @@ export const kiosksContent: Record<string, KioskContent> = {
       'zxyeupbh', // Strutting to Stop Stigma (NO IMAGE)
     ],
     relatedWorks: [
-      'r7cfp78k', // ACT UP Poster
+      // 'r7cfp78k', // ACT UP Poster - is 404ing has it moved?
       'mfmfu73q', // Boycott Wellcome products
       'y7929gfp', // Act Up-Paris 2009
-      'sdyvgkcc', // Act Up-Paris 2009 image
+      //'sdyvgkcc', // Act Up-Paris 2009 image - is 404ing has it moved?
       'v6af8zbh', // Homosexuals: 20,000 live in anger
       'jdjrhh7a', // Pope John Paul II condom ad
-      'gn5xtnpa', // Combat AIDS not people with AIDS
+      //'gn5xtnpa', // Combat AIDS not people with AIDS - is 404ing has it moved?
       'qbb553nf', // Wellcome Foundation profits soar in '88!
       'y3gun7f2', // Silence = mort
       'bcptfy7m', // 20 ans / Act Up-Paris

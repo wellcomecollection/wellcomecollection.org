@@ -78,9 +78,10 @@ const Grid = styled.div<GridProps>`
   display: grid;
   height: ${props =>
     props.$isFullSupportBrowser
-      ? props.$isNonTRKiosk
-        ? '100vh'
-        : `calc(100vh - ${props.$isTRKiosk ? props.theme.kioskTRBannersHeight : props.theme.navHeight}px)`
+      ? props.theme.getViewerHeight(
+          props.$isTRKiosk || false,
+          props.$isNonTRKiosk || false
+        )
       : 'auto'};
   overflow: hidden;
   grid-template-columns:
@@ -115,6 +116,8 @@ const Sidebar = styled.div<{
   $isActiveMobile: boolean;
   $isActiveDesktop: boolean;
   $isFullSupportBrowser: boolean;
+  $isTRKiosk?: boolean;
+  $isNonTRKiosk?: boolean;
 }>`
   display: ${props =>
     props.$isActiveMobile || !props.$isFullSupportBrowser ? 'inherit' : 'none'};
@@ -138,6 +141,11 @@ const Sidebar = styled.div<{
   overflow: auto;
   min-width: 0;
   z-index: 5;
+  max-height: ${props =>
+    props.theme.getViewerHeight(
+      props.$isTRKiosk || false,
+      props.$isNonTRKiosk || false
+    )};
 `;
 
 const Topbar = styled.div`
@@ -392,6 +400,8 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
           $isActiveMobile={isMobileSidebarActive}
           $isActiveDesktop={isDesktopSidebarActive}
           $isFullSupportBrowser={isFullSupportBrowser}
+          $isTRKiosk={isTendernessAndRageKiosk}
+          $isNonTRKiosk={isKiosk && !isTendernessAndRageKiosk}
         >
           <DelayVisibility>
             <ViewerSidebar

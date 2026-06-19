@@ -38,8 +38,10 @@ import Footer from '@weco/common/views/components/Footer';
 import Header, { NavLink } from '@weco/common/views/components/Header';
 import InfoBanner from '@weco/common/views/components/InfoBanner';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
+import KioskNavigation from '@weco/common/views/components/KioskNavigation';
 import NewsletterPromo from '@weco/common/views/components/NewsletterPromo';
 import PopupDialog from '@weco/common/views/components/PopupDialog';
+import { Container } from '@weco/common/views/components/styled/Container';
 
 import Favicons from './PageLayout.Favicons';
 
@@ -123,6 +125,17 @@ const PageLayoutComponent: NextPage<Props> = ({
   const globalInfoBar = useGlobalInfoBarContext();
   const { extraApiToolbarLinks } = useSearchContext();
   const { isEnhanced } = useAppContext();
+
+  // Parse URL to extract page type and ID for kiosk navigation
+  const pathname = url.pathname || '';
+  const pathMatch = pathname.match(/^\/(works|stories)\/([^/]+)/);
+  const pageType =
+    pathMatch?.[1] === 'works'
+      ? 'work'
+      : pathMatch?.[1] === 'stories'
+        ? 'story'
+        : null;
+  const pageId = pathMatch?.[2];
 
   // For Twitter cards in particular, we prefer a crop as close to 2:1 as
   // possible.  This avoids an automated crop by Twitter, which may be less
@@ -267,7 +280,13 @@ const PageLayoutComponent: NextPage<Props> = ({
         }}
       />
 
-      <div id="root">
+      <div
+        id="root"
+        style={{
+          // Match the fixed height of KioskNavigation (padding + content)
+          paddingBottom: isKiosk ? '88px' : undefined,
+        }}
+      >
         {apiToolbar && (
           <ApiToolbar
             links={[
@@ -335,6 +354,16 @@ const PageLayoutComponent: NextPage<Props> = ({
         >
           {children}
         </div>
+
+        {isKiosk && (
+          <Container>
+            <KioskNavigation
+              pageId={pageId || undefined}
+              pageType={pageType || undefined}
+              currentPathname={pathname}
+            />
+          </Container>
+        )}
 
         {!hideNewsletterPromo && !isKiosk && <NewsletterPromo />}
 
