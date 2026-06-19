@@ -43,6 +43,7 @@ export { default as filter } from './components/Filter';
 export { default as folder } from './components/Folder';
 export { default as gallery } from './components/Gallery';
 export { default as gridView } from './components/GridView';
+export { default as home } from './components/Home';
 export { default as image } from './components/Image';
 export { default as imageFile } from './components/ImageFile';
 export { default as indicator } from './components/Indicator';

@@ -18,7 +18,6 @@ import {
   defaultServerData,
   isServerData,
   ServerData,
-  SimplifiedServerData,
 } from '@weco/common/server-data/types';
 import { AppErrorProps } from '@weco/common/services/app';
 import { HotjarLoader } from '@weco/common/services/app/analytics-scripts/hotjar-loader';
@@ -80,10 +79,10 @@ export type ServerSideProps<T = NonNullable<unknown>> = [T] extends [
   Record<string, never>,
 ]
   ? {
-      serverData: SimplifiedServerData;
+      serverData: ServerData;
     }
   : NotAny<T> & {
-      serverData: SimplifiedServerData;
+      serverData: ServerData;
     };
 
 export type ServerSidePropsOrAppError<T extends ServerSideProps<unknown>> =
@@ -172,7 +171,10 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
           <UserContextProvider>
             <AppContextProvider>
               <SearchContextProvider>
-                <KioskProvider cookieContent={kioskModeCookie}>
+                <KioskProvider
+                  cookieContent={kioskModeCookie}
+                  readingRoomStories={serverData.prismic.readingRoomStories}
+                >
                   <GlobalStyle
                     $compositeTypography={
                       !!serverData.toggles.featureFlags.compositeTypography

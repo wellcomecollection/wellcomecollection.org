@@ -4,9 +4,15 @@ import { collectionVenueId } from '@weco/common/data/hardcoded-ids';
 import {
   CollectionVenueDocument as RawCollectionVenueDocument,
   GlobalAlertDocument as RawGlobalAlertDocument,
+  PagesDocument as RawPagesDocument,
   PopupDialogDocument as RawPopupDialogDocument,
 } from '@weco/common/prismicio-types';
+import {
+  emptyGlobalAlert,
+  emptyPopupDialog,
+} from '@weco/common/services/prismic/documents';
 import { createClient as createPrismicClient } from '@weco/common/services/prismic/fetch';
+import { simplifyPrismicData } from '@weco/common/services/prismic/transformers/server-data';
 import { InferDataInterface } from '@weco/common/services/prismic/types';
 
 import { Handler } from './';
@@ -24,7 +30,11 @@ export type ResultsLite = {
   results: RawCollectionVenueDocumentLite[];
 };
 
-export const defaultValue = {
+export type ReadingRoomStories = {
+  [title: string]: string[];
+};
+
+export const defaultValue: SimplifiedPrismicData = {
   globalAlert: {
     data: {
       isShown: 'hide' as const,
@@ -46,23 +56,29 @@ export const defaultValue = {
   collectionVenues: {
     results: [],
   },
+  readingRoomStories: {},
 };
 
 export type PrismicData = {
   globalAlert: RawGlobalAlertDocument;
   popupDialog: RawPopupDialogDocument;
   collectionVenues: prismic.Query<RawCollectionVenueDocument>;
+  readingRoomStories: RawPagesDocument | null;
 };
 
 export type SimplifiedPrismicData = {
   globalAlert: { data: InferDataInterface<RawGlobalAlertDocument> };
   popupDialog: { data: InferDataInterface<RawPopupDialogDocument> };
   collectionVenues: ResultsLite;
+  readingRoomStories: ReadingRoomStories;
 };
 
-export const handler: Handler<SimplifiedPrismicData, PrismicData> = {
+export const handler: Handler<SimplifiedPrismicData, SimplifiedPrismicData> = {
   defaultValue,
-  fetch: fetchPrismicValues,
+  fetch: async () => {
+    const rawData = await fetchPrismicValues();
+    return simplifyPrismicData(rawData);
+  },
 };
 
 async function fetchPrismicValues(): Promise<PrismicData> {
@@ -80,13 +96,22 @@ async function fetchPrismicValues(): Promise<PrismicData> {
   });
   const globalAlertResultPromise = client.getSingle('global-alert');
   const popupDialogResultPromise = client.getSingle('popup-dialog');
+  const readingRoomStoriesPromise = client.getByUID(
+    'pages',
+    'reading-room-stories'
+  );
 
-  const [collectionVenuesResult, globalAlertResult, popupDialogResult] =
-    await Promise.allSettled([
-      collectionVenuesResultPromise,
-      globalAlertResultPromise,
-      popupDialogResultPromise,
-    ]);
+  const [
+    collectionVenuesResult,
+    globalAlertResult,
+    popupDialogResult,
+    readingRoomStoriesResult,
+  ] = await Promise.allSettled([
+    collectionVenuesResultPromise,
+    globalAlertResultPromise,
+    popupDialogResultPromise,
+    readingRoomStoriesPromise,
+  ]);
 
   // If we don't get a result from Prismic for collectionVenues, we want to
   // bail out immediately, rather than writing bad server data.
@@ -102,21 +127,27 @@ async function fetchPrismicValues(): Promise<PrismicData> {
   }
 
   // If we don't get data from Prismic for either the popupDialog or the
-  // globalAlert, we just send the defaultValue (which is hidden for both). See
+  // globalAlert, we use empty documents (which are hidden for both). These
+  // raw documents are then simplified by the transformer. See
   // https://github.com/wellcomecollection/wellcomecollection.org/issues/10157
   // for the rationale behind treating these two and collectionVenues
   // differently.
   return {
     globalAlert:
       globalAlertResult.status === 'fulfilled'
-        ? globalAlertResult.value
-        : defaultValue.globalAlert,
+        ? (globalAlertResult.value as RawGlobalAlertDocument)
+        : (emptyGlobalAlert() as RawGlobalAlertDocument),
     popupDialog:
       popupDialogResult.status === 'fulfilled'
-        ? popupDialogResult.value
-        : defaultValue.popupDialog,
-    collectionVenues: collectionVenuesResult.value,
-  } as PrismicData;
+        ? (popupDialogResult.value as RawPopupDialogDocument)
+        : (emptyPopupDialog() as RawPopupDialogDocument),
+    collectionVenues:
+      collectionVenuesResult.value as prismic.Query<RawCollectionVenueDocument>,
+    readingRoomStories:
+      readingRoomStoriesResult.status === 'fulfilled'
+        ? (readingRoomStoriesResult.value as RawPagesDocument)
+        : null,
+  };
 }
 
 export default handler;

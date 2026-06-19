@@ -26,6 +26,7 @@ export async function getServerData(): Promise<ServerData> {
       globalAlert: emptyGlobalAlert(),
       popupDialog: emptyPopupDialog(),
       collectionVenues: emptyPrismicQuery<RawCollectionVenueDocument>(),
+      readingRoomStories: {},
     },
     consentStatus: {
       analytics: false,

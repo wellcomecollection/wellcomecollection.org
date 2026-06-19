@@ -1,3 +1,4 @@
+import { useKiosk } from '@weco/common/contexts/KioskContext';
 import Space from '@weco/common/views/components/styled/Space';
 import {
   Note,
@@ -21,15 +22,18 @@ type Props = {
 };
 
 const WhereToFindIt = ({ work, physicalItems, locationOfWork }: Props) => {
+  const { isKiosk } = useKiosk();
+
   return (
     <WorkDetailsSection headingText="Where to find it">
       {physicalItems.some(
         item => itemIsRequestable(item) || itemIsTemporarilyUnavailable(item)
-      ) && (
-        <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
-          <LibraryMembersBar />
-        </Space>
-      )}
+      ) &&
+        !isKiosk && (
+          <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
+            <LibraryMembersBar />
+          </Space>
+        )}
       {locationOfWork && (
         <WorkDetailsText
           title={locationOfWork.noteType.label}

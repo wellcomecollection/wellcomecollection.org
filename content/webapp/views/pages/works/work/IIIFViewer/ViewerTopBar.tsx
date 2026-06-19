@@ -19,12 +19,13 @@ import Space from '@weco/common/views/components/styled/Space';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import useIsFullscreenEnabled from '@weco/content/hooks/useIsFullscreenEnabled';
 import useTransformedIIIFImage from '@weco/content/hooks/useTransformedIIIFImage';
-import { hasRestrictedItem } from '@weco/content/utils/iiif/v3';
 import {
+  deduplicateDownloadOptions,
   getDownloadOptionsFromCanvasRenderingAndSupplementing,
   getDownloadOptionsFromManifestRendering,
   getImageServiceFromItem,
   getVideoAudioDownloadOptions,
+  hasRestrictedItem,
   isChoiceBody,
 } from '@weco/content/utils/iiif/v3';
 import { getDownloadOptionsFromImageUrl } from '@weco/content/utils/works';
@@ -281,18 +282,14 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
 
   // We need multiple sources for downloads to cover the different
   // ways in which a download can be made available in a iiif manifest.
-  // However, sometimes the same download file can be available
-  // from multiple sources, so we deduplicate them here based on their id
-  // which is the url to the file to be downloaded.
-  const downloadOptions = [
+  // The same file can appear in multiple sources, so we deduplicate by id.
+  const downloadOptions = deduplicateDownloadOptions([
     ...iiifImageDownloadOptions,
     ...canvasImageDownloads,
     ...canvasDownloadOptions,
     ...manifestDownloadOptions,
     ...videoAudioDownloadOptions,
-  ].filter(
-    (option, index, self) => self.findIndex(o => o.id === option.id) === index
-  );
+  ]);
 
   return (
     <TopBar

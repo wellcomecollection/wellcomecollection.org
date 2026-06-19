@@ -4,6 +4,7 @@ import type { ServiceWithMetadata } from '@weco/content/types/manifest';
 import type { TransformedCanvas } from '@weco/content/types/manifest';
 
 import {
+  deduplicateDownloadOptions,
   getManifestAccessRequirements,
   hasNonImagesOrOriginals,
   transformLabel,
@@ -312,5 +313,40 @@ describe('hasNonImagesOrOriginals', () => {
       }),
     ];
     expect(hasNonImagesOrOriginals(canvases)).toBe(true);
+  });
+});
+
+describe('deduplicateDownloadOptions', () => {
+  it('returns an empty array when given an empty array', () => {
+    expect(deduplicateDownloadOptions([])).toEqual([]);
+  });
+
+  it('returns the same options when there are no duplicates', () => {
+    const options = [
+      { id: 'a', label: 'File A', format: 'application/pdf' },
+      { id: 'b', label: 'File B', format: 'video/mp4' },
+    ];
+    expect(deduplicateDownloadOptions(options)).toEqual(options);
+  });
+
+  it('removes later duplicates and preserves the first occurrence', () => {
+    const first = { id: 'a', label: 'First', format: 'application/pdf' };
+    const duplicate = {
+      id: 'a',
+      label: 'Duplicate',
+      format: 'application/pdf',
+    };
+    const other = { id: 'b', label: 'Other', format: 'video/mp4' };
+    expect(deduplicateDownloadOptions([first, duplicate, other])).toEqual([
+      first,
+      other,
+    ]);
+  });
+
+  it('handles all duplicates', () => {
+    const option = { id: 'x', label: 'X', format: 'text/plain' };
+    expect(deduplicateDownloadOptions([option, option, option])).toEqual([
+      option,
+    ]);
   });
 });

@@ -3,8 +3,14 @@ import {
   FunctionComponent,
   PropsWithChildren,
   useContext,
+  useMemo,
 } from 'react';
 
+import {
+  kiosksContent as initialKiosksContent,
+  KiosksContentType,
+} from '@weco/common/contexts/KioskContext/kiosks-content';
+import { ReadingRoomStories } from '@weco/common/server-data/prismic';
 import { KioskExperienceId, KioskModeOptionId } from '@weco/toggles';
 import toggleConfig from '@weco/toggles/toggles';
 
@@ -42,18 +48,21 @@ type KioskContextType = {
   isReadingRoomKiosk: boolean;
   kioskExperienceName?: KioskExperienceName; // Human-readable name of the current kiosk experience
   kioskHomepageUrl?: string;
+  kiosksContent: Record<string, KiosksContentType>;
 };
-
-type KioskProviderProps = PropsWithChildren<{
-  cookieContent: string | null;
-}>;
 
 const KioskContext = createContext<KioskContextType>({
   isKiosk: false,
   isDevModeKiosk: false,
   isTendernessAndRageKiosk: false,
   isReadingRoomKiosk: false,
+  kiosksContent: initialKiosksContent,
 });
+
+type KioskProviderProps = PropsWithChildren<{
+  cookieContent: string | null;
+  readingRoomStories: ReadingRoomStories;
+}>;
 
 export const useKiosk = (): KioskContextType => {
   const contextState = useContext(KioskContext);
@@ -84,8 +93,23 @@ export const getKioskExperienceName = (
   }
 };
 
+export const getKioskContentKey = (
+  kioskMode: string | null,
+  kiosksContent: Record<string, KiosksContentType>
+): string | null => {
+  if (!kioskMode) return null;
+
+  // Find the content key that matches the kioskMode prefix (e.g., "TR" from "TR-iPad1")
+  const contentKey = Object.keys(kiosksContent).find(prefix =>
+    kioskMode.startsWith(prefix)
+  );
+
+  return contentKey || null;
+};
+
 export const KioskProvider: FunctionComponent<KioskProviderProps> = ({
   cookieContent,
+  readingRoomStories,
   children,
 }) => {
   const kioskExperienceName = getKioskExperienceName(cookieContent);
@@ -103,18 +127,33 @@ export const KioskProvider: FunctionComponent<KioskProviderProps> = ({
       ? '/stories/kiosk'
       : undefined;
 
-  return (
-    <KioskContext.Provider
-      value={{
-        isKiosk: !!cookieContent,
-        kioskExperienceName,
-        isDevModeKiosk,
-        isTendernessAndRageKiosk,
-        isReadingRoomKiosk,
-        kioskHomepageUrl,
-      }}
-    >
-      {children}
-    </KioskContext.Provider>
+  const kiosksContent = useMemo(
+    () => ({
+      ...initialKiosksContent,
+      RR: readingRoomStories as KiosksContentType,
+    }),
+    [readingRoomStories]
   );
+
+  const value = useMemo(
+    () => ({
+      isKiosk: !!cookieContent,
+      kioskExperienceName,
+      isDevModeKiosk,
+      isTendernessAndRageKiosk,
+      isReadingRoomKiosk,
+      kioskHomepageUrl,
+      kiosksContent,
+    }),
+    [kioskExperienceName, kiosksContent]
+  );
+
+  return (
+    <KioskContext.Provider value={value}>{children}</KioskContext.Provider>
+  );
+};
+
+export const useKiosksContent = (): Record<string, KiosksContentType> => {
+  const { kiosksContent } = useKiosk();
+  return kiosksContent;
 };
