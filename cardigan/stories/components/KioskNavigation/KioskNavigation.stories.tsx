@@ -3,7 +3,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import { KioskProvider } from '@weco/common/contexts/KioskContext';
 import { ServerDataContext } from '@weco/common/server-data/Context';
 import { defaultServerData } from '@weco/common/server-data/types';
-import KioskNavigation from '@weco/content/views/components/KioskNavigation';
+import KioskNavigation from '@weco/common/views/components/KioskNavigation';
 
 type KioskNavigationProps = React.ComponentProps<typeof KioskNavigation>;
 type StoryArgs = KioskNavigationProps & {
