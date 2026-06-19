@@ -134,8 +134,8 @@ function findNavigationContent({
 }
 
 type Props = {
-  pageId: string;
-  pageType: PageType;
+  pageId?: string;
+  pageType?: PageType;
 };
 
 export const KioskNavigation: FunctionComponent<Props> = memo(
@@ -146,11 +146,13 @@ export const KioskNavigation: FunctionComponent<Props> = memo(
 
     const navigation = useMemo(
       () =>
-        findNavigationContent({
-          pageId,
-          kioskMode,
-          kiosksContent,
-        }),
+        pageId
+          ? findNavigationContent({
+              pageId,
+              kioskMode,
+              kiosksContent,
+            })
+          : null,
       [pageId, kioskMode, kiosksContent]
     );
 
