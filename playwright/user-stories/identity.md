@@ -103,13 +103,13 @@ Then I see the email-verified page with new-member messaging (15-item request li
 Given I am signed out, on any page, in a desktop-sized window
 When I open the header account menu, choose Sign in, and enter valid credentials
 Then I am returned to my account page
-And the header shows my name instead of Sign in
+And the header shows my initials instead of Sign in
 
 ### Scenario 2.2: signing in on mobile
 
 Given I am signed out, in a mobile-sized window
 When I sign in from the header menu
-Then I am returned to the site signed in, and the menu shows my name
+Then I am returned to the site signed in, and the menu shows my account options (Library account and Sign out)
 
 ### Scenario 2.3: returning to a work page after sign-in
 
