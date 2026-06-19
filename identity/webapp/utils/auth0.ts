@@ -8,6 +8,8 @@ import { GetServerSidePropsContext } from 'next';
 import { NextResponse } from 'next/server';
 import { ParsedUrlQuery } from 'querystring';
 
+import { preservePatronClaims } from '@weco/identity/utils/patron-claims';
+
 // This module is imported by middleware.ts, which Next.js bundles for the
 // edge runtime where `next/config` (serverRuntimeConfig) is unavailable, so
 // configuration is read straight from the environment. The fallbacks mirror
@@ -113,10 +115,10 @@ const auth0 = new Auth0Client({
       path: '/',
     },
   },
-  // v4 keeps only the default OIDC claims on session.user; v3 kept every
-  // ID-token claim, and the rest of the site relies on the namespaced
-  // wellcomecollection.org claims (patron_barcode, patron_role)
-  beforeSessionSaved: async session => session,
+  // v4 rebuilds session.user from the latest ID token, and refresh-token grants
+  // drop our namespaced patron claims; preservePatronClaims keeps them across
+  // refreshes so isFullAuth0Profile / UserContext don't break. See its module.
+  beforeSessionSaved: async session => preservePatronClaims(session),
   onCallback: async (error, ctx) => {
     const baseUrl = ctx.appBaseUrl ?? siteBaseUrl;
 
