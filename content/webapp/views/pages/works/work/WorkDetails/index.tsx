@@ -19,6 +19,7 @@ import {
 } from '@weco/content/services/wellcome/catalogue/types';
 import { TransformedManifest } from '@weco/content/types/manifest';
 import {
+  deduplicateDownloadOptions,
   getDownloadOptionsFromCanvasRenderingAndSupplementing,
   getDownloadOptionsFromManifestRendering,
   hasItemType,
@@ -95,6 +96,13 @@ const WorkDetails: FunctionComponent<Props> = ({
         getDownloadOptionsFromCanvasRenderingAndSupplementing(canvas)
       )
       .flat() || [];
+
+  // The same file can appear in multiple sources, so deduplicate by id
+  const downloadOptions = deduplicateDownloadOptions([
+    ...iiifImageDownloadOptions,
+    ...canvasDownloadOptions,
+    ...manifestDownloadOptions,
+  ]);
 
   // 'About this work' data
   const duration = work.duration && formatDuration(work.duration);
@@ -173,11 +181,7 @@ const WorkDetails: FunctionComponent<Props> = ({
       {showAvailableOnlineSection && (
         <WorkDetailsAvailableOnline
           work={work}
-          downloadOptions={[
-            ...manifestDownloadOptions,
-            ...iiifImageDownloadOptions,
-            ...canvasDownloadOptions,
-          ]}
+          downloadOptions={downloadOptions}
           itemUrl={toWorksItemLink({
             workId: work.id,
             props: {},
