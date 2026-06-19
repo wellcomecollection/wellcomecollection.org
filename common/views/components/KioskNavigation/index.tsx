@@ -40,6 +40,15 @@ const HomeLink = styled(Link)`
   }
 `;
 
+const DisabledHomeLink = styled.div`
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  color: inherit;
+  cursor: not-allowed;
+  opacity: 0.5;
+`;
+
 const NavigationLinks = styled.nav`
   display: flex;
   align-items: center;
@@ -136,13 +145,17 @@ function findNavigationContent({
 type Props = {
   pageId?: string;
   pageType?: PageType;
+  currentPathname?: string;
 };
 
 export const KioskNavigation: FunctionComponent<Props> = memo(
-  ({ pageId, pageType }) => {
+  ({ pageId, pageType, currentPathname }) => {
     const { kioskMode } = useModes();
     const { isReadingRoomKiosk, kioskHomepageUrl } = useKiosk();
     const kiosksContent = useKiosksContent();
+
+    const isOnHomePage =
+      currentPathname === '/' || currentPathname === kioskHomepageUrl;
 
     const navigation = useMemo(
       () =>
@@ -175,13 +188,20 @@ export const KioskNavigation: FunctionComponent<Props> = memo(
         data-component="kiosk-navigation"
         aria-label="Kiosk navigation"
       >
-        <HomeLink
-          href={kioskHomepageUrl || '/'}
-          aria-label="Return to kiosk home page"
-        >
-          <Icon icon={home} aria-hidden="true" />
-          <span>Back to: Home</span>
-        </HomeLink>
+        {isOnHomePage ? (
+          <DisabledHomeLink aria-disabled="true" aria-current="page">
+            <Icon icon={home} aria-hidden="true" />
+            <span>Back to: Home</span>
+          </DisabledHomeLink>
+        ) : (
+          <HomeLink
+            href={kioskHomepageUrl || '/'}
+            aria-label="Return to kiosk home page"
+          >
+            <Icon icon={home} aria-hidden="true" />
+            <span>Back to: Home</span>
+          </HomeLink>
+        )}
         <NavigationLinks aria-label="Content navigation">
           {navigation && !isReadingRoomKiosk && (
             <>

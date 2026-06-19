@@ -360,6 +360,7 @@ const PageLayoutComponent: NextPage<Props> = ({
             <KioskNavigation
               pageId={pageId || undefined}
               pageType={pageType || undefined}
+              currentPathname={pathname}
             />
           </Container>
         )}
