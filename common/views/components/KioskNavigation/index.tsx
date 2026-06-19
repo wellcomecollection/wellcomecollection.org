@@ -7,7 +7,7 @@ import {
   useKiosk,
   useKiosksContent,
 } from '@weco/common/contexts/KioskContext';
-import { KioskContent } from '@weco/common/contexts/KioskContext/kiosk';
+import { KioskContent } from '@weco/common/contexts/KioskContext/kiosks-content';
 import { arrowSmall, home } from '@weco/common/icons';
 import { useModes } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';

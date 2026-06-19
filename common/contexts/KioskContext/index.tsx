@@ -9,7 +9,7 @@ import {
 import {
   kiosksContent as initialKiosksContent,
   KioskContent,
-} from '@weco/common/contexts/KioskContext/kiosk';
+} from '@weco/common/contexts/KioskContext/kiosks-content';
 import { ReadingRoomStories } from '@weco/common/server-data/prismic';
 import { KioskExperienceId } from '@weco/toggles';
 
