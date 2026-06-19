@@ -2,14 +2,12 @@ import { NextPage } from 'next';
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { font } from '@weco/common/utils/classnames';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import Button from '@weco/common/views/components/Buttons';
 import Modal from '@weco/common/views/components/Modal';
-import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
@@ -24,7 +22,6 @@ import {
   getIframeTokenSrc,
 } from '@weco/content/utils/iiif/v3';
 import { removeIdiomaticTextTags } from '@weco/content/utils/string';
-import KioskNavigation from '@weco/content/views/components/KioskNavigation';
 import WorkLink from '@weco/content/views/components/WorkLink';
 import CataloguePageLayout from '@weco/content/views/layouts/CataloguePageLayout';
 import { UiTree } from '@weco/content/views/pages/works/work/work.types';
@@ -66,7 +63,6 @@ const WorkItemPage: NextPage<Props> = ({
   parentManifest,
   archiveTree,
 }) => {
-  const { isKiosk } = useKiosk();
   const { userIsStaffWithRestricted } = useUserContext();
   const transformedManifest =
     compressedTransformedManifest &&
@@ -184,13 +180,6 @@ const WorkItemPage: NextPage<Props> = ({
       hideNewsletterPromo={true}
       hideFooter={true}
       hideTopContent={true}
-      kioskNavigation={
-        isKiosk ? (
-          <Container>
-            <KioskNavigation pageId={work.id} pageType="work" />
-          </Container>
-        ) : undefined
-      }
     >
       {shouldUseAuthMessageIframe && (
         <IframeAuthMessage

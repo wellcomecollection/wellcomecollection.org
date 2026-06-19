@@ -2,7 +2,6 @@ import { NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { getCrop } from '@weco/common/model/image';
 import { ServerData } from '@weco/common/server-data/types';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
@@ -28,7 +27,6 @@ import { getFeaturedMedia, HeroPicture } from '@weco/content/utils/page-header';
 import Body from '@weco/content/views/components/Body';
 import ContentPage from '@weco/content/views/components/ContentPage';
 import FeaturedCard from '@weco/content/views/components/FeaturedCard';
-import KioskNavigation from '@weco/content/views/components/KioskNavigation';
 import PartNumberIndicator from '@weco/content/views/components/PartNumberIndicator';
 
 import ContentTypeInfo from './story.ContentTypeInfo';
@@ -55,7 +53,6 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
   const [relatedDocument, setRelatedDocument] = useState<
     ExhibitionBasic | ContentAPIArticle | undefined
   >();
-  const { isKiosk } = useKiosk();
   useEffect(() => {
     setSeries(article, setListOfSeries);
 
@@ -166,13 +163,6 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
       siteSection="stories"
       image={article.image}
       apiToolbarLinks={[createPrismicLink(article.id)]}
-      kioskNavigation={
-        isKiosk ? (
-          <Container>
-            <KioskNavigation pageId={article.uid} pageType="story" />
-          </Container>
-        ) : undefined
-      }
     >
       <ContentPage
         id={article.id}
