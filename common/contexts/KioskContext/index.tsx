@@ -71,6 +71,20 @@ export const getKioskExperienceName = (
   return undefined;
 };
 
+export const getKioskContentKey = (
+  kioskMode: string | null,
+  kiosksContent: Record<string, KioskContent>
+): string | null => {
+  if (!kioskMode) return null;
+
+  // Find the content key that matches the kioskMode prefix (e.g., "TR" from "TR-iPad1")
+  const contentKey = Object.keys(kiosksContent).find(prefix =>
+    kioskMode.startsWith(prefix)
+  );
+
+  return contentKey || null;
+};
+
 export const KioskProvider: FunctionComponent<KioskProviderProps> = ({
   cookieContent,
   readingRoomStories,

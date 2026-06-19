@@ -2,7 +2,11 @@ import Link from 'next/link';
 import { FunctionComponent, memo, useMemo } from 'react';
 import styled from 'styled-components';
 
-import { useKiosk, useKiosksContent } from '@weco/common/contexts/KioskContext';
+import {
+  getKioskContentKey,
+  useKiosk,
+  useKiosksContent,
+} from '@weco/common/contexts/KioskContext';
 import { KioskContent } from '@weco/common/contexts/KioskContext/kiosk';
 import { arrowSmall, home } from '@weco/common/icons';
 import { useModes } from '@weco/common/server-data/Context';
@@ -98,16 +102,13 @@ function findNavigationContent({
   kioskMode: string | null;
   kiosksContent: Record<string, KioskContent>;
 }): NavigationContent | null {
-  // Find the content that matches the kioskMode prefix (e.g., "TR" from "TR-iPad1")
-  const kioskModePrefix = Object.keys(kiosksContent).find(prefix =>
-    kioskMode?.startsWith(prefix)
-  );
+  const contentKey = getKioskContentKey(kioskMode, kiosksContent);
 
-  if (!kioskModePrefix) {
+  if (!contentKey) {
     return null;
   }
 
-  const content = kiosksContent[kioskModePrefix];
+  const content = kiosksContent[contentKey];
 
   // Search all arrays in the content object to find which one contains the pageId
   let items: string[] | undefined;
