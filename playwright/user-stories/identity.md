@@ -73,17 +73,24 @@ Given I have completed the registration form
 When I check the test inbox
 Then I see a verification email addressed to my signup email
 
-### Scenario 1.6: verifying my email
+### Scenario 1.6: first sign-in before verifying email
+
+Given I have received the verification email but not yet clicked it
+When I sign in with my new credentials
+Then my account page shows the first and last name I registered with, never a placeholder name
+
+### Scenario 1.7: unverified email banner
+
+Given I am signed in but my email address is not yet verified
+When I view my account page
+Then I see a banner asking me to verify my email
+And when I choose "Send a new verification email" I see a confirmation message and a new email arrives in the test inbox
+
+### Scenario 1.8: verifying my email
 
 Given I have received the verification email
 When I follow its verification link
 Then I see the email-verified page with new-member messaging (15-item request limit, visiting in person for full membership)
-
-### Scenario 1.7: first sign-in after registration
-
-Given I have verified my email
-When I sign in with my new credentials
-Then my account page shows the first and last name I registered with, never a placeholder name
 
 ## 2. Signing in
 
@@ -145,14 +152,7 @@ Then every page agrees that I am signed in (header shows my name) without re-aut
 Given I am signed in on my account page
 Then I see my name, email address and library card number
 
-### Scenario 3.2: unverified email banner
-
-Given my email address is not verified
-When I view my account page
-Then I see a banner asking me to verify my email
-And when I choose "Send a new verification email" I see a confirmation message and a new email arrives in the test inbox
-
-### Scenario 3.3: item requests section
+### Scenario 3.2: item requests section
 
 Given I am signed in on my account page
 Then I see either "Any item requests you make will appear here" (no requests) or a table of my requests with title, status, pickup date and location, and a count of how many of my 15 requests I have used
