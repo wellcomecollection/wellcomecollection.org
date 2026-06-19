@@ -7,7 +7,7 @@ import {
   useKiosk,
   useKiosksContent,
 } from '@weco/common/contexts/KioskContext';
-import { KioskContent } from '@weco/common/contexts/KioskContext/kiosks-content';
+import { KiosksContentType } from '@weco/common/contexts/KioskContext/kiosks-content';
 import { arrowSmall, home } from '@weco/common/icons';
 import { useModes } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
@@ -100,7 +100,7 @@ function findNavigationContent({
 }: {
   pageId: string;
   kioskMode: string | null;
-  kiosksContent: Record<string, KioskContent>;
+  kiosksContent: Record<string, KiosksContentType>;
 }): NavigationContent | null {
   const contentKey = getKioskContentKey(kioskMode, kiosksContent);
 

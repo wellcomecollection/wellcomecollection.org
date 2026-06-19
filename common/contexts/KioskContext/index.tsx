@@ -8,7 +8,7 @@ import {
 
 import {
   kiosksContent as initialKiosksContent,
-  KioskContent,
+  KiosksContentType,
 } from '@weco/common/contexts/KioskContext/kiosks-content';
 import { ReadingRoomStories } from '@weco/common/server-data/prismic';
 import { KioskExperienceId } from '@weco/toggles';
@@ -29,7 +29,7 @@ type KioskContextType = {
   isReadingRoomKiosk: boolean;
   kioskExperienceName?: KioskExperienceName;
   kioskHomepageUrl?: string;
-  kiosksContent: Record<string, KioskContent>;
+  kiosksContent: Record<string, KiosksContentType>;
 };
 
 const KioskContext = createContext<KioskContextType>({
@@ -73,7 +73,7 @@ export const getKioskExperienceName = (
 
 export const getKioskContentKey = (
   kioskMode: string | null,
-  kiosksContent: Record<string, KioskContent>
+  kiosksContent: Record<string, KiosksContentType>
 ): string | null => {
   if (!kioskMode) return null;
 
@@ -108,7 +108,7 @@ export const KioskProvider: FunctionComponent<KioskProviderProps> = ({
   const kiosksContent = useMemo(
     () => ({
       ...initialKiosksContent,
-      RR: readingRoomStories as KioskContent,
+      RR: readingRoomStories as KiosksContentType,
     }),
     [readingRoomStories]
   );
@@ -131,7 +131,7 @@ export const KioskProvider: FunctionComponent<KioskProviderProps> = ({
   );
 };
 
-export const useKiosksContent = (): Record<string, KioskContent> => {
+export const useKiosksContent = (): Record<string, KiosksContentType> => {
   const { kiosksContent } = useKiosk();
   return kiosksContent;
 };
