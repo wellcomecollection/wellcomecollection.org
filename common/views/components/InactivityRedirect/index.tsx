@@ -15,7 +15,9 @@ import InactivityRedirectModal from './InactivityRedirect.Modal';
 const INACTIVITY_TIMEOUT = 60; // 60 seconds of inactivity before showing the warning modal
 const WARNING_COUNTDOWN = 30; // 30 seconds countdown before redirect
 
-const InactivityRedirect: FunctionComponent = () => {
+const InactivityRedirect: FunctionComponent<{ isCardiganStory?: boolean }> = ({
+  isCardiganStory,
+}) => {
   const { isKiosk, isDevModeKiosk, kioskHomepageUrl } = useKiosk();
   const router = useRouter();
   const [isWarningActive, setIsWarningActive] = useState(false);
@@ -28,19 +30,26 @@ const InactivityRedirect: FunctionComponent = () => {
   // Don't run outside kiosk mode, on the redirect destination itself, or if in developer mode
   const isRedirectDestination = router.asPath === kioskHomepageUrl;
   const shouldNotBeActive =
-    !isKiosk || isDevModeKiosk || !kioskHomepageUrl || isRedirectDestination;
+    (!isKiosk ||
+      isDevModeKiosk ||
+      !kioskHomepageUrl ||
+      isRedirectDestination) &&
+    !isCardiganStory;
 
   const performRedirect = useCallback(
     ({ isAutomated }: { isAutomated: boolean }) => {
       setIsWarningActive(false);
 
+      // Don't redirect if kioskHomepageUrl is not defined (e.g., in Cardigan/Storybook)
+      if (!kioskHomepageUrl) {
+        return;
+      }
+
       if (isAutomated) {
         gtag('event', 'auto_reset');
       }
 
-      // kioskHomepageUrl is guaranteed to be defined here because shouldNotBeActive
-      // would have returned null if it were undefined
-      router.push(kioskHomepageUrl!);
+      router.push(kioskHomepageUrl);
     },
     [router, kioskHomepageUrl]
   );
@@ -52,11 +61,14 @@ const InactivityRedirect: FunctionComponent = () => {
 
     if (isWarningActive) return;
 
-    inactivityTimerRef.current = setTimeout(() => {
-      setIsWarningActive(true);
-      setCountdown(WARNING_COUNTDOWN);
-    }, INACTIVITY_TIMEOUT * 1000);
-  }, [isWarningActive]);
+    inactivityTimerRef.current = setTimeout(
+      () => {
+        setIsWarningActive(true);
+        setCountdown(WARNING_COUNTDOWN);
+      },
+      isCardiganStory ? 100 : INACTIVITY_TIMEOUT * 1000
+    );
+  }, [isWarningActive, isCardiganStory]);
 
   const handleCancelRedirect = useCallback(() => {
     setIsWarningActive(false);
@@ -195,10 +207,11 @@ const InactivityRedirect: FunctionComponent = () => {
       id="kiosk-inactivity-warning"
       openButtonRef={modalButtonRef}
       showOverlay={true}
+      modalStyle="inactivity"
+      maxWidth="550px"
     >
       <InactivityRedirectModal
         countdown={countdown}
-        warningCountdown={WARNING_COUNTDOWN}
         onKeepBrowsing={handleCancelRedirect}
         onReset={() => performRedirect({ isAutomated: false })}
       />

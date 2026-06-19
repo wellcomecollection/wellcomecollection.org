@@ -1,50 +1,43 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
+import { font } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
+import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
 
-const RedirectModalContent = styled.div`
-  padding: 24px;
+const RedirectModalContent = styled(Space).attrs({
+  $v: { size: 'md', properties: ['padding-top'] },
+})`
   text-align: center;
-
-  p {
-    margin: 16px 0;
-    font-size: 18px;
-    line-height: 1.5;
-  }
 `;
 
-const RedirectModalTitle = styled.h2`
-  font-size: 32px;
-  font-weight: bold;
-  margin: 0 0 24px;
+const RedirectModalTitle = styled.h2.attrs({
+  className: font('brand-bold', 1),
+})`
+  margin-bottom: ${props => props.theme.getSpaceValue('md', 'zero')};
 `;
 
-const CountdownText = styled.strong`
-  display: block;
-  font-size: 32px;
-  font-weight: bold;
-  margin-top: 16px;
+const Copy = styled.p`
+  margin-bottom: ${props => props.theme.getSpaceValue('md', 'zero')};
 `;
 
-const ButtonRow = styled.div`
+const ButtonRow = styled(Space).attrs({
+  $v: { size: 'md', properties: ['margin-top'] },
+})`
   display: flex;
-  gap: 16px;
+  gap: 10px;
   justify-content: center;
-  margin-top: 24px;
 `;
 
 type Props = {
   countdown: number;
-  warningCountdown: number;
   onKeepBrowsing: () => void;
   onReset: () => void;
 };
 
 const InactivityRedirectModal: FunctionComponent<Props> = ({
   countdown,
-  warningCountdown,
   onKeepBrowsing,
   onReset,
 }) => {
@@ -55,21 +48,26 @@ const InactivityRedirectModal: FunctionComponent<Props> = ({
       aria-labelledby="inactivity-modal-title"
       aria-describedby="inactivity-modal-desc"
     >
-      {/* Receives initial focus so screen readers announce the dialog context before the buttons */}
-      <RedirectModalTitle id="inactivity-modal-title" tabIndex={0}>
-        Need more time?
+      <RedirectModalTitle id="inactivity-modal-title">
+        Still with us?
       </RedirectModalTitle>
-      <p id="inactivity-modal-desc">
-        Due to inactivity, this screen will reset to the homepage in less than{' '}
-        {warningCountdown} seconds.
+
+      <Copy id="inactivity-modal-desc">
+        Due to inactivity, this page will time out and reset to the homepage.
         <span className="visually-hidden">
-          Select 'Continue reading' to continue, or 'Reset now' to reset
-          immediately.
+          {countdown} seconds remaining. Select 'Continue reading' to continue,
+          or 'Reset now' to reset immediately.
         </span>
-      </p>
-      <CountdownText data-chromatic="ignore" aria-hidden="true">
+      </Copy>
+
+      <span
+        data-chromatic="ignore"
+        aria-hidden="true"
+        className={font('brand-bold', 5)}
+      >
         {countdown}
-      </CountdownText>
+      </span>
+
       <ButtonRow>
         <Button
           variant="ButtonSolid"
@@ -82,7 +80,7 @@ const InactivityRedirectModal: FunctionComponent<Props> = ({
           variant="ButtonSolid"
           text="Reset now"
           clickHandler={onReset}
-          colors={themeValues.buttonColors.yellowYellowBlack}
+          colors={themeValues.buttonColors.greenTransparentGreen}
           dataGtmProps={{ trigger: 'reset-modal-reset-now-button' }}
         />
       </ButtonRow>
