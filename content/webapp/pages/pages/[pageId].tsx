@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 
 import { isSiteSection } from '@weco/common/model/site-section';
 import { getServerData } from '@weco/common/server-data';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
+import { ServerData } from '@weco/common/server-data/types';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { serialiseProps } from '@weco/common/utils/json';
 import { toMaybeString } from '@weco/common/utils/routes';
@@ -41,7 +41,7 @@ export const getGenericPageProps = async ({
   canonicalUrl,
 }: {
   page: PageType;
-  serverData: SimplifiedServerData;
+  serverData: ServerData;
   canonicalUrl?: string;
 }) => {
   const bodySliceContexts = await getBodySliceContexts(

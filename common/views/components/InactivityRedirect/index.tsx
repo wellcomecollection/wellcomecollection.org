@@ -12,7 +12,7 @@ import Modal from '@weco/common/views/components/Modal';
 
 import InactivityRedirectModal from './InactivityRedirect.Modal';
 
-const INACTIVITY_TIMEOUT = 60 * 1000; // 60 seconds of inactivity before showing the warning modal
+const INACTIVITY_TIMEOUT = 60; // 60 seconds of inactivity before showing the warning modal
 const WARNING_COUNTDOWN = 30; // 30 seconds countdown before redirect
 
 const InactivityRedirect: FunctionComponent<{ isCardiganStory?: boolean }> = ({
@@ -66,7 +66,7 @@ const InactivityRedirect: FunctionComponent<{ isCardiganStory?: boolean }> = ({
         setIsWarningActive(true);
         setCountdown(WARNING_COUNTDOWN);
       },
-      isCardiganStory ? 100 : INACTIVITY_TIMEOUT
+      isCardiganStory ? 100 : INACTIVITY_TIMEOUT * 1000
     );
   }, [isWarningActive, isCardiganStory]);
 

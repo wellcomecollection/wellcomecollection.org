@@ -19,11 +19,13 @@ const ThumbnailsContainer = styled.div<{
   position: relative;
   border-top: none;
   height: 1800px;
-  ${props => `
-    ${props.theme.media('lg')(`
-    height: ${props.$isNonTRKiosk ? '100vh' : `calc(100vh - ${props.$isTRKiosk ? props.theme.kioskTRBannersHeight : props.theme.navHeight}px)`};
+  ${props =>
+    props.theme.media('lg')(`
+    height: ${props.theme.getViewerHeight(
+      props.$isTRKiosk || false,
+      props.$isNonTRKiosk || false
+    )};
     `)}
-  `}
 `;
 
 const ThumbnailLink = styled(NextLink)`

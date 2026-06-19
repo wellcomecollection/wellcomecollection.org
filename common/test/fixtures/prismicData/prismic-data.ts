@@ -213,6 +213,7 @@ const prismicData: SimplifiedPrismicData = {
       },
     ],
   },
+  readingRoomStories: {},
 };
 
 export default prismicData;
