@@ -19,7 +19,7 @@ const KioskNavigationWrapper = styled(Space).attrs({
   $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
   className: font('sans', -1),
 })`
-  min-height: 88px;
+  height: ${props => props.theme.kioskNavigationHeight}px;
   position: fixed;
   bottom: 0;
   left: 0;
