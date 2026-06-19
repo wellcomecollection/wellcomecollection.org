@@ -1,6 +1,7 @@
 import { getCookies } from 'cookies-next';
 import { GetServerSidePropsContext } from 'next';
 
+import { isValidKioskMode } from '@weco/common/contexts/KioskContext';
 import { ConsentStatusProps } from '@weco/common/server-data/types';
 
 export const ACTIVE_COOKIE_BANNER_ID = 'ccc-overlay';
@@ -31,6 +32,10 @@ export const getConsentState = (
 ): boolean => {
   const cookies = getCookies(context);
   const consentCookie = cookies.CookieControl;
+  const kioskModeCookie = isValidKioskMode(cookies.toggle_kioskMode);
+
+  // Kiosk mode overrides consent and always allows analytics and marketing
+  if (kioskModeCookie) return true;
 
   // If consent has been defined, return its value
   if (consentCookie !== undefined) {
@@ -49,20 +54,32 @@ export const getAllConsentStates = (
   context?: GetServerSidePropsContext
 ): ConsentStatusProps => {
   const cookies = getCookies(context);
+
   return {
     analytics: getConsentState('analytics', context),
     marketing: getConsentState('marketing', context),
-    cookieExists: cookies.CookieControl !== undefined,
+    cookieExists:
+      cookies.CookieControl !== undefined ||
+      isValidKioskMode(cookies.toggle_kioskMode),
   };
 };
 
-// Pages like error pages don't have access to server data
-// and need workarounds to behave like normal pages.
-export const getErrorPageConsent = ({ req, res }) => {
+/**
+ * Gets consent state for error pages and other pages that don't have access to server data.
+ *
+ * Error pages bypass the normal getServerSideProps flow, so they can't access serverData.consentStatus.
+ * This function is called directly from _document.tsx's getInitialProps as a fallback.
+ */
+export const getErrorPageConsent = ({ req, res }): ConsentStatusProps => {
   const cookies = getCookies({ req, res });
 
+  // Kiosk mode overrides consent and always allows analytics and marketing
+  if (isValidKioskMode(cookies.toggle_kioskMode)) {
+    return { analytics: true, marketing: true, cookieExists: true };
+  }
+
   if (cookies.CookieControl !== undefined) {
-    const civicUKCookie = JSON.parse(cookies.CookieControl);
+    const civicUKCookie: CivicUKCookie = JSON.parse(cookies.CookieControl);
 
     return {
       analytics: civicUKCookie?.optionalCookies?.analytics === 'accepted',
