@@ -20,13 +20,13 @@ export const kiosksContent: Record<string, KioskContent> = {
       'zxyeupbh', // Strutting to Stop Stigma (NO IMAGE)
     ],
     relatedWorks: [
-      'r7cfp78k', // ACT UP Poster
+      // 'r7cfp78k', // ACT UP Poster - is 404ing has it moved?
       'mfmfu73q', // Boycott Wellcome products
       'y7929gfp', // Act Up-Paris 2009
-      'sdyvgkcc', // Act Up-Paris 2009 image
+      //'sdyvgkcc', // Act Up-Paris 2009 image - is 404ing has it moved?
       'v6af8zbh', // Homosexuals: 20,000 live in anger
       'jdjrhh7a', // Pope John Paul II condom ad
-      'gn5xtnpa', // Combat AIDS not people with AIDS
+      //'gn5xtnpa', // Combat AIDS not people with AIDS - is 404ing has it moved?
       'qbb553nf', // Wellcome Foundation profits soar in '88!
       'y3gun7f2', // Silence = mort
       'bcptfy7m', // 20 ans / Act Up-Paris
