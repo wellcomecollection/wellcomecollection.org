@@ -14,21 +14,45 @@ import { fetchPage } from '@weco/content/services/prismic/fetch/pages';
 import { transformExhibition } from '@weco/content/services/prismic/transformers/exhibitions';
 import { exhibitionLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
-import {
-  toWorkBasic,
-  WorkBasic,
-} from '@weco/content/services/wellcome/catalogue/types';
+import { toWorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import { getWork } from '@weco/content/services/wellcome/catalogue/works';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import ExploreMorePage, {
   Props as ExploreMorePageProps,
+  WorkGroup,
 } from '@weco/content/views/pages/exhibitions/explore-more';
 
-const EXHIBITION_WORK_IDS: string[] = [
-  'gr36peg6',
-  'yrgmq2b9',
-  'yh42fgue',
-  'eudv2vbg',
+type WorkGroupConfig = {
+  heading: string;
+  description: string;
+  ids: string[];
+};
+
+const EXHIBITION_WORK_GROUPS: WorkGroupConfig[] = [
+  {
+    heading: 'ACT UP',
+    description:
+      '<p>ACT UP (AIDS Coalition to Unleash Power) is an activist group focused on direct action against the AIDS epidemic. Founded in New York in 1987, it expanded into a global network of independent chapters campaigning around HIV.</p><p>This selection features material from chapters in New York, London, Manchester and Paris.</p>',
+    ids: ['d2mxjdkb', 'qbb553nf', 'mfmfu73q'],
+  },
+  {
+    heading: 'What Would an HIV Doula Do?',
+    description:
+      '<p>Founded in 2015, ‘What Would an HIV Doula Do?’ (WWHIVDD) is a collective of artists, activists and practitioners across the HIV spectrum, formed in response to the ongoing AIDS crisis.</p><p>This selection features digital zines created by WWHIVDD in our collection.</p>',
+    ids: ['m8xw26qs', 'bd7tnj3t', 'jnvfvwt4'],
+  },
+  {
+    heading: 'HIV Care Centres in London',
+    description:
+      '<p>At the height of the UK AIDS epidemic, people living with HIV faced stigma, secrecy and hostile media. Care centres stepped in to provide vital support and safe spaces.</p><p>This selection highlights material from London centres, including The Landmark, The Lighthouse and Mildmay Hospital.</p>',
+    ids: ['g7dmnpaj', 'ys83vvw5'],
+  },
+  {
+    heading: 'HIV Posters',
+    description:
+      '<p>Around the world, organisations, charities and activist groups have used posters to raise awareness of HIV and AIDS. From public health campaigns and support services to protest and advocacy, their design often reflects the communities they are made for.</p><p>Below is a selection of posters from around the world in our collection.</p>',
+    ids: ['dh98h9g2', 'y2euzack', 'jtfcxa7t'],
+  },
 ];
 
 const Page: NextPage<ExploreMorePageProps> = props => {
@@ -74,15 +98,20 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   const shouldUseStagingApi = serverData.toggles.featureFlags.stagingApi;
 
-  const works: WorkBasic[] = (
-    await Promise.all(
-      EXHIBITION_WORK_IDS.map(id => getWork({ id, shouldUseStagingApi }))
-    )
-  ).flatMap(r => {
-    if (r.type === 'Error' || r.type === 'Redirect') return [];
-    const { url: _url, ...work } = r;
-    return [toWorkBasic(work)];
-  });
+  const workGroups: WorkGroup[] = await Promise.all(
+    EXHIBITION_WORK_GROUPS.map(async group => {
+      const works = (
+        await Promise.all(
+          group.ids.map(id => getWork({ id, shouldUseStagingApi }))
+        )
+      ).flatMap(r => {
+        if (r.type === 'Error' || r.type === 'Redirect') return [];
+        const { url: _url, ...work } = r;
+        return [toWorkBasic(work)];
+      });
+      return { heading: group.heading, description: group.description, works };
+    })
+  );
 
   const jsonLd = exhibitionLd(exhibitionDoc);
 
@@ -91,7 +120,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       exhibition: exhibitionDoc,
       page: transformPage(pageDocument),
       jsonLd,
-      works,
+      workGroups,
       serverData,
     }),
   };

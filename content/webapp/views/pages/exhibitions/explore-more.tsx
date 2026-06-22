@@ -22,18 +22,24 @@ import { ListItem } from '@weco/content/views/components/ScrollContainer/ScrollC
 import SectionHeader from '@weco/content/views/components/SectionHeader';
 import WorkCard from '@weco/content/views/components/WorkCards/WorkCards.Card';
 
+export type WorkGroup = {
+  heading: string;
+  description: string;
+  works: WorkBasic[];
+};
+
 export type Props = {
   exhibition: Exhibition;
   page: Page;
   jsonLd: JsonLdObj;
-  works: WorkBasic[];
+  workGroups: WorkGroup[];
 };
 
 const ExploreMorePage: NextPage<Props> = ({
   exhibition,
   page,
   jsonLd,
-  works,
+  workGroups,
 }) => {
   const { isKiosk } = useKiosk();
 
@@ -87,33 +93,33 @@ const ExploreMorePage: NextPage<Props> = ({
             </p>
           </Space>
         </ContaineredLayout>
-        {works.length > 0 && (
-          <ScrollContainer
-            useAlignBaseline={true}
-            CopyContent={
-              <>
-                <h3 className={font('brand', 1)}>ACT UP</h3>
-                <p>
-                  ACT UP (AIDS Coalition to Unleash Power) is an activist group
-                  focused on direct action against the AIDS epidemic. Founded in
-                  New York in 1987, it expanded into a global network of
-                  independent chapters campaigning around HIV.
-                </p>
-                <p>
-                  This selection features material from chapters in New York,
-                  London, Manchester and Paris.
-                </p>
-              </>
-            }
-            gridSizes={gridSize12()}
-            useShim={true}
-          >
-            {works.map(work => (
-              <ListItem key={work.id} $usesShim>
-                <WorkCard item={work} />
-              </ListItem>
-            ))}
-          </ScrollContainer>
+        {workGroups.map(group =>
+          group.works.length > 0 ? (
+            <Space
+              key={group.heading}
+              $v={{ size: 'xl', properties: ['margin-top'] }}
+            >
+              <ScrollContainer
+                useAlignBaseline={true}
+                CopyContent={
+                  <>
+                    <h3 className={font('brand', 1)}>{group.heading}</h3>
+                    <div
+                      dangerouslySetInnerHTML={{ __html: group.description }}
+                    ></div>
+                  </>
+                }
+                gridSizes={gridSize12()}
+                useShim={true}
+              >
+                {group.works.map(work => (
+                  <ListItem key={work.id} $usesShim>
+                    <WorkCard item={work} />
+                  </ListItem>
+                ))}
+              </ScrollContainer>
+            </Space>
+          ) : null
         )}
       </SpacingSection>
     </PageLayout>
