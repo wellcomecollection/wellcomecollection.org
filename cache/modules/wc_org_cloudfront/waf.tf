@@ -222,11 +222,6 @@ resource "aws_wafv2_web_acl" "wc_org" {
     }
   }
 
-  // This bot was identified on 2026-06-18 scraping /search/works and /works at high volume.
-  // It originates from Azure IP ranges and rotates through spoofed Chrome user-agents.
-  // The giveaway: real Chrome always has a 4-part build version (e.g. Chrome/133.0.6943.141);
-  // this bot uses round versions (e.g. Chrome/133.0.0.0) with only two exact OS strings.
-  // Rule is in COUNT mode for monitoring before enabling block.
   rule {
     name     = "block-azure-scraper-bot"
     priority = 5
