@@ -91,7 +91,7 @@ const ToggleSwitch: FunctionComponent<ToggleSwitchProps> = ({
       aria-checked={checked}
       aria-disabled={disabled}
       aria-label={name}
-      tabIndex={disabled ? -1 : 0}
+      tabIndex={0}
     >
       <SwitchTrack $checked={checked} $disabled={disabled}>
         <SwitchThumb $checked={checked} />

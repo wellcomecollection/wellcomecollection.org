@@ -101,10 +101,10 @@ const Pa11yPage: FunctionComponent = () => {
         </Head>
         <Header activePath="/pa11y" />
         <PageContainer>
-          <PageHeader>
-            <PageTitle>Pa11y Accessibility Report</PageTitle>
-          </PageHeader>
           <main id="main-content">
+            <PageHeader>
+              <PageTitle>Pa11y Accessibility Report</PageTitle>
+            </PageHeader>
             <Issue $type="error">{resultsList.message}</Issue>
           </main>
         </PageContainer>
@@ -134,14 +134,14 @@ const Pa11yPage: FunctionComponent = () => {
       </Head>
       <Header activePath="/pa11y" />
       <PageContainer>
-        <PageHeader>
-          <PageTitle>Pa11y Accessibility Report</PageTitle>
-          <PageDescription>
-            Automated accessibility testing results across the website.
-          </PageDescription>
-        </PageHeader>
-
         <main id="main-content">
+          <PageHeader>
+            <PageTitle>Pa11y Accessibility Report</PageTitle>
+            <PageDescription>
+              Automated accessibility testing results across the website.
+            </PageDescription>
+          </PageHeader>
+
           <div role="status" aria-live="polite">
             <SectionHeading>Detected issues</SectionHeading>
             {failures.length > 0 ? (
@@ -172,7 +172,7 @@ const Pa11yPage: FunctionComponent = () => {
                         </OriginalPageLink>
                       </PageSubheading>
                       {issues.length > 1 && (
-                        <div role="status">
+                        <div>
                           {errors.length > 0 && (
                             <Issue $type="error">
                               {pluralise(errors.length, 'error')}

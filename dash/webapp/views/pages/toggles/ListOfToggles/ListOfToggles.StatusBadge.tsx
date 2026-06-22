@@ -46,11 +46,7 @@ const StatusBadge: FunctionComponent<StatusBadgeProps> = ({
   inactiveLabel = 'Off',
 }) => {
   return (
-    <BadgeContainer
-      $active={active}
-      role="status"
-      aria-label={`Status: ${active ? activeLabel : inactiveLabel}`}
-    >
+    <BadgeContainer $active={active}>
       <StatusDot $active={active} aria-hidden="true" />
       <span>{active ? activeLabel : inactiveLabel}</span>
     </BadgeContainer>

@@ -73,6 +73,10 @@ const LogoLink = styled(Link)`
   text-decoration: none;
   transition: opacity 150ms ease;
 
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
   &:hover {
     opacity: 0.8;
     color: ${tokens.colors.white};
@@ -145,6 +149,10 @@ const BurgerButton = styled.button<{ $isOpen: boolean }>`
         transform: rotate(-45deg);
       `}
     }
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
   }
 `;
 
@@ -201,6 +209,10 @@ const NavLink = styled(Link)<{ $isActive: boolean }>`
   position: relative;
   transition: color 400ms ease;
 
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
   &:hover {
     color: ${tokens.colors.white};
   }
@@ -214,6 +226,10 @@ const NavLink = styled(Link)<{ $isActive: boolean }>`
     height: 3px;
     background: ${tokens.colors.yellow};
     transition: width 200ms ease;
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
   }
 
   &:hover::after {
@@ -264,9 +280,9 @@ const Header: FunctionComponent<{ activePath?: string }> = ({ activePath }) => {
           aria-label={menuOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={menuOpen}
         >
-          <span />
-          <span />
-          <span />
+          <span aria-hidden="true" />
+          <span aria-hidden="true" />
+          <span aria-hidden="true" />
         </BurgerButton>
 
         <Nav aria-label="Main navigation" $isOpen={menuOpen}>

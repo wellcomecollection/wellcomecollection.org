@@ -125,7 +125,7 @@ const TogglesPage: FunctionComponent = () => {
             [toggleId]: true,
           }));
           setMessage({
-            text: `✅ Feature flag "${toggleId}" has been successfully enabled!`,
+            text: `Feature flag "${toggleId}" has been enabled.`,
             isError: false,
             isEnabled: true,
           });
@@ -137,14 +137,14 @@ const TogglesPage: FunctionComponent = () => {
             [toggleId]: toggle?.defaultValue ?? false,
           }));
           setMessage({
-            text: `🔵 Feature flag "${toggleId}" has been reset to its default value.`,
+            text: `Feature flag "${toggleId}" has been reset to its default value.`,
             isError: false,
             isEnabled: false,
           });
         }
       } else {
         setMessage({
-          text: `❌ Feature flag "${toggleId}" does not exist.`,
+          text: `Feature flag "${toggleId}" does not exist.`,
           isError: true,
         });
       }
@@ -175,7 +175,7 @@ const TogglesPage: FunctionComponent = () => {
       return next;
     });
     setMessage({
-      text: '🔄 All A/B tests have been reset to random allocation.',
+      text: 'All A/B tests have been reset to random allocation.',
       isError: false,
     });
   }, [abTests]);
@@ -186,7 +186,7 @@ const TogglesPage: FunctionComponent = () => {
     if (resetToggles !== undefined) {
       reset();
       setMessage({
-        text: '🔄 All feature flags have been reset to their default values.',
+        text: 'All feature flags have been reset to their default values.',
         isError: false,
       });
     } else if (enableToggle) {
@@ -263,18 +263,18 @@ const TogglesPage: FunctionComponent = () => {
         <title>Toggles dashboard</title>
       </Head>
       <Header activePath="/toggles" />
-      <PageContainer>
-        <PageHeader>
-          <PageTitle>Toggles</PageTitle>
-          <PageDescription>
-            Manage and test feature flags, A/B tests, and modes; changes only
-            affect your own browser. Feature flags also have a public status
-            which is set for 100% of users, which is done through devs running a
-            script.
-          </PageDescription>
-        </PageHeader>
+      <main id="main-content">
+        <PageContainer>
+          <PageHeader>
+            <PageTitle>Toggles</PageTitle>
+            <PageDescription>
+              Manage and test feature flags, A/B tests, and modes; changes only
+              affect your own browser. Feature flags also have a public status
+              which is set for 100% of users, which is done through devs running
+              a script.
+            </PageDescription>
+          </PageHeader>
 
-        <main id="main-content">
           {message && (
             <MessageBox
               $isError={message.isError}
@@ -287,7 +287,7 @@ const TogglesPage: FunctionComponent = () => {
           )}
 
           <nav aria-label="Table of contents">
-            <TableOfContentsList>
+            <TableOfContentsList role="list">
               <li>
                 <a href="#general">General</a>
               </li>
@@ -309,23 +309,32 @@ const TogglesPage: FunctionComponent = () => {
             </TableOfContentsList>
           </nav>
 
+          <label
+            htmlFor="toggles-search"
+            style={{
+              display: 'block',
+              marginBottom: tokens.spacing.xs,
+              fontWeight: 600,
+            }}
+          >
+            Search toggles
+          </label>
           <SearchInput
+            id="toggles-search"
             type="search"
-            placeholder="Search toggles by name, description, or ID..."
+            placeholder="Search by name, description, or ID..."
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            aria-label="Search toggles"
           />
 
-          {searchQuery && (
-            <p
-              style={{ color: tokens.colors.text.secondary }}
-              role="status"
-              aria-live="polite"
-            >
-              Found {pluralise(totalResults, 'result')}
-            </p>
-          )}
+          <p
+            style={{ color: tokens.colors.text.secondary }}
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            {searchQuery && `Found ${pluralise(totalResults, 'result')}`}
+          </p>
 
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             {featureFlags.some(
@@ -335,7 +344,7 @@ const TogglesPage: FunctionComponent = () => {
                 onClick={() => {
                   reset();
                   setMessage({
-                    text: '🔄 All feature flags have been reset to their default values.',
+                    text: 'All feature flags have been reset to their default values.',
                     isError: false,
                   });
                 }}
@@ -345,97 +354,101 @@ const TogglesPage: FunctionComponent = () => {
               </ResetButton>
             )}
           </div>
-        </main>
-      </PageContainer>
+        </PageContainer>
 
-      {(generalFeatureFlags.length > 0 || !searchQuery) && (
-        <Section $background="default" $hasNoTopPadding>
-          <SectionInner>
-            <ListOfToggles
-              title="Feature flags for general use"
-              anchorId="general"
-              description="Permanent flags useful to all users."
-              featureFlags={generalFeatureFlags}
-              toggleStates={toggleStates}
-              setToggleStates={setToggleStates}
-            />
-          </SectionInner>
-        </Section>
-      )}
+        {(generalFeatureFlags.length > 0 || !searchQuery) && (
+          <Section
+            $background="default"
+            $hasNoTopPadding
+            aria-labelledby="general"
+          >
+            <SectionInner>
+              <ListOfToggles
+                title="Feature flags for general use"
+                anchorId="general"
+                description="Permanent flags useful to all users."
+                featureFlags={generalFeatureFlags}
+                toggleStates={toggleStates}
+                setToggleStates={setToggleStates}
+              />
+            </SectionInner>
+          </Section>
+        )}
 
-      {(permanentFeatureFlags.length > 0 || !searchQuery) && (
-        <Section $background="light">
-          <SectionInner>
-            <ListOfToggles
-              title="Feature flags for Digital team - Permanent"
-              anchorId="permanent"
-              description="Long-lived flags that control established features."
-              featureFlags={permanentFeatureFlags}
-              toggleStates={toggleStates}
-              setToggleStates={setToggleStates}
-            />
-          </SectionInner>
-        </Section>
-      )}
+        {(permanentFeatureFlags.length > 0 || !searchQuery) && (
+          <Section $background="light" aria-labelledby="permanent">
+            <SectionInner>
+              <ListOfToggles
+                title="Feature flags for Digital team - Permanent"
+                anchorId="permanent"
+                description="Long-lived flags that control established features."
+                featureFlags={permanentFeatureFlags}
+                toggleStates={toggleStates}
+                setToggleStates={setToggleStates}
+              />
+            </SectionInner>
+          </Section>
+        )}
 
-      {(experimentalFeatureFlags.length > 0 || !searchQuery) && (
-        <Section $background="alt">
-          <SectionInner>
-            <ListOfToggles
-              title="Feature flags for Digital team - Work in progress"
-              anchorId="wip"
-              description="Experimental flags for features currently in development."
-              featureFlags={experimentalFeatureFlags}
-              toggleStates={toggleStates}
-              setToggleStates={setToggleStates}
-            />
-          </SectionInner>
-        </Section>
-      )}
+        {(experimentalFeatureFlags.length > 0 || !searchQuery) && (
+          <Section $background="alt" aria-labelledby="wip">
+            <SectionInner>
+              <ListOfToggles
+                title="Feature flags for Digital team - Work in progress"
+                anchorId="wip"
+                description="Experimental flags for features currently in development."
+                featureFlags={experimentalFeatureFlags}
+                toggleStates={toggleStates}
+                setToggleStates={setToggleStates}
+              />
+            </SectionInner>
+          </Section>
+        )}
 
-      {(stageFeatureFlags.length > 0 || !searchQuery) && (
-        <Section $background="light">
-          <SectionInner>
-            <ListOfToggles
-              title="Feature flags for Digital team - Staging"
-              anchorId="staging"
-              description="These flags are only active on the staging environment (www-stage)."
-              featureFlags={stageFeatureFlags}
-              toggleStates={toggleStates}
-              setToggleStates={setToggleStates}
-            />
-          </SectionInner>
-        </Section>
-      )}
+        {(stageFeatureFlags.length > 0 || !searchQuery) && (
+          <Section $background="light" aria-labelledby="staging">
+            <SectionInner>
+              <ListOfToggles
+                title="Feature flags for Digital team - Staging"
+                anchorId="staging"
+                description="These flags are only active on the staging environment (www-stage)."
+                featureFlags={stageFeatureFlags}
+                toggleStates={toggleStates}
+                setToggleStates={setToggleStates}
+              />
+            </SectionInner>
+          </Section>
+        )}
 
-      {(filteredAbTests.length > 0 || !searchQuery) && (
-        <Section $background="alt">
-          <SectionInner>
-            <ABTests
-              filteredAbTests={filteredAbTests}
-              toggleStates={toggleStates}
-              setToggleStates={setToggleStates}
-              onReset={resetAbTests}
-            />
-          </SectionInner>
-        </Section>
-      )}
+        {(filteredAbTests.length > 0 || !searchQuery) && (
+          <Section $background="alt" aria-labelledby="ab-tests">
+            <SectionInner>
+              <ABTests
+                filteredAbTests={filteredAbTests}
+                toggleStates={toggleStates}
+                setToggleStates={setToggleStates}
+                onReset={resetAbTests}
+              />
+            </SectionInner>
+          </Section>
+        )}
 
-      {(filteredModes.length > 0 || !searchQuery) && (
-        <Section $background="light">
-          <SectionInner>
-            <Modes
-              modes={filteredModes}
-              modeStates={modeStates}
-              setModeStates={setModeStates}
-              onReset={() => {
-                modes.forEach(mode => deleteCookieCustom(mode.id));
-                setModeStates({});
-              }}
-            />
-          </SectionInner>
-        </Section>
-      )}
+        {(filteredModes.length > 0 || !searchQuery) && (
+          <Section $background="light" aria-labelledby="modes">
+            <SectionInner>
+              <Modes
+                modes={filteredModes}
+                modeStates={modeStates}
+                setModeStates={setModeStates}
+                onReset={() => {
+                  modes.forEach(mode => deleteCookieCustom(mode.id));
+                  setModeStates({});
+                }}
+              />
+            </SectionInner>
+          </Section>
+        )}
+      </main>
     </>
   );
 };
