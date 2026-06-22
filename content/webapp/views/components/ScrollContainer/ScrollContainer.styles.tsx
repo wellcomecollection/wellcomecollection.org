@@ -21,7 +21,7 @@ export const ScrollButtonsContainer = styled(Space)<{
 export const ContentContainer = styled(PlainList)<{
   $hasWorkCards?: boolean;
 }>`
-  align-items: ${props => (props.$hasWorkCards ? 'baseline' : undefined)};
+  align-items: ${props => (props.$hasWorkCards ? 'baseline' : 'normal')};
   display: flex;
   overflow: hidden;
   position: relative;

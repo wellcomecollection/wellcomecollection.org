@@ -140,7 +140,7 @@ const ExploreMorePage: NextPage<Props> = ({
               <p>Find the items on display in our online catalogue.</p>
             </Space>
           </ContaineredLayout>
-          <ScrollContainer gridSizes={gridSize12()} useShim>
+          <ScrollContainer gridSizes={gridSize12()} useShim={true}>
             {exhibitionWorks.map(work => (
               <ListItem key={work.id} $usesShim>
                 <RelatedWorksCard variant="default" work={work} />
