@@ -71,14 +71,16 @@ const Modes: FunctionComponent<ModesProps> = ({
                   <h3 id={`mode-${mode.id}`} style={{ margin: 0 }}>
                     {mode.title}
                   </h3>
-                  <p
-                    style={{
-                      margin: `${tokens.spacing.xs} 0`,
-                      color: tokens.colors.text.secondary,
-                    }}
-                  >
-                    {mode.description}
-                  </p>
+                  {mode.description.split('\n\n').map((paragraph, i) => (
+                    <p
+                      key={i}
+                      style={{
+                        margin: `${tokens.spacing.xs} 0`,
+                        color: tokens.colors.text.secondary,
+                      }}
+                      dangerouslySetInnerHTML={{ __html: paragraph }}
+                    />
+                  ))}
                 </ToggleInfo>
 
                 <ToggleControls>

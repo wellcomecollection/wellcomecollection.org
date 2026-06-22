@@ -58,6 +58,7 @@ export const parameters = {
           'Inputs',
           'Links',
           'Media',
+          'Modals',
           'Tags',
         ],
         'To be made reusable',

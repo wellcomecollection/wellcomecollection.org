@@ -63,14 +63,14 @@ const Dashboard: FunctionComponent = () => {
       </Head>
       <Header />
       <PageContainer>
-        <PageHeader>
-          <PageTitle>Dashboard</PageTitle>
-          <PageDescription>
-            Monitor site health, manage toggles, and access key tools.
-          </PageDescription>
-        </PageHeader>
-
         <main id="main-content">
+          <PageHeader>
+            <PageTitle>Dashboard</PageTitle>
+            <PageDescription>
+              Monitor site health, manage toggles, and access key tools.
+            </PageDescription>
+          </PageHeader>
+
           <CardsGrid role="list">
             <Card href="/toggles" role="listitem">
               <CardTitle>Toggles</CardTitle>
@@ -98,9 +98,7 @@ const Dashboard: FunctionComponent = () => {
                   </CardStatus>
                 )
               ) : (
-                <CardStatus $type="neutral" aria-live="polite">
-                  Loading...
-                </CardStatus>
+                <CardStatus $type="neutral">Loading...</CardStatus>
               )}
             </Card>
 
@@ -120,9 +118,7 @@ const Dashboard: FunctionComponent = () => {
                   </CardStatus>
                 )
               ) : (
-                <CardStatus $type="neutral" aria-live="polite">
-                  Loading...
-                </CardStatus>
+                <CardStatus $type="neutral">Loading...</CardStatus>
               )}
             </Card>
           </CardsGrid>

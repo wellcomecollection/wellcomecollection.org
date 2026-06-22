@@ -47,7 +47,7 @@ const Template = args => {
 };
 
 const meta: Meta<typeof Modal> = {
-  title: 'Components/Modal',
+  title: 'Components/Modals/Modal',
   component: Modal,
   parameters: {
     chromatic: {

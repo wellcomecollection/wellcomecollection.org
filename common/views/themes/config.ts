@@ -369,7 +369,8 @@ export const themeValues = {
   },
   spacingUnits: designSystemStaticSpacing,
   navHeight: 85,
-  kioskTRBannersHeight: 172, // Specific to the iPad specs
+  kioskNavigationHeight: 88, // Height of the KioskNavigation bar shown in all kiosk modes
+  kioskTRBannersHeight: 172, // TR-specific top banners height (without navigation)
   fontVerticalOffset: '0.15em',
   colors,
   color: getColor,
@@ -380,6 +381,15 @@ export const themeValues = {
   getSpaceValue,
   responsiveSpaceMixin,
   pageGridOffset,
+  getViewerHeight: (isTRKiosk: boolean, isNonTRKiosk: boolean) => {
+    if (isTRKiosk) {
+      return `calc(100vh - ${themeValues.kioskTRBannersHeight + themeValues.kioskNavigationHeight}px)`;
+    } else if (isNonTRKiosk) {
+      return `calc(100vh - ${themeValues.kioskNavigationHeight}px)`;
+    } else {
+      return `calc(100vh - ${themeValues.navHeight}px)`;
+    }
+  },
   buttonColors: {
     default: defaultButtonColors,
     danger: dangerButtonColors,

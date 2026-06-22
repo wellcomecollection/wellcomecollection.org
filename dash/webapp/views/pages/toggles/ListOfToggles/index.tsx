@@ -36,7 +36,7 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
   <>
     <h2 id={anchorId}>
       {title}
-      <a href={`#${anchorId}`} aria-label="Link to this section">
+      <a href={`#${anchorId}`} aria-label={`Link to ${title} section`}>
         <span aria-hidden="true">#</span>
       </a>
     </h2>
@@ -46,7 +46,7 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
       </p>
     )}
     {featureFlags.length > 0 ? (
-      <ToggleList>
+      <ToggleList role="list">
         {featureFlags.map(toggle => {
           const isPublicOn = toggle.defaultValue === true;
           const currentState = toggleStates[toggle.id];
@@ -128,7 +128,7 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
                     <span
                       style={{
                         fontSize: tokens.typography.fontSize.small,
-                        color: tokens.colors.text.disabled,
+                        color: tokens.colors.text.secondary,
                       }}
                     >
                       (Public override)

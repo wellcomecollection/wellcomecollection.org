@@ -97,17 +97,17 @@ function simplifyReadingRoomStories(
       cardListingIndex++;
 
       const storyIds: string[] = [];
-  for (const item of slice.items) {
-    if (
-      'content' in item &&
-      prismic.isFilled.contentRelationship(item.content) &&
-      item.content.isBroken === false &&
-      item.content.type === 'articles' &&
-      item.content.uid
-    ) {
-      storyIds.push(item.content.uid);
-    }
-  }
+      for (const item of slice.items) {
+        if (
+          'content' in item &&
+          prismic.isFilled.contentRelationship(item.content) &&
+          item.content.isBroken === false &&
+          item.content.type === 'articles' &&
+          item.content.uid
+        ) {
+          storyIds.push(item.content.uid);
+        }
+      }
 
       if (storyIds.length > 0) {
         groupedStories[title] = storyIds;

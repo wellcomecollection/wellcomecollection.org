@@ -41,6 +41,10 @@ const CopiedBadge = styled.span`
   margin-left: ${tokens.spacing.xs};
   animation: fade-in-out 2s ease forwards;
 
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+
   @keyframes fade-in-out {
     0% {
       opacity: 0;
@@ -92,16 +96,15 @@ const CopyLinkIcon: FunctionComponent<CopyLinkIconProps> = ({
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
+          aria-hidden="true"
         >
           <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
           <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.72-1.71" />
         </svg>
       </IconButton>
-      {copied && (
-        <CopiedBadge role="status" aria-live="polite">
-          Copied!
-        </CopiedBadge>
-      )}
+      <span role="status" aria-live="polite">
+        {copied && <CopiedBadge>Copied!</CopiedBadge>}
+      </span>
     </span>
   );
 };

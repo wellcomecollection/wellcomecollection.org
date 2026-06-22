@@ -53,7 +53,6 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
   const [relatedDocument, setRelatedDocument] = useState<
     ExhibitionBasic | ContentAPIArticle | undefined
   >();
-
   useEffect(() => {
     setSeries(article, setListOfSeries);
 
