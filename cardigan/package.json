@@ -25,6 +25,6 @@
     "eslint-plugin-storybook": "10.4.2",
     "storybook": "10.4.2",
     "util": "^0.12.5",
-    "vite": "^7.3.2"
+    "vite": "^7.3.5"
   }
 }
