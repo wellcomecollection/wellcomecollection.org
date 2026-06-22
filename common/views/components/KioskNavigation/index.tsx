@@ -91,6 +91,7 @@ type NavigationContent = {
   prevPageId?: string;
   nextPageId?: string;
   listName?: string;
+  label?: string;
 };
 
 function findNavigationContent({
@@ -116,11 +117,28 @@ function findNavigationContent({
   let listName: string | undefined;
 
   for (const [key, value] of Object.entries(content)) {
-    if (Array.isArray(value)) {
-      currentIndex = value.indexOf(pageId);
+    if (
+      Array.isArray(value) &&
+      (value.length === 0 || typeof value[0] === 'string')
+    ) {
+      const stringArray = value as string[];
+      currentIndex = stringArray.indexOf(pageId);
       if (currentIndex !== -1) {
-        items = value;
+        items = stringArray;
         listName = key;
+        break;
+      }
+    }
+  }
+
+  let label: string | undefined;
+
+  if (!items || currentIndex === -1) {
+    for (const group of content.workGroups ?? []) {
+      currentIndex = group.ids.indexOf(pageId);
+      if (currentIndex !== -1) {
+        items = group.ids;
+        label = group.heading;
         break;
       }
     }
@@ -140,6 +158,7 @@ function findNavigationContent({
     prevPageId,
     nextPageId,
     listName,
+    label,
   };
 }
 
@@ -174,10 +193,10 @@ export const KioskNavigation: FunctionComponent<Props> = memo(
     const urlPath = pageType === 'work' ? 'works' : 'stories';
 
     let label: string;
-    if (pageType === 'story') {
+    if (navigation?.label) {
+      label = navigation.label;
+    } else if (pageType === 'story') {
       label = 'Related stories';
-    } else if (navigation?.listName === 'featuredWorks') {
-      label = 'Featured works';
     } else if (navigation?.listName === 'includedWorks') {
       label = 'Included works';
     } else {

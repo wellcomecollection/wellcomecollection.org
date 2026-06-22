@@ -1,5 +1,6 @@
 import { NextPage } from 'next';
 
+import { kiosksContent } from '@weco/common/contexts/KioskContext/kiosks-content';
 import { getServerData } from '@weco/common/server-data';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -25,40 +26,8 @@ import ExploreMorePage, {
   WorkGroup,
 } from '@weco/content/views/pages/exhibitions/explore-more';
 
-type WorkGroupConfig = {
-  heading: string;
-  description: string;
-  ids: string[];
-};
-
-const EXHIBITION_WORK_GROUPS: WorkGroupConfig[] = [
-  {
-    heading: 'ACT UP',
-    description:
-      '<p>ACT UP (AIDS Coalition to Unleash Power) is an activist group focused on direct action against the AIDS epidemic. Founded in New York in 1987, it expanded into a global network of independent chapters campaigning around HIV.</p><p>This selection features material from chapters in New York, London, Manchester and Paris.</p>',
-    ids: ['d2mxjdkb', 'qbb553nf', 'mfmfu73q'],
-  },
-  {
-    heading: 'What Would an HIV Doula Do?',
-    description:
-      '<p>Founded in 2015, ‘What Would an HIV Doula Do?’ (WWHIVDD) is a collective of artists, activists and practitioners across the HIV spectrum, formed in response to the ongoing AIDS crisis.</p><p>This selection features digital zines created by WWHIVDD in our collection.</p>',
-    ids: ['m8xw26qs', 'bd7tnj3t', 'jnvfvwt4'],
-  },
-  {
-    heading: 'HIV Care Centres in London',
-    description:
-      '<p>At the height of the UK AIDS epidemic, people living with HIV faced stigma, secrecy and hostile media. Care centres stepped in to provide vital support and safe spaces.</p><p>This selection highlights material from London centres, including The Landmark, The Lighthouse and Mildmay Hospital.</p>',
-    ids: ['g7dmnpaj', 'ys83vvw5'],
-  },
-  {
-    heading: 'HIV Posters',
-    description:
-      '<p>Around the world, organisations, charities and activist groups have used posters to raise awareness of HIV and AIDS. From public health campaigns and support services to protest and advocacy, their design often reflects the communities they are made for.</p><p>Below is a selection of posters from around the world in our collection.</p>',
-    ids: ['dh98h9g2', 'y2euzack', 'jtfcxa7t'],
-  },
-];
-
-const EXHIBITION_WORKS_IDS: string[] = ['eudv2vbg', 'gtwbj94b'];
+const EXHIBITION_WORK_GROUPS = kiosksContent.TR.workGroups ?? [];
+const EXHIBITION_WORKS_IDS = kiosksContent.TR.includedWorks ?? [];
 
 const Page: NextPage<ExploreMorePageProps> = props => {
   return <ExploreMorePage {...props} />;
