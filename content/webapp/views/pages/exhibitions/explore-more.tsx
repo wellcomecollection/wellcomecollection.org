@@ -110,7 +110,7 @@ const ExploreMorePage: NextPage<Props> = ({
               $v={{ size: 'xl', properties: ['margin-top'] }}
             >
               <ScrollContainer
-                useAlignBaseline={true}
+                hasWorkCards={true}
                 CopyContent={
                   <>
                     <h3 className={font('brand', 1)}>{group.heading}</h3>

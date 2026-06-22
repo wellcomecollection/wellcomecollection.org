@@ -19,13 +19,13 @@ export const ScrollButtonsContainer = styled(Space)<{
 `;
 
 export const ContentContainer = styled(PlainList)<{
-  $useAlignBaseline?: boolean;
+  $hasWorkCards?: boolean;
 }>`
-  align-items: ${props => (props.$useAlignBaseline ? 'baseline' : undefined)};
+  align-items: ${props => (props.$hasWorkCards ? 'baseline' : undefined)};
   display: flex;
   overflow: hidden;
   position: relative;
-  padding: 3px 0;
+  padding: ${props => (props.$hasWorkCards ? '25px 0 3px' : '3px 0')};
 
   li:first-child {
     padding-left: 0;
