@@ -1,5 +1,6 @@
 import { SliceZone } from '@prismicio/react';
 import { NextPage } from 'next';
+import styled from 'styled-components';
 
 import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { font } from '@weco/common/utils/classnames';
@@ -17,10 +18,17 @@ import { components } from '@weco/common/views/slices';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import { Exhibition } from '@weco/content/types/exhibitions';
 import { Page } from '@weco/content/types/pages';
+import RelatedWorksCard from '@weco/content/views/components/RelatedWorksCard';
 import ScrollContainer from '@weco/content/views/components/ScrollContainer';
 import { ListItem } from '@weco/content/views/components/ScrollContainer/ScrollContainer.styles';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
 import WorkCard from '@weco/content/views/components/WorkCards/WorkCards.Card';
+
+const BeigeSection = styled(Space).attrs({
+  $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
+})`
+  background-color: ${props => props.theme.color('warmNeutral.300')};
+`;
 
 export type WorkGroup = {
   heading: string;
@@ -33,6 +41,7 @@ export type Props = {
   page: Page;
   jsonLd: JsonLdObj;
   workGroups: WorkGroup[];
+  exhibitionWorks: WorkBasic[];
 };
 
 const ExploreMorePage: NextPage<Props> = ({
@@ -40,6 +49,7 @@ const ExploreMorePage: NextPage<Props> = ({
   page,
   jsonLd,
   workGroups,
+  exhibitionWorks,
 }) => {
   const { isKiosk } = useKiosk();
 
@@ -122,6 +132,23 @@ const ExploreMorePage: NextPage<Props> = ({
           ) : null
         )}
       </SpacingSection>
+      {exhibitionWorks.length > 0 && (
+        <BeigeSection>
+          <ContaineredLayout gridSizes={gridSize12()}>
+            <SectionHeader title="Works in this exhibition" />
+            <Space $v={{ size: 'lg', properties: ['margin-top'] }}>
+              <p>Find the items on display in our online catalogue.</p>
+            </Space>
+          </ContaineredLayout>
+          <ScrollContainer gridSizes={gridSize12()} useShim>
+            {exhibitionWorks.map(work => (
+              <ListItem key={work.id} $usesShim>
+                <RelatedWorksCard variant="default" work={work} />
+              </ListItem>
+            ))}
+          </ScrollContainer>
+        </BeigeSection>
+      )}
     </PageLayout>
   );
 };

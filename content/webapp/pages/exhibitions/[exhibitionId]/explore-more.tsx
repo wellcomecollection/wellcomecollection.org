@@ -14,7 +14,10 @@ import { fetchPage } from '@weco/content/services/prismic/fetch/pages';
 import { transformExhibition } from '@weco/content/services/prismic/transformers/exhibitions';
 import { exhibitionLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
-import { toWorkBasic } from '@weco/content/services/wellcome/catalogue/types';
+import {
+  toWorkBasic,
+  WorkBasic,
+} from '@weco/content/services/wellcome/catalogue/types';
 import { getWork } from '@weco/content/services/wellcome/catalogue/works';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import ExploreMorePage, {
@@ -54,6 +57,8 @@ const EXHIBITION_WORK_GROUPS: WorkGroupConfig[] = [
     ids: ['dh98h9g2', 'y2euzack', 'jtfcxa7t'],
   },
 ];
+
+const EXHIBITION_WORKS_IDS: string[] = ['eudv2vbg', 'gtwbj94b'];
 
 const Page: NextPage<ExploreMorePageProps> = props => {
   return <ExploreMorePage {...props} />;
@@ -98,20 +103,36 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   const shouldUseStagingApi = serverData.toggles.featureFlags.stagingApi;
 
-  const workGroups: WorkGroup[] = await Promise.all(
-    EXHIBITION_WORK_GROUPS.map(async group => {
-      const works = (
-        await Promise.all(
-          group.ids.map(id => getWork({ id, shouldUseStagingApi }))
-        )
-      ).flatMap(r => {
-        if (r.type === 'Error' || r.type === 'Redirect') return [];
-        const { url: _url, ...work } = r;
-        return [toWorkBasic(work)];
-      });
-      return { heading: group.heading, description: group.description, works };
-    })
-  );
+  const [workGroups, exhibitionWorks]: [WorkGroup[], WorkBasic[]] =
+    await Promise.all([
+      Promise.all(
+        EXHIBITION_WORK_GROUPS.map(async group => {
+          const works = (
+            await Promise.all(
+              group.ids.map(id => getWork({ id, shouldUseStagingApi }))
+            )
+          ).flatMap(r => {
+            if (r.type === 'Error' || r.type === 'Redirect') return [];
+            const { url: _url, ...work } = r;
+            return [toWorkBasic(work)];
+          });
+          return {
+            heading: group.heading,
+            description: group.description,
+            works,
+          };
+        })
+      ),
+      Promise.all(
+        EXHIBITION_WORKS_IDS.map(id => getWork({ id, shouldUseStagingApi }))
+      ).then(results =>
+        results.flatMap(r => {
+          if (r.type === 'Error' || r.type === 'Redirect') return [];
+          const { url: _url, ...work } = r;
+          return [toWorkBasic(work)];
+        })
+      ),
+    ]);
 
   const jsonLd = exhibitionLd(exhibitionDoc);
 
@@ -121,6 +142,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       page: transformPage(pageDocument),
       jsonLd,
       workGroups,
+      exhibitionWorks,
       serverData,
     }),
   };
