@@ -234,7 +234,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
       and_statement {
         statement {
           regex_match_statement {
-            regex_string = "Chrome/\\d+\\.0\\.0 "
+            regex_string = "Chrome/\\d+\\.\\d+\\.0\\.0 "
 
             field_to_match {
               single_header {
