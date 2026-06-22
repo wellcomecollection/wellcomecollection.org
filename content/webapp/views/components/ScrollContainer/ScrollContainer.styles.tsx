@@ -18,7 +18,10 @@ export const ScrollButtonsContainer = styled(Space)<{
       : ''}
 `;
 
-export const ContentContainer = styled(PlainList)`
+export const ContentContainer = styled(PlainList)<{
+  $useAlignBaseline?: boolean;
+}>`
+  align-items: ${props => (props.$useAlignBaseline ? 'baseline' : undefined)};
   display: flex;
   overflow: hidden;
   position: relative;

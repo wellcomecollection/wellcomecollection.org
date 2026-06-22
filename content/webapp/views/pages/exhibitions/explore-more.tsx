@@ -2,6 +2,7 @@ import { SliceZone } from '@prismicio/react';
 import { NextPage } from 'next';
 
 import { useKiosk } from '@weco/common/contexts/KioskContext';
+import { font } from '@weco/common/utils/classnames';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import {
   ContaineredLayout,
@@ -78,16 +79,35 @@ const ExploreMorePage: NextPage<Props> = ({
       </SpacingSection>
       <SpacingSection>
         <ContaineredLayout gridSizes={gridSize12()}>
-          <SectionHeader title="On display in the exhibition" />
+          <SectionHeader title="Related works from the collection" />
           <Space $v={{ size: 'lg', properties: ['margin-top'] }}>
             <p>
-              Learn more about the objects you can find in the exhibition from
-              our own collections.
+              Explore a selection of related works from our collection,
+              exploring HIV, activism and intimacy.
             </p>
           </Space>
         </ContaineredLayout>
         {works.length > 0 && (
-          <ScrollContainer gridSizes={gridSize12()} useShim={true}>
+          <ScrollContainer
+            useAlignBaseline={true}
+            CopyContent={
+              <>
+                <h3 className={font('brand', 1)}>ACT UP</h3>
+                <p>
+                  ACT UP (AIDS Coalition to Unleash Power) is an activist group
+                  focused on direct action against the AIDS epidemic. Founded in
+                  New York in 1987, it expanded into a global network of
+                  independent chapters campaigning around HIV.
+                </p>
+                <p>
+                  This selection features material from chapters in New York,
+                  London, Manchester and Paris.
+                </p>
+              </>
+            }
+            gridSizes={gridSize12()}
+            useShim={true}
+          >
             {works.map(work => (
               <ListItem key={work.id} $usesShim>
                 <WorkCard item={work} />
