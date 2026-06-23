@@ -113,7 +113,7 @@ const ExploreMorePage: NextPage<Props> = ({
                 hasWorkCards={true}
                 CopyContent={
                   <>
-                    <h3 className={font('brand', 1)}>{group.heading}</h3>
+                    <h3 className={font('brand-bold', 1)}>{group.heading}</h3>
                     <div
                       dangerouslySetInnerHTML={{ __html: group.description }}
                     ></div>
