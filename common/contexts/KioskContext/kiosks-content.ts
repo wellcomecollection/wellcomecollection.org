@@ -13,6 +13,10 @@ export type KiosksContentType = {
   [key: string]: string[] | WorkGroup[] | undefined; // Allow for additional array properties (e.g., Reading Room stories)
 };
 
+export const kioskExhibitionUids: Record<string, string> = {
+  TR: 'tenderness-and-rage',
+};
+
 export const kiosksContent: Record<string, KiosksContentType> = {
   // Property name should match kioskMode value up to the hyphen, e.g. TR-iPad1 and TR-iPad2 both use TR content
   TR: {
