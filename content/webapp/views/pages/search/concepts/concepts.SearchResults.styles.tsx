@@ -1,7 +1,7 @@
 import NextLink from 'next/link';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -46,18 +46,18 @@ export const Details = styled.div`
 `;
 
 export const ConceptTitleHeading = styled.h3.attrs({
-  className: font('sans-bold', 0),
+  className: typography('body', 'lg', 'strong'),
 })``;
 
 export const ConceptDescription = styled(Space).attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
   $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.700')};
 `;
 
 export const AlternativeLabels = styled(Space).attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
   $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.600')};
@@ -68,7 +68,7 @@ export const AlternativeLabels = styled(Space).attrs({
 `;
 
 export const ConceptInformation = styled(Space).attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
   $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.600')};

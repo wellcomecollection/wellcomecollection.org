@@ -2,7 +2,7 @@ import { FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
 
 import { play } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -21,14 +21,14 @@ const WatchIconWrapper = styled.div`
 `;
 
 const WatchText = styled(Space).attrs({
-  className: font('sans', -2),
+  className: typography('body', 'sm', 'regular'),
   $h: { size: 'xs', properties: ['margin-left'] },
 })`
   color: ${props => props.theme.color('neutral.700')};
 `;
 
 const Wrapper = styled.div.attrs({
-  className: font('sans', 0),
+  className: typography('body', 'lg', 'regular'),
 })`
   display: flex;
   align-items: center;

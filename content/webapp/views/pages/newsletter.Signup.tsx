@@ -13,7 +13,7 @@ import {
 } from '@weco/common/data/dotdigital';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import useValidation from '@weco/common/hooks/useValidation';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio';
 import Space from '@weco/common/views/components/styled/Space';
@@ -114,7 +114,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
     <>
       {isConfirmed && (
         <div className="body-text">
-          <p className={font('sans-bold', 1)}>
+          <p className={typography('body', 'xl', 'strong')}>
             Thank you for confirming your email address
           </p>
           <p>
@@ -135,7 +135,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
 
       {isSuccess && (
         <div className="body-text">
-          <p className={font('sans-bold', 1)}>You’re signed up</p>
+          <p className={typography('body', 'xl', 'strong')}>You’re signed up</p>
           <p>
             If this is the first time you’ve subscribed to updates from us, you
             will receive an email asking you to confirm. Please check your email
@@ -146,7 +146,9 @@ const NewsletterSignup: FunctionComponent<Props> = ({
 
       {isError && (
         <div className="body-text">
-          <p className={font('sans-bold', 1)}>Sorry, there’s been a problem</p>
+          <p className={typography('body', 'xl', 'strong')}>
+            Sorry, there’s been a problem
+          </p>
           <p>Please try again.</p>
         </div>
       )}
@@ -156,7 +158,10 @@ const NewsletterSignup: FunctionComponent<Props> = ({
           className="body-text"
           $v={{ size: 'sm', properties: ['margin-bottom'] }}
         >
-          <p className={font('sans-bold', 1)} style={{ marginBottom: '1rem' }}>
+          <p
+            className={typography('body', 'xl', 'strong')}
+            style={{ marginBottom: '1rem' }}
+          >
             Want to hear more from us?
           </p>
           <p>
@@ -190,7 +195,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
 
           <NewsletterFieldset $hasError={showCheckboxError}>
             <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
-              <legend className={font('sans-bold', 0)}>
+              <legend className={typography('body', 'lg', 'strong')}>
                 Select each newsletter you'd like to receive:
               </legend>
             </Space>
@@ -293,7 +298,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
                 setHasCheckedMarketing(currentValue => !currentValue);
               }}
               text={
-                <p className={font('sans', -2)}>
+                <p className={typography('body', 'sm', 'regular')}>
                   Tick this box if you’re happy to receive other emails about
                   Wellcome Collection, upcoming events and exhibitions and/or
                   other relevant opportunities.
@@ -309,7 +314,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
                 setHasCheckedAudience(currentValue => !currentValue);
               }}
               text={
-                <p className={font('sans', -2)}>
+                <p className={typography('body', 'sm', 'regular')}>
                   Tick this box if you’d be happy for us to use your information
                   to help us understand our audience, and show you relevant
                   adverts about Wellcome Collection on social networks (such as
@@ -317,7 +322,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
                 </p>
               }
             />
-            <p className={font('sans', -2)}>
+            <p className={typography('body', 'sm', 'regular')}>
               By clicking subscribe, you agree to receive this newsletter. You
               can unsubscribe any time. For information about how we handle your
               data,{' '}

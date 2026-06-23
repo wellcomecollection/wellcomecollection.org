@@ -2,7 +2,7 @@ import { FunctionComponent, PropsWithChildren } from 'react';
 
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
@@ -143,12 +143,19 @@ const FeaturedCardArticle: FunctionComponent<FeaturedCardArticleProps> = ({
       background={background}
       textColor={textColor}
     >
-      <h2 className={font('brand-bold', 2)}>{article.title}</h2>
-      {article.caption && <p className={font('sans', -1)}>{article.caption}</p>}
+      <h2 className={typography('heading', 'xl', 'strong', 'brand')}>
+        {article.title}
+      </h2>
+      {article.caption && (
+        <p className={typography('body', 'md', 'regular')}>{article.caption}</p>
+      )}
       {article.seriesTitle && (
         <Space $v={{ size: 'md', properties: ['margin-top'] }}>
-          <p className={font('sans-bold', -2)} style={{ marginBottom: 0 }}>
-            <span className={font('sans', -2)}>Part of</span>{' '}
+          <p
+            className={typography('body', 'sm', 'strong')}
+            style={{ marginBottom: 0 }}
+          >
+            <span className={typography('body', 'sm', 'regular')}>Part of</span>{' '}
             {article.seriesTitle}
           </p>
         </Space>
@@ -170,7 +177,9 @@ const FeaturedCardExhibition: FunctionComponent<
       textColor={textColor}
     >
       <div>
-        <h3 className={font('brand-bold', 2)}>{exhibition.title}</h3>
+        <h3 className={typography('heading', 'xl', 'strong', 'brand')}>
+          {exhibition.title}
+        </h3>
         {!exhibition.statusOverride && exhibition.start && exhibition.end && (
           <DateWrapper as="p">
             <DateRange start={exhibition.start} end={exhibition.end} />
@@ -182,7 +191,10 @@ const FeaturedCardExhibition: FunctionComponent<
           statusOverride={exhibition.statusOverride}
         />
         {exhibition.promo?.caption && (
-          <p className={font('sans', -1)} style={{ marginTop: '1rem' }}>
+          <p
+            className={typography('body', 'md', 'regular')}
+            style={{ marginTop: '1rem' }}
+          >
             {exhibition.promo.caption}
           </p>
         )}

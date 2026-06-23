@@ -9,7 +9,7 @@ import {
 } from 'react';
 
 import { arrow } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Control from '@weco/common/views/components/Control';
 import Rotator from '@weco/common/views/components/styled/Rotator';
 
@@ -188,7 +188,10 @@ const Table: FunctionComponent<Props> = ({
   return (
     <div data-component="table">
       {caption && (
-        <h2 className={font('brand-bold', 1)} aria-hidden="true">
+        <h2
+          className={typography('heading', 'lg', 'strong', 'brand')}
+          aria-hidden="true"
+        >
           {caption}
         </h2>
       )}

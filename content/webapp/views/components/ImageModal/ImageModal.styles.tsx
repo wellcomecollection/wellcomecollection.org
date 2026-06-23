@@ -1,7 +1,7 @@
 import NextLink from 'next/link';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 
 export const Container = styled.div`
@@ -15,7 +15,7 @@ export const ImageInfoWrapper = styled.div`
 `;
 
 export const MetadataWrapper = styled(Space).attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
   $v: { size: 'xs', properties: ['margin-top', 'margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.600')};
@@ -29,7 +29,7 @@ export const Metadata = styled.span`
 `;
 
 export const ModalTitle = styled.h2.attrs({
-  className: font('sans-bold', 1),
+  className: typography('body', 'xl', 'strong'),
 })`
   margin-bottom: 0;
 `;

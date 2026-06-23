@@ -2,7 +2,7 @@ import { FormEvent, FunctionComponent, useEffect } from 'react';
 import styled, { useTheme } from 'styled-components';
 
 import { itemRequestDialog } from '@weco/common/data/microcopy';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { formatDayMonth, formatDayName } from '@weco/common/utils/format-date';
 import { allowedRequests } from '@weco/common/values/requests';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
@@ -62,7 +62,7 @@ const WorkTitle = styled.span`
 `;
 
 const PickupDeadline = styled.p.attrs({
-  className: font('sans', -2),
+  className: typography('body', 'sm', 'regular'),
 })`
   ${props => props.theme.media('md')`
     margin: 0;
@@ -131,13 +131,18 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
   return (
     <Request onSubmit={handleConfirmRequest}>
       <Header>
-        <span className={font('brand-bold', 1)}>Request item</span>
+        <span className={typography('heading', 'lg', 'strong', 'brand')}>
+          Request item
+        </span>
         <CurrentRequests
           allowedHoldRequests={allowedRequests}
           currentHoldRequests={currentHoldNumber}
         />
       </Header>
-      <p className={font('sans-bold', -1)} style={{ marginBottom: 0 }}>
+      <p
+        className={typography('body', 'md', 'strong')}
+        style={{ marginBottom: 0 }}
+      >
         You are about to request the following item:
       </p>
       <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>

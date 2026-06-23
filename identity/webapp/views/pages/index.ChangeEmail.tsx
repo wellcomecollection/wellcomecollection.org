@@ -3,7 +3,7 @@ import { FunctionComponent, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 import TextInput, {
@@ -100,10 +100,16 @@ const ChangeEmail: FunctionComponent<ChangeDetailsModalContentProps> = ({
       )}
 
       <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
-        <h3 className={font('sans-bold', -1)} style={{ marginBottom: 0 }}>
+        <h3
+          className={typography('body', 'md', 'strong')}
+          style={{ marginBottom: 0 }}
+        >
           Email
         </h3>
-        <p className={font('sans', -1)} style={{ marginBottom: 0 }}>
+        <p
+          className={typography('body', 'md', 'regular')}
+          style={{ marginBottom: 0 }}
+        >
           {user?.email}
         </p>
       </Space>

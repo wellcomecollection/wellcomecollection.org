@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { chevron } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { ArticleBasic } from '@weco/content/types/articles';
@@ -72,12 +72,12 @@ const TextWrap = styled.div<{ $isNext: boolean }>`
 `;
 
 const InSeries = styled(Space).attrs({
-  className: font('sans', 0),
+  className: typography('body', 'lg', 'regular'),
   $v: { size: 'xs', properties: ['margin-bottom'] },
 })``;
 
 const Title = styled.div.attrs({
-  className: font('sans-bold', 1),
+  className: typography('body', 'xl', 'strong'),
 })`
   white-space: nowrap;
   overflow: hidden;
@@ -85,7 +85,7 @@ const Title = styled.div.attrs({
 `;
 
 const Chevron = styled(Space).attrs({
-  className: font('sans', 0),
+  className: typography('body', 'lg', 'regular'),
   $v: { size: 'sm', properties: ['padding-top'] },
 })<{ $isNext: boolean }>`
   transform: translateX(${props => (props.$isNext ? '-6px' : '6px')});

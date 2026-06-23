@@ -4,7 +4,7 @@ import { FormEvent, FunctionComponent } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio';
 import Divider from '@weco/common/views/components/Divider';
@@ -40,10 +40,10 @@ const RegistrationInformation: FunctionComponent<{
     <>
       <SectionHeading as="h1">Apply for a library membership</SectionHeading>
 
-      <h2 className={font('sans-bold', 0)}>Your details</h2>
+      <h2 className={typography('body', 'lg', 'strong')}>Your details</h2>
       <p style={{ marginBottom: 0 }}>
         Email address:{' '}
-        <strong className={font('sans-bold', -1)}>{email}</strong>
+        <strong className={typography('body', 'md', 'strong')}>{email}</strong>
       </p>
       <Space $v={{ size: 'sm', properties: ['margin-top', 'margin-bottom'] }}>
         <Divider />
@@ -157,7 +157,7 @@ const RegistrationPage: NextPage<Props> = ({
                     </SpacingComponent>
 
                     <SpacingComponent>
-                      <h3 className={font('sans-bold', -1)}>
+                      <h3 className={typography('body', 'md', 'strong')}>
                         Collections research agreement
                       </h3>
                       <Controller

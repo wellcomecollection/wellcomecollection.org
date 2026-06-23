@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { getCrop } from '@weco/common/model/image';
 import { Label } from '@weco/common/model/labels';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
@@ -40,7 +40,7 @@ const SearchResults: FunctionComponent<Props> = ({
           !summary ? { size: 'sm', properties: ['margin-bottom'] } : undefined
         }
       >
-        <h2 id={id} className={font('brand-bold', 1)}>
+        <h2 id={id} className={typography('heading', 'lg', 'strong', 'brand')}>
           {title}
         </h2>
       </Space>

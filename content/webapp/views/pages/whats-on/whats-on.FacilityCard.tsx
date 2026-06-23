@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
@@ -14,14 +14,14 @@ const ImageWrapper = styled.div`
 `;
 
 const Description = styled.p.attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })`
   margin: 0;
   padding: 0;
 `;
 
 const Meta = styled.div.attrs({
-  className: font('sans-bold', -2),
+  className: typography('body', 'sm', 'strong'),
 })`
   display: flex;
   align-items: center;
@@ -54,7 +54,9 @@ const FacilityCard: FunctionComponent<FacilityCardType> = ({
 
         <CardBody>
           <div>
-            <h3 className={font('brand-bold', 0)}>{title}</h3>
+            <h3 className={typography('heading', 'md', 'strong', 'brand')}>
+              {title}
+            </h3>
             <Description>{description}</Description>
 
             {metaText && (

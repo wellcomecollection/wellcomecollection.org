@@ -8,7 +8,7 @@ import {
 import styled from 'styled-components';
 
 import { IconSvg } from '@weco/common/icons';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { classNames, typography } from '@weco/common/utils/classnames';
 import {
   BaseButtonInner,
   BasicButton,
@@ -75,7 +75,7 @@ const Button: ForwardRefRenderFunction<
               {/* This is all a little hacky and will need some tidy up */}
               {/* We currently only use this in the header sign in button */}
               <span
-                className={font('sans', 0)}
+                className={typography('body', 'lg', 'regular')}
                 style={{ transform: 'translateY(0.01em)' }}
               >
                 <Icon icon={iconLeft} matchText={true} />

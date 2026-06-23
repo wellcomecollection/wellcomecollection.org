@@ -3,7 +3,7 @@ import { FunctionComponent, ReactElement, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { filter } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 import Button, {
   ButtonTypes,
@@ -249,7 +249,9 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
       >
         <FiltersScrollable>
           <FiltersHeader>
-            <h2 className={font('brand-bold', 1)}>Filters</h2>
+            <h2 className={typography('heading', 'lg', 'strong', 'brand')}>
+              Filters
+            </h2>
           </FiltersHeader>
 
           <FiltersBody>

@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import { cross } from '@weco/common/icons';
 import { LinkProps } from '@weco/common/model/link-props';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import {
@@ -162,7 +162,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
     ) : null;
 
   return (
-    <div className={font('sans-bold', -1)}>
+    <div className={typography('body', 'md', 'strong')}>
       <h2 style={{ display: 'inline' }}>
         <Space as="span" $h={{ size: 'sm', properties: ['margin-right'] }}>
           Active filters:

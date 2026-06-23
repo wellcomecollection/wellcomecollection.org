@@ -1,7 +1,7 @@
 import { FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed';
 import { PaletteColor } from '@weco/common/views/themes/config';
@@ -46,7 +46,10 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
 }) => (
   <VideoPlayerWrapper>
     <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
-      <figcaption className={font('sans-bold', -1)} {...titleProps}>
+      <figcaption
+        className={typography('body', 'md', 'strong')}
+        {...titleProps}
+      >
         {title}
       </figcaption>
     </Space>

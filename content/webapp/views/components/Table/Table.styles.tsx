@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 
 export const ControlsWrap = styled.div`
   position: relative;
@@ -88,7 +88,9 @@ export const TableWrap = styled.div`
 
 export const TableTable = styled.table.attrs<{ $hasSmallerCopy?: boolean }>(
   props => ({
-    className: font('sans', props.$hasSmallerCopy ? -2 : -1),
+    className: props.$hasSmallerCopy
+      ? typography('body', 'sm', 'regular')
+      : typography('body', 'md', 'regular'),
   })
 )`
   width: 100%;

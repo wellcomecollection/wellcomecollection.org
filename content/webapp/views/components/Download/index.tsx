@@ -2,7 +2,7 @@ import { FunctionComponent, useRef } from 'react';
 import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
 import DownloadLink from '@weco/common/views/components/DownloadLink';
 import PlainList from '@weco/common/views/components/styled/PlainList';
@@ -10,7 +10,7 @@ import SpacingComponent from '@weco/common/views/components/styled/SpacingCompon
 import { DownloadOption } from '@weco/content/types/manifest';
 
 export const DownloadOptions = styled.div.attrs({
-  className: font('sans-bold', 0),
+  className: typography('body', 'lg', 'strong'),
 })`
   white-space: normal;
   color: ${props => props.theme.color('black')};
@@ -21,7 +21,7 @@ export const DownloadOptions = styled.div.attrs({
 `;
 
 const Wrapper = styled.div.attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })<{ $isEnhanced: boolean }>`
   position: relative;
   ${props => (props.$isEnhanced ? 'display: inline-block;' : '')}
@@ -56,7 +56,7 @@ const Download: FunctionComponent<Props> = ({
         isOnDark={useDarkControl}
         id={ariaControlsId}
       >
-        <DownloadOptions className={font('sans-bold', -1)}>
+        <DownloadOptions className={typography('body', 'md', 'strong')}>
           <SpacingComponent>
             <PlainList>
               {downloadOptions.map(option => (

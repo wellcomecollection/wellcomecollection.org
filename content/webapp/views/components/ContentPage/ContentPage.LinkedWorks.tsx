@@ -1,7 +1,7 @@
 import { FunctionComponent, useEffect } from 'react';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { ContaineredLayout } from '@weco/common/views/components/Layout';
 import { SizeMap } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
@@ -35,7 +35,7 @@ const ListItem = styled.li`
 `;
 
 const DetailsCopy = styled.span.attrs({
-  className: font('sans', -2),
+  className: typography('body', 'sm', 'regular'),
 })`
   color: ${props => props.theme.color('black')};
 `;
@@ -71,7 +71,9 @@ const LinkedWorks: FunctionComponent<LinkedWorkProps> = ({
   return (
     <FullWidthRow>
       <ContaineredLayout gridSizes={gridSizes as SizeMap}>
-        <h2 className={font('brand-bold', 1)}>Featured in this article</h2>
+        <h2 className={typography('heading', 'lg', 'strong', 'brand')}>
+          Featured in this article
+        </h2>
       </ContaineredLayout>
 
       <ScrollContainer

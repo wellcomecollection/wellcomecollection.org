@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import { ComponentProps } from 'react';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { gridSize12 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
@@ -93,11 +93,11 @@ const Template = args => {
           hasCopy ? (
             <>
               <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
-                <h2 className={font('sans-bold', 2)}>
+                <h2 className={typography('heading', 'xl', 'strong', 'sans')}>
                   Title for this component
                 </h2>
               </Space>
-              <DetailsCopy className={font('sans', -2)}>
+              <DetailsCopy className={typography('body', 'sm', 'regular')}>
                 Scroll container details (x results)
               </DetailsCopy>
             </>

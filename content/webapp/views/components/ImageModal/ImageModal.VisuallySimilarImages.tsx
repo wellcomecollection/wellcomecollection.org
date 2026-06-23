@@ -2,7 +2,7 @@ import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { useFeatureFlags } from '@weco/common/server-data/Context';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
 import { plainListStyles } from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
@@ -84,7 +84,9 @@ const VisuallySimilarImages: FunctionComponent<Props> = ({
 
   return similarImages.length === 0 ? null : (
     <>
-      <h3 className={font('brand-bold', -1)}>Visually similar images</h3>
+      <h3 className={typography('heading', 'sm', 'strong', 'brand')}>
+        Visually similar images
+      </h3>
 
       <Wrapper>
         {similarImages.map(related => (
@@ -122,7 +124,10 @@ const VisuallySimilarImages: FunctionComponent<Props> = ({
           </li>
         ))}
       </Wrapper>
-      <p className={font('sans', -2)} style={{ marginBottom: 0 }}>
+      <p
+        className={typography('body', 'sm', 'regular')}
+        style={{ marginBottom: 0 }}
+      >
         We use machine learning to find images in our collection with similar
         shapes and features.
         <br />

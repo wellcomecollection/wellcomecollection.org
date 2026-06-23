@@ -8,7 +8,7 @@ import {
   bslSquare,
   closedCaptioningSquare,
 } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -60,7 +60,9 @@ const AccessibilityProvision: FunctionComponent<Props> = ({
         <Icon icon={closedCaptioningSquare} />
       </IconsContainer>
       <Text
-        className={!showText ? `visually-hidden` : font('sans', -1)}
+        className={
+          !showText ? `visually-hidden` : typography('body', 'md', 'regular')
+        }
         id="accessibility-provision"
       >
         {accessibilityProvisionText}

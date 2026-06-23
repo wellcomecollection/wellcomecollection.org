@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { bslSquare } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import {
   ContaineredLayout,
@@ -15,7 +15,7 @@ import VideoEmbed, {
 } from '@weco/common/views/components/VideoEmbed';
 
 const BslLeaftletButtonText = styled(Space).attrs({
-  className: font('sans', -2),
+  className: typography('body', 'sm', 'regular'),
   $h: { size: 'xs', properties: ['margin-left'] },
 })``;
 
@@ -68,7 +68,10 @@ const BslLeafletVideo: FunctionComponent<Props> = ({
           $v={{ size: 'sm', properties: ['padding-top', 'padding-bottom'] }}
         >
           <Space $h={{ size: 'xl', properties: ['padding-right'] }}>
-            <h3 className={font('sans-bold', -1)} style={{ marginBottom: 0 }}>
+            <h3
+              className={typography('body', 'md', 'strong')}
+              style={{ marginBottom: 0 }}
+            >
               {video.title}
             </h3>
           </Space>

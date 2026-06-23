@@ -8,7 +8,7 @@ import {
 } from 'react';
 import styled, { css } from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Space from '@weco/common/views/components/styled/Space';
 import { SourceOntology } from '@weco/content/services/wellcome/catalogue/types';
@@ -44,7 +44,7 @@ const showSourceBox = css`
 `;
 
 const SourcePill = styled.div.attrs({
-  className: font('sans', -2),
+  className: typography('body', 'sm', 'regular'),
 })`
   position: relative;
   display: inline-flex;
@@ -75,7 +75,7 @@ const underlineParagraph = css`
 `;
 
 const Paragraph = styled.p.attrs({
-  className: font('sans', 1),
+  className: typography('body', 'xl', 'regular'),
 })`
   display: inline;
   padding-right: ${props => props.theme.spacingUnits['100']};
@@ -197,7 +197,9 @@ const SourcedDescription: FunctionComponent<{
 
           <SourceBoxContainer $marginLeft={sourceBoxMarginLeft}>
             <SourceBox {...dataGtmPropsToAttributes({ trigger: 'source_box' })}>
-              <span className={font('sans-bold', -2)}>Source:</span>
+              <span className={typography('body', 'sm', 'strong')}>
+                Source:
+              </span>
               <SourceLink>
                 {source === 'wikidata' && <WikidataLogo width={16} />}
                 {source === 'nlm-mesh' && (

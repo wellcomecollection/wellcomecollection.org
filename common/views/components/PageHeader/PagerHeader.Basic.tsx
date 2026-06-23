@@ -7,7 +7,7 @@ import {
 import styled from 'styled-components';
 
 import { useKiosk } from '@weco/common/contexts/KioskContext';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import AccessibilityProvision from '@weco/common/views/components/AccessibilityProvision';
 import Breadcrumb from '@weco/common/views/components/Breadcrumb';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
@@ -42,7 +42,7 @@ const Heading = styled(Space)`
 
 const HighlightedHeading: FunctionComponent<{ text: string }> = ({ text }) => {
   return (
-    <h1 className={font('brand-bold', 2)}>
+    <h1 className={typography('heading', 'xl', 'strong', 'brand')}>
       <Heading
         $v={{ size: 'xs', properties: ['padding-top', 'padding-bottom'] }}
         $h={{ size: 'sm', properties: ['padding-left', 'padding-right'] }}
@@ -151,7 +151,7 @@ const BasicPageHeader: FunctionComponent<Props> = ({
             {isContentTypeInfoBeforeMedia && ContentTypeInfo && (
               <Space
                 $v={{ size: 'sm', properties: ['margin-bottom'] }}
-                className={font('sans', 0)}
+                className={typography('body', 'lg', 'regular')}
               >
                 {ContentTypeInfo}
               </Space>
@@ -198,7 +198,7 @@ const BasicPageHeader: FunctionComponent<Props> = ({
         <ContaineredLayout gridSizes={pageGridLayout}>
           <Space
             $v={{ size: 'md', properties: ['margin-top'] }}
-            className={font('sans-bold', 0)}
+            className={typography('body', 'lg', 'strong')}
           >
             {ContentTypeInfo}
           </Space>
