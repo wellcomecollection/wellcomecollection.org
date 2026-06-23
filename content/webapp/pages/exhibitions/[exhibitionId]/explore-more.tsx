@@ -1,5 +1,6 @@
 import { NextPage } from 'next';
 
+import { getKioskContentKey } from '@weco/common/contexts/KioskContext';
 import { kiosksContent } from '@weco/common/contexts/KioskContext/kiosks-content';
 import { getServerData } from '@weco/common/server-data';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
@@ -25,9 +26,6 @@ import ExploreMorePage, {
   Props as ExploreMorePageProps,
   WorkGroup,
 } from '@weco/content/views/pages/exhibitions/explore-more';
-
-const EXHIBITION_WORK_GROUPS = kiosksContent.TR.workGroups ?? [];
-const EXHIBITION_WORKS_IDS = kiosksContent.TR.includedWorks ?? [];
 
 const Page: NextPage<ExploreMorePageProps> = props => {
   return <ExploreMorePage {...props} />;
@@ -72,19 +70,30 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   const shouldUseStagingApi = serverData.toggles.featureFlags.stagingApi;
 
+  const contentKey = getKioskContentKey(
+    serverData.toggles.modes.kioskMode,
+    kiosksContent
+  );
+  const kioskContent = contentKey ? kiosksContent[contentKey] : undefined;
+  const workGroupConfigs = kioskContent?.workGroups ?? [];
+  const includedWorkIds = kioskContent?.includedWorks ?? [];
+
+  const resolveWork = (r: Awaited<ReturnType<typeof getWork>>) => {
+    if (r.type === 'Error' || r.type === 'Redirect') return [];
+    const { url: _url, ...work } = r;
+    return [toWorkBasic(work)];
+  };
+
   const [workGroups, exhibitionWorks]: [WorkGroup[], WorkBasic[]] =
     await Promise.all([
       Promise.all(
-        EXHIBITION_WORK_GROUPS.map(async group => {
-          const works = (
-            await Promise.all(
-              group.ids.map(id => getWork({ id, shouldUseStagingApi }))
-            )
-          ).flatMap(r => {
-            if (r.type === 'Error' || r.type === 'Redirect') return [];
-            const { url: _url, ...work } = r;
-            return [toWorkBasic(work)];
-          });
+        workGroupConfigs.map(async group => {
+          const results = await Promise.allSettled(
+            group.ids.map(id => getWork({ id, shouldUseStagingApi }))
+          );
+          const works = results.flatMap(r =>
+            r.status === 'fulfilled' ? resolveWork(r.value) : []
+          );
           return {
             heading: group.heading,
             description: group.description,
@@ -92,14 +101,12 @@ export const getServerSideProps: ServerSidePropsOrAppError<
           };
         })
       ),
-      Promise.all(
-        EXHIBITION_WORKS_IDS.map(id => getWork({ id, shouldUseStagingApi }))
+      Promise.allSettled(
+        includedWorkIds.map(id => getWork({ id, shouldUseStagingApi }))
       ).then(results =>
-        results.flatMap(r => {
-          if (r.type === 'Error' || r.type === 'Redirect') return [];
-          const { url: _url, ...work } = r;
-          return [toWorkBasic(work)];
-        })
+        results.flatMap(r =>
+          r.status === 'fulfilled' ? resolveWork(r.value) : []
+        )
       ),
     ]);
 
