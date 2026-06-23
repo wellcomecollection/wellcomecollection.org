@@ -1,5 +1,7 @@
 import { NextPage } from 'next';
 
+import { getKioskContentKey } from '@weco/common/contexts/KioskContext';
+import { kiosksContent } from '@weco/common/contexts/KioskContext/kiosks-content';
 import { getServerData } from '@weco/common/server-data';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -14,9 +16,15 @@ import { fetchPage } from '@weco/content/services/prismic/fetch/pages';
 import { transformExhibition } from '@weco/content/services/prismic/transformers/exhibitions';
 import { exhibitionLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
+import {
+  toWorkBasic,
+  WorkBasic,
+} from '@weco/content/services/wellcome/catalogue/types';
+import { getWork } from '@weco/content/services/wellcome/catalogue/works';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import ExploreMorePage, {
   Props as ExploreMorePageProps,
+  WorkGroup,
 } from '@weco/content/views/pages/exhibitions/explore-more';
 
 const Page: NextPage<ExploreMorePageProps> = props => {
@@ -60,6 +68,48 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     return { notFound: true };
   }
 
+  const shouldUseStagingApi = serverData.toggles.featureFlags.stagingApi;
+
+  const contentKey = getKioskContentKey(
+    serverData.toggles.modes.kioskMode,
+    kiosksContent
+  );
+  const kioskContent = contentKey ? kiosksContent[contentKey] : undefined;
+  const workGroupConfigs = kioskContent?.workGroups ?? [];
+  const includedWorkIds = kioskContent?.includedWorks ?? [];
+
+  const resolveWork = (r: Awaited<ReturnType<typeof getWork>>) => {
+    if (r.type === 'Error' || r.type === 'Redirect') return [];
+    const { url: _url, ...work } = r;
+    return [toWorkBasic(work)];
+  };
+
+  const [workGroups, exhibitionWorks]: [WorkGroup[], WorkBasic[]] =
+    await Promise.all([
+      Promise.all(
+        workGroupConfigs.map(async group => {
+          const results = await Promise.allSettled(
+            group.ids.map(id => getWork({ id, shouldUseStagingApi }))
+          );
+          const works = results.flatMap(r =>
+            r.status === 'fulfilled' ? resolveWork(r.value) : []
+          );
+          return {
+            heading: group.heading,
+            description: group.description,
+            works,
+          };
+        })
+      ),
+      Promise.allSettled(
+        includedWorkIds.map(id => getWork({ id, shouldUseStagingApi }))
+      ).then(results =>
+        results.flatMap(r =>
+          r.status === 'fulfilled' ? resolveWork(r.value) : []
+        )
+      ),
+    ]);
+
   const jsonLd = exhibitionLd(exhibitionDoc);
 
   return {
@@ -67,6 +117,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       exhibition: exhibitionDoc,
       page: transformPage(pageDocument),
       jsonLd,
+      workGroups,
+      exhibitionWorks,
       serverData,
     }),
   };
