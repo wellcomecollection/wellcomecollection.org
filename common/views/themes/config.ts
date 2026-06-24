@@ -69,10 +69,6 @@ const colors = {
 const colorKeyToVarName = (key: string): string =>
   '--color-' + key.replace(/\./g, '-');
 
-export const colorCustomProperties = `:root {\n${Object.entries(colors)
-  .map(([key, value]) => `  ${colorKeyToVarName(key)}: ${value};`)
-  .join('\n')}\n}`;
-
 // Starting-point dark mode palette — values here need design review.
 // The neutrals mirror the lightness scale in reverse; accents are lightly
 // adjusted for contrast on dark surfaces; core black/white swap.
@@ -116,11 +112,23 @@ const darkModeColors: typeof colors = {
   'focus.yellow': '#ffea00',
 };
 
-export const darkModeColorCustomProperties = `@media (prefers-color-scheme: dark) {\n  :root {\n${Object.entries(
-  darkModeColors
-)
-  .map(([key, value]) => `    ${colorKeyToVarName(key)}: ${value};`)
-  .join('\n')}\n  }\n}`;
+// light-dark() is resolved at used-value time per element, so changing
+// color-scheme on a subtree root switches which branch is applied there —
+// without needing to redeclare any variable values.
+export const colorCustomProperties = `:root {\n${Object.entries(colors)
+  .map(([key, value]) => {
+    const dark = darkModeColors[key as keyof typeof colors];
+    return `  ${colorKeyToVarName(key)}: light-dark(${value}, ${dark});`;
+  })
+  .join('\n')}\n}`;
+
+// Escape hatch for components that must keep their light-mode appearance
+// regardless of OS colour scheme (e.g. the footer's intentionally dark band).
+// Apply data-color-scheme="light" to the component's root element.
+// light-dark() within that subtree will resolve to its light branch.
+// :where() gives this zero specificity so any component's own color declaration
+// always wins, regardless of stylesheet injection order.
+export const pinnedLightModeColorCustomProperties = `:where([data-color-scheme="light"]) {\n  color-scheme: light;\n  color: var(--color-black);\n}`;
 
 const getColor = (name: PaletteColor): string => {
   // In some cases, these get passed in, see ButtonColors for example.

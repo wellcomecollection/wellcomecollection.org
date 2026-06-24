@@ -70,7 +70,7 @@ const InfoBannerDefault: FunctionComponent<Props> = ({
 
   return (
     <BannerContainer role="region" aria-labelledby="note" id="notification">
-      <BannerWrapper>
+      <BannerWrapper data-color-scheme="light">
         <CopyContainer>
           <Space
             $h={{ size: 'sm', properties: ['margin-right'] }}

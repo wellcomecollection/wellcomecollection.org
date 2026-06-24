@@ -147,7 +147,7 @@ const ThemeCard: FunctionComponent<ThemeCardProps> = ({
       {...linkProps}
       {...dataGtmPropsToAttributes(dataGtmProps)}
     >
-      <CardWrapper data-component="theme-promo">
+      <CardWrapper data-component="theme-promo" data-color-scheme="light">
         <CompositeGrid $isSingleImage={isSingleImage}>
           {slots.map((slot, index) => (
             <ImageContainer key={index}>

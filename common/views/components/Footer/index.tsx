@@ -192,7 +192,7 @@ const Footer: FunctionComponent<Props> = ({
   const hasVenuesInfo = Array.isArray(venues) && venues.length > 0;
 
   return (
-    <Wrapper ref={footer} data-component="footer">
+    <Wrapper ref={footer} data-component="footer" data-color-scheme="light">
       <Container>
         {isSimpleFooter ? (
           <SimpleFooterLogoHeading>

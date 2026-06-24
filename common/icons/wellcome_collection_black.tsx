@@ -1,7 +1,14 @@
 import { FunctionComponent } from 'react';
+import styled from 'styled-components';
+
+const Svg = styled.svg`
+  @media (prefers-color-scheme: dark) {
+    filter: invert(1);
+  }
+`;
 
 const WellcomeCollectionBlack: FunctionComponent = () => (
-  <svg
+  <Svg
     width="128"
     height="42"
     xmlns="http://www.w3.org/2000/svg"
@@ -21,7 +28,7 @@ const WellcomeCollectionBlack: FunctionComponent = () => (
       width="128"
       height="42"
     />
-  </svg>
+  </Svg>
 );
 
 export default WellcomeCollectionBlack;

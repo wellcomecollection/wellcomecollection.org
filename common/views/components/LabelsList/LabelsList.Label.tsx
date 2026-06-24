@@ -12,6 +12,7 @@ type LabelContainerProps = {
 };
 
 const LabelContainer = styled(Space).attrs({
+  'data-color-scheme': 'light',
   className: font('sans-bold', -2),
 })<LabelContainerProps>`
   white-space: nowrap;

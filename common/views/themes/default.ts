@@ -7,7 +7,7 @@ import { row } from './base/row';
 import { wellcomeNormalize } from './base/wellcome-normalize';
 import {
   colorCustomProperties,
-  darkModeColorCustomProperties,
+  pinnedLightModeColorCustomProperties,
   Size,
   themeValues,
 } from './config';
@@ -54,7 +54,7 @@ const cls = {
 
 const GlobalStyle = createGlobalStyle<{ $compositeTypography: boolean }>`
   ${colorCustomProperties}
-  ${darkModeColorCustomProperties}
+  ${pinnedLightModeColorCustomProperties}
   ${css`
     .${cls.displayBlock} {
       display: block;
