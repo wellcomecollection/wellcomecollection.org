@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { allowedRequests } from '@weco/common/values/requests';
 import Button from '@weco/common/views/components/Buttons';
 
@@ -19,7 +19,9 @@ const ConfirmedDialog: FunctionComponent<ConfirmedDialogProps> = ({
   return (
     <>
       <Header>
-        <span className={font('brand-bold', 1)}>Request confirmed</span>
+        <span className={typography('heading', 'lg', 'strong', 'brand')}>
+          Request confirmed
+        </span>
         <CurrentRequests
           allowedHoldRequests={allowedRequests}
           currentHoldRequests={currentHoldNumber}

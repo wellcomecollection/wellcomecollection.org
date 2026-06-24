@@ -2,7 +2,7 @@ import { CSSProperties, FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { LabelColor, Label as LabelType } from '@weco/common/model/labels';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
 
@@ -12,7 +12,7 @@ type LabelContainerProps = {
 };
 
 const LabelContainer = styled(Space).attrs({
-  className: font('sans-bold', -2),
+  className: typography('body', 'sm', 'strong'),
 })<LabelContainerProps>`
   white-space: nowrap;
 

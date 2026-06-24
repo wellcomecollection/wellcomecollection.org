@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -71,7 +71,7 @@ export const OverrideDay = styled.div`
 `;
 
 export const OpeningHours = styled(PlainList).attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })``;
 
 export const DifferentToRegularTime = styled.span`

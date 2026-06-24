@@ -6,11 +6,7 @@ import { normalize } from './base/normalize';
 import { row } from './base/row';
 import { wellcomeNormalize } from './base/wellcome-normalize';
 import { Size, themeValues } from './config';
-import {
-  makeCompositeTypographyClasses,
-  makeFontSizeClasses,
-  typography,
-} from './typography';
+import { makeTypographyClasses, typography } from './typography';
 import { utilityClasses } from './utility-classes';
 
 type Classes = typeof classes;
@@ -47,7 +43,7 @@ const cls = {
   ...sizesClasses,
 } as unknown as Classes & SizedClasses;
 
-const GlobalStyle = createGlobalStyle<{ $compositeTypography: boolean }>`
+const GlobalStyle = createGlobalStyle`
   ${css`
     .${cls.displayBlock} {
       display: block;
@@ -78,9 +74,8 @@ const GlobalStyle = createGlobalStyle<{ $compositeTypography: boolean }>`
   ${layout}
   ${row}
   ${fonts}
-  ${({ $compositeTypography }) => !$compositeTypography && makeFontSizeClasses()}
   ${typography}
-  ${({ $compositeTypography }) => $compositeTypography && makeCompositeTypographyClasses()}
+  ${makeTypographyClasses()}
 `;
 
 // Static theme instance for backward compatibility

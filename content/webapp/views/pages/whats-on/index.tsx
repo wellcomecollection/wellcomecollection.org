@@ -12,7 +12,7 @@ import {
 } from '@weco/common/services/prismic/opening-times';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 import { Period } from '@weco/common/types/periods';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import AccessibilityProvision from '@weco/common/views/components/AccessibilityProvision';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
@@ -243,10 +243,17 @@ const WhatsOnPage: NextPage<Props> = props => {
                         justifyContent: 'space-between',
                       }}
                     >
-                      <h2 className={font('brand-bold', 2)}>
+                      <h2
+                        className={typography(
+                          'heading',
+                          'xl',
+                          'strong',
+                          'brand'
+                        )}
+                      >
                         Exhibitions and Events
                       </h2>
-                      <span className={font('sans-bold', 0)}>
+                      <span className={typography('body', 'lg', 'strong')}>
                         Free admission
                       </span>
                     </div>

@@ -3,7 +3,7 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { organisation, user } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
@@ -16,7 +16,7 @@ const Wrapper = styled(NextLink)`
 `;
 
 const Root = styled(Space).attrs({
-  className: font('sans', -2),
+  className: typography('body', 'sm', 'regular'),
   $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
   $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
 })`
@@ -37,7 +37,7 @@ const Label = styled(Space).attrs({
 const Title = styled(Space).attrs({
   as: 'h2',
   $v: { size: 'xs', properties: ['margin-bottom'] },
-  className: font('brand', 0),
+  className: typography('heading', 'md', 'regular', 'brand'),
 })`
   ${Root}:hover & {
     text-decoration: underline;

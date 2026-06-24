@@ -3,7 +3,7 @@ import { NextPage } from 'next';
 import styled from 'styled-components';
 
 import { useKiosk } from '@weco/common/contexts/KioskContext';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import {
   ContaineredLayout,
@@ -113,7 +113,16 @@ const ExploreMorePage: NextPage<Props> = ({
                 hasWorkCards={true}
                 CopyContent={
                   <>
-                    <h3 className={font('brand', 1)}>{group.heading}</h3>
+                    <h3
+                      className={typography(
+                        'heading',
+                        'lg',
+                        'regular',
+                        'brand'
+                      )}
+                    >
+                      {group.heading}
+                    </h3>
                     <div
                       dangerouslySetInnerHTML={{ __html: group.description }}
                     ></div>

@@ -3,7 +3,7 @@ import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
@@ -30,7 +30,7 @@ export const List = styled(PlainList)`
 
 export const Item = styled(Space).attrs({
   as: 'li',
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
   $v: { size: '2xs', properties: ['padding-top', 'padding-bottom'] },
   $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
 })<{ $isActive: boolean }>`

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { play } from '@weco/common/icons';
 import { ImageType } from '@weco/common/model/image';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
@@ -73,7 +73,7 @@ const PlayCircle = styled.span`
 `;
 
 const DurationText = styled.span.attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })`
   color: ${props => props.theme.color('white')};
 `;
@@ -81,7 +81,7 @@ const DurationText = styled.span.attrs({
 const CardTitle = styled(Space).attrs({
   $v: { size: 'xs', properties: ['margin-top'] },
   as: 'span',
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })`
   display: block;
   line-height: 1.6;

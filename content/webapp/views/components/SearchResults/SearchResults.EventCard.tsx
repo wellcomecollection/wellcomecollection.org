@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 
 import { getCrop } from '@weco/common/model/image';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
 import { EventBasic } from '@weco/content/types/events';
@@ -65,7 +65,10 @@ const EventCard: FunctionComponent<Props> = ({ event, xOfY }) => {
         </Space>
       </>
     ) : !event.isPast && event.times.length > 1 ? (
-      <p className={font('sans-bold', 0)} style={{ marginBottom: 0 }}>
+      <p
+        className={typography('body', 'lg', 'strong')}
+        style={{ marginBottom: 0 }}
+      >
         See all dates/times
       </p>
     ) : undefined;

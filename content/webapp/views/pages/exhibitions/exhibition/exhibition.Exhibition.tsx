@@ -7,7 +7,7 @@ import {
   ExhibitionTextsDocument,
 } from '@weco/common/prismicio-types';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { isPast } from '@weco/common/utils/dates';
 import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb';
 import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
@@ -207,7 +207,7 @@ const Exhibition: FunctionComponent<Props> = ({
                 <GridCell $sizeMap={{ s: [12] }}>
                   <Space
                     as="h2"
-                    className={font('brand-bold', 1)}
+                    className={typography('heading', 'lg', 'strong', 'brand')}
                     $v={{
                       size: 'md',
                       properties: ['margin-top', 'margin-bottom'],
@@ -220,7 +220,9 @@ const Exhibition: FunctionComponent<Props> = ({
 
               {visualStoryLink && (
                 <>
-                  <h3 className={font('sans-bold', 0)}>Plan your visit</h3>
+                  <h3 className={typography('body', 'lg', 'strong')}>
+                    Plan your visit
+                  </h3>
                   <NextLink href={visualStoryLink.url}>
                     Exhibition visual story
                   </NextLink>{' '}
@@ -231,7 +233,9 @@ const Exhibition: FunctionComponent<Props> = ({
                 </>
               )}
 
-              <h3 className={font('sans-bold', 0)}>{`When you're here`}</h3>
+              <h3
+                className={typography('body', 'lg', 'strong')}
+              >{`When you're here`}</h3>
               <p>
                 Resources designed to support your visit are available online
                 and in the gallery.
@@ -247,7 +251,7 @@ const Exhibition: FunctionComponent<Props> = ({
 
               <Space
                 as="h3"
-                className={font('sans-bold', 0)}
+                className={typography('body', 'lg', 'strong')}
                 $v={{ size: 'md', properties: ['margin-bottom'] }}
               >
                 Access information, tours and queries

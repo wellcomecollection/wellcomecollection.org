@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
@@ -11,7 +11,7 @@ export const PageGrid = styled(Grid)`
 `;
 
 export const Title = styled(Space).attrs({
-  className: font('sans-bold', 2),
+  className: typography('heading', 'xl', 'strong', 'sans'),
   as: 'h2',
   $v: { size: 'md', properties: ['margin-bottom'] },
 })``;

@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSearchContext } from '@weco/common/contexts/SearchContext';
 import { arrow } from '@weco/common/icons';
 import { useFeatureFlags } from '@weco/common/server-data/Context';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { formatNumber } from '@weco/common/utils/grammar';
 import { getQueryResults } from '@weco/common/utils/search';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
@@ -221,7 +221,7 @@ const SearchPage: NextPage<Props> = withSearchLayout(
         ) : (
           <BasicSection>
             <Container>
-              <p className={font('sans', -1)}>
+              <p className={typography('body', 'md', 'regular')}>
                 {contentQueryFailed ? (
                   <>
                     There was a problem fetching some search results. Please try
@@ -235,7 +235,7 @@ const SearchPage: NextPage<Props> = withSearchLayout(
                       <>
                         {' '}
                         for{' '}
-                        <span className={font('sans-bold', -1)}>
+                        <span className={typography('body', 'md', 'strong')}>
                           {queryString}
                         </span>
                       </>
@@ -263,7 +263,7 @@ const SearchPage: NextPage<Props> = withSearchLayout(
                         properties: ['margin-left', 'margin-right'],
                       }}
                     >
-                      <h3 className={font('sans-bold', 0)}>
+                      <h3 className={typography('body', 'lg', 'strong')}>
                         Are you looking for our online collections?
                       </h3>
                     </Space>

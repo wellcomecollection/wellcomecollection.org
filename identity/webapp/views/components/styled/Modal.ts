@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 
 export const ModalContainer = styled.aside`
@@ -11,6 +11,6 @@ export const ModalContainer = styled.aside`
 
 export const ModalTitle = styled(Space).attrs({
   as: 'h2',
-  className: font('brand-bold', 1),
+  className: typography('heading', 'lg', 'strong', 'brand'),
   $v: { size: 'md', properties: ['margin-bottom'] },
 })``;

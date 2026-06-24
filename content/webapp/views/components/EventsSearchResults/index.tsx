@@ -6,7 +6,7 @@ import { getCrop } from '@weco/common/model/image';
 import { Label } from '@weco/common/model/labels';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { isPast as checkIfIsPast } from '@weco/common/utils/dates';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import Divider from '@weco/common/views/components/Divider';
@@ -48,14 +48,14 @@ const EventsContainer = styled.div`
 `;
 
 const DateInfo = styled.p.attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })`
   padding: 0;
   margin: 0;
 `;
 
 const LocationWrapper = styled(Space).attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
   $v: { size: 'xs', properties: ['margin-top', 'margin-bottom'] },
 })`
   display: flex;
@@ -169,7 +169,7 @@ const EventsSearchResults: FunctionComponent<Props> = ({
                 {upcomingDatesFullyBooked(times) && (
                   <Space $v={{ size: 'sm', properties: ['margin-top'] }}>
                     <TextWithDot
-                      className={font('sans', -1)}
+                      className={typography('body', 'md', 'regular')}
                       dotColor="validation.red"
                       text="Fully booked"
                     />
@@ -177,7 +177,9 @@ const EventsSearchResults: FunctionComponent<Props> = ({
                 )}
 
                 {!isPast && times.length > 1 && (
-                  <p className={font('sans-bold', -2)}>See all dates/times</p>
+                  <p className={typography('body', 'sm', 'strong')}>
+                    See all dates/times
+                  </p>
                 )}
 
                 {firstStartTime &&
@@ -199,10 +201,12 @@ const EventsSearchResults: FunctionComponent<Props> = ({
                 {event.series.map(series => (
                   <p
                     key={series.title}
-                    className={font('sans-bold', -2)}
+                    className={typography('body', 'sm', 'strong')}
                     style={{ marginBottom: 0 }}
                   >
-                    <span className={font('sans', -2)}>Part of</span>{' '}
+                    <span className={typography('body', 'sm', 'regular')}>
+                      Part of
+                    </span>{' '}
                     {series.title}
                   </p>
                 ))}

@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 import { ReactElement } from 'react';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import {
   ContaineredLayout,
@@ -25,7 +25,7 @@ const CollectionsTypesPage: NextPage<Props> & {
       <ContaineredLayout gridSizes={gridSize12()}>
         <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
           <Space $v={{ size: 'lg', properties: ['margin-bottom'] }}>
-            <h2 className={font('sans-bold', 2)}>
+            <h2 className={typography('heading', 'xl', 'strong', 'sans')}>
               Types of materials in the collections
             </h2>
           </Space>

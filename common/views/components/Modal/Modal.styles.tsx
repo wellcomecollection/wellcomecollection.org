@@ -52,6 +52,7 @@ export const BaseModalWindow = styled(Space).attrs({
   $width?: string | null;
   $maxWidth?: string;
 }>`
+  /* TODO https://developer.mozilla.org/en-US/docs/Web/API/VisualViewport */
   z-index: 10001;
   top: 0;
   bottom: 0;

@@ -4,7 +4,7 @@ import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import useVideoEmbed, { VideoProvider } from '@weco/common/hooks/useVideoEmbed';
 import { chevron, cross } from '@weco/common/icons';
 import { ImageType } from '@weco/common/model/image';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import { gridSize12 } from '@weco/common/views/components/Layout';
 import PortraitVideoEmbed from '@weco/common/views/components/PortraitVideoEmbed';
@@ -122,7 +122,11 @@ const PortraitVideoList: FunctionComponent<Props> = ({
         gridSizes={gridSizes}
         useShim={useShim}
         CopyContent={
-          title ? <h2 className={font('brand-bold', 1)}>{title}</h2> : undefined
+          title ? (
+            <h2 className={typography('heading', 'lg', 'strong', 'brand')}>
+              {title}
+            </h2>
+          ) : undefined
         }
       >
         {items.map((item, i) => (

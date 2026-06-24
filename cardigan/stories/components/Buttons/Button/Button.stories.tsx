@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 
 import { eye } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Button, { ButtonProps } from '@weco/common/views/components/Buttons';
 import theme from '@weco/common/views/themes/default';
 
@@ -113,7 +113,7 @@ export const DropdownButton: Story = {
   },
   render: args => (
     <div
-      className={font('sans', -2)}
+      className={typography('body', 'sm', 'regular')}
       style={{
         padding: '20px',
         backgroundColor: args.isOnDark ? theme.color('black') : undefined,

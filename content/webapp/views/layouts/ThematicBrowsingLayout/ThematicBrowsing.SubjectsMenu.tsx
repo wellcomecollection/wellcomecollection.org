@@ -2,7 +2,7 @@ import NextLink from 'next/link';
 import styled from 'styled-components';
 
 import { subjectCategories } from '@weco/common/data/hardcoded-ids';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 
@@ -119,7 +119,7 @@ const SubCategoryListItem = ({
             alt=""
           />
         </ImageContainer>
-        <span className={font('sans-bold', -1)}>{title}</span>
+        <span className={typography('body', 'md', 'strong')}>{title}</span>
       </CardLink>
     </CardListItem>
   );

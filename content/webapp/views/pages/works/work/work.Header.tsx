@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Divider from '@weco/common/views/components/Divider';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
@@ -12,7 +12,9 @@ import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import LinkLabels from '@weco/content/views/components/LinkLabels';
 import Number from '@weco/content/views/components/Number';
 import WorkTitle from '@weco/content/views/components/WorkTitle';
-const WorkTitleWrapper = styled.h1.attrs({ className: font('sans-bold', 2) })`
+const WorkTitleWrapper = styled.h1.attrs({
+  className: typography('heading', 'xl', 'strong', 'sans'),
+})`
   margin: 0;
   display: inline-block;
 `;
@@ -102,7 +104,7 @@ const WorkHeader: FunctionComponent<Props> = ({
               ) && (
                 <Space $v={{ size: 'sm', properties: ['margin-top'] }}>
                   <p
-                    className={font('sans-bold', -1)}
+                    className={typography('body', 'md', 'strong')}
                     style={{ marginBottom: 0 }}
                   >
                     <Number

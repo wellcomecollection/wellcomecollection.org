@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import Button from '@weco/common/views/components/Buttons';
 import Modal from '@weco/common/views/components/Modal';
@@ -200,12 +200,14 @@ const WorkItemPage: NextPage<Props> = ({
         removeCloseButton={true}
         openButtonRef={{ current: null }}
       >
-        <div className={font('sans', -1)}>
+        <div className={typography('body', 'md', 'regular')}>
           {modalContent?.label && (
             // When this modal is displayed, the rest of the page is hidden and we need to make
             // sure there is an appropriate h1 available to assistive technologies
             // https://github.com/wellcomecollection/wellcomecollection.org/issues/7545
-            <h1 className={font('sans-bold', 0)}>{modalContent?.label}</h1>
+            <h1 className={typography('body', 'lg', 'strong')}>
+              {modalContent?.label}
+            </h1>
           )}
           {modalContent?.description && (
             <div

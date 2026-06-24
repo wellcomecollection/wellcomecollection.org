@@ -2,7 +2,7 @@ import { FunctionComponent, PropsWithChildren } from 'react';
 import styled from 'styled-components';
 
 import { IconSvg } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
@@ -26,7 +26,7 @@ const InfoContainer = styled(Space).attrs({
 `;
 
 export const InfoIconWrapper = styled(Space).attrs({
-  className: font('sans-bold', 0),
+  className: typography('body', 'lg', 'strong'),
   $h: { size: 'xs', properties: ['margin-right'] },
 })`
   float: left;
@@ -40,7 +40,15 @@ const InfoBox: FunctionComponent<Props> = ({
 }) => {
   return (
     <div data-component="info-box">
-      <h2 className={font('brand-bold', hasBiggerHeading ? 2 : 1)}>{title}</h2>
+      <h2
+        className={
+          hasBiggerHeading
+            ? typography('heading', 'xl', 'strong', 'brand')
+            : typography('heading', 'lg', 'strong', 'brand')
+        }
+      >
+        {title}
+      </h2>
 
       <InfoContainer>
         {items.map(({ title, description, icon }, i) => (
@@ -50,11 +58,13 @@ const InfoBox: FunctionComponent<Props> = ({
                 <Icon icon={icon} />
               </InfoIconWrapper>
             )}
-            {title && <h3 className={font('sans-bold', -1)}>{title}</h3>}
+            {title && (
+              <h3 className={typography('body', 'md', 'strong')}>{title}</h3>
+            )}
             {description && (
               <Space
                 $v={{ size: 'sm', properties: ['margin-bottom'] }}
-                className={font('sans', -1)}
+                className={typography('body', 'md', 'regular')}
               >
                 <PrismicHtmlBlock html={description} />
               </Space>
