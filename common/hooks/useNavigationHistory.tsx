@@ -12,6 +12,7 @@ import {
 type HistoryContextType = {
   back: () => void;
   forward: () => void;
+  reset: () => void;
   canGoBack: boolean;
   canGoForward: boolean;
   isNavigating: boolean;
@@ -31,6 +32,7 @@ export const HistoryProvider: FunctionComponent<PropsWithChildren> = ({
   const isInitialized = useRef(false);
   const isNavigatingRef = useRef(false);
   const previousPathRef = useRef<string | null>(null);
+  const shouldPersist = useRef(true);
 
   // Step 1: Initialize on mount - handles all page loads (fresh and full-page navigation)
   useEffect(() => {
@@ -69,6 +71,7 @@ export const HistoryProvider: FunctionComponent<PropsWithChildren> = ({
     setStack([currentPath]);
     setIndex(0);
     previousPathRef.current = currentPath;
+    shouldPersist.current = true; // Re-enable persistence for fresh start
     isInitialized.current = true;
   }, [router.asPath]);
 
@@ -120,10 +123,24 @@ export const HistoryProvider: FunctionComponent<PropsWithChildren> = ({
     router.replace(targetPath);
   };
 
+  const reset = () => {
+    if (typeof window === 'undefined') return;
+
+    // Prevent Step 4 from persisting after reset
+    shouldPersist.current = false;
+
+    // Allow Step 1 to re-initialize on next page
+    isInitialized.current = false;
+
+    // Clear sessionStorage
+    sessionStorage.removeItem(NAVIGATION_HISTORY_STORAGE_KEY);
+  };
+
   // Step 4: Persist to sessionStorage whenever stack or index changes
   useEffect(() => {
     if (!isInitialized.current) return;
     if (typeof window === 'undefined') return;
+    if (!shouldPersist.current) return; // Skip if reset was called
     if (stack.length === 0 || index < 0) return; // Don't save invalid state
 
     try {
@@ -141,6 +158,7 @@ export const HistoryProvider: FunctionComponent<PropsWithChildren> = ({
       value={{
         back,
         forward,
+        reset,
         canGoBack: index > 0,
         canGoForward: index < stack.length - 1,
         isNavigating,
