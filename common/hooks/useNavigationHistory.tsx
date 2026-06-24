@@ -171,7 +171,15 @@ export const HistoryProvider: FunctionComponent<PropsWithChildren> = ({
 
 export const useNavigationHistory = () => {
   const ctx = useContext(HistoryContext);
-  if (!ctx)
-    throw new Error('useNavigationHistory must be used within HistoryProvider');
-  return ctx;
+
+  return (
+    ctx ?? {
+      back: () => {},
+      forward: () => {},
+      reset: () => {},
+      canGoBack: false,
+      canGoForward: false,
+      isNavigating: false,
+    }
+  );
 };
