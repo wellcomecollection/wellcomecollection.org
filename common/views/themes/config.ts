@@ -66,12 +66,19 @@ const colors = {
   'focus.yellow': '#ffea00',
 };
 
+const colorKeyToVarName = (key: string): string =>
+  '--color-' + key.replace(/\./g, '-');
+
+export const colorCustomProperties = `:root {\n${Object.entries(colors)
+  .map(([key, value]) => `  ${colorKeyToVarName(key)}: ${value};`)
+  .join('\n')}\n}`;
+
 const getColor = (name: PaletteColor): string => {
   // In some cases, these get passed in, see ButtonColors for example.
   // But better not to use it if possible.
   if (['currentColor', 'transparent', 'inherit'].includes(name)) return name;
 
-  return colors[name];
+  return `var(${colorKeyToVarName(name)})`;
 };
 
 export const sizes = {
@@ -349,7 +356,7 @@ export const themeValues = {
   sizes,
   gutter,
   basicBoxShadow: `0 2px 8px 0 rgb(18, 18, 18, 0.4)`,
-  focusBoxShadow: `0 0 0 3px ${colors['focus.yellow']}`,
+  focusBoxShadow: `0 0 0 3px var(--color-focus-yellow)`,
   keyframes: {
     hoverBounce: keyframes`
       0% {
