@@ -148,7 +148,7 @@ test('(5) | Browser forward button becomes enabled after going back', async ({
   await gotoWorkInKioskMode('eudv2vbg', context, page);
 
   // Navigate to next work
-  await page.getByRole('link', { name: 'Next' }).click();
+  await page.getByRole('link', { name: 'Go to next page' }).click();
   await page.waitForLoadState('networkidle');
 
   // Go back
