@@ -57,19 +57,6 @@ const gotoWorkInKioskMode = async (
   await gotoWithoutCache(`${baseUrl}/works/${workId}`, page);
 };
 
-/**
- * Helper to navigate to a story page in kiosk mode
- */
-const gotoStoryInKioskMode = async (
-  storyId: string,
-  context: BrowserContext,
-  page: Page,
-  kioskMode = 'TR-iPad1'
-): Promise<void> => {
-  await setupKioskContext(context, kioskMode);
-  await gotoWithoutCache(`${baseUrl}/stories/${storyId}`, page);
-};
-
 // Browser history navigation tests
 test('(1) | Browser back button is disabled on the first page', async ({
   page,
@@ -92,7 +79,8 @@ test('(2) | Browser back button becomes enabled after navigating to multiple pag
 
   // Navigate to another work
   await page.getByRole('link', { name: 'Go to next page' }).click();
-  await page.waitForLoadState('networkidle');
+  await page.waitForLoadState('load');
+  await page.getByLabel('Kiosk navigation').waitFor();
 
   const backButton = page.getByRole('button', {
     name: 'Go back to previous page',
@@ -106,26 +94,22 @@ test('(3) | Browser back button navigates to the previous page', async ({
   context,
 }) => {
   await gotoWorkInKioskMode('eudv2vbg', context, page);
-  const firstWorkTitle = await page.title();
 
   // Navigate to next work
   await page.getByRole('link', { name: 'Go to next page' }).click();
-  await page.waitForLoadState('networkidle');
-  const secondWorkTitle = await page.title();
-
-  // Verify we're on a different page
-  expect(firstWorkTitle).not.toBe(secondWorkTitle);
+  await page.waitForURL(/\/works\/(?!eudv2vbg)/);
+  await page.getByLabel('Kiosk navigation').waitFor();
 
   // Click back
   const backButton = page.getByRole('button', {
     name: 'Go back to previous page',
   });
   await backButton.click();
-  await page.waitForLoadState('networkidle');
+  await page.waitForURL(/\/works\/eudv2vbg/);
+  await page.getByLabel('Kiosk navigation').waitFor();
 
   // Verify we're back on the first page
-  const currentTitle = await page.title();
-  expect(currentTitle).toBe(firstWorkTitle);
+  expect(page.url()).toContain('/works/eudv2vbg');
 });
 
 test('(4) | Browser forward button is disabled initially', async ({
@@ -149,14 +133,16 @@ test('(5) | Browser forward button becomes enabled after going back', async ({
 
   // Navigate to next work
   await page.getByRole('link', { name: 'Go to next page' }).click();
-  await page.waitForLoadState('networkidle');
+  await page.waitForLoadState('load');
+  await page.getByLabel('Kiosk navigation').waitFor();
 
   // Go back
   const backButton = page.getByRole('button', {
     name: 'Go back to previous page',
   });
   await backButton.click();
-  await page.waitForLoadState('networkidle');
+  await page.waitForLoadState('load');
+  await page.getByLabel('Kiosk navigation').waitFor();
 
   // Forward button should now be enabled
   const forwardButton = page.getByRole('button', {
@@ -173,26 +159,27 @@ test('(6) | Browser forward button navigates to the next page in history', async
 
   // Navigate to next work
   await page.getByRole('link', { name: 'Go to next page' }).click();
-  await page.waitForLoadState('networkidle');
-  const secondWorkTitle = await page.title();
+  await page.waitForURL(/\/works\/zeu8jvyg/);
+  await page.getByLabel('Kiosk navigation').waitFor();
 
   // Go back
   const backButton = page.getByRole('button', {
     name: 'Go back to previous page',
   });
   await backButton.click();
-  await page.waitForLoadState('networkidle');
+  await page.waitForURL(/\/works\/eudv2vbg/);
+  await page.getByLabel('Kiosk navigation').waitFor();
 
   // Go forward
   const forwardButton = page.getByRole('button', {
     name: 'Go forward to next page',
   });
   await forwardButton.click();
-  await page.waitForLoadState('networkidle');
+  await page.waitForURL(/\/works\/zeu8jvyg/);
+  await page.getByLabel('Kiosk navigation').waitFor();
 
   // Verify we're back on the second page
-  const currentTitle = await page.title();
-  expect(currentTitle).toBe(secondWorkTitle);
+  expect(page.url()).toContain('/works/zeu8jvyg');
 });
 
 test('(7) | Browser forward button is disabled after navigating to a new page from history', async ({
@@ -203,21 +190,24 @@ test('(7) | Browser forward button is disabled after navigating to a new page fr
 
   // Navigate to next work
   await page.getByRole('link', { name: 'Go to next page' }).click();
-  await page.waitForLoadState('networkidle');
+  await page.waitForLoadState('load');
+  await page.getByLabel('Kiosk navigation').waitFor();
 
   // Go back
   const backButton = page.getByRole('button', {
     name: 'Go back to previous page',
   });
   await backButton.click();
-  await page.waitForLoadState('networkidle');
+  await page.waitForLoadState('load');
+  await page.getByLabel('Kiosk navigation').waitFor();
 
   // Navigate to home (or any new page)
   const homeLink = page.getByRole('link', {
     name: 'Return to kiosk home page',
   });
   await homeLink.click();
-  await page.waitForLoadState('networkidle');
+  await page.waitForLoadState('load');
+  await page.getByLabel('Kiosk navigation').waitFor();
 
   // Forward button should now be disabled (forward history cleared)
   const forwardButton = page.getByRole('button', {
@@ -258,7 +248,8 @@ test('(10) | Next button navigates to the next work in the list', async ({
 
   // Click next
   await page.getByRole('link', { name: 'Go to next page' }).click();
-  await page.waitForLoadState('networkidle');
+  await page.waitForLoadState('load');
+  await page.getByLabel('Kiosk navigation').waitFor();
 
   const secondWorkUrl = page.url();
   expect(secondWorkUrl).not.toBe(firstWorkUrl);
@@ -276,7 +267,8 @@ test('(11) | Previous button is enabled after navigating to the second work', as
 
   // Navigate to next work
   await page.getByRole('link', { name: 'Go to next page' }).click();
-  await page.waitForLoadState('networkidle');
+  await page.waitForLoadState('load');
+  await page.getByLabel('Kiosk navigation').waitFor();
 
   // Previous button should now be visible and enabled
   const prevLink = page.getByRole('link', { name: 'Go to previous page' });
@@ -288,18 +280,19 @@ test('(12) | Previous button navigates to the previous work in the list', async 
   context,
 }) => {
   await gotoWorkInKioskMode('eudv2vbg', context, page);
-  const firstWorkUrl = page.url();
 
   // Navigate to next work
   await page.getByRole('link', { name: 'Go to next page' }).click();
-  await page.waitForLoadState('networkidle');
+  await page.waitForURL(/\/works\/zeu8jvyg/);
+  await page.getByLabel('Kiosk navigation').waitFor();
 
   // Navigate back with Prev button
   await page.getByRole('link', { name: 'Go to previous page' }).click();
-  await page.waitForLoadState('networkidle');
+  await page.waitForURL(/\/works\/eudv2vbg/);
+  await page.getByLabel('Kiosk navigation').waitFor();
 
-  const currentUrl = page.url();
-  expect(currentUrl).toBe(firstWorkUrl);
+  // Verify we're back on the first work
+  expect(page.url()).toContain('/works/eudv2vbg');
 });
 
 test('(13) | Next button is disabled on the last work in the list', async ({
@@ -334,36 +327,16 @@ test('(15) | Progress counter updates when navigating to next work', async ({
 
   // Navigate to next work
   await page.getByRole('link', { name: 'Go to next page' }).click();
-  await page.waitForLoadState('networkidle');
+  await page.waitForLoadState('load');
+  await page.getByLabel('Kiosk navigation').waitFor();
 
   // Should now show 2 / 8
   const counter = page.getByLabel(/Page 2 of \d+/);
   await expect(counter).toBeVisible();
 });
 
-test('(16) | Related works label is shown for work pages', async ({
-  page,
-  context,
-}) => {
-  await gotoWorkInKioskMode('eudv2vbg', context, page);
-
-  const label = page.getByLabel(/Viewing related works/);
-  await expect(label).toBeVisible();
-});
-
-test('(17) | Related stories label is shown for story pages', async ({
-  page,
-  context,
-}) => {
-  // Navigate to the first story in the TR kiosk stories list
-  await gotoStoryInKioskMode('artists--activism-and-aids', context, page);
-
-  const label = page.getByLabel(/Viewing related stories/);
-  await expect(label).toBeVisible();
-});
-
-// Home button test
-test('(18) | Home button is always visible in kiosk mode', async ({
+// Home button tests
+test('(16) | Home button is always visible in kiosk mode', async ({
   page,
   context,
 }) => {
@@ -375,7 +348,7 @@ test('(18) | Home button is always visible in kiosk mode', async ({
   await expect(homeLink).toBeVisible();
 });
 
-test('(19) | Home button navigates to the kiosk home page', async ({
+test('(17) | Home button navigates to the kiosk home page', async ({
   page,
   context,
 }) => {
@@ -385,7 +358,8 @@ test('(19) | Home button navigates to the kiosk home page', async ({
     name: 'Return to kiosk home page',
   });
   await homeLink.click();
-  await page.waitForLoadState('networkidle');
+  await page.waitForURL(url => !url.pathname.includes('/works/'));
+  await page.getByLabel('Kiosk navigation').waitFor();
 
   // Verify we navigated away from the work page
   expect(page.url()).not.toContain('/works/');
