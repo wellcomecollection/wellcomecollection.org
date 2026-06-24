@@ -4,16 +4,9 @@
   "name": "Contact",
   "description": "Contact",
   "legacyPaths": {
-    "books::body::contact": "default",
-    "event-series::body::contact": "default",
     "events::body::contact": "default",
-    "exhibitions::body::contact": "default",
     "guides::body::contact": "default",
     "pages::body::contact": "default",
-    "places::body::contact": "default",
-    "projects::body::contact": "default",
-    "seasons::body::contact": "default",
-    "series::body::contact": "default",
     "visual-stories::body::contact": "default"
   },
   "variations": [
