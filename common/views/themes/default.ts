@@ -5,7 +5,12 @@ import { layout } from './base/layout';
 import { normalize } from './base/normalize';
 import { row } from './base/row';
 import { wellcomeNormalize } from './base/wellcome-normalize';
-import { colorCustomProperties, Size, themeValues } from './config';
+import {
+  colorCustomProperties,
+  darkModeColorCustomProperties,
+  Size,
+  themeValues,
+} from './config';
 import {
   makeCompositeTypographyClasses,
   makeFontSizeClasses,
@@ -49,6 +54,7 @@ const cls = {
 
 const GlobalStyle = createGlobalStyle<{ $compositeTypography: boolean }>`
   ${colorCustomProperties}
+  ${darkModeColorCustomProperties}
   ${css`
     .${cls.displayBlock} {
       display: block;

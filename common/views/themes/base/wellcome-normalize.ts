@@ -6,6 +6,17 @@ export const focusStyle = css`
 `;
 
 export const wellcomeNormalize = css`
+  :root {
+    /* Tells the browser to adapt scrollbars, form controls, and the UA canvas
+       to the OS colour scheme. Without this, native controls stay light in dark mode. */
+    color-scheme: light dark;
+  }
+
+  html,
+  body {
+    background-color: ${props => props.theme.color('white')};
+  }
+
   input,
   button {
     border-radius: 0;

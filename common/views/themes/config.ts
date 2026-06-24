@@ -73,6 +73,55 @@ export const colorCustomProperties = `:root {\n${Object.entries(colors)
   .map(([key, value]) => `  ${colorKeyToVarName(key)}: ${value};`)
   .join('\n')}\n}`;
 
+// Starting-point dark mode palette — values here need design review.
+// The neutrals mirror the lightness scale in reverse; accents are lightly
+// adjusted for contrast on dark surfaces; core black/white swap.
+const darkModeColors: typeof colors = {
+  // Core
+  white: '#121212',
+  black: '#ffffff',
+  yellow: '#ffce3c',
+  lightYellow: '#3d2e00',
+
+  // Accents — regular variants slightly lightened; light variants become dark surfaces
+  'accent.purple': '#9b71b8',
+  'accent.lightPurple': '#2d1e3d',
+  'accent.turquoise': '#23d4d0',
+  'accent.lightTurquoise': '#0d2e2e',
+  'accent.blue': '#6b9fd4',
+  'accent.lightBlue': '#0d1e2e',
+  'accent.green': '#6aaa8d',
+  'accent.lightGreen': '#1a2e24',
+  'accent.salmon': '#ff8a73',
+  'accent.lightSalmon': '#3d1a10',
+
+  // Neutrals — lightness scale mirrored (97→10, 91→15, 85→22, 56≈56, 42→62, 20→85)
+  'neutral.200': '#1a1a1a',
+  'neutral.300': '#262626',
+  'neutral.400': '#383838',
+  'neutral.500': '#8f8f8f',
+  'neutral.600': '#a0a0a0',
+  'neutral.700': '#d9d9d9',
+
+  // Warm neutrals — dark surfaces with a warm yellow tint
+  'warmNeutral.200': '#1a1900',
+  'warmNeutral.300': '#262510',
+  'warmNeutral.400': '#353420',
+
+  // Validation — lightened for sufficient contrast on dark backgrounds
+  'validation.red': '#ff6b6b',
+  'validation.green': '#4caf87',
+
+  // Focus — unchanged; must remain high contrast in all modes
+  'focus.yellow': '#ffea00',
+};
+
+export const darkModeColorCustomProperties = `@media (prefers-color-scheme: dark) {\n  :root {\n${Object.entries(
+  darkModeColors
+)
+  .map(([key, value]) => `    ${colorKeyToVarName(key)}: ${value};`)
+  .join('\n')}\n  }\n}`;
+
 const getColor = (name: PaletteColor): string => {
   // In some cases, these get passed in, see ButtonColors for example.
   // But better not to use it if possible.
