@@ -26,6 +26,7 @@ import useMaintainPageHeight from '@weco/common/services/app/useMaintainPageHeig
 import usePrismicPreview from '@weco/common/services/app/usePrismicPreview';
 import { deserialiseProps } from '@weco/common/utils/json';
 import CivicUK from '@weco/common/views/components/CivicUK';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import GlobalSvgDefinitions from '@weco/common/views/components/GlobalSvgDefinitions';
 import InactivityRedirect from '@weco/common/views/components/InactivityRedirect';
 import InfoBanner from '@weco/common/views/components/InfoBanner';
@@ -170,73 +171,46 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
           <UserContextProvider>
             <AppContextProvider>
               <SearchContextProvider>
-                {kioskModeCookie ? (
-                  <KioskProvider
-                    cookieContent={kioskModeCookie}
-                    readingRoomStories={serverData.prismic.readingRoomStories}
-                  >
-                    <GlobalStyle
-                      $compositeTypography={
-                        !!serverData.toggles.featureFlags.compositeTypography
-                      }
+                <ConditionalWrapper
+                  condition={!!kioskModeCookie}
+                  wrapper={children => (
+                    <KioskProvider
+                      cookieContent={kioskModeCookie!}
+                      readingRoomStories={serverData.prismic.readingRoomStories}
+                    >
+                      {children}
+                    </KioskProvider>
+                  )}
+                >
+                  <GlobalStyle />
+
+                  <GlobalSvgDefinitions />
+                  <LoadingIndicator />
+
+                  {experienceName ===
+                    kioskExperienceNames.tendernessAndRage && (
+                    <InfoBanner variant="kioskTRBanners" />
+                  )}
+
+                  {displayCookieBanner && (
+                    <CivicUK
+                      apiKey={civicUkApiKey}
+                      defer={serverData.consentStatus.cookieExists}
                     />
+                  )}
+                  <HotjarLoader />
 
-                    <GlobalSvgDefinitions />
-                    <LoadingIndicator />
-
-                    {experienceName ===
-                      kioskExperienceNames.tendernessAndRage && (
-                      <InfoBanner variant="kioskTRBanners" />
-                    )}
-
-                    {displayCookieBanner && (
-                      <CivicUK
-                        apiKey={civicUkApiKey}
-                        defer={serverData.consentStatus.cookieExists}
-                      />
-                    )}
-                    <HotjarLoader />
-
-                    {!pageProps.err &&
-                      getLayout(<Component {...componentProps} />)}
-                    {pageProps.err && (
-                      <ErrorPage
-                        statusCode={pageProps.err.statusCode}
-                        title={pageProps.err.message}
-                      />
-                    )}
-
-                    <InactivityRedirect />
-                  </KioskProvider>
-                ) : (
-                  <>
-                    <GlobalStyle
-                      $compositeTypography={
-                        !!serverData.toggles.featureFlags.compositeTypography
-                      }
+                  {!pageProps.err &&
+                    getLayout(<Component {...componentProps} />)}
+                  {pageProps.err && (
+                    <ErrorPage
+                      statusCode={pageProps.err.statusCode}
+                      title={pageProps.err.message}
                     />
+                  )}
 
-                    <GlobalSvgDefinitions />
-                    <LoadingIndicator />
-
-                    {displayCookieBanner && (
-                      <CivicUK
-                        apiKey={civicUkApiKey}
-                        defer={serverData.consentStatus.cookieExists}
-                      />
-                    )}
-                    <HotjarLoader />
-
-                    {!pageProps.err &&
-                      getLayout(<Component {...componentProps} />)}
-                    {pageProps.err && (
-                      <ErrorPage
-                        statusCode={pageProps.err.statusCode}
-                        title={pageProps.err.message}
-                      />
-                    )}
-                  </>
-                )}
+                  {kioskModeCookie && <InactivityRedirect />}
+                </ConditionalWrapper>
               </SearchContextProvider>
             </AppContextProvider>
           </UserContextProvider>
