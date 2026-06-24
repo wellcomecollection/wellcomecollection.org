@@ -8,7 +8,8 @@ import {
   useKiosksContent,
 } from '@weco/common/contexts/KioskContext';
 import { KiosksContentType } from '@weco/common/contexts/KioskContext/kiosks-content';
-import { arrowSmall, home } from '@weco/common/icons';
+import { useNavigationHistory } from '@weco/common/hooks/useNavigationHistory';
+import { arrowSmall, chevron, home } from '@weco/common/icons';
 import { useModes } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
@@ -18,6 +19,7 @@ const KioskNavigationWrapper = styled(Space).attrs({
   $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
   $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
   className: font('sans', -1),
+  as: 'nav',
 })`
   height: ${props => props.theme.kioskNavigationHeight}px;
   position: fixed;
@@ -30,6 +32,33 @@ const KioskNavigationWrapper = styled(Space).attrs({
   display: flex;
   align-items: center;
   justify-content: space-between;
+`;
+
+const LeftSection = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+`;
+
+const HistoryNavigation = styled.div`
+  display: flex;
+  gap: 12px;
+`;
+
+const HistoryButton = styled.button`
+  width: 24px;
+  height: 24px;
+  color: inherit;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  &:hover:not(:disabled) {
+    opacity: 0.8;
+  }
 `;
 
 const HomeLink = styled(Link)`
@@ -53,7 +82,7 @@ const DisabledHomeLink = styled.div`
   opacity: 0.5;
 `;
 
-const NavigationLinks = styled.nav`
+const RightSection = styled.nav`
   display: flex;
   align-items: center;
   ${props => `gap: ${props.theme.gutter.medium};`}
@@ -177,6 +206,8 @@ export const KioskNavigation: FunctionComponent<Props> = memo(
     const isOnHomePage =
       currentPathname === '/' || currentPathname === kioskHomepageUrl;
 
+    const { back, forward, canGoBack, canGoForward } = useNavigationHistory();
+
     const navigation = useMemo(
       () =>
         pageId
@@ -208,21 +239,41 @@ export const KioskNavigation: FunctionComponent<Props> = memo(
         data-component="kiosk-navigation"
         aria-label="Kiosk navigation"
       >
-        {isOnHomePage ? (
-          <DisabledHomeLink aria-disabled="true" aria-current="page">
-            <Icon icon={home} aria-hidden="true" />
-            <span>Back to: Home</span>
-          </DisabledHomeLink>
-        ) : (
-          <HomeLink
-            href={kioskHomepageUrl || '/'}
-            aria-label="Return to kiosk home page"
-          >
-            <Icon icon={home} aria-hidden="true" />
-            <span>Back to: Home</span>
-          </HomeLink>
-        )}
-        <NavigationLinks aria-label="Content navigation">
+        <LeftSection>
+          <HistoryNavigation aria-label="Browser navigation">
+            <HistoryButton
+              type="button"
+              onClick={back}
+              disabled={!canGoBack}
+              aria-label="Go back to previous page"
+            >
+              <Icon icon={chevron} rotate={90} aria-hidden="true" />
+            </HistoryButton>
+            <HistoryButton
+              type="button"
+              onClick={forward}
+              disabled={!canGoForward}
+              aria-label="Go forward to next page"
+            >
+              <Icon icon={chevron} rotate={270} aria-hidden="true" />
+            </HistoryButton>
+          </HistoryNavigation>
+          {isOnHomePage ? (
+            <DisabledHomeLink aria-disabled="true" aria-current="page">
+              <Icon icon={home} aria-hidden="true" />
+              <span>Back to: Home</span>
+            </DisabledHomeLink>
+          ) : (
+            <HomeLink
+              href={kioskHomepageUrl || '/'}
+              aria-label="Return to kiosk home page"
+            >
+              <Icon icon={home} aria-hidden="true" />
+              <span>Back to: Home</span>
+            </HomeLink>
+          )}
+        </LeftSection>
+        <RightSection aria-label="Content navigation">
           {navigation && !isReadingRoomKiosk && (
             <>
               <span aria-label={`Viewing ${label.toLowerCase()}`}>{label}</span>
@@ -267,7 +318,7 @@ export const KioskNavigation: FunctionComponent<Props> = memo(
               )}
             </>
           )}
-        </NavigationLinks>
+        </RightSection>
       </KioskNavigationWrapper>
     );
   }
