@@ -42,28 +42,22 @@ export const HistoryProvider: FunctionComponent<PropsWithChildren> = ({
       try {
         const { stack: storedStack, index: storedIndex } = JSON.parse(stored);
 
-        // Validate: index must be within stack bounds
-        if (
-          storedIndex >= 0 &&
-          storedIndex < storedStack.length &&
-          Array.isArray(storedStack)
-        ) {
-          // Check if current page matches what's at the stored index
-          if (storedStack[storedIndex] === currentPath) {
-            // Page reload on same page - just restore
-            setStack(storedStack);
-            setIndex(storedIndex);
-          } else {
-            // Navigated to different page via full page load - add it
-            const newStack = storedStack.slice(0, storedIndex + 1);
-            newStack.push(currentPath);
-            setStack(newStack);
-            setIndex(storedIndex + 1);
-          }
-          isInitialized.current = true;
-          return;
+        // Check if current page matches what's at the stored index
+        if (storedStack[storedIndex] === currentPath) {
+          // Page reload on same page - just restore
+          setStack(storedStack);
+          setIndex(storedIndex);
+        } else {
+          // Navigated to different page via full page load - add it
+          const newStack = storedStack.slice(0, storedIndex + 1);
+          newStack.push(currentPath);
+          setStack(newStack);
+          setIndex(storedIndex + 1);
         }
+        isInitialized.current = true;
+        return;
       } catch (error) {
+        // If restore fails, fall through to initialize fresh
         console.error('[History] Failed to restore:', error);
       }
     }
