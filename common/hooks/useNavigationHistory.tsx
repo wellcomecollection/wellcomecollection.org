@@ -132,6 +132,13 @@ export const HistoryProvider: FunctionComponent<PropsWithChildren> = ({
     // Allow Step 1 to re-initialize on next page
     isInitialized.current = false;
 
+    // Clear in-memory state so UI updates immediately (e.g. disable back/forward)
+    setStack([]);
+    setIndex(-1);
+    setIsNavigating(false);
+    isNavigatingRef.current = false;
+    previousPathRef.current = null;
+
     // Clear sessionStorage
     sessionStorage.removeItem(NAVIGATION_HISTORY_STORAGE_KEY);
   };
