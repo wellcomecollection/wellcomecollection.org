@@ -74,7 +74,9 @@ type GridProps = {
   $hasMultipleCanvases?: boolean;
 };
 
-const Grid = styled.div<GridProps>`
+const Grid = styled.div.attrs<{ 'data-color-scheme': 'light' }>({
+  'data-color-scheme': 'light',
+})<GridProps>`
   display: grid;
   height: ${props =>
     props.$isFullSupportBrowser
