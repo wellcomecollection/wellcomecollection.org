@@ -134,15 +134,15 @@ export function transformGenericFieldsFromRelationship(field: {
 
   // Only process body if it exists in the fetched data
   // (not all relationships include body in fetchLinks)
-  const untransformedBody = (
-    Array.isArray(data.body) && data.body.length > 0 ? data.body : []
-  ) as prismic.SliceZone<PagesDocumentDataBodySlice>;
+  const untransformedBody = (Array.isArray(data.body) && data.body.length > 0
+    ? data.body
+    : []) as unknown as prismic.SliceZone<PagesDocumentDataBodySlice>;
 
   const untransformedStandfirst =
     untransformedBody.length > 0
-      ? (untransformedBody.find(
-          (slice: prismic.Slice) => slice.slice_type === 'standfirst'
-        ) as RawStandfirstSlice | undefined)
+      ? (untransformedBody.find(slice => slice.slice_type === 'standfirst') as
+          | RawStandfirstSlice
+          | undefined)
       : undefined;
 
   const metadataDescription =
@@ -234,9 +234,10 @@ export function transformGenericFields(
     ? transformImage(primaryPromo.primary.image)
     : undefined;
 
-  const untransformedBody = data?.body || [];
+  const untransformedBody = (data?.body ||
+    []) as unknown as prismic.SliceZone<PagesDocumentDataBodySlice>;
   const untransformedStandfirst = untransformedBody.find(
-    (slice: prismic.Slice) => slice.slice_type === 'standfirst'
+    slice => slice.slice_type === 'standfirst'
   ) as RawStandfirstSlice | undefined;
   const metadataDescription = isGenericDocWithMetaDescription(doc)
     ? asText(doc.data.metadataDescription)

@@ -6,6 +6,7 @@
     "migrate": "tsx ./scripts/migrate",
     "contentAnalysis": "tsx ./scripts/contentAnalysis",
     "sliceAnalysis": "tsx ./scripts/sliceAnalysis",
+    "unusedSlicesReport": "tsx ./scripts/unusedSlicesReport",
     "diffCustomTypes": "tsx ./scripts/diffCustomTypes",
     "downloadSnapshot": "tsx ./scripts/downloadSnapshot",
     "lintPrismicData": "tsx ./scripts/lintPrismicData",

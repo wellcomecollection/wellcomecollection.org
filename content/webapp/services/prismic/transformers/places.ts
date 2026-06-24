@@ -5,11 +5,7 @@ import { isFilledLinkToDocumentWithTypedData } from '@weco/common/services/prism
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { Place } from '@weco/content/types/places';
 
-import {
-  asTitle,
-  transformGenericFields,
-  transformGenericFieldsFromRelationship,
-} from '.';
+import { asTitle } from '.';
 
 /**
  * Transform a place from a Prismic content relationship.
@@ -35,18 +31,12 @@ export function transformPlaceFromRelationship(
   }
 
   const data = maybeField.data;
-  const genericFields = transformGenericFieldsFromRelationship({
-    id: maybeField.id,
-    data: data as unknown as Record<string, unknown>,
-  });
-
-  const title = Array.isArray(data.title)
-    ? asTitle(data.title as prismic.RichTextField)
-    : genericFields.title;
 
   return {
-    ...genericFields,
-    title,
+    id: maybeField.id,
+    title: Array.isArray(data.title)
+      ? asTitle(data.title as prismic.RichTextField)
+      : '',
     level: data.level || 0,
     capacity: data.capacity || undefined,
     information: data.locationInformation || undefined,
@@ -64,9 +54,9 @@ export function transformPlacesFromRelationshipGroup(
 }
 
 export function transformPlace(doc: RawPlacesDocument): Place {
-  const genericFields = transformGenericFields(doc);
   return {
-    ...genericFields,
+    id: doc.id,
+    title: doc.data.title ? asTitle(doc.data.title) : '',
     level: doc.data.level || 0,
     capacity: doc.data.capacity || undefined,
     information: doc.data.locationInformation
