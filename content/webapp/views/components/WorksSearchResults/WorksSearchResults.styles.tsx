@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 
 export const Container = styled.div`
@@ -58,7 +58,7 @@ export const Details = styled.div`
 `;
 
 export const WorkInformation = styled(Space).attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
   $v: { size: '2xs', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.600')};
@@ -77,7 +77,7 @@ export const WorkInformationItemSeparator = styled.span`
 `;
 
 export const WorkTitleHeading = styled.h3.attrs({
-  className: font('sans-bold', 0),
+  className: typography('body', 'lg', 'strong'),
 })`
   margin-bottom: 0.5rem;
 `;

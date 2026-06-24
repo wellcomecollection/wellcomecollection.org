@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { bornDigitalWarning } from '@weco/common/data/microcopy';
 import { file, pdf } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Buttons from '@weco/common/views/components/Buttons';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
@@ -69,14 +69,16 @@ const IIIFItemDownload: FunctionComponent<Props> = ({
       />
 
       <Space
-        className={font('sans-bold', -1)}
+        className={typography('body', 'md', 'strong')}
         $v={{ size: 'sm', properties: ['margin-top', 'margin-bottom'] }}
       >
         {displayLabel}
       </Space>
 
       {showWarning && (
-        <div className={font('sans', -2)}>{bornDigitalWarning}</div>
+        <div className={typography('body', 'sm', 'regular')}>
+          {bornDigitalWarning}
+        </div>
       )}
 
       <Buttons
@@ -90,9 +92,11 @@ const IIIFItemDownload: FunctionComponent<Props> = ({
         }}
       />
 
-      <span className={font('sans', -2)}>
+      <span className={typography('body', 'sm', 'regular')}>
         Size:{' '}
-        <span className={font('sans-bold', -2)}>{fileSize || 'unknown'}</span>
+        <span className={typography('body', 'sm', 'strong')}>
+          {fileSize || 'unknown'}
+        </span>
       </span>
     </DownloadContainer>
   );

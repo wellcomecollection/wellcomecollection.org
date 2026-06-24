@@ -6,7 +6,7 @@ import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { useActiveAnchor } from '@weco/common/hooks/useActiveAnchor';
 import { cross } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
 import { SizeMap } from '@weco/common/views/components/styled/Grid';
@@ -221,7 +221,9 @@ const InPageNavigation: FunctionComponent<Props> = ({
         }}
       >
         <Root $hasStuck={hasStuck} data-in-page-navigation="true">
-          <h2 className={`${font('sans-bold', -1)} is-hidden-s is-hidden-m`}>
+          <h2
+            className={`${typography('body', 'md', 'strong')} is-hidden-s is-hidden-m`}
+          >
             {titleText}
           </h2>
 

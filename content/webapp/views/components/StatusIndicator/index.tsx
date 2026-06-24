@@ -1,7 +1,7 @@
 // eslint-data-component: intentionally omitted
 import { FunctionComponent } from 'react';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import {
   addDays,
   isFuture,
@@ -55,7 +55,11 @@ const StatusIndicator: FunctionComponent<Props> = ({
 
   return (
     <TextWithDot
-      className={isLarge ? font('sans', 0) : font('sans', -1)}
+      className={
+        isLarge
+          ? typography('body', 'lg', 'regular')
+          : typography('body', 'md', 'regular')
+      }
       dotColor={color}
       text={text}
     />

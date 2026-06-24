@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { check } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 
 const PlayRateContainer = styled.div`
@@ -13,7 +13,7 @@ const PlayRateContainer = styled.div`
 `;
 
 const TogglePlayRateButton = styled.button.attrs({
-  className: font('sans', -2),
+  className: typography('body', 'sm', 'regular'),
 })<{ $isDark: boolean }>`
   anchor-name: --play-rate-button;
   color: ${props =>
@@ -34,7 +34,7 @@ const TogglePlayRateButton = styled.button.attrs({
 
 const PlayRateButton = styled.div.attrs({
   as: 'button',
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })<{
   $isDark: boolean;
 }>`
@@ -166,7 +166,9 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
           aria-expanded={isPlayRateActive}
         >
           Speed
-          <span className={font('sans-bold', 0)}>{audioPlaybackRate}x</span>
+          <span className={typography('body', 'lg', 'strong')}>
+            {audioPlaybackRate}x
+          </span>
         </TogglePlayRateButton>
         <PlayRateList popover="auto" ref={popoverRef} id={id} $isDark={isDark}>
           <ul>

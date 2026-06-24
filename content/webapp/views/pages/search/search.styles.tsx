@@ -1,12 +1,12 @@
 import NextLink from 'next/link';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 
 export const WorksLink = styled(NextLink).attrs({
-  className: font('sans', -2),
+  className: typography('body', 'sm', 'regular'),
 })`
   border: 2px solid;
   padding: 4px 12px;
@@ -53,7 +53,7 @@ export const CatalogueSectionTitle = styled(Space).attrs<{
   $isSmallGallery?: boolean;
 }>(props => ({
   as: 'h3',
-  className: `${font('sans-bold', 0)} is-hidden-s is-hidden-m`,
+  className: `${typography('body', 'lg', 'strong')} is-hidden-s is-hidden-m`,
   $v: props.$isSmallGallery
     ? { size: 'sm', properties: ['margin-bottom'] }
     : undefined,
@@ -62,7 +62,7 @@ export const CatalogueSectionTitle = styled(Space).attrs<{
 `;
 
 export const AllLink = styled(NextLink).attrs({
-  className: font('sans-bold', -1),
+  className: typography('body', 'md', 'strong'),
 })`
   display: inline-flex;
   align-items: center;

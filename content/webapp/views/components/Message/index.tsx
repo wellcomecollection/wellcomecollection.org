@@ -1,11 +1,11 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 
 const Wrapper = styled(Space).attrs({
-  className: font('sans-bold', -1),
+  className: typography('body', 'md', 'strong'),
   $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
   $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
 })`

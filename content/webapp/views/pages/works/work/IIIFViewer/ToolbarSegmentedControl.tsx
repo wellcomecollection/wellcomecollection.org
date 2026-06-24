@@ -2,7 +2,7 @@ import { FunctionComponent, SyntheticEvent } from 'react';
 import styled from 'styled-components';
 
 import { IconSvg } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
@@ -32,7 +32,7 @@ const Button = styled.button.attrs({
 
 const ButtonInner = styled(Space).attrs({
   as: 'span',
-  className: font('sans-bold', -1),
+  className: typography('body', 'md', 'strong'),
   $h: { size: '2xs', properties: ['padding-right', 'padding-left'] },
   $v: { size: '2xs', properties: ['padding-top', 'padding-bottom'] },
 })`

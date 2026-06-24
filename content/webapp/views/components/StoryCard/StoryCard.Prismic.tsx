@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import {
@@ -21,14 +21,14 @@ import {
 import PartNumberIndicator from '@weco/content/views/components/PartNumberIndicator';
 
 const Caption = styled.p.attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })`
   display: inline-block;
   margin: 0;
 `;
 
 const PartOf = styled.div.attrs({
-  className: font('sans-bold', -2),
+  className: typography('body', 'sm', 'strong'),
 })`
   margin: 0;
 `;
@@ -102,7 +102,10 @@ const StoryCard: FunctionComponent<Props> = ({
         <CardPostBody>
           {article.series.map(series => (
             <PartOf key={series.id}>
-              <span className={font('sans', -2)}>Part of</span> {series.title}
+              <span className={typography('body', 'sm', 'regular')}>
+                Part of
+              </span>{' '}
+              {series.title}
             </PartOf>
           ))}
         </CardPostBody>

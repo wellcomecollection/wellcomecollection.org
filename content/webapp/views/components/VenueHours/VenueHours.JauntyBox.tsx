@@ -3,7 +3,7 @@ import {
   ExceptionalOpeningHoursDay,
   Venue,
 } from '@weco/common/model/opening-hours';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { formatDayName } from '@weco/common/utils/format-date';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
@@ -40,7 +40,7 @@ const VenueHoursJauntyBox = ({
       $bottomRight={randomPx()}
       $bottomLeft={randomPx()}
     >
-      <h3 className={font('sans-bold', -1)}>
+      <h3 className={typography('body', 'md', 'strong')}>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <Space as="span" $h={{ size: 'xs', properties: ['margin-right'] }}>
             <Icon icon={clock} />

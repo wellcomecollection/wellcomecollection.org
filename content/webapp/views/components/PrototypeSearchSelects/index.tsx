@@ -3,7 +3,7 @@ import { FunctionComponent } from 'react';
 import { useEffect, useState } from 'react';
 
 import { useFeatureFlags } from '@weco/common/server-data/Context';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { SEARCH_PAGES_FORM_ID } from '@weco/common/utils/search';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import Space from '@weco/common/views/components/styled/Space';
@@ -68,7 +68,9 @@ const PrototypeSearchSelects: FunctionComponent<Props> = ({
             data-component="prototype-search-selects"
           >
             <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
-              <h1 className={font('sans-bold', -1)}>Search the catalogue</h1>
+              <h1 className={typography('body', 'md', 'strong')}>
+                Search the catalogue
+              </h1>
             </Space>
             <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
               {semanticSearchPrototype && (

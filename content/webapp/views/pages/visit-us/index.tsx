@@ -4,7 +4,7 @@ import { FunctionComponent } from 'react';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { usePrismicData } from '@weco/common/server-data/Context';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import FindUs from '@weco/common/views/components/FindUs';
 import {
   ContaineredLayout,
@@ -35,9 +35,12 @@ const VisitUsStaticContent: FunctionComponent = () => {
           </GridCell>
           <GridCell
             $sizeMap={{ s: [12], l: [5], xl: [5] }}
-            className={font('sans', -1)}
+            className={typography('body', 'md', 'regular')}
           >
-            <h2 style={{ marginBottom: 0 }} className={font('sans-bold', -1)}>
+            <h2
+              style={{ marginBottom: 0 }}
+              className={typography('body', 'md', 'strong')}
+            >
               Today’s opening times
             </h2>
             <OpeningTimes venues={venues} />

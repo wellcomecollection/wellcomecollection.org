@@ -1,6 +1,6 @@
 import { ComponentPropsWithoutRef, FunctionComponent } from 'react';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Number from '@weco/content/views/components/Number';
 
 type NumberProps = ComponentPropsWithoutRef<typeof Number>;
@@ -15,7 +15,7 @@ const PartNumberIndicator: FunctionComponent<Props> = ({
 }) => (
   <div
     data-component="part-number-indicator"
-    className={font('brand-bold', -1)}
+    className={typography('heading', 'sm', 'strong', 'brand')}
   >
     {description}
     <Number {...numberProps} />

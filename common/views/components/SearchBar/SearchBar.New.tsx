@@ -11,7 +11,7 @@ import styled, { useTheme } from 'styled-components';
 import Typed from 'typed.js';
 
 import { search } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import TextInput from '@weco/common/views/components/TextInput';
 import { visuallyHiddenStyles } from '@weco/common/views/themes/utility-classes';
@@ -22,7 +22,7 @@ const Container = styled.div`
 `;
 
 const Typewriter = styled.div.attrs({
-  className: font('sans', 1),
+  className: typography('body', 'xl', 'regular'),
   'aria-hidden': 'true',
 })`
   position: absolute;

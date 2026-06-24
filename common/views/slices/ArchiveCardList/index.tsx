@@ -2,7 +2,7 @@ import { SliceComponentProps } from '@prismicio/react';
 import { FunctionComponent } from 'react';
 
 import { ArchiveCardListSlice as RawArchiveCardListSlice } from '@weco/common/prismicio-types';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { Container } from '@weco/common/views/components/styled/Container';
 import {
@@ -58,7 +58,9 @@ const ArchiveCardListSlice: FunctionComponent<ArchiveCardListSliceProps> = ({
       <Container>
         {title && (
           <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
-            <h2 className={font('sans-bold', 2)}>{title}</h2>
+            <h2 className={typography('heading', 'xl', 'strong', 'sans')}>
+              {title}
+            </h2>
           </Space>
         )}
         <Grid>

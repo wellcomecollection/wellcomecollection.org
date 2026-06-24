@@ -10,7 +10,7 @@ import styled from 'styled-components';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { file, imageFile } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
 import {
@@ -27,7 +27,7 @@ import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
 import { controlDimensions } from '@weco/content/views/pages/works/work/work.helpers';
 
 export const DownloadTable = styled.table.attrs({
-  className: font('sans', -2),
+  className: typography('body', 'sm', 'regular'),
 })<{ $padFirstHeading?: boolean; $isActive?: boolean }>`
   border-collapse: collapse;
   position: relative;

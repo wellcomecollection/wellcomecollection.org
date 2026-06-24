@@ -2,13 +2,15 @@ import { FunctionComponent, ReactNode } from 'react';
 import styled from 'styled-components';
 
 import { download } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
 const DownloadLinkStyle = styled.a.attrs<{ $isDark?: boolean }>(props => ({
-  className: props.$isDark ? font('sans', -1) : font('sans-bold', -1),
+  className: props.$isDark
+    ? typography('body', 'md', 'regular')
+    : typography('body', 'md', 'strong'),
 }))<{ $isDark?: boolean }>`
   display: inline-block;
   white-space: nowrap;
@@ -33,7 +35,9 @@ const DownloadLinkUnStyled = styled.a<{ $isDark?: boolean }>`
 `;
 
 const Format = styled(Space).attrs<{ $isDark?: boolean }>(props => ({
-  className: props.$isDark ? font('sans', -1) : font('sans-bold', -1),
+  className: props.$isDark
+    ? typography('body', 'md', 'regular')
+    : typography('body', 'md', 'strong'),
   $h: { size: 'sm', properties: ['margin-left'] },
 }))<{ $isDark?: boolean }>`
   color: ${props =>

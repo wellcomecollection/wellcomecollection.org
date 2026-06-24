@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
 import { Concept } from '@weco/content/services/wellcome/catalogue/types';
@@ -61,7 +61,7 @@ const ConceptSearchResult: FunctionComponent<{
               )}
 
             <ConceptInformation>
-              <span className={font('sans-bold', -1)}>
+              <span className={typography('body', 'md', 'strong')}>
                 Type: {concept.type}
               </span>
               {concept.id && (

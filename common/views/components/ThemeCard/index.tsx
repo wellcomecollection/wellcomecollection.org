@@ -3,13 +3,13 @@ import { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
 
 import { LinkProps } from '@weco/common/model/link-props';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Space from '@weco/common/views/components/styled/Space';
 import { ConceptImagesArray } from '@weco/content/hooks/useConceptImageUrls';
 
 const Title = styled(Space).attrs({
-  className: font('brand', 1),
+  className: typography('heading', 'lg', 'regular', 'brand'),
   as: 'h3',
   $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
@@ -98,7 +98,7 @@ const TextContent = styled(Space).attrs({
 `;
 
 const Description = styled.p.attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })`
   margin-bottom: 0;
 `;

@@ -3,7 +3,7 @@ import { FunctionComponent } from 'react';
 import styled, { useTheme } from 'styled-components';
 
 import { LinkProps } from '@weco/common/model/link-props';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import {
   SolidButtonStyledProps,
   StyledButtonCSS,
@@ -31,7 +31,7 @@ type PartWithSeparatorProps = {
 const nbsp = '\\00a0';
 
 const PartWithSeparator = styled.span.attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })<PartWithSeparatorProps>`
   &::after {
     display: ${props => (props.$isLast ? 'none' : 'inline')};
@@ -91,8 +91,8 @@ const Tags: FunctionComponent<Props> = ({
                       <span
                         className={
                           i === 0 && isFirstPartBold
-                            ? font('sans-bold', -1)
-                            : font('sans', -1)
+                            ? typography('body', 'md', 'strong')
+                            : typography('body', 'md', 'regular')
                         }
                       >
                         {part}

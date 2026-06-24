@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 
 export const StyledTasl = styled.div.attrs({
-  className: `${font('mono', -2)} plain-text tasl`, // Need the tasl class as it's used with ImageGallery styled components
+  className: `${typography('caption', 'md', 'regular')} plain-text tasl`, // Need the tasl class as it's used with ImageGallery styled components
 })<{ $positionAtTop: boolean; $isEnhanced: boolean }>`
   text-align: right;
   top: ${props => (props.$positionAtTop ? 0 : 'auto')};

@@ -2,7 +2,7 @@ import { FunctionComponent, useEffect, useState } from 'react';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { isPast } from '@weco/common/utils/dates';
 import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
@@ -132,7 +132,10 @@ const Installation: FunctionComponent<Props> = ({
     >
       {installation.end && !isPast(installation.end) && (
         <InfoBox title="Visit us" items={getInfoItems(installation)}>
-          <p className={font('sans', -1)} style={{ margin: 0 }}>
+          <p
+            className={typography('body', 'md', 'regular')}
+            style={{ margin: 0 }}
+          >
             For more information, please visit our{' '}
             <a href={`/visit-us/${prismicPageIds.access}`}>Accessibility</a>{' '}
             page. If you have any queries about accessibility, please email us
