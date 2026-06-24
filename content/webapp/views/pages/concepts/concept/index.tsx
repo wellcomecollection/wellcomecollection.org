@@ -133,7 +133,7 @@ const ConceptPage: NextPage<Props> = ({
         <MobileNavBackground $isOnWhite={!hasImages} />
 
         <Container>
-          <Grid style={{ background: 'white', rowGap: 0 }}>
+          <Grid style={{ background: 'var(--color-white)', rowGap: 0 }}>
             <InPageNavigation
               links={navLinks}
               isOnWhite={!hasImages}
@@ -142,7 +142,7 @@ const ConceptPage: NextPage<Props> = ({
 
             <GridCell $sizeMap={{ s: [12], m: [12], l: [9], xl: [10] }}>
               {shouldDisplayImages && (
-                <StretchWrapper>
+                <StretchWrapper data-color-scheme="light">
                   <ImagesResults
                     sectionsData={sectionsData}
                     concept={conceptResponse}

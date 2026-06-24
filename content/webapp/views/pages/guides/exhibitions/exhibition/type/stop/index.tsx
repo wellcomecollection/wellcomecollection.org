@@ -130,7 +130,7 @@ const ExhibitionGuideStopPage: NextPage<Props> = ({
       hideNewsletterPromo={true}
       apiToolbarLinks={[createPrismicLink(exhibitionGuideId)]}
     >
-      <Page>
+      <Page data-color-scheme="light">
         <Header ref={headerRef}>
           <Container>
             <HeaderInner>

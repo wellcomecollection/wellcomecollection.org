@@ -196,6 +196,7 @@ const InPageNavigation: FunctionComponent<Props> = ({
       ref={navGridCellRef}
       $isOnWhite={!!isOnWhite}
       $sizeMap={sizeMap}
+      data-color-scheme="light"
     >
       {shouldLockScroll && (
         <>

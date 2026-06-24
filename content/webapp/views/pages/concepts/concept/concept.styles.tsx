@@ -4,7 +4,10 @@ import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
 
-export const MobileNavBackground = styled(Space).attrs({
+export const MobileNavBackground = styled(Space).attrs<{
+  'data-color-scheme': 'light';
+}>({
+  'data-color-scheme': 'light',
   className: 'is-hidden-l is-hidden-xl',
   $v: { size: 'md', properties: ['height'] },
 })<{ $isOnWhite: boolean }>`
