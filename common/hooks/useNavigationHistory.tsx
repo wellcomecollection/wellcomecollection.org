@@ -98,7 +98,7 @@ export const HistoryProvider: FunctionComponent<PropsWithChildren> = ({
     setStack(newStack);
     setIndex(index + 1);
     previousPathRef.current = pathname;
-  }, [router.asPath, stack, index]);
+  }, [router.asPath]);
 
   // Step 3: Implement back/forward functions
   const back = () => {
