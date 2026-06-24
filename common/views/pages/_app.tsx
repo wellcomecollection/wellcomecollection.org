@@ -32,7 +32,6 @@ import InfoBanner from '@weco/common/views/components/InfoBanner';
 import LoadingIndicator from '@weco/common/views/components/LoadingIndicator';
 import ErrorPage from '@weco/common/views/layouts/ErrorPage';
 import themeValues, { GlobalStyle } from '@weco/common/views/themes/default';
-
 // Error pages can't send anything via the data fetching methods as
 // the page needs to be rendered as soon as the error happens.
 // We just use the route to determine if this is an error page to ignore
@@ -171,43 +170,73 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
           <UserContextProvider>
             <AppContextProvider>
               <SearchContextProvider>
-                <KioskProvider
-                  cookieContent={kioskModeCookie}
-                  readingRoomStories={serverData.prismic.readingRoomStories}
-                >
-                  <GlobalStyle
-                    $compositeTypography={
-                      !!serverData.toggles.featureFlags.compositeTypography
-                    }
-                  />
-
-                  <GlobalSvgDefinitions />
-                  <LoadingIndicator />
-
-                  {experienceName ===
-                    kioskExperienceNames.tendernessAndRage && (
-                    <InfoBanner variant="kioskTRBanners" />
-                  )}
-
-                  {displayCookieBanner && (
-                    <CivicUK
-                      apiKey={civicUkApiKey}
-                      defer={serverData.consentStatus.cookieExists}
+                {kioskModeCookie ? (
+                  <KioskProvider
+                    cookieContent={kioskModeCookie}
+                    readingRoomStories={serverData.prismic.readingRoomStories}
+                  >
+                    <GlobalStyle
+                      $compositeTypography={
+                        !!serverData.toggles.featureFlags.compositeTypography
+                      }
                     />
-                  )}
-                  <HotjarLoader />
 
-                  {!pageProps.err &&
-                    getLayout(<Component {...componentProps} />)}
-                  {pageProps.err && (
-                    <ErrorPage
-                      statusCode={pageProps.err.statusCode}
-                      title={pageProps.err.message}
+                    <GlobalSvgDefinitions />
+                    <LoadingIndicator />
+
+                    {experienceName ===
+                      kioskExperienceNames.tendernessAndRage && (
+                      <InfoBanner variant="kioskTRBanners" />
+                    )}
+
+                    {displayCookieBanner && (
+                      <CivicUK
+                        apiKey={civicUkApiKey}
+                        defer={serverData.consentStatus.cookieExists}
+                      />
+                    )}
+                    <HotjarLoader />
+
+                    {!pageProps.err &&
+                      getLayout(<Component {...componentProps} />)}
+                    {pageProps.err && (
+                      <ErrorPage
+                        statusCode={pageProps.err.statusCode}
+                        title={pageProps.err.message}
+                      />
+                    )}
+
+                    <InactivityRedirect />
+                  </KioskProvider>
+                ) : (
+                  <>
+                    <GlobalStyle
+                      $compositeTypography={
+                        !!serverData.toggles.featureFlags.compositeTypography
+                      }
                     />
-                  )}
 
-                  {!!kioskModeCookie && <InactivityRedirect />}
-                </KioskProvider>
+                    <GlobalSvgDefinitions />
+                    <LoadingIndicator />
+
+                    {displayCookieBanner && (
+                      <CivicUK
+                        apiKey={civicUkApiKey}
+                        defer={serverData.consentStatus.cookieExists}
+                      />
+                    )}
+                    <HotjarLoader />
+
+                    {!pageProps.err &&
+                      getLayout(<Component {...componentProps} />)}
+                    {pageProps.err && (
+                      <ErrorPage
+                        statusCode={pageProps.err.statusCode}
+                        title={pageProps.err.message}
+                      />
+                    )}
+                  </>
+                )}
               </SearchContextProvider>
             </AppContextProvider>
           </UserContextProvider>
