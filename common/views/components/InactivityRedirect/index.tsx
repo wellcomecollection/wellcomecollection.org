@@ -54,9 +54,9 @@ const InactivityRedirect: FunctionComponent<{ isCardiganStory?: boolean }> = ({
       // Clear navigation history to start fresh
       resetNavigationHistory();
 
-      router.push(kioskHomepageUrl!);
+      router.push(kioskHomepageUrl);
     },
-    [router, kioskHomepageUrl]
+    [router, kioskHomepageUrl, resetNavigationHistory]
   );
 
   const resetInactivityTimer = useCallback(() => {
