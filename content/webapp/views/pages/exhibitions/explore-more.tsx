@@ -114,12 +114,7 @@ const ExploreMorePage: NextPage<Props> = ({
                 CopyContent={
                   <>
                     <h3
-                      className={typography(
-                        'heading',
-                        'lg',
-                        'regular',
-                        'brand'
-                      )}
+                      className={typography('heading', 'lg', 'strong', 'brand')}
                     >
                       {group.heading}
                     </h3>
