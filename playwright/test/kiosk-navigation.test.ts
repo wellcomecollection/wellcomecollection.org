@@ -79,7 +79,7 @@ test('(2) | Browser back button becomes enabled after navigating to multiple pag
 
   // Navigate to another work
   await page.getByRole('link', { name: 'Go to next page' }).click();
-  await page.waitForLoadState('load');
+  await page.waitForURL(/\/works\/(?!eudv2vbg)/);
   await page.getByLabel('Kiosk navigation').waitFor();
 
   const backButton = page.getByRole('button', {
@@ -133,7 +133,7 @@ test('(5) | Browser forward button becomes enabled after going back', async ({
 
   // Navigate to next work
   await page.getByRole('link', { name: 'Go to next page' }).click();
-  await page.waitForLoadState('load');
+  await page.waitForURL(/\/works\/(?!eudv2vbg)/);
   await page.getByLabel('Kiosk navigation').waitFor();
 
   // Go back
@@ -141,7 +141,7 @@ test('(5) | Browser forward button becomes enabled after going back', async ({
     name: 'Go back to previous page',
   });
   await backButton.click();
-  await page.waitForLoadState('load');
+  await page.waitForURL(/\/works\/eudv2vbg/);
   await page.getByLabel('Kiosk navigation').waitFor();
 
   // Forward button should now be enabled
@@ -190,7 +190,7 @@ test('(7) | Browser forward button is disabled after navigating to a new page fr
 
   // Navigate to next work
   await page.getByRole('link', { name: 'Go to next page' }).click();
-  await page.waitForLoadState('load');
+  await page.waitForURL(/\/works\/(?!eudv2vbg)/);
   await page.getByLabel('Kiosk navigation').waitFor();
 
   // Go back
@@ -198,7 +198,7 @@ test('(7) | Browser forward button is disabled after navigating to a new page fr
     name: 'Go back to previous page',
   });
   await backButton.click();
-  await page.waitForLoadState('load');
+  await page.waitForURL(/\/works\/eudv2vbg/);
   await page.getByLabel('Kiosk navigation').waitFor();
 
   // Navigate to home (or any new page)
@@ -206,7 +206,7 @@ test('(7) | Browser forward button is disabled after navigating to a new page fr
     name: 'Return to kiosk home page',
   });
   await homeLink.click();
-  await page.waitForLoadState('load');
+  await page.waitForURL(url => !url.pathname.includes('/works/'));
   await page.getByLabel('Kiosk navigation').waitFor();
 
   // Forward button should now be disabled (forward history cleared)
