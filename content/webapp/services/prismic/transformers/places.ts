@@ -38,7 +38,7 @@ export function transformPlaceFromRelationship(
       ? asTitle(data.title as prismic.RichTextField)
       : '',
     level: data.level || 0,
-    capacity: data.capacity || undefined,
+    capacity: data.capacity ?? undefined,
     information: data.locationInformation || undefined,
   };
 }
