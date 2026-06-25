@@ -5,7 +5,7 @@ import { useUserContext } from '@weco/common/contexts/UserContext';
 import { requestingDisabled } from '@weco/common/data/microcopy';
 import { memberCard } from '@weco/common/icons';
 import { useFeatureFlags } from '@weco/common/server-data/Context';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { useLoginURLWithReturnToCurrent } from '@weco/content/utils/useLoginURLWithReturnToCurrent';
@@ -30,14 +30,14 @@ const SignInLink: FunctionComponent = () => {
     <>
       <Space
         $h={{ size: 'xs', properties: ['margin-right'] }}
-        className={font('sans-bold', -1)}
+        className={typography('body', 'md', 'strong')}
       >
         Library members:
       </Space>
       <a
         href={loginURL}
         data-gtm-trigger="library_account_login"
-        className={font('sans', -1)}
+        className={typography('body', 'md', 'regular')}
       >
         sign in to your library account to request items
       </a>
@@ -51,11 +51,11 @@ type ReloadProps = {
 const Reload: FunctionComponent<ReloadProps> = ({ reload }) => {
   return (
     <>
-      <span className={font('sans-bold', -1)}>
+      <span className={typography('body', 'md', 'strong')}>
         Something went wrong trying to check if you are signed in
       </span>{' '}
       <button
-        className={font('sans', -1)}
+        className={typography('body', 'md', 'regular')}
         onClick={() => {
           reload();
         }}
@@ -83,11 +83,14 @@ const LibraryMembersBar: FunctionComponent = () => {
         </Space>
         <Space
           $h={{ size: 'xs', properties: ['margin-right'] }}
-          className={font('sans-bold', -1)}
+          className={typography('body', 'md', 'strong')}
         >
           Library members:
         </Space>
-        <span data-testid="requesting-disabled" className={font('sans', -1)}>
+        <span
+          data-testid="requesting-disabled"
+          className={typography('body', 'md', 'regular')}
+        >
           {requestingDisabled}
         </span>
       </StyledComponent>

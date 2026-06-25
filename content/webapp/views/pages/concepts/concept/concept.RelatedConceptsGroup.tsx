@@ -1,14 +1,14 @@
 import { FunctionComponent } from 'react';
 import styled, { useTheme } from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { dasherize } from '@weco/common/utils/grammar';
 import Button, { ButtonColors } from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 import { RelatedConcept } from '@weco/content/services/wellcome/catalogue/types';
 
 const RelatedConceptsContainer = styled.div.attrs({
-  className: font('sans-bold', -1),
+  className: typography('body', 'md', 'strong'),
 })`
   display: flex;
   flex-wrap: wrap;
@@ -17,7 +17,7 @@ const RelatedConceptsContainer = styled.div.attrs({
 `;
 
 const RelatedConceptItem = styled.div.attrs<{ $isFullWidth: boolean }>({
-  className: font('sans', -2),
+  className: typography('body', 'sm', 'regular'),
 })`
   display: flex;
   align-items: center;
@@ -26,7 +26,7 @@ const RelatedConceptItem = styled.div.attrs<{ $isFullWidth: boolean }>({
 `;
 
 const SectionHeading = styled.h2.attrs({
-  className: font('brand-bold', 2),
+  className: typography('heading', 'xl', 'strong', 'brand'),
 })``;
 
 const InlineLabel = styled.div`
@@ -72,7 +72,7 @@ const RelatedConceptsGroup: FunctionComponent<Props> = ({
               !!item.relationshipType && item.relationshipType?.length > 0
             }
           >
-            <Space className={font('sans', -1)}>
+            <Space className={typography('body', 'md', 'regular')}>
               <Button
                 {...(dataGtmTriggerName && {
                   dataGtmProps: {

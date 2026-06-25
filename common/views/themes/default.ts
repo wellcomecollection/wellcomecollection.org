@@ -11,11 +11,7 @@ import {
   Size,
   themeValues,
 } from './config';
-import {
-  makeCompositeTypographyClasses,
-  makeFontSizeClasses,
-  typography,
-} from './typography';
+import { makeTypographyClasses, typography } from './typography';
 import { utilityClasses } from './utility-classes';
 
 type Classes = typeof classes;
@@ -52,7 +48,7 @@ const cls = {
   ...sizesClasses,
 } as unknown as Classes & SizedClasses;
 
-const GlobalStyle = createGlobalStyle<{ $compositeTypography: boolean }>`
+const GlobalStyle = createGlobalStyle`
   ${colorCustomProperties}
   ${pinnedLightModeColorCustomProperties}
   ${css`
@@ -85,9 +81,8 @@ const GlobalStyle = createGlobalStyle<{ $compositeTypography: boolean }>`
   ${layout}
   ${row}
   ${fonts}
-  ${({ $compositeTypography }) => !$compositeTypography && makeFontSizeClasses()}
   ${typography}
-  ${({ $compositeTypography }) => $compositeTypography && makeCompositeTypographyClasses()}
+  ${makeTypographyClasses()}
 `;
 
 // Static theme instance for backward compatibility

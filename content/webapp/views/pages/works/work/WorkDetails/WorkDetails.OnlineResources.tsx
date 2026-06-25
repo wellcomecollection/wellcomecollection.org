@@ -2,7 +2,7 @@ import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import { Work } from '@weco/content/services/wellcome/catalogue/types';
 import { getItemsByLocationType } from '@weco/content/utils/works';
@@ -10,7 +10,7 @@ import { getItemsByLocationType } from '@weco/content/utils/works';
 import WorkDetailsSection from './WorkDetails.Section';
 
 const ShowHideButton = styled.button.attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })`
   text-decoration: underline;
   padding: 0;
@@ -58,7 +58,10 @@ const OnlineResources: FunctionComponent<Props> = ({ work }: Props) => {
     <WorkDetailsSection headingText="Online resources">
       <PlainList>
         {firstThreeOnlineResources.map(item => (
-          <li className={font('sans', -1)} key={item.location.url}>
+          <li
+            className={typography('body', 'md', 'regular')}
+            key={item.location.url}
+          >
             {item.title && `${item.title}: `}
             <a href={item.location.url}>
               {item.title ? 'View resource' : item.location.linkText}
@@ -68,7 +71,10 @@ const OnlineResources: FunctionComponent<Props> = ({ work }: Props) => {
         {isShowingRemainingOnlineResources && (
           <>
             {remainingOnlineResources.map((item, index) => (
-              <li className={font('sans', -1)} key={item.location.url}>
+              <li
+                className={typography('body', 'md', 'regular')}
+                key={item.location.url}
+              >
                 {item.title && `${item.title}: `}
                 <a
                   href={item.location.url}

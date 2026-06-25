@@ -12,8 +12,7 @@ export const wellcomeNormalize = css`
     color-scheme: light dark;
   }
 
-  html,
-  body {
+  html {
     background-color: ${props => props.theme.color('white')};
   }
 

@@ -4,7 +4,7 @@ import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 
 import { search } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { pluralize } from '@weco/common/utils/grammar';
 import Button from '@weco/common/views/components/Buttons';
 import LL from '@weco/common/views/components/styled/LL';
@@ -54,7 +54,7 @@ const ResultsHeader = styled(Space).attrs({
 `;
 
 const ListItem = styled.li.attrs({
-  className: font('sans', -2),
+  className: typography('body', 'sm', 'regular'),
 })`
   list-style: none;
   border-bottom: 1px solid ${props => props.theme.color('neutral.500')};
@@ -72,7 +72,7 @@ const ListItem = styled.li.attrs({
 
 const HitData = styled(Space).attrs({
   as: 'span',
-  className: font('sans-bold', -2),
+  className: typography('body', 'sm', 'strong'),
 })`
   display: block;
 `;
@@ -84,7 +84,7 @@ const ResultsList = styled.ul`
 const ErrorMessage = styled(Space).attrs({
   as: 'p',
   $v: { size: 'sm', properties: ['margin-top'] },
-  className: font('sans', -2),
+  className: typography('body', 'sm', 'regular'),
 })``;
 
 const Loading = () => (

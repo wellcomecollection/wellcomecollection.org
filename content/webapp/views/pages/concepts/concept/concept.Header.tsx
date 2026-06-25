@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { thematicBrowsingPaths } from '@weco/common/data/hardcoded-ids';
 import { useFeatureFlags } from '@weco/common/server-data/Context';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import Breadcrumb, {
@@ -30,7 +30,7 @@ const ConceptHero = styled(Space).attrs({
 `;
 
 const AlternativeLabels = styled(Space).attrs({
-  className: font('sans', -2),
+  className: typography('body', 'sm', 'regular'),
   $v: { size: 'sm', properties: ['margin-bottom'] },
 })`
   display: flex;
@@ -40,7 +40,7 @@ const AlternativeLabels = styled(Space).attrs({
 `;
 
 const AlternativeLabel = styled.span.attrs({
-  className: font('sans', -2),
+  className: typography('body', 'sm', 'regular'),
 })`
   border-right: 1px solid ${props => props.theme.color('neutral.700')};
   padding-right: ${props => props.theme.spacingUnits['100']};
@@ -128,7 +128,9 @@ const ThemeHeader: FunctionComponent<{
           </Space>
 
           <Layout gridSizes={gridSize10(false)}>
-            <h1 className={font('brand-bold', 4)}>{concept.displayLabel}</h1>
+            <h1 className={typography('heading', 'xxl', 'strong', 'brand')}>
+              {concept.displayLabel}
+            </h1>
             {themePagesAllFields && (
               <ThemeAlternativeLabels
                 alternativeLabels={concept.alternativeLabels}
@@ -141,7 +143,7 @@ const ThemeHeader: FunctionComponent<{
               concept.description.sourceLabel === 'weco-authority') && (
               <Layout gridSizes={gridSize8(false)}>
                 <Space
-                  className={`${font('sans', 1)} body-text`}
+                  className={`${typography('body', 'xl', 'regular')} body-text`}
                   $v={{ size: 'sm', properties: ['margin-bottom'] }}
                 >
                   <SourcedDescription

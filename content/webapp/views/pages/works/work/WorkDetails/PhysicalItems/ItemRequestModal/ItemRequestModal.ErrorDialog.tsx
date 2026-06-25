@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 import { useTheme } from 'styled-components';
 
 import { defaultRequestErrorMessage } from '@weco/common/data/microcopy';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
 
 import { CTAs, Header } from './ItemRequestModal.styles';
@@ -21,7 +21,9 @@ const ErrorDialog: FunctionComponent<ErrorDialogProps> = ({
   return (
     <>
       <Header>
-        <span className={font('brand-bold', 1)}>Request failed</span>
+        <span className={typography('heading', 'lg', 'strong', 'brand')}>
+          Request failed
+        </span>
       </Header>
       <p style={{ marginBottom: 0 }}>
         {errorMessage || defaultRequestErrorMessage}

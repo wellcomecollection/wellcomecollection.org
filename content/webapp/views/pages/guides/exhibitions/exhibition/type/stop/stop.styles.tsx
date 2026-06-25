@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -21,7 +21,7 @@ export const FlushContainer = styled(Container)`
 `;
 
 export const Header = styled.header.attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })`
   background-color: ${props => props.theme.color('neutral.700')};
   position: sticky;
@@ -30,7 +30,7 @@ export const Header = styled.header.attrs({
 `;
 
 export const Title = styled.h1.attrs({
-  className: font('sans-bold', -1),
+  className: typography('body', 'md', 'strong'),
 })`
   margin-bottom: 0;
 `;
@@ -49,7 +49,7 @@ export const HeaderInner = styled(Space).attrs({
 export const prevNextHeight = '50px';
 
 export const PrevNext = styled.div.attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })`
   position: fixed;
   z-index: 2;

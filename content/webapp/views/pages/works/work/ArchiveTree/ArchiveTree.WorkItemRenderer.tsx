@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { chevron } from '@weco/common/icons';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { classNames, typography } from '@weco/common/utils/classnames';
 import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
 import { toWorkLink } from '@weco/content/views/components/WorkLink';
@@ -17,7 +17,7 @@ import { UiTreeNode } from '@weco/content/views/pages/works/work/work.types';
 import { StyledLink } from './ArchiveTree.styles';
 
 const RefNumber = styled.span.attrs({
-  className: font('sans', -2),
+  className: typography('body', 'sm', 'regular'),
 })`
   line-height: 1;
   display: block;
@@ -51,7 +51,7 @@ const WorkItem: FunctionComponent<WorkItemRendererProps> = ({
   return (
     <div
       style={{ display: 'flex', width: '100%' }}
-      className={font('sans', -2)}
+      className={typography('body', 'sm', 'regular')}
     >
       {isEnhanced && (level > 1 || showFirstLevelGuideline) && hasControl && (
         <TreeControl
@@ -65,8 +65,8 @@ const WorkItem: FunctionComponent<WorkItemRendererProps> = ({
       <StyledLink
         {...toWorkLink({ id: item.work.id, scroll: false })}
         className={classNames({
-          [font('sans-bold', -2)]: level === 1,
-          [font('sans', -2)]: level > 1,
+          [typography('body', 'sm', 'strong')]: level === 1,
+          [typography('body', 'sm', 'regular')]: level > 1,
         })}
         tabIndex={isEnhanced ? (isSelected ? 0 : -1) : 0}
         $isCurrent={currentWorkId === item.work.id}

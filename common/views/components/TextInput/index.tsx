@@ -11,14 +11,14 @@ import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { exclamation, tickCircle } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import ClearInput from '@weco/common/views/components/TextInput/TextInput.Clear';
 import { focusStyle } from '@weco/common/views/themes/base/wellcome-normalize';
 
 export const TextInputLabel = styled.label.attrs({
-  className: font('sans-bold', -1),
+  className: typography('body', 'md', 'strong'),
 })`
   display: block;
   line-height: 1.2;
@@ -30,7 +30,9 @@ type TextInputWrapProps = {
   $isNewSearchBar?: boolean;
 };
 export const TextInputWrap = styled(Space).attrs<TextInputWrapProps>(props => ({
-  className: font('sans', props.$isNewSearchBar ? 1 : 0),
+  className: props.$isNewSearchBar
+    ? typography('body', 'xl', 'regular')
+    : typography('body', 'lg', 'regular'),
   $v: { size: 'xs', properties: ['margin-top'] },
 }))<TextInputWrapProps>`
   display: flex;
@@ -78,7 +80,7 @@ export const TextInputWrap = styled(Space).attrs<TextInputWrapProps>(props => ({
 `;
 
 const HintCopy = styled.span.attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })`
   display: block;
   color: ${props => props.theme.color('neutral.700')};
@@ -105,7 +107,7 @@ export const TextInputInput = styled.input.attrs<{ $type?: string }>(props => ({
 `;
 
 const StatusMessage = styled(Space).attrs({
-  className: font('sans', -2),
+  className: typography('body', 'sm', 'regular'),
   $v: { size: 'xs', properties: ['margin-top'] },
 })`
   display: flex;

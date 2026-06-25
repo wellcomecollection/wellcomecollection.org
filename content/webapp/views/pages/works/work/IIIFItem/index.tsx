@@ -20,7 +20,7 @@ import {
   unavailableContentMessage,
 } from '@weco/common/data/microcopy';
 import { LinkProps } from '@weco/common/model/link-props';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import {
   ContaineredLayout,
@@ -245,12 +245,14 @@ const PublicRestrictedMessage: FunctionComponent<{
   return (
     <MessageContainer>
       {externalAccessService?.label && (
-        <h2 className={font('sans-bold', 0)}>{externalAccessService.label}</h2>
+        <h2 className={typography('body', 'lg', 'strong')}>
+          {externalAccessService.label}
+        </h2>
       )}
-      <div className={font('sans', -1)}>
+      <div className={typography('body', 'md', 'regular')}>
         {externalAccessService?.description && (
           <div
-            className={font('sans', -1)}
+            className={typography('body', 'md', 'regular')}
             dangerouslySetInnerHTML={{
               __html: externalAccessService.description,
             }}

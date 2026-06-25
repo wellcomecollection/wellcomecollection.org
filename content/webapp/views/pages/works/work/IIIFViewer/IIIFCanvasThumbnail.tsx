@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { audio, file, pdf, video } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import Icon from '@weco/common/views/components/Icon';
 import LL from '@weco/common/views/components/styled/LL';
@@ -60,7 +60,7 @@ const ImageContainer = styled.span`
 `;
 
 const IIIFViewerThumbNumber = styled.span.attrs({
-  className: font('sans-bold', -2),
+  className: typography('body', 'sm', 'strong'),
 })`
   padding: 3px 6px;
   border-radius: 3px;

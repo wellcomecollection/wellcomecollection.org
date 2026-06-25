@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { getCrop } from '@weco/common/model/image';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
@@ -44,21 +44,21 @@ const OrganisationImage = styled.div`
   width: 72px;
 `;
 
-const Name = styled.h3.attrs({ className: font('sans-bold', 0) })`
+const Name = styled.h3.attrs({ className: typography('body', 'lg', 'strong') })`
   margin: 0;
 `;
 
 const Pronouns = styled(ContributorInfoWrapper).attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
   $h: { size: 'xs', properties: ['margin-left'] },
 })``;
 
 const Role = styled(ContributorInfoWrapper).attrs({
-  className: font('sans-bold', -1),
+  className: typography('body', 'md', 'strong'),
 })``;
 
 const Description = styled(Space).attrs({
-  className: `${font('sans', -1)} spaced-text`,
+  className: `${typography('body', 'md', 'regular')} spaced-text`,
   $v: { size: 'xs', properties: ['margin-top'] },
 })``;
 

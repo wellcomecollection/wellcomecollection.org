@@ -4,7 +4,7 @@ import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { chevron } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { formatNumber } from '@weco/common/utils/grammar';
 import Icon from '@weco/common/views/components/Icon';
 
@@ -16,7 +16,7 @@ export type Props = {
 };
 
 const Container = styled.nav.attrs({
-  className: `${font('sans', -2)} is-hidden-print`,
+  className: `${typography('body', 'sm', 'regular')} is-hidden-print`,
 })<{ $isHiddenMobile?: boolean }>`
   display: flex;
   align-items: center;

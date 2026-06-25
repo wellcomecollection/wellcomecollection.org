@@ -3,12 +3,12 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { IconSvg } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
 
 const StyledLink = styled(NextLink).attrs({
-  className: font('sans', -2),
+  className: typography('body', 'sm', 'regular'),
 })`
   background-color: ${props => props.theme.color('warmNeutral.300')};
   padding: ${props => props.theme.spacingUnits['100']};

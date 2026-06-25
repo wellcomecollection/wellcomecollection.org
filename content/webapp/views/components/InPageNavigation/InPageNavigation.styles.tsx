@@ -1,7 +1,7 @@
 import NextLink from 'next/link';
 import styled from 'styled-components';
 
-import { compositeTypography, font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import AnimatedUnderlineCSS, {
   AnimatedUnderlineProps,
 } from '@weco/common/views/components/styled/AnimatedUnderline';
@@ -131,7 +131,7 @@ const AnimatedLink = styled(NextLink)<AnimatedUnderlineProps>`
 `;
 
 export const Anchor = styled.a.attrs({
-  className: font('sans-bold', -1),
+  className: typography('body', 'md', 'strong'),
 })`
   color: ${props => props.theme.color('black')};
 `;
@@ -145,11 +145,7 @@ type InPageNavAnimatedLinkProps = {
 export const InPageNavAnimatedLink = styled(
   AnimatedLink
 ).attrs<InPageNavAnimatedLinkProps>(props => ({
-  className: compositeTypography(
-    'body',
-    'md',
-    props.$isActive ? 'strong' : 'regular'
-  ),
+  className: typography('body', 'md', props.$isActive ? 'strong' : 'regular'),
 }))<InPageNavAnimatedLinkProps>`
   color: ${props =>
     props.theme.color(
@@ -244,7 +240,7 @@ export const Root = styled(Space).attrs<{
 `;
 
 export const MobileNavButton = styled.button.attrs({
-  className: font('sans-bold', -1),
+  className: typography('body', 'md', 'strong'),
 })<{ $hasStuck: boolean; $isListActive: boolean; $isOnWhite: boolean }>`
   --mobile-nav-border-color: ${props =>
     props.$hasStuck

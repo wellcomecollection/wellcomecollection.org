@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
 
@@ -36,7 +36,9 @@ export const Wrapper = styled(Space)`
 export const TitleWrapper = styled.h1.attrs<{
   $isOfficialLandingPage?: boolean;
 }>(props => ({
-  className: font('brand-bold', props.$isOfficialLandingPage ? 5 : 4),
+  className: props.$isOfficialLandingPage
+    ? typography('display', 'md', 'strong')
+    : typography('heading', 'xxl', 'strong', 'brand'),
 }))`
   display: inline-block;
   margin: 0 !important;

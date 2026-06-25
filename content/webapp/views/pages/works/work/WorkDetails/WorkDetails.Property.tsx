@@ -1,7 +1,7 @@
 import { FunctionComponent, PropsWithChildren } from 'react';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
@@ -11,14 +11,14 @@ type InlineHeadingProps = {
 };
 
 const Wrapper = styled.div.attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })<InlineHeadingProps>`
   ${props => (props.$inlineHeading ? 'display: flex;' : '')}
 `;
 
 const Title = styled(Space).attrs<InlineHeadingProps>(props => ({
   as: 'h3',
-  className: font('sans-bold', -1),
+  className: typography('body', 'md', 'strong'),
   $h: { size: 'xs', properties: props.$inlineHeading ? ['margin-right'] : [] },
 }))<InlineHeadingProps>`
   ${props => (!props.$inlineHeading ? 'margin: 0;' : '')}

@@ -1,7 +1,7 @@
 import { FunctionComponent, useEffect } from 'react';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -19,7 +19,7 @@ type Props = {
 };
 
 const QuerySpan = styled.span.attrs({
-  className: font('sans-bold', 2),
+  className: typography('heading', 'xl', 'strong', 'sans'),
 })``;
 
 const SearchNoResults: FunctionComponent<Props> = ({
@@ -43,12 +43,18 @@ const SearchNoResults: FunctionComponent<Props> = ({
             xl: [10],
           }}
         >
-          <p data-testid="search-no-results" className={font('sans', 2)}>
+          <p
+            data-testid="search-no-results"
+            className={typography('body', 'xl', 'regular')}
+          >
             We couldn&rsquo;t find anything that matched{' '}
             {query ? <QuerySpan>{query}</QuerySpan> : 'your search'}
             {hasFilters ? ' with the filters you have selected.' : '.'}
           </p>
-          <p className={font('sans', 1)} style={{ maxWidth: '800px' }}>
+          <p
+            className={typography('body', 'xl', 'regular')}
+            style={{ maxWidth: '800px' }}
+          >
             Please adjust your search terms and try again. If you think this
             search should show some results, please email{' '}
             <a href="mailto:digital@wellcomecollection.org">

@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
 
 export const DateWrapper = styled(Space).attrs({
-  className: font('sans', 0),
+  className: typography('body', 'lg', 'regular'),
   $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   padding: 0;
@@ -51,7 +51,7 @@ export const FeaturedCardLeft = styled(GridCell)<HasIsReversed>`
 `;
 
 export const FeaturedCardRight = styled.div.attrs({
-  className: font('sans-bold', -2), // required for em value in label height calc below
+  className: typography('body', 'sm', 'strong'), // required for em value in label height calc below
 })<HasIsReversed>`
   display: flex;
   flex-direction: column;

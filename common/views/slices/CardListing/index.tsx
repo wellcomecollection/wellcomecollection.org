@@ -7,7 +7,7 @@ import {
   SeriesDocument as RawSeriesDocument,
 } from '@weco/common/prismicio-types';
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { classNames, typography } from '@weco/common/utils/classnames';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import { gridSize12 } from '@weco/common/views/components/Layout';
@@ -119,18 +119,20 @@ const CardListingSlice: FunctionComponent<CardListingSliceProps> = ({
                   background="black"
                   textColor="white"
                 >
-                  <h3 className={font('brand-bold', 2)}>
+                  <h3
+                    className={typography('heading', 'xl', 'strong', 'brand')}
+                  >
                     {featuredItem.data.title}
                   </h3>
                   {featuredItem.type === 'series' &&
                     featuredItem.data.description && (
-                      <p className={font('sans', -1)}>
+                      <p className={typography('body', 'md', 'regular')}>
                         {featuredItem.data.description}
                       </p>
                     )}
                   {featuredItem.type === 'article' &&
                     featuredItem.data.promo?.caption && (
-                      <p className={font('sans', -1)}>
+                      <p className={typography('body', 'md', 'regular')}>
                         {featuredItem.data.promo.caption}
                       </p>
                     )}

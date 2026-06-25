@@ -2,7 +2,7 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { useFeatureFlags } from '@weco/common/server-data/Context';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Divider from '@weco/common/views/components/Divider';
 import { Container } from '@weco/common/views/components/styled/Container';
 import LL from '@weco/common/views/components/styled/LL';
@@ -85,7 +85,9 @@ const WorkStoriesOnWorks: FunctionComponent<Props> = ({
     <SectionWrapper>
       <Container>
         <Space $v={{ size: 'md', properties: ['padding-top'] }}>
-          <h2 className={font('brand-bold', 1)}>Stories featuring this work</h2>
+          <h2 className={typography('heading', 'lg', 'strong', 'brand')}>
+            Stories featuring this work
+          </h2>
         </Space>
 
         <Space $v={{ size: 'sm', properties: ['padding-top'] }}>

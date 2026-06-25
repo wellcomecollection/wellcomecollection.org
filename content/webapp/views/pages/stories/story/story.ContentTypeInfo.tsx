@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import { commissioningEditorRoleId } from '@weco/common/data/hardcoded-ids';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
 import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
 import Space from '@weco/common/views/components/styled/Space';
@@ -14,7 +14,7 @@ const ContentTypeWrapper = styled.div`
 `;
 
 const ContentTypeText = styled.p.attrs({
-  className: font('sans', -2),
+  className: typography('body', 'sm', 'regular'),
 })`
   margin: 0;
 `;
@@ -26,7 +26,9 @@ const ContentTypeInfoSection = styled.span`
   }
 `;
 
-const HTMLDateWrapper = styled.span.attrs({ className: font('sans', -2) })`
+const HTMLDateWrapper = styled.span.attrs({
+  className: typography('body', 'sm', 'regular'),
+})`
   display: block;
   color: ${props => props.theme.color('neutral.600')};
 `;
@@ -61,7 +63,7 @@ const ContentTypeInfo = (article: Article) => (
                       by{' '}
                     </span>
                   )}
-                  <span className={font('sans-bold', -2)}>
+                  <span className={typography('body', 'sm', 'strong')}>
                     {contributor.name}
                   </span>
                 </ContentTypeInfoSection>
@@ -69,7 +71,7 @@ const ContentTypeInfo = (article: Article) => (
           {article.readingTime ? (
             <ContentTypeInfoSection>
               average reading time{' '}
-              <span className={font('sans-bold', -2)}>
+              <span className={typography('body', 'sm', 'strong')}>
                 {article.readingTime}
               </span>
             </ContentTypeInfoSection>

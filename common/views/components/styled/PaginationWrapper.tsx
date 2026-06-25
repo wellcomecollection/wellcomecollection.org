@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 
 import Space from './Space';
 
 const PaginationWrapper = styled(Space).attrs<{
   $verticalSpacing?: 'md' | 'sm';
 }>(props => ({
-  className: font('sans-bold', -1),
+  className: typography('body', 'md', 'strong'),
   ...(props.$verticalSpacing && {
     $v: {
       size: props.$verticalSpacing,

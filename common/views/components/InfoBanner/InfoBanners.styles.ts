@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
 
 export const BannerContainer = styled(Space).attrs({
   $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })<{ $backgroundColor?: PaletteColor }>`
   background-color: ${props =>
     props.theme.color(props.$backgroundColor || 'yellow')};
