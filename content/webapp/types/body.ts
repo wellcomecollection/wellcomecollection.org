@@ -38,10 +38,7 @@ export function isVideoEmbed(
   slice: PrismicBodySlice | undefined
 ): slice is RawEmbedSlice {
   if (!slice || slice.slice_type !== 'embed') return false;
-  // PrismicBodySlice doesn't carry `primary`, so widen via `unknown` to access it.
-  const primary = (slice as unknown as { primary: Record<string, unknown> })
-    .primary;
-  return 'provider_name' in primary && primary.provider_name === 'youtube';
+  return (slice as RawEmbedSlice).primary.embed.provider_name === 'youtube';
 }
 
 export function isEditorialImage(
