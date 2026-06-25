@@ -75,6 +75,10 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   const shouldUseStagingApi = serverData.toggles.featureFlags.stagingApi;
 
+  // In kiosk mode, use the active kiosk's content key directly. Outside kiosk
+  // mode, fall back to matching the exhibition UID against kioskExhibitionUids
+  // so the page still renders the correct content when previewed outside a
+  // kiosk device.
   const contentKey =
     getKioskContentKey(serverData.toggles.modes.kioskMode, kiosksContent) ??
     Object.entries(kioskExhibitionUids).find(
