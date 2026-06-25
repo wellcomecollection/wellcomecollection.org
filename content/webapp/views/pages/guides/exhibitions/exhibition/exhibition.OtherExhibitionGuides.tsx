@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import {
   ContaineredLayout,
   gridSize8,
@@ -25,7 +25,7 @@ const OtherExhibitionGuides: FunctionComponent<Props> = ({
     <Space $v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}>
       <ContaineredLayout gridSizes={gridSize8(false)}>
         <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
-          <h2 className={font('brand-bold', 1)}>
+          <h2 className={typography('heading', 'lg', 'strong', 'brand')}>
             Other exhibition guides available
           </h2>
         </Space>

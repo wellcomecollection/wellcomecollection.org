@@ -1,7 +1,7 @@
 import { FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
 
@@ -43,7 +43,7 @@ const Number: FunctionComponent<Props> = ({
   <Wrapper
     data-component="number"
     as="span"
-    className={font('brand-bold', -1)}
+    className={typography('heading', 'sm', 'strong', 'brand')}
     $h={{ size: 'xs', properties: ['margin-left'] }}
     $backgroundColor={backgroundColor}
   >

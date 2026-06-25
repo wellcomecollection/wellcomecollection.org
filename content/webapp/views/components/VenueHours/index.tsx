@@ -12,7 +12,7 @@ import {
   groupOverrideDates,
 } from '@weco/common/services/prismic/opening-times';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Divider from '@weco/common/views/components/Divider';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
@@ -90,7 +90,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue }) => {
       <VenueHoursTimes $v={{ size: 'sm', properties: ['margin-bottom'] }}>
         <Space
           as="h2"
-          className={font('brand-bold', 1)}
+          className={typography('heading', 'lg', 'strong', 'brand')}
           $h={{ size: 'sm', properties: ['padding-right'] }}
         >
           {isFeatured ? venue.name : 'Opening hours'}

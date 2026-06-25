@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 
 export const Card = styled.a<{ $isHover?: boolean }>`
   display: flex;
@@ -66,7 +66,9 @@ export const TextWrapper = styled.div`
 `;
 
 export const Title = styled.h2.attrs<{ $isHover?: boolean }>(props => ({
-  className: !props.$isHover ? font('sans-bold', -1) : font('sans', -1),
+  className: !props.$isHover
+    ? typography('body', 'md', 'strong')
+    : typography('body', 'md', 'regular'),
 }))<{ $linesToClamp: number }>`
   ${props => props.theme.clampLines(props.$linesToClamp)};
   color: ${props => props.theme.color('black')};
@@ -144,7 +146,7 @@ export const ImageWrapper = styled.div<{ $isHover?: boolean }>`
 `;
 
 export const MetaContainer = styled.div.attrs({
-  className: font('sans', -2),
+  className: typography('body', 'sm', 'regular'),
 })`
   color: ${props => props.theme.color('neutral.600')};
 `;

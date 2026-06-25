@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { partition } from '@weco/common/utils/arrays';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import { BooleanFilter as BooleanFilterType } from '@weco/content/services/wellcome/common/filters';
 
@@ -14,7 +14,7 @@ import DynamicFilterArray from './SearchFilters.Desktop.DynamicFilters';
 import ModalMoreFilters from './SearchFilters.Desktop.Modal';
 
 const Wrapper = styled(Space).attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })`
   display: flex;
   align-items: flex-end;

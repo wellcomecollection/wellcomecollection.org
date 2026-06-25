@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { getCrop } from '@weco/common/model/image';
 import { ServerData } from '@weco/common/server-data/types';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
@@ -206,7 +206,11 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
             <RelatedStoryContainer>
               {relatedDocument.type === 'Article' ? (
                 <>
-                  <h2 className={font('brand-bold', 2)}>Your next story</h2>
+                  <h2
+                    className={typography('heading', 'xl', 'strong', 'brand')}
+                  >
+                    Your next story
+                  </h2>
                   <FeaturedCard
                     type="article"
                     background="neutral.700"
@@ -217,7 +221,9 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
               ) : (
                 relatedDocument.type === 'exhibitions' && (
                   <>
-                    <h2 className={font('brand-bold', 2)}>
+                    <h2
+                      className={typography('heading', 'xl', 'strong', 'brand')}
+                    >
                       You may also be interested in
                     </h2>
                     <FeaturedCard

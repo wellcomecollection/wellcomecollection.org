@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Buttons from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -35,7 +35,7 @@ const NoEvents: FunctionComponent<Props> = ({ isPastListing, hasFilters }) => {
       <Space
         as="p"
         $v={{ size: 'xs', properties: ['margin-bottom'] }}
-        className={font('sans', 2)}
+        className={typography('body', 'xl', 'regular')}
       >
         No {isPastListing ? 'past' : 'upcoming'} events found
       </Space>
@@ -52,7 +52,7 @@ const NoEvents: FunctionComponent<Props> = ({ isPastListing, hasFilters }) => {
       )}
       <Space
         $v={{ size: 'md', properties: ['margin-top'] }}
-        className={font('sans', -2)}
+        className={typography('body', 'sm', 'regular')}
       >
         {hasFilters ? 'Or check' : 'Check'}{' '}
         <a href={`/events${isPastListing ? '' : '/past'}`}>

@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
@@ -96,7 +96,9 @@ const EventSeriesPage: NextPage<Props> = ({
                 title="Coming up"
               />
             ) : (
-              <h2 className={font('brand-bold', 1)}>No upcoming events</h2>
+              <h2 className={typography('heading', 'lg', 'strong', 'brand')}>
+                No upcoming events
+              </h2>
             )}
           </>
         )}

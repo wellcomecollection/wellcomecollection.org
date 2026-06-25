@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 
 import { getCrop } from '@weco/common/model/image';
 import { Label as LabelType } from '@weco/common/model/labels';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
@@ -158,7 +158,7 @@ export const CardLabels: FunctionComponent<{ labels: LabelType[] }> = ({
 );
 
 const Description = styled.p.attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })`
   padding: 0;
   margin: 0;
@@ -166,7 +166,7 @@ const Description = styled.p.attrs({
 
 export const CardTitle = styled(Space).attrs({
   as: 'h3',
-  className: font('brand-bold', 1),
+  className: typography('heading', 'lg', 'strong', 'brand'),
   $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   transition: color 400ms ease;

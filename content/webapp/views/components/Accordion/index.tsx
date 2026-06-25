@@ -2,7 +2,7 @@ import { FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
 
 import { chevron } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -29,7 +29,7 @@ const SummaryInner = styled.div`
 const Summary = styled(Space).attrs({
   as: 'summary',
   $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
-  className: font('sans', 0),
+  className: typography('body', 'lg', 'regular'),
 })`
   border-top: 1px solid ${props => props.theme.color('neutral.300')};
   cursor: pointer;
@@ -55,7 +55,7 @@ const Summary = styled(Space).attrs({
 
 const ShowHide = styled(Space).attrs({
   $h: { size: 'xs', properties: ['margin-right'] },
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })`
   position: relative;
 
@@ -86,7 +86,7 @@ const ShowHide = styled(Space).attrs({
 `;
 
 const Details = styled.details.attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })`
   @media (prefers-reduced-motion: no-preference) {
     /* stylelint-disable-next-line property-no-unknown */

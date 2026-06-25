@@ -2,7 +2,7 @@ import { FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
 
 import { chevron } from '@weco/common/icons';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { classNames, typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -12,7 +12,7 @@ type StyledSelectProps = {
 };
 
 const StyledSelect = styled.div.attrs({
-  className: font('sans', -2),
+  className: typography('body', 'sm', 'regular'),
 })<StyledSelectProps>`
   position: relative;
   ${({ $isPill }) => $isPill && 'display: inline-block;'}
@@ -67,7 +67,7 @@ const SelectLabel = styled.label`
 const LabelContent = styled(Space).attrs<{ $hideLabel?: boolean }>(props => ({
   as: 'span',
   className: classNames({
-    [font('sans-bold', -1)]: true,
+    [typography('body', 'md', 'strong')]: true,
     'visually-hidden': !!props.$hideLabel,
   }),
   $h: { size: 'xs', properties: ['margin-right'] },

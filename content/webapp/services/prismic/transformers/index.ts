@@ -2,7 +2,6 @@ import * as prismic from '@prismicio/client';
 
 import { ImageType } from '@weco/common/model/image';
 import {
-  PagesDocumentDataBodySlice,
   EditorialImageSlice as RawEditorialImageSlice,
   StandfirstSlice as RawStandfirstSlice,
   WebcomicSeriesDocument as RawWebcomicSeriesDocument,
@@ -22,7 +21,11 @@ import {
 } from '@weco/content/services/prismic/types';
 import { isEditorialImage } from '@weco/content/types/body';
 import { Format } from '@weco/content/types/format';
-import { GenericContentFields } from '@weco/content/types/generic-content-fields';
+import {
+  BodySliceOf,
+  GenericContentFields,
+  PrismicBodySlice,
+} from '@weco/content/types/generic-content-fields';
 
 import { transformImagePromo } from './images';
 
@@ -92,24 +95,17 @@ export function asTitle(title: prismic.RichTextField): string {
 }
 
 /**
- * Build the shared "generic" content fields from a Prismic relationship field.
- *
- * Why this exists:
- * - Prismic content relationships are not full documents at runtime (even when
- *   they have `data` via `fetchLinks`/GraphQuery), so using `transformGenericFields`
- *   would require unsafe casts like `relationship as RawXDocument`.
- * - This helper lets us safely use the subset of fields we expect to be present
- *   on relationship `data` (e.g. title/body/promo) without pretending we have a
- *   complete Prismic document.
+ * Like `transformGenericFields`, but for relationship fields rather than full documents.
+ * Relationship data is a partial subset even when populated via fetchLinks/GraphQuery.
  */
-export function transformGenericFieldsFromRelationship(field: {
+export function transformGenericFieldsFromRelationship<
+  TSlice extends PrismicBodySlice = PrismicBodySlice,
+>(field: {
   id: string;
   data: Record<string, unknown>;
-}): GenericContentFields {
+}): GenericContentFields<TSlice> {
   const { data } = field;
 
-  // Only process promo if it exists in the fetched data
-  // (not all relationships include promo in fetchLinks)
   const promoSlices =
     Array.isArray(data.promo) && data.promo.length > 0
       ? (data.promo as unknown[]).filter(isEditorialImage)
@@ -132,17 +128,16 @@ export function transformGenericFieldsFromRelationship(field: {
       | undefined
   );
 
-  // Only process body if it exists in the fetched data
-  // (not all relationships include body in fetchLinks)
+  // Body may not be present if not included in fetchLinks
   const untransformedBody = (Array.isArray(data.body) && data.body.length > 0
     ? data.body
-    : []) as unknown as prismic.SliceZone<PagesDocumentDataBodySlice>;
+    : []) as unknown as TSlice[];
 
   const untransformedStandfirst =
     untransformedBody.length > 0
-      ? (untransformedBody.find(slice => slice.slice_type === 'standfirst') as
-          | RawStandfirstSlice
-          | undefined)
+      ? ((untransformedBody as PrismicBodySlice[]).find(
+          slice => slice.slice_type === 'standfirst'
+        ) as RawStandfirstSlice | undefined)
       : undefined;
 
   const metadataDescription =
@@ -163,7 +158,7 @@ export function transformGenericFieldsFromRelationship(field: {
     image,
     metadataDescription,
     labels: [],
-  };
+  } as GenericContentFields<TSlice>;
 }
 
 export function transformSingleLevelGroup(
@@ -215,9 +210,9 @@ export const isGenericDocWithMetaDescription = (
   return Boolean(doc.data && 'metaDescription' in doc.data);
 };
 
-export function transformGenericFields(
-  doc: GenericDoc | RelatedGenericDoc
-): GenericContentFields {
+export function transformGenericFields<
+  T extends GenericDoc | RelatedGenericDoc,
+>(doc: T): GenericContentFields<BodySliceOf<T>> {
   const { data } = doc;
   const promo = isGenericDocWithPromo(doc)
     ? transformImagePromo(doc.data.promo)
@@ -234,11 +229,12 @@ export function transformGenericFields(
     ? transformImage(primaryPromo.primary.image)
     : undefined;
 
-  const untransformedBody = (data?.body ||
-    []) as unknown as prismic.SliceZone<PagesDocumentDataBodySlice>;
-  const untransformedStandfirst = untransformedBody.find(
-    slice => slice.slice_type === 'standfirst'
-  ) as RawStandfirstSlice | undefined;
+  const untransformedBody = (data?.body || []) as unknown as BodySliceOf<T>[];
+  const untransformedStandfirst = (
+    untransformedBody as PrismicBodySlice[]
+  ).find(slice => slice.slice_type === 'standfirst') as
+    | RawStandfirstSlice
+    | undefined;
   const metadataDescription = isGenericDocWithMetaDescription(doc)
     ? asText(doc.data.metadataDescription)
     : undefined;
@@ -254,5 +250,5 @@ export function transformGenericFields(
     // we pass an empty array here to be overriden by each content type
     // TODO: find a way to enforce this.
     labels: [],
-  };
+  } as GenericContentFields<BodySliceOf<T>>;
 }

@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
@@ -13,7 +13,7 @@ const RedirectModalContent = styled(Space).attrs({
 `;
 
 const RedirectModalTitle = styled.h2.attrs({
-  className: font('brand-bold', 1),
+  className: typography('heading', 'lg', 'strong', 'brand'),
 })`
   margin-bottom: ${props => props.theme.getSpaceValue('md', 'zero')};
 `;
@@ -63,7 +63,7 @@ const InactivityRedirectModal: FunctionComponent<Props> = ({
       <span
         data-chromatic="ignore"
         aria-hidden="true"
-        className={font('brand-bold', 5)}
+        className={typography('display', 'md', 'strong')}
       >
         {countdown}
       </span>

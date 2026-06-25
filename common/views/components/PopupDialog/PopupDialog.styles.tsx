@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 
 type PopupDialogOpenProps = {
@@ -22,7 +22,7 @@ export const PopupDialogOpen = styled(Space).attrs<PopupDialogOpenProps>(
       properties: ['padding-left', 'padding-right'],
       overrides: { zero: '200', sm: '200', md: '200' },
     },
-    className: font('sans-bold', -1),
+    className: typography('body', 'md', 'strong'),
   })
 )<PopupDialogOpenProps>`
   line-height: 1;
@@ -118,7 +118,7 @@ export const PopupDialogCTA = styled(Space).attrs({
     properties: ['padding-left', 'padding-right'],
     overrides: { zero: '200', sm: '200', md: '200' },
   },
-  className: font('sans-bold', -1),
+  className: typography('body', 'md', 'strong'),
 })`
   display: inline-block;
   background-color: ${props => props.theme.color('accent.purple')};

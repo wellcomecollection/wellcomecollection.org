@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 
 export const AudioPlayerWrapper = styled(Space).attrs({
@@ -23,7 +23,7 @@ export const PlayPauseButton = styled.button.attrs<PlayPauseButtonProps>(
 `;
 
 export const TimeWrapper = styled.div.attrs({
-  className: font('sans', -2),
+  className: typography('body', 'sm', 'regular'),
 })<{ $isDark: boolean }>`
   display: flex;
   justify-content: space-between;

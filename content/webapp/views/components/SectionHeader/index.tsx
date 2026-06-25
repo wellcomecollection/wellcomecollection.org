@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import {
   ContaineredLayout,
@@ -42,7 +42,10 @@ type Props = {
 
 const SectionHeader: FunctionComponent<Props> = ({ title, gridSize }) => {
   return (
-    <div data-component="section-header" className={font('brand-bold', 2)}>
+    <div
+      data-component="section-header"
+      className={typography('heading', 'xl', 'strong', 'brand')}
+    >
       <ConditionalWrapper
         condition={!!gridSize}
         wrapper={children => (

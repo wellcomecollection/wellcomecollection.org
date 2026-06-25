@@ -88,7 +88,9 @@ const WellcomeSubThemePage: NextPage<Props> & {
       slice.slice_type === 'cardListing'
   );
   const hasNewOnlineWorks = newOnlineWorks.length > 0;
-  const hasRelatedStories = cardListingSlices.some(slice => slice.items.length > 0);
+  const hasRelatedStories = cardListingSlices.some(
+    slice => slice.items.length > 0
+  );
   const hasWorksAbout =
     !!worksAndImagesAbout.works && worksAndImagesAbout.works.totalResults > 0;
   const hasImagesAbout = !!(

@@ -175,11 +175,7 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
                   cookieContent={kioskModeCookie}
                   readingRoomStories={serverData.prismic.readingRoomStories}
                 >
-                  <GlobalStyle
-                    $compositeTypography={
-                      !!serverData.toggles.featureFlags.compositeTypography
-                    }
-                  />
+                  <GlobalStyle />
 
                   <GlobalSvgDefinitions />
                   <LoadingIndicator />

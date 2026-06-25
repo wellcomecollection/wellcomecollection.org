@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { useFeatureFlags } from '@weco/common/server-data/Context';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { classNames, typography } from '@weco/common/utils/classnames';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import LL from '@weco/common/views/components/styled/LL';
@@ -118,7 +118,9 @@ const RelatedWorks = ({
   return (
     <SectionWrapper>
       <Container>
-        <h2 className={font('brand-bold', 1)}>More works</h2>
+        <h2 className={typography('heading', 'lg', 'strong', 'brand')}>
+          More works
+        </h2>
 
         {Object.keys(relatedWorksTabs).length > 1 && (
           <SelectableTags

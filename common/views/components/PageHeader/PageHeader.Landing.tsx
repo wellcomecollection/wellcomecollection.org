@@ -4,7 +4,7 @@ import * as prismic from '@prismicio/client';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { defaultSerializer } from '@weco/common/views/components/HTMLSerializers';
 import {
   ContaineredLayout,
@@ -20,7 +20,7 @@ import { TitleWrapper, Wrapper } from './PageHeader.styles';
 
 const ContentWrapper = styled(Space).attrs({
   $v: { size: 'xs', properties: ['margin-top'] },
-  className: font('sans', 2),
+  className: typography('body', 'xl', 'regular'),
 })`
   p:last-child {
     margin-bottom: 0;

@@ -1,7 +1,7 @@
 import { FunctionComponent, useState } from 'react';
 import styled, { css } from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { toHtmlId } from '@weco/common/utils/grammar';
 import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
@@ -23,7 +23,7 @@ type SelectableTagsProps = {
 };
 
 export const SelectableTagsWrapper = styled.div.attrs({
-  className: font('sans-bold', -1),
+  className: typography('body', 'md', 'strong'),
 })`
   display: flex;
   flex-wrap: wrap;

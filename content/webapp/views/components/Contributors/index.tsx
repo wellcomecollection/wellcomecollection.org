@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import Space from '@weco/common/views/components/styled/Space';
 import { Contributor as ContributorType } from '@weco/content/types/contributors';
@@ -74,7 +74,7 @@ const Contributors: FunctionComponent<Props> = ({
 
   return (
     <div data-component="contributors">
-      <h2 className={font('brand-bold', 1)}>
+      <h2 className={typography('heading', 'lg', 'strong', 'brand')}>
         {isNotUndefined(titleOverride)
           ? titleOverride
           : getContributorsTitle(roles, titlePrefix)}

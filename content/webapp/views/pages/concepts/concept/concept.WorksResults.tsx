@@ -1,7 +1,7 @@
 import { FunctionComponent, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { capitalize, pluralize } from '@weco/common/utils/grammar';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
 import Space from '@weco/common/views/components/styled/Space';
@@ -24,7 +24,7 @@ import { FromCollectionsHeading } from './concept.styles';
 
 const WorksCount = styled(Space).attrs({
   as: 'p',
-  className: font('sans', -2),
+  className: typography('body', 'sm', 'regular'),
   $v: { size: 'xs', properties: ['padding-top'] },
 })`
   color: ${props => props.theme.color('neutral.600')};

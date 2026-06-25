@@ -1,7 +1,7 @@
 import { FunctionComponent, PropsWithChildren } from 'react';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 import useShowClickthrough from '@weco/content/hooks/useShowClickthrough';
@@ -45,9 +45,9 @@ const IIIFClickthrough: FunctionComponent<Props> = ({
         />
       )}
       {showClickthroughMessage ? (
-        <div className={font('sans', -1)}>
+        <div className={typography('body', 'md', 'regular')}>
           {clickThroughService?.label && (
-            <h2 className={font('sans-bold', 0)}>
+            <h2 className={typography('body', 'lg', 'strong')}>
               {clickThroughService?.label}
             </h2>
           )}

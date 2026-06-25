@@ -1,5 +1,6 @@
 import { ImageType } from '@weco/common/model/image';
 import { Label } from '@weco/common/model/labels';
+import { ArticlesDocumentDataBodySlice } from '@weco/common/prismicio-types';
 import { ArticleFormatId } from '@weco/content/data/content-format-ids';
 
 import { ColorSelection } from './color-selections';
@@ -27,7 +28,7 @@ export type ArticleBasic = {
   hasLinkedWorks: boolean;
 };
 
-export type Article = GenericContentFields & {
+export type Article = GenericContentFields<ArticlesDocumentDataBodySlice> & {
   type: 'articles';
   uid: string;
   format?: Format<ArticleFormatId>;

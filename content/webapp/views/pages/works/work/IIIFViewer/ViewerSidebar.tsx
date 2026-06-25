@@ -11,7 +11,7 @@ import { useAppContext } from '@weco/common/contexts/AppContext';
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { arrow, chevron } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { classNames, typography } from '@weco/common/utils/classnames';
 import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
@@ -65,7 +65,7 @@ const Inner = styled(Space).attrs({
 `;
 
 const AccordionInner = styled(Space).attrs({
-  className: font('sans-bold', -1),
+  className: typography('body', 'md', 'strong'),
   $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
 })`
   button {
@@ -134,7 +134,7 @@ const AccordionItem = ({
           aria-controls={toHtmlId(title)}
         >
           <span>
-            <h2 className={font('sans-bold', -1)}>{title}</h2>
+            <h2 className={typography('body', 'md', 'strong')}>{title}</h2>
             <Icon
               icon={chevron}
               iconColor="white"
@@ -225,9 +225,11 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
           <RestrictedItemMessage plural={true} />
         </RestrictedMessage>
       )}
-      <Inner className={font('sans-bold', -1)}>
+      <Inner className={typography('body', 'md', 'strong')}>
         {manifestLabel && (
-          <span className={font('sans', -1)}>{manifestLabel}</span>
+          <span className={typography('body', 'md', 'regular')}>
+            {manifestLabel}
+          </span>
         )}
         <h1>
           <WorkTitle title={work.title} />
@@ -256,7 +258,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
         <Space $v={{ size: 'sm', properties: ['margin-top'] }}>
           <WorkLink
             id={work.id}
-            className={font('sans', -1)}
+            className={typography('body', 'md', 'regular')}
             style={{ display: 'flex', alignItems: 'center' }}
           >
             Catalogue details
@@ -275,7 +277,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
           title="Licence and re-use"
           gtmData={{ trigger: 'licence_and_re_use' }}
         >
-          <div className={font('sans', -2)}>
+          <div className={typography('body', 'sm', 'regular')}>
             {license && license.label && (
               <p>
                 <strong>Licence:</strong>{' '}

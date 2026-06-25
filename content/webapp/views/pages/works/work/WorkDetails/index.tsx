@@ -3,7 +3,7 @@ import { useTheme } from 'styled-components';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { formatDuration } from '@weco/common/utils/format-date';
 import Button from '@weco/common/views/components/Buttons';
 import {
@@ -428,7 +428,7 @@ const WorkDetails: FunctionComponent<Props> = ({
       )}
 
       <WorkDetailsSection headingText="Permanent link">
-        <div className={font('sans', -1)}>
+        <div className={typography('body', 'md', 'regular')}>
           <CopyButtons
             variant="url"
             url={`https://wellcomecollection.org/works/${work.id}`}

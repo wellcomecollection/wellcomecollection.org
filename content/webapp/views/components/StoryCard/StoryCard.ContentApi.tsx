@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import { Article } from '@weco/content/services/wellcome/content/types/api';
@@ -17,14 +17,14 @@ import {
 } from '@weco/content/views/components/Card';
 
 const Caption = styled.p.attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })`
   display: inline-block;
   margin: 0;
 `;
 
 const PartOf = styled.div.attrs({
-  className: font('sans-bold', -2),
+  className: typography('body', 'sm', 'strong'),
 })`
   margin: 0;
 `;
@@ -79,7 +79,8 @@ const StoryCardContentApi: FunctionComponent<Props> = ({
       {seriesTitle && (
         <CardPostBody>
           <PartOf>
-            <span className={font('sans', -2)}>Part of</span> {seriesTitle}
+            <span className={typography('body', 'sm', 'regular')}>Part of</span>{' '}
+            {seriesTitle}
           </PartOf>
         </CardPostBody>
       )}

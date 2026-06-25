@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { arrowSmall, web } from '@weco/common/icons';
 import { ImageType } from '@weco/common/model/image';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import {
   ContaineredLayout,
@@ -59,7 +59,7 @@ const ImageSection = styled.div`
 `;
 
 const SupportText = styled(Space).attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
   $v: { size: 'md', properties: ['margin-top'] },
 })`
   display: flex;
