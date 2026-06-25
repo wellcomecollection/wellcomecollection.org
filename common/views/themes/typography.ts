@@ -161,7 +161,8 @@ export const typography = css`
     }
 
     *::selection {
-      background: ${props => props.theme.color('accent.turquoise')}4d;
+      background: ${props =>
+        props.theme.colorWithAlpha('accent.turquoise', 0.3)};
     }
 
     /* stylelint-disable no-descending-specificity */

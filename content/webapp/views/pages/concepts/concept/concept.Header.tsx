@@ -193,12 +193,12 @@ const ThemeHeader: FunctionComponent<{
           </>
         </Container>
       </ConceptHero>
-      <span data-color-scheme="light">
+      <div data-color-scheme="light">
         <DecorativeEdge
           variant="wobbly"
           backgroundColor={hasImages ? 'neutral.700' : 'white'}
         />
-      </span>
+      </div>
     </>
   );
 };

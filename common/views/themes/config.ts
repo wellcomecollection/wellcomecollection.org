@@ -138,6 +138,12 @@ const getColor = (name: PaletteColor): string => {
   return `var(${colorKeyToVarName(name)})`;
 };
 
+const getColorWithAlpha = (name: PaletteColor, alpha: number): string => {
+  if (['currentColor', 'transparent', 'inherit'].includes(name)) return name;
+  const percent = Math.round(alpha * 100);
+  return `color-mix(in srgb, var(${colorKeyToVarName(name)}) ${percent}%, transparent)`;
+};
+
 export const sizes = {
   zero: '0rem',
   sm: designSystemTheme.breakpoints.sm, // 48rem = 768px
@@ -438,6 +444,7 @@ export const themeValues = {
   fontVerticalOffset: '0.15em',
   colors,
   color: getColor,
+  colorWithAlpha: getColorWithAlpha,
   minCardHeight: 385,
   media,
   mediaBetween,
