@@ -8,18 +8,12 @@ import {
 
 import {
   kiosksContent as initialKiosksContent,
+  kioskExperienceNames,
   KiosksContentType,
 } from '@weco/common/contexts/KioskContext/kiosks-content';
 import { ReadingRoomStories } from '@weco/common/server-data/prismic';
 import { KioskExperienceId, KioskModeOptionId } from '@weco/toggles';
 import toggleConfig from '@weco/toggles/toggles';
-
-// Human-readable names for each kiosk experience
-export const kioskExperienceNames = {
-  developerMode: 'Developer mode',
-  tendernessAndRage: 'Tenderness and Rage',
-  readingRoom: 'Reading Room',
-} as const;
 
 // Valid kiosk mode IDs extracted from toggles config
 const VALID_KIOSK_MODE_IDS =
@@ -157,3 +151,5 @@ export const useKiosksContent = (): Record<string, KiosksContentType> => {
   const { kiosksContent } = useKiosk();
   return kiosksContent;
 };
+
+export { kioskExperienceNames };

@@ -13,6 +13,12 @@ export type KiosksContentType = {
   [key: string]: string[] | WorkGroup[] | undefined; // Allow for additional array properties (e.g., Reading Room stories)
 };
 
+export const kioskExperienceNames = {
+  developerMode: 'Developer mode',
+  tendernessAndRage: 'Tenderness and Rage',
+  readingRoom: 'Reading Room',
+} as const;
+
 export const kioskExhibitionUids: Record<string, string> = {
   TR: 'tenderness-and-rage',
 };
