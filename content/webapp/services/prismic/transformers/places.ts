@@ -58,7 +58,7 @@ export function transformPlace(doc: RawPlacesDocument): Place {
     id: doc.id,
     title: doc.data.title ? asTitle(doc.data.title) : '',
     level: doc.data.level || 0,
-    capacity: doc.data.capacity || undefined,
+    capacity: doc.data.capacity ?? undefined,
     information: doc.data.locationInformation
       ? doc.data.locationInformation
       : undefined,
