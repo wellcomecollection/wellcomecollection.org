@@ -23,6 +23,42 @@ export const kioskExhibitionUids: Record<string, string> = {
   TR: 'tenderness-and-rage',
 };
 
+export type KioskExperienceName =
+  (typeof kioskExperienceNames)[keyof typeof kioskExperienceNames];
+
+export const getKioskExperienceName = (
+  cookieContent: string | null
+): KioskExperienceName | undefined => {
+  if (!cookieContent) return undefined;
+
+  // Extract experience prefix: 'RR-iPad1' → 'RR', 'devMode' → 'devMode'
+  const experienceId = cookieContent.split('-')[0];
+
+  switch (experienceId) {
+    case 'RR':
+      return kioskExperienceNames.readingRoom;
+    case 'TR':
+      return kioskExperienceNames.tendernessAndRage;
+    case 'devMode':
+      return kioskExperienceNames.developerMode;
+    default:
+      return undefined;
+  }
+};
+
+export const getKioskContentKey = (
+  kioskMode: string | null,
+  kiosksContent: Record<string, KiosksContentType>
+): string | null => {
+  if (!kioskMode) return null;
+
+  const contentKey = Object.keys(kiosksContent).find(prefix =>
+    kioskMode.startsWith(prefix)
+  );
+
+  return contentKey || null;
+};
+
 export const kiosksContent: Record<string, KiosksContentType> = {
   // Property name should match kioskMode value up to the hyphen, e.g. TR-iPad1 and TR-iPad2 both use TR content
   TR: {
