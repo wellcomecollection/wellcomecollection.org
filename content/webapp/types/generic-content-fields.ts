@@ -11,8 +11,8 @@ export type PrismicBodySlice = {
 };
 
 /** Extracts the body slice union from a Prismic document type. */
-export type BodySliceOf<T> = T extends { data: { body: (infer S)[] } }
-  ? S
+export type BodySliceOf<T> = T extends { data?: { body?: (infer S)[] } }
+  ? NonNullable<S>
   : never;
 
 /** Fields shared by every content type. `TSlice` defaults to the minimal `PrismicBodySlice`. */
