@@ -1,6 +1,9 @@
 import * as prismic from '@prismicio/client';
 
-import { SeasonsDocument as RawSeasonsDocument } from '@weco/common/prismicio-types';
+import {
+  SeasonsDocument as RawSeasonsDocument,
+  SeasonsDocumentDataBodySlice,
+} from '@weco/common/prismicio-types';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 import { isFilledLinkToDocumentWithTypedData } from '@weco/common/services/prismic/types';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
@@ -42,10 +45,11 @@ export function transformSeasonFromRelationship(
 
   const data = maybeField.data;
 
-  const genericFields = transformGenericFieldsFromRelationship({
-    id: maybeField.id,
-    data: data as unknown as Record<string, unknown>,
-  });
+  const genericFields =
+    transformGenericFieldsFromRelationship<SeasonsDocumentDataBodySlice>({
+      id: maybeField.id,
+      data: data as unknown as Record<string, unknown>,
+    });
 
   const title = Array.isArray(data.title)
     ? asTitle(data.title as prismic.RichTextField)

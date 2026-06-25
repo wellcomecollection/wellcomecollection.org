@@ -1,24 +1,26 @@
 import { ImageType } from '@weco/common/model/image';
 import { SiteSection } from '@weco/common/model/site-section';
+import { VisualStoriesDocumentDataBodySlice } from '@weco/common/prismicio-types';
 import { ImagePromo } from '@weco/content/types/image-promo';
 
 import { GenericContentFields } from './generic-content-fields';
 import { Link } from './link';
 
-export type VisualStory = GenericContentFields & {
-  type: 'visual-stories';
-  uid: string;
-  onThisPage: Link[];
-  datePublished?: Date;
-  relatedDocument?: {
-    title?: string;
-    id: string;
-    uid?: string;
-    type: 'exhibitions' | 'events';
+export type VisualStory =
+  GenericContentFields<VisualStoriesDocumentDataBodySlice> & {
+    type: 'visual-stories';
+    uid: string;
+    onThisPage: Link[];
+    datePublished?: Date;
+    relatedDocument?: {
+      title?: string;
+      id: string;
+      uid?: string;
+      type: 'exhibitions' | 'events';
+    };
+    siteSection?: SiteSection;
+    showOnThisPage: boolean;
   };
-  siteSection?: SiteSection;
-  showOnThisPage: boolean;
-};
 
 export type VisualStoryBasic = {
   type: 'visual-stories';

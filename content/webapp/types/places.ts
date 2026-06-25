@@ -1,8 +1,10 @@
 import * as prismic from '@prismicio/client';
 
+import { PlacesDocumentDataBodySlice } from '@weco/common/prismicio-types';
+
 import { GenericContentFields } from './generic-content-fields';
 
-export type Place = GenericContentFields & {
+export type Place = GenericContentFields<PlacesDocumentDataBodySlice> & {
   id: string;
   title: string;
   level: number;

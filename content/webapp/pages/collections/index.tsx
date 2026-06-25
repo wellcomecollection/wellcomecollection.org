@@ -3,7 +3,6 @@ import { NextPage } from 'next';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import {
-  PagesDocumentDataBodySlice,
   FullWidthBannerSlice as RawFullWidthBannerSlice,
   PagesDocument as RawPagesDocument,
   TextSlice as RawTextSlice,
@@ -59,11 +58,11 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       getInsideOurCollectionsCards(collectionsPage);
 
     const bannerOne = collectionsPage.untransformedBody.find(
-      (slice: prismic.Slice) => slice.slice_type === 'fullWidthBanner'
+      slice => slice.slice_type === 'fullWidthBanner'
     ) as RawFullWidthBannerSlice | undefined;
 
     const bannerTwo = collectionsPage.untransformedBody.find(
-      (slice: prismic.Slice) =>
+      slice =>
         slice.slice_type === 'fullWidthBanner' && slice.id !== bannerOne?.id
     ) as RawFullWidthBannerSlice | undefined;
 
@@ -72,8 +71,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       .filter(isFullWidthBanner);
 
     const themeCardsListSlices = collectionsPage.untransformedBody.filter(
-      (slice: PagesDocumentDataBodySlice) =>
-        slice.slice_type === 'themeCardsList'
+      slice => slice.slice_type === 'themeCardsList'
     ) as RawThemeCardsListSlice[];
 
     let newOnlineDocuments: WorkBasic[] = [];
@@ -81,7 +79,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     // Find the "New online" text block in Prismic that contains work IDs
     // Format should be: "New online: [ptfqa2te, bbsjt2ex, a3cyqwec, sh37yy5n]"
     const newOnlineBlock = collectionsPage.untransformedBody.find(
-      (slice: prismic.Slice) =>
+      slice =>
         slice.slice_type === 'text' &&
         Array.isArray(slice.primary.text) &&
         slice.primary.text.some((block: prismic.RTParagraphNode) =>

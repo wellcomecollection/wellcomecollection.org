@@ -1,5 +1,6 @@
 import { ImageType } from '@weco/common/model/image';
 import { Label } from '@weco/common/model/labels';
+import { SeriesDocumentDataBodySlice } from '@weco/common/prismicio-types';
 
 import { ArticleScheduleItem } from './article-schedule-items';
 import { ArticleBasic } from './articles';
@@ -21,7 +22,7 @@ export type SeriesBasic = {
   labels: Label[];
 };
 
-export type Series = GenericContentFields & {
+export type Series = GenericContentFields<SeriesDocumentDataBodySlice> & {
   type: 'series';
   uid: string;
   color?: ColorSelection;

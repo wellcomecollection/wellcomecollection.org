@@ -1,7 +1,7 @@
 import * as prismic from '@prismicio/client';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
-import { PagesDocumentDataBodySlice } from '@weco/common/prismicio-types';
+import { EventsDocumentDataBodySlice } from '@weco/common/prismicio-types';
 import { Event } from '@weco/content/types/events';
 
 const image = {
@@ -17,7 +17,7 @@ export const location = {
   id: 'Wn1fvyoAACgAH_yG',
   title: 'Reading Room',
   body: [],
-  untransformedBody: [] as prismic.SliceZone<PagesDocumentDataBodySlice>,
+  untransformedBody: [] as prismic.SliceZone<EventsDocumentDataBodySlice>,
   labels: [],
   level: 2,
   information: [

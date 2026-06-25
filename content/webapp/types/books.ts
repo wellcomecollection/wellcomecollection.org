@@ -2,6 +2,7 @@ import * as prismic from '@prismicio/client';
 
 import { ImageType } from '@weco/common/model/image';
 import { Label } from '@weco/common/model/labels';
+import { BooksDocumentDataBodySlice } from '@weco/common/prismicio-types';
 
 import { Contributor } from './contributors';
 import { GenericContentFields } from './generic-content-fields';
@@ -26,7 +27,7 @@ export type BookBasic = {
   labels: Label[];
 };
 
-export type Book = GenericContentFields & {
+export type Book = GenericContentFields<BooksDocumentDataBodySlice> & {
   type: 'books';
   uid: string;
   subtitle?: string;
