@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { chevron, gridView, maximise, singlePage } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
@@ -115,29 +115,38 @@ const ViewerBottomBar: FunctionComponent = () => {
         <NavigationBar>
           {previousCanvasLink ? (
             <NextLink {...previousCanvasLink} passHref legacyBehavior>
-              <NavButton className={font('sans', -1)}>
+              <NavButton className={typography('body', 'md', 'regular')}>
                 <Icon icon={chevron} rotate={90} />
                 Previous
               </NavButton>
             </NextLink>
           ) : (
-            <NavButton $disabled className={font('sans', -1)}>
+            <NavButton
+              $disabled
+              className={typography('body', 'md', 'regular')}
+            >
               <Icon icon={chevron} rotate={90} />
               Previous
             </NavButton>
           )}
-          <span className={font('sans', -1)} style={{ color: 'white' }}>
+          <span
+            className={typography('body', 'md', 'regular')}
+            style={{ color: 'white' }}
+          >
             {canvas}/{totalCanvases}
           </span>
           {nextCanvasLink ? (
             <NextLink {...nextCanvasLink} passHref legacyBehavior>
-              <NavButton className={font('sans', -1)}>
+              <NavButton className={typography('body', 'md', 'regular')}>
                 Next
                 <Icon icon={chevron} rotate={270} />
               </NavButton>
             </NextLink>
           ) : (
-            <NavButton $disabled className={font('sans', -1)}>
+            <NavButton
+              $disabled
+              className={typography('body', 'md', 'regular')}
+            >
               Next
               <Icon icon={chevron} rotate={270} />
             </NavButton>

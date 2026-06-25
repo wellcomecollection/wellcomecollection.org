@@ -4,7 +4,7 @@ import { FunctionComponent } from 'react';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { arrow, download } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { isPast } from '@weco/common/utils/dates';
 import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
 import { defaultSerializer } from '@weco/common/views/components/HTMLSerializers';
@@ -77,7 +77,7 @@ const ExhibitionBeingHuman: FunctionComponent<Props> = ({
           <Space
             as="h2"
             $v={{ size: 'sm', properties: ['margin-bottom'] }}
-            className={font('brand-bold', 1)}
+            className={typography('heading', 'lg', 'strong', 'brand')}
           >{`${exhibitionFormat} access content`}</Space>
           {(accessResourceLinks.length > 0 ||
             exhibition.accessResourcesPdfs.length > 0) && (
@@ -96,14 +96,18 @@ const ExhibitionBeingHuman: FunctionComponent<Props> = ({
                         $borderColor={borderColor}
                       >
                         {link.type === 'exhibition-guide' && (
-                          <h3 className={font('sans-bold', 0)}>
+                          <h3 className={typography('body', 'lg', 'strong')}>
                             Digital exhibition guide
                           </h3>
                         )}
                         {link.type === 'visual-story' && (
-                          <h3 className={font('sans-bold', 0)}>Visual story</h3>
+                          <h3 className={typography('body', 'lg', 'strong')}>
+                            Visual story
+                          </h3>
                         )}
-                        <span className={font('sans', -2)}>{link.text}</span>
+                        <span className={typography('body', 'sm', 'regular')}>
+                          {link.text}
+                        </span>
                         <ResourceLinkIconWrapper>
                           <Icon icon={arrow} />
                         </ResourceLinkIconWrapper>
@@ -124,7 +128,7 @@ const ExhibitionBeingHuman: FunctionComponent<Props> = ({
                         $borderColor={borderColor}
                         $underlineText={true}
                       >
-                        <span className={font('sans', -1)}>
+                        <span className={typography('body', 'md', 'regular')}>
                           {`${pdf.text} PDF`} {`(${pdf.size}kb)`}
                         </span>
                         <ResourceLinkIconWrapper>
@@ -164,7 +168,10 @@ const ExhibitionBeingHuman: FunctionComponent<Props> = ({
       {exhibition.end && !isPast(exhibition.end) && (
         <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
           <InfoBox title="Visit us" items={getInfoItems(exhibition)}>
-            <p className={font('sans', -1)} style={{ margin: 0 }}>
+            <p
+              className={typography('body', 'md', 'regular')}
+              style={{ margin: 0 }}
+            >
               For more information, please visit our{' '}
               <a href={`/visit-us/${prismicPageIds.access}`}>Accessibility</a>{' '}
               page. If you have any queries about accessibility, please email us

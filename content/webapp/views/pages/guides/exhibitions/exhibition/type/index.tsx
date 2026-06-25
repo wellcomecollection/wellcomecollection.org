@@ -5,7 +5,7 @@ import { NextPage } from 'next';
 import cookies from '@weco/common/data/cookies';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
@@ -132,7 +132,9 @@ const ExhibitionGuideTypePage: NextPage<Props> = ({
       />
 
       <ContaineredLayout gridSizes={gridSize8(false)}>
-        <h2 className={font('sans-bold', 0)}>{getTypeTitle(type)}</h2>
+        <h2 className={typography('body', 'lg', 'strong')}>
+          {getTypeTitle(type)}
+        </h2>
 
         {exhibitionGuide.introText?.length > 0 ? (
           <PrismicHtmlBlock html={exhibitionGuide.introText} />

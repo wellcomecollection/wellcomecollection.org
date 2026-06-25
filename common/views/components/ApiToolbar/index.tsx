@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import { cross } from '@weco/common/icons';
 import { Contributor, License } from '@weco/common/model/catalogue';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 
 export type ApiToolbarLink = {
@@ -24,7 +24,7 @@ const ToolbarContainer = styled.div`
 `;
 
 const LinkList = styled.ul.attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })`
   display: flex;
   list-style: none;
@@ -142,7 +142,10 @@ const ApiToolbar: FunctionComponent<Props> = ({ links = [] }) => {
           flexGrow: 1,
         }}
       >
-        <span className={font('brand-bold', 0)} style={{ marginLeft: '10px' }}>
+        <span
+          className={typography('heading', 'md', 'strong', 'brand')}
+          style={{ marginLeft: '10px' }}
+        >
           API toolbar
         </span>
         <LinkList>

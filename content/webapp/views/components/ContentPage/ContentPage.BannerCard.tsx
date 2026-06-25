@@ -4,7 +4,7 @@ import styled, { useTheme } from 'styled-components';
 import { arrowSmall } from '@weco/common/icons';
 import { getCrop } from '@weco/common/model/image';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import Button from '@weco/common/views/components/Buttons';
 import LabelsList from '@weco/common/views/components/LabelsList';
@@ -62,7 +62,7 @@ const ImageWrapper = styled.div<ImageWrapperProps>`
 `;
 
 const DateRangeWrapper = styled(Space).attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
   $v: { size: 'xs', properties: ['margin-top', 'margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.400')};
@@ -133,7 +133,7 @@ const BannerCard: FunctionComponent<Props> = ({
         )}
         <Space
           as="h2"
-          className={font('brand-bold', 2)}
+          className={typography('heading', 'xl', 'strong', 'brand')}
           $v={{ size: 'sm', properties: ['margin-top', 'margin-bottom'] }}
         >
           {title}
@@ -143,7 +143,7 @@ const BannerCard: FunctionComponent<Props> = ({
             <DateRange start={start} end={end} />
           </DateRangeWrapper>
         )}
-        <p className={font('sans', -1)}>{description}</p>
+        <p className={typography('body', 'md', 'regular')}>{description}</p>
         <Button
           variant="ButtonSolid"
           colors={theme.buttonColors.whiteTransparentWhite}

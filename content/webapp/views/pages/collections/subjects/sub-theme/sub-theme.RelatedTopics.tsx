@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
 import { RelatedConcept } from '@weco/content/services/wellcome/catalogue/types';
 
 const RelatedConceptsContainer = styled.div.attrs({
-  className: font('sans-bold', -1),
+  className: typography('body', 'md', 'strong'),
 })`
   display: flex;
   flex-wrap: wrap;
@@ -15,7 +15,7 @@ const RelatedConceptsContainer = styled.div.attrs({
   gap: ${props => props.theme.spacingUnits['100']};
 `;
 const RelatedConceptItem = styled.div.attrs({
-  className: font('sans', -2),
+  className: typography('body', 'sm', 'regular'),
 })`
   display: flex;
   align-items: center;
@@ -32,7 +32,7 @@ const SubThemeRelatedTopics = ({
       <RelatedConceptsContainer>
         {relatedTopics.map((item, index) => (
           <RelatedConceptItem key={item.id}>
-            <Space className={font('sans', -1)}>
+            <Space className={typography('body', 'md', 'regular')}>
               <Button
                 variant="ButtonSolidLink"
                 colors={themeValues.buttonColors.slateTransparentBlack}

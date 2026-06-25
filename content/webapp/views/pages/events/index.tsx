@@ -4,7 +4,7 @@ import { useTheme } from 'styled-components';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { formDataAsUrlQuery } from '@weco/common/utils/forms';
 import { pluralize } from '@weco/common/utils/grammar';
 import {
@@ -122,7 +122,9 @@ const EventsPage: NextPage<Props> = props => {
 
         {pageDescriptions.events && (
           <ContaineredLayout gridSizes={gridSize8(false)}>
-            <div className={`body-text spaced-text ${font('sans', 0)}`}>
+            <div
+              className={`body-text spaced-text ${typography('body', 'lg', 'regular')}`}
+            >
               <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
                 <p>{pageDescriptions.events}</p>
               </Space>

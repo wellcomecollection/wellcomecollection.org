@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
 
@@ -14,7 +14,7 @@ export const MobileNavBackground = styled(Space).attrs({
 `;
 
 export const FromCollectionsHeading = styled.h2.attrs({
-  className: font('brand-bold', 2),
+  className: typography('heading', 'xl', 'strong', 'brand'),
 })<{ $color: PaletteColor }>`
   color: ${props => props.theme.color(props.$color)};
   margin-bottom: 0;

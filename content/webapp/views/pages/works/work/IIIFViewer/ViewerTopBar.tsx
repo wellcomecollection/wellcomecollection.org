@@ -12,7 +12,7 @@ import {
   singlePage,
 } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
@@ -35,7 +35,7 @@ import { queryParamToArrayIndex } from '.';
 import ToolbarSegmentedControl from './ToolbarSegmentedControl';
 
 export const ViewerButton = styled.button.attrs({
-  className: font('sans-bold', -1),
+  className: typography('body', 'md', 'strong'),
 })<{ $isDark?: boolean }>`
   line-height: 1.5;
   border-radius: ${props => props.theme.borderRadiusUnit}px;
@@ -178,7 +178,7 @@ const LeftZone = styled.div`
 `;
 
 const MiddleZone = styled.div.attrs({
-  className: font('sans-bold', -1),
+  className: typography('body', 'md', 'strong'),
 })`
   display: flex;
   justify-content: center;

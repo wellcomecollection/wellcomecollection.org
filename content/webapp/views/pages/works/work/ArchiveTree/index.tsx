@@ -3,7 +3,7 @@ import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { treeInstructions } from '@weco/common/data/microcopy';
 import { tree } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
 import Modal from '@weco/common/views/components/Modal';
 import Space from '@weco/common/views/components/styled/Space';
@@ -189,7 +189,9 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
           <Space
             $v={{ size: 'md', properties: ['padding-top', 'padding-bottom'] }}
           >
-            <h2 className={font('brand-bold', 0)}>Collection contents</h2>
+            <h2 className={typography('heading', 'md', 'strong', 'brand')}>
+              Collection contents
+            </h2>
             <Tree $isEnhanced={isEnhanced} $maxWidth={375}>
               {isEnhanced && (
                 <TreeInstructions>{treeInstructions}</TreeInstructions>

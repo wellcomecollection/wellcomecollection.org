@@ -10,14 +10,14 @@ import {
 import { KiosksContentType } from '@weco/common/contexts/KioskContext/kiosks-content';
 import { arrowSmall, home } from '@weco/common/icons';
 import { useModes } from '@weco/common/server-data/Context';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
 const KioskNavigationWrapper = styled(Space).attrs({
   $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
   $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })`
   height: ${props => props.theme.kioskNavigationHeight}px;
   position: fixed;

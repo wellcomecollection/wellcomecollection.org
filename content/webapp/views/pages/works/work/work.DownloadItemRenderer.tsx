@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { chevron, closedFolder, openFolder } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import { TransformedCanvas } from '@weco/content/types/manifest';
 import { controlDimensions } from '@weco/content/views/pages/works/work/work.helpers';
@@ -12,7 +12,7 @@ import DownloadItem from '@weco/content/views/pages/works/work/WorkDetails/WorkD
 import { TreeControl } from './NestedList';
 
 const ItemWrapper = styled.div.attrs({
-  className: font('sans', -2),
+  className: typography('body', 'sm', 'regular'),
 })`
   display: flex;
   height: ${controlDimensions.controlHeight}px;

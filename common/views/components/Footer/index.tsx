@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { Venue } from '@weco/common/model/opening-hours';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import Divider from '@weco/common/views/components/Divider';
 import FindUs from '@weco/common/views/components/FindUs';
@@ -24,7 +24,7 @@ type Props = {
 // Styles
 const Wrapper = styled(Space).attrs({
   as: 'footer',
-  className: `${font('sans', -1)} is-hidden-print`,
+  className: `${typography('body', 'md', 'regular')} is-hidden-print`,
   $v: { size: 'xl', properties: ['padding-top'] },
 })`
   position: relative;
@@ -162,7 +162,9 @@ const FooterBottom = styled(Space).attrs({
   justify-content: space-between;
 `;
 
-const FooterLicense = styled.p.attrs({ className: font('sans', -2) })`
+const FooterLicense = styled.p.attrs({
+  className: typography('body', 'sm', 'regular'),
+})`
   display: inline;
   margin: 0 1rem 1rem 0;
 `;
@@ -214,7 +216,7 @@ const Footer: FunctionComponent<Props> = ({
             openingtimes link */}
               {hasVenuesInfo && (
                 <>
-                  <h4 className={font('sans-bold', -1)}>
+                  <h4 className={typography('body', 'md', 'strong')}>
                     Today&rsquo;s opening times
                   </h4>
                   <OpeningTimes venues={venues} />

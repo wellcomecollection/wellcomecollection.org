@@ -16,7 +16,7 @@ import {
   Auth0UserProfile,
   auth0UserProfileToUserInfo,
 } from '@weco/common/model/user';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { allowedRequests } from '@weco/common/values/requests';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
 import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
@@ -68,8 +68,10 @@ const DetailList: FunctionComponent<{
     <StyledDl>
       {listItems.map(item => (
         <Fragment key={item.label}>
-          <dt className={font('sans-bold', -1)}>{item.label}</dt>
-          <StyledDd className={font('sans', -1)}>{item.value}</StyledDd>
+          <dt className={typography('body', 'md', 'strong')}>{item.label}</dt>
+          <StyledDd className={typography('body', 'md', 'regular')}>
+            {item.value}
+          </StyledDd>
         </Fragment>
       ))}
     </StyledDl>
@@ -79,10 +81,10 @@ const DetailList: FunctionComponent<{
 const RequestsFailed: FunctionComponent<{ retry: () => void }> = ({
   retry,
 }) => (
-  <p className={font('sans', -1)}>
+  <p className={typography('body', 'md', 'regular')}>
     Something went wrong fetching your item requests.
     <button
-      className={font('sans', -1)}
+      className={typography('body', 'md', 'regular')}
       style={{
         border: 'none',
         background: 'none',
@@ -113,7 +115,7 @@ const AccountStatus: FunctionComponent<PropsWithChildren<StatusAlertProps>> = ({
 const NoRequestedItems = () => (
   <Space
     as="p"
-    className={font('sans', -1)}
+    className={typography('body', 'md', 'regular')}
     $v={{
       size: 'xs',
       properties: ['margin-bottom'],
@@ -174,7 +176,9 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
           <Space
             $v={{ size: 'md', properties: ['padding-top', 'padding-bottom'] }}
           >
-            <h1 className={font('brand-bold', 5)}>Library account</h1>
+            <h1 className={typography('display', 'md', 'strong')}>
+              Library account
+            </h1>
           </Space>
         </ContaineredLayout>
         <div className="is-hidden-s">
@@ -253,7 +257,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                             <>
                               <Space
                                 as="p"
-                                className={font('sans-bold', -1)}
+                                className={typography('body', 'md', 'strong')}
                                 $v={{
                                   size: 'xs',
                                   properties: ['margin-bottom'],
@@ -324,7 +328,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                                 ]}
                               />
                               <Space
-                                className={font('sans', -1)}
+                                className={typography('body', 'md', 'regular')}
                                 $v={{
                                   size: 'md',
                                   properties: ['margin-top'],
@@ -353,7 +357,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
           </SectionHeading>
           <Container>
             <Wrapper>
-              <p className={font('sans', -1)}>
+              <p className={typography('body', 'md', 'regular')}>
                 If you no longer wish to be a library member, you can cancel
                 your membership. The library team will be notified and your
                 online account will be closed.

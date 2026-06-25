@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { email, ticketAvailable } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 import { Event } from '@weco/content/types/events';
@@ -58,7 +58,7 @@ type EventBookingButtonProps = {
 
 const EventBookingButtonLink = styled(Space).attrs<EventBookingButtonProps>(
   props => ({
-    className: font('sans', 0),
+    className: typography('body', 'lg', 'regular'),
     href: `mailto:${props.email}?subject=${props.title}`,
     $v: { size: 'xs', properties: ['margin-top'] },
   })

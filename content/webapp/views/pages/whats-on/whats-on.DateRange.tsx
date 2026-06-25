@@ -1,4 +1,4 @@
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { formatDate, formatDayName } from '@weco/common/utils/format-date';
 import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
 import Space from '@weco/common/views/components/styled/Space';
@@ -17,7 +17,7 @@ const DateRange = ({ dateRange, period }: DateRangeProps) => {
         properties: ['margin-bottom'],
       }}
       as="p"
-      className={font('sans', -1)}
+      className={typography('body', 'md', 'regular')}
     >
       {period === 'today' && <HTMLDateAndTime variant="date" date={start} />}
       {period === 'this-weekend' && (

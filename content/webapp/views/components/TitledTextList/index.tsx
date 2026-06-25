@@ -2,14 +2,14 @@ import * as prismic from '@prismicio/client';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
 import { LabelField } from '@weco/content/model/label-field';
 
 const HeadingLink = styled.a.attrs({
-  className: font('sans-bold', 0),
+  className: typography('body', 'lg', 'strong'),
 })`
   text-decoration: underline;
   color: ${props => props.theme.color('accent.green')};

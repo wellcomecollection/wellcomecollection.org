@@ -14,7 +14,7 @@ import { arrow, email, ticket } from '@weco/common/icons';
 import { PagesDocumentDataBodySlice } from '@weco/common/prismicio-types';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { formatDayDate, formatTime } from '@weco/common/utils/format-date';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
@@ -66,14 +66,14 @@ const DateWrapper = styled.div.attrs({
 `;
 
 const ThirdParty = styled.span.attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })`
   color: ${props => props.theme.color('neutral.700')};
   margin: 0;
 `;
 
 const EmailTeamCopy = styled(Space).attrs({
-  className: font('sans-bold', -1),
+  className: typography('body', 'md', 'strong'),
   $v: { size: 'xs', properties: ['margin-top'] },
 })`
   display: block;
@@ -343,7 +343,9 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
 
         {accessResourceLinks && accessResourceLinks.length > 0 && (
           <>
-            <h2 className={font('brand-bold', 1)}>Event access content</h2>
+            <h2 className={typography('heading', 'lg', 'strong', 'brand')}>
+              Event access content
+            </h2>
             <Space $v={{ size: 'md', properties: ['padding-bottom'] }}>
               <ResourcesList>
                 {accessResourceLinks.map((link, i) => {
@@ -355,9 +357,13 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
                         $borderColor="accent.turquoise"
                       >
                         {link.type === 'visual-story' && (
-                          <h3 className={font('sans-bold', 0)}>Visual story</h3>
+                          <h3 className={typography('body', 'lg', 'strong')}>
+                            Visual story
+                          </h3>
                         )}
-                        <span className={font('sans', -2)}>{link.text}</span>
+                        <span className={typography('body', 'sm', 'regular')}>
+                          {link.text}
+                        </span>
                         <ResourceLinkIconWrapper>
                           <Icon icon={arrow} />
                         </ResourceLinkIconWrapper>
@@ -416,13 +422,21 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
           {isNotUndefined(
             event.policies.find(p => p.id === eventPolicyIds.schoolBooking)
           ) ? (
-            <p className={font('sans', -1)} style={{ marginBottom: 0 }}>
+            <p
+              className={typography('body', 'md', 'regular')}
+              style={{ marginBottom: 0 }}
+            >
               {a11y.defaultEventMessage}
             </p>
           ) : (
             <>
-              <p className={font('sans', -1)}>{a11y.defaultEventMessage}</p>
-              <p className={font('sans', -1)} style={{ marginBottom: 0 }}>
+              <p className={typography('body', 'md', 'regular')}>
+                {a11y.defaultEventMessage}
+              </p>
+              <p
+                className={typography('body', 'md', 'regular')}
+                style={{ marginBottom: 0 }}
+              >
                 <a
                   href={`https://wellcomecollection.org/visit-us/${prismicPageIds.bookingAndAttendingOurEvents}`}
                 >

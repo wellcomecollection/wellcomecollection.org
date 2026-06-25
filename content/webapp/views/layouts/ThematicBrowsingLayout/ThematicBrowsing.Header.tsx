@@ -2,7 +2,7 @@ import * as prismic from '@prismicio/client';
 import styled from 'styled-components';
 
 import { useFeatureFlags } from '@weco/common/server-data/Context';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Breadcrumb, {
   getBreadcrumbItems,
 } from '@weco/common/views/components/Breadcrumb';
@@ -63,12 +63,16 @@ const ThematicBrowsingHeader = ({
           </Space>
 
           <Layout gridSizes={gridSize10(false)}>
-            <h1 className={font('brand-bold', 4)}>{title}</h1>
+            <h1 className={typography('heading', 'xxl', 'strong', 'brand')}>
+              {title}
+            </h1>
           </Layout>
 
           {introText && (
             <Layout gridSizes={gridSize8(false)}>
-              <div className={`${font('sans', 1)} body-text`}>
+              <div
+                className={`${typography('body', 'xl', 'regular')} body-text`}
+              >
                 {typeof introText !== 'string' ? (
                   <PrismicHtmlBlock html={introText} />
                 ) : (

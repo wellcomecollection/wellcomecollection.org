@@ -3,7 +3,7 @@ import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import { cross, gallery } from '@weco/common/icons';
 import { CaptionedImage as CaptionedImageProps } from '@weco/common/model/captioned-image';
 import { repeatingLsBlack } from '@weco/common/utils/backgrounds';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { dasherize, pluralize } from '@weco/common/utils/grammar';
 import Button from '@weco/common/views/components/Buttons';
 import Control from '@weco/common/views/components/Control';
@@ -138,7 +138,7 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
             </Space>
             <h2
               id={title ? dasherize(title) : `gallery-${id}`}
-              className={font('brand-bold', 1)}
+              className={typography('heading', 'lg', 'strong', 'brand')}
               ref={headingRef}
             >
               {title || 'In pictures'}
@@ -249,7 +249,7 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
                       items.length > 1 ? (
                         <Space
                           $v={{ size: 'sm', properties: ['margin-bottom'] }}
-                          className={font('sans-bold', -1)}
+                          className={typography('body', 'md', 'strong')}
                         >
                           {i + 1} of {items.length}
                         </Space>

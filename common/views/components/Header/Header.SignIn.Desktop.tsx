@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { user as userIcon } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { BorderlessLink } from '@weco/common/views/components/BorderlessClickable';
 import Button from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
@@ -23,7 +23,10 @@ const AccountA = styled(Space).attrs<AccountAProps>(props => ({
 `;
 
 const SignedOutWrapper = styled.span.attrs({
-  className: 'display-none headerMedium-display-block' + ' ' + font('sans', -2),
+  className:
+    'display-none headerMedium-display-block' +
+    ' ' +
+    typography('body', 'sm', 'regular'),
 })`
   /* Hack to minimise the margins between both icons when signed out */
   button span span:first-child {
@@ -69,7 +72,7 @@ const DesktopSignIn: FunctionComponent = () => {
           <Button
             variant="DropdownButton"
             label={
-              <span className={font('sans', -2)}>
+              <span className={typography('body', 'sm', 'regular')}>
                 {user.firstName.charAt(0).toLocaleUpperCase()}
                 {user.lastName.charAt(0).toLocaleUpperCase()}
               </span>
@@ -78,7 +81,7 @@ const DesktopSignIn: FunctionComponent = () => {
             id="signedin-dropdown"
             buttonType="borderless"
           >
-            <span className={font('sans', -2)}>
+            <span className={typography('body', 'sm', 'regular')}>
               <AccountA as="a" href="/account">
                 Library account
               </AccountA>

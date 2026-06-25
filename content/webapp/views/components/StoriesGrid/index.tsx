@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { getCrop } from '@weco/common/model/image';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import PrismicImage, {
@@ -58,7 +58,7 @@ const MobileLabel = styled.div`
 `;
 
 const StoryInformation = styled(Space).attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
   $v: { size: '2xs', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.600')};
@@ -152,7 +152,9 @@ const StoriesGrid: FunctionComponent<Props> = ({
                   <LabelsList labels={[{ text: article.format.label }]} />
                 </DesktopLabel>
 
-                <h3 className={font('brand-bold', 0)}>{article.title}</h3>
+                <h3 className={typography('heading', 'md', 'strong', 'brand')}>
+                  {article.title}
+                </h3>
 
                 {!isCompact &&
                   (article.publicationDate ||
@@ -185,7 +187,10 @@ const StoriesGrid: FunctionComponent<Props> = ({
                   )}
 
                 {article.caption && (
-                  <p className={font('sans', -1)} style={{ marginBottom: 0 }}>
+                  <p
+                    className={typography('body', 'md', 'regular')}
+                    style={{ marginBottom: 0 }}
+                  >
                     {article.caption}
                   </p>
                 )}

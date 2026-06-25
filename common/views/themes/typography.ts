@@ -17,7 +17,7 @@ import { css } from 'styled-components';
 export const bodyStrongFontWeight =
   designSystemTheme.typography.body.strong?.lg?.fontWeight ?? 'bold';
 
-export const compositeTypographyMixin = (
+export const typographyMixin = (
   category: 'body' | 'caption' | 'display' | 'label' | 'heading',
   size: TypographySizeKey,
   weight: 'regular' | 'strong',
@@ -53,7 +53,7 @@ export const typography = css`
   }
 
   body {
-    ${compositeTypographyMixin('body', 'lg', 'regular')}
+    ${typographyMixin('body', 'lg', 'regular')}
     color: ${props => props.theme.color('black')};
     font-variant-ligatures: no-common-ligatures;
     -webkit-font-smoothing: antialiased;
@@ -149,15 +149,15 @@ export const typography = css`
 
   .body-text {
     h1 {
-      ${compositeTypographyMixin('heading', 'xxl', 'strong', 'brand')}
+      ${typographyMixin('heading', 'xxl', 'strong', 'brand')}
     }
 
     h2 {
-      ${compositeTypographyMixin('heading', 'xl', 'strong', 'brand')}
+      ${typographyMixin('heading', 'xl', 'strong', 'brand')}
     }
 
     h3 {
-      ${compositeTypographyMixin('body', 'xl', 'strong')}
+      ${typographyMixin('body', 'xl', 'strong')}
     }
 
     *::selection {
@@ -206,7 +206,7 @@ export const typography = css`
   }
 
   .drop-cap {
-    ${compositeTypographyMixin('heading', 'xl', 'strong', 'brand')}
+    ${typographyMixin('heading', 'xl', 'strong', 'brand')}
     font-size: 3em;
     color: ${props => props.theme.color('black')};
     float: left;
@@ -238,7 +238,7 @@ export const typography = css`
     position: relative;
 
     &::before {
-      ${compositeTypographyMixin('heading', 'xl', 'strong', 'brand')}
+      ${typographyMixin('heading', 'xl', 'strong', 'brand')}
       position: absolute;
       content: '“';
       color: ${props => props.theme.color('accent.blue')};
@@ -254,15 +254,7 @@ export const typography = css`
   }
 `;
 
-export const makeFontSizeClasses = () => css`
-  ${Object.entries(designSystemTheme.font.size)
-    .map(([key, value]) => {
-      return `.font-size-${key} {font-size: ${value}}`;
-    })
-    .join(' ')}
-`;
-
-export const makeCompositeTypographyClasses = () => {
+export const makeTypographyClasses = () => {
   const t = designSystemTheme.typography;
   const sizes: TypographySizeKey[] = ['xxl', 'xl', 'lg', 'md', 'sm', 'xs'];
 

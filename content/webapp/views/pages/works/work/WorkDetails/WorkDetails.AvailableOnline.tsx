@@ -7,7 +7,7 @@ import { bornDigitalMessage } from '@weco/common/data/microcopy';
 import { eye } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { LinkProps } from '@weco/common/model/link-props';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
@@ -41,7 +41,7 @@ import WorksTree from './WorkDetails.Tree';
 const RestrictedMessage = styled(Space).attrs({
   $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
   $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })`
   position: relative;
   border-radius: 3px;
@@ -62,7 +62,7 @@ const RestrictedMessage = styled(Space).attrs({
 `;
 
 const MessageBox = styled(Space).attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
   $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
   $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
 })`
@@ -172,7 +172,10 @@ const ItemPageLink = ({
               </Space>
             )}
           >
-            <p className={font('mono', -2)} style={{ marginBottom: 0 }}>
+            <p
+              className={typography('caption', 'md', 'regular')}
+              style={{ marginBottom: 0 }}
+            >
               Contains:{' '}
               {(collectionManifestsCount && collectionManifestsCount > 0) ||
               canvasCount
@@ -298,7 +301,7 @@ const WorkDetailsAvailableOnline = ({
         {shouldShowDownloadTree && (
           <>
             {Number(canvases?.length) > 0 && (
-              <p className={font('mono', -2)}>
+              <p className={typography('caption', 'md', 'regular')}>
                 Contains {canvases?.length} files
               </p>
             )}
