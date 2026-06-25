@@ -244,15 +244,18 @@ test('(10) | Next button navigates to the next work in the list', async ({
   context,
 }) => {
   await gotoWorkInKioskMode('eudv2vbg', context, page);
-  const firstWorkUrl = page.url();
 
-  // Click next
-  await page.getByRole('link', { name: 'Go to next page' }).click();
-  await page.waitForLoadState('load');
+  // Verify next link exists and is visible
+  const nextLink = page.getByRole('link', { name: 'Go to next page' });
+  await expect(nextLink).toBeVisible();
+
+  // Click next and wait for URL to change
+  await nextLink.click();
+  await page.waitForURL(/\/works\/zeu8jvyg/);
   await page.getByLabel('Kiosk navigation').waitFor();
 
-  const secondWorkUrl = page.url();
-  expect(secondWorkUrl).not.toBe(firstWorkUrl);
+  // Verify we navigated to a different work
+  expect(page.url()).toContain('/works/zeu8jvyg');
 
   // Verify we're still in kiosk mode
   const kioskNav = page.getByLabel('Kiosk navigation');
@@ -267,7 +270,7 @@ test('(11) | Previous button is enabled after navigating to the second work', as
 
   // Navigate to next work
   await page.getByRole('link', { name: 'Go to next page' }).click();
-  await page.waitForLoadState('load');
+  await page.waitForURL(/\/works\/zeu8jvyg/);
   await page.getByLabel('Kiosk navigation').waitFor();
 
   // Previous button should now be visible and enabled
@@ -327,7 +330,7 @@ test('(15) | Progress counter updates when navigating to next work', async ({
 
   // Navigate to next work
   await page.getByRole('link', { name: 'Go to next page' }).click();
-  await page.waitForLoadState('load');
+  await page.waitForURL(/\/works\/zeu8jvyg/);
   await page.getByLabel('Kiosk navigation').waitFor();
 
   // Should now show 2 / 8
