@@ -126,16 +126,18 @@ const Choice: FunctionComponent<
   shouldScrollToUpdateUrl,
   showVideoTranscript,
 }) => {
-  // We may have multiple items, such as videos of different formats
-  // but we only show the first of these currently
-  if ('items' in item) {
-    const firstItem = item.items[0];
-    if (typeof firstItem !== 'string' && 'id' in firstItem) {
+  const { selectedChoiceIndex } = useItemViewerContext();
+
+  // Render the selected item from the Choice
+  if ('items' in item && item.items.length > 0) {
+    const selectedItem =
+      item.items[Math.min(selectedChoiceIndex, item.items.length - 1)];
+    if (typeof selectedItem !== 'string' && 'id' in selectedItem) {
       return (
         <>
           <RenderItem
-            key={firstItem.id}
-            item={firstItem}
+            key={selectedItem.id}
+            item={selectedItem}
             i={i}
             canvas={canvas}
             placeholderId={placeholderId}

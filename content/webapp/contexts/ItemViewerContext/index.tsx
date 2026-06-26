@@ -47,6 +47,8 @@ type Props = {
   setShowControls: (v: boolean) => void;
   rotatedImages: CanvasRotatedImage[];
   setRotatedImages: (v: CanvasRotatedImage[]) => void;
+  selectedChoiceIndex: number;
+  setSelectedChoiceIndex: (v: number) => void;
   isResizing: boolean;
   errorHandler?: () => void;
   /**
@@ -128,6 +130,8 @@ const ItemViewerContext = createContext<Props>({
   setShowFullscreenControl: () => undefined,
   rotatedImages: [],
   setRotatedImages: () => undefined,
+  selectedChoiceIndex: 0,
+  setSelectedChoiceIndex: () => undefined,
   isResizing: false,
   errorHandler: () => undefined,
   hasOnlyRenderableImages: false,

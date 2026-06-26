@@ -260,10 +260,28 @@ function getImageServiceFromCanvas(canvas: Canvas): BodyService | undefined {
         | AnnotationPageBody[]
         | undefined
   ).flat();
-  const BodiesServices = AnnotationBodies?.map(body => body?.service).flat();
+  const BodiesServices = AnnotationBodies?.map(body => {
+    // If body is a Choice, use the first item inside it
+    if (
+      body &&
+      typeof body === 'object' &&
+      'type' in body &&
+      body.type === 'Choice' &&
+      'items' in body
+    ) {
+      const choiceBody = body as ChoiceBody;
+      const firstItem = choiceBody.items[0];
+      return firstItem &&
+        typeof firstItem === 'object' &&
+        'service' in firstItem
+        ? firstItem.service
+        : undefined;
+    }
+    return body?.service;
+  }).flat();
   const imageService = BodiesServices?.find(
     service => service?.['@type'] === 'ImageService2'
-  );
+  ) as BodyService | undefined;
   return imageService;
 }
 

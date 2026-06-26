@@ -254,6 +254,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const [isMobileSidebarActive, setIsMobileSidebarActive] = useState(false);
   const [showZoomed, setShowZoomed] = useState(false);
   const [rotatedImages, setRotatedImages] = useState<CanvasRotatedImage[]>([]);
+  const [selectedChoiceIndex, setSelectedChoiceIndex] = useState(0);
   const [showFullscreenControl, setShowFullscreenControl] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [mainAreaHeight, setMainAreaHeight] = useState(500);
@@ -341,6 +342,11 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     handleResize();
   }, [isDesktopSidebarActive]);
 
+  // Reset Choice selection when canvas changes
+  useEffect(() => {
+    setSelectedChoiceIndex(0);
+  }, [canvas]);
+
   return (
     <ItemViewerContext.Provider
       value={{
@@ -382,6 +388,8 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         setShowControls,
         rotatedImages,
         setRotatedImages,
+        selectedChoiceIndex,
+        setSelectedChoiceIndex,
         isResizing,
         errorHandler: handleImageError,
         accessToken,
