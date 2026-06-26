@@ -780,7 +780,15 @@ export function getItemsStatus(manifest: Manifest | Collection): ItemsStatus {
 export function hasNonImagesOrOriginals(
   canvases: TransformedCanvas[] | undefined
 ): boolean {
-  const isNonImage = p => p.type !== 'Image';
+  const isNonImage = p => {
+    // For Choice items, check if all items inside are images
+    if (isChoiceBody(p)) {
+      return p.items.some(item => {
+        return typeof item !== 'string' && item.type !== 'Image';
+      });
+    }
+    return p.type !== 'Image';
+  };
   const hasNonImage = canvases?.some(c => {
     return (
       c.rendering.some(isNonImage) ||
