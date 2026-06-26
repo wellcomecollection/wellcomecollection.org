@@ -37,17 +37,19 @@ const KioskNavigationWrapper = styled(Space).attrs({
 const LeftSection = styled.div`
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 `;
 
 const HistoryNavigation = styled.div`
   display: flex;
-  gap: 12px;
 `;
 
 const HistoryButton = styled.button`
-  width: 24px;
-  height: 24px;
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   color: inherit;
   cursor: pointer;
 
@@ -65,6 +67,7 @@ const HomeLink = styled(Link)`
   display: inline-flex;
   align-items: center;
   gap: 16px;
+  min-height: 44px;
   color: inherit;
   text-decoration: none;
 
@@ -77,6 +80,7 @@ const DisabledHomeLink = styled.div`
   display: inline-flex;
   align-items: center;
   gap: 16px;
+  min-height: 44px;
   color: inherit;
   cursor: not-allowed;
   opacity: 0.5;
@@ -92,7 +96,10 @@ const navLinkStyles = `
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 8px;
+  min-width: 44px;
+  min-height: 44px;
 `;
 
 const NavLink = styled(Link)`
