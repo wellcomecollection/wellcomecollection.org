@@ -314,6 +314,40 @@ describe('hasNonImagesOrOriginals', () => {
     ];
     expect(hasNonImagesOrOriginals(canvases)).toBe(true);
   });
+
+  it('returns false when painting contains Choice with only Image items', () => {
+    const canvases = [
+      createImageCanvas({
+        painting: [
+          {
+            type: 'Choice',
+            items: [
+              { id: 'https://example.com/image/1', type: 'Image' },
+              { id: 'https://example.com/image/2', type: 'Image' },
+            ],
+          },
+        ],
+      }),
+    ];
+    expect(hasNonImagesOrOriginals(canvases)).toBe(false);
+  });
+
+  it('returns true when painting contains Choice with non-Image items', () => {
+    const canvases = [
+      createImageCanvas({
+        painting: [
+          {
+            type: 'Choice',
+            items: [
+              { id: 'https://example.com/image/1', type: 'Image' },
+              { id: 'https://example.com/video/1', type: 'Video' },
+            ],
+          },
+        ],
+      }),
+    ];
+    expect(hasNonImagesOrOriginals(canvases)).toBe(true);
+  });
 });
 
 describe('deduplicateDownloadOptions', () => {
