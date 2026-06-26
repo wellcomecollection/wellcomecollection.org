@@ -40,7 +40,7 @@ async function getIIIFManifest(
 }
 
 export async function fetchIIIFPresentationManifest({
-  location,
+  // location,
   workTypeId,
 }: {
   location: string;
@@ -48,7 +48,12 @@ export async function fetchIIIFPresentationManifest({
 }): Promise<Manifest | undefined> {
   // TODO once we're using v3 everywhere,
   // we'll want the catalogue API to return v3, then we can stop doing the following
-  const v3Location = location.replace('/v2/', '/v3/');
+  // const v3Location = location.replace('/v2/', '/v3/');
+  // const v3Location =
+  //   'https://bl.digirati.io/iiif/ark:/81055/man_10000049.0x000001?manifest=https://bl.digirati.io/iiif/ark:/81055/man_10000049.0x000001'; // TODO don't commit
+
+  const v3Location =
+    'https://gist.githubusercontent.com/jcateswellcome/71d898bc98ce21a30906d36045199e05/raw/f3372c89cfa847810d8af98187fd889d135b4492/scroll-manifest.json'; // TODO don't commit
 
   const iiifManifest = await getIIIFManifest(v3Location, workTypeId);
 
