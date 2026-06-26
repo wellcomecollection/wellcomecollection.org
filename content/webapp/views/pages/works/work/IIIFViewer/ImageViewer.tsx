@@ -11,6 +11,7 @@ import IIIFViewerImage from './IIIFViewerImage';
 
 const ImageWrapper = styled.div<{
   $isFullSupportBrowser: boolean;
+  $useFixedSizeList: boolean;
 }>`
   position: absolute;
   top: 0;
@@ -35,6 +36,13 @@ const ImageWrapper = styled.div<{
       transform: translateY(-50%);
       max-width: 80%;
       max-height: 95%;
+    `}
+
+    ${props =>
+      props.$isFullSupportBrowser &&
+      props.$useFixedSizeList &&
+      `
+    height: stretch;
     `}
   }
 `;
@@ -64,8 +72,13 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   setImageContainerRect,
 }) => {
   const { isFullSupportBrowser } = useAppContext();
-  const { work, errorHandler, setShowZoomed, rotatedImages } =
-    useItemViewerContext();
+  const {
+    work,
+    errorHandler,
+    setShowZoomed,
+    rotatedImages,
+    hasOnlyRenderableImages,
+  } = useItemViewerContext();
   const imageWrapperRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const [imageSrc, setImageSrc] = useState(urlTemplate({ size: '640,' }));
@@ -138,6 +151,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
       onLoad={loadHandler}
       ref={imageWrapperRef}
       $isFullSupportBrowser={isFullSupportBrowser}
+      $useFixedSizeList={hasOnlyRenderableImages}
     >
       <IIIFViewerImage
         index={index}
