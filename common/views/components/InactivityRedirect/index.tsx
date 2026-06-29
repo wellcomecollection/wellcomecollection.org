@@ -30,11 +30,11 @@ const InactivityRedirect: FunctionComponent<{ isCardiganStory?: boolean }> = ({
   const modalButtonRef = useRef<HTMLElement | null>(null);
 
   // Don't run outside kiosk mode, on the redirect destination itself, or if in developer mode
-  // Strip kp_zoomLevel param when checking if we're on the homepage
-  const currentPathWithoutZoomParam = router.asPath.split('?')[0];
-  const homepagePathWithoutZoomParam = kioskHomepageUrl?.split('?')[0];
+  // Strip query parameters when checking if we're on the homepage (e.g. kp_zoomLevel=100)
+  const currentPathWithoutQuery = router.asPath.split('?')[0];
+  const homepagePathWithoutQuery = kioskHomepageUrl?.split('?')[0];
   const isRedirectDestination =
-    currentPathWithoutZoomParam === homepagePathWithoutZoomParam;
+    currentPathWithoutQuery === homepagePathWithoutQuery;
   const shouldNotBeActive =
     (!isKiosk ||
       isDevModeKiosk ||
