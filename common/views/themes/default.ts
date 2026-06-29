@@ -5,7 +5,12 @@ import { layout } from './base/layout';
 import { normalize } from './base/normalize';
 import { row } from './base/row';
 import { wellcomeNormalize } from './base/wellcome-normalize';
-import { Size, themeValues } from './config';
+import {
+  colorCustomProperties,
+  pinnedLightModeColorCustomProperties,
+  Size,
+  themeValues,
+} from './config';
 import { makeTypographyClasses, typography } from './typography';
 import { utilityClasses } from './utility-classes';
 
@@ -44,6 +49,8 @@ const cls = {
 } as unknown as Classes & SizedClasses;
 
 const GlobalStyle = createGlobalStyle`
+  ${colorCustomProperties}
+  ${pinnedLightModeColorCustomProperties}
   ${css`
     .${cls.displayBlock} {
       display: block;

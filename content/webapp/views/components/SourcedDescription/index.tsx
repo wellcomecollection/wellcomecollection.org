@@ -50,7 +50,8 @@ const SourcePill = styled.div.attrs({
   display: inline-flex;
   align-items: center;
   border-radius: 20px;
-  background-color: ${props => props.theme.color('accent.green')}40;
+  background-color: ${props =>
+    props.theme.colorWithAlpha('accent.green', 0.25)};
   cursor: default;
   height: 22px;
   vertical-align: middle;

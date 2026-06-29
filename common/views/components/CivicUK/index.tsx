@@ -4,6 +4,7 @@ import { useTheme } from 'styled-components';
 import cookies from '@weco/common/data/cookies';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { typography } from '@weco/common/utils/classnames';
+import { colors } from '@weco/common/views/themes/config';
 
 const headingStyles =
   'style="font-weight: 500; font-family: Inter, sans-serif;"';
@@ -58,20 +59,23 @@ const CivicUK = ({ apiKey, defer }: { apiKey: string; defer?: boolean }) => {
   style="display: block; margin: ${theme.spacingUnits['150']} 0;"
 `;
 
+  // Civic UK's branding values are passed to a third-party JS API and applied
+  // as inline styles. CSS custom properties (var(--color-...)) are not
+  // resolved in that context, so we use raw hex values here instead.
   const branding = {
     removeIcon: true,
     removeAbout: true,
     fontFamily: 'Inter, sans-serif',
     fontSize: '0.9375rem',
     fontSizeHeaders: '1.175rem',
-    fontColor: theme.color('black'),
-    backgroundColor: theme.color('warmNeutral.200'),
-    acceptText: theme.color('black'),
-    acceptBackground: theme.color('yellow'),
-    rejectText: theme.color('black'),
+    fontColor: colors.black,
+    backgroundColor: colors['warmNeutral.200'],
+    acceptText: colors.black,
+    acceptBackground: colors.yellow,
+    rejectText: colors.black,
     toggleColor: '#0055cc',
-    toggleBackground: theme.color('neutral.300'),
-    toggleText: theme.color('black'),
+    toggleBackground: colors['neutral.300'],
+    toggleText: colors.black,
   };
 
   const text = {

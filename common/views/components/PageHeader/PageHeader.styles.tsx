@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
@@ -6,12 +6,24 @@ import { PaletteColor } from '@weco/common/views/themes/config';
 
 export const Container = styled.div<{ $backgroundTexture?: string }>`
   position: relative;
-  background-image: ${props =>
-    props.$backgroundTexture
-      ? `url(${props.$backgroundTexture})`
-      : 'undefined'};
-  background-size: ${props =>
-    props.$backgroundTexture ? 'cover' : 'undefined'};
+  isolation: isolate;
+
+  ${props =>
+    props.$backgroundTexture &&
+    css`
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background-image: url(${props.$backgroundTexture});
+        background-size: cover;
+
+        @media (prefers-color-scheme: dark) {
+          filter: invert(1);
+        }
+      }
+    `}
 `;
 
 export const Wrapper = styled(Space)`

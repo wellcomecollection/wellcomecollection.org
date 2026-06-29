@@ -24,7 +24,7 @@ export type ColumnKey =
   | 'shiftXl';
 
 // suggested new colors
-const colors = {
+export const colors = {
   // Core
   // Wrap in core? Looks better for lightYellow but worse for the others...
   white: '#ffffff',
@@ -66,12 +66,82 @@ const colors = {
   'focus.yellow': '#ffea00',
 };
 
+const colorKeyToVarName = (key: string): string =>
+  '--color-' + key.replace(/\./g, '-');
+
+// Starting-point dark mode palette — values here need design review.
+// The neutrals mirror the lightness scale in reverse; accents are lightly
+// adjusted for contrast on dark surfaces; core black/white swap.
+const darkModeColors: typeof colors = {
+  // Core
+  white: '#121212',
+  black: '#ffffff',
+  yellow: '#ffce3c',
+  lightYellow: '#3d2e00',
+
+  // Accents — regular variants slightly lightened; light variants become dark surfaces
+  'accent.purple': '#9b71b8',
+  'accent.lightPurple': '#2d1e3d',
+  'accent.turquoise': '#23d4d0',
+  'accent.lightTurquoise': '#0d2e2e',
+  'accent.blue': '#6b9fd4',
+  'accent.lightBlue': '#0d1e2e',
+  'accent.green': '#6aaa8d',
+  'accent.lightGreen': '#1a2e24',
+  'accent.salmon': '#ff8a73',
+  'accent.lightSalmon': '#3d1a10',
+
+  // Neutrals — lightness scale mirrored (97→10, 91→15, 85→22, 56≈56, 42→62, 20→85)
+  'neutral.200': '#1a1a1a',
+  'neutral.300': '#262626',
+  'neutral.400': '#383838',
+  'neutral.500': '#8f8f8f',
+  'neutral.600': '#a0a0a0',
+  'neutral.700': '#d9d9d9',
+
+  // Warm neutrals — dark surfaces with a warm yellow tint
+  'warmNeutral.200': '#1a1900',
+  'warmNeutral.300': '#262510',
+  'warmNeutral.400': '#353420',
+
+  // Validation — lightened for sufficient contrast on dark backgrounds
+  'validation.red': '#ff6b6b',
+  'validation.green': '#4caf87',
+
+  // Focus — unchanged; must remain high contrast in all modes
+  'focus.yellow': '#ffea00',
+};
+
+// light-dark() is resolved at used-value time per element, so changing
+// color-scheme on a subtree root switches which branch is applied there —
+// without needing to redeclare any variable values.
+export const colorCustomProperties = `:root {\n${Object.entries(colors)
+  .map(([key, value]) => {
+    const dark = darkModeColors[key as keyof typeof colors];
+    return `  ${colorKeyToVarName(key)}: light-dark(${value}, ${dark});`;
+  })
+  .join('\n')}\n}`;
+
+// Escape hatch for components that must keep their light-mode appearance
+// regardless of OS colour scheme (e.g. the footer's intentionally dark band).
+// Apply data-color-scheme="light" to the component's root element.
+// light-dark() within that subtree will resolve to its light branch.
+// :where() gives this zero specificity so any component's own color declaration
+// always wins, regardless of stylesheet injection order.
+export const pinnedLightModeColorCustomProperties = `:where([data-color-scheme="light"]) {\n  color-scheme: light;\n  color: var(--color-black);\n}`;
+
 const getColor = (name: PaletteColor): string => {
   // In some cases, these get passed in, see ButtonColors for example.
   // But better not to use it if possible.
   if (['currentColor', 'transparent', 'inherit'].includes(name)) return name;
 
-  return colors[name];
+  return `var(${colorKeyToVarName(name)})`;
+};
+
+const getColorWithAlpha = (name: PaletteColor, alpha: number): string => {
+  if (['currentColor', 'transparent', 'inherit'].includes(name)) return name;
+  const percent = Math.round(alpha * 100);
+  return `color-mix(in srgb, var(${colorKeyToVarName(name)}) ${percent}%, transparent)`;
 };
 
 export const sizes = {
@@ -349,7 +419,7 @@ export const themeValues = {
   sizes,
   gutter,
   basicBoxShadow: `0 2px 8px 0 rgb(18, 18, 18, 0.4)`,
-  focusBoxShadow: `0 0 0 3px ${colors['focus.yellow']}`,
+  focusBoxShadow: `0 0 0 3px var(--color-focus-yellow)`,
   keyframes: {
     hoverBounce: keyframes`
       0% {
@@ -374,6 +444,7 @@ export const themeValues = {
   fontVerticalOffset: '0.15em',
   colors,
   color: getColor,
+  colorWithAlpha: getColorWithAlpha,
   minCardHeight: 385,
   media,
   mediaBetween,
