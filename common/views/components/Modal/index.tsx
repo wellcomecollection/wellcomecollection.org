@@ -141,7 +141,7 @@ const Modal: FunctionComponent<Props> = ({
     updatePosition();
 
     window.visualViewport.addEventListener('resize', updatePosition);
-    window.visualViewport.addEventListener('scroll', updatePosition);
+    window.visualViewport.addEventListener('scroll', updatePosition, { passive: true });
 
     return () => {
       if (window.visualViewport) {
