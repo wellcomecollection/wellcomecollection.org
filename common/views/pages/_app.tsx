@@ -26,13 +26,13 @@ import useMaintainPageHeight from '@weco/common/services/app/useMaintainPageHeig
 import usePrismicPreview from '@weco/common/services/app/usePrismicPreview';
 import { deserialiseProps } from '@weco/common/utils/json';
 import CivicUK from '@weco/common/views/components/CivicUK';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import GlobalSvgDefinitions from '@weco/common/views/components/GlobalSvgDefinitions';
 import InactivityRedirect from '@weco/common/views/components/InactivityRedirect';
 import InfoBanner from '@weco/common/views/components/InfoBanner';
 import LoadingIndicator from '@weco/common/views/components/LoadingIndicator';
 import ErrorPage from '@weco/common/views/layouts/ErrorPage';
 import themeValues, { GlobalStyle } from '@weco/common/views/themes/default';
-
 // Error pages can't send anything via the data fetching methods as
 // the page needs to be rendered as soon as the error happens.
 // We just use the route to determine if this is an error page to ignore
@@ -171,9 +171,16 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
           <UserContextProvider>
             <AppContextProvider>
               <SearchContextProvider>
-                <KioskProvider
-                  cookieContent={kioskModeCookie}
-                  readingRoomStories={serverData.prismic.readingRoomStories}
+                <ConditionalWrapper
+                  condition={!!kioskModeCookie}
+                  wrapper={children => (
+                    <KioskProvider
+                      cookieContent={kioskModeCookie!}
+                      readingRoomStories={serverData.prismic.readingRoomStories}
+                    >
+                      {children}
+                    </KioskProvider>
+                  )}
                 >
                   <GlobalStyle />
 
@@ -202,8 +209,8 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
                     />
                   )}
 
-                  {!!kioskModeCookie && <InactivityRedirect />}
-                </KioskProvider>
+                  {kioskModeCookie && <InactivityRedirect />}
+                </ConditionalWrapper>
               </SearchContextProvider>
             </AppContextProvider>
           </UserContextProvider>

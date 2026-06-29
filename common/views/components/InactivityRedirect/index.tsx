@@ -8,6 +8,7 @@ import {
 } from 'react';
 
 import { useKiosk } from '@weco/common/contexts/KioskContext';
+import { useNavigationHistory } from '@weco/common/hooks/useNavigationHistory';
 import Modal from '@weco/common/views/components/Modal';
 
 import InactivityRedirectModal from './InactivityRedirect.Modal';
@@ -19,6 +20,7 @@ const InactivityRedirect: FunctionComponent<{ isCardiganStory?: boolean }> = ({
   isCardiganStory,
 }) => {
   const { isKiosk, isDevModeKiosk, kioskHomepageUrl } = useKiosk();
+  const { reset: resetNavigationHistory } = useNavigationHistory();
   const router = useRouter();
   const [isWarningActive, setIsWarningActive] = useState(false);
   const [countdown, setCountdown] = useState(WARNING_COUNTDOWN);
@@ -49,9 +51,12 @@ const InactivityRedirect: FunctionComponent<{ isCardiganStory?: boolean }> = ({
         gtag('event', 'auto_reset');
       }
 
+      // Clear navigation history to start fresh
+      resetNavigationHistory();
+
       router.push(kioskHomepageUrl);
     },
-    [router, kioskHomepageUrl]
+    [router, kioskHomepageUrl, resetNavigationHistory]
   );
 
   const resetInactivityTimer = useCallback(() => {

@@ -14,6 +14,7 @@ import {
   kioskExperienceNames,
   KiosksContentType,
 } from '@weco/common/contexts/KioskContext/kiosks-content';
+import { HistoryProvider } from '@weco/common/hooks/useNavigationHistory';
 import { ReadingRoomStories } from '@weco/common/server-data/prismic';
 import { KioskModeOptionId } from '@weco/toggles';
 import toggleConfig from '@weco/toggles/toggles';
@@ -105,7 +106,9 @@ export const KioskProvider: FunctionComponent<KioskProviderProps> = ({
   );
 
   return (
-    <KioskContext.Provider value={value}>{children}</KioskContext.Provider>
+    <KioskContext.Provider value={value}>
+      <HistoryProvider>{children}</HistoryProvider>
+    </KioskContext.Provider>
   );
 };
 

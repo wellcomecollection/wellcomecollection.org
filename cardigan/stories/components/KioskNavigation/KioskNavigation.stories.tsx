@@ -21,6 +21,12 @@ const meta: Meta<StoryArgs> = {
     pageId: {
       table: { disable: true },
     },
+    pageType: {
+      table: { disable: true },
+    },
+    currentPathname: {
+      table: { disable: true },
+    },
     kioskMode: {
       name: 'Kiosk Mode',
       control: 'select',
