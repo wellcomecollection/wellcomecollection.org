@@ -2,7 +2,7 @@ import * as prismic from '@prismicio/client';
 import { FunctionComponent, ReactNode } from 'react';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -27,7 +27,7 @@ const Wrapper = styled(Space).attrs({
     size: 'sm',
     properties: ['margin-top'],
   },
-  className: `${font('mono', -2)} caption`,
+  className: `${typography('caption', 'md', 'regular')} caption`,
 })<{ $width?: number }>`
   ${props => (props.$width ? `width: ${props.$width}px;` : '')}
 

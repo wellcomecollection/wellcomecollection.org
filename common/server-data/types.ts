@@ -1,5 +1,4 @@
 import {
-  PrismicData,
   defaultValue as prismicDefaultValue,
   SimplifiedPrismicData,
 } from '@weco/common/server-data/prismic';
@@ -12,12 +11,6 @@ import { FeatureFlags, Modes, Tests, Toggles } from '@weco/toggles';
  */
 export type ServerData = {
   toggles: Toggles;
-  prismic: PrismicData;
-  consentStatus: ConsentStatusProps;
-};
-
-export type SimplifiedServerData = {
-  toggles: Toggles;
   prismic: SimplifiedPrismicData;
   consentStatus: ConsentStatusProps;
 };
@@ -28,7 +21,7 @@ export type ConsentStatusProps = {
   cookieExists: boolean;
 };
 
-export const defaultServerData: SimplifiedServerData = {
+export const defaultServerData: ServerData = {
   toggles: {
     featureFlags: {} as FeatureFlags,
     tests: {} as Tests,

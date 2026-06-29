@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-import { classNames, font } from '@weco/common/utils/classnames';
+import { classNames, typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 
 import { ButtonSize, SolidButtonStyledProps } from './Buttons.types';
@@ -11,14 +11,22 @@ export const BaseButtonInner = styled.span.attrs<{
   $isNewSearchBar?: boolean;
 }>(props => ({
   className: !props.$isInline
-    ? font('sans-bold', props.$isPill ? -2 : props.$isNewSearchBar ? 0 : -1)
-    : font('sans', props.$isPill ? -2 : props.$isNewSearchBar ? 0 : -1),
+    ? props.$isPill
+      ? typography('body', 'sm', 'strong')
+      : props.$isNewSearchBar
+        ? typography('body', 'lg', 'strong')
+        : typography('body', 'md', 'strong')
+    : props.$isPill
+      ? typography('body', 'sm', 'regular')
+      : props.$isNewSearchBar
+        ? typography('body', 'lg', 'regular')
+        : typography('body', 'md', 'regular'),
 }))`
   display: flex;
   align-items: center;
   height: 1em;
 
-  /* We need to do .{class}.{class} to override any line-height set by the font utility */
+  /* We need to do .{class}.{class} to override any line-height set by the typography utility */
   && {
     line-height: 1;
   }

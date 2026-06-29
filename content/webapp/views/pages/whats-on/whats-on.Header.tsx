@@ -8,7 +8,7 @@ import {
   ExceptionalOpeningHoursDay,
   OpeningHoursDay,
 } from '@weco/common/model/opening-hours';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import { TitleWrapper } from '@weco/common/views/components/PageHeader/PageHeader.styles';
 import { Container } from '@weco/common/views/components/styled/Container';
@@ -62,7 +62,7 @@ const Header: FunctionComponent<HeaderProps> = ({
                     <Space
                       as="span"
                       $h={{ size: 'sm', properties: ['margin-right'] }}
-                      className={font('sans-bold', -1)}
+                      className={typography('body', 'md', 'strong')}
                     >
                       Galleries
                       {todaysOpeningHours.isClosed ? ' closed ' : ' open '}
@@ -80,7 +80,7 @@ const Header: FunctionComponent<HeaderProps> = ({
                         <Space
                           as="span"
                           $h={{ size: 'sm', properties: ['margin-right'] }}
-                          className={font('sans', -1)}
+                          className={typography('body', 'md', 'regular')}
                         >
                           <>
                             <time>{todaysOpeningHours.opens}</time>
@@ -94,7 +94,7 @@ const Header: FunctionComponent<HeaderProps> = ({
                 )}
                 <NextLink
                   href={`/visit-us/${prismicPageIds.openingTimes}`}
-                  className={font('sans-bold', -1)}
+                  className={typography('body', 'md', 'strong')}
                 >
                   Full opening times
                 </NextLink>

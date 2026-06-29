@@ -3,7 +3,7 @@ import { themeColors } from '@weco/cardigan/.storybook/preview';
 import { ComponentProps, useEffect, useState } from 'react';
 
 import * as Icons from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 
 type StoryProps = Omit<ComponentProps<typeof Icon>, 'icon'> & {
@@ -48,7 +48,7 @@ const Template = args => {
   return (
     <>
       {args.matchText ? (
-        <span className={font('sans', 1)}>
+        <span className={typography('body', 'xl', 'regular')}>
           <Icon {...args} icon={Icons[currentIcon]} />
           <span style={{ marginLeft: '5px' }}>Some text</span>
         </span>

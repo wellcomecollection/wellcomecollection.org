@@ -7,7 +7,7 @@ import {
   link as linkIcon,
   phone as phoneIcon,
 } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
@@ -25,15 +25,19 @@ const TitleWrapper = styled(Space).attrs({
   display: block;
 `;
 
-const Title = styled.span.attrs({ className: font('sans-bold', 0) })``;
+const Title = styled.span.attrs({
+  className: typography('body', 'lg', 'strong'),
+})``;
 
 const Subtitle = styled(Space).attrs({
   as: 'span',
-  className: font('sans', 0),
+  className: typography('body', 'lg', 'regular'),
   $h: { size: 'xs', properties: ['margin-left'] },
 })``;
 
-const PhoneNumber = styled.span.attrs({ className: font('sans', 0) })`
+const PhoneNumber = styled.span.attrs({
+  className: typography('body', 'lg', 'regular'),
+})`
   display: block;
 `;
 
@@ -94,7 +98,7 @@ const Contact: FunctionComponent<Props> = ({
           <NextLink
             href={{ pathname: link.url }}
             style={{ display: 'block' }}
-            className={font('sans', 0)}
+            className={typography('body', 'lg', 'regular')}
           >
             {link.text}
           </NextLink>
@@ -118,7 +122,7 @@ const Contact: FunctionComponent<Props> = ({
           <Icon icon={emailIcon} />
           <a
             style={{ display: 'block' }}
-            className={font('sans', 0)}
+            className={typography('body', 'lg', 'regular')}
             href={`mailto:${email}`}
           >
             {email}

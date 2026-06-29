@@ -9,6 +9,7 @@ import {
 } from 'react';
 import { useTheme } from 'styled-components';
 
+import { isValidKioskMode } from '@weco/common/contexts/KioskContext';
 import useIsomorphicLayoutEffect from '@weco/common/hooks/useIsomorphicLayoutEffect';
 import {
   ACTIVE_COOKIE_BANNER_ID,
@@ -105,7 +106,16 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
     appContextDefaults.audioPlaybackRate
   );
   const [hasAcknowledgedCookieBanner, setHasAcknowledgedCookieBanner] =
-    useState(Boolean(getCookies().CookieControl));
+    useState(() => {
+      const cookies = getCookies();
+      // Cookie banner is considered acknowledged if:
+      // 1. The CookieControl cookie exists, OR
+      // 2. We're in kiosk mode (consent is always granted)
+      return (
+        Boolean(cookies.CookieControl) ||
+        isValidKioskMode(cookies.toggle_kioskMode)
+      );
+    });
   const [isMobileOrTabletDevice, setisMobileOrTabletDevice] = useState(
     appContextDefaults.isMobileOrTabletDevice
   );

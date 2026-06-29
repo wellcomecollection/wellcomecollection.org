@@ -45,6 +45,24 @@ test('(3) | Cookie banner only displays if CookieControl cookie has not already 
   await expect(cookieBanner).not.toBeAttached();
 });
 
+test('(4) | Cookie banner does not display when kiosk mode is active', async ({
+  context,
+  page,
+}) => {
+  await context.addCookies([
+    {
+      name: 'toggle_kioskMode',
+      value: 'devMode',
+      path: '/',
+      domain: new URL(baseUrl).host,
+    },
+  ]);
+
+  await gotoWithoutCache(baseUrl, page);
+  const cookieBanner = await page.getByLabel('Our website uses cookies');
+  await expect(cookieBanner).not.toBeAttached();
+});
+
 const civicConfigScriptIsModule = (page: Page) =>
   page.evaluate(() => {
     const scripts = Array.from(document.querySelectorAll('script[type]'));
@@ -55,14 +73,14 @@ const civicConfigScriptIsModule = (page: Page) =>
     );
   });
 
-test('(4) | CivicUK config script is not a module on first visit', async ({
+test('(5) | CivicUK config script is not a module on first visit', async ({
   page,
 }) => {
   await gotoWithoutCache(baseUrl, page);
   expect(await civicConfigScriptIsModule(page)).toBe(false);
 });
 
-test('(5) | CivicUK config script is a module when CookieControl cookie is present', async ({
+test('(6) | CivicUK config script is a module when CookieControl cookie is present', async ({
   context,
   page,
 }) => {

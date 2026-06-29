@@ -18,12 +18,11 @@ import { GetServerSidePropsContext } from 'next';
 import path from 'path';
 
 import { getAllConsentStates } from '@weco/common/services/app/civic-uk';
-import { simplifyServerData } from '@weco/common/services/prismic/transformers/server-data';
 import { Toggles } from '@weco/toggles';
 
 import prismicHandler from './prismic';
 import togglesHandler, { getTogglesFromContext } from './toggles';
-import { SimplifiedServerData } from './types';
+import { ServerData } from './types';
 
 export type Handler<DefaultData, FetchedData> = {
   defaultValue: DefaultData;
@@ -117,7 +116,7 @@ export function clear(): void {
  */
 export const getServerData = async (
   context: GetServerSidePropsContext
-): Promise<SimplifiedServerData> => {
+): Promise<ServerData> => {
   // Read the cached toggles and prismic data from disk (refreshed every minute)
   const togglesResp = await read('toggles', handlers.toggles.defaultValue);
   const prismic = await read('prismic', handlers.prismic.defaultValue);
@@ -157,6 +156,5 @@ export const getServerData = async (
     consentStatus,
   };
 
-  // Strip prismic data down to only what's needed client-side
-  return simplifyServerData(serverData);
+  return serverData;
 };

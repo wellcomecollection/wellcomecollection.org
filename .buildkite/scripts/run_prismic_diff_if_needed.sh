@@ -29,11 +29,6 @@ upload_acknowledgement_block() {
 steps:
   - block: ":warning: Acknowledge Prismic diff failure"
     prompt: "Prismic custom type diff failed. Confirm you've checked and accepted this risk before deployment continues."
-    fields:
-      - text: "Acknowledged by"
-        key: "prismic-diff-acknowledged-by"
-      - text: "Reason for continuing"
-        key: "prismic-diff-acknowledgement-reason"
 YAML
 }
 

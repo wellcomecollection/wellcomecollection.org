@@ -4,7 +4,7 @@ import { useTheme } from 'styled-components';
 
 import { pageDescriptionConcepts } from '@weco/common/data/microcopy';
 import { useFeatureFlags } from '@weco/common/server-data/Context';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
@@ -167,7 +167,12 @@ const ConceptPage: NextPage<Props> = ({
                   >
                     <section>
                       <h2
-                        className={font('brand-bold', 2)}
+                        className={typography(
+                          'heading',
+                          'xl',
+                          'strong',
+                          'brand'
+                        )}
                         id="frequent-collaborators"
                       >
                         {config.collaborators.label || 'Frequent collaborators'}

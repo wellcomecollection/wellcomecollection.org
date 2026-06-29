@@ -1,7 +1,7 @@
 import * as prismic from '@prismicio/client';
 import { FunctionComponent } from 'react';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { camelize } from '@weco/common/utils/grammar';
 import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
@@ -33,7 +33,7 @@ const GuideTextItem: FunctionComponent<{
         <Tombstone>
           {title && <TombstoneTitle $level={3}>{title}</TombstoneTitle>}
           {tombstone && (
-            <div className={font('sans', 0)}>
+            <div className={typography('body', 'lg', 'regular')}>
               <PrismicHtmlBlock html={tombstone} />
             </div>
           )}

@@ -3,7 +3,7 @@ import { useTheme } from 'styled-components';
 
 import cookies from '@weco/common/data/cookies';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 
 const headingStyles =
   'style="font-weight: 500; font-family: Inter, sans-serif;"';
@@ -54,7 +54,7 @@ const CivicUK = ({ apiKey, defer }: { apiKey: string; defer?: boolean }) => {
   const theme = useTheme();
 
   const notifyTitleStyles = `
-  class="${font('sans-bold', 1)}"
+  class="${typography('body', 'xl', 'strong')}"
   style="display: block; margin: ${theme.spacingUnits['150']} 0;"
 `;
 
@@ -75,7 +75,7 @@ const CivicUK = ({ apiKey, defer }: { apiKey: string; defer?: boolean }) => {
   };
 
   const text = {
-    title: `<h1 class="${font('sans-bold', 2)}">Manage cookies</h1>`,
+    title: `<h1 class="${typography('heading', 'xl', 'strong', 'sans')}">Manage cookies</h1>`,
     intro:
       "We use cookies to make our website work. To help us make our marketing and website better, we'd like your consent to use cookies on behalf of third parties too.",
     necessaryTitle: `<h2 ${headingStyles}>Essential cookies</h2>`,

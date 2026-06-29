@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 
 import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { BreadcrumbItems, Breadcrumbs } from '@weco/common/model/breadcrumbs';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { classNames, typography } from '@weco/common/utils/classnames';
 import { breadcrumbsLd } from '@weco/common/utils/json-ld';
 import { links } from '@weco/common/views/components/Header';
 import Space from '@weco/common/views/components/styled/Space';
@@ -63,7 +63,7 @@ const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({
           <Space
             key={prefix ? `${prefix}-${text}` : text}
             as={prefix ? 'b' : 'span'}
-            className={font('sans', -2)}
+            className={typography('body', 'sm', 'regular')}
           >
             {i > 0 && (
               <Space
@@ -80,7 +80,7 @@ const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({
             {prefix}{' '}
             <LinkOrSpanTag
               className={classNames({
-                [font('sans-bold', -2)]: Boolean(prefix),
+                [typography('body', 'sm', 'strong')]: Boolean(prefix),
               })}
               href={url}
               data-gtm-trigger={url ? 'breadcrumb_link' : undefined}

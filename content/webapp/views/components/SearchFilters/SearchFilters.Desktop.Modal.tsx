@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { LinkProps } from '@weco/common/model/link-props';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { formatNumber } from '@weco/common/utils/grammar';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio';
@@ -192,7 +192,9 @@ export const getFilterLabel = (type: Filter['type'], label: string) => {
   }
 
   return filterTitle ? (
-    <h3 className={font('brand-bold', 0)}>{filterTitle}</h3>
+    <h3 className={typography('heading', 'md', 'strong', 'brand')}>
+      {filterTitle}
+    </h3>
   ) : null;
 };
 
@@ -306,7 +308,9 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
           modalStyle="filters"
         >
           <FiltersHeader>
-            <h3 className={font('brand-bold', 0)}>All filters</h3>
+            <h3 className={typography('heading', 'md', 'strong', 'brand')}>
+              All filters
+            </h3>
           </FiltersHeader>
           {/* The Modal element needs to be pre-rendered even if inactive for its CSSTransition effect
             But there's a bit of rerending withing MoreFilters that is causing issues with the Desktop behaviour,

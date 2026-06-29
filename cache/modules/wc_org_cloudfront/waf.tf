@@ -246,395 +246,8 @@ resource "aws_wafv2_web_acl" "wc_org" {
   }
 
   rule {
-    name     = "apac-captcha-consent-block"
-    priority = 6
-
-    action {
-      captcha {}
-    }
-
-    statement {
-      and_statement {
-        statement {
-          geo_match_statement {
-            country_codes = ["CN", "JP", "SG", "TW", "VN"]
-          }
-        }
-        statement {
-          not_statement {
-            statement {
-              size_constraint_statement {
-                comparison_operator = "GT"
-                size                = 0
-
-                field_to_match {
-                  cookies {
-                    match_pattern {
-                      included_cookies = ["CookieControl"]
-                    }
-                    match_scope       = "ALL"
-                    oversize_handling = "MATCH"
-                  }
-                }
-
-                text_transformation {
-                  priority = 0
-                  type     = "NONE"
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      metric_name                = "apac-captcha-consent-block"
-      sampled_requests_enabled   = true
-    }
-  }
-
-  rule {
-    name     = "latam-captcha-consent-block"
-    priority = 7
-
-    action {
-      captcha {}
-    }
-
-    statement {
-      and_statement {
-        statement {
-          geo_match_statement {
-            country_codes = ["BR"]
-          }
-        }
-        statement {
-          not_statement {
-            statement {
-              size_constraint_statement {
-                comparison_operator = "GT"
-                size                = 0
-
-                field_to_match {
-                  cookies {
-                    match_pattern {
-                      included_cookies = ["CookieControl"]
-                    }
-                    match_scope       = "ALL"
-                    oversize_handling = "MATCH"
-                  }
-                }
-
-                text_transformation {
-                  priority = 0
-                  type     = "NONE"
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      metric_name                = "latam-captcha-consent-block"
-      sampled_requests_enabled   = true
-    }
-  }
-
-  rule {
-    name     = "geo-rate-limit-USA"
-    priority = 8
-
-    action {
-      block {
-        custom_response {
-          response_code = 429
-        }
-      }
-    }
-
-    statement {
-      rate_based_statement {
-        aggregate_key_type    = "CONSTANT"
-        evaluation_window_sec = 60
-        limit                 = 1750
-
-        scope_down_statement {
-          geo_match_statement {
-            country_codes = [
-              "US",
-            ]
-          }
-        }
-      }
-    }
-
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      metric_name                = "geo-rate-limit-USA-${var.namespace}"
-      sampled_requests_enabled   = true
-    }
-  }
-
-  rule {
-    name     = "geo-rate-limit-APAC"
-    priority = 9
-
-    action {
-      block {
-        custom_response {
-          response_code = 429
-        }
-      }
-    }
-
-    statement {
-      rate_based_statement {
-        aggregate_key_type    = "CONSTANT"
-        evaluation_window_sec = 60
-        limit                 = 250
-
-        scope_down_statement {
-          geo_match_statement {
-            // We have seen significant bot traffic from these regions,
-            // so we rate limit to a lower threshold.
-            country_codes = [
-              "CN",
-              "SG",
-              "HK",
-              "VN",
-            ]
-          }
-        }
-      }
-    }
-
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      metric_name                = "geo-rate-limit-apac-${var.namespace}"
-      sampled_requests_enabled   = true
-    }
-  }
-
-  rule {
-    name     = "geo-rate-limit-LATAM"
-    priority = 10
-
-    action {
-      block {
-        custom_response {
-          response_code = 429
-        }
-      }
-    }
-
-    statement {
-      rate_based_statement {
-        aggregate_key_type    = "CONSTANT"
-        evaluation_window_sec = 60
-        limit                 = 200
-
-        scope_down_statement {
-          geo_match_statement {
-            // We have seen significant bot traffic from these regions,
-            // so we rate limit to a lower threshold.
-            country_codes = [
-              "BR",
-            ]
-          }
-        }
-      }
-    }
-
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      metric_name                = "geo-rate-limit-latam-${var.namespace}"
-      sampled_requests_enabled   = true
-    }
-  }
-
-  rule {
-    name     = "blanket-rate-limiting"
-    priority = 11
-
-    action {
-      block {}
-    }
-
-    statement {
-      rate_based_statement {
-        limit              = local.blanket_rate_limit
-        aggregate_key_type = "IP"
-      }
-    }
-
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      sampled_requests_enabled   = true
-      metric_name                = "weco-cloudfront-acl-rate-limit-${var.namespace}"
-    }
-  }
-
-  rule {
-    name     = "restrictive-rate-limiting"
-    priority = 12
-
-    action {
-      block {}
-    }
-
-    statement {
-      rate_based_statement {
-        limit              = local.restrictive_rate_limit
-        aggregate_key_type = "IP"
-
-        scope_down_statement {
-          regex_pattern_set_reference_statement {
-            field_to_match {
-              uri_path {}
-            }
-
-            arn = aws_wafv2_regex_pattern_set.restricted_urls.arn
-
-            text_transformation {
-              priority = 1
-              type     = "URL_DECODE"
-            }
-          }
-        }
-      }
-    }
-
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      sampled_requests_enabled   = true
-      metric_name                = "weco-cloudfront-restrictive-rate-limit-${var.namespace}"
-    }
-  }
-
-  // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-crs
-  rule {
-    name     = "core-rule-group"
-    priority = 13
-
-    override_action {
-      none {}
-    }
-
-    statement {
-      managed_rule_group_statement {
-        name        = "AWSManagedRulesCommonRuleSet"
-        vendor_name = "AWS"
-      }
-    }
-
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      sampled_requests_enabled   = true
-      metric_name                = "weco-cloudfront-acl-core-${var.namespace}"
-    }
-  }
-
-  // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-use-case.html#aws-managed-rule-groups-use-case-sql-db
-  rule {
-    name     = "sqli-rule-group"
-    priority = 14
-
-    override_action {
-      none {}
-    }
-
-    statement {
-      managed_rule_group_statement {
-        name        = "AWSManagedRulesSQLiRuleSet"
-        vendor_name = "AWS"
-      }
-    }
-
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      sampled_requests_enabled   = true
-      metric_name                = "weco-cloudfront-acl-sqli-${var.namespace}"
-    }
-  }
-
-  // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-known-bad-inputs
-  rule {
-    name     = "known-bad-inputs-rule-group"
-    priority = 15
-
-    override_action {
-      none {}
-    }
-
-    statement {
-      managed_rule_group_statement {
-        name        = "AWSManagedRulesKnownBadInputsRuleSet"
-        vendor_name = "AWS"
-      }
-    }
-
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      sampled_requests_enabled   = true
-      metric_name                = "weco-cloudfront-acl-known-bad-inputs-${var.namespace}"
-    }
-  }
-
-  rule {
-    name     = "bot-control-rule-group"
-    priority = 16
-
-    // Because the Bot Control rules are quite aggressive, they block some useful bots
-    // such as Updown. While we could add overrides for specific bots, we don"t want to have to
-    // keep coming back here as we use different monitoring services, scripts, etc.
-    //
-    // Instead, we"re starting by disabling most of the more high-risk rules and retaining only the
-    // ones like CategorySeo which we know cover the majority of our known-bad bot traffic.
-    // Rules can be found here:
-    // https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-bot.html
-    override_action {
-      none {}
-    }
-
-    statement {
-      managed_rule_group_statement {
-        name        = "AWSManagedRulesBotControlRuleSet"
-        vendor_name = "AWS"
-        version     = "Version_3.1"
-
-        managed_rule_group_configs {
-          aws_managed_rules_bot_control_rule_set {
-            inspection_level = "COMMON"
-          }
-        }
-
-        dynamic "rule_action_override" {
-          for_each = local.bot_control_rule_no_block_list
-          content {
-            name = rule_action_override.value
-            action_to_use {
-              count {}
-            }
-          }
-        }
-      }
-    }
-
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      sampled_requests_enabled   = true
-      metric_name                = "weco-cloudfront-acl-bot-control-${var.namespace}"
-    }
-  }
-
-  rule {
     name     = "bot-user-agent-manual"
-    priority = 17
+    priority = 6
 
     action {
       block {}
@@ -779,6 +392,394 @@ resource "aws_wafv2_web_acl" "wc_org" {
       sampled_requests_enabled   = true
     }
   }
+
+  rule {
+    name     = "apac-captcha-consent-block"
+    priority = 7
+
+    action {
+      captcha {}
+    }
+
+    statement {
+      and_statement {
+        statement {
+          geo_match_statement {
+            country_codes = ["CN", "JP", "SG", "TW", "VN"]
+          }
+        }
+        statement {
+          not_statement {
+            statement {
+              size_constraint_statement {
+                comparison_operator = "GT"
+                size                = 0
+
+                field_to_match {
+                  cookies {
+                    match_pattern {
+                      included_cookies = ["CookieControl"]
+                    }
+                    match_scope       = "ALL"
+                    oversize_handling = "MATCH"
+                  }
+                }
+
+                text_transformation {
+                  priority = 0
+                  type     = "NONE"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "apac-captcha-consent-block"
+      sampled_requests_enabled   = true
+    }
+  }
+
+  rule {
+    name     = "latam-captcha-consent-block"
+    priority = 8
+
+    action {
+      captcha {}
+    }
+
+    statement {
+      and_statement {
+        statement {
+          geo_match_statement {
+            country_codes = ["BR"]
+          }
+        }
+        statement {
+          not_statement {
+            statement {
+              size_constraint_statement {
+                comparison_operator = "GT"
+                size                = 0
+
+                field_to_match {
+                  cookies {
+                    match_pattern {
+                      included_cookies = ["CookieControl"]
+                    }
+                    match_scope       = "ALL"
+                    oversize_handling = "MATCH"
+                  }
+                }
+
+                text_transformation {
+                  priority = 0
+                  type     = "NONE"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "latam-captcha-consent-block"
+      sampled_requests_enabled   = true
+    }
+  }
+
+  rule {
+    name     = "geo-rate-limit-USA"
+    priority = 9
+
+    action {
+      block {
+        custom_response {
+          response_code = 429
+        }
+      }
+    }
+
+    statement {
+      rate_based_statement {
+        aggregate_key_type    = "CONSTANT"
+        evaluation_window_sec = 60
+        limit                 = 1750
+
+        scope_down_statement {
+          geo_match_statement {
+            country_codes = [
+              "US",
+            ]
+          }
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "geo-rate-limit-USA-${var.namespace}"
+      sampled_requests_enabled   = true
+    }
+  }
+
+  rule {
+    name     = "geo-rate-limit-APAC"
+    priority = 10
+
+    action {
+      block {
+        custom_response {
+          response_code = 429
+        }
+      }
+    }
+
+    statement {
+      rate_based_statement {
+        aggregate_key_type    = "CONSTANT"
+        evaluation_window_sec = 60
+        limit                 = 250
+
+        scope_down_statement {
+          geo_match_statement {
+            // We have seen significant bot traffic from these regions,
+            // so we rate limit to a lower threshold.
+            country_codes = [
+              "CN",
+              "SG",
+              "HK",
+              "VN",
+            ]
+          }
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "geo-rate-limit-apac-${var.namespace}"
+      sampled_requests_enabled   = true
+    }
+  }
+
+  rule {
+    name     = "geo-rate-limit-LATAM"
+    priority = 11
+
+    action {
+      block {
+        custom_response {
+          response_code = 429
+        }
+      }
+    }
+
+    statement {
+      rate_based_statement {
+        aggregate_key_type    = "CONSTANT"
+        evaluation_window_sec = 60
+        limit                 = 200
+
+        scope_down_statement {
+          geo_match_statement {
+            // We have seen significant bot traffic from these regions,
+            // so we rate limit to a lower threshold.
+            country_codes = [
+              "BR",
+            ]
+          }
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "geo-rate-limit-latam-${var.namespace}"
+      sampled_requests_enabled   = true
+    }
+  }
+
+  rule {
+    name     = "blanket-rate-limiting"
+    priority = 12
+
+    action {
+      block {}
+    }
+
+    statement {
+      rate_based_statement {
+        limit              = local.blanket_rate_limit
+        aggregate_key_type = "IP"
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      sampled_requests_enabled   = true
+      metric_name                = "weco-cloudfront-acl-rate-limit-${var.namespace}"
+    }
+  }
+
+  rule {
+    name     = "restrictive-rate-limiting"
+    priority = 13
+
+    action {
+      block {}
+    }
+
+    statement {
+      rate_based_statement {
+        limit              = local.restrictive_rate_limit
+        aggregate_key_type = "IP"
+
+        scope_down_statement {
+          regex_pattern_set_reference_statement {
+            field_to_match {
+              uri_path {}
+            }
+
+            arn = aws_wafv2_regex_pattern_set.restricted_urls.arn
+
+            text_transformation {
+              priority = 1
+              type     = "URL_DECODE"
+            }
+          }
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      sampled_requests_enabled   = true
+      metric_name                = "weco-cloudfront-restrictive-rate-limit-${var.namespace}"
+    }
+  }
+
+  // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-crs
+  rule {
+    name     = "core-rule-group"
+    priority = 14
+
+    override_action {
+      none {}
+    }
+
+    statement {
+      managed_rule_group_statement {
+        name        = "AWSManagedRulesCommonRuleSet"
+        vendor_name = "AWS"
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      sampled_requests_enabled   = true
+      metric_name                = "weco-cloudfront-acl-core-${var.namespace}"
+    }
+  }
+
+  // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-use-case.html#aws-managed-rule-groups-use-case-sql-db
+  rule {
+    name     = "sqli-rule-group"
+    priority = 15
+
+    override_action {
+      none {}
+    }
+
+    statement {
+      managed_rule_group_statement {
+        name        = "AWSManagedRulesSQLiRuleSet"
+        vendor_name = "AWS"
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      sampled_requests_enabled   = true
+      metric_name                = "weco-cloudfront-acl-sqli-${var.namespace}"
+    }
+  }
+
+  // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-known-bad-inputs
+  rule {
+    name     = "known-bad-inputs-rule-group"
+    priority = 16
+
+    override_action {
+      none {}
+    }
+
+    statement {
+      managed_rule_group_statement {
+        name        = "AWSManagedRulesKnownBadInputsRuleSet"
+        vendor_name = "AWS"
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      sampled_requests_enabled   = true
+      metric_name                = "weco-cloudfront-acl-known-bad-inputs-${var.namespace}"
+    }
+  }
+
+  rule {
+    name     = "bot-control-rule-group"
+    priority = 17
+
+    // Because the Bot Control rules are quite aggressive, they block some useful bots
+    // such as Updown. While we could add overrides for specific bots, we don"t want to have to
+    // keep coming back here as we use different monitoring services, scripts, etc.
+    //
+    // Instead, we"re starting by disabling most of the more high-risk rules and retaining only the
+    // ones like CategorySeo which we know cover the majority of our known-bad bot traffic.
+    // Rules can be found here:
+    // https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-bot.html
+    override_action {
+      none {}
+    }
+
+    statement {
+      managed_rule_group_statement {
+        name        = "AWSManagedRulesBotControlRuleSet"
+        vendor_name = "AWS"
+        version     = "Version_3.1"
+
+        managed_rule_group_configs {
+          aws_managed_rules_bot_control_rule_set {
+            inspection_level = "COMMON"
+          }
+        }
+
+        dynamic "rule_action_override" {
+          for_each = local.bot_control_rule_no_block_list
+          content {
+            name = rule_action_override.value
+            action_to_use {
+              count {}
+            }
+          }
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      sampled_requests_enabled   = true
+      metric_name                = "weco-cloudfront-acl-bot-control-${var.namespace}"
+    }
+  }
+
   visibility_config {
     cloudwatch_metrics_enabled = true
     sampled_requests_enabled   = true

@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { officialLandingPagesUid } from '@weco/common/data/hardcoded-ids';
 import { ContentListSlice as RawContentListSlice } from '@weco/common/prismicio-types';
 import { PagesDocumentDataBodySlice } from '@weco/common/prismicio-types';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { classNames, typography } from '@weco/common/utils/classnames';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
 import {
@@ -115,6 +115,7 @@ export type SliceZoneContext = {
   itemsHaveTransparentBackground?: boolean;
   cardSizeMap?: SizeMap;
   themeCardCols?: 3 | 4;
+  isFirstCardFeatured?: boolean;
 };
 
 export const defaultContext: SliceZoneContext = {
@@ -214,12 +215,18 @@ const Body: FunctionComponent<Props> = ({
               isReversed={false}
               priority={isFirst}
             >
-              <h3 className={font('brand-bold', 2)}>{firstItem.title}</h3>
+              <h3 className={typography('heading', 'xl', 'strong', 'brand')}>
+                {firstItem.title}
+              </h3>
               {isCardType && firstItem.description && (
-                <p className={font('sans', -1)}>{firstItem.description}</p>
+                <p className={typography('body', 'md', 'regular')}>
+                  {firstItem.description}
+                </p>
               )}
               {'promo' in firstItem && firstItem.promo && (
-                <p className={font('sans', -1)}>{firstItem.promo.caption}</p>
+                <p className={typography('body', 'md', 'regular')}>
+                  {firstItem.promo.caption}
+                </p>
               )}
             </FeaturedCard>
           ) : null;

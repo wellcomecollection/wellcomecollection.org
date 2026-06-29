@@ -6,7 +6,7 @@ import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { homepageHeading, pageDescriptions } from '@weco/common/data/microcopy';
 import { ImageType } from '@weco/common/model/image';
 import { StandfirstSlice as RawStandfirstSlice } from '@weco/common/prismicio-types';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import {
@@ -106,7 +106,7 @@ const Homepage: NextPage<Props> = ({
           <SpacingSection>
             <Space
               $v={{ size: 'lg', properties: ['margin-top'] }}
-              className={font('brand-bold', 4)}
+              className={typography('heading', 'xxl', 'strong', 'brand')}
             >
               <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
                 <h1>{homepageHeading}</h1>

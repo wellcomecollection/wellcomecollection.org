@@ -12,7 +12,7 @@ import {
   headerBackgroundLs,
   landingHeaderBackgroundLs,
 } from '@weco/common/utils/backgrounds';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground';
 import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
@@ -89,15 +89,17 @@ const ContentTypeInfo = (
     />
     <div style={{ display: 'flex', alignItems: 'baseline' }}>
       <Space
-        className={font('sans', -2)}
+        className={typography('body', 'sm', 'regular')}
         $h={{ size: 'xs', properties: ['margin-right'] }}
         $v={{ size: 'xs', properties: ['margin-top'] }}
       >
         <p style={{ marginBottom: 0 }}>
           <span>By </span>
-          <span className={font('sans-bold', -2)}>Naomi Paxton</span>{' '}
+          <span className={typography('body', 'sm', 'strong')}>
+            Naomi Paxton
+          </span>{' '}
           <span
-            className={font('sans', -2)}
+            className={typography('body', 'sm', 'regular')}
             style={{ color: theme.color('neutral.600') }}
           >
             17 April 2019
@@ -268,7 +270,7 @@ export const Event: Meta<typeof PageHeader> = {
         </Space>
         <div style={{ display: 'flex' }}>
           <TextWithDot
-            className={font('sans-bold', -1)}
+            className={typography('body', 'md', 'strong')}
             dotColor="neutral.500"
             text="Past"
           />
@@ -317,7 +319,7 @@ export const Exhibition: Meta<typeof PageHeader> = {
     ContentTypeInfo: (
       <div style={{ display: 'flex' }}>
         <TextWithDot
-          className={font('sans-bold', -1)}
+          className={typography('body', 'md', 'strong')}
           dotColor="neutral.500"
           text="Closed"
         />
@@ -419,7 +421,10 @@ export const Book: Meta<typeof PageHeader> = {
     variant: 'basic',
     title: 'Together',
     ContentTypeInfo: (
-      <p className={font('sans-bold', 1)} style={{ marginBottom: 0 }}>
+      <p
+        className={typography('body', 'xl', 'strong')}
+        style={{ marginBottom: 0 }}
+      >
         Loneliness, Health & What Happens When We Find Connection
       </p>
     ),

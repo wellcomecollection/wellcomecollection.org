@@ -2,7 +2,7 @@ import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { hexToHsv, hsvToHex } from '@weco/content/utils/convert-colors';
 
 import HueSlider from './PaletteColorPicker.HueSlider';
@@ -82,7 +82,7 @@ const Swatch = styled.button.attrs<{
   $hexColor: string;
 }>((props: SwatchProps) => ({
   type: 'button',
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
   'aria-pressed': !!props.$ariaPressed,
 }))<SwatchProps>`
   position: relative;

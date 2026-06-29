@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import cookies from '@weco/common/data/cookies';
 import { arrow } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import { plainListStyles } from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
@@ -77,7 +77,9 @@ const TypeOption: FunctionComponent<Props> = ({ url, title, type }) => {
     <TypeItem>
       <TypeLink href={url} $backgroundColor="warmNeutral.300" onClick={onClick}>
         <CardBody style={{ height: '100%' }}>
-          <h2 className={font('brand-bold', 1)}>{title}</h2>
+          <h2 className={typography('heading', 'lg', 'strong', 'brand')}>
+            {title}
+          </h2>
 
           <TypeIconsWrapper>
             <RelevantGuideIcons types={[type]} />

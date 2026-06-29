@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { classNames, font } from '@weco/common/utils/classnames';
+import { classNames, typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import { focusStyle } from '@weco/common/views/themes/base/wellcome-normalize';
 
@@ -50,7 +50,9 @@ type NavItemProps = {
 };
 
 export const Tab = styled.div.attrs<NavItemProps>(props => ({
-  className: props.$selected ? font('sans-bold', -1) : font('sans', -1),
+  className: props.$selected
+    ? typography('body', 'md', 'strong')
+    : typography('body', 'md', 'regular'),
 }))<NavItemProps>`
   padding: 0;
   margin: 0;

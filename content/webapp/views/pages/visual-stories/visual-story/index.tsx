@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 
 import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import Divider from '@weco/common/views/components/Divider';
@@ -124,7 +124,10 @@ const VisualStoryPage: NextPage<Props> = ({
                 properties: ['padding-top', 'padding-bottom'],
               }}
             >
-              <h2 className={font('brand-bold', 2)} id="more-visual-stories">
+              <h2
+                className={typography('heading', 'xl', 'strong', 'brand')}
+                id="more-visual-stories"
+              >
                 More Visual Stories
               </h2>
             </Space>

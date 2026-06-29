@@ -3,7 +3,7 @@ import { useTheme } from 'styled-components';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { formatDuration } from '@weco/common/utils/format-date';
 import Button from '@weco/common/views/components/Buttons';
 import {
@@ -19,6 +19,7 @@ import {
 } from '@weco/content/services/wellcome/catalogue/types';
 import { TransformedManifest } from '@weco/content/types/manifest';
 import {
+  deduplicateDownloadOptions,
   getDownloadOptionsFromCanvasRenderingAndSupplementing,
   getDownloadOptionsFromManifestRendering,
   hasItemType,
@@ -95,6 +96,13 @@ const WorkDetails: FunctionComponent<Props> = ({
         getDownloadOptionsFromCanvasRenderingAndSupplementing(canvas)
       )
       .flat() || [];
+
+  // The same file can appear in multiple sources, so deduplicate by id
+  const downloadOptions = deduplicateDownloadOptions([
+    ...iiifImageDownloadOptions,
+    ...canvasDownloadOptions,
+    ...manifestDownloadOptions,
+  ]);
 
   // 'About this work' data
   const duration = work.duration && formatDuration(work.duration);
@@ -173,11 +181,7 @@ const WorkDetails: FunctionComponent<Props> = ({
       {showAvailableOnlineSection && (
         <WorkDetailsAvailableOnline
           work={work}
-          downloadOptions={[
-            ...manifestDownloadOptions,
-            ...iiifImageDownloadOptions,
-            ...canvasDownloadOptions,
-          ]}
+          downloadOptions={downloadOptions}
           itemUrl={toWorksItemLink({
             workId: work.id,
             props: {},
@@ -424,7 +428,7 @@ const WorkDetails: FunctionComponent<Props> = ({
       )}
 
       <WorkDetailsSection headingText="Permanent link">
-        <div className={font('sans', -1)}>
+        <div className={typography('body', 'md', 'regular')}>
           <CopyButtons
             variant="url"
             url={`https://wellcomecollection.org/works/${work.id}`}

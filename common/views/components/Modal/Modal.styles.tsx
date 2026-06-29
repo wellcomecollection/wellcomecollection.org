@@ -150,3 +150,8 @@ export const CalendarModal = styled(BaseModalWindow)`
     left: auto;
   `}
 `;
+
+export const InactivityModal = styled(BaseModalWindow)`
+  background-color: ${props => props.theme.color('warmNeutral.300')};
+  border-radius: 8px;
+`;

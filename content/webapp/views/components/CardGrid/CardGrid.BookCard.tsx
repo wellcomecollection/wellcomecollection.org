@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
 import { BookBasic } from '@weco/content/types/books';
@@ -35,20 +35,20 @@ const LinkSpace = styled(Space).attrs<LinkSpaceAttrs>(props => ({
 `;
 
 const Title = styled.h3.attrs({
-  className: font('brand-bold', 0),
+  className: typography('heading', 'md', 'strong', 'brand'),
 })`
   margin: 0;
 `;
 
 const Subtitle = styled(Space).attrs({
-  className: font('sans-bold', -1),
+  className: typography('body', 'md', 'strong'),
   $v: { size: 'xs', properties: ['margin-top'] },
 })`
   margin: 0;
 `;
 
 const Caption = styled.p.attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })`
   margin: 0;
 `;

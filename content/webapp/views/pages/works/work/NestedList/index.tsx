@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { UiTree } from '@weco/content/views/pages/works/work/work.types';
 
 import { ListProps } from './NestedList.helpers';
@@ -38,7 +38,7 @@ const NestedList: FunctionComponent<NestedListProps> = ({
       }
       tabIndex={level === 1 && isEnhanced ? 0 : undefined}
       role={isEnhanced ? (level === 1 ? 'tree' : 'group') : undefined}
-      className={font('sans', -1)}
+      className={typography('body', 'md', 'regular')}
     >
       {archiveTree &&
         archiveTree.map((item, i) => {

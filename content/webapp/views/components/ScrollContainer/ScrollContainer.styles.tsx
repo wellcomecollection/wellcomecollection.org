@@ -18,11 +18,14 @@ export const ScrollButtonsContainer = styled(Space)<{
       : ''}
 `;
 
-export const ContentContainer = styled(PlainList)`
+export const ContentContainer = styled(PlainList)<{
+  $hasWorkCards?: boolean;
+}>`
+  align-items: ${props => (props.$hasWorkCards ? 'baseline' : 'normal')};
   display: flex;
   overflow: hidden;
   position: relative;
-  padding: 3px 0;
+  padding: ${props => (props.$hasWorkCards ? '25px 0 3px' : '3px 0')};
 
   li:first-child {
     padding-left: 0;

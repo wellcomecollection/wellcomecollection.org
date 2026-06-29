@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 
 export const DialogControls = styled.span`
@@ -33,7 +33,7 @@ export const DialogButton = styled.button`
 
 export const TranscriptButton = styled.button.attrs({
   type: 'button',
-  className: font('sans', -2),
+  className: typography('body', 'sm', 'regular'),
 })`
   display: flex;
   align-items: center;
@@ -84,7 +84,7 @@ export const VideoIframe = styled.iframe`
 export const TranscriptOverlay = styled(Space).attrs({
   $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
   $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })<{ $hidden: boolean }>`
   position: absolute;
   inset: 0;

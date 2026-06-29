@@ -27,6 +27,7 @@ type Props = PropsWithChildren<{
   containerRef?: RefObject<HTMLUListElement | null>;
   CopyContent?: JSX.Element;
   useShim?: boolean;
+  hasWorkCards?: boolean;
 }>;
 
 const ScrollContainer: FunctionComponent<Props> = ({
@@ -38,6 +39,7 @@ const ScrollContainer: FunctionComponent<Props> = ({
   useShim = false,
   CopyContent,
   children,
+  hasWorkCards = false,
 }) => {
   const fallbackRef = useRef<HTMLUListElement>(null);
   const scrollContainerRef = containerRef || fallbackRef;
@@ -98,7 +100,7 @@ const ScrollContainer: FunctionComponent<Props> = ({
         {!scrollButtonsAfter ? <ScrollButtons /> : <Copy addContainerWrapper />}
       </ConditionalWrapper>
 
-      <ContentContainer ref={scrollContainerRef}>
+      <ContentContainer ref={scrollContainerRef} $hasWorkCards={hasWorkCards}>
         {useShim && gridSizes && <ScrollShim $gridValues={gridValues} />}
         {children}
       </ContentContainer>

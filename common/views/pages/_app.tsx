@@ -18,7 +18,6 @@ import {
   defaultServerData,
   isServerData,
   ServerData,
-  SimplifiedServerData,
 } from '@weco/common/server-data/types';
 import { AppErrorProps } from '@weco/common/services/app';
 import { HotjarLoader } from '@weco/common/services/app/analytics-scripts/hotjar-loader';
@@ -80,10 +79,10 @@ export type ServerSideProps<T = NonNullable<unknown>> = [T] extends [
   Record<string, never>,
 ]
   ? {
-      serverData: SimplifiedServerData;
+      serverData: ServerData;
     }
   : NotAny<T> & {
-      serverData: SimplifiedServerData;
+      serverData: ServerData;
     };
 
 export type ServerSidePropsOrAppError<T extends ServerSideProps<unknown>> =
@@ -154,6 +153,9 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
     // Banner shouldn't appear in Prismic's Slice Simulator (or Page Builder)
     if (router.route === '/slice-simulator') return true;
 
+    // Banner shouldn't appear in kiosk mode (consent is always granted)
+    if (kioskModeCookie) return true;
+
     return false;
   };
 
@@ -169,12 +171,11 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
           <UserContextProvider>
             <AppContextProvider>
               <SearchContextProvider>
-                <KioskProvider cookieContent={kioskModeCookie}>
-                  <GlobalStyle
-                    $compositeTypography={
-                      !!serverData.toggles.featureFlags.compositeTypography
-                    }
-                  />
+                <KioskProvider
+                  cookieContent={kioskModeCookie}
+                  readingRoomStories={serverData.prismic.readingRoomStories}
+                >
+                  <GlobalStyle />
 
                   <GlobalSvgDefinitions />
                   <LoadingIndicator />
