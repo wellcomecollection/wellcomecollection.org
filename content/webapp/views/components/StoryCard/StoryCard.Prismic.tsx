@@ -1,6 +1,7 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
+import { useKiosk } from '@weco/common/contexts/KioskContext';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { typography } from '@weco/common/utils/classnames';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
@@ -47,6 +48,7 @@ const StoryCard: FunctionComponent<Props> = ({
   hidePromoText = false,
   positionInList,
 }) => {
+  const { isKiosk } = useKiosk();
   const image = article.promo?.image;
   const url = linkResolver(article);
 
@@ -98,7 +100,7 @@ const StoryCard: FunctionComponent<Props> = ({
         </div>
       </CardBody>
 
-      {article.series.length > 0 && (
+      {!isKiosk && article.series.length > 0 && (
         <CardPostBody>
           {article.series.map(series => (
             <PartOf key={series.id}>
