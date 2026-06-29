@@ -20,12 +20,24 @@ const Background = styled.div<{ $texture: string | null }>`
   width: 100%;
   overflow: hidden;
   z-index: -1;
+  isolation: isolate;
 
   background-color: ${props => props.theme.color('warmNeutral.300')};
+
   ${props =>
     props.$texture &&
-    `background-image: url(${props.$texture});
-      background-size: cover;`};
+    `&::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background-image: url(${props.$texture});
+      background-size: cover;
+
+      @media (prefers-color-scheme: dark) {
+        filter: invert(1);
+      }
+    }`};
 `;
 
 const WobblyEdgeContainer = styled.div`

@@ -18,9 +18,10 @@ type Props = PropsWithChildren<{
   hasBiggerHeading?: boolean;
 }>;
 
-const InfoContainer = styled(Space).attrs({
+const InfoContainer = styled(Space).attrs<{ 'data-color-scheme': 'light' }>({
   $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
   $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
+  'data-color-scheme': 'light',
 })`
   background-color: ${props => props.theme.color('yellow')};
 `;

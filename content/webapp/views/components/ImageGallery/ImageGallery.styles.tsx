@@ -169,12 +169,14 @@ export const StandaloneWobblyEdge = styled.div`
   top: 0;
   width: 100%;
   z-index: 2;
+  color-scheme: light dark;
 `;
 
 export const DecorativeEdgeWrapper = styled.div`
   position: absolute;
   bottom: -2px;
   width: 100%;
+  color-scheme: light dark;
 `;
 
 type ButtonContainerProps = { $isHidden: boolean };

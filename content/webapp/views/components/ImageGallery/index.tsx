@@ -129,7 +129,7 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
   };
 
   return (
-    <div data-component="image-gallery">
+    <div data-component="image-gallery" data-color-scheme="light">
       {!isStandalone && !isFrames && (
         <ContaineredLayout gridSizes={gridSize8()}>
           <GalleryTitle>
