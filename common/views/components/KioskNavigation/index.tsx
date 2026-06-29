@@ -86,10 +86,26 @@ const DisabledHomeLink = styled.div`
   opacity: 0.5;
 `;
 
+const HomeText = styled.span`
+  display: none;
+
+  ${props => props.theme.media('md')`
+    display: inline;
+  `}
+`;
+
 const RightSection = styled.nav`
   display: flex;
   align-items: center;
   ${props => `gap: ${props.theme.gutter.medium};`}
+`;
+
+const NavigationLabel = styled.span`
+  display: none;
+
+  ${props => props.theme.media('md')`
+    display: inline;
+  `}
 `;
 
 const navLinkStyles = `
@@ -266,9 +282,13 @@ export const KioskNavigation: FunctionComponent<Props> = memo(
             </HistoryButton>
           </HistoryNavigation>
           {isOnHomePage ? (
-            <DisabledHomeLink aria-disabled="true" aria-current="page">
+            <DisabledHomeLink
+              aria-disabled="true"
+              aria-current="page"
+              aria-label="Home"
+            >
               <Icon icon={home} aria-hidden="true" />
-              <span>Back to: Home</span>
+              <HomeText>Back to: Home</HomeText>
             </DisabledHomeLink>
           ) : (
             <HomeLink
@@ -276,14 +296,16 @@ export const KioskNavigation: FunctionComponent<Props> = memo(
               aria-label="Return to kiosk home page"
             >
               <Icon icon={home} aria-hidden="true" />
-              <span>Back to: Home</span>
+              <HomeText>Back to: Home</HomeText>
             </HomeLink>
           )}
         </LeftSection>
         <RightSection aria-label="Content navigation">
           {navigation && !isReadingRoomKiosk && (
             <>
-              <span aria-label={`Viewing ${label.toLowerCase()}`}>{label}</span>
+              <NavigationLabel aria-label={`Viewing ${label.toLowerCase()}`}>
+                {label}
+              </NavigationLabel>
               <span
                 aria-label={`Page ${navigation.currentIndex + 1} of ${navigation.totalCount}`}
               >
