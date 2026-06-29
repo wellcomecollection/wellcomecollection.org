@@ -310,7 +310,7 @@ const Body: FunctionComponent<Props> = ({
       condition={isTwoColumns}
       wrapper={children => (
         <Container>
-          <Grid style={{ background: 'white', rowGap: 0 }}>
+          <Grid style={{ background: 'var(--color-white)', rowGap: 0 }}>
             <InPageNavigation
               links={onThisPage!}
               sizeMap={{ s: [12], m: [12], l: [3], xl: [3] }}
