@@ -126,6 +126,8 @@ const Modal: FunctionComponent<Props> = ({
         position: 'fixed',
         top: `${vv.offsetTop + vv.height / 2}px`,
         left: `${vv.offsetLeft + vv.width / 2}px`,
+        right: 'auto',
+        bottom: 'auto',
         transform: 'translate(-50%, -50%)',
         maxWidth: `${Math.min(550, vv.width * 0.9)}px`,
         maxHeight: `${vv.height * 0.9}px`,
