@@ -1,6 +1,9 @@
 import * as prismic from '@prismicio/client';
 
-import { PlacesDocument as RawPlacesDocument } from '@weco/common/prismicio-types';
+import {
+  PlacesDocumentDataBodySlice,
+  PlacesDocument as RawPlacesDocument,
+} from '@weco/common/prismicio-types';
 import { isFilledLinkToDocumentWithTypedData } from '@weco/common/services/prismic/types';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { Place } from '@weco/content/types/places';
@@ -35,10 +38,11 @@ export function transformPlaceFromRelationship(
   }
 
   const data = maybeField.data;
-  const genericFields = transformGenericFieldsFromRelationship({
-    id: maybeField.id,
-    data: data as unknown as Record<string, unknown>,
-  });
+  const genericFields =
+    transformGenericFieldsFromRelationship<PlacesDocumentDataBodySlice>({
+      id: maybeField.id,
+      data: data as unknown as Record<string, unknown>,
+    });
 
   const title = Array.isArray(data.title)
     ? asTitle(data.title as prismic.RichTextField)

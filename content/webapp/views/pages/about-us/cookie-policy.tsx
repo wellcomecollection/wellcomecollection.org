@@ -1,3 +1,4 @@
+import { asText } from '@prismicio/client';
 import { SliceZone } from '@prismicio/react';
 import { NextPage } from 'next';
 
@@ -44,8 +45,9 @@ const CookiePolicyPage: NextPage<page.Props> = props => {
   // Find their positions so we can insert them in the correct order
   const tablesPosition = props.page.untransformedBody
     .map((slice, index) => {
-      if (EXPECTED_TABLE_NAMES.includes(slice.primary?.text?.[0]?.text))
-        return index;
+      if (slice.slice_type !== 'text') return undefined;
+      const sliceText = asText(slice.primary.text);
+      if (EXPECTED_TABLE_NAMES.includes(sliceText)) return index;
       return undefined;
     })
     .filter(isNotUndefined);
@@ -97,7 +99,13 @@ const CookiePolicyPage: NextPage<page.Props> = props => {
               return tablesPosition.includes(index) ? (
                 <CookieTable
                   key={index}
-                  rows={cookiesTableCopy[slice.primary?.text?.[0]?.text]}
+                  rows={
+                    cookiesTableCopy[
+                      slice.slice_type === 'text'
+                        ? asText(slice.primary.text)
+                        : ''
+                    ]
+                  }
                 />
               ) : (
                 <SliceZone

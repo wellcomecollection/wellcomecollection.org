@@ -5,7 +5,6 @@ import styled from 'styled-components';
 
 import { officialLandingPagesUid } from '@weco/common/data/hardcoded-ids';
 import { ContentListSlice as RawContentListSlice } from '@weco/common/prismicio-types';
-import { PagesDocumentDataBodySlice } from '@weco/common/prismicio-types';
 import { classNames, typography } from '@weco/common/utils/classnames';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
@@ -27,6 +26,7 @@ import { transformContentListSlice } from '@weco/content/services/prismic/transf
 import { ArchiveWorkData } from '@weco/content/services/wellcome/catalogue/works';
 import { isContentList } from '@weco/content/types/body';
 import { convertItemToCardProps } from '@weco/content/types/card';
+import { PrismicBodySlice } from '@weco/content/types/generic-content-fields';
 import { Link } from '@weco/content/types/link';
 import Card from '@weco/content/views/components/Card';
 import FeaturedCard, {
@@ -58,7 +58,7 @@ export type BodySliceContexts = {
 };
 
 export type Props = {
-  untransformedBody: prismic.SliceZone<PagesDocumentDataBodySlice>;
+  untransformedBody: PrismicBodySlice[];
   introText?: prismic.RichTextField;
   onThisPage?: Link[];
   showOnThisPage?: boolean;
@@ -146,7 +146,7 @@ const Body: FunctionComponent<Props> = ({
   bodySliceContexts,
 }: Props) => {
   const filteredUntransformedBody = untransformedBody.filter(
-    (slice: prismic.Slice) => slice.slice_type !== 'standfirst'
+    slice => slice.slice_type !== 'standfirst'
   );
 
   const firstTextSliceIndex =
