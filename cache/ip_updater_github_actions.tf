@@ -13,7 +13,7 @@ module "github_actions_ip_updater" {
   memory_size = 256
 
   source_file           = "${path.module}/ip-updaters/github-actions.js"
-  extra_source_files    = ["${path.module}/ip-updaters/helpers.js"]
+  extra_source_files    = ["${path.module}/ip-updaters/waf-updater.js"]
   alarm_topic_arn       = local.monitoring_infra["chatbot_topic_arns"]["us-east-1"]
   log_retention_in_days = 30
 

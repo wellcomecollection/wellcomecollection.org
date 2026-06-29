@@ -1,0 +1,10 @@
+{
+  "name": "waf-ip-updaters",
+  "private": true,
+  "scripts": {
+    "test": "node --test waf-updater.test.js"
+  },
+  "devDependencies": {
+    "@aws-sdk/client-wafv2": "*"
+  }
+}
