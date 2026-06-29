@@ -30,7 +30,11 @@ const InactivityRedirect: FunctionComponent<{ isCardiganStory?: boolean }> = ({
   const modalButtonRef = useRef<HTMLElement | null>(null);
 
   // Don't run outside kiosk mode, on the redirect destination itself, or if in developer mode
-  const isRedirectDestination = router.asPath === kioskHomepageUrl;
+  // Strip kp_zoomLevel param when checking if we're on the homepage
+  const currentPathWithoutZoomParam = router.asPath.split('?')[0];
+  const homepagePathWithoutZoomParam = kioskHomepageUrl?.split('?')[0];
+  const isRedirectDestination =
+    currentPathWithoutZoomParam === homepagePathWithoutZoomParam;
   const shouldNotBeActive =
     (!isKiosk ||
       isDevModeKiosk ||
@@ -54,7 +58,11 @@ const InactivityRedirect: FunctionComponent<{ isCardiganStory?: boolean }> = ({
       // Clear navigation history to start fresh
       resetNavigationHistory();
 
-      router.push(kioskHomepageUrl);
+      // Append kp_zoomLevel=100 to reset zoom in Kiosk Pro browser
+      const separator = kioskHomepageUrl.includes('?') ? '&' : '?';
+      const urlWithZoomReset = `${kioskHomepageUrl}${separator}kp_zoomLevel=100`;
+
+      router.push(urlWithZoomReset);
     },
     [router, kioskHomepageUrl, resetNavigationHistory]
   );
