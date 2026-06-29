@@ -95,7 +95,7 @@ export const KioskProvider: FunctionComponent<KioskProviderProps> = ({
       RR: readingRoomStories as KiosksContentType,
       TR: {
         ...initialKiosksContent.TR,
-        ...tendernessAndRageContent,
+        ...(tendernessAndRageContent ?? {}),
       } as KiosksContentType,
     }),
     [readingRoomStories, tendernessAndRageContent]
