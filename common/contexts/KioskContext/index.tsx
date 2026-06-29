@@ -7,19 +7,16 @@ import {
 } from 'react';
 
 import {
+  getKioskContentKey,
+  getKioskExperienceName,
   kiosksContent as initialKiosksContent,
+  KioskExperienceName,
+  kioskExperienceNames,
   KiosksContentType,
 } from '@weco/common/contexts/KioskContext/kiosks-content';
 import { ReadingRoomStories } from '@weco/common/server-data/prismic';
-import { KioskExperienceId, KioskModeOptionId } from '@weco/toggles';
+import { KioskModeOptionId } from '@weco/toggles';
 import toggleConfig from '@weco/toggles/toggles';
-
-// Human-readable names for each kiosk experience
-export const kioskExperienceNames = {
-  developerMode: 'Developer mode',
-  tendernessAndRage: 'Tenderness and Rage',
-  readingRoom: 'Reading Room',
-} as const;
 
 // Valid kiosk mode IDs extracted from toggles config
 const VALID_KIOSK_MODE_IDS =
@@ -37,9 +34,6 @@ export function isValidKioskMode(value: unknown): value is KioskModeOptionId {
     (VALID_KIOSK_MODE_IDS as readonly string[]).includes(value)
   );
 }
-
-type KioskExperienceName =
-  (typeof kioskExperienceNames)[keyof typeof kioskExperienceNames];
 
 type KioskContextType = {
   isKiosk: boolean;
@@ -67,44 +61,6 @@ type KioskProviderProps = PropsWithChildren<{
 export const useKiosk = (): KioskContextType => {
   const contextState = useContext(KioskContext);
   return contextState;
-};
-
-/**
- * Extracts the human-readable experience name from a kiosk cookie value.
- * Cookie format is either 'devMode' or '{prefix}-{deviceId}' (e.g. 'RR-iPad1').
- */
-export const getKioskExperienceName = (
-  cookieContent: string | null
-): KioskExperienceName | undefined => {
-  if (!cookieContent) return undefined;
-
-  // Extract experience prefix: 'RR-iPad1' → 'RR', 'devMode' → 'devMode'
-  const experienceId = cookieContent.split('-')[0] as KioskExperienceId;
-
-  switch (experienceId) {
-    case 'RR':
-      return kioskExperienceNames.readingRoom;
-    case 'TR':
-      return kioskExperienceNames.tendernessAndRage;
-    case 'devMode':
-      return kioskExperienceNames.developerMode;
-    default:
-      return undefined;
-  }
-};
-
-export const getKioskContentKey = (
-  kioskMode: string | null,
-  kiosksContent: Record<string, KiosksContentType>
-): string | null => {
-  if (!kioskMode) return null;
-
-  // Find the content key that matches the kioskMode prefix (e.g., "TR" from "TR-iPad1")
-  const contentKey = Object.keys(kiosksContent).find(prefix =>
-    kioskMode.startsWith(prefix)
-  );
-
-  return contentKey || null;
 };
 
 export const KioskProvider: FunctionComponent<KioskProviderProps> = ({
@@ -157,3 +113,5 @@ export const useKiosksContent = (): Record<string, KiosksContentType> => {
   const { kiosksContent } = useKiosk();
   return kiosksContent;
 };
+
+export { getKioskContentKey, getKioskExperienceName, kioskExperienceNames };
