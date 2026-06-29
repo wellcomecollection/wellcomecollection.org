@@ -57,6 +57,7 @@ const InPageNavigation: FunctionComponent<Props> = ({
   const loadedWithHashRef = useRef(
     typeof window !== 'undefined' && !!window.location.hash
   );
+  const [isDarkMobileNav, setIsDarkMobileNav] = useState(false);
 
   const shouldLockScroll = windowSize !== 'md' && isListActive && hasStuck;
 
@@ -114,6 +115,10 @@ const InPageNavigation: FunctionComponent<Props> = ({
     }
     prevHasStuckRef.current = hasStuck;
   }, [hasStuck, isListActive, clickedId, windowSize]);
+
+  useEffect(() => {
+    setIsDarkMobileNav(windowSize === 'sm' && hasStuck);
+  }, [hasStuck, windowSize]);
 
   useEffect(() => {
     // We close the mobile nav if the user resizes their window to the large bp
@@ -196,7 +201,7 @@ const InPageNavigation: FunctionComponent<Props> = ({
       ref={navGridCellRef}
       $isOnWhite={!!isOnWhite}
       $sizeMap={sizeMap}
-      data-color-scheme="light"
+      data-color-scheme={!isDarkMobileNav ? 'light' : ''}
     >
       {shouldLockScroll && (
         <>

@@ -24,7 +24,7 @@ export type ColumnKey =
   | 'shiftXl';
 
 // suggested new colors
-const colors = {
+export const colors = {
   // Core
   // Wrap in core? Looks better for lightYellow but worse for the others...
   white: '#ffffff',
