@@ -22,6 +22,18 @@ const HistoryContext = createContext<HistoryContextType | null>(null);
 
 export const NAVIGATION_HISTORY_STORAGE_KEY = 'kiosk-navigation-history';
 
+// Normalize a path by removing shouldScrollToCanvas query param
+// This ensures we don't create duplicate history entries for the same page
+const normalizePath = (path: string): string => {
+  try {
+    const url = new URL(path, window.location.origin);
+    url.searchParams.delete('shouldScrollToCanvas');
+    return url.pathname + url.search;
+  } catch {
+    return path;
+  }
+};
+
 export const HistoryProvider: FunctionComponent<PropsWithChildren> = ({
   children,
 }) => {
@@ -39,7 +51,7 @@ export const HistoryProvider: FunctionComponent<PropsWithChildren> = ({
     if (typeof window === 'undefined') return;
     if (isInitialized.current) return; // Prevent re-runs (React Strict Mode) - no harm doing this on prod too
 
-    const currentPath = router.asPath;
+    const currentPath = normalizePath(router.asPath);
     const stored = sessionStorage.getItem(NAVIGATION_HISTORY_STORAGE_KEY);
 
     if (stored) {
@@ -78,9 +90,9 @@ export const HistoryProvider: FunctionComponent<PropsWithChildren> = ({
   // Step 2: Track client-side navigation changes (Next.js Link clicks)
   useEffect(() => {
     if (!isInitialized.current) return; // Don't run until initialized
-    const pathname = router.asPath;
+    const pathname = normalizePath(router.asPath);
 
-    // Skip if path hasn't actually changed
+    // Skip if path hasn't actually changed (normalized)
     if (previousPathRef.current === pathname) return;
 
     // If this was our programmatic navigation (back/forward)
@@ -105,7 +117,15 @@ export const HistoryProvider: FunctionComponent<PropsWithChildren> = ({
     if (index <= 0) return; // Can't go back
     if (isNavigating) return; // Already navigating
 
-    const targetPath = stack[index - 1];
+    let targetPath = stack[index - 1];
+
+    // If path contains /items, ensure shouldScrollToCanvas is set
+    if (targetPath.includes('/items')) {
+      const url = new URL(targetPath, window.location.origin);
+      url.searchParams.set('shouldScrollToCanvas', 'true');
+      targetPath = url.pathname + url.search;
+    }
+
     isNavigatingRef.current = true;
     setIsNavigating(true);
     setIndex(index - 1);
@@ -116,7 +136,15 @@ export const HistoryProvider: FunctionComponent<PropsWithChildren> = ({
     if (index >= stack.length - 1) return; // Can't go forward
     if (isNavigating) return; // Already navigating
 
-    const targetPath = stack[index + 1];
+    let targetPath = stack[index + 1];
+
+    // If path contains /items, ensure shouldScrollToCanvas is set
+    if (targetPath.includes('/items')) {
+      const url = new URL(targetPath, window.location.origin);
+      url.searchParams.set('shouldScrollToCanvas', 'true');
+      targetPath = url.pathname + url.search;
+    }
+
     isNavigatingRef.current = true;
     setIsNavigating(true);
     setIndex(index + 1);
