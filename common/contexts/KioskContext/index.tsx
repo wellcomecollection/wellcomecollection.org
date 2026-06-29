@@ -15,7 +15,10 @@ import {
   KiosksContentType,
 } from '@weco/common/contexts/KioskContext/kiosks-content';
 import { HistoryProvider } from '@weco/common/hooks/useNavigationHistory';
-import { ReadingRoomStories } from '@weco/common/server-data/prismic';
+import {
+  ReadingRoomStories,
+  TendernessAndRageContent,
+} from '@weco/common/server-data/prismic';
 import { KioskModeOptionId } from '@weco/toggles';
 import toggleConfig from '@weco/toggles/toggles';
 
@@ -57,6 +60,7 @@ const KioskContext = createContext<KioskContextType>({
 type KioskProviderProps = PropsWithChildren<{
   cookieContent: string | null;
   readingRoomStories: ReadingRoomStories;
+  tendernessAndRageContent: TendernessAndRageContent;
 }>;
 
 export const useKiosk = (): KioskContextType => {
@@ -67,6 +71,7 @@ export const useKiosk = (): KioskContextType => {
 export const KioskProvider: FunctionComponent<KioskProviderProps> = ({
   cookieContent,
   readingRoomStories,
+  tendernessAndRageContent,
   children,
 }) => {
   const kioskExperienceName = getKioskExperienceName(cookieContent);
@@ -88,8 +93,12 @@ export const KioskProvider: FunctionComponent<KioskProviderProps> = ({
     () => ({
       ...initialKiosksContent,
       RR: readingRoomStories as KiosksContentType,
+      TR: {
+        ...initialKiosksContent.TR,
+        ...tendernessAndRageContent,
+      } as KiosksContentType,
     }),
-    [readingRoomStories]
+    [readingRoomStories, tendernessAndRageContent]
   );
 
   const value = useMemo(
