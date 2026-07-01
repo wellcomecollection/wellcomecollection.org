@@ -34,6 +34,16 @@ export type ReadingRoomStories = {
   [title: string]: string[];
 };
 
+export type TendernessAndRageContent = {
+  includedWorks?: string[];
+  workGroups?: {
+    heading: string;
+    description: string;
+    ids: string[];
+  }[];
+  stories?: string[];
+};
+
 export const defaultValue: SimplifiedPrismicData = {
   globalAlert: {
     data: {
@@ -57,6 +67,7 @@ export const defaultValue: SimplifiedPrismicData = {
     results: [],
   },
   readingRoomStories: {},
+  tendernessAndRageContent: {},
 };
 
 export type PrismicData = {
@@ -64,6 +75,7 @@ export type PrismicData = {
   popupDialog: RawPopupDialogDocument;
   collectionVenues: prismic.Query<RawCollectionVenueDocument>;
   readingRoomStories: RawPagesDocument | null;
+  tendernessAndRageContent: RawPagesDocument | null;
 };
 
 export type SimplifiedPrismicData = {
@@ -71,6 +83,7 @@ export type SimplifiedPrismicData = {
   popupDialog: { data: InferDataInterface<RawPopupDialogDocument> };
   collectionVenues: ResultsLite;
   readingRoomStories: ReadingRoomStories;
+  tendernessAndRageContent: TendernessAndRageContent;
 };
 
 export const handler: Handler<SimplifiedPrismicData, SimplifiedPrismicData> = {
@@ -100,17 +113,23 @@ async function fetchPrismicValues(): Promise<PrismicData> {
     'pages',
     'reading-room-stories'
   );
+  const tendernessAndRageContentPromise = client.getByUID(
+    'pages',
+    'tenderness-and-rage-explore-more'
+  );
 
   const [
     collectionVenuesResult,
     globalAlertResult,
     popupDialogResult,
     readingRoomStoriesResult,
+    tendernessAndRageContentResult,
   ] = await Promise.allSettled([
     collectionVenuesResultPromise,
     globalAlertResultPromise,
     popupDialogResultPromise,
     readingRoomStoriesPromise,
+    tendernessAndRageContentPromise,
   ]);
 
   // If we don't get a result from Prismic for collectionVenues, we want to
@@ -146,6 +165,10 @@ async function fetchPrismicValues(): Promise<PrismicData> {
     readingRoomStories:
       readingRoomStoriesResult.status === 'fulfilled'
         ? (readingRoomStoriesResult.value as RawPagesDocument)
+        : null,
+    tendernessAndRageContent:
+      tendernessAndRageContentResult.status === 'fulfilled'
+        ? (tendernessAndRageContentResult.value as RawPagesDocument)
         : null,
   };
 }
