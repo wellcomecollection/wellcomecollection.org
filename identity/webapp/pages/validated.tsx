@@ -29,6 +29,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     // refresh after fetching a new access token.
     try {
       await auth0.getAccessToken(req, res, { refresh: true });
+      await auth0.getSession(req, res);
     } catch {
       // It doesn't matter if this fails; it means the user doesn't currently have a session
     }
