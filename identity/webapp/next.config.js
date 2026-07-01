@@ -10,14 +10,6 @@ const config = function () {
   const prodSubdomain = process.env.PROD_SUBDOMAIN || '';
   const basePath = '/account';
 
-  // The auth0 SDK reads NEXT_PUBLIC_BASE_PATH to build URLs under the
-  // basePath (eg the OAuth callback URL). Setting it here keeps it in sync
-  // with basePath without requiring it in every environment's config: the
-  // assignment covers code that reads it at runtime (the SDK is unbundled in
-  // the server build), and the `env` key below covers code where it gets
-  // inlined at build time (the middleware bundle).
-  process.env.NEXT_PUBLIC_BASE_PATH = basePath;
-
   const withBundleAnalyzerConfig = withBundleAnalyzer({
     analyzeServer: ['server', 'both'].includes(process.env.BUNDLE_ANALYZE),
     analyzeBrowser: ['browser', 'both'].includes(process.env.BUNDLE_ANALYZE),
@@ -45,7 +37,6 @@ const config = function () {
         ? `https://${prodSubdomain}.wellcomecollection.org${basePath}`
         : undefined,
     basePath,
-    env: { NEXT_PUBLIC_BASE_PATH: basePath },
     // We handle compression in the nginx sidecar
     // Are you having problems with this? Make sure CloudFront is forwarding Accept-Encoding headers to our apps!
     compress: false,
