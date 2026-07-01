@@ -9,22 +9,22 @@
     "chromatic": "chromatic --only-changed"
   },
   "dependencies": {
-    "@faker-js/faker": "^10.1.0",
+    "@faker-js/faker": "^10.5.0",
     "@storybook/addon-a11y": "10.4.2",
     "@storybook/addon-docs": "10.4.2",
     "@storybook/cli": "10.4.2",
-    "chromatic": "^17.2.0",
+    "chromatic": "^17.8.0",
     "next": "15.5.18",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "typescript": "^5.9.3",
-    "webpack": "^5.107.2"
+    "webpack": "^5.108.3"
   },
   "devDependencies": {
     "@storybook/nextjs-vite": "10.4.2",
     "eslint-plugin-storybook": "10.4.2",
     "storybook": "10.4.2",
     "util": "^0.12.5",
-    "vite": "^7.3.5"
+    "vite": "^8.1.2"
   }
 }
