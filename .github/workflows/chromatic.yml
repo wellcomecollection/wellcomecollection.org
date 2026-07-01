@@ -22,7 +22,7 @@ jobs:
   chromatic-deployment:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       # https://github.com/actions/setup-node?tab=readme-ov-file#usage
@@ -34,7 +34,7 @@ jobs:
       - name: Install dependencies
         run: yarn
       - name: Publish to Chromatic
-        uses: chromaui/action@v17
+        uses: chromaui/action@v18
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           onlyChanged: true
