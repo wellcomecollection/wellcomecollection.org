@@ -490,25 +490,10 @@ export interface BooksDocumentDataReviewsItem {
 }
 
 type BooksDocumentDataBodySlice =
-  | AudioPlayerSlice
-  | CollectionVenueSlice
-  | ContactSlice
-  | ContentListSlice
-  | EditorialImageSlice
-  | EditorialImageGallerySlice
-  | EmbedSlice
-  | GifVideoSlice
-  | IframeSlice
-  | InfoBlockSlice
-  | MapSlice
-  | QuoteSlice
-  | SearchResultsSlice
-  | StandfirstSlice
-  | TagListSlice
   | TextSlice
-  | TextAndIconsSlice
-  | TextAndImageSlice
-  | TitledTextListSlice;
+  | QuoteSlice
+  | ContentListSlice
+  | InfoBlockSlice;
 
 /**
  * Item in *Book → Contributors*
@@ -1424,26 +1409,7 @@ export type EventPoliciesDocument<Lang extends string = string> =
     Lang
   >;
 
-type EventSeriesDocumentDataBodySlice =
-  | AudioPlayerSlice
-  | CollectionVenueSlice
-  | ContactSlice
-  | ContentListSlice
-  | EditorialImageSlice
-  | EditorialImageGallerySlice
-  | EmbedSlice
-  | GifVideoSlice
-  | IframeSlice
-  | InfoBlockSlice
-  | MapSlice
-  | QuoteSlice
-  | SearchResultsSlice
-  | StandfirstSlice
-  | TagListSlice
-  | TextSlice
-  | TextAndIconsSlice
-  | TextAndImageSlice
-  | TitledTextListSlice;
+type EventSeriesDocumentDataBodySlice = TextSlice | QuoteSlice | EmbedSlice;
 
 /**
  * Item in *Event series → Contributors*
@@ -1673,25 +1639,12 @@ export interface EventsDocumentDataTimesItem {
 }
 
 type EventsDocumentDataBodySlice =
-  | AudioPlayerSlice
-  | CollectionVenueSlice
+  | TextSlice
+  | EmbedSlice
   | ContactSlice
   | ContentListSlice
-  | EditorialImageSlice
-  | EditorialImageGallerySlice
-  | EmbedSlice
-  | GifVideoSlice
-  | IframeSlice
   | InfoBlockSlice
-  | MapSlice
-  | QuoteSlice
-  | SearchResultsSlice
-  | StandfirstSlice
-  | TagListSlice
-  | TextSlice
-  | TextAndIconsSlice
-  | TextAndImageSlice
-  | TitledTextListSlice;
+  | QuoteSlice;
 
 /**
  * Item in *Event → Interpretations*
@@ -2770,25 +2723,12 @@ export type ExhibitionTextsDocument<Lang extends string = string> =
   >;
 
 type ExhibitionsDocumentDataBodySlice =
-  | AudioPlayerSlice
-  | CollectionVenueSlice
-  | ContactSlice
-  | ContentListSlice
-  | EditorialImageSlice
-  | EditorialImageGallerySlice
-  | EmbedSlice
-  | GifVideoSlice
-  | IframeSlice
-  | InfoBlockSlice
-  | MapSlice
-  | QuoteSlice
-  | SearchResultsSlice
-  | StandfirstSlice
-  | TagListSlice
   | TextSlice
-  | TextAndIconsSlice
-  | TextAndImageSlice
-  | TitledTextListSlice;
+  | EditorialImageGallerySlice
+  | ContentListSlice
+  | EmbedSlice
+  | InfoBlockSlice
+  | QuoteSlice;
 
 type ExhibitionsDocumentDataOnwardJourneysSlice =
   | CardListingSlice
@@ -3393,25 +3333,9 @@ export type GuideFormatsDocument<Lang extends string = string> =
   >;
 
 type GuidesDocumentDataBodySlice =
-  | AudioPlayerSlice
-  | CollectionVenueSlice
-  | ContactSlice
-  | ContentListSlice
-  | EditorialImageSlice
-  | EditorialImageGallerySlice
-  | EmbedSlice
-  | GifVideoSlice
-  | IframeSlice
-  | InfoBlockSlice
-  | MapSlice
-  | QuoteSlice
-  | SearchResultsSlice
-  | StandfirstSlice
-  | TagListSlice
   | TextSlice
-  | TextAndIconsSlice
-  | TextAndImageSlice
-  | TitledTextListSlice;
+  | EditorialImageSlice
+  | ContactSlice;
 
 /**
  * Primary content in *Guide → Slice Zone → Editorial image → Primary*
@@ -3792,25 +3716,22 @@ export type PageFormatsDocument<Lang extends string = string> =
   >;
 
 type PagesDocumentDataBodySlice =
+  | TextSlice
+  | EditorialImageSlice
   | ArchiveCardListSlice
   | AudioPlayerSlice
   | CardListingSlice
   | CollectionVenueSlice
   | ContactSlice
   | ContentListSlice
-  | EditorialImageSlice
   | EditorialImageGallerySlice
   | EmbedSlice
   | FullWidthBannerSlice
-  | GifVideoSlice
-  | IframeSlice
   | InfoBlockSlice
   | MapSlice
   | QuoteSlice
   | SearchResultsSlice
   | StandfirstSlice
-  | TagListSlice
-  | TextSlice
   | TextAndIconsSlice
   | TextAndImageSlice
   | ThemeCardsListSlice
@@ -4184,27 +4105,6 @@ export type PeopleDocument<Lang extends string = string> =
     Lang
   >;
 
-type PlacesDocumentDataBodySlice =
-  | AudioPlayerSlice
-  | CollectionVenueSlice
-  | ContactSlice
-  | ContentListSlice
-  | EditorialImageSlice
-  | EditorialImageGallerySlice
-  | EmbedSlice
-  | GifVideoSlice
-  | IframeSlice
-  | InfoBlockSlice
-  | MapSlice
-  | QuoteSlice
-  | SearchResultsSlice
-  | StandfirstSlice
-  | TagListSlice
-  | TextSlice
-  | TextAndIconsSlice
-  | TextAndImageSlice
-  | TitledTextListSlice;
-
 /**
  * Content for Place documents
  */
@@ -4263,17 +4163,6 @@ interface PlacesDocumentData {
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
   locationInformation: prismic.RichTextField;
-
-  /**
-   * Slice Zone field in *Place*
-   *
-   * - **Field Type**: Slice Zone
-   * - **Placeholder**: *None*
-   * - **API ID Path**: places.body[]
-   * - **Tab**: Place
-   * - **Documentation**: https://prismic.io/docs/slices
-   */
-  body: prismic.SliceZone<PlacesDocumentDataBodySlice>;
 }
 
 /**
@@ -4435,25 +4324,10 @@ export type ProjectFormatsDocument<Lang extends string = string> =
   >;
 
 type ProjectsDocumentDataBodySlice =
-  | AudioPlayerSlice
-  | CollectionVenueSlice
-  | ContactSlice
-  | ContentListSlice
-  | EditorialImageSlice
-  | EditorialImageGallerySlice
-  | EmbedSlice
-  | GifVideoSlice
-  | IframeSlice
-  | InfoBlockSlice
-  | MapSlice
-  | QuoteSlice
-  | SearchResultsSlice
-  | StandfirstSlice
-  | TagListSlice
   | TextSlice
-  | TextAndIconsSlice
-  | TextAndImageSlice
-  | TitledTextListSlice;
+  | EditorialImageSlice
+  | EmbedSlice
+  | InfoBlockSlice;
 
 /**
  * Item in *Project → Contributors*
@@ -4679,26 +4553,7 @@ export type ProjectsDocument<Lang extends string = string> =
     Lang
   >;
 
-type SeasonsDocumentDataBodySlice =
-  | AudioPlayerSlice
-  | CollectionVenueSlice
-  | ContactSlice
-  | ContentListSlice
-  | EditorialImageSlice
-  | EditorialImageGallerySlice
-  | EmbedSlice
-  | GifVideoSlice
-  | IframeSlice
-  | InfoBlockSlice
-  | MapSlice
-  | QuoteSlice
-  | SearchResultsSlice
-  | StandfirstSlice
-  | TagListSlice
-  | TextSlice
-  | TextAndIconsSlice
-  | TextAndImageSlice
-  | TitledTextListSlice;
+type SeasonsDocumentDataBodySlice = StandfirstSlice | TextSlice;
 
 /**
  * Primary content in *Season → Slice Zone → Editorial image → Primary*
@@ -4822,25 +4677,10 @@ export type SeasonsDocument<Lang extends string = string> =
   >;
 
 type SeriesDocumentDataBodySlice =
-  | AudioPlayerSlice
-  | CollectionVenueSlice
-  | ContactSlice
-  | ContentListSlice
-  | EditorialImageSlice
-  | EditorialImageGallerySlice
-  | EmbedSlice
-  | GifVideoSlice
-  | IframeSlice
-  | InfoBlockSlice
-  | MapSlice
-  | QuoteSlice
-  | SearchResultsSlice
-  | StandfirstSlice
-  | TagListSlice
   | TextSlice
-  | TextAndIconsSlice
-  | TextAndImageSlice
-  | TitledTextListSlice;
+  | StandfirstSlice
+  | InfoBlockSlice
+  | QuoteSlice;
 
 /**
  * Item in *Story series → Schedule*
@@ -5286,14 +5126,13 @@ export type TeamsDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithoutUID<Simplify<TeamsDocumentData>, 'teams', Lang>;
 
 type VisualStoriesDocumentDataBodySlice =
+  | TextAndImageSlice
+  | TextAndIconsSlice
   | ContactSlice
-  | EditorialImageSlice
   | EmbedSlice
   | InfoBlockSlice
   | StandfirstSlice
-  | TextSlice
-  | TextAndIconsSlice
-  | TextAndImageSlice;
+  | TextSlice;
 
 /**
  * Primary content in *Visual story → Slice Zone → Editorial image → Primary*
@@ -5597,18 +5436,7 @@ export type WebcomicSeriesDocument<Lang extends string = string> =
     Lang
   >;
 
-type WebcomicsDocumentDataBodySlice =
-  | AudioPlayerSlice
-  | EditorialImageSlice
-  | EditorialImageGallerySlice
-  | EmbedSlice
-  | GifVideoSlice
-  | IframeSlice
-  | InfoBlockSlice
-  | QuoteSlice
-  | StandfirstSlice
-  | TagListSlice
-  | TextSlice;
+type WebcomicsDocumentDataBodySlice = EditorialImageGallerySlice;
 
 /**
  * Item in *Webcomic → Contributors*
@@ -8042,7 +7870,6 @@ declare module '@prismicio/client' {
       PeopleDocumentDataSameAsItem,
       PlacesDocument,
       PlacesDocumentData,
-      PlacesDocumentDataBodySlice,
       PopupDialogDocument,
       PopupDialogDocumentData,
       ProjectFormatsDocument,
