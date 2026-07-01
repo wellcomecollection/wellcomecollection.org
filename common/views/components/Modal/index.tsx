@@ -6,6 +6,7 @@ import {
   RefObject,
   useEffect,
   useRef,
+  useState,
 } from 'react';
 import { CSSTransition } from 'react-transition-group';
 
@@ -72,6 +73,8 @@ const Modal: FunctionComponent<Props> = ({
   const nodeRef = useRef(null);
   const { hasAcknowledgedCookieBanner, setHasAcknowledgedCookieBanner } =
     useAppContext();
+  const [visualViewportStyle, setVisualViewportStyle] =
+    useState<React.CSSProperties>({});
 
   useEffect(() => {
     if (isActive) {
@@ -102,6 +105,52 @@ const Modal: FunctionComponent<Props> = ({
     }
   }, [isActive]);
 
+  // Use VisualViewport API for inactivity modal to ensure it's visible when zoomed
+  useEffect(() => {
+    if (modalStyle !== 'inactivity' || !isActive) {
+      setVisualViewportStyle({});
+      return;
+    }
+
+    if (typeof window === 'undefined' || !window.visualViewport) {
+      return;
+    }
+
+    const updatePosition = () => {
+      const vv = window.visualViewport;
+      if (!vv) return;
+
+      // Calculate position to center the modal in the visual viewport
+      // Use fixed positioning relative to the visual viewport
+      const style: React.CSSProperties = {
+        position: 'fixed',
+        top: `${vv.offsetTop + vv.height / 2}px`,
+        left: `${vv.offsetLeft + vv.width / 2}px`,
+        right: 'auto',
+        bottom: 'auto',
+        transform: 'translate(-50%, -50%)',
+        maxWidth: `${Math.min(550, vv.width * 0.9)}px`,
+        maxHeight: `${vv.height * 0.9}px`,
+        width: '80%',
+      };
+
+      setVisualViewportStyle(style);
+    };
+
+    // Update position initially and on viewport changes
+    updatePosition();
+
+    window.visualViewport.addEventListener('resize', updatePosition);
+    window.visualViewport.addEventListener('scroll', updatePosition, { passive: true });
+
+    return () => {
+      if (window.visualViewport) {
+        window.visualViewport.removeEventListener('resize', updatePosition);
+        window.visualViewport.removeEventListener('scroll', updatePosition);
+      }
+    };
+  }, [modalStyle, isActive]);
+
   return (
     <FocusTrap
       active={isActive && hasAcknowledgedCookieBanner}
@@ -131,6 +180,7 @@ const Modal: FunctionComponent<Props> = ({
             ref={nodeRef}
             $width={width}
             $maxWidth={maxWidth}
+            style={visualViewportStyle}
           >
             {!removeCloseButton && (
               <CloseButton
