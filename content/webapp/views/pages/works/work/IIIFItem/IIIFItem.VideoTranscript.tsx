@@ -22,8 +22,7 @@ const VideoTranscript: FunctionComponent<Props> = ({
     <>
       {supplementing.map(item => {
         const displayItem = (item.type === 'Choice' ? item.items[0] : item) as
-          | EmbeddedResource
-          | ExternalWebResource;
+          EmbeddedResource | ExternalWebResource;
         if (typeof displayItem !== 'string' && displayItem.id) {
           return (
             <Space

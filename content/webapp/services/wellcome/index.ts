@@ -95,9 +95,8 @@ export type BooleanBucketData = UnidentifiedBucketData & {
 
 export type WellcomeAggregation<
   BucketData extends
-    | IdentifiedBucketData
-    | BooleanBucketData
-    | UnidentifiedBucketData = IdentifiedBucketData,
+    IdentifiedBucketData | BooleanBucketData | UnidentifiedBucketData =
+    IdentifiedBucketData,
 > = {
   buckets: {
     count: number;

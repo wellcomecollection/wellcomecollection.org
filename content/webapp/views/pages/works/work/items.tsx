@@ -142,8 +142,7 @@ const WorkItemPage: NextPage<Props> = ({
         auth,
       });
       const service = (tokenService && new URL(tokenService)) as
-        | URL
-        | undefined;
+        URL | undefined;
 
       // We check this is the event we are interested in
       // N.B. locally react dev tools will create a lot of events

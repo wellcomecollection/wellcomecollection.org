@@ -43,8 +43,7 @@ export function transformManifest(
   const activeAccessService = getActiveAuthAccessService(authAccessServices); // equivalent of clickThroughService
   const v2TokenService = getV2TokenService(
     (activeAccessService || externalAccessService) as
-      | AuthAccessService2
-      | undefined
+      AuthAccessService2 | undefined
   );
 
   const transformedExternalAccessService = transformExternalAccessService(
