@@ -4,12 +4,21 @@ const port = Number(process.env.PORT) || 3000;
 
 // Defaults (ie "build") need to be set here so that there's something available
 // at build time - it never gets used
-//
-// The Auth0 SDK and session configuration lives in utils/auth0.ts, which
-// reads the environment directly: it's also loaded by middleware.ts, where
-// next/config isn't available.
 const getConfig = () => {
   return {
+    // Random values used for encrypting cookies used for the session. Can be comma separated list.
+    sessionKeys: process.env.SESSION_KEYS
+      ? process.env.SESSION_KEYS.split(',')
+      : ['build_keys'],
+
+    // Versioning the session means that we can invalidate all users' sessions if we need to
+    // eg if we change the claims on the identity token
+    sessionVersion: 'v1',
+
+    // The base URL of the whole website (eg https://wellcomecollection.org)
+    siteBaseUrl: process.env.SITE_BASE_URL ?? `http://localhost:${port}`,
+    identityBasePath: '/account',
+
     // Auth0 configuration.
     auth0: {
       domain: process.env.AUTH0_DOMAIN || 'build',

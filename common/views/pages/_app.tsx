@@ -177,6 +177,9 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
                     <KioskProvider
                       cookieContent={kioskModeCookie!}
                       readingRoomStories={serverData.prismic.readingRoomStories}
+                      tendernessAndRageContent={
+                        serverData.prismic.tendernessAndRageContent
+                      }
                     >
                       {children}
                     </KioskProvider>
