@@ -76,6 +76,11 @@ const ExploreMorePage: NextPage<Props> = ({
         breadcrumbs={getBreadcrumbItems('whats-on', [
           { url: '/exhibitions', text: 'Exhibitions' },
           { url: linkResolver(exhibition), text: exhibition.title },
+          {
+            url: `/exhibitions/${exhibition.uid}/explore-more`,
+            text: page.title,
+            isHidden: true,
+          },
         ])}
         title={page.title}
         isContentTypeInfoBeforeMedia={true}
