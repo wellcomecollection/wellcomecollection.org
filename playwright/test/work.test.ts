@@ -111,6 +111,9 @@ test.describe(`Scenario 2: A user viewing/downloading 'born digital' items`, () 
     page,
     context,
   }) => {
+    // On mobile the download tree is hidden behind the 'Show info' button.
+    test.skip(isMobile(page), "Download tree is hidden behind 'Show info'");
+
     await workWithBornDigitalDownloads(context, page);
     const innerTreeItem = page.getByRole('treeitem', {
       name: 'A_Camels.psd vnd.adobe.photoshop 6.1 MB Download',
@@ -125,26 +128,27 @@ test.describe(`Scenario 2: A user viewing/downloading 'born digital' items`, () 
     page,
     context,
   }) => {
-    if (!isMobile(page)) {
-      await workWithBornDigitalDownloads(context, page);
+    // On mobile the download tree is hidden behind the 'Show info' button.
+    test.skip(isMobile(page), "Download tree is hidden behind 'Show info'");
 
-      await page
-        .getByRole('link', {
-          name: 'Download',
-        })
-        .first()
-        .click();
+    await workWithBornDigitalDownloads(context, page);
 
-      const dataLayer = await page.evaluate(() => window.dataLayer);
-      const clickEvent = dataLayer.find(
-        (item: { [x: string]: string }) =>
-          item?.['gtm.elementText'] === 'Download'
-      );
-      const gtmTriggers = clickEvent?.['gtm.triggers'].split(',');
-      const DOWNLOAD_TABLE_LINK_TRIGGER = '31009043_218'; // ID that is discoverable through GTM preview
-      expect(gtmTriggers).toEqual(
-        expect.arrayContaining([DOWNLOAD_TABLE_LINK_TRIGGER])
-      );
-    }
+    await page
+      .getByRole('link', {
+        name: 'Download',
+      })
+      .first()
+      .click();
+
+    const dataLayer = await page.evaluate(() => window.dataLayer);
+    const clickEvent = dataLayer.find(
+      (item: { [x: string]: string }) =>
+        item?.['gtm.elementText'] === 'Download'
+    );
+    const gtmTriggers = clickEvent?.['gtm.triggers'].split(',');
+    const DOWNLOAD_TABLE_LINK_TRIGGER = '31009043_218'; // ID that is discoverable through GTM preview
+    expect(gtmTriggers).toEqual(
+      expect.arrayContaining([DOWNLOAD_TABLE_LINK_TRIGGER])
+    );
   });
 });
