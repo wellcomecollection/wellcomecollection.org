@@ -357,6 +357,7 @@ const WorkDetailsAvailableOnline = ({
               canvasCount={canvasCount}
               downloadOptions={downloadOptions}
               digitalLocationInfo={digitalLocationInfo}
+              itemsStatus={itemsStatus}
             />
           )}
       </ConditionalWrapper>
