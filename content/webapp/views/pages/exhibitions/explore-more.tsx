@@ -3,7 +3,9 @@ import { NextPage } from 'next';
 import styled from 'styled-components';
 
 import { useKiosk } from '@weco/common/contexts/KioskContext';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { typography } from '@weco/common/utils/classnames';
+import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import {
   ContaineredLayout,
@@ -71,7 +73,10 @@ const ExploreMorePage: NextPage<Props> = ({
     >
       <PageHeader
         variant="basic"
-        breadcrumbs={{ items: [] }}
+        breadcrumbs={getBreadcrumbItems('whats-on', [
+          { url: '/exhibitions', text: 'Exhibitions' },
+          { url: linkResolver(exhibition), text: exhibition.title },
+        ])}
         title={page.title}
         isContentTypeInfoBeforeMedia={true}
         ContentTypeInfo={
