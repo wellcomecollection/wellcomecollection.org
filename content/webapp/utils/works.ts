@@ -20,7 +20,7 @@ import {
   Work,
   Work as WorkType,
 } from '@weco/content/services/wellcome/catalogue/types';
-import { DownloadOption, ItemsStatus } from '@weco/content/types/manifest';
+import { DownloadOption } from '@weco/content/types/manifest';
 
 export function getProductionDates(work: Work): string[] {
   return work.production
@@ -368,31 +368,21 @@ export function getFirstAccessCondition(
 
 export function showItemLink({
   userIsStaffWithRestricted,
-  allOriginalPdfs,
   hasIIIFManifest,
   digitalLocation,
   accessCondition,
-  itemsStatus,
 }: {
   userIsStaffWithRestricted: boolean;
-  allOriginalPdfs: boolean;
   hasIIIFManifest: boolean;
   digitalLocation?: DigitalLocation;
   accessCondition?: string;
-  itemsStatus?: ItemsStatus;
 }): boolean {
-  // In general we don't show the item link if there are born digital items present, i.e. canvases with a behavior of placeholder, because we display download links on the page instead.
-  // The exception to this is if ALL the items are born digital AND they are ALL pdfs, as we know we can show them on the items page.
   if (
     accessCondition === 'closed' ||
     (accessCondition === 'restricted' && !userIsStaffWithRestricted)
   ) {
     return false;
-  } else if (
-    hasIIIFManifest &&
-    digitalLocation &&
-    (itemsStatus === 'allStandard' || allOriginalPdfs) // If/when we want to show the link for non standard, i.e. Born Digital items we need to remove the itemsStatus check, but for now we want to hide the link if there are non standard items present unless they are all original pdfs, as we know we are happy to show those on the items page.
-  ) {
+  } else if (hasIIIFManifest && digitalLocation) {
     return true;
   } else {
     return false;

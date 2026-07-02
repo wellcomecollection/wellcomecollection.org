@@ -110,21 +110,22 @@ const ItemPageLink = ({
 }: ItemPageLinkProps) => {
   const { userIsStaffWithRestricted } = useUserContext();
 
+  const hasNonStandardItems =
+    itemsStatus !== undefined && itemsStatus !== 'allStandard';
+
   const isDownloadable =
     digitalLocationInfo?.accessCondition !== 'open-with-advisory' &&
     downloadOptions.length > 0;
 
   const canDownload =
     isDownloadable &&
+    !hasNonStandardItems &&
     (digitalLocationInfo?.accessCondition !== 'restricted' ||
       userIsStaffWithRestricted);
 
   const isWorkVisibleWithPermission =
     digitalLocationInfo?.accessCondition === 'restricted' &&
     userIsStaffWithRestricted;
-
-  const hasNonStandardItems =
-    itemsStatus !== undefined && itemsStatus !== 'allStandard';
   return (
     <>
       {work.thumbnail && (
@@ -356,6 +357,7 @@ const WorkDetailsAvailableOnline = ({
               canvasCount={canvasCount}
               downloadOptions={downloadOptions}
               digitalLocationInfo={digitalLocationInfo}
+              itemsStatus={itemsStatus}
             />
           )}
       </ConditionalWrapper>
