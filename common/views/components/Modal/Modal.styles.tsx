@@ -45,6 +45,21 @@ export const CloseButton = styled(Space).attrs<{ type?: string }>(props => ({
   `)}
 `;
 
+// Modal positioning is applied in three places, each building on the last:
+//
+// 1. BaseModalWindow (below): default styles — full-screen on mobile, centred
+//    at 50%/50% with translateX/Y(-50%) on sm+ screens.
+//
+// 2. Variant styled components in this file (FiltersModal, InactivityModal,
+//    etc.): override colours, padding, or specific layout concerns for each
+//    modal type.
+//
+// 3. The VisualViewport useEffect in index.tsx: for the 'inactivity' modal
+//    only, dynamically calculates inline styles to re-centre the modal inside
+//    the *visual* viewport when the user is zoomed in. The browser's layout
+//    viewport (used by position:fixed) does not account for pinch-zoom, so
+//    without this the modal can appear off-screen. The inline style overrides
+//    the top/left/maxWidth/maxHeight values set here.
 export const BaseModalWindow = styled(Space).attrs({
   $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
   $h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
