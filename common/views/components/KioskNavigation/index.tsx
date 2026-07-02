@@ -163,35 +163,35 @@ function findNavigationContent({
 
   const content = kiosksContent[contentKey];
 
-  // Search all arrays in the content object to find which one contains the pageId
+  // Search workGroups first (more specific, curated collections)
   let items: string[] | undefined;
   let currentIndex = -1;
   let listName: string | undefined;
+  let label: string | undefined;
 
-  for (const [key, value] of Object.entries(content)) {
-    if (
-      Array.isArray(value) &&
-      (value.length === 0 || typeof value[0] === 'string')
-    ) {
-      const stringArray = value as string[];
-      currentIndex = stringArray.indexOf(pageId);
-      if (currentIndex !== -1) {
-        items = stringArray;
-        listName = key;
-        break;
-      }
+  for (const group of content.workGroups ?? []) {
+    currentIndex = group.ids.indexOf(pageId);
+    if (currentIndex !== -1) {
+      items = group.ids;
+      label = group.heading;
+      break;
     }
   }
 
-  let label: string | undefined;
-
+  // If not found in workGroups, search all other arrays in the content object
   if (!items || currentIndex === -1) {
-    for (const group of content.workGroups ?? []) {
-      currentIndex = group.ids.indexOf(pageId);
-      if (currentIndex !== -1) {
-        items = group.ids;
-        label = group.heading;
-        break;
+    for (const [key, value] of Object.entries(content)) {
+      if (
+        Array.isArray(value) &&
+        (value.length === 0 || typeof value[0] === 'string')
+      ) {
+        const stringArray = value as string[];
+        currentIndex = stringArray.indexOf(pageId);
+        if (currentIndex !== -1) {
+          items = stringArray;
+          listName = key;
+          break;
+        }
       }
     }
   }
