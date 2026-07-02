@@ -800,12 +800,6 @@ export function getStructures(manifest: Manifest | Collection): Range[] {
   }
 }
 
-export function isAllOriginalPdfs(canvases: TransformedCanvas[]): boolean {
-  return canvases?.every(canvas =>
-    canvas.original.find(original => original.format === 'application/pdf')
-  );
-}
-
 // https://iiif.io/api/auth/2.0/#access-service-description
 export function getAuthAccessServices(manifest): AuthAccessService2[] {
   const services = manifest.services || [];
