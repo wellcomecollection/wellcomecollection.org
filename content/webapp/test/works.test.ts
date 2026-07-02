@@ -400,7 +400,10 @@ describe('showItemLink', () => {
     ).toBe(true);
   });
 
-  it('returns true for an open work with a IIIF manifest and digital location, including for born-digital (non-standard) items', () => {
+  // showItemLink no longer takes an itemsStatus/allOriginalPdfs parameter: it used to
+  // hide the item link for non-standard (born-digital) works unless they were all
+  // original PDFs, but that distinction has been removed, so this covers both cases.
+  it('returns true for an open work with a IIIF manifest and digital location', () => {
     expect(
       showItemLink({
         userIsStaffWithRestricted: false,
