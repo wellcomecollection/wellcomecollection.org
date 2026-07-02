@@ -118,11 +118,7 @@ type Genre = {
 };
 
 export type SourceOntology =
-  | 'nlm-mesh'
-  | 'wikidata'
-  | 'lc-names'
-  | 'lc-subjects'
-  | 'weco-authority';
+  'nlm-mesh' | 'wikidata' | 'lc-names' | 'lc-subjects' | 'weco-authority';
 
 export type ConceptType =
   | 'Subject'

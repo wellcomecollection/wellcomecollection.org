@@ -123,9 +123,7 @@ export function transformGenericFieldsFromRelationship<
   const maybeImage = primaryPromo?.primary?.image;
   const image: ImageType | undefined = transformImage(
     maybeImage as
-      | prismic.EmptyImageFieldImage
-      | prismic.FilledImageFieldImage
-      | undefined
+      prismic.EmptyImageFieldImage | prismic.FilledImageFieldImage | undefined
   );
 
   // Body may not be present if not included in fetchLinks
@@ -167,8 +165,7 @@ export function transformSingleLevelGroup(
 ): unknown[] {
   return (frag ?? []).reduce<unknown[]>((acc, fragItem) => {
     const field = fragItem[singlePropertyName] as
-      | prismic.ContentRelationshipField<string, string, unknown>
-      | undefined;
+      prismic.ContentRelationshipField<string, string, unknown> | undefined;
 
     if (isFilledLinkToDocumentWithData(field)) {
       acc.push(field);
@@ -233,8 +230,7 @@ export function transformGenericFields<
   const untransformedStandfirst = (
     untransformedBody as PrismicBodySlice[]
   ).find(slice => slice.slice_type === 'standfirst') as
-    | RawStandfirstSlice
-    | undefined;
+    RawStandfirstSlice | undefined;
   const metadataDescription = isGenericDocWithMetaDescription(doc)
     ? asText(doc.data.metadataDescription)
     : undefined;

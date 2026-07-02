@@ -256,9 +256,7 @@ function getImageServiceFromCanvas(canvas: Canvas): BodyService | undefined {
   const AnnotationBodies = AnnotationPages?.map(
     annotationPage =>
       annotationPage.body as
-        | AnnotationPageBody
-        | AnnotationPageBody[]
-        | undefined
+        AnnotationPageBody | AnnotationPageBody[] | undefined
   ).flat();
   const BodiesServices = AnnotationBodies?.map(body => body?.service).flat();
   const imageService = BodiesServices?.find(
@@ -744,15 +742,13 @@ export function getCollectionManifests(
 export function getItemsStatus(manifest: Manifest | Collection): ItemsStatus {
   const hasStandard = manifest?.items.some(canvas => {
     const behavior = canvas?.behavior as
-      | CustomSpecificationBehaviors[]
-      | undefined;
+      CustomSpecificationBehaviors[] | undefined;
     return !behavior?.includes('placeholder');
   });
 
   const hasNonStandard = manifest?.items.some(canvas => {
     const behavior = canvas?.behavior as
-      | CustomSpecificationBehaviors[]
-      | undefined;
+      CustomSpecificationBehaviors[] | undefined;
     return behavior?.includes('placeholder');
   });
 
@@ -817,8 +813,7 @@ export function getExternalAuthAccessService(
   services: AuthAccessService2[]
 ): AuthAccessService2External | undefined {
   return services.find(s => s.profile === 'external') as
-    | AuthAccessService2External
-    | undefined;
+    AuthAccessService2External | undefined;
 }
 
 // Docs (https://iiif.io/api/auth/2.0/#profile) say the profile value should be active, but before the Auth 2 spec was finalised the value was interactive and we have still have manifests with this value. N.B. the values will update if the manifest is regenerated.
@@ -848,8 +843,7 @@ export function getV2TokenService(
     ? accessService?.service
     : [accessService?.service];
   return authServiceArray.find(s => s?.type === 'AuthAccessTokenService2') as
-    | AuthAccessTokenService2
-    | undefined;
+    AuthAccessTokenService2 | undefined;
 }
 
 export type TransformedAuthService = {

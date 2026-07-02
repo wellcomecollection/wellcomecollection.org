@@ -332,8 +332,7 @@ const getContentTypesWithUid = () => {
       if (file) {
         const fileObject = JSON.parse(file);
         const firstChildJsonSection = Object.values(fileObject.json)?.[0] as
-          | { uid?: string }
-          | undefined;
+          { uid?: string } | undefined;
 
         if (firstChildJsonSection && 'uid' in firstChildJsonSection)
           label = fileObject.id;

@@ -8,8 +8,7 @@ import WobblyEdge, {
 } from './DecorativeEdge.Wobbly';
 
 type Props =
-  | (WEdgeProps & { variant: 'w' })
-  | (WobblyEdgeProps & { variant: 'wobbly' });
+  (WEdgeProps & { variant: 'w' }) | (WobblyEdgeProps & { variant: 'wobbly' });
 
 const DecorativeEdge: FunctionComponent<Props> = (
   props: Props
