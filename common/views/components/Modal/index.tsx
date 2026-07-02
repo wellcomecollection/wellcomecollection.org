@@ -105,7 +105,11 @@ const Modal: FunctionComponent<Props> = ({
     }
   }, [isActive]);
 
-  // Use VisualViewport API for inactivity modal to ensure it's visible when zoomed
+  // VisualViewport positioning (see Modal.styles.tsx for the base styles this overrides):
+  // position:fixed is relative to the layout viewport, which does not move when
+  // the user pinch-zooms. The VisualViewport API gives us the coordinates of the
+  // actual visible area, so we can override top/left/maxWidth/maxHeight to keep
+  // the modal centred within what the user can actually see.
   useEffect(() => {
     if (modalStyle !== 'inactivity' || !isActive) {
       setVisualViewportStyle({});
@@ -141,7 +145,9 @@ const Modal: FunctionComponent<Props> = ({
     updatePosition();
 
     window.visualViewport.addEventListener('resize', updatePosition);
-    window.visualViewport.addEventListener('scroll', updatePosition, { passive: true });
+    window.visualViewport.addEventListener('scroll', updatePosition, {
+      passive: true,
+    });
 
     return () => {
       if (window.visualViewport) {
