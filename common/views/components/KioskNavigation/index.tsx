@@ -103,7 +103,7 @@ const RightSection = styled.nav`
 const NavigationLabel = styled.span`
   display: none;
 
-  ${props => props.theme.media('md')`
+  ${props => props.theme.media('sm')`
     display: inline;
   `}
 `;
