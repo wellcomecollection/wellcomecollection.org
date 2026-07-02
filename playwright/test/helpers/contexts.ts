@@ -261,11 +261,7 @@ const search = async (
   context: BrowserContext,
   page: Page,
   searchType:
-    | 'overview'
-    | 'stories'
-    | 'events'
-    | 'images'
-    | 'works' = 'overview'
+    'overview' | 'stories' | 'events' | 'images' | 'works' = 'overview'
 ): Promise<void> => {
   await context.addCookies(requiredCookies);
 

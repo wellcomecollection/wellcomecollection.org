@@ -54,8 +54,7 @@ type ThemeCardsListProps = {
   gtmData: {
     ['category-label']: DataGtmProps['category-label'] | undefined;
     ['category-position-in-list']:
-      | DataGtmProps['category-position-in-list']
-      | undefined;
+      DataGtmProps['category-position-in-list'] | undefined;
   };
   sliceTitle?: string;
   useShim?: boolean;

@@ -102,9 +102,7 @@ export async function getWorks(
 }
 
 type WorkResponse =
-  | (Work & { url: string })
-  | WellcomeApiError
-  | CatalogueApiRedirect;
+  (Work & { url: string }) | WellcomeApiError | CatalogueApiRedirect;
 
 export async function getWork({
   id,
