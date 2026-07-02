@@ -487,10 +487,7 @@ export interface BooksDocumentDataReviewsItem {
 }
 
 type BooksDocumentDataBodySlice =
-  | TextSlice
-  | QuoteSlice
-  | ContentListSlice
-  | InfoBlockSlice;
+  TextSlice | QuoteSlice | ContentListSlice | InfoBlockSlice;
 
 /**
  * Item in *Book → Contributors*
@@ -3327,9 +3324,7 @@ export type GuideFormatsDocument<Lang extends string = string> =
   >;
 
 type GuidesDocumentDataBodySlice =
-  | TextSlice
-  | EditorialImageSlice
-  | ContactSlice;
+  TextSlice | EditorialImageSlice | ContactSlice;
 
 /**
  * Primary content in *Guide → Slice Zone → Editorial image → Primary*
@@ -4318,10 +4313,7 @@ export type ProjectFormatsDocument<Lang extends string = string> =
   >;
 
 type ProjectsDocumentDataBodySlice =
-  | TextSlice
-  | EditorialImageSlice
-  | EmbedSlice
-  | InfoBlockSlice;
+  TextSlice | EditorialImageSlice | EmbedSlice | InfoBlockSlice;
 
 /**
  * Item in *Project → Contributors*
@@ -4671,10 +4663,7 @@ export type SeasonsDocument<Lang extends string = string> =
   >;
 
 type SeriesDocumentDataBodySlice =
-  | TextSlice
-  | StandfirstSlice
-  | InfoBlockSlice
-  | QuoteSlice;
+  TextSlice | StandfirstSlice | InfoBlockSlice | QuoteSlice;
 
 /**
  * Item in *Story series → Schedule*
