@@ -1,7 +1,6 @@
 import { FocusTrap } from 'focus-trap-react';
 import {
   FunctionComponent,
-  MutableRefObject,
   PropsWithChildren,
   RefObject,
   useEffect,
@@ -33,7 +32,7 @@ type Props = PropsWithChildren<{
   maxWidth?: string;
   id: string;
   dataTestId?: string;
-  openButtonRef?: MutableRefObject<HTMLElement | null>;
+  openButtonRef?: RefObject<HTMLElement | null>;
   removeCloseButton?: boolean;
   showOverlay?: boolean;
   modalStyle?: 'filters' | 'calendar' | 'video' | 'inactivity';
@@ -110,6 +109,8 @@ const Modal: FunctionComponent<Props> = ({
   // the user pinch-zooms. The VisualViewport API gives us the coordinates of the
   // actual visible area, so we can override top/left/maxWidth/maxHeight to keep
   // the modal centred within what the user can actually see.
+  // We only do this when scale !== 1 (i.e. the user is zoomed); at scale 1 the
+  // default CSS centering works correctly.
   useEffect(() => {
     if (modalStyle !== 'inactivity' || !isActive) {
       setVisualViewportStyle({});
@@ -120,41 +121,24 @@ const Modal: FunctionComponent<Props> = ({
       return;
     }
 
-    const updatePosition = () => {
-      const vv = window.visualViewport;
-      if (!vv) return;
+    const vv = window.visualViewport;
 
-      // Calculate position to center the modal in the visual viewport
-      // Use fixed positioning relative to the visual viewport
-      const style: React.CSSProperties = {
-        position: 'fixed',
-        top: `${vv.offsetTop + vv.height / 2}px`,
-        left: `${vv.offsetLeft + vv.width / 2}px`,
-        right: 'auto',
-        bottom: 'auto',
-        transform: 'translate(-50%, -50%)',
-        maxWidth: `${Math.min(550, vv.width * 0.9)}px`,
-        maxHeight: `${vv.height * 0.9}px`,
-        width: '80%',
-      };
+    if (vv.scale === 1) {
+      setVisualViewportStyle({});
+      return;
+    }
 
-      setVisualViewportStyle(style);
-    };
-
-    // Update position initially and on viewport changes
-    updatePosition();
-
-    window.visualViewport.addEventListener('resize', updatePosition);
-    window.visualViewport.addEventListener('scroll', updatePosition, {
-      passive: true,
+    setVisualViewportStyle({
+      position: 'fixed',
+      top: `${vv.offsetTop + vv.height / 2}px`,
+      left: `${vv.offsetLeft + vv.width / 2}px`,
+      right: 'auto',
+      bottom: 'auto',
+      transform: 'translate(-50%, -50%)',
+      maxWidth: `${Math.min(550, vv.width * 0.9)}px`,
+      maxHeight: `${vv.height * 0.9}px`,
+      width: '80%',
     });
-
-    return () => {
-      if (window.visualViewport) {
-        window.visualViewport.removeEventListener('resize', updatePosition);
-        window.visualViewport.removeEventListener('scroll', updatePosition);
-      }
-    };
   }, [modalStyle, isActive]);
 
   return (
