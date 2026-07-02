@@ -1,7 +1,10 @@
 import { NextPage } from 'next';
 
 import { getKioskContentKey } from '@weco/common/contexts/KioskContext';
-import { kiosksContent } from '@weco/common/contexts/KioskContext/kiosks-content';
+import {
+  kioskExhibitionUids,
+  kiosksContent,
+} from '@weco/common/contexts/KioskContext/kiosks-content';
 import { getServerData } from '@weco/common/server-data';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -41,10 +44,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   const serverData = await getServerData(context);
 
-  if (!serverData.toggles.modes.kioskMode) {
-    return { notFound: true };
-  }
-
   if (!looksLikePrismicId(exhibitionId)) {
     return { notFound: true };
   }
@@ -70,10 +69,15 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   const shouldUseStagingApi = serverData.toggles.featureFlags.stagingApi;
 
-  const contentKey = getKioskContentKey(
-    serverData.toggles.modes.kioskMode,
-    kiosksContent
-  );
+  // In kiosk mode, use the active kiosk's content key directly. Outside kiosk
+  // mode, fall back to matching the exhibition UID against kioskExhibitionUids
+  // so the page still renders the correct content when previewed outside a
+  // kiosk device.
+  const contentKey =
+    getKioskContentKey(serverData.toggles.modes.kioskMode, kiosksContent) ??
+    Object.entries(kioskExhibitionUids).find(
+      ([, uid]) => uid === exhibitionDoc.uid
+    )?.[0];
   const kioskContent = contentKey ? kiosksContent[contentKey] : undefined;
   const workGroupConfigs = kioskContent?.workGroups ?? [];
   const includedWorkIds = kioskContent?.includedWorks ?? [];

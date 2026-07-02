@@ -28,8 +28,7 @@ export function transformSeasonFromRelationship(
   field: unknown
 ): Season | undefined {
   const maybeField = field as
-    | prismic.ContentRelationshipField<string, string, unknown>
-    | undefined;
+    prismic.ContentRelationshipField<string, string, unknown> | undefined;
 
   if (!isFilledLinkToDocumentWithTypedData<RawSeasonsDocument>(maybeField)) {
     return undefined;

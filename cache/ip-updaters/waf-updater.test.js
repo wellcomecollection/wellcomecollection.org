@@ -1,7 +1,7 @@
 const assert = require('node:assert/strict');
 const { describe, it } = require('node:test');
 
-const { validateIPChange, extractIpv4Addresses } = require('./helpers');
+const { validateIPChange, extractIpv4Addresses } = require('./waf-updater');
 
 describe('validateIPChange', () => {
   it('allows initial population when current list is empty', () => {

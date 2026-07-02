@@ -15,13 +15,7 @@ type SpaceSize = '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 type SpaceProperty = HorizontalSpaceProperty | VerticalSpaceProperty;
 
 export type ColumnKey =
-  | 's'
-  | 'm'
-  | 'l'
-  | 'xl'
-  | 'shiftM'
-  | 'shiftL'
-  | 'shiftXl';
+  's' | 'm' | 'l' | 'xl' | 'shiftM' | 'shiftL' | 'shiftXl';
 
 // suggested new colors
 const colors = {
@@ -227,15 +221,7 @@ const designSystemSpacing: Record<SpaceSize, ResponsiveValue> = {
 // Map spacingUnits to design system static spacing values
 // Used for overrides parameter
 type SpacingUnit =
-  | '050'
-  | '075'
-  | '100'
-  | '150'
-  | '200'
-  | '300'
-  | '400'
-  | '600'
-  | '1200';
+  '050' | '075' | '100' | '150' | '200' | '300' | '400' | '600' | '1200';
 const designSystemStaticSpacing: Record<SpacingUnit, string> = {
   '050': designSystemTheme.spacing.static['space.050'], // 4px → 0.25rem
   '075': designSystemTheme.spacing.static['space.075'], // 6px → 0.375rem
@@ -414,7 +400,4 @@ export const themeValues = {
 export type Breakpoint = keyof typeof sizes;
 
 export type PaletteColor =
-  | keyof typeof colors
-  | 'transparent'
-  | 'inherit'
-  | 'currentColor';
+  keyof typeof colors | 'transparent' | 'inherit' | 'currentColor';

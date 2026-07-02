@@ -8,6 +8,7 @@ import {
 } from 'react';
 
 import { useKiosk } from '@weco/common/contexts/KioskContext';
+import { useNavigationHistory } from '@weco/common/hooks/useNavigationHistory';
 import Modal from '@weco/common/views/components/Modal';
 
 import InactivityRedirectModal from './InactivityRedirect.Modal';
@@ -19,6 +20,7 @@ const InactivityRedirect: FunctionComponent<{ isCardiganStory?: boolean }> = ({
   isCardiganStory,
 }) => {
   const { isKiosk, isDevModeKiosk, kioskHomepageUrl } = useKiosk();
+  const { reset: resetNavigationHistory } = useNavigationHistory();
   const router = useRouter();
   const [isWarningActive, setIsWarningActive] = useState(false);
   const [countdown, setCountdown] = useState(WARNING_COUNTDOWN);
@@ -28,7 +30,11 @@ const InactivityRedirect: FunctionComponent<{ isCardiganStory?: boolean }> = ({
   const modalButtonRef = useRef<HTMLElement | null>(null);
 
   // Don't run outside kiosk mode, on the redirect destination itself, or if in developer mode
-  const isRedirectDestination = router.asPath === kioskHomepageUrl;
+  // Strip query parameters when checking if we're on the homepage (e.g. kp_zoomLevel=100)
+  const currentPathWithoutQuery = router.asPath.split('?')[0];
+  const homepagePathWithoutQuery = kioskHomepageUrl?.split('?')[0];
+  const isRedirectDestination =
+    currentPathWithoutQuery === homepagePathWithoutQuery;
   const shouldNotBeActive =
     (!isKiosk ||
       isDevModeKiosk ||
@@ -49,9 +55,16 @@ const InactivityRedirect: FunctionComponent<{ isCardiganStory?: boolean }> = ({
         gtag('event', 'auto_reset');
       }
 
-      router.push(kioskHomepageUrl);
+      // Clear navigation history to start fresh
+      resetNavigationHistory();
+
+      // Append kp_zoomLevel=100 to reset zoom in Kiosk Pro browser
+      const separator = kioskHomepageUrl.includes('?') ? '&' : '?';
+      const urlWithZoomReset = `${kioskHomepageUrl}${separator}kp_zoomLevel=100`;
+
+      router.push(urlWithZoomReset);
     },
-    [router, kioskHomepageUrl]
+    [router, kioskHomepageUrl, resetNavigationHistory]
   );
 
   const resetInactivityTimer = useCallback(() => {

@@ -11,6 +11,7 @@ import {
   ReadingRoomStories,
   ResultsLite,
   SimplifiedPrismicData,
+  TendernessAndRageContent,
 } from '@weco/common/server-data/prismic';
 import { InferDataInterface } from '@weco/common/services/prismic/types';
 
@@ -25,6 +26,9 @@ export function simplifyPrismicData(
     collectionVenues: simplifyCollectionVenues(prismicData.collectionVenues),
     readingRoomStories: simplifyReadingRoomStories(
       prismicData.readingRoomStories
+    ),
+    tendernessAndRageContent: simplifyTendernessAndRageContent(
+      prismicData.tendernessAndRageContent
     ),
   };
 }
@@ -116,4 +120,35 @@ function simplifyReadingRoomStories(
   }
 
   return groupedStories;
+}
+
+function simplifyTendernessAndRageContent(
+  doc: RawPagesDocument | null
+): TendernessAndRageContent {
+  if (!doc) {
+    return {};
+  }
+
+  const content: TendernessAndRageContent = {
+    stories: [],
+  };
+
+  for (const slice of doc.data.body) {
+    // Extract stories from cardListing slices (articles only)
+    if (slice.slice_type === 'cardListing' && 'items' in slice) {
+      for (const item of slice.items) {
+        if (
+          'content' in item &&
+          prismic.isFilled.contentRelationship(item.content) &&
+          item.content.isBroken === false &&
+          item.content.type === 'articles' &&
+          item.content.uid
+        ) {
+          content.stories?.push(item.content.uid);
+        }
+      }
+    }
+  }
+
+  return content;
 }

@@ -19,8 +19,7 @@ export function transformPlaceFromRelationship(
   field: unknown
 ): Place | undefined {
   const maybeField = field as
-    | prismic.ContentRelationshipField<string, string, unknown>
-    | undefined;
+    prismic.ContentRelationshipField<string, string, unknown> | undefined;
 
   if (!isFilledLinkToDocumentWithTypedData<RawPlacesDocument>(maybeField)) {
     return undefined;

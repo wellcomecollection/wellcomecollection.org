@@ -61,9 +61,7 @@ export type DownloadOption = {
 };
 
 export type ItemsStatus =
-  | 'allStandard'
-  | 'noStandard'
-  | 'mixedStandardAndNonStandard';
+  'allStandard' | 'noStandard' | 'mixedStandardAndNonStandard';
 
 export type TransformedRange = Omit<Range, 'items'> & {
   items: (TransformedRange | TransformedCanvas)[];
@@ -96,8 +94,7 @@ export type TransformedManifest = {
 };
 
 export type CustomSpecificationBehaviors =
-  | SpecificationBehaviors
-  | 'placeholder';
+  SpecificationBehaviors | 'placeholder';
 
 export type CustomContentResource = ContentResource & {
   behavior: 'original';

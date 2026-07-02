@@ -6,9 +6,7 @@ import DateRange from '@weco/content/views/components/DateRange';
 // Extend the story type
 type DateRangeStoryProps = ComponentProps<typeof DateRange> & {
   scenario:
-    | 'Same day'
-    | 'Across multiple days'
-    | 'With date/time on separate lines';
+    'Same day' | 'Across multiple days' | 'With date/time on separate lines';
 };
 
 const now = new Date('2022-03-01T13:15:00Z');
