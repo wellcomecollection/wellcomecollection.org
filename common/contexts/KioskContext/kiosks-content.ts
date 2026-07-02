@@ -141,14 +141,5 @@ export const kiosksContent: Record<string, KiosksContentType> = {
         ],
       },
     ],
-    stories: [
-      'artists--activism-and-aids',
-      'telling-scotland-about-aids',
-      'guerrilla-public-health',
-      'in-the-tracks-of-derek-jarman-s-tears',
-      'aids-posters',
-      'what-are-zines-doing-in-a-museum',
-      'how-to-design-an-hiv-awareness-campaign',
-    ],
   },
 };

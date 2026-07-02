@@ -44,12 +44,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   const serverData = await getServerData(context);
 
-  // TODO: this is temporary and should be removed when we're happy with the
-  // page
-  if (!serverData.toggles.modes.kioskMode) {
-    return { notFound: true };
-  }
-
   if (!looksLikePrismicId(exhibitionId)) {
     return { notFound: true };
   }

@@ -51,6 +51,7 @@ const meta: Meta<StoryArgs> = {
         <KioskProvider
           cookieContent={context.args.kioskMode}
           readingRoomStories={{}}
+          tendernessAndRageContent={{}}
         >
           <Story />
         </KioskProvider>

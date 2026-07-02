@@ -93,6 +93,9 @@ describe('getDataFromToken', () => {
 
 jest.mock('next/config', () => () => ({
   serverRuntimeConfig: {
+    sessionKeys: 'test_test_test',
+    siteBaseUrl: 'http://test.test',
+    identityBasePath: '/account',
     auth0: {
       domain: 'test.test',
       clientID: 'test',
