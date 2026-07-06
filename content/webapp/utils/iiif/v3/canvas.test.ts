@@ -5,8 +5,30 @@ import {
   b2178081x,
   b28462270,
 } from '@weco/content/test/fixtures/iiif/manifests';
+import { TransformedCanvas } from '@weco/content/types/manifest';
 
-import { getThumbnailImage } from './canvas';
+import { getDisplayItems, getOriginal, getThumbnailImage } from './canvas';
+
+function createCanvas(
+  overrides: Partial<TransformedCanvas> = {}
+): TransformedCanvas {
+  return {
+    id: 'https://example.com/canvas/1',
+    type: 'Canvas',
+    width: 100,
+    height: 100,
+    imageServiceId: 'https://example.com/image/1',
+    label: 'Page 1',
+    textServiceId: undefined,
+    thumbnailImage: undefined,
+    painting: [],
+    original: [],
+    rendering: [],
+    supplementing: [],
+    metadata: [],
+    ...overrides,
+  };
+}
 
 describe('getThumbnailImage', () => {
   it('if there’s no thumbnail on the canvas', () => {
@@ -42,5 +64,59 @@ describe('getThumbnailImage', () => {
       url: 'https://iiif-test.wellcomecollection.org/extensions/born-digital/placeholder-thumb/fmt/20/application/pdf',
       width: 101,
     });
+  });
+});
+
+describe('getOriginal', () => {
+  it('returns only renderings with an "original" behavior', () => {
+    const rendering = [
+      { id: 'original', behavior: 'original', type: 'Image' },
+      { id: 'other', behavior: 'something-else', type: 'Image' },
+      { id: 'no-behavior', type: 'Image' },
+    ];
+    expect(getOriginal(rendering as never).map(o => o.id)).toEqual([
+      'original',
+    ]);
+  });
+
+  it('returns an empty array when there are no originals', () => {
+    expect(getOriginal([])).toEqual([]);
+    expect(getOriginal(undefined)).toEqual([]);
+  });
+});
+
+describe('getDisplayItems', () => {
+  it('prefers original PDFs when present', () => {
+    const canvas = createCanvas({
+      original: [
+        { id: 'pdf', format: 'application/pdf', behavior: 'original' },
+      ] as never,
+      painting: [{ id: 'painting', type: 'Image' }] as never,
+    });
+    expect(getDisplayItems(canvas).map(i => 'id' in i && i.id)).toEqual([
+      'pdf',
+    ]);
+  });
+
+  it('falls back to painting when there is no original PDF', () => {
+    const canvas = createCanvas({
+      original: [],
+      painting: [{ id: 'painting', type: 'Image' }] as never,
+      supplementing: [{ id: 'supplementing', type: 'Text' }] as never,
+    });
+    expect(getDisplayItems(canvas).map(i => 'id' in i && i.id)).toEqual([
+      'painting',
+    ]);
+  });
+
+  it('falls back to supplementing when there is no original or painting', () => {
+    const canvas = createCanvas({
+      original: [],
+      painting: [],
+      supplementing: [{ id: 'supplementing', type: 'Text' }] as never,
+    });
+    expect(getDisplayItems(canvas).map(i => 'id' in i && i.id)).toEqual([
+      'supplementing',
+    ]);
   });
 });
