@@ -45,7 +45,7 @@ describe('renderWithContext harness', () => {
     expect(screen.getByTestId('staff')).toHaveTextContent('true');
   });
 
-  it('builds multi-canvas manifests via the canvas factory', () => {
+  it('builds canvases via the canvas factory', () => {
     const { contextValue } = renderWithContext(<Probe />, {
       contextProps: {
         transformedManifest: undefined,
