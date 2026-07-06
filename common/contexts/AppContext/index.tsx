@@ -17,7 +17,7 @@ import {
 } from '@weco/common/services/app/civic-uk';
 import { Size } from '@weco/common/views/themes/config';
 
-type AppContextProps = {
+export type AppContextProps = {
   isEnhanced: boolean;
   isFullSupportBrowser: boolean;
   windowSize: Size;
@@ -30,7 +30,7 @@ type AppContextProps = {
   isMobileOrTabletDevice: boolean;
 };
 
-const appContextDefaults = {
+export const appContextDefaults: AppContextProps = {
   isEnhanced: false,
   isFullSupportBrowser: false,
   windowSize: 'small' as Size,

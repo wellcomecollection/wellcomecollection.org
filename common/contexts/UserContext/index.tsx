@@ -22,7 +22,9 @@ type Props = {
   reload: (abortSignal?: AbortSignal) => Promise<void>;
 };
 
-const defaultUserContext: Props = {
+export type UserContextProps = Props;
+
+export const defaultUserContext: Props = {
   user: undefined,
   userIsStaffWithRestricted: false,
   state: 'initial',
