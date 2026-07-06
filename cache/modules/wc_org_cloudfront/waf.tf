@@ -516,20 +516,14 @@ resource "aws_wafv2_web_acl" "wc_org" {
     }
   }
 
-  // Silently challenges clients without a valid WAF token on /search pages,
-  // which are expensive to render and uncacheable in practice (highly
-  // diverse query strings). Note that only the works search page is
-  // noindex,nofollow; the other /search pages are indexable, so a challenge
-  // here can affect crawling of those. During the July 2026 flood ~10k
-  // distinct IPs made one request each, so nothing keyed on IP could catch
-  // it; a challenge stops any client that does not run JavaScript before the
-  // request reaches the origin. Real browsers solve it invisibly and hold a
-  // token for the immunity period.
+  // Silently challenges clients that don't run JavaScript on /search pages,
+  // which are expensive to render and effectively uncacheable. Real browsers
+  // solve the challenge invisibly. Only the works search page is
+  // noindex,nofollow, so this can affect crawling of the other /search pages.
   //
-  // CAUTION: a challenge response served to a fetch/XHR or asset request
-  // cannot render its interstitial and will break the page. Keep the scope
-  // to /search page URLs only, and test any change on stage first (a
-  // previous broader attempt at a JS challenge white-screened the site).
+  // CAUTION: a challenge served to a fetch/XHR or asset request cannot render
+  // its interstitial and breaks the page. Keep the scope to /search page URLs
+  // only, and test any change on stage first.
   dynamic "rule" {
     for_each = var.enable_search_challenge ? [1] : []
     content {
