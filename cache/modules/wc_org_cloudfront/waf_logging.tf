@@ -1,9 +1,5 @@
-# Request-level WAF logs, for forensics during incidents. The web ACL's
-# sampled requests only retain a small sample for a few hours; these logs
-# record every request the WAF acted on (we filter out plain allows to
-# keep costs down).
-#
-# The log group name must begin with "aws-waf-logs-":
+# Request-level WAF logs for incident forensics; plain allows are filtered
+# out to keep costs down. The log group name must begin with "aws-waf-logs-":
 # https://docs.aws.amazon.com/waf/latest/developerguide/logging-cw-logs.html
 
 resource "aws_cloudwatch_log_group" "waf" {

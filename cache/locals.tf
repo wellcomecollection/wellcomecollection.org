@@ -14,18 +14,10 @@ locals {
   monitoring_infra       = data.terraform_remote_state.monitoring.outputs
   ci_vpc_nat_elastic_ip  = local.platform_account_infra["ci_vpc_nat_elastic_ip"]
 
-  # LogicMonitor SiteMonitor synthetic checks run from these IPs and request
-  # /search/works?query=botany and /search/images?query=skeletons (inherited from
-  # the old updown checks) at a steady rate, so they must bypass rate limits and
-  # any challenge rules on /search paths.
-  #
-  # Verified against CloudFront logs (2026-07-05/06): all traffic from these IPs
-  # carries the "LogicMonitor SiteMonitor/1.0" user agent and hits only the check
-  # URLs, from LogicMonitor's five checkpoint regions. NB LogicMonitor warn that
-  # checkpoint IPs can change and recommend identifying checks via a custom
-  # header instead; if monitoring starts tripping the WAF, refresh this list
-  # (or move to a custom-header allow rule configured in the LM portal).
-  # The definitive list is at:
+  # LogicMonitor SiteMonitor checkpoint IPs. Their checks hit /search URLs, so
+  # they must not trip the rate limits or challenge rules there. NB the
+  # ip-allowlist rule is a terminating ALLOW: these IPs skip every later rule.
+  # LogicMonitor warn these IPs can change; the definitive list is at
   # https://www.logicmonitor.com/support/about-logicmonitor/overview/logicmonitor-public-ip-addresses-dns-names
   logicmonitor_ips = [
     "3.106.118.109",
