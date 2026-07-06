@@ -49,20 +49,24 @@ export const defaultMockAuth: Auth = {
 export function createMockManifest(
   overrides: Partial<TransformedManifest> = {}
 ): TransformedManifest {
-  const canvases = overrides.canvases ?? [createMockCanvas()];
+  const { canvases: overrideCanvases, auth: overrideAuth, ...restOverrides } =
+    overrides;
+
+  const canvases = overrideCanvases ?? [createMockCanvas()];
+  const auth = overrideAuth ?? { ...defaultMockAuth };
 
   return {
     itemsStatus: 'allStandard',
     title: 'Test manifest',
     id: 'https://iiif.wellcomecollection.org/presentation/v3/b00000000',
-    canvases,
-    canvasCount: canvases.length,
     collectionManifestsCount: 0,
     isCollectionManifest: false,
     structures: [],
     manifests: [],
     rendering: [],
-    auth: { ...defaultMockAuth },
-    ...overrides,
+    ...restOverrides,
+    canvases,
+    canvasCount: canvases.length,
+    auth,
   };
 }
