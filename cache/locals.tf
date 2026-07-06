@@ -16,8 +16,10 @@ locals {
 
   # LogicMonitor SiteMonitor synthetic checks run from these IPs and request
   # /search/works?query=botany and /search/images?query=skeletons (inherited from
-  # the old updown checks) at a steady rate, so they must bypass rate limits and
-  # any challenge rules on /search paths.
+  # the old updown checks) at a steady rate, so they must not trip the rate
+  # limits or any future challenge rules on /search paths. NB the ip-allowlist
+  # rule is a terminating ALLOW, so these IPs skip every WAF rule after
+  # geo-restriction (blocklist, managed rules, etc), not just the rate limits.
   #
   # Verified against CloudFront logs (2026-07-05/06): all traffic from these IPs
   # carries the "LogicMonitor SiteMonitor/1.0" user agent and hits only the check
