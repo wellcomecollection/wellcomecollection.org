@@ -519,8 +519,10 @@ resource "aws_wafv2_web_acl" "wc_org" {
   }
 
   // Silently challenges clients without a valid WAF token on /search pages,
-  // which are expensive to render, uncacheable in practice (highly diverse
-  // query strings) and noindex,nofollow. During the July 2026 flood ~10k
+  // which are expensive to render and uncacheable in practice (highly
+  // diverse query strings). Note that only the works search page is
+  // noindex,nofollow; the other /search pages are indexable, so a challenge
+  // here can affect crawling of those. During the July 2026 flood ~10k
   // distinct IPs made one request each, so nothing keyed on IP could catch
   // it; a challenge stops any client that does not run JavaScript before the
   // request reaches the origin. Real browsers solve it invisibly and hold a
