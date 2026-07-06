@@ -66,3 +66,9 @@ variable "github_actions_ip_set_arn" {
   type        = string
   description = "ARN of the shared github-actions IP set (defined at root level)"
 }
+
+variable "enable_waf_logging" {
+  type        = bool
+  default     = false
+  description = "Log non-allowed (blocked/counted/challenged) WAF requests to CloudWatch Logs"
+}
