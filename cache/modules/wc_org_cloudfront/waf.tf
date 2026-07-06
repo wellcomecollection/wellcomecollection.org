@@ -9,10 +9,8 @@ locals {
   blanket_rate_limit = 2500
 
   // A more restrictive limit for expensive URLs (eg /works)
-  // These are prefix matches (no trailing anchor) so that subpaths like
-  // /search/works, /search/images and /works/{id}/items are covered: both
-  // waves of the July 2026 bot flood targeted those subpaths, which the
-  // previous exact-match regexes (^\/works$ etc) did not restrict.
+  // Prefix matches, so subpaths like /search/works and /works/{id}/items
+  // are covered too.
   restrictive_rate_limit  = 1000
   restricted_path_regexes = ["^\\/works", "^\\/images", "^\\/concepts", "^\\/search"]
 
@@ -842,9 +840,13 @@ resource "aws_wafv2_ip_set" "blocklist" {
   scope              = "CLOUDFRONT"
   ip_address_version = "IPV4"
 
-  # Normally empty; populate during an incident with
-  # `aws wafv2 update-ip-set` or a terraform change.
+  # Managed with `aws wafv2 update-ip-set` during incidents; terraform
+  # ignores the contents so a routine apply cannot revert a live block.
   addresses = []
+
+  lifecycle {
+    ignore_changes = [addresses]
+  }
 }
 
 resource "aws_wafv2_ip_set" "watchlist" {
