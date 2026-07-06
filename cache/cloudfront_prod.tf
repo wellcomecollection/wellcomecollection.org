@@ -32,6 +32,8 @@ module "prod_wc_org_cloudfront_distribution" {
   google_bots_ip_set_arn    = aws_wafv2_ip_set.google_bots.arn
   github_actions_ip_set_arn = aws_wafv2_ip_set.github_actions.arn
   header_shared_secret      = local.current_shared_secret
+
+  enable_waf_logging = true
 }
 
 data "aws_lambda_function" "versioned_edge_lambda_request" {
