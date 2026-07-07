@@ -12,7 +12,7 @@ import {
   createMockQuery,
   createRestrictedPainting,
 } from '@weco/content/test/fixtures/iiif/transformed-manifest';
-import { TransformedCanvas } from '@weco/content/types/manifest';
+import { TransformedManifest } from '@weco/content/types/manifest';
 
 import ViewerTopBar from './ViewerTopBar';
 
@@ -22,13 +22,13 @@ import ViewerTopBar from './ViewerTopBar';
 jest.mock('openseadragon', () => ({ __esModule: true, default: jest.fn() }));
 
 // A manifest-level rendering that yields a non-empty downloadOptions list.
-const pdfRendering = [
+const pdfRendering: TransformedManifest['rendering'] = [
   {
     id: 'https://example.com/whole.pdf',
+    type: 'Text',
     format: 'application/pdf',
-    label: { en: ['Whole item'] },
   },
-] as unknown as TransformedCanvas['rendering'];
+];
 
 // Renders ViewerTopBar with the enhanced/full-support defaults most of these
 // characterisations need, merging in any per-test overrides.
