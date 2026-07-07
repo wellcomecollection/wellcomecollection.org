@@ -595,6 +595,12 @@ resource "aws_wafv2_web_acl" "wc_org" {
         challenge {}
       }
 
+      challenge_config {
+        immunity_time_property {
+          immunity_time = var.search_challenge_immunity_seconds
+        }
+      }
+
       statement {
         byte_match_statement {
           positional_constraint = "STARTS_WITH"

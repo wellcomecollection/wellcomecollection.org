@@ -39,4 +39,8 @@ module "stage_wc_org_cloudfront_distribution" {
   # Trialling the legacy-Chrome UA block here before prod: cuts billed
   # challenge responses by blocking provably fabricated user agents first.
   enable_search_legacy_ua_block = true
+
+  # Trialling a longer challenge-token immunity here before prod: real users
+  # get re-challenged (and billed) once per window instead of every 5 minutes.
+  search_challenge_immunity_seconds = 14400
 }

@@ -79,6 +79,12 @@ variable "enable_search_legacy_ua_block" {
   description = "Block /search* requests claiming a Chrome major version below 100, ahead of the billed search challenge. Prove on stage before enabling elsewhere."
 }
 
+variable "search_challenge_immunity_seconds" {
+  type        = number
+  default     = 300
+  description = "How long a solved search challenge token stays valid. 300 is the AWS default; longer values mean fewer billed re-challenges for real users but a longer window for a token-holding client before it is re-challenged."
+}
+
 variable "enable_waf_logging" {
   type        = bool
   default     = false
