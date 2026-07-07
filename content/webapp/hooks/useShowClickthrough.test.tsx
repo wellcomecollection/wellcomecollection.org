@@ -9,7 +9,9 @@ import useShowClickthrough from './useShowClickthrough';
 // origin. This characterises that logged-in message handling without a real
 // auth flow.
 const tokenService = 'https://iiif.wellcomecollection.org/auth/v2/token';
-const tokenOrigin = 'https://iiif.wellcomecollection.org';
+// Derived from tokenService (as the hook itself does) rather than a second
+// hard-coded constant, so the two can't drift out of sync.
+const tokenOrigin = new URL(tokenService).origin;
 
 const clickThroughService: TransformedAuthService = {
   id: 'https://iiif.wellcomecollection.org/auth/v2/access/clickthrough',
