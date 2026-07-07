@@ -92,7 +92,7 @@ describe('IIIFItem type dispatch', () => {
     // `key` on the wrapper, which logs a "unique key" warning. The production
     // fix is deferred to the refactor, so suppress only that specific message
     // here; any other console.error still surfaces.
-    const originalConsoleError = console.error;
+    const originalConsoleError = console.error.bind(console);
     const consoleErrorSpy = jest
       .spyOn(console, 'error')
       .mockImplementation((...args) => {
