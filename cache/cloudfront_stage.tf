@@ -31,4 +31,8 @@ module "stage_wc_org_cloudfront_distribution" {
   google_bots_ip_set_arn    = aws_wafv2_ip_set.google_bots.arn
   github_actions_ip_set_arn = aws_wafv2_ip_set.github_actions.arn
   header_shared_secret      = local.current_shared_secret
+
+  # Trialling the /search challenge here before prod (see the search-challenge
+  # rule in the module for why this is high-risk).
+  enable_search_challenge = true
 }

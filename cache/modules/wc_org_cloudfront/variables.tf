@@ -67,6 +67,12 @@ variable "github_actions_ip_set_arn" {
   description = "ARN of the shared github-actions IP set (defined at root level)"
 }
 
+variable "enable_search_challenge" {
+  type        = bool
+  default     = false
+  description = "Serve a silent JS challenge to token-less clients on /search* pages. High-risk: prove on stage before enabling elsewhere."
+}
+
 variable "enable_waf_logging" {
   type        = bool
   default     = false

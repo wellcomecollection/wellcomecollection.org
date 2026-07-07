@@ -516,9 +516,51 @@ resource "aws_wafv2_web_acl" "wc_org" {
     }
   }
 
+  // Silently challenges clients that don't run JavaScript on /search pages,
+  // which are expensive to render and effectively uncacheable. Real browsers
+  // solve the challenge invisibly. Only the works search page is
+  // noindex,nofollow, so this can affect crawling of the other /search pages.
+  //
+  // CAUTION: a challenge served to a fetch/XHR or asset request cannot render
+  // its interstitial and breaks the page. Keep the scope to /search page URLs
+  // only, and test any change on stage first.
+  dynamic "rule" {
+    for_each = var.enable_search_challenge ? [1] : []
+    content {
+      name     = "search-challenge"
+      priority = 10
+
+      action {
+        challenge {}
+      }
+
+      statement {
+        byte_match_statement {
+          positional_constraint = "STARTS_WITH"
+          search_string         = "/search"
+
+          field_to_match {
+            uri_path {}
+          }
+
+          text_transformation {
+            priority = 0
+            type     = "NONE"
+          }
+        }
+      }
+
+      visibility_config {
+        cloudwatch_metrics_enabled = true
+        sampled_requests_enabled   = true
+        metric_name                = "search-challenge-${var.namespace}"
+      }
+    }
+  }
+
   rule {
     name     = "geo-rate-limit-USA"
-    priority = 10
+    priority = 11
 
     action {
       block {
@@ -553,7 +595,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "geo-rate-limit-APAC"
-    priority = 11
+    priority = 12
 
     action {
       block {
@@ -593,7 +635,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "geo-rate-limit-LATAM"
-    priority = 12
+    priority = 13
 
     action {
       block {
@@ -630,7 +672,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "blanket-rate-limiting"
-    priority = 13
+    priority = 14
 
     action {
       block {}
@@ -652,7 +694,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "restrictive-rate-limiting"
-    priority = 14
+    priority = 15
 
     action {
       block {}
@@ -690,7 +732,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-crs
   rule {
     name     = "core-rule-group"
-    priority = 15
+    priority = 16
 
     override_action {
       none {}
@@ -713,7 +755,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-use-case.html#aws-managed-rule-groups-use-case-sql-db
   rule {
     name     = "sqli-rule-group"
-    priority = 16
+    priority = 17
 
     override_action {
       none {}
@@ -736,7 +778,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-known-bad-inputs
   rule {
     name     = "known-bad-inputs-rule-group"
-    priority = 17
+    priority = 18
 
     override_action {
       none {}
@@ -758,7 +800,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "bot-control-rule-group"
-    priority = 18
+    priority = 19
 
     // Because the Bot Control rules are quite aggressive, they block some useful bots
     // such as Updown. While we could add overrides for specific bots, we don"t want to have to
