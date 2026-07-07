@@ -73,6 +73,12 @@ variable "enable_search_challenge" {
   description = "Serve a silent JS challenge to token-less clients on /search* pages. High-risk: prove on stage before enabling elsewhere."
 }
 
+variable "enable_search_legacy_ua_block" {
+  type        = bool
+  default     = false
+  description = "Block /search* requests claiming a Chrome major version below 100, ahead of the billed search challenge. Prove on stage before enabling elsewhere."
+}
+
 variable "enable_waf_logging" {
   type        = bool
   default     = false
