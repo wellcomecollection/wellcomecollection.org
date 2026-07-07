@@ -589,7 +589,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
     for_each = var.enable_search_challenge ? [1] : []
     content {
       name     = "search-challenge"
-      priority = 11
+      priority = 12
 
       action {
         challenge {}
@@ -627,7 +627,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "geo-rate-limit-USA"
-    priority = 12
+    priority = 13
 
     action {
       block {
@@ -662,7 +662,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "geo-rate-limit-APAC"
-    priority = 13
+    priority = 14
 
     action {
       block {
@@ -702,7 +702,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "geo-rate-limit-LATAM"
-    priority = 14
+    priority = 15
 
     action {
       block {
@@ -739,7 +739,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "blanket-rate-limiting"
-    priority = 15
+    priority = 16
 
     action {
       block {}
@@ -761,7 +761,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "restrictive-rate-limiting"
-    priority = 16
+    priority = 17
 
     action {
       block {}
@@ -799,7 +799,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-crs
   rule {
     name     = "core-rule-group"
-    priority = 17
+    priority = 18
 
     override_action {
       none {}
@@ -822,7 +822,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-use-case.html#aws-managed-rule-groups-use-case-sql-db
   rule {
     name     = "sqli-rule-group"
-    priority = 18
+    priority = 19
 
     override_action {
       none {}
@@ -845,7 +845,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-known-bad-inputs
   rule {
     name     = "known-bad-inputs-rule-group"
-    priority = 19
+    priority = 20
 
     override_action {
       none {}
@@ -867,7 +867,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "bot-control-rule-group"
-    priority = 20
+    priority = 11
 
     // Because the Bot Control rules are quite aggressive, they block some useful bots
     // such as Updown. While we could add overrides for specific bots, we don"t want to have to
