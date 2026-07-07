@@ -35,14 +35,26 @@ import LoadingIndicator from '@weco/common/views/components/LoadingIndicator';
 import ErrorPage from '@weco/common/views/layouts/ErrorPage';
 import themeValues, { GlobalStyle } from '@weco/common/views/themes/default';
 
-// Dynamically import HistoryProvider to prevent it from being bundled in apps that don't use kiosk mode (e.g. identity)
-const HistoryProvider = dynamic(
-  () =>
-    import('@weco/common/hooks/useNavigationHistory').then(
-      mod => mod.HistoryProvider
-    ),
-  { ssr: false }
-);
+// Load HistoryProvider client-side only, but still render children during SSR / while loading
+
+type HistoryProviderComponent = React.ComponentType<React.PropsWithChildren>;
+
+const HistoryProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
+  const [Provider, setProvider] =
+    React.useState<HistoryProviderComponent | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    import('@weco/common/hooks/useNavigationHistory').then(mod => {
+      if (mounted) setProvider(() => mod.HistoryProvider);
+    });
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  return Provider ? <Provider>{children}</Provider> : <>{children}</>;
+};
 
 // Error pages can't send anything via the data fetching methods as
 // the page needs to be rendered as soon as the error happens.
