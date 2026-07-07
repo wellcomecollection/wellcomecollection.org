@@ -38,6 +38,10 @@ module "prod_wc_org_cloudfront_distribution" {
   # Proven on stage; see the search-challenge rule in the module for why this
   # is high-risk.
   enable_search_challenge = true
+
+  # Blocks fabricated legacy-Chrome UAs before the challenge, cutting billed
+  # challenge responses by roughly a third at 2026-07 flood volumes.
+  enable_search_legacy_ua_block = true
 }
 
 data "aws_lambda_function" "versioned_edge_lambda_request" {
