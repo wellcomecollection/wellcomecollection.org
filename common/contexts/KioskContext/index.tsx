@@ -14,7 +14,6 @@ import {
   kioskExperienceNames,
   KiosksContentType,
 } from '@weco/common/contexts/KioskContext/kiosks-content';
-import { HistoryProvider } from '@weco/common/hooks/useNavigationHistory';
 import {
   ReadingRoomStories,
   TendernessAndRageContent,
@@ -114,10 +113,10 @@ export const KioskProvider: FunctionComponent<KioskProviderProps> = ({
     [kioskExperienceName, kiosksContent]
   );
 
+  // Note: HistoryProvider wraps KioskProvider children in common/views/pages/_app.tsx
+  // It's dynamically imported there (not here) to prevent bundling in non-kiosk apps like identity
   return (
-    <KioskContext.Provider value={value}>
-      <HistoryProvider>{children}</HistoryProvider>
-    </KioskContext.Provider>
+    <KioskContext.Provider value={value}>{children}</KioskContext.Provider>
   );
 };
 
