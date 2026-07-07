@@ -46,6 +46,10 @@ module "prod_wc_org_cloudfront_distribution" {
   # Real users get re-challenged (and re-billed) once per window instead of
   # every 5 minutes.
   search_challenge_immunity_seconds = 14400
+
+  # Targeted Bot Control, scoped to /search with TGT_ rules counting only:
+  # labels the flood for analysis without changing enforcement.
+  bot_control_inspection_level = "TARGETED"
 }
 
 data "aws_lambda_function" "versioned_edge_lambda_request" {
