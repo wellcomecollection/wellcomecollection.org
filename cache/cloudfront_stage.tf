@@ -44,7 +44,7 @@ module "stage_wc_org_cloudfront_distribution" {
   # every 5 minutes. Matches prod.
   search_challenge_immunity_seconds = 14400
 
-  # Trialling targeted Bot Control (scoped to /search, TGT_ rules counting
-  # only) here before prod.
+  # Targeted Bot Control, scoped to /search with TGT_ rules counting only.
+  # Matches prod.
   bot_control_inspection_level = "TARGETED"
 }
