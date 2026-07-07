@@ -72,13 +72,34 @@ locals {
     "SignalAutomatedBrowser",    // No substantial traffic
     "SignalKnownBotDataCenter",  // Known bot data centres include "good" bots such as Updown
     "SignalNonBrowserUserAgent", // High risk for breaking scripts and other application services
-    // These are for targeted Bot Control, which we don't use
-    // "TGT_VolumetricIpTokenAbsent",
-    // "TGT_VolumetricSession",
-    // "TGT_SignalAutomatedBrowser",
-    // "TGT_SignalBrowserInconsistency",
-    // "TGT_TokenReuseIp",
-    // "TGT_ML_CoordinatedActivityMedium and TGT_ML_CoordinatedActivityHigh"
+  ]
+
+  // The targeted-inspection rules start in count mode: they label /search
+  // traffic for analysis without acting. Remove a rule from this list to
+  // enable its default action once the label soak supports it.
+  bot_control_targeted_count_list = [
+    "TGT_VolumetricIpTokenAbsent",
+    "TGT_VolumetricSession",
+    "TGT_SignalBrowserAutomationExtension",
+    "TGT_SignalAutomatedBrowser",
+    "TGT_SignalBrowserInconsistency",
+    "TGT_TokenReuseIp",
+    "TGT_ML_CoordinatedActivityLow",
+    "TGT_ML_CoordinatedActivityMedium",
+    "TGT_ML_CoordinatedActivityHigh",
+  ]
+
+  // Unverified SEO crawlers blocked unconditionally, site-wide. This
+  // replaces Bot Control's CategorySeo coverage, which only sees /search
+  // once the group is scoped down for targeted inspection. Measured
+  // 2026-07-07: SemrushBot was ~85% of CategorySeo's blocks.
+  seo_block_user_agents = [
+    "SemrushBot",
+    "DotBot",
+    "MJ12bot",
+    "MojeekBot",
+    "TinEye",
+    "yacybot",
   ]
 }
 
@@ -889,12 +910,39 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
         managed_rule_group_configs {
           aws_managed_rules_bot_control_rule_set {
-            inspection_level = "COMMON"
+            inspection_level        = var.bot_control_inspection_level
+            enable_machine_learning = var.bot_control_inspection_level == "TARGETED"
+          }
+        }
+
+        // TARGETED is billed per request analysed at 10x the COMMON rate, so
+        // it is only affordable scoped down to the /search pages it exists to
+        // protect. The seo-user-agent-block rule replaces the group's
+        // site-wide CategorySeo coverage while this scope-down is active.
+        dynamic "scope_down_statement" {
+          for_each = var.bot_control_inspection_level == "TARGETED" ? [1] : []
+          content {
+            byte_match_statement {
+              positional_constraint = "STARTS_WITH"
+              search_string         = "/search"
+
+              field_to_match {
+                uri_path {}
+              }
+
+              text_transformation {
+                priority = 0
+                type     = "NONE"
+              }
+            }
           }
         }
 
         dynamic "rule_action_override" {
-          for_each = local.bot_control_rule_no_block_list
+          for_each = concat(
+            local.bot_control_rule_no_block_list,
+            var.bot_control_inspection_level == "TARGETED" ? local.bot_control_targeted_count_list : [],
+          )
           content {
             name = rule_action_override.value
             action_to_use {
@@ -909,6 +957,40 @@ resource "aws_wafv2_web_acl" "wc_org" {
       cloudwatch_metrics_enabled = true
       sampled_requests_enabled   = true
       metric_name                = "weco-cloudfront-acl-bot-control-${var.namespace}"
+    }
+  }
+
+  // Replaces Bot Control's site-wide CategorySeo blocking, which only covers
+  // /search once the group is scoped down for targeted inspection.
+  rule {
+    name     = "seo-user-agent-block"
+    priority = 21
+
+    action {
+      block {}
+    }
+
+    statement {
+      regex_match_statement {
+        regex_string = join("|", local.seo_block_user_agents)
+
+        field_to_match {
+          single_header {
+            name = "user-agent"
+          }
+        }
+
+        text_transformation {
+          priority = 0
+          type     = "NONE"
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      sampled_requests_enabled   = true
+      metric_name                = "seo-user-agent-block-${var.namespace}"
     }
   }
 

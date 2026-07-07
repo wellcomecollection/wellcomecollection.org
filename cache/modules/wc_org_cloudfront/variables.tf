@@ -79,6 +79,17 @@ variable "enable_search_legacy_ua_block" {
   description = "Block /search* requests claiming a Chrome major version below 100, ahead of the billed search challenge. Prove on stage before enabling elsewhere."
 }
 
+variable "bot_control_inspection_level" {
+  type        = string
+  default     = "COMMON"
+  description = "Bot Control inspection level. TARGETED also scopes the rule group down to /search* (it is billed at 10x per request analysed) and starts its TGT_ rules in count mode."
+
+  validation {
+    condition     = contains(["COMMON", "TARGETED"], var.bot_control_inspection_level)
+    error_message = "bot_control_inspection_level must be COMMON or TARGETED."
+  }
+}
+
 variable "search_challenge_immunity_seconds" {
   type        = number
   default     = 300

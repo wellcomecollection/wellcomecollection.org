@@ -43,4 +43,8 @@ module "stage_wc_org_cloudfront_distribution" {
   # Trialling a longer challenge-token immunity here before prod: real users
   # get re-challenged (and billed) once per window instead of every 5 minutes.
   search_challenge_immunity_seconds = 14400
+
+  # Trialling targeted Bot Control (scoped to /search, TGT_ rules counting
+  # only) here before prod.
+  bot_control_inspection_level = "TARGETED"
 }
