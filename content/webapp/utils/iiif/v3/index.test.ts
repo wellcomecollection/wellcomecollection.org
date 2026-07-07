@@ -1,5 +1,9 @@
 import { Canvas, Manifest } from '@iiif/presentation-3';
 
+import {
+  createOpenPainting,
+  createRestrictedPainting,
+} from '@weco/content/test/fixtures/iiif/transformed-manifest';
 import type {
   Auth,
   ManifestAccessRequirement,
@@ -374,38 +378,6 @@ describe('deduplicateDownloadOptions', () => {
   });
 });
 
-// A painting item carrying the restricted-login access service. This is the
-// shape the viewer inspects to decide whether the current canvas is restricted.
-const restrictedLoginId =
-  'https://iiif.wellcomecollection.org/auth/v2/access/restrictedlogin';
-
-function restrictedPainting(
-  overrides: Record<string, unknown> = {}
-): TransformedCanvas['painting'][number] {
-  return {
-    id: 'https://example.com/image/restricted',
-    type: 'Image',
-    service: [
-      {
-        id: 'https://example.com/probe',
-        type: 'AuthProbeService2',
-        service: [{ id: restrictedLoginId, type: 'AuthAccessService2' }],
-      },
-    ],
-    ...overrides,
-  } as unknown as TransformedCanvas['painting'][number];
-}
-
-function openPainting(
-  overrides: Record<string, unknown> = {}
-): TransformedCanvas['painting'][number] {
-  return {
-    id: 'https://example.com/image/open',
-    type: 'Image',
-    ...overrides,
-  } as unknown as TransformedCanvas['painting'][number];
-}
-
 describe('isChoiceBody', () => {
   it('is true for a Choice item', () => {
     expect(isChoiceBody({ id: 'c', type: 'Choice', items: [] } as never)).toBe(
@@ -425,15 +397,15 @@ describe('isChoiceBody', () => {
 
 describe('isItemRestricted', () => {
   it('is true when a painting has the restricted-login access service', () => {
-    expect(isItemRestricted(restrictedPainting())).toBe(true);
+    expect(isItemRestricted(createRestrictedPainting())).toBe(true);
   });
 
   it('is false when a painting has no service', () => {
-    expect(isItemRestricted(openPainting())).toBe(false);
+    expect(isItemRestricted(createOpenPainting())).toBe(false);
   });
 
   it('is false when the access service is not restricted-login', () => {
-    const painting = openPainting({
+    const painting = createOpenPainting({
       service: [
         {
           id: 'https://example.com/probe',
@@ -459,28 +431,30 @@ describe('isItemRestricted', () => {
 
 describe('hasRestrictedItem', () => {
   it('is true when a painting item is restricted', () => {
-    const canvas = createImageCanvas({ painting: [restrictedPainting()] });
+    const canvas = createImageCanvas({
+      painting: [createRestrictedPainting()],
+    });
     expect(hasRestrictedItem(canvas)).toBe(true);
   });
 
   it('is true when a supplementing item is restricted', () => {
     const canvas = createImageCanvas({
-      painting: [openPainting()],
-      supplementing: [restrictedPainting()],
+      painting: [createOpenPainting()],
+      supplementing: [createRestrictedPainting()],
     });
     expect(hasRestrictedItem(canvas)).toBe(true);
   });
 
   it('is true when an original item is restricted', () => {
     const canvas = createImageCanvas({
-      painting: [openPainting()],
-      original: [restrictedPainting() as never],
+      painting: [createOpenPainting()],
+      original: [createRestrictedPainting() as never],
     });
     expect(hasRestrictedItem(canvas)).toBe(true);
   });
 
   it('is false when nothing is restricted', () => {
-    const canvas = createImageCanvas({ painting: [openPainting()] });
+    const canvas = createImageCanvas({ painting: [createOpenPainting()] });
     expect(hasRestrictedItem(canvas)).toBe(false);
   });
 
@@ -496,13 +470,13 @@ describe('hasRestrictedItem', () => {
 
 describe('getProbeServiceId', () => {
   it('returns the AuthProbeService2 id when present', () => {
-    expect(getProbeServiceId(restrictedPainting())).toBe(
+    expect(getProbeServiceId(createRestrictedPainting())).toBe(
       'https://example.com/probe'
     );
   });
 
   it('returns undefined when the painting has no service', () => {
-    expect(getProbeServiceId(openPainting())).toBeUndefined();
+    expect(getProbeServiceId(createOpenPainting())).toBeUndefined();
   });
 
   it('returns undefined for a Choice body', () => {
