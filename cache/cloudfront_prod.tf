@@ -42,6 +42,10 @@ module "prod_wc_org_cloudfront_distribution" {
   # Blocks fabricated legacy-Chrome UAs before the challenge, cutting billed
   # challenge responses by roughly a third at 2026-07 flood volumes.
   enable_search_legacy_ua_block = true
+
+  # Real users get re-challenged (and re-billed) once per window instead of
+  # every 5 minutes.
+  search_challenge_immunity_seconds = 14400
 }
 
 data "aws_lambda_function" "versioned_edge_lambda_request" {
