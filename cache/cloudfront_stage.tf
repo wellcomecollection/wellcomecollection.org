@@ -35,4 +35,8 @@ module "stage_wc_org_cloudfront_distribution" {
   # Trialling the /search challenge here before prod (see the search-challenge
   # rule in the module for why this is high-risk).
   enable_search_challenge = true
+
+  # Trialling the legacy-Chrome UA block here before prod: cuts billed
+  # challenge responses by blocking provably fabricated user agents first.
+  enable_search_legacy_ua_block = true
 }
