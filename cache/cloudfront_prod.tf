@@ -34,6 +34,10 @@ module "prod_wc_org_cloudfront_distribution" {
   header_shared_secret      = local.current_shared_secret
 
   enable_waf_logging = true
+
+  # Proven on stage; see the search-challenge rule in the module for why this
+  # is high-risk.
+  enable_search_challenge = true
 }
 
 data "aws_lambda_function" "versioned_edge_lambda_request" {
