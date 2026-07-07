@@ -39,21 +39,30 @@ export function createMockCanvas(
   };
 }
 
-export const defaultMockAuth: Auth = {
-  externalAccessService: undefined,
-  activeAccessService: undefined,
-  tokenService: undefined,
-  accessRequirements: ['Open'],
-};
+// A factory (rather than a shared const) so every manifest gets its own auth
+// object and its own `accessRequirements` array — keeping factory outputs
+// isolated even if a test mutates them.
+export function createMockAuth(overrides: Partial<Auth> = {}): Auth {
+  return {
+    externalAccessService: undefined,
+    activeAccessService: undefined,
+    tokenService: undefined,
+    accessRequirements: ['Open'],
+    ...overrides,
+  };
+}
 
 export function createMockManifest(
   overrides: Partial<TransformedManifest> = {}
 ): TransformedManifest {
-  const { canvases: overrideCanvases, auth: overrideAuth, ...restOverrides } =
-    overrides;
+  const {
+    canvases: overrideCanvases,
+    auth: overrideAuth,
+    ...restOverrides
+  } = overrides;
 
   const canvases = overrideCanvases ?? [createMockCanvas()];
-  const auth = overrideAuth ?? { ...defaultMockAuth };
+  const auth = overrideAuth ?? createMockAuth();
 
   return {
     itemsStatus: 'allStandard',
