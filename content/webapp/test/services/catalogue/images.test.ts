@@ -1,8 +1,5 @@
 import { wellcomeApiQuery } from '@weco/content/services/wellcome';
-import {
-  getWork,
-  getWorks,
-} from '@weco/content/services/wellcome/catalogue/works';
+import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 
 // Mock the wellcomeApiQuery function so we can inspect the URLs we query
 jest.mock('@weco/content/services/wellcome', () => ({
@@ -14,21 +11,7 @@ const mockWellcomeApiQuery = wellcomeApiQuery as jest.MockedFunction<
   typeof wellcomeApiQuery
 >;
 
-it('returns a 404 Not Found for a work ID that’s not alphanumeric', () => {
-  const id = 'a\u200Bb';
-
-  getWork({ id, shouldUseStagingApi: false }).then(result => {
-    expect(result).toStrictEqual({
-      errorType: 'http',
-      httpStatus: 404,
-      label: 'Not Found',
-      description: '',
-      type: 'Error',
-    });
-  });
-});
-
-describe('getWorks: the cataloguePipeline mode toggle', () => {
+describe('getImages: the cataloguePipeline mode toggle', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockWellcomeApiQuery.mockResolvedValue({
@@ -39,7 +22,7 @@ describe('getWorks: the cataloguePipeline mode toggle', () => {
   });
 
   it('adds elasticCluster=<mode value> to the query when the mode is set', async () => {
-    await getWorks({
+    await getImages({
       params: { query: 'sheep' },
       pipelineCluster: 'new-pipeline',
     });
@@ -49,21 +32,21 @@ describe('getWorks: the cataloguePipeline mode toggle', () => {
   });
 
   it('doesn’t add elasticCluster to the query when the mode is unset', async () => {
-    await getWorks({ params: { query: 'sheep' } });
+    await getImages({ params: { query: 'sheep' } });
 
     const [url] = mockWellcomeApiQuery.mock.calls[0];
     expect(url).not.toContain('elasticCluster');
   });
 
   it('doesn’t add elasticCluster to the query when the mode is default', async () => {
-    await getWorks({ params: { query: 'sheep' }, pipelineCluster: 'default' });
+    await getImages({ params: { query: 'sheep' }, pipelineCluster: 'default' });
 
     const [url] = mockWellcomeApiQuery.mock.calls[0];
     expect(url).not.toContain('elasticCluster');
   });
 
   it('doesn’t override an explicit elasticCluster param', async () => {
-    await getWorks({
+    await getImages({
       params: { query: 'sheep', elasticCluster: 'openai' },
       pipelineCluster: 'new-pipeline',
     });

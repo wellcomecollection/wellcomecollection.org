@@ -20,13 +20,13 @@ export type CatalogueWorksApiProps = {
   languages?: string[];
   identifiers?: string[];
   aggregations?: string[];
-  // Optional override for selecting a specific Elastic cluster for
-  // semantic-search prototype experiments. Expected values:
-  // - 'openai'
-  // - 'elser'
+  // Optional override for selecting a specific Elastic cluster. Expected
+  // values:
+  // - 'openai' and 'elser', for semantic-search prototype experiments
+  // - 'new-pipeline', for previewing the new catalogue pipeline
   // This is intentionally optional and experimental; production callers
   // should omit this.
-  elasticCluster?: 'openai' | 'elser';
+  elasticCluster?: 'openai' | 'elser' | 'new-pipeline';
 };
 
 export type CatalogueImagesApiProps = {
@@ -42,6 +42,13 @@ export type CatalogueImagesApiProps = {
   'source.contributors.agent.label'?: string[];
   color?: string;
   aggregations?: string[];
+  // Optional override for selecting a specific Elastic cluster. Expected
+  // values:
+  // - 'openai' and 'elser', for semantic-search prototype experiments
+  // - 'new-pipeline', for previewing the new catalogue pipeline
+  // This is intentionally optional and experimental; production callers
+  // should omit this.
+  elasticCluster?: 'openai' | 'elser' | 'new-pipeline';
 };
 
 export type CatalogueConceptsApiProps = {

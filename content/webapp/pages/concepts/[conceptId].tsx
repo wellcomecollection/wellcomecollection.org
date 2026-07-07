@@ -105,12 +105,16 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         getWorks({
           params: queryParams(sectionName, conceptResponse),
           shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+          pipelineCluster:
+            serverData.toggles.modes.cataloguePipeline ?? undefined,
           pageSize: 5,
         }),
       byLabel: (sectionName: string) =>
         getWorks({
           params: allRecordsLinkParams(sectionName, conceptResponse),
           shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+          pipelineCluster:
+            serverData.toggles.modes.cataloguePipeline ?? undefined,
           pageSize: 5,
         }),
     },
@@ -119,12 +123,16 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         getImages({
           params: queryParams(sectionName, conceptResponse),
           shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+          pipelineCluster:
+            serverData.toggles.modes.cataloguePipeline ?? undefined,
           pageSize: 12,
         }),
       byLabel: (sectionName: string) =>
         getImages({
           params: allRecordsLinkParams(sectionName, conceptResponse),
           shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+          pipelineCluster:
+            serverData.toggles.modes.cataloguePipeline ?? undefined,
           pageSize: 12,
         }),
     },

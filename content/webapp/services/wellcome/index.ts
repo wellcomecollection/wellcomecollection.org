@@ -110,6 +110,9 @@ export type QueryProps<Params> = {
   params: Params;
   pageSize?: number;
   shouldUseStagingApi?: boolean;
+  // The elasticCluster alias carried by the cataloguePipeline mode toggle;
+  // undefined/'default' both mean the normal pipeline setup
+  pipelineCluster?: string;
 };
 
 // Use shared undici agent configuration for keep-alive connections.

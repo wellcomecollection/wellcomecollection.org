@@ -33,6 +33,7 @@ export type ArchiveWorkData = {
 type GetWorkProps = {
   id: string;
   shouldUseStagingApi?: boolean;
+  pipelineCluster?: string;
   include?: string[];
 };
 
@@ -107,6 +108,7 @@ type WorkResponse =
 export async function getWork({
   id,
   shouldUseStagingApi,
+  pipelineCluster,
   include = workIncludes,
 }: GetWorkProps): Promise<WorkResponse> {
   if (!looksLikeCanonicalId(id)) {
@@ -117,6 +119,12 @@ export async function getWork({
 
   const params = {
     include,
+    // propsToQuery drops undefined values; 'default' means the normal
+    // pipeline setup, i.e. no override
+    elasticCluster:
+      pipelineCluster && pipelineCluster !== 'default'
+        ? pipelineCluster
+        : undefined,
   };
 
   const searchParams = new URLSearchParams(propsToQuery(params)).toString();
@@ -173,13 +181,15 @@ export async function getWorkClientSide(workId: string): Promise<WorkResponse> {
 
 export async function getArchiveWorks(
   ids: string[],
-  shouldUseStagingApi?: boolean
+  shouldUseStagingApi?: boolean,
+  pipelineCluster?: string
 ): Promise<Record<string, ArchiveWorkData>> {
   const settled = await Promise.allSettled(
     ids.map(id =>
       getWork({
         id,
         shouldUseStagingApi,
+        pipelineCluster,
         include: ['production', 'contributors'],
       })
     )
