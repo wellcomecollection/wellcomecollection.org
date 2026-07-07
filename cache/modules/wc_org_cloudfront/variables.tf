@@ -83,6 +83,11 @@ variable "search_challenge_immunity_seconds" {
   type        = number
   default     = 300
   description = "How long a solved search challenge token stays valid. 300 is the AWS default; longer values mean fewer billed re-challenges for real users but a longer window for a token-holding client before it is re-challenged."
+
+  validation {
+    condition     = var.search_challenge_immunity_seconds >= 60 && var.search_challenge_immunity_seconds <= 259200 && floor(var.search_challenge_immunity_seconds) == var.search_challenge_immunity_seconds
+    error_message = "search_challenge_immunity_seconds must be a whole number of seconds between 60 and 259200 (3 days), the range AWS WAF accepts."
+  }
 }
 
 variable "enable_waf_logging" {
