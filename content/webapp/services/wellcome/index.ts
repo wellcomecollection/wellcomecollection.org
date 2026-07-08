@@ -110,7 +110,8 @@ export type QueryProps<Params> = {
   params: Params;
   pageSize?: number;
   shouldUseStagingApi?: boolean;
-  // The elasticCluster alias carried by the cataloguePipeline mode toggle;
+  // Only used by catalogue queries, where catalogueQuery maps it to the
+  // elasticCluster param; carries the cataloguePipeline mode toggle value.
   // undefined/'default' both mean the normal pipeline setup
   pipelineCluster?: string;
 };
