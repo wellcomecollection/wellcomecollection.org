@@ -55,6 +55,10 @@ module "prod_wc_org_cloudfront_distribution" {
   # crawlers and headless bots that never solve the challenge they would
   # otherwise be served (46% of challenged traffic when measured).
   enable_search_missing_lang_block = true
+
+  # Blocks fabricated-browser fraud on the indexable catalogue pages while
+  # leaving honest crawlers and user-triggered AI agents untouched.
+  enable_works_fabricated_ua_block = true
 }
 
 data "aws_lambda_function" "versioned_edge_lambda_request" {
