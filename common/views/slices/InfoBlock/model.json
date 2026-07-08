@@ -9,8 +9,7 @@
     "events::body::infoBlock": "default",
     "exhibitions::body::infoBlock": "default",
     "pages::body::infoBlock": "default",
-    "projects::body::infoBlock": "default",
-    "series::body::infoBlock": "default"
+    "projects::body::infoBlock": "default"
   },
   "variations": [
     {

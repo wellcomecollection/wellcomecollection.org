@@ -54,9 +54,6 @@
             "standfirst": {
               "type": "SharedSlice"
             },
-            "infoBlock": {
-              "type": "SharedSlice"
-            },
             "quote": {
               "type": "SharedSlice"
             }
