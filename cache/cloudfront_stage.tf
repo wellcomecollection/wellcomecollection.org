@@ -52,4 +52,9 @@ module "stage_wc_org_cloudfront_distribution" {
   # browsers always send the header; the clients that omit it are crawlers
   # and bots that never solve the challenge they would otherwise be served.
   enable_search_missing_lang_block = true
+
+  # Trialling the works/images/concepts fabricated-browser block here before
+  # prod: blocks fraud that poses as a browser without self-identifying,
+  # while leaving honest crawlers and user-triggered AI agents untouched.
+  enable_works_fabricated_ua_block = true
 }
