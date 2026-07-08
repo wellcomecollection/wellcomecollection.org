@@ -78,12 +78,26 @@ locals {
   // traffic for analysis without acting. Remove a rule from this list to
   // enable its default action once the label soak supports it.
   bot_control_targeted_count_list = [
+    // CAUTION: names must exactly match the rules in the pinned rule set
+    // version (aws wafv2 describe-managed-rule-group); an override for a
+    // name that does not exist is silently ignored and the real rule runs
+    // with its default action (Captcha or Block for several of these).
     "TGT_VolumetricIpTokenAbsent",
     "TGT_VolumetricSession",
+    "TGT_VolumetricSessionMaximum",
     "TGT_SignalBrowserAutomationExtension",
     "TGT_SignalAutomatedBrowser",
     "TGT_SignalBrowserInconsistency",
-    "TGT_TokenReuseIp",
+    "TGT_TokenAbsent",
+    "TGT_TokenReuseIpLow",
+    "TGT_TokenReuseIpMedium",
+    "TGT_TokenReuseIpHigh",
+    "TGT_TokenReuseCountryLow",
+    "TGT_TokenReuseCountryMedium",
+    "TGT_TokenReuseCountryHigh",
+    "TGT_TokenReuseAsnLow",
+    "TGT_TokenReuseAsnMedium",
+    "TGT_TokenReuseAsnHigh",
     "TGT_ML_CoordinatedActivityLow",
     "TGT_ML_CoordinatedActivityMedium",
     "TGT_ML_CoordinatedActivityHigh",
