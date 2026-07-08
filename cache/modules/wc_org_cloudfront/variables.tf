@@ -85,6 +85,12 @@ variable "enable_search_missing_lang_block" {
   description = "Block /search* requests with no Accept-Language header, ahead of the billed search challenge. Real browsers always send it. Prove on stage before enabling elsewhere."
 }
 
+variable "enable_works_fabricated_ua_block" {
+  type        = bool
+  default     = false
+  description = "Block fabricated-browser traffic on /works*, /images* and /concepts*: a browser-posing User-Agent with no Accept-Language and no self-identification. Exempts honest crawlers, link-preview fetchers and user-triggered AI agents. Prove on stage before enabling elsewhere."
+}
+
 variable "bot_control_inspection_level" {
   type        = string
   default     = "COMMON"

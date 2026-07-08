@@ -677,6 +677,125 @@ resource "aws_wafv2_web_acl" "wc_org" {
     }
   }
 
+  // Blocks fabricated-browser traffic on the works, images and concepts
+  // pages, which unlike /search are indexable content with no challenge
+  // behind them. The signal is a request that poses as a mainstream browser
+  // (Chrome/Safari/Firefox/Edge version token) but sends no Accept-Language
+  // and carries no self-identification (no "+http" URL and no "compatible;"
+  // token). Real browsers always send Accept-Language; honest bots always
+  // self-identify, so this exempts every declared crawler, link-preview
+  // fetcher and user-triggered AI agent (measured 2026-07-08) and blocks only
+  // the fraud fleet. Crawler-vs-agent policy for honest bots is deliberately
+  // left to robots.txt and separate rules; this rule takes no side on it.
+  dynamic "rule" {
+    for_each = var.enable_works_fabricated_ua_block ? [1] : []
+    content {
+      name     = "works-fabricated-ua-block"
+      priority = 12
+
+      action {
+        block {}
+      }
+
+      statement {
+        and_statement {
+          statement {
+            or_statement {
+              dynamic "statement" {
+                for_each = ["/works", "/images", "/concepts"]
+                content {
+                  byte_match_statement {
+                    positional_constraint = "STARTS_WITH"
+                    search_string         = statement.value
+
+                    field_to_match {
+                      uri_path {}
+                    }
+
+                    text_transformation {
+                      priority = 0
+                      type     = "NONE"
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          # Poses as a mainstream browser.
+          statement {
+            regex_match_statement {
+              regex_string = "(Chrome|CriOS|Firefox|FxiOS|Edg|Version)/[0-9]"
+
+              field_to_match {
+                single_header {
+                  name = "user-agent"
+                }
+              }
+
+              text_transformation {
+                priority = 0
+                type     = "NONE"
+              }
+            }
+          }
+
+          # No Accept-Language: real browsers always send it.
+          statement {
+            not_statement {
+              statement {
+                size_constraint_statement {
+                  comparison_operator = "GT"
+                  size                = 0
+
+                  field_to_match {
+                    single_header {
+                      name = "accept-language"
+                    }
+                  }
+
+                  text_transformation {
+                    priority = 0
+                    type     = "NONE"
+                  }
+                }
+              }
+            }
+          }
+
+          # No self-identification: honest bots carry a "+http" contact URL or
+          # a "compatible;" token; modern real browsers carry neither.
+          statement {
+            not_statement {
+              statement {
+                regex_match_statement {
+                  regex_string = "(\\+https?://|compatible;)"
+
+                  field_to_match {
+                    single_header {
+                      name = "user-agent"
+                    }
+                  }
+
+                  text_transformation {
+                    priority = 0
+                    type     = "NONE"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      visibility_config {
+        cloudwatch_metrics_enabled = true
+        sampled_requests_enabled   = true
+        metric_name                = "works-fabricated-ua-block-${var.namespace}"
+      }
+    }
+  }
+
   // Silently challenges clients that don't run JavaScript on /search pages,
   // which are expensive to render and effectively uncacheable. Real browsers
   // solve the challenge invisibly. Only the works search page is
@@ -689,7 +808,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
     for_each = var.enable_search_challenge ? [1] : []
     content {
       name     = "search-challenge"
-      priority = 13
+      priority = 14
 
       action {
         challenge {}
@@ -727,7 +846,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "geo-rate-limit-USA"
-    priority = 14
+    priority = 15
 
     action {
       block {
@@ -762,7 +881,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "geo-rate-limit-APAC"
-    priority = 15
+    priority = 16
 
     action {
       block {
@@ -802,7 +921,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "geo-rate-limit-LATAM"
-    priority = 16
+    priority = 17
 
     action {
       block {
@@ -839,7 +958,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "blanket-rate-limiting"
-    priority = 17
+    priority = 18
 
     action {
       block {}
@@ -861,7 +980,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "restrictive-rate-limiting"
-    priority = 18
+    priority = 19
 
     action {
       block {}
@@ -899,7 +1018,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-crs
   rule {
     name     = "core-rule-group"
-    priority = 19
+    priority = 20
 
     override_action {
       none {}
@@ -922,7 +1041,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-use-case.html#aws-managed-rule-groups-use-case-sql-db
   rule {
     name     = "sqli-rule-group"
-    priority = 20
+    priority = 21
 
     override_action {
       none {}
@@ -945,7 +1064,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-known-bad-inputs
   rule {
     name     = "known-bad-inputs-rule-group"
-    priority = 21
+    priority = 22
 
     override_action {
       none {}
@@ -967,7 +1086,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "bot-control-rule-group"
-    priority = 12
+    priority = 13
 
     // Because the Bot Control rules are quite aggressive, they block some useful bots
     // such as Updown. While we could add overrides for specific bots, we don"t want to have to
@@ -1043,7 +1162,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // /search once the group is scoped down for targeted inspection.
   rule {
     name     = "seo-user-agent-block"
-    priority = 22
+    priority = 23
 
     action {
       block {}
