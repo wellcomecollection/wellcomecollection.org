@@ -222,7 +222,7 @@ const workWithBornDigitalDownloads = async (
   page: Page
 ): Promise<void> => {
   await context.addCookies(requiredCookies);
-  await gotoWithoutCache(`${baseUrl}/works/htzhunbw`, page);
+  await gotoWithoutCache(`${baseUrl}/works/htzhunbw/items`, page);
 };
 
 const itemWithVideo = async (

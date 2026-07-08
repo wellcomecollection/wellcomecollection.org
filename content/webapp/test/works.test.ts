@@ -1,3 +1,4 @@
+import { DigitalLocation } from '@weco/common/model/catalogue';
 import {
   legacyWorkWithMixedPartOf,
   legacyWorkWithPartOf,
@@ -13,7 +14,13 @@ import {
   getItemIdentifiersWith,
   getItemsWith,
   getProductionDates,
+  showItemLink,
 } from '@weco/content/utils/works';
+
+const digitalLocation = getDigitalLocationOfType(
+  workWithPartOf,
+  'iiif-presentation'
+) as DigitalLocation;
 
 describe('getProductionDates', () => {
   it('extracts date labels from a work', () => {
@@ -356,5 +363,76 @@ describe('getAccessConditionForDigitalLocation', () => {
       const statusId = getAccessConditionForDigitalLocation(manifestLocation);
       expect(statusId).toEqual('open');
     }
+  });
+});
+
+describe('showItemLink', () => {
+  it('returns false when the access condition is closed', () => {
+    expect(
+      showItemLink({
+        userIsStaffWithRestricted: false,
+        hasIIIFManifest: true,
+        digitalLocation,
+        accessCondition: 'closed',
+      })
+    ).toBe(false);
+  });
+
+  it('returns false when the access condition is restricted and the user is not staff with restricted access', () => {
+    expect(
+      showItemLink({
+        userIsStaffWithRestricted: false,
+        hasIIIFManifest: true,
+        digitalLocation,
+        accessCondition: 'restricted',
+      })
+    ).toBe(false);
+  });
+
+  it('returns true when the access condition is restricted and the user is staff with restricted access', () => {
+    expect(
+      showItemLink({
+        userIsStaffWithRestricted: true,
+        hasIIIFManifest: true,
+        digitalLocation,
+        accessCondition: 'restricted',
+      })
+    ).toBe(true);
+  });
+
+  // showItemLink no longer takes an itemsStatus/allOriginalPdfs parameter: it used to
+  // hide the item link for non-standard (born-digital) works unless they were all
+  // original PDFs, but that distinction has been removed, so this covers both cases.
+  it('returns true for an open work with a IIIF manifest and digital location', () => {
+    expect(
+      showItemLink({
+        userIsStaffWithRestricted: false,
+        hasIIIFManifest: true,
+        digitalLocation,
+        accessCondition: 'open',
+      })
+    ).toBe(true);
+  });
+
+  it('returns false when there is no IIIF manifest', () => {
+    expect(
+      showItemLink({
+        userIsStaffWithRestricted: false,
+        hasIIIFManifest: false,
+        digitalLocation,
+        accessCondition: 'open',
+      })
+    ).toBe(false);
+  });
+
+  it('returns false when there is no digital location', () => {
+    expect(
+      showItemLink({
+        userIsStaffWithRestricted: false,
+        hasIIIFManifest: true,
+        digitalLocation: undefined,
+        accessCondition: 'open',
+      })
+    ).toBe(false);
   });
 });

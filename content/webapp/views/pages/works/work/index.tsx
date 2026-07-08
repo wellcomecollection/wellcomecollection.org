@@ -16,7 +16,6 @@ import {
   Work as WorkType,
 } from '@weco/content/services/wellcome/catalogue/types';
 import { TransformedManifest } from '@weco/content/types/manifest';
-import { isAllOriginalPdfs } from '@weco/content/utils/iiif/v3';
 import { workLd } from '@weco/content/utils/json-ld';
 import { removeIdiomaticTextTags } from '@weco/content/utils/string';
 import {
@@ -79,19 +78,15 @@ export const WorkPage: NextPage<Props> = ({
     iiifPresentationLocation || iiifImageLocation;
   const digitalLocationInfo =
     digitalLocation && getDigitalLocationInfo(digitalLocation);
-  const { collectionManifestsCount, canvases, itemsStatus } = {
+  const { collectionManifestsCount } = {
     ...transformedManifest,
   };
 
-  const allOriginalPdfs = isAllOriginalPdfs(canvases || []);
-
   const shouldShowItemLink = showItemLink({
     userIsStaffWithRestricted,
-    allOriginalPdfs,
     hasIIIFManifest: !!transformedManifest,
     digitalLocation,
     accessCondition: digitalLocationInfo?.accessCondition,
-    itemsStatus,
   });
 
   const imageUrl =

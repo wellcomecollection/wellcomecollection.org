@@ -2,6 +2,7 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
+import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { getFileLabel } from '@weco/content/utils/works';
 
 import IIIFItemDownload from './IIIFItem.Download';
@@ -31,10 +32,10 @@ const IIIFItemPdf: FunctionComponent<Props> = ({
   const { isMobileOrTabletDevice } = useAppContext();
   const substituteTitle = 'unknown title';
   const displayLabel = getFileLabel(label, substituteTitle);
-
+  const { isKiosk } = useKiosk();
   return (
     <>
-      {isMobileOrTabletDevice ? (
+      {isMobileOrTabletDevice && !isKiosk ? (
         <IIIFItemDownload
           src={src}
           label={label}

@@ -32,6 +32,33 @@ module "prod_wc_org_cloudfront_distribution" {
   google_bots_ip_set_arn    = aws_wafv2_ip_set.google_bots.arn
   github_actions_ip_set_arn = aws_wafv2_ip_set.github_actions.arn
   header_shared_secret      = local.current_shared_secret
+
+  enable_waf_logging = true
+
+  # Proven on stage; see the search-challenge rule in the module for why this
+  # is high-risk.
+  enable_search_challenge = true
+
+  # Blocks fabricated legacy-Chrome UAs before the challenge, cutting billed
+  # challenge responses by roughly a third at 2026-07 flood volumes.
+  enable_search_legacy_ua_block = true
+
+  # Real users get re-challenged (and re-billed) once per window instead of
+  # every 5 minutes.
+  search_challenge_immunity_seconds = 14400
+
+  # Targeted Bot Control, scoped to /search with TGT_ rules counting only:
+  # labels the flood for analysis without changing enforcement.
+  bot_control_inspection_level = "TARGETED"
+
+  # Real browsers always send Accept-Language; the clients that omit it are
+  # crawlers and headless bots that never solve the challenge they would
+  # otherwise be served (46% of challenged traffic when measured).
+  enable_search_missing_lang_block = true
+
+  # Blocks fabricated-browser fraud on the indexable catalogue pages while
+  # leaving honest crawlers and user-triggered AI agents untouched.
+  enable_works_fabricated_ua_block = true
 }
 
 data "aws_lambda_function" "versioned_edge_lambda_request" {
