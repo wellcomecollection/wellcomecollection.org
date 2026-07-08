@@ -48,8 +48,14 @@ const IIIFItemPdf: FunctionComponent<Props> = ({
 
   // Mobile kiosk: use Google Docs viewer to fix iOS iframe scrolling issues
   if (isMobileOrTabletDevice && isKiosk) {
-    const googleDocsViewerSrc = `https://docs.google.com/viewer?url=${encodeURIComponent(src)}&embedded=true`;
-    return <IframePdfViewer title={displayLabel} src={googleDocsViewerSrc} />;
+    const googleDocsViewerSrc = `https://docs.google.com/gview?embedded=true&url=${encodeURIComponent(src)}`;
+    return (
+      <IframePdfViewer
+        title={displayLabel}
+        src={googleDocsViewerSrc}
+        referrerPolicy="no-referrer"
+      />
+    );
   }
 
   // Desktop: use direct PDF iframe
