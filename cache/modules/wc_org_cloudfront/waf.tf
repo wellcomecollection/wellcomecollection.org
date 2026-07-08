@@ -598,6 +598,71 @@ resource "aws_wafv2_web_acl" "wc_org" {
     }
   }
 
+  // Blocks /search requests with no Accept-Language header, ahead of the
+  // billed challenge. Every real browser sends Accept-Language on every page
+  // navigation; the clients that omit it are crawlers and bots that cannot
+  // solve the challenge anyway (measured 2026-07-08: 46% of challenged
+  // traffic). Blocking here is free; each challenge response is billed.
+  dynamic "rule" {
+    for_each = var.enable_search_missing_lang_block ? [1] : []
+    content {
+      name     = "search-missing-lang-block"
+      priority = 11
+
+      action {
+        block {}
+      }
+
+      statement {
+        and_statement {
+          statement {
+            byte_match_statement {
+              positional_constraint = "STARTS_WITH"
+              search_string         = "/search"
+
+              field_to_match {
+                uri_path {}
+              }
+
+              text_transformation {
+                priority = 0
+                type     = "NONE"
+              }
+            }
+          }
+
+          statement {
+            not_statement {
+              statement {
+                size_constraint_statement {
+                  comparison_operator = "GT"
+                  size                = 0
+
+                  field_to_match {
+                    single_header {
+                      name = "accept-language"
+                    }
+                  }
+
+                  text_transformation {
+                    priority = 0
+                    type     = "NONE"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      visibility_config {
+        cloudwatch_metrics_enabled = true
+        sampled_requests_enabled   = true
+        metric_name                = "search-missing-lang-block-${var.namespace}"
+      }
+    }
+  }
+
   // Silently challenges clients that don't run JavaScript on /search pages,
   // which are expensive to render and effectively uncacheable. Real browsers
   // solve the challenge invisibly. Only the works search page is
@@ -610,7 +675,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
     for_each = var.enable_search_challenge ? [1] : []
     content {
       name     = "search-challenge"
-      priority = 12
+      priority = 13
 
       action {
         challenge {}
@@ -648,7 +713,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "geo-rate-limit-USA"
-    priority = 13
+    priority = 14
 
     action {
       block {
@@ -683,7 +748,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "geo-rate-limit-APAC"
-    priority = 14
+    priority = 15
 
     action {
       block {
@@ -723,7 +788,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "geo-rate-limit-LATAM"
-    priority = 15
+    priority = 16
 
     action {
       block {
@@ -760,7 +825,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "blanket-rate-limiting"
-    priority = 16
+    priority = 17
 
     action {
       block {}
@@ -782,7 +847,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "restrictive-rate-limiting"
-    priority = 17
+    priority = 18
 
     action {
       block {}
@@ -820,7 +885,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-crs
   rule {
     name     = "core-rule-group"
-    priority = 18
+    priority = 19
 
     override_action {
       none {}
@@ -843,7 +908,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-use-case.html#aws-managed-rule-groups-use-case-sql-db
   rule {
     name     = "sqli-rule-group"
-    priority = 19
+    priority = 20
 
     override_action {
       none {}
@@ -866,7 +931,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-known-bad-inputs
   rule {
     name     = "known-bad-inputs-rule-group"
-    priority = 20
+    priority = 21
 
     override_action {
       none {}
@@ -888,7 +953,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "bot-control-rule-group"
-    priority = 11
+    priority = 12
 
     // Because the Bot Control rules are quite aggressive, they block some useful bots
     // such as Updown. While we could add overrides for specific bots, we don"t want to have to
@@ -964,7 +1029,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // /search once the group is scoped down for targeted inspection.
   rule {
     name     = "seo-user-agent-block"
-    priority = 21
+    priority = 22
 
     action {
       block {}

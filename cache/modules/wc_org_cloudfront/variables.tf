@@ -79,6 +79,12 @@ variable "enable_search_legacy_ua_block" {
   description = "Block /search* requests claiming a Chrome major version below 100, ahead of the billed search challenge. Prove on stage before enabling elsewhere."
 }
 
+variable "enable_search_missing_lang_block" {
+  type        = bool
+  default     = false
+  description = "Block /search* requests with no Accept-Language header, ahead of the billed search challenge. Real browsers always send it. Prove on stage before enabling elsewhere."
+}
+
 variable "bot_control_inspection_level" {
   type        = string
   default     = "COMMON"

@@ -47,4 +47,9 @@ module "stage_wc_org_cloudfront_distribution" {
   # Targeted Bot Control, scoped to /search with TGT_ rules counting only.
   # Matches prod.
   bot_control_inspection_level = "TARGETED"
+
+  # Trialling the missing-Accept-Language block here before prod: real
+  # browsers always send the header; the clients that omit it are crawlers
+  # and bots that never solve the challenge they would otherwise be served.
+  enable_search_missing_lang_block = true
 }
