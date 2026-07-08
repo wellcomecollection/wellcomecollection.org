@@ -176,7 +176,6 @@ const toggleConfig = {
       title: 'Catalogue pipeline',
       description:
         'Selects which catalogue pipeline serves works and images requests. Anything other than the default adds an elasticCluster param carrying the selected value to all catalogue works and images API queries (search and detail), so they are served from that pipeline’s cluster. Requests to an unavailable cluster fail with an error page rather than falling back to the default pipeline.',
-      type: 'experimental',
       options: [
         { id: 'default', label: 'Default — normal pipeline setup' },
         { id: 'new-pipeline', label: 'New (Axiell/FOLIO) pipeline' },
