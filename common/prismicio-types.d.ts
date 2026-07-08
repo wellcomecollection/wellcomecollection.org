@@ -4662,8 +4662,7 @@ export type SeasonsDocument<Lang extends string = string> =
     Lang
   >;
 
-type SeriesDocumentDataBodySlice =
-  TextSlice | StandfirstSlice | InfoBlockSlice | QuoteSlice;
+type SeriesDocumentDataBodySlice = TextSlice | StandfirstSlice | QuoteSlice;
 
 /**
  * Item in *Story series → Schedule*
