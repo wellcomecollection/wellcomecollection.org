@@ -50,6 +50,11 @@ module "prod_wc_org_cloudfront_distribution" {
   # Targeted Bot Control, scoped to /search with TGT_ rules counting only:
   # labels the flood for analysis without changing enforcement.
   bot_control_inspection_level = "TARGETED"
+
+  # Real browsers always send Accept-Language; the clients that omit it are
+  # crawlers and headless bots that never solve the challenge they would
+  # otherwise be served (46% of challenged traffic when measured).
+  enable_search_missing_lang_block = true
 }
 
 data "aws_lambda_function" "versioned_edge_lambda_request" {
