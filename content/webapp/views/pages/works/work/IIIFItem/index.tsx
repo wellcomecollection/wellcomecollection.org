@@ -504,6 +504,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
               return (
                 original.id && (
                   <IIIFItemWrapper
+                    key={original.id}
                     shouldShowItem={shouldShowItem}
                     className="download-wrapper"
                     isRestricted={isRestricted}
@@ -511,7 +512,6 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
                     externalAccessService={adjustedExternalAccessService}
                   >
                     <IIIFItemDownload
-                      key={original.id}
                       src={original.id}
                       label={itemLabel}
                       fileSize={getFileSize(canvas)}
