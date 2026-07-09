@@ -107,7 +107,7 @@ describe('IIIFItem type dispatch', () => {
     expect(screen.getByRole('link', { name: /download/i })).toBeInTheDocument();
   });
 
-  it('renders a download for each original file when there are several', () => {
+  it('renders a distinct download link for each original file when there are several', () => {
     renderItem({
       item: {
         id: 'https://example.com/placeholder',
@@ -129,7 +129,11 @@ describe('IIIFItem type dispatch', () => {
       }),
     });
 
-    expect(screen.getAllByRole('link', { name: /download/i })).toHaveLength(2);
+    const downloadLinks = screen.getAllByRole('link', { name: /download/i });
+    expect(downloadLinks.map(link => link.getAttribute('href'))).toEqual([
+      'https://example.com/file-1.docx',
+      'https://example.com/file-2.docx',
+    ]);
   });
 
   it('renders the PDF open/download control for a Text item', () => {
