@@ -33,20 +33,33 @@ const IIIFItemPdf: FunctionComponent<Props> = ({
   const substituteTitle = 'unknown title';
   const displayLabel = getFileLabel(label, substituteTitle);
   const { isKiosk } = useKiosk();
-  return (
-    <>
-      {isMobileOrTabletDevice && !isKiosk ? (
-        <IIIFItemDownload
-          src={src}
-          label={label}
-          fileSize={fileSize}
-          format={format}
-        />
-      ) : (
-        <IframePdfViewer title={displayLabel} src={src} />
-      )}
-    </>
-  );
+
+  // Mobile non-kiosk: show download link
+  if (isMobileOrTabletDevice && !isKiosk) {
+    return (
+      <IIIFItemDownload
+        src={src}
+        label={label}
+        fileSize={fileSize}
+        format={format}
+      />
+    );
+  }
+
+  // Mobile kiosk: use Google Docs viewer to fix iOS iframe scrolling issues
+  if (isMobileOrTabletDevice && isKiosk) {
+    const googleDocsViewerSrc = `https://docs.google.com/gview?embedded=true&url=${encodeURIComponent(src)}`;
+    return (
+      <IframePdfViewer
+        title={displayLabel}
+        src={googleDocsViewerSrc}
+        referrerPolicy="no-referrer"
+      />
+    );
+  }
+
+  // Desktop: use direct PDF iframe
+  return <IframePdfViewer title={displayLabel} src={src} />;
 };
 
 export default IIIFItemPdf;
