@@ -163,11 +163,12 @@ test('(9) | The image should rotate', async ({ page, context }) => {
   await itemWithSearchAndStructures(context, page);
   await page.getByRole('button', { name: 'Rotate' }).click();
   const currentIndex = await page.getByTestId('active-index').textContent();
-  const currentImageSrc = await page
-    .getByTestId(`image-${Number(currentIndex) - 1}`)
-    .getAttribute('src');
-  // If the image url contains /90/default.jpg then the image is rotated 90 degrees
-  expect(currentImageSrc).toContain('/90/default.jpg');
+
+  expect(page.getByTestId(`image-${Number(currentIndex) - 1}`)).toHaveAttribute(
+    'src',
+    // If the image url contains /90/default.jpg then the image is rotated 90 degrees
+    'https://iiif.wellcomecollection.org/image/b29338062_0001.jp2/full/640%2C/90/default.jpg'
+  );
 });
 
 test('(10) | The volumes should be browsable', async ({ page, context }) => {
