@@ -4,16 +4,7 @@
   "name": "TitledTextList",
   "description": "Descriptive links list",
   "legacyPaths": {
-    "books::body::titledTextList": "default",
-    "event-series::body::titledTextList": "default",
-    "events::body::titledTextList": "default",
-    "exhibitions::body::titledTextList": "default",
-    "guides::body::titledTextList": "default",
-    "pages::body::titledTextList": "default",
-    "places::body::titledTextList": "default",
-    "projects::body::titledTextList": "default",
-    "seasons::body::titledTextList": "default",
-    "series::body::titledTextList": "default"
+    "pages::body::titledTextList": "default"
   },
   "variations": [
     {

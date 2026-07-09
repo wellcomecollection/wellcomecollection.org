@@ -138,8 +138,6 @@ export const event: Event = {
     {
       id: 'WoLtUioAACkANrUM',
       title: 'Viewing Room',
-      untransformedBody: [],
-      labels: [],
       level: 2,
       capacity: 20,
       information: [

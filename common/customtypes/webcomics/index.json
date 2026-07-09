@@ -19,9 +19,7 @@
         "config": {
           "label": "Format",
           "select": "document",
-          "customtypes": [
-            "article-formats"
-          ]
+          "customtypes": ["article-formats"]
         }
       },
       "image": {
@@ -42,37 +40,7 @@
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
-            "audioPlayer": {
-              "type": "SharedSlice"
-            },
-            "editorialImage": {
-              "type": "SharedSlice"
-            },
             "editorialImageGallery": {
-              "type": "SharedSlice"
-            },
-            "embed": {
-              "type": "SharedSlice"
-            },
-            "gifVideo": {
-              "type": "SharedSlice"
-            },
-            "iframe": {
-              "type": "SharedSlice"
-            },
-            "infoBlock": {
-              "type": "SharedSlice"
-            },
-            "quote": {
-              "type": "SharedSlice"
-            },
-            "standfirst": {
-              "type": "SharedSlice"
-            },
-            "tagList": {
-              "type": "SharedSlice"
-            },
-            "text": {
               "type": "SharedSlice"
             }
           }
@@ -90,9 +58,7 @@
               "config": {
                 "label": "Role",
                 "select": "document",
-                "customtypes": [
-                  "editorial-contributor-roles"
-                ]
+                "customtypes": ["editorial-contributor-roles"]
               }
             },
             "contributor": {
@@ -100,10 +66,7 @@
               "config": {
                 "label": "Contributor",
                 "select": "document",
-                "customtypes": [
-                  "people",
-                  "organisations"
-                ]
+                "customtypes": ["people", "organisations"]
               }
             },
             "description": {
@@ -199,9 +162,7 @@
               "config": {
                 "label": "Series",
                 "select": "document",
-                "customtypes": [
-                  "webcomic-series"
-                ]
+                "customtypes": ["webcomic-series"]
               }
             }
           }

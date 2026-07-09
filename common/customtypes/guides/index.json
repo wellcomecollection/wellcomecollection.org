@@ -49,61 +49,13 @@
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
-            "audioPlayer": {
-              "type": "SharedSlice"
-            },
-            "collectionVenue": {
-              "type": "SharedSlice"
-            },
-            "contact": {
-              "type": "SharedSlice"
-            },
-            "contentList": {
+            "text": {
               "type": "SharedSlice"
             },
             "editorialImage": {
               "type": "SharedSlice"
             },
-            "editorialImageGallery": {
-              "type": "SharedSlice"
-            },
-            "embed": {
-              "type": "SharedSlice"
-            },
-            "gifVideo": {
-              "type": "SharedSlice"
-            },
-            "iframe": {
-              "type": "SharedSlice"
-            },
-            "infoBlock": {
-              "type": "SharedSlice"
-            },
-            "map": {
-              "type": "SharedSlice"
-            },
-            "quote": {
-              "type": "SharedSlice"
-            },
-            "searchResults": {
-              "type": "SharedSlice"
-            },
-            "standfirst": {
-              "type": "SharedSlice"
-            },
-            "tagList": {
-              "type": "SharedSlice"
-            },
-            "text": {
-              "type": "SharedSlice"
-            },
-            "textAndIcons": {
-              "type": "SharedSlice"
-            },
-            "textAndImage": {
-              "type": "SharedSlice"
-            },
-            "titledTextList": {
+            "contact": {
               "type": "SharedSlice"
             }
           }
