@@ -72,13 +72,48 @@ locals {
     "SignalAutomatedBrowser",    // No substantial traffic
     "SignalKnownBotDataCenter",  // Known bot data centres include "good" bots such as Updown
     "SignalNonBrowserUserAgent", // High risk for breaking scripts and other application services
-    // These are for targeted Bot Control, which we don't use
-    // "TGT_VolumetricIpTokenAbsent",
-    // "TGT_VolumetricSession",
-    // "TGT_SignalAutomatedBrowser",
-    // "TGT_SignalBrowserInconsistency",
-    // "TGT_TokenReuseIp",
-    // "TGT_ML_CoordinatedActivityMedium and TGT_ML_CoordinatedActivityHigh"
+  ]
+
+  // The targeted-inspection rules start in count mode: they label /search
+  // traffic for analysis without acting. Remove a rule from this list to
+  // enable its default action once the label soak supports it.
+  bot_control_targeted_count_list = [
+    // CAUTION: names must exactly match the rules in the pinned rule set
+    // version (aws wafv2 describe-managed-rule-group); an override for a
+    // name that does not exist is silently ignored and the real rule runs
+    // with its default action (Captcha or Block for several of these).
+    "TGT_VolumetricIpTokenAbsent",
+    "TGT_VolumetricSession",
+    "TGT_VolumetricSessionMaximum",
+    "TGT_SignalBrowserAutomationExtension",
+    "TGT_SignalAutomatedBrowser",
+    "TGT_SignalBrowserInconsistency",
+    "TGT_TokenAbsent",
+    "TGT_TokenReuseIpLow",
+    "TGT_TokenReuseIpMedium",
+    "TGT_TokenReuseIpHigh",
+    "TGT_TokenReuseCountryLow",
+    "TGT_TokenReuseCountryMedium",
+    "TGT_TokenReuseCountryHigh",
+    "TGT_TokenReuseAsnLow",
+    "TGT_TokenReuseAsnMedium",
+    "TGT_TokenReuseAsnHigh",
+    "TGT_ML_CoordinatedActivityLow",
+    "TGT_ML_CoordinatedActivityMedium",
+    "TGT_ML_CoordinatedActivityHigh",
+  ]
+
+  // Unverified SEO crawlers blocked unconditionally, site-wide. This
+  // replaces Bot Control's CategorySeo coverage, which only sees /search
+  // once the group is scoped down for targeted inspection. Measured
+  // 2026-07-07: SemrushBot was ~85% of CategorySeo's blocks.
+  seo_block_user_agents = [
+    "SemrushBot",
+    "DotBot",
+    "MJ12bot",
+    "MojeekBot",
+    "TinEye",
+    "yacybot",
   ]
 }
 
@@ -516,9 +551,302 @@ resource "aws_wafv2_web_acl" "wc_org" {
     }
   }
 
+  // Blocks /search requests whose User-Agent claims a Chrome major version
+  // below 100 (released 2017-2022). Chrome auto-updates, so genuinely old
+  // majors are vanishingly rare, and the 2026-07 flood rotates these strings
+  // (a flat distribution across v60-77, with impossible pairings like Vista +
+  // Chrome 76) and never attempts the JS challenge. Blocking here is free;
+  // every challenge response the rule below serves instead is billed.
+  dynamic "rule" {
+    for_each = var.enable_search_legacy_ua_block ? [1] : []
+    content {
+      name     = "search-legacy-ua-block"
+      priority = 10
+
+      action {
+        block {}
+      }
+
+      statement {
+        and_statement {
+          statement {
+            byte_match_statement {
+              positional_constraint = "STARTS_WITH"
+              search_string         = "/search"
+
+              field_to_match {
+                uri_path {}
+              }
+
+              text_transformation {
+                priority = 0
+                type     = "NONE"
+              }
+            }
+          }
+
+          statement {
+            regex_match_statement {
+              regex_string = "Chrome/[0-9]{1,2}\\."
+
+              field_to_match {
+                single_header {
+                  name = "user-agent"
+                }
+              }
+
+              text_transformation {
+                priority = 0
+                type     = "NONE"
+              }
+            }
+          }
+        }
+      }
+
+      visibility_config {
+        cloudwatch_metrics_enabled = true
+        sampled_requests_enabled   = true
+        metric_name                = "search-legacy-ua-block-${var.namespace}"
+      }
+    }
+  }
+
+  // Blocks /search requests with no Accept-Language header, ahead of the
+  // billed challenge. Every real browser sends Accept-Language on every page
+  // navigation; the clients that omit it are crawlers and bots that cannot
+  // solve the challenge anyway (measured 2026-07-08: 46% of challenged
+  // traffic). Blocking here is free; each challenge response is billed.
+  dynamic "rule" {
+    for_each = var.enable_search_missing_lang_block ? [1] : []
+    content {
+      name     = "search-missing-lang-block"
+      priority = 11
+
+      action {
+        block {}
+      }
+
+      statement {
+        and_statement {
+          statement {
+            byte_match_statement {
+              positional_constraint = "STARTS_WITH"
+              search_string         = "/search"
+
+              field_to_match {
+                uri_path {}
+              }
+
+              text_transformation {
+                priority = 0
+                type     = "NONE"
+              }
+            }
+          }
+
+          statement {
+            not_statement {
+              statement {
+                size_constraint_statement {
+                  comparison_operator = "GT"
+                  size                = 0
+
+                  field_to_match {
+                    single_header {
+                      name = "accept-language"
+                    }
+                  }
+
+                  text_transformation {
+                    priority = 0
+                    type     = "NONE"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      visibility_config {
+        cloudwatch_metrics_enabled = true
+        sampled_requests_enabled   = true
+        metric_name                = "search-missing-lang-block-${var.namespace}"
+      }
+    }
+  }
+
+  // Blocks fabricated-browser traffic on the works, images and concepts
+  // pages, which unlike /search are indexable content with no challenge
+  // behind them. The signal is a request that poses as a mainstream browser
+  // (Chrome/Safari/Firefox/Edge version token) but sends no Accept-Language
+  // and carries no self-identification (no "+http" URL and no "compatible;"
+  // token). Real browsers always send Accept-Language; honest bots always
+  // self-identify, so this exempts every declared crawler, link-preview
+  // fetcher and user-triggered AI agent (measured 2026-07-08) and blocks only
+  // the fraud fleet. Crawler-vs-agent policy for honest bots is deliberately
+  // left to robots.txt and separate rules; this rule takes no side on it.
+  dynamic "rule" {
+    for_each = var.enable_works_fabricated_ua_block ? [1] : []
+    content {
+      name     = "works-fabricated-ua-block"
+      priority = 12
+
+      action {
+        block {}
+      }
+
+      statement {
+        and_statement {
+          statement {
+            or_statement {
+              dynamic "statement" {
+                for_each = ["/works", "/images", "/concepts"]
+                content {
+                  byte_match_statement {
+                    positional_constraint = "STARTS_WITH"
+                    search_string         = statement.value
+
+                    field_to_match {
+                      uri_path {}
+                    }
+
+                    text_transformation {
+                      priority = 0
+                      type     = "NONE"
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          # Poses as a mainstream browser.
+          statement {
+            regex_match_statement {
+              regex_string = "(Chrome|CriOS|Firefox|FxiOS|Edg|Version)/[0-9]"
+
+              field_to_match {
+                single_header {
+                  name = "user-agent"
+                }
+              }
+
+              text_transformation {
+                priority = 0
+                type     = "NONE"
+              }
+            }
+          }
+
+          # No Accept-Language: real browsers always send it.
+          statement {
+            not_statement {
+              statement {
+                size_constraint_statement {
+                  comparison_operator = "GT"
+                  size                = 0
+
+                  field_to_match {
+                    single_header {
+                      name = "accept-language"
+                    }
+                  }
+
+                  text_transformation {
+                    priority = 0
+                    type     = "NONE"
+                  }
+                }
+              }
+            }
+          }
+
+          # No self-identification: honest bots carry a "+http" contact URL or
+          # a "compatible;" token; modern real browsers carry neither.
+          statement {
+            not_statement {
+              statement {
+                regex_match_statement {
+                  regex_string = "(\\+https?://|compatible;)"
+
+                  field_to_match {
+                    single_header {
+                      name = "user-agent"
+                    }
+                  }
+
+                  text_transformation {
+                    priority = 0
+                    type     = "NONE"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      visibility_config {
+        cloudwatch_metrics_enabled = true
+        sampled_requests_enabled   = true
+        metric_name                = "works-fabricated-ua-block-${var.namespace}"
+      }
+    }
+  }
+
+  // Silently challenges clients that don't run JavaScript on /search pages,
+  // which are expensive to render and effectively uncacheable. Real browsers
+  // solve the challenge invisibly. Only the works search page is
+  // noindex,nofollow, so this can affect crawling of the other /search pages.
+  //
+  // CAUTION: a challenge served to a fetch/XHR or asset request cannot render
+  // its interstitial and breaks the page. Keep the scope to /search page URLs
+  // only, and test any change on stage first.
+  dynamic "rule" {
+    for_each = var.enable_search_challenge ? [1] : []
+    content {
+      name     = "search-challenge"
+      priority = 14
+
+      action {
+        challenge {}
+      }
+
+      challenge_config {
+        immunity_time_property {
+          immunity_time = var.search_challenge_immunity_seconds
+        }
+      }
+
+      statement {
+        byte_match_statement {
+          positional_constraint = "STARTS_WITH"
+          search_string         = "/search"
+
+          field_to_match {
+            uri_path {}
+          }
+
+          text_transformation {
+            priority = 0
+            type     = "NONE"
+          }
+        }
+      }
+
+      visibility_config {
+        cloudwatch_metrics_enabled = true
+        sampled_requests_enabled   = true
+        metric_name                = "search-challenge-${var.namespace}"
+      }
+    }
+  }
+
   rule {
     name     = "geo-rate-limit-USA"
-    priority = 10
+    priority = 15
 
     action {
       block {
@@ -553,7 +881,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "geo-rate-limit-APAC"
-    priority = 11
+    priority = 16
 
     action {
       block {
@@ -593,7 +921,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "geo-rate-limit-LATAM"
-    priority = 12
+    priority = 17
 
     action {
       block {
@@ -630,7 +958,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "blanket-rate-limiting"
-    priority = 13
+    priority = 18
 
     action {
       block {}
@@ -652,7 +980,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "restrictive-rate-limiting"
-    priority = 14
+    priority = 19
 
     action {
       block {}
@@ -690,7 +1018,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-crs
   rule {
     name     = "core-rule-group"
-    priority = 15
+    priority = 20
 
     override_action {
       none {}
@@ -713,7 +1041,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-use-case.html#aws-managed-rule-groups-use-case-sql-db
   rule {
     name     = "sqli-rule-group"
-    priority = 16
+    priority = 21
 
     override_action {
       none {}
@@ -736,7 +1064,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-known-bad-inputs
   rule {
     name     = "known-bad-inputs-rule-group"
-    priority = 17
+    priority = 22
 
     override_action {
       none {}
@@ -758,7 +1086,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "bot-control-rule-group"
-    priority = 18
+    priority = 13
 
     // Because the Bot Control rules are quite aggressive, they block some useful bots
     // such as Updown. While we could add overrides for specific bots, we don"t want to have to
@@ -780,12 +1108,39 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
         managed_rule_group_configs {
           aws_managed_rules_bot_control_rule_set {
-            inspection_level = "COMMON"
+            inspection_level        = var.bot_control_inspection_level
+            enable_machine_learning = var.bot_control_inspection_level == "TARGETED"
+          }
+        }
+
+        // TARGETED is billed per request analysed at 10x the COMMON rate, so
+        // it is only affordable scoped down to the /search pages it exists to
+        // protect. The seo-user-agent-block rule replaces the group's
+        // site-wide CategorySeo coverage while this scope-down is active.
+        dynamic "scope_down_statement" {
+          for_each = var.bot_control_inspection_level == "TARGETED" ? [1] : []
+          content {
+            byte_match_statement {
+              positional_constraint = "STARTS_WITH"
+              search_string         = "/search"
+
+              field_to_match {
+                uri_path {}
+              }
+
+              text_transformation {
+                priority = 0
+                type     = "NONE"
+              }
+            }
           }
         }
 
         dynamic "rule_action_override" {
-          for_each = local.bot_control_rule_no_block_list
+          for_each = concat(
+            local.bot_control_rule_no_block_list,
+            var.bot_control_inspection_level == "TARGETED" ? local.bot_control_targeted_count_list : [],
+          )
           content {
             name = rule_action_override.value
             action_to_use {
@@ -800,6 +1155,40 @@ resource "aws_wafv2_web_acl" "wc_org" {
       cloudwatch_metrics_enabled = true
       sampled_requests_enabled   = true
       metric_name                = "weco-cloudfront-acl-bot-control-${var.namespace}"
+    }
+  }
+
+  // Replaces Bot Control's site-wide CategorySeo blocking, which only covers
+  // /search once the group is scoped down for targeted inspection.
+  rule {
+    name     = "seo-user-agent-block"
+    priority = 23
+
+    action {
+      block {}
+    }
+
+    statement {
+      regex_match_statement {
+        regex_string = join("|", local.seo_block_user_agents)
+
+        field_to_match {
+          single_header {
+            name = "user-agent"
+          }
+        }
+
+        text_transformation {
+          priority = 0
+          type     = "NONE"
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      sampled_requests_enabled   = true
+      metric_name                = "seo-user-agent-block-${var.namespace}"
     }
   }
 
