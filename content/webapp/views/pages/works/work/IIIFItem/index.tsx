@@ -500,10 +500,11 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
       if (canvas.original.length > 0) {
         return (
           <>
-            {canvas.original.map(original => {
-              return (
+            {canvas.original.map(
+              original =>
                 original.id && (
                   <IIIFItemWrapper
+                    key={original.id}
                     shouldShowItem={shouldShowItem}
                     className="download-wrapper"
                     isRestricted={isRestricted}
@@ -511,7 +512,6 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
                     externalAccessService={adjustedExternalAccessService}
                   >
                     <IIIFItemDownload
-                      key={original.id}
                       src={original.id}
                       label={itemLabel}
                       fileSize={getFileSize(canvas)}
@@ -522,8 +522,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
                     />
                   </IIIFItemWrapper>
                 )
-              );
-            })}
+            )}
           </>
         );
       } else {
