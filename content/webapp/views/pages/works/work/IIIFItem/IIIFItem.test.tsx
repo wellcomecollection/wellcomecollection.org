@@ -1,5 +1,3 @@
-import '@testing-library/jest-dom';
-
 import { screen } from '@testing-library/react';
 
 import { renderWithContext } from '@weco/content/test/fixtures/iiif/render';
