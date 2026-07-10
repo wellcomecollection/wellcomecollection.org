@@ -86,42 +86,23 @@ describe('IIIFItem restricted access', () => {
 
 describe('IIIFItem type dispatch', () => {
   it('renders a download for a born-digital image (canvas with original files)', () => {
-    // The born-digital branch in IIIFItem maps canvas.original without a React
-    // `key` on the wrapper, which logs a "unique key" warning. The production
-    // fix is deferred to the refactor, so suppress only that specific message
-    // here; any other console.error still surfaces.
-    const originalConsoleError = console.error.bind(console);
-    const consoleErrorSpy = jest
-      .spyOn(console, 'error')
-      .mockImplementation((...args) => {
-        const message = typeof args[0] === 'string' ? args[0] : '';
-        if (message.includes('unique "key" prop')) return;
-        originalConsoleError(...args);
-      });
+    renderItem({
+      item: {
+        id: 'https://example.com/placeholder',
+        type: 'Image',
+      } as IIIFItemProps,
+      canvas: createMockCanvas({
+        original: [
+          {
+            id: 'https://example.com/file.docx',
+            format: 'application/msword',
+            behavior: 'original',
+          },
+        ] as never,
+      }),
+    });
 
-    try {
-      renderItem({
-        item: {
-          id: 'https://example.com/placeholder',
-          type: 'Image',
-        } as IIIFItemProps,
-        canvas: createMockCanvas({
-          original: [
-            {
-              id: 'https://example.com/file.docx',
-              format: 'application/msword',
-              behavior: 'original',
-            },
-          ] as never,
-        }),
-      });
-
-      expect(
-        screen.getByRole('link', { name: /download/i })
-      ).toBeInTheDocument();
-    } finally {
-      consoleErrorSpy.mockRestore();
-    }
+    expect(screen.getByRole('link', { name: /download/i })).toBeInTheDocument();
   });
 
   it('renders the PDF open/download control for a Text item', () => {
