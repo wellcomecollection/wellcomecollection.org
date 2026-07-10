@@ -126,4 +126,37 @@ describe('convertImageUri for IIIF images', () => {
       'https://iiif.wellcomecollection.org/image/b29338062_0001.jp2/full/800%2C/90/default.jpg'
     );
   });
+
+  it('handles rotation of 0 by including it', () => {
+    const result = convertIiifImageUri(
+      'https://iiif.wellcomecollection.org/image/b29338062_0001.jp2/full/640,/0/default.jpg',
+      800
+    );
+    expect(result).toEqual(
+      'https://iiif.wellcomecollection.org/image/b29338062_0001.jp2/full/800%2C/0/default.jpg'
+    );
+  });
+
+  it('uses default rotation when URL has incomplete path segments', () => {
+    // URL missing rotation and quality.format parts
+    const result = convertIiifImageUri(
+      'https://iiif.wellcomecollection.org/image/b29338062_0001.jp2/full/640,',
+      800
+    );
+    // Should not break, should use default rotation of 0
+    expect(result).toEqual(
+      'https://iiif.wellcomecollection.org/image/b29338062_0001.jp2/full/800%2C/0/default.jpg'
+    );
+  });
+
+  it('preserves rotation through multiple conversions', () => {
+    const result1 = convertIiifImageUri(
+      'https://iiif.wellcomecollection.org/image/b29338062_0001.jp2/full/640,/90/default.jpg',
+      800
+    );
+    const result2 = convertIiifImageUri(result1, 1000);
+    expect(result2).toEqual(
+      'https://iiif.wellcomecollection.org/image/b29338062_0001.jp2/full/1000%2C/90/default.jpg'
+    );
+  });
 });

@@ -1,4 +1,4 @@
-import { forwardRef, useState } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
@@ -67,6 +67,14 @@ const IIIFViewerImage = (
   const { isFullSupportBrowser } = useAppContext();
   const [tryLoadingSmallerImg, setTryLoadingSmallerImg] = useState(true);
   const [hasLoaded, setHasLoaded] = useState(false);
+
+  // Reset tryLoadingSmallerImg when src changes so each new image
+  // gets a chance to try the smaller size conversion if it errors
+  useEffect(() => {
+    setTryLoadingSmallerImg(true);
+    setHasLoaded(false);
+  }, [src]);
+
   return (
     <>
       {!hasLoaded && isFullSupportBrowser && <LL $lighten={true} />}
