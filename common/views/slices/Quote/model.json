@@ -9,25 +9,8 @@
     "event-series::body::quote": "default",
     "events::body::quote": "default",
     "exhibitions::body::quote": "default",
-    "guides::body::quote": "default",
     "pages::body::quote": "default",
-    "places::body::quote": "default",
-    "projects::body::quote": "default",
-    "seasons::body::quote": "default",
-    "series::body::quote": "default",
-    "webcomics::body::quote": "default",
-    "articles::body::quoteV2": "default",
-    "books::body::quoteV2": "default",
-    "event-series::body::quoteV2": "default",
-    "events::body::quoteV2": "default",
-    "exhibitions::body::quoteV2": "default",
-    "guides::body::quoteV2": "default",
-    "pages::body::quoteV2": "default",
-    "places::body::quoteV2": "default",
-    "projects::body::quoteV2": "default",
-    "seasons::body::quoteV2": "default",
-    "series::body::quoteV2": "default",
-    "webcomics::body::quoteV2": "default"
+    "series::body::quote": "default"
   },
   "variations": [
     {

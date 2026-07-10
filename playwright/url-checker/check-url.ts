@@ -72,7 +72,10 @@ const safePageCloser =
 export const urlChecker =
   (browser: Browser) =>
   async (url: string, expectedStatus: number): Promise<Result> => {
-    const context = await browser.newContext();
+    // A locale makes headless Chromium send Accept-Language like a real
+    // browser. Without it the WAF /search and /works fabricated-traffic
+    // blocks 403 the checker when it runs from a non-allowlisted IP.
+    const context = await browser.newContext({ locale: 'en-GB' });
     const page = await context.newPage();
     const failures: Failure[] = [];
 
