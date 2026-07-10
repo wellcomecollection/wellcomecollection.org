@@ -116,4 +116,14 @@ describe('convertImageUri for IIIF images', () => {
       'https://iiif.wellcomecollection.org/thumbs/b30598977_0001.jp2/full/!300,300/0/default.jpg'
     );
   });
+
+  it('preserves rotation when resizing', () => {
+    const result = convertIiifImageUri(
+      'https://iiif.wellcomecollection.org/image/b29338062_0001.jp2/full/640,/90/default.jpg',
+      800
+    );
+    expect(result).toEqual(
+      'https://iiif.wellcomecollection.org/image/b29338062_0001.jp2/full/800%2C/90/default.jpg'
+    );
+  });
 });

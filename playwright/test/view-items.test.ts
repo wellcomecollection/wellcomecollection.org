@@ -164,11 +164,11 @@ test('(9) | The image should rotate', async ({ page, context }) => {
   await page.getByRole('button', { name: 'Rotate' }).click();
   const currentIndex = await page.getByTestId('active-index').textContent();
 
-  expect(page.getByTestId(`image-${Number(currentIndex) - 1}`)).toHaveAttribute(
-    'src',
-    // If the image url contains /90/default.jpg then the image is rotated 90 degrees
-    'https://iiif.wellcomecollection.org/image/b29338062_0001.jp2/full/640%2C/90/default.jpg'
-  );
+  // Check that the image URL contains /90/default.jpg to verify rotation
+  // Using regex with toHaveAttribute provides auto-retry assertions
+  await expect(
+    page.getByTestId(`image-${Number(currentIndex) - 1}`)
+  ).toHaveAttribute('src', /\/90\/default\.jpg/);
 });
 
 test('(10) | The volumes should be browsable', async ({ page, context }) => {
