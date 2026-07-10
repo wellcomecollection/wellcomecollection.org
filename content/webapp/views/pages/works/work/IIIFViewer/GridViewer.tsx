@@ -145,7 +145,7 @@ const GridViewer: FunctionComponent = () => {
   const [newScrollOffset, setNewScrollOffset] = useState(0);
   const scrollVelocity = useScrollVelocity(newScrollOffset);
   const itemWidth = windowSize === 'zero' ? 250 : 350;
-  const columnCount = Math.round(mainAreaWidth / itemWidth);
+  const columnCount = Math.max(1, Math.round(mainAreaWidth / itemWidth)); // ensure at least one column is displayed
   const columnWidth = mainAreaWidth / columnCount;
   const grid = useRef<FixedSizeGrid>(null);
   const canvases = transformedManifest?.canvases;

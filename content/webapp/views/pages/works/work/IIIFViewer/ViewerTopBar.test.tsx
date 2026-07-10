@@ -156,7 +156,7 @@ describe('ViewerTopBar download button', () => {
     expect(downloadButton(container)).toBeInTheDocument();
   });
 
-  it('hides the download button on a restricted canvas for a non-staff user', () => {
+  it('hides the download button on a restricted canvas when user is not StaffWithRestricted', () => {
     const { container } = renderTopBar({
       contextProps: {
         transformedManifest: createMockManifest({
@@ -173,7 +173,7 @@ describe('ViewerTopBar download button', () => {
     expect(downloadButton(container)).not.toBeInTheDocument();
   });
 
-  it('shows the download button on a restricted canvas for a staff user', () => {
+  it('shows the download button on a restricted canvas for a StaffWithRestricted user', () => {
     const { container } = renderTopBar({
       contextProps: {
         transformedManifest: createMockManifest({
