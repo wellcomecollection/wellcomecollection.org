@@ -6,6 +6,10 @@ import AppContext, {
   appContextDefaults,
   AppContextProps,
 } from '@weco/common/contexts/AppContext';
+import KioskContext, {
+  defaultKioskContext,
+  KioskContextType,
+} from '@weco/common/contexts/KioskContext';
 import UserContext, {
   defaultUserContext,
   UserContextProps,
@@ -21,13 +25,11 @@ import { createMockManifest } from './transformed-manifest';
 // Test harness for IIIF viewer components.
 //
 // Components in the viewer read derived state from ItemViewerContext and also
-// consult AppContext (isFullSupportBrowser) and UserContext
-// (userIsStaffWithRestricted, which drives restricted-access behaviour).
-// `renderWithContext` wires all of these up with sensible defaults so a test
-// only has to declare the values relevant to the scenario it characterises.
-//
-// KioskContext is intentionally left at its createContext default: it only
-// affects viewer height styling, not the behaviour these tests pin down.
+// consult AppContext (isFullSupportBrowser), UserContext
+// (userIsStaffWithRestricted, which drives restricted-access behaviour), and
+// KioskContext (isKiosk, which affects PDF viewer choice and other kiosk-specific
+// behavior). `renderWithContext` wires all of these up with sensible defaults
+// so a test only has to declare the values relevant to the scenario it characterises.
 
 export function createMockItemViewerContext(
   overrides: Partial<ItemViewerContextProps> = {}
@@ -44,6 +46,7 @@ export type RenderWithContextOptions = {
   contextProps?: Partial<ItemViewerContextProps>;
   appContext?: Partial<AppContextProps>;
   userContext?: Partial<UserContextProps>;
+  kioskContext?: Partial<KioskContextType>;
 } & Omit<RenderOptions, 'wrapper'>;
 
 export type RenderWithContextResult = RenderResult & {
@@ -56,6 +59,7 @@ export function renderWithContext(
     contextProps,
     appContext,
     userContext,
+    kioskContext,
     ...renderOptions
   }: RenderWithContextOptions = {}
 ): RenderWithContextResult {
@@ -65,15 +69,21 @@ export function renderWithContext(
     ...defaultUserContext,
     ...userContext,
   };
+  const kioskValue: KioskContextType = {
+    ...defaultKioskContext,
+    ...kioskContext,
+  };
 
   const Wrapper: FunctionComponent<PropsWithChildren> = ({ children }) => (
     <ThemeProvider theme={theme}>
       <AppContext.Provider value={appValue}>
-        <UserContext.Provider value={userValue}>
-          <ItemViewerContext.Provider value={contextValue}>
-            {children}
-          </ItemViewerContext.Provider>
-        </UserContext.Provider>
+        <KioskContext.Provider value={kioskValue}>
+          <UserContext.Provider value={userValue}>
+            <ItemViewerContext.Provider value={contextValue}>
+              {children}
+            </ItemViewerContext.Provider>
+          </UserContext.Provider>
+        </KioskContext.Provider>
       </AppContext.Provider>
     </ThemeProvider>
   );
