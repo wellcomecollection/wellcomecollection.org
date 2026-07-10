@@ -57,7 +57,7 @@ describe('IIIFItem restricted access', () => {
     expect(
       screen.getByRole('link', { name: 'collections@wellcomecollection.org' })
     ).toBeInTheDocument();
-    // ...and the underlying item (the PDF open/download link) is not rendered.
+    // ...and the underlying item (the PDF "Open" link) is not rendered.
     expect(
       screen.queryByRole('link', { name: /open/i })
     ).not.toBeInTheDocument();
@@ -105,7 +105,7 @@ describe('IIIFItem type dispatch', () => {
     expect(screen.getByRole('link', { name: /download/i })).toBeInTheDocument();
   });
 
-  it('renders the PDF open/download control for a Text item', () => {
+  it('renders the "Open" link for a PDF item', () => {
     renderItem({
       item: {
         id: 'https://example.com/doc.pdf',
