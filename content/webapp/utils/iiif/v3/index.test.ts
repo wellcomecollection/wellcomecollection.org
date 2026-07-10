@@ -591,6 +591,15 @@ describe('getDownloadOptionsFromManifestRendering', () => {
   it('returns an empty array for undefined rendering', () => {
     expect(getDownloadOptionsFromManifestRendering(undefined)).toEqual([]);
   });
+
+  it('excludes renderings with empty string id', () => {
+    const rendering = [
+      { id: '', format: 'application/pdf', label: { en: ['PDF'] } },
+    ];
+    expect(getDownloadOptionsFromManifestRendering(rendering as never)).toEqual(
+      []
+    );
+  });
 });
 
 describe('getDownloadOptionsFromCanvasRenderingAndSupplementing', () => {
@@ -621,16 +630,21 @@ describe('getDownloadOptionsFromCanvasRenderingAndSupplementing', () => {
     ]);
   });
 
-  it('flattens Choice bodies and drops string items', () => {
+  it('unwraps Choice bodies to extract all their items', () => {
     const canvas = createImageCanvas({
       rendering: [
         {
           type: 'Choice',
           items: [
             {
-              id: 'https://example.com/choice.pdf',
+              id: 'https://example.com/choice1.pdf',
               type: 'Text',
               format: 'application/pdf',
+            },
+            {
+              id: 'https://example.com/choice2.mp4',
+              type: 'Video',
+              format: 'video/mp4',
             },
           ],
         },
@@ -639,7 +653,35 @@ describe('getDownloadOptionsFromCanvasRenderingAndSupplementing', () => {
     });
     const result =
       getDownloadOptionsFromCanvasRenderingAndSupplementing(canvas);
-    expect(result.map(o => o.id)).toEqual(['https://example.com/choice.pdf']);
+    expect(result.map(o => o.id)).toEqual([
+      'https://example.com/choice1.pdf',
+      'https://example.com/choice2.mp4',
+    ]);
+  });
+
+  it('filters out string items from Choice bodies', () => {
+    const canvas = createImageCanvas({
+      rendering: [
+        {
+          type: 'Choice',
+          items: ['string1', 'string2'],
+        },
+      ] as never,
+      supplementing: [],
+    });
+    const result =
+      getDownloadOptionsFromCanvasRenderingAndSupplementing(canvas);
+    expect(result).toEqual([]);
+  });
+
+  it('handles Choice with empty items array', () => {
+    const canvas = createImageCanvas({
+      rendering: [{ type: 'Choice', items: [] }] as never,
+      supplementing: [],
+    });
+    const result =
+      getDownloadOptionsFromCanvasRenderingAndSupplementing(canvas);
+    expect(result).toEqual([]);
   });
 });
 
@@ -711,6 +753,21 @@ describe('hasItemType', () => {
   it('is false for undefined canvases', () => {
     expect(hasItemType(undefined, 'Image')).toBe(false);
   });
+
+  it('does not detect types in nested Choice bodies', () => {
+    // Documents current limitation: only one level of Choice unwrapping
+    const canvases = [
+      createImageCanvas({
+        painting: [
+          {
+            type: 'Choice',
+            items: [{ type: 'Choice', items: [{ id: 'a', type: 'Sound' }] }],
+          },
+        ] as never,
+      }),
+    ];
+    expect(hasItemType(canvases, 'Sound')).toBe(false);
+  });
 });
 
 describe('hasOriginalPdf', () => {
@@ -726,6 +783,19 @@ describe('hasOriginalPdf', () => {
   });
 
   it('is false when there are no original PDFs', () => {
+    const canvases = [
+      createImageCanvas({
+        rendering: [{ id: 'o', format: 'application/pdf' }] as never,
+        painting: [
+          {
+            type: 'Choice',
+            items: [{ id: 'a', format: 'application/pdf' }],
+          },
+        ] as never,
+      }),
+    ];
+
+    expect(hasOriginalPdf(canvases)).toBe(false);
     expect(hasOriginalPdf([createImageCanvas()])).toBe(false);
     expect(hasOriginalPdf(undefined)).toBe(false);
   });
@@ -878,6 +948,20 @@ describe('getImageServiceFromItem', () => {
       undefined
     );
   });
+
+  it('returns the first ImageService2 when multiple exist', () => {
+    const item = {
+      id: 'i',
+      type: 'Image',
+      service: [
+        { '@id': 'https://example.com/first', '@type': 'ImageService2' },
+        { '@id': 'https://example.com/second', '@type': 'ImageService2' },
+      ],
+    };
+    expect(getImageServiceFromItem(item as never)?.['@id']).toBe(
+      'https://example.com/first'
+    );
+  });
 });
 
 describe('getFileSize', () => {
@@ -890,6 +974,16 @@ describe('getFileSize', () => {
 
   it('returns undefined when there is no file size metadata', () => {
     expect(getFileSize(createImageCanvas({ metadata: [] }))).toBeUndefined();
+  });
+
+  it('returns the first file size when multiple exist', () => {
+    const canvas = createImageCanvas({
+      metadata: [
+        { label: { en: ['File size'] }, value: { none: ['1.2 MB'] } },
+        { label: { en: ['File size'] }, value: { none: ['2.4 MB'] } },
+      ],
+    });
+    expect(getFileSize(canvas)).toBe('1.2 MB');
   });
 });
 

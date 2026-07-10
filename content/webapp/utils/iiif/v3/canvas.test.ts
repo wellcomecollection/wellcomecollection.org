@@ -80,6 +80,12 @@ describe('getOriginal', () => {
   });
 
   it('returns an empty array when there are no originals', () => {
+    const rendering = [
+      { id: 'other', behavior: 'something-else', type: 'Image' },
+      { id: 'no-behavior', type: 'Image' },
+    ];
+
+    expect(getOriginal(rendering as never)).toEqual([]);
     expect(getOriginal([])).toEqual([]);
     expect(getOriginal(undefined)).toEqual([]);
   });

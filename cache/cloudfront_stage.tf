@@ -31,4 +31,30 @@ module "stage_wc_org_cloudfront_distribution" {
   google_bots_ip_set_arn    = aws_wafv2_ip_set.google_bots.arn
   github_actions_ip_set_arn = aws_wafv2_ip_set.github_actions.arn
   header_shared_secret      = local.current_shared_secret
+
+  # Trialling the /search challenge here before prod (see the search-challenge
+  # rule in the module for why this is high-risk).
+  enable_search_challenge = true
+
+  # Cuts billed challenge responses by blocking provably fabricated user
+  # agents first. Matches prod.
+  enable_search_legacy_ua_block = true
+
+  # Real users get re-challenged (and billed) once per window instead of
+  # every 5 minutes. Matches prod.
+  search_challenge_immunity_seconds = 14400
+
+  # Targeted Bot Control, scoped to /search with TGT_ rules counting only.
+  # Matches prod.
+  bot_control_inspection_level = "TARGETED"
+
+  # Trialling the missing-Accept-Language block here before prod: real
+  # browsers always send the header; the clients that omit it are crawlers
+  # and bots that never solve the challenge they would otherwise be served.
+  enable_search_missing_lang_block = true
+
+  # Trialling the works/images/concepts fabricated-browser block here before
+  # prod: blocks fraud that poses as a browser without self-identifying,
+  # while leaving honest crawlers and user-triggered AI agents untouched.
+  enable_works_fabricated_ua_block = true
 }
