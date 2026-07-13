@@ -4,9 +4,13 @@ import styled from 'styled-components';
 
 import { ExhibitionsDocumentDataOnwardJourneysSlice } from '@weco/common/prismicio-types';
 import { useFeatureFlags } from '@weco/common/server-data/Context';
-import { gridSize12 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize12,
+} from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import { components } from '@weco/common/views/slices';
+import MoreLink from '@weco/content/views/components/MoreLink';
 
 export const Wrapper = styled(Space).attrs({
   $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
@@ -16,9 +20,13 @@ export const Wrapper = styled(Space).attrs({
 `;
 
 const ExhibitionCollectionsContent = ({
+  exhibitionUid,
   onwardJourneys,
+  isTendernessAndRageExhibition,
 }: {
+  exhibitionUid: string;
   onwardJourneys: prismic.SliceZone<ExhibitionsDocumentDataOnwardJourneysSlice>;
+  isTendernessAndRageExhibition: boolean;
 }) => {
   const { verticalVideos } = useFeatureFlags();
 
@@ -65,6 +73,27 @@ const ExhibitionCollectionsContent = ({
           itemsHaveTransparentBackground: true,
         }}
       />
+
+      {isTendernessAndRageExhibition && (
+        <ContaineredLayout gridSizes={gridSize12()}>
+          <Space
+            $v={{
+              size: 'xl',
+              properties: ['padding-top'],
+            }}
+          >
+            <MoreLink
+              colors={{
+                border: 'accent.green',
+                background: 'transparent',
+                text: 'accent.green',
+              }}
+              url={`/exhibitions/${exhibitionUid}/explore-more`}
+              name="Explore more"
+            />
+          </Space>
+        </ContaineredLayout>
+      )}
     </Wrapper>
   );
 };
