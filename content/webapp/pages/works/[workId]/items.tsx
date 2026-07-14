@@ -172,10 +172,11 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
     const serverSearchResults = await getSearchResults();
 
-    // Build tree on server for progressive enhancement
+    // Build download tree on server for progressive enhancement
+    // This tree represents IIIF manifest structures (ranges/canvases) for downloads
     const hasMultipleCanvases = (canvases?.length || 0) > 1;
     const hasOnlyRenderableImages = !hasNonImagesOrOriginals(canvases || []);
-    const tree: UiTree =
+    const downloadTree: UiTree =
       hasMultipleCanvases && !hasOnlyRenderableImages
         ? createDownloadTree(displayManifest.structures, canvases, {
             skipObjectsNode: true,
@@ -187,7 +188,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       props: serialiseProps<Props>({
         compressedTransformedManifest:
           toCompressedTransformedManifest(displayManifest),
-        tree,
+        tree: downloadTree,
         canvasOcr,
         iiifImageLocation,
         iiifPresentationLocation,
