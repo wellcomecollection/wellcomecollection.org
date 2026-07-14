@@ -8,7 +8,7 @@ import { ListProps } from './NestedList.helpers';
 import ListItem from './NestedList.ListItem';
 
 type NestedListProps = Omit<ListProps, 'item'> & {
-  archiveTree: UiTree;
+  items: UiTree;
   shouldFetchChildren: boolean;
   isDarkMode?: boolean;
   itemRendererProps?: Record<string, unknown>;
@@ -16,9 +16,9 @@ type NestedListProps = Omit<ListProps, 'item'> & {
 
 const NestedList: FunctionComponent<NestedListProps> = ({
   currentWorkId,
-  archiveTree,
-  fullTree,
-  setArchiveTree,
+  items, // Current level's items to render (changes at each recursion level)
+  tree, // Complete tree structure from root (used for navigation/state updates)
+  setTree,
   level,
   tabbableId,
   setTabbableId,
@@ -40,8 +40,8 @@ const NestedList: FunctionComponent<NestedListProps> = ({
       role={isEnhanced ? (level === 1 ? 'tree' : 'group') : undefined}
       className={typography('body', 'md', 'regular')}
     >
-      {archiveTree &&
-        archiveTree.map((item, i) => {
+      {items &&
+        items.map((item, i) => {
           return (
             item.work && (
               <ListItem
@@ -49,10 +49,10 @@ const NestedList: FunctionComponent<NestedListProps> = ({
                 key={item.work.id}
                 item={item}
                 currentWorkId={currentWorkId}
-                fullTree={fullTree}
-                setArchiveTree={setArchiveTree}
+                tree={tree}
+                setTree={setTree}
                 level={level}
-                setSize={archiveTree.length}
+                setSize={items.length}
                 posInSet={i + 1}
                 tabbableId={tabbableId}
                 setTabbableId={setTabbableId}

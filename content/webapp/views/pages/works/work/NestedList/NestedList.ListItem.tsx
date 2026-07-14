@@ -87,18 +87,18 @@ function getPreviousTabbableId({
 
 async function expandTree({
   item,
-  setArchiveTree,
-  archiveTree,
+  setTree,
+  tree,
 }: {
   item: UiTreeNode;
-  setArchiveTree: (tree: UiTree) => void;
-  archiveTree: UiTree;
+  setTree: (tree: UiTree) => void;
+  tree: UiTree;
 }) {
   const children = await getChildren(item.work.id);
 
-  setArchiveTree(
+  setTree(
     updateChildren({
-      tree: archiveTree,
+      tree: tree,
       id: item.work.id,
       value: children,
       manualUpdate: true,
@@ -137,8 +137,8 @@ const ListItem: FunctionComponent<ListItemProps> = ({
   index,
   item,
   currentWorkId,
-  setArchiveTree,
-  fullTree,
+  setTree,
+  tree,
   level,
   setSize,
   posInSet,
@@ -194,14 +194,14 @@ const ListItem: FunctionComponent<ListItemProps> = ({
     if (item.children === undefined && shouldFetchChildren) {
       expandTree({
         item,
-        setArchiveTree,
-        archiveTree: fullTree,
+        setTree,
+        tree: tree,
       });
     } else {
-      setArchiveTree(
+      setTree(
         updateOpenStatus({
           id: item.work.id,
-          tree: fullTree,
+          tree: tree,
           value: !item.openStatus,
         })
       );
@@ -245,11 +245,11 @@ const ListItem: FunctionComponent<ListItemProps> = ({
 
         const nextId = getNextTabbableId({
           currentId: item.work.id,
-          tree: fullTree,
+          tree: tree,
         });
         const previousId = getPreviousTabbableId({
           currentId: item.work.id,
-          tree: fullTree,
+          tree: tree,
         });
 
         switch (true) {
@@ -281,10 +281,10 @@ const ListItem: FunctionComponent<ListItemProps> = ({
               item.work.totalParts > 0
             ) {
               trackChevron();
-              setArchiveTree(
+              setTree(
                 updateOpenStatus({
                   id: item.work.id,
-                  tree: fullTree,
+                  tree: tree,
                   value: !item.openStatus,
                 })
               );
@@ -353,13 +353,13 @@ const ListItem: FunctionComponent<ListItemProps> = ({
       {item.children && item.openStatus && (
         <NestedList
           currentWorkId={currentWorkId}
-          archiveTree={item.children}
-          fullTree={fullTree}
+          items={item.children}
+          tree={tree}
           level={level + 1}
           tabbableId={tabbableId}
           setTabbableId={setTabbableId}
           archiveAncestorArray={archiveAncestorArray}
-          setArchiveTree={setArchiveTree}
+          setTree={setTree}
           firstItemTabbable={firstItemTabbable}
           showFirstLevelGuideline={showFirstLevelGuideline}
           ItemRenderer={ItemRenderer}

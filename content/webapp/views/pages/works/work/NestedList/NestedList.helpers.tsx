@@ -24,8 +24,8 @@ export type TreeItemProps = {
 export type ListProps = {
   item: UiTreeNode;
   currentWorkId: string;
-  fullTree: UiTree;
-  setArchiveTree: (tree: UiTree) => void;
+  tree: UiTree;
+  setTree: (tree: UiTree) => void;
   level: number;
   tabbableId?: string;
   setTabbableId: (id: string) => void;

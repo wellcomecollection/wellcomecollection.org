@@ -254,7 +254,7 @@ const WorkDetailsAvailableOnline = ({
   const hasNonStandardItems = itemsStatus !== 'allStandard';
 
   const [tabbableId, setTabbableId] = useState<string>();
-  const [archiveTree, setArchiveTree] = useState<UiTree>([]);
+  const [tree, setTree] = useState<UiTree>([]);
   const allOriginalPdfs =
     canvases?.every(canvas => isPDFCanvas(canvas)) || false;
   const clickThroughService = authServices?.active;
@@ -267,15 +267,15 @@ const WorkDetailsAvailableOnline = ({
 
   useEffect(() => {
     const downloads = createDownloadTree(structures, canvases);
-    setArchiveTree(downloads);
-  }, [structures]);
+    setTree(downloads);
+  }, [canvases, structures]);
 
   useEffect(() => {
     const elementToFocus = tabbableId && document.getElementById(tabbableId);
     if (elementToFocus) {
       elementToFocus.focus();
     }
-  }, [archiveTree, tabbableId]);
+  }, [tree, tabbableId]);
 
   useEffect(() => {
     setOrigin(window.origin);
@@ -324,9 +324,9 @@ const WorkDetailsAvailableOnline = ({
               <WorksTree>
                 <NestedList
                   currentWorkId={work.id}
-                  fullTree={archiveTree}
-                  setArchiveTree={setArchiveTree}
-                  archiveTree={archiveTree}
+                  tree={tree}
+                  setTree={setTree}
+                  items={tree}
                   level={1}
                   tabbableId={tabbableId}
                   setTabbableId={setTabbableId}

@@ -172,10 +172,10 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
     const serverSearchResults = await getSearchResults();
 
-    // Build archive tree on server for progressive enhancement
+    // Build tree on server for progressive enhancement
     const hasMultipleCanvases = (canvases?.length || 0) > 1;
     const hasOnlyRenderableImages = !hasNonImagesOrOriginals(canvases || []);
-    const archiveTree: UiTree =
+    const tree: UiTree =
       hasMultipleCanvases && !hasOnlyRenderableImages
         ? createDownloadTree(displayManifest.structures, canvases, {
             skipObjectsNode: true,
@@ -187,7 +187,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       props: serialiseProps<Props>({
         compressedTransformedManifest:
           toCompressedTransformedManifest(displayManifest),
-        archiveTree,
+        tree,
         canvasOcr,
         iiifImageLocation,
         iiifPresentationLocation,
