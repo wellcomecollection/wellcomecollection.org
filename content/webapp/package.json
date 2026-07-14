@@ -7,7 +7,8 @@
     "dev": "NODE_EXTRA_CA_CERTS=\"$(mkcert -CAROOT)/rootCA.pem\" NODE_ENV=development tsx watch --tsconfig tsconfig.server.json server.ts",
     "start": "NODE_ENV=production tsx --tsconfig tsconfig.server.json server.ts",
     "test": "NODE_ENV=test jest --no-cache",
-    "test:watch": "yarn test -- --watchAll"
+    "test:watch": "yarn test -- --watchAll",
+    "test:watch:fast": "NODE_ENV=test jest --watch"
   },
   "dependencies": {
     "@iiif/presentation-3": "^2.1.3",
