@@ -134,6 +134,8 @@ const ExhibitionPage: NextPage<Props> = ({
       {exhibitionAndCollection && (
         <ExhibitionCollectionsContent
           onwardJourneys={exhibition.untransformedOnwardJourneys}
+          exhibitionUid={exhibition.uid}
+          isTendernessAndRageExhibition={isTendernessAndRageExhibition}
         />
       )}
     </PageLayout>
