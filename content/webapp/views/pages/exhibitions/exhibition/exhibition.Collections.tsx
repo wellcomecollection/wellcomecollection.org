@@ -2,6 +2,7 @@ import * as prismic from '@prismicio/client';
 import { SliceZone } from '@prismicio/react';
 import styled from 'styled-components';
 
+import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { ExhibitionsDocumentDataOnwardJourneysSlice } from '@weco/common/prismicio-types';
 import { useFeatureFlags } from '@weco/common/server-data/Context';
 import {
@@ -28,6 +29,7 @@ const ExhibitionCollectionsContent = ({
   onwardJourneys: prismic.SliceZone<ExhibitionsDocumentDataOnwardJourneysSlice>;
   isTendernessAndRageExhibition: boolean;
 }) => {
+  const { isTendernessAndRageKiosk } = useKiosk();
   const { verticalVideos } = useFeatureFlags();
 
   const shouldDisplayCardListings = onwardJourneys.some(
@@ -74,7 +76,7 @@ const ExhibitionCollectionsContent = ({
         }}
       />
 
-      {isTendernessAndRageExhibition && (
+      {isTendernessAndRageExhibition && isTendernessAndRageKiosk && (
         <ContaineredLayout gridSizes={gridSize12()}>
           <Space
             $v={{
