@@ -1,5 +1,6 @@
 import * as prismic from '@prismicio/client';
 import { SliceZone } from '@prismicio/react';
+import { useTheme } from 'styled-components';
 import styled from 'styled-components';
 
 import { useKiosk } from '@weco/common/contexts/KioskContext';
@@ -31,6 +32,7 @@ const ExhibitionCollectionsContent = ({
 }) => {
   const { isTendernessAndRageKiosk } = useKiosk();
   const { verticalVideos } = useFeatureFlags();
+  const theme = useTheme();
 
   const shouldDisplayCardListings = onwardJourneys.some(
     (slice: prismic.Slice) =>
@@ -85,11 +87,7 @@ const ExhibitionCollectionsContent = ({
             }}
           >
             <MoreLink
-              colors={{
-                border: 'accent.green',
-                background: 'transparent',
-                text: 'accent.green',
-              }}
+              colors={theme.buttonColors.greenTransparentGreen}
               url={`/exhibitions/${exhibitionUid}/explore-more`}
               name="Explore more"
             />
