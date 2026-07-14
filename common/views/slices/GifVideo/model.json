@@ -4,18 +4,7 @@
   "name": "GifVideo",
   "description": "GifVideo",
   "legacyPaths": {
-    "articles::body::gifVideo": "default",
-    "books::body::gifVideo": "default",
-    "event-series::body::gifVideo": "default",
-    "events::body::gifVideo": "default",
-    "exhibitions::body::gifVideo": "default",
-    "guides::body::gifVideo": "default",
-    "pages::body::gifVideo": "default",
-    "places::body::gifVideo": "default",
-    "projects::body::gifVideo": "default",
-    "seasons::body::gifVideo": "default",
-    "series::body::gifVideo": "default",
-    "webcomics::body::gifVideo": "default"
+    "articles::body::gifVideo": "default"
   },
   "variations": [
     {
@@ -26,62 +15,72 @@
       "description": "Default",
       "imageUrl": "",
       "primary": {
-        "caption" : {
-          "type" : "StructuredText",
-          "config" : {
-            "single" : "paragraph,hyperlink,strong,em",
-            "label" : "Caption"
+        "caption": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph,hyperlink,strong,em",
+            "label": "Caption"
           }
         },
-        "tasl" : {
-          "type" : "Text",
-          "config" : {
-            "label" : "TASL",
-            "placeholder" : "title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink"
+        "tasl": {
+          "type": "Text",
+          "config": {
+            "label": "TASL",
+            "placeholder": "title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink"
           }
         },
-        "video" : {
-          "type" : "Link",
-          "config" : {
-            "label" : "Video",
-            "select" : "media",
-            "customtypes" : [ ],
-            "placeholder" : "Video"
+        "video": {
+          "type": "Link",
+          "config": {
+            "label": "Video",
+            "select": "media",
+            "customtypes": [],
+            "placeholder": "Video"
           }
         },
-        "playbackRate" : {
-          "type" : "Select",
-          "config" : {
-            "label" : "Playback rate",
-            "options" : [ "0.1", "0.25", "0.5", "0.75", "1", "1.25", "1.5", "1.75", "2" ]
+        "playbackRate": {
+          "type": "Select",
+          "config": {
+            "label": "Playback rate",
+            "options": [
+              "0.1",
+              "0.25",
+              "0.5",
+              "0.75",
+              "1",
+              "1.25",
+              "1.5",
+              "1.75",
+              "2"
+            ]
           }
         },
-        "autoPlay" : {
-          "type" : "Boolean",
-          "config" : {
-            "default_value" : true,
-            "label" : "Auto play"
+        "autoPlay": {
+          "type": "Boolean",
+          "config": {
+            "default_value": true,
+            "label": "Auto play"
           }
         },
-        "loop" : {
-          "type" : "Boolean",
-          "config" : {
-            "default_value" : true,
-            "label" : "Loop video"
+        "loop": {
+          "type": "Boolean",
+          "config": {
+            "default_value": true,
+            "label": "Loop video"
           }
         },
-        "mute" : {
-          "type" : "Boolean",
-          "config" : {
-            "default_value" : true,
-            "label" : "Mute video"
+        "mute": {
+          "type": "Boolean",
+          "config": {
+            "default_value": true,
+            "label": "Mute video"
           }
         },
-        "showControls" : {
-          "type" : "Boolean",
-          "config" : {
-            "default_value" : false,
-            "label" : "Show controls"
+        "showControls": {
+          "type": "Boolean",
+          "config": {
+            "default_value": false,
+            "label": "Show controls"
           }
         }
       }

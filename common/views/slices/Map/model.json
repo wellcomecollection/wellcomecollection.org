@@ -4,16 +4,7 @@
   "name": "Map",
   "description": "Map",
   "legacyPaths": {
-    "books::body::map": "default",
-    "event-series::body::map": "default",
-    "events::body::map": "default",
-    "exhibitions::body::map": "default",
-    "guides::body::map": "default",
-    "pages::body::map": "default",
-    "places::body::map": "default",
-    "projects::body::map": "default",
-    "seasons::body::map": "default",
-    "series::body::map": "default"
+    "pages::body::map": "default"
   },
   "variations": [
     {
@@ -24,18 +15,18 @@
       "description": "Default",
       "imageUrl": "",
       "primary": {
-        "title" : {
-          "type" : "StructuredText",
-          "config" : {
-            "label" : "Title",
-            "single" : "heading1",
-            "useAsTitle" : true
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Title",
+            "single": "heading1",
+            "useAsTitle": true
           }
         },
-        "geolocation" : {
-          "type" : "GeoPoint",
-          "config" : {
-            "label" : "Geo point"
+        "geolocation": {
+          "type": "GeoPoint",
+          "config": {
+            "label": "Geo point"
           }
         }
       }

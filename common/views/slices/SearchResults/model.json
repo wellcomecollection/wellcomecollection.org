@@ -1,20 +1,10 @@
-
 {
   "id": "searchResults",
   "type": "SharedSlice",
   "name": "SearchResults",
   "description": "SearchResults",
   "legacyPaths": {
-    "books::body::searchResults": "default",
-    "event-series::body::searchResults": "default",
-    "events::body::searchResults": "default",
-    "exhibitions::body::searchResults": "default",
-    "guides::body::searchResults": "default",
-    "pages::body::searchResults": "default",
-    "places::body::searchResults": "default",
-    "projects::body::searchResults": "default",
-    "seasons::body::searchResults": "default",
-    "series::body::searchResults": "default"
+    "pages::body::searchResults": "default"
   },
   "variations": [
     {

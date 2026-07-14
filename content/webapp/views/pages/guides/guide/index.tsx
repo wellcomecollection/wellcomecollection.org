@@ -1,8 +1,6 @@
-import * as prismic from '@prismicio/client';
 import { FunctionComponent } from 'react';
 
 import { SiteSection } from '@weco/common/model/site-section';
-import { PagesDocumentDataBodySlice } from '@weco/common/prismicio-types';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
@@ -13,10 +11,8 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import { makeLabels } from '@weco/common/views/components/LabelsList';
 import { gridSize8 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
-import VideoEmbed from '@weco/common/views/components/VideoEmbed';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
-import { transformEmbedSlice } from '@weco/content/services/prismic/transformers/body';
-import { isEditorialImage, isVideoEmbed } from '@weco/content/types/body';
+import { isEditorialImage } from '@weco/content/types/body';
 import { Guide as GuideType } from '@weco/content/types/guides';
 import Body from '@weco/content/views/components/Body';
 import ContentPage from '@weco/content/views/components/ContentPage';
@@ -35,35 +31,16 @@ export const Guide: FunctionComponent<Props> = ({ guide, jsonLd }) => {
   const featuredPicture =
     guide.untransformedBody.length > 1 &&
     isEditorialImage(guide.untransformedBody[0])
-      ? guide.untransformedBody[0]
+      ? getFeaturedPictureWithTasl(guide.untransformedBody[0])
       : undefined;
 
-  const featuredVideo =
-    guide.untransformedBody.length > 1 &&
-    isVideoEmbed(guide.untransformedBody[0])
-      ? guide.untransformedBody[0]
-      : undefined;
-
-  const transformFeaturedVideo =
-    featuredVideo && transformEmbedSlice(featuredVideo);
-
-  const hasFeaturedMedia =
-    isNotUndefined(featuredPicture) || isNotUndefined(featuredVideo);
+  const hasFeaturedMedia = isNotUndefined(featuredPicture);
 
   const untransformedBody = hasFeaturedMedia
-    ? (guide.untransformedBody.slice(
-        1,
-        guide.untransformedBody.length
-      ) as prismic.SliceZone<PagesDocumentDataBodySlice>)
+    ? guide.untransformedBody.slice(1)
     : guide.untransformedBody;
 
-  const featuredMedia = featuredPicture ? (
-    getFeaturedPictureWithTasl(featuredPicture)
-  ) : transformFeaturedVideo ? (
-    <VideoEmbed {...transformFeaturedVideo.value} />
-  ) : undefined;
-
-  const displayBackground = featuredMedia ? (
+  const displayBackground = featuredPicture ? (
     <HeaderBackground backgroundTexture={headerBackgroundLs} />
   ) : undefined;
 
@@ -73,10 +50,10 @@ export const Guide: FunctionComponent<Props> = ({ guide, jsonLd }) => {
       breadcrumbs={getBreadcrumbItems(guide.siteSection)}
       labels={makeLabels(guide.format?.title)}
       title={guide.title}
-      FeaturedMedia={featuredMedia}
+      FeaturedMedia={featuredPicture}
       Background={displayBackground}
       ContentTypeInfo={DateInfo}
-      backgroundTexture={!featuredMedia ? headerBackgroundLs : undefined}
+      backgroundTexture={!featuredPicture ? headerBackgroundLs : undefined}
       highlightHeading={true}
       isContentTypeInfoBeforeMedia={false}
     />
