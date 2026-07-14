@@ -1,3 +1,4 @@
+import { ItemViewerQuery } from '@weco/content/types/item-viewer';
 import {
   Auth,
   TransformedCanvas,
@@ -39,21 +40,78 @@ export function createMockCanvas(
   };
 }
 
-export const defaultMockAuth: Auth = {
-  externalAccessService: undefined,
-  activeAccessService: undefined,
-  tokenService: undefined,
-  accessRequirements: ['Open'],
-};
+// A factory (rather than a shared const) so every manifest gets its own auth
+// object and its own `accessRequirements` array — keeping factory outputs
+// isolated even if a test mutates them.
+export function createMockAuth(overrides: Partial<Auth> = {}): Auth {
+  return {
+    externalAccessService: undefined,
+    activeAccessService: undefined,
+    tokenService: undefined,
+    accessRequirements: ['Open'],
+    ...overrides,
+  };
+}
+
+// The restricted-login access service id the viewer inspects to decide whether
+// a painting (and therefore the canvas) is restricted.
+export const restrictedLoginId =
+  'https://iiif.wellcomecollection.org/auth/v2/access/restrictedlogin';
+
+// A painting item carrying the restricted-login access service, so
+// isItemRestricted / hasRestrictedItem treat it as restricted.
+export function createRestrictedPainting(
+  overrides: Record<string, unknown> = {}
+): TransformedCanvas['painting'][number] {
+  return {
+    id: 'https://example.com/image/restricted',
+    type: 'Image',
+    service: [
+      {
+        id: 'https://example.com/probe',
+        type: 'AuthProbeService2',
+        service: [{ id: restrictedLoginId, type: 'AuthAccessService2' }],
+      },
+    ],
+    ...overrides,
+  } as unknown as TransformedCanvas['painting'][number];
+}
+
+// A plain, unrestricted painting item.
+export function createOpenPainting(
+  overrides: Record<string, unknown> = {}
+): TransformedCanvas['painting'][number] {
+  return {
+    id: 'https://example.com/image/open',
+    type: 'Image',
+    ...overrides,
+  } as unknown as TransformedCanvas['painting'][number];
+}
+
+export function createMockQuery(
+  overrides: Partial<ItemViewerQuery> = {}
+): ItemViewerQuery {
+  return {
+    canvas: 1,
+    manifest: 1,
+    query: '',
+    page: 1,
+    shouldScrollToCanvas: true,
+    ...overrides,
+  };
+}
 
 export function createMockManifest(
   overrides: Partial<TransformedManifest> = {}
 ): TransformedManifest {
-  const { canvases: overrideCanvases, auth: overrideAuth, ...restOverrides } =
-    overrides;
+  const {
+    canvases: overrideCanvases,
+    auth: overrideAuth,
+    ...restOverrides
+  } = overrides;
 
   const canvases = overrideCanvases ?? [createMockCanvas()];
-  const auth = overrideAuth ?? { ...defaultMockAuth };
+  const auth = overrideAuth ?? createMockAuth();
 
   return {
     itemsStatus: 'allStandard',

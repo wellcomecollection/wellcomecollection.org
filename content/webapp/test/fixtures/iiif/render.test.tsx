@@ -17,7 +17,7 @@ const Probe = () => {
   return (
     <div>
       <span data-testid="canvas-count">
-        {transformedManifest?.canvases.length}
+        {transformedManifest ? transformedManifest.canvases.length : 'none'}
       </span>
       <span data-testid="full-support">{String(isFullSupportBrowser)}</span>
       <span data-testid="staff">{String(userIsStaffWithRestricted)}</span>
@@ -44,7 +44,7 @@ describe('renderWithContext harness', () => {
       userContext: { userIsStaffWithRestricted: true },
       kioskContext: { isKiosk: true },
     });
-    expect(screen.getByTestId('canvas-count')).toBeEmptyDOMElement();
+    expect(screen.getByTestId('canvas-count')).toHaveTextContent('none');
     expect(screen.getByTestId('full-support')).toHaveTextContent('true');
     expect(screen.getByTestId('staff')).toHaveTextContent('true');
     expect(screen.getByTestId('kiosk')).toHaveTextContent('true');
