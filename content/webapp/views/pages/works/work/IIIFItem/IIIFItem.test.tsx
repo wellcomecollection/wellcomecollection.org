@@ -10,11 +10,6 @@ import { TransformedAuthService } from '@weco/content/utils/iiif/v3';
 
 import IIIFItem, { IIIFItemProps } from './index';
 
-// IIIFItem imports ImageViewer, which pulls in openseadragon. The image-viewer
-// path isn't exercised by these tests (we only test the original-download image
-// branch), so stub it to avoid the jsdom canvas error.
-jest.mock('openseadragon', () => ({ __esModule: true, default: jest.fn() }));
-
 type RenderItemArgs = {
   item: IIIFItemProps;
   canvas?: TransformedCanvas;

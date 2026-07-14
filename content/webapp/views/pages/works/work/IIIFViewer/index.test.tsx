@@ -1,8 +1,7 @@
-import { arrayIndexToQueryParam, queryParamToArrayIndex } from '.';
-
-// Importing from the barrel pulls in IIIFViewer -> ImageViewer -> openseadragon;
-// stub it so these pure-function tests don't hit the jsdom canvas error.
-jest.mock('openseadragon', () => ({ __esModule: true, default: jest.fn() }));
+import {
+  arrayIndexToQueryParam,
+  queryParamToArrayIndex,
+} from './IIIFViewer.helpers';
 
 // canvas/manifest query params are 1-based but index 0-based arrays, so these
 // conversions sit behind currentCanvas selection and navigation throughout the

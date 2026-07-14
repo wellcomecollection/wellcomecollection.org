@@ -20,8 +20,11 @@ import { ItemViewerQuery } from '@weco/content/types/item-viewer';
 import { TransformedCanvas } from '@weco/content/types/manifest';
 import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
 
-import { arrayIndexToQueryParam, queryParamToArrayIndex } from '.';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
+import {
+  arrayIndexToQueryParam,
+  queryParamToArrayIndex,
+} from './IIIFViewer.helpers';
 
 const ThumbnailSpacer = styled(Space).attrs({
   $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
