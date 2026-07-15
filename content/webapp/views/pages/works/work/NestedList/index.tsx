@@ -22,7 +22,7 @@ const NestedList: FunctionComponent<NestedListProps> = ({
   level,
   tabbableId,
   setTabbableId,
-  ancestorArray,
+  workAncestors,
   firstItemTabbable,
   showFirstLevelGuideline,
   ItemRenderer,
@@ -56,7 +56,7 @@ const NestedList: FunctionComponent<NestedListProps> = ({
                 posInSet={i + 1}
                 tabbableId={tabbableId}
                 setTabbableId={setTabbableId}
-                ancestorArray={ancestorArray}
+                workAncestors={workAncestors}
                 firstItemTabbable={firstItemTabbable}
                 showFirstLevelGuideline={showFirstLevelGuideline}
                 ItemRenderer={ItemRenderer}

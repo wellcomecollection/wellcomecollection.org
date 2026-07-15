@@ -8,11 +8,11 @@ import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
 import { toWorkLink } from '@weco/content/views/components/WorkLink';
 import WorkTitle from '@weco/content/views/components/WorkTitle';
+import { TreeControl } from '@weco/content/views/pages/works/work/NestedList';
 import {
-  isTreeDataWork,
-  TreeControl,
-} from '@weco/content/views/pages/works/work/NestedList';
-import { UiTreeNode } from '@weco/content/views/pages/works/work/work.types';
+  TreeDataWork,
+  UiTreeNode,
+} from '@weco/content/views/pages/works/work/work.types';
 
 import { StyledLink } from './ArchiveTree.styles';
 
@@ -47,6 +47,8 @@ const WorkItem: FunctionComponent<WorkItemRendererProps> = ({
   isDarkMode,
 }) => {
   const { isEnhanced } = useAppContext();
+  // Safe assertion: WorkItem is only used in archive contexts where data is always TreeDataWork
+  const data = item.data as TreeDataWork;
 
   return (
     <div
@@ -63,13 +65,13 @@ const WorkItem: FunctionComponent<WorkItemRendererProps> = ({
       )}
 
       <StyledLink
-        {...toWorkLink({ id: item.data.id, scroll: false })}
+        {...toWorkLink({ id: data.id, scroll: false })}
         className={classNames({
           [typography('body', 'sm', 'strong')]: level === 1,
           [typography('body', 'sm', 'regular')]: level > 1,
         })}
         tabIndex={isEnhanced ? (isSelected ? 0 : -1) : 0}
-        $isCurrent={currentWorkId === item.data.id}
+        $isCurrent={currentWorkId === data.id}
         $hasControl={hasControl}
         onClick={event => {
           // We don't want to open the branch, when the work link is activated
@@ -77,15 +79,13 @@ const WorkItem: FunctionComponent<WorkItemRendererProps> = ({
         }}
         {...dataGtmPropsToAttributes({
           trigger: 'tree_link',
-          label: `${item.data.title}${isTreeDataWork(item.data) && item.data.referenceNumber ? ` (${item.data.referenceNumber})` : ''}`,
+          label: `${data.title}${data.referenceNumber ? ` (${data.referenceNumber})` : ''}`,
           'data-tree-level': String(level),
         })}
       >
-        <WorkTitle title={item.data.title} />
+        <WorkTitle title={data.title} />
 
-        {isTreeDataWork(item.data) && (
-          <RefNumber>{item.data.referenceNumber}</RefNumber>
-        )}
+        {data.referenceNumber && <RefNumber>{data.referenceNumber}</RefNumber>}
       </StyledLink>
     </div>
   );
