@@ -153,7 +153,6 @@ const ListItem: FunctionComponent<ListItemProps> = ({
   itemRendererProps,
 }: ListItemProps) => {
   const { isEnhanced } = useAppContext();
-  const isEndNode = item.data.totalParts === 0;
   const isSelected =
     (tabbableId && tabbableId === item.data.id) ||
     (!tabbableId && currentWorkId === item.data.id);
@@ -170,6 +169,8 @@ const ListItem: FunctionComponent<ListItemProps> = ({
     (item.data.totalParts && item.data.totalParts > 0) ||
     (isTreeDataWork(item.data) && item.data.parts && item.data.parts.length > 0)
   );
+
+  const isEndNode = !isExpandable;
 
   const showGuideline =
     isEnhanced &&
@@ -263,7 +264,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
             }
 
             // When focus is on an end node, does nothing.
-            if (item.data.totalParts && item.data.totalParts === 0) {
+            if (isEndNode) {
               return;
             }
 
@@ -276,11 +277,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
           }
           case LEFT.includes(key): {
             // When focus is on an open node, closes the node.
-            if (
-              item.openStatus &&
-              item.data.totalParts &&
-              item.data.totalParts > 0
-            ) {
+            if (item.openStatus && isExpandable) {
               trackChevron();
               setTree(
                 updateOpenStatus({
