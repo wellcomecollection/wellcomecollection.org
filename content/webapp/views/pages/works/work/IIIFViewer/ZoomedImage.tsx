@@ -16,7 +16,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import { convertRequestUriToInfoUri } from '@weco/content/utils/iiif/convert-iiif-uri';
 
-import { queryParamToArrayIndex } from '.';
+import { queryParamToArrayIndex } from './IIIFViewer.helpers';
 
 const ZoomedImageContainer = styled.div`
   position: relative;

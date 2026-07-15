@@ -31,7 +31,7 @@ import {
 import { getDownloadOptionsFromImageUrl } from '@weco/content/utils/works';
 import Download from '@weco/content/views/components/Download';
 
-import { queryParamToArrayIndex } from '.';
+import { queryParamToArrayIndex } from './IIIFViewer.helpers';
 import ToolbarSegmentedControl from './ToolbarSegmentedControl';
 
 export const ViewerButton = styled.button.attrs({

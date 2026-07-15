@@ -38,7 +38,7 @@ import {
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { getDigitalLocationOfType } from '@weco/content/utils/works';
 import { fromQuery } from '@weco/content/views/components/ItemLink';
-import { queryParamToArrayIndex } from '@weco/content/views/pages/works/work/IIIFViewer';
+import { queryParamToArrayIndex } from '@weco/content/views/pages/works/work/IIIFViewer/IIIFViewer.helpers';
 import WorkItemPage, {
   Props as WorkItemPageProps,
 } from '@weco/content/views/pages/works/work/items';

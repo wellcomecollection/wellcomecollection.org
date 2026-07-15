@@ -9,7 +9,8 @@ import {
 } from '@weco/content/views/pages/works/work/IIIFViewer/Paginators';
 import { Thumbnails } from '@weco/content/views/pages/works/work/IIIFViewer/Thumbnails';
 
-import { DelayVisibility, queryParamToArrayIndex } from '.';
+import { DelayVisibility } from '.';
+import { queryParamToArrayIndex } from './IIIFViewer.helpers';
 import IIIFViewerImage from './IIIFViewerImage';
 
 const NoScriptImageWrapper = styled.div`

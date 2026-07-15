@@ -24,8 +24,9 @@ import { fromQuery } from '@weco/content/views/components/ItemLink';
 import { getTreeCanvasIndexById } from '@weco/content/views/pages/works/work/work.helpers';
 import { UiTree } from '@weco/content/views/pages/works/work/work.types';
 
-import { DelayVisibility, queryParamToArrayIndex } from '.';
+import { DelayVisibility } from '.';
 import GridViewer from './GridViewer';
+import { queryParamToArrayIndex } from './IIIFViewer.helpers';
 import ImageViewer from './ImageViewer';
 import ImageViewerControls from './ImageViewerControls';
 import MainViewer from './MainViewer';
