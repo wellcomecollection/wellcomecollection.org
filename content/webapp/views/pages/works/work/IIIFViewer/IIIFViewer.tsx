@@ -17,6 +17,7 @@ import {
 import {
   CanvasRotatedImage,
   ParentManifest,
+  PartialImageService,
 } from '@weco/content/types/item-viewer';
 import { TransformedManifest } from '@weco/content/types/manifest';
 import { hasNonImagesOrOriginals } from '@weco/content/utils/iiif/v3';
@@ -43,7 +44,7 @@ type IIIFViewerProps = {
   canvasOcr?: string;
   handleImageError?: () => void;
   searchResults: SearchResults | null;
-  setSearchResults: (v) => void;
+  setSearchResults: (v: SearchResults | null) => void;
   parentManifest?: ParentManifest;
   accessToken?: string;
   initialArchiveTree?: UiTree;
@@ -270,7 +271,9 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   );
   const currentCanvas =
     transformedManifest?.canvases[queryParamToArrayIndex(canvas)];
-  const mainImageService = { '@id': currentCanvas?.imageServiceId };
+  const mainImageService: PartialImageService = {
+    '@id': currentCanvas?.imageServiceId,
+  };
   // We only want to use the IIIF image location if we don't have an image service on the current canvas
   const shouldUseIifImageLocation = !currentCanvas?.imageServiceId;
   const urlTemplate =

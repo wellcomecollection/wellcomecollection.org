@@ -20,7 +20,7 @@ export type ItemViewerContextProps = {
   transformedManifest: TransformedManifest | undefined;
   parentManifest: ParentManifest | undefined;
   searchResults: SearchResults | null;
-  setSearchResults: (v) => void;
+  setSearchResults: (v: SearchResults | null) => void;
   accessToken: string | undefined;
   archiveTree: UiTree;
   setArchiveTree: (v: UiTree) => void;

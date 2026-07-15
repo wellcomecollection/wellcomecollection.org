@@ -14,6 +14,7 @@ import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 import Control from '@weco/common/views/components/Control';
 import Space from '@weco/common/views/components/styled/Space';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
+import { PartialImageService } from '@weco/content/types/item-viewer';
 import { convertRequestUriToInfoUri } from '@weco/content/utils/iiif/convert-iiif-uri';
 
 import { queryParamToArrayIndex } from './IIIFViewer.helpers';
@@ -54,12 +55,12 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
   const { transformedManifest, query, setShowZoomed } = useItemViewerContext();
   const currentCanvas =
     transformedManifest?.canvases[queryParamToArrayIndex(query.canvas)];
-  const mainImageService = {
-    '@id': currentCanvas?.imageServiceId || '',
+  const mainImageService: PartialImageService = {
+    '@id': currentCanvas?.imageServiceId,
   };
   const zoomInfoUrl = iiifImageLocation
     ? iiifImageLocation.url
-    : convertRequestUriToInfoUri(mainImageService['@id']);
+    : convertRequestUriToInfoUri(mainImageService['@id'] || '');
   const [scriptError, setScriptError] = useState(false);
   const [viewer, setViewer] = useState(null);
   const viewerRef: MutableRefObject<{ destroy: () => void } | null> =
