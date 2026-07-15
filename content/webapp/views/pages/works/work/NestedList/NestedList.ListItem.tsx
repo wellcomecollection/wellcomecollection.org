@@ -144,7 +144,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
   posInSet,
   tabbableId,
   setTabbableId,
-  archiveAncestorArray,
+  ancestorArray,
   firstItemTabbable,
   showFirstLevelGuideline,
   ItemRenderer,
@@ -158,8 +158,8 @@ const ListItem: FunctionComponent<ListItemProps> = ({
     (tabbableId && tabbableId === item.work.id) ||
     (!tabbableId && currentWorkId === item.work.id);
   const descendentIsSelected =
-    archiveAncestorArray &&
-    archiveAncestorArray.some(ancestor => ancestor.id === item.work.id);
+    ancestorArray &&
+    ancestorArray.some(ancestor => ancestor.id === item.work.id);
   const highlightCondition = item.openStatus
     ? 'primary'
     : descendentIsSelected
@@ -358,7 +358,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
           level={level + 1}
           tabbableId={tabbableId}
           setTabbableId={setTabbableId}
-          archiveAncestorArray={archiveAncestorArray}
+          ancestorArray={ancestorArray}
           setTree={setTree}
           firstItemTabbable={firstItemTabbable}
           showFirstLevelGuideline={showFirstLevelGuideline}

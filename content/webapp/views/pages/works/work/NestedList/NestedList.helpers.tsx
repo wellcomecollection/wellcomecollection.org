@@ -29,7 +29,7 @@ export type ListProps = {
   level: number;
   tabbableId?: string;
   setTabbableId: (id: string) => void;
-  archiveAncestorArray: RelatedWork[];
+  ancestorArray: RelatedWork[];
   firstItemTabbable: boolean;
   showFirstLevelGuideline: boolean;
   ItemRenderer: FunctionComponent<
