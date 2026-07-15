@@ -100,6 +100,35 @@ describe('IIIFItem type dispatch', () => {
     expect(screen.getByRole('link', { name: /download/i })).toBeInTheDocument();
   });
 
+  it('renders a distinct download link for each original file when there are several', () => {
+    renderItem({
+      item: {
+        id: 'https://example.com/placeholder',
+        type: 'Image',
+      } as IIIFItemProps,
+      canvas: createMockCanvas({
+        original: [
+          {
+            id: 'https://example.com/file-1.docx',
+            format: 'application/msword',
+            behavior: 'original',
+          },
+          {
+            id: 'https://example.com/file-2.docx',
+            format: 'application/msword',
+            behavior: 'original',
+          },
+        ] as never,
+      }),
+    });
+
+    const downloadLinks = screen.getAllByRole('link', { name: /download/i });
+    expect(downloadLinks.map(link => link.getAttribute('href'))).toEqual([
+      'https://example.com/file-1.docx',
+      'https://example.com/file-2.docx',
+    ]);
+  });
+
   it('renders the "Open" link for a PDF item', () => {
     renderItem({
       item: {
