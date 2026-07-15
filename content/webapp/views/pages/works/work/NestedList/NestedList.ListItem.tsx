@@ -167,7 +167,8 @@ const ListItem: FunctionComponent<ListItemProps> = ({
       : undefined;
 
   const isExpandable = Boolean(
-    item?.data?.totalParts && item?.data?.totalParts > 0
+    (item.data.totalParts && item.data.totalParts > 0) ||
+    (isTreeDataWork(item.data) && item.data.parts && item.data.parts.length > 0)
   );
 
   const showGuideline =
