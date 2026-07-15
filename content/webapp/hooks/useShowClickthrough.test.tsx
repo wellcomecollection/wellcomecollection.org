@@ -64,4 +64,23 @@ describe('useShowClickthrough', () => {
     postMessage({ accessToken: 'abc' }, 'https://evil.example.com');
     expect(result.current).toBe(true);
   });
+
+  it('ignores messages when tokenService is undefined', () => {
+    const { result } = renderHook(() =>
+      useShowClickthrough(clickThroughService, undefined)
+    );
+    expect(result.current).toBe(true);
+
+    postMessage({ accessToken: 'abc' }, tokenOrigin);
+    expect(result.current).toBe(true);
+  });
+
+  it('hides clickthrough when accessToken is present but empty', () => {
+    const { result } = renderHook(() =>
+      useShowClickthrough(clickThroughService, tokenService)
+    );
+
+    postMessage({ accessToken: '' }, tokenOrigin);
+    expect(result.current).toBe(false);
+  });
 });
