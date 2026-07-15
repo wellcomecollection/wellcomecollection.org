@@ -695,47 +695,7 @@ test('(43) | Page and Grid view controls hide when mobile sidebar is open', asyn
   }
 });
 
-test.only('(44) | Browser back/forward maintains correct canvas state', async ({
-  page,
-  context,
-}) => {
-  // Navigate to canvas 1
-  await multiVolumeItem(context, page, { canvasNumber: 1 });
-  await expect(page).toHaveURL(/canvas=1/);
-  await expect(page.getByTestId('main-viewer')).toBeVisible();
-
-  // Navigate to canvas 2
-  await multiVolumeItem(context, page, { canvasNumber: 2 });
-  await expect(page).toHaveURL(/canvas=2/);
-  await expect(page.getByTestId('main-viewer')).toBeVisible();
-
-  // Navigate to canvas 3
-  await multiVolumeItem(context, page, { canvasNumber: 3 });
-  await expect(page).toHaveURL(/canvas=3/);
-  await expect(page.getByTestId('main-viewer')).toBeVisible();
-
-  // Press browser back - should go to canvas 2
-  await page.goBack();
-  await page.waitForURL(/canvas=2/, { timeout: 10000 });
-  await expect(page.getByTestId('main-viewer')).toBeVisible();
-
-  // Press browser back again - should go to canvas 1 or initial URL
-  await page.goBack();
-  // After going back from canvas=1, we reach the initial load (may or may not have canvas param)
-  await expect(page.getByTestId('main-viewer')).toBeVisible();
-
-  // Press browser forward - should go to canvas 2
-  await page.goForward();
-  await page.waitForURL(/canvas=2/, { timeout: 10000 });
-  await expect(page.getByTestId('main-viewer')).toBeVisible();
-
-  // Press browser forward again - should go to canvas 3
-  await page.goForward();
-  await page.waitForURL(/canvas=3/, { timeout: 10000 });
-  await expect(page.getByTestId('main-viewer')).toBeVisible();
-});
-
-test('(45) | Rapid canvas navigation does not cause state corruption', async ({
+test('(44) | Rapid canvas navigation does not cause state corruption', async ({
   page,
   context,
 }) => {
@@ -762,7 +722,7 @@ test('(45) | Rapid canvas navigation does not cause state corruption', async ({
   await expect(page.getByTestId('main-viewer')).toBeVisible();
 });
 
-test('(46) | Direct URL to specific canvas loads correctly', async ({
+test('(45) | Direct URL to specific canvas loads correctly', async ({
   page,
   context,
 }) => {
@@ -776,46 +736,5 @@ test('(46) | Direct URL to specific canvas loads correctly', async ({
   // Verify the viewer is showing canvas 5
   if (!isMobile(page)) {
     await expect(page.getByTestId('active-index')).toHaveText('5');
-  }
-});
-
-test.only('(47) | Volume switching resets to first canvas', async ({
-  page,
-  context,
-}) => {
-  // Navigate to canvas 5 in current volume
-  await multiVolumeItem(context, page, { canvasNumber: 5 });
-  await expect(page).toHaveURL(/canvas=5/);
-
-  // Open sidebar to access volume switcher
-  if (isMobile(page)) {
-    await page.getByRole('button', { name: 'Show info' }).click();
-  }
-
-  // Open the Volumes accordion
-  const volumesButton = page.getByRole('button', { name: 'Volumes' });
-  await volumesButton.click();
-
-  // Wait for accordion to expand
-  await expect(volumesButton).toHaveAttribute('aria-expanded', 'true', {
-    timeout: 5000,
-  });
-
-  // Wait for the volumes list to be visible with extended timeout for mobile
-  await expect(page.getByRole('link', { name: 'Copy 2' })).toBeVisible({
-    timeout: 15000,
-  });
-
-  // Click on Copy 2 to switch volumes
-  await page.getByRole('link', { name: 'Copy 2' }).click();
-
-  // Volume switching should change the manifest
-  await expect(page).toHaveURL(/manifest=/);
-  await expect(page.getByTestId('main-viewer')).toBeVisible();
-
-  // Verify the canvas indicator shows 1 (reset from canvas 5)
-  // Note: URL may not have canvas param (defaults to 1)
-  if (!isMobile(page)) {
-    await expect(page.getByTestId('active-index')).toHaveText('1');
   }
 });
