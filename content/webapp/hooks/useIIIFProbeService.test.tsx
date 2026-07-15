@@ -80,6 +80,24 @@ describe('useIIIFProbeService', () => {
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
+  it('stays false and does not probe when StaffWithRestricted user has no access token', () => {
+    const fetchMock = jest.fn();
+    global.fetch = fetchMock as unknown as typeof fetch;
+
+    const { result } = renderHook(
+      () => useIIIFProbeService(restrictedCanvas('https://example.com/probe')),
+      {
+        wrapper: createWrapper({
+          userIsStaffWithRestricted: true,
+          accessToken: undefined,
+        }),
+      }
+    );
+
+    expect(result.current).toBe(false);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
   it('returns true without probing when a restricted canvas has no probe service', async () => {
     const fetchMock = jest.fn();
     global.fetch = fetchMock as unknown as typeof fetch;
@@ -125,6 +143,38 @@ describe('useIIIFProbeService', () => {
     const fetchMock = jest.fn().mockResolvedValue({
       json: () => Promise.resolve({ status: 403 }),
     });
+    global.fetch = fetchMock as unknown as typeof fetch;
+
+    const { result } = renderHook(
+      () => useIIIFProbeService(restrictedCanvas('https://example.com/probe')),
+      {
+        wrapper: createWrapper({
+          userIsStaffWithRestricted: true,
+          accessToken: 'token-123',
+        }),
+      }
+    );
+
+    // Initial state: false (restricted canvas)
+    expect(result.current).toBe(false);
+
+    // Advance through all 5 retry attempts (400ms each)
+    for (let i = 0; i < 5; i++) {
+      await act(async () => {
+        await jest.advanceTimersByTimeAsync(400);
+      });
+    }
+
+    // After exhausting retries, should fall back to true
+    await waitFor(() => expect(result.current).toBe(true));
+    expect(fetchMock).toHaveBeenCalledTimes(5);
+
+    jest.useRealTimers();
+  });
+
+  it('falls back to true after 5 network errors', async () => {
+    jest.useFakeTimers();
+    const fetchMock = jest.fn().mockRejectedValue(new Error('Network error'));
     global.fetch = fetchMock as unknown as typeof fetch;
 
     const { result } = renderHook(
