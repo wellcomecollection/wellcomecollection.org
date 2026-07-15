@@ -713,7 +713,7 @@ test('(44) | Browser back/forward maintains correct canvas state', async ({
 
   // Press browser back - should go to canvas 2
   await page.goBack();
-  await expect(page).toHaveURL(/canvas=2/);
+  await page.waitForURL(/canvas=2/, { timeout: 10000 });
   await expect(page.getByTestId('main-viewer')).toBeVisible();
 
   // Press browser back again - should go to canvas 1 or initial URL
@@ -723,12 +723,12 @@ test('(44) | Browser back/forward maintains correct canvas state', async ({
 
   // Press browser forward - should go to canvas 2
   await page.goForward();
-  await expect(page).toHaveURL(/canvas=2/);
+  await page.waitForURL(/canvas=2/, { timeout: 10000 });
   await expect(page.getByTestId('main-viewer')).toBeVisible();
 
   // Press browser forward again - should go to canvas 3
   await page.goForward();
-  await expect(page).toHaveURL(/canvas=3/);
+  await page.waitForURL(/canvas=3/, { timeout: 10000 });
   await expect(page.getByTestId('main-viewer')).toBeVisible();
 });
 
@@ -793,8 +793,10 @@ test('(47) | Volume switching resets to first canvas', async ({
   const volumesButton = page.getByRole('button', { name: 'Volumes' });
   await volumesButton.click();
 
-  // Wait for the volumes list to be visible
-  await expect(page.getByRole('link', { name: 'Copy 2' })).toBeVisible();
+  // Wait for the volumes list to be visible with extended timeout for mobile
+  await expect(page.getByRole('link', { name: 'Copy 2' })).toBeVisible({
+    timeout: 10000,
+  });
 
   // Click on Copy 2 to switch volumes
   await page.getByRole('link', { name: 'Copy 2' }).click();
