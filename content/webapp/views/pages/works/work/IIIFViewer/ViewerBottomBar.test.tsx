@@ -105,8 +105,8 @@ describe('ViewerBottomBar navigation (non-image works)', () => {
     const previousButton = screen.getByRole('link', { name: /previous/i });
     const nextButton = screen.getByRole('link', { name: /next/i });
 
-    expect(previousButton).not.toHaveAttribute('disabled');
-    expect(nextButton).not.toHaveAttribute('disabled');
+    expect(previousButton).toHaveAttribute('href');
+    expect(nextButton).toHaveAttribute('href');
   });
 
   it('shows page counter with correct canvas position', () => {
@@ -317,13 +317,9 @@ describe('ViewerBottomBar edge cases', () => {
     // Should not crash - bottom bar should render
     expect(screen.getByTestId('bottombar')).toBeInTheDocument();
 
-    // Navigation buttons should not be rendered when canvas is invalid
-    expect(
-      screen.queryByRole('button', { name: 'Go to previous canvas' })
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByRole('button', { name: 'Go to next canvas' })
-    ).not.toBeInTheDocument();
+    // Page/Grid controls should still be usable
+    expect(screen.getByRole('button', { name: 'Page' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Grid' })).toBeInTheDocument();
   });
 
   it('handles canvas=0 gracefully (invalid 1-indexed value)', () => {
@@ -343,12 +339,8 @@ describe('ViewerBottomBar edge cases', () => {
     // Should not crash - bottom bar should render
     expect(screen.getByTestId('bottombar')).toBeInTheDocument();
 
-    // Navigation buttons should not be rendered when canvas is invalid
-    expect(
-      screen.queryByRole('button', { name: 'Go to previous canvas' })
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByRole('button', { name: 'Go to next canvas' })
-    ).not.toBeInTheDocument();
+    // Page/Grid controls should still be usable
+    expect(screen.getByRole('button', { name: 'Page' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Grid' })).toBeInTheDocument();
   });
 });
