@@ -1,4 +1,4 @@
-import { renderHook, waitFor } from '@testing-library/react';
+import { act, renderHook, waitFor } from '@testing-library/react';
 import { FunctionComponent, PropsWithChildren } from 'react';
 
 import UserContext, {
@@ -142,7 +142,9 @@ describe('useIIIFProbeService', () => {
 
     // Advance through all 5 retry attempts (400ms each)
     for (let i = 0; i < 5; i++) {
-      await jest.advanceTimersByTimeAsync(400);
+      await act(async () => {
+        await jest.advanceTimersByTimeAsync(400);
+      });
     }
 
     // After exhausting retries, should fall back to true
