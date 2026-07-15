@@ -34,7 +34,7 @@ function convertStructuresToTree(
           return {
             openStatus: openByDefault,
             parentId,
-            work: {
+            data: {
               ...item,
               title: getLabelString(item.label),
               totalParts: item.items?.length || 0,
@@ -58,7 +58,7 @@ function convertStructuresToTree(
           return {
             openStatus: openByDefault,
             parentId,
-            work: {
+            data: {
               ...transformedCanvas,
               downloads,
               totalParts: 0,
@@ -86,7 +86,7 @@ export function createDownloadTree(
   );
   const topLevelItem = {
     openStatus: openByDefault,
-    work: {
+    data: {
       id: 'objects',
       type: 'Range',
       title: 'objects',
@@ -112,8 +112,8 @@ export function getTreeCanvasIndexById(tree: UiTree): Record<string, number> {
   function traverse(nodes: UiTree) {
     for (const node of nodes) {
       // Only canvases get an index; ranges/folders are skipped
-      if (node.work.type === 'Canvas') {
-        canvasIndexById[node.work.id] = index++;
+      if (node.data.type === 'Canvas') {
+        canvasIndexById[node.data.id] = index++;
       }
       // Recursively traverse children (if any)
       if (node.children) {

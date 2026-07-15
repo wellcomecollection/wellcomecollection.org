@@ -45,7 +45,7 @@ export const isRelatedWork = (
 
 export function getTabbableIds(tree: UiTree): string[] {
   return tree.reduce((acc: string[], curr) => {
-    acc.push(curr.work.id);
+    acc.push(curr.data.id);
     if (curr.openStatus && curr.children) {
       acc = acc.concat(getTabbableIds(curr.children));
     }
@@ -65,7 +65,7 @@ export function updateChildren({
   manualUpdate?: boolean;
 }): UiTree {
   return tree.map(item => {
-    if (item.work.id === id) {
+    if (item.data.id === id) {
       return {
         ...item,
         openStatus: manualUpdate || item.openStatus,
@@ -88,11 +88,11 @@ export function updateChildren({
 }
 
 export function getAriaLabel(item: UiTreeNode) {
-  return isRelatedWork(item.work)
-    ? `${item.work.title}${
-        item.work.referenceNumber
-          ? `, reference number ${item.work.referenceNumber}`
+  return isRelatedWork(item.data)
+    ? `${item.data.title}${
+        item.data.referenceNumber
+          ? `, reference number ${item.data.referenceNumber}`
           : ''
       }`
-    : item.work.title;
+    : item.data.title;
 }

@@ -63,13 +63,13 @@ const WorkItem: FunctionComponent<WorkItemRendererProps> = ({
       )}
 
       <StyledLink
-        {...toWorkLink({ id: item.work.id, scroll: false })}
+        {...toWorkLink({ id: item.data.id, scroll: false })}
         className={classNames({
           [typography('body', 'sm', 'strong')]: level === 1,
           [typography('body', 'sm', 'regular')]: level > 1,
         })}
         tabIndex={isEnhanced ? (isSelected ? 0 : -1) : 0}
-        $isCurrent={currentWorkId === item.work.id}
+        $isCurrent={currentWorkId === item.data.id}
         $hasControl={hasControl}
         onClick={event => {
           // We don't want to open the branch, when the work link is activated
@@ -77,14 +77,14 @@ const WorkItem: FunctionComponent<WorkItemRendererProps> = ({
         }}
         {...dataGtmPropsToAttributes({
           trigger: 'tree_link',
-          label: `${item.work.title}${isRelatedWork(item.work) && item.work.referenceNumber ? ` (${item.work.referenceNumber})` : ''}`,
+          label: `${item.data.title}${isRelatedWork(item.data) && item.data.referenceNumber ? ` (${item.data.referenceNumber})` : ''}`,
           'data-tree-level': String(level),
         })}
       >
-        <WorkTitle title={item.work.title} />
+        <WorkTitle title={item.data.title} />
 
-        {isRelatedWork(item.work) && (
-          <RefNumber>{item.work.referenceNumber}</RefNumber>
+        {isRelatedWork(item.data) && (
+          <RefNumber>{item.data.referenceNumber}</RefNumber>
         )}
       </StyledLink>
     </div>

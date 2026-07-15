@@ -21,7 +21,7 @@ export type UiTreeNode = {
   openStatus: boolean;
   parentId?: string;
   children?: UiTree;
-  work: RelatedWork | CanvasWork | RangeWork;
+  data: RelatedWork | CanvasWork | RangeWork;
 };
 
 export type UiTree = UiTreeNode[];

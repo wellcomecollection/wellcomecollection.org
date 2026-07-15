@@ -64,7 +64,7 @@ const constructTree = (
 
   return {
     openStatus: curr.id === hierarchy[0]?.id,
-    work: curr,
+    data: curr,
     parentId: parent ? parent.id : undefined,
     children: childNodes,
   };

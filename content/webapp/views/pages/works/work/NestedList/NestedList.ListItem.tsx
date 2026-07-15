@@ -32,12 +32,12 @@ function updateOpenStatus({
   value: boolean;
 }): UiTree {
   const newTree = tree.map(node => {
-    if (node.work.id === id) {
+    if (node.data.id === id) {
       return {
         ...node,
         openStatus: value,
       };
-    } else if (node.work.id !== id && node.children) {
+    } else if (node.data.id !== id && node.children) {
       return {
         ...node,
         children: updateOpenStatus({ id, tree: node.children, value }),
@@ -54,7 +54,7 @@ async function getChildren(workId: string): Promise<UiTree> {
 
   return work.type !== 'Error' && work.type !== 'Redirect' && work.parts
     ? work.parts.map(part => ({
-        work: part,
+        data: part,
         openStatus: false,
         parentId: workId,
       }))
@@ -94,12 +94,12 @@ async function expandTree({
   setTree: (tree: UiTree) => void;
   tree: UiTree;
 }) {
-  const children = await getChildren(item.work.id);
+  const children = await getChildren(item.data.id);
 
   setTree(
     updateChildren({
       tree: tree,
-      id: item.work.id,
+      id: item.data.id,
       value: children,
       manualUpdate: true,
     })
@@ -153,13 +153,13 @@ const ListItem: FunctionComponent<ListItemProps> = ({
   itemRendererProps,
 }: ListItemProps) => {
   const { isEnhanced } = useAppContext();
-  const isEndNode = item.work.totalParts === 0;
+  const isEndNode = item.data.totalParts === 0;
   const isSelected =
-    (tabbableId && tabbableId === item.work.id) ||
-    (!tabbableId && currentWorkId === item.work.id);
+    (tabbableId && tabbableId === item.data.id) ||
+    (!tabbableId && currentWorkId === item.data.id);
   const descendentIsSelected =
     ancestorArray &&
-    ancestorArray.some(ancestor => ancestor.id === item.work.id);
+    ancestorArray.some(ancestor => ancestor.id === item.data.id);
   const highlightCondition = item.openStatus
     ? 'primary'
     : descendentIsSelected
@@ -167,7 +167,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
       : undefined;
 
   const isExpandable = Boolean(
-    item?.work?.totalParts && item?.work?.totalParts > 0
+    item?.data?.totalParts && item?.data?.totalParts > 0
   );
 
   const showGuideline =
@@ -182,7 +182,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
         event: 'tree_chevron',
         treeItem: {
           level: String(level),
-          label: `${item.work.title}${isRelatedWork(item.work) && item.work.referenceNumber ? ` (${item.work.referenceNumber})` : ''}`,
+          label: `${item.data.title}${isRelatedWork(item.data) && item.data.referenceNumber ? ` (${item.data.referenceNumber})` : ''}`,
         },
       });
     }
@@ -200,7 +200,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
     } else {
       setTree(
         updateOpenStatus({
-          id: item.work.id,
+          id: item.data.id,
           tree: tree,
           value: !item.openStatus,
         })
@@ -210,7 +210,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
 
   return (
     <TreeItem
-      id={item.work.id}
+      id={item.data.id}
       role={isEnhanced ? 'treeitem' : undefined}
       $isEnhanced={isEnhanced}
       $showGuideline={showGuideline}
@@ -244,11 +244,11 @@ const ListItem: FunctionComponent<ListItemProps> = ({
         if (!isKeyOfInterest) return;
 
         const nextId = getNextTabbableId({
-          currentId: item.work.id,
+          currentId: item.data.id,
           tree: tree,
         });
         const previousId = getPreviousTabbableId({
-          currentId: item.work.id,
+          currentId: item.data.id,
           tree: tree,
         });
 
@@ -262,14 +262,14 @@ const ListItem: FunctionComponent<ListItemProps> = ({
             }
 
             // When focus is on an end node, does nothing.
-            if (item.work.totalParts && item.work.totalParts === 0) {
+            if (item.data.totalParts && item.data.totalParts === 0) {
               return;
             }
 
             // When focus is on a closed node, opens the node; focus does not move.
             if (!item.openStatus) {
               toggleBranch();
-              setTabbableId(item.work.id);
+              setTabbableId(item.data.id);
             }
             break;
           }
@@ -277,18 +277,18 @@ const ListItem: FunctionComponent<ListItemProps> = ({
             // When focus is on an open node, closes the node.
             if (
               item.openStatus &&
-              item.work.totalParts &&
-              item.work.totalParts > 0
+              item.data.totalParts &&
+              item.data.totalParts > 0
             ) {
               trackChevron();
               setTree(
                 updateOpenStatus({
-                  id: item.work.id,
+                  id: item.data.id,
                   tree: tree,
                   value: !item.openStatus,
                 })
               );
-              setTabbableId(item.work.id);
+              setTabbableId(item.data.id);
             }
             // When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
             // When focus is on a root node that is also either an end node or a closed node, does nothing.
@@ -331,7 +331,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
 
         if (level > 0) {
           toggleBranch();
-          setTabbableId(item.work.id);
+          setTabbableId(item.data.id);
         }
       }}
     >

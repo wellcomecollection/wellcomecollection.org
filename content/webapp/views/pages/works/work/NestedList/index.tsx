@@ -43,10 +43,10 @@ const NestedList: FunctionComponent<NestedListProps> = ({
       {items &&
         items.map((item, i) => {
           return (
-            item.work && (
+            item.data && (
               <ListItem
                 index={i}
-                key={item.work.id}
+                key={item.data.id}
                 item={item}
                 currentWorkId={currentWorkId}
                 tree={tree}

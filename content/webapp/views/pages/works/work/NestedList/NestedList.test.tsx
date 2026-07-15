@@ -6,10 +6,10 @@ describe('getTabbableIds', () => {
   it('finds all IDs', () => {
     const tree = [
       {
-        work: { id: 'PENROSE' },
+        data: { id: 'PENROSE' },
       },
       {
-        work: { id: 'CRICK' },
+        data: { id: 'CRICK' },
       },
     ];
     const result = getTabbableIds(tree as unknown as UiTree);
@@ -19,11 +19,11 @@ describe('getTabbableIds', () => {
   it('includes IDs of nodes which are not open', () => {
     const tree = [
       {
-        work: { id: 'PENROSE' },
+        data: { id: 'PENROSE' },
         openStatus: true,
       },
       {
-        work: { id: 'CRICK' },
+        data: { id: 'CRICK' },
         openStatus: false,
       },
     ];
@@ -34,35 +34,35 @@ describe('getTabbableIds', () => {
   it('only recurses into the children of open elements', () => {
     const tree = [
       {
-        work: { id: 'PENROSE' },
+        data: { id: 'PENROSE' },
         openStatus: true,
         children: [
-          { work: { id: 'PENROSE/1' } },
-          { work: { id: 'PENROSE/2' } },
+          { data: { id: 'PENROSE/1' } },
+          { data: { id: 'PENROSE/2' } },
           {
-            work: { id: 'PENROSE/3' },
+            data: { id: 'PENROSE/3' },
             openStatus: false,
-            children: [{ work: { id: 'PENROSE/3/1' } }],
+            children: [{ data: { id: 'PENROSE/3/1' } }],
           },
           {
-            work: { id: 'PENROSE/4' },
+            data: { id: 'PENROSE/4' },
             openStatus: true,
-            children: [{ work: { id: 'PENROSE/4/1' } }],
+            children: [{ data: { id: 'PENROSE/4/1' } }],
           },
         ],
       },
       {
-        work: { id: 'CRICK' },
+        data: { id: 'CRICK' },
         openStatus: false,
         children: [
-          { work: { id: 'CRICK/1' } },
-          { work: { id: 'CRICK/2' } },
+          { data: { id: 'CRICK/1' } },
+          { data: { id: 'CRICK/2' } },
           {
             // Although this child is open, because the parent is closed we shouldn't
             // recurse down to it.
-            work: { id: 'CRICK/3' },
+            data: { id: 'CRICK/3' },
             openStatus: true,
-            children: [{ work: { id: 'CRICK/3/1' } }],
+            children: [{ data: { id: 'CRICK/3/1' } }],
           },
         ],
       },
