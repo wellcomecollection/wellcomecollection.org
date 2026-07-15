@@ -1,6 +1,8 @@
 import { render } from '@testing-library/react';
+import { ThemeProvider } from 'styled-components';
 
 import { AppContextProvider } from '@weco/common/contexts/AppContext';
+import theme from '@weco/common/views/themes/default';
 import {
   TreeDataCanvas,
   TreeDataWork,
@@ -138,16 +140,18 @@ describe('NestedList', () => {
       };
 
       render(
-        <AppContextProvider>
-          <ListItem {...defaultProps} item={item} />
-        </AppContextProvider>
+        <ThemeProvider theme={theme}>
+          <AppContextProvider>
+            <ListItem {...defaultProps} item={item} />
+          </AppContextProvider>
+        </ThemeProvider>
       );
 
       expect(mockItemRenderer).toHaveBeenCalledWith(
         expect.objectContaining({
           hasControl: true,
         }),
-        {}
+        undefined
       );
     });
 
@@ -167,16 +171,18 @@ describe('NestedList', () => {
       };
 
       render(
-        <AppContextProvider>
-          <ListItem {...defaultProps} item={item} />
-        </AppContextProvider>
+        <ThemeProvider theme={theme}>
+          <AppContextProvider>
+            <ListItem {...defaultProps} item={item} />
+          </AppContextProvider>
+        </ThemeProvider>
       );
 
       expect(mockItemRenderer).toHaveBeenCalledWith(
         expect.objectContaining({
           hasControl: true,
         }),
-        {}
+        undefined
       );
     });
 
@@ -196,16 +202,18 @@ describe('NestedList', () => {
       };
 
       render(
-        <AppContextProvider>
-          <ListItem {...defaultProps} item={item} />
-        </AppContextProvider>
+        <ThemeProvider theme={theme}>
+          <AppContextProvider>
+            <ListItem {...defaultProps} item={item} />
+          </AppContextProvider>
+        </ThemeProvider>
       );
 
       expect(mockItemRenderer).toHaveBeenCalledWith(
         expect.objectContaining({
           hasControl: false,
         }),
-        {}
+        undefined
       );
     });
 
@@ -224,16 +232,18 @@ describe('NestedList', () => {
       };
 
       render(
-        <AppContextProvider>
-          <ListItem {...defaultProps} item={item} />
-        </AppContextProvider>
+        <ThemeProvider theme={theme}>
+          <AppContextProvider>
+            <ListItem {...defaultProps} item={item} />
+          </AppContextProvider>
+        </ThemeProvider>
       );
 
       expect(mockItemRenderer).toHaveBeenCalledWith(
         expect.objectContaining({
           hasControl: false,
         }),
-        {}
+        undefined
       );
     });
 
@@ -249,16 +259,18 @@ describe('NestedList', () => {
       };
 
       render(
-        <AppContextProvider>
-          <ListItem {...defaultProps} item={item} />
-        </AppContextProvider>
+        <ThemeProvider theme={theme}>
+          <AppContextProvider>
+            <ListItem {...defaultProps} item={item} />
+          </AppContextProvider>
+        </ThemeProvider>
       );
 
       expect(mockItemRenderer).toHaveBeenCalledWith(
         expect.objectContaining({
           hasControl: true,
         }),
-        {}
+        undefined
       );
     });
   });
