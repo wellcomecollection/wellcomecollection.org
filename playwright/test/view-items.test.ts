@@ -159,17 +159,16 @@ test('(8) | Licence information should be available', async ({
   await expect(page.getByText('Credit:')).toBeVisible();
 });
 
-// Please unskip once this is fixed by Digirati
-// https://wellcome.slack.com/archives/CBT40CMKQ/p1779797736981459
-test.skip('(9) | The image should rotate', async ({ page, context }) => {
+test('(9) | The image should rotate', async ({ page, context }) => {
   await itemWithSearchAndStructures(context, page);
   await page.getByRole('button', { name: 'Rotate' }).click();
   const currentIndex = await page.getByTestId('active-index').textContent();
-  const currentImageSrc = await page
-    .getByTestId(`image-${Number(currentIndex) - 1}`)
-    .getAttribute('src');
-  // If the image url contains /90/default.jpg then the image is rotated 90 degrees
-  expect(currentImageSrc).toContain('/90/default.jpg');
+
+  // Check that the image URL contains /90/default.jpg to verify rotation
+  // Using regex with toHaveAttribute provides auto-retry assertions
+  await expect(
+    page.getByTestId(`image-${Number(currentIndex) - 1}`)
+  ).toHaveAttribute('src', /\/90\/default\.jpg/);
 });
 
 test('(10) | The volumes should be browsable', async ({ page, context }) => {
