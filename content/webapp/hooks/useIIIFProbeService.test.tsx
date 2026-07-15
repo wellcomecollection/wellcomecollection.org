@@ -119,4 +119,36 @@ describe('useIIIFProbeService', () => {
       headers: { Authorization: 'Bearer token-123' },
     });
   });
+
+  it('falls back to true after 5 failed probe attempts', async () => {
+    jest.useFakeTimers();
+    const fetchMock = jest.fn().mockResolvedValue({
+      json: () => Promise.resolve({ status: 403 }),
+    });
+    global.fetch = fetchMock as unknown as typeof fetch;
+
+    const { result } = renderHook(
+      () => useIIIFProbeService(restrictedCanvas('https://example.com/probe')),
+      {
+        wrapper: createWrapper({
+          userIsStaffWithRestricted: true,
+          accessToken: 'token-123',
+        }),
+      }
+    );
+
+    // Initial state: false (restricted canvas)
+    expect(result.current).toBe(false);
+
+    // Advance through all 5 retry attempts (400ms each)
+    for (let i = 0; i < 5; i++) {
+      await jest.advanceTimersByTimeAsync(400);
+    }
+
+    // After exhausting retries, should fall back to true
+    await waitFor(() => expect(result.current).toBe(true));
+    expect(fetchMock).toHaveBeenCalledTimes(5);
+
+    jest.useRealTimers();
+  });
 });
