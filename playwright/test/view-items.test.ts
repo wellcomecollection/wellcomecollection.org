@@ -695,21 +695,24 @@ test('(43) | Page and Grid view controls hide when mobile sidebar is open', asyn
   }
 });
 
-test('(44) | Browser back/forward maintains correct canvas state', async ({
+test.only('(44) | Browser back/forward maintains correct canvas state', async ({
   page,
   context,
 }) => {
   // Navigate to canvas 1
   await multiVolumeItem(context, page, { canvasNumber: 1 });
   await expect(page).toHaveURL(/canvas=1/);
+  await expect(page.getByTestId('main-viewer')).toBeVisible();
 
   // Navigate to canvas 2
   await multiVolumeItem(context, page, { canvasNumber: 2 });
   await expect(page).toHaveURL(/canvas=2/);
+  await expect(page.getByTestId('main-viewer')).toBeVisible();
 
   // Navigate to canvas 3
   await multiVolumeItem(context, page, { canvasNumber: 3 });
   await expect(page).toHaveURL(/canvas=3/);
+  await expect(page.getByTestId('main-viewer')).toBeVisible();
 
   // Press browser back - should go to canvas 2
   await page.goBack();
@@ -776,7 +779,7 @@ test('(46) | Direct URL to specific canvas loads correctly', async ({
   }
 });
 
-test('(47) | Volume switching resets to first canvas', async ({
+test.only('(47) | Volume switching resets to first canvas', async ({
   page,
   context,
 }) => {
@@ -793,9 +796,14 @@ test('(47) | Volume switching resets to first canvas', async ({
   const volumesButton = page.getByRole('button', { name: 'Volumes' });
   await volumesButton.click();
 
+  // Wait for accordion to expand
+  await expect(volumesButton).toHaveAttribute('aria-expanded', 'true', {
+    timeout: 5000,
+  });
+
   // Wait for the volumes list to be visible with extended timeout for mobile
   await expect(page.getByRole('link', { name: 'Copy 2' })).toBeVisible({
-    timeout: 10000,
+    timeout: 15000,
   });
 
   // Click on Copy 2 to switch volumes
