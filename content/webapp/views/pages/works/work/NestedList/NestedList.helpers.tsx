@@ -1,12 +1,12 @@
 import { FunctionComponent } from 'react';
 
-import { RelatedWork } from '@weco/content/services/wellcome/catalogue/types';
 import { WorkItemRendererProps } from '@weco/content/views/pages/works/work/ArchiveTree/ArchiveTree.WorkItemRenderer';
 import { DownloadItemRendererProps } from '@weco/content/views/pages/works/work/work.DownloadItemRenderer';
 import { controlDimensions } from '@weco/content/views/pages/works/work/work.helpers';
 import {
-  CanvasWork,
-  RangeWork,
+  TreeDataCanvas,
+  TreeDataRange,
+  TreeDataWork,
   UiTree,
   UiTreeNode,
 } from '@weco/content/views/pages/works/work/work.types';
@@ -29,7 +29,7 @@ export type ListProps = {
   level: number;
   tabbableId?: string;
   setTabbableId: (id: string) => void;
-  ancestorArray: RelatedWork[];
+  ancestorArray: TreeDataWork[];
   firstItemTabbable: boolean;
   showFirstLevelGuideline: boolean;
   ItemRenderer: FunctionComponent<
@@ -37,10 +37,10 @@ export type ListProps = {
   >;
 };
 
-export const isRelatedWork = (
-  work: RelatedWork | CanvasWork | RangeWork
-): work is RelatedWork => {
-  return work.type !== 'Range' && work.type !== 'Canvas';
+export const isTreeDataWork = (
+  data: TreeDataWork | TreeDataCanvas | TreeDataRange
+): data is TreeDataWork => {
+  return data.type !== 'Range' && data.type !== 'Canvas';
 };
 
 export function getTabbableIds(tree: UiTree): string[] {
@@ -88,7 +88,7 @@ export function updateChildren({
 }
 
 export function getAriaLabel(item: UiTreeNode) {
-  return isRelatedWork(item.data)
+  return isTreeDataWork(item.data)
     ? `${item.data.title}${
         item.data.referenceNumber
           ? `, reference number ${item.data.referenceNumber}`

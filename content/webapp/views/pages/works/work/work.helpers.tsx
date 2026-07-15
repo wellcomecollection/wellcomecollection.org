@@ -10,7 +10,7 @@ import {
   isTransformedCanvas,
 } from '@weco/content/utils/iiif/v3';
 
-import { RangeWork, UiTree } from './work.types';
+import { TreeDataRange, UiTree } from './work.types';
 
 export const controlDimensions = {
   controlWidth: 44,
@@ -92,7 +92,7 @@ export function createDownloadTree(
       title: 'objects',
       label: { en: ['objects'] },
       totalParts: downloads.length,
-    } as RangeWork,
+    } as TreeDataRange,
     children: downloads,
   };
   // If skipObjectsNode is true don't wrap it in an objects range

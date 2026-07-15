@@ -74,4 +74,4 @@ const NestedList: FunctionComponent<NestedListProps> = ({
 export default NestedList;
 
 export { TreeControl } from './NestedList.styles';
-export { isRelatedWork } from './NestedList.helpers';
+export { isTreeDataWork } from './NestedList.helpers';

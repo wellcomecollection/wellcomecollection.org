@@ -9,7 +9,7 @@ import Icon from '@weco/common/views/components/Icon';
 import { toWorkLink } from '@weco/content/views/components/WorkLink';
 import WorkTitle from '@weco/content/views/components/WorkTitle';
 import {
-  isRelatedWork,
+  isTreeDataWork,
   TreeControl,
 } from '@weco/content/views/pages/works/work/NestedList';
 import { UiTreeNode } from '@weco/content/views/pages/works/work/work.types';
@@ -77,13 +77,13 @@ const WorkItem: FunctionComponent<WorkItemRendererProps> = ({
         }}
         {...dataGtmPropsToAttributes({
           trigger: 'tree_link',
-          label: `${item.data.title}${isRelatedWork(item.data) && item.data.referenceNumber ? ` (${item.data.referenceNumber})` : ''}`,
+          label: `${item.data.title}${isTreeDataWork(item.data) && item.data.referenceNumber ? ` (${item.data.referenceNumber})` : ''}`,
           'data-tree-level': String(level),
         })}
       >
         <WorkTitle title={item.data.title} />
 
-        {isRelatedWork(item.data) && (
+        {isTreeDataWork(item.data) && (
           <RefNumber>{item.data.referenceNumber}</RefNumber>
         )}
       </StyledLink>

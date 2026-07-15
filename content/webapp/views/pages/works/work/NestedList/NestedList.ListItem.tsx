@@ -11,7 +11,7 @@ import NestedList from '.';
 import {
   getAriaLabel,
   getTabbableIds,
-  isRelatedWork,
+  isTreeDataWork,
   ListProps,
   updateChildren,
 } from './NestedList.helpers';
@@ -182,7 +182,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
         event: 'tree_chevron',
         treeItem: {
           level: String(level),
-          label: `${item.data.title}${isRelatedWork(item.data) && item.data.referenceNumber ? ` (${item.data.referenceNumber})` : ''}`,
+          label: `${item.data.title}${isTreeDataWork(item.data) && item.data.referenceNumber ? ` (${item.data.referenceNumber})` : ''}`,
         },
       });
     }
