@@ -237,68 +237,10 @@ export const getCardLabels = (work: Work): Label[] => {
   }
 };
 
-function makeArchiveAncestorArray(
-  partOfArray: RelatedWork[],
-  nextPart: RelatedWork | undefined
-) {
-  /*
-  Recursively populate a list of ancestors (i.e. things that this object is "part of")
-
-  Objects outside of this strict single-parent hierarchy are ignored.
-
-  The returned list is ordered from closest to furthest (parent, grandparent, great grandparent).
-  */
-  if (!nextPart) {
-    return partOfArray;
-  }
-  return makeArchiveAncestorArray(
-    [...partOfArray, nextPart],
-    hierarchicalParentOf(nextPart)
-  );
-}
-
-function hierarchicalParentOf(work: RelatedWork): RelatedWork | undefined {
-  /*
-  Return the immediate parent of a Work within a strict single parent hierarchy.
-
-  The partOf member of a Work contains a tree of objects to which this Work belongs.
-
-  In strictly hierarchical content (Archive Collection data), each Work will have
-  maximally one partOf value. However, partOf is a list that may contain other
-  parents or containers.
-
-  The number of child objects that any given object in the partOf hierarchy has is
-  stored in the totalParts property.
-
-  Any object in the partOf list that has no parts is not part of the hierarchy.
-
-  These should be excluded from the ancestor hierarchy as they
-  may represent an excessively broad member lists or multi-parent hierarchies
-  such as Library Series.
-  */
-  if (!work || !work.partOf) {
-    return;
-  }
-  for (const candidate of work.partOf) {
-    if (candidate.totalParts) {
-      return candidate;
-    }
-  }
-}
+// Return all the ancestors of work starting with the most distant.
+// Filters partOf items to only include those with totalParts (part of the strict hierarchy)
 
 export function getArchiveAncestorArray(work: Work): RelatedWork[] {
-  /*
-  Return all the ancestors of work starting with the most distant.
-  */
-
-  // Works from the legacy (Scala-populated) index have a recursive 'partOf' field, which needs to be flattened
-  // using the `makeArchiveAncestorArray` function. To determine if a work comes from the legacy index, we check
-  // whether it has a 'totalDescendentParts' field.
-  // TODO: Remove this (and the `makeArchiveAncestorArray` function) once we switch to the new index
-  if (work.partOf?.[0]?.totalDescendentParts !== undefined) {
-    return makeArchiveAncestorArray([], hierarchicalParentOf(work)).reverse();
-  }
-
   return [...(work.partOf || []).filter(item => item.totalParts)].reverse();
 }
 
