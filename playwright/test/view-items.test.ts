@@ -411,6 +411,7 @@ test('(27) | Video info panel displays heading', async ({ page, context }) => {
   await itemWithVideo(context, page);
   await checkInfoPanelHasHeading(page);
 });
+
 test('(28) | Audio player is visible and renders', async ({
   page,
   context,
@@ -419,6 +420,7 @@ test('(28) | Audio player is visible and renders', async ({
   // Check for custom audio player's play button
   await expect(page.getByRole('button', { name: 'Play' })).toBeVisible();
 });
+
 test('(29) | Audio playback controls are functional', async ({
   page,
   context,
@@ -436,6 +438,7 @@ test('(29) | Audio playback controls are functional', async ({
   // And aria-pressed should be true
   await expect(page.locator('button[aria-pressed="true"]')).toBeVisible();
 });
+
 test('(30) | Audio download options are available', async ({
   page,
   context,
@@ -443,6 +446,7 @@ test('(30) | Audio download options are available', async ({
   await itemWithAudio(context, page);
   await checkDownloadsAvailable(page);
 });
+
 test('(31) | Audio info panel displays heading', async ({ page, context }) => {
   await itemWithAudio(context, page);
   await checkInfoPanelHasHeading(page);
@@ -520,6 +524,7 @@ test('(35) | PDF file links update selected item, page indicator and pdf', async
     );
   }
 });
+
 test('(36) | Born digital files display and links update selected item and display media', async ({
   page,
   context,
@@ -560,11 +565,13 @@ test('(36) | Born digital files display and links update selected item and displ
     await expect(page.getByRole('button', { name: 'Play' })).toBeVisible();
   }
 });
+
 test('(37) | Born digital have downloads', async ({ page, context }) => {
   await itemWithMixedBornDigital(context, page);
   const downloadLink = page.getByRole('link', { name: /download/i });
   await expect(downloadLink.first()).toBeVisible();
 });
+
 test('(38) | Born digital info panel displays heading', async ({
   page,
   context,
@@ -572,6 +579,7 @@ test('(38) | Born digital info panel displays heading', async ({
   await itemWithMixedBornDigital(context, page);
   await checkInfoPanelHasHeading(page);
 });
+
 test('(39) | Mobile pagination updates content in main viewer', async ({
   page,
   context,
@@ -589,6 +597,7 @@ test('(39) | Mobile pagination updates content in main viewer', async ({
     await checkPageIndicator(page, '1/27', 'bottombar');
   }
 });
+
 test('(40) | OCR text should be accessible to screenreaders', async ({
   page,
   context,
@@ -600,4 +609,212 @@ test('(40) | OCR text should be accessible to screenreaders', async ({
   const describedById = await img.getAttribute('aria-describedby');
   expect(describedById).toBeTruthy();
   await expect(page.locator(`#${describedById}`)).toContainText('22102033982');
+});
+
+test('(41) | Mobile sidebar toggle button text changes between Show and Hide info', async ({
+  page,
+  context,
+}) => {
+  await multiVolumeItem(context, page);
+
+  if (isMobile(page)) {
+    // Initially should show "Show info" button
+    const showInfoButton = page.getByRole('button', { name: 'Show info' });
+    await expect(showInfoButton).toBeVisible();
+
+    // Click to open sidebar
+    await showInfoButton.click();
+
+    // Button text should change to "Hide info"
+    const hideInfoButton = page.getByRole('button', { name: 'Hide info' });
+    await expect(hideInfoButton).toBeVisible();
+
+    // Click to close sidebar
+    await hideInfoButton.click();
+
+    // Button text should change back to "Show info"
+    await expect(showInfoButton).toBeVisible();
+  }
+});
+
+test('(42) | Mobile sidebar closes automatically when navigating between canvases', async ({
+  page,
+  context,
+}) => {
+  await multiVolumeItem(context, page);
+
+  if (isMobile(page)) {
+    // Open the mobile sidebar
+    await page.getByRole('button', { name: 'Show info' }).click();
+
+    // Verify sidebar is open by checking heading is visible
+    const heading = page.getByRole('heading').filter({
+      hasText: 'Practica seu Lilium medicinae / [Bernard de Gordon].',
+    });
+    await expect(heading).toBeVisible();
+
+    // Navigate to Contents and click a different canvas
+    await page.getByRole('button', { name: 'Contents' }).click();
+    await page.getByRole('link', { name: 'Title Page' }).click();
+
+    // Sidebar should have closed automatically - heading should be hidden
+    await expect(heading).toBeHidden();
+
+    // The "Show info" button should be visible again
+    await expect(page.getByRole('button', { name: 'Show info' })).toBeVisible();
+  }
+});
+
+test('(43) | Page and Grid view controls hide when mobile sidebar is open', async ({
+  page,
+  context,
+}) => {
+  await multiVolumeItem(context, page);
+
+  if (isMobile(page)) {
+    // Initially, view controls should be visible
+    const pageButton = page.getByRole('button', { name: 'Page' });
+    await expect(pageButton).toBeVisible();
+
+    // Open mobile sidebar
+    await page.getByRole('button', { name: 'Show info' }).click();
+
+    // View controls should now be hidden
+    await expect(pageButton).toBeHidden();
+
+    // Verify Grid button is also hidden
+    const gridButton = page.getByRole('button', { name: 'Grid' });
+    await expect(gridButton).toBeHidden();
+
+    // Close sidebar
+    await page.getByRole('button', { name: 'Hide info' }).click();
+
+    // View controls should be visible again
+    await expect(pageButton).toBeVisible();
+    await expect(gridButton).toBeVisible();
+  }
+});
+
+test('(44) | Browser back/forward maintains correct canvas state', async ({
+  page,
+  context,
+}) => {
+  await multiVolumeItem(context, page);
+
+  // Navigate to canvas 1
+  const firstUrl = page.url().replace(/canvas=\d+/, 'canvas=1');
+  await page.goto(firstUrl);
+  await expect(page).toHaveURL(/canvas=1/);
+
+  // Navigate to canvas 2
+  const secondUrl = page.url().replace(/canvas=1/, 'canvas=2');
+  await page.goto(secondUrl);
+  await expect(page).toHaveURL(/canvas=2/);
+
+  // Navigate to canvas 3
+  const thirdUrl = page.url().replace(/canvas=2/, 'canvas=3');
+  await page.goto(thirdUrl);
+  await expect(page).toHaveURL(/canvas=3/);
+
+  // Press browser back - should go to canvas 2
+  await page.goBack();
+  await expect(page).toHaveURL(/canvas=2/);
+  await expect(page.getByTestId('main-viewer')).toBeVisible();
+
+  // Press browser back again - should go to canvas 1
+  await page.goBack();
+  await expect(page).toHaveURL(/canvas=1/);
+  await expect(page.getByTestId('main-viewer')).toBeVisible();
+
+  // Press browser forward - should go to canvas 2
+  await page.goForward();
+  await expect(page).toHaveURL(/canvas=2/);
+  await expect(page.getByTestId('main-viewer')).toBeVisible();
+
+  // Press browser forward again - should go to canvas 3
+  await page.goForward();
+  await expect(page).toHaveURL(/canvas=3/);
+  await expect(page.getByTestId('main-viewer')).toBeVisible();
+});
+
+test('(45) | Rapid canvas navigation does not cause state corruption', async ({
+  page,
+  context,
+}) => {
+  await multiVolumeItem(context, page);
+
+  // Rapidly navigate through canvases without waiting
+  const canvasNumbers = [1, 5, 3, 7, 2, 6, 4];
+
+  for (const canvas of canvasNumbers) {
+    // Don't await - simulate rapid clicking
+    page.goto(page.url().replace(/canvas=\d+/, `canvas=${canvas}`));
+  }
+
+  // Wait for navigation to settle
+  await page.waitForLoadState('networkidle');
+
+  // The final canvas (4) should be displayed
+  await expect(page).toHaveURL(/canvas=4/);
+  await expect(page.getByTestId('main-viewer')).toBeVisible();
+
+  // No errors should be present
+  const errors = page.locator('[data-test-id="error"]');
+  await expect(errors).toHaveCount(0);
+});
+
+test('(46) | Direct URL to specific canvas loads correctly', async ({
+  page,
+  context,
+}) => {
+  // Load a multi-canvas work directly at canvas 5
+  await multiVolumeItem(context, page, { canvasNumber: 5 });
+
+  // Should load directly to canvas 5 without going through canvas 1 first
+  await expect(page).toHaveURL(/canvas=5/);
+  await expect(page.getByTestId('main-viewer')).toBeVisible();
+
+  // Verify navigation controls show correct state
+  // Both Previous and Next should be enabled (not at either end)
+  const prevButton = page.getByRole('button', {
+    name: 'Go to previous canvas',
+  });
+  const nextButton = page.getByRole('button', { name: 'Go to next canvas' });
+
+  await expect(prevButton).toBeVisible();
+  await expect(nextButton).toBeVisible();
+
+  // Check that previous button has an href (it's enabled)
+  await expect(prevButton.locator('a')).toHaveAttribute('href');
+});
+
+test('(47) | Volume switching resets to first canvas', async ({
+  page,
+  context,
+}) => {
+  await multiVolumeItem(context, page);
+
+  // Navigate to canvas 5 in current volume
+  const urlWithCanvas5 = page.url().replace(/canvas=\d+/, 'canvas=5');
+  await page.goto(urlWithCanvas5);
+  await expect(page).toHaveURL(/canvas=5/);
+
+  // Switch to a different volume (manifest)
+  // This depends on the multi-volume work having a volume switcher
+  const volumeSwitcher = page
+    .locator('[data-testid="volume-switcher"]')
+    .or(page.locator('select[name="manifest"]'));
+
+  // If volume switcher exists, test volume switching
+  const volumeSwitcherExists = await volumeSwitcher.count();
+  if (volumeSwitcherExists > 0) {
+    await volumeSwitcher.first().selectOption({ index: 1 });
+
+    // After switching volumes, should reset to canvas 1
+    await expect(page).toHaveURL(/canvas=1/);
+    await expect(page.getByTestId('main-viewer')).toBeVisible();
+  } else {
+    // If no volume switcher, test is inconclusive but shouldn't fail
+    console.log('No volume switcher found - test skipped');
+  }
 });

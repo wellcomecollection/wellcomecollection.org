@@ -90,10 +90,16 @@ export const requiredCookies = useStageApis
 
 const multiVolumeItem = async (
   context: BrowserContext,
-  page: Page
+  page: Page,
+  params?: { canvasNumber?: number }
 ): Promise<void> => {
   await context.addCookies(requiredCookies);
-  await gotoWithoutCache(`${baseUrl}/works/mg56yqa4/items`, page);
+  await gotoWithoutCache(
+    `${baseUrl}/works/mg56yqa4/items${
+      params?.canvasNumber ? `?canvas=${params.canvasNumber}` : ''
+    }`,
+    page
+  );
 };
 
 const itemWithAltText = async (
