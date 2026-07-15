@@ -1,5 +1,3 @@
-import '@testing-library/jest-dom';
-
 import { screen } from '@testing-library/react';
 
 import {
@@ -15,11 +13,6 @@ import {
 import { TransformedManifest } from '@weco/content/types/manifest';
 
 import ViewerTopBar from './ViewerTopBar';
-
-// ViewerTopBar transitively imports the whole viewer (via the `.` barrel that
-// re-exports queryParamToArrayIndex), which pulls in openseadragon. It is never
-// exercised by this component, so stub it out to avoid the jsdom canvas error.
-jest.mock('openseadragon', () => ({ __esModule: true, default: jest.fn() }));
 
 // A manifest-level rendering that yields a non-empty downloadOptions list.
 const pdfRendering: TransformedManifest['rendering'] = [
@@ -158,7 +151,7 @@ describe('ViewerTopBar download button', () => {
     expect(downloadButton(container)).toBeInTheDocument();
   });
 
-  it('hides the download button on a restricted canvas for a non-staff user', () => {
+  it('hides the download button on a restricted canvas when user is not StaffWithRestricted', () => {
     const { container } = renderTopBar({
       contextProps: {
         transformedManifest: createMockManifest({
@@ -175,7 +168,7 @@ describe('ViewerTopBar download button', () => {
     expect(downloadButton(container)).not.toBeInTheDocument();
   });
 
-  it('shows the download button on a restricted canvas for a staff user', () => {
+  it('shows the download button on a restricted canvas for a StaffWithRestricted user', () => {
     const { container } = renderTopBar({
       contextProps: {
         transformedManifest: createMockManifest({

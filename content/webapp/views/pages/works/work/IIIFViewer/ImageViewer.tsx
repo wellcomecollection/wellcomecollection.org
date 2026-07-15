@@ -6,7 +6,7 @@ import { IIIFUriProps } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '@weco/common/utils/image-sizes';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 
-import { queryParamToArrayIndex } from '.';
+import { queryParamToArrayIndex } from './IIIFViewer.helpers';
 import IIIFViewerImage from './IIIFViewerImage';
 
 const ImageWrapper = styled.div<{

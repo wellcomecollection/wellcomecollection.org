@@ -15,25 +15,23 @@ import {
 
 export type State = 'initial' | 'loading' | 'signedin' | 'signedout' | 'failed';
 
-type Props = {
+export type UserContextProps = {
   user?: UserInfo;
   userIsStaffWithRestricted: boolean;
   state: State;
   reload: (abortSignal?: AbortSignal) => Promise<void>;
 };
 
-export type UserContextProps = Props;
-
-export const defaultUserContext: Props = {
+export const defaultUserContext: UserContextProps = {
   user: undefined,
   userIsStaffWithRestricted: false,
   state: 'initial',
   reload: async () => undefined,
 };
 
-const UserContext = createContext<Props>(defaultUserContext);
+const UserContext = createContext<UserContextProps>(defaultUserContext);
 
-export function useUserContext(): Props {
+export function useUserContext(): UserContextProps {
   const contextState = useContext(UserContext);
   return contextState;
 }

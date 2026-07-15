@@ -69,8 +69,6 @@ const beingHuman: Exhibition = {
   place: {
     id: 'Wn1gdSoAACgAH_-x',
     title: 'Being Human gallery',
-    untransformedBody: [],
-    labels: [],
     level: 1,
     information: [
       {

@@ -5,15 +5,9 @@
   "description": "ContentList",
   "legacyPaths": {
     "books::body::contentList": "default",
-    "event-series::body::contentList": "default",
     "events::body::contentList": "default",
     "exhibitions::body::contentList": "default",
-    "guides::body::contentList": "default",
-    "pages::body::contentList": "default",
-    "places::body::contentList": "default",
-    "projects::body::contentList": "default",
-    "seasons::body::contentList": "default",
-    "series::body::contentList": "default"
+    "pages::body::contentList": "default"
   },
   "variations": [
     {

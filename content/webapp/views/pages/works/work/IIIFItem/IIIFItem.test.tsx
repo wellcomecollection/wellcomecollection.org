@@ -1,5 +1,3 @@
-import '@testing-library/jest-dom';
-
 import { screen } from '@testing-library/react';
 
 import { renderWithContext } from '@weco/content/test/fixtures/iiif/render';
@@ -11,11 +9,6 @@ import { TransformedCanvas } from '@weco/content/types/manifest';
 import { TransformedAuthService } from '@weco/content/utils/iiif/v3';
 
 import IIIFItem, { IIIFItemProps } from './index';
-
-// IIIFItem imports ImageViewer, which pulls in openseadragon. The image-viewer
-// path isn't exercised by these tests (we only test the original-download image
-// branch), so stub it to avoid the jsdom canvas error.
-jest.mock('openseadragon', () => ({ __esModule: true, default: jest.fn() }));
 
 type RenderItemArgs = {
   item: IIIFItemProps;
@@ -59,7 +52,7 @@ describe('IIIFItem restricted access', () => {
     expect(
       screen.getByRole('link', { name: 'collections@wellcomecollection.org' })
     ).toBeInTheDocument();
-    // ...and the underlying item (the PDF open/download link) is not rendered.
+    // ...and the underlying item (the PDF "Open" link) is not rendered.
     expect(
       screen.queryByRole('link', { name: /open/i })
     ).not.toBeInTheDocument();
@@ -88,45 +81,26 @@ describe('IIIFItem restricted access', () => {
 
 describe('IIIFItem type dispatch', () => {
   it('renders a download for a born-digital image (canvas with original files)', () => {
-    // The born-digital branch in IIIFItem maps canvas.original without a React
-    // `key` on the wrapper, which logs a "unique key" warning. The production
-    // fix is deferred to the refactor, so suppress only that specific message
-    // here; any other console.error still surfaces.
-    const originalConsoleError = console.error.bind(console);
-    const consoleErrorSpy = jest
-      .spyOn(console, 'error')
-      .mockImplementation((...args) => {
-        const message = typeof args[0] === 'string' ? args[0] : '';
-        if (message.includes('unique "key" prop')) return;
-        originalConsoleError(...args);
-      });
+    renderItem({
+      item: {
+        id: 'https://example.com/placeholder',
+        type: 'Image',
+      } as IIIFItemProps,
+      canvas: createMockCanvas({
+        original: [
+          {
+            id: 'https://example.com/file.docx',
+            format: 'application/msword',
+            behavior: 'original',
+          },
+        ] as never,
+      }),
+    });
 
-    try {
-      renderItem({
-        item: {
-          id: 'https://example.com/placeholder',
-          type: 'Image',
-        } as IIIFItemProps,
-        canvas: createMockCanvas({
-          original: [
-            {
-              id: 'https://example.com/file.docx',
-              format: 'application/msword',
-              behavior: 'original',
-            },
-          ] as never,
-        }),
-      });
-
-      expect(
-        screen.getByRole('link', { name: /download/i })
-      ).toBeInTheDocument();
-    } finally {
-      consoleErrorSpy.mockRestore();
-    }
+    expect(screen.getByRole('link', { name: /download/i })).toBeInTheDocument();
   });
 
-  it('renders the PDF open/download control for a Text item', () => {
+  it('renders the "Open" link for a PDF item', () => {
     renderItem({
       item: {
         id: 'https://example.com/doc.pdf',
