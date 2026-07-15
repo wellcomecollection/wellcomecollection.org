@@ -793,19 +793,19 @@ test('(47) | Volume switching resets to first canvas', async ({
   const volumesButton = page.getByRole('button', { name: 'Volumes' });
   await volumesButton.click();
 
-  // This work has multiple volumes - find and click a different one
-  const volumeLinks = page.getByRole('link', { name: /Copy \d+/ });
-  expect(await volumeLinks.count()).toBeGreaterThan(1);
+  // Wait for the volumes list to be visible
+  await expect(page.getByRole('link', { name: 'Copy 2' })).toBeVisible();
 
-  // Click on a different volume (e.g., Copy 2 or Copy 3)
-  const secondVolume = volumeLinks.nth(1);
-  await secondVolume.click();
+  // Click on Copy 2 to switch volumes
+  await page.getByRole('link', { name: 'Copy 2' }).click();
 
-  // Wait for any navigation to complete (manifest param or URL change)
-  await page.waitForLoadState('networkidle', { timeout: 5000 }).catch(() => {
-    // Navigation might not happen, which is fine - just verify page still works
-  });
-
-  // Verify the viewer still works after attempting volume switch
+  // Volume switching should change the manifest
+  await expect(page).toHaveURL(/manifest=/);
   await expect(page.getByTestId('main-viewer')).toBeVisible();
+
+  // Verify the canvas indicator shows 1 (reset from canvas 5)
+  // Note: URL may not have canvas param (defaults to 1)
+  if (!isMobile(page)) {
+    await expect(page.getByTestId('active-index')).toHaveText('1');
+  }
 });
