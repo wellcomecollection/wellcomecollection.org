@@ -17,6 +17,7 @@ import {
   MetadataItem,
   Range,
   RangeItems,
+  SearchService,
   Service,
   TechnicalProperties,
 } from '@iiif/presentation-3';
@@ -133,9 +134,9 @@ export type BornDigitalManifest = Omit<Manifest, 'items'> & {
   items?: Canvas[];
 };
 
-function convertToDownloadOption(item): DownloadOption {
+function convertToDownloadOption(item: Rendering): DownloadOption {
   return {
-    id: item.id,
+    id: item.id || '',
     label: transformLabel(item.label) || 'Download file',
     format: item.format || '',
   };
@@ -245,8 +246,8 @@ export function getImageServiceFromItem(
 ): ImageService | undefined {
   if ('service' in item) {
     return item.service?.find(
-      s => s['@type'] === 'ImageService2'
-    ) as ImageService;
+      (s): s is ImageService => '@type' in s && s['@type'] === 'ImageService2'
+    );
   }
 }
 
@@ -273,6 +274,7 @@ function getImageServiceId(
 
 // Temporary type until iiif3 types are correct
 type BodyService = {
+  '@id'?: string;
   '@type': string;
   service: Service | Service[];
 };
@@ -339,9 +341,12 @@ export function getIIIFPresentationCredit(
 
 export function getSearchService(
   manifest: Manifest | Collection
-): Service | undefined {
+): SearchService | undefined {
+  // The library's SearchService type doesn't declare the '@type' property,
+  // but it is how Wellcome manifests identify their search service
   return manifest.service?.find(
-    service => service?.['@type'] === 'SearchService1'
+    (service): service is SearchService =>
+      '@type' in service && (service['@type'] as string) === 'SearchService1'
   );
 }
 
@@ -353,18 +358,20 @@ export function getFirstCollectionManifestLocation(
   }
 }
 
-export function isItemRestricted(item): boolean {
+export function isItemRestricted(
+  item: ChoiceBody | ContentResource | CustomContentResource
+): boolean {
   if (isChoiceBody(item)) return false;
-  if (!item.service) return false;
+  if (!('service' in item) || !item.service) return false;
 
   const itemsServices = item.service.map(s => {
-    if (s.type === 'AuthProbeService2') {
+    if ('type' in s && s.type === 'AuthProbeService2') {
       return s.service.find(service => service.type === 'AuthAccessService2');
     }
     return undefined;
   });
 
-  return itemsServices?.some(s => {
+  return itemsServices.some(s => {
     return (
       s?.id ===
       'https://iiif.wellcomecollection.org/auth/v2/access/restrictedlogin'
@@ -373,8 +380,11 @@ export function isItemRestricted(item): boolean {
 }
 
 // Returns the AuthProbeService2 URL for a painting item, if it is restricted.
-export function getProbeServiceId(painting): string | undefined {
-  if (isChoiceBody(painting) || !painting.service) return undefined;
+export function getProbeServiceId(
+  painting: ChoiceBody | ContentResource | CustomContentResource
+): string | undefined {
+  if (isChoiceBody(painting) || !('service' in painting) || !painting.service)
+    return undefined;
   const probe = (painting.service as { type: string; id: string }[]).find(
     s => s.type === 'AuthProbeService2'
   );
@@ -776,7 +786,7 @@ export function getItemsStatus(manifest: Manifest | Collection): ItemsStatus {
 export function hasNonImagesOrOriginals(
   canvases: TransformedCanvas[] | undefined
 ): boolean {
-  const isNonImage = p => p.type !== 'Image';
+  const isNonImage = (p: ChoiceBody | ContentResource) => p.type !== 'Image';
   const hasNonImage = canvases?.some(c => {
     return (
       c.rendering.some(isNonImage) ||
@@ -797,9 +807,18 @@ export function getStructures(manifest: Manifest | Collection): Range[] {
 }
 
 // https://iiif.io/api/auth/2.0/#access-service-description
-export function getAuthAccessServices(manifest): AuthAccessService2[] {
-  const services = manifest.services || [];
-  return services.filter(s => s.type === 'AuthAccessService2');
+export function getAuthAccessServices(
+  manifest: Manifest | Collection
+): AuthAccessService2[] {
+  // AuthAccessService2 is missing from the library's Service union, but
+  // Wellcome manifests include auth 2 access services in `services`
+  const services = (manifest.services || []) as (
+    Service | AuthAccessService2
+  )[];
+  return services.filter(
+    (s): s is AuthAccessService2 =>
+      'type' in s && s.type === 'AuthAccessService2'
+  );
 }
 
 // https://iiif.io/api/auth/2.0/#external-interaction-pattern
@@ -882,9 +901,9 @@ export function transformTokenService(
 export const getVideoAudioDownloadOptions = (canvas?: TransformedCanvas) => {
   if (!canvas || !canvas?.painting) return [];
 
-  const formatItemInfo = item => ({
-    format: item.format || '',
-    id: item.id || '',
+  const formatItemInfo = (item: IIIFItemProps): DownloadOption => ({
+    format: ('format' in item && item.format) || '',
+    id: ('id' in item && item.id) || '',
     label:
       item.type === 'Video'
         ? 'This video'

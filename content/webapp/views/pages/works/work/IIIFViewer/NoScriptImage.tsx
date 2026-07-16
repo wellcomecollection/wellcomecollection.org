@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
+import { IIIFUriProps } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '@weco/common/utils/image-sizes';
 import LL from '@weco/common/views/components/styled/LL';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
@@ -28,7 +29,14 @@ const NoScriptLoadingWrapper = styled.div`
   height: calc(100vh - ${props => props.theme.navHeight}px);
 `;
 
-export const NoScriptImage = ({ urlTemplate, canvasOcr }) => {
+type Props = {
+  // The empty string arises when the url template's source is a possibly
+  // empty image service id
+  urlTemplate: ((opts: IIIFUriProps) => string) | '' | undefined;
+  canvasOcr: string | undefined;
+};
+
+export const NoScriptImage = ({ urlTemplate, canvasOcr }: Props) => {
   const { work, query, transformedManifest } = useItemViewerContext();
   const { canvases } = { ...transformedManifest };
   const pageSize = 4;

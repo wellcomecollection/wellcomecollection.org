@@ -31,9 +31,10 @@ async function getIIIFManifest(
     const manifest = await resp.json();
     return manifest;
   } catch (e) {
+    const message = e instanceof Error ? e.message : '';
     console.error(
       `Something went wrong fetching ${url}` +
-        `${e.message ? `: ${e.message}` : ''}`
+        `${message ? `: ${message}` : ''}`
     );
     throw e;
   }

@@ -155,12 +155,13 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     const canvasOcr = transformCanvasOcr(canvasOcrText);
 
     const getSearchResults = async () => {
-      if (displayManifest.searchService && context.query?.query?.length) {
+      const { searchService } = displayManifest;
+      if (searchService && context.query?.query?.length) {
+        const searchServiceId =
+          '@id' in searchService ? searchService['@id'] : searchService.id;
         try {
           return await (
-            await fetch(
-              `${displayManifest.searchService['@id']}?q=${context.query.query}`
-            )
+            await fetch(`${searchServiceId}?q=${context.query.query}`)
           ).json();
         } catch {
           return undefined;

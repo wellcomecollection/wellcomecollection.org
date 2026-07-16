@@ -1,6 +1,7 @@
 import openseadragon from 'openseadragon';
 import {
   FunctionComponent,
+  KeyboardEvent,
   MutableRefObject,
   useEffect,
   useRef,
@@ -62,9 +63,8 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
     ? iiifImageLocation.url
     : convertRequestUriToInfoUri(mainImageService['@id'] || '');
   const [scriptError, setScriptError] = useState(false);
-  const [viewer, setViewer] = useState(null);
-  const viewerRef: MutableRefObject<{ destroy: () => void } | null> =
-    useRef(null);
+  const [viewer, setViewer] = useState<openseadragon.Viewer | null>(null);
+  const viewerRef: MutableRefObject<openseadragon.Viewer | null> = useRef(null);
   const zoomStep = 0.5;
   const firstControl = useRef<HTMLButtonElement>(null);
   const lastControl = useRef<HTMLButtonElement>(null);
@@ -84,6 +84,8 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
           showNavigationControl: false,
           visibilityRatio: 1,
           tileSources: [
+            // OpenSeadragon supports IIIF tile sources at runtime, but its
+            // types don't include them
             {
               '@context': 'http://iiif.io/api/image/2/context.json',
               '@id': response['@id'],
@@ -97,7 +99,7 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
                   width: 400,
                 },
               ],
-            },
+            } as unknown as openseadragon.TileSource,
           ],
         });
         osdViewer.addOnceHandler('tile-loaded', () => {
@@ -126,7 +128,7 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
     return () => viewerRef.current?.destroy();
   }, []);
 
-  function doZoomIn(viewer) {
+  function doZoomIn(viewer: openseadragon.Viewer | null) {
     if (!viewer) {
       return;
     }
@@ -137,7 +139,7 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
     viewer.viewport.zoomTo(newMax);
   }
 
-  function doZoomOut(viewer) {
+  function doZoomOut(viewer: openseadragon.Viewer | null) {
     if (!viewer) return;
     const min = viewer.viewport.getMinZoom();
     const nextMin = viewer.viewport.getZoom() - zoomStep;
@@ -146,7 +148,7 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
     viewer.viewport.zoomTo(newMin);
   }
 
-  function handleZoomIn(viewer) {
+  function handleZoomIn(viewer: openseadragon.Viewer | null) {
     if (!viewer) return;
 
     if (viewer.isOpen()) {
@@ -154,19 +156,19 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
     }
   }
 
-  function handleZoomOut(viewer) {
+  function handleZoomOut(viewer: openseadragon.Viewer | null) {
     if (!viewer) return;
     if (viewer.isOpen()) {
       doZoomOut(viewer);
     }
   }
 
-  function handleRotate(viewer) {
+  function handleRotate(viewer: openseadragon.Viewer | null) {
     if (!viewer) return;
     viewer.viewport.setRotation(viewer.viewport.getRotation() + 90);
   }
 
-  function handleTrapStartKeyDown(event) {
+  function handleTrapStartKeyDown(event: KeyboardEvent<HTMLDivElement>) {
     if (event.shiftKey && event.keyCode === 9) {
       event.preventDefault();
       (
@@ -177,18 +179,21 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
     }
   }
 
-  function handleTrapEndKeyDown(event) {
+  function handleTrapEndKeyDown(event: KeyboardEvent<HTMLDivElement>) {
     if (!event.shiftKey && event.keyCode === 9) {
       event.preventDefault();
       firstControl?.current?.focus();
     }
   }
 
-  function handleKeyDown(event) {
+  function handleKeyDown(event: KeyboardEvent<HTMLDivElement>) {
     if (event.target === firstControl.current) {
       handleTrapStartKeyDown(event);
     }
-    if (event.target.classList.contains('openseadragon-canvas')) {
+    if (
+      event.target instanceof HTMLElement &&
+      event.target.classList.contains('openseadragon-canvas')
+    ) {
       handleTrapEndKeyDown(event);
     }
   }

@@ -7,6 +7,7 @@ import type {
   MetadataItem,
   Range,
   ResourceType,
+  SearchService,
   Service,
   SpecificationBehaviors,
 } from '@iiif/presentation-3';
@@ -85,7 +86,7 @@ export type TransformedManifest = {
   iiifCredit?: string;
   isCollectionManifest: boolean;
   parentManifestUrl?: string;
-  searchService?: Service;
+  searchService?: SearchService;
   structures: Manifest['structures'];
   manifests: CollectionItems[];
   placeholderId?: string;

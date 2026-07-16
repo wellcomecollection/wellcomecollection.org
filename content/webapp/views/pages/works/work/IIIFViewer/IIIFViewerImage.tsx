@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useState } from 'react';
+import { ForwardedRef, forwardRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
@@ -9,9 +9,14 @@ async function getImageMax(url: string): Promise<number> {
   try {
     const infoUrl = convertRequestUriToInfoUri(url);
     const resp = await fetch(infoUrl);
-    const info = await resp.json();
+    const info: { profile?: (string | { maxWidth?: number })[] } =
+      await resp.json();
     // N.B property is called maxWidth, but it is actually the max allowed for the longest side, see https://wellcome.slack.com/archives/CBT40CMKQ/p1702897884100559
-    const max = info.profile?.find(item => item.maxWidth)?.maxWidth || 1000;
+    const max =
+      info.profile?.find(
+        (item): item is { maxWidth: number } =>
+          typeof item !== 'string' && Boolean(item.maxWidth)
+      )?.maxWidth || 1000;
     return max || 1001;
   } catch {
     return 1000;
@@ -62,7 +67,7 @@ const IIIFViewerImage = (
     highlightImage,
     zoomOnClick,
   }: Props,
-  ref
+  ref: ForwardedRef<HTMLImageElement>
 ) => {
   const { isFullSupportBrowser } = useAppContext();
   const [tryLoadingSmallerImg, setTryLoadingSmallerImg] = useState(true);
