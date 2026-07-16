@@ -252,7 +252,7 @@ export const KioskNavigation: FunctionComponent<Props> = memo(
     } else if (pageType === 'story') {
       label = 'Related stories';
     } else if (navigation?.listName === 'includedWorks') {
-      label = 'Included works';
+      label = 'Works in this exhibition';
     } else {
       label = 'Related works';
     }
