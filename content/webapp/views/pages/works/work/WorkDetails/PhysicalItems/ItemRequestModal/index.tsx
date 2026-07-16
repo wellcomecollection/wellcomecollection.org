@@ -101,13 +101,7 @@ const ItemRequestModal: FunctionComponent<Props> = ({
     switch (requestingState) {
       case 'requesting':
         return <LL />;
-      case 'error':
-        return (
-          <ErrorDialog
-            setIsActive={innerSetIsActive}
-            errorMessage={requestingErrorMessage}
-          />
-        );
+
       case 'confirmed':
         return (
           <ConfirmedDialog
@@ -115,6 +109,7 @@ const ItemRequestModal: FunctionComponent<Props> = ({
             pickUpDate={pickUpDate}
           />
         );
+
       case 'initial':
         return (
           <RequestDialog
@@ -125,6 +120,15 @@ const ItemRequestModal: FunctionComponent<Props> = ({
             currentHoldNumber={currentHoldNumber}
             pickUpDate={pickUpDate}
             setPickUpDate={setPickUpDate}
+          />
+        );
+
+      case 'error':
+      default:
+        return (
+          <ErrorDialog
+            setIsActive={innerSetIsActive}
+            errorMessage={requestingErrorMessage}
           />
         );
     }

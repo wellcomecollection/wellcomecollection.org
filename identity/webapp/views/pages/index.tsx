@@ -247,8 +247,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                             <Loading variant="inline" />
                           </Space>
                         );
-                      case 'failed':
-                        return <RequestsFailed retry={fetchRequests} />;
+
                       case 'success':
                         if (requestedItems.totalResults === 0) {
                           return <NoRequestedItems />;
@@ -345,6 +344,10 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                             </>
                           );
                         }
+
+                      case 'failed':
+                      default:
+                        return <RequestsFailed retry={fetchRequests} />;
                     }
                   })()}
                 </>

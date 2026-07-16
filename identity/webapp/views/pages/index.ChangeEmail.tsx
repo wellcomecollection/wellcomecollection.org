@@ -76,7 +76,8 @@ const ChangeEmail: FunctionComponent<ChangeDetailsModalContentProps> = ({
         );
         break;
       }
-      case UpdateUserError.UNKNOWN: {
+      case UpdateUserError.UNKNOWN:
+      default: {
         setSubmissionErrorMessage('An unknown error occurred');
         break;
       }

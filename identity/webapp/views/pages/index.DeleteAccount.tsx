@@ -80,7 +80,8 @@ const DeleteAccount: FunctionComponent<ChangeDetailsModalContentProps> = ({
         );
         break;
       }
-      case RequestDeleteError.UNKNOWN: {
+      case RequestDeleteError.UNKNOWN:
+      default: {
         setSubmissionErrorMessage('An unknown error occurred');
         break;
       }
