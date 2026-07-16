@@ -47,6 +47,7 @@ const sharedRules = {
   ],
   'no-return-assign': 'off',
   'object-shorthand': ['warn', 'always'],
+  'prefer-arrow-callback': 'warn',
   'prefer-template': 'warn',
   'prettier/prettier': 'error',
   'react/no-deprecated': 'error',
