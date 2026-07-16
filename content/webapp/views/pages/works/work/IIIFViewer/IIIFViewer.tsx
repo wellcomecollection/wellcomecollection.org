@@ -278,7 +278,8 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const shouldUseIifImageLocation = !currentCanvas?.imageServiceId;
   const urlTemplate =
     (iiifImageLocation && iiifImageTemplate(iiifImageLocation.url)) ||
-    (mainImageService['@id'] && iiifImageTemplate(mainImageService['@id']));
+    (mainImageService['@id'] && iiifImageTemplate(mainImageService['@id'])) ||
+    undefined;
   const imageUrl = urlTemplate && urlTemplate({ size: '800,' });
   const hasIiifImage = imageUrl && iiifImageLocation;
   const hasImageService = Boolean(mainImageService['@id'] && currentCanvas);
