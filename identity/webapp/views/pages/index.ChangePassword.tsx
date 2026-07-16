@@ -101,8 +101,7 @@ const ChangePassword: FunctionComponent<ChangeDetailsModalContentProps> = ({
         });
         break;
       }
-      case UpdatePasswordError.UNKNOWN:
-      default: {
+      case UpdatePasswordError.UNKNOWN: {
         setSubmissionErrorMessage(
           'There is an issue with this library account password. To resolve this, please contact Library Enquiries (library@wellcomecollection.org).'
         );
