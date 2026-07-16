@@ -237,7 +237,7 @@ export const PagePage: NextPage<Props> = ({
       title={page.title}
       description={page.metadataDescription || page.promo?.caption || ''}
       url={{
-        pathname: `${page?.siteSection ? '/' + page.siteSection : ''}/${page.uid}`,
+        pathname: `${page?.siteSection ? `/${page.siteSection}` : ''}/${page.uid}`,
       }}
       jsonLd={jsonLd}
       openGraphType="website"

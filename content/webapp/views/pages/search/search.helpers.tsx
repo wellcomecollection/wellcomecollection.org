@@ -28,7 +28,7 @@ export function getQueryWorkTypeBuckets({
   queryResults: CatalogueResultsList<Work> | WellcomeApiError;
 }): WorkTypes | undefined {
   if (queryResults.type === 'Error') {
-    console.error(queryResults.label + ': Error fetching ' + categoryName);
+    console.error(`${queryResults.label}: Error fetching ${categoryName}`);
   } else {
     return {
       workTypeBuckets: queryResults.aggregations?.workType.buckets,

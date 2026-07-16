@@ -24,9 +24,8 @@ const AccountA = styled(Space).attrs<AccountAProps>(props => ({
 
 const SignedOutWrapper = styled.span.attrs({
   className:
-    'display-none headerMedium-display-block' +
-    ' ' +
-    typography('body', 'sm', 'regular'),
+    `display-none headerMedium-display-block` +
+    ` ${typography('body', 'sm', 'regular')}`,
 })`
   /* Hack to minimise the margins between both icons when signed out */
   button span span:first-child {

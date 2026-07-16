@@ -98,7 +98,7 @@ async function expandTree({
 
   setTree(
     updateChildren({
-      tree: tree,
+      tree,
       id: item.data.id,
       value: children,
       manualUpdate: true,
@@ -197,13 +197,13 @@ const ListItem: FunctionComponent<ListItemProps> = ({
       expandTree({
         item,
         setTree,
-        tree: tree,
+        tree,
       });
     } else {
       setTree(
         updateOpenStatus({
           id: item.data.id,
-          tree: tree,
+          tree,
           value: !item.openStatus,
         })
       );
@@ -247,11 +247,11 @@ const ListItem: FunctionComponent<ListItemProps> = ({
 
         const nextId = getNextTabbableId({
           currentId: item.data.id,
-          tree: tree,
+          tree,
         });
         const previousId = getPreviousTabbableId({
           currentId: item.data.id,
-          tree: tree,
+          tree,
         });
 
         switch (true) {
@@ -282,7 +282,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
               setTree(
                 updateOpenStatus({
                   id: item.data.id,
-                  tree: tree,
+                  tree,
                   value: !item.openStatus,
                 })
               );
