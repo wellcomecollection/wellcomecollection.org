@@ -58,7 +58,7 @@ export type ItemViewerContextProps = {
   hasOnlyRenderableImages: boolean;
 };
 
-export const results = {
+export const results: SearchResults = {
   '@context': '',
   '@id': '',
   '@type': 'sc:AnnotationList',

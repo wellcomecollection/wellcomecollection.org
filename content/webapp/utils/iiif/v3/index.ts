@@ -30,12 +30,12 @@ import {
   CustomContentResource,
   CustomSpecificationBehaviors,
   DownloadOption,
+  IIIFItemProps,
   ItemsStatus,
   ManifestAccessRequirement,
   ServiceWithMetadata,
   TransformedCanvas,
 } from '@weco/content/types/manifest';
-import { IIIFItemProps } from '@weco/content/views/pages/works/work/IIIFItem';
 
 import { getOriginal, getThumbnailImage } from './canvas';
 

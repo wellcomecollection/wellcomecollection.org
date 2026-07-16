@@ -4,13 +4,13 @@ import styled from 'styled-components';
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import LL from '@weco/common/views/components/styled/LL';
+import { IIIFImage } from '@weco/content/services/iiif/types/image/v2';
 import { convertRequestUriToInfoUri } from '@weco/content/utils/iiif/convert-iiif-uri';
 async function getImageMax(url: string): Promise<number> {
   try {
     const infoUrl = convertRequestUriToInfoUri(url);
     const resp = await fetch(infoUrl);
-    const info: { profile?: (string | { maxWidth?: number })[] } =
-      await resp.json();
+    const info: Partial<IIIFImage> = await resp.json();
     // N.B property is called maxWidth, but it is actually the max allowed for the longest side, see https://wellcome.slack.com/archives/CBT40CMKQ/p1702897884100559
     const max =
       info.profile?.find(
