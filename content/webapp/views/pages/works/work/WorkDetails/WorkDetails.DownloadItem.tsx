@@ -117,6 +117,7 @@ type DownloadItemProps = {
   };
   currentCanvasIndex?: number;
   onClick?: () => void;
+  isKiosk?: boolean;
 } & (
   | {
       linkToCanvas: true;
@@ -138,6 +139,7 @@ const DownloadItem: FunctionComponent<DownloadItemProps> = ({
   linkToCanvas = false,
   currentCanvasIndex,
   onClick,
+  isKiosk = false,
 }) => {
   const { userIsStaffWithRestricted } = useUserContext();
   const isRestricted = canvas && hasRestrictedItem(canvas);
@@ -216,21 +218,23 @@ const DownloadItem: FunctionComponent<DownloadItemProps> = ({
                 </>
               )}
             </td>
-            <td>
-              {!isRestricted || userIsStaffWithRestricted ? (
-                <a
-                  href={displayItem.id}
-                  {...dataGtmPropsToAttributes({
-                    trigger: 'download_table_link',
-                    'mime-type': format || 'null', // Default value requested by analyst
-                  })}
-                >
-                  Download
-                </a>
-              ) : (
-                <>Restricted</>
-              )}
-            </td>
+            {!isKiosk && (
+              <td>
+                {!isRestricted || userIsStaffWithRestricted ? (
+                  <a
+                    href={displayItem.id}
+                    {...dataGtmPropsToAttributes({
+                      trigger: 'download_table_link',
+                      'mime-type': format || 'null', // Default value requested by analyst
+                    })}
+                  >
+                    Download
+                  </a>
+                ) : (
+                  <>Restricted</>
+                )}
+              </td>
+            )}
           </tr>
         </tbody>
       </DownloadTable>

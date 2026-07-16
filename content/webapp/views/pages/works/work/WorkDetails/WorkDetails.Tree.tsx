@@ -34,8 +34,17 @@ const TreeContainer = styled.div<{ $isDarkMode?: boolean }>`
 `;
 
 const WorksTree: FunctionComponent<
-  PropsWithChildren<{ isDarkMode?: boolean; hasStructures?: boolean }>
-> = ({ children, isDarkMode = false, hasStructures = true }) => {
+  PropsWithChildren<{
+    isDarkMode?: boolean;
+    hasStructures?: boolean;
+    isKiosk?: boolean;
+  }>
+> = ({
+  children,
+  isDarkMode = false,
+  hasStructures = true,
+  isKiosk = false,
+}) => {
   const { isEnhanced } = useAppContext();
 
   return (
@@ -48,7 +57,7 @@ const WorksTree: FunctionComponent<
                 <th>Name</th>
                 <th>File format</th>
                 <th>Size</th>
-                <th>Download</th>
+                {!isKiosk && <th>Download</th>}
               </tr>
             </thead>
           </DownloadTable>

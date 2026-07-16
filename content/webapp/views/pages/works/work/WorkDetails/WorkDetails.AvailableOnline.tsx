@@ -324,7 +324,7 @@ const WorkDetailsAvailableOnline = ({
                 itemsStatus={itemsStatus}
               />
             ) : (
-              <WorksTree>
+              <WorksTree isKiosk={isKiosk}>
                 <NestedList
                   currentWorkId={work.id}
                   fullTree={archiveTree}
@@ -338,7 +338,7 @@ const WorkDetailsAvailableOnline = ({
                   showFirstLevelGuideline={true}
                   ItemRenderer={DownloadItemRenderer}
                   shouldFetchChildren={false}
-                  itemRendererProps={{}}
+                  itemRendererProps={{ isKiosk }}
                 />
               </WorksTree>
             )}
