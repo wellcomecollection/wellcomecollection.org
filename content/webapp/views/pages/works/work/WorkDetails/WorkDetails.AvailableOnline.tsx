@@ -255,6 +255,7 @@ const WorkDetailsAvailableOnline = ({
   const authServices = getAuthServices({ auth });
 
   const hasNonStandardItems = itemsStatus !== 'allStandard';
+  const { isKiosk } = useKiosk();
 
   const [tabbableId, setTabbableId] = useState<string>();
   const [archiveTree, setArchiveTree] = useState<UiTree>([]);
