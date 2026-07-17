@@ -16,6 +16,7 @@ type RenderItemArgs = {
   exclude?: Parameters<typeof IIIFItem>[0]['exclude'];
   externalAccessService?: TransformedAuthService;
   userIsStaffWithRestricted?: boolean;
+  isKiosk?: boolean;
 };
 
 const renderItem = ({
@@ -24,6 +25,7 @@ const renderItem = ({
   exclude = [],
   externalAccessService,
   userIsStaffWithRestricted = false,
+  isKiosk = false,
 }: RenderItemArgs) =>
   renderWithContext(
     <IIIFItem
@@ -33,7 +35,10 @@ const renderItem = ({
       exclude={exclude}
       externalAccessService={externalAccessService}
     />,
-    { userContext: { userIsStaffWithRestricted } }
+    {
+      userContext: { userIsStaffWithRestricted },
+      kioskContext: { isKiosk },
+    }
   );
 
 describe('IIIFItem restricted access', () => {
@@ -164,5 +169,66 @@ describe('IIIFItem type dispatch', () => {
     });
 
     expect(container).toBeEmptyDOMElement();
+  });
+});
+
+describe('IIIFItem kiosk mode', () => {
+  it('hides download button in kiosk mode for born-digital items', () => {
+    renderItem({
+      item: {
+        id: 'https://example.com/placeholder',
+        type: 'Image',
+      } as IIIFItemProps,
+      canvas: createMockCanvas({
+        original: [
+          {
+            id: 'https://example.com/file.docx',
+            format: 'application/msword',
+            behavior: 'original',
+          },
+        ] as never,
+      }),
+      isKiosk: true,
+    });
+
+    expect(
+      screen.queryByRole('link', { name: /download/i })
+    ).not.toBeInTheDocument();
+  });
+
+  it('hides download button in kiosk mode for PDF items', () => {
+    renderItem({
+      item: {
+        id: 'https://example.com/doc.pdf',
+        type: 'Text',
+        format: 'application/pdf',
+      } as IIIFItemProps,
+      isKiosk: true,
+    });
+
+    expect(
+      screen.queryByRole('link', { name: /open/i })
+    ).not.toBeInTheDocument();
+  });
+
+  it('hides born digital warning in kiosk mode', () => {
+    renderItem({
+      item: {
+        id: 'https://example.com/placeholder',
+        type: 'Image',
+      } as IIIFItemProps,
+      canvas: createMockCanvas({
+        original: [
+          {
+            id: 'https://example.com/file.docx',
+            format: 'application/msword',
+            behavior: 'original',
+          },
+        ] as never,
+      }),
+      isKiosk: true,
+    });
+
+    expect(screen.queryByText(/born digital/i)).not.toBeInTheDocument();
   });
 });

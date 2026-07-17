@@ -1,6 +1,7 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
+import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { bornDigitalWarning } from '@weco/common/data/microcopy';
 import { file, pdf } from '@weco/common/icons';
 import { typography } from '@weco/common/utils/classnames';
@@ -56,6 +57,7 @@ const IIIFItemDownload: FunctionComponent<Props> = ({
   format,
   showWarning = false,
 }: Props) => {
+  const { isKiosk } = useKiosk();
   const substituteTitle = 'unknown title';
   const displayLabel = getFileLabel(label, substituteTitle);
   const isFilePdf = isPdf(src, format);
@@ -75,22 +77,24 @@ const IIIFItemDownload: FunctionComponent<Props> = ({
         {displayLabel}
       </Space>
 
-      {showWarning && (
+      {showWarning && !isKiosk && (
         <div className={typography('body', 'sm', 'regular')}>
           {bornDigitalWarning}
         </div>
       )}
 
-      <Buttons
-        variant="ButtonSolidLink"
-        link={src}
-        text={action}
-        ariaLabel={`${action} ${(displayLabel !== substituteTitle && label) || 'document'}`}
-        dataGtmProps={{
-          trigger: 'canvas_download_link',
-          'mime-type': format || 'null', // Default value requested by analyst
-        }}
-      />
+      {!isKiosk && (
+        <Buttons
+          variant="ButtonSolidLink"
+          link={src}
+          text={action}
+          ariaLabel={`${action} ${(displayLabel !== substituteTitle && label) || 'document'}`}
+          dataGtmProps={{
+            trigger: 'canvas_download_link',
+            'mime-type': format || 'null', // Default value requested by analyst
+          }}
+        />
+      )}
 
       <span className={typography('body', 'sm', 'regular')}>
         Size:{' '}
