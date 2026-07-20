@@ -1,9 +1,13 @@
-// The info.json document for a IIIF Image API v2 image:
+// Models the response from a IIIF Image API v2 info.json endpoint.
 // https://iiif.io/api/image/2.1/#image-information
-// @iiif/presentation-3 covers the Presentation API only: its ImageService2
-// type describes the service description embedded in a manifest (which has
-// an @type property that info.json lacks), so we define the response
-// document ourselves. Wellcome images always include their dimensions.
+//
+// When you fetch an image service URL with /info.json, you get technical metadata
+// about the image (dimensions, tile sizes, etc.). This is different from the brief
+// service reference that appears inside a manifest's `service` property.
+//
+// The @iiif/presentation-3 library only types the Presentation API (manifests),
+// not the Image API responses, so we define this type ourselves.
+// Wellcome images always include their dimensions.
 export type IIIFImage = {
   '@context': 'http://iiif.io/api/image/2/context.json';
   '@id': string;
