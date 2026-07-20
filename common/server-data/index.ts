@@ -18,7 +18,7 @@ import { GetServerSidePropsContext } from 'next';
 import path from 'path';
 
 import { getAllConsentStates } from '@weco/common/services/app/civic-uk';
-import { Toggles } from '@weco/toggles';
+import { Toggles, TogglesResp } from '@weco/toggles';
 
 import prismicHandler from './prismic';
 import togglesHandler, { getTogglesFromContext } from './toggles';
@@ -114,7 +114,7 @@ export function clear(): void {
  * This is a lighter-weight alternative to getServerData for contexts
  * where you only need toggles and don't have a GetServerSidePropsContext.
  */
-export async function getCachedToggles() {
+export async function getCachedToggles(): Promise<TogglesResp> {
   return read('toggles', handlers.toggles.defaultValue);
 }
 
