@@ -1,6 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import { ThemeProvider } from 'styled-components';
 
+import KioskContext, {
+  defaultKioskContext,
+} from '@weco/common/contexts/KioskContext';
 import UserContext, {
   defaultUserContext,
 } from '@weco/common/contexts/UserContext';
@@ -39,19 +42,25 @@ const renderDownloadItem = (props: {
 }) => {
   return render(
     <ThemeProvider theme={theme}>
-      <UserContext.Provider
+      <KioskContext.Provider
         value={{
-          ...defaultUserContext,
-          userIsStaffWithRestricted: props.userIsStaffWithRestricted ?? false,
+          ...defaultKioskContext,
+          isKiosk: props.isKiosk ?? false,
         }}
       >
-        <DownloadItem
-          canvas={mockCanvas}
-          item={mockDownloadItem}
-          linkToCanvas={false}
-          isKiosk={props.isKiosk}
-        />
-      </UserContext.Provider>
+        <UserContext.Provider
+          value={{
+            ...defaultUserContext,
+            userIsStaffWithRestricted: props.userIsStaffWithRestricted ?? false,
+          }}
+        >
+          <DownloadItem
+            canvas={mockCanvas}
+            item={mockDownloadItem}
+            linkToCanvas={false}
+          />
+        </UserContext.Provider>
+      </KioskContext.Provider>
     </ThemeProvider>
   );
 };
@@ -67,7 +76,7 @@ describe('WorkDetails.DownloadItem', () => {
     expect(screen.queryByText('Download')).not.toBeInTheDocument();
   });
 
-  it('still shows file name and format columns in kiosk mode', () => {
+  it('still shows file name and format in kiosk mode', () => {
     renderDownloadItem({ isKiosk: true });
     expect(screen.getByText('Test Canvas')).toBeInTheDocument();
     expect(screen.getByText('jpeg')).toBeInTheDocument();

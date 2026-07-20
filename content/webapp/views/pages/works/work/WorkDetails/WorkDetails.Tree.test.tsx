@@ -4,6 +4,7 @@ import { ThemeProvider } from 'styled-components';
 import AppContext, {
   appContextDefaults,
 } from '@weco/common/contexts/AppContext';
+import KioskContext from '@weco/common/contexts/KioskContext';
 import theme from '@weco/common/views/themes/default';
 
 import WorksTree from './WorkDetails.Tree';
@@ -12,9 +13,11 @@ const renderWorksTree = (isKiosk: boolean = false) => {
   return render(
     <ThemeProvider theme={theme}>
       <AppContext.Provider value={appContextDefaults}>
-        <WorksTree isKiosk={isKiosk}>
-          <div>Tree content</div>
-        </WorksTree>
+        <KioskContext.Provider value={{ isKiosk }}>
+          <WorksTree>
+            <div>Tree content</div>
+          </WorksTree>
+        </KioskContext.Provider>
       </AppContext.Provider>
     </ThemeProvider>
   );
