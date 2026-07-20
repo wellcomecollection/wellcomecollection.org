@@ -98,7 +98,7 @@ async function expandTree({
 
   setTree(
     updateChildren({
-      tree: tree,
+      tree,
       id: item.data.id,
       value: children,
       manualUpdate: true,
@@ -203,13 +203,13 @@ const ListItem: FunctionComponent<ListItemProps> = ({
       expandTree({
         item,
         setTree,
-        tree: tree,
+        tree,
       });
     } else {
       setTree(
         updateOpenStatus({
           id: item.data.id,
-          tree: tree,
+          tree,
           value: !item.openStatus,
         })
       );
@@ -253,69 +253,60 @@ const ListItem: FunctionComponent<ListItemProps> = ({
 
         const nextId = getNextTabbableId({
           currentId: item.data.id,
-          tree: tree,
+          tree,
         });
         const previousId = getPreviousTabbableId({
           currentId: item.data.id,
-          tree: tree,
+          tree,
         });
 
-        switch (true) {
-          case RIGHT.includes(key): {
-            // When focus is on an open node, moves focus to the first child node.
-            if (item.openStatus) {
-              if (nextId) {
-                setTabbableId(nextId);
-              }
-            }
-
-            // When focus is on an end node, does nothing.
-            if (isEndNode) {
-              return;
-            }
-
-            // When focus is on a closed node, opens the node; focus does not move.
-            if (!item.openStatus) {
-              toggleBranch();
-              setTabbableId(item.data.id);
-            }
-            break;
-          }
-          case LEFT.includes(key): {
-            // When focus is on an open node, closes the node.
-            if (item.openStatus && isExpandable) {
-              trackChevron();
-              setTree(
-                updateOpenStatus({
-                  id: item.data.id,
-                  tree: tree,
-                  value: !item.openStatus,
-                })
-              );
-              setTabbableId(item.data.id);
-            }
-            // When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
-            // When focus is on a root node that is also either an end node or a closed node, does nothing.
-            if (isEndNode || !item.openStatus) {
-              if (item.parentId) {
-                setTabbableId(item.parentId);
-              }
-            }
-            break;
-          }
-          case DOWN.includes(key): {
-            // Moves focus to the next node that is focusable without opening or closing a node.
+        if (RIGHT.includes(key)) {
+          // When focus is on an open node, moves focus to the first child node.
+          if (item.openStatus) {
             if (nextId) {
               setTabbableId(nextId);
             }
-            break;
           }
-          case UP.includes(key): {
-            // Moves focus to the previous node that is focusable without opening or closing a node.
-            if (previousId) {
-              setTabbableId(previousId);
+
+          // When focus is on an end node, does nothing.
+          if (isEndNode) {
+            return;
+          }
+
+          // When focus is on a closed node, opens the node; focus does not move.
+          if (!item.openStatus) {
+            toggleBranch();
+            setTabbableId(item.data.id);
+          }
+        } else if (LEFT.includes(key)) {
+          // When focus is on an open node, closes the node.
+          if (item.openStatus && isExpandable) {
+            trackChevron();
+            setTree(
+              updateOpenStatus({
+                id: item.data.id,
+                tree,
+                value: !item.openStatus,
+              })
+            );
+            setTabbableId(item.data.id);
+          }
+          // When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
+          // When focus is on a root node that is also either an end node or a closed node, does nothing.
+          if (isEndNode || !item.openStatus) {
+            if (item.parentId) {
+              setTabbableId(item.parentId);
             }
-            break;
+          }
+        } else if (DOWN.includes(key)) {
+          // Moves focus to the next node that is focusable without opening or closing a node.
+          if (nextId) {
+            setTabbableId(nextId);
+          }
+        } else if (UP.includes(key)) {
+          // Moves focus to the previous node that is focusable without opening or closing a node.
+          if (previousId) {
+            setTabbableId(previousId);
           }
         }
       }}

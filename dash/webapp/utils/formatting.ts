@@ -40,10 +40,10 @@ export function getHumanFriendlyDateString(iso8601DateString: string): string {
   // for example, if the UTC date and the localised date fall on either side
   // of midnight.
   if (dateFormatter.format(date) === dateFormatter.format(today)) {
-    return 'today @ ' + timeFormatter.format(date);
+    return `today @ ${timeFormatter.format(date)}`;
   } else if (dateFormatter.format(date) === dateFormatter.format(yesterday)) {
-    return 'yesterday @ ' + timeFormatter.format(date);
+    return `yesterday @ ${timeFormatter.format(date)}`;
   } else {
-    return dateFormatter.format(date) + ' @ ' + timeFormatter.format(date);
+    return `${dateFormatter.format(date)} @ ${timeFormatter.format(date)}`;
   }
 }

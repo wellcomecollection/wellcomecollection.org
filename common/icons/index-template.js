@@ -11,7 +11,7 @@ function indexTemplate(filePaths) {
     })
     .join('\n');
 
-  return iconExports + `\n\nexport type { IconSvg } from './types';\n`;
+  return `${iconExports}\n\nexport type { IconSvg } from './types';\n`;
 }
 
 module.exports = indexTemplate;

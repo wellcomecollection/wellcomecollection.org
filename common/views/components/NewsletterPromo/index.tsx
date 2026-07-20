@@ -92,6 +92,7 @@ const NewsletterPromo: FunctionComponent = () => {
         setIsSuccess(true);
         break;
       case 'error':
+      default:
         setIsSubmitError(true);
         emailValidation.setIsValid(false);
     }
