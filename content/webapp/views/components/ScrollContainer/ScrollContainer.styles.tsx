@@ -14,7 +14,7 @@ export const ScrollButtonsContainer = styled(Space)<{
   align-items: flex-end;
   ${props =>
     props.$scrollButtonsAfter
-      ? 'margin-top: ' + props.theme.spacingUnits['150'] + ';'
+      ? `margin-top: ${props.theme.spacingUnits['150']};`
       : ''}
 `;
 

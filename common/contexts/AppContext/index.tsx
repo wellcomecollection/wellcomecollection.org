@@ -81,16 +81,16 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
     const md = parseFloat(theme.sizes.md);
     const lg = parseFloat(theme.sizes.lg);
 
-    switch (true) {
-      case viewportWidthInRem < sm:
-        return 'zero';
-      case viewportWidthInRem < md:
-        return 'sm';
-      case viewportWidthInRem < lg:
-        return 'md';
-      default:
-        return 'lg';
+    if (viewportWidthInRem < sm) {
+      return 'zero';
     }
+    if (viewportWidthInRem < md) {
+      return 'sm';
+    }
+    if (viewportWidthInRem < lg) {
+      return 'md';
+    }
+    return 'lg';
   }
   const [isEnhanced, setIsEnhanced] = useState(appContextDefaults.isEnhanced);
   const [isFullSupportBrowser, setIsFullSupportBrowser] = useState(
