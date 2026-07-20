@@ -93,7 +93,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const client = createClient(context);
   const wellcomeSubThemePagePromise = await fetchPage(
     client,
-    'subjects-' + pageUid
+    `subjects-${pageUid}`
   );
 
   // We want to show works that have been made available online from 00:01 yesterday

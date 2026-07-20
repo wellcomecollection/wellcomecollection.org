@@ -147,8 +147,9 @@ export const wellcomeApiQuery = async (url: string) => {
     // automated tool trying to inject malicious data, and thus can be ignored.
     if (json.type === 'Error' && json.httpStatus !== 414) {
       console.warn(
-        `Received HTTP ${json.httpStatus} error from the API query ${url}: ` +
-          JSON.stringify(json)
+        `Received HTTP ${json.httpStatus} error from the API query ${url}: ${JSON.stringify(
+          json
+        )}`
       );
     }
 
