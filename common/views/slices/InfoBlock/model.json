@@ -6,16 +6,10 @@
   "legacyPaths": {
     "articles::body::infoBlock": "default",
     "books::body::infoBlock": "default",
-    "event-series::body::infoBlock": "default",
     "events::body::infoBlock": "default",
     "exhibitions::body::infoBlock": "default",
-    "guides::body::infoBlock": "default",
     "pages::body::infoBlock": "default",
-    "places::body::infoBlock": "default",
-    "projects::body::infoBlock": "default",
-    "seasons::body::infoBlock": "default",
-    "series::body::infoBlock": "default",
-    "webcomics::body::infoBlock": "default"
+    "projects::body::infoBlock": "default"
   },
   "variations": [
     {

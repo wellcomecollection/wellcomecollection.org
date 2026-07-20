@@ -353,18 +353,18 @@ export function getFirstCollectionManifestLocation(
   }
 }
 
-export function isItemRestricted(painting): boolean {
-  if (isChoiceBody(painting)) return false;
-  if (!painting.service) return false;
+export function isItemRestricted(item): boolean {
+  if (isChoiceBody(item)) return false;
+  if (!item.service) return false;
 
-  const paintingsServices = painting.service.map(s => {
+  const itemsServices = item.service.map(s => {
     if (s.type === 'AuthProbeService2') {
       return s.service.find(service => service.type === 'AuthAccessService2');
     }
     return undefined;
   });
 
-  return paintingsServices?.some(s => {
+  return itemsServices?.some(s => {
     return (
       s?.id ===
       'https://iiif.wellcomecollection.org/auth/v2/access/restrictedlogin'

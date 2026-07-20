@@ -39,7 +39,7 @@ export function isValidKioskMode(value: unknown): value is KioskModeOptionId {
   );
 }
 
-type KioskContextType = {
+export type KioskContextType = {
   isKiosk: boolean;
   isDevModeKiosk: boolean;
   isTendernessAndRageKiosk: boolean;
@@ -49,13 +49,15 @@ type KioskContextType = {
   kiosksContent: Record<string, KiosksContentType>;
 };
 
-const KioskContext = createContext<KioskContextType>({
+export const defaultKioskContext: KioskContextType = {
   isKiosk: false,
   isDevModeKiosk: false,
   isTendernessAndRageKiosk: false,
   isReadingRoomKiosk: false,
   kiosksContent: initialKiosksContent,
-});
+};
+
+const KioskContext = createContext<KioskContextType>(defaultKioskContext);
 
 type KioskProviderProps = PropsWithChildren<{
   cookieContent: string | null;
@@ -126,4 +128,5 @@ export const useKiosksContent = (): Record<string, KiosksContentType> => {
   return kiosksContent;
 };
 
+export default KioskContext;
 export { getKioskContentKey, getKioskExperienceName, kioskExperienceNames };

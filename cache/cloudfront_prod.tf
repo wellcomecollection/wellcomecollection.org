@@ -46,6 +46,19 @@ module "prod_wc_org_cloudfront_distribution" {
   # Real users get re-challenged (and re-billed) once per window instead of
   # every 5 minutes.
   search_challenge_immunity_seconds = 14400
+
+  # Targeted Bot Control, scoped to /search with TGT_ rules counting only:
+  # labels the flood for analysis without changing enforcement.
+  bot_control_inspection_level = "TARGETED"
+
+  # Real browsers always send Accept-Language; the clients that omit it are
+  # crawlers and headless bots that never solve the challenge they would
+  # otherwise be served (46% of challenged traffic when measured).
+  enable_search_missing_lang_block = true
+
+  # Blocks fabricated-browser fraud on the indexable catalogue pages while
+  # leaving honest crawlers and user-triggered AI agents untouched.
+  enable_works_fabricated_ua_block = true
 }
 
 data "aws_lambda_function" "versioned_edge_lambda_request" {

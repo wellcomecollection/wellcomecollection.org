@@ -23,7 +23,7 @@ import {
 import { getDisplayItems } from '@weco/content/utils/iiif/v3/canvas';
 import IIIFItem from '@weco/content/views/pages/works/work/IIIFItem';
 
-import { queryParamToArrayIndex } from '.';
+import { queryParamToArrayIndex } from './IIIFViewer.helpers';
 
 const MainViewerContainer = styled.div<{ $useFixedList: boolean }>`
   height: 100%;

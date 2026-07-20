@@ -43,4 +43,18 @@ module "stage_wc_org_cloudfront_distribution" {
   # Real users get re-challenged (and billed) once per window instead of
   # every 5 minutes. Matches prod.
   search_challenge_immunity_seconds = 14400
+
+  # Targeted Bot Control, scoped to /search with TGT_ rules counting only.
+  # Matches prod.
+  bot_control_inspection_level = "TARGETED"
+
+  # Trialling the missing-Accept-Language block here before prod: real
+  # browsers always send the header; the clients that omit it are crawlers
+  # and bots that never solve the challenge they would otherwise be served.
+  enable_search_missing_lang_block = true
+
+  # Trialling the works/images/concepts fabricated-browser block here before
+  # prod: blocks fraud that poses as a browser without self-identifying,
+  # while leaving honest crawlers and user-triggered AI agents untouched.
+  enable_works_fabricated_ua_block = true
 }

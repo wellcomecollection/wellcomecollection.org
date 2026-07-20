@@ -6,7 +6,7 @@ import { volumesNavigationLabel } from '@weco/content/text/aria-labels';
 import { getMultiVolumeLabel } from '@weco/content/utils/iiif/v3';
 import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
 
-import { queryParamToArrayIndex } from '.';
+import { queryParamToArrayIndex } from './IIIFViewer.helpers';
 import { Item, List } from './ViewerStructures';
 
 const MultipleManifestList: FunctionComponent = () => {

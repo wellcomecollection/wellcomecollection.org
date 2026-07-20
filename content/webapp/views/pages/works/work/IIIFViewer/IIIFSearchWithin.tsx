@@ -18,7 +18,7 @@ import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { searchWithinLabel } from '@weco/content/text/aria-labels';
 import { TransformedCanvas } from '@weco/content/types/manifest';
 import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
-import { arrayIndexToQueryParam } from '@weco/content/views/pages/works/work/IIIFViewer';
+import { arrayIndexToQueryParam } from '@weco/content/views/pages/works/work/IIIFViewer/IIIFViewer.helpers';
 import { thumbnailsPageSize } from '@weco/content/views/pages/works/work/IIIFViewer/Paginators';
 
 const Highlight = styled.span`

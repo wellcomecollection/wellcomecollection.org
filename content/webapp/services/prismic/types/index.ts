@@ -108,7 +108,6 @@ export type GenericDocWithPromo =
 
 export type GenericDoc =
   | GenericDocWithPromo
-  | RawPlacesDocument
   | RawProjectsDocument
   | RawSeasonsDocument
   | RawSeriesDocument

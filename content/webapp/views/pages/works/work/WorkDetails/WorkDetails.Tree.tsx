@@ -2,6 +2,7 @@ import { FunctionComponent, PropsWithChildren } from 'react';
 import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
+import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { treeInstructions } from '@weco/common/data/microcopy';
 import Space from '@weco/common/views/components/styled/Space';
 import { controlDimensions } from '@weco/content/views/pages/works/work/work.helpers';
@@ -34,9 +35,13 @@ const TreeContainer = styled.div<{ $isDarkMode?: boolean }>`
 `;
 
 const WorksTree: FunctionComponent<
-  PropsWithChildren<{ isDarkMode?: boolean; hasStructures?: boolean }>
+  PropsWithChildren<{
+    isDarkMode?: boolean;
+    hasStructures?: boolean;
+  }>
 > = ({ children, isDarkMode = false, hasStructures = true }) => {
   const { isEnhanced } = useAppContext();
+  const { isKiosk } = useKiosk();
 
   return (
     <div style={{ overflowX: 'auto', width: '100%' }}>
@@ -48,7 +53,7 @@ const WorksTree: FunctionComponent<
                 <th>Name</th>
                 <th>File format</th>
                 <th>Size</th>
-                <th>Download</th>
+                {!isKiosk && <th>Download</th>}
               </tr>
             </thead>
           </DownloadTable>
