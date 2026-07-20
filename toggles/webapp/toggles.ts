@@ -138,13 +138,6 @@ const toggleConfig = {
       type: 'experimental',
     },
     {
-      id: 'exhibitionAndCollection',
-      title: 'Exhibition pages and Collection content',
-      initialValue: false,
-      description: 'Adds Collection content to Exhibition pages.',
-      type: 'experimental',
-    },
-    {
       id: 'verticalVideos',
       title: 'Vertical videos',
       initialValue: false,
