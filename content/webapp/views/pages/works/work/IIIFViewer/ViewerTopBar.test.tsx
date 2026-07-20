@@ -245,3 +245,49 @@ describe('ViewerTopBar sidebar toggle labels', () => {
     expect(screen.getAllByText('Show info').length).toBeGreaterThan(0);
   });
 });
+
+describe('ViewerTopBar edge cases', () => {
+  it('handles invalid canvas number gracefully (canvas beyond array bounds)', () => {
+    renderTopBar({
+      contextProps: {
+        transformedManifest: createMockManifest({
+          canvases: [
+            createMockCanvas({ label: '1' }),
+            createMockCanvas({ label: '2' }),
+          ],
+        }),
+        hasOnlyRenderableImages: true,
+        query: createMockQuery({ canvas: 9999 }), // Way beyond actual canvases
+      },
+    });
+
+    // Should not crash - topbar should render
+    expect(screen.getByTestId('topbar')).toBeInTheDocument();
+
+    // Shows the invalid canvas number (doesn't validate/filter it)
+    expect(screen.getByTestId('active-index')).toHaveTextContent('9999');
+    expect(screen.getByTestId('topbar')).toHaveTextContent('/2');
+  });
+
+  it('handles canvas=0 gracefully (invalid 1-indexed value)', () => {
+    renderTopBar({
+      contextProps: {
+        transformedManifest: createMockManifest({
+          canvases: [
+            createMockCanvas({ label: '1' }),
+            createMockCanvas({ label: '2' }),
+          ],
+        }),
+        hasOnlyRenderableImages: true,
+        query: createMockQuery({ canvas: 0 }), // Invalid - should be 1-indexed
+      },
+    });
+
+    // Should not crash - topbar should render
+    expect(screen.getByTestId('topbar')).toBeInTheDocument();
+
+    // Shows the invalid canvas number (doesn't validate/filter it)
+    expect(screen.getByTestId('active-index')).toHaveTextContent('0');
+    expect(screen.getByTestId('topbar')).toHaveTextContent('/2');
+  });
+});
