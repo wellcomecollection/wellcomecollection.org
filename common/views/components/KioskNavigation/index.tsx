@@ -21,9 +21,9 @@ const KioskNavigationWrapper = styled(Space).attrs({
   className: typography('body', 'md', 'regular'),
   as: 'nav',
 })`
-  height: ${props => props.theme.kioskNavigationHeight}px;
+  height: ${props => props.theme.kioskNavigationHeight + 1}px;
   position: fixed;
-  bottom: 0;
+  bottom: -1px; /* fix for sub-pixel rendering issues */
   left: 0;
   right: 0;
   background: ${props => props.theme.color('neutral.700')};
