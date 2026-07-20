@@ -8,7 +8,6 @@ import {
 import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
-import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { arrow, chevron } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
@@ -178,7 +177,6 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
   } = useItemViewerContext();
   const { canvas } = query || {};
   const { userIsStaffWithRestricted } = useUserContext();
-  const { isKiosk } = useKiosk();
 
   const [tabbableId, setTabbableId] = useState<string>();
   const matchingManifest =
@@ -315,7 +313,6 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
               <WorksTree
                 isDarkMode={true}
                 hasStructures={Boolean(structures && structures.length > 0)}
-                isKiosk={isKiosk}
               >
                 <NestedList
                   currentWorkId={work.id}
@@ -338,7 +335,6 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
                     currentCanvasIndex: canvas,
                     itemOnClick: () => setIsMobileSidebarActive(false),
                     canvases: transformedManifest?.canvases,
-                    isKiosk,
                   }}
                 />
               </WorksTree>

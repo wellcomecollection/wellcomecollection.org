@@ -31,7 +31,6 @@ export type DownloadItemRendererProps = {
   isDarkMode?: boolean;
   currentCanvasIndex?: number;
   itemOnClick?: () => void;
-  isKiosk?: boolean;
 };
 
 const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
@@ -46,7 +45,6 @@ const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
   isDarkMode = false,
   currentCanvasIndex = 0,
   itemOnClick,
-  isKiosk = false,
 }) => {
   // Only use canvasIndexById if the structure contains all canvases
   const hasCompleteStructure =
@@ -116,7 +114,6 @@ const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
               linkToCanvas={true}
               currentCanvasIndex={currentCanvasIndex}
               onClick={itemOnClick}
-              isKiosk={isKiosk}
             />
           ) : (
             <DownloadItem
@@ -125,7 +122,6 @@ const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
               item={download}
               linkToCanvas={false}
               currentCanvasIndex={currentCanvasIndex}
-              isKiosk={isKiosk}
             />
           );
         })}

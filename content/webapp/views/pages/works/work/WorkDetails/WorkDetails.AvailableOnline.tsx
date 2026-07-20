@@ -255,7 +255,6 @@ const WorkDetailsAvailableOnline = ({
   const authServices = getAuthServices({ auth });
 
   const hasNonStandardItems = itemsStatus !== 'allStandard';
-  const { isKiosk } = useKiosk();
 
   const [tabbableId, setTabbableId] = useState<string>();
   const [archiveTree, setArchiveTree] = useState<UiTree>([]);
@@ -325,7 +324,7 @@ const WorkDetailsAvailableOnline = ({
                 itemsStatus={itemsStatus}
               />
             ) : (
-              <WorksTree isKiosk={isKiosk}>
+              <WorksTree>
                 <NestedList
                   currentWorkId={work.id}
                   fullTree={archiveTree}
@@ -339,7 +338,7 @@ const WorkDetailsAvailableOnline = ({
                   showFirstLevelGuideline={true}
                   ItemRenderer={DownloadItemRenderer}
                   shouldFetchChildren={false}
-                  itemRendererProps={{ isKiosk }}
+                  itemRendererProps={{}}
                 />
               </WorksTree>
             )}

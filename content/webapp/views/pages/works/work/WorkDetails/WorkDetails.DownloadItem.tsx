@@ -8,6 +8,7 @@ import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
+import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { file, imageFile } from '@weco/common/icons';
 import { typography } from '@weco/common/utils/classnames';
@@ -117,7 +118,6 @@ type DownloadItemProps = {
   };
   currentCanvasIndex?: number;
   onClick?: () => void;
-  isKiosk?: boolean;
 } & (
   | {
       linkToCanvas: true;
@@ -139,8 +139,8 @@ const DownloadItem: FunctionComponent<DownloadItemProps> = ({
   linkToCanvas = false,
   currentCanvasIndex,
   onClick,
-  isKiosk = false,
 }) => {
+  const { isKiosk } = useKiosk();
   const { userIsStaffWithRestricted } = useUserContext();
   const isRestricted = canvas && hasRestrictedItem(canvas);
   const isActive =
