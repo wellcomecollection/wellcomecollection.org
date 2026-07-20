@@ -3,6 +3,7 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
+import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import {
   chevrons,
@@ -200,7 +201,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
   iiifImageLocation,
 }) => {
   const { isEnhanced, isFullSupportBrowser } = useAppContext();
-
+  const { isKiosk } = useKiosk();
   const isFullscreenEnabled = useIsFullscreenEnabled();
   const {
     gridVisible,
@@ -386,7 +387,8 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
           {isEnhanced && (
             <div style={{ display: 'flex', alignItems: 'center' }}>
               {downloadOptions.length > 0 &&
-                (!isRestricted || userIsStaffWithRestricted) && (
+                (!isRestricted || userIsStaffWithRestricted) &&
+                !isKiosk && (
                   <Space $h={{ size: 'xs', properties: ['margin-right'] }}>
                     <Download
                       ariaControlsId="itemDownloads"

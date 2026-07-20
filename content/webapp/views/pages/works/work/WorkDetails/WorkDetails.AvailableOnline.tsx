@@ -2,6 +2,7 @@ import NextLink from 'next/link';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { bornDigitalMessage } from '@weco/common/data/microcopy';
 import { eye } from '@weco/common/icons';
@@ -126,6 +127,8 @@ const ItemPageLink = ({
   const isWorkVisibleWithPermission =
     digitalLocationInfo?.accessCondition === 'restricted' &&
     userIsStaffWithRestricted;
+
+  const { isKiosk } = useKiosk();
   return (
     <>
       {work.thumbnail && (
@@ -209,7 +212,7 @@ const ItemPageLink = ({
                 />
               </Space>
             )}
-            {canDownload && (
+            {canDownload && !isKiosk && (
               <Download
                 ariaControlsId="itemDownloads"
                 downloadOptions={downloadOptions}
@@ -330,7 +333,6 @@ const WorkDetailsAvailableOnline = ({
                   level={1}
                   tabbableId={tabbableId}
                   setTabbableId={setTabbableId}
-                  workAncestors={[]}
                   firstItemTabbable={true}
                   showFirstLevelGuideline={true}
                   ItemRenderer={DownloadItemRenderer}

@@ -322,7 +322,6 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
                   level={1}
                   tabbableId={tabbableId}
                   setTabbableId={setTabbableId}
-                  workAncestors={[]}
                   firstItemTabbable={true}
                   showFirstLevelGuideline={true}
                   shouldFetchChildren={false}

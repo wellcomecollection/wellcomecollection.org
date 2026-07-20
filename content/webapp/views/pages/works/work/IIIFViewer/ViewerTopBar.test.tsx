@@ -197,6 +197,21 @@ describe('ViewerTopBar download button', () => {
 
     expect(downloadButton(container)).not.toBeInTheDocument();
   });
+
+  it('hides the download button in kiosk mode even when download options are available', () => {
+    const { container } = renderTopBar({
+      contextProps: {
+        transformedManifest: createMockManifest({
+          canvases: [createMockCanvas()],
+          rendering: pdfRendering,
+        }),
+        query: createMockQuery({ canvas: 1 }),
+      },
+      kioskContext: { isKiosk: true },
+    });
+
+    expect(downloadButton(container)).not.toBeInTheDocument();
+  });
 });
 
 describe('ViewerTopBar enhanced-mode gate', () => {
@@ -243,5 +258,51 @@ describe('ViewerTopBar sidebar toggle labels', () => {
 
     // Both the desktop (visually-hidden) and mobile toggles read "Show info".
     expect(screen.getAllByText('Show info').length).toBeGreaterThan(0);
+  });
+});
+
+describe('ViewerTopBar edge cases', () => {
+  it('handles invalid canvas number gracefully (canvas beyond array bounds)', () => {
+    renderTopBar({
+      contextProps: {
+        transformedManifest: createMockManifest({
+          canvases: [
+            createMockCanvas({ label: '1' }),
+            createMockCanvas({ label: '2' }),
+          ],
+        }),
+        hasOnlyRenderableImages: true,
+        query: createMockQuery({ canvas: 9999 }), // Way beyond actual canvases
+      },
+    });
+
+    // Should not crash - topbar should render
+    expect(screen.getByTestId('topbar')).toBeInTheDocument();
+
+    // Shows the invalid canvas number (doesn't validate/filter it)
+    expect(screen.getByTestId('active-index')).toHaveTextContent('9999');
+    expect(screen.getByTestId('topbar')).toHaveTextContent('/2');
+  });
+
+  it('handles canvas=0 gracefully (invalid 1-indexed value)', () => {
+    renderTopBar({
+      contextProps: {
+        transformedManifest: createMockManifest({
+          canvases: [
+            createMockCanvas({ label: '1' }),
+            createMockCanvas({ label: '2' }),
+          ],
+        }),
+        hasOnlyRenderableImages: true,
+        query: createMockQuery({ canvas: 0 }), // Invalid - should be 1-indexed
+      },
+    });
+
+    // Should not crash - topbar should render
+    expect(screen.getByTestId('topbar')).toBeInTheDocument();
+
+    // Shows the invalid canvas number (doesn't validate/filter it)
+    expect(screen.getByTestId('active-index')).toHaveTextContent('0');
+    expect(screen.getByTestId('topbar')).toHaveTextContent('/2');
   });
 });
