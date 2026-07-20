@@ -2,7 +2,7 @@ import { FunctionComponent, useEffect, useRef, useState } from 'react';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { treeInstructions } from '@weco/common/data/microcopy';
-import { tree } from '@weco/common/icons';
+import { tree as treeIcon } from '@weco/common/icons';
 import { typography } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
 import Modal from '@weco/common/views/components/Modal';
@@ -64,7 +64,7 @@ const constructTree = (
 
   return {
     openStatus: curr.id === hierarchy[0]?.id,
-    work: curr,
+    data: curr,
     parentId: parent ? parent.id : undefined,
     children: childNodes,
   };
@@ -103,7 +103,7 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
   const archiveAncestorArray = getArchiveAncestorArray(work);
   const initialLoad = useRef(true);
   const [showArchiveTreeModal, setShowArchiveTreeModal] = useState(false);
-  const [archiveTree, setArchiveTree] = useState(createBasicArchiveTree(work));
+  const [tree, setTree] = useState(createBasicArchiveTree(work));
 
   const [tabbableId, setTabbableId] = useState<string>();
   const openButtonRef = useRef(null);
@@ -114,7 +114,7 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
     if (elementToFocus) {
       elementToFocus.focus();
     }
-  }, [archiveTree, tabbableId]);
+  }, [tree, tabbableId]);
 
   useEffect(() => {
     // On mobile we want to close the archive tree if a user selects a work
@@ -123,8 +123,8 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
 
   useEffect(() => {
     async function setupTree() {
-      const tree = await createArchiveTree(work);
-      setArchiveTree(tree || []);
+      const fetchedTree = await createArchiveTree(work);
+      setTree(fetchedTree || []);
     }
     setupTree();
   }, []);
@@ -153,7 +153,7 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
               clickHandler={() => setShowArchiveTreeModal(true)}
               aria-controls="collection-contents-modal"
               aria-label="show collection contents"
-              icon={tree}
+              icon={treeIcon}
               ref={openButtonRef}
             />
           </ButtonWrap>
@@ -169,13 +169,13 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
               )}
               <NestedList
                 currentWorkId={work.id}
-                fullTree={archiveTree}
-                setArchiveTree={setArchiveTree}
-                archiveTree={archiveTree}
+                tree={tree}
+                setTree={setTree}
+                items={tree}
                 level={1}
                 tabbableId={tabbableId}
                 setTabbableId={setTabbableId}
-                archiveAncestorArray={archiveAncestorArray}
+                workAncestors={archiveAncestorArray}
                 firstItemTabbable={false}
                 showFirstLevelGuideline={false}
                 ItemRenderer={WorkItem}
@@ -198,13 +198,13 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
               )}
               <NestedList
                 currentWorkId={work.id}
-                fullTree={archiveTree}
-                setArchiveTree={setArchiveTree}
-                archiveTree={archiveTree}
+                tree={tree}
+                setTree={setTree}
+                items={tree}
                 level={1}
                 tabbableId={tabbableId}
                 setTabbableId={setTabbableId}
-                archiveAncestorArray={archiveAncestorArray}
+                workAncestors={archiveAncestorArray}
                 firstItemTabbable={false}
                 showFirstLevelGuideline={false}
                 ItemRenderer={WorkItem}

@@ -49,7 +49,7 @@ export type Props = {
   serverSearchResults: SearchResults | null;
   parentManifest?: ParentManifest;
   apiToolbarLinks: ApiToolbarLink[];
-  archiveTree?: UiTree;
+  tree?: UiTree;
 };
 
 const WorkItemPage: NextPage<Props> = ({
@@ -61,7 +61,7 @@ const WorkItemPage: NextPage<Props> = ({
   apiToolbarLinks,
   serverSearchResults,
   parentManifest,
-  archiveTree,
+  tree,
 }) => {
   const { userIsStaffWithRestricted } = useUserContext();
   const transformedManifest =
@@ -254,7 +254,7 @@ const WorkItemPage: NextPage<Props> = ({
           canvasOcr={canvasOcr}
           iiifImageLocation={iiifImageLocation}
           iiifPresentationLocation={iiifPresentationLocation}
-          initialArchiveTree={archiveTree}
+          initialTree={tree}
           handleImageError={() => {
             // If the image fails to load, we check to see if it's because the cookie is missing/no longer valid
             reloadAuthIframe(document, iframeId);
