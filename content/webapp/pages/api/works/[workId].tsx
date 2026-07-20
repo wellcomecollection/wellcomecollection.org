@@ -18,13 +18,9 @@ const WorksApi = async (
   const togglesResp = await getCachedToggles();
   const { featureFlags } = getTogglesFromContext(togglesResp, { req });
 
-  // Fallback to cookie if toggle config is missing (e.g., cache load failed)
-  const shouldUseStagingApi =
-    featureFlags.stagingApi ?? req.cookies.toggle_stagingApi === 'true';
-
   const response = await getWork({
     id: workId,
-    shouldUseStagingApi,
+    shouldUseStagingApi: featureFlags.stagingApi,
   });
 
   res.setHeader('Content-Type', 'application/json');

@@ -13,6 +13,25 @@ import { Handler } from './';
 
 const defaultValue = { featureFlags: [], tests: [], modes: [] };
 
+/**
+ * Fallback toggle config for API routes when the cache is unavailable.
+ * This matches the stagingApi toggle definition from toggles/webapp/toggles.ts
+ * but in the published format (defaultValue instead of initialValue).
+ */
+export const fallbackTogglesForApiRoutes: TogglesResp = {
+  featureFlags: [
+    {
+      id: 'stagingApi',
+      title: 'Staging API',
+      defaultValue: false,
+      description: 'Use the staging Wellcome APIs',
+      type: 'permanent',
+    },
+  ],
+  tests: [],
+  modes: [],
+};
+
 async function fetchToggles(): Promise<TogglesResp> {
   const resp = await fetch(
     'https://toggles.wellcomecollection.org/toggles.json'

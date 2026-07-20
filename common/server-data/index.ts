@@ -113,9 +113,22 @@ export function clear(): void {
  * Read cached toggles from disk for use in API routes.
  * This is a lighter-weight alternative to getServerData for contexts
  * where you only need toggles and don't have a GetServerSidePropsContext.
+ *
+ * If the cache is empty (e.g., first request before cache is populated),
+ * returns a minimal fallback configuration with the stagingApi toggle.
  */
 export async function getCachedToggles(): Promise<TogglesResp> {
-  return read('toggles', handlers.toggles.defaultValue);
+  // Use dynamic import to avoid circular dependency:
+  // toggles.ts imports Handler from this file, so we can't import from toggles.ts at the top level
+  const { fallbackTogglesForApiRoutes } = await import('./toggles');
+  const togglesResp = await read('toggles', handlers.toggles.defaultValue);
+
+  // Fallback to minimal toggle config if cache is empty
+  if (togglesResp.featureFlags.length === 0) {
+    return fallbackTogglesForApiRoutes;
+  }
+
+  return togglesResp;
 }
 
 /**
