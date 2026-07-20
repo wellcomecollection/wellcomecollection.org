@@ -17,7 +17,10 @@ type Codec<T> = {
   decode: (p: QueryParam) => T;
   encode: (v: T) => QueryParam;
 };
-type CodecMap = Record<string, Codec<unknown>>;
+// Codec<T> is invariant in T (encode consumes it, decode produces it), so
+// Codec<unknown> would reject every concrete codec under strictFunctionTypes
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type CodecMap = Record<string, Codec<any>>;
 // Gets the returns type of decode, and creates the type
 // { key: returnTypeOfDecode }
 export type FromCodecMap<Map extends CodecMap> = UndefinableToOptional<{

@@ -32,9 +32,9 @@ export type ListProps = {
   workAncestors?: TreeDataWork[];
   firstItemTabbable: boolean;
   showFirstLevelGuideline: boolean;
-  ItemRenderer: FunctionComponent<
-    DownloadItemRendererProps | WorkItemRendererProps
-  >;
+  ItemRenderer:
+    | FunctionComponent<DownloadItemRendererProps>
+    | FunctionComponent<WorkItemRendererProps>;
 };
 
 export const isTreeDataWork = (

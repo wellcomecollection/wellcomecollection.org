@@ -176,9 +176,11 @@ const IIIFSearchWithin: FunctionComponent = () => {
   async function getSearchResults() {
     if (searchService && query.query.length > 0) {
       setIsLoading(true);
+      const searchServiceId =
+        '@id' in searchService ? searchService['@id'] : searchService.id;
       try {
         const results = await (
-          await fetch(`${searchService['@id']}?q=${query.query}`)
+          await fetch(`${searchServiceId}?q=${query.query}`)
         ).json();
         setIsLoading(false);
         setSearchResults && setSearchResults(results);

@@ -5,10 +5,10 @@ import {
   createMockCanvas,
   createRestrictedPainting,
 } from '@weco/content/test/fixtures/iiif/transformed-manifest';
-import { TransformedCanvas } from '@weco/content/types/manifest';
+import { IIIFItemProps, TransformedCanvas } from '@weco/content/types/manifest';
 import { TransformedAuthService } from '@weco/content/utils/iiif/v3';
 
-import IIIFItem, { IIIFItemProps } from './index';
+import IIIFItem from './index';
 
 type RenderItemArgs = {
   item: IIIFItemProps;

@@ -1,13 +1,6 @@
 import NextLink from 'next/link';
-import {
-  CSSProperties,
-  FunctionComponent,
-  memo,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import { areEqual, FixedSizeGrid } from 'react-window';
+import { FunctionComponent, memo, useEffect, useRef, useState } from 'react';
+import { areEqual, FixedSizeGrid, GridChildComponentProps } from 'react-window';
 import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
@@ -38,23 +31,17 @@ const ThumbnailSpacer = styled(Space).attrs({
   }
 `;
 
-type CellProps = {
-  style: CSSProperties;
-  columnIndex: number;
-  rowIndex: number;
-  index: number;
-  data: {
-    scrollVelocity: number;
-    columnCount: number;
-    gridVisible: boolean;
-    setGridVisible: (value: boolean) => void;
-    canvases: TransformedCanvas[];
-    searchResults: SearchResults;
-    query: ItemViewerQuery;
-    workId: string;
-    placeholderId?: string;
-  };
-};
+type CellProps = GridChildComponentProps<{
+  scrollVelocity: number;
+  columnCount: number;
+  gridVisible: boolean;
+  setGridVisible: (value: boolean) => void;
+  canvases: TransformedCanvas[];
+  searchResults: SearchResults | null;
+  query: ItemViewerQuery;
+  workId: string;
+  placeholderId?: string;
+}>;
 
 const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
   const {
@@ -194,9 +181,8 @@ const GridViewer: FunctionComponent = () => {
           gridVisible,
           setGridVisible,
           scrollVelocity,
-          canvases,
+          canvases: canvases || [],
           searchResults,
-          mainAreaWidth,
           query,
           workId: work.id,
           placeholderId: transformedManifest?.placeholderId,
