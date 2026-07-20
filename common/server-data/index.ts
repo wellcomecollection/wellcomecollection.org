@@ -110,6 +110,15 @@ export function clear(): void {
 }
 
 /**
+ * Read cached toggles from disk for use in API routes.
+ * This is a lighter-weight alternative to getServerData for contexts
+ * where you only need toggles and don't have a GetServerSidePropsContext.
+ */
+export async function getCachedToggles() {
+  return read('toggles', handlers.toggles.defaultValue);
+}
+
+/**
  * we should always keep the context here irrespective of if we use it
  * to ensure that we only ever run this in `getServerSideProps`, where
  * `fs`, `path`, and other server-side functionality is available
