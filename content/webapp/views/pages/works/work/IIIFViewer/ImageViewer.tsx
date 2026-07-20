@@ -67,7 +67,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   const { work, errorHandler, setShowZoomed, rotatedImages } =
     useItemViewerContext();
   const imageWrapperRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
   const [imageSrc, setImageSrc] = useState(urlTemplate({ size: '640,' }));
   const [imageSrcSet, setImageSrcSet] = useState(
     imageSizes(2048)

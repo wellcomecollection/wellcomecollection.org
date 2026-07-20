@@ -34,10 +34,7 @@ import useSkipInitialEffect from '@weco/content/hooks/useSkipInitialEffect';
 import { fetchCanvasOcr } from '@weco/content/services/iiif/fetch/canvasOcr';
 import { transformCanvasOcr } from '@weco/content/services/iiif/transformers/canvasOcr';
 import { missingAltTextMessage } from '@weco/content/services/wellcome/catalogue/works';
-import {
-  CustomContentResource,
-  TransformedCanvas,
-} from '@weco/content/types/manifest';
+import { IIIFItemProps, TransformedCanvas } from '@weco/content/types/manifest';
 import { convertRequestUriToInfoUri } from '@weco/content/utils/iiif/convert-iiif-uri';
 import { hasRestrictedItem } from '@weco/content/utils/iiif/v3';
 import {
@@ -213,16 +210,6 @@ const IIIFImage: FunctionComponent<{
   }
 };
 
-// Some of our ContentResources can have a type of 'Audio':
-// https://iiif.wellcomecollection.org/presentation/v3/b17276342
-// However, the IIIF Presentation API spec only has a type of 'Sound'
-// so we add 'Audio' to the type here.
-export type IIIFItemProps =
-  | (Omit<ContentResource, 'type'> & {
-      type: ContentResource['type'] | 'Audio';
-    })
-  | CustomContentResource
-  | ChoiceBody;
 type ItemProps = {
   canvas: TransformedCanvas;
   item: IIIFItemProps;

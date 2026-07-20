@@ -121,6 +121,12 @@ function getTabIndex({
   level,
   index,
   firstItemTabbable,
+}: {
+  isEnhanced: boolean;
+  isSelected: boolean;
+  level: number;
+  index: number;
+  firstItemTabbable: boolean;
 }): 0 | -1 | undefined {
   if (isEnhanced) {
     if (firstItemTabbable && level === 1 && index === 0) {
