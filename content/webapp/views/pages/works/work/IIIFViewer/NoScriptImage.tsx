@@ -30,9 +30,7 @@ const NoScriptLoadingWrapper = styled.div`
 `;
 
 type Props = {
-  // The empty string arises when the url template's source is a possibly
-  // empty image service id
-  urlTemplate: ((opts: IIIFUriProps) => string) | '' | undefined;
+  urlTemplate: ((opts: IIIFUriProps) => string) | undefined;
   canvasOcr: string | undefined;
 };
 

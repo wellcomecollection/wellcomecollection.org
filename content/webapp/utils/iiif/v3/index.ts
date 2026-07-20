@@ -134,9 +134,9 @@ export type BornDigitalManifest = Omit<Manifest, 'items'> & {
   items?: Canvas[];
 };
 
-function convertToDownloadOption(item: Rendering): DownloadOption {
+function convertToDownloadOption(item: RenderingWithId): DownloadOption {
   return {
-    id: item.id || '',
+    id: item.id,
     label: transformLabel(item.label) || 'Download file',
     format: item.format || '',
   };
@@ -147,6 +147,10 @@ type Rendering = {
   format?: string;
   label?: string | InternationalString;
 };
+
+// A download option's id is used as both its href and its dedupe key, so we
+// only convert items that actually have one.
+type RenderingWithId = Rendering & { id: string };
 
 export function deduplicateDownloadOptions(
   options: DownloadOption[]
@@ -167,7 +171,8 @@ export function getDownloadOptionsFromManifestRendering(
   // Temporarily adding this until it is fixed.
   const rendering = (manifestRendering as Rendering[]) || [];
   return rendering
-    .filter(({ id, format }) => {
+    .filter((item): item is RenderingWithId => {
+      const { id, format } = item;
       // Removing application/zip (for now?) as we haven't had these before
       // and the example I've seen is 404ing:
       // (Work) https://wellcomecollection.org/works/mg56yqa4 ->
@@ -175,9 +180,11 @@ export function getDownloadOptionsFromManifestRendering(
       // (V3 Manifest) https://iiif.wellcomecollection.org/presentation/v3/b10326947
       // (rendering - application/zip) https://api.wellcomecollection.org/text/v1/b10326947.zip (returns 404)
       // For details of why we remove text/plain see https://github.com/wellcomecollection/wellcomecollection.org/issues/7592
-      return id && format !== 'application/zip' && format !== 'text/plain';
+      return (
+        Boolean(id) && format !== 'application/zip' && format !== 'text/plain'
+      );
     })
-    .map(item => convertToDownloadOption(item));
+    .map(convertToDownloadOption);
 }
 
 export function getDownloadOptionsFromCanvasRenderingAndSupplementing(
@@ -186,6 +193,9 @@ export function getDownloadOptionsFromCanvasRenderingAndSupplementing(
   return [...canvas.rendering, ...canvas.supplementing]
     .flatMap(item => (isChoiceBody(item) ? item.items : [item]))
     .filter((item): item is ContentResource => typeof item !== 'string')
+    .filter((item): item is ContentResource & { id: string } =>
+      Boolean(item.id)
+    )
     .map(convertToDownloadOption);
 }
 
