@@ -21,9 +21,9 @@ const KioskNavigationWrapper = styled(Space).attrs({
   className: typography('body', 'md', 'regular'),
   as: 'nav',
 })`
-  height: ${props => props.theme.kioskNavigationHeight}px;
+  height: ${props => props.theme.kioskNavigationHeight + 1}px;
   position: fixed;
-  bottom: 0;
+  bottom: -1px; /* fix for sub-pixel rendering issues */
   left: 0;
   right: 0;
   background: ${props => props.theme.color('neutral.700')};
@@ -252,7 +252,7 @@ export const KioskNavigation: FunctionComponent<Props> = memo(
     } else if (pageType === 'story') {
       label = 'Related stories';
     } else if (navigation?.listName === 'includedWorks') {
-      label = 'Included works';
+      label = 'Works in this exhibition';
     } else {
       label = 'Related works';
     }
