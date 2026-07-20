@@ -1,6 +1,10 @@
-import { Canvas, Manifest } from '@iiif/presentation-3';
+import { Canvas, ImageService, Manifest } from '@iiif/presentation-3';
 
 export type CanvasRotatedImage = { canvas: number; rotation: number };
+
+// The viewer often works with a stub of an image service that holds only the
+// service URL, e.g. `{ '@id': canvas.imageServiceId }`
+export type PartialImageService = Pick<ImageService, '@id'>;
 
 export type ItemViewerQuery = {
   canvas: number;

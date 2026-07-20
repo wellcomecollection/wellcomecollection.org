@@ -1,3 +1,8 @@
+// The IIIF Content Search response for a manifest's search service:
+// https://iiif.io/api/search/1.0/#response
+// @iiif/presentation-3 has a SearchServiceSearchResponse type, but it types
+// resource and on loosely (any) and omits the within.total and startIndex
+// properties we rely on, so we keep our own definition.
 export type SearchResults = {
   '@context': string;
   '@id': string;

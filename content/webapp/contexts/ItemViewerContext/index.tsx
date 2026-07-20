@@ -20,7 +20,7 @@ export type ItemViewerContextProps = {
   transformedManifest: TransformedManifest | undefined;
   parentManifest: ParentManifest | undefined;
   searchResults: SearchResults | null;
-  setSearchResults: (v) => void;
+  setSearchResults: (v: SearchResults | null) => void;
   accessToken: string | undefined;
   tree: UiTree;
   setTree: (v: UiTree) => void;
@@ -58,7 +58,7 @@ export type ItemViewerContextProps = {
   hasOnlyRenderableImages: boolean;
 };
 
-export const results = {
+export const results: SearchResults = {
   '@context': '',
   '@id': '',
   '@type': 'sc:AnnotationList',
