@@ -2,6 +2,7 @@ import NextLink from 'next/link';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { bornDigitalMessage } from '@weco/common/data/microcopy';
 import { eye } from '@weco/common/icons';
@@ -126,6 +127,8 @@ const ItemPageLink = ({
   const isWorkVisibleWithPermission =
     digitalLocationInfo?.accessCondition === 'restricted' &&
     userIsStaffWithRestricted;
+
+  const { isKiosk } = useKiosk();
   return (
     <>
       {work.thumbnail && (
@@ -209,7 +212,7 @@ const ItemPageLink = ({
                 />
               </Space>
             )}
-            {canDownload && (
+            {canDownload && !isKiosk && (
               <Download
                 ariaControlsId="itemDownloads"
                 downloadOptions={downloadOptions}
@@ -254,7 +257,7 @@ const WorkDetailsAvailableOnline = ({
   const hasNonStandardItems = itemsStatus !== 'allStandard';
 
   const [tabbableId, setTabbableId] = useState<string>();
-  const [archiveTree, setArchiveTree] = useState<UiTree>([]);
+  const [tree, setTree] = useState<UiTree>([]);
   const allOriginalPdfs =
     canvases?.every(canvas => isPDFCanvas(canvas)) || false;
   const clickThroughService = authServices?.active;
@@ -267,15 +270,15 @@ const WorkDetailsAvailableOnline = ({
 
   useEffect(() => {
     const downloads = createDownloadTree(structures, canvases);
-    setArchiveTree(downloads);
-  }, [structures]);
+    setTree(downloads);
+  }, [canvases, structures]);
 
   useEffect(() => {
     const elementToFocus = tabbableId && document.getElementById(tabbableId);
     if (elementToFocus) {
       elementToFocus.focus();
     }
-  }, [archiveTree, tabbableId]);
+  }, [tree, tabbableId]);
 
   useEffect(() => {
     setOrigin(window.origin);
@@ -324,13 +327,12 @@ const WorkDetailsAvailableOnline = ({
               <WorksTree>
                 <NestedList
                   currentWorkId={work.id}
-                  fullTree={archiveTree}
-                  setArchiveTree={setArchiveTree}
-                  archiveTree={archiveTree}
+                  tree={tree}
+                  setTree={setTree}
+                  items={tree}
                   level={1}
                   tabbableId={tabbableId}
                   setTabbableId={setTabbableId}
-                  archiveAncestorArray={[]}
                   firstItemTabbable={true}
                   showFirstLevelGuideline={true}
                   ItemRenderer={DownloadItemRenderer}

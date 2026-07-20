@@ -197,6 +197,21 @@ describe('ViewerTopBar download button', () => {
 
     expect(downloadButton(container)).not.toBeInTheDocument();
   });
+
+  it('hides the download button in kiosk mode even when download options are available', () => {
+    const { container } = renderTopBar({
+      contextProps: {
+        transformedManifest: createMockManifest({
+          canvases: [createMockCanvas()],
+          rendering: pdfRendering,
+        }),
+        query: createMockQuery({ canvas: 1 }),
+      },
+      kioskContext: { isKiosk: true },
+    });
+
+    expect(downloadButton(container)).not.toBeInTheDocument();
+  });
 });
 
 describe('ViewerTopBar enhanced-mode gate', () => {

@@ -47,7 +47,7 @@ type IIIFViewerProps = {
   setSearchResults: (v: SearchResults | null) => void;
   parentManifest?: ParentManifest;
   accessToken?: string;
-  initialArchiveTree?: UiTree;
+  initialTree?: UiTree;
 };
 
 const LoadingComponent = () => (
@@ -237,7 +237,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   setSearchResults,
   parentManifest,
   accessToken,
-  initialArchiveTree,
+  initialTree,
 }: IIIFViewerProps) => {
   const router = useRouter();
   const {
@@ -261,14 +261,9 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const [mainAreaHeight, setMainAreaHeight] = useState(500);
   const [mainAreaWidth, setMainAreaWidth] = useState(1000);
   const [isResizing, setIsResizing] = useState(false);
-  // Use server-provided archiveTree (items route provides it, images route doesn't need it)
-  const [archiveTree, setArchiveTree] = useState<UiTree>(
-    initialArchiveTree || []
-  );
-  const canvasIndexById = useMemo(
-    () => getTreeCanvasIndexById(archiveTree),
-    [archiveTree]
-  );
+  // Use server-provided tree (items route provides it, images route doesn't need it)
+  const [tree, setTree] = useState<UiTree>(initialTree || []);
+  const canvasIndexById = useMemo(() => getTreeCanvasIndexById(tree), [tree]);
   const currentCanvas =
     transformedManifest?.canvases[queryParamToArrayIndex(canvas)];
   const mainImageService: PartialImageService = {
@@ -362,8 +357,8 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         parentManifest,
         searchResults,
         setSearchResults,
-        archiveTree,
-        setArchiveTree,
+        tree,
+        setTree,
         canvasIndexById,
 
         // UI Props:

@@ -22,8 +22,8 @@ export type ItemViewerContextProps = {
   searchResults: SearchResults | null;
   setSearchResults: (v: SearchResults | null) => void;
   accessToken: string | undefined;
-  archiveTree: UiTree;
-  setArchiveTree: (v: UiTree) => void;
+  tree: UiTree;
+  setTree: (v: UiTree) => void;
   canvasIndexById: Record<string, number>;
 
   // UI props:
@@ -103,8 +103,8 @@ export const defaultItemViewerContext: ItemViewerContextProps = {
   searchResults: results,
   setSearchResults: () => undefined,
   accessToken: undefined,
-  archiveTree: [],
-  setArchiveTree: () => undefined,
+  tree: [],
+  setTree: () => undefined,
   canvasIndexById: {},
 
   // UI props:
