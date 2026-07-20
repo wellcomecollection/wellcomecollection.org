@@ -211,7 +211,7 @@ describe('IIIFItem kiosk mode', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('hides born digital warning in kiosk mode', () => {
+  it('hides born digital warning in kiosk mode for files on items page', () => {
     renderItem({
       item: {
         id: 'https://example.com/placeholder',
