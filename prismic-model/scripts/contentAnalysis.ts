@@ -86,7 +86,7 @@ async function main() {
   if (type) {
     console.info(matches);
   }
-  logInfo(`Found ${matches.length}${type ? ' ' + type : ''} documents`);
+  logInfo(`Found ${matches.length}${type ? ` ${type}` : ''} documents`);
 }
 
 main();

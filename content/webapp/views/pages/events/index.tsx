@@ -220,7 +220,7 @@ const EventsPage: NextPage<Props> = props => {
                 <span>
                   {pluralize(
                     events.totalResults,
-                    (isInPastListing ? 'past ' : '') + 'event'
+                    `${isInPastListing ? 'past ' : ''}event`
                   )}
                 </span>
                 {activeFiltersLabels.length > 0 && (

@@ -425,8 +425,7 @@ async function init() {
       uploadFilename = uploadFilename.slice(`${asset.id}-`.length);
     }
     // Prepend previous id to notes
-    const notesWithId =
-      `previous id: ${asset.id}` + (asset.notes ? `\n${asset.notes}` : '');
+    const notesWithId = `previous id: ${asset.id}${asset.notes ? `\n${asset.notes}` : ''}`;
 
     let result: { id: string; url: string } | null = null;
     let retryDelayMs = initialRetryDelayMs;
