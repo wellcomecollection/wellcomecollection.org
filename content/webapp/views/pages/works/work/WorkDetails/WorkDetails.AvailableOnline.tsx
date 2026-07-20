@@ -330,7 +330,6 @@ const WorkDetailsAvailableOnline = ({
                   level={1}
                   tabbableId={tabbableId}
                   setTabbableId={setTabbableId}
-                  workAncestors={[]}
                   firstItemTabbable={true}
                   showFirstLevelGuideline={true}
                   ItemRenderer={DownloadItemRenderer}
