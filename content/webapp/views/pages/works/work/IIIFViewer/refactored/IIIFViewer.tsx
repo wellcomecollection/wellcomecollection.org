@@ -8,7 +8,7 @@ import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import LL from '@weco/common/views/components/styled/LL';
-import ItemViewerContext from '@weco/content/contexts/ItemViewerContext';
+import { ItemViewerContextRefactored as ItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import {
   Work,
@@ -36,7 +36,7 @@ import ViewerBottomBar from './ViewerBottomBar';
 import ViewerSidebar from './ViewerSidebar';
 import ViewerTopBar from './ViewerTopBar';
 
-type IIIFViewerProps = {
+export type IIIFViewerProps = {
   work: WorkBasic & Pick<Work, 'description'>;
   iiifImageLocation?: DigitalLocation;
   iiifPresentationLocation?: DigitalLocation;
@@ -75,6 +75,21 @@ type GridProps = {
   $useFixedList?: boolean;
   $hasMultipleCanvases?: boolean;
 };
+
+// TODO: Remove this version badge after testing the toggle
+const VersionBadge = styled.div`
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: #00b894;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  z-index: 10000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+`;
 
 const Grid = styled.div<GridProps>`
   display: grid;
@@ -263,6 +278,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const [isResizing, setIsResizing] = useState(false);
   // Use server-provided tree (items route provides it, images route doesn't need it)
   const [tree, setTree] = useState<UiTree>(initialTree || []);
+
   const canvasIndexById = useMemo(() => getTreeCanvasIndexById(tree), [tree]);
   const currentCanvas =
     transformedManifest?.canvases[queryParamToArrayIndex(canvas)];
@@ -388,6 +404,8 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         hasOnlyRenderableImages,
       }}
     >
+      {/* TODO: Remove version badge after itemViewerRefactor is fully rolled out */}
+      <VersionBadge>REFACTORED</VersionBadge>
       <Grid
         ref={viewerRef}
         $isFullSupportBrowser={isFullSupportBrowser}
