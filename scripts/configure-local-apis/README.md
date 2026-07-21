@@ -7,10 +7,10 @@ the developers of that project!
 
 ## Usage
 
-Run the `configure-local-apis.sh` script in the parent directory.
+Run the `configure-local-apis.sh` script in the parent directory, or `yarn config-local-apis` from the root of the repository.
 
 You can view the nginx configuration files in [weco-local.conf](./weco-local.conf), 
-it depends on thelocal APIs to be started successfully, and use the specified ports.
+it depends on the local APIs to be started successfully, and use the specified ports.
 
 - Catalogue Search, Works & Images API: http://localhost:8080
 - Catalogue Items API: http://localhost:8081

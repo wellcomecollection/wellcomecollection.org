@@ -92,9 +92,17 @@ API environment is specified in the following order of precedence:
 1. `NEXT_PUBLIC_API_ENV_OVERRIDE` is set, then all APIs are set to the value of `NEXT_PUBLIC_API_ENV_OVERRIDE`
 1. `NEXT_PUBLIC_CONTENT_API_ENV_OVERRIDE`, `NEXT_PUBLIC_CONCEPTS_API_ENV_OVERRIDE`, or `NEXT_PUBLIC_CATALOGUE_API_ENV_OVERRIDE` are set, then the respective API is set to the value of the environment variable.
 
+For example, to test the front-end against a locally running catalogue API (see [running the catalogue API locally](https://github.com/wellcomecollection/catalogue-api/blob/main/docs/developers.md), which listens on `localhost:8080`), set only this in `./content/webapp/.env`:
+
+```
+NEXT_PUBLIC_CATALOGUE_API_ENV_OVERRIDE="dev"
+```
+
+Then run `yarn content` (which serves on `http://localhost:3000`). Only catalogue requests are routed via nginx at `https://api-dev.wellcomecollection.org` to your local API; content and concepts requests continue to use prod.
+
 #### Using www-dev.wellcomecollection.org
 
-Adding the local API confguration allows you to use the `www-dev.wellcomecollection.org` domain to access the website on your local machine.
+Adding the local API configuration allows you to use the `www-dev.wellcomecollection.org` domain to access the website on your local machine.
 
 This allows content and identity to behave correctly when running locally, as paths between the two apps are relative to the domain.
 
