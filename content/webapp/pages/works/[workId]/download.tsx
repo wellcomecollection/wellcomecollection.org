@@ -40,6 +40,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const work = await getWork({
     id: workId,
     shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+    pipelineCluster: serverData.toggles.modes.cataloguePipeline ?? undefined,
   });
 
   if (work.type === 'Error') {

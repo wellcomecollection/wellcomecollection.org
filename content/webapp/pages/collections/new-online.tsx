@@ -56,6 +56,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     },
     pageSize: 32,
     shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+    pipelineCluster: serverData.toggles.modes.cataloguePipeline ?? undefined,
   });
 
   if (works.type === 'Error') {

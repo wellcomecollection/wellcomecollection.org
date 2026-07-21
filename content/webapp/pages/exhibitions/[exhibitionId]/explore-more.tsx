@@ -68,6 +68,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   }
 
   const shouldUseStagingApi = serverData.toggles.featureFlags.stagingApi;
+  const pipelineCluster =
+    serverData.toggles.modes.cataloguePipeline ?? undefined;
 
   // In kiosk mode, use the active kiosk's content key directly. Outside kiosk
   // mode, fall back to matching the exhibition UID against kioskExhibitionUids
@@ -93,7 +95,9 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       Promise.all(
         workGroupConfigs.map(async group => {
           const results = await Promise.allSettled(
-            group.ids.map(id => getWork({ id, shouldUseStagingApi }))
+            group.ids.map(id =>
+              getWork({ id, shouldUseStagingApi, pipelineCluster })
+            )
           );
           const works = results.flatMap(r =>
             r.status === 'fulfilled' ? resolveWork(r.value) : []
@@ -106,7 +110,9 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         })
       ),
       Promise.allSettled(
-        includedWorkIds.map(id => getWork({ id, shouldUseStagingApi }))
+        includedWorkIds.map(id =>
+          getWork({ id, shouldUseStagingApi, pipelineCluster })
+        )
       ).then(results =>
         results.flatMap(r =>
           r.status === 'fulfilled' ? resolveWork(r.value) : []
