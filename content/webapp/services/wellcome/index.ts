@@ -112,7 +112,7 @@ export type QueryProps<Params> = {
   shouldUseStagingApi?: boolean;
   // Only used by catalogue queries, where catalogueQuery maps it to the
   // elasticCluster param; carries the cataloguePipeline mode toggle value.
-  // undefined/'default' both mean the normal pipeline setup
+  // undefined means the normal pipeline setup
   pipelineCluster?: string;
 };
 

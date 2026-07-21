@@ -168,9 +168,8 @@ const toggleConfig = {
       id: 'cataloguePipeline',
       title: 'Catalogue pipeline',
       description:
-        'Selects which catalogue pipeline serves works and images requests. Anything other than the default adds an elasticCluster param carrying the selected value to all catalogue works and images API queries (search and detail), so they are served from that pipeline’s cluster. Requests to an unavailable cluster fail with an error page rather than falling back to the default pipeline.',
+        'Selects which catalogue pipeline serves works and images requests. When set, an elasticCluster param carrying the selected value is added to all catalogue works and images API queries (search and detail), so they are served from that pipeline’s cluster. Off means the normal pipeline setup. Requests to an unavailable cluster fail with an error page rather than falling back to the default pipeline.',
       options: [
-        { id: 'default', label: 'Default — normal pipeline setup' },
         {
           id: 'axiell-collections-testing',
           label: 'Axiell Collections testing (new Axiell/FOLIO pipeline)',

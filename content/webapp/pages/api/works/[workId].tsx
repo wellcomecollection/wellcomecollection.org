@@ -37,7 +37,6 @@ const WorksApi = async (
         description:
           'Selects which catalogue pipeline serves works and images requests',
         options: [
-          { id: 'default', label: 'Default — normal pipeline setup' },
           {
             id: 'axiell-collections-testing',
             label: 'Axiell Collections testing (new Axiell/FOLIO pipeline)',

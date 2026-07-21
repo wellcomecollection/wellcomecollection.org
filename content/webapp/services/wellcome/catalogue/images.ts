@@ -83,12 +83,9 @@ export async function getImage({
 
   const params = {
     include,
-    // propsToQuery drops undefined values; 'default' means the normal
-    // pipeline setup, i.e. no override
-    elasticCluster:
-      pipelineCluster && pipelineCluster !== 'default'
-        ? pipelineCluster
-        : undefined,
+    // propsToQuery drops undefined values, so no param is added when the
+    // cataloguePipeline mode is unset
+    elasticCluster: pipelineCluster,
   };
 
   const searchParams = new URLSearchParams(propsToQuery(params));

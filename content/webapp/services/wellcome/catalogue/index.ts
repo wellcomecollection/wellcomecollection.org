@@ -29,16 +29,12 @@ export async function catalogueQuery<Params, Result extends ResultType>(
 
   // The cataloguePipeline mode toggle routes the request to that pipeline's
   // cluster, unless the caller has already selected a specific cluster
-  // (e.g. the semantic search prototypes). 'default' means the normal
-  // pipeline setup, i.e. no override.
+  // (e.g. the semantic search prototypes). When the mode is unset both
+  // values are undefined and no param is added.
   const { elasticCluster } = params as { elasticCluster?: string };
   const extendedParams = {
     ...params,
-    elasticCluster:
-      elasticCluster ??
-      (pipelineCluster && pipelineCluster !== 'default'
-        ? pipelineCluster
-        : undefined),
+    elasticCluster: elasticCluster ?? pipelineCluster,
     pageSize,
   };
 

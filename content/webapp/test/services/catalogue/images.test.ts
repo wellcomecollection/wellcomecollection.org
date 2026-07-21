@@ -38,13 +38,6 @@ describe('getImages: the cataloguePipeline mode toggle', () => {
     expect(url).not.toContain('elasticCluster');
   });
 
-  it('doesn’t add elasticCluster to the query when the mode is default', async () => {
-    await getImages({ params: { query: 'sheep' }, pipelineCluster: 'default' });
-
-    const [url] = mockWellcomeApiQuery.mock.calls[0];
-    expect(url).not.toContain('elasticCluster');
-  });
-
   it('doesn’t override an explicit elasticCluster param', async () => {
     await getImages({
       params: { query: 'sheep', elasticCluster: 'openai' },
