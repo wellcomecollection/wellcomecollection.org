@@ -10,7 +10,7 @@ import ItemViewerContextRefactored, {
   useItemViewerContext as useRefactored,
 } from './refactored';
 
-// TODO: Remove after testing
+// TODO: Remove after itemViewerRefactor is fully rolled out.
 declare global {
   interface Window {
     __ivr_context_logged?: boolean;
@@ -44,5 +44,5 @@ export function useItemViewerContext(): ItemViewerContextProps {
   return itemViewerRefactor ? refactoredContext : legacyContext;
 }
 
-// Default export for legacy compatibility (but IIIFViewer should use named exports)
-export default ItemViewerContextLegacy;
+// Default export to match what the original index.tsx exported
+export { ItemViewerContextLegacy as default };
