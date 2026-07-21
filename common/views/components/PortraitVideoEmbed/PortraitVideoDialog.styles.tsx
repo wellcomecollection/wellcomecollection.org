@@ -59,7 +59,7 @@ export const VideoDialog = styled.dialog`
   background: ${props => props.theme.color('black')};
 
   /* We subtract 44px to account for the controls (tap size) */
-  width: min(400px, calc(calc(90dvh - 44px) * 9 / 16), 90vw);
+  width: min(400px, calc((90dvh - 44px) * 9 / 16), 90vw);
   display: flex;
   flex-direction: column;
   overflow: hidden;
