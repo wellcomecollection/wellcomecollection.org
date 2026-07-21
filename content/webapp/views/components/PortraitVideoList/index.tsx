@@ -147,6 +147,27 @@ const PortraitVideoList: FunctionComponent<Props> = ({
         aria-label={activeItem?.title || 'Video'}
         onClick={e => e.target === dialogRef.current && closeDialog()}
       >
+        <DialogVideoContainer>
+          {activeIndex !== null && videoSrc && (
+            <VideoIframe
+              key={activeIndex}
+              ref={iframeRef}
+              title={activeItem?.title || 'Video'}
+              allowFullScreen={true}
+              allow={`autoplay; picture-in-picture${activeItem?.videoProvider === 'YouTube' ? '; clipboard-write' : ''}`}
+              src={videoSrc}
+            />
+          )}
+          {activeItem?.transcript && (
+            <TranscriptOverlay
+              id={uid}
+              $hidden={!transcriptOpen}
+              aria-hidden={!transcriptOpen}
+            >
+              <PrismicHtmlBlock html={activeItem.transcript} />
+            </TranscriptOverlay>
+          )}
+        </DialogVideoContainer>
         <DialogControls>
           <NavGroup>
             <DialogButton
@@ -190,28 +211,6 @@ const PortraitVideoList: FunctionComponent<Props> = ({
             </DialogButton>
           </NavGroup>
         </DialogControls>
-
-        <DialogVideoContainer>
-          {activeIndex !== null && videoSrc && (
-            <VideoIframe
-              key={activeIndex}
-              ref={iframeRef}
-              title={activeItem?.title || 'Video'}
-              allowFullScreen={true}
-              allow={`autoplay; picture-in-picture${activeItem?.videoProvider === 'YouTube' ? '; clipboard-write' : ''}`}
-              src={videoSrc}
-            />
-          )}
-          {activeItem?.transcript && (
-            <TranscriptOverlay
-              id={uid}
-              $hidden={!transcriptOpen}
-              aria-hidden={!transcriptOpen}
-            >
-              <PrismicHtmlBlock html={activeItem.transcript} />
-            </TranscriptOverlay>
-          )}
-        </DialogVideoContainer>
       </VideoDialog>
     </div>
   );
