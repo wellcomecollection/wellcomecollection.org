@@ -44,6 +44,10 @@ export const TranscriptButton = styled.button.attrs({
   background: transparent;
   color: ${props => props.theme.color('white')};
   text-decoration: underline;
+
+  &:hover {
+    text-decoration: none;
+  }
 `;
 
 export const VideoDialog = styled.dialog`
