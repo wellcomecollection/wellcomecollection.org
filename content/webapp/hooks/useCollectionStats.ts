@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { useModes } from '@weco/common/server-data/Context';
+import { useFeatureFlags, useModes } from '@weco/common/server-data/Context';
 import {
   CollectionStats,
   createDefaultCollectionStats,
@@ -20,6 +20,7 @@ export function useCollectionStats(): UseCollectionStatsReturn {
     createDefaultCollectionStats()
   );
   const [error, setError] = useState<string | null>(null);
+  const { stagingApi } = useFeatureFlags();
   const { cataloguePipeline } = useModes();
 
   useEffect(() => {
@@ -30,7 +31,7 @@ export function useCollectionStats(): UseCollectionStatsReturn {
         setError(null);
 
         const stats = await fetchCollectionStats(
-          undefined,
+          stagingApi,
           cataloguePipeline ?? undefined
         );
 
@@ -53,7 +54,7 @@ export function useCollectionStats(): UseCollectionStatsReturn {
     return () => {
       isMounted = false;
     };
-  }, [cataloguePipeline]);
+  }, [stagingApi, cataloguePipeline]);
 
   return { data, error };
 }
