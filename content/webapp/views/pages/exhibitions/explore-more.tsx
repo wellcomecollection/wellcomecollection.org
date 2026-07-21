@@ -106,19 +106,16 @@ const ExploreMorePage: NextPage<Props> = ({
       <SpacingSection>
         <ContaineredLayout gridSizes={gridSize12()}>
           <SectionHeader title="Related works from the collection" />
-          <Space $v={{ size: 'lg', properties: ['margin-top'] }}>
-            <p>
+          <Space $v={{ size: 'md', properties: ['margin-top'] }}>
+            <Space as="p" $v={{ size: 'lg', properties: ['margin-bottom'] }}>
               Explore a selection of related works from our collection,
               exploring HIV, activism and intimacy.
-            </p>
+            </Space>
           </Space>
         </ContaineredLayout>
         {workGroups.map(group =>
           group.works.length > 0 ? (
-            <Space
-              key={group.heading}
-              $v={{ size: 'xl', properties: ['margin-top'] }}
-            >
+            <div key={group.heading}>
               <ScrollContainer
                 hasWorkCards={true}
                 CopyContent={
@@ -142,7 +139,7 @@ const ExploreMorePage: NextPage<Props> = ({
                   </ListItem>
                 ))}
               </ScrollContainer>
-            </Space>
+            </div>
           ) : null
         )}
       </SpacingSection>
@@ -150,17 +147,22 @@ const ExploreMorePage: NextPage<Props> = ({
         <BeigeSection>
           <ContaineredLayout gridSizes={gridSize12()}>
             <SectionHeader title="Works in this exhibition" />
-            <Space $v={{ size: 'lg', properties: ['margin-top'] }}>
-              <p>Find the items on display in our online catalogue.</p>
-            </Space>
           </ContaineredLayout>
-          <ScrollContainer gridSizes={gridSize12()} useShim={true}>
-            {exhibitionWorks.map(work => (
-              <ListItem key={work.id} $usesShim>
-                <RelatedWorksCard variant="default" work={work} />
-              </ListItem>
-            ))}
-          </ScrollContainer>
+          <Space $v={{ size: 'md', properties: ['margin-top'] }}>
+            <ScrollContainer
+              gridSizes={gridSize12()}
+              useShim={true}
+              CopyContent={
+                <p>Find the items on display in our online catalogue.</p>
+              }
+            >
+              {exhibitionWorks.map(work => (
+                <ListItem key={work.id} $usesShim>
+                  <RelatedWorksCard variant="default" work={work} />
+                </ListItem>
+              ))}
+            </ScrollContainer>
+          </Space>
         </BeigeSection>
       )}
     </PageLayout>
