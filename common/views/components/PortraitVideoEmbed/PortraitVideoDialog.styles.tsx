@@ -6,7 +6,7 @@ import Space from '@weco/common/views/components/styled/Space';
 export const DialogControls = styled.span`
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   flex-shrink: 0;
 `;
 
@@ -15,8 +15,12 @@ export const NavGroup = styled.span`
   align-items: center;
 `;
 
-export const DialogButton = styled.button`
+export const DialogButton = styled.button.attrs({
+  className: typography('body', 'xs', 'regular'),
+})`
   display: flex;
+  flex-direction: column;
+  line-height: 1;
   align-items: center;
   justify-content: center;
   width: 44px;
@@ -29,6 +33,10 @@ export const DialogButton = styled.button`
   &:disabled {
     visibility: hidden;
   }
+
+  &:not(:disabled):hover {
+    text-decoration: underline;
+  }
 `;
 
 export const TranscriptButton = styled.button.attrs({
@@ -37,20 +45,25 @@ export const TranscriptButton = styled.button.attrs({
 })`
   display: flex;
   align-items: center;
-  height: 36px;
   padding: 0 8px;
   border: 0;
   cursor: pointer;
   background: transparent;
   color: ${props => props.theme.color('white')};
   text-decoration: underline;
+
+  &:hover {
+    text-decoration: none;
+  }
 `;
 
 export const VideoDialog = styled.dialog`
   padding: 0;
   border: 0;
   background: ${props => props.theme.color('black')};
-  width: min(400px, calc(90dvh * 9 / 16), 90vw);
+
+  /* We subtract 44px to account for the controls (tap size) */
+  width: min(400px, calc((90dvh - 44px) * 9 / 16), 90vw);
   display: flex;
   flex-direction: column;
   overflow: hidden;

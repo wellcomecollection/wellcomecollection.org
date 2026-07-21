@@ -25,6 +25,9 @@ const CardButton = styled.button`
   cursor: pointer;
   text-align: left;
   background: none;
+
+  /* Prevent iOS from making titles blue */
+  color: inherit;
 `;
 
 const PosterContainer = styled.span`

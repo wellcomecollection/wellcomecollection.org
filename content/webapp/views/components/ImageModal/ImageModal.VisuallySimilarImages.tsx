@@ -1,7 +1,7 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { useFeatureFlags } from '@weco/common/server-data/Context';
+import { useFeatureFlags, useModes } from '@weco/common/server-data/Context';
 import { typography } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
 import { plainListStyles } from '@weco/common/views/components/styled/PlainList';
@@ -54,6 +54,7 @@ const VisuallySimilarImages: FunctionComponent<Props> = ({
   const [similarImages, setSimilarImages] = useState<ImageType[]>([]);
   const [requestState, setRequestState] = useState<State>('initial');
   const { stagingApi } = useFeatureFlags();
+  const { cataloguePipeline } = useModes();
 
   useEffect(() => {
     setRequestState('loading');
@@ -61,6 +62,7 @@ const VisuallySimilarImages: FunctionComponent<Props> = ({
       const { image: fullImage } = await getImage({
         id: originalId,
         shouldUseStagingApi: stagingApi,
+        pipelineCluster: cataloguePipeline ?? undefined,
         include: ['withSimilarFeatures'],
       });
       if (fullImage.type === 'Image') {

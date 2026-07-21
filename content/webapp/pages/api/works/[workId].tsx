@@ -16,11 +16,12 @@ const WorksApi = async (
   }
 
   const togglesResp = await getCachedToggles();
-  const { featureFlags } = getTogglesFromContext(togglesResp, { req });
+  const { featureFlags, modes } = getTogglesFromContext(togglesResp, { req });
 
   const response = await getWork({
     id: workId,
     shouldUseStagingApi: featureFlags.stagingApi,
+    pipelineCluster: modes.cataloguePipeline ?? undefined,
   });
 
   res.setHeader('Content-Type', 'application/json');

@@ -26,6 +26,7 @@ type ImageInclude =
 type GetImageProps = {
   id: string;
   shouldUseStagingApi?: boolean;
+  pipelineCluster?: string;
   include?: ImageInclude[];
 };
 
@@ -71,6 +72,7 @@ type ImageResponse = {
 export async function getImage({
   id,
   shouldUseStagingApi,
+  pipelineCluster,
   include = [],
 }: GetImageProps): Promise<ImageResponse> {
   if (!looksLikeCanonicalId(id)) {
@@ -81,6 +83,9 @@ export async function getImage({
 
   const params = {
     include,
+    // propsToQuery drops undefined values, so no param is added when the
+    // cataloguePipeline mode is unset
+    elasticCluster: pipelineCluster,
   };
 
   const searchParams = new URLSearchParams(propsToQuery(params));

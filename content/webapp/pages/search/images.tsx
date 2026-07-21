@@ -77,6 +77,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const images = await getImages({
     params: apiProps,
     shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+    pipelineCluster: serverData.toggles.modes.cataloguePipeline ?? undefined,
     pageSize: 30,
   });
 

@@ -7,7 +7,7 @@ export const ScrollButtonsContainer = styled(Space)<{
   $hasContent?: boolean;
   $scrollButtonsAfter?: boolean;
 }>`
-  gap: ${props => props.theme.spacingUnits['100']};
+  gap: ${props => props.theme.spacingUnits['300']};
   display: flex;
   justify-content: ${props =>
     props.$hasContent ? 'space-between' : 'flex-end'};
@@ -189,7 +189,7 @@ export const ScrollShim = styled.li.attrs({
 `;
 
 export const CopyContainer = styled.div`
-  > *:last-child {
+  :last-child {
     margin-bottom: 0;
   }
 `;

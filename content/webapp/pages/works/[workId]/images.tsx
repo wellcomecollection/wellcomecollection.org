@@ -58,6 +58,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const { url: catalogueApiUrl, image } = await getImage({
     id,
     shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+    pipelineCluster: serverData.toggles.modes.cataloguePipeline ?? undefined,
   });
 
   if (image.type === 'Error') {
@@ -79,6 +80,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const work = await getWork({
     id: workId,
     shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+    pipelineCluster: serverData.toggles.modes.cataloguePipeline ?? undefined,
   });
 
   if (work.type === 'Error') {
