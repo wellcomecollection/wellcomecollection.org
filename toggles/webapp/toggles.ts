@@ -144,6 +144,14 @@ const toggleConfig = {
       description: 'Allows testing of vertical videos.',
       type: 'experimental',
     },
+    {
+      id: 'itemViewerRefactor',
+      title: 'Item viewer refactor',
+      initialValue: false,
+      description:
+        'Displays the refactored item viewer instead of the current one.',
+      type: 'experimental',
+    },
   ] as const,
   // We have to include a reference to any test toggles here as well as in the cache dir
   // because they are deployed separately and consequently can't share a source of truth
