@@ -13,6 +13,14 @@ import {
 
 import ViewerBottomBar from './ViewerBottomBar';
 
+// The refactored components read from ItemViewerContextRefactored via the
+// useItemViewerContext hook, which checks the feature flag. Mock it so the
+// hook returns the refactored context values.
+jest.mock('@weco/common/server-data/Context', () => ({
+  ...jest.requireActual('@weco/common/server-data/Context'),
+  useFeatureFlags: () => ({ itemViewerRefactor: true }),
+}));
+
 // Mock the fullscreen hook since jsdom doesn't support fullscreen API
 jest.mock('@weco/content/hooks/useIsFullscreenEnabled', () => ({
   __esModule: true,
@@ -22,6 +30,7 @@ jest.mock('@weco/content/hooks/useIsFullscreenEnabled', () => ({
 function renderBottomBar(options: RenderWithContextOptions = {}) {
   return renderWithContext(<ViewerBottomBar />, {
     appContext: { isEnhanced: true, isFullSupportBrowser: true },
+    useRefactoredContext: true,
     ...options,
   });
 }

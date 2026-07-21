@@ -18,6 +18,14 @@ import IIIFViewer from './IIIFViewer';
 // and drive the URL via a mutable router query.
 jest.mock('openseadragon', () => ({ __esModule: true, default: jest.fn() }));
 
+// The refactored IIIFViewer provides values via ItemViewerContextRefactored, so
+// useItemViewerContext must read from that context. It checks the feature flag
+// to decide which context to use, so we mock it to return the refactored flag.
+jest.mock('@weco/common/server-data/Context', () => ({
+  ...jest.requireActual('@weco/common/server-data/Context'),
+  useFeatureFlags: () => ({ itemViewerRefactor: true }),
+}));
+
 // Must be prefixed `mock` to be referenced inside the hoisted jest.mock factory.
 let mockRouterQuery: Record<string, string> = {};
 jest.mock('next/router', () => ({

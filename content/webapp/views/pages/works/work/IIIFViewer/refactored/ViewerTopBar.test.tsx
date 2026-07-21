@@ -14,6 +14,14 @@ import { TransformedManifest } from '@weco/content/types/manifest';
 
 import ViewerTopBar from './ViewerTopBar';
 
+// The refactored components read from ItemViewerContextRefactored via the
+// useItemViewerContext hook, which checks the feature flag. Mock it so the
+// hook returns the refactored context values.
+jest.mock('@weco/common/server-data/Context', () => ({
+  ...jest.requireActual('@weco/common/server-data/Context'),
+  useFeatureFlags: () => ({ itemViewerRefactor: true }),
+}));
+
 // A manifest-level rendering that yields a non-empty downloadOptions list.
 const pdfRendering: TransformedManifest['rendering'] = [
   {
@@ -28,6 +36,7 @@ const pdfRendering: TransformedManifest['rendering'] = [
 const renderTopBar = (options: RenderWithContextOptions = {}) =>
   renderWithContext(<ViewerTopBar iiifImageLocation={undefined} />, {
     appContext: { isEnhanced: true, isFullSupportBrowser: true },
+    useRefactoredContext: true,
     ...options,
   });
 
@@ -220,6 +229,7 @@ describe('ViewerTopBar enhanced-mode gate', () => {
       <ViewerTopBar iiifImageLocation={undefined} />,
       {
         appContext: { isEnhanced: false, isFullSupportBrowser: true },
+        useRefactoredContext: true,
         contextProps: {
           transformedManifest: createMockManifest({
             canvases: [createMockCanvas()],
