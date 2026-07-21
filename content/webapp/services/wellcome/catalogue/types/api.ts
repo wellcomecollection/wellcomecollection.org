@@ -23,10 +23,10 @@ export type CatalogueWorksApiProps = {
   // Optional override for selecting a specific Elastic cluster. Expected
   // values:
   // - 'openai' and 'elser', for semantic-search prototype experiments
-  // - 'new-pipeline', for previewing the new catalogue pipeline
+  // - 'axiell-collections-testing', for previewing the new (Axiell/FOLIO) catalogue pipeline
   // This is intentionally optional and experimental; production callers
   // should omit this.
-  elasticCluster?: 'openai' | 'elser' | 'new-pipeline';
+  elasticCluster?: 'openai' | 'elser' | 'axiell-collections-testing';
 };
 
 export type CatalogueImagesApiProps = {
@@ -45,10 +45,10 @@ export type CatalogueImagesApiProps = {
   // Optional override for selecting a specific Elastic cluster. Expected
   // values:
   // - 'openai' and 'elser', for semantic-search prototype experiments
-  // - 'new-pipeline', for previewing the new catalogue pipeline
+  // - 'axiell-collections-testing', for previewing the new (Axiell/FOLIO) catalogue pipeline
   // This is intentionally optional and experimental; production callers
   // should omit this.
-  elasticCluster?: 'openai' | 'elser' | 'new-pipeline';
+  elasticCluster?: 'openai' | 'elser' | 'axiell-collections-testing';
 };
 
 export type CatalogueConceptsApiProps = {

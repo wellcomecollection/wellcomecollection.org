@@ -24,11 +24,11 @@ describe('getImages: the cataloguePipeline mode toggle', () => {
   it('adds elasticCluster=<mode value> to the query when the mode is set', async () => {
     await getImages({
       params: { query: 'sheep' },
-      pipelineCluster: 'new-pipeline',
+      pipelineCluster: 'axiell-collections-testing',
     });
 
     const [url] = mockWellcomeApiQuery.mock.calls[0];
-    expect(url).toContain('elasticCluster=new-pipeline');
+    expect(url).toContain('elasticCluster=axiell-collections-testing');
   });
 
   it('doesn’t add elasticCluster to the query when the mode is unset', async () => {
@@ -48,11 +48,11 @@ describe('getImages: the cataloguePipeline mode toggle', () => {
   it('doesn’t override an explicit elasticCluster param', async () => {
     await getImages({
       params: { query: 'sheep', elasticCluster: 'openai' },
-      pipelineCluster: 'new-pipeline',
+      pipelineCluster: 'axiell-collections-testing',
     });
 
     const [url] = mockWellcomeApiQuery.mock.calls[0];
     expect(url).toContain('elasticCluster=openai');
-    expect(url).not.toContain('new-pipeline');
+    expect(url).not.toContain('axiell-collections-testing');
   });
 });
