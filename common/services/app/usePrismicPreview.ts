@@ -57,7 +57,7 @@ const usePrismicPreview = (shouldDisplay: () => boolean): void =>
         }
 
         if (validationFails.length > 0) {
-          validationFails.forEach(function (validationFail) {
+          validationFails.forEach(validationFail => {
             const div = document.createElement('div');
             div.style.marginBottom = '6px';
             div.innerHTML = validationFail;

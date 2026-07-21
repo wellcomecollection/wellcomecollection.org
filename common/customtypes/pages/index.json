@@ -19,7 +19,9 @@
         "config": {
           "label": "Format",
           "select": "document",
-          "customtypes": ["page-formats"]
+          "customtypes": [
+            "page-formats"
+          ]
         }
       },
       "datePublished": {
@@ -56,6 +58,12 @@
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
+            "text": {
+              "type": "SharedSlice"
+            },
+            "editorialImage": {
+              "type": "SharedSlice"
+            },
             "archiveCardList": {
               "type": "SharedSlice"
             },
@@ -74,9 +82,6 @@
             "contentList": {
               "type": "SharedSlice"
             },
-            "editorialImage": {
-              "type": "SharedSlice"
-            },
             "editorialImageGallery": {
               "type": "SharedSlice"
             },
@@ -84,12 +89,6 @@
               "type": "SharedSlice"
             },
             "fullWidthBanner": {
-              "type": "SharedSlice"
-            },
-            "gifVideo": {
-              "type": "SharedSlice"
-            },
-            "iframe": {
               "type": "SharedSlice"
             },
             "infoBlock": {
@@ -105,12 +104,6 @@
               "type": "SharedSlice"
             },
             "standfirst": {
-              "type": "SharedSlice"
-            },
-            "tagList": {
-              "type": "SharedSlice"
-            },
-            "text": {
               "type": "SharedSlice"
             },
             "textAndIcons": {
@@ -204,7 +197,9 @@
               "config": {
                 "label": "Season",
                 "select": "document",
-                "customtypes": ["seasons"],
+                "customtypes": [
+                  "seasons"
+                ],
                 "placeholder": "Select a Season"
               }
             }
@@ -227,7 +222,10 @@
               "config": {
                 "label": "Parent page",
                 "select": "document",
-                "customtypes": ["pages", "exhibitions"],
+                "customtypes": [
+                  "pages",
+                  "exhibitions"
+                ],
                 "placeholder": "Select a parent page"
               }
             }
@@ -246,7 +244,9 @@
               "config": {
                 "label": "Role",
                 "select": "document",
-                "customtypes": ["editorial-contributor-roles"]
+                "customtypes": [
+                  "editorial-contributor-roles"
+                ]
               }
             },
             "contributor": {
@@ -254,7 +254,10 @@
               "config": {
                 "label": "Contributor",
                 "select": "document",
-                "customtypes": ["people", "organisations"]
+                "customtypes": [
+                  "people",
+                  "organisations"
+                ]
               }
             },
             "description": {

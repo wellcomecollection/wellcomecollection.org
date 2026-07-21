@@ -43,6 +43,7 @@ const meta: Meta<StoryArgs> = {
           toggles: {
             ...defaultServerData.toggles,
             modes: {
+              ...defaultServerData.toggles.modes,
               kioskMode: context.args.kioskMode,
             },
           },

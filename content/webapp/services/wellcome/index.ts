@@ -110,6 +110,10 @@ export type QueryProps<Params> = {
   params: Params;
   pageSize?: number;
   shouldUseStagingApi?: boolean;
+  // Only used by catalogue queries, where catalogueQuery maps it to the
+  // elasticCluster param; carries the cataloguePipeline mode toggle value.
+  // undefined means the normal pipeline setup
+  pipelineCluster?: string;
 };
 
 // Use shared undici agent configuration for keep-alive connections.
@@ -147,8 +151,9 @@ export const wellcomeApiQuery = async (url: string) => {
     // automated tool trying to inject malicious data, and thus can be ignored.
     if (json.type === 'Error' && json.httpStatus !== 414) {
       console.warn(
-        `Received HTTP ${json.httpStatus} error from the API query ${url}: ` +
-          JSON.stringify(json)
+        `Received HTTP ${json.httpStatus} error from the API query ${url}: ${JSON.stringify(
+          json
+        )}`
       );
     }
 

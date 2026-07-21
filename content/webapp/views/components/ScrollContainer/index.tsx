@@ -92,7 +92,7 @@ const ScrollContainer: FunctionComponent<Props> = ({
       <ConditionalWrapper
         condition={!scrollButtonsAfter || !!CopyContent}
         wrapper={children => (
-          <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
             {children}
           </Space>
         )}

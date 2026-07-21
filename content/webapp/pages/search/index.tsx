@@ -60,7 +60,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
     if (contentResults.type === 'Error') {
       contentQueryFailed = true;
-      console.error(contentResults.label + ': Error fetching addressables');
+      console.error(`${contentResults.label}: Error fetching addressables`);
     }
 
     const apiToolbarLinks = [

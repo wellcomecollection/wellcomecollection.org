@@ -13,17 +13,17 @@ import {
 import { TransformedManifest } from '@weco/content/types/manifest';
 import { UiTree } from '@weco/content/views/pages/works/work/work.types';
 
-type Props = {
+export type ItemViewerContextProps = {
   // DATA props:
   query: ItemViewerQuery;
   work: WorkBasic & Pick<Work, 'description'>;
   transformedManifest: TransformedManifest | undefined;
   parentManifest: ParentManifest | undefined;
   searchResults: SearchResults | null;
-  setSearchResults: (v) => void;
+  setSearchResults: (v: SearchResults | null) => void;
   accessToken: string | undefined;
-  archiveTree: UiTree;
-  setArchiveTree: (v: UiTree) => void;
+  tree: UiTree;
+  setTree: (v: UiTree) => void;
   canvasIndexById: Record<string, number>;
 
   // UI props:
@@ -58,7 +58,7 @@ type Props = {
   hasOnlyRenderableImages: boolean;
 };
 
-export const results = {
+export const results: SearchResults = {
   '@context': '',
   '@id': '',
   '@type': 'sc:AnnotationList',
@@ -94,7 +94,7 @@ const work: WorkBasic & Pick<Work, 'description'> = {
   notes: [],
 };
 
-const ItemViewerContext = createContext<Props>({
+export const defaultItemViewerContext: ItemViewerContextProps = {
   // DATA props:
   query,
   work,
@@ -103,8 +103,8 @@ const ItemViewerContext = createContext<Props>({
   searchResults: results,
   setSearchResults: () => undefined,
   accessToken: undefined,
-  archiveTree: [],
-  setArchiveTree: () => undefined,
+  tree: [],
+  setTree: () => undefined,
   canvasIndexById: {},
 
   // UI props:
@@ -131,9 +131,13 @@ const ItemViewerContext = createContext<Props>({
   isResizing: false,
   errorHandler: () => undefined,
   hasOnlyRenderableImages: false,
-});
+};
 
-export function useItemViewerContext(): Props {
+const ItemViewerContext = createContext<ItemViewerContextProps>(
+  defaultItemViewerContext
+);
+
+export function useItemViewerContext(): ItemViewerContextProps {
   const contextState = useContext(ItemViewerContext);
   return contextState;
 }

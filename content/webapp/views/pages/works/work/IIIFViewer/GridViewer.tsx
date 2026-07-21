@@ -1,13 +1,6 @@
 import NextLink from 'next/link';
-import {
-  CSSProperties,
-  FunctionComponent,
-  memo,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import { areEqual, FixedSizeGrid } from 'react-window';
+import { FunctionComponent, memo, useEffect, useRef, useState } from 'react';
+import { areEqual, FixedSizeGrid, GridChildComponentProps } from 'react-window';
 import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
@@ -20,8 +13,11 @@ import { ItemViewerQuery } from '@weco/content/types/item-viewer';
 import { TransformedCanvas } from '@weco/content/types/manifest';
 import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
 
-import { arrayIndexToQueryParam, queryParamToArrayIndex } from '.';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
+import {
+  arrayIndexToQueryParam,
+  queryParamToArrayIndex,
+} from './IIIFViewer.helpers';
 
 const ThumbnailSpacer = styled(Space).attrs({
   $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
@@ -35,23 +31,17 @@ const ThumbnailSpacer = styled(Space).attrs({
   }
 `;
 
-type CellProps = {
-  style: CSSProperties;
-  columnIndex: number;
-  rowIndex: number;
-  index: number;
-  data: {
-    scrollVelocity: number;
-    columnCount: number;
-    gridVisible: boolean;
-    setGridVisible: (value: boolean) => void;
-    canvases: TransformedCanvas[];
-    searchResults: SearchResults;
-    query: ItemViewerQuery;
-    workId: string;
-    placeholderId?: string;
-  };
-};
+type CellProps = GridChildComponentProps<{
+  scrollVelocity: number;
+  columnCount: number;
+  gridVisible: boolean;
+  setGridVisible: (value: boolean) => void;
+  canvases: TransformedCanvas[];
+  searchResults: SearchResults | null;
+  query: ItemViewerQuery;
+  workId: string;
+  placeholderId?: string;
+}>;
 
 const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
   const {
@@ -145,7 +135,7 @@ const GridViewer: FunctionComponent = () => {
   const [newScrollOffset, setNewScrollOffset] = useState(0);
   const scrollVelocity = useScrollVelocity(newScrollOffset);
   const itemWidth = windowSize === 'zero' ? 250 : 350;
-  const columnCount = Math.round(mainAreaWidth / itemWidth);
+  const columnCount = Math.max(1, Math.round(mainAreaWidth / itemWidth)); // ensure at least one column is displayed
   const columnWidth = mainAreaWidth / columnCount;
   const grid = useRef<FixedSizeGrid>(null);
   const canvases = transformedManifest?.canvases;
@@ -191,9 +181,8 @@ const GridViewer: FunctionComponent = () => {
           gridVisible,
           setGridVisible,
           scrollVelocity,
-          canvases,
+          canvases: canvases || [],
           searchResults,
-          mainAreaWidth,
           query,
           workId: work.id,
           placeholderId: transformedManifest?.placeholderId,

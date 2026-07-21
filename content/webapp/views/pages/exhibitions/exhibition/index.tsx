@@ -5,7 +5,6 @@ import {
   ExhibitionHighlightToursDocument,
   ExhibitionTextsDocument,
 } from '@weco/common/prismicio-types';
-import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
@@ -50,8 +49,6 @@ const ExhibitionPage: NextPage<Props> = ({
   const [aboutThisExhibitionContent, setAboutThisExhibitionContent] = useState<
     AboutThisExhibitionContent[]
   >([]);
-
-  const { exhibitionAndCollection } = useFeatureFlags();
 
   useEffect(() => {
     let isMounted = true;
@@ -125,17 +122,15 @@ const ExhibitionPage: NextPage<Props> = ({
           accessResourceLinks={accessResourceLinks}
           exhibitionTexts={exhibitionTexts}
           exhibitionHighlightTours={exhibitionHighlightTours}
-          shouldHideRelatedStories={
-            !!(exhibitionAndCollection && isTendernessAndRageExhibition)
-          }
+          shouldHideRelatedStories={isTendernessAndRageExhibition}
         />
       )}
 
-      {exhibitionAndCollection && (
-        <ExhibitionCollectionsContent
-          onwardJourneys={exhibition.untransformedOnwardJourneys}
-        />
-      )}
+      <ExhibitionCollectionsContent
+        onwardJourneys={exhibition.untransformedOnwardJourneys}
+        exhibitionUid={exhibition.uid}
+        isTendernessAndRageExhibition={isTendernessAndRageExhibition}
+      />
     </PageLayout>
   );
 };

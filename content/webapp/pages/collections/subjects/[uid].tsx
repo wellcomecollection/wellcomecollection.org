@@ -93,7 +93,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const client = createClient(context);
   const wellcomeSubThemePagePromise = await fetchPage(
     client,
-    'subjects-' + pageUid
+    `subjects-${pageUid}`
   );
 
   // We want to show works that have been made available online from 00:01 yesterday
@@ -117,6 +117,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     },
     pageSize: 3,
     shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+    pipelineCluster: serverData.toggles.modes.cataloguePipeline ?? undefined,
   });
 
   if (newOnlineWorksQuery.type !== 'Error') {
@@ -172,6 +173,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
               subjects: CONCEPT_GROUPS[pageUid],
             },
             shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+            pipelineCluster:
+              serverData.toggles.modes.cataloguePipeline ?? undefined,
             pageSize: 5,
           }),
         byLabel: () =>
@@ -181,6 +184,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
               aggregations: ['workType'],
             },
             shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+            pipelineCluster:
+              serverData.toggles.modes.cataloguePipeline ?? undefined,
             pageSize: 5,
           }),
       },
@@ -191,6 +196,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
               'source.subjects': CONCEPT_GROUPS[pageUid],
             },
             shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+            pipelineCluster:
+              serverData.toggles.modes.cataloguePipeline ?? undefined,
             pageSize: 12,
           }),
         byLabel: () =>
@@ -201,6 +208,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
               ),
             },
             shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+            pipelineCluster:
+              serverData.toggles.modes.cataloguePipeline ?? undefined,
             pageSize: 12,
           }),
       },

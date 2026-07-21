@@ -69,7 +69,7 @@ const IIIFClickthrough: FunctionComponent<Props> = ({
                     `${clickThroughService?.id || ''}?origin=${origin}`
                   );
                   authServiceWindow &&
-                    authServiceWindow.addEventListener('unload', function () {
+                    authServiceWindow.addEventListener('unload', () => {
                       reloadAuthIframe(document, iframeId);
                     });
                 }}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { useFeatureFlags } from '@weco/common/server-data/Context';
+import { useFeatureFlags, useModes } from '@weco/common/server-data/Context';
 import { classNames, typography } from '@weco/common/utils/classnames';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
@@ -52,6 +52,7 @@ const RelatedWorks = ({
   date,
 }: WorkQueryProps) => {
   const { stagingApi } = useFeatureFlags();
+  const { cataloguePipeline } = useModes();
   const [isLoading, setIsLoading] = useState(true);
   const [relatedWorksTabs, setRelatedWorksTabs] = useState<RelatedWork>();
   const [selectedTab, setSelectedTab] = useState<string | undefined>();
@@ -68,6 +69,7 @@ const RelatedWorks = ({
         typesTechniques,
         date,
         shouldUseStagingApi: stagingApi,
+        pipelineCluster: cataloguePipeline ?? undefined,
         setIsLoading,
       }).then(data => {
         setRelatedWorksTabs(data);

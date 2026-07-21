@@ -17,6 +17,7 @@ import {
 import {
   CanvasRotatedImage,
   ParentManifest,
+  PartialImageService,
 } from '@weco/content/types/item-viewer';
 import { TransformedManifest } from '@weco/content/types/manifest';
 import { hasNonImagesOrOriginals } from '@weco/content/utils/iiif/v3';
@@ -24,8 +25,9 @@ import { fromQuery } from '@weco/content/views/components/ItemLink';
 import { getTreeCanvasIndexById } from '@weco/content/views/pages/works/work/work.helpers';
 import { UiTree } from '@weco/content/views/pages/works/work/work.types';
 
-import { DelayVisibility, queryParamToArrayIndex } from '.';
+import { DelayVisibility } from '.';
 import GridViewer from './GridViewer';
+import { queryParamToArrayIndex } from './IIIFViewer.helpers';
 import ImageViewer from './ImageViewer';
 import ImageViewerControls from './ImageViewerControls';
 import MainViewer from './MainViewer';
@@ -42,10 +44,10 @@ type IIIFViewerProps = {
   canvasOcr?: string;
   handleImageError?: () => void;
   searchResults: SearchResults | null;
-  setSearchResults: (v) => void;
+  setSearchResults: (v: SearchResults | null) => void;
   parentManifest?: ParentManifest;
   accessToken?: string;
-  initialArchiveTree?: UiTree;
+  initialTree?: UiTree;
 };
 
 const LoadingComponent = () => (
@@ -235,7 +237,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   setSearchResults,
   parentManifest,
   accessToken,
-  initialArchiveTree,
+  initialTree,
 }: IIIFViewerProps) => {
   const router = useRouter();
   const {
@@ -259,22 +261,20 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const [mainAreaHeight, setMainAreaHeight] = useState(500);
   const [mainAreaWidth, setMainAreaWidth] = useState(1000);
   const [isResizing, setIsResizing] = useState(false);
-  // Use server-provided archiveTree (items route provides it, images route doesn't need it)
-  const [archiveTree, setArchiveTree] = useState<UiTree>(
-    initialArchiveTree || []
-  );
-  const canvasIndexById = useMemo(
-    () => getTreeCanvasIndexById(archiveTree),
-    [archiveTree]
-  );
+  // Use server-provided tree (items route provides it, images route doesn't need it)
+  const [tree, setTree] = useState<UiTree>(initialTree || []);
+  const canvasIndexById = useMemo(() => getTreeCanvasIndexById(tree), [tree]);
   const currentCanvas =
     transformedManifest?.canvases[queryParamToArrayIndex(canvas)];
-  const mainImageService = { '@id': currentCanvas?.imageServiceId };
+  const mainImageService: PartialImageService = {
+    '@id': currentCanvas?.imageServiceId,
+  };
   // We only want to use the IIIF image location if we don't have an image service on the current canvas
   const shouldUseIifImageLocation = !currentCanvas?.imageServiceId;
   const urlTemplate =
     (iiifImageLocation && iiifImageTemplate(iiifImageLocation.url)) ||
-    (mainImageService['@id'] && iiifImageTemplate(mainImageService['@id']));
+    (mainImageService['@id'] && iiifImageTemplate(mainImageService['@id'])) ||
+    undefined;
   const imageUrl = urlTemplate && urlTemplate({ size: '800,' });
   const hasIiifImage = imageUrl && iiifImageLocation;
   const hasImageService = Boolean(mainImageService['@id'] && currentCanvas);
@@ -357,8 +357,8 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         parentManifest,
         searchResults,
         setSearchResults,
-        archiveTree,
-        setArchiveTree,
+        tree,
+        setTree,
         canvasIndexById,
 
         // UI Props:

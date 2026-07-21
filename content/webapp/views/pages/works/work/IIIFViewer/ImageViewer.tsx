@@ -6,7 +6,7 @@ import { IIIFUriProps } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '@weco/common/utils/image-sizes';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 
-import { queryParamToArrayIndex } from '.';
+import { queryParamToArrayIndex } from './IIIFViewer.helpers';
 import IIIFViewerImage from './IIIFViewerImage';
 
 const ImageWrapper = styled.div<{
@@ -67,7 +67,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   const { work, errorHandler, setShowZoomed, rotatedImages } =
     useItemViewerContext();
   const imageWrapperRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
   const [imageSrc, setImageSrc] = useState(urlTemplate({ size: '640,' }));
   const [imageSrcSet, setImageSrcSet] = useState(
     imageSizes(2048)

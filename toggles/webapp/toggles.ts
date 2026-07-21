@@ -138,17 +138,18 @@ const toggleConfig = {
       type: 'experimental',
     },
     {
-      id: 'exhibitionAndCollection',
-      title: 'Exhibition pages and Collection content',
-      initialValue: false,
-      description: 'Adds Collection content to Exhibition pages.',
-      type: 'experimental',
-    },
-    {
       id: 'verticalVideos',
       title: 'Vertical videos',
       initialValue: false,
       description: 'Allows testing of vertical videos.',
+      type: 'experimental',
+    },
+    {
+      id: 'itemViewerRefactor',
+      title: 'Item viewer refactor',
+      initialValue: false,
+      description:
+        'Displays the refactored item viewer instead of the current one.',
       type: 'experimental',
     },
   ] as const,
@@ -169,6 +170,18 @@ const toggleConfig = {
         { id: 'RR-iPad2', label: 'Reading Room: iPad 2' },
         { id: 'TR-iPad1', label: 'Tenderness & Rage: iPad 1' },
         { id: 'TR-iPad2', label: 'Tenderness & Rage: iPad 2' },
+      ],
+    },
+    {
+      id: 'cataloguePipeline',
+      title: 'Catalogue pipeline',
+      description:
+        'Selects which catalogue pipeline serves works and images requests. When set, an elasticCluster param carrying the selected value is added to all catalogue works and images API queries (search and detail), so they are served from that pipeline’s cluster. Off means the normal pipeline setup. Requests to an unavailable cluster fail with an error page rather than falling back to the default pipeline.',
+      options: [
+        {
+          id: 'axiell-collections-testing',
+          label: 'Axiell Collections testing (new Axiell/FOLIO pipeline)',
+        },
       ],
     },
   ] as const,

@@ -5,8 +5,8 @@ import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
 
-import { queryParamToArrayIndex } from '.';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
+import { queryParamToArrayIndex } from './IIIFViewer.helpers';
 import { thumbnailsPageSize } from './Paginators';
 
 const ThumbnailsContainer = styled.div<{

@@ -6,13 +6,15 @@ import {
   TransformedCanvas,
 } from '@weco/content/types/manifest';
 
-export type CanvasWork = TransformedCanvas & {
+export type TreeDataWork = RelatedWork;
+
+export type TreeDataCanvas = TransformedCanvas & {
   title: string;
   totalParts: number;
   downloads: (ContentResource | CustomContentResource | ChoiceBody)[];
 };
 
-export type RangeWork = Range & {
+export type TreeDataRange = Range & {
   title: string;
   totalParts: number;
 };
@@ -21,7 +23,7 @@ export type UiTreeNode = {
   openStatus: boolean;
   parentId?: string;
   children?: UiTree;
-  work: RelatedWork | CanvasWork | RangeWork;
+  data: TreeDataWork | TreeDataCanvas | TreeDataRange;
 };
 
 export type UiTree = UiTreeNode[];

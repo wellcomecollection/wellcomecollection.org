@@ -159,17 +159,16 @@ test('(8) | Licence information should be available', async ({
   await expect(page.getByText('Credit:')).toBeVisible();
 });
 
-// Please unskip once this is fixed by Digirati
-// https://wellcome.slack.com/archives/CBT40CMKQ/p1779797736981459
-test.skip('(9) | The image should rotate', async ({ page, context }) => {
+test('(9) | The image should rotate', async ({ page, context }) => {
   await itemWithSearchAndStructures(context, page);
   await page.getByRole('button', { name: 'Rotate' }).click();
   const currentIndex = await page.getByTestId('active-index').textContent();
-  const currentImageSrc = await page
-    .getByTestId(`image-${Number(currentIndex) - 1}`)
-    .getAttribute('src');
-  // If the image url contains /90/default.jpg then the image is rotated 90 degrees
-  expect(currentImageSrc).toContain('/90/default.jpg');
+
+  // Check that the image URL contains /90/default.jpg to verify rotation
+  // Using regex with toHaveAttribute provides auto-retry assertions
+  await expect(
+    page.getByTestId(`image-${Number(currentIndex) - 1}`)
+  ).toHaveAttribute('src', /\/90\/default\.jpg/);
 });
 
 test('(10) | The volumes should be browsable', async ({ page, context }) => {
@@ -412,6 +411,7 @@ test('(27) | Video info panel displays heading', async ({ page, context }) => {
   await itemWithVideo(context, page);
   await checkInfoPanelHasHeading(page);
 });
+
 test('(28) | Audio player is visible and renders', async ({
   page,
   context,
@@ -420,6 +420,7 @@ test('(28) | Audio player is visible and renders', async ({
   // Check for custom audio player's play button
   await expect(page.getByRole('button', { name: 'Play' })).toBeVisible();
 });
+
 test('(29) | Audio playback controls are functional', async ({
   page,
   context,
@@ -437,6 +438,7 @@ test('(29) | Audio playback controls are functional', async ({
   // And aria-pressed should be true
   await expect(page.locator('button[aria-pressed="true"]')).toBeVisible();
 });
+
 test('(30) | Audio download options are available', async ({
   page,
   context,
@@ -444,6 +446,7 @@ test('(30) | Audio download options are available', async ({
   await itemWithAudio(context, page);
   await checkDownloadsAvailable(page);
 });
+
 test('(31) | Audio info panel displays heading', async ({ page, context }) => {
   await itemWithAudio(context, page);
   await checkInfoPanelHasHeading(page);
@@ -521,6 +524,7 @@ test('(35) | PDF file links update selected item, page indicator and pdf', async
     );
   }
 });
+
 test('(36) | Born digital files display and links update selected item and display media', async ({
   page,
   context,
@@ -561,11 +565,13 @@ test('(36) | Born digital files display and links update selected item and displ
     await expect(page.getByRole('button', { name: 'Play' })).toBeVisible();
   }
 });
+
 test('(37) | Born digital have downloads', async ({ page, context }) => {
   await itemWithMixedBornDigital(context, page);
   const downloadLink = page.getByRole('link', { name: /download/i });
   await expect(downloadLink.first()).toBeVisible();
 });
+
 test('(38) | Born digital info panel displays heading', async ({
   page,
   context,
@@ -573,6 +579,7 @@ test('(38) | Born digital info panel displays heading', async ({
   await itemWithMixedBornDigital(context, page);
   await checkInfoPanelHasHeading(page);
 });
+
 test('(39) | Mobile pagination updates content in main viewer', async ({
   page,
   context,
@@ -590,6 +597,7 @@ test('(39) | Mobile pagination updates content in main viewer', async ({
     await checkPageIndicator(page, '1/27', 'bottombar');
   }
 });
+
 test('(40) | OCR text should be accessible to screenreaders', async ({
   page,
   context,
@@ -601,4 +609,132 @@ test('(40) | OCR text should be accessible to screenreaders', async ({
   const describedById = await img.getAttribute('aria-describedby');
   expect(describedById).toBeTruthy();
   await expect(page.locator(`#${describedById}`)).toContainText('22102033982');
+});
+
+test('(41) | Mobile sidebar toggle button text changes between Show and Hide info', async ({
+  page,
+  context,
+}) => {
+  await multiVolumeItem(context, page);
+
+  if (isMobile(page)) {
+    // Initially should show "Show info" button
+    const showInfoButton = page.getByRole('button', { name: 'Show info' });
+    await expect(showInfoButton).toBeVisible();
+
+    // Click to open sidebar
+    await showInfoButton.click();
+
+    // Button text should change to "Hide info"
+    const hideInfoButton = page.getByRole('button', { name: 'Hide info' });
+    await expect(hideInfoButton).toBeVisible();
+
+    // Click to close sidebar
+    await hideInfoButton.click();
+
+    // Button text should change back to "Show info"
+    await expect(showInfoButton).toBeVisible();
+  }
+});
+
+test('(42) | Mobile sidebar closes automatically when navigating between canvases', async ({
+  page,
+  context,
+}) => {
+  await multiVolumeItem(context, page);
+
+  if (isMobile(page)) {
+    // Open the mobile sidebar
+    await page.getByRole('button', { name: 'Show info' }).click();
+
+    // Verify sidebar is open by checking heading is visible
+    const heading = page.getByRole('heading').filter({
+      hasText: 'Practica seu Lilium medicinae / [Bernard de Gordon].',
+    });
+    await expect(heading).toBeVisible();
+
+    // Navigate to Contents and click a different canvas
+    await page.getByRole('button', { name: 'Contents' }).click();
+    await page.getByRole('link', { name: 'Title Page' }).click();
+
+    // Sidebar should have closed automatically - heading should be hidden
+    await expect(heading).toBeHidden();
+
+    // The "Show info" button should be visible again
+    await expect(page.getByRole('button', { name: 'Show info' })).toBeVisible();
+  }
+});
+
+test('(43) | Page and Grid view controls hide when mobile sidebar is open', async ({
+  page,
+  context,
+}) => {
+  await multiVolumeItem(context, page);
+
+  if (isMobile(page)) {
+    // Initially, view controls should be visible
+    const pageButton = page.getByRole('button', { name: 'Page' });
+    await expect(pageButton).toBeVisible();
+
+    // Open mobile sidebar
+    await page.getByRole('button', { name: 'Show info' }).click();
+
+    // View controls should now be hidden
+    await expect(pageButton).toBeHidden();
+
+    // Verify Grid button is also hidden
+    const gridButton = page.getByRole('button', { name: 'Grid' });
+    await expect(gridButton).toBeHidden();
+
+    // Close sidebar
+    await page.getByRole('button', { name: 'Hide info' }).click();
+
+    // View controls should be visible again
+    await expect(pageButton).toBeVisible();
+    await expect(gridButton).toBeVisible();
+  }
+});
+
+test('(44) | Rapid canvas navigation does not cause state corruption', async ({
+  page,
+  context,
+}) => {
+  // Rapidly navigate through canvases without waiting
+  const canvasNumbers = [1, 5, 3, 7, 2, 6, 4];
+
+  // Fire off all navigations without awaiting (except the last)
+  // Catch to prevent unhandled rejections when navigations get aborted
+  for (let i = 0; i < canvasNumbers.length - 1; i++) {
+    multiVolumeItem(context, page, { canvasNumber: canvasNumbers[i] }).catch(
+      () => {
+        // Expected - rapid navigation aborts previous navigations
+      }
+    );
+  }
+
+  // Await the final navigation
+  await multiVolumeItem(context, page, {
+    canvasNumber: canvasNumbers[canvasNumbers.length - 1],
+  });
+
+  // The final canvas (4) should be displayed
+  await expect(page).toHaveURL(/canvas=4/);
+  await expect(page.getByTestId('main-viewer')).toBeVisible();
+});
+
+test('(45) | Direct URL to specific canvas loads correctly', async ({
+  page,
+  context,
+}) => {
+  // Load a multi-canvas work directly at canvas 5
+  await multiVolumeItem(context, page, { canvasNumber: 5 });
+
+  // Should load directly to canvas 5 without going through canvas 1 first
+  await expect(page).toHaveURL(/canvas=5/);
+  await expect(page.getByTestId('main-viewer')).toBeVisible();
+
+  // Verify the viewer is showing canvas 5
+  if (!isMobile(page)) {
+    await expect(page.getByTestId('active-index')).toHaveText('5');
+  }
 });

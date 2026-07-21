@@ -55,10 +55,10 @@ const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
   // findIndex is 0-based and returns -1 if not found
   // Convert to 1-based index for toWorksItemLink, or undefined if not found
   const fallbackIndex = canvases?.findIndex(
-    canvas => canvas.id === item.work.id
+    canvas => canvas.id === item.data.id
   );
   const canvasIndex = hasCompleteStructure
-    ? canvasIndexById[item.work.id]
+    ? canvasIndexById[item.data.id]
     : fallbackIndex !== undefined && fallbackIndex >= 0
       ? fallbackIndex + 1
       : undefined;
@@ -78,7 +78,7 @@ const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
         </TreeControl>
       )}
 
-      {item.work.type === 'Range' && (
+      {item.data.type === 'Range' && (
         <span
           style={{
             lineHeight: `${controlDimensions.controlHeight}px`,
@@ -92,12 +92,12 @@ const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
               sizeOverride="height: 14px; width:16px;"
             />
           </span>
-          {item.work.title}
+          {item.data.title}
         </span>
       )}
 
-      {item.work.type === 'Canvas' &&
-        item.work?.downloads?.map(download => {
+      {item.data.type === 'Canvas' &&
+        item.data?.downloads?.map(download => {
           const shouldLinkToCanvas =
             linkToCanvas &&
             workId !== undefined &&
@@ -107,7 +107,7 @@ const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
           return shouldLinkToCanvas ? (
             <DownloadItem
               key={download.id}
-              canvas={item.work as TransformedCanvas}
+              canvas={item.data as TransformedCanvas}
               item={download}
               workId={workId}
               canvasIndex={canvasIndex}
@@ -118,7 +118,7 @@ const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
           ) : (
             <DownloadItem
               key={download.id}
-              canvas={item.work as TransformedCanvas}
+              canvas={item.data as TransformedCanvas}
               item={download}
               linkToCanvas={false}
               currentCanvasIndex={currentCanvasIndex}

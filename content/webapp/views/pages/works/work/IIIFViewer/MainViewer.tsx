@@ -1,13 +1,11 @@
 import debounce from 'lodash.debounce';
+import { FunctionComponent, memo, useEffect, useRef, useState } from 'react';
 import {
-  CSSProperties,
-  FunctionComponent,
-  memo,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import { areEqual, FixedSizeList } from 'react-window';
+  areEqual,
+  FixedSizeList,
+  ListChildComponentProps,
+  ListOnScrollProps,
+} from 'react-window';
 import styled from 'styled-components';
 
 import LL from '@weco/common/views/components/styled/LL';
@@ -23,7 +21,7 @@ import {
 import { getDisplayItems } from '@weco/content/utils/iiif/v3/canvas';
 import IIIFItem from '@weco/content/views/pages/works/work/IIIFItem';
 
-import { queryParamToArrayIndex } from '.';
+import { queryParamToArrayIndex } from './IIIFViewer.helpers';
 
 const MainViewerContainer = styled.div<{ $useFixedList: boolean }>`
   height: 100%;
@@ -90,20 +88,16 @@ const SearchTermHighlight = styled.div<SearchTermHighlightProps>`
   mix-blend-mode: color;
 `;
 
-type ItemRendererProps = {
-  style: CSSProperties;
-  index: number;
-  data: {
-    scrollVelocity: number;
-    canvases: TransformedCanvas[];
-    rotatedImages: CanvasRotatedImage[];
-    errorHandler?: () => void;
-    externalAccessService?: TransformedAuthService;
-    accessToken?: string;
-    placeholderId?: string;
-    firstItemIsRestricted?: boolean;
-  };
-};
+type ItemRendererProps = ListChildComponentProps<{
+  scrollVelocity: number;
+  canvases: TransformedCanvas[];
+  rotatedImages: CanvasRotatedImage[];
+  errorHandler?: () => void;
+  externalAccessService?: TransformedAuthService;
+  accessToken?: string;
+  placeholderId?: string;
+  firstItemIsRestricted?: boolean;
+}>;
 
 function getOverlayTopLeft({
   imageContainerRect,
@@ -376,7 +370,6 @@ const MainViewer: FunctionComponent = () => {
     mainAreaWidth,
     transformedManifest,
     query,
-    setShowZoomed,
     setShowFullscreenControl,
     rotatedImages,
     setShowControls,
@@ -422,7 +415,7 @@ const MainViewer: FunctionComponent = () => {
     : canvases?.[queryParamToArrayIndex(canvas)];
 
   // We hide the zoom and rotation controls while the user is scrolling
-  function handleOnScroll({ scrollOffset }) {
+  function handleOnScroll({ scrollOffset }: ListOnScrollProps) {
     if (!currentCanvas?.imageServiceId) return;
     timer.current && clearTimeout(timer.current);
     setShowControls(false);
@@ -475,11 +468,9 @@ const MainViewer: FunctionComponent = () => {
           itemData={{
             scrollVelocity,
             canvases: canvases || [],
-            setShowZoomed,
             rotatedImages,
             errorHandler,
             externalAccessService,
-            canvas,
             accessToken,
             placeholderId,
             firstItemIsRestricted,

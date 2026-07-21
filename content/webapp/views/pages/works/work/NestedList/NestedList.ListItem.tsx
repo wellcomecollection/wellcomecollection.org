@@ -11,7 +11,7 @@ import NestedList from '.';
 import {
   getAriaLabel,
   getTabbableIds,
-  isRelatedWork,
+  isTreeDataWork,
   ListProps,
   updateChildren,
 } from './NestedList.helpers';
@@ -32,12 +32,12 @@ function updateOpenStatus({
   value: boolean;
 }): UiTree {
   const newTree = tree.map(node => {
-    if (node.work.id === id) {
+    if (node.data.id === id) {
       return {
         ...node,
         openStatus: value,
       };
-    } else if (node.work.id !== id && node.children) {
+    } else if (node.data.id !== id && node.children) {
       return {
         ...node,
         children: updateOpenStatus({ id, tree: node.children, value }),
@@ -54,7 +54,7 @@ async function getChildren(workId: string): Promise<UiTree> {
 
   return work.type !== 'Error' && work.type !== 'Redirect' && work.parts
     ? work.parts.map(part => ({
-        work: part,
+        data: part,
         openStatus: false,
         parentId: workId,
       }))
@@ -87,19 +87,19 @@ function getPreviousTabbableId({
 
 async function expandTree({
   item,
-  setArchiveTree,
-  archiveTree,
+  setTree,
+  tree,
 }: {
   item: UiTreeNode;
-  setArchiveTree: (tree: UiTree) => void;
-  archiveTree: UiTree;
+  setTree: (tree: UiTree) => void;
+  tree: UiTree;
 }) {
-  const children = await getChildren(item.work.id);
+  const children = await getChildren(item.data.id);
 
-  setArchiveTree(
+  setTree(
     updateChildren({
-      tree: archiveTree,
-      id: item.work.id,
+      tree,
+      id: item.data.id,
       value: children,
       manualUpdate: true,
     })
@@ -121,6 +121,12 @@ function getTabIndex({
   level,
   index,
   firstItemTabbable,
+}: {
+  isEnhanced: boolean;
+  isSelected: boolean;
+  level: number;
+  index: number;
+  firstItemTabbable: boolean;
 }): 0 | -1 | undefined {
   if (isEnhanced) {
     if (firstItemTabbable && level === 1 && index === 0) {
@@ -137,14 +143,14 @@ const ListItem: FunctionComponent<ListItemProps> = ({
   index,
   item,
   currentWorkId,
-  setArchiveTree,
-  fullTree,
+  setTree,
+  tree,
   level,
   setSize,
   posInSet,
   tabbableId,
   setTabbableId,
-  archiveAncestorArray,
+  workAncestors,
   firstItemTabbable,
   showFirstLevelGuideline,
   ItemRenderer,
@@ -153,13 +159,12 @@ const ListItem: FunctionComponent<ListItemProps> = ({
   itemRendererProps,
 }: ListItemProps) => {
   const { isEnhanced } = useAppContext();
-  const isEndNode = item.work.totalParts === 0;
   const isSelected =
-    (tabbableId && tabbableId === item.work.id) ||
-    (!tabbableId && currentWorkId === item.work.id);
-  const descendentIsSelected =
-    archiveAncestorArray &&
-    archiveAncestorArray.some(ancestor => ancestor.id === item.work.id);
+    (tabbableId && tabbableId === item.data.id) ||
+    (!tabbableId && currentWorkId === item.data.id);
+  const descendentIsSelected = workAncestors?.some(
+    ancestor => ancestor.id === item.data.id
+  );
   const highlightCondition = item.openStatus
     ? 'primary'
     : descendentIsSelected
@@ -167,8 +172,11 @@ const ListItem: FunctionComponent<ListItemProps> = ({
       : undefined;
 
   const isExpandable = Boolean(
-    item?.work?.totalParts && item?.work?.totalParts > 0
+    (item.data.totalParts && item.data.totalParts > 0) ||
+    (isTreeDataWork(item.data) && item.data.parts && item.data.parts.length > 0)
   );
+
+  const isEndNode = !isExpandable;
 
   const showGuideline =
     isEnhanced &&
@@ -182,7 +190,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
         event: 'tree_chevron',
         treeItem: {
           level: String(level),
-          label: `${item.work.title}${isRelatedWork(item.work) && item.work.referenceNumber ? ` (${item.work.referenceNumber})` : ''}`,
+          label: `${item.data.title}${isTreeDataWork(item.data) && item.data.referenceNumber ? ` (${item.data.referenceNumber})` : ''}`,
         },
       });
     }
@@ -194,14 +202,14 @@ const ListItem: FunctionComponent<ListItemProps> = ({
     if (item.children === undefined && shouldFetchChildren) {
       expandTree({
         item,
-        setArchiveTree,
-        archiveTree: fullTree,
+        setTree,
+        tree,
       });
     } else {
-      setArchiveTree(
+      setTree(
         updateOpenStatus({
-          id: item.work.id,
-          tree: fullTree,
+          id: item.data.id,
+          tree,
           value: !item.openStatus,
         })
       );
@@ -210,7 +218,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
 
   return (
     <TreeItem
-      id={item.work.id}
+      id={item.data.id}
       role={isEnhanced ? 'treeitem' : undefined}
       $isEnhanced={isEnhanced}
       $showGuideline={showGuideline}
@@ -244,74 +252,61 @@ const ListItem: FunctionComponent<ListItemProps> = ({
         if (!isKeyOfInterest) return;
 
         const nextId = getNextTabbableId({
-          currentId: item.work.id,
-          tree: fullTree,
+          currentId: item.data.id,
+          tree,
         });
         const previousId = getPreviousTabbableId({
-          currentId: item.work.id,
-          tree: fullTree,
+          currentId: item.data.id,
+          tree,
         });
 
-        switch (true) {
-          case RIGHT.includes(key): {
-            // When focus is on an open node, moves focus to the first child node.
-            if (item.openStatus) {
-              if (nextId) {
-                setTabbableId(nextId);
-              }
-            }
-
-            // When focus is on an end node, does nothing.
-            if (item.work.totalParts && item.work.totalParts === 0) {
-              return;
-            }
-
-            // When focus is on a closed node, opens the node; focus does not move.
-            if (!item.openStatus) {
-              toggleBranch();
-              setTabbableId(item.work.id);
-            }
-            break;
-          }
-          case LEFT.includes(key): {
-            // When focus is on an open node, closes the node.
-            if (
-              item.openStatus &&
-              item.work.totalParts &&
-              item.work.totalParts > 0
-            ) {
-              trackChevron();
-              setArchiveTree(
-                updateOpenStatus({
-                  id: item.work.id,
-                  tree: fullTree,
-                  value: !item.openStatus,
-                })
-              );
-              setTabbableId(item.work.id);
-            }
-            // When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
-            // When focus is on a root node that is also either an end node or a closed node, does nothing.
-            if (isEndNode || !item.openStatus) {
-              if (item.parentId) {
-                setTabbableId(item.parentId);
-              }
-            }
-            break;
-          }
-          case DOWN.includes(key): {
-            // Moves focus to the next node that is focusable without opening or closing a node.
+        if (RIGHT.includes(key)) {
+          // When focus is on an open node, moves focus to the first child node.
+          if (item.openStatus) {
             if (nextId) {
               setTabbableId(nextId);
             }
-            break;
           }
-          case UP.includes(key): {
-            // Moves focus to the previous node that is focusable without opening or closing a node.
-            if (previousId) {
-              setTabbableId(previousId);
+
+          // When focus is on an end node, does nothing.
+          if (isEndNode) {
+            return;
+          }
+
+          // When focus is on a closed node, opens the node; focus does not move.
+          if (!item.openStatus) {
+            toggleBranch();
+            setTabbableId(item.data.id);
+          }
+        } else if (LEFT.includes(key)) {
+          // When focus is on an open node, closes the node.
+          if (item.openStatus && isExpandable) {
+            trackChevron();
+            setTree(
+              updateOpenStatus({
+                id: item.data.id,
+                tree,
+                value: !item.openStatus,
+              })
+            );
+            setTabbableId(item.data.id);
+          }
+          // When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
+          // When focus is on a root node that is also either an end node or a closed node, does nothing.
+          if (isEndNode || !item.openStatus) {
+            if (item.parentId) {
+              setTabbableId(item.parentId);
             }
-            break;
+          }
+        } else if (DOWN.includes(key)) {
+          // Moves focus to the next node that is focusable without opening or closing a node.
+          if (nextId) {
+            setTabbableId(nextId);
+          }
+        } else if (UP.includes(key)) {
+          // Moves focus to the previous node that is focusable without opening or closing a node.
+          if (previousId) {
+            setTabbableId(previousId);
           }
         }
       }}
@@ -331,7 +326,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
 
         if (level > 0) {
           toggleBranch();
-          setTabbableId(item.work.id);
+          setTabbableId(item.data.id);
         }
       }}
     >
@@ -353,13 +348,13 @@ const ListItem: FunctionComponent<ListItemProps> = ({
       {item.children && item.openStatus && (
         <NestedList
           currentWorkId={currentWorkId}
-          archiveTree={item.children}
-          fullTree={fullTree}
+          items={item.children}
+          tree={tree}
           level={level + 1}
           tabbableId={tabbableId}
           setTabbableId={setTabbableId}
-          archiveAncestorArray={archiveAncestorArray}
-          setArchiveTree={setArchiveTree}
+          workAncestors={workAncestors}
+          setTree={setTree}
           firstItemTabbable={firstItemTabbable}
           showFirstLevelGuideline={showFirstLevelGuideline}
           ItemRenderer={ItemRenderer}

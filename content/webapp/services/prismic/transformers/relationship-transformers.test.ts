@@ -120,8 +120,6 @@ describe('place relationship transformers', () => {
         uid: 'gallery-1',
         data: {
           title: richText('Gallery 1'),
-          body: [],
-          promo: [],
           level: 2,
           capacity: 50,
           locationInformation: richText('Info'),
@@ -140,7 +138,7 @@ describe('place relationship transformers', () => {
       filledRelationship({
         type: 'places',
         uid: 'p1',
-        data: { title: richText('P1'), body: [], promo: [], level: 1 },
+        data: { title: richText('P1'), level: 1 },
       }),
       filledRelationship({
         type: 'seasons',

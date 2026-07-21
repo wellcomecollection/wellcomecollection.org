@@ -8,7 +8,7 @@ import { ListProps } from './NestedList.helpers';
 import ListItem from './NestedList.ListItem';
 
 type NestedListProps = Omit<ListProps, 'item'> & {
-  archiveTree: UiTree;
+  items: UiTree;
   shouldFetchChildren: boolean;
   isDarkMode?: boolean;
   itemRendererProps?: Record<string, unknown>;
@@ -16,13 +16,13 @@ type NestedListProps = Omit<ListProps, 'item'> & {
 
 const NestedList: FunctionComponent<NestedListProps> = ({
   currentWorkId,
-  archiveTree,
-  fullTree,
-  setArchiveTree,
+  items, // Current level's items to render (changes at each recursion level)
+  tree, // Complete tree structure from root (used for navigation/state updates)
+  setTree,
   level,
   tabbableId,
   setTabbableId,
-  archiveAncestorArray,
+  workAncestors,
   firstItemTabbable,
   showFirstLevelGuideline,
   ItemRenderer,
@@ -40,23 +40,23 @@ const NestedList: FunctionComponent<NestedListProps> = ({
       role={isEnhanced ? (level === 1 ? 'tree' : 'group') : undefined}
       className={typography('body', 'md', 'regular')}
     >
-      {archiveTree &&
-        archiveTree.map((item, i) => {
+      {items &&
+        items.map((item, i) => {
           return (
-            item.work && (
+            item.data && (
               <ListItem
                 index={i}
-                key={item.work.id}
+                key={item.data.id}
                 item={item}
                 currentWorkId={currentWorkId}
-                fullTree={fullTree}
-                setArchiveTree={setArchiveTree}
+                tree={tree}
+                setTree={setTree}
                 level={level}
-                setSize={archiveTree.length}
+                setSize={items.length}
                 posInSet={i + 1}
                 tabbableId={tabbableId}
                 setTabbableId={setTabbableId}
-                archiveAncestorArray={archiveAncestorArray}
+                workAncestors={workAncestors}
                 firstItemTabbable={firstItemTabbable}
                 showFirstLevelGuideline={showFirstLevelGuideline}
                 ItemRenderer={ItemRenderer}
@@ -74,4 +74,4 @@ const NestedList: FunctionComponent<NestedListProps> = ({
 export default NestedList;
 
 export { TreeControl } from './NestedList.styles';
-export { isRelatedWork } from './NestedList.helpers';
+export { isTreeDataWork } from './NestedList.helpers';

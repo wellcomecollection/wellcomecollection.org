@@ -17,8 +17,8 @@ export const identityFetchClient: FetchClient = new FetchClient({
 const handleIdentityApiRequest = auth0.withApiAuthRequired(
   async (req: NextApiRequest, res: NextApiResponse) => {
     try {
-      const { token: accessToken } = await auth0.getAccessToken(req, res);
-      const path = '/users/' + (req.query.users as string[]).join('/');
+      const { accessToken } = await auth0.getAccessToken(req, res);
+      const path = `/users/${(req.query.users as string[]).join('/')}`;
 
       // GET and HEAD requests cannot have a body
       const method = req.method || 'GET';

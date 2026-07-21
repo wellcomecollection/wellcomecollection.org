@@ -21,9 +21,9 @@ const KioskNavigationWrapper = styled(Space).attrs({
   className: typography('body', 'md', 'regular'),
   as: 'nav',
 })`
-  height: ${props => props.theme.kioskNavigationHeight}px;
+  height: ${props => props.theme.kioskNavigationHeight + 1}px;
   position: fixed;
-  bottom: 0;
+  bottom: -1px; /* fix for sub-pixel rendering issues */
   left: 0;
   right: 0;
   background: ${props => props.theme.color('neutral.700')};
@@ -113,7 +113,6 @@ const navLinkStyles = `
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
   min-width: 44px;
   min-height: 44px;
 `;
@@ -122,6 +121,7 @@ const NavLink = styled(Link)`
   ${navLinkStyles}
   color: inherit;
   text-decoration: none;
+  line-height: 1;
 
   &:hover {
     text-decoration: underline;
@@ -252,7 +252,7 @@ export const KioskNavigation: FunctionComponent<Props> = memo(
     } else if (pageType === 'story') {
       label = 'Related stories';
     } else if (navigation?.listName === 'includedWorks') {
-      label = 'Included works';
+      label = 'Works in this exhibition';
     } else {
       label = 'Related works';
     }

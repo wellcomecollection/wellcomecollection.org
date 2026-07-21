@@ -18,7 +18,7 @@ import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { searchWithinLabel } from '@weco/content/text/aria-labels';
 import { TransformedCanvas } from '@weco/content/types/manifest';
 import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
-import { arrayIndexToQueryParam } from '@weco/content/views/pages/works/work/IIIFViewer';
+import { arrayIndexToQueryParam } from '@weco/content/views/pages/works/work/IIIFViewer/IIIFViewer.helpers';
 import { thumbnailsPageSize } from '@weco/content/views/pages/works/work/IIIFViewer/Paginators';
 
 const Highlight = styled.span`
@@ -176,9 +176,11 @@ const IIIFSearchWithin: FunctionComponent = () => {
   async function getSearchResults() {
     if (searchService && query.query.length > 0) {
       setIsLoading(true);
+      const searchServiceId =
+        '@id' in searchService ? searchService['@id'] : searchService.id;
       try {
         const results = await (
-          await fetch(`${searchService['@id']}?q=${query.query}`)
+          await fetch(`${searchServiceId}?q=${query.query}`)
         ).json();
         setIsLoading(false);
         setSearchResults && setSearchResults(results);

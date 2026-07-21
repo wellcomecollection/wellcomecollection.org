@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { useSearchContext } from '@weco/common/contexts/SearchContext';
 import { arrow } from '@weco/common/icons';
-import { useFeatureFlags } from '@weco/common/server-data/Context';
+import { useFeatureFlags, useModes } from '@weco/common/server-data/Context';
 import { typography } from '@weco/common/utils/classnames';
 import { formatNumber } from '@weco/common/utils/grammar';
 import { getQueryResults } from '@weco/common/utils/search';
@@ -63,6 +63,7 @@ const SearchPage: NextPage<Props> = withSearchLayout(
     const { extraApiToolbarLinks, setExtraApiToolbarLinks } =
       useSearchContext();
     const { apiToolbar, stagingApi } = useFeatureFlags();
+    const { cataloguePipeline } = useModes();
     const params = fromQuery(query);
     const { setLink } = useSearchContext();
     const [clientSideWorkTypes, setClientSideWorkTypes] = useState<
@@ -99,6 +100,7 @@ const SearchPage: NextPage<Props> = withSearchLayout(
           },
           pageSize: 1,
           shouldUseStagingApi: stagingApi,
+          pipelineCluster: cataloguePipeline ?? undefined,
         });
 
         const workTypeBuckets = getQueryWorkTypeBuckets({
@@ -125,6 +127,7 @@ const SearchPage: NextPage<Props> = withSearchLayout(
           params,
           pageSize: 7,
           shouldUseStagingApi: stagingApi,
+          pipelineCluster: cataloguePipeline ?? undefined,
         });
 
         const images = getQueryResults({

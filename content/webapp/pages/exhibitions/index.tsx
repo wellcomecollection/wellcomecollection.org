@@ -47,7 +47,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   if (isNotUndefined(exhibitions) && exhibitions.results.length > 0) {
     const serverData = await getServerData(context);
-    const title = (period === 'past' ? 'Past e' : 'E') + 'xhibitions';
+    const title = `${period === 'past' ? 'Past e' : 'E'}xhibitions`;
     const jsonLd = exhibitions.results.map(exhibitionLd);
 
     return {

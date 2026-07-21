@@ -5,18 +5,10 @@
   "description": "Standfirst",
   "legacyPaths": {
     "articles::body::standfirst": "default",
-    "books::body::standfirst": "default",
-    "event-series::body::standfirst": "default",
-    "events::body::standfirst": "default",
-    "exhibitions::body::standfirst": "default",
-    "guides::body::standfirst": "default",
     "pages::body::standfirst": "default",
-    "places::body::standfirst": "default",
-    "projects::body::standfirst": "default",
     "seasons::body::standfirst": "default",
     "series::body::standfirst": "default",
-    "visual-stories::body::standfirst": "default",
-    "webcomics::body::standfirst": "default"
+    "visual-stories::body::standfirst": "default"
   },
   "variations": [
     {

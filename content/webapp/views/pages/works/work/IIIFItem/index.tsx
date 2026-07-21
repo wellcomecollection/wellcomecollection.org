@@ -34,10 +34,7 @@ import useSkipInitialEffect from '@weco/content/hooks/useSkipInitialEffect';
 import { fetchCanvasOcr } from '@weco/content/services/iiif/fetch/canvasOcr';
 import { transformCanvasOcr } from '@weco/content/services/iiif/transformers/canvasOcr';
 import { missingAltTextMessage } from '@weco/content/services/wellcome/catalogue/works';
-import {
-  CustomContentResource,
-  TransformedCanvas,
-} from '@weco/content/types/manifest';
+import { IIIFItemProps, TransformedCanvas } from '@weco/content/types/manifest';
 import { convertRequestUriToInfoUri } from '@weco/content/utils/iiif/convert-iiif-uri';
 import { hasRestrictedItem } from '@weco/content/utils/iiif/v3';
 import {
@@ -52,7 +49,7 @@ import BetaMessage from '@weco/content/views/components/BetaMessage';
 import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
 import VideoPlayer from '@weco/content/views/components/VideoPlayer';
 import IIIFItemPdf from '@weco/content/views/pages/works/work/IIIFItem/IIIFItem.Pdf';
-import { arrayIndexToQueryParam } from '@weco/content/views/pages/works/work/IIIFViewer';
+import { arrayIndexToQueryParam } from '@weco/content/views/pages/works/work/IIIFViewer/IIIFViewer.helpers';
 import ImageViewer from '@weco/content/views/pages/works/work/IIIFViewer/ImageViewer';
 import RestrictedItemMessage from '@weco/content/views/pages/works/work/work.RestrictedItemMessage';
 
@@ -213,16 +210,6 @@ const IIIFImage: FunctionComponent<{
   }
 };
 
-// Some of our ContentResources can have a type of 'Audio':
-// https://iiif.wellcomecollection.org/presentation/v3/b17276342
-// However, the IIIF Presentation API spec only has a type of 'Sound'
-// so we add 'Audio' to the type here.
-export type IIIFItemProps =
-  | (Omit<ContentResource, 'type'> & {
-      type: ContentResource['type'] | 'Audio';
-    })
-  | CustomContentResource
-  | ChoiceBody;
 type ItemProps = {
   canvas: TransformedCanvas;
   item: IIIFItemProps;
@@ -409,177 +396,181 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
       : canvas.label?.trim() !== '-'
         ? canvas.label
         : undefined;
-  switch (true) {
-    case item.type === 'Choice' && !exclude.includes('Choice'):
+
+  if (item.type === 'Choice' && !exclude.includes('Choice')) {
+    return (
+      <Choice
+        key={item.id}
+        item={item}
+        i={i}
+        canvas={canvas}
+        placeholderId={placeholderId}
+        titleOverride={titleOverride}
+        RenderItem={IIIFItem}
+        exclude={exclude}
+        setImageRect={setImageRect}
+        setImageContainerRect={setImageContainerRect}
+        itemUrl={itemUrl}
+        isDark={isDark}
+        externalAccessService={adjustedExternalAccessService}
+        shouldScrollToUpdateUrl={shouldScrollToUpdateUrl}
+        showVideoTranscript={showVideoTranscript}
+      />
+    );
+  }
+
+  if (
+    ((item.type === 'Sound' && !exclude.includes('Sound')) ||
+      (item.type === 'Audio' && !exclude.includes('Audio'))) &&
+    !!item.id
+  ) {
+    return (
+      <IIIFItemWrapper
+        shouldShowItem={shouldShowItem}
+        className="audio-wrapper"
+        isRestricted={isRestricted}
+        isProbeOk={isProbeOk}
+        externalAccessService={adjustedExternalAccessService}
+      >
+        <AudioPlayer
+          isDark={isDark}
+          audioFile={item.id}
+          title={getFileLabel(canvas.label, titleOverride) || ''}
+        />
+      </IIIFItemWrapper>
+    );
+  }
+
+  if (item.type === 'Video' && !exclude.includes('Video')) {
+    return (
+      <IIIFItemWrapper
+        shouldShowItem={shouldShowItem}
+        className="video-wrapper"
+        isRestricted={isRestricted}
+        isProbeOk={isProbeOk}
+        externalAccessService={adjustedExternalAccessService}
+      >
+        <>
+          <VideoPlayer
+            placeholderId={placeholderId}
+            video={item}
+            showDownloadOptions={true}
+          />
+          {showVideoTranscript && (
+            <VideoTranscript
+              supplementing={canvas.supplementing}
+              isDark={isDark}
+            />
+          )}
+        </>
+      </IIIFItemWrapper>
+    );
+  }
+
+  if (item.type === 'Text' && item.id && !exclude.includes('Text')) {
+    return (
+      <IIIFItemWrapper
+        shouldShowItem={shouldShowItem}
+        className="pdf-wrapper"
+        isRestricted={isRestricted}
+        isProbeOk={isProbeOk}
+        externalAccessService={adjustedExternalAccessService}
+      >
+        <IIIFItemPdf
+          src={item.id}
+          label={itemLabel}
+          fileSize={getFileSize(canvas)}
+          format={'format' in item ? item.format : undefined}
+        />
+      </IIIFItemWrapper>
+    );
+  }
+
+  if (item.type === 'Image' && !exclude.includes('Image')) {
+    // If there are original items then the image is just a placeholder
+    // for these so we show the download options for the original items
+    // rather than the image itself
+    if (canvas.original.length > 0) {
       return (
-        <Choice
-          key={item.id}
+        <>
+          {canvas.original.map(
+            original =>
+              original.id && (
+                <IIIFItemWrapper
+                  key={original.id}
+                  shouldShowItem={shouldShowItem}
+                  className="download-wrapper"
+                  isRestricted={isRestricted}
+                  isProbeOk={isProbeOk}
+                  externalAccessService={adjustedExternalAccessService}
+                >
+                  <IIIFItemDownload
+                    src={original.id}
+                    label={itemLabel}
+                    fileSize={getFileSize(canvas)}
+                    format={'format' in original ? original.format : undefined}
+                    showWarning={true}
+                  />
+                </IIIFItemWrapper>
+              )
+          )}
+        </>
+      );
+    } else {
+      const imageContent = (
+        <IIIFImage
+          index={i}
           item={item}
-          i={i}
           canvas={canvas}
-          placeholderId={placeholderId}
-          titleOverride={titleOverride}
-          RenderItem={IIIFItem}
-          exclude={exclude}
+          isRestricted={isRestricted}
           setImageRect={setImageRect}
           setImageContainerRect={setImageContainerRect}
-          itemUrl={itemUrl}
-          isDark={isDark}
-          externalAccessService={adjustedExternalAccessService}
-          shouldScrollToUpdateUrl={shouldScrollToUpdateUrl}
-          showVideoTranscript={showVideoTranscript}
         />
       );
 
-    case ((item.type === 'Sound' && !exclude.includes('Sound')) ||
-      (item.type === 'Audio' && !exclude.includes('Audio'))) &&
-      !!item.id:
-      return (
-        <IIIFItemWrapper
-          shouldShowItem={shouldShowItem}
-          className="audio-wrapper"
-          isRestricted={isRestricted}
-          isProbeOk={isProbeOk}
-          externalAccessService={adjustedExternalAccessService}
-        >
-          <AudioPlayer
-            isDark={isDark}
-            audioFile={item.id}
-            title={getFileLabel(canvas.label, titleOverride) || ''}
-          />
-        </IIIFItemWrapper>
-      );
-
-    case item.type === 'Video' && !exclude.includes('Video'):
-      return (
-        <IIIFItemWrapper
-          shouldShowItem={shouldShowItem}
-          className="video-wrapper"
-          isRestricted={isRestricted}
-          isProbeOk={isProbeOk}
-          externalAccessService={adjustedExternalAccessService}
-        >
-          <>
-            <VideoPlayer
-              placeholderId={placeholderId}
-              video={item}
-              showDownloadOptions={true}
-            />
-            {showVideoTranscript && (
-              <VideoTranscript
-                supplementing={canvas.supplementing}
-                isDark={isDark}
-              />
-            )}
-          </>
-        </IIIFItemWrapper>
-      );
-
-    case item.type === 'Text' && item.id && !exclude.includes('Text'):
-      return (
-        <IIIFItemWrapper
-          shouldShowItem={shouldShowItem}
-          className="pdf-wrapper"
-          isRestricted={isRestricted}
-          isProbeOk={isProbeOk}
-          externalAccessService={adjustedExternalAccessService}
-        >
-          <IIIFItemPdf
-            src={item.id}
-            label={itemLabel}
-            fileSize={getFileSize(canvas)}
-            format={'format' in item ? item.format : undefined}
-          />
-        </IIIFItemWrapper>
-      );
-
-    case item.type === 'Image' && !exclude.includes('Image'):
-      // If there are original items then the image is just a placeholder
-      // for these so we show the download options for the original items
-      // rather than the image itself
-      if (canvas.original.length > 0) {
+      if (shouldScrollToUpdateUrl) {
         return (
-          <>
-            {canvas.original.map(original => {
-              return (
-                original.id && (
-                  <IIIFItemWrapper
-                    shouldShowItem={shouldShowItem}
-                    className="download-wrapper"
-                    isRestricted={isRestricted}
-                    isProbeOk={isProbeOk}
-                    externalAccessService={adjustedExternalAccessService}
-                  >
-                    <IIIFItemDownload
-                      key={original.id}
-                      src={original.id}
-                      label={itemLabel}
-                      fileSize={getFileSize(canvas)}
-                      format={
-                        'format' in original ? original.format : undefined
-                      }
-                      showWarning={true}
-                    />
-                  </IIIFItemWrapper>
-                )
-              );
-            })}
-          </>
-        );
-      } else {
-        const imageContent = (
-          <IIIFImage
-            index={i}
-            item={item}
-            canvas={canvas}
-            isRestricted={isRestricted}
-            setImageRect={setImageRect}
-            setImageContainerRect={setImageContainerRect}
-          />
-        );
-        if (shouldScrollToUpdateUrl) {
-          return (
-            <IIIFItemWrapperWithObserver
-              shouldShowItem={shouldShowItem}
-              className="image-wrapper"
-              isRestricted={isRestricted}
-              isProbeOk={isProbeOk}
-              externalAccessService={adjustedExternalAccessService}
-              index={i}
-              removeRestrictedMessage={true}
-            >
-              {imageContent}
-            </IIIFItemWrapperWithObserver>
-          );
-        }
-        return (
-          <IIIFItemWrapper
+          <IIIFItemWrapperWithObserver
             shouldShowItem={shouldShowItem}
             className="image-wrapper"
             isRestricted={isRestricted}
             isProbeOk={isProbeOk}
             externalAccessService={adjustedExternalAccessService}
+            index={i}
             removeRestrictedMessage={true}
           >
             {imageContent}
-          </IIIFItemWrapper>
+          </IIIFItemWrapperWithObserver>
         );
       }
 
-    default: // There are other types we don't do anything with at present, e.g. Dataset
-      if (!exclude.includes(item.type)) {
-        // If the item hasn't been purposefully excluded then we should show a message
-        return (
-          <ContaineredLayout gridSizes={gridSize12()}>
-            <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
-              <BetaMessage message={unavailableContentMessage} />
-            </Space>
-          </ContaineredLayout>
-        );
-      } else {
-        return null;
-      }
+      return (
+        <IIIFItemWrapper
+          shouldShowItem={shouldShowItem}
+          className="image-wrapper"
+          isRestricted={isRestricted}
+          isProbeOk={isProbeOk}
+          externalAccessService={adjustedExternalAccessService}
+          removeRestrictedMessage={true}
+        >
+          {imageContent}
+        </IIIFItemWrapper>
+      );
+    }
   }
+
+  // There are other types we don't do anything with at present, e.g. Dataset
+  if (!exclude.includes(item.type)) {
+    // If the item hasn't been purposefully excluded then we should show a message
+    return (
+      <ContaineredLayout gridSizes={gridSize12()}>
+        <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
+          <BetaMessage message={unavailableContentMessage} />
+        </Space>
+      </ContaineredLayout>
+    );
+  }
+  return null;
 };
 
 export default IIIFItem;

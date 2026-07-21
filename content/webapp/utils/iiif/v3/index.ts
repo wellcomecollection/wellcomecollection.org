@@ -17,6 +17,7 @@ import {
   MetadataItem,
   Range,
   RangeItems,
+  SearchService,
   Service,
   TechnicalProperties,
 } from '@iiif/presentation-3';
@@ -29,12 +30,12 @@ import {
   CustomContentResource,
   CustomSpecificationBehaviors,
   DownloadOption,
+  IIIFItemProps,
   ItemsStatus,
   ManifestAccessRequirement,
   ServiceWithMetadata,
   TransformedCanvas,
 } from '@weco/content/types/manifest';
-import { IIIFItemProps } from '@weco/content/views/pages/works/work/IIIFItem';
 
 import { getOriginal, getThumbnailImage } from './canvas';
 
@@ -133,7 +134,7 @@ export type BornDigitalManifest = Omit<Manifest, 'items'> & {
   items?: Canvas[];
 };
 
-function convertToDownloadOption(item): DownloadOption {
+function convertToDownloadOption(item: RenderingWithId): DownloadOption {
   return {
     id: item.id,
     label: transformLabel(item.label) || 'Download file',
@@ -146,6 +147,10 @@ type Rendering = {
   format?: string;
   label?: string | InternationalString;
 };
+
+// A download option's id is used as both its href and its dedupe key, so we
+// only convert items that actually have one.
+type RenderingWithId = Rendering & { id: string };
 
 export function deduplicateDownloadOptions(
   options: DownloadOption[]
@@ -166,7 +171,8 @@ export function getDownloadOptionsFromManifestRendering(
   // Temporarily adding this until it is fixed.
   const rendering = (manifestRendering as Rendering[]) || [];
   return rendering
-    .filter(({ id, format }) => {
+    .filter((item): item is RenderingWithId => {
+      const { id, format } = item;
       // Removing application/zip (for now?) as we haven't had these before
       // and the example I've seen is 404ing:
       // (Work) https://wellcomecollection.org/works/mg56yqa4 ->
@@ -174,9 +180,11 @@ export function getDownloadOptionsFromManifestRendering(
       // (V3 Manifest) https://iiif.wellcomecollection.org/presentation/v3/b10326947
       // (rendering - application/zip) https://api.wellcomecollection.org/text/v1/b10326947.zip (returns 404)
       // For details of why we remove text/plain see https://github.com/wellcomecollection/wellcomecollection.org/issues/7592
-      return id && format !== 'application/zip' && format !== 'text/plain';
+      return (
+        Boolean(id) && format !== 'application/zip' && format !== 'text/plain'
+      );
     })
-    .map(item => convertToDownloadOption(item));
+    .map(convertToDownloadOption);
 }
 
 export function getDownloadOptionsFromCanvasRenderingAndSupplementing(
@@ -185,6 +193,9 @@ export function getDownloadOptionsFromCanvasRenderingAndSupplementing(
   return [...canvas.rendering, ...canvas.supplementing]
     .flatMap(item => (isChoiceBody(item) ? item.items : [item]))
     .filter((item): item is ContentResource => typeof item !== 'string')
+    .filter((item): item is ContentResource & { id: string } =>
+      Boolean(item.id)
+    )
     .map(convertToDownloadOption);
 }
 
@@ -245,8 +256,8 @@ export function getImageServiceFromItem(
 ): ImageService | undefined {
   if ('service' in item) {
     return item.service?.find(
-      s => s['@type'] === 'ImageService2'
-    ) as ImageService;
+      (s): s is ImageService => '@type' in s && s['@type'] === 'ImageService2'
+    );
   }
 }
 
@@ -273,6 +284,7 @@ function getImageServiceId(
 
 // Temporary type until iiif3 types are correct
 type BodyService = {
+  '@id'?: string;
   '@type': string;
   service: Service | Service[];
 };
@@ -339,9 +351,12 @@ export function getIIIFPresentationCredit(
 
 export function getSearchService(
   manifest: Manifest | Collection
-): Service | undefined {
+): SearchService | undefined {
+  // The library's SearchService type doesn't declare the '@type' property,
+  // but it is how Wellcome manifests identify their search service
   return manifest.service?.find(
-    service => service?.['@type'] === 'SearchService1'
+    (service): service is SearchService =>
+      '@type' in service && (service['@type'] as string) === 'SearchService1'
   );
 }
 
@@ -353,18 +368,20 @@ export function getFirstCollectionManifestLocation(
   }
 }
 
-export function isItemRestricted(painting): boolean {
-  if (isChoiceBody(painting)) return false;
-  if (!painting.service) return false;
+export function isItemRestricted(
+  item: ChoiceBody | ContentResource | CustomContentResource
+): boolean {
+  if (isChoiceBody(item)) return false;
+  if (!('service' in item) || !item.service) return false;
 
-  const paintingsServices = painting.service.map(s => {
-    if (s.type === 'AuthProbeService2') {
+  const itemsServices = item.service.map(s => {
+    if ('type' in s && s.type === 'AuthProbeService2') {
       return s.service.find(service => service.type === 'AuthAccessService2');
     }
     return undefined;
   });
 
-  return paintingsServices?.some(s => {
+  return itemsServices.some(s => {
     return (
       s?.id ===
       'https://iiif.wellcomecollection.org/auth/v2/access/restrictedlogin'
@@ -373,8 +390,11 @@ export function isItemRestricted(painting): boolean {
 }
 
 // Returns the AuthProbeService2 URL for a painting item, if it is restricted.
-export function getProbeServiceId(painting): string | undefined {
-  if (isChoiceBody(painting) || !painting.service) return undefined;
+export function getProbeServiceId(
+  painting: ChoiceBody | ContentResource | CustomContentResource
+): string | undefined {
+  if (isChoiceBody(painting) || !('service' in painting) || !painting.service)
+    return undefined;
   const probe = (painting.service as { type: string; id: string }[]).find(
     s => s.type === 'AuthProbeService2'
   );
@@ -776,7 +796,7 @@ export function getItemsStatus(manifest: Manifest | Collection): ItemsStatus {
 export function hasNonImagesOrOriginals(
   canvases: TransformedCanvas[] | undefined
 ): boolean {
-  const isNonImage = p => p.type !== 'Image';
+  const isNonImage = (p: ChoiceBody | ContentResource) => p.type !== 'Image';
   const hasNonImage = canvases?.some(c => {
     return (
       c.rendering.some(isNonImage) ||
@@ -797,9 +817,18 @@ export function getStructures(manifest: Manifest | Collection): Range[] {
 }
 
 // https://iiif.io/api/auth/2.0/#access-service-description
-export function getAuthAccessServices(manifest): AuthAccessService2[] {
-  const services = manifest.services || [];
-  return services.filter(s => s.type === 'AuthAccessService2');
+export function getAuthAccessServices(
+  manifest: Manifest | Collection
+): AuthAccessService2[] {
+  // AuthAccessService2 is missing from the library's Service union, but
+  // Wellcome manifests include auth 2 access services in `services`
+  const services = (manifest.services || []) as (
+    Service | AuthAccessService2
+  )[];
+  return services.filter(
+    (s): s is AuthAccessService2 =>
+      'type' in s && s.type === 'AuthAccessService2'
+  );
 }
 
 // https://iiif.io/api/auth/2.0/#external-interaction-pattern
@@ -882,9 +911,9 @@ export function transformTokenService(
 export const getVideoAudioDownloadOptions = (canvas?: TransformedCanvas) => {
   if (!canvas || !canvas?.painting) return [];
 
-  const formatItemInfo = item => ({
-    format: item.format || '',
-    id: item.id || '',
+  const formatItemInfo = (item: IIIFItemProps): DownloadOption => ({
+    format: ('format' in item && item.format) || '',
+    id: ('id' in item && item.id) || '',
     label:
       item.type === 'Video'
         ? 'This video'

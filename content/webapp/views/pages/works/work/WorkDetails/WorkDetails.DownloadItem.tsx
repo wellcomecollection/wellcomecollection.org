@@ -8,6 +8,7 @@ import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
+import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { file, imageFile } from '@weco/common/icons';
 import { typography } from '@weco/common/utils/classnames';
@@ -139,6 +140,7 @@ const DownloadItem: FunctionComponent<DownloadItemProps> = ({
   currentCanvasIndex,
   onClick,
 }) => {
+  const { isKiosk } = useKiosk();
   const { userIsStaffWithRestricted } = useUserContext();
   const isRestricted = canvas && hasRestrictedItem(canvas);
   const isActive =
@@ -216,21 +218,23 @@ const DownloadItem: FunctionComponent<DownloadItemProps> = ({
                 </>
               )}
             </td>
-            <td>
-              {!isRestricted || userIsStaffWithRestricted ? (
-                <a
-                  href={displayItem.id}
-                  {...dataGtmPropsToAttributes({
-                    trigger: 'download_table_link',
-                    'mime-type': format || 'null', // Default value requested by analyst
-                  })}
-                >
-                  Download
-                </a>
-              ) : (
-                <>Restricted</>
-              )}
-            </td>
+            {!isKiosk && (
+              <td>
+                {!isRestricted || userIsStaffWithRestricted ? (
+                  <a
+                    href={displayItem.id}
+                    {...dataGtmPropsToAttributes({
+                      trigger: 'download_table_link',
+                      'mime-type': format || 'null', // Default value requested by analyst
+                    })}
+                  >
+                    Download
+                  </a>
+                ) : (
+                  <>Restricted</>
+                )}
+              </td>
+            )}
           </tr>
         </tbody>
       </DownloadTable>

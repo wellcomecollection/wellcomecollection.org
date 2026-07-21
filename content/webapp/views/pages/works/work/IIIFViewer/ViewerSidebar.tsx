@@ -171,8 +171,8 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
     hasOnlyRenderableImages,
     query,
     setIsMobileSidebarActive,
-    archiveTree,
-    setArchiveTree,
+    tree,
+    setTree,
     canvasIndexById,
   } = useItemViewerContext();
   const { canvas } = query || {};
@@ -216,7 +216,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
     if (elementToFocus) {
       elementToFocus.focus();
     }
-  }, [archiveTree, tabbableId]);
+  }, [tree, tabbableId]);
 
   return (
     <>
@@ -303,7 +303,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
           </div>
         </AccordionItem>
 
-        {archiveTree.length > 0 && (
+        {tree.length > 0 && (
           <AccordionItem
             title="Contents"
             gtmData={{ trigger: 'contents' }}
@@ -316,13 +316,12 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
               >
                 <NestedList
                   currentWorkId={work.id}
-                  fullTree={archiveTree}
-                  setArchiveTree={setArchiveTree}
-                  archiveTree={archiveTree}
+                  tree={tree}
+                  setTree={setTree}
+                  items={tree}
                   level={1}
                   tabbableId={tabbableId}
                   setTabbableId={setTabbableId}
-                  archiveAncestorArray={[]}
                   firstItemTabbable={true}
                   showFirstLevelGuideline={true}
                   shouldFetchChildren={false}

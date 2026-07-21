@@ -18,6 +18,14 @@ export type KioskModeOptionId = Extract<
   { id: 'kioskMode' }
 >['options'][number]['id'];
 
+// The option IDs for the cataloguePipeline mode toggle, e.g. 'axiell-collections-testing'.
+// Exported so API types can derive the valid pipeline values from the toggle
+// definition rather than hardcoding strings.
+export type CataloguePipelineOptionId = Extract<
+  (typeof toggleConfig.modes)[number],
+  { id: 'cataloguePipeline' }
+>['options'][number]['id'];
+
 // Extracts the experience prefix from a kiosk option ID.
 // e.g. 'RR-iPad1' -> 'RR', 'devMode' -> 'devMode'
 type ExtractPrefix<T extends string> = T extends `${infer Prefix}-${string}`

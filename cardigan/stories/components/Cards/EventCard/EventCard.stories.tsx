@@ -52,9 +52,9 @@ const Template = (args: StoryProps) => {
   useEffect(() => {
     setFinalEventValue({
       ...passedEvent,
-      isOnline: isOnline,
+      isOnline,
       availableOnline: isAvailableOnline,
-      isPast: isPast,
+      isPast,
     });
   }, [isOnline, isAvailableOnline, isPast, passedEvent]);
 

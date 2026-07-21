@@ -116,7 +116,7 @@ const WorkCard: FunctionComponent<Props> = ({ item }) => {
 
   const transformedWork = {
     title: item.title,
-    url: '/works/' + item.id,
+    url: `/works/${item.id}`,
     // `cardLabels` contains `workType` and `availabilities`, adding a labelColor to the latter.
     // As we only want the workType here, we filter out any with a labelColor.
     // It's not ideal but I prefer that to modifying a transformer that's heavily used elsewhere.

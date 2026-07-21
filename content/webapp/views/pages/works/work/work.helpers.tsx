@@ -10,7 +10,7 @@ import {
   isTransformedCanvas,
 } from '@weco/content/utils/iiif/v3';
 
-import { RangeWork, UiTree } from './work.types';
+import { TreeDataRange, UiTree } from './work.types';
 
 export const controlDimensions = {
   controlWidth: 44,
@@ -34,7 +34,7 @@ function convertStructuresToTree(
           return {
             openStatus: openByDefault,
             parentId,
-            work: {
+            data: {
               ...item,
               title: getLabelString(item.label),
               totalParts: item.items?.length || 0,
@@ -58,7 +58,7 @@ function convertStructuresToTree(
           return {
             openStatus: openByDefault,
             parentId,
-            work: {
+            data: {
               ...transformedCanvas,
               downloads,
               totalParts: 0,
@@ -86,13 +86,13 @@ export function createDownloadTree(
   );
   const topLevelItem = {
     openStatus: openByDefault,
-    work: {
+    data: {
       id: 'objects',
       type: 'Range',
       title: 'objects',
       label: { en: ['objects'] },
       totalParts: downloads.length,
-    } as RangeWork,
+    } as TreeDataRange,
     children: downloads,
   };
   // If skipObjectsNode is true don't wrap it in an objects range
@@ -112,8 +112,8 @@ export function getTreeCanvasIndexById(tree: UiTree): Record<string, number> {
   function traverse(nodes: UiTree) {
     for (const node of nodes) {
       // Only canvases get an index; ranges/folders are skipped
-      if (node.work.type === 'Canvas') {
-        canvasIndexById[node.work.id] = index++;
+      if (node.data.type === 'Canvas') {
+        canvasIndexById[node.data.id] = index++;
       }
       // Recursively traverse children (if any)
       if (node.children) {

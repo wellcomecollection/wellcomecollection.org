@@ -52,7 +52,7 @@ export type IIIFUriProps = {
 export function iiifImageTemplate(
   infoJsonLocation: string
 ): (opts: IIIFUriProps) => string {
-  const baseUrl = infoJsonLocation?.replace('/info.json', '');
+  const baseUrl = infoJsonLocation.replace('/info.json', '');
   const templateString = `${baseUrl}/{region}/{size}/{rotation}/{quality}.{format}`;
   const defaultOpts = {
     region: 'full',
@@ -115,10 +115,20 @@ export function convertIiifImageUri(
   } else {
     const imageIdentifier = originalUri.split(iiifImageUri)[1].split('/', 2)[0];
 
+    // Extract rotation from original URL if present
+    // IIIF Image API format: {identifier}/{region}/{size}/{rotation}/{quality}.{format}
+    // https://iiif.io/api/image/3.0/#21-image-request-uri-syntax
+    // For well-formed IIIF URLs, after splitting by base URL and then by '/':
+    //   urlParts[0] = identifier, [1] = region, [2] = size, [3] = rotation, [4] = quality.format
+    const urlParts = originalUri.split(iiifImageUri)[1].split('/');
+    const rotationPart = urlParts[3]; // Assumes well-formed IIIF URL with all required parameters
+    const rotation = rotationPart ? parseInt(rotationPart, 10) : undefined;
+
     const size = sizeByHeight ? `,${requiredSize}` : `${requiredSize},`;
     const params = {
       size: requiredSize === 'full' ? 'full' : `${size}`,
       format: determineFinalFormat(originalUri),
+      ...(rotation !== undefined && !isNaN(rotation) && { rotation }),
     };
     return iiifImageTemplate(`${iiifImageUri}${imageIdentifier}`)(params);
   }

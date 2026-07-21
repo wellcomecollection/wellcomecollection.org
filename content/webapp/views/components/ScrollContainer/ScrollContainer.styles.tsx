@@ -7,14 +7,14 @@ export const ScrollButtonsContainer = styled(Space)<{
   $hasContent?: boolean;
   $scrollButtonsAfter?: boolean;
 }>`
-  gap: ${props => props.theme.spacingUnits['100']};
+  gap: ${props => props.theme.spacingUnits['300']};
   display: flex;
   justify-content: ${props =>
     props.$hasContent ? 'space-between' : 'flex-end'};
   align-items: flex-end;
   ${props =>
     props.$scrollButtonsAfter
-      ? 'margin-top: ' + props.theme.spacingUnits['150'] + ';'
+      ? `margin-top: ${props.theme.spacingUnits['150']};`
       : ''}
 `;
 
@@ -189,7 +189,7 @@ export const ScrollShim = styled.li.attrs({
 `;
 
 export const CopyContainer = styled.div`
-  > *:last-child {
+  :last-child {
     margin-bottom: 0;
   }
 `;
