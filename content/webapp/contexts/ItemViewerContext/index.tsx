@@ -30,7 +30,10 @@ export function useItemViewerContext(): ItemViewerContextProps {
   const legacyContext = useLegacy();
   const refactoredContext = useRefactored();
 
-  // TODO: Remove this console log after itemViewerRefactor is fully rolled out
+  // TODO: Remove this console log after itemViewerRefactor is fully rolled out.
+  // We guard with __ivr_context_logged because this hook runs on every render
+  // of every component that consumes the context — without it, the console
+  // would be flooded with duplicate messages.
   if (typeof window !== 'undefined' && !window.__ivr_context_logged) {
     console.log(
       `📦 ItemViewerContext: using ${itemViewerRefactor ? 'REFACTORED' : 'LEGACY'} context`
