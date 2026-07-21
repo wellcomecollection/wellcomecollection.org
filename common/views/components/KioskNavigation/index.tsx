@@ -113,7 +113,6 @@ const navLinkStyles = `
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
   min-width: 44px;
   min-height: 44px;
 `;
