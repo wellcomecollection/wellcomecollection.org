@@ -35,9 +35,11 @@ export const fetchRelatedWorks = async ({
   typesTechniques,
   date,
   shouldUseStagingApi,
+  pipelineCluster,
   setIsLoading,
 }: WorkQueryProps & {
   shouldUseStagingApi?: boolean;
+  pipelineCluster?: string;
   setIsLoading: (isLoading: boolean) => void;
 }): Promise<RelatedWork | undefined> => {
   setIsLoading(true);
@@ -58,6 +60,7 @@ export const fetchRelatedWorks = async ({
   ): Promise<WellcomeApiError | CatalogueResultsList<Work>> =>
     await catalogueQuery('works', {
       shouldUseStagingApi,
+      pipelineCluster,
       // Always fetch 4 works in case we get the current work back, then we will still have 3 to show.
       pageSize: 4,
       params: {
