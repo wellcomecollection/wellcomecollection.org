@@ -198,7 +198,7 @@ const PortraitVideoList: FunctionComponent<Props> = ({
               ref={iframeRef}
               title={activeItem?.title || 'Video'}
               allowFullScreen={true}
-              allow="autoplay; picture-in-picture; clipboard-write;"
+              allow={`autoplay; picture-in-picture${activeItem?.videoProvider === 'YouTube' ? '; clipboard-write' : ''}`}
               src={videoSrc}
             />
           )}
