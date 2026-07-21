@@ -189,7 +189,7 @@ export const ScrollShim = styled.li.attrs({
 `;
 
 export const CopyContainer = styled.div`
-  > *:last-child {
+  :last-child {
     margin-bottom: 0;
   }
 `;
