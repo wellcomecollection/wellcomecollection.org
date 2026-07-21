@@ -1,145 +1,45 @@
-import { createContext, RefObject, useContext } from 'react';
+import { useFeatureFlags } from '@weco/common/server-data/Context';
 
-import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
-import {
-  Work,
-  WorkBasic,
-} from '@weco/content/services/wellcome/catalogue/types';
-import {
-  CanvasRotatedImage,
-  ItemViewerQuery,
-  ParentManifest,
-} from '@weco/content/types/item-viewer';
-import { TransformedManifest } from '@weco/content/types/manifest';
-import { UiTree } from '@weco/content/views/pages/works/work/work.types';
+import ItemViewerContextLegacy, {
+  defaultItemViewerContext,
+  ItemViewerContextProps,
+  results,
+  useItemViewerContext as useLegacy,
+} from './legacy';
+import ItemViewerContextRefactored, {
+  useItemViewerContext as useRefactored,
+} from './refactored';
 
-export type ItemViewerContextProps = {
-  // DATA props:
-  query: ItemViewerQuery;
-  work: WorkBasic & Pick<Work, 'description'>;
-  transformedManifest: TransformedManifest | undefined;
-  parentManifest: ParentManifest | undefined;
-  searchResults: SearchResults | null;
-  setSearchResults: (v: SearchResults | null) => void;
-  accessToken: string | undefined;
-  tree: UiTree;
-  setTree: (v: UiTree) => void;
-  canvasIndexById: Record<string, number>;
-
-  // UI props:
-  viewerRef: RefObject<HTMLDivElement | null> | undefined;
-  mainAreaRef: RefObject<HTMLDivElement | null> | undefined;
-  mainAreaWidth: number;
-  mainAreaHeight: number;
-  gridVisible: boolean;
-  setGridVisible: (v: boolean) => void;
-  isFullscreen: boolean;
-  setIsFullscreen: (v: boolean) => void;
-  isDesktopSidebarActive: boolean;
-  setIsDesktopSidebarActive: (v: boolean) => void;
-  isMobileSidebarActive: boolean;
-  setIsMobileSidebarActive: (v: boolean) => void;
-  showZoomed: boolean;
-  setShowZoomed: (v: boolean) => void;
-  showFullscreenControl: boolean;
-  setShowFullscreenControl: (v: boolean) => void;
-  showControls: boolean;
-  setShowControls: (v: boolean) => void;
-  rotatedImages: CanvasRotatedImage[];
-  setRotatedImages: (v: CanvasRotatedImage[]) => void;
-  isResizing: boolean;
-  errorHandler?: () => void;
-  /**
-   * Indicates whether all canvases have only image resources and no `original`
-   * files (true), or if there are any non-image items or originals (false).
-   * Controls whether the viewer uses the fixed-list image layout or the
-   * paginated viewer layout.
-   */
-  hasOnlyRenderableImages: boolean;
-};
-
-export const results: SearchResults = {
-  '@context': '',
-  '@id': '',
-  '@type': 'sc:AnnotationList',
-  within: {
-    '@type': '',
-    total: null,
-  },
-  startIndex: 0,
-  resources: [],
-  hits: [],
-};
-
-const query = {
-  canvas: 1,
-  manifest: 1,
-  query: '',
-  page: 1,
-  shouldScrollToCanvas: true,
-};
-
-const work: WorkBasic & Pick<Work, 'description'> = {
-  id: '',
-  title: '',
-  workTypeId: undefined,
-  description: undefined,
-  languageId: undefined,
-  thumbnail: undefined,
-  referenceNumber: undefined,
-  productionDates: [],
-  archiveLabels: undefined,
-  cardLabels: [],
-  primaryContributorLabel: undefined,
-  notes: [],
-};
-
-export const defaultItemViewerContext: ItemViewerContextProps = {
-  // DATA props:
-  query,
-  work,
-  transformedManifest: undefined,
-  parentManifest: undefined,
-  searchResults: results,
-  setSearchResults: () => undefined,
-  accessToken: undefined,
-  tree: [],
-  setTree: () => undefined,
-  canvasIndexById: {},
-
-  // UI props:
-  viewerRef: undefined,
-  mainAreaRef: undefined,
-  mainAreaWidth: 1000,
-  mainAreaHeight: 500,
-  gridVisible: false,
-  setGridVisible: () => false,
-  isFullscreen: false,
-  setIsFullscreen: () => undefined,
-  isDesktopSidebarActive: true,
-  setIsDesktopSidebarActive: () => undefined,
-  isMobileSidebarActive: false,
-  setIsMobileSidebarActive: () => undefined,
-  showZoomed: false,
-  setShowZoomed: () => undefined,
-  showControls: false,
-  setShowControls: () => undefined,
-  showFullscreenControl: false,
-  setShowFullscreenControl: () => undefined,
-  rotatedImages: [],
-  setRotatedImages: () => undefined,
-  isResizing: false,
-  errorHandler: () => undefined,
-  hasOnlyRenderableImages: false,
-};
-
-const ItemViewerContext = createContext<ItemViewerContextProps>(
-  defaultItemViewerContext
-);
-
-export function useItemViewerContext(): ItemViewerContextProps {
-  const contextState = useContext(ItemViewerContext);
-  return contextState;
+// TODO: Remove after testing
+declare global {
+  interface Window {
+    __ivr_context_logged?: boolean;
+  }
 }
 
-export default ItemViewerContext;
+// Export types and defaults (same in both versions)
+export type { ItemViewerContextProps };
+export { defaultItemViewerContext, results };
+
+// Export both contexts for IIIFViewer implementations to use with .Provider
+export { ItemViewerContextLegacy, ItemViewerContextRefactored };
+
+// Hook that returns the correct context based on feature flag
+export function useItemViewerContext(): ItemViewerContextProps {
+  const { itemViewerRefactor } = useFeatureFlags();
+  const legacyContext = useLegacy();
+  const refactoredContext = useRefactored();
+
+  // TODO: Remove this console log after itemViewerRefactor is fully rolled out
+  if (typeof window !== 'undefined' && !window.__ivr_context_logged) {
+    console.log(
+      `📦 ItemViewerContext: using ${itemViewerRefactor ? 'REFACTORED' : 'LEGACY'} context`
+    );
+    window.__ivr_context_logged = true;
+  }
+
+  return itemViewerRefactor ? refactoredContext : legacyContext;
+}
+
+// Default export for legacy compatibility (but IIIFViewer should use named exports)
+export default ItemViewerContextLegacy;
