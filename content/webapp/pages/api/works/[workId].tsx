@@ -15,8 +15,9 @@ const WorksApi = async (
     return;
   }
 
-  // As the only toggle we care about here for now is the stagingApi
-  // this is a mega hack to get this working so we can remove toggles from the query
+  // As the only toggles we care about here for now are the stagingApi
+  // feature flag and the cataloguePipeline mode this is a mega hack to get
+  // this working so we can remove toggles from the query
   // TODO : get toggles working here
   const togglesResp: TogglesResp = {
     featureFlags: [
@@ -29,13 +30,27 @@ const WorksApi = async (
       },
     ],
     tests: [],
-    modes: [],
+    modes: [
+      {
+        id: 'cataloguePipeline',
+        title: 'Catalogue pipeline',
+        description:
+          'Selects which catalogue pipeline serves works and images requests',
+        options: [
+          {
+            id: 'axiell-collections-testing',
+            label: 'Axiell Collections testing (new Axiell/FOLIO pipeline)',
+          },
+        ],
+      },
+    ],
   };
-  const { featureFlags } = getTogglesFromContext(togglesResp, { req });
+  const { featureFlags, modes } = getTogglesFromContext(togglesResp, { req });
 
   const response = await getWork({
     id: workId,
     shouldUseStagingApi: featureFlags.stagingApi,
+    pipelineCluster: modes.cataloguePipeline ?? undefined,
   });
 
   res.setHeader('Content-Type', 'application/json');

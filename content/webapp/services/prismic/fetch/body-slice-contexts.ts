@@ -7,7 +7,8 @@ import { BodySliceContexts } from '@weco/content/views/components/Body';
 
 export async function getBodySliceContexts(
   bodySlices: PagesDocumentDataBodySlice[],
-  shouldUseStagingApi?: boolean
+  shouldUseStagingApi?: boolean,
+  pipelineCluster?: string
 ): Promise<BodySliceContexts> {
   const archiveCardIds = bodySlices
     .filter(
@@ -20,7 +21,11 @@ export async function getBodySliceContexts(
 
   const archiveWorks =
     archiveCardIds.length > 0
-      ? await getArchiveWorks(archiveCardIds, shouldUseStagingApi)
+      ? await getArchiveWorks(
+          archiveCardIds,
+          shouldUseStagingApi,
+          pipelineCluster
+        )
       : {};
 
   return { archiveWorks };

@@ -63,6 +63,13 @@ if (serverData.toggles.someFeatureFlag.value) {
 The `serverData.toggles` object is also passed to services that need it
 (e.g. catalogue API clients).
 
+**Note for local development:** server-side toggle resolution
+(`common/server-data/toggles.ts`) validates toggle cookies against the deployed
+[toggles JSON](https://toggles.wellcomecollection.org/toggles.json), even when the
+webapp is running locally. A toggle that only exists in `toggles/webapp/toggles.ts`
+will not resolve from its cookie until the toggles package has been deployed with
+`yarn deploy`.
+
 
 ## Deployment
 

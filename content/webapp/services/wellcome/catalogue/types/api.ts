@@ -1,3 +1,13 @@
+import { CataloguePipelineOptionId } from '@weco/toggles';
+
+// Optional override for selecting a specific Elastic cluster.
+// 'openai' and 'elser' are for semantic-search prototype experiments; the
+// remaining values are the cataloguePipeline mode toggle options, derived
+// from the toggle definition so they can't drift out of sync with it.
+// This is intentionally optional and experimental; production callers
+// should omit it.
+export type ElasticCluster = 'openai' | 'elser' | CataloguePipelineOptionId;
+
 export type CatalogueWorksApiProps = {
   query?: string;
   page?: number;
@@ -20,13 +30,7 @@ export type CatalogueWorksApiProps = {
   languages?: string[];
   identifiers?: string[];
   aggregations?: string[];
-  // Optional override for selecting a specific Elastic cluster for
-  // semantic-search prototype experiments. Expected values:
-  // - 'openai'
-  // - 'elser'
-  // This is intentionally optional and experimental; production callers
-  // should omit this.
-  elasticCluster?: 'openai' | 'elser';
+  elasticCluster?: ElasticCluster;
 };
 
 export type CatalogueImagesApiProps = {
@@ -42,6 +46,7 @@ export type CatalogueImagesApiProps = {
   'source.contributors.agent.label'?: string[];
   color?: string;
   aggregations?: string[];
+  elasticCluster?: ElasticCluster;
 };
 
 export type CatalogueConceptsApiProps = {

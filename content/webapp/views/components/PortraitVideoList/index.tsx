@@ -2,7 +2,7 @@ import * as prismic from '@prismicio/client';
 import { FunctionComponent, useEffect, useRef, useState } from 'react';
 
 import useVideoEmbed, { VideoProvider } from '@weco/common/hooks/useVideoEmbed';
-import { chevron, cross } from '@weco/common/icons';
+import { arrowSmall, cross } from '@weco/common/icons';
 import { ImageType } from '@weco/common/model/image';
 import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
@@ -156,7 +156,13 @@ const PortraitVideoList: FunctionComponent<Props> = ({
               data-gtm-trigger="video_modal_nav_left"
             >
               <span className="visually-hidden">{prevLabel}</span>
-              <Icon icon={chevron} rotate={90} iconColor="white" />
+              <Icon
+                icon={arrowSmall}
+                rotate={180}
+                iconColor="white"
+                sizeOverride="width: 20px; height: 20px;"
+              />
+              <span aria-hidden="true">Prev</span>
             </DialogButton>
             <DialogButton
               type="button"
@@ -165,7 +171,12 @@ const PortraitVideoList: FunctionComponent<Props> = ({
               data-gtm-trigger="video_modal_nav_right"
             >
               <span className="visually-hidden">{nextLabel}</span>
-              <Icon icon={chevron} rotate={270} iconColor="white" />
+              <Icon
+                icon={arrowSmall}
+                iconColor="white"
+                sizeOverride="width: 20px; height: 20px;"
+              />
+              <span aria-hidden="true">Next</span>
             </DialogButton>
           </NavGroup>
           <NavGroup>
