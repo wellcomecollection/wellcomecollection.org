@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
+import { getCachedToggles } from '@weco/common/server-data';
 import { getTogglesFromContext } from '@weco/common/server-data/toggles';
 import { isString, isUndefined } from '@weco/common/utils/type-guards';
 import {
@@ -11,7 +12,6 @@ import {
 } from '@weco/content/services/wellcome';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import { ItemsList } from '@weco/content/services/wellcome/catalogue/types';
-import { TogglesResp } from '@weco/toggles';
 
 function getApiUrl(apiOptions: GlobalApiOptions, workId: string): string {
   return `${rootUris[apiOptions.env.catalogue]}/catalogue/v2/works/${workId}/items`;
@@ -56,22 +56,7 @@ const ItemsApi = async (
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> => {
-  // As the only toggle we care about here for now is the stagingApi
-  // this is a mega hack to get this working so we can remove toggles from the query
-  // TODO : get toggles working here
-  const togglesResp: TogglesResp = {
-    featureFlags: [
-      {
-        id: 'stagingApi',
-        title: 'Staging API',
-        defaultValue: false,
-        description: 'Use the staging catalogue API',
-        type: 'permanent',
-      },
-    ],
-    tests: [],
-    modes: [],
-  };
+  const togglesResp = await getCachedToggles();
   const { featureFlags } = getTogglesFromContext(togglesResp, { req });
   const { workId } = req.query;
 

@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
+import { getCachedToggles } from '@weco/common/server-data';
 import { getTogglesFromContext } from '@weco/common/server-data/toggles';
 import { isString } from '@weco/common/utils/type-guards';
 import { getWork } from '@weco/content/services/wellcome/catalogue/works';
-import { TogglesResp } from '@weco/toggles';
 
 const WorksApi = async (
   req: NextApiRequest,
@@ -15,36 +15,7 @@ const WorksApi = async (
     return;
   }
 
-  // As the only toggles we care about here for now are the stagingApi
-  // feature flag and the cataloguePipeline mode this is a mega hack to get
-  // this working so we can remove toggles from the query
-  // TODO : get toggles working here
-  const togglesResp: TogglesResp = {
-    featureFlags: [
-      {
-        id: 'stagingApi',
-        title: 'Staging API',
-        defaultValue: false,
-        description: 'Use the staging catalogue API',
-        type: 'permanent',
-      },
-    ],
-    tests: [],
-    modes: [
-      {
-        id: 'cataloguePipeline',
-        title: 'Catalogue pipeline',
-        description:
-          'Selects which catalogue pipeline serves works and images requests',
-        options: [
-          {
-            id: 'axiell-collections-testing',
-            label: 'Axiell Collections testing (new Axiell/FOLIO pipeline)',
-          },
-        ],
-      },
-    ],
-  };
+  const togglesResp = await getCachedToggles();
   const { featureFlags, modes } = getTogglesFromContext(togglesResp, { req });
 
   const response = await getWork({
