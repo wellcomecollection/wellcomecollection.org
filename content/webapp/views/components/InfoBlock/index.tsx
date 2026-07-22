@@ -26,7 +26,7 @@ export type Props = {
   text: prismic.RichTextField;
   // There is no image field in the Prismic type for the infoBlock slice, we are only using it in the stories kiosk page.
   // If we decide to add it to the Prismic type, we will need to update the transformInfoBlockSlice function
-  // in content/webapp/services/prismic/transformers.ts to include the image field and change this image type.
+  // in content/webapp/services/prismic/transformers/body.ts to include the image field and change this image type.
   image?: { url: string; alt?: string; width: number; height: number };
 };
 
