@@ -10,6 +10,14 @@ import { TransformedAuthService } from '@weco/content/utils/iiif/v3';
 
 import IIIFItem from './index';
 
+// The refactored components read from ItemViewerContextRefactored via the
+// useItemViewerContext hook, which checks the feature flag. Mock it so the
+// hook returns the refactored context values.
+jest.mock('@weco/common/server-data/Context', () => ({
+  ...jest.requireActual('@weco/common/server-data/Context'),
+  useFeatureFlags: () => ({ itemViewerRefactor: true }),
+}));
+
 type RenderItemArgs = {
   item: IIIFItemProps;
   canvas?: TransformedCanvas;
