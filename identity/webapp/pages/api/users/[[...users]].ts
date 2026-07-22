@@ -17,7 +17,7 @@ export const identityFetchClient: FetchClient = new FetchClient({
 const handleIdentityApiRequest = auth0.withApiAuthRequired(
   async (req: NextApiRequest, res: NextApiResponse) => {
     try {
-      const { accessToken } = await auth0.getAccessToken(req, res);
+      const { token } = await auth0.getAccessToken(req, res);
       const path = `/users/${(req.query.users as string[]).join('/')}`;
 
       // GET and HEAD requests cannot have a body
@@ -30,7 +30,7 @@ const handleIdentityApiRequest = auth0.withApiAuthRequired(
           ...(method !== 'GET' && method !== 'HEAD' ? { data: req.body } : {}),
           headers: {
             ...identityFetchClient.defaults.headers.common,
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${token}`,
           },
           validateStatus: (status: number) => status >= 200 && status < 500,
         })
