@@ -49,6 +49,7 @@ const renderItem = ({
       userContext: { userIsStaffWithRestricted },
       kioskContext: { isKiosk },
       contextProps: { accessToken },
+      useRefactoredContext: true,
     }
   );
 
