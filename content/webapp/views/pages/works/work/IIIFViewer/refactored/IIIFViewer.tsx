@@ -22,12 +22,14 @@ import {
 import { TransformedManifest } from '@weco/content/types/manifest';
 import { hasNonImagesOrOriginals } from '@weco/content/utils/iiif/v3';
 import { fromQuery } from '@weco/content/views/components/ItemLink';
-import { getTreeCanvasIndexById } from '@weco/content/views/pages/works/work/work.helpers';
+import {
+  getTreeCanvasIndexById,
+  queryParamToArrayIndex,
+} from '@weco/content/views/pages/works/work/work.helpers';
 import { UiTree } from '@weco/content/views/pages/works/work/work.types';
 
 import { DelayVisibility } from '.';
 import GridViewer from './GridViewer';
-import { queryParamToArrayIndex } from './IIIFViewer.helpers';
 import ImageViewer from './ImageViewer';
 import ImageViewerControls from './ImageViewerControls';
 import MainViewer from './MainViewer';

@@ -18,8 +18,8 @@ import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { searchWithinLabel } from '@weco/content/text/aria-labels';
 import { TransformedCanvas } from '@weco/content/types/manifest';
 import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
+import { arrayIndexToQueryParam } from '@weco/content/views/pages/works/work/work.helpers';
 
-import { arrayIndexToQueryParam } from './IIIFViewer.helpers';
 import { thumbnailsPageSize } from './Paginators';
 
 const Highlight = styled.span`
