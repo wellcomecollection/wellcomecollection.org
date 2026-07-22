@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 
 import { renderWithContext } from '@weco/content/test/fixtures/iiif/render';
 import {
@@ -114,7 +114,7 @@ describe('IIIFItem restricted access', () => {
     ).toBeInTheDocument();
   });
 
-  it('shows the item to a staff user with a valid access token when the canvas has no probe service to check', () => {
+  it('shows the item to a staff user with a valid access token when the canvas has no probe service to check', async () => {
     renderItem({
       item: {
         id: 'https://example.com/doc.pdf',
@@ -129,7 +129,9 @@ describe('IIIFItem restricted access', () => {
       accessToken: 'test-token',
     });
 
-    expect(screen.getByRole('link', { name: /open/i })).toBeInTheDocument();
+    await waitFor(() =>
+      expect(screen.getByRole('link', { name: /open/i })).toBeInTheDocument()
+    );
   });
 
   it('keeps the item hidden from a staff user with no access token yet (the probe never runs)', () => {
