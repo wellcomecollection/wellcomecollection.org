@@ -13,14 +13,27 @@ const Wrapper = styled(Space).attrs({
   border-left: 16px solid ${props => props.theme.color('yellow')};
 `;
 
+const ImageWrapper = styled(Space).attrs({
+  $v: { size: 'sm', properties: ['margin-top'] },
+})`
+  img {
+    display: block;
+  }
+`;
+
 export type Props = {
   title: string;
   text: prismic.RichTextField;
+  // There is no image field in the Prismic type for the infoBlock slice, we are only using it in the stories kiosk page.
+  // If we decide to add it to the Prismic type, we will need to update the transformInfoBlockSlice function
+  // in content/webapp/services/prismic/transformers/body.ts to include the image field and change this image type.
+  image?: { url: string; alt?: string; width: number; height: number };
 };
 
 const InfoBlock: FunctionComponent<Props> = ({
   title,
   text,
+  image,
 }: Props): ReactElement<Props> => {
   return (
     <Wrapper data-component="info-block">
@@ -33,6 +46,17 @@ const InfoBlock: FunctionComponent<Props> = ({
       <div className="spaced-text body-text">
         <PrismicHtmlBlock html={text} />
       </div>
+      {image && (
+        <ImageWrapper>
+          <img
+            src={image.url}
+            alt={image.alt || ''}
+            width={image.width}
+            height={image.height}
+            style={{ width: `${image.width}px`, height: `${image.height}px` }}
+          />
+        </ImageWrapper>
+      )}
     </Wrapper>
   );
 };
