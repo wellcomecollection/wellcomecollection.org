@@ -2,7 +2,7 @@
 
 **These guidelines are for active development and coding tasks.** Shared coding standards and PR review guidelines are in [.github/copilot-instructions.md](.github/copilot-instructions.md).
 
-Guidelines for AI assistants working on the Wellcome Collection codebase. Shared coding standards (naming, accessibility, duplication, workspace structure, Prismic conventions):
+Guidelines for AI assistants working on the Wellcome Collection codebase. Shared coding standards (naming, accessibility, duplication, workspace structure, Prismic conventions) live in [.github/copilot-instructions.md](.github/copilot-instructions.md). The line below is a Claude Code import directive, not a GitHub @-mention — it pulls that file's contents into context automatically:
 
 @.github/copilot-instructions.md
 
