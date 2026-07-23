@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { tokens } from '@weco/dash/views/themes/tokens';
@@ -88,11 +88,25 @@ const CopyLinkIcon: FunctionComponent<CopyLinkIconProps> = props => {
   const { title, modeValue } = props;
   const [copied, setCopied] = useState(false);
   const isMode = modeValue !== undefined;
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(
+    undefined
+  );
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   const onCopy = async () => {
     await copyEnableLink(props);
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    timeoutRef.current = setTimeout(() => setCopied(false), 2000);
   };
 
   return (
