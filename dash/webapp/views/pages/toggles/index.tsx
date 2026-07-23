@@ -36,7 +36,8 @@ const GENERAL_FEATURE_FLAG_IDS = ['apiToolbar', 'conceptsSearch'];
 
 const TogglesPage: FunctionComponent = () => {
   const router = useRouter();
-  const { enableToggle, disableToggle, resetToggles } = router.query;
+  const { enableToggle, disableToggle, resetToggles, enableMode, modeValue } =
+    router.query;
   const [message, setMessage] = useState<{
     text: string;
     isError?: boolean;
@@ -152,6 +153,38 @@ const TogglesPage: FunctionComponent = () => {
     [featureFlags]
   );
 
+  const handleMode = useCallback(
+    (modeId: string, optionId: string) => {
+      const mode = modes.find(m => m.id === modeId);
+      if (!mode) {
+        setMessage({
+          text: `Mode "${modeId}" does not exist.`,
+          isError: true,
+        });
+        return;
+      }
+      const optionExists = mode.options.some(opt => opt.id === optionId);
+      if (!optionExists) {
+        setMessage({
+          text: `Mode "${modeId}" has no option "${optionId}".`,
+          isError: true,
+        });
+        return;
+      }
+      setCookieCustom(modeId, optionId);
+      setModeStates(prev => ({
+        ...prev,
+        [modeId]: optionId,
+      }));
+      setMessage({
+        text: `Mode "${mode.title}" has been set to "${optionId}".`,
+        isError: false,
+        isEnabled: true,
+      });
+    },
+    [modes]
+  );
+
   const reset = useCallback(
     () =>
       setToggleStates(prev => {
@@ -193,12 +226,17 @@ const TogglesPage: FunctionComponent = () => {
       handleFeatureFlag(enableToggle as string, 'enable');
     } else if (disableToggle) {
       handleFeatureFlag(disableToggle as string, 'disable');
+    } else if (enableMode) {
+      handleMode(enableMode as string, (modeValue as string) ?? '');
     }
   }, [
     enableToggle,
     disableToggle,
     resetToggles,
+    enableMode,
+    modeValue,
     handleFeatureFlag,
+    handleMode,
     reset,
     featureFlags,
   ]);

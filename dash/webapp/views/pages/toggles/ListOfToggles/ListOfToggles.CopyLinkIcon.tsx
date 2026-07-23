@@ -3,9 +3,18 @@ import styled from 'styled-components';
 
 import { tokens } from '@weco/dash/views/themes/tokens';
 
-const copyEnableLink = async (toggleId: string): Promise<void> => {
-  const url = `${window.location.origin}${window.location.pathname}?enableToggle=${encodeURIComponent(
-    toggleId
+const buildQuery = (props: CopyLinkIconProps): string => {
+  if (props.modeValue !== undefined) {
+    return `enableMode=${encodeURIComponent(
+      props.toggleId
+    )}&modeValue=${encodeURIComponent(props.modeValue)}`;
+  }
+  return `enableToggle=${encodeURIComponent(props.toggleId)}`;
+};
+
+const copyEnableLink = async (props: CopyLinkIconProps): Promise<void> => {
+  const url = `${window.location.origin}${window.location.pathname}?${buildQuery(
+    props
   )}`;
   await navigator.clipboard.writeText(url);
 };
@@ -33,12 +42,18 @@ const IconButton = styled.button`
 `;
 
 const CopiedBadge = styled.span`
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  pointer-events: none;
+  white-space: nowrap;
   font-size: ${tokens.typography.fontSize.small};
   color: ${tokens.colors.success.text};
   background: ${tokens.colors.success.light};
   padding: 2px 6px;
   border-radius: 10px;
-  margin-left: ${tokens.spacing.xs};
   animation: fade-in-out 2s ease forwards;
 
   @media (prefers-reduced-motion: reduce) {
@@ -64,26 +79,42 @@ const CopiedBadge = styled.span`
   }
 `;
 
-export type CopyLinkIconProps = { toggleId: string; title: string };
+export type CopyLinkIconProps = { toggleId: string; title: string } & (
+  | { modeValue?: undefined }
+  | { modeValue: string }
+);
 
-const CopyLinkIcon: FunctionComponent<CopyLinkIconProps> = ({
-  toggleId,
-  title,
-}) => {
+const CopyLinkIcon: FunctionComponent<CopyLinkIconProps> = props => {
+  const { title, modeValue } = props;
   const [copied, setCopied] = useState(false);
+  const isMode = modeValue !== undefined;
 
   const onCopy = async () => {
-    await copyEnableLink(toggleId);
+    await copyEnableLink(props);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
   return (
-    <span style={{ display: 'inline-flex', alignItems: 'center' }}>
+    <span
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        position: 'relative',
+      }}
+    >
       <IconButton
         type="button"
-        aria-label={`Copy link to enable toggle ${title}`}
-        title="Click to copy a link that enables this toggle"
+        aria-label={
+          isMode
+            ? `Copy link to set mode ${title}`
+            : `Copy link to enable toggle ${title}`
+        }
+        title={
+          isMode
+            ? 'Click to copy a link that sets this mode'
+            : 'Click to copy a link that enables this toggle'
+        }
         onClick={onCopy}
       >
         <svg
