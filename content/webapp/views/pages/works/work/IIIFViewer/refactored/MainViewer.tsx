@@ -22,6 +22,7 @@ import { getDisplayItems } from '@weco/content/utils/iiif/v3/canvas';
 import { queryParamToArrayIndex } from '@weco/content/views/pages/works/work/work.helpers';
 
 import IIIFItem from './IIIFItem';
+import { useCurrentCanvas } from './MainViewer.helpers';
 
 const MainViewerContainer = styled.div<{ $useFixedList: boolean }>`
   height: 100%;
@@ -376,7 +377,6 @@ const MainViewer: FunctionComponent = () => {
     errorHandler,
     accessToken,
     hasOnlyRenderableImages,
-    canvasIndexById,
   } = useItemViewerContext();
   const { shouldScrollToCanvas, canvas } = query;
   const mainViewerRef = useRef<FixedSizeList>(null);
@@ -397,22 +397,8 @@ const MainViewer: FunctionComponent = () => {
     ? hasRestrictedItem(canvases[0])
     : false;
 
-  // Canvas order is determined by structures if we have them, which aren't always the same
   const externalAccessService = auth?.externalAccessService;
-  // as the order of canvases in the items array.
-  // The canvasIndexById provides a mapping between the canvas ID
-  // and the correct display index based on the archival structure.
-  // We only use this mapping if it contains all canvases to ensure consistent ordering -
-  // otherwise we fall back to array indexing.
-  const hasCompleteStructure =
-    canvasIndexById && Object.keys(canvasIndexById).length === canvases?.length;
-  const currentCanvasId = hasCompleteStructure
-    ? Object.keys(canvasIndexById).find(id => canvasIndexById[id] === canvas)
-    : undefined;
-
-  const currentCanvas = currentCanvasId
-    ? canvases?.find(c => c.id === currentCanvasId)
-    : canvases?.[queryParamToArrayIndex(canvas)];
+  const currentCanvas = useCurrentCanvas();
 
   // We hide the zoom and rotation controls while the user is scrolling
   function handleOnScroll({ scrollOffset }: ListOnScrollProps) {
