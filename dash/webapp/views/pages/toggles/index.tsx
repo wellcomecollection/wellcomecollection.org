@@ -170,8 +170,8 @@ const TogglesPage: FunctionComponent = () => {
         });
         return;
       }
-      const optionExists = mode.options.some(opt => opt.id === optionId);
-      if (!optionExists) {
+      const option = mode.options.find(opt => opt.id === optionId);
+      if (!option) {
         setMessage({
           text: `Mode "${modeId}" has no option "${optionId}".`,
           isError: true,
@@ -184,7 +184,7 @@ const TogglesPage: FunctionComponent = () => {
         [modeId]: optionId,
       }));
       setMessage({
-        text: `Mode "${mode.title}" has been set to "${optionId}".`,
+        text: `Mode "${mode.title}" has been set to "${option.label}".`,
         isError: false,
         isEnabled: true,
       });
@@ -221,7 +221,7 @@ const TogglesPage: FunctionComponent = () => {
   }, [abTests]);
 
   useEffect(() => {
-    if (featureFlags.length === 0) return;
+    if (featureFlags.length === 0 && modes.length === 0) return;
 
     if (resetToggles !== undefined) {
       reset();
@@ -246,6 +246,7 @@ const TogglesPage: FunctionComponent = () => {
     handleMode,
     reset,
     featureFlags,
+    modes,
   ]);
 
   const filterFeatureFlags = (flagList: FeatureFlag[]) => {
