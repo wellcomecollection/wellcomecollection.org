@@ -48,12 +48,12 @@ import AudioPlayer from '@weco/content/views/components/AudioPlayer';
 import BetaMessage from '@weco/content/views/components/BetaMessage';
 import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
 import VideoPlayer from '@weco/content/views/components/VideoPlayer';
-import IIIFItemPdf from '@weco/content/views/pages/works/work/IIIFItem/IIIFItem.Pdf';
-import { arrayIndexToQueryParam } from '@weco/content/views/pages/works/work/IIIFViewer/legacy/IIIFViewer.helpers';
-import ImageViewer from '@weco/content/views/pages/works/work/IIIFViewer/legacy/ImageViewer';
+import ImageViewer from '@weco/content/views/pages/works/work/IIIFViewer/refactored/ImageViewer';
+import { arrayIndexToQueryParam } from '@weco/content/views/pages/works/work/work.helpers';
 import RestrictedItemMessage from '@weco/content/views/pages/works/work/work.RestrictedItemMessage';
 
 import IIIFItemDownload from './IIIFItem.Download';
+import IIIFItemPdf from './IIIFItem.Pdf';
 import VideoTranscript from './IIIFItem.VideoTranscript';
 
 const MessageContainer = styled.div`

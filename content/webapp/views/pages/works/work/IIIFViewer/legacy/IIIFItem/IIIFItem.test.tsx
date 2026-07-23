@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 
 import { renderWithContext } from '@weco/content/test/fixtures/iiif/render';
 import {
@@ -17,6 +17,7 @@ type RenderItemArgs = {
   externalAccessService?: TransformedAuthService;
   userIsStaffWithRestricted?: boolean;
   isKiosk?: boolean;
+  accessToken?: string;
 };
 
 const renderItem = ({
@@ -26,6 +27,7 @@ const renderItem = ({
   externalAccessService,
   userIsStaffWithRestricted = false,
   isKiosk = false,
+  accessToken,
 }: RenderItemArgs) =>
   renderWithContext(
     <IIIFItem
@@ -38,6 +40,7 @@ const renderItem = ({
     {
       userContext: { userIsStaffWithRestricted },
       kioskContext: { isKiosk },
+      contextProps: { accessToken },
     }
   );
 
@@ -81,6 +84,70 @@ describe('IIIFItem restricted access', () => {
     expect(
       screen.getByText('This item can be accessed on site.')
     ).toBeInTheDocument();
+  });
+
+  it('also rewrites the access-service note for a born-digital image with originals (not just non-image types)', () => {
+    renderItem({
+      item: {
+        id: 'https://example.com/placeholder',
+        type: 'Image',
+      } as IIIFItemProps,
+      canvas: createMockCanvas({
+        painting: [createRestrictedPainting()],
+        original: [
+          {
+            id: 'https://example.com/file.docx',
+            format: 'application/msword',
+            behavior: 'original',
+          },
+        ] as never,
+      }),
+      externalAccessService: {
+        id: 'https://example.com/access',
+        description: 'This image can be viewed on site.',
+      },
+      userIsStaffWithRestricted: false,
+    });
+
+    expect(
+      screen.getByText('This item can be accessed on site.')
+    ).toBeInTheDocument();
+  });
+
+  it('shows the item to a staff user with a valid access token when the canvas has no probe service to check', async () => {
+    renderItem({
+      item: {
+        id: 'https://example.com/doc.pdf',
+        type: 'Text',
+        format: 'application/pdf',
+      } as IIIFItemProps,
+      canvas: createMockCanvas({
+        painting: [createRestrictedPainting()],
+        probeServiceId: undefined,
+      }),
+      userIsStaffWithRestricted: true,
+      accessToken: 'test-token',
+    });
+
+    await waitFor(() =>
+      expect(screen.getByRole('link', { name: /open/i })).toBeInTheDocument()
+    );
+  });
+
+  it('keeps the item hidden from a staff user with no access token yet (the probe never runs)', () => {
+    renderItem({
+      item: {
+        id: 'https://example.com/doc.pdf',
+        type: 'Text',
+        format: 'application/pdf',
+      } as IIIFItemProps,
+      canvas: createMockCanvas({ painting: [createRestrictedPainting()] }),
+      userIsStaffWithRestricted: true,
+    });
+
+    expect(
+      screen.queryByRole('link', { name: /open/i })
+    ).not.toBeInTheDocument();
   });
 });
 
@@ -144,6 +211,76 @@ describe('IIIFItem type dispatch', () => {
     });
 
     expect(screen.getByRole('link', { name: /open/i })).toBeInTheDocument();
+  });
+
+  it('renders a video player for a Video item', () => {
+    const { container } = renderItem({
+      item: {
+        id: 'https://example.com/video.mp4',
+        type: 'Video',
+        format: 'video/mp4',
+      } as IIIFItemProps,
+    });
+
+    expect(
+      container.querySelector('[data-component="video-player"]')
+    ).toBeInTheDocument();
+  });
+
+  it('renders an audio player for a Sound item', () => {
+    const { container } = renderItem({
+      item: {
+        id: 'https://example.com/audio.mp3',
+        type: 'Sound',
+        format: 'audio/mpeg',
+      } as IIIFItemProps,
+    });
+
+    expect(
+      container.querySelector('[data-component="audio-player"]')
+    ).toBeInTheDocument();
+  });
+
+  it('recurses into the first item of a Choice item', () => {
+    renderItem({
+      item: {
+        type: 'Choice',
+        items: [
+          {
+            id: 'https://example.com/doc.pdf',
+            type: 'Text',
+            format: 'application/pdf',
+          },
+        ],
+      } as unknown as IIIFItemProps,
+    });
+
+    expect(screen.getByRole('link', { name: /open/i })).toBeInTheDocument();
+  });
+
+  it('renders nothing for a Choice item whose first item is a bare string reference', () => {
+    const { container } = renderItem({
+      item: {
+        type: 'Choice',
+        items: ['https://example.com/doc.pdf'],
+      } as unknown as IIIFItemProps,
+    });
+
+    expect(container).toBeEmptyDOMElement();
+  });
+
+  it('falls back to a plain <img> for an Image item with no image service', () => {
+    renderItem({
+      item: {
+        id: 'https://example.com/plain-image.jpg',
+        type: 'Image',
+      } as IIIFItemProps,
+    });
+
+    expect(screen.getByRole('img')).toHaveAttribute(
+      'src',
+      'https://example.com/plain-image.jpg'
+    );
   });
 
   it('renders the unavailable-content message for an unhandled type', () => {
