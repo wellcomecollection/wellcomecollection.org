@@ -163,6 +163,13 @@ const TogglesPage: FunctionComponent = () => {
         });
         return;
       }
+      if (!optionId) {
+        setMessage({
+          text: `Mode "${modeId}" requires a modeValue.`,
+          isError: true,
+        });
+        return;
+      }
       const optionExists = mode.options.some(opt => opt.id === optionId);
       if (!optionExists) {
         setMessage({
