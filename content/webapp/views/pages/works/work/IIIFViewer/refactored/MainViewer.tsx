@@ -21,7 +21,7 @@ const MainViewerContainer = styled.div<{ $useFixedList: boolean }>`
 const MainViewer: FunctionComponent = () => {
   const { hasOnlyRenderableImages } = useItemViewerContext();
   return (
-    <MainViewerContainer $useFixedList={!hasOnlyRenderableImages}>
+    <MainViewerContainer $useFixedList={hasOnlyRenderableImages}>
       {hasOnlyRenderableImages ? (
         <VirtualizedImageViewer />
       ) : (
