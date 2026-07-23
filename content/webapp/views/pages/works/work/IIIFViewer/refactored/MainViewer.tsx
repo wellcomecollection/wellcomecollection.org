@@ -22,7 +22,7 @@ const MainViewer: FunctionComponent = () => {
   const { hasOnlyRenderableImages } = useItemViewerContext();
   return (
     <MainViewerContainer
-      $useFixedList={!hasOnlyRenderableImages}
+      $useFixedList={hasOnlyRenderableImages}
       data-testid="main-viewer"
     >
       {hasOnlyRenderableImages ? (
