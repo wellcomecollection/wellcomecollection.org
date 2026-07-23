@@ -24,11 +24,6 @@ import { queryParamToArrayIndex } from '@weco/content/views/pages/works/work/wor
 import IIIFItem from './IIIFItem';
 import { useCurrentCanvas } from './MainViewer.helpers';
 
-const MainViewerContainer = styled.div`
-  height: 100%;
-  overflow: hidden;
-`;
-
 const ItemWrapper = styled.div<{ $firstItemIsRestricted?: boolean }>`
   height: 100%;
   ${props => (props.$firstItemIsRestricted ? 'margin-top: 2em;' : null)}
@@ -427,30 +422,28 @@ const VirtualizedImageViewer: FunctionComponent = () => {
   }, [canvas]);
 
   return (
-    <MainViewerContainer data-testid="main-viewer">
-      <FixedSizeList
-        width={mainAreaWidth}
-        style={{ width: `${mainAreaWidth}px`, margin: '0 auto' }}
-        height={mainAreaHeight}
-        itemCount={canvases?.length || 0}
-        itemData={{
-          scrollVelocity,
-          canvases: canvases || [],
-          rotatedImages,
-          errorHandler,
-          externalAccessService,
-          accessToken,
-          placeholderId,
-          firstItemIsRestricted,
-        }}
-        itemSize={mainAreaWidth}
-        onItemsRendered={debounceHandleOnItemsRendered.current}
-        onScroll={handleOnScroll}
-        ref={mainViewerRef}
-      >
-        {ItemRenderer}
-      </FixedSizeList>
-    </MainViewerContainer>
+    <FixedSizeList
+      width={mainAreaWidth}
+      style={{ width: `${mainAreaWidth}px`, margin: '0 auto' }}
+      height={mainAreaHeight}
+      itemCount={canvases?.length || 0}
+      itemData={{
+        scrollVelocity,
+        canvases: canvases || [],
+        rotatedImages,
+        errorHandler,
+        externalAccessService,
+        accessToken,
+        placeholderId,
+        firstItemIsRestricted,
+      }}
+      itemSize={mainAreaWidth}
+      onItemsRendered={debounceHandleOnItemsRendered.current}
+      onScroll={handleOnScroll}
+      ref={mainViewerRef}
+    >
+      {ItemRenderer}
+    </FixedSizeList>
   );
 };
 
