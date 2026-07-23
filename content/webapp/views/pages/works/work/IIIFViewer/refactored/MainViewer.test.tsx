@@ -48,4 +48,16 @@ describe('MainViewer', () => {
       screen.queryByTestId('virtualized-image-viewer')
     ).not.toBeInTheDocument();
   });
+
+  it('wraps whichever child renders in the main-viewer container', () => {
+    // MainViewer owns MainViewerContainer/data-testid="main-viewer" itself
+    // now, rather than each child duplicating it - this is the one place
+    // that ownership is exercised.
+    renderMainViewer(true);
+
+    const mainViewer = screen.getByTestId('main-viewer');
+    expect(mainViewer).toContainElement(
+      screen.getByTestId('virtualized-image-viewer')
+    );
+  });
 });

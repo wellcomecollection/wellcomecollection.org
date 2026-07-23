@@ -41,10 +41,15 @@ const renderViewer = (canvases: TransformedCanvas[] = [createMockCanvas()]) =>
   });
 
 describe('VirtualizedImageViewer', () => {
-  it('renders the fixed-list main viewer container', () => {
-    renderViewer();
+  it('renders the fixed-list scroll container sized to the main area', () => {
+    // The MainViewerContainer/data-testid="main-viewer" wrapper now lives in
+    // the MainViewer router, not here - see MainViewer.test.tsx for that.
+    const { container } = renderViewer();
 
-    expect(screen.getByTestId('main-viewer')).toBeInTheDocument();
+    expect(container.querySelector('div')).toHaveStyle({
+      width: '1000px',
+      height: '500px',
+    });
   });
 
   it('renders the virtualized image items for the canvases in view', () => {
@@ -88,9 +93,7 @@ describe('VirtualizedImageViewer', () => {
     // renderedHeight = 1000 * (1000/2000) * 0.8 = 400
     // heightOfPreviousItems = 1 * 1000 = 1000
     // distanceToScroll = 1000 + (1000 - 400) / 2 = 1300
-    const scrollContainer = container.querySelector(
-      '[data-testid="main-viewer"] > div'
-    );
+    const scrollContainer = container.querySelector('div');
     expect(scrollContainer?.scrollTop).toBe(1300);
   });
 
@@ -108,9 +111,7 @@ describe('VirtualizedImageViewer', () => {
       useRefactoredContext: true,
     });
 
-    const scrollContainer = container.querySelector(
-      '[data-testid="main-viewer"] > div'
-    )!;
+    const scrollContainer = container.querySelector('div')!;
 
     act(() => {
       fireEvent.scroll(scrollContainer, { target: { scrollTop: 100 } });
@@ -130,9 +131,9 @@ describe('VirtualizedImageViewer', () => {
       createMockCanvas({ painting: [createRestrictedPainting()] }),
     ]);
 
-    const itemWrapper = container.querySelector(
-      '[data-testid="main-viewer"] > div > div > div > div'
-    );
+    // RTL's own mounting div is itself a <div>, so it counts as one of the
+    // ancestor levels: container(RTL) > scroll > sizer > row > wrapper.
+    const itemWrapper = container.querySelector('div > div > div > div > div');
     expect(itemWrapper).toHaveStyle({ marginTop: '2em' });
   });
 
@@ -180,10 +181,9 @@ describe('VirtualizedImageViewer', () => {
     });
 
     // The highlight overlay renders as an extra sibling alongside the item
-    // wrapper, once the image position effect has run.
-    const row = container.querySelector(
-      '[data-testid="main-viewer"] > div > div > div'
-    );
+    // wrapper, once the image position effect has run. RTL's own mounting
+    // div counts as one ancestor level: container(RTL) > scroll > sizer > row.
+    const row = container.querySelector('div > div > div > div');
     await waitFor(() => expect(row?.children).toHaveLength(2));
   });
 });
