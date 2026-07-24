@@ -21,7 +21,10 @@ import { getAllConsentStates } from '@weco/common/services/app/civic-uk';
 import { Toggles, TogglesResp } from '@weco/toggles';
 
 import prismicHandler from './prismic';
-import togglesHandler, { getTogglesFromContext } from './toggles';
+import togglesHandler, {
+  getTogglesFromContext,
+  parseToggleOverrides,
+} from './toggles';
 import { ServerData } from './types';
 
 export type Handler<DefaultData, FetchedData> = {
@@ -148,10 +151,16 @@ export const getServerData = async (
   const enableToggle: string | undefined =
     typeof toggle === 'string' ? toggle : undefined;
 
+  // Support ?toggleOverride=id:value,id:value to override toggle state for this
+  // render only, without writing any cookie. Lets two browser tabs render the
+  // same page with different toggle states side by side.
+  const overrides = parseToggleOverrides(context.query.toggleOverride);
+
   // Resolve toggle values from the cached config + user's cookies
   const { featureFlags, tests, modes } = getTogglesFromContext(
     togglesResp,
-    context
+    context,
+    overrides
   );
 
   // If a valid toggle was requested via query param, set a cookie and enable it

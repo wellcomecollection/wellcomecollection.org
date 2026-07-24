@@ -9,17 +9,12 @@ import VirtualizedImageViewer from './VirtualizedImageViewer';
 const MainViewerContainer = styled.div<{ $useFixedList: boolean }>`
   height: 100%;
   ${props =>
-    props.$useFixedList
-      ? `
-    overflow: hidden;
-  `
-      : `
-    position: relative;
-  `}
+    props.$useFixedList ? `overflow: hidden;` : `position: relative;`}
 `;
 
 const MainViewer: FunctionComponent = () => {
   const { hasOnlyRenderableImages } = useItemViewerContext();
+
   return (
     <MainViewerContainer
       $useFixedList={hasOnlyRenderableImages}

@@ -24,23 +24,9 @@ import { queryParamToArrayIndex } from '@weco/content/views/pages/works/work/wor
 import IIIFItem from './IIIFItem';
 import { useCurrentCanvas } from './MainViewer.helpers';
 
-const ItemWrapper = styled.div<{ $firstItemIsRestricted?: boolean }>`
+const ItemWrapper = styled.div<{ $firstItemIsRestricted: boolean }>`
   height: 100%;
   ${props => (props.$firstItemIsRestricted ? 'margin-top: 2em;' : null)}
-
-  .pdf-wrapper,
-  iframe {
-    width: 100%;
-    height: 100%;
-    border: 0;
-  }
-
-  video {
-    display: block;
-    max-height: 100%;
-    max-width: 100%;
-    margin: 0 auto;
-  }
 `;
 
 type OverlayPositionData = {
@@ -286,7 +272,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
               return (
                 <ItemWrapper
                   key={item.type + item.id}
-                  $firstItemIsRestricted={firstItemIsRestricted}
+                  $firstItemIsRestricted={!!firstItemIsRestricted}
                 >
                   <IIIFItem
                     placeholderId={placeholderId}

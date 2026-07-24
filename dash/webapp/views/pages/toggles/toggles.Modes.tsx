@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { tokens } from '@weco/dash/views/themes/tokens';
 import { ModeDefinition } from '@weco/toggles';
 
+import CopyLinkIcon from './ListOfToggles/ListOfToggles.CopyLinkIcon';
 import { deleteCookieCustom, setCookieCustom } from './toggles.helpers';
 import {
   ResetButton,
@@ -17,6 +18,13 @@ import {
 const ModeSelect = styled.select`
   padding: 6px;
   max-width: 300px;
+`;
+
+const ModeControlRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: ${tokens.spacing.xs};
 `;
 
 type ModesProps = {
@@ -46,11 +54,16 @@ const Modes: FunctionComponent<ModesProps> = ({
           <span aria-hidden="true">#</span>
         </a>
       </h2>
-      {Object.keys(modeStates).length > 0 && (
-        <ResetButton onClick={onReset} aria-label="Reset all modes to off">
-          Reset all modes
-        </ResetButton>
-      )}
+      <ResetButton
+        onClick={onReset}
+        aria-label="Reset all modes to off"
+        disabled={Object.keys(modeStates).length === 0}
+        style={{
+          visibility: Object.keys(modeStates).length > 0 ? 'visible' : 'hidden',
+        }}
+      >
+        Reset all modes
+      </ResetButton>
     </div>
     <p style={{ marginTop: 0, color: tokens.colors.text.secondary }}>
       Modes carry structured data beyond a simple on/off, they might represent
@@ -84,34 +97,47 @@ const Modes: FunctionComponent<ModesProps> = ({
                 </ToggleInfo>
 
                 <ToggleControls>
-                  <ModeSelect
-                    aria-labelledby={`mode-${mode.id}`}
-                    value={currentValue}
-                    onChange={e => {
-                      const value = e.target.value;
-                      if (value) {
-                        setModeStates(prev => ({
-                          ...prev,
-                          [mode.id]: value,
-                        }));
-                        setCookieCustom(mode.id, value);
-                      } else {
-                        setModeStates(prev => {
-                          const next = { ...prev };
-                          delete next[mode.id];
-                          return next;
-                        });
-                        deleteCookieCustom(mode.id);
-                      }
-                    }}
-                  >
-                    <option value="">— Off —</option>
-                    {mode.options.map(opt => (
-                      <option key={opt.id} value={opt.id}>
-                        {opt.label}
-                      </option>
-                    ))}
-                  </ModeSelect>
+                  <ModeControlRow>
+                    <span
+                      style={{
+                        visibility: currentValue ? 'visible' : 'hidden',
+                      }}
+                    >
+                      <CopyLinkIcon
+                        toggleId={mode.id}
+                        title={mode.title}
+                        modeValue={currentValue}
+                      />
+                    </span>
+                    <ModeSelect
+                      aria-labelledby={`mode-${mode.id}`}
+                      value={currentValue}
+                      onChange={e => {
+                        const value = e.target.value;
+                        if (value) {
+                          setModeStates(prev => ({
+                            ...prev,
+                            [mode.id]: value,
+                          }));
+                          setCookieCustom(mode.id, value);
+                        } else {
+                          setModeStates(prev => {
+                            const next = { ...prev };
+                            delete next[mode.id];
+                            return next;
+                          });
+                          deleteCookieCustom(mode.id);
+                        }
+                      }}
+                    >
+                      <option value="">— Off —</option>
+                      {mode.options.map(opt => (
+                        <option key={opt.id} value={opt.id}>
+                          {opt.label}
+                        </option>
+                      ))}
+                    </ModeSelect>
+                  </ModeControlRow>
                 </ToggleControls>
               </ToggleRow>
             </ToggleListItem>
