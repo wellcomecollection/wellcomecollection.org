@@ -72,7 +72,9 @@ export function parseToggleOverrides(
       if (id) acc[id] = val;
       return acc;
     },
-    {} as Record<string, string>
+    // Null-prototype map: the keys come from a user-controlled query param, so
+    // avoid any chance of a crafted id (e.g. `__proto__`) touching the prototype.
+    Object.create(null) as Record<string, string>
   );
 }
 
