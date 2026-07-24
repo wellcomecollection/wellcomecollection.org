@@ -79,10 +79,11 @@ const CopiedBadge = styled.span`
   }
 `;
 
-export type CopyLinkIconProps = { toggleId: string; title: string } & (
-  | { modeValue?: undefined }
-  | { modeValue: string }
-);
+export type CopyLinkIconProps = {
+  toggleId: string;
+  title: string;
+  modeValue?: string;
+};
 
 const CopyLinkIcon: FunctionComponent<CopyLinkIconProps> = props => {
   const { title, modeValue } = props;
