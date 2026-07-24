@@ -7,9 +7,8 @@ import { getDisplayItems } from '@weco/content/utils/iiif/v3/canvas';
 import IIIFItem from './IIIFItem';
 import { useCurrentCanvas } from './MainViewer.helpers';
 
-const ItemWrapper = styled.div<{ $firstItemIsRestricted?: boolean }>`
+const ItemWrapper = styled.div`
   height: 100%;
-  ${props => (props.$firstItemIsRestricted ? 'margin-top: 2em;' : null)}
 
   .pdf-wrapper,
   iframe {
@@ -42,28 +41,23 @@ const PaginatedItemViewer: FunctionComponent = () => {
 
   const displayItems = currentCanvas ? getDisplayItems(currentCanvas) : [];
 
-  return (
-    <>
-      {displayItems.map((item, i) => {
-        return (
-          currentCanvas && (
-            <ItemWrapper key={item.type + item.id}>
-              <IIIFItem
-                placeholderId={placeholderId}
-                item={item}
-                i={i}
-                canvas={currentCanvas}
-                titleOverride={`${canvas}/${canvases?.length}`}
-                exclude={[]}
-                isDark={true}
-                externalAccessService={externalAccessService}
-                showVideoTranscript={false}
-              />
-            </ItemWrapper>
-          )
-        );
-      })}
-    </>
+  return displayItems.map(
+    (item, i) =>
+      currentCanvas && (
+        <ItemWrapper data-component="paginated" key={item.type + item.id}>
+          <IIIFItem
+            placeholderId={placeholderId}
+            item={item}
+            i={i}
+            canvas={currentCanvas}
+            titleOverride={`${canvas}/${canvases?.length}`}
+            exclude={[]}
+            isDark={true}
+            externalAccessService={externalAccessService}
+            showVideoTranscript={false}
+          />
+        </ItemWrapper>
+      )
   );
 };
 
