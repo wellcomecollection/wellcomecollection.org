@@ -1,6 +1,7 @@
 import { GetServerSideProps, NextPage } from 'next';
 import type { AppProps } from 'next/app';
-import React, { ReactElement, ReactNode, useEffect } from 'react';
+import dynamic from 'next/dynamic';
+import { ReactElement, ReactNode, useEffect } from 'react';
 import { ThemeProvider } from 'styled-components';
 
 import { ApmContextProvider } from '@weco/common/contexts/ApmContext';
@@ -33,6 +34,16 @@ import InfoBanner from '@weco/common/views/components/InfoBanner';
 import LoadingIndicator from '@weco/common/views/components/LoadingIndicator';
 import ErrorPage from '@weco/common/views/layouts/ErrorPage';
 import themeValues, { GlobalStyle } from '@weco/common/views/themes/default';
+
+// Dynamically import HistoryProvider to prevent it from being bundled in apps that don't use kiosk mode (e.g. identity)
+const HistoryProvider = dynamic(
+  () =>
+    import('@weco/common/hooks/useNavigationHistory').then(
+      mod => mod.HistoryProvider
+    ),
+  { ssr: false }
+);
+
 // Error pages can't send anything via the data fetching methods as
 // the page needs to be rendered as soon as the error happens.
 // We just use the route to determine if this is an error page to ignore
@@ -181,7 +192,9 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
                         serverData.prismic.tendernessAndRageContent
                       }
                     >
-                      {children}
+                      {/* HistoryProvider is dynamically imported above and wrapped here (not in KioskProvider)
+                          to prevent bundling in non-kiosk apps like identity */}
+                      <HistoryProvider>{children}</HistoryProvider>
                     </KioskProvider>
                   )}
                 >
