@@ -1,7 +1,7 @@
 import {
   arrayIndexToQueryParam,
   queryParamToArrayIndex,
-} from './IIIFViewer.helpers';
+} from '@weco/content/views/pages/works/work/work.helpers';
 
 // canvas/manifest query params are 1-based but index 0-based arrays, so these
 // conversions sit behind currentCanvas selection and navigation throughout the

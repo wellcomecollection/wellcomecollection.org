@@ -38,11 +38,13 @@ import {
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { getDigitalLocationOfType } from '@weco/content/utils/works';
 import { fromQuery } from '@weco/content/views/components/ItemLink';
-import { queryParamToArrayIndex } from '@weco/content/views/pages/works/work/IIIFViewer/legacy/IIIFViewer.helpers';
 import WorkItemPage, {
   Props as WorkItemPageProps,
 } from '@weco/content/views/pages/works/work/items';
-import { createDownloadTree } from '@weco/content/views/pages/works/work/work.helpers';
+import {
+  createDownloadTree,
+  queryParamToArrayIndex,
+} from '@weco/content/views/pages/works/work/work.helpers';
 import { UiTree } from '@weco/content/views/pages/works/work/work.types';
 
 const Page: NextPage<WorkItemPageProps> = props => {

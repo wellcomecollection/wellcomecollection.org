@@ -4,9 +4,9 @@ import { IIIFUriProps } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '@weco/common/utils/image-sizes';
 import LL from '@weco/common/views/components/styled/LL';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
+import { queryParamToArrayIndex } from '@weco/content/views/pages/works/work/work.helpers';
 
 import { DelayVisibility } from '.';
-import { queryParamToArrayIndex } from './IIIFViewer.helpers';
 import IIIFViewerImage from './IIIFViewerImage';
 import { CanvasPaginator, ThumbnailsPaginator } from './Paginators';
 import { Thumbnails } from './Thumbnails';

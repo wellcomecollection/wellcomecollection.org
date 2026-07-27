@@ -19,9 +19,9 @@ import {
   TransformedAuthService,
 } from '@weco/content/utils/iiif/v3';
 import { getDisplayItems } from '@weco/content/utils/iiif/v3/canvas';
-import IIIFItem from '@weco/content/views/pages/works/work/IIIFItem';
+import { queryParamToArrayIndex } from '@weco/content/views/pages/works/work/work.helpers';
 
-import { queryParamToArrayIndex } from './IIIFViewer.helpers';
+import IIIFItem from './IIIFItem';
 
 const MainViewerContainer = styled.div<{ $useFixedList: boolean }>`
   height: 100%;

@@ -20,8 +20,8 @@ import {
   isRange,
 } from '@weco/content/utils/iiif/v3';
 import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
+import { arrayIndexToQueryParam } from '@weco/content/views/pages/works/work/work.helpers';
 
-import { arrayIndexToQueryParam } from './IIIFViewer.helpers';
 import { thumbnailsPageSize } from './Paginators';
 
 export const List = styled(PlainList)`

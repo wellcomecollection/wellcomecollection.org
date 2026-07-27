@@ -5,7 +5,11 @@ import { IncomingMessage } from 'http';
 
 import { TogglesResp } from '@weco/toggles';
 
-import { Context, getTogglesFromContext } from './toggles';
+import {
+  Context,
+  getTogglesFromContext,
+  parseToggleOverrides,
+} from './toggles';
 
 function createContext(
   cookies?: Record<string, string>,
@@ -286,5 +290,168 @@ describe('getTogglesFromContext', () => {
 
       expect((result.modes as Record<string, unknown>).kioskMode).toBeNull();
     });
+  });
+
+  describe('toggleOverride', () => {
+    const modeDefinition = {
+      id: 'kioskMode',
+      title: 'Kiosk Mode',
+      description: 'Select which iPad this kiosk is running on',
+      options: [
+        { id: 'ipad-1', label: 'iPad 1' },
+        { id: 'ipad-2', label: 'iPad 2' },
+      ],
+    };
+
+    it('overrides a feature flag to true regardless of cookie/default', () => {
+      const togglesResp: TogglesResp = {
+        ...defaultTogglesResp,
+        featureFlags: [stagingApiFlag], // defaultValue false
+      };
+
+      const result = getTogglesFromContext(togglesResp, createContext(), {
+        stagingApi: 'true',
+      });
+
+      expect(result.featureFlags.stagingApi).toBe(true);
+    });
+
+    it('overrides a feature flag to false, beating a "true" cookie', () => {
+      const togglesResp: TogglesResp = {
+        ...defaultTogglesResp,
+        featureFlags: [thematicBrowsingFlag], // defaultValue true
+      };
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_thematicBrowsing: 'true' }),
+        { thematicBrowsing: 'false' }
+      );
+
+      expect(result.featureFlags.thematicBrowsing).toBe(false);
+    });
+
+    it('ignores a feature flag override that is not "true"/"false"', () => {
+      const togglesResp: TogglesResp = {
+        ...defaultTogglesResp,
+        featureFlags: [thematicBrowsingFlag], // defaultValue true
+      };
+
+      const result = getTogglesFromContext(togglesResp, createContext(), {
+        thematicBrowsing: 'banana',
+      });
+
+      // Falls back to defaultValue
+      expect(result.featureFlags.thematicBrowsing).toBe(true);
+    });
+
+    it('overrides an A/B test value', () => {
+      const togglesResp = {
+        ...defaultTogglesResp,
+        tests: [
+          { id: 'sampleTest', title: 'Sample', type: 'test', range: [0, 100] },
+        ],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(togglesResp, createContext(), {
+        sampleTest: 'false',
+      });
+
+      expect((result.tests as Record<string, unknown>).sampleTest).toBe(false);
+    });
+
+    it('overrides a mode to a valid option, beating the cookie', () => {
+      const togglesResp = {
+        ...defaultTogglesResp,
+        modes: [modeDefinition],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_kioskMode: 'ipad-1' }),
+        { kioskMode: 'ipad-2' }
+      );
+
+      expect((result.modes as Record<string, unknown>).kioskMode).toBe(
+        'ipad-2'
+      );
+    });
+
+    it('ignores a mode override that is not a valid option', () => {
+      const togglesResp = {
+        ...defaultTogglesResp,
+        modes: [modeDefinition],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_kioskMode: 'ipad-1' }),
+        { kioskMode: 'not-an-ipad' }
+      );
+
+      // Falls back to the cookie value
+      expect((result.modes as Record<string, unknown>).kioskMode).toBe(
+        'ipad-1'
+      );
+    });
+
+    it('ignores an override for an unknown toggle id', () => {
+      const togglesResp: TogglesResp = {
+        ...defaultTogglesResp,
+        featureFlags: [stagingApiFlag],
+      };
+
+      const result = getTogglesFromContext(togglesResp, createContext(), {
+        nonExistentToggle: 'true',
+      });
+
+      expect(result.featureFlags.stagingApi).toBe(false);
+      expect(
+        (result.featureFlags as Record<string, unknown>).nonExistentToggle
+      ).toBeUndefined();
+    });
+  });
+});
+
+describe('parseToggleOverrides', () => {
+  it('returns an empty object for undefined', () => {
+    expect(parseToggleOverrides(undefined)).toEqual({});
+  });
+
+  it('parses a single id:value pair', () => {
+    expect(parseToggleOverrides('apiToolbar:true')).toEqual({
+      apiToolbar: 'true',
+    });
+  });
+
+  it('parses multiple comma-separated pairs', () => {
+    expect(
+      parseToggleOverrides('apiToolbar:true,cataloguePipeline:axiell')
+    ).toEqual({ apiToolbar: 'true', cataloguePipeline: 'axiell' });
+  });
+
+  it('trims whitespace around ids and values', () => {
+    expect(parseToggleOverrides(' apiToolbar : true ')).toEqual({
+      apiToolbar: 'true',
+    });
+  });
+
+  it('joins an array value before parsing', () => {
+    expect(parseToggleOverrides(['a:true', 'b:false'])).toEqual({
+      a: 'true',
+      b: 'false',
+    });
+  });
+
+  it('skips malformed pairs with no separator', () => {
+    expect(parseToggleOverrides('apiToolbar,cataloguePipeline:axiell')).toEqual(
+      {
+        cataloguePipeline: 'axiell',
+      }
+    );
+  });
+
+  it('keeps an empty value (validation happens later)', () => {
+    expect(parseToggleOverrides('kioskMode:')).toEqual({ kioskMode: '' });
   });
 });
