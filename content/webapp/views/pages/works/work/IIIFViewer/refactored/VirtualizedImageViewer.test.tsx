@@ -41,6 +41,12 @@ const renderViewer = (canvases: TransformedCanvas[] = [createMockCanvas()]) =>
   });
 
 describe('VirtualizedImageViewer', () => {
+  // One test below swaps in fake timers. Restore real ones unconditionally, so
+  // a failed assertion can't leave the rest of the file running under them.
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
   it('renders the fixed-list scroll container sized to the main area', () => {
     // The MainViewerContainer/data-testid="main-viewer" wrapper now lives in
     // the MainViewer router, not here - see MainViewer.test.tsx for that.
@@ -122,8 +128,6 @@ describe('VirtualizedImageViewer', () => {
       jest.advanceTimersByTime(500);
     });
     expect(setShowControls).toHaveBeenCalledWith(true);
-
-    jest.useRealTimers();
   });
 
   it('adds top margin to the first item when it is restricted, to clear the restricted-access banner', () => {
