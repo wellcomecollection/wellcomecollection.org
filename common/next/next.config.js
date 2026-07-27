@@ -22,6 +22,7 @@ const createConfig =
     const shouldAnalyzeBundle = !!process.env.BUNDLE_ANALYZE;
 
     const rewriteEntries = options.rewriteEntries || [];
+    const redirectEntries = options.redirectEntries || [];
 
     const nextConfig = {
       ...validDefaultConfig,
@@ -32,14 +33,19 @@ const createConfig =
       basePath: options.basePath || '',
       assetPrefix:
         isProd && prodSubdomain
-          ? `https://${prodSubdomain}.wellcomecollection.org`
+          ? `https://${prodSubdomain}.wellcomecollection.org${options.basePath || ''}`
           : undefined,
       outputFileTracingRoot: path.join(__dirname, '../../'),
       publicRuntimeConfig: {
         apmConfig: apmConfig.client(`${options.applicationName}-webapp`),
       },
+      ...(options.serverRuntimeConfig && {
+        serverRuntimeConfig: options.serverRuntimeConfig,
+      }),
       async rewrites() {
-        if (phase === PHASE_DEVELOPMENT_SERVER) {
+        // An app that owns its own basePath (eg identity, mounted at /account)
+        // doesn't need this dev convenience proxy to itself.
+        if (phase === PHASE_DEVELOPMENT_SERVER && !options.basePath) {
           return [
             {
               source: '/account/:path*',
@@ -49,6 +55,9 @@ const createConfig =
           ];
         }
         return [...rewriteEntries];
+      },
+      async redirects() {
+        return [...redirectEntries];
       },
       webpack: (config, { isServer, webpack }) => {
         config.plugins.push(
