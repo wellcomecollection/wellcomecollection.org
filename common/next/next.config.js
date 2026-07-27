@@ -4,13 +4,8 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const apmConfig = require('../services/apm/apmConfig');
 
-const defaultConfigOptions = {
-  applicationName: 'test',
-  lintBuilds: false, // TODO: fix linting errors
-};
-
 const createConfig =
-  (options = defaultConfigOptions) =>
+  options =>
   (phase, { defaultConfig }) => {
     const prodSubdomain = process.env.PROD_SUBDOMAIN || '';
     const buildHash = process.env.BUILD_HASH || 'test';
@@ -30,8 +25,10 @@ const createConfig =
 
       images: options.images || {},
 
-      // Only identity sets this, to mount itself at wellcomecollection.org/account
-      // instead of its own subdomain.
+      // Every URL in this app gets this prefix added in front, e.g. '/account'
+      // means a page at /search is actually served at /account/search. Only
+      // identity sets this, so it can live at wellcomecollection.org/account
+      // instead of getting its own subdomain the way content does.
       basePath: options.basePath || '',
 
       assetPrefix:
@@ -39,24 +36,36 @@ const createConfig =
           ? `https://${prodSubdomain}.wellcomecollection.org${options.basePath || ''}`
           : undefined,
 
-      // This file lives in common/next, so point tracing at the monorepo root -
-      // otherwise Next only traces dependencies from inside common/next itself.
+      // Next needs to know which files a build actually depends on, so it
+      // doesn't bundle more of the repo than necessary. This config file lives
+      // in common/next rather than in the app's own folder, so without this,
+      // Next would assume the app only needs files from inside common/next and
+      // miss everything else in the monorepo. Pointing this at the repo root
+      // fixes that.
       outputFileTracingRoot: path.join(__dirname, '../../'),
 
       publicRuntimeConfig: {
         apmConfig: apmConfig.client(`${options.applicationName}-webapp`),
       },
 
-      // Only set when an app actually needs one (currently just identity, for
-      // session/auth0 config - see identity/webapp/config.js) so apps that don't
-      // need one aren't left with an empty serverRuntimeConfig key.
+      // serverRuntimeConfig lets an app pass its own env-derived config (e.g.
+      // secrets, API hosts) into next.config.js once, then read it back
+      // anywhere in its server-side code via next/config's getConfig(). Only
+      // identity currently needs this (for session/auth0 config - see
+      // identity/webapp/config.js), so we only add the key when an app
+      // actually supplies one, rather than giving every app an empty one.
       ...(options.serverRuntimeConfig && {
         serverRuntimeConfig: options.serverRuntimeConfig,
       }),
 
       async rewrites() {
-        // An app that owns its own basePath (eg identity, mounted at /account)
-        // doesn't need this dev convenience proxy to itself.
+        // A "rewrite" serves a different URL's content without changing what
+        // the browser shows in the address bar. This one is a local dev
+        // convenience: it forwards any /account/* request to wherever the
+        // identity app is running, so you can hit /account URLs while running
+        // another app locally. An app that already owns its own basePath (eg
+        // identity, mounted at /account) doesn't need this - it's already
+        // serving those URLs itself.
         if (phase === PHASE_DEVELOPMENT_SERVER && !options.basePath) {
           return [
             {
@@ -69,14 +78,17 @@ const createConfig =
         return [...rewriteEntries];
       },
 
-      // Per-app redirect rules, e.g. identity's /account/search -> /search.
+      // Per-app redirect rules (a redirect sends the browser to a genuinely
+      // different URL, unlike the rewrites above). E.g. identity redirects
+      // /account/search to /search.
       async redirects() {
         return [...redirectEntries];
       },
 
       webpack: (config, { isServer, webpack }) => {
-        // moment-timezone ships its full historical timezone dataset by default,
-        // which is large and mostly unused. Swap in our own trimmed version.
+        // moment-timezone ships its full historical timezone dataset by
+        // default, which is large and mostly unused. Swap in our own trimmed
+        // version instead, to keep the app's bundle size down.
         config.plugins.push(
           new webpack.NormalModuleReplacementPlugin(
             /moment-timezone\/data\/packed\/latest\.json/,
@@ -115,14 +127,20 @@ const createConfig =
 
       eslint: {
         ...defaultConfig.eslint,
-        // Skip eslint during `next build` unless an app opts in via lintBuilds.
-        // Repo-wide linting still runs separately via the root `yarn lint`, so
-        // this just avoids a slow, redundant second lint pass inside the build.
-        ignoreDuringBuilds: !options.lintBuilds,
+        // Don't run eslint as part of `next build` - it wouldn't do anything
+        // useful anyway: this repo's eslint setup uses a newer config format
+        // ("flat config", in the root eslint.config.js) that Next's built-in
+        // build-time linter doesn't know how to read, so turning this on
+        // would just run a check that silently finds nothing. Linting is
+        // instead enforced by a git pre-commit hook (see docs/git-hooks.md)
+        // that lints whatever files you're committing, or can be run across
+        // the whole repo manually with the root `yarn lint` command.
+        ignoreDuringBuilds: true,
       },
 
-      // common's source is untranspiled TS/JSX; each app needs Next to compile
-      // it as part of its own build rather than treating it as pre-built.
+      // common's code is plain TS/JSX, not pre-compiled. Without this, each
+      // app's build would treat common as an ordinary installed package and
+      // skip compiling it, which would break.
       transpilePackages: ['@weco/common'],
 
       // I was seeing an error in the content app:
@@ -136,18 +154,25 @@ const createConfig =
       // the error *and* uses SWC to compile styled-components, which
       // makes the build noticeably faster on my machine.
       //
-      // Still required as of Next 15 / styled-components 6: without it,
-      // styled-components' class-name hashing can differ between the server
-      // and client bundles, causing hydration mismatches. Only takes effect
-      // because SWC is forced on below (forceSwcTransforms) - if that ever
-      // gets removed, this option is silently ignored and Babel takes over.
+      // Still required as of Next 15 / styled-components 6: styled-components
+      // generates each component's CSS class name at build time, and without
+      // this option that generation can come out slightly different for the
+      // server-rendered HTML vs. the version React re-generates in the
+      // browser. React then complains they don't match ("hydration
+      // mismatch") and re-renders that part of the page from scratch. This
+      // only works because SWC (Next's fast Rust-based compiler) is forced on
+      // below - if forceSwcTransforms is ever removed, this option silently
+      // stops doing anything and Babel takes over instead.
       compiler: {
         styledComponents: true,
       },
 
-      // Pages Router only: makes sure server-only dependencies used inside API
-      // routes/getServerSideProps get traced into the production output, not
-      // just the ones imported by pages themselves.
+      // Pages Router only (this repo doesn't use the newer App Router). Code
+      // that only runs on the server - inside pages/api routes or
+      // getServerSideProps - can use server-only npm packages that the
+      // browser bundle never needs. Without this option, Next can fail to
+      // notice those packages belong in the deployed output at all, since it
+      // normally only looks at what pages import directly.
       bundlePagesRouterDependencies: true,
 
       experimental: {
@@ -165,12 +190,16 @@ const createConfig =
         //
         // Confirmed still true as of Next 15.5: removing this brings back the
         // exact "Disabled SWC..." warning above, and silently disables the
-        // compiler.styledComponents option too, since that also requires SWC.
+        // compiler.styledComponents option above too, since that also
+        // requires SWC to be active.
         forceSwcTransforms: true,
       },
 
-      // Surfaces unsafe side effects (double-invokes effects, etc) in dev only -
-      // no behaviour change in production builds.
+      // In development only, this makes React deliberately run certain code
+      // twice (e.g. component functions and effects) to help surface bugs
+      // where code accidentally relies on running exactly once, or has a side
+      // effect it shouldn't. It has no effect on production builds - real
+      // users never see the double-run.
       reactStrictMode: true,
     };
     return nextConfig;
