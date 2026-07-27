@@ -185,7 +185,7 @@ describe('VirtualizedImageViewer', () => {
     });
 
     // The highlight overlay renders as an extra sibling alongside the item
-    // wrapper, once the image position effect has run. RTL's own mounting
+    // wrapper, once the image position effect has run. `react-testing-library` own mounting
     // div counts as one ancestor level: container(RTL) > scroll > sizer > row.
     const row = container.querySelector('div > div > div > div');
     await waitFor(() => expect(row?.children).toHaveLength(2));
