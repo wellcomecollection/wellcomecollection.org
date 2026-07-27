@@ -1,0 +1,375 @@
+import NextLink from 'next/link';
+import {
+  FunctionComponent,
+  PropsWithChildren,
+  useEffect,
+  useState,
+} from 'react';
+import styled from 'styled-components';
+
+import { useAppContext } from '@weco/common/contexts/AppContext';
+import { useUserContext } from '@weco/common/contexts/UserContext';
+import { arrow, chevron } from '@weco/common/icons';
+import { DigitalLocation } from '@weco/common/model/catalogue';
+import { classNames, typography } from '@weco/common/utils/classnames';
+import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
+import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
+import { OptionalToUndefined } from '@weco/common/utils/utility-types';
+import Icon from '@weco/common/views/components/Icon';
+import Space from '@weco/common/views/components/styled/Space';
+import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
+import { getMultiVolumeLabel } from '@weco/content/utils/iiif/v3';
+import { removeTrailingFullStop, toHtmlId } from '@weco/content/utils/string';
+import { getDigitalLocationInfo } from '@weco/content/utils/works';
+import LinkLabels from '@weco/content/views/components/LinkLabels';
+import WorkLink from '@weco/content/views/components/WorkLink';
+import WorkTitle from '@weco/content/views/components/WorkTitle';
+import NestedList from '@weco/content/views/pages/works/work/NestedList';
+import DownloadItemRenderer from '@weco/content/views/pages/works/work/work.DownloadItemRenderer';
+import RestrictedItemMessage from '@weco/content/views/pages/works/work/work.RestrictedItemMessage';
+import WorksTree from '@weco/content/views/pages/works/work/WorkDetails/WorkDetails.Tree';
+
+import IIIFSearchWithin from './IIIFSearchWithin';
+import MultipleManifestList from './MultipleManifestList';
+import ViewerStructures from './ViewerStructures';
+
+const RestrictedMessage = styled(Space).attrs({
+  $h: {
+    size: 'sm',
+    properties: [
+      'margin-left',
+      'margin-right',
+      'padding-left',
+      'padding-right',
+    ],
+  },
+  $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
+})`
+  background: ${props => props.theme.color('neutral.200')};
+  color: ${props => props.theme.color('black')};
+  border-radius: 3px;
+  border-left: 5px solid #1672f3;
+`;
+
+const Inner = styled(Space).attrs({
+  $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
+})`
+  h1 {
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 10;
+    overflow: hidden;
+  }
+`;
+
+const AccordionInner = styled(Space).attrs({
+  className: typography('body', 'md', 'strong'),
+  $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
+})`
+  button {
+    width: 100%;
+    font-family: inherit;
+    color: inherit;
+    font-size: inherit;
+
+    span {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  p {
+    margin-bottom: 0.5em;
+  }
+`;
+
+const Item = styled.div`
+  border-bottom: 1px solid ${props => props.theme.color('neutral.600')};
+
+  &:first-child {
+    border-top: 1px solid ${props => props.theme.color('neutral.600')};
+  }
+`;
+
+const AccordionButton = styled.button`
+  padding: 0;
+
+  h2 {
+    margin-bottom: 0;
+  }
+`;
+
+type AccordionItemProps = PropsWithChildren<{
+  title: string;
+  gtmData: DataGtmProps;
+  testId?: string;
+  defaultOpen?: boolean;
+}>;
+
+const AccordionItem = ({
+  title,
+  gtmData,
+  children,
+  testId,
+  defaultOpen = false,
+}: AccordionItemProps) => {
+  const { isEnhanced } = useAppContext();
+  const [isActive, setIsActive] = useState(isEnhanced ? defaultOpen : true);
+
+  useEffect(() => {
+    setIsActive(defaultOpen);
+  }, [defaultOpen]);
+
+  return (
+    <Item data-testid={testId}>
+      <AccordionInner
+        onClick={() => setIsActive(!isActive)}
+        {...dataGtmPropsToAttributes(gtmData)}
+      >
+        <AccordionButton
+          aria-expanded={isActive ? 'true' : 'false'}
+          aria-controls={toHtmlId(title)}
+        >
+          <span>
+            <h2 className={typography('body', 'md', 'strong')}>{title}</h2>
+            <Icon
+              icon={chevron}
+              iconColor="white"
+              rotate={isActive ? undefined : 270}
+            />
+          </span>
+        </AccordionButton>
+      </AccordionInner>
+      <AccordionInner
+        id={toHtmlId(title)}
+        className={classNames({
+          'is-hidden': !isActive,
+        })}
+      >
+        {children}
+      </AccordionInner>
+    </Item>
+  );
+};
+
+type ViewerSidebarProps = OptionalToUndefined<{
+  iiifImageLocation?: DigitalLocation;
+  iiifPresentationLocation?: DigitalLocation;
+}>;
+
+const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
+  iiifImageLocation,
+  iiifPresentationLocation,
+}) => {
+  const {
+    work,
+    transformedManifest,
+    parentManifest,
+    hasOnlyRenderableImages,
+    query,
+    setIsMobileSidebarActive,
+    tree,
+    setTree,
+    canvasIndexById,
+  } = useItemViewerContext();
+  const { canvas } = query || {};
+  const { userIsStaffWithRestricted } = useUserContext();
+
+  const [tabbableId, setTabbableId] = useState<string>();
+  const matchingManifest =
+    parentManifest &&
+    parentManifest.canvases.find(canvas => {
+      return !transformedManifest
+        ? false
+        : canvas.id === transformedManifest.id;
+    });
+
+  const manifestLabel =
+    matchingManifest?.label &&
+    getMultiVolumeLabel(matchingManifest.label, work?.title || '');
+
+  const { structures, searchService } = { ...transformedManifest };
+
+  const digitalLocation: DigitalLocation | undefined =
+    iiifPresentationLocation || iiifImageLocation;
+
+  const license =
+    digitalLocation?.license &&
+    getCatalogueLicenseData(digitalLocation.license);
+
+  const locationOfWork = work.notes.find(
+    note => note.noteType.id === 'location-of-original'
+  );
+
+  const digitalLocationInfo =
+    digitalLocation && getDigitalLocationInfo(digitalLocation);
+
+  const isWorkVisibleWithPermission =
+    digitalLocationInfo?.accessCondition === 'restricted' &&
+    userIsStaffWithRestricted;
+
+  useEffect(() => {
+    const elementToFocus = tabbableId && document.getElementById(tabbableId);
+    if (elementToFocus) {
+      elementToFocus.focus();
+    }
+  }, [tree, tabbableId]);
+
+  return (
+    <>
+      {isWorkVisibleWithPermission && (
+        <RestrictedMessage>
+          <RestrictedItemMessage plural={true} />
+        </RestrictedMessage>
+      )}
+      <Inner className={typography('body', 'md', 'strong')}>
+        {manifestLabel && (
+          <span className={typography('body', 'md', 'regular')}>
+            {manifestLabel}
+          </span>
+        )}
+        <h1>
+          <WorkTitle title={work.title} />
+        </h1>
+
+        {work.primaryContributorLabel && (
+          <Space $h={{ size: 'sm', properties: ['margin-right'] }}>
+            <LinkLabels items={[{ text: work.primaryContributorLabel }]} />
+          </Space>
+        )}
+
+        {work.productionDates.length > 0 && (
+          <LinkLabels
+            heading="Date"
+            items={[{ text: work.productionDates[0] }]}
+          />
+        )}
+
+        {work.referenceNumber && (
+          <LinkLabels
+            heading="Reference"
+            items={[{ text: work.referenceNumber }]}
+          />
+        )}
+
+        <Space $v={{ size: 'sm', properties: ['margin-top'] }}>
+          <WorkLink
+            id={work.id}
+            className={typography('body', 'md', 'regular')}
+            style={{ display: 'flex', alignItems: 'center' }}
+          >
+            Catalogue details
+            <Space
+              $h={{ size: 'xs', properties: ['margin-left'] }}
+              style={{ display: 'flex', alignItems: 'center' }}
+            >
+              <Icon icon={arrow} matchText={true} iconColor="white" />
+            </Space>
+          </WorkLink>
+        </Space>
+      </Inner>
+
+      <Inner>
+        <AccordionItem
+          title="Licence and re-use"
+          gtmData={{ trigger: 'licence_and_re_use' }}
+        >
+          <div className={typography('body', 'sm', 'regular')}>
+            {license && license.label && (
+              <p>
+                <strong>Licence:</strong>{' '}
+                {license.url ? (
+                  <NextLink href={license.url}>{license.label}</NextLink>
+                ) : (
+                  <span>{license.label}</span>
+                )}
+              </p>
+            )}
+            <p>
+              <strong>Credit:</strong> {removeTrailingFullStop(work.title)}.{' '}
+              {digitalLocation?.credit && <>{digitalLocation?.credit}. </>}
+              Source: <WorkLink id={work.id}>Wellcome Collection</WorkLink>.
+            </p>
+
+            {locationOfWork && (
+              <p>
+                <strong>Provider: </strong>
+                {locationOfWork.contents}
+              </p>
+            )}
+          </div>
+        </AccordionItem>
+
+        {tree.length > 0 && (
+          <AccordionItem
+            title="Contents"
+            gtmData={{ trigger: 'contents' }}
+            defaultOpen
+          >
+            <div style={{ overflow: 'auto' }}>
+              <WorksTree
+                isDarkMode={true}
+                hasStructures={Boolean(structures && structures.length > 0)}
+              >
+                <NestedList
+                  currentWorkId={work.id}
+                  tree={tree}
+                  setTree={setTree}
+                  items={tree}
+                  level={1}
+                  tabbableId={tabbableId}
+                  setTabbableId={setTabbableId}
+                  firstItemTabbable={true}
+                  showFirstLevelGuideline={true}
+                  shouldFetchChildren={false}
+                  isDarkMode={true}
+                  ItemRenderer={DownloadItemRenderer}
+                  itemRendererProps={{
+                    linkToCanvas: true,
+                    workId: work.id,
+                    canvasIndexById,
+                    currentCanvasIndex: canvas,
+                    itemOnClick: () => setIsMobileSidebarActive(false),
+                    canvases: transformedManifest?.canvases,
+                  }}
+                />
+              </WorksTree>
+            </div>
+          </AccordionItem>
+        )}
+
+        {Boolean(structures && structures.length > 0) &&
+          hasOnlyRenderableImages && (
+            <AccordionItem title="Contents" gtmData={{ trigger: 'contents' }}>
+              <ViewerStructures />
+            </AccordionItem>
+          )}
+
+        {/*
+          Note: this check for `behavior === 'multi-part'` is repeated in items.tsx to
+          avoid sending unnecessary data about parent manifests that we're not going
+          to render.  If you change the display condition here, you'll likely want to
+          update it there also.
+        */}
+        {parentManifest &&
+          parentManifest.behavior?.[0] === 'multi-part' &&
+          parentManifest.canvases && (
+            <AccordionItem title="Volumes" gtmData={{ trigger: 'volumes' }}>
+              <MultipleManifestList />
+            </AccordionItem>
+          )}
+      </Inner>
+
+      {searchService && (
+        <Inner>
+          <IIIFSearchWithin />
+        </Inner>
+      )}
+    </>
+  );
+};
+
+export default ViewerSidebar;

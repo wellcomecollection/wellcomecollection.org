@@ -102,6 +102,16 @@ export function createDownloadTree(
   return [topLevelItem];
 }
 
+// Canvas and manifest params use 1-based indexing, but are used to access items in 0-indexed arrays,
+// so we need to convert them in various places
+export function queryParamToArrayIndex(canvas: number): number {
+  return canvas - 1;
+}
+
+export function arrayIndexToQueryParam(canvasIndex: number): number {
+  return canvasIndex + 1;
+}
+
 // Traverse a UiTree and assign sequential canvas indices in tree order
 // This ensures that canvas indices match the visual order in the NestedList, including nested folders/ranges.
 export function getTreeCanvasIndexById(tree: UiTree): Record<string, number> {

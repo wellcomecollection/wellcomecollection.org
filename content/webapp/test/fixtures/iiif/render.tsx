@@ -15,9 +15,11 @@ import UserContext, {
   UserContextProps,
 } from '@weco/common/contexts/UserContext';
 import theme from '@weco/common/views/themes/default';
-import ItemViewerContext, {
+import {
   defaultItemViewerContext,
+  ItemViewerContextLegacy,
   ItemViewerContextProps,
+  ItemViewerContextRefactored,
 } from '@weco/content/contexts/ItemViewerContext';
 
 import { createMockManifest } from './transformed-manifest';
@@ -47,6 +49,10 @@ export type RenderWithContextOptions = {
   appContext?: Partial<AppContextProps>;
   userContext?: Partial<UserContextProps>;
   kioskContext?: Partial<KioskContextType>;
+  // When true, wraps with ItemViewerContextRefactored.Provider instead of
+  // ItemViewerContextLegacy.Provider. Use in refactored viewer tests that
+  // mock useFeatureFlags to return { itemViewerRefactor: true }.
+  useRefactoredContext?: boolean;
 } & Omit<RenderOptions, 'wrapper'>;
 
 export type RenderWithContextResult = RenderResult & {
@@ -60,6 +66,7 @@ export function renderWithContext(
     appContext,
     userContext,
     kioskContext,
+    useRefactoredContext = false,
     ...renderOptions
   }: RenderWithContextOptions = {}
 ): RenderWithContextResult {
@@ -73,6 +80,10 @@ export function renderWithContext(
     ...defaultKioskContext,
     ...kioskContext,
   };
+
+  const ItemViewerContext = useRefactoredContext
+    ? ItemViewerContextRefactored
+    : ItemViewerContextLegacy;
 
   const Wrapper: FunctionComponent<PropsWithChildren> = ({ children }) => (
     <ThemeProvider theme={theme}>
