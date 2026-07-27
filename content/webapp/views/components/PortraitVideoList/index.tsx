@@ -58,13 +58,14 @@ const PortraitVideoList: FunctionComponent<Props> = ({
   const hasTranscript = !!(
     activeItem?.transcript?.length && activeItem.transcript.length > 0
   );
-  const iframeAllow = `autoplay; picture-in-picture${activeItem?.videoProvider === 'YouTube' ? '; clipboard-write' : ''}`;
 
   // Hook must be called unconditionally; passes empty string when no item is active
-  const { videoSrc, uid, isVimeo } = useVideoEmbed(
+  const { videoSrc, uid, isVimeo, isYouTube } = useVideoEmbed(
     activeItem?.embedUrl ?? '',
     activeItem?.videoProvider
   );
+
+  const iframeAllow = `autoplay; picture-in-picture${isYouTube ? '; clipboard-write' : ''}`;
 
   useVimeoTracking({
     iframeRef,
