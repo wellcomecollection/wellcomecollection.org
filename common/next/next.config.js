@@ -5,8 +5,14 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const apmConfig = require('../services/apm/apmConfig');
 
 const createConfig =
-  options =>
+  (options = {}) =>
   (phase, { defaultConfig }) => {
+    if (!options.applicationName) {
+      throw new Error(
+        'createConfig requires an applicationName option, e.g. createConfig({ applicationName: "content", ... })'
+      );
+    }
+
     const prodSubdomain = process.env.PROD_SUBDOMAIN || '';
     const buildHash = process.env.BUILD_HASH || 'test';
     const isProd = process.env.NODE_ENV === 'production';
