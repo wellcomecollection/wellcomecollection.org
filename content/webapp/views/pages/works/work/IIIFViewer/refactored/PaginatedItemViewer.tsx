@@ -39,26 +39,25 @@ const PaginatedItemViewer: FunctionComponent = () => {
     setShowFullscreenControl(false);
   }, [setShowFullscreenControl]);
 
-  const displayItems = currentCanvas ? getDisplayItems(currentCanvas) : [];
+  if (!currentCanvas) return null;
 
-  return displayItems.map(
-    (item, i) =>
-      currentCanvas && (
-        <ItemWrapper data-component="paginated" key={item.type + item.id}>
-          <IIIFItem
-            placeholderId={placeholderId}
-            item={item}
-            i={i}
-            canvas={currentCanvas}
-            titleOverride={`${canvas}/${canvases?.length}`}
-            exclude={[]}
-            isDark={true}
-            externalAccessService={externalAccessService}
-            showVideoTranscript={false}
-          />
-        </ItemWrapper>
-      )
-  );
+  const displayItems = getDisplayItems(currentCanvas);
+
+  return displayItems.map((item, i) => (
+    <ItemWrapper key={item.type + item.id} data-component="paginated">
+      <IIIFItem
+        placeholderId={placeholderId}
+        item={item}
+        i={i}
+        canvas={currentCanvas}
+        titleOverride={`${canvas}/${canvases?.length}`}
+        exclude={[]}
+        isDark={true}
+        externalAccessService={externalAccessService}
+        showVideoTranscript={false}
+      />
+    </ItemWrapper>
+  ));
 };
 
 export default PaginatedItemViewer;

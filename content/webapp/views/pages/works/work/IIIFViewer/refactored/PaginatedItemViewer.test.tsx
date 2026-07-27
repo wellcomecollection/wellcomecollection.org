@@ -176,9 +176,9 @@ describe('PaginatedItemViewer', () => {
   });
 
   it('renders nothing when the current canvas cannot be resolved', () => {
-    // PaginatedItemViewer no longer owns a wrapping container element (that
-    // now lives in the MainViewer router), so an empty render is a bare
-    // fragment - nothing to query for, just an empty container.
+    // PaginatedItemViewer returns null when useCurrentCanvas() can't resolve
+    // a canvas (eg an out-of-range canvas query param, as below) - nothing to
+    // query for, just an empty container.
     const { container } = renderWithContext(<PaginatedItemViewer />, {
       contextProps: {
         transformedManifest: createMockManifest({
