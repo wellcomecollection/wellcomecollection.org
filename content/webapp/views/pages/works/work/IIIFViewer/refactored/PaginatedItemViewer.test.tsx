@@ -1,5 +1,6 @@
 import { screen } from '@testing-library/react';
 
+import { ItemViewerContextProps } from '@weco/content/contexts/ItemViewerContext';
 import { renderWithContext } from '@weco/content/test/fixtures/iiif/render';
 import {
   createMockAuth,
@@ -19,29 +20,24 @@ jest.mock('@weco/common/server-data/Context', () => ({
   useFeatureFlags: () => ({ itemViewerRefactor: true }),
 }));
 
-const renderViewer = (setShowFullscreenControl = jest.fn()) => {
-  const videoCanvas = createMockCanvas({
-    painting: [
-      {
-        id: 'https://example.com/video.mp4',
-        type: 'Video',
-        format: 'video/mp4',
-      },
-    ] as never,
+const createVideoCanvas = (id = 'https://example.com/video.mp4') =>
+  createMockCanvas({
+    painting: [{ id, type: 'Video', format: 'video/mp4' }] as never,
   });
 
-  return renderWithContext(<PaginatedItemViewer />, {
-    contextProps: {
-      transformedManifest: createMockManifest({ canvases: [videoCanvas] }),
-      setShowFullscreenControl,
-    },
+const renderViewer = (contextProps: Partial<ItemViewerContextProps> = {}) =>
+  renderWithContext(<PaginatedItemViewer />, {
+    contextProps,
     useRefactoredContext: true,
   });
-};
 
 describe('PaginatedItemViewer', () => {
   it('renders the current item', () => {
-    const { container } = renderViewer();
+    const { container } = renderViewer({
+      transformedManifest: createMockManifest({
+        canvases: [createVideoCanvas()],
+      }),
+    });
 
     expect(
       container.querySelector('[data-component="video-player"]')
@@ -50,40 +46,26 @@ describe('PaginatedItemViewer', () => {
 
   it('hides the fullscreen control, since the paginated viewer never supports it', () => {
     const setShowFullscreenControl = jest.fn();
-    renderViewer(setShowFullscreenControl);
+
+    renderViewer({
+      transformedManifest: createMockManifest({
+        canvases: [createVideoCanvas()],
+      }),
+      setShowFullscreenControl,
+    });
 
     expect(setShowFullscreenControl).toHaveBeenCalledWith(false);
   });
 
   it('renders the item for the canvas number associated with the query', () => {
-    const canvases = [
-      createMockCanvas({
-        painting: [
-          {
-            id: 'https://example.com/video-1.mp4',
-            type: 'Video',
-            format: 'video/mp4',
-          },
-        ] as never,
+    const { container } = renderViewer({
+      transformedManifest: createMockManifest({
+        canvases: [
+          createVideoCanvas('https://example.com/video-1.mp4'),
+          createVideoCanvas('https://example.com/video-2.mp4'),
+        ],
       }),
-      createMockCanvas({
-        painting: [
-          {
-            id: 'https://example.com/video-2.mp4',
-            type: 'Video',
-            format: 'video/mp4',
-          },
-        ] as never,
-      }),
-    ];
-
-    const { container } = renderWithContext(<PaginatedItemViewer />, {
-      contextProps: {
-        transformedManifest: createMockManifest({ canvases }),
-        query: createMockQuery({ canvas: 2 }),
-        setShowFullscreenControl: jest.fn(),
-      },
-      useRefactoredContext: true,
+      query: createMockQuery({ canvas: 2 }),
     });
 
     expect(container.querySelector('source')).toHaveAttribute(
@@ -93,48 +75,44 @@ describe('PaginatedItemViewer', () => {
   });
 
   it('renders a PDF item from the canvas originals', () => {
-    const canvas = createMockCanvas({
-      original: [
-        {
-          id: 'https://example.com/doc.pdf',
-          type: 'Text',
-          format: 'application/pdf',
-          behavior: 'original',
-        },
-      ] as never,
-    });
-
-    renderWithContext(<PaginatedItemViewer />, {
-      contextProps: {
-        transformedManifest: createMockManifest({ canvases: [canvas] }),
-        setShowFullscreenControl: jest.fn(),
-      },
-      useRefactoredContext: true,
+    renderViewer({
+      transformedManifest: createMockManifest({
+        canvases: [
+          createMockCanvas({
+            original: [
+              {
+                id: 'https://example.com/doc.pdf',
+                type: 'Text',
+                format: 'application/pdf',
+                behavior: 'original',
+              },
+            ] as never,
+          }),
+        ],
+      }),
     });
 
     expect(screen.getByRole('link', { name: /open/i })).toBeInTheDocument();
   });
 
   it('renders a download link for a born-digital archive item', () => {
-    const canvas = createMockCanvas({
-      painting: [
-        { id: 'https://example.com/placeholder', type: 'Image' },
-      ] as never,
-      original: [
-        {
-          id: 'https://example.com/file.docx',
-          format: 'application/msword',
-          behavior: 'original',
-        },
-      ] as never,
-    });
-
-    renderWithContext(<PaginatedItemViewer />, {
-      contextProps: {
-        transformedManifest: createMockManifest({ canvases: [canvas] }),
-        setShowFullscreenControl: jest.fn(),
-      },
-      useRefactoredContext: true,
+    renderViewer({
+      transformedManifest: createMockManifest({
+        canvases: [
+          createMockCanvas({
+            painting: [
+              { id: 'https://example.com/placeholder', type: 'Image' },
+            ] as never,
+            original: [
+              {
+                id: 'https://example.com/file.docx',
+                format: 'application/msword',
+                behavior: 'original',
+              },
+            ] as never,
+          }),
+        ],
+      }),
     });
 
     expect(screen.getByRole('link', { name: /download/i })).toHaveAttribute(
@@ -144,30 +122,26 @@ describe('PaginatedItemViewer', () => {
   });
 
   it('passes the manifest access service through to restricted items', () => {
-    const canvas = createMockCanvas({
-      painting: [
-        createRestrictedPainting({
-          id: 'https://example.com/doc.pdf',
-          type: 'Text',
-          format: 'application/pdf',
-        }),
-      ],
-    });
-
-    renderWithContext(<PaginatedItemViewer />, {
-      contextProps: {
-        transformedManifest: createMockManifest({
-          canvases: [canvas],
-          auth: createMockAuth({
-            externalAccessService: {
-              id: 'https://example.com/access',
-              label: 'Restricted access notice',
-            },
+    renderViewer({
+      transformedManifest: createMockManifest({
+        canvases: [
+          createMockCanvas({
+            painting: [
+              createRestrictedPainting({
+                id: 'https://example.com/doc.pdf',
+                type: 'Text',
+                format: 'application/pdf',
+              }),
+            ],
           }),
+        ],
+        auth: createMockAuth({
+          externalAccessService: {
+            id: 'https://example.com/access',
+            label: 'Restricted access notice',
+          },
         }),
-        setShowFullscreenControl: jest.fn(),
-      },
-      useRefactoredContext: true,
+      }),
     });
 
     expect(
@@ -176,20 +150,15 @@ describe('PaginatedItemViewer', () => {
   });
 
   it('renders nothing when the current canvas cannot be resolved', () => {
-    // PaginatedItemViewer returns null when useCurrentCanvas() can't resolve
-    // a canvas (eg an out-of-range canvas query param, as below) - nothing to
-    // query for, just an empty container.
-    const { container } = renderWithContext(<PaginatedItemViewer />, {
-      contextProps: {
-        transformedManifest: createMockManifest({
-          canvases: [createMockCanvas()],
-        }),
-        query: createMockQuery({ canvas: 99 }),
-        setShowFullscreenControl: jest.fn(),
-      },
-      useRefactoredContext: true,
+    const { container } = renderViewer({
+      transformedManifest: createMockManifest({
+        canvases: [createMockCanvas()],
+      }),
+      query: createMockQuery({ canvas: 99 }),
     });
 
+    // The wrapping container belongs to the MainViewer router, so returning
+    // null leaves nothing of ours in the DOM at all.
     expect(container).toBeEmptyDOMElement();
   });
 });

@@ -230,6 +230,7 @@ const SearchTermHighlights: FunctionComponent<{
           return (
             <SearchTermHighlight
               key={i}
+              data-testid="search-term-highlight"
               $top={item.overlayTop}
               $left={item.overlayLeft}
               $width={item.highlight.w}
