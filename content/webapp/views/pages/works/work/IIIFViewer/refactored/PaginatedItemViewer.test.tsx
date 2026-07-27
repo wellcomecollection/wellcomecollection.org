@@ -55,7 +55,7 @@ describe('PaginatedItemViewer', () => {
     expect(setShowFullscreenControl).toHaveBeenCalledWith(false);
   });
 
-  it('shows the item for the current canvas when paginating to a later canvas', () => {
+  it('renders the item for the canvas number associated with the query', () => {
     const canvases = [
       createMockCanvas({
         painting: [
