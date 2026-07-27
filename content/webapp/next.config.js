@@ -13,10 +13,6 @@ const apiRewrites = [
     source: '/newsletter-signup',
     destination: `/api/newsletter-signup`,
   },
-  {
-    source: '/content/management/healthcheck',
-    destination: `/api/content/management/healthcheck`,
-  },
 ];
 
 const rewriteEntries = localConcurrentDevelopment
