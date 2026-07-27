@@ -11,7 +11,6 @@ import styled from 'styled-components';
 import LL from '@weco/common/views/components/styled/LL';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import useScrollVelocity from '@weco/content/hooks/useScrollVelocity';
-import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { CanvasRotatedImage } from '@weco/content/types/item-viewer';
 import { TransformedCanvas } from '@weco/content/types/manifest';
 import {
@@ -23,44 +22,13 @@ import { queryParamToArrayIndex } from '@weco/content/views/pages/works/work/wor
 
 import IIIFItem from './IIIFItem';
 import { useCurrentCanvas } from './MainViewer.helpers';
+import SearchTermHighlights, {
+  useSearchTermHighlights,
+} from './VirtualizedImageViewer.SearchHighlights';
 
 const ItemWrapper = styled.div<{ $firstItemIsRestricted: boolean }>`
   height: 100%;
   ${props => (props.$firstItemIsRestricted ? 'margin-top: 2em;' : null)}
-`;
-
-type OverlayPositionData = {
-  canvasNumber: number;
-  overlayTop: number;
-  overlayLeft: number;
-  highlight: {
-    w: number;
-    h: number;
-  };
-  rotation: number;
-};
-
-type SearchTermHighlightProps = {
-  $top: number;
-  $left: number;
-  $width: number;
-  $height: number;
-  $rotation: number;
-};
-
-type RotationValue = 0 | 90 | 180 | 270;
-
-const SearchTermHighlight = styled.div<SearchTermHighlightProps>`
-  background: ${props => props.theme.color('yellow')};
-  position: absolute;
-  z-index: 1;
-  top: ${props => `${props.$top}px`};
-  left: ${props => `${props.$left}px`};
-  width: ${props => `${props.$width}px`};
-  height: ${props => `${props.$height}px`};
-  transform-origin: 0 0;
-  transform: ${props => `rotate(${props.$rotation}deg)`};
-  mix-blend-mode: color;
 `;
 
 type ItemRendererProps = ListChildComponentProps<{
@@ -74,129 +42,6 @@ type ItemRendererProps = ListChildComponentProps<{
   firstItemIsRestricted?: boolean;
 }>;
 
-function getOverlayTopLeft({
-  imageContainerRect,
-  imageRect,
-  rotation,
-  x,
-  y,
-}: {
-  imageContainerRect: DOMRect;
-  imageRect: DOMRect;
-  rotation: RotationValue;
-  x: number;
-  y: number;
-}): {
-  overlayTop: number;
-  overlayLeft: number;
-} {
-  const imageContainerTop = imageContainerRect?.top || 0;
-  const imageTop = imageRect?.top || 0;
-  const imageContainerLeft = imageContainerRect?.left || 0;
-  const imageLeft = imageRect?.left || 0;
-  const startTop = imageTop - imageContainerTop;
-  const startLeft = imageLeft - imageContainerLeft;
-  if (rotation === 90) {
-    return {
-      overlayTop: startTop + x,
-      overlayLeft: startLeft + imageRect.width - y,
-    };
-  } else if (rotation === 180) {
-    return {
-      overlayTop: startTop + imageRect.height - y,
-      overlayLeft: startLeft + imageRect.width - x,
-    };
-  } else if (rotation === 270) {
-    return {
-      overlayTop: imageTop - imageContainerTop + imageRect.height - x,
-      overlayLeft: imageLeft - imageContainerLeft + y,
-    };
-  } else {
-    return {
-      overlayTop: imageTop - imageContainerTop + y,
-      overlayLeft: imageLeft - imageContainerLeft + x,
-    };
-  }
-}
-
-function getScale({
-  imageRect,
-  currentCanvas,
-  rotation,
-}: {
-  imageRect: DOMRect;
-  currentCanvas: TransformedCanvas;
-  rotation: RotationValue;
-}): number {
-  if (!rotation || rotation === 180) {
-    return imageRect && currentCanvas.width
-      ? imageRect.width / currentCanvas.width
-      : 1;
-  } else {
-    return imageRect && currentCanvas.height
-      ? imageRect.width / currentCanvas.height
-      : 1;
-  }
-}
-
-function getPositionData({
-  imageContainerRect,
-  imageRect,
-  currentCanvas,
-  searchResults,
-  canvases,
-  rotatedImages,
-}: {
-  imageContainerRect: DOMRect;
-  imageRect: DOMRect;
-  currentCanvas: TransformedCanvas;
-  searchResults: SearchResults | null;
-  canvases: TransformedCanvas[];
-  rotatedImages: CanvasRotatedImage[];
-}): OverlayPositionData[] {
-  const searchHitsPositioningData = searchResults?.resources.map(resource => {
-    // on: "https://wellcomelibrary.org/iiif/b30330002/canvas/c55#xywh=2301,662,157,47"
-    // OR
-    // on: https://iiif.wellcomecollection.org/presentation/b29338062/canvases/b29338062_0031.jp2#xywh=148,2277,259,59"
-    const canvasNumber = canvases.findIndex(canvas => {
-      return new URL(resource.on).pathname === new URL(canvas.id).pathname;
-    });
-    const matchingRotation = rotatedImages.find(image => {
-      return queryParamToArrayIndex(image.canvas) === canvasNumber;
-    });
-    const scale = getScale({
-      imageRect,
-      currentCanvas,
-      rotation: (matchingRotation?.rotation || 0) as RotationValue,
-    });
-    const coordsMatch = resource.on.match(/(#xywh=)(.*)/);
-    const coords = coordsMatch && coordsMatch[2].split(',');
-    const x = coords ? Math.round(Number(coords[0]) * scale) : 0;
-    const y = coords ? Math.round(Number(coords[1]) * scale) : 0;
-    const w = coords ? Math.round(Number(coords[2]) * scale) : 0;
-    const h = coords ? Math.round(Number(coords[3]) * scale) : 0;
-    const { overlayTop, overlayLeft } = getOverlayTopLeft({
-      imageContainerRect,
-      imageRect,
-      rotation: (matchingRotation?.rotation || 0) as RotationValue,
-      x,
-      y,
-    });
-
-    return {
-      canvasNumber: Number(canvasNumber),
-      overlayTop,
-      overlayLeft,
-      highlight: {
-        w,
-        h,
-      },
-      rotation: matchingRotation?.rotation || 0,
-    };
-  });
-  return searchHitsPositioningData || [];
-}
-
 const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
   const {
     scrollVelocity,
@@ -207,41 +52,8 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
   } = data;
 
   const currentCanvas = canvases[index];
-  const { searchResults, rotatedImages } = useItemViewerContext();
-  const [imageRect, setImageRect] = useState<DOMRect | undefined>();
-  const [imageContainerRect, setImageContainerRect] = useState<
-    DOMRect | undefined
-  >();
-  const [overlayPositionData, setOverlayPositionData] = useState<
-    OverlayPositionData[]
-  >([]);
-
-  useEffect(() => {
-    // The search hit dimensions and coordinates are given relative to the full size image.
-    // The highlight overlays are positioned relative to the image container.
-    // Therefore, in order to display the highlight overlays correctly over the search hits,
-    // we need to get the position of the image relative to the container and the display scale of the image relative to the full size.
-    // We then need to calculate the position of the highlight overlays factoring in the orientation of the image.
-    // This needs to be recalculated whenever the image changes size or orientation.
-    const searchHitsPositioningData =
-      imageContainerRect &&
-      imageRect &&
-      getPositionData({
-        imageContainerRect,
-        imageRect,
-        currentCanvas,
-        searchResults,
-        canvases,
-        rotatedImages,
-      });
-    if (searchHitsPositioningData) {
-      setOverlayPositionData(
-        searchHitsPositioningData.filter(item => {
-          return item.canvasNumber === index;
-        })
-      );
-    }
-  }, [imageRect, imageContainerRect, currentCanvas, searchResults]);
+  const { overlayPositionData, setImageRect, setImageContainerRect } =
+    useSearchTermHighlights({ currentCanvas, canvases, index });
 
   const displayItems = getDisplayItems(currentCanvas);
 
@@ -253,19 +65,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
         </div>
       ) : (
         <>
-          {overlayPositionData &&
-            overlayPositionData.map((item, i) => {
-              return (
-                <SearchTermHighlight
-                  key={i}
-                  $top={item.overlayTop}
-                  $left={item.overlayLeft}
-                  $width={item.highlight.w}
-                  $height={item.highlight.h}
-                  $rotation={item.rotation}
-                />
-              );
-            })}
+          <SearchTermHighlights overlayPositionData={overlayPositionData} />
 
           {displayItems.length > 0 &&
             displayItems.map(item => {
