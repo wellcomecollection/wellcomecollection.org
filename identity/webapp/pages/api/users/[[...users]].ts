@@ -20,6 +20,14 @@ const handleIdentityApiRequest: NextApiHandler = auth0.withApiAuthRequired(
       const { accessToken } = await auth0.getAccessToken(req, res);
       const path = `/users/${(req.query.users as string[]).join('/')}`;
 
+      // req.body is '' (not undefined) when the original request had no body
+      // at all - Next.js's parseBody falls back to text/plain and yields ''
+      // for zero bytes (see parseBody in
+      // next/dist/server/api-utils/node/parse-body.js). Treat that the same
+      // as "no body" so we don't forward a bogus JSON.stringify('') === '""'
+      // payload to the identity API.
+      const body = req.body === '' ? undefined : req.body;
+
       // GET and HEAD requests cannot have a body
       const method = req.method || 'GET';
       const remoteResponse = await identityFetchClient
@@ -27,7 +35,9 @@ const handleIdentityApiRequest: NextApiHandler = auth0.withApiAuthRequired(
           url: path,
           method,
           // Only include body for methods that support it
-          ...(method !== 'GET' && method !== 'HEAD' ? { data: req.body } : {}),
+          ...(method !== 'GET' && method !== 'HEAD' && body !== undefined
+            ? { data: body }
+            : {}),
           headers: {
             ...identityFetchClient.defaults.headers.common,
             Authorization: `Bearer ${accessToken}`,
