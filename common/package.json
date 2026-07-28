@@ -10,7 +10,6 @@
   "license": "MIT",
   "dependencies": {
     "@elastic/apm-rum": "^5.17.0",
-    "@next/bundle-analyzer": "^15.5.7",
     "@popperjs/core": "^2.11.8",
     "@prismicio/client": "^7.21.6",
     "@prismicio/next": "^2.3.0",
@@ -29,7 +28,7 @@
     "jest-environment-jsdom": "^30.2.0",
     "koa-compose": "^4.1.0",
     "lodash.debounce": "^4.0.8",
-    "next": "15.5.18",
+    "next": "15.5.21",
     "nprogress": "^0.2.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

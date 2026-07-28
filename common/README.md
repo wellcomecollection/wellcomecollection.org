@@ -10,8 +10,8 @@ Of particular interest:
 
 ## Bundle analysis
 Previously stored in S3 and displayed on dash.wellcomecollection.org, you can still run it locally.
-It currently only is set-up for `content/`, as it's using the `next/next.config.js`. Other repos could be made to use it.
+It's available for any app using the shared `next/next.config.js` (currently `content/` and `identity/`).
 Example of how to use:
-1. `cd content/webapp`
+1. `cd content/webapp` (or `identity/webapp`)
 2. `BUNDLE_ANALYZE=true yarn build`
-3. It'll render new files, you're probably interested in the one at: `/content/webapp/.dist/content.client.test.html`.
+3. It'll render new files, you're probably interested in the one at: `/content/webapp/.dist/content.client.test.html` (or `/identity/webapp/.dist/identity.client.test.html`).
