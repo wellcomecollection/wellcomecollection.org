@@ -7,6 +7,8 @@ import {
   createMockCanvas,
   createMockManifest,
   createMockQuery,
+  createMockSearchHit,
+  createMockSearchResults,
   createOpenPainting,
   createRestrictedPainting,
 } from '@weco/content/test/fixtures/iiif/transformed-manifest';
@@ -116,10 +118,78 @@ describe('MainViewer (legacy)', () => {
 
       // The scroll happens on mount via the effect on `canvas`, since the query
       // defaults to shouldScrollToCanvas - not via the debounced onItemsRendered.
+      //
+      // scrollViewer isn't exported, so its maths is asserted through the DOM:
+      // FixedSizeList.scrollTo() writes scrollTop on its outer element, and jsdom
+      // records that despite never laying anything out. If react-window ever stops
+      // driving scroll position imperatively, this fails loudly rather than
+      // quietly passing.
+      //
       // mainAreaWidth/itemSize default to 1000, mainAreaHeight to 500.
       // renderedHeight = 1000 * (1000/2000) * 0.8 = 400
       // heightOfPreviousItems = 1 * 1000 = 1000
       // distanceToScroll = 1000 + (1000 - 400) / 2 = 1300
+      expect(getScrollContainer(container).scrollTop).toBe(1300);
+    });
+
+    it('scrolls to the top of the current canvas on mount when it is portrait', () => {
+      const { container } = renderViewer({
+        transformedManifest: createMockManifest({
+          canvases: [
+            createMockCanvas({
+              width: 1000,
+              height: 1400,
+              painting: [createOpenPainting()],
+            }),
+            createMockCanvas({
+              width: 1000,
+              height: 1400,
+              painting: [createOpenPainting()],
+            }),
+          ],
+        }),
+        query: createMockQuery({ canvas: 2 }),
+      });
+
+      // Portrait canvases skip the centring maths above entirely: scrollViewer
+      // calls scrollToItem(1, 'start'), putting the top of the second item at the
+      // top of the viewport - 1 * itemSize = 1000.
+      expect(getScrollContainer(container).scrollTop).toBe(1000);
+    });
+
+    it('skips the canvas-change scroll when shouldScrollToCanvas is false', () => {
+      jest.useFakeTimers();
+
+      const { container } = renderViewer({
+        transformedManifest: createMockManifest({
+          canvases: [
+            createMockCanvas({
+              width: 2000,
+              height: 1000,
+              painting: [createOpenPainting()],
+            }),
+            createMockCanvas({
+              width: 2000,
+              height: 1000,
+              painting: [createOpenPainting()],
+            }),
+          ],
+        }),
+        query: createMockQuery({ canvas: 2, shouldScrollToCanvas: false }),
+      });
+
+      // The flag is set when the canvas changed *because* the viewer was
+      // scrolled, so scrolling again would fight the user. It suppresses the
+      // effect on `canvas`.
+      expect(getScrollContainer(container).scrollTop).toBe(0);
+
+      // It does not suppress the first-render scroll behind onItemsRendered,
+      // though - that path doesn't consult the flag, so the viewer still jumps
+      // once the 500ms debounce elapses. Pinned here as current behaviour rather
+      // than endorsed: see the note on the PR.
+      act(() => {
+        jest.advanceTimersByTime(500);
+      });
       expect(getScrollContainer(container).scrollTop).toBe(1300);
     });
 
@@ -185,23 +255,11 @@ describe('MainViewer (legacy)', () => {
             }),
           ],
         }),
-        searchResults: {
-          '@context': '',
-          '@id': '',
-          '@type': 'sc:AnnotationList',
-          within: { '@type': '', total: null },
-          startIndex: 0,
+        searchResults: createMockSearchResults({
           resources: [
-            {
-              '@id': '',
-              '@type': 'oa:Annotation',
-              motivation: 'sc:painting',
-              resource: { '@type': 'cnt:ContentAsText', chars: 'hit' },
-              on: `${canvasId}#xywh=100,200,50,60`,
-            },
+            createMockSearchHit({ on: `${canvasId}#xywh=100,200,50,60` }),
           ],
-          hits: [],
-        },
+        }),
       });
 
       // The overlay only appears once the image has reported its measured
