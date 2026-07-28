@@ -1,3 +1,4 @@
+import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { ItemViewerQuery } from '@weco/content/types/item-viewer';
 import {
   Auth,
@@ -126,5 +127,38 @@ export function createMockManifest(
     canvases,
     canvasCount: canvases.length,
     auth,
+  };
+}
+
+// A single search hit. `on` is the canvas it falls on, with the hit's
+// coordinates as a fragment - e.g. `${canvasId}#xywh=100,200,50,60` - which is
+// what the viewer parses to position its highlight overlay.
+export function createMockSearchHit(
+  overrides: Partial<SearchResults['resources'][number]> = {}
+): SearchResults['resources'][number] {
+  return {
+    '@id': '',
+    '@type': 'oa:Annotation',
+    motivation: 'sc:painting',
+    resource: { '@type': 'cnt:ContentAsText', chars: 'hit' },
+    on: '',
+    ...overrides,
+  };
+}
+
+// The response from a manifest's content search service. Defaults to no hits;
+// pass `resources: [createMockSearchHit(...)]` for the cases that need them.
+export function createMockSearchResults(
+  overrides: Partial<SearchResults> = {}
+): SearchResults {
+  return {
+    '@context': '',
+    '@id': '',
+    '@type': 'sc:AnnotationList',
+    within: { '@type': '', total: null },
+    startIndex: 0,
+    resources: [],
+    hits: [],
+    ...overrides,
   };
 }
