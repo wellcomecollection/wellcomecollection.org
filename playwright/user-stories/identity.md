@@ -131,7 +131,7 @@ Then I see an error on the sign-in screen and can retry with the correct passwor
 
 ### Scenario 2.6: abandoning sign-in
 
-Given I am partway through an Auth0 flow that returns an error (eg using an expired password-reset or verification link)
+Given I am partway through an Auth0 flow that returns an error (e.g. using an expired password-reset or verification link - can edit the ticket value of a reset link to make it fail)
 When I am returned to the site
 Then I land on the account error page with a readable message, not a server error
 
