@@ -1,73 +1,31 @@
-const withBundleAnalyzer = require('@next/bundle-analyzer');
-
-const apmConfig = require('@weco/common/services/apm/apmConfig');
+const { createConfig } = require('@weco/common/next/next.config');
 
 const { getConfig } = require('./config');
-const buildHash = process.env.BUILD_HASH || 'test';
-const isProd = process.env.NODE_ENV === 'production';
 
-const config = function () {
-  const prodSubdomain = process.env.PROD_SUBDOMAIN || '';
-  const basePath = '/account';
+module.exports = createConfig({
+  applicationName: 'identity',
 
-  const withBundleAnalyzerConfig = withBundleAnalyzer({
-    analyzeServer: ['server', 'both'].includes(process.env.BUNDLE_ANALYZE),
-    analyzeBrowser: ['browser', 'both'].includes(process.env.BUNDLE_ANALYZE),
-    bundleAnalyzerConfig: {
-      server: {
-        analyzerMode: 'static',
-        generateStatsFile: true,
-        statsFilename: `../../.dist/server.${buildHash}.json`,
-        reportFilename: `../../.dist/server.${buildHash}.html`,
-        openAnalyzer: false,
-      },
-      browser: {
-        analyzerMode: 'static',
-        generateStatsFile: true,
-        statsFilename: `../.dist/browser.${buildHash}.json`,
-        reportFilename: `../.dist/browser.${buildHash}.html`,
-        openAnalyzer: false,
-      },
+  // Every URL this app serves gets '/account' added in front, e.g. the page at
+  // /search is actually served at wellcomecollection.org/account/search. This
+  // is how identity lives under the main site's domain instead of getting its
+  // own subdomain.
+  basePath: '/account',
+
+  // Passed into next.config.js here, then read back anywhere in this app's
+  // server-side code via next/config's getConfig() - not by importing
+  // ./config directly. See the serverRuntimeConfig comment in createConfig
+  // (common/next/next.config.js) for why it works this way.
+  serverRuntimeConfig: getConfig(),
+
+  redirectEntries: [
+    {
+      // Without `basePath: false`, Next would automatically prefix
+      // destination with '/account' too (since this app's basePath is
+      // '/account'), sending people to /account/search instead of /search.
+      source: '/account/search',
+      destination: '/search',
+      basePath: false,
+      permanent: true,
     },
-  });
-
-  return {
-    assetPrefix:
-      isProd && prodSubdomain
-        ? `https://${prodSubdomain}.wellcomecollection.org${basePath}`
-        : undefined,
-    basePath,
-    // We handle compression in the nginx sidecar
-    // Are you having problems with this? Make sure CloudFront is forwarding Accept-Encoding headers to our apps!
-    compress: false,
-    publicRuntimeConfig: { apmConfig: apmConfig.client('identity-webapp') },
-    async redirects() {
-      return [
-        {
-          // does not add /docs since basePath: false is set
-          source: '/account/search',
-          destination: '/search',
-          basePath: false,
-          permanent: true,
-        },
-      ];
-    },
-    serverRuntimeConfig: getConfig(),
-    transpilePackages: ['@weco/common'],
-    webpack: (config, { isServer, webpack }) => {
-      // Exclude undici from client-side bundles
-      // undici is a Node.js-only package and should only be used server-side
-      if (!isServer) {
-        config.plugins.push(
-          new webpack.IgnorePlugin({
-            resourceRegExp: /^undici$/,
-          })
-        );
-      }
-      return config;
-    },
-    ...withBundleAnalyzerConfig,
-  };
-};
-
-module.exports = config();
+  ],
+});
