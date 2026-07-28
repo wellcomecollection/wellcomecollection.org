@@ -186,7 +186,7 @@ describe('MainViewer (legacy)', () => {
       // It does not suppress the first-render scroll behind onItemsRendered,
       // though - that path doesn't consult the flag, so the viewer still jumps
       // once the 500ms debounce elapses. Pinned here as current behaviour rather
-      // than endorsed: see the note on the PR.
+      // than endorsed.
       act(() => {
         jest.advanceTimersByTime(500);
       });
