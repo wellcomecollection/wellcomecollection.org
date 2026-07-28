@@ -486,7 +486,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
                 <ViewerBottomBar />
               </BottomBar>
             )}
-            {hasOnlyRenderableImages && (
+            {hasOnlyRenderableImages && hasMultipleCanvases && (
               <ThumbnailsWrapper
                 $isActive={gridVisible}
                 $isDesktopSidebarActive={isDesktopSidebarActive}
