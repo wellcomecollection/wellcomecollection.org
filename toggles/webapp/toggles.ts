@@ -158,7 +158,6 @@ const toggleConfig = {
       initialValue: false,
       description: 'Shows the new brand values.',
       type: 'experimental',
-    }
     },
   ] as const,
   // We have to include a reference to any test toggles here as well as in the cache dir
