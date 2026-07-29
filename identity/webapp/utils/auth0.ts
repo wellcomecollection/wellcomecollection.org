@@ -93,6 +93,12 @@ const auth0 = initAuth0({
   },
 });
 
+// Handlers in pages/api/auth/[...auth0].ts that set res.redirect/Location
+// directly (rather than going through Next's own redirect/getServerSideProps
+// mechanisms) bypass Next's automatic basePath prefixing, so they need to
+// prepend this themselves.
+export const identityBasePath = config.identityBasePath;
+
 // Wrapping the built-in method as per https://github.com/auth0/nextjs-auth0#base-path-and-internationalized-routing
 // in order to preserve basePath
 export const withPageAuthRequiredSSR =

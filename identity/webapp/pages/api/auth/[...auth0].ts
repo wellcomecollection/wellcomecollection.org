@@ -1,4 +1,4 @@
-import auth0 from '@weco/identity/utils/auth0';
+import auth0, { identityBasePath } from '@weco/identity/utils/auth0';
 import {
   isFreshRegistration,
   logoutToSuccessUrl,
@@ -30,7 +30,10 @@ export default auth0.handleAuth({
           // page's logout->/success handling. Force that same redirect here,
           // regardless of what returnTo was requested.
           if (isFreshRegistration(session.user.family_name)) {
-            res.setHeader('Location', logoutToSuccessUrl(session.user.email));
+            res.setHeader(
+              'Location',
+              identityBasePath + logoutToSuccessUrl(session.user.email)
+            );
           }
           return session;
         },
