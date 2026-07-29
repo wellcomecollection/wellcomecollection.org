@@ -1,4 +1,4 @@
-import auth0, { identityBasePath } from '@weco/identity/utils/auth0';
+import auth0, { withBasePath } from '@weco/identity/utils/auth0';
 import {
   isFreshRegistration,
   logoutToSuccessUrl,
@@ -10,7 +10,7 @@ export default auth0.handleAuth({
 
     if (error) {
       const query = new URLSearchParams(req.url);
-      res.redirect(`/account/error?${query.toString()}`);
+      res.redirect(withBasePath(`/error?${query.toString()}`));
       return;
     }
 
@@ -32,7 +32,7 @@ export default auth0.handleAuth({
           if (isFreshRegistration(session.user.family_name)) {
             res.setHeader(
               'Location',
-              identityBasePath + logoutToSuccessUrl(session.user.email)
+              withBasePath(logoutToSuccessUrl(session.user.email))
             );
           }
           return session;
