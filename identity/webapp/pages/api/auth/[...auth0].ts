@@ -9,8 +9,10 @@ export default auth0.handleAuth({
     const { error } = req.query;
 
     if (error) {
-      const query = new URLSearchParams(req.url);
-      res.redirect(withBasePath(`/error?${query.toString()}`));
+      const [, queryString] = req.url.split('?');
+      res.redirect(
+        withBasePath(queryString ? `/error?${queryString}` : '/error')
+      );
       return;
     }
 
