@@ -148,7 +148,7 @@ All three append-only files are written to the gitignored `restore/status/` dire
    ```bash
    yarn slicemachine
    ```
-3. Open [http://localhost:9999](http://localhost:9999) and log in. **This isn't working: can't log in at this step 2026-07-29**
+3. Open [http://localhost:9999](http://localhost:9999) and log in.
 4. **Disabled custom types:** Some types have `"status": false` which prevents them being pushed. Temporarily set these to `true`, push all types, then revert back to `false` and push again.
 5. Click **Review changes** then **Push**. Verify in the Prismic dashboard that types appear when creating a new document.
 
