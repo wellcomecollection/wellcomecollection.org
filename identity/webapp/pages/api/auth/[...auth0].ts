@@ -1,4 +1,8 @@
 import auth0 from '@weco/identity/utils/auth0';
+import {
+  isFreshRegistration,
+  logoutToSuccessUrl,
+} from '@weco/identity/utils/postRegistration';
 
 export default auth0.handleAuth({
   callback: async (req, res) => {
@@ -18,7 +22,19 @@ export default auth0.handleAuth({
     // I don't think anybody will encounter this in normal running, and I'm not
     // sure if that message could leak sensitive info.
     try {
-      return await auth0.handleCallback(req, res);
+      return await auth0.handleCallback(req, res, {
+        afterCallback: (req, res, session) => {
+          // A signup completed via a returnTo-tagged login link (e.g. from a
+          // work page) would otherwise land the user back on that page with
+          // a stale placeholder name, instead of going through the account
+          // page's logout->/success handling. Force that same redirect here,
+          // regardless of what returnTo was requested.
+          if (isFreshRegistration(session.user.family_name)) {
+            res.setHeader('Location', logoutToSuccessUrl(session.user.email));
+          }
+          return session;
+        },
+      });
     } catch (error) {
       console.warn(`Error in the Auth0 callback: ${error.message}`);
       res

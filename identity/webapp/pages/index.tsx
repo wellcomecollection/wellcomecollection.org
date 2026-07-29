@@ -1,5 +1,4 @@
 import { NextPage } from 'next';
-import { URLSearchParams } from 'url';
 
 import { getServerData } from '@weco/common/server-data';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -8,6 +7,10 @@ import {
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
 import auth0, { withPageAuthRequiredSSR } from '@weco/identity/utils/auth0';
+import {
+  isFreshRegistration,
+  logoutToSuccessUrl,
+} from '@weco/identity/utils/postRegistration';
 import AccountPage, {
   Props as AccountPageProps,
 } from '@weco/identity/views/pages';
@@ -57,16 +60,10 @@ export const getServerSideProps: ServerSidePropsOrAppError<Props> =
           }),
         };
 
-      if (session.user.family_name === 'Auth0_Registration_tempLastName') {
-        const successParams = new URLSearchParams();
-        successParams.append('email', session.user.email);
-
-        const params = new URLSearchParams();
-        params.append('returnTo', `/success?${successParams}`);
-
+      if (isFreshRegistration(session.user.family_name)) {
         return {
           redirect: {
-            destination: `/api/auth/logout?${params}`,
+            destination: logoutToSuccessUrl(session.user.email),
             permanent: false,
           },
         };
