@@ -156,8 +156,9 @@ const toggleConfig = {
       id: 'brandUpdate',
       title: 'Brand update',
       initialValue: false,
-      description: 'Shows new brand values',
+      description: 'Shows the new brand values.',
       type: 'experimental',
+    }
     },
   ] as const,
   // We have to include a reference to any test toggles here as well as in the cache dir
