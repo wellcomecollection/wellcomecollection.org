@@ -28,6 +28,10 @@ export type CatalogueWorksApiProps = {
   subjects?: string[];
   'contributors.agent.label'?: string[];
   languages?: string[];
+  archiveType?: string[];
+  archiveRoot?: string[];
+  isArchiveRoot?: boolean;
+  type?: string[];
   identifiers?: string[];
   aggregations?: string[];
   elasticCluster?: ElasticCluster;

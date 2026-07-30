@@ -93,6 +93,7 @@ export async function getWorks(
       query['production.dates.to'] as string,
       'to'
     ),
+    isArchiveRoot: params.isArchiveRoot ? true : undefined,
     include: worksIncludes,
   };
 

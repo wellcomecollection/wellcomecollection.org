@@ -372,6 +372,10 @@ const WorksSearchPage: NextPage<Props> = withSearchLayout(
                                   value: 'production.dates.desc',
                                   text: 'Newest to oldest',
                                 },
+                                {
+                                  value: 'referenceNumber.asc',
+                                  text: 'Collection path',
+                                },
                               ]}
                               jsLessOptions={{
                                 sort: [

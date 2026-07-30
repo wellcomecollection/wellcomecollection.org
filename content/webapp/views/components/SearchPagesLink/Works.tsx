@@ -4,6 +4,7 @@ import { FunctionComponent } from 'react';
 
 import { LinkProps } from '@weco/common/model/link-props';
 import {
+  booleanCodec,
   csvCodec,
   decodeQuery,
   encodeQuery,
@@ -31,6 +32,10 @@ const emptyWorksProps: WorksProps = {
   'subjects.concepts': [],
   'contributors.agent.label': [],
   'contributors.concepts': [],
+  archiveType: [],
+  archiveRoot: [],
+  isArchiveRoot: false,
+  type: [],
   identifiers: [],
   sort: undefined,
   sortOrder: undefined,
@@ -56,6 +61,10 @@ const codecMap = {
   'subjects.concepts': csvCodec,
   'contributors.agent.label': quotedCsvCodec,
   'contributors.concepts': csvCodec,
+  archiveType: csvCodec,
+  archiveRoot: csvCodec,
+  isArchiveRoot: booleanCodec,
+  type: csvCodec,
   identifiers: csvCodec,
   sort: maybeStringCodec,
   sortOrder: maybeStringCodec,

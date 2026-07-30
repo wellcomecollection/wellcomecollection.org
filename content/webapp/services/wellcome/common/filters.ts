@@ -394,6 +394,79 @@ const partOfFilter = ({
     : [],
 });
 
+/*
+type is not a "real" filter, based on aggregations.
+
+It exists here to support its inclusion in the ResetActiveFilters
+section when navigating to a search page filtered by work type
+(e.g. Collection, Series, Section).
+*/
+const workRecordTypeFilter = ({
+  props,
+}: WorksFilterProps): CheckboxFilter<keyof WorksProps> => ({
+  type: 'checkbox',
+  id: 'type',
+  label: 'Record type',
+  excludeFromMoreFilters: true,
+  options: filterOptionsWithNonAggregates({
+    options: props.type.map(t => ({
+      id: `type-${t}`,
+      value: t,
+      label: t,
+      count: 0,
+      selected: true,
+    })),
+    selectedValues: props.type,
+  }),
+});
+
+const isArchiveRootFilter = ({
+  props,
+}: WorksFilterProps): BooleanFilter<keyof WorksProps> => ({
+  type: 'boolean',
+  id: 'isArchiveRoot',
+  label: 'Archive roots only',
+  isSelected: !!props.isArchiveRoot,
+});
+
+const archiveTypeFilter = ({
+  works,
+  props,
+}: WorksFilterProps): CheckboxFilter<keyof WorksProps> => ({
+  type: 'checkbox',
+  id: 'archiveType',
+  label: 'Archive types',
+  options: filterOptionsWithNonAggregates({
+    options: works?.aggregations?.archiveType?.buckets.map(bucket => ({
+      id: `archive-type-${bucket.data.id}`,
+      value: bucket.data.id,
+      count: bucket.count,
+      label: bucket.data.label,
+      selected: props.archiveType.includes(bucket.data.id),
+    })),
+    selectedValues: props.archiveType,
+  }),
+});
+
+const archiveRootFilter = ({
+  works,
+  props,
+}: WorksFilterProps): CheckboxFilter<keyof WorksProps> => ({
+  type: 'checkbox',
+  id: 'archiveRoot',
+  label: 'Archives',
+  options: filterOptionsWithNonAggregates({
+    options: works?.aggregations?.archiveRoot?.buckets.map(bucket => ({
+      id: `archive-root-${bucket.data.id}`,
+      value: bucket.data.id,
+      count: bucket.count,
+      label: bucket.data.label,
+      selected: props.archiveRoot.includes(bucket.data.id),
+    })),
+    selectedValues: props.archiveRoot,
+  }),
+});
+
 const availabilitiesFilter = ({
   works,
   props,
@@ -760,6 +833,10 @@ const worksFilters: (
     genresFilter,
     contributorsAgentFilter,
     languagesFilter,
+    archiveTypeFilter,
+    archiveRootFilter,
+    isArchiveRootFilter,
+    workRecordTypeFilter,
     partOfFilter,
   ].map(f => f(props));
 
