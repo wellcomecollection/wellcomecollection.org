@@ -17,37 +17,33 @@ const MultipleManifestList: FunctionComponent = () => {
   return (
     <nav>
       <List aria-label={volumesNavigationLabel}>
-        {manifests.map((manifest, i) => (
-          <Item
-            key={manifest.id}
-            $isActive={i === queryParamToArrayIndex(query.manifest)}
-          >
-            <NextLink
-              data-gtm-trigger="volumes_nav_link"
-              replace={true}
-              {...toWorksItemLink({
-                workId: work.id,
-                props: {
-                  canvas: 1,
-                  query: query.query,
-                  manifest: i + 1,
-                },
-              })}
-              aria-current={
-                i === queryParamToArrayIndex(query.manifest)
-                  ? 'page'
-                  : undefined
-              }
-              onClick={() => {
-                setIsMobileSidebarActive(false);
-              }}
-            >
-              {(manifest.label &&
-                getMultiVolumeLabel(manifest.label, work?.title || '')) ||
-                'Unknown'}
-            </NextLink>
-          </Item>
-        ))}
+        {manifests.map((manifest, i) => {
+          const isActiveManifest = i === queryParamToArrayIndex(query.manifest);
+          return (
+            <Item key={manifest.id} $isActive={isActiveManifest}>
+              <NextLink
+                data-gtm-trigger="volumes_nav_link"
+                {...toWorksItemLink({
+                  workId: work.id,
+                  props: {
+                    canvas: 1,
+                    query: query.query,
+                    manifest: i + 1,
+                  },
+                })}
+                aria-current={isActiveManifest ? 'page' : undefined}
+                onClick={() => {
+                  setIsMobileSidebarActive(false);
+                }}
+                replace
+              >
+                {(manifest.label &&
+                  getMultiVolumeLabel(manifest.label, work?.title || '')) ||
+                  'Unknown'}
+              </NextLink>
+            </Item>
+          );
+        })}
       </List>
     </nav>
   );

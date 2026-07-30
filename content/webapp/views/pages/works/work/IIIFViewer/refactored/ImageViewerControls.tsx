@@ -7,7 +7,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import { CanvasRotatedImage } from '@weco/content/types/item-viewer';
 
-const ImageViewerControlsEl = styled.div<{ $showControls?: boolean }>`
+const ImageViewerControlsWrapper = styled.div<{ $showControls?: boolean }>`
   position: absolute;
   bottom: 5%;
   right: 10%;
@@ -41,7 +41,7 @@ function updateRotatedImages({
   canvasParam: number;
 }): CanvasRotatedImage[] {
   const matchingIndex = rotatedImages.findIndex(
-    rotation => rotation.canvas === canvasParam
+    rotatedImage => rotatedImage.canvas === canvasParam
   );
   if (matchingIndex >= 0) {
     return rotatedImages.map((rotatedImage, i) => {
@@ -76,10 +76,9 @@ const ImageViewerControls: FunctionComponent = () => {
     setRotatedImages,
     setShowZoomed,
   } = useItemViewerContext();
-  const { canvas } = query;
 
   return (
-    <ImageViewerControlsEl $showControls={showControls}>
+    <ImageViewerControlsWrapper $showControls={showControls}>
       <Space
         $h={{ size: 'xs', properties: ['margin-left'] }}
         $v={{ size: 'md', properties: ['margin-bottom'] }}
@@ -105,13 +104,13 @@ const ImageViewerControls: FunctionComponent = () => {
             setRotatedImages(
               updateRotatedImages({
                 rotatedImages,
-                canvasParam: canvas,
+                canvasParam: query.canvas,
               })
             );
           }}
         />
       </Space>
-    </ImageViewerControlsEl>
+    </ImageViewerControlsWrapper>
   );
 };
 

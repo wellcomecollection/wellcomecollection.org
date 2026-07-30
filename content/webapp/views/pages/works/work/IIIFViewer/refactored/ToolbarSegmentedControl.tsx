@@ -61,34 +61,37 @@ const ToolbarSegmentedControl: FunctionComponent<Props> = ({
 }: Props) => {
   return (
     <List>
-      {items.map(item => (
-        <Item $isActive={activeId === item.id} key={item.id}>
-          <Button
-            onClick={item.clickHandler}
-            data-gtm-trigger={item.dataGtmTrigger}
-          >
-            <ButtonInner>
-              <Icon
-                icon={item.icon}
-                iconColor={activeId === item.id ? 'yellow' : 'neutral.600'}
-              />
-              <Space
-                $h={
-                  hideLabels
-                    ? undefined
-                    : {
-                        size: '2xs',
-                        properties: ['padding-left', 'padding-right'],
-                      }
-                }
-                className={hideLabels ? 'visually-hidden' : undefined}
-              >
-                {item.label}
-              </Space>
-            </ButtonInner>
-          </Button>
-        </Item>
-      ))}
+      {items.map(item => {
+        const isActive = activeId === item.id;
+        return (
+          <Item $isActive={isActive} key={item.id}>
+            <Button
+              onClick={item.clickHandler}
+              data-gtm-trigger={item.dataGtmTrigger}
+            >
+              <ButtonInner>
+                <Icon
+                  icon={item.icon}
+                  iconColor={isActive ? 'yellow' : 'neutral.600'}
+                />
+                <Space
+                  $h={
+                    hideLabels
+                      ? undefined
+                      : {
+                          size: '2xs',
+                          properties: ['padding-left', 'padding-right'],
+                        }
+                  }
+                  className={hideLabels ? 'visually-hidden' : undefined}
+                >
+                  {item.label}
+                </Space>
+              </ButtonInner>
+            </Button>
+          </Item>
+        );
+      })}
     </List>
   );
 };
