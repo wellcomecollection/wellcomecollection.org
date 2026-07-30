@@ -73,7 +73,7 @@ type SearchTermHighlightProps = {
   $rotation: number;
 };
 
-type RotationValue = 0 | 90 | 180 | 270;
+export type RotationValue = 0 | 90 | 180 | 270;
 
 const SearchTermHighlight = styled.div<SearchTermHighlightProps>`
   background: ${props => props.theme.color('yellow')};
@@ -99,7 +99,7 @@ type ItemRendererProps = ListChildComponentProps<{
   firstItemIsRestricted?: boolean;
 }>;
 
-function getOverlayTopLeft({
+export function getOverlayTopLeft({
   imageContainerRect,
   imageRect,
   rotation,

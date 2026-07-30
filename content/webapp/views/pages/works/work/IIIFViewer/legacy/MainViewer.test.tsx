@@ -13,7 +13,7 @@ import {
   createRestrictedPainting,
 } from '@weco/content/test/fixtures/iiif/transformed-manifest';
 
-import MainViewer from './MainViewer';
+import MainViewer, { getOverlayTopLeft, RotationValue } from './MainViewer';
 
 // The legacy counterpart to the refactored viewer tests. Legacy MainViewer is
 // both viewers in one component, so the two describes below mirror
@@ -406,4 +406,43 @@ describe('MainViewer (legacy)', () => {
       expect(screen.getByTestId('main-viewer')).toBeEmptyDOMElement();
     });
   });
+});
+
+describe('getOverlayTopLeft', () => {
+  const imageContainerRect = { top: 10, left: 20 } as unknown as DOMRect;
+  const imageRect = {
+    top: 30,
+    left: 50,
+    width: 200,
+    height: 100,
+  } as unknown as DOMRect;
+  const x = 15;
+  const y = 8;
+
+  // startTop = imageRect.top - imageContainerRect.top = 20
+  // startLeft = imageRect.left - imageContainerRect.left = 30
+  const expectedByRotation: Record<
+    RotationValue,
+    { overlayTop: number; overlayLeft: number }
+  > = {
+    0: { overlayTop: 28, overlayLeft: 45 },
+    90: { overlayTop: 35, overlayLeft: 222 },
+    180: { overlayTop: 112, overlayLeft: 215 },
+    270: { overlayTop: 105, overlayLeft: 38 },
+  };
+
+  it.each([0, 90, 180, 270] as RotationValue[])(
+    'computes the overlay position for a %d degree rotation',
+    rotation => {
+      const result = getOverlayTopLeft({
+        imageContainerRect,
+        imageRect,
+        rotation,
+        x,
+        y,
+      });
+
+      expect(result).toEqual(expectedByRotation[rotation]);
+    }
+  );
 });
