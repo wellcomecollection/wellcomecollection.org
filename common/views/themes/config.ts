@@ -141,9 +141,6 @@ const designSystemColors = flattenColors(coreColorSource) as Record<
   string
 >;
 
-const getDesignSystemColor = (name: DesignSystemColor): string =>
-  designSystemColors[name];
-
 // Maps each existing colour to its nearest equivalent in the core design system
 // scales, chosen by hex distance. Used to swap palettes when the `brandUpdate`
 // toggle is on. The `Record<keyof typeof colors, ...>` type makes this
@@ -487,8 +484,6 @@ export const themeValues = {
   fontVerticalOffset: '0.15em',
   colors,
   color: getColor,
-  designSystemColors,
-  designSystemColor: getDesignSystemColor,
   minCardHeight: 385,
   media,
   mediaBetween,
