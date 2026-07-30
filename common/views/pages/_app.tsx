@@ -1,6 +1,6 @@
 import { GetServerSideProps, NextPage } from 'next';
 import type { AppProps } from 'next/app';
-import React, { ReactElement, ReactNode, useEffect } from 'react';
+import React, { ReactElement, ReactNode, useEffect, useMemo } from 'react';
 import { ThemeProvider } from 'styled-components';
 
 import { ApmContextProvider } from '@weco/common/contexts/ApmContext';
@@ -165,14 +165,17 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
   const getLayout = Component.getLayout ?? (page => page);
   const componentProps = deserialiseProps(pageProps) as Record<string, unknown>;
 
+  // Memoise by the toggle value so ThemeProvider gets a stable theme reference
+  // and doesn't trigger re-renders/style recalculation on every App render.
+  const theme = useMemo(
+    () => createTheme(Boolean(serverData.toggles.featureFlags.brandUpdate)),
+    [serverData.toggles.featureFlags.brandUpdate]
+  );
+
   return (
     <ApmContextProvider>
       <ServerDataContext.Provider value={serverData}>
-        <ThemeProvider
-          theme={createTheme(
-            Boolean(serverData.toggles.featureFlags.brandUpdate)
-          )}
-        >
+        <ThemeProvider theme={theme}>
           <UserContextProvider>
             <AppContextProvider>
               <SearchContextProvider>
