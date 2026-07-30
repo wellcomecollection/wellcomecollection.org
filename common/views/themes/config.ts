@@ -68,6 +68,82 @@ const getColor = (name: PaletteColor): string => {
   return colors[name];
 };
 
+// Design system colours, introduced behind the `brandUpdate` toggle.
+// These are derived from the design system's own colour tokens
+// (`designSystemTheme.color`) rather than hand-transcribed, so they stay in
+// sync with the package. The tokens are nested objects of tinted scales; we
+// flatten them to a `.`-separated map (e.g. `neutral.10`, `ui.blue.40`) so they
+// can be used in the same way as the existing `colors` above.
+const coreColorKeys = [
+  'white',
+  'black',
+  'neutral',
+  'pink',
+  'yellow',
+  'blue',
+  'indigo',
+  'teal',
+  'orange',
+  'green',
+  'ui',
+] as const;
+
+type CoreColorSource = Pick<
+  typeof designSystemTheme.color,
+  (typeof coreColorKeys)[number]
+>;
+
+// Recursively derive the `.`-separated union of leaf keys from a nested colour
+// object, giving us `'white' | 'neutral.10' | 'ui.blue.40' | ...`. This keeps
+// type safety: a name that isn't in the design system is a type error.
+type FlattenColorKeys<T, Prefix extends string = ''> = {
+  [K in keyof T & string]: T[K] extends string
+    ? `${Prefix}${K}`
+    : FlattenColorKeys<T[K], `${Prefix}${K}.`>;
+}[keyof T & string];
+
+export type DesignSystemColor = FlattenColorKeys<CoreColorSource>;
+
+// Runtime flatten mirroring the type above.
+function flattenColors(
+  obj: Record<string, unknown>,
+  prefix = ''
+): Record<string, string> {
+  return Object.entries(obj).reduce<Record<string, string>>(
+    (acc, [key, value]) => {
+      const path = prefix ? `${prefix}.${key}` : key;
+
+      if (typeof value === 'string') {
+        acc[path] = value;
+      } else if (value && typeof value === 'object') {
+        Object.assign(
+          acc,
+          flattenColors(value as Record<string, unknown>, path)
+        );
+      }
+
+      return acc;
+    },
+    {}
+  );
+}
+
+const coreColorSource = coreColorKeys.reduce<Record<string, unknown>>(
+  (acc, key) => {
+    acc[key] = designSystemTheme.color[key];
+    return acc;
+  },
+  {}
+);
+
+const designSystemColors = flattenColors(coreColorSource) as Record<
+  DesignSystemColor,
+  string
+>;
+
+const getDesignSystemColor = (name: DesignSystemColor): string =>
+  designSystemColors[name];
+
 export const sizes = {
   zero: '0rem',
   sm: designSystemTheme.breakpoints.sm, // 48rem = 768px
@@ -360,6 +436,8 @@ export const themeValues = {
   fontVerticalOffset: '0.15em',
   colors,
   color: getColor,
+  designSystemColors,
+  designSystemColor: getDesignSystemColor,
   minCardHeight: 385,
   media,
   mediaBetween,
