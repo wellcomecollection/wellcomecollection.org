@@ -32,7 +32,8 @@ import InactivityRedirect from '@weco/common/views/components/InactivityRedirect
 import InfoBanner from '@weco/common/views/components/InfoBanner';
 import LoadingIndicator from '@weco/common/views/components/LoadingIndicator';
 import ErrorPage from '@weco/common/views/layouts/ErrorPage';
-import themeValues, { GlobalStyle } from '@weco/common/views/themes/default';
+import { createTheme } from '@weco/common/views/themes/config';
+import { GlobalStyle } from '@weco/common/views/themes/default';
 // Error pages can't send anything via the data fetching methods as
 // the page needs to be rendered as soon as the error happens.
 // We just use the route to determine if this is an error page to ignore
@@ -167,7 +168,11 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
   return (
     <ApmContextProvider>
       <ServerDataContext.Provider value={serverData}>
-        <ThemeProvider theme={themeValues}>
+        <ThemeProvider
+          theme={createTheme(
+            Boolean(serverData.toggles.featureFlags.brandUpdate)
+          )}
+        >
           <UserContextProvider>
             <AppContextProvider>
               <SearchContextProvider>

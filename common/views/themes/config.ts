@@ -144,6 +144,57 @@ const designSystemColors = flattenColors(coreColorSource) as Record<
 const getDesignSystemColor = (name: DesignSystemColor): string =>
   designSystemColors[name];
 
+// Maps each existing colour to its nearest equivalent in the core design system
+// scales, chosen by hex distance. Used to swap palettes when the `brandUpdate`
+// toggle is on. The `Record<keyof typeof colors, ...>` type makes this
+// exhaustive: a new entry in `colors` is a type error until it's mapped here.
+//
+// Some rows are flagged because the core scales are a different palette to the
+// current one, so the nearest match is a poor visual fit (the core scales have
+// no purple, turquoise or salmon). These are kept as the nearest match for now;
+// adjust deliberately if design wants something else.
+const colorToDesignSystemColor: Record<keyof typeof colors, DesignSystemColor> =
+  {
+    white: 'white',
+    black: 'neutral.80',
+    yellow: 'yellow.30', // FIXME: such yellow
+    lightYellow: 'yellow.20',
+
+    'accent.purple': 'neutral.50', // FIXME: no purple in core scales; nearest is a grey
+    'accent.lightPurple': 'ui.grey.40', // FIXME: no purple in core scales; nearest is a grey
+    'accent.turquoise': 'blue.50', // FIXME: no turquoise in core scales; nearest is a blue
+    'accent.lightTurquoise': 'blue.20', // FIXME: no turquoise in core scales; nearest is a blue
+    'accent.blue': 'indigo.60',
+    'accent.lightBlue': 'blue.30',
+    'accent.green': 'teal.40',
+    'accent.lightGreen': 'neutral.30', // FIXME: nearest is a grey, not a green
+    'accent.salmon': 'orange.40',
+    'accent.lightSalmon': 'orange.30',
+
+    'neutral.200': 'neutral.05',
+    'neutral.300': 'teal.10', // FIXME: nearest is a green-tinted off-white
+    'neutral.400': 'neutral.20',
+    'neutral.500': 'neutral.40',
+    'neutral.600': 'neutral.50',
+    'neutral.700': 'neutral.70',
+
+    'warmNeutral.200': 'yellow.10',
+    'warmNeutral.300': 'green.10', // FIXME: nearest is a green-tinted off-white
+    'warmNeutral.400': 'neutral.20',
+
+    'validation.red': 'ui.red.40',
+    'validation.green': 'teal.50', // FIXME: nearest is a teal, not a green
+
+    'focus.yellow': 'yellow.30',
+  };
+
+const getBrandUpdateColor = (name: PaletteColor): string => {
+  // Passed-through values (see getColor) have no palette equivalent.
+  if (['currentColor', 'transparent', 'inherit'].includes(name)) return name;
+
+  return designSystemColors[colorToDesignSystemColor[name]];
+};
+
 export const sizes = {
   zero: '0rem',
   sm: designSystemTheme.breakpoints.sm, // 48rem = 768px
@@ -474,6 +525,14 @@ export const themeValues = {
   clampLines,
   typography: designSystemTheme.typography,
 };
+
+// Builds the theme passed to ThemeProvider. When the `brandUpdate` toggle is on,
+// `color()` resolves each name to its nearest design system equivalent
+// (see colorToDesignSystemColor); otherwise it uses the existing palette.
+export const createTheme = (brandUpdate: boolean) => ({
+  ...themeValues,
+  color: brandUpdate ? getBrandUpdateColor : getColor,
+});
 
 export type Breakpoint = keyof typeof sizes;
 
