@@ -185,11 +185,21 @@ const colorToDesignSystemColor: Record<keyof typeof colors, DesignSystemColor> =
     'focus.yellow': 'yellow.30',
   };
 
+// The existing `colors`, resolved to their design system equivalents. Same keys
+// as `colors`, so anything reading `theme.colors[...]` directly (rather than via
+// `color()`) also switches palettes when `brandUpdate` is on.
+const brandUpdateColors = Object.fromEntries(
+  (Object.keys(colors) as (keyof typeof colors)[]).map(name => [
+    name,
+    designSystemColors[colorToDesignSystemColor[name]],
+  ])
+) as Record<keyof typeof colors, string>;
+
 const getBrandUpdateColor = (name: PaletteColor): string => {
   // Passed-through values (see getColor) have no palette equivalent.
   if (['currentColor', 'transparent', 'inherit'].includes(name)) return name;
 
-  return designSystemColors[colorToDesignSystemColor[name]];
+  return brandUpdateColors[name];
 };
 
 export const sizes = {
@@ -522,12 +532,20 @@ export const themeValues = {
 };
 
 // Builds the theme passed to ThemeProvider. When the `brandUpdate` toggle is on,
-// `color()` resolves each name to its nearest design system equivalent
-// (see colorToDesignSystemColor); otherwise it uses the existing palette.
-export const createTheme = (brandUpdate: boolean) => ({
-  ...themeValues,
-  color: brandUpdate ? getBrandUpdateColor : getColor,
-});
+// the palette is swapped for its nearest design system equivalents
+// (see colorToDesignSystemColor): `color()`, the raw `colors` map, and any
+// values derived from it (e.g. focusBoxShadow) all switch together so the theme
+// stays internally consistent. `color` keeps the same signature either way, so
+// all `theme.color(...)` call sites are remapped transparently.
+export const createTheme = (brandUpdate: boolean) =>
+  brandUpdate
+    ? {
+        ...themeValues,
+        colors: brandUpdateColors,
+        color: getBrandUpdateColor,
+        focusBoxShadow: `0 0 0 3px ${brandUpdateColors['focus.yellow']}`,
+      }
+    : themeValues;
 
 export type Breakpoint = keyof typeof sizes;
 
