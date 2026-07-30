@@ -175,23 +175,20 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
     setTree,
     canvasIndexById,
   } = useItemViewerContext();
-  const { canvas } = query || {};
   const { userIsStaffWithRestricted } = useUserContext();
 
   const [tabbableId, setTabbableId] = useState<string>();
-  const matchingManifest =
-    parentManifest &&
-    parentManifest.canvases.find(canvas => {
-      return !transformedManifest
-        ? false
-        : canvas.id === transformedManifest.id;
-    });
+
+  const matchingCanvas = parentManifest?.canvases.find(
+    parentCanvas => parentCanvas.id === transformedManifest?.id
+  );
 
   const manifestLabel =
-    matchingManifest?.label &&
-    getMultiVolumeLabel(matchingManifest.label, work?.title || '');
+    matchingCanvas?.label &&
+    getMultiVolumeLabel(matchingCanvas.label, work?.title || '');
 
   const { structures, searchService } = { ...transformedManifest };
+  const hasStructures = Boolean(structures && structures.length > 0);
 
   const digitalLocation: DigitalLocation | undefined =
     iiifPresentationLocation || iiifImageLocation;
@@ -210,6 +207,13 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
   const isWorkVisibleWithPermission =
     digitalLocationInfo?.accessCondition === 'restricted' &&
     userIsStaffWithRestricted;
+  // this check for `behavior === 'multi-part'` is repeated in items.tsx to
+  // avoid sending unnecessary data about parent manifests that we're not
+  // going to render. If you change the display condition here, you'll
+  // likely want to update it there also.
+  const isMultiPartWork = Boolean(
+    parentManifest && parentManifest.behavior?.[0] === 'multi-part'
+  );
 
   useEffect(() => {
     const elementToFocus = tabbableId && document.getElementById(tabbableId);
@@ -222,15 +226,17 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
     <>
       {isWorkVisibleWithPermission && (
         <RestrictedMessage>
-          <RestrictedItemMessage plural={true} />
+          <RestrictedItemMessage plural />
         </RestrictedMessage>
       )}
+
       <Inner className={typography('body', 'md', 'strong')}>
         {manifestLabel && (
           <span className={typography('body', 'md', 'regular')}>
             {manifestLabel}
           </span>
         )}
+
         <h1>
           <WorkTitle title={work.title} />
         </h1>
@@ -266,7 +272,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
               $h={{ size: 'xs', properties: ['margin-left'] }}
               style={{ display: 'flex', alignItems: 'center' }}
             >
-              <Icon icon={arrow} matchText={true} iconColor="white" />
+              <Icon icon={arrow} iconColor="white" matchText />
             </Space>
           </WorkLink>
         </Space>
@@ -310,10 +316,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
             defaultOpen
           >
             <div style={{ overflow: 'auto' }}>
-              <WorksTree
-                isDarkMode={true}
-                hasStructures={Boolean(structures && structures.length > 0)}
-              >
+              <WorksTree hasStructures={hasStructures} isDarkMode>
                 <NestedList
                   currentWorkId={work.id}
                   tree={tree}
@@ -322,45 +325,36 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
                   level={1}
                   tabbableId={tabbableId}
                   setTabbableId={setTabbableId}
-                  firstItemTabbable={true}
-                  showFirstLevelGuideline={true}
-                  shouldFetchChildren={false}
-                  isDarkMode={true}
                   ItemRenderer={DownloadItemRenderer}
                   itemRendererProps={{
                     linkToCanvas: true,
                     workId: work.id,
                     canvasIndexById,
-                    currentCanvasIndex: canvas,
+                    currentCanvasIndex: query.canvas,
                     itemOnClick: () => setIsMobileSidebarActive(false),
                     canvases: transformedManifest?.canvases,
                   }}
+                  firstItemTabbable
+                  showFirstLevelGuideline
+                  shouldFetchChildren={false}
+                  isDarkMode
                 />
               </WorksTree>
             </div>
           </AccordionItem>
         )}
 
-        {Boolean(structures && structures.length > 0) &&
-          hasOnlyRenderableImages && (
-            <AccordionItem title="Contents" gtmData={{ trigger: 'contents' }}>
-              <ViewerStructures />
-            </AccordionItem>
-          )}
+        {hasStructures && hasOnlyRenderableImages && (
+          <AccordionItem title="Contents" gtmData={{ trigger: 'contents' }}>
+            <ViewerStructures />
+          </AccordionItem>
+        )}
 
-        {/*
-          Note: this check for `behavior === 'multi-part'` is repeated in items.tsx to
-          avoid sending unnecessary data about parent manifests that we're not going
-          to render.  If you change the display condition here, you'll likely want to
-          update it there also.
-        */}
-        {parentManifest &&
-          parentManifest.behavior?.[0] === 'multi-part' &&
-          parentManifest.canvases && (
-            <AccordionItem title="Volumes" gtmData={{ trigger: 'volumes' }}>
-              <MultipleManifestList />
-            </AccordionItem>
-          )}
+        {isMultiPartWork && (
+          <AccordionItem title="Volumes" gtmData={{ trigger: 'volumes' }}>
+            <MultipleManifestList />
+          </AccordionItem>
+        )}
       </Inner>
 
       {searchService && (
