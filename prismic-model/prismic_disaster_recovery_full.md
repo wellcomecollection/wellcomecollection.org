@@ -137,13 +137,13 @@ All three append-only files are written to the gitignored `restore/status/` dire
 #### Step 1 — Create a new repository
 
 1. Log into the [Prismic dashboard](https://prismic.io/dashboard).
-2. Create a new repository — choose Next.js and "Connect your own web app".
+2. Create a new repository — choose Next.js.
 3. Give it a name. Try the original name; if it is unavailable, choose a temporary name and update it later.
-4. After creation go to **Settings → Translations & locales**, add `English - United Kingdom` and set it as the master locale. This must be done or the migration api will error when we try to upload our content.
+4. After creation go to **Settings → Translations & locales**, add `English - United Kingdom` and set it as the master locale. This must be done or the Migration API will error when we try to upload our content.
 
 #### Step 2 — Restore custom types
 
-1. If the repository name has changed, update `repositoryName` in `/common/slicemachine.config.json`.
+1. If the repository name has changed, update `repositoryName` in `/common/slicemachine.config.json`. **Note:** this probably _won't_ be the display name you gave the repository, but an id that Prismic will have generated – it is the subdomain that appears in the url before `.prismic.io` (e.g. if the dashboard url is `https://45bc5c47.prismic.io/`, the `repositoryName` should be `45bc5c47`)
 2. From the repository root, run Slice Machine:
    ```bash
    yarn slicemachine
