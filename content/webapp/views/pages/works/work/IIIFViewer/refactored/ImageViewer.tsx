@@ -66,8 +66,10 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   const { isFullSupportBrowser } = useAppContext();
   const { work, errorHandler, setShowZoomed, rotatedImages } =
     useItemViewerContext();
+
   const imageWrapperRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
+
   const [imageSrc, setImageSrc] = useState(urlTemplate({ size: '640,' }));
   const [imageSrcSet, setImageSrcSet] = useState(
     imageSizes(2048)
@@ -80,11 +82,11 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
       })
       .join(',')
   );
-  const matching = rotatedImages.find(
-    canvas => queryParamToArrayIndex(canvas.canvas) === index
-  );
 
-  const rotation = matching ? matching.rotation : 0;
+  const matchingRotatedImage = rotatedImages.find(
+    image => queryParamToArrayIndex(image.canvas) === index
+  );
+  const rotation = matchingRotatedImage?.rotation || 0;
 
   function updateImagePosition() {
     const imageRect = imageRef?.current?.getBoundingClientRect();
@@ -158,7 +160,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
           updateImagePosition();
         }}
         errorHandler={errorHandler}
-        zoomOnClick={true}
+        zoomOnClick
       />
       {alt ? (
         <span className="visually-hidden" id={`image-${index + 1}`}>

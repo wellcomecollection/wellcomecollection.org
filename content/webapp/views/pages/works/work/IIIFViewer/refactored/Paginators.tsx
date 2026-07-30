@@ -34,12 +34,12 @@ const PaginatorButtons = ({
         <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
           <Rotator $rotate={270}>
             <Control
-              scroll={false}
-              replace={true}
               link={prevLink}
               colorScheme="light"
               icon={arrow}
               text="Previous page"
+              scroll={false}
+              replace
             />
           </Rotator>
         </Space>
@@ -48,12 +48,12 @@ const PaginatorButtons = ({
         <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
           <Rotator $rotate={90}>
             <Control
-              scroll={false}
-              replace={true}
               link={nextLink}
               colorScheme="light"
               icon={arrow}
               text="Next page"
+              scroll={false}
+              replace
             />
           </Rotator>
         </Space>
@@ -93,6 +93,7 @@ const getLink = ({
 export const CanvasPaginator = () => {
   const { work, query, transformedManifest } = useItemViewerContext();
   const { canvases } = { ...transformedManifest };
+
   const totalResults = canvases?.length || 1;
   const link = toWorksItemLink({
     workId: work.id,
@@ -103,6 +104,7 @@ export const CanvasPaginator = () => {
       query: query.query,
     },
   });
+
   const currentPage = query.canvas;
   const pageSize = 1;
   const totalPages = Math.ceil(totalResults / pageSize);
@@ -132,6 +134,7 @@ export const CanvasPaginator = () => {
 export const ThumbnailsPaginator = () => {
   const { work, query, transformedManifest } = useItemViewerContext();
   const { canvases } = { ...transformedManifest };
+
   const totalResults = canvases?.length || 1;
   const link = toWorksItemLink({
     workId: work.id,
@@ -142,6 +145,7 @@ export const ThumbnailsPaginator = () => {
       query: query.query,
     },
   });
+
   const currentPage = query.page;
   const totalPages = Math.ceil(totalResults / thumbnailsPageSize);
   const next = currentPage < totalPages ? currentPage + 1 : 0;
