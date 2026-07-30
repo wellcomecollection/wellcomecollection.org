@@ -41,8 +41,8 @@ const DesktopSignIn: FunctionComponent = () => {
       <BorderlessLink
         iconLeft={userIcon}
         text="Library account"
-        isTextHidden={true}
         href="/account"
+        isTextHidden
       />
     </span>
   ) : (

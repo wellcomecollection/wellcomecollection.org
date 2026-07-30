@@ -107,9 +107,9 @@ const ExhibitionGuideTypePage: NextPage<Props> = ({
         customNavLinks: exhibitionGuidesLinks,
         isMinimalHeader: true,
       }}
-      hideNewsletterPromo={true}
       apiToolbarLinks={[createPrismicLink(exhibitionGuide.id)]}
       skipToContentLinks={skipToContentLinks}
+      hideNewsletterPromo
     >
       <PageHeader
         variant="basic"

@@ -61,7 +61,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
     <div style={style}>
       {scrollVelocity === 3 ? (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <LL $lighten={true} />
+          <LL $lighten />
         </div>
       ) : (
         <>
@@ -85,8 +85,8 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
                     setImageRect={setImageRect}
                     setImageContainerRect={setImageContainerRect}
                     externalAccessService={externalAccessService}
-                    shouldScrollToUpdateUrl={true}
                     showVideoTranscript={false}
+                    shouldScrollToUpdateUrl
                   />
                 </ItemWrapper>
               );

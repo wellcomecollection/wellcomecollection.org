@@ -18,11 +18,7 @@ const ClosedMessage = () => {
       $v={{ size: 'md', properties: ['margin-top', 'margin-bottom'] }}
       style={{ maxWidth: theme.sizes.md }}
     >
-      <InfoBox
-        title="Exhibitions are closed today"
-        hasBiggerHeading={true}
-        items={[]}
-      >
+      <InfoBox title="Exhibitions are closed today" items={[]} hasBiggerHeading>
         <InfoIconWrapper>
           <Icon icon={information} />
         </InfoIconWrapper>

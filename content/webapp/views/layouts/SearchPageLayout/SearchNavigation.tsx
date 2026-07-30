@@ -191,13 +191,13 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
         )}
       </form>
       {!semanticSearchPrototype && (
-        <TabsBorder $visible={true}>
+        <TabsBorder $visible>
           <Tabs
             tabBehaviour="navigate"
-            hideBorder={true}
             label="Search Categories"
             items={tabItems}
             currentSection={currentSearchCategory}
+            hideBorder
           />
         </TabsBorder>
       )}

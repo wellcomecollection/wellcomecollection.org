@@ -155,9 +155,9 @@ const PortraitVideoList: FunctionComponent<Props> = ({
               key={activeIndex}
               ref={iframeRef}
               title={activeItem?.title || 'Video'}
-              allowFullScreen={true}
               allow={iframeAllow}
               src={videoSrc}
+              allowFullScreen
             />
           )}
           {activeItem?.transcript && (

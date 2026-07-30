@@ -158,7 +158,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
           updateImagePosition();
         }}
         errorHandler={errorHandler}
-        zoomOnClick={true}
+        zoomOnClick
       />
       {alt ? (
         <span className="visually-hidden" id={`image-${index + 1}`}>

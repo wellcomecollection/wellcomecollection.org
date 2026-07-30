@@ -99,7 +99,7 @@ const TextAndImageOrIcons: FunctionComponent<Props> = ({ item }) => {
     <DividingLine data-component="text-and-image-or-icons">
       <MediaAndTextWrap>
         {item.type === 'icons' && icons.length > 0 && (
-          <ImageOrIcons $isIcons={true}>
+          <ImageOrIcons $isIcons>
             {/* We're enforcing a maximum of 6 icons within a slice  */}
             {icons.slice(0, 6).map((icon, index) => {
               return (

@@ -38,7 +38,7 @@ const WhereToFindIt = ({ work, physicalItems, locationOfWork }: Props) => {
         <WorkDetailsText
           title={locationOfWork.noteType.label}
           html={locationOfWork.contents}
-          allowDangerousRawHtml={true}
+          allowDangerousRawHtml
         />
       )}
       <PhysicalItems work={work} items={physicalItems} />

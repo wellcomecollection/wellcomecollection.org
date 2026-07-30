@@ -114,7 +114,6 @@ const Exhibition: FunctionComponent<Props> = ({
         breadcrumbs={getBreadcrumbItems('whats-on', extraBreadcrumbs)}
         labels={{ labels: exhibition.labels }}
         title={exhibition.title}
-        fullWidth={true}
         ContentTypeInfo={
           <>
             {!exhibition.isPermanent && (
@@ -132,7 +131,7 @@ const Exhibition: FunctionComponent<Props> = ({
                   start={exhibition.start}
                   end={exhibition.end || new Date()}
                   statusOverride={exhibition.statusOverride}
-                  isLarge={true}
+                  isLarge
                 />
               </Space>
             )}
@@ -142,9 +141,10 @@ const Exhibition: FunctionComponent<Props> = ({
         HeroPicture={
           hasHeroPicture ? <HeroPicture fields={exhibition} /> : undefined
         }
-        isFree={true}
-        isContentTypeInfoBeforeMedia={true}
-        includeAccessibilityProvision={true}
+        fullWidth
+        isFree
+        isContentTypeInfoBeforeMedia
+        includeAccessibilityProvision
       />
 
       {exhibition.bslLeafletVideo && (
@@ -172,7 +172,7 @@ const Exhibition: FunctionComponent<Props> = ({
         />
       }
       seasons={exhibition.seasons}
-      hideContributors={true} // We hide contributors as we show them further up the page
+      hideContributors // We hide contributors as we show them further up the page
     >
       {exhibition.uid === 'being-human' ? (
         <ExhibitionBeingHuman

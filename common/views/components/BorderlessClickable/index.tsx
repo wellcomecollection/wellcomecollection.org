@@ -68,17 +68,17 @@ const Button: ForwardRefRenderFunction<
       ref={ref}
       {...elementProps}
     >
-      <BaseButtonInner $isInline={true}>
+      <BaseButtonInner $isInline>
         <>
           {iconLeft && (
-            <ButtonIconWrapper $iconAfter={false}>
+            <ButtonIconWrapper>
               {/* This is all a little hacky and will need some tidy up */}
               {/* We currently only use this in the header sign in button */}
               <span
                 className={typography('body', 'lg', 'regular')}
                 style={{ transform: 'translateY(0.01em)' }}
               >
-                <Icon icon={iconLeft} matchText={true} />
+                <Icon icon={iconLeft} matchText />
               </span>
             </ButtonIconWrapper>
           )}
@@ -90,7 +90,7 @@ const Button: ForwardRefRenderFunction<
             {text}
           </span>
           {icon && (
-            <ButtonIconWrapper $iconAfter={true}>
+            <ButtonIconWrapper $iconAfter>
               <Icon icon={icon} />
             </ButtonIconWrapper>
           )}

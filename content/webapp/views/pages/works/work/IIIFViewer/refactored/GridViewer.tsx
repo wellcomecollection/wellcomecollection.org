@@ -69,13 +69,12 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
     <div style={style}>
       {scrollVelocity > 1 ? (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <LL $lighten={true} />
+          <LL $lighten />
         </div>
       ) : (
         currentCanvas && (
           <ThumbnailSpacer>
             <NextLink
-              replace={true}
               {...toWorksItemLink({
                 workId,
                 props: {
@@ -92,6 +91,7 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
                 setGridVisible(false);
               }}
               tabIndex={gridVisible ? 0 : -1}
+              replace
             >
               <IIIFCanvasThumbnail
                 canvas={currentCanvas}

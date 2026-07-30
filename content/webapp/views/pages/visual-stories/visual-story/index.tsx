@@ -65,8 +65,8 @@ const VisualStoryPage: NextPage<Props> = ({
       }}
       labels={{ labels: [] }}
       title={visualStory.title}
-      isContentTypeInfoBeforeMedia={true}
       ContentTypeInfo={ContentTypeInfo}
+      isContentTypeInfoBeforeMedia
     />
   );
 
@@ -93,9 +93,9 @@ const VisualStoryPage: NextPage<Props> = ({
       url={{ pathname: visualStoryPath }}
       jsonLd={jsonLd}
       openGraphType="website"
-      hideNewsletterPromo={true}
       siteSection={visualStory.siteSection}
       apiToolbarLinks={[createPrismicLink(visualStory.id)]}
+      hideNewsletterPromo
     >
       <ContentPage
         id={visualStory.id}

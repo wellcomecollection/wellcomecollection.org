@@ -149,7 +149,7 @@ export const Article: Meta<typeof PageHeader> = {
           }),
           image(florenceWinterfloodImageUrl('3200x3200'), 3200, 3200),
         ]}
-        isFull={true}
+        isFull
       />
     ),
     ContentTypeInfo,
@@ -183,7 +183,7 @@ export const ShortFilm: Meta<typeof PageHeader> = {
               <PageHeader
                 {...args}
                 variant="basic"
-                isContentTypeInfoBeforeMedia={true}
+                isContentTypeInfoBeforeMedia
                 ContentTypeInfo={ContentTypeInfo}
                 labels={{ labels: [{ text: 'Short film' }] }}
                 title="Audrey's archivist"
@@ -279,10 +279,7 @@ export const Event: Meta<typeof PageHeader> = {
     ),
     isContentTypeInfoBeforeMedia: true,
     Background: (
-      <HeaderBackground
-        hasWobblyEdge={true}
-        backgroundTexture={headerBackgroundLs}
-      />
+      <HeaderBackground hasWobblyEdge backgroundTexture={headerBackgroundLs} />
     ),
   },
 };
@@ -313,7 +310,7 @@ export const Exhibition: Meta<typeof PageHeader> = {
           }),
           image(florenceWinterfloodImageUrl('3200x3200'), 3200, 3200),
         ]}
-        isFull={true}
+        isFull
       />
     ),
     ContentTypeInfo: (

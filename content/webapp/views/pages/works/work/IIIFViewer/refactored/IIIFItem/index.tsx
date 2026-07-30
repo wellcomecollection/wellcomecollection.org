@@ -454,7 +454,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           <VideoPlayer
             placeholderId={placeholderId}
             video={item}
-            showDownloadOptions={true}
+            showDownloadOptions
           />
           {showVideoTranscript && (
             <VideoTranscript
@@ -509,7 +509,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
                     label={itemLabel}
                     fileSize={getFileSize(canvas)}
                     format={'format' in original ? original.format : undefined}
-                    showWarning={true}
+                    showWarning
                   />
                 </IIIFItemWrapper>
               )
@@ -537,7 +537,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
             isProbeOk={isProbeOk}
             externalAccessService={adjustedExternalAccessService}
             index={i}
-            removeRestrictedMessage={true}
+            removeRestrictedMessage
           >
             {imageContent}
           </IIIFItemWrapperWithObserver>
@@ -551,7 +551,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           isRestricted={isRestricted}
           isProbeOk={isProbeOk}
           externalAccessService={adjustedExternalAccessService}
-          removeRestrictedMessage={true}
+          removeRestrictedMessage
         >
           {imageContent}
         </IIIFItemWrapper>
