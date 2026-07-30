@@ -10,10 +10,8 @@ import Button from '@weco/common/views/components/Buttons';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
 import TextInput from '@weco/common/views/components/TextInput';
-import {
-  results,
-  useItemViewerContext,
-} from '@weco/content/contexts/ItemViewerContext';
+import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
+import { results } from '@weco/content/contexts/ItemViewerContext/legacy';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { searchWithinLabel } from '@weco/content/text/aria-labels';
 import { TransformedCanvas } from '@weco/content/types/manifest';

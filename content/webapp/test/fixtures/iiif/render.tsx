@@ -15,12 +15,14 @@ import UserContext, {
   UserContextProps,
 } from '@weco/common/contexts/UserContext';
 import theme from '@weco/common/views/themes/default';
-import {
-  defaultItemViewerContext,
-  ItemViewerContextLegacy,
-  ItemViewerContextProps,
-  ItemViewerContextRefactored,
-} from '@weco/content/contexts/ItemViewerContext';
+import ItemViewerContextLegacy, {
+  defaultItemViewerContext as defaultLegacyItemViewerContext,
+  ItemViewerContextProps as LegacyItemViewerContextProps,
+} from '@weco/content/contexts/ItemViewerContext/legacy';
+import ItemViewerContextRefactored, {
+  defaultItemViewerContext as defaultRefactoredItemViewerContext,
+  ItemViewerContextProps as RefactoredItemViewerContextProps,
+} from '@weco/content/contexts/ItemViewerContext/refactored';
 
 import { createMockManifest } from './transformed-manifest';
 
@@ -32,12 +34,28 @@ import { createMockManifest } from './transformed-manifest';
 // KioskContext (isKiosk, which affects PDF viewer choice and other kiosk-specific
 // behavior). `renderWithContext` wires all of these up with sensible defaults
 // so a test only has to declare the values relevant to the scenario it characterises.
+//
+// This imports legacy's and refactored's context modules directly (rather
+// than the feature-flag-aware barrel), so each Provider below is always given
+// a value matching its own shape — the two are expected to diverge as the
+// item-viewer-refactor migration progresses.
 
 export function createMockItemViewerContext(
-  overrides: Partial<ItemViewerContextProps> = {}
-): ItemViewerContextProps {
+  overrides: Partial<LegacyItemViewerContextProps> = {}
+): LegacyItemViewerContextProps {
   return {
-    ...defaultItemViewerContext,
+    ...defaultLegacyItemViewerContext,
+    // A single-image manifest is the most common baseline; override as needed.
+    transformedManifest: createMockManifest(),
+    ...overrides,
+  };
+}
+
+export function createMockRefactoredItemViewerContext(
+  overrides: Partial<RefactoredItemViewerContextProps> = {}
+): RefactoredItemViewerContextProps {
+  return {
+    ...defaultRefactoredItemViewerContext,
     // A single-image manifest is the most common baseline; override as needed.
     transformedManifest: createMockManifest(),
     ...overrides,
@@ -45,18 +63,21 @@ export function createMockItemViewerContext(
 }
 
 export type RenderWithContextOptions = {
-  contextProps?: Partial<ItemViewerContextProps>;
+  contextProps?:
+    | Partial<LegacyItemViewerContextProps>
+    | Partial<RefactoredItemViewerContextProps>;
   appContext?: Partial<AppContextProps>;
   userContext?: Partial<UserContextProps>;
   kioskContext?: Partial<KioskContextType>;
-  // When true, wraps with ItemViewerContextRefactored.Provider instead of
-  // ItemViewerContextLegacy.Provider. Use in refactored viewer tests that
-  // mock useFeatureFlags to return { itemViewerRefactor: true }.
+  // When true, wraps with ItemViewerContextRefactored.Provider (given a
+  // refactored-shaped context value) instead of ItemViewerContextLegacy.Provider.
+  // Use in refactored viewer tests that mock useFeatureFlags to return
+  // { itemViewerRefactor: true }.
   useRefactoredContext?: boolean;
 } & Omit<RenderOptions, 'wrapper'>;
 
 export type RenderWithContextResult = RenderResult & {
-  contextValue: ItemViewerContextProps;
+  contextValue: LegacyItemViewerContextProps | RefactoredItemViewerContextProps;
 };
 
 export function renderWithContext(
@@ -70,7 +91,13 @@ export function renderWithContext(
     ...renderOptions
   }: RenderWithContextOptions = {}
 ): RenderWithContextResult {
-  const contextValue = createMockItemViewerContext(contextProps);
+  const contextValue = useRefactoredContext
+    ? createMockRefactoredItemViewerContext(
+        contextProps as Partial<RefactoredItemViewerContextProps>
+      )
+    : createMockItemViewerContext(
+        contextProps as Partial<LegacyItemViewerContextProps>
+      );
   const appValue: AppContextProps = { ...appContextDefaults, ...appContext };
   const userValue: UserContextProps = {
     ...defaultUserContext,
@@ -81,18 +108,24 @@ export function renderWithContext(
     ...kioskContext,
   };
 
-  const ItemViewerContext = useRefactoredContext
-    ? ItemViewerContextRefactored
-    : ItemViewerContextLegacy;
-
   const Wrapper: FunctionComponent<PropsWithChildren> = ({ children }) => (
     <ThemeProvider theme={theme}>
       <AppContext.Provider value={appValue}>
         <KioskContext.Provider value={kioskValue}>
           <UserContext.Provider value={userValue}>
-            <ItemViewerContext.Provider value={contextValue}>
-              {children}
-            </ItemViewerContext.Provider>
+            {useRefactoredContext ? (
+              <ItemViewerContextRefactored.Provider
+                value={contextValue as RefactoredItemViewerContextProps}
+              >
+                {children}
+              </ItemViewerContextRefactored.Provider>
+            ) : (
+              <ItemViewerContextLegacy.Provider
+                value={contextValue as LegacyItemViewerContextProps}
+              >
+                {children}
+              </ItemViewerContextLegacy.Provider>
+            )}
           </UserContext.Provider>
         </KioskContext.Provider>
       </AppContext.Provider>

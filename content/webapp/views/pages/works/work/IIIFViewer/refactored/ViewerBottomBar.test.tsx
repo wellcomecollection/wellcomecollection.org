@@ -1,6 +1,7 @@
 import { screen } from '@testing-library/react';
 import React from 'react';
 
+import { ItemViewerContextProps } from '@weco/content/contexts/ItemViewerContext/refactored';
 import {
   renderWithContext,
   RenderWithContextOptions,
@@ -27,7 +28,17 @@ jest.mock('@weco/content/hooks/useIsFullscreenEnabled', () => ({
   default: () => true,
 }));
 
-function renderBottomBar(options: RenderWithContextOptions = {}) {
+// Narrows contextProps to the refactored context's own shape (rather than
+// RenderWithContextOptions' generic legacy-or-refactored union), so a stale
+// field name is caught at compile time instead of being silently dropped.
+type RenderBottomBarOptions = Omit<
+  RenderWithContextOptions,
+  'contextProps' | 'useRefactoredContext'
+> & {
+  contextProps?: Partial<ItemViewerContextProps>;
+};
+
+function renderBottomBar(options: RenderBottomBarOptions = {}) {
   return renderWithContext(<ViewerBottomBar />, {
     appContext: { isEnhanced: true, isFullSupportBrowser: true },
     useRefactoredContext: true,

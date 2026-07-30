@@ -6,7 +6,7 @@ import UserContext, {
 } from '@weco/common/contexts/UserContext';
 import ItemViewerContext, {
   defaultItemViewerContext,
-} from '@weco/content/contexts/ItemViewerContext';
+} from '@weco/content/contexts/ItemViewerContext/legacy';
 import {
   createMockCanvas,
   createRestrictedPainting,
