@@ -68,7 +68,7 @@ const MessageContainer = styled.div`
   padding: 10%;
 `;
 
-const RestrictedMessage = styled.div.attrs({})`
+const RestrictedMessage = styled.div`
   margin: 2em auto 0;
   padding: 0 2em;
 
@@ -129,22 +129,20 @@ const Choice: FunctionComponent<
     const firstItem = item.items[0];
     if (typeof firstItem !== 'string' && 'id' in firstItem) {
       return (
-        <>
-          <RenderItem
-            key={firstItem.id}
-            item={firstItem}
-            i={i}
-            canvas={canvas}
-            placeholderId={placeholderId}
-            titleOverride={titleOverride}
-            exclude={exclude}
-            itemUrl={itemUrl}
-            isDark={isDark}
-            externalAccessService={externalAccessService}
-            shouldScrollToUpdateUrl={shouldScrollToUpdateUrl}
-            showVideoTranscript={showVideoTranscript}
-          />
-        </>
+        <RenderItem
+          key={firstItem.id}
+          item={firstItem}
+          i={i}
+          canvas={canvas}
+          placeholderId={placeholderId}
+          titleOverride={titleOverride}
+          exclude={exclude}
+          itemUrl={itemUrl}
+          isDark={isDark}
+          externalAccessService={externalAccessService}
+          shouldScrollToUpdateUrl={shouldScrollToUpdateUrl}
+          showVideoTranscript={showVideoTranscript}
+        />
       );
     }
   }
@@ -227,7 +225,7 @@ type ItemProps = {
 };
 
 const PublicRestrictedMessage: FunctionComponent<{
-  externalAccessService?: import('@weco/content/utils/iiif/v3').TransformedAuthService;
+  externalAccessService?: TransformedAuthService;
 }> = ({ externalAccessService }) => {
   return (
     <MessageContainer>
@@ -299,7 +297,6 @@ const IIIFItemWrapper: FunctionComponent<{
 // Wraps IIIFItemWrapper with an intersection observer that keeps the URL in
 // sync with the visible canvas when scrolling through images in the viewer.
 // Only used for the IIIFImage case because we only scroll when all items are images
-
 const IIIFItemWrapperWithObserver: FunctionComponent<{
   shouldShowItem: boolean;
   className: string;
@@ -357,6 +354,16 @@ const IIIFItemWrapperWithObserver: FunctionComponent<{
   );
 };
 
+function getItemLabel(
+  item: IIIFItemProps,
+  canvas: TransformedCanvas
+): string | undefined {
+  if ('label' in item) {
+    return getLabelString(item.label as InternationalString);
+  }
+  return canvas.label?.trim() !== '-' ? canvas.label : undefined;
+}
+
 const IIIFItem: FunctionComponent<ItemProps> = ({
   canvas,
   item,
@@ -375,12 +382,14 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
   const { userIsStaffWithRestricted } = useUserContext();
   const isRestricted = hasRestrictedItem(canvas);
   const isProbeOk = useIIIFProbeService(canvas);
+
   // Replace "image" with "item" in description if the item is not an image
   // or if it's an image but has originals, which means the image is just a placeholder for the original item
+  const shouldRelabelImageAsItem =
+    item.type !== 'Image' ||
+    (item.type === 'Image' && canvas.original.length > 0);
   const adjustedExternalAccessService =
-    externalAccessService &&
-    (item.type !== 'Image' ||
-      (item.type === 'Image' && canvas.original.length > 0))
+    externalAccessService && shouldRelabelImageAsItem
       ? {
           ...externalAccessService,
           description: externalAccessService.description
@@ -388,14 +397,8 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
             ?.replace(/\bviewed\b/gi, 'accessed'),
         }
       : externalAccessService;
-
   const shouldShowItem = isRestricted && !userIsStaffWithRestricted;
-  const itemLabel =
-    'label' in item
-      ? getLabelString(item.label as InternationalString)
-      : canvas.label?.trim() !== '-'
-        ? canvas.label
-        : undefined;
+  const itemLabel = getItemLabel(item, canvas);
 
   if (item.type === 'Choice' && !exclude.includes('Choice')) {
     return (
@@ -419,11 +422,11 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
     );
   }
 
-  if (
-    ((item.type === 'Sound' && !exclude.includes('Sound')) ||
-      (item.type === 'Audio' && !exclude.includes('Audio'))) &&
-    !!item.id
-  ) {
+  const isAudioType =
+    (item.type === 'Sound' && !exclude.includes('Sound')) ||
+    (item.type === 'Audio' && !exclude.includes('Audio'));
+
+  if (isAudioType && item.id) {
     return (
       <IIIFItemWrapper
         shouldShowItem={shouldShowItem}
@@ -450,19 +453,17 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
         isProbeOk={isProbeOk}
         externalAccessService={adjustedExternalAccessService}
       >
-        <>
-          <VideoPlayer
-            placeholderId={placeholderId}
-            video={item}
-            showDownloadOptions={true}
+        <VideoPlayer
+          placeholderId={placeholderId}
+          video={item}
+          showDownloadOptions
+        />
+        {showVideoTranscript && (
+          <VideoTranscript
+            supplementing={canvas.supplementing}
+            isDark={isDark}
           />
-          {showVideoTranscript && (
-            <VideoTranscript
-              supplementing={canvas.supplementing}
-              isDark={isDark}
-            />
-          )}
-        </>
+        )}
       </IIIFItemWrapper>
     );
   }
@@ -509,7 +510,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
                     label={itemLabel}
                     fileSize={getFileSize(canvas)}
                     format={'format' in original ? original.format : undefined}
-                    showWarning={true}
+                    showWarning
                   />
                 </IIIFItemWrapper>
               )
@@ -537,7 +538,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
             isProbeOk={isProbeOk}
             externalAccessService={adjustedExternalAccessService}
             index={i}
-            removeRestrictedMessage={true}
+            removeRestrictedMessage
           >
             {imageContent}
           </IIIFItemWrapperWithObserver>
@@ -551,7 +552,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           isRestricted={isRestricted}
           isProbeOk={isProbeOk}
           externalAccessService={adjustedExternalAccessService}
-          removeRestrictedMessage={true}
+          removeRestrictedMessage
         >
           {imageContent}
         </IIIFItemWrapper>
