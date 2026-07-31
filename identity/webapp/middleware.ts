@@ -5,15 +5,19 @@ import auth0, {
   siteBaseUrl,
 } from '@weco/identity/utils/auth0';
 
-const isLogoutPath = (request: NextRequest): boolean => {
-  // Next.js doesn't strip the basePath from pathname in middleware
+// Next.js doesn't strip the basePath from pathname in middleware
+const stripBasePath = (request: NextRequest): string => {
   const { pathname, basePath } = request.nextUrl;
-  const path =
-    basePath && pathname.startsWith(basePath)
-      ? pathname.slice(basePath.length)
-      : pathname;
-  return path === '/api/auth/logout';
+  return basePath && pathname.startsWith(basePath)
+    ? pathname.slice(basePath.length)
+    : pathname;
 };
+
+const isLogoutPath = (request: NextRequest): boolean =>
+  stripBasePath(request) === '/api/auth/logout';
+
+const isValidatedPath = (request: NextRequest): boolean =>
+  stripBasePath(request) === '/validated';
 
 const isRelative = (returnTo: string): boolean => {
   try {
@@ -64,6 +68,17 @@ export async function middleware(request: NextRequest) {
       );
       return NextResponse.redirect(url);
     }
+  }
+
+  // /validated already does its own explicit session refresh-and-save (see
+  // validated.tsx), so letting auth0.middleware's rolling-session touch run
+  // here too would save the session a second, independent time on the same
+  // request - doubling the Set-Cookie payload and overflowing nginx's
+  // response header buffer (502). Skip it here rather than excluding the
+  // path via the matcher config below, since matcher patterns and basePath
+  // interact in ways that are easy to get wrong silently.
+  if (isValidatedPath(request)) {
+    return NextResponse.next();
   }
 
   return auth0.middleware(request);
