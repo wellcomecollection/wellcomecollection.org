@@ -36,7 +36,7 @@
     "styled-components": "^6.4.2"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^6.9.1",
-    "jsdom": "^29.0.2"
+    "@testing-library/jest-dom": "^7.0.0",
+    "jsdom": "^30.0.1"
   }
 }
