@@ -72,6 +72,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
               return (
                 <ItemWrapper
                   key={item.type + item.id}
+                  data-testid="image-item"
                   $firstItemIsRestricted={!!firstItemIsRestricted}
                 >
                   <IIIFItem

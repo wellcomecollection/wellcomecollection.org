@@ -283,6 +283,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
               return (
                 <SearchTermHighlight
                   key={i}
+                  data-testid="search-term-highlight"
                   $top={item.overlayTop}
                   $left={item.overlayLeft}
                   $width={item.highlight.w}
@@ -297,6 +298,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
               return (
                 <ItemWrapper
                   key={item.type + item.id}
+                  data-testid="image-item"
                   $firstItemIsRestricted={firstItemIsRestricted}
                 >
                   <IIIFItem
