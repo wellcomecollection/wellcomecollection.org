@@ -16,12 +16,12 @@ import UserContext, {
 } from '@weco/common/contexts/UserContext';
 import theme from '@weco/common/views/themes/default';
 import ItemViewerContextLegacy, {
-  defaultItemViewerContext as defaultLegacyItemViewerContext,
-  ItemViewerContextProps as LegacyItemViewerContextProps,
+  defaultItemViewerContext as defaultItemViewerContextLegacy,
+  ItemViewerContextProps as ItemViewerContextPropsLegacy,
 } from '@weco/content/contexts/ItemViewerContext/legacy';
 import ItemViewerContextRefactored, {
-  defaultItemViewerContext as defaultRefactoredItemViewerContext,
-  ItemViewerContextProps as RefactoredItemViewerContextProps,
+  defaultItemViewerContext as defaultItemViewerContextRefactored,
+  ItemViewerContextProps as ItemViewerContextPropsRefactored,
 } from '@weco/content/contexts/ItemViewerContext/refactored';
 
 import { createMockManifest } from './transformed-manifest';
@@ -40,11 +40,21 @@ import { createMockManifest } from './transformed-manifest';
 // a value matching its own shape — the two are expected to diverge as the
 // item-viewer-refactor migration progresses.
 
+// isRefactoredContext is excluded from overrides: it's the discriminant that
+// decides which Provider wraps the tree below, so it must only ever come
+// from the matching default, never from a test-supplied override.
+type ItemViewerContextOverridesLegacy = Partial<
+  Omit<ItemViewerContextPropsLegacy, 'isRefactoredContext'>
+>;
+type ItemViewerContextOverridesRefactored = Partial<
+  Omit<ItemViewerContextPropsRefactored, 'isRefactoredContext'>
+>;
+
 export function createMockItemViewerContext(
-  overrides: Partial<LegacyItemViewerContextProps> = {}
-): LegacyItemViewerContextProps {
+  overrides: ItemViewerContextOverridesLegacy = {}
+): ItemViewerContextPropsLegacy {
   return {
-    ...defaultLegacyItemViewerContext,
+    ...defaultItemViewerContextLegacy,
     // A single-image manifest is the most common baseline; override as needed.
     transformedManifest: createMockManifest(),
     ...overrides,
@@ -52,10 +62,10 @@ export function createMockItemViewerContext(
 }
 
 export function createMockRefactoredItemViewerContext(
-  overrides: Partial<RefactoredItemViewerContextProps> = {}
-): RefactoredItemViewerContextProps {
+  overrides: ItemViewerContextOverridesRefactored = {}
+): ItemViewerContextPropsRefactored {
   return {
-    ...defaultRefactoredItemViewerContext,
+    ...defaultItemViewerContextRefactored,
     // A single-image manifest is the most common baseline; override as needed.
     transformedManifest: createMockManifest(),
     ...overrides,
@@ -64,8 +74,7 @@ export function createMockRefactoredItemViewerContext(
 
 export type RenderWithContextOptions = {
   contextProps?:
-    | Partial<LegacyItemViewerContextProps>
-    | Partial<RefactoredItemViewerContextProps>;
+    ItemViewerContextOverridesLegacy | ItemViewerContextOverridesRefactored;
   appContext?: Partial<AppContextProps>;
   userContext?: Partial<UserContextProps>;
   kioskContext?: Partial<KioskContextType>;
@@ -76,8 +85,19 @@ export type RenderWithContextOptions = {
   useRefactoredContext?: boolean;
 } & Omit<RenderOptions, 'wrapper'>;
 
+// Narrows contextProps to the refactored context's own shape (rather than
+// RenderWithContextOptions' generic legacy-or-refactored union), so a stale
+// field name is caught at compile time instead of being silently dropped.
+// For use in refactored viewer tests that always pass useRefactoredContext: true.
+export type RenderWithRefactoredContextOptions = Omit<
+  RenderWithContextOptions,
+  'contextProps' | 'useRefactoredContext'
+> & {
+  contextProps?: ItemViewerContextOverridesRefactored;
+};
+
 export type RenderWithContextResult = RenderResult & {
-  contextValue: LegacyItemViewerContextProps | RefactoredItemViewerContextProps;
+  contextValue: ItemViewerContextPropsLegacy | ItemViewerContextPropsRefactored;
 };
 
 export function renderWithContext(
@@ -93,10 +113,10 @@ export function renderWithContext(
 ): RenderWithContextResult {
   const contextValue = useRefactoredContext
     ? createMockRefactoredItemViewerContext(
-        contextProps as Partial<RefactoredItemViewerContextProps>
+        contextProps as ItemViewerContextOverridesRefactored
       )
     : createMockItemViewerContext(
-        contextProps as Partial<LegacyItemViewerContextProps>
+        contextProps as ItemViewerContextOverridesLegacy
       );
   const appValue: AppContextProps = { ...appContextDefaults, ...appContext };
   const userValue: UserContextProps = {

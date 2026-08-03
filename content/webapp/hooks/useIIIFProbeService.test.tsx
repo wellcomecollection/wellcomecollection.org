@@ -5,10 +5,10 @@ import UserContext, {
   defaultUserContext,
 } from '@weco/common/contexts/UserContext';
 import ItemViewerContextLegacy, {
-  defaultItemViewerContext as defaultLegacyItemViewerContext,
+  defaultItemViewerContext as defaultItemViewerContextLegacy,
 } from '@weco/content/contexts/ItemViewerContext/legacy';
 import ItemViewerContextRefactored, {
-  defaultItemViewerContext as defaultRefactoredItemViewerContext,
+  defaultItemViewerContext as defaultItemViewerContextRefactored,
 } from '@weco/content/contexts/ItemViewerContext/refactored';
 import {
   createMockCanvas,
@@ -66,13 +66,13 @@ describe.each([
       >
         {itemViewerRefactor ? (
           <ItemViewerContextRefactored.Provider
-            value={{ ...defaultRefactoredItemViewerContext, accessToken }}
+            value={{ ...defaultItemViewerContextRefactored, accessToken }}
           >
             {children}
           </ItemViewerContextRefactored.Provider>
         ) : (
           <ItemViewerContextLegacy.Provider
-            value={{ ...defaultLegacyItemViewerContext, accessToken }}
+            value={{ ...defaultItemViewerContextLegacy, accessToken }}
           >
             {children}
           </ItemViewerContextLegacy.Provider>

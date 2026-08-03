@@ -1,7 +1,7 @@
 import { useFeatureFlags } from '@weco/common/server-data/Context';
 
 import ItemViewerContextLegacy, {
-  ItemViewerContextProps,
+  ItemViewerContextProps as ItemViewerContextPropsLegacy,
   useItemViewerContext as useLegacy,
 } from './legacy';
 import ItemViewerContextRefactored, {
@@ -30,7 +30,7 @@ export { ItemViewerContextLegacy, ItemViewerContextRefactored };
 
 // Hook that returns the correct context based on feature flag
 export function useItemViewerContext():
-  ItemViewerContextProps | ItemViewerContextPropsRefactored {
+  ItemViewerContextPropsLegacy | ItemViewerContextPropsRefactored {
   const { itemViewerRefactor } = useFeatureFlags();
   const legacyContext = useLegacy();
   const refactoredContext = useRefactored();

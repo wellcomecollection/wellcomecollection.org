@@ -1,9 +1,8 @@
 import { screen } from '@testing-library/react';
 
-import { ItemViewerContextProps } from '@weco/content/contexts/ItemViewerContext/refactored';
 import {
   renderWithContext,
-  RenderWithContextOptions,
+  RenderWithRefactoredContextOptions,
 } from '@weco/content/test/fixtures/iiif/render';
 import {
   createMockCanvas,
@@ -32,19 +31,9 @@ const pdfRendering: TransformedManifest['rendering'] = [
   },
 ];
 
-// Narrows contextProps to the refactored context's own shape (rather than
-// RenderWithContextOptions' generic legacy-or-refactored union), so a stale
-// field name is caught at compile time instead of being silently dropped.
-type RenderTopBarOptions = Omit<
-  RenderWithContextOptions,
-  'contextProps' | 'useRefactoredContext'
-> & {
-  contextProps?: Partial<ItemViewerContextProps>;
-};
-
 // Renders ViewerTopBar with the enhanced/full-support defaults most of these
 // characterisations need, merging in any per-test overrides.
-const renderTopBar = (options: RenderTopBarOptions = {}) =>
+const renderTopBar = (options: RenderWithRefactoredContextOptions = {}) =>
   renderWithContext(<ViewerTopBar iiifImageLocation={undefined} />, {
     appContext: { isEnhanced: true, isFullSupportBrowser: true },
     useRefactoredContext: true,
