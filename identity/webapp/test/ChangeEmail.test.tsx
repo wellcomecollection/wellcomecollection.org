@@ -133,7 +133,7 @@ describe('ChangeEmail', () => {
     );
     rerender(
       <ThemeProvider theme={theme}>
-        <ChangeEmail {...defaultProps} isActive={true} />
+        <ChangeEmail {...defaultProps} isActive />
       </ThemeProvider>
     );
     await expect(emailAddressInput).toHaveValue('');

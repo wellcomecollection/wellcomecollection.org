@@ -77,7 +77,7 @@ const SeasonPage = ({
             gridSizes={gridSize8()}
           />
         }
-        hideContributors={true}
+        hideContributors
       />
 
       {allItems.length > 0 && (

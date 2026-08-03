@@ -208,7 +208,7 @@ const Footer: FunctionComponent<Props> = ({
         {!isSimpleFooter && (
           <FooterNavigationContainer>
             <FindUsContainer>
-              <FindUs hideAccessibility={true} />
+              <FindUs hideAccessibility />
             </FindUsContainer>
 
             <OpeningTimesContainer>

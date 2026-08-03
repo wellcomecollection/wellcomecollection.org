@@ -95,7 +95,6 @@ const Structures: FunctionComponent<Props> = ({
               condition={Boolean(nestedRanges.length === 0)}
               wrapper={children => (
                 <NextLink
-                  replace={true}
                   {...toWorksItemLink({
                     workId: work.id,
                     props: {
@@ -116,6 +115,7 @@ const Structures: FunctionComponent<Props> = ({
                   onClick={() => {
                     setIsMobileSidebarActive(false);
                   }}
+                  replace
                 >
                   {children}
                 </NextLink>

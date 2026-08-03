@@ -52,6 +52,7 @@ const sharedRules = {
   'prettier/prettier': 'error',
   'react/no-deprecated': 'error',
   'react/react-in-jsx-scope': 'off',
+  'react/jsx-boolean-value': 'warn',
   'react/jsx-curly-brace-presence': [
     'warn',
     { props: 'never', children: 'never', propElementValues: 'always' },

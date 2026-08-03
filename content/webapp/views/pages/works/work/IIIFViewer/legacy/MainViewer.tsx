@@ -274,7 +274,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
     <div style={style}>
       {scrollVelocity === 3 ? (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <LL $lighten={true} />
+          <LL $lighten />
         </div>
       ) : (
         <>
@@ -311,8 +311,8 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
                     setImageRect={setImageRect}
                     setImageContainerRect={setImageContainerRect}
                     externalAccessService={externalAccessService}
-                    shouldScrollToUpdateUrl={true}
                     showVideoTranscript={false}
+                    shouldScrollToUpdateUrl
                   />
                 </ItemWrapper>
               );
@@ -461,7 +461,7 @@ const MainViewer: FunctionComponent = () => {
 
   if (hasOnlyRenderableImages) {
     return (
-      <MainViewerContainer $useFixedList={true} data-testid="main-viewer">
+      <MainViewerContainer data-testid="main-viewer" $useFixedList>
         <FixedSizeList
           width={mainAreaWidth}
           style={{ width: `${mainAreaWidth}px`, margin: '0 auto' }}
@@ -502,9 +502,9 @@ const MainViewer: FunctionComponent = () => {
                   canvas={currentCanvas}
                   titleOverride={`${canvas}/${canvases?.length}`}
                   exclude={[]}
-                  isDark={true}
                   externalAccessService={externalAccessService}
                   showVideoTranscript={false}
+                  isDark
                 />
               </ItemWrapper>
             )

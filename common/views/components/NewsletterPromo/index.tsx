@@ -132,7 +132,6 @@ const NewsletterPromo: FunctionComponent = () => {
                   value={newsletterAddressBook.id}
                 />
                 <TextInput
-                  required={true}
                   id="newsletter-input"
                   type="email"
                   name="email"
@@ -145,6 +144,7 @@ const NewsletterPromo: FunctionComponent = () => {
                   }
                   value={value}
                   setValue={setValue}
+                  required
                   {...emailValidation}
                 />
 

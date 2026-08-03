@@ -56,8 +56,8 @@ const WorkDetailsLicence = ({
         <Space $v={{ size: 'md', properties: ['margin-top'] }}>
           <WorkDetailsText
             title="Access conditions"
-            noSpacing={true}
             text={accessConditionsTerms}
+            noSpacing
           />
         </Space>
       )}

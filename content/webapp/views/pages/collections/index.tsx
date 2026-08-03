@@ -122,10 +122,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
       </div>
 
       {hasValidThemeCardSlices(themeCardsListSlices) && (
-        <MainBackground
-          data-component="full-width-banner"
-          $isDefaultVariant={true}
-        >
+        <MainBackground data-component="full-width-banner" $isDefaultVariant>
           <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
             <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
               <SectionHeader title="Browse by theme" gridSize={gridSize12()} />

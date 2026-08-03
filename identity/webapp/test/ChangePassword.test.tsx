@@ -107,7 +107,7 @@ describe('ChangePassword', () => {
     );
     rerender(
       <ThemeProvider theme={theme}>
-        <ChangePassword {...defaultProps} isActive={true} />
+        <ChangePassword {...defaultProps} isActive />
       </ThemeProvider>
     );
     await expect(currentPasswordInput).toHaveValue('');

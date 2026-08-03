@@ -96,7 +96,7 @@ const Loading = () => (
       height: '80px',
     }}
   >
-    <LL $small={true} $lighten={true} />
+    <LL $small $lighten />
     <span className="visually-hidden">Loading</span>
   </div>
 );
@@ -229,10 +229,10 @@ const IIIFSearchWithin: FunctionComponent = () => {
             name="query"
             value={value}
             setValue={setValue}
-            required={true}
             ref={inputRef}
-            hasClearButton
             clearHandler={handleClearResults}
+            hasClearButton
+            required
           />
         </SearchInputWrapper>
         <SearchButtonWrapper>
@@ -240,8 +240,8 @@ const IIIFSearchWithin: FunctionComponent = () => {
             variant="ButtonSolid"
             icon={search}
             text="search within"
-            isTextHidden={true}
             colors={theme.buttonColors.yellowYellowBlack}
+            isTextHidden
           />
         </SearchButtonWrapper>
       </SearchForm>
@@ -283,7 +283,6 @@ const IIIFSearchWithin: FunctionComponent = () => {
             return (
               <ListItem key={i}>
                 <NextLink
-                  replace={true}
                   {...toWorksItemLink({
                     workId: work.id,
                     props: {
@@ -296,6 +295,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
                     },
                   })}
                   onClick={() => setIsMobileSidebarActive(false)}
+                  replace
                 >
                   <Hit
                     hit={hit}

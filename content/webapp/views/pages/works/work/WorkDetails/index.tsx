@@ -232,7 +232,7 @@ const WorkDetails: FunctionComponent<Props> = ({
           <WorkDetailsText
             title="Description"
             html={work.description}
-            allowDangerousRawHtml={true}
+            allowDangerousRawHtml
           />
         )}
 
@@ -267,7 +267,7 @@ const WorkDetails: FunctionComponent<Props> = ({
           <WorkDetailsText
             title="Physical description"
             html={work.physicalDescription}
-            allowDangerousRawHtml={true}
+            allowDangerousRawHtml
           />
         )}
         {seriesPartOfs.length > 0 && (
@@ -320,7 +320,7 @@ const WorkDetails: FunctionComponent<Props> = ({
             key={note.noteType.label}
             title={note.noteType.label}
             html={note.contents}
-            allowDangerousRawHtml={true}
+            allowDangerousRawHtml
           />
         ))}
 
@@ -345,7 +345,7 @@ const WorkDetails: FunctionComponent<Props> = ({
             key={note.noteType.label}
             title={note.noteType.label}
             html={note.contents}
-            allowDangerousRawHtml={true}
+            allowDangerousRawHtml
           />
         ))}
         {/*

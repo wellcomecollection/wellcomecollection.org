@@ -58,7 +58,6 @@ const ExploreMorePage: NextPage<Props> = ({
   return (
     <PageLayout
       title={page.title}
-      isNoIndex={true}
       description={
         page.metadataDescription ||
         exhibition.metadataDescription ||
@@ -70,6 +69,7 @@ const ExploreMorePage: NextPage<Props> = ({
       openGraphType="website"
       siteSection="whats-on"
       image={exhibition.image}
+      isNoIndex
     >
       <PageHeader
         variant="basic"
@@ -83,7 +83,7 @@ const ExploreMorePage: NextPage<Props> = ({
           },
         ])}
         title={page.title}
-        isContentTypeInfoBeforeMedia={true}
+        isContentTypeInfoBeforeMedia
         ContentTypeInfo={
           page.introText && page.introText.length > 0 ? (
             <PageHeaderStandfirst html={page.introText} />
@@ -117,7 +117,7 @@ const ExploreMorePage: NextPage<Props> = ({
           group.works.length > 0 ? (
             <div key={group.heading}>
               <ScrollContainer
-                hasWorkCards={true}
+                hasWorkCards
                 CopyContent={
                   <>
                     <h3
@@ -131,7 +131,7 @@ const ExploreMorePage: NextPage<Props> = ({
                   </>
                 }
                 gridSizes={gridSize12()}
-                useShim={true}
+                useShim
               >
                 {group.works.map(work => (
                   <ListItem key={work.id} $usesShim>
@@ -151,7 +151,7 @@ const ExploreMorePage: NextPage<Props> = ({
           <Space $v={{ size: 'md', properties: ['margin-top'] }}>
             <ScrollContainer
               gridSizes={gridSize12()}
-              useShim={true}
+              useShim
               CopyContent={
                 <p>Find the items on display in our online catalogue.</p>
               }

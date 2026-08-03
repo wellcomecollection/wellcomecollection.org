@@ -52,7 +52,7 @@ export const NoScriptImage = ({ urlTemplate, canvasOcr }: Props) => {
   return (
     <>
       <NoScriptLoadingWrapper>
-        <LL $lighten={true} />
+        <LL $lighten />
       </NoScriptLoadingWrapper>
       <DelayVisibility>
         <CanvasPaginator />

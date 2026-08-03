@@ -219,9 +219,9 @@ const InactivityRedirect: FunctionComponent<{ isCardiganStory?: boolean }> = ({
       setIsActive={handleCancelRedirect}
       id="kiosk-inactivity-warning"
       openButtonRef={modalButtonRef}
-      showOverlay={true}
       modalStyle="inactivity"
       maxWidth="550px"
+      showOverlay
     >
       <InactivityRedirectModal
         countdown={countdown}

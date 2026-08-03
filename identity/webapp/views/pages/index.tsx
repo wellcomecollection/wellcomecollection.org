@@ -198,11 +198,9 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
           {isPasswordUpdated && (
             <AccountStatus type="success">Password updated</AccountStatus>
           )}
-          <SectionHeading $addBottomPadding={true}>
-            Personal details
-          </SectionHeading>
+          <SectionHeading $addBottomPadding>Personal details</SectionHeading>
           <Container>
-            <Wrapper $removeBottomPadding={true}>
+            <Wrapper $removeBottomPadding>
               <DetailList listItems={listItems} />
               <ButtonWrapper>
                 <ChangeDetailsModal
@@ -227,9 +225,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
             </Wrapper>
           </Container>
 
-          <SectionHeading $addBottomPadding={true}>
-            Item requests
-          </SectionHeading>
+          <SectionHeading $addBottomPadding>Item requests</SectionHeading>
           <Container>
             <Wrapper>
               {!requestedItems ? (
@@ -354,7 +350,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
             </Wrapper>
           </Container>
 
-          <SectionHeading $addBottomPadding={true}>
+          <SectionHeading $addBottomPadding>
             Cancel library membership
           </SectionHeading>
           <Container>

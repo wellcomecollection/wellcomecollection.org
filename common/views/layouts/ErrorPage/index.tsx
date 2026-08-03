@@ -207,7 +207,7 @@ const ErrorPage: NextPage<Props> = ({ statusCode = 500, title }) => {
       url={{ pathname: '/' }}
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType="website"
-      hideNewsletterPromo={true}
+      hideNewsletterPromo
     >
       <Space $v={{ size: headerSpaceSize, properties: ['padding-bottom'] }}>
         <PageHeader
@@ -216,7 +216,7 @@ const ErrorPage: NextPage<Props> = ({ statusCode = 500, title }) => {
           labels={undefined}
           title={errorMessage}
           backgroundTexture={headerBackgroundLs}
-          highlightHeading={true}
+          highlightHeading
         />
         <SpacingSection>
           <SpacingComponent>

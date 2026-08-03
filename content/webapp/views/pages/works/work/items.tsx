@@ -176,9 +176,9 @@ const WorkItemPage: NextPage<Props> = ({
       jsonLd={{ '@type': 'WebPage' }}
       siteSection="collections"
       apiToolbarLinks={apiToolbarLinks}
-      hideNewsletterPromo={true}
-      hideFooter={true}
-      hideTopContent={true}
+      hideNewsletterPromo
+      hideFooter
+      hideTopContent
     >
       {shouldUseAuthMessageIframe && (
         <IframeAuthMessage
@@ -196,8 +196,8 @@ const WorkItemPage: NextPage<Props> = ({
         id="auth-modal"
         isActive={showModal}
         setIsActive={setShowModal}
-        removeCloseButton={true}
         openButtonRef={{ current: null }}
+        removeCloseButton
       >
         <div className={typography('body', 'md', 'regular')}>
           {modalContent?.label && (

@@ -126,7 +126,7 @@ const ExhibitionBeingHuman: FunctionComponent<Props> = ({
                         key={i}
                         href={pdf.url}
                         $borderColor={borderColor}
-                        $underlineText={true}
+                        $underlineText
                       >
                         <span className={typography('body', 'md', 'regular')}>
                           {`${pdf.text} PDF`} {`(${pdf.size}kb)`}
