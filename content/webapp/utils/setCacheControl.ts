@@ -20,4 +20,14 @@ export const setCacheControl = (
    * https://github.com/wellcomecollection/wellcomecollection.org/blob/main/cache/modules/cloudfront_policies/cache_policies.tf
    */
   res.setHeader('Cache-Control', `max-age=${ttl}`);
+
+  /**
+   * Response content depends on toggle_* and other cookies (see
+   * common/server-data/toggles.ts), but browsers cache HTTP responses per-URL
+   * regardless of cookies unless told otherwise. Without this, a browser can
+   * serve a locally cached response for a URL that was fetched under a
+   * different cookie state (e.g. a different feature toggle value), even
+   * though CloudFront's own cache is correctly keyed on those cookies.
+   */
+  res.setHeader('Vary', 'Cookie');
 };
