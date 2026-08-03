@@ -117,20 +117,20 @@ const ComicPreviousNext: FunctionComponent<Props> = ({ previous, next }) => {
               <Title>{previous.title}</Title>
             </TextWrap>
             <Chevron $isNext={false}>
-              <Icon icon={chevron} rotate={90} matchText={true} />
+              <Icon icon={chevron} rotate={90} matchText />
             </Chevron>
           </Inner>
         </Link>
       )}
       {next && (
-        <Link href={`/stories/${next.uid}`} $isNext={true}>
-          <Inner $isNext={true}>
-            <TextWrap $isNext={true}>
+        <Link href={`/stories/${next.uid}`} $isNext>
+          <Inner $isNext>
+            <TextWrap $isNext>
               <InSeries>Next in this series</InSeries>
               <Title>{next.title}</Title>
             </TextWrap>
-            <Chevron $isNext={true}>
-              <Icon icon={chevron} rotate={270} matchText={true} />
+            <Chevron $isNext>
+              <Icon icon={chevron} rotate={270} matchText />
             </Chevron>
           </Inner>
         </Link>

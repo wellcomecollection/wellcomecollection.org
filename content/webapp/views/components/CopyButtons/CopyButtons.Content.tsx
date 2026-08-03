@@ -79,7 +79,7 @@ const CopyContent: FunctionComponent<Props> = ({
             ref={buttonRef}
             text={getButtonMarkup()}
             icon={isTextCopied ? check : undefined}
-            isIconAfter={true}
+            isIconAfter
           />
         </ButtonContainer>
       )}

@@ -129,11 +129,7 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
             {announcement}
           </div>
 
-          <SelectableTags
-            tags={tagData}
-            isMultiSelect={false}
-            onChange={handleCategoryChange}
-          />
+          <SelectableTags tags={tagData} onChange={handleCategoryChange} />
         </Space>
       </ContaineredLayout>
 

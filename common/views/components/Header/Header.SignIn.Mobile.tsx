@@ -51,7 +51,7 @@ const MobileSignIn: FunctionComponent = () => {
         $h={{ size: 'xs', properties: ['margin-right'] }}
         className={typography('body', 'lg', 'regular')}
       >
-        <Icon icon={userIcon} matchText={true} />
+        <Icon icon={userIcon} matchText />
       </Space>
       {!user && (
         <a

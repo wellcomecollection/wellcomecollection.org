@@ -131,7 +131,7 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
             <>
               {!hasIconPlaceholder ? (
                 <>
-                  {!thumbnailLoaded && <LL $small={true} $lighten={true} />}
+                  {!thumbnailLoaded && <LL $small $lighten />}
 
                   <IIIFViewerImage
                     highlightImage={highlightImage}

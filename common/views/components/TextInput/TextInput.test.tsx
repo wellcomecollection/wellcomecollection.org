@@ -18,9 +18,9 @@ const ExampleTextInput = () => {
       type="email"
       value={value}
       setValue={setValue}
-      required={true}
       errorMessage="This input has an error"
       successMessage="This input is valid"
+      required
       {...useValidation()}
     />
   );

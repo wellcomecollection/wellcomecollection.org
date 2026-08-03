@@ -43,7 +43,7 @@ const ExhibitionGuidesPage: NextPage<Props> = props => {
         customNavLinks: exhibitionGuidesLinks,
         isMinimalHeader: true,
       }}
-      hideNewsletterPromo={true}
+      hideNewsletterPromo
     >
       <SpacingSection>
         <PageHeader
@@ -51,7 +51,7 @@ const ExhibitionGuidesPage: NextPage<Props> = props => {
           breadcrumbs={{ items: [], noHomeLink: true }}
           title="Digital Guides"
           backgroundTexture={headerBackgroundLs}
-          highlightHeading={true}
+          highlightHeading
         />
 
         {exhibitionGuides.totalPages > 1 && (

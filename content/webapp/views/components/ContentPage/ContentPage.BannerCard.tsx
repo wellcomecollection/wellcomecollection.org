@@ -147,9 +147,9 @@ const BannerCard: FunctionComponent<Props> = ({
         <Button
           variant="ButtonSolid"
           colors={theme.buttonColors.whiteTransparentWhite}
-          isIconAfter={true}
           icon={arrowSmall}
           text={`Explore ${type}`}
+          isIconAfter
         />
       </TextWrapper>
       {image && (

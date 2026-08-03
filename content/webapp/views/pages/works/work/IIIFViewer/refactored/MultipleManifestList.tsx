@@ -19,6 +19,7 @@ const MultipleManifestList: FunctionComponent = () => {
       <List aria-label={volumesNavigationLabel}>
         {manifests.map((manifest, i) => {
           const isActiveManifest = i === queryParamToArrayIndex(query.manifest);
+
           return (
             <Item key={manifest.id} $isActive={isActiveManifest}>
               <NextLink

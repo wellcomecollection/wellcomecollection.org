@@ -54,6 +54,7 @@ const PaginatedItemViewer: FunctionComponent = () => {
         externalAccessService={externalAccessService}
         isDark
         showVideoTranscript={false}
+        isDark
       />
     </ItemWrapper>
   ));

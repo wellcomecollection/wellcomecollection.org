@@ -119,7 +119,7 @@ const WorkDownloadPage: NextPage<Props> = ({ transformedManifest, work }) => {
       openGraphType="website"
       jsonLd={{ '@type': 'WebPage' }}
       siteSection="collections"
-      hideNewsletterPromo={true}
+      hideNewsletterPromo
     >
       <ContaineredLayout gridSizes={gridSize8()}>
         <SpacingSection>

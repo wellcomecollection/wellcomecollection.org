@@ -341,7 +341,6 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
               canvases.length > 1 &&
               isFullSupportBrowser && (
                 <ToolbarSegmentedControl
-                  hideLabels={true}
                   items={[
                     {
                       id: 'pageView',
@@ -363,6 +362,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
                     },
                   ]}
                   activeId={gridVisible ? 'gridView' : 'pageView'}
+                  hideLabels
                 />
               )}
           </LeftZone>
@@ -393,8 +393,8 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
                     <Download
                       ariaControlsId="itemDownloads"
                       downloadOptions={downloadOptions}
-                      useDarkControl={true}
-                      isInline={true}
+                      useDarkControl
+                      isInline
                     />
                   </Space>
                 )}
