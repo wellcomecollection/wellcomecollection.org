@@ -1,4 +1,4 @@
-import { Claims } from '@auth0/nextjs-auth0';
+import { User } from '@auth0/nextjs-auth0/types';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import {
@@ -127,7 +127,7 @@ const NoRequestedItems = () => (
 );
 
 export type Props = {
-  user?: Claims;
+  user?: User;
 };
 
 const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
