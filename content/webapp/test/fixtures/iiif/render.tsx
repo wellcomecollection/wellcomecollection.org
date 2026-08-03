@@ -72,18 +72,29 @@ export function createMockRefactoredItemViewerContext(
   };
 }
 
-export type RenderWithContextOptions = {
-  contextProps?:
-    ItemViewerContextOverridesLegacy | ItemViewerContextOverridesRefactored;
+type CommonRenderWithContextOptions = {
   appContext?: Partial<AppContextProps>;
   userContext?: Partial<UserContextProps>;
   kioskContext?: Partial<KioskContextType>;
-  // When true, wraps with ItemViewerContextRefactored.Provider (given a
-  // refactored-shaped context value) instead of ItemViewerContextLegacy.Provider.
-  // Use in refactored viewer tests that mock useFeatureFlags to return
-  // { itemViewerRefactor: true }.
-  useRefactoredContext?: boolean;
 } & Omit<RenderOptions, 'wrapper'>;
+
+// A discriminated union keyed on useRefactoredContext, rather than a plain
+// boolean alongside a generic legacy-or-refactored contextProps union — so
+// contextProps is narrowed to the matching shape at every call site, with no
+// `as` casts needed here or anywhere that calls renderWithContext directly.
+export type RenderWithContextOptions =
+  | (CommonRenderWithContextOptions & {
+      useRefactoredContext?: false;
+      contextProps?: ItemViewerContextOverridesLegacy;
+    })
+  | (CommonRenderWithContextOptions & {
+      // Wraps with ItemViewerContextRefactored.Provider (given a
+      // refactored-shaped context value) instead of ItemViewerContextLegacy.Provider.
+      // Use in refactored viewer tests that mock useFeatureFlags to return
+      // { itemViewerRefactor: true }.
+      useRefactoredContext: true;
+      contextProps?: ItemViewerContextOverridesRefactored;
+    });
 
 // Narrows contextProps to the refactored context's own shape (rather than
 // RenderWithContextOptions' generic legacy-or-refactored union), so a stale
@@ -102,22 +113,22 @@ export type RenderWithContextResult = RenderResult & {
 
 export function renderWithContext(
   ui: ReactElement,
-  {
+  options: RenderWithContextOptions = {}
+): RenderWithContextResult {
+  // Narrowed via property access on `options` itself (rather than destructured
+  // copies) so contextProps' shape stays tied to useRefactoredContext's value.
+  const contextValue = options.useRefactoredContext
+    ? createMockRefactoredItemViewerContext(options.contextProps)
+    : createMockItemViewerContext(options.contextProps);
+
+  const {
     contextProps,
+    useRefactoredContext,
     appContext,
     userContext,
     kioskContext,
-    useRefactoredContext = false,
     ...renderOptions
-  }: RenderWithContextOptions = {}
-): RenderWithContextResult {
-  const contextValue = useRefactoredContext
-    ? createMockRefactoredItemViewerContext(
-        contextProps as ItemViewerContextOverridesRefactored
-      )
-    : createMockItemViewerContext(
-        contextProps as ItemViewerContextOverridesLegacy
-      );
+  } = options;
   const appValue: AppContextProps = { ...appContextDefaults, ...appContext };
   const userValue: UserContextProps = {
     ...defaultUserContext,
