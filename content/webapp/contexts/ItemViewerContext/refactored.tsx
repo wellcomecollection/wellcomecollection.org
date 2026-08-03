@@ -14,8 +14,9 @@ import { TransformedManifest } from '@weco/content/types/manifest';
 import { UiTree } from '@weco/content/views/pages/works/work/work.types';
 
 export type ItemViewerContextProps = {
-  // To remove once we move over from the itemViewerRefactor feature flag
-  isRefactoredContext: boolean;
+  // Discriminant for narrowing the legacy | refactored union returned by
+  // useItemViewerContext() — see ./legacy.tsx and ./index.tsx.
+  isRefactoredContext: true;
   // DATA props:
   query: ItemViewerQuery;
   work: WorkBasic & Pick<Work, 'description'>;

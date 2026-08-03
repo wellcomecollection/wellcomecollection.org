@@ -113,16 +113,12 @@ export function renderWithContext(
       <AppContext.Provider value={appValue}>
         <KioskContext.Provider value={kioskValue}>
           <UserContext.Provider value={userValue}>
-            {useRefactoredContext ? (
-              <ItemViewerContextRefactored.Provider
-                value={contextValue as RefactoredItemViewerContextProps}
-              >
+            {contextValue.isRefactoredContext ? (
+              <ItemViewerContextRefactored.Provider value={contextValue}>
                 {children}
               </ItemViewerContextRefactored.Provider>
             ) : (
-              <ItemViewerContextLegacy.Provider
-                value={contextValue as LegacyItemViewerContextProps}
-              >
+              <ItemViewerContextLegacy.Provider value={contextValue}>
                 {children}
               </ItemViewerContextLegacy.Provider>
             )}
