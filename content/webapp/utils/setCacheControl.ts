@@ -29,5 +29,5 @@ export const setCacheControl = (
    * different cookie state (e.g. a different feature toggle value), even
    * though CloudFront's own cache is correctly keyed on those cookies.
    */
-  res.setHeader('Vary', 'Cookie');
+  res.appendHeader('Vary', 'Cookie');
 };
