@@ -3,6 +3,7 @@ import {
   FunctionComponent,
   KeyboardEvent,
   MutableRefObject,
+  PropsWithChildren,
   useEffect,
   useRef,
   useState,
@@ -35,7 +36,7 @@ const Controls = styled.div`
   z-index: 2;
 `;
 
-const Image = styled.div`
+const OpenSeadragonContainer = styled.div`
   height: 100%;
 `;
 
@@ -43,6 +44,14 @@ const ErrorMessage = () => (
   <div>
     <p>The image viewer is not working.</p>
   </div>
+);
+
+const ZOOM_STEP = 0.5;
+
+const ControlSpacer: FunctionComponent<PropsWithChildren> = ({ children }) => (
+  <Space as="span" $h={{ size: 'sm', properties: ['margin-left'] }}>
+    {children}
+  </Space>
 );
 
 type ZoomedImageProps = OptionalToUndefined<{
@@ -62,12 +71,16 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
     ? iiifImageLocation.url
     : convertRequestUriToInfoUri(mainImageService['@id'] || '');
   const [scriptError, setScriptError] = useState(false);
-  const [viewer, setViewer] = useState<openseadragon.Viewer | null>(null);
+  // osdViewerInstance re-renders the click handlers below with the current
+  // viewer; viewerRef tracks the same instance without triggering a
+  // re-render, so it can be read from the unmount cleanup effect
+  const [osdViewerInstance, setOsdViewerInstance] =
+    useState<openseadragon.Viewer | null>(null);
+
   const viewerRef: MutableRefObject<openseadragon.Viewer | null> = useRef(null);
-  const zoomStep = 0.5;
   const firstControl = useRef<HTMLButtonElement>(null);
   const lastControl = useRef<HTMLButtonElement>(null);
-  const zoomedImage = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const hasInitialised = useRef(false);
 
   function setupViewer(imageInfoSrc: string, viewerId: string) {
@@ -102,7 +115,7 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
           ],
         });
         osdViewer.addOnceHandler('tile-loaded', () => {
-          doZoomIn(osdViewer);
+          zoomBy(osdViewer, ZOOM_STEP);
         });
         osdViewer.addHandler('tile-loaded', () => {
           // Prevent NVDA arrow key events escaping the viewer (https://stackoverflow.com/a/41523306)
@@ -112,7 +125,7 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
             'use arrow keys to pan the image'
           );
         });
-        setViewer(osdViewer);
+        setOsdViewerInstance(osdViewer);
         viewerRef.current = osdViewer;
       })
       .catch(() => {
@@ -121,44 +134,33 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
   }
 
   useEffect(() => {
-    !hasInitialised.current && setupViewer(zoomInfoUrl, 'zoomedImage');
-    lastControl?.current && lastControl.current.focus();
+    if (!hasInitialised.current) {
+      setupViewer(zoomInfoUrl, 'zoomedImage');
+    }
+    if (lastControl.current) {
+      lastControl.current.focus();
+    }
 
     return () => viewerRef.current?.destroy();
   }, []);
 
-  function doZoomIn(viewer: openseadragon.Viewer | null) {
-    if (!viewer) {
-      return;
-    }
-    const max = viewer.viewport.getMaxZoom();
-    const nextMax = viewer.viewport.getZoom() + zoomStep;
-    const newMax = nextMax <= max ? nextMax : max;
-
-    viewer.viewport.zoomTo(newMax);
-  }
-
-  function doZoomOut(viewer: openseadragon.Viewer | null) {
+  // Positive delta zooms in (clamped to the max zoom), negative zooms out
+  // (clamped to the min zoom).
+  function zoomBy(viewer: openseadragon.Viewer | null, delta: number) {
     if (!viewer) return;
-    const min = viewer.viewport.getMinZoom();
-    const nextMin = viewer.viewport.getZoom() - zoomStep;
-    const newMin = nextMin >= min ? nextMin : min;
+    const currentZoom = viewer.viewport.getZoom();
+    const clampedZoom =
+      delta > 0
+        ? Math.min(currentZoom + delta, viewer.viewport.getMaxZoom())
+        : Math.max(currentZoom + delta, viewer.viewport.getMinZoom());
 
-    viewer.viewport.zoomTo(newMin);
+    viewer.viewport.zoomTo(clampedZoom);
   }
 
-  function handleZoomIn(viewer: openseadragon.Viewer | null) {
-    if (!viewer) return;
-
-    if (viewer.isOpen()) {
-      doZoomIn(viewer);
-    }
-  }
-
-  function handleZoomOut(viewer: openseadragon.Viewer | null) {
+  function handleZoom(viewer: openseadragon.Viewer | null, delta: number) {
     if (!viewer) return;
     if (viewer.isOpen()) {
-      doZoomOut(viewer);
+      zoomBy(viewer, delta);
     }
   }
 
@@ -171,7 +173,7 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
     if (event.shiftKey && event.keyCode === 9) {
       event.preventDefault();
       (
-        zoomedImage?.current?.querySelector(
+        containerRef.current?.querySelector(
           '.openseadragon-canvas'
         ) as HTMLDivElement
       ).focus();
@@ -198,7 +200,7 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
   }
 
   return (
-    <ZoomedImageContainer ref={zoomedImage} onKeyDown={handleKeyDown}>
+    <ZoomedImageContainer ref={containerRef} onKeyDown={handleKeyDown}>
       <Controls>
         <Space
           $v={{
@@ -210,62 +212,38 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
             properties: ['margin-left', 'margin-right'],
           }}
         >
-          <Space
-            as="span"
-            $h={{
-              size: 'sm',
-              properties: ['margin-left'],
-            }}
-          >
+          <ControlSpacer>
             <Control
               ref={firstControl}
               colorScheme="black-on-white"
               text="Zoom in"
               icon={plus}
               clickHandler={() => {
-                handleZoomIn(viewer);
+                handleZoom(osdViewerInstance, ZOOM_STEP);
               }}
             />
-          </Space>
-          <Space
-            as="span"
-            $h={{
-              size: 'sm',
-              properties: ['margin-left'],
-            }}
-          >
+          </ControlSpacer>
+          <ControlSpacer>
             <Control
               colorScheme="black-on-white"
               text="Zoom out"
               icon={minus}
               clickHandler={() => {
-                handleZoomOut(viewer);
+                handleZoom(osdViewerInstance, -ZOOM_STEP);
               }}
             />
-          </Space>
-          <Space
-            as="span"
-            $h={{
-              size: 'sm',
-              properties: ['margin-left'],
-            }}
-          >
+          </ControlSpacer>
+          <ControlSpacer>
             <Control
               colorScheme="black-on-white"
               text="Rotate"
               icon={rotateRight}
               clickHandler={() => {
-                handleRotate(viewer);
+                handleRotate(osdViewerInstance);
               }}
             />
-          </Space>
-          <Space
-            as="span"
-            $h={{
-              size: 'sm',
-              properties: ['margin-left'],
-            }}
-          >
+          </ControlSpacer>
+          <ControlSpacer>
             <Control
               ref={lastControl}
               colorScheme="black-on-white"
@@ -275,12 +253,12 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
                 setShowZoomed(false);
               }}
             />
-          </Space>
+          </ControlSpacer>
         </Space>
       </Controls>
-      <Image id="image-viewer-zoomedImage">
+      <OpenSeadragonContainer id="image-viewer-zoomedImage">
         {scriptError && <ErrorMessage />}
-      </Image>
+      </OpenSeadragonContainer>
     </ZoomedImageContainer>
   );
 };

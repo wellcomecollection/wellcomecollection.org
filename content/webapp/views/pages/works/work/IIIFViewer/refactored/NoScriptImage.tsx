@@ -34,6 +34,7 @@ type Props = {
 export const NoScriptImage = ({ urlTemplate, canvasOcr }: Props) => {
   const { work, query, transformedManifest } = useItemViewerContext();
   const { canvases } = { ...transformedManifest };
+
   const pageSize = 4;
   const srcSet =
     urlTemplate &&
@@ -47,7 +48,7 @@ export const NoScriptImage = ({ urlTemplate, canvasOcr }: Props) => {
         .map(i => canvases?.[i])
         .filter(Boolean)
     : [];
-  const thumbnailsRequired = Boolean(navigationCanvases?.length);
+  const thumbnailsRequired = Boolean(navigationCanvases.length);
 
   return (
     <>

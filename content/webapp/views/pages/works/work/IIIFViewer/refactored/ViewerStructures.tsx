@@ -83,16 +83,15 @@ const Structures: FunctionComponent<Props> = ({
         const canvasIndex =
           canvases?.findIndex(canvas => canvas.id === firstCanvasInRangeId) ||
           0;
+
         const nestedRanges = range?.items?.filter(isRange) || [];
+        const isActiveRange =
+          currentCanvasIndex === arrayIndexToQueryParam(canvasIndex);
+
         return (
-          <Item
-            key={i}
-            $isActive={
-              currentCanvasIndex === arrayIndexToQueryParam(canvasIndex)
-            }
-          >
+          <Item key={i} $isActive={isActiveRange}>
             <ConditionalWrapper
-              condition={Boolean(nestedRanges.length === 0)}
+              condition={nestedRanges.length === 0}
               wrapper={children => (
                 <NextLink
                   {...toWorksItemLink({
@@ -107,11 +106,7 @@ const Structures: FunctionComponent<Props> = ({
                     },
                   })}
                   data-gtm-trigger="contents_nav"
-                  aria-current={
-                    currentCanvasIndex === arrayIndexToQueryParam(canvasIndex)
-                      ? 'page'
-                      : undefined
-                  }
+                  aria-current={isActiveRange ? 'page' : undefined}
                   onClick={() => {
                     setIsMobileSidebarActive(false);
                   }}
@@ -123,11 +118,11 @@ const Structures: FunctionComponent<Props> = ({
             >
               {getDisplayLabel(range.label)}
             </ConditionalWrapper>
-            {nestedRanges.map((range, i) => {
+            {nestedRanges.map((nestedRange, nestedIndex) => {
               return (
                 <Structures
-                  key={i}
-                  ranges={[range]}
+                  key={nestedIndex}
+                  ranges={[nestedRange]}
                   canvases={canvases}
                   currentCanvasIndex={currentCanvasIndex}
                   setIsMobileSidebarActive={setIsMobileSidebarActive}
@@ -147,14 +142,13 @@ const Structures: FunctionComponent<Props> = ({
 const ViewerStructures: FunctionComponent = () => {
   const { transformedManifest, setIsMobileSidebarActive, query, work } =
     useItemViewerContext();
-  const { canvas } = query;
   const { structures: ranges, canvases } = { ...transformedManifest };
 
   return (
     <Structures
       ranges={ranges || []}
       canvases={canvases || []}
-      currentCanvasIndex={canvas}
+      currentCanvasIndex={query.canvas}
       setIsMobileSidebarActive={setIsMobileSidebarActive}
       work={work}
       query={query}

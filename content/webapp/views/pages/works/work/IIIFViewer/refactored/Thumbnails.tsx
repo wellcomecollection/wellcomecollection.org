@@ -50,7 +50,6 @@ export const Thumbnails = () => {
 
   return (
     <ThumbnailsContainer
-      id="xyz"
       $isTRKiosk={isTendernessAndRageKiosk}
       $isNonTRKiosk={isKiosk && !isTendernessAndRageKiosk}
     >

@@ -58,6 +58,13 @@ const ImageContainer = styled.span`
   }
 `;
 
+const IconWrapper = styled.span`
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const IIIFViewerThumbNumber = styled.span.attrs({
   className: typography('body', 'sm', 'strong'),
 })`
@@ -72,47 +79,47 @@ const IIIFViewerThumbNumber = styled.span.attrs({
   }
 `;
 
-const IconWrapper = styled.span`
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+function getPlaceholderIcon(
+  itemType: string | undefined,
+  canvas: TransformedCanvas
+) {
+  if (itemType === 'Sound') return audio;
+  if (itemType === 'Video') return video;
+  if (isPDFCanvas(canvas)) return pdf;
+  return file;
+}
 
 type IIIFCanvasThumbnailProps = {
   canvas: TransformedCanvas;
   thumbNumber: number;
-  highlightImage?: boolean;
+  isHighlighted?: boolean;
   placeholderId?: string;
 };
 
 const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
   canvas,
   thumbNumber,
-  highlightImage,
+  isHighlighted,
   placeholderId,
 }: IIIFCanvasThumbnailProps) => {
   const [thumbnailLoaded, setThumbnailLoaded] = useState(false);
   const { userIsStaffWithRestricted } = useUserContext();
+
   const isRestricted = hasRestrictedItem(canvas);
   const urlTemplate = canvas.imageServiceId
     ? iiifImageTemplate(canvas.imageServiceId)
     : undefined;
-
   const thumbnailSrc =
     canvas?.thumbnailImage?.url ||
     (urlTemplate && urlTemplate({ size: '200,' })) ||
     placeholderId;
-
   const itemType = isChoiceBody(canvas?.painting?.[0])
     ? (canvas.painting[0].items[0] as IIIFExternalWebResource | IIIFItemProps)
         ?.type
     : canvas.painting?.[0]?.type;
-
-  const thumbnailSrcIsPlaceholder =
+  const isThumbnailSrcPlaceholder =
     thumbnailSrc?.includes('/born-digital/placeholder-thumb/') || false;
-
-  const hasIconPlaceholder = !thumbnailSrc || thumbnailSrcIsPlaceholder;
+  const shouldShowIconPlaceholder = !thumbnailSrc || isThumbnailSrcPlaceholder;
 
   return (
     <IIIFViewerThumb>
@@ -129,12 +136,11 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
 
           {!isRestricted && (
             <>
-              {!hasIconPlaceholder ? (
+              {!shouldShowIconPlaceholder ? (
                 <>
                   {!thumbnailLoaded && <LL $small $lighten />}
 
                   <IIIFViewerImage
-                    highlightImage={highlightImage}
                     width={canvas?.thumbnailImage?.width || 30}
                     src={thumbnailSrc}
                     srcSet=""
@@ -143,28 +149,17 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
                     loadHandler={() => {
                       setThumbnailLoaded(true);
                     }}
+                    isHighlighted={isHighlighted}
                   />
                 </>
               ) : (
-                <>
-                  {hasIconPlaceholder && (
-                    <IconWrapper>
-                      <Icon
-                        icon={
-                          itemType === 'Sound'
-                            ? audio
-                            : itemType === 'Video'
-                              ? video
-                              : isPDFCanvas(canvas)
-                                ? pdf
-                                : file
-                        }
-                        iconColor="white"
-                        sizeOverride="width: 53px; height: 53px;"
-                      />
-                    </IconWrapper>
-                  )}
-                </>
+                <IconWrapper>
+                  <Icon
+                    icon={getPlaceholderIcon(itemType, canvas)}
+                    iconColor="white"
+                    sizeOverride="width: 53px; height: 53px;"
+                  />
+                </IconWrapper>
               )}
             </>
           )}

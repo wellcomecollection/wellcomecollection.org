@@ -17,15 +17,13 @@ import {
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { searchWithinLabel } from '@weco/content/text/aria-labels';
 import { TransformedCanvas } from '@weco/content/types/manifest';
-import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
+import {
+  ItemProps,
+  toWorksItemLink,
+} from '@weco/content/views/components/ItemLink';
 import { arrayIndexToQueryParam } from '@weco/content/views/pages/works/work/work.helpers';
 
 import { thumbnailsPageSize } from './Paginators';
-
-const Highlight = styled.span`
-  background: ${props => props.theme.color('yellow')};
-  color: ${props => props.theme.color('black')};
-`;
 
 const SearchForm = styled.form`
   position: relative;
@@ -46,12 +44,22 @@ const SearchButtonWrapper = styled.div`
   }
 `;
 
+const ErrorMessage = styled(Space).attrs({
+  as: 'p',
+  $v: { size: 'sm', properties: ['margin-top'] },
+  className: typography('body', 'sm', 'regular'),
+})``;
+
 const ResultsHeader = styled(Space).attrs({
   as: 'h3',
   $v: { size: 'sm', properties: ['margin-top'] },
 })`
   border-bottom: 1px solid ${props => props.theme.color('neutral.500')};
   padding-bottom: ${props => `${props.theme.spacingUnit}px`};
+`;
+
+const ResultsList = styled.ul`
+  padding: 0;
 `;
 
 const ListItem = styled.li.attrs({
@@ -78,15 +86,10 @@ const HitData = styled(Space).attrs({
   display: block;
 `;
 
-const ResultsList = styled.ul`
-  padding: 0;
+const Highlight = styled.span`
+  background: ${props => props.theme.color('yellow')};
+  color: ${props => props.theme.color('black')};
 `;
-
-const ErrorMessage = styled(Space).attrs({
-  as: 'p',
-  $v: { size: 'sm', properties: ['margin-top'] },
-  className: typography('body', 'sm', 'regular'),
-})``;
 
 const Loading = () => (
   <div
@@ -133,6 +136,25 @@ const Hit: FunctionComponent<HitProps> = ({
   );
 };
 
+// We need the matching resource for each hit to get the canvas it appears on
+function findCanvasIndexForHit(
+  hit: SearchResults['hits'][0],
+  searchResults: SearchResults | null,
+  canvases: TransformedCanvas[] | undefined
+) {
+  const matchingResources = hit.annotations
+    .map(annotation =>
+      searchResults?.resources?.find(resource => resource['@id'] === annotation)
+    )
+    .filter(Boolean)
+    .filter(resource => resource?.resource?.chars);
+
+  return canvases?.findIndex(canvas => {
+    const matchingPathname = matchingResources[0]?.on || '';
+    return new URL(matchingPathname).pathname === new URL(canvas.id).pathname;
+  });
+}
+
 const IIIFSearchWithin: FunctionComponent = () => {
   const router = useRouter();
   const theme = useTheme();
@@ -146,10 +168,15 @@ const IIIFSearchWithin: FunctionComponent = () => {
     query,
     work,
   } = useItemViewerContext();
-  const [value, setValue] = useState(query.query);
+  const [searchQuery, setSearchQuery] = useState(query.query);
   const [isLoading, setIsLoading] = useState(false);
   const [searchError, setSearchError] = useState(false);
   const { searchService, canvases } = { ...transformedManifest };
+
+  function navigateToItem(props: Partial<ItemProps>) {
+    const link = toWorksItemLink({ workId: work.id, props });
+    router.replace(link.href);
+  }
 
   function handleClearResults() {
     // Set data attribute to prevent GTM trigger from firing
@@ -157,16 +184,12 @@ const IIIFSearchWithin: FunctionComponent = () => {
       formRef.current.dataset.gtmIsClearing = 'true';
     }
 
-    const link = toWorksItemLink({
-      workId: work.id,
-      props: {
-        manifest: query.manifest,
-        canvas: query.canvas,
-        page: query.page,
-      },
+    setSearchResults(results);
+    navigateToItem({
+      manifest: query.manifest,
+      canvas: query.canvas,
+      page: query.page,
     });
-    setSearchResults && setSearchResults(results);
-    router.replace(link.href);
 
     // Remove the attribute after navigation
     if (formRef.current) {
@@ -180,23 +203,29 @@ const IIIFSearchWithin: FunctionComponent = () => {
       const searchServiceId =
         '@id' in searchService ? searchService['@id'] : searchService.id;
       try {
-        const results = await (
+        const fetchedResults = await (
           await fetch(`${searchServiceId}?q=${query.query}`)
         ).json();
         setIsLoading(false);
-        setSearchResults && setSearchResults(results);
+        setSearchResults(fetchedResults);
       } catch {
         setIsLoading(false);
         setSearchError(true);
       }
     } else {
-      setSearchResults && setSearchResults(results);
+      setSearchResults(results);
     }
   }
 
   useEffect(() => {
     getSearchResults();
   }, [query.query, query.manifest]);
+
+  const shouldShowResultsCount =
+    !isLoading &&
+    searchResults &&
+    typeof searchResults?.within?.total === 'number' &&
+    query.query;
 
   return (
     <>
@@ -206,16 +235,12 @@ const IIIFSearchWithin: FunctionComponent = () => {
         action={router.asPath}
         onSubmit={event => {
           event.preventDefault();
-          const link = toWorksItemLink({
-            workId: work.id,
-            props: {
-              canvas: query.canvas,
-              manifest: query.manifest,
-              query: value,
-              page: query.page,
-            },
+          navigateToItem({
+            canvas: query.canvas,
+            manifest: query.manifest,
+            query: searchQuery,
+            page: query.page,
           });
-          router.replace(link.href);
         }}
       >
         <input type="hidden" name="canvas" value={query.canvas} />
@@ -227,8 +252,8 @@ const IIIFSearchWithin: FunctionComponent = () => {
             label={searchWithinLabel}
             type="search"
             name="query"
-            value={value}
-            setValue={setValue}
+            value={searchQuery}
+            setValue={setSearchQuery}
             ref={inputRef}
             clearHandler={handleClearResults}
             hasClearButton
@@ -252,33 +277,14 @@ const IIIFSearchWithin: FunctionComponent = () => {
             There has been a problem conducting the search.
           </ErrorMessage>
         )}
-        {!isLoading &&
-          searchResults &&
-          typeof searchResults?.within?.total === 'number' &&
-          query.query && (
-            <ResultsHeader aria-live="assertive">
-              {pluralize(searchResults.within.total ?? 0, 'result')}
-            </ResultsHeader>
-          )}
+        {shouldShowResultsCount && (
+          <ResultsHeader aria-live="assertive">
+            {pluralize(searchResults?.within.total ?? 0, 'result')}
+          </ResultsHeader>
+        )}
         <ResultsList>
           {searchResults?.hits?.map((hit, i) => {
-            // We need the matching resource for each hit to get the canvas it appears on
-            const matchingResources = hit.annotations
-              .map(annotation => {
-                return searchResults?.resources?.find(
-                  resource => resource['@id'] === annotation
-                );
-              })
-              .filter(Boolean)
-              .filter(resource => resource?.resource?.chars);
-            // Get the index of the canvas the hits appear on
-            const index = canvases?.findIndex(canvas => {
-              const matchingPathname = matchingResources?.[0]?.on || '';
-              return (
-                new URL(matchingPathname).pathname ===
-                new URL(canvas.id).pathname
-              );
-            });
+            const index = findCanvasIndexForHit(hit, searchResults, canvases);
             const matchingCanvas = (index && canvases?.[index]) || undefined;
             return (
               <ListItem key={i}>
