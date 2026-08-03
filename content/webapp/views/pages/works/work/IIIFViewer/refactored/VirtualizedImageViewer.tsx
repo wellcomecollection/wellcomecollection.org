@@ -85,8 +85,8 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
                     setImageRect={setImageRect}
                     setImageContainerRect={setImageContainerRect}
                     externalAccessService={externalAccessService}
-                    shouldScrollToUpdateUrl
                     showVideoTranscript={false}
+                    shouldScrollToUpdateUrl
                   />
                 </ItemWrapper>
               );

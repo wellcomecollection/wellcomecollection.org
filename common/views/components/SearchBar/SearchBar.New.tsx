@@ -241,8 +241,8 @@ const SearchBar: FunctionComponent<Props> = ({
           ref={inputRef || defaultInputRef}
           form={form}
           hasClearButton
-          isNewSearchBar={true}
           placeholder=" " // This empty placeholder is required for the :placeholder-shown CSS selector to work
+          isNewSearchBar
         />
       </SearchInputWrapper>
       <SearchButtonWrapper>
@@ -253,7 +253,7 @@ const SearchBar: FunctionComponent<Props> = ({
           form={form}
           colors={theme.buttonColors.greenGreenWhite}
           icon={search}
-          isNewSearchBar={true}
+          isNewSearchBar
         />
       </SearchButtonWrapper>
     </Container>

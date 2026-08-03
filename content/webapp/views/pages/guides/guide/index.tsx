@@ -54,8 +54,7 @@ export const Guide: FunctionComponent<Props> = ({ guide, jsonLd }) => {
       Background={displayBackground}
       ContentTypeInfo={DateInfo}
       backgroundTexture={!featuredPicture ? headerBackgroundLs : undefined}
-      highlightHeading={true}
-      isContentTypeInfoBeforeMedia={false}
+      highlightHeading
     />
   );
 

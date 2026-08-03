@@ -90,10 +90,10 @@ const VideoEmbed: FunctionComponent<Props> = ({
             <iframe
               className="iframe"
               title="Video"
-              allowFullScreen={true}
               allow="autoplay; picture-in-picture"
               src={videoSrc}
               style={{ border: 0 }}
+              allowFullScreen
             />
           ) : (
             <VideoTrigger

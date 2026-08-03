@@ -31,12 +31,12 @@ const OtherExhibitionGuides: FunctionComponent<Props> = ({
         </Space>
       </ContaineredLayout>
       <CardGrid
-        itemsHaveTransparentBackground={true}
         items={otherExhibitionGuides.map(result => ({
           ...result,
           type: 'exhibition-guides-links',
         }))}
         itemsPerRow={3}
+        itemsHaveTransparentBackground
       />
     </Space>
   </PromoContainer>

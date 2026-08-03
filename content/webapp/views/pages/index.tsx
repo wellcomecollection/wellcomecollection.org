@@ -141,7 +141,7 @@ const Homepage: NextPage<Props> = ({
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   transformedHeaderList.value.items as any[]
                 }
-                isFeaturedFirst={true}
+                isFeaturedFirst
               />
             </SpacingComponent>
           </SpacingSection>
@@ -199,8 +199,8 @@ const Homepage: NextPage<Props> = ({
             <CardGrid
               items={articles}
               itemsPerRow={4}
-              itemsHaveTransparentBackground={true}
               links={[{ text: 'All stories', url: '/stories' }]}
+              itemsHaveTransparentBackground
             />
           </SpacingComponent>
         </SpacingSection>

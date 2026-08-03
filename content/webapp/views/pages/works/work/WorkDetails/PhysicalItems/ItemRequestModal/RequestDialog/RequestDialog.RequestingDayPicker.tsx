@@ -42,10 +42,10 @@ const RequestingDayPicker: FunctionComponent<Props> = ({
       <Select
         name="calendar_dates"
         label="Select a date"
-        hideLabel={true}
         options={availabilitySlotsToSelectOptions(availableDates)}
         value={pickUpDate || 'Select a date'}
         onChange={e => setPickUpDate(e.target.value)}
+        hideLabel
       />
     </div>
   );

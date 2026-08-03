@@ -55,7 +55,7 @@ const EventSeriesPage: NextPage<Props> = ({
       breadcrumbs={breadcrumbs}
       labels={{ labels: series.labels }}
       title={series.title}
-      Background={<HeaderBackground hasWobblyEdge={true} />}
+      Background={<HeaderBackground hasWobblyEdge />}
       FeaturedMedia={FeaturedMedia}
     />
   );

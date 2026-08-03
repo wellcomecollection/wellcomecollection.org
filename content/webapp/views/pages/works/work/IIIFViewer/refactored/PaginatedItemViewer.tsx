@@ -52,8 +52,8 @@ const PaginatedItemViewer: FunctionComponent = () => {
         titleOverride={`${query.canvas}/${canvases?.length}`}
         exclude={[]}
         externalAccessService={externalAccessService}
-        isDark
         showVideoTranscript={false}
+        isDark
       />
     </ItemWrapper>
   ));

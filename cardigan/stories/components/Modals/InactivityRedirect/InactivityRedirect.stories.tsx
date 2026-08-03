@@ -8,7 +8,7 @@ type StoryProps = ComponentProps<typeof InactivityRedirect>;
 const CountdownPreview = () => {
   return (
     <div>
-      <InactivityRedirect isCardiganStory={true} />
+      <InactivityRedirect isCardiganStory />
     </div>
   );
 };

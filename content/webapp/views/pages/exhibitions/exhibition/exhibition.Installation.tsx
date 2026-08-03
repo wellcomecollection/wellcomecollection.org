@@ -80,7 +80,7 @@ const Installation: FunctionComponent<Props> = ({
         labels={{ labels: installation.labels }}
         title={installation.title}
         FeaturedMedia={FeaturedMedia}
-        Background={<HeaderBackground hasWobblyEdge={true} />}
+        Background={<HeaderBackground hasWobblyEdge />}
         ContentTypeInfo={
           <>
             {installation.start && !installation.statusOverride && (
@@ -98,7 +98,7 @@ const Installation: FunctionComponent<Props> = ({
             )}
           </>
         }
-        isContentTypeInfoBeforeMedia={true}
+        isContentTypeInfoBeforeMedia
       />
 
       {installation.bslLeafletVideo && (

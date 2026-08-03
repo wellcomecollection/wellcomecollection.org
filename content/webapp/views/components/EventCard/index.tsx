@@ -166,8 +166,8 @@ const EventCard: FunctionComponent<Props> = ({
               <DateInfo>
                 <EventDateRange
                   eventTimes={event.times}
-                  splitTime={true}
                   fromDate={fromDate}
+                  splitTime
                 />
               </DateInfo>
               {dateString && <DateInfo>{dateString}</DateInfo>}

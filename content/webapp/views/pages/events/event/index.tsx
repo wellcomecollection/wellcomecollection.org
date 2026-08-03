@@ -171,8 +171,8 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
         FeaturedMedia={maybeFeaturedMedia}
         Background={
           <HeaderBackground
-            hasWobblyEdge={true}
             backgroundTexture={headerBackgroundLs}
+            hasWobblyEdge
           />
         }
         ContentTypeInfo={
@@ -199,7 +199,7 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
           </>
         }
         isFree={!event.cost}
-        isContentTypeInfoBeforeMedia={true}
+        isContentTypeInfoBeforeMedia
       />
 
       {event.bslLeafletVideo && (
@@ -238,7 +238,7 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
         }
         seasons={event.seasons}
         // We hide contributors as we render them higher up the page on events
-        hideContributors={true}
+        hideContributors
       >
         <DateWrapper>
           <h2 id="dates">Dates</h2>
@@ -267,8 +267,8 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
                   <>
                     <Button
                       variant="ButtonSolid"
-                      disabled={true}
                       text="Fully booked"
+                      disabled
                     />
                   </>
                 ) : (

@@ -13,7 +13,7 @@ describe('IIIFImage', () => {
 
   it('renders a IIIF image URL', async () => {
     const { findByRole } = renderWithTheme(
-      <IIIFImage image={props} priority={true} layout="fixed" />
+      <IIIFImage image={props} layout="fixed" priority />
     );
 
     const image = await findByRole('img');

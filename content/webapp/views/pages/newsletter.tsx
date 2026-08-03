@@ -21,7 +21,6 @@ const NewsletterPage: NextPage<Props> = ({ result }) => {
     <PageLayout
       title="Sign up to our newsletter"
       description={newsletterDescription}
-      hideNewsletterPromo={true}
       url={{ pathname: '/newsletter' }}
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType="website"
@@ -32,13 +31,14 @@ const NewsletterPage: NextPage<Props> = ({ result }) => {
         height: 662,
         alt: '',
       }}
+      hideNewsletterPromo
     >
       <PageHeader
         variant="basic"
         breadcrumbs={{ items: [] }}
         title="Newsletters"
         backgroundTexture={landingHeaderBackgroundLs}
-        highlightHeading={true}
+        highlightHeading
       />
 
       <Space $v={{ size: 'xl', properties: ['margin-top'] }}>

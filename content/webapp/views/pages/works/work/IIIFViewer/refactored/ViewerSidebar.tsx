@@ -334,9 +334,9 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
                     itemOnClick: () => setIsMobileSidebarActive(false),
                     canvases: transformedManifest?.canvases,
                   }}
+                  shouldFetchChildren={false}
                   firstItemTabbable
                   showFirstLevelGuideline
-                  shouldFetchChildren={false}
                   isDarkMode
                 />
               </WorksTree>

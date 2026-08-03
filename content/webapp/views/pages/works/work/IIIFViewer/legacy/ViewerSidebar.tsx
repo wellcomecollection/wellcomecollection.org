@@ -222,7 +222,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
     <>
       {isWorkVisibleWithPermission && (
         <RestrictedMessage>
-          <RestrictedItemMessage plural={true} />
+          <RestrictedItemMessage plural />
         </RestrictedMessage>
       )}
       <Inner className={typography('body', 'md', 'strong')}>
@@ -266,7 +266,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
               $h={{ size: 'xs', properties: ['margin-left'] }}
               style={{ display: 'flex', alignItems: 'center' }}
             >
-              <Icon icon={arrow} matchText={true} iconColor="white" />
+              <Icon icon={arrow} iconColor="white" matchText />
             </Space>
           </WorkLink>
         </Space>
@@ -311,8 +311,8 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
           >
             <div style={{ overflow: 'auto' }}>
               <WorksTree
-                isDarkMode={true}
                 hasStructures={Boolean(structures && structures.length > 0)}
+                isDarkMode
               >
                 <NestedList
                   currentWorkId={work.id}
@@ -322,10 +322,6 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
                   level={1}
                   tabbableId={tabbableId}
                   setTabbableId={setTabbableId}
-                  firstItemTabbable={true}
-                  showFirstLevelGuideline={true}
-                  shouldFetchChildren={false}
-                  isDarkMode={true}
                   ItemRenderer={DownloadItemRenderer}
                   itemRendererProps={{
                     linkToCanvas: true,
@@ -335,6 +331,10 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
                     itemOnClick: () => setIsMobileSidebarActive(false),
                     canvases: transformedManifest?.canvases,
                   }}
+                  firstItemTabbable
+                  showFirstLevelGuideline
+                  shouldFetchChildren={false}
+                  isDarkMode
                 />
               </WorksTree>
             </div>

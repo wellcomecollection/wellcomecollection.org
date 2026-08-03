@@ -159,7 +159,7 @@ const ItemPageLink = ({
         wrapper={children => (
           <Layout gridSizes={gridSize12()}>
             <RestrictedMessage>
-              <RestrictedItemMessage headingLevel={3} plural={true}>
+              <RestrictedItemMessage headingLevel={3} plural>
                 {children}
               </RestrictedItemMessage>
             </RestrictedMessage>
@@ -333,11 +333,11 @@ const WorkDetailsAvailableOnline = ({
                   level={1}
                   tabbableId={tabbableId}
                   setTabbableId={setTabbableId}
-                  firstItemTabbable={true}
-                  showFirstLevelGuideline={true}
                   ItemRenderer={DownloadItemRenderer}
-                  shouldFetchChildren={false}
                   itemRendererProps={{}}
+                  shouldFetchChildren={false}
+                  firstItemTabbable
+                  showFirstLevelGuideline
                 />
               </WorksTree>
             )}
