@@ -30,3 +30,16 @@ export type SearchResults = {
     after: string;
   }[];
 };
+
+export const emptySearchResults: SearchResults = {
+  '@context': '',
+  '@id': '',
+  '@type': 'sc:AnnotationList',
+  within: {
+    '@type': '',
+    total: null,
+  },
+  startIndex: 0,
+  resources: [],
+  hits: [],
+};

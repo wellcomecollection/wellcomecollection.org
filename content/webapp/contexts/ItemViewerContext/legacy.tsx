@@ -1,6 +1,9 @@
 import { createContext, RefObject, useContext } from 'react';
 
-import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
+import {
+  emptySearchResults,
+  SearchResults,
+} from '@weco/content/services/iiif/types/search/v3';
 import {
   Work,
   WorkBasic,
@@ -61,19 +64,6 @@ export type ItemViewerContextProps = {
   hasOnlyRenderableImages: boolean;
 };
 
-export const results: SearchResults = {
-  '@context': '',
-  '@id': '',
-  '@type': 'sc:AnnotationList',
-  within: {
-    '@type': '',
-    total: null,
-  },
-  startIndex: 0,
-  resources: [],
-  hits: [],
-};
-
 const query = {
   canvas: 1,
   manifest: 1,
@@ -104,7 +94,7 @@ export const defaultItemViewerContext: ItemViewerContextProps = {
   work,
   transformedManifest: undefined,
   parentManifest: undefined,
-  searchResults: results,
+  searchResults: emptySearchResults,
   setSearchResults: () => undefined,
   accessToken: undefined,
   tree: [],
