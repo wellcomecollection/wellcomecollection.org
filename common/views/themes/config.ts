@@ -128,6 +128,7 @@ function flattenColors(
   );
 }
 
+// We need an object containing only the 'core' colours from the design system…
 const coreColorSource = coreColorKeys.reduce<Record<string, unknown>>(
   (acc, key) => {
     acc[key] = designSystemTheme.color[key];
@@ -135,7 +136,8 @@ const coreColorSource = coreColorKeys.reduce<Record<string, unknown>>(
   },
   {}
 );
-
+// …so the flattened result only contains the keys the `DesignSystemColor` type
+// expects (we deliberately filter out the 'legacy' stuff)
 const designSystemColors = flattenColors(coreColorSource) as Record<
   DesignSystemColor,
   string
