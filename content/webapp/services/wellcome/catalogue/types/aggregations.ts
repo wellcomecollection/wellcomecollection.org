@@ -8,7 +8,7 @@ export type WorkAggregations = {
   availabilities: WellcomeAggregation;
   languages?: WellcomeAggregation;
   archiveType?: WellcomeAggregation;
-  archiveRoot?: WellcomeAggregation;
+  collectionRoot?: WellcomeAggregation;
   'genres.label'?: WellcomeAggregation<UnidentifiedBucketData>;
   'subjects.label'?: WellcomeAggregation<UnidentifiedBucketData>;
   'contributors.agent.label'?: WellcomeAggregation<UnidentifiedBucketData>;

@@ -100,7 +100,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         'subjects.label',
         'contributors.agent.label',
         'archiveType',
-        'archiveRoot',
+        'collectionRoot',
       ]
     : [];
 
