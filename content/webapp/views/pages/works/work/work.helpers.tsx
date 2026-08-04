@@ -150,10 +150,10 @@ export function getCurrentCanvas({
   canvas: number;
 }): TransformedCanvas | undefined {
   const canvases = transformedManifest?.canvases;
-  const hasCompleteStructure =
-    canvasIndexById && Object.keys(canvasIndexById).length === canvases?.length;
+  const canvasIds = Object.keys(canvasIndexById);
+  const hasCompleteStructure = canvasIds.length === canvases?.length;
   const currentCanvasId = hasCompleteStructure
-    ? Object.keys(canvasIndexById).find(id => canvasIndexById[id] === canvas)
+    ? canvasIds.find(id => canvasIndexById[id] === canvas)
     : undefined;
 
   return currentCanvasId
