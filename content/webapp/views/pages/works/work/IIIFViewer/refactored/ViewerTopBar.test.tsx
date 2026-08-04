@@ -2,7 +2,7 @@ import { screen } from '@testing-library/react';
 
 import {
   renderWithContext,
-  RenderWithContextOptions,
+  RenderWithRefactoredContextOptions,
 } from '@weco/content/test/fixtures/iiif/render';
 import {
   createMockCanvas,
@@ -33,7 +33,7 @@ const pdfRendering: TransformedManifest['rendering'] = [
 
 // Renders ViewerTopBar with the enhanced/full-support defaults most of these
 // characterisations need, merging in any per-test overrides.
-const renderTopBar = (options: RenderWithContextOptions = {}) =>
+const renderTopBar = (options: RenderWithRefactoredContextOptions = {}) =>
   renderWithContext(<ViewerTopBar iiifImageLocation={undefined} />, {
     appContext: { isEnhanced: true, isFullSupportBrowser: true },
     useRefactoredContext: true,

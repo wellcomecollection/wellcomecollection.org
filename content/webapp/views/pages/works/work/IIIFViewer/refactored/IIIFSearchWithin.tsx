@@ -10,11 +10,11 @@ import Button from '@weco/common/views/components/Buttons';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
 import TextInput from '@weco/common/views/components/TextInput';
+import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import {
-  results,
-  useItemViewerContext,
-} from '@weco/content/contexts/ItemViewerContext';
-import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
+  emptySearchResults,
+  SearchResults,
+} from '@weco/content/services/iiif/types/search/v3';
 import { searchWithinLabel } from '@weco/content/text/aria-labels';
 import { TransformedCanvas } from '@weco/content/types/manifest';
 import {
@@ -184,7 +184,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
       formRef.current.dataset.gtmIsClearing = 'true';
     }
 
-    setSearchResults(results);
+    setSearchResults(emptySearchResults);
     navigateToItem({
       manifest: query.manifest,
       canvas: query.canvas,
@@ -213,7 +213,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
         setSearchError(true);
       }
     } else {
-      setSearchResults(results);
+      setSearchResults(emptySearchResults);
     }
   }
 

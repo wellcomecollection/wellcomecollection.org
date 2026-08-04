@@ -347,6 +347,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   return (
     <ItemViewerContext.Provider
       value={{
+        isRefactoredContext: false,
         // DATA props:
         query: {
           page,
