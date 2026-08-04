@@ -8,13 +8,10 @@ import {
 
 import ZoomedImage from './ZoomedImage';
 
-// The refactored components read from ItemViewerContextRefactored via the
-// useItemViewerContext hook, which checks the feature flag. Mock it so the
-// hook returns the refactored context values.
-jest.mock('@weco/common/server-data/Context', () => ({
-  ...jest.requireActual('@weco/common/server-data/Context'),
-  useFeatureFlags: () => ({ itemViewerRefactor: true }),
-}));
+// No useFeatureFlags mock needed here: ZoomedImage imports useItemViewerContext
+// directly from the refactored context module rather than the feature-flag-aware
+// barrel, so it never consults the flag - useRefactoredContext: true below is
+// what actually selects the refactored Provider.
 
 // ZoomedImage only constructs an openseadragon viewer once its info.json
 // fetch resolves; leaving fetch pending below means it's never called, so a
@@ -30,6 +27,7 @@ const renderZoomedImage = (
   });
 
 describe('ZoomedImage', () => {
+  const originalFetch = global.fetch;
   let fetchMock: jest.Mock;
 
   beforeEach(() => {
@@ -37,6 +35,10 @@ describe('ZoomedImage', () => {
     // the promise settle would require also faking openseadragon's viewer shape.
     fetchMock = jest.fn(() => new Promise(() => undefined));
     global.fetch = fetchMock as unknown as typeof fetch;
+  });
+
+  afterEach(() => {
+    global.fetch = originalFetch;
   });
 
   it('renders the zoomed image container', () => {
