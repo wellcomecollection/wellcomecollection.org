@@ -6,7 +6,7 @@ const apmConfig = require('../services/apm/apmConfig');
 
 const createConfig =
   (options = {}) =>
-  (phase, { defaultConfig }) => {
+  phase => {
     if (!options.applicationName) {
       throw new Error(
         'createConfig requires an applicationName option, e.g. createConfig({ applicationName: "content", ... })'
@@ -23,8 +23,6 @@ const createConfig =
     const redirectEntries = options.redirectEntries || [];
 
     const nextConfig = {
-      ...defaultConfig,
-
       // We handle compression in the nginx sidecar
       // Are you having problems with this? Make sure CloudFront is forwarding Accept-Encoding headers to our apps!
       compress: false,
@@ -113,9 +111,15 @@ const createConfig =
         }
 
         if (shouldAnalyzeBundle) {
-          // This path is relative to the .next directory
+          // These paths are relative to the compiler's outputPath, which
+          // BundleAnalyzerPlugin resolves reportFilename/statsFilename
+          // against. The client compiler's outputPath is .next itself, but
+          // the server compiler's is nested one level deeper at
+          // .next/server, so it needs an extra `../` to land in the same
+          // webapp/.dist directory as the client report.
           const bundleEnvironment = isServer ? 'server' : 'client';
-          const bundleAnalysisFile = `../.dist/${options.applicationName}.${bundleEnvironment}.${buildHash}`;
+          const relativePrefix = isServer ? '../..' : '..';
+          const bundleAnalysisFile = `${relativePrefix}/.dist/${options.applicationName}.${bundleEnvironment}.${buildHash}`;
 
           config.plugins.push(
             new BundleAnalyzerPlugin({
@@ -132,15 +136,11 @@ const createConfig =
       },
 
       eslint: {
-        ...defaultConfig.eslint,
-        // Don't run eslint as part of `next build` - it wouldn't do anything
-        // useful anyway: this repo's eslint setup uses a newer config format
-        // ("flat config", in the root eslint.config.js) that Next's built-in
-        // build-time linter doesn't know how to read, so turning this on
-        // would just run a check that silently finds nothing. Linting is
-        // instead enforced by a git pre-commit hook (see docs/git-hooks.md)
-        // that lints whatever files you're committing, or can be run across
-        // the whole repo manually with the root `yarn lint` command.
+        // Don't run eslint as part of `next build` - it's redundant, not
+        // broken: linting is already enforced by a git pre-commit hook (see
+        // docs/git-hooks.md) that lints whatever files you're committing,
+        // or can be run across the whole repo manually with the root
+        // `yarn lint` command.
         ignoreDuringBuilds: true,
       },
 
@@ -182,8 +182,6 @@ const createConfig =
       bundlePagesRouterDependencies: true,
 
       experimental: {
-        ...defaultConfig.experimental,
-
         // This forces Next to use the SWC compiler, which is significantly faster
         // than Babel.  By default it disables SWC with the error message:
         //
