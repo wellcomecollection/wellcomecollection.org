@@ -107,6 +107,13 @@ const toggleConfig = {
       type: 'permanent',
     },
     {
+      id: 'archiveBrowsing',
+      title: 'Archive browsing',
+      initialValue: false,
+      description: 'Enables access to new archive browsing features/pages',
+      type: 'experimental',
+    },
+    {
       id: 'thematicBrowsing',
       title: 'Thematic browsing: category pages',
       initialValue: false,
