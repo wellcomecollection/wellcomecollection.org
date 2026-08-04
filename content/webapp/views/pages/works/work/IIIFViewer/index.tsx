@@ -10,6 +10,11 @@ import { IIIFViewerProps as RefactoredIIIFViewerProps } from './refactored/IIIFV
 const IIIFViewerLegacy = dynamic(() => import('./legacy'));
 const IIIFViewerRefactored = dynamic(() => import('./refactored'));
 
+// This is the switch point for the item-viewer-refactor migration (RFC 086:
+// https://github.com/wellcomecollection/docs/blob/main/rfcs/086-item-viewer-refactor/README.md).
+// `legacy/` is what all users see today; `refactored/` is being built out
+// behind the `itemViewerRefactor` feature flag. Once the refactor is fully
+// rolled out, `legacy/` (and this switch) can be deleted.
 export default function IIIFViewer(
   props: LegacyIIIFViewerProps | RefactoredIIIFViewerProps
 ) {
