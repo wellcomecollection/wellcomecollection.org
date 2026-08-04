@@ -23,7 +23,7 @@ import { TransformedManifest } from '@weco/content/types/manifest';
 import { hasNonImagesOrOriginals } from '@weco/content/utils/iiif/v3';
 import { fromQuery } from '@weco/content/views/components/ItemLink';
 import {
-  getCurrentCanvas,
+  getCanvasNavigation,
   getTreeCanvasIndexById,
 } from '@weco/content/views/pages/works/work/work.helpers';
 import { UiTree } from '@weco/content/views/pages/works/work/work.types';
@@ -289,7 +289,14 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
 
   const canvasIndexById = useMemo(() => getTreeCanvasIndexById(tree), [tree]);
 
-  const currentCanvas = getCurrentCanvas({
+  const {
+    currentCanvas,
+    totalCanvases,
+    isFirstCanvas,
+    isLastCanvas,
+    canNavigateNext,
+    canNavigatePrevious,
+  } = getCanvasNavigation({
     transformedManifest,
     canvasIndexById,
     canvas,
@@ -393,6 +400,11 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         setTree,
         canvasIndexById,
         currentCanvas,
+        totalCanvases,
+        isFirstCanvas,
+        isLastCanvas,
+        canNavigateNext,
+        canNavigatePrevious,
 
         // UI Props:
         viewerRef,

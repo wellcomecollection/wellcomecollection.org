@@ -35,6 +35,11 @@ export type ItemViewerContextProps = {
   setTree: (v: UiTree) => void;
   canvasIndexById: Record<string, number>;
   currentCanvas: TransformedCanvas | undefined;
+  totalCanvases: number;
+  isFirstCanvas: boolean;
+  isLastCanvas: boolean;
+  canNavigateNext: boolean;
+  canNavigatePrevious: boolean;
 
   // UI props:
   viewerRef: RefObject<HTMLDivElement | null> | undefined;
@@ -105,6 +110,11 @@ export const defaultItemViewerContext: ItemViewerContextProps = {
   setTree: () => undefined,
   canvasIndexById: {},
   currentCanvas: undefined,
+  totalCanvases: 0,
+  isFirstCanvas: true,
+  isLastCanvas: true,
+  canNavigateNext: false,
+  canNavigatePrevious: false,
 
   // UI props:
   viewerRef: undefined,
