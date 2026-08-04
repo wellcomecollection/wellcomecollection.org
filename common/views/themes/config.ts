@@ -93,9 +93,10 @@ type CoreColorSource = Pick<
   (typeof coreColorKeys)[number]
 >;
 
-// Recursively derive the `.`-separated union of leaf keys from a nested colour
-// object, giving us `'white' | 'neutral.10' | 'ui.blue.40' | ...`. This keeps
-// type safety: a name that isn't in the design system is a type error.
+// Recursively derive the `.`-separated union of leaf (i.e. outermost) keys from
+// a nested colour object, giving us `'white' | 'neutral.10' | 'ui.blue.40' |
+// ...`. This keeps type safety: a name that isn't in the design system is a
+// type error.
 type FlattenColorKeys<T, Prefix extends string = ''> = {
   [K in keyof T & string]: T[K] extends string
     ? `${Prefix}${K}`
