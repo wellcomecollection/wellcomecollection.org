@@ -425,7 +425,7 @@ const isCollectionRootFilter = ({
 }: WorksFilterProps): BooleanFilter<keyof WorksProps> => ({
   type: 'boolean',
   id: 'isCollectionRoot',
-  label: 'Archive roots only',
+  label: 'Collection roots only',
   isSelected: !!props.isCollectionRoot,
 });
 
@@ -454,7 +454,7 @@ const collectionRootFilter = ({
 }: WorksFilterProps): CheckboxFilter<keyof WorksProps> => ({
   type: 'checkbox',
   id: 'collectionRoot',
-  label: 'Archives',
+  label: 'Collections',
   options: filterOptionsWithNonAggregates({
     options: works?.aggregations?.collectionRoot?.buckets.map(bucket => ({
       id: `collection-root-${bucket.data.id}`,
