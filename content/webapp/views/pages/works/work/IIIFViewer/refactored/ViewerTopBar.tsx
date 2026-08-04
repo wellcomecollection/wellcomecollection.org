@@ -17,7 +17,7 @@ import { typography } from '@weco/common/utils/classnames';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
+import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext/refactored';
 import useIsFullscreenEnabled from '@weco/content/hooks/useIsFullscreenEnabled';
 import useTransformedIIIFImage from '@weco/content/hooks/useTransformedIIIFImage';
 import {
@@ -31,7 +31,6 @@ import {
 } from '@weco/content/utils/iiif/v3';
 import { getDownloadOptionsFromImageUrl } from '@weco/content/utils/works';
 import Download from '@weco/content/views/components/Download';
-import { queryParamToArrayIndex } from '@weco/content/views/pages/works/work/work.helpers';
 
 import ToolbarSegmentedControl from './ToolbarSegmentedControl';
 
@@ -218,12 +217,12 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
     viewerRef,
     showFullscreenControl,
     hasOnlyRenderableImages,
+    currentCanvas,
   } = useItemViewerContext();
   const transformedIIIFImage = useTransformedIIIFImage(work);
   const { userIsStaffWithRestricted } = useUserContext();
 
   const { canvases, rendering } = { ...transformedManifest };
-  const currentCanvas = canvases?.[queryParamToArrayIndex(query.canvas)];
   const imageServices = (currentCanvas?.painting
     .map(p => {
       if (isChoiceBody(p)) {

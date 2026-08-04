@@ -135,3 +135,28 @@ export function getTreeCanvasIndexById(tree: UiTree): Record<string, number> {
   traverse(tree);
   return canvasIndexById;
 }
+
+// Canvas order follows the manifest's structure when we have a complete one -
+// that's not always the same as the raw items array order. canvasIndexById
+// maps canvas id to structure position; we only trust it when it covers
+// every canvas, otherwise we just use the canvas's plain array position.
+export function getCurrentCanvas({
+  transformedManifest,
+  canvasIndexById,
+  canvas,
+}: {
+  transformedManifest: { canvases: TransformedCanvas[] } | undefined;
+  canvasIndexById: Record<string, number>;
+  canvas: number;
+}): TransformedCanvas | undefined {
+  const canvases = transformedManifest?.canvases;
+  const hasCompleteStructure =
+    canvasIndexById && Object.keys(canvasIndexById).length === canvases?.length;
+  const currentCanvasId = hasCompleteStructure
+    ? Object.keys(canvasIndexById).find(id => canvasIndexById[id] === canvas)
+    : undefined;
+
+  return currentCanvasId
+    ? canvases?.find(c => c.id === currentCanvasId)
+    : canvases?.[queryParamToArrayIndex(canvas)];
+}
