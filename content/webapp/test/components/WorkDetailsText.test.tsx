@@ -6,7 +6,7 @@ describe('WorkDetailsText', () => {
     const { container } = renderWithTheme(
       <WorkDetailsText
         html={['This is <strong>bold</strong> text']}
-        allowDangerousRawHtml={true}
+        allowDangerousRawHtml
       />
     );
 
@@ -17,7 +17,7 @@ describe('WorkDetailsText', () => {
     const { container } = renderWithTheme(
       <WorkDetailsText
         text={['You write HTML with angle brackets like <em>']}
-        allowDangerousRawHtml={true}
+        allowDangerousRawHtml
       />
     );
     expect(container.outerHTML.includes('&lt;em&gt;')).toBe(true);

@@ -35,11 +35,11 @@ const PaginatorButtons = ({
           <Rotator $rotate={270}>
             <Control
               scroll={false}
-              replace={true}
               link={prevLink}
               colorScheme="light"
               icon={arrow}
               text="Previous page"
+              replace
             />
           </Rotator>
         </Space>
@@ -49,11 +49,11 @@ const PaginatorButtons = ({
           <Rotator $rotate={90}>
             <Control
               scroll={false}
-              replace={true}
               link={nextLink}
               colorScheme="light"
               icon={arrow}
               text="Next page"
+              replace
             />
           </Rotator>
         </Space>

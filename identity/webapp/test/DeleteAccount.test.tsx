@@ -87,7 +87,7 @@ describe('DeleteAccount', () => {
     );
     rerender(
       <ThemeProvider theme={theme}>
-        <DeleteAccount {...defaultProps} isActive={true} />
+        <DeleteAccount {...defaultProps} isActive />
       </ThemeProvider>
     );
 

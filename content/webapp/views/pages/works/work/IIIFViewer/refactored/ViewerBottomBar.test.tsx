@@ -3,7 +3,7 @@ import React from 'react';
 
 import {
   renderWithContext,
-  RenderWithContextOptions,
+  RenderWithRefactoredContextOptions,
 } from '@weco/content/test/fixtures/iiif/render';
 import {
   createMockCanvas,
@@ -27,7 +27,7 @@ jest.mock('@weco/content/hooks/useIsFullscreenEnabled', () => ({
   default: () => true,
 }));
 
-function renderBottomBar(options: RenderWithContextOptions = {}) {
+function renderBottomBar(options: RenderWithRefactoredContextOptions = {}) {
   return renderWithContext(<ViewerBottomBar />, {
     appContext: { isEnhanced: true, isFullSupportBrowser: true },
     useRefactoredContext: true,

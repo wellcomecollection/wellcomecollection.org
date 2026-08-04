@@ -28,7 +28,6 @@ const ItemWrapper = styled.div`
 const PaginatedItemViewer: FunctionComponent = () => {
   const { transformedManifest, query, setShowFullscreenControl } =
     useItemViewerContext();
-  const { canvas } = query;
   const { canvases, auth, placeholderId } = {
     ...transformedManifest,
   };
@@ -50,11 +49,11 @@ const PaginatedItemViewer: FunctionComponent = () => {
         item={item}
         i={i}
         canvas={currentCanvas}
-        titleOverride={`${canvas}/${canvases?.length}`}
+        titleOverride={`${query.canvas}/${canvases?.length}`}
         exclude={[]}
-        isDark={true}
         externalAccessService={externalAccessService}
         showVideoTranscript={false}
+        isDark
       />
     </ItemWrapper>
   ));

@@ -123,10 +123,10 @@ const ConceptPage: NextPage<Props> = ({
         openGraphType="website"
         siteSection="collections"
         jsonLd={{ '@type': 'WebPage' }}
-        hideNewsletterPromo={true}
         apiToolbarLinks={apiToolbarLinks}
-        clipOverflowX={true}
         headerProps={{ hasColorBackground: true }}
+        hideNewsletterPromo
+        clipOverflowX
       >
         <ThemeHeader concept={conceptResponse} hasImages={hasImages} />
 

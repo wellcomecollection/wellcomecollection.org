@@ -66,7 +66,7 @@ const BookPage: NextPage<Props> = ({ book }) => {
       title={book.title}
       FeaturedMedia={FeaturedMedia}
       ContentTypeInfo={book.subtitle && <Subtitle>{book.subtitle}</Subtitle>}
-      isContentTypeInfoBeforeMedia={true}
+      isContentTypeInfoBeforeMedia
     />
   );
 

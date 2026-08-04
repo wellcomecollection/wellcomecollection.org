@@ -175,8 +175,8 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
               <StandaloneWobblyEdge>
                 <DecorativeEdge
                   variant="wobbly"
-                  isRotated={true}
                   backgroundColor="white"
+                  isRotated
                 />
               </StandaloneWobblyEdge>
             )}
@@ -198,11 +198,11 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
                     ariaExpanded={isActive}
                     dataGtmTrigger="hide_image_gallery"
                     ref={closeButtonRef}
-                    replace={true}
                     colorScheme="light"
                     text="close"
                     icon={cross}
                     clickHandler={handleCloseClicked}
+                    replace
                   />
                 </ControlContainer>
               </CloseWrapper>

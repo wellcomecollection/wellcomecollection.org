@@ -1,6 +1,6 @@
 const js = require('@eslint/js');
 const prettierConfig = require('eslint-config-prettier');
-const importPlugin = require('eslint-plugin-import');
+const importXPlugin = require('eslint-plugin-import-x');
 const jestPlugin = require('eslint-plugin-jest');
 const jestPlaywrightPlugin = require('eslint-plugin-jest-playwright');
 const localRulesPlugin = require('eslint-plugin-local-rules');
@@ -11,7 +11,7 @@ const tseslint = require('typescript-eslint');
 
 const sharedRules = {
   'eol-last': 'error',
-  'import/order': [
+  'import-x/order': [
     'warn',
     {
       groups: [
@@ -52,6 +52,7 @@ const sharedRules = {
   'prettier/prettier': 'error',
   'react/no-deprecated': 'error',
   'react/react-in-jsx-scope': 'off',
+  'react/jsx-boolean-value': 'warn',
   'react/jsx-curly-brace-presence': [
     'warn',
     { props: 'never', children: 'never', propElementValues: 'always' },
@@ -121,7 +122,7 @@ module.exports = [
       },
     },
     plugins: {
-      import: importPlugin,
+      'import-x': importXPlugin,
       react: reactPlugin,
       'react-hooks': reactHooksPlugin,
       jest: jestPlugin,
@@ -176,7 +177,7 @@ module.exports = [
       },
     },
     plugins: {
-      import: importPlugin,
+      'import-x': importXPlugin,
       react: reactPlugin,
       'react-hooks': reactHooksPlugin,
       jest: jestPlugin,

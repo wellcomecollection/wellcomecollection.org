@@ -12,8 +12,8 @@ type OverlayPositionData = {
   overlayTop: number;
   overlayLeft: number;
   highlight: {
-    w: number;
-    h: number;
+    width: number;
+    height: number;
   };
   rotation: number;
 };
@@ -26,7 +26,7 @@ type SearchTermHighlightProps = {
   $rotation: number;
 };
 
-type RotationValue = 0 | 90 | 180 | 270;
+export type RotationValue = 0 | 90 | 180 | 270;
 
 const SearchTermHighlight = styled.div<SearchTermHighlightProps>`
   background: ${props => props.theme.color('yellow')};
@@ -41,7 +41,7 @@ const SearchTermHighlight = styled.div<SearchTermHighlightProps>`
   mix-blend-mode: color;
 `;
 
-function getOverlayTopLeft({
+export function getOverlayTopLeft({
   imageContainerRect,
   imageRect,
   rotation,
@@ -63,26 +63,28 @@ function getOverlayTopLeft({
   const imageLeft = imageRect?.left || 0;
   const startTop = imageTop - imageContainerTop;
   const startLeft = imageLeft - imageContainerLeft;
-  if (rotation === 90) {
-    return {
-      overlayTop: startTop + x,
-      overlayLeft: startLeft + imageRect.width - y,
-    };
-  } else if (rotation === 180) {
-    return {
-      overlayTop: startTop + imageRect.height - y,
-      overlayLeft: startLeft + imageRect.width - x,
-    };
-  } else if (rotation === 270) {
-    return {
-      overlayTop: imageTop - imageContainerTop + imageRect.height - x,
-      overlayLeft: imageLeft - imageContainerLeft + y,
-    };
-  } else {
-    return {
-      overlayTop: imageTop - imageContainerTop + y,
-      overlayLeft: imageLeft - imageContainerLeft + x,
-    };
+
+  switch (rotation) {
+    case 90:
+      return {
+        overlayTop: startTop + x,
+        overlayLeft: startLeft + imageRect.width - y,
+      };
+    case 180:
+      return {
+        overlayTop: startTop + imageRect.height - y,
+        overlayLeft: startLeft + imageRect.width - x,
+      };
+    case 270:
+      return {
+        overlayTop: startTop + imageRect.height - x,
+        overlayLeft: startLeft + y,
+      };
+    default:
+      return {
+        overlayTop: startTop + y,
+        overlayLeft: startLeft + x,
+      };
   }
 }
 
@@ -138,16 +140,16 @@ function getPositionData({
     });
     const coordsMatch = resource.on.match(/(#xywh=)(.*)/);
     const coords = coordsMatch && coordsMatch[2].split(',');
-    const x = coords ? Math.round(Number(coords[0]) * scale) : 0;
-    const y = coords ? Math.round(Number(coords[1]) * scale) : 0;
-    const w = coords ? Math.round(Number(coords[2]) * scale) : 0;
-    const h = coords ? Math.round(Number(coords[3]) * scale) : 0;
+    const coordX = coords ? Math.round(Number(coords[0]) * scale) : 0;
+    const coordY = coords ? Math.round(Number(coords[1]) * scale) : 0;
+    const highlightWidth = coords ? Math.round(Number(coords[2]) * scale) : 0;
+    const highlightHeight = coords ? Math.round(Number(coords[3]) * scale) : 0;
     const { overlayTop, overlayLeft } = getOverlayTopLeft({
       imageContainerRect,
       imageRect,
       rotation: (matchingRotation?.rotation || 0) as RotationValue,
-      x,
-      y,
+      x: coordX,
+      y: coordY,
     });
 
     return {
@@ -155,8 +157,8 @@ function getPositionData({
       overlayTop,
       overlayLeft,
       highlight: {
-        w,
-        h,
+        width: highlightWidth,
+        height: highlightHeight,
       },
       rotation: matchingRotation?.rotation || 0,
     };
@@ -233,8 +235,8 @@ const SearchTermHighlights: FunctionComponent<{
               data-testid="search-term-highlight"
               $top={item.overlayTop}
               $left={item.overlayLeft}
-              $width={item.highlight.w}
-              $height={item.highlight.h}
+              $width={item.highlight.width}
+              $height={item.highlight.height}
               $rotation={item.rotation}
             />
           );

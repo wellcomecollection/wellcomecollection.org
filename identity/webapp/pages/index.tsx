@@ -19,7 +19,7 @@ const Page: NextPage<AccountPageProps> = props => {
 type Props = ServerSideProps<AccountPageProps>;
 
 export const getServerSideProps: ServerSidePropsOrAppError<Props> =
-  withPageAuthRequiredSSR({
+  withPageAuthRequiredSSR<Props>({
     getServerSideProps: async context => {
       const serverData = await getServerData(context);
 
@@ -48,7 +48,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<Props> =
       // [1]: https://wellcome.slack.com/archives/CUA669WHH/p1656325929053499?thread_ts=1656322401.443269&cid=CUA669WHH
       // [2]: https://auth0.com/docs/manage-users/user-accounts/user-profiles#caching-user-profiles
       //
-      const session = await auth0.getSession(context.req, context.res);
+      const session = await auth0.getSession(context.req);
 
       if (!session)
         return {
@@ -59,7 +59,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<Props> =
 
       if (session.user.family_name === 'Auth0_Registration_tempLastName') {
         const successParams = new URLSearchParams();
-        successParams.append('email', session.user.email);
+        successParams.append('email', session.user.email ?? '');
 
         const params = new URLSearchParams();
         params.append('returnTo', `/success?${successParams}`);

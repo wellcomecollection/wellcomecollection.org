@@ -23,9 +23,9 @@ async function getImageMax(url: string): Promise<number> {
   }
 }
 
-const Image = styled.img<{ $highlightImage?: boolean; $zoomOnClick?: boolean }>`
+const Image = styled.img<{ $isHighlighted?: boolean; $zoomOnClick?: boolean }>`
   ${props =>
-    props.$highlightImage
+    props.$isHighlighted
       ? `filter: grayscale(100%) brightness(70%) sepia(40%) hue-rotate(-120deg) saturate(400%) contrast(1);`
       : ''}; /* the filter is used for highlighting thumbnails that contain search terms */
   cursor: ${props => (props.$zoomOnClick ? 'zoom-in' : undefined)};
@@ -45,7 +45,7 @@ type Props = {
   loadHandler?: () => void | Promise<void>;
   errorHandler?: () => void | Promise<void>;
   tabIndex?: number;
-  highlightImage?: boolean;
+  isHighlighted?: boolean;
   zoomOnClick?: boolean;
 };
 
@@ -64,7 +64,7 @@ const IIIFViewerImage = (
     loadHandler,
     errorHandler,
     tabIndex,
-    highlightImage,
+    isHighlighted,
     zoomOnClick,
   }: Props,
   ref: ForwardedRef<HTMLImageElement>
@@ -82,7 +82,7 @@ const IIIFViewerImage = (
 
   return (
     <>
-      {!hasLoaded && isFullSupportBrowser && <LL $lighten={true} />}
+      {!hasLoaded && isFullSupportBrowser && <LL $lighten />}
       <Image
         data-testid={index !== undefined ? `image-${index}` : null}
         ref={ref}
@@ -93,7 +93,7 @@ const IIIFViewerImage = (
         height={height}
         className="image"
         $zoomOnClick={zoomOnClick}
-        $highlightImage={highlightImage}
+        $isHighlighted={isHighlighted}
         onLoad={() => {
           loadHandler && loadHandler();
           setHasLoaded(true);

@@ -4,9 +4,12 @@ import { FunctionComponent, PropsWithChildren } from 'react';
 import UserContext, {
   defaultUserContext,
 } from '@weco/common/contexts/UserContext';
-import ItemViewerContext, {
-  defaultItemViewerContext,
-} from '@weco/content/contexts/ItemViewerContext';
+import ItemViewerContextLegacy, {
+  defaultItemViewerContext as defaultItemViewerContextLegacy,
+} from '@weco/content/contexts/ItemViewerContext/legacy';
+import ItemViewerContextRefactored, {
+  defaultItemViewerContext as defaultItemViewerContextRefactored,
+} from '@weco/content/contexts/ItemViewerContext/refactored';
 import {
   createMockCanvas,
   createRestrictedPainting,
@@ -18,28 +21,21 @@ import useIIIFProbeService from './useIIIFProbeService';
 // unrestricted canvases, and for restricted ones only once the auth cookie is
 // confirmed via the probe service (for a logged-in staff user with a token).
 // This exercises that matrix with mocked user state and fetch.
+//
+// The hook reads accessToken via the feature-flag-aware useItemViewerContext()
+// barrel, so the whole matrix runs against both the legacy and refactored
+// context to catch either side silently no longer supplying accessToken.
+let mockItemViewerRefactor = false;
+
+jest.mock('@weco/common/server-data/Context', () => ({
+  ...jest.requireActual('@weco/common/server-data/Context'),
+  useFeatureFlags: () => ({ itemViewerRefactor: mockItemViewerRefactor }),
+}));
 
 type WrapperOptions = {
   userIsStaffWithRestricted?: boolean;
   accessToken?: string;
 };
-
-const createWrapper =
-  ({
-    userIsStaffWithRestricted = false,
-    accessToken,
-  }: WrapperOptions): FunctionComponent<PropsWithChildren> =>
-  ({ children }) => (
-    <UserContext.Provider
-      value={{ ...defaultUserContext, userIsStaffWithRestricted }}
-    >
-      <ItemViewerContext.Provider
-        value={{ ...defaultItemViewerContext, accessToken }}
-      >
-        {children}
-      </ItemViewerContext.Provider>
-    </UserContext.Provider>
-  );
 
 const restrictedCanvas = (probeServiceId?: string) =>
   createMockCanvas({ painting: [createRestrictedPainting()], probeServiceId });
@@ -51,7 +47,39 @@ afterEach(() => {
   jest.clearAllMocks();
 });
 
-describe('useIIIFProbeService', () => {
+describe.each([
+  { name: 'legacy', itemViewerRefactor: false },
+  { name: 'refactored', itemViewerRefactor: true },
+])('useIIIFProbeService ($name context)', ({ itemViewerRefactor }) => {
+  beforeEach(() => {
+    mockItemViewerRefactor = itemViewerRefactor;
+  });
+
+  const createWrapper =
+    ({
+      userIsStaffWithRestricted = false,
+      accessToken,
+    }: WrapperOptions): FunctionComponent<PropsWithChildren> =>
+    ({ children }) => (
+      <UserContext.Provider
+        value={{ ...defaultUserContext, userIsStaffWithRestricted }}
+      >
+        {itemViewerRefactor ? (
+          <ItemViewerContextRefactored.Provider
+            value={{ ...defaultItemViewerContextRefactored, accessToken }}
+          >
+            {children}
+          </ItemViewerContextRefactored.Provider>
+        ) : (
+          <ItemViewerContextLegacy.Provider
+            value={{ ...defaultItemViewerContextLegacy, accessToken }}
+          >
+            {children}
+          </ItemViewerContextLegacy.Provider>
+        )}
+      </UserContext.Provider>
+    );
+
   it('returns true immediately for an unrestricted canvas', () => {
     const fetchMock = jest.fn();
     global.fetch = fetchMock as unknown as typeof fetch;
