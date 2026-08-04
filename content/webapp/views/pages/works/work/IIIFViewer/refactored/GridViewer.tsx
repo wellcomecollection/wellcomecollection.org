@@ -64,18 +64,18 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
         new URL(currentCanvas.id).pathname === new URL(resource.on).pathname
     )
   );
+  const isScrollingFast = scrollVelocity > 1;
 
   return (
     <div style={style}>
-      {scrollVelocity > 1 ? (
+      {isScrollingFast ? (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <LL $lighten={true} />
+          <LL $lighten />
         </div>
       ) : (
         currentCanvas && (
           <ThumbnailSpacer>
             <NextLink
-              replace={true}
               {...toWorksItemLink({
                 workId,
                 props: {
@@ -92,12 +92,13 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
                 setGridVisible(false);
               }}
               tabIndex={gridVisible ? 0 : -1}
+              replace
             >
               <IIIFCanvasThumbnail
                 canvas={currentCanvas}
                 placeholderId={placeholderId}
                 thumbNumber={arrayIndexToQueryParam(canvasIndex)}
-                highlightImage={hasSearchResults}
+                isHighlighted={hasSearchResults}
               />
             </NextLink>
           </ThumbnailSpacer>
@@ -109,7 +110,7 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
 
 Cell.displayName = 'Cell';
 
-const GridViewerEl = styled.div`
+const GridViewerContainer = styled.div`
   outline: none;
   position: fixed;
   top: 0;
@@ -132,12 +133,15 @@ const GridViewer: FunctionComponent = () => {
     work,
   } = useItemViewerContext();
   const { windowSize } = useAppContext();
-  const [newScrollOffset, setNewScrollOffset] = useState(0);
-  const scrollVelocity = useScrollVelocity(newScrollOffset);
+
+  const [scrollOffset, setScrollOffset] = useState(0);
+  const scrollVelocity = useScrollVelocity(scrollOffset);
+
+  const grid = useRef<FixedSizeGrid>(null);
+
   const itemWidth = windowSize === 'zero' ? 250 : 350;
   const columnCount = Math.max(1, Math.round(mainAreaWidth / itemWidth)); // ensure at least one column is displayed
   const columnWidth = mainAreaWidth / columnCount;
-  const grid = useRef<FixedSizeGrid>(null);
   const canvases = transformedManifest?.canvases;
 
   useEffect(() => {
@@ -168,7 +172,7 @@ const GridViewer: FunctionComponent = () => {
   }, []);
 
   return (
-    <GridViewerEl tabIndex={0}>
+    <GridViewerContainer tabIndex={0}>
       <FixedSizeGrid
         columnCount={columnCount}
         columnWidth={columnWidth}
@@ -187,12 +191,12 @@ const GridViewer: FunctionComponent = () => {
           workId: work.id,
           placeholderId: transformedManifest?.placeholderId,
         }}
-        onScroll={({ scrollTop }) => setNewScrollOffset(scrollTop)}
+        onScroll={({ scrollTop }) => setScrollOffset(scrollTop)}
         ref={grid}
       >
         {Cell}
       </FixedSizeGrid>
-    </GridViewerEl>
+    </GridViewerContainer>
   );
 };
 

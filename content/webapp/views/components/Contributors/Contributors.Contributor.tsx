@@ -101,7 +101,7 @@ const Contributor: FunctionComponent<ContributorType> = ({
                 image={contributorImage}
                 maxWidth={72}
                 quality="low"
-                desaturate={true}
+                desaturate
               />
             </PeopleImage>
           )}
@@ -115,7 +115,6 @@ const Contributor: FunctionComponent<ContributorType> = ({
                 image={contributorImage}
                 maxWidth={72}
                 quality="low"
-                desaturate={false}
               />
             </OrganisationImage>
           )}

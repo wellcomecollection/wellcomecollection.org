@@ -82,7 +82,7 @@ const IIIFViewerImage = (
 
   return (
     <>
-      {!hasLoaded && isFullSupportBrowser && <LL $lighten={true} />}
+      {!hasLoaded && isFullSupportBrowser && <LL $lighten />}
       <Image
         data-testid={index !== undefined ? `image-${index}` : null}
         ref={ref}

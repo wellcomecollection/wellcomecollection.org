@@ -19,7 +19,6 @@ updates:
       - dependency-name: '@next/*'
       - dependency-name: '@babel/*'
       - dependency-name: 'openseadragon'
-      - dependency-name: '@auth0/nextjs-auth0'
       - dependency-name: 'react-window'
       - dependency-name: 'undici'
     groups:
@@ -29,6 +28,11 @@ updates:
     directory: '/'
     schedule:
       interval: 'monthly'
+    ignore:
+      # Falsely detects a v3 update:
+      # https://github.com/preactjs/compressed-size-action/issues/135
+      # Check once in a while if v3 was actually released.
+      - dependency-name: 'preactjs/compressed-size-action'
     groups:
       all:
         patterns: ['*']

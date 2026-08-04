@@ -88,8 +88,8 @@ const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
           <span style={{ marginRight: '10px' }}>
             <Icon
               icon={item.openStatus ? openFolder : closedFolder}
-              matchText={true}
               sizeOverride="height: 14px; width:16px;"
+              matchText
             />
           </span>
           {item.data.title}
@@ -111,16 +111,15 @@ const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
               item={download}
               workId={workId}
               canvasIndex={canvasIndex}
-              linkToCanvas={true}
               currentCanvasIndex={currentCanvasIndex}
               onClick={itemOnClick}
+              linkToCanvas
             />
           ) : (
             <DownloadItem
               key={download.id}
               canvas={item.data as TransformedCanvas}
               item={download}
-              linkToCanvas={false}
               currentCanvasIndex={currentCanvasIndex}
             />
           );

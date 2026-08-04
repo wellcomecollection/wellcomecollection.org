@@ -204,8 +204,8 @@ const InPageNavigation: FunctionComponent<Props> = ({
           consider removing once moved to v21 */}
           {createPortal(
             <BackgroundOverlay
-              data-lock-scroll={true}
               onClick={() => setIsListActive(false)}
+              data-lock-scroll
             />,
             document.body
           )}

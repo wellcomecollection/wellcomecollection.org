@@ -34,7 +34,7 @@ describe('ArchiveBreadcrumb', () => {
       designation: [],
     };
     const { getByText } = renderWithTheme(
-      <IsArchiveContext.Provider value={true}>
+      <IsArchiveContext.Provider value>
         <ArchiveBreadcrumb work={w} />
       </IsArchiveContext.Provider>
     );
@@ -95,7 +95,7 @@ describe('ArchiveBreadcrumb', () => {
     };
 
     const { container } = renderWithTheme(
-      <IsArchiveContext.Provider value={true}>
+      <IsArchiveContext.Provider value>
         <ArchiveBreadcrumb work={w} />
       </IsArchiveContext.Provider>
     );
@@ -132,7 +132,7 @@ describe('ArchiveBreadcrumb', () => {
     };
 
     const { container } = renderWithTheme(
-      <IsArchiveContext.Provider value={true}>
+      <IsArchiveContext.Provider value>
         <ArchiveBreadcrumb work={w} />
       </IsArchiveContext.Provider>
     );

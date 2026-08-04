@@ -54,17 +54,17 @@ const WorkDetailsHoldings = ({ holdings }: { holdings: Holding[] }) => {
                   {locationShelfmark && (
                     <WorkDetailsText
                       title="Location"
-                      noSpacing={true}
                       text={`${locationLabel} ${locationShelfmark}`}
+                      noSpacing
                     />
                   )}
 
                   {holding.note && (
                     <WorkDetailsText
                       title="Note"
-                      inlineHeading={true}
-                      noSpacing={true}
                       text={holding.note}
+                      inlineHeading
+                      noSpacing
                     />
                   )}
                 </Space>

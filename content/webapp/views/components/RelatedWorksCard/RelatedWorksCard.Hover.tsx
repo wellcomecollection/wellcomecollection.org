@@ -26,9 +26,9 @@ const RelatedWorksCard: FunctionComponent<Props> = ({ work }) => {
       style={{ textAlign: 'left' }}
       data-component="related-works-card-hover"
     >
-      <Card as="span" $isHover={true}>
+      <Card as="span" $isHover>
         {thumbnailUrl && (
-          <ImageWrapper $isHover={true}>
+          <ImageWrapper $isHover>
             <img
               src={convertIiifImageUri(thumbnailUrl, 250)}
               alt={work.title}
@@ -38,7 +38,7 @@ const RelatedWorksCard: FunctionComponent<Props> = ({ work }) => {
           </ImageWrapper>
         )}
         <TextWrapper>
-          <Title as="span" $isHover={true} $linesToClamp={1}>
+          <Title as="span" $linesToClamp={1} $isHover>
             {work.title}
           </Title>
 

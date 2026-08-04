@@ -125,10 +125,10 @@ const ExhibitionGuideStopPage: NextPage<Props> = ({
       openGraphType="website"
       siteSection="exhibition-guides"
       image={currentStop.image}
-      hideHeader={true}
-      hideFooter={true}
-      hideNewsletterPromo={true}
       apiToolbarLinks={[createPrismicLink(exhibitionGuideId)]}
+      hideHeader
+      hideFooter
+      hideNewsletterPromo
     >
       <Page>
         <Header ref={headerRef}>
@@ -186,7 +186,7 @@ const ExhibitionGuideStopPage: NextPage<Props> = ({
                       embedUrl={currentStop.video}
                       videoThumbnail={currentStop.videoThumbnail}
                       videoProvider={currentStop.videoProvider}
-                      hasFullSizePoster={true}
+                      hasFullSizePoster
                     />
                   )}
                 </>
@@ -206,7 +206,7 @@ const ExhibitionGuideStopPage: NextPage<Props> = ({
                   <CollapsibleContent
                     controlText={controlText}
                     id="stop-transcript"
-                    darkTheme={true}
+                    darkTheme
                   >
                     <PrismicHtmlBlock html={relatedText} />
                   </CollapsibleContent>
@@ -219,7 +219,7 @@ const ExhibitionGuideStopPage: NextPage<Props> = ({
         {type === 'audio-without-descriptions' && currentStop.audio && (
           <AudioPlayerNewWrapper>
             <Container>
-              <AudioPlayer audioFile={currentStop.audio} isDark={true} />
+              <AudioPlayer audioFile={currentStop.audio} isDark />
             </Container>
           </AudioPlayerNewWrapper>
         )}
@@ -235,7 +235,7 @@ const ExhibitionGuideStopPage: NextPage<Props> = ({
                       display: 'inline-block',
                     }}
                     href={`${guideTypeUrl}/${stopNumber - 1}`}
-                    shallow={true}
+                    shallow
                   >
                     <Space
                       $v={{
@@ -269,7 +269,7 @@ const ExhibitionGuideStopPage: NextPage<Props> = ({
                       display: 'inline-block',
                     }}
                     href={`${guideTypeUrl}/${stopNumber + 1}`}
-                    shallow={true}
+                    shallow
                   >
                     <Space
                       $v={{

@@ -54,11 +54,7 @@ const renderDownloadItem = (props: {
             userIsStaffWithRestricted: props.userIsStaffWithRestricted ?? false,
           }}
         >
-          <DownloadItem
-            canvas={mockCanvas}
-            item={mockDownloadItem}
-            linkToCanvas={false}
-          />
+          <DownloadItem canvas={mockCanvas} item={mockDownloadItem} />
         </UserContext.Provider>
       </KioskContext.Provider>
     </ThemeProvider>

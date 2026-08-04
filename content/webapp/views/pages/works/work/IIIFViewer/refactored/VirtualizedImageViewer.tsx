@@ -26,9 +26,9 @@ import SearchTermHighlights, {
   useSearchTermHighlights,
 } from './VirtualizedImageViewer.SearchHighlights';
 
-const ItemWrapper = styled.div<{ $firstItemIsRestricted: boolean }>`
+const ItemWrapper = styled.div<{ $isFirstItemRestricted: boolean }>`
   height: 100%;
-  ${props => (props.$firstItemIsRestricted ? 'margin-top: 2em;' : null)}
+  ${props => (props.$isFirstItemRestricted ? 'margin-top: 2em;' : null)}
 `;
 
 type ItemRendererProps = ListChildComponentProps<{
@@ -39,7 +39,7 @@ type ItemRendererProps = ListChildComponentProps<{
   externalAccessService?: TransformedAuthService;
   accessToken?: string;
   placeholderId?: string;
-  firstItemIsRestricted?: boolean;
+  isFirstItemRestricted?: boolean;
 }>;
 
 const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
@@ -48,7 +48,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
     canvases,
     placeholderId,
     externalAccessService,
-    firstItemIsRestricted,
+    isFirstItemRestricted,
   } = data;
 
   const currentCanvas = canvases[index];
@@ -61,7 +61,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
     <div style={style}>
       {scrollVelocity === 3 ? (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <LL $lighten={true} />
+          <LL $lighten />
         </div>
       ) : (
         <>
@@ -73,7 +73,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
                 <ItemWrapper
                   key={item.type + item.id}
                   data-testid="image-item"
-                  $firstItemIsRestricted={!!firstItemIsRestricted}
+                  $isFirstItemRestricted={!!isFirstItemRestricted}
                 >
                   <IIIFItem
                     placeholderId={placeholderId}
@@ -85,8 +85,8 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
                     setImageRect={setImageRect}
                     setImageContainerRect={setImageContainerRect}
                     externalAccessService={externalAccessService}
-                    shouldScrollToUpdateUrl={true}
                     showVideoTranscript={false}
+                    shouldScrollToUpdateUrl
                   />
                 </ItemWrapper>
               );
@@ -151,34 +151,36 @@ const VirtualizedImageViewer: FunctionComponent = () => {
     errorHandler,
     accessToken,
   } = useItemViewerContext();
-  const { shouldScrollToCanvas, canvas } = query;
+
   const mainViewerRef = useRef<FixedSizeList>(null);
-  const [newScrollOffset, setNewScrollOffset] = useState(0);
+
+  const [viewerScrollOffset, setViewerScrollOffset] = useState(0);
   const [firstRender, setFirstRender] = useState(true);
   const firstRenderRef = useRef(firstRender);
   firstRenderRef.current = firstRender;
-  const scrollVelocity = useScrollVelocity(newScrollOffset);
+
+  const scrollVelocity = useScrollVelocity(viewerScrollOffset);
+  const currentCanvas = useCurrentCanvas();
+
   const debounceHandleOnItemsRendered = useRef(
     debounce(handleOnItemsRendered, 500)
   );
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+
   const { canvases, auth, placeholderId } = {
     ...transformedManifest,
   };
-
-  const firstItemIsRestricted = canvases?.[0]
+  const isFirstItemRestricted = canvases?.[0]
     ? hasRestrictedItem(canvases[0])
     : false;
-
   const externalAccessService = auth?.externalAccessService;
-  const currentCanvas = useCurrentCanvas();
 
   // We hide the zoom and rotation controls while the user is scrolling
   function handleOnScroll({ scrollOffset }: ListOnScrollProps) {
     if (!currentCanvas?.imageServiceId) return;
     timer.current && clearTimeout(timer.current);
     setShowControls(false);
-    setNewScrollOffset(scrollOffset);
+    setViewerScrollOffset(scrollOffset);
 
     timer.current = setTimeout(() => {
       setShowControls(true);
@@ -189,7 +191,12 @@ const VirtualizedImageViewer: FunctionComponent = () => {
   function handleOnItemsRendered() {
     if (firstRenderRef.current) {
       const viewer = mainViewerRef?.current;
-      scrollViewer({ currentCanvas, canvas, viewer, mainAreaWidth });
+      scrollViewer({
+        currentCanvas,
+        canvas: query.canvas,
+        viewer,
+        mainAreaWidth,
+      });
       setFirstRender(false);
     }
   }
@@ -198,15 +205,15 @@ const VirtualizedImageViewer: FunctionComponent = () => {
   // But we don't want this to happen if the canvas changes as a result of the viewer being scrolled,
   // so ItemLink href prop can include a shouldScrollToCanvas query param on the href object to prevent this.
   useEffect(() => {
-    if (shouldScrollToCanvas) {
+    if (query.shouldScrollToCanvas) {
       scrollViewer({
         currentCanvas,
-        canvas,
+        canvas: query.canvas,
         viewer: mainViewerRef?.current,
         mainAreaWidth,
       });
     }
-  }, [canvas]);
+  }, [query.canvas]);
 
   return (
     <FixedSizeList
@@ -222,7 +229,7 @@ const VirtualizedImageViewer: FunctionComponent = () => {
         externalAccessService,
         accessToken,
         placeholderId,
-        firstItemIsRestricted,
+        isFirstItemRestricted,
       }}
       itemSize={mainAreaWidth}
       onItemsRendered={debounceHandleOnItemsRendered.current}

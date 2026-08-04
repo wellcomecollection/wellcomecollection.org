@@ -179,7 +179,7 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
                 firstItemTabbable={false}
                 showFirstLevelGuideline={false}
                 ItemRenderer={WorkItem}
-                shouldFetchChildren={true}
+                shouldFetchChildren
               />
             </Tree>
           </Modal>
@@ -208,7 +208,7 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
                 firstItemTabbable={false}
                 showFirstLevelGuideline={false}
                 ItemRenderer={WorkItem}
-                shouldFetchChildren={true}
+                shouldFetchChildren
               />
             </Tree>
           </Space>

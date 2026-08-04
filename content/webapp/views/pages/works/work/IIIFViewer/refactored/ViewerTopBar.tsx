@@ -138,7 +138,7 @@ const TopBar = styled.div<{
   `}
 `;
 
-const Sidebar = styled(Space).attrs({
+const TopBarSidebarZone = styled(Space).attrs({
   $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
   $h: { size: 'xs', properties: ['padding-left', 'padding-right'] },
 })<{ $isZooming: boolean }>`
@@ -219,11 +219,11 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
     showFullscreenControl,
     hasOnlyRenderableImages,
   } = useItemViewerContext();
-  const { canvas } = query;
-  const { canvases, rendering } = { ...transformedManifest };
-  const currentCanvas = canvases?.[queryParamToArrayIndex(query.canvas)];
   const transformedIIIFImage = useTransformedIIIFImage(work);
   const { userIsStaffWithRestricted } = useUserContext();
+
+  const { canvases, rendering } = { ...transformedManifest };
+  const currentCanvas = canvases?.[queryParamToArrayIndex(query.canvas)];
   const imageServices = (currentCanvas?.painting
     .map(p => {
       if (isChoiceBody(p)) {
@@ -237,6 +237,13 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
     .flat()
     .filter(Boolean) || []) as ImageService[];
   const isRestricted = currentCanvas && hasRestrictedItem(currentCanvas);
+  const currentPageLabel = currentCanvas?.label?.trim();
+
+  const hasMultipleCanvases = Boolean(canvases && canvases.length > 1);
+  const shouldShowViewToggle =
+    !showZoomed && hasMultipleCanvases && isFullSupportBrowser;
+  const shouldShowPageIndicator =
+    hasMultipleCanvases && !showZoomed && !isResizing;
 
   // Works can have a DigitalLocation of type iiif-presentation and/or iiif-image.
   // For a iiif-presentation DigitalLocation we get the download options from the manifest to which it points.
@@ -298,9 +305,9 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
       $isZooming={showZoomed}
       $isDesktopSidebarActive={isDesktopSidebarActive}
       $useFixedList={hasOnlyRenderableImages}
-      $hasMultipleCanvases={!!(canvases && canvases.length > 1)}
+      $hasMultipleCanvases={hasMultipleCanvases}
     >
-      <Sidebar $isZooming={showZoomed}>
+      <TopBarSidebarZone $isZooming={showZoomed}>
         {isEnhanced && !showZoomed && (
           <>
             <ViewerButton
@@ -332,53 +339,48 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
             </ViewerButton>
           </>
         )}
-      </Sidebar>
+      </TopBarSidebarZone>
+
       <Main>
         {hasOnlyRenderableImages && (
           <LeftZone className="viewer-desktop">
-            {!showZoomed &&
-              canvases &&
-              canvases.length > 1 &&
-              isFullSupportBrowser && (
-                <ToolbarSegmentedControl
-                  hideLabels={true}
-                  items={[
-                    {
-                      id: 'pageView',
-                      label: 'Page',
-                      icon: singlePage,
-                      dataGtmTrigger: 'item_view_page_button',
-                      clickHandler() {
-                        setGridVisible(false);
-                      },
+            {shouldShowViewToggle && (
+              <ToolbarSegmentedControl
+                items={[
+                  {
+                    id: 'pageView',
+                    label: 'Page',
+                    icon: singlePage,
+                    dataGtmTrigger: 'item_view_page_button',
+                    clickHandler() {
+                      setGridVisible(false);
                     },
-                    {
-                      id: 'gridView',
-                      label: 'Grid',
-                      icon: gridView,
-                      dataGtmTrigger: 'item_view_grid_button',
-                      clickHandler() {
-                        setGridVisible(true);
-                      },
+                  },
+                  {
+                    id: 'gridView',
+                    label: 'Grid',
+                    icon: gridView,
+                    dataGtmTrigger: 'item_view_grid_button',
+                    clickHandler() {
+                      setGridVisible(true);
                     },
-                  ]}
-                  activeId={gridVisible ? 'gridView' : 'pageView'}
-                />
-              )}
+                  },
+                ]}
+                activeId={gridVisible ? 'gridView' : 'pageView'}
+                hideLabels
+              />
+            )}
           </LeftZone>
         )}
+
         <MiddleZone className="viewer-desktop">
-          {canvases && canvases.length > 1 && !showZoomed && !isResizing && (
+          {shouldShowPageIndicator && (
             <>
-              <span data-testid="active-index">{`${canvas || 0}`}</span>
+              <span data-testid="active-index">{`${query.canvas || 0}`}</span>
               {`/${canvases?.length || ''}`}{' '}
-              {!(
-                canvases[queryParamToArrayIndex(canvas)]?.label?.trim() === '-'
-              ) &&
+              {currentPageLabel !== '-' &&
                 hasOnlyRenderableImages &&
-                `page ${canvases[
-                  queryParamToArrayIndex(canvas)
-                ]?.label?.trim()}`}
+                `page ${currentPageLabel}`}
             </>
           )}
         </MiddleZone>
@@ -393,8 +395,8 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
                     <Download
                       ariaControlsId="itemDownloads"
                       downloadOptions={downloadOptions}
-                      useDarkControl={true}
-                      isInline={true}
+                      useDarkControl
+                      isInline
                     />
                   </Space>
                 )}

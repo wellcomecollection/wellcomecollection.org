@@ -26,7 +26,7 @@ const CookieTable = ({ rows }: { rows: string[][] }) => {
   return (
     <SpacingComponent>
       <ContaineredLayout gridSizes={gridSize8()}>
-        <Table rows={rows} withBorder={true} hasSmallerCopy></Table>
+        <Table rows={rows} withBorder hasSmallerCopy />
       </ContaineredLayout>
     </SpacingComponent>
   );
@@ -60,18 +60,18 @@ const CookiePolicyPage: NextPage<page.Props> = props => {
     <PageLayout
       title={props.page.title}
       description={props.page.metadataDescription || ''}
-      hideNewsletterPromo={true}
       url={{ pathname: '/about-us/cookie-policy' }}
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType="website"
       siteSection={props.page.siteSection}
+      hideNewsletterPromo
     >
       <PageHeader
         variant="basic"
         breadcrumbs={{ items: [] }}
         title={props.page.title}
         backgroundTexture={landingHeaderBackgroundLs}
-        highlightHeading={true}
+        highlightHeading
       />
       <ConditionalWrapper
         condition={isTwoColumns}

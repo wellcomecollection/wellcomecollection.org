@@ -1,4 +1,4 @@
-import { Claims } from '@auth0/nextjs-auth0';
+import { User } from '@auth0/nextjs-auth0/types';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import {
@@ -127,7 +127,7 @@ const NoRequestedItems = () => (
 );
 
 export type Props = {
-  user?: Claims;
+  user?: User;
 };
 
 const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
@@ -198,11 +198,9 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
           {isPasswordUpdated && (
             <AccountStatus type="success">Password updated</AccountStatus>
           )}
-          <SectionHeading $addBottomPadding={true}>
-            Personal details
-          </SectionHeading>
+          <SectionHeading $addBottomPadding>Personal details</SectionHeading>
           <Container>
-            <Wrapper $removeBottomPadding={true}>
+            <Wrapper $removeBottomPadding>
               <DetailList listItems={listItems} />
               <ButtonWrapper>
                 <ChangeDetailsModal
@@ -227,9 +225,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
             </Wrapper>
           </Container>
 
-          <SectionHeading $addBottomPadding={true}>
-            Item requests
-          </SectionHeading>
+          <SectionHeading $addBottomPadding>Item requests</SectionHeading>
           <Container>
             <Wrapper>
               {!requestedItems ? (
@@ -354,7 +350,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
             </Wrapper>
           </Container>
 
-          <SectionHeading $addBottomPadding={true}>
+          <SectionHeading $addBottomPadding>
             Cancel library membership
           </SectionHeading>
           <Container>

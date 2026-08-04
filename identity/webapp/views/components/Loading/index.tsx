@@ -14,7 +14,7 @@ const Loading: FunctionComponent<{ variant?: 'inline' }> = ({ variant }) => {
   if (variant === 'inline') {
     return (
       <InlineWrapper>
-        <LL $small={true} $lighten={true} />
+        <LL $small $lighten />
         <span className="visually-hidden">Loading</span>
       </InlineWrapper>
     );
@@ -22,7 +22,7 @@ const Loading: FunctionComponent<{ variant?: 'inline' }> = ({ variant }) => {
 
   return (
     <>
-      <LL $lighten={false} />
+      <LL />
       <span className="visually-hidden" role="status" aria-label="loading">
         Loading
       </span>

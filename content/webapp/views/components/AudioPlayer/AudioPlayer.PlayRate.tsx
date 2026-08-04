@@ -185,7 +185,7 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
                       <span
                         style={{ transform: 'scale(1.5)', display: 'flex' }}
                       >
-                        <Icon icon={check} matchText={true} />
+                        <Icon icon={check} matchText />
                       </span>
                     )}
                   </span>

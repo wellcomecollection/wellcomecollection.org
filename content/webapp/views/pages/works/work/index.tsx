@@ -117,7 +117,7 @@ export const WorkPage: NextPage<Props> = ({
         siteSection="collections"
         image={image}
         apiToolbarLinks={createApiToolbarWorkLinks(work, apiUrl)}
-        hideNewsletterPromo={true}
+        hideNewsletterPromo
       >
         {!isKiosk && (
           <Container>

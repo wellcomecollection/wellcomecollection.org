@@ -6,6 +6,7 @@ import Control from '@weco/common/views/components/Control';
 import Rotator from '@weco/common/views/components/styled/Rotator';
 import Space from '@weco/common/views/components/styled/Space';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
+import { ItemViewerQuery } from '@weco/content/types/item-viewer';
 import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
 
 const PaginatorWrapper = styled.div`
@@ -34,12 +35,12 @@ const PaginatorButtons = ({
         <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
           <Rotator $rotate={270}>
             <Control
-              scroll={false}
-              replace={true}
               link={prevLink}
               colorScheme="light"
               icon={arrow}
               text="Previous page"
+              scroll={false}
+              replace
             />
           </Rotator>
         </Space>
@@ -48,12 +49,12 @@ const PaginatorButtons = ({
         <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
           <Rotator $rotate={90}>
             <Control
-              scroll={false}
-              replace={true}
               link={nextLink}
               colorScheme="light"
               icon={arrow}
               text="Next page"
+              scroll={false}
+              replace
             />
           </Rotator>
         </Space>
@@ -90,9 +91,21 @@ const getLink = ({
     : undefined;
 };
 
-export const CanvasPaginator = () => {
+// Shared by CanvasPaginator and ThumbnailsPaginator, which only differ in
+// which query field is the current page, the page size, and whether the
+// canvas number needs translating into its containing thumbnails page.
+function usePaginatorLinks({
+  getCurrentPage,
+  pageSize,
+  getMatchingPage,
+}: {
+  getCurrentPage: (query: ItemViewerQuery) => number;
+  pageSize: number;
+  getMatchingPage?: (pageNumber: number) => number;
+}): { prevLink?: LinkProps; nextLink?: LinkProps } {
   const { work, query, transformedManifest } = useItemViewerContext();
   const { canvases } = { ...transformedManifest };
+
   const totalResults = canvases?.length || 1;
   const link = toWorksItemLink({
     workId: work.id,
@@ -103,23 +116,31 @@ export const CanvasPaginator = () => {
       query: query.query,
     },
   });
-  const currentPage = query.canvas;
-  const pageSize = 1;
+
+  const currentPage = getCurrentPage(query);
   const totalPages = Math.ceil(totalResults / pageSize);
   const next = currentPage < totalPages ? currentPage + 1 : 0;
   const prev = currentPage > 1 ? currentPage - 1 : 0;
-  const matchingNextPage = Math.ceil(next / thumbnailsPageSize);
-  const matchingPreviousPage = Math.ceil(prev / thumbnailsPageSize);
 
   const prevLink = getLink({
     pageNumber: prev,
-    matchingPage: matchingPreviousPage,
+    matchingPage: getMatchingPage?.(prev),
     link,
   });
   const nextLink = getLink({
     pageNumber: next,
-    matchingPage: matchingNextPage,
+    matchingPage: getMatchingPage?.(next),
     link,
+  });
+
+  return { prevLink, nextLink };
+}
+
+export const CanvasPaginator = () => {
+  const { prevLink, nextLink } = usePaginatorLinks({
+    getCurrentPage: query => query.canvas,
+    pageSize: 1,
+    getMatchingPage: pageNumber => Math.ceil(pageNumber / thumbnailsPageSize),
   });
 
   return (
@@ -130,25 +151,10 @@ export const CanvasPaginator = () => {
 };
 
 export const ThumbnailsPaginator = () => {
-  const { work, query, transformedManifest } = useItemViewerContext();
-  const { canvases } = { ...transformedManifest };
-  const totalResults = canvases?.length || 1;
-  const link = toWorksItemLink({
-    workId: work.id,
-    props: {
-      canvas: query.canvas,
-      page: query.page,
-      manifest: query.manifest,
-      query: query.query,
-    },
+  const { prevLink, nextLink } = usePaginatorLinks({
+    getCurrentPage: query => query.page,
+    pageSize: thumbnailsPageSize,
   });
-  const currentPage = query.page;
-  const totalPages = Math.ceil(totalResults / thumbnailsPageSize);
-  const next = currentPage < totalPages ? currentPage + 1 : 0;
-  const prev = currentPage > 1 ? currentPage - 1 : 0;
-
-  const prevLink = getLink({ pageNumber: prev, link });
-  const nextLink = getLink({ pageNumber: next, link });
 
   return (
     <StyledPaginatorButtons>

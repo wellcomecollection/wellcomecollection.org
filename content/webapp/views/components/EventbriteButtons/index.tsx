@@ -30,7 +30,7 @@ const EventbriteButtons: FunctionComponent<Props> = ({ event }) => {
   return (
     <div data-component="eventbrite-buttons">
       {event.isCompletelySoldOut ? (
-        <Button variant="ButtonSolid" disabled={true} text="Fully booked" />
+        <Button variant="ButtonSolid" text="Fully booked" disabled />
       ) : (
         <>
           {event.eventbriteId && (
@@ -45,11 +45,7 @@ const EventbriteButtons: FunctionComponent<Props> = ({ event }) => {
                 }}
               >
                 {event.inVenueSoldOut ? (
-                  <Button
-                    variant="ButtonSolid"
-                    disabled={true}
-                    text="Fully booked"
-                  />
+                  <Button variant="ButtonSolid" text="Fully booked" disabled />
                 ) : (
                   <Button
                     variant="ButtonSolidLink"
@@ -71,11 +67,7 @@ const EventbriteButtons: FunctionComponent<Props> = ({ event }) => {
               {isHybridEvent && <Location>Livestream event</Location>}
               <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
                 {event.onlineSoldOut ? (
-                  <Button
-                    variant="ButtonSolid"
-                    disabled={true}
-                    text="Fully booked"
-                  />
+                  <Button variant="ButtonSolid" text="Fully booked" disabled />
                 ) : (
                   <Button
                     variant="ButtonSolidLink"
