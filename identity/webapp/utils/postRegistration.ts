@@ -1,4 +1,6 @@
-import { URLSearchParams } from 'url';
+// This module is imported by auth0.ts, which middleware.ts pulls into the
+// edge runtime - use the global URLSearchParams rather than importing it
+// from 'url', which isn't available there.
 
 // A brand-new signup gets a placeholder name until Auth0 next syncs from
 // Sierra (which only happens on a fresh login). We treat this placeholder
