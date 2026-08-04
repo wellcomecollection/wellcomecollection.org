@@ -63,6 +63,7 @@ I have…
 **QA should be reviewed by each of the following. Once each discipline is happy that the relevant feedback has been addressed (or noted for later), tick off below to sign off the QA:**
 
 *Remove any discipline if out of scope of the QA*
-- [ ] Visual design / UX
+- [ ] Visual design
+- [ ] UX
 - [ ] Analytics
 - [ ] Product Manager final sign off (please comment then close the ticket)
