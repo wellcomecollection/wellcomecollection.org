@@ -373,7 +373,7 @@ const WorksSearchPage: NextPage<Props> = withSearchLayout(
                                   text: 'Newest to oldest',
                                 },
                                 {
-                                  value: 'referenceNumber.asc',
+                                  value: 'collectionPath.asc',
                                   text: 'Collection path',
                                 },
                               ]}
