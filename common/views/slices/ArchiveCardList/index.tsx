@@ -2,6 +2,7 @@ import { SliceComponentProps } from '@prismicio/react';
 import { FunctionComponent } from 'react';
 
 import { ArchiveCardListSlice as RawArchiveCardListSlice } from '@weco/common/prismicio-types';
+import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { typography } from '@weco/common/utils/classnames';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { Container } from '@weco/common/views/components/styled/Container';
@@ -15,6 +16,7 @@ import SpacingComponent from '@weco/common/views/components/styled/SpacingCompon
 import { asText } from '@weco/content/services/prismic/transformers';
 import ArchiveCard from '@weco/content/views/components/ArchiveCard';
 import { SliceZoneContext } from '@weco/content/views/components/Body';
+import MoreLink from '@weco/content/views/components/MoreLink';
 
 type ArchiveCardListSliceProps = SliceComponentProps<
   RawArchiveCardListSlice,
@@ -25,6 +27,7 @@ const ArchiveCardListSlice: FunctionComponent<ArchiveCardListSliceProps> = ({
   slice,
   context,
 }) => {
+  const { archiveBrowsing } = useFeatureFlags();
   const { title, items } = slice.primary;
   const archiveWorks = context?.archiveWorks ?? {};
 
@@ -80,6 +83,16 @@ const ArchiveCardListSlice: FunctionComponent<ArchiveCardListSliceProps> = ({
             </GridCell>
           ))}
         </Grid>
+        {archiveBrowsing && (
+          <Space
+            $v={{
+              size: 'sm',
+              properties: ['margin-top'],
+            }}
+          >
+            <MoreLink url="/collections/archives" name="Browse archives" />
+          </Space>
+        )}
       </Container>
     </SpacingComponent>
   );
