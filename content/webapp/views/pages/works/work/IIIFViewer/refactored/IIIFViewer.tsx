@@ -70,10 +70,13 @@ const ZoomedImage = dynamic(() => import('./ZoomedImage'), {
   loading: LoadingComponent,
 });
 
-type GridProps = {
+type KioskDisplayProps = {
   $isFullSupportBrowser: boolean;
   $isTRKiosk?: boolean;
   $isNonTRKiosk?: boolean;
+};
+
+type GridProps = KioskDisplayProps & {
   $useFixedList?: boolean;
   $hasMultipleCanvases?: boolean;
 };
@@ -131,13 +134,12 @@ const Grid = styled.div<GridProps>`
     )}
 `;
 
-const Sidebar = styled.div<{
-  $isActiveMobile: boolean;
-  $isActiveDesktop: boolean;
-  $isFullSupportBrowser: boolean;
-  $isTRKiosk?: boolean;
-  $isNonTRKiosk?: boolean;
-}>`
+const Sidebar = styled.div<
+  KioskDisplayProps & {
+    $isActiveMobile: boolean;
+    $isActiveDesktop: boolean;
+  }
+>`
   display: ${props =>
     props.$isActiveMobile || !props.$isFullSupportBrowser ? 'inherit' : 'none'};
   align-content: start;
@@ -264,11 +266,15 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     shouldScrollToCanvas = true,
     query = '',
   } = useMemo(() => fromQuery(router.query), [router.query]);
-  const [gridVisible, setGridVisible] = useState(false);
+
   const { isFullSupportBrowser } = useAppContext();
   const { isKiosk, isTendernessAndRageKiosk } = useKiosk();
+  const isNonTRKiosk = isKiosk && !isTendernessAndRageKiosk;
+
   const viewerRef = useRef<HTMLDivElement>(null);
   const mainAreaRef = useRef<HTMLDivElement>(null);
+
+  const [gridVisible, setGridVisible] = useState(false);
   const [isDesktopSidebarActive, setIsDesktopSidebarActive] = useState(true);
   const [isMobileSidebarActive, setIsMobileSidebarActive] = useState(false);
   const [showZoomed, setShowZoomed] = useState(false);
@@ -282,23 +288,21 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const [tree, setTree] = useState<UiTree>(initialTree || []);
 
   const canvasIndexById = useMemo(() => getTreeCanvasIndexById(tree), [tree]);
+
   const currentCanvas =
     transformedManifest?.canvases[queryParamToArrayIndex(canvas)];
   const mainImageService: PartialImageService = {
     '@id': currentCanvas?.imageServiceId,
   };
   // We only want to use the IIIF image location if we don't have an image service on the current canvas
-  const shouldUseIifImageLocation = !currentCanvas?.imageServiceId;
+  const shouldUseIiifImageLocation = !currentCanvas?.imageServiceId;
   const urlTemplate =
     (iiifImageLocation && iiifImageTemplate(iiifImageLocation.url)) ||
     (mainImageService['@id'] && iiifImageTemplate(mainImageService['@id'])) ||
     undefined;
   const imageUrl = urlTemplate && urlTemplate({ size: '800,' });
   const hasIiifImage = imageUrl && iiifImageLocation;
-  const hasImageService = Boolean(mainImageService['@id'] && currentCanvas);
-  const [showControls, setShowControls] = useState(
-    Boolean(hasIiifImage && !hasImageService)
-  );
+  const hasIiifImageService = Boolean(mainImageService['@id'] && currentCanvas);
   // we only render certain parts of the UI when hasOnlyRenderableImages is true
   const hasOnlyRenderableImages = !hasNonImagesOrOriginals(
     transformedManifest?.canvases || []
@@ -306,6 +310,12 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   // useFixedSizeList is true when all items are images (using FixedSizeList for virtualization)
   const useFixedSizeList = hasOnlyRenderableImages;
   const hasMultipleCanvases = (transformedManifest?.canvases?.length || 0) > 1;
+
+  // showControls' initial value depends on the derived values above, so it's
+  // declared here rather than grouped with the other state
+  const [showControls, setShowControls] = useState(
+    Boolean(hasIiifImage && !hasIiifImageService)
+  );
 
   // We need to reset the MainAreaWidth and MainAreaHeight
   // when the available space changes.
@@ -362,6 +372,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   return (
     <ItemViewerContext.Provider
       value={{
+        isRefactoredContext: true,
         // DATA props:
         query: {
           page,
@@ -412,7 +423,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         ref={viewerRef}
         $isFullSupportBrowser={isFullSupportBrowser}
         $isTRKiosk={isTendernessAndRageKiosk}
-        $isNonTRKiosk={isKiosk && !isTendernessAndRageKiosk}
+        $isNonTRKiosk={isNonTRKiosk}
         $useFixedList={useFixedSizeList}
         $hasMultipleCanvases={hasMultipleCanvases}
       >
@@ -421,7 +432,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
           $isActiveDesktop={isDesktopSidebarActive}
           $isFullSupportBrowser={isFullSupportBrowser}
           $isTRKiosk={isTendernessAndRageKiosk}
-          $isNonTRKiosk={isKiosk && !isTendernessAndRageKiosk}
+          $isNonTRKiosk={isNonTRKiosk}
         >
           <DelayVisibility>
             <ViewerSidebar
@@ -430,15 +441,17 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
             />
           </DelayVisibility>
         </Sidebar>
+
         <Topbar>
           <DelayVisibility>
             <ViewerTopBar
               iiifImageLocation={
-                shouldUseIifImageLocation ? iiifImageLocation : undefined
+                shouldUseIiifImageLocation ? iiifImageLocation : undefined
               }
             />
           </DelayVisibility>
         </Topbar>
+
         <Main
           ref={mainAreaRef}
           $isDesktopSidebarActive={isDesktopSidebarActive}
@@ -449,7 +462,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
           <DelayVisibility>
             {!showZoomed && hasOnlyRenderableImages && <ImageViewerControls />}
             {hasIiifImage &&
-              !hasImageService &&
+              !hasIiifImageService &&
               (isFullSupportBrowser || !hasOnlyRenderableImages) && (
                 <ImageViewer
                   infoUrl={iiifImageLocation.url}
@@ -464,21 +477,24 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
             {imageUrl && !isFullSupportBrowser && hasOnlyRenderableImages && (
               <NoScriptImage urlTemplate={urlTemplate} canvasOcr={canvasOcr} />
             )}
+
             {/* If we hide the MainViewer when resizing the browser, it will then rerender with the correct canvas displayed */}
-            {(hasImageService || !!currentCanvas) && !isResizing && (
+            {(hasIiifImageService || !!currentCanvas) && !isResizing && (
               <MainViewer />
             )}
           </DelayVisibility>
         </Main>
+
         {showZoomed && isFullSupportBrowser && (
           <Zoom>
             <ZoomedImage
               iiifImageLocation={
-                shouldUseIifImageLocation ? iiifImageLocation : undefined
+                shouldUseIiifImageLocation ? iiifImageLocation : undefined
               }
             />
           </Zoom>
         )}
+
         {isFullSupportBrowser && (
           <>
             {!isMobileSidebarActive && (
@@ -486,6 +502,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
                 <ViewerBottomBar />
               </BottomBar>
             )}
+
             {hasOnlyRenderableImages && (
               <ThumbnailsWrapper
                 $isActive={gridVisible}

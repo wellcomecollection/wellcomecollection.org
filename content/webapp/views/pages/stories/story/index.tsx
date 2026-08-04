@@ -133,7 +133,7 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
       }
       heroImageBgColor={isStandaloneImageGallery ? 'white' : 'warmNeutral.300'}
       SerialPartNumber={SerialPartNumber}
-      isContentTypeInfoBeforeMedia={true}
+      isContentTypeInfoBeforeMedia
     />
   );
 
@@ -176,7 +176,6 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
             comicPreviousNext={
               isComicFormat ? getComicPreviousNext() : undefined
             }
-            isDropCapped={true}
             pageId={article.id}
             pageUid={article.uid}
             gridSizes={isPodcast ? gridSize10() : gridSize8()}
@@ -187,6 +186,7 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
                   ? 'standalone-image-gallery'
                   : undefined
             }
+            isDropCapped
           />
         }
         RelatedContent={Siblings}

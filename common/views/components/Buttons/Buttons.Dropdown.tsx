@@ -234,7 +234,7 @@ const DropdownButton: FunctionComponent<
           <Dropdown
             id={id}
             ref={dropdownRef}
-            $isActive={true}
+            $isActive
             $isEnhanced={isEnhanced}
             $isTight={!!isTight}
           >

@@ -160,7 +160,6 @@ const ViewerBottomBar: FunctionComponent = () => {
               canvases.length > 1 &&
               !isMobileSidebarActive && (
                 <ToolbarSegmentedControl
-                  hideLabels={true}
                   items={[
                     {
                       id: 'pageView',
@@ -182,6 +181,7 @@ const ViewerBottomBar: FunctionComponent = () => {
                     },
                   ]}
                   activeId={gridVisible ? 'gridView' : 'pageView'}
+                  hideLabels
                 />
               )}
           </LeftZone>

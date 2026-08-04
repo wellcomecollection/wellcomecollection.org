@@ -10,11 +10,11 @@ import Button from '@weco/common/views/components/Buttons';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
 import TextInput from '@weco/common/views/components/TextInput';
+import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import {
-  results,
-  useItemViewerContext,
-} from '@weco/content/contexts/ItemViewerContext';
-import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
+  emptySearchResults,
+  SearchResults,
+} from '@weco/content/services/iiif/types/search/v3';
 import { searchWithinLabel } from '@weco/content/text/aria-labels';
 import { TransformedCanvas } from '@weco/content/types/manifest';
 import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
@@ -96,7 +96,7 @@ const Loading = () => (
       height: '80px',
     }}
   >
-    <LL $small={true} $lighten={true} />
+    <LL $small $lighten />
     <span className="visually-hidden">Loading</span>
   </div>
 );
@@ -165,7 +165,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
         page: query.page,
       },
     });
-    setSearchResults && setSearchResults(results);
+    setSearchResults && setSearchResults(emptySearchResults);
     router.replace(link.href);
 
     // Remove the attribute after navigation
@@ -190,7 +190,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
         setSearchError(true);
       }
     } else {
-      setSearchResults && setSearchResults(results);
+      setSearchResults && setSearchResults(emptySearchResults);
     }
   }
 
@@ -229,10 +229,10 @@ const IIIFSearchWithin: FunctionComponent = () => {
             name="query"
             value={value}
             setValue={setValue}
-            required={true}
             ref={inputRef}
             hasClearButton
             clearHandler={handleClearResults}
+            required
           />
         </SearchInputWrapper>
         <SearchButtonWrapper>
@@ -240,8 +240,8 @@ const IIIFSearchWithin: FunctionComponent = () => {
             variant="ButtonSolid"
             icon={search}
             text="search within"
-            isTextHidden={true}
             colors={theme.buttonColors.yellowYellowBlack}
+            isTextHidden
           />
         </SearchButtonWrapper>
       </SearchForm>
@@ -283,7 +283,6 @@ const IIIFSearchWithin: FunctionComponent = () => {
             return (
               <ListItem key={i}>
                 <NextLink
-                  replace={true}
                   {...toWorksItemLink({
                     workId: work.id,
                     props: {
@@ -296,6 +295,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
                     },
                   })}
                   onClick={() => setIsMobileSidebarActive(false)}
+                  replace
                 >
                   <Hit
                     hit={hit}

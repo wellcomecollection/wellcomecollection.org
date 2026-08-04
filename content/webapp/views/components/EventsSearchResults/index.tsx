@@ -154,8 +154,8 @@ const EventsSearchResults: FunctionComponent<Props> = ({
                     <DateInfo>
                       <EventDateRange
                         eventTimes={times}
-                        splitTime={true}
                         isInPastListing={isInPastListing}
+                        splitTime
                       />
                     </DateInfo>
                   )}

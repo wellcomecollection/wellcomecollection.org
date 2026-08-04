@@ -24,7 +24,6 @@ const MultipleManifestList: FunctionComponent = () => {
           >
             <NextLink
               data-gtm-trigger="volumes_nav_link"
-              replace={true}
               {...toWorksItemLink({
                 workId: work.id,
                 props: {
@@ -41,6 +40,7 @@ const MultipleManifestList: FunctionComponent = () => {
               onClick={() => {
                 setIsMobileSidebarActive(false);
               }}
+              replace
             >
               {(manifest.label &&
                 getMultiVolumeLabel(manifest.label, work?.title || '')) ||

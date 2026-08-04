@@ -52,7 +52,7 @@ const CancelFilter: FunctionComponent<CancelFilterProps> = ({
   return (
     <Space as="span" $h={{ size: 'sm', properties: ['margin-right'] }}>
       <IconWrapper as="span">
-        <Icon icon={cross} matchText={true} iconColor="neutral.500" />
+        <Icon icon={cross} iconColor="neutral.500" matchText />
       </IconWrapper>
       <span className="visually-hidden">remove </span>
       {text || children}

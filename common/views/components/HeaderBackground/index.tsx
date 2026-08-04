@@ -49,9 +49,9 @@ const HeaderBackground: FunctionComponent<Props> = ({
         <WobblyEdgeContainer>
           <DecorativeEdge
             variant="wobbly"
-            isValley={true}
             intensity={100}
             backgroundColor="white"
+            isValley
           />
         </WobblyEdgeContainer>
       )}

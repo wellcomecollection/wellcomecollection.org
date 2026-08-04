@@ -61,8 +61,8 @@ const WorksTree: FunctionComponent<
         <TreeContainer $isDarkMode={isDarkMode}>
           <Tree
             $isEnhanced={isEnhanced}
-            $showFirstLevelGuideline={true}
             $isDarkMode={isDarkMode}
+            $showFirstLevelGuideline
           >
             {isEnhanced && (
               <TreeInstructions>{`Download tree: ${treeInstructions}`}</TreeInstructions>
