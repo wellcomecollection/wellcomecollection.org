@@ -76,7 +76,7 @@ export const kiosksContent: Record<string, KiosksContentType> = {
       {
         heading: 'ACT UP',
         description:
-          '<p>ACT UP (AIDS Coalition to Unleash Power) is an activist group focused on direct action against the AIDS epidemic. Founded in New York in 1987, it expanded into a global network of independent chapters campaigning around HIV.</p><p>This selection features material from chapters in New York, London, Manchester and Paris.</p>',
+          '<p>ACT UP (AIDS Coalition to Unleash Power) is an activist group focused on direct action against the AIDS epidemic. Founded in New York in 1987, it grew into a global network campaigning around HIV, with chapters including London, Manchester, Paris and Vienna.</p>',
         ids: [
           'd2mxjdkb',
           'mfmfu73q',
@@ -91,7 +91,7 @@ export const kiosksContent: Record<string, KiosksContentType> = {
       {
         heading: 'What Would an HIV Doula Do?',
         description:
-          '<p>Founded in 2015, ‘What Would an HIV Doula Do?’ (WWHIVDD) is a collective of artists, activists and practitioners across the HIV spectrum, formed in response to the ongoing AIDS crisis.</p><p>This selection features digital zines created by WWHIVDD in our collection.</p>',
+          '<p>‘What Would an HIV Doula Do?’ (WWHIVDD) is a collective of artists, activists and practitioners across the HIV spectrum, formed in response to the ongoing AIDS crisis.</p>',
         ids: [
           'm8xw26qs',
           'bd7tnj3t',
@@ -106,10 +106,9 @@ export const kiosksContent: Record<string, KiosksContentType> = {
       {
         heading: 'HIV Care Centres in London',
         description:
-          '<p>At the height of the UK AIDS epidemic, people living with HIV faced stigma, secrecy and hostile media. Care centres stepped in to provide vital support and safe spaces.</p><p>This selection highlights material from London centres, including The Landmark, The Lighthouse and Mildmay Hospital.</p>',
+          '<p>During the UK AIDS epidemic, people living with HIV faced stigma, secrecy and hostile media coverage. Care centres stepped in to provide vital support and safe spaces.</p>',
         ids: [
           'g7dmnpaj',
-          'ys83vvw5',
           'jzshasa6',
           'utzhjj6g',
           'jqjskdxb',
@@ -124,7 +123,7 @@ export const kiosksContent: Record<string, KiosksContentType> = {
       {
         heading: 'HIV Posters',
         description:
-          '<p>Around the world, organisations, charities and activist groups have used posters to raise awareness of HIV and AIDS. From public health campaigns and support services to protest and advocacy, their design often reflects the communities they are made for.</p><p>Below is a selection of posters from around the world in our collection.</p>',
+          '<p>Around the world, organisations, charities and activist groups have used posters to raise awareness of HIV and AIDS. From public health campaigns and support services to protest and advocacy, these posters reflect the needs of the communities they were made to reach.</p>',
         ids: [
           'dh98h9g2',
           'y2euzack',

@@ -53,8 +53,7 @@ const TendernessAndRageKioskBanners = () => (
             experiences and historical perspectives on HIV and AIDS. Some works
             reference illness, death, bereavement, stigma, racism, homophobia
             and discrimination. Language may be dated or discriminatory, and
-            some imagery is explicit. For more information, please speak to a
-            member of staff.
+            some imagery is explicit.
           </Copy>
         </CopyContainer>
       </BannerWrapper>
