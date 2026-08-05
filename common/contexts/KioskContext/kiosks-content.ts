@@ -109,7 +109,7 @@ export const kiosksContent: Record<string, KiosksContentType> = {
           '<p>During the UK AIDS epidemic, people living with HIV faced stigma, secrecy and hostile media coverage. Care centres stepped in to provide vital support and safe spaces.</p>',
         ids: [
           'g7dmnpaj',
-          'jzshasa6',
+          'ys83vvw5',
           'utzhjj6g',
           'jqjskdxb',
           'q4sefbtq',
