@@ -136,12 +136,6 @@ export function getTreeCanvasIndexById(tree: UiTree): Record<string, number> {
   return canvasIndexById;
 }
 
-type CanvasPositionParams = {
-  transformedManifest: { canvases: TransformedCanvas[] } | undefined;
-  canvasIndexById: Record<string, number>;
-  canvas: number;
-};
-
 // Canvas order follows the manifest's structure when we have a complete one -
 // that's not always the same as the raw items array order. canvasIndexById
 // maps canvas id to structure position; we only trust it when it covers
@@ -150,7 +144,11 @@ export function getCurrentCanvas({
   transformedManifest,
   canvasIndexById,
   canvas,
-}: CanvasPositionParams): TransformedCanvas | undefined {
+}: {
+  transformedManifest: { canvases: TransformedCanvas[] } | undefined;
+  canvasIndexById: Record<string, number>;
+  canvas: number;
+}): TransformedCanvas | undefined {
   const canvases = transformedManifest?.canvases;
   const canvasIds = Object.keys(canvasIndexById);
   const hasCompleteStructure = canvasIds.length === canvases?.length;
@@ -161,48 +159,4 @@ export function getCurrentCanvas({
   return currentCanvasId
     ? canvases?.find(c => c.id === currentCanvasId)
     : canvases?.[queryParamToArrayIndex(canvas)];
-}
-
-export type CanvasNavigation = {
-  currentCanvas: TransformedCanvas | undefined;
-  totalCanvases: number;
-  isFirstCanvas: boolean;
-  isLastCanvas: boolean;
-  canNavigateNext: boolean;
-  canNavigatePrevious: boolean;
-};
-
-// The current canvas plus the page-position values that go with it, so
-// components read one consistent set rather than each deriving its own.
-//
-// Only currentCanvas is order-sensitive: the rest come from the canvas count
-// and the 1-based canvas number, neither of which a reordering structure can
-// change. The bounds are deliberately inclusive (<= / >=) rather than equality
-// checks, so an out-of-range ?canvas= value can't offer navigation off either
-// end of the manifest.
-export function getCanvasNavigation({
-  transformedManifest,
-  canvasIndexById,
-  canvas,
-}: CanvasPositionParams): CanvasNavigation {
-  const currentCanvas = getCurrentCanvas({
-    transformedManifest,
-    canvasIndexById,
-    canvas,
-  });
-  const totalCanvases = transformedManifest?.canvases.length || 0;
-
-  const isFirstCanvas = canvas <= 1;
-  const isLastCanvas = canvas >= totalCanvases;
-
-  return {
-    currentCanvas,
-    totalCanvases,
-    isFirstCanvas,
-    isLastCanvas,
-    // A single-canvas manifest is both first and last, so these are already
-    // false throughout - there's no need to also check for multiple canvases.
-    canNavigateNext: !isLastCanvas,
-    canNavigatePrevious: !isFirstCanvas,
-  };
 }

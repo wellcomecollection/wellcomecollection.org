@@ -136,13 +136,14 @@ const ViewerBottomBar: FunctionComponent = () => {
     work,
     query,
     totalCanvases,
-    canNavigateNext,
-    canNavigatePrevious,
     hasOnlyRenderableImages,
   } = useItemViewerContext();
 
   const { canvases } = { ...transformedManifest };
   const { canvas } = query;
+
+  const canNavigatePrevious = canvas > 1;
+  const canNavigateNext = canvas < totalCanvases;
 
   const previousCanvasLink = canNavigatePrevious
     ? toWorksItemLink({ workId: work.id, props: { canvas: canvas - 1 } })

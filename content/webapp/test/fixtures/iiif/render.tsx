@@ -23,7 +23,7 @@ import ItemViewerContextRefactored, {
   defaultItemViewerContext as defaultItemViewerContextRefactored,
   ItemViewerContextProps as ItemViewerContextPropsRefactored,
 } from '@weco/content/contexts/ItemViewerContext/refactored';
-import { getCanvasNavigation } from '@weco/content/views/pages/works/work/work.helpers';
+import { getCurrentCanvas } from '@weco/content/views/pages/works/work/work.helpers';
 
 import { createMockManifest } from './transformed-manifest';
 
@@ -77,14 +77,14 @@ export function createMockRefactoredItemViewerContext(
     ...defaultItemViewerContextRefactored,
     transformedManifest,
     // Mirrors how the real provider (IIIFViewer.tsx) derives currentCanvas and
-    // the page-position values that go with it, so tests overriding
-    // transformedManifest/query still get sensible defaults without also
-    // having to pass each of these by hand.
-    ...getCanvasNavigation({
+    // totalCanvases, so tests overriding transformedManifest/query still get
+    // sensible defaults without also having to pass these by hand.
+    currentCanvas: getCurrentCanvas({
       transformedManifest,
       canvasIndexById,
       canvas: query.canvas,
     }),
+    totalCanvases: transformedManifest.canvases.length,
     ...overrides,
   };
 }
