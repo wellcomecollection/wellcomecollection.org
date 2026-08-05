@@ -420,31 +420,31 @@ const workRecordTypeFilter = ({
   }),
 });
 
-const isCollectionRootFilter = ({
+const collectionIsRootFilter = ({
   props,
 }: WorksFilterProps): BooleanFilter<keyof WorksProps> => ({
   type: 'boolean',
-  id: 'isCollectionRoot',
+  id: 'collection.isRoot',
   label: 'Collection roots only',
-  isSelected: !!props.isCollectionRoot,
+  isSelected: !!props['collection.isRoot'],
 });
 
-const archiveTypeFilter = ({
+const archiveCategoryFilter = ({
   works,
   props,
 }: WorksFilterProps): CheckboxFilter<keyof WorksProps> => ({
   type: 'checkbox',
-  id: 'archiveType',
+  id: 'archive.category',
   label: 'Archive types',
   options: filterOptionsWithNonAggregates({
-    options: works?.aggregations?.archiveType?.buckets.map(bucket => ({
-      id: `archive-type-${bucket.data.id}`,
+    options: works?.aggregations?.['archive.category']?.buckets.map(bucket => ({
+      id: `archive-category-${bucket.data.id}`,
       value: bucket.data.id,
       count: bucket.count,
       label: bucket.data.label,
-      selected: props.archiveType.includes(bucket.data.id),
+      selected: props['archive.category'].includes(bucket.data.id),
     })),
-    selectedValues: props.archiveType,
+    selectedValues: props['archive.category'],
   }),
 });
 
@@ -453,17 +453,17 @@ const collectionRootFilter = ({
   props,
 }: WorksFilterProps): CheckboxFilter<keyof WorksProps> => ({
   type: 'checkbox',
-  id: 'collectionRoot',
+  id: 'collection.root',
   label: 'Collections',
   options: filterOptionsWithNonAggregates({
-    options: works?.aggregations?.collectionRoot?.buckets.map(bucket => ({
+    options: works?.aggregations?.['collection.root']?.buckets.map(bucket => ({
       id: `collection-root-${bucket.data.id}`,
       value: bucket.data.id,
       count: bucket.count,
       label: bucket.data.label,
-      selected: props.collectionRoot.includes(bucket.data.id),
+      selected: props['collection.root'].includes(bucket.data.id),
     })),
-    selectedValues: props.collectionRoot,
+    selectedValues: props['collection.root'],
   }),
 });
 
@@ -833,9 +833,9 @@ const worksFilters: (
     genresFilter,
     contributorsAgentFilter,
     languagesFilter,
-    archiveTypeFilter,
+    archiveCategoryFilter,
     collectionRootFilter,
-    isCollectionRootFilter,
+    collectionIsRootFilter,
     workRecordTypeFilter,
     partOfFilter,
   ].map(f => f(props));

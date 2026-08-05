@@ -99,8 +99,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         'languages',
         'subjects.label',
         'contributors.agent.label',
-        'archiveType',
-        'collectionRoot',
+        'archive.category',
+        'collection.root',
       ]
     : [];
 

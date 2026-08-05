@@ -28,9 +28,9 @@ export type CatalogueWorksApiProps = {
   subjects?: string[];
   'contributors.agent.label'?: string[];
   languages?: string[];
-  archiveType?: string[];
-  collectionRoot?: string[];
-  isCollectionRoot?: boolean;
+  'archive.category'?: string[];
+  'collection.root'?: string[];
+  'collection.isRoot'?: boolean;
   type?: string[];
   identifiers?: string[];
   aggregations?: string[];
