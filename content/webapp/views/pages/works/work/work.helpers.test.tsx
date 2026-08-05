@@ -80,11 +80,14 @@ describe('getCurrentCanvas', () => {
     const transformedManifest = createMockManifest({
       canvases: [canvasA, canvasB],
     });
-    const canvasIndexById = { a: 1, b: 2 };
+    // "Complete" (same count as canvases), but its index values (5, 7) don't
+    // include 1 - and 1 is still in-bounds for the array, so a correct
+    // fallback must return canvasA specifically, not just undefined either way.
+    const canvasIndexById = { a: 5, b: 7 };
 
     expect(
-      getCurrentCanvas({ transformedManifest, canvasIndexById, canvas: 9999 })
-    ).toBeUndefined();
+      getCurrentCanvas({ transformedManifest, canvasIndexById, canvas: 1 })
+    ).toBe(canvasA);
   });
 
   it('returns undefined for canvas=0 (invalid 1-indexed value)', () => {
