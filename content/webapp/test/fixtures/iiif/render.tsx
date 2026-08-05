@@ -73,18 +73,23 @@ export function createMockRefactoredItemViewerContext(
     overrides.canvasIndexById ??
     defaultItemViewerContextRefactored.canvasIndexById;
 
+  const totalCanvases = transformedManifest.canvases.length;
+
   return {
     ...defaultItemViewerContextRefactored,
     transformedManifest,
-    // Mirrors how the real provider (IIIFViewer.tsx) derives currentCanvas and
-    // totalCanvases, so tests overriding transformedManifest/query still get
-    // sensible defaults without also having to pass these by hand.
+    // Mirrors how the real provider (IIIFViewer.tsx) derives these, so tests
+    // overriding transformedManifest/query still get sensible defaults without
+    // having to pass each one by hand. Anything derived from the manifest that
+    // goes on the context needs adding here too, or tests that override the
+    // manifest will silently fall back to the default context's value.
     currentCanvas: getCurrentCanvas({
       transformedManifest,
       canvasIndexById,
       canvas: query.canvas,
     }),
-    totalCanvases: transformedManifest.canvases.length,
+    totalCanvases,
+    hasMultipleCanvases: totalCanvases > 1,
     ...overrides,
   };
 }

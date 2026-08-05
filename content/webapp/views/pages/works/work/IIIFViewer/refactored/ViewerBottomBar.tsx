@@ -126,7 +126,6 @@ const ViewerBottomBar: FunctionComponent = () => {
   const { isEnhanced } = useAppContext();
   const isFullscreenEnabled = useIsFullscreenEnabled();
   const {
-    transformedManifest,
     gridVisible,
     setGridVisible,
     showZoomed,
@@ -136,10 +135,10 @@ const ViewerBottomBar: FunctionComponent = () => {
     work,
     query,
     totalCanvases,
+    hasMultipleCanvases,
     hasOnlyRenderableImages,
   } = useItemViewerContext();
 
-  const { canvases } = { ...transformedManifest };
   const { canvas } = query;
 
   const canNavigatePrevious = canvas > 1;
@@ -152,7 +151,6 @@ const ViewerBottomBar: FunctionComponent = () => {
     ? toWorksItemLink({ workId: work.id, props: { canvas: canvas + 1 } })
     : null;
 
-  const hasMultipleCanvases = (canvases?.length || 0) > 1;
   const shouldShowCanvasNavigation =
     !hasOnlyRenderableImages && hasMultipleCanvases;
   const shouldShowViewToggle =
