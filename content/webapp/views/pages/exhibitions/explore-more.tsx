@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { useKiosk } from '@weco/common/contexts/KioskContext';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { typography } from '@weco/common/utils/classnames';
+import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import {
@@ -70,6 +71,7 @@ const ExploreMorePage: NextPage<Props> = ({
       siteSection="whats-on"
       image={exhibition.image}
       isNoIndex
+      apiToolbarLinks={[createPrismicLink(page.id)]}
     >
       <PageHeader
         variant="basic"
@@ -90,6 +92,7 @@ const ExploreMorePage: NextPage<Props> = ({
           ) : undefined
         }
       />
+
       <SpacingSection>
         <SliceZone
           slices={page.untransformedBody}
@@ -103,16 +106,18 @@ const ExploreMorePage: NextPage<Props> = ({
           }}
         />
       </SpacingSection>
+
       <SpacingSection>
         <ContaineredLayout gridSizes={gridSize12()}>
           <SectionHeader title="Related works from the collection" />
           <Space $v={{ size: 'md', properties: ['margin-top'] }}>
             <Space as="p" $v={{ size: 'lg', properties: ['margin-bottom'] }}>
-              Explore a selection of related works from our collection,
-              exploring HIV, activism and intimacy.
+              Explore works from our collection that reflect themes of HIV,
+              activism and intimacy.
             </Space>
           </Space>
         </ContaineredLayout>
+
         {workGroups.map(group =>
           group.works.length > 0 ? (
             <div key={group.heading}>
@@ -143,6 +148,7 @@ const ExploreMorePage: NextPage<Props> = ({
           ) : null
         )}
       </SpacingSection>
+
       {exhibitionWorks.length > 0 && (
         <BeigeSection>
           <ContaineredLayout gridSizes={gridSize12()}>
