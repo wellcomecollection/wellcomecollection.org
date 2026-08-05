@@ -68,6 +68,143 @@ const getColor = (name: PaletteColor): string => {
   return colors[name];
 };
 
+// Design system colours, introduced behind the `brandUpdate` toggle.
+// These are derived from the design system's own colour tokens
+// (`designSystemTheme.color`) rather than hand-transcribed, so they stay in
+// sync with the package. The tokens are nested objects of tinted scales; we
+// flatten them to a `.`-separated map (e.g. `neutral.10`, `ui.blue.40`) so they
+// can be used in the same way as the existing `colors` above.
+const coreColorKeys = [
+  'white',
+  'black',
+  'neutral',
+  'pink',
+  'yellow',
+  'blue',
+  'indigo',
+  'teal',
+  'orange',
+  'green',
+  'ui',
+] as const;
+
+type CoreColorSource = Pick<
+  typeof designSystemTheme.color,
+  (typeof coreColorKeys)[number]
+>;
+
+// Recursively derive the `.`-separated union of leaf (i.e. outermost) keys from
+// a nested colour object, giving us `'white' | 'neutral.10' | 'ui.blue.40' |
+// ...`. This keeps type safety: a name that isn't in the design system is a
+// type error.
+type FlattenColorKeys<T, Prefix extends string = ''> = {
+  [K in keyof T & string]: T[K] extends string
+    ? `${Prefix}${K}`
+    : FlattenColorKeys<T[K], `${Prefix}${K}.`>;
+}[keyof T & string];
+
+export type DesignSystemColor = FlattenColorKeys<CoreColorSource>;
+
+// Runtime flatten mirroring the type above.
+function flattenColors(
+  obj: Record<string, unknown>,
+  prefix = ''
+): Record<string, string> {
+  return Object.entries(obj).reduce<Record<string, string>>(
+    (acc, [key, value]) => {
+      const path = prefix ? `${prefix}.${key}` : key;
+
+      if (typeof value === 'string') {
+        acc[path] = value;
+      } else if (value && typeof value === 'object') {
+        Object.assign(
+          acc,
+          flattenColors(value as Record<string, unknown>, path)
+        );
+      }
+
+      return acc;
+    },
+    {}
+  );
+}
+
+// We need an object containing only the 'core' colours from the design system…
+const coreColorSource = coreColorKeys.reduce<Record<string, unknown>>(
+  (acc, key) => {
+    acc[key] = designSystemTheme.color[key];
+    return acc;
+  },
+  {}
+);
+// …so the flattened result only contains the keys the `DesignSystemColor` type
+// expects (we deliberately filter out the 'legacy' stuff)
+const designSystemColors = flattenColors(coreColorSource) as Record<
+  DesignSystemColor,
+  string
+>;
+
+// Maps each existing colour to its nearest equivalent in the core design system
+// scales, chosen by hex distance. Used to swap palettes when the `brandUpdate`
+// toggle is on. The `Record<keyof typeof colors, ...>` type makes this
+// exhaustive: a new entry in `colors` is a type error until it's mapped here.
+//
+// Some rows are flagged because the core scales are a different palette to the
+// current one, so the nearest match is a poor visual fit (the core scales have
+// no purple, turquoise or salmon). These are kept as the nearest match for now;
+// adjust deliberately if design wants something else.
+const colorToDesignSystemColor: Record<keyof typeof colors, DesignSystemColor> =
+  {
+    white: 'white',
+    black: 'neutral.80',
+    yellow: 'yellow.30', // FIXME: such yellow
+    lightYellow: 'yellow.20',
+
+    'accent.purple': 'neutral.50', // FIXME: no purple in core scales; nearest is a grey
+    'accent.lightPurple': 'ui.grey.40', // FIXME: no purple in core scales; nearest is a grey
+    'accent.turquoise': 'blue.50', // FIXME: no turquoise in core scales; nearest is a blue
+    'accent.lightTurquoise': 'blue.20', // FIXME: no turquoise in core scales; nearest is a blue
+    'accent.blue': 'indigo.60',
+    'accent.lightBlue': 'blue.30',
+    'accent.green': 'teal.40',
+    'accent.lightGreen': 'neutral.30', // FIXME: nearest is a grey, not a green
+    'accent.salmon': 'orange.40',
+    'accent.lightSalmon': 'orange.30',
+
+    'neutral.200': 'neutral.05',
+    'neutral.300': 'teal.10', // FIXME: nearest is a green-tinted off-white
+    'neutral.400': 'neutral.20',
+    'neutral.500': 'neutral.40',
+    'neutral.600': 'neutral.50',
+    'neutral.700': 'neutral.70',
+
+    'warmNeutral.200': 'yellow.10',
+    'warmNeutral.300': 'green.10', // FIXME: nearest is a green-tinted off-white
+    'warmNeutral.400': 'neutral.20',
+
+    'validation.red': 'ui.red.40',
+    'validation.green': 'teal.50', // FIXME: nearest is a teal, not a green
+
+    'focus.yellow': 'yellow.30',
+  };
+
+// The existing `colors`, resolved to their design system equivalents. Same keys
+// as `colors`, so anything reading `theme.colors[...]` directly (rather than via
+// `color()`) also switches palettes when `brandUpdate` is on.
+const brandUpdateColors = Object.fromEntries(
+  (Object.keys(colors) as (keyof typeof colors)[]).map(name => [
+    name,
+    designSystemColors[colorToDesignSystemColor[name]],
+  ])
+) as Record<keyof typeof colors, string>;
+
+const getBrandUpdateColor = (name: PaletteColor): string => {
+  // Passed-through values (see getColor) have no palette equivalent.
+  if (['currentColor', 'transparent', 'inherit'].includes(name)) return name;
+
+  return brandUpdateColors[name];
+};
+
 export const sizes = {
   zero: '0rem',
   sm: designSystemTheme.breakpoints.sm, // 48rem = 768px
@@ -396,6 +533,22 @@ export const themeValues = {
   clampLines,
   typography: designSystemTheme.typography,
 };
+
+// Builds the theme passed to ThemeProvider. When the `brandUpdate` toggle is on,
+// the palette is swapped for its nearest design system equivalents
+// (see colorToDesignSystemColor): `color()`, the raw `colors` map, and any
+// values derived from it (e.g. focusBoxShadow) all switch together so the theme
+// stays internally consistent. `color` keeps the same signature either way, so
+// all `theme.color(...)` call sites are remapped transparently.
+export const createTheme = (brandUpdate: boolean) =>
+  brandUpdate
+    ? {
+        ...themeValues,
+        colors: brandUpdateColors,
+        color: getBrandUpdateColor,
+        focusBoxShadow: `0 0 0 3px ${brandUpdateColors['focus.yellow']}`,
+      }
+    : themeValues;
 
 export type Breakpoint = keyof typeof sizes;
 
