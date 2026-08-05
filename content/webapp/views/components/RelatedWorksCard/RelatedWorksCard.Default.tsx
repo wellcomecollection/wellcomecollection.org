@@ -36,7 +36,6 @@ const RelatedWorksCard: FunctionComponent<Props> = ({ work, gtmData }) => {
         dataGtmPropsToAttributes({
           ...gtmData,
           id: work.id,
-          trigger: 'related_card_result',
         }))}
     >
       <Card as="span">
