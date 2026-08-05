@@ -21,7 +21,7 @@ import {
   getAuthServices,
   getIframeTokenSrc,
 } from '@weco/content/utils/iiif/v3';
-import { removeIdiomaticTextTags } from '@weco/content/utils/string';
+import { removeDisplayMarkupTags } from '@weco/content/utils/string';
 import WorkLink from '@weco/content/views/components/WorkLink';
 import CataloguePageLayout from '@weco/content/views/layouts/CataloguePageLayout';
 import { UiTree } from '@weco/content/views/pages/works/work/work.types';
@@ -88,7 +88,7 @@ const WorkItemPage: NextPage<Props> = ({
   const [searchResults, setSearchResults] = useState(serverSearchResults);
   const authServices = getAuthServices({ auth });
   const displayTitle =
-    title || (work && removeIdiomaticTextTags(work.title)) || '';
+    title || (work && removeDisplayMarkupTags(work.title)) || '';
   const isTotallyRestricted =
     auth?.accessRequirements &&
     auth.accessRequirements.length > 0 &&

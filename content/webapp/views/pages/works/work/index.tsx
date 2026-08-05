@@ -17,7 +17,7 @@ import {
 } from '@weco/content/services/wellcome/catalogue/types';
 import { TransformedManifest } from '@weco/content/types/manifest';
 import { workLd } from '@weco/content/utils/json-ld';
-import { removeIdiomaticTextTags } from '@weco/content/utils/string';
+import { removeDisplayMarkupTags } from '@weco/content/utils/string';
 import {
   createApiToolbarWorkLinks,
   getArchiveAncestorArray,
@@ -94,7 +94,7 @@ export const WorkPage: NextPage<Props> = ({
       ? iiifImageTemplate(iiifImageLocation.url)({ size: `800,` })
       : undefined;
 
-  const title = removeIdiomaticTextTags(work.title);
+  const title = removeDisplayMarkupTags(work.title);
 
   const image = imageUrl
     ? {
