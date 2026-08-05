@@ -1,11 +1,10 @@
 import { FunctionComponent, useEffect } from 'react';
 import styled from 'styled-components';
 
-import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
+import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext/refactored';
 import { getDisplayItems } from '@weco/content/utils/iiif/v3/canvas';
 
 import IIIFItem from './IIIFItem';
-import { useCurrentCanvas } from './MainViewer.helpers';
 
 const ItemWrapper = styled.div`
   height: 100%;
@@ -26,13 +25,16 @@ const ItemWrapper = styled.div`
 `;
 
 const PaginatedItemViewer: FunctionComponent = () => {
-  const { transformedManifest, query, setShowFullscreenControl } =
-    useItemViewerContext();
+  const {
+    transformedManifest,
+    query,
+    setShowFullscreenControl,
+    currentCanvas,
+  } = useItemViewerContext();
   const { canvases, auth, placeholderId } = {
     ...transformedManifest,
   };
   const externalAccessService = auth?.externalAccessService;
-  const currentCanvas = useCurrentCanvas();
 
   useEffect(() => {
     setShowFullscreenControl(false);

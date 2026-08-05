@@ -13,7 +13,10 @@ import {
   ItemViewerQuery,
   ParentManifest,
 } from '@weco/content/types/item-viewer';
-import { TransformedManifest } from '@weco/content/types/manifest';
+import {
+  TransformedCanvas,
+  TransformedManifest,
+} from '@weco/content/types/manifest';
 import { UiTree } from '@weco/content/views/pages/works/work/work.types';
 
 export type ItemViewerContextProps = {
@@ -31,6 +34,7 @@ export type ItemViewerContextProps = {
   tree: UiTree;
   setTree: (v: UiTree) => void;
   canvasIndexById: Record<string, number>;
+  currentCanvas: TransformedCanvas | undefined;
 
   // UI props:
   viewerRef: RefObject<HTMLDivElement | null> | undefined;
@@ -100,6 +104,7 @@ export const defaultItemViewerContext: ItemViewerContextProps = {
   tree: [],
   setTree: () => undefined,
   canvasIndexById: {},
+  currentCanvas: undefined,
 
   // UI props:
   viewerRef: undefined,
