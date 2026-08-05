@@ -11,7 +11,7 @@ describe('Removes display markup tags from strings', () => {
     );
   });
 
-  it('removes lowercase idiomatic text tags from strings', () => {
+  it('removes lowercase display markup tags from strings', () => {
     const result = removeDisplayMarkupTags(
       '<i>Physiological Pharmacy</i>- Population Services'
     );
@@ -19,7 +19,7 @@ describe('Removes display markup tags from strings', () => {
     expect(result).toEqual('Physiological Pharmacy- Population Services');
   });
 
-  it('removes uppercase idiomatic text tags from strings', () => {
+  it('removes uppercase display markup tags from strings', () => {
     const result = removeDisplayMarkupTags(
       '<I>Physiological Pharmacy</I>- Population Services'
     );

@@ -7,7 +7,7 @@ export function toHtmlId(s: string): string {
 // <title>: a general tag strip would also eat angle-bracketed text like the
 // dates some titles contain (<1771-1842>).
 export function removeDisplayMarkupTags(s: string): string {
-  return s.replace(/<\/?(?:i|b|em|u|p|sup|sub)>/gim, '');
+  return s.replace(/<\/?(?:i|b|em|u|p|sup|sub)>/gi, '');
 }
 
 export function removeTrailingFullStop(s: string): string {
