@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { typography } from '@weco/common/utils/classnames';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
+import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
@@ -109,9 +110,10 @@ const FormatIconContainer = styled.div`
 
 type Props = {
   item: WorkBasic;
+  dataGtmProps: Pick<DataGtmProps, 'position-in-list' | 'category-label'>;
 };
 
-const WorkCard: FunctionComponent<Props> = ({ item }) => {
+const WorkCard: FunctionComponent<Props> = ({ item, dataGtmProps }) => {
   const formatIconPath = getFormatIconPath(item.workTypeId);
 
   const transformedWork = {
@@ -134,7 +136,11 @@ const WorkCard: FunctionComponent<Props> = ({ item }) => {
   };
 
   return (
-    <LinkSpace $url={transformedWork.url} data-component="work-card">
+    <LinkSpace
+      data-component="work-card"
+      $url={transformedWork.url}
+      {...dataGtmPropsToAttributes(dataGtmProps)}
+    >
       <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
         <Shim $hasImage={!!transformedWork.imageUrl}>
           <PopoutCardImageContainer $hasImage={!!transformedWork.imageUrl}>

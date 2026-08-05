@@ -138,9 +138,15 @@ const ExploreMorePage: NextPage<Props> = ({
                 gridSizes={gridSize12()}
                 useShim
               >
-                {group.works.map(work => (
+                {group.works.map((work, workIndex) => (
                   <ListItem key={work.id} $usesShim>
-                    <WorkCard item={work} />
+                    <WorkCard
+                      item={work}
+                      dataGtmProps={{
+                        'position-in-list': `${workIndex + 1}`,
+                        'category-label': group.heading,
+                      }}
+                    />
                   </ListItem>
                 ))}
               </ScrollContainer>
