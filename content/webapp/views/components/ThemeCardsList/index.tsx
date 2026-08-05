@@ -19,9 +19,9 @@ import { Description, ListItem, Title } from './ThemeCardsList.styles';
 
 const Theme: FunctionComponent<{
   concept: Concept;
-  gtmData: DataGtmProps;
+  dataGtmProps: DataGtmProps;
   showDescriptionForTypes?: ConceptType[];
-}> = ({ concept, gtmData, showDescriptionForTypes }) => {
+}> = ({ concept, dataGtmProps, showDescriptionForTypes }) => {
   const images = useConceptImageUrls(concept);
   const linkProps = toConceptLink({ conceptId: concept.id });
 
@@ -40,7 +40,7 @@ const Theme: FunctionComponent<{
       dataGtmProps={{
         trigger: 'theme_promo_card',
         id: concept.id,
-        ...gtmData,
+        ...dataGtmProps,
       }}
     />
   ) : null;
@@ -51,10 +51,9 @@ type ThemeCardsListProps = {
   description?: string;
   // If the following is to be undefined, it should be on purpose and not because of a forgotten prop.
   // This is why we don't make the individual properties optional
-  gtmData: {
-    ['category-label']: DataGtmProps['category-label'] | undefined;
-    ['category-position-in-list']:
-      DataGtmProps['category-position-in-list'] | undefined;
+  dataGtmProps: {
+    'category-label': DataGtmProps['category-label'];
+    'category-position-in-list': DataGtmProps['category-position-in-list'];
   };
   sliceTitle?: string;
   useShim?: boolean;
@@ -71,7 +70,7 @@ const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
   description,
   sliceTitle,
   useShim,
-  gtmData,
+  dataGtmProps,
   gridSizes = gridSize12(),
   onConceptsFetched,
   showDescriptionForTypes,
@@ -152,7 +151,10 @@ const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
               <ListItem key={concept.id} $usesShim={useShim} $cols={cols}>
                 <Theme
                   concept={concept}
-                  gtmData={{ ...gtmData, 'position-in-list': `${i + 1}` }}
+                  dataGtmProps={{
+                    ...dataGtmProps,
+                    'position-in-list': `${i + 1}`,
+                  }}
                   showDescriptionForTypes={showDescriptionForTypes}
                 />
               </ListItem>

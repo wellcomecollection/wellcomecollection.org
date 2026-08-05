@@ -20,10 +20,10 @@ import {
 
 export type Props = {
   work: WorkBasic | ContentApiLinkedWork; // Supports both Catalogue and Content API works
-  gtmData?: DataGtmProps;
+  dataGtmProps?: DataGtmProps;
 };
 
-const RelatedWorksCard: FunctionComponent<Props> = ({ work, gtmData }) => {
+const RelatedWorksCard: FunctionComponent<Props> = ({ work, dataGtmProps }) => {
   const { thumbnailUrl, date, mainContributor, labels } =
     transformCardData(work);
 
@@ -32,9 +32,9 @@ const RelatedWorksCard: FunctionComponent<Props> = ({ work, gtmData }) => {
       {...toWorkLink({ id: work.id })}
       data-component="related-works-card"
       style={{ textDecoration: 'none', display: 'block' }}
-      {...(gtmData &&
+      {...(dataGtmProps &&
         dataGtmPropsToAttributes({
-          ...gtmData,
+          ...dataGtmProps,
           id: work.id,
         }))}
     >

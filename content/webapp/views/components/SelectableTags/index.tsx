@@ -15,7 +15,7 @@ type SelectableTagsProps = {
     id: string;
     label: string;
     controls?: string;
-    gtmData?: DataGtmProps;
+    dataGtmProps?: DataGtmProps;
   }[];
   isMultiSelect?: boolean;
   selectedTags?: string[];
@@ -123,7 +123,7 @@ export const SelectableTags: FunctionComponent<SelectableTagsProps> = ({
           const isSelected = selected.includes(tag.id);
           const gtmAttributes = dataGtmPropsToAttributes({
             'position-in-list': String(index + 1),
-            ...tag.gtmData,
+            ...tag.dataGtmProps,
           });
 
           return (
