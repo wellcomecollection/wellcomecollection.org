@@ -1,7 +1,7 @@
 import { GetServerSideProps, NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
-import { ReactElement, ReactNode, useEffect } from 'react';
+import React, { ReactElement, ReactNode, useEffect, useMemo } from 'react';
 import { ThemeProvider } from 'styled-components';
 
 import { ApmContextProvider } from '@weco/common/contexts/ApmContext';
@@ -33,7 +33,8 @@ import InactivityRedirect from '@weco/common/views/components/InactivityRedirect
 import InfoBanner from '@weco/common/views/components/InfoBanner';
 import LoadingIndicator from '@weco/common/views/components/LoadingIndicator';
 import ErrorPage from '@weco/common/views/layouts/ErrorPage';
-import themeValues, { GlobalStyle } from '@weco/common/views/themes/default';
+import { createTheme } from '@weco/common/views/themes/config';
+import { GlobalStyle } from '@weco/common/views/themes/default';
 
 // Dynamically import HistoryProvider to prevent it from being bundled in apps that don't use kiosk mode (e.g. identity)
 const HistoryProvider = dynamic(
@@ -175,10 +176,17 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
   const getLayout = Component.getLayout ?? (page => page);
   const componentProps = deserialiseProps(pageProps) as Record<string, unknown>;
 
+  // Memoise by the toggle value so ThemeProvider gets a stable theme reference
+  // and doesn't trigger re-renders/style recalculation on every App render.
+  const theme = useMemo(
+    () => createTheme(Boolean(serverData.toggles.featureFlags.brandUpdate)),
+    [serverData.toggles.featureFlags.brandUpdate]
+  );
+
   return (
     <ApmContextProvider>
       <ServerDataContext.Provider value={serverData}>
-        <ThemeProvider theme={themeValues}>
+        <ThemeProvider theme={theme}>
           <UserContextProvider>
             <AppContextProvider>
               <SearchContextProvider>

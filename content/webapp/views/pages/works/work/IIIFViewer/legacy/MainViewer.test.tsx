@@ -1,6 +1,6 @@
 import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 
-import { ItemViewerContextProps } from '@weco/content/contexts/ItemViewerContext';
+import { ItemViewerContextProps } from '@weco/content/contexts/ItemViewerContext/legacy';
 import { renderWithContext } from '@weco/content/test/fixtures/iiif/render';
 import {
   createMockAuth,

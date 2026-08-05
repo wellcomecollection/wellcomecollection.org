@@ -1,6 +1,9 @@
 import { createContext, RefObject, useContext } from 'react';
 
-import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
+import {
+  emptySearchResults,
+  SearchResults,
+} from '@weco/content/services/iiif/types/search/v3';
 import {
   Work,
   WorkBasic,
@@ -14,6 +17,9 @@ import { TransformedManifest } from '@weco/content/types/manifest';
 import { UiTree } from '@weco/content/views/pages/works/work/work.types';
 
 export type ItemViewerContextProps = {
+  // Discriminant for narrowing the legacy | refactored union returned by
+  // useItemViewerContext() — see ./refactored.tsx and ./index.tsx.
+  isRefactoredContext: false;
   // DATA props:
   query: ItemViewerQuery;
   work: WorkBasic & Pick<Work, 'description'>;
@@ -58,19 +64,6 @@ export type ItemViewerContextProps = {
   hasOnlyRenderableImages: boolean;
 };
 
-export const results: SearchResults = {
-  '@context': '',
-  '@id': '',
-  '@type': 'sc:AnnotationList',
-  within: {
-    '@type': '',
-    total: null,
-  },
-  startIndex: 0,
-  resources: [],
-  hits: [],
-};
-
 const query = {
   canvas: 1,
   manifest: 1,
@@ -95,12 +88,13 @@ const work: WorkBasic & Pick<Work, 'description'> = {
 };
 
 export const defaultItemViewerContext: ItemViewerContextProps = {
+  isRefactoredContext: false,
   // DATA props:
   query,
   work,
   transformedManifest: undefined,
   parentManifest: undefined,
-  searchResults: results,
+  searchResults: emptySearchResults,
   setSearchResults: () => undefined,
   accessToken: undefined,
   tree: [],

@@ -15,10 +15,9 @@ import { DigitalLocation } from '@weco/common/model/catalogue';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 import Control from '@weco/common/views/components/Control';
 import Space from '@weco/common/views/components/styled/Space';
-import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
+import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext/refactored';
 import { PartialImageService } from '@weco/content/types/item-viewer';
 import { convertRequestUriToInfoUri } from '@weco/content/utils/iiif/convert-iiif-uri';
-import { queryParamToArrayIndex } from '@weco/content/views/pages/works/work/work.helpers';
 
 const ZoomedImageContainer = styled.div`
   position: relative;
@@ -61,9 +60,7 @@ type ZoomedImageProps = OptionalToUndefined<{
 const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
   iiifImageLocation,
 }) => {
-  const { transformedManifest, query, setShowZoomed } = useItemViewerContext();
-  const currentCanvas =
-    transformedManifest?.canvases[queryParamToArrayIndex(query.canvas)];
+  const { currentCanvas, setShowZoomed } = useItemViewerContext();
   const mainImageService: PartialImageService = {
     '@id': currentCanvas?.imageServiceId,
   };

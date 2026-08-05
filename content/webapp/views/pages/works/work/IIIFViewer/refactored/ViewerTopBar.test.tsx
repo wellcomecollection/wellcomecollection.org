@@ -2,7 +2,7 @@ import { screen } from '@testing-library/react';
 
 import {
   renderWithContext,
-  RenderWithContextOptions,
+  RenderWithRefactoredContextOptions,
 } from '@weco/content/test/fixtures/iiif/render';
 import {
   createMockCanvas,
@@ -33,7 +33,7 @@ const pdfRendering: TransformedManifest['rendering'] = [
 
 // Renders ViewerTopBar with the enhanced/full-support defaults most of these
 // characterisations need, merging in any per-test overrides.
-const renderTopBar = (options: RenderWithContextOptions = {}) =>
+const renderTopBar = (options: RenderWithRefactoredContextOptions = {}) =>
   renderWithContext(<ViewerTopBar iiifImageLocation={undefined} />, {
     appContext: { isEnhanced: true, isFullSupportBrowser: true },
     useRefactoredContext: true,
@@ -142,6 +142,26 @@ describe('ViewerTopBar page-count indicator', () => {
     });
 
     expect(screen.queryByTestId('active-index')).not.toBeInTheDocument();
+  });
+
+  it('shows the page label for the canvas in the correct structural position, not just its array position', () => {
+    renderTopBar({
+      contextProps: {
+        // Array order is [A, B], but the structure displays B before A - so
+        // canvas 1 should show B's label, not A's.
+        transformedManifest: createMockManifest({
+          canvases: [
+            createMockCanvas({ id: 'a', label: 'A' }),
+            createMockCanvas({ id: 'b', label: 'B' }),
+          ],
+        }),
+        canvasIndexById: { b: 1, a: 2 },
+        hasOnlyRenderableImages: true,
+        query: createMockQuery({ canvas: 1 }),
+      },
+    });
+
+    expect(screen.getByTestId('topbar')).toHaveTextContent(/page B/);
   });
 });
 
