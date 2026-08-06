@@ -294,6 +294,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     canvasIndexById,
     canvas,
   });
+  const totalCanvases = transformedManifest?.canvases.length || 0;
   const mainImageService: PartialImageService = {
     '@id': currentCanvas?.imageServiceId,
   };
@@ -312,7 +313,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   );
   // useFixedSizeList is true when all items are images (using FixedSizeList for virtualization)
   const useFixedSizeList = hasOnlyRenderableImages;
-  const hasMultipleCanvases = (transformedManifest?.canvases?.length || 0) > 1;
+  const hasMultipleCanvases = totalCanvases > 1;
 
   // showControls' initial value depends on the derived values above, so it's
   // declared here rather than grouped with the other state
@@ -393,6 +394,8 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         setTree,
         canvasIndexById,
         currentCanvas,
+        totalCanvases,
+        hasMultipleCanvases,
 
         // UI Props:
         viewerRef,

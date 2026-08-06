@@ -51,7 +51,7 @@ const WorkContainer = styled.li<{ $columns: 3 | 4 }>`
 
 type Props = {
   works: WorkBasic[];
-  dataGtmProps: Pick<DataGtmProps, 'category-label'>;
+  dataGtmProps?: Pick<DataGtmProps, 'category-label'>;
   columns?: 3 | 4;
 };
 
@@ -72,7 +72,7 @@ const WorkCards: FunctionComponent<Props> = ({
           item={works[0]}
           dataGtmProps={{
             'position-in-list': '1',
-            'category-label': dataGtmProps['category-label'],
+            'category-label': dataGtmProps?.['category-label'],
           }}
         />
       ) : (
@@ -83,7 +83,7 @@ const WorkCards: FunctionComponent<Props> = ({
                 item={item}
                 dataGtmProps={{
                   'position-in-list': `${index + 1}`,
-                  'category-label': dataGtmProps['category-label'],
+                  'category-label': dataGtmProps?.['category-label'],
                 }}
               />
             </WorkContainer>

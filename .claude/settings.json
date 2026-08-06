@@ -1,0 +1,8 @@
+{
+  "attribution": {
+    "pr": ""
+  },
+  "permissions": {
+    "ask": ["Bash(git commit *)"]
+  }
+}
