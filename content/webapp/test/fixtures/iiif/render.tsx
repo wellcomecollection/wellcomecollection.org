@@ -51,7 +51,7 @@ type ItemViewerContextOverridesRefactored = Partial<
   Omit<ItemViewerContextPropsRefactored, 'isRefactoredContext'>
 >;
 
-export function createMockItemViewerContext(
+function createMockItemViewerContext(
   overrides: ItemViewerContextOverridesLegacy = {}
 ): ItemViewerContextPropsLegacy {
   return {
@@ -62,7 +62,7 @@ export function createMockItemViewerContext(
   };
 }
 
-export function createMockRefactoredItemViewerContext(
+function createMockRefactoredItemViewerContext(
   overrides: ItemViewerContextOverridesRefactored = {}
 ): ItemViewerContextPropsRefactored {
   // A single-image manifest is the most common baseline; override as needed.
