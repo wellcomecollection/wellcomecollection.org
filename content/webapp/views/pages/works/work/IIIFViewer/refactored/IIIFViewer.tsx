@@ -294,6 +294,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     canvasIndexById,
     canvas,
   });
+  const totalCanvases = transformedManifest?.canvases.length || 0;
   const mainImageService: PartialImageService = {
     '@id': currentCanvas?.imageServiceId,
   };
@@ -393,6 +394,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         setTree,
         canvasIndexById,
         currentCanvas,
+        totalCanvases,
 
         // UI Props:
         viewerRef,

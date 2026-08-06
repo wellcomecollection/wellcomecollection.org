@@ -76,14 +76,15 @@ export function createMockRefactoredItemViewerContext(
   return {
     ...defaultItemViewerContextRefactored,
     transformedManifest,
-    // Mirrors how the real provider (IIIFViewer.tsx) derives currentCanvas,
-    // so tests overriding transformedManifest/query still get a sensible
-    // default without also having to pass currentCanvas by hand.
+    // Mirrors how the real provider (IIIFViewer.tsx) derives currentCanvas and
+    // totalCanvases, so tests overriding transformedManifest/query still get
+    // sensible defaults without also having to pass these by hand.
     currentCanvas: getCurrentCanvas({
       transformedManifest,
       canvasIndexById,
       canvas: query.canvas,
     }),
+    totalCanvases: transformedManifest.canvases.length,
     ...overrides,
   };
 }
