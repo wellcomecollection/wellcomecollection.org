@@ -36,6 +36,7 @@ export type ItemViewerContextProps = {
   canvasIndexById: Record<string, number>;
   currentCanvas: TransformedCanvas | undefined;
   totalCanvases: number;
+  hasMultipleCanvases: boolean;
 
   // UI props:
   viewerRef: RefObject<HTMLDivElement | null> | undefined;
@@ -107,6 +108,7 @@ export const defaultItemViewerContext: ItemViewerContextProps = {
   canvasIndexById: {},
   currentCanvas: undefined,
   totalCanvases: 0,
+  hasMultipleCanvases: false,
 
   // UI props:
   viewerRef: undefined,
