@@ -196,6 +196,11 @@ const toggleConfig = {
           id: 'axiell-collections-testing',
           label: 'Axiell Collections testing (new Axiell/FOLIO pipeline)',
         },
+        {
+          id: 'archive-browse-testing',
+          label:
+            'Archive browse testing (only use in combination with the Staging API toggle)',
+        },
       ],
     },
   ] as const,
