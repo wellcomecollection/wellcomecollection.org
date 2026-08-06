@@ -90,7 +90,6 @@ const LinkedWorks: FunctionComponent<LinkedWorkProps> = ({
                 variant="default"
                 work={work}
                 gtmData={{
-                  trigger: 'work-link-component',
                   id: work.id,
                   'position-in-list': `${i + 1}`,
                 }}

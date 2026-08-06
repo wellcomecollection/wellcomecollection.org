@@ -138,9 +138,15 @@ const ExploreMorePage: NextPage<Props> = ({
                 gridSizes={gridSize12()}
                 useShim
               >
-                {group.works.map(work => (
+                {group.works.map((work, workIndex) => (
                   <ListItem key={work.id} $usesShim>
-                    <WorkCard item={work} />
+                    <WorkCard
+                      item={work}
+                      dataGtmProps={{
+                        'position-in-list': `${workIndex + 1}`,
+                        'category-label': group.heading,
+                      }}
+                    />
                   </ListItem>
                 ))}
               </ScrollContainer>
@@ -162,9 +168,13 @@ const ExploreMorePage: NextPage<Props> = ({
                 <p>Find the items on display in our online catalogue.</p>
               }
             >
-              {exhibitionWorks.map(work => (
+              {exhibitionWorks.map((work, index) => (
                 <ListItem key={work.id} $usesShim>
-                  <RelatedWorksCard variant="default" work={work} />
+                  <RelatedWorksCard
+                    variant="default"
+                    work={work}
+                    gtmData={{ 'position-in-list': `${index + 1}` }}
+                  />
                 </ListItem>
               ))}
             </ScrollContainer>
