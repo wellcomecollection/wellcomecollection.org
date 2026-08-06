@@ -35,6 +35,8 @@ export type ItemViewerContextProps = {
   setTree: (v: UiTree) => void;
   canvasIndexById: Record<string, number>;
   currentCanvas: TransformedCanvas | undefined;
+  totalCanvases: number;
+  hasMultipleCanvases: boolean;
 
   // UI props:
   viewerRef: RefObject<HTMLDivElement | null> | undefined;
@@ -105,6 +107,8 @@ export const defaultItemViewerContext: ItemViewerContextProps = {
   setTree: () => undefined,
   canvasIndexById: {},
   currentCanvas: undefined,
+  totalCanvases: 0,
+  hasMultipleCanvases: false,
 
   // UI props:
   viewerRef: undefined,

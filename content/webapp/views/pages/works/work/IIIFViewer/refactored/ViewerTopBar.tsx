@@ -218,6 +218,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
     showFullscreenControl,
     hasOnlyRenderableImages,
     currentCanvas,
+    hasMultipleCanvases,
   } = useItemViewerContext();
   const transformedIIIFImage = useTransformedIIIFImage(work);
   const { userIsStaffWithRestricted } = useUserContext();
@@ -238,7 +239,6 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
   const isRestricted = currentCanvas && hasRestrictedItem(currentCanvas);
   const currentPageLabel = currentCanvas?.label?.trim();
 
-  const hasMultipleCanvases = Boolean(canvases && canvases.length > 1);
   const shouldShowViewToggle =
     !showZoomed && hasMultipleCanvases && isFullSupportBrowser;
   const shouldShowPageIndicator =
