@@ -1,12 +1,11 @@
 const { PHASE_DEVELOPMENT_SERVER } = require('next/constants');
 const path = require('path');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const apmConfig = require('../services/apm/apmConfig');
 
 const createConfig =
   (options = {}) =>
-  (phase, { defaultConfig }) => {
+  phase => {
     if (!options.applicationName) {
       throw new Error(
         'createConfig requires an applicationName option, e.g. createConfig({ applicationName: "content", ... })'
@@ -14,17 +13,13 @@ const createConfig =
     }
 
     const prodSubdomain = process.env.PROD_SUBDOMAIN || '';
-    const buildHash = process.env.BUILD_HASH || 'test';
     const isProd = process.env.NODE_ENV === 'production';
     const identityHost = process.env.IDENTITY_HOST || 'http://localhost:3003';
-    const shouldAnalyzeBundle = !!process.env.BUNDLE_ANALYZE;
 
     const rewriteEntries = options.rewriteEntries || [];
     const redirectEntries = options.redirectEntries || [];
 
     const nextConfig = {
-      ...defaultConfig,
-
       // We handle compression in the nginx sidecar
       // Are you having problems with this? Make sure CloudFront is forwarding Accept-Encoding headers to our apps!
       compress: false,
@@ -112,35 +107,15 @@ const createConfig =
           );
         }
 
-        if (shouldAnalyzeBundle) {
-          // This path is relative to the .next directory
-          const bundleEnvironment = isServer ? 'server' : 'client';
-          const bundleAnalysisFile = `../.dist/${options.applicationName}.${bundleEnvironment}.${buildHash}`;
-
-          config.plugins.push(
-            new BundleAnalyzerPlugin({
-              analyzerMode: 'static',
-              generateStatsFile: true,
-              openAnalyzer: false,
-              statsFilename: `${bundleAnalysisFile}.json`,
-              reportFilename: `${bundleAnalysisFile}.html`,
-            })
-          );
-        }
-
         return config;
       },
 
       eslint: {
-        ...defaultConfig.eslint,
-        // Don't run eslint as part of `next build` - it wouldn't do anything
-        // useful anyway: this repo's eslint setup uses a newer config format
-        // ("flat config", in the root eslint.config.js) that Next's built-in
-        // build-time linter doesn't know how to read, so turning this on
-        // would just run a check that silently finds nothing. Linting is
-        // instead enforced by a git pre-commit hook (see docs/git-hooks.md)
-        // that lints whatever files you're committing, or can be run across
-        // the whole repo manually with the root `yarn lint` command.
+        // Don't run eslint as part of `next build` - it's redundant, not
+        // broken: linting is already enforced by a git pre-commit hook (see
+        // docs/git-hooks.md) that lints whatever files you're committing,
+        // or can be run across the whole repo manually with the root
+        // `yarn lint` command.
         ignoreDuringBuilds: true,
       },
 
@@ -182,8 +157,6 @@ const createConfig =
       bundlePagesRouterDependencies: true,
 
       experimental: {
-        ...defaultConfig.experimental,
-
         // This forces Next to use the SWC compiler, which is significantly faster
         // than Babel.  By default it disables SWC with the error message:
         //
