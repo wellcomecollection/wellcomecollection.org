@@ -89,7 +89,7 @@ const LinkedWorks: FunctionComponent<LinkedWorkProps> = ({
               <RelatedWorksCard
                 variant="default"
                 work={work}
-                gtmData={{
+                dataGtmProps={{
                   id: work.id,
                   'position-in-list': `${i + 1}`,
                 }}

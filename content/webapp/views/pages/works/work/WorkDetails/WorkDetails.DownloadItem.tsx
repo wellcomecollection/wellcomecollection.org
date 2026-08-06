@@ -225,7 +225,7 @@ const DownloadItem: FunctionComponent<DownloadItemProps> = ({
                     href={displayItem.id}
                     {...dataGtmPropsToAttributes({
                       trigger: 'download_table_link',
-                      'mime-type': format || 'null', // Default value requested by analyst
+                      'mime-type': format,
                     })}
                   >
                     Download

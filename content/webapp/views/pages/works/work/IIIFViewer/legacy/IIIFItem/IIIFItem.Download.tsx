@@ -91,7 +91,7 @@ const IIIFItemDownload: FunctionComponent<Props> = ({
           ariaLabel={`${action} ${(displayLabel !== substituteTitle && label) || 'document'}`}
           dataGtmProps={{
             trigger: 'canvas_download_link',
-            'mime-type': format || 'null', // Default value requested by analyst
+            'mime-type': format,
           }}
         />
       )}

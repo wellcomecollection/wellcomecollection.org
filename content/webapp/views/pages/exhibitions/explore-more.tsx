@@ -173,7 +173,7 @@ const ExploreMorePage: NextPage<Props> = ({
                   <RelatedWorksCard
                     variant="default"
                     work={work}
-                    gtmData={{ 'position-in-list': `${index + 1}` }}
+                    dataGtmProps={{ 'position-in-list': `${index + 1}` }}
                   />
                 </ListItem>
               ))}

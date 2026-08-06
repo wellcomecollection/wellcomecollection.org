@@ -104,14 +104,14 @@ const AccordionButton = styled.button`
 
 type AccordionItemProps = PropsWithChildren<{
   title: string;
-  gtmData: DataGtmProps;
+  dataGtmProps: DataGtmProps;
   testId?: string;
   defaultOpen?: boolean;
 }>;
 
 const AccordionItem = ({
   title,
-  gtmData,
+  dataGtmProps,
   children,
   testId,
   defaultOpen = false,
@@ -127,7 +127,7 @@ const AccordionItem = ({
     <Item data-testid={testId}>
       <AccordionInner
         onClick={() => setIsActive(!isActive)}
-        {...dataGtmPropsToAttributes(gtmData)}
+        {...dataGtmPropsToAttributes(dataGtmProps)}
       >
         <AccordionButton
           aria-expanded={isActive ? 'true' : 'false'}
@@ -275,7 +275,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
       <Inner>
         <AccordionItem
           title="Licence and re-use"
-          gtmData={{ trigger: 'licence_and_re_use' }}
+          dataGtmProps={{ trigger: 'licence_and_re_use' }}
         >
           <div className={typography('body', 'sm', 'regular')}>
             {license && license.label && (
@@ -306,7 +306,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
         {tree.length > 0 && (
           <AccordionItem
             title="Contents"
-            gtmData={{ trigger: 'contents' }}
+            dataGtmProps={{ trigger: 'contents' }}
             defaultOpen
           >
             <div style={{ overflow: 'auto' }}>
@@ -343,7 +343,10 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
 
         {Boolean(structures && structures.length > 0) &&
           hasOnlyRenderableImages && (
-            <AccordionItem title="Contents" gtmData={{ trigger: 'contents' }}>
+            <AccordionItem
+              title="Contents"
+              dataGtmProps={{ trigger: 'contents' }}
+            >
               <ViewerStructures />
             </AccordionItem>
           )}
@@ -357,7 +360,10 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
         {parentManifest &&
           parentManifest.behavior?.[0] === 'multi-part' &&
           parentManifest.canvases && (
-            <AccordionItem title="Volumes" gtmData={{ trigger: 'volumes' }}>
+            <AccordionItem
+              title="Volumes"
+              dataGtmProps={{ trigger: 'volumes' }}
+            >
               <MultipleManifestList />
             </AccordionItem>
           )}
