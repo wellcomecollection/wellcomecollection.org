@@ -1,6 +1,5 @@
 const { PHASE_DEVELOPMENT_SERVER } = require('next/constants');
 const path = require('path');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const apmConfig = require('../services/apm/apmConfig');
 
@@ -14,10 +13,8 @@ const createConfig =
     }
 
     const prodSubdomain = process.env.PROD_SUBDOMAIN || '';
-    const buildHash = process.env.BUILD_HASH || 'test';
     const isProd = process.env.NODE_ENV === 'production';
     const identityHost = process.env.IDENTITY_HOST || 'http://localhost:3003';
-    const shouldAnalyzeBundle = !!process.env.BUNDLE_ANALYZE;
 
     const rewriteEntries = options.rewriteEntries || [];
     const redirectEntries = options.redirectEntries || [];
@@ -106,28 +103,6 @@ const createConfig =
           config.plugins.push(
             new webpack.IgnorePlugin({
               resourceRegExp: /^undici$/,
-            })
-          );
-        }
-
-        if (shouldAnalyzeBundle) {
-          // These paths are relative to the compiler's outputPath, which
-          // BundleAnalyzerPlugin resolves reportFilename/statsFilename
-          // against. The client compiler's outputPath is .next itself, but
-          // the server compiler's is nested one level deeper at
-          // .next/server, so it needs an extra `../` to land in the same
-          // webapp/.dist directory as the client report.
-          const bundleEnvironment = isServer ? 'server' : 'client';
-          const relativePrefix = isServer ? '../..' : '..';
-          const bundleAnalysisFile = `${relativePrefix}/.dist/${options.applicationName}.${bundleEnvironment}.${buildHash}`;
-
-          config.plugins.push(
-            new BundleAnalyzerPlugin({
-              analyzerMode: 'static',
-              generateStatsFile: true,
-              openAnalyzer: false,
-              statsFilename: `${bundleAnalysisFile}.json`,
-              reportFilename: `${bundleAnalysisFile}.html`,
             })
           );
         }
