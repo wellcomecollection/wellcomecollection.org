@@ -2,6 +2,7 @@ import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
 
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
+import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
@@ -41,8 +42,10 @@ const WorkSearchResult: FunctionComponent<Props> = ({
       style={{ textDecoration: 'none', display: 'inline-block' }}
     >
       <Wrapper
-        data-gtm-trigger="works_search_result"
-        data-gtm-position-in-list={resultPosition + 1}
+        {...dataGtmPropsToAttributes({
+          trigger: 'works_search_result',
+          'position-in-list': `${resultPosition + 1}`,
+        })}
       >
         <Container>
           {work.thumbnail && (

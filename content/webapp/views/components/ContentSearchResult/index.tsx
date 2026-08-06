@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { typography } from '@weco/common/utils/classnames';
+import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
 import Space from '@weco/common/views/components/styled/Space';
 import { Addressable } from '@weco/content/services/wellcome/content/types/api';
@@ -61,8 +62,10 @@ const ContentSearchResult: FunctionComponent<Props> = ({
   return (
     <Link
       data-component="content-search-result"
-      data-gtm-trigger="content_search_result"
-      data-gtm-position-in-list={positionInList}
+      {...dataGtmPropsToAttributes({
+        trigger: 'content_search_result',
+        'position-in-list': `${positionInList}`,
+      })}
       href={linkResolver({
         uid: uid || undefined,
         type,
