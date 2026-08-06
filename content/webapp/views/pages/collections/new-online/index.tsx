@@ -86,10 +86,7 @@ const NewOnlinePage: NextPage<Props> = ({ works, apiToolbarLinks }) => {
 
         <Container>
           {works.results.length > 0 ? (
-            <WorkCards
-              works={works.results}
-              dataGtmProps={{ 'category-label': undefined }}
-            />
+            <WorkCards works={works.results} />
           ) : (
             <Space $v={{ size: 'md', properties: ['margin-top'] }}>
               <ContaineredLayout gridSizes={gridSize12()}>
