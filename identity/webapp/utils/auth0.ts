@@ -9,6 +9,10 @@ import { NextResponse } from 'next/server';
 import { ParsedUrlQuery } from 'querystring';
 
 import { preservePatronClaims } from '@weco/identity/utils/patron-claims';
+import {
+  isFreshRegistration,
+  logoutToSuccessUrl,
+} from '@weco/identity/utils/postRegistration';
 
 // This module is imported by middleware.ts, which Next.js bundles for the
 // edge runtime where `next/config` (serverRuntimeConfig) is unavailable, so
@@ -119,7 +123,7 @@ const auth0 = new Auth0Client({
   // drop our namespaced patron claims; preservePatronClaims keeps them across
   // refreshes so isFullAuth0Profile / UserContext don't break. See its module.
   beforeSessionSaved: async session => preservePatronClaims(session),
-  onCallback: async (error, ctx) => {
+  onCallback: async (error, ctx, session) => {
     const baseUrl = ctx.appBaseUrl ?? siteBaseUrl;
 
     if (error) {
@@ -143,6 +147,20 @@ const auth0 = new Auth0Client({
       return new NextResponse('Something went wrong in the Auth0 callback', {
         status: 500,
       });
+    }
+
+    // A signup completed via a returnTo-tagged login link (e.g. from a work
+    // page) would otherwise land the user back on that page with a stale
+    // placeholder name, instead of going through the account page's
+    // logout->/success handling. Force that same redirect here, regardless
+    // of what returnTo was requested - this callback runs for every login.
+    if (isFreshRegistration(session?.user.family_name)) {
+      return NextResponse.redirect(
+        new URL(
+          identityBasePath + logoutToSuccessUrl(session?.user.email ?? ''),
+          baseUrl
+        )
+      );
     }
 
     // We can't use the SDK's default redirect here: it prefixes
