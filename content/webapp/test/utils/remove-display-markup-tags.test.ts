@@ -47,6 +47,14 @@ describe('Removes display markup tags from strings', () => {
     );
   });
 
+  it('separates adjacent paragraphs with a space', () => {
+    const result = removeDisplayMarkupTags(
+      '<p>First paragraph.</p><p>Second paragraph.</p>'
+    );
+
+    expect(result).toEqual('First paragraph. Second paragraph.');
+  });
+
   it('leaves malformed tag fragments alone', () => {
     const result = removeDisplayMarkupTags(
       "'Mercurialentis', with A Lister, <i.British Journal of Opthalmology"
