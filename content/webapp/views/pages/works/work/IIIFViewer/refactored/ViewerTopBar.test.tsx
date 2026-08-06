@@ -143,6 +143,26 @@ describe('ViewerTopBar page-count indicator', () => {
 
     expect(screen.queryByTestId('active-index')).not.toBeInTheDocument();
   });
+
+  it('shows the page label for the canvas in the correct structural position, not just its array position', () => {
+    renderTopBar({
+      contextProps: {
+        // Array order is [A, B], but the structure displays B before A - so
+        // canvas 1 should show B's label, not A's.
+        transformedManifest: createMockManifest({
+          canvases: [
+            createMockCanvas({ id: 'a', label: 'A' }),
+            createMockCanvas({ id: 'b', label: 'B' }),
+          ],
+        }),
+        canvasIndexById: { b: 1, a: 2 },
+        hasOnlyRenderableImages: true,
+        query: createMockQuery({ canvas: 1 }),
+      },
+    });
+
+    expect(screen.getByTestId('topbar')).toHaveTextContent(/page B/);
+  });
 });
 
 describe('ViewerTopBar download button', () => {

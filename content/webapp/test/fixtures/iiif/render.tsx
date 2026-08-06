@@ -23,6 +23,7 @@ import ItemViewerContextRefactored, {
   defaultItemViewerContext as defaultItemViewerContextRefactored,
   ItemViewerContextProps as ItemViewerContextPropsRefactored,
 } from '@weco/content/contexts/ItemViewerContext/refactored';
+import { getCurrentCanvas } from '@weco/content/views/pages/works/work/work.helpers';
 
 import { createMockManifest } from './transformed-manifest';
 
@@ -64,10 +65,25 @@ export function createMockItemViewerContext(
 export function createMockRefactoredItemViewerContext(
   overrides: ItemViewerContextOverridesRefactored = {}
 ): ItemViewerContextPropsRefactored {
+  // A single-image manifest is the most common baseline; override as needed.
+  const transformedManifest =
+    overrides.transformedManifest ?? createMockManifest();
+  const query = overrides.query ?? defaultItemViewerContextRefactored.query;
+  const canvasIndexById =
+    overrides.canvasIndexById ??
+    defaultItemViewerContextRefactored.canvasIndexById;
+
   return {
     ...defaultItemViewerContextRefactored,
-    // A single-image manifest is the most common baseline; override as needed.
-    transformedManifest: createMockManifest(),
+    transformedManifest,
+    // Mirrors how the real provider (IIIFViewer.tsx) derives currentCanvas,
+    // so tests overriding transformedManifest/query still get a sensible
+    // default without also having to pass currentCanvas by hand.
+    currentCanvas: getCurrentCanvas({
+      transformedManifest,
+      canvasIndexById,
+      canvas: query.canvas,
+    }),
     ...overrides,
   };
 }

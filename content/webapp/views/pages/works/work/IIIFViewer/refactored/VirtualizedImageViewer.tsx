@@ -9,7 +9,7 @@ import {
 import styled from 'styled-components';
 
 import LL from '@weco/common/views/components/styled/LL';
-import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
+import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext/refactored';
 import useScrollVelocity from '@weco/content/hooks/useScrollVelocity';
 import { CanvasRotatedImage } from '@weco/content/types/item-viewer';
 import { TransformedCanvas } from '@weco/content/types/manifest';
@@ -21,7 +21,6 @@ import { getDisplayItems } from '@weco/content/utils/iiif/v3/canvas';
 import { queryParamToArrayIndex } from '@weco/content/views/pages/works/work/work.helpers';
 
 import IIIFItem from './IIIFItem';
-import { useCurrentCanvas } from './MainViewer.helpers';
 import SearchTermHighlights, {
   useSearchTermHighlights,
 } from './VirtualizedImageViewer.SearchHighlights';
@@ -150,6 +149,7 @@ const VirtualizedImageViewer: FunctionComponent = () => {
     setShowControls,
     errorHandler,
     accessToken,
+    currentCanvas,
   } = useItemViewerContext();
 
   const mainViewerRef = useRef<FixedSizeList>(null);
@@ -160,7 +160,6 @@ const VirtualizedImageViewer: FunctionComponent = () => {
   firstRenderRef.current = firstRender;
 
   const scrollVelocity = useScrollVelocity(viewerScrollOffset);
-  const currentCanvas = useCurrentCanvas();
 
   const debounceHandleOnItemsRendered = useRef(
     debounce(handleOnItemsRendered, 500)
