@@ -23,7 +23,8 @@
     "deploy-dev": "yarn workspace @weco/deploy deploy-dev",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "lint:css": "stylelint \"**/*.{js,ts,tsx}\"",
-    "tsc": "tsc --build --verbose"
+    "tsc": "tsc --build --verbose",
+    "tsc:clean": "rimraf --glob **/tsconfig.tsbuildinfo && yarn tsc"
   },
   "repository": {
     "type": "git",
