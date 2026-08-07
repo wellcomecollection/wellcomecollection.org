@@ -86,22 +86,24 @@ const WorkSearchResult: FunctionComponent<Props> = ({
             )}
 
             <WorkInformation>
-              {primaryContributorLabel && (
-                <span className="searchable-selector">
-                  {primaryContributorLabel}
-                </span>
-              )}
-
               {shouldShowArchiveCollectionInfo && (
                 <>
-                  <WorkInformationItemSeparator aria-hidden>
-                    {' | '}
-                  </WorkInformationItemSeparator>
                   <ArchiveIconWrapper>
                     <Icon icon={archive} matchText />
                   </ArchiveIconWrapper>
                   <span className="searchable-selector">
                     Archive Collection
+                  </span>
+                </>
+              )}
+
+              {primaryContributorLabel && (
+                <>
+                  <WorkInformationItemSeparator aria-hidden>
+                    {' | '}
+                  </WorkInformationItemSeparator>
+                  <span className="searchable-selector">
+                    {primaryContributorLabel}
                   </span>
                 </>
               )}
