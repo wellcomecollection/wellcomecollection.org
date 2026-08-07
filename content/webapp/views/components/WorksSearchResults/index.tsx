@@ -10,23 +10,7 @@ import WorksSearchResult from './WorksSearchResults.Result';
 // this one is TEMPORARY
 export type WorkBasicWithArchive = WorkBasic & {
   physicalDescription?: string;
-  collection?: {
-    root: {
-      id: string;
-      totalParts: number;
-      title: string;
-      type: string; //?
-      referenceNumber: string;
-    };
-    isRoot: boolean;
-  };
-  archive?: {
-    category: {
-      id: string;
-      type: string;
-      label: string;
-    };
-  };
+  isRootCollection?: boolean;
 };
 
 type Props = {

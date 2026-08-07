@@ -32,15 +32,13 @@ const WorkSearchResult: FunctionComponent<Props> = ({
   resultPosition,
 }) => {
   const {
-    collection,
+    isRootCollection,
     archiveLabels,
     cardLabels,
     physicalDescription,
     primaryContributorLabel,
     productionDates,
   } = work;
-
-  const isRootCollection = collection?.isRoot;
 
   return (
     <NextLink

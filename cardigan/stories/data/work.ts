@@ -64,23 +64,7 @@ export const archiveCollectionWork: WorkBasicWithArchive = {
       labelColor: 'white',
     },
   ],
-  collection: {
-    root: {
-      id: 'aegabdcp',
-      totalParts: 7,
-      title: "Cleave, Surgeon Captain 'Peter' Thomas Latimer",
-      type: 'Collection',
-      referenceNumber: 'PP/TLC',
-    },
-    isRoot: true,
-  },
-  archive: {
-    category: {
-      id: 'PP',
-      type: 'ArchiveCategory',
-      label: 'Personal papers',
-    },
-  },
+  isRootCollection: true,
   physicalDescription: '3 boxes',
   languageId: undefined,
   notes: [],

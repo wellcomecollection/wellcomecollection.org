@@ -9,7 +9,7 @@ import WorksSearchResults from '@weco/content/views/components/WorksSearchResult
 
 type StoryProps = ComponentProps<typeof WorksSearchResults> & {
   isArchive: boolean;
-  isCollectionRoot: boolean;
+  isRootCollection: boolean;
 };
 
 const meta: Meta<StoryProps> = {
@@ -18,7 +18,7 @@ const meta: Meta<StoryProps> = {
   args: {
     works: [workBasic],
     isArchive: false,
-    isCollectionRoot: false,
+    isRootCollection: false,
   },
   argTypes: {
     works: { table: { disable: true } },
@@ -26,7 +26,7 @@ const meta: Meta<StoryProps> = {
       name: 'Is archive',
       control: 'boolean',
     },
-    isCollectionRoot: {
+    isRootCollection: {
       name: 'Is collection root',
       control: 'boolean',
     },
@@ -44,10 +44,7 @@ export const Basic: Story = {
       args.works = [
         {
           ...archiveCollectionWork,
-          collection: {
-            ...archiveCollectionWork.collection!,
-            isRoot: args.isCollectionRoot,
-          },
+          isRootCollection: args.isRootCollection,
         },
       ];
     }
