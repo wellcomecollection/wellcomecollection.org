@@ -1,14 +1,17 @@
 import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
 
+import { archive } from '@weco/common/icons';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
+import Icon from '@weco/common/views/components/Icon';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
-import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import { toWorkLink } from '@weco/content/views/components/WorkLink';
 import WorkTitle from '@weco/content/views/components/WorkTitle';
 
+import { WorkBasicWithArchive } from '.';
 import {
+  ArchiveIconWrapper,
   Container,
   Details,
   Preview,
@@ -20,7 +23,7 @@ import {
 } from './WorksSearchResults.styles';
 
 type Props = {
-  work: WorkBasic;
+  work: WorkBasicWithArchive;
   resultPosition: number;
 };
 
@@ -29,11 +32,15 @@ const WorkSearchResult: FunctionComponent<Props> = ({
   resultPosition,
 }) => {
   const {
-    productionDates,
+    collection,
     archiveLabels,
     cardLabels,
+    physicalDescription,
     primaryContributorLabel,
+    productionDates,
   } = work;
+
+  const isRootCollection = collection?.isRoot;
 
   return (
     <NextLink
@@ -53,6 +60,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
               />
             </Preview>
           )}
+
           <Details>
             {cardLabels.length > 0 && (
               <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
@@ -62,15 +70,36 @@ const WorkSearchResult: FunctionComponent<Props> = ({
                 />
               </Space>
             )}
-            <WorkTitleHeading>
+
+            <WorkTitleHeading $isRootCollection={isRootCollection}>
               <WorkTitle title={work.title} />
             </WorkTitleHeading>
+
+            {isRootCollection && (
+              <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
+                Lorem ipsum dolor sit amet.
+              </Space>
+            )}
 
             <WorkInformation>
               {primaryContributorLabel && (
                 <span className="searchable-selector">
                   {primaryContributorLabel}
                 </span>
+              )}
+
+              {isRootCollection && (
+                <>
+                  <WorkInformationItemSeparator aria-hidden>
+                    {' | '}
+                  </WorkInformationItemSeparator>
+                  <ArchiveIconWrapper>
+                    <Icon icon={archive} matchText />
+                  </ArchiveIconWrapper>
+                  <span className="searchable-selector">
+                    Archive Collection
+                  </span>
+                </>
               )}
 
               {productionDates.length > 0 && (
@@ -93,9 +122,16 @@ const WorkSearchResult: FunctionComponent<Props> = ({
                 </>
               )}
             </WorkInformation>
+
             {archiveLabels?.partOf && (
               <WorkInformation>
                 Part of:&nbsp;{archiveLabels?.partOf}
+              </WorkInformation>
+            )}
+
+            {isRootCollection && physicalDescription && (
+              <WorkInformation $isSmall>
+                Archive Collection contains: {physicalDescription}
               </WorkInformation>
             )}
           </Details>

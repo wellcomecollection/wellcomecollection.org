@@ -6,8 +6,31 @@ import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 
 import WorksSearchResult from './WorksSearchResults.Result';
 
+// TODO: we'll have to update our Work types once this is merged into the API,
+// this one is TEMPORARY
+export type WorkBasicWithArchive = WorkBasic & {
+  physicalDescription?: string;
+  collection?: {
+    root: {
+      id: string;
+      totalParts: number;
+      title: string;
+      type: string; //?
+      referenceNumber: string;
+    };
+    isRoot: boolean;
+  };
+  archive?: {
+    category: {
+      id: string;
+      type: string;
+      label: string;
+    };
+  };
+};
+
 type Props = {
-  works: WorkBasic[];
+  works: WorkBasicWithArchive[];
 };
 
 const SearchResultUnorderedList = styled(PlainList)`

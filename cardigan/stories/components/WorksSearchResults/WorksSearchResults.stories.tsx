@@ -1,24 +1,57 @@
 import { Meta, StoryObj } from '@storybook/react';
+import type { ComponentProps } from 'react';
 
-import { workBasic } from '@weco/cardigan/stories/data/work';
+import {
+  archiveCollectionWork,
+  workBasic,
+} from '@weco/cardigan/stories/data/work';
 import WorksSearchResults from '@weco/content/views/components/WorksSearchResults';
 
-const meta: Meta<typeof WorksSearchResults> = {
+type StoryProps = ComponentProps<typeof WorksSearchResults> & {
+  isArchive: boolean;
+  isCollectionRoot: boolean;
+};
+
+const meta: Meta<StoryProps> = {
   title: 'Components/WorksSearchResults',
   component: WorksSearchResults,
   args: {
     works: [workBasic],
+    isArchive: false,
+    isCollectionRoot: false,
   },
   argTypes: {
     works: { table: { disable: true } },
+    isArchive: {
+      name: 'Is archive',
+      control: 'boolean',
+    },
+    isCollectionRoot: {
+      name: 'Is collection root',
+      control: 'boolean',
+    },
   },
 };
 
 export default meta;
 
-type Story = StoryObj<typeof WorksSearchResults>;
+type Story = StoryObj<StoryProps>;
 
 export const Basic: Story = {
   name: 'WorksSearchResults',
-  render: args => <WorksSearchResults {...args} />,
+  render: args => {
+    if (args.isArchive) {
+      args.works = [
+        {
+          ...archiveCollectionWork,
+          collection: {
+            ...archiveCollectionWork.collection!,
+            isRoot: args.isCollectionRoot,
+          },
+        },
+      ];
+    }
+
+    return <WorksSearchResults {...args} />;
+  },
 };
