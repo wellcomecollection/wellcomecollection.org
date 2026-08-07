@@ -69,7 +69,7 @@ export const Basic: Story = {
       <>
         <WorksSearchResults works={resolvedWorks} />
 
-        {isRootCollection && (
+        {isRootCollection && isArchive && (
           <div
             style={{
               padding: '1rem',
