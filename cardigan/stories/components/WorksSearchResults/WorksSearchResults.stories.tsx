@@ -5,6 +5,8 @@ import {
   archiveCollectionWork,
   workBasic,
 } from '@weco/cardigan/stories/data/work';
+import { ServerDataContext } from '@weco/common/server-data/Context';
+import { defaultServerData } from '@weco/common/server-data/types';
 import WorksSearchResults from '@weco/content/views/components/WorksSearchResults';
 
 type StoryProps = ComponentProps<typeof WorksSearchResults> & {
@@ -31,6 +33,25 @@ const meta: Meta<StoryProps> = {
       control: 'boolean',
     },
   },
+  // TODO remove once archiveBrowsing is fully rolled out
+  decorators: [
+    Story => (
+      <ServerDataContext.Provider
+        value={{
+          ...defaultServerData,
+          toggles: {
+            ...defaultServerData.toggles,
+            featureFlags: {
+              ...defaultServerData.toggles.featureFlags,
+              archiveBrowsing: true,
+            },
+          },
+        }}
+      >
+        <Story />
+      </ServerDataContext.Provider>
+    ),
+  ],
 };
 
 export default meta;
@@ -44,6 +65,23 @@ export const Basic: Story = {
       ? [{ ...archiveCollectionWork, isRootCollection }]
       : works;
 
-    return <WorksSearchResults works={resolvedWorks} />;
+    return (
+      <>
+        <WorksSearchResults works={resolvedWorks} />
+
+        {isRootCollection && (
+          <div
+            style={{
+              padding: '1rem',
+              backgroundColor: '#b8b8b8',
+              marginTop: '1rem',
+            }}
+          >
+            This is currently behind the <code>archiveBrowsing</code> feature
+            flag
+          </div>
+        )}
+      </>
+    );
   },
 };

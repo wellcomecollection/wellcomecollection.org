@@ -2,6 +2,7 @@ import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
 
 import { archive } from '@weco/common/icons';
+import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import Icon from '@weco/common/views/components/Icon';
 import LabelsList from '@weco/common/views/components/LabelsList';
@@ -31,6 +32,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
   work,
   resultPosition,
 }) => {
+  const { archiveBrowsing } = useFeatureFlags();
   const {
     isRootCollection,
     archiveLabels,
@@ -39,6 +41,8 @@ const WorkSearchResult: FunctionComponent<Props> = ({
     primaryContributorLabel,
     productionDates,
   } = work;
+
+  const shouldShowArchiveCollectionInfo = archiveBrowsing && isRootCollection;
 
   return (
     <NextLink
@@ -69,11 +73,13 @@ const WorkSearchResult: FunctionComponent<Props> = ({
               </Space>
             )}
 
-            <WorkTitleHeading $isRootCollection={isRootCollection}>
+            <WorkTitleHeading
+              $isRootCollection={shouldShowArchiveCollectionInfo}
+            >
               <WorkTitle title={work.title} />
             </WorkTitleHeading>
 
-            {isRootCollection && (
+            {shouldShowArchiveCollectionInfo && (
               <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
                 Lorem ipsum dolor sit amet.
               </Space>
@@ -86,7 +92,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
                 </span>
               )}
 
-              {isRootCollection && (
+              {shouldShowArchiveCollectionInfo && (
                 <>
                   <WorkInformationItemSeparator aria-hidden>
                     {' | '}
@@ -127,7 +133,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
               </WorkInformation>
             )}
 
-            {isRootCollection && physicalDescription && (
+            {shouldShowArchiveCollectionInfo && physicalDescription && (
               <WorkInformation $isSmall>
                 Archive Collection contains: {physicalDescription}
               </WorkInformation>
