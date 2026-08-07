@@ -39,16 +39,11 @@ type Story = StoryObj<StoryProps>;
 
 export const Basic: Story = {
   name: 'WorksSearchResults',
-  render: args => {
-    if (args.isArchive) {
-      args.works = [
-        {
-          ...archiveCollectionWork,
-          isRootCollection: args.isRootCollection,
-        },
-      ];
-    }
+  render: ({ isArchive, isRootCollection, works }) => {
+    const resolvedWorks = isArchive
+      ? [{ ...archiveCollectionWork, isRootCollection }]
+      : works;
 
-    return <WorksSearchResults {...args} />;
+    return <WorksSearchResults works={resolvedWorks} />;
   },
 };
