@@ -9,7 +9,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { toWorkLink } from '@weco/content/views/components/WorkLink';
 import WorkTitle from '@weco/content/views/components/WorkTitle';
 
-import { WorkBasicWithArchive } from '.';
+import type { WorkBasicWithArchive } from '.';
 import {
   ArchiveIconWrapper,
   Container,
