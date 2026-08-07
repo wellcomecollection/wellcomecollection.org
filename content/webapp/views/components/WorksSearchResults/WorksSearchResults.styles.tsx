@@ -57,10 +57,20 @@ export const Details = styled.div`
   `}
 `;
 
-export const WorkInformation = styled(Space).attrs({
-  className: typography('body', 'md', 'regular'),
-  $v: { size: '2xs', properties: ['margin-bottom'] },
-})`
+export const ArchiveIconWrapper = styled.span`
+  margin-right: ${props => props.theme.spacingUnits['050']};
+
+  .icon {
+    transform: translateY(0.1em);
+  }
+`;
+
+export const WorkInformation = styled(Space).attrs<{ $isSmall?: boolean }>(
+  props => ({
+    className: typography('body', props.$isSmall ? 'sm' : 'md', 'regular'),
+    $v: { size: '2xs', properties: ['margin-bottom'] },
+  })
+)`
   color: ${props => props.theme.color('neutral.600')};
 `;
 
@@ -78,6 +88,8 @@ export const WorkInformationItemSeparator = styled.span`
 
 export const WorkTitleHeading = styled.h3.attrs({
   className: typography('body', 'lg', 'strong'),
-})`
-  margin-bottom: 0.5rem;
+})<{
+  $isRootCollection?: boolean;
+}>`
+  margin-bottom: ${props => (props.$isRootCollection ? '4px' : '0.5rem')};
 `;

@@ -1,5 +1,6 @@
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import { ContentApiLinkedWork } from '@weco/content/services/wellcome/content/types/api';
+import type { WorkBasicWithArchive } from '@weco/content/views/components/WorksSearchResults';
 
 export const workBasic: WorkBasic = {
   id: 'c55smg5w',
@@ -40,4 +41,33 @@ export const contentAPILinkedWork: ContentApiLinkedWork = {
     'https://iiif.wellcomecollection.org/thumbs/b30598977_0001.jp2/full/!200,200/0/default.jpg',
   date: '1900',
   mainContributor: 'Wolter, Hermann (Wilhelm Victor Hermann), 1868-',
+};
+
+export const archiveCollectionWork: WorkBasicWithArchive = {
+  id: 'a2242545',
+  title:
+    'Draft manuscript notes for a seminar at the Institute de Biologie Moleculaire, Universite Paris',
+  workTypeId: 'h',
+  referenceNumber: 'UGC 198/8/5/8',
+  productionDates: ['19 Apr 1977'],
+  archiveLabels: {
+    reference: 'UGC 198/8/5/8',
+    partOf:
+      'Papers of Guido Pellegrino Arrigo Pontecorvo, geneticist, Professor of Genetics, University of Glasgow, Scotland',
+  },
+  cardLabels: [
+    {
+      text: 'Archives and manuscripts',
+    },
+    {
+      text: 'Online',
+      labelColor: 'white',
+    },
+  ],
+  isRootCollection: true,
+  physicalDescription: '3 boxes',
+  languageId: undefined,
+  notes: [],
+  thumbnail: undefined,
+  primaryContributorLabel: undefined,
 };
