@@ -4,7 +4,7 @@ import { FunctionComponent } from 'react';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
-import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
+import type { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import { toWorkLink } from '@weco/content/views/components/WorkLink';
 import WorkTitle from '@weco/content/views/components/WorkTitle';
 
