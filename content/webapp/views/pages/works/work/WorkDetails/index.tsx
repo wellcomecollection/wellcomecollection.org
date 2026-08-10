@@ -25,10 +25,12 @@ import {
   hasItemType,
 } from '@weco/content/utils/iiif/v3';
 import {
+  conceptOrSearchLink,
   DigitalLocationInfo,
   getDownloadOptionsFromImageUrl,
   getHoldings,
   getItemsWithPhysicalLocation,
+  getSubjectTags,
 } from '@weco/content/utils/works';
 import { toConceptLink } from '@weco/content/views/components/ConceptLink';
 import CopyButtons from '@weco/content/views/components/CopyButtons';
@@ -288,29 +290,17 @@ const WorkDetails: FunctionComponent<Props> = ({
         {work.contributors.length > 0 && (
           <WorkDetailsTags
             title="Contributors"
-            tags={work.contributors.map(contributor => {
-              const textParts = [
+            tags={work.contributors.map(contributor => ({
+              textParts: [
                 contributor.agent.label,
                 ...contributor.roles.map(role => role.label),
-              ];
-              /*
-              If this is an identified contributor, link to the concepts prototype
-              page instead.
-              */
-              return contributor.agent.id
-                ? {
-                    textParts,
-                    linkAttributes: toConceptLink({
-                      conceptId: contributor.agent.id,
-                    }),
-                  }
-                : {
-                    textParts,
-                    linkAttributes: toSearchWorksLink({
-                      'contributors.agent.label': [contributor.agent.label],
-                    }),
-                  };
-            })}
+              ],
+              linkAttributes: conceptOrSearchLink({
+                id: contributor.agent.id,
+                filterKey: 'contributors.agent.label',
+                filterValue: contributor.agent.label,
+              }),
+            }))}
             separator=""
           />
         )}
@@ -391,29 +381,10 @@ const WorkDetails: FunctionComponent<Props> = ({
           />
         )}
       </WorkDetailsSection>
+
       {work.subjects.length > 0 && (
         <WorkDetailsSection headingText="Subjects">
-          <WorkDetailsTags
-            tags={work.subjects.map(s => {
-              /*
-              If this is an identified subject, link to the concepts prototype
-              page instead.
-              */
-              return s.id
-                ? {
-                    textParts: [s.concepts[0].label].concat(
-                      s.concepts.slice(1).map(c => c.label)
-                    ),
-                    linkAttributes: toConceptLink({ conceptId: s.id }),
-                  }
-                : {
-                    textParts: s.concepts.map(c => c.label),
-                    linkAttributes: toSearchWorksLink({
-                      'subjects.label': [s.label],
-                    }),
-                  };
-            })}
-          />
+          <WorkDetailsTags tags={getSubjectTags(work)} />
         </WorkDetailsSection>
       )}
 
