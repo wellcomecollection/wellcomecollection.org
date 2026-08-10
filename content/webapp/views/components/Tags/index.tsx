@@ -4,6 +4,7 @@ import styled, { useTheme } from 'styled-components';
 
 import { LinkProps } from '@weco/common/model/link-props';
 import { typography } from '@weco/common/utils/classnames';
+import { ButtonColors } from '@weco/common/views/components/Buttons';
 import {
   SolidButtonStyledProps,
   StyledButtonCSS,
@@ -55,12 +56,14 @@ const StyledLink = styled(NextLink)<SolidButtonStyledProps>`
 
 export type Props = {
   tags: TagType[];
+  buttonColors?: ButtonColors;
   isFirstPartBold?: boolean;
   separator?: string;
 };
 
 const Tags: FunctionComponent<Props> = ({
   tags,
+  buttonColors,
   isFirstPartBold = true,
   separator = '–',
 }) => {
@@ -79,7 +82,9 @@ const Tags: FunctionComponent<Props> = ({
               <StyledLink
                 href={linkAttributes.href}
                 $size="small"
-                $colors={theme.buttonColors.pumiceTransparentCharcoal}
+                $colors={
+                  buttonColors ?? theme.buttonColors.pumiceTransparentCharcoal
+                }
               >
                 <TagInner>
                   {textParts.map((part, i, arr) => (

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
+import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import Divider from '@weco/common/views/components/Divider';
@@ -31,6 +32,7 @@ import ArchiveTree from './ArchiveTree';
 import RelatedWorks, { hasAtLeastOneSubject } from './RelatedWorks';
 import ArchiveBreadcrumb from './work.ArchiveBreadcrumb';
 import BackToResults from './work.BackToResults';
+import CollectionRootLayout from './work.CollectionRoot';
 import WorkHeader from './work.Header';
 import StoriesOnWorks from './work.StoriesOnWorks';
 import WorkDetails from './WorkDetails';
@@ -61,10 +63,12 @@ export const WorkPage: NextPage<Props> = ({
   transformedManifest,
 }) => {
   const { isKiosk } = useKiosk();
+  const { archiveBrowsing } = useFeatureFlags();
   const { userIsStaffWithRestricted } = useUserContext();
   const isArchive = !!(
     work.parts.length || getArchiveAncestorArray(work).length > 0
   );
+  const displayCollectionRoot = !!work.collection?.isRoot && archiveBrowsing;
 
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
   const iiifPresentationLocation = getDigitalLocationOfType(
@@ -143,43 +147,49 @@ export const WorkPage: NextPage<Props> = ({
         >
           <>
             {isArchive ? (
-              <>
-                <Container>
-                  <Space
-                    $v={{
-                      size: 'xs',
-                      properties: ['padding-top', 'padding-bottom'],
-                    }}
-                  >
-                    <ArchiveBreadcrumb work={work} />
-                  </Space>
-                </Container>
-                <Container>
-                  <WorkHeader
-                    work={toWorkBasic(work)}
-                    collectionManifestsCount={
-                      shouldShowItemLink ? collectionManifestsCount : undefined
-                    }
-                  />
-                </Container>
+              displayCollectionRoot ? (
+                <CollectionRootLayout work={work} />
+              ) : (
+                <>
+                  <Container>
+                    <Space
+                      $v={{
+                        size: 'xs',
+                        properties: ['padding-top', 'padding-bottom'],
+                      }}
+                    >
+                      <ArchiveBreadcrumb work={work} />
+                    </Space>
+                  </Container>
+                  <Container>
+                    <WorkHeader
+                      work={toWorkBasic(work)}
+                      collectionManifestsCount={
+                        shouldShowItemLink
+                          ? collectionManifestsCount
+                          : undefined
+                      }
+                    />
+                  </Container>
 
-                <Container>
-                  <Divider />
-                  <ArchiveDetailsContainer>
-                    <ArchiveTree work={work} />
-                    <WorkDetailsWrapper>
-                      <WorkDetails
-                        work={work}
-                        shouldShowItemLink={shouldShowItemLink}
-                        iiifImageLocation={iiifImageLocation}
-                        digitalLocation={digitalLocation}
-                        digitalLocationInfo={digitalLocationInfo}
-                        transformedManifest={transformedManifest}
-                      />
-                    </WorkDetailsWrapper>
-                  </ArchiveDetailsContainer>
-                </Container>
-              </>
+                  <Container>
+                    <Divider />
+                    <ArchiveDetailsContainer>
+                      <ArchiveTree work={work} />
+                      <WorkDetailsWrapper>
+                        <WorkDetails
+                          work={work}
+                          shouldShowItemLink={shouldShowItemLink}
+                          iiifImageLocation={iiifImageLocation}
+                          digitalLocation={digitalLocation}
+                          digitalLocationInfo={digitalLocationInfo}
+                          transformedManifest={transformedManifest}
+                        />
+                      </WorkDetailsWrapper>
+                    </ArchiveDetailsContainer>
+                  </Container>
+                </>
+              )
             ) : (
               <>
                 <Container>
@@ -203,19 +213,23 @@ export const WorkPage: NextPage<Props> = ({
           </>
         </ConditionalWrapper>
 
-        <StoriesOnWorks
-          workId={work.id}
-          showDivider={hasAtLeastOneSubject(work.subjects)}
-        />
+        {!displayCollectionRoot && (
+          <>
+            <StoriesOnWorks
+              workId={work.id}
+              showDivider={hasAtLeastOneSubject(work.subjects)}
+            />
 
-        {/* If the work has no subjects, it's not worth adding this component */}
-        {hasAtLeastOneSubject(work.subjects) && (
-          <RelatedWorks
-            workId={work.id}
-            subjects={work.subjects}
-            typesTechniques={work.genres}
-            date={work.production[0]?.dates[0]?.label}
-          />
+            {/* If the work has no subjects, it's not worth adding this component */}
+            {hasAtLeastOneSubject(work.subjects) && (
+              <RelatedWorks
+                workId={work.id}
+                subjects={work.subjects}
+                typesTechniques={work.genres}
+                date={work.production[0]?.dates[0]?.label}
+              />
+            )}
+          </>
         )}
       </CataloguePageLayout>
     </IsArchiveContext.Provider>
