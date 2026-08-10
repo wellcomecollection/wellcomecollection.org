@@ -1,19 +1,24 @@
+import NextLink from 'next/link';
+import { ReactNode } from 'react';
 import styled from 'styled-components';
 
 import { archive } from '@weco/common/icons';
 import { typography } from '@weco/common/utils/classnames';
+import Divider from '@weco/common/views/components/Divider';
 import Icon from '@weco/common/views/components/Icon';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
 import { Work as WorkType } from '@weco/content/services/wellcome/catalogue/types';
-import { getCardLabels, getProductionDates } from '@weco/content/utils/works';
-import { toConceptLink } from '@weco/content/views/components/ConceptLink';
-import { toSearchWorksLink } from '@weco/content/views/components/SearchPagesLink/Works';
+import {
+  conceptOrSearchLink,
+  getCardLabels,
+  getProductionDates,
+  getSubjectTags,
+} from '@weco/content/utils/works';
 import WorkTitle from '@weco/content/views/components/WorkTitle';
 
-import WorkDetailsSection from './WorkDetails/WorkDetails.Section';
 import WorkDetailsTags from './WorkDetails/WorkDetails.Tags';
 
 const WorkTitleWrapper = styled.h1.attrs({
@@ -39,21 +44,47 @@ const ArchiveIconWrapper = styled.span.attrs({
   }
 `;
 
+const HeaderInfoContainer = styled(Space).attrs({
+  as: 'dl',
+  $v: { size: 'sm', properties: ['margin-top'] },
+})`
+  display: flex;
+  flex-direction: column;
+  gap: ${props => props.theme.spacingUnits['100']};
+
+  ${props =>
+    props.theme.media('md')(`
+    flex-direction: row;
+    gap: ${props.theme.spacingUnits['600']};
+  `)}
+`;
+
+const InfoLabel = styled.dt.attrs({
+  className: typography('body', 'md', 'regular'),
+})`
+  color: ${props => props.theme.color('neutral.600')};
+  display: block;
+  line-height: 1;
+  margin-bottom: ${props => props.theme.spacingUnits['100']};
+`;
+
+const InfoValue = styled.dd.attrs({
+  className: typography('body', 'md', 'regular'),
+})`
+  margin: 0;
+`;
+
 const HeaderInfo = ({
   label,
   value,
 }: {
   label: string;
-  value: string | string[];
+  value: ReactNode | string[];
 }) => {
   return (
-    <div className={typography('body', 'md', 'regular')}>
-      <span
-        style={{ color: themeValues.color('neutral.600'), display: 'block' }}
-      >
-        {label}:
-      </span>
-      <span>{Array.isArray(value) ? value.join(', ') : value}</span>
+    <div>
+      <InfoLabel>{label}:</InfoLabel>
+      <InfoValue>{Array.isArray(value) ? value.join(', ') : value}</InfoValue>
     </div>
   );
 };
@@ -66,14 +97,25 @@ const CollectionRootLayout = ({ work }: { work: WorkType }) => {
       ? work.languages[0].id
       : undefined;
 
-  const primaryContributorLabel = work.contributors.find(
+  const primaryContributor = work.contributors.find(
     contributor => contributor.primary
-  )?.agent.label;
+  )?.agent;
+
+  const shortDescription = 'Temp short description';
+
+  const subjectTags = getSubjectTags(work);
+
+  const productionDates = getProductionDates(work);
+
+  const accessCondition = 'Temp access info';
 
   return (
     <RootHeader>
       <Container>
-        <LabelsList labels={getCardLabels(work)} defaultLabelColor="white" />
+        <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
+          <LabelsList labels={getCardLabels(work)} defaultLabelColor="white" />
+        </Space>
+
         <WorkTitleWrapper aria-live="polite" id="work-info" lang={languageId}>
           <WorkTitle title={work.title} />
         </WorkTitleWrapper>
@@ -81,57 +123,80 @@ const CollectionRootLayout = ({ work }: { work: WorkType }) => {
         <ArchiveIconWrapper>
           <Icon icon={archive} matchText />
         </ArchiveIconWrapper>
-        <span className={typography('body', 'md', 'regular')}>
+        <span
+          className={typography('body', 'md', 'regular')}
+          style={{ color: themeValues.color('neutral.600') }}
+        >
           Archive Collection
         </span>
 
-        <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
-          <span>Short description</span>
-        </Space>
-
-        {work.subjects.length > 0 && (
-          <WorkDetailsSection headingText="Subjects">
-            <WorkDetailsTags
-              buttonColors={themeValues.buttonColors.charcoalWhiteCharcoal}
-              tags={work.subjects.map(s => {
-                /*
-                  If this is an identified subject, link to the concepts prototype
-                  page instead.
-                */
-                return s.id
-                  ? {
-                      textParts: [s.concepts[0].label].concat(
-                        s.concepts.slice(1).map(c => c.label)
-                      ),
-                      linkAttributes: toConceptLink({ conceptId: s.id }),
-                    }
-                  : {
-                      textParts: s.concepts.map(c => c.label),
-                      linkAttributes: toSearchWorksLink({
-                        'subjects.label': [s.label],
-                      }),
-                    };
-              })}
-            />
-          </WorkDetailsSection>
+        {shortDescription && (
+          <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
+            <span>{shortDescription}</span>
+          </Space>
         )}
 
-        <div style={{ display: 'flex', gap: themeValues.spacingUnits['600'] }}>
-          {primaryContributorLabel && (
-            <HeaderInfo label="Contributor" value={primaryContributorLabel} />
-          )}
+        {subjectTags.length > 0 && (
+          <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
+            <dl style={{ margin: 0 }}>
+              <HeaderInfo
+                label="Subjects"
+                value={
+                  <WorkDetailsTags
+                    buttonColors={
+                      themeValues.buttonColors.charcoalWhiteCharcoal
+                    }
+                    tags={subjectTags}
+                  />
+                }
+              />
+            </dl>
+          </Space>
+        )}
 
-          <HeaderInfo
-            label="Publication/Creator"
-            value={getProductionDates(work)}
-          />
+        {(primaryContributor ||
+          productionDates.length > 0 ||
+          work.referenceNumber ||
+          accessCondition) && (
+          <>
+            <Divider lineColor="neutral.600" />
 
-          {work.referenceNumber && (
-            <HeaderInfo label="Reference" value={work.referenceNumber} />
-          )}
+            <HeaderInfoContainer>
+              {primaryContributor && (
+                <HeaderInfo
+                  label="Contributor"
+                  value={
+                    <NextLink
+                      className={typography('body', 'md', 'regular')}
+                      {...conceptOrSearchLink({
+                        id: primaryContributor.id,
+                        filterKey: 'contributors.agent.label',
+                        filterValue: primaryContributor.label,
+                      })}
+                    >
+                      {primaryContributor.label}
+                    </NextLink>
+                  }
+                />
+              )}
 
-          <HeaderInfo label="Access" value="Static copy" />
-        </div>
+              {productionDates.length > 0 && (
+                <HeaderInfo
+                  label="Publication/Creator"
+                  value={productionDates}
+                />
+              )}
+
+              {work.referenceNumber && (
+                <HeaderInfo label="Reference" value={work.referenceNumber} />
+              )}
+
+              {accessCondition && (
+                <HeaderInfo label="Access" value={accessCondition} />
+              )}
+            </HeaderInfoContainer>
+          </>
+        )}
       </Container>
     </RootHeader>
   );
