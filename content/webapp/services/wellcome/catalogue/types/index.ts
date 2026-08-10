@@ -37,6 +37,25 @@ export type Work = {
   id: string;
   title: string;
   alternativeTitles: string[];
+  // TODO confirm as part of archiveBrowsing if these types are correct.
+  // optional/required-wise as well
+  collection?: {
+    root: {
+      id: string;
+      totalParts: number;
+      title: string;
+      type: 'Collection'; // ?? that right? or is it string?
+      referenceNumber: string;
+    };
+    isRoot: boolean;
+  };
+  archive?: {
+    category: {
+      id: string;
+      type: 'ArchiveCategory'; // yes?
+      label: string;
+    };
+  };
   referenceNumber?: string;
   description?: string;
   physicalDescription: string;
