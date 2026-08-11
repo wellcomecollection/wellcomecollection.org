@@ -91,6 +91,8 @@ const work: WorkBasic & Pick<Work, 'description'> = {
   cardLabels: [],
   primaryContributorLabel: undefined,
   notes: [],
+  physicalDescription: '',
+  isRootCollection: false,
 };
 
 export const defaultItemViewerContext: ItemViewerContextProps = {
