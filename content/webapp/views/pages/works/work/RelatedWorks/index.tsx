@@ -27,7 +27,7 @@ type Subjects = NonNullable<Work['subjects']>;
 
 type SubjectsAtLeastOneSubject = [Subjects[number], ...Subjects];
 
-export type RelatedWork = {
+export type RelatedWorksTabs = {
   [key: string]: { label: string; category: string; results: WorkBasic[] };
 };
 
@@ -53,7 +53,7 @@ const RelatedWorks = ({
   const { stagingApi } = useFeatureFlags();
   const { cataloguePipeline } = useModes();
   const [isLoading, setIsLoading] = useState(true);
-  const [relatedWorksTabs, setRelatedWorksTabs] = useState<RelatedWork>();
+  const [relatedWorksTabs, setRelatedWorksTabs] = useState<RelatedWorksTabs>();
   const [selectedTab, setSelectedTab] = useState<string | undefined>();
 
   useEffect(() => {

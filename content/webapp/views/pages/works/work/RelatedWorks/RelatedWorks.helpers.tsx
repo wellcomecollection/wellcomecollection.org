@@ -7,7 +7,7 @@ import {
   Work,
 } from '@weco/content/services/wellcome/catalogue/types';
 
-import { RelatedWork, WorkQueryProps } from '.';
+import { RelatedWorksTabs, WorkQueryProps } from '.';
 
 // Returns the century range for a string containing exactly four digits
 const getCenturyRange = (
@@ -41,9 +41,9 @@ export const fetchRelatedWorks = async ({
   shouldUseStagingApi?: boolean;
   pipelineCluster?: string;
   setIsLoading: (isLoading: boolean) => void;
-}): Promise<RelatedWork | undefined> => {
+}): Promise<RelatedWorksTabs | undefined> => {
   setIsLoading(true);
-  const results: RelatedWork = {};
+  const results: RelatedWorksTabs = {};
 
   const subjectLabels = subjects.map(subject => subject.label).slice(0, 3);
 
@@ -145,7 +145,7 @@ export const fetchRelatedWorks = async ({
   });
 
   // Return ordered results
-  const orderedResults: RelatedWork = {};
+  const orderedResults: RelatedWorksTabs = {};
   orderedKeys.forEach(key => {
     orderedResults[key] = results[key];
   });
