@@ -72,8 +72,6 @@ export type Work = {
   images?: ImageInclude[];
   parts?: RelatedWork[];
   partOf?: RelatedWork[];
-  precededBy?: RelatedWork[];
-  succeededBy?: RelatedWork[];
   totalParts?: number;
   availableOnline?: boolean;
   availabilities?: Availability[];
