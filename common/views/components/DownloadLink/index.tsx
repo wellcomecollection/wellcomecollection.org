@@ -117,7 +117,6 @@ const DownloadLink: FunctionComponent<Props> = ({
       data-component="download-link"
       {...dataGtmPropsToAttributes({
         'mime-type': format,
-        trigger: 'download_link',
       })}
     >
       <span

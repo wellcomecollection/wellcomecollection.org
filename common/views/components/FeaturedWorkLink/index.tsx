@@ -205,7 +205,6 @@ const FeaturedWorkLink = ({
       onMouseLeave={handleMouseLeave}
       href={link}
       data-component="featured-work-link"
-      data-gtm-id="work-link-component"
       $isPortalVisible={isVisible}
       {...rest}
     >

@@ -63,7 +63,6 @@ const ContentSearchResult: FunctionComponent<Props> = ({
     <Link
       data-component="content-search-result"
       {...dataGtmPropsToAttributes({
-        trigger: 'content_search_result',
         'position-in-list': `${positionInList}`,
       })}
       href={linkResolver({
