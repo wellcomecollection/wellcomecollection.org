@@ -6,15 +6,12 @@ _______________________________________________________________________________
 /* WE ARE */
 
 Digital Production (digitisation):
- Christy Henshaw
- Branwen Lloyd-Evans
  Holly Peel
  Cassidy Phillips
  Emilie Bell
  Daila Malafronte
  Ashley Ray
  Ezra Little
- Eszter Bonyi
 
 Digital Editorial Content:
  Grace Brewer
@@ -23,7 +20,6 @@ Digital Editorial Content:
  Nicola Williams
 
 Photography:
- Richard Everett
  Ben Gilbert
  Thomas S G Farnetti
  Laurie Auchterlonie
@@ -104,6 +100,10 @@ Digital Platform:
  Daniel Sim
  Georgia E Whitney
  Antonia Langfelder
+ Branwen Lloyd-Evans
+ Christy Henshaw
+ Richard Everett
+ Eszter Bonyi
 
 /* THANKS */
 
@@ -112,6 +112,7 @@ Rada Vlatkovic
 Tania Williams
 Tom Crane - Digirati
 Adam Christie - Digirati
+Donald Gray - Digirati
 Silver Oliver - Data Language
 
 Internet Archive, Townsweb Archiving, R3store Studios, Intranda and past partners and vendors. Thanks to Artefactual and all the Open Source Software developers.

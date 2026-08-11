@@ -37,6 +37,18 @@ export type Work = {
   id: string;
   title: string;
   alternativeTitles: string[];
+  collection?: {
+    root: RelatedWork;
+    // Only present when true.
+    isRoot?: boolean;
+  };
+  archive?: {
+    category: {
+      id: string;
+      type: 'ArchiveCategory';
+      label: string;
+    };
+  };
   referenceNumber?: string;
   description?: string;
   physicalDescription: string;
@@ -61,7 +73,6 @@ export type Work = {
   parts: RelatedWork[];
   partOf: RelatedWork[];
   totalParts?: number;
-  totalDescendentParts?: number;
   availableOnline?: boolean;
   availabilities?: Availability[];
   holdings: Holding[];

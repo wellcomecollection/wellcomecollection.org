@@ -1,6 +1,5 @@
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import { ContentApiLinkedWork } from '@weco/content/services/wellcome/content/types/api';
-import type { WorkBasicWithArchive } from '@weco/content/views/components/WorksSearchResults';
 
 export const workBasic: WorkBasic = {
   id: 'c55smg5w',
@@ -26,7 +25,9 @@ export const workBasic: WorkBasic = {
   productionDates: ['1906'],
   cardLabels: [{ text: 'Books' }, { text: 'Online', labelColor: 'white' }],
   primaryContributorLabel: 'Mannel, Wilhelm, 1870-1935.',
+  physicalDescription: '3 boxes',
   referenceNumber: 'B30609446',
+  isRootCollection: false,
   notes: [],
   languageId: 'ger',
   archiveLabels: { reference: 'B30609446' },
@@ -43,7 +44,7 @@ export const contentAPILinkedWork: ContentApiLinkedWork = {
   mainContributor: 'Wolter, Hermann (Wilhelm Victor Hermann), 1868-',
 };
 
-export const archiveCollectionWork: WorkBasicWithArchive = {
+export const archiveCollectionWork: WorkBasic = {
   id: 'a2242545',
   title:
     'Draft manuscript notes for a seminar at the Institute de Biologie Moleculaire, Universite Paris',

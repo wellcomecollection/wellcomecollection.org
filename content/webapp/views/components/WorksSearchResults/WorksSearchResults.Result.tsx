@@ -7,10 +7,10 @@ import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import Icon from '@weco/common/views/components/Icon';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
+import type { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import { toWorkLink } from '@weco/content/views/components/WorkLink';
 import WorkTitle from '@weco/content/views/components/WorkTitle';
 
-import type { WorkBasicWithArchive } from '.';
 import {
   ArchiveIconWrapper,
   Container,
@@ -24,7 +24,7 @@ import {
 } from './WorksSearchResults.styles';
 
 type Props = {
-  work: WorkBasicWithArchive;
+  work: WorkBasic;
   resultPosition: number;
 };
 
