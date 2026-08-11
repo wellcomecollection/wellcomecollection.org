@@ -6,7 +6,11 @@ import {
   TransformedCanvas,
 } from '@weco/content/types/manifest';
 
-export type TreeDataWork = RelatedWork;
+export type TreeDataWork = RelatedWork & {
+  // Not part of the API's RelatedWork response -- attached client-side in
+  // ArchiveTree when hydrating an ancestor's children from a separate fetch.
+  parts?: RelatedWork[];
+};
 
 export type TreeDataCanvas = TransformedCanvas & {
   title: string;

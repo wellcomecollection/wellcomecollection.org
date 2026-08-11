@@ -20,6 +20,7 @@ import {
   TreeInstructions,
 } from '@weco/content/views/pages/works/work/work.styles';
 import {
+  TreeDataWork,
   UiTree,
   UiTreeNode,
 } from '@weco/content/views/pages/works/work/work.types';
@@ -29,7 +30,7 @@ import WorkItem from './ArchiveTree.WorkItemRenderer';
 
 async function getRelatedWorkWithChildren(
   work: RelatedWork
-): Promise<RelatedWork> {
+): Promise<TreeDataWork> {
   const fullWork = await getWorkClientSide(work.id);
 
   if (fullWork.type !== 'Error' && fullWork.type !== 'Redirect') {
@@ -40,9 +41,9 @@ async function getRelatedWorkWithChildren(
 }
 
 const constructTree = (
-  curr: RelatedWork,
-  hierarchy: RelatedWork[],
-  parent: RelatedWork | null
+  curr: TreeDataWork,
+  hierarchy: TreeDataWork[],
+  parent: TreeDataWork | null
 ): UiTreeNode => {
   // Nodes which fall outside the direct child/parent/grandparent hierarchy (e.g. ancestor siblings) do not have
   // their children populated.

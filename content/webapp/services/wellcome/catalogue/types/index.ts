@@ -91,15 +91,14 @@ export type Holding = {
   type: 'Holdings';
 };
 
-type MinimalRelatedWorkFields =
-  | 'id'
-  | 'title'
-  | 'alternativeTitles'
-  | 'referenceNumber'
-  | 'availableOnline'
-  | 'availabilities'
-  | 'type';
-export type RelatedWork = Partial<Work> & Pick<Work, MinimalRelatedWorkFields>;
+export type RelatedWork = {
+  id: string;
+  title: string;
+  type: Work['type'];
+  referenceNumber?: string;
+  totalParts?: number;
+  partOf?: RelatedWork[];
+};
 
 type WorkType = {
   id: string;

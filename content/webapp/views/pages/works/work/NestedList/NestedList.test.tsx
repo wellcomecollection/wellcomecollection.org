@@ -119,19 +119,13 @@ describe('NestedList', () => {
         data: {
           id: 'work-1',
           title: 'Archive Work',
-          alternativeTitles: [],
           referenceNumber: 'REF/1',
-          availableOnline: false,
-          availabilities: [],
           type: 'Work' as const,
           parts: [
             {
               id: 'child-1',
               title: 'Child 1',
-              alternativeTitles: [],
               referenceNumber: 'REF/1/1',
-              availableOnline: false,
-              availabilities: [],
               type: 'Work' as const,
             },
           ],
