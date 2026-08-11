@@ -15,18 +15,28 @@ export type WorkBasic = OptionalToUndefined<{
   id: string;
   title: string;
   workTypeId?: string;
-  languageId?: string;
   thumbnail?: DigitalLocation;
   referenceNumber?: string;
+  languageId?: string;
   productionDates: string[];
   archiveLabels?: ArchiveLabels;
   cardLabels: Label[];
   primaryContributorLabel?: string;
   notes: Note[];
+  isRootCollection: boolean;
+  physicalDescription: string;
 }>;
 
 export function toWorkBasic(work: Work): WorkBasic {
-  const { id, title, thumbnail, referenceNumber, notes, workType } = work;
+  const {
+    id,
+    title,
+    notes,
+    physicalDescription,
+    referenceNumber,
+    thumbnail,
+    workType,
+  } = work;
 
   // We only send a lang if it's unambiguous -- better to send
   // no language than the wrong one.
@@ -49,5 +59,7 @@ export function toWorkBasic(work: Work): WorkBasic {
       contributor => contributor.primary
     )?.agent.label,
     notes,
+    isRootCollection: !!work.collection?.isRoot,
+    physicalDescription,
   };
 }
