@@ -22,9 +22,9 @@ export type WorkBasic = OptionalToUndefined<{
   archiveLabels?: ArchiveLabels;
   cardLabels: Label[];
   primaryContributorLabel?: string;
-  notes: Note[];
+  notes?: Note[];
   isRootCollection: boolean;
-  physicalDescription: string;
+  physicalDescription?: string;
 }>;
 
 export function toWorkBasic(work: Work): WorkBasic {
@@ -55,7 +55,7 @@ export function toWorkBasic(work: Work): WorkBasic {
     productionDates: getProductionDates(work),
     archiveLabels: getArchiveLabels(work),
     cardLabels: getCardLabels(work),
-    primaryContributorLabel: work.contributors.find(
+    primaryContributorLabel: work.contributors?.find(
       contributor => contributor.primary
     )?.agent.label,
     notes,

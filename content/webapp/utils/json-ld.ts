@@ -11,7 +11,7 @@ export function workLd(work: WorkType): JsonLdObj {
     };
   });
 
-  const keywords = work.subjects.map(s => s.label).join(',');
+  const keywords = (work.subjects || []).map(s => s.label).join(',');
 
   return objToJsonLd(
     {

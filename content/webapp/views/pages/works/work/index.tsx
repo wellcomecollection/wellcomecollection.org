@@ -63,7 +63,7 @@ export const WorkPage: NextPage<Props> = ({
   const { isKiosk } = useKiosk();
   const { userIsStaffWithRestricted } = useUserContext();
   const isArchive = !!(
-    work.parts.length || getArchiveAncestorArray(work).length > 0
+    work.parts?.length || getArchiveAncestorArray(work).length > 0
   );
 
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
@@ -214,7 +214,7 @@ export const WorkPage: NextPage<Props> = ({
             workId={work.id}
             subjects={work.subjects}
             typesTechniques={work.genres}
-            date={work.production[0]?.dates[0]?.label}
+            date={work.production?.[0]?.dates[0]?.label}
           />
         )}
       </CataloguePageLayout>

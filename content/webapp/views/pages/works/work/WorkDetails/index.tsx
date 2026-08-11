@@ -62,6 +62,18 @@ const WorkDetails: FunctionComponent<Props> = ({
   digitalLocationInfo,
   transformedManifest,
 }: Props) => {
+  const {
+    identifiers = [],
+    partOf = [],
+    notes = [],
+    production = [],
+    formerFrequency = [],
+    designation = [],
+    contributors = [],
+    genres = [],
+    languages = [],
+    subjects = [],
+  } = work;
   const { userIsStaffWithRestricted } = useUserContext();
   const isArchive = useIsArchiveContext();
   const transformedIIIFImage = useTransformedIIIFImage(toWorkBasic(work));
@@ -108,15 +120,15 @@ const WorkDetails: FunctionComponent<Props> = ({
   const duration = work.duration && formatDuration(work.duration);
 
   // 'Identifiers' data
-  const isbnIdentifiers = work.identifiers.filter(id => {
+  const isbnIdentifiers = identifiers.filter(id => {
     return id.identifierType.id === 'isbn';
   });
 
-  const issnIdentifiers = work.identifiers.filter(id => {
+  const issnIdentifiers = identifiers.filter(id => {
     return id.identifierType.id === 'issn';
   });
 
-  const accessionNumberIdentifiers = work.identifiers.filter(id => {
+  const accessionNumberIdentifiers = identifiers.filter(id => {
     return id.identifierType.id === 'wellcome-accession-number';
   });
 
@@ -125,26 +137,26 @@ const WorkDetails: FunctionComponent<Props> = ({
     issnIdentifiers.length > 0 ||
     accessionNumberIdentifiers.length > 0;
 
-  const seriesPartOfs = work.partOf.filter(p => !p.id);
+  const seriesPartOfs = partOf.filter(p => !p.id);
 
   const physicalItems = useMemo(
     () => getItemsWithPhysicalLocation(work.items ?? []),
     [work.items]
   );
 
-  const locationOfWork = work.notes.find(
+  const locationOfWork = notes.find(
     note => note.noteType.id === 'location-of-original'
   );
-  const arrangementNote = work.notes.filter(
+  const arrangementNote = notes.filter(
     note => note.noteType.id === 'arrangement-note'
   );
-  const biographicalNote = work.notes.filter(
+  const biographicalNote = notes.filter(
     note => note.noteType.id === 'biographical-note'
   );
-  const relatedMaterial = work.notes.filter(
+  const relatedMaterial = notes.filter(
     note => note.noteType.id === 'related-material'
   );
-  const acquisitionNote = work.notes.filter(
+  const acquisitionNote = notes.filter(
     note => note.noteType.id === 'acquisition-note'
   );
 
@@ -155,7 +167,7 @@ const WorkDetails: FunctionComponent<Props> = ({
     ...relatedMaterial,
   ];
 
-  const remainingNotes = work.notes.filter(note => {
+  const remainingNotes = notes.filter(note => {
     return ![...orderedNotes, locationOfWork].some(n => n === note);
   });
 
@@ -242,10 +254,10 @@ const WorkDetails: FunctionComponent<Props> = ({
 
           e.g. London : County Council, 1900-<1983>
         */}
-        {work.production.length > 0 && (
+        {production.length > 0 && (
           <WorkDetailsText
             title="Publication/Creation"
-            text={work.production.map(productionEvent => productionEvent.label)}
+            text={production.map(productionEvent => productionEvent.label)}
           />
         )}
         {work.currentFrequency && (
@@ -254,14 +266,11 @@ const WorkDetails: FunctionComponent<Props> = ({
             text={work.currentFrequency}
           />
         )}
-        {work.formerFrequency.length > 0 && (
-          <WorkDetailsText
-            title="Former frequency"
-            text={work.formerFrequency}
-          />
+        {formerFrequency.length > 0 && (
+          <WorkDetailsText title="Former frequency" text={formerFrequency} />
         )}
-        {work.designation.length > 0 && (
-          <WorkDetailsText title="Designation" text={work.designation} />
+        {designation.length > 0 && (
+          <WorkDetailsText title="Designation" text={designation} />
         )}
         {work.physicalDescription && (
           <WorkDetailsText
@@ -285,10 +294,10 @@ const WorkDetails: FunctionComponent<Props> = ({
             }))}
           />
         )}
-        {work.contributors.length > 0 && (
+        {contributors.length > 0 && (
           <WorkDetailsTags
             title="Contributors"
-            tags={work.contributors.map(contributor => {
+            tags={contributors.map(contributor => {
               const textParts = [
                 contributor.agent.label,
                 ...contributor.roles.map(role => role.label),
@@ -362,10 +371,10 @@ const WorkDetails: FunctionComponent<Props> = ({
          are more relevant to Genre as it relates to the Work in question
          than the Genre as its own thing.
          */}
-        {work.genres.length > 0 && (
+        {genres.length > 0 && (
           <WorkDetailsTags
             title="Type/Technique"
-            tags={work.genres.map(genre => {
+            tags={genres.map(genre => {
               return {
                 textParts: genre.concepts.map(c => c.label),
 
@@ -377,10 +386,10 @@ const WorkDetails: FunctionComponent<Props> = ({
           />
         )}
 
-        {work.languages.length > 0 && (
+        {languages.length > 0 && (
           <WorkDetailsTags
             title="Languages"
-            tags={work.languages.map(lang => {
+            tags={languages.map(lang => {
               return {
                 textParts: [lang.label],
                 linkAttributes: toSearchWorksLink({
@@ -391,10 +400,10 @@ const WorkDetails: FunctionComponent<Props> = ({
           />
         )}
       </WorkDetailsSection>
-      {work.subjects.length > 0 && (
+      {subjects.length > 0 && (
         <WorkDetailsSection headingText="Subjects">
           <WorkDetailsTags
-            tags={work.subjects.map(s => {
+            tags={subjects.map(s => {
               /*
               If this is an identified subject, link to the concepts prototype
               page instead.

@@ -23,10 +23,9 @@ const SectionWrapper = styled(Space).attrs({
   background-color: ${props => props.theme.color('warmNeutral.300')};
 `;
 
-type SubjectsAtLeastOneSubject = [
-  Work['subjects'][number],
-  ...Work['subjects'],
-];
+type Subjects = NonNullable<Work['subjects']>;
+
+type SubjectsAtLeastOneSubject = [Subjects[number], ...Subjects];
 
 export type RelatedWork = {
   [key: string]: { label: string; category: string; results: WorkBasic[] };

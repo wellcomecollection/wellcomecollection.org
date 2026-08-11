@@ -23,7 +23,7 @@ import {
 import { DownloadOption } from '@weco/content/types/manifest';
 
 export function getProductionDates(work: Work): string[] {
-  return work.production
+  return (work.production ?? [])
     .map(productionEvent => productionEvent.dates.map(date => date.label))
     .reduce((a, b) => a.concat(b), []);
 }
@@ -357,7 +357,7 @@ export function createApiToolbarWorkLinks(
   const links = [
     apiLink,
     iiifLink,
-    ...work.identifiers.map(id => ({
+    ...(work.identifiers ?? []).map(id => ({
       id: id.value,
       label: id.identifierType.label,
       value: id.value,

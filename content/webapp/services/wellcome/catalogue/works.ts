@@ -206,7 +206,8 @@ export async function getArchiveWorks(
       })
       .map(work => {
         const date = work.production?.[0]?.dates?.[0]?.label;
-        const contributor = work.contributors.find(c => c.primary)?.agent.label;
+        const contributor = work.contributors?.find(c => c.primary)?.agent
+          .label;
         return [
           work.id,
           {

@@ -197,7 +197,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
     digitalLocation?.license &&
     getCatalogueLicenseData(digitalLocation.license);
 
-  const locationOfWork = work.notes.find(
+  const locationOfWork = work.notes?.find(
     note => note.noteType.id === 'location-of-original'
   );
 
