@@ -159,98 +159,22 @@ const collectionTree: Work = {
     {
       id: 'rt2rxj93',
       title: 'Correspondence: Sobell, Henry M',
-      alternativeTitles: [],
       referenceNumber: 'PP/CRI/D/2/40',
-      contributors: [],
-      identifiers: [
-        {
-          identifierType: {
-            id: 'calm-record-id',
-            label: 'Calm RecordIdentifier',
-            type: 'IdentifierType',
-          },
-          value: '9446b378-9738-45a6-be26-2414a93326a4',
-          type: 'Identifier',
-        },
-      ],
-      subjects: [],
-      genres: [],
-      items: [],
-      production: [],
-      notes: [],
-      images: [],
       partOf: [
         {
           id: 'z8ssg9su',
           title: 'Individual Correspondents',
-          alternativeTitles: [],
           referenceNumber: 'PP/CRI/D/2',
-          contributors: [],
-          identifiers: [
-            {
-              identifierType: {
-                id: 'calm-record-id',
-                label: 'Calm RecordIdentifier',
-                type: 'IdentifierType',
-              },
-              value: '153084b3-0add-4df1-b10c-1a7d41936e89',
-              type: 'Identifier',
-            },
-          ],
-          subjects: [],
-          genres: [],
-          items: [],
-          production: [],
-          notes: [],
-          images: [],
           partOf: [
             {
               id: 'ss8nh2gk',
               title: 'Correspondence',
-              alternativeTitles: [],
               referenceNumber: 'PP/CRI/D',
-              contributors: [],
-              identifiers: [
-                {
-                  identifierType: {
-                    id: 'calm-record-id',
-                    label: 'Calm RecordIdentifier',
-                    type: 'IdentifierType',
-                  },
-                  value: '1ef6d6ec-7615-45a6-8c1b-2e779b85d40a',
-                  type: 'Identifier',
-                },
-              ],
-              subjects: [],
-              genres: [],
-              items: [],
-              production: [],
-              notes: [],
-              images: [],
               partOf: [
                 {
                   id: 'hz43r7re',
                   title: 'Francis Crick (1916-2004): archives',
-                  alternativeTitles: [],
                   referenceNumber: 'PP/CRI',
-                  contributors: [],
-                  identifiers: [
-                    {
-                      identifierType: {
-                        id: 'calm-record-id',
-                        label: 'Calm RecordIdentifier',
-                        type: 'IdentifierType',
-                      },
-                      value: '61170778-69e7-43fe-8e4a-a5ad4f8a1478',
-                      type: 'Identifier',
-                    },
-                  ],
-                  subjects: [],
-                  genres: [],
-                  items: [],
-                  production: [],
-                  notes: [],
-                  images: [],
                   partOf: [],
                   type: 'Work',
                 },

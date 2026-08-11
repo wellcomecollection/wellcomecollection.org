@@ -154,10 +154,7 @@ describe('NestedList', () => {
         data: {
           id: 'work-2',
           title: 'Nested Work',
-          alternativeTitles: [],
           referenceNumber: 'REF/2',
-          availableOnline: false,
-          availabilities: [],
           type: 'Work' as const,
           totalParts: 5,
         } as TreeDataWork,
@@ -185,10 +182,7 @@ describe('NestedList', () => {
         data: {
           id: 'work-3',
           title: 'End Node Work',
-          alternativeTitles: [],
           referenceNumber: 'REF/3',
-          availableOnline: false,
-          availabilities: [],
           type: 'Work' as const,
           totalParts: 0,
         } as TreeDataWork,
@@ -216,10 +210,7 @@ describe('NestedList', () => {
         data: {
           id: 'work-4',
           title: 'Minimal Work',
-          alternativeTitles: [],
           referenceNumber: 'REF/4',
-          availableOnline: false,
-          availabilities: [],
           type: 'Work' as const,
         } as TreeDataWork,
         openStatus: false,
