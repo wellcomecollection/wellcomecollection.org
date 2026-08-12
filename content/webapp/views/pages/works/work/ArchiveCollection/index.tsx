@@ -36,7 +36,7 @@ const ArchiveCollectionLayout = ({ work }: { work: WorkType }) => {
 
   const tabPanels: Record<string, ReactNode> = {
     about: <ArchiveCollectionAbout work={work} />,
-    contents: <ArchiveCollectionContents />,
+    contents: <ArchiveCollectionContents work={work} />,
     'related-archives': <ArchiveCollectionRelatedArchives />,
   };
 
