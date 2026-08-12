@@ -43,3 +43,32 @@ export const contentAPILinkedWork: ContentApiLinkedWork = {
   date: '1900',
   mainContributor: 'Wolter, Hermann (Wilhelm Victor Hermann), 1868-',
 };
+
+export const archiveCollectionWork: WorkBasic = {
+  id: 'a2242545',
+  title:
+    'Draft manuscript notes for a seminar at the Institute de Biologie Moleculaire, Universite Paris',
+  workTypeId: 'h',
+  referenceNumber: 'UGC 198/8/5/8',
+  productionDates: ['19 Apr 1977'],
+  archiveLabels: {
+    reference: 'UGC 198/8/5/8',
+    partOf:
+      'Papers of Guido Pellegrino Arrigo Pontecorvo, geneticist, Professor of Genetics, University of Glasgow, Scotland',
+  },
+  cardLabels: [
+    {
+      text: 'Archives and manuscripts',
+    },
+    {
+      text: 'Online',
+      labelColor: 'white',
+    },
+  ],
+  isRootCollection: true,
+  physicalDescription: '3 boxes',
+  languageId: undefined,
+  notes: [],
+  thumbnail: undefined,
+  primaryContributorLabel: undefined,
+};
