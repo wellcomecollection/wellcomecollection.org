@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react';
+import { ReactNode, useState } from 'react';
 
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
@@ -17,24 +17,27 @@ const ArchiveCollectionLayout = ({ work }: { work: WorkType }) => {
     {
       id: 'about',
       text: 'About this archive collection',
+      url: '#about', // TODO discuss with Anna & team
       dataGtmProps: { label: 'About this archive collection' },
     },
     {
       id: 'contents',
       text: 'Collection contents',
-      dataGtmProps: { label: 'Collection contents' },
+      url: '#contents',
+      dataGtmProps: { label: 'Collection contents' }, // Is this just always the same as the label?
     },
     {
       id: 'related-archives',
       text: 'Related archives',
+      url: '#related-archives',
       dataGtmProps: { label: 'Related archives' },
     },
   ];
 
-  const tabPanels: Record<string, FunctionComponent> = {
-    about: ArchiveCollectionAbout,
-    contents: ArchiveCollectionContents,
-    'related-archives': ArchiveCollectionRelatedArchives,
+  const tabPanels: Record<string, ReactNode> = {
+    about: <ArchiveCollectionAbout work={work} />,
+    contents: <ArchiveCollectionContents />,
+    'related-archives': <ArchiveCollectionRelatedArchives />,
   };
 
   return (
@@ -55,20 +58,17 @@ const ArchiveCollectionLayout = ({ work }: { work: WorkType }) => {
             />
           </Space>
 
-          {tabsItems.map(tab => {
-            const TabPanel = tabPanels[tab.id];
-            return (
-              <div
-                key={tab.id}
-                role="tabpanel"
-                id={`tabpanel-${tab.id}`}
-                aria-labelledby={`tab-${tab.id}`}
-                hidden={selectedTab !== tab.id}
-              >
-                <TabPanel />
-              </div>
-            );
-          })}
+          {tabsItems.map(tab => (
+            <div
+              key={tab.id}
+              role="tabpanel"
+              id={`tabpanel-${tab.id}`}
+              aria-labelledby={`tab-${tab.id}`}
+              hidden={selectedTab !== tab.id}
+            >
+              {tabPanels[tab.id]}
+            </div>
+          ))}
         </Space>
       </Container>
     </>

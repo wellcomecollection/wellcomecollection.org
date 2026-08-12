@@ -30,6 +30,7 @@ import {
   getDownloadOptionsFromImageUrl,
   getHoldings,
   getItemsWithPhysicalLocation,
+  getOrderedNotes,
   getSubjectTags,
 } from '@weco/content/utils/works';
 import { toConceptLink } from '@weco/content/views/components/ConceptLink';
@@ -137,29 +138,9 @@ const WorkDetails: FunctionComponent<Props> = ({
   const locationOfWork = work.notes.find(
     note => note.noteType.id === 'location-of-original'
   );
-  const arrangementNote = work.notes.filter(
-    note => note.noteType.id === 'arrangement-note'
-  );
-  const biographicalNote = work.notes.filter(
-    note => note.noteType.id === 'biographical-note'
-  );
-  const relatedMaterial = work.notes.filter(
-    note => note.noteType.id === 'related-material'
-  );
-  const acquisitionNote = work.notes.filter(
-    note => note.noteType.id === 'acquisition-note'
-  );
-
-  const orderedNotes = [
-    ...arrangementNote,
-    ...acquisitionNote,
-    ...biographicalNote,
-    ...relatedMaterial,
-  ];
-
-  const remainingNotes = work.notes.filter(note => {
-    return ![...orderedNotes, locationOfWork].some(n => n === note);
-  });
+  const { orderedNotes, remainingNotes } = getOrderedNotes(work, [
+    locationOfWork,
+  ]);
 
   const holdings = getHoldings(work);
   const hasVideo = hasItemType(canvases, 'Video');
