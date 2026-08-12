@@ -15,4 +15,5 @@ would be overwritten by the next sync.
 The intent is for the hand-written catalogue types in the parent directory to
 progressively extend, or be checked against, these generated base types, so the
 API contract has one source of truth. See `../schema-compatibility.ts` for first
-examples of relating the hand-written `Work` and `Image` types to the schema.
+examples of relating the hand-written `Work`, `Image` and `Concept` types to the
+schema.

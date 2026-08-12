@@ -1,7 +1,7 @@
 // Illustrates how the hand-written catalogue types relate to the generated
 // OpenAPI schema types in ./generated/catalogue-api.d.ts. Compile-time only;
 // nothing here exists at runtime.
-import type { Image, Work } from '.';
+import type { Concept, Image, Work } from '.';
 import type { components } from './generated/catalogue-api';
 
 // Fails to compile if T stops being assignable to U.
@@ -61,6 +61,39 @@ export type HandwrittenImageMatchesSchemaScalars = AssertAssignable<
 // - `locations` and `thumbnail` use DigitalLocation from @weco/common, which
 //   has not been reconciled with the schema shape.
 
+// Concept
+
+type GeneratedConcept = components['schemas']['Concept'];
+
+// Beyond scalars, two richer fields already agree: the hand-written
+// ConceptType union matches the schema's `type` enum value for value, and the
+// inline `description` shape is assignable to the schema's ConceptDescription.
+type ConceptFieldsSharedWithSchema =
+  | 'id'
+  | 'label'
+  | 'displayLabel'
+  | 'alternativeLabels'
+  | 'sameAs'
+  | 'type'
+  | 'description';
+
+export type HandwrittenConceptMatchesSchema = AssertAssignable<
+  Pick<Concept, ConceptFieldsSharedWithSchema>,
+  Pick<GeneratedConcept, ConceptFieldsSharedWithSchema>
+>;
+
+// Known Concept drift, deliberately not asserted here yet:
+//
+// - The hand-written `relatedConcepts` carries a `referencedTogether` list
+//   the schema does not document, and lacks the schema's `foundedBy` list.
+// - The hand-written RelatedConcept has `relationshipType`, which the spec
+//   on catalogue-api main does not yet document. That one is being fixed
+//   spec-side: catalogue-api#957 adds it (with required-field lists) to the
+//   concept schemas, and the sync will refresh the generated types when it
+//   merges.
+// - `displayImages` and `identifiers` use models from @weco/common that have
+//   not been reconciled with the schema shapes.
+
 // Reconciling the drift above, and then widening the assertions (ultimately
-// to `AssertAssignable<Work, GeneratedWork>` and the Image equivalent), is
-// the follow-up.
+// to `AssertAssignable<Work, GeneratedWork>` and the Image and Concept
+// equivalents), is the follow-up.
