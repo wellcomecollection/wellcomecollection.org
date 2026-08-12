@@ -3,8 +3,8 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import ThemeCard from '@weco/common/views/components/ThemeCard';
-import { ConceptImagesArray } from '@weco/content/hooks/useConceptImageUrls';
-import { ArchiveType } from '@weco/content/services/wellcome/catalogue/archiveTypes';
+import type { ConceptImagesArray } from '@weco/content/hooks/useConceptImageUrls';
+import type { ArchiveType } from '@weco/content/services/wellcome/catalogue/archiveTypes';
 
 // No images or per-type destination exist for archive types yet, so each
 // card renders with placeholder image slots and links to the homepage -
