@@ -91,5 +91,5 @@ export const WorkTitleHeading = styled.h3.attrs({
 })<{
   $isRootCollection?: boolean;
 }>`
-  margin-bottom: ${props => (props.$isRootCollection ? '4px' : '0.5rem')};
+  margin-bottom: ${props => props.theme.spacingUnits[props.$isRootCollection ? '050' : '100']};
 `;
