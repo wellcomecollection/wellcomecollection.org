@@ -6,6 +6,7 @@ import {
   ServerSideProps,
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
+import { getArchiveTypes } from '@weco/content/server-data/archiveTypes';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import ArchivesPage, {
   Props as ArchivesPageProps,
@@ -29,9 +30,12 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     };
   }
 
+  const archiveTypes = await getArchiveTypes();
+
   return {
     props: serialiseProps<Props>({
       serverData,
+      archiveTypes,
     }),
   };
 };
