@@ -175,7 +175,7 @@ const Modal: FunctionComponent<Props> = ({
             {!removeCloseButton && (
               <CloseButton
                 data-testid="close-modal-button"
-                {...dataGtmPropsToAttributes({ id: 'close-modal-button' })}
+                {...dataGtmPropsToAttributes({ trigger: 'close-modal-button' })}
                 ref={closeButtonRef}
                 onClick={() => {
                   setIsActive(false);

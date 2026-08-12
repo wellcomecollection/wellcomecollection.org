@@ -4,6 +4,7 @@ import { FunctionComponent } from 'react';
 import { archive } from '@weco/common/icons';
 import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
+import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
@@ -50,8 +51,10 @@ const WorkSearchResult: FunctionComponent<Props> = ({
       style={{ textDecoration: 'none', display: 'inline-block' }}
     >
       <Wrapper
-        data-gtm-trigger="works_search_result"
-        data-gtm-position-in-list={resultPosition + 1}
+        {...dataGtmPropsToAttributes({
+          trigger: 'works_search_result',
+          'position-in-list': `${resultPosition + 1}`,
+        })}
       >
         <Container>
           {work.thumbnail && (
