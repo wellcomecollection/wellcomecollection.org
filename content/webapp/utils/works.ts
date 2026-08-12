@@ -241,7 +241,7 @@ export const conceptOrSearchLink = ({
   filterValue,
 }: {
   id?: string;
-  filterKey: string;
+  filterKey: 'subjects.label' | 'contributors.agent.label';
   filterValue: string;
 }): LinkProps =>
   id
