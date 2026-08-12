@@ -75,13 +75,7 @@ const InfoValue = styled.dd.attrs({
   margin: 0;
 `;
 
-const HeaderInfo = ({
-  label,
-  value,
-}: {
-  label: string;
-  value: ReactNode | string[];
-}) => {
+const HeaderInfo = ({ label, value }: { label: string; value: ReactNode }) => {
   return (
     <div>
       <InfoLabel>{label}:</InfoLabel>
