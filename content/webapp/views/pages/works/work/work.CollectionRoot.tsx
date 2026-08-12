@@ -14,6 +14,7 @@ import { Work as WorkType } from '@weco/content/services/wellcome/catalogue/type
 import {
   conceptOrSearchLink,
   getCardLabels,
+  getLanguageId,
   getProductionDates,
   getSubjectTags,
 } from '@weco/content/utils/works';

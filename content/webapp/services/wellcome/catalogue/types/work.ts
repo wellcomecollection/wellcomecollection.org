@@ -6,6 +6,7 @@ import {
   ArchiveLabels,
   getArchiveLabels,
   getCardLabels,
+  getLanguageId,
   getProductionDates,
 } from '@weco/content/utils/works';
 
@@ -38,12 +39,7 @@ export function toWorkBasic(work: Work): WorkBasic {
     workType,
   } = work;
 
-  // We only send a lang if it's unambiguous -- better to send
-  // no language than the wrong one.
-  const languageId =
-    work.languages && work.languages.length === 1
-      ? work.languages[0].id
-      : undefined;
+  const languageId = getLanguageId(work);
 
   return {
     id,

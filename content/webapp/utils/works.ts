@@ -32,6 +32,16 @@ export function getProductionDates(work: Work): string[] {
     .reduce((a, b) => a.concat(b), []);
 }
 
+// Returns a lang only if unambiguous
+// better no language than the wrong one.
+export function getLanguageId(
+  work: Pick<Work, 'languages'>
+): string | undefined {
+  return work.languages && work.languages.length === 1
+    ? work.languages[0].id
+    : undefined;
+}
+
 type DownloadImage = {
   url: string;
   width?: number;
