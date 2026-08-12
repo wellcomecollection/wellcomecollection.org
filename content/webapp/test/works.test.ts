@@ -26,6 +26,15 @@ describe('getProductionDates', () => {
 
     expect(dateLabel).toStrictEqual(['[between 1990 and 1999?]']);
   });
+
+  it('returns an empty array when production is undefined', () => {
+    const dateLabel = getProductionDates({
+      ...workFixture,
+      production: undefined,
+    });
+
+    expect(dateLabel).toStrictEqual([]);
+  });
 });
 
 describe('getItemsWith', () => {
