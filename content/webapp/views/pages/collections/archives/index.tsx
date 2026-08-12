@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 
 import PageLayout from '@weco/common/views/layouts/PageLayout';
-import { ArchiveType } from '@weco/content/services/wellcome/catalogue/archiveTypes';
+import type { ArchiveType } from '@weco/content/services/wellcome/catalogue/archiveTypes';
 import CollectionsHeader from '@weco/content/views/components/CollectionsHeader';
 
 import ArchiveTypesList from './archives.ArchiveTypesList';
