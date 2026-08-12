@@ -6,6 +6,7 @@ import {
   PhysicalLocation,
 } from '@weco/common/model/catalogue';
 import { Label } from '@weco/common/model/labels';
+import { LinkProps } from '@weco/common/model/link-props';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import {
   getCatalogueLicenseData,
@@ -21,11 +22,24 @@ import {
   Work as WorkType,
 } from '@weco/content/services/wellcome/catalogue/types';
 import { DownloadOption } from '@weco/content/types/manifest';
+import { toConceptLink } from '@weco/content/views/components/ConceptLink';
+import { toSearchWorksLink } from '@weco/content/views/components/SearchPagesLink/Works';
+import { TagType } from '@weco/content/views/components/Tags';
 
 export function getProductionDates(work: Work): string[] {
   return work.production
     .map(productionEvent => productionEvent.dates.map(date => date.label))
     .reduce((a, b) => a.concat(b), []);
+}
+
+// Returns a lang only if unambiguous
+// better no language than the wrong one.
+export function getLanguageId(
+  work: Pick<Work, 'languages'>
+): string | undefined {
+  return work.languages && work.languages.length === 1
+    ? work.languages[0].id
+    : undefined;
 }
 
 type DownloadImage = {
@@ -226,6 +240,35 @@ export const getArchiveLabels = (work: Work): ArchiveLabels | undefined => {
   }
   return undefined;
 };
+
+/**
+ * If the thing being linked to is identified, links to its concept page,
+ * otherwise links to a pre-filtered search.
+ */
+export const conceptOrSearchLink = ({
+  id,
+  filterKey,
+  filterValue,
+}: {
+  id?: string;
+  filterKey: 'subjects.label' | 'contributors.agent.label';
+  filterValue: string;
+}): LinkProps =>
+  id
+    ? toConceptLink({ conceptId: id })
+    : toSearchWorksLink({ [filterKey]: [filterValue] });
+
+export const getSubjectTags = (work: Work): TagType[] =>
+  work.subjects.map(s => ({
+    textParts: s.id
+      ? [s.concepts[0].label].concat(s.concepts.slice(1).map(c => c.label))
+      : s.concepts.map(c => c.label),
+    linkAttributes: conceptOrSearchLink({
+      id: s.id,
+      filterKey: 'subjects.label',
+      filterValue: s.label,
+    }),
+  }));
 
 export const getCardLabels = (work: Work): Label[] => {
   const cardLabels = work.workType ? [{ text: work.workType.label }] : [];
