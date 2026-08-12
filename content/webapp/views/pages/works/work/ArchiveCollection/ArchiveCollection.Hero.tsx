@@ -19,19 +19,18 @@ import {
   getSubjectTags,
 } from '@weco/content/utils/works';
 import WorkTitle from '@weco/content/views/components/WorkTitle';
+import WorkDetailsTags from '@weco/content/views/pages/works/work/WorkDetails/WorkDetails.Tags';
 
-import WorkDetailsTags from './WorkDetails/WorkDetails.Tags';
+const Hero = styled(Space).attrs({
+  $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
+})`
+  background-color: ${props => props.theme.color('warmNeutral.300')};
+`;
 
 const WorkTitleWrapper = styled.h1.attrs({
   className: typography('heading', 'xl', 'strong', 'sans'),
 })`
   margin: 0;
-`;
-
-const RootHeader = styled(Space).attrs({
-  $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
-})`
-  background-color: ${props => props.theme.color('warmNeutral.300')};
 `;
 
 const ArchiveIconWrapper = styled.span.attrs({
@@ -45,7 +44,17 @@ const ArchiveIconWrapper = styled.span.attrs({
   }
 `;
 
-const HeaderInfoContainer = styled(Space).attrs({
+const ArchiveCollectionLabel = styled.span.attrs({
+  className: typography('body', 'md', 'regular'),
+})`
+  color: ${props => props.theme.color('neutral.600')};
+`;
+
+const SubjectsList = styled.dl`
+  margin: 0;
+`;
+
+const HeroInfoContainer = styled(Space).attrs({
   as: 'dl',
   $v: { size: 'sm', properties: ['margin-top'] },
 })`
@@ -75,7 +84,7 @@ const InfoValue = styled.dd.attrs({
   margin: 0;
 `;
 
-const HeaderInfo = ({ label, value }: { label: string; value: ReactNode }) => {
+const HeroInfo = ({ label, value }: { label: string; value: ReactNode }) => {
   return (
     <div>
       <InfoLabel>{label}:</InfoLabel>
@@ -84,7 +93,7 @@ const HeaderInfo = ({ label, value }: { label: string; value: ReactNode }) => {
   );
 };
 
-const CollectionRootLayout = ({ work }: { work: WorkType }) => {
+const ArchiveCollectionHero = ({ work }: { work: WorkType }) => {
   const languageId = getLanguageId(work);
 
   const primaryContributor = work.contributors.find(
@@ -100,7 +109,7 @@ const CollectionRootLayout = ({ work }: { work: WorkType }) => {
   const accessCondition = 'Temp access info';
 
   return (
-    <RootHeader>
+    <Hero>
       <Container>
         <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
           <LabelsList labels={getCardLabels(work)} defaultLabelColor="white" />
@@ -113,12 +122,7 @@ const CollectionRootLayout = ({ work }: { work: WorkType }) => {
         <ArchiveIconWrapper>
           <Icon icon={archive} matchText />
         </ArchiveIconWrapper>
-        <span
-          className={typography('body', 'md', 'regular')}
-          style={{ color: themeValues.color('neutral.600') }}
-        >
-          Archive Collection
-        </span>
+        <ArchiveCollectionLabel>Archive Collection</ArchiveCollectionLabel>
 
         {shortDescription && (
           <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
@@ -128,8 +132,8 @@ const CollectionRootLayout = ({ work }: { work: WorkType }) => {
 
         {subjectTags.length > 0 && (
           <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
-            <dl style={{ margin: 0 }}>
-              <HeaderInfo
+            <SubjectsList>
+              <HeroInfo
                 label="Subjects"
                 value={
                   <WorkDetailsTags
@@ -140,7 +144,7 @@ const CollectionRootLayout = ({ work }: { work: WorkType }) => {
                   />
                 }
               />
-            </dl>
+            </SubjectsList>
           </Space>
         )}
 
@@ -151,9 +155,9 @@ const CollectionRootLayout = ({ work }: { work: WorkType }) => {
           <>
             <Divider lineColor="neutral.600" />
 
-            <HeaderInfoContainer>
+            <HeroInfoContainer>
               {primaryContributor && (
-                <HeaderInfo
+                <HeroInfo
                   label="Contributor"
                   value={
                     <NextLink
@@ -171,25 +175,25 @@ const CollectionRootLayout = ({ work }: { work: WorkType }) => {
               )}
 
               {productionDates.length > 0 && (
-                <HeaderInfo
+                <HeroInfo
                   label="Publication/Creation"
                   value={productionDates}
                 />
               )}
 
               {work.referenceNumber && (
-                <HeaderInfo label="Reference" value={work.referenceNumber} />
+                <HeroInfo label="Reference" value={work.referenceNumber} />
               )}
 
               {accessCondition && (
-                <HeaderInfo label="Access" value={accessCondition} />
+                <HeroInfo label="Access" value={accessCondition} />
               )}
-            </HeaderInfoContainer>
+            </HeroInfoContainer>
           </>
         )}
       </Container>
-    </RootHeader>
+    </Hero>
   );
 };
 
-export default CollectionRootLayout;
+export default ArchiveCollectionHero;

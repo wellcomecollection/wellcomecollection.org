@@ -28,11 +28,11 @@ import {
 } from '@weco/content/utils/works';
 import CataloguePageLayout from '@weco/content/views/layouts/CataloguePageLayout';
 
+import ArchiveCollectionLayout from './ArchiveCollection';
 import ArchiveTree from './ArchiveTree';
 import RelatedWorks, { hasAtLeastOneSubject } from './RelatedWorks';
 import ArchiveBreadcrumb from './work.ArchiveBreadcrumb';
 import BackToResults from './work.BackToResults';
-import CollectionRootLayout from './work.CollectionRoot';
 import WorkHeader from './work.Header';
 import StoriesOnWorks from './work.StoriesOnWorks';
 import WorkDetails from './WorkDetails';
@@ -148,7 +148,7 @@ export const WorkPage: NextPage<Props> = ({
           <>
             {isArchive ? (
               displayCollectionRoot ? (
-                <CollectionRootLayout work={work} />
+                <ArchiveCollectionLayout work={work} />
               ) : (
                 <>
                   <Container>
