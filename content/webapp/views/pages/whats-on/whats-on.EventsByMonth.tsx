@@ -31,7 +31,6 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
 
           return {
             id,
-            url: `#${id}`,
             text: month.month,
             month,
             // Add daily tour promo to each month's events array during grouping
@@ -79,16 +78,15 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
           <GridCell
             $sizeMap={gridSize12()}
             key={id}
-            className={classNames({
-              'is-hidden': Boolean(activeId) && activeId !== id,
-            })}
+            role="tabpanel"
+            id={`tabpanel-${id}`}
+            aria-labelledby={`tab-${id}`}
           >
             <Container
               as="h2"
               className={classNames({
                 'is-hidden': Boolean(isEnhanced),
               })}
-              id={id}
             >
               {month.month}
             </Container>
