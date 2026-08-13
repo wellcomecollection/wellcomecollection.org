@@ -1,5 +1,3 @@
-import { getCachedToggles } from '@weco/common/server-data';
-
 import { catalogueQuery } from '.';
 import { WorkAggregations } from './types/aggregations';
 
@@ -34,25 +32,8 @@ const ARCHIVE_TYPE_DESCRIPTIONS: Record<string, string> = {
   PBL: 'Grey literature published by or relating to Wellcome organisations.',
 };
 
-// This aggregation currently only exists on the archive-browse-testing
-// pipeline, so only route to it while archiveBrowsing is enabled - once the
-// aggregation ships to the default pipeline, turning archiveBrowsing back
-// off should fall back to querying prod normally, with no override.
-//
-// This has no request to read the visiting user's own toggle cookies from
-// (it's a boot-time background job, not a per-request one), so it checks
-// the feature's globally-deployed default value instead.
 export async function fetchArchiveTypes(): Promise<ArchiveType[]> {
-  const toggles = await getCachedToggles();
-  const archiveBrowsingEnabled =
-    toggles.featureFlags.find(flag => flag.id === 'archiveBrowsing')
-      ?.defaultValue ?? false;
-
   const result = await catalogueQuery('works', {
-    shouldUseStagingApi: archiveBrowsingEnabled,
-    pipelineCluster: archiveBrowsingEnabled
-      ? 'archive-browse-testing'
-      : undefined,
     pageSize: 1,
     params: {
       'collection.isRoot': 'true',
