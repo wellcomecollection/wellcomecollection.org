@@ -154,9 +154,61 @@ resource "aws_wafv2_web_acl" "wc_org" {
     }
   }
 
+  dynamic "rule" {
+    for_each = var.enable_unrecognised_host_block ? [1] : []
+    content {
+      name     = "unrecognised-host-block"
+      priority = 1
+
+      action {
+        block {}
+      }
+
+      // Requests whose Host header is not one of this distribution's aliases
+      // (in practice, its *.cloudfront.net default domain) fail TLS
+      // verification at the ALB origin and surface as 502s, polluting the
+      // 5xxErrorRate alarm. Turn them away with a 403 before the allow rules
+      // below, which would otherwise let them through to the origin.
+      statement {
+        not_statement {
+          statement {
+            or_statement {
+              dynamic "statement" {
+                for_each = var.aliases
+                content {
+                  byte_match_statement {
+                    positional_constraint = "EXACTLY"
+                    search_string         = lower(statement.value)
+
+                    field_to_match {
+                      single_header {
+                        name = "host"
+                      }
+                    }
+
+                    text_transformation {
+                      priority = 0
+                      type     = "LOWERCASE"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      visibility_config {
+        cloudwatch_metrics_enabled = true
+        sampled_requests_enabled   = true
+        metric_name                = "unrecognised-host-block-${var.namespace}"
+      }
+    }
+  }
+
   rule {
     name     = "ip-allowlist"
-    priority = 1
+    priority = 2
 
     action {
       allow {}
@@ -177,7 +229,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "ip-blocklist"
-    priority = 2
+    priority = 3
 
     action {
       block {}
@@ -198,7 +250,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "ip-watchlist"
-    priority = 3
+    priority = 4
 
     action {
       count {}
@@ -219,7 +271,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "allow-google-bots"
-    priority = 4
+    priority = 5
 
     action {
       allow {}
@@ -261,7 +313,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "allow-github-actions"
-    priority = 5
+    priority = 6
 
     action {
       allow {}
@@ -282,7 +334,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "managed-ip-blocking"
-    priority = 6
+    priority = 7
 
     override_action {
       none {}
@@ -305,7 +357,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "bot-user-agent-manual"
-    priority = 7
+    priority = 8
 
     action {
       block {}
@@ -453,7 +505,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "apac-captcha-consent-block"
-    priority = 8
+    priority = 9
 
     action {
       captcha {}
@@ -503,7 +555,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "latam-captcha-consent-block"
-    priority = 9
+    priority = 10
 
     action {
       captcha {}
@@ -561,7 +613,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
     for_each = var.enable_search_legacy_ua_block ? [1] : []
     content {
       name     = "search-legacy-ua-block"
-      priority = 10
+      priority = 11
 
       action {
         block {}
@@ -621,7 +673,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
     for_each = var.enable_search_missing_lang_block ? [1] : []
     content {
       name     = "search-missing-lang-block"
-      priority = 11
+      priority = 12
 
       action {
         block {}
@@ -691,7 +743,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
     for_each = var.enable_works_fabricated_ua_block ? [1] : []
     content {
       name     = "works-fabricated-ua-block"
-      priority = 12
+      priority = 13
 
       action {
         block {}
@@ -808,7 +860,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
     for_each = var.enable_search_challenge ? [1] : []
     content {
       name     = "search-challenge"
-      priority = 14
+      priority = 15
 
       action {
         challenge {}
@@ -846,7 +898,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "geo-rate-limit-USA"
-    priority = 15
+    priority = 16
 
     action {
       block {
@@ -881,7 +933,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "geo-rate-limit-APAC"
-    priority = 16
+    priority = 17
 
     action {
       block {
@@ -921,7 +973,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "geo-rate-limit-LATAM"
-    priority = 17
+    priority = 18
 
     action {
       block {
@@ -958,7 +1010,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "blanket-rate-limiting"
-    priority = 18
+    priority = 19
 
     action {
       block {}
@@ -980,7 +1032,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "restrictive-rate-limiting"
-    priority = 19
+    priority = 20
 
     action {
       block {}
@@ -1018,7 +1070,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-crs
   rule {
     name     = "core-rule-group"
-    priority = 20
+    priority = 21
 
     override_action {
       none {}
@@ -1041,7 +1093,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-use-case.html#aws-managed-rule-groups-use-case-sql-db
   rule {
     name     = "sqli-rule-group"
-    priority = 21
+    priority = 22
 
     override_action {
       none {}
@@ -1064,7 +1116,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-known-bad-inputs
   rule {
     name     = "known-bad-inputs-rule-group"
-    priority = 22
+    priority = 23
 
     override_action {
       none {}
@@ -1086,7 +1138,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "bot-control-rule-group"
-    priority = 13
+    priority = 14
 
     // Because the Bot Control rules are quite aggressive, they block some useful bots
     // such as Updown. While we could add overrides for specific bots, we don"t want to have to
@@ -1162,7 +1214,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // /search once the group is scoped down for targeted inspection.
   rule {
     name     = "seo-user-agent-block"
-    priority = 23
+    priority = 24
 
     action {
       block {}
