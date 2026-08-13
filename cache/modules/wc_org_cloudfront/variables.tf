@@ -70,7 +70,7 @@ variable "github_actions_ip_set_arn" {
 variable "enable_unrecognised_host_block" {
   type        = bool
   default     = false
-  description = "Block requests whose Host header is not one of the distribution's aliases (i.e. its *.cloudfront.net default domain). These fail TLS verification at the origin and pollute the 5xx alarm. Prove on stage before enabling elsewhere."
+  description = "Block requests whose Host header is not one of the distribution's aliases (in practice, its *.cloudfront.net default domain). These fail TLS verification at the origin and pollute the 5xx alarm. Prove on stage before enabling elsewhere."
 }
 
 variable "enable_search_challenge" {
