@@ -19,17 +19,17 @@ const ARCHIVE_TYPE_DESCRIPTIONS: Record<string, string> = {
   GC: 'Archives brought together from a range of sources on a common theme.',
   SA: 'Records of societies and associations connected with medicine and health.',
   GP: 'Records created by general practitioners in the course of their medical practice.',
-  PSY: 'Records of the British Psychological Society.',
   WTI: 'Records of the Wellcome Tropical Institute.',
+  AAU: 'Records from major charities and advocacy groups, community materials, and personal papers.',
   ART: 'Archives relating to art and artists connected with medicine and health.',
+  OH: 'Recorded interviews and oral history collections.',
   WA: 'Administrative records of the Wellcome organisation and its predecessors.',
   GRL: 'Records of Genome Research Limited and the Wellcome Sanger Institute.',
-  WF: 'Records of the Wellcome Foundation, the pharmaceutical company founded by Henry Wellcome.',
-  OH: 'Recorded interviews and oral history collections.',
-  TP: 'Archival collections consisting primarily of audio material.',
   WT: 'Records of the Wellcome Trust, the charitable foundation established from Henry Wellcome’s estate.',
-  ES: 'Records relating to exhibitions and public shows staged by Wellcome Collection and its predecessors.',
+  TP: 'Archival collections consisting primarily of audio material.',
   PBL: 'Grey literature published by or relating to Wellcome organisations.',
+  ES: 'Records relating to exhibitions and public shows staged by Wellcome Collection and its predecessors.',
+  WF: 'Records of the Wellcome Foundation, the pharmaceutical company founded by Henry Wellcome.',
 };
 
 export async function fetchArchiveTypes(): Promise<ArchiveType[]> {
