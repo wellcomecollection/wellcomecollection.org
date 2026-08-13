@@ -2,7 +2,6 @@ import {
   Dispatch,
   FunctionComponent,
   KeyboardEvent,
-  ReactNode,
   SetStateAction,
   useRef,
 } from 'react';
@@ -26,10 +25,10 @@ import {
 
 type SwitchSelectableTextLink = {
   id: string;
-  text: ReactNode;
+  text: string;
   url?: string;
   icon?: IconSvg;
-  dataGtmProps: { label: DataGtmProps['label'] };
+  dataGtmProps?: { label: DataGtmProps['label'] };
 };
 
 export type Props = {
@@ -137,6 +136,7 @@ const TabsSwitch: FunctionComponent<Props> = ({
                 $selected={isSelected}
                 $isWhite={isWhite}
                 {...dataGtmPropsToAttributes({
+                  label: item.text,
                   ...item.dataGtmProps,
                   trigger: `tab_${toSnakeCase(label)}`,
                   'position-in-list': `${index + 1}`,
