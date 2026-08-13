@@ -12,7 +12,6 @@ import { Work as WorkType } from '@weco/content/services/wellcome/catalogue/type
 import { getOrderedNotes } from '@weco/content/utils/works';
 import CopyButtons from '@weco/content/views/components/CopyButtons';
 import WorkDetailsList from '@weco/content/views/pages/works/work/WorkDetails/WorkDetails.List';
-import WorkDetailsProperty from '@weco/content/views/pages/works/work/WorkDetails/WorkDetails.Property';
 import WorkDetailsSection from '@weco/content/views/pages/works/work/WorkDetails/WorkDetails.Section';
 import WorkDetailsText from '@weco/content/views/pages/works/work/WorkDetails/WorkDetails.Text';
 
@@ -83,12 +82,6 @@ const ArchiveCollectionAbout: FunctionComponent<{ work: WorkType }> = ({
         </GridCell>
 
         <SideColumn $sizeMap={sideSizeMap}>
-          {work.workType && (
-            <WorkDetailsProperty title="Type">
-              To do: Add archive type
-            </WorkDetailsProperty>
-          )}
-
           {work.physicalDescription && (
             <WorkDetailsText
               title="Physical description"

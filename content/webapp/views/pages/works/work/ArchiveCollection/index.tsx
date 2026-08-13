@@ -8,7 +8,6 @@ import Tabs from '@weco/content/views/components/Tabs';
 import ArchiveCollectionAbout from './ArchiveCollection.About';
 import ArchiveCollectionContents from './ArchiveCollection.Contents';
 import ArchiveCollectionHero from './ArchiveCollection.Hero';
-import ArchiveCollectionRelatedArchives from './ArchiveCollection.RelatedArchives';
 
 const ArchiveCollectionLayout = ({ work }: { work: WorkType }) => {
   const [selectedTab, setSelectedTab] = useState('about');
@@ -26,18 +25,11 @@ const ArchiveCollectionLayout = ({ work }: { work: WorkType }) => {
       url: '#contents',
       dataGtmProps: { label: 'Collection contents' }, // Is this just always the same as the label?
     },
-    {
-      id: 'related-archives',
-      text: 'Related archives',
-      url: '#related-archives',
-      dataGtmProps: { label: 'Related archives' },
-    },
   ];
 
   const tabPanels: Record<string, ReactNode> = {
     about: <ArchiveCollectionAbout work={work} />,
     contents: <ArchiveCollectionContents work={work} />,
-    'related-archives': <ArchiveCollectionRelatedArchives />,
   };
 
   return (

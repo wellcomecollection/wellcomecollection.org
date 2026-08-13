@@ -100,13 +100,9 @@ const ArchiveCollectionHero = ({ work }: { work: WorkType }) => {
     contributor => contributor.primary
   )?.agent;
 
-  const shortDescription = 'Temp short description';
-
   const subjectTags = getSubjectTags(work);
 
   const productionDates = getProductionDates(work);
-
-  const accessCondition = 'Temp access info';
 
   return (
     <Hero>
@@ -115,20 +111,16 @@ const ArchiveCollectionHero = ({ work }: { work: WorkType }) => {
           <LabelsList labels={getCardLabels(work)} defaultLabelColor="white" />
         </Space>
 
-        <WorkTitleWrapper aria-live="polite" id="work-info" lang={languageId}>
-          <WorkTitle title={work.title} />
-        </WorkTitleWrapper>
+        <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
+          <WorkTitleWrapper aria-live="polite" id="work-info" lang={languageId}>
+            <WorkTitle title={work.title} />
+          </WorkTitleWrapper>
 
-        <ArchiveIconWrapper>
-          <Icon icon={archive} matchText />
-        </ArchiveIconWrapper>
-        <ArchiveCollectionLabel>Archive Collection</ArchiveCollectionLabel>
-
-        {shortDescription && (
-          <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
-            <span>{shortDescription}</span>
-          </Space>
-        )}
+          <ArchiveIconWrapper>
+            <Icon icon={archive} matchText />
+          </ArchiveIconWrapper>
+          <ArchiveCollectionLabel>Archive Collection</ArchiveCollectionLabel>
+        </Space>
 
         {subjectTags.length > 0 && (
           <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
@@ -150,8 +142,7 @@ const ArchiveCollectionHero = ({ work }: { work: WorkType }) => {
 
         {(primaryContributor ||
           productionDates.length > 0 ||
-          work.referenceNumber ||
-          accessCondition) && (
+          work.referenceNumber) && (
           <>
             <Divider lineColor="neutral.600" />
 
@@ -183,10 +174,6 @@ const ArchiveCollectionHero = ({ work }: { work: WorkType }) => {
 
               {work.referenceNumber && (
                 <HeroInfo label="Reference" value={work.referenceNumber} />
-              )}
-
-              {accessCondition && (
-                <HeroInfo label="Access" value={accessCondition} />
               )}
             </HeroInfoContainer>
           </>
