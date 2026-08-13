@@ -176,7 +176,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
           statement {
             or_statement {
               dynamic "statement" {
-                for_each = toset(flatten([for a in var.aliases : [a, "${a}:443", "${a}:80"]]))
+                for_each = toset(flatten([for a in setunion(var.aliases, var.extra_allowed_hosts) : [a, "${a}:443", "${a}:80"]]))
                 content {
                   byte_match_statement {
                     positional_constraint = "EXACTLY"
