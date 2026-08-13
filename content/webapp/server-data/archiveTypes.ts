@@ -1,8 +1,8 @@
 /**
  * Archive type counts (from the catalogue API's archives-by-type
- * aggregation, once it exists - see
- * services/wellcome/catalogue/archiveTypes.ts) are needed on more than one
- * page, change only rarely, and only need to be accurate to within a day.
+ * aggregation - see services/wellcome/catalogue/archiveTypes.ts).
+ * These are needed on more than one page, change only rarely,
+ * and only need to be accurate to within a day.
  *
  * Rather than fetching them on every request, this follows the same
  * approach as @weco/common/server-data (see its README): fetch once on an
