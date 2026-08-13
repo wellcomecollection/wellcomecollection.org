@@ -10,7 +10,7 @@ import auth0, { withPageAuthRequiredSSR } from '@weco/identity/utils/auth0';
 import {
   isFreshRegistration,
   logoutToSuccessUrl,
-} from '@weco/identity/utils/postRegistration';
+} from '@weco/identity/utils/post-registration';
 import AccountPage, {
   Props as AccountPageProps,
 } from '@weco/identity/views/pages';

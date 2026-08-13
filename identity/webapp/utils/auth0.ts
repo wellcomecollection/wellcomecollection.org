@@ -12,7 +12,7 @@ import { preservePatronClaims } from '@weco/identity/utils/patron-claims';
 import {
   isFreshRegistration,
   logoutToSuccessUrl,
-} from '@weco/identity/utils/postRegistration';
+} from '@weco/identity/utils/post-registration';
 
 // This module is imported by middleware.ts, which Next.js bundles for the
 // edge runtime where `next/config` (serverRuntimeConfig) is unavailable, so
