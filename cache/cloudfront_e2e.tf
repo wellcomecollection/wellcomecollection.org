@@ -51,4 +51,7 @@ module "e2e_wc_org_cloudfront_distribution" {
   google_bots_ip_set_arn    = aws_wafv2_ip_set.google_bots.arn
   github_actions_ip_set_arn = aws_wafv2_ip_set.github_actions.arn
   header_shared_secret      = local.current_shared_secret
+
+  # Proven on stage; see cloudfront_prod.tf.
+  enable_unrecognised_host_block = true
 }

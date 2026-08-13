@@ -35,6 +35,11 @@ module "prod_wc_org_cloudfront_distribution" {
 
   enable_waf_logging = true
 
+  # Proven on stage; turns scanner traffic to the *.cloudfront.net default
+  # domain into 403s instead of origin cert-mismatch 502s that trip the 5xx
+  # alarm.
+  enable_unrecognised_host_block = true
+
   # Proven on stage; see the search-challenge rule in the module for why this
   # is high-risk.
   enable_search_challenge = true
