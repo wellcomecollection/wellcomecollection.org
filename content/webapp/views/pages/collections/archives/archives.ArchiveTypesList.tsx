@@ -32,7 +32,7 @@ const ArchiveTypesList = ({
             >
               <ThemeCard
                 images={noImages}
-                title={archiveType.label}
+                title={`${archiveType.label} (${archiveType.id})`}
                 description={`${archiveType.description} ${pluralize(archiveType.count, 'archive')}.`}
                 linkProps={{ href: { pathname: '/' } }}
                 dataGtmProps={{
