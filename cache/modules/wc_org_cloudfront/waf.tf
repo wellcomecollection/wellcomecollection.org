@@ -169,12 +169,14 @@ resource "aws_wafv2_web_acl" "wc_org" {
       // verification at the ALB origin and surface as 502s, polluting the
       // 5xxErrorRate alarm. Turn them away with a 403 before the allow rules
       // below, which would otherwise let them through to the origin.
+      // Explicit default ports (alias:443, alias:80) are a legal Host form
+      // that CloudFront accepts for our aliases, so match those too.
       statement {
         not_statement {
           statement {
             or_statement {
               dynamic "statement" {
-                for_each = var.aliases
+                for_each = toset(flatten([for a in var.aliases : [a, "${a}:443", "${a}:80"]]))
                 content {
                   byte_match_statement {
                     positional_constraint = "EXACTLY"
