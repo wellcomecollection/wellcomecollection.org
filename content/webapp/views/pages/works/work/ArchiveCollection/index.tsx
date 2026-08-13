@@ -1,5 +1,6 @@
 import { ReactNode, useState } from 'react';
 
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 import { Work as WorkType } from '@weco/content/services/wellcome/catalogue/types';
@@ -10,19 +11,20 @@ import ArchiveCollectionContents from './ArchiveCollection.Contents';
 import ArchiveCollectionHero from './ArchiveCollection.Hero';
 
 const ArchiveCollectionLayout = ({ work }: { work: WorkType }) => {
+  const { isEnhanced } = useAppContext();
   const [selectedTab, setSelectedTab] = useState('about');
 
   const tabsItems = [
     {
       id: 'about',
       text: 'About this archive collection',
-      url: '#about', // TODO discuss with Anna & team
+      url: '#tabpanel-about',
       dataGtmProps: { label: 'About this archive collection' },
     },
     {
       id: 'contents',
       text: 'Collection contents',
-      url: '#contents',
+      url: '#tabpanel-contents',
       dataGtmProps: { label: 'Collection contents' }, // Is this just always the same as the label?
     },
   ];
@@ -56,7 +58,7 @@ const ArchiveCollectionLayout = ({ work }: { work: WorkType }) => {
               role="tabpanel"
               id={`tabpanel-${tab.id}`}
               aria-labelledby={`tab-${tab.id}`}
-              hidden={selectedTab !== tab.id}
+              hidden={isEnhanced && selectedTab !== tab.id}
             >
               {tabPanels[tab.id]}
             </div>
