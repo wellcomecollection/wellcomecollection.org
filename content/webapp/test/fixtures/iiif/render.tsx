@@ -23,6 +23,7 @@ import ItemViewerContextRefactored, {
   defaultItemViewerContext as defaultItemViewerContextRefactored,
   ItemViewerContextProps as ItemViewerContextPropsRefactored,
 } from '@weco/content/contexts/ItemViewerContext/refactored';
+import { getCurrentCanvas } from '@weco/content/views/pages/works/work/work.helpers';
 
 import { createMockManifest } from './transformed-manifest';
 
@@ -50,7 +51,7 @@ type ItemViewerContextOverridesRefactored = Partial<
   Omit<ItemViewerContextPropsRefactored, 'isRefactoredContext'>
 >;
 
-export function createMockItemViewerContext(
+function createMockItemViewerContext(
   overrides: ItemViewerContextOverridesLegacy = {}
 ): ItemViewerContextPropsLegacy {
   return {
@@ -61,13 +62,34 @@ export function createMockItemViewerContext(
   };
 }
 
-export function createMockRefactoredItemViewerContext(
+function createMockRefactoredItemViewerContext(
   overrides: ItemViewerContextOverridesRefactored = {}
 ): ItemViewerContextPropsRefactored {
+  // A single-image manifest is the most common baseline; override as needed.
+  const transformedManifest =
+    overrides.transformedManifest ?? createMockManifest();
+  const query = overrides.query ?? defaultItemViewerContextRefactored.query;
+  const canvasIndexById =
+    overrides.canvasIndexById ??
+    defaultItemViewerContextRefactored.canvasIndexById;
+
+  const totalCanvases = transformedManifest.canvases.length;
+
   return {
     ...defaultItemViewerContextRefactored,
-    // A single-image manifest is the most common baseline; override as needed.
-    transformedManifest: createMockManifest(),
+    transformedManifest,
+    // Mirrors how the real provider (IIIFViewer.tsx) derives these, so tests
+    // overriding transformedManifest/query still get sensible defaults without
+    // having to pass each one by hand. Anything derived from the manifest that
+    // goes on the context needs adding here too, or tests that override the
+    // manifest will silently fall back to the default context's value.
+    currentCanvas: getCurrentCanvas({
+      transformedManifest,
+      canvasIndexById,
+      canvas: query.canvas,
+    }),
+    totalCanvases,
+    hasMultipleCanvases: totalCanvases > 1,
     ...overrides,
   };
 }

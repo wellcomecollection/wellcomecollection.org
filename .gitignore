@@ -37,7 +37,7 @@ tsconfig.tsbuildinfo
 # Code editor
 .zed/
 
-# AI
-.claude/
+# AI personal preferences
+.claude/*.local.*
 
 

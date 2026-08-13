@@ -141,7 +141,10 @@ const CollectionsLandingPage: NextPage<Props> = ({
             <SectionHeader title="New online" gridSize={gridSize12()} />
           </Space>
           <ContaineredLayout gridSizes={gridSize12()}>
-            <WorkCards works={newOnlineDocuments} />
+            <WorkCards
+              works={newOnlineDocuments}
+              dataGtmProps={{ 'category-label': 'New online' }}
+            />
 
             <MoreLink
               url="/collections/new-online"

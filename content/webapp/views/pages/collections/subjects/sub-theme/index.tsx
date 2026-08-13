@@ -157,7 +157,13 @@ const WellcomeSubThemePage: NextPage<Props> & {
                 id="new-online"
                 isFirst
               >
-                <WorkCards works={newOnlineWorks} columns={3} />
+                <WorkCards
+                  works={newOnlineWorks}
+                  columns={3}
+                  dataGtmProps={{
+                    'category-label': `New works in ${lowerCasePageTitle}`,
+                  }}
+                />
               </SectionContainer>
             )}
 

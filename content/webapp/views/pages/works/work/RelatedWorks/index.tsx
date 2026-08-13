@@ -130,7 +130,7 @@ const RelatedWorks = ({
               id: key,
               label: value.label,
               controls: `#${key}`,
-              gtmData: {
+              dataGtmProps: {
                 trigger: 'selectable_tag_related_works_control',
                 category: value.category,
                 label: value.label,
@@ -159,7 +159,7 @@ const RelatedWorks = ({
                   <RelatedWorksCard
                     variant="default"
                     work={result}
-                    gtmData={{
+                    dataGtmProps={{
                       category: value.category,
                       'category-label': value.label,
                       'category-position-in-list': `${tabIndex + 1}`,

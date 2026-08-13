@@ -50,7 +50,7 @@ const CardGrid: FunctionComponent<Props> = ({
     <div data-component="card-grid">
       <Container>
         <Grid>
-          {items.map((item, i) => (
+          {items.map(item => (
             <GridCell
               className={classNames({
                 'card-theme card-theme--transparent':
@@ -67,12 +67,11 @@ const CardGrid: FunctionComponent<Props> = ({
               {item.id === 'tours' && <DailyTourCard />}
 
               {item.type === 'exhibitions' && (
-                <ExhibitionCard exhibition={item} position={i} />
+                <ExhibitionCard exhibition={item} />
               )}
               {item.id !== 'tours' && item.type === 'events' && (
                 <EventCard
                   event={item}
-                  position={i}
                   fromDate={fromDate}
                   isInPastListing={isInPastListing}
                 />
@@ -113,6 +112,7 @@ const CardGrid: FunctionComponent<Props> = ({
           ))}
         </Grid>
       </Container>
+
       {links && links.length > 0 && (
         <ContaineredLayout gridSizes={gridSize12()}>
           <Space $v={{ size: 'md', properties: ['margin-top'] }}>

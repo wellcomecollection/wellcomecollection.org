@@ -26,13 +26,9 @@ const DateWrapper = styled(Space).attrs({
 
 type Props = {
   exhibition: ExhibitionBasic;
-  position?: number;
 };
 
-const ExhibitionCard: FunctionComponent<Props> = ({
-  exhibition,
-  position = 0,
-}) => {
+const ExhibitionCard: FunctionComponent<Props> = ({ exhibition }) => {
   const { start, end, statusOverride, isPermanent, hideStatus } = exhibition;
   const url = linkResolver(exhibition);
   const image = exhibition.promo?.image;
@@ -42,12 +38,7 @@ const ExhibitionCard: FunctionComponent<Props> = ({
     : [{ text: 'Exhibition' }];
 
   return (
-    <CardOuter
-      data-component="exhibition-promo"
-      data-component-state={JSON.stringify({ position })}
-      id={exhibition.id}
-      href={url}
-    >
+    <CardOuter data-component="exhibition-promo" id={exhibition.id} href={url}>
       <CardImageWrapper>
         {isNotUndefined(image) ? (
           <PrismicImage

@@ -23,8 +23,8 @@ import { TransformedManifest } from '@weco/content/types/manifest';
 import { hasNonImagesOrOriginals } from '@weco/content/utils/iiif/v3';
 import { fromQuery } from '@weco/content/views/components/ItemLink';
 import {
+  getCurrentCanvas,
   getTreeCanvasIndexById,
-  queryParamToArrayIndex,
 } from '@weco/content/views/pages/works/work/work.helpers';
 import { UiTree } from '@weco/content/views/pages/works/work/work.types';
 
@@ -289,8 +289,12 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
 
   const canvasIndexById = useMemo(() => getTreeCanvasIndexById(tree), [tree]);
 
-  const currentCanvas =
-    transformedManifest?.canvases[queryParamToArrayIndex(canvas)];
+  const currentCanvas = getCurrentCanvas({
+    transformedManifest,
+    canvasIndexById,
+    canvas,
+  });
+  const totalCanvases = transformedManifest?.canvases.length || 0;
   const mainImageService: PartialImageService = {
     '@id': currentCanvas?.imageServiceId,
   };
@@ -309,7 +313,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   );
   // useFixedSizeList is true when all items are images (using FixedSizeList for virtualization)
   const useFixedSizeList = hasOnlyRenderableImages;
-  const hasMultipleCanvases = (transformedManifest?.canvases?.length || 0) > 1;
+  const hasMultipleCanvases = totalCanvases > 1;
 
   // showControls' initial value depends on the derived values above, so it's
   // declared here rather than grouped with the other state
@@ -389,6 +393,9 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         tree,
         setTree,
         canvasIndexById,
+        currentCanvas,
+        totalCanvases,
+        hasMultipleCanvases,
 
         // UI Props:
         viewerRef,

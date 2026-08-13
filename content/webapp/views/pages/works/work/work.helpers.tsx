@@ -135,3 +135,36 @@ export function getTreeCanvasIndexById(tree: UiTree): Record<string, number> {
   traverse(tree);
   return canvasIndexById;
 }
+
+// Canvas order follows the manifest's structure when we have a complete one -
+// that's not always the same as the raw items array order. canvasIndexById
+// maps canvas id to structure position; we only trust it when it covers
+// every canvas, otherwise we just use the canvas's plain array position.
+export function getCurrentCanvas({
+  transformedManifest,
+  canvasIndexById,
+  canvas,
+}: {
+  transformedManifest: { canvases: TransformedCanvas[] } | undefined;
+  canvasIndexById: Record<string, number>;
+  canvas: number;
+}): TransformedCanvas | undefined {
+  const canvases = transformedManifest?.canvases;
+  const canvasIds = Object.keys(canvasIndexById);
+  const hasCompleteStructure = canvasIds.length === canvases?.length;
+
+  // A canvas referenced from more than one range can leave gaps in the
+  // stored indices even though the count still matches, so this can miss
+  // even when hasCompleteStructure is true. Arguably we should return
+  // undefined rather than fall back to array order below in that case, but
+  // it's niche enough (needs a canvas in 2+ ranges) that we're leaving the
+  // fallback as-is rather than adding a branch for it.
+  // https://github.com/wellcomecollection/wellcomecollection.org/pull/13346#discussion_r3714090012
+  const currentCanvasId = hasCompleteStructure
+    ? canvasIds.find(id => canvasIndexById[id] === canvas)
+    : undefined;
+
+  return currentCanvasId
+    ? canvases?.find(c => c.id === currentCanvasId)
+    : canvases?.[queryParamToArrayIndex(canvas)];
+}

@@ -13,7 +13,10 @@ import {
   ItemViewerQuery,
   ParentManifest,
 } from '@weco/content/types/item-viewer';
-import { TransformedManifest } from '@weco/content/types/manifest';
+import {
+  TransformedCanvas,
+  TransformedManifest,
+} from '@weco/content/types/manifest';
 import { UiTree } from '@weco/content/views/pages/works/work/work.types';
 
 export type ItemViewerContextProps = {
@@ -31,6 +34,9 @@ export type ItemViewerContextProps = {
   tree: UiTree;
   setTree: (v: UiTree) => void;
   canvasIndexById: Record<string, number>;
+  currentCanvas: TransformedCanvas | undefined;
+  totalCanvases: number;
+  hasMultipleCanvases: boolean;
 
   // UI props:
   viewerRef: RefObject<HTMLDivElement | null> | undefined;
@@ -85,6 +91,8 @@ const work: WorkBasic & Pick<Work, 'description'> = {
   cardLabels: [],
   primaryContributorLabel: undefined,
   notes: [],
+  physicalDescription: '',
+  isRootCollection: false,
 };
 
 export const defaultItemViewerContext: ItemViewerContextProps = {
@@ -100,6 +108,9 @@ export const defaultItemViewerContext: ItemViewerContextProps = {
   tree: [],
   setTree: () => undefined,
   canvasIndexById: {},
+  currentCanvas: undefined,
+  totalCanvases: 0,
+  hasMultipleCanvases: false,
 
   // UI props:
   viewerRef: undefined,

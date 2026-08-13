@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { ImageType } from '@weco/common/model/image';
+import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import IIIFImage from '@weco/content/views/components/IIIFImage';
 import { toWorksImagesLink } from '@weco/content/views/components/ImageLink';
 
@@ -44,8 +45,10 @@ const ImageCard: FunctionComponent<Props> = ({
         }
       }}
       id={id}
-      data-gtm-trigger="open_image_modal"
-      data-gtm-position-in-list={positionInList}
+      {...dataGtmPropsToAttributes({
+        trigger: 'open_image_modal',
+        'position-in-list': `${positionInList}`,
+      })}
       title={isEnhanced ? 'Open modal window' : undefined}
     >
       <IIIFImage

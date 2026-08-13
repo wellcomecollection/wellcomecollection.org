@@ -30,7 +30,6 @@ import WatchLabel from '@weco/content/views/components/WatchLabel';
 
 type Props = {
   event: EventBasic;
-  position?: number;
   dateString?: string;
   timeString?: string;
   fromDate?: Date;
@@ -88,7 +87,6 @@ const LocationWrapper = styled(Space).attrs({
 
 const EventCard: FunctionComponent<Props> = ({
   event,
-  position = 0,
   dateString,
   timeString,
   fromDate,
@@ -103,7 +101,6 @@ const EventCard: FunctionComponent<Props> = ({
   return (
     <CardOuter
       data-component="event-promo"
-      data-component-state={JSON.stringify({ position })}
       href={(event.promo && event.promo.link) || linkResolver(event)}
     >
       <CardImageWrapper>

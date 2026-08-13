@@ -41,6 +41,7 @@ const meta: Meta<StoryProps> = {
   component: WorkCards,
   args: {
     works: [workBasic],
+    dataGtmProps: { 'category-label': 'Example' },
     numberOfCards: 1,
     hasImage: true,
     format: 'Books',
@@ -86,7 +87,7 @@ const meta: Meta<StoryProps> = {
     if (args.works.length === 1) {
       return (
         <div style={{ maxWidth: '300px' }}>
-          <WorkCards works={args.works} />
+          <WorkCards works={args.works} dataGtmProps={args.dataGtmProps} />
         </div>
       );
     }

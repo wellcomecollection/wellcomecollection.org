@@ -8,7 +8,7 @@ import { LinkProps } from '@weco/common/model/link-props';
 import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
+import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext/refactored';
 import useIsFullscreenEnabled from '@weco/content/hooks/useIsFullscreenEnabled';
 import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
 
@@ -126,7 +126,6 @@ const ViewerBottomBar: FunctionComponent = () => {
   const { isEnhanced } = useAppContext();
   const isFullscreenEnabled = useIsFullscreenEnabled();
   const {
-    transformedManifest,
     gridVisible,
     setGridVisible,
     showZoomed,
@@ -135,30 +134,23 @@ const ViewerBottomBar: FunctionComponent = () => {
     viewerRef,
     work,
     query,
-    canvasIndexById,
+    totalCanvases,
+    hasMultipleCanvases,
     hasOnlyRenderableImages,
   } = useItemViewerContext();
 
-  const { canvases } = { ...transformedManifest };
   const { canvas } = query;
 
-  const hasCompleteStructure =
-    Object.keys(canvasIndexById).length === canvases?.length;
-  const totalCanvases = hasCompleteStructure
-    ? Object.keys(canvasIndexById).length
-    : canvases?.length || 0;
+  const canNavigatePrevious = canvas > 1;
+  const canNavigateNext = canvas < totalCanvases;
 
-  const hasPreviousCanvas = canvas > 1;
-  const hasNextCanvas = canvas < totalCanvases;
-
-  const previousCanvasLink = hasPreviousCanvas
+  const previousCanvasLink = canNavigatePrevious
     ? toWorksItemLink({ workId: work.id, props: { canvas: canvas - 1 } })
     : null;
-  const nextCanvasLink = hasNextCanvas
+  const nextCanvasLink = canNavigateNext
     ? toWorksItemLink({ workId: work.id, props: { canvas: canvas + 1 } })
     : null;
 
-  const hasMultipleCanvases = (canvases?.length || 0) > 1;
   const shouldShowCanvasNavigation =
     !hasOnlyRenderableImages && hasMultipleCanvases;
   const shouldShowViewToggle =

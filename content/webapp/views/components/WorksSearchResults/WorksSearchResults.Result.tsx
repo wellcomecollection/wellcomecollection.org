@@ -1,14 +1,19 @@
 import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
 
+import { archive } from '@weco/common/icons';
+import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
+import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
+import Icon from '@weco/common/views/components/Icon';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
-import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
+import type { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import { toWorkLink } from '@weco/content/views/components/WorkLink';
 import WorkTitle from '@weco/content/views/components/WorkTitle';
 
 import {
+  ArchiveIconWrapper,
   Container,
   Details,
   Preview,
@@ -28,12 +33,17 @@ const WorkSearchResult: FunctionComponent<Props> = ({
   work,
   resultPosition,
 }) => {
+  const { archiveBrowsing } = useFeatureFlags();
   const {
-    productionDates,
+    isRootCollection,
     archiveLabels,
     cardLabels,
+    physicalDescription,
     primaryContributorLabel,
+    productionDates,
   } = work;
+
+  const shouldShowArchiveCollectionInfo = archiveBrowsing && isRootCollection;
 
   return (
     <NextLink
@@ -41,8 +51,10 @@ const WorkSearchResult: FunctionComponent<Props> = ({
       style={{ textDecoration: 'none', display: 'inline-block' }}
     >
       <Wrapper
-        data-gtm-trigger="works_search_result"
-        data-gtm-position-in-list={resultPosition + 1}
+        {...dataGtmPropsToAttributes({
+          trigger: 'works_search_result',
+          'position-in-list': `${resultPosition + 1}`,
+        })}
       >
         <Container>
           {work.thumbnail && (
@@ -53,6 +65,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
               />
             </Preview>
           )}
+
           <Details>
             {cardLabels.length > 0 && (
               <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
@@ -62,15 +75,40 @@ const WorkSearchResult: FunctionComponent<Props> = ({
                 />
               </Space>
             )}
-            <WorkTitleHeading>
+
+            <WorkTitleHeading
+              $isRootCollection={shouldShowArchiveCollectionInfo}
+            >
               <WorkTitle title={work.title} />
             </WorkTitleHeading>
 
+            {shouldShowArchiveCollectionInfo && (
+              <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
+                Lorem ipsum dolor sit amet.
+              </Space>
+            )}
+
             <WorkInformation>
+              {shouldShowArchiveCollectionInfo && (
+                <>
+                  <ArchiveIconWrapper>
+                    <Icon icon={archive} matchText />
+                  </ArchiveIconWrapper>
+                  <span className="searchable-selector">
+                    Archive Collection
+                  </span>
+                </>
+              )}
+
               {primaryContributorLabel && (
-                <span className="searchable-selector">
-                  {primaryContributorLabel}
-                </span>
+                <>
+                  <WorkInformationItemSeparator aria-hidden>
+                    {' | '}
+                  </WorkInformationItemSeparator>
+                  <span className="searchable-selector">
+                    {primaryContributorLabel}
+                  </span>
+                </>
               )}
 
               {productionDates.length > 0 && (
@@ -93,9 +131,16 @@ const WorkSearchResult: FunctionComponent<Props> = ({
                 </>
               )}
             </WorkInformation>
+
             {archiveLabels?.partOf && (
               <WorkInformation>
                 Part of:&nbsp;{archiveLabels?.partOf}
+              </WorkInformation>
+            )}
+
+            {shouldShowArchiveCollectionInfo && physicalDescription && (
+              <WorkInformation $isSmall>
+                Archive Collection contains: {physicalDescription}
               </WorkInformation>
             )}
           </Details>

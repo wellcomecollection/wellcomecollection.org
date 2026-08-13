@@ -32,7 +32,7 @@ const meta: Meta<RelatedWorksCardStoryProps> = {
     seeOnDarkBackground: {
       name: 'See on dark background',
     },
-    gtmData: {
+    dataGtmProps: {
       table: {
         disable: true,
       },

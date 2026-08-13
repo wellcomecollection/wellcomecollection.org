@@ -107,7 +107,7 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
   const tagData = transformedThemeCardsListSlices.map(category => ({
     id: category.value.title,
     label: category.value.title,
-    gtmData: {
+    dataGtmProps: {
       trigger: 'selectable_tag',
       label: category.value.title,
     },
@@ -136,7 +136,7 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
       <ThemeCardsList
         conceptIds={conceptIds}
         gridSizes={gridSizes}
-        gtmData={{
+        dataGtmProps={{
           'category-label': selectedCategoryLabel,
           'category-position-in-list': `${selectedCategoryPosition}`,
         }}

@@ -5,6 +5,7 @@ import { getCrop } from '@weco/common/model/image';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import { typography } from '@weco/common/utils/classnames';
+import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import PrismicImage, {
@@ -107,8 +108,10 @@ const StoriesGrid: FunctionComponent<Props> = ({
             as="a"
             href={linkResolver({ ...article, type: 'articles' })}
             data-testid="story-search-result"
-            data-gtm-trigger="stories_search_result"
-            data-gtm-position-in-list={index + 1}
+            {...dataGtmPropsToAttributes({
+              trigger: 'stories_search_result',
+              'position-in-list': `${index + 1}`,
+            })}
           >
             <Grid>
               {croppedImage && (
