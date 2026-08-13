@@ -18,6 +18,7 @@ const ArchivesPage: NextPage<Props> = ({ archiveTypes }) => {
       url={{ pathname: '/collections/archives' }}
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType="website"
+      siteSection="collections"
       headerProps={{ hasColorBackground: true }}
       hideNewsletterPromo
       clipOverflowX
