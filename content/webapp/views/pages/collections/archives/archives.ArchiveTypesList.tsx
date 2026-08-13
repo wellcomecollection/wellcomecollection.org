@@ -24,10 +24,12 @@ const PLACEHOLDER_COLOURS: PaletteColor[] = [
   'accent.lightTurquoise',
 ];
 
-const solidColourImage = (hexColour: string): string =>
-  `data:image/svg+xml;utf8,${encodeURIComponent(
-    `<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1"><rect width="1" height="1" fill="${hexColour}"/></svg>`
-  )}`;
+// Matching bg/fg colours hide placehold.co's default size-label text,
+// leaving a plain solid block.
+const placeholderImageUrl = (hexColour: string): string => {
+  const hex = hexColour.replace('#', '');
+  return `https://placehold.co/400x600/${hex}/${hex}.svg`;
+};
 
 const ArchiveTypesList = ({
   archiveTypes,
@@ -46,7 +48,7 @@ const ArchiveTypesList = ({
             const images: ConceptImagesArray = archiveType.image
               ? [archiveType.image, undefined, undefined, undefined]
               : (Array.from({ length: 4 }, (_, slot) =>
-                  solidColourImage(
+                  placeholderImageUrl(
                     theme.color(
                       PLACEHOLDER_COLOURS[
                         (index * 4 + slot) % PLACEHOLDER_COLOURS.length
