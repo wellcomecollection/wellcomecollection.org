@@ -62,6 +62,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
               <PreviewImage
                 alt=""
                 src={convertIiifImageUri(work.thumbnail.url, 120)}
+                loading="lazy"
               />
             </Preview>
           )}

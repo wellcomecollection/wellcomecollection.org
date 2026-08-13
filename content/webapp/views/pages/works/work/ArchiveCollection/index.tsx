@@ -18,12 +18,10 @@ const ArchiveCollectionLayout = ({ work }: { work: WorkType }) => {
     {
       id: 'about',
       text: 'About this archive collection',
-      url: '#tabpanel-about',
     },
     {
       id: 'contents',
       text: 'Collection contents',
-      url: '#tabpanel-contents',
     },
   ];
 

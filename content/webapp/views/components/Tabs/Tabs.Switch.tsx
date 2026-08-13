@@ -106,6 +106,8 @@ const TabsSwitch: FunctionComponent<Props> = ({
     >
       {items.map((item, index) => {
         const isSelected = isEnhanced && selectedTab === item.id;
+        const url = item.url ?? `#tabpanel-${item.id}`;
+
         return (
           <Tab
             key={item.id}
@@ -144,8 +146,8 @@ const TabsSwitch: FunctionComponent<Props> = ({
               >
                 <NavItemShim>{item.text}</NavItemShim>
                 <ConditionalWrapper
-                  condition={Boolean(item.url && !isEnhanced)}
-                  wrapper={children => <a href={item.url}>{children}</a>}
+                  condition={!isEnhanced}
+                  wrapper={children => <a href={url}>{children}</a>}
                 >
                   {item.icon && (
                     <Space
