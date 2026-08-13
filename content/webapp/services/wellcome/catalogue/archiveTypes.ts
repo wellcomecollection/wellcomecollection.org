@@ -6,6 +6,7 @@ export type ArchiveType = {
   label: string;
   description: string;
   count: number;
+  image?: string;
 };
 
 // The catalogue API's archive.category aggregation is the source of truth
@@ -31,6 +32,12 @@ const ARCHIVE_TYPE_DESCRIPTIONS: Record<string, string> = {
   ES: 'Records relating to exhibitions and public shows staged by Wellcome Collection and its predecessors.',
   WF: 'Records of the Wellcome Foundation, the pharmaceutical company founded by Henry Wellcome.',
 };
+
+// Composite images we make ourselves and uploaded hosted,
+// keyed by the same IDs
+// An ID with no entry here renders
+// with a colour placeholder instead - see ArchiveTypesList.
+const ARCHIVE_TYPE_IMAGES: Record<string, string> = {};
 
 export async function fetchArchiveTypes(): Promise<ArchiveType[]> {
   const result = await catalogueQuery('works', {
@@ -60,5 +67,6 @@ export async function fetchArchiveTypes(): Promise<ArchiveType[]> {
     label: bucket.data.label,
     count: bucket.count,
     description: ARCHIVE_TYPE_DESCRIPTIONS[bucket.data.id] ?? '',
+    image: ARCHIVE_TYPE_IMAGES[bucket.data.id],
   }));
 }
