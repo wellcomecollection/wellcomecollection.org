@@ -125,7 +125,12 @@ const ThemeCard: FunctionComponent<ThemeCardProps> = ({
   const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set());
 
   const handleImageLoad = (index: number) => {
-    setLoadedImages(prev => new Set(prev).add(index));
+    // Bail out (same reference, no re-render) once already marked loaded -
+    // otherwise the inline ref below gets reattached on every render it
+    // triggers, calling this again and looping forever.
+    setLoadedImages(prev =>
+      prev.has(index) ? prev : new Set(prev).add(index)
+    );
   };
 
   // Create array of slots, some with images
@@ -158,6 +163,13 @@ const ThemeCard: FunctionComponent<ThemeCardProps> = ({
                   loading="lazy"
                   $isLoaded={loadedImages.has(index)}
                   onLoad={() => handleImageLoad(index)}
+                  // If the browser already has this image cached, it can
+                  // finish loading before this ref (and so onLoad) is even
+                  // attached - the load event fires and is missed, leaving
+                  // $isLoaded stuck false forever. .complete catches that.
+                  ref={img => {
+                    if (img?.complete) handleImageLoad(index);
+                  }}
                 />
               ) : null}
             </ImageContainer>
