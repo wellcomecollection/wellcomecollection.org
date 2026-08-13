@@ -1,8 +1,7 @@
 import { NextPage } from 'next';
 
 import PageLayout from '@weco/common/views/layouts/PageLayout';
-
-import ArchivesHeader from './archives.Header';
+import CollectionsHeader from '@weco/content/views/components/CollectionsHeader';
 
 export type Props = Record<string, never>;
 
@@ -19,7 +18,7 @@ const ArchivesPage: NextPage<Props> = () => {
       hideNewsletterPromo
       clipOverflowX
     >
-      <ArchivesHeader
+      <CollectionsHeader
         title="Archives"
         introText="Original records created by individuals and organisations."
       />
