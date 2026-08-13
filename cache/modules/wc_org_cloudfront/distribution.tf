@@ -61,6 +61,8 @@ resource "aws_cloudfront_distribution" "wc_org" {
   default_cache_behavior {
     target_origin_id = local.alb_origin_id
 
+    realtime_log_config_arn = var.realtime_log_config_arn
+
     allowed_methods        = local.all_methods
     cached_methods         = local.stateless_methods
     viewer_protocol_policy = "redirect-to-https"
@@ -83,6 +85,8 @@ resource "aws_cloudfront_distribution" "wc_org" {
     path_pattern     = "/works*"
     target_origin_id = local.alb_origin_id
 
+    realtime_log_config_arn = var.realtime_log_config_arn
+
     allowed_methods        = local.stateless_methods
     cached_methods         = local.stateless_methods
     viewer_protocol_policy = "redirect-to-https"
@@ -104,6 +108,8 @@ resource "aws_cloudfront_distribution" "wc_org" {
   ordered_cache_behavior {
     path_pattern     = "/account*"
     target_origin_id = local.alb_origin_id
+
+    realtime_log_config_arn = var.realtime_log_config_arn
 
     allowed_methods        = local.all_methods
     cached_methods         = local.stateless_methods
@@ -128,6 +134,8 @@ resource "aws_cloudfront_distribution" "wc_org" {
     path_pattern     = "/images*"
     target_origin_id = local.alb_origin_id
 
+    realtime_log_config_arn = var.realtime_log_config_arn
+
     allowed_methods        = local.stateless_methods
     cached_methods         = local.stateless_methods
     viewer_protocol_policy = "redirect-to-https"
@@ -150,6 +158,8 @@ resource "aws_cloudfront_distribution" "wc_org" {
     path_pattern     = "/concepts*"
     target_origin_id = local.alb_origin_id
 
+    realtime_log_config_arn = var.realtime_log_config_arn
+
     allowed_methods        = local.stateless_methods
     cached_methods         = local.stateless_methods
     viewer_protocol_policy = "redirect-to-https"
@@ -171,6 +181,8 @@ resource "aws_cloudfront_distribution" "wc_org" {
   ordered_cache_behavior {
     path_pattern     = "/search*"
     target_origin_id = local.alb_origin_id
+
+    realtime_log_config_arn = var.realtime_log_config_arn
 
     allowed_methods        = local.stateless_methods
     cached_methods         = local.stateless_methods
@@ -195,6 +207,8 @@ resource "aws_cloudfront_distribution" "wc_org" {
     path_pattern     = "/_next/data/*"
     target_origin_id = local.alb_origin_id
 
+    realtime_log_config_arn = var.realtime_log_config_arn
+
     allowed_methods        = local.stateless_methods
     cached_methods         = local.stateless_methods
     viewer_protocol_policy = "redirect-to-https"
@@ -211,6 +225,8 @@ resource "aws_cloudfront_distribution" "wc_org" {
     path_pattern     = "/_next/*"
     target_origin_id = local.alb_origin_id
 
+    realtime_log_config_arn = var.realtime_log_config_arn
+
     allowed_methods        = local.stateless_methods
     cached_methods         = local.stateless_methods
     viewer_protocol_policy = "redirect-to-https"
@@ -224,6 +240,8 @@ resource "aws_cloudfront_distribution" "wc_org" {
   ordered_cache_behavior {
     path_pattern     = "/events*"
     target_origin_id = local.alb_origin_id
+
+    realtime_log_config_arn = var.realtime_log_config_arn
 
     allowed_methods        = local.stateless_methods
     cached_methods         = local.stateless_methods
@@ -245,6 +263,8 @@ resource "aws_cloudfront_distribution" "wc_org" {
   ordered_cache_behavior {
     path_pattern     = "/slice-simulator*"
     target_origin_id = local.alb_origin_id
+
+    realtime_log_config_arn = var.realtime_log_config_arn
 
     allowed_methods        = local.stateless_methods
     cached_methods         = local.stateless_methods
@@ -269,6 +289,8 @@ resource "aws_cloudfront_distribution" "wc_org" {
     path_pattern     = "/humans.txt"
     target_origin_id = local.assets_origin_id
 
+    realtime_log_config_arn = var.realtime_log_config_arn
+
     allowed_methods        = local.stateless_methods
     cached_methods         = local.stateless_methods
     viewer_protocol_policy = "redirect-to-https"
@@ -280,6 +302,8 @@ resource "aws_cloudfront_distribution" "wc_org" {
   ordered_cache_behavior {
     path_pattern     = "/robots.txt"
     target_origin_id = local.assets_origin_id
+
+    realtime_log_config_arn = var.realtime_log_config_arn
 
     allowed_methods        = local.stateless_methods
     cached_methods         = local.stateless_methods
@@ -296,6 +320,8 @@ resource "aws_cloudfront_distribution" "wc_org" {
   ordered_cache_behavior {
     path_pattern     = "/googlea25c86e91ccc343b.html"
     target_origin_id = local.assets_origin_id
+
+    realtime_log_config_arn = var.realtime_log_config_arn
 
     allowed_methods        = local.stateless_methods
     cached_methods         = local.stateless_methods

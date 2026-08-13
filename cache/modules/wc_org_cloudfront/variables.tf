@@ -118,3 +118,9 @@ variable "enable_waf_logging" {
   default     = false
   description = "Log non-allowed (blocked/counted/challenged) WAF requests to CloudWatch Logs"
 }
+
+variable "realtime_log_config_arn" {
+  type        = string
+  default     = null
+  description = "Attaches CloudFront real-time logs to every cache behaviour, feeding the per-behaviour 5xx alerting stream"
+}

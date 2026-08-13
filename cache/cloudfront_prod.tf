@@ -59,6 +59,9 @@ module "prod_wc_org_cloudfront_distribution" {
   # Blocks fabricated-browser fraud on the indexable catalogue pages while
   # leaving honest crawlers and user-triggered AI agents untouched.
   enable_works_fabricated_ua_block = true
+
+  # Feeds the per-behaviour 5xx alerting in realtime_logs_alerting.tf.
+  realtime_log_config_arn = module.alerting.realtime_log_config_arn
 }
 
 data "aws_lambda_function" "versioned_edge_lambda_request" {
