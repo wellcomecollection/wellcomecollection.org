@@ -35,6 +35,14 @@ module "prod_wc_org_cloudfront_distribution" {
 
   enable_waf_logging = true
 
+  # Turns scanner traffic to the *.cloudfront.net default domain into 403s
+  # instead of origin cert-mismatch 502s that trip the 5xx alarm. This ACL is
+  # shared with the preview.wellcomecollection.org distribution, whose
+  # hostname must be allowed here: on 2026-08-13 enabling the rule without it
+  # 403d preview traffic for 22 minutes.
+  enable_unrecognised_host_block = true
+  extra_allowed_hosts            = ["preview.wellcomecollection.org"]
+
   # Proven on stage; see the search-challenge rule in the module for why this
   # is high-risk.
   enable_search_challenge = true
