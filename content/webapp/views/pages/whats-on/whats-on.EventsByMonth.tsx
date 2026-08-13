@@ -70,34 +70,31 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
         </Container>
       </Space>
 
-      {monthsWithEvents
-        .filter(i =>
-          isEnhanced ? i.id === (activeId || monthsWithEvents[0].id) : true
-        )
-        .map(({ id, month, events }) => (
-          <GridCell
-            $sizeMap={gridSize12()}
-            key={id}
-            role="tabpanel"
-            id={`tabpanel-${id}`}
-            aria-labelledby={`tab-${id}`}
+      {monthsWithEvents.map(({ id, month, events }) => (
+        <GridCell
+          $sizeMap={gridSize12()}
+          key={id}
+          role="tabpanel"
+          id={`tabpanel-${id}`}
+          aria-labelledby={`tab-${id}`}
+          hidden={isEnhanced && id !== (activeId || monthsWithEvents[0].id)}
+        >
+          <Container
+            as="h2"
+            className={classNames({
+              'is-hidden': Boolean(isEnhanced),
+            })}
           >
-            <Container
-              as="h2"
-              className={classNames({
-                'is-hidden': Boolean(isEnhanced),
-              })}
-            >
-              {month.month}
-            </Container>
-            <CardGrid
-              items={events}
-              itemsPerRow={3}
-              links={links}
-              fromDate={startOf(month)}
-            />
-          </GridCell>
-        ))}
+            {month.month}
+          </Container>
+          <CardGrid
+            items={events}
+            itemsPerRow={3}
+            links={links}
+            fromDate={startOf(month)}
+          />
+        </GridCell>
+      ))}
     </>
   );
 };
