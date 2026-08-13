@@ -1,18 +1,36 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import PlainList from '@weco/common/views/components/styled/PlainList';
 import CollectionsHeader from '@weco/content/views/components/CollectionsHeader';
+import ThematicBrowsingNavigation from '@weco/content/views/layouts/ThematicBrowsingLayout/ThematicBrowsing.Navigation';
 
 const meta: Meta<typeof CollectionsHeader> = {
   title: 'Components/CollectionsHeader',
   component: CollectionsHeader,
+  // The breadcrumb/navigation links here point at real site paths (eg
+  // /collections), which don't exist in cardigan's own standalone
+  // deployment - stop them from navigating away from the story at all,
+  // rather than 404ing.
+  decorators: [
+    Story => (
+      <div
+        onClickCapture={e => {
+          if ((e.target as HTMLElement).closest('a')) e.preventDefault();
+        }}
+      >
+        <Story />
+      </div>
+    ),
+  ],
   args: {
     title: 'Archives',
     introText: 'Original records created by individuals and organisations.',
   },
   argTypes: {
-    navigation: { table: { disable: true } },
-    afterIntro: { table: { disable: true } },
+    title: { name: 'Title' },
+    introText: { name: 'Intro text', control: 'text' },
+    extraBreadcrumbs: { name: 'Extra breadcrumbs', table: { disable: true } },
+    navigation: { name: 'Navigation', table: { disable: true } },
+    afterIntro: { name: 'After-intro content', table: { disable: true } },
   },
 };
 
@@ -29,18 +47,7 @@ export const WithNavigation: Story = {
   args: {
     title: 'Subjects',
     introText: 'Browse the collection by subject.',
-    navigation: (
-      <nav aria-label="Example category navigation">
-        <PlainList style={{ display: 'flex', gap: '1em' }}>
-          <li>People and organisations</li>
-          <li>
-            <strong>Subjects</strong>
-          </li>
-          <li>Types and techniques</li>
-          <li>Places</li>
-        </PlainList>
-      </nav>
-    ),
+    navigation: <ThematicBrowsingNavigation currentCategory="subjects" />,
     afterIntro: <p>Example slotted content, eg a sub-category menu.</p>,
   },
 };

@@ -6,7 +6,7 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
 
-type SpaceSize = '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+type SpaceSize = Parameters<DefaultTheme['makeSpacePropertyValues']>[0];
 
 // The shared "coloured hero band + decorative edge" shell used by both
 // CollectionsHeader and concept.Header - bottom padding is left to callers
