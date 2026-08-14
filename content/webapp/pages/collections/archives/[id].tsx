@@ -42,13 +42,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     return appError(context, 400, page.message);
   }
 
-  // The archive type IDs the catalogue API returns are uppercase codes (PP,
-  // WTI, etc) - lowercased here for a tidier URL, matched case-insensitively
-  // against the real ID below.
   const archiveTypes = await getArchiveTypes();
-  const archiveType = archiveTypes.find(
-    type => type.id.toLowerCase() === id.toLowerCase()
-  );
+  const archiveType = archiveTypes.find(type => type.slug === id.toLowerCase());
 
   if (!archiveType) {
     return { notFound: true };

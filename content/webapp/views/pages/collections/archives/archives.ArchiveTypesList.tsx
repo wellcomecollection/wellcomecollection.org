@@ -68,7 +68,7 @@ const ArchiveTypesList = ({
                   description={`${archiveType.description} ${pluralize(archiveType.count, 'archive')}.`}
                   linkProps={{
                     href: {
-                      pathname: `/collections/archives/${archiveType.id.toLowerCase()}`,
+                      pathname: `/collections/archives/${archiveType.slug}`,
                     },
                   }}
                   dataGtmProps={{

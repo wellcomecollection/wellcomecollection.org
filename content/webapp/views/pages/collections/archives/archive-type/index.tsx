@@ -17,9 +17,7 @@ const ArchiveTypePage: NextPage<Props> = ({ archiveType, works }) => {
     <PageLayout
       title={archiveType.label}
       description={archiveType.description}
-      url={{
-        pathname: `/collections/archives/${archiveType.id.toLowerCase()}`,
-      }}
+      url={{ pathname: `/collections/archives/${archiveType.slug}` }}
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType="website"
       siteSection="collections"
