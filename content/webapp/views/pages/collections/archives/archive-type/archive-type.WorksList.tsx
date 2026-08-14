@@ -1,11 +1,7 @@
 import styled from 'styled-components';
 
 import { pluralize } from '@weco/common/utils/grammar';
-import Divider from '@weco/common/views/components/Divider';
-import {
-  ContaineredLayout,
-  gridSize12,
-} from '@weco/common/views/components/Layout';
+import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
 import { Container } from '@weco/common/views/components/styled/Container';
 import {
   Grid,
@@ -45,7 +41,7 @@ const ArchiveTypeWorksList = ({
       <form id={ARCHIVE_TYPE_SORT_FORM_ID} role="search" />
 
       {works.works.length > 0 && (
-        <ContaineredLayout gridSizes={gridSize12()}>
+        <Layout gridSizes={gridSize12()}>
           <PaginationWrapper $verticalSpacing="md">
             <span role="status">{pluralize(works.totalResults, 'result')}</span>
 
@@ -89,11 +85,7 @@ const ArchiveTypeWorksList = ({
               )}
             </SortPaginationWrapper>
           </PaginationWrapper>
-
-          <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
-            <Divider />
-          </Space>
-        </ContaineredLayout>
+        </Layout>
       )}
 
       {works.works.length > 0 ? (
@@ -124,19 +116,21 @@ const ArchiveTypeWorksList = ({
             properties: ['padding-top', 'padding-bottom'],
           }}
         >
-          <p>There are no results.</p>
+          <Layout gridSizes={gridSize12()}>
+            <p>There are no results.</p>
+          </Layout>
         </Space>
       )}
 
       {works.totalPages > 1 && (
-        <ContaineredLayout gridSizes={gridSize12()}>
+        <Layout gridSizes={gridSize12()}>
           <PaginationWrapper $verticalSpacing="md" $alignRight>
             <Pagination
               totalPages={works.totalPages}
               ariaLabel="Results pagination"
             />
           </PaginationWrapper>
-        </ContaineredLayout>
+        </Layout>
       )}
     </Container>
   );
