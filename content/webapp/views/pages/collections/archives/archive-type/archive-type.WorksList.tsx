@@ -12,7 +12,7 @@ import {
 } from '@weco/common/views/components/styled/Grid';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
-import type { ArchiveTypeWorksResult } from '@weco/content/services/wellcome/catalogue/archiveTypes';
+import type { ArchiveTypeWorksResult } from '@weco/content/services/wellcome/catalogue/works';
 import ArchiveCard from '@weco/content/views/components/ArchiveCard';
 import Pagination from '@weco/content/views/components/Pagination';
 

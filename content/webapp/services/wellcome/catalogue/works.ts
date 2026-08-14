@@ -220,6 +220,82 @@ export async function getArchiveWorks(
   );
 }
 
+// The shape ArchiveCard (content/webapp/views/components/ArchiveCard) needs -
+// computed here, server-side, from the full catalogue Work so the page
+// component doesn't have to know about contributors/production/etc.
+export type ArchiveTypeWorkCard = {
+  id: string;
+  title: string;
+  label?: string;
+  description?: string;
+  contributor?: string;
+  isOrganisation: boolean;
+  date?: string;
+  extent?: string;
+};
+
+function toArchiveTypeWorkCard(work: Work): ArchiveTypeWorkCard {
+  const primaryContributor = work.contributors.find(
+    contributor => contributor.primary
+  );
+
+  return {
+    id: work.id,
+    title: work.title,
+    label: work.referenceNumber,
+    description: work.description,
+    contributor: primaryContributor?.agent.label,
+    isOrganisation: primaryContributor?.agent.type === 'Organisation',
+    date: work.production?.[0]?.dates?.[0]?.label,
+    extent: work.physicalDescription || undefined,
+  };
+}
+
+export type ArchiveTypeWorksResult = {
+  works: ArchiveTypeWorkCard[];
+  totalResults: number;
+  totalPages: number;
+  pageSize: number;
+};
+
+export async function fetchArchiveTypeWorks({
+  id,
+  page,
+  pageSize = 24,
+  shouldUseStagingApi,
+  pipelineCluster,
+}: {
+  id: string;
+  page: number;
+  pageSize?: number;
+  shouldUseStagingApi?: boolean;
+  pipelineCluster?: string;
+}): Promise<ArchiveTypeWorksResult | WellcomeApiError> {
+  const result = await catalogueQuery<unknown, Work>('works', {
+    pageSize,
+    shouldUseStagingApi,
+    pipelineCluster,
+    params: {
+      'archive.category': id,
+      'collection.isRoot': 'true',
+      workType: 'h,b,hdig',
+      include: 'contributors,production',
+      page,
+    },
+  });
+
+  if (result.type === 'Error') {
+    return result;
+  }
+
+  return {
+    works: result.results.map(toArchiveTypeWorkCard),
+    totalResults: result.totalResults,
+    totalPages: result.totalPages,
+    pageSize: result.pageSize,
+  };
+}
+
 export async function getWorkItemsClientSide(
   workId: string,
   signal: AbortSignal | null
