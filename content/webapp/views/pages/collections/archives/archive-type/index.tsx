@@ -28,7 +28,7 @@ const ArchiveTypePage: NextPage<Props> = ({ archiveType, works }) => {
       clipOverflowX
     >
       <CollectionsHeader
-        title={archiveType.label}
+        title={`${archiveType.label} (${archiveType.id})`}
         introText={archiveType.description}
         extraBreadcrumbs={[{ url: '/collections/archives', text: 'Archives' }]}
       />
