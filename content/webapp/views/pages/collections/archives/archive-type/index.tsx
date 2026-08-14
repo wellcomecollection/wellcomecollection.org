@@ -10,9 +10,16 @@ import ArchiveTypeWorksList from './archive-type.WorksList';
 export type Props = {
   archiveType: ArchiveType;
   works: ArchiveTypeWorksResult;
+  sort?: string;
+  sortOrder?: string;
 };
 
-const ArchiveTypePage: NextPage<Props> = ({ archiveType, works }) => {
+const ArchiveTypePage: NextPage<Props> = ({
+  archiveType,
+  works,
+  sort,
+  sortOrder,
+}) => {
   return (
     <PageLayout
       title={archiveType.label}
@@ -33,6 +40,8 @@ const ArchiveTypePage: NextPage<Props> = ({ archiveType, works }) => {
       <ArchiveTypeWorksList
         works={works}
         archiveTypeLabel={archiveType.label}
+        sort={sort}
+        sortOrder={sortOrder}
       />
     </PageLayout>
   );

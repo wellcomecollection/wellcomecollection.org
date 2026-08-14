@@ -9,7 +9,10 @@ import {
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
 import { getArchiveTypes } from '@weco/content/server-data/archiveTypes';
-import { fetchArchiveTypeWorks } from '@weco/content/services/wellcome/catalogue/works';
+import {
+  archiveTypeWorksSortFields,
+  fetchArchiveTypeWorks,
+} from '@weco/content/services/wellcome/catalogue/works';
 import { getPage } from '@weco/content/utils/query-params';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import ArchiveTypePage, {
@@ -49,9 +52,15 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     return { notFound: true };
   }
 
+  const { sort: sortQuery, sortOrder: sortOrderQuery } = context.query;
+  const sort = archiveTypeWorksSortFields.find(field => field === sortQuery);
+  const sortOrder = sortOrderQuery === 'desc' ? 'desc' : 'asc';
+
   const works = await fetchArchiveTypeWorks({
     id: archiveType.id,
     page,
+    sort,
+    sortOrder,
     shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
     pipelineCluster: serverData.toggles.modes.cataloguePipeline ?? undefined,
   });
@@ -69,6 +78,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       serverData,
       archiveType,
       works,
+      sort: isString(sortQuery) ? sortQuery : undefined,
+      sortOrder: isString(sortOrderQuery) ? sortOrderQuery : undefined,
     }),
   };
 };

@@ -1,3 +1,5 @@
+import styled from 'styled-components';
+
 import { pluralize } from '@weco/common/utils/grammar';
 import Divider from '@weco/common/views/components/Divider';
 import {
@@ -15,28 +17,77 @@ import Space from '@weco/common/views/components/styled/Space';
 import type { ArchiveTypeWorksResult } from '@weco/content/services/wellcome/catalogue/works';
 import ArchiveCard from '@weco/content/views/components/ArchiveCard';
 import Pagination from '@weco/content/views/components/Pagination';
+import Sort from '@weco/content/views/components/Sort';
+
+const ARCHIVE_TYPE_SORT_FORM_ID = 'archive-type-sort-form';
+
+const SortPaginationWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+`;
 
 const ArchiveTypeWorksList = ({
   works,
   archiveTypeLabel,
+  sort,
+  sortOrder,
 }: {
   works: ArchiveTypeWorksResult;
   archiveTypeLabel: string;
+  sort?: string;
+  sortOrder?: string;
 }) => {
   const colsToSpan: StartSpan = works.works.length >= 4 ? [3] : [4];
 
   return (
     <Container>
-      {works.totalPages > 1 && (
+      <form id={ARCHIVE_TYPE_SORT_FORM_ID} role="search" />
+
+      {works.works.length > 0 && (
         <ContaineredLayout gridSizes={gridSize12()}>
           <PaginationWrapper $verticalSpacing="md">
-            <span>{pluralize(works.totalResults, 'result')}</span>
+            <span role="status">{pluralize(works.totalResults, 'result')}</span>
 
-            <Pagination
-              totalPages={works.totalPages}
-              ariaLabel="Results pagination"
-              isHiddenMobile
-            />
+            <SortPaginationWrapper>
+              <Sort
+                formId={ARCHIVE_TYPE_SORT_FORM_ID}
+                options={[
+                  // Default value left empty so it's not added to the URL query
+                  { value: '', text: 'Alphabetical A-Z' },
+                  {
+                    value: 'production.dates.asc',
+                    text: 'Oldest to newest',
+                  },
+                  {
+                    value: 'production.dates.desc',
+                    text: 'Newest to oldest',
+                  },
+                ]}
+                jsLessOptions={{
+                  sort: [
+                    { value: '', text: 'Alphabetical' },
+                    {
+                      value: 'production.dates',
+                      text: 'Production dates',
+                    },
+                  ],
+                  sortOrder: [
+                    { value: 'asc', text: 'Ascending' },
+                    { value: 'desc', text: 'Descending' },
+                  ],
+                }}
+                defaultValues={{ sort, sortOrder }}
+              />
+
+              {works.totalPages > 1 && (
+                <Pagination
+                  totalPages={works.totalPages}
+                  ariaLabel="Results pagination"
+                  isHiddenMobile
+                />
+              )}
+            </SortPaginationWrapper>
           </PaginationWrapper>
 
           <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>

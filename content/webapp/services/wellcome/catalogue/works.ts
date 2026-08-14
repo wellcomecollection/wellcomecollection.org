@@ -258,16 +258,27 @@ export type ArchiveTypeWorksResult = {
   pageSize: number;
 };
 
+export const archiveTypeWorksSortFields = [
+  'collectionPath',
+  'production.dates',
+] as const;
+export type ArchiveTypeWorksSortField =
+  (typeof archiveTypeWorksSortFields)[number];
+
 export async function fetchArchiveTypeWorks({
   id,
   page,
   pageSize = 24,
+  sort = 'collectionPath',
+  sortOrder = 'asc',
   shouldUseStagingApi,
   pipelineCluster,
 }: {
   id: string;
   page: number;
   pageSize?: number;
+  sort?: ArchiveTypeWorksSortField;
+  sortOrder?: 'asc' | 'desc';
   shouldUseStagingApi?: boolean;
   pipelineCluster?: string;
 }): Promise<ArchiveTypeWorksResult | WellcomeApiError> {
@@ -280,6 +291,8 @@ export async function fetchArchiveTypeWorks({
       'collection.isRoot': 'true',
       workType: 'h,b,hdig',
       include: 'contributors,production',
+      sort,
+      sortOrder,
       page,
     },
   });
