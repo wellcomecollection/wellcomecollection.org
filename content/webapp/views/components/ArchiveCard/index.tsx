@@ -8,6 +8,7 @@ import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { toWorkLink } from '@weco/content/views/components/WorkLink';
+import WorkTitle from '@weco/content/views/components/WorkTitle';
 
 const Wrapper = styled(NextLink)`
   text-decoration: none;
@@ -44,7 +45,7 @@ const Title = styled(Space).attrs({
   }
 `;
 
-const Description = styled.p`
+const Description = styled.div`
   ${props => props.theme.clampLines(6)};
   margin-bottom: 0;
 `;
@@ -105,8 +106,14 @@ const ArchiveCard: FunctionComponent<Props> = ({
       <Root>
         <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
           {label && <Label>{label}</Label>}
-          <Title>{title}</Title>
-          {description && <Description>{description}</Description>}
+          <Title>
+            <WorkTitle title={title} />
+          </Title>
+          {/* Descriptions come from the catalogue API and can contain
+              their own display markup (eg <p>, <i>) */}
+          {description && (
+            <Description dangerouslySetInnerHTML={{ __html: description }} />
+          )}
         </Space>
 
         {(contributor || date || extent) && (
