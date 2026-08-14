@@ -256,6 +256,8 @@ export type ArchiveTypeWorksResult = {
   totalResults: number;
   totalPages: number;
   pageSize: number;
+  // Surfaced via apiToolbarLinks so staff can debug the underlying query.
+  requestUrl: string;
 };
 
 export const archiveTypeWorksSortFields = [
@@ -271,21 +273,15 @@ export async function fetchArchiveTypeWorks({
   pageSize = 24,
   sort = 'collectionPath',
   sortOrder = 'asc',
-  shouldUseStagingApi,
-  pipelineCluster,
 }: {
   id: string;
   page: number;
   pageSize?: number;
   sort?: ArchiveTypeWorksSortField;
   sortOrder?: 'asc' | 'desc';
-  shouldUseStagingApi?: boolean;
-  pipelineCluster?: string;
 }): Promise<ArchiveTypeWorksResult | WellcomeApiError> {
   const result = await catalogueQuery<unknown, Work>('works', {
     pageSize,
-    shouldUseStagingApi,
-    pipelineCluster,
     params: {
       'archive.category': id,
       'collection.isRoot': 'true',
@@ -306,6 +302,7 @@ export async function fetchArchiveTypeWorks({
     totalResults: result.totalResults,
     totalPages: result.totalPages,
     pageSize: result.pageSize,
+    requestUrl: result._requestUrl,
   };
 }
 

@@ -46,11 +46,15 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   }
 
   const archiveTypes = await getArchiveTypes();
-  const archiveType = archiveTypes.find(type => type.slug === id.toLowerCase());
-
-  if (!archiveType) {
-    return { notFound: true };
-  }
+  const archiveType = archiveTypes.find(
+    type => type.slug === id.toLowerCase()
+  ) ?? {
+    id: id.toUpperCase(),
+    slug: id.toLowerCase(),
+    label: id.toUpperCase(),
+    description: '',
+    count: 0,
+  };
 
   const { sort: sortQuery, sortOrder: sortOrderQuery } = context.query;
   const sort = archiveTypeWorksSortFields.find(field => field === sortQuery);
@@ -61,8 +65,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     page,
     sort,
     sortOrder,
-    shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
-    pipelineCluster: serverData.toggles.modes.cataloguePipeline ?? undefined,
   });
 
   if ('type' in works) {
@@ -80,6 +82,13 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       works,
       sort: isString(sortQuery) ? sortQuery : undefined,
       sortOrder: isString(sortOrderQuery) ? sortOrderQuery : undefined,
+      apiToolbarLinks: [
+        {
+          id: 'catalogue-api',
+          label: 'Catalogue API query',
+          link: works.requestUrl,
+        },
+      ],
     }),
   };
 };

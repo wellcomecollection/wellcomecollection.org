@@ -1,5 +1,6 @@
 import { NextPage } from 'next';
 
+import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import type { ArchiveType } from '@weco/content/services/wellcome/catalogue/archiveTypes';
 import type { ArchiveTypeWorksResult } from '@weco/content/services/wellcome/catalogue/works';
@@ -12,6 +13,7 @@ export type Props = {
   works: ArchiveTypeWorksResult;
   sort?: string;
   sortOrder?: string;
+  apiToolbarLinks: ApiToolbarLink[];
 };
 
 const ArchiveTypePage: NextPage<Props> = ({
@@ -19,6 +21,7 @@ const ArchiveTypePage: NextPage<Props> = ({
   works,
   sort,
   sortOrder,
+  apiToolbarLinks,
 }) => {
   return (
     <PageLayout
@@ -31,6 +34,7 @@ const ArchiveTypePage: NextPage<Props> = ({
       headerProps={{ hasColorBackground: true }}
       hideNewsletterPromo
       clipOverflowX
+      apiToolbarLinks={apiToolbarLinks}
     >
       <CollectionsHeader
         title={`${archiveType.label} (${archiveType.id})`}
