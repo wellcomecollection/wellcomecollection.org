@@ -1,10 +1,8 @@
 import { NextPage } from 'next';
 
 import PageLayout from '@weco/common/views/layouts/PageLayout';
-import type {
-  ArchiveType,
-  ArchiveTypeWorksResult,
-} from '@weco/content/services/wellcome/catalogue/archiveTypes';
+import type { ArchiveType } from '@weco/content/services/wellcome/catalogue/archiveTypes';
+import type { ArchiveTypeWorksResult } from '@weco/content/services/wellcome/catalogue/works';
 import CollectionsHeader from '@weco/content/views/components/CollectionsHeader';
 
 import ArchiveTypeWorksList from './archive-type.WorksList';
@@ -19,7 +17,9 @@ const ArchiveTypePage: NextPage<Props> = ({ archiveType, works }) => {
     <PageLayout
       title={archiveType.label}
       description={archiveType.description}
-      url={{ pathname: `/collections/archives/${archiveType.id}` }}
+      url={{
+        pathname: `/collections/archives/${archiveType.id.toLowerCase()}`,
+      }}
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType="website"
       siteSection="collections"

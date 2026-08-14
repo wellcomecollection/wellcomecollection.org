@@ -9,7 +9,7 @@ import {
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
 import { getArchiveTypes } from '@weco/content/server-data/archiveTypes';
-import { fetchArchiveTypeWorks } from '@weco/content/services/wellcome/catalogue/archiveTypes';
+import { fetchArchiveTypeWorks } from '@weco/content/services/wellcome/catalogue/works';
 import { getPage } from '@weco/content/utils/query-params';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import ArchiveTypePage, {
@@ -42,15 +42,20 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     return appError(context, 400, page.message);
   }
 
+  // The archive type IDs the catalogue API returns are uppercase codes (PP,
+  // WTI, etc) - lowercased here for a tidier URL, matched case-insensitively
+  // against the real ID below.
   const archiveTypes = await getArchiveTypes();
-  const archiveType = archiveTypes.find(type => type.id === id);
+  const archiveType = archiveTypes.find(
+    type => type.id.toLowerCase() === id.toLowerCase()
+  );
 
   if (!archiveType) {
     return { notFound: true };
   }
 
   const works = await fetchArchiveTypeWorks({
-    id,
+    id: archiveType.id,
     page,
     shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
     pipelineCluster: serverData.toggles.modes.cataloguePipeline ?? undefined,

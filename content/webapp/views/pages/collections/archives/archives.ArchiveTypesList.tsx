@@ -66,7 +66,11 @@ const ArchiveTypesList = ({
                   images={images}
                   title={`${archiveType.label} (${archiveType.id})`}
                   description={`${archiveType.description} ${pluralize(archiveType.count, 'archive')}.`}
-                  linkProps={{ href: { pathname: '/' } }}
+                  linkProps={{
+                    href: {
+                      pathname: `/collections/archives/${archiveType.id.toLowerCase()}`,
+                    },
+                  }}
                   dataGtmProps={{
                     trigger: 'theme_promo_card',
                     id: archiveType.id,
