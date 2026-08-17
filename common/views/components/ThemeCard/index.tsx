@@ -7,6 +7,8 @@ import { typography } from '@weco/common/utils/classnames';
 import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Space from '@weco/common/views/components/styled/Space';
 import { ConceptImagesArray } from '@weco/content/hooks/useConceptImageUrls';
+import type { ColorSelection } from '@weco/content/types/color-selections';
+import { placeholderBackgroundColor } from '@weco/content/views/components/ImagePlaceholder';
 
 const Title = styled(Space).attrs({
   className: typography('heading', 'lg', 'regular', 'brand'),
@@ -51,6 +53,12 @@ const ImageContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+const PlaceholderBlock = styled.div<{ $colorKey: ColorSelection }>`
+  width: 100%;
+  height: 100%;
+  background-color: ${props => props.theme.color(props.$colorKey)};
 `;
 
 const ImageElement = styled.img<{ $isLoaded?: boolean }>`
@@ -171,7 +179,11 @@ const ThemeCard: FunctionComponent<ThemeCardProps> = ({
                     if (img?.complete) handleImageLoad(index);
                   }}
                 />
-              ) : null}
+              ) : (
+                <PlaceholderBlock
+                  $colorKey={placeholderBackgroundColor(index)}
+                />
+              )}
             </ImageContainer>
           ))}
         </CompositeGrid>
