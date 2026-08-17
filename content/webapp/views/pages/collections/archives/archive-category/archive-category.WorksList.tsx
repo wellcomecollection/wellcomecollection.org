@@ -10,12 +10,12 @@ import {
 } from '@weco/common/views/components/styled/Grid';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
-import type { ArchiveTypeWorksResult } from '@weco/content/services/wellcome/catalogue/works';
+import type { ArchiveCategoryWorksResult } from '@weco/content/services/wellcome/catalogue/works';
 import ArchiveCard from '@weco/content/views/components/ArchiveCard';
 import Pagination from '@weco/content/views/components/Pagination';
 import Sort from '@weco/content/views/components/Sort';
 
-const ARCHIVE_TYPE_SORT_FORM_ID = 'archive-type-sort-form';
+const ARCHIVE_CATEGORY_SORT_FORM_ID = 'archive-category-sort-form';
 
 const SortPaginationWrapper = styled.div`
   display: flex;
@@ -23,14 +23,14 @@ const SortPaginationWrapper = styled.div`
   flex-wrap: wrap;
 `;
 
-const ArchiveTypeWorksList = ({
+const ArchiveCategoryWorksList = ({
   works,
-  archiveTypeLabel,
+  archiveCategoryLabel,
   sort,
   sortOrder,
 }: {
-  works: ArchiveTypeWorksResult;
-  archiveTypeLabel: string;
+  works: ArchiveCategoryWorksResult;
+  archiveCategoryLabel: string;
   sort?: string;
   sortOrder?: string;
 }) => {
@@ -38,7 +38,7 @@ const ArchiveTypeWorksList = ({
 
   return (
     <Container>
-      <form id={ARCHIVE_TYPE_SORT_FORM_ID} role="search" />
+      <form id={ARCHIVE_CATEGORY_SORT_FORM_ID} role="search" />
 
       {works.works.length > 0 && (
         <Layout gridSizes={gridSize12()}>
@@ -47,7 +47,7 @@ const ArchiveTypeWorksList = ({
 
             <SortPaginationWrapper>
               <Sort
-                formId={ARCHIVE_TYPE_SORT_FORM_ID}
+                formId={ARCHIVE_CATEGORY_SORT_FORM_ID}
                 options={[
                   // Default value left empty so it's not added to the URL query
                   { value: '', text: 'Alphabetical A-Z' },
@@ -100,7 +100,7 @@ const ArchiveTypeWorksList = ({
                   {...work}
                   dataGtmProps={{
                     trigger: 'archive_card',
-                    'category-label': archiveTypeLabel,
+                    'category-label': archiveCategoryLabel,
                     id: work.id,
                     'position-in-list': `${index + 1}`,
                   }}
@@ -136,4 +136,4 @@ const ArchiveTypeWorksList = ({
   );
 };
 
-export default ArchiveTypeWorksList;
+export default ArchiveCategoryWorksList;

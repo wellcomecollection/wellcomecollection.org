@@ -2,22 +2,22 @@ import { NextPage } from 'next';
 
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
-import type { ArchiveType } from '@weco/content/services/wellcome/catalogue/archiveTypes';
-import type { ArchiveTypeWorksResult } from '@weco/content/services/wellcome/catalogue/works';
+import type { ArchiveCategory } from '@weco/content/services/wellcome/catalogue/archiveCategories';
+import type { ArchiveCategoryWorksResult } from '@weco/content/services/wellcome/catalogue/works';
 import CollectionsHeader from '@weco/content/views/components/CollectionsHeader';
 
-import ArchiveTypeWorksList from './archive-type.WorksList';
+import ArchiveCategoryWorksList from './archive-category.WorksList';
 
 export type Props = {
-  archiveType: ArchiveType;
-  works: ArchiveTypeWorksResult;
+  archiveCategory: ArchiveCategory;
+  works: ArchiveCategoryWorksResult;
   sort?: string;
   sortOrder?: string;
   apiToolbarLinks: ApiToolbarLink[];
 };
 
-const ArchiveTypePage: NextPage<Props> = ({
-  archiveType,
+const ArchiveCategoryPage: NextPage<Props> = ({
+  archiveCategory,
   works,
   sort,
   sortOrder,
@@ -25,9 +25,9 @@ const ArchiveTypePage: NextPage<Props> = ({
 }) => {
   return (
     <PageLayout
-      title={archiveType.label}
-      description={archiveType.description}
-      url={{ pathname: `/collections/archives/${archiveType.slug}` }}
+      title={archiveCategory.label}
+      description={archiveCategory.description}
+      url={{ pathname: `/collections/archives/${archiveCategory.slug}` }}
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType="website"
       siteSection="collections"
@@ -37,13 +37,13 @@ const ArchiveTypePage: NextPage<Props> = ({
       apiToolbarLinks={apiToolbarLinks}
     >
       <CollectionsHeader
-        title={`${archiveType.label} (${archiveType.id})`}
-        introText={archiveType.description}
+        title={`${archiveCategory.label} (${archiveCategory.id})`}
+        introText={archiveCategory.description}
         extraBreadcrumbs={[{ url: '/collections/archives', text: 'Archives' }]}
       />
-      <ArchiveTypeWorksList
+      <ArchiveCategoryWorksList
         works={works}
-        archiveTypeLabel={archiveType.label}
+        archiveCategoryLabel={archiveCategory.label}
         sort={sort}
         sortOrder={sortOrder}
       />
@@ -51,4 +51,4 @@ const ArchiveTypePage: NextPage<Props> = ({
   );
 };
 
-export default ArchiveTypePage;
+export default ArchiveCategoryPage;

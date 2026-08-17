@@ -223,7 +223,7 @@ export async function getArchiveWorks(
 // The shape ArchiveCard (content/webapp/views/components/ArchiveCard) needs -
 // computed here, server-side, from the full catalogue Work so the page
 // component doesn't have to know about contributors/production/etc.
-export type ArchiveTypeWorkCard = {
+export type ArchiveCategoryWorkCard = {
   id: string;
   title: string;
   label?: string;
@@ -234,7 +234,7 @@ export type ArchiveTypeWorkCard = {
   extent?: string;
 };
 
-function toArchiveTypeWorkCard(work: Work): ArchiveTypeWorkCard {
+function toArchiveCategoryWorkCard(work: Work): ArchiveCategoryWorkCard {
   const primaryContributor = work.contributors.find(
     contributor => contributor.primary
   );
@@ -251,8 +251,8 @@ function toArchiveTypeWorkCard(work: Work): ArchiveTypeWorkCard {
   };
 }
 
-export type ArchiveTypeWorksResult = {
-  works: ArchiveTypeWorkCard[];
+export type ArchiveCategoryWorksResult = {
+  works: ArchiveCategoryWorkCard[];
   totalResults: number;
   totalPages: number;
   pageSize: number;
@@ -260,14 +260,14 @@ export type ArchiveTypeWorksResult = {
   requestUrl: string;
 };
 
-export const archiveTypeWorksSortFields = [
+export const archiveCategoryWorksSortFields = [
   'collectionPath',
   'production.dates',
 ] as const;
-export type ArchiveTypeWorksSortField =
-  (typeof archiveTypeWorksSortFields)[number];
+export type ArchiveCategoryWorksSortField =
+  (typeof archiveCategoryWorksSortFields)[number];
 
-export async function fetchArchiveTypeWorks({
+export async function fetchArchiveCategoryWorks({
   id,
   page,
   pageSize = 24,
@@ -277,9 +277,9 @@ export async function fetchArchiveTypeWorks({
   id: string;
   page: number;
   pageSize?: number;
-  sort?: ArchiveTypeWorksSortField;
+  sort?: ArchiveCategoryWorksSortField;
   sortOrder?: 'asc' | 'desc';
-}): Promise<ArchiveTypeWorksResult | WellcomeApiError> {
+}): Promise<ArchiveCategoryWorksResult | WellcomeApiError> {
   const result = await catalogueQuery<unknown, Work>('works', {
     pageSize,
     params: {
@@ -298,7 +298,7 @@ export async function fetchArchiveTypeWorks({
   }
 
   return {
-    works: result.results.map(toArchiveTypeWorkCard),
+    works: result.results.map(toArchiveCategoryWorkCard),
     totalResults: result.totalResults,
     totalPages: result.totalPages,
     pageSize: result.pageSize,
