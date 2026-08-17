@@ -14,7 +14,7 @@ import { init as initServerData } from '@weco/common/server-data';
 import { apmErrorMiddleware } from '@weco/common/services/apm/errorMiddleware';
 import { createClient as createPrismicClient } from '@weco/common/services/prismic/fetch';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { init as initArchiveTypes } from '@weco/content/server-data/archiveTypes';
+import { init as initArchiveCategories } from '@weco/content/server-data/archiveCategories';
 import { buildStoriesRss } from '@weco/content/utils/rss';
 
 const dev = process.env.NODE_ENV !== 'production';
@@ -25,7 +25,7 @@ const appPromise = nextApp
   .prepare()
   .then(async () => {
     await initServerData();
-    await initArchiveTypes();
+    await initArchiveCategories();
 
     const koaApp = new Koa();
     const router = new Router({

@@ -7,10 +7,10 @@ import Space from '@weco/common/views/components/styled/Space';
 import ThemeCard from '@weco/common/views/components/ThemeCard';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import type { ConceptImagesArray } from '@weco/content/hooks/useConceptImageUrls';
-import type { ArchiveType } from '@weco/content/services/wellcome/catalogue/archiveTypes';
+import type { ArchiveCategory } from '@weco/content/services/wellcome/catalogue/archiveCategories';
 
-// Cycled through, by index, for archive types with no real image yet (see
-// ARCHIVE_TYPE_IMAGES in archiveTypes.ts)
+// Cycled through, by index, for archive categories with no real image yet
+// (see ARCHIVE_CATEGORY_IMAGES in archiveCategories.ts)
 const PLACEHOLDER_COLOURS: PaletteColor[] = [
   'accent.green',
   'accent.blue',
@@ -31,10 +31,10 @@ const placeholderImageUrl = (hexColour: string): string => {
   return `https://placehold.co/400x600/${hex}/${hex}.svg`;
 };
 
-const ArchiveTypesList = ({
-  archiveTypes,
+const ArchiveCategoriesList = ({
+  archiveCategories,
 }: {
-  archiveTypes: ArchiveType[];
+  archiveCategories: ArchiveCategory[];
 }) => {
   const theme = useTheme();
 
@@ -42,11 +42,11 @@ const ArchiveTypesList = ({
     <Container>
       <Space $v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}>
         <Grid>
-          {archiveTypes.map((archiveType, index) => {
+          {archiveCategories.map((archiveCategory, index) => {
             // The eventual real image will be a composite made of 4 combined
             // photos, so match that shape with 4 placeholder colours
-            const images: ConceptImagesArray = archiveType.image
-              ? [archiveType.image, undefined, undefined, undefined]
+            const images: ConceptImagesArray = archiveCategory.image
+              ? [archiveCategory.image, undefined, undefined, undefined]
               : (Array.from({ length: 4 }, (_, slot) =>
                   placeholderImageUrl(
                     theme.color(
@@ -59,17 +59,17 @@ const ArchiveTypesList = ({
 
             return (
               <GridCell
-                key={archiveType.id}
+                key={archiveCategory.id}
                 $sizeMap={{ s: [12], m: [6], l: [4], xl: [3] }}
               >
                 <ThemeCard
                   images={images}
-                  title={`${archiveType.label} (${archiveType.id})`}
-                  description={`${archiveType.description} ${pluralize(archiveType.count, 'archive')}.`}
+                  title={`${archiveCategory.label} (${archiveCategory.id})`}
+                  description={`${archiveCategory.description} ${pluralize(archiveCategory.count, 'archive')}.`}
                   linkProps={{ href: { pathname: '/' } }}
                   dataGtmProps={{
                     trigger: 'theme_promo_card',
-                    id: archiveType.id,
+                    id: archiveCategory.id,
                     'category-label': 'Archives',
                   }}
                 />
@@ -82,4 +82,4 @@ const ArchiveTypesList = ({
   );
 };
 
-export default ArchiveTypesList;
+export default ArchiveCategoriesList;
