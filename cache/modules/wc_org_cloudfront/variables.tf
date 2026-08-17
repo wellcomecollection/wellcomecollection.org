@@ -67,6 +67,18 @@ variable "github_actions_ip_set_arn" {
   description = "ARN of the shared github-actions IP set (defined at root level)"
 }
 
+variable "enable_unrecognised_host_block" {
+  type        = bool
+  default     = false
+  description = "Block requests whose Host header is not one of the distribution's aliases (in practice, its *.cloudfront.net default domain). These fail TLS verification at the origin and pollute the 5xx alarm. Prove on stage before enabling elsewhere."
+}
+
+variable "extra_allowed_hosts" {
+  type        = set(string)
+  default     = []
+  description = "Hostnames beyond this distribution's aliases that the unrecognised-host block must accept. A web ACL evaluates traffic for every distribution associated with it, so any other distribution sharing this ACL must have its aliases listed here or the rule will 403 them."
+}
+
 variable "enable_search_challenge" {
   type        = bool
   default     = false

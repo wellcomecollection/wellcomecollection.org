@@ -3,14 +3,17 @@ import styled from 'styled-components';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { pageDescriptions } from '@weco/common/data/microcopy';
+import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import Space from '@weco/common/views/components/styled/Space';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { Page } from '@weco/content/types/pages';
 import { BodySliceContexts } from '@weco/content/views/components/Body';
+import CollectionsHeader from '@weco/content/views/components/CollectionsHeader';
 
-import ThematicBrowsingHeader from './ThematicBrowsing.Header';
+import ThematicBrowsingNavigation from './ThematicBrowsing.Navigation';
+import SubjectsMenu from './ThematicBrowsing.SubjectsMenu';
 
 const Wrapper = styled(Space).attrs<{ $hasPaddingBottom?: boolean }>(props => ({
   $v: {
@@ -51,6 +54,7 @@ const ThematicBrowsingLayout: FunctionComponent<
   apiToolbarLinks = [],
 }) => {
   const urlPathname = `/${prismicPageIds.collections}/${currentCategory}${subPageUid ? `/${subPageUid}` : ''}`;
+  const { thematicBrowsingSubCategory } = useFeatureFlags();
 
   return (
     <PageLayout
@@ -70,11 +74,17 @@ const ThematicBrowsingLayout: FunctionComponent<
       headerProps={{ hasColorBackground: true }}
       clipOverflowX
     >
-      <ThematicBrowsingHeader
+      <CollectionsHeader
         title={page.title}
         introText={page.introText}
         extraBreadcrumbs={extraBreadcrumbs}
-        currentCategory={currentCategory}
+        navigation={
+          <ThematicBrowsingNavigation currentCategory={currentCategory} />
+        }
+        afterIntro={
+          page.title === 'Subjects' &&
+          thematicBrowsingSubCategory && <SubjectsMenu />
+        }
       />
       <Wrapper $hasPaddingBottom={!subPageUid}>{children}</Wrapper>
     </PageLayout>
