@@ -220,6 +220,27 @@ export async function getArchiveWorks(
   );
 }
 
+export async function getArchiveCollectionContents(
+  collectionRootId: string,
+  shouldUseStagingApi?: boolean,
+  pipelineCluster?: string
+): Promise<Work[]> {
+  const response = await getWorks({
+    params: {
+      'collection.root': collectionRootId,
+      sort: 'collectionPath',
+      sortOrder: 'asc',
+    },
+    pageSize: 50,
+    shouldUseStagingApi,
+    pipelineCluster,
+  });
+
+  // console.log('[getArchiveCollectionContents]', collectionRootId, response);
+
+  return response.type === 'ResultList' ? response.results : [];
+}
+
 export async function getWorkItemsClientSide(
   workId: string,
   signal: AbortSignal | null
