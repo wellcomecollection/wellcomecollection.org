@@ -35,7 +35,11 @@ const ArchiveCategoriesList = ({
                   images={images}
                   title={`${archiveCategory.label} (${archiveCategory.id})`}
                   description={`${archiveCategory.description} ${pluralize(archiveCategory.count, 'archive')}.`}
-                  linkProps={{ href: { pathname: '/' } }}
+                  linkProps={{
+                    href: {
+                      pathname: `/collections/archives/${archiveCategory.slug}`,
+                    },
+                  }}
                   dataGtmProps={{
                     trigger: 'theme_promo_card',
                     id: archiveCategory.id,
