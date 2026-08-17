@@ -73,7 +73,7 @@ const constructTree = (
   };
 };
 
-function createBasicArchiveTree(work: Work): UiTree {
+export function createBasicArchiveTree(work: Work): UiTree {
   /*
   Return a 'basic' archive tree, populated only from data present on the provided `work`.
   Only ancestors and direct children are included.
@@ -111,28 +111,31 @@ function buildTreeFromCollectionPathOrder(works: Work[]): UiTree {
   const stack: UiTreeNode[] = [];
   let root: UiTreeNode | undefined;
 
-  for (const work of works) {
+  works.forEach((work, rowIndex) => {
     const depth = work.partOf.length;
     const node: UiTreeNode = {
       openStatus: true,
       data: work,
       parentId: work.partOf[0]?.id,
+      // Every section is open by default, so this flat list's order is
+      // already the order rows will render in, top to bottom.
+      rowIndex,
     };
 
     if (depth === 0) {
       root = node;
       stack[0] = node;
-      continue;
+      return;
     }
 
     const parent = stack[depth - 1];
-    if (!parent) continue;
+    if (!parent) return;
 
     parent.children = parent.children ? [...parent.children, node] : [node];
     parent.data = { ...parent.data, totalParts: parent.children.length };
     stack.length = depth;
     stack[depth] = node;
-  }
+  });
 
   const tree = root ? [root] : [];
   // console.log('[buildTreeFromCollectionPathOrder]', tree);
