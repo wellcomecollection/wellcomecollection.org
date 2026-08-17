@@ -44,7 +44,7 @@ export async function fetchArchiveCategories(): Promise<ArchiveCategory[]> {
     pageSize: 1,
     params: {
       'collection.isRoot': 'true',
-      workType: 'h,b,hdig',
+      workType: 'h,b,hdig', //filter to remove non-archival collection roots, we retrieve h = Archives and manuscripts, b = Manuscripts, hdig = Born-digital archives
       aggregations: 'archive.category',
     },
   });
