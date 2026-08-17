@@ -67,6 +67,11 @@ module "identity-e2e" {
 
   use_fargate_spot = true
 
+  // Backstop for when Buildkite skips its scale-down step. A count of 0 keeps
+  // the morning schedule from starting an environment nobody asked for.
+  turn_off_outside_office_hours = true
+  desired_task_count            = 0
+
   providers = {
     aws = aws.stage
   }
