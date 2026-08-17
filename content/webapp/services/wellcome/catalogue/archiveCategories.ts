@@ -1,7 +1,7 @@
 import { catalogueQuery } from '.';
 import { WorkAggregations } from './types/aggregations';
 
-export type ArchiveType = {
+export type ArchiveCategory = {
   id: string;
   // The catalogue API's IDs are uppercase codes (PP, WTI, etc) - lowercased
   // once here for a tidier /collections/archives/{slug} URL, rather than
@@ -14,12 +14,12 @@ export type ArchiveType = {
 };
 
 // The catalogue API's archive.category aggregation is the source of truth
-// for archive type IDs and labels - deliberately not duplicated here, so
+// for archive category IDs and labels - deliberately not duplicated here, so
 // this can't drift out of sync with it. Descriptions have no equivalent in
 // the API yet, so they're hardcoded here, keyed by the same IDs. An ID the
 // API returns that isn't in this map (a newly added category, say) just
 // renders with an empty description rather than being dropped.
-const ARCHIVE_TYPE_DESCRIPTIONS: Record<string, string> = {
+const ARCHIVE_CATEGORY_DESCRIPTIONS: Record<string, string> = {
   PP: 'The personal and working papers of individuals.',
   GC: 'Archives brought together from a range of sources on a common theme.',
   SA: 'Records of societies and associations connected with medicine and health.',
@@ -39,23 +39,23 @@ const ARCHIVE_TYPE_DESCRIPTIONS: Record<string, string> = {
 
 // Composite images we make ourselves and uploaded hosted,
 // keyed by the same IDs
-// An ID with no entry here renders
-// with a colour placeholder instead - see ArchiveTypesList.
-const ARCHIVE_TYPE_IMAGES: Record<string, string> = {};
+// An ID with no entry here renders with a colour placeholder instead
+// - see ThemeCard.
+const ARCHIVE_CATEGORY_IMAGES: Record<string, string> = {};
 
-export async function fetchArchiveTypes(): Promise<ArchiveType[]> {
+export async function fetchArchiveCategories(): Promise<ArchiveCategory[]> {
   const result = await catalogueQuery('works', {
     pageSize: 1,
     params: {
       'collection.isRoot': 'true',
-      workType: 'h,b,hdig',
+      workType: 'h,b,hdig', //filter to remove non-archival collection roots, we retrieve h = Archives and manuscripts, b = Manuscripts, hdig = Born-digital archives
       aggregations: 'archive.category',
     },
   });
 
   if ('type' in result && result.type === 'Error') {
     throw new Error(
-      `Failed to fetch archive type aggregations: ${result.description}`
+      `Failed to fetch archive category aggregations: ${result.description}`
     );
   }
 
@@ -71,7 +71,7 @@ export async function fetchArchiveTypes(): Promise<ArchiveType[]> {
     slug: bucket.data.id.toLowerCase(),
     label: bucket.data.label,
     count: bucket.count,
-    description: ARCHIVE_TYPE_DESCRIPTIONS[bucket.data.id] ?? '',
-    image: ARCHIVE_TYPE_IMAGES[bucket.data.id],
+    description: ARCHIVE_CATEGORY_DESCRIPTIONS[bucket.data.id] ?? '',
+    image: ARCHIVE_CATEGORY_IMAGES[bucket.data.id],
   }));
 }

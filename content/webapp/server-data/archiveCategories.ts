@@ -1,6 +1,6 @@
 /**
- * Archive type counts (from the catalogue API's archives-by-type
- * aggregation - see services/wellcome/catalogue/archiveTypes.ts).
+ * Archive category counts (from the catalogue API's archives-by-category
+ * aggregation - see services/wellcome/catalogue/archiveCategories.ts).
  * These are needed on more than one page, change only rarely,
  * and only need to be accurate to within a day.
  *
@@ -15,25 +15,29 @@ import { promises as fs } from 'fs';
 import path from 'path';
 
 import {
-  ArchiveType,
-  fetchArchiveTypes as fetchArchiveTypesFromCatalogue,
-} from '@weco/content/services/wellcome/catalogue/archiveTypes';
+  ArchiveCategory,
+  fetchArchiveCategories as fetchArchiveCategoriesFromCatalogue,
+} from '@weco/content/services/wellcome/catalogue/archiveCategories';
 
 if (typeof window !== 'undefined') {
   throw new Error(
-    'content/webapp/server-data/archiveTypes module can only be used on the server-side'
+    'content/webapp/server-data/archiveCategories module can only be used on the server-side'
   );
 }
 
 const day = 24 * 60 * 60 * 1000;
-const fileName = path.join(process.cwd(), '.server-data', 'archiveTypes.json');
+const fileName = path.join(
+  process.cwd(),
+  '.server-data',
+  'archiveCategories.json'
+);
 const tmpFileName = `${fileName}.tmp`;
 
 let timer: NodeJS.Timeout | undefined;
 
 async function write(): Promise<void> {
   try {
-    const data = await fetchArchiveTypesFromCatalogue();
+    const data = await fetchArchiveCategoriesFromCatalogue();
     await fs.mkdir(path.dirname(fileName), { recursive: true });
 
     // Write to a temp file then rename, so a concurrent read never sees a
@@ -42,7 +46,7 @@ async function write(): Promise<void> {
     await fs.rename(tmpFileName, fileName);
   } catch (e) {
     console.error(
-      'Could not update cached archive types; keeping the existing cache until the next daily fetch',
+      'Could not update cached archive categories; keeping the existing cache until the next daily fetch',
       e
     );
   }
@@ -63,12 +67,15 @@ export function clear(): void {
   if (timer) clearTimeout(timer);
 }
 
-export async function getArchiveTypes(): Promise<ArchiveType[]> {
+export async function getArchiveCategories(): Promise<ArchiveCategory[]> {
   try {
     const data = await fs.readFile(fileName, { encoding: 'utf-8' });
     return JSON.parse(data);
   } catch (e) {
-    console.error(`Could not read cached archive types from ${fileName}`, e);
+    console.error(
+      `Could not read cached archive categories from ${fileName}`,
+      e
+    );
     return [];
   }
 }
