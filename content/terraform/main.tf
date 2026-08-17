@@ -50,6 +50,10 @@ module "content-e2e" {
 
   use_fargate_spot = true
 
+  // As for module "identity-e2e"; one Buildkite step scales both services.
+  turn_off_outside_office_hours = true
+  desired_task_count            = 0
+
   providers = {
     aws = aws.stage
   }
