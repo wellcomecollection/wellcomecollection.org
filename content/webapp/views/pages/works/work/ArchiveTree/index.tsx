@@ -12,10 +12,7 @@ import {
   RelatedWork,
   Work,
 } from '@weco/content/services/wellcome/catalogue/types';
-import {
-  getArchiveCollectionContents,
-  getWorkClientSide,
-} from '@weco/content/services/wellcome/catalogue/works';
+import { getWorkClientSide } from '@weco/content/services/wellcome/catalogue/works';
 import { getArchiveAncestorArray } from '@weco/content/utils/works';
 import NestedList from '@weco/content/views/pages/works/work/NestedList';
 import {
@@ -107,63 +104,34 @@ async function createArchiveTree(work: Work): Promise<UiTree> {
 // parent's, as seen from a child's `partOf` entry), but NestedList's
 // expand-control check reads `data.totalParts` -- so it's backfilled here
 // as children are attached.
-function buildTreeFromCollectionPathOrder(works: Work[]): UiTree {
+export function buildTreeFromCollectionPathOrder(works: Work[]): UiTree {
   const stack: UiTreeNode[] = [];
   let root: UiTreeNode | undefined;
 
-  works.forEach((work, rowIndex) => {
+  for (const work of works) {
     const depth = work.partOf.length;
     const node: UiTreeNode = {
       openStatus: true,
       data: work,
       parentId: work.partOf[0]?.id,
-      // Every section is open by default, so this flat list's order is
-      // already the order rows will render in, top to bottom.
-      rowIndex,
     };
 
     if (depth === 0) {
       root = node;
       stack[0] = node;
-      return;
+      continue;
     }
 
     const parent = stack[depth - 1];
-    if (!parent) return;
+    if (!parent) continue;
 
     parent.children = parent.children ? [...parent.children, node] : [node];
     parent.data = { ...parent.data, totalParts: parent.children.length };
     stack.length = depth;
     stack[depth] = node;
-  });
+  }
 
-  const tree = root ? [root] : [];
-  // console.log('[buildTreeFromCollectionPathOrder]', tree);
-  return tree;
-}
-
-export async function createArchiveCollectionContentsTree(
-  work: Work,
-  shouldUseStagingApi?: boolean,
-  pipelineCluster?: string
-): Promise<UiTree> {
-  /*
-  Return the full contents tree for the archive collection `work` belongs to,
-  built from a single search query (sorted by `collectionPath`) rather than
-  by walking ancestors one at a time. Currently limited to the first page of
-  results (50 works, in document order), so very large collections will only
-  show as much of their first branch as fits in that page.
-  */
-  const ancestors = getArchiveAncestorArray(work);
-  const collectionRootId = ancestors[0]?.id || work.id;
-
-  const works = await getArchiveCollectionContents(
-    collectionRootId,
-    shouldUseStagingApi,
-    pipelineCluster
-  );
-
-  return buildTreeFromCollectionPathOrder(works);
+  return root ? [root] : [];
 }
 
 const ArchiveTree: FunctionComponent<{ work: Work }> = ({

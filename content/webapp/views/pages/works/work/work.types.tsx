@@ -24,11 +24,6 @@ export type UiTreeNode = {
   parentId?: string;
   children?: UiTree;
   data: TreeDataWork | TreeDataCanvas | TreeDataRange;
-  // Position among all visible rows in document order. Only set by trees
-  // that need to alternate row backgrounds without relying on DOM
-  // nth-child, which can't produce a continuous alternation across nested
-  // <ul>s.
-  rowIndex?: number;
 };
 
 export type UiTree = UiTreeNode[];

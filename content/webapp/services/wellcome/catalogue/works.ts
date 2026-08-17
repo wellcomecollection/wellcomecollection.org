@@ -220,25 +220,35 @@ export async function getArchiveWorks(
   );
 }
 
+export const ARCHIVE_COLLECTION_CONTENTS_PAGE_SIZE = 50;
+
 export async function getArchiveCollectionContents(
   collectionRootId: string,
+  page: number,
   shouldUseStagingApi?: boolean,
   pipelineCluster?: string
-): Promise<Work[]> {
+): Promise<
+  { results: Work[]; totalPages: number; totalResults: number } | undefined
+> {
   const response = await getWorks({
     params: {
       'collection.root': collectionRootId,
       sort: 'collectionPath',
       sortOrder: 'asc',
+      page,
     },
-    pageSize: 50,
+    pageSize: ARCHIVE_COLLECTION_CONTENTS_PAGE_SIZE,
     shouldUseStagingApi,
     pipelineCluster,
   });
 
-  // console.log('[getArchiveCollectionContents]', collectionRootId, response);
-
-  return response.type === 'ResultList' ? response.results : [];
+  return response.type === 'ResultList'
+    ? {
+        results: response.results,
+        totalPages: response.totalPages,
+        totalResults: response.totalResults,
+      }
+    : undefined;
 }
 
 export async function getWorkItemsClientSide(

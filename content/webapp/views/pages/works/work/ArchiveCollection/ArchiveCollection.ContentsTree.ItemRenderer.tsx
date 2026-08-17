@@ -2,7 +2,7 @@ import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
-import { chevron, file, folder } from '@weco/common/icons';
+import { chevron, closedFolder, file, openFolder } from '@weco/common/icons';
 import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
 import { toWorkLink } from '@weco/content/views/components/WorkLink';
@@ -29,11 +29,19 @@ export type ContentsTreeItemRendererProps = {
   level: number;
   highlightCondition?: 'primary' | 'secondary';
   isDarkMode?: boolean;
+  rowIndexById?: Record<string, number>;
 };
 
 const ContentsTreeItemRenderer: FunctionComponent<
   ContentsTreeItemRendererProps
-> = ({ item, hasControl, level, highlightCondition, isDarkMode }) => {
+> = ({
+  item,
+  hasControl,
+  level,
+  highlightCondition,
+  isDarkMode,
+  rowIndexById,
+}) => {
   const { isEnhanced } = useAppContext();
   // Safe assertion: this renderer is only used in the archive collection
   // contents tree, where data is always TreeDataWork
@@ -42,13 +50,17 @@ const ContentsTreeItemRenderer: FunctionComponent<
   // Nested <ul>s indent each row via padding-left (see work.styles.tsx),
   // so a row's own <table> starts further right the deeper it's nested --
   // this is exactly how much, so it can be cancelled out and the row's
-  // background can span the tree's full width regardless of depth.
-  const indentPx = level > 2 ? (level - 2) * controlDimensions.controlWidth : 0;
+  // background can span the tree's full width regardless of depth. Indentation
+  // starts from level 2 (matches showFirstLevelGuideline={true} passed to
+  // Tree/NestedList in ArchiveCollection.Contents.tsx).
+  const indentPx = level > 1 ? (level - 1) * controlDimensions.controlWidth : 0;
+  const rowIndex = rowIndexById?.[data.id];
 
   return (
     <ContentsTable
-      $isEvenRow={item.rowIndex !== undefined && item.rowIndex % 2 === 0}
+      $isEvenRow={rowIndex !== undefined && rowIndex % 2 === 0}
       $indentPx={indentPx}
+      $hasControl={hasControl}
     >
       <tbody>
         <tr>
@@ -69,7 +81,14 @@ const ContentsTreeItemRenderer: FunctionComponent<
               )}
 
               <Icon
-                icon={hasControl ? folder : file}
+                icon={
+                  hasControl
+                    ? item.openStatus
+                      ? openFolder
+                      : closedFolder
+                    : file
+                }
+                iconColor="neutral.600"
                 matchText
                 sizeOverride="height: 16px; width: 16px;"
               />

@@ -1,19 +1,31 @@
-import { FunctionComponent, useEffect, useRef, useState } from 'react';
+import { FunctionComponent, useEffect, useMemo, useRef, useState } from 'react';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { treeInstructions } from '@weco/common/data/microcopy';
+import { plus } from '@weco/common/icons';
 import { useFeatureFlags, useModes } from '@weco/common/server-data/Context';
+import Icon from '@weco/common/views/components/Icon';
 import { Work } from '@weco/content/services/wellcome/catalogue/types';
+import {
+  ARCHIVE_COLLECTION_CONTENTS_PAGE_SIZE,
+  getArchiveCollectionContents,
+} from '@weco/content/services/wellcome/catalogue/works';
 import { getArchiveAncestorArray } from '@weco/content/utils/works';
 import {
-  createArchiveCollectionContentsTree,
+  buildTreeFromCollectionPathOrder,
   createBasicArchiveTree,
 } from '@weco/content/views/pages/works/work/ArchiveTree';
-import NestedList from '@weco/content/views/pages/works/work/NestedList';
+import NestedList, {
+  getTabbableIds,
+} from '@weco/content/views/pages/works/work/NestedList';
 
 import ContentsTreeItemRenderer from './ArchiveCollection.ContentsTree.ItemRenderer';
 import {
+  ChevronSpacer,
   ContentsTable,
+  NameCell,
+  ShowMoreButton,
+  ShowMoreCount,
   Tree,
   TreeHeadings,
   TreeInstructions,
@@ -27,9 +39,25 @@ const ArchiveCollectionContents: FunctionComponent<{
   const { stagingApi } = useFeatureFlags();
   const { cataloguePipeline } = useModes();
   const archiveAncestorArray = getArchiveAncestorArray(work);
+  const collectionRootId = archiveAncestorArray[0]?.id || work.id;
+
   const [tree, setTree] = useState(createBasicArchiveTree(work));
   const [tabbableId, setTabbableId] = useState<string>();
+  const [works, setWorks] = useState<Work[]>([]);
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState<number>();
+  const [totalResults, setTotalResults] = useState<number>();
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
   const hasFetched = useRef(false);
+
+  // Rows are alternately coloured, but which rows are actually visible
+  // changes as branches are expanded/collapsed, so the index each row
+  // needs for that has to be recomputed from the tree's current state
+  // (respecting openStatus) rather than fixed at fetch time.
+  const rowIndexById = useMemo(() => {
+    const visibleIds = getTabbableIds(tree);
+    return Object.fromEntries(visibleIds.map((id, index) => [id, index]));
+  }, [tree]);
 
   useEffect(() => {
     const elementToFocus = tabbableId && document.getElementById(tabbableId);
@@ -38,6 +66,23 @@ const ArchiveCollectionContents: FunctionComponent<{
     }
   }, [tree, tabbableId]);
 
+  async function loadPage(pageToLoad: number, existingWorks: Work[]) {
+    const response = await getArchiveCollectionContents(
+      collectionRootId,
+      pageToLoad,
+      stagingApi,
+      cataloguePipeline ?? undefined
+    );
+    if (!response) return;
+
+    const updatedWorks = [...existingWorks, ...response.results];
+    setWorks(updatedWorks);
+    setTree(buildTreeFromCollectionPathOrder(updatedWorks));
+    setPage(pageToLoad);
+    setTotalPages(response.totalPages);
+    setTotalResults(response.totalResults);
+  }
+
   useEffect(() => {
     // The Contents tab panel is always mounted (so it still works without
     // JS), so this only fetches once the tab is actually selected, rather
@@ -45,17 +90,16 @@ const ArchiveCollectionContents: FunctionComponent<{
     // load regardless of which tab the user's looking at.
     if (!isActive || hasFetched.current) return;
     hasFetched.current = true;
+    loadPage(1, []);
+  }, [isActive, collectionRootId, stagingApi, cataloguePipeline]);
 
-    async function setupTree() {
-      const fetchedTree = await createArchiveCollectionContentsTree(
-        work,
-        stagingApi,
-        cataloguePipeline ?? undefined
-      );
-      setTree(fetchedTree || []);
-    }
-    setupTree();
-  }, [isActive, work, stagingApi, cataloguePipeline]);
+  const hasMorePages = totalPages !== undefined && page < totalPages;
+
+  async function showMore() {
+    setIsLoadingMore(true);
+    await loadPage(page + 1, works);
+    setIsLoadingMore(false);
+  }
 
   return (
     <div style={{ overflowX: 'auto', width: '100%' }}>
@@ -72,7 +116,7 @@ const ArchiveCollectionContents: FunctionComponent<{
           </ContentsTable>
         </TreeHeadings>
 
-        <Tree $isEnhanced={isEnhanced} $showFirstLevelGuideline={false}>
+        <Tree $isEnhanced={isEnhanced} $showFirstLevelGuideline>
           {isEnhanced && (
             <TreeInstructions>{treeInstructions}</TreeInstructions>
           )}
@@ -86,11 +130,45 @@ const ArchiveCollectionContents: FunctionComponent<{
             setTabbableId={setTabbableId}
             workAncestors={archiveAncestorArray}
             firstItemTabbable={false}
-            showFirstLevelGuideline={false}
+            showFirstLevelGuideline
             ItemRenderer={ContentsTreeItemRenderer}
-            shouldFetchChildren
+            shouldFetchChildren={false}
+            itemRendererProps={{ rowIndexById }}
           />
         </Tree>
+
+        {hasMorePages && (
+          <ContentsTable>
+            <tbody>
+              <tr>
+                <td>
+                  <NameCell>
+                    <ChevronSpacer />
+                    <ShowMoreButton onClick={showMore} disabled={isLoadingMore}>
+                      <Icon
+                        icon={plus}
+                        iconColor="neutral.600"
+                        matchText
+                        sizeOverride="height: 16px; width: 16px;"
+                      />
+                      {isLoadingMore
+                        ? 'Loading…'
+                        : `Show ${Math.min(
+                            ARCHIVE_COLLECTION_CONTENTS_PAGE_SIZE,
+                            (totalResults ?? works.length) - works.length
+                          )} more rows`}
+                    </ShowMoreButton>
+                  </NameCell>
+                </td>
+                <td colSpan={2} style={{ textAlign: 'right' }}>
+                  <ShowMoreCount>
+                    Showing {works.length} of {totalResults} rows
+                  </ShowMoreCount>
+                </td>
+              </tr>
+            </tbody>
+          </ContentsTable>
+        )}
       </div>
     </div>
   );
