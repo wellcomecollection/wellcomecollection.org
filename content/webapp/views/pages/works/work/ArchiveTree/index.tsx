@@ -199,10 +199,6 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
   }, []);
 
   useEffect(() => {
-    createArchiveCollectionContentsTree(work);
-  }, [work]);
-
-  useEffect(() => {
     if (!initialLoad.current) {
       const workInfo = document.getElementById('work-info');
 
