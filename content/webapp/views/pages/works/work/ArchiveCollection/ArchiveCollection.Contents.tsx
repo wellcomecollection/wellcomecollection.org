@@ -77,7 +77,15 @@ const ArchiveCollectionContents: FunctionComponent<{
 
     const updatedWorks = [...existingWorks, ...response.results];
     setWorks(updatedWorks);
-    setTree(buildTreeFromCollectionPathOrder(updatedWorks));
+    // Only carry over open/closed state from page 2 onwards -- the very
+    // first load has nothing worth preserving (just the basic fallback
+    // tree), and everything should still default open at that point.
+    setTree(
+      buildTreeFromCollectionPathOrder(
+        updatedWorks,
+        pageToLoad > 1 ? tree : undefined
+      )
+    );
     setPage(pageToLoad);
     setTotalPages(response.totalPages);
     setTotalResults(response.totalResults);

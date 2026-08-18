@@ -94,6 +94,19 @@ async function createArchiveTree(work: Work): Promise<UiTree> {
   return [constructTree(allTreeNodes[0], allTreeNodes, null)];
 }
 
+// Flattens a tree into an id -> openStatus map, so a freshly-rebuilt tree
+// can restore which branches were already manually opened or closed.
+function getOpenStatusById(tree: UiTree): Record<string, boolean> {
+  const result: Record<string, boolean> = {};
+  for (const node of tree) {
+    result[node.data.id] = node.openStatus;
+    if (node.children) {
+      Object.assign(result, getOpenStatusById(node.children));
+    }
+  }
+  return result;
+}
+
 // Builds a nested tree from a flat list of works sorted by `collectionPath`
 // (i.e. depth-first, parents before children), with every section open by
 // default. Depth for each work is read off the length of its filtered
@@ -106,7 +119,18 @@ async function createArchiveTree(work: Work): Promise<UiTree> {
 // parent's, as seen from a child's `partOf` entry), but NestedList's
 // expand-control check reads `data.totalParts` -- so it's backfilled here
 // as children are attached.
-export function buildTreeFromCollectionPathOrder(works: Work[]): UiTree {
+//
+// `previousTree`, if given, carries over whichever nodes the user had
+// already manually opened or closed (e.g. when loading another page of
+// results) -- only nodes not already present default to open.
+export function buildTreeFromCollectionPathOrder(
+  works: Work[],
+  previousTree?: UiTree
+): UiTree {
+  const previousOpenStatusById = previousTree
+    ? getOpenStatusById(previousTree)
+    : undefined;
+
   const stack: UiTreeNode[] = [];
   let root: UiTreeNode | undefined;
 
@@ -114,7 +138,7 @@ export function buildTreeFromCollectionPathOrder(works: Work[]): UiTree {
     const archiveAncestors = getArchiveAncestorArray(work);
     const depth = archiveAncestors.length;
     const node: UiTreeNode = {
-      openStatus: true,
+      openStatus: previousOpenStatusById?.[work.id] ?? true,
       data: work,
       parentId: archiveAncestors[archiveAncestors.length - 1]?.id,
     };
