@@ -96,9 +96,11 @@ async function createArchiveTree(work: Work): Promise<UiTree> {
 
 // Builds a nested tree from a flat list of works sorted by `collectionPath`
 // (i.e. depth-first, parents before children), with every section open by
-// default. Depth for each work is read off the length of its `partOf` array,
-// which is always populated by this sort order so no per-node lookups are
-// needed.
+// default. Depth for each work is read off the length of its filtered
+// archive-ancestor chain (see getArchiveAncestorArray) rather than the raw
+// `partOf` array, since partOf can also carry non-archive parents (e.g. a
+// Library Series) mixed in. Using the raw length would overstate depth
+// and drop that work and its descendants from the tree.
 //
 // The search results don't carry a work's own `totalParts` (only its
 // parent's, as seen from a child's `partOf` entry), but NestedList's
@@ -109,11 +111,12 @@ export function buildTreeFromCollectionPathOrder(works: Work[]): UiTree {
   let root: UiTreeNode | undefined;
 
   for (const work of works) {
-    const depth = work.partOf.length;
+    const archiveAncestors = getArchiveAncestorArray(work);
+    const depth = archiveAncestors.length;
     const node: UiTreeNode = {
       openStatus: true,
       data: work,
-      parentId: work.partOf[0]?.id,
+      parentId: archiveAncestors[archiveAncestors.length - 1]?.id,
     };
 
     if (depth === 0) {
