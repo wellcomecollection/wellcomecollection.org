@@ -36,11 +36,6 @@ const ArchiveCategoriesList = ({
                   title={`${archiveCategory.label} (${archiveCategory.id})`}
                   description={`${archiveCategory.description} ${pluralize(archiveCategory.count, 'archive')}.`}
                   linkProps={{ href: { pathname: '/' } }}
-                  dataGtmProps={{
-                    trigger: 'theme_promo_card',
-                    id: archiveCategory.id,
-                    'category-label': 'Archives',
-                  }}
                 />
               </GridCell>
             );
