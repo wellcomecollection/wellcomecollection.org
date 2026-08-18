@@ -10,6 +10,7 @@ export type WorkAggregations = {
   'genres.label'?: WellcomeAggregation<UnidentifiedBucketData>;
   'subjects.label'?: WellcomeAggregation<UnidentifiedBucketData>;
   'contributors.agent.label'?: WellcomeAggregation<UnidentifiedBucketData>;
+  'archive.category'?: WellcomeAggregation;
   type: 'Aggregations';
 };
 

@@ -1,6 +1,7 @@
 import { FunctionComponent, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { typography } from '@weco/common/utils/classnames';
 import { capitalize, pluralize } from '@weco/common/utils/grammar';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
@@ -50,6 +51,7 @@ type Props = {
 
 const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
   const theme = useTheme();
+  const { isEnhanced } = useAppContext();
   const { config } = useConceptPageContext();
   const tabs = themeTabOrder
     .filter(
@@ -60,9 +62,6 @@ const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
     .map(tabType => ({
       id: tabType,
       text: getSectionTypeLabel(tabType, config, 'works'),
-      dataGtmProps: {
-        label: getSectionTypeLabel(tabType, config, 'works') || '""',
-      },
     }));
 
   const [selectedTab, setSelectedTab] = useState<ThemeTabType | null>(
@@ -72,12 +71,6 @@ const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
   if (!selectedTab) {
     return null;
   }
-
-  const activePanel: SectionData = sectionsData[selectedTab];
-  if (!activePanel.works || activePanel.totalResults.works === undefined)
-    return null;
-
-  const labelBasedCount = activePanel.totalResults.works;
 
   return (
     <>
@@ -105,31 +98,40 @@ const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
           as="section"
           data-testid="works-section"
         >
-          <div
-            {...(tabs.length > 1 && {
-              role: 'tabpanel',
-              id: `tabpanel-${selectedTab}`,
-              'aria-labelledby': `tab-${selectedTab}`,
-            })}
-          >
-            <WorksCount>
-              {pluralize(activePanel.works.totalResults, 'work')}
-            </WorksCount>
-            <Space $v={{ size: 'md', properties: ['margin-top'] }}>
-              <WorksSearchResults works={activePanel.works!.pageResults} />
-            </Space>
+          {tabs.map(tab => {
+            const panel: SectionData = sectionsData[tab.id];
+            const works = panel.works!;
+            const labelBasedCount =
+              panel.totalResults.works ?? works.pageResults.length;
 
-            {labelBasedCount > activePanel.works.pageResults.length && (
-              <Space $v={{ size: 'md', properties: ['padding-top'] }}>
-                <MoreLink
-                  ariaLabel={`View all works for ${concept.displayLabel}`}
-                  name="View all"
-                  url={getAllWorksLink(selectedTab, concept)}
-                  colors={theme.buttonColors.greenGreenWhite}
-                />
-              </Space>
-            )}
-          </div>
+            return (
+              <div
+                key={tab.id}
+                {...(tabs.length > 1 && {
+                  role: 'tabpanel',
+                  id: `tabpanel-${tab.id}`,
+                  'aria-labelledby': `tab-${tab.id}`,
+                })}
+                hidden={isEnhanced && selectedTab !== tab.id}
+              >
+                <WorksCount>{pluralize(works.totalResults, 'work')}</WorksCount>
+                <Space $v={{ size: 'md', properties: ['margin-top'] }}>
+                  <WorksSearchResults works={works.pageResults} />
+                </Space>
+
+                {labelBasedCount > works.pageResults.length && (
+                  <Space $v={{ size: 'md', properties: ['padding-top'] }}>
+                    <MoreLink
+                      ariaLabel={`View all works for ${concept.displayLabel}`}
+                      name="View all"
+                      url={getAllWorksLink(tab.id, concept)}
+                      colors={theme.buttonColors.greenGreenWhite}
+                    />
+                  </Space>
+                )}
+              </div>
+            );
+          })}
         </Space>
       </Space>
     </>
