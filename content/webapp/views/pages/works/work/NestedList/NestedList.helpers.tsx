@@ -89,7 +89,7 @@ export function updateChildren({
 
 // The API's `type` field for an archive work is either the generic 'Work'
 // (the leaf/item level) or a specific archive level (Collection/Series/
-// Section) -- this maps it to the label shown/announced for a tree row.
+// Section); this maps it to the label shown/announced for a tree row.
 export function getWorkLevelLabel(type: TreeDataWork['type']): string {
   return type === 'Work' ? 'Item' : type;
 }

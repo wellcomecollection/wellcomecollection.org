@@ -107,22 +107,17 @@ function getOpenStatusById(tree: UiTree): Record<string, boolean> {
   return result;
 }
 
-// Builds a nested tree from a flat list of works sorted by `collectionPath`
-// (i.e. depth-first, parents before children), with every section open by
-// default. Depth for each work is read off the length of its filtered
-// archive-ancestor chain (see getArchiveAncestorArray) rather than the raw
-// `partOf` array, since partOf can also carry non-archive parents (e.g. a
-// Library Series) mixed in. Using the raw length would overstate depth
-// and drop that work and its descendants from the tree.
+// Builds a tree from a flat, collectionPath-sorted list, everything open
+// by default. Depth comes from the filtered archive-ancestor chain, not
+// raw `partOf.length`. `partOf` can have non-archive parents (e.g. a
+// Library Series) mixed in, which would overstate depth and drop a whole
+// subtree.
 //
-// The search results don't carry a work's own `totalParts` (only its
-// parent's, as seen from a child's `partOf` entry), but NestedList's
-// expand-control check reads `data.totalParts` -- so it's backfilled here
-// as children are attached.
+// totalParts gets backfilled as children attach, since search results
+// only carry a work's parent's totalParts, not its own.
 //
-// `previousTree`, if given, carries over whichever nodes the user had
-// already manually opened or closed (e.g. when loading another page of
-// results) -- only nodes not already present default to open.
+// Pass `previousTree` to keep whatever the user already opened/closed,
+// only genuinely new nodes default to open.
 export function buildTreeFromCollectionPathOrder(
   works: Work[],
   previousTree?: UiTree

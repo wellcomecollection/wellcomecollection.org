@@ -50,10 +50,9 @@ const ArchiveCollectionContents: FunctionComponent<{
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const hasFetched = useRef(false);
 
-  // Rows are alternately coloured, but which rows are actually visible
-  // changes as branches are expanded/collapsed, so the index each row
-  // needs for that has to be recomputed from the tree's current state
-  // (respecting openStatus) rather than fixed at fetch time.
+  // Row stripes depend on visible position, which shifts as branches
+  // expand/collapse, so recompute from the tree's live openStatus rather
+  // than a fixed index.
   const rowIndexById = useMemo(() => {
     const visibleIds = getTabbableIds(tree);
     return Object.fromEntries(visibleIds.map((id, index) => [id, index]));
@@ -77,7 +76,7 @@ const ArchiveCollectionContents: FunctionComponent<{
 
     const updatedWorks = [...existingWorks, ...response.results];
     setWorks(updatedWorks);
-    // Only carry over open/closed state from page 2 onwards -- the very
+    // Only carry over open/closed state from page 2 onwards. The very
     // first load has nothing worth preserving (just the basic fallback
     // tree), and everything should still default open at that point.
     setTree(
@@ -92,10 +91,9 @@ const ArchiveCollectionContents: FunctionComponent<{
   }
 
   useEffect(() => {
-    // The Contents tab panel is always mounted (so it still works without
-    // JS), so this only fetches once the tab is actually selected, rather
-    // than fetching a whole collection's contents on every archive page
-    // load regardless of which tab the user's looking at.
+    // The tab panel stays mounted for no-JS support, so gate the fetch on
+    // isActive instead of firing on every page load regardless of which
+    // tab's open.
     if (!isActive || hasFetched.current) return;
     hasFetched.current = true;
     loadPage(1, []);

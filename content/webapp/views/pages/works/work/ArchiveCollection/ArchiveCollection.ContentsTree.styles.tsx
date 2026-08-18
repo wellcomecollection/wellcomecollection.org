@@ -9,21 +9,12 @@ export {
   TreeInstructions,
 } from '@weco/content/views/pages/works/work/work.styles';
 
-// Each row is its own one-row <table> nested arbitrarily deep inside
-// <ul>/<li>, so CSS nth-child can't produce a continuous odd/even
-// alternation across the whole visible tree -- $isEvenRow is worked out
-// from each row's position among currently-visible rows instead (see
-// `rowIndexById` in ArchiveCollection.Contents.tsx) and applied directly
-// as a background colour, which (unlike a repeating-gradient background)
-// keeps working if a row ends up taller than the single-line case below.
-//
-// Nested <ul>s also indent each row's <table> via ancestor padding-left,
-// so a deeply-nested row's own table starts partway across the tree --
-// $indentPx (see ArchiveCollection.ContentsTree.ItemRenderer.tsx) is
-// exactly that indentation, cancelled out with a negative margin/matching
-// width increase so the background always spans the tree's full width,
-// then reapplied as padding on the first cell so the row's content still
-// lines up where it visually was.
+// Each row's its own <table> (real tables can't nest recursively), so
+// nth-child can't stripe them. $isEvenRow comes from visible-row
+// position instead (see `rowIndexById`), which also survives rows taller
+// than one line. $indentPx cancels out the ancestor <ul> indentation so
+// the stripe still spans full width at any depth, then reapplies it as
+// padding so content doesn't shift.
 export const ContentsTable = styled.table.attrs({
   className: typography('body', 'sm', 'regular'),
 })<{ $isEvenRow?: boolean; $indentPx?: number; $hasControl?: boolean }>`
@@ -38,8 +29,7 @@ export const ContentsTable = styled.table.attrs({
       : props.theme.color(props.$isEvenRow ? 'white' : 'neutral.200')};
 
   /* Clicking anywhere in a row toggles it open/closed (see ListItem's
-     onClick), but only rows with something to expand actually do
-     anything -- a leaf row's click is a no-op, so it shouldn't look
+     onClick), but a leaf row's click is a no-op, so it shouldn't look
      clickable either. */
   ${props => props.$hasControl && `cursor: pointer;`}
 

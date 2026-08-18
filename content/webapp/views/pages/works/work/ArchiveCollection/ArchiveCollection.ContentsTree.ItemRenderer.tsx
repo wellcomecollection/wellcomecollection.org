@@ -49,12 +49,10 @@ const ContentsTreeItemRenderer: FunctionComponent<
   // contents tree, where data is always TreeDataWork
   const data = item.data as TreeDataWork;
 
-  // Nested <ul>s indent each row via padding-left (see work.styles.tsx),
-  // so a row's own <table> starts further right the deeper it's nested --
-  // this is exactly how much, so it can be cancelled out and the row's
-  // background can span the tree's full width regardless of depth. Indentation
-  // starts from level 2 (matches showFirstLevelGuideline={true} passed to
-  // Tree/NestedList in ArchiveCollection.Contents.tsx).
+  // This is exactly how far the ancestor <ul> nesting has already pushed
+  // the row right, so ContentsTable can cancel it out and let the stripe
+  // span full width. Starts from level 2, matching showFirstLevelGuideline
+  // on Tree/NestedList in ArchiveCollection.Contents.tsx.
   const indentPx = level > 1 ? (level - 1) * controlDimensions.controlWidth : 0;
   const rowIndex = rowIndexById?.[data.id];
 
