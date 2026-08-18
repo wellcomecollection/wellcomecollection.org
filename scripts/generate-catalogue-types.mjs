@@ -3,12 +3,16 @@
 import { console } from 'node:console';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
+import process from 'node:process';
 import { fileURLToPath, URL } from 'node:url';
 
 import openapiTS, { astToString } from 'openapi-typescript';
 
-const specUrl =
-  'https://raw.githubusercontent.com/wellcomecollection/catalogue-api/main/reference/catalogue.yaml';
+// CATALOGUE_SPEC_REF pins the fetch to an exact commit; the dispatch workflow
+// sets it because raw.githubusercontent.com can serve a cached main for a few
+// minutes after a push. Local runs and the cron fallback use main.
+const specRef = process.env.CATALOGUE_SPEC_REF || 'main';
+const specUrl = `https://raw.githubusercontent.com/wellcomecollection/catalogue-api/${specRef}/reference/catalogue.yaml`;
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const output = join(

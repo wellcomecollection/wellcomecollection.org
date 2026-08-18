@@ -31,6 +31,9 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Regenerate catalogue API types
+        env:
+          # Empty for cron and manual runs, so the script falls back to main.
+          CATALOGUE_SPEC_REF: ${{ github.event.client_payload.source_sha }}
         run: yarn generate:catalogue-types
 
       - name: Check for changes
