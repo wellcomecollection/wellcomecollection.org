@@ -25,7 +25,7 @@ const ArchiveCollectionLayout = ({ work }: { work: WorkType }) => {
       id: 'contents',
       text: 'Collection contents',
       url: '#tabpanel-contents',
-      dataGtmProps: { label: 'Collection contents' }, // Is this just always the same as the label?
+      dataGtmProps: { label: 'Collection contents' },
     },
   ];
 
