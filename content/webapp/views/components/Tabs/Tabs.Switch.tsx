@@ -98,14 +98,18 @@ const TabsSwitch: FunctionComponent<Props> = ({
       }
     }
 
-    // Only correct an anchor that's already there (e.g. normalising an old
-    // tabpanel-prefixed link) - a fresh, anchor-less URL should stay that way
-    // until the user actually switches tabs.
+    // Only correct an anchor that's already recognised as this tab's own
+    // no-JS anchor (e.g. normalising a "tabpanel"-prefixed link). Leave any
+    // other existing fragment alone - it might belong to something else on
+    // the page (e.g. a concept page's own #works/#images anchors), and a
+    // fresh, anchor-less URL should stay that way until the user actually
+    // switches tabs.
     const selectedItem = items.find(item => item.id === selectedTab);
+    const hash = window.location.hash.slice(1);
     if (
       selectedItem &&
-      window.location.hash &&
-      window.location.hash.slice(1) !== getJsAnchorId(selectedItem)
+      hash === getNoJsAnchorId(selectedItem) &&
+      hash !== getJsAnchorId(selectedItem)
     ) {
       window.history.replaceState(null, '', `#${getJsAnchorId(selectedItem)}`);
     }

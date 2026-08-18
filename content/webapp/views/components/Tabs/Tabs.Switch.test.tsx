@@ -118,7 +118,9 @@ describe('TabsSwitch', () => {
     expect(scrollIntoView.mock.instances).toContain(contentsTab);
   });
 
-  it('ignores a URL anchor that does not match any tab', () => {
+  it('ignores a URL anchor that does not match any tab, and leaves it untouched', () => {
+    // e.g. a concept page's own #works/#images anchor, or a sub-theme page's
+    // #stories - not one of this component's own tabs, so must be left alone.
     window.history.replaceState(null, '', '#not-a-real-tab');
     renderComponent();
 
@@ -126,6 +128,7 @@ describe('TabsSwitch', () => {
       'aria-selected',
       'true'
     );
+    expect(window.location.hash).toBe('#not-a-real-tab');
   });
 
   it('switches tab and scrolls to it when the URL anchor changes without a full page load', async () => {
