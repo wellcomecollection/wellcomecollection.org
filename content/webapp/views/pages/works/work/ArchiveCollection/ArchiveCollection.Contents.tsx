@@ -100,6 +100,10 @@ const ArchiveCollectionContents: FunctionComponent<{
   }, [isActive, collectionRootId, stagingApi, cataloguePipeline]);
 
   const hasMorePages = totalPages !== undefined && page < totalPages;
+  const nextBatchSize = Math.min(
+    ARCHIVE_COLLECTION_CONTENTS_PAGE_SIZE,
+    (totalResults ?? works.length) - works.length
+  );
 
   async function showMore() {
     setIsLoadingMore(true);
@@ -159,10 +163,7 @@ const ArchiveCollectionContents: FunctionComponent<{
                       />
                       {isLoadingMore
                         ? 'Loading…'
-                        : `Show ${Math.min(
-                            ARCHIVE_COLLECTION_CONTENTS_PAGE_SIZE,
-                            (totalResults ?? works.length) - works.length
-                          )} more rows`}
+                        : `Show ${nextBatchSize} more rows`}
                     </ShowMoreButton>
                   </NameCell>
                 </td>
