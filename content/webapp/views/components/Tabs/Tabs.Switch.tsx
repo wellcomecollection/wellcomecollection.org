@@ -2,7 +2,6 @@ import {
   Dispatch,
   FunctionComponent,
   KeyboardEvent,
-  ReactNode,
   SetStateAction,
   useRef,
 } from 'react';
@@ -26,10 +25,10 @@ import {
 
 type SwitchSelectableTextLink = {
   id: string;
-  text: ReactNode;
+  text: string;
   url?: string;
   icon?: IconSvg;
-  dataGtmProps: { label: DataGtmProps['label'] };
+  dataGtmProps?: { label: DataGtmProps['label'] };
 };
 
 export type Props = {
@@ -107,6 +106,8 @@ const TabsSwitch: FunctionComponent<Props> = ({
     >
       {items.map((item, index) => {
         const isSelected = isEnhanced && selectedTab === item.id;
+        const url = item.url ?? `#tabpanel-${item.id}`;
+
         return (
           <Tab
             key={item.id}
@@ -137,6 +138,7 @@ const TabsSwitch: FunctionComponent<Props> = ({
                 $selected={isSelected}
                 $isWhite={isWhite}
                 {...dataGtmPropsToAttributes({
+                  label: item.text,
                   ...item.dataGtmProps,
                   trigger: `tab_${toSnakeCase(label)}`,
                   'position-in-list': `${index + 1}`,
@@ -144,8 +146,8 @@ const TabsSwitch: FunctionComponent<Props> = ({
               >
                 <NavItemShim>{item.text}</NavItemShim>
                 <ConditionalWrapper
-                  condition={Boolean(item.url && !isEnhanced)}
-                  wrapper={children => <a href={item.url}>{children}</a>}
+                  condition={!isEnhanced}
+                  wrapper={children => <a href={url}>{children}</a>}
                 >
                   {item.icon && (
                     <Space
