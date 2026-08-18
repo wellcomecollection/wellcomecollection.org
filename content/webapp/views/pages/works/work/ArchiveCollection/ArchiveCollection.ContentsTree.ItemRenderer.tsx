@@ -27,6 +27,7 @@ export type ContentsTreeItemRendererProps = {
   item: UiTreeNode;
   hasControl: boolean;
   level: number;
+  isSelected: boolean;
   highlightCondition?: 'primary' | 'secondary';
   isDarkMode?: boolean;
   rowIndexById?: Record<string, number>;
@@ -38,6 +39,7 @@ const ContentsTreeItemRenderer: FunctionComponent<
   item,
   hasControl,
   level,
+  isSelected,
   highlightCondition,
   isDarkMode,
   rowIndexById,
@@ -99,7 +101,7 @@ const ContentsTreeItemRenderer: FunctionComponent<
                   // Don't toggle the branch when the link itself is activated
                   event.stopPropagation();
                 }}
-                tabIndex={isEnhanced ? 0 : undefined}
+                tabIndex={isEnhanced ? (isSelected ? 0 : -1) : 0}
                 {...dataGtmPropsToAttributes({
                   trigger: 'contents_tree_link',
                   label: `${data.title}${data.referenceNumber ? ` (${data.referenceNumber})` : ''}`,
