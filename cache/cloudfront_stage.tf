@@ -32,6 +32,12 @@ module "stage_wc_org_cloudfront_distribution" {
   github_actions_ip_set_arn = aws_wafv2_ip_set.github_actions.arn
   header_shared_secret      = local.current_shared_secret
 
+  # Trialling the unrecognised-Host block here before prod: scanners hitting
+  # the distribution's *.cloudfront.net default domain get cert-mismatch 502s
+  # at the origin, which trip the CloudFront 5xx alarm (three times on
+  # 2026-08-12/13). Nothing legitimate uses that hostname.
+  enable_unrecognised_host_block = true
+
   # Trialling the /search challenge here before prod (see the search-challenge
   # rule in the module for why this is high-risk).
   enable_search_challenge = true

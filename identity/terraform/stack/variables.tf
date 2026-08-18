@@ -35,6 +35,11 @@ variable "turn_off_outside_office_hours" {
   default = false
 }
 
+variable "desired_task_count" {
+  type    = number
+  default = 3
+}
+
 variable "cloudfront_header_secrets" {
   type    = list(string)
   default = []

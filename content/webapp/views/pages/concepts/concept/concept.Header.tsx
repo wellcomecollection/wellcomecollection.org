@@ -9,25 +9,17 @@ import { isNotUndefined } from '@weco/common/utils/type-guards';
 import Breadcrumb, {
   getBreadcrumbItems,
 } from '@weco/common/views/components/Breadcrumb';
-import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
 import Layout, {
   gridSize10,
   gridSize8,
 } from '@weco/common/views/components/Layout';
-import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 import { useConceptPageContext } from '@weco/content/contexts/ConceptPageContext';
 import { Concept } from '@weco/content/services/wellcome/catalogue/types';
+import HeaderColourBand from '@weco/content/views/components/HeaderColourBand';
 import SourcedDescription from '@weco/content/views/components/SourcedDescription';
 
 import RelatedConceptsGroup from './concept.RelatedConceptsGroup';
-
-const ConceptHero = styled(Space).attrs({
-  $v: { size: 'md', properties: ['padding-top'] },
-})`
-  background-color: ${props => props.theme.color('accent.lightGreen')};
-  padding-bottom: ${props => props.theme.gutter.xlarge};
-`;
 
 const AlternativeLabels = styled(Space).attrs({
   className: typography('body', 'sm', 'regular'),
@@ -120,87 +112,82 @@ const ThemeHeader: FunctionComponent<{
     : getBreadcrumbItems('collections');
 
   return (
-    <>
-      <ConceptHero>
-        <Container>
-          <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
-            <Breadcrumb items={breadcrumbs.items} />
-          </Space>
+    <HeaderColourBand
+      paddingTopSize="md"
+      paddingBottomCss={theme => `padding-bottom: ${theme.gutter.xlarge};`}
+      decorativeEdgeColor={hasImages ? 'neutral.700' : 'white'}
+    >
+      <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
+        <Breadcrumb items={breadcrumbs.items} />
+      </Space>
 
-          <Layout gridSizes={gridSize10(false)}>
-            <h1 className={typography('heading', 'xxl', 'strong', 'brand')}>
-              {concept.displayLabel}
-            </h1>
-            {themePagesAllFields && (
-              <ThemeAlternativeLabels
-                alternativeLabels={concept.alternativeLabels}
+      <Layout gridSizes={gridSize10(false)}>
+        <h1 className={typography('heading', 'xxl', 'strong', 'brand')}>
+          {concept.displayLabel}
+        </h1>
+        {themePagesAllFields && (
+          <ThemeAlternativeLabels
+            alternativeLabels={concept.alternativeLabels}
+          />
+        )}
+      </Layout>
+
+      {concept.description &&
+        (config.sourcedDescription.display ||
+          concept.description.sourceLabel === 'weco-authority') && (
+          <Layout gridSizes={gridSize8(false)}>
+            <Space
+              className={`${typography('body', 'xl', 'regular')} body-text`}
+              $v={{ size: 'sm', properties: ['margin-bottom'] }}
+            >
+              <SourcedDescription
+                description={capitalize(concept.description.text)}
+                source={concept.description.sourceLabel}
+                href={concept.description.sourceUrl}
               />
-            )}
+            </Space>
           </Layout>
+        )}
 
-          {concept.description &&
-            (config.sourcedDescription.display ||
-              concept.description.sourceLabel === 'weco-authority') && (
-              <Layout gridSizes={gridSize8(false)}>
-                <Space
-                  className={`${typography('body', 'xl', 'regular')} body-text`}
-                  $v={{ size: 'sm', properties: ['margin-bottom'] }}
-                >
-                  <SourcedDescription
-                    description={capitalize(concept.description.text)}
-                    source={concept.description.sourceLabel}
-                    href={concept.description.sourceUrl}
-                  />
-                </Space>
-              </Layout>
-            )}
+      <>
+        {config.fieldOrArea.display && (
+          <RelatedConceptsGroup
+            dataGtmTriggerName="field_of_work"
+            label={config.fieldOrArea.label || 'Field of work'}
+            labelType="inline"
+            relatedConcepts={fieldsOfWork}
+          />
+        )}
 
+        {config.partOf.display && (
+          <RelatedConceptsGroup
+            label={config.partOf.label || 'Part of'}
+            labelType="inline"
+            relatedConcepts={narrowerThan}
+          />
+        )}
+
+        {themePagesAllFields && (
           <>
-            {config.fieldOrArea.display && (
-              <RelatedConceptsGroup
-                dataGtmTriggerName="field_of_work"
-                label={config.fieldOrArea.label || 'Field of work'}
-                labelType="inline"
-                relatedConcepts={fieldsOfWork}
-              />
-            )}
-
-            {config.partOf.display && (
-              <RelatedConceptsGroup
-                label={config.partOf.label || 'Part of'}
-                labelType="inline"
-                relatedConcepts={narrowerThan}
-              />
-            )}
-
-            {themePagesAllFields && (
-              <>
-                <RelatedConceptsGroup
-                  label="Notable people in this field"
-                  labelType="heading"
-                  relatedConcepts={people}
-                />
-                <RelatedConceptsGroup
-                  label="Related to"
-                  labelType="heading"
-                  relatedConcepts={relatedTo}
-                />
-                <RelatedConceptsGroup
-                  label="Broader than"
-                  labelType="heading"
-                  relatedConcepts={broaderThan}
-                />
-              </>
-            )}
+            <RelatedConceptsGroup
+              label="Notable people in this field"
+              labelType="heading"
+              relatedConcepts={people}
+            />
+            <RelatedConceptsGroup
+              label="Related to"
+              labelType="heading"
+              relatedConcepts={relatedTo}
+            />
+            <RelatedConceptsGroup
+              label="Broader than"
+              labelType="heading"
+              relatedConcepts={broaderThan}
+            />
           </>
-        </Container>
-      </ConceptHero>
-
-      <DecorativeEdge
-        variant="wobbly"
-        backgroundColor={hasImages ? 'neutral.700' : 'white'}
-      />
-    </>
+        )}
+      </>
+    </HeaderColourBand>
   );
 };
 export default ThemeHeader;
