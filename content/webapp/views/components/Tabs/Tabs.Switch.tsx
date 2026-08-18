@@ -3,6 +3,7 @@ import {
   FunctionComponent,
   KeyboardEvent,
   SetStateAction,
+  useEffect,
   useRef,
 } from 'react';
 
@@ -40,6 +41,26 @@ export type Props = {
   isWhite?: boolean;
 };
 
+// Href for the no-JS fallback link - has to match the tabpanel's actual DOM
+// id, so the browser can natively jump straight to that content.
+const getNoJsAnchorId = (item: SwitchSelectableTextLink) =>
+  (item.url ?? `#tabpanel-${item.id}`).replace(/^#/, '');
+
+// URL anchor used once JS is driving tab switches. Matches the id we put on
+// the Tab itself (not the tabpanel), so Next's router - which scrolls to the
+// element matching the hash, or resets scroll to the top if it finds none -
+// lands on the tab control rather than fighting our own scroll handling.
+const getJsAnchorId = (item: SwitchSelectableTextLink) => item.id;
+
+const findItemForAnchor = (
+  items: SwitchSelectableTextLink[],
+  anchorId: string
+) =>
+  items.find(
+    item =>
+      getJsAnchorId(item) === anchorId || getNoJsAnchorId(item) === anchorId
+  );
+
 const TabsSwitch: FunctionComponent<Props> = ({
   label,
   items,
@@ -50,6 +71,75 @@ const TabsSwitch: FunctionComponent<Props> = ({
 }: Props) => {
   const { isEnhanced } = useAppContext();
   const tabListRef = useRef<HTMLDivElement>(null);
+  const hasSyncedFromUrlRef = useRef(false);
+
+  function scrollTabIntoView(id: string): void {
+    const element = tabListRef?.current?.querySelector(`#tab-${id}`);
+    element?.scrollIntoView({
+      behavior: 'smooth',
+      inline: 'start',
+      block: 'nearest',
+    });
+  }
+
+  // Open the tab matching the URL anchor on load. Scroll to the tab control
+  // itself, rather than the tabpanel content the anchor would otherwise
+  // point at, since with JS it's the tab list that orients the user.
+  useEffect(() => {
+    if (!hasSyncedFromUrlRef.current) {
+      hasSyncedFromUrlRef.current = true;
+      const hash = window.location.hash.slice(1);
+      // No anchor means the first tab, not "whatever the parent defaulted to".
+      const matchingItem = hash ? findItemForAnchor(items, hash) : items[0];
+      if (matchingItem && matchingItem.id !== selectedTab) {
+        setSelectedTab(matchingItem.id);
+        scrollTabIntoView(matchingItem.id);
+        return;
+      }
+    }
+
+    // Only correct an anchor that's already there (e.g. normalising an old
+    // tabpanel-prefixed link) - a fresh, anchor-less URL should stay that way
+    // until the user actually switches tabs.
+    const selectedItem = items.find(item => item.id === selectedTab);
+    if (
+      selectedItem &&
+      window.location.hash &&
+      window.location.hash.slice(1) !== getJsAnchorId(selectedItem)
+    ) {
+      window.history.replaceState(null, '', `#${getJsAnchorId(selectedItem)}`);
+    }
+    // items is only read above on the initial mount pass (it's static per
+    // page load); re-running this for every parent re-render isn't needed.
+  }, [selectedTab]);
+
+  // Also respond to hash changes that happen without a full page load, e.g.
+  // clicking an in-page link to one of the tab anchors, or browser back/forward
+  // stepping between anchors this component itself pushed (see pushAnchor).
+  useEffect(() => {
+    const onHashChange = () => {
+      const hash = window.location.hash.slice(1);
+      // No anchor (e.g. navigating back past the first tab switch) means the
+      // first tab, not leaving whatever was previously selected in place.
+      const matchingItem = hash ? findItemForAnchor(items, hash) : items[0];
+      if (matchingItem && matchingItem.id !== selectedTab) {
+        setSelectedTab(matchingItem.id);
+        scrollTabIntoView(matchingItem.id);
+      }
+    };
+
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, [items, selectedTab, setSelectedTab]);
+
+  // Pushes a new history entry for a user-driven tab switch (click or
+  // keyboard), so back/forward can step through previously selected tabs.
+  function pushAnchor(item: SwitchSelectableTextLink): void {
+    const anchor = `#${getJsAnchorId(item)}`;
+    if (window.location.hash !== anchor) {
+      window.history.pushState(null, '', anchor);
+    }
+  }
 
   function focusTabAtIndex(index: number): void {
     const element = tabListRef?.current?.querySelector(
@@ -78,21 +168,25 @@ const TabsSwitch: FunctionComponent<Props> = ({
       : items.length - 1;
 
     if (LEFT.includes(key)) {
+      pushAnchor(items[prevIndex]);
       setSelectedTab(items[prevIndex].id);
       focusTabAtIndex(prevIndex);
     }
 
     if (RIGHT.includes(key)) {
+      pushAnchor(items[nextIndex]);
       setSelectedTab(items[nextIndex].id);
       focusTabAtIndex(nextIndex);
     }
 
     if (HOME.includes(key)) {
+      pushAnchor(items[0]);
       setSelectedTab(items[0].id);
       focusTabAtIndex(0);
     }
 
     if (END.includes(key)) {
+      pushAnchor(items[items.length - 1]);
       setSelectedTab(items[items.length - 1].id);
       focusTabAtIndex(items.length - 1);
     }
@@ -106,11 +200,12 @@ const TabsSwitch: FunctionComponent<Props> = ({
     >
       {items.map((item, index) => {
         const isSelected = isEnhanced && selectedTab === item.id;
-        const url = item.url ?? `#tabpanel-${item.id}`;
+        const url = `#${getNoJsAnchorId(item)}`;
 
         return (
           <Tab
             key={item.id}
+            id={item.id}
             $selected={isSelected}
             $isWhite={isWhite}
             $hideBorder={hideBorder}
@@ -122,6 +217,7 @@ const TabsSwitch: FunctionComponent<Props> = ({
                   block: 'nearest',
                 });
 
+                pushAnchor(item);
                 setSelectedTab(item.id);
               }
             }}
