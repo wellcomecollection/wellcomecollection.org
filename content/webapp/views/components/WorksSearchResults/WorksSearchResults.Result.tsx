@@ -100,7 +100,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
                 </>
               )}
 
-              {primaryContributorLabel && (
+              {!shouldShowArchiveCollectionInfo && primaryContributorLabel && (
                 <>
                   <WorkInformationItemSeparator aria-hidden>
                     {' | '}
