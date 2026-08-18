@@ -7,6 +7,8 @@ import { typography } from '@weco/common/utils/classnames';
 import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Space from '@weco/common/views/components/styled/Space';
 import { ConceptImagesArray } from '@weco/content/hooks/useConceptImageUrls';
+import type { ColorSelection } from '@weco/content/types/color-selections';
+import { placeholderBackgroundColor } from '@weco/content/views/components/ImagePlaceholder';
 
 const Title = styled(Space).attrs({
   className: typography('heading', 'lg', 'regular', 'brand'),
@@ -51,6 +53,12 @@ const ImageContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+const PlaceholderBlock = styled.div<{ $colorKey: ColorSelection }>`
+  width: 100%;
+  height: 100%;
+  background-color: ${props => props.theme.color(props.$colorKey)};
 `;
 
 const ImageElement = styled.img<{ $isLoaded?: boolean }>`
@@ -125,7 +133,12 @@ const ThemeCard: FunctionComponent<ThemeCardProps> = ({
   const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set());
 
   const handleImageLoad = (index: number) => {
-    setLoadedImages(prev => new Set(prev).add(index));
+    // Bail out (same reference, no re-render) once already marked loaded -
+    // otherwise the inline ref below gets reattached on every render it
+    // triggers, calling this again and looping forever.
+    setLoadedImages(prev =>
+      prev.has(index) ? prev : new Set(prev).add(index)
+    );
   };
 
   // Create array of slots, some with images
@@ -158,8 +171,19 @@ const ThemeCard: FunctionComponent<ThemeCardProps> = ({
                   loading="lazy"
                   $isLoaded={loadedImages.has(index)}
                   onLoad={() => handleImageLoad(index)}
+                  // If the browser already has this image cached, it can
+                  // finish loading before this ref (and so onLoad) is even
+                  // attached - the load event fires and is missed, leaving
+                  // $isLoaded stuck false forever. .complete catches that.
+                  ref={img => {
+                    if (img?.complete) handleImageLoad(index);
+                  }}
                 />
-              ) : null}
+              ) : (
+                <PlaceholderBlock
+                  $colorKey={placeholderBackgroundColor(index)}
+                />
+              )}
             </ImageContainer>
           ))}
         </CompositeGrid>

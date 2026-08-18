@@ -1,11 +1,16 @@
 import { NextPage } from 'next';
 
 import PageLayout from '@weco/common/views/layouts/PageLayout';
+import type { ArchiveCategory } from '@weco/content/services/wellcome/catalogue/archiveCategories';
 import CollectionsHeader from '@weco/content/views/components/CollectionsHeader';
 
-export type Props = Record<string, never>;
+import ArchiveCategoriesList from './archives.ArchiveCategoriesList';
 
-const ArchivesPage: NextPage<Props> = () => {
+export type Props = {
+  archiveCategories: ArchiveCategory[];
+};
+
+const ArchivesPage: NextPage<Props> = ({ archiveCategories }) => {
   return (
     <PageLayout
       title="Archives"
@@ -22,6 +27,7 @@ const ArchivesPage: NextPage<Props> = () => {
         title="Archives"
         introText="Original records created by individuals and organisations."
       />
+      <ArchiveCategoriesList archiveCategories={archiveCategories} />
     </PageLayout>
   );
 };
