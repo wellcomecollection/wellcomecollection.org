@@ -58,9 +58,9 @@ const InactivityRedirect: FunctionComponent<{ isCardiganStory?: boolean }> = ({
       // Clear navigation history to start fresh
       resetNavigationHistory();
 
-      // Append kp_zoomLevel=100 to reset zoom in Kiosk Pro browser
+      // Append kp_zoomLevel=125 to reset zoom in Kiosk Pro browser
       const separator = kioskHomepageUrl.includes('?') ? '&' : '?';
-      const urlWithZoomReset = `${kioskHomepageUrl}${separator}kp_zoomLevel=100`;
+      const urlWithZoomReset = `${kioskHomepageUrl}${separator}kp_zoomLevel=125`;
 
       router.push(urlWithZoomReset);
     },
