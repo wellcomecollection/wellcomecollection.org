@@ -7,7 +7,10 @@ import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
 import { toWorkLink } from '@weco/content/views/components/WorkLink';
 import WorkTitle from '@weco/content/views/components/WorkTitle';
-import { TreeControl } from '@weco/content/views/pages/works/work/NestedList';
+import {
+  getWorkLevelLabel,
+  TreeControl,
+} from '@weco/content/views/pages/works/work/NestedList';
 import { controlDimensions } from '@weco/content/views/pages/works/work/work.helpers';
 import {
   TreeDataWork,
@@ -19,9 +22,6 @@ import {
   ContentsTable,
   NameCell,
 } from './ArchiveCollection.ContentsTree.styles';
-
-const levelLabel = (type: TreeDataWork['type']) =>
-  type === 'Work' ? 'Item' : type;
 
 export type ContentsTreeItemRendererProps = {
   item: UiTreeNode;
@@ -113,7 +113,7 @@ const ContentsTreeItemRenderer: FunctionComponent<
           </td>
 
           <td>{data.referenceNumber}</td>
-          <td>{levelLabel(data.type)}</td>
+          <td>{getWorkLevelLabel(data.type)}</td>
         </tr>
       </tbody>
     </ContentsTable>
