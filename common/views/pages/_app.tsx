@@ -36,13 +36,31 @@ import ErrorPage from '@weco/common/views/layouts/ErrorPage';
 import { createTheme } from '@weco/common/views/themes/config';
 import { GlobalStyle } from '@weco/common/views/themes/default';
 
-// Dynamically import HistoryProvider to prevent it from being bundled in apps that don't use kiosk mode (e.g. identity)
+// Dynamically importing HistoryProvider prevents it from being bundled into the identity app, which doesn't use kiosk mode.
+//
+// ssr must stay true, otherwise KioskPro's configured browser zoom level
+// does not get applied properly.
+// With ssr:false, nothing renders for the subtree wrapped by HistoryProvider
+// until the client-side chunk has loaded and the zoom got applied to the
+// black page, then lost when the real content appeared.
+//
+// ssr:true is also just the better default.
+// HistoryProvider's provides sensible fallback values and there is no reason to withhold SSR from everything nested inside it.
+//
+// N.B. (ssr:false was added in July 2026 as part of a fix for a crash in identity
+// "Error: Invariant: AsyncLocalStorage accessed in runtime where it is not available"
+// which seemed to arise from this module being
+// evaluated server-side wherever this file is used,
+// conflicting with how identity's Edge middleware (nextjs-auth0 v4) sets up AsyncLocalStorage.
+// This no longer seems to be the case.
+// Both ssr:true and a fully static, non-dynamic import no longer produces the crash.
+// If identity's build/middleware ever throws that error again, this is the line to look at first.
 const HistoryProvider = dynamic(
   () =>
     import('@weco/common/hooks/useNavigationHistory').then(
       mod => mod.HistoryProvider
     ),
-  { ssr: false }
+  { ssr: true }
 );
 
 // Error pages can't send anything via the data fetching methods as
