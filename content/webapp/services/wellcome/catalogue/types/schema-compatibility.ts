@@ -1,6 +1,11 @@
-// Illustrates how the hand-written catalogue types relate to the generated
-// OpenAPI schema types in ./generated/catalogue-api.d.ts. Compile-time only;
-// nothing here exists at runtime.
+// Records how the hand-written catalogue types relate to the generated OpenAPI
+// schema types in ./generated/catalogue-api.d.ts: passing assertions cover the
+// fields that already agree, and comments record the known drift.
+//
+// It is reconciliation scaffolding. As the hand-written types converge on the
+// schema, the assertions here widen; once they extend or are replaced by the
+// generated types, this file has done its job and can be deleted.
+// Compile-time only; nothing here exists at runtime.
 import type { Concept, Image, Work } from '.';
 import type { components } from './generated/catalogue-api';
 
