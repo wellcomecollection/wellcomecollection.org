@@ -609,9 +609,7 @@ export interface components {
      * @description A period of time
      */
     Period: {
-      id?: string;
       label?: string;
-      identifiers?: components['schemas']['Identifier'][];
       type?: string;
     };
     /**
@@ -637,9 +635,7 @@ export interface components {
      * @description A place
      */
     Place: {
-      id?: string;
       label?: string;
-      identifiers?: components['schemas']['Identifier'][];
       type?: string;
     };
     /**
@@ -674,7 +670,6 @@ export interface components {
       title?: string;
       /** @description The identifier used by researchers to cite or refer to a work. */
       referenceNumber?: string;
-      partOf?: components['schemas']['RelatedWork'][];
       /**
        * Format: int32
        * @description Number of child works.
@@ -758,10 +753,6 @@ export interface components {
       parts?: components['schemas']['RelatedWork'][];
       /** @description Ancestor works. */
       partOf?: components['schemas']['RelatedWork'][];
-      /** @description Sibling works earlier in a series. */
-      precededBy?: components['schemas']['RelatedWork'][];
-      /** @description Sibling works later in a series. */
-      succeededBy?: components['schemas']['RelatedWork'][];
       /** @default Work */
       type: string;
     };
@@ -877,8 +868,6 @@ export interface components {
       | 'images'
       | 'parts'
       | 'partOf'
-      | 'precededBy'
-      | 'succeededBy'
     )[];
     /**
      * @description What aggregated data in correlation to the results should we return.

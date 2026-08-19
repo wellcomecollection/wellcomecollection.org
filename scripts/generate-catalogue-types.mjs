@@ -1,6 +1,6 @@
 // Regenerates the catalogue API types from the OpenAPI spec in
 // wellcomecollection/catalogue-api. Run with `yarn generate:catalogue-types`.
-import { console } from 'node:console';
+import console from 'node:console';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import process from 'node:process';
