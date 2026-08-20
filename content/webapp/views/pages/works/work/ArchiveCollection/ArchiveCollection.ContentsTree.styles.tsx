@@ -5,7 +5,7 @@ import { controlDimensions } from '@weco/content/views/pages/works/work/work.hel
 
 export {
   Tree,
-  TreeHeadings,
+  TreeBand,
   TreeInstructions,
 } from '@weco/content/views/pages/works/work/work.styles';
 
@@ -81,6 +81,12 @@ export const NameCell = styled.span`
   }
 
   a {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     text-decoration: none;
 
     &:focus,

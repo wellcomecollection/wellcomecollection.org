@@ -12,7 +12,7 @@ export const TreeInstructions = styled.p.attrs({
   display: none;
 `;
 
-export const TreeHeadings = styled(Space)<{ $isDarkMode?: boolean }>`
+export const TreeBand = styled(Space)<{ $isDarkMode?: boolean }>`
   ${props =>
     !props.$isDarkMode &&
     `background: ${props.theme.color('warmNeutral.300')};`}
