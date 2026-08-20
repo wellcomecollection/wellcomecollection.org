@@ -1,13 +1,14 @@
 import styled from 'styled-components';
 
 import { typography } from '@weco/common/utils/classnames';
-import { controlDimensions } from '@weco/content/views/pages/works/work/work.helpers';
+import { compactControlDimensions } from '@weco/content/views/pages/works/work/work.helpers';
 
 export {
   Tree,
   TreeBand,
   TreeInstructions,
 } from '@weco/content/views/pages/works/work/work.styles';
+export { compactControlDimensions } from '@weco/content/views/pages/works/work/work.helpers';
 
 // Each row's its own <table> (real tables can't nest recursively), so
 // nth-child can't stripe them. $isEvenRow comes from visible-row
@@ -39,7 +40,13 @@ export const ContentsTable = styled.table.attrs({
   }
 
   td {
-    padding: 8px 10px 8px 0;
+    padding-right: 10px;
+    padding-left: 0;
+    ${props =>
+      props.theme.makeSpacePropertyValues('xs', [
+        'padding-top',
+        'padding-bottom',
+      ])}
   }
 
   th {
@@ -99,8 +106,8 @@ export const NameCell = styled.span`
 export const ChevronSpacer = styled.span`
   display: inline-block;
   flex: 0 0 auto;
-  width: ${controlDimensions.controlWidth}px;
-  height: ${controlDimensions.controlHeight}px;
+  width: ${compactControlDimensions.controlSize}px;
+  height: ${compactControlDimensions.controlSize}px;
 `;
 
 export const ShowMoreButton = styled.button.attrs({

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { treeInstructions } from '@weco/common/data/microcopy';
 import Space from '@weco/common/views/components/styled/Space';
 
-import { controlDimensions } from './work.helpers';
+import { compactControlDimensions, controlDimensions } from './work.helpers';
 
 export const TreeInstructions = styled.p.attrs({
   'aria-hidden': 'true',
@@ -38,6 +38,7 @@ export const Tree = styled.div<{
   $showFirstLevelGuideline?: boolean;
   $maxWidth?: number;
   $isDarkMode?: boolean;
+  $isCompact?: boolean;
 }>`
   ul {
     position: relative;
@@ -79,12 +80,19 @@ export const Tree = styled.div<{
       width: auto;
       padding-left: ${props =>
         props.$showFirstLevelGuideline
-          ? `${controlDimensions.controlWidth}px`
+          ? `${
+              props.$isCompact
+                ? compactControlDimensions.controlSize
+                : controlDimensions.controlWidth
+            }px`
           : 0};
     }
   }
 
   ul ul ul {
-    padding-left: ${controlDimensions.controlWidth}px;
+    padding-left: ${props =>
+      props.$isCompact
+        ? compactControlDimensions.controlSize
+        : controlDimensions.controlWidth}px;
   }
 `;

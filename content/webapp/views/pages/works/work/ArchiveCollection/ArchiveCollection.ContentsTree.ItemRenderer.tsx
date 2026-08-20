@@ -11,7 +11,6 @@ import {
   getWorkLevelLabel,
   TreeControl,
 } from '@weco/content/views/pages/works/work/NestedList';
-import { controlDimensions } from '@weco/content/views/pages/works/work/work.helpers';
 import {
   TreeDataWork,
   UiTreeNode,
@@ -19,6 +18,7 @@ import {
 
 import {
   ChevronSpacer,
+  compactControlDimensions,
   ContentsTable,
   NameCell,
 } from './ArchiveCollection.ContentsTree.styles';
@@ -53,7 +53,8 @@ const ContentsTreeItemRenderer: FunctionComponent<
   // the row right, so ContentsTable can cancel it out and let the stripe
   // span full width. Starts from level 2, matching showFirstLevelGuideline
   // on Tree/NestedList in ArchiveCollection.Contents.tsx.
-  const indentPx = level > 1 ? (level - 1) * controlDimensions.controlWidth : 0;
+  const indentPx =
+    level > 1 ? (level - 1) * compactControlDimensions.controlSize : 0;
   const rowIndex = rowIndexById?.[data.id];
 
   return (
@@ -70,10 +71,12 @@ const ContentsTreeItemRenderer: FunctionComponent<
                 <TreeControl
                   $highlightCondition={highlightCondition}
                   $isDarkMode={isDarkMode}
+                  $isCompact
                 >
                   <Icon
                     rotate={item.openStatus ? undefined : 270}
                     icon={chevron}
+                    sizeOverride={`height: ${compactControlDimensions.iconSize}px; width: ${compactControlDimensions.iconSize}px;`}
                   />
                 </TreeControl>
               ) : (

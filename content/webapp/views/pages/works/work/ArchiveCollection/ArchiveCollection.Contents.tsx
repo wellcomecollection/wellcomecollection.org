@@ -126,7 +126,7 @@ const ArchiveCollectionContents: FunctionComponent<{
           </ContentsTable>
         </TreeBand>
 
-        <Tree $isEnhanced={isEnhanced} $showFirstLevelGuideline>
+        <Tree $isEnhanced={isEnhanced} $showFirstLevelGuideline $isCompact>
           {isEnhanced && (
             <TreeInstructions>{treeInstructions}</TreeInstructions>
           )}
@@ -139,11 +139,12 @@ const ArchiveCollectionContents: FunctionComponent<{
             tabbableId={tabbableId}
             setTabbableId={setTabbableId}
             workAncestors={archiveAncestorArray}
-            firstItemTabbable={false}
-            showFirstLevelGuideline
             ItemRenderer={ContentsTreeItemRenderer}
-            shouldFetchChildren={false}
             itemRendererProps={{ rowIndexById }}
+            firstItemTabbable={false}
+            shouldFetchChildren={false}
+            showFirstLevelGuideline
+            isCompact
           />
         </Tree>
 

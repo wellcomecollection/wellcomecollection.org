@@ -20,6 +20,14 @@ export const controlDimensions = {
   circleBorder: 2,
 };
 
+// A smaller control for trees where the whole row - not just the chevron -
+// is already the click target (the archive collection contents table), so
+// the 44px touch-target padding around the icon isn't doing anything there.
+export const compactControlDimensions = {
+  controlSize: 30,
+  iconSize: 16,
+};
+
 function convertStructuresToTree(
   structures: Manifest['structures'],
   canvases: TransformedCanvas[] | undefined,

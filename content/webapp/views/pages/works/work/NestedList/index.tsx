@@ -29,6 +29,7 @@ const NestedList: FunctionComponent<NestedListProps> = ({
   shouldFetchChildren,
   isDarkMode = false,
   itemRendererProps,
+  isCompact,
 }: NestedListProps) => {
   const { isEnhanced } = useAppContext();
   return (
@@ -63,6 +64,7 @@ const NestedList: FunctionComponent<NestedListProps> = ({
                 shouldFetchChildren={shouldFetchChildren}
                 isDarkMode={isDarkMode}
                 itemRendererProps={itemRendererProps}
+                isCompact={isCompact}
               />
             )
           );
