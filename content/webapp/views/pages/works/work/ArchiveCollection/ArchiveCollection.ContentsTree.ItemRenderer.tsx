@@ -20,6 +20,7 @@ import {
   ChevronSpacer,
   compactControlDimensions,
   ContentsTable,
+  LevelCell,
   NameCell,
 } from './ArchiveCollection.ContentsTree.styles';
 
@@ -56,6 +57,11 @@ const ContentsTreeItemRenderer: FunctionComponent<
   const indentPx =
     level > 1 ? (level - 1) * compactControlDimensions.controlSize : 0;
   const rowIndex = rowIndexById?.[data.id];
+  const typeIcon = hasControl
+    ? item.openStatus
+      ? openFolder
+      : closedFolder
+    : file;
 
   return (
     <ContentsTable
@@ -84,13 +90,7 @@ const ContentsTreeItemRenderer: FunctionComponent<
               )}
 
               <Icon
-                icon={
-                  hasControl
-                    ? item.openStatus
-                      ? openFolder
-                      : closedFolder
-                    : file
-                }
+                icon={typeIcon}
                 iconColor="neutral.600"
                 matchText
                 sizeOverride="height: 16px; width: 16px;"
@@ -114,7 +114,17 @@ const ContentsTreeItemRenderer: FunctionComponent<
           </td>
 
           <td>{data.referenceNumber}</td>
-          <td>{getWorkLevelLabel(data.type)}</td>
+          <td>
+            <LevelCell>
+              <Icon
+                icon={typeIcon}
+                iconColor="neutral.600"
+                matchText
+                sizeOverride="height: 16px; width: 16px;"
+              />
+              {getWorkLevelLabel(data.type)}
+            </LevelCell>
+          </td>
         </tr>
       </tbody>
     </ContentsTable>
