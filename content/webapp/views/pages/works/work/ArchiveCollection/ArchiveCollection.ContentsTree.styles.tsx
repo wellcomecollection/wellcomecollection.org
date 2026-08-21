@@ -162,6 +162,7 @@ export const LevelCell = styled.span`
   display: inline-flex;
   align-items: center;
   gap: ${props => props.theme.spacingUnit}px;
+  vertical-align: middle;
 
   ${props =>
     props.theme.media('sm')(`
@@ -177,6 +178,7 @@ export const NameCell = styled.span`
   gap: ${props => props.theme.spacingUnit}px;
   min-width: 0;
   max-width: 100%;
+  vertical-align: middle;
 
   .icon {
     flex: 0 0 auto;
