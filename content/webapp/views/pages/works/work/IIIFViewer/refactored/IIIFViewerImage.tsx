@@ -126,13 +126,12 @@ const IIIFViewerImage = (
               currentTarget.src = newSrc;
               currentTarget.removeAttribute('srcset');
               currentTarget.removeAttribute('sizes');
-            } else {
-              errorHandler && errorHandler();
             }
-          } else {
-            // If the image still fails to load, we check to see if it's because the authorisation cookie is missing/no longer valid
-            errorHandler && errorHandler();
           }
+          // Even if we found a smaller size to retry, the failure may also be
+          // because the authorisation cookie is missing/no longer valid, so
+          // we always check that too
+          errorHandler && errorHandler();
         }}
         src={src}
         srcSet={srcSet}
