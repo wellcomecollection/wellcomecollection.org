@@ -1,8 +1,11 @@
 import styled from 'styled-components';
 
-import { controlDimensions } from '@weco/content/views/pages/works/work/work.helpers';
+import {
+  compactControlDimensions,
+  controlDimensions,
+} from '@weco/content/views/pages/works/work/work.helpers';
 
-import { TreeItemProps, verticalGuidePosition } from './NestedList.helpers';
+import { getVerticalGuidePosition, TreeItemProps } from './NestedList.helpers';
 
 export type TreeItemStyledProps = TreeItemProps & {
   $isDarkMode?: boolean;
@@ -28,10 +31,19 @@ export const TreeItem = styled.li.attrs<TreeItemStyledProps>(props => ({
           ? props.theme.color('neutral.600')
           : props.theme.color('yellow')};
     width: 0;
-    top: ${verticalGuidePosition}px;
-    left: ${controlDimensions.controlWidth / 2}px;
+    top: ${props => getVerticalGuidePosition(props.$isCompact)}px;
+    left: ${props =>
+      (props.$isCompact
+        ? compactControlDimensions.controlSize
+        : controlDimensions.controlWidth) / 2}px;
     height: calc(
-      100% - ${verticalGuidePosition + controlDimensions.controlHeight / 2}px
+      100% -
+        ${props =>
+          getVerticalGuidePosition(props.$isCompact) +
+          (props.$isCompact
+            ? compactControlDimensions.controlSize
+            : controlDimensions.controlHeight) /
+            2}px
     );
   }
 
@@ -44,8 +56,16 @@ export const TreeItem = styled.li.attrs<TreeItemStyledProps>(props => ({
       props.$isDarkMode
         ? props.theme.color('neutral.600')
         : props.theme.color('yellow')};
-    left: ${controlDimensions.controlWidth / 2 - 3}px;
-    bottom: ${controlDimensions.controlHeight / 2}px;
+    left: ${props =>
+      (props.$isCompact
+        ? compactControlDimensions.controlSize
+        : controlDimensions.controlWidth) /
+        2 -
+      3}px;
+    bottom: ${props =>
+      (props.$isCompact
+        ? compactControlDimensions.controlSize
+        : controlDimensions.controlHeight) / 2}px;
   }
 `;
 
@@ -54,14 +74,24 @@ export type TreeControlStyledProps = {
   $controlBackground?: string;
   $controlBorder?: string;
   $isDarkMode?: boolean;
+  $isCompact?: boolean;
 };
 
 export const TreeControl = styled.span<TreeControlStyledProps>`
   display: inline-block;
   cursor: pointer;
-  height: ${controlDimensions.controlHeight}px;
-  width: ${controlDimensions.controlWidth}px;
-  min-width: ${controlDimensions.controlWidth}px;
+  height: ${props =>
+    props.$isCompact
+      ? compactControlDimensions.controlSize
+      : controlDimensions.controlHeight}px;
+  width: ${props =>
+    props.$isCompact
+      ? compactControlDimensions.controlSize
+      : controlDimensions.controlWidth}px;
+  min-width: ${props =>
+    props.$isCompact
+      ? compactControlDimensions.controlSize
+      : controlDimensions.controlWidth}px;
   position: relative;
   z-index: 1;
 
@@ -72,14 +102,20 @@ export const TreeControl = styled.span<TreeControlStyledProps>`
     width: ${controlDimensions.circleWidth}px;
     top: calc(
       (
-          ${controlDimensions.controlHeight}px -
+          ${props =>
+            props.$isCompact
+              ? compactControlDimensions.controlSize
+              : controlDimensions.controlHeight}px -
             ${controlDimensions.circleHeight}px
         ) /
         2
     );
     left: calc(
       (
-          ${controlDimensions.controlWidth}px -
+          ${props =>
+            props.$isCompact
+              ? compactControlDimensions.controlSize
+              : controlDimensions.controlWidth}px -
             ${controlDimensions.circleWidth}px
         ) /
         2
@@ -108,8 +144,18 @@ export const TreeControl = styled.span<TreeControlStyledProps>`
   .icon {
     position: absolute;
     z-index: 1;
-    top: ${(controlDimensions.controlHeight - 24) / 2}px;
-    left: ${(controlDimensions.controlWidth - 24) / 2}px;
+    top: ${props =>
+      ((props.$isCompact
+        ? compactControlDimensions.controlSize
+        : controlDimensions.controlHeight) -
+        (props.$isCompact ? compactControlDimensions.iconSize : 24)) /
+      2}px;
+    left: ${props =>
+      ((props.$isCompact
+        ? compactControlDimensions.controlSize
+        : controlDimensions.controlWidth) -
+        (props.$isCompact ? compactControlDimensions.iconSize : 24)) /
+      2}px;
     color: ${props =>
       props.$isDarkMode ? props.theme.color('white') : 'inherit'};
   }

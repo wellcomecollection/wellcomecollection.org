@@ -5,8 +5,8 @@ import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { treeInstructions } from '@weco/common/data/microcopy';
 import {
   Tree,
+  TreeBand,
   TreeContainer,
-  TreeHeadings,
   TreeInstructions,
 } from '@weco/content/views/pages/works/work/work.styles';
 
@@ -24,7 +24,7 @@ const WorksTree: FunctionComponent<
   return (
     <div style={{ overflowX: 'auto', width: '100%' }}>
       <div style={{ display: 'inline-table', minWidth: '100%' }}>
-        <TreeHeadings aria-hidden="true" $isDarkMode={isDarkMode}>
+        <TreeBand aria-hidden="true" $isDarkMode={isDarkMode}>
           <DownloadTable $padFirstHeading={hasStructures}>
             <thead>
               <tr>
@@ -35,7 +35,7 @@ const WorksTree: FunctionComponent<
               </tr>
             </thead>
           </DownloadTable>
-        </TreeHeadings>
+        </TreeBand>
         <TreeContainer $isDarkMode={isDarkMode}>
           <Tree
             $isEnhanced={isEnhanced}
