@@ -472,7 +472,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
               !hasIiifImageService &&
               (isFullSupportBrowser || !hasOnlyRenderableImages) && (
                 <ImageViewer
-                  infoUrl={iiifImageLocation.url}
+                  imageUrl={iiifImageLocation.url}
                   id={imageUrl}
                   width={800}
                   index={0}

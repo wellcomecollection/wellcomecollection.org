@@ -121,7 +121,9 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
   }
 
   useEffect(() => {
-    !hasInitialised.current && setupViewer(zoomInfoUrl, 'zoomedImage');
+    !hasInitialised.current &&
+      zoomInfoUrl &&
+      setupViewer(zoomInfoUrl, 'zoomedImage');
     lastControl?.current && lastControl.current.focus();
 
     return () => viewerRef.current?.destroy();
