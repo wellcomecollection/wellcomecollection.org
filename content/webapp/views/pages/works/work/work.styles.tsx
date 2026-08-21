@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import { treeInstructions } from '@weco/common/data/microcopy';
+import Space from '@weco/common/views/components/styled/Space';
 
 import { controlDimensions } from './work.helpers';
 
@@ -9,6 +10,27 @@ export const TreeInstructions = styled.p.attrs({
   id: 'tree-instructions',
 })`
   display: none;
+`;
+
+export const TreeHeadings = styled(Space)<{ $isDarkMode?: boolean }>`
+  ${props =>
+    !props.$isDarkMode &&
+    `background: ${props.theme.color('warmNeutral.300')};`}
+`;
+
+export const TreeContainer = styled.div<{ $isDarkMode?: boolean }>`
+  ${props =>
+    !props.$isDarkMode &&
+    `
+    background: linear-gradient(
+      to bottom,
+      ${props.theme.color('warmNeutral.200')},
+      ${props.theme.color('warmNeutral.200')} 50%,
+      ${props.theme.color('white')} 50%,
+      ${props.theme.color('white')}
+    );
+    background-size: 100% ${controlDimensions.controlHeight * 2}px;
+  `}
 `;
 
 export const Tree = styled.div<{

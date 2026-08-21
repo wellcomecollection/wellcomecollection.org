@@ -70,7 +70,7 @@ const constructTree = (
   };
 };
 
-function createBasicArchiveTree(work: Work): UiTree {
+export function createBasicArchiveTree(work: Work): UiTree {
   /*
   Return a 'basic' archive tree, populated only from data present on the provided `work`.
   Only ancestors and direct children are included.
@@ -92,6 +92,68 @@ async function createArchiveTree(work: Work): Promise<UiTree> {
 
   const allTreeNodes = [...ancestorsWithChildren, work];
   return [constructTree(allTreeNodes[0], allTreeNodes, null)];
+}
+
+// Flattens a tree into an id -> openStatus map, so a freshly-rebuilt tree
+// can restore which branches were already manually opened or closed.
+function getOpenStatusById(tree: UiTree): Record<string, boolean> {
+  const result: Record<string, boolean> = {};
+  for (const node of tree) {
+    result[node.data.id] = node.openStatus;
+    if (node.children) {
+      Object.assign(result, getOpenStatusById(node.children));
+    }
+  }
+  return result;
+}
+
+// Builds a tree from a flat, collectionPath-sorted list, everything open
+// by default. Depth comes from the filtered archive-ancestor chain, not
+// raw `partOf.length`. `partOf` can have non-archive parents (e.g. a
+// Library Series) mixed in, which would overstate depth and drop a whole
+// subtree.
+//
+// totalParts gets backfilled as children attach, since search results
+// only carry a work's parent's totalParts, not its own.
+//
+// Pass `previousTree` to keep whatever the user already opened/closed,
+// only genuinely new nodes default to open.
+export function buildTreeFromCollectionPathOrder(
+  works: Work[],
+  previousTree?: UiTree
+): UiTree {
+  const previousOpenStatusById = previousTree
+    ? getOpenStatusById(previousTree)
+    : undefined;
+
+  const stack: UiTreeNode[] = [];
+  let root: UiTreeNode | undefined;
+
+  for (const work of works) {
+    const archiveAncestors = getArchiveAncestorArray(work);
+    const depth = archiveAncestors.length;
+    const node: UiTreeNode = {
+      openStatus: previousOpenStatusById?.[work.id] ?? true,
+      data: work,
+      parentId: archiveAncestors[archiveAncestors.length - 1]?.id,
+    };
+
+    if (depth === 0) {
+      root = node;
+      stack[0] = node;
+      continue;
+    }
+
+    const parent = stack[depth - 1];
+    if (!parent) continue;
+
+    parent.children = parent.children ? [...parent.children, node] : [node];
+    parent.data = { ...parent.data, totalParts: parent.children.length };
+    stack.length = depth;
+    stack[depth] = node;
+  }
+
+  return root ? [root] : [];
 }
 
 const ArchiveTree: FunctionComponent<{ work: Work }> = ({
