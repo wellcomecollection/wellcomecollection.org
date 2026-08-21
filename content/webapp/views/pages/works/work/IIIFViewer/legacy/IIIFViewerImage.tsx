@@ -6,20 +6,19 @@ import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import LL from '@weco/common/views/components/styled/LL';
 import { IIIFImage } from '@weco/content/services/iiif/types/image/v2';
 import { convertRequestUriToInfoUri } from '@weco/content/utils/iiif/convert-iiif-uri';
-async function getImageMax(url: string): Promise<number> {
+async function getImageMax(url: string): Promise<number | undefined> {
+  const infoUrl = convertRequestUriToInfoUri(url);
+  if (!infoUrl) return undefined;
   try {
-    const infoUrl = convertRequestUriToInfoUri(url);
     const resp = await fetch(infoUrl);
     const info: Partial<IIIFImage> = await resp.json();
     // N.B property is called maxWidth, but it is actually the max allowed for the longest side, see https://wellcome.slack.com/archives/CBT40CMKQ/p1702897884100559
-    const max =
-      info.profile?.find(
-        (item): item is { maxWidth: number } =>
-          typeof item !== 'string' && Boolean(item.maxWidth)
-      )?.maxWidth || 1000;
-    return max || 1001;
+    return info.profile?.find(
+      (item): item is { maxWidth: number } =>
+        typeof item !== 'string' && Boolean(item.maxWidth)
+    )?.maxWidth;
   } catch {
-    return 1000;
+    return undefined;
   }
 }
 
@@ -113,13 +112,17 @@ const IIIFViewerImage = (
             setTryLoadingSmallerImg(false); // prevent looping if image fails to load again
             // we need to know the max size of the longest side first
             const imageMax = await getImageMax(currentTarget.src);
-            const isPortrait = Boolean(height && height > width);
-            const newSrc = isPortrait
-              ? convertIiifImageUri(currentTarget.src, imageMax, true)
-              : convertIiifImageUri(currentTarget.src, imageMax);
-            currentTarget.src = newSrc;
-            currentTarget.removeAttribute('srcset');
-            currentTarget.removeAttribute('sizes');
+            if (imageMax) {
+              const isPortrait = Boolean(height && height > width);
+              const newSrc = isPortrait
+                ? convertIiifImageUri(currentTarget.src, imageMax, true)
+                : convertIiifImageUri(currentTarget.src, imageMax);
+              currentTarget.src = newSrc;
+              currentTarget.removeAttribute('srcset');
+              currentTarget.removeAttribute('sizes');
+            } else {
+              errorHandler && errorHandler();
+            }
           } else {
             // If the image still fails to load, we check to see if it's because the authorisation cookie is missing/no longer valid
             errorHandler && errorHandler();
