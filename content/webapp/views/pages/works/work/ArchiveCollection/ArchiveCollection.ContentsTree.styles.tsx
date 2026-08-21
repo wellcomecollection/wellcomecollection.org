@@ -2,12 +2,13 @@ import styled from 'styled-components';
 
 import { typography } from '@weco/common/utils/classnames';
 import { compactControlDimensions } from '@weco/content/views/pages/works/work/work.helpers';
-
-export {
+import {
   Tree,
   TreeBand,
   TreeInstructions,
 } from '@weco/content/views/pages/works/work/work.styles';
+
+export { Tree, TreeBand, TreeInstructions };
 export { compactControlDimensions } from '@weco/content/views/pages/works/work/work.helpers';
 
 // Where the title text starts on mobile (chevron + gap, no icon - that's
@@ -72,6 +73,10 @@ export const ContentsTable = styled.table.attrs({
     color: ${props => props.theme.color('neutral.600')};
     padding-left: ${props =>
       (props.$indentPx ?? 0) + nameCellTextIndent(props.theme.spacingUnit)}px;
+  }
+
+  ${TreeBand} & td:not(:first-child) {
+    color: inherit;
   }
 
   /* Vertical padding only goes on the visually first/last cells (Name,
@@ -219,13 +224,13 @@ export const ShowMoreButton = styled.button.attrs({
 })`
   display: inline-flex;
   align-items: center;
+  color: ${props => props.theme.color('neutral.600')};
   gap: ${props => props.theme.spacingUnit}px;
-  background: none;
-  border: none;
-  padding: 0;
-  color: inherit;
-  cursor: pointer;
-  text-decoration: none;
+
+  ${props =>
+    props.theme.media('sm')(`
+      color: inherit;
+    `)}
 
   &:focus,
   &:hover {
@@ -236,8 +241,4 @@ export const ShowMoreButton = styled.button.attrs({
     cursor: default;
     text-decoration: none;
   }
-`;
-
-export const ShowMoreCount = styled.span`
-  color: ${props => props.theme.color('neutral.600')};
 `;

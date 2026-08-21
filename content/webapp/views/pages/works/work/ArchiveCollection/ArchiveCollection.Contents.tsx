@@ -25,7 +25,6 @@ import {
   ContentsTable,
   NameCell,
   ShowMoreButton,
-  ShowMoreCount,
   Tree,
   TreeBand,
   TreeInstructions,
@@ -148,7 +147,7 @@ const ArchiveCollectionContents: FunctionComponent<{
           />
         </Tree>
 
-        {hasMorePages && (
+        {totalResults !== undefined && (
           <TreeBand>
             <ContentsTable $indentPx={10}>
               <tbody>
@@ -156,26 +155,27 @@ const ArchiveCollectionContents: FunctionComponent<{
                   <td>
                     <NameCell>
                       <ChevronSpacer />
-                      <ShowMoreButton
-                        onClick={showMore}
-                        disabled={isLoadingMore}
-                      >
-                        <Icon
-                          icon={plus}
-                          iconColor="neutral.600"
-                          matchText
-                          sizeOverride="height: 16px; width: 16px;"
-                        />
-                        {isLoadingMore
-                          ? 'Loading…'
-                          : `Show ${nextBatchSize} more rows`}
-                      </ShowMoreButton>
+                      {hasMorePages && (
+                        <ShowMoreButton
+                          onClick={showMore}
+                          disabled={isLoadingMore}
+                        >
+                          <Icon
+                            icon={plus}
+                            matchText
+                            sizeOverride="height: 16px; width: 16px;"
+                          />
+                          {isLoadingMore
+                            ? 'Loading…'
+                            : `Show ${nextBatchSize} more rows`}
+                        </ShowMoreButton>
+                      )}
                     </NameCell>
                   </td>
-                  <td colSpan={2} style={{ textAlign: 'right' }}>
-                    <ShowMoreCount>
+                  <td colSpan={2}>
+                    <span>
                       Showing {works.length} of {totalResults} rows
-                    </ShowMoreCount>
+                    </span>
                   </td>
                 </tr>
               </tbody>
