@@ -199,7 +199,7 @@ const seriesA2Ref = ancestor(
   'Non-professional writing',
   'PP/TLC/A.2',
   'Series',
-  1
+  3
 );
 
 // A flat, collectionPath-ordered results page - what
@@ -256,6 +256,27 @@ export const collectionResults: Work[] = [
     id: 'item-a2-1',
     title: 'Notebook of verse',
     referenceNumber: 'PP/TLC/A.2/1',
+    type: 'Work',
+    partOf: [seriesA2Ref, sectionRef, rootRef],
+  },
+];
+
+// A second page, for demoing ArchiveCollectionContents' "Show more"
+// pagination without needing 50 real fixture rows.
+export const collectionResultsPage2: Work[] = [
+  {
+    ...archiveWorkDefaults,
+    id: 'item-a2-2',
+    title: 'Verse',
+    referenceNumber: 'PP/TLC/A.2/2',
+    type: 'Work',
+    partOf: [seriesA2Ref, sectionRef, rootRef],
+  },
+  {
+    ...archiveWorkDefaults,
+    id: 'item-a2-3',
+    title: 'Prose',
+    referenceNumber: 'PP/TLC/A.2/3',
     type: 'Work',
     partOf: [seriesA2Ref, sectionRef, rootRef],
   },
