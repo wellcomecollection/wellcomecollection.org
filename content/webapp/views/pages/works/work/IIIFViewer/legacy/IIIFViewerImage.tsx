@@ -2,11 +2,17 @@ import { ForwardedRef, forwardRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
-import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
+import {
+  convertIiifImageUri,
+  iiifThumbsUri,
+} from '@weco/common/utils/convert-image-uri';
 import LL from '@weco/common/views/components/styled/LL';
 import { IIIFImage } from '@weco/content/services/iiif/types/image/v2';
 import { convertRequestUriToInfoUri } from '@weco/content/utils/iiif/convert-iiif-uri';
 async function getImageMax(url: string): Promise<number | undefined> {
+  // /thumbs/ is a fixed-size derivative service with no maxWidth/access-cap
+  // concept, so there's no point requesting its info.json at all
+  if (url.startsWith(iiifThumbsUri)) return undefined;
   const infoUrl = convertRequestUriToInfoUri(url);
   if (!infoUrl) return undefined;
   try {
