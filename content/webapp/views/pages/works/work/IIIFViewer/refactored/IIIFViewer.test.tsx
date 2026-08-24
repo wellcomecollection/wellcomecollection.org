@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 
 import {
   Work,
@@ -106,5 +106,59 @@ describe('IIIFViewer', () => {
     );
 
     expect(screen.queryByTestId('active-index')).not.toBeInTheDocument();
+  });
+
+  // These exercise the real IIIFViewer -> context -> ZoomedImage wiring for
+  // mainImageService, rather than ZoomedImage.test.tsx's mocked context value
+  // (which derives mainImageService independently in the test fixture and so
+  // wouldn't catch a break in IIIFViewer's own derivation/provider wiring).
+  describe('zoomed image', () => {
+    const originalFetch = global.fetch;
+    let fetchMock: jest.Mock;
+
+    beforeEach(() => {
+      // Never resolves - we only care which URL it's called with (or whether
+      // it's called at all), and letting the promise settle would require
+      // also faking openseadragon's viewer shape.
+      fetchMock = jest.fn(() => new Promise(() => undefined));
+      global.fetch = fetchMock as unknown as typeof fetch;
+    });
+
+    afterEach(() => {
+      global.fetch = originalFetch;
+    });
+
+    it("fetches the info.json for the current canvas's image service when zoomed in", async () => {
+      renderViewer(
+        createMockManifest({
+          canvases: [
+            createMockCanvas({
+              imageServiceId:
+                'https://iiif.wellcomecollection.org/image/b0001.jp2',
+            }),
+          ],
+        })
+      );
+
+      fireEvent.click(screen.getByRole('button', { name: 'Zoom in' }));
+
+      expect(await screen.findByTestId('zoomed-image')).toBeInTheDocument();
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://iiif.wellcomecollection.org/image/b0001.jp2/info.json'
+      );
+    });
+
+    it('does not fetch, and does not crash, when the current canvas has no image service', async () => {
+      renderViewer(
+        createMockManifest({
+          canvases: [createMockCanvas({ imageServiceId: undefined })],
+        })
+      );
+
+      fireEvent.click(screen.getByRole('button', { name: 'Zoom in' }));
+
+      expect(await screen.findByTestId('zoomed-image')).toBeInTheDocument();
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
   });
 });
