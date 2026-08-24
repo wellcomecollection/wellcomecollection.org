@@ -91,13 +91,13 @@ export type HandwrittenConceptMatchesSchema = AssertAssignable<
 //
 // - The hand-written `relatedConcepts` carries a `referencedTogether` list
 //   the schema does not document, and lacks the schema's `foundedBy` list.
-// - The hand-written RelatedConcept has `relationshipType`, which the spec
-//   on catalogue-api main does not yet document. That one is being fixed
-//   spec-side: catalogue-api#957 adds it (with required-field lists) to the
-//   concept schemas, and the sync will refresh the generated types when it
-//   merges.
-// - `displayImages` and `identifiers` use models from @weco/common that have
-//   not been reconciled with the schema shapes.
+// - `identifiers` uses a model from @weco/common that has not been reconciled
+//   with the schema shape.
+// - `displayImages` still uses the works-oriented DigitalLocation from
+//   @weco/common. The spec now gives concepts a narrower ConceptImage, which
+//   carries only locationType, url and an always-empty accessConditions.
+//   Reconciling that means changing what consumers can read, so it is left
+//   for the wider reconciliation rather than done here.
 
 // Reconciling the drift above, and then widening the assertions (ultimately
 // to `AssertAssignable<Work, GeneratedWork>` and the Image and Concept
