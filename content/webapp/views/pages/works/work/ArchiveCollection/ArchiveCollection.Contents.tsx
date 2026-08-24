@@ -105,11 +105,14 @@ const ArchiveCollectionContents: FunctionComponent<{
     (totalResults ?? works.length) - works.length
   );
 
-  async function showMore() {
-    setIsLoadingMore(true);
+async function showMore() {
+  setIsLoadingMore(true);
+  try {
     await loadPage(page + 1, works);
+  } finally {
     setIsLoadingMore(false);
   }
+}
 
   return (
     <div style={{ overflowX: 'auto', width: '100%' }}>
