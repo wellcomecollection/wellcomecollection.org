@@ -55,7 +55,7 @@ const ContentsTreeItemRenderer: FunctionComponent<
   // span full width. Starts from level 2, matching showFirstLevelGuideline
   // on Tree/NestedList in ArchiveCollection.Contents.tsx.
   const indentPx =
-    level > 1 ? (level - 1) * compactControlDimensions.controlSize : 0;
+    level > 1 ? (level - 1) * compactControlDimensions.controlWidth : 0;
   const rowIndex = rowIndexById?.[data.id];
   const typeIcon = hasControl
     ? item.openStatus

@@ -18,15 +18,25 @@ export const controlDimensions = {
   circleWidth: 30,
   circleHeight: 30,
   circleBorder: 2,
+  iconSize: 24,
 };
 
 // A smaller control for trees where the whole row - not just the chevron -
 // is already the click target (the archive collection contents table), so
 // the 44px touch-target padding around the icon isn't doing anything there.
+// Same shape as controlDimensions (see getControlDimensions below) so
+// callers don't need to know which fields exist on which variant.
 export const compactControlDimensions = {
-  controlSize: 30,
+  controlWidth: 30,
+  controlHeight: 30,
+  circleWidth: 30,
+  circleHeight: 30,
+  circleBorder: 2,
   iconSize: 16,
 };
+
+export const getControlDimensions = (isCompact?: boolean) =>
+  isCompact ? compactControlDimensions : controlDimensions;
 
 function convertStructuresToTree(
   structures: Manifest['structures'],

@@ -14,7 +14,7 @@ export { compactControlDimensions } from '@weco/content/views/pages/works/work/w
 // Where the title text starts on mobile (chevron + gap, no icon - that's
 // hidden there). Lets Reference/Level line up under the title.
 const nameCellTextIndent = (spacingUnit: number) =>
-  compactControlDimensions.controlSize + spacingUnit;
+  compactControlDimensions.controlWidth + spacingUnit;
 
 // Each row's its own <table> (real tables can't nest recursively), so
 // nth-child can't stripe them - $isEvenRow does that instead, from
@@ -216,8 +216,8 @@ export const NameCell = styled.span`
 export const ChevronSpacer = styled.span`
   display: inline-block;
   flex: 0 0 auto;
-  width: ${compactControlDimensions.controlSize}px;
-  height: ${compactControlDimensions.controlSize}px;
+  width: ${compactControlDimensions.controlWidth}px;
+  height: ${compactControlDimensions.controlHeight}px;
 `;
 
 export const ShowMoreButton = styled.button.attrs({
