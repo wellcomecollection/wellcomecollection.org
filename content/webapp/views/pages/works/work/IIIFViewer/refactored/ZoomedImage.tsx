@@ -62,7 +62,7 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
   const { mainImageService, setShowZoomed } = useItemViewerContext();
   const zoomInfoUrl = iiifImageLocation
     ? iiifImageLocation.url
-    : convertRequestUriToInfoUri(mainImageService['@id'] || '');
+    : convertRequestUriToInfoUri(mainImageService['@id']);
   const [scriptError, setScriptError] = useState(false);
   // osdViewerInstance re-renders the click handlers below with the current
   // viewer; viewerRef tracks the same instance without triggering a
