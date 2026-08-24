@@ -43,7 +43,7 @@ type ImageViewerProps = {
   id: string;
   width: number;
   height?: number;
-  infoUrl: string;
+  imageUrl: string;
   alt: string;
   urlTemplate: (v: IIIFUriProps) => string;
   loadHandler?: () => void;
@@ -56,7 +56,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   width,
   height,
   alt,
-  infoUrl,
+  imageUrl,
   urlTemplate,
   loadHandler,
   index,
@@ -120,7 +120,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
         })
         .join(',')
     );
-  }, [infoUrl, rotation]);
+  }, [imageUrl, rotation]);
 
   const escapeCloseViewer = ({ keyCode }: KeyboardEvent) => {
     if (keyCode === 27) {

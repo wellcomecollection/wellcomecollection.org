@@ -47,7 +47,11 @@ const ArchiveCollectionContents: FunctionComponent<{
   const [totalPages, setTotalPages] = useState<number>();
   const [totalResults, setTotalResults] = useState<number>();
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+
   const hasFetched = useRef(false);
+  // Mirrors `tree` so loadPage's post-await read isn't a stale closure.
+  const treeRef = useRef(tree);
+  treeRef.current = tree;
 
   // Row stripes depend on visible position, which shifts as branches
   // expand/collapse, so recompute from the tree's live openStatus rather
@@ -64,14 +68,21 @@ const ArchiveCollectionContents: FunctionComponent<{
     }
   }, [tree, tabbableId]);
 
-  async function loadPage(pageToLoad: number, existingWorks: Work[]) {
+  // Returns whether the page actually loaded, so callers can tell a
+  // handled API failure (getArchiveCollectionContents resolves with
+  // undefined rather than rejecting - see wellcomeApiQuery) apart from
+  // success, not just genuine thrown errors.
+  async function loadPage(
+    pageToLoad: number,
+    existingWorks: Work[]
+  ): Promise<boolean> {
     const response = await getArchiveCollectionContents(
       collectionRootId,
       pageToLoad,
       stagingApi,
       cataloguePipeline ?? undefined
     );
-    if (!response) return;
+    if (!response) return false;
 
     const updatedWorks = [...existingWorks, ...response.results];
     setWorks(updatedWorks);
@@ -81,12 +92,13 @@ const ArchiveCollectionContents: FunctionComponent<{
     setTree(
       buildTreeFromCollectionPathOrder(
         updatedWorks,
-        pageToLoad > 1 ? tree : undefined
+        pageToLoad > 1 ? treeRef.current : undefined
       )
     );
     setPage(pageToLoad);
     setTotalPages(response.totalPages);
     setTotalResults(response.totalResults);
+    return true;
   }
 
   useEffect(() => {
@@ -95,20 +107,31 @@ const ArchiveCollectionContents: FunctionComponent<{
     // tab's open.
     if (!isActive || hasFetched.current) return;
     hasFetched.current = true;
-    loadPage(1, []);
+
+    // Reset the guard on failure (a handled API error or a thrown one),
+    // so switching away from and back to the tab retries instead of
+    // leaving the fallback tree stuck for good.
+    loadPage(1, [])
+      .catch(() => false)
+      .then(succeeded => {
+        if (!succeeded) hasFetched.current = false;
+      });
   }, [isActive, collectionRootId, stagingApi, cataloguePipeline]);
+
+  async function showMore() {
+    setIsLoadingMore(true);
+    try {
+      await loadPage(page + 1, works);
+    } finally {
+      setIsLoadingMore(false);
+    }
+  }
 
   const hasMorePages = totalPages !== undefined && page < totalPages;
   const nextBatchSize = Math.min(
     ARCHIVE_COLLECTION_CONTENTS_PAGE_SIZE,
     (totalResults ?? works.length) - works.length
   );
-
-  async function showMore() {
-    setIsLoadingMore(true);
-    await loadPage(page + 1, works);
-    setIsLoadingMore(false);
-  }
 
   return (
     <div style={{ overflowX: 'auto', width: '100%' }}>

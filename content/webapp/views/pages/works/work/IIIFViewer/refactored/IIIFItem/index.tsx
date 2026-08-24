@@ -35,7 +35,6 @@ import { fetchCanvasOcr } from '@weco/content/services/iiif/fetch/canvasOcr';
 import { transformCanvasOcr } from '@weco/content/services/iiif/transformers/canvasOcr';
 import { missingAltTextMessage } from '@weco/content/services/wellcome/catalogue/works';
 import { IIIFItemProps, TransformedCanvas } from '@weco/content/types/manifest';
-import { convertRequestUriToInfoUri } from '@weco/content/utils/iiif/convert-iiif-uri';
 import { hasRestrictedItem } from '@weco/content/utils/iiif/v3';
 import {
   getFileSize,
@@ -167,7 +166,6 @@ const IIIFImage: FunctionComponent<{
   const [ocrText, setOcrText] = useState(missingAltTextMessage);
   const imageService = getImageServiceFromItem(item);
   const imageUrl = imageService?.['@id'] || '';
-  const infoUrl = convertRequestUriToInfoUri(imageUrl);
   const urlTemplate = imageUrl ? iiifImageTemplate(imageUrl) : undefined;
   useEffect(() => {
     const fetchOcr = async () => {
@@ -189,7 +187,7 @@ const IIIFImage: FunctionComponent<{
         <ImageViewerContainer>
           <ImageViewerPositioned>
             <ImageViewer
-              infoUrl={infoUrl}
+              imageUrl={imageUrl}
               id={imageUrl}
               width={canvas.width || 0}
               height={canvas.height || 0}
