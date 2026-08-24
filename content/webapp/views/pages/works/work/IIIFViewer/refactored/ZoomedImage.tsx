@@ -16,7 +16,6 @@ import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 import Control from '@weco/common/views/components/Control';
 import Space from '@weco/common/views/components/styled/Space';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext/refactored';
-import { PartialImageService } from '@weco/content/types/item-viewer';
 import { convertRequestUriToInfoUri } from '@weco/content/utils/iiif/convert-iiif-uri';
 
 const ZoomedImageContainer = styled.div`
@@ -60,10 +59,7 @@ type ZoomedImageProps = OptionalToUndefined<{
 const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
   iiifImageLocation,
 }) => {
-  const { currentCanvas, setShowZoomed } = useItemViewerContext();
-  const mainImageService: PartialImageService = {
-    '@id': currentCanvas?.imageServiceId,
-  };
+  const { mainImageService, setShowZoomed } = useItemViewerContext();
   const zoomInfoUrl = iiifImageLocation
     ? iiifImageLocation.url
     : convertRequestUriToInfoUri(mainImageService['@id'] || '');
@@ -253,7 +249,10 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
           </ControlSpacer>
         </Space>
       </Controls>
-      <OpenSeadragonContainer id="image-viewer-zoomedImage">
+      <OpenSeadragonContainer
+        id="image-viewer-zoomedImage"
+        data-testid="zoomed-image"
+      >
         {scriptError && <ErrorMessage />}
       </OpenSeadragonContainer>
     </ZoomedImageContainer>

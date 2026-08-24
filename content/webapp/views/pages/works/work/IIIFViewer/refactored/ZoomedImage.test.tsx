@@ -75,4 +75,21 @@ describe('ZoomedImage', () => {
       'https://iiif.wellcomecollection.org/image/canvas-b.jp2/info.json'
     );
   });
+
+  it('renders without crashing when the current canvas has no image service', () => {
+    const canvasWithNoImageService = createMockCanvas({
+      id: 'a',
+      imageServiceId: undefined,
+    });
+
+    const { container } = renderZoomedImage({
+      transformedManifest: createMockManifest({
+        canvases: [canvasWithNoImageService],
+      }),
+    });
+
+    expect(
+      container.querySelector('#image-viewer-zoomedImage')
+    ).toBeInTheDocument();
+  });
 });
