@@ -9,15 +9,20 @@ import {
 import LL from '@weco/common/views/components/styled/LL';
 import { IIIFImage } from '@weco/content/services/iiif/types/image/v2';
 import { convertRequestUriToInfoUri } from '@weco/content/utils/iiif/convert-iiif-uri';
+
 async function getImageMax(url: string): Promise<number | undefined> {
   // /thumbs/ is a fixed-size derivative service with no maxWidth/access-cap
   // concept, so there's no point requesting its info.json at all
   if (url.startsWith(iiifThumbsUri)) return undefined;
+
   const infoUrl = convertRequestUriToInfoUri(url);
+
   if (!infoUrl) return undefined;
+
   try {
     const resp = await fetch(infoUrl);
     const info: Partial<IIIFImage> = await resp.json();
+
     // N.B property is called maxWidth, but it is actually the max allowed for the longest side, see https://wellcome.slack.com/archives/CBT40CMKQ/p1702897884100559
     return info.profile?.find(
       (item): item is { maxWidth: number } =>

@@ -26,6 +26,11 @@ describe('convertRequestUriToInfoUri', () => {
     expect(result).toBeUndefined();
   });
 
+  it('returns undefined when given undefined', () => {
+    const result = convertRequestUriToInfoUri(undefined);
+    expect(result).toBeUndefined();
+  });
+
   it('finds the info.json for a /thumbs/ URI', () => {
     const result = convertRequestUriToInfoUri(
       'https://iiif.wellcomecollection.org/thumbs/b30268412_0027.jp2/full/238,/0/default.jpg'
