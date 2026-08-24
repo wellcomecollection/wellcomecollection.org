@@ -11,7 +11,6 @@ import {
   getWorkLevelLabel,
   TreeControl,
 } from '@weco/content/views/pages/works/work/NestedList';
-import { controlDimensions } from '@weco/content/views/pages/works/work/work.helpers';
 import {
   TreeDataWork,
   UiTreeNode,
@@ -19,7 +18,9 @@ import {
 
 import {
   ChevronSpacer,
+  compactControlDimensions,
   ContentsTable,
+  LevelCell,
   NameCell,
 } from './ArchiveCollection.ContentsTree.styles';
 
@@ -53,8 +54,14 @@ const ContentsTreeItemRenderer: FunctionComponent<
   // the row right, so ContentsTable can cancel it out and let the stripe
   // span full width. Starts from level 2, matching showFirstLevelGuideline
   // on Tree/NestedList in ArchiveCollection.Contents.tsx.
-  const indentPx = level > 1 ? (level - 1) * controlDimensions.controlWidth : 0;
+  const indentPx =
+    level > 1 ? (level - 1) * compactControlDimensions.controlWidth : 0;
   const rowIndex = rowIndexById?.[data.id];
+  const typeIcon = hasControl
+    ? item.openStatus
+      ? openFolder
+      : closedFolder
+    : file;
 
   return (
     <ContentsTable
@@ -70,10 +77,12 @@ const ContentsTreeItemRenderer: FunctionComponent<
                 <TreeControl
                   $highlightCondition={highlightCondition}
                   $isDarkMode={isDarkMode}
+                  $isCompact
                 >
                   <Icon
                     rotate={item.openStatus ? undefined : 270}
                     icon={chevron}
+                    sizeOverride={`height: ${compactControlDimensions.iconSize}px; width: ${compactControlDimensions.iconSize}px;`}
                   />
                 </TreeControl>
               ) : (
@@ -81,13 +90,7 @@ const ContentsTreeItemRenderer: FunctionComponent<
               )}
 
               <Icon
-                icon={
-                  hasControl
-                    ? item.openStatus
-                      ? openFolder
-                      : closedFolder
-                    : file
-                }
+                icon={typeIcon}
                 iconColor="neutral.600"
                 matchText
                 sizeOverride="height: 16px; width: 16px;"
@@ -111,7 +114,17 @@ const ContentsTreeItemRenderer: FunctionComponent<
           </td>
 
           <td>{data.referenceNumber}</td>
-          <td>{getWorkLevelLabel(data.type)}</td>
+          <td>
+            <LevelCell>
+              <Icon
+                icon={typeIcon}
+                iconColor="neutral.600"
+                matchText
+                sizeOverride="height: 16px; width: 16px;"
+              />
+              {getWorkLevelLabel(data.type)}
+            </LevelCell>
+          </td>
         </tr>
       </tbody>
     </ContentsTable>

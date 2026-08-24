@@ -25,9 +25,8 @@ import {
   ContentsTable,
   NameCell,
   ShowMoreButton,
-  ShowMoreCount,
   Tree,
-  TreeHeadings,
+  TreeBand,
   TreeInstructions,
 } from './ArchiveCollection.ContentsTree.styles';
 
@@ -137,7 +136,7 @@ const ArchiveCollectionContents: FunctionComponent<{
   return (
     <div style={{ overflowX: 'auto', width: '100%' }}>
       <div style={{ display: 'inline-table', minWidth: '100%' }}>
-        <TreeHeadings aria-hidden="true">
+        <TreeBand aria-hidden="true">
           <ContentsTable>
             <thead>
               <tr>
@@ -147,9 +146,9 @@ const ArchiveCollectionContents: FunctionComponent<{
               </tr>
             </thead>
           </ContentsTable>
-        </TreeHeadings>
+        </TreeBand>
 
-        <Tree $isEnhanced={isEnhanced} $showFirstLevelGuideline>
+        <Tree $isEnhanced={isEnhanced} $showFirstLevelGuideline $isCompact>
           {isEnhanced && (
             <TreeInstructions>{treeInstructions}</TreeInstructions>
           )}
@@ -162,42 +161,49 @@ const ArchiveCollectionContents: FunctionComponent<{
             tabbableId={tabbableId}
             setTabbableId={setTabbableId}
             workAncestors={archiveAncestorArray}
-            firstItemTabbable={false}
-            showFirstLevelGuideline
             ItemRenderer={ContentsTreeItemRenderer}
-            shouldFetchChildren={false}
             itemRendererProps={{ rowIndexById }}
+            firstItemTabbable={false}
+            shouldFetchChildren={false}
+            showFirstLevelGuideline
+            isCompact
           />
         </Tree>
 
-        {hasMorePages && (
-          <ContentsTable>
-            <tbody>
-              <tr>
-                <td>
-                  <NameCell>
-                    <ChevronSpacer />
-                    <ShowMoreButton onClick={showMore} disabled={isLoadingMore}>
-                      <Icon
-                        icon={plus}
-                        iconColor="neutral.600"
-                        matchText
-                        sizeOverride="height: 16px; width: 16px;"
-                      />
-                      {isLoadingMore
-                        ? 'Loading…'
-                        : `Show ${nextBatchSize} more rows`}
-                    </ShowMoreButton>
-                  </NameCell>
-                </td>
-                <td colSpan={2} style={{ textAlign: 'right' }}>
-                  <ShowMoreCount>
-                    Showing {works.length} of {totalResults} rows
-                  </ShowMoreCount>
-                </td>
-              </tr>
-            </tbody>
-          </ContentsTable>
+        {totalResults !== undefined && (
+          <TreeBand>
+            <ContentsTable $indentPx={10}>
+              <tbody>
+                <tr>
+                  <td>
+                    <NameCell>
+                      <ChevronSpacer />
+                      {hasMorePages && (
+                        <ShowMoreButton
+                          onClick={showMore}
+                          disabled={isLoadingMore}
+                        >
+                          <Icon
+                            icon={plus}
+                            matchText
+                            sizeOverride="height: 16px; width: 16px;"
+                          />
+                          {isLoadingMore
+                            ? 'Loading…'
+                            : `Show ${nextBatchSize} more rows`}
+                        </ShowMoreButton>
+                      )}
+                    </NameCell>
+                  </td>
+                  <td colSpan={2}>
+                    <span>
+                      Showing {works.length} of {totalResults} rows
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </ContentsTable>
+          </TreeBand>
         )}
       </div>
     </div>

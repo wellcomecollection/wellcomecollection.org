@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 
 import { WorkItemRendererProps } from '@weco/content/views/pages/works/work/ArchiveTree/ArchiveTree.WorkItemRenderer';
 import { DownloadItemRendererProps } from '@weco/content/views/pages/works/work/work.DownloadItemRenderer';
-import { controlDimensions } from '@weco/content/views/pages/works/work/work.helpers';
+import { getControlDimensions } from '@weco/content/views/pages/works/work/work.helpers';
 import {
   TreeDataCanvas,
   TreeDataRange,
@@ -11,14 +11,19 @@ import {
   UiTreeNode,
 } from '@weco/content/views/pages/works/work/work.types';
 
-export const verticalGuidePosition =
-  controlDimensions.controlHeight / 2 +
-  controlDimensions.circleHeight / 2 -
-  controlDimensions.circleBorder;
+// Centres the guideline's dot/line on the control, whichever size applies,
+// so a denser layout (e.g. the archive collection contents table) keeps the
+// guideline centred on its own, smaller chevron.
+export function getVerticalGuidePosition(isCompact?: boolean): number {
+  const { controlHeight, circleHeight, circleBorder } =
+    getControlDimensions(isCompact);
+  return controlHeight / 2 + circleHeight / 2 - circleBorder;
+}
 
 export type TreeItemProps = {
   $isEnhanced?: boolean;
   $showGuideline?: boolean;
+  $isCompact?: boolean;
 };
 
 export type ListProps = {
@@ -35,6 +40,7 @@ export type ListProps = {
   ItemRenderer:
     | FunctionComponent<DownloadItemRendererProps>
     | FunctionComponent<WorkItemRendererProps>;
+  isCompact?: boolean;
 };
 
 export const isTreeDataWork = (
