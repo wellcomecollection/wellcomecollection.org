@@ -156,7 +156,7 @@ export type Concept = {
   type: ConceptType;
   displayImages: DigitalLocation[];
   identifiers?: Identifier[];
-  sameAs?: string[];
+  sameAs: string[];
   description?: {
     sourceLabel: SourceOntology;
     sourceUrl: string;
@@ -172,7 +172,7 @@ export type Concept = {
     frequentCollaborators?: RelatedConcept[];
     relatedTopics?: RelatedConcept[];
   };
-  alternativeLabels?: string[];
+  alternativeLabels: string[];
 };
 
 type Availability = {
