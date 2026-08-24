@@ -65,14 +65,21 @@ const ArchiveCollectionContents: FunctionComponent<{
     }
   }, [tree, tabbableId]);
 
-  async function loadPage(pageToLoad: number, existingWorks: Work[]) {
+  // Returns whether the page actually loaded, so callers can tell a
+  // handled API failure (getArchiveCollectionContents resolves with
+  // undefined rather than rejecting - see wellcomeApiQuery) apart from
+  // success, not just genuine thrown errors.
+  async function loadPage(
+    pageToLoad: number,
+    existingWorks: Work[]
+  ): Promise<boolean> {
     const response = await getArchiveCollectionContents(
       collectionRootId,
       pageToLoad,
       stagingApi,
       cataloguePipeline ?? undefined
     );
-    if (!response) return;
+    if (!response) return false;
 
     const updatedWorks = [...existingWorks, ...response.results];
     setWorks(updatedWorks);
@@ -88,15 +95,22 @@ const ArchiveCollectionContents: FunctionComponent<{
     setPage(pageToLoad);
     setTotalPages(response.totalPages);
     setTotalResults(response.totalResults);
+    return true;
   }
 
   useEffect(() => {
     // The tab panel stays mounted for no-JS support, so gate the fetch on
     // isActive instead of firing on every page load regardless of which
-    // tab's open.
+    // tab's open. If the load fails, whether that's a handled API error
+    // or a thrown one, clear the guard again, so switching away from and
+    // back to the tab retries instead of leaving the fallback tree stuck for good.
     if (!isActive || hasFetched.current) return;
     hasFetched.current = true;
-    loadPage(1, []);
+    loadPage(1, [])
+      .catch(() => false)
+      .then(succeeded => {
+        if (!succeeded) hasFetched.current = false;
+      });
   }, [isActive, collectionRootId, stagingApi, cataloguePipeline]);
 
   const hasMorePages = totalPages !== undefined && page < totalPages;
@@ -105,14 +119,14 @@ const ArchiveCollectionContents: FunctionComponent<{
     (totalResults ?? works.length) - works.length
   );
 
-async function showMore() {
-  setIsLoadingMore(true);
-  try {
-    await loadPage(page + 1, works);
-  } finally {
-    setIsLoadingMore(false);
+  async function showMore() {
+    setIsLoadingMore(true);
+    try {
+      await loadPage(page + 1, works);
+    } finally {
+      setIsLoadingMore(false);
+    }
   }
-}
 
   return (
     <div style={{ overflowX: 'auto', width: '100%' }}>
