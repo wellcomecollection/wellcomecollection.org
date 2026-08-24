@@ -48,7 +48,11 @@ const ArchiveCollectionContents: FunctionComponent<{
   const [totalPages, setTotalPages] = useState<number>();
   const [totalResults, setTotalResults] = useState<number>();
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+
   const hasFetched = useRef(false);
+  // Mirrors `tree` so loadPage's post-await read isn't a stale closure.
+  const treeRef = useRef(tree);
+  treeRef.current = tree;
 
   // Row stripes depend on visible position, which shifts as branches
   // expand/collapse, so recompute from the tree's live openStatus rather
@@ -89,7 +93,7 @@ const ArchiveCollectionContents: FunctionComponent<{
     setTree(
       buildTreeFromCollectionPathOrder(
         updatedWorks,
-        pageToLoad > 1 ? tree : undefined
+        pageToLoad > 1 ? treeRef.current : undefined
       )
     );
     setPage(pageToLoad);
@@ -101,23 +105,19 @@ const ArchiveCollectionContents: FunctionComponent<{
   useEffect(() => {
     // The tab panel stays mounted for no-JS support, so gate the fetch on
     // isActive instead of firing on every page load regardless of which
-    // tab's open. If the load fails, whether that's a handled API error
-    // or a thrown one, clear the guard again, so switching away from and
-    // back to the tab retries instead of leaving the fallback tree stuck for good.
+    // tab's open.
     if (!isActive || hasFetched.current) return;
     hasFetched.current = true;
+
+    // Reset the guard on failure (a handled API error or a thrown one),
+    // so switching away from and back to the tab retries instead of
+    // leaving the fallback tree stuck for good.
     loadPage(1, [])
       .catch(() => false)
       .then(succeeded => {
         if (!succeeded) hasFetched.current = false;
       });
   }, [isActive, collectionRootId, stagingApi, cataloguePipeline]);
-
-  const hasMorePages = totalPages !== undefined && page < totalPages;
-  const nextBatchSize = Math.min(
-    ARCHIVE_COLLECTION_CONTENTS_PAGE_SIZE,
-    (totalResults ?? works.length) - works.length
-  );
 
   async function showMore() {
     setIsLoadingMore(true);
@@ -127,6 +127,12 @@ const ArchiveCollectionContents: FunctionComponent<{
       setIsLoadingMore(false);
     }
   }
+
+  const hasMorePages = totalPages !== undefined && page < totalPages;
+  const nextBatchSize = Math.min(
+    ARCHIVE_COLLECTION_CONTENTS_PAGE_SIZE,
+    (totalResults ?? works.length) - works.length
+  );
 
   return (
     <div style={{ overflowX: 'auto', width: '100%' }}>
