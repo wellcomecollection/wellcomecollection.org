@@ -396,6 +396,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         currentCanvas,
         totalCanvases,
         hasMultipleCanvases,
+        mainImageService,
 
         // UI Props:
         viewerRef,
