@@ -36,7 +36,7 @@ And:
 
 #### Probe Service
 
-The IIIF spec recommends querying the Probe service for a resource, with the access token, to determine if the user has access. For restricted items, once the `accessToken` is received, the viewer polls the `AuthProbeService2` URL before attempting to render it. The viewer retries the probe every 400ms for up to 2 seconds (5 attempts). The item only renders once the probe returns `{ status: 200 }`, or if the timeout is reached or the probe URL is unavailable. This polling gives the `dlcs-auth2-2` cookie extra time to propagate, reducing the chance of a visible 401 error, while rendering as soon as possible. If the probe never succeeds, the viewer falls back to rendering anyway, so users are not blocked.
+The IIIF spec recommends querying the Probe service for a resource, with the access token, to determine if the user has access. We don't do this: the probe response only tells us a boolean status (and, for degraded-access alternatives, a `location` we don't use), which doesn't add anything beyond attempting the real image request directly. Instead, once the `accessToken` is received, the viewer renders the item immediately and relies on the retry-on-error logic described below (see "Reloading Authentication") to recover if the `dlcs-auth2-2` cookie hasn't propagated yet and the request fails.
 
 ## Authentication Flow for Staff with Restricted Access
 
@@ -87,7 +87,7 @@ The page listens for messages from the iframe
 
 ### 5. Using the Token
 
-Once the `accessToken` is received, the viewer probes the IIIF Probe service (see above) to confirm the `dlcs-auth2-2` cookie is in place before rendering items.
+Once the `accessToken` is received, the viewer renders restricted items directly (see "Probe Service" above for why we don't probe first). If the `dlcs-auth2-2` cookie hasn't propagated yet and an image request fails, the retry/cache-busting logic described below recovers from it.
 
 ### 6. Reloading Authentication
 

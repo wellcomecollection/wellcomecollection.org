@@ -25,7 +25,6 @@ export function createMockCanvas(
     height: 1400,
     imageServiceId:
       'https://iiif.wellcomecollection.org/image/b00000000_0001.jp2',
-    probeServiceId: undefined,
     label: '1',
     textServiceId: undefined,
     thumbnailImage: {

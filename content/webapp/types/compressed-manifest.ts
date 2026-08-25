@@ -23,7 +23,6 @@ type CompressedTransformedCanvases = {
   width: (number | undefined)[];
   height: (number | undefined)[];
   imageServiceId: CommonParts;
-  probeServiceId: CommonParts;
   label: CommonParts;
   textServiceId: CommonParts;
   thumbnailImageUrl: CommonParts;
@@ -54,7 +53,6 @@ export function toCompressedTransformedManifest(
       width: canvases.map(c => c.width),
       height: canvases.map(c => c.height),
       imageServiceId: toCommonParts(canvases.map(c => c.imageServiceId)),
-      probeServiceId: toCommonParts(canvases.map(c => c.probeServiceId)),
       label: toCommonParts(canvases.map(c => c.label)),
       textServiceId: toCommonParts(canvases.map(c => c.textServiceId)),
       thumbnailImageUrl: toCommonParts(
@@ -78,10 +76,6 @@ export function fromCompressedManifest(
 
   const id = fromCommonParts(compressedCanvases.id) as string[];
   const imageServiceId = fromCommonParts(compressedCanvases.imageServiceId);
-  const probeServiceId =
-    compressedCanvases.probeServiceId != null
-      ? fromCommonParts(compressedCanvases.probeServiceId)
-      : id.map(() => undefined);
   const label = fromCommonParts(compressedCanvases.label);
   const textServiceId = fromCommonParts(compressedCanvases.textServiceId);
   const thumbnailImageUrl = fromCommonParts(
@@ -109,7 +103,6 @@ export function fromCompressedManifest(
       width: width[index],
       height: height[index],
       imageServiceId: imageServiceId[index],
-      probeServiceId: probeServiceId[index],
       label: label[index],
       textServiceId: textServiceId[index],
       thumbnailImage:

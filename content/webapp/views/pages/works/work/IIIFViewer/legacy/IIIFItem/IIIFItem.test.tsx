@@ -114,7 +114,7 @@ describe('IIIFItem restricted access', () => {
     ).toBeInTheDocument();
   });
 
-  it('shows the item to a staff user with a valid access token when the canvas has no probe service to check', async () => {
+  it('shows the item to a staff user with a valid access token', async () => {
     renderItem({
       item: {
         id: 'https://example.com/doc.pdf',
@@ -123,7 +123,6 @@ describe('IIIFItem restricted access', () => {
       } as IIIFItemProps,
       canvas: createMockCanvas({
         painting: [createRestrictedPainting()],
-        probeServiceId: undefined,
       }),
       userIsStaffWithRestricted: true,
       accessToken: 'test-token',
@@ -134,7 +133,7 @@ describe('IIIFItem restricted access', () => {
     );
   });
 
-  it('keeps the item hidden from a staff user with no access token yet (the probe never runs)', () => {
+  it('shows the item to a staff user even with no access token yet', () => {
     renderItem({
       item: {
         id: 'https://example.com/doc.pdf',
@@ -145,9 +144,7 @@ describe('IIIFItem restricted access', () => {
       userIsStaffWithRestricted: true,
     });
 
-    expect(
-      screen.queryByRole('link', { name: /open/i })
-    ).not.toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /open/i })).toBeInTheDocument();
   });
 });
 

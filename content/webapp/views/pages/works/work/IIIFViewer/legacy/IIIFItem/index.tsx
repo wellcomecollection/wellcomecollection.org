@@ -28,7 +28,6 @@ import {
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
-import useIIIFProbeService from '@weco/content/hooks/useIIIFProbeService';
 import useOnScreen from '@weco/content/hooks/useOnScreen';
 import useSkipInitialEffect from '@weco/content/hooks/useSkipInitialEffect';
 import { fetchCanvasOcr } from '@weco/content/services/iiif/fetch/canvasOcr';
@@ -253,7 +252,6 @@ const IIIFItemWrapper: FunctionComponent<{
   shouldShowItem: boolean;
   className: string;
   isRestricted: boolean;
-  isProbeOk: boolean;
   externalAccessService?: TransformedAuthService;
   children: ReactNode | undefined;
   containerRef?: RefObject<HTMLDivElement | null>;
@@ -262,7 +260,6 @@ const IIIFItemWrapper: FunctionComponent<{
   shouldShowItem,
   className,
   isRestricted,
-  isProbeOk,
   externalAccessService,
   children,
   containerRef,
@@ -288,7 +285,7 @@ const IIIFItemWrapper: FunctionComponent<{
             <RestrictedItemMessage />
           </RestrictedMessage>
         )}
-        {(!isRestricted || isProbeOk) && children}
+        {children}
       </ItemWrapper>
     );
   }
@@ -302,7 +299,6 @@ const IIIFItemWrapperWithObserver: FunctionComponent<{
   shouldShowItem: boolean;
   className: string;
   isRestricted: boolean;
-  isProbeOk: boolean;
   externalAccessService?: TransformedAuthService;
   children: ReactNode | undefined;
   index: number;
@@ -311,7 +307,6 @@ const IIIFItemWrapperWithObserver: FunctionComponent<{
   shouldShowItem,
   className,
   isRestricted,
-  isProbeOk,
   externalAccessService,
   children,
   index,
@@ -345,7 +340,6 @@ const IIIFItemWrapperWithObserver: FunctionComponent<{
       shouldShowItem={shouldShowItem}
       className={className}
       isRestricted={isRestricted}
-      isProbeOk={isProbeOk}
       externalAccessService={externalAccessService}
       containerRef={ref}
       removeRestrictedMessage={removeRestrictedMessage}
@@ -372,7 +366,6 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
 }) => {
   const { userIsStaffWithRestricted } = useUserContext();
   const isRestricted = hasRestrictedItem(canvas);
-  const isProbeOk = useIIIFProbeService(canvas);
   // Replace "image" with "item" in description if the item is not an image
   // or if it's an image but has originals, which means the image is just a placeholder for the original item
   const adjustedExternalAccessService =
@@ -427,7 +420,6 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
         shouldShowItem={shouldShowItem}
         className="audio-wrapper"
         isRestricted={isRestricted}
-        isProbeOk={isProbeOk}
         externalAccessService={adjustedExternalAccessService}
       >
         <AudioPlayer
@@ -445,7 +437,6 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
         shouldShowItem={shouldShowItem}
         className="video-wrapper"
         isRestricted={isRestricted}
-        isProbeOk={isProbeOk}
         externalAccessService={adjustedExternalAccessService}
       >
         <>
@@ -471,7 +462,6 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
         shouldShowItem={shouldShowItem}
         className="pdf-wrapper"
         isRestricted={isRestricted}
-        isProbeOk={isProbeOk}
         externalAccessService={adjustedExternalAccessService}
       >
         <IIIFItemPdf
@@ -499,7 +489,6 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
                   shouldShowItem={shouldShowItem}
                   className="download-wrapper"
                   isRestricted={isRestricted}
-                  isProbeOk={isProbeOk}
                   externalAccessService={adjustedExternalAccessService}
                 >
                   <IIIFItemDownload
@@ -532,7 +521,6 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
             shouldShowItem={shouldShowItem}
             className="image-wrapper"
             isRestricted={isRestricted}
-            isProbeOk={isProbeOk}
             externalAccessService={adjustedExternalAccessService}
             index={i}
             removeRestrictedMessage
@@ -547,7 +535,6 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           shouldShowItem={shouldShowItem}
           className="image-wrapper"
           isRestricted={isRestricted}
-          isProbeOk={isProbeOk}
           externalAccessService={adjustedExternalAccessService}
           removeRestrictedMessage
         >
