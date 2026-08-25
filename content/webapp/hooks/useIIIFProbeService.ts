@@ -19,9 +19,12 @@ const useIIIFProbeService = (canvas: TransformedCanvas): boolean => {
 
   const [probeOk, setProbeOk] = useState(!isRestricted);
 
-  // Tracks which canvas ID the probe last succeeded for.
+  // Tracks which canvas ID the probe last genuinely succeeded for (status 200).
   // Token refreshes on the same canvas skip re-probing to avoid a race where
   // the probe resolves before the refreshed cookie is ready for image requests.
+  // Only a real success is recorded here — if the retry budget was exhausted
+  // instead, a later token refresh (e.g. after an image load error) must be
+  // able to trigger a fresh probe rather than being skipped forever.
   const probeSucceededForCanvas = useRef<string | undefined>(undefined);
 
   useEffect(() => {
@@ -61,7 +64,9 @@ const useIIIFProbeService = (canvas: TransformedCanvas): boolean => {
           } else if (attempts < MAX_ATTEMPTS) {
             setTimeout(pollProbe, DELAY);
           } else {
-            probeSucceededForCanvas.current = canvas.id;
+            // Retry budget exhausted without a genuine success — don't record
+            // this as resolved, so a later accessToken refresh (e.g. after an
+            // image load error) can trigger a fresh probe for this canvas.
             setProbeOk(true);
           }
         })
@@ -70,7 +75,6 @@ const useIIIFProbeService = (canvas: TransformedCanvas): boolean => {
           if (attempts < MAX_ATTEMPTS) {
             setTimeout(pollProbe, DELAY);
           } else {
-            probeSucceededForCanvas.current = canvas.id;
             setProbeOk(true);
           }
         });
