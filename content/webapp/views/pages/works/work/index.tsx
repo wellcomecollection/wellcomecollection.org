@@ -145,7 +145,7 @@ export const WorkPage: NextPage<Props> = ({
           <>
             {isArchive ? (
               displayCollectionRoot ? (
-                <ArchiveCollectionLayout work={work} />
+                <ArchiveCollectionLayout key={work.id} work={work} />
               ) : (
                 <>
                   <Container>

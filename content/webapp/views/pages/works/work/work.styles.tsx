@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 
 import { treeInstructions } from '@weco/common/data/microcopy';
+import Space from '@weco/common/views/components/styled/Space';
 
-import { controlDimensions } from './work.helpers';
+import { controlDimensions, getControlDimensions } from './work.helpers';
 
 export const TreeInstructions = styled.p.attrs({
   'aria-hidden': 'true',
@@ -11,11 +12,33 @@ export const TreeInstructions = styled.p.attrs({
   display: none;
 `;
 
+export const TreeBand = styled(Space)<{ $isDarkMode?: boolean }>`
+  ${props =>
+    !props.$isDarkMode &&
+    `background: ${props.theme.color('warmNeutral.300')};`}
+`;
+
+export const TreeContainer = styled.div<{ $isDarkMode?: boolean }>`
+  ${props =>
+    !props.$isDarkMode &&
+    `
+    background: linear-gradient(
+      to bottom,
+      ${props.theme.color('warmNeutral.200')},
+      ${props.theme.color('warmNeutral.200')} 50%,
+      ${props.theme.color('white')} 50%,
+      ${props.theme.color('white')}
+    );
+    background-size: 100% ${controlDimensions.controlHeight * 2}px;
+  `}
+`;
+
 export const Tree = styled.div<{
   $isEnhanced?: boolean;
   $showFirstLevelGuideline?: boolean;
   $maxWidth?: number;
   $isDarkMode?: boolean;
+  $isCompact?: boolean;
 }>`
   ul {
     position: relative;
@@ -57,12 +80,13 @@ export const Tree = styled.div<{
       width: auto;
       padding-left: ${props =>
         props.$showFirstLevelGuideline
-          ? `${controlDimensions.controlWidth}px`
+          ? `${getControlDimensions(props.$isCompact).controlWidth}px`
           : 0};
     }
   }
 
   ul ul ul {
-    padding-left: ${controlDimensions.controlWidth}px;
+    padding-left: ${props =>
+      getControlDimensions(props.$isCompact).controlWidth}px;
   }
 `;

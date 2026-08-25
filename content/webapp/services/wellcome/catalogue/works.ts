@@ -226,6 +226,41 @@ export async function getArchiveWorks(
   );
 }
 
+export const ARCHIVE_COLLECTION_CONTENTS_PAGE_SIZE = 50;
+
+type ArchiveCollectionContentsPage = {
+  results: Work[];
+  totalPages: number;
+  totalResults: number;
+};
+
+export async function getArchiveCollectionContents(
+  collectionRootId: string,
+  page: number,
+  shouldUseStagingApi?: boolean,
+  pipelineCluster?: string
+): Promise<ArchiveCollectionContentsPage | undefined> {
+  const response = await getWorks({
+    params: {
+      'collection.root': collectionRootId,
+      sort: 'collectionPath',
+      sortOrder: 'asc',
+      page,
+    },
+    pageSize: ARCHIVE_COLLECTION_CONTENTS_PAGE_SIZE,
+    shouldUseStagingApi,
+    pipelineCluster,
+  });
+
+  return response.type === 'ResultList'
+    ? {
+        results: response.results,
+        totalPages: response.totalPages,
+        totalResults: response.totalResults,
+      }
+    : undefined;
+}
+
 export async function getWorkItemsClientSide(
   workId: string,
   signal: AbortSignal | null

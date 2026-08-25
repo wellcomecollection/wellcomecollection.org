@@ -157,6 +157,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
   shouldFetchChildren,
   isDarkMode = false,
   itemRendererProps,
+  isCompact,
 }: ListItemProps) => {
   const { isEnhanced } = useAppContext();
   const isSelected =
@@ -223,6 +224,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
       $isEnhanced={isEnhanced}
       $showGuideline={showGuideline}
       $isDarkMode={isDarkMode}
+      $isCompact={isCompact}
       aria-level={isEnhanced ? level : undefined}
       aria-setsize={isEnhanced ? setSize : undefined}
       aria-posinset={isEnhanced ? posInSet : undefined}
@@ -361,6 +363,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
           shouldFetchChildren={shouldFetchChildren}
           isDarkMode={isDarkMode}
           itemRendererProps={itemRendererProps}
+          isCompact={isCompact}
         />
       )}
     </TreeItem>

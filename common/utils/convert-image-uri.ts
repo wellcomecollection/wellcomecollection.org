@@ -2,7 +2,7 @@ import urlTemplate from 'url-template';
 
 const prismicBaseUri = 'https://images.prismic.io/wellcomecollection';
 const iiifImageUri = 'https://iiif.wellcomecollection.org/image/';
-const iiifThumbsUri = 'https://iiif.wellcomecollection.org/thumbs/';
+export const iiifThumbsUri = 'https://iiif.wellcomecollection.org/thumbs/';
 
 function determineSrc(url: string): string {
   if (url.startsWith(prismicBaseUri)) {

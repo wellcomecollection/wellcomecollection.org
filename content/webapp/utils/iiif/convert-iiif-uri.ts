@@ -3,15 +3,13 @@
 // {scheme}://{server}{/prefix}/{identifier}/{region}/{size}/{rotation}/{quality}.{format}
 // Image Information Request URI Syntax
 // {scheme}://{server}{/prefix}/{identifier}/info.json
-export function convertRequestUriToInfoUri(requestUri: string): string {
+export function convertRequestUriToInfoUri(
+  requestUri: string
+): string | undefined {
   const match =
     requestUri &&
     requestUri.match(
-      /^https:\/\/iiif\.wellcomecollection\.org\/image\/([^/]+)/
+      /^https:\/\/iiif\.wellcomecollection\.org\/(?:image|thumbs)\/([^/]+)/
     );
-  if (match && match[0]) {
-    return `${match[0]}/info.json`;
-  } else {
-    return `${requestUri}/info.json`;
-  }
+  return match && match[0] ? `${match[0]}/info.json` : undefined;
 }

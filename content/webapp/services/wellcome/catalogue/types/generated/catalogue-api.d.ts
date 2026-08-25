@@ -244,21 +244,21 @@ export interface components {
      * @description Concepts are the units of thought — ideas, meanings, or (categories of) objects and events — which underlie many knowledge organization systems. As such, concepts exist in the mind as abstract entities which are independent of the terms used to label them.
      */
     Concept: {
-      id?: string;
-      label?: string;
+      id: string;
+      label: string;
       /** @description The label to show to users. May differ from `label`. */
-      displayLabel?: string;
+      displayLabel: string;
       /** @description Alternative labels for the concept. */
-      alternativeLabels?: string[];
+      alternativeLabels: string[];
       description?: components['schemas']['ConceptDescription'];
-      identifiers?: components['schemas']['Identifier'][];
-      relatedConcepts?: components['schemas']['RelatedConcepts'];
+      identifiers: components['schemas']['Identifier'][];
+      relatedConcepts: components['schemas']['RelatedConcepts'];
       /** @description The ids of other concepts that refer to the same thing. */
-      sameAs?: string[];
+      sameAs: string[];
       /** @description Locations of images used to illustrate the concept. */
-      displayImages?: components['schemas']['DigitalLocation'][];
+      displayImages: components['schemas']['ConceptImage'][];
       /** @enum {string} */
-      type?:
+      type:
         | 'Agent'
         | 'Concept'
         | 'Genre'
@@ -303,12 +303,29 @@ export interface components {
       sourceUrl?: string;
     };
     /**
+     * ConceptImage
+     * @description The location of an image used to illustrate a concept. This is the subset of
+     *     digital location fields that concept documents carry; unlike a work item's
+     *     `DigitalLocation`, it never has a license, credit or linkText.
+     */
+    ConceptImage: {
+      locationType: components['schemas']['LocationType'];
+      /** @description The URL of the image. */
+      url: string;
+      /** @description Always empty on concept documents. */
+      accessConditions: unknown[];
+      /** @constant */
+      type: 'DigitalLocation';
+    };
+    /**
      * RelatedConcept
      * @description A stub representing a concept related to another concept.
      */
     RelatedConcept: {
       id?: string;
       label?: string;
+      /** @description The nature of the relationship, e.g. `has_works_about`. */
+      relationshipType?: string;
       conceptType?: string;
     };
     /**
