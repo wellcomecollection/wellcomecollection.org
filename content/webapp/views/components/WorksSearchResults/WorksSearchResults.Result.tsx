@@ -36,6 +36,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
   const { archiveCollection } = useFeatureFlags();
   const {
     isRootCollection,
+    isArchive,
     archiveLabels,
     cardLabels,
     physicalDescription,
@@ -43,7 +44,8 @@ const WorkSearchResult: FunctionComponent<Props> = ({
     productionDates,
   } = work;
 
-  const shouldShowArchiveCollectionInfo = archiveCollection && isRootCollection;
+  const shouldShowArchiveCollectionInfo =
+    archiveCollection && isRootCollection && isArchive;
 
   return (
     <NextLink

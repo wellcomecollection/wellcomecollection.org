@@ -3,6 +3,7 @@ import type { ComponentProps } from 'react';
 
 import {
   archiveCollectionWork,
+  nonArchiveCollectionWork,
   workBasic,
 } from '@weco/cardigan/stories/data/work';
 import { ServerDataContext } from '@weco/common/server-data/Context';
@@ -63,7 +64,7 @@ export const Basic: Story = {
   render: ({ isArchive, isRootCollection, works }) => {
     const resolvedWorks = isArchive
       ? [{ ...archiveCollectionWork, isRootCollection }]
-      : works;
+      : [isRootCollection ? nonArchiveCollectionWork : works[0]];
 
     return (
       <>

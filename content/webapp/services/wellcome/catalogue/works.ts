@@ -37,7 +37,13 @@ type GetWorkProps = {
   include?: string[];
 };
 
-const worksIncludes = ['production', 'contributors', 'partOf', 'collection'];
+const worksIncludes = [
+  'production',
+  'contributors',
+  'partOf',
+  'collection',
+  'archive',
+];
 
 const workIncludes = [
   ...worksIncludes,
