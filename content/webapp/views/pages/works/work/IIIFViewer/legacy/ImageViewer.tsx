@@ -64,17 +64,16 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   setImageContainerRect,
 }) => {
   const { isFullSupportBrowser } = useAppContext();
-  const { work, errorHandler, setShowZoomed, rotatedImages, accessToken } =
+  const { work, errorHandler, setShowZoomed, rotatedImages } =
     useItemViewerContext();
   const imageWrapperRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
-  // For restricted items, accessToken changes each time the auth cookie is
-  // refreshed (e.g. after a failed image load). Appending it here ensures a
-  // refreshed cookie always results in a genuinely new request rather than a
-  // cached error response for the previously-unauthenticated URL.
+  // Bumped on every failed load (see errorHandler below)
+  // so the src below changes on each retry
+  const [retryCount, setRetryCount] = useState(0);
   const withCacheBust = (url: string) =>
-    accessToken
-      ? `${url}${url.includes('?') ? '&' : '?'}t=${encodeURIComponent(accessToken)}`
+    retryCount > 0
+      ? `${url}${url.includes('?') ? '&' : '?'}retry=${retryCount}`
       : url;
   const [imageSrc, setImageSrc] = useState(
     withCacheBust(urlTemplate({ size: '640,' }))
@@ -128,7 +127,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
         })
         .join(',')
     );
-  }, [imageUrl, rotation, accessToken]);
+  }, [imageUrl, rotation, retryCount]);
 
   const escapeCloseViewer = ({ keyCode }: KeyboardEvent) => {
     if (keyCode === 27) {
@@ -167,7 +166,10 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
         loadHandler={() => {
           updateImagePosition();
         }}
-        errorHandler={errorHandler}
+        errorHandler={() => {
+          setRetryCount(count => count + 1);
+          errorHandler?.();
+        }}
         zoomOnClick
       />
       {alt ? (
