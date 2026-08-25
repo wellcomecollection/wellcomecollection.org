@@ -1,3 +1,5 @@
+import { screen } from '@testing-library/react';
+
 import { ItemViewerContextProps } from '@weco/content/contexts/ItemViewerContext/refactored';
 import { renderWithContext } from '@weco/content/test/fixtures/iiif/render';
 import {
@@ -42,13 +44,11 @@ describe('ZoomedImage', () => {
   });
 
   it('renders the zoomed image container', () => {
-    const { container } = renderZoomedImage({
+    renderZoomedImage({
       transformedManifest: createMockManifest(),
     });
 
-    expect(
-      container.querySelector('#image-viewer-zoomedImage')
-    ).toBeInTheDocument();
+    expect(screen.getByTestId('zoomed-image')).toBeInTheDocument();
   });
 
   it('fetches the info.json for the canvas in the correct structural position, not just its array position', () => {
@@ -74,5 +74,20 @@ describe('ZoomedImage', () => {
     expect(fetchMock).toHaveBeenCalledWith(
       'https://iiif.wellcomecollection.org/image/canvas-b.jp2/info.json'
     );
+  });
+
+  it('renders without crashing when the current canvas has no image service', () => {
+    const canvasWithNoImageService = createMockCanvas({
+      id: 'a',
+      imageServiceId: undefined,
+    });
+
+    renderZoomedImage({
+      transformedManifest: createMockManifest({
+        canvases: [canvasWithNoImageService],
+      }),
+    });
+
+    expect(screen.getByTestId('zoomed-image')).toBeInTheDocument();
   });
 });

@@ -4,7 +4,7 @@
 // Image Information Request URI Syntax
 // {scheme}://{server}{/prefix}/{identifier}/info.json
 export function convertRequestUriToInfoUri(
-  requestUri: string
+  requestUri: string | undefined
 ): string | undefined {
   const match =
     requestUri &&
