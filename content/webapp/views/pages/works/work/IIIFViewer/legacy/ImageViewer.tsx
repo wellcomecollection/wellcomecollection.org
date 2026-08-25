@@ -64,11 +64,21 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   setImageContainerRect,
 }) => {
   const { isFullSupportBrowser } = useAppContext();
-  const { work, errorHandler, setShowZoomed, rotatedImages } =
+  const { work, errorHandler, setShowZoomed, rotatedImages, accessToken } =
     useItemViewerContext();
   const imageWrapperRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
-  const [imageSrc, setImageSrc] = useState(urlTemplate({ size: '640,' }));
+  // For restricted items, accessToken changes each time the auth cookie is
+  // refreshed (e.g. after a failed image load). Appending it here ensures a
+  // refreshed cookie always results in a genuinely new request rather than a
+  // cached error response for the previously-unauthenticated URL.
+  const withCacheBust = (url: string) =>
+    accessToken
+      ? `${url}${url.includes('?') ? '&' : '?'}t=${encodeURIComponent(accessToken)}`
+      : url;
+  const [imageSrc, setImageSrc] = useState(
+    withCacheBust(urlTemplate({ size: '640,' }))
+  );
   const [imageSrcSet, setImageSrcSet] = useState(
     imageSizes(2048)
       .map(width => {
@@ -76,7 +86,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
           size: `${width},`,
         });
 
-        return urlString && `${urlString} ${width}w`;
+        return urlString && `${withCacheBust(urlString)} ${width}w`;
       })
       .join(',')
   );
@@ -106,7 +116,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   }, []);
 
   useEffect(() => {
-    setImageSrc(urlTemplate({ size: '640,', rotation }));
+    setImageSrc(withCacheBust(urlTemplate({ size: '640,', rotation })));
     setImageSrcSet(
       imageSizes(2048)
         .map(width => {
@@ -114,11 +124,11 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
             size: `${width},`,
             rotation,
           });
-          return urlString && `${urlString} ${width}w`;
+          return urlString && `${withCacheBust(urlString)} ${width}w`;
         })
         .join(',')
     );
-  }, [imageUrl, rotation]);
+  }, [imageUrl, rotation, accessToken]);
 
   const escapeCloseViewer = ({ keyCode }: KeyboardEvent) => {
     if (keyCode === 27) {
