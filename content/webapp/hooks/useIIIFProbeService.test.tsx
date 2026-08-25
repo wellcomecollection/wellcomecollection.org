@@ -166,7 +166,7 @@ describe.each([
     });
   });
 
-  it('falls back to true after 5 failed probe attempts', async () => {
+  it('keeps retrying indefinitely on repeated non-200 probe responses, never falling back to true on a guess', async () => {
     jest.useFakeTimers();
     const fetchMock = jest.fn().mockResolvedValue({
       json: () => Promise.resolve({ status: 403 }),
@@ -186,21 +186,53 @@ describe.each([
     // Initial state: false (restricted canvas)
     expect(result.current).toBe(false);
 
-    // Advance through all 5 retry attempts (400ms each)
-    for (let i = 0; i < 5; i++) {
+    // Advance well past where the old 5-attempt budget would have given up.
+    for (let i = 0; i < 10; i++) {
       await act(async () => {
-        await jest.advanceTimersByTimeAsync(400);
+        await jest.advanceTimersByTimeAsync(5000);
       });
     }
 
-    // After exhausting retries, should fall back to true
-    await waitFor(() => expect(result.current).toBe(true));
-    expect(fetchMock).toHaveBeenCalledTimes(5);
+    // Still false — a real answer is required, never a timeout-based guess.
+    expect(result.current).toBe(false);
+    expect(fetchMock.mock.calls.length).toBeGreaterThan(5);
 
     jest.useRealTimers();
   });
 
-  it('falls back to true after 5 network errors', async () => {
+  it('resolves true once a probe attempt eventually succeeds after repeated failures', async () => {
+    jest.useFakeTimers();
+    const fetchMock = jest
+      .fn()
+      .mockResolvedValueOnce({ json: () => Promise.resolve({ status: 403 }) })
+      .mockResolvedValueOnce({ json: () => Promise.resolve({ status: 403 }) })
+      .mockResolvedValue({ json: () => Promise.resolve({ status: 200 }) });
+    global.fetch = fetchMock as unknown as typeof fetch;
+
+    const { result } = renderHook(
+      () => useIIIFProbeService(restrictedCanvas('https://example.com/probe')),
+      {
+        wrapper: createWrapper({
+          userIsStaffWithRestricted: true,
+          accessToken: 'token-123',
+        }),
+      }
+    );
+
+    expect(result.current).toBe(false);
+
+    for (let i = 0; i < 3; i++) {
+      await act(async () => {
+        await jest.advanceTimersByTimeAsync(5000);
+      });
+    }
+
+    await waitFor(() => expect(result.current).toBe(true));
+
+    jest.useRealTimers();
+  });
+
+  it('keeps retrying indefinitely on repeated network errors, never falling back to true on a guess', async () => {
     jest.useFakeTimers();
     const fetchMock = jest.fn().mockRejectedValue(new Error('Network error'));
     global.fetch = fetchMock as unknown as typeof fetch;
@@ -218,16 +250,14 @@ describe.each([
     // Initial state: false (restricted canvas)
     expect(result.current).toBe(false);
 
-    // Advance through all 5 retry attempts (400ms each)
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 10; i++) {
       await act(async () => {
-        await jest.advanceTimersByTimeAsync(400);
+        await jest.advanceTimersByTimeAsync(5000);
       });
     }
 
-    // After exhausting retries, should fall back to true
-    await waitFor(() => expect(result.current).toBe(true));
-    expect(fetchMock).toHaveBeenCalledTimes(5);
+    expect(result.current).toBe(false);
+    expect(fetchMock.mock.calls.length).toBeGreaterThan(5);
 
     jest.useRealTimers();
   });

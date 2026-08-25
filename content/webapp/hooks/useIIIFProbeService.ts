@@ -8,9 +8,14 @@ import { hasRestrictedItem } from '@weco/content/utils/iiif/v3';
 /**
  * Polls the IIIF probe service for a restricted canvas to confirm the auth
  * cookie is valid before rendering media. Returns `probeOk: true` immediately
- * for non-restricted canvases, and for restricted canvases once the probe
- * succeeds (or the retry budget is exhausted, in which case it falls back to
- * true to avoid blocking staff indefinitely).
+ * for non-restricted canvases, and for restricted canvases only once the
+ * probe has genuinely returned `{ status: 200 }`.
+ *
+ * Deliberately never falls back to `true` on a timeout: rendering on a guess
+ * just moves the failed request from the probe endpoint to the real image
+ * request, which is the exact race this hook exists to avoid. Retries
+ * indefinitely (with backoff) until it gets a real answer or the canvas
+ * changes/component unmounts.
  */
 const useIIIFProbeService = (canvas: TransformedCanvas): boolean => {
   const { userIsStaffWithRestricted } = useUserContext();
@@ -45,13 +50,19 @@ const useIIIFProbeService = (canvas: TransformedCanvas): boolean => {
     setProbeOk(false);
 
     let cancelled = false;
-    const MAX_ATTEMPTS = 5;
-    const DELAY = 400;
+    const BASE_DELAY = 400;
+    const MAX_DELAY = 5000;
     let attempts = 0;
+
+    function scheduleRetry() {
+      if (cancelled) return;
+      attempts++;
+      const delay = Math.min(BASE_DELAY * 2 ** attempts, MAX_DELAY);
+      setTimeout(pollProbe, delay);
+    }
 
     function pollProbe() {
       if (cancelled) return;
-      attempts++;
       fetch(probeUrl!, {
         headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : {},
       })
@@ -61,22 +72,13 @@ const useIIIFProbeService = (canvas: TransformedCanvas): boolean => {
           if (data.status === 200) {
             probeSucceededForCanvas.current = canvas.id;
             setProbeOk(true);
-          } else if (attempts < MAX_ATTEMPTS) {
-            setTimeout(pollProbe, DELAY);
           } else {
-            // Retry budget exhausted without a genuine success — don't record
-            // this as resolved, so a later accessToken refresh (e.g. after an
-            // image load error) can trigger a fresh probe for this canvas.
-            setProbeOk(true);
+            scheduleRetry();
           }
         })
         .catch(() => {
           if (cancelled) return;
-          if (attempts < MAX_ATTEMPTS) {
-            setTimeout(pollProbe, DELAY);
-          } else {
-            setProbeOk(true);
-          }
+          scheduleRetry();
         });
     }
 
