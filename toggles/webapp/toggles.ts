@@ -114,6 +114,14 @@ const toggleConfig = {
       type: 'experimental',
     },
     {
+      id: 'archiveCollection',
+      title: 'Archive Collection level pages',
+      initialValue: false,
+      description:
+        'Enables access to the new Archive Collection level pages, changes to the work page and search result.',
+      type: 'experimental',
+    },
+    {
       id: 'thematicBrowsing',
       title: 'Thematic browsing: category pages',
       initialValue: false,
