@@ -22,6 +22,7 @@ import {
   getItemsStatus,
   getManifestAccessRequirements,
   getOriginalFiles,
+  getProbeServiceId,
   getVideoAudioDownloadOptions,
   hasItemType,
   hasNonImagesOrOriginals,
@@ -464,6 +465,24 @@ describe('hasRestrictedItem', () => {
       original: [],
     });
     expect(hasRestrictedItem(canvas)).toBe(false);
+  });
+});
+
+describe('getProbeServiceId', () => {
+  it('returns the AuthProbeService2 id when present', () => {
+    expect(getProbeServiceId(createRestrictedPainting())).toBe(
+      'https://example.com/probe'
+    );
+  });
+
+  it('returns undefined when the painting has no service', () => {
+    expect(getProbeServiceId(createOpenPainting())).toBeUndefined();
+  });
+
+  it('returns undefined for a Choice body', () => {
+    expect(
+      getProbeServiceId({ type: 'Choice', items: [] } as never)
+    ).toBeUndefined();
   });
 });
 
@@ -1063,6 +1082,7 @@ describe('transformCanvas', () => {
       height: 200,
       label: 'Page 1',
       imageServiceId: 'https://example.com/iiif/image',
+      probeServiceId: undefined,
     });
     expect(transformed.painting).toHaveLength(1);
   });

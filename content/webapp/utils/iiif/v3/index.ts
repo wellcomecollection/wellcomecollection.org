@@ -389,6 +389,18 @@ export function isItemRestricted(
   });
 }
 
+// Returns the AuthProbeService2 URL for a painting item, if it is restricted.
+export function getProbeServiceId(
+  painting: ChoiceBody | ContentResource | CustomContentResource
+): string | undefined {
+  if (isChoiceBody(painting) || !('service' in painting) || !painting.service)
+    return undefined;
+  const probe = (painting.service as { type: string; id: string }[]).find(
+    s => s.type === 'AuthProbeService2'
+  );
+  return probe?.id;
+}
+
 export type AuthServices = {
   active?: TransformedAuthService;
   external?: TransformedAuthService;
@@ -519,6 +531,7 @@ export function transformCanvas(canvas: Canvas): TransformedCanvas {
 
   const imageService = getImageServiceFromCanvas(canvas);
   const imageServiceId = getImageServiceId(imageService);
+  const probeServiceId = painting.map(p => getProbeServiceId(p)).find(Boolean);
 
   return {
     id,
@@ -526,6 +539,7 @@ export function transformCanvas(canvas: Canvas): TransformedCanvas {
     width,
     height,
     imageServiceId,
+    probeServiceId,
     label,
     textServiceId,
     thumbnailImage,
