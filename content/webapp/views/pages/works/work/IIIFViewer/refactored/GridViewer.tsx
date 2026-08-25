@@ -41,6 +41,7 @@ type CellProps = GridChildComponentProps<{
   query: ItemViewerQuery;
   workId: string;
   placeholderId?: string;
+  errorHandler?: () => void;
 }>;
 
 const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
@@ -54,6 +55,7 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
     query,
     workId,
     placeholderId,
+    errorHandler,
   } = data;
   const canvasIndex = rowIndex * columnCount + columnIndex;
   const currentCanvas = canvases[canvasIndex];
@@ -99,6 +101,7 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
                 placeholderId={placeholderId}
                 thumbNumber={arrayIndexToQueryParam(canvasIndex)}
                 isHighlighted={hasSearchResults}
+                errorHandler={errorHandler}
               />
             </NextLink>
           </ThumbnailSpacer>
@@ -131,6 +134,7 @@ const GridViewer: FunctionComponent = () => {
     searchResults,
     query,
     work,
+    errorHandler,
   } = useItemViewerContext();
   const { windowSize } = useAppContext();
 
@@ -190,6 +194,7 @@ const GridViewer: FunctionComponent = () => {
           query,
           workId: work.id,
           placeholderId: transformedManifest?.placeholderId,
+          errorHandler,
         }}
         onScroll={({ scrollTop }) => setScrollOffset(scrollTop)}
         ref={grid}

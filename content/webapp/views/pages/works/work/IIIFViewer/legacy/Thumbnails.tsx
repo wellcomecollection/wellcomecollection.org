@@ -36,7 +36,8 @@ const ThumbnailLink = styled(NextLink)`
 `;
 
 export const Thumbnails = () => {
-  const { work, query, transformedManifest } = useItemViewerContext();
+  const { work, query, transformedManifest, errorHandler } =
+    useItemViewerContext();
   const { isKiosk, isTendernessAndRageKiosk } = useKiosk();
   const { canvases } = { ...transformedManifest };
   const navigationCanvases = canvases
@@ -74,7 +75,11 @@ export const Thumbnails = () => {
               scroll={false}
               replace
             >
-              <IIIFCanvasThumbnail canvas={canvas} thumbNumber={canvasParam} />
+              <IIIFCanvasThumbnail
+                canvas={canvas}
+                thumbNumber={canvasParam}
+                errorHandler={errorHandler}
+              />
             </ThumbnailLink>
           );
         })}

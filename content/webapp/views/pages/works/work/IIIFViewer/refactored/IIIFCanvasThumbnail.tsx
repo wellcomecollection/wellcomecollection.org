@@ -94,6 +94,7 @@ type IIIFCanvasThumbnailProps = {
   thumbNumber: number;
   isHighlighted?: boolean;
   placeholderId?: string;
+  errorHandler?: () => void | Promise<void>;
 };
 
 const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
@@ -101,6 +102,7 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
   thumbNumber,
   isHighlighted,
   placeholderId,
+  errorHandler,
 }: IIIFCanvasThumbnailProps) => {
   const [thumbnailLoaded, setThumbnailLoaded] = useState(false);
   const { userIsStaffWithRestricted } = useUserContext();
@@ -150,6 +152,7 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
                       setThumbnailLoaded(true);
                     }}
                     isHighlighted={isHighlighted}
+                    errorHandler={isRestricted ? errorHandler : undefined}
                   />
                 </>
               ) : (
