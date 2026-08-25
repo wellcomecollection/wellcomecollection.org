@@ -34,7 +34,7 @@ const meta: Meta<StoryProps> = {
       control: 'boolean',
     },
   },
-  // TODO remove once archiveBrowsing is fully rolled out
+  // TODO remove once archiveCollection is fully rolled out
   decorators: [
     Story => (
       <ServerDataContext.Provider
@@ -44,7 +44,7 @@ const meta: Meta<StoryProps> = {
             ...defaultServerData.toggles,
             featureFlags: {
               ...defaultServerData.toggles.featureFlags,
-              archiveBrowsing: true,
+              archiveCollection: true,
             },
           },
         }}
@@ -78,7 +78,7 @@ export const Basic: Story = {
               marginTop: '1rem',
             }}
           >
-            This is currently behind the <code>archiveBrowsing</code> feature
+            This is currently behind the <code>archiveCollection</code> feature
             flag
           </div>
         )}

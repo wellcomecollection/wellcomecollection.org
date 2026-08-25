@@ -62,10 +62,10 @@ export const WorkPage: NextPage<Props> = ({
   transformedManifest,
 }) => {
   const { isKiosk } = useKiosk();
-  const { archiveBrowsing } = useFeatureFlags();
+  const { archiveCollection } = useFeatureFlags();
   const { userIsStaffWithRestricted } = useUserContext();
   const isArchive = !!work.archive;
-  const displayCollectionRoot = !!work.collection?.isRoot && archiveBrowsing;
+  const displayCollectionRoot = !!work.collection?.isRoot && archiveCollection;
 
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
   const iiifPresentationLocation = getDigitalLocationOfType(
