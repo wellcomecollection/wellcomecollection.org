@@ -74,7 +74,7 @@ type Props = {
 
 // TODO: once the catalogue API exposes a dedicated "short description"
 // field, prefer that over deriving one from the first sentence here.
-function getAndSanitiseShortDescription(description: string): string {
+function stripTagsAndGetFirstSentence(description: string): string {
   const plainText = description.replace(/<[^>]*>/g, '');
   const [firstSentence] = plainText.match(/[^.!?]*[.!?]/) || [plainText];
   return firstSentence.trim();
@@ -106,7 +106,7 @@ const ArchiveCard: FunctionComponent<Props> = ({
           </Title>
           {description && (
             <Description>
-              {getAndSanitiseShortDescription(description)}
+              {stripTagsAndGetFirstSentence(description)}
             </Description>
           )}
         </Space>
