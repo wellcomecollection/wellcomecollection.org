@@ -1,5 +1,6 @@
 import * as prismic from '@prismicio/client';
 
+import { appendQueryParam } from '@weco/common/utils/urls';
 import { Props as VideoEmbedProps } from '@weco/common/views/components/VideoEmbed';
 
 export type VideoEmbedTransform = VideoEmbedProps & {
@@ -71,7 +72,5 @@ export function getYouTubeEmbedUrl(embed: prismic.EmbedField): string {
     'www.youtube-nocookie.com'
   );
 
-  return embedUrl.includes('?')
-    ? embedUrlWithEnhancedPrivacy.replace('?', '?rel=0&')
-    : `${embedUrlWithEnhancedPrivacy}?rel=0`;
+  return appendQueryParam(embedUrlWithEnhancedPrivacy, 'rel', '0');
 }

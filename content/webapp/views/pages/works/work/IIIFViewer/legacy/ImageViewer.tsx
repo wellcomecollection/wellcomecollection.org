@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { IIIFUriProps } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '@weco/common/utils/image-sizes';
+import { appendQueryParam } from '@weco/common/utils/urls';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import { queryParamToArrayIndex } from '@weco/content/views/pages/works/work/work.helpers';
 
@@ -72,9 +73,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   // so the src below changes on each retry
   const [retryCount, setRetryCount] = useState(0);
   const withCacheBust = (url: string) =>
-    retryCount > 0
-      ? `${url}${url.includes('?') ? '&' : '?'}retry=${retryCount}`
-      : url;
+    retryCount > 0 ? appendQueryParam(url, 'retry', String(retryCount)) : url;
   const [imageSrc, setImageSrc] = useState(
     withCacheBust(urlTemplate({ size: '640,' }))
   );

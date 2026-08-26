@@ -9,6 +9,7 @@ import {
 
 import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { useNavigationHistory } from '@weco/common/hooks/useNavigationHistory';
+import { appendQueryParam } from '@weco/common/utils/urls';
 import Modal from '@weco/common/views/components/Modal';
 
 import InactivityRedirectModal from './InactivityRedirect.Modal';
@@ -59,8 +60,11 @@ const InactivityRedirect: FunctionComponent<{ isCardiganStory?: boolean }> = ({
       resetNavigationHistory();
 
       // Append kp_zoomLevel=125 to reset zoom in Kiosk Pro browser
-      const separator = kioskHomepageUrl.includes('?') ? '&' : '?';
-      const urlWithZoomReset = `${kioskHomepageUrl}${separator}kp_zoomLevel=125`;
+      const urlWithZoomReset = appendQueryParam(
+        kioskHomepageUrl,
+        'kp_zoomLevel',
+        '125'
+      );
 
       router.push(urlWithZoomReset);
     },
