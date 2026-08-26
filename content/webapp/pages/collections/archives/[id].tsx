@@ -82,8 +82,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       serverData,
       archiveCategory,
       works,
-      sort: isString(sortQuery) ? sortQuery : undefined,
-      sortOrder: isString(sortOrderQuery) ? sortOrderQuery : undefined,
+      sort,
+      sortOrder: sortOrder === 'asc' ? 'asc' : undefined,
       apiToolbarLinks: [
         {
           id: 'catalogue-api',
