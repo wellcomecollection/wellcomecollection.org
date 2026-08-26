@@ -85,6 +85,12 @@ variable "enable_search_challenge" {
   description = "Serve a silent JS challenge to token-less clients on /search* pages. High-risk: prove on stage before enabling elsewhere."
 }
 
+variable "enable_items_challenge" {
+  type        = bool
+  default     = false
+  description = "Serve a silent JS challenge to token-less clients on /works/<id>/items pages, reusing search_challenge_immunity_seconds. High-risk: prove on stage before enabling elsewhere."
+}
+
 variable "enable_search_legacy_ua_block" {
   type        = bool
   default     = false
