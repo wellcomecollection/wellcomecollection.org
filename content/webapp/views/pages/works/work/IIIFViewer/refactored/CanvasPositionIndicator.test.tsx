@@ -1,4 +1,5 @@
 import { screen } from '@testing-library/react';
+import { ReactElement } from 'react';
 
 import { ItemViewerContextProps } from '@weco/content/contexts/ItemViewerContext/refactored';
 import { renderWithContext } from '@weco/content/test/fixtures/iiif/render';
@@ -17,7 +18,7 @@ const threeCanvases = createMockManifest({
 });
 
 const render = (
-  ui: JSX.Element,
+  ui: ReactElement,
   contextProps: Partial<ItemViewerContextProps> = {}
 ) =>
   renderWithContext(ui, {
