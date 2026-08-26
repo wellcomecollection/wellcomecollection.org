@@ -186,3 +186,27 @@ export function getCurrentCanvas({
     ? canvases?.find(c => c.id === currentCanvasId)
     : canvases?.[queryParamToArrayIndex(canvas)];
 }
+
+/**
+ * Returns the slice of canvases for a given page, shared by every paginated
+ * thumbnails view so they can't drift onto different page sizes and disagree
+ * about which canvases a given page number shows.
+ * @param canvases - The manifest's full canvas list.
+ * @param page - 1-based page number.
+ * @param pageSize - Canvases per page.
+ */
+export function getCanvasesForPage({
+  canvases,
+  page,
+  pageSize,
+}: {
+  canvases: TransformedCanvas[] | undefined;
+  page: number;
+  pageSize: number;
+}): TransformedCanvas[] {
+  const startIndex = pageSize * queryParamToArrayIndex(page);
+
+  return [...Array(pageSize)]
+    .map((_, i) => canvases?.[startIndex + i])
+    .filter((canvas): canvas is TransformedCanvas => Boolean(canvas));
+}
