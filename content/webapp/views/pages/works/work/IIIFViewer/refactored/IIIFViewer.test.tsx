@@ -66,7 +66,6 @@ const mockWork: WorkBasic & Pick<Work, 'description'> = {
   notes: [],
   physicalDescription: '',
   isRootCollection: false,
-  isArchive: false,
 };
 
 const renderViewer = (
