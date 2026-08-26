@@ -902,6 +902,8 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // residential proxies (few requests per IP, current browser UAs and headers)
   // loads these pages, so nothing keyed on IP, UA or headers catches it.
   // Page URL only, never assets or /_next data routes; prove on stage first.
+  // As with search-challenge, non-Google crawlers and link-preview fetchers
+  // receive the challenge instead of the page.
   dynamic "rule" {
     for_each = var.enable_items_challenge ? [1] : []
     content {
@@ -920,16 +922,15 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
       statement {
         regex_match_statement {
-          regex_string = "^/works/[^/]+/items"
+          regex_string = "^/works/[^/]+/items$"
 
           field_to_match {
             uri_path {}
           }
 
-          # Decoded so a percent-encoded path segment can't sidestep the match.
           text_transformation {
             priority = 0
-            type     = "URL_DECODE"
+            type     = "NONE"
           }
         }
       }

@@ -42,9 +42,7 @@ module "stage_wc_org_cloudfront_distribution" {
   # rule in the module for why this is high-risk).
   enable_search_challenge = true
 
-  # Trialling the /works/<id>/items challenge here before prod: a headless
-  # fleet on residential proxies is loading items pages from 200k+ IPs a day
-  # and no header or IP rule catches it. Shares the 4h token immunity below.
+  # Trialling the /works/<id>/items challenge here before prod (see the items-challenge rule in the module).
   enable_items_challenge = true
 
   # Cuts billed challenge responses by blocking provably fabricated user

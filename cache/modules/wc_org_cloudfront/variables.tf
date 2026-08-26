@@ -123,7 +123,7 @@ variable "bot_control_inspection_level" {
 variable "search_challenge_immunity_seconds" {
   type        = number
   default     = 300
-  description = "How long a solved search challenge token stays valid. 300 is the AWS default; longer values mean fewer billed re-challenges for real users but a longer window for a token-holding client before it is re-challenged."
+  description = "How long a solved challenge token stays valid; applies to both the search and items challenge rules, since tokens are per web ACL. 300 is the AWS default; longer values mean fewer billed re-challenges for real users but a longer window for a token-holding client before it is re-challenged."
 
   validation {
     condition     = var.search_challenge_immunity_seconds >= 60 && var.search_challenge_immunity_seconds <= 259200 && floor(var.search_challenge_immunity_seconds) == var.search_challenge_immunity_seconds
