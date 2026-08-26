@@ -229,7 +229,6 @@ export type ArchiveCategoryWorkCard = {
   label?: string;
   description?: string;
   contributor?: string;
-  isOrganisation: boolean;
   date?: string;
   extent?: string;
 };
@@ -245,7 +244,6 @@ function toArchiveCategoryWorkCard(work: Work): ArchiveCategoryWorkCard {
     label: work.referenceNumber,
     description: work.description,
     contributor: primaryContributor?.agent.label,
-    isOrganisation: primaryContributor?.agent.type === 'Organisation',
     date: work.production?.[0]?.dates?.[0]?.label,
     extent: work.physicalDescription || undefined,
   };
