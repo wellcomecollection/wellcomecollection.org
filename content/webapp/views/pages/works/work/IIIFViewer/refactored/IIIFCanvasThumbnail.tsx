@@ -152,6 +152,7 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
                       setThumbnailLoaded(true);
                     }}
                     isHighlighted={isHighlighted}
+                    isRestricted={isRestricted}
                     errorHandler={isRestricted ? errorHandler : undefined}
                   />
                 </>

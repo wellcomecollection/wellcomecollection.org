@@ -69,6 +69,7 @@ type ImageViewerProps = {
   index: number;
   setImageRect?: (v: DOMRect) => void;
   setImageContainerRect?: (v: DOMRect) => void;
+  isRestricted?: boolean;
 };
 
 const ImageViewer: FunctionComponent<ImageViewerProps> = ({
@@ -81,6 +82,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   index,
   setImageRect,
   setImageContainerRect,
+  isRestricted,
 }) => {
   const { isFullSupportBrowser } = useAppContext();
   const { work, errorHandler, setShowZoomed, rotatedImages } =
@@ -179,6 +181,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
           lang={work.languageId}
           ariaDescribedBy={alt ? `image-${index + 1}` : undefined}
           alt={`digitised image ${index + 1}`}
+          isRestricted={isRestricted}
           clickHandler={() => {
             setShowZoomed(true);
           }}

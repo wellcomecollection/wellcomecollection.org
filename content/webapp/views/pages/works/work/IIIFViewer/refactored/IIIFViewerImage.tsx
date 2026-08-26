@@ -58,6 +58,7 @@ type Props = {
   errorHandler?: () => void | Promise<void>;
   tabIndex?: number;
   isHighlighted?: boolean;
+  isRestricted?: boolean;
   zoomOnClick?: boolean;
 };
 
@@ -77,6 +78,7 @@ const IIIFViewerImage = (
     errorHandler,
     tabIndex,
     isHighlighted,
+    isRestricted,
     zoomOnClick,
   }: Props,
   ref: ForwardedRef<HTMLImageElement>
@@ -118,6 +120,17 @@ const IIIFViewerImage = (
           }
         }}
         onError={async ({ currentTarget }) => {
+          // Restricted items are far more likely to be failing because the
+          // auth cookie is missing/no longer valid than because of a size
+          // limit, so go straight to that rather than the size hack below —
+          // trying both in the same error would race, since errorHandler
+          // triggers a parent re-render that can overwrite whichever src
+          // we set here second
+          if (isRestricted) {
+            errorHandler && errorHandler();
+            return;
+          }
+
           // Hack/workaround
           // If the image fails to load it may be because of a size limit,
           // see: https://wellcome.slack.com/archives/CBT40CMKQ/p1691050149722109,
@@ -134,11 +147,17 @@ const IIIFViewerImage = (
               currentTarget.src = newSrc;
               currentTarget.removeAttribute('srcset');
               currentTarget.removeAttribute('sizes');
+              // Let this smaller image load (or fail) on its own terms —
+              // calling errorHandler now would bump the parent's retry
+              // count and overwrite this src with the original oversized
+              // one before it gets a chance to load
+              return;
             }
           }
-          // Even if we found a smaller size to retry, the failure may also be
-          // because the authorisation cookie is missing/no longer valid, so
-          // we always check that too
+
+          // Either there was no smaller size to try, or we already tried
+          // one and it also failed — the failure may be because the
+          // authorisation cookie is missing/no longer valid, so check that
           errorHandler && errorHandler();
         }}
         src={src}

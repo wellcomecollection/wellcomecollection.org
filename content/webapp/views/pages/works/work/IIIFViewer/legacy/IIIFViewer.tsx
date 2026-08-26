@@ -20,7 +20,10 @@ import {
   PartialImageService,
 } from '@weco/content/types/item-viewer';
 import { TransformedManifest } from '@weco/content/types/manifest';
-import { hasNonImagesOrOriginals } from '@weco/content/utils/iiif/v3';
+import {
+  hasNonImagesOrOriginals,
+  hasRestrictedItem,
+} from '@weco/content/utils/iiif/v3';
 import { fromQuery } from '@weco/content/views/components/ItemLink';
 import {
   getTreeCanvasIndexById,
@@ -269,6 +272,9 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const canvasIndexById = useMemo(() => getTreeCanvasIndexById(tree), [tree]);
   const currentCanvas =
     transformedManifest?.canvases[queryParamToArrayIndex(canvas)];
+  const isCurrentCanvasRestricted = Boolean(
+    currentCanvas && hasRestrictedItem(currentCanvas)
+  );
   const mainImageService: PartialImageService = {
     '@id': currentCanvas?.imageServiceId,
   };
@@ -442,6 +448,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
                   index={0}
                   alt={work?.description || work?.title || ''}
                   urlTemplate={urlTemplate}
+                  isRestricted={isCurrentCanvasRestricted}
                 />
               )}
 
