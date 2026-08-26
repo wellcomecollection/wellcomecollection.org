@@ -253,7 +253,11 @@ async function getParentManifest(
     return parentManifestUrl
       ? await fetchJson<Manifest>(parentManifestUrl)
       : undefined;
-  } catch {
+  } catch (error) {
+    console.error(
+      `Error fetching parent manifest ${parentManifestUrl}:`,
+      error
+    );
     return undefined;
   }
 }

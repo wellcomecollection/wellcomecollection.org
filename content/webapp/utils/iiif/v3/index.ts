@@ -691,6 +691,17 @@ export function isCollection(
   return manifest.type === 'Collection';
 }
 
+// Only a b-number Collection can be a multi-part parent. The other partOf
+// entries (/presentation/collections/{contributors,genres,...}) are
+// aggregations that we never render, so don't fetch them.
+export function getParentManifestUrl(
+  manifest: Manifest | Collection
+): string | undefined {
+  return manifest.partOf?.find(
+    p => p.id && !p.id.includes('/presentation/collections/')
+  )?.id;
+}
+
 // We sometimes want to offer the original file for download.
 // There are 4 potential sources for this, checked in priority order.
 // 1) Content resources with a behavior value that includes 'original'.
