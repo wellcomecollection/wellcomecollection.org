@@ -28,12 +28,19 @@ async function getImageMax(url: string): Promise<number | undefined> {
   }
 }
 
-const Image = styled.img<{ $isHighlighted?: boolean; $zoomOnClick?: boolean }>`
+const Image = styled.img<{
+  $isHighlighted?: boolean;
+  $zoomOnClick?: boolean;
+  $hasLoaded: boolean;
+}>`
   ${props =>
     props.$isHighlighted
       ? `filter: grayscale(100%) brightness(70%) sepia(40%) hue-rotate(-120deg) saturate(400%) contrast(1);`
       : ''}; /* the filter is used for highlighting thumbnails that contain search terms */
   cursor: ${props => (props.$zoomOnClick ? 'zoom-in' : undefined)};
+
+  /* Hide the browser's broken-image icon/alt text while loading or retrying */
+  visibility: ${props => (props.$hasLoaded ? 'visible' : 'hidden')};
 `;
 
 type Props = {
@@ -99,6 +106,7 @@ const IIIFViewerImage = (
         className="image"
         $zoomOnClick={zoomOnClick}
         $isHighlighted={isHighlighted}
+        $hasLoaded={hasLoaded}
         onLoad={() => {
           loadHandler && loadHandler();
           setHasLoaded(true);
