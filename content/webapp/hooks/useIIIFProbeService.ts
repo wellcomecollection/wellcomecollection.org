@@ -56,8 +56,8 @@ const useIIIFProbeService = (canvas: TransformedCanvas): boolean => {
 
     function scheduleRetry() {
       if (cancelled) return;
-      attempts++;
       const delay = Math.min(BASE_DELAY * 2 ** attempts, MAX_DELAY);
+      attempts++;
       setTimeout(pollProbe, delay);
     }
 
