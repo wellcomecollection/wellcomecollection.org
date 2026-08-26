@@ -87,31 +87,31 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
     useItemViewerContext();
   const imageWrapperRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
+
+  const matching = rotatedImages.find(
+    canvas => queryParamToArrayIndex(canvas.canvas) === index
+  );
+  const rotation = matching ? matching.rotation : 0;
+
   // Bumped on every failed load (see errorHandler below)
   // so the src below changes on each retry
   const [retryCount, setRetryCount] = useState(0);
   const [hasFailedToLoad, setHasFailedToLoad] = useState(false);
   const withCacheBust = (url: string) =>
     retryCount > 0 ? appendQueryParam(url, 'retry', String(retryCount)) : url;
-  const [imageSrc, setImageSrc] = useState(
-    withCacheBust(urlTemplate({ size: '640,' }))
-  );
-  const [imageSrcSet, setImageSrcSet] = useState(
+
+  const buildImageSrc = () =>
+    withCacheBust(urlTemplate({ size: '640,', rotation }));
+  const buildImageSrcSet = () =>
     imageSizes(2048)
       .map(width => {
-        const urlString = urlTemplate({
-          size: `${width},`,
-        });
-
+        const urlString = urlTemplate({ size: `${width},`, rotation });
         return urlString && `${withCacheBust(urlString)} ${width}w`;
       })
-      .join(',')
-  );
-  const matching = rotatedImages.find(
-    canvas => queryParamToArrayIndex(canvas.canvas) === index
-  );
+      .join(',');
 
-  const rotation = matching ? matching.rotation : 0;
+  const [imageSrc, setImageSrc] = useState(buildImageSrc());
+  const [imageSrcSet, setImageSrcSet] = useState(buildImageSrcSet());
 
   function updateImagePosition() {
     const imageRect = imageRef?.current?.getBoundingClientRect();
@@ -139,18 +139,8 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   }, [imageUrl, rotation]);
 
   useEffect(() => {
-    setImageSrc(withCacheBust(urlTemplate({ size: '640,', rotation })));
-    setImageSrcSet(
-      imageSizes(2048)
-        .map(width => {
-          const urlString = urlTemplate({
-            size: `${width},`,
-            rotation,
-          });
-          return urlString && `${withCacheBust(urlString)} ${width}w`;
-        })
-        .join(',')
-    );
+    setImageSrc(buildImageSrc());
+    setImageSrcSet(buildImageSrcSet());
   }, [imageUrl, rotation, retryCount]);
 
   const escapeCloseViewer = ({ keyCode }: KeyboardEvent) => {
