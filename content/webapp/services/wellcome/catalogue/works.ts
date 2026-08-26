@@ -260,10 +260,7 @@ export type ArchiveCategoryWorksResult = {
   requestUrl: string;
 };
 
-export const archiveCategoryWorksSortFields = [
-  'collectionPath',
-  'production.dates',
-] as const;
+export const archiveCategoryWorksSortFields = ['production.dates'] as const;
 export type ArchiveCategoryWorksSortField =
   (typeof archiveCategoryWorksSortFields)[number];
 
@@ -271,8 +268,8 @@ export async function fetchArchiveCategoryWorks({
   id,
   page,
   pageSize = 24,
-  sort = 'collectionPath',
-  sortOrder = 'asc',
+  sort = 'production.dates',
+  sortOrder = 'desc',
 }: {
   id: string;
   page: number;

@@ -60,7 +60,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const sort = archiveCategoryWorksSortFields.find(
     field => field === sortQuery
   );
-  const sortOrder = sortOrderQuery === 'desc' ? 'desc' : 'asc';
+  const sortOrder = sortOrderQuery === 'asc' ? 'asc' : 'desc';
 
   const works = await fetchArchiveCategoryWorks({
     id: archiveCategory.id,
