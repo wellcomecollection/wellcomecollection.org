@@ -17,7 +17,7 @@ const threeCanvases = createMockManifest({
 });
 
 const render = (
-  ui: React.ReactElement,
+  ui: JSX.Element,
   contextProps: Partial<ItemViewerContextProps> = {}
 ) =>
   renderWithContext(ui, {
