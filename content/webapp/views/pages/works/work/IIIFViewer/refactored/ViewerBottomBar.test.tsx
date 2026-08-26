@@ -1,4 +1,4 @@
-import { fireEvent, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import React from 'react';
 
 import {
@@ -305,45 +305,6 @@ describe('ViewerBottomBar fullscreen control', () => {
     expect(
       screen.queryByRole('button', { name: /full screen/i })
     ).not.toBeInTheDocument();
-  });
-
-  it('shows the exit-fullscreen label when isFullscreen is true', () => {
-    renderBottomBar({
-      appContext: { isEnhanced: true, isFullSupportBrowser: true },
-      contextProps: {
-        transformedManifest: createMockManifest({
-          canvases: [createMockCanvas()],
-        }),
-        hasOnlyRenderableImages: true,
-        showFullscreenControl: true,
-        isFullscreen: true,
-      },
-    });
-
-    expect(
-      screen.getByRole('button', { name: /exit full screen/i })
-    ).toBeInTheDocument();
-  });
-
-  it('calls setIsFullscreen when the fullscreen button is clicked', () => {
-    const setIsFullscreen = jest.fn();
-
-    renderBottomBar({
-      appContext: { isEnhanced: true, isFullSupportBrowser: true },
-      contextProps: {
-        transformedManifest: createMockManifest({
-          canvases: [createMockCanvas()],
-        }),
-        hasOnlyRenderableImages: true,
-        showFullscreenControl: true,
-        viewerRef: { current: document.createElement('div') },
-        setIsFullscreen,
-      },
-    });
-
-    fireEvent.click(screen.getByRole('button', { name: /full screen/i }));
-
-    expect(setIsFullscreen).toHaveBeenCalledWith(true);
   });
 });
 

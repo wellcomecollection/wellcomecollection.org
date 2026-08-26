@@ -1,4 +1,4 @@
-import { fireEvent, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 
 import {
   renderWithContext,
@@ -344,38 +344,33 @@ describe('ViewerTopBar edge cases', () => {
 });
 
 describe('ViewerTopBar fullscreen control', () => {
-  it('shows the exit-fullscreen label and icon when isFullscreen is true', () => {
+  it('shows the fullscreen toggle when showFullscreenControl is true', () => {
     renderTopBar({
       contextProps: {
         transformedManifest: createMockManifest({
           canvases: [createMockCanvas()],
         }),
         showFullscreenControl: true,
-        isFullscreen: true,
       },
     });
 
     expect(
-      screen.getByRole('button', { name: /exit full screen/i })
+      screen.getByRole('button', { name: /full screen/i })
     ).toBeInTheDocument();
   });
 
-  it('calls setIsFullscreen when the fullscreen button is clicked', () => {
-    const setIsFullscreen = jest.fn();
-
+  it('hides the fullscreen toggle when showFullscreenControl is false', () => {
     renderTopBar({
       contextProps: {
         transformedManifest: createMockManifest({
           canvases: [createMockCanvas()],
         }),
-        showFullscreenControl: true,
-        viewerRef: { current: document.createElement('div') },
-        setIsFullscreen,
+        showFullscreenControl: false,
       },
     });
 
-    fireEvent.click(screen.getByRole('button', { name: /full screen/i }));
-
-    expect(setIsFullscreen).toHaveBeenCalledWith(true);
+    expect(
+      screen.queryByRole('button', { name: /full screen/i })
+    ).not.toBeInTheDocument();
   });
 });

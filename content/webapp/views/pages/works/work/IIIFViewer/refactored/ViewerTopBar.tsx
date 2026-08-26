@@ -5,20 +5,13 @@ import styled from 'styled-components';
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { useUserContext } from '@weco/common/contexts/UserContext';
-import {
-  chevrons,
-  gridView,
-  maximise,
-  minimise,
-  singlePage,
-} from '@weco/common/icons';
+import { chevrons, gridView, singlePage } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { typography } from '@weco/common/utils/classnames';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext/refactored';
-import useFullscreenToggle from '@weco/content/hooks/useFullscreenToggle';
 import useIsFullscreenEnabled from '@weco/content/hooks/useIsFullscreenEnabled';
 import useTransformedIIIFImage from '@weco/content/hooks/useTransformedIIIFImage';
 import {
@@ -33,6 +26,7 @@ import {
 import { getDownloadOptionsFromImageUrl } from '@weco/content/utils/works';
 import Download from '@weco/content/views/components/Download';
 
+import FullscreenToggleButton from './FullscreenToggleButton';
 import ToolbarSegmentedControl from './ToolbarSegmentedControl';
 
 export const ViewerButton = styled.button.attrs({
@@ -215,15 +209,11 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
     isResizing,
     transformedManifest,
     query,
-    viewerRef,
     showFullscreenControl,
-    isFullscreen,
-    setIsFullscreen,
     hasOnlyRenderableImages,
     currentCanvas,
     hasMultipleCanvases,
   } = useItemViewerContext();
-  const toggleFullscreen = useFullscreenToggle({ viewerRef, setIsFullscreen });
   const transformedIIIFImage = useTransformedIIIFImage(work);
   const { userIsStaffWithRestricted } = useUserContext();
 
@@ -405,25 +395,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
                 )}
 
               {isFullscreenEnabled && showFullscreenControl && (
-                <ViewerButton
-                  className="viewer-desktop"
-                  $isDark
-                  onClick={toggleFullscreen}
-                >
-                  {isFullscreen ? (
-                    <>
-                      <Icon icon={minimise} />
-                      <span style={{ marginLeft: '7px' }}>
-                        Exit full screen
-                      </span>
-                    </>
-                  ) : (
-                    <>
-                      <Icon icon={maximise} />
-                      <span style={{ marginLeft: '7px' }}>Full screen</span>
-                    </>
-                  )}
-                </ViewerButton>
+                <FullscreenToggleButton className="viewer-desktop" />
               )}
             </div>
           )}
