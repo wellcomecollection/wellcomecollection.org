@@ -4,11 +4,15 @@ import { IIIFUriProps } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '@weco/common/utils/image-sizes';
 import LL from '@weco/common/views/components/styled/LL';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
-import { queryParamToArrayIndex } from '@weco/content/views/pages/works/work/work.helpers';
+import { getCanvasesForPage } from '@weco/content/views/pages/works/work/work.helpers';
 
 import { DelayVisibility } from '.';
 import IIIFViewerImage from './IIIFViewerImage';
-import { CanvasPaginator, ThumbnailsPaginator } from './Paginators';
+import {
+  CanvasPaginator,
+  thumbnailsPageSize,
+  ThumbnailsPaginator,
+} from './Paginators';
 import { Thumbnails } from './Thumbnails';
 
 const NoScriptImageWrapper = styled.div`
@@ -33,21 +37,18 @@ type Props = {
 
 export const NoScriptImage = ({ urlTemplate, canvasOcr }: Props) => {
   const { work, query, transformedManifest } = useItemViewerContext();
-  const { canvases } = { ...transformedManifest };
 
-  const pageSize = 4;
   const srcSet =
     urlTemplate &&
     imageSizes(2048)
       .map(width => `${urlTemplate({ size: `${width},` })} ${width}w`)
       .join(',');
   const imageUrl = urlTemplate && urlTemplate({ size: '800,' });
-  const navigationCanvases = canvases
-    ? [...Array(pageSize)]
-        .map((_, i) => pageSize * queryParamToArrayIndex(query.page) + i)
-        .map(i => canvases?.[i])
-        .filter(Boolean)
-    : [];
+  const navigationCanvases = getCanvasesForPage({
+    canvases: transformedManifest?.canvases,
+    page: query.page,
+    pageSize: thumbnailsPageSize,
+  });
   const thumbnailsRequired = Boolean(navigationCanvases.length);
 
   return (

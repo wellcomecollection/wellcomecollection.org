@@ -3,7 +3,7 @@ import {
   createMockManifest,
 } from '@weco/content/test/fixtures/iiif/transformed-manifest';
 
-import { getCurrentCanvas } from './work.helpers';
+import { getCanvasesForPage, getCurrentCanvas } from './work.helpers';
 
 // getCurrentCanvas is the canonical way to work out which canvas is "current"
 // for a given 1-based canvas query param. Canvas order is determined by the
@@ -112,5 +112,50 @@ describe('getCurrentCanvas', () => {
         canvas: 9999,
       })
     ).toBeUndefined();
+  });
+});
+
+describe('getCanvasesForPage', () => {
+  const canvases = [
+    createMockCanvas({ id: '0' }),
+    createMockCanvas({ id: '1' }),
+    createMockCanvas({ id: '2' }),
+    createMockCanvas({ id: '3' }),
+    createMockCanvas({ id: '4' }),
+    createMockCanvas({ id: '5' }),
+    createMockCanvas({ id: '6' }),
+  ];
+
+  it('returns the first page of canvases', () => {
+    expect(getCanvasesForPage({ canvases, page: 1, pageSize: 3 })).toEqual([
+      canvases[0],
+      canvases[1],
+      canvases[2],
+    ]);
+  });
+
+  it('returns the requested page, offset by pageSize', () => {
+    expect(getCanvasesForPage({ canvases, page: 2, pageSize: 3 })).toEqual([
+      canvases[3],
+      canvases[4],
+      canvases[5],
+    ]);
+  });
+
+  it('returns a partial page when fewer canvases remain than pageSize', () => {
+    // 7 canvases, pageSize 3: page 3 only has canvases[6] left.
+    expect(getCanvasesForPage({ canvases, page: 3, pageSize: 3 })).toEqual([
+      canvases[6],
+    ]);
+  });
+
+  it('returns an empty array for a page beyond the last canvas', () => {
+    expect(getCanvasesForPage({ canvases, page: 4, pageSize: 3 })).toEqual([]);
+  });
+
+  it('returns an empty array when there are no canvases', () => {
+    expect(
+      getCanvasesForPage({ canvases: undefined, page: 1, pageSize: 3 })
+    ).toEqual([]);
   });
 });
