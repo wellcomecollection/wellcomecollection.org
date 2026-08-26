@@ -21,7 +21,6 @@ import { workLd } from '@weco/content/utils/json-ld';
 import { removeDisplayMarkupTags } from '@weco/content/utils/string';
 import {
   createApiToolbarWorkLinks,
-  getArchiveAncestorArray,
   getDigitalLocationInfo,
   getDigitalLocationOfType,
   showItemLink,
@@ -65,9 +64,7 @@ export const WorkPage: NextPage<Props> = ({
   const { isKiosk } = useKiosk();
   const { archiveCollection } = useFeatureFlags();
   const { userIsStaffWithRestricted } = useUserContext();
-  const isArchive = !!(
-    work.parts.length || getArchiveAncestorArray(work).length > 0
-  );
+  const isArchive = !!work.archive;
   const displayCollectionRoot = !!work.collection?.isRoot && archiveCollection;
 
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');

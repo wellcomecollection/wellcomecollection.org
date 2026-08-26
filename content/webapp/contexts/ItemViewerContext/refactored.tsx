@@ -96,6 +96,7 @@ const work: WorkBasic & Pick<Work, 'description'> = {
   notes: [],
   physicalDescription: '',
   isRootCollection: false,
+  isArchive: false,
 };
 
 export const defaultItemViewerContext: ItemViewerContextProps = {
