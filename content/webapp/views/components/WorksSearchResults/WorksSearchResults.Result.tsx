@@ -85,12 +85,6 @@ const WorkSearchResult: FunctionComponent<Props> = ({
               <WorkTitle title={work.title} />
             </WorkTitleHeading>
 
-            {shouldShowArchiveCollectionInfo && (
-              <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
-                Lorem ipsum dolor sit amet.
-              </Space>
-            )}
-
             <WorkInformation>
               {shouldShowArchiveCollectionInfo && (
                 <>
