@@ -30,7 +30,6 @@ import {
 import { getWork } from '@weco/content/services/wellcome/catalogue/works';
 import { toCompressedTransformedManifest } from '@weco/content/types/compressed-manifest';
 import { TransformedManifest } from '@weco/content/types/manifest';
-import { fetchJson } from '@weco/content/utils/http';
 import {
   getCollectionManifests,
   hasNonImagesOrOriginals,
@@ -249,15 +248,12 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 async function getParentManifest(
   parentManifestUrl: string | undefined
 ): Promise<Manifest | undefined> {
+  // The helper logs and rethrows non-404 errors; a missing parent is not fatal here.
   try {
     return parentManifestUrl
-      ? await fetchJson<Manifest>(parentManifestUrl)
+      ? await fetchIIIFPresentationManifest({ location: parentManifestUrl })
       : undefined;
-  } catch (error) {
-    console.error(
-      `Error fetching parent manifest ${parentManifestUrl}:`,
-      error
-    );
+  } catch {
     return undefined;
   }
 }

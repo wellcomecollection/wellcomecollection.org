@@ -1067,6 +1067,25 @@ describe('getParentManifestUrl', () => {
     ).toBeUndefined();
   });
 
+  it('skips a versioned aggregation collection id', () => {
+    const versionedGenre = {
+      id: 'https://iiif.wellcomecollection.org/presentation/v3/collections/genres/Annual_reports',
+      type: 'Collection' as const,
+    };
+    expect(
+      getParentManifestUrl(createTestManifest({ partOf: [versionedGenre] }))
+    ).toBeUndefined();
+  });
+
+  it('skips entries whose id is not a string', () => {
+    const noId = { type: 'Collection' as const } as NonNullable<
+      Manifest['partOf']
+    >[number];
+    expect(
+      getParentManifestUrl(createTestManifest({ partOf: [noId] }))
+    ).toBeUndefined();
+  });
+
   it('returns the b-number parent regardless of its position', () => {
     expect(
       getParentManifestUrl(

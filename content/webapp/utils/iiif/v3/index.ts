@@ -691,14 +691,15 @@ export function isCollection(
   return manifest.type === 'Collection';
 }
 
-// Only a b-number Collection can be a multi-part parent. The other partOf
-// entries (/presentation/collections/{contributors,genres,...}) are
-// aggregations that we never render, so don't fetch them.
+// Skip aggregation collections (/presentation/[vN/]collections/{genres,...});
+// they are never rendered, so fetching them on every render is wasted work.
+const aggregationCollectionPath = /\/presentation\/(v\d+\/)?collections\//;
+
 export function getParentManifestUrl(
   manifest: Manifest | Collection
 ): string | undefined {
   return manifest.partOf?.find(
-    p => p.id && !p.id.includes('/presentation/collections/')
+    p => typeof p.id === 'string' && !aggregationCollectionPath.test(p.id)
   )?.id;
 }
 
