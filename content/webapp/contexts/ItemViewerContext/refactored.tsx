@@ -36,6 +36,7 @@ export type ItemViewerContextProps = {
   setTree: (v: UiTree) => void;
   canvasIndexById: Record<string, number>;
   currentCanvas: TransformedCanvas | undefined;
+  isCurrentCanvasRestricted: boolean;
   totalCanvases: number;
   hasMultipleCanvases: boolean;
   mainImageService: PartialImageService;
@@ -112,6 +113,7 @@ export const defaultItemViewerContext: ItemViewerContextProps = {
   setTree: () => undefined,
   canvasIndexById: {},
   currentCanvas: undefined,
+  isCurrentCanvasRestricted: false,
   totalCanvases: 0,
   hasMultipleCanvases: false,
   mainImageService: { '@id': undefined },
