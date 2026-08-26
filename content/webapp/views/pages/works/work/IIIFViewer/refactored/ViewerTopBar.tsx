@@ -18,6 +18,7 @@ import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext/refactored';
+import useFullscreenToggle from '@weco/content/hooks/useFullscreenToggle';
 import useIsFullscreenEnabled from '@weco/content/hooks/useIsFullscreenEnabled';
 import useTransformedIIIFImage from '@weco/content/hooks/useTransformedIIIFImage';
 import {
@@ -216,10 +217,13 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
     query,
     viewerRef,
     showFullscreenControl,
+    isFullscreen,
+    setIsFullscreen,
     hasOnlyRenderableImages,
     currentCanvas,
     hasMultipleCanvases,
   } = useItemViewerContext();
+  const toggleFullscreen = useFullscreenToggle({ viewerRef, setIsFullscreen });
   const transformedIIIFImage = useTransformedIIIFImage(work);
   const { userIsStaffWithRestricted } = useUserContext();
 
@@ -404,31 +408,9 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
                 <ViewerButton
                   className="viewer-desktop"
                   $isDark
-                  onClick={() => {
-                    if (viewerRef && viewerRef.current) {
-                      if (
-                        !document.fullscreenElement &&
-                        !document['webkitFullscreenElement']
-                      ) {
-                        if (viewerRef.current.requestFullscreen) {
-                          viewerRef.current.requestFullscreen();
-                        } else if (
-                          viewerRef.current['webkitRequestFullscreen']
-                        ) {
-                          viewerRef.current['webkitRequestFullscreen']();
-                        }
-                      } else {
-                        if (document.exitFullscreen) {
-                          document.exitFullscreen();
-                        } else if (document['webkitExitFullscreen']) {
-                          document['webkitExitFullscreen']();
-                        }
-                      }
-                    }
-                  }}
+                  onClick={toggleFullscreen}
                 >
-                  {document.fullscreenElement ||
-                  document['webkitFullscreenElement'] ? (
+                  {isFullscreen ? (
                     <>
                       <Icon icon={minimise} />
                       <span style={{ marginLeft: '7px' }}>

@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 
 import {
   renderWithContext,
@@ -20,6 +20,12 @@ import ViewerTopBar from './ViewerTopBar';
 jest.mock('@weco/common/server-data/Context', () => ({
   ...jest.requireActual('@weco/common/server-data/Context'),
   useFeatureFlags: () => ({ itemViewerRefactor: true }),
+}));
+
+// Mock the fullscreen hook since jsdom doesn't support fullscreen API
+jest.mock('@weco/content/hooks/useIsFullscreenEnabled', () => ({
+  __esModule: true,
+  default: () => true,
 }));
 
 // A manifest-level rendering that yields a non-empty downloadOptions list.
@@ -334,5 +340,42 @@ describe('ViewerTopBar edge cases', () => {
     // Shows the invalid canvas number (doesn't validate/filter it)
     expect(screen.getByTestId('active-index')).toHaveTextContent('0');
     expect(screen.getByTestId('topbar')).toHaveTextContent('/2');
+  });
+});
+
+describe('ViewerTopBar fullscreen control', () => {
+  it('shows the exit-fullscreen label and icon when isFullscreen is true', () => {
+    renderTopBar({
+      contextProps: {
+        transformedManifest: createMockManifest({
+          canvases: [createMockCanvas()],
+        }),
+        showFullscreenControl: true,
+        isFullscreen: true,
+      },
+    });
+
+    expect(
+      screen.getByRole('button', { name: /exit full screen/i })
+    ).toBeInTheDocument();
+  });
+
+  it('calls setIsFullscreen when the fullscreen button is clicked', () => {
+    const setIsFullscreen = jest.fn();
+
+    renderTopBar({
+      contextProps: {
+        transformedManifest: createMockManifest({
+          canvases: [createMockCanvas()],
+        }),
+        showFullscreenControl: true,
+        viewerRef: { current: document.createElement('div') },
+        setIsFullscreen,
+      },
+    });
+
+    fireEvent.click(screen.getByRole('button', { name: /full screen/i }));
+
+    expect(setIsFullscreen).toHaveBeenCalledWith(true);
   });
 });

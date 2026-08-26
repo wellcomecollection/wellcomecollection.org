@@ -3,12 +3,19 @@ import { FunctionComponent } from 'react';
 import styled, { css } from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
-import { chevron, gridView, maximise, singlePage } from '@weco/common/icons';
+import {
+  chevron,
+  gridView,
+  maximise,
+  minimise,
+  singlePage,
+} from '@weco/common/icons';
 import { LinkProps } from '@weco/common/model/link-props';
 import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext/refactored';
+import useFullscreenToggle from '@weco/content/hooks/useFullscreenToggle';
 import useIsFullscreenEnabled from '@weco/content/hooks/useIsFullscreenEnabled';
 import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
 
@@ -132,12 +139,15 @@ const ViewerBottomBar: FunctionComponent = () => {
     isMobileSidebarActive,
     showFullscreenControl,
     viewerRef,
+    isFullscreen,
+    setIsFullscreen,
     work,
     query,
     totalCanvases,
     hasMultipleCanvases,
     hasOnlyRenderableImages,
   } = useItemViewerContext();
+  const toggleFullscreen = useFullscreenToggle({ viewerRef, setIsFullscreen });
 
   const { canvas } = query;
 
@@ -208,33 +218,20 @@ const ViewerBottomBar: FunctionComponent = () => {
             <RightZone>
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <Space $h={{ size: 'sm', properties: ['margin-right'] }}>
-                  <ViewerButton
-                    onClick={() => {
-                      if (viewerRef?.current) {
-                        if (
-                          !document.fullscreenElement &&
-                          !document['webkitFullscreenElement']
-                        ) {
-                          if (viewerRef.current.requestFullscreen) {
-                            viewerRef.current.requestFullscreen();
-                          } else if (
-                            viewerRef.current['webkitRequestFullscreen']
-                          ) {
-                            viewerRef.current['webkitRequestFullscreen']();
-                          }
-                        } else {
-                          if (document.exitFullscreen) {
-                            document.exitFullscreen();
-                          } else if (document['webkitExitFullscreen']) {
-                            document['webkitExitFullscreen']();
-                          }
-                        }
-                      }
-                    }}
-                    $isDark
-                  >
-                    <Icon icon={maximise} />
-                    <span style={{ marginLeft: '7px' }}>Full screen</span>
+                  <ViewerButton onClick={toggleFullscreen} $isDark>
+                    {isFullscreen ? (
+                      <>
+                        <Icon icon={minimise} />
+                        <span style={{ marginLeft: '7px' }}>
+                          Exit full screen
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <Icon icon={maximise} />
+                        <span style={{ marginLeft: '7px' }}>Full screen</span>
+                      </>
+                    )}
                   </ViewerButton>
                 </Space>
               </div>
