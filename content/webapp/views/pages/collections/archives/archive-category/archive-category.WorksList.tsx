@@ -43,7 +43,9 @@ const ArchiveCategoryWorksList = ({
       {works.works.length > 0 && (
         <Layout gridSizes={gridSize12()}>
           <PaginationWrapper $verticalSpacing="md">
-            <span role="status">{pluralize(works.totalResults, 'result')}</span>
+            <span role="status">
+              {pluralize(works.totalResults, 'Archive collection')}
+            </span>
 
             <SortPaginationWrapper>
               <Sort
