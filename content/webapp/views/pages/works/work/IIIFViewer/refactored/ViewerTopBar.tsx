@@ -32,6 +32,7 @@ import {
 import { getDownloadOptionsFromImageUrl } from '@weco/content/utils/works';
 import Download from '@weco/content/views/components/Download';
 
+import CanvasPositionIndicator from './CanvasPositionIndicator';
 import ToolbarSegmentedControl from './ToolbarSegmentedControl';
 
 export const ViewerButton = styled.button.attrs({
@@ -213,7 +214,6 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
     showZoomed,
     isResizing,
     transformedManifest,
-    query,
     viewerRef,
     showFullscreenControl,
     hasOnlyRenderableImages,
@@ -223,7 +223,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
   const transformedIIIFImage = useTransformedIIIFImage(work);
   const { userIsStaffWithRestricted } = useUserContext();
 
-  const { canvases, rendering } = { ...transformedManifest };
+  const { rendering } = { ...transformedManifest };
   const imageServices = (currentCanvas?.painting
     .map(p => {
       if (isChoiceBody(p)) {
@@ -375,8 +375,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
         <MiddleZone className="viewer-desktop">
           {shouldShowPageIndicator && (
             <>
-              <span data-testid="active-index">{`${query.canvas || 0}`}</span>
-              {`/${canvases?.length || ''}`}{' '}
+              <CanvasPositionIndicator positionTestId="active-index" />{' '}
               {currentPageLabel !== '-' &&
                 hasOnlyRenderableImages &&
                 `page ${currentPageLabel}`}

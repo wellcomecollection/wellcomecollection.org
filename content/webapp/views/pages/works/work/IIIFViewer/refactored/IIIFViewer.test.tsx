@@ -1,4 +1,4 @@
-import { fireEvent, screen } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 
 import {
   Work,
@@ -160,5 +160,35 @@ describe('IIIFViewer', () => {
       expect(await screen.findByTestId('zoomed-image')).toBeInTheDocument();
       expect(fetchMock).not.toHaveBeenCalled();
     });
+  });
+
+  // VirtualizedImageViewer relies on this: it passes no titleOverride because
+  // IIIFItem only reads it for audio. MainViewer.test.tsx covers the other
+  // direction, given the flag.
+  it('routes an audio canvas to the paginated viewer, not the fixed list', async () => {
+    const { container } = renderViewer(
+      createMockManifest({
+        canvases: [
+          createMockCanvas({
+            painting: [
+              {
+                id: 'https://example.com/audio.mp3',
+                type: 'Sound',
+                format: 'audio/mp3',
+              },
+            ] as never,
+          }),
+        ],
+      })
+    );
+
+    // As above: MainViewer only renders once IIIFViewer's mount-time resizing
+    // state settles.
+    await waitFor(() =>
+      expect(
+        container.querySelector('[data-component="paginated"]')
+      ).toBeInTheDocument()
+    );
+    expect(screen.queryByTestId('image-item')).not.toBeInTheDocument();
   });
 });
