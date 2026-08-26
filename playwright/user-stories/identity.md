@@ -8,6 +8,7 @@ this file into a GitHub issue and tick scenarios off as you go.
 
 ## Environments
 
+
 |                  | Stage                                                                | Production                                                        |
 | ---------------- | -------------------------------------------------------------------- | ----------------------------------------------------------------- |
 | Base URL         | <https://www-stage.wellcomecollection.org>                           | <https://wellcomecollection.org>                                  |
@@ -24,18 +25,24 @@ stage Auth0 tenant's post-signup Action always redirects to www-stage.
 
 You will need:
 
-- A fresh email address you can find in the test inbox (eg
-  `yourname+test1@wellcomecollection.org`) for the account created in
-  feature 1
+- Two fresh email addresses you can find in the test inbox (eg
+  `yourname+test1@wellcomecollection.org` and `yourname+test2@...`) for the
+  two accounts created in feature 1 — one signing up via the header link,
+  one via a work-page link
 - An existing **Reader** test account
 - A **StaffWithRestricted** test account (feature 9 only)
 - A work with requestable physical items, and a work with restricted items
 
-Features 1–8 are ordered as a lifecycle: the account created in feature 1 is
-used throughout and deleted in feature 8. **Both environments work against
-production Sierra**, so registering creates a real patron record in the
-production library system — always finish with feature 8 so the deletion
-request is raised with the library team.
+Features 1–8 are ordered as a lifecycle. Feature 1 creates two accounts, one
+per signup entry point (scenarios 1.1/1.2): the header-started account
+continues through the rest of the lifecycle and is deleted in feature 8; the
+work-page-started account is only needed to verify scenario 1.5's redirect,
+after which delete it too — repeat scenario 8.3 with its own credentials
+straight away, rather than carrying it through the whole lifecycle. **Both
+environments work against production Sierra**, so registering creates a real
+patron record in the production library system for each account — always
+finish with feature 8 (for both accounts) so the deletion requests are
+raised with the library team.
 
 ## 1. Joining the library
 
@@ -43,54 +50,74 @@ request is raised with the library team.
 > I want to _join the library online_
 > so that I can _request items and manage my membership_
 
-### Scenario 1.1: starting signup
+### Scenario 1.1: starting signup from the header
 
-Given I am not signed in
-When I follow a sign-up link (eg from the work page sign-in prompt)
+Given I am not signed in, on any page
+When I open the header account menu, choose Sign in, then choose Sign up
 Then I see the Auth0 account creation screen asking for email and password
 
-### Scenario 1.2: password policy at signup
+### Scenario 1.2: starting signup from a work page
+
+Given I am not signed in and viewing a work with requestable items
+When I follow the "sign in to your library account" link, then choose Sign up
+Then I see the same Auth0 account creation screen as in 1.1
+
+Complete this registration too (with your second test email address) —
+scenarios 1.3–1.5 apply to whichever signup you're progressing at the time,
+so run through them once per entry point, using the header-started signup
+for 1.3 and 1.4 to avoid repeating the same checks twice.
+
+### Scenario 1.3: password policy at signup
 
 Given I am on the Auth0 account creation screen
 When I enter a weak password (eg `password`)
 Then the password is rejected with the policy requirements
 
-### Scenario 1.3: registration form validation
+### Scenario 1.4: registration form validation
 
 Given I have created my login with a valid email and password
 When I submit the registration form without a first name, without a last name, or without accepting the Collections Research Agreement
 Then I see a validation message for the missing field and the form is not submitted
 
-### Scenario 1.4: completing registration
+### Scenario 1.5: completing registration
+
+Run this once for each account from 1.1 and 1.2.
 
 Given I have filled in my first name, last name and accepted the agreement
 When I submit the registration form
 Then I am signed out and land on the application-received page showing the email address I signed up with
+And if this was the work-page signup (1.2), I am not returned to that work page with a stale placeholder name — the redirect goes to the application-received page regardless of entry point
 
-### Scenario 1.5: verification email
+For the work-page account, that's everything needed from it — check its
+verification email (1.6) if you like, but you can also skip straight to
+deleting it (feature 8) once you're satisfied with the redirect. Continue
+scenarios 1.6 onward with the header-started account only.
+
+### Scenario 1.6: verification email
 
 Given I have completed the registration form
 When I check the test inbox
 Then I see a verification email addressed to my signup email
 
-### Scenario 1.6: first sign-in before verifying email
+### Scenario 1.7: first sign-in before verifying email
 
 Given I have received the verification email but not yet clicked it
 When I sign in with my new credentials
 Then my account page shows the first and last name I registered with, never a placeholder name
 
-### Scenario 1.7: unverified email banner
+### Scenario 1.8: unverified email banner
 
 Given I am signed in but my email address is not yet verified
 When I view my account page
 Then I see a banner asking me to verify my email
 And when I choose "Send a new verification email" I see a confirmation message and a new email arrives in the test inbox
 
-### Scenario 1.8: verifying my email
+### Scenario 1.9: verifying my email
 
-Given I have received the verification email
+Given I have received the verification email and am signed in
 When I follow its verification link
 Then I see the email-verified page with new-member messaging (15-item request limit, visiting in person for full membership)
+And I am still signed in afterwards — my account page shows me signed in without needing to sign in again
 
 ## 2. Signing in
 
@@ -246,9 +273,14 @@ Then I am returned to the site signed out, the header shows Sign in again, and v
 > I want to _delete my account_
 > so that _the library no longer holds my details_
 
-Run this last: it raises the deletion request for the account created in
-feature 1. This matters — stage works against production Sierra, so the test
-account is a real patron record until the library team actions the deletion.
+Run this last: it raises the deletion request for the header-started account
+carried through features 1–7. This matters — stage works against production
+Sierra, so the test account is a real patron record until the library team
+actions the deletion.
+
+Once you're done, sign in as the work-page-started account from 1.2 and
+repeat scenario 8.3 for it too (8.1/8.2 don't need repeating) — it's an
+equally real patron record and needs its own deletion request.
 
 ### Scenario 8.1: backing out
 

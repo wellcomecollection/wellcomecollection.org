@@ -1,38 +1,16 @@
 import { FunctionComponent, PropsWithChildren } from 'react';
-import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { treeInstructions } from '@weco/common/data/microcopy';
-import Space from '@weco/common/views/components/styled/Space';
-import { controlDimensions } from '@weco/content/views/pages/works/work/work.helpers';
 import {
   Tree,
+  TreeBand,
+  TreeContainer,
   TreeInstructions,
 } from '@weco/content/views/pages/works/work/work.styles';
 
 import { DownloadTable } from './WorkDetails.DownloadItem';
-
-export const TreeHeadings = styled(Space)<{ $isDarkMode?: boolean }>`
-  ${props =>
-    !props.$isDarkMode &&
-    `background: ${props.theme.color('warmNeutral.300')};`}
-`;
-
-const TreeContainer = styled.div<{ $isDarkMode?: boolean }>`
-  ${props =>
-    !props.$isDarkMode &&
-    `
-    background: linear-gradient(
-      to bottom,
-      ${props.theme.color('warmNeutral.200')},
-      ${props.theme.color('warmNeutral.200')} 50%,
-      ${props.theme.color('white')} 50%,
-      ${props.theme.color('white')}
-    );
-    background-size: 100% ${controlDimensions.controlHeight * 2}px;
-  `}
-`;
 
 const WorksTree: FunctionComponent<
   PropsWithChildren<{
@@ -46,7 +24,7 @@ const WorksTree: FunctionComponent<
   return (
     <div style={{ overflowX: 'auto', width: '100%' }}>
       <div style={{ display: 'inline-table', minWidth: '100%' }}>
-        <TreeHeadings aria-hidden="true" $isDarkMode={isDarkMode}>
+        <TreeBand aria-hidden="true" $isDarkMode={isDarkMode}>
           <DownloadTable $padFirstHeading={hasStructures}>
             <thead>
               <tr>
@@ -57,7 +35,7 @@ const WorksTree: FunctionComponent<
               </tr>
             </thead>
           </DownloadTable>
-        </TreeHeadings>
+        </TreeBand>
         <TreeContainer $isDarkMode={isDarkMode}>
           <Tree
             $isEnhanced={isEnhanced}

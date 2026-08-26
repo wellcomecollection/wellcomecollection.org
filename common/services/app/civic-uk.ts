@@ -1,7 +1,7 @@
 import { getCookies } from 'cookies-next';
 import { GetServerSidePropsContext } from 'next';
 
-import { isValidKioskMode } from '@weco/common/contexts/KioskContext';
+import { isValidKioskMode } from '@weco/common/contexts/KioskContext/is-valid-kiosk-mode';
 import { ConsentStatusProps } from '@weco/common/server-data/types';
 
 export const ACTIVE_COOKIE_BANNER_ID = 'ccc-overlay';

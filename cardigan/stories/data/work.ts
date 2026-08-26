@@ -27,10 +27,49 @@ export const workBasic: WorkBasic = {
   primaryContributorLabel: 'Mannel, Wilhelm, 1870-1935.',
   physicalDescription: '3 boxes',
   referenceNumber: 'B30609446',
+  isArchive: false,
   isRootCollection: false,
   notes: [],
   languageId: 'ger',
   archiveLabels: { reference: 'B30609446' },
+};
+
+// A work that is the root of its own collection but isn't part of a
+// categorised archive (no `archive.category` from the API) - e.g. a
+// standalone manuscript. See https://api.wellcomecollection.org/catalogue/v2/works/k3gfstaz
+export const nonArchiveCollectionWork: WorkBasic = {
+  id: 'k3gfstaz',
+  title: 'MS.632',
+  workTypeId: 'h',
+  productionDates: [],
+  cardLabels: [
+    { text: 'Archives and manuscripts' },
+    { text: 'Online', labelColor: 'white' },
+  ],
+  primaryContributorLabel: undefined,
+  physicalDescription: workBasic.physicalDescription,
+  referenceNumber: undefined,
+  isArchive: false,
+  isRootCollection: true,
+  notes: [],
+  languageId: undefined,
+  archiveLabels: undefined,
+  thumbnail: {
+    url: 'https://iiif.wellcomecollection.org/thumbs/b19695639_0001.jp2/full/!200,200/0/default.jpg',
+    license: {
+      id: 'pdm',
+      label: 'Public Domain Mark',
+      url: 'https://creativecommons.org/share-your-work/public-domain/pdm/',
+      type: 'License',
+    },
+    accessConditions: [],
+    locationType: {
+      id: 'thumbnail-image',
+      label: 'Thumbnail image',
+      type: 'LocationType',
+    },
+    type: 'DigitalLocation',
+  },
 };
 
 export const contentAPILinkedWork: ContentApiLinkedWork = {
@@ -65,6 +104,7 @@ export const archiveCollectionWork: WorkBasic = {
       labelColor: 'white',
     },
   ],
+  isArchive: true,
   isRootCollection: true,
   physicalDescription: '3 boxes',
   languageId: undefined,

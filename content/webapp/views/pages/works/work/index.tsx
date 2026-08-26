@@ -21,18 +21,17 @@ import { workLd } from '@weco/content/utils/json-ld';
 import { removeDisplayMarkupTags } from '@weco/content/utils/string';
 import {
   createApiToolbarWorkLinks,
-  getArchiveAncestorArray,
   getDigitalLocationInfo,
   getDigitalLocationOfType,
   showItemLink,
 } from '@weco/content/utils/works';
 import CataloguePageLayout from '@weco/content/views/layouts/CataloguePageLayout';
 
+import ArchiveCollectionLayout from './ArchiveCollection';
 import ArchiveTree from './ArchiveTree';
 import RelatedWorks, { hasAtLeastOneSubject } from './RelatedWorks';
 import ArchiveBreadcrumb from './work.ArchiveBreadcrumb';
 import BackToResults from './work.BackToResults';
-import CollectionRootLayout from './work.CollectionRoot';
 import WorkHeader from './work.Header';
 import StoriesOnWorks from './work.StoriesOnWorks';
 import WorkDetails from './WorkDetails';
@@ -63,12 +62,10 @@ export const WorkPage: NextPage<Props> = ({
   transformedManifest,
 }) => {
   const { isKiosk } = useKiosk();
-  const { archiveBrowsing } = useFeatureFlags();
+  const { archiveCollection } = useFeatureFlags();
   const { userIsStaffWithRestricted } = useUserContext();
-  const isArchive = !!(
-    work.parts.length || getArchiveAncestorArray(work).length > 0
-  );
-  const displayCollectionRoot = !!work.collection?.isRoot && archiveBrowsing;
+  const isArchive = !!work.archive;
+  const displayCollectionRoot = !!work.collection?.isRoot && archiveCollection;
 
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
   const iiifPresentationLocation = getDigitalLocationOfType(
@@ -148,7 +145,7 @@ export const WorkPage: NextPage<Props> = ({
           <>
             {isArchive ? (
               displayCollectionRoot ? (
-                <CollectionRootLayout work={work} />
+                <ArchiveCollectionLayout key={work.id} work={work} />
               ) : (
                 <>
                   <Container>

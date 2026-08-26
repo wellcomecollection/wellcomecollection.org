@@ -33,9 +33,10 @@ const WorkSearchResult: FunctionComponent<Props> = ({
   work,
   resultPosition,
 }) => {
-  const { archiveBrowsing } = useFeatureFlags();
+  const { archiveCollection } = useFeatureFlags();
   const {
     isRootCollection,
+    isArchive,
     archiveLabels,
     cardLabels,
     physicalDescription,
@@ -43,7 +44,8 @@ const WorkSearchResult: FunctionComponent<Props> = ({
     productionDates,
   } = work;
 
-  const shouldShowArchiveCollectionInfo = archiveBrowsing && isRootCollection;
+  const shouldShowArchiveCollectionInfo =
+    archiveCollection && isRootCollection && isArchive;
 
   return (
     <NextLink
@@ -62,6 +64,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
               <PreviewImage
                 alt=""
                 src={convertIiifImageUri(work.thumbnail.url, 120)}
+                loading="lazy"
               />
             </Preview>
           )}
@@ -82,12 +85,6 @@ const WorkSearchResult: FunctionComponent<Props> = ({
               <WorkTitle title={work.title} />
             </WorkTitleHeading>
 
-            {shouldShowArchiveCollectionInfo && (
-              <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
-                Lorem ipsum dolor sit amet.
-              </Space>
-            )}
-
             <WorkInformation>
               {shouldShowArchiveCollectionInfo && (
                 <>
@@ -100,7 +97,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
                 </>
               )}
 
-              {primaryContributorLabel && (
+              {!shouldShowArchiveCollectionInfo && primaryContributorLabel && (
                 <>
                   <WorkInformationItemSeparator aria-hidden>
                     {' | '}

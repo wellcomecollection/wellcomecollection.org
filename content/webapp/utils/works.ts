@@ -16,6 +16,7 @@ import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import {
   Holding,
   Item,
+  Note,
   PhysicalItem,
   RelatedWork,
   Work,
@@ -278,6 +279,40 @@ export const getCardLabels = (work: Work): Label[] => {
   } else {
     return cardLabels;
   }
+};
+
+// Puts notes that are relevant to archives in a consistent order, and
+// separates out anything else so it can still be displayed.
+export const getOrderedNotes = (
+  work: Pick<Work, 'notes'>,
+  excludeNotes: (Note | undefined)[] = []
+): { orderedNotes: Note[]; remainingNotes: Note[] } => {
+  const arrangementNote = work.notes.filter(
+    note => note.noteType.id === 'arrangement-note'
+  );
+  const biographicalNote = work.notes.filter(
+    note => note.noteType.id === 'biographical-note'
+  );
+  const relatedMaterial = work.notes.filter(
+    note => note.noteType.id === 'related-material'
+  );
+  const acquisitionNote = work.notes.filter(
+    note => note.noteType.id === 'acquisition-note'
+  );
+
+  const orderedNotes = [
+    ...arrangementNote,
+    ...acquisitionNote,
+    ...biographicalNote,
+    ...relatedMaterial,
+  ];
+
+  const excluded = [...orderedNotes, ...excludeNotes];
+  const remainingNotes = work.notes.filter(
+    note => !excluded.some(n => n === note)
+  );
+
+  return { orderedNotes, remainingNotes };
 };
 
 // Return all the ancestors of work starting with the most distant.
