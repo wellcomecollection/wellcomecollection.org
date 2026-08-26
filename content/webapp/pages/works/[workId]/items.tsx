@@ -248,7 +248,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 async function getParentManifest(
   parentManifestUrl: string | undefined
 ): Promise<Manifest | undefined> {
-  // The helper logs and rethrows non-404 errors; a missing parent is not fatal here.
+  // The helper returns undefined on 404 and throws on fetch/parse errors; neither is fatal here.
   try {
     return parentManifestUrl
       ? await fetchIIIFPresentationManifest({ location: parentManifestUrl })

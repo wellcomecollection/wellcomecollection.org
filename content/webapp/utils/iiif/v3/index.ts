@@ -691,8 +691,8 @@ export function isCollection(
   return manifest.type === 'Collection';
 }
 
-// Skip aggregation collections (/presentation/[vN/]collections/{genres,...});
-// they are never rendered, so fetching them on every render is wasted work.
+// Skip anything under /presentation/[vN/]collections/ (genre, contributor and
+// similar aggregations); they are never rendered, so fetching them is wasted work.
 const aggregationCollectionPath = /\/presentation\/(v\d+\/)?collections\//;
 
 export function getParentManifestUrl(
