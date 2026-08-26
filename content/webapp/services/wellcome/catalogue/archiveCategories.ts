@@ -36,7 +36,7 @@ const ARCHIVE_CATEGORY_DESCRIPTIONS: Record<string, string> = {
 // Composite images we make ourselves and uploaded hosted,
 // keyed by the same IDs
 // An ID with no entry here renders with a colour placeholder instead
-// - see ThemeCard.
+// - see ImageGridCard.
 const ARCHIVE_CATEGORY_IMAGES: Record<string, string> = {};
 
 export async function fetchArchiveCategories(): Promise<ArchiveCategory[]> {

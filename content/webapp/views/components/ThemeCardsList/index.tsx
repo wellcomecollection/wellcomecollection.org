@@ -2,10 +2,10 @@ import { FunctionComponent, useEffect, useRef, useState } from 'react';
 
 import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { DataGtmProps } from '@weco/common/utils/gtm';
+import ImageGridCard from '@weco/common/views/components/ImageGridCard';
 import { gridSize12 } from '@weco/common/views/components/Layout';
 import { SizeMap } from '@weco/common/views/components/styled/Grid';
 import LL from '@weco/common/views/components/styled/LL';
-import ThemeCard from '@weco/common/views/components/ThemeCard';
 import { useConceptImageUrls } from '@weco/content/hooks/useConceptImageUrls';
 import { getConceptsByIds } from '@weco/content/services/wellcome/catalogue/concepts';
 import {
@@ -32,7 +32,7 @@ const Theme: FunctionComponent<{
       : undefined;
 
   return linkProps && concept.displayLabel ? (
-    <ThemeCard
+    <ImageGridCard
       images={images}
       title={concept.displayLabel}
       description={description}
