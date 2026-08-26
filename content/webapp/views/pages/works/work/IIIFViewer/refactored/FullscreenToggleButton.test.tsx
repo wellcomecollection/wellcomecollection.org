@@ -62,4 +62,35 @@ describe('FullscreenToggleButton', () => {
 
     expect(screen.getByRole('button')).toHaveClass('viewer-desktop');
   });
+
+  describe('when fullscreen is exited by something other than this button (Escape, F11, browser UI)', () => {
+    const originalFullscreenElement = document.fullscreenElement;
+
+    afterEach(() => {
+      Object.defineProperty(document, 'fullscreenElement', {
+        value: originalFullscreenElement,
+        configurable: true,
+      });
+    });
+
+    it('syncs isFullscreen back to false via the native fullscreenchange event', () => {
+      const setIsFullscreen = jest.fn();
+
+      renderButton(
+        {},
+        { contextProps: { isFullscreen: true, setIsFullscreen } }
+      );
+
+      // The browser fires fullscreenchange for any exit, regardless of what
+      // triggered it - here we simulate document.fullscreenElement already
+      // having cleared by the time the event reaches us.
+      Object.defineProperty(document, 'fullscreenElement', {
+        value: null,
+        configurable: true,
+      });
+      document.dispatchEvent(new Event('fullscreenchange'));
+
+      expect(setIsFullscreen).toHaveBeenCalledWith(false);
+    });
+  });
 });
