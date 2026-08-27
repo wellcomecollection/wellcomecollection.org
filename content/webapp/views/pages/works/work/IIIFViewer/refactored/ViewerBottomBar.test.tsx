@@ -133,8 +133,6 @@ describe('ViewerBottomBar navigation (non-image works)', () => {
       },
     });
 
-    // CanvasPositionIndicator splits the position into its own span so the top
-    // bar can put a test id on it, which breaks up the text for getByText.
     expect(screen.getByTestId('bottombar')).toHaveTextContent('2/3');
   });
 

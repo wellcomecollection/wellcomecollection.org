@@ -74,10 +74,6 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
                   data-testid="image-item"
                   $isFirstItemRestricted={!!isFirstItemRestricted}
                 >
-                  {/*
-                    No titleOverride: IIIFItem only reads it for audio, and
-                    this viewer never renders audio - see IIIFViewer.test.tsx.
-                  */}
                   <IIIFItem
                     placeholderId={placeholderId}
                     item={item}
