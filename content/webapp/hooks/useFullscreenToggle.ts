@@ -44,20 +44,21 @@ export default function useFullscreenToggle({
       document.fullscreenElement || document['webkitFullscreenElement']
     );
 
+    // Don't set isFullscreen here - requestFullscreen()/exitFullscreen() are
+    // async and can be denied, in which case no fullscreenchange event
+    // follows. handleFullscreenChange above is the sole source of truth.
     if (!isCurrentlyFullscreen) {
       if (viewerRef.current.requestFullscreen) {
-        viewerRef.current.requestFullscreen();
+        viewerRef.current.requestFullscreen().catch(() => undefined);
       } else if (viewerRef.current['webkitRequestFullscreen']) {
         viewerRef.current['webkitRequestFullscreen']();
       }
-      setIsFullscreen(true);
     } else {
       if (document.exitFullscreen) {
-        document.exitFullscreen();
+        document.exitFullscreen().catch(() => undefined);
       } else if (document['webkitExitFullscreen']) {
         document['webkitExitFullscreen']();
       }
-      setIsFullscreen(false);
     }
   }
 

@@ -39,22 +39,19 @@ describe('FullscreenToggleButton', () => {
     ).toBeInTheDocument();
   });
 
-  it('calls setIsFullscreen when clicked', () => {
-    const setIsFullscreen = jest.fn();
+  it('requests fullscreen on the viewer element when clicked', () => {
+    const viewerElement = document.createElement('div');
+    const requestFullscreen = jest.fn().mockResolvedValue(undefined);
+    viewerElement.requestFullscreen = requestFullscreen;
 
     renderButton(
       {},
-      {
-        contextProps: {
-          viewerRef: { current: document.createElement('div') },
-          setIsFullscreen,
-        },
-      }
+      { contextProps: { viewerRef: { current: viewerElement } } }
     );
 
     fireEvent.click(screen.getByRole('button', { name: 'Full screen' }));
 
-    expect(setIsFullscreen).toHaveBeenCalledWith(true);
+    expect(requestFullscreen).toHaveBeenCalled();
   });
 
   it('applies a given className to the button', () => {
