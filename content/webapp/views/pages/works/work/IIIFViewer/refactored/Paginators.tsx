@@ -8,6 +8,10 @@ import Space from '@weco/common/views/components/styled/Space';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import { ItemViewerQuery } from '@weco/content/types/item-viewer';
 import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
+import {
+  getThumbnailsPageForCanvas,
+  thumbnailsPageSize,
+} from '@weco/content/views/pages/works/work/work.helpers';
 
 const PaginatorWrapper = styled.div`
   display: flex;
@@ -62,8 +66,6 @@ const PaginatorButtons = ({
     </PaginatorWrapper>
   );
 };
-
-export const thumbnailsPageSize = 6;
 
 const getLink = ({
   pageNumber,
@@ -140,7 +142,8 @@ export const CanvasPaginator = () => {
   const { prevLink, nextLink } = usePaginatorLinks({
     getCurrentPage: query => query.canvas,
     pageSize: 1,
-    getMatchingPage: pageNumber => Math.ceil(pageNumber / thumbnailsPageSize),
+    getMatchingPage: pageNumber =>
+      getThumbnailsPageForCanvas({ canvasNumber: pageNumber }),
   });
 
   return (
