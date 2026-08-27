@@ -3,6 +3,7 @@ import type { ComponentProps } from 'react';
 
 import {
   archiveCollectionWork,
+  nonArchiveCollectionWork,
   workBasic,
 } from '@weco/cardigan/stories/data/work';
 import { ServerDataContext } from '@weco/common/server-data/Context';
@@ -10,7 +11,7 @@ import { defaultServerData } from '@weco/common/server-data/types';
 import WorksSearchResults from '@weco/content/views/components/WorksSearchResults';
 
 type StoryProps = ComponentProps<typeof WorksSearchResults> & {
-  isArchive: boolean;
+  isBrowsingArchive: boolean;
   isRootCollection: boolean;
 };
 
@@ -19,13 +20,13 @@ const meta: Meta<StoryProps> = {
   component: WorksSearchResults,
   args: {
     works: [workBasic],
-    isArchive: false,
+    isBrowsingArchive: false,
     isRootCollection: false,
   },
   argTypes: {
     works: { table: { disable: true } },
-    isArchive: {
-      name: 'Is archive',
+    isBrowsingArchive: {
+      name: 'Is browsing archive',
       control: 'boolean',
     },
     isRootCollection: {
@@ -60,16 +61,16 @@ type Story = StoryObj<StoryProps>;
 
 export const Basic: Story = {
   name: 'WorksSearchResults',
-  render: ({ isArchive, isRootCollection, works }) => {
-    const resolvedWorks = isArchive
+  render: ({ isBrowsingArchive, isRootCollection, works }) => {
+    const resolvedWorks = isBrowsingArchive
       ? [{ ...archiveCollectionWork, isRootCollection }]
-      : works;
+      : [isRootCollection ? nonArchiveCollectionWork : works[0]];
 
     return (
       <>
         <WorksSearchResults works={resolvedWorks} />
 
-        {isRootCollection && isArchive && (
+        {isRootCollection && isBrowsingArchive && (
           <div
             style={{
               padding: '1rem',
