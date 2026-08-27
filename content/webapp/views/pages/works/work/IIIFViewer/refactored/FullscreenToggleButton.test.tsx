@@ -90,4 +90,39 @@ describe('FullscreenToggleButton', () => {
       expect(setIsFullscreen).toHaveBeenCalledWith(false);
     });
   });
+
+  describe('when a different element on the page goes fullscreen (e.g. a native video player)', () => {
+    const originalFullscreenElement = document.fullscreenElement;
+
+    afterEach(() => {
+      Object.defineProperty(document, 'fullscreenElement', {
+        value: originalFullscreenElement,
+        configurable: true,
+      });
+    });
+
+    it('does not report the viewer itself as fullscreen', () => {
+      const viewerElement = document.createElement('div');
+      const otherElement = document.createElement('video');
+      const setIsFullscreen = jest.fn();
+
+      renderButton(
+        {},
+        {
+          contextProps: {
+            viewerRef: { current: viewerElement },
+            setIsFullscreen,
+          },
+        }
+      );
+
+      Object.defineProperty(document, 'fullscreenElement', {
+        value: otherElement,
+        configurable: true,
+      });
+      document.dispatchEvent(new Event('fullscreenchange'));
+
+      expect(setIsFullscreen).toHaveBeenCalledWith(false);
+    });
+  });
 });
