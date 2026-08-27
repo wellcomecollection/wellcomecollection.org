@@ -20,6 +20,7 @@ export type CatalogueWorksApiProps = {
   sort?: string;
   sortOrder?: string;
   'partOf.title'?: string;
+  'collection.root'?: string;
   'production.dates.from'?: string;
   'production.dates.to'?: string;
   'genres.label'?: string[];

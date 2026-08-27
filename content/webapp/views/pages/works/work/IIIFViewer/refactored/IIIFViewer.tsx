@@ -20,7 +20,10 @@ import {
   PartialImageService,
 } from '@weco/content/types/item-viewer';
 import { TransformedManifest } from '@weco/content/types/manifest';
-import { hasNonImagesOrOriginals } from '@weco/content/utils/iiif/v3';
+import {
+  hasNonImagesOrOriginals,
+  hasRestrictedItem,
+} from '@weco/content/utils/iiif/v3';
 import { fromQuery } from '@weco/content/views/components/ItemLink';
 import {
   getCurrentCanvas,
@@ -294,6 +297,9 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     canvasIndexById,
     canvas,
   });
+  const isCurrentCanvasRestricted = currentCanvas
+    ? hasRestrictedItem(currentCanvas)
+    : false;
   const totalCanvases = transformedManifest?.canvases.length || 0;
   const mainImageService: PartialImageService = {
     '@id': currentCanvas?.imageServiceId,
@@ -394,8 +400,10 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         setTree,
         canvasIndexById,
         currentCanvas,
+        isCurrentCanvasRestricted,
         totalCanvases,
         hasMultipleCanvases,
+        mainImageService,
 
         // UI Props:
         viewerRef,
@@ -472,7 +480,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
               !hasIiifImageService &&
               (isFullSupportBrowser || !hasOnlyRenderableImages) && (
                 <ImageViewer
-                  infoUrl={iiifImageLocation.url}
+                  imageUrl={iiifImageLocation.url}
                   id={imageUrl}
                   width={800}
                   index={0}

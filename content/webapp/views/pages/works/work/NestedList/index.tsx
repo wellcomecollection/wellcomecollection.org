@@ -29,6 +29,7 @@ const NestedList: FunctionComponent<NestedListProps> = ({
   shouldFetchChildren,
   isDarkMode = false,
   itemRendererProps,
+  isCompact,
 }: NestedListProps) => {
   const { isEnhanced } = useAppContext();
   return (
@@ -63,6 +64,7 @@ const NestedList: FunctionComponent<NestedListProps> = ({
                 shouldFetchChildren={shouldFetchChildren}
                 isDarkMode={isDarkMode}
                 itemRendererProps={itemRendererProps}
+                isCompact={isCompact}
               />
             )
           );
@@ -74,4 +76,8 @@ const NestedList: FunctionComponent<NestedListProps> = ({
 export default NestedList;
 
 export { TreeControl } from './NestedList.styles';
-export { isTreeDataWork } from './NestedList.helpers';
+export {
+  getTabbableIds,
+  getWorkLevelLabel,
+  isTreeDataWork,
+} from './NestedList.helpers';

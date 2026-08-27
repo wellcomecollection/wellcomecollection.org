@@ -4,7 +4,10 @@ import styled from 'styled-components';
 import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
-import { queryParamToArrayIndex } from '@weco/content/views/pages/works/work/work.helpers';
+import {
+  getCanvasesForPage,
+  queryParamToArrayIndex,
+} from '@weco/content/views/pages/works/work/work.helpers';
 
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 import { thumbnailsPageSize } from './Paginators';
@@ -38,15 +41,11 @@ const ThumbnailLink = styled(NextLink)`
 export const Thumbnails = () => {
   const { work, query, transformedManifest } = useItemViewerContext();
   const { isKiosk, isTendernessAndRageKiosk } = useKiosk();
-  const { canvases } = { ...transformedManifest };
-  const navigationCanvases = canvases
-    ? [...Array(thumbnailsPageSize)]
-        .map(
-          (_, i) => thumbnailsPageSize * queryParamToArrayIndex(query.page) + i
-        )
-        .map(i => canvases?.[i])
-        .filter(Boolean)
-    : [];
+  const navigationCanvases = getCanvasesForPage({
+    canvases: transformedManifest?.canvases,
+    page: query.page,
+    pageSize: thumbnailsPageSize,
+  });
 
   return (
     <ThumbnailsContainer

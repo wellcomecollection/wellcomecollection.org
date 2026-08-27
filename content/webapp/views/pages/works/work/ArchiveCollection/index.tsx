@@ -27,7 +27,12 @@ const ArchiveCollectionLayout = ({ work }: { work: WorkType }) => {
 
   const tabPanels: Record<string, ReactNode> = {
     about: <ArchiveCollectionAbout work={work} />,
-    contents: <ArchiveCollectionContents work={work} />,
+    contents: (
+      <ArchiveCollectionContents
+        work={work}
+        isActive={selectedTab === 'contents'}
+      />
+    ),
   };
 
   return (

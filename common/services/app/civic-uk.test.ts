@@ -2,13 +2,13 @@ jest.mock('cookies-next', () => ({
   getCookies: jest.fn(),
 }));
 
-jest.mock('@weco/common/contexts/KioskContext', () => ({
+jest.mock('@weco/common/contexts/KioskContext/is-valid-kiosk-mode', () => ({
   isValidKioskMode: jest.fn(),
 }));
 
 import { getCookies } from 'cookies-next';
 
-import { isValidKioskMode } from '@weco/common/contexts/KioskContext';
+import { isValidKioskMode } from '@weco/common/contexts/KioskContext/is-valid-kiosk-mode';
 
 import { getAllConsentStates, getErrorPageConsent } from './civic-uk';
 

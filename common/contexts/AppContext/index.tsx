@@ -9,7 +9,7 @@ import {
 } from 'react';
 import { useTheme } from 'styled-components';
 
-import { isValidKioskMode } from '@weco/common/contexts/KioskContext';
+import { isValidKioskMode } from '@weco/common/contexts/KioskContext/is-valid-kiosk-mode';
 import useIsomorphicLayoutEffect from '@weco/common/hooks/useIsomorphicLayoutEffect';
 import {
   ACTIVE_COOKIE_BANNER_ID,

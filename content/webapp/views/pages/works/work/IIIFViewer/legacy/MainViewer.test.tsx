@@ -12,6 +12,7 @@ import {
   createOpenPainting,
   createRestrictedPainting,
 } from '@weco/content/test/fixtures/iiif/transformed-manifest';
+import { installMockIntersectionObserver } from '@weco/content/test/fixtures/intersection-observer';
 
 import MainViewer, { getOverlayTopLeft, RotationValue } from './MainViewer';
 
@@ -29,19 +30,7 @@ import MainViewer, { getOverlayTopLeft, RotationValue } from './MainViewer';
 // the right child component. Legacy has no child components to pick between -
 // it branches internally, which the two describes here cover between them.
 
-// jsdom doesn't implement IntersectionObserver, which the image item's
-// scroll-to-url-update behaviour relies on via useOnScreen.
-class MockIntersectionObserver implements IntersectionObserver {
-  readonly root = null;
-  readonly rootMargin = '';
-  readonly thresholds = [];
-  observe = jest.fn();
-  unobserve = jest.fn();
-  disconnect = jest.fn();
-  takeRecords = jest.fn(() => []);
-}
-window.IntersectionObserver =
-  MockIntersectionObserver as unknown as typeof IntersectionObserver;
+installMockIntersectionObserver();
 
 // The FixedSizeList's outer element. Legacy renders it inside
 // MainViewerContainer, so it's one level down rather than at the root.

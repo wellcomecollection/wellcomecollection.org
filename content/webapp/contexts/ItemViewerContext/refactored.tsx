@@ -12,6 +12,7 @@ import {
   CanvasRotatedImage,
   ItemViewerQuery,
   ParentManifest,
+  PartialImageService,
 } from '@weco/content/types/item-viewer';
 import {
   TransformedCanvas,
@@ -35,8 +36,10 @@ export type ItemViewerContextProps = {
   setTree: (v: UiTree) => void;
   canvasIndexById: Record<string, number>;
   currentCanvas: TransformedCanvas | undefined;
+  isCurrentCanvasRestricted: boolean;
   totalCanvases: number;
   hasMultipleCanvases: boolean;
+  mainImageService: PartialImageService;
 
   // UI props:
   viewerRef: RefObject<HTMLDivElement | null> | undefined;
@@ -109,8 +112,10 @@ export const defaultItemViewerContext: ItemViewerContextProps = {
   setTree: () => undefined,
   canvasIndexById: {},
   currentCanvas: undefined,
+  isCurrentCanvasRestricted: false,
   totalCanvases: 0,
   hasMultipleCanvases: false,
+  mainImageService: { '@id': undefined },
 
   // UI props:
   viewerRef: undefined,

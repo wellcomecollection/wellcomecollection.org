@@ -18,8 +18,38 @@ export const controlDimensions = {
   circleWidth: 30,
   circleHeight: 30,
   circleBorder: 2,
+  iconSize: 24,
 };
 
+// A smaller control for trees where the whole row - not just the chevron -
+// is already the click target (the archive collection contents table), so
+// the 44px touch-target padding around the icon isn't doing anything there.
+export const compactControlDimensions = {
+  controlWidth: 30,
+  controlHeight: 30,
+  circleWidth: 30,
+  circleHeight: 30,
+  circleBorder: 2,
+  iconSize: 16,
+};
+
+/**
+ * Returns the dimensions to use for a chevron/expand control.
+ * @param isCompact - Use the smaller compact variant instead of the default.
+ */
+export const getControlDimensions = (isCompact?: boolean) =>
+  isCompact ? compactControlDimensions : controlDimensions;
+
+/**
+ * Recursively converts a manifest's IIIF `structures` (or, if there's no
+ * structure, its flat canvas list) into the UiTree shape used to render the
+ * archive/download tree.
+ * @param structures - The manifest's IIIF Range structures, if any.
+ * @param canvases - The manifest's transformed canvases, used to resolve
+ * each tree node's canvas data and downloads.
+ * @param parentId - The id of the parent node these items nest under.
+ * @param openByDefault - Whether tree nodes should start expanded.
+ */
 function convertStructuresToTree(
   structures: Manifest['structures'],
   canvases: TransformedCanvas[] | undefined,
@@ -72,6 +102,14 @@ function convertStructuresToTree(
   );
 }
 
+/**
+ * Builds the UiTree used to drive the downloads UI.
+ * @param structures - The manifest's IIIF Range structures, if any.
+ * @param canvases - The manifest's transformed canvases.
+ * @param options.skipObjectsNode - Return the tree without the wrapping
+ * top-level "objects" node.
+ * @param options.openByDefault - Whether tree nodes should start expanded.
+ */
 export function createDownloadTree(
   structures: Manifest['structures'],
   canvases: TransformedCanvas[] | undefined,
@@ -102,18 +140,32 @@ export function createDownloadTree(
   return [topLevelItem];
 }
 
-// Canvas and manifest params use 1-based indexing, but are used to access items in 0-indexed arrays,
-// so we need to convert them in various places
+/**
+ * Converts a 1-based canvas/manifest query param into a 0-based array index -
+ * the inverse of {@link arrayIndexToQueryParam}. Canvas and manifest params
+ * use 1-based indexing, but are used to access items in 0-indexed arrays, so
+ * we need to convert them in various places.
+ * @param canvas - The 1-based canvas or manifest number.
+ */
 export function queryParamToArrayIndex(canvas: number): number {
   return canvas - 1;
 }
 
+/**
+ * Converts a 0-based array index back into a 1-based canvas/manifest query
+ * param - the inverse of {@link queryParamToArrayIndex}.
+ * @param canvasIndex - The 0-based array index.
+ */
 export function arrayIndexToQueryParam(canvasIndex: number): number {
   return canvasIndex + 1;
 }
 
-// Traverse a UiTree and assign sequential canvas indices in tree order
-// This ensures that canvas indices match the visual order in the NestedList, including nested folders/ranges.
+/**
+ * Assigns each canvas in a UiTree a sequential 1-based index in tree order,
+ * so canvas order matches the visual order in the NestedList/archive tree -
+ * including nested folders/ranges - rather than the manifest's raw item order.
+ * @param tree - The UiTree to traverse.
+ */
 export function getTreeCanvasIndexById(tree: UiTree): Record<string, number> {
   let index = 1;
   const canvasIndexById: Record<string, number> = {};
@@ -136,10 +188,16 @@ export function getTreeCanvasIndexById(tree: UiTree): Record<string, number> {
   return canvasIndexById;
 }
 
-// Canvas order follows the manifest's structure when we have a complete one -
-// that's not always the same as the raw items array order. canvasIndexById
-// maps canvas id to structure position; we only trust it when it covers
-// every canvas, otherwise we just use the canvas's plain array position.
+/**
+ * Works out which canvas is "current" for a given 1-based canvas number.
+ * Canvas order follows the manifest's structure when we have a complete one -
+ * that's not always the same as the raw items array order. canvasIndexById
+ * maps canvas id to structure position; we only trust it when it covers
+ * every canvas, otherwise we just use the canvas's plain array position.
+ * @param transformedManifest - The manifest whose canvases to search.
+ * @param canvasIndexById - Map of canvas id to its 1-based structure position.
+ * @param canvas - The 1-based canvas number to resolve.
+ */
 export function getCurrentCanvas({
   transformedManifest,
   canvasIndexById,
@@ -167,4 +225,28 @@ export function getCurrentCanvas({
   return currentCanvasId
     ? canvases?.find(c => c.id === currentCanvasId)
     : canvases?.[queryParamToArrayIndex(canvas)];
+}
+
+/**
+ * Returns the slice of canvases for a given page, shared by every paginated
+ * thumbnails view so they can't drift onto different page sizes and disagree
+ * about which canvases a given page number shows.
+ * @param canvases - The manifest's full canvas list.
+ * @param page - 1-based page number.
+ * @param pageSize - Canvases per page.
+ */
+export function getCanvasesForPage({
+  canvases,
+  page,
+  pageSize,
+}: {
+  canvases: TransformedCanvas[] | undefined;
+  page: number;
+  pageSize: number;
+}): TransformedCanvas[] {
+  const startIndex = pageSize * queryParamToArrayIndex(page);
+
+  return [...Array(pageSize)]
+    .map((_, i) => canvases?.[startIndex + i])
+    .filter((canvas): canvas is TransformedCanvas => Boolean(canvas));
 }

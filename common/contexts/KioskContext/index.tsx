@@ -14,29 +14,11 @@ import {
   kioskExperienceNames,
   KiosksContentType,
 } from '@weco/common/contexts/KioskContext/kiosks-content';
+import { HistoryProvider } from '@weco/common/hooks/useNavigationHistory';
 import {
   ReadingRoomStories,
   TendernessAndRageContent,
 } from '@weco/common/server-data/prismic';
-import { KioskModeOptionId } from '@weco/toggles';
-import toggleConfig from '@weco/toggles/toggles';
-
-// Valid kiosk mode IDs extracted from toggles config
-const VALID_KIOSK_MODE_IDS =
-  toggleConfig.modes
-    .find(mode => mode.id === 'kioskMode')
-    ?.options.map(option => option.id) ?? [];
-
-/**
- * Validates that a cookie value is a valid kiosk mode option ID.
- * Use this server-side to validate the toggle_kioskMode cookie before using it.
- */
-export function isValidKioskMode(value: unknown): value is KioskModeOptionId {
-  return (
-    typeof value === 'string' &&
-    (VALID_KIOSK_MODE_IDS as readonly string[]).includes(value)
-  );
-}
 
 export type KioskContextType = {
   isKiosk: boolean;
@@ -115,10 +97,10 @@ export const KioskProvider: FunctionComponent<KioskProviderProps> = ({
     [kioskExperienceName, kiosksContent]
   );
 
-  // Note: HistoryProvider wraps KioskProvider children in common/views/pages/_app.tsx
-  // It's dynamically imported there (not here) to prevent bundling in non-kiosk apps like identity
   return (
-    <KioskContext.Provider value={value}>{children}</KioskContext.Provider>
+    <KioskContext.Provider value={value}>
+      <HistoryProvider>{children}</HistoryProvider>
+    </KioskContext.Provider>
   );
 };
 
