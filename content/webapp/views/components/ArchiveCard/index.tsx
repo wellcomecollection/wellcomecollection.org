@@ -45,7 +45,7 @@ const Title = styled(Space).attrs({
 `;
 
 const Description = styled.div`
-  ${props => props.theme.clampLines(3)};
+  ${props => props.theme.clampLines(6)};
   margin-bottom: 0;
 `;
 
