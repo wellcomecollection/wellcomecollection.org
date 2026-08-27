@@ -5,7 +5,7 @@ import Icon from '@weco/common/views/components/Icon';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext/refactored';
 import useFullscreenToggle from '@weco/content/hooks/useFullscreenToggle';
 
-import { ViewerButton } from './ViewerTopBar';
+import { ViewerButton } from './ViewerButton.styles';
 
 type Props = {
   className?: string;
