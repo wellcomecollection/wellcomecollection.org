@@ -57,6 +57,10 @@ const ArchiveCategoryWorksList = ({
                     value: 'production.dates.asc',
                     text: 'Oldest to newest',
                   },
+                  {
+                    value: 'production.dates.desc',
+                    text: 'Newest to oldest',
+                  },
                 ]}
                 jsLessOptions={{
                   sort: [

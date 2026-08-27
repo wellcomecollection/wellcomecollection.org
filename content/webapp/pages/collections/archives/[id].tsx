@@ -54,10 +54,19 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   }
 
   const { sort: sortQuery, sortOrder: sortOrderQuery } = context.query;
-  const sort = archiveCategoryWorksSortFields.find(
-    field => field === sortQuery
-  );
-  const sortOrder = sortOrderQuery === 'asc' ? 'asc' : 'desc';
+  // sortOrder alone (e.g. from a shared URL) still implies a sort field, so
+  // treat the two as explicit together rather than letting one imply a real
+  // API sort order while the other silently stays at its "no sort" default
+  const isExplicitSort =
+    archiveCategoryWorksSortFields.some(field => field === sortQuery) ||
+    sortOrderQuery === 'asc' ||
+    sortOrderQuery === 'desc';
+  const sort = isExplicitSort ? archiveCategoryWorksSortFields[0] : undefined;
+  const sortOrder = isExplicitSort
+    ? sortOrderQuery === 'asc'
+      ? 'asc'
+      : 'desc'
+    : undefined;
 
   const works = await fetchArchiveCategoryWorks({
     id: archiveCategory.id,
@@ -80,7 +89,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       archiveCategory,
       works,
       sort,
-      sortOrder: sortOrder === 'asc' ? 'asc' : undefined,
+      sortOrder,
       apiToolbarLinks: [
         {
           id: 'catalogue-api',
