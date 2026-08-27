@@ -24,6 +24,7 @@ export type WorkBasic = OptionalToUndefined<{
   cardLabels: Label[];
   primaryContributorLabel?: string;
   notes: Note[];
+  isBrowsingArchive: boolean;
   isRootCollection: boolean;
   physicalDescription: string;
 }>;
@@ -55,6 +56,7 @@ export function toWorkBasic(work: Work): WorkBasic {
       contributor => contributor.primary
     )?.agent.label,
     notes,
+    isBrowsingArchive: !!work.archive,
     isRootCollection: !!work.collection?.isRoot,
     physicalDescription,
   };

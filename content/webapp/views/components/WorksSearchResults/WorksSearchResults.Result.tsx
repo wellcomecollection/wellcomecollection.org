@@ -41,9 +41,11 @@ const WorkSearchResult: FunctionComponent<Props> = ({
     physicalDescription,
     primaryContributorLabel,
     productionDates,
+    isBrowsingArchive,
   } = work;
 
-  const shouldShowArchiveCollectionInfo = archiveCollection && isRootCollection;
+  const shouldShowArchiveCollectionInfo =
+    archiveCollection && isBrowsingArchive && isRootCollection;
 
   return (
     <NextLink

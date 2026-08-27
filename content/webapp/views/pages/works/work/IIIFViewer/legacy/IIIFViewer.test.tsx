@@ -43,6 +43,7 @@ const mockWork: WorkBasic & Pick<Work, 'description'> = {
   primaryContributorLabel: undefined,
   notes: [],
   physicalDescription: '',
+  isBrowsingArchive: false,
   isRootCollection: false,
 };
 
