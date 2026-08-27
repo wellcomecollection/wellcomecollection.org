@@ -5,6 +5,12 @@ type UseFullscreenToggleParams = {
   setIsFullscreen: (isFullscreen: boolean) => void;
 };
 
+function isDocumentFullscreen(): boolean {
+  return Boolean(
+    document.fullscreenElement || document['webkitFullscreenElement']
+  );
+}
+
 /**
  * Toggles fullscreen on viewerRef and keeps setIsFullscreen in sync - both
  * for our own toggle clicks and for fullscreen ending some other way
@@ -18,11 +24,7 @@ export default function useFullscreenToggle({
 }: UseFullscreenToggleParams): () => void {
   useEffect(() => {
     function handleFullscreenChange() {
-      setIsFullscreen(
-        Boolean(
-          document.fullscreenElement || document['webkitFullscreenElement']
-        )
-      );
+      setIsFullscreen(isDocumentFullscreen());
     }
 
     document.addEventListener('fullscreenchange', handleFullscreenChange);
@@ -40,9 +42,7 @@ export default function useFullscreenToggle({
   function toggleFullscreen() {
     if (!viewerRef?.current) return;
 
-    const isCurrentlyFullscreen = Boolean(
-      document.fullscreenElement || document['webkitFullscreenElement']
-    );
+    const isCurrentlyFullscreen = isDocumentFullscreen();
 
     // Don't set isFullscreen here - requestFullscreen()/exitFullscreen() are
     // async and can be denied, in which case no fullscreenchange event
