@@ -4,11 +4,17 @@ import {
   Work,
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
-import { renderWithContext } from '@weco/content/test/fixtures/iiif/render';
+import {
+  renderWithContext,
+  RenderWithContextOptions,
+} from '@weco/content/test/fixtures/iiif/render';
 import {
   createMockCanvas,
   createMockManifest,
+  createOpenPainting,
+  createRestrictedPainting,
 } from '@weco/content/test/fixtures/iiif/transformed-manifest';
+import { installMockIntersectionObserver } from '@weco/content/test/fixtures/intersection-observer';
 import { TransformedManifest } from '@weco/content/types/manifest';
 
 import IIIFViewer from './IIIFViewer';
@@ -25,6 +31,14 @@ jest.mock('@weco/common/server-data/Context', () => ({
   ...jest.requireActual('@weco/common/server-data/Context'),
   useFeatureFlags: () => ({ itemViewerRefactor: true }),
 }));
+
+installMockIntersectionObserver();
+
+// GridViewer schedules a window.scrollTo(0, 0) 700ms after mount, which lands
+// while a later test in this file is still running. jsdom doesn't implement
+// scrollTo, so leaving it unstubbed fills the run with "Not implemented"
+// errors that have nothing to do with what's being asserted.
+window.scrollTo = jest.fn();
 
 // Must be prefixed `mock` to be referenced inside the hoisted jest.mock factory.
 let mockRouterQuery: Record<string, string> = {};
@@ -52,10 +66,12 @@ const mockWork: WorkBasic & Pick<Work, 'description'> = {
   notes: [],
   physicalDescription: '',
   isRootCollection: false,
-  isArchive: false,
 };
 
-const renderViewer = (transformedManifest: TransformedManifest) =>
+const renderViewer = (
+  transformedManifest: TransformedManifest,
+  options: RenderWithContextOptions = {}
+) =>
   renderWithContext(
     <IIIFViewer
       work={mockWork}
@@ -63,7 +79,10 @@ const renderViewer = (transformedManifest: TransformedManifest) =>
       searchResults={null}
       setSearchResults={() => undefined}
     />,
-    { appContext: { isEnhanced: true, isFullSupportBrowser: true } }
+    {
+      appContext: { isEnhanced: true, isFullSupportBrowser: true },
+      ...options,
+    }
   );
 
 beforeEach(() => {
@@ -106,6 +125,67 @@ describe('IIIFViewer', () => {
     );
 
     expect(screen.queryByTestId('active-index')).not.toBeInTheDocument();
+  });
+
+  // These exercise the real IIIFViewer -> context -> ViewerTopBar wiring for
+  // isCurrentCanvasRestricted, rather than ViewerTopBar.test.tsx's mocked
+  // context value (which derives the flag independently in the test fixture,
+  // and so wouldn't catch IIIFViewer deriving it from the wrong canvas or
+  // failing to put it on the provider).
+  describe('restricted current canvas', () => {
+    // A manifest-level rendering, so there are download options to hide.
+    const pdfRendering: TransformedManifest['rendering'] = [
+      {
+        id: 'https://example.com/whole.pdf',
+        type: 'Text',
+        format: 'application/pdf',
+      },
+    ];
+
+    // Only the second canvas is restricted, so a check against the wrong
+    // canvas (the first, say) gives the wrong answer for both cases below.
+    const mixedRestrictionManifest = createMockManifest({
+      canvases: [
+        createMockCanvas({
+          id: 'https://example.com/canvases/open',
+          painting: [createOpenPainting()],
+        }),
+        createMockCanvas({
+          id: 'https://example.com/canvases/restricted',
+          painting: [createRestrictedPainting()],
+        }),
+      ],
+      rendering: pdfRendering,
+    });
+
+    const downloadButton = (container: HTMLElement) =>
+      container.querySelector('[data-component="download-button"]');
+
+    it('hides the download button when the canvas in the URL is restricted', () => {
+      mockRouterQuery = { canvas: '2', manifest: '1' };
+
+      const { container } = renderViewer(mixedRestrictionManifest);
+
+      expect(downloadButton(container)).not.toBeInTheDocument();
+    });
+
+    it('shows the download button when the canvas in the URL is unrestricted', () => {
+      mockRouterQuery = { canvas: '1', manifest: '1' };
+
+      const { container } = renderViewer(mixedRestrictionManifest);
+
+      expect(downloadButton(container)).toBeInTheDocument();
+    });
+
+    it('shows the download button on a restricted canvas for a StaffWithRestricted user', () => {
+      mockRouterQuery = { canvas: '2', manifest: '1' };
+
+      const { container } = renderViewer(mixedRestrictionManifest, {
+        userContext: { userIsStaffWithRestricted: true },
+      });
+
+      expect(downloadButton(container)).toBeInTheDocument();
+    });
   });
 
   // These exercise the real IIIFViewer -> context -> ZoomedImage wiring for

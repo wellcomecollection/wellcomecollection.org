@@ -26,7 +26,6 @@ import {
   getDownloadOptionsFromManifestRendering,
   getImageServiceFromItem,
   getVideoAudioDownloadOptions,
-  hasRestrictedItem,
   isChoiceBody,
 } from '@weco/content/utils/iiif/v3';
 import { getDownloadOptionsFromImageUrl } from '@weco/content/utils/works';
@@ -218,6 +217,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
     showFullscreenControl,
     hasOnlyRenderableImages,
     currentCanvas,
+    isCurrentCanvasRestricted,
     hasMultipleCanvases,
   } = useItemViewerContext();
   const transformedIIIFImage = useTransformedIIIFImage(work);
@@ -236,7 +236,6 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
     })
     .flat()
     .filter(Boolean) || []) as ImageService[];
-  const isRestricted = currentCanvas && hasRestrictedItem(currentCanvas);
   const currentPageLabel = currentCanvas?.label?.trim();
 
   const shouldShowViewToggle =
@@ -387,7 +386,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
           {isEnhanced && (
             <div style={{ display: 'flex', alignItems: 'center' }}>
               {downloadOptions.length > 0 &&
-                (!isRestricted || userIsStaffWithRestricted) &&
+                (!isCurrentCanvasRestricted || userIsStaffWithRestricted) &&
                 !isKiosk && (
                   <Space $h={{ size: 'xs', properties: ['margin-right'] }}>
                     <Download

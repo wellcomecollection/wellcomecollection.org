@@ -43,7 +43,6 @@ const ArchiveCardListSlice: FunctionComponent<ArchiveCardListSliceProps> = ({
         id,
         label: asText(item.label),
         description: asText(item.archive_description),
-        isOrganisation: item.is_organisation ?? false,
         title: work.title,
         contributor: work.primaryContributorLabel,
         date: work.productionDates[0],

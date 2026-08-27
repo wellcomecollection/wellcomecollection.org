@@ -23,6 +23,7 @@ import ItemViewerContextRefactored, {
   defaultItemViewerContext as defaultItemViewerContextRefactored,
   ItemViewerContextProps as ItemViewerContextPropsRefactored,
 } from '@weco/content/contexts/ItemViewerContext/refactored';
+import { hasRestrictedItem } from '@weco/content/utils/iiif/v3';
 import { getCurrentCanvas } from '@weco/content/views/pages/works/work/work.helpers';
 
 import { createMockManifest } from './transformed-manifest';
@@ -89,6 +90,9 @@ function createMockRefactoredItemViewerContext(
     // goes on the context needs adding here too, or tests that override the
     // manifest will silently fall back to the default context's value.
     currentCanvas,
+    isCurrentCanvasRestricted: currentCanvas
+      ? hasRestrictedItem(currentCanvas)
+      : false,
     totalCanvases,
     hasMultipleCanvases: totalCanvases > 1,
     mainImageService: { '@id': currentCanvas?.imageServiceId },
