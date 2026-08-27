@@ -3,6 +3,10 @@ import { WorkAggregations } from './types/aggregations';
 
 export type ArchiveCategory = {
   id: string;
+  // The catalogue API's IDs are uppercase codes (PP, WTI, etc) - lowercased
+  // once here for a tidier /collections/archives/{slug} URL, rather than
+  // lowercasing archiveType.id wherever it's used to build or match a link.
+  slug: string;
   label: string;
   description: string;
   count: number;
@@ -64,6 +68,7 @@ export async function fetchArchiveCategories(): Promise<ArchiveCategory[]> {
 
   return archiveCategory.buckets.map(bucket => ({
     id: bucket.data.id,
+    slug: bucket.data.id.toLowerCase(),
     label: bucket.data.label,
     count: bucket.count,
     description: ARCHIVE_CATEGORY_DESCRIPTIONS[bucket.data.id] ?? '',
