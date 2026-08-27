@@ -48,13 +48,10 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const archiveCategories = await getArchiveCategories();
   const archiveCategory = archiveCategories.find(
     category => category.slug === id.toLowerCase()
-  ) ?? {
-    id: id.toUpperCase(),
-    slug: id.toLowerCase(),
-    label: id.toUpperCase(),
-    description: '',
-    count: 0,
-  };
+  );
+  if (!archiveCategory) {
+    return { notFound: true };
+  }
 
   const { sort: sortQuery, sortOrder: sortOrderQuery } = context.query;
   const sort = archiveCategoryWorksSortFields.find(
