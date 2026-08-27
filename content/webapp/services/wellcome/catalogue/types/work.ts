@@ -56,7 +56,7 @@ export function toWorkBasic(work: Work): WorkBasic {
       contributor => contributor.primary
     )?.agent.label,
     notes,
-    isBrowsingArchive: !!work.archive,
+    isBrowsingArchive: !!work.archive?.category,
     isRootCollection: !!work.collection?.isRoot,
     physicalDescription,
   };

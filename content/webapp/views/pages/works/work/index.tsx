@@ -69,7 +69,7 @@ export const WorkPage: NextPage<Props> = ({
     work.parts.length || getArchiveAncestorArray(work).length > 0
   );
   const displayCollectionRoot =
-    !!work.collection?.isRoot && !!work.archive && archiveCollection;
+    !!work.collection?.isRoot && !!work.archive?.category && archiveCollection;
 
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
   const iiifPresentationLocation = getDigitalLocationOfType(

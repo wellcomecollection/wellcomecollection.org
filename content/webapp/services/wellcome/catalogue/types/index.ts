@@ -43,7 +43,7 @@ export type Work = {
     isRoot?: boolean;
   };
   archive?: {
-    category: {
+    category?: {
       id: string;
       type: 'ArchiveCategory';
       label: string;
