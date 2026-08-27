@@ -161,4 +161,4 @@ Our PR template (configured in GitHub's interface) asks for:
 
 When writing PR descriptions, follow this structure and provide enough detail for the PR to be understandable in the future.
 
-When referencing GitHub issues in PR descriptions, use 'For #123' or 'Refs #123', not 'Closes #123', so merging doesn't auto-close the ticket.
+When referencing GitHub issues in PR descriptions, use '- For #123' or '- Refs #123', not 'Closes #123', so merging doesn't auto-close the ticket.
