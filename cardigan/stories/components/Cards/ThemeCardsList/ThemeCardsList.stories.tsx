@@ -2,8 +2,8 @@ import { Meta, StoryObj } from '@storybook/react';
 import { ComponentProps } from 'react';
 
 import { mockIIIFImagesUrls } from '@weco/cardigan/stories/data/mock-iiif-images';
+import ImageGridCard from '@weco/common/views/components/ImageGridCard';
 import { gridSize12 } from '@weco/common/views/components/Layout';
-import ThemeCard from '@weco/common/views/components/ThemeCard';
 import { ConceptImagesArray } from '@weco/content/hooks/useConceptImageUrls';
 import ScrollContainer from '@weco/content/views/components/ScrollContainer';
 import { ListItem } from '@weco/content/views/components/ScrollContainer/ScrollContainer.styles';
@@ -47,7 +47,7 @@ const meta: Meta<StoryProps> = {
     useShim: { table: { disable: true } },
     scrollButtonsAfter: { table: { disable: true } },
     cols: {
-      name: 'ThemeCard columns',
+      name: 'ImageGridCard columns',
       control: 'inline-radio',
       options: [3, 4],
     },
@@ -69,7 +69,7 @@ export const InScrollContainer: Story = {
     <ScrollContainer gridSizes={gridSize12()} useShim={args.useShim}>
       {cards.map((card, i) => (
         <ListItem key={i} $usesShim={args.useShim} $cols={args.cols}>
-          <ThemeCard
+          <ImageGridCard
             title={card.title}
             description={card.description}
             images={mockIIIFImagesUrls as ConceptImagesArray}
