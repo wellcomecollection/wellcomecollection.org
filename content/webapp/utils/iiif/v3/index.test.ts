@@ -22,6 +22,7 @@ import {
   getItemsStatus,
   getManifestAccessRequirements,
   getOriginalFiles,
+  getParentManifestUrl,
   getProbeServiceId,
   getVideoAudioDownloadOptions,
   hasItemType,
@@ -1037,6 +1038,60 @@ describe('isCollection', () => {
       isCollection(createTestManifest({ type: 'Collection' } as never))
     ).toBe(true);
     expect(isCollection(createTestManifest())).toBe(false);
+  });
+});
+
+describe('getParentManifestUrl', () => {
+  const genre = {
+    id: 'https://iiif.wellcomecollection.org/presentation/collections/genres/Annual_reports',
+    type: 'Collection' as const,
+  };
+  const contributor = {
+    id: 'https://iiif.wellcomecollection.org/presentation/collections/contributors/ew9rzxst',
+    type: 'Collection' as const,
+  };
+  const multiPartParent = {
+    id: 'https://iiif.wellcomecollection.org/presentation/b2178081x',
+    type: 'Collection' as const,
+  };
+
+  it('is undefined when partOf only contains aggregation collections', () => {
+    expect(
+      getParentManifestUrl(createTestManifest({ partOf: [genre, contributor] }))
+    ).toBeUndefined();
+  });
+
+  it('is undefined when there is no partOf', () => {
+    expect(
+      getParentManifestUrl(createTestManifest({ partOf: undefined }))
+    ).toBeUndefined();
+  });
+
+  it('skips a versioned aggregation collection id', () => {
+    const versionedGenre = {
+      id: 'https://iiif.wellcomecollection.org/presentation/v3/collections/genres/Annual_reports',
+      type: 'Collection' as const,
+    };
+    expect(
+      getParentManifestUrl(createTestManifest({ partOf: [versionedGenre] }))
+    ).toBeUndefined();
+  });
+
+  it('skips entries whose id is not a string', () => {
+    const noId = { type: 'Collection' as const } as NonNullable<
+      Manifest['partOf']
+    >[number];
+    expect(
+      getParentManifestUrl(createTestManifest({ partOf: [noId] }))
+    ).toBeUndefined();
+  });
+
+  it('returns the b-number parent regardless of its position', () => {
+    expect(
+      getParentManifestUrl(
+        createTestManifest({ partOf: [genre, multiPartParent, contributor] })
+      )
+    ).toBe(multiPartParent.id);
   });
 });
 

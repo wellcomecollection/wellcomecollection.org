@@ -12,6 +12,7 @@ import {
   getIIIFPresentationCredit,
   getItemsStatus,
   getManifestAccessRequirements,
+  getParentManifestUrl,
   getSearchService,
   getStructures,
   getTitle,
@@ -30,7 +31,7 @@ export function transformManifest(
   const title = getTitle(manifestV3.label);
   const iiifCredit = getIIIFPresentationCredit(manifestV3);
   const id = manifestV3.id || '';
-  const parentManifestUrl = manifestV3.partOf?.[0].id;
+  const parentManifestUrl = getParentManifestUrl(manifestV3);
   const manifests = getCollectionManifests(manifestV3);
   const collectionManifestsCount = manifests.length;
   const transformedCanvases = getTransformedCanvases(manifestV3);
