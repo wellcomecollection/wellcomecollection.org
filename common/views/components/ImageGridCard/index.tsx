@@ -160,7 +160,7 @@ const ImageGridCard: FunctionComponent<ImageGridCardProps> = ({
       {...linkProps}
       {...dataGtmPropsToAttributes(dataGtmProps)}
     >
-      <CardWrapper data-component="theme-promo">
+      <CardWrapper data-component="image-grid-card">
         <CompositeGrid $isSingleImage={isSingleImage}>
           {slots.map((slot, index) => (
             <ImageContainer key={index}>
