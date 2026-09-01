@@ -149,6 +149,30 @@ describe('PaginatedItemViewer', () => {
     ).toBeInTheDocument();
   });
 
+  // titleOverride is IIIFItem's fallback for an item whose canvas has no label
+  // of its own - getFileLabel treats "-" as no label - and only the audio
+  // player reads it.
+  it('captions a label-less audio item with the current canvas position', () => {
+    const createLabellessAudioCanvas = (id: string) =>
+      createMockCanvas({
+        id,
+        label: '-',
+        painting: [{ id, type: 'Sound', format: 'audio/mp3' }] as never,
+      });
+
+    renderViewer({
+      transformedManifest: createMockManifest({
+        canvases: [
+          createLabellessAudioCanvas('https://example.com/audio-1.mp3'),
+          createLabellessAudioCanvas('https://example.com/audio-2.mp3'),
+        ],
+      }),
+      query: createMockQuery({ canvas: 2 }),
+    });
+
+    expect(screen.getByText('2/2')).toBeInTheDocument();
+  });
+
   it('renders nothing when the current canvas cannot be resolved', () => {
     const { container } = renderViewer({
       transformedManifest: createMockManifest({

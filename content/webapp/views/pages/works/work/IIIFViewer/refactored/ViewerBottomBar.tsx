@@ -12,6 +12,7 @@ import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext/r
 import useIsFullscreenEnabled from '@weco/content/hooks/useIsFullscreenEnabled';
 import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
 
+import CanvasPositionIndicator from './CanvasPositionIndicator';
 import FullscreenToggleButton from './FullscreenToggleButton';
 import ToolbarSegmentedControl from './ToolbarSegmentedControl';
 
@@ -167,7 +168,7 @@ const ViewerBottomBar: FunctionComponent = () => {
             className={typography('body', 'md', 'regular')}
             style={{ color: 'white' }}
           >
-            {canvas}/{totalCanvases}
+            <CanvasPositionIndicator />
           </span>
 
           <CanvasNavButton link={nextCanvasLink} direction="next" />

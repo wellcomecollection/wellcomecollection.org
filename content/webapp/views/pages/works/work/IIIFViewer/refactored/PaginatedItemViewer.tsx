@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext/refactored';
 import { getDisplayItems } from '@weco/content/utils/iiif/v3/canvas';
 
+import { useCanvasPositionLabel } from './CanvasPositionIndicator';
 import IIIFItem from './IIIFItem';
 
 const ItemWrapper = styled.div`
@@ -25,16 +26,13 @@ const ItemWrapper = styled.div`
 `;
 
 const PaginatedItemViewer: FunctionComponent = () => {
-  const {
-    transformedManifest,
-    query,
-    setShowFullscreenControl,
-    currentCanvas,
-  } = useItemViewerContext();
-  const { canvases, auth, placeholderId } = {
+  const { transformedManifest, setShowFullscreenControl, currentCanvas } =
+    useItemViewerContext();
+  const { auth, placeholderId } = {
     ...transformedManifest,
   };
   const externalAccessService = auth?.externalAccessService;
+  const canvasPositionLabel = useCanvasPositionLabel();
 
   useEffect(() => {
     setShowFullscreenControl(false);
@@ -51,7 +49,7 @@ const PaginatedItemViewer: FunctionComponent = () => {
         item={item}
         i={i}
         canvas={currentCanvas}
-        titleOverride={`${query.canvas}/${canvases?.length}`}
+        titleOverride={canvasPositionLabel}
         exclude={[]}
         externalAccessService={externalAccessService}
         showVideoTranscript={false}
