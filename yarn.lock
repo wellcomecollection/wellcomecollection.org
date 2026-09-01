@@ -2943,7 +2943,14 @@
   dependencies:
     "@prismicio/types-internal" "^3.17.2"
 
-"@prismicio/client@7.17.0", "@prismicio/client@7.22.0", "@prismicio/client@^7.1.0", "@prismicio/client@^7.22.0":
+"@prismicio/client@7.17.0":
+  version "7.17.0"
+  resolved "https://registry.yarnpkg.com/@prismicio/client/-/client-7.17.0.tgz#7b8f12fbc76e02a23fe817a1a0d8410d83fc40f6"
+  integrity sha512-7e1ICYk4IAxKX8zmtCOy9e8rXeeT9A45ZgJY9lNNWqUaL1LW/ilXnh/SsAZG/G5q14JyRJHwBIGIzcKY9hjJhw==
+  dependencies:
+    imgix-url-builder "^0.0.5"
+
+"@prismicio/client@^7.1.0", "@prismicio/client@^7.22.0":
   version "7.22.0"
   resolved "https://registry.yarnpkg.com/@prismicio/client/-/client-7.22.0.tgz#85cc0ebc2f289e19a875e14aef0e9b7a2a8acf82"
   integrity sha512-mWzNx6kLn8cOO9j4Tt92RnVYNHl7xBDAZBUkIwvpUYSW7fzMKCJSYpuYpKpfwt9OCkr/CTRvhlqTzx3f7vU8oA==
@@ -2975,15 +2982,6 @@
     newtype-ts "^0.3.5"
     tslib "^2.8.1"
 
-"@prismicio/next@^2.3.0":
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/@prismicio/next/-/next-2.3.0.tgz#ca47bbc2979c6deddaabcde6f34c3c71f0fcb10f"
-  integrity sha512-Zo6KfE0NitFHagtL1vgvzI/UB1YLlBSFfwH5wqXz49hZgCHbjnKGTsU0uPp62wep05nfzzGH6k7EQCCYAi75lg==
-  dependencies:
-    "@prismicio/simulator" "^0.2.2"
-    imgix-url-builder "^0.0.6"
-    lz-string "^1.5.0"
-
 "@prismicio/react@3.4.0":
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/@prismicio/react/-/react-3.4.0.tgz#dbbe54630a054e73068f92e5cf1e80e5ed1a1f2c"
@@ -2999,11 +2997,6 @@
     "@prismicio/client" "^7.1.0"
     "@types/statuses" "^2.0.1"
     statuses "^2.0.1"
-
-"@prismicio/simulator@^0.2.2":
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/@prismicio/simulator/-/simulator-0.2.4.tgz#6b7185b102edd8c8aab1634764364452cea440bb"
-  integrity sha512-dmxqaihyUkuUbbJwe/AJuE40c6jH233plJiGza8sTGmzNKd/V8tsP11+NuBN0vuFSpZ1zBEWYsZFbsCwHuJZyA==
 
 "@prismicio/types-internal@^3.17.2":
   version "3.17.2"
@@ -7126,6 +7119,11 @@ image-size@^2.0.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/image-size/-/image-size-2.0.2.tgz#84a7b43704db5736f364bf0d1b029821299b4bdc"
   integrity sha512-IRqXKlaXwgSMAMtpNzZa1ZAe8m+Sa1770Dhk8VkSsP9LS+iHD62Zd8FQKs8fbPiagBE7BzoFX23cxFnwshpV6w==
+
+imgix-url-builder@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/imgix-url-builder/-/imgix-url-builder-0.0.5.tgz#641e4af7fc1443d3f9f30f3c1331e4c1a2ad9832"
+  integrity sha512-dCx3UlXghtsjySoqVCcHQHRikqDummwQEfKlxBUK/wrMzd+1ox/XX+zhqVuXKMVuZvCc84pVLEJyntQB0OOi/w==
 
 imgix-url-builder@^0.0.6:
   version "0.0.6"
