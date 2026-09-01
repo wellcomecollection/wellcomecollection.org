@@ -8,8 +8,9 @@ import { TransformedCanvas } from '@weco/content/types/manifest';
 import { queryParamToArrayIndex } from '@weco/content/views/pages/works/work/work.helpers';
 
 type OverlayPositionData = {
-  // 0-based array index, matching the FixedSizeList row index the overlay
-  // belongs to - not the 1-based ?canvas= number.
+  // Which canvas this overlay sits on, as a 0-based index into `canvases` -
+  // not the 1-based ?canvas= number. The list renders one row per canvas, so
+  // this is compared directly against the FixedSizeList row index.
   canvasIndex: number;
   overlayTop: number;
   overlayLeft: number;
