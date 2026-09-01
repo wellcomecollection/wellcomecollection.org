@@ -433,7 +433,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
         <AudioPlayer
           isDark={isDark}
           audioFile={item.id}
-          title={getFileLabel(canvas.label, titleOverride) || ''}
+          title={getFileLabel(canvas.label, titleOverride ?? '')}
         />
       </IIIFItemWrapper>
     );

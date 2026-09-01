@@ -30,8 +30,7 @@ const IIIFItemPdf: FunctionComponent<Props> = ({
   format,
 }: Props) => {
   const { isMobileOrTabletDevice } = useAppContext();
-  const substituteTitle = 'unknown title';
-  const displayLabel = getFileLabel(label, substituteTitle);
+  const displayLabel = getFileLabel(label);
   const { isKiosk } = useKiosk();
 
   // Mobile non-kiosk: show download link
