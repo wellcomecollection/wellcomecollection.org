@@ -15,9 +15,12 @@ import {
   createRestrictedPainting,
 } from '@weco/content/test/fixtures/iiif/transformed-manifest';
 
-import useIIIFProbeService from './useIIIFProbeService';
+import useIIIFProbeService, {
+  __resetProbeRegistryForTests,
+  invalidateProbe,
+} from './useIIIFProbeService';
 
-// The probe hook gates restricted media: it returns true immediately for
+// The probe hook gates restricted media: it reports 'ok' immediately for
 // unrestricted canvases, and for restricted ones only once the auth cookie is
 // confirmed via the probe service (for a logged-in staff user with a token).
 // This exercises that matrix with mocked user state and fetch.
@@ -37,6 +40,12 @@ type WrapperOptions = {
   accessToken?: string;
 };
 
+// Several tests below call this inline inside the renderHook callback
+// (`() => useIIIFProbeService(restrictedCanvas(...))`), which re-invokes it
+// on every re-render — so the ID must stay fixed per call args, not
+// per-invocation, or each re-render would restart probing on a "new" canvas
+// forever. Cross-test isolation instead comes from resetting the
+// module-level registry in afterEach (see __resetProbeRegistryForTests).
 const restrictedCanvas = (probeServiceId?: string) =>
   createMockCanvas({ painting: [createRestrictedPainting()], probeServiceId });
 
@@ -45,6 +54,7 @@ const originalFetch = global.fetch;
 afterEach(() => {
   global.fetch = originalFetch;
   jest.clearAllMocks();
+  __resetProbeRegistryForTests();
 });
 
 describe.each([
@@ -80,7 +90,7 @@ describe.each([
       </UserContext.Provider>
     );
 
-  it('returns true immediately for an unrestricted canvas', () => {
+  it("reports 'ok' immediately for an unrestricted canvas", () => {
     const fetchMock = jest.fn();
     global.fetch = fetchMock as unknown as typeof fetch;
 
@@ -91,11 +101,11 @@ describe.each([
       }
     );
 
-    expect(result.current).toBe(true);
+    expect(result.current).toBe('ok');
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
-  it('stays false and does not probe for a restricted canvas when the user is not staff', () => {
+  it("stays 'probing' and does not probe for a restricted canvas when the user is not staff", () => {
     const fetchMock = jest.fn();
     global.fetch = fetchMock as unknown as typeof fetch;
 
@@ -104,11 +114,11 @@ describe.each([
       { wrapper: createWrapper({ userIsStaffWithRestricted: false }) }
     );
 
-    expect(result.current).toBe(false);
+    expect(result.current).toBe('probing');
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
-  it('stays false and does not probe when StaffWithRestricted user has no access token', () => {
+  it("stays 'probing' and does not probe when StaffWithRestricted user has no access token", () => {
     const fetchMock = jest.fn();
     global.fetch = fetchMock as unknown as typeof fetch;
 
@@ -122,11 +132,11 @@ describe.each([
       }
     );
 
-    expect(result.current).toBe(false);
+    expect(result.current).toBe('probing');
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
-  it('returns true without probing when a restricted canvas has no probe service', async () => {
+  it("reports 'ok' without probing when a restricted canvas has no probe service", async () => {
     const fetchMock = jest.fn();
     global.fetch = fetchMock as unknown as typeof fetch;
 
@@ -140,11 +150,11 @@ describe.each([
       }
     );
 
-    await waitFor(() => expect(result.current).toBe(true));
+    await waitFor(() => expect(result.current).toBe('ok'));
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
-  it('probes with the access token and returns true when the probe reports status 200', async () => {
+  it("probes with the access token and reports 'ok' when the probe reports status 200", async () => {
     const fetchMock = jest.fn().mockResolvedValue({
       json: () => Promise.resolve({ status: 200 }),
     });
@@ -160,13 +170,13 @@ describe.each([
       }
     );
 
-    await waitFor(() => expect(result.current).toBe(true));
+    await waitFor(() => expect(result.current).toBe('ok'));
     expect(fetchMock).toHaveBeenCalledWith('https://example.com/probe', {
       headers: { Authorization: 'Bearer token-123' },
     });
   });
 
-  it('keeps retrying indefinitely on repeated non-200 probe responses, never falling back to true on a guess', async () => {
+  it("gives up and reports 'failed' after repeated non-200 probe responses, never falling back to 'ok' on a guess", async () => {
     jest.useFakeTimers();
     const fetchMock = jest.fn().mockResolvedValue({
       json: () => Promise.resolve({ status: 403 }),
@@ -183,24 +193,23 @@ describe.each([
       }
     );
 
-    // Initial state: false (restricted canvas)
-    expect(result.current).toBe(false);
+    // Initial state: 'probing' (restricted canvas)
+    expect(result.current).toBe('probing');
 
-    // Advance well past where the old 5-attempt budget would have given up.
+    // Advance well past where the bounded attempt budget gives up.
     for (let i = 0; i < 10; i++) {
       await act(async () => {
         await jest.advanceTimersByTimeAsync(5000);
       });
     }
 
-    // Still false — a real answer is required, never a timeout-based guess.
-    expect(result.current).toBe(false);
-    expect(fetchMock.mock.calls.length).toBeGreaterThan(5);
+    // Gives up explicitly rather than guessing 'ok' on a timeout.
+    expect(result.current).toBe('failed');
 
     jest.useRealTimers();
   });
 
-  it('resolves true once a probe attempt eventually succeeds after repeated failures', async () => {
+  it("resolves 'ok' once a probe attempt eventually succeeds after repeated failures", async () => {
     jest.useFakeTimers();
     const fetchMock = jest
       .fn()
@@ -219,7 +228,7 @@ describe.each([
       }
     );
 
-    expect(result.current).toBe(false);
+    expect(result.current).toBe('probing');
 
     for (let i = 0; i < 3; i++) {
       await act(async () => {
@@ -227,12 +236,12 @@ describe.each([
       });
     }
 
-    await waitFor(() => expect(result.current).toBe(true));
+    await waitFor(() => expect(result.current).toBe('ok'));
 
     jest.useRealTimers();
   });
 
-  it('keeps retrying indefinitely on repeated network errors, never falling back to true on a guess', async () => {
+  it("gives up and reports 'failed' after repeated network errors, never falling back to 'ok' on a guess", async () => {
     jest.useFakeTimers();
     const fetchMock = jest.fn().mockRejectedValue(new Error('Network error'));
     global.fetch = fetchMock as unknown as typeof fetch;
@@ -247,8 +256,8 @@ describe.each([
       }
     );
 
-    // Initial state: false (restricted canvas)
-    expect(result.current).toBe(false);
+    // Initial state: 'probing' (restricted canvas)
+    expect(result.current).toBe('probing');
 
     for (let i = 0; i < 10; i++) {
       await act(async () => {
@@ -256,8 +265,107 @@ describe.each([
       });
     }
 
-    expect(result.current).toBe(false);
-    expect(fetchMock.mock.calls.length).toBeGreaterThan(5);
+    expect(result.current).toBe('failed');
+
+    jest.useRealTimers();
+  });
+
+  it('shares a single underlying poll across two components probing the same canvas', async () => {
+    const fetchMock = jest.fn().mockResolvedValue({
+      json: () => Promise.resolve({ status: 200 }),
+    });
+    global.fetch = fetchMock as unknown as typeof fetch;
+
+    const canvas = restrictedCanvas('https://example.com/probe');
+    const wrapper = createWrapper({
+      userIsStaffWithRestricted: true,
+      accessToken: 'token-123',
+    });
+
+    const first = renderHook(() => useIIIFProbeService(canvas), { wrapper });
+    const second = renderHook(() => useIIIFProbeService(canvas), { wrapper });
+
+    await waitFor(() => expect(first.result.current).toBe('ok'));
+    await waitFor(() => expect(second.result.current).toBe('ok'));
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('invalidateProbe resets an already-resolved canvas back to probing and re-fetches after a short delay', async () => {
+    jest.useFakeTimers();
+    const fetchMock = jest.fn().mockResolvedValue({
+      json: () => Promise.resolve({ status: 200 }),
+    });
+    global.fetch = fetchMock as unknown as typeof fetch;
+
+    const canvas = restrictedCanvas('https://example.com/probe');
+    const { result } = renderHook(() => useIIIFProbeService(canvas), {
+      wrapper: createWrapper({
+        userIsStaffWithRestricted: true,
+        accessToken: 'token-123',
+      }),
+    });
+
+    await waitFor(() => expect(result.current).toBe('ok'));
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+
+    act(() => {
+      invalidateProbe(canvas.id);
+    });
+
+    // Hides the stale media immediately, but doesn't re-fetch straight away.
+    expect(result.current).toBe('probing');
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+
+    await act(async () => {
+      await jest.advanceTimersByTimeAsync(1000);
+    });
+
+    await waitFor(() => expect(result.current).toBe('ok'));
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+
+    jest.useRealTimers();
+  });
+
+  it("gives up and reports 'failed' after repeated rapid invalidations even though the probe itself keeps succeeding", async () => {
+    // Regression test: media that keeps failing to load for a reason other
+    // than the auth cookie (e.g. genuinely too large) must not cause
+    // invalidateProbe to cycle forever just because the cookie checks out
+    // fine every time. Also verifies the per-invalidation backoff actually
+    // elapses (rather than the budget being exhausted near-instantly).
+    jest.useFakeTimers();
+    const fetchMock = jest.fn().mockResolvedValue({
+      json: () => Promise.resolve({ status: 200 }),
+    });
+    global.fetch = fetchMock as unknown as typeof fetch;
+
+    const canvas = restrictedCanvas('https://example.com/probe');
+    const { result } = renderHook(() => useIIIFProbeService(canvas), {
+      wrapper: createWrapper({
+        userIsStaffWithRestricted: true,
+        accessToken: 'token-123',
+      }),
+    });
+
+    await waitFor(() => expect(result.current).toBe('ok'));
+
+    // MAX_INVALIDATIONS is 5, so 4 successful re-probes are allowed before
+    // the 5th invalidation gives up. Each waits out its own backoff delay.
+    for (let i = 0; i < 4; i++) {
+      act(() => {
+        invalidateProbe(canvas.id);
+      });
+      expect(result.current).toBe('probing');
+      await act(async () => {
+        await jest.advanceTimersByTimeAsync(8000);
+      });
+      await waitFor(() => expect(result.current).toBe('ok'));
+    }
+
+    act(() => {
+      invalidateProbe(canvas.id);
+    });
+
+    expect(result.current).toBe('failed');
 
     jest.useRealTimers();
   });

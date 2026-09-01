@@ -28,7 +28,9 @@ import {
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
-import useIIIFProbeService from '@weco/content/hooks/useIIIFProbeService';
+import useIIIFProbeService, {
+  ProbeStatus,
+} from '@weco/content/hooks/useIIIFProbeService';
 import useOnScreen from '@weco/content/hooks/useOnScreen';
 import useSkipInitialEffect from '@weco/content/hooks/useSkipInitialEffect';
 import { fetchCanvasOcr } from '@weco/content/services/iiif/fetch/canvasOcr';
@@ -74,6 +76,14 @@ const RestrictedMessage = styled.div`
   p {
     margin: 0;
   }
+`;
+
+const ProbeFailedMessage = styled.p.attrs({
+  className: typography('body', 'sm', 'regular'),
+})`
+  margin: 1em auto 0;
+  padding: 0 2em;
+  text-align: center;
 `;
 
 const ImageItemLayout = styled.div`
@@ -189,6 +199,7 @@ const IIIFImage: FunctionComponent<{
             <ImageViewer
               imageUrl={imageUrl}
               id={imageUrl}
+              canvasId={canvas.id}
               width={canvas.width || 0}
               height={canvas.height || 0}
               index={index}
@@ -196,6 +207,7 @@ const IIIFImage: FunctionComponent<{
               urlTemplate={urlTemplate}
               setImageRect={setImageRect}
               setImageContainerRect={setImageContainerRect}
+              isRestricted={isRestricted}
             />
           </ImageViewerPositioned>
         </ImageViewerContainer>
@@ -251,7 +263,7 @@ const IIIFItemWrapper: FunctionComponent<{
   shouldShowItem: boolean;
   className: string;
   isRestricted: boolean;
-  isProbeOk: boolean;
+  probeStatus: ProbeStatus;
   externalAccessService?: TransformedAuthService;
   children: ReactNode | undefined;
   containerRef?: RefObject<HTMLDivElement | null>;
@@ -260,7 +272,7 @@ const IIIFItemWrapper: FunctionComponent<{
   shouldShowItem,
   className,
   isRestricted,
-  isProbeOk,
+  probeStatus,
   externalAccessService,
   children,
   containerRef,
@@ -286,7 +298,13 @@ const IIIFItemWrapper: FunctionComponent<{
             <RestrictedItemMessage />
           </RestrictedMessage>
         )}
-        {(!isRestricted || isProbeOk) && children}
+        {(!isRestricted || probeStatus === 'ok') && children}
+        {isRestricted && probeStatus === 'failed' && (
+          <ProbeFailedMessage>
+            Sorry, this item could not be loaded. Please try refreshing the
+            page.
+          </ProbeFailedMessage>
+        )}
       </ItemWrapper>
     );
   }
@@ -299,7 +317,7 @@ const IIIFItemWrapperWithObserver: FunctionComponent<{
   shouldShowItem: boolean;
   className: string;
   isRestricted: boolean;
-  isProbeOk: boolean;
+  probeStatus: ProbeStatus;
   externalAccessService?: TransformedAuthService;
   children: ReactNode | undefined;
   index: number;
@@ -308,7 +326,7 @@ const IIIFItemWrapperWithObserver: FunctionComponent<{
   shouldShowItem,
   className,
   isRestricted,
-  isProbeOk,
+  probeStatus,
   externalAccessService,
   children,
   index,
@@ -342,7 +360,7 @@ const IIIFItemWrapperWithObserver: FunctionComponent<{
       shouldShowItem={shouldShowItem}
       className={className}
       isRestricted={isRestricted}
-      isProbeOk={isProbeOk}
+      probeStatus={probeStatus}
       externalAccessService={externalAccessService}
       containerRef={ref}
       removeRestrictedMessage={removeRestrictedMessage}
@@ -379,7 +397,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
 }) => {
   const { userIsStaffWithRestricted } = useUserContext();
   const isRestricted = hasRestrictedItem(canvas);
-  const isProbeOk = useIIIFProbeService(canvas);
+  const probeStatus = useIIIFProbeService(canvas);
 
   // Replace "image" with "item" in description if the item is not an image
   // or if it's an image but has originals, which means the image is just a placeholder for the original item
@@ -430,7 +448,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
         shouldShowItem={shouldShowItem}
         className="audio-wrapper"
         isRestricted={isRestricted}
-        isProbeOk={isProbeOk}
+        probeStatus={probeStatus}
         externalAccessService={adjustedExternalAccessService}
       >
         <AudioPlayer
@@ -448,7 +466,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
         shouldShowItem={shouldShowItem}
         className="video-wrapper"
         isRestricted={isRestricted}
-        isProbeOk={isProbeOk}
+        probeStatus={probeStatus}
         externalAccessService={adjustedExternalAccessService}
       >
         <VideoPlayer
@@ -472,7 +490,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
         shouldShowItem={shouldShowItem}
         className="pdf-wrapper"
         isRestricted={isRestricted}
-        isProbeOk={isProbeOk}
+        probeStatus={probeStatus}
         externalAccessService={adjustedExternalAccessService}
       >
         <IIIFItemPdf
@@ -500,7 +518,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
                   shouldShowItem={shouldShowItem}
                   className="download-wrapper"
                   isRestricted={isRestricted}
-                  isProbeOk={isProbeOk}
+                  probeStatus={probeStatus}
                   externalAccessService={adjustedExternalAccessService}
                 >
                   <IIIFItemDownload
@@ -533,7 +551,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
             shouldShowItem={shouldShowItem}
             className="image-wrapper"
             isRestricted={isRestricted}
-            isProbeOk={isProbeOk}
+            probeStatus={probeStatus}
             externalAccessService={adjustedExternalAccessService}
             index={i}
             removeRestrictedMessage
@@ -548,7 +566,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           shouldShowItem={shouldShowItem}
           className="image-wrapper"
           isRestricted={isRestricted}
-          isProbeOk={isProbeOk}
+          probeStatus={probeStatus}
           externalAccessService={adjustedExternalAccessService}
           removeRestrictedMessage
         >
