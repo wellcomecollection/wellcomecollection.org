@@ -27,14 +27,20 @@ import { toConceptLink } from '@weco/content/views/components/ConceptLink';
 import { toSearchWorksLink } from '@weco/content/views/components/SearchPagesLink/Works';
 import { TagType } from '@weco/content/views/components/Tags';
 
+/**
+ * Returns the label of every production date on a work, flattened into one
+ * array.
+ */
 export function getProductionDates(work: Work): string[] {
   return work.production
     .map(productionEvent => productionEvent.dates.map(date => date.label))
     .reduce((a, b) => a.concat(b), []);
 }
 
-// Returns a lang only if unambiguous
-// better no language than the wrong one.
+/**
+ * Returns work's language id, but only if it has exactly one - better no
+ * language than a wrong guess.
+ */
 export function getLanguageId(
   work: Pick<Work, 'languages'>
 ): string | undefined {
@@ -49,6 +55,10 @@ type DownloadImage = {
   height?: number;
 };
 
+/**
+ * Builds download options for an image url: full size, plus a smaller
+ * preset width.
+ */
 export function getDownloadOptionsFromImageUrl(
   downloadImage: DownloadImage
 ): DownloadOption[] {
@@ -98,8 +108,10 @@ type StacksItemStatus = {
   type: 'ItemStatus';
 };
 
-// We have the items from the catalogue API and add additional data from the stacks API,
-// data from UI interactions and data we work out based on location and status
+/**
+ * Items from the catalogue API augmented with data from the stacks API, UI
+ * interactions, and values derived from location/status.
+ */
 export type PhysicalItemAugmented = {
   locations: PhysicalLocation[];
   dueDate?: string;
@@ -110,10 +122,12 @@ export type PhysicalItemAugmented = {
   requestSucceeded?: boolean;
 };
 
+/** Returns work's holdings, or an empty array if it has none. */
 export function getHoldings(work: Work): Holding[] {
   return work.holdings || [];
 }
 
+/** Filters items down to those with a physical location. */
 export function getItemsWithPhysicalLocation(
   items: Item<Location>[]
 ): PhysicalItem[] {
@@ -129,6 +143,7 @@ export function getItemsWithPhysicalLocation(
     .filter((item?: PhysicalItem): item is PhysicalItem => Boolean(item));
 }
 
+/** Returns work's items that have a location of the given locationTypeId. */
 export function getItemsByLocationType(
   work: Work,
   locationTypeId: string
@@ -138,6 +153,10 @@ export function getItemsByLocationType(
   );
 }
 
+/**
+ * Returns work's first digital location matching the given locationType, if
+ * any.
+ */
 export function getDigitalLocationOfType(
   work: Pick<Work, 'items'>,
   locationType: string
@@ -154,6 +173,10 @@ export function getDigitalLocationOfType(
   return location;
 }
 
+/**
+ * Returns the status id of the first access condition on digitalLocation
+ * that has one.
+ */
 export function getAccessConditionForDigitalLocation(
   digitalLocation: DigitalLocation
 ): string | undefined {
@@ -163,71 +186,12 @@ export function getAccessConditionForDigitalLocation(
   return accessCondition?.status?.id;
 }
 
-function itemIdentifierWithId(
-  item: Item<PhysicalLocation | DigitalLocation>,
-  id: string
-): boolean {
-  return (item.identifiers || []).some(
-    identifier => identifier.identifierType.id === id
-  );
-}
-
-function itemLocationWithType(
-  item: Item<PhysicalLocation | DigitalLocation>,
-  locationType: string
-): boolean {
-  return item.locations.some(location => location.type === locationType);
-}
-
-type ItemProps = {
-  identifierId: string;
-  locationType: string;
-};
-
-export function getItemsWith(
-  work: Work,
-  { identifierId, locationType }: ItemProps
-): Item<PhysicalLocation | DigitalLocation>[] {
-  return (
-    work.items
-      ?.filter(item => itemIdentifierWithId(item, identifierId))
-      .filter(item => itemLocationWithType(item, locationType)) ?? []
-  );
-}
-
-export function getItemIdentifiersWith(
-  work: Work,
-  { identifierId, locationType }: ItemProps,
-  identifierType: string
-): string[] {
-  const items: Item<PhysicalLocation | DigitalLocation>[] = getItemsWith(work, {
-    identifierId,
-    locationType,
-  });
-
-  return items.reduce(
-    (acc: string[], item: Item<PhysicalLocation | DigitalLocation>) => {
-      const matching = item.identifiers?.find(
-        identifier => identifier.identifierType.id === identifierType
-      );
-
-      const matchingValue = matching?.value;
-
-      if (matchingValue) {
-        acc.push(matchingValue);
-      }
-
-      return acc;
-    },
-    []
-  );
-}
-
 export type ArchiveLabels = {
   reference: string;
   partOf?: string;
 };
 
+/** Whether work is available online. */
 export const isAvailableOnline = (work: Work): boolean =>
   (work.availabilities ?? []).some(({ id }) => id === 'online');
 
@@ -239,6 +203,10 @@ export function getArchiveAncestorArray(work: Work): RelatedWork[] {
   return [...(work.partOf || []).filter(item => item.totalParts)].reverse();
 }
 
+/**
+ * Builds the archive reference/partOf labels for a work, if it has a
+ * reference number.
+ */
 export const getArchiveLabels = (work: Work): ArchiveLabels | undefined => {
   if (work.referenceNumber) {
     const root = getArchiveAncestorArray(work)[0] || work;
@@ -267,6 +235,10 @@ export const conceptOrSearchLink = ({
     ? toConceptLink({ conceptId: id })
     : toSearchWorksLink({ [filterKey]: [filterValue] });
 
+/**
+ * Builds display tags for a work's subjects, linking each to its concept
+ * page or a pre-filtered search.
+ */
 export const getSubjectTags = (work: Work): TagType[] =>
   work.subjects.map(s => ({
     textParts: s.id
@@ -279,6 +251,10 @@ export const getSubjectTags = (work: Work): TagType[] =>
     }),
   }));
 
+/**
+ * Builds the label chips shown on a work's search result card (its work
+ * type, plus "Online" if available online).
+ */
 export const getCardLabels = (work: Work): Label[] => {
   const cardLabels = work.workType ? [{ text: work.workType.label }] : [];
 
@@ -289,8 +265,10 @@ export const getCardLabels = (work: Work): Label[] => {
   }
 };
 
-// Puts notes that are relevant to archives in a consistent order, and
-// separates out anything else so it can still be displayed.
+/**
+ * Puts notes relevant to archives in a consistent order, separating out
+ * anything else so it can still be displayed.
+ */
 export const getOrderedNotes = (
   work: Pick<Work, 'notes'>,
   excludeNotes: (Note | undefined)[] = []
@@ -342,6 +320,7 @@ export type DigitalLocationInfo = {
   license: LicenseData | undefined;
 };
 
+/** Builds the access condition and license info for a digital location. */
 export function getDigitalLocationInfo(
   digitalLocation: DigitalLocation
 ): DigitalLocationInfo {
@@ -353,6 +332,10 @@ export function getDigitalLocationInfo(
   };
 }
 
+/**
+ * Returns location's label, if it has one (only PhysicalLocation carries
+ * this field).
+ */
 export function getLocationLabel(
   location: PhysicalLocation | DigitalLocation
 ): string | undefined {
@@ -361,6 +344,10 @@ export function getLocationLabel(
   }
 }
 
+/**
+ * Returns location's shelfmark, if it has one (only PhysicalLocation carries
+ * this field).
+ */
 export function getLocationShelfmark(
   location: PhysicalLocation | DigitalLocation
 ): string | undefined {
@@ -369,6 +356,10 @@ export function getLocationShelfmark(
   }
 }
 
+/**
+ * Returns a url/linkText pair for location, if it has a url (only
+ * DigitalLocation carries this field).
+ */
 export function getLocationLink(
   location: PhysicalLocation | DigitalLocation
 ): { url: string; linkText: string } | undefined {
@@ -382,18 +373,24 @@ export function getLocationLink(
   }
 }
 
+/** Returns the first PhysicalLocation on item, if any. */
 export function getFirstPhysicalLocation(
   item: PhysicalItem
 ): PhysicalLocation | undefined {
   return item.locations?.find(location => location.type === 'PhysicalLocation');
 }
 
+/** Returns the first access condition on location, if any. */
 export function getFirstAccessCondition(
   location?: Location
 ): AccessCondition | undefined {
   return location?.accessConditions?.[0];
 }
 
+/**
+ * Whether to show the "view item" link, based on access condition and
+ * staff-restricted-access override.
+ */
 export function showItemLink({
   userIsStaffWithRestricted,
   hasIIIFManifest,
@@ -417,6 +414,10 @@ export function showItemLink({
   }
 }
 
+/**
+ * Builds the links shown in the internal API debug toolbar for a work
+ * (JSON, IIIF manifest, identifiers, Library Data Link Explorer).
+ */
 export function createApiToolbarWorkLinks(
   work: WorkType,
   apiUrl: string
