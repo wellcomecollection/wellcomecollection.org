@@ -2943,10 +2943,10 @@
   dependencies:
     "@prismicio/types-internal" "^3.17.2"
 
-"@prismicio/client@7.17.0", "@prismicio/client@7.21.6", "@prismicio/client@^7.1.0", "@prismicio/client@^7.22.0":
-  version "7.21.6"
-  resolved "https://registry.yarnpkg.com/@prismicio/client/-/client-7.21.6.tgz#04fabe495e7c382c2efa16a972d5fa3b3d294bc8"
-  integrity sha512-dWp0qxldujorY0jR5pQOpW9gloFWOJfFxJPYqkDZqp4w59jIn8h0aiwOMFxh7AFZdLgINuM1BALQxnhPNSxgbA==
+"@prismicio/client@7.17.0", "@prismicio/client@7.22.0", "@prismicio/client@^7.1.0", "@prismicio/client@^7.22.0":
+  version "7.22.0"
+  resolved "https://registry.yarnpkg.com/@prismicio/client/-/client-7.22.0.tgz#85cc0ebc2f289e19a875e14aef0e9b7a2a8acf82"
+  integrity sha512-mWzNx6kLn8cOO9j4Tt92RnVYNHl7xBDAZBUkIwvpUYSW7fzMKCJSYpuYpKpfwt9OCkr/CTRvhlqTzx3f7vU8oA==
   dependencies:
     imgix-url-builder "^0.0.6"
 
