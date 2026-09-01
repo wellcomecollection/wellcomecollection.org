@@ -8,10 +8,10 @@
     "deploy-dev": "tsx ./src/deploy-dev.ts"
   },
   "dependencies": {
-    "@aws-sdk/client-ecr": "^3.1101.0",
-    "@aws-sdk/client-ecr-public": "^3.1101.0",
-    "@aws-sdk/client-ecs": "^3.1101.0",
-    "@aws-sdk/credential-providers": "^3.1101.0",
+    "@aws-sdk/client-ecr": "^3.1121.0",
+    "@aws-sdk/client-ecr-public": "^3.1121.0",
+    "@aws-sdk/client-ecs": "^3.1121.0",
+    "@aws-sdk/credential-providers": "^3.1121.0",
     "@weco/common": "1.0.0",
     "yargs": "^18.1.0"
   },
