@@ -7,10 +7,10 @@ import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
 import {
   getCanvasesForPage,
   queryParamToArrayIndex,
+  thumbnailsPageSize,
 } from '@weco/content/views/pages/works/work/work.helpers';
 
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
-import { thumbnailsPageSize } from './Paginators';
 
 const ThumbnailsContainer = styled.div<{
   $isTRKiosk?: boolean;
@@ -44,7 +44,6 @@ export const Thumbnails = () => {
   const navigationCanvases = getCanvasesForPage({
     canvases: transformedManifest?.canvases,
     page: query.page,
-    pageSize: thumbnailsPageSize,
   });
 
   return (

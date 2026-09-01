@@ -111,7 +111,7 @@ const Description = styled.p.attrs({
   margin-bottom: 0;
 `;
 
-export type ThemeCardProps = {
+export type ImageGridCardProps = {
   images: ConceptImagesArray;
   title: string;
   description?: string;
@@ -119,7 +119,7 @@ export type ThemeCardProps = {
   dataGtmProps?: DataGtmProps;
 };
 
-const ThemeCard: FunctionComponent<ThemeCardProps> = ({
+const ImageGridCard: FunctionComponent<ImageGridCardProps> = ({
   images,
   title,
   description,
@@ -160,7 +160,7 @@ const ThemeCard: FunctionComponent<ThemeCardProps> = ({
       {...linkProps}
       {...dataGtmPropsToAttributes(dataGtmProps)}
     >
-      <CardWrapper data-component="theme-promo">
+      <CardWrapper data-component="image-grid-card">
         <CompositeGrid $isSingleImage={isSingleImage}>
           {slots.map((slot, index) => (
             <ImageContainer key={index}>
@@ -197,4 +197,4 @@ const ThemeCard: FunctionComponent<ThemeCardProps> = ({
   );
 };
 
-export default ThemeCard;
+export default ImageGridCard;

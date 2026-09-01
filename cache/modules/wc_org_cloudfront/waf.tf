@@ -898,9 +898,54 @@ resource "aws_wafv2_web_acl" "wc_org" {
     }
   }
 
+  // JS challenge on /works/<id>/items: since 2026-08-18 a headless fleet on
+  // residential proxies (few requests per IP, current browser UAs and headers)
+  // loads these pages, so nothing keyed on IP, UA or headers catches it.
+  // Page URL only, never assets or /_next data routes; prove on stage first.
+  // As with search-challenge, non-Google crawlers and link-preview fetchers
+  // receive the challenge instead of the page.
+  dynamic "rule" {
+    for_each = var.enable_items_challenge ? [1] : []
+    content {
+      name     = "items-challenge"
+      priority = 16
+
+      action {
+        challenge {}
+      }
+
+      challenge_config {
+        immunity_time_property {
+          immunity_time = var.search_challenge_immunity_seconds
+        }
+      }
+
+      statement {
+        regex_match_statement {
+          regex_string = "^/works/[^/]+/items$"
+
+          field_to_match {
+            uri_path {}
+          }
+
+          text_transformation {
+            priority = 0
+            type     = "NONE"
+          }
+        }
+      }
+
+      visibility_config {
+        cloudwatch_metrics_enabled = true
+        sampled_requests_enabled   = true
+        metric_name                = "items-challenge-${var.namespace}"
+      }
+    }
+  }
+
   rule {
     name     = "geo-rate-limit-USA"
-    priority = 16
+    priority = 17
 
     action {
       block {
@@ -935,7 +980,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "geo-rate-limit-APAC"
-    priority = 17
+    priority = 18
 
     action {
       block {
@@ -975,7 +1020,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "geo-rate-limit-LATAM"
-    priority = 18
+    priority = 19
 
     action {
       block {
@@ -1012,7 +1057,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "blanket-rate-limiting"
-    priority = 19
+    priority = 20
 
     action {
       block {}
@@ -1034,7 +1079,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "restrictive-rate-limiting"
-    priority = 20
+    priority = 21
 
     action {
       block {}
@@ -1072,7 +1117,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-crs
   rule {
     name     = "core-rule-group"
-    priority = 21
+    priority = 22
 
     override_action {
       none {}
@@ -1095,7 +1140,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-use-case.html#aws-managed-rule-groups-use-case-sql-db
   rule {
     name     = "sqli-rule-group"
-    priority = 22
+    priority = 23
 
     override_action {
       none {}
@@ -1118,7 +1163,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-known-bad-inputs
   rule {
     name     = "known-bad-inputs-rule-group"
-    priority = 23
+    priority = 24
 
     override_action {
       none {}
@@ -1216,7 +1261,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // /search once the group is scoped down for targeted inspection.
   rule {
     name     = "seo-user-agent-block"
-    priority = 24
+    priority = 25
 
     action {
       block {}

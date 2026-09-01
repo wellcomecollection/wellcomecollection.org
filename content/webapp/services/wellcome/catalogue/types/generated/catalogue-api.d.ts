@@ -692,6 +692,8 @@ export interface components {
        * @description Number of child works.
        */
       totalParts?: number;
+      /** @description Whether this work has an item which can be viewed online. */
+      isAvailableOnline?: boolean;
       type?: string;
     };
     /**
@@ -787,6 +789,7 @@ export interface components {
       'archive.category'?: components['schemas']['Aggregation'];
       'collection.root'?: components['schemas']['Aggregation'];
       'items.locations.license'?: components['schemas']['Aggregation'];
+      'items.locations.accessConditions.method'?: components['schemas']['Aggregation'];
       availabilities?: components['schemas']['Aggregation'];
       type?: string;
     };
@@ -907,6 +910,7 @@ export interface components {
       | 'contributors.agent.label'
       | 'contributors.agent'
       | 'items.locations.license'
+      | 'items.locations.accessConditions.method'
       | 'availabilities'
     )[];
     /** @description Which field to sort the results on */
@@ -926,6 +930,17 @@ export interface components {
       | 'licensed-resources'
       | 'unavailable'
       | 'permission-required'
+    )[];
+    /**
+     * @description Filter by the access method of items on the retrieved works. A comma-separated
+     *     list of AccessMethod ids, e.g. `online-request,view-online`.
+     */
+    WorksAccessMethodFilter: (
+      | 'online-request'
+      | 'manual-request'
+      | 'not-requestable'
+      | 'view-online'
+      | 'open-shelves'
     )[];
     /** @description A comma-separated list of extra fields to include */
     ImagesInclude: (
@@ -1045,6 +1060,11 @@ export interface operations {
         'items.locations.locationType'?: string;
         /** @description Filter by the license of items on the retrieved works. A comma-separated list of License ids. */
         'items.locations.license'?: string;
+        /**
+         * @description Filter by the access method of items on the retrieved works. A comma-separated
+         *     list of AccessMethod ids, e.g. `online-request,view-online`.
+         */
+        'items.locations.accessConditions.method'?: components['parameters']['WorksAccessMethodFilter'];
         /** @description Return works produced on or after this date, in `YYYY-MM-DD` format. */
         'production.dates.from'?: string;
         /** @description Return works produced on or before this date, in `YYYY-MM-DD` format. */

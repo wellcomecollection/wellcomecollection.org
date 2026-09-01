@@ -78,7 +78,6 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
                     placeholderId={placeholderId}
                     item={item}
                     canvas={currentCanvas}
-                    titleOverride={`${index}/${canvases.length}`}
                     i={index}
                     exclude={[]}
                     setImageRect={setImageRect}
