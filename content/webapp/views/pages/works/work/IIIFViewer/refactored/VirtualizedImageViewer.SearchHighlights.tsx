@@ -8,7 +8,9 @@ import { TransformedCanvas } from '@weco/content/types/manifest';
 import { queryParamToArrayIndex } from '@weco/content/views/pages/works/work/work.helpers';
 
 type OverlayPositionData = {
-  canvasNumber: number;
+  // 0-based array index, matching the FixedSizeList row index the overlay
+  // belongs to - not the 1-based ?canvas= number.
+  canvasIndex: number;
   overlayTop: number;
   overlayLeft: number;
   highlight: {
@@ -127,11 +129,11 @@ function getPositionData({
     // on: "https://wellcomelibrary.org/iiif/b30330002/canvas/c55#xywh=2301,662,157,47"
     // OR
     // on: https://iiif.wellcomecollection.org/presentation/b29338062/canvases/b29338062_0031.jp2#xywh=148,2277,259,59"
-    const canvasNumber = canvases.findIndex(canvas => {
+    const canvasIndex = canvases.findIndex(canvas => {
       return new URL(resource.on).pathname === new URL(canvas.id).pathname;
     });
     const matchingRotation = rotatedImages.find(image => {
-      return queryParamToArrayIndex(image.canvas) === canvasNumber;
+      return queryParamToArrayIndex(image.canvas) === canvasIndex;
     });
     const scale = getScale({
       imageRect,
@@ -153,7 +155,7 @@ function getPositionData({
     });
 
     return {
-      canvasNumber: Number(canvasNumber),
+      canvasIndex,
       overlayTop,
       overlayLeft,
       highlight: {
@@ -213,7 +215,7 @@ export function useSearchTermHighlights({
     if (searchHitsPositioningData) {
       setOverlayPositionData(
         searchHitsPositioningData.filter(item => {
-          return item.canvasNumber === index;
+          return item.canvasIndex === index;
         })
       );
     }

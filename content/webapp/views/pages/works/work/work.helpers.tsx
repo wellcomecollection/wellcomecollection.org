@@ -143,23 +143,23 @@ export function createDownloadTree(
 }
 
 /**
- * Converts a 1-based canvas/manifest query param into a 0-based array index -
- * the inverse of {@link arrayIndexToQueryParam}. Canvas and manifest params
- * use 1-based indexing, but are used to access items in 0-indexed arrays, so
- * we need to convert them in various places.
- * @param canvas - The 1-based canvas or manifest number.
+ * Converts a 1-based canvas/manifest/page query param into a 0-based array
+ * index - the inverse of {@link arrayIndexToQueryParam}. These params use
+ * 1-based numbering, but are used to access items in 0-indexed arrays, so we
+ * need to convert them in various places.
+ * @param queryParam - The 1-based canvas, manifest or page number.
  */
-export function queryParamToArrayIndex(canvas: number): number {
-  return canvas - 1;
+export function queryParamToArrayIndex(queryParam: number): number {
+  return queryParam - 1;
 }
 
 /**
  * Converts a 0-based array index back into a 1-based canvas/manifest query
  * param - the inverse of {@link queryParamToArrayIndex}.
- * @param canvasIndex - The 0-based array index.
+ * @param arrayIndex - The 0-based array index.
  */
-export function arrayIndexToQueryParam(canvasIndex: number): number {
-  return canvasIndex + 1;
+export function arrayIndexToQueryParam(arrayIndex: number): number {
+  return arrayIndex + 1;
 }
 
 /**
@@ -198,16 +198,16 @@ export function getTreeCanvasIndexById(tree: UiTree): Record<string, number> {
  * every canvas, otherwise we just use the canvas's plain array position.
  * @param transformedManifest - The manifest whose canvases to search.
  * @param canvasIndexById - Map of canvas id to its 1-based structure position.
- * @param canvas - The 1-based canvas number to resolve.
+ * @param canvasNumber - The 1-based canvas number to resolve.
  */
 export function getCurrentCanvas({
   transformedManifest,
   canvasIndexById,
-  canvas,
+  canvasNumber,
 }: {
   transformedManifest: { canvases: TransformedCanvas[] } | undefined;
   canvasIndexById: Record<string, number>;
-  canvas: number;
+  canvasNumber: number;
 }): TransformedCanvas | undefined {
   const canvases = transformedManifest?.canvases;
   const canvasIds = Object.keys(canvasIndexById);
@@ -221,12 +221,12 @@ export function getCurrentCanvas({
   // fallback as-is rather than adding a branch for it.
   // https://github.com/wellcomecollection/wellcomecollection.org/pull/13346#discussion_r3714090012
   const currentCanvasId = hasCompleteStructure
-    ? canvasIds.find(id => canvasIndexById[id] === canvas)
+    ? canvasIds.find(id => canvasIndexById[id] === canvasNumber)
     : undefined;
 
   return currentCanvasId
     ? canvases?.find(c => c.id === currentCanvasId)
-    : canvases?.[queryParamToArrayIndex(canvas)];
+    : canvases?.[queryParamToArrayIndex(canvasNumber)];
 }
 
 /**
