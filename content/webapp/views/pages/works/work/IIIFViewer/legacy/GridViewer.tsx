@@ -101,6 +101,7 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
                 thumbNumber={arrayIndexToQueryParam(canvasIndex)}
                 highlightImage={hasSearchResults}
                 errorHandler={errorHandler}
+                active={gridVisible}
               />
             </NextLink>
           </ThumbnailSpacer>

@@ -9,6 +9,9 @@ import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import Icon from '@weco/common/views/components/Icon';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
+import useIIIFProbeService, {
+  invalidateProbe,
+} from '@weco/content/hooks/useIIIFProbeService';
 import { IIIFItemProps, TransformedCanvas } from '@weco/content/types/manifest';
 import {
   hasRestrictedItem,
@@ -79,12 +82,28 @@ const IconWrapper = styled.span`
   align-items: center;
 `;
 
+const ThumbnailFailedMessage = styled.span.attrs({
+  className: typography('body', 'sm', 'regular'),
+})`
+  display: block;
+  text-align: center;
+  color: ${props => props.theme.color('white')};
+`;
+
 type IIIFCanvasThumbnailProps = {
   canvas: TransformedCanvas;
   thumbNumber: number;
   highlightImage?: boolean;
   placeholderId?: string;
   errorHandler?: () => void | Promise<void>;
+  // Whether this thumbnail is actually visible to the user right now.
+  // Defaults to true for the always-visible thumbnail strip; GridViewer's
+  // cells pass its own `gridVisible` here, since react-window keeps many
+  // off-screen cells mounted (it virtualizes by the container's layout
+  // size, not by whether the container itself is on-screen) — probing each
+  // one's auth cookie before the grid is ever opened would be a lot of
+  // wasted requests for content the user isn't looking at yet.
+  active?: boolean;
 };
 
 const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
@@ -93,10 +112,14 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
   highlightImage,
   placeholderId,
   errorHandler,
+  active = true,
 }: IIIFCanvasThumbnailProps) => {
   const [thumbnailLoaded, setThumbnailLoaded] = useState(false);
   const { userIsStaffWithRestricted } = useUserContext();
   const isRestricted = hasRestrictedItem(canvas);
+  const probeStatus = useIIIFProbeService(
+    active && isRestricted ? canvas : undefined
+  );
   const urlTemplate = canvas.imageServiceId
     ? iiifImageTemplate(canvas.imageServiceId)
     : undefined;
@@ -132,23 +155,40 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
           {(!isRestricted || userIsStaffWithRestricted) && (
             <>
               {!hasIconPlaceholder ? (
-                <>
-                  {!thumbnailLoaded && <LL $small $lighten />}
+                probeStatus === 'failed' ? (
+                  <ThumbnailFailedMessage>
+                    Couldn&rsquo;t load this thumbnail
+                  </ThumbnailFailedMessage>
+                ) : (
+                  <>
+                    {(!thumbnailLoaded || probeStatus === 'probing') && (
+                      <LL $small $lighten />
+                    )}
 
-                  <IIIFViewerImage
-                    highlightImage={highlightImage}
-                    width={canvas?.thumbnailImage?.width || 30}
-                    src={thumbnailSrc}
-                    srcSet=""
-                    sizes={`${canvas?.thumbnailImage?.width || 30}px`}
-                    alt=""
-                    loadHandler={() => {
-                      setThumbnailLoaded(true);
-                    }}
-                    isRestricted={isRestricted}
-                    errorHandler={isRestricted ? errorHandler : undefined}
-                  />
-                </>
+                    {probeStatus === 'ok' && (
+                      <IIIFViewerImage
+                        highlightImage={highlightImage}
+                        width={canvas?.thumbnailImage?.width || 30}
+                        src={thumbnailSrc}
+                        srcSet=""
+                        sizes={`${canvas?.thumbnailImage?.width || 30}px`}
+                        alt=""
+                        loadHandler={() => {
+                          setThumbnailLoaded(true);
+                        }}
+                        isRestricted={isRestricted}
+                        errorHandler={
+                          isRestricted
+                            ? () => {
+                                errorHandler?.();
+                                invalidateProbe(canvas.id);
+                              }
+                            : undefined
+                        }
+                      />
+                    )}
+                  </>
+                )
               ) : (
                 <>
                   {hasIconPlaceholder && (
