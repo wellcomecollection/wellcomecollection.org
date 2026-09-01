@@ -133,7 +133,7 @@ describe('ViewerBottomBar navigation (non-image works)', () => {
       },
     });
 
-    expect(screen.getByText('2/3')).toBeInTheDocument();
+    expect(screen.getByTestId('bottombar')).toHaveTextContent('2/3');
   });
 
   it('does not show navigation for single-canvas works', () => {

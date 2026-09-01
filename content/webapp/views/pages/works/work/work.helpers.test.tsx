@@ -3,7 +3,11 @@ import {
   createMockManifest,
 } from '@weco/content/test/fixtures/iiif/transformed-manifest';
 
-import { getCanvasesForPage, getCurrentCanvas } from './work.helpers';
+import {
+  getCanvasesForPage,
+  getCurrentCanvas,
+  getThumbnailsPageForCanvas,
+} from './work.helpers';
 
 // getCurrentCanvas is the canonical way to work out which canvas is "current"
 // for a given 1-based canvas query param. Canvas order is determined by the
@@ -157,5 +161,36 @@ describe('getCanvasesForPage', () => {
     expect(
       getCanvasesForPage({ canvases: undefined, page: 1, pageSize: 3 })
     ).toEqual([]);
+  });
+
+  it('defaults to thumbnailsPageSize when pageSize is omitted', () => {
+    expect(getCanvasesForPage({ canvases, page: 2 })).toEqual([canvases[6]]);
+  });
+});
+
+describe('getThumbnailsPageForCanvas', () => {
+  it('returns the first page for canvas numbers within the first page size', () => {
+    expect(getThumbnailsPageForCanvas({ canvasNumber: 1, pageSize: 6 })).toBe(
+      1
+    );
+    expect(getThumbnailsPageForCanvas({ canvasNumber: 6, pageSize: 6 })).toBe(
+      1
+    );
+  });
+
+  it('returns the next page once the canvas number crosses a page boundary', () => {
+    expect(getThumbnailsPageForCanvas({ canvasNumber: 7, pageSize: 6 })).toBe(
+      2
+    );
+  });
+
+  it('uses the given pageSize rather than a hardcoded one', () => {
+    expect(getThumbnailsPageForCanvas({ canvasNumber: 5, pageSize: 4 })).toBe(
+      2
+    );
+  });
+
+  it('defaults to thumbnailsPageSize when pageSize is omitted', () => {
+    expect(getThumbnailsPageForCanvas({ canvasNumber: 7 })).toBe(2);
   });
 });

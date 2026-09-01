@@ -12,6 +12,8 @@ import {
 
 import { TreeDataRange, UiTree } from './work.types';
 
+export const thumbnailsPageSize = 6;
+
 export const controlDimensions = {
   controlWidth: 44,
   controlHeight: 44,
@@ -233,20 +235,36 @@ export function getCurrentCanvas({
  * about which canvases a given page number shows.
  * @param canvases - The manifest's full canvas list.
  * @param page - 1-based page number.
- * @param pageSize - Canvases per page.
+ * @param pageSize - Canvases per page, defaults to {@link thumbnailsPageSize}.
  */
 export function getCanvasesForPage({
   canvases,
   page,
-  pageSize,
+  pageSize = thumbnailsPageSize,
 }: {
   canvases: TransformedCanvas[] | undefined;
   page: number;
-  pageSize: number;
+  pageSize?: number;
 }): TransformedCanvas[] {
   const startIndex = pageSize * queryParamToArrayIndex(page);
 
   return [...Array(pageSize)]
     .map((_, i) => canvases?.[startIndex + i])
     .filter((canvas): canvas is TransformedCanvas => Boolean(canvas));
+}
+
+/**
+ * Works out which thumbnails page a given canvas number falls on, so links
+ * that jump to a canvas can land on the thumbnails page that contains it.
+ * @param canvasNumber - The 1-based canvas number.
+ * @param pageSize - Canvases per thumbnails page, defaults to {@link thumbnailsPageSize}.
+ */
+export function getThumbnailsPageForCanvas({
+  canvasNumber,
+  pageSize = thumbnailsPageSize,
+}: {
+  canvasNumber: number;
+  pageSize?: number;
+}): number {
+  return Math.ceil(canvasNumber / pageSize);
 }

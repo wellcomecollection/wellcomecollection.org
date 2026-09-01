@@ -21,9 +21,10 @@ import {
   ItemProps,
   toWorksItemLink,
 } from '@weco/content/views/components/ItemLink';
-import { arrayIndexToQueryParam } from '@weco/content/views/pages/works/work/work.helpers';
-
-import { thumbnailsPageSize } from './Paginators';
+import {
+  arrayIndexToQueryParam,
+  getThumbnailsPageForCanvas,
+} from '@weco/content/views/pages/works/work/work.helpers';
 
 const SearchForm = styled.form`
   position: relative;
@@ -295,9 +296,9 @@ const IIIFSearchWithin: FunctionComponent = () => {
                       manifest: query.manifest,
                       query: query.query,
                       canvas: arrayIndexToQueryParam(index || 0),
-                      page: Math.ceil(
-                        arrayIndexToQueryParam(index || 0) / thumbnailsPageSize
-                      ),
+                      page: getThumbnailsPageForCanvas({
+                        canvasNumber: arrayIndexToQueryParam(index || 0),
+                      }),
                     },
                   })}
                   onClick={() => setIsMobileSidebarActive(false)}
