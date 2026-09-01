@@ -22,6 +22,12 @@ jest.mock('@weco/common/server-data/Context', () => ({
   useFeatureFlags: () => ({ itemViewerRefactor: true }),
 }));
 
+// Mock the fullscreen hook since jsdom doesn't support fullscreen API
+jest.mock('@weco/content/hooks/useIsFullscreenEnabled', () => ({
+  __esModule: true,
+  default: () => true,
+}));
+
 // A manifest-level rendering that yields a non-empty downloadOptions list.
 const pdfRendering: TransformedManifest['rendering'] = [
   {
@@ -334,5 +340,37 @@ describe('ViewerTopBar edge cases', () => {
     // Shows the invalid canvas number (doesn't validate/filter it)
     expect(screen.getByTestId('active-index')).toHaveTextContent('0');
     expect(screen.getByTestId('topbar')).toHaveTextContent('/2');
+  });
+});
+
+describe('ViewerTopBar fullscreen control', () => {
+  it('shows the fullscreen toggle when showFullscreenControl is true', () => {
+    renderTopBar({
+      contextProps: {
+        transformedManifest: createMockManifest({
+          canvases: [createMockCanvas()],
+        }),
+        showFullscreenControl: true,
+      },
+    });
+
+    expect(
+      screen.getByRole('button', { name: /full screen/i })
+    ).toBeInTheDocument();
+  });
+
+  it('hides the fullscreen toggle when showFullscreenControl is false', () => {
+    renderTopBar({
+      contextProps: {
+        transformedManifest: createMockManifest({
+          canvases: [createMockCanvas()],
+        }),
+        showFullscreenControl: false,
+      },
+    });
+
+    expect(
+      screen.queryByRole('button', { name: /full screen/i })
+    ).not.toBeInTheDocument();
   });
 });
