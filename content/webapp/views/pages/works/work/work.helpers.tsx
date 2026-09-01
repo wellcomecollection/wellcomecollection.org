@@ -154,8 +154,8 @@ export function queryParamToArrayIndex(queryParam: number): number {
 }
 
 /**
- * Converts a 0-based array index back into a 1-based canvas/manifest query
- * param - the inverse of {@link queryParamToArrayIndex}.
+ * Converts a 0-based array index back into a 1-based canvas/manifest/page
+ * query param - the inverse of {@link queryParamToArrayIndex}.
  * @param arrayIndex - The 0-based array index.
  */
 export function arrayIndexToQueryParam(arrayIndex: number): number {
