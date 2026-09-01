@@ -8,7 +8,7 @@ import { typography } from '@weco/common/utils/classnames';
 import Buttons from '@weco/common/views/components/Buttons';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-import { getFileLabel } from '@weco/content/utils/works';
+import { getFileLabel, hasRealLabel } from '@weco/content/utils/works';
 
 const DownloadContainer = styled(Space).attrs({
   $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
@@ -58,8 +58,7 @@ const IIIFItemDownload: FunctionComponent<Props> = ({
   showWarning = false,
 }: Props) => {
   const { isKiosk } = useKiosk();
-  const substituteTitle = 'unknown title';
-  const displayLabel = getFileLabel(label, substituteTitle);
+  const displayLabel = getFileLabel(label);
   const isFilePdf = isPdf(src, format);
   const action = isFilePdf ? 'Open' : 'Download';
 
@@ -88,7 +87,7 @@ const IIIFItemDownload: FunctionComponent<Props> = ({
           variant="ButtonSolidLink"
           link={src}
           text={action}
-          ariaLabel={`${action} ${(displayLabel !== substituteTitle && label) || 'document'}`}
+          ariaLabel={`${action} ${hasRealLabel(label) ? label : 'document'}`}
           dataGtmProps={{
             trigger: 'canvas_download_link',
             'mime-type': format,
