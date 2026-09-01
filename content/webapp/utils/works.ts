@@ -301,18 +301,21 @@ export const getOrderedNotes = (
   return { orderedNotes, remainingNotes };
 };
 
-export const unknownFileTitle = 'unknown title';
+/** Whether label is a real, displayable value,
+ * i.e. not missing or the API's '-' placeholder for "no label". */
+export function hasRealLabel(label?: string): label is string {
+  return Boolean(label) && label !== '-';
+}
 
 /**
  * Returns label unless it's missing or the API's '-' placeholder for "no
- * label", in which case falls back to titleOverride (defaults to
- * {@link unknownFileTitle}).
+ * label", in which case falls back to titleOverride (defaults to 'unknown title').
  */
 export function getFileLabel(
   label?: string,
-  titleOverride: string = unknownFileTitle
+  titleOverride: string = 'unknown title'
 ): string {
-  return (label !== '-' && label) || titleOverride;
+  return hasRealLabel(label) ? label : titleOverride;
 }
 
 export type DigitalLocationInfo = {
