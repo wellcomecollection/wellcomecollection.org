@@ -42,6 +42,9 @@ module "stage_wc_org_cloudfront_distribution" {
   # rule in the module for why this is high-risk).
   enable_search_challenge = true
 
+  # Trialling the /works/<id>/items challenge here before prod (see the items-challenge rule in the module).
+  enable_items_challenge = true
+
   # Cuts billed challenge responses by blocking provably fabricated user
   # agents first. Matches prod.
   enable_search_legacy_ua_block = true
