@@ -2,12 +2,12 @@ import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { organisation, user } from '@weco/common/icons';
 import { typography } from '@weco/common/utils/classnames';
 import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
-import Icon from '@weco/common/views/components/Icon';
+import Divider from '@weco/common/views/components/Divider';
 import Space from '@weco/common/views/components/styled/Space';
 import { toWorkLink } from '@weco/content/views/components/WorkLink';
+import WorkTitle from '@weco/content/views/components/WorkTitle';
 
 const Wrapper = styled(NextLink)`
   text-decoration: none;
@@ -44,7 +44,7 @@ const Title = styled(Space).attrs({
   }
 `;
 
-const Description = styled.p`
+const Description = styled.div`
   ${props => props.theme.clampLines(6)};
   margin-bottom: 0;
 `;
@@ -52,19 +52,7 @@ const Description = styled.p`
 const ContributorRow = styled(Space).attrs({
   $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
-  display: flex;
-  align-items: center;
-`;
-
-const IconWrapper = styled(Space).attrs({
-  $h: { size: 'xs', properties: ['margin-right'] },
-})`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.8em;
-  height: 1.8em;
-  background: ${props => props.theme.color('black')};
+  display: block;
 `;
 
 const Extent = styled(Space).attrs({
@@ -79,11 +67,18 @@ type Props = {
   label?: string;
   description?: string;
   contributor?: string;
-  isOrganisation: boolean;
   date?: string;
   extent?: string;
   dataGtmProps?: DataGtmProps;
 };
+
+// TODO: once the catalogue API exposes a dedicated "short description"
+// field, prefer that over deriving one from the first sentence here.
+function stripTagsAndGetFirstSentence(description: string): string {
+  const plainText = description.replace(/<[^>]*>/g, '');
+  const [firstSentence] = plainText.match(/[^.!?]*[.!?]/) || [plainText];
+  return firstSentence.trim();
+}
 
 const ArchiveCard: FunctionComponent<Props> = ({
   id,
@@ -91,11 +86,12 @@ const ArchiveCard: FunctionComponent<Props> = ({
   label,
   description,
   contributor,
-  isOrganisation,
   date,
   extent,
   dataGtmProps,
 }) => {
+  const hasMetadata = contributor || date || extent;
+
   return (
     <Wrapper
       data-component="archive-card"
@@ -105,25 +101,22 @@ const ArchiveCard: FunctionComponent<Props> = ({
       <Root>
         <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
           {label && <Label>{label}</Label>}
-          <Title>{title}</Title>
-          {description && <Description>{description}</Description>}
+          <Title>
+            <WorkTitle title={title} />
+          </Title>
+          {description && (
+            <Description>
+              {stripTagsAndGetFirstSentence(description)}
+            </Description>
+          )}
         </Space>
 
-        {(contributor || date || extent) && (
+        {hasMetadata && (
           <div>
-            {contributor && (
-              <ContributorRow>
-                <IconWrapper>
-                  <Icon
-                    title={isOrganisation ? 'organisation' : 'person'}
-                    iconColor="white"
-                    icon={isOrganisation ? organisation : user}
-                    matchText
-                  />
-                </IconWrapper>
-                <span>{contributor}</span>
-              </ContributorRow>
-            )}
+            <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
+              <Divider lineColor="warmNeutral.400" />
+            </Space>
+            {contributor && <ContributorRow>{contributor}</ContributorRow>}
             {date && <span>Date: {date}</span>}
             {extent && <Extent>Contains: {extent}</Extent>}
           </div>

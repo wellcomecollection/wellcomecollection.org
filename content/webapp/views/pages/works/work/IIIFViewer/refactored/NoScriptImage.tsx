@@ -8,11 +8,7 @@ import { getCanvasesForPage } from '@weco/content/views/pages/works/work/work.he
 
 import { DelayVisibility } from '.';
 import IIIFViewerImage from './IIIFViewerImage';
-import {
-  CanvasPaginator,
-  thumbnailsPageSize,
-  ThumbnailsPaginator,
-} from './Paginators';
+import { CanvasPaginator, ThumbnailsPaginator } from './Paginators';
 import { Thumbnails } from './Thumbnails';
 
 const NoScriptImageWrapper = styled.div`
@@ -47,7 +43,6 @@ export const NoScriptImage = ({ urlTemplate, canvasOcr }: Props) => {
   const navigationCanvases = getCanvasesForPage({
     canvases: transformedManifest?.canvases,
     page: query.page,
-    pageSize: thumbnailsPageSize,
   });
   const thumbnailsRequired = Boolean(navigationCanvases.length);
 

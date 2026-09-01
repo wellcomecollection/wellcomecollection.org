@@ -5,13 +5,7 @@ import styled from 'styled-components';
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { useUserContext } from '@weco/common/contexts/UserContext';
-import {
-  chevrons,
-  gridView,
-  maximise,
-  minimise,
-  singlePage,
-} from '@weco/common/icons';
+import { chevrons, gridView, singlePage } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { typography } from '@weco/common/utils/classnames';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
@@ -31,68 +25,9 @@ import {
 import { getDownloadOptionsFromImageUrl } from '@weco/content/utils/works';
 import Download from '@weco/content/views/components/Download';
 
+import FullscreenToggleButton from './FullscreenToggleButton';
 import ToolbarSegmentedControl from './ToolbarSegmentedControl';
-
-export const ViewerButton = styled.button.attrs({
-  className: typography('body', 'md', 'strong'),
-})<{ $isDark?: boolean }>`
-  line-height: 1.5;
-  border-radius: ${props => props.theme.borderRadiusUnit}px;
-  text-decoration: none;
-  text-align: center;
-  white-space: nowrap;
-  padding: 6px 12px;
-  position: relative;
-  display: flex;
-  align-items: center;
-
-  &:not([disabled]):hover {
-    cursor: pointer;
-  }
-
-  &[disabled],
-  &.disabled {
-    background: ${props => props.theme.color('neutral.600')};
-    border-color: ${props => props.theme.color('neutral.600')};
-    cursor: not-allowed;
-  }
-
-  &.disabled {
-    pointer-events: none;
-  }
-
-  .icon {
-    display: inline-block;
-    vertical-align: middle;
-  }
-
-  overflow: hidden;
-
-  ${props =>
-    props.$isDark &&
-    `
-    border: 2px solid transparent;
-    color: ${props.theme.color('white')};
-    background: transparent;
-
-    &:not([disabled]):hover {
-      border: 2px solid ${props.theme.color('white')};
-    }
-  `}
-
-  ${props =>
-    !props.$isDark &&
-    `
-    background: ${props.theme.color('white')};
-    color: ${props.theme.color('accent.green')};
-    border: 1px solid ${props.theme.color('accent.green')};
-
-    &:not([disabled]):hover {
-      background: ${props.theme.color('accent.green')};
-      color: ${props.theme.color('white')};
-    }
-  `}
-`;
+import { ViewerButton } from './ViewerButton.styles';
 
 const TopBar = styled.div<{
   $isZooming: boolean;
@@ -213,7 +148,6 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
     isResizing,
     transformedManifest,
     query,
-    viewerRef,
     showFullscreenControl,
     hasOnlyRenderableImages,
     currentCanvas,
@@ -400,47 +334,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
                 )}
 
               {isFullscreenEnabled && showFullscreenControl && (
-                <ViewerButton
-                  className="viewer-desktop"
-                  $isDark
-                  onClick={() => {
-                    if (viewerRef && viewerRef.current) {
-                      if (
-                        !document.fullscreenElement &&
-                        !document['webkitFullscreenElement']
-                      ) {
-                        if (viewerRef.current.requestFullscreen) {
-                          viewerRef.current.requestFullscreen();
-                        } else if (
-                          viewerRef.current['webkitRequestFullscreen']
-                        ) {
-                          viewerRef.current['webkitRequestFullscreen']();
-                        }
-                      } else {
-                        if (document.exitFullscreen) {
-                          document.exitFullscreen();
-                        } else if (document['webkitExitFullscreen']) {
-                          document['webkitExitFullscreen']();
-                        }
-                      }
-                    }
-                  }}
-                >
-                  {document.fullscreenElement ||
-                  document['webkitFullscreenElement'] ? (
-                    <>
-                      <Icon icon={minimise} />
-                      <span style={{ marginLeft: '7px' }}>
-                        Exit full screen
-                      </span>
-                    </>
-                  ) : (
-                    <>
-                      <Icon icon={maximise} />
-                      <span style={{ marginLeft: '7px' }}>Full screen</span>
-                    </>
-                  )}
-                </ViewerButton>
+                <FullscreenToggleButton className="viewer-desktop" />
               )}
             </div>
           )}

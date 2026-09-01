@@ -20,9 +20,10 @@ import {
   isRange,
 } from '@weco/content/utils/iiif/v3';
 import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
-import { arrayIndexToQueryParam } from '@weco/content/views/pages/works/work/work.helpers';
-
-import { thumbnailsPageSize } from './Paginators';
+import {
+  arrayIndexToQueryParam,
+  getThumbnailsPageForCanvas,
+} from '@weco/content/views/pages/works/work/work.helpers';
 
 export const List = styled(PlainList)`
   border-left: 1px solid ${props => props.theme.color('neutral.600')};
@@ -100,9 +101,9 @@ const Structures: FunctionComponent<Props> = ({
                       manifest: query.manifest,
                       query: query.query,
                       canvas: arrayIndexToQueryParam(canvasIndex),
-                      page: Math.ceil(
-                        arrayIndexToQueryParam(canvasIndex) / thumbnailsPageSize
-                      ),
+                      page: getThumbnailsPageForCanvas({
+                        canvasNumber: arrayIndexToQueryParam(canvasIndex),
+                      }),
                     },
                   })}
                   data-gtm-trigger="contents_nav"

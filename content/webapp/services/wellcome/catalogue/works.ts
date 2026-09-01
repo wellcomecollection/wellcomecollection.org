@@ -226,6 +226,87 @@ export async function getArchiveWorks(
   );
 }
 
+// The shape ArchiveCard (content/webapp/views/components/ArchiveCard) needs -
+// computed here, server-side, from the full catalogue Work so the page
+// component doesn't have to know about contributors/production/etc.
+export type ArchiveCategoryWorkCard = {
+  id: string;
+  title: string;
+  label?: string;
+  description?: string;
+  contributor?: string;
+  date?: string;
+  extent?: string;
+};
+
+function toArchiveCategoryWorkCard(work: Work): ArchiveCategoryWorkCard {
+  const primaryContributor = work.contributors.find(
+    contributor => contributor.primary
+  );
+
+  return {
+    id: work.id,
+    title: work.title,
+    label: work.referenceNumber,
+    description: work.description,
+    contributor: primaryContributor?.agent.label,
+    date: work.production?.[0]?.dates?.[0]?.label,
+    extent: work.physicalDescription || undefined,
+  };
+}
+
+export type ArchiveCategoryWorksResult = {
+  works: ArchiveCategoryWorkCard[];
+  totalResults: number;
+  totalPages: number;
+  pageSize: number;
+  // Surfaced via apiToolbarLinks so staff can debug the underlying query.
+  requestUrl: string;
+};
+
+export const archiveCategoryWorksSortFields = ['production.dates'] as const;
+export type ArchiveCategoryWorksSortField =
+  (typeof archiveCategoryWorksSortFields)[number];
+
+export async function fetchArchiveCategoryWorks({
+  id,
+  page,
+  pageSize = 24,
+  sort = 'production.dates',
+  sortOrder = 'desc',
+}: {
+  id: string;
+  page: number;
+  pageSize?: number;
+  sort?: ArchiveCategoryWorksSortField;
+  sortOrder?: 'asc' | 'desc';
+}): Promise<ArchiveCategoryWorksResult | WellcomeApiError> {
+  const result = await catalogueQuery<unknown, Work>('works', {
+    pageSize,
+    params: {
+      'archive.category': id,
+      'collection.isRoot': 'true',
+      workType: 'h,b,hdig',
+      include: 'contributors,production',
+      sort,
+      sortOrder,
+      page,
+    },
+  });
+
+  if (result.type === 'Error') {
+    return result;
+  }
+
+  return {
+    works: result.results.map(toArchiveCategoryWorkCard),
+    totalResults: result.totalResults,
+    totalPages: result.totalPages,
+    pageSize: result.pageSize,
+    requestUrl: result._requestUrl,
+  };
+}
+
 export const ARCHIVE_COLLECTION_CONTENTS_PAGE_SIZE = 50;
 
 type ArchiveCollectionContentsPage = {
