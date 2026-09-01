@@ -691,6 +691,18 @@ export function isCollection(
   return manifest.type === 'Collection';
 }
 
+// Skip anything under /presentation/[vN/]collections/ (genre, contributor and
+// similar aggregations); they are never rendered, so fetching them is wasted work.
+const aggregationCollectionPath = /\/presentation\/(v\d+\/)?collections\//;
+
+export function getParentManifestUrl(
+  manifest: Manifest | Collection
+): string | undefined {
+  return manifest.partOf?.find(
+    p => typeof p.id === 'string' && !aggregationCollectionPath.test(p.id)
+  )?.id;
+}
+
 // We sometimes want to offer the original file for download.
 // There are 4 potential sources for this, checked in priority order.
 // 1) Content resources with a behavior value that includes 'original'.
