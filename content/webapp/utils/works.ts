@@ -231,6 +231,14 @@ export type ArchiveLabels = {
 export const isAvailableOnline = (work: Work): boolean =>
   (work.availabilities ?? []).some(({ id }) => id === 'online');
 
+/**
+ * Returns all ancestors of a work, ordered from the most distant, keeping
+ * only partOf items with totalParts (i.e. part of the strict hierarchy).
+ */
+export function getArchiveAncestorArray(work: Work): RelatedWork[] {
+  return [...(work.partOf || []).filter(item => item.totalParts)].reverse();
+}
+
 export const getArchiveLabels = (work: Work): ArchiveLabels | undefined => {
   if (work.referenceNumber) {
     const root = getArchiveAncestorArray(work)[0] || work;
@@ -315,17 +323,17 @@ export const getOrderedNotes = (
   return { orderedNotes, remainingNotes };
 };
 
-// Return all the ancestors of work starting with the most distant.
-// Filters partOf items to only include those with totalParts (part of the strict hierarchy)
+export const unknownFileTitle = 'unknown title';
 
-export function getArchiveAncestorArray(work: Work): RelatedWork[] {
-  return [...(work.partOf || []).filter(item => item.totalParts)].reverse();
-}
-
+/**
+ * Returns label unless it's missing or the API's '-' placeholder for "no
+ * label", in which case falls back to titleOverride (defaults to
+ * {@link unknownFileTitle}).
+ */
 export function getFileLabel(
   label?: string,
-  titleOverride?: string
-): string | undefined {
+  titleOverride: string = unknownFileTitle
+): string {
   return (label !== '-' && label) || titleOverride;
 }
 

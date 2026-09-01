@@ -9,10 +9,12 @@ import {
   getAccessConditionForDigitalLocation,
   getArchiveAncestorArray,
   getDigitalLocationOfType,
+  getFileLabel,
   getItemIdentifiersWith,
   getItemsWith,
   getProductionDates,
   showItemLink,
+  unknownFileTitle,
 } from '@weco/content/utils/works';
 
 const digitalLocation = getDigitalLocationOfType(
@@ -255,5 +257,23 @@ describe('showItemLink', () => {
         accessCondition: 'open',
       })
     ).toBe(false);
+  });
+});
+
+describe('getFileLabel', () => {
+  it('returns the given label', () => {
+    expect(getFileLabel('A file title')).toBe('A file title');
+  });
+
+  it('falls back to unknownFileTitle when label is missing', () => {
+    expect(getFileLabel(undefined)).toBe(unknownFileTitle);
+  });
+
+  it("falls back to unknownFileTitle when label is the API's '-' placeholder", () => {
+    expect(getFileLabel('-')).toBe(unknownFileTitle);
+  });
+
+  it('falls back to a given titleOverride instead of unknownFileTitle', () => {
+    expect(getFileLabel(undefined, 'a custom title')).toBe('a custom title');
   });
 });
