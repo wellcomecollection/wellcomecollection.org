@@ -6,9 +6,11 @@ import styled from 'styled-components';
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
+import { typography } from '@weco/common/utils/classnames';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import LL from '@weco/common/views/components/styled/LL';
 import { ItemViewerContextRefactored as ItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
+import useIIIFProbeService from '@weco/content/hooks/useIIIFProbeService';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import {
   Work,
@@ -97,6 +99,18 @@ const VersionBadge = styled.div`
   font-weight: bold;
   z-index: 10000;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+`;
+
+const MainImageProbeFailedMessage = styled.p.attrs({
+  className: typography('body', 'sm', 'regular'),
+})`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 80%;
+  text-align: center;
+  color: ${props => props.theme.color('white')};
 `;
 
 const Grid = styled.div<GridProps>`
@@ -300,6 +314,15 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const isCurrentCanvasRestricted = Boolean(
     currentCanvas && hasRestrictedItem(currentCanvas)
   );
+  // Passing undefined (rather than always passing currentCanvas) keeps this
+  // hook's dependencies stable — and the whole thing a true no-op — for the
+  // common case of a non-restricted canvas, instead of re-running its effect
+  // on every canvas navigation. Since ItemViewerContext's value is rebuilt
+  // fresh on every render, any avoidable state change here otherwise
+  // cascades into re-rendering the entire virtualized viewer tree.
+  const mainImageProbeStatus = useIIIFProbeService(
+    isCurrentCanvasRestricted ? currentCanvas : undefined
+  );
   const totalCanvases = transformedManifest?.canvases.length || 0;
   const mainImageService: PartialImageService = {
     '@id': currentCanvas?.imageServiceId,
@@ -476,16 +499,27 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
             {!showZoomed && hasOnlyRenderableImages && <ImageViewerControls />}
             {hasIiifImage &&
               !hasIiifImageService &&
-              (isFullSupportBrowser || !hasOnlyRenderableImages) && (
+              (isFullSupportBrowser || !hasOnlyRenderableImages) &&
+              (!isCurrentCanvasRestricted || mainImageProbeStatus === 'ok') && (
                 <ImageViewer
                   imageUrl={iiifImageLocation.url}
                   id={imageUrl}
+                  canvasId={currentCanvas?.id}
                   width={800}
                   index={0}
                   alt={work?.description || work?.title || ''}
                   urlTemplate={urlTemplate}
                   isRestricted={isCurrentCanvasRestricted}
                 />
+              )}
+            {hasIiifImage &&
+              !hasIiifImageService &&
+              isCurrentCanvasRestricted &&
+              mainImageProbeStatus === 'failed' && (
+                <MainImageProbeFailedMessage>
+                  Sorry, this image could not be loaded. Please try refreshing
+                  the page.
+                </MainImageProbeFailedMessage>
               )}
 
             {imageUrl && !isFullSupportBrowser && hasOnlyRenderableImages && (

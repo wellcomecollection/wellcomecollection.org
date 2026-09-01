@@ -7,6 +7,7 @@ import { IIIFUriProps } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '@weco/common/utils/image-sizes';
 import { appendQueryParam } from '@weco/common/utils/urls';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
+import { invalidateProbe } from '@weco/content/hooks/useIIIFProbeService';
 import { queryParamToArrayIndex } from '@weco/content/views/pages/works/work/work.helpers';
 
 import IIIFViewerImage from './IIIFViewerImage';
@@ -60,6 +61,7 @@ const ImageErrorMessage = styled.p.attrs({
 
 type ImageViewerProps = {
   id: string;
+  canvasId?: string;
   width: number;
   height?: number;
   imageUrl: string;
@@ -77,6 +79,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   height,
   alt,
   imageUrl,
+  canvasId,
   urlTemplate,
   loadHandler,
   index,
@@ -190,6 +193,20 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
             updateImagePosition();
           }}
           errorHandler={() => {
+            if (isRestricted) {
+              // Restricted images recover via the probe service instead of
+              // a blind cache-busted retry — invalidating it here hides the
+              // stale image (via IIIFItem's probeStatus gate) and only lets
+              // it reload once the auth cookie is confirmed valid again.
+              // invalidateProbe itself is bounded (MAX_INVALIDATIONS) so a
+              // failure unrelated to the cookie — where the probe keeps
+              // reporting 'ok' — still gives up instead of cycling forever;
+              // that bound has to live there rather than in local component
+              // state, since this component unmounts/remounts each cycle.
+              errorHandler?.();
+              if (canvasId) invalidateProbe(canvasId);
+              return;
+            }
             setRetryCount(count => {
               if (count >= MAX_RETRIES) {
                 setHasFailedToLoad(true);
