@@ -50,18 +50,15 @@ const work = ({
 });
 
 describe('isArchiveCollectionRoot', () => {
+  // Nothing here has an `archive.category`, which is the point: an archive
+  // whose collection path prefix isn't one of the 16 recognised types (e.g.
+  // RAMC) has no category, and the old check wrongly excluded it.
   it('is true for an archive collection root with children', () => {
     expect(isArchiveCollectionRoot(work())).toBe(true);
   });
 
   it('is true for a born-digital archive', () => {
     expect(isArchiveCollectionRoot(work({ workTypeId: 'hdig' }))).toBe(true);
-  });
-
-  it('is true for an archive with no recognised archive category', () => {
-    // e.g. RAMC - `archive.category` is absent, but it is still an archive.
-    // This is the case the old `archive.category` check wrongly excluded.
-    expect(isArchiveCollectionRoot(work({ totalParts: 1507 }))).toBe(true);
   });
 
   it('is false for a singleton, i.e. a root with no children', () => {
