@@ -53,16 +53,16 @@ export const Thumbnails = () => {
     >
       {navigationCanvases &&
         navigationCanvases.map((canvas, i) => {
-          const canvasParam =
+          const canvasNumber =
             thumbnailsPageSize * queryParamToArrayIndex(query.page) + (i + 1);
           return (
             <ThumbnailLink
               key={canvas.id}
-              aria-current={canvasParam === query.canvas}
+              aria-current={canvasNumber === query.canvas}
               {...toWorksItemLink({
                 workId: work.id,
                 props: {
-                  canvas: canvasParam,
+                  canvas: canvasNumber,
                   page: query.page,
                   manifest: query.manifest,
                   query: query.query,
@@ -71,7 +71,7 @@ export const Thumbnails = () => {
               scroll={false}
               replace
             >
-              <IIIFCanvasThumbnail canvas={canvas} thumbNumber={canvasParam} />
+              <IIIFCanvasThumbnail canvas={canvas} thumbNumber={canvasNumber} />
             </ThumbnailLink>
           );
         })}

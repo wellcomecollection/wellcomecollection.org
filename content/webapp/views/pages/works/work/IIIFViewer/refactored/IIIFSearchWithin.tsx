@@ -108,14 +108,14 @@ const Loading = () => (
 type HitProps = {
   hit: SearchResults['hits'][0];
   matchingCanvas: TransformedCanvas | undefined;
-  matchingCanvasParam: number;
+  matchingCanvasNumber: number;
   totalCanvases: number | undefined;
 };
 
 const Hit: FunctionComponent<HitProps> = ({
   hit,
   matchingCanvas,
-  matchingCanvasParam,
+  matchingCanvasNumber,
   totalCanvases,
 }: HitProps) => {
   const label =
@@ -125,7 +125,7 @@ const Hit: FunctionComponent<HitProps> = ({
   return (
     <>
       <HitData $v={{ size: 'xs', properties: ['margin-bottom'] }}>
-        {`Found on image ${matchingCanvasParam}${
+        {`Found on image ${matchingCanvasNumber}${
           totalCanvases ? ` / ${totalCanvases}` : ''
         }`}
         {label}
@@ -307,7 +307,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
                   <Hit
                     hit={hit}
                     matchingCanvas={matchingCanvas}
-                    matchingCanvasParam={arrayIndexToQueryParam(index || 0)}
+                    matchingCanvasNumber={arrayIndexToQueryParam(index || 0)}
                     totalCanvases={canvases?.length}
                   />
                 </NextLink>
