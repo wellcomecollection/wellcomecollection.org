@@ -165,7 +165,7 @@ const WorkCard: FunctionComponent<Props> = ({ item, dataGtmProps }) => {
           <Space
             $v={{ size: 'sm', properties: ['margin-top'], negative: true }}
           >
-            <LabelsList labels={transformedWork.labels} />
+            <LabelsList labels={transformedWork.labels} showBorder />
           </Space>
         </Space>
         <Title>{transformedWork.title}</Title>
