@@ -44,7 +44,7 @@ const RelatedWorksCard: FunctionComponent<Props> = ({ work, dataGtmProps }) => {
             <LabelsList
               labels={labels}
               defaultLabelColor="warmNeutral.300"
-              showBorder
+              showWhiteTransparentBorders
             />
             <Title $linesToClamp={3}>{work.title}</Title>
           </div>

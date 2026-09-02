@@ -73,7 +73,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
                 <LabelsList
                   labels={cardLabels}
                   defaultLabelColor="warmNeutral.300"
-                  showBorder
+                  showWhiteTransparentBorders
                 />
               </Space>
             )}

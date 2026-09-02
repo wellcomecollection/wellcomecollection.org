@@ -95,7 +95,7 @@ const WorkHeader: FunctionComponent<Props> = ({
                   <LabelsList
                     labels={cardLabels}
                     defaultLabelColor="warmNeutral.300"
-                    showBorder
+                    showWhiteTransparentBorders
                   />
                 </Space>
               )}
