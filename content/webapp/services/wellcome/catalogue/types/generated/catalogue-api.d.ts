@@ -722,6 +722,8 @@ export interface components {
       referenceNumber?: string;
       /** @description A description given to a thing. */
       description?: string;
+      /** @description A trimmed version of the description. */
+      shortDescription?: string;
       /** @description A description of specific physical characteristics of the work. */
       physicalDescription?: string;
       workType?: components['schemas']['Format'];
