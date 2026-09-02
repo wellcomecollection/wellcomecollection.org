@@ -12,6 +12,7 @@ const meta: Meta<StoryProps> = {
   component: LabelsList,
   args: {
     defaultLabelColor: 'yellow',
+    showWhiteTransparentBorders: false,
     labels: [
       { text: 'Gallery tour' },
       { text: 'Audio described' },
@@ -31,6 +32,9 @@ const meta: Meta<StoryProps> = {
   argTypes: {
     defaultLabelColor: {
       name: 'Default label color',
+    },
+    showWhiteTransparentBorders: {
+      name: 'Show border on white/transparent labels',
     },
     labels: {
       table: {
@@ -58,6 +62,7 @@ export const Basic: Story = {
     <LabelsList
       labels={args.labels.slice(0, args.numberOfLabels)}
       defaultLabelColor={args.defaultLabelColor}
+      showWhiteTransparentBorders={args.showWhiteTransparentBorders}
     />
   ),
 };
