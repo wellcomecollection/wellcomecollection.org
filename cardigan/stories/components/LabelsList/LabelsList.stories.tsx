@@ -12,7 +12,7 @@ const meta: Meta<StoryProps> = {
   component: LabelsList,
   args: {
     defaultLabelColor: 'yellow',
-    showWhiteTransparentBorders: false,
+    showWhiteTransparentBorders: true,
     labels: [
       { text: 'Gallery tour' },
       { text: 'Audio described' },
