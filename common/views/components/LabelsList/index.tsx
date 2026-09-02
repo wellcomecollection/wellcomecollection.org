@@ -32,7 +32,7 @@ export function makeLabels(title?: string): Props | undefined {
 const LabelsList: FunctionComponent<Props> = ({
   labels,
   defaultLabelColor = 'yellow',
-  showWhiteTransparentBorders = false,
+  showWhiteTransparentBorders = true,
 }: Props) => (
   <Space
     data-component="labels-list"

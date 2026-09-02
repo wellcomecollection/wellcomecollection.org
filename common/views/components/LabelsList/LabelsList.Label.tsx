@@ -48,7 +48,7 @@ export type Props = {
 const Label: FunctionComponent<Props> = ({
   label,
   defaultLabelColor = 'yellow',
-  showWhiteTransparentBorders = false,
+  showWhiteTransparentBorders = true,
 }: Props) => {
   return (
     <LabelContainer
