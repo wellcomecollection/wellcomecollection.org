@@ -31,7 +31,11 @@ const savesOwnSession = (request: NextRequest): boolean => {
   if (pathname === '/api/auth/me') {
     return request.nextUrl.searchParams.has('refetch');
   }
-  return pathname === '/validated' || pathname.startsWith('/api/users/');
+  return (
+    pathname === '/validated' ||
+    pathname === '/api/users' ||
+    pathname.startsWith('/api/users/')
+  );
 };
 
 const isRelative = (returnTo: string): boolean => {
