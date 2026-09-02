@@ -9,7 +9,7 @@ import { PaletteColor } from '@weco/common/views/themes/config';
 type LabelContainerProps = {
   $fontColor: PaletteColor;
   $labelColor: PaletteColor;
-  $showBorder: boolean;
+  $showWhiteTransparentBorders: boolean;
 };
 
 const LabelContainer = styled(Space).attrs({
@@ -25,21 +25,30 @@ const LabelContainer = styled(Space).attrs({
   color: ${props => props.theme.color(props.$fontColor)};
   background-color: ${props => props.theme.color(props.$labelColor)};
 
-  border: 1px solid
-    ${props =>
-      props.theme.color(props.$showBorder ? 'neutral.500' : props.$labelColor)};
+  ${props => {
+    const isWhiteOrTransparent =
+      props.$labelColor === 'white' || props.$labelColor === 'transparent';
+
+    if (!isWhiteOrTransparent) {
+      return `border: 1px solid ${props.theme.color(props.$labelColor)};`;
+    }
+
+    return `border: 1px solid ${props.theme.color(
+      props.$showWhiteTransparentBorders ? 'neutral.500' : props.$labelColor
+    )};`;
+  }}
 `;
 
 export type Props = {
   label: LabelType;
   defaultLabelColor?: LabelColor;
-  showBorder?: boolean;
+  showWhiteTransparentBorders?: boolean;
 };
 
 const Label: FunctionComponent<Props> = ({
   label,
   defaultLabelColor = 'yellow',
-  showBorder = false,
+  showWhiteTransparentBorders = false,
 }: Props) => {
   return (
     <LabelContainer
@@ -59,7 +68,7 @@ const Label: FunctionComponent<Props> = ({
           : 'black')
       }
       $labelColor={label.labelColor || defaultLabelColor}
-      $showBorder={showBorder}
+      $showWhiteTransparentBorders={showWhiteTransparentBorders}
     >
       {label.text}
     </LabelContainer>
