@@ -71,7 +71,8 @@ const VideoEmbed: FunctionComponent<Props> = ({
   const [isActive, setIsActive] = useState(false);
   const { isYouTube, isVimeo, videoSrc, videoId, uid } = useVideoEmbed(
     embedUrl,
-    videoProvider
+    videoProvider,
+    isActive
   );
 
   const thumbnailSrc = isYouTube
