@@ -20,6 +20,7 @@ const List = styled(Space).attrs({
 export type Props = {
   labels: LabelType[];
   defaultLabelColor?: LabelColor;
+  outlineLightLabels?: boolean;
 };
 
 export function makeLabels(title?: string): Props | undefined {
@@ -31,6 +32,7 @@ export function makeLabels(title?: string): Props | undefined {
 const LabelsList: FunctionComponent<Props> = ({
   labels,
   defaultLabelColor = 'yellow',
+  outlineLightLabels = true,
 }: Props) => (
   <Space
     data-component="labels-list"
@@ -39,7 +41,11 @@ const LabelsList: FunctionComponent<Props> = ({
     <List as="ul">
       {labels.filter(Boolean).map((label, i) => (
         <li key={`${label.text}-${i}`}>
-          <Label label={label} defaultLabelColor={defaultLabelColor} />
+          <Label
+            label={label}
+            defaultLabelColor={defaultLabelColor}
+            outlineLightLabels={outlineLightLabels}
+          />
         </li>
       ))}
     </List>

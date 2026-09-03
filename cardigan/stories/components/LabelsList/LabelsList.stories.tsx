@@ -12,6 +12,7 @@ const meta: Meta<StoryProps> = {
   component: LabelsList,
   args: {
     defaultLabelColor: 'yellow',
+    outlineLightLabels: true,
     labels: [
       { text: 'Gallery tour' },
       { text: 'Audio described' },
@@ -31,6 +32,9 @@ const meta: Meta<StoryProps> = {
   argTypes: {
     defaultLabelColor: {
       name: 'Default label color',
+    },
+    outlineLightLabels: {
+      name: 'Outline light labels',
     },
     labels: {
       table: {
@@ -58,6 +62,7 @@ export const Basic: Story = {
     <LabelsList
       labels={args.labels.slice(0, args.numberOfLabels)}
       defaultLabelColor={args.defaultLabelColor}
+      outlineLightLabels={args.outlineLightLabels}
     />
   ),
 };
