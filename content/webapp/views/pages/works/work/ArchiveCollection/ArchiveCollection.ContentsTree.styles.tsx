@@ -16,23 +16,26 @@ export { compactControlDimensions } from '@weco/content/views/pages/works/work/w
 const nameCellTextIndent = (spacingUnit: number) =>
   compactControlDimensions.controlWidth + spacingUnit;
 
-// Each row's its own <table> (real tables can't nest recursively), so
-// nth-child can't stripe them - $isEvenRow does that instead, from
-// visible-row position (see `rowIndexById`). $indentPx cancels out the
-// ancestor <ul> indentation so the stripe spans full width at any depth,
-// then reapplies it as padding so content doesn't shift.
+// Visual 3-column (Name/Reference/Level) layout only - this isn't real
+// tabular data, so it's plain divs on a grid rather than a <table>. The
+// tree's actual structure/semantics (hierarchy, level, position, name)
+// live on the ARIA tree in NestedList (role="tree"/"treeitem"/"group",
+// aria-level/-posinset/-setsize, aria-label via getAriaLabel) - a <table>
+// nested inside a role="treeitem" isn't a recognised ARIA pattern, and
+// previously each row rendered its own disconnected single-row <table>
+// with no <th> to associate back to the (separate) header table anyway.
 //
-// Below `sm` cells stack into a vertical block instead of 3 columns (no
-// room for those on mobile) - header's hidden too since it stops making
-// sense once things are stacked. `sm` and up restores the normal table.
-export const ContentsTable = styled.table.attrs({
+// Below `sm` there's no room for 3 columns, so rows stack into a vertical
+// flex column instead (order below controls the stack order) - the
+// column-grid only applies from `sm` up.
+const contentsGridColumns = '1fr 160px 110px';
+
+export const ContentsRow = styled.div.attrs({
   className: typography('body', 'sm', 'regular'),
 })<{ $isEvenRow?: boolean; $indentPx?: number; $hasControl?: boolean }>`
-  border-collapse: collapse;
+  display: flex;
+  flex-direction: column;
 
-  /* Needed at every width, not just desktop - with 'auto' layout a long
-     nowrap title just pushes the table wider instead of truncating. */
-  table-layout: fixed;
   margin-left: -${props => props.$indentPx ?? 0}px;
   width: calc(100% + ${props => props.$indentPx ?? 0}px);
 
@@ -46,113 +49,121 @@ export const ContentsTable = styled.table.attrs({
      clickable either. */
   ${props => props.$hasControl && `cursor: pointer;`}
 
-  th,
-  td {
+  > * {
     text-align: left;
-  }
 
-  thead {
-    display: none;
-  }
-
-  tbody tr {
-    display: flex;
-    flex-direction: column;
-  }
-
-  td {
-    display: block;
-
-    /* All cells need this, not just the first - the table's shifted
+    /* All cells need this, not just the first - the row's shifted
        left by $indentPx (see margin-left above), so without it a cell
        would render flush against the page edge. */
     padding: 0 10px 0 ${props => props.$indentPx ?? 0}px;
   }
 
-  td:not(:first-child) {
+  > *:not(:first-child) {
     color: ${props => props.theme.color('neutral.600')};
     padding-left: ${props =>
       (props.$indentPx ?? 0) + nameCellTextIndent(props.theme.spacingUnit)}px;
   }
 
-  ${TreeBand} & td:not(:first-child) {
+  ${TreeBand} & > *:not(:first-child) {
     color: inherit;
   }
 
   /* Vertical padding only goes on the visually first/last cells (Name,
      Reference), so the stack reads as one padded row rather than adding
-     space between every line. Can't put it on ContentsTable/tr instead -
-     browsers ignore padding on table/table-row once border-collapse:
-     collapse is set, and tr's a real table-row again at 'sm' anyway. */
-  td:nth-child(1) {
+     space between every line. */
+  > *:nth-child(1) {
     ${props => props.theme.makeSpacePropertyValues('xs', ['padding-top'])}
   }
 
   /* Mobile order is Name, Level, Reference (matching the design) - 'order'
-     only affects flex items, so it's a no-op once 'sm' switches back to
-     table-cell below and the desktop columns stay Name/Reference/Level. */
-  td:nth-child(2) {
+     only affects flex items, so it's a no-op once 'sm' switches to grid
+     below and the desktop columns stay Name/Reference/Level. */
+  > *:nth-child(2) {
     order: 2;
     ${props => props.theme.makeSpacePropertyValues('xs', ['padding-bottom'])}
   }
 
-  td:nth-child(3) {
+  > *:nth-child(3) {
     order: 1;
   }
 
   ${props =>
     props.theme.media('sm')(`
-      thead {
-        display: table-header-group;
-      }
+      display: grid;
+      grid-template-columns: ${contentsGridColumns};
+      column-gap: 10px;
 
-      tbody tr {
-        display: table-row;
-      }
-
-      td {
-        display: table-cell;
-        padding-right: 10px;
-        padding-left: 0;
+      > * {
+        padding: 0;
         ${props.theme.makeSpacePropertyValues('xs', [
           'padding-top',
           'padding-bottom',
         ])}
       }
 
+      /* Resets the mobile-only reordering above - needs the same
+         nth-child specificity as those rules, a bare '> *' loses to them. */
+      > *:nth-child(2),
+      > *:nth-child(3) {
+        order: initial;
+      }
+
       /* Only the first column needs the tree's indentation here - the
          rest are separate columns starting fresh after it. */
-      td:first-child {
+      > *:first-child {
         padding-left: ${props.$indentPx ?? 0}px;
       }
 
-      /* Undoes the base td:not(:first-child) rule's left padding, which
-         is only for lining cells up under the title on mobile. */
-      td:not(:first-child) {
+      /* Undoes the base rule's left padding above, which is only for
+         lining cells up under the title on mobile. */
+      > *:not(:first-child) {
         color: inherit;
         padding-left: 0;
       }
+    `)}
+`;
 
-      th {
-        padding: 12px 10px 12px 0;
+// The column headings shown above the tree. Purely decorative (the
+// TreeBand wrapping it is aria-hidden) - real column labels are already
+// part of each row's aria-label - so hidden below `sm` entirely rather
+// than stacking, same as the data it's labelling.
+export const ContentsHeaderRow = styled.div.attrs({
+  className: typography('body', 'sm', 'regular'),
+})`
+  display: none;
+
+  ${props =>
+    props.theme.media('sm')(`
+      display: grid;
+      grid-template-columns: ${contentsGridColumns};
+      column-gap: 10px;
+
+      > * {
+        padding: 12px 0;
         font-weight: bold;
+        text-align: left;
       }
 
       /* No ancestor <ul> to line up with here (it's a plain header, not
          part of the tree), so a fixed padding instead of $indentPx. */
-      th:first-child {
+      > *:first-child {
         padding-left: 10px;
       }
+    `)}
+`;
 
-      th:nth-child(2),
-      td:nth-child(2) {
-        width: 160px;
-      }
-
-      th:nth-child(3),
-      td:nth-child(3) {
-        width: 110px;
-      }
+// Merges the "Showing X of Y rows" cell across the Reference/Level
+// columns (the old colSpan={2}) - a no-op below `sm`, where ContentsRow
+// isn't a grid yet and this is just the next stacked block.
+export const ContentsRowSummaryCell = styled.span`
+  ${props =>
+    props.theme.media('sm')(`
+      grid-column: 2 / span 2;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      text-align: right;
+      padding-right: ${compactControlDimensions.controlWidth}px;
     `)}
 `;
 

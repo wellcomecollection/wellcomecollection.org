@@ -25,7 +25,7 @@ import {
 import {
   ChevronSpacer,
   compactControlDimensions,
-  ContentsTable,
+  ContentsRow,
   LevelCell,
   NameCell,
 } from './ArchiveCollection.ContentsTree.styles';
@@ -75,70 +75,63 @@ const ContentsTreeItemRenderer: FunctionComponent<
         : file;
 
   return (
-    <ContentsTable
+    <ContentsRow
       $isEvenRow={rowIndex !== undefined && rowIndex % 2 === 0}
       $indentPx={indentPx}
       $hasControl={hasControl}
     >
-      <tbody>
-        <tr>
-          <td>
-            <NameCell>
-              {isEnhanced && hasControl ? (
-                <TreeControl
-                  $highlightCondition={highlightCondition}
-                  $isDarkMode={isDarkMode}
-                  $isCompact
-                >
-                  <Icon
-                    rotate={item.openStatus ? undefined : 270}
-                    icon={chevron}
-                    sizeOverride={`height: ${compactControlDimensions.iconSize}px; width: ${compactControlDimensions.iconSize}px;`}
-                  />
-                </TreeControl>
-              ) : (
-                <ChevronSpacer />
-              )}
+      <NameCell>
+        {isEnhanced && hasControl ? (
+          <TreeControl
+            $highlightCondition={highlightCondition}
+            $isDarkMode={isDarkMode}
+            $isCompact
+          >
+            <Icon
+              rotate={item.openStatus ? undefined : 270}
+              icon={chevron}
+              sizeOverride={`height: ${compactControlDimensions.iconSize}px; width: ${compactControlDimensions.iconSize}px;`}
+            />
+          </TreeControl>
+        ) : (
+          <ChevronSpacer />
+        )}
 
-              <Icon
-                icon={typeIcon}
-                iconColor="neutral.600"
-                matchText
-                sizeOverride="height: 16px; width: 16px;"
-              />
+        <Icon
+          icon={typeIcon}
+          iconColor="neutral.600"
+          matchText
+          sizeOverride="height: 16px; width: 16px;"
+        />
 
-              <NextLink
-                {...toWorkLink({ id: data.id, scroll: false })}
-                onClick={event => {
-                  // Don't toggle the branch when the link itself is activated
-                  event.stopPropagation();
-                }}
-                tabIndex={isEnhanced ? (isSelected ? 0 : -1) : 0}
-                {...dataGtmPropsToAttributes({
-                  trigger: 'contents_tree_link',
-                  label: `${data.title}${data.referenceNumber ? ` (${data.referenceNumber})` : ''}`,
-                })}
-              >
-                <WorkTitle title={data.title} />
-              </NextLink>
-            </NameCell>
-          </td>
+        <NextLink
+          {...toWorkLink({ id: data.id, scroll: false })}
+          onClick={event => {
+            // Don't toggle the branch when the link itself is activated
+            event.stopPropagation();
+          }}
+          tabIndex={isEnhanced ? (isSelected ? 0 : -1) : 0}
+          {...dataGtmPropsToAttributes({
+            trigger: 'contents_tree_link',
+            label: `${data.title}${data.referenceNumber ? ` (${data.referenceNumber})` : ''}`,
+          })}
+        >
+          <WorkTitle title={data.title} />
+        </NextLink>
+      </NameCell>
 
-          <td>{data.referenceNumber}</td>
-          <td>
-            <LevelCell>
-              <Icon
-                icon={typeIcon}
-                iconColor="neutral.600"
-                matchText
-                sizeOverride="height: 16px; width: 16px;"
-              />
-              {getWorkLevelLabel(data.type)}
-            </LevelCell>
-          </td>
-        </tr>
-      </tbody>
-    </ContentsTable>
+      <span>{data.referenceNumber}</span>
+
+      <LevelCell>
+        <Icon
+          icon={typeIcon}
+          iconColor="neutral.600"
+          matchText
+          sizeOverride="height: 16px; width: 16px;"
+        />
+        {getWorkLevelLabel(data.type)}
+      </LevelCell>
+    </ContentsRow>
   );
 };
 
