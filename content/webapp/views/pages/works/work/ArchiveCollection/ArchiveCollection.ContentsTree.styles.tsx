@@ -16,15 +16,7 @@ export { compactControlDimensions } from '@weco/content/views/pages/works/work/w
 const nameCellTextIndent = (spacingUnit: number) =>
   compactControlDimensions.controlWidth + spacingUnit;
 
-// Visual 3-column (Name/Reference/Level) layout only - this isn't real
-// tabular data, so it's plain divs on a grid rather than a <table>. The
-// tree's actual structure/semantics (hierarchy, level, position, name)
-// live on the ARIA tree in NestedList (role="tree"/"treeitem"/"group",
-// aria-level/-posinset/-setsize, aria-label via getAriaLabel) - a <table>
-// nested inside a role="treeitem" isn't a recognised ARIA pattern, and
-// previously each row rendered its own disconnected single-row <table>
-// with no <th> to associate back to the (separate) header table anyway.
-//
+// Visual 3-column (Name/Reference/Level) layout on desktop, but stacks into a single column on mobile. The
 // Below `sm` there's no room for 3 columns, so rows stack into a vertical
 // flex column instead (order below controls the stack order) - the
 // column-grid only applies from `sm` up.
@@ -154,10 +146,7 @@ export const ContentsHeaderRow = styled.div.attrs({
 
 // The "Show N more rows" control + results summary below the tree. Always
 // 2 cells (unlike ContentsRow's 3 Name/Reference/Level), so it's its own
-// component rather than reusing ContentsRow's nth-child-based rules -
-// those assume a 3-column Name/Reference/Level shape that doesn't apply
-// here. $indentPx is always 10 for this row (matching the other rows'
-// compact tree indentation), so it's hardcoded rather than a prop.
+// component rather than reusing ContentsRow's nth-child-based rules
 export const ContentsFooterRow = styled.div.attrs({
   className: typography('body', 'sm', 'regular'),
 })`
@@ -204,17 +193,6 @@ export const ContentsFooterRow = styled.div.attrs({
     `)}
 `;
 
-// Merges the "Showing X of Y rows" cell across the Reference/Level
-// columns (the old colSpan={2}) - a no-op below `sm`, where
-// ContentsFooterRow isn't a grid yet and this is just the next stacked
-// block (first in the DOM, but shown above the Show more button via
-// column-reverse). Grey on mobile (secondary info, vs. the actionable
-// Show more button) but dark on desktop, matching how it's inline with
-// the tree rows there rather than sitting below its own button. Padding
-// on mobile lines its text up with the button's, past ChevronSpacer's
-// width - the same offset ContentsRow uses to line Reference/Level up
-// under the title. The right padding at `sm` mirrors ChevronSpacer's
-// width instead, so the gap matches the space to its left on that side.
 export const ContentsRowSummaryCell = styled.span`
   display: block;
   color: ${props => props.theme.color('neutral.600')};
