@@ -127,7 +127,7 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
             </>
           )}
 
-          {!isRestricted && (
+          {(!isRestricted || userIsStaffWithRestricted) && (
             <>
               {!hasIconPlaceholder ? (
                 <>

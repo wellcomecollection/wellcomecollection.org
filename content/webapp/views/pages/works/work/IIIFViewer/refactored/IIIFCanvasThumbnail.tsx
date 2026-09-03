@@ -15,6 +15,7 @@ import {
   isChoiceBody,
   isPDFCanvas,
 } from '@weco/content/utils/iiif/v3';
+import { hasRealLabel } from '@weco/content/utils/works';
 
 import IIIFViewerImage from './IIIFViewerImage';
 import Padlock from './Padlock';
@@ -134,7 +135,7 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
             </>
           )}
 
-          {!isRestricted && (
+          {(!isRestricted || userIsStaffWithRestricted) && (
             <>
               {!shouldShowIconPlaceholder ? (
                 <>
@@ -168,7 +169,7 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
         <div>
           <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
             <IIIFViewerThumbNumber>
-              {canvas.label?.trim() !== '-' && 'page'} {canvas.label}
+              {hasRealLabel(canvas.label?.trim()) && 'page'} {canvas.label}
             </IIIFViewerThumbNumber>
           </Space>
           <div>

@@ -78,7 +78,7 @@ function createMockRefactoredItemViewerContext(
   const currentCanvas = getCurrentCanvas({
     transformedManifest,
     canvasIndexById,
-    canvas: query.canvas,
+    canvasNumber: query.canvas,
   });
 
   return {

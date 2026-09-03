@@ -42,7 +42,7 @@ import {
   getLabelString,
 } from '@weco/content/utils/iiif/v3';
 import type { TransformedAuthService } from '@weco/content/utils/iiif/v3';
-import { getFileLabel } from '@weco/content/utils/works';
+import { getFileLabel, hasRealLabel } from '@weco/content/utils/works';
 import AudioPlayer from '@weco/content/views/components/AudioPlayer';
 import BetaMessage from '@weco/content/views/components/BetaMessage';
 import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
@@ -359,7 +359,7 @@ function getItemLabel(
   if ('label' in item) {
     return getLabelString(item.label as InternationalString);
   }
-  return canvas.label?.trim() !== '-' ? canvas.label : undefined;
+  return hasRealLabel(canvas.label?.trim()) ? canvas.label : undefined;
 }
 
 const IIIFItem: FunctionComponent<ItemProps> = ({
@@ -436,7 +436,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
         <AudioPlayer
           isDark={isDark}
           audioFile={item.id}
-          title={getFileLabel(canvas.label, titleOverride) || ''}
+          title={getFileLabel(canvas.label, titleOverride ?? '')}
         />
       </IIIFItemWrapper>
     );

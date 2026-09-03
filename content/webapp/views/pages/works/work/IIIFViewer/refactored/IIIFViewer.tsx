@@ -264,7 +264,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const router = useRouter();
   const {
     page = 1,
-    canvas = 1,
+    canvas: canvasNumber = 1,
     manifest = 1,
     shouldScrollToCanvas = true,
     query = '',
@@ -295,7 +295,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const currentCanvas = getCurrentCanvas({
     transformedManifest,
     canvasIndexById,
-    canvas,
+    canvasNumber,
   });
   const isCurrentCanvasRestricted = currentCanvas
     ? hasRestrictedItem(currentCanvas)
@@ -386,7 +386,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         // DATA props:
         query: {
           page,
-          canvas,
+          canvas: canvasNumber,
           manifest,
           shouldScrollToCanvas,
           query,
