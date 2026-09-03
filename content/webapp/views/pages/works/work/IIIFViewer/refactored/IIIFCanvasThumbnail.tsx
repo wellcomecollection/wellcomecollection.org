@@ -13,7 +13,7 @@ import { IIIFItemProps, TransformedCanvas } from '@weco/content/types/manifest';
 import {
   hasRestrictedItem,
   isChoiceBody,
-  isPrimaryContentPDF,
+  shouldTreatAsPDFCanvas,
 } from '@weco/content/utils/iiif/v3';
 import { hasRealLabel } from '@weco/content/utils/works';
 
@@ -86,7 +86,7 @@ function getPlaceholderIcon(
 ) {
   if (itemType === 'Sound') return audio;
   if (itemType === 'Video') return video;
-  if (isPrimaryContentPDF(canvas)) return pdf;
+  if (shouldTreatAsPDFCanvas(canvas)) return pdf;
   return file;
 }
 

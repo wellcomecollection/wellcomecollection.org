@@ -33,7 +33,7 @@ import {
   isChoiceBody,
   isCollection,
   isItemRestricted,
-  isPrimaryContentPDF,
+  shouldTreatAsPDFCanvas,
   transformCanvas,
   transformLabel,
 } from '.';
@@ -802,14 +802,14 @@ describe('hasOriginalPdf', () => {
   });
 });
 
-describe('isPrimaryContentPDF', () => {
+describe('shouldTreatAsPDFCanvas', () => {
   it('is true for a born-digital PDF (original file)', () => {
     const canvas = createImageCanvas({
       original: [
         { id: 'o', format: 'application/pdf', behavior: 'original' },
       ] as never,
     });
-    expect(isPrimaryContentPDF(canvas)).toBe(true);
+    expect(shouldTreatAsPDFCanvas(canvas)).toBe(true);
   });
 
   it('is true for a PDF supplement when there are no paintings', () => {
@@ -819,7 +819,7 @@ describe('isPrimaryContentPDF', () => {
         { id: 's', type: 'Text', format: 'application/pdf' },
       ] as never,
     });
-    expect(isPrimaryContentPDF(canvas)).toBe(true);
+    expect(shouldTreatAsPDFCanvas(canvas)).toBe(true);
   });
 
   it('is false for a PDF supplement when paintings are present (e.g. a video)', () => {
@@ -829,11 +829,11 @@ describe('isPrimaryContentPDF', () => {
         { id: 's', type: 'Text', format: 'application/pdf' },
       ] as never,
     });
-    expect(isPrimaryContentPDF(canvas)).toBe(false);
+    expect(shouldTreatAsPDFCanvas(canvas)).toBe(false);
   });
 
   it('is false for undefined', () => {
-    expect(isPrimaryContentPDF(undefined)).toBe(false);
+    expect(shouldTreatAsPDFCanvas(undefined)).toBe(false);
   });
 });
 
@@ -920,7 +920,7 @@ describe('getFileTypeLabel', () => {
   });
 
   it('labels an empty canvas array as PDF files (vacuous every() quirk)', () => {
-    // With no canvases, `canvases.every(isPrimaryContentPDF)` is vacuously true, so the
+    // With no canvases, `canvases.every(shouldTreatAsPDFCanvas)` is vacuously true, so the
     // all-PDFs branch is taken. Documenting current behaviour, not endorsing it.
     expect(getFileTypeLabel(0, 0, false, [])).toBe('0 PDF files');
   });

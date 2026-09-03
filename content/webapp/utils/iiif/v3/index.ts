@@ -99,7 +99,7 @@ export function getFileTypeLabel(
 
   // Check if all items are PDFs
   const allPdfs =
-    canvases?.every(canvas => isPrimaryContentPDF(canvas)) || false;
+    canvases?.every(canvas => shouldTreatAsPDFCanvas(canvas)) || false;
   if (allPdfs) return pluralize(canvasCount, 'PDF file');
 
   // Non-standard items should be treated as generic files
@@ -110,7 +110,7 @@ export function getFileTypeLabel(
   const hasAudio =
     hasItemType(canvases, 'Sound') || hasItemType(canvases, 'Audio');
   const hasPdfs =
-    canvases?.some(canvas => isPrimaryContentPDF(canvas)) || false;
+    canvases?.some(canvas => shouldTreatAsPDFCanvas(canvas)) || false;
   const hasImages = hasItemType(canvases, 'Image');
 
   const typeCount = [hasVideo, hasAudio, hasPdfs, hasImages].filter(
@@ -654,7 +654,7 @@ export function hasOriginalPdf(canvases?: TransformedCanvas[]): boolean {
   );
 }
 
-export function isPrimaryContentPDF(canvas?: TransformedCanvas): boolean {
+export function shouldTreatAsPDFCanvas(canvas?: TransformedCanvas): boolean {
   if (!canvas) return false;
 
   const hasPDFSupplement = canvas?.supplementing.some(supplement => {

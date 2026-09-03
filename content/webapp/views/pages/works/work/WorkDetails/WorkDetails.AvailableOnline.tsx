@@ -24,7 +24,7 @@ import {
   getAuthServices,
   getFileTypeLabel,
   getIframeTokenSrc,
-  isPrimaryContentPDF,
+  shouldTreatAsPDFCanvas,
 } from '@weco/content/utils/iiif/v3';
 import { DigitalLocationInfo } from '@weco/content/utils/works';
 import Download from '@weco/content/views/components/Download';
@@ -259,7 +259,7 @@ const WorkDetailsAvailableOnline = ({
   const [tabbableId, setTabbableId] = useState<string>();
   const [tree, setTree] = useState<UiTree>([]);
   const allOriginalPdfs =
-    canvases?.every(canvas => isPrimaryContentPDF(canvas)) || false;
+    canvases?.every(canvas => shouldTreatAsPDFCanvas(canvas)) || false;
   const clickThroughService = authServices?.active;
 
   // We temporarily want to show the download tree for multiple PDFs
