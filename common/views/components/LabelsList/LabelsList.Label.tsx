@@ -9,7 +9,7 @@ import { PaletteColor } from '@weco/common/views/themes/config';
 type LabelContainerProps = {
   $fontColor: PaletteColor;
   $labelColor: PaletteColor;
-  $showWhiteTransparentBorders: boolean;
+  $outlineLightLabels: boolean;
 };
 
 const LabelContainer = styled(Space).attrs({
@@ -34,7 +34,7 @@ const LabelContainer = styled(Space).attrs({
     }
 
     return `border: 1px solid ${props.theme.color(
-      props.$showWhiteTransparentBorders ? 'neutral.500' : props.$labelColor
+      props.$outlineLightLabels ? 'neutral.500' : props.$labelColor
     )};`;
   }}
 `;
@@ -42,13 +42,13 @@ const LabelContainer = styled(Space).attrs({
 export type Props = {
   label: LabelType;
   defaultLabelColor?: LabelColor;
-  showWhiteTransparentBorders?: boolean;
+  outlineLightLabels?: boolean;
 };
 
 const Label: FunctionComponent<Props> = ({
   label,
   defaultLabelColor = 'yellow',
-  showWhiteTransparentBorders = true,
+  outlineLightLabels = true,
 }: Props) => {
   return (
     <LabelContainer
@@ -68,7 +68,7 @@ const Label: FunctionComponent<Props> = ({
           : 'black')
       }
       $labelColor={label.labelColor || defaultLabelColor}
-      $showWhiteTransparentBorders={showWhiteTransparentBorders}
+      $outlineLightLabels={outlineLightLabels}
     >
       {label.text}
     </LabelContainer>

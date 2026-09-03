@@ -20,7 +20,7 @@ const List = styled(Space).attrs({
 export type Props = {
   labels: LabelType[];
   defaultLabelColor?: LabelColor;
-  showWhiteTransparentBorders?: boolean;
+  outlineLightLabels?: boolean;
 };
 
 export function makeLabels(title?: string): Props | undefined {
@@ -32,7 +32,7 @@ export function makeLabels(title?: string): Props | undefined {
 const LabelsList: FunctionComponent<Props> = ({
   labels,
   defaultLabelColor = 'yellow',
-  showWhiteTransparentBorders = true,
+  outlineLightLabels = true,
 }: Props) => (
   <Space
     data-component="labels-list"
@@ -44,7 +44,7 @@ const LabelsList: FunctionComponent<Props> = ({
           <Label
             label={label}
             defaultLabelColor={defaultLabelColor}
-            showWhiteTransparentBorders={showWhiteTransparentBorders}
+            outlineLightLabels={outlineLightLabels}
           />
         </li>
       ))}

@@ -111,7 +111,7 @@ const ArchiveCollectionHero = ({ work }: { work: WorkType }) => {
           <LabelsList
             labels={getCardLabels(work)}
             defaultLabelColor="white"
-            showWhiteTransparentBorders={false}
+            outlineLightLabels={false}
           />
         </Space>
 
