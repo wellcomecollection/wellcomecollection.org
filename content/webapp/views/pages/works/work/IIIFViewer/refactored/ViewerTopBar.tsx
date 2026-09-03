@@ -22,7 +22,10 @@ import {
   getVideoAudioDownloadOptions,
   isChoiceBody,
 } from '@weco/content/utils/iiif/v3';
-import { getDownloadOptionsFromImageUrl } from '@weco/content/utils/works';
+import {
+  getDownloadOptionsFromImageUrl,
+  hasRealLabel,
+} from '@weco/content/utils/works';
 import Download from '@weco/content/views/components/Download';
 
 import CanvasPositionIndicator from './CanvasPositionIndicator';
@@ -309,7 +312,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
           {shouldShowPageIndicator && (
             <>
               <CanvasPositionIndicator positionTestId="active-index" />{' '}
-              {currentPageLabel !== '-' &&
+              {hasRealLabel(currentPageLabel) &&
                 hasOnlyRenderableImages &&
                 `page ${currentPageLabel}`}
             </>

@@ -17,6 +17,7 @@ import {
 } from '@weco/content/services/iiif/types/search/v3';
 import { searchWithinLabel } from '@weco/content/text/aria-labels';
 import { TransformedCanvas } from '@weco/content/types/manifest';
+import { hasRealLabel } from '@weco/content/utils/works';
 import {
   ItemProps,
   toWorksItemLink,
@@ -118,10 +119,9 @@ const Hit: FunctionComponent<HitProps> = ({
   matchingCanvasNumber,
   totalCanvases,
 }: HitProps) => {
-  const label =
-    matchingCanvas?.label && matchingCanvas.label.trim() !== '-'
-      ? ` (page ${matchingCanvas?.label})`
-      : '';
+  const label = hasRealLabel(matchingCanvas?.label?.trim())
+    ? ` (page ${matchingCanvas?.label})`
+    : '';
   return (
     <>
       <HitData $v={{ size: 'xs', properties: ['margin-bottom'] }}>
