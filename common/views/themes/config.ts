@@ -312,6 +312,12 @@ const slateTransparentBlack: ButtonColors = {
   text: 'black',
 };
 
+const slateWhiteBlack: ButtonColors = {
+  border: 'neutral.600',
+  background: 'white',
+  text: 'black',
+};
+
 export type Size = keyof typeof sizes;
 
 // Factory functions that create media query helpers with specific sizes
@@ -527,6 +533,7 @@ export const themeValues = {
     whiteWhiteCharcoal,
     silverTransparentBlack,
     slateTransparentBlack,
+    slateWhiteBlack,
     greenGreenWhite,
   },
   spacedTextTopMargin: '1.55em',
