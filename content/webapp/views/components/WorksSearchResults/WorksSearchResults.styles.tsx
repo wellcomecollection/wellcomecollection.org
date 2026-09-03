@@ -89,7 +89,7 @@ export const WorkInformationItemSeparator = styled.span`
 export const WorkTitleHeading = styled.h3.attrs({
   className: typography('body', 'lg', 'strong'),
 })<{
-  $isRootCollection?: boolean;
+  $isArchiveCollectionRoot?: boolean;
 }>`
-  margin-bottom: ${props => props.theme.spacingUnits[props.$isRootCollection ? '050' : '100']};
+  margin-bottom: ${props => props.theme.spacingUnits[props.$isArchiveCollectionRoot ? '050' : '100']};
 `;

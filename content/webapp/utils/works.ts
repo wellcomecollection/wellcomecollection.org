@@ -207,6 +207,38 @@ export function getArchiveAncestorArray(work: Work): RelatedWork[] {
  * Builds the archive reference/partOf labels for a work, if it has a
  * reference number.
  */
+// Formats that can be archives. `b` (Manuscripts) is deliberately absent:
+// everything with that format is a manuscript.
+const archiveFormatIds = ['h', 'hdig'];
+
+const teiManuscriptIdentifierTypeId = 'tei-manuscript-id';
+
+/**
+ * Whether a work is the root of an archive collection we can display a
+ * hierarchy for, i.e. an archive (not a manuscript) that has children.
+ *
+ * `archive.category` is deliberately not used here. It only covers the 16
+ * recognised archive types, so it wrongly excludes archives whose collection
+ * path prefix isn't one of them (e.g. RAMC). It also isn't an
+ * archive/manuscript discriminator - it excludes manuscripts only incidentally.
+ * The TEI identifier is, on the basis that all manuscripts come from TEI and
+ * all TEI works are manuscripts.
+ */
+export function isArchiveCollectionRoot(
+  work: Pick<Work, 'collection' | 'workType' | 'identifiers'>
+): boolean {
+  const isRootWithChildren =
+    !!work.collection?.isRoot && (work.collection.root.totalParts ?? 0) > 0;
+
+  const hasArchiveFormat = archiveFormatIds.includes(work.workType?.id ?? '');
+
+  const isTeiManuscript = (work.identifiers ?? []).some(
+    ({ identifierType }) => identifierType.id === teiManuscriptIdentifierTypeId
+  );
+
+  return isRootWithChildren && hasArchiveFormat && !isTeiManuscript;
+}
+
 export const getArchiveLabels = (work: Work): ArchiveLabels | undefined => {
   if (work.referenceNumber) {
     const root = getArchiveAncestorArray(work)[0] || work;
