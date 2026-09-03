@@ -203,10 +203,6 @@ export function getArchiveAncestorArray(work: Work): RelatedWork[] {
   return [...(work.partOf || []).filter(item => item.totalParts)].reverse();
 }
 
-/**
- * Builds the archive reference/partOf labels for a work, if it has a
- * reference number.
- */
 // Formats that can be archives. `b` (Manuscripts) is deliberately absent:
 // everything with that format is a manuscript.
 const archiveFormatIds = ['h', 'hdig'];
@@ -217,12 +213,15 @@ const teiManuscriptIdentifierTypeId = 'tei-manuscript-id';
  * Whether a work is the root of an archive collection we can display a
  * hierarchy for, i.e. an archive (not a manuscript) that has children.
  *
- * `archive.category` is deliberately not used here. It only covers the 16
- * recognised archive types, so it wrongly excludes archives whose collection
- * path prefix isn't one of them (e.g. RAMC). It also isn't an
- * archive/manuscript discriminator - it excludes manuscripts only incidentally.
- * The TEI identifier is, on the basis that all manuscripts come from TEI and
- * all TEI works are manuscripts.
+ * Not `archive.category`: that covers only the 16 recognised archive types, so
+ * it excludes archives whose collection path prefix isn't one of them (e.g.
+ * RAMC), and it isn't an archive/manuscript discriminator anyway.
+ *
+ * The TEI check is a heuristic, and an imperfect one. A TEI work is always a
+ * manuscript, but not all manuscripts come from TEI - ones catalogued in CALM
+ * have no TEI identifier and so still come through here as archives. It's the
+ * best signal available while the catalogue API doesn't model the distinction,
+ * and should give way to a real one when it does.
  */
 export function isArchiveCollectionRoot(
   work: Pick<Work, 'collection' | 'workType' | 'identifiers'>
@@ -239,6 +238,10 @@ export function isArchiveCollectionRoot(
   return isRootWithChildren && hasArchiveFormat && !isTeiManuscript;
 }
 
+/**
+ * Builds the archive reference/partOf labels for a work, if it has a
+ * reference number.
+ */
 export const getArchiveLabels = (work: Work): ArchiveLabels | undefined => {
   if (work.referenceNumber) {
     const root = getArchiveAncestorArray(work)[0] || work;
