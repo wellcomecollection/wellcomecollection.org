@@ -16,7 +16,7 @@ import {
   getOriginalFiles,
   getTransformedCanvases,
   groupRanges,
-  isPDFCanvas,
+  isPrimaryContentPDF,
 } from '@weco/content/utils/iiif/v3';
 
 const canvases = getTransformedCanvases(manifest as Manifest);
@@ -241,14 +241,14 @@ describe('Determines if a iiif-manifest includes non standard items', () => {
   });
 });
 
-describe('isPDFCanvas', () => {
+describe('isPrimaryContentPDF', () => {
   it('returns false for undefined canvas', () => {
-    expect(isPDFCanvas(undefined)).toBe(false);
+    expect(isPrimaryContentPDF(undefined)).toBe(false);
   });
 
   it('returns false for canvas with no PDF content', () => {
     const canvas = createMockCanvas();
-    expect(isPDFCanvas(canvas)).toBe(false);
+    expect(isPrimaryContentPDF(canvas)).toBe(false);
   });
 
   it('returns true for born digital PDF with application/pdf in original', () => {
@@ -262,7 +262,7 @@ describe('isPDFCanvas', () => {
         },
       ],
     });
-    expect(isPDFCanvas(canvas)).toBe(true);
+    expect(isPrimaryContentPDF(canvas)).toBe(true);
   });
 
   it('returns true for PDF supplement with no paintings', () => {
@@ -276,7 +276,7 @@ describe('isPDFCanvas', () => {
       ],
       painting: [],
     });
-    expect(isPDFCanvas(canvas)).toBe(true);
+    expect(isPrimaryContentPDF(canvas)).toBe(true);
   });
 
   it('returns false for PDF supplement with paintings (e.g., video with PDF transcript)', () => {
@@ -296,7 +296,7 @@ describe('isPDFCanvas', () => {
         },
       ],
     });
-    expect(isPDFCanvas(canvas)).toBe(false);
+    expect(isPrimaryContentPDF(canvas)).toBe(false);
   });
 
   it('returns true for PDF supplement with ChoiceBody containing PDF', () => {
@@ -315,7 +315,7 @@ describe('isPDFCanvas', () => {
       ],
       painting: [],
     });
-    expect(isPDFCanvas(canvas)).toBe(true);
+    expect(isPrimaryContentPDF(canvas)).toBe(true);
   });
 
   it('returns false for ChoiceBody with string items', () => {
@@ -328,7 +328,7 @@ describe('isPDFCanvas', () => {
       ],
       painting: [],
     });
-    expect(isPDFCanvas(canvas)).toBe(false);
+    expect(isPrimaryContentPDF(canvas)).toBe(false);
   });
 
   it('returns false for ChoiceBody with non-PDF items', () => {
@@ -347,7 +347,7 @@ describe('isPDFCanvas', () => {
       ],
       painting: [],
     });
-    expect(isPDFCanvas(canvas)).toBe(false);
+    expect(isPrimaryContentPDF(canvas)).toBe(false);
   });
 
   it('returns true for born digital PDF even with paintings', () => {
@@ -368,7 +368,7 @@ describe('isPDFCanvas', () => {
         },
       ],
     });
-    expect(isPDFCanvas(canvas)).toBe(true);
+    expect(isPrimaryContentPDF(canvas)).toBe(true);
   });
 
   it('returns false for supplement without format property', () => {
@@ -381,7 +381,7 @@ describe('isPDFCanvas', () => {
       ],
       painting: [],
     });
-    expect(isPDFCanvas(canvas)).toBe(false);
+    expect(isPrimaryContentPDF(canvas)).toBe(false);
   });
 });
 
