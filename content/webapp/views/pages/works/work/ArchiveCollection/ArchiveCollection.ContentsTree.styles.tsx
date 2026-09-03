@@ -16,10 +16,9 @@ export { compactControlDimensions } from '@weco/content/views/pages/works/work/w
 const nameCellTextIndent = (spacingUnit: number) =>
   compactControlDimensions.controlWidth + spacingUnit;
 
-// Visual 3-column (Name/Reference/Level) layout on desktop, but stacks into a single column on mobile. The
-// Below `sm` there's no room for 3 columns, so rows stack into a vertical
-// flex column instead (order below controls the stack order) - the
-// column-grid only applies from `sm` up.
+// Visual 3-column (Name/Reference/Level) layout on desktop, but stacks into a single column on mobile.
+// Below `sm` there's no room for 3 columns, so rows stack into a vertical flex column instead (order below controls the stack order).
+// The column grid only applies from `sm` up.
 const contentsGridColumns = '1fr 160px 110px';
 
 export const ContentsRow = styled.div.attrs({
