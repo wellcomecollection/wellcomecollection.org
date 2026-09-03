@@ -22,8 +22,8 @@ import NestedList, {
 import ContentsTreeItemRenderer from './ArchiveCollection.ContentsTree.ItemRenderer';
 import {
   ChevronSpacer,
+  ContentsFooterRow,
   ContentsHeaderRow,
-  ContentsRow,
   ContentsRowSummaryCell,
   NameCell,
   ShowMoreButton,
@@ -170,7 +170,7 @@ const ArchiveCollectionContents: FunctionComponent<{
 
         {totalResults !== undefined && (
           <TreeBand>
-            <ContentsRow $indentPx={10}>
+            <ContentsFooterRow>
               <NameCell>
                 <ChevronSpacer />
                 {hasMorePages && (
@@ -190,7 +190,7 @@ const ArchiveCollectionContents: FunctionComponent<{
               <ContentsRowSummaryCell>
                 Showing {works.length} of {totalResults} rows
               </ContentsRowSummaryCell>
-            </ContentsRow>
+            </ContentsFooterRow>
           </TreeBand>
         )}
       </div>

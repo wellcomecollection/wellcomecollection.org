@@ -152,12 +152,78 @@ export const ContentsHeaderRow = styled.div.attrs({
     `)}
 `;
 
-// Merges the "Showing X of Y rows" cell across the Reference/Level
-// columns (the old colSpan={2}) - a no-op below `sm`, where ContentsRow
-// isn't a grid yet and this is just the next stacked block.
-export const ContentsRowSummaryCell = styled.span`
+// The "Show N more rows" control + results summary below the tree. Always
+// 2 cells (unlike ContentsRow's 3 Name/Reference/Level), so it's its own
+// component rather than reusing ContentsRow's nth-child-based rules -
+// those assume a 3-column Name/Reference/Level shape that doesn't apply
+// here. $indentPx is always 10 for this row (matching the other rows'
+// compact tree indentation), so it's hardcoded rather than a prop.
+export const ContentsFooterRow = styled.div.attrs({
+  className: typography('body', 'sm', 'regular'),
+})`
+  display: flex;
+  flex-direction: column-reverse;
+  ${props => props.theme.makeSpacePropertyValues('xs', ['row-gap'])}
+
+  margin-left: -10px;
+  width: calc(100% + 10px);
+
+  > * {
+    padding: 0 10px;
+  }
+
+  /* column-reverse flips what's on screen but not which DOM child
+     :first-/:last-child match, so the visually-first cell (the summary
+     text, last in the DOM) gets the top padding and vice versa - together
+     they read as one padded block rather than adding space between the two. */
+  > *:last-child {
+    ${props => props.theme.makeSpacePropertyValues('sm', ['padding-top'])}
+  }
+
+  > *:first-child {
+    ${props => props.theme.makeSpacePropertyValues('xs', ['padding-bottom'])}
+  }
+
   ${props =>
     props.theme.media('sm')(`
+      display: grid;
+      grid-template-columns: ${contentsGridColumns};
+      column-gap: 10px;
+
+      > * {
+        padding: 0;
+        ${props.theme.makeSpacePropertyValues('xs', [
+          'padding-top',
+          'padding-bottom',
+        ])}
+      }
+
+      > *:first-child {
+        padding-left: 10px;
+      }
+    `)}
+`;
+
+// Merges the "Showing X of Y rows" cell across the Reference/Level
+// columns (the old colSpan={2}) - a no-op below `sm`, where
+// ContentsFooterRow isn't a grid yet and this is just the next stacked
+// block (first in the DOM, but shown above the Show more button via
+// column-reverse). Grey on mobile (secondary info, vs. the actionable
+// Show more button) but dark on desktop, matching how it's inline with
+// the tree rows there rather than sitting below its own button. Padding
+// on mobile lines its text up with the button's, past ChevronSpacer's
+// width - the same offset ContentsRow uses to line Reference/Level up
+// under the title. The right padding at `sm` mirrors ChevronSpacer's
+// width instead, so the gap matches the space to its left on that side.
+export const ContentsRowSummaryCell = styled.span`
+  display: block;
+  color: ${props => props.theme.color('neutral.600')};
+  padding-left: ${props => 10 + nameCellTextIndent(props.theme.spacingUnit)}px;
+
+  ${props =>
+    props.theme.media('sm')(`
+      color: inherit;
+      padding-left: 0;
       grid-column: 2 / span 2;
       display: flex;
       align-items: center;
@@ -237,13 +303,13 @@ export const ShowMoreButton = styled.button.attrs({
 })`
   display: inline-flex;
   align-items: center;
-  color: ${props => props.theme.color('neutral.600')};
+  color: inherit;
   gap: ${props => props.theme.spacingUnit}px;
 
-  ${props =>
-    props.theme.media('sm')(`
-      color: inherit;
-    `)}
+  /* Removes the browser's default button padding, so the icon's left
+     edge lands exactly where ContentsRowSummaryCell's padding-left
+     expects it (nameCellTextIndent, past ChevronSpacer's width). */
+  padding: 0;
 
   &:focus,
   &:hover {
