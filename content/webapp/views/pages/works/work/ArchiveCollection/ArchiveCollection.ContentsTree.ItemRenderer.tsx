@@ -63,12 +63,14 @@ const ContentsTreeItemRenderer: FunctionComponent<
   const indentPx =
     level > 1 ? (level - 1) * compactControlDimensions.controlWidth : 0;
   const rowIndex = rowIndexById?.[data.id];
-  // The collection root (level 1) represents the archive as a whole, so it
-  // gets the archive icon instead of the folder/file icons used for its contents.
+  // The collection root (level 1) represents the archive as a whole,
+  // so it gets the archive icon instead of the folder/file icons
+  // Below that, the icon is driven by data.type
+  // Section/Series/Collection nodes use folder icons, Work nodes use the file icon.
   const typeIcon =
     level === 1
       ? archive
-      : hasControl
+      : data.type !== 'Work'
         ? item.openStatus
           ? openFolder
           : closedFolder
