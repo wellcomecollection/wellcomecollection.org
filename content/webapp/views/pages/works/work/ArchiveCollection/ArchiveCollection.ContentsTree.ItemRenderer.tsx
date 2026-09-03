@@ -67,11 +67,15 @@ const ContentsTreeItemRenderer: FunctionComponent<
   // so it gets the archive icon instead of the folder/file icons
   // Below that, the icon is driven by data.type
   // Section/Series/Collection nodes use folder icons, Work nodes use the file icon.
+  // show the openFolder icon only when children are actually being shown
+  // (matching ListItem's own `item.children && item.openStatus` check
+  // This prevents showing an open folder on the last row before "Show more"), before its expanded to show children.
+  const isVisiblyExpanded = Boolean(item.children && item.openStatus);
   const typeIcon =
     level === 1
       ? archive
       : data.type !== 'Work'
-        ? item.openStatus
+        ? isVisiblyExpanded
           ? openFolder
           : closedFolder
         : file;
