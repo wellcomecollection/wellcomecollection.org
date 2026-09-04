@@ -104,8 +104,9 @@ const ContentsTreeItemRenderer: FunctionComponent<
                 }}
                 tabIndex={isEnhanced ? (isSelected ? 0 : -1) : 0}
                 {...dataGtmPropsToAttributes({
-                  trigger: 'contents_tree_link',
+                  trigger: 'tree_link',
                   label: `${data.title}${data.referenceNumber ? ` (${data.referenceNumber})` : ''}`,
+                  'data-tree-level': String(level),
                 })}
               >
                 <WorkTitle title={data.title} />

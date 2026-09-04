@@ -4,6 +4,7 @@ import { useAppContext } from '@weco/common/contexts/AppContext';
 import { treeInstructions } from '@weco/common/data/microcopy';
 import { plus } from '@weco/common/icons';
 import { useFeatureFlags, useModes } from '@weco/common/server-data/Context';
+import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
 import { Work } from '@weco/content/services/wellcome/catalogue/types';
 import {
@@ -182,6 +183,9 @@ const ArchiveCollectionContents: FunctionComponent<{
                         <ShowMoreButton
                           onClick={showMore}
                           disabled={isLoadingMore}
+                          {...dataGtmPropsToAttributes({
+                            trigger: 'show_more_rows_content_tree',
+                          })}
                         >
                           <Icon
                             icon={plus}
