@@ -258,7 +258,7 @@ const WorkDetailsAvailableOnline = ({
 
   const [tabbableId, setTabbableId] = useState<string>();
   const [tree, setTree] = useState<UiTree>([]);
-  const allOriginalPdfs =
+  const allCanvasesGetPDFTreatment =
     canvases?.every(canvas => shouldTreatAsPDFCanvas(canvas)) || false;
   const clickThroughService = authServices?.active;
 
@@ -266,7 +266,8 @@ const WorkDetailsAvailableOnline = ({
   // See: https://github.com/wellcomecollection/wellcomecollection.org/issues/12089
   const shouldShowDownloadTree =
     hasNonStandardItems &&
-    (!allOriginalPdfs || (allOriginalPdfs && Number(canvases?.length) > 1));
+    (!allCanvasesGetPDFTreatment ||
+      (allCanvasesGetPDFTreatment && Number(canvases?.length) > 1));
 
   useEffect(() => {
     const downloads = createDownloadTree(structures, canvases);
@@ -349,7 +350,7 @@ const WorkDetailsAvailableOnline = ({
           See: https://github.com/wellcomecollection/wellcomecollection.org/issues/12089
         */}
         {(!hasNonStandardItems ||
-          (allOriginalPdfs && canvases?.length === 1)) &&
+          (allCanvasesGetPDFTreatment && canvases?.length === 1)) &&
           shouldShowItemLink && (
             <ItemPageLink
               work={work}
