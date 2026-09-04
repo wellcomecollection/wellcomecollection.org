@@ -654,6 +654,11 @@ export function hasOriginalPdf(canvases?: TransformedCanvas[]): boolean {
   );
 }
 
+/**
+ * Whether a canvas should get PDF treatment in the UI (PDF viewer/download
+ * rather than image/video) - true for a born-digital PDF original (even if
+ * its painting is an Image preview), or a PDF supplement with no paintings.
+ */
 export function shouldTreatAsPDFCanvas(canvas?: TransformedCanvas): boolean {
   if (!canvas) return false;
 
