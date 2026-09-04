@@ -11,6 +11,17 @@ import theme from '@weco/common/views/themes/default';
 
 import TabsSwitch from './Tabs.Switch';
 
+// TabsSwitch drives its anchor changes through the router (shallow), rather
+// than a raw history.pushState/replaceState - see Tabs.Switch.tsx for why.
+// This stand-in performs the same real history update the component relies
+// on for its own hashchange listener, without needing a full Next.js router.
+jest.mock('next/router', () => ({
+  useRouter: () => ({
+    push: (url: string) => globalThis.history.pushState({}, '', url),
+    replace: (url: string) => globalThis.history.replaceState({}, '', url),
+  }),
+}));
+
 window.HTMLElement.prototype.scrollIntoView = jest.fn(); // scrollIntoView is not in JSDOM: https://stackoverflow.com/a/60225417
 
 const items = [
