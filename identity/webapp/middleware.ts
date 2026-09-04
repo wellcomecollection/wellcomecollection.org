@@ -16,8 +16,27 @@ const stripBasePath = (request: NextRequest): string => {
 const isLogoutPath = (request: NextRequest): boolean =>
   stripBasePath(request) === '/api/auth/logout';
 
-const isValidatedPath = (request: NextRequest): boolean =>
-  stripBasePath(request) === '/validated';
+// Routes that save the session themselves, so must not also get
+// auth0.middleware's rolling-session touch:
+//
+//   - /validated refreshes and saves explicitly (see validated.tsx)
+//   - /api/users/* calls getAccessToken, which saves whenever it refreshes
+//     (see pages/api/users/[[...users]].ts)
+//   - /api/auth/me?refetch refreshes and then updates the session (see
+//     pages/api/auth/me.ts); it is ours, not one of the SDK's mounted auth
+//     routes, so skipping the middleware here is safe
+const savesOwnSession = (request: NextRequest): boolean => {
+  const pathname = stripBasePath(request);
+  // Without refetch, /api/auth/me only reads the session, so let it roll.
+  if (pathname === '/api/auth/me') {
+    return request.nextUrl.searchParams.has('refetch');
+  }
+  return (
+    pathname === '/validated' ||
+    pathname === '/api/users' ||
+    pathname.startsWith('/api/users/')
+  );
+};
 
 const isRelative = (returnTo: string): boolean => {
   try {
@@ -70,14 +89,11 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // /validated already does its own explicit session refresh-and-save (see
-  // validated.tsx), so letting auth0.middleware's rolling-session touch run
-  // here too would save the session a second, independent time on the same
-  // request - doubling the Set-Cookie payload and overflowing nginx's
-  // response header buffer (502). Skip it here rather than excluding the
-  // path via the matcher config below, since matcher patterns and basePath
-  // interact in ways that are easy to get wrong silently.
-  if (isValidatedPath(request)) {
+  // Two independent saves on one request double the Set-Cookie payload and
+  // overflow nginx's response header buffer (502). Skipped here rather than
+  // excluded via the matcher config below, since matcher patterns and
+  // basePath interact in ways that are easy to get wrong silently.
+  if (savesOwnSession(request)) {
     return NextResponse.next();
   }
 
