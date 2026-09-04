@@ -8,6 +8,7 @@ import {
   getCardLabels,
   getLanguageId,
   getProductionDates,
+  isArchiveCollectionRoot,
 } from '@weco/content/utils/works';
 
 import { Work } from '.';
@@ -24,7 +25,7 @@ export type WorkBasic = OptionalToUndefined<{
   cardLabels: Label[];
   primaryContributorLabel?: string;
   notes: Note[];
-  isRootCollection: boolean;
+  isArchiveCollectionRoot: boolean;
   physicalDescription: string;
 }>;
 
@@ -55,7 +56,7 @@ export function toWorkBasic(work: Work): WorkBasic {
       contributor => contributor.primary
     )?.agent.label,
     notes,
-    isRootCollection: !!work.collection?.isRoot,
+    isArchiveCollectionRoot: isArchiveCollectionRoot(work),
     physicalDescription,
   };
 }
