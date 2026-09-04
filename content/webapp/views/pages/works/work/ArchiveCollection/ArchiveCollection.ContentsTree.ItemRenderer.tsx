@@ -25,7 +25,7 @@ import {
 import {
   ChevronSpacer,
   compactControlDimensions,
-  ContentsTable,
+  ContentsRow,
   LevelCell,
   NameCell,
 } from './ArchiveCollection.ContentsTree.styles';
@@ -63,82 +63,81 @@ const ContentsTreeItemRenderer: FunctionComponent<
   const indentPx =
     level > 1 ? (level - 1) * compactControlDimensions.controlWidth : 0;
   const rowIndex = rowIndexById?.[data.id];
-  // The collection root (level 1) represents the archive as a whole, so it
-  // gets the archive icon instead of the folder/file icons used for its contents.
+  // The collection root (level 1) represents the archive as a whole,
+  // so it gets the archive icon instead of the folder/file icons
+  // Below that, the icon is driven by data.type
+  // Section/Series/Collection nodes use folder icons, Work nodes use the file icon.
+  // show the openFolder icon only when children are actually being shown
+  // (matching ListItem's own `item.children && item.openStatus` check
+  // This prevents showing an open folder on the last row before "Show more"), before its expanded to show children.
+  const isVisiblyExpanded = Boolean(item.children && item.openStatus);
   const typeIcon =
     level === 1
       ? archive
-      : hasControl
-        ? item.openStatus
+      : data.type !== 'Work'
+        ? isVisiblyExpanded
           ? openFolder
           : closedFolder
         : file;
 
   return (
-    <ContentsTable
+    <ContentsRow
       $isEvenRow={rowIndex !== undefined && rowIndex % 2 === 0}
       $indentPx={indentPx}
       $hasControl={hasControl}
     >
-      <tbody>
-        <tr>
-          <td>
-            <NameCell>
-              {isEnhanced && hasControl ? (
-                <TreeControl
-                  $highlightCondition={highlightCondition}
-                  $isDarkMode={isDarkMode}
-                  $isCompact
-                >
-                  <Icon
-                    rotate={item.openStatus ? undefined : 270}
-                    icon={chevron}
-                    sizeOverride={`height: ${compactControlDimensions.iconSize}px; width: ${compactControlDimensions.iconSize}px;`}
-                  />
-                </TreeControl>
-              ) : (
-                <ChevronSpacer />
-              )}
+      <NameCell>
+        {isEnhanced && hasControl ? (
+          <TreeControl
+            $highlightCondition={highlightCondition}
+            $isDarkMode={isDarkMode}
+            $isCompact
+          >
+            <Icon
+              rotate={item.openStatus ? undefined : 270}
+              icon={chevron}
+              sizeOverride={`height: ${compactControlDimensions.iconSize}px; width: ${compactControlDimensions.iconSize}px;`}
+            />
+          </TreeControl>
+        ) : (
+          <ChevronSpacer />
+        )}
 
-              <Icon
-                icon={typeIcon}
-                iconColor="neutral.600"
-                matchText
-                sizeOverride="height: 16px; width: 16px;"
-              />
+        <Icon
+          icon={typeIcon}
+          iconColor="neutral.600"
+          matchText
+          sizeOverride="height: 16px; width: 16px;"
+        />
 
-              <NextLink
-                {...toWorkLink({ id: data.id, scroll: false })}
-                onClick={event => {
-                  // Don't toggle the branch when the link itself is activated
-                  event.stopPropagation();
-                }}
-                tabIndex={isEnhanced ? (isSelected ? 0 : -1) : 0}
-                {...dataGtmPropsToAttributes({
-                  trigger: 'contents_tree_link',
-                  label: `${data.title}${data.referenceNumber ? ` (${data.referenceNumber})` : ''}`,
-                })}
-              >
-                <WorkTitle title={data.title} />
-              </NextLink>
-            </NameCell>
-          </td>
+        <NextLink
+          {...toWorkLink({ id: data.id, scroll: false })}
+          onClick={event => {
+            // Don't toggle the branch when the link itself is activated
+            event.stopPropagation();
+          }}
+          tabIndex={isEnhanced ? (isSelected ? 0 : -1) : 0}
+          {...dataGtmPropsToAttributes({
+            trigger: 'contents_tree_link',
+            label: `${data.title}${data.referenceNumber ? ` (${data.referenceNumber})` : ''}`,
+          })}
+        >
+          <WorkTitle title={data.title} />
+        </NextLink>
+      </NameCell>
 
-          <td>{data.referenceNumber}</td>
-          <td>
-            <LevelCell>
-              <Icon
-                icon={typeIcon}
-                iconColor="neutral.600"
-                matchText
-                sizeOverride="height: 16px; width: 16px;"
-              />
-              {getWorkLevelLabel(data.type)}
-            </LevelCell>
-          </td>
-        </tr>
-      </tbody>
-    </ContentsTable>
+      <span>{data.referenceNumber}</span>
+
+      <LevelCell>
+        <Icon
+          icon={typeIcon}
+          iconColor="neutral.600"
+          matchText
+          sizeOverride="height: 16px; width: 16px;"
+        />
+        {getWorkLevelLabel(data.type)}
+      </LevelCell>
+    </ContentsRow>
   );
 };
 

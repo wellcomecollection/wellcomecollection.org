@@ -19,11 +19,8 @@ const mainSizeMap: SizeMap = { s: [12], m: [12], l: [8], xl: [8] };
 const sideSizeMap: SizeMap = { s: [12], m: [12], l: [4], xl: [4] };
 
 const SideColumn = styled(GridCell)`
-  order: -1;
-
   ${props =>
     props.theme.media('md')(`
-      order: 0;
       height: calc(100% - ${props.theme.spacingUnits['600']});
       border-left: 1px solid ${props.theme.color('neutral.400')};
       padding-left: ${props.theme.gutter.large};
