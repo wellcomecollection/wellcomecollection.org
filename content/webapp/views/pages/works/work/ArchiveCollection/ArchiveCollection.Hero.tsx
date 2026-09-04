@@ -133,9 +133,7 @@ const ArchiveCollectionHero = ({ work }: { work: WorkType }) => {
                 label="Subjects"
                 value={
                   <WorkDetailsTags
-                    buttonColors={
-                      themeValues.buttonColors.charcoalWhiteCharcoal
-                    }
+                    buttonColors={themeValues.buttonColors.slateWhiteBlack}
                     tags={subjectTags}
                   />
                 }

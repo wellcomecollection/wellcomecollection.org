@@ -20,7 +20,7 @@ All shared code lives in `common/` and is imported using `@weco/` package names,
 Follow these patterns consistently:
 - Component files: PascalCase (`Header.tsx`, `PageLayout.tsx`)
 - Utility files: kebab-case (`undici-agent.ts`, `json-ld.ts`)
-- Test files: same name as source with `.test.ts` / `.test.tsx` suffix (match the source extension, e.g. `Component.tsx` → `Component.test.tsx`)
+- Test files: same name as source with `.test.ts` / `.test.tsx` suffix (match the source extension, e.g. `Component.tsx` → `Component.test.tsx`) - except when the test itself needs JSX (e.g. a context-provider wrapper for a hook test), which takes `.tsx` regardless of the source file's own extension
 - Type declarations: `.d.ts` extension for ambient declarations
 - Service/utility folders: use `index.ts` as the main export point
 

@@ -18,15 +18,6 @@ import WorkDetailsText from '@weco/content/views/pages/works/work/WorkDetails/Wo
 const mainSizeMap: SizeMap = { s: [12], m: [12], l: [8], xl: [8] };
 const sideSizeMap: SizeMap = { s: [12], m: [12], l: [4], xl: [4] };
 
-const DesktopOnlyDivider = styled.div`
-  display: none;
-
-  ${props =>
-    props.theme.media('md')(`
-      display: block;
-    `)}
-`;
-
 const SideColumn = styled(GridCell)`
   order: -1;
 
@@ -109,10 +100,6 @@ const ArchiveCollectionAbout: FunctionComponent<{ work: WorkType }> = ({
           />
         </div>
       </WorkDetailsSection>
-
-      <DesktopOnlyDivider>
-        <Divider />
-      </DesktopOnlyDivider>
     </>
   );
 };
