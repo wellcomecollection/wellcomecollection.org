@@ -2,7 +2,13 @@ import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
-import { chevron, closedFolder, file, openFolder } from '@weco/common/icons';
+import {
+  archive,
+  chevron,
+  closedFolder,
+  file,
+  openFolder,
+} from '@weco/common/icons';
 import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
 import { toWorkLink } from '@weco/content/views/components/WorkLink';
@@ -57,11 +63,16 @@ const ContentsTreeItemRenderer: FunctionComponent<
   const indentPx =
     level > 1 ? (level - 1) * compactControlDimensions.controlWidth : 0;
   const rowIndex = rowIndexById?.[data.id];
-  const typeIcon = hasControl
-    ? item.openStatus
-      ? openFolder
-      : closedFolder
-    : file;
+  // The collection root (level 1) represents the archive as a whole, so it
+  // gets the archive icon instead of the folder/file icons used for its contents.
+  const typeIcon =
+    level === 1
+      ? archive
+      : hasControl
+        ? item.openStatus
+          ? openFolder
+          : closedFolder
+        : file;
 
   return (
     <ContentsTable
