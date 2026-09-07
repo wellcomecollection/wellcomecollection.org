@@ -98,7 +98,8 @@ export function getFileTypeLabel(
     return pluralize(collectionManifestsCount, 'volume');
 
   // Check if all items are PDFs
-  const allPdfs = canvases?.every(canvas => isPDFCanvas(canvas)) || false;
+  const allPdfs =
+    canvases?.every(canvas => shouldTreatAsPDFCanvas(canvas)) || false;
   if (allPdfs) return pluralize(canvasCount, 'PDF file');
 
   // Non-standard items should be treated as generic files
@@ -108,7 +109,8 @@ export function getFileTypeLabel(
   const hasVideo = hasItemType(canvases, 'Video');
   const hasAudio =
     hasItemType(canvases, 'Sound') || hasItemType(canvases, 'Audio');
-  const hasPdfs = canvases?.some(canvas => isPDFCanvas(canvas)) || false;
+  const hasPdfs =
+    canvases?.some(canvas => shouldTreatAsPDFCanvas(canvas)) || false;
   const hasImages = hasItemType(canvases, 'Image');
 
   const typeCount = [hasVideo, hasAudio, hasPdfs, hasImages].filter(
@@ -652,7 +654,12 @@ export function hasOriginalPdf(canvases?: TransformedCanvas[]): boolean {
   );
 }
 
-export function isPDFCanvas(canvas?: TransformedCanvas): boolean {
+/**
+ * Whether a canvas should get PDF treatment in the UI (PDF viewer/download
+ * rather than image/video) - true for a born-digital PDF original (even if
+ * its painting is an Image preview), or a PDF supplement with no paintings.
+ */
+export function shouldTreatAsPDFCanvas(canvas?: TransformedCanvas): boolean {
   if (!canvas) return false;
 
   const hasPDFSupplement = canvas?.supplementing.some(supplement => {
