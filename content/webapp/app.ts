@@ -60,7 +60,10 @@ const appPromise = nextApp
 
     // Lets deploy tooling confirm which commit is live; must never be cached
     router.get('/management/manifest', async ctx => {
-      ctx.set('Cache-Control', 'no-store');
+      ctx.set(
+        'Cache-Control',
+        'private, no-cache, no-store, max-age=0, must-revalidate'
+      );
       ctx.body = {
         commit: process.env.BUILD_COMMIT || 'unknown',
         startedAt,

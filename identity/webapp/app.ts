@@ -94,7 +94,10 @@ export async function createApp(): Promise<Koa> {
   router.get(
     ['/management/manifest', '/account/management/manifest'],
     async ctx => {
-      ctx.set('Cache-Control', 'no-store');
+      ctx.set(
+        'Cache-Control',
+        'private, no-cache, no-store, max-age=0, must-revalidate'
+      );
       ctx.body = {
         commit: process.env.BUILD_COMMIT || 'unknown',
         startedAt,

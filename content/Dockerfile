@@ -2,9 +2,6 @@
 FROM public.ecr.aws/docker/library/node:24.13.0-bookworm-slim
 
 ARG NEXT_PUBLIC_CIVICUK_API_KEY
-# Exposed at /management/manifest so deploy tooling can see which commit is live
-ARG BUILDKITE_COMMIT
-ENV BUILD_COMMIT=$BUILDKITE_COMMIT
 
 WORKDIR /app
 
@@ -25,6 +22,11 @@ RUN NODE_OPTIONS=--max-old-space-size=4096 yarn build && yarn cache clean
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --gid 1001 nextjs
 USER nextjs
+
+# Exposed at /management/manifest so deploy tooling can see which commit is live.
+# Last so a new commit only invalidates this layer, not the install and build.
+ARG BUILDKITE_COMMIT
+ENV BUILD_COMMIT=$BUILDKITE_COMMIT
 
 EXPOSE 3000
 CMD ["yarn", "start"]
