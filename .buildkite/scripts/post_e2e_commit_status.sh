@@ -11,7 +11,9 @@ else
   STATE="failure"
 fi
 
-pip install --quiet --disable-pip-version-check 'pyjwt[crypto]' requests boto3
+# Pinned so a new upstream release cannot change this step's behaviour
+python3 -m pip install --quiet --disable-pip-version-check \
+  'pyjwt[crypto]==2.13.0' 'requests==2.34.2' 'boto3==1.43.89'
 
 python3 .buildkite/scripts/post_e2e_commit_status.py \
   "$STATE" \

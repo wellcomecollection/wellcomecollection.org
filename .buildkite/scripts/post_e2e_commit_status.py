@@ -8,6 +8,7 @@ the github-deployments Buildkite plugin reads. The App needs statuses: write.
 import os
 import sys
 import time
+from functools import cache
 
 import boto3
 import jwt
@@ -17,9 +18,14 @@ REPO = "wellcomecollection/wellcomecollection.org"
 API = "https://api.github.com"
 
 
+@cache
+def secrets_client():
+    return boto3.client("secretsmanager", region_name="eu-west-1")
+
+
+@cache
 def secret(name: str) -> str:
-    client = boto3.client("secretsmanager", region_name="eu-west-1")
-    return client.get_secret_value(SecretId=name)["SecretString"]
+    return secrets_client().get_secret_value(SecretId=name)["SecretString"]
 
 
 def installation_token() -> str:
