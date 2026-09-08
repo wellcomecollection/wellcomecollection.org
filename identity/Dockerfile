@@ -7,6 +7,9 @@ RUN apt-get update
 RUN apt-get -y install awscli
 
 ARG NEXT_PUBLIC_CIVICUK_API_KEY
+# Exposed at /management/manifest so deploy tooling can see which commit is live
+ARG BUILDKITE_COMMIT
+ENV BUILD_COMMIT=$BUILDKITE_COMMIT
 
 WORKDIR /app
 
