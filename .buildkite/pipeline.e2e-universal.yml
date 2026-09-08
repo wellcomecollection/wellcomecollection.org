@@ -34,6 +34,7 @@ steps:
           command: ["bash", "check_urls.sh"]
 
   - label: "e2e test:desktop [$DEPLOYMENT_ENVIRONMENT]"
+    key: "e2e-desktop"
     retry:
       automatic:
         - exit_status: 255  # docker-compose plugin exits with 255 on infrastructure interrupts
@@ -56,6 +57,7 @@ steps:
       queue: scala # High parallelism for expensive tests
 
   - label: "e2e test:mobile [$DEPLOYMENT_ENVIRONMENT]"
+    key: "e2e-mobile"
     retry:
       automatic:
         - exit_status: 255  # docker-compose plugin exits with 255 on infrastructure interrupts
@@ -76,3 +78,23 @@ steps:
           command: ["yarn", "test:mobile"]
     agents:
       queue: scala # High parallelism for expensive tests
+
+  # Records the e2e outcome as a commit status (context e2e/<env>) so the
+  # deploy tracker can show it. Runs whether the tests passed or failed.
+  - label: "Report e2e result to GitHub"
+    key: "e2e-commit-status"
+    depends_on:
+      - "e2e-desktop"
+      - "e2e-mobile"
+    allow_dependency_failure: true
+    soft_fail: true
+    plugins:
+      - wellcomecollection/aws-assume-role#v0.2.2:
+          role: "arn:aws:iam::130871440101:role/experience-ci"
+      - docker#v5.11.0:
+          image: "public.ecr.aws/docker/library/python:3.12-slim"
+          mount-buildkite-agent: true
+          propagate-environment: true
+          command: ["bash", ".buildkite/scripts/post_e2e_commit_status.sh"]
+    agents:
+      queue: nano
