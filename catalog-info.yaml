@@ -19,12 +19,13 @@ metadata:
   annotations:
     github.com/project-slug: wellcomecollection/wellcomecollection.org
     backstage.io/source-location: url:https://github.com/wellcomecollection/wellcomecollection.org/tree/main/content/
+    wellcomecollection.org/deploy-tracker: .deploy-tracker.yml#content
 spec:
   type: service
   lifecycle: production
   owner: digital-experience
   system: wellcomecollection.org
-  dependsOn: [component:common]
+  dependsOn: [component:wellcomecollection-org-common]
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
@@ -34,17 +35,18 @@ metadata:
   annotations:
     github.com/project-slug: wellcomecollection/wellcomecollection.org
     backstage.io/source-location: url:https://github.com/wellcomecollection/wellcomecollection.org/tree/main/identity/
+    wellcomecollection.org/deploy-tracker: .deploy-tracker.yml#identity
 spec:
   type: service
   lifecycle: production
   owner: digital-experience
   system: wellcomecollection.org
-  dependsOn: [component:common]
+  dependsOn: [component:wellcomecollection-org-common]
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: common
+  name: wellcomecollection-org-common
   description: Code shared by the content and identity apps
   annotations:
     github.com/project-slug: wellcomecollection/wellcomecollection.org
