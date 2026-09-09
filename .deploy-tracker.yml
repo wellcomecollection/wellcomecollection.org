@@ -7,16 +7,20 @@ slack:
 environments:
   stage:
     checkpoints:
-      - url: https://www-stage.wellcomecollection.org/management/manifest
+      - name: content
+        url: https://www-stage.wellcomecollection.org/management/manifest
         paths: [content/, common/]
-      - url: https://www-stage.wellcomecollection.org/account/management/manifest
+      - name: identity
+        url: https://www-stage.wellcomecollection.org/account/management/manifest
         paths: [identity/, common/]
   prod:
     promote_from: stage
     checkpoints:
-      - url: https://wellcomecollection.org/management/manifest
+      - name: content
+        url: https://wellcomecollection.org/management/manifest
         paths: [content/, common/]
-      - url: https://wellcomecollection.org/account/management/manifest
+      - name: identity
+        url: https://wellcomecollection.org/account/management/manifest
         paths: [identity/, common/]
 
 # Slack only while the tracker is validated; flipped on once the messages
