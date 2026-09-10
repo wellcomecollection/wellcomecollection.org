@@ -2,7 +2,7 @@
 version: 1
 
 slack:
-  channel: "#wc-deploys"
+  channel: "#wc-experience-deploys"
 
 environments:
   stage:
