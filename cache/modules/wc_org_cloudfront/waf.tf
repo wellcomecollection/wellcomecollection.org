@@ -1213,15 +1213,14 @@ resource "aws_wafv2_web_acl" "wc_org" {
         }
 
         // TARGETED is billed per request analysed at 10x the COMMON rate, so
-        // it is only affordable scoped down to the /search pages it exists to
-        // protect. The seo-user-agent-block rule replaces the group's
-        // site-wide CategorySeo coverage while this scope-down is active.
+        // the group stays scoped down; the items pages add $10 to $14 a day.
+        // The seo-user-agent-block rule replaces its site-wide CategorySeo
+        // coverage while this scope-down is active.
         dynamic "scope_down_statement" {
           for_each = var.bot_control_inspection_level == "TARGETED" ? [1] : []
           content {
-            byte_match_statement {
-              positional_constraint = "STARTS_WITH"
-              search_string         = "/search"
+            regex_match_statement {
+              regex_string = var.bot_control_inspect_items_pages ? "^(/search|/works/[^/]+/items$)" : "^/search"
 
               field_to_match {
                 uri_path {}

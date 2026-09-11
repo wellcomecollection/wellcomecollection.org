@@ -109,6 +109,12 @@ variable "enable_works_fabricated_ua_block" {
   description = "Block fabricated-browser traffic on /works*, /images* and /concepts*: a browser-posing User-Agent with no Accept-Language and no self-identification. Exempts honest crawlers, link-preview fetchers and user-triggered AI agents. Prove on stage before enabling elsewhere."
 }
 
+variable "bot_control_inspect_items_pages" {
+  type        = bool
+  default     = false
+  description = "Also inspect /works/<id>/items. Billed per request; TGT rules stay in count mode but CategorySeo blocks there, so prove on stage first."
+}
+
 variable "bot_control_inspection_level" {
   type        = string
   default     = "COMMON"

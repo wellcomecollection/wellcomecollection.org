@@ -53,9 +53,12 @@ module "stage_wc_org_cloudfront_distribution" {
   # every 5 minutes. Matches prod.
   search_challenge_immunity_seconds = 14400
 
-  # Targeted Bot Control, scoped to /search with TGT_ rules counting only.
-  # Matches prod.
+  # Targeted Bot Control; TGT_ rules count rather than act. Matches prod.
   bot_control_inspection_level = "TARGETED"
+
+  # Trialling items-page inspection before prod. Too little traffic here for
+  # soak data; this confirms the scope-down and what CategorySeo does.
+  bot_control_inspect_items_pages = true
 
   # Trialling the missing-Accept-Language block here before prod: real
   # browsers always send the header; the clients that omit it are crawlers
