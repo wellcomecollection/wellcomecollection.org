@@ -58,9 +58,15 @@ module "prod_wc_org_cloudfront_distribution" {
   # every 5 minutes.
   search_challenge_immunity_seconds = 14400
 
-  # Targeted Bot Control, scoped to /search with TGT_ rules counting only:
-  # labels the flood for analysis without changing enforcement.
+  # Targeted Bot Control; TGT_ rules count rather than act.
   bot_control_inspection_level = "TARGETED"
+
+  # Soak until 2026-09-14: labels the items-page fleet, which solves the
+  # challenge. Mostly weekend traffic, so readers are under-sampled; judge
+  # false positives on the Monday. Revert unless a signal separates the fleet
+  # AND the fix is cheaper than the inspection. Not observational:
+  # CategorySeo blocks, so SEO crawlers get 403s on those paths.
+  bot_control_inspect_items_pages = true
 
   # Real browsers always send Accept-Language; the clients that omit it are
   # crawlers and headless bots that never solve the challenge they would
