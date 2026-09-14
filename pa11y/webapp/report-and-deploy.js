@@ -93,6 +93,22 @@ const runPa11y = async url => {
   });
 };
 
+/**
+ * Runs pa11y against a URL, retrying once on error.
+ *
+ * Pa11y injects its test runners immediately after the page loads. If the page
+ * navigates while that injection is in flight the execution context is
+ * destroyed and pa11y throws, so a single attempt is not reliable.
+ */
+const runPa11yWithRetry = async url => {
+  try {
+    return await runPa11y(url);
+  } catch (error) {
+    console.info(`Retrying ${url} after error: ${error.message}`);
+    return runPa11y(url);
+  }
+};
+
 // Run pa11y in batches to avoid rate limiting while keeping reasonable speed
 async function runAllTests() {
   const results = [];
@@ -105,8 +121,25 @@ async function runAllTests() {
     }
 
     const batch = urls.slice(i, i + batchSize);
-    const batchResults = await Promise.all(batch.map(url => runPa11y(url)));
-    results.push(...batchResults);
+    const batchResults = await Promise.allSettled(
+      batch.map(url => runPa11yWithRetry(url))
+    );
+
+    // Keep a placeholder for URLs that errored, so results stay aligned with
+    // urls. The missing documentTitle makes them fail the check below.
+    batchResults.forEach((outcome, j) => {
+      if (outcome.status === 'fulfilled') {
+        results.push(outcome.value);
+      } else {
+        console.error(
+          styleText(
+            'redBright',
+            `${batch[j]} errored: ${outcome.reason.message}`
+          )
+        );
+        results.push({ issues: [] });
+      }
+    });
   }
 
   return results;
