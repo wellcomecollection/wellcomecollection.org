@@ -28,7 +28,7 @@
     "jest-environment-jsdom": "^30.5.0",
     "koa-compose": "^4.1.0",
     "lodash.debounce": "^4.0.8",
-    "next": "15.5.21",
+    "next": "15.5.24",
     "nprogress": "^0.2.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
