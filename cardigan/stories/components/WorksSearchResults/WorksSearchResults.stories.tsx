@@ -3,15 +3,33 @@ import type { ComponentProps } from 'react';
 
 import {
   archiveCollectionWork,
+  nonArchiveCollectionWork,
   workBasic,
 } from '@weco/cardigan/stories/data/work';
 import { ServerDataContext } from '@weco/common/server-data/Context';
 import { defaultServerData } from '@weco/common/server-data/types';
+import type { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import WorksSearchResults from '@weco/content/views/components/WorksSearchResults';
 
+const workVariants = {
+  ordinary: {
+    label: 'An ordinary work',
+    work: workBasic,
+  },
+  collectionRootManuscript: {
+    label: 'A collection root that is a manuscript',
+    work: nonArchiveCollectionWork,
+  },
+  archiveCollectionRoot: {
+    label: 'An archive collection root',
+    work: archiveCollectionWork,
+  },
+} satisfies Record<string, { label: string; work: WorkBasic }>;
+
+type WorkVariant = keyof typeof workVariants;
+
 type StoryProps = ComponentProps<typeof WorksSearchResults> & {
-  isArchive: boolean;
-  isRootCollection: boolean;
+  workVariant: WorkVariant;
 };
 
 const meta: Meta<StoryProps> = {
@@ -19,18 +37,21 @@ const meta: Meta<StoryProps> = {
   component: WorksSearchResults,
   args: {
     works: [workBasic],
-    isArchive: false,
-    isRootCollection: false,
+    workVariant: 'ordinary',
   },
   argTypes: {
     works: { table: { disable: true } },
-    isArchive: {
-      name: 'Is archive',
-      control: 'boolean',
-    },
-    isRootCollection: {
-      name: 'Is collection root',
-      control: 'boolean',
+    workVariant: {
+      name: 'Work',
+      control: {
+        type: 'radio',
+        labels: Object.fromEntries(
+          Object.entries(workVariants).map(([id, { label }]) => [id, label])
+        ),
+      },
+      options: Object.keys(workVariants) as WorkVariant[],
+      description:
+        'Only an archive collection root gets the "Archive Collection" treatment. A collection root that is a manuscript does not.',
     },
   },
   // TODO remove once archiveCollection is fully rolled out
@@ -60,28 +81,22 @@ type Story = StoryObj<StoryProps>;
 
 export const Basic: Story = {
   name: 'WorksSearchResults',
-  render: ({ isArchive, isRootCollection, works }) => {
-    const resolvedWorks = isArchive
-      ? [{ ...archiveCollectionWork, isRootCollection }]
-      : works;
+  render: ({ workVariant }) => (
+    <>
+      <WorksSearchResults works={[workVariants[workVariant].work]} />
 
-    return (
-      <>
-        <WorksSearchResults works={resolvedWorks} />
-
-        {isRootCollection && isArchive && (
-          <div
-            style={{
-              padding: '1rem',
-              backgroundColor: '#b8b8b8',
-              marginTop: '1rem',
-            }}
-          >
-            This is currently behind the <code>archiveCollection</code> feature
-            flag
-          </div>
-        )}
-      </>
-    );
-  },
+      {workVariant === 'archiveCollectionRoot' && (
+        <div
+          style={{
+            padding: '1rem',
+            backgroundColor: '#b8b8b8',
+            marginTop: '1rem',
+          }}
+        >
+          This is currently behind the <code>archiveCollection</code> feature
+          flag
+        </div>
+      )}
+    </>
+  ),
 };
