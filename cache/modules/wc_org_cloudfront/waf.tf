@@ -357,9 +357,46 @@ resource "aws_wafv2_web_acl" "wc_org" {
     }
   }
 
+  // Crawlers must always be able to read the file that tells them what not to
+  // fetch; the bot rules below share one budget and otherwise refuse it to them.
+  rule {
+    name     = "allow-robots-txt"
+    priority = 8
+
+    action {
+      allow {}
+    }
+
+    statement {
+      byte_match_statement {
+        positional_constraint = "EXACTLY"
+        search_string         = "/robots.txt"
+
+        field_to_match {
+          uri_path {}
+        }
+
+        // NONE, not LOWERCASE: paths are case-sensitive and so is the
+        // /robots.txt cache behaviour, so case variants belong on the dynamic
+        // origin under the normal rate limits rather than exempted here.
+        text_transformation {
+          priority = 0
+          type     = "NONE"
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      sampled_requests_enabled   = true
+      metric_name                = "allow-robots-txt-${var.namespace}"
+    }
+  }
+
+
   rule {
     name     = "bot-user-agent-manual"
-    priority = 8
+    priority = 9
 
     action {
       block {}
@@ -507,7 +544,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "apac-captcha-consent-block"
-    priority = 9
+    priority = 10
 
     action {
       captcha {}
@@ -557,7 +594,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "latam-captcha-consent-block"
-    priority = 10
+    priority = 11
 
     action {
       captcha {}
@@ -615,7 +652,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
     for_each = var.enable_search_legacy_ua_block ? [1] : []
     content {
       name     = "search-legacy-ua-block"
-      priority = 11
+      priority = 12
 
       action {
         block {}
@@ -675,7 +712,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
     for_each = var.enable_search_missing_lang_block ? [1] : []
     content {
       name     = "search-missing-lang-block"
-      priority = 12
+      priority = 13
 
       action {
         block {}
@@ -745,7 +782,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
     for_each = var.enable_works_fabricated_ua_block ? [1] : []
     content {
       name     = "works-fabricated-ua-block"
-      priority = 13
+      priority = 14
 
       action {
         block {}
@@ -862,7 +899,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
     for_each = var.enable_search_challenge ? [1] : []
     content {
       name     = "search-challenge"
-      priority = 15
+      priority = 16
 
       action {
         challenge {}
@@ -908,7 +945,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
     for_each = var.enable_items_challenge ? [1] : []
     content {
       name     = "items-challenge"
-      priority = 16
+      priority = 17
 
       action {
         challenge {}
@@ -945,7 +982,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "geo-rate-limit-USA"
-    priority = 17
+    priority = 18
 
     action {
       block {
@@ -980,7 +1017,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "geo-rate-limit-APAC"
-    priority = 18
+    priority = 19
 
     action {
       block {
@@ -1020,7 +1057,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "geo-rate-limit-LATAM"
-    priority = 19
+    priority = 20
 
     action {
       block {
@@ -1057,7 +1094,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "blanket-rate-limiting"
-    priority = 20
+    priority = 21
 
     action {
       block {}
@@ -1079,7 +1116,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "restrictive-rate-limiting"
-    priority = 21
+    priority = 22
 
     action {
       block {}
@@ -1117,7 +1154,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-crs
   rule {
     name     = "core-rule-group"
-    priority = 22
+    priority = 23
 
     override_action {
       none {}
@@ -1140,7 +1177,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-use-case.html#aws-managed-rule-groups-use-case-sql-db
   rule {
     name     = "sqli-rule-group"
-    priority = 23
+    priority = 24
 
     override_action {
       none {}
@@ -1163,7 +1200,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-known-bad-inputs
   rule {
     name     = "known-bad-inputs-rule-group"
-    priority = 24
+    priority = 25
 
     override_action {
       none {}
@@ -1185,7 +1222,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "bot-control-rule-group"
-    priority = 14
+    priority = 15
 
     // Because the Bot Control rules are quite aggressive, they block some useful bots
     // such as Updown. While we could add overrides for specific bots, we don"t want to have to
@@ -1261,7 +1298,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // /search once the group is scoped down for targeted inspection.
   rule {
     name     = "seo-user-agent-block"
-    priority = 25
+    priority = 26
 
     action {
       block {}
