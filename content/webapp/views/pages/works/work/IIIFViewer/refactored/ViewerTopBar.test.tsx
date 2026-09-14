@@ -102,6 +102,24 @@ describe('ViewerTopBar page-count indicator', () => {
     expect(screen.getByTestId('topbar')).not.toHaveTextContent(/page \d/);
   });
 
+  it('suppresses the page label when the canvas has no label at all', () => {
+    renderTopBar({
+      contextProps: {
+        transformedManifest: createMockManifest({
+          canvases: [
+            createMockCanvas({ label: '1' }),
+            createMockCanvas({ label: undefined }),
+          ],
+        }),
+        hasOnlyRenderableImages: true,
+        query: createMockQuery({ canvas: 2 }),
+      },
+    });
+
+    expect(screen.getByTestId('topbar')).toHaveTextContent('/2');
+    expect(screen.getByTestId('topbar')).not.toHaveTextContent(/page/);
+  });
+
   it('suppresses the page label when the manifest is not renderable-images-only', () => {
     renderTopBar({
       contextProps: {

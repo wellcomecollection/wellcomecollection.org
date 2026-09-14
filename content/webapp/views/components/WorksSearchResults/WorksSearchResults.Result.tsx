@@ -35,15 +35,16 @@ const WorkSearchResult: FunctionComponent<Props> = ({
 }) => {
   const { archiveCollection } = useFeatureFlags();
   const {
-    isRootCollection,
     archiveLabels,
     cardLabels,
     physicalDescription,
     primaryContributorLabel,
     productionDates,
+    isArchiveCollectionRoot,
   } = work;
 
-  const shouldShowArchiveCollectionInfo = archiveCollection && isRootCollection;
+  const shouldShowArchiveCollectionInfo =
+    archiveCollection && isArchiveCollectionRoot;
 
   return (
     <NextLink
@@ -78,7 +79,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
             )}
 
             <WorkTitleHeading
-              $isRootCollection={shouldShowArchiveCollectionInfo}
+              $isArchiveCollectionRoot={shouldShowArchiveCollectionInfo}
             >
               <WorkTitle title={work.title} />
             </WorkTitleHeading>

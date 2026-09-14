@@ -139,16 +139,16 @@ const ViewerBottomBar: FunctionComponent = () => {
     hasOnlyRenderableImages,
   } = useItemViewerContext();
 
-  const { canvas } = query;
+  const { canvas: canvasNumber } = query;
 
-  const canNavigatePrevious = canvas > 1;
-  const canNavigateNext = canvas < totalCanvases;
+  const canNavigatePrevious = canvasNumber > 1;
+  const canNavigateNext = canvasNumber < totalCanvases;
 
   const previousCanvasLink = canNavigatePrevious
-    ? toWorksItemLink({ workId: work.id, props: { canvas: canvas - 1 } })
+    ? toWorksItemLink({ workId: work.id, props: { canvas: canvasNumber - 1 } })
     : null;
   const nextCanvasLink = canNavigateNext
-    ? toWorksItemLink({ workId: work.id, props: { canvas: canvas + 1 } })
+    ? toWorksItemLink({ workId: work.id, props: { canvas: canvasNumber + 1 } })
     : null;
 
   const shouldShowCanvasNavigation =

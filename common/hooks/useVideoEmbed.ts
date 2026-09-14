@@ -14,14 +14,20 @@ type UseVideoEmbedReturn = {
 
 const useVideoEmbed = (
   embedUrl: string,
-  videoProvider?: VideoProvider
+  videoProvider?: VideoProvider,
+  // Loading YouTube's IFrame API sets YouTube's visitor cookies on youtube.com,
+  // which undoes the point of embedding from youtube-nocookie.com. We only need
+  // the API to measure engagement once someone has chosen to play a video, so
+  // callers should pass true at that point rather than on every page that
+  // happens to contain a video.
+  isActive = false
 ): UseVideoEmbedReturn => {
   const hasAnalyticsConsent = getConsentState('analytics');
   const isYouTube = videoProvider === 'YouTube';
   const isVimeo = videoProvider === 'Vimeo';
 
   useEffect(() => {
-    if (isYouTube && hasAnalyticsConsent) {
+    if (isYouTube && isActive && hasAnalyticsConsent) {
       const scriptId = 'youtube-iframe-api';
       if (document.getElementById(scriptId)) return;
 
@@ -31,10 +37,9 @@ const useVideoEmbed = (
       s.async = true;
       s.src = '//www.youtube.com/iframe_api';
 
-      const firstScript = document.getElementsByTagName('script')[0];
-      firstScript.parentNode?.insertBefore(s, firstScript);
+      document.head.appendChild(s);
     }
-  }, [isYouTube, hasAnalyticsConsent]);
+  }, [isYouTube, isActive, hasAnalyticsConsent]);
 
   const uid = useId();
   const videoId = embedUrl.match(/embed\/(.*?)(?:\?|$)/)?.[1];

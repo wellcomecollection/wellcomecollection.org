@@ -4,6 +4,7 @@ import { useAppContext } from '@weco/common/contexts/AppContext';
 import { treeInstructions } from '@weco/common/data/microcopy';
 import { plus } from '@weco/common/icons';
 import { useFeatureFlags, useModes } from '@weco/common/server-data/Context';
+import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
 import { Work } from '@weco/content/services/wellcome/catalogue/types';
 import {
@@ -22,7 +23,9 @@ import NestedList, {
 import ContentsTreeItemRenderer from './ArchiveCollection.ContentsTree.ItemRenderer';
 import {
   ChevronSpacer,
-  ContentsTable,
+  ContentsFooterRow,
+  ContentsHeaderRow,
+  ContentsRowSummaryCell,
   NameCell,
   ShowMoreButton,
   Tree,
@@ -137,15 +140,11 @@ const ArchiveCollectionContents: FunctionComponent<{
     <div style={{ overflowX: 'auto', width: '100%' }}>
       <div style={{ display: 'inline-table', minWidth: '100%' }}>
         <TreeBand aria-hidden="true">
-          <ContentsTable>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Reference</th>
-                <th>Level</th>
-              </tr>
-            </thead>
-          </ContentsTable>
+          <ContentsHeaderRow>
+            <span>Name</span>
+            <span>Reference</span>
+            <span>Level</span>
+          </ContentsHeaderRow>
         </TreeBand>
 
         <Tree $isEnhanced={isEnhanced} $showFirstLevelGuideline $isCompact>
@@ -172,37 +171,33 @@ const ArchiveCollectionContents: FunctionComponent<{
 
         {totalResults !== undefined && (
           <TreeBand>
-            <ContentsTable $indentPx={10}>
-              <tbody>
-                <tr>
-                  <td>
-                    <NameCell>
-                      <ChevronSpacer />
-                      {hasMorePages && (
-                        <ShowMoreButton
-                          onClick={showMore}
-                          disabled={isLoadingMore}
-                        >
-                          <Icon
-                            icon={plus}
-                            matchText
-                            sizeOverride="height: 16px; width: 16px;"
-                          />
-                          {isLoadingMore
-                            ? 'Loading…'
-                            : `Show ${nextBatchSize} more rows`}
-                        </ShowMoreButton>
-                      )}
-                    </NameCell>
-                  </td>
-                  <td colSpan={2}>
-                    <span>
-                      Showing {works.length} of {totalResults} rows
-                    </span>
-                  </td>
-                </tr>
-              </tbody>
-            </ContentsTable>
+            <ContentsFooterRow>
+              <NameCell>
+                <ChevronSpacer />
+                {hasMorePages && (
+                  <ShowMoreButton
+                    onClick={showMore}
+                    disabled={isLoadingMore}
+                    {...dataGtmPropsToAttributes({
+                      trigger: 'show_more_rows_content_tree',
+                    })}
+                  >
+                    <Icon
+                      icon={plus}
+                      matchText
+                      sizeOverride="height: 16px; width: 16px;"
+                    />
+                    {isLoadingMore
+                      ? 'Loading…'
+                      : `Show ${nextBatchSize} more rows`}
+                  </ShowMoreButton>
+                )}
+              </NameCell>
+
+              <ContentsRowSummaryCell>
+                Showing {works.length} of {totalResults} rows
+              </ContentsRowSummaryCell>
+            </ContentsFooterRow>
           </TreeBand>
         )}
       </div>

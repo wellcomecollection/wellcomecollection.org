@@ -99,12 +99,12 @@ ItemRenderer.displayName = 'ItemRenderer';
 
 function scrollViewer({
   currentCanvas,
-  canvas,
+  canvasNumber,
   viewer,
   mainAreaWidth,
 }: {
   currentCanvas: TransformedCanvas | undefined;
-  canvas: number;
+  canvasNumber: number;
   viewer: FixedSizeList | null;
   mainAreaWidth: number;
 }): void {
@@ -127,14 +127,14 @@ function scrollViewer({
         : 1;
     const renderedHeight = mainAreaWidth * ratio * 0.8; // 0.8 = 80% max-width image in container. Variable.
     const heightOfPreviousItems =
-      queryParamToArrayIndex(canvas) * (viewer?.props.itemSize || 0);
+      queryParamToArrayIndex(canvasNumber) * (viewer?.props.itemSize || 0);
     const distanceToScroll =
       heightOfPreviousItems +
       ((viewer?.props.itemSize || 0) - renderedHeight) / 2;
     viewer?.scrollTo(distanceToScroll);
   } else {
     // 4. Otherwise, if it's portrait, we go to the start of the image
-    viewer?.scrollToItem(queryParamToArrayIndex(canvas), 'start');
+    viewer?.scrollToItem(queryParamToArrayIndex(canvasNumber), 'start');
   }
 }
 
@@ -185,13 +185,13 @@ const VirtualizedImageViewer: FunctionComponent = () => {
     }, 500);
   }
 
-  // We display the canvas indicated by the canvas (index) when the page first loads
+  // We display the canvas indicated by the ?canvas= number when the page first loads
   function handleOnItemsRendered() {
     if (firstRenderRef.current) {
       const viewer = mainViewerRef?.current;
       scrollViewer({
         currentCanvas,
-        canvas: query.canvas,
+        canvasNumber: query.canvas,
         viewer,
         mainAreaWidth,
       });
@@ -206,7 +206,7 @@ const VirtualizedImageViewer: FunctionComponent = () => {
     if (query.shouldScrollToCanvas) {
       scrollViewer({
         currentCanvas,
-        canvas: query.canvas,
+        canvasNumber: query.canvas,
         viewer: mainViewerRef?.current,
         mainAreaWidth,
       });

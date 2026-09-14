@@ -17,6 +17,7 @@ import {
 } from '@weco/content/services/iiif/types/search/v3';
 import { searchWithinLabel } from '@weco/content/text/aria-labels';
 import { TransformedCanvas } from '@weco/content/types/manifest';
+import { hasRealLabel } from '@weco/content/utils/works';
 import {
   ItemProps,
   toWorksItemLink,
@@ -108,24 +109,23 @@ const Loading = () => (
 type HitProps = {
   hit: SearchResults['hits'][0];
   matchingCanvas: TransformedCanvas | undefined;
-  matchingCanvasParam: number;
+  matchingCanvasNumber: number;
   totalCanvases: number | undefined;
 };
 
 const Hit: FunctionComponent<HitProps> = ({
   hit,
   matchingCanvas,
-  matchingCanvasParam,
+  matchingCanvasNumber,
   totalCanvases,
 }: HitProps) => {
-  const label =
-    matchingCanvas?.label && matchingCanvas.label.trim() !== '-'
-      ? ` (page ${matchingCanvas?.label})`
-      : '';
+  const label = hasRealLabel(matchingCanvas?.label?.trim())
+    ? ` (page ${matchingCanvas?.label})`
+    : '';
   return (
     <>
       <HitData $v={{ size: 'xs', properties: ['margin-bottom'] }}>
-        {`Found on image ${matchingCanvasParam}${
+        {`Found on image ${matchingCanvasNumber}${
           totalCanvases ? ` / ${totalCanvases}` : ''
         }`}
         {label}
@@ -307,7 +307,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
                   <Hit
                     hit={hit}
                     matchingCanvas={matchingCanvas}
-                    matchingCanvasParam={arrayIndexToQueryParam(index || 0)}
+                    matchingCanvasNumber={arrayIndexToQueryParam(index || 0)}
                     totalCanvases={canvases?.length}
                   />
                 </NextLink>

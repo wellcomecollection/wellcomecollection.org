@@ -108,7 +108,11 @@ const ArchiveCollectionHero = ({ work }: { work: WorkType }) => {
     <Hero>
       <Container>
         <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
-          <LabelsList labels={getCardLabels(work)} defaultLabelColor="white" />
+          <LabelsList
+            labels={getCardLabels(work)}
+            defaultLabelColor="white"
+            outlineLightLabels={false}
+          />
         </Space>
 
         <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
@@ -129,9 +133,7 @@ const ArchiveCollectionHero = ({ work }: { work: WorkType }) => {
                 label="Subjects"
                 value={
                   <WorkDetailsTags
-                    buttonColors={
-                      themeValues.buttonColors.charcoalWhiteCharcoal
-                    }
+                    buttonColors={themeValues.buttonColors.slateWhiteBlack}
                     tags={subjectTags}
                   />
                 }

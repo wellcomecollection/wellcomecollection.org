@@ -35,13 +35,13 @@ const ImageViewerControlsWrapper = styled.div<{ $showControls?: boolean }>`
 
 function updateRotatedImages({
   rotatedImages,
-  canvasParam,
+  canvasNumber,
 }: {
   rotatedImages: CanvasRotatedImage[];
-  canvasParam: number;
+  canvasNumber: number;
 }): CanvasRotatedImage[] {
   const matchingIndex = rotatedImages.findIndex(
-    rotatedImage => rotatedImage.canvas === canvasParam
+    rotatedImage => rotatedImage.canvas === canvasNumber
   );
   if (matchingIndex >= 0) {
     return rotatedImages.map((rotatedImage, i) => {
@@ -61,7 +61,7 @@ function updateRotatedImages({
     return [
       ...rotatedImages,
       {
-        canvas: canvasParam,
+        canvas: canvasNumber,
         rotation: 90,
       },
     ];
@@ -104,7 +104,7 @@ const ImageViewerControls: FunctionComponent = () => {
             setRotatedImages(
               updateRotatedImages({
                 rotatedImages,
-                canvasParam: query.canvas,
+                canvasNumber: query.canvas,
               })
             );
           }}

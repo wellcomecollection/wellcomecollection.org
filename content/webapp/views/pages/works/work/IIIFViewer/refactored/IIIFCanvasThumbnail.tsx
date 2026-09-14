@@ -13,8 +13,9 @@ import { IIIFItemProps, TransformedCanvas } from '@weco/content/types/manifest';
 import {
   hasRestrictedItem,
   isChoiceBody,
-  isPDFCanvas,
+  shouldTreatAsPDFCanvas,
 } from '@weco/content/utils/iiif/v3';
+import { hasRealLabel } from '@weco/content/utils/works';
 
 import IIIFViewerImage from './IIIFViewerImage';
 import Padlock from './Padlock';
@@ -85,7 +86,7 @@ function getPlaceholderIcon(
 ) {
   if (itemType === 'Sound') return audio;
   if (itemType === 'Video') return video;
-  if (isPDFCanvas(canvas)) return pdf;
+  if (shouldTreatAsPDFCanvas(canvas)) return pdf;
   return file;
 }
 
@@ -134,7 +135,7 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
             </>
           )}
 
-          {!isRestricted && (
+          {(!isRestricted || userIsStaffWithRestricted) && (
             <>
               {!shouldShowIconPlaceholder ? (
                 <>
@@ -168,7 +169,7 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
         <div>
           <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
             <IIIFViewerThumbNumber>
-              {canvas.label?.trim() !== '-' && 'page'} {canvas.label}
+              {hasRealLabel(canvas.label?.trim()) && 'page'} {canvas.label}
             </IIIFViewerThumbNumber>
           </Space>
           <div>

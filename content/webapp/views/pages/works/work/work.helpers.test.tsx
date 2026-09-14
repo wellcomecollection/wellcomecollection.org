@@ -21,7 +21,7 @@ describe('getCurrentCanvas', () => {
       getCurrentCanvas({
         transformedManifest: undefined,
         canvasIndexById: {},
-        canvas: 1,
+        canvasNumber: 1,
       })
     ).toBeUndefined();
   });
@@ -30,7 +30,11 @@ describe('getCurrentCanvas', () => {
     const transformedManifest = createMockManifest({ canvases: [] });
 
     expect(
-      getCurrentCanvas({ transformedManifest, canvasIndexById: {}, canvas: 1 })
+      getCurrentCanvas({
+        transformedManifest,
+        canvasIndexById: {},
+        canvasNumber: 1,
+      })
     ).toBeUndefined();
   });
 
@@ -42,7 +46,11 @@ describe('getCurrentCanvas', () => {
     });
 
     expect(
-      getCurrentCanvas({ transformedManifest, canvasIndexById: {}, canvas: 2 })
+      getCurrentCanvas({
+        transformedManifest,
+        canvasIndexById: {},
+        canvasNumber: 2,
+      })
     ).toBe(canvasB);
   });
 
@@ -57,7 +65,11 @@ describe('getCurrentCanvas', () => {
     const canvasIndexById = { b: 1 };
 
     expect(
-      getCurrentCanvas({ transformedManifest, canvasIndexById, canvas: 1 })
+      getCurrentCanvas({
+        transformedManifest,
+        canvasIndexById,
+        canvasNumber: 1,
+      })
     ).toBe(canvasA);
   });
 
@@ -71,10 +83,18 @@ describe('getCurrentCanvas', () => {
     const canvasIndexById = { b: 1, a: 2 };
 
     expect(
-      getCurrentCanvas({ transformedManifest, canvasIndexById, canvas: 1 })
+      getCurrentCanvas({
+        transformedManifest,
+        canvasIndexById,
+        canvasNumber: 1,
+      })
     ).toBe(canvasB);
     expect(
-      getCurrentCanvas({ transformedManifest, canvasIndexById, canvas: 2 })
+      getCurrentCanvas({
+        transformedManifest,
+        canvasIndexById,
+        canvasNumber: 2,
+      })
     ).toBe(canvasA);
   });
 
@@ -90,7 +110,11 @@ describe('getCurrentCanvas', () => {
     const canvasIndexById = { a: 5, b: 7 };
 
     expect(
-      getCurrentCanvas({ transformedManifest, canvasIndexById, canvas: 1 })
+      getCurrentCanvas({
+        transformedManifest,
+        canvasIndexById,
+        canvasNumber: 1,
+      })
     ).toBe(canvasA);
   });
 
@@ -100,7 +124,11 @@ describe('getCurrentCanvas', () => {
     });
 
     expect(
-      getCurrentCanvas({ transformedManifest, canvasIndexById: {}, canvas: 0 })
+      getCurrentCanvas({
+        transformedManifest,
+        canvasIndexById: {},
+        canvasNumber: 0,
+      })
     ).toBeUndefined();
   });
 
@@ -113,7 +141,7 @@ describe('getCurrentCanvas', () => {
       getCurrentCanvas({
         transformedManifest,
         canvasIndexById: {},
-        canvas: 9999,
+        canvasNumber: 9999,
       })
     ).toBeUndefined();
   });

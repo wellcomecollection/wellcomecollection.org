@@ -13,7 +13,7 @@ import { IIIFItemProps, TransformedCanvas } from '@weco/content/types/manifest';
 import {
   hasRestrictedItem,
   isChoiceBody,
-  isPDFCanvas,
+  shouldTreatAsPDFCanvas,
 } from '@weco/content/utils/iiif/v3';
 
 import IIIFViewerImage from './IIIFViewerImage';
@@ -127,7 +127,7 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
             </>
           )}
 
-          {!isRestricted && (
+          {(!isRestricted || userIsStaffWithRestricted) && (
             <>
               {!hasIconPlaceholder ? (
                 <>
@@ -155,7 +155,7 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
                             ? audio
                             : itemType === 'Video'
                               ? video
-                              : isPDFCanvas(canvas)
+                              : shouldTreatAsPDFCanvas(canvas)
                                 ? pdf
                                 : file
                         }
