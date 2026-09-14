@@ -16,23 +16,17 @@ export { compactControlDimensions } from '@weco/content/views/pages/works/work/w
 const nameCellTextIndent = (spacingUnit: number) =>
   compactControlDimensions.controlWidth + spacingUnit;
 
-// Each row's its own <table> (real tables can't nest recursively), so
-// nth-child can't stripe them - $isEvenRow does that instead, from
-// visible-row position (see `rowIndexById`). $indentPx cancels out the
-// ancestor <ul> indentation so the stripe spans full width at any depth,
-// then reapplies it as padding so content doesn't shift.
-//
-// Below `sm` cells stack into a vertical block instead of 3 columns (no
-// room for those on mobile) - header's hidden too since it stops making
-// sense once things are stacked. `sm` and up restores the normal table.
-export const ContentsTable = styled.table.attrs({
+// Visual 3-column (Name/Reference/Level) layout on desktop, but stacks into a single column on mobile.
+// Below `sm` there's no room for 3 columns, so rows stack into a vertical flex column instead (order below controls the stack order).
+// The column grid only applies from `sm` up.
+const contentsGridColumns = '1fr 160px 110px';
+
+export const ContentsRow = styled.div.attrs({
   className: typography('body', 'sm', 'regular'),
 })<{ $isEvenRow?: boolean; $indentPx?: number; $hasControl?: boolean }>`
-  border-collapse: collapse;
+  display: flex;
+  flex-direction: column;
 
-  /* Needed at every width, not just desktop - with 'auto' layout a long
-     nowrap title just pushes the table wider instead of truncating. */
-  table-layout: fixed;
   margin-left: -${props => props.$indentPx ?? 0}px;
   width: calc(100% + ${props => props.$indentPx ?? 0}px);
 
@@ -46,113 +40,173 @@ export const ContentsTable = styled.table.attrs({
      clickable either. */
   ${props => props.$hasControl && `cursor: pointer;`}
 
-  th,
-  td {
+  > * {
     text-align: left;
-  }
 
-  thead {
-    display: none;
-  }
-
-  tbody tr {
-    display: flex;
-    flex-direction: column;
-  }
-
-  td {
-    display: block;
-
-    /* All cells need this, not just the first - the table's shifted
+    /* All cells need this, not just the first - the row's shifted
        left by $indentPx (see margin-left above), so without it a cell
        would render flush against the page edge. */
     padding: 0 10px 0 ${props => props.$indentPx ?? 0}px;
   }
 
-  td:not(:first-child) {
+  > *:not(:first-child) {
     color: ${props => props.theme.color('neutral.600')};
     padding-left: ${props =>
       (props.$indentPx ?? 0) + nameCellTextIndent(props.theme.spacingUnit)}px;
   }
 
-  ${TreeBand} & td:not(:first-child) {
+  ${TreeBand} & > *:not(:first-child) {
     color: inherit;
   }
 
   /* Vertical padding only goes on the visually first/last cells (Name,
      Reference), so the stack reads as one padded row rather than adding
-     space between every line. Can't put it on ContentsTable/tr instead -
-     browsers ignore padding on table/table-row once border-collapse:
-     collapse is set, and tr's a real table-row again at 'sm' anyway. */
-  td:nth-child(1) {
+     space between every line. */
+  > *:nth-child(1) {
     ${props => props.theme.makeSpacePropertyValues('xs', ['padding-top'])}
   }
 
   /* Mobile order is Name, Level, Reference (matching the design) - 'order'
-     only affects flex items, so it's a no-op once 'sm' switches back to
-     table-cell below and the desktop columns stay Name/Reference/Level. */
-  td:nth-child(2) {
+     only affects flex items, so it's a no-op once 'sm' switches to grid
+     below and the desktop columns stay Name/Reference/Level. */
+  > *:nth-child(2) {
     order: 2;
     ${props => props.theme.makeSpacePropertyValues('xs', ['padding-bottom'])}
   }
 
-  td:nth-child(3) {
+  > *:nth-child(3) {
     order: 1;
   }
 
   ${props =>
     props.theme.media('sm')(`
-      thead {
-        display: table-header-group;
-      }
+      display: grid;
+      grid-template-columns: ${contentsGridColumns};
+      column-gap: 10px;
 
-      tbody tr {
-        display: table-row;
-      }
-
-      td {
-        display: table-cell;
-        padding-right: 10px;
-        padding-left: 0;
+      > * {
+        padding: 0;
         ${props.theme.makeSpacePropertyValues('xs', [
           'padding-top',
           'padding-bottom',
         ])}
       }
 
+      /* Resets the mobile-only reordering above - needs the same
+         nth-child specificity as those rules, a bare '> *' loses to them. */
+      > *:nth-child(2),
+      > *:nth-child(3) {
+        order: initial;
+      }
+
       /* Only the first column needs the tree's indentation here - the
          rest are separate columns starting fresh after it. */
-      td:first-child {
+      > *:first-child {
         padding-left: ${props.$indentPx ?? 0}px;
       }
 
-      /* Undoes the base td:not(:first-child) rule's left padding, which
-         is only for lining cells up under the title on mobile. */
-      td:not(:first-child) {
+      /* Undoes the base rule's left padding above, which is only for
+         lining cells up under the title on mobile. */
+      > *:not(:first-child) {
         color: inherit;
         padding-left: 0;
       }
+    `)}
+`;
 
-      th {
-        padding: 12px 10px 12px 0;
+// The column headings shown above the tree. Purely decorative (the
+// TreeBand wrapping it is aria-hidden) - real column labels are already
+// part of each row's aria-label - so hidden below `sm` entirely rather
+// than stacking, same as the data it's labelling.
+export const ContentsHeaderRow = styled.div.attrs({
+  className: typography('body', 'sm', 'regular'),
+})`
+  display: none;
+
+  ${props =>
+    props.theme.media('sm')(`
+      display: grid;
+      grid-template-columns: ${contentsGridColumns};
+      column-gap: 10px;
+
+      > * {
+        padding: 12px 0;
         font-weight: bold;
+        text-align: left;
       }
 
       /* No ancestor <ul> to line up with here (it's a plain header, not
          part of the tree), so a fixed padding instead of $indentPx. */
-      th:first-child {
+      > *:first-child {
         padding-left: 10px;
       }
+    `)}
+`;
 
-      th:nth-child(2),
-      td:nth-child(2) {
-        width: 160px;
+// The "Show N more rows" control + results summary below the tree. Always
+// 2 cells (unlike ContentsRow's 3 Name/Reference/Level), so it's its own
+// component rather than reusing ContentsRow's nth-child-based rules
+export const ContentsFooterRow = styled.div.attrs({
+  className: typography('body', 'sm', 'regular'),
+})`
+  display: flex;
+  flex-direction: column-reverse;
+  ${props => props.theme.makeSpacePropertyValues('xs', ['row-gap'])}
+
+  margin-left: -10px;
+  width: calc(100% + 10px);
+
+  > * {
+    padding: 0 10px;
+  }
+
+  /* column-reverse flips what's on screen but not which DOM child
+     :first-/:last-child match, so the visually-first cell (the summary
+     text, last in the DOM) gets the top padding and vice versa - together
+     they read as one padded block rather than adding space between the two. */
+  > *:last-child {
+    ${props => props.theme.makeSpacePropertyValues('sm', ['padding-top'])}
+  }
+
+  > *:first-child {
+    ${props => props.theme.makeSpacePropertyValues('xs', ['padding-bottom'])}
+  }
+
+  ${props =>
+    props.theme.media('sm')(`
+      display: grid;
+      grid-template-columns: ${contentsGridColumns};
+      column-gap: 10px;
+
+      > * {
+        padding: 0;
+        ${props.theme.makeSpacePropertyValues('xs', [
+          'padding-top',
+          'padding-bottom',
+        ])}
       }
 
-      th:nth-child(3),
-      td:nth-child(3) {
-        width: 110px;
+      > *:first-child {
+        padding-left: 10px;
       }
+    `)}
+`;
+
+export const ContentsRowSummaryCell = styled.span`
+  display: block;
+  color: ${props => props.theme.color('neutral.600')};
+  padding-left: ${props => 10 + nameCellTextIndent(props.theme.spacingUnit)}px;
+
+  ${props =>
+    props.theme.media('sm')(`
+      color: inherit;
+      padding-left: 0;
+      grid-column: 2 / span 2;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      text-align: right;
+      padding-right: ${compactControlDimensions.controlWidth}px;
     `)}
 `;
 
@@ -226,13 +280,13 @@ export const ShowMoreButton = styled.button.attrs({
 })`
   display: inline-flex;
   align-items: center;
-  color: ${props => props.theme.color('neutral.600')};
+  color: inherit;
   gap: ${props => props.theme.spacingUnit}px;
 
-  ${props =>
-    props.theme.media('sm')(`
-      color: inherit;
-    `)}
+  /* Removes the browser's default button padding, so the icon's left
+     edge lands exactly where ContentsRowSummaryCell's padding-left
+     expects it (nameCellTextIndent, past ChevronSpacer's width). */
+  padding: 0;
 
   &:focus,
   &:hover {
