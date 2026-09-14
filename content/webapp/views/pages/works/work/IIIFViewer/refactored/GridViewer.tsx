@@ -41,6 +41,7 @@ type CellProps = GridChildComponentProps<{
   query: ItemViewerQuery;
   workId: string;
   placeholderId?: string;
+  currentCanvasIndex: number;
 }>;
 
 const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
@@ -54,6 +55,7 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
     query,
     workId,
     placeholderId,
+    currentCanvasIndex,
   } = data;
   const canvasIndex = rowIndex * columnCount + columnIndex;
   const currentCanvas = canvases[canvasIndex];
@@ -85,9 +87,7 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
                   shouldScrollToCanvas: true,
                 },
               })}
-              aria-current={
-                canvasIndex === queryParamToArrayIndex(query.canvas)
-              }
+              aria-current={canvasIndex === currentCanvasIndex}
               onClick={() => {
                 setGridVisible(false);
               }}
@@ -143,13 +143,12 @@ const GridViewer: FunctionComponent = () => {
   const columnCount = Math.max(1, Math.round(mainAreaWidth / itemWidth)); // ensure at least one column is displayed
   const columnWidth = mainAreaWidth / columnCount;
   const canvases = transformedManifest?.canvases;
+  const currentCanvasIndex = queryParamToArrayIndex(query.canvas);
 
   useEffect(() => {
-    const rowIndex = Math.floor(
-      queryParamToArrayIndex(query.canvas) / columnCount
-    );
+    const rowIndex = Math.floor(currentCanvasIndex / columnCount);
     grid.current?.scrollToItem({ align: 'start', rowIndex });
-  }, [query.canvas]);
+  }, [currentCanvasIndex]);
 
   useEffect(() => {
     // required to be set as we are setting the body to overflow hidden to stop multiple scrolls in view bug issue.
@@ -190,6 +189,7 @@ const GridViewer: FunctionComponent = () => {
           query,
           workId: work.id,
           placeholderId: transformedManifest?.placeholderId,
+          currentCanvasIndex,
         }}
         onScroll={({ scrollTop }) => setScrollOffset(scrollTop)}
         ref={grid}

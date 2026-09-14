@@ -96,8 +96,11 @@ export function updateChildren({
 // The API's `type` field for an archive work is either the generic 'Work'
 // (the leaf/item level) or a specific archive level (Collection/Series/
 // Section); this maps it to the label shown/announced for a tree row.
+// 'Series' is shown as 'Section' since, to users, they work the same way.
 export function getWorkLevelLabel(type: TreeDataWork['type']): string {
-  return type === 'Work' ? 'Item' : type;
+  if (type === 'Work') return 'Item';
+  if (type === 'Series') return 'Section';
+  return type;
 }
 
 export function getAriaLabel(item: UiTreeNode) {
