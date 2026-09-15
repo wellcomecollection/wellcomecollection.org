@@ -1,29 +1,29 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/wellcomecollection/deploy-tracker/main/schema/deploy-tracker.schema.json
+#
+# Reports deployments of this repository to Slack. See
+# https://github.com/wellcomecollection/deploy-tracker for what the tracker does.
 version: 1
 
 slack:
-  channel: "#wc-experience-deploys"
+  channel: '#wc-experience-deploys'
+
+# Written once and reached at each environment's host below.
+checkpoints:
+  - name: content
+    path: /management/manifest
+    paths: [content/, common/]
+  - name: identity
+    path: /account/management/manifest
+    paths: [identity/, common/]
 
 environments:
   stage:
-    checkpoints:
-      - name: content
-        url: https://www-stage.wellcomecollection.org/management/manifest
-        paths: [content/, common/]
-      - name: identity
-        url: https://www-stage.wellcomecollection.org/account/management/manifest
-        paths: [identity/, common/]
+    host: https://www-stage.wellcomecollection.org
   prod:
+    host: https://wellcomecollection.org
     promote_from: stage
-    checkpoints:
-      - name: content
-        url: https://wellcomecollection.org/management/manifest
-        paths: [content/, common/]
-      - name: identity
-        url: https://wellcomecollection.org/account/management/manifest
-        paths: [identity/, common/]
 
-# Slack only while the tracker is validated; flipped on once the messages
-# have been checked against real deployments for a week.
+# Off for the first week, so the Slack feed can be judged before the tracker
+# starts writing on pull requests.
 labels: false
 pr_comments: false
