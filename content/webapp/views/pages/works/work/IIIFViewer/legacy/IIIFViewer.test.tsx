@@ -44,7 +44,7 @@ const mockWork: WorkBasic & Pick<Work, 'description'> = {
   primaryContributorLabel: undefined,
   notes: [],
   physicalDescription: '',
-  isRootCollection: false,
+  isArchiveCollectionRoot: false,
 };
 
 const renderViewer = (transformedManifest: TransformedManifest) =>

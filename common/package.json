@@ -12,7 +12,6 @@
     "@elastic/apm-rum": "^5.17.0",
     "@popperjs/core": "^2.11.8",
     "@prismicio/client": "^7.22.0",
-    "@prismicio/next": "^2.3.0",
     "@prismicio/react": "3.4.0",
     "@testing-library/jest-dom": "^6.9.0",
     "@testing-library/react": "^16.3.0",

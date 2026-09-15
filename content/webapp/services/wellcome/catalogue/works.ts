@@ -37,11 +37,19 @@ type GetWorkProps = {
   include?: string[];
 };
 
-const worksIncludes = ['production', 'contributors', 'partOf', 'collection'];
+// `identifiers` is here rather than in `workIncludes` because
+// `isArchiveCollectionRoot` needs it to spot TEI manuscripts, and that runs on
+// search results too.
+const worksIncludes = [
+  'production',
+  'contributors',
+  'partOf',
+  'collection',
+  'identifiers',
+];
 
 const workIncludes = [
   ...worksIncludes,
-  'identifiers',
   'images',
   'items',
   'subjects',
