@@ -62,7 +62,7 @@ const WorkHeader: FunctionComponent<Props> = ({
                 <WorkTitle title={work.title} />
               </WorkTitleWrapper>
 
-              {archiveCollection && shortDescription && (
+              {archiveCollection && isArchive && shortDescription && (
                 <Space $v={{ size: 'sm', properties: ['margin-top'] }}>
                   <p className={typography('body', 'md', 'regular')}>
                     {stripHtmlTags(shortDescription)}
