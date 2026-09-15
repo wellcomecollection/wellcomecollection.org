@@ -301,6 +301,12 @@ export const getOrderedNotes = (
   return { orderedNotes, remainingNotes };
 };
 
+/** Strips HTML tags from a string, for rendering API text (e.g.
+ * shortDescription) as plain text rather than raw HTML. */
+export function stripHtmlTags(text: string): string {
+  return text.replace(/<[^>]*>/g, '').trim();
+}
+
 /** Whether label is a real, displayable value,
  * i.e. not missing or the API's '-' placeholder for "no label". */
 export function hasRealLabel(label?: string): label is string {

@@ -18,6 +18,7 @@ export type WorkBasic = OptionalToUndefined<{
   workTypeId?: string;
   thumbnail?: DigitalLocation;
   referenceNumber?: string;
+  shortDescription?: string;
   languageId?: string;
   productionDates: string[];
   archiveLabels?: ArchiveLabels;
@@ -35,6 +36,7 @@ export function toWorkBasic(work: Work): WorkBasic {
     notes,
     physicalDescription,
     referenceNumber,
+    shortDescription,
     thumbnail,
     workType,
   } = work;
@@ -47,6 +49,7 @@ export function toWorkBasic(work: Work): WorkBasic {
     workTypeId: workType?.id,
     thumbnail,
     referenceNumber,
+    shortDescription,
     languageId,
     productionDates: getProductionDates(work),
     archiveLabels: getArchiveLabels(work),
