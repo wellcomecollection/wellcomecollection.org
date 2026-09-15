@@ -242,7 +242,7 @@ function toArchiveCategoryWorkCard(work: Work): ArchiveCategoryWorkCard {
     id: work.id,
     title: work.title,
     label: work.referenceNumber,
-    description: work.description,
+    description: work.shortDescription,
     contributor: primaryContributor?.agent.label,
     date: work.production?.[0]?.dates?.[0]?.label,
     extent: work.physicalDescription || undefined,
