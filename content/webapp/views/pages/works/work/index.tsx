@@ -81,8 +81,10 @@ export const WorkPage: NextPage<Props> = ({ work, apiUrl }) => {
   // The manifest is only needed for the item count and to hide the item
   // link if it's restricted, so we fetch it client side rather than
   // blocking SSR on it. The link renders optimistically until this resolves.
+  // Only an iiif-presentation location has a manifest to fetch - an
+  // iiif-image location points at the IIIF Image API instead.
   const { transformedManifest, isLoading: isManifestLoading } = useManifest(
-    digitalLocation,
+    iiifPresentationLocation,
     work.workType?.id
   );
   const { collectionManifestsCount } = {
@@ -107,7 +109,7 @@ export const WorkPage: NextPage<Props> = ({ work, apiUrl }) => {
 
   const shouldShowItemLink = showItemLink({
     userIsStaffWithRestricted,
-    hasIIIFManifest: !!digitalLocation,
+    hasIIIFManifest: !!iiifPresentationLocation,
     digitalLocation,
     accessCondition: digitalLocationInfo?.accessCondition,
     isRestrictedByManifest,
