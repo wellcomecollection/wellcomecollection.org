@@ -1,7 +1,6 @@
 import { FunctionComponent, useMemo } from 'react';
 import { useTheme } from 'styled-components';
 
-import { useUserContext } from '@weco/common/contexts/UserContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { typography } from '@weco/common/utils/classnames';
 import { formatDuration } from '@weco/common/utils/format-date';
@@ -64,7 +63,6 @@ const WorkDetails: FunctionComponent<Props> = ({
   digitalLocationInfo,
   transformedManifest,
 }: Props) => {
-  const { userIsStaffWithRestricted } = useUserContext();
   const isArchive = useIsArchiveContext();
   const transformedIIIFImage = useTransformedIIIFImage(toWorkBasic(work));
   const theme = useTheme();
@@ -143,12 +141,9 @@ const WorkDetails: FunctionComponent<Props> = ({
 
   const holdings = getHoldings(work);
 
-  const treatAsRestricted =
-    digitalLocationInfo?.accessCondition === 'restricted' &&
-    !userIsStaffWithRestricted;
-
-  const showAvailableOnlineSection =
-    digitalLocation && shouldShowItemLink && !treatAsRestricted;
+  // shouldShowItemLink (from showItemLink) already accounts for restricted
+  // access condition, so no need to check it again here.
+  const showAvailableOnlineSection = digitalLocation && shouldShowItemLink;
 
   const renderContent = () => (
     <>
