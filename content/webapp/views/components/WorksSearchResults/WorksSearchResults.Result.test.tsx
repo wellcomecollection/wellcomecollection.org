@@ -14,6 +14,7 @@ const baseWork: WorkBasic = {
   languageId: undefined,
   thumbnail: undefined,
   referenceNumber: undefined,
+  shortDescription: undefined,
   productionDates: [],
   archiveLabels: undefined,
   cardLabels: [],

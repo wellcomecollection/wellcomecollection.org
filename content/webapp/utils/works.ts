@@ -336,6 +336,16 @@ export const getOrderedNotes = (
   return { orderedNotes, remainingNotes };
 };
 
+/** Strips HTML tags from a string, for display purposes only (e.g. so a
+ * shortDescription doesn't show literal tag syntax as plain text). NOT a
+ * security sanitizer - the regex can leave fragments behind, but callers
+ * only ever render the result as a JSX text node (auto-escaped by React),
+ * never via dangerouslySetInnerHTML, so that's not a concern here. Don't
+ * reuse this for anything that gets rendered as raw HTML. */
+export function stripHtmlTags(text: string): string {
+  return text.replace(/<[^>]*>/g, '').trim();
+}
+
 /** Whether label is a real, displayable value,
  * i.e. not missing or the API's '-' placeholder for "no label". */
 export function hasRealLabel(label?: string): label is string {

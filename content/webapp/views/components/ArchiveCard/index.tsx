@@ -6,6 +6,7 @@ import { typography } from '@weco/common/utils/classnames';
 import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Divider from '@weco/common/views/components/Divider';
 import Space from '@weco/common/views/components/styled/Space';
+import { stripHtmlTags } from '@weco/content/utils/works';
 import { toWorkLink } from '@weco/content/views/components/WorkLink';
 import WorkTitle from '@weco/content/views/components/WorkTitle';
 
@@ -72,14 +73,6 @@ type Props = {
   dataGtmProps?: DataGtmProps;
 };
 
-// TODO: once the catalogue API exposes a dedicated "short description"
-// field, prefer that over deriving one from the first sentence here.
-function stripTagsAndGetFirstSentence(description: string): string {
-  const plainText = description.replace(/<[^>]*>/g, '');
-  const [firstSentence] = plainText.match(/[^.!?]*[.!?]/) || [plainText];
-  return firstSentence.trim();
-}
-
 const ArchiveCard: FunctionComponent<Props> = ({
   id,
   title,
@@ -105,9 +98,7 @@ const ArchiveCard: FunctionComponent<Props> = ({
             <WorkTitle title={title} />
           </Title>
           {description && (
-            <Description>
-              {stripTagsAndGetFirstSentence(description)}
-            </Description>
+            <Description>{stripHtmlTags(description)}</Description>
           )}
         </Space>
 

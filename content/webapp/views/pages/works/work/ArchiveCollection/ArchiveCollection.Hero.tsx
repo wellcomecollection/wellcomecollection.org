@@ -17,6 +17,7 @@ import {
   getLanguageId,
   getProductionDates,
   getSubjectTags,
+  stripHtmlTags,
 } from '@weco/content/utils/works';
 import WorkTitle from '@weco/content/views/components/WorkTitle';
 import WorkDetailsTags from '@weco/content/views/pages/works/work/WorkDetails/WorkDetails.Tags';
@@ -125,6 +126,14 @@ const ArchiveCollectionHero = ({ work }: { work: WorkType }) => {
           </ArchiveIconWrapper>
           <ArchiveCollectionLabel>Archive Collection</ArchiveCollectionLabel>
         </Space>
+
+        {work.shortDescription && (
+          <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
+            <p className={typography('body', 'md', 'regular')}>
+              {stripHtmlTags(work.shortDescription)}
+            </p>
+          </Space>
+        )}
 
         {subjectTags.length > 0 && (
           <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>

@@ -9,6 +9,7 @@ import Icon from '@weco/common/views/components/Icon';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
 import type { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
+import { stripHtmlTags } from '@weco/content/utils/works';
 import { toWorkLink } from '@weco/content/views/components/WorkLink';
 import WorkTitle from '@weco/content/views/components/WorkTitle';
 
@@ -40,6 +41,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
     physicalDescription,
     primaryContributorLabel,
     productionDates,
+    shortDescription,
     isArchiveCollectionRoot,
   } = work;
 
@@ -83,6 +85,12 @@ const WorkSearchResult: FunctionComponent<Props> = ({
             >
               <WorkTitle title={work.title} />
             </WorkTitleHeading>
+
+            {shouldShowArchiveCollectionInfo && shortDescription && (
+              <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
+                {stripHtmlTags(shortDescription)}
+              </Space>
+            )}
 
             <WorkInformation>
               {shouldShowArchiveCollectionInfo && (
