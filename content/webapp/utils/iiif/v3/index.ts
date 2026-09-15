@@ -839,12 +839,7 @@ export function getStructures(manifest: Manifest | Collection): Range[] {
 export function getAuthAccessServices(
   manifest: Manifest | Collection
 ): AuthAccessService2[] {
-  // AuthAccessService2 is missing from the library's Service union, but
-  // Wellcome manifests include auth 2 access services in `services`
-  const services = (manifest.services || []) as (
-    Service | AuthAccessService2
-  )[];
-  return services.filter(
+  return (manifest.services || []).filter(
     (s): s is AuthAccessService2 =>
       'type' in s && s.type === 'AuthAccessService2'
   );
