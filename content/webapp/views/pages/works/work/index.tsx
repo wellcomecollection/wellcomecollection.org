@@ -12,11 +12,11 @@ import SearchForm from '@weco/common/views/components/SearchForm';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 import IsArchiveContext from '@weco/content/contexts/IsArchiveContext';
+import useManifest from '@weco/content/hooks/useManifest';
 import {
   toWorkBasic,
   Work as WorkType,
 } from '@weco/content/services/wellcome/catalogue/types';
-import { TransformedManifest } from '@weco/content/types/manifest';
 import { workLd } from '@weco/content/utils/json-ld';
 import { removeDisplayMarkupTags } from '@weco/content/utils/string';
 import {
@@ -54,14 +54,9 @@ const WorkDetailsWrapper = styled(Space).attrs({
 export type Props = {
   work: WorkType;
   apiUrl: string;
-  transformedManifest?: TransformedManifest;
 };
 
-export const WorkPage: NextPage<Props> = ({
-  work,
-  apiUrl,
-  transformedManifest,
-}) => {
+export const WorkPage: NextPage<Props> = ({ work, apiUrl }) => {
   const { isKiosk } = useKiosk();
   const { archiveCollection } = useFeatureFlags();
   const { userIsStaffWithRestricted } = useUserContext();
@@ -82,15 +77,40 @@ export const WorkPage: NextPage<Props> = ({
     iiifPresentationLocation || iiifImageLocation;
   const digitalLocationInfo =
     digitalLocation && getDigitalLocationInfo(digitalLocation);
+
+  // The manifest is only needed for the item count and to hide the item
+  // link if it's restricted, so we fetch it client side rather than
+  // blocking SSR on it. The link renders optimistically until this resolves.
+  const { transformedManifest, isLoading: isManifestLoading } = useManifest(
+    digitalLocation,
+    work.workType?.id
+  );
   const { collectionManifestsCount } = {
     ...transformedManifest,
   };
+  // accessRequirements can contain more than one label when a manifest is
+  // only partially restricted (e.g. ['Restricted files', 'Open']) - the item
+  // link should stay visible in that case, since some content is still
+  // viewable. Only hide it when every canvas requires restricted access.
+  //
+  // This is a manifest-level check, separate from and additive to
+  // accessCondition (the catalogue API's rights classification). It exists
+  // as a safety net for the catalogue and the IIIF manifest getting out of
+  // sync - e.g. accessCondition says 'open' but the manifest itself is
+  // fully restricted - so we don't link to a work that can't actually be
+  // viewed.
+  const accessRequirements = transformedManifest?.auth.accessRequirements;
+  const isRestrictedByManifest = isManifestLoading
+    ? undefined
+    : accessRequirements?.length === 1 &&
+      accessRequirements[0] === 'Restricted files';
 
   const shouldShowItemLink = showItemLink({
     userIsStaffWithRestricted,
-    hasIIIFManifest: !!transformedManifest,
+    hasIIIFManifest: !!digitalLocation,
     digitalLocation,
     accessCondition: digitalLocationInfo?.accessCondition,
+    isRestrictedByManifest,
   });
 
   const imageUrl =
