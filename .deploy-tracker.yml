@@ -7,20 +7,23 @@ version: 1
 slack:
   channel: '#wc-experience-deploys'
 
-# Written once and reached at each environment's host below.
-checkpoints:
-  - name: content
-    path: /management/manifest
+# A service's paths are the code it ships; its manifest is where it reports the
+# commit it is running, reached at each environment's host below.
+services:
+  content:
     paths: [content/, common/]
-  - name: identity
-    path: /account/management/manifest
+    manifest: /management/manifest
+  identity:
     paths: [identity/, common/]
+    manifest: /account/management/manifest
 
 environments:
   stage:
     host: https://www-stage.wellcomecollection.org
+    deploys: [content, identity]
   prod:
     host: https://wellcomecollection.org
+    deploys: [content, identity]
     promote_from: stage
 
 # Off for the first week, so the Slack feed can be judged before the tracker
