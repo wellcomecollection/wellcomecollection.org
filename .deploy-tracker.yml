@@ -11,10 +11,12 @@ slack:
 # commit it is running, reached at each environment's host below.
 services:
   content:
-    paths: [content/, common/]
+    paths:
+      [content/, common/, toggles/webapp/, config/, package.json, yarn.lock]
     manifest: /management/manifest
   identity:
-    paths: [identity/, common/]
+    paths:
+      [identity/, common/, toggles/webapp/, config/, package.json, yarn.lock]
     manifest: /account/management/manifest
 
 environments:
