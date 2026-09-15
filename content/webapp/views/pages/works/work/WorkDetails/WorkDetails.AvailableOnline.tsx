@@ -53,7 +53,6 @@ type Props = {
   work: Work;
   itemUrl: LinkProps;
   downloadOptions: DownloadOption[];
-  shouldShowItemLink: boolean;
   digitalLocation?: DigitalLocation;
   digitalLocationInfo?: DigitalLocationInfo;
   locationOfWork?: Note;
@@ -200,7 +199,6 @@ const WorkDetailsAvailableOnline = ({
   work,
   downloadOptions,
   itemUrl,
-  shouldShowItemLink,
   digitalLocationInfo,
   digitalLocation,
   locationOfWork,
@@ -212,18 +210,16 @@ const WorkDetailsAvailableOnline = ({
 
   return (
     <WorkDetailsSection headingText="Available online">
-      {shouldShowItemLink && (
-        <ItemPageLink
-          work={work}
-          itemUrl={itemUrl}
-          canvases={canvases}
-          collectionManifestsCount={collectionManifestsCount}
-          canvasCount={canvasCount}
-          downloadOptions={downloadOptions}
-          digitalLocationInfo={digitalLocationInfo}
-          itemsStatus={itemsStatus}
-        />
-      )}
+      <ItemPageLink
+        work={work}
+        itemUrl={itemUrl}
+        canvases={canvases}
+        collectionManifestsCount={collectionManifestsCount}
+        canvasCount={canvasCount}
+        downloadOptions={downloadOptions}
+        digitalLocationInfo={digitalLocationInfo}
+        itemsStatus={itemsStatus}
+      />
 
       {digitalLocationInfo?.license && (
         <WorkDetailsLicence

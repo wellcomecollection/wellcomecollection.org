@@ -155,7 +155,6 @@ const WorkDetails: FunctionComponent<Props> = ({
             workId: work.id,
             props: {},
           })}
-          shouldShowItemLink={shouldShowItemLink}
           digitalLocationInfo={digitalLocationInfo}
           digitalLocation={digitalLocation}
           locationOfWork={locationOfWork}
