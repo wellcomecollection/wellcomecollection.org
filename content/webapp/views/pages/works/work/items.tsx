@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { typography } from '@weco/common/utils/classnames';
+import { isObject, isString } from '@weco/common/utils/type-guards';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import Button from '@weco/common/views/components/Buttons';
 import Modal from '@weco/common/views/components/Modal';
@@ -80,7 +81,7 @@ const WorkItemPage: NextPage<Props> = ({
     userIsStaffWithRestricted,
     auth,
   });
-  const [accessToken, setAccessToken] = useState();
+  const [accessToken, setAccessToken] = useState<string>();
   const clickThroughTimerRef = useRef<
     ReturnType<typeof setInterval> | undefined
   >(undefined);
@@ -147,8 +148,17 @@ const WorkItemPage: NextPage<Props> = ({
       // We check this is the event we are interested in
       // N.B. locally react dev tools will create a lot of events
       if (service?.origin === event.origin) {
-        if (Object.prototype.hasOwnProperty.call(data, 'accessToken')) {
-          setAccessToken(data.accessToken);
+        // The token service posts either an access token or, on failure, an
+        // error payload. Anything that isn't an object at all is malformed, so
+        // we ignore it rather than treating it as a failure: reading a property
+        // off null or undefined would throw, and showing the modal would undo a
+        // successful authentication.
+        if (!isObject(data)) return;
+
+        if ('accessToken' in data) {
+          setAccessToken(
+            isString(data.accessToken) ? data.accessToken : undefined
+          );
           if (needsModal) {
             setShowModal(!!isTotallyRestricted);
             setShowViewer(!isTotallyRestricted);

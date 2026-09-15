@@ -51,3 +51,9 @@ export function isInTuple<T extends string>(
 ): val is T {
   return tuple.includes(val as T);
 }
+
+// Arrays are objects too, but everywhere we use this we're checking a value
+// we expect to be a plain object of properties, so they're excluded.
+export function isObject(v: unknown): v is Record<string, unknown> {
+  return typeof v === 'object' && v !== null && !Array.isArray(v);
+}
