@@ -336,8 +336,12 @@ export const getOrderedNotes = (
   return { orderedNotes, remainingNotes };
 };
 
-/** Strips HTML tags from a string, for rendering API text (e.g.
- * shortDescription) as plain text rather than raw HTML. */
+/** Strips HTML tags from a string, for display purposes only (e.g. so a
+ * shortDescription doesn't show literal tag syntax as plain text). NOT a
+ * security sanitizer - the regex can leave fragments behind, but callers
+ * only ever render the result as a JSX text node (auto-escaped by React),
+ * never via dangerouslySetInnerHTML, so that's not a concern here. Don't
+ * reuse this for anything that gets rendered as raw HTML. */
 export function stripHtmlTags(text: string): string {
   return text.replace(/<[^>]*>/g, '').trim();
 }
