@@ -154,9 +154,7 @@ const VirtualizedImageViewer: FunctionComponent = () => {
   const mainViewerRef = useRef<FixedSizeList>(null);
 
   const [viewerScrollOffset, setViewerScrollOffset] = useState(0);
-  const [firstRender, setFirstRender] = useState(true);
-  const firstRenderRef = useRef(firstRender);
-  firstRenderRef.current = firstRender;
+  const firstRenderRef = useRef(true);
   // The offset the last onScroll callback reported, used by handleOnScroll to
   // tell a user gesture from react-window's own callbacks.
   const lastScrollOffset = useRef<number | undefined>(undefined);
@@ -187,10 +185,7 @@ const VirtualizedImageViewer: FunctionComponent = () => {
       lastScrollOffset.current !== scrollOffset;
     lastScrollOffset.current = scrollOffset;
 
-    if (isUserScroll && firstRenderRef.current) {
-      firstRenderRef.current = false;
-      setFirstRender(false);
-    }
+    if (isUserScroll) firstRenderRef.current = false;
 
     if (!currentCanvas?.imageServiceId) return;
     timer.current && clearTimeout(timer.current);
@@ -212,7 +207,7 @@ const VirtualizedImageViewer: FunctionComponent = () => {
         viewer,
         mainAreaWidth,
       });
-      setFirstRender(false);
+      firstRenderRef.current = false;
     }
   }
 
