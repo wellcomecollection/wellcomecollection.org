@@ -17,6 +17,7 @@ import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { init as initArchiveCategories } from '@weco/content/server-data/archiveCategories';
 import { buildStoriesRss } from '@weco/content/utils/rss';
 
+const startedAt = new Date().toISOString();
 const dev = process.env.NODE_ENV !== 'production';
 const nextApp = next({ dev });
 const handle = nextApp.getRequestHandler();
@@ -54,6 +55,19 @@ const appPromise = nextApp
     router.get('/management/healthcheck', async ctx => {
       ctx.body = {
         status: 'ok',
+      };
+    });
+
+    // Lets deploy tooling confirm which commit is live; must never be cached.
+    // The contract this implements: https://github.com/wellcomecollection/deploy-tracker/blob/main/SPEC.md#the-manifest-endpoint
+    router.get('/management/manifest', async ctx => {
+      ctx.set(
+        'Cache-Control',
+        'private, no-cache, no-store, max-age=0, must-revalidate'
+      );
+      ctx.body = {
+        commit: process.env.BUILD_COMMIT || 'unknown',
+        startedAt,
       };
     });
 
