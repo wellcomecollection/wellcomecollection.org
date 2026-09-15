@@ -22,7 +22,6 @@ import {
   deduplicateDownloadOptions,
   getDownloadOptionsFromCanvasRenderingAndSupplementing,
   getDownloadOptionsFromManifestRendering,
-  hasItemType,
 } from '@weco/content/utils/iiif/v3';
 import {
   conceptOrSearchLink,
@@ -69,7 +68,7 @@ const WorkDetails: FunctionComponent<Props> = ({
   const isArchive = useIsArchiveContext();
   const transformedIIIFImage = useTransformedIIIFImage(toWorkBasic(work));
   const theme = useTheme();
-  const { canvases, rendering, itemsStatus } = {
+  const { canvases, rendering } = {
     ...transformedManifest,
   };
 
@@ -143,21 +142,13 @@ const WorkDetails: FunctionComponent<Props> = ({
   ]);
 
   const holdings = getHoldings(work);
-  const hasVideo = hasItemType(canvases, 'Video');
-  const hasSound =
-    hasItemType(canvases, 'Sound') || hasItemType(canvases, 'Audio');
-  const hasNonStandardItems = itemsStatus && itemsStatus !== 'allStandard';
 
   const treatAsRestricted =
     digitalLocationInfo?.accessCondition === 'restricted' &&
     !userIsStaffWithRestricted;
 
   const showAvailableOnlineSection =
-    ((digitalLocation && shouldShowItemLink) ||
-      hasVideo ||
-      hasSound ||
-      hasNonStandardItems) &&
-    !treatAsRestricted;
+    digitalLocation && shouldShowItemLink && !treatAsRestricted;
 
   const renderContent = () => (
     <>

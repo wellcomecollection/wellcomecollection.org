@@ -1,10 +1,8 @@
 import NextLink from 'next/link';
-import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { useUserContext } from '@weco/common/contexts/UserContext';
-import { bornDigitalMessage } from '@weco/common/data/microcopy';
 import { eye } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { LinkProps } from '@weco/common/model/link-props';
@@ -20,24 +18,13 @@ import {
   TransformedCanvas,
   TransformedManifest,
 } from '@weco/content/types/manifest';
-import {
-  getAuthServices,
-  getFileTypeLabel,
-  getIframeTokenSrc,
-  isPDFCanvas,
-} from '@weco/content/utils/iiif/v3';
+import { getFileTypeLabel } from '@weco/content/utils/iiif/v3';
 import { DigitalLocationInfo } from '@weco/content/utils/works';
 import Download from '@weco/content/views/components/Download';
-import NestedList from '@weco/content/views/pages/works/work/NestedList';
-import DownloadItemRenderer from '@weco/content/views/pages/works/work/work.DownloadItemRenderer';
-import { createDownloadTree } from '@weco/content/views/pages/works/work/work.helpers';
 import RestrictedItemMessage from '@weco/content/views/pages/works/work/work.RestrictedItemMessage';
-import { UiTree } from '@weco/content/views/pages/works/work/work.types';
 
-import IIIFClickthrough from './WorkDetails.IIIFClickthrough';
 import WorkDetailsLicence from './WorkDetails.Licence';
 import WorkDetailsSection from './WorkDetails.Section';
-import WorksTree from './WorkDetails.Tree';
 
 const RestrictedMessage = styled(Space).attrs({
   $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
@@ -59,22 +46,6 @@ const RestrictedMessage = styled(Space).attrs({
     border-radius: 3px;
     background-color: ${props => props.theme.color('black')};
     z-index: -1;
-  }
-`;
-
-const MessageBox = styled(Space).attrs({
-  className: typography('body', 'md', 'regular'),
-  $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
-  $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
-})`
-  background-color: ${props => props.theme.color('warmNeutral.300')};
-
-  h2 {
-    margin: 0;
-  }
-
-  p:last-child {
-    margin: 0;
   }
 `;
 
@@ -235,134 +206,24 @@ const WorkDetailsAvailableOnline = ({
   locationOfWork,
   transformedManifest,
 }: Props) => {
-  const [origin, setOrigin] = useState<string | undefined>();
-
-  const {
-    collectionManifestsCount,
-    canvasCount,
-    auth,
-    structures,
-    itemsStatus,
-    canvases,
-  } = { ...transformedManifest };
-
-  const tokenService = getIframeTokenSrc({
-    workId: work.id,
-    origin,
-    auth,
-  });
-
-  const authServices = getAuthServices({ auth });
-
-  const hasNonStandardItems = itemsStatus !== 'allStandard';
-
-  const [tabbableId, setTabbableId] = useState<string>();
-  const [tree, setTree] = useState<UiTree>([]);
-  const allOriginalPdfs =
-    canvases?.every(canvas => isPDFCanvas(canvas)) || false;
-  const clickThroughService = authServices?.active;
-
-  // We temporarily want to show the download tree for multiple PDFs
-  // See: https://github.com/wellcomecollection/wellcomecollection.org/issues/12089
-  const shouldShowDownloadTree =
-    hasNonStandardItems &&
-    (!allOriginalPdfs || (allOriginalPdfs && Number(canvases?.length) > 1));
-
-  useEffect(() => {
-    const downloads = createDownloadTree(structures, canvases);
-    setTree(downloads);
-  }, [canvases, structures]);
-
-  useEffect(() => {
-    const elementToFocus = tabbableId && document.getElementById(tabbableId);
-    if (elementToFocus) {
-      elementToFocus.focus();
-    }
-  }, [tree, tabbableId]);
-
-  useEffect(() => {
-    setOrigin(window.origin);
-  }, []);
+  const { collectionManifestsCount, canvasCount, itemsStatus, canvases } = {
+    ...transformedManifest,
+  };
 
   return (
-    <WorkDetailsSection
-      headingText={`Available ${hasNonStandardItems ? 'to download' : 'online'}`}
-    >
-      <ConditionalWrapper
-        condition={Boolean(
-          tokenService && clickThroughService && !shouldShowItemLink
-        )}
-        wrapper={children => (
-          <IIIFClickthrough
-            clickThroughService={clickThroughService}
-            tokenService={tokenService || ''}
-            origin={origin}
-          >
-            {children}
-          </IIIFClickthrough>
-        )}
-      >
-        {shouldShowDownloadTree && (
-          <>
-            {Number(canvases?.length) > 0 && (
-              <p className={typography('caption', 'md', 'regular')}>
-                Contains {canvases?.length} files
-              </p>
-            )}
-            <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
-              <MessageBox>{bornDigitalMessage}</MessageBox>
-            </Space>
-            {shouldShowItemLink ? (
-              <ItemPageLink
-                work={work}
-                itemUrl={itemUrl}
-                canvases={canvases}
-                collectionManifestsCount={collectionManifestsCount}
-                canvasCount={canvasCount}
-                downloadOptions={downloadOptions}
-                digitalLocationInfo={digitalLocationInfo}
-                itemsStatus={itemsStatus}
-              />
-            ) : (
-              <WorksTree>
-                <NestedList
-                  currentWorkId={work.id}
-                  tree={tree}
-                  setTree={setTree}
-                  items={tree}
-                  level={1}
-                  tabbableId={tabbableId}
-                  setTabbableId={setTabbableId}
-                  ItemRenderer={DownloadItemRenderer}
-                  itemRendererProps={{}}
-                  shouldFetchChildren={false}
-                  firstItemTabbable
-                  showFirstLevelGuideline
-                />
-              </WorksTree>
-            )}
-          </>
-        )}
-
-        {/*
-          We temporarily want to prevent showing the link for multiple pdfs
-          See: https://github.com/wellcomecollection/wellcomecollection.org/issues/12089
-        */}
-        {(!hasNonStandardItems ||
-          (allOriginalPdfs && canvases?.length === 1)) &&
-          shouldShowItemLink && (
-            <ItemPageLink
-              work={work}
-              itemUrl={itemUrl}
-              canvases={canvases}
-              collectionManifestsCount={collectionManifestsCount}
-              canvasCount={canvasCount}
-              downloadOptions={downloadOptions}
-              digitalLocationInfo={digitalLocationInfo}
-              itemsStatus={itemsStatus}
-            />
-          )}
-      </ConditionalWrapper>
+    <WorkDetailsSection headingText="Available online">
+      {shouldShowItemLink && (
+        <ItemPageLink
+          work={work}
+          itemUrl={itemUrl}
+          canvases={canvases}
+          collectionManifestsCount={collectionManifestsCount}
+          canvasCount={canvasCount}
+          downloadOptions={downloadOptions}
+          digitalLocationInfo={digitalLocationInfo}
+          itemsStatus={itemsStatus}
+        />
+      )}
 
       {digitalLocationInfo?.license && (
         <WorkDetailsLicence
