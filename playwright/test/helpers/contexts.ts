@@ -83,16 +83,10 @@ const stageApiToggleCookie = createCookie({
   name: 'toggle_stagingApi',
   value: 'true',
 });
-// TODO: Remove once itemViewerRefactor is fully rolled out — temporarily
-// running all e2e tests against the refactored item viewer.
-const itemViewerRefactorToggleCookie = createCookie({
-  name: 'toggle_itemViewerRefactor',
-  value: 'true',
-});
 
 export const requiredCookies = useStageApis
-  ? [acceptCookieCookie, stageApiToggleCookie, itemViewerRefactorToggleCookie]
-  : [acceptCookieCookie, itemViewerRefactorToggleCookie];
+  ? [acceptCookieCookie, stageApiToggleCookie]
+  : [acceptCookieCookie];
 
 const multiVolumeItem = async (
   context: BrowserContext,
