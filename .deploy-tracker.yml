@@ -7,16 +7,13 @@ version: 1
 slack:
   channel: '#wc-experience-deploys'
 
-# A service's paths are the code it ships; its manifest is where it reports the
-# commit it is running, reached at each environment's host below.
+# A manifest is where a service reports its running commit, joined to the host
+# below. No paths needed: both environments deploy both, so neither can claim
+# something it does not have.
 services:
   content:
-    paths:
-      [content/, common/, toggles/webapp/, config/, package.json, yarn.lock]
     manifest: /management/manifest
   identity:
-    paths:
-      [identity/, common/, toggles/webapp/, config/, package.json, yarn.lock]
     manifest: /account/management/manifest
 
 environments:
@@ -27,8 +24,10 @@ environments:
     host: https://wellcomecollection.org
     deploys: [content, identity]
     promote_from: stage
+    # Working hours waiting on stage before a nudge, since the prod gate is manual
+    overdue: 2h
 
-# Off for the first week, so the Slack feed can be judged before the tracker
-# starts writing on pull requests.
-labels: false
-pr_comments: false
+# deployed:<env> labels and one comment per environment, so a pull request says
+# where it has got to
+labels: true
+pr_comments: true
