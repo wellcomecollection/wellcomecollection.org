@@ -3,7 +3,7 @@ import { Page } from 'playwright';
 
 import {
   isMobile,
-  workWithBornDigitalDownloads,
+  itemWithBornDigitalDownloads,
   workWithBornDigitalItem,
   workWithDigitalLocationAndLocationNote,
   workWithDigitalLocationAndRestricted,
@@ -116,7 +116,7 @@ test.describe(`Scenario 2: A user viewing/downloading 'born digital' items`, () 
     // On mobile the download tree is hidden behind the 'Show info' button.
     test.skip(isMobile(page), "Download tree is hidden behind 'Show info'");
 
-    await workWithBornDigitalDownloads(context, page);
+    await itemWithBornDigitalDownloads(context, page);
     const innerTreeItem = page.getByRole('treeitem', {
       name: 'A_Camels.psd vnd.adobe.photoshop 6.1 MB Download',
     });
@@ -133,7 +133,7 @@ test.describe(`Scenario 2: A user viewing/downloading 'born digital' items`, () 
     // On mobile the download tree is hidden behind the 'Show info' button.
     test.skip(isMobile(page), "Download tree is hidden behind 'Show info'");
 
-    await workWithBornDigitalDownloads(context, page);
+    await itemWithBornDigitalDownloads(context, page);
 
     await page
       .getByRole('link', {

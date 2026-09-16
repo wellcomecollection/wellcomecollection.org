@@ -223,7 +223,7 @@ const workWithDigitalLocationAndLocationNote = async (
   await gotoWithoutCache(`${baseUrl}/works/a235xn8e`, page);
 };
 
-const workWithBornDigitalDownloads = async (
+const itemWithBornDigitalDownloads = async (
   context: BrowserContext,
   page: Page
 ): Promise<void> => {
@@ -231,8 +231,6 @@ const workWithBornDigitalDownloads = async (
   await gotoWithoutCache(`${baseUrl}/works/htzhunbw/items`, page);
 };
 
-// Unlike the helpers above, these two land on the WORK page itself
-// (not /items), so tests can exercise clicking through to the item page.
 const workWithStandardItem = async (
   context: BrowserContext,
   page: Page
@@ -426,7 +424,7 @@ export {
   visualStory,
   whatsOn,
   newOnline,
-  workWithBornDigitalDownloads,
+  itemWithBornDigitalDownloads,
   workWithBornDigitalItem,
   workWithDigitalLocationAndLocationNote,
   workWithDigitalLocationAndRestricted,
