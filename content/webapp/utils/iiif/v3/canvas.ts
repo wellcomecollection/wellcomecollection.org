@@ -22,6 +22,11 @@ type Thumbnail = {
   }[];
 };
 
+/**
+ * The thumbnail to show for a canvas, at a usable size. Where the thumbnail
+ * has an image service we request a size at least 400px tall from it;
+ * otherwise we take the thumbnail as given.
+ */
 export function getThumbnailImage(canvas: Canvas): ThumbnailImage | undefined {
   if (!canvas.thumbnail) return;
 
@@ -63,10 +68,12 @@ export function getThumbnailImage(canvas: Canvas): ThumbnailImage | undefined {
   }
 }
 
-// Items considered born digital, i.e. those without width, height or duration properties
-// have a rendering with a behavior of 'original'.
-// This is used to display a link to the original file.
-// See: https://github.com/wellcomecollection/docs/blob/main/rfcs/046-born-digital-iiif/README.md
+/**
+ * The born-digital originals in a canvas's rendering, which we offer as a
+ * download of the source file. Born-digital items are those without width,
+ * height or duration, and they carry a rendering with an 'original' behaviour.
+ * @see https://github.com/wellcomecollection/docs/blob/main/rfcs/046-born-digital-iiif/README.md
+ */
 export function getOriginal(
   rendering: Canvas['rendering']
 ): CustomContentResource[] {
@@ -77,11 +84,13 @@ export function getOriginal(
   return original || [];
 }
 
-// Ordinarly we would use the painting array to display an item to the user, see https://iiif.io/api/presentation/3.0/#values-for-motivation
-// However, if there is a PDF in the 'original' array we want to display that.
-// If neither of those things are available we fallback to the supplementing array.
-// This is because pdfs that are ingested via Goobi will be in the supplementing array.
-// (N.B. pdfs ingested via Archivematica follow the Born Digital pattern)
+/**
+ * What to actually render for a canvas: an original PDF if there is one,
+ * otherwise the painting content, otherwise supplementing - which is where
+ * PDFs ingested via Goobi end up. PDFs ingested via Archivematica follow the
+ * born-digital pattern instead, so they turn up in `original`.
+ * @see https://iiif.io/api/presentation/3.0/#values-for-motivation
+ */
 export const getDisplayItems = (canvas: TransformedCanvas) => {
   const originalPdfs = canvas.original.filter(o => {
     if ('format' in o) {

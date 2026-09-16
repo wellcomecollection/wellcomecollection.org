@@ -38,6 +38,7 @@ import {
 
 import { getOriginal, getThumbnailImage } from './canvas';
 
+/** Whether an item is a Choice, i.e. alternative representations to pick between. */
 export const isChoiceBody = (
   item: IIIFItemProps | undefined
 ): item is ChoiceBody => {
@@ -46,13 +47,14 @@ export const isChoiceBody = (
   );
 };
 
-// The label we want to use to distinguish between parts of a multi-volume work
-// (e.g. 'Copy 1' or 'Volume 1') can currently exist in either the first or
-// second position of an array, with the item title appearing in the other
-// position. This is an interim check to give us the label we want, but ideally
-// it would be consistent in the manifest. It will eventually be the second
-// thing in the array, consistently, at which point this function will be
-// redundant.
+/**
+ * The label distinguishing one part of a multi-volume work from another, e.g.
+ * 'Copy 1' or 'Volume 1'. It can sit at either position in the label array,
+ * with the item title in the other, so we pick whichever isn't the title.
+ *
+ * Interim: the label is expected to settle at the second position across all
+ * manifests, at which point this function can go.
+ */
 export function getMultiVolumeLabel(
   internationalString: InternationalString,
   itemTitle: string
@@ -67,6 +69,10 @@ export function getMultiVolumeLabel(
   return stringAtIndex1 === itemTitle ? stringAtIndex0 : stringAtIndex1;
 }
 
+/**
+ * The label at `index`, preferring English. A label of '-' means "no label"
+ * in our manifests and comes back undefined.
+ */
 export function getDisplayLabel(
   internationalString: InternationalString,
   indexProps?: { index: number }
@@ -78,6 +84,7 @@ export function getDisplayLabel(
   return label !== '-' ? label : undefined;
 }
 
+/** A label as a plain string, whether it arrives as one or as an international string. */
 export function transformLabel(
   label: InternationalString | string | undefined
 ): string | undefined {
@@ -86,6 +93,10 @@ export function transformLabel(
   return getDisplayLabel(label);
 }
 
+/**
+ * How to describe a work's contents in the UI, pluralised - "3 volumes",
+ * "12 images", "5 PDF files". Anything mixed falls back to "file".
+ */
 export function getFileTypeLabel(
   collectionManifestsCount: number | undefined,
   canvasCount: number,
@@ -128,6 +139,7 @@ export function getFileTypeLabel(
   return pluralize(canvasCount, 'image');
 }
 
+/** A rendering item reshaped into a download option, with a fallback label. */
 function convertToDownloadOption(item: RenderingWithId): DownloadOption {
   return {
     id: item.id,
@@ -146,6 +158,7 @@ type Rendering = {
 // only convert items that actually have one.
 type RenderingWithId = Rendering & { id: string };
 
+/** Download options with duplicate ids removed, keeping the first of each. */
 export function deduplicateDownloadOptions(
   options: DownloadOption[]
 ): DownloadOption[] {
@@ -158,6 +171,7 @@ export function deduplicateDownloadOptions(
   });
 }
 
+/** Whole-work downloads offered by a manifest, minus formats we don't serve. */
 export function getDownloadOptionsFromManifestRendering(
   manifestRendering: Manifest['rendering']
 ): DownloadOption[] {
@@ -181,6 +195,7 @@ export function getDownloadOptionsFromManifestRendering(
     .map(convertToDownloadOption);
 }
 
+/** Per-canvas downloads, flattening any choices into their alternatives. */
 export function getDownloadOptionsFromCanvasRenderingAndSupplementing(
   canvas: TransformedCanvas
 ): DownloadOption[] {
@@ -193,6 +208,7 @@ export function getDownloadOptionsFromCanvasRenderingAndSupplementing(
     .map(convertToDownloadOption);
 }
 
+/** A label as a display string, empty when there isn't one. */
 export function getTitle(
   label: InternationalString | string | undefined
 ): string {
@@ -203,6 +219,7 @@ export function getTitle(
   return getDisplayLabel(label) || '';
 }
 
+/** The canvases of a manifest, transformed for our own use. A collection has none of its own. */
 export function getTransformedCanvases(
   iiifManifest: Manifest | Collection
 ): TransformedCanvas[] {
@@ -214,6 +231,7 @@ export function getTransformedCanvases(
   return canvases?.map(transformCanvas) || [];
 }
 
+/** Every value of an international string joined into a single string, across all languages. */
 export function getLabelString(
   label: InternationalString | null | undefined
 ): string | undefined {
@@ -224,11 +242,13 @@ export function getLabelString(
   }
 }
 
+/** A canvas's label as a single string. */
 function getCanvasLabel(canvas: Canvas): string | undefined {
   const label = canvas.label;
   return getLabelString(label);
 }
 
+/** The id of the annotation page holding a canvas's page text, used for search within. */
 function getCanvasTextServiceId(canvas: Canvas): string | undefined {
   const textAnnotation = canvas?.annotations?.find(annotation => {
     const annotationLabel = getLabelString(annotation.label);
@@ -245,6 +265,7 @@ type AnnotationPageBody = {
   service: BodyService;
 };
 
+/** The ImageService2 on an item, if it has one. */
 export function getImageServiceFromItem(
   item: IIIFItemProps
 ): ImageService | undefined {
@@ -255,6 +276,7 @@ export function getImageServiceFromItem(
   }
 }
 
+/** The ImageService2 painted onto a canvas, dug out of its annotation bodies. */
 function getImageServiceFromCanvas(canvas: Canvas): BodyService | undefined {
   const items = canvas?.items;
   const AnnotationPages = items?.[0].items;
@@ -270,6 +292,7 @@ function getImageServiceFromCanvas(canvas: Canvas): BodyService | undefined {
   return imageService;
 }
 
+/** An image service's id, which is the base URL for requesting image tiles. */
 function getImageServiceId(
   imageService: BodyService | undefined
 ): string | undefined {
@@ -283,6 +306,7 @@ type BodyService = {
   service: Service | Service[];
 };
 
+/** The metadata entry with the given label, if the manifest has one. */
 export function getIIIFMetadata(
   manifest: Manifest | Collection,
   label: string
@@ -291,9 +315,11 @@ export function getIIIFMetadata(
     data => getDisplayLabel(data.label) === label
   );
 }
-// See: https://github.com/wellcomecollection/platform/issues/5630
-// for background to this function
-// If no access-control-hints service is found, returns ['Open'].
+/**
+ * The access conditions on a work, read from our access-control-hints
+ * service. Falls back to ['Open'] when the manifest doesn't say.
+ * @see https://github.com/wellcomecollection/platform/issues/5630
+ */
 export function getManifestAccessRequirements(
   manifest: Manifest | Collection
 ): ManifestAccessRequirement[] {
@@ -319,6 +345,7 @@ export function getManifestAccessRequirements(
   return ['Open'];
 }
 
+/** The credit line from a manifest's 'Attribution and usage' metadata. */
 export function getIIIFPresentationCredit(
   manifest: Manifest | Collection
 ): string | undefined {
@@ -329,6 +356,7 @@ export function getIIIFPresentationCredit(
   return maybeValueWithBrTags?.split('<br />')[0];
 }
 
+/** The search-within-this-item service, if the manifest offers one. */
 export function getSearchService(
   manifest: Manifest | Collection
 ): SearchService | undefined {
@@ -340,6 +368,7 @@ export function getSearchService(
   );
 }
 
+/** The id of a collection's first manifest, e.g. volume one of a multi-volume work. */
 export function getFirstCollectionManifestLocation(
   iiifManifest: Manifest | Collection
 ): string | undefined {
@@ -348,6 +377,7 @@ export function getFirstCollectionManifestLocation(
   }
 }
 
+/** Whether an item sits behind the restricted-login access service. */
 export function isItemRestricted(
   item: ChoiceBody | ContentResource | CustomContentResource
 ): boolean {
@@ -369,7 +399,10 @@ export function isItemRestricted(
   });
 }
 
-// Returns the AuthProbeService2 URL for a painting item, if it is restricted.
+/**
+ * The probe service id for a painting, which the viewer calls to find out
+ * whether the current user may see it. Undefined when it isn't restricted.
+ */
 export function getProbeServiceId(
   painting: ChoiceBody | ContentResource | CustomContentResource
 ): string | undefined {
@@ -386,6 +419,7 @@ type AuthServices = {
   external?: TransformedAuthService;
 };
 
+/** The active and external access services already transformed onto a manifest. */
 export function getAuthServices({
   auth,
 }: {
@@ -397,6 +431,7 @@ export function getAuthServices({
   };
 }
 
+/** The src for the hidden iframe that collects an access token, if there's a token service. */
 export function getIframeTokenSrc({
   workId,
   origin,
@@ -416,6 +451,11 @@ type checkModalParams = {
   auth?: Auth;
 };
 
+/**
+ * Whether to show the access modal before letting someone view an item.
+ * Always for 'Open with advisory'; for restricted files unless the user is
+ * staff with restricted access.
+ */
 export function checkModalRequired(params: checkModalParams): boolean {
   const { userIsStaffWithRestricted, auth } = params;
 
@@ -440,6 +480,7 @@ export function checkModalRequired(params: checkModalParams): boolean {
   return false;
 }
 
+/** Every annotation across a set of annotation pages with the given motivation. */
 export function getAnnotationsOfMotivation(
   items: Canvas['items'],
   motivation: TechnicalProperties['motivation']
@@ -453,8 +494,7 @@ export function getAnnotationsOfMotivation(
   ).flat() || []) as Annotation[];
 }
 
-// Annotation["body"] can be a AnnotationBody | AnnotationBody[] | undefined
-// we make sure that it is always an array so we can treat it the same way
+/** An annotation's body as an array, whether it holds one, many or none. */
 function convertAnnotationBodyToArray(
   annotationBody: Annotation['body']
 ): AnnotationBody[] {
@@ -466,6 +506,7 @@ function convertAnnotationBodyToArray(
   }
 }
 
+/** The content of an annotation, dropping bodies that are bare string references. */
 export function getDisplayData(
   annotation: Annotation
 ): (ChoiceBody | ContentResource)[] {
@@ -481,6 +522,11 @@ export function getDisplayData(
     .filter(Boolean) as (ChoiceBody | ContentResource)[];
 }
 
+/**
+ * A canvas reduced to what the viewer needs - label, thumbnail, image and
+ * probe service ids, and its painting, original, rendering and supplementing
+ * content separated out.
+ */
 export function transformCanvas(canvas: Canvas): TransformedCanvas {
   const label = getCanvasLabel(canvas);
   const textServiceId = getCanvasTextServiceId(canvas);
@@ -531,11 +577,11 @@ export function transformCanvas(canvas: Canvas): TransformedCanvas {
   };
 }
 
-// When lots of the works were digitised, ranges with multiple items, such as a table of contents,
-// were created individually rather than as a single range with multiple items.
-// This means we would display repetitive links to the essentially the same thing.
-// This function groups ranges that have the same label and consecutive pages into a single structure,
-// So we can display one link to the first item in the range.
+/**
+ * Ranges sharing a label across consecutive canvases merged into one, so a
+ * contents list shows a single link per section instead of one per page.
+ * Many older digitised works have a separate range per page.
+ */
 export function groupRanges(
   items: TransformedCanvas[],
   ranges: Range[]
@@ -581,24 +627,28 @@ export function groupRanges(
   ).groupedArray;
 }
 
+/** Whether an item of a range is a canvas rather than a nested range. */
 export const isCanvas = (
   rangeItem: TransformedCanvas | RangeItems
 ): rangeItem is TransformedCanvas | Canvas => {
   return typeof rangeItem === 'object' && rangeItem.type === 'Canvas';
 };
 
+/** Whether an item of a range is itself a range. */
 export const isRange = (
   rangeItem: TransformedCanvas | RangeItems
 ): rangeItem is Range => {
   return typeof rangeItem === 'object' && rangeItem.type === 'Range';
 };
 
+/** Whether a canvas has been through {@link transformCanvas} already. */
 export const isTransformedCanvas = (
   canvas: TransformedCanvas | Canvas
 ): canvas is TransformedCanvas => {
   return Boolean(canvas && 'painting' in canvas);
 };
 
+/** Whether any canvas paints an item of the given type, looking inside choices. */
 export function hasItemType(
   canvases: TransformedCanvas[] | undefined,
   type: string
@@ -622,6 +672,7 @@ export function hasItemType(
   );
 }
 
+/** Whether any canvas has a PDF among its original files. */
 export function hasOriginalPdf(canvases?: TransformedCanvas[]): boolean {
   return (
     canvases?.some(canvas => {
@@ -663,6 +714,7 @@ export function shouldTreatAsPDFCanvas(canvas?: TransformedCanvas): boolean {
   return hasOriginalPdf([canvas]) || (hasPDFSupplement && !hasPaintings);
 }
 
+/** Whether a canvas or item is audio. Our manifests use both 'Sound' and 'Audio'. */
 export function isAudioCanvas(
   canvas?: TransformedCanvas | IIIFItemProps
 ): boolean {
@@ -670,6 +722,7 @@ export function isAudioCanvas(
   return canvas.type === 'Sound' || canvas.type === 'Audio';
 }
 
+/** Whether this is a collection rather than a single manifest, e.g. a multi-volume work. */
 export function isCollection(
   manifest: Manifest | Collection
 ): manifest is Collection {
@@ -680,6 +733,7 @@ export function isCollection(
 // similar aggregations); they are never rendered, so fetching them is wasted work.
 const aggregationCollectionPath = /\/presentation\/(v\d+\/)?collections\//;
 
+/** The id of the manifest this one belongs to, ignoring aggregation collections. */
 export function getParentManifestUrl(
   manifest: Manifest | Collection
 ): string | undefined {
@@ -688,17 +742,14 @@ export function getParentManifestUrl(
   )?.id;
 }
 
-// We sometimes want to offer the original file for download.
-// There are 4 potential sources for this, checked in priority order.
-// 1) Content resources with a behavior value that includes 'original'.
-// This will exist if the canvas is for a 'Born Digital' item.
-// see: https://github.com/wellcomecollection/docs/blob/main/rfcs/046-born-digital-iiif/README.md
-// 2) The canvas-level rendering property, which provides alternative representations of the canvas.
-// 3) The Annotations with a motivation of 'painting',
-// which is the thing we would normally display to the user.
-// 4) The Annotations with a motivation of 'supplementing'.
-// We do this to find pdfs that were added to manifests before DLCS changes, which took place in May 2023.
-// (N.B. after this time the pdfs follow the Born Digital pattern)
+/**
+ * The files to offer for download from a canvas, taking the first of these
+ * that has anything: born-digital originals, rendering, painting,
+ * supplementing. Supplementing catches PDFs added before the May 2023 DLCS
+ * changes; after that date they follow the born-digital pattern and appear in
+ * `original` instead.
+ * @see https://github.com/wellcomecollection/docs/blob/main/rfcs/046-born-digital-iiif/README.md
+ */
 export function getOriginalFiles(
   canvas: TransformedCanvas
 ): (ContentResource | CustomContentResource | ChoiceBody)[] {
@@ -713,7 +764,7 @@ export function getOriginalFiles(
   return downloadData || [];
 }
 
-// If we have a file size, it is found in the metadata array of the canvas
+/** A canvas's file size, if its metadata records one. */
 export function getFileSize(canvas: TransformedCanvas): string | undefined {
   const fileSizeMeta = canvas.metadata.find(
     metadata => getLabelString(metadata.label) === 'File size'
@@ -737,17 +788,13 @@ export function getCollectionManifests(
   }
 }
 
-// Our IIIF manifests can contain a mix of standard and non-standard items.
-// Standard items are those that the IIIF Presentation API was designed for;
-// namely content that is spatial, temporal, or both, i.e images, audio and video.
-// Non standard items can be any other type of file, such as text streams and binary documents.
-// Non standard items are identified by having a behavior value of 'placeholder'
-// see https://github.com/wellcomecollection/docs/tree/main/rfcs/046-born-digital-iiif
-// It is possible to have a iiifManifest that contains:
-// - only standard items
-// - only non standard items
-// - a mix of standard and non standard items
-// We need to know which of these we have in order to determine the required UI.
+/**
+ * Whether a manifest holds only standard IIIF content (images, audio, video),
+ * only non-standard content (anything else - text streams, binary documents,
+ * marked with a 'placeholder' behaviour), or a mix. The viewer needs a
+ * different interface for each.
+ * @see https://github.com/wellcomecollection/docs/tree/main/rfcs/046-born-digital-iiif
+ */
 export function getItemsStatus(manifest: Manifest | Collection): ItemsStatus {
   const hasStandard = manifest?.items.some(canvas => {
     const behavior = canvas?.behavior as
@@ -770,18 +817,16 @@ export function getItemsStatus(manifest: Manifest | Collection): ItemsStatus {
   }
 }
 
-// Determines if a set of canvases contains any non-image items or original files.
-// Returns true if any canvas contains:
-// - a non-image item in rendering, painting, or supplementing arrays
-// - any original files (which are always considered non-image/"non-standard")
-// - Returns false only if all canvases contain only images and have no original files.
-// This is used to customise the IIIFViewer UI
-// If we only have images to display we present a different interface to when we have other types of files to display, e.g. audio, video, pdf, or when we have the option to download original files.
-// If we have any original files we know we have non image things, i.e. non standard files, including pdfs that follow the born digital pattern,
-// We have to check for non image standard items for audio and video files
-// and also pdfs that don't follow the born digital pattern.
-// N.B. it's possible for all items to identify as images but be non standard,
-// e.g. wellcomecollection.org/works/c4ujea53/items, https://iiif.wellcomecollection.org/presentation/PPDBL/A/1/41, but these will be caught by the original files check.
+/**
+ * Whether any canvas holds something other than a plain image - audio, video,
+ * a PDF, or an original file to download. An image-only work gets a simpler
+ * viewer interface.
+ *
+ * Items can report a type of Image and still be non-standard - see
+ * https://wellcomecollection.org/works/c4ujea53/items and its manifest
+ * https://iiif.wellcomecollection.org/presentation/PPDBL/A/1/41. Those are
+ * caught by the original-files check rather than the type check.
+ */
 export function hasNonImagesOrOriginals(
   canvases: TransformedCanvas[] | undefined
 ): boolean {
@@ -797,6 +842,7 @@ export function hasNonImagesOrOriginals(
   return !!hasNonImage;
 }
 
+/** A manifest's ranges, i.e. its table of contents. A collection has none. */
 export function getStructures(manifest: Manifest | Collection): Range[] {
   if (isCollection(manifest)) {
     return [];
@@ -805,7 +851,10 @@ export function getStructures(manifest: Manifest | Collection): Range[] {
   }
 }
 
-// https://iiif.io/api/auth/2.0/#access-service-description
+/**
+ * The Auth 2 access services on a manifest.
+ * @see https://iiif.io/api/auth/2.0/#access-service-description
+ */
 export function getAuthAccessServices(
   manifest: Manifest | Collection
 ): AuthAccessService2[] {
@@ -815,7 +864,11 @@ export function getAuthAccessServices(
   );
 }
 
-// https://iiif.io/api/auth/2.0/#external-interaction-pattern
+/**
+ * The access service for content held outside the viewer, e.g. available only
+ * in the library.
+ * @see https://iiif.io/api/auth/2.0/#external-interaction-pattern
+ */
 export function getExternalAuthAccessService(
   services: AuthAccessService2[]
 ): AuthAccessService2External | undefined {
@@ -831,7 +884,10 @@ type AuthAccessService2WithInteractiveProfile = Omit<
   profile: AuthAccessService2['profile'] | 'interactive';
 };
 
-// https://iiif.io/api/auth/2.0/#active-interaction-pattern
+/**
+ * The access service the user can act on, i.e. log in to.
+ * @see https://iiif.io/api/auth/2.0/#active-interaction-pattern
+ */
 export function getActiveAuthAccessService(
   services: AuthAccessService2WithInteractiveProfile[]
 ): AuthAccessService2WithInteractiveProfile | undefined {
@@ -840,9 +896,13 @@ export function getActiveAuthAccessService(
   ) as AuthAccessService2WithInteractiveProfile | undefined;
 }
 
-// https://iiif.io/api/auth/2.0/#access-token-service-description
-// not sure if the service can be an object or an array,
-// but we do this check for v1 token services, so putting it in to be safe
+/**
+ * The token service nested inside an access service, which exchanges a login
+ * for a token the viewer can send with image requests. Handles both a single
+ * service and an array: it's unclear whether v2 allows both, but v1 token
+ * services needed the check, so it's here to be safe.
+ * @see https://iiif.io/api/auth/2.0/#access-token-service-description
+ */
 export function getV2TokenService(
   accessService: AuthAccessService2 | undefined
 ): AuthAccessTokenService2 | undefined {
@@ -859,6 +919,7 @@ export type TransformedAuthService = {
   description?: string;
 };
 
+/** An external access service reduced to the id, label and note the UI shows. */
 export function transformExternalAccessService(
   service:
     | (AuthAccessService2External & { note?: InternationalString }) // We can have a note on this type in the manifest
@@ -872,6 +933,7 @@ export function transformExternalAccessService(
   };
 }
 
+/** An active access service reduced to the id, label and note the UI shows. */
 export function transformActiveAccessService(
   service: AuthAccessService2WithInteractiveProfile | undefined
 ): TransformedAuthService | undefined {
@@ -883,6 +945,7 @@ export function transformActiveAccessService(
   };
 }
 
+/** A token service reduced to its id. */
 export function transformTokenService(
   service: AuthAccessTokenService2 | undefined
 ): TransformedAuthService | undefined {
@@ -892,6 +955,7 @@ export function transformTokenService(
   };
 }
 
+/** Download options for the video and audio painted on a canvas. */
 export const getVideoAudioDownloadOptions = (canvas?: TransformedCanvas) => {
   if (!canvas || !canvas?.painting) return [];
 
@@ -935,8 +999,7 @@ export const getVideoAudioDownloadOptions = (canvas?: TransformedCanvas) => {
   return finalOptions.flat().filter(Boolean).filter(isNotUndefined) || [];
 };
 
-// Returns true if any item in painting,
-// original, or supplementing arrays is restricted.
+/** Whether any of a canvas's painting, original or supplementing items is restricted. */
 export function hasRestrictedItem(canvas: TransformedCanvas): boolean {
   return (
     (canvas.painting?.some(item => isItemRestricted(item)) ?? false) ||
