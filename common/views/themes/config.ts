@@ -60,12 +60,60 @@ const colors = {
   'focus.yellow': '#ffea00',
 };
 
-const getColor = (name: PaletteColor): string => {
-  // In some cases, these get passed in, see ButtonColors for example.
-  // But better not to use it if possible.
-  if (['currentColor', 'transparent', 'inherit'].includes(name)) return name;
+export type LegacyColor = keyof typeof colors;
 
-  return colors[name];
+const passthroughColors = {
+  transparent: 'transparent',
+  inherit: 'inherit',
+  currentColor: 'currentColor',
+} as const;
+
+type PassthroughColor = keyof typeof passthroughColors;
+
+export type PaletteColor = LegacyColor | PassthroughColor;
+
+const colorValues = { ...colors, ...passthroughColors };
+
+export type NewBrandColor = Exclude<DesignSystemColor, LegacyColor>;
+
+// A new brand colour together with the colour to keep rendering in its place
+// while the `brandUpdate` toggle is off. See pinColor.
+export type PinnedColor = { brand: NewBrandColor; legacy: LegacyColor };
+
+export type PinnableColor = PaletteColor | PinnedColor;
+
+// Pairs a new brand colour with the current-brand colour to render while the
+// `brandUpdate` toggle is off, for the places a colour is passed around as a
+// value rather than resolved on the spot — e.g. the colour props on Button,
+// Divider and DecorativeEdge. At direct `theme.color(...)` call sites, pass the
+// current-brand colour as the second argument instead.
+export const pinColor = (
+  brand: NewBrandColor,
+  legacy: LegacyColor
+): PinnedColor => ({ brand, legacy });
+
+// Both palettes resolve colours through this shape, so `theme.color(...)`
+// behaves the same either way. The second overload is what stops a new brand
+// colour being named without pinning what the current brand renders, which is
+// how a component can diverge without touching the current brand.
+type ColorFunction = {
+  (name: PinnableColor): string;
+  (name: NewBrandColor, legacy: LegacyColor): string;
+};
+
+const isPinnedColor = (
+  name: PinnableColor | NewBrandColor
+): name is PinnedColor => typeof name === 'object';
+
+const getColor: ColorFunction = (
+  name: PinnableColor | NewBrandColor,
+  legacy?: LegacyColor
+): string => {
+  if (isPinnedColor(name)) return colorValues[name.legacy];
+
+  if (legacy) return colorValues[legacy];
+
+  return colorValues[name as PaletteColor];
 };
 
 // Design system colours, introduced behind the `brandUpdate` toggle.
@@ -198,11 +246,20 @@ const brandUpdateColors = Object.fromEntries(
   ])
 ) as Record<keyof typeof colors, string>;
 
-const getBrandUpdateColor = (name: PaletteColor): string => {
-  // Passed-through values (see getColor) have no palette equivalent.
-  if (['currentColor', 'transparent', 'inherit'].includes(name)) return name;
+const brandUpdateColorValues = {
+  ...brandUpdateColors,
+  ...passthroughColors,
+};
 
-  return brandUpdateColors[name];
+const getBrandUpdateColor: ColorFunction = (
+  name: PinnableColor | NewBrandColor,
+  legacy?: LegacyColor
+): string => {
+  if (isPinnedColor(name)) return designSystemColors[name.brand];
+
+  if (legacy) return designSystemColors[name as NewBrandColor];
+
+  return brandUpdateColorValues[name as PaletteColor];
 };
 
 export const sizes = {
@@ -558,6 +615,3 @@ export const createTheme = (brandUpdate: boolean) =>
     : themeValues;
 
 export type Breakpoint = keyof typeof sizes;
-
-export type PaletteColor =
-  keyof typeof colors | 'transparent' | 'inherit' | 'currentColor';
