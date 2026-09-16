@@ -47,6 +47,11 @@ const useManifest = (
             const promise = fetchIIIFPresentationManifest({
               location: url,
               workTypeId,
+            }).catch(e => {
+              // Don't let a failed fetch permanently poison the cache for
+              // this url - a later render should be able to retry.
+              manifestPromises.delete(url);
+              throw e;
             });
             manifestPromises.set(url, promise);
             return promise;
@@ -66,6 +71,15 @@ const useManifest = (
         if (isMounted) setIsLoading(false);
       }
     }
+
+    // Reset to what we know synchronously for the new location (cached data,
+    // or nothing) before kicking off any fetch - otherwise the previous
+    // location's manifest/error would keep being returned while this one
+    // loads, or indefinitely if there's no location at all.
+    setError(undefined);
+    setTransformedManifest(
+      location && cachedTransformedManifest.get(location.url)
+    );
 
     if (location) {
       fetchManifest(location.url);
