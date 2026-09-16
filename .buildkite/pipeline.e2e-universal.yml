@@ -95,6 +95,10 @@ steps:
           image: "public.ecr.aws/docker/library/python:3.12-slim"
           mount-buildkite-agent: true
           propagate-environment: true
+          # Passes the assumed experience-ci credentials into the container, which
+          # propagate-environment misses: its env file predates the assume-role
+          # plugin, so boto3 would fall back to the agent's own instance role.
+          propagate-aws-auth-tokens: true
           command: ["bash", ".buildkite/scripts/post_e2e_commit_status.sh"]
     agents:
       queue: nano
