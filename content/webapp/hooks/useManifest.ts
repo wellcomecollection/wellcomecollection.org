@@ -15,9 +15,6 @@ type UseManifestResult = {
   error?: unknown;
 };
 
-// The work page only needs the manifest for the item/volume count and to
-// hide the "view item" link if it's restricted, so we fetch it client side
-// after the page has already rendered rather than blocking SSR on it.
 const useManifest = (
   location?: DigitalLocation,
   workTypeId?: string
