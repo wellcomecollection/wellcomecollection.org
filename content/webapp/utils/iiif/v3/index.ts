@@ -23,7 +23,11 @@ import {
 } from '@iiif/presentation-3';
 
 import { pluralize } from '@weco/common/utils/grammar';
-import { isNotUndefined, isString } from '@weco/common/utils/type-guards';
+import {
+  isNotUndefined,
+  isObject,
+  isString,
+} from '@weco/common/utils/type-guards';
 import {
   allowedManifestAccessRequirements,
   Auth,
@@ -431,6 +435,47 @@ export function getIframeTokenSrc({
   if (auth?.tokenService) {
     return `${auth.tokenService.id}?messageId=${workId}&origin=${origin}`;
   }
+}
+
+export type TokenServiceMessage = {
+  // The service sends an accessToken when authentication succeeded, and an
+  // error payload when it didn't.
+  hasAccessToken: boolean;
+  accessToken: string | undefined;
+};
+
+// The token service replies to the hidden iframe via postMessage, so the
+// handler at the other end receives every message posted to the page -- React
+// devtools alone generates a lot of them locally.
+//
+// This narrows those down to messages we can actually act on, and returns
+// undefined for everything else. That includes payloads that aren't objects:
+// they'd throw when we read a property off them, and treating them as an
+// authentication failure would undo a successful login.
+export function readTokenServiceMessage(
+  event: MessageEvent,
+  tokenServiceSrc: string | undefined
+): TokenServiceMessage | undefined {
+  if (!tokenServiceSrc) return undefined;
+  if (new URL(tokenServiceSrc).origin !== event.origin) return undefined;
+
+  const data = event.data;
+  if (!isObject(data)) return undefined;
+
+  // An own-property check, so a polluted Object.prototype can't make an error
+  // payload look like a successful one.
+  const hasAccessToken = Object.prototype.hasOwnProperty.call(
+    data,
+    'accessToken'
+  );
+
+  return {
+    hasAccessToken,
+    accessToken:
+      hasAccessToken && isString(data.accessToken)
+        ? data.accessToken
+        : undefined,
+  };
 }
 
 type checkModalParams = {

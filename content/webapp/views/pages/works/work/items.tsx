@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { typography } from '@weco/common/utils/classnames';
-import { isObject, isString } from '@weco/common/utils/type-guards';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import Button from '@weco/common/views/components/Buttons';
 import Modal from '@weco/common/views/components/Modal';
@@ -21,6 +20,7 @@ import {
   checkModalRequired,
   getAuthServices,
   getIframeTokenSrc,
+  readTokenServiceMessage,
 } from '@weco/content/utils/iiif/v3';
 import { removeDisplayMarkupTags } from '@weco/content/utils/string';
 import WorkLink from '@weco/content/views/components/WorkLink';
@@ -136,37 +136,24 @@ const WorkItemPage: NextPage<Props> = ({
 
   useEffect(() => {
     function receiveMessage(event: MessageEvent) {
-      const data = event.data;
       const tokenService = getIframeTokenSrc({
         workId: work.id,
         origin: window.origin,
         auth,
       });
-      const service = (tokenService && new URL(tokenService)) as
-        URL | undefined;
 
-      // We check this is the event we are interested in
-      // N.B. locally react dev tools will create a lot of events
-      if (service?.origin === event.origin) {
-        // The token service posts either an access token or, on failure, an
-        // error payload. Anything that isn't an object at all is malformed, so
-        // we ignore it rather than treating it as a failure: reading a property
-        // off null or undefined would throw, and showing the modal would undo a
-        // successful authentication.
-        if (!isObject(data)) return;
+      const message = readTokenServiceMessage(event, tokenService);
+      if (!message) return;
 
-        if ('accessToken' in data) {
-          setAccessToken(
-            isString(data.accessToken) ? data.accessToken : undefined
-          );
-          if (needsModal) {
-            setShowModal(!!isTotallyRestricted);
-            setShowViewer(!isTotallyRestricted);
-          }
-        } else if (needsModal) {
-          setShowModal(true);
-          setShowViewer(false);
+      if (message.hasAccessToken) {
+        setAccessToken(message.accessToken);
+        if (needsModal) {
+          setShowModal(!!isTotallyRestricted);
+          setShowViewer(!isTotallyRestricted);
         }
+      } else if (needsModal) {
+        setShowModal(true);
+        setShowViewer(false);
       }
     }
     window.addEventListener('message', receiveMessage);
