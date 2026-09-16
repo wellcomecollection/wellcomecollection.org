@@ -12,6 +12,7 @@ services:
       dockerfile: content/Dockerfile
       args:
         - NEXT_PUBLIC_CIVICUK_API_KEY
+        - BUILDKITE_COMMIT
   identity:
     image: uk.ac.wellcome/identity_webapp:${CONTAINER_TAG:-test}
     build:
@@ -19,6 +20,7 @@ services:
       dockerfile: identity/Dockerfile
       args:
         - NEXT_PUBLIC_CIVICUK_API_KEY
+        - BUILDKITE_COMMIT
   edge_lambdas:
     build:
       context: .

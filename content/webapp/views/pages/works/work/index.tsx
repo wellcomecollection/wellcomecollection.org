@@ -24,6 +24,7 @@ import {
   getArchiveAncestorArray,
   getDigitalLocationInfo,
   getDigitalLocationOfType,
+  isArchiveCollectionRoot,
   showItemLink,
 } from '@weco/content/utils/works';
 import CataloguePageLayout from '@weco/content/views/layouts/CataloguePageLayout';
@@ -63,7 +64,8 @@ export const WorkPage: NextPage<Props> = ({ work, apiUrl }) => {
   const isArchive = !!(
     work.parts.length || getArchiveAncestorArray(work).length > 0
   );
-  const displayCollectionRoot = !!work.collection?.isRoot && archiveCollection;
+  const displayCollectionRoot =
+    isArchiveCollectionRoot(work) && archiveCollection;
 
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
   const iiifPresentationLocation = getDigitalLocationOfType(

@@ -156,15 +156,41 @@ describe('VirtualizedImageViewer', () => {
     // scrolled, so scrolling again would fight the user. It suppresses the
     // effect on `canvas`.
     expect(getScrollContainer(container).scrollTop).toBe(0);
-
-    // It does not suppress the first-render scroll behind onItemsRendered,
-    // though - that path doesn't consult the flag, so the viewer still jumps
-    // once the 500ms debounce elapses. Pinned here as current behaviour rather
-    // than endorsed.
     act(() => {
       jest.advanceTimersByTime(500);
     });
     expect(getScrollContainer(container).scrollTop).toBe(1300);
+  });
+
+  it('abandons the pending first-render scroll once the user has scrolled themselves', () => {
+    jest.useFakeTimers();
+
+    const { container } = renderViewer({
+      transformedManifest: createMockManifest({
+        canvases: Array.from({ length: 10 }, () =>
+          createMockCanvas({
+            width: 1000,
+            height: 1400,
+            painting: [createOpenPainting()],
+          })
+        ),
+      }),
+      query: createMockQuery({ canvas: 3 }),
+    });
+    const scrollContainer = getScrollContainer(container);
+
+    // Portrait canvases, so the mount effect puts the top of canvas 3 at the
+    // top of the viewport - 2 * itemSize = 2000.
+    expect(scrollContainer.scrollTop).toBe(2000);
+
+    act(() => {
+      fireEvent.scroll(scrollContainer, { target: { scrollTop: 5000 } });
+    });
+    act(() => {
+      jest.advanceTimersByTime(500);
+    });
+
+    expect(scrollContainer.scrollTop).toBe(5000);
   });
 
   it('hides controls while scrolling and restores them once scrolling settles', () => {

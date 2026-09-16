@@ -27,10 +27,48 @@ export const workBasic: WorkBasic = {
   primaryContributorLabel: 'Mannel, Wilhelm, 1870-1935.',
   physicalDescription: '3 boxes',
   referenceNumber: 'B30609446',
-  isRootCollection: false,
+  isArchiveCollectionRoot: false,
   notes: [],
   languageId: 'ger',
   archiveLabels: { reference: 'B30609446' },
+};
+
+// A work that is the root of its own collection, and has the "Archives and
+// manuscripts" format, but is a manuscript rather than an archive - it has a
+// `tei-manuscript-id` identifier. So it gets no archive-collection treatment.
+// See https://api.wellcomecollection.org/catalogue/v2/works/k3gfstaz
+export const nonArchiveCollectionWork: WorkBasic = {
+  id: 'k3gfstaz',
+  title: 'MS.632',
+  workTypeId: 'h',
+  productionDates: [],
+  cardLabels: [
+    { text: 'Archives and manuscripts' },
+    { text: 'Online', labelColor: 'white' },
+  ],
+  primaryContributorLabel: undefined,
+  physicalDescription: workBasic.physicalDescription,
+  referenceNumber: undefined,
+  isArchiveCollectionRoot: false,
+  notes: [],
+  languageId: undefined,
+  archiveLabels: undefined,
+  thumbnail: {
+    url: 'https://iiif.wellcomecollection.org/thumbs/b19695639_0001.jp2/full/!200,200/0/default.jpg',
+    license: {
+      id: 'pdm',
+      label: 'Public Domain Mark',
+      url: 'https://creativecommons.org/share-your-work/public-domain/pdm/',
+      type: 'License',
+    },
+    accessConditions: [],
+    locationType: {
+      id: 'thumbnail-image',
+      label: 'Thumbnail image',
+      type: 'LocationType',
+    },
+    type: 'DigitalLocation',
+  },
 };
 
 export const contentAPILinkedWork: ContentApiLinkedWork = {
@@ -65,10 +103,10 @@ export const archiveCollectionWork: WorkBasic = {
       labelColor: 'white',
     },
   ],
-  isRootCollection: true,
+  isArchiveCollectionRoot: true,
   physicalDescription: '3 boxes',
   languageId: undefined,
   notes: [],
-  thumbnail: undefined,
+  thumbnail: workBasic.thumbnail,
   primaryContributorLabel: undefined,
 };

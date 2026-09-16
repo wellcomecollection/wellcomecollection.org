@@ -23,5 +23,10 @@ COPY identity/webapp .
 
 RUN yarn build && yarn cache clean
 
+# Exposed at /management/manifest so deploy tooling can see which commit is live.
+# Last so a new commit only invalidates this layer, not the install and build.
+ARG BUILDKITE_COMMIT
+ENV BUILD_COMMIT=$BUILDKITE_COMMIT
+
 EXPOSE 3000
 CMD ["yarn", "start"]

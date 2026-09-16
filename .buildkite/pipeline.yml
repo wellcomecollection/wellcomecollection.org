@@ -38,6 +38,7 @@
         image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
         env:
           - NEXT_PUBLIC_CIVICUK_API_KEY
+          - BUILDKITE_COMMIT
 
 - label: ':docker: build edge_lambdas'
   key: 'build_edge_lambdas'
@@ -79,6 +80,7 @@
         image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
         env:
           - NEXT_PUBLIC_CIVICUK_API_KEY
+          - BUILDKITE_COMMIT
 
 - label: 'diff prismic model'
   key: 'diff_prismic_model'
