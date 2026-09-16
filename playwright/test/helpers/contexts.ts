@@ -231,6 +231,24 @@ const workWithBornDigitalDownloads = async (
   await gotoWithoutCache(`${baseUrl}/works/htzhunbw/items`, page);
 };
 
+// Unlike the helpers above, these two land on the WORK page itself
+// (not /items), so tests can exercise clicking through to the item page.
+const workWithStandardItem = async (
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  await context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works/b5kqccbb`, page);
+};
+
+const workWithBornDigitalItem = async (
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  await context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works/yhgvjsga`, page);
+};
+
 const itemWithVideo = async (
   context: BrowserContext,
   page: Page
@@ -409,8 +427,10 @@ export {
   whatsOn,
   newOnline,
   workWithBornDigitalDownloads,
+  workWithBornDigitalItem,
   workWithDigitalLocationAndLocationNote,
   workWithDigitalLocationAndRestricted,
   workWithDigitalLocationOnly,
   workWithPhysicalLocationOnly,
+  workWithStandardItem,
 };

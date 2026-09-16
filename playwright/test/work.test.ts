@@ -4,10 +4,12 @@ import { Page } from 'playwright';
 import {
   isMobile,
   workWithBornDigitalDownloads,
+  workWithBornDigitalItem,
   workWithDigitalLocationAndLocationNote,
   workWithDigitalLocationAndRestricted,
   workWithDigitalLocationOnly,
   workWithPhysicalLocationOnly,
+  workWithStandardItem,
 } from './helpers/contexts';
 
 declare global {
@@ -150,5 +152,33 @@ test.describe(`Scenario 2: A user viewing/downloading 'born digital' items`, () 
     expect(gtmTriggers).toEqual(
       expect.arrayContaining([DOWNLOAD_TABLE_LINK_TRIGGER])
     );
+  });
+});
+
+test.describe(`Scenario 3: A user follows the 'View' link from the work page to the item page`, () => {
+  test(`clicking 'View' on a standard work takes the user to its item page`, async ({
+    page,
+    context,
+  }) => {
+    await workWithStandardItem(context, page);
+
+    await page.getByRole('link', { name: 'View', exact: true }).click();
+
+    await expect(page).toHaveURL(/\/works\/b5kqccbb\/items/);
+  });
+
+  test(`a born-digital work shows the born-digital message, and clicking 'View' takes the user to its item page`, async ({
+    page,
+    context,
+  }) => {
+    await workWithBornDigitalItem(context, page);
+
+    await expect(
+      page.getByRole('heading', { name: 'This contains born-digital items' })
+    ).toBeVisible();
+
+    await page.getByRole('link', { name: 'View', exact: true }).click();
+
+    await expect(page).toHaveURL(/\/works\/yhgvjsga\/items/);
   });
 });
