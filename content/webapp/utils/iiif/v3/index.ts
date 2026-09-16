@@ -5,7 +5,6 @@ import {
   AuthAccessService2_Active as AuthAccessService2Active,
   AuthAccessService2_External as AuthAccessService2External,
   AuthAccessTokenService2,
-  AuthProbeService2,
   Canvas,
   ChoiceBody,
   Collection,
@@ -128,13 +127,6 @@ export function getFileTypeLabel(
 
   return pluralize(canvasCount, 'image');
 }
-
-// It appears that iiif-manifests for born digital items can exist without the items property
-// e.g. https://iiif.wellcomecollection.org/presentation/collections/archives/SA/SRH/B/41/2
-// I'm not sure this should be the case, but am doing this temporarily so works/items pages won't error/break
-export type BornDigitalManifest = Omit<Manifest, 'items'> & {
-  items?: Canvas[];
-};
 
 function convertToDownloadOption(item: RenderingWithId): DownloadOption {
   return {
@@ -290,20 +282,6 @@ type BodyService = {
   '@type': string;
   service: Service | Service[];
 };
-type BodyService2 = {
-  type: string;
-  service: Service | Service[];
-};
-
-export function getImageAuthProbeService(
-  service: BodyService2 | undefined
-): AuthProbeService2 | undefined {
-  return Array.isArray(service)
-    ? service?.find(s => s.type === 'AuthProbeService2')
-    : service?.type === 'AuthProbeService2'
-      ? (service as unknown as AuthProbeService2)
-      : undefined;
-}
 
 export function getIIIFMetadata(
   manifest: Manifest | Collection,
@@ -403,7 +381,7 @@ export function getProbeServiceId(
   return probe?.id;
 }
 
-export type AuthServices = {
+type AuthServices = {
   active?: TransformedAuthService;
   external?: TransformedAuthService;
 };
@@ -846,7 +824,7 @@ export function getExternalAuthAccessService(
 }
 
 // Docs (https://iiif.io/api/auth/2.0/#profile) say the profile value should be active, but before the Auth 2 spec was finalised the value was interactive and we have still have manifests with this value. N.B. the values will update if the manifest is regenerated.
-export type AuthAccessService2WithInteractiveProfile = Omit<
+type AuthAccessService2WithInteractiveProfile = Omit<
   AuthAccessService2Active,
   'profile'
 > & {
