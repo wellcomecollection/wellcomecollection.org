@@ -443,7 +443,7 @@ type checkModalParams = {
 /**
  * Whether to show the access modal before letting someone view an item.
  * Always for 'Open with advisory'; for restricted files unless the user is
- * staff with restricted access.
+ * staff with restricted access or the manifest also marks them as 'Open'.
  */
 export function checkModalRequired(params: checkModalParams): boolean {
   const { userIsStaffWithRestricted, auth } = params;
