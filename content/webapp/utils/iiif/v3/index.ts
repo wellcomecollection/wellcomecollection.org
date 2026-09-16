@@ -743,25 +743,17 @@ export function getFileSize(canvas: TransformedCanvas): string | undefined {
   return fileSizeMeta ? getLabelString(fileSizeMeta.value) : undefined;
 }
 
-type CollectionItemsWithItems = CollectionItems & {
-  items: CollectionItemsWithItems[];
-};
+/**
+ * Every manifest within a collection, flattening any nested collections.
+ * A manifest has no child manifests, so returns an empty array for one.
+ */
 export function getCollectionManifests(
-  manifest:
-    | Manifest
-    | Collection
-    | (CollectionItems & { items: CollectionItemsWithItems[] })
+  manifest: Manifest | Collection
 ): CollectionItems[] {
   if (manifest.type === 'Collection') {
-    return manifest.items
-      .map(item => {
-        if (item.type === 'Manifest') {
-          return item;
-        } else {
-          return getCollectionManifests(item);
-        }
-      })
-      .flat(Infinity) as CollectionItems[];
+    return manifest.items.flatMap(item =>
+      item.type === 'Manifest' ? item : getCollectionManifests(item)
+    );
   } else {
     return [];
   }
