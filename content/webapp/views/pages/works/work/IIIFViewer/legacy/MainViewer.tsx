@@ -383,9 +383,10 @@ const MainViewer: FunctionComponent = () => {
   const { shouldScrollToCanvas, canvas } = query;
   const mainViewerRef = useRef<FixedSizeList>(null);
   const [newScrollOffset, setNewScrollOffset] = useState(0);
-  const [firstRender, setFirstRender] = useState(true);
-  const firstRenderRef = useRef(firstRender);
-  firstRenderRef.current = firstRender;
+  const firstRenderRef = useRef(true);
+  // The offset the last onScroll callback reported, used by handleOnScroll to
+  // tell a user gesture from react-window's own callbacks.
+  const lastScrollOffset = useRef<number | undefined>(undefined);
   const scrollVelocity = useScrollVelocity(newScrollOffset);
   const debounceHandleOnItemsRendered = useRef(
     debounce(handleOnItemsRendered, 500)
@@ -417,7 +418,18 @@ const MainViewer: FunctionComponent = () => {
     : canvases?.[queryParamToArrayIndex(canvas)];
 
   // We hide the zoom and rotation controls while the user is scrolling
-  function handleOnScroll({ scrollOffset }: ListOnScrollProps) {
+  function handleOnScroll({
+    scrollOffset,
+    scrollUpdateWasRequested,
+  }: ListOnScrollProps) {
+    const isUserScroll =
+      !scrollUpdateWasRequested &&
+      lastScrollOffset.current !== undefined &&
+      lastScrollOffset.current !== scrollOffset;
+    lastScrollOffset.current = scrollOffset;
+
+    if (isUserScroll) firstRenderRef.current = false;
+
     if (!currentCanvas?.imageServiceId) return;
     timer.current && clearTimeout(timer.current);
     setShowControls(false);
@@ -433,7 +445,7 @@ const MainViewer: FunctionComponent = () => {
     if (firstRenderRef.current) {
       const viewer = mainViewerRef?.current;
       scrollViewer({ currentCanvas, canvas, viewer, mainAreaWidth });
-      setFirstRender(false);
+      firstRenderRef.current = false;
     }
   }
 
