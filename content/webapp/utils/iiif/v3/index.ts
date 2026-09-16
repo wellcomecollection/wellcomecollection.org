@@ -438,20 +438,28 @@ export function getIframeTokenSrc({
 }
 
 export type TokenServiceMessage = {
-  // The service sends an accessToken when authentication succeeded, and an
-  // error payload when it didn't.
+  /** The service sends an accessToken when authentication succeeded, and an
+   * error payload when it didn't.
+   */
   hasAccessToken: boolean;
   accessToken: string | undefined;
 };
 
-// The token service replies to the hidden iframe via postMessage, so the
-// handler at the other end receives every message posted to the page -- React
-// devtools alone generates a lot of them locally.
-//
-// This narrows those down to messages we can actually act on, and returns
-// undefined for everything else. That includes payloads that aren't objects:
-// they'd throw when we read a property off them, and treating them as an
-// authentication failure would undo a successful login.
+/** Reads a reply from the IIIF token service out of a window message.
+ *
+ * The token service replies to the hidden auth iframe via postMessage, so the
+ * handler at the other end receives every message posted to the page — React
+ * devtools alone generates a lot of them locally. This narrows those down to
+ * the ones we can act on.
+ *
+ * Payloads that aren't objects are treated as malformed rather than as an
+ * authentication failure: they'd throw when we read a property off them, and
+ * showing the clickthrough or modal again would undo a successful login.
+ *
+ * @param event - The message event, from a window 'message' listener
+ * @param tokenServiceSrc - The token service URL we sent the iframe to
+ * @returns The parsed message, or undefined if it isn't one we can act on
+ */
 export function readTokenServiceMessage(
   event: MessageEvent,
   tokenServiceSrc: string | undefined

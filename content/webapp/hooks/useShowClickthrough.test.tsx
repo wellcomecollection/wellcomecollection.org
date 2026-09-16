@@ -22,10 +22,13 @@ const postMessage = (data: unknown, origin: string) =>
     window.dispatchEvent(new MessageEvent('message', { data, origin }));
   });
 
-// jsdom reports an error thrown inside a listener rather than rethrowing it out
-// of dispatchEvent, so expect(...).not.toThrow() would pass even when the
-// handler is blowing up. Listening for the reported error is what actually
-// catches it.
+/** Runs `fn` and asserts nothing threw inside a window event listener.
+ *
+ * jsdom reports an error thrown inside a listener rather than rethrowing it
+ * out of dispatchEvent, so expect(...).not.toThrow() would pass even when the
+ * handler is blowing up. Listening for the reported error is what actually
+ * catches it.
+ */
 const withoutUncaughtErrors = (fn: () => void) => {
   const errors: ErrorEvent[] = [];
   const onError = (e: ErrorEvent) => errors.push(e);
