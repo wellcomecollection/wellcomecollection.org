@@ -80,10 +80,10 @@ export const WorkPage: NextPage<Props> = ({ work, apiUrl }) => {
   const digitalLocationInfo =
     digitalLocation && getDigitalLocationInfo(digitalLocation);
 
-  // The manifest is only needed for the item count, so we fetch it client
-  // side rather than blocking SSR on it. Only an iiif-presentation location
-  // has a manifest to fetch - an iiif-image location points at the IIIF
-  // Image API instead.
+  // The manifest is only needed for item/volume counts, download options and
+  // born-digital status, so fetch it client side rather than blocking SSR.
+  // Only an iiif-presentation location has a manifest to fetch; an iiif-image
+  // location points at the IIIF Image API instead.
   const { transformedManifest } = useManifest(
     iiifPresentationLocation,
     work.workType?.id
