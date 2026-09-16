@@ -208,17 +208,6 @@ export function getDownloadOptionsFromCanvasRenderingAndSupplementing(
     .map(convertToDownloadOption);
 }
 
-/** A label as a display string, empty when there isn't one. */
-export function getTitle(
-  label: InternationalString | string | undefined
-): string {
-  if (!label) return '';
-
-  if (typeof label === 'string') return label;
-
-  return getDisplayLabel(label) || '';
-}
-
 /** The canvases of a manifest, transformed for our own use. A collection has none of its own. */
 export function getTransformedCanvases(
   iiifManifest: Manifest | Collection
