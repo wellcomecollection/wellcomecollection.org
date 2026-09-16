@@ -231,14 +231,6 @@ const itemWithBornDigitalDownloads = async (
   await gotoWithoutCache(`${baseUrl}/works/htzhunbw/items`, page);
 };
 
-const workWithStandardItem = async (
-  context: BrowserContext,
-  page: Page
-): Promise<void> => {
-  await context.addCookies(requiredCookies);
-  await gotoWithoutCache(`${baseUrl}/works/b5kqccbb`, page);
-};
-
 const workWithBornDigitalItem = async (
   context: BrowserContext,
   page: Page
@@ -430,5 +422,4 @@ export {
   workWithDigitalLocationAndRestricted,
   workWithDigitalLocationOnly,
   workWithPhysicalLocationOnly,
-  workWithStandardItem,
 };

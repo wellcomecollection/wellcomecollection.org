@@ -9,7 +9,6 @@ import {
   workWithDigitalLocationAndRestricted,
   workWithDigitalLocationOnly,
   workWithPhysicalLocationOnly,
-  workWithStandardItem,
 } from './helpers/contexts';
 
 declare global {
@@ -160,11 +159,11 @@ test.describe(`Scenario 3: A user follows the 'View' link from the work page to 
     page,
     context,
   }) => {
-    await workWithStandardItem(context, page);
+    await workWithDigitalLocationAndLocationNote(context, page);
 
     await page.getByRole('link', { name: 'View', exact: true }).click();
 
-    await expect(page).toHaveURL(/\/works\/b5kqccbb\/items/);
+    await expect(page).toHaveURL(/\/works\/a235xn8e\/items/);
   });
 
   test(`a born-digital work shows the born-digital message, and clicking 'View' takes the user to its item page`, async ({
