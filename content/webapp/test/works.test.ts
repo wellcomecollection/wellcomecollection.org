@@ -227,30 +227,6 @@ describe('showItemLink', () => {
       })
     ).toBe(false);
   });
-
-  it('returns false when the manifest reports the item as restricted, regardless of accessCondition', () => {
-    expect(
-      showItemLink({
-        userIsStaffWithRestricted: true,
-        hasIIIFManifest: true,
-        digitalLocation,
-        accessCondition: 'open',
-        isRestrictedByManifest: true,
-      })
-    ).toBe(false);
-  });
-
-  it('preserves existing behaviour when manifest restriction is undefined (not yet resolved)', () => {
-    expect(
-      showItemLink({
-        userIsStaffWithRestricted: false,
-        hasIIIFManifest: true,
-        digitalLocation,
-        accessCondition: 'open',
-        isRestrictedByManifest: undefined,
-      })
-    ).toBe(true);
-  });
 });
 
 describe('getFileLabel', () => {

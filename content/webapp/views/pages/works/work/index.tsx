@@ -78,41 +78,23 @@ export const WorkPage: NextPage<Props> = ({ work, apiUrl }) => {
   const digitalLocationInfo =
     digitalLocation && getDigitalLocationInfo(digitalLocation);
 
-  // The manifest is only needed for the item count and to hide the item
-  // link if it's restricted, so we fetch it client side rather than
-  // blocking SSR on it. The link renders optimistically until this resolves.
-  // Only an iiif-presentation location has a manifest to fetch - an
-  // iiif-image location points at the IIIF Image API instead.
-  const { transformedManifest, isLoading: isManifestLoading } = useManifest(
+  // The manifest is only needed for the item count, so we fetch it client
+  // side rather than blocking SSR on it. Only an iiif-presentation location
+  // has a manifest to fetch - an iiif-image location points at the IIIF
+  // Image API instead.
+  const { transformedManifest } = useManifest(
     iiifPresentationLocation,
     work.workType?.id
   );
   const { collectionManifestsCount } = {
     ...transformedManifest,
   };
-  // accessRequirements can contain more than one label when a manifest is
-  // only partially restricted (e.g. ['Restricted files', 'Open']) - the item
-  // link should stay visible in that case, since some content is still
-  // viewable. Only hide it when every canvas requires restricted access.
-  //
-  // This is a manifest-level check, separate from and additive to
-  // accessCondition (the catalogue API's rights classification). It exists
-  // as a safety net for the catalogue and the IIIF manifest getting out of
-  // sync - e.g. accessCondition says 'open' but the manifest itself is
-  // fully restricted - so we don't link to a work that can't actually be
-  // viewed.
-  const accessRequirements = transformedManifest?.auth.accessRequirements;
-  const isRestrictedByManifest = isManifestLoading
-    ? undefined
-    : accessRequirements?.length === 1 &&
-      accessRequirements[0] === 'Restricted files';
 
   const shouldShowItemLink = showItemLink({
     userIsStaffWithRestricted,
     hasIIIFManifest: !!iiifPresentationLocation,
     digitalLocation,
     accessCondition: digitalLocationInfo?.accessCondition,
-    isRestrictedByManifest,
   });
 
   const imageUrl =

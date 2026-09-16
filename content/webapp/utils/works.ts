@@ -399,24 +399,15 @@ export function showItemLink({
   hasIIIFManifest,
   digitalLocation,
   accessCondition,
-  isRestrictedByManifest,
 }: {
   userIsStaffWithRestricted: boolean;
   hasIIIFManifest: boolean;
   digitalLocation?: DigitalLocation;
   accessCondition?: string;
-  // Manifest-level restriction (e.g. the access-control-hints service),
-  // separate from and additive to the catalogue API's accessCondition. This
-  // is a safety net for the catalogue and the manifest getting out of sync
-  // (e.g. accessCondition says 'open' but the manifest is fully restricted),
-  // not the primary access gate. undefined while the manifest hasn't
-  // resolved yet, so the link renders optimistically until we know otherwise.
-  isRestrictedByManifest?: boolean;
 }): boolean {
   if (
     accessCondition === 'closed' ||
-    (accessCondition === 'restricted' && !userIsStaffWithRestricted) ||
-    isRestrictedByManifest
+    (accessCondition === 'restricted' && !userIsStaffWithRestricted)
   ) {
     return false;
   } else if (hasIIIFManifest && digitalLocation) {
