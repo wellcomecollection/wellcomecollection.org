@@ -59,10 +59,10 @@ export function getMultiVolumeLabel(
   internationalString: InternationalString,
   itemTitle: string
 ): string | undefined {
-  const stringAtIndex1 = getDisplayLabel(internationalString, {
+  const stringAtIndex1 = getPreferredDisplayLabel(internationalString, {
     index: 1,
   });
-  const stringAtIndex0 = getDisplayLabel(internationalString, {
+  const stringAtIndex0 = getPreferredDisplayLabel(internationalString, {
     index: 0,
   });
 
@@ -73,7 +73,7 @@ export function getMultiVolumeLabel(
  * The label at `index`, preferring English. A label of '-' means "no label"
  * in our manifests and comes back undefined.
  */
-export function getDisplayLabel(
+export function getPreferredDisplayLabel(
   internationalString: InternationalString,
   indexProps?: { index: number }
 ): string | undefined {
@@ -90,7 +90,7 @@ export function transformLabel(
 ): string | undefined {
   if (typeof label === 'string' || label === undefined) return label;
 
-  return getDisplayLabel(label);
+  return getPreferredDisplayLabel(label);
 }
 
 /**
@@ -301,7 +301,7 @@ export function getIIIFMetadata(
   label: string
 ): MetadataItem | undefined {
   return (manifest.metadata || []).find(
-    data => getDisplayLabel(data.label) === label
+    data => getPreferredDisplayLabel(data.label) === label
   );
 }
 /**
@@ -340,7 +340,7 @@ export function getIIIFPresentationCredit(
 ): string | undefined {
   const attribution = getIIIFMetadata(manifest, 'Attribution and usage');
   const maybeValueWithBrTags =
-    attribution?.value && getDisplayLabel(attribution.value);
+    attribution?.value && getPreferredDisplayLabel(attribution.value);
 
   return maybeValueWithBrTags?.split('<br />')[0];
 }
@@ -587,7 +587,8 @@ export function groupRanges(
       );
 
       if (
-        getDisplayLabel(acc.previousLabel) === getDisplayLabel(range.label) &&
+        getPreferredDisplayLabel(acc.previousLabel) ===
+          getPreferredDisplayLabel(range.label) &&
         acc.previousLastCanvasIndex &&
         firstCanvasIndex === acc.previousLastCanvasIndex + 1
       ) {

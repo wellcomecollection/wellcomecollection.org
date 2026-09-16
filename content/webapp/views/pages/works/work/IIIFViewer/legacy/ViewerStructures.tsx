@@ -15,7 +15,7 @@ import {
 import { ItemViewerQuery } from '@weco/content/types/item-viewer';
 import { TransformedCanvas } from '@weco/content/types/manifest';
 import {
-  getDisplayLabel,
+  getPreferredDisplayLabel,
   isCanvas,
   isRange,
 } from '@weco/content/utils/iiif/v3';
@@ -121,7 +121,7 @@ const Structures: FunctionComponent<Props> = ({
                 </NextLink>
               )}
             >
-              {getDisplayLabel(range.label)}
+              {getPreferredDisplayLabel(range.label)}
             </ConditionalWrapper>
             {nestedRanges.map((range, i) => {
               return (
