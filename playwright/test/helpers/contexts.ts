@@ -83,10 +83,16 @@ const stageApiToggleCookie = createCookie({
   name: 'toggle_stagingApi',
   value: 'true',
 });
+// TODO: Remove once archiveCollection is fully rolled out — temporarily
+// running all e2e tests with archive collection level pages enabled.
+const archiveCollectionToggleCookie = createCookie({
+  name: 'toggle_archiveCollection',
+  value: 'true',
+});
 
 export const requiredCookies = useStageApis
-  ? [acceptCookieCookie, stageApiToggleCookie]
-  : [acceptCookieCookie];
+  ? [acceptCookieCookie, stageApiToggleCookie, archiveCollectionToggleCookie]
+  : [acceptCookieCookie, archiveCollectionToggleCookie];
 
 const multiVolumeItem = async (
   context: BrowserContext,

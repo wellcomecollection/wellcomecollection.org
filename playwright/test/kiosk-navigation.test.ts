@@ -30,6 +30,15 @@ const stageApiToggleCookie = {
   domain: new URL(baseUrl).host,
 };
 
+// TODO: Remove once archiveCollection is fully rolled out — temporarily
+// running all e2e tests with archive collection level pages enabled.
+const archiveCollectionToggleCookie = {
+  name: 'toggle_archiveCollection',
+  value: 'true',
+  path: '/',
+  domain: new URL(baseUrl).host,
+};
+
 /**
  * Helper to set up a kiosk context with the required cookies
  */
@@ -37,7 +46,11 @@ const setupKioskContext = async (
   context: BrowserContext,
   kioskMode: string
 ): Promise<void> => {
-  const cookies = [acceptCookieCookie, createKioskModeCookie(kioskMode)];
+  const cookies = [
+    acceptCookieCookie,
+    createKioskModeCookie(kioskMode),
+    archiveCollectionToggleCookie,
+  ];
   if (useStageApis) {
     cookies.push(stageApiToggleCookie);
   }
