@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { useUserContext } from '@weco/common/contexts/UserContext';
+import { bornDigitalMessage } from '@weco/common/data/microcopy';
 import { eye } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { LinkProps } from '@weco/common/model/link-props';
@@ -46,6 +47,22 @@ const RestrictedMessage = styled(Space).attrs({
     border-radius: 3px;
     background-color: ${props => props.theme.color('black')};
     z-index: -1;
+  }
+`;
+
+const MessageBox = styled(Space).attrs({
+  className: typography('body', 'md', 'regular'),
+  $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
+})`
+  background-color: ${props => props.theme.color('warmNeutral.300')};
+
+  h2 {
+    margin: 0;
+  }
+
+  p:last-child {
+    margin: 0;
   }
 `;
 
@@ -207,9 +224,16 @@ const WorkDetailsAvailableOnline = ({
   const { collectionManifestsCount, canvasCount, itemsStatus, canvases } = {
     ...transformedManifest,
   };
+  const hasNonStandardItems =
+    itemsStatus !== undefined && itemsStatus !== 'allStandard';
 
   return (
     <WorkDetailsSection headingText="Available online">
+      {hasNonStandardItems && (
+        <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
+          <MessageBox>{bornDigitalMessage}</MessageBox>
+        </Space>
+      )}
       <ItemPageLink
         work={work}
         itemUrl={itemUrl}

@@ -200,6 +200,17 @@ export const bornDigitalWarning = (
     </strong>
   </p>
 );
+
+export const bornDigitalMessage = (
+  <>
+    <h2>This contains born-digital items</h2>
+    <p>
+      Born-digital items are materials created in a digital format, including
+      digital images, documents, websites, audio, video, email, and more.
+    </p>
+    {bornDigitalWarning}
+  </>
+);
 export const restrictedItemMessage = (
   <p>
     Email{' '}
