@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 
-import { TransformedAuthService } from '@weco/content/utils/iiif/v3';
+import {
+  readTokenServiceMessage,
+  TransformedAuthService,
+} from '@weco/content/utils/iiif/v3';
 
 const useShowClickthrough = (
   clickThroughService: TransformedAuthService | undefined,
@@ -10,18 +13,10 @@ const useShowClickthrough = (
 
   useEffect(() => {
     function receiveMessage(event: MessageEvent) {
-      const data = event.data;
-      const serviceOrigin = tokenService && new URL(tokenService);
-      if (
-        serviceOrigin &&
-        `${serviceOrigin.protocol}//${serviceOrigin.hostname}` === event.origin
-      ) {
-        if (Object.prototype.hasOwnProperty.call(data, 'accessToken')) {
-          setShowClickthrough(false);
-        } else {
-          setShowClickthrough(true);
-        }
-      }
+      const message = readTokenServiceMessage(event, tokenService);
+      if (!message) return;
+
+      setShowClickthrough(!message.hasAccessToken);
     }
 
     if (clickThroughService) {
