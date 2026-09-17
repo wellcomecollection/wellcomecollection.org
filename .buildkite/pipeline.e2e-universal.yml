@@ -34,6 +34,7 @@ steps:
           command: ["bash", "check_urls.sh"]
 
   - label: "e2e test:desktop [$DEPLOYMENT_ENVIRONMENT]"
+    key: "e2e-desktop"
     retry:
       automatic:
         - exit_status: 255  # docker-compose plugin exits with 255 on infrastructure interrupts
@@ -56,6 +57,7 @@ steps:
       queue: scala # High parallelism for expensive tests
 
   - label: "e2e test:mobile [$DEPLOYMENT_ENVIRONMENT]"
+    key: "e2e-mobile"
     retry:
       automatic:
         - exit_status: 255  # docker-compose plugin exits with 255 on infrastructure interrupts
@@ -76,3 +78,45 @@ steps:
           command: ["yarn", "test:mobile"]
     agents:
       queue: scala # High parallelism for expensive tests
+
+  # Records the e2e outcome as a commit status (context e2e/<env>) so the
+  # deploy tracker can show it. Runs whether the tests passed or failed.
+  #
+  # Deployments only, because this pipeline has four callers and only one of
+  # them is deploying this repository. trigger-e2e.sh passes stage or prod.
+  # e2e_on_pull_requests/run_e2e_tests.sh passes the literal "e2e" for the
+  # ephemeral environment. catalogue-api and content-api trigger it against
+  # prod and pass nothing, where the step used to die on a KeyError that
+  # soft_fail hid.
+  #
+  # Do not set DEPLOYMENT_ENVIRONMENT in those other repositories to bring the
+  # status back: post_e2e_commit_status.py hardcodes this repository, so it
+  # would post their sha here and get a 422.
+  #
+  # Retrying a single failed step does not re-run this one, which has already
+  # completed, so the status stays as first written. Re-running the whole build
+  # rewrites it, though the tracker reads it once when the deployment succeeds,
+  # so a Slack message or pull request comment already sent keeps the old
+  # result.
+  - label: "Report e2e result to GitHub"
+    key: "e2e-commit-status"
+    if: build.env("DEPLOYMENT_ENVIRONMENT") == "stage" || build.env("DEPLOYMENT_ENVIRONMENT") == "prod"
+    depends_on:
+      - "e2e-desktop"
+      - "e2e-mobile"
+    allow_dependency_failure: true
+    soft_fail: true
+    plugins:
+      - wellcomecollection/aws-assume-role#v0.2.2:
+          role: "arn:aws:iam::130871440101:role/experience-ci"
+      - docker#v5.11.0:
+          image: "public.ecr.aws/docker/library/python:3.12-slim"
+          mount-buildkite-agent: true
+          propagate-environment: true
+          # Passes the assumed experience-ci credentials into the container, which
+          # propagate-environment misses: its env file predates the assume-role
+          # plugin, so boto3 would fall back to the agent's own instance role.
+          propagate-aws-auth-tokens: true
+          command: ["bash", ".buildkite/scripts/post_e2e_commit_status.sh"]
+    agents:
+      queue: nano

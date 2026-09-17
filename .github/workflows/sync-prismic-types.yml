@@ -50,6 +50,9 @@ jobs:
 
       - name: Create Pull Request
         if: steps.changes.outputs.changes == 'true'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          SOURCE_SHA: ${{ github.sha }}
         run: |
           cd content-api
 
@@ -69,14 +72,20 @@ jobs:
           # Push branch
           git push origin $BRANCH_NAME
 
-          # Create pull request using GitHub API
-          curl -X POST \
-            -H "Authorization: Bearer ${{ steps.app-token.outputs.token }}" \
-            -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/wellcomecollection/content-api/pulls \
-            -d '{
-              "title": "🤖 Auto-sync: Update Prismic types",
-              "head": "'$BRANCH_NAME'",
-              "base": "main",
-              "body": "This PR syncs the Prismic types from wellcomecollection.org, which have changed.\n\n**Source:** `wellcomecollection.org/common/prismicio-types.d.ts`\n**Target:** `content-api/pipeline/src/types/prismic/prismicio-types.d.ts`\n\n**Triggered by commit:** ${{ github.sha }}\n\nPlease review the changes and merge if everything looks correct."
-            }'
+          cat > "$RUNNER_TEMP/pr-body.md" <<'EOF'
+          This PR syncs the Prismic types from wellcomecollection.org, which have changed.
+
+          **Source:** `wellcomecollection.org/common/prismicio-types.d.ts`
+          **Target:** `content-api/pipeline/src/types/prismic/prismicio-types.d.ts`
+
+          Please review the changes and merge if everything looks correct.
+          EOF
+          echo "**Triggered by commit:** $SOURCE_SHA" >> "$RUNNER_TEMP/pr-body.md"
+
+          # gh reads the app token from GH_TOKEN, so it never appears on a command line.
+          gh pr create \
+            --repo wellcomecollection/content-api \
+            --base main \
+            --head "$BRANCH_NAME" \
+            --title "🤖 Auto-sync: Update Prismic types" \
+            --body-file "$RUNNER_TEMP/pr-body.md"
