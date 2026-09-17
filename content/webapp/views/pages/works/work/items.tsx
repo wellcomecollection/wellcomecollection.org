@@ -20,6 +20,7 @@ import {
   checkModalRequired,
   getAuthServices,
   getIframeTokenSrc,
+  readTokenServiceMessage,
 } from '@weco/content/utils/iiif/v3';
 import { removeDisplayMarkupTags } from '@weco/content/utils/string';
 import WorkLink from '@weco/content/views/components/WorkLink';
@@ -80,7 +81,7 @@ const WorkItemPage: NextPage<Props> = ({
     userIsStaffWithRestricted,
     auth,
   });
-  const [accessToken, setAccessToken] = useState();
+  const [accessToken, setAccessToken] = useState<string>();
   const clickThroughTimerRef = useRef<
     ReturnType<typeof setInterval> | undefined
   >(undefined);
@@ -135,28 +136,24 @@ const WorkItemPage: NextPage<Props> = ({
 
   useEffect(() => {
     function receiveMessage(event: MessageEvent) {
-      const data = event.data;
       const tokenService = getIframeTokenSrc({
         workId: work.id,
         origin: window.origin,
         auth,
       });
-      const service = (tokenService && new URL(tokenService)) as
-        URL | undefined;
 
-      // We check this is the event we are interested in
-      // N.B. locally react dev tools will create a lot of events
-      if (service?.origin === event.origin) {
-        if (Object.prototype.hasOwnProperty.call(data, 'accessToken')) {
-          setAccessToken(data.accessToken);
-          if (needsModal) {
-            setShowModal(!!isTotallyRestricted);
-            setShowViewer(!isTotallyRestricted);
-          }
-        } else if (needsModal) {
-          setShowModal(true);
-          setShowViewer(false);
+      const message = readTokenServiceMessage(event, tokenService);
+      if (!message) return;
+
+      if (message.hasAccessToken) {
+        setAccessToken(message.accessToken);
+        if (needsModal) {
+          setShowModal(!!isTotallyRestricted);
+          setShowViewer(!isTotallyRestricted);
         }
+      } else if (needsModal) {
+        setShowModal(true);
+        setShowViewer(false);
       }
     }
     window.addEventListener('message', receiveMessage);

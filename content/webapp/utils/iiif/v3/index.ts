@@ -23,7 +23,11 @@ import {
 } from '@iiif/presentation-3';
 
 import { pluralize } from '@weco/common/utils/grammar';
-import { isNotUndefined, isString } from '@weco/common/utils/type-guards';
+import {
+  isNotUndefined,
+  isObject,
+  isString,
+} from '@weco/common/utils/type-guards';
 import {
   allowedManifestAccessRequirements,
   Auth,
@@ -431,6 +435,55 @@ export function getIframeTokenSrc({
   if (auth?.tokenService) {
     return `${auth.tokenService.id}?messageId=${workId}&origin=${origin}`;
   }
+}
+
+export type TokenServiceMessage = {
+  /** The service sends an accessToken when authentication succeeded, and an
+   * error payload when it didn't.
+   */
+  hasAccessToken: boolean;
+  accessToken: string | undefined;
+};
+
+/** Reads a reply from the IIIF token service out of a window message.
+ *
+ * The token service replies to the hidden auth iframe via postMessage, so the
+ * handler at the other end receives every message posted to the page — React
+ * devtools alone generates a lot of them locally. This narrows those down to
+ * the ones we can act on.
+ *
+ * Payloads that aren't objects are treated as malformed rather than as an
+ * authentication failure: they'd throw when we read a property off them, and
+ * showing the clickthrough or modal again would undo a successful login.
+ *
+ * @param event - The message event, from a window 'message' listener
+ * @param tokenServiceSrc - The token service URL we sent the iframe to
+ * @returns The parsed message, or undefined if it isn't one we can act on
+ */
+export function readTokenServiceMessage(
+  event: MessageEvent,
+  tokenServiceSrc: string | undefined
+): TokenServiceMessage | undefined {
+  if (!tokenServiceSrc) return undefined;
+  if (new URL(tokenServiceSrc).origin !== event.origin) return undefined;
+
+  const data = event.data;
+  if (!isObject(data)) return undefined;
+
+  // An own-property check, so a polluted Object.prototype can't make an error
+  // payload look like a successful one.
+  const hasAccessToken = Object.prototype.hasOwnProperty.call(
+    data,
+    'accessToken'
+  );
+
+  return {
+    hasAccessToken,
+    accessToken:
+      hasAccessToken && isString(data.accessToken)
+        ? data.accessToken
+        : undefined,
+  };
 }
 
 type checkModalParams = {
