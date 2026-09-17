@@ -9,7 +9,10 @@ export type ArchiveCategory = {
   slug: string;
   label: string;
   shortDescription: string;
-  fullDescription: string;
+  // Undefined when a category has no long-form copy and no short
+  // description to fall back to either - lets CollectionsHeader skip
+  // rendering an intro text block entirely, rather than an empty one.
+  fullDescription?: string;
   count: number;
   image?: string;
 };
@@ -98,8 +101,7 @@ export async function fetchArchiveCategories(): Promise<ArchiveCategory[]> {
     shortDescription: ARCHIVE_CATEGORY_SHORT_DESCRIPTIONS[bucket.data.id] ?? '',
     fullDescription:
       ARCHIVE_CATEGORY_FULL_DESCRIPTIONS[bucket.data.id] ??
-      ARCHIVE_CATEGORY_SHORT_DESCRIPTIONS[bucket.data.id] ??
-      '',
+      ARCHIVE_CATEGORY_SHORT_DESCRIPTIONS[bucket.data.id],
     image: ARCHIVE_CATEGORY_IMAGES[bucket.data.id],
   }));
 }
