@@ -122,6 +122,14 @@ const toggleConfig = {
       type: 'experimental',
     },
     {
+      id: 'archiveShortDescriptions',
+      title: 'Archive short descriptions',
+      initialValue: false,
+      description:
+        "Shows the catalogue API's shortDescription field on archive work pages, the archive collection hero and archive collection search results.",
+      type: 'experimental',
+    },
+    {
       id: 'thematicBrowsing',
       title: 'Thematic browsing: category pages',
       initialValue: false,
