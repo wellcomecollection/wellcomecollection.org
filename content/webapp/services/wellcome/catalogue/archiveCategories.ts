@@ -8,9 +8,7 @@ export type ArchiveCategory = {
   // lowercasing archiveType.id wherever it's used to build or match a link.
   slug: string;
   label: string;
-  // Short - for the linking cards on the /collections/archives listing page.
   shortDescription: string;
-  // Long - for the header of the category's own listing page.
   fullDescription: string;
   count: number;
   image?: string;
