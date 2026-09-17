@@ -76,26 +76,39 @@ const colorValues = { ...colors, ...passthroughColors };
 
 export type NewBrandColor = Exclude<DesignSystemColor, LegacyColor>;
 
-// A new brand colour together with the colour to keep rendering in its place
-// while the `brandUpdate` toggle is off. See pinColor.
+/** A new brand colour together with the colour to keep rendering in its place
+ * while the `brandUpdate` toggle is off. See pinColor.
+ */
 export type PinnedColor = { brand: NewBrandColor; legacy: LegacyColor };
 
+/** Like PaletteColor, but also allows a pin. Separate so that widening a prop
+ * is a deliberate choice: some components compare the colour to a name.
+ */
 export type PinnableColor = PaletteColor | PinnedColor;
 
-// Pairs a new brand colour with the current-brand colour to render while the
-// `brandUpdate` toggle is off, for the places a colour is passed around as a
-// value rather than resolved on the spot — e.g. the colour props on Button,
-// Divider and DecorativeEdge. At direct `theme.color(...)` call sites, pass the
-// current-brand colour as the second argument instead.
+/** Pairs a new brand colour with the one to render while the toggle is off.
+ *
+ * For the places a colour is passed around as a value rather than resolved on
+ * the spot — e.g. the colour props on Button, Divider and DecorativeEdge. At
+ * direct `theme.color(...)` call sites, pass the current-brand colour as the
+ * second argument instead.
+ *
+ * @param brand - The design system colour, rendered when `brandUpdate` is on
+ * @param legacy - The current-brand colour, rendered while the toggle is off
+ * @returns The pair, accepted anywhere a PinnableColor is
+ */
 export const pinColor = (
   brand: NewBrandColor,
   legacy: LegacyColor
 ): PinnedColor => ({ brand, legacy });
 
-// Both palettes resolve colours through this shape, so `theme.color(...)`
-// behaves the same either way. The second overload is what stops a new brand
-// colour being named without pinning what the current brand renders, which is
-// how a component can diverge without touching the current brand.
+/** How both palettes resolve a colour, so `theme.color(...)` behaves the same
+ * either way.
+ *
+ * The second overload is what stops a new brand colour being named without
+ * pinning what the current brand renders, which is how a component can diverge
+ * without touching the current brand.
+ */
 type ColorFunction = {
   (name: PinnableColor): string;
   (name: NewBrandColor, legacy: LegacyColor): string;
