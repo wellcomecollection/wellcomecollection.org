@@ -30,6 +30,20 @@ describe('color', () => {
       );
     });
 
+    it('works for a name that both palettes use', () => {
+      const white = pinColor('white', 'neutral.400');
+
+      expect(currentBrand.color(white)).toBe('#d9d9d9');
+      expect(newBrand.color(white)).toBe('#FFFFFF');
+    });
+
+    it('can pin a value CSS resolves itself', () => {
+      const pinned = pinColor('orange.30', 'transparent');
+
+      expect(currentBrand.color(pinned)).toBe('transparent');
+      expect(newBrand.color(pinned)).toBe('#FFB691');
+    });
+
     it('cannot be named without a pin', () => {
       // @ts-expect-error a design system colour needs the current-brand colour
       // to render in its place while the toggle is off
