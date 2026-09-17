@@ -2,10 +2,6 @@ import { pageDescriptions } from '@weco/common/data/microcopy';
 
 import { getPageLayoutMetadata } from '.';
 
-// This used to live inside a useEffect, so the server-rendered HTML (and
-// anything reading it without running JS, e.g. link unfurlers) always got
-// the overview title/description regardless of the actual search category.
-// Computing it directly, as tested here, means it's correct on first render.
 describe('getPageLayoutMetadata', () => {
   it('returns the overview metadata by default', () => {
     const metadata = getPageLayoutMetadata('overview', undefined, []);
