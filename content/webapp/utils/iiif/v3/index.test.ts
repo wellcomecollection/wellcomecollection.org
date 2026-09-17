@@ -1118,9 +1118,12 @@ describe('getCollectionManifests', () => {
       'https://example.com/nested'
     );
 
-    const manifests = getCollectionManifests(createTestCollection([nested]));
-
-    expect(manifests.every(m => m.type === 'Manifest')).toBe(true);
+    // Asserting the contents rather than `every(m => m.type === 'Manifest')`,
+    // which is vacuously true on an empty array and so would still pass if
+    // the flattening dropped everything.
+    expect(getCollectionManifests(createTestCollection([nested]))).toEqual([
+      volumeOne,
+    ]);
   });
 });
 
