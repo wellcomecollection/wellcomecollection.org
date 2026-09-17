@@ -1,4 +1,4 @@
-import { Canvas, Manifest } from '@iiif/presentation-3';
+import { Canvas, Collection, Manifest } from '@iiif/presentation-3';
 
 import {
   createOpenPainting,
@@ -14,6 +14,7 @@ import type {
 import {
   checkModalRequired,
   deduplicateDownloadOptions,
+  getCollectionManifests,
   getDownloadOptionsFromCanvasRenderingAndSupplementing,
   getDownloadOptionsFromManifestRendering,
   getFileSize,
@@ -33,6 +34,7 @@ import {
   isChoiceBody,
   isCollection,
   isItemRestricted,
+  readTokenServiceMessage,
   shouldTreatAsPDFCanvas,
   transformCanvas,
   transformLabel,
@@ -53,6 +55,19 @@ function createTestManifest(overrides: Partial<Manifest> = {}): Manifest {
     items: [],
     partOf: [],
     ...overrides,
+  };
+}
+
+function createTestCollection(
+  items: (Manifest | Collection)[],
+  id = 'https://example.com/collection'
+): Collection {
+  return {
+    '@context': 'http://iiif.io/api/presentation/3/context.json',
+    id,
+    type: 'Collection',
+    label: {},
+    items,
   };
 }
 
@@ -1041,6 +1056,75 @@ describe('isCollection', () => {
   });
 });
 
+describe('getCollectionManifests', () => {
+  const volumeOne = createTestManifest({ id: 'https://example.com/vol1' });
+  const volumeTwo = createTestManifest({ id: 'https://example.com/vol2' });
+  const volumeThree = createTestManifest({ id: 'https://example.com/vol3' });
+
+  it('is empty for a manifest, which has no child manifests', () => {
+    expect(getCollectionManifests(createTestManifest())).toEqual([]);
+  });
+
+  it('is empty for a collection with no items', () => {
+    expect(getCollectionManifests(createTestCollection([]))).toEqual([]);
+  });
+
+  it('returns the direct child manifests of a collection, in order', () => {
+    expect(
+      getCollectionManifests(createTestCollection([volumeOne, volumeTwo]))
+    ).toEqual([volumeOne, volumeTwo]);
+  });
+
+  it('flattens manifests out of a nested collection', () => {
+    const nested = createTestCollection(
+      [volumeTwo],
+      'https://example.com/nested'
+    );
+
+    expect(
+      getCollectionManifests(createTestCollection([volumeOne, nested]))
+    ).toEqual([volumeOne, volumeTwo]);
+  });
+
+  it('flattens through more than one level of nesting', () => {
+    const inner = createTestCollection(
+      [volumeThree],
+      'https://example.com/inner'
+    );
+    const outer = createTestCollection(
+      [volumeTwo, inner],
+      'https://example.com/outer'
+    );
+
+    expect(
+      getCollectionManifests(createTestCollection([volumeOne, outer]))
+    ).toEqual([volumeOne, volumeTwo, volumeThree]);
+  });
+
+  it('keeps volumes in order when they are split across nested collections', () => {
+    const first = createTestCollection([volumeOne], 'https://example.com/a');
+    const second = createTestCollection(
+      [volumeTwo, volumeThree],
+      'https://example.com/b'
+    );
+
+    expect(
+      getCollectionManifests(createTestCollection([first, second]))
+    ).toEqual([volumeOne, volumeTwo, volumeThree]);
+  });
+
+  it('returns only manifests, never the collections holding them', () => {
+    const nested = createTestCollection(
+      [volumeOne],
+      'https://example.com/nested'
+    );
+
+    const manifests = getCollectionManifests(createTestCollection([nested]));
+
+    expect(manifests.every(m => m.type === 'Manifest')).toBe(true);
+  });
+});
+
 describe('getParentManifestUrl', () => {
   const genre = {
     id: 'https://iiif.wellcomecollection.org/presentation/collections/genres/Annual_reports',
@@ -1140,5 +1224,95 @@ describe('transformCanvas', () => {
       probeServiceId: undefined,
     });
     expect(transformed.painting).toHaveLength(1);
+  });
+});
+
+describe('readTokenServiceMessage', () => {
+  const tokenServiceSrc =
+    'https://iiif.wellcomecollection.org/token?messageId=b123&origin=https://wellcomecollection.org';
+  // Derived the same way the function does, so the two can't drift apart.
+  const tokenOrigin = new URL(tokenServiceSrc).origin;
+
+  const message = (data: unknown, origin: string) =>
+    new MessageEvent('message', { data, origin });
+
+  it('reads an access token sent by the token service', () => {
+    expect(
+      readTokenServiceMessage(
+        message({ accessToken: 'abc', expiresIn: 600 }, tokenOrigin),
+        tokenServiceSrc
+      )
+    ).toEqual({ hasAccessToken: true, accessToken: 'abc' });
+  });
+
+  it("reports no token for the service's error payload", () => {
+    expect(
+      readTokenServiceMessage(
+        message({ error: 'invalidCredentials' }, tokenOrigin),
+        tokenServiceSrc
+      )
+    ).toEqual({ hasAccessToken: false, accessToken: undefined });
+  });
+
+  it('ignores messages from any other origin', () => {
+    expect(
+      readTokenServiceMessage(
+        message({ accessToken: 'abc' }, 'https://evil.example.com'),
+        tokenServiceSrc
+      )
+    ).toBeUndefined();
+  });
+
+  it('ignores messages when there is no token service', () => {
+    expect(
+      readTokenServiceMessage(
+        message({ accessToken: 'abc' }, tokenOrigin),
+        undefined
+      )
+    ).toBeUndefined();
+  });
+
+  // These would throw on a raw property read, which is the bug this guards.
+  it.each([null, undefined, 'accessToken', 42, true])(
+    'ignores the malformed payload %p',
+    data => {
+      expect(
+        readTokenServiceMessage(message(data, tokenOrigin), tokenServiceSrc)
+      ).toBeUndefined();
+    }
+  );
+
+  it('treats an empty token as a token, as the service sent the field', () => {
+    expect(
+      readTokenServiceMessage(
+        message({ accessToken: '' }, tokenOrigin),
+        tokenServiceSrc
+      )
+    ).toEqual({ hasAccessToken: true, accessToken: '' });
+  });
+
+  it('does not pass on a non-string token', () => {
+    expect(
+      readTokenServiceMessage(
+        message({ accessToken: 42 }, tokenOrigin),
+        tokenServiceSrc
+      )
+    ).toEqual({ hasAccessToken: true, accessToken: undefined });
+  });
+
+  // Inherited properties don't count: an error payload shouldn't be able to
+  // look authenticated because something polluted Object.prototype.
+  it('ignores an inherited accessToken', () => {
+    (Object.prototype as Record<string, unknown>).accessToken = 'polluted';
+    try {
+      expect(
+        readTokenServiceMessage(
+          message({ error: 'invalidCredentials' }, tokenOrigin),
+          tokenServiceSrc
+        )
+      ).toEqual({ hasAccessToken: false, accessToken: undefined });
+    } finally {
+      delete (Object.prototype as Record<string, unknown>).accessToken;
+    }
   });
 });

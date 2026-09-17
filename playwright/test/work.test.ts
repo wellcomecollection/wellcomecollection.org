@@ -3,7 +3,8 @@ import { Page } from 'playwright';
 
 import {
   isMobile,
-  workWithBornDigitalDownloads,
+  itemWithBornDigitalDownloads,
+  workWithBornDigitalItem,
   workWithDigitalLocationAndLocationNote,
   workWithDigitalLocationAndRestricted,
   workWithDigitalLocationOnly,
@@ -114,7 +115,7 @@ test.describe(`Scenario 2: A user viewing/downloading 'born digital' items`, () 
     // On mobile the download tree is hidden behind the 'Show info' button.
     test.skip(isMobile(page), "Download tree is hidden behind 'Show info'");
 
-    await workWithBornDigitalDownloads(context, page);
+    await itemWithBornDigitalDownloads(context, page);
     const innerTreeItem = page.getByRole('treeitem', {
       name: 'A_Camels.psd vnd.adobe.photoshop 6.1 MB Download',
     });
@@ -131,7 +132,7 @@ test.describe(`Scenario 2: A user viewing/downloading 'born digital' items`, () 
     // On mobile the download tree is hidden behind the 'Show info' button.
     test.skip(isMobile(page), "Download tree is hidden behind 'Show info'");
 
-    await workWithBornDigitalDownloads(context, page);
+    await itemWithBornDigitalDownloads(context, page);
 
     await page
       .getByRole('link', {
@@ -150,5 +151,33 @@ test.describe(`Scenario 2: A user viewing/downloading 'born digital' items`, () 
     expect(gtmTriggers).toEqual(
       expect.arrayContaining([DOWNLOAD_TABLE_LINK_TRIGGER])
     );
+  });
+});
+
+test.describe(`Scenario 3: A user follows the 'View' link from the work page to the item page`, () => {
+  test(`clicking 'View' on a standard work takes the user to its item page`, async ({
+    page,
+    context,
+  }) => {
+    await workWithDigitalLocationAndLocationNote(context, page);
+
+    await page.getByRole('link', { name: 'View', exact: true }).click();
+
+    await expect(page).toHaveURL(/\/works\/a235xn8e\/items/);
+  });
+
+  test(`a born-digital work shows the born-digital message, and clicking 'View' takes the user to its item page`, async ({
+    page,
+    context,
+  }) => {
+    await workWithBornDigitalItem(context, page);
+
+    await expect(
+      page.getByRole('heading', { name: 'This contains born-digital items' })
+    ).toBeVisible();
+
+    await page.getByRole('link', { name: 'View', exact: true }).click();
+
+    await expect(page).toHaveURL(/\/works\/yhgvjsga\/items/);
   });
 });

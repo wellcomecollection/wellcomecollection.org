@@ -23,7 +23,11 @@ import {
 } from '@iiif/presentation-3';
 
 import { pluralize } from '@weco/common/utils/grammar';
-import { isNotUndefined, isString } from '@weco/common/utils/type-guards';
+import {
+  isNotUndefined,
+  isObject,
+  isString,
+} from '@weco/common/utils/type-guards';
 import {
   allowedManifestAccessRequirements,
   Auth,
@@ -433,6 +437,55 @@ export function getIframeTokenSrc({
   }
 }
 
+export type TokenServiceMessage = {
+  /** The service sends an accessToken when authentication succeeded, and an
+   * error payload when it didn't.
+   */
+  hasAccessToken: boolean;
+  accessToken: string | undefined;
+};
+
+/** Reads a reply from the IIIF token service out of a window message.
+ *
+ * The token service replies to the hidden auth iframe via postMessage, so the
+ * handler at the other end receives every message posted to the page — React
+ * devtools alone generates a lot of them locally. This narrows those down to
+ * the ones we can act on.
+ *
+ * Payloads that aren't objects are treated as malformed rather than as an
+ * authentication failure: they'd throw when we read a property off them, and
+ * showing the clickthrough or modal again would undo a successful login.
+ *
+ * @param event - The message event, from a window 'message' listener
+ * @param tokenServiceSrc - The token service URL we sent the iframe to
+ * @returns The parsed message, or undefined if it isn't one we can act on
+ */
+export function readTokenServiceMessage(
+  event: MessageEvent,
+  tokenServiceSrc: string | undefined
+): TokenServiceMessage | undefined {
+  if (!tokenServiceSrc) return undefined;
+  if (new URL(tokenServiceSrc).origin !== event.origin) return undefined;
+
+  const data = event.data;
+  if (!isObject(data)) return undefined;
+
+  // An own-property check, so a polluted Object.prototype can't make an error
+  // payload look like a successful one.
+  const hasAccessToken = Object.prototype.hasOwnProperty.call(
+    data,
+    'accessToken'
+  );
+
+  return {
+    hasAccessToken,
+    accessToken:
+      hasAccessToken && isString(data.accessToken)
+        ? data.accessToken
+        : undefined,
+  };
+}
+
 type checkModalParams = {
   userIsStaffWithRestricted: boolean;
   auth?: Auth;
@@ -743,25 +796,17 @@ export function getFileSize(canvas: TransformedCanvas): string | undefined {
   return fileSizeMeta ? getLabelString(fileSizeMeta.value) : undefined;
 }
 
-type CollectionItemsWithItems = CollectionItems & {
-  items: CollectionItemsWithItems[];
-};
+/**
+ * Every manifest within a collection, flattening any nested collections.
+ * A manifest has no child manifests, so returns an empty array for one.
+ */
 export function getCollectionManifests(
-  manifest:
-    | Manifest
-    | Collection
-    | (CollectionItems & { items: CollectionItemsWithItems[] })
+  manifest: Manifest | Collection
 ): CollectionItems[] {
   if (manifest.type === 'Collection') {
-    return manifest.items
-      .map(item => {
-        if (item.type === 'Manifest') {
-          return item;
-        } else {
-          return getCollectionManifests(item);
-        }
-      })
-      .flat(Infinity) as CollectionItems[];
+    return manifest.items.flatMap(item =>
+      item.type === 'Manifest' ? item : getCollectionManifests(item)
+    );
   } else {
     return [];
   }
@@ -839,12 +884,7 @@ export function getStructures(manifest: Manifest | Collection): Range[] {
 export function getAuthAccessServices(
   manifest: Manifest | Collection
 ): AuthAccessService2[] {
-  // AuthAccessService2 is missing from the library's Service union, but
-  // Wellcome manifests include auth 2 access services in `services`
-  const services = (manifest.services || []) as (
-    Service | AuthAccessService2
-  )[];
-  return services.filter(
+  return (manifest.services || []).filter(
     (s): s is AuthAccessService2 =>
       'type' in s && s.type === 'AuthAccessService2'
   );

@@ -154,9 +154,10 @@ const VirtualizedImageViewer: FunctionComponent = () => {
   const mainViewerRef = useRef<FixedSizeList>(null);
 
   const [viewerScrollOffset, setViewerScrollOffset] = useState(0);
-  const [firstRender, setFirstRender] = useState(true);
-  const firstRenderRef = useRef(firstRender);
-  firstRenderRef.current = firstRender;
+  const firstRenderRef = useRef(true);
+  // The offset the last onScroll callback reported, used by handleOnScroll to
+  // tell a user gesture from react-window's own callbacks.
+  const lastScrollOffset = useRef<number | undefined>(undefined);
 
   const scrollVelocity = useScrollVelocity(viewerScrollOffset);
 
@@ -174,7 +175,18 @@ const VirtualizedImageViewer: FunctionComponent = () => {
   const externalAccessService = auth?.externalAccessService;
 
   // We hide the zoom and rotation controls while the user is scrolling
-  function handleOnScroll({ scrollOffset }: ListOnScrollProps) {
+  function handleOnScroll({
+    scrollOffset,
+    scrollUpdateWasRequested,
+  }: ListOnScrollProps) {
+    const isUserScroll =
+      !scrollUpdateWasRequested &&
+      lastScrollOffset.current !== undefined &&
+      lastScrollOffset.current !== scrollOffset;
+    lastScrollOffset.current = scrollOffset;
+
+    if (isUserScroll) firstRenderRef.current = false;
+
     if (!currentCanvas?.imageServiceId) return;
     timer.current && clearTimeout(timer.current);
     setShowControls(false);
@@ -195,7 +207,7 @@ const VirtualizedImageViewer: FunctionComponent = () => {
         viewer,
         mainAreaWidth,
       });
-      setFirstRender(false);
+      firstRenderRef.current = false;
     }
   }
 
