@@ -249,11 +249,6 @@ function getCanvasTextServiceId(canvas: Canvas): string | undefined {
   return textAnnotation?.id;
 }
 
-// Temporary types, as the provided AnnotationBody doesn't seem to be correct
-type AnnotationPageBody = {
-  service: BodyService;
-};
-
 /**
  * Whether a service is a version 2 image service. The library's
  * `ImageService` type covers both v2 and v3, so the value of `@type` is what
@@ -277,34 +272,26 @@ export function getImageServiceFromItem(
 }
 
 /** The ImageService2 painted onto a canvas, dug out of its annotation bodies. */
-function getImageServiceFromCanvas(canvas: Canvas): BodyService | undefined {
-  const items = canvas?.items;
-  const AnnotationPages = items?.[0].items;
-  const AnnotationBodies = AnnotationPages?.map(
-    annotationPage =>
-      annotationPage.body as
-        AnnotationPageBody | AnnotationPageBody[] | undefined
-  ).flat();
-  const BodiesServices = AnnotationBodies?.map(body => body?.service).flat();
-  const imageService = BodiesServices?.find(
-    service => service?.['@type'] === 'ImageService2'
-  );
-  return imageService;
+function getImageServiceFromCanvas(canvas: Canvas): ImageService | undefined {
+  const annotationBodies = canvas?.items?.[0].items
+    ?.map(annotationPage => annotationPage.body)
+    .flat();
+
+  return annotationBodies
+    ?.flatMap(body =>
+      body && typeof body === 'object' && 'service' in body
+        ? (body.service ?? [])
+        : []
+    )
+    .find(isImageService2);
 }
 
 /** An image service's id, which is the base URL for requesting image tiles. */
 function getImageServiceId(
-  imageService: BodyService | undefined
+  imageService: ImageService | undefined
 ): string | undefined {
   return imageService?.['@id'];
 }
-
-// Temporary type until iiif3 types are correct
-type BodyService = {
-  '@id'?: string;
-  '@type': string;
-  service: Service | Service[];
-};
 
 /** The metadata entry with the given label, if the manifest has one. */
 export function getIIIFMetadata(
@@ -408,10 +395,10 @@ export function getProbeServiceId(
 ): string | undefined {
   if (isChoiceBody(painting) || !('service' in painting) || !painting.service)
     return undefined;
-  const probe = (painting.service as { type: string; id: string }[]).find(
-    s => s.type === 'AuthProbeService2'
+  const probe = painting.service.find(
+    s => 'type' in s && s.type === 'AuthProbeService2'
   );
-  return probe?.id;
+  return probe && 'id' in probe ? probe.id : undefined;
 }
 
 type AuthServices = {
