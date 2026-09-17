@@ -254,14 +254,25 @@ type AnnotationPageBody = {
   service: BodyService;
 };
 
+/**
+ * Whether a service is a version 2 image service. The library's
+ * `ImageService` type covers both v2 and v3, so the value of `@type` is what
+ * separates them: the spec's service table gives `ImageService2` as Image API
+ * version 2, and tells clients to expect the `@id`/`@type` spellings from
+ * older specifications alongside `id`/`type`. This is the check the viewer
+ * has used in production all along.
+ * @see https://iiif.io/api/presentation/3.0/#table-service-types
+ * @see https://iiif.io/api/image/2.1/
+ */
+export const isImageService2 = (service: Service): service is ImageService =>
+  '@type' in service && service['@type'] === 'ImageService2';
+
 /** The ImageService2 on an item, if it has one. */
 export function getImageServiceFromItem(
   item: IIIFItemProps
 ): ImageService | undefined {
   if ('service' in item) {
-    return item.service?.find(
-      (s): s is ImageService => '@type' in s && s['@type'] === 'ImageService2'
-    );
+    return item.service?.find(isImageService2);
   }
 }
 
