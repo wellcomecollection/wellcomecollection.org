@@ -7,12 +7,9 @@ import {
   ServerSideProps,
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
-import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
-import { transformManifest } from '@weco/content/services/iiif/transformers/manifest';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import { getWork } from '@weco/content/services/wellcome/catalogue/works';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import { getDigitalLocationOfType } from '@weco/content/utils/works';
 import WorkPage, {
   Props as WorkPageProps,
 } from '@weco/content/views/pages/works/work';
@@ -58,24 +55,9 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   const { url, ...work } = workResponse;
 
-  const iiifPresentationLocation = getDigitalLocationOfType(
-    work,
-    'iiif-presentation'
-  );
-
-  const iiifManifest =
-    iiifPresentationLocation &&
-    (await fetchIIIFPresentationManifest({
-      location: iiifPresentationLocation.url,
-      workTypeId: work.workType?.id,
-    }));
-
-  const transformedManifest = iiifManifest && transformManifest(iiifManifest);
-
   return {
     props: serialiseProps<Props>({
       work,
-      transformedManifest,
       apiUrl: url,
       serverData,
     }),

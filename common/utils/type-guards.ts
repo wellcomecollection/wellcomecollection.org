@@ -51,3 +51,13 @@ export function isInTuple<T extends string>(
 ): val is T {
   return tuple.includes(val as T);
 }
+
+/** Narrows an unknown value to a plain object of properties.
+ *
+ * Note that `typeof null` is `'object'`, so the null check is doing the real
+ * work here. Arrays are excluded: they're objects too, but everywhere we use
+ * this we're expecting a bag of named properties.
+ */
+export function isObject(v: unknown): v is Record<string, unknown> {
+  return typeof v === 'object' && v !== null && !Array.isArray(v);
+}

@@ -35,6 +35,7 @@ import {
   isCollection,
   isImageService2,
   isItemRestricted,
+  readTokenServiceMessage,
   shouldTreatAsPDFCanvas,
   transformCanvas,
   transformLabel,
@@ -1265,5 +1266,95 @@ describe('transformCanvas', () => {
       probeServiceId: undefined,
     });
     expect(transformed.painting).toHaveLength(1);
+  });
+});
+
+describe('readTokenServiceMessage', () => {
+  const tokenServiceSrc =
+    'https://iiif.wellcomecollection.org/token?messageId=b123&origin=https://wellcomecollection.org';
+  // Derived the same way the function does, so the two can't drift apart.
+  const tokenOrigin = new URL(tokenServiceSrc).origin;
+
+  const message = (data: unknown, origin: string) =>
+    new MessageEvent('message', { data, origin });
+
+  it('reads an access token sent by the token service', () => {
+    expect(
+      readTokenServiceMessage(
+        message({ accessToken: 'abc', expiresIn: 600 }, tokenOrigin),
+        tokenServiceSrc
+      )
+    ).toEqual({ hasAccessToken: true, accessToken: 'abc' });
+  });
+
+  it("reports no token for the service's error payload", () => {
+    expect(
+      readTokenServiceMessage(
+        message({ error: 'invalidCredentials' }, tokenOrigin),
+        tokenServiceSrc
+      )
+    ).toEqual({ hasAccessToken: false, accessToken: undefined });
+  });
+
+  it('ignores messages from any other origin', () => {
+    expect(
+      readTokenServiceMessage(
+        message({ accessToken: 'abc' }, 'https://evil.example.com'),
+        tokenServiceSrc
+      )
+    ).toBeUndefined();
+  });
+
+  it('ignores messages when there is no token service', () => {
+    expect(
+      readTokenServiceMessage(
+        message({ accessToken: 'abc' }, tokenOrigin),
+        undefined
+      )
+    ).toBeUndefined();
+  });
+
+  // These would throw on a raw property read, which is the bug this guards.
+  it.each([null, undefined, 'accessToken', 42, true])(
+    'ignores the malformed payload %p',
+    data => {
+      expect(
+        readTokenServiceMessage(message(data, tokenOrigin), tokenServiceSrc)
+      ).toBeUndefined();
+    }
+  );
+
+  it('treats an empty token as a token, as the service sent the field', () => {
+    expect(
+      readTokenServiceMessage(
+        message({ accessToken: '' }, tokenOrigin),
+        tokenServiceSrc
+      )
+    ).toEqual({ hasAccessToken: true, accessToken: '' });
+  });
+
+  it('does not pass on a non-string token', () => {
+    expect(
+      readTokenServiceMessage(
+        message({ accessToken: 42 }, tokenOrigin),
+        tokenServiceSrc
+      )
+    ).toEqual({ hasAccessToken: true, accessToken: undefined });
+  });
+
+  // Inherited properties don't count: an error payload shouldn't be able to
+  // look authenticated because something polluted Object.prototype.
+  it('ignores an inherited accessToken', () => {
+    (Object.prototype as Record<string, unknown>).accessToken = 'polluted';
+    try {
+      expect(
+        readTokenServiceMessage(
+          message({ error: 'invalidCredentials' }, tokenOrigin),
+          tokenServiceSrc
+        )
+      ).toEqual({ hasAccessToken: false, accessToken: undefined });
+    } finally {
+      delete (Object.prototype as Record<string, unknown>).accessToken;
+    }
   });
 });

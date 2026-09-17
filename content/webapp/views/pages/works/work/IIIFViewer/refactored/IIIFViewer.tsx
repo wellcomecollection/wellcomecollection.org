@@ -84,21 +84,6 @@ type GridProps = KioskDisplayProps & {
   $hasMultipleCanvases?: boolean;
 };
 
-// TODO: Remove this version badge after testing the toggle
-const VersionBadge = styled.div`
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  background: #00b894;
-  color: white;
-  padding: 8px 12px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: bold;
-  z-index: 10000;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-`;
-
 const Grid = styled.div<GridProps>`
   display: grid;
   height: ${props =>
@@ -432,8 +417,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         hasOnlyRenderableImages,
       }}
     >
-      {/* TODO: Remove version badge after itemViewerRefactor is fully rolled out */}
-      <VersionBadge>REFACTORED</VersionBadge>
       <Grid
         ref={viewerRef}
         $isFullSupportBrowser={isFullSupportBrowser}

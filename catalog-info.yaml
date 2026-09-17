@@ -1,0 +1,58 @@
+# Backstage-format description of this repository's software, gathered into
+# https://github.com/wellcomecollection/catalog. Component names match the
+# checkpoint names in .deploy-tracker.yml.
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: wellcomecollection.org
+  description: The Wellcome Collection website
+  annotations:
+    github.com/project-slug: wellcomecollection/wellcomecollection.org
+spec:
+  owner: digital-experience
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: content
+  description: The main website, a Next.js app behind Koa
+  annotations:
+    github.com/project-slug: wellcomecollection/wellcomecollection.org
+    backstage.io/source-location: url:https://github.com/wellcomecollection/wellcomecollection.org/tree/main/content/
+    wellcomecollection.org/deploy-tracker: .deploy-tracker.yml#content
+spec:
+  type: service
+  lifecycle: production
+  owner: digital-experience
+  system: wellcomecollection.org
+  dependsOn: [component:wellcomecollection-org-common]
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: identity
+  description: Account pages under /account, a Next.js app behind Koa
+  annotations:
+    github.com/project-slug: wellcomecollection/wellcomecollection.org
+    backstage.io/source-location: url:https://github.com/wellcomecollection/wellcomecollection.org/tree/main/identity/
+    wellcomecollection.org/deploy-tracker: .deploy-tracker.yml#identity
+spec:
+  type: service
+  lifecycle: production
+  owner: digital-experience
+  system: wellcomecollection.org
+  dependsOn: [component:wellcomecollection-org-common]
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: wellcomecollection-org-common
+  description: Code shared by the content and identity apps
+  annotations:
+    github.com/project-slug: wellcomecollection/wellcomecollection.org
+    backstage.io/source-location: url:https://github.com/wellcomecollection/wellcomecollection.org/tree/main/common/
+spec:
+  type: library
+  lifecycle: production
+  owner: digital-experience
+  system: wellcomecollection.org
