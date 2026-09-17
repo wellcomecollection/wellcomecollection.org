@@ -50,6 +50,8 @@ describe('color', () => {
       currentBrand.color('orange.30');
       // @ts-expect-error pinColor takes the new brand colour first
       pinColor('neutral.400', 'orange.30');
+      // @ts-expect-error the pinned colour has to be one the current brand has
+      pinColor('orange.30', 'indigo.60');
     });
 
     it('lets two call sites sharing a current-brand colour diverge', () => {
