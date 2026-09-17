@@ -34,7 +34,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
   work,
   resultPosition,
 }) => {
-  const { archiveCollection } = useFeatureFlags();
+  const { archiveCollection, archiveShortDescriptions } = useFeatureFlags();
   const {
     archiveLabels,
     cardLabels,
@@ -47,6 +47,11 @@ const WorkSearchResult: FunctionComponent<Props> = ({
 
   const shouldShowArchiveCollectionInfo =
     archiveCollection && isArchiveCollectionRoot;
+
+  // Gated separately from the rest of the archive collection info above, so
+  // the API's short descriptions can be turned on and off independently.
+  const shouldShowShortDescription =
+    archiveShortDescriptions && isArchiveCollectionRoot;
 
   return (
     <NextLink
@@ -86,7 +91,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
               <WorkTitle title={work.title} />
             </WorkTitleHeading>
 
-            {shouldShowArchiveCollectionInfo && shortDescription && (
+            {shouldShowShortDescription && shortDescription && (
               <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
                 {stripHtmlTags(shortDescription)}
               </Space>

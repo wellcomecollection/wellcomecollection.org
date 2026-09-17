@@ -1,7 +1,6 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { typography } from '@weco/common/utils/classnames';
 import Divider from '@weco/common/views/components/Divider';
 import LabelsList from '@weco/common/views/components/LabelsList';
@@ -10,7 +9,6 @@ import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import { useIsArchiveContext } from '@weco/content/contexts/IsArchiveContext';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
-import { stripHtmlTags } from '@weco/content/utils/works';
 import LinkLabels from '@weco/content/views/components/LinkLabels';
 import Number from '@weco/content/views/components/Number';
 import WorkTitle from '@weco/content/views/components/WorkTitle';
@@ -31,14 +29,12 @@ const WorkHeader: FunctionComponent<Props> = ({
   collectionManifestsCount,
 }) => {
   const isArchive = useIsArchiveContext();
-  const { archiveCollection } = useFeatureFlags();
   const {
     productionDates,
     archiveLabels,
     cardLabels,
     primaryContributorLabel,
     languageId,
-    shortDescription,
   } = work;
 
   return (
@@ -61,14 +57,6 @@ const WorkHeader: FunctionComponent<Props> = ({
               >
                 <WorkTitle title={work.title} />
               </WorkTitleWrapper>
-
-              {archiveCollection && isArchive && shortDescription && (
-                <Space $v={{ size: 'sm', properties: ['margin-top'] }}>
-                  <p className={typography('body', 'md', 'regular')}>
-                    {stripHtmlTags(shortDescription)}
-                  </p>
-                </Space>
-              )}
 
               {primaryContributorLabel && (
                 <Space $h={{ size: 'sm', properties: ['margin-right'] }}>

@@ -3,6 +3,7 @@ import { ReactNode } from 'react';
 import styled from 'styled-components';
 
 import { archive } from '@weco/common/icons';
+import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { typography } from '@weco/common/utils/classnames';
 import Divider from '@weco/common/views/components/Divider';
 import Icon from '@weco/common/views/components/Icon';
@@ -95,6 +96,7 @@ const HeroInfo = ({ label, value }: { label: string; value: ReactNode }) => {
 };
 
 const ArchiveCollectionHero = ({ work }: { work: WorkType }) => {
+  const { archiveShortDescriptions } = useFeatureFlags();
   const languageId = getLanguageId(work);
 
   const primaryContributor = work.contributors.find(
@@ -127,7 +129,7 @@ const ArchiveCollectionHero = ({ work }: { work: WorkType }) => {
           <ArchiveCollectionLabel>Archive Collection</ArchiveCollectionLabel>
         </Space>
 
-        {work.shortDescription && (
+        {archiveShortDescriptions && work.shortDescription && (
           <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
             <p className={typography('body', 'md', 'regular')}>
               {stripHtmlTags(work.shortDescription)}
