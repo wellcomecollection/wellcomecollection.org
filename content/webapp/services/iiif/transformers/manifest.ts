@@ -15,20 +15,20 @@ import {
   getParentManifestUrl,
   getSearchService,
   getStructures,
-  getTitle,
   getTransformedCanvases,
   getV2TokenService,
   groupRanges,
   isCollection,
   transformActiveAccessService,
   transformExternalAccessService,
+  transformLabel,
   transformTokenService,
 } from '@weco/content/utils/iiif/v3';
 
 export function transformManifest(
   manifestV3: Manifest | Collection
 ): TransformedManifest {
-  const title = getTitle(manifestV3.label);
+  const title = transformLabel(manifestV3.label) ?? '';
   const iiifCredit = getIIIFPresentationCredit(manifestV3);
   const id = manifestV3.id || '';
   const parentManifestUrl = getParentManifestUrl(manifestV3);

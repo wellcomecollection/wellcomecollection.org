@@ -12,11 +12,11 @@ import SearchForm from '@weco/common/views/components/SearchForm';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 import IsArchiveContext from '@weco/content/contexts/IsArchiveContext';
+import useManifest from '@weco/content/hooks/useManifest';
 import {
   toWorkBasic,
   Work as WorkType,
 } from '@weco/content/services/wellcome/catalogue/types';
-import { TransformedManifest } from '@weco/content/types/manifest';
 import { workLd } from '@weco/content/utils/json-ld';
 import { removeDisplayMarkupTags } from '@weco/content/utils/string';
 import {
@@ -55,14 +55,9 @@ const WorkDetailsWrapper = styled(Space).attrs({
 export type Props = {
   work: WorkType;
   apiUrl: string;
-  transformedManifest?: TransformedManifest;
 };
 
-export const WorkPage: NextPage<Props> = ({
-  work,
-  apiUrl,
-  transformedManifest,
-}) => {
+export const WorkPage: NextPage<Props> = ({ work, apiUrl }) => {
   const { isKiosk } = useKiosk();
   const { archiveCollection } = useFeatureFlags();
   const { userIsStaffWithRestricted } = useUserContext();
@@ -84,13 +79,22 @@ export const WorkPage: NextPage<Props> = ({
     iiifPresentationLocation || iiifImageLocation;
   const digitalLocationInfo =
     digitalLocation && getDigitalLocationInfo(digitalLocation);
+
+  // The manifest is only needed for item/volume counts, download options and
+  // born-digital status, so fetch it client side rather than blocking SSR.
+  // Only an iiif-presentation location has a manifest to fetch; an iiif-image
+  // location points at the IIIF Image API instead.
+  const { transformedManifest } = useManifest(
+    iiifPresentationLocation,
+    work.workType?.id
+  );
   const { collectionManifestsCount } = {
     ...transformedManifest,
   };
 
   const shouldShowItemLink = showItemLink({
     userIsStaffWithRestricted,
-    hasIIIFManifest: !!transformedManifest,
+    hasIIIFManifest: !!iiifPresentationLocation,
     digitalLocation,
     accessCondition: digitalLocationInfo?.accessCondition,
   });

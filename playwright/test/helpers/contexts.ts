@@ -223,12 +223,20 @@ const workWithDigitalLocationAndLocationNote = async (
   await gotoWithoutCache(`${baseUrl}/works/a235xn8e`, page);
 };
 
-const workWithBornDigitalDownloads = async (
+const itemWithBornDigitalDownloads = async (
   context: BrowserContext,
   page: Page
 ): Promise<void> => {
   await context.addCookies(requiredCookies);
   await gotoWithoutCache(`${baseUrl}/works/htzhunbw/items`, page);
+};
+
+const workWithBornDigitalItem = async (
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  await context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works/yhgvjsga`, page);
 };
 
 const itemWithVideo = async (
@@ -408,7 +416,8 @@ export {
   visualStory,
   whatsOn,
   newOnline,
-  workWithBornDigitalDownloads,
+  itemWithBornDigitalDownloads,
+  workWithBornDigitalItem,
   workWithDigitalLocationAndLocationNote,
   workWithDigitalLocationAndRestricted,
   workWithDigitalLocationOnly,
