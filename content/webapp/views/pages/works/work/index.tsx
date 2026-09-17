@@ -24,6 +24,7 @@ import {
   getArchiveAncestorArray,
   getDigitalLocationInfo,
   getDigitalLocationOfType,
+  getHasViewableIIIFContent,
   isArchiveCollectionRoot,
   showItemLink,
 } from '@weco/content/utils/works';
@@ -84,7 +85,7 @@ export const WorkPage: NextPage<Props> = ({ work, apiUrl }) => {
   // born-digital status, so fetch it client side rather than blocking SSR.
   // Only an iiif-presentation location has a manifest to fetch; an iiif-image
   // location points at the IIIF Image API instead.
-  const { transformedManifest } = useManifest(
+  const { transformedManifest, isLoading: isLoadingManifest } = useManifest(
     iiifPresentationLocation,
     work.workType?.id
   );
@@ -94,8 +95,12 @@ export const WorkPage: NextPage<Props> = ({ work, apiUrl }) => {
 
   const shouldShowItemLink = showItemLink({
     userIsStaffWithRestricted,
-    hasIIIFManifest: !!iiifPresentationLocation,
-    digitalLocation,
+    hasViewableIIIFContent: getHasViewableIIIFContent({
+      iiifImageLocation,
+      iiifPresentationLocation,
+      isLoadingManifest,
+      transformedManifest,
+    }),
     accessCondition: digitalLocationInfo?.accessCondition,
   });
 

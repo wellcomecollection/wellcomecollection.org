@@ -22,7 +22,10 @@ import {
   Work,
   Work as WorkType,
 } from '@weco/content/services/wellcome/catalogue/types';
-import { DownloadOption } from '@weco/content/types/manifest';
+import {
+  DownloadOption,
+  TransformedManifest,
+} from '@weco/content/types/manifest';
 import { toConceptLink } from '@weco/content/views/components/ConceptLink';
 import { toSearchWorksLink } from '@weco/content/views/components/SearchPagesLink/Works';
 import { TagType } from '@weco/content/views/components/Tags';
@@ -426,18 +429,44 @@ export function getFirstAccessCondition(
 }
 
 /**
+ * Whether there's IIIF content for the "View" link on a work page to lead
+ * to: an iiif-image location (viewable via the IIIF Image API, no manifest
+ * needed) or an iiif-presentation location whose manifest actually
+ * resolves.
+ *
+ * The manifest is fetched client-side, so this is optimistic while it's
+ * still loading (assumes a manifest exists until proven otherwise) and
+ * corrects itself once the fetch settles - guarding against a born-digital
+ * work whose manifest 404s from getting a "View" link that leads nowhere.
+ */
+export function getHasViewableIIIFContent({
+  iiifImageLocation,
+  iiifPresentationLocation,
+  isLoadingManifest,
+  transformedManifest,
+}: {
+  iiifImageLocation?: DigitalLocation;
+  iiifPresentationLocation?: DigitalLocation;
+  isLoadingManifest: boolean;
+  transformedManifest?: TransformedManifest;
+}): boolean {
+  return (
+    !!iiifImageLocation ||
+    (isLoadingManifest ? !!iiifPresentationLocation : !!transformedManifest)
+  );
+}
+
+/**
  * Whether to show the "view item" link, based on access condition and
  * staff-restricted-access override.
  */
 export function showItemLink({
   userIsStaffWithRestricted,
-  hasIIIFManifest,
-  digitalLocation,
+  hasViewableIIIFContent,
   accessCondition,
 }: {
   userIsStaffWithRestricted: boolean;
-  hasIIIFManifest: boolean;
-  digitalLocation?: DigitalLocation;
+  hasViewableIIIFContent: boolean;
   accessCondition?: string;
 }): boolean {
   if (
@@ -445,11 +474,8 @@ export function showItemLink({
     (accessCondition === 'restricted' && !userIsStaffWithRestricted)
   ) {
     return false;
-  } else if (hasIIIFManifest && digitalLocation) {
-    return true;
-  } else {
-    return false;
   }
+  return hasViewableIIIFContent;
 }
 
 /**
