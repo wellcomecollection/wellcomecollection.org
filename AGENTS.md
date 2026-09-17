@@ -159,6 +159,35 @@ Our PR template (configured in GitHub's interface) asks for:
 - **How to test** - Instructions to verify the change (e.g., "On PROD, do X and see Y. On this branch, do X and see Z.")
 - **Have we considered potential risks?** - Potential risks, mitigations, and whether alarms are needed
 
-When writing PR descriptions, follow this structure and provide enough detail for the PR to be understandable in the future.
+When writing PR descriptions, follow this structure and provide enough detail for the PR to be understandable in the future. Keep the template's own headings verbatim.
 
-When referencing GitHub issues in PR descriptions, use '- For #123' or '- Refs #123', not 'Closes #123', so merging doesn't auto-close the ticket.
+When referencing GitHub issues, put `- For #123` or `- Refs #123` (never `Closes #123`, so merging doesn't auto-close the ticket) as the very first line of the description, before `## What does this change?` starts.
+
+### Writing style
+
+PR descriptions are for humans first - write them the way you'd explain the change to a teammate:
+- Casual tone, not stiff or formal. British spelling in prose (see [copilot-instructions.md](.github/copilot-instructions.md)).
+- Terse: cut padding, hedging, and anything already obvious from the diff. Don't restate context.
+- Plain words over jargon or vivid-metaphor shorthand ("soak", "load-bearing", etc.) - if a normal phrase says it, use that.
+- One line per paragraph or bullet - don't hard-wrap markdown at a column width.
+- In "How to test", keep specific example URLs/work IDs rather than generic placeholders, and link them inline on the descriptive phrase, e.g. `[View a work with an archive collection](https://www-dev.wellcomecollection.org/works/aegabdcp#contents)`. Use `www-dev.wellcomecollection.org`, not prod.
+- In "Have we considered potential risks?", state the actual risk and stop - don't conclude "no alarms needed" or similar. Whether alarms/monitoring are needed is a call for the human reviewer, not something to assert.
+- A `> [!NOTE]` callout is a good place for a genuine open caveat you want a reviewer to weigh in on (e.g. "styling isn't final, pending a discussion") - skip it if there isn't one.
+
+### AI-assisted PRs
+
+When an AI assistant drafts the PR description, on top of the above:
+- If there's a genuinely non-obvious decision, alternative considered, or open question worth recording for a future debugging session, add a collapsed section at the end of the body:
+
+  ```markdown
+  <details>
+  <summary>For AI / future debugging</summary>
+
+  Whatever's actually non-obvious - why this approach over another one, an edge case deliberately left unhandled, an assumption made, a gotcha hit while implementing.
+
+  </details>
+  ```
+
+  Skip this entirely for straightforward PRs - it's for genuine signal, not a checklist item to fill in every time. Don't duplicate what's already stated plainly above the fold.
+- Commit messages can carry more of the "why" than the PR body does - humans rarely read them, but they're useful `git blame`/`git log` context for AI-assisted debugging later. This doesn't change the general git workflow guidance elsewhere (new commits rather than amending, etc.).
+- Append `_Written by Claude Code._` (or the relevant tool's name) as a short italic line at the very end of the body, after any "For AI" section - GitHub's automatic attribution footer is suppressed in this repo's settings, so this has to be in the text itself.
