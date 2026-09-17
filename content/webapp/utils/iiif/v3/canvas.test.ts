@@ -72,7 +72,10 @@ describe('getThumbnailImage', () => {
     expect(getThumbnailImage(canvas as unknown as Canvas)).toBeUndefined();
   });
 
-  it('ignores a service that is not an image service', () => {
+  it('ignores a legacy service that is not an image service', () => {
+    // The legacy auth services carry '@id' and '@type' just like an
+    // ImageService2 does, so matching on '@id' alone would hand this to
+    // iiifImageTemplate and build a thumbnail URL out of an auth endpoint.
     const canvas = {
       id: 'example',
       type: 'Canvas',
@@ -81,13 +84,47 @@ describe('getThumbnailImage', () => {
           id: 'https://example.com/thumb.jpg',
           type: 'Image',
           width: 120,
-          service: [{ id: 'https://example.com/probe', type: 'SomethingElse' }],
+          service: [
+            {
+              '@id': 'https://example.com/auth/cookie',
+              '@type': 'AuthCookieService1',
+            },
+          ],
         },
       ],
     };
     expect(getThumbnailImage(canvas as unknown as Canvas)).toStrictEqual({
       url: 'https://example.com/thumb.jpg',
       width: 120,
+    });
+  });
+
+  it('picks the image service even when a legacy auth service comes first', () => {
+    const canvas = {
+      id: 'example',
+      type: 'Canvas',
+      thumbnail: [
+        {
+          id: 'https://example.com/thumb.jpg',
+          type: 'Image',
+          width: 120,
+          service: [
+            {
+              '@id': 'https://example.com/auth/cookie',
+              '@type': 'AuthCookieService1',
+            },
+            {
+              '@id': 'https://iiif.example.org/thumbs/image.jp2',
+              '@type': 'ImageService2',
+              sizes: [{ width: 400, height: 500 }],
+            },
+          ],
+        },
+      ],
+    };
+    expect(getThumbnailImage(canvas as unknown as Canvas)).toStrictEqual({
+      url: 'https://iiif.example.org/thumbs/image.jp2/full/400%2C/0/default.jpg',
+      width: 400,
     });
   });
 

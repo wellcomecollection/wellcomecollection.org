@@ -8,6 +8,8 @@ import {
   TransformedCanvas,
 } from '@weco/content/types/manifest';
 
+import { isImageService2 } from './services';
+
 /**
  * The thumbnail to show for a canvas, at a usable size. Where the thumbnail
  * has an image service we request a size at least 400px tall from it;
@@ -22,11 +24,14 @@ export function getThumbnailImage(canvas: Canvas): ThumbnailImage | undefined {
   const thumbnail = canvas.thumbnail?.[0];
   if (!thumbnail) return;
 
+  // Requiring the ImageService2 discriminator, not just an '@id': the legacy
+  // auth services use '@id' too, so matching on that alone would hand an auth
+  // service to iiifImageTemplate and hide a real image service behind it.
   const service =
     'service' in thumbnail
       ? thumbnail.service?.find(
           (s): s is ImageService & { '@id': string } =>
-            '@id' in s && typeof s['@id'] === 'string'
+            isImageService2(s) && typeof s['@id'] === 'string'
         )
       : undefined;
 
