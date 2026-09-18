@@ -14,6 +14,7 @@ const baseWork: WorkBasic = {
   languageId: undefined,
   thumbnail: undefined,
   referenceNumber: undefined,
+  shortDescription: undefined,
   productionDates: [],
   archiveLabels: undefined,
   cardLabels: [],
@@ -23,14 +24,14 @@ const baseWork: WorkBasic = {
   isArchiveCollectionRoot: false,
 };
 
-const mockFeatureFlags = (archiveCollection: boolean) =>
+const mockFeatureFlags = (flags: {
+  archiveCollection?: boolean;
+  archiveShortDescriptions?: boolean;
+}) =>
   jest
     .spyOn(Context, 'useFeatureFlags')
     .mockImplementation(
-      () =>
-        ({ archiveCollection }) as unknown as ReturnType<
-          typeof Context.useFeatureFlags
-        >
+      () => flags as unknown as ReturnType<typeof Context.useFeatureFlags>
     );
 
 const renderResult = (work: WorkBasic) =>
@@ -46,7 +47,7 @@ describe('WorkSearchResult', () => {
   });
 
   it('does not show "Archive Collection" for an ordinary work, even with the flag on', () => {
-    mockFeatureFlags(true);
+    mockFeatureFlags({ archiveCollection: true });
     renderResult(baseWork);
     expect(screen.queryByText('Archive Collection')).not.toBeInTheDocument();
   });
@@ -56,20 +57,49 @@ describe('WorkSearchResult', () => {
   // cases (a manuscript, a non-archive format, a childless root) that get
   // `false` here.
   it('does not show "Archive Collection" for a collection root that is not itself an archive', () => {
-    mockFeatureFlags(true);
+    mockFeatureFlags({ archiveCollection: true });
     renderResult({ ...baseWork, isArchiveCollectionRoot: false });
     expect(screen.queryByText('Archive Collection')).not.toBeInTheDocument();
   });
 
   it('shows "Archive Collection" for an archive collection root when the flag is on', () => {
-    mockFeatureFlags(true);
+    mockFeatureFlags({ archiveCollection: true });
     renderResult({ ...baseWork, isArchiveCollectionRoot: true });
     expect(screen.getByText('Archive Collection')).toBeInTheDocument();
   });
 
   it('does not show "Archive Collection" for an archive collection root when the flag is off', () => {
-    mockFeatureFlags(false);
+    mockFeatureFlags({ archiveCollection: false });
     renderResult({ ...baseWork, isArchiveCollectionRoot: true });
     expect(screen.queryByText('Archive Collection')).not.toBeInTheDocument();
+  });
+
+  // The short description has its own flag, independent of archiveCollection.
+  const workWithShortDescription = {
+    ...baseWork,
+    isArchiveCollectionRoot: true,
+    shortDescription: 'A short description of this collection.',
+  };
+
+  it('shows the short description when archiveShortDescriptions is on, even with archiveCollection off', () => {
+    mockFeatureFlags({
+      archiveCollection: false,
+      archiveShortDescriptions: true,
+    });
+    renderResult(workWithShortDescription);
+    expect(
+      screen.getByText('A short description of this collection.')
+    ).toBeInTheDocument();
+  });
+
+  it('does not show the short description when archiveShortDescriptions is off, even with archiveCollection on', () => {
+    mockFeatureFlags({
+      archiveCollection: true,
+      archiveShortDescriptions: false,
+    });
+    renderResult(workWithShortDescription);
+    expect(
+      screen.queryByText('A short description of this collection.')
+    ).not.toBeInTheDocument();
   });
 });
