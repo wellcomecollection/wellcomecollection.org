@@ -141,13 +141,11 @@ const WorkDetails: FunctionComponent<Props> = ({
 
   const holdings = getHoldings(work);
 
-  // shouldShowItemLink (from showItemLink) already accounts for restricted
-  // access condition, so no need to check it again here.
-  const showAvailableOnlineSection = digitalLocation && shouldShowItemLink;
-
   const renderContent = () => (
     <>
-      {showAvailableOnlineSection && (
+      {/* shouldShowItemLink accounts for
+          restricted access condition and for digitalLocation being available */}
+      {shouldShowItemLink && (
         <WorkDetailsAvailableOnline
           work={work}
           downloadOptions={downloadOptions}

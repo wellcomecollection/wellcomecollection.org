@@ -20,12 +20,13 @@ import {
 import { workLd } from '@weco/content/utils/json-ld';
 import { removeDisplayMarkupTags } from '@weco/content/utils/string';
 import {
+  canViewItem,
   createApiToolbarWorkLinks,
   getArchiveAncestorArray,
   getDigitalLocationInfo,
   getDigitalLocationOfType,
+  getHasViewableIIIFContent,
   isArchiveCollectionRoot,
-  showItemLink,
 } from '@weco/content/utils/works';
 import CataloguePageLayout from '@weco/content/views/layouts/CataloguePageLayout';
 
@@ -84,7 +85,7 @@ export const WorkPage: NextPage<Props> = ({ work, apiUrl }) => {
   // born-digital status, so fetch it client side rather than blocking SSR.
   // Only an iiif-presentation location has a manifest to fetch; an iiif-image
   // location points at the IIIF Image API instead.
-  const { transformedManifest } = useManifest(
+  const { transformedManifest, isLoading: isLoadingManifest } = useManifest(
     iiifPresentationLocation,
     work.workType?.id
   );
@@ -92,10 +93,14 @@ export const WorkPage: NextPage<Props> = ({ work, apiUrl }) => {
     ...transformedManifest,
   };
 
-  const shouldShowItemLink = showItemLink({
+  const shouldShowItemLink = canViewItem({
     userIsStaffWithRestricted,
-    hasIIIFManifest: !!iiifPresentationLocation,
-    digitalLocation,
+    hasViewableIIIFContent: getHasViewableIIIFContent({
+      iiifImageLocation,
+      iiifPresentationLocation,
+      isLoadingManifest,
+      transformedManifest,
+    }),
     accessCondition: digitalLocationInfo?.accessCondition,
   });
 
