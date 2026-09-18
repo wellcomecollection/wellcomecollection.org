@@ -1,7 +1,6 @@
 import { FunctionComponent, useMemo } from 'react';
 import { useTheme } from 'styled-components';
 
-import { useUserContext } from '@weco/common/contexts/UserContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { typography } from '@weco/common/utils/classnames';
 import { formatDuration } from '@weco/common/utils/format-date';
@@ -22,7 +21,6 @@ import {
   deduplicateDownloadOptions,
   getDownloadOptionsFromCanvasRenderingAndSupplementing,
   getDownloadOptionsFromManifestRendering,
-  hasItemType,
 } from '@weco/content/utils/iiif/v3';
 import {
   conceptOrSearchLink,
@@ -65,11 +63,10 @@ const WorkDetails: FunctionComponent<Props> = ({
   digitalLocationInfo,
   transformedManifest,
 }: Props) => {
-  const { userIsStaffWithRestricted } = useUserContext();
   const isArchive = useIsArchiveContext();
   const transformedIIIFImage = useTransformedIIIFImage(toWorkBasic(work));
   const theme = useTheme();
-  const { canvases, rendering, itemsStatus } = {
+  const { canvases, rendering } = {
     ...transformedManifest,
   };
 
@@ -143,21 +140,10 @@ const WorkDetails: FunctionComponent<Props> = ({
   ]);
 
   const holdings = getHoldings(work);
-  const hasVideo = hasItemType(canvases, 'Video');
-  const hasSound =
-    hasItemType(canvases, 'Sound') || hasItemType(canvases, 'Audio');
-  const hasNonStandardItems = itemsStatus && itemsStatus !== 'allStandard';
 
-  const treatAsRestricted =
-    digitalLocationInfo?.accessCondition === 'restricted' &&
-    !userIsStaffWithRestricted;
-
-  const showAvailableOnlineSection =
-    ((digitalLocation && shouldShowItemLink) ||
-      hasVideo ||
-      hasSound ||
-      hasNonStandardItems) &&
-    !treatAsRestricted;
+  // shouldShowItemLink (from showItemLink) already accounts for restricted
+  // access condition, so no need to check it again here.
+  const showAvailableOnlineSection = digitalLocation && shouldShowItemLink;
 
   const renderContent = () => (
     <>
@@ -169,7 +155,6 @@ const WorkDetails: FunctionComponent<Props> = ({
             workId: work.id,
             props: {},
           })}
-          shouldShowItemLink={shouldShowItemLink}
           digitalLocationInfo={digitalLocationInfo}
           digitalLocation={digitalLocation}
           locationOfWork={locationOfWork}

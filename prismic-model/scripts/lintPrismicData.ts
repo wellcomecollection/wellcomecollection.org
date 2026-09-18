@@ -31,8 +31,10 @@ type ErrorProps = {
   errors: string[];
 };
 
+// CI sets PRISMIC_LINTING_SLACK_WEBHOOK_URL so the webhook stays off the command line.
 const { slackWebhookUrl } = yargs(process.argv.slice(2))
-  .usage('Usage: $0 --slackWebhookUrl [string]')
+  .usage('Usage: $0 [--slackWebhookUrl string]')
+  .env('PRISMIC_LINTING')
   .options({
     slackWebhookUrl: { type: 'string' },
   })

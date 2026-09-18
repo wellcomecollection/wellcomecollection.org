@@ -200,6 +200,7 @@ export const bornDigitalWarning = (
     </strong>
   </p>
 );
+
 export const bornDigitalMessage = (
   <>
     <h2>This contains born-digital items</h2>
@@ -210,7 +211,6 @@ export const bornDigitalMessage = (
     {bornDigitalWarning}
   </>
 );
-
 export const restrictedItemMessage = (
   <p>
     Email{' '}

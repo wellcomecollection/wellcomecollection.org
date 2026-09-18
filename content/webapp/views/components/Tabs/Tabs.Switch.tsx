@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import {
   Dispatch,
   FunctionComponent,
@@ -70,6 +71,7 @@ const TabsSwitch: FunctionComponent<Props> = ({
   isWhite,
 }: Props) => {
   const { isEnhanced } = useAppContext();
+  const router = useRouter();
   const tabListRef = useRef<HTMLDivElement>(null);
   const hasSyncedFromUrlRef = useRef(false);
 
@@ -111,7 +113,11 @@ const TabsSwitch: FunctionComponent<Props> = ({
       hash === getNoJsAnchorId(selectedItem) &&
       hash !== getJsAnchorId(selectedItem)
     ) {
-      window.history.replaceState(null, '', `#${getJsAnchorId(selectedItem)}`);
+      router.replace(
+        `${window.location.pathname}${window.location.search}#${getJsAnchorId(selectedItem)}`,
+        undefined,
+        { shallow: true, scroll: false }
+      );
     }
     // items is only read above on the initial mount pass (it's static per
     // page load); re-running this for every parent re-render isn't needed.
@@ -138,10 +144,18 @@ const TabsSwitch: FunctionComponent<Props> = ({
 
   // Pushes a new history entry for a user-driven tab switch (click or
   // keyboard), so back/forward can step through previously selected tabs.
+  // Goes through Next's router (shallow, so it doesn't re-run data fetching)
+  // rather than a raw history.pushState - a raw call leaves the entry with
+  // state: null, which Next's own popstate handler doesn't recognise, so it
+  // silently ignores back/forward through it instead of navigating.
   function pushAnchor(item: SwitchSelectableTextLink): void {
     const anchor = `#${getJsAnchorId(item)}`;
     if (window.location.hash !== anchor) {
-      window.history.pushState(null, '', anchor);
+      router.push(
+        `${window.location.pathname}${window.location.search}${anchor}`,
+        undefined,
+        { shallow: true, scroll: false }
+      );
     }
   }
 

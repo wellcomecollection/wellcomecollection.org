@@ -57,7 +57,7 @@ const ContentsTreeItemRenderer: FunctionComponent<
   const data = item.data as TreeDataWork;
 
   // This is exactly how far the ancestor <ul> nesting has already pushed
-  // the row right, so ContentsTable can cancel it out and let the stripe
+  // the row right, so ContentsRow can cancel it out and let the stripe
   // span full width. Starts from level 2, matching showFirstLevelGuideline
   // on Tree/NestedList in ArchiveCollection.Contents.tsx.
   const indentPx =
@@ -118,8 +118,9 @@ const ContentsTreeItemRenderer: FunctionComponent<
           }}
           tabIndex={isEnhanced ? (isSelected ? 0 : -1) : 0}
           {...dataGtmPropsToAttributes({
-            trigger: 'contents_tree_link',
+            trigger: 'tree_link',
             label: `${data.title}${data.referenceNumber ? ` (${data.referenceNumber})` : ''}`,
+            'data-tree-level': String(level),
           })}
         >
           <WorkTitle title={data.title} />
