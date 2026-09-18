@@ -7,13 +7,13 @@ import {
 } from '@weco/content/test/fixtures/catalogueApi/work';
 import { TransformedManifest } from '@weco/content/types/manifest';
 import {
+  canViewItem,
   getAccessConditionForDigitalLocation,
   getArchiveAncestorArray,
   getDigitalLocationOfType,
   getFileLabel,
   getHasViewableIIIFContent,
   getProductionDates,
-  showItemLink,
 } from '@weco/content/utils/works';
 
 const iiifImageLocation = getDigitalLocationOfType(
@@ -167,10 +167,10 @@ describe('getAccessConditionForDigitalLocation', () => {
   });
 });
 
-describe('showItemLink', () => {
+describe('canViewItem', () => {
   it('returns false when the access condition is closed', () => {
     expect(
-      showItemLink({
+      canViewItem({
         userIsStaffWithRestricted: false,
         hasViewableIIIFContent: true,
         accessCondition: 'closed',
@@ -180,7 +180,7 @@ describe('showItemLink', () => {
 
   it('returns false when the access condition is restricted and the user is not staff with restricted access', () => {
     expect(
-      showItemLink({
+      canViewItem({
         userIsStaffWithRestricted: false,
         hasViewableIIIFContent: true,
         accessCondition: 'restricted',
@@ -190,7 +190,7 @@ describe('showItemLink', () => {
 
   it('returns true when the access condition is restricted and the user is staff with restricted access', () => {
     expect(
-      showItemLink({
+      canViewItem({
         userIsStaffWithRestricted: true,
         hasViewableIIIFContent: true,
         accessCondition: 'restricted',
@@ -200,7 +200,7 @@ describe('showItemLink', () => {
 
   it('returns true for an open work with viewable IIIF content', () => {
     expect(
-      showItemLink({
+      canViewItem({
         userIsStaffWithRestricted: false,
         hasViewableIIIFContent: true,
         accessCondition: 'open',
@@ -210,7 +210,7 @@ describe('showItemLink', () => {
 
   it('returns false when there is no viewable IIIF content', () => {
     expect(
-      showItemLink({
+      canViewItem({
         userIsStaffWithRestricted: false,
         hasViewableIIIFContent: false,
         accessCondition: 'open',

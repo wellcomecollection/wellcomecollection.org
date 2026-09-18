@@ -20,13 +20,13 @@ import {
 import { workLd } from '@weco/content/utils/json-ld';
 import { removeDisplayMarkupTags } from '@weco/content/utils/string';
 import {
+  canViewItem,
   createApiToolbarWorkLinks,
   getArchiveAncestorArray,
   getDigitalLocationInfo,
   getDigitalLocationOfType,
   getHasViewableIIIFContent,
   isArchiveCollectionRoot,
-  showItemLink,
 } from '@weco/content/utils/works';
 import CataloguePageLayout from '@weco/content/views/layouts/CataloguePageLayout';
 
@@ -93,7 +93,7 @@ export const WorkPage: NextPage<Props> = ({ work, apiUrl }) => {
     ...transformedManifest,
   };
 
-  const shouldShowItemLink = showItemLink({
+  const shouldShowItemLink = canViewItem({
     userIsStaffWithRestricted,
     hasViewableIIIFContent: getHasViewableIIIFContent({
       iiifImageLocation,

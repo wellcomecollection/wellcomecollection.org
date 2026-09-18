@@ -457,10 +457,12 @@ export function getHasViewableIIIFContent({
 }
 
 /**
- * Whether to show the "view item" link, based on access condition and
- * staff-restricted-access override.
+ * Whether the user can view the work's item: whether an iiif-image or
+ * iiif-presentation manifest exists to view (see hasViewableIIIFContent),
+ * and whether the access condition and staff-restricted-access override
+ * actually permit that user to see it.
  */
-export function showItemLink({
+export function canViewItem({
   userIsStaffWithRestricted,
   hasViewableIIIFContent,
   accessCondition,
