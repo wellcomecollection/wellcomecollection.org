@@ -3,8 +3,6 @@ import { FunctionComponent } from 'react';
 import { ConsentStatusProps } from '@weco/common/server-data/types';
 import { Modes, Tests, Toggles } from '@weco/toggles';
 
-import { E2E_TEST_USER_AGENT_MARKER } from './e2e-test-user-agent-marker';
-
 // Don't use the next/script `Script` component for these as in
 // Next.js v11 it does not work when inside a `Head` component
 type Props = {
@@ -89,6 +87,12 @@ export const Ga4DataLayer: FunctionComponent<Props> = ({
     />
   );
 };
+
+// Kept in sync by hand with the suffix Playwright appends to its UA in
+// playwright/playwright.config.ts - that file can't import this constant,
+// since its Docker image only ever copies the playwright/ folder in, with
+// no access to the rest of the monorepo's workspaces.
+export const E2E_TEST_USER_AGENT_MARKER = 'wellcomecollection-e2e-test';
 
 // This page's HTML is cached by CloudFront keyed on the URL alone (not on
 // User-Agent or any header), so the e2e check below has to happen in the

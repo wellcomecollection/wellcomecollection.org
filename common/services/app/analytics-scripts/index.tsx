@@ -1,4 +1,7 @@
-import { E2E_TEST_USER_AGENT_MARKER } from './e2e-test-user-agent-marker';
-import { Ga4DataLayer, GoogleTagManager } from './google-analytics';
+import {
+  E2E_TEST_USER_AGENT_MARKER,
+  Ga4DataLayer,
+  GoogleTagManager,
+} from './google-analytics';
 
 export { E2E_TEST_USER_AGENT_MARKER, Ga4DataLayer, GoogleTagManager };
