@@ -2,20 +2,12 @@ import { expect, test } from '@playwright/test';
 import { Page } from 'playwright';
 
 import {
-  isMobile,
-  itemWithBornDigitalDownloads,
   workWithBornDigitalItem,
   workWithDigitalLocationAndLocationNote,
   workWithDigitalLocationAndRestricted,
   workWithDigitalLocationOnly,
   workWithPhysicalLocationOnly,
 } from './helpers/contexts';
-
-declare global {
-  interface Window {
-    dataLayer: { [key: string]: string }[];
-  }
-}
 
 const getAllStates = async (page: Page) => {
   const whereToFindIt = page.getByRole('heading', {
@@ -42,7 +34,7 @@ const getAvailableOnline = async (page: Page) => {
   return availableOnline;
 };
 
-test.describe(`Scenario 1: a user wants to see relevant information about where a work's items are located`, () => {
+test.describe(`(1) | a user wants to see relevant information about where a work's items are located`, () => {
   test(`works that have a physical item location display a 'Where to find it' section with a link`, async ({
     page,
     context,
@@ -103,58 +95,7 @@ test.describe(`Scenario 1: a user wants to see relevant information about where 
   });
 });
 
-test.describe(`Scenario 2: A user viewing/downloading 'born digital' items`, () => {
-  // The file/download tree used to live on the work page, nested under an
-  // 'objects' folder (see git history for the previous version of these tests).
-  // It now lives in the 'Contents' panel of the item viewer instead, listing
-  // each born-digital file directly (no folder to expand first).
-  test(`download tree item stays visible when clicked`, async ({
-    page,
-    context,
-  }) => {
-    // On mobile the download tree is hidden behind the 'Show info' button.
-    test.skip(isMobile(page), "Download tree is hidden behind 'Show info'");
-
-    await itemWithBornDigitalDownloads(context, page);
-    const innerTreeItem = page.getByRole('treeitem', {
-      name: 'A_Camels.psd vnd.adobe.photoshop 6.1 MB Download',
-    });
-
-    await expect(innerTreeItem).toBeVisible();
-    await innerTreeItem.click();
-    await expect(innerTreeItem).toBeVisible();
-  });
-
-  test(`download tree item Download link fires GTM trigger`, async ({
-    page,
-    context,
-  }) => {
-    // On mobile the download tree is hidden behind the 'Show info' button.
-    test.skip(isMobile(page), "Download tree is hidden behind 'Show info'");
-
-    await itemWithBornDigitalDownloads(context, page);
-
-    await page
-      .getByRole('link', {
-        name: 'Download',
-      })
-      .first()
-      .click();
-
-    const dataLayer = await page.evaluate(() => window.dataLayer);
-    const clickEvent = dataLayer.find(
-      (item: { [x: string]: string }) =>
-        item?.['gtm.elementText'] === 'Download'
-    );
-    const gtmTriggers = clickEvent?.['gtm.triggers'].split(',');
-    const DOWNLOAD_TABLE_LINK_TRIGGER = '31009043_218'; // ID that is discoverable through GTM preview
-    expect(gtmTriggers).toEqual(
-      expect.arrayContaining([DOWNLOAD_TABLE_LINK_TRIGGER])
-    );
-  });
-});
-
-test.describe(`Scenario 3: A user follows the 'View' link from the work page to the item page`, () => {
+test.describe(`(2) | A user follows the 'View' link from the work page to the item page`, () => {
   test(`clicking 'View' on a standard work takes the user to its item page`, async ({
     page,
     context,

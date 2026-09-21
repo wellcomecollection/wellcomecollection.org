@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 import { singleImageItem } from './helpers/contexts';
 
-test.describe('Single image viewer page', () => {
+test.describe('(1) | Single image viewer page', () => {
   test('should not redirect to work page on load', async ({
     context,
     page,

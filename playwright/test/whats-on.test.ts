@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 import { whatsOn } from './helpers/contexts';
 
-test.describe('EventsByMonth with JavaScript disabled', () => {
+test.describe('(1) | EventsByMonth with JavaScript disabled', () => {
   test.use({ javaScriptEnabled: false }); // Turn off JS for tests in this block
 
   test('the /whats-on page displays all events', async ({ context, page }) => {
@@ -19,7 +19,7 @@ test.describe('EventsByMonth with JavaScript disabled', () => {
   });
 });
 
-test.describe('EventsByMonth with JavaScript enabled', () => {
+test.describe('(2) | EventsByMonth with JavaScript enabled', () => {
   test('the /whats-on on page displays events by months in switchable tabs, only current/active month being visible', async ({
     context,
     page,
