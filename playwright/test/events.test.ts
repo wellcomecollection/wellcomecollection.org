@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 import { event } from './helpers/contexts';
 
-test('single event pages include the scheduled events', async ({
+test('(1) | single event pages include the scheduled events', async ({
   page,
   context,
 }) => {

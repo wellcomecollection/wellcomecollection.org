@@ -41,7 +41,7 @@ const test = base.extend<{
   },
 });
 
-test.describe('navigating to/from a work page from a concept page', () => {
+test.describe('(1) | navigating to/from a work page from a concept page', () => {
   test('the concept -> work -> concept journey with the browser back button', async ({
     armyPage,
   }) => {
@@ -63,7 +63,7 @@ test.describe('navigating to/from a work page from a concept page', () => {
   });
 });
 
-test.describe('a Concept representing an Agent with no Images', () => {
+test.describe('(2) | a Concept representing an Agent with no Images', () => {
   test('only has works tabs', async ({ thackrahPage }) => {
     // It has two tabs for works
     await expect(thackrahPage.worksFeaturingTab).toBeVisible();
@@ -92,7 +92,7 @@ test.describe('a Concept representing an Agent with no Images', () => {
   });
 });
 
-test.describe('a Concept representing an Agent with Works and Images both about and by them', () => {
+test.describe('(3) | a Concept representing an Agent with Works and Images both about and by them', () => {
   test('has both works and image sections grouped into "by" and "about" sections', async ({
     armyPage,
   }) => {
@@ -143,7 +143,7 @@ test.describe('a Concept representing an Agent with Works and Images both about 
   });
 });
 
-test.describe('a Concept representing a Genre with works and images both about and using them', () => {
+test.describe('(4) | a Concept representing a Genre with works and images both about and using them', () => {
   test('has both works and image sections, each with about and using tabs', async ({
     paintingsPage,
   }) => {
@@ -186,7 +186,7 @@ test.describe('a Concept representing a Genre with works and images both about a
   });
 });
 
-test.describe('a Concept representing a Genre that is only used as a genre for both works and images', () => {
+test.describe('(5) | a Concept representing a Genre that is only used as a genre for both works and images', () => {
   test('has both works and image sections showing records in that genre', async ({
     mohPage,
   }) => {
