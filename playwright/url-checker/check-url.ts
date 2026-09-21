@@ -1,5 +1,6 @@
-import { Browser, BrowserContext, Page, Response } from 'playwright';
+import { Browser, BrowserContext, devices, Page, Response } from 'playwright';
 
+import { E2E_TEST_USER_AGENT_MARKER } from './e2e-user-agent-marker';
 import {
   ignoreErrorLog,
   ignoreMimeTypeMismatch,
@@ -75,7 +76,15 @@ export const urlChecker =
     // A locale makes headless Chromium send Accept-Language like a real
     // browser. Without it the WAF /search and /works fabricated-traffic
     // blocks 403 the checker when it runs from a non-allowlisted IP.
-    const context = await browser.newContext({ locale: 'en-GB' });
+    //
+    // The UA marker (appended, not substituted, for the same WAF/bot-sniffing
+    // reason) tells GoogleTagManager not to load at all for this page, since
+    // this checker's page loads against real environments - including prod -
+    // shouldn't count as analytics traffic either.
+    const context = await browser.newContext({
+      locale: 'en-GB',
+      userAgent: `${devices['Desktop Chrome'].userAgent} ${E2E_TEST_USER_AGENT_MARKER}`,
+    });
     const page = await context.newPage();
     const failures: Failure[] = [];
 
