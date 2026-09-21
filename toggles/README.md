@@ -44,9 +44,14 @@ A phased flag is never authored already partway through its own phases — every
 To add a new phased flag:
 * Go to `toggles/webapp/toggles.ts`.
 * Add a new entry to the `phasedFlags` array, with an ordered `phases` list.
+* Log in to AWS and run `yarn deploy`. This will make it available on the [toggles dashboard](https://dash.wellcomecollection.org/toggles/).
 * Iterate! Preview a phase by overriding it via the dashboard cookie, same as a feature flag.
+* Once you're happy making a phase public, run `yarn setDefaultValueFor --{toggle_id}={phase_id}`, e.g. `yarn setDefaultValueFor --archiveCollectionPhases=phase2`.
+* If anything goes wrong, run `yarn setDefaultValueFor --{toggle_id}=null` to make nothing public again.
 * Once a phase has been public for a while and nothing's gone wrong, delete the code that checks for it — that part of the feature is now permanent — and remove that phase from the list.
 * Once every phase has shipped this way, remove the phased flag from the code entirely.
+
+As with feature flags, the dashboard switch only sets your own preview cookie — it never changes what's actually public. `defaultPhase` only ever changes via `yarn setDefaultValueFor`.
 
 **Not yet built:** `yarn deploy` doesn't publish `phasedFlags` to the toggles dashboard/JSON yet (see `toggles/webapp/deploy.ts`), so a phased flag added to `toggles.ts` currently only exercises the resolution logic in tests — it won't resolve anywhere in a running app until that's built.
 
