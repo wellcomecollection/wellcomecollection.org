@@ -8,6 +8,7 @@ import {
   isMobile,
   itemWithAltText,
   itemWithAudio,
+  itemWithBornDigitalDownloads,
   itemWithMixedBornDigital,
   itemWithNonRestrictedAndOpenAccess,
   itemWithOnlyOpenAccess,
@@ -22,13 +23,14 @@ import {
   itemWithVideo,
   multiVolumeItem,
 } from './helpers/contexts';
+import { accessSidebarOnMobile } from './helpers/viewer-sidebar';
 import { apiResponse } from './mocks/search-within';
 
-const accessSidebarOnMobile = async (page: Page) => {
-  if (isMobile(page)) {
-    await page.getByRole('button', { name: 'Show info' }).click();
+declare global {
+  interface Window {
+    dataLayer: { [key: string]: string }[];
   }
-};
+}
 
 const checkDownloadsAvailable = async (page: Page, expect: Expect) => {
   await expect(page.locator('#itemDownloads')).toHaveAttribute('inert');
@@ -854,5 +856,47 @@ export function defineViewItemTests(test: TestType<any, any>, expect: Expect) {
     if (!isMobile(page)) {
       await expect(page.getByTestId('active-index')).toHaveText('5');
     }
+  });
+
+  test('(46) | Download tree item stays visible when clicked', async ({
+    page,
+    context,
+  }: {
+    page: Page;
+    context: BrowserContext;
+  }) => {
+    await itemWithBornDigitalDownloads(context, page);
+    await accessSidebarOnMobile(page);
+    const innerTreeItem = page.getByRole('treeitem', {
+      name: 'A_Camels.psd vnd.adobe.photoshop 6.1 MB Download',
+    });
+
+    await expect(innerTreeItem).toBeVisible();
+    await innerTreeItem.click();
+    await expect(innerTreeItem).toBeVisible();
+  });
+
+  test('(47) | Download tree item Download link fires GTM trigger', async ({
+    page,
+    context,
+  }: {
+    page: Page;
+    context: BrowserContext;
+  }) => {
+    await itemWithBornDigitalDownloads(context, page);
+    await accessSidebarOnMobile(page);
+
+    await page.getByRole('link', { name: 'Download' }).first().click();
+
+    const dataLayer = await page.evaluate(() => window.dataLayer);
+    const clickEvent = dataLayer.find(
+      (item: { [x: string]: string }) =>
+        item?.['gtm.elementText'] === 'Download'
+    );
+    const gtmTriggers = clickEvent?.['gtm.triggers'].split(',');
+    const DOWNLOAD_TABLE_LINK_TRIGGER = '31009043_218'; // ID that is discoverable through GTM preview
+    expect(gtmTriggers).toEqual(
+      expect.arrayContaining([DOWNLOAD_TABLE_LINK_TRIGGER])
+    );
   });
 }
