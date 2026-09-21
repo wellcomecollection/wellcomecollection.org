@@ -292,6 +292,84 @@ describe('getTogglesFromContext', () => {
     });
   });
 
+  describe('phasedFlags', () => {
+    const phasedFlagDefinition = {
+      id: 'archiveCollectionPhases',
+      title: 'Archive collection phases',
+      description: 'Archive collection, phased',
+      type: 'experimental' as const,
+      phases: [
+        { id: 'mvp', label: 'MVP', description: 'MVP phase' },
+        { id: 'phase2', label: 'Phase 2', description: 'Phase 2' },
+      ],
+      defaultPhase: null,
+    };
+
+    it('returns null when nothing is public yet and no cookie is set', () => {
+      const togglesResp = {
+        ...defaultTogglesResp,
+        phasedFlags: [phasedFlagDefinition],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(togglesResp, createContext());
+
+      expect(
+        (result.phasedFlags as Record<string, { current: unknown }>)
+          .archiveCollectionPhases.current
+      ).toBeNull();
+    });
+
+    it('returns defaultPhase when it is set and no cookie is set', () => {
+      const togglesResp = {
+        ...defaultTogglesResp,
+        phasedFlags: [{ ...phasedFlagDefinition, defaultPhase: 'mvp' }],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(togglesResp, createContext());
+
+      expect(
+        (result.phasedFlags as Record<string, { current: unknown }>)
+          .archiveCollectionPhases.current
+      ).toBe('mvp');
+    });
+
+    it('returns the cookie value when it matches a valid phase', () => {
+      const togglesResp = {
+        ...defaultTogglesResp,
+        phasedFlags: [phasedFlagDefinition],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_archiveCollectionPhases: 'phase2' })
+      );
+
+      expect(
+        (result.phasedFlags as Record<string, { current: unknown }>)
+          .archiveCollectionPhases.current
+      ).toBe('phase2');
+    });
+
+    it('falls back to defaultPhase when the cookie references a phase that no longer exists', () => {
+      const togglesResp = {
+        ...defaultTogglesResp,
+        phasedFlags: [{ ...phasedFlagDefinition, defaultPhase: 'mvp' }],
+      } as unknown as TogglesResp;
+
+      // Simulates a stale cookie left over from a phase that's since been
+      // removed (e.g. 'phase1' graduated and was deleted from the list).
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_archiveCollectionPhases: 'phase1' })
+      );
+
+      expect(
+        (result.phasedFlags as Record<string, { current: unknown }>)
+          .archiveCollectionPhases.current
+      ).toBe('mvp');
+    });
+  });
+
   describe('toggleOverride', () => {
     const modeDefinition = {
       id: 'kioskMode',
@@ -393,6 +471,67 @@ describe('getTogglesFromContext', () => {
       expect((result.modes as Record<string, unknown>).kioskMode).toBe(
         'ipad-1'
       );
+    });
+
+    it('overrides a phased flag to a valid phase, beating the cookie', () => {
+      const togglesResp = {
+        ...defaultTogglesResp,
+        phasedFlags: [
+          {
+            id: 'archiveCollectionPhases',
+            title: 'Archive collection phases',
+            description: 'Archive collection, phased',
+            type: 'experimental',
+            phases: [
+              { id: 'mvp', label: 'MVP', description: 'MVP phase' },
+              { id: 'phase2', label: 'Phase 2', description: 'Phase 2' },
+            ],
+            defaultPhase: null,
+          },
+        ],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_archiveCollectionPhases: 'mvp' }),
+        { archiveCollectionPhases: 'phase2' }
+      );
+
+      expect(
+        (result.phasedFlags as Record<string, { current: unknown }>)
+          .archiveCollectionPhases.current
+      ).toBe('phase2');
+    });
+
+    it('ignores a phased flag override that is not a valid phase', () => {
+      const togglesResp = {
+        ...defaultTogglesResp,
+        phasedFlags: [
+          {
+            id: 'archiveCollectionPhases',
+            title: 'Archive collection phases',
+            description: 'Archive collection, phased',
+            type: 'experimental',
+            phases: [
+              { id: 'mvp', label: 'MVP', description: 'MVP phase' },
+              { id: 'phase2', label: 'Phase 2', description: 'Phase 2' },
+            ],
+            defaultPhase: null,
+          },
+        ],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_archiveCollectionPhases: 'mvp' }),
+        { archiveCollectionPhases: 'phase3' }
+      );
+
+      // Falls back to the cookie value
+      expect(
+        (result.phasedFlags as Record<string, { current: unknown }>)
+          .archiveCollectionPhases.current
+      ).toBe('mvp');
     });
 
     it('ignores an override for an unknown toggle id', () => {

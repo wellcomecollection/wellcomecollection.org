@@ -157,7 +157,7 @@ export const getServerData = async (
   const overrides = parseToggleOverrides(context.query.toggleOverride);
 
   // Resolve toggle values from the cached config + user's cookies
-  const { featureFlags, tests, modes } = getTogglesFromContext(
+  const { featureFlags, phasedFlags, tests, modes } = getTogglesFromContext(
     togglesResp,
     context,
     overrides
@@ -179,7 +179,7 @@ export const getServerData = async (
   // Read cookie consent status (analytics, marketing)
   const consentStatus = getAllConsentStates(context);
 
-  const toggles: Toggles = { featureFlags, tests, modes };
+  const toggles: Toggles = { featureFlags, phasedFlags, tests, modes };
 
   const serverData = {
     toggles,

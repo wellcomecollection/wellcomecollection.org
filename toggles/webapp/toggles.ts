@@ -38,6 +38,30 @@ export type ModeDefinition = {
   options: readonly ModeOption[];
 };
 
+export type PhaseDefinition = {
+  id: string;
+  label: string;
+  // What THIS phase specifically adds — keep to ~20 words. Anything longer
+  // belongs in the feature's own `documentationLink` instead.
+  description: string;
+};
+
+export type PhasedFlagDefinition = ToggleBase & {
+  // Ordered earliest to latest. Selecting a phase in the dashboard shows
+  // that phase's work plus everything from the phases before it.
+  phases: readonly PhaseDefinition[];
+};
+
+export type PublishedPhasedFlag = ToggleBase & {
+  phases: readonly PhaseDefinition[];
+  // What's actually public. Always null the first time a phased flag is
+  // published, then set explicitly later as each phase ships,
+  // the same way PublishedFeatureFlag.defaultValue works for booleans.
+  defaultPhase: string | null;
+  dateCreated?: string;
+  dateActivated?: string;
+};
+
 const toggleConfig = {
   // Feature flags (permanent toggles, experiments, stage toggles)
   // Toggles of type 'stage' will only be applied on stage
@@ -181,6 +205,34 @@ const toggleConfig = {
       initialValue: false,
       description: 'Shows the new brand values.',
       type: 'experimental',
+    },
+  ] as const,
+  // Phased flags: like a feature flag, but with an ordered set of phases
+  // instead of on/off. Selecting a phase always includes every phase before it.
+  phasedFlags: [
+    {
+      id: 'phasedFlagsDemo',
+      title: 'Phased flags demo',
+      description:
+        'A prototype phased flag, used to exercise the mechanism end to end. Not wired into any real page.',
+      type: 'experimental',
+      phases: [
+        {
+          id: 'mvp',
+          label: 'MVP',
+          description: 'The baseline demo state — nothing extra enabled.',
+        },
+        {
+          id: 'phase2',
+          label: 'Phase 2',
+          description: 'A second demo state, layered on top of MVP.',
+        },
+        {
+          id: 'phase3',
+          label: 'Phase 3',
+          description: 'The final demo state.',
+        },
+      ],
     },
   ] as const,
   // We have to include a reference to any test toggles here as well as in the cache dir

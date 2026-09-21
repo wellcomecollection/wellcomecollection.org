@@ -4,6 +4,7 @@ import { IncomingMessage } from 'http';
 import {
   FeatureFlags,
   Modes,
+  PhasedFlags,
   Tests,
   Toggles,
   TogglesResp,
@@ -109,6 +110,31 @@ export function getTogglesFromContext(
               : toggle.defaultValue;
       return { ...acc, [toggle.id]: value };
     }, {} as FeatureFlags);
+
+  const phasedFlagsList = togglesResp.phasedFlags ?? [];
+  const phasedFlags = phasedFlagsList.reduce((acc, flag) => {
+    const override = overrides[flag.id];
+
+    if (
+      typeof override === 'string' &&
+      flag.phases.some(phase => phase.id === override)
+    ) {
+      return { ...acc, [flag.id]: { current: override, phases: flag.phases } };
+    }
+    const cookieValue = allCookies[`toggle_${flag.id}`];
+    const isValid =
+      typeof cookieValue === 'string' &&
+      flag.phases.some(phase => phase.id === cookieValue);
+
+    return {
+      ...acc,
+      [flag.id]: {
+        current: isValid ? cookieValue : flag.defaultPhase,
+        phases: flag.phases,
+      },
+    };
+  }, {} as PhasedFlags);
+
   const tests = togglesResp.tests.reduce((acc, test) => {
     function testToggleValue(Id: string): boolean | undefined {
       const override = overrides[Id];
@@ -149,7 +175,7 @@ export function getTogglesFromContext(
     };
   }, {} as Modes);
 
-  return { featureFlags, tests, modes };
+  return { featureFlags, phasedFlags, tests, modes };
 }
 
 export default togglesHandler;
