@@ -23,7 +23,6 @@ import {
   itemWithVideo,
   multiVolumeItem,
 } from './helpers/contexts';
-import { accessSidebarOnMobile } from './helpers/viewer-sidebar';
 import { apiResponse } from './mocks/search-within';
 
 declare global {
@@ -31,6 +30,14 @@ declare global {
     dataLayer: { [key: string]: string }[];
   }
 }
+
+// On mobile the item viewer's sidebar (Contents, Details, downloads, etc.)
+// is hidden behind a 'Show info' button rather than shown directly.
+const accessSidebarOnMobile = async (page: Page): Promise<void> => {
+  if (isMobile(page)) {
+    await page.getByRole('button', { name: 'Show info' }).click();
+  }
+};
 
 const checkDownloadsAvailable = async (page: Page, expect: Expect) => {
   await expect(page.locator('#itemDownloads')).toHaveAttribute('inert');
