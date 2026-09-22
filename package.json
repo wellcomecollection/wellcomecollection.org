@@ -110,7 +110,8 @@
     "*.{js,ts,tsx}": [
       "eslint --fix --max-warnings=0 --report-unused-disable-directives",
       "stylelint --max-warnings=0"
-    ]
+    ],
+    "toggles/webapp/**/*.{ts,tsx}": "bash -c 'yarn --cwd toggles/webapp test'"
   },
   "dependencies": {
     "yarn": "^1.22.21"
