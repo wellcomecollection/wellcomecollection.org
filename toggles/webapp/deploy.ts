@@ -117,7 +117,7 @@ export async function deploy(client: S3Client): Promise<void> {
   // Check for duplicate IDs across feature flags, phased flags, tests, and modes
   const allIds = [
     ...localToggles.featureFlags.map(f => f.id),
-    ...localToggles.phasedFlags.map(f => f.id),
+    ...localToggles.phasedFlags.map((f: PhasedFlagDefinition) => f.id),
     ...localToggles.tests.map(t => t.id),
     ...localToggles.modes.map(m => m.id),
   ];
