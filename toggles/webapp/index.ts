@@ -53,9 +53,10 @@ export type KioskExperienceId = ExtractPrefix<KioskModeOptionId>;
 // This allows methods fetching that URL to type the data fetched
 export type TogglesResp = {
   featureFlags: PublishedFeatureFlag[];
-  // Optional until the toggles app actually publishes these — deploy.ts
-  // doesn't yet build/deploy this list, so it's absent from the real,
-  // deployed toggles.json for now. See toggles/webapp/deploy.ts.
+  // Optional because a toggles.json fetched before this field existed (or a
+  // hand-written fallback like common/server-data/toggles.ts's
+  // fallbackTogglesForApiRoutes) won't have it - always fall back to
+  // `?? []` when reading it.
   phasedFlags?: PublishedPhasedFlag[];
   tests: ABTest[];
   modes: ModeDefinition[];
