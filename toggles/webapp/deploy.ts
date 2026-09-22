@@ -107,8 +107,10 @@ export const withDefaultPhaseUnmodified = (
     return {
       ...flag,
       defaultPhase,
-      dateCreated,
-      dateActivated,
+      // Omit rather than set undefined, so a non-experimental flag's
+      // published shape doesn't carry these keys at all.
+      ...(dateCreated !== undefined && { dateCreated }),
+      ...(dateActivated !== undefined && { dateActivated }),
     };
   });
 };
