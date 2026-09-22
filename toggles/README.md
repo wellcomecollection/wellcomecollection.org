@@ -53,8 +53,6 @@ To add a new phased flag:
 
 As with feature flags, the dashboard switch only sets your own preview cookie — it never changes what's actually public. `defaultPhase` only ever changes via `yarn setDefaultValueFor`.
 
-**Not yet built:** `yarn deploy` doesn't publish `phasedFlags` to the toggles dashboard/JSON yet (see `toggles/webapp/deploy.ts`), so a phased flag added to `toggles.ts` currently only exercises the resolution logic in tests — it won't resolve anywhere in a running app until that's built.
-
 ### 3. Modes
 
 Modes are like a feature flag, but instead of picking on/off, you pick one option from a fixed list — e.g. which kiosk device this browser represents (`kioskMode`), or which catalogue pipeline to query (`cataloguePipeline`). Unlike a phased flag, a mode's options aren't ordered: picking one option tells you nothing about the others, they're just different configurations a browser can be in, not stages of one thing.
