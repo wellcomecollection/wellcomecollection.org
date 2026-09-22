@@ -209,32 +209,7 @@ const toggleConfig = {
   ] as const,
   // Phased flags: like a feature flag, but with an ordered set of phases
   // instead of on/off. Selecting a phase always includes every phase before it.
-  phasedFlags: [
-    {
-      id: 'phasedFlagsDemo',
-      title: 'Phased flags demo',
-      description:
-        'A prototype phased flag, used to exercise the mechanism end to end. Not wired into any real page.',
-      type: 'experimental',
-      phases: [
-        {
-          id: 'mvp',
-          label: 'MVP',
-          description: 'The baseline demo state — nothing extra enabled.',
-        },
-        {
-          id: 'phase2',
-          label: 'Phase 2',
-          description: 'A second demo state, layered on top of MVP.',
-        },
-        {
-          id: 'phase3',
-          label: 'Phase 3',
-          description: 'The final demo state.',
-        },
-      ],
-    },
-  ] as const,
+  phasedFlags: [] as PhasedFlagDefinition[],
   // We have to include a reference to any test toggles here as well as in the cache dir
   // because they are deployed separately and consequently can't share a source of truth
   tests: [] as ABTest[],
