@@ -97,13 +97,19 @@ export type PhasedFlags = Record<PhasedFlagId, ResolvedPhasedFlag>;
  * in its own ordered phase list. An unrecognised current value (null, or a
  * removed phase) ranks lowest, so it never satisfies a real target.
  *
+ * `resolved` may be undefined if this flag hasn't been published yet (i.e.
+ * `usePhasedFlags()` was called before `yarn deploy` ran from toggles/webapp)
+ * - that's treated the same as not having reached any phase, the same way a
+ * feature flag reads as falsy before it exists remotely.
+ *
  * @param resolved - a value from `usePhasedFlags()`
  * @param target - the phase being asked about, e.g. `'phase2'`
  */
 export function phaseIsAtLeast(
-  resolved: ResolvedPhasedFlag,
+  resolved: ResolvedPhasedFlag | undefined,
   target: string
 ): boolean {
+  if (!resolved) return false;
   const targetIndex = resolved.phases.findIndex(p => p.id === target);
   if (targetIndex === -1) return false;
   const currentIndex = resolved.phases.findIndex(

@@ -35,4 +35,9 @@ describe('phaseIsAtLeast', () => {
       false
     );
   });
+
+  it('is false when the flag has not been published yet', () => {
+    // e.g. usePhasedFlags() called before yarn deploy ran from toggles/webapp
+    expect(phaseIsAtLeast(undefined, 'mvp')).toBe(false);
+  });
 });
