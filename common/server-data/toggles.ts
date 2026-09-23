@@ -119,7 +119,14 @@ export function getTogglesFromContext(
       typeof override === 'string' &&
       flag.phases.some(phase => phase.id === override)
     ) {
-      return { ...acc, [flag.id]: { current: override, phases: flag.phases } };
+      return {
+        ...acc,
+        [flag.id]: {
+          current: override,
+          phases: flag.phases,
+          title: flag.title,
+        },
+      };
     }
     const cookieValue = allCookies[`toggle_${flag.id}`];
     const isValid =
@@ -131,6 +138,7 @@ export function getTogglesFromContext(
       [flag.id]: {
         current: isValid ? cookieValue : flag.defaultPhase,
         phases: flag.phases,
+        title: flag.title,
       },
     };
   }, {} as PhasedFlags);

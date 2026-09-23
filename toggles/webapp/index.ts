@@ -89,6 +89,7 @@ export type PhaseValue = string | null;
 export type ResolvedPhasedFlag = {
   current: PhaseValue;
   phases: readonly PhaseDefinition[];
+  title: string;
 };
 
 export type PhasedFlags = Record<PhasedFlagId, ResolvedPhasedFlag>;
