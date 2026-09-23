@@ -71,9 +71,13 @@ Next.js code runs in both Node.js (server-side rendering) and the browser (clien
 
 Server-only packages that try to load in the browser will cause "Cannot find module" errors even with webpack exclusion. You need both webpack config AND runtime checks.
 
+## E2E Testing (Playwright)
+
+Playwright tests (`playwright/test/**/*.test.ts`) run against real environments, including prod. New test files must import `test`/`expect` from `playwright/test/helpers/analytics-blocking.ts` rather than directly from `@playwright/test` (or build on it, the way `playwright/test/helpers/refactored-viewer.ts` does) - that fixture drops GTM/GA network requests by default, so these runs don't send real traffic to analytics. Importing `@playwright/test` directly skips that protection silently: nothing fails, GTM just quietly loads for real. A test that genuinely needs the real GTM container to load can opt out for its own scope with `test.use({ blockAnalytics: false })`.
+
 ## PR Review Guidelines
 
-When reviewing, check changes against the coding standards above (accessibility, duplication, naming, Prismic conventions).
+When reviewing, check changes against the coding standards above (accessibility, duplication, naming, Prismic conventions, e2e analytics-blocking).
 
 ### TODOs and Technical Debt
 

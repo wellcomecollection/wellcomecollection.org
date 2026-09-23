@@ -1,5 +1,4 @@
-import { expect, test } from '@playwright/test';
-
+import { expect, test } from './helpers/analytics-blocking';
 import { event } from './helpers/contexts';
 
 test('(1) | single event pages include the scheduled events', async ({

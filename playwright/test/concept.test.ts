@@ -1,5 +1,4 @@
-import { test as base, expect } from '@playwright/test';
-
+import { test as base, expect } from './helpers/analytics-blocking';
 import { concept } from './helpers/contexts';
 import { urlWithParams } from './helpers/utils';
 import { ConceptPage } from './pages/concept';
