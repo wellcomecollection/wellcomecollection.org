@@ -39,7 +39,7 @@ it('adds a new toggle definition', () => {
   expect(newRemote).toStrictEqual(expected);
 });
 
-it('removes tests', () => {
+it('drops a toggle no longer in the local definitions', () => {
   const remote = [getPublishedToggle(1)];
   const definitions = [getToggleDefinition(1), getToggleDefinition(3)];
 
