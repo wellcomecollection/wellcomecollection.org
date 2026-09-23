@@ -1,6 +1,6 @@
-import { expect, test } from '@playwright/test';
 import { URL } from 'url';
 
+import { expect, test } from './helpers/analytics-blocking';
 import {
   isMobile,
   search,

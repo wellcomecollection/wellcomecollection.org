@@ -1,6 +1,6 @@
-import { expect, test } from '@playwright/test';
 import { BrowserContext, Page } from 'playwright';
 
+import { expect, test } from './helpers/analytics-blocking';
 import { gotoWithoutCache } from './helpers/contexts';
 import { baseUrl, useStageApis } from './helpers/utils';
 

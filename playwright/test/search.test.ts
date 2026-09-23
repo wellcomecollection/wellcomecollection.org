@@ -1,7 +1,6 @@
 // For overall behaviour / behaviour on category change
 
-import { expect, test } from '@playwright/test';
-
+import { expect, test } from './helpers/analytics-blocking';
 import { search } from './helpers/contexts';
 import {
   searchQuerySubmitAndWait,

@@ -1,5 +1,4 @@
-import { expect, test } from '@playwright/test';
-
+import { expect, test } from './helpers/analytics-blocking';
 import { isMobile, search } from './helpers/contexts';
 import {
   clickImageSearchResultItem,
