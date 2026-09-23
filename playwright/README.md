@@ -40,3 +40,10 @@ $ ./scripts/run-concurrently.sh
 
 > [!IMPORTANT]
 > Remember to update the [Dockerfile](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/playwright/Dockerfile#L1) to use the appropriate image when updating Playwright in package.json
+
+## Writing new tests
+
+> [!IMPORTANT]
+> Import `test`/`expect` from [`./test/helpers/analytics-blocking`](./test/helpers/analytics-blocking.ts) rather than directly from `@playwright/test` (or, for item viewer tests, build on it the way [`refactored-viewer.ts`](./test/helpers/refactored-viewer.ts) does). These tests run against real environments, including prod, and that fixture drops GTM/GA network requests by default so they don't send real traffic to analytics. Importing `@playwright/test` directly skips that protection with no visible symptom - nothing fails, GTM just quietly loads for real.
+>
+> A test that genuinely needs the real GTM container to load (e.g. to check its own trigger config) can opt out for its own scope with `test.use({ blockAnalytics: false })` - see the "GTM trigger check" describe in [`view-items-tests.ts`](./test/view-items-tests.ts) for an example.
