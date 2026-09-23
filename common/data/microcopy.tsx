@@ -159,11 +159,8 @@ export const inOurBuilding = 'In our building';
 
 export const requestingDisabled = (
   <>
-    Requesting is temporarily unavailable while we perform maintenance work.
-    <br />
-    In the meantime, email library@wellcomecollection.org the details of your
-    request and when you would like to consult it and we can retrieve the items
-    for you.
+    Item requesting is temporarily unavailable while we perform maintenance work
+    and will be available again from 5 October.
   </>
 );
 

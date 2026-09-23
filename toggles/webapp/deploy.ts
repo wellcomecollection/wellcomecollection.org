@@ -59,8 +59,10 @@ export const withDefaultValuesUnmodified = (
     return {
       ...otherFields,
       defaultValue,
-      dateCreated,
-      dateActivated,
+      // Omit rather than set undefined, so a non-experimental toggle's
+      // published shape doesn't carry these keys at all.
+      ...(dateCreated !== undefined && { dateCreated }),
+      ...(dateActivated !== undefined && { dateActivated }),
     };
   });
 };
