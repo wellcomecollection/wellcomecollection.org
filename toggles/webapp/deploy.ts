@@ -5,6 +5,7 @@ import { TogglesResp } from '.';
 import { getTogglesObject, putTogglesObject } from './s3-utils';
 import localToggles, {
   FeatureFlagDefinition,
+  ModeDefinition,
   PublishedFeatureFlag,
 } from './toggles';
 
@@ -91,12 +92,12 @@ export async function deploy(client: S3Client): Promise<void> {
   const toggles: TogglesResp = {
     featureFlags: featureFlagsToDeploy,
     tests: localToggles.tests,
-    // Like feature flags, a mode's public default survives redeploys.
-    modes: localToggles.modes.map(mode => {
+    // Like feature flags, a phased mode's public default survives redeploys.
+    modes: localToggles.modes.map((mode: ModeDefinition) => {
       const defaultValue = remoteToggles.modes?.find(
         ({ id }) => id === mode.id
       )?.defaultValue;
-      return defaultValue ? { ...mode, defaultValue } : mode;
+      return mode.phased && defaultValue ? { ...mode, defaultValue } : mode;
     }),
   };
 

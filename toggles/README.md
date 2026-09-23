@@ -8,7 +8,7 @@ different cohorts of people and stakeholders safely and incrementally.
 There is [a great article by Martin Fowler][martin-fowler-feature-toggles] on the subject.
 
 ## Categories
-We currently use two categories of toggles:
+We currently use three categories of toggles:
 
 ### 1. Feature flags
 
@@ -42,11 +42,34 @@ You can read more about it there.
 We replicate the tests in [the Lambda@Edge](../cache/edge_lambdas/src/toggler.ts) here to allow
 people to explicitly set which cohort they would like to be in.
 
+### 3. Modes
+
+Modes are like a feature flag, but instead of on/off you pick one option from a list, e.g. which kiosk device this browser represents (`kioskMode`), or which catalogue pipeline to query (`cataloguePipeline`). The value comes from a cookie holding the chosen option's `id`, so a mode is off for the public unless it's phased (below).
+
+#### Phased modes
+
+Some features ship in stages rather than as one release. Rather than one feature flag per stage, combined by hand in code (e.g. `archiveCollection && archiveShortDescriptions`), mark a mode `phased: true` and list its phases as options, earliest first. Each option can have a short `description` of what that phase adds, shown in the dashboard.
+
+Phased modes differ from other modes in two ways:
+* Option order is meaningful. Check a phase with `modeIsAtLeast(modes, 'thematicBrowsing', 'categoryPages')`, which is true for that phase and every later one. The phase id is type-checked against the mode's options.
+* They can have a public `defaultValue`, like a feature flag. Other modes can't, so a kiosk mode can never be switched on for everyone.
+
+To add a new phased mode:
+* Go to `toggles/webapp/toggles.ts`.
+* Add an entry to the `modes` array with `phased: true` and its phases as `options`.
+* Log in to AWS and run `yarn deploy`. Nothing is public yet.
+* Iterate! Preview a phase by selecting it on the [toggles dashboard](https://dash.wellcomecollection.org/toggles/).
+* Once you're happy making a phase public, run `yarn setDefaultValueFor --{mode_id}={option_id}`.
+* If anything goes wrong, run `yarn setDefaultValueFor --{mode_id}=null` to make nothing public again.
+* Once a phase has been public for a while, delete the code that checks for it and remove it from the options.
+* Once every phase has shipped, remove the mode.
+
 ## Accessing toggles in code
 
 Client-side, use the following hooks:
 - `useFeatureFlags()` — returns feature flag values
 - `useABTest()` — returns A/B test values
+- `useModes()`: returns the selected option id for each mode, or `null`
 
 These are exported from `@weco/common/server-data/Context`.
 
@@ -92,6 +115,8 @@ You can change a toggle's `defaultValue` via:
 ```
 yarn setDefaultValueFor --{toggle_id}=true
 ```
+
+or, for a phased mode, `yarn setDefaultValueFor --{mode_id}={option_id}` (`=null` to reset).
 
 ## Preset links
 Query params were added to allow automatic turning on/off of toggles (e.g. when sharing with other teams). The format is as follow:

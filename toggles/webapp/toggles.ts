@@ -36,12 +36,13 @@ export type ModeDefinition = {
   id: string;
   title: string;
   description: string;
-  // Order matters for phased rollouts: see modeIsAtLeast.
+  // Ordered phases of one feature: enables a public default and modeIsAtLeast.
+  phased?: true;
   options: readonly ModeOption[];
 };
 
 export type PublishedMode = ModeDefinition & {
-  // Option the public gets without a cookie; only set via setDefaultValueFor.
+  // Phased modes only: the option the public gets without a cookie.
   defaultValue?: string;
 };
 
@@ -201,6 +202,7 @@ const toggleConfig = {
       title: 'Thematic browsing',
       description:
         'Phased rollout of thematic browsing. Each phase includes the ones before it.',
+      phased: true,
       options: [
         {
           id: 'categoryPages',

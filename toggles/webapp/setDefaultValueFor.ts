@@ -27,9 +27,15 @@ export async function setDefaultValueFor(client: S3Client): Promise<void> {
     return toggle;
   });
 
-  // Modes take an option id, or "null" to make nothing public again.
+  // Phased modes take an option id, or "null" to make nothing public again.
+  // Other modes (e.g. kioskMode) must never have a public default.
   const modes = (remoteToggles.modes ?? []).map(mode => {
     const arg = argv[mode.id];
+    if (arg === undefined) return mode;
+    if (!mode.phased) {
+      console.info(`${mode.id} isn't a phased mode, so has no default to set.`);
+      return mode;
+    }
     if (arg === 'null') return { ...mode, defaultValue: undefined };
     if (mode.options.some(option => option.id === arg)) {
       return { ...mode, defaultValue: arg as string };

@@ -17,6 +17,10 @@ export type {
 export type FeatureFlagId = (typeof toggleConfig.featureFlags)[number]['id'];
 export type TestId = (typeof toggleConfig.tests)[number]['id'];
 export type ModeId = (typeof toggleConfig.modes)[number]['id'];
+export type PhasedModeId = Extract<
+  (typeof toggleConfig.modes)[number],
+  { phased: true }
+>['id'];
 export type ModeOptionId<M extends ModeId> = Extract<
   (typeof toggleConfig.modes)[number],
   { id: M }
@@ -75,10 +79,10 @@ export type Toggles = {
 };
 
 /**
- * For modes used as phased rollouts: true when the current option is at or
- * after `target` in the mode's option list, so later phases include earlier ones.
+ * True when a phased mode's current option is at or after `target` in its
+ * option list, so later phases include earlier ones.
  */
-export function modeIsAtLeast<M extends ModeId>(
+export function modeIsAtLeast<M extends PhasedModeId>(
   modes: Partial<Modes>,
   id: M,
   target: ModeOptionId<M>
