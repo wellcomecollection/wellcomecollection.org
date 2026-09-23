@@ -2,7 +2,7 @@ import { Dispatch, FunctionComponent, SetStateAction } from 'react';
 import styled from 'styled-components';
 
 import { tokens } from '@weco/dash/views/themes/tokens';
-import { ModeDefinition } from '@weco/toggles';
+import { PublishedMode } from '@weco/toggles';
 
 import CopyLinkIcon from './ListOfToggles/ListOfToggles.CopyLinkIcon';
 import { deleteCookieCustom, setCookieCustom } from './toggles.helpers';
@@ -28,7 +28,7 @@ const ModeControlRow = styled.div`
 `;
 
 type ModesProps = {
-  modes: ModeDefinition[];
+  modes: PublishedMode[];
   modeStates: Record<string, string>;
   setModeStates: Dispatch<SetStateAction<Record<string, string>>>;
   onReset: () => void;
@@ -76,6 +76,11 @@ const Modes: FunctionComponent<ModesProps> = ({
           const currentValue = mode.options.some(opt => opt.id === rawValue)
             ? rawValue
             : '';
+          const publicOption = mode.options.find(
+            opt => opt.id === mode.defaultValue
+          );
+          const selectedOption =
+            mode.options.find(opt => opt.id === currentValue) ?? publicOption;
 
           return (
             <ToggleListItem key={mode.id}>
@@ -130,7 +135,11 @@ const Modes: FunctionComponent<ModesProps> = ({
                         }
                       }}
                     >
-                      <option value="">— Off —</option>
+                      <option value="">
+                        {publicOption
+                          ? `Public: ${publicOption.label}`
+                          : '— Off —'}
+                      </option>
                       {mode.options.map(opt => (
                         <option key={opt.id} value={opt.id}>
                           {opt.label}
@@ -138,6 +147,11 @@ const Modes: FunctionComponent<ModesProps> = ({
                       ))}
                     </ModeSelect>
                   </ModeControlRow>
+                  {selectedOption?.description && (
+                    <p style={{ color: tokens.colors.text.secondary }}>
+                      {selectedOption.description}
+                    </p>
+                  )}
                 </ToggleControls>
               </ToggleRow>
             </ToggleListItem>

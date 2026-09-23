@@ -12,7 +12,7 @@ import {
   PageTitle,
 } from '@weco/dash/views/components/PageLayout';
 import { tokens } from '@weco/dash/views/themes/tokens';
-import { ModeDefinition } from '@weco/toggles';
+import { PublishedMode } from '@weco/toggles';
 
 import ListOfToggles from './ListOfToggles';
 import ABTests, { AbTest } from './toggles.ABTests';
@@ -46,7 +46,7 @@ const TogglesPage: FunctionComponent = () => {
   const [toggleStates, setToggleStates] = useState<ToggleStates>({});
   const [featureFlags, setFeatureFlags] = useState<FeatureFlag[]>([]);
   const [abTests, setAbTests] = useState<AbTest[]>([]);
-  const [modes, setModes] = useState<ModeDefinition[]>([]);
+  const [modes, setModes] = useState<PublishedMode[]>([]);
   const [modeStates, setModeStates] = useState<Record<string, string>>({});
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -56,7 +56,7 @@ const TogglesPage: FunctionComponent = () => {
       .then(json => {
         const flags: FeatureFlag[] = json.featureFlags ?? [];
         const tests: AbTest[] = json.tests ?? [];
-        const modeDefinitions: ModeDefinition[] = json.modes ?? [];
+        const modeDefinitions: PublishedMode[] = json.modes ?? [];
 
         setFeatureFlags(flags);
         setAbTests(tests);
@@ -283,7 +283,7 @@ const TogglesPage: FunctionComponent = () => {
       )
     : abTests;
 
-  const filteredModes: ModeDefinition[] = searchQuery
+  const filteredModes: PublishedMode[] = searchQuery
     ? modes.filter(m => {
         const query = searchQuery.toLowerCase();
         return (

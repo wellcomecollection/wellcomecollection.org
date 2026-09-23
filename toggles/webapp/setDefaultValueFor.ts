@@ -9,7 +9,6 @@ const argv = yargs(hideBin(process.argv)).parseSync();
 export async function setDefaultValueFor(client: S3Client): Promise<void> {
   const remoteToggles = await getTogglesObject(client);
 
-  // Only feature flags have a defaultValue that can be overridden.
   // A/B tests are randomly assigned to users, so they have no default to set.
   const featureFlags = remoteToggles.featureFlags.map(toggle => {
     const arg = argv[toggle.id];
@@ -28,10 +27,20 @@ export async function setDefaultValueFor(client: S3Client): Promise<void> {
     return toggle;
   });
 
+  // Modes take an option id, or "null" to make nothing public again.
+  const modes = (remoteToggles.modes ?? []).map(mode => {
+    const arg = argv[mode.id];
+    if (arg === 'null') return { ...mode, defaultValue: undefined };
+    if (mode.options.some(option => option.id === arg)) {
+      return { ...mode, defaultValue: arg as string };
+    }
+    return mode;
+  });
+
   const toggles = {
     featureFlags,
     tests: remoteToggles.tests ?? [],
-    modes: remoteToggles.modes ?? [],
+    modes,
   };
 
   const { $metadata: putObjectResponseMetadata } = await putTogglesObject(

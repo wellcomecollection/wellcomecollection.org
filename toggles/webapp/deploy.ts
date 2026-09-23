@@ -91,9 +91,13 @@ export async function deploy(client: S3Client): Promise<void> {
   const toggles: TogglesResp = {
     featureFlags: featureFlagsToDeploy,
     tests: localToggles.tests,
-    // Spread to convert from readonly (due to `as const` in the config, which
-    // gives us literal ModeId types) to a mutable array for the response type.
-    modes: [...localToggles.modes],
+    // Like feature flags, a mode's public default survives redeploys.
+    modes: localToggles.modes.map(mode => {
+      const defaultValue = remoteToggles.modes?.find(
+        ({ id }) => id === mode.id
+      )?.defaultValue;
+      return defaultValue ? { ...mode, defaultValue } : mode;
+    }),
   };
 
   // GA4 now limits event parameter values to 100 characters: https://support.google.com/analytics/answer/9267744?hl=en

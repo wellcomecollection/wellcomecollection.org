@@ -29,13 +29,20 @@ export type ABTest = {
 export type ModeOption = {
   id: string;
   label: string;
+  description?: string;
 };
 
 export type ModeDefinition = {
   id: string;
   title: string;
   description: string;
+  // Order matters for phased rollouts: see modeIsAtLeast.
   options: readonly ModeOption[];
+};
+
+export type PublishedMode = ModeDefinition & {
+  // Option the public gets without a cookie; only set via setDefaultValueFor.
+  defaultValue?: string;
 };
 
 const toggleConfig = {
@@ -189,6 +196,26 @@ const toggleConfig = {
   // Modes are toggles whose value is a selected option string rather than a boolean.
   // They are activated via a cookie containing the option value.
   modes: [
+    {
+      id: 'thematicBrowsing',
+      title: 'Thematic browsing',
+      description:
+        'Phased rollout of thematic browsing. Each phase includes the ones before it.',
+      options: [
+        {
+          id: 'categoryPages',
+          label: 'Category pages',
+          description:
+            'The four thematic browsing category pages become accessible.',
+        },
+        {
+          id: 'subCategoryPages',
+          label: 'Sub-category pages',
+          description:
+            'Subject sub-category pages become accessible, and the subjects page gains a sub-category menu.',
+        },
+      ],
+    },
     {
       id: 'kioskMode',
       title: 'Kiosk mode',

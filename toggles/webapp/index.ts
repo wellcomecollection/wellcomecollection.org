@@ -3,13 +3,24 @@ import toggleConfig, {
   ModeDefinition,
   ModeOption,
   PublishedFeatureFlag,
+  PublishedMode,
 } from './toggles';
 
-export type { ABTest, ModeDefinition, ModeOption, PublishedFeatureFlag };
+export type {
+  ABTest,
+  ModeDefinition,
+  ModeOption,
+  PublishedFeatureFlag,
+  PublishedMode,
+};
 
 export type FeatureFlagId = (typeof toggleConfig.featureFlags)[number]['id'];
 export type TestId = (typeof toggleConfig.tests)[number]['id'];
 export type ModeId = (typeof toggleConfig.modes)[number]['id'];
+export type ModeOptionId<M extends ModeId> = Extract<
+  (typeof toggleConfig.modes)[number],
+  { id: M }
+>['options'][number]['id'];
 
 // The full option IDs for the kioskMode toggle, e.g. 'devMode' | 'RR-iPad1' | 'TR-iPad1'.
 // Exported so the rest of the codebase can reference kiosk option IDs without hardcoding strings.
@@ -41,7 +52,7 @@ export type KioskExperienceId = ExtractPrefix<KioskModeOptionId>;
 export type TogglesResp = {
   featureFlags: PublishedFeatureFlag[];
   tests: ABTest[];
-  modes: ModeDefinition[];
+  modes: PublishedMode[];
 };
 
 // Don't be tempted to make the keys on this optional - keeping them
@@ -62,3 +73,20 @@ export type Toggles = {
   tests: Tests;
   modes: Modes;
 };
+
+/**
+ * For modes used as phased rollouts: true when the current option is at or
+ * after `target` in the mode's option list, so later phases include earlier ones.
+ */
+export function modeIsAtLeast<M extends ModeId>(
+  modes: Partial<Modes>,
+  id: M,
+  target: ModeOptionId<M>
+): boolean {
+  const optionIds: readonly string[] =
+    toggleConfig.modes.find(mode => mode.id === id)?.options.map(o => o.id) ??
+    [];
+  const current = modes[id];
+  const currentIndex = current ? optionIds.indexOf(current) : -1;
+  return currentIndex !== -1 && currentIndex >= optionIds.indexOf(target);
+}
