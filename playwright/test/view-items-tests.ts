@@ -903,16 +903,21 @@ export function defineViewItemTests(test: TestType<any, any>, expect: Expect) {
 
       await page.getByRole('link', { name: 'Download' }).first().click();
 
-      const dataLayer = await page.evaluate(() => window.dataLayer);
-      const clickEvent = dataLayer.find(
-        (item: { [x: string]: string }) =>
-          item?.['gtm.elementText'] === 'Download'
-      );
-      const gtmTriggers = clickEvent?.['gtm.triggers'].split(',');
       const DOWNLOAD_TABLE_LINK_TRIGGER = '31009043_218'; // ID that is discoverable through GTM preview
-      expect(gtmTriggers).toEqual(
-        expect.arrayContaining([DOWNLOAD_TABLE_LINK_TRIGGER])
-      );
+      // GTM's click listener processes the click and pushes to dataLayer
+      // asynchronously, so this has to poll rather than read it once
+      // immediately after the click - otherwise it's a race, and fails
+      // intermittently whenever GTM hasn't caught up yet.
+      await expect
+        .poll(async () => {
+          const dataLayer = await page.evaluate(() => window.dataLayer);
+          const clickEvent = dataLayer.find(
+            (item: { [x: string]: string }) =>
+              item?.['gtm.elementText'] === 'Download'
+          );
+          return clickEvent?.['gtm.triggers']?.split(',');
+        })
+        .toEqual(expect.arrayContaining([DOWNLOAD_TABLE_LINK_TRIGGER]));
     });
   });
 }
