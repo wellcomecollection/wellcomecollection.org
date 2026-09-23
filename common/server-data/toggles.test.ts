@@ -290,6 +290,22 @@ describe('getTogglesFromContext', () => {
 
       expect((result.modes as Record<string, unknown>).kioskMode).toBeNull();
     });
+
+    it('falls back to the published defaultValue without a valid cookie', () => {
+      const togglesResp = {
+        ...defaultTogglesResp,
+        modes: [{ ...modeDefinition, defaultValue: 'ipad-1' }],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_kioskMode: 'invalid-ipad' })
+      );
+
+      expect((result.modes as Record<string, unknown>).kioskMode).toBe(
+        'ipad-1'
+      );
+    });
   });
 
   describe('toggleOverride', () => {

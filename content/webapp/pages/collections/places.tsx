@@ -24,7 +24,11 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const serverData = await getServerData(context);
 
   if (
-    !modeIsAtLeast(serverData.toggles.modes, 'thematicBrowsing', 'categoryPages')
+    !modeIsAtLeast(
+      serverData.toggles.modes,
+      'thematicBrowsing',
+      'categoryPages'
+    )
   ) {
     return {
       notFound: true,
