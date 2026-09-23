@@ -67,6 +67,14 @@ const toggleConfig = {
   // Toggles of type 'stage' will only be applied on stage
   featureFlags: [
     {
+      id: 'phaseSwitcher',
+      title: 'Phase switcher',
+      initialValue: false,
+      description:
+        'A floating widget to preview a phased flag without going through the toggles dashboard.',
+      type: 'permanent',
+    },
+    {
       id: 'apiToolbar',
       title: 'API toolbar',
       initialValue: false,
