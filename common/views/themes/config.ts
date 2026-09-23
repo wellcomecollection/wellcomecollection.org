@@ -60,12 +60,71 @@ const colors = {
   'focus.yellow': '#ffea00',
 };
 
-const getColor = (name: PaletteColor): string => {
-  // In some cases, these get passed in, see ButtonColors for example.
-  // But better not to use it if possible.
-  if (['currentColor', 'transparent', 'inherit'].includes(name)) return name;
+export type LegacyColor = keyof typeof colors;
 
-  return colors[name];
+const passthroughColors = {
+  transparent: 'transparent',
+  inherit: 'inherit',
+  currentColor: 'currentColor',
+} as const;
+
+type PassthroughColor = keyof typeof passthroughColors;
+
+export type PaletteColor = LegacyColor | PassthroughColor;
+
+const colorValues = { ...colors, ...passthroughColors };
+
+/** A design system colour together with the colour to keep rendering in its
+ * place while the `brandUpdate` toggle is off. See pinColor.
+ */
+export type PinnedColor = { brand: DesignSystemColor; legacy: PaletteColor };
+
+/** Like PaletteColor, but also allows a pin. Separate so that widening a prop
+ * is a deliberate choice: some components compare the colour to a name.
+ */
+export type PinnableColor = PaletteColor | PinnedColor;
+
+/** Pairs a new brand colour with the one to render while the toggle is off.
+ *
+ * For the places a colour is passed around as a value rather than resolved on
+ * the spot — e.g. the colour props on Button, Divider and DecorativeEdge. At
+ * direct `theme.color(...)` call sites, pass the current-brand colour as the
+ * second argument instead.
+ *
+ * @param brand - The design system colour, rendered when `brandUpdate` is on
+ * @param legacy - The current-brand colour, rendered while the toggle is off
+ * @returns The pair, accepted anywhere a PinnableColor is
+ */
+export const pinColor = (
+  brand: DesignSystemColor,
+  legacy: PaletteColor
+): PinnedColor => ({ brand, legacy });
+
+/** How both palettes resolve a colour, so `theme.color(...)` behaves the same
+ * either way.
+ *
+ * One argument means a current-brand colour, two mean a design system colour
+ * and the colour to keep rendering until the toggle is on. The argument count
+ * is what tells the two vocabularies apart where a name is in both.
+ */
+type ColorFunction = {
+  (name: PinnableColor): string;
+  (name: DesignSystemColor, legacy: PaletteColor): string;
+};
+
+const isPinnedColor = (
+  name: PinnableColor | DesignSystemColor
+): name is PinnedColor => typeof name === 'object';
+
+const getColor: ColorFunction = (
+  name: PinnableColor | DesignSystemColor,
+  legacy?: PaletteColor
+): string => {
+  if (isPinnedColor(name)) return colorValues[name.legacy];
+
+  if (legacy) return colorValues[legacy];
+
+  return colorValues[name as PaletteColor];
 };
 
 // Design system colours, introduced behind the `brandUpdate` toggle.
@@ -198,11 +257,20 @@ const brandUpdateColors = Object.fromEntries(
   ])
 ) as Record<keyof typeof colors, string>;
 
-const getBrandUpdateColor = (name: PaletteColor): string => {
-  // Passed-through values (see getColor) have no palette equivalent.
-  if (['currentColor', 'transparent', 'inherit'].includes(name)) return name;
+const brandUpdateColorValues = {
+  ...brandUpdateColors,
+  ...passthroughColors,
+};
 
-  return brandUpdateColors[name];
+const getBrandUpdateColor: ColorFunction = (
+  name: PinnableColor | DesignSystemColor,
+  legacy?: PaletteColor
+): string => {
+  if (isPinnedColor(name)) return designSystemColors[name.brand];
+
+  if (legacy) return designSystemColors[name as DesignSystemColor];
+
+  return brandUpdateColorValues[name as PaletteColor];
 };
 
 export const sizes = {
@@ -558,6 +626,3 @@ export const createTheme = (brandUpdate: boolean) =>
     : themeValues;
 
 export type Breakpoint = keyof typeof sizes;
-
-export type PaletteColor =
-  keyof typeof colors | 'transparent' | 'inherit' | 'currentColor';
