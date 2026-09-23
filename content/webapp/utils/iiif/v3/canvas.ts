@@ -1,4 +1,4 @@
-import { Canvas } from '@iiif/presentation-3';
+import { Canvas, ImageService } from '@iiif/presentation-3';
 
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
@@ -8,50 +8,37 @@ import {
   TransformedCanvas,
 } from '@weco/content/types/manifest';
 
-// Temporary type until iiif3 types are correct
-type Thumbnail = {
-  id: string;
-  width: number;
-  service?: {
-    '@id': string;
-    '@type': string;
-    profile: string;
-    width: number;
-    height: number;
-    sizes: { width: number; height: number }[];
-  }[];
-};
+import { isImageService2 } from './services';
 
 /**
  * The thumbnail to show for a canvas, at a usable size. Where the thumbnail
  * has an image service we request a size at least 400px tall from it;
  * otherwise we take the thumbnail as given.
+ *
+ * The type IIIF allows here is very wide, but the only two shapes we've seen
+ * in our manifests are a thumbnail with an image service, used for digitised
+ * books, and one with type Image and no service, used for e.g. digitised
+ * PDFs. The tests have an example of each.
  */
 export function getThumbnailImage(canvas: Canvas): ThumbnailImage | undefined {
-  if (!canvas.thumbnail) return;
+  const thumbnail = canvas.thumbnail?.[0];
+  if (!thumbnail) return;
 
-  // The potential type here is extremely wide, but in practice we only
-  // see a couple of formats in our manifests:
-  //
-  //    - A thumbnail with an associated IIIF image service, which is used
-  //      for digitised books
-  //    - A thumbnail with type Image but no associated image service, which
-  //      is used for e.g. digitised PDFs
-  //
-  // We use our own type rather than trying to shoehorn this into the ContentResource
-  // type provided by the IIIF libraries.
-  //
-  // See the tests for examples of each of these.
-  const thumbnail = canvas.thumbnail[0] as Thumbnail;
+  // Requiring the ImageService2 discriminator, not just an '@id': the legacy
+  // auth services use '@id' too, so matching on that alone would hand an auth
+  // service to iiifImageTemplate and hide a real image service behind it.
+  const service =
+    'service' in thumbnail
+      ? thumbnail.service?.find(
+          (s): s is ImageService & { '@id': string } =>
+            isImageService2(s) && typeof s['@id'] === 'string'
+        )
+      : undefined;
 
-  if (isNotUndefined(thumbnail.service)) {
-    const thumbnailService = Array.isArray(thumbnail.service)
-      ? thumbnail.service[0]
-      : thumbnail.service;
-
-    const urlTemplate = iiifImageTemplate(thumbnailService['@id']);
+  if (isNotUndefined(service)) {
+    const urlTemplate = iiifImageTemplate(service['@id']);
     const preferredMinThumbnailHeight = 400;
-    const preferredThumbnail = thumbnailService?.sizes
+    const preferredThumbnail = service.sizes
       ?.sort((a, b) => a.height - b.height)
       .find(dimensions => dimensions.height >= preferredMinThumbnailHeight);
     return {
@@ -60,12 +47,15 @@ export function getThumbnailImage(canvas: Canvas): ThumbnailImage | undefined {
         size: preferredThumbnail ? `${preferredThumbnail.width},` : 'max',
       }),
     };
-  } else {
-    return {
-      width: thumbnail.width,
-      url: thumbnail.id,
-    };
   }
+
+  // Some thumbnails carry no width at all, in which case there's no usable
+  // size to report and we treat it as having no thumbnail.
+  return 'width' in thumbnail &&
+    typeof thumbnail.width === 'number' &&
+    thumbnail.id
+    ? { width: thumbnail.width, url: thumbnail.id }
+    : undefined;
 }
 
 /**
