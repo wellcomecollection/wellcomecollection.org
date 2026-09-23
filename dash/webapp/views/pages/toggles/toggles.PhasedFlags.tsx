@@ -14,6 +14,7 @@ import {
   ToggleListItem,
   ToggleRow,
 } from './toggles.styles';
+import ToggleStarButton from './ToggleStarButton';
 
 const Segmented = styled.fieldset`
   display: inline-flex;
@@ -99,6 +100,8 @@ type PhasedFlagsProps = {
   phasedFlagStates: Record<string, string>;
   setPhasedFlagStates: Dispatch<SetStateAction<Record<string, string>>>;
   onReset: () => void;
+  starredIds: string[];
+  onToggleStar: (id: string) => void;
 };
 
 const PhasedFlags: FunctionComponent<PhasedFlagsProps> = ({
@@ -106,6 +109,8 @@ const PhasedFlags: FunctionComponent<PhasedFlagsProps> = ({
   phasedFlagStates,
   setPhasedFlagStates,
   onReset,
+  starredIds,
+  onToggleStar,
 }) => (
   <>
     <div
@@ -152,6 +157,12 @@ const PhasedFlags: FunctionComponent<PhasedFlagsProps> = ({
                 <ToggleInfo>
                   <h3 id={`heading-${flag.id}`} style={{ margin: 0 }}>
                     {flag.title}
+                    <ToggleStarButton
+                      toggleId={flag.id}
+                      title={flag.title}
+                      starredIds={starredIds}
+                      onToggle={onToggleStar}
+                    />
                   </h3>
 
                   <div style={{ margin: `${tokens.spacing.xs} 0` }}>

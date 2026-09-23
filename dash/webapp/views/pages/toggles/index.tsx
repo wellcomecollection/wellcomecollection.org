@@ -19,7 +19,11 @@ import ABTests, { AbTest } from './toggles.ABTests';
 import {
   deleteCookieCustom,
   FeatureFlag,
+  MAX_STARRED_TOGGLES,
+  parseStarredToggles,
   setCookieCustom,
+  setStarredToggles,
+  STARRED_TOGGLES_COOKIE,
   ToggleStates,
 } from './toggles.helpers';
 import Modes from './toggles.Modes';
@@ -53,6 +57,7 @@ const TogglesPage: FunctionComponent = () => {
   const [abTests, setAbTests] = useState<AbTest[]>([]);
   const [modes, setModes] = useState<ModeDefinition[]>([]);
   const [modeStates, setModeStates] = useState<Record<string, string>>({});
+  const [starredIds, setStarredIds] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
@@ -116,6 +121,7 @@ const TogglesPage: FunctionComponent = () => {
           }
         }
         setModeStates(initialModeStates);
+        setStarredIds(parseStarredToggles(cookies[STARRED_TOGGLES_COOKIE]));
 
         setToggleStates(initialStates);
       })
@@ -352,6 +358,19 @@ const TogglesPage: FunctionComponent = () => {
     });
   }, [phasedFlags]);
 
+  const handleToggleStar = useCallback((id: string) => {
+    setStarredIds(prev => {
+      const isRemoving = prev.includes(id);
+      if (!isRemoving && prev.length >= MAX_STARRED_TOGGLES) return prev;
+
+      const next = isRemoving
+        ? prev.filter(starredId => starredId !== id)
+        : [...prev, id];
+      setStarredToggles(next);
+      return next;
+    });
+  }, []);
+
   return (
     <>
       <Head>
@@ -468,6 +487,8 @@ const TogglesPage: FunctionComponent = () => {
                 featureFlags={generalFeatureFlags}
                 toggleStates={toggleStates}
                 setToggleStates={setToggleStates}
+                starredIds={starredIds}
+                onToggleStar={handleToggleStar}
               />
             </SectionInner>
           </Section>
@@ -483,6 +504,8 @@ const TogglesPage: FunctionComponent = () => {
                 featureFlags={permanentFeatureFlags}
                 toggleStates={toggleStates}
                 setToggleStates={setToggleStates}
+                starredIds={starredIds}
+                onToggleStar={handleToggleStar}
               />
             </SectionInner>
           </Section>
@@ -498,6 +521,8 @@ const TogglesPage: FunctionComponent = () => {
                 featureFlags={experimentalFeatureFlags}
                 toggleStates={toggleStates}
                 setToggleStates={setToggleStates}
+                starredIds={starredIds}
+                onToggleStar={handleToggleStar}
               />
             </SectionInner>
           </Section>
@@ -513,6 +538,8 @@ const TogglesPage: FunctionComponent = () => {
                 featureFlags={stageFeatureFlags}
                 toggleStates={toggleStates}
                 setToggleStates={setToggleStates}
+                starredIds={starredIds}
+                onToggleStar={handleToggleStar}
               />
             </SectionInner>
           </Section>
@@ -526,6 +553,8 @@ const TogglesPage: FunctionComponent = () => {
                 phasedFlagStates={phasedFlagStates}
                 setPhasedFlagStates={setPhasedFlagStates}
                 onReset={resetPhasedFlags}
+                starredIds={starredIds}
+                onToggleStar={handleToggleStar}
               />
             </SectionInner>
           </Section>
@@ -539,6 +568,8 @@ const TogglesPage: FunctionComponent = () => {
                 toggleStates={toggleStates}
                 setToggleStates={setToggleStates}
                 onReset={resetAbTests}
+                starredIds={starredIds}
+                onToggleStar={handleToggleStar}
               />
             </SectionInner>
           </Section>
@@ -555,6 +586,8 @@ const TogglesPage: FunctionComponent = () => {
                   modes.forEach(mode => deleteCookieCustom(mode.id));
                   setModeStates({});
                 }}
+                starredIds={starredIds}
+                onToggleStar={handleToggleStar}
               />
             </SectionInner>
           </Section>
