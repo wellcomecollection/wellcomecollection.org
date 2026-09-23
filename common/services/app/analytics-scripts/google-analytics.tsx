@@ -88,16 +88,29 @@ export const Ga4DataLayer: FunctionComponent<Props> = ({
   );
 };
 
+// Kept in sync by hand with the suffix Playwright appends to its UA in
+// playwright/playwright.config.ts - that file can't import this constant,
+// since its Docker image only ever copies the playwright/ folder in, with
+// no access to the rest of the monorepo's workspaces.
+export const E2E_TEST_USER_AGENT_MARKER = 'wellcomecollection-e2e-test';
+
+// This page's HTML is cached by CloudFront keyed on the URL alone (not on
+// User-Agent or any header), so the e2e check below has to happen in the
+// browser at runtime rather than by varying what we render server-side -
+// otherwise a page cached from an e2e request would serve GTM-less HTML to
+// real visitors for the rest of its TTL.
 export const GoogleTagManager: FunctionComponent = () => (
   <script
     id="google-tag-manager"
     dangerouslySetInnerHTML={{
       __html: `
-          (function(w,d,s,l,i){w[l] = w[l] || [];w[l].push({'gtm.start':
-          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-          })(window,document,'script','dataLayer','GTM-53DFWQD');`,
+          if (navigator.userAgent.indexOf('${E2E_TEST_USER_AGENT_MARKER}') === -1) {
+            (function(w,d,s,l,i){w[l] = w[l] || [];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-53DFWQD');
+          }`,
     }}
   />
 );

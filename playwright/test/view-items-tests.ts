@@ -3,6 +3,7 @@
 // (refactored) call defineViewItemTests with their own `test` and `expect`.
 
 import type { BrowserContext, Expect, Page, TestType } from '@playwright/test';
+import { devices } from '@playwright/test';
 
 import {
   isMobile,
@@ -883,27 +884,39 @@ export function defineViewItemTests(test: TestType<any, any>, expect: Expect) {
     await expect(innerTreeItem).toBeVisible();
   });
 
-  test('(47) | Download tree item Download link fires GTM trigger', async ({
-    page,
-    context,
-  }: {
-    page: Page;
-    context: BrowserContext;
-  }) => {
-    await itemWithBornDigitalDownloads(context, page);
-    await accessSidebarOnMobile(page);
+  test.describe('GTM trigger check', () => {
+    // GoogleTagManager skips loading GTM entirely when it sees our e2e UA
+    // marker (see common/services/app/analytics-scripts/google-analytics.tsx),
+    // so this test - which needs the real GTM container to load in order to
+    // check its trigger config - overrides back to a marker-free UA. This
+    // means this one test does send a real click event to GA4 on each e2e
+    // run. Note test.use({ userAgent: undefined }) does NOT work here -
+    // Playwright's option merging ignores an explicit undefined and keeps
+    // the project's marked UA, so this has to be a real UA string instead.
+    test.use({ userAgent: devices['Desktop Chrome'].userAgent });
 
-    await page.getByRole('link', { name: 'Download' }).first().click();
+    test('(47) | Download tree item Download link fires GTM trigger', async ({
+      page,
+      context,
+    }: {
+      page: Page;
+      context: BrowserContext;
+    }) => {
+      await itemWithBornDigitalDownloads(context, page);
+      await accessSidebarOnMobile(page);
 
-    const dataLayer = await page.evaluate(() => window.dataLayer);
-    const clickEvent = dataLayer.find(
-      (item: { [x: string]: string }) =>
-        item?.['gtm.elementText'] === 'Download'
-    );
-    const gtmTriggers = clickEvent?.['gtm.triggers'].split(',');
-    const DOWNLOAD_TABLE_LINK_TRIGGER = '31009043_218'; // ID that is discoverable through GTM preview
-    expect(gtmTriggers).toEqual(
-      expect.arrayContaining([DOWNLOAD_TABLE_LINK_TRIGGER])
-    );
+      await page.getByRole('link', { name: 'Download' }).first().click();
+
+      const dataLayer = await page.evaluate(() => window.dataLayer);
+      const clickEvent = dataLayer.find(
+        (item: { [x: string]: string }) =>
+          item?.['gtm.elementText'] === 'Download'
+      );
+      const gtmTriggers = clickEvent?.['gtm.triggers'].split(',');
+      const DOWNLOAD_TABLE_LINK_TRIGGER = '31009043_218'; // ID that is discoverable through GTM preview
+      expect(gtmTriggers).toEqual(
+        expect.arrayContaining([DOWNLOAD_TABLE_LINK_TRIGGER])
+      );
+    });
   });
 }
