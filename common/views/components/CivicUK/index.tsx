@@ -28,7 +28,10 @@ const necessaryCookies = () => {
   const wcCookies = Object.values(cookies).map(c => c);
 
   // See @weco/toggles/webapp/toggles for details on each
-  const featureFlags = ['toggle_*'];
+  // starred_toggles: which toggles a dashboard user has starred for the
+  // on-site ToggleWidget - not a toggle_<id> override itself, so it needs
+  // its own entry (see dash/webapp/.../toggles.helpers.ts).
+  const featureFlags = ['toggle_*', 'starred_toggles'];
 
   // Allows Prismic previews
   const prismicPreview = ['io.prismic.preview', 'isPreview'];

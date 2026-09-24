@@ -40,9 +40,9 @@ import InfoBanner from '@weco/common/views/components/InfoBanner';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import KioskNavigation from '@weco/common/views/components/KioskNavigation';
 import NewsletterPromo from '@weco/common/views/components/NewsletterPromo';
-import PhaseSwitcher from '@weco/common/views/components/PhaseSwitcher';
 import PopupDialog from '@weco/common/views/components/PopupDialog';
 import { Container } from '@weco/common/views/components/styled/Container';
+import ToggleWidget from '@weco/common/views/components/ToggleWidget';
 
 import Favicons from './PageLayout.Favicons';
 
@@ -97,7 +97,7 @@ const PageLayoutComponent: NextPage<Props> = ({
   clipOverflowX = false,
   isNoIndex = false,
 }) => {
-  const { apiToolbar, issuesBanner, phaseSwitcher } = useFeatureFlags();
+  const { apiToolbar, issuesBanner, toggleWidget } = useFeatureFlags();
   const { isKiosk } = useKiosk();
   const urlString = convertUrlToString(url);
   const fullTitle =
@@ -297,7 +297,7 @@ const PageLayoutComponent: NextPage<Props> = ({
           />
         )}
 
-        {phaseSwitcher && <PhaseSwitcher />}
+        {toggleWidget && <ToggleWidget />}
 
         {!isKiosk && (
           <>
