@@ -36,9 +36,16 @@ export async function setDefaultValueFor(client: S3Client): Promise<void> {
       console.info(`${mode.id} isn't a phased mode, so has no default to set.`);
       return mode;
     }
-    if (arg === 'null') return { ...mode, defaultValue: undefined };
+    // As with feature flags, dateActivated is cleared on deactivation.
+    if (arg === 'null') {
+      return { ...mode, defaultValue: undefined, dateActivated: undefined };
+    }
     if (mode.options.some(option => option.id === arg)) {
-      return { ...mode, defaultValue: arg as string };
+      return {
+        ...mode,
+        defaultValue: arg as string,
+        dateActivated: new Date().toISOString(),
+      };
     }
     return mode;
   });

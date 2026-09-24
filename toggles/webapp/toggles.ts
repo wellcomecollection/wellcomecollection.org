@@ -45,6 +45,8 @@ export type ModeDefinition = {
 export type PublishedMode = ModeDefinition & {
   // Phased modes only: the option the public gets without a cookie.
   defaultValue?: string;
+  dateCreated?: string;
+  dateActivated?: string;
 };
 
 const toggleConfig = {

@@ -7,6 +7,7 @@ import localToggles, {
   FeatureFlagDefinition,
   ModeDefinition,
   PublishedFeatureFlag,
+  PublishedMode,
 } from './toggles';
 
 export const withDefaultValuesUnmodified = (
@@ -66,6 +67,30 @@ export const withDefaultValuesUnmodified = (
   });
 };
 
+/**
+ * Like withDefaultValuesUnmodified, for phased modes: their public default and
+ * rollout dates survive redeploys. Every phased mode is a rollout, so dates
+ * are always tracked. Other modes never carry any of these.
+ */
+export const withModeDefaultsUnmodified = (
+  publishedModes: PublishedMode[],
+  definitions: ModeDefinition[]
+): PublishedMode[] =>
+  definitions.map(mode => {
+    if (!mode.phased) return mode;
+    const published = publishedModes.find(({ id }) => id === mode.id);
+    const defaultValue = published?.defaultValue;
+
+    return {
+      ...mode,
+      dateCreated: published?.dateCreated ?? new Date().toISOString(),
+      ...(defaultValue && {
+        defaultValue,
+        dateActivated: published?.dateActivated ?? new Date().toISOString(),
+      }),
+    };
+  });
+
 export async function deploy(client: S3Client): Promise<void> {
   // Check for duplicate IDs across feature flags, tests, and modes
   const allIds = [
@@ -94,13 +119,9 @@ export async function deploy(client: S3Client): Promise<void> {
   const toggles: TogglesResp = {
     featureFlags: featureFlagsToDeploy,
     tests: localToggles.tests,
-    // Like feature flags, a phased mode's public default survives redeploys.
-    modes: localToggles.modes.map((mode: ModeDefinition) => {
-      const defaultValue = remoteToggles.modes?.find(
-        ({ id }) => id === mode.id
-      )?.defaultValue;
-      return mode.phased && defaultValue ? { ...mode, defaultValue } : mode;
-    }),
+    modes: withModeDefaultsUnmodified(remoteToggles.modes ?? [], [
+      ...localToggles.modes,
+    ]),
   };
 
   // GA4 now limits event parameter values to 100 characters: https://support.google.com/analytics/answer/9267744?hl=en

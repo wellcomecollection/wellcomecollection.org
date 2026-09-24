@@ -1,5 +1,12 @@
-import { withDefaultValuesUnmodified } from './deploy';
-import { FeatureFlagDefinition, PublishedFeatureFlag } from './toggles';
+import {
+  withDefaultValuesUnmodified,
+  withModeDefaultsUnmodified,
+} from './deploy';
+import {
+  FeatureFlagDefinition,
+  ModeDefinition,
+  PublishedFeatureFlag,
+} from './toggles';
 
 function getPublishedToggle(id: number): PublishedFeatureFlag {
   return {
@@ -126,4 +133,65 @@ it('updates existing toggles leaving defaultValue unmodified', () => {
   ];
 
   expect(newRemote).toStrictEqual(expected);
+});
+
+describe('withModeDefaultsUnmodified', () => {
+  const phasedMode: ModeDefinition = {
+    id: 'phased',
+    title: 'Phased',
+    description: 'A phased mode',
+    phased: true,
+    options: [
+      { id: 'mvp', label: 'MVP' },
+      { id: 'phase2', label: 'Phase 2' },
+    ],
+  };
+  const kioskMode: ModeDefinition = {
+    id: 'kiosk',
+    title: 'Kiosk',
+    description: 'Not phased',
+    options: [{ id: 'ipad', label: 'iPad' }],
+  };
+
+  it('starts a new phased mode with dateCreated and nothing public', () => {
+    const [mode] = withModeDefaultsUnmodified([], [phasedMode]);
+
+    expect(mode.dateCreated).toEqual(expect.any(String));
+    expect('defaultValue' in mode).toBe(false);
+    expect('dateActivated' in mode).toBe(false);
+  });
+
+  it('keeps a published default and its dates across a redeploy', () => {
+    const published = {
+      ...phasedMode,
+      defaultValue: 'phase2',
+      dateCreated: '2020-01-01T00:00:00.000Z',
+      dateActivated: '2020-02-01T00:00:00.000Z',
+    };
+
+    expect(
+      withModeDefaultsUnmodified(
+        [published],
+        [{ ...phasedMode, title: 'Updated' }]
+      )
+    ).toStrictEqual([{ ...published, title: 'Updated' }]);
+  });
+
+  it('sets dateActivated for a default published without one', () => {
+    const [mode] = withModeDefaultsUnmodified(
+      [{ ...phasedMode, defaultValue: 'mvp' }],
+      [phasedMode]
+    );
+
+    expect(mode.dateActivated).toEqual(expect.any(String));
+  });
+
+  it('never gives a non-phased mode a default or dates', () => {
+    expect(
+      withModeDefaultsUnmodified(
+        [{ ...kioskMode, defaultValue: 'ipad', dateCreated: 'x' }],
+        [kioskMode]
+      )
+    ).toStrictEqual([kioskMode]);
+  });
 });
