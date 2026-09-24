@@ -368,6 +368,39 @@ describe('getTogglesFromContext', () => {
           .archiveCollectionPhases.current
       ).toBe('mvp');
     });
+
+    it('excludes stage-only phased flags on non-stage hosts', () => {
+      const togglesResp = {
+        ...defaultTogglesResp,
+        phasedFlags: [{ ...phasedFlagDefinition, type: 'stage' as const }],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext(undefined, 'www.wellcomecollection.org')
+      );
+
+      expect(
+        (result.phasedFlags as Record<string, unknown>).archiveCollectionPhases
+      ).toBeUndefined();
+    });
+
+    it('includes stage-only phased flags on stage hosts', () => {
+      const togglesResp = {
+        ...defaultTogglesResp,
+        phasedFlags: [{ ...phasedFlagDefinition, type: 'stage' as const }],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext(undefined, 'www-stage.wellcomecollection.org')
+      );
+
+      expect(
+        (result.phasedFlags as Record<string, { current: unknown }>)
+          .archiveCollectionPhases.current
+      ).toBeNull();
+    });
   });
 
   describe('toggleOverride', () => {
