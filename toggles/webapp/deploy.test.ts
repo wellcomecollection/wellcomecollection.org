@@ -141,6 +141,7 @@ describe('withModeDefaultsUnmodified', () => {
     title: 'Phased',
     description: 'A phased mode',
     phased: true,
+    type: 'experimental',
     options: [
       { id: 'mvp', label: 'MVP' },
       { id: 'phase2', label: 'Phase 2' },
@@ -184,6 +185,17 @@ describe('withModeDefaultsUnmodified', () => {
     );
 
     expect(mode.dateActivated).toEqual(expect.any(String));
+  });
+
+  it('keeps the default but tracks no dates for a non-experimental phased mode', () => {
+    const permanent: ModeDefinition = { ...phasedMode, type: 'permanent' };
+
+    expect(
+      withModeDefaultsUnmodified(
+        [{ ...permanent, defaultValue: 'mvp' }],
+        [permanent]
+      )
+    ).toStrictEqual([{ ...permanent, defaultValue: 'mvp' }]);
   });
 
   it('never gives a non-phased mode a default or dates', () => {

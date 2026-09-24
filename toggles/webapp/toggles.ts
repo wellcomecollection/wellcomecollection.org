@@ -39,6 +39,8 @@ export type ModeDefinition = {
   documentationLink?: string;
   // Ordered phases of one feature: enables a public default and modeIsAtLeast.
   phased?: true;
+  // Phased modes only: 'experimental' tracks rollout dates, as for feature flags.
+  type?: ToggleTypes;
   options: readonly ModeOption[];
 };
 

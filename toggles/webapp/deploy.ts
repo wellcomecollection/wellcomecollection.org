@@ -69,8 +69,7 @@ export const withDefaultValuesUnmodified = (
 
 /**
  * Like withDefaultValuesUnmodified, for phased modes: their public default and
- * rollout dates survive redeploys. Every phased mode is a rollout, so dates
- * are always tracked. Other modes never carry any of these.
+ * (experimental only) rollout dates survive redeploys. Other modes never carry any.
  */
 export const withModeDefaultsUnmodified = (
   publishedModes: PublishedMode[],
@@ -80,14 +79,18 @@ export const withModeDefaultsUnmodified = (
     if (!mode.phased) return mode;
     const published = publishedModes.find(({ id }) => id === mode.id);
     const defaultValue = published?.defaultValue;
+    const isExperimental = mode.type === 'experimental';
 
     return {
       ...mode,
-      dateCreated: published?.dateCreated ?? new Date().toISOString(),
-      ...(defaultValue && {
-        defaultValue,
-        dateActivated: published?.dateActivated ?? new Date().toISOString(),
+      ...(defaultValue && { defaultValue }),
+      ...(isExperimental && {
+        dateCreated: published?.dateCreated ?? new Date().toISOString(),
       }),
+      ...(isExperimental &&
+        defaultValue && {
+          dateActivated: published?.dateActivated ?? new Date().toISOString(),
+        }),
     };
   });
 

@@ -56,7 +56,7 @@ Phased modes differ from other modes in two ways:
 
 To add a new phased mode:
 * Go to `toggles/webapp/toggles.ts`.
-* Add an entry to the `modes` array with `phased: true` and its phases as `options`.
+* Add an entry to the `modes` array with `phased: true`, `type: 'experimental'` and its phases as `options`. As with feature flags, `experimental` records when it was created and when a phase last went public.
 * Log in to AWS and run `yarn deploy`. Nothing is public yet.
 * Iterate! Preview a phase by selecting it on the [toggles dashboard](https://dash.wellcomecollection.org/toggles/).
 * Once you're happy making a phase public, run `yarn setDefaultValueFor --{mode_id}={option_id}`.

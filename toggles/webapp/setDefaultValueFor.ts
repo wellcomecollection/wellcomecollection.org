@@ -44,7 +44,8 @@ export async function setDefaultValueFor(client: S3Client): Promise<void> {
       return {
         ...mode,
         defaultValue: arg as string,
-        dateActivated: new Date().toISOString(),
+        dateActivated:
+          mode.type === 'experimental' ? new Date().toISOString() : undefined,
       };
     }
     return mode;
