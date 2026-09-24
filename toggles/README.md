@@ -48,11 +48,11 @@ Modes are like a feature flag, but instead of on/off you pick one option from a 
 
 #### Phased modes
 
-Some features ship in stages rather than as one release. Rather than one feature flag per stage, combined by hand in code (e.g. `archiveCollection && archiveShortDescriptions`), mark a mode `phased: true` and list its phases as options, earliest first. Each option can have a short `description` of what that phase adds, shown in the dashboard.
+Some features ship in stages rather than as one release. Rather than one feature flag per stage, combined by hand in code (e.g. `archiveCollection && archiveShortDescriptions`), mark a mode `phased: true` and list its phases as options, earliest first. A phased mode has the same fields as a feature flag (`type`, optional `documentationLink`), and each phase needs a short `description` of what it adds, shown in the dashboard. TypeScript enforces this shape for anything marked `phased: true`.
 
 Phased modes differ from other modes in two ways:
 * Option order is meaningful. Check a phase with `modeIsAtLeast(modes, 'thematicBrowsing', 'categoryPages')`, which is true for that phase and every later one. The phase id is type-checked against the mode's options.
-* They can have a public `defaultValue`, like a feature flag. Other modes can't, so a kiosk mode can never be switched on for everyone.
+* They have a public `defaultValue` (`null` until a phase ships), like a feature flag. Basic modes don't, so a kiosk mode can never be switched on for everyone.
 
 To add a new phased mode:
 * Go to `toggles/webapp/toggles.ts`.

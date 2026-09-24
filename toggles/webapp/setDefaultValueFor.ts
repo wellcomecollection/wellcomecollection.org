@@ -28,7 +28,7 @@ export async function setDefaultValueFor(client: S3Client): Promise<void> {
   });
 
   // Phased modes take an option id, or "null" to make nothing public again.
-  // Other modes (e.g. kioskMode) must never have a public default.
+  // Basic modes (e.g. kioskMode) have no public default.
   const modes = (remoteToggles.modes ?? []).map(mode => {
     const arg = argv[mode.id];
     if (arg === undefined) return mode;
@@ -36,19 +36,20 @@ export async function setDefaultValueFor(client: S3Client): Promise<void> {
       console.info(`${mode.id} isn't a phased mode, so has no default to set.`);
       return mode;
     }
-    // As with feature flags, dateActivated is cleared on deactivation.
-    if (arg === 'null') {
-      return { ...mode, defaultValue: undefined, dateActivated: undefined };
+    const defaultValue = arg === 'null' ? null : String(arg);
+    if (defaultValue && !mode.options.some(({ id }) => id === defaultValue)) {
+      console.info(`${mode.id} has no phase "${defaultValue}", ignoring.`);
+      return mode;
     }
-    if (mode.options.some(option => option.id === arg)) {
-      return {
-        ...mode,
-        defaultValue: arg as string,
-        dateActivated:
-          mode.type === 'experimental' ? new Date().toISOString() : undefined,
-      };
-    }
-    return mode;
+    return {
+      ...mode,
+      defaultValue,
+      // Cleared on deactivation, as for feature flags.
+      dateActivated:
+        mode.type === 'experimental' && defaultValue
+          ? new Date().toISOString()
+          : undefined,
+    };
   });
 
   const toggles = {

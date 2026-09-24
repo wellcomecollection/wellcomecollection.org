@@ -12,7 +12,11 @@ import {
   PageTitle,
 } from '@weco/dash/views/components/PageLayout';
 import { tokens } from '@weco/dash/views/themes/tokens';
-import { PublishedMode } from '@weco/toggles';
+import {
+  BasicModeDefinition,
+  PublishedMode,
+  PublishedPhasedMode,
+} from '@weco/toggles';
 
 import ListOfToggles from './ListOfToggles';
 import ABTests, { AbTest } from './toggles.ABTests';
@@ -291,22 +295,26 @@ const TogglesPage: FunctionComponent = () => {
           m.title.toLowerCase().includes(query) ||
           m.description.toLowerCase().includes(query) ||
           m.id.toLowerCase().includes(query) ||
-          m.options.some(
-            opt =>
-              opt.label.toLowerCase().includes(query) ||
-              opt.description?.toLowerCase().includes(query)
-          )
+          m.options.some(opt => opt.label.toLowerCase().includes(query)) ||
+          (m.phased &&
+            m.options.some(opt =>
+              opt.description.toLowerCase().includes(query)
+            ))
         );
       })
     : modes;
-  const filteredModes = matchingModes.filter(m => !m.phased);
-  const filteredPhasedModes = matchingModes.filter(m => m.phased);
+  const filteredModes = matchingModes.filter(
+    (m): m is BasicModeDefinition => !m.phased
+  );
+  const filteredPhasedModes = matchingModes.filter(
+    (m): m is PublishedPhasedMode => !!m.phased
+  );
 
   // Both sections share modeStates, so each only sees and resets its own.
   const statesFor = (phased: boolean) =>
     Object.fromEntries(
       Object.entries(modeStates).filter(
-        ([id]) => !!modes.find(m => m.id === id)?.phased === phased
+        ([id]) => modes.some(m => m.id === id && !!m.phased) === phased
       )
     );
   const resetModes = (phased: boolean) => {

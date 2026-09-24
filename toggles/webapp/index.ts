@@ -1,17 +1,25 @@
 import toggleConfig, {
   ABTest,
+  BasicModeDefinition,
   ModeDefinition,
   ModeOption,
+  PhasedModeDefinition,
+  PhaseOption,
   PublishedFeatureFlag,
   PublishedMode,
+  PublishedPhasedMode,
 } from './toggles';
 
 export type {
   ABTest,
+  BasicModeDefinition,
   ModeDefinition,
   ModeOption,
+  PhasedModeDefinition,
+  PhaseOption,
   PublishedFeatureFlag,
   PublishedMode,
+  PublishedPhasedMode,
 };
 
 export type FeatureFlagId = (typeof toggleConfig.featureFlags)[number]['id'];

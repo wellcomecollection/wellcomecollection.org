@@ -8,6 +8,7 @@ import localToggles, {
   ModeDefinition,
   PublishedFeatureFlag,
   PublishedMode,
+  PublishedPhasedMode,
 } from './toggles';
 
 export const withDefaultValuesUnmodified = (
@@ -69,7 +70,7 @@ export const withDefaultValuesUnmodified = (
 
 /**
  * Like withDefaultValuesUnmodified, for phased modes: their public default and
- * (experimental only) rollout dates survive redeploys. Other modes never carry any.
+ * rollout dates survive redeploys. Basic modes are published as defined.
  */
 export const withModeDefaultsUnmodified = (
   publishedModes: PublishedMode[],
@@ -77,18 +78,20 @@ export const withModeDefaultsUnmodified = (
 ): PublishedMode[] =>
   definitions.map(mode => {
     if (!mode.phased) return mode;
-    const published = publishedModes.find(({ id }) => id === mode.id);
-    const defaultValue = published?.defaultValue;
+    const published = publishedModes.find(
+      (m): m is PublishedPhasedMode => m.id === mode.id && !!m.phased
+    );
+    const defaultValue = published?.defaultValue ?? null;
     const isExperimental = mode.type === 'experimental';
 
     return {
       ...mode,
-      ...(defaultValue && { defaultValue }),
+      defaultValue,
       ...(isExperimental && {
         dateCreated: published?.dateCreated ?? new Date().toISOString(),
       }),
       ...(isExperimental &&
-        defaultValue && {
+        defaultValue !== null && {
           dateActivated: published?.dateActivated ?? new Date().toISOString(),
         }),
     };

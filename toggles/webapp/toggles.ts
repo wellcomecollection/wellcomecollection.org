@@ -29,27 +29,39 @@ export type ABTest = {
 export type ModeOption = {
   id: string;
   label: string;
-  description?: string;
 };
 
-export type ModeDefinition = {
+export type BasicModeDefinition = {
   id: string;
   title: string;
   description: string;
-  documentationLink?: string;
-  // Ordered phases of one feature: enables a public default and modeIsAtLeast.
-  phased?: true;
-  // Phased modes only: 'experimental' tracks rollout dates, as for feature flags.
-  type?: ToggleTypes;
+  // Discriminant: anything marked phased must match PhasedModeDefinition.
+  phased?: never;
   options: readonly ModeOption[];
 };
 
-export type PublishedMode = ModeDefinition & {
-  // Phased modes only: the option the public gets without a cookie.
-  defaultValue?: string;
+export type PhaseOption = ModeOption & {
+  // What this phase adds, ~20 words; longer belongs in documentationLink.
+  description: string;
+};
+
+// Options are ordered phases of one feature, earliest first; see modeIsAtLeast.
+export type PhasedModeDefinition = ToggleBase & {
+  phased: true;
+  options: readonly PhaseOption[];
+};
+
+export type ModeDefinition = BasicModeDefinition | PhasedModeDefinition;
+
+export type PublishedPhasedMode = PhasedModeDefinition & {
+  // What the public gets without a cookie; only set via setDefaultValueFor.
+  defaultValue: string | null;
+  // Dates are only populated for experimental phased modes
   dateCreated?: string;
   dateActivated?: string;
 };
+
+export type PublishedMode = BasicModeDefinition | PublishedPhasedMode;
 
 const toggleConfig = {
   // Feature flags (permanent toggles, experiments, stage toggles)

@@ -5,7 +5,10 @@ import {
 import {
   FeatureFlagDefinition,
   ModeDefinition,
+  PhasedModeDefinition,
   PublishedFeatureFlag,
+  PublishedMode,
+  PublishedPhasedMode,
 } from './toggles';
 
 function getPublishedToggle(id: number): PublishedFeatureFlag {
@@ -136,15 +139,15 @@ it('updates existing toggles leaving defaultValue unmodified', () => {
 });
 
 describe('withModeDefaultsUnmodified', () => {
-  const phasedMode: ModeDefinition = {
+  const phasedMode: PhasedModeDefinition = {
     id: 'phased',
     title: 'Phased',
     description: 'A phased mode',
-    phased: true,
     type: 'experimental',
+    phased: true,
     options: [
-      { id: 'mvp', label: 'MVP' },
-      { id: 'phase2', label: 'Phase 2' },
+      { id: 'mvp', label: 'MVP', description: 'MVP phase' },
+      { id: 'phase2', label: 'Phase 2', description: 'Phase 2' },
     ],
   };
   const kioskMode: ModeDefinition = {
@@ -153,17 +156,24 @@ describe('withModeDefaultsUnmodified', () => {
     description: 'Not phased',
     options: [{ id: 'ipad', label: 'iPad' }],
   };
+  const deployPhased = (
+    published: PublishedPhasedMode[],
+    definition: PhasedModeDefinition = phasedMode
+  ) =>
+    withModeDefaultsUnmodified(published, [
+      definition,
+    ])[0] as PublishedPhasedMode;
 
   it('starts a new phased mode with dateCreated and nothing public', () => {
-    const [mode] = withModeDefaultsUnmodified([], [phasedMode]);
+    const mode = deployPhased([]);
 
+    expect(mode.defaultValue).toBeNull();
     expect(mode.dateCreated).toEqual(expect.any(String));
-    expect('defaultValue' in mode).toBe(false);
     expect('dateActivated' in mode).toBe(false);
   });
 
   it('keeps a published default and its dates across a redeploy', () => {
-    const published = {
+    const published: PublishedPhasedMode = {
       ...phasedMode,
       defaultValue: 'phase2',
       dateCreated: '2020-01-01T00:00:00.000Z',
@@ -171,39 +181,35 @@ describe('withModeDefaultsUnmodified', () => {
     };
 
     expect(
-      withModeDefaultsUnmodified(
-        [published],
-        [{ ...phasedMode, title: 'Updated' }]
-      )
-    ).toStrictEqual([{ ...published, title: 'Updated' }]);
+      deployPhased([published], { ...phasedMode, title: 'Updated' })
+    ).toStrictEqual({ ...published, title: 'Updated' });
   });
 
   it('sets dateActivated for a default published without one', () => {
-    const [mode] = withModeDefaultsUnmodified(
-      [{ ...phasedMode, defaultValue: 'mvp' }],
-      [phasedMode]
-    );
+    const mode = deployPhased([{ ...phasedMode, defaultValue: 'mvp' }]);
 
     expect(mode.dateActivated).toEqual(expect.any(String));
   });
 
   it('keeps the default but tracks no dates for a non-experimental phased mode', () => {
-    const permanent: ModeDefinition = { ...phasedMode, type: 'permanent' };
+    const permanent: PhasedModeDefinition = {
+      ...phasedMode,
+      type: 'permanent',
+    };
 
     expect(
-      withModeDefaultsUnmodified(
-        [{ ...permanent, defaultValue: 'mvp' }],
-        [permanent]
-      )
-    ).toStrictEqual([{ ...permanent, defaultValue: 'mvp' }]);
+      deployPhased([{ ...permanent, defaultValue: 'mvp' }], permanent)
+    ).toStrictEqual({ ...permanent, defaultValue: 'mvp' });
   });
 
-  it('never gives a non-phased mode a default or dates', () => {
-    expect(
-      withModeDefaultsUnmodified(
-        [{ ...kioskMode, defaultValue: 'ipad', dateCreated: 'x' }],
-        [kioskMode]
-      )
-    ).toStrictEqual([kioskMode]);
+  it('publishes a basic mode as defined, ignoring any stale published fields', () => {
+    const stale = {
+      ...kioskMode,
+      defaultValue: 'ipad',
+    } as unknown as PublishedMode;
+
+    expect(withModeDefaultsUnmodified([stale], [kioskMode])).toStrictEqual([
+      kioskMode,
+    ]);
   });
 });

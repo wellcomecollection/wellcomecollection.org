@@ -2,7 +2,7 @@ import { Dispatch, FunctionComponent, SetStateAction } from 'react';
 import styled from 'styled-components';
 
 import { tokens } from '@weco/dash/views/themes/tokens';
-import { PublishedMode } from '@weco/toggles';
+import { PublishedPhasedMode } from '@weco/toggles';
 
 import StatusBadge from './ListOfToggles/ListOfToggles.StatusBadge';
 import { deleteCookieCustom, setCookieCustom } from './toggles.helpers';
@@ -81,17 +81,17 @@ const ResetLink = styled.button`
 
 // A cookie for a phase that still exists, otherwise the public phase.
 const currentPhaseFor = (
-  mode: PublishedMode,
+  mode: PublishedPhasedMode,
   modeStates: Record<string, string>
 ): string | null => {
   const override = modeStates[mode.id];
   return mode.options.some(option => option.id === override)
     ? override
-    : (mode.defaultValue ?? null);
+    : mode.defaultValue;
 };
 
 type PhasedModesProps = {
-  phasedModes: PublishedMode[];
+  phasedModes: PublishedPhasedMode[];
   modeStates: Record<string, string>;
   setModeStates: Dispatch<SetStateAction<Record<string, string>>>;
   onReset: () => void;
@@ -140,7 +140,7 @@ const PhasedModes: FunctionComponent<PhasedModesProps> = ({
           const selectedPhase = flag.options.find(
             phase => phase.id === currentPhase
           );
-          const isOverridden = currentPhase !== (flag.defaultValue ?? null);
+          const isOverridden = currentPhase !== flag.defaultValue;
 
           return (
             <ToggleListItem key={flag.id} id={`toggle-${flag.id}`}>
@@ -152,7 +152,7 @@ const PhasedModes: FunctionComponent<PhasedModesProps> = ({
 
                   <div style={{ margin: `${tokens.spacing.xs} 0` }}>
                     <StatusBadge
-                      active={flag.defaultValue !== undefined}
+                      active={flag.defaultValue !== null}
                       activeLabel={`Public: ${publicPhase?.label ?? flag.defaultValue}`}
                       inactiveLabel="Not yet public"
                     />
