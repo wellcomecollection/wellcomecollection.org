@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 
-import { FeatureFlags, Modes, Tests } from '@weco/toggles';
+import { FeatureFlags, Modes, PhasedFlags, Tests } from '@weco/toggles';
 
 import { SimplifiedPrismicData } from './prismic';
 import { defaultServerData, ServerData } from './types';
@@ -23,6 +23,11 @@ export const ServerDataContext = createContext<ServerData>(defaultServerData);
 export const useFeatureFlags = (): FeatureFlags => {
   const data = useContext(ServerDataContext);
   return data.toggles.featureFlags;
+};
+
+export const usePhasedFlags = (): PhasedFlags => {
+  const data = useContext(ServerDataContext);
+  return data.toggles.phasedFlags;
 };
 
 export const useABTest = (): Tests => {
