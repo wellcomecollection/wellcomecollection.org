@@ -14,6 +14,7 @@ import {
   ToggleListItem,
   ToggleRow,
 } from './toggles.styles';
+import ToggleStarButton from './ToggleStarButton';
 
 const ModeSelect = styled.select`
   padding: 6px;
@@ -32,6 +33,9 @@ type ModesProps = {
   modeStates: Record<string, string>;
   setModeStates: Dispatch<SetStateAction<Record<string, string>>>;
   onReset: () => void;
+  starredIds: string[];
+  onToggleStar: (id: string) => void;
+  showStars: boolean;
 };
 
 const Modes: FunctionComponent<ModesProps> = ({
@@ -39,6 +43,9 @@ const Modes: FunctionComponent<ModesProps> = ({
   modeStates,
   setModeStates,
   onReset,
+  starredIds,
+  onToggleStar,
+  showStars,
 }) => (
   <>
     <div
@@ -83,6 +90,14 @@ const Modes: FunctionComponent<ModesProps> = ({
                 <ToggleInfo>
                   <h3 id={`mode-${mode.id}`} style={{ margin: 0 }}>
                     {mode.title}
+                    {showStars && (
+                      <ToggleStarButton
+                        toggleId={mode.id}
+                        title={mode.title}
+                        starredIds={starredIds}
+                        onToggle={onToggleStar}
+                      />
+                    )}
                   </h3>
                   {mode.description.split('\n\n').map((paragraph, i) => (
                     <p

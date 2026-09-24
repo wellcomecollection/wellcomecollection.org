@@ -11,6 +11,7 @@ import {
   ToggleListItem,
   ToggleRow,
 } from '../toggles.styles';
+import ToggleStarButton from '../ToggleStarButton';
 import CopyLinkIcon from './ListOfToggles.CopyLinkIcon';
 import StatusBadge from './ListOfToggles.StatusBadge';
 import ToggleDates from './ListOfToggles.ToggleDates';
@@ -23,6 +24,9 @@ type ListOfTogglesProps = {
   featureFlags: FeatureFlag[];
   toggleStates: ToggleStates;
   setToggleStates: Dispatch<SetStateAction<ToggleStates>>;
+  starredIds: string[];
+  onToggleStar: (id: string) => void;
+  showStars: boolean;
 };
 
 const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
@@ -32,6 +36,9 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
   featureFlags,
   toggleStates,
   setToggleStates,
+  starredIds,
+  onToggleStar,
+  showStars,
 }) => (
   <>
     <h2 id={anchorId}>
@@ -64,16 +71,21 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
                       dateActivated={toggle.dateActivated}
                     >
                       <h3
-                        style={{ margin: 0 }}
+                        style={{ margin: 0, display: 'inline' }}
                         aria-labelledby={`heading-${toggle.id}`}
                       >
-                        <span id={`heading-${toggle.id}`}>{toggle.title}</span>{' '}
-                        <CopyLinkIcon
-                          toggleId={toggle.id}
-                          title={toggle.title}
-                        />
+                        <span id={`heading-${toggle.id}`}>{toggle.title}</span>
                       </h3>
                     </ToggleDates>
+                    <CopyLinkIcon toggleId={toggle.id} title={toggle.title} />
+                    {showStars && (
+                      <ToggleStarButton
+                        toggleId={toggle.id}
+                        title={toggle.title}
+                        starredIds={starredIds}
+                        onToggle={onToggleStar}
+                      />
+                    )}
                   </ToggleHeadingRow>
 
                   <div style={{ marginBottom: tokens.spacing.xs }}>

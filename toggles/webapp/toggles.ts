@@ -71,6 +71,14 @@ const toggleConfig = {
   // Toggles of type 'stage' will only be applied on stage
   featureFlags: [
     {
+      id: 'toggleWidget',
+      title: 'Toggle widget',
+      initialValue: false,
+      description:
+        'A floating widget to preview a toggle a dashboard user has starred, without going through the toggles dashboard.',
+      type: 'permanent',
+    },
+    {
       id: 'apiToolbar',
       title: 'API toolbar',
       initialValue: false,

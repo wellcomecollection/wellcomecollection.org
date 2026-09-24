@@ -8,6 +8,7 @@ import {
   ToggleStates,
 } from './toggles.helpers';
 import { ResetButton, ToggleList, ToggleListItem } from './toggles.styles';
+import ToggleStarButton from './ToggleStarButton';
 
 const RadioGroup = styled.fieldset`
   border: none;
@@ -45,11 +46,17 @@ const ABTests = ({
   toggleStates,
   setToggleStates,
   onReset,
+  starredIds,
+  onToggleStar,
+  showStars,
 }: {
   filteredAbTests: AbTest[];
   toggleStates: ToggleStates;
   setToggleStates: React.Dispatch<React.SetStateAction<ToggleStates>>;
   onReset: () => void;
+  starredIds: string[];
+  onToggleStar: (id: string) => void;
+  showStars: boolean;
 }) => {
   return (
     <>
@@ -104,7 +111,15 @@ const ABTests = ({
                     }}
                   >
                     ({toggle.range[0]} - {toggle.range[1]})
-                  </span>
+                  </span>{' '}
+                  {showStars && (
+                    <ToggleStarButton
+                      toggleId={toggle.id}
+                      title={toggle.title}
+                      starredIds={starredIds}
+                      onToggle={onToggleStar}
+                    />
+                  )}
                 </h3>
 
                 <p>{toggle.description}</p>

@@ -19,7 +19,11 @@ import ABTests, { AbTest } from './toggles.ABTests';
 import {
   deleteCookieCustom,
   FeatureFlag,
+  MAX_STARRED_TOGGLES,
+  parseStarredToggles,
   setCookieCustom,
+  setStarredToggles,
+  STARRED_TOGGLES_COOKIE,
   ToggleStates,
 } from './toggles.helpers';
 import Modes from './toggles.Modes';
@@ -53,6 +57,7 @@ const TogglesPage: FunctionComponent = () => {
   const [abTests, setAbTests] = useState<AbTest[]>([]);
   const [modes, setModes] = useState<ModeDefinition[]>([]);
   const [modeStates, setModeStates] = useState<Record<string, string>>({});
+  const [starredIds, setStarredIds] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
@@ -116,6 +121,27 @@ const TogglesPage: FunctionComponent = () => {
           }
         }
         setModeStates(initialModeStates);
+
+        // Prune any starred id that no longer matches a real toggle (e.g.
+        // one that's since been deleted) - otherwise it lingers in the
+        // cookie forever, still counting toward the 6-item cap, with no
+        // star button left anywhere to un-star it from.
+        const validIds = new Set([
+          ...flags.map(f => f.id),
+          ...phasedFlagDefinitions.map(f => f.id),
+          ...tests.map(t => t.id),
+          ...modeDefinitions.map(m => m.id),
+        ]);
+        const parsedStarredIds = parseStarredToggles(
+          cookies[STARRED_TOGGLES_COOKIE]
+        );
+        const prunedStarredIds = parsedStarredIds.filter(id =>
+          validIds.has(id)
+        );
+        if (prunedStarredIds.length !== parsedStarredIds.length) {
+          setStarredToggles(prunedStarredIds);
+        }
+        setStarredIds(prunedStarredIds);
 
         setToggleStates(initialStates);
       })
@@ -352,6 +378,24 @@ const TogglesPage: FunctionComponent = () => {
     });
   }, [phasedFlags]);
 
+  // Starring is only useful once you can actually see the widget it feeds -
+  // toggleStates reflects this user's own cookie override, or the public
+  // default if they haven't set one.
+  const toggleWidgetEnabled = toggleStates['toggleWidget'] ?? false;
+
+  const handleToggleStar = useCallback((id: string) => {
+    setStarredIds(prev => {
+      const isRemoving = prev.includes(id);
+      if (!isRemoving && prev.length >= MAX_STARRED_TOGGLES) return prev;
+
+      const next = isRemoving
+        ? prev.filter(starredId => starredId !== id)
+        : [...prev, id];
+      setStarredToggles(next);
+      return next;
+    });
+  }, []);
+
   return (
     <>
       <Head>
@@ -468,6 +512,9 @@ const TogglesPage: FunctionComponent = () => {
                 featureFlags={generalFeatureFlags}
                 toggleStates={toggleStates}
                 setToggleStates={setToggleStates}
+                starredIds={starredIds}
+                onToggleStar={handleToggleStar}
+                showStars={toggleWidgetEnabled}
               />
             </SectionInner>
           </Section>
@@ -483,6 +530,9 @@ const TogglesPage: FunctionComponent = () => {
                 featureFlags={permanentFeatureFlags}
                 toggleStates={toggleStates}
                 setToggleStates={setToggleStates}
+                starredIds={starredIds}
+                onToggleStar={handleToggleStar}
+                showStars={toggleWidgetEnabled}
               />
             </SectionInner>
           </Section>
@@ -498,6 +548,9 @@ const TogglesPage: FunctionComponent = () => {
                 featureFlags={experimentalFeatureFlags}
                 toggleStates={toggleStates}
                 setToggleStates={setToggleStates}
+                starredIds={starredIds}
+                onToggleStar={handleToggleStar}
+                showStars={toggleWidgetEnabled}
               />
             </SectionInner>
           </Section>
@@ -513,6 +566,9 @@ const TogglesPage: FunctionComponent = () => {
                 featureFlags={stageFeatureFlags}
                 toggleStates={toggleStates}
                 setToggleStates={setToggleStates}
+                starredIds={starredIds}
+                onToggleStar={handleToggleStar}
+                showStars={toggleWidgetEnabled}
               />
             </SectionInner>
           </Section>
@@ -526,6 +582,9 @@ const TogglesPage: FunctionComponent = () => {
                 phasedFlagStates={phasedFlagStates}
                 setPhasedFlagStates={setPhasedFlagStates}
                 onReset={resetPhasedFlags}
+                starredIds={starredIds}
+                onToggleStar={handleToggleStar}
+                showStars={toggleWidgetEnabled}
               />
             </SectionInner>
           </Section>
@@ -539,6 +598,9 @@ const TogglesPage: FunctionComponent = () => {
                 toggleStates={toggleStates}
                 setToggleStates={setToggleStates}
                 onReset={resetAbTests}
+                starredIds={starredIds}
+                onToggleStar={handleToggleStar}
+                showStars={toggleWidgetEnabled}
               />
             </SectionInner>
           </Section>
@@ -555,6 +617,9 @@ const TogglesPage: FunctionComponent = () => {
                   modes.forEach(mode => deleteCookieCustom(mode.id));
                   setModeStates({});
                 }}
+                starredIds={starredIds}
+                onToggleStar={handleToggleStar}
+                showStars={toggleWidgetEnabled}
               />
             </SectionInner>
           </Section>
