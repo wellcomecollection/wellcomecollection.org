@@ -36,6 +36,7 @@ export type ModeDefinition = {
   id: string;
   title: string;
   description: string;
+  documentationLink?: string;
   // Ordered phases of one feature: enables a public default and modeIsAtLeast.
   phased?: true;
   options: readonly ModeOption[];
@@ -197,27 +198,6 @@ const toggleConfig = {
   // Modes are toggles whose value is a selected option string rather than a boolean.
   // They are activated via a cookie containing the option value.
   modes: [
-    {
-      id: 'thematicBrowsing',
-      title: 'Thematic browsing',
-      description:
-        'Phased rollout of thematic browsing. Each phase includes the ones before it.',
-      phased: true,
-      options: [
-        {
-          id: 'categoryPages',
-          label: 'Category pages',
-          description:
-            'The four thematic browsing category pages become accessible.',
-        },
-        {
-          id: 'subCategoryPages',
-          label: 'Sub-category pages',
-          description:
-            'Subject sub-category pages become accessible, and the subjects page gains a sub-category menu.',
-        },
-      ],
-    },
     {
       id: 'kioskMode',
       title: 'Kiosk mode',

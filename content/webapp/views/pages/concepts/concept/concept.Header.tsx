@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { thematicBrowsingPaths } from '@weco/common/data/hardcoded-ids';
-import { useFeatureFlags, useModes } from '@weco/common/server-data/Context';
+import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { typography } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
@@ -18,7 +18,6 @@ import { useConceptPageContext } from '@weco/content/contexts/ConceptPageContext
 import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import HeaderColourBand from '@weco/content/views/components/HeaderColourBand';
 import SourcedDescription from '@weco/content/views/components/SourcedDescription';
-import { modeIsAtLeast } from '@weco/toggles';
 
 import RelatedConceptsGroup from './concept.RelatedConceptsGroup';
 
@@ -99,12 +98,7 @@ const ThemeHeader: FunctionComponent<{
   concept: Concept;
   hasImages?: boolean;
 }> = ({ concept, hasImages }) => {
-  const { themePagesAllFields } = useFeatureFlags();
-  const thematicBrowsing = modeIsAtLeast(
-    useModes(),
-    'thematicBrowsing',
-    'categoryPages'
-  );
+  const { themePagesAllFields, thematicBrowsing } = useFeatureFlags();
   const { config } = useConceptPageContext();
 
   const { narrowerThan, fieldsOfWork, people, relatedTo, broaderThan } =

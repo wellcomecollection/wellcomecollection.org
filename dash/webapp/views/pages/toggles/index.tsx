@@ -23,6 +23,7 @@ import {
   ToggleStates,
 } from './toggles.helpers';
 import Modes from './toggles.Modes';
+import PhasedModes from './toggles.PhasedModes';
 import {
   MessageBox,
   ResetButton,
@@ -283,23 +284,47 @@ const TogglesPage: FunctionComponent = () => {
       )
     : abTests;
 
-  const filteredModes: PublishedMode[] = searchQuery
+  const matchingModes: PublishedMode[] = searchQuery
     ? modes.filter(m => {
         const query = searchQuery.toLowerCase();
         return (
           m.title.toLowerCase().includes(query) ||
           m.description.toLowerCase().includes(query) ||
           m.id.toLowerCase().includes(query) ||
-          m.options.some(opt => opt.label.toLowerCase().includes(query))
+          m.options.some(
+            opt =>
+              opt.label.toLowerCase().includes(query) ||
+              opt.description?.toLowerCase().includes(query)
+          )
         );
       })
     : modes;
+  const filteredModes = matchingModes.filter(m => !m.phased);
+  const filteredPhasedModes = matchingModes.filter(m => m.phased);
+
+  // Both sections share modeStates, so each only sees and resets its own.
+  const statesFor = (phased: boolean) =>
+    Object.fromEntries(
+      Object.entries(modeStates).filter(
+        ([id]) => !!modes.find(m => m.id === id)?.phased === phased
+      )
+    );
+  const resetModes = (phased: boolean) => {
+    const ids = Object.keys(statesFor(phased));
+    ids.forEach(deleteCookieCustom);
+    setModeStates(prev =>
+      Object.fromEntries(
+        Object.entries(prev).filter(([id]) => !ids.includes(id))
+      )
+    );
+  };
 
   const totalResults =
     generalFeatureFlags.length +
     permanentFeatureFlags.length +
     experimentalFeatureFlags.length +
     stageFeatureFlags.length +
+    filteredPhasedModes.length +
     filteredAbTests.length +
     filteredModes.length;
 
@@ -345,6 +370,9 @@ const TogglesPage: FunctionComponent = () => {
               </li>
               <li>
                 <a href="#staging">Staging</a>
+              </li>
+              <li>
+                <a href="#phased-modes">Phased modes</a>
               </li>
               <li>
                 <a href="#ab-tests">A/B tests</a>
@@ -466,8 +494,27 @@ const TogglesPage: FunctionComponent = () => {
           </Section>
         )}
 
+        {(filteredPhasedModes.length > 0 || !searchQuery) && (
+          <Section $background="alt" aria-labelledby="phased-modes">
+            <SectionInner>
+              <PhasedModes
+                phasedModes={filteredPhasedModes}
+                modeStates={statesFor(true)}
+                setModeStates={setModeStates}
+                onReset={() => {
+                  resetModes(true);
+                  setMessage({
+                    text: 'All phased modes have been reset to their public phase.',
+                    isError: false,
+                  });
+                }}
+              />
+            </SectionInner>
+          </Section>
+        )}
+
         {(filteredAbTests.length > 0 || !searchQuery) && (
-          <Section $background="alt" aria-labelledby="ab-tests">
+          <Section $background="light" aria-labelledby="ab-tests">
             <SectionInner>
               <ABTests
                 filteredAbTests={filteredAbTests}
@@ -480,16 +527,13 @@ const TogglesPage: FunctionComponent = () => {
         )}
 
         {(filteredModes.length > 0 || !searchQuery) && (
-          <Section $background="light" aria-labelledby="modes">
+          <Section $background="alt" aria-labelledby="modes">
             <SectionInner>
               <Modes
                 modes={filteredModes}
-                modeStates={modeStates}
+                modeStates={statesFor(false)}
                 setModeStates={setModeStates}
-                onReset={() => {
-                  modes.forEach(mode => deleteCookieCustom(mode.id));
-                  setModeStates({});
-                }}
+                onReset={() => resetModes(false)}
               />
             </SectionInner>
           </Section>
