@@ -135,7 +135,9 @@ export function getTogglesFromContext(
       return { ...acc, [toggle.id]: value };
     }, {} as FeatureFlags);
 
-  const phasedFlagsList = togglesResp.phasedFlags ?? [];
+  const phasedFlagsList = (togglesResp.phasedFlags ?? []).filter(flag => {
+    return !(!isStage && flag.type === 'stage');
+  });
   const phasedFlags = phasedFlagsList.reduce((acc, flag) => {
     const current = resolveOptionValue(
       flag.id,
