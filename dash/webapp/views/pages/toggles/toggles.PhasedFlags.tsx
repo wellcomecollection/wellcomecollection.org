@@ -24,7 +24,9 @@ const Segmented = styled.fieldset`
   padding: 0;
 `;
 
-const SegmentLabel = styled.label<{ $checked: boolean }>`
+type SegmentState = 'current' | 'included' | 'inactive';
+
+const SegmentLabel = styled.label<{ $state: SegmentState }>`
   display: inline-flex;
   align-items: center;
   padding: ${tokens.spacing.xs} ${tokens.spacing.md};
@@ -32,11 +34,17 @@ const SegmentLabel = styled.label<{ $checked: boolean }>`
   font-weight: 600;
   cursor: pointer;
   background: ${props =>
-    props.$checked
+    props.$state === 'current'
       ? tokens.colors.success.main
-      : tokens.colors.background.paper};
+      : props.$state === 'included'
+        ? tokens.colors.success.light
+        : tokens.colors.background.paper};
   color: ${props =>
-    props.$checked ? tokens.colors.white : tokens.colors.text.secondary};
+    props.$state === 'current'
+      ? tokens.colors.white
+      : props.$state === 'included'
+        ? tokens.colors.success.text
+        : tokens.colors.text.secondary};
 
   & + & {
     border-left: 1px solid ${tokens.colors.border.default};
@@ -186,26 +194,41 @@ const PhasedFlags: FunctionComponent<PhasedFlagsProps> = ({
 
                 <ToggleControls>
                   <Segmented aria-labelledby={`heading-${flag.id}`}>
-                    {flag.phases.map(phase => (
-                      <SegmentLabel
-                        key={phase.id}
-                        $checked={currentPhase === phase.id}
-                      >
-                        <input
-                          type="radio"
-                          name={`phase-${flag.id}`}
-                          checked={currentPhase === phase.id}
-                          onChange={() => {
-                            setCookieCustom(flag.id, phase.id);
-                            setPhasedFlagStates(prev => ({
-                              ...prev,
-                              [flag.id]: phase.id,
-                            }));
-                          }}
-                        />
-                        {phase.label}
-                      </SegmentLabel>
-                    ))}
+                    {flag.phases.map((phase, index) => {
+                      const isSelected = currentPhase === phase.id;
+                      // Phases are cumulative - reaching phase 2 means phase
+                      // 1 shipped too, so show every phase up to and
+                      // including the current one as active, not just the
+                      // exact match. Earlier phases get a paler shade than
+                      // the current one so it's clear which phase we're
+                      // actually on.
+                      const currentIndex = flag.phases.findIndex(
+                        p => p.id === currentPhase
+                      );
+                      const state: SegmentState = isSelected
+                        ? 'current'
+                        : index < currentIndex
+                          ? 'included'
+                          : 'inactive';
+
+                      return (
+                        <SegmentLabel key={phase.id} $state={state}>
+                          <input
+                            type="radio"
+                            name={`phase-${flag.id}`}
+                            checked={isSelected}
+                            onChange={() => {
+                              setCookieCustom(flag.id, phase.id);
+                              setPhasedFlagStates(prev => ({
+                                ...prev,
+                                [flag.id]: phase.id,
+                              }));
+                            }}
+                          />
+                          {phase.label}
+                        </SegmentLabel>
+                      );
+                    })}
                   </Segmented>
 
                   {selectedPhase?.description && (
