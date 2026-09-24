@@ -26,7 +26,23 @@ const MOCK_TOGGLES_JSON = {
       type: 'experimental',
     },
   ],
-  phasedFlags: [],
+  phasedFlags: [
+    {
+      id: 'thematicBrowsingPhases',
+      title: 'Thematic browsing',
+      description: 'Staged rollout of thematic browsing.',
+      type: 'experimental',
+      phases: [
+        { id: 'categoryPages', label: 'Category pages', description: '' },
+        {
+          id: 'subCategoryPages',
+          label: 'Sub-category pages',
+          description: '',
+        },
+      ],
+      defaultPhase: 'categoryPages',
+    },
+  ],
   tests: [
     { id: 'demoAbTest', title: 'Demo A/B test', type: 'test', range: [0, 50] },
   ],

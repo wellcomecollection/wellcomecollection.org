@@ -131,6 +131,23 @@ const ToggleNote = styled.span`
   color: ${props => props.theme.color('neutral.600')};
 `;
 
+const ResetLink = styled.button`
+  display: block;
+  margin-top: 6px;
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: 12px;
+  text-decoration: underline;
+  color: ${props => props.theme.color('neutral.600')};
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid ${props => props.theme.color('accent.purple')};
+    outline-offset: 2px;
+  }
+`;
+
 const Segmented = styled.fieldset`
   display: inline-flex;
   border: 1px solid ${props => props.theme.color('neutral.400')};
@@ -216,6 +233,11 @@ type StarredEntry = {
   // can never turn a Public flag off, same as the dashboard's own
   // disabled-switch-when-Public behaviour.
   locked?: boolean;
+  // Phased flags only: the public phase (possibly none yet), so a "Reset to
+  // public" link can appear once a phase is picked - unlike a mode's "Off"
+  // or an A/B test's "Randomly allocate me", none of a phased flag's own
+  // options can get back to "no override" on their own.
+  publicValue?: string | null;
 };
 
 const AB_TEST_OPTIONS: Option[] = [
@@ -260,6 +282,17 @@ function applyOverride(id: string, optionId: string) {
   } else {
     setCookie(`toggle_${id}`, optionId, { domain, path: '/', secure });
   }
+  window.location.reload();
+}
+
+/**
+ * Clears a starred toggle's override entirely, back to whatever's public -
+ * for phased flags, which (unlike a mode's "Off" or an A/B test's
+ * "Randomly allocate me") have no such option among their own phases.
+ */
+function resetOverride(id: string) {
+  const { domain } = cookieDomainOptions();
+  deleteCookie(`toggle_${id}`, { domain, path: '/' });
   window.location.reload();
 }
 
@@ -310,12 +343,14 @@ const ToggleWidget: FunctionComponent = () => {
             phasedFlags as Record<string, ResolvedPhasedFlag>
           )[id];
           if (phasedFlag) {
+            const published = togglesJson.phasedFlags?.find(f => f.id === id);
             return {
               kind: 'phasedFlag',
               id,
               title: phasedFlag.title,
               current: phasedFlag.current ?? '',
               options: phaseOptions(phasedFlag.phases),
+              publicValue: published?.defaultPhase,
             };
           }
 
@@ -468,6 +503,16 @@ const ToggleWidget: FunctionComponent = () => {
                   })}
                 </Segmented>
               )}
+              {entry.kind === 'phasedFlag' &&
+                entry.publicValue !== undefined &&
+                entry.current !== (entry.publicValue ?? '') && (
+                  <ResetLink
+                    type="button"
+                    onClick={() => resetOverride(entry.id)}
+                  >
+                    Reset to public
+                  </ResetLink>
+                )}
             </ToggleBlock>
           ))}
         </Panel>
