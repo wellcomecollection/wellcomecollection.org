@@ -121,7 +121,27 @@ const TogglesPage: FunctionComponent = () => {
           }
         }
         setModeStates(initialModeStates);
-        setStarredIds(parseStarredToggles(cookies[STARRED_TOGGLES_COOKIE]));
+
+        // Prune any starred id that no longer matches a real toggle (e.g.
+        // one that's since been deleted) - otherwise it lingers in the
+        // cookie forever, still counting toward the 6-item cap, with no
+        // star button left anywhere to un-star it from.
+        const validIds = new Set([
+          ...flags.map(f => f.id),
+          ...phasedFlagDefinitions.map(f => f.id),
+          ...tests.map(t => t.id),
+          ...modeDefinitions.map(m => m.id),
+        ]);
+        const parsedStarredIds = parseStarredToggles(
+          cookies[STARRED_TOGGLES_COOKIE]
+        );
+        const prunedStarredIds = parsedStarredIds.filter(id =>
+          validIds.has(id)
+        );
+        if (prunedStarredIds.length !== parsedStarredIds.length) {
+          setStarredToggles(prunedStarredIds);
+        }
+        setStarredIds(prunedStarredIds);
 
         setToggleStates(initialStates);
       })
