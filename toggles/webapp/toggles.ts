@@ -12,12 +12,17 @@ export type FeatureFlagDefinition = ToggleBase & {
   initialValue: boolean;
 };
 
-export type PublishedFeatureFlag = ToggleBase & {
-  defaultValue: boolean;
-  // Dates are only populated for experimental toggles
+// Only ever populated for experimental toggles. Shared by feature flags and
+// phased flags - both go public and get tracked this way; a mode never does.
+type WithLifecycleDates = {
   dateCreated?: string;
   dateActivated?: string;
 };
+
+export type PublishedFeatureFlag = ToggleBase &
+  WithLifecycleDates & {
+    defaultValue: boolean;
+  };
 
 export type ABTest = {
   id: string;
@@ -52,15 +57,14 @@ export type PhasedFlagDefinition = ToggleBase & {
   phases: readonly PhaseDefinition[];
 };
 
-export type PublishedPhasedFlag = ToggleBase & {
-  phases: readonly PhaseDefinition[];
-  // What's actually public. Always null the first time a phased flag is
-  // published, then set explicitly later as each phase ships,
-  // the same way PublishedFeatureFlag.defaultValue works for booleans.
-  defaultPhase: string | null;
-  dateCreated?: string;
-  dateActivated?: string;
-};
+export type PublishedPhasedFlag = ToggleBase &
+  WithLifecycleDates & {
+    phases: readonly PhaseDefinition[];
+    // What's actually public. Always null the first time a phased flag is
+    // published, then set explicitly later as each phase ships,
+    // the same way PublishedFeatureFlag.defaultValue works for booleans.
+    defaultPhase: string | null;
+  };
 
 const toggleConfig = {
   // Feature flags (permanent toggles, experiments, stage toggles)

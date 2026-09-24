@@ -80,6 +80,30 @@ export function parseToggleOverrides(
 }
 
 /**
+ * Resolves the current value of a toggle whose value is one of a list of
+ * named option ids - a mode's option, or a phased flag's phase. Shared by
+ * both, since "which one is currently picked" is the same operation for
+ * either; what a phased flag does with that value afterwards (ranking it
+ * ordinally via phaseIsAtLeast) happens elsewhere, not here.
+ */
+function resolveOptionValue(
+  id: string,
+  validIds: string[],
+  overrides: Record<string, string>,
+  allCookies: Partial<Record<string, string>>,
+  fallback: string | null
+): string | null {
+  const override = overrides[id];
+  if (typeof override === 'string' && validIds.includes(override)) {
+    return override;
+  }
+  const cookieValue = allCookies[`toggle_${id}`];
+  const isValid =
+    typeof cookieValue === 'string' && validIds.includes(cookieValue);
+  return isValid ? cookieValue : fallback;
+}
+
+/**
  * normally parsing like this should happen in `_app.parseServerDataToAppData`
  * but we need the `req` from the `context` for cookies which we don't
  * have in `_app` - so it lives here
@@ -111,35 +135,20 @@ export function getTogglesFromContext(
       return { ...acc, [toggle.id]: value };
     }, {} as FeatureFlags);
 
-  const phasedFlagsList = togglesResp.phasedFlags ?? [];
+  const phasedFlagsList = (togglesResp.phasedFlags ?? []).filter(flag => {
+    return !(!isStage && flag.type === 'stage');
+  });
   const phasedFlags = phasedFlagsList.reduce((acc, flag) => {
-    const override = overrides[flag.id];
-
-    if (
-      typeof override === 'string' &&
-      flag.phases.some(phase => phase.id === override)
-    ) {
-      return {
-        ...acc,
-        [flag.id]: {
-          current: override,
-          phases: flag.phases,
-          title: flag.title,
-        },
-      };
-    }
-    const cookieValue = allCookies[`toggle_${flag.id}`];
-    const isValid =
-      typeof cookieValue === 'string' &&
-      flag.phases.some(phase => phase.id === cookieValue);
-
+    const current = resolveOptionValue(
+      flag.id,
+      flag.phases.map(phase => phase.id),
+      overrides,
+      allCookies,
+      flag.defaultPhase
+    );
     return {
       ...acc,
-      [flag.id]: {
-        current: isValid ? cookieValue : flag.defaultPhase,
-        phases: flag.phases,
-        title: flag.title,
-      },
+      [flag.id]: { current, phases: flag.phases, title: flag.title },
     };
   }, {} as PhasedFlags);
 
@@ -166,21 +175,14 @@ export function getTogglesFromContext(
 
   const modesList = togglesResp.modes ?? [];
   const modes = modesList.reduce((acc, mode) => {
-    const override = overrides[mode.id];
-    if (
-      typeof override === 'string' &&
-      mode.options.some(opt => opt.id === override)
-    ) {
-      return { ...acc, [mode.id]: override };
-    }
-    const cookieValue = allCookies[`toggle_${mode.id}`];
-    const isValid =
-      typeof cookieValue === 'string' &&
-      mode.options.some(opt => opt.id === cookieValue);
-    return {
-      ...acc,
-      [mode.id]: isValid ? cookieValue : null,
-    };
+    const current = resolveOptionValue(
+      mode.id,
+      mode.options.map(opt => opt.id),
+      overrides,
+      allCookies,
+      null
+    );
+    return { ...acc, [mode.id]: current };
   }, {} as Modes);
 
   return { featureFlags, phasedFlags, tests, modes };
