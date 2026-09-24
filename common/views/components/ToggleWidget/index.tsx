@@ -49,10 +49,9 @@ const ToggleButton = styled.button`
   background-color: ${props => props.theme.color('accent.purple')};
   color: ${props => props.theme.color('white')};
   cursor: pointer;
-  transition: filter 0.15s ease;
 
   &:hover {
-    filter: brightness(0.9);
+    box-shadow: ${props => props.theme.focusBoxShadow};
   }
 
   &:focus-visible {
@@ -73,10 +72,9 @@ const DismissButton = styled.button`
   background-color: ${props => props.theme.color('accent.purple')};
   color: ${props => props.theme.color('white')};
   cursor: pointer;
-  transition: filter 0.15s ease;
 
   &:hover {
-    filter: brightness(0.9);
+    box-shadow: ${props => props.theme.focusBoxShadow};
   }
 
   &:focus-visible {
