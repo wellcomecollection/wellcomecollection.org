@@ -358,6 +358,11 @@ const TogglesPage: FunctionComponent = () => {
     });
   }, [phasedFlags]);
 
+  // Starring is only useful once you can actually see the widget it feeds -
+  // toggleStates reflects this user's own cookie override, or the public
+  // default if they haven't set one.
+  const toggleWidgetEnabled = toggleStates['toggleWidget'] ?? false;
+
   const handleToggleStar = useCallback((id: string) => {
     setStarredIds(prev => {
       const isRemoving = prev.includes(id);
@@ -489,6 +494,7 @@ const TogglesPage: FunctionComponent = () => {
                 setToggleStates={setToggleStates}
                 starredIds={starredIds}
                 onToggleStar={handleToggleStar}
+                showStars={toggleWidgetEnabled}
               />
             </SectionInner>
           </Section>
@@ -506,6 +512,7 @@ const TogglesPage: FunctionComponent = () => {
                 setToggleStates={setToggleStates}
                 starredIds={starredIds}
                 onToggleStar={handleToggleStar}
+                showStars={toggleWidgetEnabled}
               />
             </SectionInner>
           </Section>
@@ -523,6 +530,7 @@ const TogglesPage: FunctionComponent = () => {
                 setToggleStates={setToggleStates}
                 starredIds={starredIds}
                 onToggleStar={handleToggleStar}
+                showStars={toggleWidgetEnabled}
               />
             </SectionInner>
           </Section>
@@ -540,6 +548,7 @@ const TogglesPage: FunctionComponent = () => {
                 setToggleStates={setToggleStates}
                 starredIds={starredIds}
                 onToggleStar={handleToggleStar}
+                showStars={toggleWidgetEnabled}
               />
             </SectionInner>
           </Section>
@@ -555,6 +564,7 @@ const TogglesPage: FunctionComponent = () => {
                 onReset={resetPhasedFlags}
                 starredIds={starredIds}
                 onToggleStar={handleToggleStar}
+                showStars={toggleWidgetEnabled}
               />
             </SectionInner>
           </Section>
@@ -570,6 +580,7 @@ const TogglesPage: FunctionComponent = () => {
                 onReset={resetAbTests}
                 starredIds={starredIds}
                 onToggleStar={handleToggleStar}
+                showStars={toggleWidgetEnabled}
               />
             </SectionInner>
           </Section>
@@ -588,6 +599,7 @@ const TogglesPage: FunctionComponent = () => {
                 }}
                 starredIds={starredIds}
                 onToggleStar={handleToggleStar}
+                showStars={toggleWidgetEnabled}
               />
             </SectionInner>
           </Section>

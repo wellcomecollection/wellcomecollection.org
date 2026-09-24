@@ -110,6 +110,7 @@ type PhasedFlagsProps = {
   onReset: () => void;
   starredIds: string[];
   onToggleStar: (id: string) => void;
+  showStars: boolean;
 };
 
 const PhasedFlags: FunctionComponent<PhasedFlagsProps> = ({
@@ -119,6 +120,7 @@ const PhasedFlags: FunctionComponent<PhasedFlagsProps> = ({
   onReset,
   starredIds,
   onToggleStar,
+  showStars,
 }) => (
   <>
     <div
@@ -165,12 +167,14 @@ const PhasedFlags: FunctionComponent<PhasedFlagsProps> = ({
                 <ToggleInfo>
                   <h3 id={`heading-${flag.id}`} style={{ margin: 0 }}>
                     {flag.title}
-                    <ToggleStarButton
-                      toggleId={flag.id}
-                      title={flag.title}
-                      starredIds={starredIds}
-                      onToggle={onToggleStar}
-                    />
+                    {showStars && (
+                      <ToggleStarButton
+                        toggleId={flag.id}
+                        title={flag.title}
+                        starredIds={starredIds}
+                        onToggle={onToggleStar}
+                      />
+                    )}
                   </h3>
 
                   <div style={{ margin: `${tokens.spacing.xs} 0` }}>

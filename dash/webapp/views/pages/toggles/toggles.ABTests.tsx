@@ -48,6 +48,7 @@ const ABTests = ({
   onReset,
   starredIds,
   onToggleStar,
+  showStars,
 }: {
   filteredAbTests: AbTest[];
   toggleStates: ToggleStates;
@@ -55,6 +56,7 @@ const ABTests = ({
   onReset: () => void;
   starredIds: string[];
   onToggleStar: (id: string) => void;
+  showStars: boolean;
 }) => {
   return (
     <>
@@ -110,12 +112,14 @@ const ABTests = ({
                   >
                     ({toggle.range[0]} - {toggle.range[1]})
                   </span>{' '}
-                  <ToggleStarButton
-                    toggleId={toggle.id}
-                    title={toggle.title}
-                    starredIds={starredIds}
-                    onToggle={onToggleStar}
-                  />
+                  {showStars && (
+                    <ToggleStarButton
+                      toggleId={toggle.id}
+                      title={toggle.title}
+                      starredIds={starredIds}
+                      onToggle={onToggleStar}
+                    />
+                  )}
                 </h3>
 
                 <p>{toggle.description}</p>

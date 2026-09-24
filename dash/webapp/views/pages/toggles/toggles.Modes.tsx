@@ -35,6 +35,7 @@ type ModesProps = {
   onReset: () => void;
   starredIds: string[];
   onToggleStar: (id: string) => void;
+  showStars: boolean;
 };
 
 const Modes: FunctionComponent<ModesProps> = ({
@@ -44,6 +45,7 @@ const Modes: FunctionComponent<ModesProps> = ({
   onReset,
   starredIds,
   onToggleStar,
+  showStars,
 }) => (
   <>
     <div
@@ -88,12 +90,14 @@ const Modes: FunctionComponent<ModesProps> = ({
                 <ToggleInfo>
                   <h3 id={`mode-${mode.id}`} style={{ margin: 0 }}>
                     {mode.title}
-                    <ToggleStarButton
-                      toggleId={mode.id}
-                      title={mode.title}
-                      starredIds={starredIds}
-                      onToggle={onToggleStar}
-                    />
+                    {showStars && (
+                      <ToggleStarButton
+                        toggleId={mode.id}
+                        title={mode.title}
+                        starredIds={starredIds}
+                        onToggle={onToggleStar}
+                      />
+                    )}
                   </h3>
                   {mode.description.split('\n\n').map((paragraph, i) => (
                     <p
