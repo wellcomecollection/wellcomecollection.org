@@ -2,6 +2,7 @@ import { S3Client } from '@aws-sdk/client-s3';
 import { info } from 'console';
 
 import { TogglesResp } from '.';
+import { dateActivatedFor, dateCreatedFor } from './lifecycleDates';
 import { getTogglesObject, putTogglesObject } from './s3-utils';
 import localToggles, {
   FeatureFlagDefinition,
@@ -40,19 +41,16 @@ export const withDefaultValuesUnmodified = (
       ? toggle.initialValue
       : matchingToggle.defaultValue;
 
-    // Only set dates for experimental toggles
     const isExperimental = toggle.type === 'experimental';
-
-    // Set dateCreated only when the toggle first appears in S3 (experimental toggles only).
-    const dateCreated = isExperimental
-      ? (matchingToggle?.dateCreated ?? new Date().toISOString())
-      : undefined;
-
-    // Set dateActivated only when the deployed toggle is actually active (experimental toggles only).
-    const dateActivated =
-      isExperimental && defaultValue
-        ? (matchingToggle?.dateActivated ?? new Date().toISOString())
-        : undefined;
+    const dateCreated = dateCreatedFor(
+      isExperimental,
+      matchingToggle?.dateCreated
+    );
+    const dateActivated = dateActivatedFor(
+      isExperimental,
+      defaultValue,
+      matchingToggle?.dateActivated
+    );
 
     const { initialValue, ...otherFields } = toggle;
 
@@ -94,17 +92,16 @@ export const withDefaultPhaseUnmodified = (
       info('');
     }
 
-    // Only set dates for experimental toggles
     const isExperimental = flag.type === 'experimental';
-
-    const dateCreated = isExperimental
-      ? (matchingFlag?.dateCreated ?? new Date().toISOString())
-      : undefined;
-
-    const dateActivated =
-      isExperimental && defaultPhase !== null
-        ? (matchingFlag?.dateActivated ?? new Date().toISOString())
-        : undefined;
+    const dateCreated = dateCreatedFor(
+      isExperimental,
+      matchingFlag?.dateCreated
+    );
+    const dateActivated = dateActivatedFor(
+      isExperimental,
+      defaultPhase !== null,
+      matchingFlag?.dateActivated
+    );
 
     return {
       ...flag,

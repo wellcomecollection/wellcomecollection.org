@@ -2,6 +2,7 @@ import { S3Client } from '@aws-sdk/client-s3';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
+import { dateActivatedFor } from './lifecycleDates';
 import { getTogglesObject, putTogglesObject } from './s3-utils';
 
 const argv = yargs(hideBin(process.argv)).parseSync();
@@ -19,10 +20,8 @@ export async function setDefaultValueFor(client: S3Client): Promise<void> {
       return {
         ...toggle,
         defaultValue,
-        // dateActivated tracks the most recent activation (experimental toggles only).
         // Cleared on deactivation so it only ever reflects a currently-active toggle's activation date.
-        dateActivated:
-          isExperimental && defaultValue ? new Date().toISOString() : undefined,
+        dateActivated: dateActivatedFor(isExperimental, defaultValue),
       };
     }
     return toggle;
@@ -51,10 +50,7 @@ export async function setDefaultValueFor(client: S3Client): Promise<void> {
     return {
       ...flag,
       defaultPhase,
-      dateActivated:
-        isExperimental && defaultPhase !== null
-          ? new Date().toISOString()
-          : undefined,
+      dateActivated: dateActivatedFor(isExperimental, defaultPhase !== null),
     };
   });
 
