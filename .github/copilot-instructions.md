@@ -23,6 +23,7 @@ Follow these patterns consistently:
 - Test files: same name as source with `.test.ts` / `.test.tsx` suffix (match the source extension, e.g. `Component.tsx` → `Component.test.tsx`) - except when the test itself needs JSX (e.g. a context-provider wrapper for a hook test), which takes `.tsx` regardless of the source file's own extension
 - Type declarations: `.d.ts` extension for ambient declarations
 - Service/utility folders: use `index.ts` as the main export point
+- Booleans derived from a toggle (feature flag or phased flag) that gate rendering: name them `show<FlagName>`, after the flag itself rather than the UI element it happens to control (e.g. `showThematicBrowsing`, not `shouldShowMoreLink`) - keeps the name traceable back to the toggle dashboard entry
 
 ## Accessibility
 

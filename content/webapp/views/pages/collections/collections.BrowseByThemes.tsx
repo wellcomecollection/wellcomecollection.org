@@ -2,7 +2,7 @@ import { FunctionComponent, useState } from 'react';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { ThemeCardsListSlice as RawThemeCardsListSlice } from '@weco/common/prismicio-types';
-import { useFeatureFlags } from '@weco/common/server-data/Context';
+import { usePhasedFlags } from '@weco/common/server-data/Context';
 import { dasherize, pluralize } from '@weco/common/utils/grammar';
 import {
   ContaineredLayout,
@@ -14,6 +14,7 @@ import { transformThemeCardsList } from '@weco/content/services/prismic/transfor
 import MoreLink from '@weco/content/views/components/MoreLink';
 import SelectableTags from '@weco/content/views/components/SelectableTags';
 import ThemeCardsList from '@weco/content/views/components/ThemeCardsList';
+import { phaseIsAtLeast } from '@weco/toggles';
 
 type BrowseByThemeProps = {
   gridSizes: SizeMap;
@@ -68,7 +69,11 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
   gridSizes,
   themeCardsListSlices,
 }) => {
-  const { thematicBrowsing } = useFeatureFlags();
+  const { thematicBrowsingPhases } = usePhasedFlags();
+  const showThematicBrowsing = phaseIsAtLeast(
+    thematicBrowsingPhases,
+    'categoryPages'
+  );
 
   // Transform slices but ensure we only keep valid ones (valid title + concept IDs)
   const transformedThemeCardsListSlices = themeCardsListSlices
@@ -144,7 +149,7 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
         useShim
       />
 
-      {thematicBrowsing && isBrowsableCategory(selectedCategoryLabel) && (
+      {showThematicBrowsing && isBrowsableCategory(selectedCategoryLabel) && (
         <ContaineredLayout gridSizes={gridSize12()}>
           <Space $v={{ size: 'md', properties: ['margin-top'] }}>
             <MoreLink

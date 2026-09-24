@@ -13,6 +13,7 @@ import { transformPage } from '@weco/content/services/prismic/transformers/pages
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { ThematicBrowsingCategoryPageProps } from '@weco/content/views/layouts/ThematicBrowsingLayout';
 import CollectionsPeoplePage from '@weco/content/views/pages/collections/people-and-organisations';
+import { phaseIsAtLeast } from '@weco/toggles';
 
 type Props = ServerSideProps<ThematicBrowsingCategoryPageProps>;
 
@@ -22,7 +23,12 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   setCacheControl(context.res);
   const serverData = await getServerData(context);
 
-  if (!serverData.toggles.featureFlags.thematicBrowsing) {
+  if (
+    !phaseIsAtLeast(
+      serverData.toggles.phasedFlags.thematicBrowsingPhases,
+      'categoryPages'
+    )
+  ) {
     return {
       notFound: true,
     };
