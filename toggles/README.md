@@ -39,7 +39,7 @@ Use a phased flag instead of two (or more) feature flags combined by hand in cod
 
 Each phase can carry its own short (~20 word) `description` of what that specific phase adds, shown in the dashboard for whichever phase is currently selected. Anything longer belongs in the flag's `documentationLink`, same as for feature flags.
 
-`defaultPhase` (what's actually public) only exists on the *published* shape (`PublishedPhasedFlag` in `toggles/webapp/index.ts`), not on the authored `PhasedFlagDefinition` in `toggles.ts` — a new phased flag starts with nothing public, the same starting point a feature flag gets from `initialValue: false`, so there's nothing to set until a phase actually ships.
+`defaultPhase` (what's actually public) only exists on the *published* shape (`PublishedPhasedFlag` in `toggles/webapp/index.ts`), not on the authored `PhasedFlagDefinition` in `toggles.ts` — a new phased flag starts with nothing public, the same starting point a feature flag gets from `initialValue: false`, so there's nothing to set until a phase actually ships. The exception is a feature whose earlier phases already shipped behind a boolean flag: give the definition an `initialPhase` and the flag is born with that phase public, so replacing the boolean doesn't take the live feature away. Like `initialValue`, it's only read the first time the flag is published.
 
 To add a new phased flag:
 * Go to `toggles/webapp/toggles.ts`.

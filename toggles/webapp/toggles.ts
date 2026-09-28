@@ -55,14 +55,21 @@ export type PhasedFlagDefinition = ToggleBase & {
   // Ordered earliest to latest. Selecting a phase in the dashboard shows
   // that phase's work plus everything from the phases before it.
   phases: readonly PhaseDefinition[];
+  // The phase that's public the first time this flag is published - for a
+  // feature whose earlier phases already shipped behind a boolean flag.
+  // Like a feature flag's initialValue, it's only read for a brand new
+  // flag; after that the public phase changes via setDefaultValueFor.
+  initialPhase?: string;
 };
 
 export type PublishedPhasedFlag = ToggleBase &
   WithLifecycleDates & {
     phases: readonly PhaseDefinition[];
-    // What's actually public. Always null the first time a phased flag is
-    // published, then set explicitly later as each phase ships,
-    // the same way PublishedFeatureFlag.defaultValue works for booleans.
+    // What's actually public. Null the first time a phased flag is
+    // published, unless its definition set an initialPhase (for a feature
+    // whose earlier phases already shipped behind a boolean flag) - either
+    // way, set explicitly from then on as each phase ships, the same way
+    // PublishedFeatureFlag.defaultValue works for booleans.
     defaultPhase: string | null;
   };
 
