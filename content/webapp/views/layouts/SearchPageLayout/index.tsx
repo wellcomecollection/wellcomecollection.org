@@ -36,6 +36,69 @@ type SearchLayoutProps = PropsWithChildren<{
   apiToolbarLinks: ApiToolbarLink[];
 }>;
 
+export function getPageLayoutMetadata(
+  currentSearchCategory: string,
+  queryString: string | undefined,
+  apiToolbarLinks: ApiToolbarLink[]
+): PageLayoutMetadata {
+  const queryStringTitle = queryString ? `${queryString} | ` : '';
+
+  const basePageMetadata: PageLayoutMetadata = {
+    apiToolbarLinks,
+    openGraphType: 'website',
+    jsonLd: { '@type': 'WebPage' },
+    hideNewsletterPromo: true,
+    excludeRoleMain: true,
+    title: `${queryStringTitle}Search`,
+    description: pageDescriptions.search.overview,
+    url: {
+      pathname: '/search',
+      query: queryString ? { query: queryString } : {},
+    },
+  };
+
+  switch (currentSearchCategory) {
+    case 'stories':
+      return {
+        ...basePageMetadata,
+        description: pageDescriptions.search.stories,
+        title: `${queryStringTitle}Stories search`,
+        url: { ...basePageMetadata.url, pathname: '/search/stories' },
+      };
+    case 'images':
+      return {
+        ...basePageMetadata,
+        description: pageDescriptions.search.images,
+        title: `${queryStringTitle}Images search`,
+        url: { ...basePageMetadata.url, pathname: '/search/images' },
+      };
+    case 'works':
+      return {
+        ...basePageMetadata,
+        description: pageDescriptions.search.works,
+        title: `${queryStringTitle}Catalogue search`,
+        url: { ...basePageMetadata.url, pathname: '/search/works' },
+      };
+    case 'events':
+      return {
+        ...basePageMetadata,
+        description: pageDescriptions.search.events,
+        title: `${queryStringTitle}Events and exhibitions search`,
+        url: { ...basePageMetadata.url, pathname: '/search/events' },
+      };
+    case 'concepts':
+      return {
+        ...basePageMetadata,
+        description: pageDescriptions.search.concepts,
+        title: `${queryStringTitle}Themes search`,
+        url: { ...basePageMetadata.url, pathname: '/search/concepts' },
+      };
+    case 'overview':
+    default:
+      return basePageMetadata;
+  }
+}
+
 const SearchLayout: FunctionComponent<SearchLayoutProps> = ({
   children,
   apiToolbarLinks,
@@ -50,98 +113,18 @@ const SearchLayout: FunctionComponent<SearchLayoutProps> = ({
       ? 'overview'
       : router.pathname.slice(router.pathname.lastIndexOf('/') + 1);
 
-  const basePageMetadata: PageLayoutMetadata = {
-    apiToolbarLinks,
-    openGraphType: 'website',
-    jsonLd: { '@type': 'WebPage' },
-    hideNewsletterPromo: true,
-    excludeRoleMain: true,
-    title: `${queryString ? `${queryString} | ` : ''}Search`,
-    description: pageDescriptions.search.overview,
-    url: {
-      pathname: '/search',
-      query: queryString ? { query: queryString } : {},
-    },
-  };
-
-  const [pageLayoutMetadata, setPageLayoutMetadata] =
-    useState<PageLayoutMetadata>(basePageMetadata);
+  const pageLayoutMetadata = getPageLayoutMetadata(
+    currentSearchCategory,
+    queryString,
+    apiToolbarLinks
+  );
 
   useEffect(() => {
-    const queryStringTitle = queryString ? `${queryString} | ` : '';
-
     // This ensures that if somebody is on a search page, then does a search
     // from the global nav, we'll update the query string in the URL correctly --
     // and not keep whatever they were previously searching for.
     setQueryValue(queryString || '');
     setExtraApiToolbarLinks([]);
-
-    switch (currentSearchCategory) {
-      case 'overview':
-        setPageLayoutMetadata({
-          ...basePageMetadata,
-          title: `${queryStringTitle}Search`,
-        });
-        break;
-      case 'stories':
-        setPageLayoutMetadata({
-          ...basePageMetadata,
-          description: pageDescriptions.search.stories,
-          title: `${queryStringTitle}Stories search`,
-          url: {
-            ...basePageMetadata.url,
-            pathname: '/search/stories',
-          },
-        });
-        break;
-      case 'images':
-        setPageLayoutMetadata({
-          ...basePageMetadata,
-          description: pageDescriptions.search.images,
-          title: `${queryStringTitle}Images search`,
-          url: {
-            ...basePageMetadata.url,
-            pathname: '/search/images',
-          },
-        });
-        break;
-      case 'works':
-        setPageLayoutMetadata({
-          ...basePageMetadata,
-          description: pageDescriptions.search.works,
-          title: `${queryStringTitle}Catalogue search`,
-          url: {
-            ...basePageMetadata.url,
-            pathname: '/search/works',
-          },
-        });
-        break;
-      case 'events':
-        setPageLayoutMetadata({
-          ...basePageMetadata,
-          description: pageDescriptions.search.events,
-          title: `${queryStringTitle}Events and exhibitions search`,
-          url: {
-            ...basePageMetadata.url,
-            pathname: '/search/events',
-          },
-        });
-        break;
-      case 'concepts':
-        setPageLayoutMetadata({
-          ...basePageMetadata,
-          description: pageDescriptions.search.concepts,
-          title: `${queryStringTitle}Themes search`,
-          url: {
-            ...basePageMetadata.url,
-            pathname: '/search/concepts',
-          },
-        });
-        break;
-
-      default:
-        break;
-    }
   }, [currentSearchCategory, queryString]);
 
   return (
