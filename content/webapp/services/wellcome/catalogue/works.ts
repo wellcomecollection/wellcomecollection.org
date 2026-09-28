@@ -1,5 +1,6 @@
 import { propsToQuery } from '@weco/common/utils/routes';
 import {
+  ApiEnvironmentOverride,
   globalApiOptions,
   QueryProps,
   rootUris,
@@ -32,7 +33,7 @@ export type ArchiveWorkData = {
 
 type GetWorkProps = {
   id: string;
-  shouldUseStagingApi?: boolean;
+  apiEnvironment?: ApiEnvironmentOverride;
   pipelineCluster?: string;
   include?: string[];
 };
@@ -113,7 +114,7 @@ type WorkResponse =
 
 export async function getWork({
   id,
-  shouldUseStagingApi,
+  apiEnvironment,
   pipelineCluster,
   include = workIncludes,
 }: GetWorkProps): Promise<WorkResponse> {
@@ -121,7 +122,7 @@ export async function getWork({
     return notFound();
   }
 
-  const apiOptions = globalApiOptions(shouldUseStagingApi);
+  const apiOptions = globalApiOptions(apiEnvironment);
 
   const params = {
     include,
@@ -184,14 +185,14 @@ export async function getWorkClientSide(workId: string): Promise<WorkResponse> {
 
 export async function getArchiveWorks(
   ids: string[],
-  shouldUseStagingApi?: boolean,
+  apiEnvironment?: ApiEnvironmentOverride,
   pipelineCluster?: string
 ): Promise<Record<string, ArchiveWorkData>> {
   const settled = await Promise.allSettled(
     ids.map(id =>
       getWork({
         id,
-        shouldUseStagingApi,
+        apiEnvironment,
         pipelineCluster,
         include: ['production', 'contributors'],
       })
@@ -320,7 +321,7 @@ type ArchiveCollectionContentsPage = {
 export async function getArchiveCollectionContents(
   collectionRootId: string,
   page: number,
-  shouldUseStagingApi?: boolean,
+  apiEnvironment?: ApiEnvironmentOverride,
   pipelineCluster?: string
 ): Promise<ArchiveCollectionContentsPage | undefined> {
   const response = await getWorks({
@@ -331,7 +332,7 @@ export async function getArchiveCollectionContents(
       page,
     },
     pageSize: ARCHIVE_COLLECTION_CONTENTS_PAGE_SIZE,
-    shouldUseStagingApi,
+    apiEnvironment,
     pipelineCluster,
   });
 

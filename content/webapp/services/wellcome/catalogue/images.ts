@@ -1,5 +1,6 @@
 import { propsToQuery } from '@weco/common/utils/routes';
 import {
+  ApiEnvironmentOverride,
   globalApiOptions,
   QueryProps,
   rootUris,
@@ -25,7 +26,7 @@ type ImageInclude =
 
 type GetImageProps = {
   id: string;
-  shouldUseStagingApi?: boolean;
+  apiEnvironment?: ApiEnvironmentOverride;
   pipelineCluster?: string;
   include?: ImageInclude[];
 };
@@ -71,7 +72,7 @@ type ImageResponse = {
 
 export async function getImage({
   id,
-  shouldUseStagingApi,
+  apiEnvironment,
   pipelineCluster,
   include = [],
 }: GetImageProps): Promise<ImageResponse> {
@@ -79,7 +80,7 @@ export async function getImage({
     return { image: notFound() };
   }
 
-  const apiOptions = globalApiOptions(shouldUseStagingApi);
+  const apiOptions = globalApiOptions(apiEnvironment);
 
   const params = {
     include,

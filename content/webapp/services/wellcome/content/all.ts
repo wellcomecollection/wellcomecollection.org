@@ -1,4 +1,8 @@
-import { QueryProps, WellcomeApiError } from '@weco/content/services/wellcome';
+import {
+  ApiEnvironmentOverride,
+  QueryProps,
+  WellcomeApiError,
+} from '@weco/content/services/wellcome';
 import {
   Addressable,
   ContentApiProps,
@@ -20,14 +24,14 @@ export async function getAddressables(
 
 export async function getAddressable({
   id,
-  shouldUseStagingApi,
+  apiEnvironment,
 }: {
   id: string;
-  shouldUseStagingApi?: boolean;
+  apiEnvironment?: ApiEnvironmentOverride;
 }): Promise<Addressable | WellcomeApiError> {
   const getAddressableResult = await contentDocumentQuery<Addressable>(
     `all/${id}`,
-    { shouldUseStagingApi }
+    { apiEnvironment }
   );
 
   return getAddressableResult;

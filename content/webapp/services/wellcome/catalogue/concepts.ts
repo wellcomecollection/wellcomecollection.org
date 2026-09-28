@@ -1,4 +1,5 @@
 import {
+  ApiEnvironmentOverride,
   globalApiOptions,
   QueryProps,
   rootUris,
@@ -16,20 +17,20 @@ import {
 
 type GetConceptProps = {
   id: string;
-  shouldUseStagingApi?: boolean;
+  apiEnvironment?: ApiEnvironmentOverride;
 };
 
 type ConceptResponse = Concept | WellcomeApiError;
 
 export async function getConcept({
   id,
-  shouldUseStagingApi,
+  apiEnvironment,
 }: GetConceptProps): Promise<ConceptResponse> {
   if (!looksLikeCanonicalId(id)) {
     return notFound();
   }
 
-  const apiOptions = globalApiOptions(shouldUseStagingApi);
+  const apiOptions = globalApiOptions(apiEnvironment);
 
   const url = `${rootUris[apiOptions.env.concepts]}/catalogue/v2/concepts/${id}`;
 
@@ -60,7 +61,7 @@ export async function getConcepts(
  */
 export async function getConceptsByIds(
   ids: string[],
-  shouldUseStagingApi?: boolean
+  apiEnvironment?: ApiEnvironmentOverride
 ): Promise<Concept[]> {
   if (!ids || ids.length === 0) return [];
 
@@ -72,7 +73,7 @@ export async function getConceptsByIds(
 
   const result = await getConcepts({
     params: { id: validIds.join(',') },
-    shouldUseStagingApi,
+    apiEnvironment,
   });
 
   if ('results' in result) return result.results;

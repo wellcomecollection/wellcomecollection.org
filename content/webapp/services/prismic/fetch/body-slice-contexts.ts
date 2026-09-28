@@ -2,12 +2,13 @@ import {
   ArchiveCardListSlice,
   PagesDocumentDataBodySlice,
 } from '@weco/common/prismicio-types';
+import { ApiEnvironmentOverride } from '@weco/content/services/wellcome';
 import { getArchiveWorks } from '@weco/content/services/wellcome/catalogue/works';
 import { BodySliceContexts } from '@weco/content/views/components/Body';
 
 export async function getBodySliceContexts(
   bodySlices: PagesDocumentDataBodySlice[],
-  shouldUseStagingApi?: boolean,
+  apiEnvironment?: ApiEnvironmentOverride,
   pipelineCluster?: string
 ): Promise<BodySliceContexts> {
   const archiveCardIds = bodySlices
@@ -21,11 +22,7 @@ export async function getBodySliceContexts(
 
   const archiveWorks =
     archiveCardIds.length > 0
-      ? await getArchiveWorks(
-          archiveCardIds,
-          shouldUseStagingApi,
-          pipelineCluster
-        )
+      ? await getArchiveWorks(archiveCardIds, apiEnvironment, pipelineCluster)
       : {};
 
   return { archiveWorks };

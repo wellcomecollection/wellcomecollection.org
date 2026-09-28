@@ -23,9 +23,9 @@ export const notFound = (): WellcomeApiError => ({
 
 export async function catalogueQuery<Params, Result extends ResultType>(
   endpoint: string,
-  { params, shouldUseStagingApi, pipelineCluster, pageSize }: QueryProps<Params>
+  { params, apiEnvironment, pipelineCluster, pageSize }: QueryProps<Params>
 ): Promise<CatalogueResultsList<Result> | WellcomeApiError> {
-  const apiOptions = globalApiOptions(shouldUseStagingApi);
+  const apiOptions = globalApiOptions(apiEnvironment);
 
   // The cataloguePipeline mode toggle routes the request to that pipeline's
   // cluster, unless the caller has already selected a specific cluster

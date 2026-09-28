@@ -1,18 +1,21 @@
-import { WellcomeApiError } from '@weco/content/services/wellcome';
+import {
+  ApiEnvironmentOverride,
+  WellcomeApiError,
+} from '@weco/content/services/wellcome';
 
 import { contentDocumentQuery } from '.';
 import { Article } from './types/api';
 
 export async function getArticle({
   id,
-  shouldUseStagingApi,
+  apiEnvironment,
 }: {
   id: string;
-  shouldUseStagingApi?: boolean;
+  apiEnvironment?: ApiEnvironmentOverride;
 }): Promise<Article | WellcomeApiError> {
   const getArticleResult = await contentDocumentQuery<Article>(
     `articles/${id}`,
-    { shouldUseStagingApi }
+    { apiEnvironment }
   );
 
   return getArticleResult;
