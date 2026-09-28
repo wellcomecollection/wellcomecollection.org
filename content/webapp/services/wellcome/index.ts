@@ -2,6 +2,16 @@ import { fetchWithUndiciAgent } from '@weco/common/utils/undici-agent';
 
 type envOptions = 'prod' | 'stage' | 'dev';
 
+// The subset of envOptions a mode/cookie override can actually pick - 'prod'
+// isn't a selectable option, it's what "no override" already means. Unlike
+// the build-time NEXT_PUBLIC_*_API_ENV_OVERRIDE vars above, this drives a
+// runtime cookie a real user could set on the deployed site: 'dev' only
+// resolves for someone whose own machine has api-dev.wellcomecollection.org
+// pointed at a locally-running API (see yarn config-local-apis) - it's for
+// debugging the real deployed frontend against your own local API, not a
+// shared environment, so it breaks for anyone else who picks it.
+export type ApiEnvironmentOverride = 'stage' | 'dev';
+
 const DEFAULT_API_ENV_OVERRIDE = process.env
   .NEXT_PUBLIC_API_ENV_OVERRIDE as envOptions;
 const CONTENT_API_ENV_OVERRIDE = process.env
@@ -29,10 +39,10 @@ export type GlobalApiOptions = {
 };
 
 export const globalApiOptions = (
-  shouldUseStagingApi?: boolean
+  apiEnvironment?: ApiEnvironmentOverride
 ): GlobalApiOptions => {
   const toggleDefinedApiEnv =
-    DEFAULT_API_ENV_OVERRIDE || (shouldUseStagingApi ? 'stage' : 'prod');
+    DEFAULT_API_ENV_OVERRIDE || apiEnvironment || 'prod';
 
   const apiConfig = {
     env: {
@@ -109,7 +119,7 @@ export type WellcomeAggregation<
 export type QueryProps<Params> = {
   params: Params;
   pageSize?: number;
-  shouldUseStagingApi?: boolean;
+  apiEnvironment?: ApiEnvironmentOverride;
   // Only used by catalogue queries, where catalogueQuery maps it to the
   // elasticCluster param; carries the cataloguePipeline mode toggle value.
   // undefined means the normal pipeline setup
