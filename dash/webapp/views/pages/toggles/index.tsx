@@ -12,7 +12,7 @@ import {
   PageTitle,
 } from '@weco/dash/views/components/PageLayout';
 import { tokens } from '@weco/dash/views/themes/tokens';
-import { ModeDefinition } from '@weco/toggles';
+import { ModeDefinition, PublishedPhasedFlag } from '@weco/toggles';
 
 import ListOfToggles from './ListOfToggles';
 import ABTests, { AbTest } from './toggles.ABTests';
@@ -23,6 +23,7 @@ import {
   ToggleStates,
 } from './toggles.helpers';
 import Modes from './toggles.Modes';
+import PhasedFlags from './toggles.PhasedFlags';
 import {
   MessageBox,
   ResetButton,
@@ -36,8 +37,14 @@ const GENERAL_FEATURE_FLAG_IDS = ['apiToolbar', 'conceptsSearch'];
 
 const TogglesPage: FunctionComponent = () => {
   const router = useRouter();
-  const { enableToggle, disableToggle, resetToggles, enableMode, modeValue } =
-    router.query;
+  const {
+    enableToggle,
+    disableToggle,
+    resetToggles,
+    enableMode,
+    modeValue,
+    phaseValue,
+  } = router.query;
   const [message, setMessage] = useState<{
     text: string;
     isError?: boolean;
@@ -45,6 +52,10 @@ const TogglesPage: FunctionComponent = () => {
   } | null>(null);
   const [toggleStates, setToggleStates] = useState<ToggleStates>({});
   const [featureFlags, setFeatureFlags] = useState<FeatureFlag[]>([]);
+  const [phasedFlags, setPhasedFlags] = useState<PublishedPhasedFlag[]>([]);
+  const [phasedFlagStates, setPhasedFlagStates] = useState<
+    Record<string, string>
+  >({});
   const [abTests, setAbTests] = useState<AbTest[]>([]);
   const [modes, setModes] = useState<ModeDefinition[]>([]);
   const [modeStates, setModeStates] = useState<Record<string, string>>({});
@@ -55,10 +66,13 @@ const TogglesPage: FunctionComponent = () => {
       .then(resp => resp.json())
       .then(json => {
         const flags: FeatureFlag[] = json.featureFlags ?? [];
+        const phasedFlagDefinitions: PublishedPhasedFlag[] =
+          json.phasedFlags ?? [];
         const tests: AbTest[] = json.tests ?? [];
         const modeDefinitions: ModeDefinition[] = json.modes ?? [];
 
         setFeatureFlags(flags);
+        setPhasedFlags(phasedFlagDefinitions);
         setAbTests(tests);
         setModes(modeDefinitions);
 
@@ -73,6 +87,22 @@ const TogglesPage: FunctionComponent = () => {
               ? cookies[cookieKey] === 'true'
               : toggle.defaultValue;
         }
+
+        // Phased flags: only record a state when the cookie is a phase that
+        // still exists - same reasoning as modes below, but validated
+        // against each flag's own phases list rather than one shared list.
+        const initialPhasedFlagStates: Record<string, string> = {};
+        for (const flag of phasedFlagDefinitions) {
+          const cookieKey = `toggle_${flag.id}`;
+          const cookieValue = cookies[cookieKey];
+          if (
+            cookieValue &&
+            flag.phases.some(phase => phase.id === cookieValue)
+          ) {
+            initialPhasedFlagStates[flag.id] = cookieValue;
+          }
+        }
+        setPhasedFlagStates(initialPhasedFlagStates);
 
         // AB tests: cookie value or undefined (= randomly allocate)
         for (const test of tests) {
@@ -153,6 +183,56 @@ const TogglesPage: FunctionComponent = () => {
     [featureFlags]
   );
 
+  const handlePhasedFlag = useCallback(
+    (flagId: string, action: 'enable' | 'disable', phaseId?: string) => {
+      const flag = phasedFlags.find(f => f.id === flagId);
+      if (!flag) {
+        setMessage({
+          text: `Phased flag "${flagId}" does not exist.`,
+          isError: true,
+        });
+        return;
+      }
+      if (action === 'disable') {
+        deleteCookieCustom(flagId);
+        setPhasedFlagStates(prev => {
+          const next = { ...prev };
+          delete next[flagId];
+          return next;
+        });
+        setMessage({
+          text: `Phased flag "${flag.title}" has been reset to its default view.`,
+          isError: false,
+          isEnabled: false,
+        });
+        return;
+      }
+      if (!phaseId) {
+        setMessage({
+          text: `Phased flag "${flagId}" requires a phaseValue.`,
+          isError: true,
+        });
+        return;
+      }
+      const phase = flag.phases.find(p => p.id === phaseId);
+      if (!phase) {
+        setMessage({
+          text: `Phased flag "${flagId}" has no phase "${phaseId}".`,
+          isError: true,
+        });
+        return;
+      }
+      setCookieCustom(flagId, phaseId);
+      setPhasedFlagStates(prev => ({ ...prev, [flagId]: phaseId }));
+      setMessage({
+        text: `Phased flag "${flag.title}" has been set to "${phase.label}".`,
+        isError: false,
+        isEnabled: true,
+      });
+    },
+    [phasedFlags]
+  );
+
   const handleMode = useCallback(
     (modeId: string, optionId: string) => {
       const mode = modes.find(m => m.id === modeId);
@@ -220,19 +300,57 @@ const TogglesPage: FunctionComponent = () => {
     });
   }, [abTests]);
 
+  const resetPhasedFlags = useCallback(() => {
+    phasedFlags.forEach(flag => deleteCookieCustom(flag.id));
+    setPhasedFlagStates({});
+    setMessage({
+      text: 'All phased flags have been reset to their public phase.',
+      isError: false,
+    });
+  }, [phasedFlags]);
+
+  const resetFeatureAndPhasedFlags = useCallback(() => {
+    reset();
+    resetPhasedFlags();
+    setMessage({
+      text: 'All feature flags and phased flags have been reset to their defaults.',
+      isError: false,
+    });
+  }, [reset, resetPhasedFlags]);
+
   useEffect(() => {
-    if (featureFlags.length === 0 && modes.length === 0) return;
+    if (
+      featureFlags.length === 0 &&
+      phasedFlags.length === 0 &&
+      modes.length === 0
+    )
+      return;
+
+    const isKnownFeatureFlag = (id: string) =>
+      featureFlags.some(f => f.id === id);
+    const isKnownPhasedFlag = (id: string) =>
+      phasedFlags.some(f => f.id === id);
 
     if (resetToggles !== undefined) {
-      reset();
-      setMessage({
-        text: 'All feature flags have been reset to their default values.',
-        isError: false,
-      });
+      resetFeatureAndPhasedFlags();
     } else if (enableToggle) {
-      handleFeatureFlag(enableToggle as string, 'enable');
+      const id = enableToggle as string;
+      if (isKnownFeatureFlag(id)) {
+        handleFeatureFlag(id, 'enable');
+      } else if (isKnownPhasedFlag(id)) {
+        handlePhasedFlag(id, 'enable', phaseValue as string | undefined);
+      } else {
+        setMessage({ text: `Toggle "${id}" does not exist.`, isError: true });
+      }
     } else if (disableToggle) {
-      handleFeatureFlag(disableToggle as string, 'disable');
+      const id = disableToggle as string;
+      if (isKnownFeatureFlag(id)) {
+        handleFeatureFlag(id, 'disable');
+      } else if (isKnownPhasedFlag(id)) {
+        handlePhasedFlag(id, 'disable');
+      } else {
+        setMessage({ text: `Toggle "${id}" does not exist.`, isError: true });
+      }
     } else if (enableMode) {
       handleMode(enableMode as string, (modeValue as string) ?? '');
     }
@@ -242,10 +360,13 @@ const TogglesPage: FunctionComponent = () => {
     resetToggles,
     enableMode,
     modeValue,
+    phaseValue,
     handleFeatureFlag,
+    handlePhasedFlag,
     handleMode,
-    reset,
+    resetFeatureAndPhasedFlags,
     featureFlags,
+    phasedFlags,
     modes,
   ]);
 
@@ -274,6 +395,21 @@ const TogglesPage: FunctionComponent = () => {
   const stageFeatureFlags = filterFeatureFlags(
     featureFlags.filter(t => t.type === 'stage')
   );
+  const filteredPhasedFlags: PublishedPhasedFlag[] = searchQuery
+    ? phasedFlags.filter(flag => {
+        const query = searchQuery.toLowerCase();
+        return (
+          flag.title.toLowerCase().includes(query) ||
+          flag.description.toLowerCase().includes(query) ||
+          flag.id.toLowerCase().includes(query) ||
+          flag.phases.some(
+            phase =>
+              phase.label.toLowerCase().includes(query) ||
+              phase.description.toLowerCase().includes(query)
+          )
+        );
+      })
+    : phasedFlags;
   const filteredAbTests: AbTest[] = searchQuery
     ? abTests.filter(
         t =>
@@ -300,6 +436,7 @@ const TogglesPage: FunctionComponent = () => {
     permanentFeatureFlags.length +
     experimentalFeatureFlags.length +
     stageFeatureFlags.length +
+    filteredPhasedFlags.length +
     filteredAbTests.length +
     filteredModes.length;
 
@@ -345,6 +482,9 @@ const TogglesPage: FunctionComponent = () => {
               </li>
               <li>
                 <a href="#staging">Staging</a>
+              </li>
+              <li>
+                <a href="#phased-flags">Phased flags</a>
               </li>
               <li>
                 <a href="#ab-tests">A/B tests</a>
@@ -466,8 +606,21 @@ const TogglesPage: FunctionComponent = () => {
           </Section>
         )}
 
+        {(filteredPhasedFlags.length > 0 || !searchQuery) && (
+          <Section $background="alt" aria-labelledby="phased-flags">
+            <SectionInner>
+              <PhasedFlags
+                phasedFlags={filteredPhasedFlags}
+                phasedFlagStates={phasedFlagStates}
+                setPhasedFlagStates={setPhasedFlagStates}
+                onReset={resetPhasedFlags}
+              />
+            </SectionInner>
+          </Section>
+        )}
+
         {(filteredAbTests.length > 0 || !searchQuery) && (
-          <Section $background="alt" aria-labelledby="ab-tests">
+          <Section $background="light" aria-labelledby="ab-tests">
             <SectionInner>
               <ABTests
                 filteredAbTests={filteredAbTests}
@@ -480,7 +633,7 @@ const TogglesPage: FunctionComponent = () => {
         )}
 
         {(filteredModes.length > 0 || !searchQuery) && (
-          <Section $background="light" aria-labelledby="modes">
+          <Section $background="alt" aria-labelledby="modes">
             <SectionInner>
               <Modes
                 modes={filteredModes}

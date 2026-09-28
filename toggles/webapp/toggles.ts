@@ -12,12 +12,17 @@ export type FeatureFlagDefinition = ToggleBase & {
   initialValue: boolean;
 };
 
-export type PublishedFeatureFlag = ToggleBase & {
-  defaultValue: boolean;
-  // Dates are only populated for experimental toggles
+// Only ever populated for experimental toggles. Shared by feature flags and
+// phased flags - both go public and get tracked this way; a mode never does.
+type WithLifecycleDates = {
   dateCreated?: string;
   dateActivated?: string;
 };
+
+export type PublishedFeatureFlag = ToggleBase &
+  WithLifecycleDates & {
+    defaultValue: boolean;
+  };
 
 export type ABTest = {
   id: string;
@@ -37,6 +42,29 @@ export type ModeDefinition = {
   description: string;
   options: readonly ModeOption[];
 };
+
+export type PhaseDefinition = {
+  id: string;
+  label: string;
+  // What THIS phase specifically adds — keep to ~20 words. Anything longer
+  // belongs in the feature's own `documentationLink` instead.
+  description: string;
+};
+
+export type PhasedFlagDefinition = ToggleBase & {
+  // Ordered earliest to latest. Selecting a phase in the dashboard shows
+  // that phase's work plus everything from the phases before it.
+  phases: readonly PhaseDefinition[];
+};
+
+export type PublishedPhasedFlag = ToggleBase &
+  WithLifecycleDates & {
+    phases: readonly PhaseDefinition[];
+    // What's actually public. Always null the first time a phased flag is
+    // published, then set explicitly later as each phase ships,
+    // the same way PublishedFeatureFlag.defaultValue works for booleans.
+    defaultPhase: string | null;
+  };
 
 const toggleConfig = {
   // Feature flags (permanent toggles, experiments, stage toggles)
@@ -183,6 +211,9 @@ const toggleConfig = {
       type: 'experimental',
     },
   ] as const,
+  // Phased flags: like a feature flag, but with an ordered set of phases
+  // instead of on/off. Selecting a phase always includes every phase before it.
+  phasedFlags: [] as const,
   // We have to include a reference to any test toggles here as well as in the cache dir
   // because they are deployed separately and consequently can't share a source of truth
   tests: [] as ABTest[],
