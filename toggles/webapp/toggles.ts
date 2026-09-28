@@ -153,7 +153,7 @@ const toggleConfig = {
       title: 'Archive Collection level pages',
       initialValue: false,
       description:
-        'Enables access to the new Archive Collection level pages, changes to the work page and search result.',
+        'Superseded by the Archive collection phased flag and no longer does anything. Kept until the release that reads the phased flag is live everywhere; to be deleted in a follow-up PR.',
       type: 'experimental',
     },
     {
@@ -161,7 +161,7 @@ const toggleConfig = {
       title: 'Archive short descriptions',
       initialValue: false,
       description:
-        "Shows the catalogue API's shortDescription field on archive work pages, the archive collection hero and archive collection search results.",
+        'Superseded by the Archive collection phased flag (phase 2) and no longer does anything. Kept until the release that reads the phased flag is live everywhere; to be deleted in a follow-up PR.',
       type: 'experimental',
     },
     {
@@ -239,6 +239,29 @@ const toggleConfig = {
           label: 'Sub-category pages',
           description:
             'Subject sub-category pages become accessible, and the subjects category page gains a sub-category menu.',
+        },
+      ],
+    },
+    {
+      id: 'archiveCollectionPhases',
+      title: 'Archive collection',
+      description:
+        'Staged rollout of archive collection pages, replacing the archiveCollection and archiveShortDescriptions feature flags.',
+      type: 'experimental',
+      // MVP was already public behind archiveCollection.
+      initialPhase: 'mvp',
+      phases: [
+        {
+          id: 'mvp',
+          label: 'MVP',
+          description:
+            'Archive collection level pages, plus the archive collection treatment on the work page and in search results.',
+        },
+        {
+          id: 'phase2',
+          label: 'Phase 2',
+          description:
+            "The catalogue API's shortDescription is shown on the archive collection hero and in search results.",
         },
       ],
     },

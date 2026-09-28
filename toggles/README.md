@@ -35,7 +35,7 @@ To add a new feature flag:
 
 Phased flags are for a feature that's genuinely shipping in stages, rather than as a single on/off release. Instead of a `defaultValue`, a phased flag has an ordered list of `phases` (e.g. MVP, Phase 2, Phase 3). Selecting a phase always shows that phase's work plus everything from the phases before it — there's no way to show a later phase while hiding an earlier one.
 
-Use a phased flag instead of two (or more) feature flags combined by hand in code. For example, `archiveCollection` and `archiveShortDescriptions` are two separate feature flags today, and the code that reads them combines the two with an explicit `&&` because one is meant to only ever be on together with the other. A phased flag replaces that pair with a single ordered dial: MVP (`archiveCollection`'s current behaviour) then Phase 2 (adds what `archiveShortDescriptions` adds).
+Use a phased flag instead of two (or more) feature flags combined by hand in code. For example, `archiveCollection` and `archiveShortDescriptions` used to be two separate feature flags, and the code that read them combined the two with an explicit `&&` because one was only ever meant to be on together with the other. `archiveCollectionPhases` replaced that pair with a single ordered dial: MVP (what `archiveCollection` did) then Phase 2 (what `archiveShortDescriptions` added).
 
 Each phase can carry its own short (~20 word) `description` of what that specific phase adds, shown in the dashboard for whichever phase is currently selected. Anything longer belongs in the flag's `documentationLink`, same as for feature flags.
 
@@ -86,8 +86,8 @@ Client-side, use the following hooks:
 Combine `usePhasedFlags()` with `phaseIsAtLeast()` (from `@weco/toggles`) rather than comparing the phase id directly, since a later phase should always satisfy an earlier check:
 
 ```typescript
-const { archiveCollection } = usePhasedFlags();
-if (phaseIsAtLeast(archiveCollection, 'phase2')) {
+const { archiveCollectionPhases } = usePhasedFlags();
+if (phaseIsAtLeast(archiveCollectionPhases, 'phase2')) {
   // Phase 2 (and everything from MVP) is showing
 }
 ```
