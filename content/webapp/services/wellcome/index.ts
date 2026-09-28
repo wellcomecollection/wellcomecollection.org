@@ -2,15 +2,14 @@ import { fetchWithUndiciAgent } from '@weco/common/utils/undici-agent';
 
 type envOptions = 'prod' | 'stage' | 'dev';
 
-// The subset of envOptions a mode/cookie override can actually pick - 'prod'
-// isn't a selectable option, it's what "no override" already means. Unlike
-// the build-time NEXT_PUBLIC_*_API_ENV_OVERRIDE vars above, this drives a
-// runtime cookie a real user could set on the deployed site: 'dev' only
-// resolves for someone whose own machine has api-dev.wellcomecollection.org
-// pointed at a locally-running API (see yarn config-local-apis) - it's for
-// debugging the real deployed frontend against your own local API, not a
-// shared environment, so it breaks for anyone else who picks it.
-export type ApiEnvironmentOverride = 'stage' | 'dev';
+// The subset of envOptions the apiEnvironment mode can pick. 'prod' isn't a
+// selectable option, it's what "no override" already means. 'dev' is
+// deliberately excluded: api-dev.wellcomecollection.org only resolves via a
+// developer's own /etc/hosts entry (yarn config-local-apis), and the fetches
+// this drives run in getServerSideProps and API routes - on the deployed
+// server, not in the developer's browser - so it could never reach a local
+// API from the live site. For local dev use NEXT_PUBLIC_API_ENV_OVERRIDE.
+export type ApiEnvironmentOverride = 'stage';
 
 const DEFAULT_API_ENV_OVERRIDE = process.env
   .NEXT_PUBLIC_API_ENV_OVERRIDE as envOptions;

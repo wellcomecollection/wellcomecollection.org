@@ -7,7 +7,7 @@ export function resolveApiEnvironment(
   toggles: Pick<Toggles, 'modes'>
 ): ApiEnvironmentOverride | undefined {
   const mode = toggles.modes.apiEnvironment;
-  return mode === 'stage' || mode === 'dev' ? mode : undefined;
+  return mode === 'stage' ? mode : undefined;
 }
 
 /** Client-side equivalent of `resolveApiEnvironment(serverData.toggles)`. */

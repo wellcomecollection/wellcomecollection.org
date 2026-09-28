@@ -264,11 +264,8 @@ const toggleConfig = {
       id: 'apiEnvironment',
       title: 'API environment',
       description:
-        'Overrides which environment the content, concepts and catalogue APIs are queried from. Off means production. Replaces the old Staging API feature flag.\n\n"Dev" points the live site at your own locally-running API, for debugging against the real deployed frontend without a full local build - it only works if you\'ve set up api-dev.wellcomecollection.org to resolve to your machine (yarn config-local-apis) and have that local API running. Since the cookie applies site-wide, forgetting to switch it off (or stopping your local API) will break every API call on the live site for you until you do.',
-      options: [
-        { id: 'stage', label: 'Stage' },
-        { id: 'dev', label: 'Dev (needs your own local API running)' },
-      ],
+        'Overrides which environment the content, concepts and catalogue APIs are queried from. Off means production.',
+      options: [{ id: 'stage', label: 'Stage' }],
     },
   ] as const,
 };
