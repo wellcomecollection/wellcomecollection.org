@@ -1,5 +1,4 @@
-import { expect, test } from '@playwright/test';
-
+import { expect, test } from './helpers/analytics-blocking';
 import { whatsOn } from './helpers/contexts';
 
 test.describe('(1) | EventsByMonth with JavaScript disabled', () => {
