@@ -6,7 +6,6 @@ import {
   commissioningEditorRoleId,
   officialLandingPagesUid,
 } from '@weco/common/data/hardcoded-ids';
-import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { ContentApiType } from '@weco/common/services/prismic/content-types';
 import { ElementFromComponent } from '@weco/common/utils/utility-types';
 import {
@@ -23,6 +22,7 @@ import ContentPageContext from '@weco/content/contexts/ContentPageContext';
 import { ContentApiLinkedWork } from '@weco/content/services/wellcome/content/types/api';
 import { Contributor } from '@weco/content/types/contributors';
 import { Season } from '@weco/content/types/seasons';
+import { useApiEnvironment } from '@weco/content/utils/api-environment';
 import { Props as BodyProps } from '@weco/content/views/components/Body';
 import Contributors from '@weco/content/views/components/Contributors';
 import { getLinkedWorks } from '@weco/content/views/pages/stories/story/story.helpers';
@@ -73,7 +73,7 @@ const ContentPage = ({
   showStaticLinkedWorks,
   contentApiType,
 }: Props): ReactElement => {
-  const { stagingApi } = useFeatureFlags();
+  const apiEnvironment = useApiEnvironment();
 
   const [linkedWorks, setLinkedWorks] = useState<ContentApiLinkedWork[]>([]);
 
@@ -83,7 +83,7 @@ const ContentPage = ({
     try {
       const linkedWorksResults = await getLinkedWorks({
         id: `${id}.${contentApiType}`,
-        shouldUseStagingApi: stagingApi,
+        apiEnvironment,
       });
 
       setLinkedWorks(() => {

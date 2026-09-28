@@ -30,6 +30,7 @@ import { transformPage } from '@weco/content/services/prismic/transformers/pages
 import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import { getArticles } from '@weco/content/services/wellcome/content/articles';
 import { isContentList } from '@weco/content/types/body';
+import { resolveApiEnvironment } from '@weco/content/utils/api-environment';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import Homepage, { Props as HomepageProps } from '@weco/content/views/pages';
 
@@ -50,7 +51,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const articlesResponsePromise = getArticles({
     params: {},
     pageSize: 4,
-    shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+    apiEnvironment: resolveApiEnvironment(serverData.toggles),
   });
 
   const eventsQueryPromise = fetchEvents(client, {

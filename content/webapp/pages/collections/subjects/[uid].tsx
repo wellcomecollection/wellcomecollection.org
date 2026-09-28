@@ -31,6 +31,7 @@ import {
   Work,
 } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
+import { resolveApiEnvironment } from '@weco/content/utils/api-environment';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import WellcomeSubThemePage, {
   Props as WellcomeSubThemePageProps,
@@ -116,7 +117,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       sortOrder: 'desc',
     },
     pageSize: 3,
-    shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+    apiEnvironment: resolveApiEnvironment(serverData.toggles),
     pipelineCluster: serverData.toggles.modes.cataloguePipeline ?? undefined,
   });
 
@@ -149,7 +150,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       params: {
         id: CONCEPT_GROUPS[pageUid].join(','),
       },
-      shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+      apiEnvironment: resolveApiEnvironment(serverData.toggles),
     });
 
     if (conceptResponse.type === 'Error') {
@@ -172,7 +173,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
             params: {
               subjects: CONCEPT_GROUPS[pageUid],
             },
-            shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+            apiEnvironment: resolveApiEnvironment(serverData.toggles),
             pipelineCluster:
               serverData.toggles.modes.cataloguePipeline ?? undefined,
             pageSize: 5,
@@ -183,7 +184,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
               'subjects.label': displayLabels,
               aggregations: ['workType'],
             },
-            shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+            apiEnvironment: resolveApiEnvironment(serverData.toggles),
             pipelineCluster:
               serverData.toggles.modes.cataloguePipeline ?? undefined,
             pageSize: 5,
@@ -195,7 +196,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
             params: {
               'source.subjects': CONCEPT_GROUPS[pageUid],
             },
-            shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+            apiEnvironment: resolveApiEnvironment(serverData.toggles),
             pipelineCluster:
               serverData.toggles.modes.cataloguePipeline ?? undefined,
             pageSize: 12,
@@ -207,7 +208,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
                 c => c.label
               ),
             },
-            shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+            apiEnvironment: resolveApiEnvironment(serverData.toggles),
             pipelineCluster:
               serverData.toggles.modes.cataloguePipeline ?? undefined,
             pageSize: 12,

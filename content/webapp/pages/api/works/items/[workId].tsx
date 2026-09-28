@@ -4,6 +4,7 @@ import { getCachedToggles } from '@weco/common/server-data';
 import { getTogglesFromContext } from '@weco/common/server-data/toggles';
 import { isString, isUndefined } from '@weco/common/utils/type-guards';
 import {
+  ApiEnvironmentOverride,
   globalApiOptions,
   GlobalApiOptions,
   rootUris,
@@ -12,6 +13,7 @@ import {
 } from '@weco/content/services/wellcome';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import { ItemsList } from '@weco/content/services/wellcome/catalogue/types';
+import { resolveApiEnvironment } from '@weco/content/utils/api-environment';
 
 function getApiUrl(apiOptions: GlobalApiOptions, workId: string): string {
   return `${rootUris[apiOptions.env.catalogue]}/catalogue/v2/works/${workId}/items`;
@@ -32,12 +34,12 @@ function getApiKey(apiOptions: GlobalApiOptions): string {
 
 async function fetchWorkItems({
   workId,
-  shouldUseStagingApi,
+  apiEnvironment,
 }: {
   workId: string;
-  shouldUseStagingApi?: boolean;
+  apiEnvironment?: ApiEnvironmentOverride;
 }): Promise<ItemsList | WellcomeApiError> {
-  const apiOptions = globalApiOptions(shouldUseStagingApi);
+  const apiOptions = globalApiOptions(apiEnvironment);
   const apiUrl = getApiUrl(apiOptions, workId);
   try {
     const items = await fetch(apiUrl, {
@@ -57,7 +59,7 @@ const ItemsApi = async (
   res: NextApiResponse
 ): Promise<void> => {
   const togglesResp = await getCachedToggles();
-  const { featureFlags } = getTogglesFromContext(togglesResp, { req });
+  const { modes } = getTogglesFromContext(togglesResp, { req });
   const { workId } = req.query;
 
   if (!isString(workId) || !looksLikeCanonicalId(workId)) {
@@ -65,7 +67,7 @@ const ItemsApi = async (
     return;
   }
   const response = await fetchWorkItems({
-    shouldUseStagingApi: featureFlags.stagingApi,
+    apiEnvironment: resolveApiEnvironment({ modes }),
     workId,
   });
   res.setHeader('Content-Type', 'application/json');

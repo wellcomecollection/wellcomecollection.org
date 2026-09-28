@@ -26,6 +26,7 @@ import {
 } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
 import { isFullWidthBanner } from '@weco/content/types/body';
+import { resolveApiEnvironment } from '@weco/content/utils/api-environment';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import CollectionsLandingPage, {
   Props as CollectionsLandingPageProps,
@@ -104,7 +105,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
           params: {
             identifiers: newOnlineWorkIds,
           },
-          shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+          apiEnvironment: resolveApiEnvironment(serverData.toggles),
           pipelineCluster:
             serverData.toggles.modes.cataloguePipeline ?? undefined,
         });

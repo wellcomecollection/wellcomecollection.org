@@ -10,6 +10,7 @@ import {
 } from '@weco/common/views/pages/_app';
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { getEvents } from '@weco/content/services/wellcome/content/events';
+import { resolveApiEnvironment } from '@weco/content/utils/api-environment';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
 import {
@@ -98,7 +99,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       ],
     },
     pageSize: 24,
-    shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+    apiEnvironment: resolveApiEnvironment(serverData.toggles),
   });
 
   if (eventResponseList?.type === 'Error') {

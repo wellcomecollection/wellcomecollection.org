@@ -3,7 +3,7 @@ import { FunctionComponent, useEffect, useMemo, useRef, useState } from 'react';
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { treeInstructions } from '@weco/common/data/microcopy';
 import { plus } from '@weco/common/icons';
-import { useFeatureFlags, useModes } from '@weco/common/server-data/Context';
+import { useModes } from '@weco/common/server-data/Context';
 import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
 import { Work } from '@weco/content/services/wellcome/catalogue/types';
@@ -11,6 +11,7 @@ import {
   ARCHIVE_COLLECTION_CONTENTS_PAGE_SIZE,
   getArchiveCollectionContents,
 } from '@weco/content/services/wellcome/catalogue/works';
+import { useApiEnvironment } from '@weco/content/utils/api-environment';
 import { getArchiveAncestorArray } from '@weco/content/utils/works';
 import {
   buildTreeFromCollectionPathOrder,
@@ -38,7 +39,7 @@ const ArchiveCollectionContents: FunctionComponent<{
   isActive: boolean;
 }> = ({ work, isActive }) => {
   const { isEnhanced } = useAppContext();
-  const { stagingApi } = useFeatureFlags();
+  const apiEnvironment = useApiEnvironment();
   const { cataloguePipeline } = useModes();
   const archiveAncestorArray = getArchiveAncestorArray(work);
   const collectionRootId = archiveAncestorArray[0]?.id || work.id;
@@ -82,7 +83,7 @@ const ArchiveCollectionContents: FunctionComponent<{
     const response = await getArchiveCollectionContents(
       collectionRootId,
       pageToLoad,
-      stagingApi,
+      apiEnvironment,
       cataloguePipeline ?? undefined
     );
     if (!response) return false;
@@ -119,7 +120,7 @@ const ArchiveCollectionContents: FunctionComponent<{
       .then(succeeded => {
         if (!succeeded) hasFetched.current = false;
       });
-  }, [isActive, collectionRootId, stagingApi, cataloguePipeline]);
+  }, [isActive, collectionRootId, apiEnvironment, cataloguePipeline]);
 
   async function showMore() {
     setIsLoadingMore(true);

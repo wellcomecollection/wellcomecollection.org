@@ -23,6 +23,7 @@ import {
 } from '@weco/content/types/articles';
 import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 import { Series } from '@weco/content/types/series';
+import { resolveApiEnvironment } from '@weco/content/utils/api-environment';
 import { getFeaturedMedia, HeroPicture } from '@weco/content/utils/page-header';
 import Body from '@weco/content/views/components/Body';
 import ContentPage from '@weco/content/views/components/ContentPage';
@@ -60,7 +61,7 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
       getRelatedDoc(
         article,
         setRelatedDocument,
-        serverData.toggles.featureFlags.stagingApi
+        resolveApiEnvironment(serverData.toggles)
       );
     }
   }, []);

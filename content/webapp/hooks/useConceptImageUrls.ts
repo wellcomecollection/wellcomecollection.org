@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 
-import { useFeatureFlags, useModes } from '@weco/common/server-data/Context';
+import { useModes } from '@weco/common/server-data/Context';
 import {
   convertIiifImageUri,
   iiifImageTemplate,
 } from '@weco/common/utils/convert-image-uri';
+import { ApiEnvironmentOverride } from '@weco/content/services/wellcome';
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import type { Concept } from '@weco/content/services/wellcome/catalogue/types';
+import { useApiEnvironment } from '@weco/content/utils/api-environment';
 import { queryParams } from '@weco/content/utils/concepts';
 
 /**
@@ -27,19 +29,19 @@ async function fetchImagesBySection({
   sectionName,
   concept,
   limit,
-  shouldUseStagingApi,
+  apiEnvironment,
   pipelineCluster,
 }: {
   sectionName: string;
   concept: Concept;
   limit: number;
-  shouldUseStagingApi?: boolean;
+  apiEnvironment?: ApiEnvironmentOverride;
   pipelineCluster?: string;
 }): Promise<string[]> {
   const params = queryParams(sectionName, concept);
   const result = await getImages({
     params,
-    shouldUseStagingApi,
+    apiEnvironment,
     pipelineCluster,
     pageSize: limit,
   });
@@ -51,7 +53,7 @@ async function fetchImagesBySection({
 
 export function useConceptImageUrls(concept: Concept): ConceptImagesArray {
   const [images, setImages] = useState<string[]>([]);
-  const { stagingApi } = useFeatureFlags();
+  const apiEnvironment = useApiEnvironment();
   const { cataloguePipeline } = useModes();
   const pipelineCluster = cataloguePipeline ?? undefined;
 
@@ -94,7 +96,7 @@ export function useConceptImageUrls(concept: Concept): ConceptImagesArray {
           sectionName: 'imagesAbout',
           concept,
           limit: 4 - images.length,
-          shouldUseStagingApi: stagingApi,
+          apiEnvironment,
           pipelineCluster,
         });
         return [...images, ...aboutImages];
@@ -112,7 +114,7 @@ export function useConceptImageUrls(concept: Concept): ConceptImagesArray {
               sectionName: 'imagesBy',
               concept,
               limit: 4,
-              shouldUseStagingApi: stagingApi,
+              apiEnvironment,
               pipelineCluster,
             })
           );
@@ -123,7 +125,7 @@ export function useConceptImageUrls(concept: Concept): ConceptImagesArray {
               sectionName: 'imagesIn',
               concept,
               limit: 4,
-              shouldUseStagingApi: stagingApi,
+              apiEnvironment,
               pipelineCluster,
             })
           );
@@ -132,7 +134,7 @@ export function useConceptImageUrls(concept: Concept): ConceptImagesArray {
             sectionName: 'imagesAbout',
             concept,
             limit: 4,
-            shouldUseStagingApi: stagingApi,
+            apiEnvironment,
             pipelineCluster,
           });
         }
@@ -163,7 +165,7 @@ export function useConceptImageUrls(concept: Concept): ConceptImagesArray {
     cacheKey,
     concept.displayImages,
     concept.type,
-    stagingApi,
+    apiEnvironment,
     pipelineCluster,
   ]);
 

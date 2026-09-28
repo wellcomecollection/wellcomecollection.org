@@ -7,15 +7,16 @@ import {
   useState,
 } from 'react';
 
-import { useFeatureFlags, useModes } from '@weco/common/server-data/Context';
+import { useModes } from '@weco/common/server-data/Context';
 import { getImage } from '@weco/content/services/wellcome/catalogue/images';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
+import { useApiEnvironment } from '@weco/content/utils/api-environment';
 
 const useExpandedImage = (
   images: Image[]
 ): [Image | undefined, Dispatch<SetStateAction<Image | undefined>>] => {
   const [expandedImage, setExpandedImage] = useState<Image | undefined>();
-  const { stagingApi } = useFeatureFlags();
+  const apiEnvironment = useApiEnvironment();
   const { cataloguePipeline } = useModes();
   const hasBeenExpanded = useRef(false);
 
@@ -44,7 +45,7 @@ const useExpandedImage = (
         // if it's not, fetch the image and then update
         const { image } = await getImage({
           id: hash,
-          shouldUseStagingApi: stagingApi,
+          apiEnvironment,
           pipelineCluster: cataloguePipeline ?? undefined,
         });
 

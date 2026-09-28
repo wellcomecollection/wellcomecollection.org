@@ -19,6 +19,7 @@ import { transformSeriesToSeriesBasic } from '@weco/content/services/prismic/tra
 import { transformStoriesLanding } from '@weco/content/services/prismic/transformers/stories-landing';
 import { getArticles } from '@weco/content/services/wellcome/content/articles';
 import { Series } from '@weco/content/types/series';
+import { resolveApiEnvironment } from '@weco/content/utils/api-environment';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import StoriesPage, {
   Props as StoriesPageProps,
@@ -46,7 +47,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const articlesResponsePromise = getArticles({
     params: {},
     pageSize: 11,
-    shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+    apiEnvironment: resolveApiEnvironment(serverData.toggles),
   });
 
   const [articlesResponse, storiesLandingDoc, comicsQuery] = await Promise.all([

@@ -1,5 +1,8 @@
 import { toHtmlId } from '@weco/common/utils/grammar';
-import { WellcomeApiError } from '@weco/content/services/wellcome';
+import {
+  ApiEnvironmentOverride,
+  WellcomeApiError,
+} from '@weco/content/services/wellcome';
 import { catalogueQuery } from '@weco/content/services/wellcome/catalogue';
 import {
   CatalogueResultsList,
@@ -34,11 +37,11 @@ export const fetchRelatedWorks = async ({
   subjects,
   typesTechniques,
   date,
-  shouldUseStagingApi,
+  apiEnvironment,
   pipelineCluster,
   setIsLoading,
 }: WorkQueryProps & {
-  shouldUseStagingApi?: boolean;
+  apiEnvironment?: ApiEnvironmentOverride;
   pipelineCluster?: string;
   setIsLoading: (isLoading: boolean) => void;
 }): Promise<RelatedWork | undefined> => {
@@ -59,7 +62,7 @@ export const fetchRelatedWorks = async ({
     params
   ): Promise<WellcomeApiError | CatalogueResultsList<Work>> =>
     await catalogueQuery('works', {
-      shouldUseStagingApi,
+      apiEnvironment,
       pipelineCluster,
       // Always fetch 4 works in case we get the current work back, then we will still have 3 to show.
       pageSize: 4,

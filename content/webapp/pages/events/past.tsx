@@ -10,6 +10,7 @@ import {
 } from '@weco/common/views/pages/_app';
 import { eventLdContentApi } from '@weco/content/services/prismic/transformers/json-ld';
 import { getEvents } from '@weco/content/services/wellcome/content/events';
+import { resolveApiEnvironment } from '@weco/content/utils/api-environment';
 import { getPage } from '@weco/content/utils/query-params';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import {
@@ -75,7 +76,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       ].filter(isNotUndefined),
     },
     pageSize: 25,
-    shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+    apiEnvironment: resolveApiEnvironment(serverData.toggles),
   });
 
   if (eventResponseList?.type === 'Error') {

@@ -9,6 +9,7 @@ import {
 } from '@weco/common/views/pages/_app';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import { getWork } from '@weco/content/services/wellcome/catalogue/works';
+import { resolveApiEnvironment } from '@weco/content/utils/api-environment';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import WorkPage, {
   Props as WorkPageProps,
@@ -33,7 +34,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   const workResponse = await getWork({
     id: workId,
-    shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+    apiEnvironment: resolveApiEnvironment(serverData.toggles),
     pipelineCluster: serverData.toggles.modes.cataloguePipeline ?? undefined,
   });
 

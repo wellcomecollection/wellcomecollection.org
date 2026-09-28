@@ -11,6 +11,7 @@ import {
 } from '@weco/common/views/pages/_app';
 import { toWorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
+import { resolveApiEnvironment } from '@weco/content/utils/api-environment';
 import { getPage } from '@weco/content/utils/query-params';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import NewOnlinePage, {
@@ -55,7 +56,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       page,
     },
     pageSize: 32,
-    shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+    apiEnvironment: resolveApiEnvironment(serverData.toggles),
     pipelineCluster: serverData.toggles.modes.cataloguePipeline ?? undefined,
   });
 

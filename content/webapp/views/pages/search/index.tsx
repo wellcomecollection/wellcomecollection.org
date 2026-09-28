@@ -21,6 +21,7 @@ import {
   ContentResultsList,
 } from '@weco/content/services/wellcome/content/types/api';
 import { Query } from '@weco/content/types/search';
+import { useApiEnvironment } from '@weco/content/utils/api-environment';
 import CatalogueImageGallery from '@weco/content/views/components/CatalogueImageGallery';
 import ContentSearchResult from '@weco/content/views/components/ContentSearchResult';
 import Pagination from '@weco/content/views/components/Pagination';
@@ -62,7 +63,8 @@ const SearchPage: NextPage<Props> = withSearchLayout(
     const { query: queryString } = query;
     const { extraApiToolbarLinks, setExtraApiToolbarLinks } =
       useSearchContext();
-    const { apiToolbar, stagingApi } = useFeatureFlags();
+    const { apiToolbar } = useFeatureFlags();
+    const apiEnvironment = useApiEnvironment();
     const { cataloguePipeline } = useModes();
     const params = fromQuery(query);
     const { setLink } = useSearchContext();
@@ -99,7 +101,7 @@ const SearchPage: NextPage<Props> = withSearchLayout(
             aggregations: ['workType'],
           },
           pageSize: 1,
-          shouldUseStagingApi: stagingApi,
+          apiEnvironment,
           pipelineCluster: cataloguePipeline ?? undefined,
         });
 
@@ -126,7 +128,7 @@ const SearchPage: NextPage<Props> = withSearchLayout(
         const imagesResults = await getImages({
           params,
           pageSize: 7,
-          shouldUseStagingApi: stagingApi,
+          apiEnvironment,
           pipelineCluster: cataloguePipeline ?? undefined,
         });
 

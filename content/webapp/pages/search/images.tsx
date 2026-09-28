@@ -9,6 +9,7 @@ import {
 } from '@weco/common/views/pages/_app';
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
+import { resolveApiEnvironment } from '@weco/content/utils/api-environment';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
 import { fromQuery } from '@weco/content/views/components/SearchPagesLink/Images';
@@ -76,7 +77,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   };
   const images = await getImages({
     params: apiProps,
-    shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+    apiEnvironment: resolveApiEnvironment(serverData.toggles),
     pipelineCluster: serverData.toggles.modes.cataloguePipeline ?? undefined,
     pageSize: 30,
   });

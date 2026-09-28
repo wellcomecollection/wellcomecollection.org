@@ -1,7 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { typography } from '@weco/common/utils/classnames';
 import Divider from '@weco/common/views/components/Divider';
 import { Container } from '@weco/common/views/components/styled/Container';
@@ -9,6 +8,7 @@ import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
 import { getArticles } from '@weco/content/services/wellcome/content/articles';
 import { Article } from '@weco/content/services/wellcome/content/types/api';
+import { useApiEnvironment } from '@weco/content/utils/api-environment';
 import StoriesGrid from '@weco/content/views/components/StoriesGrid';
 
 const LoadingWrapper = styled.div`
@@ -31,7 +31,7 @@ const WorkStoriesOnWorks: FunctionComponent<Props> = ({
   workId,
   showDivider,
 }) => {
-  const { stagingApi } = useFeatureFlags();
+  const apiEnvironment = useApiEnvironment();
   const [articles, setArticles] = useState<Article[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -43,7 +43,7 @@ const WorkStoriesOnWorks: FunctionComponent<Props> = ({
         const response = await getArticles({
           params: { linkedWork: workId },
           pageSize: 4,
-          shouldUseStagingApi: stagingApi,
+          apiEnvironment,
         });
 
         if (response?.type === 'Error') {
@@ -63,7 +63,7 @@ const WorkStoriesOnWorks: FunctionComponent<Props> = ({
     if (articles.length === 0) {
       fetchRelatedContent();
     }
-  }, [workId, stagingApi]);
+  }, [workId, apiEnvironment]);
 
   if (!isLoading && articles.length === 0) return null;
 

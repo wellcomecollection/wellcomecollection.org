@@ -10,6 +10,7 @@ import {
   transformExhibition,
   transformExhibitionToExhibitionBasic,
 } from '@weco/content/services/prismic/transformers/exhibitions';
+import { ApiEnvironmentOverride } from '@weco/content/services/wellcome';
 import { getAddressable } from '@weco/content/services/wellcome/content/all';
 import { getArticle } from '@weco/content/services/wellcome/content/article';
 import {
@@ -56,7 +57,7 @@ export const getRelatedDoc = async (
   setRelatedDocument: (
     doc: ExhibitionBasic | ContentAPIArticle | undefined
   ) => void,
-  shouldUseStagingApi?: boolean
+  apiEnvironment?: ApiEnvironmentOverride
 ) => {
   if (article.exploreMoreDocument?.type === 'exhibitions') {
     const relatedExhibition = await fetchFromClientSide<RawExhibitionsDocument>(
@@ -88,7 +89,7 @@ export const getRelatedDoc = async (
   if (article.exploreMoreDocument?.type === 'articles') {
     const relatedArticle = await getArticle({
       id: article.exploreMoreDocument.id,
-      shouldUseStagingApi,
+      apiEnvironment,
     });
 
     if (relatedArticle?.type === 'Article') {
@@ -99,14 +100,14 @@ export const getRelatedDoc = async (
 
 export const getLinkedWorks = async ({
   id,
-  shouldUseStagingApi,
+  apiEnvironment,
 }: {
   id: string;
-  shouldUseStagingApi?: boolean;
+  apiEnvironment?: ApiEnvironmentOverride;
 }): Promise<ContentApiLinkedWork[]> => {
   const addressable = await getAddressable({
     id,
-    shouldUseStagingApi,
+    apiEnvironment,
   });
 
   if (addressable.type !== 'Error') {

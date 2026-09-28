@@ -24,6 +24,7 @@ import {
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
 import { getWork } from '@weco/content/services/wellcome/catalogue/works';
+import { resolveApiEnvironment } from '@weco/content/utils/api-environment';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import ExploreMorePage, {
   Props as ExploreMorePageProps,
@@ -67,7 +68,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     return { notFound: true };
   }
 
-  const shouldUseStagingApi = serverData.toggles.featureFlags.stagingApi;
+  const apiEnvironment = resolveApiEnvironment(serverData.toggles);
   const pipelineCluster =
     serverData.toggles.modes.cataloguePipeline ?? undefined;
 
@@ -96,7 +97,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         workGroupConfigs.map(async group => {
           const results = await Promise.allSettled(
             group.ids.map(id =>
-              getWork({ id, shouldUseStagingApi, pipelineCluster })
+              getWork({ id, apiEnvironment, pipelineCluster })
             )
           );
           const works = results.flatMap(r =>
@@ -111,7 +112,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       ),
       Promise.allSettled(
         includedWorkIds.map(id =>
-          getWork({ id, shouldUseStagingApi, pipelineCluster })
+          getWork({ id, apiEnvironment, pipelineCluster })
         )
       ).then(results =>
         results.flatMap(r =>

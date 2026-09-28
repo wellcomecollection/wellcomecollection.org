@@ -30,6 +30,7 @@ import {
 import { getWork } from '@weco/content/services/wellcome/catalogue/works';
 import { toCompressedTransformedManifest } from '@weco/content/types/compressed-manifest';
 import { TransformedManifest } from '@weco/content/types/manifest';
+import { resolveApiEnvironment } from '@weco/content/utils/api-environment';
 import {
   getCollectionManifests,
   hasNonImagesOrOriginals,
@@ -77,7 +78,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   const work = await getWork({
     id: context.query.workId,
-    shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+    apiEnvironment: resolveApiEnvironment(serverData.toggles),
     pipelineCluster: serverData.toggles.modes.cataloguePipeline ?? undefined,
     include: ['items', 'languages', 'contributors', 'production', 'notes'],
   });

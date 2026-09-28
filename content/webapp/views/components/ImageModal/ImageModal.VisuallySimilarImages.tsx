@@ -1,13 +1,14 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { useFeatureFlags, useModes } from '@weco/common/server-data/Context';
+import { useModes } from '@weco/common/server-data/Context';
 import { typography } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
 import { plainListStyles } from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import { getImage } from '@weco/content/services/wellcome/catalogue/images';
 import { Image as ImageType } from '@weco/content/services/wellcome/catalogue/types';
+import { useApiEnvironment } from '@weco/content/utils/api-environment';
 import IIIFImage from '@weco/content/views/components/IIIFImage';
 
 type Props = {
@@ -53,7 +54,7 @@ const VisuallySimilarImages: FunctionComponent<Props> = ({
 }: Props) => {
   const [similarImages, setSimilarImages] = useState<ImageType[]>([]);
   const [requestState, setRequestState] = useState<State>('initial');
-  const { stagingApi } = useFeatureFlags();
+  const apiEnvironment = useApiEnvironment();
   const { cataloguePipeline } = useModes();
 
   useEffect(() => {
@@ -61,7 +62,7 @@ const VisuallySimilarImages: FunctionComponent<Props> = ({
     const fetchVisuallySimilarImages = async () => {
       const { image: fullImage } = await getImage({
         id: originalId,
-        shouldUseStagingApi: stagingApi,
+        apiEnvironment,
         pipelineCluster: cataloguePipeline ?? undefined,
         include: ['withSimilarFeatures'],
       });

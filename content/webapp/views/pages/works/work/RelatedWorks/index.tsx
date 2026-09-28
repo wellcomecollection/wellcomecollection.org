@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { useFeatureFlags, useModes } from '@weco/common/server-data/Context';
+import { useModes } from '@weco/common/server-data/Context';
 import { classNames, typography } from '@weco/common/utils/classnames';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
@@ -11,6 +11,7 @@ import {
   Work,
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
+import { useApiEnvironment } from '@weco/content/utils/api-environment';
 import BetaMessage from '@weco/content/views/components/BetaMessage';
 import RelatedWorksCard from '@weco/content/views/components/RelatedWorksCard';
 import SelectableTags from '@weco/content/views/components/SelectableTags';
@@ -51,7 +52,7 @@ const RelatedWorks = ({
   typesTechniques,
   date,
 }: WorkQueryProps) => {
-  const { stagingApi } = useFeatureFlags();
+  const apiEnvironment = useApiEnvironment();
   const { cataloguePipeline } = useModes();
   const [isLoading, setIsLoading] = useState(true);
   const [relatedWorksTabs, setRelatedWorksTabs] = useState<RelatedWork>();
@@ -68,7 +69,7 @@ const RelatedWorks = ({
         subjects,
         typesTechniques,
         date,
-        shouldUseStagingApi: stagingApi,
+        apiEnvironment,
         pipelineCluster: cataloguePipeline ?? undefined,
         setIsLoading,
       }).then(data => {

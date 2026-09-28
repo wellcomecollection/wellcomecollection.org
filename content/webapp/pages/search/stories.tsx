@@ -10,6 +10,7 @@ import {
 } from '@weco/common/views/pages/_app';
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { getArticles } from '@weco/content/services/wellcome/content/articles';
+import { resolveApiEnvironment } from '@weco/content/utils/api-environment';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
 import { fromQuery } from '@weco/content/views/components/SearchPagesLink/Stories';
@@ -69,7 +70,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       aggregations: ['format', 'contributors.contributor'],
     },
     pageSize: 25,
-    shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+    apiEnvironment: resolveApiEnvironment(serverData.toggles),
   });
 
   if (storyResponseList?.type === 'Error') {

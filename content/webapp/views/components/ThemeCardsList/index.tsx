@@ -1,6 +1,5 @@
 import { FunctionComponent, useEffect, useRef, useState } from 'react';
 
-import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { DataGtmProps } from '@weco/common/utils/gtm';
 import ImageGridCard from '@weco/common/views/components/ImageGridCard';
 import { gridSize12 } from '@weco/common/views/components/Layout';
@@ -12,6 +11,7 @@ import {
   Concept,
   ConceptType,
 } from '@weco/content/services/wellcome/catalogue/types';
+import { useApiEnvironment } from '@weco/content/utils/api-environment';
 import { toConceptLink } from '@weco/content/views/components/ConceptLink';
 import ScrollContainer from '@weco/content/views/components/ScrollContainer';
 
@@ -81,14 +81,14 @@ const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
   const scrollContainerRef = useRef<HTMLUListElement>(null);
   const [concepts, setConcepts] = useState<Concept[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { stagingApi } = useFeatureFlags();
+  const apiEnvironment = useApiEnvironment();
 
   useEffect(() => {
     const fetchData = async () => {
       if (conceptIds.length > 0) {
         setIsLoading(true);
         try {
-          const result = await getConceptsByIds(conceptIds, stagingApi);
+          const result = await getConceptsByIds(conceptIds, apiEnvironment);
           setConcepts(result);
           onConceptsFetched?.({ count: result.length });
         } catch (error) {

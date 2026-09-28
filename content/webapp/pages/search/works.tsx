@@ -18,6 +18,7 @@ import {
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
+import { resolveApiEnvironment } from '@weco/content/utils/api-environment';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
 import { fromQuery } from '@weco/content/views/components/SearchPagesLink/Works';
@@ -133,7 +134,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     const worksResult = await getWorks({
       params: worksApiProps,
       pageSize: 25,
-      shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+      apiEnvironment: resolveApiEnvironment(serverData.toggles),
       pipelineCluster: serverData.toggles.modes.cataloguePipeline ?? undefined,
     });
 
@@ -171,7 +172,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
             elasticCluster: getElasticCluster('alternative2'),
           },
           pageSize: 25,
-          shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+          apiEnvironment: resolveApiEnvironment(serverData.toggles),
         })
       : Promise.resolve(null);
 
@@ -182,7 +183,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
             elasticCluster: getElasticCluster('alternative3'),
           },
           pageSize: 25,
-          shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+          apiEnvironment: resolveApiEnvironment(serverData.toggles),
         })
       : Promise.resolve(null);
 

@@ -17,7 +17,7 @@ const mockWellcomeApiQuery = wellcomeApiQuery as jest.MockedFunction<
 it('returns a 404 Not Found for a work ID that’s not alphanumeric', () => {
   const id = 'a\u200Bb';
 
-  getWork({ id, shouldUseStagingApi: false }).then(result => {
+  getWork({ id, apiEnvironment: undefined }).then(result => {
     expect(result).toStrictEqual({
       errorType: 'http',
       httpStatus: 404,

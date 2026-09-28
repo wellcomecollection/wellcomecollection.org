@@ -4,6 +4,7 @@ import { getCachedToggles } from '@weco/common/server-data';
 import { getTogglesFromContext } from '@weco/common/server-data/toggles';
 import { isString } from '@weco/common/utils/type-guards';
 import { getWork } from '@weco/content/services/wellcome/catalogue/works';
+import { resolveApiEnvironment } from '@weco/content/utils/api-environment';
 
 const WorksApi = async (
   req: NextApiRequest,
@@ -16,11 +17,11 @@ const WorksApi = async (
   }
 
   const togglesResp = await getCachedToggles();
-  const { featureFlags, modes } = getTogglesFromContext(togglesResp, { req });
+  const { modes } = getTogglesFromContext(togglesResp, { req });
 
   const response = await getWork({
     id: workId,
-    shouldUseStagingApi: featureFlags.stagingApi,
+    apiEnvironment: resolveApiEnvironment({ modes }),
     pipelineCluster: modes.cataloguePipeline ?? undefined,
   });
 

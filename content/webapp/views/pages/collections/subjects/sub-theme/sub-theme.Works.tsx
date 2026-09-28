@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
-import { useFeatureFlags, useModes } from '@weco/common/server-data/Context';
+import { useModes } from '@weco/common/server-data/Context';
 import { formatNumber } from '@weco/common/utils/grammar';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
@@ -10,6 +10,7 @@ import {
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
+import { useApiEnvironment } from '@weco/content/utils/api-environment';
 import MoreLink from '@weco/content/views/components/MoreLink';
 import { toSearchWorksLink } from '@weco/content/views/components/SearchPagesLink/Works';
 import Tabs from '@weco/content/views/components/Tabs';
@@ -29,7 +30,7 @@ const SubThemeWorks = ({
   works: WorksForTabs;
   conceptsDisplayLabels: string[];
 }) => {
-  const { stagingApi } = useFeatureFlags();
+  const apiEnvironment = useApiEnvironment();
   const { cataloguePipeline } = useModes();
   const [selectedTab, setSelectedTab] = useState(ALL_WORKS_TAB_ID);
   const [displayedWorks, setDisplayedWorks] = useState<WorkBasic[]>(
@@ -87,7 +88,7 @@ const SubThemeWorks = ({
             workType: [selectedTab],
           },
           pageSize: works.pageResults.length,
-          shouldUseStagingApi: stagingApi,
+          apiEnvironment,
           pipelineCluster: cataloguePipeline ?? undefined,
         });
 
@@ -128,7 +129,7 @@ const SubThemeWorks = ({
   }, [
     selectedTab,
     conceptsDisplayLabels,
-    stagingApi,
+    apiEnvironment,
     cataloguePipeline,
     works.pageResults,
   ]);

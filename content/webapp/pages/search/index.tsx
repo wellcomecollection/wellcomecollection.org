@@ -9,6 +9,7 @@ import {
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
 import { getAddressables } from '@weco/content/services/wellcome/content/all';
+import { resolveApiEnvironment } from '@weco/content/utils/api-environment';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
 import SearchPage, {
@@ -55,7 +56,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     const contentResults = await getAddressables({
       params: query,
       pageSize: 20,
-      shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+      apiEnvironment: resolveApiEnvironment(serverData.toggles),
     });
 
     if (contentResults.type === 'Error') {

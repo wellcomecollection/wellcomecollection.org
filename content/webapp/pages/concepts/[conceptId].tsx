@@ -23,6 +23,7 @@ import {
   Work as WorkType,
 } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
+import { resolveApiEnvironment } from '@weco/content/utils/api-environment';
 import {
   allRecordsLinkParams,
   getDisplayIdentifierType,
@@ -85,7 +86,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   const conceptResponse = await getConcept({
     id: conceptId,
-    shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+    apiEnvironment: resolveApiEnvironment(serverData.toggles),
   });
 
   if (conceptResponse.type === 'Error') {
@@ -104,7 +105,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       byId: (sectionName: string) =>
         getWorks({
           params: queryParams(sectionName, conceptResponse),
-          shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+          apiEnvironment: resolveApiEnvironment(serverData.toggles),
           pipelineCluster:
             serverData.toggles.modes.cataloguePipeline ?? undefined,
           pageSize: 5,
@@ -112,7 +113,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       byLabel: (sectionName: string) =>
         getWorks({
           params: allRecordsLinkParams(sectionName, conceptResponse),
-          shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+          apiEnvironment: resolveApiEnvironment(serverData.toggles),
           pipelineCluster:
             serverData.toggles.modes.cataloguePipeline ?? undefined,
           pageSize: 5,
@@ -122,7 +123,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       byId: (sectionName: string) =>
         getImages({
           params: queryParams(sectionName, conceptResponse),
-          shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+          apiEnvironment: resolveApiEnvironment(serverData.toggles),
           pipelineCluster:
             serverData.toggles.modes.cataloguePipeline ?? undefined,
           pageSize: 12,
@@ -130,7 +131,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       byLabel: (sectionName: string) =>
         getImages({
           params: allRecordsLinkParams(sectionName, conceptResponse),
-          shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+          apiEnvironment: resolveApiEnvironment(serverData.toggles),
           pipelineCluster:
             serverData.toggles.modes.cataloguePipeline ?? undefined,
           pageSize: 12,
