@@ -36,6 +36,7 @@ import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import WellcomeSubThemePage, {
   Props as WellcomeSubThemePageProps,
 } from '@weco/content/views/pages/collections/subjects/sub-theme';
+import { phaseIsAtLeast } from '@weco/toggles';
 
 type Props = ServerSideProps<WellcomeSubThemePageProps>;
 
@@ -79,9 +80,9 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const pageUid = getQueryPropertyValue(context.query.uid);
 
   if (
-    !(
-      serverData.toggles.featureFlags.thematicBrowsing &&
-      serverData.toggles.featureFlags.thematicBrowsingSubCategory
+    !phaseIsAtLeast(
+      serverData.toggles.phasedFlags.thematicBrowsingPhases,
+      'subCategoryPages'
     ) ||
     !pageUid ||
     !subjectsEnum.includes(pageUid)
