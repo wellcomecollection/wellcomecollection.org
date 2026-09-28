@@ -35,11 +35,11 @@ function createContext(
 }
 
 // Use real toggle IDs from the config so TypeScript is happy
-const stagingApiFlag = {
-  id: 'stagingApi',
-  title: 'Staging API',
+const apiToolbarFlag = {
+  id: 'apiToolbar',
+  title: 'API toolbar',
   defaultValue: false,
-  description: 'Use the staging catalogue API',
+  description: 'A toolbar to help us navigate the secret depths of the API',
   type: 'permanent' as const,
 };
 
@@ -53,8 +53,8 @@ const thematicBrowsingFlag = {
 
 // Use a real stage-type flag to test stage filtering
 const stageOnlyFlag = {
-  id: 'stagingApi',
-  title: 'Staging API (stage only variant)',
+  id: 'apiToolbar',
+  title: 'API toolbar (stage only variant)',
   defaultValue: false,
   description: 'Stage-only flag for testing',
   type: 'stage' as const,
@@ -71,42 +71,42 @@ describe('getTogglesFromContext', () => {
     it('returns defaultValue when no cookie is set', () => {
       const togglesResp: TogglesResp = {
         ...defaultTogglesResp,
-        featureFlags: [stagingApiFlag, thematicBrowsingFlag],
+        featureFlags: [apiToolbarFlag, thematicBrowsingFlag],
       };
 
       const result = getTogglesFromContext(togglesResp, createContext());
 
-      expect(result.featureFlags.stagingApi).toBe(false);
+      expect(result.featureFlags.apiToolbar).toBe(false);
       expect(result.featureFlags.thematicBrowsing).toBe(true);
     });
 
     it('returns true when cookie is "true"', () => {
       const togglesResp: TogglesResp = {
         ...defaultTogglesResp,
-        featureFlags: [stagingApiFlag],
+        featureFlags: [apiToolbarFlag],
       };
 
       const result = getTogglesFromContext(
         togglesResp,
-        createContext({ toggle_stagingApi: 'true' })
+        createContext({ toggle_apiToolbar: 'true' })
       );
 
-      expect(result.featureFlags.stagingApi).toBe(true);
+      expect(result.featureFlags.apiToolbar).toBe(true);
     });
 
     it('returns defaultValue when cookie is "false" (not false)', () => {
       const togglesResp: TogglesResp = {
         ...defaultTogglesResp,
-        featureFlags: [stagingApiFlag],
+        featureFlags: [apiToolbarFlag],
       };
 
       const result = getTogglesFromContext(
         togglesResp,
-        createContext({ toggle_stagingApi: 'false' })
+        createContext({ toggle_apiToolbar: 'false' })
       );
 
       // Cookie "false" doesn't match "true", so falls back to defaultValue
-      expect(result.featureFlags.stagingApi).toBe(false);
+      expect(result.featureFlags.apiToolbar).toBe(false);
     });
 
     it('returns defaultValue when cookie is any non-"true" string', () => {
@@ -135,7 +135,7 @@ describe('getTogglesFromContext', () => {
       );
 
       // Stage-only flag is filtered out on non-stage hosts
-      expect(result.featureFlags.stagingApi).toBeUndefined();
+      expect(result.featureFlags.apiToolbar).toBeUndefined();
     });
 
     it('includes stage-only flags on stage hosts', () => {
@@ -147,12 +147,12 @@ describe('getTogglesFromContext', () => {
       const result = getTogglesFromContext(
         togglesResp,
         createContext(
-          { toggle_stagingApi: 'true' },
+          { toggle_apiToolbar: 'true' },
           'www-stage.wellcomecollection.org'
         )
       );
 
-      expect(result.featureFlags.stagingApi).toBe(true);
+      expect(result.featureFlags.apiToolbar).toBe(true);
     });
   });
 
@@ -417,14 +417,14 @@ describe('getTogglesFromContext', () => {
     it('overrides a feature flag to true regardless of cookie/default', () => {
       const togglesResp: TogglesResp = {
         ...defaultTogglesResp,
-        featureFlags: [stagingApiFlag], // defaultValue false
+        featureFlags: [apiToolbarFlag], // defaultValue false
       };
 
       const result = getTogglesFromContext(togglesResp, createContext(), {
-        stagingApi: 'true',
+        apiToolbar: 'true',
       });
 
-      expect(result.featureFlags.stagingApi).toBe(true);
+      expect(result.featureFlags.apiToolbar).toBe(true);
     });
 
     it('overrides a feature flag to false, beating a "true" cookie', () => {
@@ -570,14 +570,14 @@ describe('getTogglesFromContext', () => {
     it('ignores an override for an unknown toggle id', () => {
       const togglesResp: TogglesResp = {
         ...defaultTogglesResp,
-        featureFlags: [stagingApiFlag],
+        featureFlags: [apiToolbarFlag],
       };
 
       const result = getTogglesFromContext(togglesResp, createContext(), {
         nonExistentToggle: 'true',
       });
 
-      expect(result.featureFlags.stagingApi).toBe(false);
+      expect(result.featureFlags.apiToolbar).toBe(false);
       expect(
         (result.featureFlags as Record<string, unknown>).nonExistentToggle
       ).toBeUndefined();
