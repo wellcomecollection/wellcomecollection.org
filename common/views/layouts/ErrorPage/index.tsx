@@ -80,15 +80,16 @@ const TogglesMessage: FunctionComponent = () => {
 
       setHasActiveMode(activeModes.length > 0);
 
-      // Get the readable name - for a mode, also show which option is
-      // selected (e.g. "API environment (Stage)"), since knowing a mode is
-      // merely "on" isn't enough to debug from - unlike a feature flag,
-      // a mode's behaviour depends entirely on which option was picked.
+      // Get the readable name - for a mode or phased flag, also show which
+      // option/phase is selected (e.g. "API environment (Stage)"), since
+      // knowing one is merely "on" isn't enough to debug from - unlike a
+      // feature flag, their behaviour depends entirely on which was picked.
       if (activeTogglesInBrowser.length > 0) {
         const flattenedTogglesList = [
           ...togglesList.featureFlags,
           ...togglesList.tests,
           ...togglesList.modes,
+          ...togglesList.phasedFlags,
         ];
         const activeToggleNames = activeTogglesInBrowser
           .map(id => {
@@ -98,10 +99,12 @@ const TogglesMessage: FunctionComponent = () => {
             if (!toggle) return undefined;
 
             const mode = togglesList.modes.find(m => m.id === id);
-            if (!mode) return toggle.title;
+            const phasedFlag = togglesList.phasedFlags.find(f => f.id === id);
+            const options = mode?.options ?? phasedFlag?.phases;
+            if (!options) return toggle.title;
 
             const optionValue = cookies[`toggle_${id}`];
-            const option = mode.options.find(o => o.id === optionValue);
+            const option = options.find(o => o.id === optionValue);
             return `${toggle.title} (${option?.label ?? optionValue})`;
           })
           .filter(isNotUndefined);
