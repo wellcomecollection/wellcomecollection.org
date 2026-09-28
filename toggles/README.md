@@ -138,10 +138,13 @@ yarn setDefaultValueFor --{toggle_id}=true
 ```
 
 ## Preset links
-Query params were added to allow automatic turning on/off of toggles (e.g. when sharing with other teams). The format is as follow:
-- Enable: `https://dash.wellcomecollection.org/toggles/?enableToggle={toggle_id}`
-- Disable: `https://dash.wellcomecollection.org/toggles/?disableToggle={toggle_id}`
-- Reset all: `https://dash.wellcomecollection.org/toggles/?resetToggles`
+Query params were added to allow automatic turning on/off of toggles (e.g. when sharing with other teams). They cover feature flags, phased flags and modes (not A/B tests, which are randomly assigned):
+- Enable a feature flag: `https://dash.wellcomecollection.org/toggles/?enableToggle={toggle_id}`
+- Disable a feature flag: `https://dash.wellcomecollection.org/toggles/?disableToggle={toggle_id}`
+- Set a phased flag to a specific phase: `https://dash.wellcomecollection.org/toggles/?enableToggle={toggle_id}&phaseValue={phase_id}`
+- Reset a phased flag to its default view: `https://dash.wellcomecollection.org/toggles/?disableToggle={toggle_id}`
+- Set a mode to a specific option: `https://dash.wellcomecollection.org/toggles/?enableMode={mode_id}&modeValue={option_id}`
+- Reset all feature flags and phased flags: `https://dash.wellcomecollection.org/toggles/?resetToggles`
 
 
 ## Useful links
