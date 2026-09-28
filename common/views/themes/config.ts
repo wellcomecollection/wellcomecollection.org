@@ -60,13 +60,41 @@ const colors = {
   'focus.yellow': '#ffea00',
 };
 
-const getColor = (name: PaletteColor): string => {
-  // In some cases, these get passed in, see ButtonColors for example.
-  // But better not to use it if possible.
-  if (['currentColor', 'transparent', 'inherit'].includes(name)) return name;
+export type LegacyColor = keyof typeof colors;
 
-  return colors[name];
-};
+const passthroughColors = {
+  transparent: 'transparent',
+  inherit: 'inherit',
+  currentColor: 'currentColor',
+} as const;
+
+type PassthroughColor = keyof typeof passthroughColors;
+
+export type PaletteColor = LegacyColor | PassthroughColor;
+
+const colorValues = { ...colors, ...passthroughColors };
+
+/** A design system colour together with the colour to keep rendering in its
+ * place while the `brandUpdate` toggle is off, e.g.
+ * `theme.color({ brand: 'orange.30', legacy: 'neutral.400' })`.
+ */
+export type PinnedColor = { brand: DesignSystemColor; legacy: PaletteColor };
+
+/** Like PaletteColor, but also allows a pin. Separate so that widening a prop
+ * is a deliberate choice: some components compare the colour to a name.
+ */
+export type PinnableColor = PaletteColor | PinnedColor;
+
+/** How both palettes resolve a colour, so `theme.color(...)` behaves the same
+ * either way.
+ */
+type ColorFunction = (name: PinnableColor) => string;
+
+const isPinnedColor = (name: PinnableColor): name is PinnedColor =>
+  typeof name === 'object';
+
+const getColor: ColorFunction = name =>
+  isPinnedColor(name) ? colorValues[name.legacy] : colorValues[name];
 
 // Design system colours, introduced behind the `brandUpdate` toggle.
 // These are derived from the design system's own colour tokens
@@ -198,12 +226,15 @@ const brandUpdateColors = Object.fromEntries(
   ])
 ) as Record<keyof typeof colors, string>;
 
-const getBrandUpdateColor = (name: PaletteColor): string => {
-  // Passed-through values (see getColor) have no palette equivalent.
-  if (['currentColor', 'transparent', 'inherit'].includes(name)) return name;
-
-  return brandUpdateColors[name];
+const brandUpdateColorValues = {
+  ...brandUpdateColors,
+  ...passthroughColors,
 };
+
+const getBrandUpdateColor: ColorFunction = name =>
+  isPinnedColor(name)
+    ? designSystemColors[name.brand]
+    : brandUpdateColorValues[name];
 
 export const sizes = {
   zero: '0rem',
@@ -558,6 +589,3 @@ export const createTheme = (brandUpdate: boolean) =>
     : themeValues;
 
 export type Breakpoint = keyof typeof sizes;
-
-export type PaletteColor =
-  keyof typeof colors | 'transparent' | 'inherit' | 'currentColor';

@@ -8,7 +8,7 @@ type Props = {
 };
 
 const getGradient = (theme: DefaultTheme) => {
-  const bgColor = theme.colors['neutral.300'];
+  const bgColor = theme.color('neutral.300');
   const highlightColor = 'rgb(255, 255, 255, 0.6)';
 
   // We make the background periodic so that it can be animated easily
