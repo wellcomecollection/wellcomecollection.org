@@ -98,6 +98,7 @@ export type CustomContentResource = ContentResource & {
 // https://iiif.wellcomecollection.org/presentation/v3/b17276342
 // However, the IIIF Presentation API spec only has a type of 'Sound'
 // so we add 'Audio' to the type here.
+// https://wellcome.slack.com/archives/CBT40CMKQ/p1789640091193999?thread_ts=1789639014.631859&cid=CBT40CMKQ
 export type IIIFItemProps =
   | (Omit<ContentResource, 'type'> & {
       type: ContentResource['type'] | 'Audio';
