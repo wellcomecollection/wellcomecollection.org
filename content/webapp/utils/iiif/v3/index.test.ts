@@ -33,6 +33,7 @@ import {
   isAudioCanvas,
   isChoiceBody,
   isCollection,
+  isImageService2,
   isItemRestricted,
   readTokenServiceMessage,
   shouldTreatAsPDFCanvas,
@@ -977,6 +978,44 @@ describe('getImageServiceFromItem', () => {
     expect(getImageServiceFromItem(item as never)?.['@id']).toBe(
       'https://example.com/first'
     );
+  });
+});
+
+describe('isImageService2', () => {
+  it('is true for the @type spelling our manifests use', () => {
+    expect(
+      isImageService2({
+        '@id': 'https://example.com/image',
+        '@type': 'ImageService2',
+      } as never)
+    ).toBe(true);
+  });
+
+  it('is false for a version 3 image service', () => {
+    expect(
+      isImageService2({
+        id: 'https://example.com/image',
+        type: 'ImageService3',
+      } as never)
+    ).toBe(false);
+  });
+
+  it('is false for the unprefixed spelling, which we do not serve', () => {
+    expect(
+      isImageService2({
+        id: 'https://example.com/image',
+        type: 'ImageService2',
+      } as never)
+    ).toBe(false);
+  });
+
+  it('is false for a service of another kind', () => {
+    expect(
+      isImageService2({
+        id: 'https://example.com/probe',
+        type: 'AuthProbeService2',
+      } as never)
+    ).toBe(false);
   });
 });
 
