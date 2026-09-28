@@ -70,19 +70,17 @@ type LondonTZ = 'GMT' | 'BST';
 
 /** Returns the current timezone in London. */
 export function getLondonTimezone(d: Date): LondonTZ {
-  const s = d.toLocaleString('en-GB', {
-    hour: '2-digit',
-    timeZoneName: 'short',
-    timeZone: 'Europe/London',
-  });
+  // Compare the London hour with the UTC hour rather than reading the zone
+  // name, as browsers don't agree on it (e.g. Chrome 154 gives "GMT+0").
+  const londonHour = Number(
+    d.toLocaleString('en-GB', {
+      hour: 'numeric',
+      hourCycle: 'h23',
+      timeZone: 'Europe/London',
+    })
+  );
 
-  if (s.endsWith(' BST')) {
-    return 'BST';
-  } else if (s.endsWith(' GMT')) {
-    return 'GMT';
-  } else {
-    throw new Error(`Unrecognised London timezone in ${s}`);
-  }
+  return londonHour === d.getUTCHours() ? 'GMT' : 'BST';
 }
 
 /** Returns the start of the day (midnight) in London. */
