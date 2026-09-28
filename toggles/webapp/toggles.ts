@@ -96,6 +96,14 @@ const toggleConfig = {
       type: 'permanent',
     },
     {
+      id: 'stagingApi',
+      title: 'Staging API',
+      initialValue: false,
+      description:
+        'Superseded by the API environment mode and no longer does anything - set that to Stage instead. Kept temporarily so the previous webapp release keeps honouring it until the new one is live everywhere; to be deleted in a follow-up PR.',
+      type: 'permanent',
+    },
+    {
       id: 'aggregationsInSearch',
       title: 'Aggregations in search',
       initialValue: true,
