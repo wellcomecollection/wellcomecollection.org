@@ -41,10 +41,10 @@ const MessageBar = styled(Space).attrs({
 
 /** This shows the user a list of toggles they currently have enabled, e.g.
  *
- *      You have the following toggles enabled: apiToolbar, stagingApi
+ *      You have the following toggles enabled: apiToolbar, API environment (Stage)
  *
  * Sometimes toggles may cause errors on the site which aren't visible to
- * the public (e.g. the staging API toggle).
+ * the public (e.g. the API environment mode set to Stage).
  *
  * Staff send us screenshots to show us the site is broken, and it may not
  * be immediately obvious why we can't reproduce the error.  This gives us

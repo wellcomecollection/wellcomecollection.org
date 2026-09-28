@@ -23,6 +23,7 @@ import { genericPageLd } from '@weco/content/services/prismic/transformers/json-
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
 import { Page as PageType } from '@weco/content/types/pages';
 import { SiblingsGroup } from '@weco/content/types/siblings-group';
+import { resolveApiEnvironment } from '@weco/content/utils/api-environment';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import PagePage, {
   OrderInParent,
@@ -46,7 +47,7 @@ export const getGenericPageProps = async ({
 }) => {
   const bodySliceContexts = await getBodySliceContexts(
     page.untransformedBody,
-    serverData.toggles.featureFlags.stagingApi,
+    resolveApiEnvironment(serverData.toggles),
     serverData.toggles.modes.cataloguePipeline ?? undefined
   );
 

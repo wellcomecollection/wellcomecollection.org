@@ -87,8 +87,8 @@ NEXT_PUBLIC_CATALOGUE_API_ENV_OVERRIDE="prod"
 
 API environment is specified in the following order of precedence:
 
-1. `toggles?.stagingApi` is unset, all APIs are set to `prod`
-1. `toggles?.stagingApi` is true, then all APIs are set to `stage`
+1. `toggles?.modes.apiEnvironment` is unset, all APIs are set to `prod`
+1. `toggles?.modes.apiEnvironment` is `stage` or `dev`, then all APIs are set to that
 1. `NEXT_PUBLIC_API_ENV_OVERRIDE` is set, then all APIs are set to the value of `NEXT_PUBLIC_API_ENV_OVERRIDE`
 1. `NEXT_PUBLIC_CONTENT_API_ENV_OVERRIDE`, `NEXT_PUBLIC_CONCEPTS_API_ENV_OVERRIDE`, or `NEXT_PUBLIC_CATALOGUE_API_ENV_OVERRIDE` are set, then the respective API is set to the value of the environment variable.
 

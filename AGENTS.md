@@ -107,8 +107,8 @@ Access patterns:
 ### API environment overrides (local dev against real APIs)
 
 Which environment (`prod`/`stage`/`dev`) each backend API is hit from, precedence high to low:
-1. `toggles?.stagingApi` unset → everything is `prod`.
-2. `toggles?.stagingApi` true → everything is `stage`.
+1. `toggles?.modes.apiEnvironment` unset → everything is `prod`.
+2. `toggles?.modes.apiEnvironment` is `stage` or `dev` → everything is that.
 3. `NEXT_PUBLIC_API_ENV_OVERRIDE` → applies to content, concepts, and catalogue APIs together.
 4. Per-API overrides: `NEXT_PUBLIC_CONTENT_API_ENV_OVERRIDE`, `NEXT_PUBLIC_CONCEPTS_API_ENV_OVERRIDE`, `NEXT_PUBLIC_CATALOGUE_API_ENV_OVERRIDE`.
 

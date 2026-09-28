@@ -80,8 +80,8 @@ const createCookie = ({
 
 const acceptCookieCookie = createCookie({ name: 'CookieControl', value: '{}' });
 const stageApiToggleCookie = createCookie({
-  name: 'toggle_stagingApi',
-  value: 'true',
+  name: 'toggle_apiEnvironment',
+  value: 'stage',
 });
 
 export const requiredCookies = useStageApis

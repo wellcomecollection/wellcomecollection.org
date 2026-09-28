@@ -24,8 +24,8 @@ const acceptCookieCookie = {
 };
 
 const stageApiToggleCookie = {
-  name: 'toggle_stagingApi',
-  value: 'true',
+  name: 'toggle_apiEnvironment',
+  value: 'stage',
   path: '/',
   domain: new URL(baseUrl).host,
 };
