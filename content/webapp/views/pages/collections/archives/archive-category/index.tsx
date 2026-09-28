@@ -26,7 +26,7 @@ const ArchiveCategoryPage: NextPage<Props> = ({
   return (
     <PageLayout
       title={archiveCategory.label}
-      description={archiveCategory.description}
+      description={archiveCategory.shortDescription}
       url={{ pathname: `/collections/archives/${archiveCategory.slug}` }}
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType="website"
@@ -38,7 +38,7 @@ const ArchiveCategoryPage: NextPage<Props> = ({
     >
       <CollectionsHeader
         title={`${archiveCategory.label} (${archiveCategory.id})`}
-        introText={archiveCategory.description}
+        introText={archiveCategory.fullDescription}
         extraBreadcrumbs={[{ url: '/collections/archives', text: 'Archives' }]}
       />
       <ArchiveCategoryWorksList

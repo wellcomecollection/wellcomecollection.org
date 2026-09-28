@@ -77,6 +77,7 @@ const work: WorkBasic & Pick<Work, 'description'> = {
   title: '',
   workTypeId: undefined,
   description: undefined,
+  shortDescription: undefined,
   languageId: undefined,
   thumbnail: undefined,
   referenceNumber: undefined,

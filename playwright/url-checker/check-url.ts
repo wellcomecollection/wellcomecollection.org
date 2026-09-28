@@ -76,6 +76,17 @@ export const urlChecker =
     // browser. Without it the WAF /search and /works fabricated-traffic
     // blocks 403 the checker when it runs from a non-allowlisted IP.
     const context = await browser.newContext({ locale: 'en-GB' });
+
+    // This checker's page loads against real environments - including prod -
+    // shouldn't count as analytics traffic, so drop those requests before
+    // they're sent rather than let the page load GTM/GA normally. Aborting
+    // with 'aborted' (net::ERR_ABORTED), not the default 'failed', matters
+    // here specifically: the request-failure handling below only tolerates
+    // net::ERR_ABORTED as an expected, ignorable failure.
+    await context.route(/googletagmanager\.com|google-analytics\.com/, route =>
+      route.abort('aborted')
+    );
+
     const page = await context.newPage();
     const failures: Failure[] = [];
 

@@ -51,6 +51,7 @@ export type Work = {
   };
   referenceNumber?: string;
   description?: string;
+  shortDescription?: string;
   physicalDescription: string;
   workType?: WorkType;
   lettering?: string;

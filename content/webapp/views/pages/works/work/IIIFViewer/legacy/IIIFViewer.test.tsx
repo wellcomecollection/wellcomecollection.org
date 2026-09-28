@@ -34,6 +34,7 @@ const mockWork: WorkBasic & Pick<Work, 'description'> = {
   title: 'A test work',
   workTypeId: undefined,
   description: undefined,
+  shortDescription: undefined,
   languageId: undefined,
   thumbnail: undefined,
   referenceNumber: undefined,

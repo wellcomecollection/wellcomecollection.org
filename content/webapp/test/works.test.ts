@@ -5,19 +5,28 @@ import {
   workWithMixedPartOf,
   workWithPartOf,
 } from '@weco/content/test/fixtures/catalogueApi/work';
+import { TransformedManifest } from '@weco/content/types/manifest';
 import {
+  canViewItem,
   getAccessConditionForDigitalLocation,
   getArchiveAncestorArray,
   getDigitalLocationOfType,
   getFileLabel,
+  getHasViewableIIIFContent,
   getProductionDates,
-  showItemLink,
 } from '@weco/content/utils/works';
 
-const digitalLocation = getDigitalLocationOfType(
-  workWithPartOf,
+const iiifImageLocation = getDigitalLocationOfType(
+  workFixture,
+  'iiif-image'
+) as DigitalLocation;
+
+const iiifPresentationLocation = getDigitalLocationOfType(
+  workFixture,
   'iiif-presentation'
 ) as DigitalLocation;
+
+const transformedManifest = {} as TransformedManifest;
 
 describe('getProductionDates', () => {
   it('extracts date labels from a work', () => {
@@ -158,13 +167,12 @@ describe('getAccessConditionForDigitalLocation', () => {
   });
 });
 
-describe('showItemLink', () => {
+describe('canViewItem', () => {
   it('returns false when the access condition is closed', () => {
     expect(
-      showItemLink({
+      canViewItem({
         userIsStaffWithRestricted: false,
-        hasIIIFManifest: true,
-        digitalLocation,
+        hasViewableIIIFContent: true,
         accessCondition: 'closed',
       })
     ).toBe(false);
@@ -172,10 +180,9 @@ describe('showItemLink', () => {
 
   it('returns false when the access condition is restricted and the user is not staff with restricted access', () => {
     expect(
-      showItemLink({
+      canViewItem({
         userIsStaffWithRestricted: false,
-        hasIIIFManifest: true,
-        digitalLocation,
+        hasViewableIIIFContent: true,
         accessCondition: 'restricted',
       })
     ).toBe(false);
@@ -183,47 +190,87 @@ describe('showItemLink', () => {
 
   it('returns true when the access condition is restricted and the user is staff with restricted access', () => {
     expect(
-      showItemLink({
+      canViewItem({
         userIsStaffWithRestricted: true,
-        hasIIIFManifest: true,
-        digitalLocation,
+        hasViewableIIIFContent: true,
         accessCondition: 'restricted',
       })
     ).toBe(true);
   });
 
-  // showItemLink no longer takes an itemsStatus/allOriginalPdfs parameter: it used to
-  // hide the item link for non-standard (born-digital) works unless they were all
-  // original PDFs, but that distinction has been removed, so this covers both cases.
-  it('returns true for an open work with a IIIF manifest and digital location', () => {
+  it('returns true for an open work with viewable IIIF content', () => {
     expect(
-      showItemLink({
+      canViewItem({
         userIsStaffWithRestricted: false,
-        hasIIIFManifest: true,
-        digitalLocation,
+        hasViewableIIIFContent: true,
         accessCondition: 'open',
       })
     ).toBe(true);
   });
 
-  it('returns false when there is no IIIF manifest', () => {
+  it('returns false when there is no viewable IIIF content', () => {
     expect(
-      showItemLink({
+      canViewItem({
         userIsStaffWithRestricted: false,
-        hasIIIFManifest: false,
-        digitalLocation,
+        hasViewableIIIFContent: false,
         accessCondition: 'open',
       })
     ).toBe(false);
   });
+});
 
-  it('returns false when there is no digital location', () => {
+describe('getHasViewableIIIFContent', () => {
+  it('returns true for an iiif-image-only work, with no manifest to load', () => {
     expect(
-      showItemLink({
-        userIsStaffWithRestricted: false,
-        hasIIIFManifest: true,
-        digitalLocation: undefined,
-        accessCondition: 'open',
+      getHasViewableIIIFContent({
+        iiifImageLocation,
+        iiifPresentationLocation: undefined,
+        isLoadingManifest: false,
+        transformedManifest: undefined,
+      })
+    ).toBe(true);
+  });
+
+  it('returns true for a born-digital work while its manifest is still loading (optimistic)', () => {
+    expect(
+      getHasViewableIIIFContent({
+        iiifImageLocation: undefined,
+        iiifPresentationLocation,
+        isLoadingManifest: true,
+        transformedManifest: undefined,
+      })
+    ).toBe(true);
+  });
+
+  it('returns true for a born-digital work whose manifest has loaded successfully', () => {
+    expect(
+      getHasViewableIIIFContent({
+        iiifImageLocation: undefined,
+        iiifPresentationLocation,
+        isLoadingManifest: false,
+        transformedManifest,
+      })
+    ).toBe(true);
+  });
+
+  it('returns false for a born-digital work whose manifest 404s', () => {
+    expect(
+      getHasViewableIIIFContent({
+        iiifImageLocation: undefined,
+        iiifPresentationLocation,
+        isLoadingManifest: false,
+        transformedManifest: undefined,
+      })
+    ).toBe(false);
+  });
+
+  it('returns false when there is no digital location at all', () => {
+    expect(
+      getHasViewableIIIFContent({
+        iiifImageLocation: undefined,
+        iiifPresentationLocation: undefined,
+        isLoadingManifest: false,
+        transformedManifest: undefined,
       })
     ).toBe(false);
   });

@@ -8,6 +8,7 @@ import {
   isMobile,
   itemWithAltText,
   itemWithAudio,
+  itemWithBornDigitalDownloads,
   itemWithMixedBornDigital,
   itemWithNonRestrictedAndOpenAccess,
   itemWithOnlyOpenAccess,
@@ -24,7 +25,15 @@ import {
 } from './helpers/contexts';
 import { apiResponse } from './mocks/search-within';
 
-const accessSidebarOnMobile = async (page: Page) => {
+declare global {
+  interface Window {
+    dataLayer: { [key: string]: string }[];
+  }
+}
+
+// On mobile the item viewer's sidebar (Contents, Details, downloads, etc.)
+// is hidden behind a 'Show info' button rather than shown directly.
+const accessSidebarOnMobile = async (page: Page): Promise<void> => {
   if (isMobile(page)) {
     await page.getByRole('button', { name: 'Show info' }).click();
   }
@@ -854,5 +863,61 @@ export function defineViewItemTests(test: TestType<any, any>, expect: Expect) {
     if (!isMobile(page)) {
       await expect(page.getByTestId('active-index')).toHaveText('5');
     }
+  });
+
+  test('(46) | Download tree item stays visible when clicked', async ({
+    page,
+    context,
+  }: {
+    page: Page;
+    context: BrowserContext;
+  }) => {
+    await itemWithBornDigitalDownloads(context, page);
+    await accessSidebarOnMobile(page);
+    const innerTreeItem = page.getByRole('treeitem', {
+      name: 'A_Camels.psd vnd.adobe.photoshop 6.1 MB Download',
+    });
+
+    await expect(innerTreeItem).toBeVisible();
+    await innerTreeItem.click();
+    await expect(innerTreeItem).toBeVisible();
+  });
+
+  test.describe('GTM trigger check', () => {
+    // The shared test fixture (helpers/analytics-blocking.ts) drops GTM/GA
+    // network requests by default, but this test needs the real GTM
+    // container to load in order to check its trigger config, so it opts
+    // out for its own scope. This means it does send a real click event to
+    // GA4 on each e2e run.
+    test.use({ blockAnalytics: false });
+
+    test('(47) | Download tree item Download link fires GTM trigger', async ({
+      page,
+      context,
+    }: {
+      page: Page;
+      context: BrowserContext;
+    }) => {
+      await itemWithBornDigitalDownloads(context, page);
+      await accessSidebarOnMobile(page);
+
+      await page.getByRole('link', { name: 'Download' }).first().click();
+
+      const DOWNLOAD_TABLE_LINK_TRIGGER = '31009043_218'; // ID that is discoverable through GTM preview
+      // GTM's click listener processes the click and pushes to dataLayer
+      // asynchronously, so this has to poll rather than read it once
+      // immediately after the click - otherwise it's a race, and fails
+      // intermittently whenever GTM hasn't caught up yet.
+      await expect
+        .poll(async () => {
+          const dataLayer = await page.evaluate(() => window.dataLayer);
+          const clickEvent = dataLayer.find(
+            (item: { [x: string]: string }) =>
+              item?.['gtm.elementText'] === 'Download'
+          );
+          return clickEvent?.['gtm.triggers']?.split(',');
+        })
+        .toEqual(expect.arrayContaining([DOWNLOAD_TABLE_LINK_TRIGGER]));
+    });
   });
 }

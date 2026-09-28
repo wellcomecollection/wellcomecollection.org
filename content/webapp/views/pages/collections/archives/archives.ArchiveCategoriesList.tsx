@@ -34,7 +34,7 @@ const ArchiveCategoriesList = ({
                 <ImageGridCard
                   images={images}
                   title={`${archiveCategory.label} (${archiveCategory.id})`}
-                  description={`${archiveCategory.description} ${pluralize(archiveCategory.count, 'archive')}.`}
+                  description={`${archiveCategory.shortDescription} ${pluralize(archiveCategory.count, 'archive')}.`}
                   linkProps={{
                     href: {
                       pathname: `/collections/archives/${archiveCategory.slug}`,
