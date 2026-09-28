@@ -75,7 +75,8 @@ export type PaletteColor = LegacyColor | PassthroughColor;
 const colorValues = { ...colors, ...passthroughColors };
 
 /** A design system colour together with the colour to keep rendering in its
- * place while the `brandUpdate` toggle is off. See pinColor.
+ * place while the `brandUpdate` toggle is off, e.g.
+ * `theme.color({ brand: 'orange.30', legacy: 'neutral.400' })`.
  */
 export type PinnedColor = { brand: DesignSystemColor; legacy: PaletteColor };
 
@@ -84,48 +85,16 @@ export type PinnedColor = { brand: DesignSystemColor; legacy: PaletteColor };
  */
 export type PinnableColor = PaletteColor | PinnedColor;
 
-/** Pairs a new brand colour with the one to render while the toggle is off.
- *
- * For the places a colour is passed around as a value rather than resolved on
- * the spot — e.g. the colour props on Button, Divider and DecorativeEdge. At
- * direct `theme.color(...)` call sites, pass the current-brand colour as the
- * second argument instead.
- *
- * @param brand - The design system colour, rendered when `brandUpdate` is on
- * @param legacy - The current-brand colour, rendered while the toggle is off
- * @returns The pair, accepted anywhere a PinnableColor is
- */
-export const pinColor = (
-  brand: DesignSystemColor,
-  legacy: PaletteColor
-): PinnedColor => ({ brand, legacy });
-
 /** How both palettes resolve a colour, so `theme.color(...)` behaves the same
  * either way.
- *
- * One argument means a current-brand colour, two mean a design system colour
- * and the colour to keep rendering until the toggle is on. The argument count
- * is what tells the two vocabularies apart where a name is in both.
  */
-type ColorFunction = {
-  (name: PinnableColor): string;
-  (name: DesignSystemColor, legacy: PaletteColor): string;
-};
+type ColorFunction = (name: PinnableColor) => string;
 
-const isPinnedColor = (
-  name: PinnableColor | DesignSystemColor
-): name is PinnedColor => typeof name === 'object';
+const isPinnedColor = (name: PinnableColor): name is PinnedColor =>
+  typeof name === 'object';
 
-const getColor: ColorFunction = (
-  name: PinnableColor | DesignSystemColor,
-  legacy?: PaletteColor
-): string => {
-  if (isPinnedColor(name)) return colorValues[name.legacy];
-
-  if (legacy) return colorValues[legacy];
-
-  return colorValues[name as PaletteColor];
-};
+const getColor: ColorFunction = name =>
+  isPinnedColor(name) ? colorValues[name.legacy] : colorValues[name];
 
 // Design system colours, introduced behind the `brandUpdate` toggle.
 // These are derived from the design system's own colour tokens
@@ -262,16 +231,10 @@ const brandUpdateColorValues = {
   ...passthroughColors,
 };
 
-const getBrandUpdateColor: ColorFunction = (
-  name: PinnableColor | DesignSystemColor,
-  legacy?: PaletteColor
-): string => {
-  if (isPinnedColor(name)) return designSystemColors[name.brand];
-
-  if (legacy) return designSystemColors[name as DesignSystemColor];
-
-  return brandUpdateColorValues[name as PaletteColor];
-};
+const getBrandUpdateColor: ColorFunction = name =>
+  isPinnedColor(name)
+    ? designSystemColors[name.brand]
+    : brandUpdateColorValues[name];
 
 export const sizes = {
   zero: '0rem',
