@@ -118,20 +118,12 @@ export function clear(): void {
  * where you only need toggles and don't have a GetServerSidePropsContext.
  *
  * If the cache is empty (e.g., first request before cache is populated),
- * returns a minimal fallback configuration with the stagingApi toggle.
+ * `read` already falls back to `handlers.toggles.defaultValue` - every
+ * toggle already treats "not present" as its safe default (off for feature
+ * flags, no override for modes), so there's nothing more specific needed.
  */
 export async function getCachedToggles(): Promise<TogglesResp> {
-  // Use dynamic import to avoid circular dependency:
-  // toggles.ts imports Handler from this file, so we can't import from toggles.ts at the top level
-  const { fallbackTogglesForApiRoutes } = await import('./toggles');
-  const togglesResp = await read('toggles', handlers.toggles.defaultValue);
-
-  // Fallback to minimal toggle config if cache is empty
-  if (togglesResp.featureFlags.length === 0) {
-    return fallbackTogglesForApiRoutes;
-  }
-
-  return togglesResp;
+  return read('toggles', handlers.toggles.defaultValue);
 }
 
 /**

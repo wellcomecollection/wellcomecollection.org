@@ -54,8 +54,8 @@ export type KioskExperienceId = ExtractPrefix<KioskModeOptionId>;
 export type TogglesResp = {
   featureFlags: PublishedFeatureFlag[];
   // Optional because a toggles.json fetched before this field existed (or a
-  // hand-written fallback like common/server-data/toggles.ts's
-  // fallbackTogglesForApiRoutes) won't have it - always fall back to
+  // hand-written TogglesResp, like the default value in
+  // common/server-data/toggles.ts) won't have it - always fall back to
   // `?? []` when reading it.
   phasedFlags?: PublishedPhasedFlag[];
   tests: ABTest[];
