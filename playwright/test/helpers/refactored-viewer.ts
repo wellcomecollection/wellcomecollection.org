@@ -1,5 +1,4 @@
-import { test as base } from '@playwright/test';
-
+import { test as base } from './analytics-blocking';
 import { requiredCookies } from './contexts';
 import { baseUrl } from './utils';
 
@@ -21,4 +20,4 @@ export const test = base.extend({
   },
 });
 
-export { expect } from '@playwright/test';
+export { expect } from './analytics-blocking';

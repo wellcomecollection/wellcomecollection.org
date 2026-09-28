@@ -883,27 +883,41 @@ export function defineViewItemTests(test: TestType<any, any>, expect: Expect) {
     await expect(innerTreeItem).toBeVisible();
   });
 
-  test('(47) | Download tree item Download link fires GTM trigger', async ({
-    page,
-    context,
-  }: {
-    page: Page;
-    context: BrowserContext;
-  }) => {
-    await itemWithBornDigitalDownloads(context, page);
-    await accessSidebarOnMobile(page);
+  test.describe('GTM trigger check', () => {
+    // The shared test fixture (helpers/analytics-blocking.ts) drops GTM/GA
+    // network requests by default, but this test needs the real GTM
+    // container to load in order to check its trigger config, so it opts
+    // out for its own scope. This means it does send a real click event to
+    // GA4 on each e2e run.
+    test.use({ blockAnalytics: false });
 
-    await page.getByRole('link', { name: 'Download' }).first().click();
+    test('(47) | Download tree item Download link fires GTM trigger', async ({
+      page,
+      context,
+    }: {
+      page: Page;
+      context: BrowserContext;
+    }) => {
+      await itemWithBornDigitalDownloads(context, page);
+      await accessSidebarOnMobile(page);
 
-    const dataLayer = await page.evaluate(() => window.dataLayer);
-    const clickEvent = dataLayer.find(
-      (item: { [x: string]: string }) =>
-        item?.['gtm.elementText'] === 'Download'
-    );
-    const gtmTriggers = clickEvent?.['gtm.triggers'].split(',');
-    const DOWNLOAD_TABLE_LINK_TRIGGER = '31009043_218'; // ID that is discoverable through GTM preview
-    expect(gtmTriggers).toEqual(
-      expect.arrayContaining([DOWNLOAD_TABLE_LINK_TRIGGER])
-    );
+      await page.getByRole('link', { name: 'Download' }).first().click();
+
+      const DOWNLOAD_TABLE_LINK_TRIGGER = '31009043_218'; // ID that is discoverable through GTM preview
+      // GTM's click listener processes the click and pushes to dataLayer
+      // asynchronously, so this has to poll rather than read it once
+      // immediately after the click - otherwise it's a race, and fails
+      // intermittently whenever GTM hasn't caught up yet.
+      await expect
+        .poll(async () => {
+          const dataLayer = await page.evaluate(() => window.dataLayer);
+          const clickEvent = dataLayer.find(
+            (item: { [x: string]: string }) =>
+              item?.['gtm.elementText'] === 'Download'
+          );
+          return clickEvent?.['gtm.triggers']?.split(',');
+        })
+        .toEqual(expect.arrayContaining([DOWNLOAD_TABLE_LINK_TRIGGER]));
+    });
   });
 }

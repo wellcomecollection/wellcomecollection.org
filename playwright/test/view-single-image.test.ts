@@ -1,5 +1,4 @@
-import { expect, test } from '@playwright/test';
-
+import { expect, test } from './helpers/analytics-blocking';
 import { singleImageItem } from './helpers/contexts';
 
 test.describe('(1) | Single image viewer page', () => {

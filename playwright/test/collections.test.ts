@@ -1,5 +1,4 @@
-import { expect, test } from '@playwright/test';
-
+import { expect, test } from './helpers/analytics-blocking';
 import { newOnline } from './helpers/contexts';
 
 test.describe('(1) | New online listing page displays a limited and controlled amount of results', () => {
