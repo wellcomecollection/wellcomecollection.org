@@ -73,21 +73,6 @@ const PhaseDescription = styled.p`
   max-width: 220px;
 `;
 
-const ResetLink = styled.button`
-  background: none;
-  border: none;
-  padding: 0;
-  font-size: ${tokens.typography.fontSize.small};
-  color: ${tokens.colors.info.main};
-  text-decoration: underline;
-  cursor: pointer;
-
-  &:focus-visible {
-    outline: ${tokens.focus.outline};
-    box-shadow: ${tokens.focus.boxShadow};
-  }
-`;
-
 /**
  * Resolves what's currently selected for a phased flag: an override cookie
  * if it's still a valid phase, otherwise whatever's public (defaultPhase,
@@ -159,7 +144,11 @@ const PhasedFlags: FunctionComponent<PhasedFlagsProps> = ({
           const selectedPhase = flag.phases.find(
             phase => phase.id === currentPhase
           );
-          const isOverridden = currentPhase !== flag.defaultPhase;
+          // Distinct from "currentPhase happens to match flag.defaultPhase" -
+          // this tracks whether an override cookie actually exists, so an
+          // explicit pin to the public phase doesn't look identical to never
+          // having overridden it at all.
+          const hasOverride = flag.id in phasedFlagStates;
 
           return (
             <ToggleListItem key={flag.id} id={`toggle-${flag.id}`}>
@@ -209,20 +198,41 @@ const PhasedFlags: FunctionComponent<PhasedFlagsProps> = ({
 
                 <ToggleControls>
                   <Segmented aria-labelledby={`heading-${flag.id}`}>
+                    <SegmentLabel $state={hasOverride ? 'inactive' : 'current'}>
+                      <input
+                        type="radio"
+                        name={`phase-${flag.id}`}
+                        checked={!hasOverride}
+                        onChange={() => {
+                          deleteCookieCustom(flag.id);
+                          setPhasedFlagStates(prev => {
+                            const next = { ...prev };
+                            delete next[flag.id];
+                            return next;
+                          });
+                        }}
+                      />
+                      Default view
+                    </SegmentLabel>
+
                     {flag.phases.map((phase, index) => {
-                      const isSelected = currentPhase === phase.id;
+                      const isSelected =
+                        hasOverride && currentPhase === phase.id;
                       // Phases are cumulative - reaching phase 2 means phase
                       // 1 shipped too, so show every phase up to and
                       // including the current one as active, not just the
                       // exact match. Earlier phases get a paler shade than
                       // the current one so it's clear which phase we're
-                      // actually on.
+                      // actually on. When there's no override, nothing gets
+                      // the full "current" shade - that's what the "Default
+                      // view" pill above is for - but phases up to and
+                      // including the public one still show as included.
                       const currentIndex = flag.phases.findIndex(
                         p => p.id === currentPhase
                       );
                       const state: SegmentState = isSelected
                         ? 'current'
-                        : index < currentIndex
+                        : index <= currentIndex
                           ? 'included'
                           : 'inactive';
 
@@ -250,22 +260,6 @@ const PhasedFlags: FunctionComponent<PhasedFlagsProps> = ({
                     <PhaseDescription>
                       {selectedPhase.description}
                     </PhaseDescription>
-                  )}
-
-                  {isOverridden && (
-                    <ResetLink
-                      type="button"
-                      onClick={() => {
-                        deleteCookieCustom(flag.id);
-                        setPhasedFlagStates(prev => {
-                          const next = { ...prev };
-                          delete next[flag.id];
-                          return next;
-                        });
-                      }}
-                    >
-                      Reset to public
-                    </ResetLink>
                   )}
                 </ToggleControls>
               </ToggleRow>

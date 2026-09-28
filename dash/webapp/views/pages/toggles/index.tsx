@@ -41,8 +41,14 @@ const GENERAL_FEATURE_FLAG_IDS = ['apiToolbar', 'conceptsSearch'];
 
 const TogglesPage: FunctionComponent = () => {
   const router = useRouter();
-  const { enableToggle, disableToggle, resetToggles, enableMode, modeValue } =
-    router.query;
+  const {
+    enableToggle,
+    disableToggle,
+    resetToggles,
+    enableMode,
+    modeValue,
+    phaseValue,
+  } = router.query;
   const [message, setMessage] = useState<{
     text: string;
     isError?: boolean;
@@ -203,6 +209,56 @@ const TogglesPage: FunctionComponent = () => {
     [featureFlags]
   );
 
+  const handlePhasedFlag = useCallback(
+    (flagId: string, action: 'enable' | 'disable', phaseId?: string) => {
+      const flag = phasedFlags.find(f => f.id === flagId);
+      if (!flag) {
+        setMessage({
+          text: `Phased flag "${flagId}" does not exist.`,
+          isError: true,
+        });
+        return;
+      }
+      if (action === 'disable') {
+        deleteCookieCustom(flagId);
+        setPhasedFlagStates(prev => {
+          const next = { ...prev };
+          delete next[flagId];
+          return next;
+        });
+        setMessage({
+          text: `Phased flag "${flag.title}" has been reset to its default view.`,
+          isError: false,
+          isEnabled: false,
+        });
+        return;
+      }
+      if (!phaseId) {
+        setMessage({
+          text: `Phased flag "${flagId}" requires a phaseValue.`,
+          isError: true,
+        });
+        return;
+      }
+      const phase = flag.phases.find(p => p.id === phaseId);
+      if (!phase) {
+        setMessage({
+          text: `Phased flag "${flagId}" has no phase "${phaseId}".`,
+          isError: true,
+        });
+        return;
+      }
+      setCookieCustom(flagId, phaseId);
+      setPhasedFlagStates(prev => ({ ...prev, [flagId]: phaseId }));
+      setMessage({
+        text: `Phased flag "${flag.title}" has been set to "${phase.label}".`,
+        isError: false,
+        isEnabled: true,
+      });
+    },
+    [phasedFlags]
+  );
+
   const handleMode = useCallback(
     (modeId: string, optionId: string) => {
       const mode = modes.find(m => m.id === modeId);
@@ -270,19 +326,57 @@ const TogglesPage: FunctionComponent = () => {
     });
   }, [abTests]);
 
+  const resetPhasedFlags = useCallback(() => {
+    phasedFlags.forEach(flag => deleteCookieCustom(flag.id));
+    setPhasedFlagStates({});
+    setMessage({
+      text: 'All phased flags have been reset to their public phase.',
+      isError: false,
+    });
+  }, [phasedFlags]);
+
+  const resetFeatureAndPhasedFlags = useCallback(() => {
+    reset();
+    resetPhasedFlags();
+    setMessage({
+      text: 'All feature flags and phased flags have been reset to their defaults.',
+      isError: false,
+    });
+  }, [reset, resetPhasedFlags]);
+
   useEffect(() => {
-    if (featureFlags.length === 0 && modes.length === 0) return;
+    if (
+      featureFlags.length === 0 &&
+      phasedFlags.length === 0 &&
+      modes.length === 0
+    )
+      return;
+
+    const isKnownFeatureFlag = (id: string) =>
+      featureFlags.some(f => f.id === id);
+    const isKnownPhasedFlag = (id: string) =>
+      phasedFlags.some(f => f.id === id);
 
     if (resetToggles !== undefined) {
-      reset();
-      setMessage({
-        text: 'All feature flags have been reset to their default values.',
-        isError: false,
-      });
+      resetFeatureAndPhasedFlags();
     } else if (enableToggle) {
-      handleFeatureFlag(enableToggle as string, 'enable');
+      const id = enableToggle as string;
+      if (isKnownFeatureFlag(id)) {
+        handleFeatureFlag(id, 'enable');
+      } else if (isKnownPhasedFlag(id)) {
+        handlePhasedFlag(id, 'enable', phaseValue as string | undefined);
+      } else {
+        setMessage({ text: `Toggle "${id}" does not exist.`, isError: true });
+      }
     } else if (disableToggle) {
-      handleFeatureFlag(disableToggle as string, 'disable');
+      const id = disableToggle as string;
+      if (isKnownFeatureFlag(id)) {
+        handleFeatureFlag(id, 'disable');
+      } else if (isKnownPhasedFlag(id)) {
+        handlePhasedFlag(id, 'disable');
+      } else {
+        setMessage({ text: `Toggle "${id}" does not exist.`, isError: true });
+      }
     } else if (enableMode) {
       handleMode(enableMode as string, (modeValue as string) ?? '');
     }
@@ -292,10 +386,13 @@ const TogglesPage: FunctionComponent = () => {
     resetToggles,
     enableMode,
     modeValue,
+    phaseValue,
     handleFeatureFlag,
+    handlePhasedFlag,
     handleMode,
-    reset,
+    resetFeatureAndPhasedFlags,
     featureFlags,
+    phasedFlags,
     modes,
   ]);
 
@@ -368,15 +465,6 @@ const TogglesPage: FunctionComponent = () => {
     filteredPhasedFlags.length +
     filteredAbTests.length +
     filteredModes.length;
-
-  const resetPhasedFlags = useCallback(() => {
-    phasedFlags.forEach(flag => deleteCookieCustom(flag.id));
-    setPhasedFlagStates({});
-    setMessage({
-      text: 'All phased flags have been reset to their public phase.',
-      isError: false,
-    });
-  }, [phasedFlags]);
 
   // Starring is only useful once you can actually see the widget it feeds -
   // toggleStates reflects this user's own cookie override, or the public

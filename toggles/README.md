@@ -39,7 +39,7 @@ Use a phased flag instead of two (or more) feature flags combined by hand in cod
 
 Each phase can carry its own short (~20 word) `description` of what that specific phase adds, shown in the dashboard for whichever phase is currently selected. Anything longer belongs in the flag's `documentationLink`, same as for feature flags.
 
-A phased flag is never authored already partway through its own phases — every phased flag starts with nothing public at all, the same starting point a feature flag gets from `initialValue: false`. That's why `defaultPhase` (what's actually public) only exists on the *published* shape (`PublishedPhasedFlag` in `toggles/webapp/index.ts`), not on the authored `PhasedFlagDefinition` in `toggles.ts` — there's nothing to set until a phase actually ships.
+`defaultPhase` (what's actually public) only exists on the *published* shape (`PublishedPhasedFlag` in `toggles/webapp/index.ts`), not on the authored `PhasedFlagDefinition` in `toggles.ts` — a new phased flag starts with nothing public, the same starting point a feature flag gets from `initialValue: false`, so there's nothing to set until a phase actually ships.
 
 To add a new phased flag:
 * Go to `toggles/webapp/toggles.ts`.
@@ -51,7 +51,7 @@ To add a new phased flag:
 * Once a phase has been public for a while and nothing's gone wrong, delete the code that checks for it — that part of the feature is now permanent — and remove that phase from the list.
 * Once every phase has shipped this way, remove the phased flag from the code entirely.
 
-As with feature flags, the dashboard switch only sets your own preview cookie — it never changes what's actually public. `defaultPhase` only ever changes via `yarn setDefaultValueFor`.
+As with feature flags, the dashboard toggle only sets your own preview cookie — it never changes what's actually public. `defaultPhase` only ever changes via `yarn setDefaultValueFor`.
 
 ### 3. Modes
 
@@ -138,10 +138,13 @@ yarn setDefaultValueFor --{toggle_id}=true
 ```
 
 ## Preset links
-Query params were added to allow automatic turning on/off of toggles (e.g. when sharing with other teams). The format is as follow:
-- Enable: `https://dash.wellcomecollection.org/toggles/?enableToggle={toggle_id}`
-- Disable: `https://dash.wellcomecollection.org/toggles/?disableToggle={toggle_id}`
-- Reset all: `https://dash.wellcomecollection.org/toggles/?resetToggles`
+Query params were added to allow automatic turning on/off of toggles (e.g. when sharing with other teams). They cover feature flags, phased flags and modes (not A/B tests, which are randomly assigned):
+- Enable a feature flag: `https://dash.wellcomecollection.org/toggles/?enableToggle={toggle_id}`
+- Disable a feature flag: `https://dash.wellcomecollection.org/toggles/?disableToggle={toggle_id}`
+- Set a phased flag to a specific phase: `https://dash.wellcomecollection.org/toggles/?enableToggle={toggle_id}&phaseValue={phase_id}`
+- Reset a phased flag to its default view: `https://dash.wellcomecollection.org/toggles/?disableToggle={toggle_id}`
+- Set a mode to a specific option: `https://dash.wellcomecollection.org/toggles/?enableMode={mode_id}&modeValue={option_id}`
+- Reset all feature flags and phased flags: `https://dash.wellcomecollection.org/toggles/?resetToggles`
 
 
 ## Useful links
