@@ -1,6 +1,6 @@
-import { expect, test } from '@playwright/test';
 import { Page } from 'playwright';
 
+import { expect, test } from './helpers/analytics-blocking';
 import {
   workWithBornDigitalItem,
   workWithDigitalLocationAndLocationNote,

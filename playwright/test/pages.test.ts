@@ -1,5 +1,4 @@
-import { expect, test } from '@playwright/test';
-
+import { expect, test } from './helpers/analytics-blocking';
 import { gotoWithoutCache, requiredCookies } from './helpers/contexts';
 import { baseUrl } from './helpers/utils';
 
