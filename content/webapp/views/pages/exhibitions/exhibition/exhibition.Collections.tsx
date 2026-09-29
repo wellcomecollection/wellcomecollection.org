@@ -4,7 +4,6 @@ import { useTheme } from 'styled-components';
 import styled from 'styled-components';
 
 import { ExhibitionsDocumentDataOnwardJourneysSlice } from '@weco/common/prismicio-types';
-import { useFeatureFlags } from '@weco/common/server-data/Context';
 import {
   ContaineredLayout,
   gridSize12,
@@ -29,7 +28,6 @@ const ExhibitionCollectionsContent = ({
   onwardJourneys: prismic.SliceZone<ExhibitionsDocumentDataOnwardJourneysSlice>;
   isTendernessAndRageExhibition: boolean;
 }) => {
-  const { verticalVideos } = useFeatureFlags();
   const theme = useTheme();
 
   const shouldDisplayCardListings = onwardJourneys.some(
@@ -46,14 +44,12 @@ const ExhibitionCollectionsContent = ({
       slice.primary.concepts_list.length > 0
   );
 
-  const shouldDisplayVideos =
-    verticalVideos &&
-    onwardJourneys.some(
-      (slice: prismic.Slice) =>
-        slice.slice_type === 'portraitVideoList' &&
-        Array.isArray(slice.items) &&
-        slice.items.length > 0
-    );
+  const shouldDisplayVideos = onwardJourneys.some(
+    (slice: prismic.Slice) =>
+      slice.slice_type === 'portraitVideoList' &&
+      Array.isArray(slice.items) &&
+      slice.items.length > 0
+  );
 
   const shouldDisplay =
     shouldDisplayCardListings || shouldDisplayThemes || shouldDisplayVideos;
@@ -63,10 +59,8 @@ const ExhibitionCollectionsContent = ({
   return (
     <Wrapper>
       <SliceZone
-        // filter out videos if verticalVideos is false
         slices={onwardJourneys.filter(
-          (slice: prismic.Slice) =>
-            verticalVideos || slice.slice_type !== 'portraitVideoList'
+          (slice: prismic.Slice) => slice.slice_type !== 'portraitVideoList'
         )}
         components={components}
         context={{

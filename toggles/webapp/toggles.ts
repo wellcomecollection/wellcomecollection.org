@@ -189,13 +189,6 @@ const toggleConfig = {
       type: 'experimental',
     },
     {
-      id: 'verticalVideos',
-      title: 'Vertical videos',
-      initialValue: false,
-      description: 'Allows testing of vertical videos.',
-      type: 'experimental',
-    },
-    {
       id: 'itemViewerRefactor',
       title: 'Item viewer refactor',
       initialValue: false,
