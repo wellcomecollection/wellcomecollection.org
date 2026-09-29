@@ -59,9 +59,7 @@ const ExhibitionCollectionsContent = ({
   return (
     <Wrapper>
       <SliceZone
-        slices={onwardJourneys.filter(
-          (slice: prismic.Slice) => slice.slice_type !== 'portraitVideoList'
-        )}
+        slices={onwardJourneys}
         components={components}
         context={{
           gridSizes: gridSize12(),
