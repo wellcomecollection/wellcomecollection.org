@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { tokens } from '@weco/dash/views/themes/tokens';
 
 import { MAX_STARRED_TOGGLES } from './toggles.helpers';
+import { useToggleStar } from './ToggleStarContext';
 
 const IconButton = styled.button<{ $starred: boolean; $disabled: boolean }>`
   background: none;
@@ -73,16 +74,13 @@ const CountBadge = styled.span`
 type ToggleStarButtonProps = {
   toggleId: string;
   title: string;
-  starredIds: string[];
-  onToggle: (id: string) => void;
 };
 
 const ToggleStarButton: FunctionComponent<ToggleStarButtonProps> = ({
   toggleId,
   title,
-  starredIds,
-  onToggle,
 }) => {
+  const { starredIds, onToggleStar, showStars } = useToggleStar();
   const isStarred = starredIds.includes(toggleId);
   const atCap = starredIds.length >= MAX_STARRED_TOGGLES;
   const disabled = !isStarred && atCap;
@@ -100,11 +98,13 @@ const ToggleStarButton: FunctionComponent<ToggleStarButtonProps> = ({
 
   const handleClick = () => {
     const newCount = isStarred ? starredIds.length - 1 : starredIds.length + 1;
-    onToggle(toggleId);
+    onToggleStar(toggleId);
     setJustChangedCount(newCount);
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     timeoutRef.current = setTimeout(() => setJustChangedCount(null), 2000);
   };
+
+  if (!showStars) return null;
 
   return (
     <span

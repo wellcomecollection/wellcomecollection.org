@@ -36,6 +36,7 @@ import {
   SectionInner,
   TableOfContentsList,
 } from './toggles.styles';
+import { ToggleStarProvider } from './ToggleStarContext';
 
 const GENERAL_FEATURE_FLAG_IDS = ['apiToolbar', 'conceptsSearch'];
 
@@ -485,7 +486,13 @@ const TogglesPage: FunctionComponent = () => {
   }, []);
 
   return (
-    <>
+    <ToggleStarProvider
+      value={{
+        starredIds,
+        onToggleStar: handleToggleStar,
+        showStars: toggleWidgetEnabled,
+      }}
+    >
       <Head>
         <title>Toggles dashboard</title>
       </Head>
@@ -600,9 +607,6 @@ const TogglesPage: FunctionComponent = () => {
                 featureFlags={generalFeatureFlags}
                 toggleStates={toggleStates}
                 setToggleStates={setToggleStates}
-                starredIds={starredIds}
-                onToggleStar={handleToggleStar}
-                showStars={toggleWidgetEnabled}
               />
             </SectionInner>
           </Section>
@@ -618,9 +622,6 @@ const TogglesPage: FunctionComponent = () => {
                 featureFlags={permanentFeatureFlags}
                 toggleStates={toggleStates}
                 setToggleStates={setToggleStates}
-                starredIds={starredIds}
-                onToggleStar={handleToggleStar}
-                showStars={toggleWidgetEnabled}
               />
             </SectionInner>
           </Section>
@@ -636,9 +637,6 @@ const TogglesPage: FunctionComponent = () => {
                 featureFlags={experimentalFeatureFlags}
                 toggleStates={toggleStates}
                 setToggleStates={setToggleStates}
-                starredIds={starredIds}
-                onToggleStar={handleToggleStar}
-                showStars={toggleWidgetEnabled}
               />
             </SectionInner>
           </Section>
@@ -654,9 +652,6 @@ const TogglesPage: FunctionComponent = () => {
                 featureFlags={stageFeatureFlags}
                 toggleStates={toggleStates}
                 setToggleStates={setToggleStates}
-                starredIds={starredIds}
-                onToggleStar={handleToggleStar}
-                showStars={toggleWidgetEnabled}
               />
             </SectionInner>
           </Section>
@@ -670,9 +665,6 @@ const TogglesPage: FunctionComponent = () => {
                 phasedFlagStates={phasedFlagStates}
                 setPhasedFlagStates={setPhasedFlagStates}
                 onReset={resetPhasedFlags}
-                starredIds={starredIds}
-                onToggleStar={handleToggleStar}
-                showStars={toggleWidgetEnabled}
               />
             </SectionInner>
           </Section>
@@ -686,9 +678,6 @@ const TogglesPage: FunctionComponent = () => {
                 toggleStates={toggleStates}
                 setToggleStates={setToggleStates}
                 onReset={resetAbTests}
-                starredIds={starredIds}
-                onToggleStar={handleToggleStar}
-                showStars={toggleWidgetEnabled}
               />
             </SectionInner>
           </Section>
@@ -705,15 +694,12 @@ const TogglesPage: FunctionComponent = () => {
                   modes.forEach(mode => deleteCookieCustom(mode.id));
                   setModeStates({});
                 }}
-                starredIds={starredIds}
-                onToggleStar={handleToggleStar}
-                showStars={toggleWidgetEnabled}
               />
             </SectionInner>
           </Section>
         )}
       </main>
-    </>
+    </ToggleStarProvider>
   );
 };
 

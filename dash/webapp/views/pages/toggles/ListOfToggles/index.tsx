@@ -24,9 +24,6 @@ type ListOfTogglesProps = {
   featureFlags: FeatureFlag[];
   toggleStates: ToggleStates;
   setToggleStates: Dispatch<SetStateAction<ToggleStates>>;
-  starredIds: string[];
-  onToggleStar: (id: string) => void;
-  showStars: boolean;
 };
 
 const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
@@ -36,9 +33,6 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
   featureFlags,
   toggleStates,
   setToggleStates,
-  starredIds,
-  onToggleStar,
-  showStars,
 }) => (
   <>
     <h2 id={anchorId}>
@@ -78,14 +72,10 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
                       </h3>
                     </ToggleDates>
                     <CopyLinkIcon toggleId={toggle.id} title={toggle.title} />
-                    {showStars && (
-                      <ToggleStarButton
-                        toggleId={toggle.id}
-                        title={toggle.title}
-                        starredIds={starredIds}
-                        onToggle={onToggleStar}
-                      />
-                    )}
+                    <ToggleStarButton
+                      toggleId={toggle.id}
+                      title={toggle.title}
+                    />
                   </ToggleHeadingRow>
 
                   <div style={{ marginBottom: tokens.spacing.xs }}>
