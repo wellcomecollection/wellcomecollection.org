@@ -31,7 +31,8 @@ export type KioskModeOptionId = Extract<
   { id: 'kioskMode' }
 >['options'][number]['id'];
 
-// The option IDs for the cataloguePipeline mode toggle, e.g. 'axiell-collections-testing'.
+// The option IDs for the cataloguePipeline mode toggle. Resolves to `never` while the mode
+// has no options; it widens again when a pipeline preview option is added.
 // Exported so API types can derive the valid pipeline values from the toggle
 // definition rather than hardcoding strings.
 export type CataloguePipelineOptionId = Extract<
