@@ -6,6 +6,7 @@ import { ModeDefinition } from '@weco/toggles';
 
 import CopyLinkIcon from './ListOfToggles/ListOfToggles.CopyLinkIcon';
 import { deleteCookieCustom, setCookieCustom } from './toggles.helpers';
+import ToggleStarButton from './toggles.StarButton';
 import {
   ResetButton,
   ToggleControls,
@@ -14,7 +15,6 @@ import {
   ToggleListItem,
   ToggleRow,
 } from './toggles.styles';
-import ToggleStarButton from './ToggleStarButton';
 
 const ModeSelect = styled.select`
   padding: 6px;

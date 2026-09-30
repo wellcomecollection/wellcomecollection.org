@@ -6,6 +6,7 @@ import { PublishedPhasedFlag } from '@weco/toggles';
 
 import StatusBadge from './ListOfToggles/ListOfToggles.StatusBadge';
 import { deleteCookieCustom, setCookieCustom } from './toggles.helpers';
+import ToggleStarButton from './toggles.StarButton';
 import {
   ResetButton,
   ToggleControls,
@@ -14,7 +15,6 @@ import {
   ToggleListItem,
   ToggleRow,
 } from './toggles.styles';
-import ToggleStarButton from './ToggleStarButton';
 
 const Segmented = styled.fieldset`
   display: inline-flex;

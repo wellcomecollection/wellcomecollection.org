@@ -3,6 +3,7 @@ import { Dispatch, FunctionComponent, SetStateAction } from 'react';
 import { tokens } from '@weco/dash/views/themes/tokens';
 
 import { FeatureFlag, setCookieCustom, ToggleStates } from '../toggles.helpers';
+import ToggleStarButton from '../toggles.StarButton';
 import {
   ToggleControls,
   ToggleHeadingRow,
@@ -11,7 +12,6 @@ import {
   ToggleListItem,
   ToggleRow,
 } from '../toggles.styles';
-import ToggleStarButton from '../ToggleStarButton';
 import CopyLinkIcon from './ListOfToggles.CopyLinkIcon';
 import StatusBadge from './ListOfToggles.StatusBadge';
 import ToggleDates from './ListOfToggles.ToggleDates';

@@ -7,8 +7,8 @@ import {
   setCookieCustom,
   ToggleStates,
 } from './toggles.helpers';
+import ToggleStarButton from './toggles.StarButton';
 import { ResetButton, ToggleList, ToggleListItem } from './toggles.styles';
-import ToggleStarButton from './ToggleStarButton';
 
 const RadioGroup = styled.fieldset`
   border: none;

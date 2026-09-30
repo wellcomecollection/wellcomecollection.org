@@ -28,6 +28,7 @@ import {
 } from './toggles.helpers';
 import Modes from './toggles.Modes';
 import PhasedFlags from './toggles.PhasedFlags';
+import { ToggleStarProvider } from './toggles.StarContext';
 import {
   MessageBox,
   ResetButton,
@@ -36,7 +37,6 @@ import {
   SectionInner,
   TableOfContentsList,
 } from './toggles.styles';
-import { ToggleStarProvider } from './ToggleStarContext';
 
 const GENERAL_FEATURE_FLAG_IDS = ['apiToolbar', 'conceptsSearch'];
 

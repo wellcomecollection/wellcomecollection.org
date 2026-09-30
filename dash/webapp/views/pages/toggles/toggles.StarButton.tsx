@@ -7,9 +7,9 @@ import {
   IconActionButton,
   IconActionWrapper,
   useFlashMessage,
-} from './FlashBadgeIconButton';
+} from './toggles.FlashBadgeIconButton';
 import { MAX_STARRED_TOGGLES } from './toggles.helpers';
-import { useToggleStar } from './ToggleStarContext';
+import { useToggleStar } from './toggles.StarContext';
 
 type ToggleStarButtonProps = {
   toggleId: string;

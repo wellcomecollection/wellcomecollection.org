@@ -7,7 +7,7 @@ import {
   IconActionButton,
   IconActionWrapper,
   useFlashMessage,
-} from '../FlashBadgeIconButton';
+} from '../toggles.FlashBadgeIconButton';
 
 const buildQuery = (props: CopyLinkIconProps): string => {
   if (props.modeValue !== undefined) {
