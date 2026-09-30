@@ -13,32 +13,30 @@ export type FeatureFlag = {
 
 export type ToggleStates = { [id: string]: boolean | undefined };
 
-export const setCookieCustom = (key: string, value: string) => {
-  const nowPlusOneYear = new Date();
-  nowPlusOneYear.setFullYear(nowPlusOneYear.getFullYear() + 1);
+const isLocalhost = () =>
+  typeof window !== 'undefined' &&
+  (window.location.hostname === 'localhost' ||
+    window.location.hostname === '127.0.0.1');
 
-  const isLocalhost =
-    typeof window !== 'undefined' &&
-    (window.location.hostname === 'localhost' ||
-      window.location.hostname === '127.0.0.1');
-
-  setCookie(`toggle_${key}`, value, {
-    domain: isLocalhost ? undefined : '.wellcomecollection.org',
-    expires: nowPlusOneYear,
-    secure: !isLocalhost,
-  });
+// Shared by every cookie this page writes - a toggle override, or the
+// starred-toggles list. Deleting a cookie only needs domain to match.
+const standardCookieOptions = () => {
+  const expires = new Date();
+  expires.setFullYear(expires.getFullYear() + 1);
+  return {
+    domain: isLocalhost() ? undefined : '.wellcomecollection.org',
+    expires,
+    secure: !isLocalhost(),
+  };
 };
 
-export const deleteCookieCustom = (key: string) => {
-  const isLocalhost =
-    typeof window !== 'undefined' &&
-    (window.location.hostname === 'localhost' ||
-      window.location.hostname === '127.0.0.1');
+export const setCookieCustom = (key: string, value: string) =>
+  setCookie(`toggle_${key}`, value, standardCookieOptions());
 
+export const deleteCookieCustom = (key: string) =>
   deleteCookie(`toggle_${key}`, {
-    domain: isLocalhost ? undefined : '.wellcomecollection.org',
+    domain: isLocalhost() ? undefined : '.wellcomecollection.org',
   });
-};
 
 // Which toggles (of any kind) show up in the on-site ToggleWidget. Not a
 // toggle_<id> override cookie itself - a plain list of ids, read by the
@@ -50,18 +48,5 @@ export const parseStarredToggles = (
   cookieValue: string | undefined
 ): string[] => (cookieValue ? cookieValue.split(',').filter(Boolean) : []);
 
-export const setStarredToggles = (ids: string[]) => {
-  const nowPlusOneYear = new Date();
-  nowPlusOneYear.setFullYear(nowPlusOneYear.getFullYear() + 1);
-
-  const isLocalhost =
-    typeof window !== 'undefined' &&
-    (window.location.hostname === 'localhost' ||
-      window.location.hostname === '127.0.0.1');
-
-  setCookie(STARRED_TOGGLES_COOKIE, ids.join(','), {
-    domain: isLocalhost ? undefined : '.wellcomecollection.org',
-    expires: nowPlusOneYear,
-    secure: !isLocalhost,
-  });
-};
+export const setStarredToggles = (ids: string[]) =>
+  setCookie(STARRED_TOGGLES_COOKIE, ids.join(','), standardCookieOptions());
