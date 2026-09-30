@@ -2,7 +2,7 @@ import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
 
 import { archive } from '@weco/common/icons';
-import { useFeatureFlags } from '@weco/common/server-data/Context';
+import { usePhasedFlags } from '@weco/common/server-data/Context';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
@@ -12,6 +12,7 @@ import type { WorkBasic } from '@weco/content/services/wellcome/catalogue/types'
 import { stripHtmlTags } from '@weco/content/utils/works';
 import { toWorkLink } from '@weco/content/views/components/WorkLink';
 import WorkTitle from '@weco/content/views/components/WorkTitle';
+import { phaseIsAtLeast } from '@weco/toggles';
 
 import {
   ArchiveIconWrapper,
@@ -34,7 +35,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
   work,
   resultPosition,
 }) => {
-  const { archiveCollection, archiveShortDescriptions } = useFeatureFlags();
+  const { archiveCollectionPhases } = usePhasedFlags();
   const {
     archiveLabels,
     cardLabels,
@@ -46,12 +47,11 @@ const WorkSearchResult: FunctionComponent<Props> = ({
   } = work;
 
   const shouldShowArchiveCollectionInfo =
-    archiveCollection && isArchiveCollectionRoot;
+    phaseIsAtLeast(archiveCollectionPhases, 'mvp') && isArchiveCollectionRoot;
 
-  // Gated separately from the rest of the archive collection info above, so
-  // the API's short descriptions can be turned on and off independently.
   const shouldShowShortDescription =
-    archiveShortDescriptions && isArchiveCollectionRoot;
+    phaseIsAtLeast(archiveCollectionPhases, 'phase2') &&
+    isArchiveCollectionRoot;
 
   return (
     <NextLink
