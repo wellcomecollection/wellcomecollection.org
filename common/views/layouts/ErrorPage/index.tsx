@@ -100,7 +100,14 @@ const TogglesMessage: FunctionComponent = () => {
 
             const mode = togglesList.modes.find(m => m.id === id);
             const phasedFlag = togglesList.phasedFlags.find(f => f.id === id);
-            const options = mode?.options ?? phasedFlag?.phases;
+            // Normalised to a plain shape rather than left as the union of
+            // ModeOption[]/PhaseDefinition[] - TS can't unify .find() across
+            // two differently-shaped readonly array types (it resolves the
+            // callback parameter to an intersection, which collapses to
+            // never once the two toggles' option literals diverge enough).
+            const options: { id: string; label: string }[] | undefined =
+              mode?.options.map(o => ({ id: o.id, label: o.label })) ??
+              phasedFlag?.phases.map(p => ({ id: p.id, label: p.label }));
             if (!options) return toggle.title;
 
             const optionValue = cookies[`toggle_${id}`];
