@@ -158,21 +158,6 @@ const toggleConfig = {
       type: 'experimental',
     },
     {
-      id: 'thematicBrowsing',
-      title: 'Thematic browsing: category pages',
-      initialValue: false,
-      description: 'Enables access to new thematic browsing category pages.',
-      type: 'experimental',
-    },
-    {
-      id: 'thematicBrowsingSubCategory',
-      title: 'Thematic browsing: sub-category pages',
-      initialValue: false,
-      description:
-        'Enables access to new thematic browsing sub-category pages.',
-      type: 'experimental',
-    },
-    {
       id: 'semanticSearchPrototype',
       title: 'Semantic search prototype',
       initialValue: false,

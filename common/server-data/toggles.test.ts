@@ -43,11 +43,12 @@ const stagingApiFlag = {
   type: 'permanent' as const,
 };
 
-const thematicBrowsingFlag = {
-  id: 'thematicBrowsing',
-  title: 'Thematic Browsing',
+const conceptsSearchFlag = {
+  id: 'conceptsSearch',
+  title: 'Concepts search',
   defaultValue: true,
-  description: 'Enable thematic browsing',
+  description:
+    'Enables the concepts search tab and functionality in the search interface',
   type: 'permanent' as const,
 };
 
@@ -71,13 +72,13 @@ describe('getTogglesFromContext', () => {
     it('returns defaultValue when no cookie is set', () => {
       const togglesResp: TogglesResp = {
         ...defaultTogglesResp,
-        featureFlags: [stagingApiFlag, thematicBrowsingFlag],
+        featureFlags: [stagingApiFlag, conceptsSearchFlag],
       };
 
       const result = getTogglesFromContext(togglesResp, createContext());
 
       expect(result.featureFlags.stagingApi).toBe(false);
-      expect(result.featureFlags.thematicBrowsing).toBe(true);
+      expect(result.featureFlags.conceptsSearch).toBe(true);
     });
 
     it('returns true when cookie is "true"', () => {
@@ -112,15 +113,15 @@ describe('getTogglesFromContext', () => {
     it('returns defaultValue when cookie is any non-"true" string', () => {
       const togglesResp: TogglesResp = {
         ...defaultTogglesResp,
-        featureFlags: [thematicBrowsingFlag],
+        featureFlags: [conceptsSearchFlag],
       };
 
       const result = getTogglesFromContext(
         togglesResp,
-        createContext({ toggle_thematicBrowsing: 'banana' })
+        createContext({ toggle_conceptsSearch: 'banana' })
       );
 
-      expect(result.featureFlags.thematicBrowsing).toBe(true);
+      expect(result.featureFlags.conceptsSearch).toBe(true);
     });
 
     it('excludes stage-only flags on non-stage hosts', () => {
@@ -430,30 +431,30 @@ describe('getTogglesFromContext', () => {
     it('overrides a feature flag to false, beating a "true" cookie', () => {
       const togglesResp: TogglesResp = {
         ...defaultTogglesResp,
-        featureFlags: [thematicBrowsingFlag], // defaultValue true
+        featureFlags: [conceptsSearchFlag], // defaultValue true
       };
 
       const result = getTogglesFromContext(
         togglesResp,
-        createContext({ toggle_thematicBrowsing: 'true' }),
-        { thematicBrowsing: 'false' }
+        createContext({ toggle_conceptsSearch: 'true' }),
+        { conceptsSearch: 'false' }
       );
 
-      expect(result.featureFlags.thematicBrowsing).toBe(false);
+      expect(result.featureFlags.conceptsSearch).toBe(false);
     });
 
     it('ignores a feature flag override that is not "true"/"false"', () => {
       const togglesResp: TogglesResp = {
         ...defaultTogglesResp,
-        featureFlags: [thematicBrowsingFlag], // defaultValue true
+        featureFlags: [conceptsSearchFlag], // defaultValue true
       };
 
       const result = getTogglesFromContext(togglesResp, createContext(), {
-        thematicBrowsing: 'banana',
+        conceptsSearch: 'banana',
       });
 
       // Falls back to defaultValue
-      expect(result.featureFlags.thematicBrowsing).toBe(true);
+      expect(result.featureFlags.conceptsSearch).toBe(true);
     });
 
     it('overrides an A/B test value', () => {
