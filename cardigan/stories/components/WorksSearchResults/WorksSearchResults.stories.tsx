@@ -65,6 +65,7 @@ const meta: Meta<StoryProps> = {
             phasedFlags: {
               ...defaultServerData.toggles.phasedFlags,
               archiveCollectionPhases: {
+                title: 'Archive Collection Phases',
                 current: 'mvp',
                 phases: [
                   {
