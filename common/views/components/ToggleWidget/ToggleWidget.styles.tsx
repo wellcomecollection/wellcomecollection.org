@@ -62,7 +62,8 @@ export const Panel = styled.div`
   position: absolute;
   bottom: calc(100% + 8px);
   right: 0;
-  width: 320px;
+  box-sizing: border-box;
+  width: min(320px, calc(100vw - 32px));
   max-height: 60vh;
   overflow-y: auto;
   background-color: ${props => props.theme.color('white')};
