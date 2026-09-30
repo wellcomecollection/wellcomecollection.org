@@ -30,7 +30,7 @@ const Wrapper = styled.div`
   position: fixed;
   right: 16px;
   bottom: 16px;
-  z-index: 100;
+  z-index: 9999999;
 `;
 
 const ButtonRow = styled.div`
