@@ -1,75 +1,15 @@
-import { FunctionComponent, useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
+import { FunctionComponent } from 'react';
 
 import { tokens } from '@weco/dash/views/themes/tokens';
 
+import {
+  FlashBadge,
+  IconActionButton,
+  IconActionWrapper,
+  useFlashMessage,
+} from './FlashBadgeIconButton';
 import { MAX_STARRED_TOGGLES } from './toggles.helpers';
 import { useToggleStar } from './ToggleStarContext';
-
-const IconButton = styled.button<{ $starred: boolean; $disabled: boolean }>`
-  background: none;
-  border: none;
-  padding: 2px 4px;
-  cursor: ${props => (props.$disabled ? 'not-allowed' : 'pointer')};
-  display: inline-flex;
-  align-items: center;
-  color: ${props =>
-    props.$starred
-      ? tokens.colors.warning.main
-      : props.$disabled
-        ? tokens.colors.text.disabled
-        : tokens.colors.text.secondary};
-  border-radius: ${tokens.borderRadius.small};
-  position: relative;
-  line-height: 1;
-
-  &:hover {
-    background: ${props => (props.$disabled ? 'none' : tokens.colors.warning.light)};
-  }
-
-  &:focus-visible {
-    outline: ${tokens.focus.outline};
-    box-shadow: ${tokens.focus.boxShadow};
-  }
-`;
-
-const CountBadge = styled.span`
-  position: absolute;
-  bottom: calc(100% + 4px);
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1;
-  pointer-events: none;
-  white-space: nowrap;
-  font-size: ${tokens.typography.fontSize.small};
-  color: ${tokens.colors.warning.text};
-  background: ${tokens.colors.warning.light};
-  padding: 2px 6px;
-  border-radius: 10px;
-  animation: fade-in-out 2s ease forwards;
-
-  @media (prefers-reduced-motion: reduce) {
-    animation: none;
-  }
-
-  @keyframes fade-in-out {
-    0% {
-      opacity: 0;
-    }
-
-    10% {
-      opacity: 1;
-    }
-
-    80% {
-      opacity: 1;
-    }
-
-    100% {
-      opacity: 0;
-    }
-  }
-`;
 
 type ToggleStarButtonProps = {
   toggleId: string;
@@ -85,38 +25,28 @@ const ToggleStarButton: FunctionComponent<ToggleStarButtonProps> = ({
   const atCap = starredIds.length >= MAX_STARRED_TOGGLES;
   const disabled = !isStarred && atCap;
 
-  const [justChangedCount, setJustChangedCount] = useState<number | null>(null);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(
-    undefined
-  );
-
-  useEffect(() => {
-    return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    };
-  }, []);
+  const [justChangedCount, flashCount] = useFlashMessage<number>();
 
   const handleClick = () => {
     const newCount = isStarred ? starredIds.length - 1 : starredIds.length + 1;
     onToggleStar(toggleId);
-    setJustChangedCount(newCount);
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    timeoutRef.current = setTimeout(() => setJustChangedCount(null), 2000);
+    flashCount(newCount);
   };
 
   if (!showStars) return null;
 
   return (
-    <span
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        position: 'relative',
-      }}
-    >
-      <IconButton
+    <IconActionWrapper>
+      <IconActionButton
         type="button"
-        $starred={isStarred}
+        $color={
+          isStarred
+            ? tokens.colors.warning.main
+            : disabled
+              ? tokens.colors.text.disabled
+              : tokens.colors.text.secondary
+        }
+        $hoverBackground={tokens.colors.warning.light}
         $disabled={disabled}
         disabled={disabled}
         aria-pressed={isStarred}
@@ -148,15 +78,18 @@ const ToggleStarButton: FunctionComponent<ToggleStarButtonProps> = ({
         >
           <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
         </svg>
-      </IconButton>
+      </IconActionButton>
       <span role="status" aria-live="polite">
         {justChangedCount !== null && (
-          <CountBadge>
+          <FlashBadge
+            $color={tokens.colors.warning.text}
+            $background={tokens.colors.warning.light}
+          >
             {justChangedCount}/{MAX_STARRED_TOGGLES} starred
-          </CountBadge>
+          </FlashBadge>
         )}
       </span>
-    </span>
+    </IconActionWrapper>
   );
 };
 
