@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
+import { mediaBackgroundColor } from '@weco/common/views/themes/config';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import useScrollVelocity from '@weco/content/hooks/useScrollVelocity';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
@@ -117,7 +118,7 @@ const GridViewerContainer = styled.div`
   left: 0;
   bottom: 0;
   z-index: 1;
-  background: ${props => props.theme.color('black')};
+  background: ${props => props.theme.color(mediaBackgroundColor)};
   transition: top 500ms ease;
 `;
 

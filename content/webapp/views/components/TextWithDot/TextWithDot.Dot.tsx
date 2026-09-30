@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
-import { PaletteColor } from '@weco/common/views/themes/config';
+import { PinnableColor } from '@weco/common/views/themes/config';
 
 const Dot = styled.div.attrs({
   'aria-hidden': true,
-})<{ $dotColor: PaletteColor }>`
+})<{ $dotColor: PinnableColor }>`
   &::before {
     display: block;
     border: 6px solid;

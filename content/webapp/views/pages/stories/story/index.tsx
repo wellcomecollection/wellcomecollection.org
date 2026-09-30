@@ -14,6 +14,7 @@ import { gridSize10, gridSize8 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import { Container } from '@weco/common/views/components/styled/Container';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
+import { pageBackgroundColor } from '@weco/common/views/themes/config';
 import { ArticleFormatIds } from '@weco/content/data/content-format-ids';
 import { Article as ContentAPIArticle } from '@weco/content/services/wellcome/content/types/api';
 import {
@@ -131,7 +132,9 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
           <HeroPicture fields={article} />
         ) : undefined
       }
-      heroImageBgColor={isStandaloneImageGallery ? 'white' : 'warmNeutral.300'}
+      heroImageBgColor={
+        isStandaloneImageGallery ? pageBackgroundColor : 'warmNeutral.300'
+      }
       SerialPartNumber={SerialPartNumber}
       isContentTypeInfoBeforeMedia
     />

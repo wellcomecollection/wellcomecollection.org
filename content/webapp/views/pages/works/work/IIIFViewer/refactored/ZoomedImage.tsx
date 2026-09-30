@@ -15,6 +15,7 @@ import { DigitalLocation } from '@weco/common/model/catalogue';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 import Control from '@weco/common/views/components/Control';
 import Space from '@weco/common/views/components/styled/Space';
+import { mediaBackgroundColor } from '@weco/common/views/themes/config';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext/refactored';
 import { convertRequestUriToInfoUri } from '@weco/content/utils/iiif/convert-iiif-uri';
 
@@ -23,7 +24,7 @@ const ZoomedImageContainer = styled.div`
   z-index: 5;
   width: 100%;
   height: 100%;
-  background: ${props => props.theme.color('black')};
+  background: ${props => props.theme.color(mediaBackgroundColor)};
 `;
 
 const Controls = styled.div`

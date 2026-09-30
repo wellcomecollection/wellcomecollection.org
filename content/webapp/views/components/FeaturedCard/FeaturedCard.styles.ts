@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { typography } from '@weco/common/utils/classnames';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
-import { PaletteColor } from '@weco/common/views/themes/config';
+import { PinnableColor } from '@weco/common/views/themes/config';
 
 export const DateWrapper = styled(Space).attrs({
   className: typography('body', 'lg', 'regular'),
@@ -80,17 +80,17 @@ export const FeaturedCardRight = styled.div.attrs({
 export const FeaturedCardCopy = styled(Space).attrs({
   $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
   $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
-})<{ $textColor: PaletteColor; $background: PaletteColor }>`
+})<{ $textColor: PinnableColor; $background: PinnableColor }>`
   flex: 1;
   color: ${props => props.theme.color(props.$textColor)};
   background-color: ${props => props.theme.color(props.$background)};
 `;
 
-export const FeaturedCardShim = styled.div.attrs<{ $background: PaletteColor }>(
-  {
-    className: `is-hidden-s is-hidden-m`,
-  }
-)<{ $background: PaletteColor }>`
+export const FeaturedCardShim = styled.div.attrs<{
+  $background: PinnableColor;
+}>({
+  className: `is-hidden-s is-hidden-m`,
+})<{ $background: PinnableColor }>`
   position: absolute;
   top: 100%;
   left: 0;

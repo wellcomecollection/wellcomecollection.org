@@ -4,11 +4,14 @@ import styled from 'styled-components';
 import { LabelColor, Label as LabelType } from '@weco/common/model/labels';
 import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
-import { PaletteColor } from '@weco/common/views/themes/config';
+import {
+  legacyColorName,
+  PinnableColor,
+} from '@weco/common/views/themes/config';
 
 type LabelContainerProps = {
-  $fontColor: PaletteColor;
-  $labelColor: PaletteColor;
+  $fontColor: PinnableColor;
+  $labelColor: PinnableColor;
   $outlineLightLabels: boolean;
 };
 
@@ -26,8 +29,9 @@ const LabelContainer = styled(Space).attrs({
   background-color: ${props => props.theme.color(props.$labelColor)};
 
   ${props => {
+    const labelColorName = legacyColorName(props.$labelColor);
     const isWhiteOrTransparent =
-      props.$labelColor === 'white' || props.$labelColor === 'transparent';
+      labelColorName === 'white' || labelColorName === 'transparent';
 
     if (!isWhiteOrTransparent) {
       return `border: 1px solid ${props.theme.color(props.$labelColor)};`;
@@ -63,7 +67,8 @@ const Label: FunctionComponent<Props> = ({
       }}
       $fontColor={
         label.textColor ||
-        (label.labelColor === 'black' || defaultLabelColor === 'black'
+        ((label.labelColor && legacyColorName(label.labelColor) === 'black') ||
+        legacyColorName(defaultLabelColor) === 'black'
           ? 'yellow'
           : 'black')
       }

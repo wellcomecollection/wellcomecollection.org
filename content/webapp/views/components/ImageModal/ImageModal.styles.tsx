@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
+import { mediaBackgroundColor } from '@weco/common/views/themes/config';
 
 export const Container = styled.div`
   color: ${props => props.theme.color('black')};
@@ -40,7 +41,7 @@ export const ImageWrapper = styled(Space).attrs({
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${props => props.theme.color('black')};
+  background-color: ${props => props.theme.color(mediaBackgroundColor)};
   height: 50vh;
 
   ${props => props.theme.media('md')`

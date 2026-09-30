@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import Space from '@weco/common/views/components/styled/Space';
+import { Pinnable } from '@weco/common/views/themes/config';
 
 export const FrameGridWrap = styled(Space).attrs({
   $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
@@ -50,7 +51,7 @@ export const GalleryTitle = styled(Space).attrs({
 type GalleryProps = {
   $isActive: boolean;
   $isStandalone: boolean;
-  $pageBackground: 'warmNeutral.300' | 'white';
+  $pageBackground: Pinnable<'warmNeutral.300' | 'white'>;
 };
 export const Gallery = styled.div<GalleryProps>`
   position: relative;

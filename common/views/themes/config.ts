@@ -78,12 +78,33 @@ const colorValues = { ...colors, ...passthroughColors };
  * place while the `brandUpdate` toggle is off, e.g.
  * `theme.color({ brand: 'orange.30', legacy: 'neutral.400' })`.
  */
-export type PinnedColor = { brand: DesignSystemColor; legacy: PaletteColor };
+export type PinnedColor<T extends PaletteColor = PaletteColor> = {
+  brand: DesignSystemColor;
+  legacy: T;
+};
 
 /** Like PaletteColor, but also allows a pin. Separate so that widening a prop
  * is a deliberate choice: some components compare the colour to a name.
+ * Props limited to a few names can use `Pinnable<'white' | 'black'>`.
  */
-export type PinnableColor = PaletteColor | PinnedColor;
+export type Pinnable<T extends PaletteColor> = T | PinnedColor<T>;
+export type PinnableColor = Pinnable<PaletteColor>;
+
+/** The page background. Anything that needs to blend into the page (e.g. a
+ * decorative edge) should use this rather than `white`.
+ */
+export const pageBackgroundColor: PinnedColor<'white'> = {
+  brand: 'neutral.05',
+  legacy: 'white',
+};
+
+/** The near-black backdrop behind images and video (e.g. the viewer canvas).
+ * Pinned because `black` is the brand text colour, which is lighter.
+ */
+export const mediaBackgroundColor: PinnedColor<'black'> = {
+  brand: 'neutral.80',
+  legacy: 'black',
+};
 
 /** How both palettes resolve a colour, so `theme.color(...)` behaves the same
  * either way.
@@ -92,6 +113,13 @@ type ColorFunction = (name: PinnableColor) => string;
 
 const isPinnedColor = (name: PinnableColor): name is PinnedColor =>
   typeof name === 'object';
+
+/** The current-brand name of a colour, for components that compare a colour
+ * to a name (e.g. to pick a contrasting text colour).
+ */
+export const legacyColorName = <T extends PaletteColor>(
+  name: Pinnable<T>
+): T => (typeof name === 'object' ? name.legacy : name);
 
 const getColor: ColorFunction = name =>
   isPinnedColor(name) ? colorValues[name.legacy] : colorValues[name];
@@ -173,7 +201,7 @@ const designSystemColors = flattenColors(coreColorSource) as Record<
 >;
 
 // Maps each existing colour to its nearest equivalent in the core design system
-// scales, chosen by hex distance. Used to swap palettes when the `brandUpdate`
+// scales, mostly chosen by hex distance. Used to swap palettes when the `brandUpdate`
 // toggle is on. The `Record<keyof typeof colors, ...>` type makes this
 // exhaustive: a new entry in `colors` is a type error until it's mapped here.
 //
@@ -184,7 +212,7 @@ const designSystemColors = flattenColors(coreColorSource) as Record<
 const colorToDesignSystemColor: Record<keyof typeof colors, DesignSystemColor> =
   {
     white: 'white',
-    black: 'neutral.80',
+    black: 'neutral.70',
     yellow: 'yellow.30', // FIXME: such yellow
     lightYellow: 'yellow.20',
 
@@ -207,7 +235,7 @@ const colorToDesignSystemColor: Record<keyof typeof colors, DesignSystemColor> =
     'neutral.700': 'neutral.70',
 
     'warmNeutral.200': 'yellow.10',
-    'warmNeutral.300': 'green.10', // FIXME: nearest is a green-tinted off-white
+    'warmNeutral.300': 'neutral.10',
     'warmNeutral.400': 'neutral.20',
 
     'validation.red': 'ui.red.40',
@@ -532,6 +560,9 @@ export const themeValues = {
   kioskNavigationHeight: 88, // Height of the KioskNavigation bar shown in all kiosk modes
   kioskTRBannersHeight: 172, // TR-specific top banners height (without navigation)
   fontVerticalOffset: '0.15em',
+  // For the few brand changes a colour pin can't express, e.g. a style that
+  // only exists in the new brand
+  brandUpdate: false,
   colors,
   color: getColor,
   minCardHeight: 385,
@@ -582,6 +613,7 @@ export const createTheme = (brandUpdate: boolean) =>
   brandUpdate
     ? {
         ...themeValues,
+        brandUpdate: true,
         colors: brandUpdateColors,
         color: getBrandUpdateColor,
         focusBoxShadow: `0 0 0 3px ${brandUpdateColors['focus.yellow']}`,

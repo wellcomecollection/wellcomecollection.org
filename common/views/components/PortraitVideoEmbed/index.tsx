@@ -8,6 +8,7 @@ import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
+import { mediaBackgroundColor } from '@weco/common/views/themes/config';
 
 type Props = {
   posterImage?: ImageType;
@@ -36,7 +37,7 @@ const PosterContainer = styled.span`
   padding-bottom: 177.78%; /* 9:16 portrait */
   height: 0;
   overflow: hidden;
-  background: ${props => props.theme.color('black')};
+  background: ${props => props.theme.color(mediaBackgroundColor)};
 `;
 
 const PosterImageWrapper = styled.span`
@@ -60,7 +61,7 @@ const ControlsOverlay = styled(Space).attrs({
   align-items: center;
   ${props => props.theme.makeSpacePropertyValues('xs', ['column-gap'])};
   padding: 3px ${props => (props.hasDuration ? '10px' : '3px')} 3px 3px;
-  background: ${props => props.theme.color('black')};
+  background: ${props => props.theme.color(mediaBackgroundColor)};
   border-radius: 9999px;
 `;
 
@@ -71,7 +72,7 @@ const PlayCircle = styled.span`
   padding: 5px;
   border-radius: 50%;
   border: 2px solid ${props => props.theme.color('white')};
-  background: ${props => props.theme.color('black')};
+  background: ${props => props.theme.color(mediaBackgroundColor)};
   color: ${props => props.theme.color('white')};
 `;
 

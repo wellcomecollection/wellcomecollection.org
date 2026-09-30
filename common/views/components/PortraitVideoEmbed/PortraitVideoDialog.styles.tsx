@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
+import { mediaBackgroundColor } from '@weco/common/views/themes/config';
 
 export const DialogControls = styled.span`
   display: flex;
@@ -60,7 +61,7 @@ export const TranscriptButton = styled.button.attrs({
 export const VideoDialog = styled.dialog`
   padding: 0;
   border: 0;
-  background: ${props => props.theme.color('black')};
+  background: ${props => props.theme.color(mediaBackgroundColor)};
 
   /* We subtract 44px to account for the controls (tap size) */
   width: min(400px, calc((90dvh - 44px) * 9 / 16), 90vw);
@@ -104,7 +105,7 @@ export const TranscriptOverlay = styled(Space).attrs({
   z-index: 1;
   overflow-y: auto;
   overscroll-behavior: none;
-  background: ${props => props.theme.color('black')};
+  background: ${props => props.theme.color(mediaBackgroundColor)};
   color: ${props => props.theme.color('white')};
   display: ${props => (props.$hidden ? 'none' : 'block')};
 `;
