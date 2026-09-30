@@ -1,5 +1,6 @@
 import { Meta } from '@storybook/react';
 import { ComponentProps } from 'react';
+import styled from 'styled-components';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import {
@@ -21,7 +22,6 @@ import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandf
 import Picture from '@weco/common/views/components/Picture';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
-import theme from '@weco/common/views/themes/default';
 import Body from '@weco/content/views/components/Body';
 import ContentPage from '@weco/content/views/components/ContentPage';
 import PartNumberIndicator from '@weco/content/views/components/PartNumberIndicator';
@@ -76,6 +76,10 @@ const meta: Meta<typeof PageHeader> = {
 
 export default meta;
 
+const DateText = styled.span`
+  color: ${props => props.theme.color('neutral.600')};
+`;
+
 const ContentTypeInfo = (
   <>
     <PageHeaderStandfirst
@@ -98,12 +102,9 @@ const ContentTypeInfo = (
           <span className={typography('body', 'sm', 'strong')}>
             Naomi Paxton
           </span>{' '}
-          <span
-            className={typography('body', 'sm', 'regular')}
-            style={{ color: theme.color('neutral.600') }}
-          >
+          <DateText className={typography('body', 'sm', 'regular')}>
             17 April 2019
-          </span>
+          </DateText>
         </p>
       </Space>
     </div>

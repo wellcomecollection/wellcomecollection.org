@@ -1,4 +1,5 @@
 import { Meta, StoryObj } from '@storybook/react';
+import styled, { css } from 'styled-components';
 
 import { eye } from '@weco/common/icons';
 import { typography } from '@weco/common/utils/classnames';
@@ -20,6 +21,16 @@ function getColor(color) {
       return theme.buttonColors.default;
   }
 }
+
+const Wrapper = styled.div<{ $isOnDark: boolean }>`
+  padding: 20px;
+
+  ${props =>
+    props.$isOnDark &&
+    css`
+      background-color: ${props.theme.color('black')};
+    `}
+`;
 
 const meta: Meta<typeof Button> = {
   title: 'Components/Buttons/Basics/Button',
@@ -70,14 +81,7 @@ export const Basic: Story = {
   render: args => {
     const { showIcon, storyColors, variant, ...restOfArgs } = args;
     return (
-      <div
-        style={{
-          padding: '20px',
-          backgroundColor: storyColors.includes('White')
-            ? theme.color('black')
-            : undefined,
-        }}
-      >
+      <Wrapper $isOnDark={storyColors.includes('White')}>
         <Button
           text="Click me"
           ariaLabel="Cardigan button example"
@@ -94,7 +98,7 @@ export const Basic: Story = {
           }}
           {...restOfArgs}
         />
-      </div>
+      </Wrapper>
     );
   },
 };
@@ -112,12 +116,9 @@ export const DropdownButton: Story = {
     isTight: { control: 'boolean', name: 'Has a tighter dropdown menu' },
   },
   render: args => (
-    <div
+    <Wrapper
       className={typography('body', 'sm', 'regular')}
-      style={{
-        padding: '20px',
-        backgroundColor: args.isOnDark ? theme.color('black') : undefined,
-      }}
+      $isOnDark={args.isOnDark}
     >
       <Button
         variant="DropdownButton"
@@ -128,6 +129,6 @@ export const DropdownButton: Story = {
       >
         <span>Sign in to your library account</span>
       </Button>
-    </div>
+    </Wrapper>
   ),
 };
