@@ -28,6 +28,8 @@ const ToggleStarButton: FunctionComponent<ToggleStarButtonProps> = ({
   const [justChangedCount, flashCount] = useFlashMessage<number>();
 
   const handleClick = () => {
+    if (disabled) return;
+
     const newCount = isStarred ? starredIds.length - 1 : starredIds.length + 1;
     onToggleStar(toggleId);
     flashCount(newCount);
@@ -48,7 +50,7 @@ const ToggleStarButton: FunctionComponent<ToggleStarButtonProps> = ({
         }
         $hoverBackground={tokens.colors.warning.light}
         $disabled={disabled}
-        disabled={disabled}
+        aria-disabled={disabled}
         aria-pressed={isStarred}
         aria-label={
           isStarred
