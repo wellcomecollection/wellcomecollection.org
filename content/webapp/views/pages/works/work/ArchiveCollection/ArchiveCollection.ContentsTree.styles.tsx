@@ -33,7 +33,11 @@ export const ContentsRow = styled.div.attrs({
   background: ${props =>
     props.$isEvenRow === undefined
       ? 'transparent'
-      : props.theme.color(props.$isEvenRow ? 'white' : 'neutral.200')};
+      : props.theme.color(
+          props.$isEvenRow
+            ? { brand: 'neutral.10', legacy: 'white' }
+            : 'neutral.200'
+        )};
 
   /* Clicking anywhere in a row toggles it open/closed (see ListItem's
      onClick), but a leaf row's click is a no-op, so it shouldn't look
