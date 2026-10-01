@@ -5,6 +5,7 @@ import { LabelColor, Label as LabelType } from '@weco/common/model/labels';
 import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import {
+  DesignSystemColor,
   legacyColorName,
   PinnableColor,
 } from '@weco/common/views/themes/config';
@@ -14,6 +15,19 @@ type LabelContainerProps = {
   $labelColor: PinnableColor;
   $outlineLightLabels: boolean;
 };
+
+const lightBrandColors: DesignSystemColor[] = [
+  'white',
+  'neutral.05',
+  'neutral.10',
+];
+
+// Light labels can get an outline. A pin can be light in one brand and not
+// the other, so check the half that's actually shown.
+const isLightLabel = (color: PinnableColor, brandUpdate: boolean) =>
+  brandUpdate && typeof color === 'object'
+    ? lightBrandColors.includes(color.brand)
+    : ['white', 'transparent'].includes(legacyColorName(color));
 
 const LabelContainer = styled(Space).attrs({
   className: typography('body', 'sm', 'strong'),
@@ -29,11 +43,7 @@ const LabelContainer = styled(Space).attrs({
   background-color: ${props => props.theme.color(props.$labelColor)};
 
   ${props => {
-    const labelColorName = legacyColorName(props.$labelColor);
-    const isWhiteOrTransparent =
-      labelColorName === 'white' || labelColorName === 'transparent';
-
-    if (!isWhiteOrTransparent) {
+    if (!isLightLabel(props.$labelColor, props.theme.brandUpdate)) {
       return `border: 1px solid ${props.theme.color(props.$labelColor)};`;
     }
 

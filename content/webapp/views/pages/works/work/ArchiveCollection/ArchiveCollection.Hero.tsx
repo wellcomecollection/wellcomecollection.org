@@ -1,6 +1,6 @@
 import NextLink from 'next/link';
 import { ReactNode } from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 import { archive } from '@weco/common/icons';
 import { usePhasedFlags } from '@weco/common/server-data/Context';
@@ -97,6 +97,7 @@ const HeroInfo = ({ label, value }: { label: string; value: ReactNode }) => {
 };
 
 const ArchiveCollectionHero = ({ work }: { work: WorkType }) => {
+  const theme = useTheme();
   const { archiveCollectionPhases } = usePhasedFlags();
   const showArchiveShortDescriptions = phaseIsAtLeast(
     archiveCollectionPhases,
@@ -119,7 +120,9 @@ const ArchiveCollectionHero = ({ work }: { work: WorkType }) => {
           <LabelsList
             labels={getCardLabels(work)}
             defaultLabelColor={{ brand: 'pink.30', legacy: 'white' }}
-            outlineLightLabels={false}
+            // In the new brand the hero is the same colour as the "Online"
+            // label, so light labels need their outline
+            outlineLightLabels={theme.brandUpdate}
           />
         </Space>
 
