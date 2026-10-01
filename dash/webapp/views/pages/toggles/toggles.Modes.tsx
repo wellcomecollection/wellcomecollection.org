@@ -82,8 +82,8 @@ const Modes: FunctionComponent<ModesProps> = ({
             <ToggleListItem key={mode.id}>
               <ToggleRow>
                 <ToggleInfo>
-                  <h3 id={`mode-${mode.id}`} style={{ margin: 0 }}>
-                    {mode.title}
+                  <h3 style={{ margin: 0 }}>
+                    <span id={`mode-${mode.id}`}>{mode.title}</span>
                     <ToggleStarButton toggleId={mode.id} title={mode.title} />
                   </h3>
                   {mode.description.split('\n\n').map((paragraph, i) => (
