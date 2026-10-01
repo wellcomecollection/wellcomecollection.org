@@ -88,7 +88,7 @@ type SectionTheme = {
   rowBackground: PinnableColor;
   cardBackground: PaletteColor;
   featuredCardBackground: PaletteColor;
-  featuredCardText: PaletteColor;
+  featuredCardText: PinnableColor;
 };
 
 type WrapperProps = {
@@ -172,7 +172,7 @@ const Body: FunctionComponent<Props> = ({
       rowBackground: pageBackgroundColor,
       cardBackground: 'warmNeutral.300',
       featuredCardBackground: 'neutral.700',
-      featuredCardText: 'white',
+      featuredCardText: { brand: 'neutral.10', legacy: 'white' },
     },
     {
       rowBackground: 'warmNeutral.300',

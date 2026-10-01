@@ -217,7 +217,7 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
                   <FeaturedCard
                     type="article"
                     background="neutral.700"
-                    textColor="white"
+                    textColor={{ brand: 'neutral.10', legacy: 'white' }}
                     article={relatedDocument}
                   />
                 </>
@@ -232,7 +232,7 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
                     <FeaturedCard
                       type="exhibition"
                       background="neutral.700"
-                      textColor="white"
+                      textColor={{ brand: 'neutral.10', legacy: 'white' }}
                       exhibition={relatedDocument}
                     />
                   </>

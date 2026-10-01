@@ -217,7 +217,7 @@ const EventCard: FunctionComponent<Props> = ({
           $h={{ size: 'sm', properties: ['padding-left', 'padding-right'] }}
           $v={{ size: 'sm', properties: ['padding-bottom'] }}
         >
-          <Divider lineColor="white" />
+          <Divider lineColor={{ brand: 'teal.30', legacy: 'white' }} />
           <Space $v={{ size: 'xs', properties: ['padding-top'] }}>
             <LabelsList
               labels={event.secondaryLabels}
