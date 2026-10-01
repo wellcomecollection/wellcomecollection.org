@@ -104,7 +104,7 @@ const ButtonStyles = css<ColorSchemeType>`
   ${props =>
     props.$colorScheme === 'black-on-white' &&
     `
-    background: ${props.theme.color('white')};
+    background: ${props.theme.color({ brand: 'neutral.10', legacy: 'white' })};
     border: none;
 
     .icon__shape {

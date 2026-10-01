@@ -48,7 +48,9 @@ export const TextInputWrap = styled(Space).attrs<TextInputWrapProps>(props => ({
         ? props.theme.color('validation.red')
         : props.theme.color('validation.green')
       : props.theme.color(
-          props.$isNewSearchBar ? 'accent.green' : 'neutral.600'
+          props.$isNewSearchBar
+            ? 'accent.green'
+            : { brand: 'neutral.70', legacy: 'neutral.600' }
         )};
 
   &:has(:focus-visible) {
@@ -70,7 +72,8 @@ export const TextInputWrap = styled(Space).attrs<TextInputWrapProps>(props => ({
 
   &:hover {
     border-color: ${props =>
-      !props.$isNewSearchBar && props.theme.color('black')};
+      !props.$isNewSearchBar &&
+      props.theme.color({ brand: 'neutral.80', legacy: 'black' })};
   }
 
   ${props =>

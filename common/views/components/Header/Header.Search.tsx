@@ -6,6 +6,10 @@ import { classNames } from '@weco/common/utils/classnames';
 import SearchForm from '@weco/common/views/components/SearchForm';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
+import {
+  mediaBackgroundColor,
+  pageBackgroundColor,
+} from '@weco/common/views/themes/config';
 
 type OverlayProps = { $isActive: boolean };
 const Overlay = styled.div.attrs<OverlayProps>(props => ({
@@ -16,7 +20,10 @@ const Overlay = styled.div.attrs<OverlayProps>(props => ({
   position: absolute;
   width: 100%;
   height: 100%;
-  background-color: rgb(0, 0, 0, 0.6);
+  background-color: ${props =>
+    props.theme.brandUpdate
+      ? `${props.theme.color(mediaBackgroundColor)}99` // 60%
+      : 'rgb(0, 0, 0, 0.6)'};
   z-index: 9999;
 `;
 
@@ -28,7 +35,7 @@ const SearchBarWrapper = styled(Space).attrs({
   ${props => props.theme.makeSpacePropertyValues('md', ['padding-top'])};
   background-color: ${props =>
     props.theme.color(
-      props.$hasColorBackground ? 'accent.lightGreen' : 'white'
+      props.$hasColorBackground ? 'accent.lightGreen' : pageBackgroundColor
     )};
 `;
 
