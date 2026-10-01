@@ -54,7 +54,7 @@ const meta: Meta<StoryProps> = {
         'Only an archive collection root gets the "Archive Collection" treatment. A collection root that is a manuscript does not.',
     },
   },
-  // TODO remove once archiveCollection is fully rolled out
+  // TODO remove once archiveCollectionPhases is fully rolled out
   decorators: [
     Story => (
       <ServerDataContext.Provider
@@ -62,9 +62,18 @@ const meta: Meta<StoryProps> = {
           ...defaultServerData,
           toggles: {
             ...defaultServerData.toggles,
-            featureFlags: {
-              ...defaultServerData.toggles.featureFlags,
-              archiveCollection: true,
+            phasedFlags: {
+              ...defaultServerData.toggles.phasedFlags,
+              archiveCollectionPhases: {
+                current: 'mvp',
+                phases: [
+                  {
+                    id: 'mvp',
+                    label: 'MVP',
+                    description: '',
+                  },
+                ],
+              },
             },
           },
         }}
@@ -93,8 +102,8 @@ export const Basic: Story = {
             marginTop: '1rem',
           }}
         >
-          This is currently behind the <code>archiveCollection</code> feature
-          flag
+          This is currently behind the <code>archiveCollectionPhases</code>{' '}
+          phased flag
         </div>
       )}
     </>
