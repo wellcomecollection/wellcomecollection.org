@@ -6,6 +6,7 @@ import { typography } from '@weco/common/utils/classnames';
 import { capitalize, pluralize } from '@weco/common/utils/grammar';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
 import Space from '@weco/common/views/components/styled/Space';
+import { pageBackgroundColor } from '@weco/common/views/themes/config';
 import { useConceptPageContext } from '@weco/content/contexts/ConceptPageContext';
 import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { allRecordsLinkParams } from '@weco/content/utils/concepts';
@@ -29,7 +30,8 @@ const WorksCount = styled(Space).attrs({
   $v: { size: 'xs', properties: ['padding-top'] },
 })`
   color: ${props => props.theme.color('neutral.600')};
-  border-top: 1px solid ${props => props.theme.color('warmNeutral.300')};
+  border-top: 1px solid
+    ${props => props.theme.color({ brand: 'neutral.20', legacy: 'warmNeutral.300' })};
 `;
 
 const DecorativeEdgeWrapper = styled.div`
@@ -75,7 +77,10 @@ const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
   return (
     <>
       <DecorativeEdgeWrapper>
-        <DecorativeEdge variant="wobbly" backgroundColor="white" />
+        <DecorativeEdge
+          variant="wobbly"
+          backgroundColor={pageBackgroundColor}
+        />
       </DecorativeEdgeWrapper>
       <Space $v={{ size: 'xl', properties: ['margin-top'] }} as="section">
         <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>

@@ -54,7 +54,7 @@ const TitledTextList: FunctionComponent<Props> = ({ items }) => (
         {item.label?.title && (
           <LabelsList
             labels={[{ text: item.label.title }]}
-            defaultLabelColor="warmNeutral.300"
+            defaultLabelColor={{ brand: 'green.20', legacy: 'warmNeutral.300' }}
           />
         )}
       </Space>

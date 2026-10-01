@@ -13,6 +13,7 @@ import {
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
 import Standfirst from '@weco/common/views/slices/Standfirst';
+import { pageBackgroundColor } from '@weco/common/views/themes/config';
 import { Season } from '@weco/content/types/seasons';
 import DateRange from '@weco/content/views/components/DateRange';
 
@@ -35,7 +36,7 @@ const SeasonsHeader: FunctionComponent<Props> = ({ season }) => {
   return (
     <ContaineredLayout gridSizes={gridSize12()}>
       <HeaderWrapper>
-        <WobblyBottom backgroundColor="white">
+        <WobblyBottom backgroundColor={pageBackgroundColor}>
           {superWidescreenImage && (
             <div style={{ position: 'relative' }}>
               <PrismicImage

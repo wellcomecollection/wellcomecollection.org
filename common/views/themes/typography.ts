@@ -6,6 +6,8 @@ import {
 } from '@wellcometrust/wellcome-design-system/theme';
 import { css } from 'styled-components';
 
+import { pageBackgroundColor } from '@weco/common/views/themes/config';
+
 // Note: the design system font sizing uses vw units and clamp so that there is
 // a gradated change across viewport widths without a need for breakpoint changes.
 // We have considered the utility of a similar container query based approach using
@@ -55,12 +57,20 @@ export const typography = css`
   body {
     ${typographyMixin('body', 'lg', 'regular')}
     color: ${props => props.theme.color('black')};
+    background-color: ${props => props.theme.color(pageBackgroundColor)};
     font-variant-ligatures: no-common-ligatures;
     -webkit-font-smoothing: antialiased;
     -moz-font-smoothing: antialiased;
     -o-font-smoothing: antialiased;
     text-wrap-style: pretty;
   }
+
+  ${props =>
+    props.theme.brandUpdate &&
+    `::selection {
+      background: ${props.theme.color({ brand: 'yellow.20', legacy: 'lightYellow' })};
+      color: ${props.theme.color({ brand: 'neutral.70', legacy: 'inherit' })}
+    }`}
 
   h1,
   h2,
@@ -160,9 +170,11 @@ export const typography = css`
       ${typographyMixin('body', 'xl', 'strong')}
     }
 
-    *::selection {
-      background: ${props => props.theme.color('accent.turquoise')}4d;
-    }
+    ${props =>
+      !props.theme.brandUpdate &&
+      `*::selection {
+        background: ${props.theme.color('accent.turquoise')}4d;
+      }`}
 
     /* stylelint-disable no-descending-specificity */
     ul {

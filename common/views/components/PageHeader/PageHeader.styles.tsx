@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
-import { PaletteColor } from '@weco/common/views/themes/config';
+import { PinnableColor } from '@weco/common/views/themes/config';
 
 export const Container = styled.div<{ $backgroundTexture?: string }>`
   position: relative;
@@ -37,7 +37,7 @@ export const TitleWrapper = styled.h1.attrs<{
 export const headerSpaceSize = 'md';
 export const HeroPictureBackground = styled.div.attrs({
   className: 'is-hidden-print',
-})<{ $bgColor: PaletteColor }>`
+})<{ $bgColor: PinnableColor }>`
   position: absolute;
   background-color: ${props => props.theme.color(props.$bgColor)};
   height: 50%;

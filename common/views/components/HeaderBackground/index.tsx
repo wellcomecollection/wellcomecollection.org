@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { landingHeaderBackgroundLs } from '@weco/common/utils/backgrounds';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
+import { pageBackgroundColor } from '@weco/common/views/themes/config';
 
 type Props = {
   backgroundTexture?: string;
@@ -50,7 +51,7 @@ const HeaderBackground: FunctionComponent<Props> = ({
           <DecorativeEdge
             variant="wobbly"
             intensity={100}
-            backgroundColor="white"
+            backgroundColor={pageBackgroundColor}
             isValley
           />
         </WobblyEdgeContainer>

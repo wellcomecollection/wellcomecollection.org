@@ -8,6 +8,7 @@ import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import LL from '@weco/common/views/components/styled/LL';
+import { mediaBackgroundColor } from '@weco/common/views/themes/config';
 import { ItemViewerContextRefactored as ItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import {
@@ -169,7 +170,7 @@ const Main = styled.div<{
   $hasOnlyRenderableImages: boolean;
   $hasMultipleCanvases?: boolean;
 }>`
-  background: ${props => props.theme.color('black')};
+  background: ${props => props.theme.color(mediaBackgroundColor)};
   color: ${props => props.theme.color('white')};
   position: relative;
 
@@ -216,7 +217,7 @@ const ThumbnailsWrapper = styled.div<{
   $isActive: boolean;
   $isDesktopSidebarActive: boolean;
 }>`
-  background: ${props => props.theme.color('black')};
+  background: ${props => props.theme.color(mediaBackgroundColor)};
   transform: translateY(${props => (props.$isActive ? '0' : '100%')});
   transition: transform 250ms ease;
   z-index: 3;

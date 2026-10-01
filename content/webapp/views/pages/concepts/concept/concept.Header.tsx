@@ -17,6 +17,7 @@ import Layout, {
   gridSize8,
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
+import { pageBackgroundColor } from '@weco/common/views/themes/config';
 import { useConceptPageContext } from '@weco/content/contexts/ConceptPageContext';
 import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import HeaderColourBand from '@weco/content/views/components/HeaderColourBand';
@@ -124,7 +125,7 @@ const ThemeHeader: FunctionComponent<{
     <HeaderColourBand
       paddingTopSize="md"
       paddingBottomCss={theme => `padding-bottom: ${theme.gutter.xlarge};`}
-      decorativeEdgeColor={hasImages ? 'neutral.700' : 'white'}
+      decorativeEdgeColor={hasImages ? 'neutral.700' : pageBackgroundColor}
     >
       <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
         <Breadcrumb items={breadcrumbs.items} />
