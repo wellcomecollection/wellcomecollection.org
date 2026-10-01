@@ -7,6 +7,7 @@ import {
   setCookieCustom,
   ToggleStates,
 } from './toggles.helpers';
+import ToggleStarButton from './toggles.StarButton';
 import { ResetButton, ToggleList, ToggleListItem } from './toggles.styles';
 
 const RadioGroup = styled.fieldset`
@@ -94,17 +95,19 @@ const ABTests = ({
                     marginRight: tokens.spacing.sm,
                     marginBottom: tokens.spacing.xs,
                   }}
-                  id={`toggle-${toggle.id}`}
                 >
-                  {toggle.title}{' '}
-                  <span
-                    style={{
-                      fontSize: tokens.typography.fontSize.small,
-                      color: tokens.colors.text.secondary,
-                    }}
-                  >
-                    ({toggle.range[0]} - {toggle.range[1]})
-                  </span>
+                  <span id={`toggle-${toggle.id}`}>
+                    {toggle.title}{' '}
+                    <span
+                      style={{
+                        fontSize: tokens.typography.fontSize.small,
+                        color: tokens.colors.text.secondary,
+                      }}
+                    >
+                      ({toggle.range[0]} - {toggle.range[1]})
+                    </span>
+                  </span>{' '}
+                  <ToggleStarButton toggleId={toggle.id} title={toggle.title} />
                 </h3>
 
                 <p>{toggle.description}</p>

@@ -4,6 +4,7 @@ import { ThemeProvider } from 'styled-components';
 import * as Context from '@weco/common/server-data/Context';
 import theme from '@weco/common/views/themes/default';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
+import { PhaseValue } from '@weco/toggles';
 
 import WorkSearchResult from './WorksSearchResults.Result';
 
@@ -24,15 +25,18 @@ const baseWork: WorkBasic = {
   isArchiveCollectionRoot: false,
 };
 
-const mockFeatureFlags = (flags: {
-  archiveCollection?: boolean;
-  archiveShortDescriptions?: boolean;
-}) =>
-  jest
-    .spyOn(Context, 'useFeatureFlags')
-    .mockImplementation(
-      () => flags as unknown as ReturnType<typeof Context.useFeatureFlags>
-    );
+const phases = [
+  { id: 'mvp', label: 'MVP', description: '' },
+  { id: 'phase2', label: 'Phase 2', description: '' },
+];
+
+const mockArchiveCollectionPhase = (current: PhaseValue) =>
+  jest.spyOn(Context, 'usePhasedFlags').mockImplementation(
+    () =>
+      ({
+        archiveCollectionPhases: { current, phases },
+      }) as unknown as ReturnType<typeof Context.usePhasedFlags>
+  );
 
 const renderResult = (work: WorkBasic) =>
   render(
@@ -46,8 +50,8 @@ describe('WorkSearchResult', () => {
     jest.restoreAllMocks();
   });
 
-  it('does not show "Archive Collection" for an ordinary work, even with the flag on', () => {
-    mockFeatureFlags({ archiveCollection: true });
+  it('does not show "Archive Collection" for an ordinary work, even at MVP', () => {
+    mockArchiveCollectionPhase('mvp');
     renderResult(baseWork);
     expect(screen.queryByText('Archive Collection')).not.toBeInTheDocument();
   });
@@ -57,47 +61,41 @@ describe('WorkSearchResult', () => {
   // cases (a manuscript, a non-archive format, a childless root) that get
   // `false` here.
   it('does not show "Archive Collection" for a collection root that is not itself an archive', () => {
-    mockFeatureFlags({ archiveCollection: true });
+    mockArchiveCollectionPhase('mvp');
     renderResult({ ...baseWork, isArchiveCollectionRoot: false });
     expect(screen.queryByText('Archive Collection')).not.toBeInTheDocument();
   });
 
-  it('shows "Archive Collection" for an archive collection root when the flag is on', () => {
-    mockFeatureFlags({ archiveCollection: true });
+  it('shows "Archive Collection" for an archive collection root at MVP', () => {
+    mockArchiveCollectionPhase('mvp');
     renderResult({ ...baseWork, isArchiveCollectionRoot: true });
     expect(screen.getByText('Archive Collection')).toBeInTheDocument();
   });
 
-  it('does not show "Archive Collection" for an archive collection root when the flag is off', () => {
-    mockFeatureFlags({ archiveCollection: false });
+  it('does not show "Archive Collection" for an archive collection root when no phase is public', () => {
+    mockArchiveCollectionPhase(null);
     renderResult({ ...baseWork, isArchiveCollectionRoot: true });
     expect(screen.queryByText('Archive Collection')).not.toBeInTheDocument();
   });
 
-  // The short description has its own flag, independent of archiveCollection.
   const workWithShortDescription = {
     ...baseWork,
     isArchiveCollectionRoot: true,
     shortDescription: 'A short description of this collection.',
   };
 
-  it('shows the short description when archiveShortDescriptions is on, even with archiveCollection off', () => {
-    mockFeatureFlags({
-      archiveCollection: false,
-      archiveShortDescriptions: true,
-    });
+  it('shows the short description at phase 2', () => {
+    mockArchiveCollectionPhase('phase2');
     renderResult(workWithShortDescription);
     expect(
       screen.getByText('A short description of this collection.')
     ).toBeInTheDocument();
   });
 
-  it('does not show the short description when archiveShortDescriptions is off, even with archiveCollection on', () => {
-    mockFeatureFlags({
-      archiveCollection: true,
-      archiveShortDescriptions: false,
-    });
+  it('does not show the short description at MVP', () => {
+    mockArchiveCollectionPhase('mvp');
     renderResult(workWithShortDescription);
+    expect(screen.getByText('Archive Collection')).toBeInTheDocument();
     expect(
       screen.queryByText('A short description of this collection.')
     ).not.toBeInTheDocument();

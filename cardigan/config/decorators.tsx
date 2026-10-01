@@ -1,13 +1,23 @@
-import { ComponentType, FunctionComponent, PropsWithChildren } from 'react';
+import {
+  ComponentType,
+  FunctionComponent,
+  PropsWithChildren,
+  useMemo,
+} from 'react';
 import { ThemeProvider } from 'styled-components';
 
 import { AppContextProvider } from '@weco/common/contexts/AppContext';
 import Space from '@weco/common/views/components/styled/Space';
-import theme, { GlobalStyle } from '@weco/common/views/themes/default';
+import { createTheme } from '@weco/common/views/themes/config';
+import { GlobalStyle } from '@weco/common/views/themes/default';
 
-export const ContextDecorator: FunctionComponent<PropsWithChildren> = ({
-  children,
-}) => {
+// brandUpdate mirrors the toggle of the same name, set from the Storybook
+// toolbar (see globalTypes in .storybook/preview.jsx)
+export const ContextDecorator: FunctionComponent<
+  PropsWithChildren<{ brandUpdate?: boolean }>
+> = ({ children, brandUpdate = false }) => {
+  const theme = useMemo(() => createTheme(brandUpdate), [brandUpdate]);
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />

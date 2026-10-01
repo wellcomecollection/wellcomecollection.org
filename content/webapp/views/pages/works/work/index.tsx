@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import { useFeatureFlags } from '@weco/common/server-data/Context';
+import { usePhasedFlags } from '@weco/common/server-data/Context';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import Divider from '@weco/common/views/components/Divider';
@@ -29,6 +29,7 @@ import {
   isArchiveCollectionRoot,
 } from '@weco/content/utils/works';
 import CataloguePageLayout from '@weco/content/views/layouts/CataloguePageLayout';
+import { phaseIsAtLeast } from '@weco/toggles';
 
 import ArchiveCollectionLayout from './ArchiveCollection';
 import ArchiveTree from './ArchiveTree';
@@ -60,13 +61,14 @@ export type Props = {
 
 export const WorkPage: NextPage<Props> = ({ work, apiUrl }) => {
   const { isKiosk } = useKiosk();
-  const { archiveCollection } = useFeatureFlags();
+  const { archiveCollectionPhases } = usePhasedFlags();
   const { userIsStaffWithRestricted } = useUserContext();
   const isArchive = !!(
     work.parts.length || getArchiveAncestorArray(work).length > 0
   );
   const displayCollectionRoot =
-    isArchiveCollectionRoot(work) && archiveCollection;
+    isArchiveCollectionRoot(work) &&
+    phaseIsAtLeast(archiveCollectionPhases, 'mvp');
 
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
   const iiifPresentationLocation = getDigitalLocationOfType(

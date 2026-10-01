@@ -71,14 +71,27 @@ export const withDefaultPhaseUnmodified = (
 ): PublishedPhasedFlag[] => {
   /**
    * Same reasoning as withDefaultValuesUnmodified: defaultPhase is only ever
-   * set explicitly (via the dashboard, once that exists), never by deploying
-   * over it. A brand new phased flag starts with nothing public (null).
+   * set explicitly (via setDefaultValueFor), never by deploying over it. A
+   * brand new phased flag starts at its initialPhase if it has one, otherwise
+   * with nothing public (null).
    */
   return definitions.map(flag => {
     const matchingFlag = publishedPhasedFlags.find(({ id }) => id === flag.id);
     const isNew = typeof matchingFlag === 'undefined';
 
-    const defaultPhase = isNew ? null : matchingFlag.defaultPhase;
+    if (
+      isNew &&
+      flag.initialPhase !== undefined &&
+      !flag.phases.some(phase => phase.id === flag.initialPhase)
+    ) {
+      throw new Error(
+        `${flag.id}: initialPhase "${flag.initialPhase}" isn't one of this flag's phases (${flag.phases.map(phase => phase.id).join(', ')}).`
+      );
+    }
+
+    const defaultPhase = isNew
+      ? (flag.initialPhase ?? null)
+      : matchingFlag.defaultPhase;
 
     if (
       !isNew &&
@@ -103,8 +116,10 @@ export const withDefaultPhaseUnmodified = (
       matchingFlag?.dateActivated
     );
 
+    const { initialPhase, ...otherFields } = flag;
+
     return {
-      ...flag,
+      ...otherFields,
       defaultPhase,
       // Omit rather than set undefined, so a non-experimental flag's
       // published shape doesn't carry these keys at all.

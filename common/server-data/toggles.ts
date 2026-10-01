@@ -146,7 +146,10 @@ export function getTogglesFromContext(
       allCookies,
       flag.defaultPhase
     );
-    return { ...acc, [flag.id]: { current, phases: flag.phases } };
+    return {
+      ...acc,
+      [flag.id]: { current, phases: flag.phases, title: flag.title },
+    };
   }, {} as PhasedFlags);
 
   const tests = togglesResp.tests.reduce((acc, test) => {

@@ -6,6 +6,7 @@ import { ModeDefinition } from '@weco/toggles';
 
 import CopyLinkIcon from './ListOfToggles/ListOfToggles.CopyLinkIcon';
 import { deleteCookieCustom, setCookieCustom } from './toggles.helpers';
+import ToggleStarButton from './toggles.StarButton';
 import {
   ResetButton,
   ToggleControls,
@@ -81,8 +82,9 @@ const Modes: FunctionComponent<ModesProps> = ({
             <ToggleListItem key={mode.id}>
               <ToggleRow>
                 <ToggleInfo>
-                  <h3 id={`mode-${mode.id}`} style={{ margin: 0 }}>
-                    {mode.title}
+                  <h3 style={{ margin: 0 }}>
+                    <span id={`mode-${mode.id}`}>{mode.title}</span>
+                    <ToggleStarButton toggleId={mode.id} title={mode.title} />
                   </h3>
                   {mode.description.split('\n\n').map((paragraph, i) => (
                     <p

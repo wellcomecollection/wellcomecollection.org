@@ -6,6 +6,7 @@ import { PublishedPhasedFlag } from '@weco/toggles';
 
 import StatusBadge from './ListOfToggles/ListOfToggles.StatusBadge';
 import { deleteCookieCustom, setCookieCustom } from './toggles.helpers';
+import ToggleStarButton from './toggles.StarButton';
 import {
   ResetButton,
   ToggleControls,
@@ -147,8 +148,9 @@ const PhasedFlags: FunctionComponent<PhasedFlagsProps> = ({
             <ToggleListItem key={flag.id} id={`toggle-${flag.id}`}>
               <ToggleRow>
                 <ToggleInfo>
-                  <h3 id={`heading-${flag.id}`} style={{ margin: 0 }}>
-                    {flag.title}
+                  <h3 style={{ margin: 0 }}>
+                    <span id={`heading-${flag.id}`}>{flag.title}</span>
+                    <ToggleStarButton toggleId={flag.id} title={flag.title} />
                   </h3>
 
                   <div style={{ margin: `${tokens.spacing.xs} 0` }}>
