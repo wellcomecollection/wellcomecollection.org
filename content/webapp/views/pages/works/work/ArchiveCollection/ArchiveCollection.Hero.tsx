@@ -118,7 +118,7 @@ const ArchiveCollectionHero = ({ work }: { work: WorkType }) => {
         <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
           <LabelsList
             labels={getCardLabels(work)}
-            defaultLabelColor="white"
+            defaultLabelColor={{ brand: 'pink.30', legacy: 'white' }}
             outlineLightLabels={false}
           />
         </Space>

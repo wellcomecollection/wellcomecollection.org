@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { LabelColor, Label as LabelType } from '@weco/common/model/labels';
 import Space from '@weco/common/views/components/styled/Space';
 
-import Label from './LabelsList.Label';
+import Label, { formatLabelColor } from './LabelsList.Label';
 
 const List = styled(Space).attrs({
   $v: { size: '2xs', properties: ['row-gap'] },
@@ -31,7 +31,7 @@ export function makeLabels(title?: string): Props | undefined {
 
 const LabelsList: FunctionComponent<Props> = ({
   labels,
-  defaultLabelColor = 'yellow',
+  defaultLabelColor = formatLabelColor,
   outlineLightLabels = true,
 }: Props) => (
   <Space

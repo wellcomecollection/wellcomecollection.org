@@ -38,10 +38,18 @@ const LabelContainer = styled(Space).attrs({
     }
 
     return `border: 1px solid ${props.theme.color(
-      props.$outlineLightLabels ? 'neutral.500' : props.$labelColor
+      props.$outlineLightLabels
+        ? { brand: 'neutral.70', legacy: 'neutral.500' }
+        : props.$labelColor
     )};`;
   }}
 `;
+
+// Format labels (Display, Workshop, Book extract…)
+export const formatLabelColor: LabelColor = {
+  brand: 'pink.30',
+  legacy: 'yellow',
+};
 
 export type Props = {
   label: LabelType;
@@ -51,7 +59,7 @@ export type Props = {
 
 const Label: FunctionComponent<Props> = ({
   label,
-  defaultLabelColor = 'yellow',
+  defaultLabelColor = formatLabelColor,
   outlineLightLabels = true,
 }: Props) => {
   return (
@@ -69,7 +77,7 @@ const Label: FunctionComponent<Props> = ({
         label.textColor ||
         ((label.labelColor && legacyColorName(label.labelColor) === 'black') ||
         legacyColorName(defaultLabelColor) === 'black'
-          ? 'yellow'
+          ? { brand: 'teal.20', legacy: 'yellow' }
           : 'black')
       }
       $labelColor={label.labelColor || defaultLabelColor}
