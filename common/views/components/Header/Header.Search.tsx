@@ -6,10 +6,9 @@ import { classNames } from '@weco/common/utils/classnames';
 import SearchForm from '@weco/common/views/components/SearchForm';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
-import {
-  mediaBackgroundColor,
-  pageBackgroundColor,
-} from '@weco/common/views/themes/config';
+import { mediaBackgroundColor } from '@weco/common/views/themes/config';
+
+import { headerBackgroundColor } from './Header.styles';
 
 type OverlayProps = { $isActive: boolean };
 const Overlay = styled.div.attrs<OverlayProps>(props => ({
@@ -35,7 +34,7 @@ const SearchBarWrapper = styled(Space).attrs({
   ${props => props.theme.makeSpacePropertyValues('md', ['padding-top'])};
   background-color: ${props =>
     props.theme.color(
-      props.$hasColorBackground ? 'accent.lightGreen' : pageBackgroundColor
+      props.$hasColorBackground ? 'accent.lightGreen' : headerBackgroundColor
     )};
 `;
 
