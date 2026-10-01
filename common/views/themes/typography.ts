@@ -69,6 +69,7 @@ export const typography = css`
     props.theme.brandUpdate &&
     `::selection {
       background: ${props.theme.color({ brand: 'yellow.20', legacy: 'lightYellow' })};
+      color: ${props.theme.color({ brand: 'neutral.70', legacy: 'inherit' })}
     }`}
 
   h1,
