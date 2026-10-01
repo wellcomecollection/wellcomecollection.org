@@ -14,14 +14,14 @@ import Space from '@weco/common/views/components/styled/Space';
 const Cell = styled(Space).attrs({
   $h: { size: 'sm', properties: ['margin-right'] },
 })`
-  background-color: ${props => props.theme.color('neutral.200')};
+  background-color: ${props => props.theme.color({ brand: 'neutral.10', legacy: 'neutral.200' })};
   color: ${props => props.theme.color('black')};
   border-radius: 50%;
   transition: all ${props => props.theme.transitionProperties};
 
   &:hover,
   &:focus {
-    color: ${props => props.theme.color('neutral.200')};
+    color: ${props => props.theme.color({ brand: 'neutral.10', legacy: 'neutral.200' })};
     background-color: ${props => props.theme.color('black')};
   }
 `;
