@@ -96,6 +96,11 @@ export const cookiesTableCopy = {
       `Set by Wellcome to switch on/off website features that are under development, or only intended for<br />a subset of users e.g. Wellcome staff or people taking part in usability research`,
       `1 year`,
     ],
+    [
+      `starred_toggles`,
+      `Set by Wellcome to remember which toggle_* cookies above a user has chosen to preview using the on-site toggle widget`,
+      `1 year`,
+    ],
     [`__cf_bm`, `Used to read and filter requests from bots`, `30 mins`],
     [`Prismic-auth`, `Allows requests to Prismic API`, `Session`],
     [`Ar_debug`, `Used by Google Ad Services to debug ads`, `1 year`],
