@@ -55,14 +55,21 @@ export type PhasedFlagDefinition = ToggleBase & {
   // Ordered earliest to latest. Selecting a phase in the dashboard shows
   // that phase's work plus everything from the phases before it.
   phases: readonly PhaseDefinition[];
+  // The phase that's public the first time this flag is published - for a
+  // feature whose earlier phases already shipped behind a boolean flag.
+  // Like a feature flag's initialValue, it's only read for a brand new
+  // flag; after that the public phase changes via setDefaultValueFor.
+  initialPhase?: string;
 };
 
 export type PublishedPhasedFlag = ToggleBase &
   WithLifecycleDates & {
     phases: readonly PhaseDefinition[];
-    // What's actually public. Always null the first time a phased flag is
-    // published, then set explicitly later as each phase ships,
-    // the same way PublishedFeatureFlag.defaultValue works for booleans.
+    // What's actually public. Null the first time a phased flag is
+    // published, unless its definition set an initialPhase (for a feature
+    // whose earlier phases already shipped behind a boolean flag) - either
+    // way, set explicitly from then on as each phase ships, the same way
+    // PublishedFeatureFlag.defaultValue works for booleans.
     defaultPhase: string | null;
   };
 
@@ -142,22 +149,6 @@ const toggleConfig = {
       type: 'experimental',
     },
     {
-      id: 'archiveCollection',
-      title: 'Archive Collection level pages',
-      initialValue: false,
-      description:
-        'Enables access to the new Archive Collection level pages, changes to the work page and search result.',
-      type: 'experimental',
-    },
-    {
-      id: 'archiveShortDescriptions',
-      title: 'Archive short descriptions',
-      initialValue: false,
-      description:
-        "Shows the catalogue API's shortDescription field on archive work pages, the archive collection hero and archive collection search results.",
-      type: 'experimental',
-    },
-    {
       id: 'semanticSearchPrototype',
       title: 'Semantic search prototype',
       initialValue: false,
@@ -210,6 +201,28 @@ const toggleConfig = {
           label: 'Sub-category pages',
           description:
             'Subject sub-category pages become accessible, and the subjects category page gains a sub-category menu.',
+        },
+      ],
+    },
+    {
+      id: 'archiveCollectionPhases',
+      title: 'Archive collection',
+      description: 'Staged rollout of archive collection level pages.',
+      type: 'experimental',
+      // MVP was already public behind archiveCollection when we created it as a phased flag.
+      initialPhase: 'mvp',
+      phases: [
+        {
+          id: 'mvp',
+          label: 'MVP',
+          description:
+            'Archive collection level pages, plus the archive collection treatment on the work page and in search results.',
+        },
+        {
+          id: 'phase2',
+          label: 'Phase 2',
+          description:
+            "The catalogue API's shortDescription is shown on the archive collection hero and in search results.",
         },
       ],
     },

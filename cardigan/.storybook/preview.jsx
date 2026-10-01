@@ -1,4 +1,6 @@
 import { DocsContainer } from '@storybook/addon-docs/blocks';
+import { useEffect, useState } from 'react';
+import { GLOBALS_UPDATED } from 'storybook/internal/core-events';
 
 import { ContextDecorator } from '@weco/cardigan/config/decorators';
 import { AppContextProvider } from '@weco/common/contexts/AppContext';
@@ -10,10 +12,31 @@ import theme from '@weco/common/views/themes/default';
 
 import wellcomeTheme from './wellcome-theme';
 
+// Docs pages don't go through decorators, so follow the toolbar here instead
+const BrandUpdateDocsContainer = ({ children, context }) => {
+  const [globals, setGlobals] = useState(
+    () => context.store?.userGlobals?.get() ?? {}
+  );
+
+  useEffect(() => {
+    const onGlobalsUpdated = ({ globals }) => setGlobals(globals);
+    context.channel.on(GLOBALS_UPDATED, onGlobalsUpdated);
+    return () => context.channel.off(GLOBALS_UPDATED, onGlobalsUpdated);
+  }, [context.channel]);
+
+  return (
+    <DocsContainer context={context}>
+      <ContextDecorator brandUpdate={globals.brandUpdate === 'on'}>
+        {children}
+      </ContextDecorator>
+    </DocsContainer>
+  );
+};
+
 export const decorators = [
   (Story, context) => {
     return (
-      <ContextDecorator>
+      <ContextDecorator brandUpdate={context.globals.brandUpdate === 'on'}>
         <AppContextProvider>
           <GlobalSvgDefinitions />
           <ConditionalWrapper
@@ -35,6 +58,26 @@ export const decorators = [
     );
   },
 ];
+
+// Mirrors the brandUpdate toggle, so stories can be viewed in the new brand
+export const globalTypes = {
+  brandUpdate: {
+    description: 'Brand update toggle',
+    toolbar: {
+      title: 'Brand',
+      icon: 'paintbrush',
+      items: [
+        { value: 'off', title: 'Current brand' },
+        { value: 'on', title: 'Brand update' },
+      ],
+      dynamicTitle: true,
+    },
+  },
+};
+
+export const initialGlobals = {
+  brandUpdate: 'off',
+};
 
 export const themeColors = Object.entries(theme.colors).map(([key, value]) => ({
   name: key,
@@ -75,11 +118,7 @@ export const parameters = {
 
   docs: {
     theme: wellcomeTheme,
-    container: ({ children, context }) => (
-      <DocsContainer context={context}>
-        <ContextDecorator>{children}</ContextDecorator>
-      </DocsContainer>
-    ),
+    container: BrandUpdateDocsContainer,
   },
   a11y: {
     config: {
