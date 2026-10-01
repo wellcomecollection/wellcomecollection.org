@@ -149,22 +149,6 @@ const toggleConfig = {
       type: 'experimental',
     },
     {
-      id: 'archiveCollection',
-      title: 'Archive Collection level pages',
-      initialValue: false,
-      description:
-        'Superseded by the Archive collection phased flag and no longer does anything. Kept until the release that reads the phased flag is live everywhere; to be deleted in a follow-up PR.',
-      type: 'experimental',
-    },
-    {
-      id: 'archiveShortDescriptions',
-      title: 'Archive short descriptions',
-      initialValue: false,
-      description:
-        'Superseded by the Archive collection phased flag (phase 2) and no longer does anything. Kept until the release that reads the phased flag is live everywhere; to be deleted in a follow-up PR.',
-      type: 'experimental',
-    },
-    {
       id: 'semanticSearchPrototype',
       title: 'Semantic search prototype',
       initialValue: false,
@@ -223,10 +207,9 @@ const toggleConfig = {
     {
       id: 'archiveCollectionPhases',
       title: 'Archive collection',
-      description:
-        'Staged rollout of archive collection pages, replacing the archiveCollection and archiveShortDescriptions feature flags.',
+      description: 'Staged rollout of archive collection level pages.',
       type: 'experimental',
-      // MVP was already public behind archiveCollection.
+      // MVP was already public behind archiveCollection when we created it as a phased flag.
       initialPhase: 'mvp',
       phases: [
         {
