@@ -1,5 +1,5 @@
 import { CSSProperties, FunctionComponent } from 'react';
-import styled from 'styled-components';
+import styled, { DefaultTheme } from 'styled-components';
 
 import { LabelColor, Label as LabelType } from '@weco/common/model/labels';
 import { typography } from '@weco/common/utils/classnames';
@@ -22,12 +22,22 @@ const lightBrandColors: DesignSystemColor[] = [
   'neutral.10',
 ];
 
-// Light labels can get an outline. A pin can be light in one brand and not
-// the other, so check the half that's actually shown.
-const isLightLabel = (color: PinnableColor, brandUpdate: boolean) =>
-  brandUpdate && typeof color === 'object'
-    ? lightBrandColors.includes(color.brand)
-    : ['white', 'transparent'].includes(legacyColorName(color));
+// Light labels can get an outline. A colour can be light in one brand and not
+// the other, so in the new brand check the colour that's actually shown.
+const isLightLabel = (color: PinnableColor, theme: DefaultTheme) => {
+  if (!theme.brandUpdate) {
+    return ['white', 'transparent'].includes(legacyColorName(color));
+  }
+
+  const shown = theme.color(color);
+
+  return (
+    shown === 'transparent' ||
+    lightBrandColors.some(
+      brand => theme.color({ brand, legacy: 'white' }) === shown
+    )
+  );
+};
 
 const LabelContainer = styled(Space).attrs({
   className: typography('body', 'sm', 'strong'),
@@ -43,7 +53,7 @@ const LabelContainer = styled(Space).attrs({
   background-color: ${props => props.theme.color(props.$labelColor)};
 
   ${props => {
-    if (!isLightLabel(props.$labelColor, props.theme.brandUpdate)) {
+    if (!isLightLabel(props.$labelColor, props.theme)) {
       return `border: 1px solid ${props.theme.color(props.$labelColor)};`;
     }
 
