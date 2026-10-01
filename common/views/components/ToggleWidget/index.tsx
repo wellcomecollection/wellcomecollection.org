@@ -84,24 +84,32 @@ function cookieDomainOptions() {
   const isLocalhost =
     window.location.hostname === 'localhost' ||
     window.location.hostname === '127.0.0.1';
+  const expires = new Date();
+  expires.setFullYear(expires.getFullYear() + 1);
+
   return {
     domain: isLocalhost ? undefined : 'wellcomecollection.org',
     secure: !isLocalhost,
+    expires,
   };
 }
 
 /**
  * Sets the override cookie for a starred toggle's chosen option - or clears
  * it for the sentinel ids that mean "no override" (a mode's "Off", an A/B
- * test's "Randomly allocate me").
+ * test's "Randomly allocate me"). Matches dash's own 1-year expiry
+ * (toggles.helpers.ts's standardCookieOptions()) - setting this cookie
+ * without one would silently downgrade an existing dash-set override to a
+ * session cookie, since a cookie's attributes are replaced wholesale by
+ * whoever sets it next, regardless of which surface set it originally.
  */
 function applyOverride(id: string, optionId: string) {
-  const { domain, secure } = cookieDomainOptions();
+  const { domain, secure, expires } = cookieDomainOptions();
 
   if (optionId === '' || optionId === 'random') {
     deleteCookie(`toggle_${id}`, { domain, path: '/' });
   } else {
-    setCookie(`toggle_${id}`, optionId, { domain, path: '/', secure });
+    setCookie(`toggle_${id}`, optionId, { domain, path: '/', secure, expires });
   }
   window.location.reload();
 }
@@ -123,8 +131,13 @@ function resetOverride(id: string) {
  * collapsing the panel, so it stays gone across future page loads too.
  */
 function dismissWidget() {
-  const { domain, secure } = cookieDomainOptions();
-  setCookie('toggle_toggleWidget', 'false', { domain, path: '/', secure });
+  const { domain, secure, expires } = cookieDomainOptions();
+  setCookie('toggle_toggleWidget', 'false', {
+    domain,
+    path: '/',
+    secure,
+    expires,
+  });
 }
 
 const ToggleWidget: FunctionComponent = () => {
