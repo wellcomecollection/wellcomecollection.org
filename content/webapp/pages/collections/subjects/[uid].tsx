@@ -52,7 +52,7 @@ const CONCEPT_GROUPS: Record<
     'hqbh7xar',
     'c3br959t',
     'h72fhc38',
-    'vsnwvu9k',
+    'eva7r2dw',
     'eg8kmtpb',
   ],
   'medical-care-and-practices': ['hvngn3u7', 'raz92g59'],
