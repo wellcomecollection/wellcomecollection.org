@@ -265,7 +265,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       {
         id: 'json',
         label: 'JSON',
-        link: `https://api.wellcomecollection.org/catalogue/v2/concepts?id=${CONCEPT_GROUPS[pageUid].join(',')}`,
+        link: `https://api.wellcomecollection.org/catalogue/v2/concepts?id=${CONCEPT_GROUPS[pageUid].join(',')}${serverData.toggles.modes.cataloguePipeline ? `&elasticCluster=${encodeURIComponent(serverData.toggles.modes.cataloguePipeline)}` : ''}`,
       },
     ];
 

@@ -44,8 +44,11 @@ export const Page: NextPage<ConceptPageProps> = props => {
   );
 };
 
-function createApiToolbarLinks(concept: ConceptType): ApiToolbarLink[] {
-  const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/concepts/${concept.id}`;
+function createApiToolbarLinks(
+  concept: ConceptType,
+  pipelineCluster?: string
+): ApiToolbarLink[] {
+  const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/concepts/${concept.id}${pipelineCluster ? `?elasticCluster=${encodeURIComponent(pipelineCluster)}` : ''}`;
 
   const apiLink = {
     id: 'json',
@@ -292,7 +295,10 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   const totalResults = getLabelTotals();
 
-  const apiToolbarLinks = createApiToolbarLinks(conceptResponse);
+  const apiToolbarLinks = createApiToolbarLinks(
+    conceptResponse,
+    serverData.toggles.modes.cataloguePipeline ?? undefined
+  );
 
   const sectionsData: ThemePageSectionsData = {
     about: {
