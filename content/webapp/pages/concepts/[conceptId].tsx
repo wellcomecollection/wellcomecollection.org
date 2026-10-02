@@ -86,6 +86,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const conceptResponse = await getConcept({
     id: conceptId,
     shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+    pipelineCluster: serverData.toggles.modes.cataloguePipeline ?? undefined,
   });
 
   if (conceptResponse.type === 'Error') {

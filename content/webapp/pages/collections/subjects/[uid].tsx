@@ -151,6 +151,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         id: CONCEPT_GROUPS[pageUid].join(','),
       },
       shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+      pipelineCluster: serverData.toggles.modes.cataloguePipeline ?? undefined,
     });
 
     if (conceptResponse.type === 'Error') {

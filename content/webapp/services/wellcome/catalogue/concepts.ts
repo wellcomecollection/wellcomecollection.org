@@ -1,3 +1,4 @@
+import { propsToQuery } from '@weco/common/utils/routes';
 import {
   globalApiOptions,
   QueryProps,
@@ -17,6 +18,7 @@ import {
 type GetConceptProps = {
   id: string;
   shouldUseStagingApi?: boolean;
+  pipelineCluster?: string;
 };
 
 type ConceptResponse = Concept | WellcomeApiError;
@@ -24,6 +26,7 @@ type ConceptResponse = Concept | WellcomeApiError;
 export async function getConcept({
   id,
   shouldUseStagingApi,
+  pipelineCluster,
 }: GetConceptProps): Promise<ConceptResponse> {
   if (!looksLikeCanonicalId(id)) {
     return notFound();
@@ -31,7 +34,12 @@ export async function getConcept({
 
   const apiOptions = globalApiOptions(shouldUseStagingApi);
 
-  const url = `${rootUris[apiOptions.env.concepts]}/catalogue/v2/concepts/${id}`;
+  // propsToQuery drops undefined values, so no param is added when the
+  // cataloguePipeline mode is unset
+  const searchParams = new URLSearchParams(
+    propsToQuery({ elasticCluster: pipelineCluster })
+  ).toString();
+  const url = `${rootUris[apiOptions.env.concepts]}/catalogue/v2/concepts/${id}${searchParams ? `?${searchParams}` : ''}`;
 
   const res = await wellcomeApiFetch(url, { redirect: 'manual' });
 
@@ -60,7 +68,8 @@ export async function getConcepts(
  */
 export async function getConceptsByIds(
   ids: string[],
-  shouldUseStagingApi?: boolean
+  shouldUseStagingApi?: boolean,
+  pipelineCluster?: string
 ): Promise<Concept[]> {
   if (!ids || ids.length === 0) return [];
 
@@ -73,6 +82,7 @@ export async function getConceptsByIds(
   const result = await getConcepts({
     params: { id: validIds.join(',') },
     shouldUseStagingApi,
+    pipelineCluster,
   });
 
   if ('results' in result) return result.results;

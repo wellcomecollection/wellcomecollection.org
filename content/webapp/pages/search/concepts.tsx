@@ -70,6 +70,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     params,
     pageSize: 25,
     shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+    pipelineCluster: serverData.toggles.modes.cataloguePipeline ?? undefined,
   });
 
   if (concepts.type === 'Error') {
