@@ -22,14 +22,14 @@ If we need to disable item requesting temporarily (e.g. for maintenance), we can
 
 4.  Wait for the webapps to pick up the new value.
 
-    Each running webapp task re-reads `toggles.json` once a minute on its own timer. Wait a couple of minutes, then check what the origin is rendering by adding a throwaway query string, which skips the CloudFront cache:
+    Each running webapp task re-reads `toggles.json` once a minute on its own timer, and a single request only reaches one task. Wait a couple of minutes, then sample the origin with a batch of requests. The throwaway query string skips the CloudFront cache:
 
     ```console
-    $ curl -s "https://wellcomecollection.org/works/rp9jnamu?cb=$(date +%s)" | grep -o '"disableRequesting":[a-z]*'
-    "disableRequesting":true
+    $ for i in $(seq 1 30); do curl -s "https://wellcomecollection.org/works/rp9jnamu?cb=$(date +%s)-$i" | grep -o '"disableRequesting":[a-z]*' | head -1; done | sort | uniq -c
+      30 "disableRequesting":true
     ```
 
-    Don't move on until this shows the new value. If you invalidate the cache while a task is still rendering the old value, CloudFront caches that page again for another hour.
+    Don't move on until every response shows the new value. If some still show the old one, a task hasn't refreshed yet (a failed fetch leaves it on the old value until its next attempt a minute later), so wait a minute and run it again. If you invalidate the cache while a task is still rendering the old value, CloudFront caches that page again for another hour.
 
 5.  Invalidate the cached work pages.
 
@@ -39,12 +39,15 @@ If we need to disable item requesting temporarily (e.g. for maintenance), we can
 
     ```console
     $ DISTRIBUTION_ID=$(AWS_PROFILE=experience-admin aws cloudfront list-distributions --query "DistributionList.Items[?contains(Aliases.Items, 'wellcomecollection.org')].Id" --output text)
-    $ AWS_PROFILE=experience-admin aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION_ID" --paths "/works/*" "/_next/data/*"
+    $ INVALIDATION_ID=$(AWS_PROFILE=experience-admin aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION_ID" --paths "/works/*" "/_next/data/*" --query "Invalidation.Id" --output text)
+    $ AWS_PROFILE=experience-admin aws cloudfront wait invalidation-completed --distribution-id "$DISTRIBUTION_ID" --id "$INVALIDATION_ID"
     ```
+
+    `create-invalidation` returns straight away while the invalidation is still in progress. The `wait` command returns once CloudFront has finished it.
 
     `/_next/data/*` covers the JSON that client-side navigation between works fetches instead of full pages. These two paths also clear the item viewer pages and the data JSON for every other page on the site, so expect the webapps to handle more requests than usual while the cache refills.
 
-6.  Check it has taken effect. Open a work with a physical item, for example [rp9jnamu](https://wellcomecollection.org/works/rp9jnamu), in a private browsing window, this time without a query string so that you get the CloudFront copy. It should show the banner, and the page source should contain `"disableRequesting":true`.
+6.  Once the wait has returned, check it has taken effect. Open a work with a physical item, for example [rp9jnamu](https://wellcomecollection.org/works/rp9jnamu), in a private browsing window, this time without a query string so that you get the CloudFront copy. It should show the banner, and the page source should contain `"disableRequesting":true`.
 
     Browsers also keep work pages for up to an hour and the invalidation can't clear those copies. Someone who opened a work shortly before the change can still see the Request button on that page until their browser's copy expires.
 
