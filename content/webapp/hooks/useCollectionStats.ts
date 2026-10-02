@@ -30,10 +30,7 @@ export function useCollectionStats(): UseCollectionStatsReturn {
       try {
         setError(null);
 
-        const stats = await fetchCollectionStats(
-          stagingApi,
-          cataloguePipeline ?? undefined
-        );
+        const stats = await fetchCollectionStats(stagingApi, cataloguePipeline);
 
         if (isMounted) {
           setData(stats);

@@ -62,7 +62,7 @@ const VisuallySimilarImages: FunctionComponent<Props> = ({
       const { image: fullImage } = await getImage({
         id: originalId,
         shouldUseStagingApi: stagingApi,
-        pipelineCluster: cataloguePipeline ?? undefined,
+        pipelineCluster: cataloguePipeline,
         include: ['withSimilarFeatures'],
       });
       if (fullImage.type === 'Image') {

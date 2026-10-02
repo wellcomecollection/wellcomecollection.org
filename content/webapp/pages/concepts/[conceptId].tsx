@@ -49,7 +49,7 @@ export const Page: NextPage<ConceptPageProps> = props => {
 
 function createApiToolbarLinks(
   concept: ConceptType,
-  pipelineCluster?: string
+  pipelineCluster?: string | null
 ): ApiToolbarLink[] {
   const apiUrl = conceptsApiUrl(`/${concept.id}`, {
     elasticCluster: pipelineCluster,
@@ -91,8 +91,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   const serverData = await getServerData(context);
   const shouldUseStagingApi = serverData.toggles.featureFlags.stagingApi;
-  const pipelineCluster =
-    serverData.toggles.modes.cataloguePipeline ?? undefined;
+  const pipelineCluster = serverData.toggles.modes.cataloguePipeline;
 
   const conceptResponse = await getConcept({
     id: conceptId,

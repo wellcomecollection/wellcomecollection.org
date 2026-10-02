@@ -77,8 +77,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   setCacheControl(context.res);
   const serverData = await getServerData(context);
   const shouldUseStagingApi = serverData.toggles.featureFlags.stagingApi;
-  const pipelineCluster =
-    serverData.toggles.modes.cataloguePipeline ?? undefined;
+  const pipelineCluster = serverData.toggles.modes.cataloguePipeline;
 
   // Ensure this is a valid subject page
   const subjectsEnum = Object.keys(CONCEPT_GROUPS);

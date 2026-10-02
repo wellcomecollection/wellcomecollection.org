@@ -92,7 +92,7 @@ const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
           const result = await getConceptsByIds({
             ids: conceptIds,
             shouldUseStagingApi: stagingApi,
-            pipelineCluster: cataloguePipeline ?? undefined,
+            pipelineCluster: cataloguePipeline,
           });
           setConcepts(result);
           onConceptsFetched?.({ count: result.length });

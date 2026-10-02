@@ -18,7 +18,7 @@ import {
 type GetConceptProps = {
   id: string;
   shouldUseStagingApi?: boolean;
-  pipelineCluster?: string;
+  pipelineCluster?: string | null;
 };
 
 type ConceptResponse = Concept | WellcomeApiError;
@@ -26,7 +26,7 @@ type ConceptResponse = Concept | WellcomeApiError;
 // propsToQuery drops undefined values, so unset params are left out
 export function conceptsApiUrl(
   path: string,
-  params: Record<string, string | undefined> = {},
+  params: Record<string, string | null | undefined> = {},
   root: string = rootUris.prod
 ): string {
   const query = new URLSearchParams(propsToQuery(params)).toString();
@@ -78,7 +78,7 @@ export async function getConcepts(
 type GetConceptsByIdsProps = {
   ids: string[];
   shouldUseStagingApi?: boolean;
-  pipelineCluster?: string;
+  pipelineCluster?: string | null;
 };
 
 export async function getConceptsByIds({

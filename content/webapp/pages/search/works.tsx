@@ -134,7 +134,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       params: worksApiProps,
       pageSize: 25,
       shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
-      pipelineCluster: serverData.toggles.modes.cataloguePipeline ?? undefined,
+      pipelineCluster: serverData.toggles.modes.cataloguePipeline,
     });
 
     if (worksResult.type === 'Error') {

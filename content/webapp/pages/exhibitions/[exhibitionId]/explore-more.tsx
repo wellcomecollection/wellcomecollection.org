@@ -68,8 +68,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   }
 
   const shouldUseStagingApi = serverData.toggles.featureFlags.stagingApi;
-  const pipelineCluster =
-    serverData.toggles.modes.cataloguePipeline ?? undefined;
+  const pipelineCluster = serverData.toggles.modes.cataloguePipeline;
 
   // In kiosk mode, use the active kiosk's content key directly. Outside kiosk
   // mode, fall back to matching the exhibition UID against kioskExhibitionUids
