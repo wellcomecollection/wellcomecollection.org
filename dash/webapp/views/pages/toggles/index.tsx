@@ -413,7 +413,16 @@ const TogglesPage: FunctionComponent = () => {
   };
 
   const generalFeatureFlags = filterFeatureFlags(
-    featureFlags.filter(t => GENERAL_FEATURE_FLAG_IDS.includes(t.id))
+    featureFlags
+      .filter(t => GENERAL_FEATURE_FLAG_IDS.includes(t.id))
+      // Order by this list rather than by toggles.json's own feature flag
+      // order, so it doesn't depend on that order matching too (and isn't
+      // at the mercy of toggles.json actually being deployed up to date).
+      .sort(
+        (a, b) =>
+          GENERAL_FEATURE_FLAG_IDS.indexOf(a.id) -
+          GENERAL_FEATURE_FLAG_IDS.indexOf(b.id)
+      )
   );
   const permanentFeatureFlags = filterFeatureFlags(
     featureFlags
