@@ -230,7 +230,9 @@ export const typography = css`
 
   /* stylelint-disable no-descending-specificity */
   .quote {
-    border-left: 12px solid ${props => props.theme.color('warmNeutral.400')};
+    border-left: 12px solid
+      ${props =>
+        props.theme.color({ brand: 'green.40', legacy: 'warmNeutral.400' })};
     padding-left: 0.9em;
 
     p {
@@ -253,7 +255,8 @@ export const typography = css`
       ${typographyMixin('heading', 'xl', 'strong', 'brand')}
       position: absolute;
       content: '“';
-      color: ${props => props.theme.color('accent.blue')};
+      color: ${props =>
+        props.theme.color({ brand: 'orange.40', legacy: 'accent.blue' })};
       left: -14px;
       top: 0.12em;
       font-size: 2em;
