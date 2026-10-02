@@ -26,7 +26,7 @@ type ImageInclude =
 type GetImageProps = {
   id: string;
   shouldUseStagingApi?: boolean;
-  pipelineCluster?: string;
+  pipelineCluster?: string | null;
   include?: ImageInclude[];
 };
 

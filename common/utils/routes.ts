@@ -207,7 +207,7 @@ export function encodeQuery<T>(props: T, codecMap: CodecMap): ParsedUrlQuery {
 }
 
 export function propsToQuery(
-  props: Record<string, string | string[] | number | undefined>
+  props: Record<string, string | string[] | number | null | undefined>
 ): Record<string, string> {
   return Object.keys(props).reduce((acc, key) => {
     const val = props[key];

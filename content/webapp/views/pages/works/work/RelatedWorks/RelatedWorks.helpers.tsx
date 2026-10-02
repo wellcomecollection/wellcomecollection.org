@@ -39,7 +39,7 @@ export const fetchRelatedWorks = async ({
   setIsLoading,
 }: WorkQueryProps & {
   shouldUseStagingApi?: boolean;
-  pipelineCluster?: string;
+  pipelineCluster?: string | null;
   setIsLoading: (isLoading: boolean) => void;
 }): Promise<RelatedWork | undefined> => {
   setIsLoading(true);

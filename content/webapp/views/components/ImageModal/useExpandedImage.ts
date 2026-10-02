@@ -45,7 +45,7 @@ const useExpandedImage = (
         const { image } = await getImage({
           id: hash,
           shouldUseStagingApi: stagingApi,
-          pipelineCluster: cataloguePipeline ?? undefined,
+          pipelineCluster: cataloguePipeline,
         });
 
         if (image.type === 'Image') {

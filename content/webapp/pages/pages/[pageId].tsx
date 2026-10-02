@@ -47,7 +47,7 @@ export const getGenericPageProps = async ({
   const bodySliceContexts = await getBodySliceContexts(
     page.untransformedBody,
     serverData.toggles.featureFlags.stagingApi,
-    serverData.toggles.modes.cataloguePipeline ?? undefined
+    serverData.toggles.modes.cataloguePipeline
   );
 
   const jsonLd = genericPageLd({ page, canonicalUrl });

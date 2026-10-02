@@ -21,7 +21,7 @@ const WorksApi = async (
   const response = await getWork({
     id: workId,
     shouldUseStagingApi: featureFlags.stagingApi,
-    pipelineCluster: modes.cataloguePipeline ?? undefined,
+    pipelineCluster: modes.cataloguePipeline,
   });
 
   res.setHeader('Content-Type', 'application/json');

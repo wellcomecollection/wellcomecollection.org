@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect, useRef, useState } from 'react';
 
-import { useFeatureFlags } from '@weco/common/server-data/Context';
+import { useFeatureFlags, useModes } from '@weco/common/server-data/Context';
 import { DataGtmProps } from '@weco/common/utils/gtm';
 import ImageGridCard from '@weco/common/views/components/ImageGridCard';
 import { gridSize12 } from '@weco/common/views/components/Layout';
@@ -82,13 +82,18 @@ const ThemeCardsList: FunctionComponent<ThemeCardsListProps> = ({
   const [concepts, setConcepts] = useState<Concept[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { stagingApi } = useFeatureFlags();
+  const { cataloguePipeline } = useModes();
 
   useEffect(() => {
     const fetchData = async () => {
       if (conceptIds.length > 0) {
         setIsLoading(true);
         try {
-          const result = await getConceptsByIds(conceptIds, stagingApi);
+          const result = await getConceptsByIds({
+            ids: conceptIds,
+            shouldUseStagingApi: stagingApi,
+            pipelineCluster: cataloguePipeline,
+          });
           setConcepts(result);
           onConceptsFetched?.({ count: result.length });
         } catch (error) {

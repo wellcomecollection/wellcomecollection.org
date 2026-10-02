@@ -100,7 +100,7 @@ const SearchPage: NextPage<Props> = withSearchLayout(
           },
           pageSize: 1,
           shouldUseStagingApi: stagingApi,
-          pipelineCluster: cataloguePipeline ?? undefined,
+          pipelineCluster: cataloguePipeline,
         });
 
         const workTypeBuckets = getQueryWorkTypeBuckets({
@@ -127,7 +127,7 @@ const SearchPage: NextPage<Props> = withSearchLayout(
           params,
           pageSize: 7,
           shouldUseStagingApi: stagingApi,
-          pipelineCluster: cataloguePipeline ?? undefined,
+          pipelineCluster: cataloguePipeline,
         });
 
         const images = getQueryResults({

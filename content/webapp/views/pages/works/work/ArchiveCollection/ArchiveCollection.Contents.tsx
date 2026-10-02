@@ -83,7 +83,7 @@ const ArchiveCollectionContents: FunctionComponent<{
       collectionRootId,
       pageToLoad,
       stagingApi,
-      cataloguePipeline ?? undefined
+      cataloguePipeline
     );
     if (!response) return false;
 

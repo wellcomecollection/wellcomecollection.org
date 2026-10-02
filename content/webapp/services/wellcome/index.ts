@@ -113,7 +113,7 @@ export type QueryProps<Params> = {
   // Only used by catalogue queries, where catalogueQuery maps it to the
   // elasticCluster param; carries the cataloguePipeline mode toggle value.
   // undefined means the normal pipeline setup
-  pipelineCluster?: string;
+  pipelineCluster?: string | null;
 };
 
 // Use shared undici agent configuration for keep-alive connections.
