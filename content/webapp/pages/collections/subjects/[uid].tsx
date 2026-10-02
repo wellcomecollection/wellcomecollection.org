@@ -76,6 +76,9 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 > = async context => {
   setCacheControl(context.res);
   const serverData = await getServerData(context);
+  const shouldUseStagingApi = serverData.toggles.featureFlags.stagingApi;
+  const pipelineCluster =
+    serverData.toggles.modes.cataloguePipeline ?? undefined;
 
   // Ensure this is a valid subject page
   const subjectsEnum = Object.keys(CONCEPT_GROUPS);
@@ -120,8 +123,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       sortOrder: 'desc',
     },
     pageSize: 3,
-    shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
-    pipelineCluster: serverData.toggles.modes.cataloguePipeline ?? undefined,
+    shouldUseStagingApi,
+    pipelineCluster,
   });
 
   if (newOnlineWorksQuery.type !== 'Error') {
@@ -153,8 +156,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       params: {
         id: CONCEPT_GROUPS[pageUid].join(','),
       },
-      shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
-      pipelineCluster: serverData.toggles.modes.cataloguePipeline ?? undefined,
+      shouldUseStagingApi,
+      pipelineCluster,
     });
 
     if (conceptResponse.type === 'Error') {
@@ -177,9 +180,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
             params: {
               subjects: CONCEPT_GROUPS[pageUid],
             },
-            shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
-            pipelineCluster:
-              serverData.toggles.modes.cataloguePipeline ?? undefined,
+            shouldUseStagingApi,
+            pipelineCluster,
             pageSize: 5,
           }),
         byLabel: () =>
@@ -188,9 +190,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
               'subjects.label': displayLabels,
               aggregations: ['workType'],
             },
-            shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
-            pipelineCluster:
-              serverData.toggles.modes.cataloguePipeline ?? undefined,
+            shouldUseStagingApi,
+            pipelineCluster,
             pageSize: 5,
           }),
       },
@@ -200,9 +201,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
             params: {
               'source.subjects': CONCEPT_GROUPS[pageUid],
             },
-            shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
-            pipelineCluster:
-              serverData.toggles.modes.cataloguePipeline ?? undefined,
+            shouldUseStagingApi,
+            pipelineCluster,
             pageSize: 12,
           }),
         byLabel: () =>
@@ -212,9 +212,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
                 c => c.label
               ),
             },
-            shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
-            pipelineCluster:
-              serverData.toggles.modes.cataloguePipeline ?? undefined,
+            shouldUseStagingApi,
+            pipelineCluster,
             pageSize: 12,
           }),
       },
@@ -270,8 +269,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         label: 'JSON',
         link: conceptsApiUrl('', {
           id: CONCEPT_GROUPS[pageUid].join(','),
-          elasticCluster:
-            serverData.toggles.modes.cataloguePipeline ?? undefined,
+          elasticCluster: pipelineCluster,
         }),
       },
     ];

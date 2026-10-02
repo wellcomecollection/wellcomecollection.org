@@ -90,11 +90,14 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   }
 
   const serverData = await getServerData(context);
+  const shouldUseStagingApi = serverData.toggles.featureFlags.stagingApi;
+  const pipelineCluster =
+    serverData.toggles.modes.cataloguePipeline ?? undefined;
 
   const conceptResponse = await getConcept({
     id: conceptId,
-    shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
-    pipelineCluster: serverData.toggles.modes.cataloguePipeline ?? undefined,
+    shouldUseStagingApi,
+    pipelineCluster,
   });
 
   if (conceptResponse.type === 'Error') {
@@ -113,17 +116,15 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       byId: (sectionName: string) =>
         getWorks({
           params: queryParams(sectionName, conceptResponse),
-          shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
-          pipelineCluster:
-            serverData.toggles.modes.cataloguePipeline ?? undefined,
+          shouldUseStagingApi,
+          pipelineCluster,
           pageSize: 5,
         }),
       byLabel: (sectionName: string) =>
         getWorks({
           params: allRecordsLinkParams(sectionName, conceptResponse),
-          shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
-          pipelineCluster:
-            serverData.toggles.modes.cataloguePipeline ?? undefined,
+          shouldUseStagingApi,
+          pipelineCluster,
           pageSize: 5,
         }),
     },
@@ -131,17 +132,15 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       byId: (sectionName: string) =>
         getImages({
           params: queryParams(sectionName, conceptResponse),
-          shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
-          pipelineCluster:
-            serverData.toggles.modes.cataloguePipeline ?? undefined,
+          shouldUseStagingApi,
+          pipelineCluster,
           pageSize: 12,
         }),
       byLabel: (sectionName: string) =>
         getImages({
           params: allRecordsLinkParams(sectionName, conceptResponse),
-          shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
-          pipelineCluster:
-            serverData.toggles.modes.cataloguePipeline ?? undefined,
+          shouldUseStagingApi,
+          pipelineCluster,
           pageSize: 12,
         }),
     },
@@ -302,7 +301,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   const apiToolbarLinks = createApiToolbarLinks(
     conceptResponse,
-    serverData.toggles.modes.cataloguePipeline ?? undefined
+    pipelineCluster
   );
 
   const sectionsData: ThemePageSectionsData = {
