@@ -107,23 +107,6 @@ export const ToggleNote = styled.span`
   color: ${props => props.theme.color('neutral.600')};
 `;
 
-export const ResetLink = styled.button`
-  display: block;
-  margin-top: 6px;
-  padding: 0;
-  border: none;
-  background: none;
-  font-size: 12px;
-  text-decoration: underline;
-  color: ${props => props.theme.color('neutral.600')};
-  cursor: pointer;
-
-  &:focus-visible {
-    outline: 2px solid ${props => props.theme.color('accent.purple')};
-    outline-offset: 2px;
-  }
-`;
-
 export const Segmented = styled.fieldset`
   display: inline-flex;
   border: 1px solid ${props => props.theme.color('neutral.400')};

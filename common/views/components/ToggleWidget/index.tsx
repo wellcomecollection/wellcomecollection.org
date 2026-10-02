@@ -21,7 +21,6 @@ import {
   DismissButton,
   Panel,
   PanelHeader,
-  ResetLink,
   Segmented,
   SegmentLabel,
   SegmentState,
@@ -51,9 +50,10 @@ type StarredEntry = {
   // disabled-switch-when-Public behaviour.
   locked?: boolean;
   // Phased flags only: whether a toggle_<id> override cookie actually exists,
-  // so a "Reset to public" link can appear - unlike a mode's "Off" or an A/B
-  // test's "Randomly allocate me", none of a phased flag's own options can
-  // get back to "no override" on their own. Keyed off the cookie's presence
+  // so the segmented control's own "Default view" pill can show as selected -
+  // unlike a mode's "Off" or an A/B test's "Randomly allocate me", none of a
+  // phased flag's own options can get back to "no override" on their own.
+  // Keyed off the cookie's presence
   // rather than "does current differ from public", since an override that
   // happens to match today's public phase still pins the user to it if the
   // public phase later advances - and the widget should let them clear it
@@ -316,8 +316,29 @@ const ToggleWidget: FunctionComponent = () => {
                   aria-label={`Value for ${entry.title}`}
                   disabled={entry.locked}
                 >
+                  {entry.kind === 'phasedFlag' && (
+                    <SegmentLabel
+                      $state={entry.hasOverride ? 'inactive' : 'current'}
+                    >
+                      <input
+                        type="radio"
+                        name={`toggle-widget-${entry.id}`}
+                        checked={!entry.hasOverride}
+                        onChange={() => resetOverride(entry.id)}
+                      />
+                      Default view
+                    </SegmentLabel>
+                  )}
                   {entry.options.map((option, index) => {
-                    const isSelected = entry.current === option.id;
+                    // For a phased flag, a phase pill only reads as
+                    // "current" once there's an actual override cookie -
+                    // otherwise that's what the Default view pill above is
+                    // for, same distinction dash's PhasedFlags draws.
+                    const isSelected =
+                      entry.kind === 'phasedFlag'
+                        ? entry.hasOverride === true &&
+                          entry.current === option.id
+                        : entry.current === option.id;
                     // Phases are cumulative - reaching phase 2 means phase 1
                     // shipped too, so show every phase up to and including
                     // the current one as active, not just the exact match.
@@ -328,7 +349,7 @@ const ToggleWidget: FunctionComponent = () => {
                     );
                     const state: SegmentState = isSelected
                       ? 'current'
-                      : entry.kind === 'phasedFlag' && index < currentIndex
+                      : entry.kind === 'phasedFlag' && index <= currentIndex
                         ? 'included'
                         : 'inactive';
 
@@ -345,15 +366,6 @@ const ToggleWidget: FunctionComponent = () => {
                     );
                   })}
                 </Segmented>
-              )}
-
-              {entry.kind === 'phasedFlag' && entry.hasOverride && (
-                <ResetLink
-                  type="button"
-                  onClick={() => resetOverride(entry.id)}
-                >
-                  Reset to public
-                </ResetLink>
               )}
             </ToggleBlock>
           ))}
