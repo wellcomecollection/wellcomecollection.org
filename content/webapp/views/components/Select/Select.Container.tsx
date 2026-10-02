@@ -30,7 +30,11 @@ const StyledSelect = styled.div.attrs({
     appearance: none;
     padding: 8px 42px 8px 16px;
     border: ${props => `1px solid
-        ${props.theme.color(props.$darkBg ? 'neutral.300' : 'neutral.600')}`};
+        ${props.theme.color(
+          props.$darkBg
+            ? 'neutral.300'
+            : { brand: 'neutral.70', legacy: 'neutral.600' }
+        )}`};
     border-radius: ${props =>
       props.$isPill ? 20 : props.theme.borderRadiusUnit}px;
     background-color: ${props =>
