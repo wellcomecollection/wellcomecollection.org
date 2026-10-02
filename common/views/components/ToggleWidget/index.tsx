@@ -53,11 +53,11 @@ type StarredEntry = {
   // so the segmented control's own "Default view" pill can show as selected -
   // unlike a mode's "Off" or an A/B test's "Randomly allocate me", none of a
   // phased flag's own options can get back to "no override" on their own.
-  // Keyed off the cookie's presence
-  // rather than "does current differ from public", since an override that
-  // happens to match today's public phase still pins the user to it if the
-  // public phase later advances - and the widget should let them clear it
-  // before that happens, not just once it's visibly out of date.
+  // Keyed off the cookie's presence rather than "does current differ from
+  // public", since an override that happens to match today's public phase
+  // still pins the user to it if the public phase later advances - and the
+  // widget should let them clear it before that happens, not just once it's
+  // visibly out of date.
   hasOverride?: boolean;
 };
 
@@ -180,8 +180,8 @@ const ToggleWidget: FunctionComponent = () => {
             // Matches resolveOptionValue's own validation (common/server-data
             // /toggles.ts) - a cookie whose value isn't one of this flag's
             // current phases (e.g. left over from one that's since graduated
-            // or been removed) isn't a live override, so it shouldn't offer
-            // a reset link for it either.
+            // or been removed) isn't a live override, so it shouldn't count
+            // as one here either (Default view stays selected).
             const rawOverride = getCookie(`toggle_${id}`);
             const hasOverride =
               typeof rawOverride === 'string' &&
