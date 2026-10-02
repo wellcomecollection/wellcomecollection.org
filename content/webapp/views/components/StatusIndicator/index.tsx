@@ -39,7 +39,10 @@ export function formatDateRangeWithMessage({
   } else if (closesInThisWeek) {
     return { text: 'Final week', color: 'accent.salmon' };
   } else {
-    return { text: 'Now on', color: 'validation.green' };
+    return {
+      text: 'Now on',
+      color: { brand: 'ui.green.40', legacy: 'validation.green' },
+    };
   }
 }
 
