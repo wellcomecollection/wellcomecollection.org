@@ -1,6 +1,7 @@
 import { wellcomeApiFetch } from '@weco/content/services/wellcome';
 import { catalogueQuery } from '@weco/content/services/wellcome/catalogue';
 import {
+  conceptsApiUrl,
   getConcept,
   getConcepts,
   getConceptsByIds,
@@ -25,6 +26,28 @@ jest.mock('@weco/content/services/wellcome/catalogue', () => ({
 const mockCatalogueQuery = catalogueQuery as jest.MockedFunction<
   typeof catalogueQuery
 >;
+
+describe('conceptsApiUrl', () => {
+  it('leaves out unset params', () => {
+    expect(conceptsApiUrl('/abc123', { elasticCluster: undefined })).toBe(
+      'https://api.wellcomecollection.org/catalogue/v2/concepts/abc123'
+    );
+  });
+
+  it('adds set params to the given root', () => {
+    const url = new URL(
+      conceptsApiUrl(
+        '',
+        { id: 'a,b', elasticCluster: 'pipeline-2026-09-30' },
+        'https://api-stage.wellcomecollection.org'
+      )
+    );
+    expect(url.origin).toBe('https://api-stage.wellcomecollection.org');
+    expect(url.pathname).toBe('/catalogue/v2/concepts');
+    expect(url.searchParams.get('id')).toBe('a,b');
+    expect(url.searchParams.get('elasticCluster')).toBe('pipeline-2026-09-30');
+  });
+});
 
 describe('getConcept', () => {
   it('returns a 404 Not Found for a concept ID that is not alphanumeric', () => {

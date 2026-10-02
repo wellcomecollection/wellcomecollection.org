@@ -23,6 +23,16 @@ type GetConceptProps = {
 
 type ConceptResponse = Concept | WellcomeApiError;
 
+// propsToQuery drops undefined values, so unset params are left out
+export function conceptsApiUrl(
+  path: string,
+  params: Record<string, string | undefined> = {},
+  root: string = rootUris.prod
+): string {
+  const query = new URLSearchParams(propsToQuery(params)).toString();
+  return `${root}/catalogue/v2/concepts${path}${query ? `?${query}` : ''}`;
+}
+
 export async function getConcept({
   id,
   shouldUseStagingApi,
@@ -34,12 +44,11 @@ export async function getConcept({
 
   const apiOptions = globalApiOptions(shouldUseStagingApi);
 
-  // propsToQuery drops undefined values, so no param is added when the
-  // cataloguePipeline mode is unset
-  const searchParams = new URLSearchParams(
-    propsToQuery({ elasticCluster: pipelineCluster })
-  ).toString();
-  const url = `${rootUris[apiOptions.env.concepts]}/catalogue/v2/concepts/${id}${searchParams ? `?${searchParams}` : ''}`;
+  const url = conceptsApiUrl(
+    `/${id}`,
+    { elasticCluster: pipelineCluster },
+    rootUris[apiOptions.env.concepts]
+  );
 
   const res = await wellcomeApiFetch(url, { redirect: 'manual' });
 

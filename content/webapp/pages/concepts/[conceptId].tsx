@@ -13,7 +13,10 @@ import ConceptContext from '@weco/content/contexts/ConceptPageContext';
 import { makeConceptConfig } from '@weco/content/contexts/ConceptPageContext/concept.config';
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
-import { getConcept } from '@weco/content/services/wellcome/catalogue/concepts';
+import {
+  conceptsApiUrl,
+  getConcept,
+} from '@weco/content/services/wellcome/catalogue/concepts';
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import {
   CatalogueResultsList,
@@ -48,7 +51,9 @@ function createApiToolbarLinks(
   concept: ConceptType,
   pipelineCluster?: string
 ): ApiToolbarLink[] {
-  const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/concepts/${concept.id}${pipelineCluster ? `?elasticCluster=${encodeURIComponent(pipelineCluster)}` : ''}`;
+  const apiUrl = conceptsApiUrl(`/${concept.id}`, {
+    elasticCluster: pipelineCluster,
+  });
 
   const apiLink = {
     id: 'json',

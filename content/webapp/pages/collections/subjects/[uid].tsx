@@ -23,7 +23,10 @@ import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchPage } from '@weco/content/services/prismic/fetch/pages';
 import { genericPageLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
-import { getConcepts } from '@weco/content/services/wellcome/catalogue/concepts';
+import {
+  conceptsApiUrl,
+  getConcepts,
+} from '@weco/content/services/wellcome/catalogue/concepts';
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import {
   RelatedConcept,
@@ -265,7 +268,11 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       {
         id: 'json',
         label: 'JSON',
-        link: `https://api.wellcomecollection.org/catalogue/v2/concepts?id=${CONCEPT_GROUPS[pageUid].join(',')}${serverData.toggles.modes.cataloguePipeline ? `&elasticCluster=${encodeURIComponent(serverData.toggles.modes.cataloguePipeline)}` : ''}`,
+        link: conceptsApiUrl('', {
+          id: CONCEPT_GROUPS[pageUid].join(','),
+          elasticCluster:
+            serverData.toggles.modes.cataloguePipeline ?? undefined,
+        }),
       },
     ];
 
