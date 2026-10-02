@@ -75,11 +75,17 @@ export async function getConcepts(
  * Fetch concepts (topics) from the concepts API
  * Returns concepts that can be used for browse topics
  */
-export async function getConceptsByIds(
-  ids: string[],
-  shouldUseStagingApi?: boolean,
-  pipelineCluster?: string
-): Promise<Concept[]> {
+type GetConceptsByIdsProps = {
+  ids: string[];
+  shouldUseStagingApi?: boolean;
+  pipelineCluster?: string;
+};
+
+export async function getConceptsByIds({
+  ids,
+  shouldUseStagingApi,
+  pipelineCluster,
+}: GetConceptsByIdsProps): Promise<Concept[]> {
   if (!ids || ids.length === 0) return [];
 
   // Filter to valid canonical IDs before querying

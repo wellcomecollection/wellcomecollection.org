@@ -98,7 +98,11 @@ describe('getConceptsByIds', () => {
   it('passes the pipeline cluster through to catalogueQuery', async () => {
     mockCatalogueQuery.mockResolvedValue(conceptsApiResponse);
 
-    await getConceptsByIds(['abc123'], false, 'pipeline-2026-09-30');
+    await getConceptsByIds({
+      ids: ['abc123'],
+      shouldUseStagingApi: false,
+      pipelineCluster: 'pipeline-2026-09-30',
+    });
 
     expect(mockCatalogueQuery).toHaveBeenCalledWith('concepts', {
       params: { id: 'abc123' },

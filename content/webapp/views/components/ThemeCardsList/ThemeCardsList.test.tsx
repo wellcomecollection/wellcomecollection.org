@@ -40,11 +40,11 @@ describe('ThemeCardsList: the cataloguePipeline mode toggle', () => {
     renderList();
 
     await waitFor(() =>
-      expect(mockGetConceptsByIds).toHaveBeenCalledWith(
-        ['abc123'],
-        false,
-        'pipeline-2026-09-30'
-      )
+      expect(mockGetConceptsByIds).toHaveBeenCalledWith({
+        ids: ['abc123'],
+        shouldUseStagingApi: false,
+        pipelineCluster: 'pipeline-2026-09-30',
+      })
     );
   });
 
@@ -53,11 +53,11 @@ describe('ThemeCardsList: the cataloguePipeline mode toggle', () => {
     renderList();
 
     await waitFor(() =>
-      expect(mockGetConceptsByIds).toHaveBeenCalledWith(
-        ['abc123'],
-        false,
-        undefined
-      )
+      expect(mockGetConceptsByIds).toHaveBeenCalledWith({
+        ids: ['abc123'],
+        shouldUseStagingApi: false,
+        pipelineCluster: undefined,
+      })
     );
   });
 });
