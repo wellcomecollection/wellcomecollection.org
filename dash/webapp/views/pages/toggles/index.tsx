@@ -38,7 +38,11 @@ import {
   TableOfContentsList,
 } from './toggles.styles';
 
-const GENERAL_FEATURE_FLAG_IDS = ['apiToolbar', 'conceptsSearch'];
+const GENERAL_FEATURE_FLAG_IDS = [
+  'apiToolbar',
+  'toggleWidget',
+  'conceptsSearch',
+];
 
 const TogglesPage: FunctionComponent = () => {
   const router = useRouter();
