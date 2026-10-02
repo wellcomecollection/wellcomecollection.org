@@ -29,18 +29,17 @@ const mockCatalogueQuery = catalogueQuery as jest.MockedFunction<
 
 describe('conceptsApiUrl', () => {
   it('leaves out unset params', () => {
-    expect(conceptsApiUrl('/abc123', { elasticCluster: undefined })).toBe(
-      'https://api.wellcomecollection.org/catalogue/v2/concepts/abc123'
-    );
+    expect(
+      conceptsApiUrl({ path: '/abc123', params: { elasticCluster: undefined } })
+    ).toBe('https://api.wellcomecollection.org/catalogue/v2/concepts/abc123');
   });
 
   it('adds set params to the given root', () => {
     const url = new URL(
-      conceptsApiUrl(
-        '',
-        { id: 'a,b', elasticCluster: 'pipeline-2026-09-30' },
-        'https://api-stage.wellcomecollection.org'
-      )
+      conceptsApiUrl({
+        params: { id: 'a,b', elasticCluster: 'pipeline-2026-09-30' },
+        root: 'https://api-stage.wellcomecollection.org',
+      })
     );
     expect(url.origin).toBe('https://api-stage.wellcomecollection.org');
     expect(url.pathname).toBe('/catalogue/v2/concepts');

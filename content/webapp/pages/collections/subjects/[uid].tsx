@@ -266,9 +266,11 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       {
         id: 'json',
         label: 'JSON',
-        link: conceptsApiUrl('', {
-          id: CONCEPT_GROUPS[pageUid].join(','),
-          elasticCluster: pipelineCluster,
+        link: conceptsApiUrl({
+          params: {
+            id: CONCEPT_GROUPS[pageUid].join(','),
+            elasticCluster: pipelineCluster,
+          },
         }),
       },
     ];

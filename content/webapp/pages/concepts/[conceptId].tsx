@@ -51,8 +51,9 @@ function createApiToolbarLinks(
   concept: ConceptType,
   pipelineCluster?: string | null
 ): ApiToolbarLink[] {
-  const apiUrl = conceptsApiUrl(`/${concept.id}`, {
-    elasticCluster: pipelineCluster,
+  const apiUrl = conceptsApiUrl({
+    path: `/${concept.id}`,
+    params: { elasticCluster: pipelineCluster },
   });
 
   const apiLink = {
