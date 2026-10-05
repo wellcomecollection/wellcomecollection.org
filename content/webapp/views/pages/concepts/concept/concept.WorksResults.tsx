@@ -76,7 +76,7 @@ const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
 
   return (
     <>
-      <DecorativeEdgeWrapper>
+      <DecorativeEdgeWrapper data-in-page-nav-dark-edge>
         <DecorativeEdge
           variant="wobbly"
           backgroundColor={pageBackgroundColor}

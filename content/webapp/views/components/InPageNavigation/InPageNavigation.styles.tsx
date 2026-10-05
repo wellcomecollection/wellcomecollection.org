@@ -109,7 +109,7 @@ export const ListItem = styled.li<{ $hasStuck: boolean; $isOnWhite: boolean }>`
     &::before {
       display: block;
       left: 1px;
-      background: ${props.theme.color('black')};
+      background: ${props.theme.brandUpdate ? 'transparent' : props.theme.color('black')};
     }
     `)}
 `;
@@ -121,7 +121,7 @@ const AnimatedLink = styled(NextLink)<AnimatedUnderlineProps>`
 
   ${props =>
     props.theme.media('md')(`
-    --line-color: ${props.theme.color('white')};
+    --line-color: ${props.theme.color({ brand: 'blue.30', legacy: 'white' })};
     `)}
 
   & > span {
@@ -182,10 +182,10 @@ export const InPageNavAnimatedLink = styled(
 
   ${props =>
     props.theme.media('md')(`
-    color: ${props.theme.color('white')};
+    color: ${props.theme.brandUpdate ? 'transparent' : props.theme.color('white')};
 
     &::before {
-      background: ${props.theme.color('white')};
+      background: ${props.theme.color({ brand: 'blue.30', legacy: 'white' })};
     }
     `)}
 `;
@@ -240,11 +240,45 @@ export const Root = styled(Space).attrs<{
     `)}
 
   ${props =>
-    props.theme.media('md')(`
+    props.theme.media('md')(
+      props.theme.brandUpdate
+        ? `
+      border-bottom: 0;
+
+      /* Each piece of text is light above its --split and dark below, so the
+         nav follows the edge of a dark band behind it (see the scroll handler
+         in index.tsx). It's set per element, as Chrome won't show a parent's
+         text-clipped background through positioned children */
+      h2,
+      a {
+        color: transparent;
+        background-image: linear-gradient(
+          var(--angle, 180deg),
+          ${props.theme.color({ brand: 'neutral.10', legacy: 'white' })} var(--split, 0px),
+          ${props.theme.color('black')} var(--split, 0px)
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+      }
+
+      a > span {
+        transform: none;
+      }
+
+      @media print {
+        h2,
+        a {
+          color: ${props.theme.color('black')};
+          background-image: none;
+        }
+      }
+    `
+        : `
       border-bottom: 0;
       mix-blend-mode: difference;
       color: ${props.theme.color('white')};
-    `)}
+    `
+    )}
 `;
 
 export const MobileNavButton = styled.button.attrs({
@@ -338,7 +372,7 @@ export const NavGridCell = styled(GridCell)<{
     position: unset;
     background-color: unset;
     transition: unset;
-    mix-blend-mode: difference;
+    mix-blend-mode: ${props.theme.brandUpdate ? 'normal' : 'difference'};
 
     &::before,
     &::after {
