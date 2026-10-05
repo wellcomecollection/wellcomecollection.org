@@ -24,6 +24,12 @@ export const Wrapper = styled(Space)<{ $isOnDarkHeader?: boolean }>`
   @media print {
     margin: 0;
     padding: 0;
+
+    /* Browsers don't print the dark header background, so go back to dark text */
+    ${props =>
+      props.$isOnDarkHeader &&
+      props.theme.brandUpdate &&
+      `color: ${props.theme.color('black')};`}
   }
 `;
 
