@@ -102,15 +102,6 @@ const createConfig =
         return config;
       },
 
-      eslint: {
-        // Don't run eslint as part of `next build` - it's redundant, not
-        // broken: linting is already enforced by a git pre-commit hook (see
-        // docs/git-hooks.md) that lints whatever files you're committing,
-        // or can be run across the whole repo manually with the root
-        // `yarn lint` command.
-        ignoreDuringBuilds: true,
-      },
-
       // common's code is plain TS/JSX, not pre-compiled. Without this, each
       // app's build would treat common as an ordinary installed package and
       // skip compiling it, which would break.

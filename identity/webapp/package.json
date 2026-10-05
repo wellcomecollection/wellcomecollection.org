@@ -17,8 +17,7 @@
     "typecheck": "tsc --build tsconfig.json",
     "storybook": "start-storybook -p 4009",
     "build-storybook": "build-storybook",
-    "test": "jest",
-    "lint:next": "next lint"
+    "test": "jest"
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^4.28.0",
