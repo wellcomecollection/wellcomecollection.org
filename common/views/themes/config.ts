@@ -228,7 +228,7 @@ const colorToDesignSystemColor: Record<keyof typeof colors, DesignSystemColor> =
     'accent.lightSalmon': 'orange.30',
 
     'neutral.200': 'neutral.05',
-    'neutral.300': 'teal.10', // FIXME: nearest is a green-tinted off-white
+    'neutral.300': 'neutral.20',
     'neutral.400': 'neutral.20',
     'neutral.500': 'neutral.40',
     'neutral.600': 'neutral.50',

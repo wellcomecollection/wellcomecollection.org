@@ -65,7 +65,9 @@ const ChevronWrapper = styled(Link)<{
   ${props => `
     color: ${props.theme.color(props.$hasDarkBg ? 'white' : 'black')};
     border: 1px solid ${props.theme.color(
-      props.$hasDarkBg ? 'neutral.400' : 'neutral.600'
+      props.$hasDarkBg
+        ? 'neutral.400'
+        : { brand: 'neutral.70', legacy: 'neutral.600' }
     )};
     transform: rotate(${props.$isPrev ? '90' : '270'}deg);
 
