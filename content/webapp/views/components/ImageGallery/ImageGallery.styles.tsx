@@ -87,7 +87,7 @@ export const Gallery = styled.div<GalleryProps>`
       display: inherit;
     }
 
-    color: ${props.theme.color('white')};
+    color: ${props.theme.color({ brand: 'neutral.10', legacy: 'white' })};
     background: linear-gradient(
       ${props.theme.color(props.$pageBackground)} 100px,
       ${props.theme.color('neutral.700')} 100px
