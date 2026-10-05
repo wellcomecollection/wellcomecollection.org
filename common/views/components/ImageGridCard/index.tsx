@@ -24,7 +24,7 @@ const CardWrapper = styled.div`
   position: relative;
   width: 100%;
   display: block;
-  color: ${props => props.theme.color('white')};
+  color: ${props => props.theme.color({ brand: 'neutral.10', legacy: 'white' })};
   container-type: inline-size;
   cursor: pointer;
 
