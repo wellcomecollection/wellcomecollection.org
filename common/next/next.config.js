@@ -78,6 +78,11 @@ const createConfig =
         return [...redirectEntries];
       },
 
+      // Next 16 defaults to Turbopack, which ignores this hook entirely, so
+      // callers (next build --webpack, and the webpack:true option passed to
+      // the programmatic next() in content/identity's app.ts) force webpack
+      // explicitly so this still runs. Migrating the two plugins below to
+      // Turbopack config (resolveAlias) is tracked as a follow-up.
       webpack: (config, { isServer, webpack }) => {
         // moment-timezone ships its full historical timezone dataset by
         // default, which is large and mostly unused. Swap in our own trimmed

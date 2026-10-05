@@ -13,7 +13,7 @@
     "start:dev": "PORT=3003 CREDENTIALS=$(AWS_PROFILE=identity-developer aws secretsmanager get-secret-value --secret-id=identity/stage/local_dev_client/credentials) NODE_ENV=development tsx watch index.ts",
     "watch:client": "yarn build:frontend --watch",
     "build": "NODE_ENV=production && yarn build:next",
-    "build:next": "next build",
+    "build:next": "next build --webpack",
     "typecheck": "tsc --build tsconfig.json",
     "storybook": "start-storybook -p 4009",
     "build-storybook": "build-storybook",

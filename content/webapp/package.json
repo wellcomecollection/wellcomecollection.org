@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "build": "next build",
+    "build": "next build --webpack",
     "dev": "NODE_EXTRA_CA_CERTS=\"$(mkcert -CAROOT)/rootCA.pem\" NODE_ENV=development tsx watch --tsconfig tsconfig.server.json server.ts",
     "start": "NODE_ENV=production tsx --tsconfig tsconfig.server.json server.ts",
     "test": "NODE_ENV=test jest --no-cache",
