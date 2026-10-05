@@ -115,7 +115,10 @@ describe('formatDateRangeWithMessage', () => {
         end,
       });
 
-      expect(result).toEqual({ text: 'Now on', color: 'validation.green' });
+      expect(result).toEqual({
+        text: 'Now on',
+        color: { brand: 'ui.green.40', legacy: 'validation.green' },
+      });
     });
   });
 
@@ -125,7 +128,10 @@ describe('formatDateRangeWithMessage', () => {
       end: new Date(2101, 2, 1),
     });
 
-    expect(result).toEqual({ text: 'Now on', color: 'validation.green' });
+    expect(result).toEqual({
+      text: 'Now on',
+      color: { brand: 'ui.green.40', legacy: 'validation.green' },
+    });
   });
 
   it('says "Now on" for a currently running event', () => {
@@ -134,7 +140,10 @@ describe('formatDateRangeWithMessage', () => {
       end: new Date(2101, 2, 1),
     });
 
-    expect(result).toEqual({ text: 'Now on', color: 'validation.green' });
+    expect(result).toEqual({
+      text: 'Now on',
+      color: { brand: 'ui.green.40', legacy: 'validation.green' },
+    });
   });
 
   it('says "Coming soon" if the first day is today in UTC, but not in London', () => {
