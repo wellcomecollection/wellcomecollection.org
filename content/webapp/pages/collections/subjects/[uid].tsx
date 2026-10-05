@@ -53,7 +53,7 @@ const CONCEPT_GROUPS: Record<
   'public-health': [
     'c8q553d2',
     'hqbh7xar',
-    'c3br959t',
+    'nw4y595d',
     'h72fhc38',
     'eva7r2dw',
     'eg8kmtpb',
