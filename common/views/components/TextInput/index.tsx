@@ -49,7 +49,7 @@ export const TextInputWrap = styled(Space).attrs<TextInputWrapProps>(props => ({
         : props.theme.color('validation.green')
       : props.theme.color(
           props.$isNewSearchBar
-            ? 'accent.green'
+            ? { brand: 'indigo.50', legacy: 'accent.green' }
             : { brand: 'neutral.70', legacy: 'neutral.600' }
         )};
 
