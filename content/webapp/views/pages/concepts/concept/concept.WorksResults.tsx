@@ -80,6 +80,7 @@ const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
         <DecorativeEdge
           variant="wobbly"
           backgroundColor={pageBackgroundColor}
+          fixedUntil='[data-component="in-page-navigation"]'
         />
       </DecorativeEdgeWrapper>
       <Space $v={{ size: 'xl', properties: ['margin-top'] }} as="section">

@@ -187,7 +187,8 @@ const InPageNavigation: FunctionComponent<Props> = ({
 
   // In the new brand the desktop nav colours its text by what's behind it,
   // switching where a dark band ends (see Root's styles). If the band ends in
-  // a wobbly edge, follow the edge's shape under each piece of text.
+  // a wobbly edge, follow its slope under each piece of text; the edge should
+  // use `fixedUntil` so that slope is straight under the nav.
   useEffect(() => {
     const root = rootRef.current;
     if (!theme.brandUpdate || !root) return;
@@ -248,7 +249,9 @@ const InPageNavigation: FunctionComponent<Props> = ({
       if (!frame) frame = requestAnimationFrame(update);
     };
 
-    // The wobbly edge reshapes itself (with a transition) after scrolling
+    // Things can move without a scroll: the edge gets its shape after it's
+    // measured (and reshapes, with a transition, after scrolling), and images
+    // loading can change the band's height
     const startEdgeAnimation = () => {
       isEdgeAnimating = true;
       scheduleUpdate();
@@ -257,13 +260,20 @@ const InPageNavigation: FunctionComponent<Props> = ({
       isEdgeAnimating = false;
       scheduleUpdate();
     };
+    const edgeObserver = new MutationObserver(scheduleUpdate);
+    const layoutObserver = new ResizeObserver(scheduleUpdate);
 
     update();
     window.addEventListener('scroll', scheduleUpdate, { passive: true });
     window.addEventListener('resize', scheduleUpdate);
-    edge?.addEventListener('transitionrun', startEdgeAnimation);
-    edge?.addEventListener('transitionend', stopEdgeAnimation);
-    edge?.addEventListener('transitioncancel', stopEdgeAnimation);
+    if (edge) {
+      edgeObserver.observe(edge, { attributeFilter: ['style'] });
+      edge.addEventListener('transitionrun', startEdgeAnimation);
+      edge.addEventListener('transitionend', stopEdgeAnimation);
+      edge.addEventListener('transitioncancel', stopEdgeAnimation);
+    }
+    if (band) layoutObserver.observe(band);
+    layoutObserver.observe(document.body);
 
     return () => {
       window.removeEventListener('scroll', scheduleUpdate);
@@ -271,6 +281,8 @@ const InPageNavigation: FunctionComponent<Props> = ({
       edge?.removeEventListener('transitionrun', startEdgeAnimation);
       edge?.removeEventListener('transitionend', stopEdgeAnimation);
       edge?.removeEventListener('transitioncancel', stopEdgeAnimation);
+      edgeObserver.disconnect();
+      layoutObserver.disconnect();
       cancelAnimationFrame(frame);
     };
   }, [theme.brandUpdate]);
