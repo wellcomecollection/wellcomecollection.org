@@ -82,7 +82,7 @@ export const TextInputWrap = styled(Space).attrs<TextInputWrapProps>(props => ({
       : ``}
 `;
 
-const HintCopy = styled.span.attrs({
+export const HintCopy = styled.span.attrs({
   className: typography('body', 'md', 'regular'),
 })`
   display: block;
