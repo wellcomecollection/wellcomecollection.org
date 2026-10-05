@@ -223,7 +223,7 @@ const colorToDesignSystemColor: Record<keyof typeof colors, DesignSystemColor> =
     'accent.blue': 'indigo.60',
     'accent.lightBlue': 'blue.30',
     'accent.green': 'teal.40',
-    'accent.lightGreen': 'neutral.30', // FIXME: nearest is a grey, not a green
+    'accent.lightGreen': 'green.40',
     'accent.salmon': 'orange.40',
     'accent.lightSalmon': 'orange.30',
 
