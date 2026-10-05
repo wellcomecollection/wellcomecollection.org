@@ -15,7 +15,10 @@ import {
 } from '@weco/common/views/components/Layout';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
-import TextInput, { HintCopy } from '@weco/common/views/components/TextInput';
+import TextInput, {
+  HintCopy,
+  TextInputWrap,
+} from '@weco/common/views/components/TextInput';
 
 const Wrapper = styled(Space).attrs({
   className: 'is-hidden-print',
@@ -32,6 +35,11 @@ const Wrapper = styled(Space).attrs({
 
     ${HintCopy} {
       color: inherit;
+    }
+
+    /* Leave error/success and hover borders as they are */
+    ${TextInputWrap}:not([data-status]):not(:hover) {
+      border-color: ${props.theme.color({ brand: 'neutral.10', legacy: 'neutral.600' })};
     }
 
     ${CheckboxRadioBox} {

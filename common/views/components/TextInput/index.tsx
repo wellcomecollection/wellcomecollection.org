@@ -239,6 +239,13 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
     }
   }, [value, isNewSearchBar, ref]);
 
+  const status =
+    !isValid && showValidity
+      ? 'error'
+      : isValid && showValidity
+        ? 'success'
+        : undefined;
+
   return (
     <div data-component="text-input">
       <TextInputLabel htmlFor={id}>{label}</TextInputLabel>
@@ -252,13 +259,8 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
       <TextInputWrap
         $isNewSearchBar={isNewSearchBar}
         $isDisabled={disabled}
-        $status={
-          !isValid && showValidity
-            ? 'error'
-            : isValid && showValidity
-              ? 'success'
-              : undefined
-        }
+        $status={status}
+        data-status={status}
       >
         <TextInputInput
           ref={ref}
