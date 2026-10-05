@@ -1,4 +1,5 @@
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
+import theme from '@weco/common/views/themes/default';
 import WorkDetailsText from '@weco/content/views/pages/works/work/WorkDetails/WorkDetails.Text';
 
 describe('WorkDetailsText', () => {
@@ -36,5 +37,20 @@ describe('WorkDetailsText', () => {
     );
 
     expect(container.outerHTML.includes('<p>React</p>')).toBe(true);
+  });
+
+  it('spaces paragraphs within a single HTML string', () => {
+    const { container } = renderWithTheme(
+      <WorkDetailsText
+        html="<p>First paragraph</p> <p>Second paragraph</p>"
+        allowDangerousRawHtml
+      />
+    );
+
+    const [first, second] = Array.from(container.querySelectorAll('p'));
+    expect(getComputedStyle(first).marginTop).not.toBe(
+      theme.spacedTextTopMargin
+    );
+    expect(getComputedStyle(second).marginTop).toBe(theme.spacedTextTopMargin);
   });
 });
