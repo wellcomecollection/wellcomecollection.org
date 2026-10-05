@@ -1,6 +1,6 @@
 # WAF IP Set Updaters
 
-Automated Lambda functions that keep WAF IP allowlists up to date. Both follow the same pattern: fetch the latest IP ranges, validate the change magnitude (default 10%), and update the WAF IP set.
+Automated Lambda functions that keep WAF IP allowlists up to date. Both follow the same pattern: fetch the latest IP ranges, validate the change magnitude (default 10% of the addresses covered), and update the WAF IP set.
 
 | Lambda | IP set | Source | Schedule |
 |---|---|---|---|
@@ -81,7 +81,7 @@ AWS_PROFILE=experience-developer aws lambda invoke \
 
 ## Troubleshooting: "IP content change of … exceeds maximum allowed"
 
-This validation gate in `waf-updater.js` prevents accidental bulk updates. If the change is legitimate:
+This validation gate in `waf-updater.js` prevents accidental bulk updates. It measures the addresses added and removed, not list entries, so a source merging or splitting prefixes does not trigger it. If the change is legitimate:
 
 1. Verify the source data (check [api.github.com/meta](https://api.github.com/meta) or Google's API directly)
 2. Temporarily increase `MAX_CHANGE_PERCENT` in [`waf-updater.js`](./waf-updater.js)

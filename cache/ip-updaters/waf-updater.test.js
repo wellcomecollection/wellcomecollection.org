@@ -44,6 +44,28 @@ describe('validateIPChange', () => {
     });
   });
 
+  it('allows prefixes being merged into a covering range', () => {
+    const current = Array.from({ length: 16 }, (_, i) => `10.0.${i}.0/24`);
+    // 16 entries become 1, same addresses
+    assert.doesNotThrow(() => validateIPChange(current, ['10.0.0.0/20']));
+  });
+
+  it('throws when one new entry adds a large range', () => {
+    const current = Array.from({ length: 100 }, (_, i) => `10.0.${i}.0/24`);
+    // 1 entry in 100, but more addresses than the whole current list
+    assert.throws(
+      () => validateIPChange(current, [...current, '172.16.0.0/12']),
+      {
+        message: /exceeds maximum allowed/,
+      }
+    );
+  });
+
+  it('counts overlapping entries once', () => {
+    const current = ['10.0.0.0/16', '10.0.1.0/24'];
+    assert.doesNotThrow(() => validateIPChange(current, ['10.0.0.0/16']));
+  });
+
   it('allows identical lists', () => {
     const ips = ['10.0.0.0/24', '10.0.1.0/24'];
     assert.doesNotThrow(() => validateIPChange(ips, [...ips]));
