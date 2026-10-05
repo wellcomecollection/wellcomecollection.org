@@ -91,8 +91,8 @@ describe('getDataFromToken', () => {
   });
 });
 
-jest.mock('next/config', () => () => ({
-  serverRuntimeConfig: {
+jest.mock('@weco/identity/config', () => ({
+  getConfig: () => ({
     auth0: {
       domain: 'test.test',
       clientID: 'test',
@@ -102,5 +102,5 @@ jest.mock('next/config', () => () => ({
       host: 'test.test',
       apiKey: 'test',
     },
-  },
+  }),
 }));

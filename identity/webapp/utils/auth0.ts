@@ -14,10 +14,10 @@ import {
   logoutToSuccessUrl,
 } from '@weco/identity/utils/post-registration';
 
-// This module is imported by middleware.ts, which Next.js bundles for the
-// edge runtime where `next/config` (serverRuntimeConfig) is unavailable, so
-// configuration is read straight from the environment. The fallbacks mirror
-// config.js: real values are never needed at build time.
+// This module is imported by proxy.ts, which Next.js bundles separately
+// from the rest of the app, so configuration is read straight from the
+// environment rather than via config.js. The fallbacks mirror config.js: real
+// values are never needed at build time.
 const port = Number(process.env.PORT) || 3000;
 export const siteBaseUrl =
   process.env.SITE_BASE_URL ?? `http://localhost:${port}`;

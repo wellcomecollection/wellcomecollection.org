@@ -1,12 +1,12 @@
 import jwt from 'jsonwebtoken';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import getConfig from 'next/config';
 
 import { fetchWithUndiciAgent } from '@weco/common/utils/undici-agent';
+import { getConfig } from '@weco/identity/config';
 import { authenticatedInstanceFactory } from '@weco/identity/utils/auth';
 import { decodeToken } from '@weco/identity/utils/jwt-codec';
 
-const { serverRuntimeConfig: config } = getConfig();
+const config = getConfig();
 
 const identityApiClient = authenticatedInstanceFactory(
   async () => {
