@@ -8,7 +8,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
@@ -335,25 +335,41 @@ type WorkTypesListProps = {
     audioAndVideo: WorkTypeStats;
     ephemera: WorkTypeStats;
   };
-  icons?: {
-    book: string;
-    image: string;
-    archives: string;
-    videoAudio: string;
-    ephemera: string;
-  };
+  icons?: WorkTypeIcons;
+};
+
+type WorkTypeIcons = {
+  book: string;
+  image: string;
+  archives: string;
+  videoAudio: string;
+  ephemera: string;
+};
+
+const defaultIcons: WorkTypeIcons = {
+  book: '/icons/book.svg',
+  image: '/icons/image.svg',
+  archives: '/icons/archives.svg',
+  videoAudio: '/icons/video-audio.svg',
+  ephemera: '/icons/ephemera.svg',
+};
+
+// The same illustrations, recoloured to the new brand palette
+const brandIcons: WorkTypeIcons = {
+  book: '/icons/book-brand.svg',
+  image: '/icons/image-brand.svg',
+  archives: '/icons/archives-brand.svg',
+  videoAudio: '/icons/video-audio-brand.svg',
+  ephemera: '/icons/ephemera-brand.svg',
 };
 
 const WorkTypesList: React.FC<WorkTypesListProps> = ({
   collectionStats,
-  icons = {
-    book: '/icons/book.svg',
-    image: '/icons/image.svg',
-    archives: '/icons/archives.svg',
-    videoAudio: '/icons/video-audio.svg',
-    ephemera: '/icons/ephemera.svg',
-  },
+  icons: iconsOverride,
 }) => {
+  const theme = useTheme();
+  const icons =
+    iconsOverride || (theme.brandUpdate ? brandIcons : defaultIcons);
   const [startAnimations, setStartAnimations] = useState(false);
   const numberEls = useRef<Set<Element>>(new Set());
   const observerRef = useRef<IntersectionObserver | null>(null);
