@@ -2,7 +2,7 @@ import { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'react';
 
 import { IconSvg } from '@weco/common/icons';
 import { DataGtmProps } from '@weco/common/utils/gtm';
-import { PaletteColor } from '@weco/common/views/themes/config';
+import { PinnableColor } from '@weco/common/views/themes/config';
 export type ButtonSize = 'small' | 'medium';
 
 export type SolidButtonStyledProps = (
@@ -19,9 +19,9 @@ export type SolidButtonStyledProps = (
 };
 
 export type ButtonColors = {
-  border: PaletteColor;
-  background: PaletteColor;
-  text: PaletteColor;
+  border: PinnableColor;
+  background: PinnableColor;
+  text: PinnableColor;
 };
 
 export enum ButtonTypes {
