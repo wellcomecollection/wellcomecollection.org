@@ -11,7 +11,7 @@ const LoadingIndicatorWrapper = styled.div.attrs({
   }
 
   #nprogress .bar {
-    background: ${props => props.theme.color('yellow')};
+    background: ${props => props.theme.color({ brand: 'pink.30', legacy: 'yellow' })};
     position: fixed;
     z-index: 1031;
     top: 0;
@@ -27,8 +27,10 @@ const LoadingIndicatorWrapper = styled.div.attrs({
     width: 100px;
     height: 100%;
     box-shadow:
-      0 0 10px ${props => props.theme.color('yellow')},
-      0 0 5px ${props => props.theme.color('yellow')};
+      0 0 10px
+        ${props => props.theme.color({ brand: 'pink.30', legacy: 'yellow' })},
+      0 0 5px
+        ${props => props.theme.color({ brand: 'pink.30', legacy: 'yellow' })};
     opacity: 1;
     transform: rotate(3deg) translate(0, -4px);
   }
