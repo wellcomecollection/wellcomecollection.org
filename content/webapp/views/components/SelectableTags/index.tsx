@@ -43,15 +43,25 @@ export const StyledInputCSS = css<
   border: 1px solid ${props => props.theme.color('black')};
   background-color: ${props =>
     props.theme.color(props.$isSelected ? 'neutral.700' : 'transparent')};
-  color: ${props => props.theme.color(props.$isSelected ? 'white' : 'black')};
+  color: ${props =>
+    props.theme.color(
+      props.$isSelected ? { brand: 'neutral.10', legacy: 'white' } : 'black'
+    )};
   padding: 8px 16px;
   border-radius: 100px;
   cursor: pointer;
 
   &:hover {
     background-color: ${props =>
-      props.theme.color(props.$isSelected ? 'neutral.700' : 'warmNeutral.400')};
-    color: ${props => props.theme.color(props.$isSelected ? 'white' : 'black')};
+      props.theme.color(
+        props.$isSelected
+          ? 'neutral.700'
+          : { brand: 'neutral.10', legacy: 'warmNeutral.400' }
+      )};
+    color: ${props =>
+      props.theme.color(
+        props.$isSelected ? { brand: 'neutral.10', legacy: 'white' } : 'black'
+      )};
   }
 `;
 const StyledInput = styled.label<
