@@ -131,8 +131,7 @@ export const StyledButtonCSS = css<SolidButtonStyledProps>`
               }
 
               /* An open dropdown */
-              &[aria-expanded='true'],
-              &[aria-expanded='true']:not([disabled]):hover {
+              &[aria-expanded='true']:not([disabled]) {
                 background: ${props.theme.color('black')};
                 color: ${props.theme.color({ brand: 'neutral.10', legacy: 'white' })};
               }

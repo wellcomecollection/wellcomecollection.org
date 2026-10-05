@@ -58,7 +58,13 @@ const StyledSelect = styled.div.attrs({
     }
 
     &:hover {
-      box-shadow: ${props => props.theme.focusBoxShadow};
+      ${props =>
+        props.theme.brandUpdate && props.$isPill && !props.$darkBg
+          ? `
+            background-color: ${props.theme.color({ brand: 'neutral.10', legacy: 'white' })};
+            text-decoration: underline;
+          `
+          : `box-shadow: ${props.theme.focusBoxShadow};`}
     }
   }
 `;
