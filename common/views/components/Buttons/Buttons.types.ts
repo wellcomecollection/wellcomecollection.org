@@ -16,12 +16,23 @@ export type SolidButtonStyledProps = (
   $hasIcon?: boolean;
   $isIconAfter?: boolean;
   $isNewSearchBar?: boolean;
+  $hierarchy?: ButtonHierarchy;
+  $isOnDark?: boolean;
 };
+
+/** Where a button sits in the brand designs' hierarchy. Only used when the
+ * `brandUpdate` toggle is on.
+ */
+export type ButtonHierarchy = 'primary' | 'secondary' | 'tertiary';
 
 export type ButtonColors = {
   border: PinnableColor;
   background: PinnableColor;
   text: PinnableColor;
+  // The brand hierarchy a preset maps to, so buttons that don't pass
+  // `hierarchy` still pick up the brand styles
+  hierarchy?: ButtonHierarchy;
+  isOnDark?: boolean;
 };
 
 export enum ButtonTypes {
@@ -45,4 +56,6 @@ export type ButtonSolidBaseProps = {
   size?: ButtonSize;
   form?: string;
   isPill?: boolean;
+  hierarchy?: ButtonHierarchy;
+  isOnDark?: boolean;
 };
