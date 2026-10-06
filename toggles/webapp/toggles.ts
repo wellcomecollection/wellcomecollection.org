@@ -157,22 +157,6 @@ const toggleConfig = {
       type: 'experimental',
     },
     {
-      id: 'semanticSearchPrototype',
-      title: 'Semantic search prototype',
-      initialValue: false,
-      description:
-        'Enables the semantic search prototype with predefined search terms and API selection. If enabled, please ensure the Semantic search comparison toggle is disabled.',
-      type: 'experimental',
-    },
-    {
-      id: 'semanticSearchComparison',
-      title: 'Semantic search comparison',
-      initialValue: false,
-      description:
-        'Allows use of semantic searches and facilitates the display of the semantic search results side by side with the standard search results for comparison. If enabled, please ensure the Semantic search prototype toggle is disabled.',
-      type: 'experimental',
-    },
-    {
       id: 'itemViewerRefactor',
       title: 'Item viewer refactor',
       initialValue: false,
