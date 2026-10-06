@@ -32,10 +32,63 @@ function extractIpv4Addresses(jsonData) {
     .map(prefix => prefix.ipv4Prefix);
 }
 
+const IPV4_CIDR =
+  /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})(?:\/(\d{1,2}))?$/;
+
+// Merged [start, end) address intervals for a list of IPv4 CIDRs
+function toIntervals(cidrs) {
+  const ranges = cidrs
+    .map(cidr => {
+      const [, ...parts] = IPV4_CIDR.exec(cidr) || [];
+      const bits = Number(parts.pop() ?? 32);
+      const octets = parts.map(Number);
+      // A malformed entry would make the change percentage NaN, which passes the gate
+      if (octets.length !== 4 || octets.some(o => o > 255) || bits > 32) {
+        throw new Error(`Invalid IPv4 CIDR: ${JSON.stringify(cidr)}`);
+      }
+      const size = 2 ** (32 - bits);
+      const address = octets.reduce((acc, o) => acc * 256 + o, 0);
+      const start = address - (address % size);
+      return [start, start + size];
+    })
+    .sort((a, b) => a[0] - b[0]);
+
+  const merged = [];
+  for (const [start, end] of ranges) {
+    const last = merged[merged.length - 1];
+    if (last && start <= last[1]) {
+      last[1] = Math.max(last[1], end);
+    } else {
+      merged.push([start, end]);
+    }
+  }
+  return merged;
+}
+
+function countAddresses(intervals) {
+  return intervals.reduce((total, [start, end]) => total + end - start, 0);
+}
+
+function countSharedAddresses(a, b) {
+  let shared = 0;
+  let i = 0;
+  let j = 0;
+  while (i < a.length && j < b.length) {
+    shared += Math.max(
+      0,
+      Math.min(a[i][1], b[j][1]) - Math.max(a[i][0], b[j][0])
+    );
+    if (a[i][1] < b[j][1]) i++;
+    else j++;
+  }
+  return shared;
+}
+
 /**
- * Validate that the change in IP addresses is within acceptable limits.
- * Uses the symmetric difference (added + removed) rather than net count change,
- * so swapping many prefixes without changing the total still triggers the gate.
+ * Validate that the change in allowed addresses is within acceptable limits.
+ * Compares address coverage rather than list entries, so a source that merges
+ * or splits prefixes without changing what they cover does not trip the gate.
+ * Uses added + removed rather than net change, so swapping ranges still does.
  * Throws if the change exceeds MAX_CHANGE_PERCENT.
  */
 function validateIPChange(currentIPs, newIPs) {
@@ -45,25 +98,26 @@ function validateIPChange(currentIPs, newIPs) {
     return;
   }
 
-  const currentIPsSet = new Set(currentIPs);
-  const newIPsSet = new Set(newIPs);
+  const current = toIntervals(currentIPs);
+  const next = toIntervals(newIPs);
+  const currentCount = countAddresses(current);
+  const shared = countSharedAddresses(current, next);
 
-  const addedCount = newIPs.filter(ip => !currentIPsSet.has(ip)).length;
-  const removedCount = currentIPs.filter(ip => !newIPsSet.has(ip)).length;
+  const addedCount = countAddresses(next) - shared;
+  const removedCount = currentCount - shared;
   const changedCount = addedCount + removedCount;
-  const changePercent = (changedCount / currentIPs.length) * 100;
+  const changePercent = (changedCount / currentCount) * 100;
 
-  logInfo(`Current IP count: ${currentIPs.length}`);
-  logInfo(`New IP count: ${newIPs.length}`);
+  logInfo(`Current ranges: ${currentIPs.length}, new ranges: ${newIPs.length}`);
   logInfo(
-    `Changed IPs: ${changedCount} (added: ${addedCount}, removed: ${removedCount}) (${changePercent.toFixed(2)}%)`
+    `Changed addresses: ${changedCount} (added: ${addedCount}, removed: ${removedCount}) of ${currentCount} (${changePercent.toFixed(2)}%)`
   );
 
   if (changePercent > MAX_CHANGE_PERCENT) {
     throw new Error(
       `IP content change of ${changePercent.toFixed(2)}% exceeds maximum allowed (${MAX_CHANGE_PERCENT}%). ` +
-        `Changed: ${changedCount} (added: ${addedCount}, removed: ${removedCount}), ` +
-        `Current: ${currentIPs.length}, New: ${newIPs.length}. ` +
+        `Changed addresses: ${changedCount} (added: ${addedCount}, removed: ${removedCount}) of ${currentCount}. ` +
+        `Ranges: ${currentIPs.length} current, ${newIPs.length} new. ` +
         `This may indicate an issue with the source data.`
     );
   }
