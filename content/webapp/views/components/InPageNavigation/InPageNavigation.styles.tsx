@@ -109,7 +109,7 @@ export const ListItem = styled.li<{ $hasStuck: boolean; $isOnWhite: boolean }>`
     &::before {
       display: block;
       left: 1px;
-      background: ${props.theme.brandUpdate ? 'transparent' : props.theme.color('black')};
+      background: ${props.theme.color('black')};
     }
     `)}
 `;
@@ -121,7 +121,7 @@ const AnimatedLink = styled(NextLink)<AnimatedUnderlineProps>`
 
   ${props =>
     props.theme.media('md')(`
-    --line-color: ${props.theme.color({ brand: 'blue.30', legacy: 'white' })};
+    --line-color: ${props.theme.color('white')};
     `)}
 
   & > span {
@@ -182,10 +182,10 @@ export const InPageNavAnimatedLink = styled(
 
   ${props =>
     props.theme.media('md')(`
-    color: ${props.theme.brandUpdate ? 'transparent' : props.theme.color('white')};
+    color: ${props.theme.color('white')};
 
     &::before {
-      background: ${props.theme.color({ brand: 'blue.30', legacy: 'white' })};
+      background: ${props.theme.color('white')};
     }
     `)}
 `;
@@ -240,45 +240,11 @@ export const Root = styled(Space).attrs<{
     `)}
 
   ${props =>
-    props.theme.media('md')(
-      props.theme.brandUpdate
-        ? `
-      border-bottom: 0;
-
-      /* Each piece of text is light above its --split and dark below, so the
-         nav follows the edge of a dark band behind it (see the scroll handler
-         in index.tsx). It's set per element, as Chrome won't show a parent's
-         text-clipped background through positioned children */
-      h2,
-      a {
-        color: transparent;
-        background-image: linear-gradient(
-          var(--angle, 180deg),
-          ${props.theme.color({ brand: 'neutral.10', legacy: 'white' })} var(--split, 0px),
-          ${props.theme.color('black')} var(--split, 0px)
-        );
-        -webkit-background-clip: text;
-        background-clip: text;
-      }
-
-      a > span {
-        transform: none;
-      }
-
-      @media print {
-        h2,
-        a {
-          color: ${props.theme.color('black')};
-          background-image: none;
-        }
-      }
-    `
-        : `
+    props.theme.media('md')(`
       border-bottom: 0;
       mix-blend-mode: difference;
       color: ${props.theme.color('white')};
-    `
-    )}
+    `)}
 `;
 
 export const MobileNavButton = styled.button.attrs({
@@ -372,7 +338,69 @@ export const NavGridCell = styled(GridCell)<{
     position: unset;
     background-color: unset;
     transition: unset;
-    mix-blend-mode: ${props.theme.brandUpdate ? 'normal' : 'difference'};
+    mix-blend-mode: difference;
+
+    /* In the new brand, once the scroll handler (in index.tsx) has measured
+       where the dark band ends, swap the blend for chosen colours: each piece
+       of text is light above its --split and dark below. It's set per element,
+       as Chrome won't show a parent's text-clipped background through
+       positioned children. Until then (or without JavaScript) the blend stays */
+    &[data-in-page-nav-split] {
+      mix-blend-mode: normal;
+
+      [data-in-page-navigation] {
+        mix-blend-mode: normal;
+      }
+
+      h2,
+      a {
+        color: transparent;
+        background-image: linear-gradient(
+          var(--angle, 180deg),
+          ${props.theme.color({ brand: 'neutral.10', legacy: 'white' })} var(--split, 0px),
+          ${props.theme.color('black')} var(--split, 0px)
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+      }
+
+      a {
+        --line-color: ${props.theme.color({ brand: 'blue.30', legacy: 'white' })};
+      }
+
+      a > span {
+        transform: none;
+      }
+
+      a::before {
+        background: ${props.theme.color({ brand: 'blue.30', legacy: 'white' })};
+      }
+
+      li::before {
+        background: transparent;
+      }
+
+      @media print {
+        h2,
+        a {
+          color: ${props.theme.color('black')};
+          background-image: none;
+        }
+      }
+
+      /* High contrast modes can drop the background the text relies on */
+      @media (forced-colors: active) {
+        h2 {
+          color: CanvasText;
+          background-image: none;
+        }
+
+        a {
+          color: LinkText;
+          background-image: none;
+        }
+      }
+    }
 
     &::before,
     &::after {

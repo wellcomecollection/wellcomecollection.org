@@ -275,6 +275,10 @@ const InPageNavigation: FunctionComponent<Props> = ({
     if (band) layoutObserver.observe(band);
     layoutObserver.observe(document.body);
 
+    // Only switch from the blend to the split colours once they're measured
+    const navGridCell = navGridCellRef.current;
+    navGridCell?.setAttribute('data-in-page-nav-split', '');
+
     return () => {
       window.removeEventListener('scroll', scheduleUpdate);
       window.removeEventListener('resize', scheduleUpdate);
@@ -284,6 +288,7 @@ const InPageNavigation: FunctionComponent<Props> = ({
       edgeObserver.disconnect();
       layoutObserver.disconnect();
       cancelAnimationFrame(frame);
+      navGridCell?.removeAttribute('data-in-page-nav-split');
     };
   }, [theme.brandUpdate]);
 
