@@ -10,7 +10,7 @@ import {
   isSameDayOrBefore,
   today,
 } from '@weco/common/utils/dates';
-import { PaletteColor } from '@weco/common/views/themes/config';
+import { PinnableColor } from '@weco/common/views/themes/config';
 import TextWithDot from '@weco/content/views/components/TextWithDot';
 
 type Props = {
@@ -26,7 +26,7 @@ export function formatDateRangeWithMessage({
 }: {
   start: Date;
   end: Date;
-}): { text: string; color: PaletteColor } {
+}): { text: string; color: PinnableColor } {
   const closesInThisWeek = isSameDayOrBefore(end, addDays(today(), 6));
 
   const opensToday = isSameDay(start, today());
@@ -39,7 +39,10 @@ export function formatDateRangeWithMessage({
   } else if (closesInThisWeek) {
     return { text: 'Final week', color: 'accent.salmon' };
   } else {
-    return { text: 'Now on', color: 'validation.green' };
+    return {
+      text: 'Now on',
+      color: { brand: 'ui.green.40', legacy: 'validation.green' },
+    };
   }
 }
 
@@ -50,7 +53,7 @@ const StatusIndicator: FunctionComponent<Props> = ({
   isLarge = false,
 }: Props) => {
   const { color, text } = statusOverride
-    ? { color: 'neutral.500' as PaletteColor, text: statusOverride }
+    ? { color: 'neutral.500' as PinnableColor, text: statusOverride }
     : formatDateRangeWithMessage({ start, end });
 
   return (

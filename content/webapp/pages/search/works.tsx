@@ -7,16 +7,8 @@ import {
   ServerSideProps,
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
-import {
-  emptyResultList,
-  WellcomeApiError,
-  WellcomeResultList,
-} from '@weco/content/services/wellcome';
-import {
-  toWorkBasic,
-  WorkAggregations,
-  WorkBasic,
-} from '@weco/content/services/wellcome/catalogue/types';
+import { emptyResultList } from '@weco/content/services/wellcome';
+import { toWorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
@@ -37,34 +29,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   setCacheControl(context.res, cacheTTL.search);
   const serverData = await getServerData(context);
   const query = context.query;
-  // TODO can remove searchIn when we remove the `semanticSearchPrototype` and `semanticSearchComparison` toggles,
-  const semanticSearchPrototype =
-    serverData.toggles.featureFlags.semanticSearchPrototype;
-  const semanticSearchComparison =
-    serverData.toggles.featureFlags.semanticSearchComparison;
-
-  // NOTE: The following logic exists to support two feature toggles used
-  // for the semantic-search experiment (`semanticSearchPrototype` and
-  // `semanticSearchComparison`). When those toggles are removed, the
-  // surrounding code (defaulting `searchIn`, fetching `works2`/`works3`,
-  // and alternative-selection branches) should be removed as part of
-  // cleanup — these comments are here to make that follow-up easier.
-
-  let params = fromQuery(query);
-
-  // If no `searchIn` is present in the URL, default it based on which toggle
-  // is active: comparison mode -> `all`, prototype mode -> `alternative1`.
-  // TODO: remove this defaulting when semantic search toggles are removed.
-  if (!query.searchIn) {
-    if (semanticSearchComparison) {
-      params = { ...params, searchIn: 'all' };
-    } else if (semanticSearchPrototype) {
-      params = { ...params, searchIn: 'alternative1' };
-    }
-  }
-
-  const searchIn =
-    typeof params.searchIn === 'string' ? params.searchIn : 'all';
+  const params = fromQuery(query);
 
   const defaultProps = serialiseProps({
     serverData,
@@ -107,109 +72,28 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     aggregations,
   };
 
-  // Map searchIn to elasticCluster parameter for semantic search API
-  const getElasticCluster = (
-    searchIn: string
-  ): 'openai' | 'elser' | undefined => {
-    if (searchIn === 'alternative2') return 'openai';
-    if (searchIn === 'alternative3') return 'elser';
-    return undefined; // alternative1 uses default lexical search
-  };
+  const works = await getWorks({
+    params: worksApiProps,
+    pageSize: 25,
+    shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+    pipelineCluster: serverData.toggles.modes.cataloguePipeline,
+  });
 
-  // Determine which APIs to fetch from based on searchIn parameter
-  // Note: searchIn is only used when semanticSearchPrototype or semanticSearchComparison toggles are enabled
-  const shouldFetchWorks =
-    (!semanticSearchPrototype && !semanticSearchComparison) ||
-    searchIn === 'all' ||
-    searchIn === 'alternative1';
-  const shouldFetchAlternative2 =
-    searchIn === 'all' || searchIn === 'alternative2';
-  const shouldFetchAlternative3 =
-    searchIn === 'all' || searchIn === 'alternative3';
-
-  // Fetch works if needed
-  let works = emptyResultList<WorkBasic, WorkAggregations>();
-  if (shouldFetchWorks) {
-    const worksResult = await getWorks({
-      params: worksApiProps,
-      pageSize: 25,
-      shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
-      pipelineCluster: serverData.toggles.modes.cataloguePipeline ?? undefined,
-    });
-
-    if (worksResult.type === 'Error') {
-      return appError(
-        context,
-        worksResult.httpStatus,
-        worksResult.description || worksResult.label
-      );
-    }
-
-    works = {
-      ...worksResult,
-      results: worksResult.results.map(toWorkBasic),
-    };
-  }
-
-  // Results from semantic searches will be fetched in parallel, but only if needed based on the searchIn parameter
-  let works2:
-    | WellcomeResultList<WorkBasic, WorkAggregations>
-    | WellcomeApiError
-    | undefined = undefined;
-  let works3:
-    | WellcomeResultList<WorkBasic, WorkAggregations>
-    | WellcomeApiError
-    | undefined = undefined;
-
-  if (semanticSearchPrototype || semanticSearchComparison) {
-    // TODO: remove works2/works3 parallel fetches when semantic search
-    // prototype/comparison toggles are retired.
-    const works2Promise = shouldFetchAlternative2
-      ? getWorks({
-          params: {
-            ...worksApiProps,
-            elasticCluster: getElasticCluster('alternative2'),
-          },
-          pageSize: 25,
-          shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
-        })
-      : Promise.resolve(null);
-
-    const works3Promise = shouldFetchAlternative3
-      ? getWorks({
-          params: {
-            ...worksApiProps,
-            elasticCluster: getElasticCluster('alternative3'),
-          },
-          pageSize: 25,
-          shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
-        })
-      : Promise.resolve(null);
-
-    const [works2Result, works3Result] = await Promise.all([
-      works2Promise,
-      works3Promise,
-    ]);
-
-    works2 = works2Result
-      ? works2Result.type !== 'Error'
-        ? { ...works2Result, results: works2Result.results.map(toWorkBasic) }
-        : works2Result
-      : undefined;
-
-    works3 = works3Result
-      ? works3Result.type !== 'Error'
-        ? { ...works3Result, results: works3Result.results.map(toWorkBasic) }
-        : works3Result
-      : undefined;
+  if (works.type === 'Error') {
+    return appError(
+      context,
+      works.httpStatus,
+      works.description || works.label
+    );
   }
 
   return {
     props: serialiseProps<Props>({
       ...defaultProps,
-      works,
-      works2,
-      works3,
+      works: {
+        ...works,
+        results: works.results.map(toWorkBasic),
+      },
       apiToolbarLinks: [
         {
           id: 'catalogue-api',

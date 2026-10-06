@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
+import { mediaBackgroundColor } from '@weco/common/views/themes/config';
 
 export const Container = styled.div`
   ${props => props.theme.media('sm')`
@@ -35,7 +36,7 @@ export const Preview = styled(Space)`
   max-width: 120px;
   margin-bottom: ${props => props.theme.spacingUnit * 2}px;
   margin-right: 1rem;
-  background-color: ${props => props.theme.color('black')};
+  background-color: ${props => props.theme.color(mediaBackgroundColor)};
 
   ${props => props.theme.media('sm')`
     margin-bottom: 0;

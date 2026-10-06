@@ -22,6 +22,10 @@ import {
 } from '@weco/common/views/components/Layout';
 import { Picture } from '@weco/common/views/components/Picture';
 import Space from '@weco/common/views/components/styled/Space';
+import {
+  pageBackgroundColor,
+  Pinnable,
+} from '@weco/common/views/themes/config';
 
 import { BackgroundType, FeaturedMedia, pageGridLayout } from '.';
 import {
@@ -34,6 +38,7 @@ import {
 
 const Heading = styled(Space)`
   background-color: ${props => props.theme.color('white')};
+  color: ${props => props.theme.color('black')};
   display: inline;
   line-height: calc(1.1em + 12px);
   -webkit-box-decoration-break: clone;
@@ -62,7 +67,7 @@ export type Props = {
   FeaturedMedia?: FeaturedMedia;
   HeroPicture?: ReactElement<typeof Picture>;
   isContentTypeInfoBeforeMedia?: boolean;
-  heroImageBgColor?: 'warmNeutral.300' | 'white';
+  heroImageBgColor?: Pinnable<'warmNeutral.300' | 'white'>;
   backgroundTexture?: string;
   highlightHeading?: boolean;
   SerialPartNumber?: ReactNode;
@@ -114,6 +119,8 @@ const BasicPageHeader: FunctionComponent<Props> = ({
           gridSizes={fullWidth ? gridSize12() : pageGridLayout}
         >
           <Wrapper
+            // The brand update's textured headers are dark
+            $isOnDarkHeader={!!(Background || backgroundTexture)}
             $v={{
               size: isSlim ? '2xs' : 'md',
               properties:
@@ -191,7 +198,10 @@ const BasicPageHeader: FunctionComponent<Props> = ({
       </Container>
 
       {!hasMedia && !isContentTypeInfoBeforeMedia && !isSlim && (
-        <DecorativeEdge variant="wobbly" backgroundColor="white" />
+        <DecorativeEdge
+          variant="wobbly"
+          backgroundColor={pageBackgroundColor}
+        />
       )}
 
       {!isContentTypeInfoBeforeMedia && ContentTypeInfo && (

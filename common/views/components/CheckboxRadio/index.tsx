@@ -18,7 +18,7 @@ const CheckboxRadioLabel = styled.label<{ $isDisabled?: boolean }>`
   padding: 4px 0;
 `;
 
-const CheckboxRadioBox = styled.span<{
+export const CheckboxRadioBox = styled.span<{
   $type: string;
   $hasErrorBorder?: boolean;
   $isDisabled?: boolean;

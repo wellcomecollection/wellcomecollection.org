@@ -9,7 +9,7 @@ const headingStyles =
   'style="font-weight: 500; font-family: Inter, sans-serif;"';
 
 // This format is required by Civic UK
-export const policyUpdatedDate = '04/06/2025';
+export const policyUpdatedDate = '01/10/2026';
 
 // Should your privacy policy change after a user gives consent,
 // Cookie Control will invalidate prior records of consent and seek the user's preferences using the latest information available.
@@ -28,7 +28,10 @@ const necessaryCookies = () => {
   const wcCookies = Object.values(cookies).map(c => c);
 
   // See @weco/toggles/webapp/toggles for details on each
-  const featureFlags = ['toggle_*'];
+  // starred_toggles: which toggles a dashboard user has starred for the
+  // on-site ToggleWidget - not a toggle_<id> override itself, so it needs
+  // its own entry (see dash/webapp/.../toggles.helpers.ts).
+  const featureFlags = ['toggle_*', 'starred_toggles'];
 
   // Allows Prismic previews
   const prismicPreview = ['io.prismic.preview', 'isPreview'];

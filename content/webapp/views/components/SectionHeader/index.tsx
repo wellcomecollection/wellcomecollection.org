@@ -10,13 +10,14 @@ import {
 import { SizeMap } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 
-const YellowBox = styled(Space).attrs({
+const AccentBar = styled(Space).attrs({
   $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   display: block;
   width: 60px;
   height: 16px;
-  background: ${props => props.theme.color('yellow')};
+  background: ${props =>
+    props.theme.color({ brand: 'orange.40', legacy: 'yellow' })};
 
   ${props => props.theme.media('sm')`
     width: 58px;
@@ -31,7 +32,8 @@ const Title = styled.h2`
   margin-bottom: 0;
 
   .bg-dark & {
-    color: ${props => props.theme.color('white')};
+    color: ${props =>
+      props.theme.color({ brand: 'neutral.10', legacy: 'white' })};
   }
 `;
 
@@ -55,7 +57,7 @@ const SectionHeader: FunctionComponent<Props> = ({ title, gridSize }) => {
         )}
       >
         <div>
-          <YellowBox />
+          <AccentBar />
           <Title>{title}</Title>
         </div>
       </ConditionalWrapper>

@@ -13,7 +13,10 @@ import ConceptContext from '@weco/content/contexts/ConceptPageContext';
 import { makeConceptConfig } from '@weco/content/contexts/ConceptPageContext/concept.config';
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
-import { getConcept } from '@weco/content/services/wellcome/catalogue/concepts';
+import {
+  conceptsApiUrl,
+  getConcept,
+} from '@weco/content/services/wellcome/catalogue/concepts';
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import {
   CatalogueResultsList,
@@ -44,8 +47,14 @@ export const Page: NextPage<ConceptPageProps> = props => {
   );
 };
 
-function createApiToolbarLinks(concept: ConceptType): ApiToolbarLink[] {
-  const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/concepts/${concept.id}`;
+function createApiToolbarLinks(
+  concept: ConceptType,
+  pipelineCluster?: string | null
+): ApiToolbarLink[] {
+  const apiUrl = conceptsApiUrl({
+    path: `/${concept.id}`,
+    params: { elasticCluster: pipelineCluster },
+  });
 
   const apiLink = {
     id: 'json',
@@ -82,10 +91,13 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   }
 
   const serverData = await getServerData(context);
+  const shouldUseStagingApi = serverData.toggles.featureFlags.stagingApi;
+  const pipelineCluster = serverData.toggles.modes.cataloguePipeline;
 
   const conceptResponse = await getConcept({
     id: conceptId,
-    shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+    shouldUseStagingApi,
+    pipelineCluster,
   });
 
   if (conceptResponse.type === 'Error') {
@@ -104,17 +116,15 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       byId: (sectionName: string) =>
         getWorks({
           params: queryParams(sectionName, conceptResponse),
-          shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
-          pipelineCluster:
-            serverData.toggles.modes.cataloguePipeline ?? undefined,
+          shouldUseStagingApi,
+          pipelineCluster,
           pageSize: 5,
         }),
       byLabel: (sectionName: string) =>
         getWorks({
           params: allRecordsLinkParams(sectionName, conceptResponse),
-          shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
-          pipelineCluster:
-            serverData.toggles.modes.cataloguePipeline ?? undefined,
+          shouldUseStagingApi,
+          pipelineCluster,
           pageSize: 5,
         }),
     },
@@ -122,17 +132,15 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       byId: (sectionName: string) =>
         getImages({
           params: queryParams(sectionName, conceptResponse),
-          shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
-          pipelineCluster:
-            serverData.toggles.modes.cataloguePipeline ?? undefined,
+          shouldUseStagingApi,
+          pipelineCluster,
           pageSize: 12,
         }),
       byLabel: (sectionName: string) =>
         getImages({
           params: allRecordsLinkParams(sectionName, conceptResponse),
-          shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
-          pipelineCluster:
-            serverData.toggles.modes.cataloguePipeline ?? undefined,
+          shouldUseStagingApi,
+          pipelineCluster,
           pageSize: 12,
         }),
     },
@@ -291,7 +299,10 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   const totalResults = getLabelTotals();
 
-  const apiToolbarLinks = createApiToolbarLinks(conceptResponse);
+  const apiToolbarLinks = createApiToolbarLinks(
+    conceptResponse,
+    pipelineCluster
+  );
 
   const sectionsData: ThemePageSectionsData = {
     about: {

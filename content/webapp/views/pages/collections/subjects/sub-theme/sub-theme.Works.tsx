@@ -88,7 +88,7 @@ const SubThemeWorks = ({
           },
           pageSize: works.pageResults.length,
           shouldUseStagingApi: stagingApi,
-          pipelineCluster: cataloguePipeline ?? undefined,
+          pipelineCluster: cataloguePipeline,
         });
 
         // Only update state if this is still the current tab (prevent race conditions)

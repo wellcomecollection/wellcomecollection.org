@@ -1,15 +1,42 @@
 import { CSSProperties, FunctionComponent } from 'react';
-import styled from 'styled-components';
+import styled, { DefaultTheme } from 'styled-components';
 
 import { LabelColor, Label as LabelType } from '@weco/common/model/labels';
 import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
-import { PaletteColor } from '@weco/common/views/themes/config';
+import {
+  DesignSystemColor,
+  legacyColorName,
+  PinnableColor,
+} from '@weco/common/views/themes/config';
 
 type LabelContainerProps = {
-  $fontColor: PaletteColor;
-  $labelColor: PaletteColor;
+  $fontColor: PinnableColor;
+  $labelColor: PinnableColor;
   $outlineLightLabels: boolean;
+};
+
+const lightBrandColors: DesignSystemColor[] = [
+  'white',
+  'neutral.05',
+  'neutral.10',
+];
+
+// Light labels can get an outline. A colour can be light in one brand and not
+// the other, so in the new brand check the colour that's actually shown.
+const isLightLabel = (color: PinnableColor, theme: DefaultTheme) => {
+  if (!theme.brandUpdate) {
+    return ['white', 'transparent'].includes(legacyColorName(color));
+  }
+
+  const shown = theme.color(color);
+
+  return (
+    shown === 'transparent' ||
+    lightBrandColors.some(
+      brand => theme.color({ brand, legacy: 'white' }) === shown
+    )
+  );
 };
 
 const LabelContainer = styled(Space).attrs({
@@ -26,18 +53,23 @@ const LabelContainer = styled(Space).attrs({
   background-color: ${props => props.theme.color(props.$labelColor)};
 
   ${props => {
-    const isWhiteOrTransparent =
-      props.$labelColor === 'white' || props.$labelColor === 'transparent';
-
-    if (!isWhiteOrTransparent) {
+    if (!isLightLabel(props.$labelColor, props.theme)) {
       return `border: 1px solid ${props.theme.color(props.$labelColor)};`;
     }
 
     return `border: 1px solid ${props.theme.color(
-      props.$outlineLightLabels ? 'neutral.500' : props.$labelColor
+      props.$outlineLightLabels
+        ? { brand: 'neutral.70', legacy: 'neutral.500' }
+        : props.$labelColor
     )};`;
   }}
 `;
+
+// Format labels (Display, Workshop, Book extract…)
+export const formatLabelColor: LabelColor = {
+  brand: 'pink.30',
+  legacy: 'yellow',
+};
 
 export type Props = {
   label: LabelType;
@@ -47,7 +79,7 @@ export type Props = {
 
 const Label: FunctionComponent<Props> = ({
   label,
-  defaultLabelColor = 'yellow',
+  defaultLabelColor = formatLabelColor,
   outlineLightLabels = true,
 }: Props) => {
   return (
@@ -63,8 +95,9 @@ const Label: FunctionComponent<Props> = ({
       }}
       $fontColor={
         label.textColor ||
-        (label.labelColor === 'black' || defaultLabelColor === 'black'
-          ? 'yellow'
+        ((label.labelColor && legacyColorName(label.labelColor) === 'black') ||
+        legacyColorName(defaultLabelColor) === 'black'
+          ? { brand: 'teal.20', legacy: 'yellow' }
           : 'black')
       }
       $labelColor={label.labelColor || defaultLabelColor}

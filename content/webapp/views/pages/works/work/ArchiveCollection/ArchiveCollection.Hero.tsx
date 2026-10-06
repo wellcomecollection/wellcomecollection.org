@@ -1,9 +1,9 @@
 import NextLink from 'next/link';
 import { ReactNode } from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 import { archive } from '@weco/common/icons';
-import { useFeatureFlags } from '@weco/common/server-data/Context';
+import { usePhasedFlags } from '@weco/common/server-data/Context';
 import { typography } from '@weco/common/utils/classnames';
 import Divider from '@weco/common/views/components/Divider';
 import Icon from '@weco/common/views/components/Icon';
@@ -22,6 +22,7 @@ import {
 } from '@weco/content/utils/works';
 import WorkTitle from '@weco/content/views/components/WorkTitle';
 import WorkDetailsTags from '@weco/content/views/pages/works/work/WorkDetails/WorkDetails.Tags';
+import { phaseIsAtLeast } from '@weco/toggles';
 
 const Hero = styled(Space).attrs({
   $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
@@ -96,7 +97,12 @@ const HeroInfo = ({ label, value }: { label: string; value: ReactNode }) => {
 };
 
 const ArchiveCollectionHero = ({ work }: { work: WorkType }) => {
-  const { archiveShortDescriptions } = useFeatureFlags();
+  const theme = useTheme();
+  const { archiveCollectionPhases } = usePhasedFlags();
+  const showArchiveShortDescriptions = phaseIsAtLeast(
+    archiveCollectionPhases,
+    'phase2'
+  );
   const languageId = getLanguageId(work);
 
   const primaryContributor = work.contributors.find(
@@ -113,8 +119,10 @@ const ArchiveCollectionHero = ({ work }: { work: WorkType }) => {
         <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
           <LabelsList
             labels={getCardLabels(work)}
-            defaultLabelColor="white"
-            outlineLightLabels={false}
+            defaultLabelColor={{ brand: 'pink.30', legacy: 'white' }}
+            // In the new brand the hero is the same colour as the "Online"
+            // label, so light labels need their outline
+            outlineLightLabels={theme.brandUpdate}
           />
         </Space>
 
@@ -129,7 +137,7 @@ const ArchiveCollectionHero = ({ work }: { work: WorkType }) => {
           <ArchiveCollectionLabel>Archive Collection</ArchiveCollectionLabel>
         </Space>
 
-        {archiveShortDescriptions && work.shortDescription && (
+        {showArchiveShortDescriptions && work.shortDescription && (
           <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
             <p className={typography('body', 'md', 'regular')}>
               {stripHtmlTags(work.shortDescription)}

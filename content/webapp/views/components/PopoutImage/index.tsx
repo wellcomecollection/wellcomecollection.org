@@ -6,7 +6,7 @@ import Space from '@weco/common/views/components/styled/Space';
 
 const PopoutCardImageContainer = styled.div`
   position: relative;
-  background-color: ${props => props.theme.color('warmNeutral.300')};
+  background-color: ${props => props.theme.color({ brand: 'teal.20', legacy: 'warmNeutral.300' })};
   height: 0;
   padding-top: 100%;
   transform: rotate(-2deg);

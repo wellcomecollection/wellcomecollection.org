@@ -21,7 +21,12 @@ import {
 } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import { components } from '@weco/common/views/slices';
-import { PaletteColor } from '@weco/common/views/themes/config';
+import {
+  legacyColorName,
+  pageBackgroundColor,
+  PaletteColor,
+  PinnableColor,
+} from '@weco/common/views/themes/config';
 import { transformContentListSlice } from '@weco/content/services/prismic/transformers/body';
 import { ArchiveWorkData } from '@weco/content/services/wellcome/catalogue/works';
 import { isContentList } from '@weco/content/types/body';
@@ -40,13 +45,18 @@ import SectionHeader from '@weco/content/views/components/SectionHeader';
 
 import GridFactory, { landingPageGrid } from './GridFactory';
 
+const TwoColumnGrid = styled(Grid)`
+  background: ${props => props.theme.color(pageBackgroundColor)};
+  row-gap: 0;
+`;
+
 const BodyWrapper = styled.div<{ $splitBackground: boolean }>`
   ${props =>
     props.$splitBackground &&
     `
   > div:first-child {
     background: linear-gradient(180deg, ${props.theme.color(
-      'white'
+      pageBackgroundColor
     )} 50%, transparent 50%);
   }
 `}
@@ -75,26 +85,26 @@ export type Props = {
 };
 
 type SectionTheme = {
-  rowBackground: PaletteColor;
+  rowBackground: PinnableColor;
   cardBackground: PaletteColor;
   featuredCardBackground: PaletteColor;
-  featuredCardText: PaletteColor;
+  featuredCardText: PinnableColor;
 };
 
 type WrapperProps = {
   $cardBackgroundColor: PaletteColor;
-  $rowBackgroundColor: PaletteColor;
+  $rowBackgroundColor: PinnableColor;
 };
 const Wrapper = styled(Space).attrs<WrapperProps>(props => ({
   className: classNames({
     'row card-theme': true,
-    'bg-dark': props.$rowBackgroundColor === 'neutral.700',
+    'bg-dark': legacyColorName(props.$rowBackgroundColor) === 'neutral.700',
     [`card-theme--${props.$cardBackgroundColor}`]: [
       'white',
       'transparent',
     ].includes(props.$cardBackgroundColor),
   }),
-}))<{ $rowBackgroundColor: PaletteColor }>`
+}))<{ $rowBackgroundColor: PinnableColor }>`
   background-color: ${props => props.theme.color(props.$rowBackgroundColor)};
 `;
 
@@ -159,10 +169,10 @@ const Body: FunctionComponent<Props> = ({
 
   const sectionThemes: SectionTheme[] = [
     {
-      rowBackground: 'white',
+      rowBackground: pageBackgroundColor,
       cardBackground: 'warmNeutral.300',
       featuredCardBackground: 'neutral.700',
-      featuredCardText: 'white',
+      featuredCardText: { brand: 'neutral.10', legacy: 'white' },
     },
     {
       rowBackground: 'warmNeutral.300',
@@ -171,7 +181,7 @@ const Body: FunctionComponent<Props> = ({
       featuredCardText: 'black',
     },
     {
-      rowBackground: 'white',
+      rowBackground: pageBackgroundColor,
       cardBackground: 'warmNeutral.300',
       featuredCardBackground: 'warmNeutral.300',
       featuredCardText: 'black',
@@ -193,6 +203,8 @@ const Body: FunctionComponent<Props> = ({
         const isFirst = index === 0;
         const isLast = index === sections.length - 1;
         const sectionTheme = sectionThemes[index % sectionThemes.length];
+        const isPageBackground =
+          legacyColorName(sectionTheme.rowBackground) === 'white';
         const hasFeatured = section.value.items.length === 1;
         const firstItem = section.value.items?.[0];
         const isCardType = firstItem?.type === 'card';
@@ -249,9 +261,9 @@ const Body: FunctionComponent<Props> = ({
               $v={{
                 size: 'xl',
                 properties:
-                  isLast && sectionTheme.rowBackground === 'white'
+                  isLast && isPageBackground
                     ? ['padding-top']
-                    : isFirst && sectionTheme.rowBackground === 'white'
+                    : isFirst && isPageBackground
                       ? ['padding-bottom']
                       : ['padding-top', 'padding-bottom'],
               }}
@@ -287,7 +299,7 @@ const Body: FunctionComponent<Props> = ({
             {!isLast && (
               <DecorativeEdge
                 variant="wobbly"
-                backgroundColor="white"
+                backgroundColor={pageBackgroundColor}
                 isStatic
               />
             )}
@@ -309,7 +321,7 @@ const Body: FunctionComponent<Props> = ({
       condition={isTwoColumns}
       wrapper={children => (
         <Container>
-          <Grid style={{ background: 'white', rowGap: 0 }}>
+          <TwoColumnGrid>
             <InPageNavigation
               links={onThisPage!}
               sizeMap={{ s: [12], m: [12], l: [3], xl: [3] }}
@@ -321,7 +333,7 @@ const Body: FunctionComponent<Props> = ({
                 {children}
               </Space>
             </GridCell>
-          </Grid>
+          </TwoColumnGrid>
         </Container>
       )}
     >

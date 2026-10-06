@@ -1,3 +1,4 @@
+import { propsToQuery } from '@weco/common/utils/routes';
 import {
   globalApiOptions,
   QueryProps,
@@ -17,13 +18,31 @@ import {
 type GetConceptProps = {
   id: string;
   shouldUseStagingApi?: boolean;
+  pipelineCluster?: string | null;
 };
 
 type ConceptResponse = Concept | WellcomeApiError;
 
+type ConceptsApiUrlProps = {
+  path?: string;
+  params?: Record<string, string | null | undefined>;
+  root?: string;
+};
+
+// propsToQuery drops undefined values, so unset params are left out
+export function conceptsApiUrl({
+  path = '',
+  params = {},
+  root = rootUris.prod,
+}: ConceptsApiUrlProps): string {
+  const query = new URLSearchParams(propsToQuery(params)).toString();
+  return `${root}/catalogue/v2/concepts${path}${query ? `?${query}` : ''}`;
+}
+
 export async function getConcept({
   id,
   shouldUseStagingApi,
+  pipelineCluster,
 }: GetConceptProps): Promise<ConceptResponse> {
   if (!looksLikeCanonicalId(id)) {
     return notFound();
@@ -31,7 +50,11 @@ export async function getConcept({
 
   const apiOptions = globalApiOptions(shouldUseStagingApi);
 
-  const url = `${rootUris[apiOptions.env.concepts]}/catalogue/v2/concepts/${id}`;
+  const url = conceptsApiUrl({
+    path: `/${id}`,
+    params: { elasticCluster: pipelineCluster },
+    root: rootUris[apiOptions.env.concepts],
+  });
 
   const res = await wellcomeApiFetch(url, { redirect: 'manual' });
 
@@ -58,10 +81,17 @@ export async function getConcepts(
  * Fetch concepts (topics) from the concepts API
  * Returns concepts that can be used for browse topics
  */
-export async function getConceptsByIds(
-  ids: string[],
-  shouldUseStagingApi?: boolean
-): Promise<Concept[]> {
+type GetConceptsByIdsProps = {
+  ids: string[];
+  shouldUseStagingApi?: boolean;
+  pipelineCluster?: string | null;
+};
+
+export async function getConceptsByIds({
+  ids,
+  shouldUseStagingApi,
+  pipelineCluster,
+}: GetConceptsByIdsProps): Promise<Concept[]> {
   if (!ids || ids.length === 0) return [];
 
   // Filter to valid canonical IDs before querying
@@ -73,6 +103,7 @@ export async function getConceptsByIds(
   const result = await getConcepts({
     params: { id: validIds.join(',') },
     shouldUseStagingApi,
+    pipelineCluster,
   });
 
   if ('results' in result) return result.results;

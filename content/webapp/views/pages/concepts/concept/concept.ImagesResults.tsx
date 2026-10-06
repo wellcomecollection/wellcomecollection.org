@@ -35,7 +35,7 @@ const SectionHeading = styled(Space).attrs({
   className: typography('body', 'xl', 'strong'),
   $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
-  color: ${props => props.theme.color('white')};
+  color: ${props => props.theme.color({ brand: 'neutral.10', legacy: 'white' })};
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -118,7 +118,10 @@ const ImagesResults: FunctionComponent<{
     <>
       <ThemeImagesWrapper as="section" data-testid="images-section">
         <Space $v={{ size: 'md', properties: ['padding-top'] }}>
-          <FromCollectionsHeading $color="white" id="images">
+          <FromCollectionsHeading
+            $color={{ brand: 'neutral.10', legacy: 'white' }}
+            id="images"
+          >
             Images from the collections
           </FromCollectionsHeading>
         </Space>

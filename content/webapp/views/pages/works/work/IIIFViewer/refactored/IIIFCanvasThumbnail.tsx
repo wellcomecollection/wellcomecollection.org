@@ -9,6 +9,7 @@ import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import Icon from '@weco/common/views/components/Icon';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
+import { mediaBackgroundColor } from '@weco/common/views/themes/config';
 import { IIIFItemProps, TransformedCanvas } from '@weco/content/types/manifest';
 import {
   hasRestrictedItem,
@@ -27,7 +28,7 @@ const IIIFViewerThumb = styled.span`
   width: 300px;
   max-width: 90%;
   border-radius: 8px;
-  background: ${props => props.theme.color('black')};
+  background: ${props => props.theme.color(mediaBackgroundColor)};
   padding: 12px 16px;
   text-align: center;
   margin: auto;

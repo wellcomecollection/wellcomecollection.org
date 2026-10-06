@@ -1,23 +1,35 @@
 import styled from 'styled-components';
 
+import { getHeaderTexture } from '@weco/common/utils/backgrounds';
 import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
-import { PaletteColor } from '@weco/common/views/themes/config';
+import { PinnableColor } from '@weco/common/views/themes/config';
 
 export const Container = styled.div<{ $backgroundTexture?: string }>`
   position: relative;
   background-image: ${props =>
     props.$backgroundTexture
-      ? `url(${props.$backgroundTexture})`
+      ? `url("${getHeaderTexture(props.$backgroundTexture, props.theme.brandUpdate)}")`
       : 'undefined'};
   background-size: ${props =>
     props.$backgroundTexture ? 'cover' : 'undefined'};
 `;
 
-export const Wrapper = styled(Space)`
+export const Wrapper = styled(Space)<{ $isOnDarkHeader?: boolean }>`
+  ${props =>
+    props.$isOnDarkHeader &&
+    props.theme.brandUpdate &&
+    `color: ${props.theme.color({ brand: 'neutral.10', legacy: 'black' })};`}
+
   @media print {
     margin: 0;
     padding: 0;
+
+    /* Browsers don't print the dark header background, so go back to dark text */
+    ${props =>
+      props.$isOnDarkHeader &&
+      props.theme.brandUpdate &&
+      `color: ${props.theme.color('black')};`}
   }
 `;
 
@@ -37,7 +49,7 @@ export const TitleWrapper = styled.h1.attrs<{
 export const headerSpaceSize = 'md';
 export const HeroPictureBackground = styled.div.attrs({
   className: 'is-hidden-print',
-})<{ $bgColor: PaletteColor }>`
+})<{ $bgColor: PinnableColor }>`
   position: absolute;
   background-color: ${props => props.theme.color(props.$bgColor)};
   height: 50%;

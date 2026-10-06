@@ -160,7 +160,7 @@ export const inOurBuilding = 'In our building';
 export const requestingDisabled = (
   <>
     Item requesting is temporarily unavailable while we perform maintenance work
-    and will be available again from 5 October.
+    and will be available again from 10am on Tuesday 6 October.
   </>
 );
 

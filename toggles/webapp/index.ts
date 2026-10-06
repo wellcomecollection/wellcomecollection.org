@@ -31,15 +31,6 @@ export type KioskModeOptionId = Extract<
   { id: 'kioskMode' }
 >['options'][number]['id'];
 
-// The option IDs for the cataloguePipeline mode toggle. Resolves to `never` while the mode
-// has no options; it widens again when a pipeline preview option is added.
-// Exported so API types can derive the valid pipeline values from the toggle
-// definition rather than hardcoding strings.
-export type CataloguePipelineOptionId = Extract<
-  (typeof toggleConfig.modes)[number],
-  { id: 'cataloguePipeline' }
->['options'][number]['id'];
-
 // Extracts the experience prefix from a kiosk option ID.
 // e.g. 'RR-iPad1' -> 'RR', 'devMode' -> 'devMode'
 type ExtractPrefix<T extends string> = T extends `${infer Prefix}-${string}`
@@ -90,6 +81,7 @@ export type PhaseValue = string | null;
 export type ResolvedPhasedFlag = {
   current: PhaseValue;
   phases: readonly PhaseDefinition[];
+  title: string;
 };
 
 export type PhasedFlags = Record<PhasedFlagId, ResolvedPhasedFlag>;

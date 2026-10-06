@@ -7,7 +7,7 @@ import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { typography } from '@weco/common/utils/classnames';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Container } from '@weco/common/views/components/styled/Container';
-import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
+import { GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import { useConceptPageContext } from '@weco/content/contexts/ConceptPageContext';
 import { Concept as ConceptType } from '@weco/content/services/wellcome/catalogue/types';
@@ -24,6 +24,7 @@ import { ThemePageSectionsData, themeTabOrder } from './concept.helpers';
 import ImagesResults from './concept.ImagesResults';
 import RelatedConceptsGroup from './concept.RelatedConceptsGroup';
 import {
+  BodyGrid,
   HotJarPlaceholder,
   MobileNavBackground,
   StretchWrapper,
@@ -133,7 +134,7 @@ const ConceptPage: NextPage<Props> = ({
         <MobileNavBackground $isOnWhite={!hasImages} />
 
         <Container>
-          <Grid style={{ background: 'white', rowGap: 0 }}>
+          <BodyGrid>
             <InPageNavigation
               links={navLinks}
               isOnWhite={!hasImages}
@@ -210,7 +211,7 @@ const ConceptPage: NextPage<Props> = ({
                 <HotJarPlaceholder id="hotjar-embed-placeholder-concept-person" />
               )}
             </GridCell>
-          </Grid>
+          </BodyGrid>
         </Container>
       </CataloguePageLayout>
 

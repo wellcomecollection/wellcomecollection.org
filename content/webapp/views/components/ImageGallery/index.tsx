@@ -18,7 +18,10 @@ import {
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
 import Tasl from '@weco/common/views/components/Tasl';
-import { sizes } from '@weco/common/views/themes/config';
+import {
+  pageBackgroundColor as defaultPageBackgroundColor,
+  sizes,
+} from '@weco/common/views/themes/config';
 import { useContentPageContext } from '@weco/content/contexts/ContentPageContext';
 import CaptionedImage from '@weco/content/views/components/CaptionedImage';
 
@@ -175,7 +178,7 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
               <StandaloneWobblyEdge>
                 <DecorativeEdge
                   variant="wobbly"
-                  backgroundColor="white"
+                  backgroundColor={defaultPageBackgroundColor}
                   isRotated
                 />
               </StandaloneWobblyEdge>

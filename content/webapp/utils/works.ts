@@ -297,7 +297,13 @@ export const getCardLabels = (work: Work): Label[] => {
   const cardLabels = work.workType ? [{ text: work.workType.label }] : [];
 
   if (isAvailableOnline(work)) {
-    return [...cardLabels, { text: 'Online', labelColor: 'white' }];
+    return [
+      ...cardLabels,
+      {
+        text: 'Online',
+        labelColor: { brand: 'neutral.10', legacy: 'white' },
+      },
+    ];
   } else {
     return cardLabels;
   }

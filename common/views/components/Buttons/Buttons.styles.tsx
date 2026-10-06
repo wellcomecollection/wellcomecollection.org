@@ -120,8 +120,27 @@ export const StyledButtonCSS = css<SolidButtonStyledProps>`
             : '8px 16px'
         };
 
-        &:not([disabled]):hover {
-          box-shadow: ${props.theme.focusBoxShadow};
+        ${
+          props.theme.brandUpdate
+            ? `
+              background: transparent;
+
+              &:not([disabled]):hover {
+                background: ${props.theme.color({ brand: 'neutral.10', legacy: 'white' })};
+                text-decoration: underline;
+              }
+
+              /* An open dropdown */
+              &[aria-expanded='true']:not([disabled]) {
+                background: ${props.theme.color('black')};
+                color: ${props.theme.color({ brand: 'neutral.10', legacy: 'white' })};
+              }
+            `
+            : `
+              &:not([disabled]):hover {
+                box-shadow: ${props.theme.focusBoxShadow};
+              }
+            `
         }
       `
       : `

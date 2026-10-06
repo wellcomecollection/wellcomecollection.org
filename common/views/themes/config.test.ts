@@ -1,4 +1,9 @@
-import { createTheme } from './config';
+import {
+  createTheme,
+  legacyColorName,
+  mediaBackgroundColor,
+  pageBackgroundColor,
+} from './config';
 
 const legacy = createTheme(false);
 const brand = createTheme(true);
@@ -60,5 +65,30 @@ describe('color', () => {
       expect(legacy.color(one)).toBe(legacy.color(two));
       expect(brand.color(one)).not.toBe(brand.color(two));
     });
+  });
+});
+
+describe('legacyColorName', () => {
+  it('returns a plain colour name as is', () => {
+    expect(legacyColorName('black')).toBe('black');
+  });
+
+  it('returns the current-brand half of a pin', () => {
+    expect(legacyColorName({ brand: 'teal.20', legacy: 'white' })).toBe(
+      'white'
+    );
+  });
+});
+
+describe('shared pins', () => {
+  it('keeps the page background white in the current brand', () => {
+    expect(legacy.color(pageBackgroundColor)).toBe('#ffffff');
+    expect(brand.color(pageBackgroundColor)).toBe('#FAFBF7');
+  });
+
+  it('keeps media backdrops darker than the brand text colour', () => {
+    expect(legacy.color(mediaBackgroundColor)).toBe('#121212');
+    expect(brand.color(mediaBackgroundColor)).toBe('#111A1C');
+    expect(brand.color('black')).toBe('#223438');
   });
 });

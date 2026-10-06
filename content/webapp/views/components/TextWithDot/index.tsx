@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import Space from '@weco/common/views/components/styled/Space';
-import { PaletteColor } from '@weco/common/views/themes/config';
+import { PinnableColor } from '@weco/common/views/themes/config';
 
 import Dot from './TextWithDot.Dot';
 
@@ -16,7 +16,7 @@ const DotWrapper = styled(Space).attrs({
   $h: { size: '2xs', properties: ['margin-right'] },
 })``;
 
-type Props = { dotColor: PaletteColor; text: string; className?: string };
+type Props = { dotColor: PinnableColor; text: string; className?: string };
 
 const TextWithDot: FunctionComponent<Props> = ({
   dotColor,
