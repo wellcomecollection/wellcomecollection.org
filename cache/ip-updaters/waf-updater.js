@@ -215,6 +215,8 @@ function createWAFIPUpdater({ ipSetName, processName, fetchIPs }) {
           Scope: 'CLOUDFRONT',
           Id: ipSetId,
           Name: ipSetName,
+          // UpdateIPSet replaces every mutable field, so an omitted description is cleared
+          Description: ipSet.Description,
           Addresses: newIPs,
           LockToken: lockToken,
         })
