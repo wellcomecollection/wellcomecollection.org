@@ -66,6 +66,29 @@ describe('validateIPChange', () => {
     assert.doesNotThrow(() => validateIPChange(current, ['10.0.0.0/16']));
   });
 
+  for (const [name, entry] of [
+    ['junk text', 'not-an-ip'],
+    ['an IPv6 range', '2001:db8::/32'],
+    ['an empty string', ''],
+    ['an out-of-range octet', '999.1.0.0/24'],
+    ['a missing octet', '10.1.0/24'],
+    ['an out-of-range prefix', '10.1.0.0/33'],
+  ]) {
+    it(`throws when the new list contains ${name}`, () => {
+      const current = Array.from({ length: 100 }, (_, i) => `10.0.${i}.0/24`);
+      assert.throws(() => validateIPChange(current, [...current, entry]), {
+        message: /Invalid IPv4 CIDR/,
+      });
+    });
+  }
+
+  it('accepts a bare address as a /32', () => {
+    const current = Array.from({ length: 100 }, (_, i) => `10.0.${i}.0/24`);
+    assert.doesNotThrow(() =>
+      validateIPChange(current, [...current, '10.1.0.1'])
+    );
+  });
+
   it('allows identical lists', () => {
     const ips = ['10.0.0.0/24', '10.0.1.0/24'];
     assert.doesNotThrow(() => validateIPChange(ips, [...ips]));

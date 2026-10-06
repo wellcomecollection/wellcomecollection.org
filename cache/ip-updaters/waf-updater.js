@@ -32,15 +32,22 @@ function extractIpv4Addresses(jsonData) {
     .map(prefix => prefix.ipv4Prefix);
 }
 
+const IPV4_CIDR =
+  /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})(?:\/(\d{1,2}))?$/;
+
 // Merged [start, end) address intervals for a list of IPv4 CIDRs
 function toIntervals(cidrs) {
   const ranges = cidrs
     .map(cidr => {
-      const [ip, bits = '32'] = cidr.split('/');
-      const size = 2 ** (32 - Number(bits));
-      const address = ip
-        .split('.')
-        .reduce((acc, o) => acc * 256 + Number(o), 0);
+      const [, ...parts] = IPV4_CIDR.exec(cidr) || [];
+      const bits = Number(parts.pop() ?? 32);
+      const octets = parts.map(Number);
+      // A malformed entry would make the change percentage NaN, which passes the gate
+      if (octets.length !== 4 || octets.some(o => o > 255) || bits > 32) {
+        throw new Error(`Invalid IPv4 CIDR: ${JSON.stringify(cidr)}`);
+      }
+      const size = 2 ** (32 - bits);
+      const address = octets.reduce((acc, o) => acc * 256 + o, 0);
       const start = address - (address % size);
       return [start, start + size];
     })
