@@ -185,6 +185,11 @@ export const DropdownButton: Story = {
     isOnDark: { control: 'boolean', name: 'Is on dark background' },
     hasNoOptions: { control: 'boolean', name: 'Has no options' },
     isTight: { control: 'boolean', name: 'Has a tighter dropdown menu' },
+    hierarchy: {
+      options: [undefined, 'primary', 'secondary', 'tertiary'],
+      control: { type: 'radio' },
+      name: 'Hierarchy (brand)',
+    },
   },
   render: args => (
     <Wrapper
