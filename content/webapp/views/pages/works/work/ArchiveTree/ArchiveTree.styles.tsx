@@ -28,7 +28,9 @@ export const StyledLink = styled(NextLink)<StyledLinkProps>`
   line-height: 1;
   color: ${props => props.theme.color('black')};
   background: ${props =>
-    props.$isCurrent ? props.theme.color('yellow') : 'transparent'};
+    props.$isCurrent
+      ? props.theme.color({ brand: 'green.20', legacy: 'yellow' })
+      : 'transparent'};
   cursor: pointer;
   margin-left: ${props =>
     props.$hasControl
