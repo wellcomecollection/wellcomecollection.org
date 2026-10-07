@@ -1,3 +1,4 @@
+import NextLink from 'next/link';
 import { FunctionComponent, useState } from 'react';
 import styled, { css } from 'styled-components';
 
@@ -64,6 +65,15 @@ export const StyledInputCSS = css<
       )};
   }
 `;
+// The tag style on a link, for tags that go somewhere rather than toggle
+export const SelectableTagLink = styled(NextLink).attrs({
+  className: typography('body', 'md', 'strong'),
+})<AnimatedUnderlineProps & { $isSelected: boolean }>`
+  ${StyledInputCSS}
+
+  text-decoration: none;
+`;
+
 const StyledInput = styled.label<
   AnimatedUnderlineProps & { $isSelected: boolean }
 >`
