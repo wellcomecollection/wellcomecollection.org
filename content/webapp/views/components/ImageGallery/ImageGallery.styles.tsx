@@ -140,6 +140,7 @@ export const Gallery = styled.div<GalleryProps>`
     ${props => props.$isStandalone && `top: 0;`}
 
     ${props =>
+      !props.$isStandalone &&
       props.theme.media('sm')(`
         top: 200px;
     `)}
