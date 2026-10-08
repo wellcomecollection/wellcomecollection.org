@@ -3,9 +3,11 @@ import styled from 'styled-components';
 import { typography } from '@weco/common/utils/classnames';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
+import { mediaBackgroundColor } from '@weco/common/views/themes/config';
 
 export const Page = styled.div`
-  background-color: ${props => props.theme.color('black')};
+  /* Darker than the neutral.70 bars in the brand, so they stand out */
+  background-color: ${props => props.theme.color(mediaBackgroundColor)};
   color: ${props => props.theme.color('white')};
   min-height: 100vh;
 `;
