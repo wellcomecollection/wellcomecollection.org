@@ -32,6 +32,7 @@ const ErrorDialog: FunctionComponent<ErrorDialogProps> = ({
         <Button
           variant="ButtonSolid"
           colors={theme.buttonColors.greenTransparentGreen}
+          hierarchy="secondary"
           text="Close"
           clickHandler={() => setIsActive(false)}
         />
