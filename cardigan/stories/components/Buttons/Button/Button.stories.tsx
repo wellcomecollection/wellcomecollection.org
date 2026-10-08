@@ -3,7 +3,10 @@ import styled, { css } from 'styled-components';
 
 import { eye } from '@weco/common/icons';
 import { typography } from '@weco/common/utils/classnames';
-import Button, { ButtonProps } from '@weco/common/views/components/Buttons';
+import Button, {
+  ButtonHierarchy,
+  ButtonProps,
+} from '@weco/common/views/components/Buttons';
 import theme from '@weco/common/views/themes/default';
 
 function getColor(color) {
@@ -57,6 +60,14 @@ export const Basic: Story = {
     storyColors: 'Default',
     showIcon: true,
   },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'With the brandUpdate toolbar toggle on, `hierarchy` and `isOnDark` set the brand colours. Without them, the preset picked in Colors decides.',
+      },
+    },
+  },
   argTypes: {
     variant: {
       options: ['ButtonSolid', 'ButtonSolidLink'],
@@ -77,11 +88,17 @@ export const Basic: Story = {
       control: 'select',
       name: 'Colors',
     },
+    hierarchy: {
+      options: [undefined, 'primary', 'secondary', 'tertiary'],
+      control: { type: 'radio' },
+      name: 'Hierarchy (brand)',
+    },
+    isOnDark: { control: 'boolean', name: 'Is on dark background (brand)' },
   },
   render: args => {
     const { showIcon, storyColors, variant, ...restOfArgs } = args;
     return (
-      <Wrapper $isOnDark={storyColors.includes('White')}>
+      <Wrapper $isOnDark={!!storyColors?.includes('White') || !!args.isOnDark}>
         <Button
           text="Click me"
           ariaLabel="Cardigan button example"
@@ -103,6 +120,60 @@ export const Basic: Story = {
   },
 };
 
+const Row = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 16px;
+`;
+
+const hierarchies: ButtonHierarchy[] = ['primary', 'secondary', 'tertiary'];
+
+export const Hierarchy: Story = {
+  name: 'Hierarchy (brand)',
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Primary, secondary and tertiary buttons on light and dark backgrounds. Turn the brandUpdate toolbar toggle on to see them; with it off every button uses the default preset.',
+      },
+    },
+  },
+  render: () => (
+    <>
+      {[false, true].map(isOnDark => (
+        <Wrapper key={String(isOnDark)} $isOnDark={isOnDark}>
+          {hierarchies.map(hierarchy => (
+            <Row key={hierarchy}>
+              <Button
+                variant="ButtonSolid"
+                text={hierarchy}
+                hierarchy={hierarchy}
+                isOnDark={isOnDark}
+              />
+              <Button
+                variant="ButtonSolid"
+                text="Disabled"
+                hierarchy={hierarchy}
+                isOnDark={isOnDark}
+                disabled
+              />
+              <Button
+                variant="ButtonSolidLink"
+                text="Link"
+                link="#"
+                icon={eye}
+                hierarchy={hierarchy}
+                isOnDark={isOnDark}
+              />
+            </Row>
+          ))}
+        </Wrapper>
+      ))}
+    </>
+  ),
+};
+
 export const DropdownButton: Story = {
   name: 'Dropdown',
   args: {
@@ -114,6 +185,11 @@ export const DropdownButton: Story = {
     isOnDark: { control: 'boolean', name: 'Is on dark background' },
     hasNoOptions: { control: 'boolean', name: 'Has no options' },
     isTight: { control: 'boolean', name: 'Has a tighter dropdown menu' },
+    hierarchy: {
+      options: [undefined, 'primary', 'secondary', 'tertiary'],
+      control: { type: 'radio' },
+      name: 'Hierarchy (brand)',
+    },
   },
   render: args => (
     <Wrapper

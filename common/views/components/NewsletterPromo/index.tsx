@@ -5,7 +5,7 @@ import { useAppContext } from '@weco/common/contexts/AppContext';
 import { newsletterAddressBook } from '@weco/common/data/dotdigital';
 import useValidation from '@weco/common/hooks/useValidation';
 import { typography } from '@weco/common/utils/classnames';
-import Button, { ButtonColors } from '@weco/common/views/components/Buttons';
+import Button from '@weco/common/views/components/Buttons';
 import CheckboxRadio, {
   CheckboxRadioBox,
 } from '@weco/common/views/components/CheckboxRadio';
@@ -49,14 +49,6 @@ const Wrapper = styled(Space).attrs({
     }
   `}
 `;
-
-// Buttons haven't been updated to the new brand yet, and the default one
-// barely shows against the new dark promo, so it's pinned to the design here
-const subscribeButtonColors: ButtonColors = {
-  border: { brand: 'blue.30', legacy: 'accent.green' },
-  background: { brand: 'blue.30', legacy: 'accent.green' },
-  text: { brand: 'neutral.70', legacy: 'white' },
-};
 
 const NewsletterForm = styled.form.attrs({
   name: 'newsletter-signup',
@@ -215,7 +207,8 @@ const NewsletterPromo: FunctionComponent = () => {
 
                 <Button
                   variant="ButtonSolid"
-                  colors={subscribeButtonColors}
+                  hierarchy="secondary"
+                  isOnDark
                   dataGtmProps={{
                     trigger: 'newsletter_promo_subscribe',
                   }}

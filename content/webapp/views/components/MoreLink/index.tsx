@@ -4,13 +4,18 @@ import { FunctionComponent } from 'react';
 import { useTheme } from 'styled-components';
 
 import { arrowSmall } from '@weco/common/icons';
-import Button, { ButtonColors } from '@weco/common/views/components/Buttons';
+import Button, {
+  ButtonColors,
+  ButtonHierarchy,
+} from '@weco/common/views/components/Buttons';
 
 type Props = {
   url: string | LinkProps;
   name: string;
   colors?: ButtonColors;
   ariaLabel?: string;
+  hierarchy?: ButtonHierarchy;
+  isOnDark?: boolean;
 };
 
 const MoreLink: FunctionComponent<Props> = ({
@@ -18,6 +23,8 @@ const MoreLink: FunctionComponent<Props> = ({
   name,
   colors,
   ariaLabel,
+  hierarchy,
+  isOnDark,
 }) => {
   const theme = useTheme();
 
@@ -30,6 +37,8 @@ const MoreLink: FunctionComponent<Props> = ({
       text={name}
       link={url}
       icon={arrowSmall}
+      hierarchy={hierarchy}
+      isOnDark={isOnDark}
     />
   );
 };
