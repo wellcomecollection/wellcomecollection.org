@@ -42,6 +42,8 @@ const Button: ForwardRefRenderFunction<HTMLButtonElement, ButtonSolidProps> = (
     form,
     isPill,
     isNewSearchBar,
+    hierarchy,
+    isOnDark,
   }: ButtonSolidProps,
   ref: ForwardedRef<HTMLButtonElement>
 ) => {
@@ -67,6 +69,8 @@ const Button: ForwardRefRenderFunction<HTMLButtonElement, ButtonSolidProps> = (
       $hasIcon={!!icon}
       $isIconAfter={isIconAfter}
       $isNewSearchBar={isNewSearchBar}
+      $hierarchy={hierarchy}
+      $isOnDark={isOnDark}
     >
       <BaseButtonInner
         $isNewSearchBar={isNewSearchBar}
