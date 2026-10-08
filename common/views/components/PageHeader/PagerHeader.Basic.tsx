@@ -87,7 +87,7 @@ const BasicPageHeader: FunctionComponent<Props> = ({
   isContentTypeInfoBeforeMedia = false,
   // Not a massive fan of this, but it feels overkill to make a new component
   // for it as it's only used on articles and exhibitions
-  heroImageBgColor = 'white',
+  heroImageBgColor = pageBackgroundColor,
   backgroundTexture,
   highlightHeading,
   SerialPartNumber,

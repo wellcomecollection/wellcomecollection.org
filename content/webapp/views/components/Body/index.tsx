@@ -87,7 +87,7 @@ export type Props = {
 type SectionTheme = {
   rowBackground: PinnableColor;
   cardBackground: PaletteColor;
-  featuredCardBackground: PaletteColor;
+  featuredCardBackground: PinnableColor;
   featuredCardText: PinnableColor;
 };
 
@@ -177,19 +177,19 @@ const Body: FunctionComponent<Props> = ({
     {
       rowBackground: 'warmNeutral.300',
       cardBackground: 'white',
-      featuredCardBackground: 'white',
+      featuredCardBackground: { brand: 'neutral.05', legacy: 'white' },
       featuredCardText: 'black',
     },
     {
       rowBackground: pageBackgroundColor,
       cardBackground: 'warmNeutral.300',
-      featuredCardBackground: 'warmNeutral.300',
+      featuredCardBackground: { brand: 'teal.20', legacy: 'warmNeutral.300' },
       featuredCardText: 'black',
     },
     {
       rowBackground: 'neutral.700',
       cardBackground: 'transparent',
-      featuredCardBackground: 'white',
+      featuredCardBackground: { brand: 'neutral.05', legacy: 'white' },
       featuredCardText: 'black',
     },
   ];
