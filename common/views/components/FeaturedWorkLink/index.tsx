@@ -10,6 +10,12 @@ import {
 import { usePopper } from 'react-popper';
 import styled from 'styled-components';
 
+// The brand update's "W" icon with a light ring, so it stands out on dark
+// backgrounds as well as light ones
+const brandLinkIcon = `data:image/svg+xml,${encodeURIComponent(
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 448"><defs><linearGradient id="g" x1="0" y1="24" x2="0" y2="472" gradientUnits="userSpaceOnUse"><stop stop-color="#ffa5dc"/><stop offset="1" stop-color="#f2824a"/></linearGradient></defs><circle cx="224" cy="224" r="216" fill="#223438" stroke="#f5f6ee" stroke-width="16"/><path transform="translate(-22 -24)" fill="url(#g)" d="M188.126 265.841L158.967 154.959L93.5654 162.573C93.5654 162.573 129.486 299.453 136.057 324.284C140.247 340.185 148.673 350.942 164.72 355.297C181.305 359.808 215.435 369.978 215.504 369.999L244.722 258.796C253.57 292.497 260.345 317.27 263.003 326.988C266.975 341.544 276.524 350.81 293.126 355.691C315.56 362.305 341.301 369.983 341.355 369.999L395.966 162.164L330.463 154.959L301.318 265.768C290.221 223.487 280.043 185.299 278.32 179.015C273.867 162.778 263.061 154.974 247.146 154.974C229.922 154.974 217.468 154.959 217.417 154.959H217.285L188.126 265.841Z"/></svg>`
+)}`;
+
 const WorkLinkWithIcon = styled.a<{ $isPortalVisible: boolean }>`
   text-decoration-style: dotted;
   text-underline-offset: 26%;
@@ -22,7 +28,10 @@ const WorkLinkWithIcon = styled.a<{ $isPortalVisible: boolean }>`
     content: '';
     position: relative;
 
-    background-image: url('https://i.wellcomecollection.org/assets/icons/favicon-32x32.png');
+    background-image: url(${props =>
+      props.theme.brandUpdate
+        ? `"${brandLinkIcon}"`
+        : `'https://i.wellcomecollection.org/assets/icons/favicon-32x32.png'`});
     background-repeat: no-repeat;
     background-size: 14px; /* 14px is the smallest size it should be and we want them all to be the same */
     background-position: center;
