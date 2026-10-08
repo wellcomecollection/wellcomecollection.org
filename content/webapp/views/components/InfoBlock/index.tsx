@@ -10,7 +10,8 @@ import Space from '@weco/common/views/components/styled/Space';
 const Wrapper = styled(Space).attrs({
   $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
 })`
-  border-left: 16px solid ${props => props.theme.color('yellow')};
+  border-left: 16px solid
+    ${props => props.theme.color({ brand: 'indigo.30', legacy: 'yellow' })};
 `;
 
 const ImageWrapper = styled(Space).attrs({
