@@ -131,6 +131,7 @@ const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
                       name="View all"
                       url={getAllWorksLink(tab.id, concept)}
                       colors={theme.buttonColors.greenGreenWhite}
+                      hierarchy="secondary"
                     />
                   </Space>
                 )}
