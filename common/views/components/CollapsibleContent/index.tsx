@@ -11,12 +11,18 @@ import { plus } from '@weco/common/icons';
 import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
+import { PinnedColor } from '@weco/common/views/themes/config';
+
+const darkIconColor: PinnedColor<'yellow'> = {
+  brand: 'blue.30',
+  legacy: 'yellow',
+};
 
 const IconContainer = styled.div<{ $darkTheme?: boolean }>`
   .icon {
     border-radius: 50%;
     border: 2px solid
-      ${props => props.theme.color(props.$darkTheme ? 'yellow' : 'black')};
+      ${props => props.theme.color(props.$darkTheme ? darkIconColor : 'black')};
     width: 20px;
     height: 20px;
     transition: transform ${props => props.theme.transitionProperties};
@@ -90,7 +96,7 @@ const CollapsibleContent: FunctionComponent<Props> = ({
           <Space as="span" $h={{ size: 'xs', properties: ['margin-right'] }}>
             <IconContainer $darkTheme={darkTheme}>
               <Icon
-                iconColor={darkTheme ? 'yellow' : undefined}
+                iconColor={darkTheme ? darkIconColor : undefined}
                 icon={plus}
                 rotate={showContent ? 45 : undefined}
               />
