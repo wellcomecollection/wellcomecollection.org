@@ -7,6 +7,8 @@ import { check } from '@weco/common/icons';
 import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 
+import { controlColor } from './AudioPlayer.styles';
+
 const PlayRateContainer = styled.div`
   position: relative;
   anchor-scope: --play-rate-button;
@@ -17,7 +19,7 @@ const TogglePlayRateButton = styled.button.attrs({
 })<{ $isDark: boolean }>`
   anchor-name: --play-rate-button;
   color: ${props =>
-    props.$isDark ? props.theme.color('white') : props.theme.color('black')};
+    props.theme.color(controlColor(props.$isDark ? 'white' : 'black'))};
   padding: 0;
   transition: color 0.2s ease-in-out;
 
@@ -28,7 +30,7 @@ const TogglePlayRateButton = styled.button.attrs({
 
   &:hover {
     color: ${props =>
-      props.$isDark ? props.theme.color('yellow') : props.theme.color('black')};
+      props.theme.color(controlColor(props.$isDark ? 'yellow' : 'black'))};
   }
 `;
 
