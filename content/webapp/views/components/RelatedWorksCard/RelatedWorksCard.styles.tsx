@@ -5,7 +5,8 @@ import { typography } from '@weco/common/utils/classnames';
 export const Card = styled.a<{ $isHover?: boolean }>`
   display: flex;
   padding: ${props => props.theme.spacingUnits['100']};
-  background-color: ${props => props.theme.color('white')};
+  background-color: ${props =>
+    props.theme.color({ brand: 'neutral.05', legacy: 'white' })};
   border-radius: ${props => props.theme.borderRadiusUnit}px;
   flex-wrap: wrap;
   text-decoration: none;
