@@ -1,8 +1,6 @@
 const { PHASE_DEVELOPMENT_SERVER } = require('next/constants');
 const path = require('path');
 
-const apmConfig = require('../services/apm/apmConfig');
-
 const createConfig =
   (options = {}) =>
   phase => {
@@ -45,19 +43,13 @@ const createConfig =
       // fixes that.
       outputFileTracingRoot: path.join(__dirname, '../../'),
 
-      publicRuntimeConfig: {
-        apmConfig: apmConfig.client(`${options.applicationName}-webapp`),
+      // Values here are inlined into the build, so they can't vary between
+      // environments. The APM service name is fixed per app, but the rest of
+      // the client APM config (environment, server URL) is set at runtime -
+      // see the apm-config script in common/views/pages/_document.tsx.
+      env: {
+        NEXT_PUBLIC_APM_SERVICE_NAME: `${options.applicationName}-webapp`,
       },
-
-      // serverRuntimeConfig lets an app pass its own env-derived config (e.g.
-      // secrets, API hosts) into next.config.js once, then read it back
-      // anywhere in its server-side code via next/config's getConfig(). Only
-      // identity currently needs this (for session/auth0 config - see
-      // identity/webapp/config.js), so we only add the key when an app
-      // actually supplies one, rather than giving every app an empty one.
-      ...(options.serverRuntimeConfig && {
-        serverRuntimeConfig: options.serverRuntimeConfig,
-      }),
 
       async rewrites() {
         // A "rewrite" serves a different URL's content without changing what
@@ -86,6 +78,11 @@ const createConfig =
         return [...redirectEntries];
       },
 
+      // Next 16 defaults to Turbopack, which ignores this hook entirely, so
+      // callers (next build --webpack, and the webpack:true option passed to
+      // the programmatic next() in content/identity's app.ts) force webpack
+      // explicitly so this still runs. Migrating the two plugins below to
+      // Turbopack config (resolveAlias) is tracked as a follow-up.
       webpack: (config, { isServer, webpack }) => {
         // moment-timezone ships its full historical timezone dataset by
         // default, which is large and mostly unused. Swap in our own trimmed
@@ -108,15 +105,6 @@ const createConfig =
         }
 
         return config;
-      },
-
-      eslint: {
-        // Don't run eslint as part of `next build` - it's redundant, not
-        // broken: linting is already enforced by a git pre-commit hook (see
-        // docs/git-hooks.md) that lints whatever files you're committing,
-        // or can be run across the whole repo manually with the root
-        // `yarn lint` command.
-        ignoreDuringBuilds: true,
       },
 
       // common's code is plain TS/JSX, not pre-compiled. Without this, each

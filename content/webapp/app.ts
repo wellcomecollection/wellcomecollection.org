@@ -19,7 +19,11 @@ import { buildStoriesRss } from '@weco/content/utils/rss';
 
 const startedAt = new Date().toISOString();
 const dev = process.env.NODE_ENV !== 'production';
-const nextApp = next({ dev });
+// Next 16 defaults to Turbopack, which doesn't run the custom `webpack()`
+// hook in common/next/next.config.js (moment-timezone swap, undici
+// exclusion) - see --webpack in the build script too. Migrating that hook to
+// Turbopack config is tracked separately.
+const nextApp = next({ dev, webpack: true });
 const handle = nextApp.getRequestHandler();
 
 const appPromise = nextApp
